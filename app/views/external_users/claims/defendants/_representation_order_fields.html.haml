@@ -14,13 +14,13 @@
 
   .form-group.ro-date
     = f.gov_uk_date_field(:representation_order_date,
-                          legend_text: 'Representation order date',
+                          legend_text: t('.date_html'),
                           legend_class: 'govuk-legend',
                           id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date",
                           error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date"))
 
   .form-group.maat
     = f.adp_text_field :maat_reference,
-                        label: t('.maat_reference_number'),
+                        label: t('.maat_reference_number_html'),
                         hint_text: t('.maat_reference_number_eg'),
                         errors: @error_presenter

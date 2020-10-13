@@ -27,7 +27,7 @@
       .js-graduated-price-effectee
         .calculated-grad-fee
         = f.adp_text_field :amount,
-          label: t('.net_amount'),
+          label: t('.net_amount_html', context: f.object.description),
           input_disabled: f.object.calculated? ? true : false,
           input_classes:'total fee-amount form-input-denote__input form-control-1-4',
           value: number_with_precision(f.object.amount, precision: 2),

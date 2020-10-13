@@ -918,6 +918,7 @@ en:
         basic_fee_fields_primary:
           add_dates: Add another date
           net_amount: *net_amount
+          net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context}</span>
           date_label:
             trial: Second day of trial
             cracked_trial: Date case cracked on
@@ -945,6 +946,7 @@ en:
               <p>We calculate the rate based upon the fee scheme, advocate category, offence and case type</p>
         extra_fee_fields:
           net_amount: *net_amount
+          net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context}</span>
           help_how_we_calculate_rate_title: *how_is_this_calculated_help
           help_how_we_calculate_rate_body: We calculate the amount based upon the fee scheme, case type, offence, advocate category and fee type.
           npw:
@@ -952,7 +954,7 @@ en:
             quantity: Total number of prosecution witnesses
             quantity_hint: *empty_input
           ppe:
-            quantity: Total number of pages
+            quantity: Total number of pages of prosecution evidence
             quantity_hint: Please remove all cover sheets from the total count
             heading_html: |
               Pages of prosecution evidence (<abbr title="pages of prosecution evidence">PPE</abbr>)
@@ -969,6 +971,7 @@ en:
           amount: *net_amount
           remove: *remove
           rate: *rate
+          rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context}</span>
           help_how_we_calculate_rate_title: *how_is_this_calculated_help
           help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, case type, offence, advocate category and fee type.
           daf:
@@ -1144,11 +1147,15 @@ en:
       defendants:
         defendant_fields:
           first_name: *first_name
+          first_name_html: First name <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           last_name: *last_name
+          last_name_html: Last name <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           full_name: Full name
-          date_of_birth: 'Date of birth'
+          date_of_birth: Date of birth
+          date_of_birth_html: Date of birth <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           judical_apportionment: Judicial apportionment
           order_for_judicial_apportionment:  Order for judicial apportionment
+          order_for_judicial_apportionment_html: Order for judicial apportionment <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, please ensure you upload a copy of the order to your claim.
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
@@ -1160,8 +1167,10 @@ en:
           page_heading: Defendant details
         representation_order_fields:
           date: Representation order date
+          date_html: Representation order date <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           representation_order: Representation order details
           maat_reference_number: MAAT reference
+          maat_reference_number_html: MAAT reference <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           maat_reference_number_eg: 'this should be 7 digits long, starting with at least a 4'
           remove: Remove
         summary:
@@ -1240,9 +1249,12 @@ en:
         disbursement_fields:
           page_header: Disbursements
           net_amount: *net_amount
+          net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
           vat_amount: *vat_amount
+          vat_amount_html: VAT amount <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
           total: Total
           disbursement_type: Type of disbursement
+          disbursement_type_html: Type of disbursement <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
           disbursement: Disbursement
           remove: Remove
       expenses:
@@ -1261,25 +1273,35 @@ en:
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison
           select_option: Please select
           travel_reason: Travel reason
+          travel_reason_html: Travel reason <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           type_of_expense: Type of expense
+          type_of_expense_html: Type of expense <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           expense: Expense
           cost: Cost per mile
+          cost_html: Cost per mile <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           location: Location
+          location_html: Location <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           reason_text: Other reason
+          reason_text_html: Other reason <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           add_date_attended: Add dates
           date: Date of expense
+          date_html: Date of expense <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           date_hint: For example 31 3 2017
           destination: Destination
           distance: Distance
+          distance_html: Distance <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           distance_hint: Total mileage for the return journey
           distance_summary_heading: How we calculate the distance
           distance_summary_text: |
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison.
           hours: Hours
+          hours_html: Hours <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           net_amount: *net_amount
+          net_amount_html: Net amount <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           remove: Remove
           total: Total amount
           vat_amount: *vat_amount
+          vat_amount_html: VAT amount <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
         fields:
           add_another_expense: 'Add another expense'
           duplicate: Duplicate last expense
@@ -1382,9 +1404,12 @@ en:
           fixed_fee_fields:
             fixed_fee: "Fixed fee"
             quantity: *quantity
+            quantity_html: Quantity <span class="govuk-visually-hidden">for %{context}</span>
             quantity_hint: 'Enter a quantity'
             rate: *rate
+            rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context}</span>
             case_numbers: *case_numbers
+            case_numbers_html: Case number <span class="govuk-visually-hidden">for %{context}</span>
             no_dates: 'No dates currently selected.'
             fee_type: 'Type of fee'
             add_date_attended: 'Add another date'
@@ -1421,10 +1446,13 @@ en:
           misc_fee_fields:
             misc_fee: *miscellaneous_fee
             rate: Rate
+            rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
             net_amount: *net_amount
             quantity: *quantity
             quantity_hint: Enter a quantity
+            quantity_html: Quantity <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
             fee_type: *fee_type
+            fee_type_html: Fee of type <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
             add_date_attended: Add dates
             remove: Remove
             no_dates: No dates currently selected.
@@ -1436,9 +1464,12 @@ en:
               misc_fee: *miscellaneous_fee
             misc_fee_fields:
               rate: Rate
+              rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context}</span>
               net_amount: *net_amount
+              net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
               quantity: *quantity
               quantity_hint: Enter a quantity
+              quantity_html: Quantity <span class="govuk-visually-hidden">for %{context}</span>
               add_date_attended: Add dates
               help_how_we_calculate_rate_title: *how_is_this_calculated_help
               help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, advocate category and fee type.
@@ -1456,7 +1487,9 @@ en:
             misc_fee: *miscellaneous_fee
             fee_type: *fee_type
             case_numbers: *case_numbers
+            type_of_fee_html: '%{context} <span class="govuk-visually-hidden">for miscellaneous fee <span class="fx-numberedList-number"></span></span>'
             net_amount: *net_amount
+            net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
             remove: "Remove"
         summary:
           header: *miscellaneous_fees

@@ -4,7 +4,7 @@ class FeeTypeSection < SitePrism::Section
   sections :radios, RadioSection, '.multiple-choice'
 
   def radio_labels
-    radios.map { |radio| radio.label.text }
+    radios.map { |radio| radio.label.text.gsub(/\n(.*)/, '') }
   end
 
   def choose(label)

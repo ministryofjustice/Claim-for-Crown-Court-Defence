@@ -113,7 +113,7 @@ group :test do
   gem 'capybara', '~> 3.33'
   gem 'climate_control'
   gem 'codeclimate-test-reporter', require: false
-  gem 'cucumber-rails', '~> 2.1.0', require: false
+  gem 'cucumber-rails', '~> 2.2.0', require: false
   gem 'database_cleaner'
   gem 'i18n-tasks'
   gem 'json_spec'

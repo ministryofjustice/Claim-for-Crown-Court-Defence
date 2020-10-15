@@ -21,6 +21,7 @@ RUN set -ex
 # - ttf-ubuntu-font-family: needed by wkhtmltopdf/wicked_pdf & libreoffice
 # - wkhtmltopdf: for pdf generation from html
 # - redis: for backend key-value store
+# - postgresql-client - only needed for database dump
 #
 RUN apk --no-cache add --virtual build-dependencies \
                     build-base \
@@ -37,7 +38,8 @@ RUN apk --no-cache add --virtual build-dependencies \
                   ttf-ubuntu-font-family \
                   wkhtmltopdf \
                   libreoffice \
-                  redis
+                  redis \
+                  postgresql-client
 
 # add non-root user and group with alpine first available uid, 1000
 RUN addgroup -g 1000 -S appgroup \

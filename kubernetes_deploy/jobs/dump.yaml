@@ -1,0 +1,51 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-dump
+spec:
+  template:
+    metadata:
+      name: db-dump
+    spec:
+      restartPolicy: OnFailure
+      BackoffLimit: 1
+      containers:
+        - name: cccd-job
+          imagePullPolicy: Always
+          image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
+          command:
+            - bundle
+            - exec
+            - rake
+            - db:dump:anonymised
+
+          envFrom:
+            - configMapRef:
+                name: cccd-app-config
+            - secretRef:
+                name: cccd-secrets
+
+          env:
+            - name: RAILS_ENV
+              value: 'production'
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-rds
+                  key: url
+            - name: SETTINGS__AWS__S3__ACCESS
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-s3-bucket
+                  key: access_key_id
+            - name: SETTINGS__AWS__S3__SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-s3-bucket
+                  key: secret_access_key
+            - name: SETTINGS__AWS__S3__BUCKET
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-s3-bucket
+                  key: bucket_name
+

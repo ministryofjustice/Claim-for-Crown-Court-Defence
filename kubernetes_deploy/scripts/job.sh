@@ -3,8 +3,8 @@ function _job() {
   usage="job -- run job in the specified environment
   Usage: kubernetes_deploy/bin/job task environment
   Where:
-    task [migrate|seed]
-    environment [dev|staging|api-sandbox|production]
+    task [migrate|seed|dump]
+    environment [dev|dev-lgfs|staging|api-sandbox|production]
     branch [<branchname>-latest|commit-sha]
     "
 
@@ -15,7 +15,7 @@ function _job() {
   fi
 
   case "$1" in
-    migrate | seed)
+    migrate | seed | dump)
       task=$1
       ;;
     *)
@@ -25,7 +25,7 @@ function _job() {
   esac
 
   case "$2" in
-    dev | staging | api-sandbox | production)
+    dev | dev-lgfs | staging | api-sandbox | production)
       environment=$2
       ;;
     *)
@@ -46,23 +46,32 @@ function _job() {
   component=app
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
-
-  echo "Delete previous db-$task jobs..."
-  kubectl delete job db-$task
+  job_name=db-$task
 
   printf "\e[33m--------------------------------------------------\e[0m\n"
   printf "\e[33mTask: $task\e[0m\n"
-  printf "\e[33mJob: kubernetes_deploy/jobs/${task}.yaml\e[0m\n"
+  printf "\e[33mJob name: $job_name\e[0m\n"
+  printf "\e[33mJob config: kubernetes_deploy/jobs/${task}.yaml\e[0m\n"
   printf "\e[33mcontext: $context\e[0m\n"
   printf "\e[33mEnvironment: $environment\e[0m\n"
   printf "\e[33mDocker image: $docker_image_tag\e[0m\n"
   printf "\e[33m--------------------------------------------------\e[0m\n"
-  kubectl set image -f kubernetes_deploy/jobs/${task}.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply --context ${context} -n cccd-${environment} -f -
 
-  # wait for completion/timeout and output logs
-  kubectl wait --for=condition=complete --timeout=120s job/db-${task}
-  job_pod=$(kubectl get pods --selector=job-name=db-${task} --output=jsonpath='{.items[0].metadata.name}')
-  kubectl logs --follow ${job_pod}
+  kubectl config set-context ${context} --namespace=cccd-${environment}
+  kubectl config use-context ${context}
+
+  kubectl delete job $job_name
+
+  # apply common config
+  kubectl apply -f kubernetes_deploy/${environment}/secrets.yaml
+  kubectl apply -f kubernetes_deploy/${environment}/app-config.yaml
+
+  # apply image
+  kubectl set image -f kubernetes_deploy/jobs/${task}.yaml cccd-job=${docker_image_tag} --local -o yaml | kubectl apply -f -
+
+  # wait for job pod container to be ready before tailing logs
+  kubectl wait --for=condition=ContainersReady --timeout=120s pod --selector job-name=$job_name
+  kubectl logs --follow job/$job_name
 
 }
 

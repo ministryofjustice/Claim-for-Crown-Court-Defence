@@ -9,7 +9,7 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        - name: cccd-app
+        - name: cccd-job
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-latest
           command:
             - bundle
@@ -24,13 +24,10 @@ spec:
                 secretKeyRef:
                   name: cccd-rds
                   key: url
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SECRET_KEY_BASE
             - name: AWS_REGION
               valueFrom:
                 secretKeyRef:
                   name: cccd-secrets
                   key: AWS_REGION
+            - name: SECRET_KEY_BASE
+              value: just-be-present

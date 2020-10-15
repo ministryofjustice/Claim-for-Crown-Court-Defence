@@ -42,7 +42,7 @@ function _job() {
     current_version=$3
   fi
 
-  context='live-1'
+  context=$(kubectl config current-context)
   component=app
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
@@ -57,8 +57,7 @@ function _job() {
   printf "\e[33mDocker image: $docker_image_tag\e[0m\n"
   printf "\e[33m--------------------------------------------------\e[0m\n"
 
-  kubectl config set-context ${context} --namespace=cccd-${environment}
-  kubectl config use-context ${context}
+  kubectl config set-context --current --namespace=cccd-${environment}
 
   kubectl delete job $job_name
 

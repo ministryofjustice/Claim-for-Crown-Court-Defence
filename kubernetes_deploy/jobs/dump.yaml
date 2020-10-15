@@ -26,8 +26,6 @@ spec:
                 name: cccd-secrets
 
           env:
-            - name: RAILS_ENV
-              value: 'production'
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:

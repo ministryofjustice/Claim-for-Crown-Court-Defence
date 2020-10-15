@@ -16,18 +16,16 @@ spec:
             - exec
             - rake
             - db:migrate
+
+          envFrom:
+            - configMapRef:
+                name: cccd-app-config
+            - secretRef:
+                name: cccd-secrets
+
           env:
-            - name: RAILS_ENV
-              value: 'production'
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   name: cccd-rds
                   key: url
-            - name: AWS_REGION
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: AWS_REGION
-            - name: SECRET_KEY_BASE
-              value: just-be-present

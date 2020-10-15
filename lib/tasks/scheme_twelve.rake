@@ -1,12 +1,6 @@
 require Rails.root.join('db','seeds', 'schemas', 'add_agfs_fee_scheme_12')
-
-def continue?(prompt = nil)
-  prompt = prompt || 'Continue?'
-  printf prompt.yellow + ": [no/yes] "
-  response = STDIN.gets.chomp
-  exit unless response.match?(/^(y|yes)$/i)
-  true
-end
+require_relative 'rake_helpers/rake_utils'
+include RakeUtils
 
 namespace :db do
   namespace :scheme_twelve do

@@ -9,13 +9,20 @@ spec:
     spec:
       restartPolicy: Never
       containers:
-        - name: cccd-app
+        - name: cccd-job
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-latest
           command:
             - bundle
             - exec
             - rake
             - db:seed
+
+          envFrom:
+            - configMapRef:
+                name: cccd-app-config
+            - secretRef:
+                name: cccd-secrets
+
           env:
             - name: RAILS_ENV
               value: 'production'
@@ -24,43 +31,3 @@ spec:
                 secretKeyRef:
                   name: cccd-rds
                   key: url
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SECRET_KEY_BASE
-            - name: CASE_WORKER_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: CASE_WORKER_PASSWORD
-            - name: ADVOCATE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: ADVOCATE_PASSWORD
-            - name: ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: ADMIN_PASSWORD
-            - name: SUPERADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SUPERADMIN_USERNAME
-            - name: SUPERADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SUPERADMIN_PASSWORD
-            - name: AWS_REGION
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: AWS_REGION
-            - name: TEST_CHAMBER_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: TEST_CHAMBER_API_KEY

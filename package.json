@@ -29,14 +29,14 @@
     "jquery.iframe-transport": "^1.0.0",
     "jsrender": "^1.0.7",
     "susy": "2.2.14",
-    "webpack": "^4.44.2",
     "webpack-concat-plugin": "^3.0.0"
   },
   "devDependencies": {
     "webpack-dev-server": "^3.11.0"
   },
   "resolutions": {
-    "node-forge": "^0.10.0"
+    "node-forge": "^0.10.0",
+    "webpack": "^4.44.2"
   },
   "@comments": {
     "@dependencies": {

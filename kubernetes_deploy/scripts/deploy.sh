@@ -49,13 +49,10 @@ function _deploy() {
     current_version=$2
   fi
 
-  context='live-1'
+  context=$(kubectl config current-context)
   component=app
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
-
-  kubectl config set-context ${context} --namespace=cccd-${environment}
-  kubectl config use-context ${context}
 
   printf "\e[33m--------------------------------------------------\e[0m\n"
   printf "\e[33mContext: $context\e[0m\n"
@@ -63,7 +60,7 @@ function _deploy() {
   printf "\e[33mDocker image: $docker_image_tag\e[0m\n"
   printf "\e[33m--------------------------------------------------\e[0m\n"
 
-  # TODO: check if image exists and if not offer to build or abort
+  kubectl config set-context --current --namespace=cccd-${environment}
 
   # apply common config
   kubectl apply -f kubernetes_deploy/${environment}/secrets.yaml

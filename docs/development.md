@@ -4,7 +4,7 @@
 - [Sidekiq Console](#sidekiq-console)
 - [Scheduler daemon](#scheduler-daemon)
 - [Mailer previewing](#mailer-previewing)
-- [Anonymised Database Dumps and restores](#anonymised-database-dumps-and-restores)
+- [Anonymised database dump and restore](#anonymised-database-dump-and-restore)
 - [A note on architecture](#a-note-on-architecture)
 
 ## Setting up development environment
@@ -116,44 +116,62 @@ bundle exec scheduler_daemon run
 
 With your local rails server running you can browse to ```http://localhost:3000/rails/mailers``` to view a list of current email templates
 
-## Anonymised Database Dumps and restores
+## Anonymised database dump and restore
 
-*WARNING: not working since hosting migration*
-
-In order to copy the live database, anonymising all entries, execute the following command:
+In order to create an anonymised dump of an environments database you can:
 
 ```bash
-$ ./script/db_dump.rb <ssh-username> <environment> [<ip_address>]
+# run the db-dump job in the given environment
+$ rake db:dump:run_job['dev']
 ```
 
-The ```environment``` parameter can be ```gamma```, ```staging```, ```dev```, ```demo```, etc.  The IP address is only required if there is no entry for ```environment``` in your ```/etc/hosts``` file.
+This task requires yu have kubectl installed locally and access to git-crypted secrets (TBC - may not require git-crypt access to dump but may to download the dump file - see below).
 
+This will create a `private` dump file in the host environments s3 bucket and list all such dumps at the end. If the log tailing times out (it will on production currently) then you will need to list the dump files using:
 
-
-This will create a file in the root directory, e.g ```adp_gamma_dump.psql.gz```
-
-To restore this file to one of the other environments, type:
 
 ```bash
-$ ./script/db_upload.rb <ssh-name> <environment> [<ip_address>] filename
+# requires git-crypt secret access
+# list existing dump files for an environment
+rake db:dump:list_s3_dumps['dev']
 ```
 
-In this case, ```environment``` CANNOT be gamma.
-
-
-To load the database dump on to your local database, use:
+You can then download the s3 dump file locally using:
 
 ```bash
-$ rake db:restore[dump-file]
+# requires git-crypt secret access
+# copy existing dump file from an environment and decompress
+rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','dev']
+```
+
+The output will specify the location of the decompressed dump file (`tmp/{environment}/filename`).
+
+You can then load the database dump on to your local database suing:
+
+```bash
+$ rake db:restore['local-dump-file-path']
 ```
 
 Snippet for local dump and restore:
 
 ```bash
 $ cd <cccd_root>
-$ ./script/db_dump.rb <sshusername> gamma <IP|knownhost>
-$ rake db:restore['adp_gamma_dump.psql.gz']
-$ rm adp_gamma_dump.psql
+$ rake db:dump:run_job['production'] # optional
+$ rake db:dump:list_s3_dumps['production']
+   => Key: tmp/20201013214202_dump.psql.gz
+      ...
+$ rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','production']
+$ rake db:restore['tmp/production/20201013214202_dump.psql']
+```
+
+Alternatively, if dump files already exist for the environment you can list them - `db:dump:list_s3_dumps` - and then copy the one you want locally - they listed most recent first. You can also use `db:dump:list_s3_dumps` task to retrieve time-limited presigned s3 urls that can be used to download the file.
+
+ ### Deleting dump files
+
+ There is a rake task to delete s3 stored dump files. This will delete all but the latest. This should be run when writing new dump files to avoid storing too many large dump files.
+
+```bash
+$ rake db:dump:delete_s3_dumps['production']
 ```
 
 #### A note on architecture

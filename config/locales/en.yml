@@ -1923,6 +1923,8 @@ en:
       banner_message: This service will be unavailable between 4:00pm and 11:59pm on %{date_string}
     claim_defendant_details:
       caption: 'Defendant: Additional information'
+      date: Order date
+      no_reporder: No representation orders have been supplied for this defendant.
     evidence_checklist:
       caption: 'Supporting evidence checklist'
       summary: 'Note: To best navigate this table, step down the second column'

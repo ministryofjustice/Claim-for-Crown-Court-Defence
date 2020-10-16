@@ -1,0 +1,16 @@
+.cccd-summary-list {
+  .govuk-summary-list__row {
+    border: 0;
+  }
+
+  dt, dd {
+    border: 0;
+    display: block;
+    padding: 0;
+    width: 100%;
+  }
+
+  .govuk-summary-list__value:last-child {
+    width: 100%;
+  }
+}

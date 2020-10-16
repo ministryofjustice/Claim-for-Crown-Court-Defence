@@ -475,33 +475,11 @@ Other Claim Navigation
   margin-right: 10px;
 }
 
-.defendant-row {
-  .confirmation-section & {
-    margin-left: -$gutter-half;
-  }
-}
-
 .defendant-card {
   border: 1px solid $border-colour;
   padding: $gutter-half $gutter-one-third $gutter-half $gutter-half;
   margin-top: $gutter-half;
   margin-bottom: $gutter-half;
-
-  table {
-    th {
-      @include bold-16();
-      padding: $gutter-one-sixth;
-    }
-  }
-
-  .title {
-    margin-bottom: $gutter-half;
-  }
-
-  .judical_apportionment {
-    margin-top: $gutter-half;
-    margin-bottom: $gutter-half;
-  }
 }
 
 /*********************************
@@ -535,13 +513,6 @@ Styling for Claims Messaging
 .confirmation-tick {
   width: 36px;
   height: 36px;
-}
-
-.confirmation-section {
-  h2 {
-    margin-bottom: $gutter-half;
-    margin-top: $gutter;
-  }
 }
 
 .contact-us-footer {

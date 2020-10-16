@@ -94,7 +94,7 @@ When(/^I add some additional information$/) do
 end
 
 When(/^I click Submit to LAA$/) do
-  allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu_west_1', stub_responses: true)
+  allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu-west-1', stub_responses: true)
   @claim_form_page.wait_until_submit_to_laa_visible
   patiently do
     @claim_form_page.submit_to_laa.click

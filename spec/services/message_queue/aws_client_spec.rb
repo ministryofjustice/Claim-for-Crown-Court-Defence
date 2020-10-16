@@ -6,7 +6,7 @@ module MessageQueue
 
     let(:client) do
       Aws::SQS::Client.new(
-        region: 'eu_west_1',
+        region: 'eu-west-1',
         stub_responses:
           {
             list_queues: { queue_urls:['valid_queue_name'] },

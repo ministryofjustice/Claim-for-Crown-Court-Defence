@@ -104,7 +104,7 @@ When(/^I check “I attended the main hearing”$/) do
 end
 
 When(/^I click Certify and submit claim$/) do
-  allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu_west_1', stub_responses: true)
+  allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu-west-1', stub_responses: true)
   @certification_page.wait_until_certify_and_submit_claim_visible
   patiently do
     @certification_page.certify_and_submit_claim.click

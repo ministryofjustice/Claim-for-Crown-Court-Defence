@@ -56,7 +56,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
       let(:claim) { create(:advocate_claim) }
       let(:sns_client) do
         Aws::SNS::Client.new(
-            region: 'eu_west_1',
+            region: 'eu-west-1',
             stub_responses:
                 {
                     publish: {}
@@ -133,7 +133,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
 
       let(:sns_client) do
         Aws::SNS::Client.new(
-          region: 'eu_west_1',
+          region: 'eu-west-1',
           stub_responses:
             {
               publish: {}

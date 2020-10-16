@@ -17,15 +17,15 @@
   - if messaging_permitted?(message) || current_user_is_caseworker?
     .grid-row.js-test-send-buttons
       .column-full
-        .message-column.form-group
-          = f.label :body, 'Enter a message', class: 'form-label'
-          = f.text_area :body, as: :text, rows: 10, label: false, class: 'form-control form-control-full'
+        .message-column.govuk-form-group
+          = f.label :body, 'Enter a message', class: 'govuk-label'
+          = f.text_area :body, as: :text, rows: 10, label: false, class: 'govuk-textarea'
 
           - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
             .written-reasons-checkbox
               = f.input :written_reasons_submitted, as: :boolean
-        .upload-column.form-group
-          = f.label :attachment, 'Optionally attach a file (maximum 1 file per message)', class: 'form-label'
+        .upload-column.govuk-form-group
+          = f.label :attachment, 'Optionally attach a file (maximum 1 file per message)', class: 'govuk-label'
           = f.file_field :attachment
 
     .xsmall.form-hint

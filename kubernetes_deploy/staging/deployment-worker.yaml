@@ -34,7 +34,7 @@ spec:
             exec:
               command: ['bundle', 'exec', 'rake', 'worker:healthcheck']
             initialDelaySeconds: 30
-            periodSeconds: 30
+            periodSeconds: 300
           resources:
             limits:
               cpu: 2000m

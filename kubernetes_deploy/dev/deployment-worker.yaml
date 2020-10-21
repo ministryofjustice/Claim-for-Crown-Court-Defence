@@ -34,7 +34,7 @@ spec:
             exec:
               command: ['bundle', 'exec', 'rake', 'worker:healthcheck']
             initialDelaySeconds: 30
-            periodSeconds: 30
+            periodSeconds: 300
 
           # configMapRef: non-secret env vars defined in `app-config.yaml`
           # secretRef: secret env vars defined by app secrets

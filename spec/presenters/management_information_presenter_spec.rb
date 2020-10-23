@@ -1,19 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe ManagementInformationPresenter do
-
   let(:claim) { create(:redetermination_claim) }
   let(:presenter) { ManagementInformationPresenter.new(claim, view) }
   let(:previous_user) { create(:user, first_name: 'Thea', last_name: 'Conway') }
   let(:another_user) { create(:user, first_name: 'Hilda', last_name: 'Rogers') }
 
-
   context '#present!' do
-
     context 'generates a line of CSV for each time a claim passes through the system' do
-
       context 'with identical values for' do
-
         it 'case_number' do
           presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include(claim.case_number)
@@ -170,7 +165,6 @@ RSpec.describe ManagementInformationPresenter do
             expect(presenter.case_worker).to eq case_worker_name
           end
         end
-
       end
 
       # Case worker name isn't unique - might not be the user who was working on this case just before redetermination
@@ -257,7 +251,7 @@ RSpec.describe ManagementInformationPresenter do
 
       context 'and unique values for' do
         before { Timecop.freeze(Time.now) }
-        after  { Timecop.return }
+        after { Timecop.return }
 
         it 'submission type' do
           presenter.present! do |claim_journeys|
@@ -313,7 +307,7 @@ RSpec.describe ManagementInformationPresenter do
 
       context 'archived_pending_delete' do
         let(:claim) { create(:archived_pending_delete_claim) }
-       
+
         it 'adds a single row to the MI' do
           ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv.size).to eql 1
@@ -341,7 +335,7 @@ RSpec.describe ManagementInformationPresenter do
             expect(csv.size).to eql 1
           end
         end
-        
+
         it 'should not be reflected in the MI' do
           ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0]).not_to include('archived_pending_review')
@@ -354,7 +348,6 @@ RSpec.describe ManagementInformationPresenter do
           end
         end
       end
-
 
       context 'state transitions reasons' do
         let(:claim) { create(:allocated_claim) }

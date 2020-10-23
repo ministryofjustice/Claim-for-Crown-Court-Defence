@@ -4,7 +4,8 @@ RSpec.describe Stats::ManagementInformationGenerator do
   subject(:result) { described_class.call }
 
   let(:frozen_time) { Time.new(2015, 3, 10, 11, 44, 55) }
-  let(:report_columns) { ['Scheme',
+  let(:report_columns) { ['Id',
+                          'Scheme',
                           'Case number',
                           'Supplier number',
                           'Organisation',
@@ -12,7 +13,9 @@ RSpec.describe Stats::ManagementInformationGenerator do
                           'Bill type',
                           'Claim total',
                           'Submission type',
-                          'Submitted at',
+                          'Transitioned at',
+                          'Last submitted at',
+                          'Originally submitted at',
                           'Allocated at',
                           'Completed at',
                           'Current or end state',

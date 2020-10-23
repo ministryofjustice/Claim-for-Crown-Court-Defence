@@ -58,12 +58,6 @@ Metrics/BlockLength:
     - state_machine
     - resource
 
-Metrics/ModuleLength:
-  Exclude:
-    - 'app/models/claims/calculations.rb'
-    - 'app/models/claims/state_machine.rb'
-    - 'app/helpers/application_helper.rb'
-
 Style/DateTime:
   AllowCoercion: true
 

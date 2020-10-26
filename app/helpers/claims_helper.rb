@@ -39,7 +39,11 @@ module ClaimsHelper
   end
 
   def messaging_permitted?(message)
-    (current_user_is_external_user? && !message.claim.redeterminable?) || message.claim_action.present?
+    return true if message.claim_action.present?
+    if current_user_is_external_user?
+      return !Claims::StateMachine::VALID_STATES_FOR_REDETERMINATION.include?(message.claim.state)
+    end
+    false
   end
 
   def display_downtime_warning?

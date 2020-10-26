@@ -55,15 +55,6 @@
   margin: $gutter-one-third 0 $gutter-one-third;
 }
 
-.related li a[rel="external"]:after {
-  content: "\A0\A0\A0\A0\A0\A0";
-  background-position: 5px 0;
-}
-
-.related li a[rel="external"]:hover:after {
-  background-position: 5px -388px;
-}
-
 .related .return-to-top {
   @include core-16;
 

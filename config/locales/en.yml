@@ -188,7 +188,7 @@ en:
     not_applicable: *not_applicable
     not_applicable_html: <span arial-label="not applicable">n/a</span>
   content:
-    graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external">graduated fees calculators <span class="visuallyhidden">opens in new window</span></a> for help.
+    graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" class="govuk-link" rel="noreferrer noopener" target="_blank">graduated fees calculators <span class="govuk-visually-hidden">(opens in new tab)</span></a> for help.
     how_is_this_calculated_help: &how_is_this_calculated_help How is this calculated?
     miscellaneous_fees: &miscellaneous_fees Miscellaneous fees
     miscellaneous_fee: &miscellaneous_fee Miscellaneous fee
@@ -399,8 +399,8 @@ en:
     question: 'Will you be sending electronic evidence for this claim?'
     help_sending_evidence: 'Help with sending the evidence'
     hint: 'You have electronic evidence on disk that relates to this claim. It is recommended that you send it by recorded delivery.'
-    hint_html: 'Please fill the <a href="%{link}" rel="external" target="_blank">electronic evidence coversheet</a> and include it with your disk(s).'
-    sfe_hint_html: 'Log in to <a href="%{link}" rel="external" target="_blank">secure file exchange</a> and upload your files and folders to a workspace.'
+    hint_html: 'Please fill the <a href="%{link}" class="govuk-link" rel="noreferrer noopener" target="_blank">electronic evidence coversheet <span class="govuk-visually-hidden">(opens in new tab)</span></a> and include it with your disk(s).'
+    sfe_hint_html: 'Log in to <a href="%{link}" class="govuk-link" rel="noreferrer noopener" target="_blank">secure file exchange <span class="govuk-visually-hidden">(opens in new tab)</span></a> and upload your files and folders to a workspace.'
   fee_calculator:
     calculate:
       amount_unavailable: The calculated rate is unavailable, please enter manually.
@@ -847,10 +847,10 @@ en:
         agfs_hardship_hint_html: |
           For advance payments in exceptional circumstances. If a trial has commenced and been adjourned you are
           advised to submit a graduated fee claim.
-          See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" target="_blank" rel="external">COVID 19 Remuneration Regulations <span class="visuallyhidden">opens in new window</span></a> for full details
+          See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" class="govuk-link" rel="noreferrer noopener" target="_blank">COVID 19 Remuneration Regulations <span class="govuk-visually-hidden">(opens in new tab)</span></a> for full details
         agfs_interim_rb: Advocate warrant fee
         agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
-        lgfs_hardship_hint_html: If a PTPH has already taken place, it is advisable to submit an interim claim. See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" target="_blank" rel="external" title="Financial relief for legal aid practitioners">COVID 19 Remuneration Regulations</a> for full details.
+        lgfs_hardship_hint_html: If a PTPH has already taken place, it is advisable to submit an interim claim. See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" class="govuk-link" rel="noreferrer noopener" target="_blank" title="Financial relief for legal aid practitioners">COVID 19 Remuneration Regulations <span class="govuk-visually-hidden">(opens in new tab)</span></a> for full details.
         claim_type_prompt_section_heading: 'What would you like to do?'
         choose_claim_type_prompt_text: Choose your bill type
         errors:
@@ -999,7 +999,7 @@ en:
           basic_fees: 'Initial fees'
           heading: Basic fees
           fee_prompt_text: |
-            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external">graduated fees calculators <span class="visuallyhidden">opens in new window</span></a>
+            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" class="govuk-link" rel="noreferrer noopener" target="_blank">graduated fees calculators <span class="govuk-visually-hidden">(opens in new tab)</span></a>
             for help.
           fee_type: *fee_type
           quantity: *quantity
@@ -1437,8 +1437,8 @@ en:
         page_hint: *fees_vat_prompt
         page_intro_html: |
           If needed, please complete an
-          <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external">appropriate special prep form <span class="visuallyhidden">opens in new window</span></a>
-          or <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external">unused materials (over 3 hours) form <span class="visuallyhidden">opens in new window</span></a>
+          <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">appropriate special prep form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
+          or <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
           and attach to the claim.
         advocates:
           fields:
@@ -1480,8 +1480,8 @@ en:
             page_hint: *fees_vat_prompt
             page_intro_html: |
               If needed, please complete
-              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external">special prep form <span class="visuallyhidden">opens in new window</span></a>
-              or <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external">unused materials (over 3 hours) form <span class="visuallyhidden">opens in new window</span></a>
+              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">special prep form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
+              or <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
               and attach to the claim.
           misc_fee_fields:
             misc_fee: *miscellaneous_fee
@@ -1653,7 +1653,7 @@ en:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
         fees_calculator_html: |
-            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external">graduated fees calculators <span class="visuallyhidden">opens in new window</span></a> for help.
+            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" class="govuk-link" rel="noreferrer noopener" target="_blank">graduated fees calculators <span class="govuk-visually-hidden">(opens in new tab)</span></a> for help.
       summary_claims_sidebar:
         button_label: *continue_to_certification_button
         continue: 'Continue'
@@ -1921,7 +1921,7 @@ en:
           case_stage_warning_html: |
             An LGFS hardship claim can only be made before the PTPH or the PTPH has been adjourned for a further hearing</br>
             If you think your claim is valid, but it is post PTPH please see
-            <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" target="_blank" rel="external">COVID 19 Remuneration Regulations <span class="visuallyhidden">opens in new window</span></a>
+            <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" class="govuk-link" rel="noreferrer noopener" target="_blank">COVID 19 Remuneration Regulations <span class="govuk-visually-hidden">(opens in new tab)</span></a>
             for guidance
 
         defendants_form_step:

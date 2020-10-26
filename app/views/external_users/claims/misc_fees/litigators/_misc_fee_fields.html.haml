@@ -21,7 +21,7 @@
           .multiple-choice
             = b.radio_button('aria-labelledby': "fx-numberedList-heading-#{@misc_fee_count} radio-control-legend-#{@misc_fee_count} #{b.text.to_css_class}",
               data: { unique_code: b.object.fee_type.unique_code})
-            = b.label(id: b.text.to_css_class << "-#{@misc_fee_count}") { b.text }
+            = b.label(id: b.text.to_css_class << "-#{@misc_fee_count}") { t('.type_of_fee_html', context: b.text) }
 
       = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
@@ -29,7 +29,7 @@
     = render 'warnings/unused_material_over_3_hours'
 
   = f.adp_text_field :amount,
-                    label: t('.net_amount'),
+                    label: t('.net_amount_html', context: t('.misc_fee')),
                     input_classes: 'total fee-rate form-input-denote__input form-control-1-4',
                     input_type: 'currency',
                     errors: @error_presenter,

@@ -18,14 +18,14 @@
     - if f.object.fee_type.case_uplift?
       .form-group
         = f.adp_text_field :case_numbers,
-          label: t('.case_numbers'),
+          label: t('.case_numbers_html', context: f.object.description),
           input_classes:'js-fixed-fee-case-numbers',
           hint_text:'Separate by commas',
           errors: @error_presenter
 
     .form-group
       = f.adp_text_field :quantity,
-        label: t('.quantity'),
+        label: t('.quantity_html', context: f.object.description),
         hint_text: t('.quantity_hint'),
         hide_hint: true,
         input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity",
@@ -36,7 +36,7 @@
     .form-group.js-unit-price-effectee
       .calculated-unit-fee
       = f.adp_text_field :rate,
-          label: t('.rate'),
+          label: t('.rate_html', context: f.object.description),
           input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
           input_type: 'currency',
           errors: @error_presenter,

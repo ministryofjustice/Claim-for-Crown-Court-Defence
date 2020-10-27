@@ -7,40 +7,13 @@
     position: relative;
   }
 
-  .header-action,
-  .date-action {
-    float: right;
-    @include core-19;
-    font-weight: 700;
-  }
-
-  .date-action {
-    position: absolute;
-    right: 40%;
-  }
-}
-
-.expense-group {
-  @extend .mod-fees;
-
-  /*--- Ported from v1 stylesheets ---*/
-  fieldset {
-    legend {
-      .fx-remove-link {
-        float: right;
-        font-weight: normal;
-      }
-    }
-  }
-}
-
-
-/*--- Ported from v1 stylesheets ---*/
-
-.defendants {
   .header-action {
     float: right;
     @include core-19;
     font-weight: 700;
   }
+}
+
+.expense-group {
+  @extend .mod-fees;
 }

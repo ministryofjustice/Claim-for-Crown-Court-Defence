@@ -58,7 +58,7 @@
       var items = $(this.settings.wrapper).find(this.settings.item + ':visible');
 
       items.each(function (idx, el) {
-        $(el).find(action).removeClass('hidden');
+        $(el).find(action).removeClass('govuk-!-display-none');
         $(el).find(number).text('');
         if (items.length > 1) {
           $(el).find(number).text(idx + 1);

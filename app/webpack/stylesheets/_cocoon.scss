@@ -1,0 +1,12 @@
+.remove_fields {
+  @include govuk-responsive-margin(4, "bottom");
+  @include govuk-media-query ($from: desktop) {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  display: block;
+  font-weight: 700;
+  z-index: 1;
+}

@@ -364,6 +364,7 @@ en:
     upload: Import claims
     download: Download
     remove: Remove
+    remove_html: Remove <span class="govuk-visually-hidden">%{context} <span class="fx-numberedList-number"></span></span>
     edit: Edit
     delete: Delete
     view: View

@@ -5,11 +5,9 @@
       %span.heading-medium
         = t('.defendant')
         %span.fx-numberedList-number
-        = link_to_remove_association f, class: 'header-action fx-numberedList-action hidden' do
-          = t('.remove')
-          %span.visuallyhidden
-            = t('.defendant')
-            %span.fx-numberedList-number
+
+    = link_to_remove_association f, class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
+      = t('common.remove_html', context: t('.defendant'))
 
     .form-group.first-name
       - @representation_order_count = 0

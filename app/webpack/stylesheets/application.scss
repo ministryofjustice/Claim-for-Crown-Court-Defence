@@ -46,7 +46,7 @@ $path: '~images/';
 
 @import '~susy/sass/susy';
 @import '~govuk_frontend_toolkit/stylesheets/url-helpers'; // Function to output image-url, or prefixed path (Rails and Compass only)
-
+@import '~govuk-frontend/govuk/base';
 
 
 /*
@@ -85,6 +85,7 @@ $path: '~images/';
 @import 'warnings';
 @import 'print';
 
+@import 'cocoon';
 @import 'components/tag';
 
 

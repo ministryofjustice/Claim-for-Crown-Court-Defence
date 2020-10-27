@@ -20,4 +20,5 @@
         = validation_error_message(@error_presenter, "#{error_prefix}_date_to")
 
     .column-one-third.fee-date-remove
-      = link_to_remove_association t('.remove'), f
+      = link_to_remove_association f, class: 'govuk-link' do
+        = t('common.remove_html', context: t('external_users.claims.date_attended_fields.date_attended'))

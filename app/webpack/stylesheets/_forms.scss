@@ -1,6 +1,8 @@
 /*--- Form Settings ---*/
 
 fieldset {
+  position: relative;
+
   &.error {
     border-left-width: 3px;
 
@@ -11,6 +13,9 @@ fieldset {
   }
 
   legend {
+    @include govuk-media-query ($from: desktop) {
+      float: left;
+    }
     width: $full-width;
   }
 

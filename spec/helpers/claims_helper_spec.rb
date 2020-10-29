@@ -213,7 +213,7 @@ RSpec.describe ClaimsHelper do
     end
   end
 
-  describe '#messaging_permitted' do
+  describe '#messaging_permitted?' do
     subject { messaging_permitted?(message) }
 
     let(:claim) { build :claim, state: state }

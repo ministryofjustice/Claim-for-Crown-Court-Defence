@@ -1,19 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe ManagementInformationPresenter do
-
   let(:claim) { create(:redetermination_claim) }
   let(:presenter) { ManagementInformationPresenter.new(claim, view) }
   let(:previous_user) { create(:user, first_name: 'Thea', last_name: 'Conway') }
   let(:another_user) { create(:user, first_name: 'Hilda', last_name: 'Rogers') }
 
-
   context '#present!' do
-
     context 'generates a line of CSV for each time a claim passes through the system' do
-
       context 'with identical values for' do
-
         it 'case_number' do
           presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include(claim.case_number)
@@ -170,7 +165,6 @@ RSpec.describe ManagementInformationPresenter do
             expect(presenter.case_worker).to eq case_worker_name
           end
         end
-
       end
 
       # Case worker name isn't unique - might not be the user who was working on this case just before redetermination
@@ -222,21 +216,47 @@ RSpec.describe ManagementInformationPresenter do
         it { is_expected.to eq claim.misc_fees.map{ |f| f.fee_type.description.tr(',', '')}.join(' ') }
       end
 
+      describe '#transitioned_at' do
+        it 'set per transition' do
+          presenter.present! do |claim_journeys|
+            expect(claim_journeys.first).to include((Time.zone.now - 3.day).strftime('%d/%m/%Y'))
+            expect(claim_journeys.second).to include((Time.zone.now).strftime('%d/%m/%Y'))
+          end
+        end
+      end
+
+      describe '#last_submitted_at' do
+        subject { presenter.last_submitted_at }
+
+        let(:last_submitted_at) { Date.new(2017, 9, 20) }
+
+        before do
+          claim.last_submitted_at = last_submitted_at
+        end
+
+        it { is_expected.to eql last_submitted_at.strftime('%d/%m/%Y') }
+      end
+
+      describe '#originally_submitted_at' do
+        subject { presenter.originally_submitted_at }
+
+        let(:original_submission_date) { Date.new(2015, 6, 18) }
+
+        before do
+          claim.original_submission_date = original_submission_date
+        end
+
+        it { is_expected.to eql original_submission_date.strftime('%d/%m/%Y') }
+      end
+
       context 'and unique values for' do
         before { Timecop.freeze(Time.now) }
-        after  { Timecop.return }
+        after { Timecop.return }
 
         it 'submission type' do
           presenter.present! do |claim_journeys|
             expect(claim_journeys.first).to include('new')
             expect(claim_journeys.second).to include('redetermination')
-          end
-        end
-
-        it 'date submitted' do
-          presenter.present! do |claim_journeys|
-            expect(claim_journeys.first).to include((Time.zone.now - 3.day).strftime('%d/%m/%Y'))
-            expect(claim_journeys.second).to include((Time.zone.now).strftime('%d/%m/%Y'))
           end
         end
 
@@ -287,7 +307,7 @@ RSpec.describe ManagementInformationPresenter do
 
       context 'archived_pending_delete' do
         let(:claim) { create(:archived_pending_delete_claim) }
-       
+
         it 'adds a single row to the MI' do
           ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv.size).to eql 1
@@ -315,7 +335,7 @@ RSpec.describe ManagementInformationPresenter do
             expect(csv.size).to eql 1
           end
         end
-        
+
         it 'should not be reflected in the MI' do
           ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0]).not_to include('archived_pending_review')
@@ -329,9 +349,9 @@ RSpec.describe ManagementInformationPresenter do
         end
       end
 
-
       context 'state transitions reasons' do
         let(:claim) { create(:allocated_claim) }
+        let(:colidx) { 15 }
 
         context 'rejected with a single reason as a string ' do
           before do
@@ -341,7 +361,7 @@ RSpec.describe ManagementInformationPresenter do
           it 'the rejection reason code should be reflected in the MI' do
             allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
             ManagementInformationPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][12]).to eq('no_rep_order')
+              expect(csv[0][colidx]).to eq('no_rep_order')
             end
           end
         end
@@ -353,7 +373,7 @@ RSpec.describe ManagementInformationPresenter do
 
           it 'the rejection reason code should be reflected in the MI' do
             ManagementInformationPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][12]).to eq('no_rep_order')
+              expect(csv[0][colidx]).to eq('no_rep_order')
             end
           end
         end
@@ -365,7 +385,7 @@ RSpec.describe ManagementInformationPresenter do
 
           it 'the rejection reason code should be reflected in the MI' do
             ManagementInformationPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][12]).to eq('no_rep_order, wrong_case_no')
+              expect(csv[0][colidx]).to eq('no_rep_order, wrong_case_no')
             end
           end
         end
@@ -377,8 +397,8 @@ RSpec.describe ManagementInformationPresenter do
 
           it 'the rejection reason code should be reflected in the MI' do
             ManagementInformationPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][12]).to eq('other')
-              expect(csv[0][13]).to eq('Rejection reason')
+              expect(csv[0][colidx]).to eq('other')
+              expect(csv[0][colidx+1]).to eq('Rejection reason')
             end
           end
         end
@@ -391,7 +411,7 @@ RSpec.describe ManagementInformationPresenter do
           it 'the refusal reason code should be reflected in the MI' do
             allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
             ManagementInformationPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][12]).to eq('no_rep_order')
+              expect(csv[0][colidx]).to eq('no_rep_order')
             end
           end
         end
@@ -403,7 +423,7 @@ RSpec.describe ManagementInformationPresenter do
 
           it 'the refusal reason code should be reflected in the MI' do
             ManagementInformationPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][12]).to eq('no_rep_order')
+              expect(csv[0][colidx]).to eq('no_rep_order')
             end
           end
         end
@@ -415,7 +435,7 @@ RSpec.describe ManagementInformationPresenter do
 
           it 'the refusal reason code should be reflected in the MI' do
             ManagementInformationPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][12]).to eq('no_rep_order, wrong_case_no')
+              expect(csv[0][colidx]).to eq('no_rep_order, wrong_case_no')
             end
           end
         end
@@ -427,8 +447,8 @@ RSpec.describe ManagementInformationPresenter do
 
           it 'the rejection reason code should be reflected in the MI' do
             ManagementInformationPresenter.new(claim, view).present! do |csv|
-              expect(csv[0][12]).to eq('other')
-              expect(csv[0][13]).to eq('Rejection reason')
+              expect(csv[0][colidx]).to eq('other')
+              expect(csv[0][colidx+1]).to eq('Rejection reason')
             end
           end
         end

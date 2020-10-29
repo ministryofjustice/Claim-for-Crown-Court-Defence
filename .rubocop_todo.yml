@@ -36,6 +36,13 @@ Metrics/ClassLength:
 Metrics/MethodLength:
   Max: 37
 
+Metrics/ModuleLength:
+  Exclude:
+    - 'app/presenters/concerns/management_information_reportable.rb'
+    - 'app/models/claims/calculations.rb'
+    - 'app/models/claims/state_machine.rb'
+    - 'app/helpers/application_helper.rb'
+
 # Offense count: 2
 # Configuration parameters: IgnoredMethods, Max.
 Metrics/PerceivedComplexity:

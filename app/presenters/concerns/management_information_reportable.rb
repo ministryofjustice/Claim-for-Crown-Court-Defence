@@ -45,9 +45,17 @@ module ManagementInformationReportable
       @journey.first.to == 'submitted' ? 'new' : @journey.first.to
     end
 
-    def submitted_at
+    def transitioned_at
       submission_steps = @journey.select { |step| SUBMITTED_STATES.include?(step.to) }
       submission_steps.present? ? submission_steps.first.created_at.strftime('%d/%m/%Y') : 'n/a'
+    end
+
+    def last_submitted_at
+      claim.last_submitted_at.strftime('%d/%m/%Y')
+    end
+
+    def originally_submitted_at
+      original_submission_date.strftime('%d/%m/%Y')
     end
 
     def allocated_at

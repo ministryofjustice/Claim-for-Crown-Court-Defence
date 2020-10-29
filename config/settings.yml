@@ -49,6 +49,7 @@ max_item_amount: 200_000.00     # An item is each of the individual expenses, di
 max_claim_amount: 1_000_000.00  # The total sum of all the individual items in a claim
 
 claim_csv_headers:
+  - :id
   - :scheme
   - :case_number
   - :supplier_number
@@ -57,7 +58,9 @@ claim_csv_headers:
   - :bill_type
   - :claim_total
   - :submission_type
-  - :submitted_at
+  - :transitioned_at
+  - :last_submitted_at
+  - :originally_submitted_at
   - :allocated_at
   - :completed_at
   - :current_or_end_state

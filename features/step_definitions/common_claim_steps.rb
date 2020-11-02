@@ -54,7 +54,7 @@ When(/^I add another defendant, (.*?)representation order and MAAT reference$/) 
 end
 
 Then(/^I should see (\d+)\s*representation orders$/) do |count|
-  expect(@claim_form_page).to have_content("Representation order details", count: count)
+  expect(@claim_form_page).to have_selector("fieldset legend", text: "Representation order details", count: count)
 end
 
 When(/^I upload (\d+) documents?$/) do |count|

@@ -200,6 +200,7 @@ form {
 
   .nested-fields {
     margin-bottom: $gutter-two-thirds;
+    position: relative;
   }
 
 
@@ -760,11 +761,6 @@ table#download-files-report {
     #js-vat {
       display: none;
     }
-  }
-
-  .remove_fields {
-    display: block;
-    margin-top: $gutter-one-third;
   }
 }
 

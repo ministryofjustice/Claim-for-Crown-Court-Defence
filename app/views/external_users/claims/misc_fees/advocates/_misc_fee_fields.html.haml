@@ -2,68 +2,73 @@
 - claim = present(f.object.claim)
 
 .form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{ data: { 'type': 'miscFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlockCalculator' } }
-  %span.bold-medium
-    = t('.misc_fee')
-    %span.fx-numberedList-number
-    = link_to_remove_association t('.remove'), f, wrapper_class: 'misc-fee-group', class: 'header-action fx-numberedList-action hidden'
 
-  .form-group
-    .fee-type.js-typeahead{ class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type") ? 'form-group-error dropdown_field_with_errors' : '' }
-      = f.label :fee_type_id_input,
-        t('.fee_type_html', context: t('.misc_fee')),
-        { class: 'form-label-bold' }
+  %fieldset
+    %legend
+      %span.heading-medium
+        = t('.misc_fee')
+        %span.fx-numberedList-number
 
-      = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
+    = link_to_remove_association f, wrapper_class: 'misc-fee-group', class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
+      = t('common.remove_html', context: t('.misc_fee'))
 
-      = f.select :fee_type_id,
-        options_for_select(claim.eligible_misc_fee_type_options_for_select, f.object&.fee_type&.id),
-        { include_blank: ''.html_safe },
-        { class: 'form-control form-control-full js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead fx-misc-fee-calculation',
-        id: "misc_fee_#{@misc_fee_count}_fee_type",
-        'aria-label': t('.fee_type') }
+    .form-group
+      .fee-type.js-typeahead{ class: error_class?(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type") ? 'form-group-error dropdown_field_with_errors' : '' }
+        = f.label :fee_type_id_input,
+          t('.fee_type_html', context: t('.misc_fee')),
+          { class: 'form-label-bold' }
 
-  .form-group.fx-unused-materials-warning.js-hidden
-    = render 'warnings/unused_material_over_3_hours'
+        = validation_error_message(@error_presenter, "misc_fee_#{@misc_fee_count}_fee_type")
 
-  = f.adp_text_field :quantity,
-                          label: t('.quantity_html', context: t('.misc_fee')),
-                          hint_text: t('.quantity_hint'),
-                          hide_hint: true,
-                          input_classes: 'quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity',
-                          input_type: 'number',
-                          value: fee.quantity,
-                          errors: @error_presenter
+        = f.select :fee_type_id,
+          options_for_select(claim.eligible_misc_fee_type_options_for_select, f.object&.fee_type&.id),
+          { include_blank: ''.html_safe },
+          { class: 'form-control form-control-full js-misc-fee-type js-fee-type js-fee-calculator-fee-type typeahead fx-misc-fee-calculation',
+          id: "misc_fee_#{@misc_fee_count}_fee_type",
+          'aria-label': t('.fee_type') }
 
-  .js-unit-price-effectee
-    .calculated-unit-fee
-    = f.adp_text_field :rate,
-        label: t('.rate_html', context: t('.misc_fee')),
-        input_classes: 'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
-        input_type: 'currency',
-        errors: @error_presenter,
-        input_readonly: f.object.price_calculated?,
-        value: number_with_precision(f.object.rate, precision: 2)
+    .form-group.fx-unused-materials-warning.js-hidden
+      = render 'warnings/unused_material_over_3_hours'
 
-  .js-fee-calculator-success
-    = f.hidden_field :price_calculated, value: f.object.price_calculated?
+    = f.adp_text_field :quantity,
+                            label: t('.quantity_html', context: t('.misc_fee')),
+                            hint_text: t('.quantity_hint'),
+                            hide_hint: true,
+                            input_classes: 'quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity',
+                            input_type: 'number',
+                            value: fee.quantity,
+                            errors: @error_presenter
 
-  .fee-calc-help-wrapper.form-group.hidden
-    = govuk_detail t('.help_how_we_calculate_rate_title') do
-      = t('.help_how_we_calculate_rate_body')
+    .js-unit-price-effectee
+      .calculated-unit-fee
+      = f.adp_text_field :rate,
+          label: t('.rate_html', context: t('.misc_fee')),
+          input_classes: 'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
+          input_type: 'currency',
+          errors: @error_presenter,
+          input_readonly: f.object.price_calculated?,
+          value: number_with_precision(f.object.rate, precision: 2)
 
-  .cccd-summary-list
-    %dl.govuk-summary-list
-      .govuk-summary-list__row
-        %dt.govuk-summary-list__key
-          = t('.net_amount')
-        %dd.govuk-summary-list__value.fee-net-amount.currency-indicator.total
-          = fee.amount || number_to_currency(0)
+    .js-fee-calculator-success
+      = f.hidden_field :price_calculated, value: f.object.price_calculated?
 
-  .dates-wrapper.form-group
-    %div
-      = f.fields_for :dates_attended do |date_attended|
-        = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
+    .fee-calc-help-wrapper.form-group.hidden
+      = govuk_detail t('.help_how_we_calculate_rate_title') do
+        = t('.help_how_we_calculate_rate_body')
 
-    = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: { 'association-insertion-method': 'append', 'association-insertion-node': 'div', 'association-insertion-traversal': 'prev' }
+    .cccd-summary-list
+      %dl.govuk-summary-list
+        .govuk-summary-list__row
+          %dt.govuk-summary-list__key
+            = t('.net_amount')
+          %dd.govuk-summary-list__value.fee-net-amount.currency-indicator.total
+            = fee.amount || number_to_currency(0)
+
+    .dates-wrapper.form-group
+      %div
+        = f.fields_for :dates_attended do |date_attended|
+          = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
+
+      = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: '', partial: 'date_attended_fields', data: { 'association-insertion-method': 'append', 'association-insertion-node': 'div', 'association-insertion-traversal': 'prev' }
 
   %hr/

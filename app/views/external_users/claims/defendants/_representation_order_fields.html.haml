@@ -6,21 +6,19 @@
       %span.heading-medium
         = t('.representation_order')
         %span.fx-numberedList-number
-        = link_to_remove_association f, class: 'header-action fx-numberedList-action hidden' do
-          = t('.remove')
-          %span.visuallyhidden
-            = t('.representation_order')
-            %span.fx-numberedList-number
 
-  .form-group.ro-date
-    = f.gov_uk_date_field(:representation_order_date,
-                          legend_text: t('.date_html'),
-                          legend_class: 'govuk-legend',
-                          id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date",
-                          error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date"))
+    = link_to_remove_association f, class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
+      = t('common.remove_html', context: t('.representation_order'))
 
-  .form-group.maat
-    = f.adp_text_field :maat_reference,
-                        label: t('.maat_reference_number_html'),
-                        hint_text: t('.maat_reference_number_eg'),
-                        errors: @error_presenter
+    .form-group.ro-date
+      = f.gov_uk_date_field(:representation_order_date,
+                            legend_text: t('.date_html'),
+                            legend_class: 'govuk-legend',
+                            id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date",
+                            error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date"))
+
+    .form-group.maat
+      = f.adp_text_field :maat_reference,
+                          label: t('.maat_reference_number_html'),
+                          hint_text: t('.maat_reference_number_eg'),
+                          errors: @error_presenter

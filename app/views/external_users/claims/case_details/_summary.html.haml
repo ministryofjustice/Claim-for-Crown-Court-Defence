@@ -3,11 +3,12 @@
 - trial_detail_fields = %i[external_users claims case_details trial_detail_fields]
 - retrial_detail_fields = %i[external_users claims case_details retrial_detail_fields]
 
-#case-details-section.form-section
-  %h2.heading-large
+#case-details-section.app-summary-section
+  %h2.govuk-heading-l
     = t('external_users.claims.case_details.summary.header')
-    - if local_assigns[:editable]
-      = govuk_link_to t('.change'), edit_polymorphic_path(claim, step: :case_details, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+
+  - if local_assigns[:editable]
+    = govuk_link_to t('common.change_html', context: t('external_users.claims.case_details.summary.header')), edit_polymorphic_path(claim, step: :case_details, referrer: :summary), class: 'link-change'
 
   - if claim.mandatory_case_details?
     = govuk_summary_list do

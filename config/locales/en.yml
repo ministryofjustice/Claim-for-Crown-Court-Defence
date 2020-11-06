@@ -349,6 +349,7 @@ en:
       claim_creator: Claim creator
       providers_ref: Reference number
       providers_ref_hint: Your internal reference number for this claim
+    change_html: Change <span class="govuk-visually-hidden">%{context}</span>
     court: Court
     crown_court: Crown court
     transfer_court: Transfer court

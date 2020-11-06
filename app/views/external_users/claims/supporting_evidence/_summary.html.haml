@@ -1,8 +1,9 @@
-#supporting-evidence-section.form-section
-  %h2.heading-large
+#supporting-evidence-section.app-summary-section
+  %h2.govuk-heading-l
     = t('external_users.claims.supporting_evidence_checklist.summary.header')
-    - if local_assigns[:editable]
-      = govuk_link_to t('.change'), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+
+  - if local_assigns[:editable]
+    = govuk_link_to t('common.change_html', context: t('external_users.claims.supporting_evidence_checklist.summary.header')), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'link-change'
 
   - if claim.mandatory_supporting_evidence?
     = govuk_summary_list do

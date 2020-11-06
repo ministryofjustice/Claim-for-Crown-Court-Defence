@@ -1,8 +1,9 @@
-#defendants-section.form-section
-  %h2.heading-large
+#defendants-section.app-summary-section
+  %h2.govuk-heading-l
     = t('external_users.claims.defendants.summary.header')
-    - if local_assigns[:editable]
-      = govuk_link_to t('.change'), edit_polymorphic_path(claim, step: :defendants, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+
+  - if local_assigns[:editable]
+    = govuk_link_to t('common.change_html', context: t('external_users.claims.defendants.summary.header')), edit_polymorphic_path(claim, step: :defendants, referrer: :summary), class: 'link-change'
 
   - defendant_fields_scope = 'external_users.claims.defendants.defendant_fields'
   - rep_order_fields_scope = 'external_users.claims.defendants.representation_order_fields'

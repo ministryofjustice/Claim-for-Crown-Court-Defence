@@ -108,6 +108,7 @@ td {
 }
 
 // Replacement for the deprecated `.form-section`
+.app-cost-summary-section,
 .app-summary-section {
   @include govuk-responsive-margin(9, "bottom");
   position: relative;

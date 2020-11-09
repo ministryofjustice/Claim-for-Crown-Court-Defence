@@ -45,7 +45,7 @@ moj.Modules.Dropzone = {
   },
 
   setupStatusBox: function () {
-    this.status = $('<div aria-live="polite" role="status" class="visually-hidden" />');
+    this.status = $('<div aria-live="polite" role="status" class="govuk-visually-hidden" />');
     this.target.append(this.status);
   },
 
@@ -67,6 +67,7 @@ moj.Modules.Dropzone = {
     } else {
       $(e.target).parent().parent().remove();
     }
+    this.status.html('File removed.');
     this.toggleFileStatus();
   },
 

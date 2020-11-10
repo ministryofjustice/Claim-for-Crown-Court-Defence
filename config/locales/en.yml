@@ -1560,7 +1560,7 @@ en:
           file_upload_message: Drag and drop files here
           legend: Upload supporting evidence
           or: or
-          uploading_docs: 'Documents waiting to be uploaded'
+          uploading_docs: 'Documents waiting to be saved'
       supporting_evidence:
         summary:
           header: Supporting evidence

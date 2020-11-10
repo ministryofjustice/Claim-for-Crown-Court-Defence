@@ -13,7 +13,18 @@ a.fix {
   }
 }
 
-a.link-change,
+.link-change {
+  @include govuk-responsive-margin(4, "bottom");
+  @include govuk-media-query ($from: desktop) {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  display: block;
+  font-weight: 700;
+}
+
 a.link-remove {
   @include core-19;
   float: right;

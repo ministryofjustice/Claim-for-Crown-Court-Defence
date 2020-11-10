@@ -1,8 +1,9 @@
-.form-section
-  %h2.heading-large
+.app-summary-section
+  %h2.govuk-heading-l
     = t('external_users.claims.interim_fee.summary.header')
-    - if local_assigns[:editable]
-      = govuk_link_to t('.change'), edit_polymorphic_path(claim, step: :interim_fees, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+
+  - if local_assigns[:editable]
+    = govuk_link_to t('common.change_html', context: t('external_users.claims.interim_fee.summary.header')), edit_polymorphic_path(claim, step: :interim_fees, referrer: :summary), class: 'link-change'
 
   - if claim.interim_fee.nil? || claim.interim_fee.is_disbursement?
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

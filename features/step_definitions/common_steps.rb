@@ -175,7 +175,7 @@ Then(/^I should see "([^"]*)"$/) do |arg1|
 end
 
 And(/^I should see the field '(.*?)' with value '(.*?)' in '(.*?)'$/) do |field, value, section|
-  within(page.find(:css, 'div.form-section', text: section)) do
+  within(page.find(:css, 'div.app-summary-section', text: section)) do
     expect(page).to have_content(value)
   end
 end

@@ -118,6 +118,19 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should not see 'Estimated trial length'
     And I should not see 'Trial concluded on'
 
+    And the following check your claim fee details should exist:
+      | section | row | prompt | value |
+      | miscellaneous-fees-section | 1 | Type of fee | Costs judge application |
+      | miscellaneous-fees-section | 1 | Net amount | 135.78 |
+      | miscellaneous-fees-section | 1 | VAT amount | 135.78 |
+      | miscellaneous-fees-section | 1 | Total amount | 135.78 |
+
+    And the following check your claim fee details should not exist:
+      | section | row | prompt |
+      | miscellaneous-fees-section | 1 | Quantity |
+      | miscellaneous-fees-section | 1 | Rate |
+      | miscellaneous-fees-section | 1 | Dates |
+
     When I click "Continue"
     Then I should be on the certification page
     And I should see a page title "Certify and submit the litigator final fees claim"

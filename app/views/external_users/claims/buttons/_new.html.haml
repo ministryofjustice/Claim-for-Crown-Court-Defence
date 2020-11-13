@@ -1,5 +1,6 @@
 .button-holder
   = f.submit t('buttons.submit_to_laa'), class: 'button left'
   - if @claim.draft?
-    = f.submit t('buttons.save_to_drafts'), class: 'button-gray-3 left'
-  = link_to t('buttons.clear_form'), request.fullpath, class: 'button-gray-3 right', data: { confirm: 'Are you sure you want to clear this form?' }
+    = govuk_button_secondary() { t('buttons.save_to_drafts') }
+
+  = govuk_link_button_secondary(href: request.fullpath, 'data-confirm': 'Are you sure you want to clear this form?') { t('buttons.clear_form') }

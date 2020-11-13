@@ -111,4 +111,4 @@
 
     .button-holder
       = f.submit t('.submit'), class: 'button left btn-spacer-20'
-      = link_to t('.return'), edit_polymorphic_path(@claim), class: 'button-gray-3 left'
+      = govuk_link_button_secondary(href: edit_polymorphic_path(@claim)) { t('.return') }

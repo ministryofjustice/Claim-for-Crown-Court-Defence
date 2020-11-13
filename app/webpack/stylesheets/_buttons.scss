@@ -16,18 +16,6 @@
   @include button();
 }
 
-.button-grey-3,
-.button-gray-3 {
-
-  @include button($grey-3);
-  padding: .52632em .78947em .26316em;
-
-  @include media (mobile) {
-    text-align: center;
-    width: $full-width;
-  }
-}
-
 form .form-buttons * {
   display: inline-block;
   margin-right: $gutter-one-third;

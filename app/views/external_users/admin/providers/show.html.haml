@@ -44,5 +44,5 @@
       = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation') }, class: 'button'
     .column-one-half
       - if can? :edit, @provider
-        = link_to t('.edit_provider'), edit_external_users_admin_provider_path(@provider), class: 'button-gray-3'
+        = govuk_link_button_secondary(href: edit_external_users_admin_provider_path(@provider)) { t('.edit_provider') }
 

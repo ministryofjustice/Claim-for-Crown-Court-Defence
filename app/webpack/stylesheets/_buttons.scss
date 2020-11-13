@@ -38,25 +38,6 @@ form .form-buttons * {
 // Buttons
 // ==========================================================================
 
-// Start now buttons
-.button-start,
-.button-get-started {
-  @include bold-24;
-  background-image: file-url("icon-pointer.png");
-  background-repeat: no-repeat;
-  background-position: $full-width $half;
-  padding: em(7) em(41) em(4) em(16);
-
-  @include device-pixel-ratio {
-    background-image: file-url("icon-pointer-2x.png");
-    background-size: 30px 19px;
-  }
-
-  @include ie(6) {
-    background-image: file-url("icon-pointer-2x.png");
-  }
-}
-
 .form-buttons * {
   margin-right: $gutter-one-third;
   display: inline-block;

@@ -10,7 +10,7 @@
 
       .form-group.form-actions
         %br/
-        = link_to_add_association t('.add_supplier'), f, :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields', render_options: { locals: { collection: @collection } }, class: 'button button-secondary blue', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.supplier-numbers-wrapper' }
+        = link_to_add_association t('.add_supplier'), f, :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields', render_options: { locals: { collection: @collection } }, class: 'govuk-button app-button--blue', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.supplier-numbers-wrapper', module: 'govuk-button' }, role: 'button', draggable: 'false'
 
       = govuk_detail t('.postcode_help.heading') do
         = t('.postcode_help.text_html')

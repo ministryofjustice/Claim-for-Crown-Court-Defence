@@ -27,7 +27,7 @@ class ClaimShowPage < BasePage
 
   section :messages_panel, "#claim-accordion .messages-container" do
     element :enter_your_message, "textarea#message_body"
-    element :send, "form#new_message div.submit-column > input.button-secondary"
+    element :send, "form#new_message div.submit-column > button.app-button--blue"
 
     def upload_file(path)
       attach_file("message_attachment", path)

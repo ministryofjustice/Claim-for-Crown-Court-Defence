@@ -51,8 +51,7 @@
         = render partial: 'filter_value_bands'
       .column-one-third
         %br/
-        %button.clear-filters.button.button-secondary{ type: 'button' }
-          = t('.clear_filters')
+        = govuk_button(class: 'clear-filters app-button--blue') { t('.clear_filters') }
 
   %h2.heading-medium
     = t('.allocation_queue')

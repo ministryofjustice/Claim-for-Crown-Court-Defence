@@ -2,8 +2,45 @@
 // Buttons */
 // --------------------------------------- */
 
-.button-secondary {
-  @include button($govuk-blue);
+
+// Blue button variables
+$app-blue-button-colour: govuk-colour('blue');
+$app-blue-button-hover-colour: govuk-shade($app-blue-button-colour, 20%);
+$app-blue-button-shadow-colour: govuk-shade($app-blue-button-colour, 60%);
+$app-blue-button-text-colour: govuk-colour('white');
+
+$button-shadow-size: $govuk-border-width-form-element;
+
+.app-button--blue {
+  background-color: $app-blue-button-colour !important;
+  box-shadow: 0 $button-shadow-size 0 $app-blue-button-shadow-colour !important;
+
+  &,
+  &:link,
+  &:visited,
+  &:active,
+  &:hover {
+    color: $app-blue-button-text-colour  !important;
+  }
+
+  // alphagov/govuk_template includes a specific a:link:focus selector
+  // designed to make unvisited links a slightly darker blue when focussed, so
+  // we need to override the text colour for that combination of selectors so
+  // so that unvisited links styled as buttons do not end up with dark blue
+  // text when focussed.
+  @include govuk-compatibility(govuk_template) {
+    &:link:focus {
+      color: $app-blue-button-text-colour !important;
+    }
+  }
+
+  &:hover {
+    background-color: $app-blue-button-hover-colour !important;
+
+    &[disabled] {
+      background-color: $app-blue-button-colour !important;
+    }
+  }
 }
 
 .button-holder {

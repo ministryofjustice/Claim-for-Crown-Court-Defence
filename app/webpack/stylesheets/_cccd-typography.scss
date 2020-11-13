@@ -91,8 +91,7 @@ header.main-header {
 
     @include core-19;
 
-    .button,
-    .button-secondary {
+    .button {
       margin-right: $gutter-one-sixth;
     }
 

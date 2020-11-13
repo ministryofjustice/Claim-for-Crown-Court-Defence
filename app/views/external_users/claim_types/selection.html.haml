@@ -25,4 +25,5 @@
   .form-section
     .form-group.form-buttons
       = submit_tag t('.continue'), class: 'button'
-      = link_to t('.cancel'), external_users_root_path, role: 'button', class: 'link-secondary'
+
+      = govuk_link_button_secondary(href: external_users_root_path) { t('.cancel') }

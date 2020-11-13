@@ -48,11 +48,6 @@ form .form-buttons * {
 }
 
 
-.button-warning {
-  @include button($error-colour);
-}
-
-
 /*--- Ported from v1 stylesheets ---*/
 
 .external-user-json-export {

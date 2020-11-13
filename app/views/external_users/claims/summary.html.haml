@@ -33,7 +33,8 @@
         .form-buttons
           = link_to t('buttons.continue'), new_external_users_claim_certification_path(claim), { class: 'button btn-spacer-20', role: 'button', 'aria-label': t('.button_label') }
           = link_to t('buttons.save_a_draft'), external_users_root_path, class: 'button-gray-3 btn-spacer-20', role: 'button'
-          = link_to t('buttons.delete_draft'), external_users_claim_path(claim), method: :delete, data: { confirm: 'Are you sure?' }, class: 'button-warning', role: 'button'
+
+          = govuk_link_button_warning(href: external_users_claim_path(claim), 'data-confirm': 'Are you sure?', 'data-method': 'delete') { t('buttons.delete_draft') }
 
   .grid-row
     .column-full

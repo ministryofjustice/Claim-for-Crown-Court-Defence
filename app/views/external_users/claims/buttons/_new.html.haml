@@ -1,5 +1,5 @@
 .button-holder
-  = f.submit t('buttons.submit_to_laa'), class: 'button left'
+  = f.submit t('buttons.submit_to_laa'), class: 'govuk-button', data: { module: 'govuk-button' }
   - if @claim.draft?
     = govuk_button_secondary() { t('buttons.save_to_drafts') }
 

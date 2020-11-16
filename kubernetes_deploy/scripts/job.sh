@@ -69,7 +69,7 @@ function _job() {
   kubectl set image -f kubernetes_deploy/jobs/${task}.yaml cccd-job=${docker_image_tag} --local -o yaml | kubectl apply -f -
 
   # wait for job pod container to be ready before tailing logs
-  kubectl wait --for=condition=ContainersReady --timeout=120s pod --selector job-name=$job_name
+  kubectl wait --for=condition=ContainersReady --timeout=240s pod --selector job-name=$job_name
   kubectl logs --follow job/$job_name
 
 }

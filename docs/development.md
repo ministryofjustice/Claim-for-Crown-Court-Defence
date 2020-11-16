@@ -125,13 +125,13 @@ In order to create an anonymised dump of an environments database you can:
 $ rake db:dump:run_job['dev']
 ```
 
-This task requires yu have kubectl installed locally and access to git-crypted secrets (TBC - may not require git-crypt access to dump but may to download the dump file - see below).
+This task requires you have kubectl installed locally and access to git-crypted secrets.
 
 This will create a `private` dump file in the host environments s3 bucket and list all such dumps at the end. If the log tailing times out (it will on production currently) then you will need to list the dump files using:
 
 
 ```bash
-# requires git-crypt secret access
+# requires live-1 kubeconfig secret access
 # list existing dump files for an environment
 rake db:dump:list_s3_dumps['dev']
 ```
@@ -139,7 +139,7 @@ rake db:dump:list_s3_dumps['dev']
 You can then download the s3 dump file locally using:
 
 ```bash
-# requires git-crypt secret access
+# requires live-1 kubeconfig secret access
 # copy existing dump file from an environment and decompress
 rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','dev']
 ```
@@ -168,10 +168,14 @@ Alternatively, if dump files already exist for the environment you can list them
 
  ### Deleting dump files
 
- There is a rake task to delete s3 stored dump files. This will delete all but the latest. This should be run when writing new dump files to avoid storing too many large dump files.
+ There is a rake task to delete s3 stored dump files. This will delete all but the latest. This should be run when writing new dump files to avoid storing too many large dump files. If you want to delete all you can add a second argument of 'all'
 
 ```bash
+# delete all but the latest dump file
 $ rake db:dump:delete_s3_dumps['production']
+
+# delete all dump files
+$ rake db:dump:delete_s3_dumps['production','all']
 ```
 
 #### A note on architecture

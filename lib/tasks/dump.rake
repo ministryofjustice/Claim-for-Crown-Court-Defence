@@ -76,9 +76,12 @@ namespace :db do
       host = args.host
       raise ArgumentError.new("invalid host #{host}") unless valid_hosts.include?(host)
 
-      puts "Listing dump files in s3 for #{host}"
       s3_bucket = S3Bucket.new(host)
       dump_files = s3_bucket.list('tmp').select { |item| item.key.match?('dump') }
+
+      abort('No dump files found!'.yellow) if dump_files.empty?
+
+      puts "------------list of dump files on #{host}----------------"
       dump_files.sort_by(&:last_modified).reverse.map do |object|
         puts "Key: #{object.key}"
         puts "Last modified: #{object.last_modified.iso8601}"
@@ -88,13 +91,15 @@ namespace :db do
     end
 
     desc 'Delete all but latest s3 database dump files'
-    task :delete_s3_dumps, [:host] => :environment do |_task, args|
+    task :delete_s3_dumps, [:host, :all] => :environment do |_task, args|
       host = args.host
+      start = args.all.eql?('all') ? 0 : 1
+
       raise ArgumentError.new("invalid host #{host}") unless valid_hosts.include?(host)
 
       s3_bucket = S3Bucket.new(host)
       dump_files = s3_bucket.list('tmp').select { |item| item.key.match?('dump') }
-      dump_files.sort_by(&:last_modified).reverse[1..].map do |object|
+      dump_files.sort_by(&:last_modified).reverse[start..].map do |object|
         print "Deleting #{object.key}..."
         object.delete
         puts 'done'.green

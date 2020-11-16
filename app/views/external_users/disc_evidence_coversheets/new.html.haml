@@ -41,4 +41,4 @@
       = f.adp_text_field :data_storage_type, label: t('.data_storage_type'), hint_text: 'For example USB, DVD.'
 
       .form-group
-        = f.submit t('.generate'), class: 'button'
+        = govuk_button() { t('.generate') }

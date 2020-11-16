@@ -15,7 +15,7 @@
 
 - if can? :edit, @case_worker
   .form-group
-    = link_to t('.edit'), edit_case_workers_admin_case_worker_path(@case_worker), class: 'button', 'aria-label': t('.edit_aria_label')
+    = govuk_link_button(href: edit_case_workers_admin_case_worker_path(@case_worker)) { t('.edit_html') }
 
 - if can? :change_password, @case_worker
   .form-group

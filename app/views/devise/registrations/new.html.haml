@@ -41,6 +41,6 @@
     = f.input_field :password_confirmation, class: 'form-control'
 
   .form-group
-    = f.button :submit, 'Sign up', class: 'button'
+    = govuk_button() { 'Sign up' }
 
 = render 'devise/shared/links'

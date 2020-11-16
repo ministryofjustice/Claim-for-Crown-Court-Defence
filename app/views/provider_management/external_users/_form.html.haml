@@ -57,4 +57,4 @@
           = f.text_field :supplier_number, class: 'form-control'
 
     .form-group
-      = f.submit t(".submit.#{action_name}"), class: 'button'
+      = govuk_button() { t(".submit.#{action_name}") }

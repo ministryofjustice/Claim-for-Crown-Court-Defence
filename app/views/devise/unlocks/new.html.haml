@@ -16,6 +16,6 @@
     = f.input_field :email, autofocus: true, autocomplete: 'off', class: 'form-control'
 
   .form-group
-    = f.button :submit, t('.submit'), class: 'button'
+    = govuk_button() { t('.submit') }
 
 = render 'devise/shared/links'

@@ -49,38 +49,7 @@ $button-shadow-size: $govuk-border-width-form-element;
   margin-top: $gutter;
 }
 
-.btn-green {
-  @include button();
-}
-
-form .form-buttons * {
-  display: inline-block;
-  margin-right: $gutter-one-third;
-}
-
-
-
-// Buttons
-// ==========================================================================
-
 .form-buttons * {
-  margin-right: $gutter-one-third;
   display: inline-block;
-}
-
-.button-tertiary {
-  @include button ($grey-2);
-}
-
-
-/*--- Ported from v1 stylesheets ---*/
-
-.external-user-json-export {
-  margin-bottom: $gutter-one-third;
-}
-
-.certify-claim {
-  display: block;
-  width: 8.8em;
-  margin: $gutter-one-third 0;
+  margin-right: $gutter-one-third;
 }

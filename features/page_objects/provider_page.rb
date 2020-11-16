@@ -9,7 +9,7 @@ class ProviderPage < BasePage
 
   section :fee_schemes, ChecklistSection, "div#js-fee-schemes"
 
-  element :save_details, "input.button"
+  element :save_details, "button.govuk-button"
 
   def choose(label)
     radios.find { |radio| radio.label.text.match?(label) }.click

@@ -275,23 +275,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         end
       end
 
-      context 'urn feature flag disabled' do
-        before do
-          allow(Settings).to receive(:urn_enabled?).and_return(false)
-        end
-       
-        it "response 400 and JSON error array of model validation BLANK errors" do
-          valid_params[:case_number] = -1
-          post_to_create_endpoint
-          expect_error_response("The case number must be in the format A20161234", 0)
-        end
-      end
-
-      context 'urn feature flag enabled' do
-        before do
-          allow(Settings).to receive(:urn_enabled?).and_return(true)
-        end
-        
+      context 'invalid case number input' do
         it "response 400 and JSON error array of model validation BLANK errors" do
           valid_params[:case_number] = -1
           post_to_create_endpoint

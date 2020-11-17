@@ -84,12 +84,8 @@ module ManagementInformationReportable
     end
 
     def case_worker
-      if claim.allocated?
-        claim.case_workers.first.name
-      else
-        transition = claim.last_decision_transition
-        transition&.author_name
-      end
+      return claim.case_workers.first.name if claim.allocated?
+      COMPLETED_STATES.include?(@journey&.last&.to) ? @journey&.last&.author&.name : 'n/a'
     end
 
     def disk_evidence_case

@@ -30,7 +30,7 @@ RSpec.describe Stats::ManagementInformationGenerator do
                           'Misc fees'] }
 
   context 'when generating data' do
-    subject(:contents) { result.content.split("\n")}
+    subject(:contents) { result.content.split("\n") }
 
     let!(:valid_claims) {
       [

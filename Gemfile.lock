@@ -496,8 +496,8 @@ GEM
       mime-types
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
-    parallel (1.19.2)
-    parser (2.7.1.4)
+    parallel (1.20.0)
+    parser (2.7.2.0)
       ast (~> 2.4.1)
     pg (1.2.3)
     phantomjs (2.1.1.0)
@@ -610,17 +610,17 @@ GEM
     rspec-support (3.9.3)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (0.85.0)
+    rubocop (0.93.1)
       parallel (~> 1.10)
-      parser (>= 2.7.0.1)
+      parser (>= 2.7.1.5)
       rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 1.7)
+      regexp_parser (>= 1.8)
       rexml
-      rubocop-ast (>= 0.0.3)
+      rubocop-ast (>= 0.6.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 2.0)
-    rubocop-ast (0.1.0)
-      parser (>= 2.7.0.1)
+    rubocop-ast (1.1.1)
+      parser (>= 2.7.1.5)
     rubocop-performance (1.6.1)
       rubocop (>= 0.71.0)
     rubocop-rails (2.5.2)
@@ -860,7 +860,7 @@ DEPENDENCIES
   rspec-mocks
   rspec-rails (~> 4.0.1)
   rspec_junit_formatter
-  rubocop (~> 0.85)
+  rubocop (~> 0.93)
   rubocop-performance
   rubocop-rails
   rubocop-rspec

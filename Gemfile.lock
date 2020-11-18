@@ -423,11 +423,18 @@ GEM
       rspec (>= 2.0, < 4.0)
     jsonapi-renderer (0.2.2)
     jwt (2.2.2)
-    kaminari (0.17.0)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
-    kaminari-rspec (0.16.1)
-      kaminari (~> 0.16)
+    kaminari (1.2.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.2.1)
+      kaminari-activerecord (= 1.2.1)
+      kaminari-core (= 1.2.1)
+    kaminari-actionview (1.2.1)
+      actionview
+      kaminari-core (= 1.2.1)
+    kaminari-activerecord (1.2.1)
+      activerecord
+      kaminari-core (= 1.2.1)
+    kaminari-core (1.2.1)
     kgio (2.11.2)
     laa-fee-calculator-client (1.1.0)
       addressable (~> 2.3, >= 2.3.7)
@@ -830,8 +837,7 @@ DEPENDENCIES
   jquery-rails (~> 4.4.0)
   json-schema (~> 2.8.0)
   json_spec
-  kaminari (~> 0.17.0)
-  kaminari-rspec
+  kaminari (>= 1.2.1)
   laa-fee-calculator-client (~> 1.1)
   launchy (~> 2.5.0)
   libreconv (~> 0.9.5)

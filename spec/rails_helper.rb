@@ -63,7 +63,6 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'paperclip/matchers'
 require 'webmock/rspec'
-require 'kaminari_rspec'
 require 'vcr_helper'
 require 'sidekiq/testing'
 
@@ -95,7 +94,6 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
   config.include ViewSpecHelper, type: :view
-  config.include KaminariRspec::TestHelpers, type: :controller
   config.include ActionView::TestCase::Behavior, file_path: %r{spec/presenters}
   config.include ActiveSupport::Testing::TimeHelpers
   config.include JsonSpec::Helpers

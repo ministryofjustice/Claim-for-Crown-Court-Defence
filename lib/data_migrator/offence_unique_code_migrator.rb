@@ -72,7 +72,6 @@ module DataMigrator
       puts string if @stdout
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
     def output(code, offence, format)
       case format.downcase.to_sym
       when :sql
@@ -87,6 +86,5 @@ module DataMigrator
         puts "-- [would have] updated #{offence[:description]},#{offence[:band] || offence[:class_letter]}".white.concat(" unique_code: #{offence[:unique_code]} --> #{code}".green)
       end
     end
-    # rubocop:enable Metrics/CyclomaticComplexity
   end
 end

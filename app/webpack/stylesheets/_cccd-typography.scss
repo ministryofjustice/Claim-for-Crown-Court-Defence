@@ -70,6 +70,10 @@ header.main-header {
     @include core-36;
     display: block;
     font-weight: 700;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
   }
 
   .claim-status {

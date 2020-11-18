@@ -106,6 +106,11 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
+  it '#formatted_case_number' do
+    subject.case_number = 'S20094903'
+    expect(subject.formatted_case_number).to eql('S20 094 903')
+  end
+
   describe '#valid_transitions' do
     it 'should list valid transitions from allocated' do
       claim.state = 'allocated'

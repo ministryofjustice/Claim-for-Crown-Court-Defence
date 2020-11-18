@@ -18,7 +18,7 @@ class Determination < ApplicationRecord
   include NumberCommaParser
   numeric_attributes :fees, :expenses, :disbursements
 
-  belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: 'claim_id'
+  belongs_to :claim, class_name: 'Claim::BaseClaim'
 
   before_save :calculate_total, :calculate_vat
 

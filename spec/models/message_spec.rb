@@ -18,7 +18,7 @@ require 'rails_helper'
 
 RSpec.describe Message, type: :model do
   it { should belong_to(:claim) }
-  it { should belong_to(:sender).class_name('User').with_foreign_key('sender_id').inverse_of(:messages_sent) }
+  it { should belong_to(:sender).class_name('User').inverse_of(:messages_sent) }
   it { should have_many(:user_message_statuses) }
 
   it { should validate_presence_of(:sender).with_message('Message sender cannot be blank') }

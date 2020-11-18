@@ -50,11 +50,7 @@ module Fee
       end
 
       def validate_case_number(case_number)
-        if Settings.urn_enabled?
-          validate_case_number_or_urn_pattern(case_number)
-        else
-          validate_case_number_pattern(case_number)
-        end
+        validate_case_number_or_urn_pattern(case_number)
         add_error(:case_numbers, 'eqls_claim_case_number') if case_number.casecmp?(claim.case_number)
       end
 

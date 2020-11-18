@@ -31,7 +31,7 @@ TEMPFILE_NAME = File.join(Rails.root, 'tmp', 'document_spec', 'test.txt')
 RSpec.describe Document, type: :model do
 
   it { should belong_to(:external_user) }
-  it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
+  it { should belong_to(:creator).class_name('ExternalUser') }
   it { should belong_to(:claim) }
   it { should delegate_method(:provider_id).to(:external_user) }
 

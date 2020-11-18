@@ -32,10 +32,10 @@ module Claim
     numeric_attributes :fees_total, :expenses_total, :disbursements_total, :total, :vat_amount
 
     belongs_to :court
-    belongs_to :transfer_court, foreign_key: 'transfer_court_id', class_name: 'Court'
+    belongs_to :transfer_court, class_name: 'Court'
     belongs_to :offence
     belongs_to :external_user
-    belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'
+    belongs_to :creator, class_name: 'ExternalUser'
     belongs_to :case_type
     belongs_to :case_stage
 

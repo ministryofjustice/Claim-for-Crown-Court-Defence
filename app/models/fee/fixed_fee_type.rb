@@ -18,7 +18,7 @@
 
 class Fee::FixedFeeType < Fee::BaseFeeType
   has_many :children, class_name: 'Fee::FixedFeeType', foreign_key: :parent_id
-  belongs_to :parent, class_name: 'Fee::FixedFeeType', foreign_key: :parent_id
+  belongs_to :parent, class_name: 'Fee::FixedFeeType'
 
   default_scope -> { order(parent_id: :desc, description: :asc) }
 

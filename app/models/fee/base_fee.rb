@@ -35,7 +35,7 @@ module Fee
 
     auto_strip_attributes :case_numbers, squish: true, nullify: true
 
-    belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: :claim_id
+    belongs_to :claim, class_name: 'Claim::BaseClaim'
     belongs_to :fee_type, class_name: 'Fee::BaseFeeType'
     belongs_to :sub_type, class_name: 'Fee::BaseFeeType'
 

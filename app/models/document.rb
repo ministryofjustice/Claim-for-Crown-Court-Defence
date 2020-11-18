@@ -28,8 +28,8 @@ class Document < ApplicationRecord
   include Duplicable
 
   belongs_to :external_user
-  belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'
-  belongs_to :claim, class_name: 'Claim::BaseClaim', foreign_key: :claim_id
+  belongs_to :creator, class_name: 'ExternalUser'
+  belongs_to :claim, class_name: 'Claim::BaseClaim'
 
   validates_attachment :document,
                        presence: { message: 'Document must have an attachment' },

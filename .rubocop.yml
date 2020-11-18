@@ -166,6 +166,6 @@ Style/SingleArgumentDig: # (new in 0.89)
 Style/SoleNestedConditional: # (new in 0.89)
   Enabled: true
 Style/StringConcatenation: # (new in 0.89)
-  Enabled: true
+  Enabled: false
 
 inherit_from: .rubocop_todo.yml

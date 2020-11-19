@@ -69,7 +69,7 @@ module Claims::AllocationFilters
       where(type: 'Claim::InterimClaim')
         .joins(:fees)
         .where('"fees"."fee_type_id" = ?',
-               Fee::InterimFeeType.where(description: fee_type_description).pluck(:id).first)
+               Fee::InterimFeeType.where(description: fee_type_description).pick(:id))
     end
   end
 end

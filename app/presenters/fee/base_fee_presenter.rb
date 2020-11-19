@@ -95,7 +95,7 @@ class Fee::BaseFeePresenter < BasePresenter
   end
 
   def hint_tag(text)
-    h.content_tag :div, text, class: 'form-hint'
+    h.tag.div(text, class: 'form-hint')
   end
 
   def not_applicable
@@ -103,7 +103,7 @@ class Fee::BaseFeePresenter < BasePresenter
   end
 
   def not_applicable_tag(text)
-    h.content_tag :span, text, aria: { label: 'not applicable' }
+    h.tag.span(text, aria: { label: 'not applicable' })
   end
 
   def not_applicable_html

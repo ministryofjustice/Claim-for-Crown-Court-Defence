@@ -28,7 +28,7 @@ class AdpFormBuilder < ActionView::Helpers::FormBuilder
   private
 
   def anchor_and_label_markup(anchor_name, label, options = {})
-    anchor_html = content_tag(:a, nil, { id: anchor_name }.merge(options[:anchor_attributes] || {}))
+    anchor_html = tag.a(nil, { id: anchor_name }.merge(options[:anchor_attributes] || {}))
     label_html = nil
 
     if label

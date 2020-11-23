@@ -70,7 +70,7 @@ class ExpensePresenter < BasePresenter
   end
 
   def show_map_link?
-    if expense.mileage_rate_id&.eql?(1) && distance_reduced_or_accepted?
+    if expense.mileage_rate_id.eql?(1) && distance_reduced_or_accepted?
       false
     else
       true
@@ -78,7 +78,7 @@ class ExpensePresenter < BasePresenter
   end
 
   def state
-    if expense.mileage_rate_id&.eql?(1) && distance_acceptable?
+    if expense.mileage_rate_id.eql?(1) && distance_acceptable?
       'Accepted'
     else
       'Unverified'

@@ -41,15 +41,6 @@ Lint/MissingSuper:
     - 'lib/caching/memory_store.rb'
     - 'lib/caching/redis_store.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: instance_of?, kind_of?, is_a?, eql?, respond_to?, equal?
-Lint/RedundantSafeNavigation:
-  Exclude:
-    - 'app/controllers/provider_management/external_users_controller.rb'
-    - 'app/presenters/expense_presenter.rb'
-
 # Offense count: 2
 Lint/StructNewOverride:
   Exclude:

@@ -35,7 +35,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   def find; end
 
   def search
-    if @external_user&.is_a?(ExternalUser)
+    if @external_user.is_a?(ExternalUser)
       redirect_to provider_management_provider_external_user_path(@external_user.provider, @external_user)
     else
       redirect_to provider_management_external_users_find_path, alert: 'No provider found with that email'

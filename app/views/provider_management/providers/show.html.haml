@@ -43,4 +43,4 @@
 
 - if can? :edit, @provider
   .form-group
-    = govuk_link_button(href: edit_provider_management_provider_path(@provider)) { t('.edit') }
+    = govuk_link_button(t('.edit'), edit_provider_management_provider_path(@provider))

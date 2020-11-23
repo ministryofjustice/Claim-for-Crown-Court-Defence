@@ -4,7 +4,7 @@
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 .form-group.form-buttons
-  = govuk_link_button(href: new_provider_management_provider_external_user_path(@provider)) { t('.add_provider') }
+  = govuk_link_button(t('.add_provider'), new_provider_management_provider_external_user_path(@provider))
 
 %table{ summary: t('.table_summary', provider_name: @provider.name) }
   %caption

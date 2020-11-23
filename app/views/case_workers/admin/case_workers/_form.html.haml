@@ -34,4 +34,4 @@
             = b.check_box("aria-labelledby": "checkbox-control-legend-roles #{b.text.to_css_class}")
             = b.label(id: b.text.to_css_class) { b.value.humanize }
 
-    = govuk_button() { t('.save') }
+    = govuk_button(t('.save'))

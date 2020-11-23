@@ -37,7 +37,7 @@
         - if claim.editable?
           = t('.actions')
           .action-wrapper
-            = govuk_link_button(href: edit_polymorphic_path(claim), class: 'edit-claim') { t('buttons.edit_draft') }
+            = govuk_link_button(t('buttons.edit_draft'), edit_polymorphic_path(claim), class: 'edit-claim')
 
             -if claim.from_api? || claim.api_web_edited?
               = form_for @claim, as: :claim, url:polymorphic_path(claim, anchor: 'evidence_upload'), builder: AdpFormBuilder, multipart: true, authenticity_token: true do |f|
@@ -45,7 +45,7 @@
                 = f.hidden_field :form_id, value: @claim.form_id
                 = f.submit t('buttons.add_evidence'), name: 'commit_continue', class: 'govuk-button govuk-button--secondary', data: { module: 'govuk-button' }, role: 'button', draggable: 'false'
 
-            = govuk_link_button(href: external_users_claim_path(claim), class: 'delete-draft', 'data-method': 'delete', 'data-confirm': t('.confirm_text')) { t('buttons.delete_draft') }
+            = govuk_link_button(t('buttons.delete_draft'), external_users_claim_path(claim), class: 'delete-draft', 'data-method': 'delete', 'data-confirm': t('.confirm_text'))
 
         - if claim.archivable?
           = t('.actions')
@@ -53,7 +53,7 @@
             - if claim.rejected?
               = button_to t('.redraft'), clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'govuk-button resubmit-claim', form_class: 'inline-form', data: { module: 'govuk-button' }, role: 'button', draggable: 'false'
 
-            = govuk_link_button(href: external_users_claim_path(claim), 'data-method': 'delete', 'data-confirm': t('.confirm_text')) { t('.archive') }
+            = govuk_link_button(t('.archive'), external_users_claim_path(claim), 'data-method': 'delete', 'data-confirm': t('.confirm_text'))
 
         - if claim.archived_pending_delete? || claim.archived_pending_review?
           = t('.actions')

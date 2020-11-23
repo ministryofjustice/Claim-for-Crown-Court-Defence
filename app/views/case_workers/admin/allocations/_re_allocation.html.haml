@@ -42,7 +42,7 @@
           = f.label :case_worker_id, class: 'form-label-bold', id: :case_worker_id
           = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control form-control-full fx-autocomplete', 'aria-label': t('case_workers.admin.allocations.re_allocation.case_worker') }
         .column-one-half.margin-spacer-sm
-          = govuk_button() { t('.re_allocate') }
+          = govuk_button(t('.re_allocate'))
 
       - if @claims.any?
         .container.table-container

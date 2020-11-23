@@ -15,9 +15,9 @@
         = t('.unavailable_report')
     %p
       - if report&.started_at.present?
-        = govuk_link_button(href: case_workers_admin_management_information_download_url(report_type: report_type, format: :csv)) { t('.download') }
+        = govuk_link_button(t('.download'), case_workers_admin_management_information_download_url(report_type: report_type, format: :csv))
 
-      = govuk_link_button(href: case_workers_admin_management_information_generate_url(report_type: report_type)) { t('.regenerate') }
+      = govuk_link_button(t('.regenerate'), case_workers_admin_management_information_generate_url(report_type: report_type))
 
 #provisional-assessment-date.form-section.fx-dates-chooser
   .form-group
@@ -80,7 +80,7 @@
 
 
   .form-group
-    = govuk_link_button(disabled: 'true', id: 'provisional_assessments_date_download') { t('.download') }
+    = govuk_link_button(t('.download'), '', disabled: 'true', id: 'provisional_assessments_date_download')
 
 
 = govuk_inset_text do

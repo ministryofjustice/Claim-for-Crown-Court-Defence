@@ -12,6 +12,6 @@
     = f.input_field :password, autocomplete: 'off', class: "form-control"
 
   .form-group
-    = govuk_button() { t('.sign_in') }
+    = govuk_button(t('.sign_in'))
 
   = render "devise/shared/links"

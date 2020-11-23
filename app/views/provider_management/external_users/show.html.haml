@@ -42,7 +42,7 @@
 
 .form-group
   - if can? :edit, @external_user
-    = govuk_link_button(href: edit_provider_management_provider_external_user_path(@provider, @external_user)) { t('.edit') }
+    = govuk_link_button(t('.edit'), edit_provider_management_provider_external_user_path(@provider, @external_user))
 
   - if can? :change_password, @external_user
-    = govuk_link_button(href: change_password_provider_management_provider_external_user_path(@provider, @external_user)) { t('.change_password') }
+    = govuk_link_button(t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user))

@@ -5,7 +5,7 @@
 
 .form-section
   .form-group.form-buttons
-    = govuk_link_button(href: new_provider_management_provider_path) { t('.add_a_provider') }
-    = govuk_link_button_secondary(href: provider_management_external_users_find_path) { t('.find_provider_by_email') }
+    = govuk_link_button(t('.add_a_provider'), new_provider_management_provider_path)
+    = govuk_link_button_secondary(t('.find_provider_by_email'), provider_management_external_users_find_path)
 
 = render partial: 'providers', locals: { providers: @providers }

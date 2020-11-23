@@ -14,9 +14,9 @@
               = "#{selected_offence.offence_category.description} &gt; #{selected_offence.offence_band.description} &gt; #{selected_offence.description}".html_safe
 
         .form-group
-          = govuk_button(name: 'commit_continue') { t('buttons.continue') }
+          = govuk_button(t('buttons.continue'), name: 'commit_continue')
 
-          = govuk_link_button_secondary(href: '#', class: 'fx-clear-selection') do
+          = govuk_link_button_secondary('#', class: 'fx-clear-selection') do
             = t('clear_selection', scope: "#{locale_scope}.actions")
 
 .form-group.mod-search-input

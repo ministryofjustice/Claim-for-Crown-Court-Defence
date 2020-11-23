@@ -31,9 +31,9 @@
         = render partial: 'external_users/claims/final_claim_cost_summary', locals: { claim: claim }
 
         .form-buttons
-          = govuk_link_button(href: new_external_users_claim_certification_path(claim)) { t('buttons.continue') }
-          = govuk_link_button_secondary(href: external_users_root_path) { t('buttons.save_a_draft') }
-          = govuk_link_button_warning(href: external_users_claim_path(claim), 'data-confirm': 'Are you sure?', 'data-method': 'delete') { t('buttons.delete_draft') }
+          = govuk_link_button(t('buttons.continue'), new_external_users_claim_certification_path(claim))
+          = govuk_link_button_secondary(t('buttons.save_a_draft'), external_users_root_path)
+          = govuk_link_button_warning(t('buttons.delete_draft'), external_users_claim_path(claim), 'data-confirm': 'Are you sure?', 'data-method': 'delete')
 
   .grid-row
     .column-full

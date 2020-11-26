@@ -2,8 +2,45 @@
 // Buttons */
 // --------------------------------------- */
 
-.button-secondary {
-  @include button($govuk-blue);
+
+// Blue button variables
+$app-blue-button-colour: govuk-colour('blue');
+$app-blue-button-hover-colour: govuk-shade($app-blue-button-colour, 20%);
+$app-blue-button-shadow-colour: govuk-shade($app-blue-button-colour, 60%);
+$app-blue-button-text-colour: govuk-colour('white');
+
+$button-shadow-size: $govuk-border-width-form-element;
+
+.app-button--blue {
+  background-color: $app-blue-button-colour !important;
+  box-shadow: 0 $button-shadow-size 0 $app-blue-button-shadow-colour !important;
+
+  &,
+  &:link,
+  &:visited,
+  &:active,
+  &:hover {
+    color: $app-blue-button-text-colour  !important;
+  }
+
+  // alphagov/govuk_template includes a specific a:link:focus selector
+  // designed to make unvisited links a slightly darker blue when focussed, so
+  // we need to override the text colour for that combination of selectors so
+  // so that unvisited links styled as buttons do not end up with dark blue
+  // text when focussed.
+  @include govuk-compatibility(govuk_template) {
+    &:link:focus {
+      color: $app-blue-button-text-colour !important;
+    }
+  }
+
+  &:hover {
+    background-color: $app-blue-button-hover-colour !important;
+
+    &[disabled] {
+      background-color: $app-blue-button-colour !important;
+    }
+  }
 }
 
 .button-holder {
@@ -12,74 +49,7 @@
   margin-top: $gutter;
 }
 
-.btn-green {
-  @include button();
-}
-
-.button-grey-3,
-.button-gray-3 {
-
-  @include button($grey-3);
-  padding: .52632em .78947em .26316em;
-
-  @include media (mobile) {
-    text-align: center;
-    width: $full-width;
-  }
-}
-
-form .form-buttons * {
-  display: inline-block;
-  margin-right: $gutter-one-third;
-}
-
-
-
-// Buttons
-// ==========================================================================
-
-// Start now buttons
-.button-start,
-.button-get-started {
-  @include bold-24;
-  background-image: file-url("icon-pointer.png");
-  background-repeat: no-repeat;
-  background-position: $full-width $half;
-  padding: em(7) em(41) em(4) em(16);
-
-  @include device-pixel-ratio {
-    background-image: file-url("icon-pointer-2x.png");
-    background-size: 30px 19px;
-  }
-
-  @include ie(6) {
-    background-image: file-url("icon-pointer-2x.png");
-  }
-}
-
 .form-buttons * {
-  margin-right: $gutter-one-third;
   display: inline-block;
-}
-
-.button-tertiary {
-  @include button ($grey-2);
-}
-
-
-.button-warning {
-  @include button($error-colour);
-}
-
-
-/*--- Ported from v1 stylesheets ---*/
-
-.external-user-json-export {
-  margin-bottom: $gutter-one-third;
-}
-
-.certify-claim {
-  display: block;
-  width: 8.8em;
-  margin: $gutter-one-third 0;
+  margin-right: $gutter-one-third;
 }

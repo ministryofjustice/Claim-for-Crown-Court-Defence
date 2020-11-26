@@ -61,6 +61,6 @@
 
     .form-section
       .form-group.form-buttons
-        = f.submit t('.save_button'), class: 'button'
+        = govuk_button(t('.save_button'))
         - unless @provider.new_record?
-          = link_to t('.cancel_button'), external_users_admin_provider_path(@provider), class: 'link-secondary'
+          = govuk_link_button_secondary(t('.cancel_button'), external_users_admin_provider_path(@provider))

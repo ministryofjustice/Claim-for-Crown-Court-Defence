@@ -11,9 +11,9 @@
         = render 'external_users/claims/expenses/expense_fields', f: expense
 
   .form-section
-    = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class: 'button button-secondary blue btn-spacer-20', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.js-cocoon-expenses' }
+    = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class: 'govuk-button app-button--blue', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.js-cocoon-expenses', module: 'govuk-button' }, role: 'button', draggable: 'false'
 
-    = link_to t('.duplicate'), '', class: 'fx-duplicate-expense button-gray-3'
+    = govuk_link_button_secondary(t('.duplicate'), class: 'fx-duplicate-expense')
 
   .form-section.fx-additional-info
     = render 'external_users/claims/expenses/textarea_additional_info', f: f

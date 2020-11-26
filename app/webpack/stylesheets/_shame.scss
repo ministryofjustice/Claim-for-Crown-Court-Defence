@@ -417,10 +417,6 @@ form {
     font-weight: 700;
   }
 
-  .button-holder {
-    margin-top: $gutter;
-  }
-
   .radio-wrapper {
     margin-left: 5%;
     @include clearfix;
@@ -624,10 +620,6 @@ Styling for Claims Messaging
 }
 
 /*--- Dropzone end ---*/
-
-.btn-spacer-20 {
-  margin-right: $gutter-two-thirds;
-}
 
 .b {
   font-weight: 700;

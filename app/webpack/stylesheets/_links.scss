@@ -2,17 +2,6 @@
 /* Basic link styles */
 /* --------------------------------------- */
 
-a.link-secondary,
-a.fix {
-  position: relative;
-  padding: $gutter-one-third 0 $gutter-one-sixth;
-  border: none;
-
-  &:hover {
-    color: $light-blue;
-  }
-}
-
 .link-change {
   @include govuk-responsive-margin(4, "bottom");
   @include govuk-media-query ($from: desktop) {

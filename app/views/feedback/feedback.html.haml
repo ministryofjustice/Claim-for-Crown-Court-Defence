@@ -39,5 +39,5 @@
             = b.label(id: b.text.to_css_class) { b.object.first }
 
     .button-holder
-      = f.submit t('.send'), class: 'button button-primary', id: 'submit-button'
+      = govuk_button(t('.send'), id: 'submit-button')
 

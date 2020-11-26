@@ -37,7 +37,7 @@
           = collection_select :allocation, :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control form-control-full fx-autocomplete' }
       .column-one-third
         %br/
-        = submit_tag t('.allocate'), class: 'button allocation-submit'
+        = govuk_button(t('.allocate'), class: 'allocation-submit')
 
 
   %fieldset.inline
@@ -51,8 +51,7 @@
         = render partial: 'filter_value_bands'
       .column-one-third
         %br/
-        %button.clear-filters.button.button-secondary{ type: 'button' }
-          = t('.clear_filters')
+        = govuk_button(t('.clear_filters'), class: 'clear-filters app-button--blue')
 
   %h2.heading-medium
     = t('.allocation_queue')

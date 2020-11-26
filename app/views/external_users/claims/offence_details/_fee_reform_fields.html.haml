@@ -14,8 +14,9 @@
               = "#{selected_offence.offence_category.description} &gt; #{selected_offence.offence_band.description} &gt; #{selected_offence.description}".html_safe
 
         .form-group
-          %input.button.left.btn-spacer-20{ name: 'commit_continue', type: 'submit', value: 'Save and continue' }
-          %a.fx-clear-selection{ href: '#', 'aria-label': t('clear_offence_details', scope: "#{locale_scope}.actions") }
+          = govuk_button(t('buttons.continue'), name: 'commit_continue')
+
+          = govuk_link_button_secondary('#', class: 'fx-clear-selection') do
             = t('clear_selection', scope: "#{locale_scope}.actions")
 
 .form-group.mod-search-input

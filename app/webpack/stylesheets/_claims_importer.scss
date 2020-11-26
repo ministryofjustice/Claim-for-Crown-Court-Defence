@@ -19,10 +19,6 @@
     }
   }
 
-  button.button-secondary {
-    @include core-19;
-  }
-
   .errors {
     margin-top: $gutter-one-sixth;
     color: $red;

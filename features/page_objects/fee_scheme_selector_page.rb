@@ -10,5 +10,5 @@ class FeeSchemeSelectorPage < BasePage
   element :litigator_transfer_fee, "label[for='claim_type_lgfs_transfer']"
   element :litigator_hardship_fee, "label[for='claim_type_lgfs_hardship']"
 
-  element :continue, "div.form-group > input:nth-of-type(1)"
+  element :continue, "div.form-group > button:nth-of-type(1)"
 end

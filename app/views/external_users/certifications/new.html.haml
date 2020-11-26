@@ -110,5 +110,5 @@
         = f.gov_uk_date_field(:certification_date, form_hint_text: '', legend_text: t('.date'), legend_class: 'govuk-legend', id: 'certification_date')
 
     .button-holder
-      = f.submit t('.submit'), class: 'button left btn-spacer-20'
-      = link_to t('.return'), edit_polymorphic_path(@claim), class: 'button-gray-3 left'
+      = govuk_button(t('.submit'))
+      = govuk_link_button_secondary(t('.return'), edit_polymorphic_path(@claim))

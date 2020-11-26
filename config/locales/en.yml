@@ -380,6 +380,7 @@ en:
       legend: Search for a claim using a case number, defendant name or advocate/litigator name
     description: Description
     warning: 'Warning'
+    send: &send Send
   link:
     add_claim: Start a claim
     back: Back
@@ -2034,7 +2035,7 @@ en:
       update_claim_status: Update your claim status
       upload: "+ Upload"
       message_placeholder: Enter your message here
-      send: Send
+      send: *send
       accepted_files_help_text: "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
       remove_file_tool_tip: "Remove the file you have selected to upload"
       remove: Remove
@@ -2411,8 +2412,8 @@ en:
           page_title: View %{caseworker}'s details
           change_password: *change_password
           edit: Edit
+          edit_html: Edit <span class="govuk-visually-hidden">your account</span>
           page_heading: Your account
-          edit_aria_label: 'Edit your account'
           roles: Roles
       allocations:
         filter_value_bands:
@@ -2759,6 +2760,7 @@ en:
       event_label: What you were doing when the fault occurred?
       event_hint: Include as much information as possible, including the fee scheme (Advocate, Litigator final, Litigator interim or Litigator transfer) and case type
       outcome_label: What went wrong?
+      send: *send
     feedback:
       page_title: Help us improve this service
       error_summary: 'This feedback has '
@@ -2766,7 +2768,7 @@ en:
       callout: 'We will use your answers to the questions below to help us build a better service.'
       comment: 'Tell us about your experience of using this service today.'
       comment_hint: "Don't include any personal or sensitive information."
-      send: Send
+      send: *send
       rating: 'Overall, how satisfied were you with this service?'
 
   callout_banner:

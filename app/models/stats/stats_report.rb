@@ -22,7 +22,7 @@ module Stats
 
     scope :completed, -> { where(status: 'completed') }
     scope :errored, -> { where(status: 'error') }
-    scope :not_errored, -> { where('status != ?', 'error') }
+    scope :not_errored, -> { where.not(status: 'error') }
 
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
     scope :provisional_assessment, -> { not_errored.where(report_name: 'provisional_assessment') }

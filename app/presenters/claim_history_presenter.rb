@@ -42,7 +42,7 @@ class ClaimHistoryPresenter < BasePresenter
   end
 
   def messages
-    claim.messages.where('created_at IS NOT NULL').order(created_at: :asc)
+    claim.messages.where.not(created_at: nil).order(created_at: :asc)
   end
 
   def assessments

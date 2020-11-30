@@ -100,6 +100,9 @@ Rails/SquishedSQLHeredocs:
 Rails/WhereExists:
   Enabled: true
 
+Rails/WhereNot:
+  Enabled: true
+
 Style/DateTime:
   AllowCoercion: true
 

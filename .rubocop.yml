@@ -82,6 +82,9 @@ Rails/NegateInclude:
 Rails/Pluck:
   Enabled: true
 
+Rails/PluckInWhere:
+  Enabled: true
+
 Rails/RenderInline:
   Enabled: true
 

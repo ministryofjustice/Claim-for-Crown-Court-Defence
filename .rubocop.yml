@@ -94,6 +94,9 @@ Rails/RenderPlainText:
 Rails/ShortI18n:
   Enabled: true
 
+Rails/SquishedSQLHeredocs:
+  Enabled: false
+
 Rails/WhereExists:
   Enabled: true
 

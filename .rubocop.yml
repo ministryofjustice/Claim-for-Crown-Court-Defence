@@ -75,6 +75,10 @@ Rails/MailerName:
 
 Rails/MatchRoute:
   Enabled: true
+
+Rails/NegateInclude:
+  Enabled: true
+
 Rails/RenderInline:
   Enabled: true
 

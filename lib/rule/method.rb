@@ -43,7 +43,7 @@ module Rule
 
     def exclusion
       return options[:allow_nil] if src.nil? && !options[:allow_nil].nil?
-      !bound.include?(src)
+      bound.exclude?(src)
     end
 
     private

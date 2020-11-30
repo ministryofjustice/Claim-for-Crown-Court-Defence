@@ -79,6 +79,9 @@ Rails/MatchRoute:
 Rails/NegateInclude:
   Enabled: true
 
+Rails/Pluck:
+  Enabled: true
+
 Rails/RenderInline:
   Enabled: true
 

@@ -139,7 +139,7 @@ module Claims
 
       def current_fee_types
         return @current_fee_types if @current_fee_types
-        ids = current_page_fees.map { |pf| pf[:fee_type_id] }
+        ids = current_page_fees.pluck(:fee_type_id)
         @current_fee_types = Fee::BaseFeeType.where(id: ids)
       end
 

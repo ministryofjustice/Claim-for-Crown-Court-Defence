@@ -37,7 +37,7 @@ module GeckoboardPublisher
         expenses = Expense
                    .joins(:claim)
                    .where(claims: { original_submission_date: start_at..end_at })
-                   .where('calculated_distance IS NOT NULL')
+                   .where.not(calculated_distance: nil)
 
         record = { date: date.to_date.iso8601 }
         fields.from(1).map(&:id).each { |field| record[field.to_sym] = 0 }

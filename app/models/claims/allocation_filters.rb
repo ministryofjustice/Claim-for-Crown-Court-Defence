@@ -37,12 +37,11 @@ module Claims::AllocationFilters
     end
 
     def all_fixed_fee
-      where('"claims"."case_type_id" IN (?) OR "claims"."allocation_type" = ?', CaseType.fixed_fee.pluck(:id), 'Fixed')
+      where(case_type: CaseType.fixed_fee).or(where(allocation_type: 'Fixed'))
     end
 
     def all_graduated_fees
-      where('"claims"."case_type_id" IN (?) OR "claims"."allocation_type" = ?',
-            CaseType.graduated_fees.pluck(:id), 'Grad')
+      where(case_type: CaseType.graduated_fees).or(where(allocation_type: 'Grad'))
     end
 
     # An "interim fees" filter is for claims that are of type Claim::InterimClaim and have an interim fee that is of
@@ -51,7 +50,7 @@ module Claims::AllocationFilters
       interim_fee_types = ['Effective PCMH', 'Trial Start', 'Retrial New Solicitor', 'Retrial Start']
       where(type: 'Claim::InterimClaim')
         .joins(:fees)
-        .where('"fees"."fee_type_id" IN (?)', Fee::InterimFeeType.where(description: interim_fee_types).pluck(:id))
+        .where(fees: { fee_type: Fee::InterimFeeType.where(description: interim_fee_types) })
     end
 
     # A "warrants" filter is for claims that are of Type Claim::InterimClaim and have a fee type of Warrant

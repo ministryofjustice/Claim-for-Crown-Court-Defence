@@ -14,10 +14,10 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def show_sidebar?
-    !%i[case_details
-        defendants
-        offence_details
-        transfer_fee_details].include? claim.current_step
+    %i[case_details
+       defendants
+       offence_details
+       transfer_fee_details].exclude?(claim.current_step)
   end
 
   # NOTE: this is an interim solution for what probably should be

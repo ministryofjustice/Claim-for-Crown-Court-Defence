@@ -22,7 +22,7 @@ module Claims
         clean_database
       end
 
-      describe 'all_fixed-fee' do
+      describe 'all_fixed_fee' do
         it 'returns all claims with fixed fee case types' do
           expect(Claim::BaseClaim.all_fixed_fee).to match_array( [@claim_fixed_1, @claim_fixed_2] )
         end

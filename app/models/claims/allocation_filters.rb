@@ -51,7 +51,7 @@ module Claims::AllocationFilters
       where(type: 'Claim::InterimClaim')
         .joins(:fees)
         .where(fees: { fee_type: Fee::InterimFeeType.where(description: interim_fee_types) })
-  end
+    end
 
     # A "warrants" filter is for claims that are of Type Claim::InterimClaim and have a fee type of Warrant
     def all_interim_warrants

@@ -103,6 +103,9 @@ Rails/WhereExists:
 Rails/WhereNot:
   Enabled: true
 
+RSpec/StubbedMock:
+  Enabled: true
+
 Style/DateTime:
   AllowCoercion: true
 

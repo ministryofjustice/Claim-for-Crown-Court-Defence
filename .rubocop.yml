@@ -64,9 +64,10 @@ Performance/AncestorsInclude:
 Performance/BigDecimalWithNumericArgument:
   Enabled: true
 
-# Performance/BlockGivenWithExplicitBlock: # (new in 1.9)
-#   Enabled: true
-# Performance/CollectionLiteralInLoop: # (new in 1.8)
+Performance/BlockGivenWithExplicitBlock: # (new in 1.9)
+  Enabled: true
+
+  # Performance/CollectionLiteralInLoop: # (new in 1.8)
 #   Enabled: true
 
 Performance/ConstantRegexp:

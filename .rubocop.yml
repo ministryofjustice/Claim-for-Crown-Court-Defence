@@ -67,8 +67,8 @@ Performance/BigDecimalWithNumericArgument:
 Performance/BlockGivenWithExplicitBlock:
   Enabled: true
 
-# Performance/CollectionLiteralInLoop: # (new in 1.8)
-#   Enabled: true
+Performance/CollectionLiteralInLoop:
+  Enabled: true
 
 Performance/ConstantRegexp:
   Enabled: true

@@ -64,10 +64,10 @@ Performance/AncestorsInclude:
 Performance/BigDecimalWithNumericArgument:
   Enabled: true
 
-Performance/BlockGivenWithExplicitBlock: # (new in 1.9)
+Performance/BlockGivenWithExplicitBlock:
   Enabled: true
 
-  # Performance/CollectionLiteralInLoop: # (new in 1.8)
+# Performance/CollectionLiteralInLoop: # (new in 1.8)
 #   Enabled: true
 
 Performance/ConstantRegexp:
@@ -91,8 +91,8 @@ Performance/SortReverse:
 Performance/Squeeze:
   Enabled: true
 
-# Performance/StringInclude: # (new in 1.7)
-#   Enabled: true
+Performance/StringInclude:
+  Enabled: true
 
 Performance/Sum:
   Enabled: true

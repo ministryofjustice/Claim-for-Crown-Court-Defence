@@ -1,6 +1,6 @@
 module FeedbackHelper
   def referrer_is_claim?(referrer)
-    referrer =~ /claims/
+    referrer.include? 'claims'
   end
 
   def cannot_identify_user?

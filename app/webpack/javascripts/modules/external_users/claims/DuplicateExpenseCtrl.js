@@ -126,11 +126,10 @@ moj.Modules.DuplicateExpenseCtrl = {
    * @return {String}     the model name
    */
   getKeyName: function (obj) {
-    let str
     if (obj.name.indexOf('][') === -1) {
       return obj.name
     }
-    str = obj.name.split('][').slice(2)[0]
+    const str = obj.name.split('][').slice(2)[0]
     return str.substring(0, str.length - 1)
   },
 

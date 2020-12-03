@@ -78,12 +78,10 @@ if (!String.prototype.supplant) {
   })
 
   $('#basic-fees').on('change', '.js-fee-rate, .js-fee-quantity', function () {
-    let $el, quantity, rate, amount
-
-    $el = $(this).closest('.basic-fee-group')
-    quantity = $el.find('.js-fee-quantity').val()
-    rate = $el.find('.js-fee-rate').val()
-    amount = quantity * rate
+    const $el = $(this).closest('.basic-fee-group')
+    const quantity = $el.find('.js-fee-quantity').val()
+    const rate = $el.find('.js-fee-rate').val()
+    const amount = quantity * rate
 
     $el.find('.js-fee-amount').val(amount.toFixed(2))
   })

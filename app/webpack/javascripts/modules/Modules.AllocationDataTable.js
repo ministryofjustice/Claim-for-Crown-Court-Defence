@@ -311,14 +311,10 @@ moj.Modules.AllocationDataTable = {
 
       e.preventDefault()
       self.ui.$submit.prop('disabled', true)
-      let filters,
-        data,
-        quantity_to_allocate,
-        allocation_case_worker_id
 
-      quantity_to_allocate = $('#quantity_to_allocate').val() || false
+      const quantity_to_allocate = $('#quantity_to_allocate').val() || false
 
-      allocation_case_worker_id = $('#allocation_case_worker_id-select').val()
+      const allocation_case_worker_id = $('#allocation_case_worker_id-select').val()
 
       if (!allocation_case_worker_id) {
         // console.log('No Caseworker selected');
@@ -328,7 +324,7 @@ moj.Modules.AllocationDataTable = {
         return
       }
 
-      filters = {
+      const filters = {
         order: 'current',
         filter: 'applied',
         search: 'applied'
@@ -339,7 +335,7 @@ moj.Modules.AllocationDataTable = {
       }
 
       // get the raw data object
-      data = self.dataTable.rows(filters).data().splice(0, quantity_to_allocate || (self.itemsSelected() ? self.maxAllocationLimit : self.defaultAllocationLimit)).map(function (obj) {
+      const data = self.dataTable.rows(filters).data().splice(0, quantity_to_allocate || (self.itemsSelected() ? self.maxAllocationLimit : self.defaultAllocationLimit)).map(function (obj) {
         return obj.id
       }).join(',')
 

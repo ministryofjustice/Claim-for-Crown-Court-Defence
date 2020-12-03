@@ -1,4 +1,4 @@
-/* global $option:writable, Option, reasonTextState:writable */
+/* global Option */
 
 moj.Helpers.Blocks = {
   Base: function (options) {
@@ -284,17 +284,17 @@ moj.Helpers.Blocks = {
       this.$el.on('change', '.fx-travel-reason select', function (e) {
         e.stopPropagation()
 
-        let $option, state, location_type
+        let state
 
         // cache referance to selected option
-        $option = $(e.target).find('option:selected')
+        const $option = $(e.target).find('option:selected')
 
         // read  & set `reasonText` state
-        reasonTextState = $option.data('reasonText')
+        const reasonTextState = $option.data('reasonText')
         self.setState('.fx-travel-reason-other', reasonTextState)
 
         // read & set `locationType` value
-        location_type = $option.data('locationType') || ''
+        const location_type = $option.data('locationType') || ''
         self.setVal('.fx-location-type', location_type)
 
         // create the location `input / select` element
@@ -530,7 +530,7 @@ moj.Helpers.Blocks = {
       // build the `<options data-attr="" .. />` elements
       // This will handled the selected option as well
       this.expenseReasons[state.config.reasonSet].forEach(function (obj) {
-        $option = $(new Option(obj.reason, obj.id))
+        const $option = $(new Option(obj.reason, obj.id))
         $option.attr('data-reason-text', obj.reason_text)
         $option.attr('data-location-type', obj.location_type)
 

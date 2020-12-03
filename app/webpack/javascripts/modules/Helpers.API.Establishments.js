@@ -69,8 +69,7 @@
   // Query will merge the settings
   // and delegate to ..API.CORE
   function query (ajaxConfig) {
-    let mergedSettings
-    mergedSettings = $.extend(settings.ajax, ajaxConfig)
+    const mergedSettings = $.extend(settings.ajax, ajaxConfig)
     return moj.Helpers.API._CORE.query(mergedSettings)
   }
 
@@ -108,9 +107,8 @@
   // events are triggered
   function getAsOptions (category, selected) {
     const results = getLocationByCategory(category)
-    let def
     if (results.length == 0) throw Error('Missing results: no data to build options with')
-    def = $.Deferred()
+    const def = $.Deferred()
     formControls.getOptions(results, selected).then(function (els) {
       def.resolve(els)
     }, function () {

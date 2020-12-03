@@ -29,7 +29,6 @@ describe('Modules.Autocomplete', function () {
 
     describe('...bh', function () {
       it('should return a Bloodhound instance', function () {
-        let bh
         const data = {
           local: [{
             id: '10',
@@ -39,7 +38,7 @@ describe('Modules.Autocomplete', function () {
             displayName: 'Before trial transfer'
           }]
         }
-        bh = module.bh(data)
+        const bh = module.bh(data)
         expect(bh.all()).toEqual(data.local)
       })
     })

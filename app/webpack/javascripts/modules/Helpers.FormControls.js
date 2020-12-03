@@ -45,7 +45,6 @@
   function getOptions (collection, selected) {
     const def = $.Deferred()
     const optionsArray = []
-    let collectionSize
     let option
     selected = selected || {
       value: 'miss-match'
@@ -55,7 +54,7 @@
     }
 
     optionsArray.push(new Option('Please select', '').outerHTML)
-    collectionSize = collection.length
+    const collectionSize = collection.length
 
     collection.forEach(function (obj, idx) {
       option = new Option(obj.name, obj.id, (obj[selected.prop] === selected.value))

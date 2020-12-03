@@ -218,8 +218,7 @@ describe('Modules.SideBar.js', function () {
 
     describe('...render', function () {
       it('should update the view correctly', function () {
-        let $el
-        $el = $(moj.Modules.SideBar.el)
+        const $el = $(moj.Modules.SideBar.el)
 
         moj.Modules.SideBar.totals = {
           fees: 54321.34,

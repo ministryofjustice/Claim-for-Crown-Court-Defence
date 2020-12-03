@@ -5,7 +5,6 @@
 
   //
   Module.new = function (element, options) {
-    let selectElement, config
     if (!(typeof element === 'string' || element instanceof String)) {
       throw new Error('Param: `element` is missing or not a string')
     }
@@ -13,10 +12,10 @@
       throw new Error('No element found. Usage: `#selector`')
     }
 
-    selectElement = document.querySelector(element)
+    const selectElement = document.querySelector(element)
 
     // Merge options and defaults
-    config = $.extend({}, {
+    const config = $.extend({}, {
       selectElement: selectElement,
 
       // This setting will auto select the top result

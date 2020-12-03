@@ -49,12 +49,13 @@
         %tr
           %th{ scope: 'col' }
             = t('shared.summary.fee_type')
-          %th{ scope: 'col' }
-            = t('shared.summary.dates')
-          %th.numeric{ scope: 'col' }
-            = t('shared.summary.quantity')
-          %th.numeric{ scope: 'col' }
-            = t('shared.summary.rate')
+          - unless claim.lgfs?
+            %th{ scope: 'col' }
+              = t('shared.summary.dates')
+            %th.numeric{ scope: 'col' }
+              = t('shared.summary.quantity')
+            %th.numeric{ scope: 'col' }
+              = t('shared.summary.rate')
           %th.numeric{ scope: 'col' }
             = t('shared.summary.amount')
           %th.numeric{ scope: 'col' }
@@ -70,12 +71,13 @@
         %tr
           %th{ scope: 'row' }
             = t('shared.summary.total')
-          %td.numeric
-            = ''
-          %td.numeric
-            = ''
-          %td.numeric
-            = ''
+          - unless claim.lgfs?
+            %td.numeric
+              = ''
+            %td.numeric
+              = ''
+            %td.numeric
+              = ''
           %td.numeric
             = claim.send("#{section}_total")
           %td.numeric

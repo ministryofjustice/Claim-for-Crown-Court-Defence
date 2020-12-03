@@ -1,3 +1,5 @@
+/* global accessibleAutocomplete */
+
 (function (exports, $) {
   const Module = exports.Helpers.Autocomplete || {}
 

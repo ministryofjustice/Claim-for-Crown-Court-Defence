@@ -1,3 +1,5 @@
+/* global $form:writable, loadFixtures, $indictmentEvidence:writable, $submitButton:writable, $saveDraftButton:writable */
+
 describe('supportingEvidence', function () {
   const submitCallback = jasmine.createSpy('submit').and.returnValue(false)
   let confirmAlert

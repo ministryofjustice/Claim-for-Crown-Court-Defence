@@ -1,3 +1,5 @@
+/* global spyOnEvent */
+
 describe('Helpers.Blocks.js', function () {
   it('should exist with expected constructors', function () {
     expect(moj.Helpers.Blocks).toBeDefined()

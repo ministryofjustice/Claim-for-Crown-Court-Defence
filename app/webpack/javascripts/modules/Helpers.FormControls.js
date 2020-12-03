@@ -1,3 +1,5 @@
+/* global Option */
+
 // Helpers.FormControls.getSelect
 (function (exports, $) {
   const Module = exports.Helpers.FormControls || {}

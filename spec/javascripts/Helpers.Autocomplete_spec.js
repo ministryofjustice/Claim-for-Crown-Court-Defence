@@ -1,3 +1,5 @@
+/* global accessibleAutocomplete */
+
 describe('Helpers.Autocomplete.js', function () {
   const helper = moj.Helpers.Autocomplete
 

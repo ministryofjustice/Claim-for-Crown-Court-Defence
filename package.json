@@ -43,6 +43,8 @@
     "webpack": "^4.44.2"
   },
   "standard": {
+    "env": [ "jasmine", "jquery" ],
+    "globals": [ "GOVUK", "moj" ],
     "ignore": [ "app/webpack/javascripts/vendor/", "spec/javascripts/helpers/" ]
   },
   "@comments": {

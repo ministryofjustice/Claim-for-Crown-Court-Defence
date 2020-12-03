@@ -1,3 +1,5 @@
+/* global confirm */
+
 moj.Modules.NewClaim = {
   init: function () {
     $.numberedList({

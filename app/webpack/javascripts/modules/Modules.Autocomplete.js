@@ -1,3 +1,5 @@
+/* global Bloodhound */
+
 moj.Modules.Autocomplete = {
   displayNameKey: 'displayName',
   selectSelector: 'select.typeahead',

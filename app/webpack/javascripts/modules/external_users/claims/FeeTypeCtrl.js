@@ -1,3 +1,5 @@
+/* global show:writable, readOnly:writable */
+
 moj.Modules.FeeTypeCtrl = {
   activate: function () {
     return $('#claim_form_step').val() === 'miscellaneous_fees'

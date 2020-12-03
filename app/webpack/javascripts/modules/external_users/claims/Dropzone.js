@@ -1,3 +1,5 @@
+/* global Dropzone, FormData, XMLHttpRequest */
+
 moj.Modules.Dropzone = {
   init: function () {
     const self = this

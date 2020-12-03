@@ -1,3 +1,5 @@
+/* global $option:writable, Option, reasonTextState:writable */
+
 moj.Helpers.Blocks = {
   Base: function (options) {
     const _options = {

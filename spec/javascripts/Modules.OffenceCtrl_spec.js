@@ -1,12 +1,11 @@
-describe("Modules.OffenceCtrl.js", function() {
-  var module = moj.Modules.OffenceCtrl;
+describe('Modules.OffenceCtrl.js', function () {
+  const module = moj.Modules.OffenceCtrl
 
-  var view = function(data) {
-
+  const view = function (data) {
     data = $.extend({}, data, {
       value: '',
       fee_scheme: 'AGFS 10'
-    });
+    })
     return $([
       '<div id="offence-view">',
       '<div id="cc-offence">',
@@ -20,57 +19,54 @@ describe("Modules.OffenceCtrl.js", function() {
       '<div class="offence-class-select"></div>',
       '<input type="hidden" value="" id="claim_offence_id">',
       '</div>'
-    ].join(''));
-  };
+    ].join(''))
+  }
 
+  beforeEach(function () {
+    $('body').append(view())
+  })
 
-  beforeEach(function() {
-    $('body').append(view());
-  });
+  afterEach(function () {
+    $('body #offence-view').remove()
+  })
 
-  afterEach(function() {
-    $('body #offence-view').remove();
-  });
+  describe('...defaults', function () {
+    it('should behave `els` selectors defined', function () {
+      expect(module.els.offenceClassSelectWrapper).toEqual('.offence-class-select')
+      expect(module.els.offenceClassSelect).toEqual('#offence_class_description')
+      expect(module.els.offenceID).toEqual('#claim_offence_id')
+      expect(module.els.offenceCategoryDesc).toEqual('#claim_offence_category_description')
+    })
+  })
 
-  describe('...defaults', function() {
-    it('should behave `els` selectors defined', function() {
-      expect(module.els.offenceClassSelectWrapper).toEqual('.offence-class-select');
-      expect(module.els.offenceClassSelect).toEqual('#offence_class_description');
-      expect(module.els.offenceID).toEqual('#claim_offence_id');
-      expect(module.els.offenceCategoryDesc).toEqual('#claim_offence_category_description');
+  describe('...Methods', function () {
+    describe('...init', function () {
+      it('should call `this.autocomplete`...', function () {
+        spyOn(module, 'autocomplete')
 
-    });
-  });
+        module.init()
+        expect(module.autocomplete).toHaveBeenCalledWith()
+      })
+      it('should call `this.checkState`...', function () {
+        spyOn(module, 'checkState')
 
+        module.init()
+        expect(module.checkState).toHaveBeenCalledWith()
+      })
+      it('should call `this.bindEvents`...', function () {
+        spyOn(module, 'bindEvents')
 
-  describe('...Methods', function() {
-    describe('...init', function() {
-      it('should call `this.autocomplete`...', function() {
-        spyOn(module, 'autocomplete');
+        module.init()
+        expect(module.bindEvents).toHaveBeenCalledWith()
+      })
+    })
+    describe('...checkState', function () {
+      it('should call `this.attachToOffenceClassSelect`...', function () {
+        spyOn(module, 'attachToOffenceClassSelect')
 
-        module.init();
-        expect(module.autocomplete).toHaveBeenCalledWith();
-      });
-      it('should call `this.checkState`...', function() {
-        spyOn(module, 'checkState');
-
-        module.init();
-        expect(module.checkState).toHaveBeenCalledWith();
-      });
-      it('should call `this.bindEvents`...', function() {
-        spyOn(module, 'bindEvents');
-
-        module.init();
-        expect(module.bindEvents).toHaveBeenCalledWith();
-      });
-    });
-    describe('...checkState', function() {
-      it('should call `this.attachToOffenceClassSelect`...', function() {
-        spyOn(module, 'attachToOffenceClassSelect');
-
-        module.checkState();
-        expect(module.attachToOffenceClassSelect).toHaveBeenCalledWith();
-      });
-    });
-  });
-});
+        module.checkState()
+        expect(module.attachToOffenceClassSelect).toHaveBeenCalledWith()
+      })
+    })
+  })
+})

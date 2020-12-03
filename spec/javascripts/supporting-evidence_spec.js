@@ -1,87 +1,73 @@
 describe('supportingEvidence', function () {
+  const submitCallback = jasmine.createSpy('submit').and.returnValue(false)
+  let confirmAlert
 
-  var submitCallback = jasmine.createSpy('submit').and.returnValue(false),
-      confirmAlert;
+  $form = function () {
+    return $('#supporting-evidence-fixture-form')
+  }
 
-  $form = function() {
-    return $('#supporting-evidence-fixture-form');
-  };
+  $submitButton = function () {
+    return $('input[name="commit_submit_claim"]')
+  }
 
-  $submitButton = function() {
-    return $('input[name="commit_submit_claim"]');
-  };
+  $saveDraftButton = function () {
+    return $('input[name="commit_save_draft"]')
+  }
 
-  $saveDraftButton = function() {
-    return $('input[name="commit_save_draft"]');
-  };
-
-  $indictmentEvidence = function() {
-    return $('#claim_evidence_checklist_ids_4');
-  };
+  $indictmentEvidence = function () {
+    return $('#claim_evidence_checklist_ids_4')
+  }
 
   beforeEach(function () {
-    loadFixtures('supporting-evidence.html');
+    loadFixtures('supporting-evidence.html')
 
-    $form().submit(submitCallback);
-    confirmAlert = spyOn(window, 'confirm');
+    $form().submit(submitCallback)
+    confirmAlert = spyOn(window, 'confirm')
 
-    moj.Modules.NewClaim.initSubmitValidation();
-  });
+    moj.Modules.NewClaim.initSubmitValidation()
+  })
 
+  describe('on claim submit', function () {
+    describe('should alert when copy of the indictment is not selected in the supporting evidence checklist', function () {
+      it('and do not submit the form if answer to confirm is Cancel', function () {
+        confirmAlert.and.returnValue(false)
 
-  describe('on claim submit', function() {
+        $submitButton().click()
 
-    describe('should alert when copy of the indictment is not selected in the supporting evidence checklist', function() {
+        expect(confirmAlert).toHaveBeenCalled()
+        expect(submitCallback).not.toHaveBeenCalled()
+      })
 
-      it('and do not submit the form if answer to confirm is Cancel', function() {
-        confirmAlert.and.returnValue(false);
+      it('and submit the form if answer to confirm is OK', function () {
+        confirmAlert.and.returnValue(true)
 
-        $submitButton().click();
+        $submitButton().click()
 
-        expect(confirmAlert).toHaveBeenCalled();
-        expect(submitCallback).not.toHaveBeenCalled();
-      });
+        expect(confirmAlert).toHaveBeenCalled()
+        expect(submitCallback).toHaveBeenCalled()
+      })
+    })
 
-      it('and submit the form if answer to confirm is OK', function() {
-        confirmAlert.and.returnValue(true);
+    describe('should not alert when copy of the indictment is selected in the supporting evidence checklist', function () {
+      it('and submit the form', function () {
+        $indictmentEvidence().click()
 
-        $submitButton().click();
+        $submitButton().click()
 
-        expect(confirmAlert).toHaveBeenCalled();
-        expect(submitCallback).toHaveBeenCalled();
-      });
+        expect(confirmAlert).not.toHaveBeenCalled()
+        expect(submitCallback).toHaveBeenCalled()
+      })
+    })
+  })
 
-    });
+  describe('on claim save draft', function () {
+    describe('should not alert when copy of the indictment is not selected in the supporting evidence checklist', function () {
+      it('and submit the form', function () {
+        $saveDraftButton().click()
 
-    describe('should not alert when copy of the indictment is selected in the supporting evidence checklist', function() {
-
-      it('and submit the form', function() {
-        $indictmentEvidence().click();
-
-        $submitButton().click();
-
-        expect(confirmAlert).not.toHaveBeenCalled();
-        expect(submitCallback).toHaveBeenCalled();
-      });
-
-    });
-
-  });
-
-
-  describe('on claim save draft', function() {
-
-    describe('should not alert when copy of the indictment is not selected in the supporting evidence checklist', function() {
-
-      it('and submit the form', function() {
-        $saveDraftButton().click();
-
-        expect(confirmAlert).not.toHaveBeenCalled();
-        expect(submitCallback).toHaveBeenCalled();
-      });
-
-    });
-
-  });
-
-});
+        expect(confirmAlert).not.toHaveBeenCalled()
+        expect(submitCallback).toHaveBeenCalled()
+      })
+    })
+  })
+})

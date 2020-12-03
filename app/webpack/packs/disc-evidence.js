@@ -1,1 +1,1 @@
-import '../stylesheets/pdf.scss';
+import '../stylesheets/pdf.scss'

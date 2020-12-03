@@ -1,11 +1,10 @@
-describe("Modules.DisbursementCtrl.js", function() {
-  var module = moj.Modules.DisbursementsCtrl;
+describe('Modules.DisbursementCtrl.js', function () {
+  const module = moj.Modules.DisbursementsCtrl
 
-  var view = function(data) {
-
+  const view = function (data) {
     data = $.extend({}, data, {
-      value: '',
-    });
+      value: ''
+    })
     return $([
       '<div id="disbursements-view">',
       '<div id="disbursements">',
@@ -13,50 +12,47 @@ describe("Modules.DisbursementCtrl.js", function() {
       ' <br/>',
       '</div>',
       '</div>'
-    ].join(''));
-  };
+    ].join(''))
+  }
 
+  beforeEach(function () {
+    $('body').append(view())
+  })
 
-  beforeEach(function() {
-    $('body').append(view());
-  });
+  afterEach(function () {
+    $('body #offence-view').remove()
+  })
 
-  afterEach(function() {
-    $('body #offence-view').remove();
-  });
+  describe('...defaults', function () {
+    it('should behave `els` selectors defined', function () {
+      expect(module.els.fxAutocomplete).toEqual('.fx-autocomplete')
+    })
+  })
 
-  describe('...defaults', function() {
-    it('should behave `els` selectors defined', function() {
-      expect(module.els.fxAutocomplete).toEqual('.fx-autocomplete');
-    });
-  });
-
-
-  describe('...Methods', function() {
-    describe('...init', function() {
+  describe('...Methods', function () {
+    describe('...init', function () {
       it('...should call `initAutocomplete`', function () {
-        spyOn(module, 'initAutocomplete');
-        module.init();
-        expect(module.initAutocomplete).toHaveBeenCalledWith();
-      });
+        spyOn(module, 'initAutocomplete')
+        module.init()
+        expect(module.initAutocomplete).toHaveBeenCalledWith()
+      })
 
       it('...should call `bindEvents`', function () {
-        spyOn(module, 'bindEvents');
-        module.init();
-        expect(module.bindEvents).toHaveBeenCalledWith();
-      });
-    });
-    describe('...bindEvents', function() {
+        spyOn(module, 'bindEvents')
+        module.init()
+        expect(module.bindEvents).toHaveBeenCalledWith()
+      })
+    })
+    describe('...bindEvents', function () {
       it('...should bind on the `cocoon:after-insert`', function () {
-        spyOn(moj.Helpers.Autocomplete, 'new');
+        spyOn(moj.Helpers.Autocomplete, 'new')
 
-        module.init();
+        module.init()
 
-        $('#disbursements').trigger('cocoon:after-insert');
+        $('#disbursements').trigger('cocoon:after-insert')
 
-
-        expect(moj.Helpers.Autocomplete.new).toHaveBeenCalled();
-      });
-    });
-  });
-});
+        expect(moj.Helpers.Autocomplete.new).toHaveBeenCalled()
+      })
+    })
+  })
+})

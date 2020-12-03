@@ -1,13 +1,12 @@
 moj.Modules.AmountAssessed = {
   blocks: [],
   init: function () {
-    this.blocks.push(new moj.Modules.AmountAssessedBlock());
+    this.blocks.push(new moj.Modules.AmountAssessedBlock())
   }
-};
-
+}
 
 moj.Modules.AmountAssessedBlock = function (selector) {
-  var self = this;
+  const self = this
 
   this.config = {
     hook: selector || '.fx-assesment-hook',
@@ -20,7 +19,7 @@ moj.Modules.AmountAssessedBlock = function (selector) {
     otherCheckbox: '#state_reason_other',
     otherRefuseCheckbox: '#state_reason_other_refuse',
     action: 'toggle'
-  };
+  }
 
   this.states = {
     rejected: {
@@ -43,85 +42,85 @@ moj.Modules.AmountAssessedBlock = function (selector) {
       reasons: false,
       refuseReasons: false
     }
-  };
+  }
 
-  this.el = this.config.hook;
+  this.el = this.config.hook
 
   this.init = function () {
-    this.$el = $(this.el);
-    this.$form = $(this.config.form);
-    this.$actions = $(this.config.actions);
-    this.$reasons = $(this.config.reasons);
-    this.$refuseReasons = $(this.config.refuseReasons);
-    this.$otherinput = $(this.config.otherinput);
-    this.$otherRefuseInput = $(this.config.otherRefuseInput);
-    this.$otherCheckbox = $(this.config.otherCheckbox);
-    this.$otherRefuseCheckbox = $(this.config.otherRefuseCheckbox);
-    this.bindEvents();
-    this.setInitState();
-  };
+    this.$el = $(this.el)
+    this.$form = $(this.config.form)
+    this.$actions = $(this.config.actions)
+    this.$reasons = $(this.config.reasons)
+    this.$refuseReasons = $(this.config.refuseReasons)
+    this.$otherinput = $(this.config.otherinput)
+    this.$otherRefuseInput = $(this.config.otherRefuseInput)
+    this.$otherCheckbox = $(this.config.otherCheckbox)
+    this.$otherRefuseCheckbox = $(this.config.otherRefuseCheckbox)
+    this.bindEvents()
+    this.setInitState()
+  }
 
   this.slider = function (state, el) {
     // open and close slider
     // true: open
     // false: close
-    return state ? $(el).removeClass('hidden') : $(el).addClass('hidden');
-  };
+    return state ? $(el).removeClass('hidden') : $(el).addClass('hidden')
+  }
 
   this.bindEvents = function () {
-    var self = this;
+    const self = this
 
     this.$actions.on('change', function (e) {
-      var state = $(e.target).val();
+      const state = $(e.target).val()
       $.publish('claim.status.change', {
         state: state
       })
-    });
+    })
 
     this.$reasons.on('change', function (e) {
-      var reason = self.$otherCheckbox.is(':checked');
+      const reason = self.$otherCheckbox.is(':checked')
       $.publish('claim.reasons.change', {
         reason: reason
-      });
-    });
+      })
+    })
 
     this.$refuseReasons.on('change', function (e) {
-      var reason = self.$otherRefuseCheckbox.is(':checked');
+      const reason = self.$otherRefuseCheckbox.is(':checked')
       $.publish('claim.refuseReasons.change', {
         reason: reason
       })
-    });
+    })
 
     $.subscribe('claim.reasons.change', function (e, data) {
       data.reason ? self.slider(true, self.$otherinput) : self.slider(false, self.$otherinput)
-    });
+    })
 
     $.subscribe('claim.refuseReasons.change', function (e, data) {
       data.reason ? self.slider(true, self.$otherRefuseInput) : self.slider(false, self.$otherRefuseInput)
-    });
+    })
 
     $.subscribe('claim.status.change', function (e, data) {
-      var state = self.states[data.state]
+      const state = self.states[data.state]
       self.$form.is(function (idx, el) {
         self.slider(state.form, el)
-      });
+      })
 
       self.$reasons.is(function (idx, el) {
         self.slider(state.reasons, el)
-      });
+      })
 
       self.$refuseReasons.is(function (idx, el) {
         self.slider(state.refuseReasons, el)
-      });
-    });
-  };
-
-  this.setInitState = function () {
-    this.$actions.find('input:checked').trigger('change');
-    this.$reasons.find('input:checked').trigger('change');
-    this.$refuseReasons.find('input:checked').trigger('change');
+      })
+    })
   }
 
-  this.init();
-  return this;
-};
+  this.setInitState = function () {
+    this.$actions.find('input:checked').trigger('change')
+    this.$reasons.find('input:checked').trigger('change')
+    this.$refuseReasons.find('input:checked').trigger('change')
+  }
+
+  this.init()
+  return this
+}

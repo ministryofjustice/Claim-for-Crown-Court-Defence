@@ -1,12 +1,11 @@
-describe("Modules.OffenceSearchInput.js", function () {
-  var module = moj.Modules.OffenceSearchInput;
+describe('Modules.OffenceSearchInput.js', function () {
+  const module = moj.Modules.OffenceSearchInput
 
-  var view = function (data) {
-
+  const view = function (data) {
     data = $.extend({}, data, {
       value: '',
       fee_scheme: 'AGFS 10'
-    });
+    })
     return $([
       '<div class="form-group mod-search-input">',
       '  <label class="form-label" for="offence">',
@@ -18,215 +17,211 @@ describe("Modules.OffenceSearchInput.js", function () {
       '  <input value="' + data.value + '" class="fx-model" type="hidden" name="claim[offence_id]" id="claim_offence_id" />',
       '  <input value="' + data.fee_scheme + '" class="fx-fee-scheme" name="claim[fee_scheme]" id="claim_fee_scheme" type="hidden">',
       '</div>'
-    ].join(''));
+    ].join(''))
   }
 
-
   beforeEach(function () {
-    $('body .mod-search-input').remove();
-    $('body').append(view());
-  });
+    $('body .mod-search-input').remove()
+    $('body').append(view())
+  })
 
   afterEach(function () {
 
-  });
+  })
 
   describe('...defaults', function () {
     it('`this.el`', function () {
       expect(module.el).toEqual('.mod-search-input')
-    });
+    })
     it('`this.input`', function () {
       expect(module.input).toEqual('.fx-input')
-    });
+    })
     it('`this.model`', function () {
       expect(module.model).toEqual('.fx-model')
-    });
+    })
     it('`this.feeScheme`', function () {
       expect(module.feeScheme).toEqual('.fx-fee-scheme')
-    });
+    })
     it('`this.debouce`', function () {
       expect(module.debouce).toEqual(500)
-    });
+    })
     it('`this.subscribers`', function () {
       expect(module.subscribers).toEqual({
         run: '/offence/search/run/',
         filter: '/offence/search/filter/'
       })
-    });
+    })
     it('`this.publishers`', function () {
       expect(module.publishers).toEqual({
         results: '/offence/search/results/'
       })
-    });
-  });
-
+    })
+  })
 
   describe('...Methods', function () {
     describe('...init', function () {
       it('should check the dom and `init` if required, caching a `$el` referance ', function () {
-        spyOn(module, 'bindEvents');
+        spyOn(module, 'bindEvents')
 
-        module.init();
-        expect(module.bindEvents).toHaveBeenCalled();
+        module.init()
+        expect(module.bindEvents).toHaveBeenCalled()
         expect(module.$el.length).toEqual(1)
         expect(module.$input.length).toEqual(1)
         expect(module.$model.length).toEqual(1)
         expect(module.$feeScheme.length).toEqual(1)
-      });
-    });
+      })
+    })
 
     describe('...bindEvents', function () {
       it('should bind `clearSearch`', function () {
         spyOn(module, 'clearSearch')
-        spyOn(module, 'trackUserInput');
-        module.init();
-        expect(module.clearSearch).toHaveBeenCalled();
-        expect(module.trackUserInput).toHaveBeenCalled();
-      });
-    });
+        spyOn(module, 'trackUserInput')
+        module.init()
+        expect(module.clearSearch).toHaveBeenCalled()
+        expect(module.trackUserInput).toHaveBeenCalled()
+      })
+    })
 
     describe('...bindSubscribers', function () {
       it('should subscribe to the `this.subscribers.run` event', function () {
-        spyOn(module, 'runQuery');
-        module.init();
+        spyOn(module, 'runQuery')
+        module.init()
 
         $.publish('/offence/search/run/')
 
-        expect(module.runQuery).toHaveBeenCalled();
-      });
-    });
+        expect(module.runQuery).toHaveBeenCalled()
+      })
+    })
 
     describe('...runQuery', function () {
       it('should construct the `dataOptions` object correctly', function () {
-        var deferred = $.Deferred();
-        var spy = spyOn(module, 'query').and.returnValue(deferred.promise());
-        spyOn($, 'publish');
+        const deferred = $.Deferred()
+        const spy = spyOn(module, 'query').and.returnValue(deferred.promise())
+        spyOn($, 'publish')
 
-        module.init();
+        module.init()
 
-        module.$input.val('test term');
+        module.$input.val('test term')
 
         // No options
-        module.runQuery();
+        module.runQuery()
 
         expect(module.query).toHaveBeenCalledWith({
           fee_scheme: 'AGFS 10',
           search_offence: 'test term'
-        });
+        })
 
-        spy.calls.reset();
+        spy.calls.reset()
 
         // category_id
         module.runQuery({
           category_id: 2
-        });
+        })
 
         expect(module.query).toHaveBeenCalledWith({
           fee_scheme: 'AGFS 10',
           search_offence: 'test term',
           category_id: 2
-        });
+        })
 
-        spy.calls.reset();
+        spy.calls.reset()
 
         // band_id
         module.runQuery({
           band_id: 22,
           category_id: 99
-        });
+        })
 
         expect(module.query).toHaveBeenCalledWith({
           fee_scheme: 'AGFS 10',
           search_offence: 'test term',
           band_id: 22,
           category_id: 99
-        });
-      });
+        })
+      })
 
       it('should show the `clear search` link', function () {
-        var deferred = $.Deferred();
-        var spy = spyOn(module, 'query').and.returnValue(deferred.promise());
-        spyOn($, 'publish');
+        const deferred = $.Deferred()
+        const spy = spyOn(module, 'query').and.returnValue(deferred.promise())
+        spyOn($, 'publish')
 
-        module.init();
+        module.init()
 
-        spyOn(module.$clear, 'removeClass').and.callThrough();
+        spyOn(module.$clear, 'removeClass').and.callThrough()
 
-        module.runQuery();
+        module.runQuery()
 
         module.query().then(function () {
           expect(module.$clear.removeClass).toHaveBeenCalled()
-        });
+        })
 
-        deferred.resolve({});
-      });
+        deferred.resolve({})
+      })
 
       it('should publish the search results', function () {
-        var deferred = $.Deferred();
-        var spy = spyOn(module, 'query').and.returnValue(deferred.promise());
-        var fixtureData = {
-          fee_scheme: "AGFS 10",
-          search_offence: "mur",
+        const deferred = $.Deferred()
+        const spy = spyOn(module, 'query').and.returnValue(deferred.promise())
+        const fixtureData = {
+          fee_scheme: 'AGFS 10',
+          search_offence: 'mur',
           results: [{
             result: 'one'
           }]
         }
-        spyOn($, 'publish');
+        spyOn($, 'publish')
 
-        module.init();
+        module.init()
 
-        module.runQuery();
+        module.runQuery()
 
         module.query().then(function () {
           expect($.publish).toHaveBeenCalledWith('/offence/search/results/', fixtureData)
-        });
+        })
 
-        deferred.resolve(fixtureData);
-      });
-    });
+        deferred.resolve(fixtureData)
+      })
+    })
 
     describe('...trackUserInput', function () {
       it('should use `$.debounce`', function () {
-        spyOn($, 'debounce');
-        module.$input.val('mudr');
+        spyOn($, 'debounce')
+        module.$input.val('mudr')
 
-        module.init();
+        module.init()
 
         // trigger keyup
-        module.$input.trigger($.Event("keyup", {
+        module.$input.trigger($.Event('keyup', {
           keyCode: 65
-        }));
+        }))
 
-        expect($.debounce).toHaveBeenCalled();
-      });
-    });
+        expect($.debounce).toHaveBeenCalled()
+      })
+    })
 
     describe('...clearSearch', function () {
       it('should clear the `this.input` and `this.model` elements', function () {
-        spyOn(module, 'clearSearch').and.callThrough();
-        $('.fx-input').val('sample query');
-        $('.fx-model').val('sample model');
+        spyOn(module, 'clearSearch').and.callThrough()
+        $('.fx-input').val('sample query')
+        $('.fx-model').val('sample model')
 
-        module.init();
+        module.init()
 
-        expect($(module.input).val()).toEqual('sample query');
-        expect($(module.model).val()).toEqual('sample model');
+        expect($(module.input).val()).toEqual('sample query')
+        expect($(module.model).val()).toEqual('sample model')
 
-        $('.fx-clear-search').trigger('click');
+        $('.fx-clear-search').trigger('click')
 
-        expect($(module.input).val()).toEqual('');
-        expect($(module.model).val()).toEqual('');
-
-      });
+        expect($(module.input).val()).toEqual('')
+        expect($(module.model).val()).toEqual('')
+      })
 
       it('should `$.publish` the clear event', function () {
         spyOn($, 'publish')
-        module.init();
+        module.init()
 
-        $('.fx-clear-search').trigger('click');
-        expect($.publish).toHaveBeenCalledWith('/offence/search/clear/');
-      });
-    });
-
-  });
-});
+        $('.fx-clear-search').trigger('click')
+        expect($.publish).toHaveBeenCalledWith('/offence/search/clear/')
+      })
+    })
+  })
+})

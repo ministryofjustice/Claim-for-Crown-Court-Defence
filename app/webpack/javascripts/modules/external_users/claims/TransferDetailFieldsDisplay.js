@@ -11,10 +11,10 @@ moj.Modules.TransferDetailFieldsDisplay = {
 
   init: function () {
     if ($(this.tdWrapper).length > 0) {
-      this.cacheEls();
-      this.$tdWrapper = $(this.tdWrapper);
-      this.addChangeEvent();
-      this.callCaseConclusionController();
+      this.cacheEls()
+      this.$tdWrapper = $(this.tdWrapper)
+      this.addChangeEvent()
+      this.callCaseConclusionController()
     }
   },
 
@@ -32,55 +32,55 @@ moj.Modules.TransferDetailFieldsDisplay = {
         el: this.transferStageSelect,
         selector: ' option:selected'
       }
-    };
+    }
   },
 
   addChangeEvent: function () {
-    var self = this;
-    var elements = [this.litigatorTypeRadio,
+    const self = this
+    const elements = [this.litigatorTypeRadio,
       this.electedCaseRadio,
       this.transferStageSelect
-    ].join(',');
+    ].join(',')
     this.$tdWrapper.on('change', elements, function () {
-      self.callCaseConclusionController();
-    });
+      self.callCaseConclusionController()
+    })
   },
 
   // called by controller js view render
   caseConclusionToggle: function (toggle) {
     if (toggle) {
-      $(this.caseConclusionSelect).removeClass('hidden');
+      $(this.caseConclusionSelect).removeClass('hidden')
     } else {
-      $(this.caseConclusionSelect + ' select.fx-autocomplete').prop('selectedIndex', 0); // reset actual select list value
-      $('#claim_case_conclusion_id_input').val(''); // reset awesomplete displayed value
-      $(this.caseConclusionSelect).addClass('hidden');
+      $(this.caseConclusionSelect + ' select.fx-autocomplete').prop('selectedIndex', 0) // reset actual select list value
+      $('#claim_case_conclusion_id_input').val('') // reset awesomplete displayed value
+      $(this.caseConclusionSelect).addClass('hidden')
     }
   },
 
   // called by controller js view render
   labelTextToggle: function (transfer_stage_label_text, transfer_date_label_text) {
-    this.$tdWrapper.find(this.transferStageLabel).text(transfer_stage_label_text);
-    this.$tdWrapper.find(this.transferDateLabel).text(transfer_date_label_text);
+    this.$tdWrapper.find(this.transferStageLabel).text(transfer_stage_label_text)
+    this.$tdWrapper.find(this.transferDateLabel).text(transfer_date_label_text)
   },
 
   getParamVal: function (param_key) {
-    var selector = this.params[param_key].el + this.params[param_key].selector;
-    return '&' + param_key + '=' + $(this.$tdWrapper.find(selector)).val();
+    const selector = this.params[param_key].el + this.params[param_key].selector
+    return '&' + param_key + '=' + $(this.$tdWrapper.find(selector)).val()
   },
 
   constructParams: function () {
-    var self = this;
-    var params = '';
+    const self = this
+    let params = ''
     $.each(this.params, function (key) {
-      params += self.getParamVal(key);
-    });
+      params += self.getParamVal(key)
+    })
 
-    //remove initial &
-    return params.substr(1);
+    // remove initial &
+    return params.substr(1)
   },
 
   callCaseConclusionController: function () {
-    var params = this.constructParams();
-    $.getScript('/case_conclusions?' + params);
+    const params = this.constructParams()
+    $.getScript('/case_conclusions?' + params)
   }
-};
+}

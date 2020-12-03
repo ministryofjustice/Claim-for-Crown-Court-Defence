@@ -2,29 +2,29 @@
 (function (global) {
   'use strict'
 
-  var $ = global.jQuery
-  var GOVUK = global.GOVUK || {}
+  const $ = global.jQuery
+  const GOVUK = global.GOVUK || {}
 
-  function ShowHideContent() {
-    var self = this
+  function ShowHideContent () {
+    const self = this
 
     // Radio and Checkbox selectors
-    var selectors = {
+    const selectors = {
       namespace: 'ShowHideContent',
       radio: '[data-target] > input[type="radio"]',
       checkbox: '[data-target] > input[type="checkbox"]'
     }
 
     // Escape name attribute for use in DOM selector
-    function escapeElementName(str) {
-      var result = str.replace(/\[/g, '\\[').replace(/\]/g, '\\]')
+    function escapeElementName (str) {
+      const result = str.replace(/\[/g, '\\[').replace(/\]/g, '\\]')
       return result
     }
 
     // Adds ARIA attributes to control + associated content
-    function initToggledContent() {
-      var $control = $(this)
-      var $content = getToggledContent($control)
+    function initToggledContent () {
+      const $control = $(this)
+      const $content = getToggledContent($control)
 
       // Set aria-controls and defaults
       if ($content.length) {
@@ -36,8 +36,8 @@
     }
 
     // Return toggled content for control
-    function getToggledContent($control) {
-      var id = $control.attr('aria-controls')
+    function getToggledContent ($control) {
+      let id = $control.attr('aria-controls')
       // ARIA attributes aren't set before init
       if (!id) {
         id = $control.closest('[data-target]').data('target')
@@ -47,7 +47,7 @@
     }
 
     // Show toggled content for control
-    function showToggledContent($control, $content) {
+    function showToggledContent ($control, $content) {
       // Show content
       if ($content.hasClass('js-hidden')) {
         $content.removeClass('js-hidden')
@@ -60,7 +60,7 @@
     }
 
     // Hide toggled content for control
-    function hideToggledContent($control, $content) {
+    function hideToggledContent ($control, $content) {
       $content = $content || getToggledContent($control)
       // Hide content
       if (!$content.hasClass('js-hidden')) {
@@ -75,11 +75,11 @@
     }
 
     // Handle radio show/hide
-    function handleRadioContent($control, $content) {
+    function handleRadioContent ($control, $content) {
       // All radios in this group which control content
-      var selector = selectors.radio + '[name=' + escapeElementName($control.attr('name')) + '][aria-controls]'
-      var $form = $control.closest('form')
-      var $radios = $form.length ? $form.find(selector) : $(selector)
+      const selector = selectors.radio + '[name=' + escapeElementName($control.attr('name')) + '][aria-controls]'
+      const $form = $control.closest('form')
+      const $radios = $form.length ? $form.find(selector) : $(selector)
 
       // Hide content for radios in group
       $radios.each(function () {
@@ -93,7 +93,7 @@
     }
 
     // Handle checkbox show/hide
-    function handleCheckboxContent($control, $content) {
+    function handleCheckboxContent ($control, $content) {
       // Show checkbox content
       if ($control.is(':checked')) {
         showToggledContent($control, $content)
@@ -103,17 +103,17 @@
     }
 
     // Set up event handlers etc
-    function init($container, elementSelector, eventSelectors, handler) {
+    function init ($container, elementSelector, eventSelectors, handler) {
       $container = $container || $(document.body)
 
       // Handle control clicks
-      function deferred() {
-        var $control = $(this)
+      function deferred () {
+        const $control = $(this)
         handler($control, getToggledContent($control))
       }
 
       // Prepare ARIA attributes
-      var $controls = $(elementSelector)
+      const $controls = $(elementSelector)
       $controls.each(initToggledContent)
 
       // Handle events
@@ -128,12 +128,12 @@
     }
 
     // Get event selectors for all radio groups
-    function getEventSelectorsForRadioGroups() {
-      var radioGroups = []
+    function getEventSelectorsForRadioGroups () {
+      const radioGroups = []
 
       // Build an array of radio group selectors
       return $(selectors.radio).map(function () {
-        var groupName = $(this).attr('name')
+        const groupName = $(this).attr('name')
 
         if ($.inArray(groupName, radioGroups) === -1) {
           radioGroups.push(groupName)

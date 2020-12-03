@@ -5,52 +5,52 @@ moj.Modules.OffenceCtrl = {
     offenceID: '#claim_offence_id',
     offenceCategoryDesc: '#claim_offence_category_description'
   },
-  init: function() {
+  init: function () {
     // init the auto complete
-    this.autocomplete();
+    this.autocomplete()
 
     // check the load state
     // binding events to the dynamic select
-    this.checkState();
+    this.checkState()
 
     // bind general page events
-    this.bindEvents();
+    this.bindEvents()
   },
 
-  checkState: function() {
+  checkState: function () {
     if (!$(this.els.offenceID).val()) {
-      $(this.els.offenceClassSelectWrapper).hide();
+      $(this.els.offenceClassSelectWrapper).hide()
     }
-    this.attachToOffenceClassSelect();
+    this.attachToOffenceClassSelect()
   },
 
-  autocomplete: function() {
+  autocomplete: function () {
     if ($(this.els.offenceCategoryDesc).length) {
       moj.Helpers.Autocomplete.new(this.els.offenceCategoryDesc, {
         showAllValues: true,
         autoselect: false
-      });
+      })
     }
   },
 
-  bindEvents: function() {
-    var self = this;
-    $.subscribe('/onConfirm/claim_offence_category_description-select/', function(e, data) {
-      var param = $.param({
+  bindEvents: function () {
+    const self = this
+    $.subscribe('/onConfirm/claim_offence_category_description-select/', function (e, data) {
+      const param = $.param({
         description: data.query
-      });
-      $.getScript('/offences?' + param);
-    });
+      })
+      $.getScript('/offences?' + param)
+    })
   },
 
-  attachToOffenceClassSelect: function() {
-    var self = this;
-    $(this.els.offenceClassSelect).on('change', function() {
-      $(self.els.offenceID).val($(this).val());
+  attachToOffenceClassSelect: function () {
+    const self = this
+    $(this.els.offenceClassSelect).on('change', function () {
+      $(self.els.offenceID).val($(this).val())
       if (!$(this).val()) {
-        $(self.els.offenceClassSelectWrapper).hide();
-        $(self.els.offenceID).val('');
+        $(self.els.offenceClassSelectWrapper).hide()
+        $(self.els.offenceID).val('')
       }
-    });
+    })
   }
-};
+}

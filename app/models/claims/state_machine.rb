@@ -26,7 +26,7 @@ module Claims
                                                           part_authorised redetermination refused rejected ].freeze
     AUTHORISED_STATES                               = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES +
                                                       EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
-    PREVIOUSLY_ASSESSED_STATES                      = %w[authorised part_authorised].freeze
+    PREVIOUSLY_AUTHORISED_STATES                    = %w[authorised part_authorised].freeze
 
     def self.dashboard_displayable_states
       (
@@ -245,12 +245,12 @@ module Claims
     end
 
     def set_amount_assessed_zero!
-      return if has_been_previously_assessed?
+      return if has_been_previously_authorised?
       assessment.zeroize! if state == 'allocated'
     end
 
-    def has_been_previously_assessed?
-      claim_state_transitions.map(&:to).any? { |state| PREVIOUSLY_ASSESSED_STATES.include?(state) }
+    def has_been_previously_authorised?
+      claim_state_transitions.map(&:to).any? { |state| PREVIOUSLY_AUTHORISED_STATES.include?(state) }
     end
 
     def remove_case_workers!

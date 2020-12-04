@@ -347,7 +347,7 @@ moj.Helpers.Blocks = {
     }
 
     this.updateMileageElements = function (rateId, calculate, result) {
-      const factor = (rateId == '3') ? 0.20 : (rateId == '1') ? 0.25 : this.config.mileageFactor
+      const factor = (rateId === '3') ? 0.20 : (rateId === '1') ? 0.25 : this.config.mileageFactor
       if (!result) {
         result = {
           miles: self.$el.find('.fx-travel-distance input').val()
@@ -533,11 +533,11 @@ moj.Helpers.Blocks = {
 
         // If `locationType` is present then a compounded condition is required
         if (locationType) {
-          if (obj.location_type == locationType && obj.id == travelReasonValue) {
+          if (obj.location_type == locationType && obj.id == travelReasonValue) { // eslint-disable-line
             $option.prop('selected', true)
           }
         } else {
-          if (obj.id == travelReasonValue) {
+          if (obj.id == travelReasonValue) { // eslint-disable-line
             $option.prop('selected', true)
           }
         }

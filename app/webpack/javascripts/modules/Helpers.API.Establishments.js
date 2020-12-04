@@ -107,7 +107,7 @@
   // events are triggered
   function getAsOptions (category, selected) {
     const results = getLocationByCategory(category)
-    if (results.length == 0) throw Error('Missing results: no data to build options with')
+    if (results.length === 0) throw Error('Missing results: no data to build options with')
     const def = $.Deferred()
     formControls.getOptions(results, selected).then(function (els) {
       def.resolve(els)

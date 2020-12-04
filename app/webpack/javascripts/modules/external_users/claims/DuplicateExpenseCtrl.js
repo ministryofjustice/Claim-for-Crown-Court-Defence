@@ -71,7 +71,7 @@ moj.Modules.DuplicateExpenseCtrl = {
 
     // select the option by the data.location value
     $el.find('.fx-establishment-select select option').filter(function (idx, el) {
-      if ($(el).text() == data.location) {
+      if ($(el).text() === data.location) {
         $(el).prop('selected', true)
       }
     })

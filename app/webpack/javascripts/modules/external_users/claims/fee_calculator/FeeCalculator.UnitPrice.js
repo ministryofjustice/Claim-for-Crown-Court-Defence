@@ -207,7 +207,7 @@
           self.displayHelp(context, true)
         })
         .fail(function (response) {
-          if (response.hasOwnProperty('responseJSON') && response.responseJSON.errors[0] != 'insufficient_data') {
+          if (response.hasOwnProperty('responseJSON') && response.responseJSON.errors[0] !== 'insufficient_data') {
             self.displayError(response, context)
             self.setHint(null, context)
           }

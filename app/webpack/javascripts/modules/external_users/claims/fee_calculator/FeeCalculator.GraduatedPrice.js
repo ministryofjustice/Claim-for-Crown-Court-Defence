@@ -102,7 +102,7 @@
     },
 
     pagesOfProsecutingEvidence: function () {
-      return this.prosecutionEvidence() == 'true' ? 1 : 0
+      return this.prosecutionEvidence() === 'true' ? 1 : 0
     },
 
     setAmount: function (data, context) {
@@ -157,7 +157,7 @@
     responseErrored: function (response) {
       return Boolean(
         response.hasOwnProperty('responseJSON') &&
-        response.responseJSON.errors[0] != 'insufficient_data'
+        response.responseJSON.errors[0] !== 'insufficient_data'
       )
     },
 

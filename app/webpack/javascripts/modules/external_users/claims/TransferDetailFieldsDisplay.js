@@ -58,14 +58,14 @@ moj.Modules.TransferDetailFieldsDisplay = {
   },
 
   // called by controller js view render
-  labelTextToggle: function (transfer_stage_label_text, transfer_date_label_text) {
-    this.$tdWrapper.find(this.transferStageLabel).text(transfer_stage_label_text)
-    this.$tdWrapper.find(this.transferDateLabel).text(transfer_date_label_text)
+  labelTextToggle: function (transferStageLabelText, transferDateLabelText) {
+    this.$tdWrapper.find(this.transferStageLabel).text(transferStageLabelText)
+    this.$tdWrapper.find(this.transferDateLabel).text(transferDateLabelText)
   },
 
-  getParamVal: function (param_key) {
-    const selector = this.params[param_key].el + this.params[param_key].selector
-    return '&' + param_key + '=' + $(this.$tdWrapper.find(selector)).val()
+  getParamVal: function (paramKey) {
+    const selector = this.params[paramKey].el + this.params[paramKey].selector
+    return '&' + paramKey + '=' + $(this.$tdWrapper.find(selector)).val()
   },
 
   constructParams: function () {

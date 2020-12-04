@@ -91,9 +91,9 @@ moj.Modules.DuplicateExpenseCtrl = {
     }
   },
 
-  setSelectValue: function ($el, selector, val, location_type) {
-    if (location_type) {
-      $el.find(selector + ' option[data-location-type=' + location_type + ']').prop('selected', true)
+  setSelectValue: function ($el, selector, val, locationType) {
+    if (locationType) {
+      $el.find(selector + ' option[data-location-type=' + locationType + ']').prop('selected', true)
       $el.find(selector).trigger('change')
       return
     }

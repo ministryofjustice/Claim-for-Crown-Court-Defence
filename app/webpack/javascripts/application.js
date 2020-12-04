@@ -90,14 +90,14 @@ if (!String.prototype.supplant) {
   // TODO: To be moved to more page based controllers
   $('#basic-fees').on('change', '.multiple-choice input[type=checkbox]', function (e) {
     const checked = $(e.target).is(':checked')
-    const fields_wrapper = $(e.target).attr('aria-controls')
-    const $fields_wrapper = $('#' + fields_wrapper)
+    const fieldsWrapper = $(e.target).attr('aria-controls')
+    const $fieldsWrapper = $('#' + fieldsWrapper)
 
-    $fields_wrapper.find('input[type=number]').val(0)
-    $fields_wrapper.find('input[type=text]').val('')
-    $fields_wrapper.find('.gov_uk_date input[type=number]').val('')
-    $fields_wrapper.find('.gov_uk_date input[type=number]').prop('disabled', !checked)
-    $fields_wrapper.trigger('recalculate')
+    $fieldsWrapper.find('input[type=number]').val(0)
+    $fieldsWrapper.find('input[type=text]').val('')
+    $fieldsWrapper.find('.gov_uk_date input[type=number]').val('')
+    $fieldsWrapper.find('.gov_uk_date input[type=number]').prop('disabled', !checked)
+    $fieldsWrapper.trigger('recalculate')
   })
 
   /**

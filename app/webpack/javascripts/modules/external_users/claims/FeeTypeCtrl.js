@@ -54,14 +54,14 @@ moj.Modules.FeeTypeCtrl = {
     }
   },
 
-  showHideUnusedMaterialWarning: function (context, unique_code) {
-    show = (unique_code === 'MIUMO')
+  showHideUnusedMaterialWarning: function (context, uniqueCode) {
+    show = (uniqueCode === 'MIUMO')
     const $warning = $(context).closest('.fx-fee-group').find('.fx-unused-materials-warning')
     show ? $warning.removeClass('js-hidden') : $warning.addClass('js-hidden')
   },
 
-  readOnlyQuantity: function (context, unique_code) {
-    readOnly = (unique_code === 'MIUMU')
+  readOnlyQuantity: function (context, uniqueCode) {
+    readOnly = (uniqueCode === 'MIUMU')
     const defaultQuantity = 1
     const $quantity = $(context).closest('.fx-fee-group').find('input.fee-quantity')
     if (readOnly) {

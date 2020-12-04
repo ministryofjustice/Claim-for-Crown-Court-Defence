@@ -107,11 +107,11 @@
 
     setAmount: function (data, context) {
       const $amount = $(context).find('input.fee-amount')
-      const $price_calculated = $(context).find('.js-fee-calculator-success > input')
+      const $priceCalculated = $(context).find('.js-fee-calculator-success > input')
 
       $amount.val(data.toFixed(2))
       $amount.change()
-      $price_calculated.val(data > 0)
+      $priceCalculated.val(data > 0)
       $amount.prop('readonly', data > 0)
     },
 
@@ -122,14 +122,14 @@
     displayError: function (context, message) {
       this.clearErrors(context)
       const $label = $(context).find('.js-graduated-price-effectee > label')
-      const $price_calculated = $(context).find('.js-fee-calculator-success > input')
-      const error_html = '<div class="js-calculate-grad-error form-hint">' + message + '<div>'
-      const new_label = $label.text() + ' ' + error_html
+      const $priceCalculated = $(context).find('.js-fee-calculator-success > input')
+      const errorHtml = '<div class="js-calculate-grad-error form-hint">' + message + '<div>'
+      const newLabel = $label.text() + ' ' + errorHtml
       const $input = $(context).find('input.fee-amount')
 
       $input.prop('readonly', false)
-      $price_calculated.val(false)
-      $label.html(new_label)
+      $priceCalculated.val(false)
+      $label.html(newLabel)
     },
 
     clearErrors: function (context) {

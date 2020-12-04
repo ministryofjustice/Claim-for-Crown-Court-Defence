@@ -312,11 +312,11 @@ moj.Modules.AllocationDataTable = {
       e.preventDefault()
       self.ui.$submit.prop('disabled', true)
 
-      const quantity_to_allocate = $('#quantity_to_allocate').val() || false
+      const quantityToAllocate = $('#quantity_to_allocate').val() || false
 
-      const allocation_case_worker_id = $('#allocation_case_worker_id-select').val()
+      const allocationCaseWorkerId = $('#allocation_case_worker_id-select').val()
 
-      if (!allocation_case_worker_id) {
+      if (!allocationCaseWorkerId) {
         // console.log('No Caseworker selected');
         $.publish('/allocation/error/', {
           msg: 'Please select a case worker.'
@@ -330,12 +330,12 @@ moj.Modules.AllocationDataTable = {
         search: 'applied'
       }
 
-      if (self.itemsSelected() && !quantity_to_allocate) {
+      if (self.itemsSelected() && !quantityToAllocate) {
         filters.selected = true
       }
 
       // get the raw data object
-      const data = self.dataTable.rows(filters).data().splice(0, quantity_to_allocate || (self.itemsSelected() ? self.maxAllocationLimit : self.defaultAllocationLimit)).map(function (obj) {
+      const data = self.dataTable.rows(filters).data().splice(0, quantityToAllocate || (self.itemsSelected() ? self.maxAllocationLimit : self.defaultAllocationLimit)).map(function (obj) {
         return obj.id
       }).join(',')
 
@@ -344,7 +344,7 @@ moj.Modules.AllocationDataTable = {
         method: 'POST',
         data: {
           api_key: self.searchConfig.key,
-          case_worker_id: allocation_case_worker_id,
+          case_worker_id: allocationCaseWorkerId,
           claim_ids: data
         }
       }).success(function (data) {

@@ -291,8 +291,8 @@ moj.Helpers.Blocks = {
         self.setState('.fx-travel-reason-other', reasonTextState)
 
         // read & set `locationType` value
-        const location_type = $option.data('locationType') || ''
-        self.setVal('.fx-location-type', location_type)
+        const locationType = $option.data('locationType') || ''
+        self.setVal('.fx-location-type', locationType)
 
         // create the location `input / select` element
         self.setLocationElement($option.data())

@@ -117,11 +117,11 @@
 
     setRate: function (data, context) {
       const $input = $(context).find('input.fee-rate')
-      const $price_calculated = $(context).siblings('.js-fee-calculator-success').find('input')
+      const $priceCalculated = $(context).siblings('.js-fee-calculator-success').find('input')
 
       $input.val(data.toFixed(2))
       $input.change()
-      $price_calculated.val(data > 0)
+      $priceCalculated.val(data > 0)
       $input.prop('readonly', data > 0)
     },
 
@@ -171,14 +171,14 @@
       // only some errors will have a JSON response
       this.clearErrors(context)
       const $label = $(context).find('label')
-      const $price_calculated = $(context).find('.js-fee-calculator-success > input')
-      const error_html = '<div class="js-calculate-unit-error form-hint">' + response.responseJSON.message + '<div>'
-      const new_label = $label.text() + ' ' + error_html
+      const $priceCalculated = $(context).find('.js-fee-calculator-success > input')
+      const errorHtml = '<div class="js-calculate-unit-error form-hint">' + response.responseJSON.message + '<div>'
+      const newLabel = $label.text() + ' ' + errorHtml
       const $input = $(context).find('input.fee-rate')
 
       $input.prop('readonly', false)
-      $price_calculated.val(false)
-      $label.html(new_label)
+      $priceCalculated.val(false)
+      $label.html(newLabel)
     },
 
     clearErrors: function (context) {
@@ -220,9 +220,9 @@
     buildFeeData: function (data) {
       data.claim_id = $('#claim-form').data('claimId')
       data.price_type = 'UnitPrice'
-      const advocate_category = $('input:radio[name="claim[advocate_category]"]:checked').val()
-      if (advocate_category) {
-        data.advocate_category = advocate_category
+      const advocateCategory = $('input:radio[name="claim[advocate_category]"]:checked').val()
+      if (advocateCategory) {
+        data.advocate_category = advocateCategory
       }
 
       const fees = data.fees = []

@@ -22,13 +22,13 @@
 }(jQuery))
 
 // Trunc polyfil
-String.prototype.trunc = String.prototype.trunc || function (n) {
+String.prototype.trunc = String.prototype.trunc || function (n) { // eslint-disable-line
   return (this.length > n) ? this.substr(0, n - 1) + '&hellip;' : this
 }
 
 // Simple string interpolation
 if (!String.prototype.supplant) {
-  String.prototype.supplant = function (o) {
+  String.prototype.supplant = function (o) { // eslint-disable-line
     return this.replace(
       /\{([^{}]*)\}/g,
       function (a, b) {

@@ -1,5 +1,5 @@
 ;
-(function ($, window, document, undefined) {
+(function ($, window, document, _undefined) {
   const pluginName = 'dtFilter'
   const defaults = {}
 

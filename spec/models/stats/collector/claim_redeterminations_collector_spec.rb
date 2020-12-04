@@ -38,7 +38,7 @@ module Stats
 
 
       def create_claim(state, date)
-        Timecop.freeze(date) do
+        travel_to(date) do
           create factory_name(state)
         end
       end

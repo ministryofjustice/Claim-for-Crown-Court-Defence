@@ -51,22 +51,21 @@ module Stats
 
       def create_submitted_claim(time_submitted)
         claim = nil
-        Timecop.freeze(base_time) do
+        travel_to base_time do
           claim = create :draft_claim, external_user: advocate, creator: advocate
-          Timecop.freeze(time_submitted) do
-            claim.submit!
-          end
+          travel_to time_submitted
+          claim.submit!
         end
         claim
       end
 
       def create_decided_claim(final_state, time_submitted, decision_time)
-        claim = create_submitted_claim(time_submitted)
-        Timecop.freeze(decision_time) do
-          claim.allocate!
-          DemoData::ClaimStateAdvancer.new(claim).advance_from_allocated_to(final_state)
+        create_submitted_claim(time_submitted).tap do |claim|
+          travel_to decision_time do
+            claim.allocate!
+            DemoData::ClaimStateAdvancer.new(claim).advance_from_allocated_to(final_state)
+          end
         end
-        claim
       end
     end
   end

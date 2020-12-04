@@ -14,7 +14,6 @@ moj.Modules.CocoonHelper = {
   },
 
   addCocoonHooks: function () {
-    const self = this
     const $elem = $(this.el)
 
     $elem.on('cocoon:after-insert', function (e) {

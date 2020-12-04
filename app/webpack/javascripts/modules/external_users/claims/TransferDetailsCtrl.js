@@ -6,8 +6,6 @@ moj.Modules.TransferDetailsCtrl = {
     return $('#claim_form_step').val() === 'transfer_fee_details'
   },
   initAutocomplete: function () {
-    const arr = $(this.els.fxAutocomplete)
-
     $(this.els.fxAutocomplete).is(function (idx, el) {
       moj.Helpers.Autocomplete.new('#' + el.id, {
         showAllValues: true,
@@ -16,7 +14,6 @@ moj.Modules.TransferDetailsCtrl = {
     })
   },
   init: function () {
-    const self = this
     if (this.activate()) {
       // init the auto complete
       this.initAutocomplete()

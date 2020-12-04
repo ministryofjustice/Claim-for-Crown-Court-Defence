@@ -1,7 +1,5 @@
 moj.Modules.Allocation = {
   init: function () {
-    const self = this
-
     // Only work on the allocation page
     if ($('.js-allocation-page').length > 0) {
       $('.fx-autocomplete').is(function (idx, el) {

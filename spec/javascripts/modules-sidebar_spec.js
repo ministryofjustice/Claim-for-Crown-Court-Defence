@@ -1,6 +1,5 @@
 describe('Modules.SideBar.js', function () {
   const sidebarFixtureDOM = $('<div class="grid-sidebar"/>')
-  const jsBlocksFixtureDOM = $('<div class="block-hook"/>')
   const jsBlockFixtureDOM = $('<div id="claim-form"/>')
 
   const sideBarView = ['<div class="new-claim-hgroup js-stick-at-top-when-scrolling totals-summary">',

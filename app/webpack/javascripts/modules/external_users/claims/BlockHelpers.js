@@ -191,7 +191,6 @@ moj.Helpers.Blocks = {
     }
   },
   PhantomBlock: function () {
-    const self = this
     moj.Helpers.Blocks.Base.apply(this, arguments)
     this.totals = {
       quantity: 0,
@@ -283,8 +282,6 @@ moj.Helpers.Blocks = {
        */
       this.$el.on('change', '.fx-travel-reason select', function (e) {
         e.stopPropagation()
-
-        let state
 
         // cache referance to selected option
         const $option = $(e.target).find('option:selected')

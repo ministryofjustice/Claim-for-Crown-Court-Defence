@@ -34,7 +34,6 @@ moj.Modules.OffenceCtrl = {
   },
 
   bindEvents: function () {
-    const self = this
     $.subscribe('/onConfirm/claim_offence_category_description-select/', function (e, data) {
       const param = $.param({
         description: data.query

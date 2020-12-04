@@ -142,7 +142,6 @@ describe('Modules.OffenceSearchInput.js', function () {
 
       it('should show the `clear search` link', function () {
         const deferred = $.Deferred()
-        const spy = spyOn(module, 'query').and.returnValue(deferred.promise())
         spyOn($, 'publish')
 
         module.init()
@@ -160,7 +159,6 @@ describe('Modules.OffenceSearchInput.js', function () {
 
       it('should publish the search results', function () {
         const deferred = $.Deferred()
-        const spy = spyOn(module, 'query').and.returnValue(deferred.promise())
         const fixtureData = {
           fee_scheme: 'AGFS 10',
           search_offence: 'mur',

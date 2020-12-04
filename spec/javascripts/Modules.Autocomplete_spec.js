@@ -49,7 +49,6 @@ describe('Modules.Autocomplete', function () {
         const sync = function (data) {
           output = data
         }
-        let result
         const data = {
           local: [{
             id: '10',

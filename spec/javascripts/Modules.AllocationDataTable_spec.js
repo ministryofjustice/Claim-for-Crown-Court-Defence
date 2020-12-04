@@ -1,12 +1,4 @@
 describe('Modules.AllocationDataTable.js', function () {
-  const domFixture = ['<div id="dtAllocation">',
-    ' <button class="allocation-submit">submit</button>',
-    ' <div class="notice-summary">Notice Summary</div>',
-    ' <div class="error-summary">Error Summary</div>',
-    ' <div id="api-key" data-api-key="abcABC">//</div>',
-    '</div>'
-  ].join('')
-
   // tooooo long to type
   const module = moj.Modules.AllocationDataTable
   const options = module.options

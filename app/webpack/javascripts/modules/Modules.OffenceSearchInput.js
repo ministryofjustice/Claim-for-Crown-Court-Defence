@@ -97,7 +97,6 @@ moj.Modules.OffenceSearchInput = {
 
   query: function (options) {
     const _options = options
-    const self = this
     const def = $.Deferred()
     $.ajax({
       type: 'GET',

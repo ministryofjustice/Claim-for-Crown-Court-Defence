@@ -6,8 +6,6 @@ moj.Modules.AmountAssessed = {
 }
 
 moj.Modules.AmountAssessedBlock = function (selector) {
-  const self = this
-
   this.config = {
     hook: selector || '.fx-assesment-hook',
     form: '.js-cw-claim-assessment',

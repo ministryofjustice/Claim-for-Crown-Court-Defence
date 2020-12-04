@@ -27,7 +27,7 @@ moj.Modules.SideBar = {
   loadBlocks: function () {
     const self = this
     self.blocks = self.blocks.filter(function (block) {
-      if (!block || !block.config) return
+      if (!block || !block.config) return false
       return block.config.fn !== 'PhantomBlock'
     })
     $('.js-block.fx-do-init').each(function (id, el) {

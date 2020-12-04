@@ -70,7 +70,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     this.setInputValue($el, '.fx-travel-location input', data.location)
 
     // select the option by the data.location value
-    $el.find('.fx-establishment-select select option').filter(function (idx, el) {
+    $el.find('.fx-establishment-select select option').filter(function (idx, el) { // eslint-disable-line
       if ($(el).text() === data.location) {
         $(el).prop('selected', true)
       }

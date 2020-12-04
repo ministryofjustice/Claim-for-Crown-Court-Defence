@@ -66,7 +66,7 @@ moj.Modules.CaseTypeCtrl = {
   eventCallback: function (e, data) {
     const self = this
 
-    Object.keys(data).map(function (objectKey) {
+    Object.keys(data).map(function (objectKey) { // eslint-disable-line
       if (typeof self.actions[objectKey] === 'function') {
         self.actions[objectKey](data[objectKey], self)
       }

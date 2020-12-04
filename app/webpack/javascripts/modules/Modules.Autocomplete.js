@@ -176,7 +176,7 @@ moj.Modules.Autocomplete = {
     return $select.find('option').map(function mapOptions () {
       const obj = {}
       if (this.value === '') {
-        return
+        return // eslint-disable-line
       }
 
       obj.id = this.value

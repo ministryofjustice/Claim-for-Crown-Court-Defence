@@ -156,7 +156,7 @@
 
     responseErrored: function (response) {
       return Boolean(
-        response.hasOwnProperty('responseJSON') &&
+        Object.prototype.hasOwnProperty.call(response, 'responseJSON') &&
         response.responseJSON.errors[0] !== 'insufficient_data'
       )
     },

@@ -11,7 +11,7 @@
     // Browser globals
     factory(jQuery)
   }
-}(function ($, undefined) {
+}(function ($, _undefined) {
   'use strict'
 
   const pluginName = 'numberedList'

@@ -75,7 +75,7 @@
   if (typeof $[pluginName] === 'undefined') {
     $[pluginName] = function (options) {
       if (!activated) {
-        new Plugin(options)
+        new Plugin(options).init()
         activated = true
       }
 

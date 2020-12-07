@@ -1,5 +1,4 @@
-/* --- Ported from v1 stylesheets --- */
-
+// Ported from v1 stylesheets
 .fx-duplicate-expense {
   display: inline-block;
   padding: $gutter-one-sixth $gutter-half;
@@ -49,8 +48,7 @@ caption {
   text-align: right;
 }
 
-//Start a new claim
-
+// Start a new claim
 .expense-cost {
   legend {
     margin-bottom: 0;
@@ -64,9 +62,7 @@ caption {
   }
 }
 
-// ==========================================================================
 // claim detail page
-
 .financial-summary {
   padding-bottom: 56px;
   @include span(8 of 12);
@@ -94,9 +90,7 @@ caption {
   @include last;
 }
 
-// ================================================================//
 // claims-list.SCSS
-// ================================================================//
 #claims-list {
   margin: 0;
   padding: 0;
@@ -156,9 +150,7 @@ a.detail-link {
   height: $gutter-two-thirds;
 }
 
-// ================================================================//
 // claim-accordion.SCSS
-// ================================================================//
 form {
   .extra-margin {
     margin-right: .2em;
@@ -263,9 +255,7 @@ form {
   border-left: 5px solid $border-colour;
 }
 
-// ================================================================//
 // ADMIN.SCSS
-// ================================================================//
 .working-pattern {
   li {
     display: inline;
@@ -289,9 +279,7 @@ form {
   }
 }
 
-// ================================================================//
 // COMMMUNICATION-TOOL.SCSS
-// ================================================================//
 #messages {
   width: $full-width;
   margin-bottom: 1em;
@@ -348,9 +336,7 @@ form {
   }
 }
 
-// ================================================================//
 // FLASH-NOTICES MESS
-// ================================================================//
 .flash {
   width: $two-thirds;
   margin: auto;
@@ -362,9 +348,7 @@ form {
   }
 }
 
-// ================================================================//
 // TANDCS.SCSS
-// ================================================================//
 .tandcs {
   .section-title {
     font-weight: 700;
@@ -384,9 +368,7 @@ form {
   }
 }
 
-// ================================================================//
 // certification.SCSS
-// ================================================================//
 .certification {
   ul,
   ol {
@@ -413,10 +395,7 @@ form {
   }
 }
 
-// ================================================================//
 // claims-table.SCSS
-// ================================================================//
-
 .totals {
   padding-top: $gutter-two-thirds;
   padding-bottom: $gutter-two-thirds;
@@ -434,23 +413,13 @@ form {
   margin-right: 0;
 }
 
-/***************************************
-
-Page specific styling for the Claims detail
-page
-
-***************************************/
-
+// Page specific styling for the Claims detail page
 .claim-header,
 .claim-detail-header {
   margin-bottom: $gutter-half;
 }
 
-
-
-/****************************************
-Other Claim Navigation
-****************************************/
+// Other Claim Navigation
 .other-claims {
   text-align: right;
 }
@@ -468,9 +437,7 @@ Other Claim Navigation
   border: 1px solid $border-colour;
 }
 
-/*********************************
-Styling for Claims Messaging
-*********************************/
+// Styling for Claims Messaging
 .messages {
   .none {
     color: $black;
@@ -487,9 +454,7 @@ Styling for Claims Messaging
   }
 }
 
-// ================================================================//
 // icons.SCSS
-// ================================================================//
 .search-icon {
   width: 16px;
   height: 16px;
@@ -508,25 +473,7 @@ Styling for Claims Messaging
   border-top: 1px solid $border-colour;
 }
 
-/*******************************************
-########  ########   #######  ########  ########  #######  ##    ## ########
-##     ## ##     ## ##     ## ##     ##      ##  ##     ## ###   ## ##
-##     ## ##     ## ##     ## ##     ##     ##   ##     ## ####  ## ##
-##     ## ########  ##     ## ########     ##    ##     ## ## ## ## ######
-##     ## ##   ##   ##     ## ##          ##     ##     ## ##  #### ##
-##     ## ##    ##  ##     ## ##         ##      ##     ## ##   ### ##
-########  ##     ##  #######  ##        ########  #######  ##    ## ########
-
-      ##  ######
-      ## ##    ##
-      ## ##
-      ##  ######
-##    ##       ##
-##    ## ##    ##
- ######   ######
- Description: Dropzone js styling
-*******************************************/
-
+// Dropzone
 .dropzone {
   display: flex;
   margin-bottom: $gutter + $gutter-one-third;
@@ -607,8 +554,7 @@ Styling for Claims Messaging
     margin-top: $gutter-one-sixth;
   }
 }
-
-/* --- Dropzone end --- */
+// Dropzone end
 
 .b {
   font-weight: 700;
@@ -635,10 +581,7 @@ Styling for Claims Messaging
   margin-bottom: 0;
 }
 
-/*
-* copied from
-* https://moj-design-system.herokuapp.com/components/banner
-*/
+// banner: https://moj-design-system.herokuapp.com/components/banner
 .moj-banner {
   @extend .error-summary;
   width: calc(100% - 40px); // 40px is magic number for padding and border
@@ -693,9 +636,7 @@ table#download-files-report {
   }
 }
 
-
-/* --- Ported from v1 stylesheets --- */
-
+// Ported from v1 stylesheets
 .grid-row {
   margin-bottom: $gutter-half;
 }

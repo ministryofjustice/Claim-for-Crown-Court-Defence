@@ -3,9 +3,7 @@
   margin-bottom: $gutter;
 }
 
-
-/* --- Ported from v1 stylesheets --- */
-
+// Ported from v1 stylesheets
 .panel {
   @include box-sizing(border-box);
   @extend %contain-floats;

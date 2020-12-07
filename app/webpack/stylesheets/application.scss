@@ -47,15 +47,10 @@ $path: '~images/';
 @import '~govuk_frontend_toolkit/stylesheets/url-helpers'; // Function to output image-url, or prefixed path (Rails and Compass only)
 @import '~govuk-frontend/govuk/base';
 
-
-/*
- * Project specific
- *
- * Everything below this comment should be project specific.
- * If you absolutely need to override gov.uk styles, don't,
- * instead create new classes or ids with a prefix based on the app name.
- */
-
+// Project specific
+// Everything below this comment should be project specific.
+// If you absolutely need to override gov.uk styles, don't,
+// instead create new classes or ids with a prefix based on the app name.
 @import 'cccd-measurements';
 @import 'project-helpers';
 @import 'denote';
@@ -74,8 +69,7 @@ $path: '~images/';
 @import 'claims_importer';
 @import 'navigation';
 
-
-/* --- Ported from v1 stylesheets --- */
+// Ported from v1 stylesheets
 @import 'layout';
 @import 'cccd-typography';
 @import 'accordion';
@@ -87,8 +81,7 @@ $path: '~images/';
 @import 'cocoon';
 @import 'components/tag';
 
-
-/* --- DS overrides --- */
+// DS overrides
 @import 'lists';
 
 @import 'shame';

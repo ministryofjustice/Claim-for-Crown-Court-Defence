@@ -1,9 +1,4 @@
-/* --------------------------------------- */
-
-/* Basic link styles */
-
-/* --------------------------------------- */
-
+// Basic link styles
 .link-change {
   @include govuk-responsive-margin(4, "bottom");
   @include govuk-media-query ($from: desktop) {

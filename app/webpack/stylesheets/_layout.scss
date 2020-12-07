@@ -16,8 +16,8 @@ body {
 
 .summary-wrapper {
   h2 {
-    font-weight: 700;
     margin-top: $gutter;
+    font-weight: 700;
   }
 
   .table-summary {
@@ -28,12 +28,11 @@ body {
     }
 
     .summary-headings {
-      width: 35%
+      width: 35%;
     }
 
     tfoot {
       tr {
-
         th,
         td {
           @include core-19;
@@ -45,23 +44,23 @@ body {
 
 #show-messages-wrapper {
   .print-messages-hint {
-    clear: both;
     padding-top: $gutter-one-third;
     padding-bottom: 8px;
+    clear: both;
   }
 
   .panel {
     &.no-border {
-      border: none;
       padding: 0;
+      border: none;
     }
   }
 
   .messages-container {
     .messages-list {
       max-height: none;
-      overflow-y: visible;
       overflow-x: visible;
+      overflow-y: visible;
     }
   }
 }

@@ -1,4 +1,4 @@
-/*--- Ported from v1 stylesheets ---*/
+/* --- Ported from v1 stylesheets --- */
 
 .fx-duplicate-expense {
   display: inline-block;
@@ -13,8 +13,8 @@
   padding-bottom: $gutter;
 
   .margin-spacer-sm {
-    padding: 0;
     margin: 25px 0 0 25px;
+    padding: 0;
   }
 
   .awesomplete {
@@ -45,17 +45,17 @@ caption {
 .claim-count {
   @include span(6 of 12);
   @include last;
-  text-align: right;
   font-weight: 400;
+  text-align: right;
 }
 
 //Start a new claim
 
 .expense-cost {
   legend {
-    font-weight: normal;
     margin-bottom: 0;
     padding-bottom: 0;
+    font-weight: normal;
   }
 
   label {
@@ -107,16 +107,15 @@ caption {
   }
 }
 
-#claims-list>li {
-  background-color: $grey-4;
+#claims-list > li {
+  padding: 1rem;
   clear: both;
   overflow: hidden;
-  padding: 1rem;
+  background-color: $grey-4;
 
   &:nth-child(even) {
     background-color: $grey-3;
   }
-
 }
 
 .case-data-headings {
@@ -130,21 +129,21 @@ caption {
 }
 
 a.detail-link {
+  padding: .5rem;
   border: 1px solid $button-colour;
   color: $button-colour;
-  padding: 0.5rem;
   text-decoration: none;
 }
 
 .claim-controls {
   .toggle {
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+    margin: 0 0 $gutter-two-thirds 2px;
     background-image: file-url("list-toggle.png");
     background-position: 0 -48px;
     cursor: pointer;
-    display: inline-block;
-    height: 24px;
-    width: 42px;
-    margin: 0 0 $gutter-two-thirds 2px;
 
     &.expanded {
       background-position: 0 0;
@@ -157,14 +156,13 @@ a.detail-link {
   height: $gutter-two-thirds;
 }
 
-
 // ================================================================//
 // claim-accordion.SCSS
 // ================================================================//
 form {
   .extra-margin {
-    margin-left: 0.2em;
-    margin-right: 0.2em;
+    margin-right: .2em;
+    margin-left: .2em;
   }
 
   .validation-error {
@@ -178,7 +176,6 @@ form {
   }
 
   fieldset {
-
     &.user-form {
       border-bottom: 0;
     }
@@ -193,27 +190,24 @@ form {
     font-size: 1em;
   }
 
-  h2+fieldset {
+  h2 + fieldset {
     margin-top: 0;
     padding-top: 0;
   }
 
   .nested-fields {
-    margin-bottom: $gutter-two-thirds;
     position: relative;
+    margin-bottom: $gutter-two-thirds;
   }
 
-
   .nested-fields {
-
     td,
     th {
-      border-bottom: 0;
       border-top: 1px solid $grey-2;
+      border-bottom: 0;
     }
 
     &.extra-data {
-
       th,
       td {
         border-top: 0;
@@ -242,9 +236,9 @@ form {
 }
 
 .evidence-checklist div {
-  float: left;
-  margin-right: $gutter-one-third;
   margin-top: $gutter-two-thirds;
+  margin-right: $gutter-one-third;
+  float: left;
 }
 
 .defendants {
@@ -254,19 +248,19 @@ form {
 }
 
 .controller-feedback fieldset {
-  border: 0;
   margin-top: 0;
-  padding-top: 0;
   margin-bottom: 0;
+  padding-top: 0;
   padding-bottom: 0;
+  border: 0;
 }
 
 .indent-fieldset {
-  border-left: 5px solid $border-colour;
-  border-bottom: 0;
-  padding-left: $gutter-half;
   padding-top: $gutter-one-sixth;
   padding-bottom: $gutter-one-sixth;
+  padding-left: $gutter-half;
+  border-bottom: 0;
+  border-left: 5px solid $border-colour;
 }
 
 // ================================================================//
@@ -275,19 +269,19 @@ form {
 .working-pattern {
   li {
     display: inline;
+    display: inline-block;
+    width: 15%;
+    padding-top: .3em;
+
+    border-top: 1px solid $black;
+    border-right: 1px solid $black;
+    border-bottom: 1px solid $black;
+    background-color: $page-colour;
+    text-align: center;
 
     &:first-child {
       border-left: 1px solid $black;
     }
-
-    border-top: 1px solid $black;
-    border-bottom: 1px solid $black;
-    border-right: 1px solid $black;
-    padding-top: 0.3em;
-    text-align: center;
-    width: 15%;
-    display: inline-block;
-    background-color: $page-colour;
 
     &.working-day {
       background-color: $grey-2;
@@ -299,25 +293,25 @@ form {
 // COMMMUNICATION-TOOL.SCSS
 // ================================================================//
 #messages {
-  float: left;
-  margin-bottom: 1em;
   width: $full-width;
+  margin-bottom: 1em;
+  float: left;
 
   .timeline {
     ul.days {
       padding: 0;
 
-      &>li {
-        padding-top: 1em;
-        border-top: 1px solid $grey-2;
-        list-style-type: none;
+      & > li {
         margin: 1em 0 2em;
+        padding-top: 1em;
+        list-style-type: none;
+        border-top: 1px solid $grey-2;
 
         h5 {
           width: 10em;
           margin: -2em auto 1em;
-          text-align: center;
           background-color: $page-colour;
+          text-align: center;
         }
 
         ul {
@@ -337,9 +331,9 @@ form {
         }
 
         li {
-          float: left;
           width: $full-width;
           padding: $gutter-half;
+          float: left;
 
           &:nth-child(even) {
             background-color: $grey-4;
@@ -372,7 +366,6 @@ form {
 // TANDCS.SCSS
 // ================================================================//
 .tandcs {
-
   .section-title {
     font-weight: 700;
   }
@@ -382,25 +375,22 @@ form {
   }
 
   ul {
-    list-style-type: disc;
     padding-left: $gutter;
+    list-style-type: disc;
 
     ul {
       list-style-type: circle;
     }
   }
-
 }
 
 // ================================================================//
 // certification.SCSS
 // ================================================================//
 .certification {
-
   ul,
   ol {
     list-style-type: initial;
-
   }
 
   ul {
@@ -427,7 +417,6 @@ form {
 // claims-table.SCSS
 // ================================================================//
 
-
 .totals {
   padding-top: $gutter-two-thirds;
   padding-bottom: $gutter-two-thirds;
@@ -435,8 +424,8 @@ form {
 }
 
 .filter-by-value {
-  margin-left: $gutter-one-sixth;
   margin-right: $gutter-one-sixth;
+  margin-left: $gutter-one-sixth;
 }
 
 // search result for tables when nothing exists
@@ -473,10 +462,10 @@ Other Claim Navigation
 }
 
 .defendant-card {
-  border: 1px solid $border-colour;
-  padding: $gutter-half $gutter-one-third $gutter-half $gutter-half;
   margin-top: $gutter-half;
   margin-bottom: $gutter-half;
+  padding: $gutter-half $gutter-one-third $gutter-half $gutter-half;
+  border: 1px solid $border-colour;
 }
 
 /*********************************
@@ -498,7 +487,6 @@ Styling for Claims Messaging
   }
 }
 
-
 // ================================================================//
 // icons.SCSS
 // ================================================================//
@@ -516,8 +504,8 @@ Styling for Claims Messaging
   margin-top: $gutter-two-thirds;
   margin-bottom: $gutter-two-thirds;
   padding-top: $gutter-two-thirds;
-  border-top: 1px solid $border-colour;
   clear: both;
+  border-top: 1px solid $border-colour;
 }
 
 /*******************************************
@@ -540,32 +528,32 @@ Styling for Claims Messaging
 *******************************************/
 
 .dropzone {
-  align-items: flex-start;
   display: flex;
-  justify-content: center;
   margin-bottom: $gutter + $gutter-one-third;
-  outline: 2px dashed $secondary-text-colour;
   padding: $gutter * 2;
-  text-align: center;
   transition: outline-offset .1s ease-in-out, background-color .1s linear;
+  outline: 2px dashed $secondary-text-colour;
+  text-align: center;
+  align-items: flex-start;
+  justify-content: center;
 
   label {
     @include core-19;
-    left: -9999em;
     position: absolute;
+    left: -9999em;
   }
 }
 
 .dropzone-enhanced {
   label {
-    appearance: none;
-    background-color: $panel-colour;
-    border: none;
-    color: $text-colour;
+    position: static;
     left: 0;
     margin-bottom: 0;
     padding: $gutter-one-third $gutter-two-thirds;
-    position: static;
+    border: none;
+    color: $text-colour;
+    background-color: $panel-colour;
+    appearance: none;
 
     &:hover {
       background-color: $border-colour;
@@ -573,20 +561,20 @@ Styling for Claims Messaging
   }
 
   [type=file] {
-    left: -9999em;
     position: absolute;
+    left: -9999em;
   }
 }
 
 .dropzone-dragover {
-  background: $black;
   outline: 2px dashed $secondary-text-colour;
   outline-offset: -$gutter-one-third;
+  background: $black;
 }
 
 .dropzone-focused {
-  box-shadow: 0 0 1px 4px $focus-colour;
   outline: none;
+  box-shadow: 0 0 1px 4px $focus-colour;
 }
 
 .files {
@@ -604,7 +592,8 @@ Styling for Claims Messaging
     font-weight: 700;
   }
 
-  td, th {
+  td,
+  th {
     word-break: break-all;
   }
 
@@ -614,12 +603,12 @@ Styling for Claims Messaging
   }
 
   progress {
-    margin-top: $gutter-one-sixth;
     width: $full-width;
+    margin-top: $gutter-one-sixth;
   }
 }
 
-/*--- Dropzone end ---*/
+/* --- Dropzone end --- */
 
 .b {
   font-weight: 700;
@@ -629,19 +618,17 @@ Styling for Claims Messaging
   @include core-16;
 }
 
-
 .form-date p {
   margin-bottom: 0;
 }
-
 
 .panel-margin-fix {
   margin-bottom: $gutter;
 }
 
 .disk-evidence {
-  color: $error-colour;
   display: block;
+  color: $error-colour;
 }
 
 .js-allocation-page #page-h1 {
@@ -660,9 +647,9 @@ Styling for Claims Messaging
   font-size: 0; // Removes white space when using inline-block on child element.
 
   .moj-banner__icon {
-    fill: currentColor;
-    float: left;
     margin-right: 10px;
+    float: left;
+    fill: currentColor;
   }
 
   .moj-banner__message {
@@ -671,29 +658,30 @@ Styling for Claims Messaging
   }
 
   .govuk-heading-m {
-    color: #0b0c0c;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    font-weight: 700;
-    font-size: 18px;
     display: block;
     margin-top: 0;
+    color: #0b0c0c;
+    font-size: 18px;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
     h2 {
       display: block;
       font-size: 1.5em;
-      margin-block-start: 0.83em;
-      margin-block-end: 0.83em;
-      margin-inline-start: 0px;
-      margin-inline-end: 0px;
       font-weight: 700;
+      margin-block-start: .83em;
+      margin-block-end: .83em;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
     }
   }
 }
 
 table#download-files-report,
 table.previously-uploaded {
-  td, th {
+  td,
+  th {
     word-break: break-all;
   }
 }
@@ -706,7 +694,7 @@ table#download-files-report {
 }
 
 
-/*--- Ported from v1 stylesheets ---*/
+/* --- Ported from v1 stylesheets --- */
 
 .grid-row {
   margin-bottom: $gutter-half;
@@ -743,10 +731,8 @@ table#download-files-report {
 }
 
 #provider-form {
-
   .new_provider,
   .edit_provider {
-
     #js-fee-schemes,
     #js-agfs-supplier-number,
     #js-lgfs-supplier-numbers,
@@ -755,8 +741,6 @@ table#download-files-report {
     }
   }
 }
-
-
 
 .js-cw-claim-assessment {
   .error {
@@ -810,15 +794,15 @@ table#download-files-report {
   }
 
   .empty-message {
+    border-bottom: 1px solid $border-colour;
     color: $black;
     background-color: $grey-4;
-    border-bottom: 1px solid $border-colour;
   }
 }
 
 .selected-offence {
-  background: $grey-4;
   padding: $gutter-half $gutter;
+  background: $grey-4;
 }
 
 .highlight {

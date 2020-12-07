@@ -1,4 +1,4 @@
-/*--- Navigation styles ---*/
+/* --- Navigation styles --- */
 
 .primary-nav-bar nav,
 nav.pagination {
@@ -11,8 +11,8 @@ nav {
     float: right;
 
     a {
-      border: none;
       padding: $gutter-one-sixth;
+      border: none;
     }
 
     span {
@@ -29,8 +29,8 @@ nav {
       }
 
       &.current {
-        font-weight: 700;
         padding: $gutter-one-sixth;
+        font-weight: 700;
       }
     }
   }
@@ -48,8 +48,8 @@ nav {
 
       &:last-child a {
         margin-right: 0;
-        border-right: none;
         padding-right: 0;
+        border-right: none;
       }
     }
 

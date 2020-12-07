@@ -1,5 +1,4 @@
 @media (min-width: 641px) {
-
   #case_details,
   #transfer-detail {
     .autocomplete__wrapper {
@@ -24,11 +23,11 @@
 
 //autocomplete styling
 .tt-menu {
-  background-color: $page-colour;
-  border: 1px solid $text-colour;
+  width: $full-width;
   max-height: 220px;
   overflow-y: scroll;
-  width: $full-width;
+  border: 1px solid $text-colour;
+  background-color: $page-colour;
 }
 
 @media (min-width: 641px) {
@@ -56,8 +55,8 @@
 
   &:hover,
   &.tt-cursor {
-    background-color: $link-colour;
     color: $page-colour;
+    background-color: $link-colour;
   }
 }
 
@@ -81,7 +80,7 @@
 
   .fx-clear-search {
     display: inline-block;
-    font-weight: normal;
     margin: $gutter-one-third;
+    font-weight: normal;
   }
 }

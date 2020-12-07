@@ -2,7 +2,6 @@
 // claims-importer.SCSS
 // ================================================================//
 .claims-importer {
-
   &.has-errors {
     border-color: $red;
   }
@@ -12,7 +11,6 @@
   }
 
   .js-enabled & {
-
     input[type="file"],
     .no-file-selected [type="submit"] {
       @include visually-hidden;

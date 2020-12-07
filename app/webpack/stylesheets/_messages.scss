@@ -1,5 +1,5 @@
 @mixin normalize-bubble($direction:left) {
-  @if $direction=="left" {
+  @if $direction == "left" {
     @media print {
       margin-right: 95px;
     }
@@ -10,7 +10,7 @@
     }
   }
 
-  @if $direction=="right" {
+  @if $direction == "right" {
     @media print {
       margin-left: 95px;
     }

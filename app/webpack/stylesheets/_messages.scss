@@ -1,3 +1,5 @@
+// stylelint-disable max-nesting-depth
+
 @mixin normalize-bubble($direction:left) {
   @if $direction == "left" {
     @media print {

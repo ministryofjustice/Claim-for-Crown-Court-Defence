@@ -7,34 +7,6 @@ nav.pagination {
 }
 
 nav {
-  &.pagination {
-    float: right;
-
-    a {
-      padding: $gutter-one-sixth;
-      border: none;
-    }
-
-    span {
-      &.page {
-        padding: 0 $gutter-one-sixth;
-      }
-
-      &.prev {
-        padding-left: $gutter-one-sixth;
-      }
-
-      &.next {
-        padding-right: $gutter-one-sixth;
-      }
-
-      &.current {
-        padding: $gutter-one-sixth;
-        font-weight: 700;
-      }
-    }
-  }
-
   ul {
     padding-left: 0;
 
@@ -55,6 +27,34 @@ nav {
 
     a {
       display: block;
+    }
+  }
+}
+
+.pagination {
+  float: right;
+
+  a {
+    padding: $gutter-one-sixth;
+    border: none;
+  }
+
+  span {
+    &.page {
+      padding: 0 $gutter-one-sixth;
+    }
+
+    &.prev {
+      padding-left: $gutter-one-sixth;
+    }
+
+    &.next {
+      padding-right: $gutter-one-sixth;
+    }
+
+    &.current {
+      padding: $gutter-one-sixth;
+      font-weight: 700;
     }
   }
 }

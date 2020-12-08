@@ -31,13 +31,9 @@ body {
       width: 35%;
     }
 
-    tfoot {
-      tr {
-        th,
-        td {
-          @include core-19;
-        }
-      }
+    tfoot th,
+    tfoot td {
+      @include core-19;
     }
   }
 }

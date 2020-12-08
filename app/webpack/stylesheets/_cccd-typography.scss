@@ -102,11 +102,9 @@ header.main-header {
       padding-left: $gutter / 10;
     }
 
-    .action-wrapper {
-      a:first-child,
-      .resubmit-claim {
-        margin-right: $gutter-two-thirds;
-      }
+    .action-wrapper a:first-child,
+    .action-wrapper .resubmit-claim {
+      margin-right: $gutter-two-thirds;
     }
   }
 }

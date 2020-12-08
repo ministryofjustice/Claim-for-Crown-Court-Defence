@@ -39,13 +39,11 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       post endpoint(:representation_orders), valid_params, format: :json
     end
 
-    subject { post endpoint(:representation_orders), valid_params, format: :json }
-
     include_examples "should NOT be able to amend a non-draft claim"
 
     context 'when representation_order params are valid' do
       it "should create fee, return 201 and expense JSON output including UUID" do
-        subject
+        post_to_create_endpoint
         expect(last_response.status).to eq 201
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil

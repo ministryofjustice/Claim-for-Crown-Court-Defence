@@ -205,17 +205,19 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
   describe "PUT #update_password" do
     let(:password) { 'password123' }
     let(:password_confirm) { password }
-    subject { put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } } }
+    subject(:password_update_request) do
+      put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } }
+    end
 
-    before(:each) { travel(-6.months) { external_user } }
+    before(:each) { travel_t0(6.months.ago) { external_user } }
 
     context 'when valid' do
       it 'does not require current password to be successful in updating the user record ' do
-        expect { subject }.to change { external_user.reload.user.updated_at }
+        expect { password_update_request }.to change { external_user.reload.user.updated_at }
       end
 
       it 'redirects to external_user show action' do
-        subject
+        password_update_request
         expect(response).to redirect_to(provider_management_provider_external_user_path(provider, external_user))
       end
     end
@@ -224,11 +226,11 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
       let(:password_confirm) { 'passwordxxx' }
 
       it 'does not update the user record' do
-        expect { subject }.not_to change { external_user.reload.user.updated_at }
+        expect { password_update_request }.not_to change { external_user.reload.user.updated_at }
       end
 
       it 'renders the change password template' do
-        subject
+        password_update_request
         expect(response).to render_template(:change_password)
       end
     end

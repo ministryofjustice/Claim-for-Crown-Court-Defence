@@ -206,7 +206,7 @@ form {
 
   input[type="file"] {
     &.has-file {
-      border-color: green;
+      border-color: govuk-colour('green');
       color: $ministry-of-justice;
       font-weight: 700;
     }
@@ -216,7 +216,7 @@ form {
 .warning {
   display: block;
   padding: $gutter-half;
-  color: red;
+  color: govuk-colour('red');
 }
 
 .remove-expense:first-child a {
@@ -283,7 +283,7 @@ form {
   font-weight: 700;
 
   &.alert {
-    color: red;
+    color: govuk-colour('red');
   }
 }
 

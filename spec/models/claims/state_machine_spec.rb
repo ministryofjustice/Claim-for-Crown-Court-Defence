@@ -314,7 +314,7 @@ RSpec.describe Claims::StateMachine, type: :model do
         claim.allocate!
         claim.refuse!
 
-        travel_to(6.months.from_now) do
+        travel_to(current_time + 6.months) do
           claim.await_written_reasons!
           expect(claim.last_submitted_at).to eq(current_time + 6.months)
         end

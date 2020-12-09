@@ -34,10 +34,12 @@
 
   .messages-container .messages-list {
     .message-right {
-      @include normalize-bubble('right'); }
+      @include normalize-bubble('right');
+    }
 
     .message-left {
-      @include normalize-bubble('left'); }
+      @include normalize-bubble('left');
+    }
   }
 
   .single-date {

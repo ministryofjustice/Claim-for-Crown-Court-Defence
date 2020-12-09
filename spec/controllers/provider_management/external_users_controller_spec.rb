@@ -209,7 +209,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
       put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } }
     end
 
-    before(:each) { travel_t0(6.months.ago) { external_user } }
+    before(:each) { travel_to(6.months.ago) { external_user } }
 
     context 'when valid' do
       it 'does not require current password to be successful in updating the user record ' do

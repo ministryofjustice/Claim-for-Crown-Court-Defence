@@ -159,11 +159,6 @@ namespace :claims do
           presenter.state.humanize,
           presenter.case_type_name,
           presenter.submitted_at(include_time: false),
-          # bill type
-          # case number
-          # advocate/litigator
-          # defendant name(s)
-          presenter.state, # status
           # claim.case_type, # case type
           # date submitted
           # archived date

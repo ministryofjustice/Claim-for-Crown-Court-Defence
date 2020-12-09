@@ -4,14 +4,14 @@
   #{$property}: (23 * $scale) + px;
 }
 
-.pdf-font {
+%pdf-font {
   @include scale(font-size, 1);
   font-family: "nta", Arial, sans-serif;
   font-weight: normal;
 }
 
 body {
-  @extend .pdf-font;
+  @extend %pdf-font;
 }
 
 table {

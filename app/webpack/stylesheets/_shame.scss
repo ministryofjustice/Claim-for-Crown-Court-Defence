@@ -522,7 +522,7 @@ form {
 
 // banner: https://moj-design-system.herokuapp.com/components/banner
 .moj-banner {
-  @extend .error-summary;
+  @extend .error-summary; // stylelint-disable-line scss/at-extend-no-missing-placeholder
   width: calc(100% - 40px); // 40px is magic number for padding and border
   border: 5px solid #1d70b8;
   color: #1d70b8;

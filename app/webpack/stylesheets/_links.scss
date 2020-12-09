@@ -1,5 +1,6 @@
 // Basic link styles
-.link-change {
+.link-change,
+.download-all-link {
   @include govuk-responsive-margin(4, "bottom");
   @include govuk-media-query ($from: desktop) {
     position: absolute;
@@ -31,9 +32,4 @@ a.add_fields {
 
 a.delete-draft {
   color: $red;
-}
-
-.download-all-link {
-  @extend .font-small;
-  float: right;
 }

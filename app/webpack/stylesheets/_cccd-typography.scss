@@ -162,7 +162,7 @@ header.main-header {
 }
 
 .notice-summary {
-  @extend .error-summary;
+  @extend .error-summary; // stylelint-disable-line scss/at-extend-no-missing-placeholder
   border-color: $button-colour;
 }
 

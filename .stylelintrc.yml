@@ -4,6 +4,8 @@ ignoreFiles: ['app/webpack/**/_datatables.scss']
 plugins:
   - stylelint-order
 rules:
+  # Limit the number of ID selectors in a selector
+  selector-max-id: 2
   # based on govuk-frontend ordering pattern
   #
   # https://github.com/hudochenkov/stylelint-order/blob/master/rules/properties-order/README.md

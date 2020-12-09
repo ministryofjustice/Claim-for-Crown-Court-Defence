@@ -12,7 +12,7 @@
   font-weight: 700;
 }
 
-a.link-remove {
+.link-remove {
   @include core-19;
   float: right;
   font-weight: 700;
@@ -22,14 +22,14 @@ a.link-remove {
   }
 }
 
-a.add_fields {
+.add_fields {
   display: none;
 }
 
-.js-enabled a.add_fields {
+.js-enabled .add_fields {
   display: inline-block;
 }
 
-a.delete-draft {
+.delete-draft {
   color: $red;
 }

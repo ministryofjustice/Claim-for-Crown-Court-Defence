@@ -14,7 +14,7 @@
 }
 
 // scss-lint:disable QualifyingElement, ImportantRule
-.js-enabled select.typeahead {
+.js-enabled .typeahead {
   @include visually-hidden;
 }
 

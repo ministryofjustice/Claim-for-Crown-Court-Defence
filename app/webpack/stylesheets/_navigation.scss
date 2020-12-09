@@ -1,7 +1,7 @@
 // Navigation styles
 
 .primary-nav-bar nav,
-nav.pagination {
+.pagination {
   @include container;
   padding: $gutter-half 0;
 }
@@ -39,23 +39,21 @@ nav {
     border: none;
   }
 
-  span {
-    &.page {
-      padding: 0 $gutter-one-sixth;
-    }
+  .page {
+    padding: 0 $gutter-one-sixth;
+  }
 
-    &.prev {
-      padding-left: $gutter-one-sixth;
-    }
+  .prev {
+    padding-left: $gutter-one-sixth;
+  }
 
-    &.next {
-      padding-right: $gutter-one-sixth;
-    }
+  .next {
+    padding-right: $gutter-one-sixth;
+  }
 
-    &.current {
-      padding: $gutter-one-sixth;
-      font-weight: 700;
-    }
+  .current {
+    padding: $gutter-one-sixth;
+    font-weight: 700;
   }
 }
 

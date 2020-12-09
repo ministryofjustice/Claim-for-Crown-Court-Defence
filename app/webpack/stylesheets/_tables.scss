@@ -1,4 +1,4 @@
-// stylelint-disable max-nesting-depth
+// stylelint-disable max-nesting-depth, selector-no-qualifying-type
 
 .table-container {
   margin-top: $gutter-half;
@@ -114,7 +114,7 @@ table {
 }
 
 // statuses
-span.state {
+.state {
   display: block;
   padding: $gutter-one-sixth;
   border-width: 2px;
@@ -178,11 +178,11 @@ span.state {
   }
 }
 
-tr.mobile-sort {
+.mobile-sort {
   display: none;
 }
 
-table.report {
+.report {
   td {
     @include core-16;
   }
@@ -213,7 +213,7 @@ table.report {
 }
 
 @include media($max-width: 1018px) {
-  table.report {
+  .report {
     border: 0;
 
     tr {
@@ -294,7 +294,7 @@ table.report {
   }
 }
 
-table.figures {
+.figures {
   th,
   td {
     vertical-align: top;
@@ -316,8 +316,8 @@ table.figures {
   }
 }
 
-table.summary,
-table.nested-summary {
+.summary,
+.nested-summary {
   width: $full-width;
   border-collapse: collapse;
   border-top: none;
@@ -369,7 +369,7 @@ table.nested-summary {
   }
 }
 
-table.nested-summary {
+.nested-summary {
   tbody {
     th:first-child {
       width: $half;
@@ -384,6 +384,6 @@ table.nested-summary {
   }
 }
 
-table.previously-uploaded th:first-child {
+.previously-uploaded th:first-child {
   width: 75%;
 }

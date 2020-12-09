@@ -32,11 +32,11 @@
   padding-left: 0;
 }
 
-.related li.related-topic {
+.related .related-topic {
   list-style: none outside none;
 }
 
-.related li.related-topic a {
+.related .related-topic a {
   display: inline;
   font-weight: 700;
 }
@@ -51,7 +51,7 @@
   background-position: 0 10px;
 }
 
-.related li a.view-all {
+.related li .view-all {
   margin: $gutter-one-third 0 $gutter-one-third;
 }
 
@@ -65,7 +65,7 @@
 }
 
 @media (min-width: 641px) {
-  header.page-header div {
+  .page-header div {
     margin-top: $gutter;
     margin-bottom: $gutter;
   }

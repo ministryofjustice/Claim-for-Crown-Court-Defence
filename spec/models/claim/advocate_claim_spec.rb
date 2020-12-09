@@ -114,7 +114,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         let(:claim) { create(:claim, :agfs_scheme_10) }
 
         it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do
-          expect(claim.eligible_basic_fee_types).to eq([@bft1, @bft5])
+          expect(claim.eligible_basic_fee_types).to match_array([@bft1, @bft5])
         end
       end
 
@@ -123,7 +123,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: offence) }
 
         it 'returns only basic fee types for AGFS scheme 10' do
-          expect(claim.eligible_basic_fee_types).to eq([@bft1, @bft5])
+          expect(claim.eligible_basic_fee_types).to match_array([@bft1, @bft5])
         end
       end
     end

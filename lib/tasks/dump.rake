@@ -38,7 +38,7 @@ namespace :db do
     end
 
     desc 'Create anonymised database dump, compress (gzip) and upload to s3 - run on host via job (see run_job)'
-    task :anonymised => :environment do
+    task :anonymised, [:local] => :environment do |_task, args|
       cmd = 'pg_dump --version'
       puts '---------------------------'
       print "Using: #{%x(#{cmd})}".yellow
@@ -47,7 +47,13 @@ namespace :db do
       filename = File.join('tmp', "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql")
 
       shell_working "exporting unanonymised database data to #{filename}..." do
-        cmd = "pg_dump $DATABASE_URL --no-owner --no-privileges --no-password #{sensitive_table_exclusions} #{unneeded_table_exclusions} -f #{filename}"
+        if args.local.eql?('local')
+          with_config do |host, db, user|
+            cmd = "pg_dump --no-owner --no-privileges --no-password #{sensitive_table_exclusions} #{unneeded_table_exclusions} #{db} -f #{filename}"
+          end
+        else
+          cmd = "pg_dump $DATABASE_URL --no-owner --no-privileges --no-password #{sensitive_table_exclusions} #{unneeded_table_exclusions} -f #{filename}"
+        end
         system(cmd)
       end
 
@@ -59,6 +65,8 @@ namespace :db do
       # $arel_silence_type_casting_deprecation = false
 
       compressed_file = compress_file(filename)
+
+      exit if args.local.eql?('local')
 
       shell_working "writing dump file #{filename}.gz to #{host}'s s3 bucket..." do
         s3_bucket = S3Bucket.new(host)
@@ -153,6 +161,27 @@ namespace :db do
       end
     end
 
+    desc 'Export anonymised claim_state_transitions data'
+    task :claim_state_transitions, [:file] => :environment do |task, args|
+      shell_working "exporting anonymised #{task.name.split(':').last} data" do
+        write_to_file(args.file) do |writer|
+
+          # typically less than 5% will have reasons and fewer with additional text
+          ClaimStateTransition.where.not(reason_text: nil).find_each(batch_size: batch_size) do |claim_state_transition|
+            claim_state_transition.reason_code = ['other_refuse'] if claim_state_transition.reason_code.present?
+            claim_state_transition.reason_text = Faker::Lorem.sentence(word_count: 10, supplemental: false) if claim_state_transition.reason_text.present?
+            writer.call(claim_state_transition)
+          end
+
+          # bigger batch size as there are a lot of claim_state_transitions typically
+          ClaimStateTransition.where(reason_text: nil).find_each(batch_size: 2000) do |claim_state_transition|
+            claim_state_transition.reason_code = ['other_refuse'] if claim_state_transition.reason_code.present?
+            writer.call(claim_state_transition)
+          end
+        end
+      end
+    end
+
     desc 'Export anonymised users data'
     task :users, [:file] => :environment do |task, args|
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
@@ -192,6 +221,7 @@ namespace :db do
         write_to_file(args.file) do |writer|
           Document.find_each(batch_size: batch_size) do |document|
             with_file_name(fake_file_name(content_type: document.document.content_type)) do |file_name, ext|
+
               # Ex-Paperclip documents include a file_path
               document.file_path = "s3/path/to/#{file_name}.#{ext}" if document.file_path
             end
@@ -208,6 +238,7 @@ namespace :db do
           ActiveStorage::Blob.find_each(batch_size: batch_size) do |blob|
             if (blob.attachments.map(&:record_type) - ['Stats::StatsReport']).any?
               blob.filename = fake_file_name(content_type: blob.content_type)
+
               # Ex-Paperclip keys include the filename
               key_match = blob.key.match(/^(.*\d{3}\/\d{3}\/\d{3})\//)
               if key_match
@@ -236,6 +267,12 @@ namespace :db do
 
     private
 
+    def with_config
+      yield ActiveRecord::Base.connection_config[:host],
+        ActiveRecord::Base.connection_config[:database],
+        ActiveRecord::Base.connection_config[:username]
+    end
+
     def valid_hosts
       %w[dev dev-lgfs staging api-sandbox production]
     end
@@ -246,7 +283,7 @@ namespace :db do
     end
 
     def sensitive_tables
-      %w(providers users claims defendants messages documents active_storage_blobs)
+      %w(providers users claims defendants claim_state_transitions messages documents active_storage_blobs)
     end
 
     def unneeded_table_exclusions
@@ -262,7 +299,7 @@ namespace :db do
     end
 
     def fake_file_name(content_type:)
-      Faker::File.file_name(dir: 'fake_file_name', ext: MIME::Types[content_type].first.extensions.first).tr('/','_')
+      Faker::File.file_name(dir: 'fake_file_name', ext: MIME::Types[content_type].first&.extensions&.first || 'pdf').tr('/','_')
     end
 
     def with_file_name file_name, &block

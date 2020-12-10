@@ -4,10 +4,7 @@ require 'json'
 RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
   let(:case_worker_manager) { create(:case_worker, :provider_manager) }
   let(:provider) { create(:provider) }
-  let(:frozen_time) { 6.months.ago }
-  let(:external_user) do
-    Timecop.freeze(frozen_time) { create(:external_user, :admin, provider: provider) }
-  end
+  let(:external_user) { create(:external_user, :admin, provider: provider) }
 
   before { sign_in case_worker_manager.user }
 
@@ -206,38 +203,36 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
   end
 
   describe "PUT #update_password" do
+    let(:password) { 'password123' }
+    let(:password_confirm) { password }
+    subject(:password_update_request) do
+      put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } }
+    end
+
+    before(:each) { travel_to(6.months.ago) { external_user } }
 
     context 'when valid' do
-
-      before(:each) do
-        put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: 'password123', password_confirmation: 'password123' } } }
-        external_user.reload
-      end
-
       it 'does not require current password to be successful in updating the user record ' do
-        expect(external_user.user.updated_at).to_not eql frozen_time
+        expect { password_update_request }.to change { external_user.reload.user.updated_at }
       end
 
       it 'redirects to external_user show action' do
+        password_update_request
         expect(response).to redirect_to(provider_management_provider_external_user_path(provider, external_user))
       end
     end
 
     context 'when invalid' do
-
-      before(:each) do
-        put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: 'password123', password_confirmation: 'passwordxxx' } } }
-      end
+      let(:password_confirm) { 'passwordxxx' }
 
       it 'does not update the user record' do
-        expect(external_user.user.updated_at).to eql frozen_time
+        expect { password_update_request }.not_to change { external_user.reload.user.updated_at }
       end
 
       it 'renders the change password template' do
+        password_update_request
         expect(response).to render_template(:change_password)
       end
     end
-
   end
-
 end

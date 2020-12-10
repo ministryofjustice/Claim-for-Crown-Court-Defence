@@ -35,8 +35,8 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
   end
 
   describe "POST #{endpoint(:representation_orders)}" do
-    def post_to_create_endpoint(submission_date = Date.new(2017, 7, 1))
-      Timecop.freeze(submission_date) { post endpoint(:representation_orders), valid_params, format: :json }
+    def post_to_create_endpoint
+      post endpoint(:representation_orders), valid_params, format: :json
     end
 
     include_examples "should NOT be able to amend a non-draft claim"
@@ -114,7 +114,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       describe 'and the rep_order_date pre-dates the start of the scheme' do
         let(:representation_order_date) { Date.new(2018, 3, 1) }
 
-        before { post_to_create_endpoint(Date.new(2018, 5, 1)) }
+        before { travel_to(Date.new(2018, 5, 1)) { post_to_create_endpoint } }
 
         specify { expect_error_response('Check the combination of the representation order date and offence') }
       end
@@ -122,7 +122,9 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       describe 'and the rep_order_date post-dates the start of the scheme' do
         let(:representation_order_date) { Date.new(2018, 4, 1) }
 
-        specify { expect{ post_to_create_endpoint(Date.new(2018, 5, 1)) }.to change { RepresentationOrder.count }.by(1) }
+        before { travel_to(Date.new(2018, 5, 1)) }
+
+        specify { expect{ post_to_create_endpoint }.to change { RepresentationOrder.count }.by(1) }
       end
     end
   end

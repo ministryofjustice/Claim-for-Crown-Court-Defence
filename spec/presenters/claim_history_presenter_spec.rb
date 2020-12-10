@@ -6,32 +6,32 @@ RSpec.describe ClaimHistoryPresenter do
 
   describe '#history_items_by_date' do
     let(:first_message) do
-      Timecop.travel(Time.zone.local(2015, 9, 21, 13, 0, 0)) do
+      travel_to(Time.zone.local(2015, 9, 21, 13, 0, 0)) do
         create(:message, claim: claim, body: 'Hello world')
       end
     end
 
     let(:second_message) do
-      Timecop.travel(Time.zone.local(2015, 9, 21, 14, 0, 0)) do
+      travel_to(Time.zone.local(2015, 9, 21, 14, 0, 0)) do
         create(:message, claim: claim, body: 'Lorem ipsum')
       end
     end
 
     let(:third_message) do
-      Timecop.travel(Time.zone.local(2015, 9, 23, 14, 0, 0)) do
+      travel_to(Time.zone.local(2015, 9, 23, 14, 0, 0)) do
         create(:message, claim: claim, body: 'Lorem ipsum')
       end
     end
 
     let(:first_redetermination) do
-      Timecop.travel(Time.zone.local(2015, 9, 25, 14, 0, 0)) do
+      travel_to(Time.zone.local(2015, 9, 25, 14, 0, 0)) do
         claim.redeterminations.create(fees: 500, expenses: 300, disbursements: 0)
         claim.redeterminations.last.versions.last
       end
     end
 
     let(:assessment) do
-      Timecop.travel(Time.zone.local(2015, 9, 24, 14, 0, 0)) do
+      travel_to(Time.zone.local(2015, 9, 24, 14, 0, 0)) do
         claim.assessment.fees = 100
         claim.assessment.expenses = 200
         claim.assessment.disbursements = 0
@@ -41,7 +41,7 @@ RSpec.describe ClaimHistoryPresenter do
     end
 
     let!(:expected_hash) do
-      Timecop.travel(Time.zone.local(2015, 9, 21, 13, 50, 9)) do
+      travel_to(Time.zone.local(2015, 9, 21, 13, 50, 9)) do
         claim.submit!
       end
 

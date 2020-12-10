@@ -40,4 +40,37 @@ RSpec.describe Claims::StateMachine, type: :model do
       end
     end
   end
+
+  describe 'scoped associations' do
+    let(:claim) { create :advocate_claim }
+
+    describe '.archived_claim_state_transitions' do
+      it 'only returns transitions to archived state' do
+        draft = create :claim_state_transition, claim: claim, to: 'draft'
+        submitted = create :claim_state_transition, claim: claim, to: 'submitted'
+        allocated = create :claim_state_transition, claim: claim, to: 'allocated'
+        rejected = create :claim_state_transition, claim: claim, to: 'rejected'
+        authorised = create :claim_state_transition, claim: claim, to: 'authorised'
+        redetermination = create :claim_state_transition, claim: claim, to: 'redetermination'
+        awaiting_written_reasons = create :claim_state_transition, claim: claim, to: 'awaiting_written_reasons'
+        part_authorised = create :claim_state_transition, claim: claim, to: 'part_authorised'
+        refused = create :claim_state_transition, claim: claim, to: 'refused'
+        archived_pending_delete = create :claim_state_transition, claim: claim, to: 'archived_pending_delete'
+        archived_pending_review = create :claim_state_transition, claim: claim, to: 'archived_pending_review'
+
+        claim.reload
+        expect(claim.archived_claim_state_transitions).to match_array(
+          [
+            draft,
+            authorised,
+            part_authorised,
+            rejected,
+            refused,
+            archived_pending_delete,
+            archived_pending_review
+          ]
+        )
+      end
+    end
+  end
 end

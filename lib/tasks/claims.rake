@@ -133,37 +133,12 @@ namespace :claims do
     TimedTransitions::BatchTransitioner.new(limit: 10000, dummy: @dummy).run
   end
 
-  desc 'Archive report'
+  desc 'Create a CSV file of all archived claims'
   task :archive_report, [:filename] => :environment do |_task, args|
-    include ApplicationHelper
-    ActiveRecord::Base.logger = Logger.new STDOUT
+    require_relative 'rake_helpers/archived_claims'
 
-    CSV.open(args[:filename], "wb") do |csv|
-      # Claim::BaseClaim.includes(:case_type, :external_user)
-      csv << [
-        'Type', 'Case number', 'Advocate/Litigator', 'Main defendant', 'MAAT',
-        'Status', 'Case type', 'Date submitted', 'Archived date'
-      ]
-
-      # Claims::CaseWorkerClaims.new(current_user: current_user, action: tab, criteria: criteria_params).claims
-      Claim::BaseClaim.where(state: Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES).each do |claim|
-        presenter = present(claim)
-        main_defendant = claim.defendants.sort_by(&:id).first
-        csv << [
-          presenter.pretty_type,
-          presenter.case_number,
-          presenter.external_user.name,
-          main_defendant.name,
-          main_defendant.representation_orders.map(&:maat_reference).join(', '),
-          claim.total + claim.vat_amount, # presenter.total_inc_vat
-          presenter.state.humanize,
-          presenter.case_type_name,
-          presenter.submitted_at(include_time: false),
-          # claim.case_type, # case type
-          # date submitted
-          # archived date
-        ]
-      end
-    end
+    puts "Writing archived claims to #{args[:filename]}".green
+    RakeHelpers::ArchivedClaims.write args[:filename]
+    puts 'Done'.green
   end
 end

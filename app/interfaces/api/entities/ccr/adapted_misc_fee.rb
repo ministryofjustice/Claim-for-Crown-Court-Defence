@@ -37,7 +37,7 @@ module API
         end
 
         def number_of_defendants
-          matching_defendant_uplift_fees.map(&:quantity).inject(:+).to_i + 1
+          matching_defendant_uplift_fees.sum(&:quantity).to_i + 1
         end
       end
     end

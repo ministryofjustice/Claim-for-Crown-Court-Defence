@@ -3,6 +3,8 @@ class ManagementInformationPresenter < BasePresenter
 
   include ManagementInformationReportable
 
+  SORTED_AND_FILTERED_STATES = %w[draft archived_pending_delete archived_pending_review].freeze
+
   def present!
     yield parsed_journeys if block_given?
   end
@@ -13,7 +15,7 @@ class ManagementInformationPresenter < BasePresenter
 
   def sorted_and_filtered_state_transitions
     claim_state_transitions.sort.reject do |transition|
-      %w[draft archived_pending_delete archived_pending_review].include?(transition.to) ||
+      SORTED_AND_FILTERED_STATES.include?(transition.to) ||
         transition.created_at < Time.zone.now - 6.months
     end
   end

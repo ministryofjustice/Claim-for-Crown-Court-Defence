@@ -1,12 +1,14 @@
 class BasicFeesPresenter < BasePresenter
   presents :basic_fees
 
+  FEE_CODES_FOR_EXTRA_FEES = %w[NPW PPE].freeze
+
   def primary_fee
     basic_fees.select { |b| b.fee_type_code == 'BAF' }.first
   end
 
   def extra_fees
-    basic_fees.select { |b| %w[NPW PPE].include? b.fee_type_code }
+    basic_fees.select { |b| FEE_CODES_FOR_EXTRA_FEES.include? b.fee_type_code }
   end
 
   def additional_fees

@@ -61,7 +61,6 @@ RSpec.describe Claims::StateMachine, type: :model do
         claim.reload
         expect(claim.archived_claim_state_transitions).to match_array(
           [
-            draft,
             authorised,
             part_authorised,
             rejected,

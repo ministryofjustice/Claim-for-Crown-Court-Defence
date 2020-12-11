@@ -7,10 +7,6 @@ module Claims::UserMessages
     user_messages_relation.where('user_message_statuses.read = ? AND user_message_statuses.user_id = ?', false, user.id)
   end
 
-  def read_messages_for(user)
-    user_messages_relation.where('user_message_statuses.read = ? AND user_message_statuses.user_id = ?', true, user.id)
-  end
-
   private
 
   def user_messages_relation

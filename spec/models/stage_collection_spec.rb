@@ -22,15 +22,25 @@ RSpec.describe StageCollection do
     end
   end
 
-  describe '#size' do
-    it 'returns the total amount of stages' do
-      expect(collection.size).to eq(stages.size)
+  context 'when enumerating' do
+    describe '#each' do
+      it { expect { |b| collection.each(&b) }.to yield_successive_args(kind_of(Stage), kind_of(Stage)) }
+    end
+
+    describe '#map' do
+      it { expect(collection.map(&:name)).to eql(%i[stage_1 stage_2]) }
+    end
+
+    describe '#first' do
+      it 'returns the first defined stage' do
+        expect(collection.first).to eq(collection.stages.first)
+      end
     end
   end
 
-  describe '#first' do
-    it 'returns the first defined stage' do
-      expect(collection.first).to eq(collection.stages.first)
+  describe '#size' do
+    it 'returns the total amount of stages' do
+      expect(collection.size).to eq(stages.size)
     end
   end
 

@@ -11,9 +11,9 @@ class StageCollection
     @stages = initialize_stages(stages)
   end
 
-  def each(&_block)
+  def each(&block)
     stages.each do |stage|
-      yield(stage) if block_given?
+      yield(stage) if block
     end
   end
 

@@ -10,22 +10,20 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     let!(:allocated_claim)  { create(:allocated_claim,) }
 
     let!(:old_part_authorised_claim) do
-      Timecop.freeze(Time.now - 2.week) do
-        claim = create(:part_authorised_claim)
-        Timecop.freeze(Time.now + 1.week) do
-          claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
-          claim
-        end
+      travel_to(Time.now - 2.week)
+      create(:part_authorised_claim).tap do |claim|
+        travel_to(Time.now + 1.week)
+        claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
+        travel_back
       end
     end
 
     let!(:part_authorised_claim) do
-      Timecop.freeze(Time.now - 2.week) do
-        claim = create(:part_authorised_claim)
-        Timecop.freeze(Time.now + 2.week) do
-          claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
-          claim
-        end
+      travel_to(Time.now - 2.week)
+      create(:part_authorised_claim).tap do |claim|
+        travel_to(Time.now + 2.week)
+        claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
+        travel_back
       end
     end
 

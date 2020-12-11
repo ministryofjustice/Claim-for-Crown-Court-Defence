@@ -77,7 +77,7 @@ module Stats
       describe '#to_a' do
         context 'without specifying x-axis labels' do
           it 'should produce an array of arrays suitable for displaying in a tabular format' do
-            Timecop.freeze(Date.new(2016, 7, 13)) do
+            travel_to(Date.new(2016, 7, 13)) do
               array = [
                 ['Sun 10 Jul 2016', 33, 22, 5],
                 ['Mon 11 Jul 2016', 5, 24, 8],

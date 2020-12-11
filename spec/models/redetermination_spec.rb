@@ -74,14 +74,14 @@ RSpec.describe Redetermination do
 
       # Given a number of redeterminations written at various times
       [date_3, date_1, date_2].each do |date|
-        Timecop.freeze(date) do
+        travel_to(date) do
           create(:redetermination, claim: claim)
         end
       end
       # when I call claim.redeterminations
       rds = claim.redeterminations
 
-      # it should return them in created_at order - con vert to integer to remove precesion pproblems on travis
+      # it should return them in created_at order - convert to integer to remove precesion pproblems on travis
       expect(rds.map(&:created_at).map(&:to_i)).to eq( [ date_1.to_i, date_2.to_i, date_3.to_i ])
     end
   end

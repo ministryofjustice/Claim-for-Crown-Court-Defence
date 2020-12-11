@@ -75,7 +75,7 @@ RSpec.describe Stats::StatsReport do
     describe '.record_start' do
       it 'creates and incomplete record' do
         frozen_time = Time.new(2015, 3, 16, 13, 36, 12)
-        Timecop.freeze(frozen_time) do
+        travel_to(frozen_time) do
           record = described_class.record_start('my_new_report')
           expect(record.report_name).to eq 'my_new_report'
           expect(record.started_at).to eq frozen_time
@@ -89,11 +89,11 @@ RSpec.describe Stats::StatsReport do
       it 'updates with report contents and completed_at time' do
         frozen_time = Time.new(2015, 3, 16, 13, 36, 12)
         record = nil
-        Timecop.freeze(frozen_time) do
+        travel_to(frozen_time) do
           record = described_class.record_start('my_new_report')
         end
 
-        Timecop.freeze(frozen_time + 2.minutes) do
+        travel_to(frozen_time + 2.minutes) do
           record.write_report(Stats::Result.new('The contents of my new report', 'csv'))
         end
 

@@ -103,7 +103,7 @@ FactoryBot.define do
     end
 
     factory :awaiting_written_reasons_claim do
-      after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.await_written_reasons! }
+      after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.await_written_reasons! }
     end
 
     factory :part_authorised_claim do

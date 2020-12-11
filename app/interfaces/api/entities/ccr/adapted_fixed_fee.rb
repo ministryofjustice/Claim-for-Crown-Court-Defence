@@ -42,11 +42,11 @@ module API
         end
 
         def daily_attendances
-          [matching_fixed_fees.map(&:quantity).inject(:+).to_i, 1].max
+          [matching_fixed_fees.sum(&:quantity).to_i, 1].max
         end
 
         def number_of_defendants
-          defendant_uplift_fees.map(&:quantity).inject(:+).to_i + 1
+          defendant_uplift_fees.sum(&:quantity).to_i + 1
         end
 
         def claim

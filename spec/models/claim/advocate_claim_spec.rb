@@ -114,7 +114,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         let(:claim) { create(:claim, :agfs_scheme_10) }
 
         it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do
-          expect(claim.eligible_basic_fee_types).to eq([@bft1, @bft5])
+          expect(claim.eligible_basic_fee_types).to match_array([@bft1, @bft5])
         end
       end
 
@@ -123,7 +123,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: offence) }
 
         it 'returns only basic fee types for AGFS scheme 10' do
-          expect(claim.eligible_basic_fee_types).to eq([@bft1, @bft5])
+          expect(claim.eligible_basic_fee_types).to match_array([@bft1, @bft5])
         end
       end
     end
@@ -1296,7 +1296,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     describe 'submission_date' do
       it 'should set the submission date to the date it was set to state redetermination' do
         new_time = 36.hours.from_now
-        Timecop.freeze new_time do
+        travel_to new_time do
           claim.redetermine!
         end
         expect(claim.last_submitted_at).to be_within_seconds_of(new_time, 1)
@@ -1398,21 +1398,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       context 'previous redetermination record created before state was changed to redetermination' do
         it 'should be true' do
-          Timecop.freeze(Time.now - 2.hours) do
-            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
-            Timecop.freeze(Time.now ) do
-              @claim.authorise_part!
-              @claim.redetermine!
-              @claim.allocate!
-            end
-            expect(@claim.requested_redetermination?).to be true
+          @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
+          travel_to(2.hours.since) do
+            @claim.authorise_part!
+            @claim.redetermine!
+            @claim.allocate!
           end
+          expect(@claim.requested_redetermination?).to be true
         end
       end
 
       context 'latest redetermination created after transition to redetermination' do
         it 'should be false' do
-          Timecop.freeze(Time.now + 10.minutes) do
+          travel_to(10.minutes.since) do
             @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
           end
           expect(@claim.requested_redetermination?).to be false

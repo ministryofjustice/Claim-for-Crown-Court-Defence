@@ -12,6 +12,10 @@ describe FeedbackHelper do
     it 'should be falsey for path not containing `claims` string' do
       expect(helper.referrer_is_claim?('/claim_intention')).to be_falsey
     end
+
+    it 'should be falsey if the referrer is nil' do
+      expect(helper.referrer_is_claim?(nil)).to be_falsey
+    end
   end
 
   describe '#cannot_identify_user?' do

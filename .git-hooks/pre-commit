@@ -31,3 +31,12 @@ fi
 printf '\nLinting JavaScript files...\n'
 
 yarn run validate:js
+
+
+################################################################################
+# SCSS linting using styleLint
+#
+
+printf '\nLinting SCSS files...\n'
+
+yarn run validate:scss

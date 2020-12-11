@@ -1,16 +1,15 @@
-/*--- Typography Settings ---*/
-
+// Typography Settings
 .bold-xsmall {
-  @include bold-14();
+  @include bold-14;
 }
 
 .bold-normal {
-  @include bold-16();
+  @include bold-16;
 }
 
 .unique-id-small {
-  color: $black;
   display: block;
+  color: $black;
   font-size: 12px;
 }
 
@@ -18,7 +17,7 @@
   display: inline-block;
 }
 
-header.main-header {
+.main-header {
   @include container;
   margin-bottom: $gutter;
 
@@ -28,7 +27,6 @@ header.main-header {
     @include heading-48;
     font-weight: 700;
   }
-
 }
 
 .sub-header {
@@ -44,7 +42,7 @@ header.main-header {
   }
 
   .numerical-value {
-    @include bold-36();
+    @include bold-36;
     display: block;
     color: $text-colour;
   }
@@ -61,19 +59,19 @@ header.main-header {
     }
 
     @include core-19;
-    padding-top: 0;
     display: inline-block;
     margin-left: 0;
+    padding-top: 0;
   }
 
   .case-number-header {
     @include core-36;
     display: block;
     font-weight: 700;
-    overflow-wrap: break-word;
-    word-break: break-word;
     word-wrap: break-word;
+    word-break: break-word;
     hyphens: auto;
+    overflow-wrap: break-word;
   }
 
   .claim-status {
@@ -104,12 +102,9 @@ header.main-header {
       padding-left: $gutter / 10;
     }
 
-    .action-wrapper {
-
-      a:first-child,
-      .resubmit-claim {
-        margin-right: $gutter-two-thirds;
-      }
+    .action-wrapper a:first-child,
+    .action-wrapper .resubmit-claim {
+      margin-right: $gutter-two-thirds;
     }
   }
 }
@@ -117,11 +112,11 @@ header.main-header {
 .new-claim-content {
   h2 {
     @include core-24;
-    font-weight: 800;
     margin-top: $gutter;
+    font-weight: 800;
   }
 
-  h2~h2 {
+  h2 ~ h2 {
     margin-top: $gutter * 2;
   }
 }
@@ -131,13 +126,13 @@ header.main-header {
 // --------------------------------------- */
 
 .new-claim-hgroup {
-  border-top: 5px solid $link-colour;
   margin-top: $gutter-one-sixth;
+  border-top: 5px solid $link-colour;
 
   h2 {
     @include core-24;
-    font-weight: 800;
     margin-top: $gutter-half;
+    font-weight: 800;
   }
 
   h3 {
@@ -167,7 +162,7 @@ header.main-header {
 }
 
 .notice-summary {
-  @extend .error-summary;
+  @extend .error-summary; // stylelint-disable-line scss/at-extend-no-missing-placeholder
   border-color: $button-colour;
 }
 
@@ -175,11 +170,11 @@ header.main-header {
   margin-bottom: $gutter;
 
   dt {
-    float: left;
     margin-right: $gutter-one-sixth;
+    float: left;
 
     &:after {
-      content: ":"
+      content: ":";
     }
   }
 }
@@ -188,21 +183,21 @@ header.main-header {
   padding-left: $gutter-two-thirds;
 
   li {
-    list-style: disc inside;
     line-height: 30px;
+    list-style: disc inside;
 
-    &.last-element {
+    &:last-child {
       margin-bottom: $gutter;
     }
   }
 }
 
 .json-schema {
-  font-family: "Courier New", Monospace;
+  font-family: "Courier New", monospace;
   font-size: 80%;
 }
 
-p.file-upload-name {
+.file-upload-name {
   margin: $gutter-one-sixth 0 0;
   font-style: italic;
 }

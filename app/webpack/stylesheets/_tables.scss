@@ -1,3 +1,5 @@
+// stylelint-disable max-nesting-depth, selector-no-qualifying-type
+
 .table-container {
   margin-top: $gutter-half;
   margin-bottom: $gutter;
@@ -5,19 +7,18 @@
 
 table {
   margin-bottom: $gutter-two-thirds;
-  background-color: $white;
   border-collapse: collapse;
   border-top: 2px solid $border-colour;
+  background-color: $white;
 
   caption {
     @include core-19;
+    padding-bottom: $gutter-half / 2;
     font-weight: 700;
     text-align: left;
-    padding-bottom: $gutter-half / 2;
   }
 
   tr {
-
     th,
     td {
       &:first-child {
@@ -30,7 +31,6 @@ table {
     }
 
     &.no-border {
-
       th,
       td {
         border: none;
@@ -51,8 +51,8 @@ table {
         .error-message {
           position: absolute;
           top: -$gutter;
-          color: $error-colour;
           width: 320px;
+          color: $error-colour;
 
           @media (max-width: 1018px) {
             width: auto;
@@ -72,11 +72,11 @@ table {
         }
 
         .warning-message {
-          font-weight: 700;
           position: absolute;
           top: -$gutter;
-          color: $orange;
           width: 320px;
+          color: $orange;
+          font-weight: 700;
 
           @media (max-width: 1018px) {
             width: auto;
@@ -106,60 +106,58 @@ table {
 
     th {
       @include core-16;
-      font-weight: 700;
       color: $text-colour;
       background: transparent;
+      font-weight: 700;
     }
   }
 }
 
-// ================================================================//
 // statuses
-// ================================================================//
-span.state {
+.state {
   display: block;
-  text-align: center;
   padding: $gutter-one-sixth;
   border-width: 2px;
   border-style: solid;
   background: $white;
+  text-align: center;
 
   &.state-authorised,
   &.state-accepted {
-    color: $green;
     border-color: $green;
+    color: $green;
   }
 
   &.state-allocated {
-    color: $fuschia;
     border-color: $fuschia;
+    color: $fuschia;
   }
 
   &.state-draft {
-    color: $govuk-blue;
     border-color: $govuk-blue;
+    color: $govuk-blue;
   }
 
   &.state-rejected,
   &.state-refused,
   &.state-unverified {
-    color: $error-colour;
     border-color: $error-colour;
+    color: $error-colour;
   }
 
   &.state-submitted {
-    color: $black;
     border-color: $black;
+    color: $black;
   }
 
   &.state-redermination {
-    color: $text-colour;
     border-color: $text-colour;
+    color: $text-colour;
   }
 
   &.state-part-authorised {
-    color: $govuk-blue;
     border-color: $govuk-blue;
+    color: $govuk-blue;
   }
 }
 
@@ -169,24 +167,22 @@ span.state {
   }
 
   .table-summary {
-
     th,
     td {
       vertical-align: top;
     }
 
-    tr>th {
+    tr > th {
       width: 30%;
     }
   }
 }
 
-tr.mobile-sort {
+.mobile-sort {
   display: none;
 }
 
-table.report {
-
+.report {
   td {
     @include core-16;
   }
@@ -217,17 +213,17 @@ table.report {
 }
 
 @include media($max-width: 1018px) {
-  table.report {
+  .report {
     border: 0;
 
     tr {
-      border-bottom: 3px solid $grey-3;
       display: block;
       margin-bottom: $gutter-one-third;
+      border-bottom: 3px solid $grey-3;
 
       td {
-        border-bottom: 1px solid $grey-3;
         display: block;
+        border-bottom: 1px solid $grey-3;
         text-align: right;
       }
 
@@ -245,12 +241,12 @@ table.report {
       }
 
       &.mobile-sort {
-        @include clearfix();
+        @include clearfix;
+        display: inline-block;
+        width: $full-width;
 
         background-color: $white;
-        display: inline-block;
         vertical-align: inherit;
-        width: $full-width;
 
         th {
           text-align: left;
@@ -298,8 +294,7 @@ table.report {
   }
 }
 
-table.figures {
-
+.figures {
   th,
   td {
     vertical-align: top;
@@ -321,28 +316,12 @@ table.figures {
   }
 }
 
-table {
-
-  th {
-    @include bold-16;
-  }
-
-  td {
-    @include core-16;
-  }
-
-  th,
-  td {
-    padding: em(12, 16) em(20, 16) em(9, 16) 0;
-  }
-}
-
-table.summary,
-table.nested-summary {
+.summary,
+.nested-summary {
   width: $full-width;
-  background-color: $white;
   border-collapse: collapse;
   border-top: none;
+  background-color: $white;
 
   thead th {
     padding-top: $gutter-half;
@@ -357,9 +336,9 @@ table.nested-summary {
 
     th {
       @include core-19;
-      font-weight: 700;
       color: $text-colour;
       background: transparent;
+      font-weight: 700;
 
       &:first-child {
         width: $one-third;
@@ -373,7 +352,6 @@ table.nested-summary {
   }
 
   tfoot {
-
     th,
     td {
       @include core-19;
@@ -382,7 +360,6 @@ table.nested-summary {
   }
 
   tr {
-
     th,
     td {
       &:first-child {
@@ -392,14 +369,13 @@ table.nested-summary {
   }
 }
 
-table.nested-summary {
+.nested-summary {
   tbody {
     th:first-child {
       width: $half;
     }
 
     tr:last-child {
-
       th,
       td {
         border-bottom: 0;
@@ -408,7 +384,6 @@ table.nested-summary {
   }
 }
 
-
-table.previously-uploaded th:first-child {
+.previously-uploaded th:first-child {
   width: 75%;
 }

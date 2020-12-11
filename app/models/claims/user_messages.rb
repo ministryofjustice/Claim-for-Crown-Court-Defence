@@ -1,10 +1,10 @@
 module Claims::UserMessages
   def read_messages
-    user_messages_relation.where('user_message_statuses.read = ?', true)
+    user_messages_relation.where(user_message_statuses: { read: true })
   end
 
   def unread_messages
-    user_messages_relation.where('user_message_statuses.read = ?', false)
+    user_messages_relation.where(user_message_statuses: { read: false })
   end
 
   def has_read_messages?

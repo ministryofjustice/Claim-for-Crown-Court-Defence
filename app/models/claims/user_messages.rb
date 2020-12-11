@@ -3,10 +3,6 @@ module Claims::UserMessages
     unread_messages_for(user).any?
   end
 
-  def has_read_messages_for?(user)
-    read_messages_for(user).any?
-  end
-
   def unread_messages_for(user)
     user_messages_relation.where('user_message_statuses.read = ? AND user_message_statuses.user_id = ?', false, user.id)
   end

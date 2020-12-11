@@ -13,28 +13,28 @@ moj.Modules.AllocationScheme = {
    * cache the el
    * bindEvents
    */
-  init: function() {
-    this.$el = $(this.el);
-    this.bindEvents();
+  init: function () {
+    this.$el = $(this.el)
+    this.bindEvents()
   },
 
-  bindEvents: function() {
+  bindEvents: function () {
     /**
      * Publish the sheme change event
      * passng the value
      * Publish data: {object} {scheme: <input value>}
      */
-    this.$el.on('change', 'input', function(e) {
+    this.$el.on('change', 'input', function (e) {
       $.publish('/scheme/change/', {
         scheme: $(e.target).val()
-      });
-    });
+      })
+    })
   },
 
   /**
    * Return the value of the selected radio
    */
   selectedValue: function () {
-    return $(this.el).find('input:checked').val();
+    return $(this.el).find('input:checked').val()
   }
-};
+}

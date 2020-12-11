@@ -1,25 +1,25 @@
 moj.Modules.DuplicateExpenseCtrl = {
   el: '.mod-expenses',
   init: function () {
-    this.$el = $(this.el);
+    this.$el = $(this.el)
 
     if (this.$el.length) {
-      this.bindEvents();
+      this.bindEvents()
     }
   },
 
   bindEvents: function () {
-    var self = this;
+    const self = this
 
     this.$el.on('click', '.fx-duplicate-expense', function () {
-      self.step1();
+      self.step1()
       // return false to stop the href;
-      return false;
-    });
+      return false
+    })
 
     $.subscribe('/step1/complete/', function (e, data) {
-      self.step2(data);
-    });
+      self.step2(data)
+    })
   },
   /**
    * Step 1 will scrape the DOM for the
@@ -29,9 +29,9 @@ moj.Modules.DuplicateExpenseCtrl = {
    */
   step1: function () {
     this.mapFormData().then(function (data) {
-      $.publish('/step1/complete/', data);
-    });
-    return this;
+      $.publish('/step1/complete/', data)
+    })
+    return this
   },
 
   /**
@@ -41,9 +41,9 @@ moj.Modules.DuplicateExpenseCtrl = {
    * @return {[type]}      [description]
    */
   step2: function (data) {
-    this.$el.find('.add_fields').click();
-    this.populateNewItem(data);
-    return this;
+    this.$el.find('.add_fields').click()
+    this.populateNewItem(data)
+    return this
   },
 
   /**
@@ -52,61 +52,60 @@ moj.Modules.DuplicateExpenseCtrl = {
    * @param  {Object} data The model for the new section
    */
   populateNewItem: function (data) {
-    var $el = $('.expense-group:last');
+    const $el = $('.expense-group:last')
     // expense type & travel reasons + other & milage rates
-    this.setSelectValue($el, '.fx-travel-expense-type select', data.expense_type_id);
-    this.setSelectValue($el, '.fx-travel-reason select', data.reason_id, data.location_type);
-    this.setSelectValue($el, '.fx-travel-reason-other input', data.reason_text);
+    this.setSelectValue($el, '.fx-travel-expense-type select', data.expense_type_id)
+    this.setSelectValue($el, '.fx-travel-reason select', data.reason_id, data.location_type)
+    this.setSelectValue($el, '.fx-travel-reason-other input', data.reason_text)
 
-    //amounts
-    this.setInputValue($el, '.fx-travel-vat-amount input', data.vat_amount);
-    this.setInputValue($el, '.fx-travel-net-amount input', data.amount);
+    // amounts
+    this.setInputValue($el, '.fx-travel-vat-amount input', data.vat_amount)
+    this.setInputValue($el, '.fx-travel-net-amount input', data.amount)
 
     // Hours & distance
-    this.setInputValue($el, '.fx-travel-hours', data.hours);
-    this.setInputValue($el, '.fx-travel-distance input', data.distance);
-    this.setInputValue($el, '.fx-travel-calculated-distance', data.calculated_distance);
+    this.setInputValue($el, '.fx-travel-hours', data.hours)
+    this.setInputValue($el, '.fx-travel-distance input', data.distance)
+    this.setInputValue($el, '.fx-travel-calculated-distance', data.calculated_distance)
 
-    this.setInputValue($el, '.fx-travel-location input', data.location);
+    this.setInputValue($el, '.fx-travel-location input', data.location)
 
     // select the option by the data.location value
-    $el.find('.fx-establishment-select select option').filter(function (idx, el) {
-      if ($(el).text() == data.location) {
-        $(el).prop('selected', true);
-        return;
+    $el.find('.fx-establishment-select select option').filter(function (idx, el) { // eslint-disable-line
+      if ($(el).text() === data.location) {
+        $(el).prop('selected', true)
       }
-    });
+    })
 
-    this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id);
+    this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id)
 
     // set focus state on '.remove_fields' within the new section
-    $el.find('.remove_fields:last').focus();
+    $el.find('.remove_fields:last').focus()
 
     // trigger the side bar to recalculate all totals
-    $('#claim-form').trigger('recalculate');
+    $('#claim-form').trigger('recalculate')
   },
 
   setRadioValue: function ($el, selector, val) {
     if (val) {
-      $el.find(selector + '[id$=mileage_rate_id_' + val + ']').prop('checked', true).click();
+      $el.find(selector + '[id$=mileage_rate_id_' + val + ']').prop('checked', true).click()
     }
   },
 
-  setSelectValue: function ($el, selector, val, location_type) {
-    if (location_type) {
-      $el.find(selector + ' option[data-location-type=' + location_type + ']').prop('selected', true);
-      $el.find(selector).trigger('change');
-      return;
+  setSelectValue: function ($el, selector, val, locationType) {
+    if (locationType) {
+      $el.find(selector + ' option[data-location-type=' + locationType + ']').prop('selected', true)
+      $el.find(selector).trigger('change')
+      return
     }
 
     if (val) {
-      $el.find(selector).val(val).trigger('change');
+      $el.find(selector).val(val).trigger('change')
     }
   },
 
   setInputValue: function ($el, selector, val) {
     if (val) {
-      $el.find(selector).val(val);
+      $el.find(selector).val(val)
     }
   },
 
@@ -116,7 +115,7 @@ moj.Modules.DuplicateExpenseCtrl = {
    * @return {Array} Serialised form elements
    */
   getFormData: function () {
-    return $('.expense-group:last').find('input,select').serializeArray();
+    return $('.expense-group:last').find('input,select').serializeArray()
   },
 
   /**
@@ -127,12 +126,11 @@ moj.Modules.DuplicateExpenseCtrl = {
    * @return {String}     the model name
    */
   getKeyName: function (obj) {
-    var str;
     if (obj.name.indexOf('][') === -1) {
-      return obj.name;
+      return obj.name
     }
-    str = obj.name.split('][').slice(2)[0];
-    return str.substring(0, str.length - 1);
+    const str = obj.name.split('][').slice(2)[0]
+    return str.substring(0, str.length - 1)
   },
 
   /**
@@ -141,35 +139,34 @@ moj.Modules.DuplicateExpenseCtrl = {
    * populate the duplicated expenses
    */
   mapFormData: function () {
-    var deferred = $.Deferred();
-    var self = this;
-    var data = {};
+    const deferred = $.Deferred()
+    const self = this
+    const data = {}
     $.map(this.getFormData(), function (obj, idx) {
-      var str = self.getKeyName(obj);
+      const str = self.getKeyName(obj)
       if (obj.value) {
-        data[str] = obj.value;
+        data[str] = obj.value
       }
-    });
-    deferred.resolve(data);
-    return deferred.promise();
+    })
+    deferred.resolve(data)
+    return deferred.promise()
   }
 };
 
 (function ($) {
   $.fn.serializeFormJSON = function () {
-
-    var o = {};
-    var a = this.serializeArray();
+    const o = {}
+    const a = this.serializeArray()
     $.each(a, function () {
       if (o[this.name]) {
         if (!o[this.name].push) {
-          o[this.name] = [o[this.name]];
+          o[this.name] = [o[this.name]]
         }
-        o[this.name].push(this.value || '');
+        o[this.name].push(this.value || '')
       } else {
-        o[this.name] = this.value || '';
+        o[this.name] = this.value || ''
       }
-    });
-    return o;
-  };
-})(jQuery);
+    })
+    return o
+  }
+})(jQuery)

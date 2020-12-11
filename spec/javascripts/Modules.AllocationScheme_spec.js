@@ -1,48 +1,44 @@
-describe("Modules.AllocationScheme.js", function() {
-  var mod = moj.Modules.AllocationScheme;
-  var filtersFixtureDOM = $('<div id="allocation-filters"/>');
+describe('Modules.AllocationScheme.js', function () {
+  const mod = moj.Modules.AllocationScheme
+  const filtersFixtureDOM = $('<div id="allocation-filters"/>')
 
-  beforeEach(function() {
-    $('body').append(filtersFixtureDOM);
-  });
-
-  afterEach(function() {
-    filtersFixtureDOM.remove();
-  });
-
-
-  it('...should exist', function() {
-    expect(moj.Modules.AllocationScheme).toBeDefined();
-  });
-
-  it('...should have a `this.el` defined', function() {
-    expect(mod.el).toEqual('#allocation-filters');
+  beforeEach(function () {
+    $('body').append(filtersFixtureDOM)
   })
 
-  it('...should cache `this.$el`, ', function() {
-    mod.$el = null;
-    expect(mod.$el).toEqual(null);
-    mod.init();
-    expect(mod.$el instanceof jQuery).toEqual(true);
-  });
+  afterEach(function () {
+    filtersFixtureDOM.remove()
+  })
 
-  it('...should call `bindEvents`', function() {
-    spyOn(mod, 'bindEvents').and.callThrough();
-    mod.init();
-    expect(mod.bindEvents).toHaveBeenCalled();
-  });
+  it('...should exist', function () {
+    expect(moj.Modules.AllocationScheme).toBeDefined()
+  })
 
-  it('...should publish a `/scheme/change/` event and value', function(){
+  it('...should have a `this.el` defined', function () {
+    expect(mod.el).toEqual('#allocation-filters')
+  })
 
-    $(filtersFixtureDOM).append($('<input name="myname" value="input-value" type="radio" />'));
-    mod.init();
+  it('...should cache `this.$el`, ', function () {
+    mod.$el = null
+    expect(mod.$el).toEqual(null)
+    mod.init()
+    expect(mod.$el instanceof jQuery).toEqual(true)
+  })
 
-    spyOn($, 'publish').and.callThrough();
+  it('...should call `bindEvents`', function () {
+    spyOn(mod, 'bindEvents').and.callThrough()
+    mod.init()
+    expect(mod.bindEvents).toHaveBeenCalled()
+  })
 
-    $('#allocation-filters input').change();
+  it('...should publish a `/scheme/change/` event and value', function () {
+    $(filtersFixtureDOM).append($('<input name="myname" value="input-value" type="radio" />'))
+    mod.init()
 
-    expect($.publish).toHaveBeenCalledWith('/scheme/change/', {scheme:'input-value'});
+    spyOn($, 'publish').and.callThrough()
 
-  });
+    $('#allocation-filters input').change()
 
-});
+    expect($.publish).toHaveBeenCalledWith('/scheme/change/', { scheme: 'input-value' })
+  })
+})

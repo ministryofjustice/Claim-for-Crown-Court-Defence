@@ -1,44 +1,43 @@
-(function(exports, $) {
-  var Module = exports.Helpers.API || {};
+(function (exports, $) {
+  const Module = exports.Helpers.API || {}
 
-  function query(ajaxSettings, callbackSettings) {
+  function query (ajaxSettings, callbackSettings) {
     // Creating the promise
-    var def = $.Deferred();
+    const def = $.Deferred()
 
     // Merge  `ajaxSettings` with defaults
     ajaxSettings = $.extend({}, {
       type: 'GET',
       dataType: 'json'
-    }, ajaxSettings);
-
+    }, ajaxSettings)
 
     // Merge `callbackSettings` with defaults
     callbackSettings = $.extend({}, {
-      success: function(results, status, res) {
-        def.resolve(results);
+      success: function (results, status, res) {
+        def.resolve(results)
       },
-      error: function(res, status, message) {
-        def.reject(res.responseJSON);
+      error: function (res, status, message) {
+        def.reject(res.responseJSON)
       }
-    }, callbackSettings);
+    }, callbackSettings)
 
     // Resolve with an error if `url` is missing
     if (!ajaxSettings.url) {
       def.reject('error', {
         message: 'No URL provided'
-      });
+      })
     }
     // Hand the call to jQuery
     // if there is a `url`
-    $.ajax(ajaxSettings).then(callbackSettings.success, callbackSettings.error);
+    $.ajax(ajaxSettings).then(callbackSettings.success, callbackSettings.error)
 
     // Return the promise
-    return def.promise();
+    return def.promise()
   }
 
   Module._CORE = {
     query: query
-  };
+  }
 
-  exports.Helpers.API = Module;
-}(moj, jQuery));
+  exports.Helpers.API = Module
+}(moj, jQuery))

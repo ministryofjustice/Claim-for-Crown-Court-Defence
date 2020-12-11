@@ -1,6 +1,6 @@
-describe("Modules.AmountAssessedBlock.js", function () {
-  var domFixture = $('<div class="main" />');
-  var view = [
+describe('Modules.AmountAssessedBlock.js', function () {
+  const domFixture = $('<div class="main" />')
+  const view = [
     '<div class="fx-assesment-hook">',
     '  <div class="js-cw-claim-assessment" id="claim-status" style="display: block;">',
     '    <h3 class="heading-medium">',
@@ -23,25 +23,23 @@ describe("Modules.AmountAssessedBlock.js", function () {
     '    </fieldset>',
     '  </div>',
     '</div>'
-  ].join('');
-
+  ].join('')
 
   beforeEach(function () {
-    domFixture.append($(view));
-    $('body').append(domFixture);
-
+    domFixture.append($(view))
+    $('body').append(domFixture)
 
     // reset to default state
-    moj.Modules.AmountAssessed.init();
-  });
+    moj.Modules.AmountAssessed.init()
+  })
 
   afterEach(function () {
-    domFixture.empty();
-  });
+    domFixture.empty()
+  })
 
   describe('Defaults', function () {
     it('should have `this.config` defined', function () {
-      var block = moj.Modules.AmountAssessed.blocks[0];
+      const block = moj.Modules.AmountAssessed.blocks[0]
       expect(block.config).toEqual({
         hook: '.fx-assesment-hook',
         form: '.js-cw-claim-assessment',
@@ -53,11 +51,11 @@ describe("Modules.AmountAssessedBlock.js", function () {
         otherCheckbox: '#state_reason_other',
         otherRefuseCheckbox: '#state_reason_other_refuse',
         action: 'toggle'
-      });
-    });
+      })
+    })
 
     it('should have `this.states` defined', function () {
-      var block = moj.Modules.AmountAssessed.blocks[0];
+      const block = moj.Modules.AmountAssessed.blocks[0]
       expect(block.states).toEqual({
         rejected: {
           form: false,
@@ -80,43 +78,42 @@ describe("Modules.AmountAssessedBlock.js", function () {
           refuseReasons: false
         }
       })
-    });
-  });
+    })
+  })
 
   describe('Methods..', function () {
     describe('...slider', function () {
       it('should call correct $.fn', function () {
-        var block = moj.Modules.AmountAssessed.blocks[0];
-        var x = false;
+        const block = moj.Modules.AmountAssessed.blocks[0]
+        let x = false
         $.fn.addClass = function () {
-          x = true;
+          x = true
         }
         expect(x).toEqual(false)
         block.slider(false, $('<div />'))
         expect(x).toEqual(true)
+      })
+    })
+  })
+})
 
-      });
-    });
-  });
-});
-
-describe("Modules.AmountAssessed.js", function () {
+describe('Modules.AmountAssessed.js', function () {
   beforeEach(function () {
     // reset to default state
-    moj.Modules.AmountAssessed.init();
-  });
+    moj.Modules.AmountAssessed.init()
+  })
 
-  afterEach(function () {});
+  afterEach(function () {})
 
   describe('Defaults', function () {
     it('should have a `blocks` array defined', function () {
-      expect(moj.Modules.AmountAssessed.blocks).toEqual(jasmine.any(Array));
-    });
+      expect(moj.Modules.AmountAssessed.blocks).toEqual(jasmine.any(Array))
+    })
 
     it('should call `moj.Modules.AmountAssessedBlock` on init', function () {
-      spyOn(moj.Modules, 'AmountAssessedBlock');
-      moj.Modules.AmountAssessed.init();
-      expect(moj.Modules.AmountAssessedBlock).toHaveBeenCalled();
-    });
-  });
-});
+      spyOn(moj.Modules, 'AmountAssessedBlock')
+      moj.Modules.AmountAssessed.init()
+      expect(moj.Modules.AmountAssessedBlock).toHaveBeenCalled()
+    })
+  })
+})

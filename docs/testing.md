@@ -1,7 +1,8 @@
-## Testing
+## Testing and Linting
 
 A combination of unit testing (rspec and jasmine), feature test (cucumber) and static analysis (rubocop, brakeman) make up the test suite. You can run the entire test suite you can use by calling `rake` from the commandline.
 
+The CI lints SASS and JavaScript using npm and yarn.
 
 ## Unit testing
 
@@ -11,6 +12,12 @@ To execute unit tests
 bundle exec rspec
 bundle exec rake jasmine:ci
 ```
+
+### Javascript Linting
+
+CCCD uses [standardjs](http://standardjs.com/), an opinionated JavaScript linter. All JavaScript (except vendor files) files follow its conventions, and it runs on git pre-commit to ensure that commits are in line with them.
+
+You can manually run it using `$ yarn run validate:js`
 
 ### Javascript Unit Testing
 

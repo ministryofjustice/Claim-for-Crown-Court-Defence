@@ -90,6 +90,6 @@
 
           %td.messages{ 'data-label': t('.messages') }
             - if claim.messages.any?
-              = govuk_link_to claim.unread_messages_for?(current_user).any? ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{external_users_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
+              = govuk_link_to claim.unread_messages_for(current_user).any? ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{external_users_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
             - else
               %span.none= t('.none')

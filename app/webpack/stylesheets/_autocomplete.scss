@@ -14,7 +14,7 @@
 }
 
 // scss-lint:disable QualifyingElement, ImportantRule
-.js-enabled .typeahead {
+.js-enabled select.typeahead { // stylelint-disable-line selector-no-qualifying-type
   @include visually-hidden;
 }
 

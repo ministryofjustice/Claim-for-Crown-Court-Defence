@@ -4,7 +4,7 @@ module Claims::UserMessages
   end
 
   def unread_messages_for(user)
-    user_messages_relation.where('user_message_statuses.read = ? AND user_message_statuses.user_id = ?', false, user.id)
+    user_messages_relation.where(user_message_statuses: { read: false, user_id: user.id })
   end
 
   private

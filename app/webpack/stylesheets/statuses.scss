@@ -1,4 +1,6 @@
-// Styling specifically for Claim statuses
+/***************************************
+Styling specifically for Claim statuses
+***************************************/
 .status {
   padding: $gutter-one-sixth $gutter-half;
   border: 3px solid $black;
@@ -13,13 +15,13 @@
   &.allocated,
   &.redermination,
   &.draft {
-    border-color: $turquoise;
     color: $turquoise;
+    border-color: $turquoise;
   }
 
   &.part_authorised,
   &.authorised {
-    border-color: $grass-green;
     color: $grass-green;
+    border-color: $grass-green;
   }
 }

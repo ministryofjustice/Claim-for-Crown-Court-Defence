@@ -1,11 +1,14 @@
 .js-callout-banner {
-  margin-right: $gutter-two-thirds;
-  margin-bottom: $gutter + $gutter-two-thirds;
+  border: 1px solid $black;
   padding: $gutter-two-thirds;
   padding-bottom: $gutter-one-third;
-  border: 1px solid $black;
+  margin-bottom: $gutter + $gutter-two-thirds;
+  margin-right: $gutter-two-thirds;
+}
 
-  .list {
+
+.js-callout-banner {
+  ul.list {
     margin-top: $gutter;
   }
 }

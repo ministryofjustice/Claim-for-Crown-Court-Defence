@@ -16,8 +16,8 @@ body {
 
 .summary-wrapper {
   h2 {
-    margin-top: $gutter;
     font-weight: 700;
+    margin-top: $gutter;
   }
 
   .table-summary {
@@ -28,35 +28,40 @@ body {
     }
 
     .summary-headings {
-      width: 35%;
+      width: 35%
     }
 
-    tfoot th,
-    tfoot td {
-      @include core-19;
+    tfoot {
+      tr {
+
+        th,
+        td {
+          @include core-19;
+        }
+      }
     }
   }
 }
 
 #show-messages-wrapper {
   .print-messages-hint {
+    clear: both;
     padding-top: $gutter-one-third;
     padding-bottom: 8px;
-    clear: both;
   }
 
   .panel {
     &.no-border {
-      padding: 0;
       border: none;
+      padding: 0;
     }
   }
 
   .messages-container {
     .messages-list {
       max-height: none;
-      overflow-x: visible;
       overflow-y: visible;
+      overflow-x: visible;
     }
   }
 }

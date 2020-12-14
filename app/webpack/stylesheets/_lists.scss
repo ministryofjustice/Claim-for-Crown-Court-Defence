@@ -3,12 +3,11 @@
     border: 0;
   }
 
-  dt,
-  dd {
-    display: block;
-    width: 100%;
-    padding: 0;
+  dt, dd {
     border: 0;
+    display: block;
+    padding: 0;
+    width: 100%;
   }
 
   .govuk-summary-list__value:last-child {

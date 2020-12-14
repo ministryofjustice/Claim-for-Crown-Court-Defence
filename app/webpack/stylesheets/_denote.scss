@@ -1,4 +1,5 @@
-// Denote styles
+/*--- Denote styles ---*/
+
 .form-input-denote {
   position: absolute;
   margin: 2px 0 0 2px;
@@ -9,6 +10,7 @@
   @media (min-width: 641px) {
     padding: $gutter-one-sixth + 2 $gutter-one-third + 2;
   }
+
 }
 
 .form-input-denote__input {
@@ -21,8 +23,8 @@
   margin-top: $gutter-one-sixth;
   margin-left: $gutter-one-sixth;
   padding: $gutter-one-sixth + 1 $gutter-one-third + 2;
-  color: $white;
   background-color: $error-colour;
+  color: $white;
 
   @media (min-width: 641px) {
     padding: $gutter-one-sixth + 3 $gutter-one-third + 2;

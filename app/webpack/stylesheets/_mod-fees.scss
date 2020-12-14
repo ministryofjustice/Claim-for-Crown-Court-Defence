@@ -1,4 +1,4 @@
-%mod-fees {
+.mod-fees {
   .bold-medium {
     padding-bottom: $gutter;
   }
@@ -14,7 +14,6 @@
   }
 }
 
-.mod-fees,
 .expense-group {
-  @extend %mod-fees;
+  @extend .mod-fees;
 }

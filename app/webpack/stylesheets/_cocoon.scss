@@ -2,11 +2,11 @@
   @include govuk-responsive-margin(4, "bottom");
   @include govuk-media-query ($from: desktop) {
     position: absolute;
-    top: 0;
     right: 0;
+    top: 0;
   }
 
   display: block;
-  z-index: 1;
   font-weight: 700;
+  z-index: 1;
 }

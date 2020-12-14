@@ -1,5 +1,5 @@
 .warning-summary {
-  @extend .error-summary; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  @extend .error-summary;
   border-color: $orange;
 }
 

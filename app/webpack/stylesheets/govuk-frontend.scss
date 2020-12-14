@@ -1,10 +1,10 @@
 // GOV.UK Frontend (Design System)
 @function frontend-font-url($filename) {
-  @return url('~assets/fonts/' + $filename);
+  @return url('~assets/fonts/'+ $filename);
 }
 
 @function frontend-image-url($filename) {
-  @return url('~assets/images/' + $filename);
+  @return url('~assets/images/'+ $filename);
 }
 
 $govuk-font-url-function: frontend-font-url;
@@ -18,7 +18,12 @@ $govuk-compatibility-govukfrontendtoolkit: true;
 
 @import '~govuk-frontend/govuk/all';
 
-// TODO: remove when compatibility mode is switched off
+
+
+/*
+ * TODO: remove when compatibility mode is switched off
+ */
+
 .govuk-panel--confirmation {
   background: govuk-colour('green');
 }

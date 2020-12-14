@@ -1,11 +1,12 @@
 #claim-accordion {
+
   div[aria-hidden="true"] {
     display: none;
   }
 
   .indent-sides {
-    padding-right: $gutter + $gutter-one-third;
     padding-left: $gutter + $gutter-one-third;
+    padding-right: $gutter + $gutter-one-third;
 
     th,
     td {
@@ -19,12 +20,13 @@
     }
   }
 
+
   #claim-status {
     label.container {
-      margin-top: $gutter-two-thirds; // stylelint-disable-line selector-no-qualifying-type
-      border: 1px solid $black;
       line-height: 4;
       text-align: center;
+      border: 1px solid $black;
+      margin-top: $gutter-two-thirds;
     }
 
     .actions {
@@ -33,18 +35,19 @@
   }
 
   .draft {
+    background-color: $white;
+    border: 1px solid $button-colour;
+    color: $button-colour;
+    padding: 0 0.5rem;
     position: relative;
     top: 1px;
     margin-right: $gutter-two-thirds;
-    padding: 0 .5rem;
-    border: 1px solid $button-colour;
-    color: $button-colour;
-    background-color: $white;
     font-size: 1em;
     line-height: 1.8;
     text-decoration: none;
   }
 }
+
 
 .minimalist-accordion__panel[aria-hidden=true] {
   display: none;

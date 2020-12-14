@@ -12,14 +12,6 @@ To execute unit tests
 bundle exec rspec
 bundle exec rake jasmine:ci
 ```
-### Sass Linting
-
-To ensure code quality and consistency in our Sass files we check that certain
-style rules are followed. These rules are based on [stylelint-config-gds](https://github.com/alphagov/stylelint-config-gds/blob/main/scss.js)
-
-All Sass (except vendor files) files follow its rules, and it runs on git pre-commit to ensure that commits are in line with them.
-
-You can manually run it using `$ yarn run validate:scss`
 
 ### Javascript Linting
 

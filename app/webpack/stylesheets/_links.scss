@@ -1,18 +1,20 @@
-// Basic link styles
-.link-change,
-.download-all-link {
+/* --------------------------------------- */
+/* Basic link styles */
+/* --------------------------------------- */
+
+.link-change {
   @include govuk-responsive-margin(4, "bottom");
   @include govuk-media-query ($from: desktop) {
     position: absolute;
-    top: 0;
     right: 0;
+    top: 0;
   }
 
   display: block;
   font-weight: 700;
 }
 
-.link-remove {
+a.link-remove {
   @include core-19;
   float: right;
   font-weight: 700;
@@ -22,14 +24,19 @@
   }
 }
 
-.add_fields {
+a.add_fields {
   display: none;
 }
 
-.js-enabled .add_fields {
+.js-enabled a.add_fields {
   display: inline-block;
 }
 
-.delete-draft {
+a.delete-draft {
   color: $red;
+}
+
+.download-all-link {
+  @extend .font-small;
+  float: right;
 }

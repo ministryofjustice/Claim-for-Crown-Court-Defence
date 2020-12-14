@@ -523,6 +523,39 @@ RSpec.describe Claim::BaseClaim do
       specify { is_expected.to be_nil }
     end
   end
+
+  describe '#unread_messages_for' do
+    let(:claim) { create(:submitted_claim) }
+    let(:user) { claim.external_user.user }
+
+    it 'returns an empty array if there are no messages' do
+      expect(claim.unread_messages_for(user)).to eq([])
+    end
+
+    it 'returns a message that is unread by the user' do
+      message = create(:message, claim: claim)
+
+      expect(claim.unread_messages_for(user)).to include message
+    end
+
+    it 'does not return a message that has been read by the user' do
+      message = create(:message, claim: claim)
+      message.user_message_statuses.where(user: user).update(read: true)
+
+      expect(claim.unread_messages_for(user)).not_to include message
+    end
+
+    it 'only shows unread messages from several' do
+      message1 = create(:message, claim: claim)
+      message2 = create(:message, claim: claim)
+      message3 = create(:message, claim: claim)
+      message4 = create(:message, claim: claim)
+      message2.user_message_statuses.where(user: user).update(read: true)
+      message3.user_message_statuses.where(user: user).update(read: true)
+
+      expect(claim.unread_messages_for(user)).to match_array([message1, message4])
+    end
+  end
 end
 
 RSpec.describe MockBaseClaim do

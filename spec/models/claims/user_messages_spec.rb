@@ -5,8 +5,8 @@ RSpec.describe Claims::UserMessages, type: :model do
 
   describe '#unread_messages_for' do
     let(:user) { claim.external_user.user }
-    let(:message_1) { create(:message, claim: claim) }
-    let(:message_2) { create(:message, claim: claim) }
+    let!(:message_1) { create(:message, claim: claim) }
+    let!(:message_2) { create(:message, claim: claim) }
 
     context 'when unread messages present' do
       before do

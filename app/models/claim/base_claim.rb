@@ -68,7 +68,6 @@ module Claim
     has_many :defendants, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
     has_many :documents, -> { where verified: true }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
     has_many :messages, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
-    has_many :user_message_statuses, through: :messages
 
     has_many :claim_state_transitions, -> { order(created_at: :desc, id: :desc) },
              foreign_key: :claim_id,
@@ -609,7 +608,7 @@ module Claim
     end
 
     def unread_messages_for(user)
-      user_message_statuses.where(read: false, user: user).map(&:message)
+      messages.joins(:user_message_statuses).where(user_message_statuses: { read: false, user: user })
     end
 
     private

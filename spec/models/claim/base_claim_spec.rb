@@ -528,32 +528,42 @@ RSpec.describe Claim::BaseClaim do
     let(:claim) { create(:submitted_claim) }
     let(:user) { claim.external_user.user }
 
-    it 'returns an empty array if there are no messages' do
-      expect(claim.unread_messages_for(user)).to eq([])
+    subject(:call) { claim.unread_messages_for(user) }
+
+    context 'with no messages' do
+      it 'returns an empty array' do
+        is_expected.to eq([])
+      end
     end
 
-    it 'returns a message that is unread by the user' do
-      message = create(:message, claim: claim)
+    context 'with a single message' do
+      let!(:message) { create(:message, claim: claim) }
 
-      expect(claim.unread_messages_for(user)).to include message
+      it 'returns the message before it is read' do
+        is_expected.to include message
+      end
+
+      it 'does not return a message after it is read' do
+        message.user_message_statuses.where(user: user).update(read: true)
+
+        is_expected.not_to include message
+      end
     end
 
-    it 'does not return a message that has been read by the user' do
-      message = create(:message, claim: claim)
-      message.user_message_statuses.where(user: user).update(read: true)
+    context 'with multiple messages' do
+      let!(:message1) { create(:message, claim: claim) }
+      let!(:message2) { create(:message, claim: claim) }
+      let!(:message3) { create(:message, claim: claim) }
+      let!(:message4) { create(:message, claim: claim) }
 
-      expect(claim.unread_messages_for(user)).not_to include message
-    end
+      before :each do
+        message2.user_message_statuses.where(user: user).update(read: true)
+        message3.user_message_statuses.where(user: user).update(read: true)
+      end
 
-    it 'only shows unread messages from several' do
-      message1 = create(:message, claim: claim)
-      message2 = create(:message, claim: claim)
-      message3 = create(:message, claim: claim)
-      message4 = create(:message, claim: claim)
-      message2.user_message_statuses.where(user: user).update(read: true)
-      message3.user_message_statuses.where(user: user).update(read: true)
-
-      expect(claim.unread_messages_for(user)).to match_array([message1, message4])
+      it 'only shows messages not read by the user' do
+        is_expected.to match_array([message1, message4])
+      end
     end
   end
 end

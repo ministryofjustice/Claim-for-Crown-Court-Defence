@@ -26,47 +26,46 @@ moj.Modules.HideErrorOnChange = {
     eventSelector: 'select'
   }],
 
-  init: function() {
-    this.bindListeners();
+  init: function () {
+    this.bindListeners()
   },
 
-  removeNestedErrorWrappers: function($el) {
-    var wrappers = $el.find('.' + this.railsErrorClassName);
-    $el.find('.form-control-error').removeClass('form-control-error');
-    wrappers.removeClass(this.railsErrorClassName);
+  removeNestedErrorWrappers: function ($el) {
+    const wrappers = $el.find('.' + this.railsErrorClassName)
+    $el.find('.form-control-error').removeClass('form-control-error')
+    wrappers.removeClass(this.railsErrorClassName)
   },
 
-  removeClassName: function($el, className) {
-    this.removeNestedErrorWrappers($el);
-    return $el.removeClass(className);
+  removeClassName: function ($el, className) {
+    this.removeNestedErrorWrappers($el)
+    return $el.removeClass(className)
   },
 
-  removeBySelector: function($el, selector) {
-    return $el.find(selector).remove();
+  removeBySelector: function ($el, selector) {
+    return $el.find(selector).remove()
   },
 
-  bindListeners: function() {
-    var self = this;
-    var context;
+  bindListeners: function () {
+    const self = this
+    let context
 
-    this.config.forEach(function(opt) {
-      context = opt.eventSelector || 'input';
-      $(opt.delegate).one('click', context, function(e) {
-        var $el = $(e.delegateTarget);
-        self.removeClassName($el, opt.wrapperClassName);
-        self.removeClassName($el, 'form-group-error');
-        self.removeBySelector($el, opt.messageSelector);
-      });
+    this.config.forEach(function (opt) {
+      context = opt.eventSelector || 'input'
+      $(opt.delegate).one('click', context, function (e) {
+        const $el = $(e.delegateTarget)
+        self.removeClassName($el, opt.wrapperClassName)
+        self.removeClassName($el, 'form-group-error')
+        self.removeBySelector($el, opt.messageSelector)
+      })
 
       // mainly for FF
-      $(opt.delegate).one('focus', context, function(e) {
-        $(e.target).trigger('click');
-      });
+      $(opt.delegate).one('focus', context, function (e) {
+        $(e.target).trigger('click')
+      })
 
-      $(opt.delegate).one('change', context, function(e) {
-        $(e.target).trigger('click');
-      });
-
-    });
+      $(opt.delegate).one('change', context, function (e) {
+        $(e.target).trigger('click')
+      })
+    })
   }
-};
+}

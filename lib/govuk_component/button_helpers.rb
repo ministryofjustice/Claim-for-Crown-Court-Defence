@@ -22,7 +22,7 @@ module GovukComponent
       tag_options[:data] = { module: 'govuk-button', 'prevent-double-click': 'true' }
       disable_if(tag_options)
 
-      if block_given?
+      if block
         tag.button(tag_options, &block)
       else
         tag.button(content, tag_options)
@@ -44,12 +44,12 @@ module GovukComponent
     # Following the Rails link_to helper
     # `https://api.rubyonrails.org/v6.0.3/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to`
     def govuk_button_start(name = nil, options = nil, **tag_options, &block)
-      options = name if block_given?
+      options = name if block
       url = url_for(options)
       tag_options[:href] ||= url
       tag_options = prepend_classes('govuk-button--start', tag_options)
       govuk_link_button_options(tag_options)
-      content = block_given? ? capture(&block) : name || url
+      content = block ? capture(&block) : name || url
 
       tag.a(tag_options) do
         concat content
@@ -58,12 +58,12 @@ module GovukComponent
     end
 
     def govuk_link_button(name = nil, options = nil, **tag_options, &block)
-      options = name if block_given?
+      options = name if block
       url = url_for(options)
       tag_options[:href] ||= url
       govuk_link_button_options(tag_options)
       disable_if(tag_options)
-      content = block_given? ? capture(&block) : name || url
+      content = block ? capture(&block) : name || url
 
       tag.a(content, tag_options, &block)
     end

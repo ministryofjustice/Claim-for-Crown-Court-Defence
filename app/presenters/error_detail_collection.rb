@@ -40,6 +40,6 @@ class ErrorDetailCollection
   end
 
   def size
-    @error_details.values.map(&:size).sum
+    @error_details.values.sum(&:size)
   end
 end

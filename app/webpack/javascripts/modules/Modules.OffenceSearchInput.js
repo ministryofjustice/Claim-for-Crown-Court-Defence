@@ -16,7 +16,7 @@ moj.Modules.OffenceSearchInput = {
   // clear button selector
   clear: '.fx-clear-search',
 
-  //fee_scheme selector
+  // fee_scheme selector
   feeScheme: '.fx-fee-scheme',
 
   // delay in miliseconds
@@ -41,101 +41,100 @@ moj.Modules.OffenceSearchInput = {
   },
 
   init: function () {
-    this.$el = $(this.el);
+    this.$el = $(this.el)
     if (this.$el.length > 0) {
-      this.$input = $(this.input);
-      this.$model = $(this.model);
-      this.$clear = $(this.clear);
-      this.$feeScheme = $(this.feeScheme);
-      this.bindEvents();
+      this.$input = $(this.input)
+      this.$model = $(this.model)
+      this.$clear = $(this.clear)
+      this.$feeScheme = $(this.feeScheme)
+      this.bindEvents()
     }
   },
 
   bindEvents: function () {
-    this.clearSearch();
-    this.bindSubscribers();
-    this.trackUserInput();
+    this.clearSearch()
+    this.bindSubscribers()
+    this.trackUserInput()
   },
 
   // binding subscribers and callbacks
   bindSubscribers: function () {
-    var self = this;
+    const self = this
 
     $.subscribe(this.subscribers.run, function () {
-      self.runQuery();
-    });
+      self.runQuery()
+    })
 
     $.subscribe(this.subscribers.filter, function (e, options) {
-      self.runQuery(options);
-    });
+      self.runQuery(options)
+    })
   },
 
   runQuery: function (options) {
-    var self = this;
+    const self = this
 
     // dataOptions for the api request
     // defaults, search input and filters
-    var dataOptions = $.extend({}, {
-        // default value
-        fee_scheme: this.$feeScheme.val(),
+    const dataOptions = $.extend({}, {
+      // default value
+      fee_scheme: this.$feeScheme.val(),
 
-        // Search query text
-        search_offence: this.$input.val()
-      },
+      // Search query text
+      search_offence: this.$input.val()
+    },
 
-      // filters are applied
-      options);
+    // filters are applied
+    options)
 
     this.query(dataOptions).then(function (data) {
       // showing the clear search button
-      self.$clear.removeClass('hidden');
+      self.$clear.removeClass('hidden')
 
       // publish the response data
-      $.publish(self.publishers.results, data);
-    });
+      $.publish(self.publishers.results, data)
+    })
   },
 
   query: function (options) {
-    var _options = options;
-    var self = this;
-    var def = $.Deferred();
+    const _options = options
+    const def = $.Deferred()
     $.ajax({
       type: 'GET',
       url: '/offences',
       data: _options,
       dataType: 'json',
       success: function (results) {
-        options.results = results || [];
-        def.resolve(_options);
+        options.results = results || []
+        def.resolve(_options)
       },
       error: function (req, status, err) {
         def.reject(status, err)
       }
-    });
+    })
 
-    return def.promise();
+    return def.promise()
   },
 
   // Tracking the user inout and calling the API
   // when required. Uses $.debounce to limit calls
   trackUserInput: function () {
-    var self = this;
+    const self = this
     this.$input.on('keyup', $.debounce(290, function (e) {
       if (self.$input.val().length >= 3) {
-        self.runQuery();
+        self.runQuery()
       }
-    }));
+    }))
   },
 
   // clearSearch procedure
   clearSearch: function () {
-    var self = this;
+    const self = this
     this.$el.on('click', '.fx-clear-search', function (e) {
-      e.preventDefault();
-      self.$clear.addClass('hidden');
-      self.$el.find('.fx-input').val('');
-      self.$el.find('.fx-model').val('');
-      $.publish('/offence/search/clear/');
-    });
+      e.preventDefault()
+      self.$clear.addClass('hidden')
+      self.$el.find('.fx-input').val('')
+      self.$el.find('.fx-model').val('')
+      $.publish('/offence/search/clear/')
+    })
   }
-};
+}

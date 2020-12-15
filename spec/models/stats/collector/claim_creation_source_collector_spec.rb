@@ -5,12 +5,14 @@ module Stats
     describe ClaimCreationSourceCollector do
 
       before(:all) do
-        create_claim(:draft, report_day, source: 'web')
-        create_claim(:submitted, report_day, source: 'api_web_edited')
-        create_claim(:draft, report_day, source: 'api')
-        create_claim(:submitted, report_day, source: 'json_import')
-        create_claim(:submitted, report_day, source: 'json_import_web_edited')
-        create_claim(:draft, report_day, source: 'json_import')
+        travel_to report_day do
+          create(:draft_claim, source: 'web')
+          create(:submitted_claim, source: 'api_web_edited')
+          create(:draft_claim, source: 'api')
+          create(:submitted_claim, source: 'json_import')
+          create(:submitted_claim, source: 'json_import_web_edited')
+          create(:draft_claim, source: 'json_import')
+        end
       end
 
       after(:all) { clean_database }
@@ -49,17 +51,7 @@ module Stats
       end
 
       def report_day
-        Timecop.freeze(Time.new(2018, 3, 10, 11, 44, 55)) { 5.days.ago }
-      end
-
-      def create_claim(state, date, attributes = {})
-        travel_to(date) do
-          FactoryBot.create(factory_name(state), attributes)
-        end
-      end
-
-      def factory_name(state)
-        "#{state}_claim".to_sym
+        Time.new(2018, 3, 5, 11, 44, 55)
       end
     end
   end

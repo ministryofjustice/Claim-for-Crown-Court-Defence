@@ -1,16 +1,18 @@
+// stylelint-disable max-nesting-depth
+
 @mixin normalize-bubble($direction:left) {
-  @if $direction=="left" {
+  @if $direction == "left" {
     @media print {
       margin-right: 95px;
     }
 
     .message-audit {
-      text-align: left;
       color: $text-colour;
+      text-align: left;
     }
   }
 
-  @if $direction=="right" {
+  @if $direction == "right" {
     @media print {
       margin-left: 95px;
     }
@@ -22,15 +24,15 @@
 
   @media print {
     .message-audit {
-      font-weight: 700;
       color: $black;
+      font-weight: 700;
     }
 
     .message-body {
-      background: none;
       border: 1px solid $black;
+      background: none;
 
-      &::after {
+      &:after {
         border: none;
       }
     }
@@ -38,25 +40,25 @@
 }
 
 .messages-container {
-  border: 1px solid $border-colour;
   margin-top: $gutter-two-thirds;
   margin-bottom: $gutter-two-thirds;
   overflow: hidden;
+  border: 1px solid $border-colour;
 
   .messages-list {
     min-height: 200px;
     max-height: 400px;
-    overflow-y: scroll;
-    overflow-x: hidden;
-    padding: $gutter-one-sixth;
     margin-bottom: $gutter-two-thirds;
+    padding: $gutter-one-sixth;
+    overflow-x: hidden;
+    overflow-y: scroll;
 
     .history {
       .event {
-        color: $link-visited-colour;
-        padding: $gutter-one-sixth $gutter-one-third;
-        margin-bottom: $gutter-one-sixth;
         margin-right: $gutter-two-thirds;
+        margin-bottom: $gutter-one-sixth;
+        padding: $gutter-one-sixth $gutter-one-third;
+        color: $link-visited-colour;
         text-align: right;
 
         strong {
@@ -71,8 +73,8 @@
         }
 
         table {
-          margin-left: auto;
           width: $half;
+          margin-left: auto;
 
           .visuallyhidden {
             display: none;
@@ -86,19 +88,19 @@
 
       .message-right {
         .message-body {
-          background: none;
           border: 0;
           color: $text-colour;
+          background: none;
           text-align: right;
 
-          &::after {
+          &:after {
             border-left: 0;
           }
 
           .message-audit {
-            color: $text-colour;
             margin-top: 0;
             margin-bottom: 0;
+            color: $text-colour;
           }
 
           p {
@@ -112,39 +114,39 @@
       text-align: center;
 
       legend {
-        text-align: center;
-        border: 1px solid $border-colour;
-        padding-left: $gutter;
-        padding-right: $gutter;
+        margin-bottom: $gutter-half;
         padding-top: $gutter-one-sixth;
+        padding-right: $gutter;
+        padding-left: $gutter;
+        border: 1px solid $border-colour;
         color: $secondary-text-colour;
         font-weight: 700;
-        margin-bottom: $gutter-half;
+        text-align: center;
       }
     }
 
     .event-date {
-      color: $green;
-      border: 2px solid $green;
-      border-radius: 0.5em;
       display: inline-block;
       margin-top: $gutter-half;
       margin-bottom: $gutter-half;
       padding: $gutter-one-sixth $gutter-one-third;
+      border: 2px solid $green;
+      border-radius: .5em;
+      color: $green;
       font-weight: 700;
     }
 
     .message-container {
+      margin-right: $gutter-two-thirds;
       margin-bottom: $gutter-two-thirds;
       margin-left: $gutter-two-thirds;
-      margin-right: $gutter-two-thirds;
 
       .message-body {
         padding: $gutter-one-third $gutter-two-thirds;
-        overflow-wrap: break-word;
-        word-break: break-word;
         word-wrap: break-word;
+        word-break: break-word;
         hyphens: auto;
+        overflow-wrap: break-word;
       }
     }
 
@@ -163,13 +165,13 @@
       @include normalize-bubble('right');
 
       .message-body {
-        background-color: $link-colour;
         position: relative;
-        text-align: left;
+        border-radius: .5em .5em .75em;
         color: $page-colour;
-        border-radius: 0.5em 0.5em 0.75em 0.5em;
+        background-color: $link-colour;
+        text-align: left;
 
-        &::after {
+        &:after {
           content: "";
           position: absolute;
           right: -1.5em;
@@ -182,7 +184,7 @@
 
         a {
           &:link {
-            /* Essentially means a[href], or that the link actually goes somewhere */
+            // Essentially means a[href], or that the link actually goes somewhere
             color: $page-colour;
           }
 
@@ -201,16 +203,16 @@
       @include normalize-bubble('left');
 
       .message-body {
-        background-color: $panel-colour;
         position: relative;
+        border-radius: .5em .5em .5em .75em;
+        background-color: $panel-colour;
         text-align: left;
-        border-radius: 0.5em 0.5em 0.5em 0.75em;
 
-        &::after {
+        &:after {
           content: "";
           position: absolute;
-          left: -1.5em;
           bottom: 0;
+          left: -1.5em;
           width: 1.5em;
           height: 1.5em;
           border-right: 1em solid $panel-colour;
@@ -226,10 +228,10 @@
 
     .upload-column {
       .upload-button {
-        cursor: pointer;
+        margin: 0;
         overflow: hidden;
         text-align: center;
-        margin: 0;
+        cursor: pointer;
       }
     }
 
@@ -248,9 +250,9 @@
     }
 
     .file-to-be-uploaded {
-      border-top: 1px solid $border-colour;
-      padding-top: $gutter-half;
       display: none;
+      padding-top: $gutter-half;
+      border-top: 1px solid $border-colour;
 
       .filename {
         font-weight: 700;
@@ -259,8 +261,8 @@
   }
 
   .messages-print-link {
-    text-align: right;
     padding-right: $gutter-two-thirds;
+    text-align: right;
   }
 
   .message-status {

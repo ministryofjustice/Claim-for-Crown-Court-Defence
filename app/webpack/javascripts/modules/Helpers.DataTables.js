@@ -17,8 +17,8 @@ moj.Helpers.DataTables = {
    * @param  {string} el      DOM element
    * @return {object}         https://datatables.net/reference/api/
    */
-  init: function(options, el) {
-    var __options = $.extend({}, this._defaultOptions, options || {});
-    return $(el || '#example').DataTable(__options);
+  init: function (options, el) {
+    const __options = $.extend({}, this._defaultOptions, options || {})
+    return $(el || '#example').DataTable(__options)
   }
-};
+}

@@ -3,18 +3,16 @@
   margin-bottom: $gutter;
 }
 
-
-/*--- Ported from v1 stylesheets ---*/
-
+// Ported from v1 stylesheets
 .panel {
   @include box-sizing(border-box);
   @extend %contain-floats;
+  margin-bottom: em(15, 19);
+  padding: em(15, 19);
 
   clear: both;
   border-left-style: solid;
   border-color: $border-colour;
-  margin-bottom: em(15, 19);
-  padding: em(15, 19);
 
   :first-child {
     margin-top: 0;
@@ -38,10 +36,10 @@
 // Panels within form groups
 // By default, panels have 15px bottom margin
 .form-group .panel-border-narrow {
-  float: left;
   width: $full-width;
   // Remove the bottom padding as .form-group sets a bottom margin
   padding-bottom: 0;
+  float: left;
   // Don't remove the bottom margin for all panels, assume they are often within stacked groups
 }
 

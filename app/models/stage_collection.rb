@@ -4,17 +4,11 @@ class StageCollection
 
   attr_reader :stages
 
-  def_delegators :@stages, :second, :last, :size
+  def_delegators :@stages, :each, :second, :last, :size
 
   def initialize(stages, object)
     @object = object
     @stages = initialize_stages(stages)
-  end
-
-  def each(&_block)
-    stages.each do |stage|
-      yield(stage) if block_given?
-    end
   end
 
   def previous_stage(stage)

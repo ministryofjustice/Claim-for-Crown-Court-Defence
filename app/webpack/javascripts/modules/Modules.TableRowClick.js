@@ -1,16 +1,16 @@
 moj.Modules.TableRowClick = {
-  init: function() {
-    $('.js-checkbox-table').on('click', function(e) {
-      var $target = $(e.target);
-      if($target.is(':checkbox, a')) {
-        return;
+  init: function () {
+    $('.js-checkbox-table').on('click', function (e) {
+      const $target = $(e.target)
+      if ($target.is(':checkbox, a')) {
+        return
       }
-      var $tr = $target.closest('tr');
-      var $checkbox = $tr.find(':checkbox');
+      const $tr = $target.closest('tr')
+      const $checkbox = $tr.find(':checkbox')
 
-      $checkbox.prop('checked', !$checkbox.is(':checked'));
+      $checkbox.prop('checked', !$checkbox.is(':checked'))
 
-      e.preventDefault();
-    });
+      e.preventDefault()
+    })
   }
-};
+}

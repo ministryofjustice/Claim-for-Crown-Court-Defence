@@ -187,8 +187,9 @@ class Claim::BaseClaimPresenter < BasePresenter
   #   h.number_to_currency(claim.[association]_[calc_method_name])
   # end
   #
+  CALC_METHOD_NAMES = %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].freeze
   %w[expenses disbursements].each do |object_name|
-    %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].each do |method|
+    CALC_METHOD_NAMES.each do |method|
       method_name = "#{object_name}_#{method}"
       define_method method_name do
         h.number_to_currency(claim.send(method_name.to_sym))

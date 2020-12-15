@@ -57,8 +57,8 @@ RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
       create(:provider, created_at: Date.parse('21-MAR-2017 09:00'))
     end
 
-    before { Timecop.freeze Date.parse('22-MAR-2017') }
-    after { Timecop.return }
+    before { travel_to Date.parse('22-MAR-2017') }
+    after { travel_back }
 
     include_examples 'returns valid items structure'
 

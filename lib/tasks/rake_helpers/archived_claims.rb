@@ -16,22 +16,26 @@ module RakeHelpers
         ]
 
         rows = query
-        puts " - #{rows.count} claims".yellow
-        rows.each do |claim|
-          main_defendant = claim.defendants.first
-          csv << [
-            claim.pretty_type,
-            claim.case_number,
-            claim.external_user.name,
-            main_defendant.name,
-            main_defendant.representation_orders.map(&:maat_reference).join(', '),
-            claim.total + claim.vat_amount, # presenter.total_inc_vat
-            claim.state.humanize,
-            claim.case_type.name,
-            claim.last_submitted_at,
-            claim.archived_claim_state_transitions.first.created_at
-          ]
+        batch_size = 5000
+        rows.find_in_batches(batch_size: batch_size).with_index do |claims, i|
+          print "\r - #{i*batch_size} claims".yellow
+          claims.each do |claim|
+            main_defendant = claim.defendants.first
+            csv << [
+              claim.pretty_type,
+              claim.case_number,
+              claim.external_user.name,
+              main_defendant.name,
+              main_defendant.representation_orders.map(&:maat_reference).join(', '),
+              claim.total + claim.vat_amount,
+              claim.state.humanize,
+              claim.case_type&.name || 'N/A',
+              claim.last_submitted_at,
+              claim.archived_claim_state_transitions&.first&.created_at
+            ]
+          end
         end
+        puts "\r - #{rows.count} claims".green
       end
     end
 
@@ -45,4 +49,4 @@ module RakeHelpers
         )
     end
   end
-end  
+end

@@ -765,30 +765,26 @@ RSpec.describe MockBaseClaim do
 
     before do
       allow(claim).to receive(:provider_delegator).and_return(mock_provider_delegator)
-      allow(LogStuff).to receive(:error)
     end
 
     context 'when the provider exists' do
-      let(:provider_delegator) { double(:provider_delegator, vat_registered?: true) }
+      context 'with vat_registered true' do
+        let(:provider_delegator) { double(:provider_delegator, vat_registered?: true) }
 
-      it 'does not log error' do
-        registered
-        expect(LogStuff).not_to have_received(:error)
+        it { is_expected.to be_truthy }
+      end
+
+      context 'with vat_registered false' do
+        let(:provider_delegator) { double(:provider_delegator, vat_registered?: false) }
+
+        it { is_expected.to be_falsey }
       end
     end
 
     context 'when the provider is nil' do
-      # this should never happen but the logger is implemented to trace errors in live
       let(:provider_delegator) { nil }
 
-      it 'logs error' do
-        expect{ registered }.to raise_error NoMethodError # spy on, call and swallow error
-        expect(LogStuff).to have_received(:error).once
-      end
-
-      it 'raises error' do
-        expect{ registered }.to raise_error NoMethodError
-      end
+      it { is_expected.to be_truthy }
     end
   end
 end

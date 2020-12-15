@@ -491,11 +491,11 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#trial_length' do
+    subject(:trial_length) { claim.trial_length }
+
     let(:actual_trial_length) { 3 }
     let(:retrial_actual_length) { 5 }
     let(:claim) { MockSteppableClaim.new(actual_trial_length: actual_trial_length, retrial_actual_length: retrial_actual_length) }
-
-    subject(:trial_length) { claim.trial_length }
 
     context 'when the claim requires re-trial dates' do
       before do
@@ -525,10 +525,10 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#unread_messages_for' do
+    subject(:call) { claim.unread_messages_for(user) }
+
     let(:claim) { create(:submitted_claim) }
     let(:user) { claim.external_user.user }
-
-    subject(:call) { claim.unread_messages_for(user) }
 
     context 'with no messages' do
       it 'returns an empty array' do
@@ -556,7 +556,7 @@ RSpec.describe Claim::BaseClaim do
       let!(:message3) { create(:message, claim: claim) }
       let!(:message4) { create(:message, claim: claim) }
 
-      before :each do
+      before do
         message2.user_message_statuses.where(user: user).update(read: true)
         message3.user_message_statuses.where(user: user).update(read: true)
       end

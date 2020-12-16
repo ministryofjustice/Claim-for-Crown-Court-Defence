@@ -491,11 +491,11 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#trial_length' do
+    subject(:trial_length) { claim.trial_length }
+
     let(:actual_trial_length) { 3 }
     let(:retrial_actual_length) { 5 }
     let(:claim) { MockSteppableClaim.new(actual_trial_length: actual_trial_length, retrial_actual_length: retrial_actual_length) }
-
-    subject(:trial_length) { claim.trial_length }
 
     context 'when the claim requires re-trial dates' do
       before do
@@ -521,6 +521,49 @@ RSpec.describe Claim::BaseClaim do
       end
 
       specify { is_expected.to be_nil }
+    end
+  end
+
+  describe '#unread_messages_for' do
+    subject(:call) { claim.unread_messages_for(user) }
+
+    let(:claim) { create(:submitted_claim) }
+    let(:user) { claim.external_user.user }
+
+    context 'with no messages' do
+      it 'returns an empty array' do
+        is_expected.to eq([])
+      end
+    end
+
+    context 'with a single message' do
+      let!(:message) { create(:message, claim: claim) }
+
+      it 'returns the message before it is read' do
+        is_expected.to include message
+      end
+
+      it 'does not return a message after it is read' do
+        message.user_message_statuses.where(user: user).update(read: true)
+
+        is_expected.not_to include message
+      end
+    end
+
+    context 'with multiple messages' do
+      let!(:message1) { create(:message, claim: claim) }
+      let!(:message2) { create(:message, claim: claim) }
+      let!(:message3) { create(:message, claim: claim) }
+      let!(:message4) { create(:message, claim: claim) }
+
+      before do
+        message2.user_message_statuses.where(user: user).update(read: true)
+        message3.user_message_statuses.where(user: user).update(read: true)
+      end
+
+      it 'only shows messages not read by the user' do
+        is_expected.to match_array([message1, message4])
+      end
     end
   end
 end

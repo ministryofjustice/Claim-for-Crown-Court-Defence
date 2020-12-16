@@ -2,37 +2,37 @@
 // from AGFS fixed fees AND does not look like
 // required for AGFS misc fees.
 moj.Modules.FeeFieldsDisplay = {
-  init: function() {
-    this.addFeeChangeEvent($('.fx-fee-group'));
+  init: function () {
+    this.addFeeChangeEvent($('.fx-fee-group'))
   },
-  addFeeChangeEvent: function(el) {
-    var self = this;
-    var $el = $(el);
+  addFeeChangeEvent: function (el) {
+    const self = this
+    const $el = $(el)
 
-    $el.find('select.js-fee-type').each(function() {
-      var el = $(this).closest('.fx-fee-group');
-      self.showHideFeeFields(el);
-    });
+    $el.find('select.js-fee-type').each(function () {
+      const el = $(this).closest('.fx-fee-group')
+      self.showHideFeeFields(el)
+    })
 
-    $el.find('.js-typeahead').on('typeahead:change', function() {
-      var el = $(this).closest('.fx-fee-group');
-      self.showHideFeeFields(el);
-    });
+    $el.find('.js-typeahead').on('typeahead:change', function () {
+      const el = $(this).closest('.fx-fee-group')
+      self.showHideFeeFields(el)
+    })
   },
-  showHideFeeFields: function(el) {
-    var currentElement = $(el);
-    var caseNumbersInput = currentElement.find('input.fx-fee-case-numbers');
+  showHideFeeFields: function (el) {
+    const currentElement = $(el)
+    const caseNumbersInput = currentElement.find('input.fx-fee-case-numbers')
 
     if (caseNumbersInput.exists()) {
-      var showCaseNumbers = currentElement.find('option:selected').data('case-numbers');
-      var caseNumbersWrapper = caseNumbersInput.closest('.case_numbers_wrapper');
+      const showCaseNumbers = currentElement.find('option:selected').data('case-numbers')
+      const caseNumbersWrapper = caseNumbersInput.closest('.case_numbers_wrapper')
 
       if (showCaseNumbers) {
-        caseNumbersWrapper.show();
+        caseNumbersWrapper.show()
       } else {
-        caseNumbersInput.val('');
-        caseNumbersWrapper.hide();
+        caseNumbersInput.val('')
+        caseNumbersWrapper.hide()
       }
     }
   }
-};
+}

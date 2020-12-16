@@ -24,7 +24,6 @@ module Claim
     extend ::Claims::Search
     extend ::Claims::Sort
     include ::Claims::Calculations
-    include ::Claims::UserMessages
     include ::Claims::Cloner
     include ::Claims::AllocationFilters
 
@@ -606,6 +605,10 @@ module Claim
 
     def discontinuance?
       case_type&.fee_type_code.eql?('GRDIS')
+    end
+
+    def unread_messages_for(user)
+      messages.joins(:user_message_statuses).where(user_message_statuses: { read: false, user: user })
     end
 
     private

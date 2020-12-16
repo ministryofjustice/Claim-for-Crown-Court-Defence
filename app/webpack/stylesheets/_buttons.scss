@@ -1,7 +1,5 @@
-// --------------------------------------- */
-// Buttons */
-// --------------------------------------- */
-
+// Buttons
+// stylelint-disable declaration-no-important
 
 // Blue button variables
 $app-blue-button-colour: govuk-colour('blue');
@@ -20,7 +18,7 @@ $button-shadow-size: $govuk-border-width-form-element;
   &:visited,
   &:active,
   &:hover {
-    color: $app-blue-button-text-colour  !important;
+    color: $app-blue-button-text-colour !important;
   }
 
   // alphagov/govuk_template includes a specific a:link:focus selector

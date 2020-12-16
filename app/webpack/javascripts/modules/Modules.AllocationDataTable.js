@@ -52,19 +52,19 @@ moj.Modules.AllocationDataTable = {
     // row callback to add injection errors
     createdRow: function (row, data, index) {
       if (data.filter.injection_errored) {
-        $(row).addClass('error injection-error');
-        $('td', row).eq(0).wrapInner("<div class='error-message-container'></div>");
-        $('td .error-message-container', row).eq(0).append("<div class='error-message'>" + data.injection_errors + "</div>");
+        $(row).addClass('error injection-error')
+        $('td', row).eq(0).wrapInner("<div class='error-message-container'></div>")
+        $('td .error-message-container', row).eq(0).append("<div class='error-message'>" + data.injection_errors + '</div>')
       } else if (data.filter.cav_warning) {
-        $(row).addClass('injection-warning');
-        $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>");
-        $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CAVs not injected</div>");
+        $(row).addClass('injection-warning')
+        $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>")
+        $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CAVs not injected</div>")
       } else if (data.filter.clar_fees_warning) {
-        $(row).addClass('injection-warning');
-        $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>");
-        $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CLAR fees not injected</div>");
+        $(row).addClass('injection-warning')
+        $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>")
+        $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CLAR fees not injected</div>")
       }
-      return row;
+      return row
     },
 
     // processing indicator
@@ -81,20 +81,20 @@ moj.Modules.AllocationDataTable = {
 
     // translations and custom text
     language: {
-      loadingRecords: "",
-      zeroRecords: "No matching records found. Try clearing your filter.",
-      info: "Showing _START_ to _END_ of _TOTAL_ entries",
-      lengthMenu: "Claims per page: _MENU_",
-      emptyTable: "",
-      infoFiltered: "",
-      processing: "Table loading, please wait a moment."
+      loadingRecords: '',
+      zeroRecords: 'No matching records found. Try clearing your filter.',
+      info: 'Showing _START_ to _END_ of _TOTAL_ entries',
+      lengthMenu: 'Claims per page: _MENU_',
+      emptyTable: '',
+      infoFiltered: '',
+      processing: 'Table loading, please wait a moment.'
     },
     initComplete: function (settings, json) {
       // block the row highlight from happening
       // when a link is clicked
       $('#dtAllocation tbody tr').on('click', 'a', function (e) {
-        e.stopImmediatePropagation();
-      });
+        e.stopImmediatePropagation()
+      })
     },
     // $.ajax config object
     // https://datatables.net/reference/option/ajax
@@ -122,13 +122,13 @@ moj.Modules.AllocationDataTable = {
         selectAllPages: false
       },
       render: function (data, type, row) {
-        return '<input type="checkbox" class="dt-checkboxes" id="claim-' + data + '"><label for="claim-' + data + '" class="visually-hidden">claim id ' + data + '</label>';
+        return '<input type="checkbox" class="dt-checkboxes" id="claim-' + data + '"><label for="claim-' + data + '" class="visually-hidden">claim id ' + data + '</label>'
       }
     }, {
       targets: 1,
       data: null,
       render: function (data, type, full) {
-        return data.filter.disk_evidence ? '<a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a>';
+        return data.filter.disk_evidence ? '<a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a>'
       }
 
     }, {
@@ -141,7 +141,7 @@ moj.Modules.AllocationDataTable = {
       targets: 4,
       data: null,
       render: function (data, type, full) {
-        return data.case_type + '<br/><span class="state-display">' + data.state_display + '</span>';
+        return data.case_type + '<br/><span class="state-display">' + data.state_display + '</span>'
       }
     }, {
       targets: 5,
@@ -165,22 +165,22 @@ moj.Modules.AllocationDataTable = {
   },
 
   init: function () {
-    this.$el = $('#dtAllocation');
-    this.ui.$submit = $('.allocation-submit');
-    this.ui.$msgSuccess = $('.notice-summary');
-    this.ui.$msgFail = $('.error-summary');
+    this.$el = $('#dtAllocation')
+    this.ui.$submit = $('.allocation-submit')
+    this.ui.$msgSuccess = $('.notice-summary')
+    this.ui.$msgFail = $('.error-summary')
 
-    this.searchConfig.key = $('#api-key').data('api-key');
+    this.searchConfig.key = $('#api-key').data('api-key')
 
     // Get the selected value and update the URL
-    this.setAjaxURL(moj.Modules.AllocationScheme.selectedValue());
-    this.dataTable = moj.Modules.DataTables._init(this.options, '#dtAllocation');
+    this.setAjaxURL(moj.Modules.AllocationScheme.selectedValue())
+    this.dataTable = moj.Modules.DataTables._init(this.options, '#dtAllocation')
 
     // :(
-    $('#dtAllocation_filter').find('input').addClass('form-control');
+    $('#dtAllocation_filter').find('input').addClass('form-control')
 
-    this.bindEvents();
-    this.registerCustomSearch();
+    this.bindEvents()
+    this.registerCustomSearch()
   },
 
   /**
@@ -189,12 +189,12 @@ moj.Modules.AllocationDataTable = {
    * return {String} the URL string with supplemented values
    */
   setAjaxURL: function (scheme) {
-    this.searchConfig.scheme = scheme || this.defaultScheme;
+    this.searchConfig.scheme = scheme || this.defaultScheme
     this.options.ajax.url = '/api/search/unallocated?api_key={0}&scheme={1}'.supplant([
       this.searchConfig.key,
       this.searchConfig.scheme
-    ]);
-    return this.options.ajax.url;
+    ])
+    return this.options.ajax.url
   },
   /**
    * Check if there are any rows selected
@@ -202,7 +202,7 @@ moj.Modules.AllocationDataTable = {
    * of rows selected.
    */
   itemsSelected: function () {
-    return this.dataTable.column(0).checkboxes.selected().length;
+    return this.dataTable.column(0).checkboxes.selected().length
   },
 
   /**
@@ -216,175 +216,166 @@ moj.Modules.AllocationDataTable = {
    *   This method applies a integer range filter
    */
   registerCustomSearch: function () {
-    var self = this;
+    const self = this
 
     // TASK FILTERS
     $.fn.dataTable.ext.search.push(function (settings, searchData, index, rowData, counter) {
       // Return true if task is undefined.
       if (!self.searchConfig.task) {
-        return true;
+        return true
       }
 
       // Here we check if the row belongs in the results
       if (rowData.filter[self.searchConfig.task]) {
-
         // The row is included in the results but we filter out any from
         // this subset that have disk evidence as `true`
         //
         // If the task is the `Disk Evidence` one - we simply return the
         // `filter.disk_evidence` value
-        return self.searchConfig.task === 'disk_evidence' ? rowData.filter.disk_evidence : !rowData.filter.disk_evidence;
+        return self.searchConfig.task === 'disk_evidence' ? rowData.filter.disk_evidence : !rowData.filter.disk_evidence
       }
 
       // The row does not meet the task filter
       // and is excluded from the results
-      return false;
-    });
+      return false
+    })
 
     // VALUE BAND FILTER
     $.fn.dataTable.ext.search.push(function (settings, searchData, index, rowData, counter) {
-      var min = parseInt(self.searchConfig.valueBands.min, 10);
-      var max = parseInt(self.searchConfig.valueBands.max, 10);
-      var claimAmount = parseFloat(rowData.total) || 0; // use data for the claimAmount column
-
+      const min = parseInt(self.searchConfig.valueBands.min, 10)
+      const max = parseInt(self.searchConfig.valueBands.max, 10)
+      const claimAmount = parseFloat(rowData.total) || 0 // use data for the claimAmount column
 
       if ((isNaN(min) && isNaN(max)) ||
         (isNaN(min) && claimAmount <= max) ||
         (min <= claimAmount && isNaN(max)) ||
         (min <= claimAmount && claimAmount <= max)) {
-        return true;
+        return true
       }
-      return false;
-    });
+      return false
+    })
   },
 
   bindEvents: function () {
-    var self = this;
+    const self = this
 
     // Clear the table before an AJAX call
     this.$el.on('preXhr.dt', function () {
-      self.dataTable.clear().draw('page');
-    });
+      self.dataTable.clear().draw('page')
+    })
 
     // Subscribe to the schene change
     // event and reload the data
     $.subscribe('/scheme/change/', function (e, data) {
       // update the scheme
-      self.searchConfig.scheme = data.scheme;
-      self.clearFilter();
-      self.reloadScheme(data);
-    });
+      self.searchConfig.scheme = data.scheme
+      self.clearFilter()
+      self.reloadScheme(data)
+    })
 
     // EVENT: Clear all filters & reset table
     $.subscribe('/filter/clearAll', function (e, data) {
-      self.clearFilter(e, data);
-    });
+      self.clearFilter(e, data)
+    })
 
     // EVENT: Task filter
     $.subscribe('/filter/tasks/', function (e, data) {
-      self.searchConfig.task = data.data;
-      self.clearCheckboxes();
-      self.tableDraw();
-    });
+      self.searchConfig.task = data.data
+      self.clearCheckboxes()
+      self.tableDraw()
+    })
 
     // EVENT: Value band Filter
     $.subscribe('/filter/filter_value_bands/', function (e, data) {
-      var valueSelected = data.data.split('|');
-      self.searchConfig.valueBands = {};
+      const valueSelected = data.data.split('|')
+      self.searchConfig.valueBands = {}
       valueSelected.forEach(function (data) {
-        self.searchConfig.valueBands[data.split(':')[0]] = data.split(':')[1];
-      });
-      self.clearCheckboxes();
-      self.tableDraw();
-    });
+        self.searchConfig.valueBands[data.split(':')[0]] = data.split(':')[1]
+      })
+      self.clearCheckboxes()
+      self.tableDraw()
+    })
 
     // EVENT: General clear filter
     $.subscribe('/general/clear-filters/', function () {
-      self.clearFilter();
-    });
+      self.clearFilter()
+    })
 
     // EVENT: Allocate claims
     $('.allocation-submit').on('click', function (e) {
+      self.ui.$msgFail.find('span').html()
+      self.ui.$msgSuccess.addClass('hidden')
 
-      self.ui.$msgFail.find('span').html();
-      self.ui.$msgSuccess.addClass('hidden');
+      self.ui.$msgSuccess.find('span').html('Allocating.. please wait a moment..')
+      self.ui.$msgSuccess.removeClass('hidden')
 
-      self.ui.$msgSuccess.find('span').html('Allocating.. please wait a moment..');
-      self.ui.$msgSuccess.removeClass('hidden');
+      e.preventDefault()
+      self.ui.$submit.prop('disabled', true)
 
-      e.preventDefault();
-      self.ui.$submit.prop('disabled', true);
-      var filters,
-        data,
-        quantity_to_allocate,
-        allocation_case_worker_id;
+      const quantityToAllocate = $('#quantity_to_allocate').val() || false
 
-      quantity_to_allocate = $('#quantity_to_allocate').val() || false;
+      const allocationCaseWorkerId = $('#allocation_case_worker_id-select').val()
 
-      allocation_case_worker_id = $('#allocation_case_worker_id-select').val();
-
-      if (!allocation_case_worker_id) {
+      if (!allocationCaseWorkerId) {
         // console.log('No Caseworker selected');
         $.publish('/allocation/error/', {
           msg: 'Please select a case worker.'
         })
-        return;
+        return
       }
 
-      filters = {
+      const filters = {
         order: 'current',
         filter: 'applied',
         search: 'applied'
-      };
+      }
 
-      if (self.itemsSelected() && !quantity_to_allocate) {
-        filters.selected = true;
+      if (self.itemsSelected() && !quantityToAllocate) {
+        filters.selected = true
       }
 
       // get the raw data object
-      data = self.dataTable.rows(filters).data().splice(0, quantity_to_allocate || (self.itemsSelected() ? self.maxAllocationLimit : self.defaultAllocationLimit)).map(function (obj) {
-        return obj.id;
-      }).join(',');
-
-
+      const data = self.dataTable.rows(filters).data().splice(0, quantityToAllocate || (self.itemsSelected() ? self.maxAllocationLimit : self.defaultAllocationLimit)).map(function (obj) {
+        return obj.id
+      }).join(',')
 
       $.ajax({
         url: '/api/case_workers/allocate',
         method: 'POST',
         data: {
           api_key: self.searchConfig.key,
-          case_worker_id: allocation_case_worker_id,
+          case_worker_id: allocationCaseWorkerId,
           claim_ids: data
         }
       }).success(function (data) {
-        self.ui.$msgFail.addClass('hidden');
-        self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id').val());
-        self.ui.$msgSuccess.removeClass('hidden');
+        self.ui.$msgFail.addClass('hidden')
+        self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id').val())
+        self.ui.$msgSuccess.removeClass('hidden')
         self.reloadScheme({
           scheme: self.searchConfig.scheme
-        });
+        })
       }).error(function (data) {
-        self.ui.$msgSuccess.addClass('hidden');
-        self.ui.$msgFail.find('span').html(data.responseJSON.errors.join(''));
-        self.ui.$msgFail.removeClass('hidden');
+        self.ui.$msgSuccess.addClass('hidden')
+        self.ui.$msgFail.find('span').html(data.responseJSON.errors.join(''))
+        self.ui.$msgFail.removeClass('hidden')
       }).always(function () {
-        self.ui.$submit.prop('disabled', false);
-      });
-    });
+        self.ui.$submit.prop('disabled', false)
+      })
+    })
 
     // EVENT: Clear selected checkboxes on search
     self.dataTable.on('search.dt', function () {
       if ($('#dtAllocation thead input').prop('checked')) {
-        self.clearCheckboxes();
+        self.clearCheckboxes()
       }
-    });
+    })
   },
 
   // API: draw table
   tableDraw: function (data) {
     this
       .dataTable
-      .draw();
+      .draw()
   },
 
   // API: clear check boxes
@@ -392,7 +383,7 @@ moj.Modules.AllocationDataTable = {
     this.dataTable
       .column(0)
       .checkboxes
-      .select(false);
+      .select(false)
   },
 
   // API: clear search config state
@@ -403,18 +394,18 @@ moj.Modules.AllocationDataTable = {
         min: null,
         max: null
       }
-    });
+    })
   },
 
   // Wrapper to clear search & filters
   clearFilter: function (e, data) {
-    this.clearCheckboxes();
-    this.clearSearchConfig();
+    this.clearCheckboxes()
+    this.clearSearchConfig()
     this.dataTable
       .search('')
       .columns()
       .search('')
-      .draw();
+      .draw()
   },
 
   /**
@@ -422,7 +413,7 @@ moj.Modules.AllocationDataTable = {
    * This method will regenerate the URL before each use
    */
   reloadScheme: function (data) {
-    this.dataTable.ajax.url(this.setAjaxURL(data.scheme));
-    return this.dataTable.ajax.reload();
+    this.dataTable.ajax.url(this.setAjaxURL(data.scheme))
+    return this.dataTable.ajax.reload()
   }
-};
+}

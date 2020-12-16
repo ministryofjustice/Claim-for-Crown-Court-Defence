@@ -14,28 +14,27 @@ moj.Modules.OffenceSelectedView = {
    * Util method to check view visibility
    * @return Boolean
    */
-  isVisible: function(){
-    return this.$view.is(':visible');
+  isVisible: function () {
+    return this.$view.is(':visible')
   },
 
   /**
    * init called my moj.init()
    */
-  init: function() {
+  init: function () {
     // check if the view exists for binding events
-    this.$view = $(this.view);
+    this.$view = $(this.view)
 
     if (this.$view.length) {
-      this.bindEvents();
+      this.bindEvents()
 
       // hide the main page buttons
       $.publish('/office/search/pageControls/', false)
     }
   },
 
-
-  bindEvents: function() {
-    var self = this;
+  bindEvents: function () {
+    const self = this
 
     /**
      * Clear selection procedure
@@ -43,11 +42,11 @@ moj.Modules.OffenceSelectedView = {
      * hide the view
      * show page controls
      */
-    this.$view.on('click', '.fx-clear-selection', function(e) {
-      e.preventDefault();
-      $(self.model).val('');
-      self.$view.hide();
+    this.$view.on('click', '.fx-clear-selection', function (e) {
+      e.preventDefault()
+      $(self.model).val('')
+      self.$view.hide()
       $.publish('/office/search/pageControls/', true)
-    });
+    })
   }
 }

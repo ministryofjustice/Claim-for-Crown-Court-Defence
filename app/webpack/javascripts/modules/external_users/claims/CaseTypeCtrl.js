@@ -1,6 +1,6 @@
 moj.Modules.CaseTypeCtrl = {
   activate: function () {
-    return $('#claim_form_step').val() === 'case_details';
+    return $('#claim_form_step').val() === 'case_details'
   },
   els: {
     requiresCrackedDates: '#cracked-trial-dates',
@@ -11,67 +11,66 @@ moj.Modules.CaseTypeCtrl = {
 
   actions: {
     requiresTrialDates: function (param, context) {
-      context.toggle(context.els.requiresTrialDates, param);
+      context.toggle(context.els.requiresTrialDates, param)
     },
     requiresRetrialDates: function (param, context) {
-      context.toggle(context.els.requiresRetrialDates, param);
+      context.toggle(context.els.requiresRetrialDates, param)
     },
     requiresCrackedDates: function (param, context) {
-      context.toggle(context.els.requiresCrackedDates, param);
+      context.toggle(context.els.requiresCrackedDates, param)
     }
   },
 
   toggle: function (element, param) {
-    return param ? $(element).removeClass('hidden') : $(element).addClass('hidden');
+    return param ? $(element).removeClass('hidden') : $(element).addClass('hidden')
   },
 
   init: function () {
     if (this.activate()) {
-
       // bind events
-      this.bindEvents();
+      this.bindEvents()
 
       // init the autocomplete elements
-      this.initAutocomplete();
+      this.initAutocomplete()
     }
   },
 
   bindEvents: function () {
-    var self = this;
+    const self = this
 
     $('#case_type').change(function () {
-      var selectElement = document.querySelector('#case_type');
-      var selectedOption = $(this).find('option:selected');
-      var selectedText = selectedOption.text();
-      var selectedData = selectedOption.data();
+      const selectElement = document.querySelector('#case_type')
+      const selectedOption = $(this).find('option:selected')
+      const selectedText = selectedOption.text()
+      const selectedData = selectedOption.data()
 
       $.publish('/onChange/case_type/', $.extend({
         query: selectedText,
         selectElement: selectElement
-      }, selectedData));
-    });
+      }, selectedData))
+    })
 
     $.subscribe('/onChange/case_type/', function (e, data) {
       // Loop over the data object and fire the
       // methods as required, passing in the param
-      self.eventCallback(e, data);
-    });
+      self.eventCallback(e, data)
+    })
 
     $.subscribe('/onConfirm/case_stage-select/', function (e, data) {
       // Loop over the data object and fire the
       // methods as required, passing in the param
-      self.eventCallback(e, data);
-    });
+      self.eventCallback(e, data)
+    })
   },
 
   eventCallback: function (e, data) {
-    var self = this;
+    const self = this
 
-    Object.keys(data).map(function (objectKey) {
-      if (typeof self.actions[objectKey] == 'function') {
-        self.actions[objectKey](data[objectKey], self);
+    Object.keys(data).map(function (objectKey) { // eslint-disable-line
+      if (typeof self.actions[objectKey] === 'function') {
+        self.actions[objectKey](data[objectKey], self)
       }
-    });
+    })
   },
 
   initAutocomplete: function () {
@@ -79,7 +78,7 @@ moj.Modules.CaseTypeCtrl = {
       moj.Helpers.Autocomplete.new('#' + el.id, {
         showAllValues: true,
         autoselect: true
-      });
-    });
+      })
+    })
   }
-};
+}

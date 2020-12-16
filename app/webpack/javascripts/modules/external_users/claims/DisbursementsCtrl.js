@@ -2,37 +2,32 @@ moj.Modules.DisbursementsCtrl = {
   els: {
     fxAutocomplete: '.fx-autocomplete'
   },
-  activate: function() {
-    return $('#claim_form_step').val() === 'disbursements';
+  activate: function () {
+    return $('#claim_form_step').val() === 'disbursements'
   },
-  initAutocomplete: function() {
-    var arr = $(this.els.fxAutocomplete);
-
-    $(this.els.fxAutocomplete).is(function(idx, el) {
+  initAutocomplete: function () {
+    $(this.els.fxAutocomplete).is(function (idx, el) {
       moj.Helpers.Autocomplete.new('#' + el.id, {
         showAllValues: true,
         autoselect: false
-      });
-    });
+      })
+    })
   },
-  init: function() {
-    var self = this;
+  init: function () {
     if (this.activate()) {
       // init the auto complete
-      this.initAutocomplete();
+      this.initAutocomplete()
       // bind general page events
-      this.bindEvents();
+      this.bindEvents()
     }
   },
-  bindEvents: function() {
-    var self = this;
-
-    $('#disbursements').on('cocoon:after-insert', function(e, element) {
-      var elId = $(element).find('.fx-autocomplete').attr('id');
+  bindEvents: function () {
+    $('#disbursements').on('cocoon:after-insert', function (e, element) {
+      const elId = $(element).find('.fx-autocomplete').attr('id')
       moj.Helpers.Autocomplete.new('#' + elId, {
         showAllValues: true,
         autoselect: false
-      });
-    });
+      })
+    })
   }
-};
+}

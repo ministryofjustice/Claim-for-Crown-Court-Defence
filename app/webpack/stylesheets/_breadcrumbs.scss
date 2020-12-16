@@ -21,10 +21,10 @@
     &:first-child {
       border-left: 0;
     }
-
-    background-image: none;
     margin-left: $gutter-two-thirds;
     padding-left: $gutter-two-thirds;
     border-left: 1px solid $black;
+
+    background-image: none;
   }
 }

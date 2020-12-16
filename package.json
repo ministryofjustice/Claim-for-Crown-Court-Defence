@@ -13,6 +13,10 @@
     "url": "https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues"
   },
   "homepage": "https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence#readme",
+  "scripts": {
+    "validate:js": "standard",
+    "validate:scss": "stylelint app/webpack/**/*.scss"
+  },
   "dependencies": {
     "@rails/webpacker": "5.2.1",
     "accessible-autocomplete": "^2.0.3",
@@ -32,11 +36,20 @@
     "webpack-concat-plugin": "^3.0.0"
   },
   "devDependencies": {
+    "standard": "^16.0.3",
+    "stylelint": "^13.8.0",
+    "stylelint-config-gds": "^0.1.0",
+    "stylelint-order": "^4.1.0",
     "webpack-dev-server": "^3.11.0"
   },
   "resolutions": {
     "node-forge": "^0.10.0",
     "webpack": "^4.44.2"
+  },
+  "standard": {
+    "env": [ "jasmine", "jquery" ],
+    "globals": [ "GOVUK", "moj" ],
+    "ignore": [ "app/webpack/javascripts/vendor/", "spec/javascripts/helpers/" ]
   },
   "@comments": {
     "@dependencies": {

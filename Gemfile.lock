@@ -685,9 +685,9 @@ GEM
       simplecov
     simplecov-html (0.10.2)
     simplecov-multi (0.0.1)
-    site_prism (3.4.2)
+    site_prism (3.7)
       addressable (~> 2.5)
-      capybara (~> 3.3)
+      capybara (~> 3.8)
       site_prism-all_there (>= 0.3.1, < 1.0)
     site_prism-all_there (0.3.2)
     sprockets (4.0.2)
@@ -885,7 +885,7 @@ DEPENDENCIES
   simplecov
   simplecov-csv
   simplecov-multi
-  site_prism (~> 3.4)
+  site_prism (~> 3.7)
   sprockets-rails (~> 3.2.1)
   state_machine (~> 1.2.0)
   state_machines-activerecord

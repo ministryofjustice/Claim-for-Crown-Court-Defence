@@ -17,9 +17,10 @@ module RakeHelpers
 
         rows = query
         batch_size = 5000
+        total = rows.count
         rows.find_in_batches(batch_size: batch_size).with_index do |claims, i|
-          print "\r - #{i*batch_size} claims".yellow
-          claims.each do |claim|
+          claims.each_with_index do |claim, j|
+            print "\r - #{i*batch_size + j} of #{total} claims written".yellow if j % 73 == 0
             main_defendant = claim.defendants.first
             csv << [
               claim.pretty_type,
@@ -34,8 +35,9 @@ module RakeHelpers
               claim.archived_claim_state_transitions&.first&.created_at
             ]
           end
+          print "\r - #{(i+1)*batch_size} of #{total} claims written".yellow
         end
-        puts "\r - #{rows.count} claims".green
+        puts "\r - #{total} claims written          ".green
       end
     end
 

@@ -132,4 +132,13 @@ namespace :claims do
 
     TimedTransitions::BatchTransitioner.new(limit: 10000, dummy: @dummy).run
   end
+
+  desc 'Create a CSV file of all archived claims'
+  task :archive_report, [:filename] => :environment do |_task, args|
+    require_relative 'rake_helpers/archived_claims'
+
+    puts "Writing archived claims to #{args[:filename]}".green
+    RakeHelpers::ArchivedClaims.write args[:filename]
+    puts 'Done'.green
+  end
 end

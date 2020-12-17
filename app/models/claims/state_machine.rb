@@ -144,6 +144,10 @@ module Claims
         klass.scope s, -> { where(state: s) }
       end
 
+      klass.has_many :archived_claim_state_transitions, lambda {
+        where(to: CASEWORKER_DASHBOARD_ARCHIVED_STATES)
+      }, class_name: 'ClaimStateTransition', foreign_key: :claim_id
+
       klass.scope :non_archived_pending_delete, -> { where.not(state: :archived_pending_delete) }
       klass.scope :non_draft, -> { where(state: NON_DRAFT_STATES) }
       klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, lambda {

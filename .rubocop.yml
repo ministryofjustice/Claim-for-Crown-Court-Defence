@@ -17,7 +17,6 @@ AllCops:
     - 'features/**/*'
     - 'node_modules/**/*'
     - 'old_features/**/*'
-    - 'spec/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
 
@@ -34,15 +33,21 @@ Layout/LineLength:
   Max: 120
   IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
   AllowHeredoc: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Lint/DeprecatedOpenSSLConstant:
   Enabled: true
 
 Lint/RaiseException:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Lint/StructNewOverride:
   Enabled: true
@@ -57,18 +62,24 @@ Metrics/BlockLength:
     - group
     - state_machine
     - resource
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Performance/AncestorsInclude:
   Enabled: true
 
 Performance/BigDecimalWithNumericArgument:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Performance/BlockGivenWithExplicitBlock:
   Enabled: true
 
 Performance/CollectionLiteralInLoop:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+  - spec/**/*
 
 Performance/ConstantRegexp:
   Enabled: true
@@ -96,6 +107,8 @@ Performance/StringInclude:
 
 Performance/Sum:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+  - spec/**/*
 
 Rails/ActiveRecordCallbacksOrder:
   Enabled: true
@@ -108,6 +121,8 @@ Rails/FindById:
 
 Rails/Inquiry:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Rails/MailerName:
   Enabled: true
@@ -117,9 +132,13 @@ Rails/MatchRoute:
 
 Rails/NegateInclude:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Rails/Pluck:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Rails/PluckInWhere:
   Enabled: true
@@ -144,6 +163,8 @@ Rails/WhereNot:
 
 RSpec/StubbedMock:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Style/DateTime:
   AllowCoercion: true
@@ -159,9 +180,13 @@ Style/FrozenStringLiteralComment:
 
 Style/FormatStringToken:
   EnforcedStyle: template
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Style/HashEachMethods:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Style/HashTransformKeys:
   Enabled: true
@@ -171,9 +196,13 @@ Style/HashTransformValues:
 
 Style/RedundantRegexpCharacterClass:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Style/RedundantRegexpEscape:
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 
 Style/SlicingWithRange:
   Enabled: true
@@ -184,10 +213,14 @@ Lint/BinaryOperatorWithIdenticalOperands: # (new in 0.89)
   Enabled: true
 Lint/ConstantDefinitionInBlock: # (new in 0.91)
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 Lint/DuplicateElsifCondition: # (new in 0.88)
   Enabled: true
 Lint/DuplicateRequire: # (new in 0.90)
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 Lint/DuplicateRescueException: # (new in 0.89)
   Enabled: true
 Lint/EmptyConditionalBody: # (new in 0.89)
@@ -196,6 +229,8 @@ Lint/EmptyFile: # (new in 0.90)
   Enabled: true
 Lint/FloatComparison: # (new in 0.89)
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 Lint/HashCompareByIdentity: # (new in 0.93)
   Enabled: true
 Lint/IdentityComparison: # (new in 0.91)
@@ -226,20 +261,30 @@ Style/CaseLikeIf: # (new in 0.88)
   Enabled: true
 Style/ClassEqualityComparison: # (new in 0.93)
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 Style/CombinableLoops: # (new in 0.90)
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 Style/ExplicitBlockArgument: # (new in 0.89)
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 Style/GlobalStdStream: # (new in 0.89)
   Enabled: true
 Style/HashAsLastArrayItem: # (new in 0.88)
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 Style/HashLikeCase: # (new in 0.88)
   Enabled: true
 Style/KeywordParametersOrder: # (new in 0.90)
   Enabled: true
 Style/OptionalBooleanParameter: # (new in 0.89)
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 Style/RedundantAssignment: # (new in 0.87)
   Enabled: true
 Style/RedundantFetchBlock: # (new in 0.86)
@@ -252,7 +297,572 @@ Style/SingleArgumentDig: # (new in 0.89)
   Enabled: true
 Style/SoleNestedConditional: # (new in 0.89)
   Enabled: true
+  Exclude: # TODO: Enable for spec/**/*
+    - spec/**/*
 Style/StringConcatenation: # (new in 0.89)
   Enabled: false
+
+# TODO: Enable all of these for spec/**/*
+FactoryBot/FactoryClassName:
+  Exclude:
+    - spec/**/*
+FactoryBot/CreateList:
+  Exclude:
+    - spec/**/*
+
+Layout/LeadingEmptyLines:
+  Exclude:
+    - spec/**/*
+Layout/SpaceAfterComma:
+  Exclude:
+    - spec/**/*
+Layout/SpaceInsideArrayLiteralBrackets:
+  Exclude:
+    - spec/**/*
+Layout/ExtraSpacing:
+  Exclude:
+    - spec/**/*
+Layout/MultilineArrayBraceLayout:
+  Exclude:
+    - spec/**/*
+Layout/TrailingWhitespace:
+  Exclude:
+    - spec/**/*
+Layout/SpaceInsideParens:
+  Exclude:
+    - spec/**/*
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - spec/**/*
+Layout/IndentationWidth:
+  Exclude:
+    - spec/**/*
+Layout/FirstArrayElementIndentation:
+  Exclude:
+    - spec/**/*
+Layout/BlockAlignment:
+  Exclude:
+    - spec/**/*
+Layout/IndentationConsistency:
+  Exclude:
+    - spec/**/*
+Layout/SpaceInsideBlockBraces:
+  Exclude:
+    - spec/**/*
+Layout/TrailingEmptyLines:
+  Exclude:
+    - spec/**/*
+Layout/ArgumentAlignment:
+  Exclude:
+    - spec/**/*
+Layout/MultilineBlockLayout:
+  Exclude:
+    - spec/**/*
+Layout/SpaceInsidePercentLiteralDelimiters:
+  Exclude:
+    - spec/**/*
+Layout/SpaceBeforeBlockBraces:
+  Exclude:
+    - spec/**/*
+Layout/SpaceAroundOperators:
+  Exclude:
+    - spec/**/*
+Layout/SpaceBeforeFirstArg:
+  Exclude:
+    - spec/**/*
+Layout/HashAlignment:
+  Exclude:
+    - spec/**/*
+Layout/EmptyLines:
+  Exclude:
+    - spec/**/*
+Layout/SpaceInsideArrayPercentLiteral:
+  Exclude:
+    - spec/**/*
+Layout/MultilineMethodCallBraceLayout:
+  Exclude:
+    - spec/**/*
+Layout/FirstArgumentIndentation:
+  Exclude:
+    - spec/**/*
+Layout/EmptyLinesAroundModuleBody:
+  Exclude:
+    - spec/**/*
+Layout/SpaceAroundBlockParameters:
+  Exclude:
+    - spec/**/*
+Layout/SpaceAroundEqualsInParameterDefault:
+  Exclude:
+    - spec/**/*
+Layout/DotPosition:
+  Exclude:
+    - spec/**/*
+Layout/SpaceInsideHashLiteralBraces:
+  Exclude:
+    - spec/**/*
+Layout/AssignmentIndentation:
+  Exclude:
+    - spec/**/*
+Layout/CaseIndentation:
+  Exclude:
+    - spec/**/*
+Layout/EmptyLinesAroundClassBody:
+  Exclude:
+    - spec/**/*
+Layout/SpaceAroundKeyword:
+  Exclude:
+    - spec/**/*
+Layout/ClosingParenthesisIndentation:
+  Exclude:
+    - spec/**/*
+Layout/MultilineMethodCallIndentation:
+  Exclude:
+    - spec/**/*
+Layout/DefEndAlignment:
+  Exclude:
+    - spec/**/*
+Layout/IndentationStyle:
+  Exclude:
+    - spec/**/*
+Layout/FirstHashElementIndentation:
+  Exclude:
+    - spec/**/*
+Layout/CommentIndentation:
+  Exclude:
+    - spec/**/*
+Layout/HeredocIndentation:
+  Exclude:
+    - spec/**/*
+Layout/BlockEndNewline:
+  Exclude:
+    - spec/**/*
+Layout/SpaceBeforeComma:
+  Exclude:
+    - spec/**/*
+Layout/SpaceAfterColon:
+  Exclude:
+    - spec/**/*
+Layout/MultilineHashBraceLayout:
+  Exclude:
+    - spec/**/*
+Layout/LeadingCommentSpace:
+  Exclude:
+    - spec/**/*
+Layout/EmptyLineBetweenDefs:
+  Exclude:
+    - spec/**/*
+Layout/MultilineOperationIndentation:
+  Exclude:
+    - spec/**/*
+
+Security/Open:
+  Exclude:
+    - spec/**/*
+
+Rails/HttpPositionalArguments:
+  Exclude:
+    - spec/**/*
+Rails/DynamicFindBy:
+  Exclude:
+    - spec/**/*
+Rails/SkipsModelValidations:
+  Exclude:
+    - spec/**/*
+Rails/Delegate:
+  Exclude:
+    - spec/**/*
+Rails/FilePath:
+  Exclude:
+    - spec/**/*
+Rails/PluralizationGrammar:
+  Exclude:
+    - spec/**/*
+Rails/TimeZone:
+  Exclude:
+    - spec/**/*
+Rails/Blank:
+  Exclude:
+    - spec/**/*
+
+Style/RedundantParentheses:
+  Exclude:
+    - spec/**/*
+Style/SingleLineMethods:
+  Exclude:
+    - spec/**/*
+Style/TrailingCommaInHashLiteral:
+  Exclude:
+    - spec/**/*
+Style/SafeNavigation:
+  Exclude:
+    - spec/**/*
+Style/IfUnlessModifier:
+  Exclude:
+    - spec/**/*
+Style/RegexpLiteral:
+  Exclude:
+    - spec/**/*
+Style/SymbolArray:
+  Exclude:
+    - spec/**/*
+Style/HashSyntax:
+  Exclude:
+    - spec/**/*
+Style/StringLiterals:
+  Exclude:
+    - spec/**/*
+Style/TrailingCommaInArrayLiteral:
+  Exclude:
+    - spec/**/*
+Style/CommentAnnotation:
+  Exclude:
+    - spec/**/*
+Style/BlockDelimiters:
+  Exclude:
+    - spec/**/*
+Style/NumericLiterals:
+  Exclude:
+    - spec/**/*
+Style/MixinUsage:
+  Exclude:
+    - spec/**/*
+Style/NumericLiteralPrefix:
+  Exclude:
+    - spec/**/*
+Style/BarePercentLiterals:
+  Exclude:
+    - spec/**/*
+Style/PercentLiteralDelimiters:
+  Exclude:
+    - spec/**/*
+Style/Semicolon:
+  Exclude:
+    - spec/**/*
+Style/NilComparison:
+  Exclude:
+    - spec/**/*
+Style/LineEndConcatenation:
+  Exclude:
+    - spec/**/*
+Style/RedundantPercentQ:
+  Exclude:
+    - spec/**/*
+Style/EmptyLiteral:
+  Exclude:
+    - spec/**/*
+Style/NestedParenthesizedCalls:
+  Exclude:
+    - spec/**/*
+Style/WordArray:
+  Exclude:
+    - spec/**/*
+Style/MethodCallWithoutArgsParentheses:
+  Exclude:
+    - spec/**/*
+Style/ConditionalAssignment:
+  Exclude:
+    - spec/**/*
+Style/RedundantBegin:
+  Exclude:
+    - spec/**/*
+Style/Not:
+  Exclude:
+    - spec/**/*
+Style/SymbolProc:
+  Exclude:
+    - spec/**/*
+Style/PreferredHashMethods:
+  Exclude:
+    - spec/**/*
+Style/MultilineWhenThen:
+  Exclude:
+    - spec/**/*
+Style/RedundantReturn:
+  Exclude:
+    - spec/**/*
+Style/PercentQLiterals:
+  Exclude:
+    - spec/**/*
+Style/MethodDefParentheses:
+  Exclude:
+    - spec/**/*
+Style/TrailingCommaInArguments:
+  Exclude:
+    - spec/**/*
+Style/InverseMethods:
+  Exclude:
+    - spec/**/*
+Style/RedundantInterpolation:
+  Exclude:
+    - spec/**/*
+Naming/MemoizedInstanceVariableName:
+  Exclude:
+    - spec/**/*
+Style/TrivialAccessors:
+  Exclude:
+    - spec/**/*
+Style/NegatedIf:
+  Exclude:
+    - spec/**/*
+Style/RedundantCapitalW:
+  Exclude:
+    - spec/**/*
+Style/RedundantSelf:
+  Exclude:
+    - spec/**/*
+Style/FormatString:
+  Exclude:
+    - spec/**/*
+Style/MutableConstant:
+  Exclude:
+    - spec/**/*
+Style/RescueStandardError:
+  Exclude:
+    - spec/**/*
+Style/ExpandPathArguments:
+  Exclude:
+    - spec/**/*
+Style/RescueModifier:
+  Exclude:
+    - spec/**/*
+Style/GuardClause:
+  Exclude:
+    - spec/**/*
+
+Performance/RangeInclude:
+  Exclude:
+    - spec/**/*
+Performance/RedundantMerge:
+  Exclude:
+    - spec/**/*
+Performance/InefficientHashSearch:
+  Exclude:
+    - spec/**/*
+Performance/Count:
+  Exclude:
+    - spec/**/*
+Performance/StringReplacement:
+  Exclude:
+    - spec/**/*
+Performance/RegexpMatch:
+  Exclude:
+    - spec/**/*
+Performance/RedundantBlockCall:
+  Exclude:
+    - spec/**/*
+
+Naming/VariableNumber:
+  Exclude:
+    - spec/**/*
+Naming/HeredocDelimiterCase:
+  Exclude:
+    - spec/**/*
+Naming/AccessorMethodName:
+  Exclude:
+    - spec/**/*
+Naming/RescuedExceptionsVariableName:
+  Exclude:
+    - spec/**/*
+Naming/MethodParameterName:
+  Exclude:
+    - spec/**/*
+
+Metrics/ParameterLists:
+  Exclude:
+    - spec/**/*
+Metrics/AbcSize:
+  Exclude:
+    - spec/**/*
+Metrics/MethodLength:
+  Exclude:
+    - spec/**/*
+Metrics/ModuleLength:
+  Exclude:
+    - spec/**/*
+Metrics/PerceivedComplexity:
+  Exclude:
+    - spec/**/*
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - spec/**/*
+
+Lint/AmbiguousOperator:
+  Exclude:
+    - spec/**/*
+Lint/InterpolationCheck:
+  Exclude:
+    - spec/**/*
+Lint/ParenthesesAsGroupedExpression:
+  Exclude:
+    - spec/**/*
+Lint/RedundantSplatExpansion:
+  Exclude:
+    - spec/**/*
+Lint/UnusedMethodArgument:
+  Exclude:
+    - spec/**/*
+Lint/UselessAssignment:
+  Exclude:
+    - spec/**/*
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - spec/**/*
+Lint/ShadowingOuterLocalVariable:
+  Exclude:
+    - spec/**/*
+Lint/UnusedBlockArgument:
+  Exclude:
+    - spec/**/*
+Lint/NonDeterministicRequireOrder:
+  Exclude:
+    - spec/**/*
+Lint/DeprecatedClassMethods:
+  Exclude:
+    - spec/**/*
+Lint/AmbiguousRegexpLiteral:
+  Exclude:
+    - spec/**/*
+
+RSpec/ExampleWording:
+  Exclude:
+    - spec/**/*
+RSpec/ContextWording:
+  Exclude:
+    - spec/**/*
+RSpec/NestedGroups:
+  Exclude:
+    - spec/**/*
+RSpec/NotToNot:
+  Exclude:
+    - spec/**/*
+RSpec/LetSetup:
+  Exclude:
+    - spec/**/*
+RSpec/MultipleExpectations:
+  Exclude:
+    - spec/**/*
+RSpec/InstanceVariable:
+  Exclude:
+    - spec/**/*
+RSpec/HookArgument:
+  Exclude:
+    - spec/**/*
+RSpec/BeforeAfterAll:
+  Exclude:
+    - spec/**/*
+RSpec/ExampleLength:
+  Exclude:
+    - spec/**/*
+RSpec/AnyInstance:
+  Exclude:
+    - spec/**/*
+RSpec/EmptyLineAfterFinalLet:
+  Exclude:
+    - spec/**/*
+RSpec/MultipleMemoizedHelpers:
+  Exclude:
+    - spec/**/*
+RSpec/EmptyLineAfterExample:
+  Exclude:
+    - spec/**/*
+RSpec/EmptyLineAfterHook:
+  Exclude:
+    - spec/**/*
+RSpec/PredicateMatcher:
+  Exclude:
+    - spec/**/*
+RSpec/RepeatedExampleGroupDescription:
+  Exclude:
+    - spec/**/*
+RSpec/EmptyLineAfterExampleGroup:
+  Exclude:
+    - spec/**/*
+RSpec/NamedSubject:
+  Exclude:
+    - spec/**/*
+RSpec/ImplicitSubject:
+  Exclude:
+    - spec/**/*
+RSpec/RepeatedExample:
+  Exclude:
+    - spec/**/*
+RSpec/DescribeClass:
+  Exclude:
+    - spec/**/*
+RSpec/HooksBeforeExamples:
+  Exclude:
+    - spec/**/*
+RSpec/ScatteredSetup:
+  Exclude:
+    - spec/**/*
+RSpec/BeEql:
+  Exclude:
+    - spec/**/*
+RSpec/EmptyLineAfterSubject:
+  Exclude:
+    - spec/**/*
+RSpec/ContextMethod:
+  Exclude:
+    - spec/**/*
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - spec/**/*
+RSpec/LeadingSubject:
+  Exclude:
+    - spec/**/*
+RSpec/IteratedExpectation:
+  Exclude:
+    - spec/**/*
+RSpec/VerifiedDoubles:
+  Exclude:
+    - spec/**/*
+RSpec/MessageSpies:
+  Exclude:
+    - spec/**/*
+RSpec/SubjectStub:
+  Exclude:
+    - spec/**/*
+RSpec/ExpectInHook:
+  Exclude:
+    - spec/**/*
+RSpec/LetBeforeExamples:
+  Exclude:
+    - spec/**/*
+RSpec/DescribedClass:
+  Exclude:
+    - spec/**/*
+RSpec/LeakyConstantDeclaration:
+  Exclude:
+    - spec/**/*
+RSpec/ExpectChange:
+  Exclude:
+    - spec/**/*
+RSpec/SharedContext:
+  Exclude:
+    - spec/**/*
+RSpec/RepeatedExampleGroupBody:
+  Exclude:
+    - spec/**/*
+RSpec/FilePath:
+  Exclude:
+    - spec/**/*
+RSpec/ImplicitExpect:
+  Exclude:
+    - spec/**/*
+RSpec/MultipleDescribes:
+  Exclude:
+    - spec/**/*
+RSpec/RepeatedDescription:
+  Exclude:
+    - spec/**/*
+RSpec/ScatteredLet:
+  Exclude:
+    - spec/**/*
+RSpec/ReceiveCounts:
+  Exclude:
+    - spec/**/*
+RSpec/VoidExpect:
+  Exclude:
+    - spec/**/*
 
 inherit_from: .rubocop_todo.yml

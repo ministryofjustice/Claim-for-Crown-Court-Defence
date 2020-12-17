@@ -145,7 +145,7 @@ module Claims
       end
 
       klass.has_many :archived_claim_state_transitions, lambda {
-        where(to: CASEWORKER_DASHBOARD_ARCHIVED_STATES)
+        where(to: CASEWORKER_DASHBOARD_ARCHIVED_STATES).order(created_at: :asc)
       }, class_name: 'ClaimStateTransition', foreign_key: :claim_id
 
       klass.scope :non_archived_pending_delete, -> { where.not(state: :archived_pending_delete) }

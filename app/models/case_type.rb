@@ -42,7 +42,7 @@ class CaseType < ApplicationRecord
   end
 
   def self.ids_by_types(*args)
-    case_types = CaseType.where('name in (?)', args)
+    case_types = CaseType.where(name: args)
     case_types.map(&:id)
   end
 

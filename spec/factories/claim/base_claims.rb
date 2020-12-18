@@ -85,34 +85,34 @@ def claim_state_common_traits
   end
 
   trait :archived_pending_delete do
-    # after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.archive_pending_delete! }
+    # after(:create) { |c| c.submit!; c.allocate!; assign_fees_and_expenses_to(c); c.authorise!; c.archive_pending_delete! }
     after(:create) do |c|
       c.submit!
       c.case_workers << create(:case_worker)
       c.reload
-      set_amount_assessed(c)
+      assign_fees_and_expenses_to(c)
       c.authorise!
       c.archive_pending_delete!
     end
   end
 
   trait :authorised do
-    after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise! }
+    after(:create) { |c|  c.submit!; c.allocate!; assign_fees_and_expenses_to(c); c.authorise! }
   end
 
   trait :awaiting_written_reasons do
-    after(:create) { |c|  c.submit!; c.allocate!; set_amount_assessed(c); c.authorise!; c.await_written_reasons! }
+    after(:create) { |c|  c.submit!; c.allocate!; assign_fees_and_expenses_to(c); c.authorise!; c.await_written_reasons! }
   end
 
   trait :part_authorised do
-    after(:create) { |c| c.submit!; c.allocate!; set_amount_assessed(c); c.authorise_part! }
+    after(:create) { |c| c.submit!; c.allocate!; assign_fees_and_expenses_to(c); c.authorise_part! }
   end
 
   trait :redetermination do
     after(:create) do |c|
       Timecop.freeze(Time.now - 3.day) { c.submit! }
       Timecop.freeze(Time.now - 2.day) { c.allocate! }
-      Timecop.freeze(Time.now - 1.day) { set_amount_assessed(c); c.authorise! }
+      Timecop.freeze(Time.now - 1.day) { assign_fees_and_expenses_to(c); c.authorise! }
       c.redetermine!
     end
   end
@@ -187,7 +187,7 @@ def random_case_number
   [%w(A S T).sample, rand(1990..2016), rand(1000..9999)].join
 end
 
-def set_amount_assessed(claim)
+def assign_fees_and_expenses_to(claim)
   claim.assessment.update!(fees: random_amount, expenses: random_amount)
 end
 

@@ -90,7 +90,7 @@ Naming/AccessorMethodName:
   Exclude:
     - 'app/models/claims/state_machine.rb'
     - 'app/services/claims/claim_actions_service.rb'
-    - spec/**/*
+    # - spec/**/*
 
 # Offense count: 4
 # Configuration parameters: EnforcedStyleForLeadingUnderscores.

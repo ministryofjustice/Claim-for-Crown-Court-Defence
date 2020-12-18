@@ -33,7 +33,7 @@ module FactoryHelpers
   def authorise_claim(claim)
     allocate_claim(claim)
     claim.reload
-    set_amount_assessed(claim)
+    assign_fees_and_expenses_to(claim)
     claim.authorise!
     claim.last_decision_transition.update_author_id(claim.case_workers.first.user.id)
   end
@@ -41,7 +41,7 @@ module FactoryHelpers
   def advance_to_pending_delete(c)
     allocate_claim(c)
     c.reload
-    set_amount_assessed(c)
+    assign_fees_and_expenses_to(c)
     c.authorise!
     c.archive_pending_delete!
   end
@@ -49,7 +49,7 @@ module FactoryHelpers
   def advance_to_pending_review(c)
     allocate_claim(c)
     c.reload
-    set_amount_assessed(c)
+    assign_fees_and_expenses_to(c)
     c.authorise!
     c.archive_pending_review!
   end
@@ -63,13 +63,13 @@ module FactoryHelpers
   def post_build_actions_for_draft_final_claim(claim)
     certify_claim(claim)
     add_fee(:misc_fee, claim)
-    set_creator(claim)
+    assign_external_user_as_creator(claim)
     populate_required_fields(claim)
   end
 
   def post_build_actions_for_draft_hardship_claim(claim)
     certify_claim(claim)
-    set_creator(claim)
+    assign_external_user_as_creator(claim)
     populate_required_fields(claim)
   end
 
@@ -85,7 +85,7 @@ module FactoryHelpers
     claim.fees << build(factory, claim: claim)
   end
 
-  def set_creator(claim)
+  def assign_external_user_as_creator(claim)
     claim.creator = claim.external_user
   end
 

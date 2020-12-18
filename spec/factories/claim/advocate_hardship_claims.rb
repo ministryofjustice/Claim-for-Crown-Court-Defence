@@ -6,7 +6,7 @@ FactoryBot.define do
 
     after(:build) do |claim|
       claim.fees << build(:basic_fee, :baf_fee, claim: claim)
-      set_creator(claim)
+      assign_external_user_as_creator(claim)
     end
 
     trait :authorised do

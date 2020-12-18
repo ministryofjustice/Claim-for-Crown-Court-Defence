@@ -29,7 +29,7 @@ FactoryBot.define do
       offence { nil }
     end
 
-    after(:build) { |claim| set_creator(claim) }
+    after(:build) { |claim| assign_external_user_as_creator(claim) }
 
   end
 end

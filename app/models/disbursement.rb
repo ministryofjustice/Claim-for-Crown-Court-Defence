@@ -55,7 +55,7 @@ class Disbursement < ApplicationRecord
   end
 
   def vat_absent?
-    vat_amount.nil? || vat_amount == 0.0
+    vat_amount.nil? || vat_amount.zero?
   end
 
   def vat_present?

@@ -94,7 +94,7 @@ module Fee
 
     def validate_integer_decimal
       return if @record.fee_type.nil? || @record.quantity.nil? || @record.quantity_is_decimal?
-      add_error(:quantity, 'integer') unless @record.quantity.frac == 0.0
+      add_error(:quantity, 'integer') unless @record.quantity.frac.zero?
     end
 
     def validate_rate

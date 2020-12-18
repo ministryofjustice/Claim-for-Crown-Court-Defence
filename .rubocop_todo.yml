@@ -20,16 +20,6 @@ Lint/ConstantDefinitionInBlock:
     - 'app/presenters/concerns/management_information_reportable.rb'
     - spec/**/*
 
-# Offense count: 5
-Lint/FloatComparison:
-  Exclude:
-    - 'app/models/disbursement.rb'
-    - 'app/models/expense.rb'
-    - 'app/services/vat_auditor.rb'
-    - 'app/validators/fee/base_fee_validator.rb'
-    - 'lib/extensions/string_extension.rb'
-    - spec/**/*
-
 # Offense count: 9
 Lint/MissingSuper:
   Exclude:

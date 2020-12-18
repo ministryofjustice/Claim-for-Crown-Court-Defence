@@ -107,8 +107,8 @@ Performance/StringInclude:
 
 Performance/Sum:
   Enabled: true
-  Exclude: # TODO: Enable for spec/**/*
-  - spec/**/*
+  # Exclude: # TODO: Enable for spec/**/*
+  #   - spec/**/*
 
 Rails/ActiveRecordCallbacksOrder:
   Enabled: true
@@ -180,8 +180,8 @@ Style/FrozenStringLiteralComment:
 
 Style/FormatStringToken:
   EnforcedStyle: template
-  Exclude: # TODO: Enable for spec/**/*
-    - spec/**/*
+  # Exclude: # TODO: Enable for spec/**/*
+  #   - spec/**/*
 
 Style/HashEachMethods:
   Enabled: true
@@ -213,8 +213,8 @@ Lint/BinaryOperatorWithIdenticalOperands: # (new in 0.89)
   Enabled: true
 Lint/ConstantDefinitionInBlock: # (new in 0.91)
   Enabled: true
-  Exclude: # TODO: Enable for spec/**/*
-    - spec/**/*
+  # Exclude: # TODO: Enable for spec/**/*
+  #   - spec/**/*
 Lint/DuplicateElsifCondition: # (new in 0.88)
   Enabled: true
 Lint/DuplicateRequire: # (new in 0.90)
@@ -229,8 +229,8 @@ Lint/EmptyFile: # (new in 0.90)
   Enabled: true
 Lint/FloatComparison: # (new in 0.89)
   Enabled: true
-  Exclude: # TODO: Enable for spec/**/*
-    - spec/**/*
+  # Exclude: # TODO: Enable for spec/**/*
+  #   - spec/**/*
 Lint/HashCompareByIdentity: # (new in 0.93)
   Enabled: true
 Lint/IdentityComparison: # (new in 0.91)
@@ -261,30 +261,30 @@ Style/CaseLikeIf: # (new in 0.88)
   Enabled: true
 Style/ClassEqualityComparison: # (new in 0.93)
   Enabled: true
-  Exclude: # TODO: Enable for spec/**/*
-    - spec/**/*
+  # Exclude: # TODO: Enable for spec/**/*
+  #   - spec/**/*
 Style/CombinableLoops: # (new in 0.90)
   Enabled: true
   Exclude: # TODO: Enable for spec/**/*
     - spec/**/*
 Style/ExplicitBlockArgument: # (new in 0.89)
   Enabled: true
-  Exclude: # TODO: Enable for spec/**/*
-    - spec/**/*
+  # Exclude: # TODO: Enable for spec/**/*
+  #   - spec/**/*
 Style/GlobalStdStream: # (new in 0.89)
   Enabled: true
 Style/HashAsLastArrayItem: # (new in 0.88)
   Enabled: true
-  Exclude: # TODO: Enable for spec/**/*
-    - spec/**/*
+  # Exclude: # TODO: Enable for spec/**/*
+  #   - spec/**/*
 Style/HashLikeCase: # (new in 0.88)
   Enabled: true
 Style/KeywordParametersOrder: # (new in 0.90)
   Enabled: true
 Style/OptionalBooleanParameter: # (new in 0.89)
   Enabled: true
-  Exclude: # TODO: Enable for spec/**/*
-    - spec/**/*
+  # Exclude: # TODO: Enable for spec/**/*
+  #   - spec/**/*
 Style/RedundantAssignment: # (new in 0.87)
   Enabled: true
 Style/RedundantFetchBlock: # (new in 0.86)
@@ -297,8 +297,8 @@ Style/SingleArgumentDig: # (new in 0.89)
   Enabled: true
 Style/SoleNestedConditional: # (new in 0.89)
   Enabled: true
-  Exclude: # TODO: Enable for spec/**/*
-    - spec/**/*
+  # Exclude: # TODO: Enable for spec/**/*
+  #   - spec/**/*
 Style/StringConcatenation: # (new in 0.89)
   Enabled: false
 
@@ -455,34 +455,34 @@ Layout/MultilineOperationIndentation:
   Exclude:
     - spec/**/*
 
-Security/Open:
-  Exclude:
-    - spec/**/*
+# Security/Open:
+#   Exclude:
+#     - spec/**/*
 
 Rails/HttpPositionalArguments:
-  Exclude:
-    - spec/**/*
-Rails/DynamicFindBy:
-  Exclude:
-    - spec/**/*
-Rails/SkipsModelValidations:
-  Exclude:
-    - spec/**/*
-Rails/Delegate:
-  Exclude:
-    - spec/**/*
-Rails/FilePath:
   Exclude:
     - spec/**/*
 Rails/PluralizationGrammar:
   Exclude:
     - spec/**/*
-Rails/TimeZone:
-  Exclude:
-    - spec/**/*
 Rails/Blank:
   Exclude:
     - spec/**/*
+# Rails/DynamicFindBy:
+#   Exclude:
+#     - spec/**/*
+# Rails/SkipsModelValidations:
+#   Exclude:
+#     - spec/**/*
+# Rails/Delegate:
+#   Exclude:
+#     - spec/**/*
+# Rails/FilePath:
+#   Exclude:
+#     - spec/**/*
+# Rails/TimeZone:
+#   Exclude:
+#     - spec/**/*
 
 Style/RedundantParentheses:
   Exclude:
@@ -577,9 +577,6 @@ Style/PreferredHashMethods:
 Style/MultilineWhenThen:
   Exclude:
     - spec/**/*
-Style/RedundantReturn:
-  Exclude:
-    - spec/**/*
 Style/PercentQLiterals:
   Exclude:
     - spec/**/*
@@ -593,9 +590,6 @@ Style/InverseMethods:
   Exclude:
     - spec/**/*
 Style/RedundantInterpolation:
-  Exclude:
-    - spec/**/*
-Naming/MemoizedInstanceVariableName:
   Exclude:
     - spec/**/*
 Style/TrivialAccessors:
@@ -628,6 +622,9 @@ Style/RescueModifier:
 Style/GuardClause:
   Exclude:
     - spec/**/*
+# Style/RedundantReturn:
+#   Exclude:
+#     - spec/**/*
 
 Performance/RangeInclude:
   Exclude:
@@ -636,9 +633,6 @@ Performance/RedundantMerge:
   Exclude:
     - spec/**/*
 Performance/InefficientHashSearch:
-  Exclude:
-    - spec/**/*
-Performance/Count:
   Exclude:
     - spec/**/*
 Performance/StringReplacement:
@@ -650,14 +644,14 @@ Performance/RegexpMatch:
 Performance/RedundantBlockCall:
   Exclude:
     - spec/**/*
+# Performance/Count:
+#   Exclude:
+#     - spec/**/*
 
 Naming/VariableNumber:
   Exclude:
     - spec/**/*
 Naming/HeredocDelimiterCase:
-  Exclude:
-    - spec/**/*
-Naming/AccessorMethodName:
   Exclude:
     - spec/**/*
 Naming/RescuedExceptionsVariableName:
@@ -666,6 +660,12 @@ Naming/RescuedExceptionsVariableName:
 Naming/MethodParameterName:
   Exclude:
     - spec/**/*
+# Naming/AccessorMethodName:
+#   Exclude:
+#     - spec/**/*
+# Naming/MemoizedInstanceVariableName:
+#   Exclude:
+#     - spec/**/*
 
 Metrics/ParameterLists:
   Exclude:

@@ -22,7 +22,7 @@ references:
       name: Install Code Climate test-reporter
       command: |
         # curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > tmp/cc-test-reporter
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-0.7.0-linux-amd64 > ./cc-test-reporter
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-0.7.0-linux-amd64 > tmp/cc-test-reporter
         chmod +x tmp/cc-test-reporter
 
   _persist-codeclimate: &persist-codeclimate

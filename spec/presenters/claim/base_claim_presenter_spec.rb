@@ -142,7 +142,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'should list valid transitions from part_authorised' do
       claim.state = 'part_authorised'
       presenter = Claim::BaseClaimPresenter.new(claim, view)
-      expect(presenter.valid_transitions).to eq( {:redetermination=>"Redetermination", :awaiting_written_reasons=>"Awaiting written reasons"} )
+      expect(presenter.valid_transitions).to eq( { :redetermination=>"Redetermination", :awaiting_written_reasons=>"Awaiting written reasons" } )
     end
   end
 

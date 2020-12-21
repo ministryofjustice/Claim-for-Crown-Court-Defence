@@ -95,7 +95,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
   let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type) }
 
   def do_request(claim_uuid: claim.uuid, api_key: case_worker.user.api_key)
-    get "/api/cclf/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}
+    get "/api/cclf/claims/#{claim_uuid}", { api_key: api_key }, { format: :json }
   end
 
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do

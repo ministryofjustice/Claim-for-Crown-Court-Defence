@@ -118,7 +118,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
             post :create, params: params
           }.to change(User, :count).by(1)
           user = User.find_by_email('foo@foobar.com')
-          expect(user.settings).to eq({'email_notification_of_message' => true})
+          expect(user.settings).to eq({ 'email_notification_of_message' => true })
         end
 
         it 'redirects to external_users index' do
@@ -201,7 +201,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       context 'when mandatory params for external user are not provided' do
         it 'raises a paramenter missing error' do
           expect {
-            put :update_password, params: { id: subject, external_user: { } }
+            put :update_password, params: { id: subject, external_user: {} }
           }.to raise_error(ActionController::ParameterMissing)
         end
       end
@@ -347,7 +347,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     def params_updating_email(external_user)
-        {id: external_user,
+        { id: external_user,
           external_user: {
             user_attributes: {
               id: external_user.user.id,

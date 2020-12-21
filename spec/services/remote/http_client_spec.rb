@@ -65,7 +65,7 @@ module Remote
 
         result = HttpClient.current.get(path, query)
 
-        expect(result).to eq( { key: 'value'} )
+        expect(result).to eq( { key: 'value' } )
       end
     end
 

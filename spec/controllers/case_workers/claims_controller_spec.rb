@@ -142,7 +142,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       clean_database
     end
 
-    describe '#archived with no filtering', vcr: {cassette_name: 'spec/case_workers/claims/archived'} do
+    describe '#archived with no filtering', vcr: { cassette_name: 'spec/case_workers/claims/archived' } do
       before(:each) do
         get :archived, params: { 'tab' => 'archived' }
       end
@@ -153,7 +153,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       end
     end
 
-    describe '#archived with filtering by defendant name', vcr: {cassette_name: 'spec/case_workers/claims/archived_search_by_defendant'} do
+    describe '#archived with filtering by defendant name', vcr: { cassette_name: 'spec/case_workers/claims/archived_search_by_defendant' } do
       search_terms = {
         'Joex Bloggs' => 2,
         'Fred Bloggs' => 4,

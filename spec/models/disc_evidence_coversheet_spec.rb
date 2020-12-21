@@ -6,7 +6,7 @@ RSpec.describe DiscEvidenceCoversheet, type: :model do
 
   context '#claim' do
     subject { instance.claim }
-    let(:params) { { claim_id: claim.id} }
+    let(:params) { { claim_id: claim.id } }
 
     it 'set by claim_id' do
       is_expected.to eql claim
@@ -20,7 +20,7 @@ RSpec.describe DiscEvidenceCoversheet, type: :model do
 
   context '#external_user' do
     subject { instance.external_user }
-    let(:params) { { claim_id: claim.id} }
+    let(:params) { { claim_id: claim.id } }
 
     it 'delegated to claim' do
       is_expected.to eql claim.external_user
@@ -39,7 +39,7 @@ RSpec.describe DiscEvidenceCoversheet, type: :model do
     end
 
     context 'when params do specify parts' do
-      let(:params) { { claim_id: claim.id, current_date_dd: "01", current_date_mm: "01", current_date_yyyy: "2019"} }
+      let(:params) { { claim_id: claim.id, current_date_dd: "01", current_date_mm: "01", current_date_yyyy: "2019" } }
 
       it 'sets current_date from parts' do
         is_expected.to eql Date.new(2019, 01, 01)
@@ -178,7 +178,7 @@ RSpec.describe DiscEvidenceCoversheet, type: :model do
     end
 
     context 'when params do specify parts' do
-      let(:params) { { claim_id: claim.id, claim_submitted_at_dd: "01", claim_submitted_at_mm: "01", claim_submitted_at_yyyy: "2019"} }
+      let(:params) { { claim_id: claim.id, claim_submitted_at_dd: "01", claim_submitted_at_mm: "01", claim_submitted_at_yyyy: "2019" } }
 
       it 'sets current_date from parts' do
         is_expected.to eql Date.new(2019, 01, 01)

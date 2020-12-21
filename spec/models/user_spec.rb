@@ -108,7 +108,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'save the setting' do
-        expect(subject.settings).to eq({'setting1' => 'hello'})
+        expect(subject.settings).to eq({ 'setting1' => 'hello' })
       end
     end
 

@@ -31,7 +31,7 @@ RSpec.describe Caching::ApiRequest do
     end
 
     context 'custom set' do
-      let(:options) { {ttl: 180, ignore_params: ['sorting']} }
+      let(:options) { { ttl: 180, ignore_params: ['sorting'] } }
 
       it 'should override default options if provided' do
         expect(subject.options[:ttl]).to eq(180)

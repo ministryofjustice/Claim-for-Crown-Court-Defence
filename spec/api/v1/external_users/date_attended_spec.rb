@@ -12,7 +12,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
   let!(:fee) { create(:misc_fee, claim: claim) }
   let!(:from_date) { claim.earliest_representation_order_date }
   let!(:to_date) { from_date + 2.days }
-  let!(:valid_params) { { api_key: provider.api_key, attended_item_id: fee.reload.uuid, date: from_date.as_json, date_to: to_date.as_json} }
+  let!(:valid_params) { { api_key: provider.api_key, attended_item_id: fee.reload.uuid, date: from_date.as_json, date_to: to_date.as_json } }
 
   context 'when sending non-permitted verbs' do
     ALL_DATES_ATTENDED_ENDPOINTS.each do |endpoint| # for each endpoint

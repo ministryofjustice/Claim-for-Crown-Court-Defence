@@ -38,7 +38,7 @@ describe ExpenseReason do
   describe '#to_hash' do
     it 'returns the right keys and values' do
       er = ExpenseReason.new(34, 'reason', true)
-      expect(er.to_hash).to eq({ id: 34, reason: 'reason', reason_text: true})
+      expect(er.to_hash).to eq({ id: 34, reason: 'reason', reason_text: true })
     end
   end
 end

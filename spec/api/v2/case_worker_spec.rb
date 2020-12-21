@@ -70,7 +70,7 @@ describe API::V2::CaseWorker do
       end
 
       context 'custom sorting' do
-        let(:sorting) { {sorting: 'id', direction: 'desc'} }
+        let(:sorting) { { sorting: 'id', direction: 'desc' } }
 
         it 'should sort with specified params' do
           expect(case_workers_ids).to eq(case_workers.map(&:id).sort.reverse)

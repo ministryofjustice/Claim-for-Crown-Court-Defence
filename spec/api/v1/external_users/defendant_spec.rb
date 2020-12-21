@@ -10,13 +10,13 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
   # NOTE: need to specify claim.source as api to ensure defendant model validations applied
   let!(:provider)      { create(:provider) }
   let!(:claim)         { create(:claim, source: 'api').reload }
-  let!(:valid_params)  { {api_key: provider.api_key, claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10"} }
+  let!(:valid_params)  { { api_key: provider.api_key, claim_id: claim.uuid, first_name: "JohnAPI", last_name: "SmithAPI", date_of_birth: "1980-05-10" } }
 
   let(:json_error_response) do
     [
-      {'error' => "Enter a date of birth for the defendant"},
-      {'error' => "Enter a first name for the defendant"},
-      {'error' => "Enter a last name for the defendant"}
+      { 'error' => "Enter a date of birth for the defendant" },
+      { 'error' => "Enter a first name for the defendant" },
+      { 'error' => "Enter a last name for the defendant" }
     ].to_json
   end
 

@@ -34,7 +34,7 @@ RSpec.describe Caching::Response do
     let(:response) { instance_double('mock_response', body: 'body content', headers: headers ) }
 
     context 'with max-age Cache-Control headers' do
-      let(:headers) { { cache_control: 'max-age=900, private, re-validate'} }
+      let(:headers) { { cache_control: 'max-age=900, private, re-validate' } }
 
       it { is_expected.to eql '900' }
     end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Fee::GraduatedFeePresenter do
   let(:claim) { instance_double(Claim::BaseClaim, actual_trial_length: 51) }
-  let(:grad_fee) { instance_double(Fee::GraduatedFee, claim: claim, quantity_is_decimal?: false, errors: {quantity: []}) }
+  let(:grad_fee) { instance_double(Fee::GraduatedFee, claim: claim, quantity_is_decimal?: false, errors: { quantity: [] }) }
   let(:presenter) { Fee::GraduatedFeePresenter.new(grad_fee, view) }
 
    describe '#rate' do

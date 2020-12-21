@@ -19,7 +19,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         'state' => state,
         'state_reason' => state_reason,
         "#{state.eql?('rejected') ? 'reject' : 'refuse'}_reason_text" => reason_text,
-        'assessment_attributes' => {'fees' => '', 'expenses' => '0'}
+        'assessment_attributes' => { 'fees' => '', 'expenses' => '0' }
       }
     end
 
@@ -55,7 +55,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         'state_reason' => [],
         'reject_reason_text' => '',
         'refuse_reason_text' => '',
-        'assessment_attributes' => {'fees' => fees, 'expenses' => expenses}
+        'assessment_attributes' => { 'fees' => fees, 'expenses' => expenses }
       }
     end
 
@@ -153,7 +153,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
       # Not sure what this is testing beyond that covered by above. remove?
       it 'advances the claim to refused when no values are supplied' do
-        params = { current_user: current_user, 'state' => 'refused', 'state_reason' => %w[wrong_ia duplicate_claim], 'assessment_attributes' => {'expenses' => ''} }
+        params = { current_user: current_user, 'state' => 'refused', 'state_reason' => %w[wrong_ia duplicate_claim], 'assessment_attributes' => { 'expenses' => '' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :ok
         expect(updater.claim.state).to eq 'refused'
@@ -163,7 +163,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
     context 'errors' do
       it 'errors if no state and and no values submitted' do
-        params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state'=>''}
+        params = { 'assessment_attributes'=>{ 'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3' }, 'state'=>'' }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.assessment).to be_zero
@@ -171,7 +171,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'errors if part auth selected and no values' do
-        params = {'assessment_attributes'=>{'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3'}, 'state'=>'part_authorised'}
+        params = { 'assessment_attributes'=>{ 'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3' }, 'state'=>'part_authorised' }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.assessment).to be_zero
@@ -179,14 +179,14 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'errors if assessment data is present in the params but no state specified' do
-        params = {'state' => '', 'assessment_attributes' => {'fees' => '128.33', 'expenses' => '42.88'}}
+        params = { 'state' => '', 'assessment_attributes' => { 'fees' => '128.33', 'expenses' => '42.88' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:determinations]).to include('must select a status')
       end
 
       it 'errors if values are supplied with refused' do
-        params = {'state' => 'refused', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
+        params = { 'state' => 'refused', 'assessment_attributes' => { 'fees' => '93.65','expenses' => '42.88' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:determinations]).to include('must not have values when refusing a claim')
@@ -197,7 +197,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'errors if values are supplied with rejected' do
-        params = {'state' => 'rejected', 'assessment_attributes' => {'fees' => '93.65','expenses' => '42.88'}}
+        params = { 'state' => 'rejected', 'assessment_attributes' => { 'fees' => '93.65','expenses' => '42.88' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:determinations]).to include('must not have values when rejecting a claim')
@@ -208,7 +208,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'if rejected and no state_reason are supplied' do
-        params = {'state' => 'rejected', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+        params = { 'state' => 'rejected', 'state_reason' => [''], 'assessment_attributes' => { 'fees' => '', 'expenses' => '0' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:rejected_reason]).to include('requires a reason')
@@ -219,7 +219,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'if rejected, state_reason is other and no text is supplied' do
-        params = {'state' => 'rejected', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+        params = { 'state' => 'rejected', 'state_reason' => ['other'], 'assessment_attributes' => { 'fees' => '', 'expenses' => '0' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:rejected_reason_other]).to include('needs a description')
@@ -230,7 +230,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'if refused and no state_reason are supplied' do
-        params = {'state' => 'refused', 'state_reason' => [''], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+        params = { 'state' => 'refused', 'state_reason' => [''], 'assessment_attributes' => { 'fees' => '', 'expenses' => '0' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:refused_reason]).to include('requires a reason')
@@ -241,7 +241,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'if refused, state_reason is other and no text is supplied' do
-        params = {'state' => 'refused', 'state_reason' => ['other'], 'assessment_attributes' => {'fees' => '', 'expenses' => '0'}}
+        params = { 'state' => 'refused', 'state_reason' => ['other'], 'assessment_attributes' => { 'fees' => '', 'expenses' => '0' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:refused_reason_other]).to include('needs a description')
@@ -254,7 +254,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       context 'transactional rollback' do
         subject(:updater) { described_class.new(claim.id, params).update! }
         let(:claim) { create :claim, :submitted }
-        let(:params) { { 'state' => 'authorised', 'assessment_attributes' => {'fees' => '200', 'expenses' => '0.00'} } }
+        let(:params) { { 'state' => 'authorised', 'assessment_attributes' => { 'fees' => '200', 'expenses' => '0.00' } } }
 
         it 'returns result of :error' do
           expect(updater.result).to eq :error
@@ -299,7 +299,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
           'state' => 'rejected',
           'state_reason' => %w[wrong_maat_ref no_indictment other],
           'reject_reason_text' => 'rejecting because...',
-          'assessment_attributes' => {'fees' => '', 'expenses' => '0'}
+          'assessment_attributes' => { 'fees' => '', 'expenses' => '0' }
         }
       end
 
@@ -335,7 +335,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
           'state' => 'refused',
           'state_reason' => %w[wrong_ia duplicate_claim other_refuse],
           'refuse_reason_text' => 'refusing because...',
-          'assessment_attributes' => {'fees' => '', 'expenses' => '0'}
+          'assessment_attributes' => { 'fees' => '', 'expenses' => '0' }
         }
       end
 
@@ -359,7 +359,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
     context 'successful transitions' do
       it 'advances the claim to part authorised' do
-        params = {'state' => 'part_authorised', 'redeterminations_attributes' => {'0' => {'fees' => '45', 'expenses' => '0.00'}}}
+        params = { 'state' => 'part_authorised', 'redeterminations_attributes' => { '0' => { 'fees' => '45', 'expenses' => '0.00' } } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :ok
         expect(updater.claim.state).to eq 'part_authorised'
@@ -369,7 +369,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'advances the claim to authorised' do
-        params = {'state' => 'authorised', 'redeterminations_attributes' => {'0' => {'fees' => '', 'expenses' => '230.00'}}}
+        params = { 'state' => 'authorised', 'redeterminations_attributes' => { '0' => { 'fees' => '', 'expenses' => '230.00' } } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :ok
         expect(updater.claim.state).to eq 'authorised'
@@ -379,7 +379,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'advances the claim to refused when no values are supplied' do
-        params = {current_user: current_user, 'state' => 'refused', 'state_reason' => ['wrong_ia']}
+        params = { current_user: current_user, 'state' => 'refused', 'state_reason' => ['wrong_ia'] }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :ok
         expect(updater.claim.state).to eq 'refused'
@@ -389,7 +389,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
     context 'errors' do
       it 'errors if assessment data is present in the params but no state specified' do
-        params = {'state' => '', 'redeterminations_attributes' => {'0' => {'fees' => '128.33', 'expenses' => '42.40'}}}
+        params = { 'state' => '', 'redeterminations_attributes' => { '0' => { 'fees' => '128.33', 'expenses' => '42.40' } } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:determinations]).to include('must select a status')

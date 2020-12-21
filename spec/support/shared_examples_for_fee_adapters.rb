@@ -65,7 +65,7 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
 
     %i[BABAF BADAF BADAH BADAJ BANOC BANDR BANPW BAPPE].each do |basic_fee_unique_code|
       it "includes mappings for basic fee #{basic_fee_unique_code} to a CCR Advocate Fee bill - #{options[:bill_type]}/#{options[:bill_subtype]}" do
-        is_expected.to include(basic_fee_unique_code => { bill_type: options[:bill_type], bill_subtype: options[:bill_subtype]})
+        is_expected.to include(basic_fee_unique_code => { bill_type: options[:bill_type], bill_subtype: options[:bill_subtype] })
       end
     end
   end

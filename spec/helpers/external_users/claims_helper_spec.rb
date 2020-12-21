@@ -74,7 +74,7 @@ describe ExternalUsers::ClaimsHelper do
     end
 
     context 'user has seen the promo' do
-      let(:user_settings) { {timed_retention_banner_seen: '1'} }
+      let(:user_settings) { { timed_retention_banner_seen: '1' } }
 
       it 'should return false' do
         expect(helper.show_timed_retention_banner_to_user?).to be_falsey
@@ -110,7 +110,7 @@ describe ExternalUsers::ClaimsHelper do
       end
 
       context 'user has seen/dismissed the banner' do
-        let(:user_settings) { {hardship_claims_banner_seen: '1'} }
+        let(:user_settings) { { hardship_claims_banner_seen: '1' } }
 
         it 'should return false' do
           expect(helper.show_hardship_claims_banner_to_user?).to be_falsey

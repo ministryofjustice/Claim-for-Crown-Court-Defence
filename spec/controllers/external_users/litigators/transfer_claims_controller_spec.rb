@@ -338,7 +338,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                      representation_orders_attributes: {
                        '0' => {
                          id: subject.defendants.first.representation_orders.first,
-                         _destroy: 1}
+                         _destroy: 1 }
                      }
                    }
                  }

@@ -18,7 +18,7 @@ RSpec.describe GovukComponent::WarningTextHelpers, type: :helper do
 
     it 'adds nested strong tag with govuk class' do
       is_expected.to have_tag(:div) do
-        with_tag(:strong, with: { class: 'govuk-warning-text__text'})
+        with_tag(:strong, with: { class: 'govuk-warning-text__text' })
       end
     end
 

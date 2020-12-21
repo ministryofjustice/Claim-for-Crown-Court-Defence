@@ -26,10 +26,10 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
 
   let(:json_error_response) do
     [
-      {"error" => "Choose a type for the disbursement"},
-      {"error" => "Enter a net amount for the disbursement"},
-      {"error" => "Enter a VAT amount for the disbursement"},
-      {"error" => "Enter a total amount for the disbursement"}
+      { "error" => "Choose a type for the disbursement" },
+      { "error" => "Enter a net amount for the disbursement" },
+      { "error" => "Enter a VAT amount for the disbursement" },
+      { "error" => "Enter a total amount for the disbursement" }
     ].to_json
   end
 
@@ -114,7 +114,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
             params.delete(field)
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect(parsed_body.first).to eq({"error" => expected_message})
+            expect(parsed_body.first).to eq({ "error" => expected_message })
           end
         end
       end
@@ -194,7 +194,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
           params.delete(field)
           post_to_validate_endpoint
           expect(last_response.status).to eq 400
-          expect(parsed_body.first).to eq({"error" => expected_message})
+          expect(parsed_body.first).to eq({ "error" => expected_message })
         end
       end
     end

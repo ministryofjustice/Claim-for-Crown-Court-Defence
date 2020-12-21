@@ -55,7 +55,7 @@ describe Remote::CaseType do
 
   def response
     [
-      {"id" => 1,
+      { "id" => 1,
        "name" => "Appeal against conviction",
        "is_fixed_fee" => true,
        "requires_cracked_dates" => false,
@@ -64,8 +64,8 @@ describe Remote::CaseType do
        "requires_maat_reference" => true,
        "requires_retrial_dates" => false,
        "roles" => ["agfs", "lgfs"],
-       "fee_type_code" => "ACV"},
-      {"id" => 9,
+       "fee_type_code" => "ACV" },
+      { "id" => 9,
        "name" => "Elected cases not proceeded",
        "is_fixed_fee" => true,
        "requires_cracked_dates" => false,
@@ -74,8 +74,8 @@ describe Remote::CaseType do
        "requires_maat_reference" => true,
        "requires_retrial_dates" => false,
        "roles" => ["agfs", "lgfs"],
-       "fee_type_code" => "ENP"},
-      {"id" => 13,
+       "fee_type_code" => "ENP" },
+      { "id" => 13,
        "name" => "Hearing subsequent to sentence",
        "is_fixed_fee" => true,
        "requires_cracked_dates" => false,
@@ -84,8 +84,8 @@ describe Remote::CaseType do
        "requires_maat_reference" => true,
        "requires_retrial_dates" => false,
        "roles" => ["lgfs"],
-       "fee_type_code" => "XH2S"},
-      {"id" => 11,
+       "fee_type_code" => "XH2S" },
+      { "id" => 11,
        "name" => "Retrial",
        "is_fixed_fee" => false,
        "requires_cracked_dates" => false,
@@ -94,8 +94,8 @@ describe Remote::CaseType do
        "requires_maat_reference" => true,
        "requires_retrial_dates" => true,
        "roles" => ["agfs", "lgfs", "interim"],
-       "fee_type_code" => "GRTR"},
-      {"id" => 12,
+       "fee_type_code" => "GRTR" },
+      { "id" => 12,
        "name" => "Trial",
        "is_fixed_fee" => false,
        "requires_cracked_dates" => false,
@@ -104,7 +104,7 @@ describe Remote::CaseType do
        "requires_maat_reference" => true,
        "requires_retrial_dates" => false,
        "roles" => ["agfs", "lgfs", "interim"],
-       "fee_type_code" => "GTRL"}
+       "fee_type_code" => "GTRL" }
     ]
   end
 end

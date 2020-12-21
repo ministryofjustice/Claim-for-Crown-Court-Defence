@@ -36,7 +36,7 @@ RSpec.describe API::V1::DropdownData do
   ]
 
   let(:provider) { create(:provider) }
-  let(:params) { {api_key: provider.api_key} }
+  let(:params) { { api_key: provider.api_key } }
 
   context 'when sending non-permitted verbs' do
     ALL_DROPDOWN_ENDPOINTS.each do |endpoint| # for each endpoint

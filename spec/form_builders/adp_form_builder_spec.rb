@@ -23,12 +23,12 @@ describe AdpFormBuilder do
     context 'extra html attributes supplied' do
       it 'should use the attributes when anchor name supplied' do
         expected_html = %Q[<a id="ad_cat" class="red"></a><label class="blue" for="claim_ad_cat">Advocate category</label>]
-        expect(builder.anchored_label('Advocate category', 'ad_cat', { anchor_attributes: {class: 'red'}, label_attributes: {class: 'blue'} })).to eq expected_html
+        expect(builder.anchored_label('Advocate category', 'ad_cat', { anchor_attributes: { class: 'red' }, label_attributes: { class: 'blue' } })).to eq expected_html
       end
 
       it 'should use the attributes when no anchor name provided' do
         expected_html = %Q[<a id="advocate_category" class="red"></a><label class="blue" for="claim_advocate_category">Advocate category</label>]
-        expect(builder.anchored_label('Advocate category', nil, { anchor_attributes: {class: 'red'}, label_attributes: {class: 'blue'} })).to eq expected_html
+        expect(builder.anchored_label('Advocate category', nil, { anchor_attributes: { class: 'red' }, label_attributes: { class: 'blue' } })).to eq expected_html
       end
     end
   end
@@ -51,7 +51,7 @@ describe AdpFormBuilder do
     context 'extra html attributes supplied' do
       it 'should use the attributes' do
         expected_html = %Q[<a id="ad_cat" class="red"></a>]
-        expect(builder.anchored_without_label('Advocate category', 'ad_cat', anchor_attributes: {class: 'red'})).to eq expected_html
+        expect(builder.anchored_without_label('Advocate category', 'ad_cat', anchor_attributes: { class: 'red' })).to eq expected_html
       end
     end
   end
@@ -64,7 +64,7 @@ describe AdpFormBuilder do
 
     it 'should use any provided attributes' do
       expected_html = %Q[<a id="advocate_claim.test" class="red"></a>]
-      expect(builder.anchored_attribute('test', anchor_attributes: {class: 'red'})).to eq expected_html
+      expect(builder.anchored_attribute('test', anchor_attributes: { class: 'red' })).to eq expected_html
     end
   end
 end

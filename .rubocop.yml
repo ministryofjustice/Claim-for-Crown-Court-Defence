@@ -30,11 +30,10 @@ Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
 Layout/LineLength:
-  # Temporarily disable while fixing sped/* directory
   Enabled: false
-  # Max: 120
-  # IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
-  # AllowHeredoc: true
+  Max: 120
+  IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
+  AllowHeredoc: true
 
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
@@ -150,9 +149,7 @@ Rails/WhereNot:
   Enabled: true
 
 RSpec/StubbedMock:
-  # Temporarily disable while fixing sped/* directory
-  Enabled: false
-  # Enabled: true
+  Enabled: true
 
 Style/DateTime:
   AllowCoercion: true
@@ -192,9 +189,7 @@ Layout/BeginEndAlignment: # (new in 0.91)
 Lint/BinaryOperatorWithIdenticalOperands: # (new in 0.89)
   Enabled: true
 Lint/ConstantDefinitionInBlock: # (new in 0.91)
-  # Temporarily disable while fixing sped/* directory
-  Enabled: false
-  # Enabled: true
+  Enabled: true
 Lint/DuplicateElsifCondition: # (new in 0.88)
   Enabled: true
 Lint/DuplicateRequire: # (new in 0.90)

@@ -7,11 +7,11 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
     it_behaves_like 'non-authorised claim', state, ['no_indictment']
   end
 
-  shared_examples 'a successful non-authorised claim with other as reason' do |state, state_reason=['other']|
+  shared_examples 'a successful non-authorised claim with other as reason' do |state, state_reason = ['other']|
     it_behaves_like 'non-authorised claim', state, state_reason, 'a reason'
   end
 
-  shared_examples 'non-authorised claim' do |state, state_reason, reason_text=nil|
+  shared_examples 'non-authorised claim' do |state, state_reason, reason_text = nil|
     subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
     let(:claim) { create :allocated_claim }
     let(:params) do
@@ -46,7 +46,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
     end
   end
 
-  shared_examples 'a successful assessment' do |state, fees='128.33', expenses='42.40'|
+  shared_examples 'a successful assessment' do |state, fees = '128.33', expenses = '42.40'|
     subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
     let(:claim) { create :allocated_claim }
     let(:params) do

@@ -100,7 +100,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
   end
 
   describe "POST #create" do
-    def post_to_create_external_user_action(options={})
+    def post_to_create_external_user_action(options = {})
       post :create, params: {
         provider_id: provider,
         external_user: {

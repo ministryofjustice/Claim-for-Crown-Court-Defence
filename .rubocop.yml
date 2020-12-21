@@ -263,8 +263,6 @@ Style/StringConcatenation: # (new in 0.89)
 # Temporarily disable while fixing sped/* directory
 Style/IfUnlessModifier:
   Enabled: false
-Layout/SpaceAroundEqualsInParameterDefault:
-  Enabled: false
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 Style/MethodDefParentheses:

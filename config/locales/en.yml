@@ -402,7 +402,6 @@ en:
     question: 'Will you be sending electronic evidence for this claim?'
     help_sending_evidence: 'Help with sending the evidence'
     hint: 'You have electronic evidence on disk that relates to this claim. It is recommended that you send it by recorded delivery.'
-    hint_html: 'Please fill the <a href="%{link}" class="govuk-link" rel="noreferrer noopener" target="_blank">electronic evidence coversheet <span class="govuk-visually-hidden">(opens in new tab)</span></a> and include it with your disk(s).'
     sfe_hint_html: 'Log in to <a href="%{link}" class="govuk-link" rel="noreferrer noopener" target="_blank">secure file exchange <span class="govuk-visually-hidden">(opens in new tab)</span></a> and upload your files and folders to a workspace.'
   fee_calculator:
     calculate:
@@ -863,21 +862,6 @@ en:
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
         lgfs_hardship_rb: Litigator hardship fee
-    disc_evidence_coversheets:
-        new:
-          page_title: Disc evidence coversheet
-          page_heading: Disc evidence coversheet
-          current_date: Date on form
-          fee_scheme: Fee scheme
-          case_number: Case number
-          court: Court name
-          claim_submitted_at: Date claim submitted
-          defendant: Defendant name
-          maat_reference: MAAT reference no.
-          provider_account_no: Provider account no.
-          provider_address: Provider address
-          data_storage_type: Type of data storage
-          generate: Create PDF coversheet
     claims:
       errors:
         not_editable: 'Can only edit "draft" claims'

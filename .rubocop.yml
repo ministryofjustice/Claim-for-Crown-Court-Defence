@@ -32,9 +32,9 @@ Layout/EmptyLineAfterGuardClause:
 Layout/LineLength:
   # Temporarily disable while fixing sped/* directory
   Enabled: false
-  #Max: 120
-  #IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
-  #AllowHeredoc: true
+  # Max: 120
+  # IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
+  # AllowHeredoc: true
 
 Layout/SpaceAroundMethodCallOperator:
   Enabled: true
@@ -267,8 +267,6 @@ Style/StringConcatenation: # (new in 0.89)
   Enabled: false
 
 # Temporarily disable while fixing sped/* directory
-Style/IfUnlessModifier:
-  Enabled: false
 Lint/RedundantCopDisableDirective:
   Enabled: false
 

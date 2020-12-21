@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :advocate_hardship_claim, class: Claim::AdvocateHardshipClaim do
+  factory :advocate_hardship_claim, class: 'Claim::AdvocateHardshipClaim' do
     advocate_base_setup
     case_type { nil }
     case_stage

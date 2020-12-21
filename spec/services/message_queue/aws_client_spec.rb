@@ -63,12 +63,12 @@ module MessageQueue
       let(:stub_queue_response) { stub_queue_response_failure }
 
       it 'raises an appropriate error' do
-        expect{aws_client}.to raise_error(StandardError, 'Non existing queue: no_such_queue.')
+        expect{ aws_client }.to raise_error(StandardError, 'Non existing queue: no_such_queue.')
       end
     end
 
     context 'when passed a valid queue_url' do
-      let(:aws_queue_id) { 'https://aws.queue/name'}
+      let(:aws_queue_id) { 'https://aws.queue/name' }
 
       it { is_expected.to be_a AwsClient }
     end

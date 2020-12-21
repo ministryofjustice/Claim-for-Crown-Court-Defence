@@ -12,7 +12,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
   let(:cab_fares_expense)           { build(:expense, :cab_fares, claim: claim) }
   let(:subsistence_expense)         { build(:expense, :subsistence, claim: claim) }
   let(:travel_time_expense)         { build(:expense, :travel_time, claim: claim) }
-  let(:other_reason_type_expense)   { build(:expense, :train, claim: claim, reason_id: 5)}
+  let(:other_reason_type_expense)   { build(:expense, :train, claim: claim, reason_id: 5) }
 
   before do
     claim.force_validation = true

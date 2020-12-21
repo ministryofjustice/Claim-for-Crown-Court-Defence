@@ -110,9 +110,9 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     context 'with VAT' do
       let!(:submitted_claim_from_advocate1)        { create(:submitted_claim, external_user: advocate1_with_vat) }
       let!(:allocated_claim_from_advocate2)        { create(:allocated_claim, external_user: advocate2_with_vat) }
-      let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim, external_user: advocate1_with_vat)}
-      let!(:authorised_claim_from_advocate1)       { create(:authorised_claim, external_user: advocate1_with_vat)}
-      let!(:authorised_claim_from_advocate2)       { create(:authorised_claim, external_user: advocate2_with_vat)}
+      let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim, external_user: advocate1_with_vat) }
+      let!(:authorised_claim_from_advocate1)       { create(:authorised_claim, external_user: advocate1_with_vat) }
+      let!(:authorised_claim_from_advocate2)       { create(:authorised_claim, external_user: advocate2_with_vat) }
       let(:summary)                               { Claims::FinancialSummary.new(agfs_provider.claims) }
 
       describe '#total_outstanding_claim_value' do

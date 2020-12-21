@@ -261,8 +261,6 @@ Style/StringConcatenation: # (new in 0.89)
   Enabled: false
 
 # Temporarily disable while fixing sped/* directory
-Layout/SpaceInsideBlockBraces:
-  Enabled: false
 Style/IfUnlessModifier:
   Enabled: false
 Layout/SpaceBeforeBlockBraces:

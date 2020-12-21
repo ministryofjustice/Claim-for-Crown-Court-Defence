@@ -8,7 +8,7 @@ describe PerformancePlatform::DataSet do
   let(:channel) { 'Digital' }
   let(:count) { 1234 }
   let(:period) { 'week' }
-  let(:service)  { 'cccd'}
+  let(:service)  { 'cccd' }
 
 
   describe 'initialized' do

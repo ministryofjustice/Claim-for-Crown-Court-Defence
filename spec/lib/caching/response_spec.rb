@@ -12,7 +12,7 @@ RSpec.describe Caching::Response do
     context 'with invalid response object' do
       let(:response) { instance_double('mock_response') }
 
-      it { expect{ instance }.to raise_error ArgumentError, /must implement/}
+      it { expect{ instance }.to raise_error ArgumentError, /must implement/ }
     end
   end
 

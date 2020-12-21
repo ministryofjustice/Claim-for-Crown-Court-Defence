@@ -478,7 +478,7 @@ RSpec.describe ExternalUser, type: :model do
 
     context 'settings for email notification are true' do
 
-      let(:eu) { build :external_user, :with_email_notification_of_messages}
+      let(:eu) { build :external_user, :with_email_notification_of_messages }
 
       it 'returns true' do
         expect(eu.send_email_notification_of_message?).to be true

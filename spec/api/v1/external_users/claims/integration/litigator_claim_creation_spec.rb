@@ -66,7 +66,7 @@ RSpec.describe 'API claim creation for LGFS' do
   let!(:other_provider) { create(:provider) }
   let!(:vendor) { create(:external_user, :admin, provider: provider) }
   let!(:litigator) { create(:external_user, :litigator, provider: provider) }
-  let!(:court) { create(:court)}
+  let!(:court) { create(:court) }
   let(:offence_class) { create(:offence_class, class_letter: 'A') }
   let(:offence) { create(:offence, :with_fee_scheme, lgfs_fee_scheme: true, offence_class: offence_class) }
 
@@ -77,7 +77,7 @@ RSpec.describe 'API claim creation for LGFS' do
   let(:miscellaneous_fee_type) { Fee::BaseFeeType.find_by(unique_code: 'MIEVI') }
   let(:expense_car) { ExpenseType.find_by(unique_code: 'CAR') }
   let(:expense_hotel) { ExpenseType.find_by(unique_code: 'HOTEL') }
-  let(:disbursement_type) { DisbursementType.find_by(unique_code: 'ARP')} # Accident reconstruction report
+  let(:disbursement_type) { DisbursementType.find_by(unique_code: 'ARP') } # Accident reconstruction report
 
   let(:claim_params) do
     {

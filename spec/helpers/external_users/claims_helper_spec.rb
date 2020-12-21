@@ -180,7 +180,7 @@ describe ExternalUsers::ClaimsHelper do
     end
 
     context 'when claim fee_scheme is ten' do
-      let!(:scheme_10) { create(:fee_scheme, :agfs_ten)}
+      let!(:scheme_10) { create(:fee_scheme, :agfs_ten) }
       let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
 
       context 'and has a case type of Trial' do
@@ -242,7 +242,7 @@ describe ExternalUsers::ClaimsHelper do
     end
 
     context 'when claim fee_scheme is ten' do
-      let!(:scheme_10) { create(:fee_scheme, :agfs_ten)}
+      let!(:scheme_10) { create(:fee_scheme, :agfs_ten) }
       let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
       let(:fee) { build :basic_fee, :baf_fee, claim: claim }
 

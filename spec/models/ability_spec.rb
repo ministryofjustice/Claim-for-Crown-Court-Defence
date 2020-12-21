@@ -542,8 +542,8 @@ RSpec.describe Ability do
     let(:other_super_admin) { create(:super_admin) }
     let(:provider)          { create(:provider) }
     let(:other_provider)    { create(:provider) }
-    let(:external_user)          { create(:external_user, provider: provider)}
-    let(:other_external_user)    { create(:external_user, provider: other_provider)}
+    let(:external_user)          { create(:external_user, provider: provider) }
+    let(:other_external_user)    { create(:external_user, provider: other_provider) }
 
     it { should be_able_to(:update_settings, user) }
     it { should_not be_able_to(:update_settings, another_user) }

@@ -24,7 +24,7 @@ describe Reports::PerformancePlatform::TransactionsByChannel do
     end
 
     context 'when the date is in the future' do
-      let(:date) { Date.new(2018, 12, 31)}
+      let(:date) { Date.new(2018, 12, 31) }
 
       it do
         travel_to(tuesday) do
@@ -34,7 +34,7 @@ describe Reports::PerformancePlatform::TransactionsByChannel do
     end
 
     context 'when the date is valid' do
-      let(:date) { Date.new(2018, 12, 17)}
+      let(:date) { Date.new(2018, 12, 17) }
 
       it { is_expected.to be_truthy }
       it { expect(report.ready_to_send).to be false }
@@ -51,7 +51,7 @@ describe Reports::PerformancePlatform::TransactionsByChannel do
     end
 
     context 'when a collation error occurs' do
-      before { allow(report).to receive(:count_digital_claims).and_raise(StandardError)}
+      before { allow(report).to receive(:count_digital_claims).and_raise(StandardError) }
 
       it { expect(populate_data).to be_falsey }
       it { expect { populate_data }.not_to change { report.ready_to_send }.from(false) }

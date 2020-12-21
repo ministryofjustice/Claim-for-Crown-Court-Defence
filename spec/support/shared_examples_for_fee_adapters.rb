@@ -9,7 +9,7 @@ RSpec.shared_examples_for 'a mapping fee adapter' do
   end
 
   describe '#mappings' do
-    subject {described_class.new.mappings }
+    subject { described_class.new.mappings }
 
     it { is_expected.to be_a Hash }
 
@@ -82,7 +82,7 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
     subject(:filtered_fees) { described_class.new(claim).filtered_fees }
 
     before do
-      claim.fees << build(:basic_fee, :baf_fee, claim: claim) unless claim.fees.map {|f| f.fee_type.unique_code }.include? 'BABAF'
+      claim.fees << build(:basic_fee, :baf_fee, claim: claim) unless claim.fees.map { |f| f.fee_type.unique_code }.include? 'BABAF'
       claim.fees << build(:basic_fee, :daf_fee, claim: claim)
       claim.fees << build(:basic_fee, :daj_fee, claim: claim)
       claim.fees << build(:basic_fee, :dah_fee, claim: claim)
@@ -101,7 +101,7 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
     end
 
     it 'returns only CCR adaptable basic fees' do
-      expect(filtered_fees.map {|f| f.fee_type.unique_code }).to match_array %w[BABAF BADAF BADAJ BADAH BADAT BANOC BANDR BANPW BAPPE]
+      expect(filtered_fees.map { |f| f.fee_type.unique_code }).to match_array %w[BABAF BADAF BADAJ BADAH BADAT BANOC BANDR BANPW BAPPE]
     end
   end
 

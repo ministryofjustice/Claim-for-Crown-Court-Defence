@@ -6,7 +6,7 @@ describe API::ErrorResponse do
     EXCEPTION_KLASSES = [RuntimeError, ArgumentError]
 
     let(:claim) { FactoryBot.build :claim, case_number: 'A123456' }
-    let(:er) { described_class.new(claim)}
+    let(:er) { described_class.new(claim) }
 
     before(:each) do
       claim.force_validation = true

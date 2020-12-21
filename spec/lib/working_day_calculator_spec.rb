@@ -14,7 +14,7 @@ describe WorkingDayCalculator do
   let(:sat_9_jul)  { Date.new(2016, 7, 9) }
   let(:mon_4_jul)  { Date.new(2016, 7, 4) }
   let(:sun_3_jul)  { Date.new(2016, 7, 3) }
-  let(:thu_30_jun) { Date.new(2016, 6, 30)}
+  let(:thu_30_jun) { Date.new(2016, 6, 30) }
 
   describe '#working days' do
     context 'over one weekend' do

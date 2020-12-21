@@ -88,7 +88,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     expect(subject.authorised_at).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
-    expect{subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
+    expect{ subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
   end
 
   it '#unique_id' do
@@ -360,7 +360,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   context 'defendant_summary' do
     let(:my_claim)  { Claim::AdvocateClaim.new }
-    let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view)}
+    let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view) }
 
     context '3 defendants' do
       it 'returns name and intial of first defendant and count of additional defendants' do
@@ -520,7 +520,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#has_conference_and_views?' do
     subject { presenter.has_conference_and_views? }
-    let!(:fee) { create(:basic_fee, :cav_fee, claim: claim, quantity: quantity, rate: rate)}
+    let!(:fee) { create(:basic_fee, :cav_fee, claim: claim, quantity: quantity, rate: rate) }
 
     before { claim.reload }
 
@@ -852,7 +852,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#has_clar_fees?' do
     subject { presenter.has_clar_fees? }
-    let!(:fee) { create(:misc_fee, :miphc_fee, claim: claim, quantity: quantity, rate: rate)}
+    let!(:fee) { create(:misc_fee, :miphc_fee, claim: claim, quantity: quantity, rate: rate) }
 
     before { claim.reload }
 
@@ -876,7 +876,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     let!(:mispf_fee_type) { create(:misc_fee_type, :mispf) }
 
-    it { is_expected.to be_a Array}
+    it { is_expected.to be_a Array }
     it {
       is_expected.to include(
                           [

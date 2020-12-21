@@ -14,7 +14,7 @@ RSpec::Matchers.define :be_valid_cclf_claim_json do
   failure_message do |response|
     spacer = "\s" * 2
     "expected JSON to be valid against CCLF formatted claim schema but the following errors were raised:\n" +
-    @errors.each_with_index.map { |error, idx| "#{spacer}#{idx+1}. #{error}"}.join("\n")
+    @errors.each_with_index.map { |error, idx| "#{spacer}#{idx+1}. #{error}" }.join("\n")
   end
 end
 
@@ -117,7 +117,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     end
 
     context 'when accessed by an ExternalUser' do
-      before { do_request(api_key: claim.external_user.user.api_key )}
+      before { do_request(api_key: claim.external_user.user.api_key ) }
 
       it 'returns unauthorised' do
         expect(last_response.status).to eq 401

@@ -5,7 +5,7 @@ RSpec.describe Fee::BaseFeePresenter do
   let(:claim)     { create(:advocate_claim) }
   let(:fee_type)  { create(:basic_fee_type, description: 'Basic fee type C') }
   let(:fee)       { create(:basic_fee, quantity: 4, claim: claim, fee_type: fee_type) }
-  let(:presenter) {Fee::BaseFeePresenter.new(fee, view) }
+  let(:presenter) { Fee::BaseFeePresenter.new(fee, view) }
 
   describe '#dates_attended_delimited_string' do
 

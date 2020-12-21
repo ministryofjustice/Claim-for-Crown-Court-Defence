@@ -8,7 +8,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
   let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
-  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider)}
+  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider) }
   let(:supplier_number) { litigator.provider.lgfs_supplier_numbers.first.supplier_number }
 
   describe "GET #new" do
@@ -213,7 +213,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
         let!(:graduated_fee_type_1)     { FactoryBot.create :graduated_fee_type, description: 'Graduated Fee Type 1' }
 
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'case_number'} }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'case_number' } }
 
         context 'graduated fee case types' do
           context 'valid params' do

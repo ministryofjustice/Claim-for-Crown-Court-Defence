@@ -470,12 +470,12 @@ RSpec.describe API::V1::DropdownData do
       context 'with role filter' do
         it 'should only include AGFS scheme 9 expense types' do
           get EXPENSE_TYPE_ENDPOINT, params.merge(role: 'agfs'), format: :json
-          expect(parsed_body.collect{|e| e['roles'].include?('agfs') }.uniq).to eq([true])
+          expect(parsed_body.collect{ |e| e['roles'].include?('agfs') }.uniq).to eq([true])
         end
 
         it 'should only include LGFS expense types' do
           get EXPENSE_TYPE_ENDPOINT, params.merge(role: 'lgfs'), format: :json
-          expect(parsed_body.collect{|e| e['roles'].include?('lgfs') }.uniq).to eq([true])
+          expect(parsed_body.collect{ |e| e['roles'].include?('lgfs') }.uniq).to eq([true])
         end
       end
 

@@ -438,7 +438,7 @@ RSpec.describe Claims::StateMachine, type: :model do
             .to(reason_codes)
         end
 
-        it {expect{ claim.refuse!(reason_code: reason_codes) }.not_to change{ claim.assessment.fees }.from(0) }
+        it { expect{ claim.refuse!(reason_code: reason_codes) }.not_to change{ claim.assessment.fees }.from(0) }
 
         context 'test' do
           before { claim.refuse!(reason_code: reason_codes) }

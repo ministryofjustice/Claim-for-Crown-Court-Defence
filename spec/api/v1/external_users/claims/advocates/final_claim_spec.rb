@@ -12,8 +12,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
   let!(:vendor)         { create(:external_user, :admin, provider: provider) }
   let!(:advocate)       { create(:external_user, :advocate, provider: provider) }
   let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
-  let!(:offence)        { create(:offence)}
-  let!(:court)          { create(:court)}
+  let!(:offence)        { create(:offence) }
+  let!(:court)          { create(:court) }
   let!(:valid_params)   { {
       :api_key => provider.api_key,
       :creator_email => vendor.user.email,

@@ -360,7 +360,7 @@ RSpec.describe 'API claim creation for AGFS' do
   let!(:other_provider) { create(:provider) }
   let!(:vendor) { create(:external_user, :admin, provider: provider) }
   let!(:advocate) { create(:external_user, :advocate, provider: provider) }
-  let!(:court) { create(:court)}
+  let!(:court) { create(:court) }
 
   let(:basic_fee) { Fee::BaseFeeType.find_by(unique_code: 'BABAF') }
   let(:daily_attendance_3) { Fee::BaseFeeType.find_by(unique_code: 'BADAF') }

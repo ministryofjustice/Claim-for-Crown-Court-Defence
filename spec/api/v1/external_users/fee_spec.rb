@@ -15,7 +15,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
     claim.reload
   end
 
-  let!(:provider){ create(:provider) }
+  let!(:provider) { create(:provider) }
   let!(:other_provider) { create(:provider) }
   let!(:basic_fee_type) { create(:basic_fee_type) }
   let!(:basic_fee_dat_type) { create(:basic_fee_type, :dat) }
@@ -63,7 +63,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       end
 
       it "should create one new fee" do
-        expect{ post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(1)
+        expect { post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(1)
       end
 
       it 'should create a new fee record with all provided attributes except amount' do
@@ -158,7 +158,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         end
 
         it 'should update, not create, one basic fee' do
-          expect{ post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(0)
+          expect { post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(0)
         end
 
         it 'should raise error if basic fee does not exist on claim' do

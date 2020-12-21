@@ -105,7 +105,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
           TRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
             context "with an estimated length of #{length}" do
-              let(:length){ length }
+              let(:length) { length }
               it_returns 'a successful fee calculator response', amount: amount
             end
           end

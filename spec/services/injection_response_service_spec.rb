@@ -18,7 +18,7 @@ RSpec.describe InjectionResponseService, slack_bot: true do
     end
 
     it 'creates an injection attempt' do
-      expect{ run! }.to change(InjectionAttempt, :count).by(1)
+      expect { run! }.to change(InjectionAttempt, :count).by(1)
     end
   end
 

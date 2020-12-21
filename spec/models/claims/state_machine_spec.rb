@@ -86,13 +86,13 @@ RSpec.describe Claims::StateMachine, type: :model do
     context 'from redetermination' do
       before { claim.submit! }
 
-      it { expect{ claim.allocate! }.to change{ claim.state }.to('allocated') }
+      it { expect { claim.allocate! }.to change { claim.state }.to('allocated') }
     end
 
     context 'from awaiting_written_reasons' do
       before { claim.submit! }
 
-      it { expect{ claim.allocate! }.to change{ claim.state }.to('allocated') }
+      it { expect { claim.allocate! }.to change { claim.state }.to('allocated') }
     end
 
     context 'from allocated' do
@@ -101,26 +101,26 @@ RSpec.describe Claims::StateMachine, type: :model do
         claim.allocate!
       end
 
-      it { expect{ claim.reject! }.to      change{ claim.state }.to('rejected') }
-      it { expect{ claim.submit! }.to      change{ claim.state }.to('submitted') }
-      it { expect{ claim.refuse! }.to      change{ claim.state }.to('refused') }
+      it { expect { claim.reject! }.to      change { claim.state }.to('rejected') }
+      it { expect { claim.submit! }.to      change { claim.state }.to('submitted') }
+      it { expect { claim.refuse! }.to      change { claim.state }.to('refused') }
 
-      it { expect{
+      it { expect {
           claim.assessment.update(fees: 100.00, expenses: 23.45)
           claim.authorise_part!
-        }.to change{ claim.state }.to('part_authorised') }
+        }.to change { claim.state }.to('part_authorised') }
 
-      it { expect{
+      it { expect {
         claim.assessment.update(fees: 100.00, expenses: 23.45)
         claim.authorise!
-      }.to change{ claim.state }.to('authorised') }
+      }.to change { claim.state }.to('authorised') }
 
-      it { expect{ claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
+      it { expect { claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
 
       it 'should be able to deallocate' do
-        expect{
+        expect {
           claim.deallocate!
-        }.to change{ claim.state }.to('submitted')
+        }.to change { claim.state }.to('submitted')
       end
 
       it 'should unlink case workers on deallocate' do
@@ -134,23 +134,23 @@ RSpec.describe Claims::StateMachine, type: :model do
         let(:fee_type) { build :misc_fee_type, :mievi }
 
         describe 'de-allocation' do
-          it { expect{ claim.deallocate! }.not_to raise_error }
+          it { expect { claim.deallocate! }.not_to raise_error }
         end
 
         describe 'part-authorising' do
           it {
-            expect{
+            expect {
               claim.assessment.update(fees: 100.00, expenses: 23.45)
               claim.authorise_part!
-            }.to change{ claim.state }.to('part_authorised')
+            }.to change { claim.state }.to('part_authorised')
           }
         end
       end
     end
 
     context 'from draft' do
-      it { expect{ claim.submit! }.to change{ claim.state }.to('submitted') }
-      it { expect{ claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
+      it { expect { claim.submit! }.to change { claim.state }.to('submitted') }
+      it { expect { claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
     end
 
     context 'from authorised' do
@@ -161,15 +161,15 @@ RSpec.describe Claims::StateMachine, type: :model do
         claim.authorise!
       }
 
-      it { expect{ claim.redetermine! }.to change{ claim.state }.to('redetermination') }
-      it { expect{ claim.archive_pending_delete! }.to change{ claim.state }.to('archived_pending_delete') }
-      it { expect{ claim.archive_pending_review! }.to raise_error(StateMachines::InvalidTransition) }
+      it { expect { claim.redetermine! }.to change { claim.state }.to('redetermination') }
+      it { expect { claim.archive_pending_delete! }.to change { claim.state }.to('archived_pending_delete') }
+      it { expect { claim.archive_pending_review! }.to raise_error(StateMachines::InvalidTransition) }
 
       context 'when it is a hardship claim' do
         subject(:claim) { create(:advocate_hardship_claim) }
 
-        it { expect{ claim.archive_pending_review! }.to change{ claim.state }.to('archived_pending_review') }
-        it { expect{ claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
+        it { expect { claim.archive_pending_review! }.to change { claim.state }.to('archived_pending_review') }
+        it { expect { claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
 
         context 'that has been archived_pending_review' do
           subject(:claim) { create(:advocate_hardship_claim) }
@@ -177,7 +177,7 @@ RSpec.describe Claims::StateMachine, type: :model do
           before { claim.archive_pending_review! }
 
           it { expect(claim.state).to eq 'archived_pending_review' }
-          it { expect{ claim.archive_pending_delete! }.to change{ claim.state }.to('archived_pending_delete') }
+          it { expect { claim.archive_pending_delete! }.to change { claim.state }.to('archived_pending_delete') }
         end
       end
     end
@@ -190,37 +190,37 @@ RSpec.describe Claims::StateMachine, type: :model do
         claim.authorise_part!
       }
 
-      it { expect{ claim.redetermine! }.to change{ claim.state }.to('redetermination') }
-      it { expect{ claim.await_written_reasons! }.to change{ claim.state }.to('awaiting_written_reasons') }
-      it { expect{ claim.archive_pending_delete! }.to change{ claim.state }.to('archived_pending_delete') }
+      it { expect { claim.redetermine! }.to change { claim.state }.to('redetermination') }
+      it { expect { claim.await_written_reasons! }.to change { claim.state }.to('awaiting_written_reasons') }
+      it { expect { claim.archive_pending_delete! }.to change { claim.state }.to('archived_pending_delete') }
     end
 
     context 'from refused' do
       before { claim.submit!; claim.allocate!; claim.refuse! }
 
-      it { expect{ claim.redetermine! }.to change{ claim.state }.to('redetermination') }
-      it { expect{ claim.await_written_reasons! }.to change{ claim.state }.to('awaiting_written_reasons') }
-      it { expect{ claim.archive_pending_delete! }.to change{ claim.state }.to('archived_pending_delete') }
+      it { expect { claim.redetermine! }.to change { claim.state }.to('redetermination') }
+      it { expect { claim.await_written_reasons! }.to change { claim.state }.to('awaiting_written_reasons') }
+      it { expect { claim.archive_pending_delete! }.to change { claim.state }.to('archived_pending_delete') }
     end
 
     context 'from rejected' do
       before { claim.submit!; claim.allocate!; claim.reject! }
 
-      it { expect{ claim.archive_pending_delete! }.to change{ claim.state }.to('archived_pending_delete') }
+      it { expect { claim.archive_pending_delete! }.to change { claim.state }.to('archived_pending_delete') }
     end
 
     context 'from submitted' do
       before { claim.submit! }
 
-      it { expect{ claim.allocate! }.to change{ claim.state }.to('allocated') }
-      it { expect{ claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
+      it { expect { claim.allocate! }.to change { claim.state }.to('allocated') }
+      it { expect { claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
 
       context 'when a claim exists with a, legacy, now non-valid evidence provision fee' do
         let(:claim) { create :litigator_claim }
         let(:fee) { build :misc_fee, claim: claim, amount: '123', fee_type: fee_type }
         let(:fee_type) { build :misc_fee_type, :mievi }
 
-        it { expect{ claim.allocate! }.not_to raise_error }
+        it { expect { claim.allocate! }.not_to raise_error }
       end
     end
 
@@ -260,7 +260,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
       before { SupplierNumber.find_by(supplier_number: claim.supplier_number).delete }
 
-      it { expect{ claim.submit! }.not_to raise_error }
+      it { expect { claim.submit! }.not_to raise_error }
     end
   end
 
@@ -433,12 +433,12 @@ RSpec.describe Claims::StateMachine, type: :model do
         end
 
         it 'updates #reason_code[s]' do
-          expect{ claim.refuse!(reason_code: reason_codes) }
-            .to change{ claim.last_state_transition.reason_codes }
+          expect { claim.refuse!(reason_code: reason_codes) }
+            .to change { claim.last_state_transition.reason_codes }
             .to(reason_codes)
         end
 
-        it { expect{ claim.refuse!(reason_code: reason_codes) }.not_to change{ claim.assessment.fees }.from(0) }
+        it { expect { claim.refuse!(reason_code: reason_codes) }.not_to change { claim.assessment.fees }.from(0) }
 
         context 'test' do
           before { claim.refuse!(reason_code: reason_codes) }

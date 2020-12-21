@@ -350,7 +350,7 @@ RSpec.describe ExternalUser, type: :model do
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
-        expect{
+        expect {
           ExternalUser.active.find(@dead_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find ExternalUser with 'id'=#{@dead_user_1.id} [WHERE "external_users"."deleted_at" IS NULL]}
       end
@@ -367,7 +367,7 @@ RSpec.describe ExternalUser, type: :model do
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect(ExternalUser.find(@live_user_1.id)).to eq(@live_user_1)
-        expect{
+        expect {
           ExternalUser.softly_deleted.find(@live_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find ExternalUser with 'id'=#{@live_user_1.id}/
       end

@@ -10,8 +10,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
 
     let!(:litigator)      { create(:external_user, :litigator) }
-    let!(:litigator_admin){ create(:external_user, :litigator_and_admin, provider: litigator.provider) }
-    let!(:other_litigator){ create(:external_user, :litigator, provider: litigator.provider) }
+    let!(:litigator_admin) { create(:external_user, :litigator_and_admin, provider: litigator.provider) }
+    let!(:other_litigator) { create(:external_user, :litigator, provider: litigator.provider) }
 
     describe '#GET index' do
       it 'returns success' do
@@ -241,7 +241,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           let(:query_params) { {sort: 'last_submitted_at', direction: 'asc'} }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by{ |c| c.last_submitted_at.to_i })
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by { |c| c.last_submitted_at.to_i })
           end
         end
 
@@ -249,7 +249,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           let(:query_params) { {sort: 'last_submitted_at', direction: 'desc'} }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by{ |c| c.last_submitted_at.to_i }.reverse)
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by { |c| c.last_submitted_at.to_i }.reverse)
           end
         end
 
@@ -327,11 +327,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           before { sign_in litigator_admin.user }
           it 'should assign context to claims created by all members of the provider' do
             get :archived
-            expect(assigns(:claims_context).sort_by{ |c| c.id }).to eq(litigator_admin.provider.claims_created.active.sort_by{ |c| c.id })
+            expect(assigns(:claims_context).sort_by { |c| c.id }).to eq(litigator_admin.provider.claims_created.active.sort_by { |c| c.id })
           end
           it 'should retrieve archived state claims only' do
             get :archived
-            expect(assigns(:claims).sort_by{ |c| c.id }).to eq(litigator_admin.provider.claims_created.active.archived_pending_delete.sort_by{ |c| c.id })
+            expect(assigns(:claims).sort_by { |c| c.id }).to eq(litigator_admin.provider.claims_created.active.archived_pending_delete.sort_by { |c| c.id })
           end
         end
       end

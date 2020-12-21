@@ -368,13 +368,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     it 'finds only claims with states that match dashboard displayable states' do
       sql = Claim::AdvocateClaim.search('%',states,:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
-      state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map{ |s| "\'#{s}\'" }.join(', ')
+      state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "\'#{s}\'" }.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 
     context 'invalid search options' do
       it 'raises' do
-        expect{
+        expect {
           Claim::AdvocateClaim.search('My search term', [], 'caseworker-name')
         }.to raise_error RuntimeError, 'Invalid search option'
       end
@@ -569,7 +569,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'with invalid option' do
       it 'raises error for invalid option' do
-        expect{
+        expect {
           Claim::AdvocateClaim.search('foo', states, :case_worker_name_or_email, :foo)
         }.to raise_error(/Invalid search option/)
       end
@@ -577,7 +577,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'with invalid state' do
       it 'raises error for invalid option' do
-        expect{
+        expect {
           Claim::AdvocateClaim.search('foo',:rubbish_state, :case_worker_name_or_email)
         }.to raise_error(/Invalid state, rubbish_state, specified/)
       end
@@ -1177,13 +1177,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     it 'should have a supplier number, derived from the external_user, after creation' do
-      expect{ claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number)
+      expect { claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number)
     end
 
     it 'should reset supplier number to match external_user' do
       claim.save!
       claim.external_user = another_advocate
-      expect{ claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number)
+      expect { claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number)
     end
   end
 

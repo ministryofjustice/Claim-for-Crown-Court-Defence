@@ -782,12 +782,12 @@ RSpec.describe MockBaseClaim do
       let(:provider_delegator) { nil }
 
       it 'logs error' do
-        expect{ registered }.to raise_error NoMethodError # spy on, call and swallow error
+        expect { registered }.to raise_error NoMethodError # spy on, call and swallow error
         expect(LogStuff).to have_received(:error).once
       end
 
       it 'raises error' do
-        expect{ registered }.to raise_error NoMethodError
+        expect { registered }.to raise_error NoMethodError
       end
     end
   end

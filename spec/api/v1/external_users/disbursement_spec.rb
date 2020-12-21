@@ -74,7 +74,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
       end
 
       it "should create one new disbursement" do
-        expect{ post_to_create_endpoint }.to change { Disbursement.count }.by(1)
+        expect { post_to_create_endpoint }.to change { Disbursement.count }.by(1)
       end
 
       it "should create a new record using the params provided" do

@@ -330,7 +330,7 @@ RSpec.describe ManagementInformationPresenter do
     describe '#misc_fees' do
       subject { presenter.misc_fees }
 
-      it { is_expected.to eq claim.misc_fees.map{ |f| f.fee_type.description.tr(',', '') }.join(' ') }
+      it { is_expected.to eq claim.misc_fees.map { |f| f.fee_type.description.tr(',', '') }.join(' ') }
     end
 
     describe '#transitioned_at' do

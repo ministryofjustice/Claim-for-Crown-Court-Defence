@@ -420,12 +420,12 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     it 'should NOT error if assessment provided prior to authorise! or part_authorise! transistions' do
-      expect{ assessed_claim.authorise! }.to_not raise_error
+      expect { assessed_claim.authorise! }.to_not raise_error
     end
 
     it 'should error if NO assessment present and state is transitioned to authorised or part_authorised' do
-      expect{ claim.authorise! }.to raise_error(StateMachines::InvalidTransition)
-      expect{ claim.authorise_part! }.to raise_error(StateMachines::InvalidTransition)
+      expect { claim.authorise! }.to raise_error(StateMachines::InvalidTransition)
+      expect { claim.authorise_part! }.to raise_error(StateMachines::InvalidTransition)
     end
 
     it 'should error if authorised claim has assessment zeroized' do

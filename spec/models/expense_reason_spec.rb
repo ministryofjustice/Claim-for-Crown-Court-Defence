@@ -4,13 +4,13 @@ describe ExpenseReason do
 
   describe '.new' do
     it 'raises if allow_explanatory_text not boolean' do
-      expect{
+      expect {
         ExpenseReason.new(5, 'reason', 'false')
       }.to raise_error ArgumentError, 'Allow explanatory text must be boolean'
     end
 
     it 'raises if id not fix num' do
-      expect{
+      expect {
         ExpenseReason.new('a', 'reason', false)
       }.to raise_error ArgumentError, 'Id must be numeric'
     end

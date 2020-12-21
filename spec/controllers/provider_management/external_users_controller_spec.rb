@@ -118,7 +118,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
 
     context 'when valid' do
       it 'creates an external_user' do
-        expect{ post_to_create_external_user_action }.to change(User, :count).by(1)
+        expect { post_to_create_external_user_action }.to change(User, :count).by(1)
       end
 
       it 'redirects to external_users show view' do
@@ -129,7 +129,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
 
     context 'when invalid' do
       it 'does not create an external_user' do
-        expect{ post_to_create_external_user_action(valid: false) }.to_not change(User, :count)
+        expect { post_to_create_external_user_action(valid: false) }.to_not change(User, :count)
       end
 
       it 'renders the new template' do

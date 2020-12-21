@@ -79,7 +79,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         end
 
         it "should create one new expense" do
-          expect{ post_to_create_endpoint }.to change { Expense.count }.by(1)
+          expect { post_to_create_endpoint }.to change { Expense.count }.by(1)
         end
 
         it "should create a new record using the params provided" do

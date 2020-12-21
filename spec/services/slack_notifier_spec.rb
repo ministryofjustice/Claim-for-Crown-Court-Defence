@@ -17,7 +17,7 @@ RSpec.describe SlackNotifier, slack_bot: true do
 
     context 'before message payload is set' do
       it 'raises an error' do
-        expect{ subject }.to raise_error(RuntimeError, 'Unable to send without payload')
+        expect { subject }.to raise_error(RuntimeError, 'Unable to send without payload')
       end
     end
 

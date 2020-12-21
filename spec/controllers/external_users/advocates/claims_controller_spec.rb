@@ -241,7 +241,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'advocate_category' } }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k,v| k == 'advocate_category' } }
 
         context 'non fixed fee case types' do
           before(:each) do
@@ -254,16 +254,16 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
               claim = assigns(:claim)
               # one record for every basic fee regardless of whether blank or not
               expect(claim.basic_fees.size).to eq 11
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
 
               # fixed fees are deleted implicitly by claim model for non-fixed-fee case types
               expect(claim.fixed_fees.size).to eq 0
 
               expect(claim.misc_fees.size).to eq 1
-              expect(claim.misc_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
+              expect(claim.misc_fees.detect { |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
 
               expect(claim.reload.fees_total).to eq 10_375.45
             end
@@ -281,19 +281,19 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
               expect(claim.fixed_fees.size).to eq 0
               expect(claim.misc_fees.size).to eq 1
 
-              bf1 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_1.description }
+              bf1 = claim.basic_fees.detect { |f| f.description == basic_fee_type_1.description }
               expect(bf1.quantity).to eq 10
               expect(bf1.amount).to eq 1000
 
-              bf2 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_2.description }
+              bf2 = claim.basic_fees.detect { |f| f.description == basic_fee_type_2.description }
               expect(bf2.quantity).to eq 0
               expect(bf2.amount).to eq 0
 
-              bf3 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_3.description }
+              bf3 = claim.basic_fees.detect { |f| f.description == basic_fee_type_3.description }
               expect(bf3.quantity).to eq 1
               expect(bf3.amount.to_f).to eq 9000.45
 
-              bf4 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_4.description }
+              bf4 = claim.basic_fees.detect { |f| f.description == basic_fee_type_4.description }
               expect(bf4.quantity).to eq 5
               expect(bf4.amount).to eq 125
             end

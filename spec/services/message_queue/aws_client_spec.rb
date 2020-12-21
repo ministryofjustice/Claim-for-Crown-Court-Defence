@@ -63,7 +63,7 @@ module MessageQueue
       let(:stub_queue_response) { stub_queue_response_failure }
 
       it 'raises an appropriate error' do
-        expect{ aws_client }.to raise_error(StandardError, 'Non existing queue: no_such_queue.')
+        expect { aws_client }.to raise_error(StandardError, 'Non existing queue: no_such_queue.')
       end
     end
 
@@ -91,7 +91,7 @@ module MessageQueue
       context 'when an error occurs (simulate someone deleting the queue mid-submission?!)' do
         let(:stub_send_response) { stub_queue_response_failure }
 
-        it { expect{ send! }.to raise_error(stub_queue_response_failure) }
+        it { expect { send! }.to raise_error(stub_queue_response_failure) }
       end
     end
 
@@ -101,7 +101,7 @@ module MessageQueue
       context 'when there are messages on the queue' do
         let(:stub_poll_response) { stub_poll_response_success }
 
-        it { expect{ poll! }.to change { InjectionAttempt.count }.by(1) }
+        it { expect { poll! }.to change { InjectionAttempt.count }.by(1) }
       end
     end
   end

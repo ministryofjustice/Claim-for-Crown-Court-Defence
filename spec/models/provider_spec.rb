@@ -37,7 +37,7 @@ RSpec.describe Provider, type: :model do
     it 'should destroy external users' do
       expect(ExternalUser.count).to eq 1
       expect(Provider.count).to eq 1
-      expect{ chamber.destroy }.to change { ExternalUser.count }.by(-1)
+      expect { chamber.destroy }.to change { ExternalUser.count }.by(-1)
     end
   end
 
@@ -114,7 +114,7 @@ RSpec.describe Provider, type: :model do
   context '.regenerate_api_key' do
     it 'should create a new api_key' do
       old_api_key = chamber.api_key
-      expect{ chamber.regenerate_api_key! }.to change{ chamber.api_key }.from(old_api_key)
+      expect { chamber.regenerate_api_key! }.to change { chamber.api_key }.from(old_api_key)
     end
   end
 

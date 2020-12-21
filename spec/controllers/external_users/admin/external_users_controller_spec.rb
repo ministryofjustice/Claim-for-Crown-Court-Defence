@@ -219,9 +219,9 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
       it 'destroys the external user' do
         subject     # create an additional External user
-        expect{
+        expect {
           delete :destroy, params: { id: subject }
-        }.to change{ ExternalUser.active.count }.by(-1)
+        }.to change { ExternalUser.active.count }.by(-1)
         expect(subject.reload.deleted_at).not_to be_nil
       end
 

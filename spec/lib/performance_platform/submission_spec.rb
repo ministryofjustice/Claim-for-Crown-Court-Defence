@@ -26,7 +26,7 @@ describe PerformancePlatform::Submission do
       let(:fields) { { key: 'value', match: 'false' } }
 
       it 'raises the appropriate error' do
-        expect{ subject }.to raise_error(RuntimeError, 'Fields submitted do not match required fields for test-transactions-by-channel')
+        expect { subject }.to raise_error(RuntimeError, 'Fields submitted do not match required fields for test-transactions-by-channel')
       end
     end
   end
@@ -36,7 +36,7 @@ describe PerformancePlatform::Submission do
 
     context 'when no data has been defined' do
       it 'raises an error' do
-        expect{ subject }.to raise_error(RuntimeError, 'Unable to send without payload')
+        expect { subject }.to raise_error(RuntimeError, 'Unable to send without payload')
       end
     end
 

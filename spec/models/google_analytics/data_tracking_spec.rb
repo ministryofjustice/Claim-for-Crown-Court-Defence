@@ -33,7 +33,7 @@ module GoogleAnalytics
 
         it 'raises error if no adapter' do
           allow(described_class).to receive(:enabled?).and_return(true)
-          expect{
+          expect {
             described_class.track()
           }.to raise_error ArgumentError, 'Uninitialized adapter'
         end

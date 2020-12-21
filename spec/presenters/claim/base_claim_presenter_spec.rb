@@ -88,7 +88,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     expect(subject.authorised_at).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
-    expect{ subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
+    expect { subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
   end
 
   it '#unique_id' do

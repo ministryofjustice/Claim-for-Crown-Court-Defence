@@ -104,6 +104,9 @@ Rails/ActiveRecordCallbacksOrder:
 Rails/AfterCommitOverride:
   Enabled: true
 
+Rails/AttributeDefaultBlockValue:
+  Enabled: true
+
 Rails/FindById:
   Enabled: true
 
@@ -136,6 +139,9 @@ Rails/ShortI18n:
 
 Rails/SquishedSQLHeredocs:
   Enabled: false
+
+Rails/WhereEquals:
+  Enabled: true
 
 Rails/WhereExists:
   Enabled: true

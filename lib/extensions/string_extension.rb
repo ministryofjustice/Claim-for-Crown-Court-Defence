@@ -1,6 +1,6 @@
 module StringExtension
   def zero?
-    present? && to_f.zero?
+    present? && to_f == 0.0
   end
 
   def true?

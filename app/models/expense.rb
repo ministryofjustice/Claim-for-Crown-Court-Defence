@@ -135,7 +135,7 @@ class Expense < ApplicationRecord
   end
 
   def vat_absent?
-    vat_amount.nil? || vat_amount.zero?
+    vat_amount.nil? || vat_amount == 0.0
   end
 
   def vat_present?

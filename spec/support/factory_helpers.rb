@@ -33,7 +33,7 @@ module FactoryHelpers
   def authorise_claim(claim)
     allocate_claim(claim)
     claim.reload
-    assign_fees_and_expenses_to(claim)
+    assign_fees_and_expenses_for(claim)
     claim.authorise!
     claim.last_decision_transition.update_author_id(claim.case_workers.first.user.id)
   end
@@ -41,7 +41,7 @@ module FactoryHelpers
   def advance_to_pending_delete(c)
     allocate_claim(c)
     c.reload
-    assign_fees_and_expenses_to(c)
+    assign_fees_and_expenses_for(c)
     c.authorise!
     c.archive_pending_delete!
   end
@@ -49,7 +49,7 @@ module FactoryHelpers
   def advance_to_pending_review(c)
     allocate_claim(c)
     c.reload
-    assign_fees_and_expenses_to(c)
+    assign_fees_and_expenses_for(c)
     c.authorise!
     c.archive_pending_review!
   end

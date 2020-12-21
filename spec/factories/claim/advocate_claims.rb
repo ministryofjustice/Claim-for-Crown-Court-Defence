@@ -97,17 +97,17 @@ FactoryBot.define do
       after(:create) do |c|
         Timecop.freeze(Time.now - 3.day) { c.submit! }
         Timecop.freeze(Time.now - 2.day) { c.allocate! }
-        Timecop.freeze(Time.now - 1.day) { assign_fees_and_expenses_to(c); c.authorise! }
+        Timecop.freeze(Time.now - 1.day) { assign_fees_and_expenses_for(c); c.authorise! }
         c.redetermine!
       end
     end
 
     factory :awaiting_written_reasons_claim do
-      after(:create) { |c| c.submit!; c.allocate!; assign_fees_and_expenses_to(c); c.authorise!; c.await_written_reasons! }
+      after(:create) { |c| c.submit!; c.allocate!; assign_fees_and_expenses_for(c); c.authorise!; c.await_written_reasons! }
     end
 
     factory :part_authorised_claim do
-      after(:create) { |c| c.submit!; c.allocate!; assign_fees_and_expenses_to(c); c.authorise_part! }
+      after(:create) { |c| c.submit!; c.allocate!; assign_fees_and_expenses_for(c); c.authorise_part! }
     end
 
     factory :refused_claim do

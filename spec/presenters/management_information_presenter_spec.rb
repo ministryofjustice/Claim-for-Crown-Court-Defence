@@ -237,7 +237,7 @@ RSpec.describe ManagementInformationPresenter do
           end
 
           travel_to(6.days.ago) do
-            assign_fees_and_expenses_to(claim)
+            assign_fees_and_expenses_for(claim)
             claim.authorise!(author_id: case_worker1.user.id)
           end
         end
@@ -264,7 +264,7 @@ RSpec.describe ManagementInformationPresenter do
           end
 
           travel_to(3.days.ago) do
-            assign_fees_and_expenses_to(claim)
+            assign_fees_and_expenses_for(claim)
             claim.authorise_part!(author_id: case_worker2.user.id)
           end
 
@@ -274,7 +274,7 @@ RSpec.describe ManagementInformationPresenter do
             claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker3.id))
           end
 
-          assign_fees_and_expenses_to(claim)
+          assign_fees_and_expenses_for(claim)
           claim.authorise!(author_id: case_worker3.user.id)
         end
 

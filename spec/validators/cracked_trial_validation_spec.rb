@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'new validation rules around cracked trials', type: :validator do
-
   context 'cracked (re)trials' do
     subject { cracked_trial_claim.valid? }
 

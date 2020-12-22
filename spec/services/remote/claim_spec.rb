@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Remote
   describe Claim do
-
     let(:user) { double ::Remote::User }
     let(:query) { { 'my_query_key' => 'my query value' } }
 

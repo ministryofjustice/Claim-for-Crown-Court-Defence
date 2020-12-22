@@ -334,7 +334,6 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
   describe '#validate distance' do
     context 'valid' do
-
       it 'is valid when present for car travel' do
         car_travel_expense.distance = 33
         expect(car_travel_expense).to be_valid

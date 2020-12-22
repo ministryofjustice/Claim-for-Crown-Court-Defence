@@ -51,5 +51,4 @@ describe PerformancePlatform::DataSet do
       end
     end
   end
-
 end

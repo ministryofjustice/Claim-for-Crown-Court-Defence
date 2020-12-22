@@ -3,7 +3,6 @@ require 'rails_helper'
 module Stats
   module Collector
     describe ClaimRedeterminationsCollector do
-
       let(:report_day) { Date.today }
 
       before(:each) do

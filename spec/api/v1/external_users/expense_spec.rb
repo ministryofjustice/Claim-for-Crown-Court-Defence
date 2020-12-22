@@ -180,7 +180,6 @@ RSpec.describe API::V1::ExternalUsers::Expense do
           end
         end
       end
-
     end
 
     describe "POST #{endpoint(:expenses, :validate)}" do

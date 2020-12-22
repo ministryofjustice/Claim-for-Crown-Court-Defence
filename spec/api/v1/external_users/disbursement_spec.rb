@@ -56,7 +56,6 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
   }
 
   describe "POST #{endpoint(:disbursements)}" do
-
     def post_to_create_endpoint
       post endpoint(:disbursements), params, format: :json
     end
@@ -215,5 +214,4 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
       end
     end
   end
-
 end

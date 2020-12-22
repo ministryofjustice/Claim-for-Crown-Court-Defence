@@ -51,6 +51,5 @@ describe API::Entities::CCR::Defendant do
     it 'returns the first representation order entered' do
       expect(response[:representation_orders].first).to include(maat_reference: '2345678', representation_order_date: '2016-01-10')
     end
-
   end
 end

@@ -8,5 +8,4 @@ describe CaseWorkerService do
       service.active
     end
   end
-
 end

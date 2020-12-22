@@ -140,7 +140,6 @@ RSpec.describe Rule::Method, type: :rule do
             it { expect { call } .to raise_error NoMethodError }
           end
         end
-
       end
     end
 

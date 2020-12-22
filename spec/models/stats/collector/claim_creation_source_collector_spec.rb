@@ -3,7 +3,6 @@ require 'rails_helper'
 module Stats
   module Collector
     describe ClaimCreationSourceCollector do
-
       before(:all) do
         travel_to report_day do
           create(:draft_claim, source: 'web')

@@ -358,7 +358,6 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'trial_cracked_at_third' do
-
     context 'for cracked trials' do
       before { claim.case_type = cracked_trial }
 

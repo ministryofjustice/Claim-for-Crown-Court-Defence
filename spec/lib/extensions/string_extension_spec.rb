@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe String do
-
   describe '#zero?' do
     context 'for blank values' do
       it 'should be false' do

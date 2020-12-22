@@ -381,7 +381,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'find by MAAT reference' do
-
       let(:search_options) { :maat_reference }
 
       before do
@@ -410,7 +409,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'find by Defendant name' do
-
       let!(:current_external_user) { create(:external_user) }
       let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
       let(:search_options)    { :defendant_name }
@@ -443,7 +441,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'find by Advocate name' do
-
       let(:search_options) { :advocate_name }
 
       before do
@@ -501,17 +498,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       it 'defaults to finding claims of dashboard_displayable_states' do
         expect(Claim::AdvocateClaim.search('Bob Hoskins', nil, search_options).count).to eql 3
       end
-
     end
 
     context 'find by advocate and defendant' do
-
       let!(:current_external_user) { create(:external_user) }
       let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
       let(:search_options)    { [:advocate_name, :defendant_name] }
 
       before do
-
         subject.external_user = current_external_user
         subject.creator = current_external_user
         subject.external_user.user.first_name = 'Fred'
@@ -527,7 +521,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         other_claim.external_user.user.save!
         create(:defendant, first_name: 'Fred', last_name: 'Hoskins', claim: other_claim)
         other_claim.save!
-
       end
 
       it 'finds claims with either advocate or defendant matching names' do
@@ -541,7 +534,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       it 'does not find claims that do not match the name' do
         expect(Claim::AdvocateClaim.search('Xavierxxxx', states, :advocate_name, :defendant_name).count).to eq(0)
       end
-
     end
 
     context 'find by case worker name or email' do
@@ -582,7 +574,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         }.to raise_error(/Invalid state, rubbish_state, specified/)
       end
     end
-
   end
 
   context 'fees total' do
@@ -802,7 +793,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#validation_required?' do
-
     let(:claim) { FactoryBot.create(:claim, source: 'web') }
 
     context 'should return false for' do
@@ -1380,16 +1370,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#requested_redetermination?' do
-
     context 'allocated state from redetermination' do
-
       before(:each) do
         @claim = FactoryBot.create :redetermination_claim
         @claim.allocate!
       end
 
       context 'no previous redetermination' do
-
         it 'should be true' do
           expect(@claim.redeterminations).to be_empty
           expect(@claim.requested_redetermination?).to be true

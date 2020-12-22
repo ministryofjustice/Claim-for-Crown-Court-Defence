@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Claims
   describe CaseWorkerClaims do
-
     let(:user) { create :user }
 
     let(:criteria) do
@@ -19,7 +18,6 @@ module Claims
     end
 
     context 'Using remote' do
-
       # before(:each) { allow(Settings).to receive(:case_workers_remote_allocations?).and_return(true) }
 
       context 'action current' do
@@ -57,8 +55,6 @@ module Claims
           }.to raise_error ArgumentError, 'Unknown action: no-such-action'
         end
       end
-
     end
-
   end
 end

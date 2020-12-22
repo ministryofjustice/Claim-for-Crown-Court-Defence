@@ -424,7 +424,6 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'supplier number not present but provider is a firm' do
-
       let(:provider) { create :provider, :agfs_lgfs, firm_agfs_supplier_number: '999XX' }
       let(:external_user) { create :external_user, :advocate, supplier_number: nil, provider: provider }
 
@@ -458,7 +457,6 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'no setttings for email notifications present' do
-
       let(:eu)  { build :external_user, :with_settings }
 
       it 'returns false' do
@@ -477,7 +475,6 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'settings for email notification are true' do
-
       let(:eu) { build :external_user, :with_email_notification_of_messages }
 
       it 'returns true' do
@@ -491,7 +488,6 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'settings for email notification are false' do
-
       let(:eu) { build :external_user, :without_email_notification_of_messages }
 
       it 'returns false' do

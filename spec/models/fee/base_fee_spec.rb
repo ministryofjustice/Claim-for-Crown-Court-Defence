@@ -211,7 +211,6 @@ module Fee
         end
       end
     end
-
   end
 
   context 'type logic' do

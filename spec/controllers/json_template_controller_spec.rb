@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe JsonTemplateController, type: :controller do
-
   describe 'GET #show/:schema' do
     before do
       get :show, params: { schema: 'ccr_schema' }

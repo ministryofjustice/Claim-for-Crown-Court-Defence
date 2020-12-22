@@ -117,7 +117,6 @@ RSpec.describe Allocation, type: :model do
           allocator.save
           expect(allocator.errors[:case_worker_id]).to include("can't be blank")
         end
-
       end
     end
 

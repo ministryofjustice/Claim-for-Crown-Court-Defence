@@ -30,7 +30,6 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-
   describe 'PUT #update_settings' do
     let(:external_user) { create(:external_user) }
     let(:user) { external_user.user }
@@ -63,5 +62,4 @@ RSpec.describe UsersController, type: :controller do
       expect(user.settings).to eq({ 'hardship_claims_banner_seen' => 'test' })
     end
   end
-
 end

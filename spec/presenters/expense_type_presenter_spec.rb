@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe ExpenseTypePresenter do
-
   let(:expense)   { build(:expense, expense_type) }
   let(:presenter) { ExpenseTypePresenter.new(expense.expense_type, view) }
 

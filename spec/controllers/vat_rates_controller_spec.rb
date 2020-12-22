@@ -12,7 +12,6 @@
 require 'rails_helper'
 
 RSpec.describe VatRatesController, type: :controller do
-
   before do
     VatRate.delete_all
     create(:vat_rate, effective_date: Date.new(2000, 1, 1), rate_base_points: 1750)
@@ -94,5 +93,4 @@ RSpec.describe VatRatesController, type: :controller do
       end
     end
   end
-
 end

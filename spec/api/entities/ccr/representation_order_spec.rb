@@ -12,5 +12,4 @@ describe API::Entities::CCR::RepresentationOrder do
   it 'returns representation_order_date in UTC format' do
     expect(response[:representation_order_date]).to eql '2016-01-10'
   end
-
 end

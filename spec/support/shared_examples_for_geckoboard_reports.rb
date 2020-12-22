@@ -1,5 +1,4 @@
 shared_examples 'geckoboard publishable report' do
-
   let(:client) { double Geckoboard::Client }
   let(:datasets_client) { double Geckoboard::DatasetsClient }
   let(:dataset) { double Geckoboard::Dataset }

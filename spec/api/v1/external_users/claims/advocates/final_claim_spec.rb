@@ -44,7 +44,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
  
   # TODO: write a generic date error handling spec and share
   describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
-
     it 'returns 400 and JSON error when dates are not in acceptable format' do
       valid_params[:first_day_of_trial] = '01-01-2015'
       valid_params[:trial_concluded_at] = '09-01-2015'

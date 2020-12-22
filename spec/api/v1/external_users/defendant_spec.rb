@@ -25,7 +25,6 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
       context "to endpoint #{endpoint}" do
         FORBIDDEN_DEFENDANT_VERBS.each do |api_verb| # test that each FORBIDDEN_VERB returns 405
           it "#{api_verb.upcase} should return a status of 405" do
-
             response = send api_verb, endpoint, format: :json
             expect(response.status).to eq 405
           end
@@ -42,7 +41,6 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
     include_examples "should NOT be able to amend a non-draft claim"
 
     context "when defendant params are valid" do
-
       it "should create defendant, return 201 and defendant JSON output including UUID" do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
@@ -70,7 +68,6 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
         expect(new_defendant.last_name).to eq valid_params[:last_name]
         expect(new_defendant.date_of_birth).to eq valid_params[:date_of_birth].to_date
       end
-
     end
 
     context "when defendant params are invalid" do
@@ -95,7 +92,6 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
         end
       end
     end
-
   end
 
   describe "POST #{endpoint(:defendants, :validate)}" do

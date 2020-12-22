@@ -14,7 +14,6 @@ require 'rails_helper'
 
 module Stats
   describe Statistic do
-
     context 'uniqueness' do
       it 'does not allow two records for same date, report type and claim type to be created' do
         create :statistic
@@ -55,7 +54,6 @@ module Stats
             expect(record.value_1).to eq 566
             expect(record.value_2).to eq 36
           end
-
         end
       end
 
@@ -91,7 +89,6 @@ module Stats
             expect(record.value_2).to eq 27
           end
         end
-
       end
     end
   end

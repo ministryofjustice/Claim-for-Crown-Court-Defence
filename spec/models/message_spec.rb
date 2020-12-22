@@ -87,7 +87,6 @@ RSpec.describe Message, type: :model do
   end
 
   context 'automotic state change of claim on message creation' do
-
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 

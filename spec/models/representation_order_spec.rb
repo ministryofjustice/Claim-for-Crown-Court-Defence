@@ -114,7 +114,6 @@ RSpec.describe RepresentationOrder do
       it 'should be false for other reporders' do
         expect(ro2.is_first_reporder_for_same_defendant?).to be false
       end
-
     end
   end
 

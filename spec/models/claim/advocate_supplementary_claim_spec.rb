@@ -57,7 +57,6 @@ RSpec.describe Claim::AdvocateSupplementaryClaim, type: :model do
           expect(unique_codes).to match_array(eligible_fee.fee_type.unique_code)
         end
       end
-
     end
   end
 end

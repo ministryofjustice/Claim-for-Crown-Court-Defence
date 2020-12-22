@@ -157,7 +157,6 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
   end
 
   describe "PUT #update" do
-
     context 'when valid' do
       before(:each) { put :update, params: { provider_id: provider, id: external_user, external_user: { supplier_number: 'XX100', roles: ['advocate'] } } }
 

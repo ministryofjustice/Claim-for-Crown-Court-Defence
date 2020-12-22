@@ -34,7 +34,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
       it 'renders the template' do
         expect(response).to render_template(:new)
       end
-
     end
   end
 
@@ -56,7 +55,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   describe "POST #create" do
     context 'when litigator signed in' do
       context 'and the input is valid' do
-
         let(:expense_type) { create(:expense_type, :train) }
         let(:expense_date) { 10.days.ago }
         let(:claim_params) do
@@ -324,7 +322,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
           expect(assigns(:claim).evidence_checklist_ids).to eql( [ 2, 3 ] )
         end
       end
-
     end
   end
 
@@ -379,7 +376,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
     subject { create(:litigator_claim, creator: litigator) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
           put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } }, commit_save_draft: 'Save to drafts' }

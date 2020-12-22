@@ -119,5 +119,4 @@ RSpec.describe CaseWorker, type: :model do
       expect(cw.active?).to be true
     end
   end
-
 end

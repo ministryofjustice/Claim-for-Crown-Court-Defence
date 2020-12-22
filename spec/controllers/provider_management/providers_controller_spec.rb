@@ -48,9 +48,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
   end
 
   describe "PUT #update" do
-
     context 'when changing from firm to chamber' do
-
       it 'changes from chamber to firm and removes LGFS supplier numbers' do
         firm = create :provider, :firm, :with_lgfs_supplier_numbers
         expect(firm.lgfs_supplier_numbers).to have(4).items
@@ -62,7 +60,6 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
         expect(firm.firm_agfs_supplier_number).to be_nil
         expect(firm.lgfs_supplier_numbers).to be_empty
       end
-
     end
 
     context 'when valid' do

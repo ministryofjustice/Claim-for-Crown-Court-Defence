@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Stats
   describe ClaimCreationSourceDataGenerator do
-
     it 'produces the correct stats as json' do
       generate_stats_data
       result = ClaimCreationSourceDataGenerator.new.run
@@ -39,6 +38,5 @@ module Stats
         end
       end
     end
-
   end
 end

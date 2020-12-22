@@ -27,6 +27,5 @@ module Caching
         expect(MemoryStore.current.get('key1')).to be_nil
       end
     end
-
   end
 end

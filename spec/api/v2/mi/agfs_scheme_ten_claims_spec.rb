@@ -89,7 +89,6 @@ RSpec.describe API::V2::MI::AGFSSchemeTenClaims do
             expect(CSV.parse(last_response.body)).to eq [['No scheme ten claims filed on'], ['2018-04-04']]
           end
         end
-
       end
     end
 

@@ -31,7 +31,6 @@ module Claims
         it 'returns all claims with graduated fee case types' do
           expect(Claim::BaseClaim.all_graduated_fees).to match_array( [@claim_grad_1, @claim_grad_2] )
         end
-
       end
     end
   end

@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Stats
   describe ClaimPercentageAuthorisedGenerator do
-
     let(:generator) { ClaimPercentageAuthorisedGenerator.new }
 
     it 'returns a hash of percentages' do

@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe CaseWorkers::ClaimsHelper do
-
   # before(:each) do
   #   @case_worker = create :case_worker
   #   allow(helper).to receive(:current_user).and_return(@case_worker.user)
@@ -48,7 +47,6 @@ describe CaseWorkers::ClaimsHelper do
   end
 
   describe '#completed_claims_count' do
-
     context 'current user is admin' do
       it 'gets the count for all claims' do
         admin_case_worker = create :case_worker, :admin
@@ -72,21 +70,17 @@ describe CaseWorkers::ClaimsHelper do
         expect(helper.completed_claims_count).to eq 71
       end
     end
-
   end
 
   context 'carousel helper methods' do
-
     let(:claim_ids) { [ 1244, 36364, 3774, 2773, 73773] }
 
     before(:each) do
-
       allow(helper).to receive(:claim_ids).and_return(claim_ids)
       allow(helper).to receive(:claim_count).and_return(claim_ids.size)
     end
 
     describe '#claim_position_and_count' do
-
       it 'returns the position and count of the claim in the list' do
         assign(:claim, double(Claim::BaseClaim, id: 2773))
         expect(helper.claim_position_and_count).to eq '4 of 5'

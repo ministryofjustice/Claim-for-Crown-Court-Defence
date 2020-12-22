@@ -281,6 +281,5 @@ RSpec.describe Provider, type: :model do
         expect(provider.agfs_supplier_numbers).to be_empty
       end
     end
-
   end
 end

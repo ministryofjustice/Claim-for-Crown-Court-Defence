@@ -646,7 +646,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
   end
 
   describe "DELETE #destroy" do
-
     context 'on success' do
       before { delete :destroy, params: { id: claim } }
 

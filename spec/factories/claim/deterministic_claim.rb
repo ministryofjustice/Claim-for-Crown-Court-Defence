@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :deterministic_claim, class: Claim::AdvocateClaim do
-
     before(:create) do
       Timecop.freeze(Time.new(2016, 3, 10, 11, 44, 55).utc)
     end

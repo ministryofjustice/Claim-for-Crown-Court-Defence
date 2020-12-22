@@ -133,7 +133,6 @@ RSpec.describe ApplicationController, type: :controller do
         expect { subject.signed_in_user_profile_path }.to raise_error(NameError)
       end
     end
-
   end
 
   context 'Exceptions handling' do

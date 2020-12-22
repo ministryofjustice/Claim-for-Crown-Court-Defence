@@ -92,7 +92,6 @@ RSpec.describe Claims::ContextMapper do
   end
 
   describe '#available_claims' do
-
     before(:all) do
       @agfs_provider    = create :provider, :agfs
       @lgfs_provider    = create :provider, :lgfs
@@ -152,7 +151,6 @@ RSpec.describe Claims::ContextMapper do
   end
 
   context 'AGFS/LGFS' do
-
     before(:all) do
       @provider    = create :provider, :agfs_lgfs
       @litigator_1 = create :external_user, :litigator, provider: @provider

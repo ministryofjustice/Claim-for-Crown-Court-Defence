@@ -21,7 +21,7 @@ RSpec.describe VatRatesController, type: :controller do
   describe 'GET vat' do
     context 'advocate claims' do
       it 'if vat applies, it should return JSON struct with details' do
-        get :index, params: { :format => 'json',  'apply_vat' => 'true', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
+        get :index, params: { :format => 'json', 'apply_vat' => 'true', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
         expect(response).to be_successful
         expect(response.body).to eq(
           {

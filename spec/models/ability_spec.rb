@@ -360,7 +360,7 @@ RSpec.describe Ability do
   end
 
   context 'external_user litigator admin' do
-    let(:external_user)       { create(:external_user, :litigator_and_admin) }
+    let(:external_user) { create(:external_user, :litigator_and_admin) }
     let(:provider)      { external_user.provider }
     let(:user)          { external_user.user }
 

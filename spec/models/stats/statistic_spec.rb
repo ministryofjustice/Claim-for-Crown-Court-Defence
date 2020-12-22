@@ -58,7 +58,7 @@ module Stats
       end
 
       context 'record with that key already exists' do
-        before(:each)   { Statistic.create_or_update(Date.today, 'my_report', Claim::AdvocateClaim, 566) }
+        before(:each) { Statistic.create_or_update(Date.today, 'my_report', Claim::AdvocateClaim, 566) }
 
         context 'with no value specified for value 2' do
           it 'updates the existing recofrd with the new value' do

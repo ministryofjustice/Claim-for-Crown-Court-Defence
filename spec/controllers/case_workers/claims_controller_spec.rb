@@ -67,7 +67,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
   end
 
-  describe  'GET show' do
+  describe 'GET show' do
     let(:claim) { create :claim }
 
     before(:each) { get :show, params: { id: claim } }

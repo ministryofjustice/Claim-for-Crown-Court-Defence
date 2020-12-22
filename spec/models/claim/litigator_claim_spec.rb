@@ -66,7 +66,7 @@ require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
 RSpec.describe Claim::LitigatorClaim, type: :model do
-  let(:claim)   { build :litigator_claim }
+  let(:claim) { build :litigator_claim }
 
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }

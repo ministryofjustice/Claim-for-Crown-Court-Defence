@@ -121,7 +121,7 @@ RSpec.describe Document, type: :model do
 
       it 'sets an expiry header' do
         stub_request(:put, /shorter_lorem\.docx/).
-          with(headers: { 'Expires' => /.+/ })  # Timecop and paperclip or webmock aren't playing well together.
+          with(headers: { 'Expires' => /.+/ }) # Timecop and paperclip or webmock aren't playing well together.
 
         expect { subject.save! }.not_to raise_error
       end
@@ -195,7 +195,7 @@ RSpec.describe Document, type: :model do
   end
 
   context 'save_and_verify' do
-    let(:document)  { build :document }
+    let(:document) { build :document }
 
     after(:each) { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
 

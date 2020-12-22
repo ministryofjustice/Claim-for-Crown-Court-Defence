@@ -167,7 +167,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
                            'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
 
     context 'external_user_dashboard_draft?' do
-      before(:each)     { allow(claim).to receive(:state).and_return('draft') }
+      before(:each) { allow(claim).to receive(:state).and_return('draft') }
 
       it 'should respond true in draft' do
         allow(claim).to receive(:state).and_return('draft')
@@ -183,7 +183,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'external_user_dashboard_rejected?' do
-      before(:each)     { allow(claim).to receive(:state).and_return('rejected') }
+      before(:each) { allow(claim).to receive(:state).and_return('rejected') }
       it 'should respond true' do
         allow(claim).to receive(:state).and_return('rejected')
         expect(claim.external_user_dashboard_rejected?).to be true
@@ -411,7 +411,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'find by Defendant name' do
       let!(:current_external_user) { create(:external_user) }
       let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
-      let(:search_options)    { :defendant_name }
+      let(:search_options)         { :defendant_name }
 
       before do
         subject.external_user = current_external_user
@@ -482,9 +482,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         bob_hoskins.save!
         adv_bob_hoskins = create(:external_user, user: bob_hoskins)
         adv_bob_hoskins.save!
-        create_list(:archived_pending_delete_claim,   2,  external_user: adv_bob_hoskins)
-        create_list(:authorised_claim,                      2,  external_user: adv_bob_hoskins)
-        create(:allocated_claim,                          external_user: adv_bob_hoskins)
+        create_list(:archived_pending_delete_claim, 2, external_user: adv_bob_hoskins)
+        create_list(:authorised_claim, 2, external_user: adv_bob_hoskins)
+        create(:allocated_claim, external_user: adv_bob_hoskins)
       end
 
       it 'finds only claims of the single state specified' do
@@ -503,7 +503,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'find by advocate and defendant' do
       let!(:current_external_user) { create(:external_user) }
       let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
-      let(:search_options)    { [:advocate_name, :defendant_name] }
+      let(:search_options)         { [:advocate_name, :defendant_name] }
 
       before do
         subject.external_user = current_external_user
@@ -525,10 +525,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       it 'finds claims with either advocate or defendant matching names' do
         expect(Claim::AdvocateClaim.search('Bloggs', states, *search_options)).to eq([subject])
-        expect(Claim::AdvocateClaim.search('Hoskins',states, *search_options)).to eq([other_claim])
-        expect(Claim::AdvocateClaim.search('Fred',   states, *search_options).count).to eq(2) #advocate and defendant of name
-        expect(Claim::AdvocateClaim.search('Johncz',   states, *search_options).count).to eq(1) #advocate only search
-        expect(Claim::AdvocateClaim.search('Joexx',  states, *search_options).count).to eq(1) #defendant only search
+        expect(Claim::AdvocateClaim.search('Hoskins', states, *search_options)).to eq([other_claim])
+        expect(Claim::AdvocateClaim.search('Fred', states, *search_options).count).to eq(2) # advocate and defendant of name
+        expect(Claim::AdvocateClaim.search('Johncz', states, *search_options).count).to eq(1) # advocate only search
+        expect(Claim::AdvocateClaim.search('Joexx', states, *search_options).count).to eq(1) # defendant only search
       end
 
       it 'does not find claims that do not match the name' do

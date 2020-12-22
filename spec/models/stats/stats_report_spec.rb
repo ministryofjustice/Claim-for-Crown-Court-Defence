@@ -48,7 +48,7 @@ RSpec.describe Stats::StatsReport do
       expect(results.size).to eq 3
       expect(results).to include(@mi_complete)
       expect(results).to include(@mi_incomplete)
-      expect(results).to include(@mi_old  )
+      expect(results).to include(@mi_old)
     end
 
     it 'returns the latest completed management information report' do

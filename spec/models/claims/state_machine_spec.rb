@@ -351,7 +351,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   end
 
   describe '.is_in_state?' do
-    let(:claim)         { build :unpersisted_claim }
+    let(:claim) { build :unpersisted_claim }
 
     it 'should be true if state is in EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('allocated')

@@ -38,7 +38,7 @@ describe ErrorPresenter do
 
         context 'error string not present in translations file' do
           it 'should generate an error message from the field name and the error' do
-            claim.errors[:date_of_birth]  << 'cannot_be_blank'
+            claim.errors[:date_of_birth] << 'cannot_be_blank'
             expect(presenter.header_errors).to eq(
               [
                 ErrorDetail.new(:date_of_birth, 'Date of birth cannot be blank', 'Cannot be blank', 'Date of birth cannot be blank')
@@ -71,7 +71,7 @@ describe ErrorPresenter do
 
         context 'error string not present in translations file' do
           it 'should return the error message without the fieldame' do
-            claim.errors[:date_of_birth]  << 'cannot be blank'
+            claim.errors[:date_of_birth] << 'cannot be blank'
             expect(presenter.field_level_error_for(:date_of_birth)).to eq 'Cannot be blank'
           end
         end

@@ -89,14 +89,14 @@ RSpec.describe Redetermination do
   describe '#to_s' do
     it 'outputs the totals' do
       rd = FactoryBot.create :redetermination, fees: 123.22, expenses: 301.55, disbursements: 44.33
-      expected  = "  id:            #{rd.id}\n" +
-                  "  type           Redetermination\n" +
-                  "  claim_id:      #{rd.claim.id}\n" +
-                  "  expenses:      301.55\n" +
-                  "  fees:          123.22\n" +
-                  "  disbursements: 44.33\n" +
-                  "  vat_amount:    93.82\n" +
-                  "  total:         469.1\n\n"
+      expected = "  id:            #{rd.id}\n" +
+                 "  type           Redetermination\n" +
+                 "  claim_id:      #{rd.claim.id}\n" +
+                 "  expenses:      301.55\n" +
+                 "  fees:          123.22\n" +
+                 "  disbursements: 44.33\n" +
+                 "  vat_amount:    93.82\n" +
+                 "  total:         469.1\n\n"
       expect(rd.to_s).to eq expected
     end
   end

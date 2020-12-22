@@ -4,19 +4,19 @@ RSpec.describe API::V1::DropdownData do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CASE_TYPE_ENDPOINT          = "/api/case_types"
-  COURT_ENDPOINT              = "/api/courts"
-  ADVOCATE_CATEGORY_ENDPOINT  = "/api/advocate_categories"
-  CRACKED_THIRD_ENDPOINT      = "/api/trial_cracked_at_thirds"
-  OFFENCE_CLASS_ENDPOINT      = "/api/offence_classes"
-  OFFENCE_ENDPOINT            = "/api/offences"
-  FEE_TYPE_ENDPOINT           = "/api/fee_types"
-  EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
-  EXPENSE_REASONS_ENDPOINT    = "/api/expense_reasons"
-  DISBURSEMENT_TYPE_ENDPOINT  = "/api/disbursement_types"
-  TRANSFER_STAGES_ENDPOINT    = "/api/transfer_stages"
-  TRANSFER_CASE_CONCLUSIONS_ENDPOINT = "/api/transfer_case_conclusions"
-  CASE_STAGE_ENDPOINT         = "/api/case_stages"
+  CASE_TYPE_ENDPOINT                  = "/api/case_types"
+  COURT_ENDPOINT                      = "/api/courts"
+  ADVOCATE_CATEGORY_ENDPOINT          = "/api/advocate_categories"
+  CRACKED_THIRD_ENDPOINT              = "/api/trial_cracked_at_thirds"
+  OFFENCE_CLASS_ENDPOINT              = "/api/offence_classes"
+  OFFENCE_ENDPOINT                    = "/api/offences"
+  FEE_TYPE_ENDPOINT                   = "/api/fee_types"
+  EXPENSE_TYPE_ENDPOINT               = "/api/expense_types"
+  EXPENSE_REASONS_ENDPOINT            = "/api/expense_reasons"
+  DISBURSEMENT_TYPE_ENDPOINT          = "/api/disbursement_types"
+  TRANSFER_STAGES_ENDPOINT            = "/api/transfer_stages"
+  TRANSFER_CASE_CONCLUSIONS_ENDPOINT  = "/api/transfer_case_conclusions"
+  CASE_STAGE_ENDPOINT                 = "/api/case_stages"
 
   FORBIDDEN_DROPDOWN_VERBS = [:post, :put, :patch, :delete]
   ALL_DROPDOWN_ENDPOINTS = [

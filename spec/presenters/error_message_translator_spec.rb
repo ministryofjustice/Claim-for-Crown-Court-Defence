@@ -51,7 +51,7 @@ RSpec.describe ErrorMessageTranslator do
             "api" => "The MAAT Reference must be 7-10 numeric digits for the \#{representation_order} of the \#{defendant}" } } } }
   end
 
-  let(:emt)    { ErrorMessageTranslator.new(translations, key, error) }
+  let(:emt) { ErrorMessageTranslator.new(translations, key, error) }
 
   context 'provides readble message attributes' do
     let(:key)   { :name }

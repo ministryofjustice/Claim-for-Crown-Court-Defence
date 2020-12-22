@@ -105,7 +105,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
         context 'multi-step form submit to LAA' do
           let(:case_number) { 'A20168888' }
-          let(:interim_fee_type)  { create(:interim_fee_type, :effective_pcmh) }
+          let(:interim_fee_type) { create(:interim_fee_type, :effective_pcmh) }
 
           let(:interim_fee_params) {
             {
@@ -193,7 +193,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
       end
 
       context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params)      { { advocate_category: 'QC' } }
+        let(:invalid_claim_params) { { advocate_category: 'QC' } }
         it 'does not create a claim' do
           expect {
             post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }

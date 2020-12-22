@@ -435,7 +435,7 @@ RSpec.describe ExternalUser, type: :model do
 
   context 'email notification of messages preferences' do
     context 'settings on user record are nil' do
-      let(:eu)  { build :external_user }
+      let(:eu) { build :external_user }
 
       it 'has an underlying user setting of nil' do
         expect(eu.user.settings).to eq Hash.new

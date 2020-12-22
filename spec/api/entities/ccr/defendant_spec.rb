@@ -7,7 +7,8 @@ describe API::Entities::CCR::Defendant do
   let(:rep_orders) { create_list(:representation_order, 1, uuid: 'uuid', maat_reference: '2345678', representation_order_date: Date.new(2016, 1, 10)) }
 
   let(:defendant) do
-    create(:defendant,
+    create(
+      :defendant,
       uuid: 'uuid',
       first_name: 'Kaia',
       last_name: 'Casper',

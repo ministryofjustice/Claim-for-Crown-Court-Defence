@@ -307,10 +307,9 @@ RSpec.shared_examples 'a deprecated claim endpoint' do |options|
   include_context 'deactivate deprecation warnings'
 
   subject(:headers) do
-    response = post ClaimApiEndpoints.for(options[:relative_endpoint]).
-      send(options[:action]),
-      valid_params,
-      format: :json
+    response = post ClaimApiEndpoints.for(options[:relative_endpoint]).send(options[:action]),
+                    valid_params,
+                    format: :json
     response.headers
   end
 

@@ -6,7 +6,8 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
   # on query values), prevent flickering specs (from random offence classes,
   # rep order dates) and to allow testing actual amounts "calculated".
   let(:claim) do
-    create(:draft_claim,
+    create(
+      :draft_claim,
       create_defendant_and_rep_order_for_scheme_9: true,
       case_type: case_type, offence: offence
     )

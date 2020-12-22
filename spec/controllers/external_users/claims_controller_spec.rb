@@ -575,11 +575,13 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         it 'logs success details' do
-          expect(LogStuff).to have_received(:info).with('ExternalUsers::ClaimsController',
-                                                       action: 'clone',
-                                                       claim_id: claim.id,
-                                                       documents: 2,
-                                                       total_size: '9.54 MB')
+          expect(LogStuff).to have_received(:info).with(
+            'ExternalUsers::ClaimsController',
+            action: 'clone',
+            claim_id: claim.id,
+            documents: 2,
+            total_size: '9.54 MB'
+          )
         end
 
         it'displays a flash notice' do

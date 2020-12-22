@@ -18,10 +18,10 @@ RSpec.describe CaseStage, type: :model do
   it { is_expected.to belong_to(:case_type) }
 
   include_examples 'delegates missing methods to case type',
-    :requires_trial_dates?,
-    :requires_retrial_dates?,
-    :requires_cracked_dates?,
-    :is_fixed_fee?
+                   :requires_trial_dates?,
+                   :requires_retrial_dates?,
+                   :requires_cracked_dates?,
+                   :is_fixed_fee?
 
   it_behaves_like 'roles', CaseStage, CaseStage::ROLES
 

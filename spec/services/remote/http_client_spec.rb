@@ -69,6 +69,5 @@ module Remote
       end
     end
 
-
   end
 end

@@ -11,7 +11,6 @@ module Claims
         ctf1 = create :case_type, :fixed_fee, fee_type_code: fft.unique_code
         ctg1 = create :case_type, :graduated_fee, fee_type_code: gft.unique_code
 
-
         @claim_fixed_1 = create :claim, case_type: ctf1
         @claim_fixed_2 = create :claim, case_type: ctf1
         @claim_grad_1 = create :claim, case_type: ctg1

@@ -113,7 +113,6 @@ RSpec.describe AdpTextField do
         expect(atf.to_html).to eq a200_value_no_hint_disabled
       end
 
-
       it 'should produce expected result when readonly' do
         resource.case_number = '555'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'currency', input_readonly: true, errors: error_presenter)

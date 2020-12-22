@@ -68,7 +68,6 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       end
     end
 
-
     context 'bubbling up errors two levels to the claim' do
       let(:expected_results) do
         {

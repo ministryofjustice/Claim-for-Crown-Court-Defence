@@ -32,7 +32,6 @@ module Stats
         @claim_f = create_decided_claim('authorised', base_time + 10.days, decision_time + 2.days)
       end
 
-
       it 'should work out the average time to completion' do
         # the following claims should be authorised on decision day (Friday 15 Jan):
         # - claim_c - submitted 4 days earlier - 4 working days
@@ -47,7 +46,6 @@ module Stats
         expect(stat.value_1).to eq 466
         expect(stat.value_2).to eq 3
       end
-
 
       def create_submitted_claim(time_submitted)
         claim = nil

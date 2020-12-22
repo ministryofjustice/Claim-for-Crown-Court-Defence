@@ -14,7 +14,6 @@ describe DocumentRecloner do
     clean_database
   end
 
-
   it 'should reclone documents from the source claim' do
     # given a source claim with 4 docs, and a cloned claim with 4 docs, three of which are corrupted
     source_claim = create_source_claim

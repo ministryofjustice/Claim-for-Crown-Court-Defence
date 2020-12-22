@@ -86,7 +86,6 @@ RSpec.describe Message, type: :model do
     end
   end
 
-
   context 'automotic state change of claim on message creation' do
 
     let(:claim)     { create :part_authorised_claim }

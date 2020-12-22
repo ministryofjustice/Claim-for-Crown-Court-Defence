@@ -41,7 +41,6 @@ module Stats
         end
       end
 
-
       def create_claim(state, date)
         travel_to(date) do
           create factory_name(state)

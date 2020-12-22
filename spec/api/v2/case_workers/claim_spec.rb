@@ -100,7 +100,6 @@ RSpec.describe API::V2::CaseWorkers::Claim do
         expect(claim_ids).to match_array( [ @lgfs_sub_gf_vb10.id, @lgfs_sub_gf_vb30.id ])
       end
 
-
       def do_request_and_extract_claim_ids(my_params = params)
         response = do_request(my_params)
         body = JSON.parse(response.body, symbolize_names: true)
@@ -129,7 +128,6 @@ RSpec.describe API::V2::CaseWorkers::Claim do
         claim
       end
     end
-
 
     context 'pagination' do
       def pagination_details(response)

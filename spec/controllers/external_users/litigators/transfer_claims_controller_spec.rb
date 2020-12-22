@@ -35,7 +35,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     end
   end
 
-
   describe 'POST #create' do
 
     render_views
@@ -110,7 +109,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
     end
 
-
     context 'save as draft button pressed' do
 
       context 'valid_params' do
@@ -170,7 +168,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
     end
   end
-
 
   describe 'PATCH #update' do
     render_views
@@ -266,7 +263,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
     end
   end
-
 
   describe 'GET #edit' do
     let(:edit_request) { -> { get :edit, params: { id: claim } } }

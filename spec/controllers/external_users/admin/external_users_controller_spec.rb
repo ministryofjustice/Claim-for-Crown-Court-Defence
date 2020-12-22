@@ -216,7 +216,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
     describe "DELETE #destroy" do
 
-
       it 'destroys the external user' do
         subject     # create an additional External user
         expect {
@@ -231,7 +230,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
   end
-
 
   ######################## NON ADMIN USER #################
 

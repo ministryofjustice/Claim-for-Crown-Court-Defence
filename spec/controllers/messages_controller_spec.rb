@@ -94,7 +94,6 @@ RSpec.describe MessagesController, type: :controller do
     end
   end
 
-
   context 'email notifications' do
     let(:claim) { create :claim }
     let(:message_params) { message_params = { claim_id: claim.id, sender_id: sender.user.id, body: 'lorem ipsum' } }
@@ -159,6 +158,5 @@ RSpec.describe MessagesController, type: :controller do
       end
     end
   end
-
 
 end

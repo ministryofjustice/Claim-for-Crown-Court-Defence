@@ -15,7 +15,6 @@ require 'rails_helper'
 module Stats
   describe Statistic do
 
-
     context 'uniqueness' do
       it 'does not allow two records for same date, report type and claim type to be created' do
         create :statistic

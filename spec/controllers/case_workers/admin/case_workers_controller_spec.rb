@@ -7,7 +7,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
   before { sign_in admin.user }
 
-
   describe 'GET #index' do
     before { get :index }
 

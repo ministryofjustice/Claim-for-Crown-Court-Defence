@@ -69,7 +69,6 @@ describe AdpFormBuilder do
   end
 end
 
-
 def squash(html)
   html.gsub(/\s+\</, '<').chomp
 end

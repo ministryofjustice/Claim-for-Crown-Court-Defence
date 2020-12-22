@@ -112,7 +112,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     end
   end
 
-
   describe 'GET #new' do
     it 'calls the Caseworker service and Claims::CaseWorkerClaims services' do
       case_worker_service = double CaseWorkerService

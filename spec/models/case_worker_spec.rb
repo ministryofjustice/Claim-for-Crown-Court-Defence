@@ -98,7 +98,6 @@ RSpec.describe CaseWorker, type: :model do
     end
   end
 
-
   describe 'soft_delete' do
     it 'should set deleted at on the caseworker and user records' do
       cw = create :case_worker

@@ -134,7 +134,6 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
 
-
   end
 
   context 'Exceptions handling' do

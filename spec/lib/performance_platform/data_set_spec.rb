@@ -10,7 +10,6 @@ describe PerformancePlatform::DataSet do
   let(:period) { 'week' }
   let(:service)  { 'cccd' }
 
-
   describe 'initialized' do
     subject(:payload) { data_set.payload }
     describe 'with a channel' do

@@ -56,7 +56,6 @@ RSpec.describe API::V2::Search do
     ]
   }
 
-
   def do_request
     get get_claims_endpoint, params, format: :json
   end

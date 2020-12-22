@@ -7,7 +7,6 @@ describe ErrorPresenter do
   let(:filename)        { File.dirname(__FILE__) + '/data/error_messages.en.yml' }
   let(:presenter)       { ErrorPresenter.new(claim, filename) }
 
-
   describe 'generate_sequence' do
     context 'base class level fieldnames' do
       context 'fieldname present' do

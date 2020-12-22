@@ -213,7 +213,6 @@ RSpec.describe Claims::Cloner, type: :model do
     include_examples 'common defendants cloning tests'
   end
 
-
   # helper methods ---------------
   #
   def create_rejected_claim

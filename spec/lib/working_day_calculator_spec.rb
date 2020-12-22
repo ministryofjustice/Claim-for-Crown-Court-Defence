@@ -60,12 +60,9 @@ describe WorkingDayCalculator do
 
   end
 
-
   def expect_working_days(expectation)
     start_day, end_day, num_days = expectation
     expect(WorkingDayCalculator.new(start_day, end_day).working_days).to eq num_days
   end
-
-
 
 end

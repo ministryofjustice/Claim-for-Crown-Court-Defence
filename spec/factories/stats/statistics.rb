@@ -7,4 +7,3 @@ FactoryBot.define do
     value_1  { 1029 }
   end
 end
-

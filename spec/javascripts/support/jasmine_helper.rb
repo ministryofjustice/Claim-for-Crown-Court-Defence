@@ -26,4 +26,3 @@ Jasmine.configure do |config|
     Jasmine::Runners::Selenium.new(formatter, jasmine_server_url, webdriver, 50)
   }
 end
-

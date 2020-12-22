@@ -137,4 +137,3 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
     end
   end
 end
-

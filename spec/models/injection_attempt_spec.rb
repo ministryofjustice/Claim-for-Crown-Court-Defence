@@ -100,4 +100,3 @@ RSpec.describe InjectionAttempt, type: :model do
     end
   end
 end
-

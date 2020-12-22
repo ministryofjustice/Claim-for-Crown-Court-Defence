@@ -14,28 +14,6 @@ FactoryBot/CreateList:
   Exclude:
     - 'spec/controllers/external_users/admin/external_users_controller_spec.rb'
 
-# Offense count: 33
-# Cop supports --auto-correct.
-FactoryBot/FactoryClassName:
-  Exclude:
-    - 'spec/factories/claim/advocate_claims.rb'
-    - 'spec/factories/claim/advocate_hardship_claims.rb'
-    - 'spec/factories/claim/advocate_interim_claims.rb'
-    - 'spec/factories/claim/advocate_supplementary_claims.rb'
-    - 'spec/factories/claim/api_claims.rb'
-    - 'spec/factories/claim/deterministic_claim.rb'
-    - 'spec/factories/claim/interim_claims.rb'
-    - 'spec/factories/claim/litigator_claims.rb'
-    - 'spec/factories/claim/litigator_hardship_claims.rb'
-    - 'spec/factories/claim/transfer_claims.rb'
-    - 'spec/factories/claim/transfer_details.rb'
-    - 'spec/factories/fee_types.rb'
-    - 'spec/factories/fees.rb'
-    - 'spec/factories/messages.rb'
-    - 'spec/factories/stats/statistics.rb'
-    - 'spec/factories/stats/stats_reports.rb'
-    - 'spec/factories/vat_rates.rb'
-
 # Offense count: 25
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.

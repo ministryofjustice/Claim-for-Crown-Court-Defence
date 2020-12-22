@@ -1,6 +1,6 @@
 
 FactoryBot.define do
-  factory :statistic, class: Stats::Statistic do
+  factory :statistic, class: 'Stats::Statistic' do
     date { Date.today }
     report_name { 'my_report' }
     claim_type { 'Claim::AdvocateClaim' }

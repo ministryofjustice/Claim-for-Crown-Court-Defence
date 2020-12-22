@@ -187,7 +187,7 @@ RSpec.describe Ability do
     context 'cannot manage claims by another external_user with a different provider' do
       let(:other_external_user) { create(:external_user, :advocate) }
       [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
-          all_claim_type_objects.each do |model|
+        all_claim_type_objects.each do |model|
           it { should_not be_able_to(action, model.new(external_user: other_external_user, creator: other_external_user)) }
         end
       end

@@ -138,7 +138,7 @@ RSpec.describe ErrorMessageTranslator do
       it 'returns error defaulting error message' do
         expect(emt.translation_found?).to be true
         expect(emt.long_message).to eq 'Enter a valid quantity for the fixed fee'
-        end
+      end
     end
   end
 

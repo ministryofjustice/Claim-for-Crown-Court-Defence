@@ -131,7 +131,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
           end
         end
       end
-     end
+    end
 
     context 'for a fixed_fee fee (e.g. elected case not proceeded)' do
       let(:price) do

@@ -98,7 +98,7 @@ RSpec.shared_examples "malformed or not iso8601 compliant dates" do |options|
 end
 
 RSpec.shared_examples 'advocate claim test setup' do
-   describe 'test setup' do
+  describe 'test setup' do
     it 'vendor should belong to same provider as advocate' do
       expect(vendor.provider).to eql(advocate.provider)
     end
@@ -106,7 +106,7 @@ RSpec.shared_examples 'advocate claim test setup' do
 end
 
 RSpec.shared_examples 'litigator claim test setup' do
-   describe 'test setup' do
+  describe 'test setup' do
     it 'vendor should belong to same provider as litigator' do
       expect(vendor.provider).to eql(litigator.provider)
     end

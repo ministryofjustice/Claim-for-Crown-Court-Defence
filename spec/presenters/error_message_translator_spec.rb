@@ -8,23 +8,23 @@ RSpec.describe ErrorMessageTranslator do
       "cannot_be_blank"=>{
         "long" => "The claimant name must not be blank, please enter a name",
         "short" => "Enter a name",
-        "api" => "The claimant name must not be blank"},
+        "api" => "The claimant name must not be blank" },
       "too_long"=>{
         "long" => "The name cannot be longer than 50 characters",
         "short" => "Too long",
-        "api" => "The name cannot be longer than 50 characters"}},
+        "api" => "The name cannot be longer than 50 characters" } },
     "date_of_birth"=>{
       "too_early"=>{
         "long" => "The date of birth may not be more than 100 years old",
         "short" => "Invalid date",
-        "api" => "The date of birth may not be more than 100 years old"}
+        "api" => "The date of birth may not be more than 100 years old" }
       },
     "trial_date"=>{
       "_seq" => 20,
       "not_future"=>{
         "long" => "The trial date may not be in the future",
         "short" => "Invalid date",
-        "api" => "The trial date may not be in the future"}},
+        "api" => "The trial date may not be in the future" } },
     "defendant"=>{
       "_seq" => 30,
       "first_name"=>{
@@ -32,7 +32,7 @@ RSpec.describe ErrorMessageTranslator do
         "blank"=>{
           "long" => "Enter a first name for the \#{defendant}",
           "short" => "Cannot be blank",
-          "api" => "The first name for the \#{defendant} must not be blank"}}},
+          "api" => "The first name for the \#{defendant} must not be blank" } } },
     "fixed_fee"=>{
       "_seq" => 600,
       "quantity"=>{
@@ -40,7 +40,7 @@ RSpec.describe ErrorMessageTranslator do
         "invalid"=>{
           "long" => 'Enter a valid quantity for the #{fixed_fee}',
           "short" => 'Enter a valid quantity',
-          "api" => 'Enter a valid quantity for the fixed fee'}}},
+          "api" => 'Enter a valid quantity for the fixed fee' } } },
     "representation_order"=>{
         "_seq" => 80,
         "maat_reference" => {
@@ -48,7 +48,7 @@ RSpec.describe ErrorMessageTranslator do
           "blank" =>{
             "long" => "The MAAT Reference must be 7-10 numeric digits for the \#{representation_order} of the \#{defendant}",
             "short" => "Invalid format",
-            "api" => "The MAAT Reference must be 7-10 numeric digits for the \#{representation_order} of the \#{defendant}"}}}}
+            "api" => "The MAAT Reference must be 7-10 numeric digits for the \#{representation_order} of the \#{defendant}" } } } }
   end
 
   let(:emt)    { ErrorMessageTranslator.new(translations, key, error) }

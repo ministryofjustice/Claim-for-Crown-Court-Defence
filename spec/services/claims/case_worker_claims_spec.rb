@@ -52,7 +52,7 @@ module Claims
 
       context 'unrecognised action' do
         it 'raises' do
-          expect{
+          expect {
             CaseWorkerClaims.new(current_user: user, action: 'no-such-action', criteria: criteria).claims
           }.to raise_error ArgumentError, 'Unknown action: no-such-action'
         end

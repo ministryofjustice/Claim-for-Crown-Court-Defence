@@ -36,7 +36,7 @@ module SeedHelpers
 
   private
 
-  def load_seed file
+  def load_seed(file)
     load Rails.root.join('db', 'seeds', "#{file.gsub('.rb', '')}.rb")
   end
 end

@@ -203,7 +203,7 @@ RSpec.describe Rule::Method, type: :rule do
 
     let(:instance) { described_class.new(:irrelevant, src, bound, options) }
     let(:bound) { [101, 102] }
-    let(:options) { { } }
+    let(:options) { {} }
 
     context 'when source is nil' do
       let(:src) { nil }
@@ -265,7 +265,7 @@ RSpec.describe Rule::Method, type: :rule do
 
     let(:instance) { described_class.new(:irrelevant, src, bound, options) }
     let(:bound) { [101, 102] }
-    let(:options) { { } }
+    let(:options) { {} }
 
     context 'when source is nil' do
       let(:src) { nil }

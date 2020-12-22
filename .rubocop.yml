@@ -17,7 +17,6 @@ AllCops:
     - 'features/**/*'
     - 'node_modules/**/*'
     - 'old_features/**/*'
-    - 'spec/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
 
@@ -31,6 +30,7 @@ Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
 Layout/LineLength:
+  Enabled: false
   Max: 120
   IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
   AllowHeredoc: true
@@ -259,6 +259,10 @@ Style/SingleArgumentDig: # (new in 0.89)
 Style/SoleNestedConditional: # (new in 0.89)
   Enabled: true
 Style/StringConcatenation: # (new in 0.89)
+  Enabled: false
+
+# Temporarily disable while fixing sped/* directory
+Lint/RedundantCopDisableDirective:
   Enabled: false
 
 inherit_from: .rubocop_todo.yml

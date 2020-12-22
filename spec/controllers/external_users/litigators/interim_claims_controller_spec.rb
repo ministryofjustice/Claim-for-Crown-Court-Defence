@@ -8,7 +8,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
   let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
-  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider)}
+  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider) }
   let(:supplier_number) { litigator.provider.lgfs_supplier_numbers.first.supplier_number }
 
   describe 'GET #new' do
@@ -264,7 +264,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
       context 'and deleting a rep order' do
         before {
-          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts' }
+          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } }, commit_save_draft: 'Save to drafts' }
         }
         it 'reduces the number of associated rep orders by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1

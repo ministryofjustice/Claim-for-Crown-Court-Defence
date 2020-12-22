@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Claim::BaseClaimValidator, type: :validator do
   let(:claim)                       { FactoryBot.create :claim }
-  let(:guilty_plea)                 { FactoryBot.build :case_type, :fixed_fee, name: 'Guilty plea'}
+  let(:guilty_plea)                 { FactoryBot.build :case_type, :fixed_fee, name: 'Guilty plea' }
   let(:contempt)                    { FactoryBot.build :case_type, :requires_trial_dates, name: 'Contempt' }
   let(:retrial)                     { FactoryBot.build :case_type, :retrial }
-  let(:breach_of_crown_court_order) { FactoryBot.build :case_type, name: 'Breach of Crown Court order'}
+  let(:breach_of_crown_court_order) { FactoryBot.build :case_type, name: 'Breach of Crown Court order' }
   let(:cracked_trial)               { FactoryBot.build :case_type, :requires_cracked_dates, name: "Cracked trial" }
-  let(:cracked_before_retrial)      { FactoryBot.build :case_type, :requires_cracked_dates, name: 'Cracked before retrial'}
+  let(:cracked_before_retrial)      { FactoryBot.build :case_type, :requires_cracked_dates, name: 'Cracked before retrial' }
 
   before do
     claim.force_validation = true
@@ -403,7 +403,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'for other case types' do
-      before { claim.case_type = guilty_plea}
+      before { claim.case_type = guilty_plea }
       it 'should not error if not present' do
         claim.trial_cracked_at_third = nil
         should_not_error(claim, :trial_cracked_at_third)
@@ -420,12 +420,12 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     it 'should NOT error if assessment provided prior to authorise! or part_authorise! transistions' do
-      expect{ assessed_claim.authorise! }.to_not raise_error
+      expect { assessed_claim.authorise! }.to_not raise_error
     end
 
     it 'should error if NO assessment present and state is transitioned to authorised or part_authorised' do
-      expect{ claim.authorise! }.to raise_error(StateMachines::InvalidTransition)
-      expect{ claim.authorise_part! }.to raise_error(StateMachines::InvalidTransition)
+      expect { claim.authorise! }.to raise_error(StateMachines::InvalidTransition)
+      expect { claim.authorise_part! }.to raise_error(StateMachines::InvalidTransition)
     end
 
     it 'should error if authorised claim has assessment zeroized' do
@@ -620,7 +620,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         subject { cracked_trial_claim }
 
         it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'blank', translated_message: 'Enter a date') }
-        it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future')}
+        it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
         it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
         it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
         it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }

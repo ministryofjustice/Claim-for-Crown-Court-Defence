@@ -241,7 +241,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'advocate_category'} }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k,v| k == 'advocate_category' } }
 
         context 'non fixed fee case types' do
           before(:each) do
@@ -254,16 +254,16 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
               claim = assigns(:claim)
               # one record for every basic fee regardless of whether blank or not
               expect(claim.basic_fees.size).to eq 11
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
-              expect(claim.basic_fees.detect{ |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
 
               # fixed fees are deleted implicitly by claim model for non-fixed-fee case types
               expect(claim.fixed_fees.size).to eq 0
 
               expect(claim.misc_fees.size).to eq 1
-              expect(claim.misc_fees.detect{ |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
+              expect(claim.misc_fees.detect { |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
 
               expect(claim.reload.fees_total).to eq 10_375.45
             end
@@ -281,19 +281,19 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
               expect(claim.fixed_fees.size).to eq 0
               expect(claim.misc_fees.size).to eq 1
 
-              bf1 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_1.description }
+              bf1 = claim.basic_fees.detect { |f| f.description == basic_fee_type_1.description }
               expect(bf1.quantity).to eq 10
               expect(bf1.amount).to eq 1000
 
-              bf2 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_2.description }
+              bf2 = claim.basic_fees.detect { |f| f.description == basic_fee_type_2.description }
               expect(bf2.quantity).to eq 0
               expect(bf2.amount).to eq 0
 
-              bf3 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_3.description }
+              bf3 = claim.basic_fees.detect { |f| f.description == basic_fee_type_3.description }
               expect(bf3.quantity).to eq 1
               expect(bf3.amount.to_f).to eq 9000.45
 
-              bf4 = claim.basic_fees.detect{ |f| f.description == basic_fee_type_4.description }
+              bf4 = claim.basic_fees.detect { |f| f.description == basic_fee_type_4.description }
               expect(bf4.quantity).to eq 5
               expect(bf4.amount).to eq 125
             end
@@ -424,7 +424,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
       context 'and deleting a rep order' do
         before {
-          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts' }
+          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } }, commit_save_draft: 'Save to drafts' }
         }
         it 'reduces the number of associated rep order by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
@@ -552,8 +552,8 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
     "trial_concluded_at_yyyy" => "2015",
     "evidence_checklist_ids" => ["1", "5", ""],
     "defendants_attributes"=>
-    {"0"=>
-      {"first_name" => "Stephen",
+    { "0"=>
+      { "first_name" => "Stephen",
         "last_name" => "Richards",
         "date_of_birth_dd" => "13",
         "date_of_birth_mm" => "08",
@@ -572,22 +572,22 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
    "additional_information" => "",
    "basic_fees_attributes"=>
     {
-      "0"=>{"quantity" => "10", "rate" => "100", "fee_type_id" => basic_fee_type_1.id.to_s},
-      "1"=>{"quantity" => "0", "amount" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s},
-      "2"=>{"quantity" => "1", "amount" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s},
-      "3"=>{"quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s}
+      "0"=>{ "quantity" => "10", "rate" => "100", "fee_type_id" => basic_fee_type_1.id.to_s },
+      "1"=>{ "quantity" => "0", "amount" => "0.00", "fee_type_id" => basic_fee_type_2.id.to_s },
+      "2"=>{ "quantity" => "1", "amount" => "9000.45", "fee_type_id" => basic_fee_type_3.id.to_s },
+      "3"=>{ "quantity" => "5", "rate" => "25", "fee_type_id" => basic_fee_type_4.id.to_s }
       },
     "fixed_fees_attributes"=>
     {
-      "0"=>{"fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "25", "rate" => "10", "_destroy" => "false"}
+      "0"=>{ "fee_type_id" => fixed_fee_type_1.id.to_s, "quantity" => "25", "rate" => "10", "_destroy" => "false" }
     },
     "misc_fees_attributes"=>
     {
-      "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "rate" => "125", "_destroy" => "false"},
+      "1"=>{ "fee_type_id" => misc_fee_type_2.id.to_s, "quantity" => "2", "rate" => "125", "_destroy" => "false" },
     },
     "expenses_attributes"=>
     {
-      "0"=>{"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false"}
+      "0"=>{ "expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false" }
     },
     "apply_vat" => "0"
   }.with_indifferent_access

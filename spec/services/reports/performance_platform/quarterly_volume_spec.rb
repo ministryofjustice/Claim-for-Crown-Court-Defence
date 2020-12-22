@@ -85,7 +85,7 @@ describe Reports::PerformancePlatform::QuarterlyVolume, :currency_vcr do
       end
 
       context 'when a collation error occurs' do
-        before { allow(report).to receive(:inputs_numeric?).and_raise(StandardError)}
+        before { allow(report).to receive(:inputs_numeric?).and_raise(StandardError) }
 
         it { expect(report.ready_to_send).to be false }
         it { expect { populate_data }.not_to change { report.ready_to_send }.from(false) }

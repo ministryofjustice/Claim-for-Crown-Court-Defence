@@ -55,7 +55,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
         firm = create :provider, :firm, :with_lgfs_supplier_numbers
         expect(firm.lgfs_supplier_numbers).to have(4).items
 
-        patch :update, params: { id: firm, provider: { name: firm.name, provider_type: 'chamber', roles: ['agfs', ''], firm_agfs_supplier_number: '', vat_registered: 'true'} }
+        patch :update, params: { id: firm, provider: { name: firm.name, provider_type: 'chamber', roles: ['agfs', ''], firm_agfs_supplier_number: '', vat_registered: 'true' } }
         expect(response).to redirect_to(provider_management_provider_path(firm))
         firm.reload
         expect(firm.roles).to eq(['agfs'])
@@ -66,7 +66,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
 
     context 'when valid' do
-      before(:each) { put :update, params: { id: subject, provider: {name: 'test firm'} } }
+      before(:each) { put :update, params: { id: subject, provider: { name: 'test firm' } } }
 
       it 'updates successfully' do
         expect(subject.reload.name).to eq('test firm')
@@ -78,7 +78,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, params: { id: subject, provider: {name: ''} } }
+      before(:each) { put :update, params: { id: subject, provider: { name: '' } } }
 
       it 'does not update provider' do
         expect(subject.reload.name).to eq('test 123')
@@ -99,8 +99,8 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
         before(:each) do
           put :update, params: { id: subject, provider: {
               supplier_numbers_attributes: [
-                  {supplier_number: 'XY123'},
-                  {supplier_number: ''}
+                  { supplier_number: 'XY123' },
+                  { supplier_number: '' }
               ]
           } }
         end
@@ -118,8 +118,8 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
         before(:each) do
           put :update, params: { id: subject, provider: {
               lgfs_supplier_numbers_attributes: [
-                  {supplier_number: '1B222Z'},
-                  {supplier_number: '2B555Z'}
+                  { supplier_number: '1B222Z' },
+                  { supplier_number: '2B555Z' }
               ]
           } }
         end
@@ -161,7 +161,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
           roles: ['lgfs', 'agfs'],
           vat_registered: false,
           lgfs_supplier_numbers_attributes: {
-            '0'=>{'supplier_number' => '2E481W', '_destroy' => 'false'}
+            '0'=>{ 'supplier_number' => '2E481W', '_destroy' => 'false' }
           }
         }
       end
@@ -177,7 +177,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
 
     context 'when invalid' do
       let(:params) do
-        {name: 'St Johns', supplier_number: '4321'}
+        { name: 'St Johns', supplier_number: '4321' }
       end
 
       it "does not create a provider" do

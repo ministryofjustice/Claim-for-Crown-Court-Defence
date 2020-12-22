@@ -16,7 +16,7 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
     it 'should not be valid with an invalid role' do
       assigned_roles << [roles.first, 'foobar123xyz']
       expect(subject).to_not be_valid
-      expect(subject.errors[:roles]).to include("must be one or more of: #{roles.map{ |r| r.humanize.downcase }.join(', ')}")
+      expect(subject.errors[:roles]).to include("must be one or more of: #{roles.map { |r| r.humanize.downcase }.join(', ')}")
     end
 
     it 'should not be valid without a role' do

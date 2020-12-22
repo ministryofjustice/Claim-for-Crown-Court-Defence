@@ -81,7 +81,7 @@ module Claims
       let(:claim) { create :rejected_claim }
 
       it 'clones the claim' do
-        expect { subject.clone_rejected }.to change{ Claim::BaseClaim.where(state: 'draft').count }.by(1)
+        expect { subject.clone_rejected }.to change { Claim::BaseClaim.where(state: 'draft').count }.by(1)
       end
 
       it 'saves audit attributes in the new draft' do

@@ -10,8 +10,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
 
     let!(:litigator)      { create(:external_user, :litigator) }
-    let!(:litigator_admin){ create(:external_user, :litigator_and_admin, provider: litigator.provider) }
-    let!(:other_litigator){ create(:external_user, :litigator, provider: litigator.provider) }
+    let!(:litigator_admin) { create(:external_user, :litigator_and_admin, provider: litigator.provider) }
+    let!(:other_litigator) { create(:external_user, :litigator, provider: litigator.provider) }
 
     describe '#GET index' do
       it 'returns success' do
@@ -102,7 +102,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'ALL filter' do
-          let(:query_params) { {scheme: 'all'} }
+          let(:query_params) { { scheme: 'all' } }
 
           it 'should assign context to claims for the provider' do
             expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims_created)
@@ -110,7 +110,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'AGFS filter' do
-          let(:query_params) { {scheme: 'agfs'} }
+          let(:query_params) { { scheme: 'agfs' } }
 
           it 'should assign context to claims for the provider' do
             expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims_created)
@@ -118,7 +118,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'LGFS filter' do
-          let(:query_params) { {scheme: 'lgfs'} }
+          let(:query_params) { { scheme: 'lgfs' } }
 
           it 'should assign context to claims for the provider' do
             expect(assigns(:claims_context)).to eq([])
@@ -155,7 +155,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'case number ascending' do
-          let(:query_params) { {sort: 'case_number', direction: 'asc'} }
+          let(:query_params) { { sort: 'case_number', direction: 'asc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:case_number))
@@ -163,7 +163,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'case number descending' do
-          let(:query_params) { {sort: 'case_number', direction: 'desc'} }
+          let(:query_params) { { sort: 'case_number', direction: 'desc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:case_number).reverse)
@@ -171,7 +171,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'advocate name ascending' do
-          let(:query_params) { {sort: 'advocate', direction: 'asc'} }
+          let(:query_params) { { sort: 'advocate', direction: 'asc' } }
 
           it 'returns ordered claims' do
             returned_names = assigns(:claims).map(&:external_user).map(&:user).map(&:sortable_name)
@@ -180,7 +180,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'advocate name descending' do
-          let(:query_params) { {sort: 'advocate', direction: 'desc'} }
+          let(:query_params) { { sort: 'advocate', direction: 'desc' } }
 
           it 'returns ordered claims' do
             returned_names = assigns(:claims).map(&:external_user).map(&:user).map(&:sortable_name)
@@ -189,7 +189,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'claimed amount ascending' do
-          let(:query_params) { {sort: 'total_inc_vat', direction: 'asc'} }
+          let(:query_params) { { sort: 'total_inc_vat', direction: 'asc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:total_including_vat))
@@ -197,7 +197,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'claimed amount descending' do
-          let(:query_params) { {sort: 'total_inc_vat', direction: 'desc'} }
+          let(:query_params) { { sort: 'total_inc_vat', direction: 'desc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:total_including_vat).reverse)
@@ -205,7 +205,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'assessed amount ascending' do
-          let(:query_params) { {sort: 'amount_assessed', direction: 'asc'} }
+          let(:query_params) { { sort: 'amount_assessed', direction: 'asc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims).map(&:amount_assessed)).to eq(assigns(:claims).sort_by(&:amount_assessed).map(&:amount_assessed))
@@ -213,7 +213,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'assessed amount descending' do
-          let(:query_params) { {sort: 'amount_assessed', direction: 'desc'} }
+          let(:query_params) { { sort: 'amount_assessed', direction: 'desc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims).map(&:amount_assessed)).to \
@@ -222,7 +222,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'status ascending' do
-          let(:query_params) { {sort: 'state', direction: 'asc'} }
+          let(:query_params) { { sort: 'state', direction: 'asc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:state))
@@ -230,7 +230,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'status descending' do
-          let(:query_params) { {sort: 'state', direction: 'desc'} }
+          let(:query_params) { { sort: 'state', direction: 'desc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:state).reverse)
@@ -238,18 +238,18 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'date submitted ascending' do
-          let(:query_params) { {sort: 'last_submitted_at', direction: 'asc'} }
+          let(:query_params) { { sort: 'last_submitted_at', direction: 'asc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by{|c| c.last_submitted_at.to_i})
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by { |c| c.last_submitted_at.to_i })
           end
         end
 
         context 'date submitted descending' do
-          let(:query_params) { {sort: 'last_submitted_at', direction: 'desc'} }
+          let(:query_params) { { sort: 'last_submitted_at', direction: 'desc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by{|c| c.last_submitted_at.to_i}.reverse)
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by { |c| c.last_submitted_at.to_i }.reverse)
           end
         end
 
@@ -327,11 +327,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           before { sign_in litigator_admin.user }
           it 'should assign context to claims created by all members of the provider' do
             get :archived
-            expect(assigns(:claims_context).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.active.sort_by{|c| c.id})
+            expect(assigns(:claims_context).sort_by { |c| c.id }).to eq(litigator_admin.provider.claims_created.active.sort_by { |c| c.id })
           end
           it 'should retrieve archived state claims only' do
             get :archived
-            expect(assigns(:claims).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.active.archived_pending_delete.sort_by{|c| c.id})
+            expect(assigns(:claims).sort_by { |c| c.id }).to eq(litigator_admin.provider.claims_created.active.archived_pending_delete.sort_by { |c| c.id })
           end
         end
       end

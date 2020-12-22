@@ -4,13 +4,13 @@ describe ExpenseReason do
 
   describe '.new' do
     it 'raises if allow_explanatory_text not boolean' do
-      expect{
+      expect {
         ExpenseReason.new(5, 'reason', 'false')
       }.to raise_error ArgumentError, 'Allow explanatory text must be boolean'
     end
 
     it 'raises if id not fix num' do
-      expect{
+      expect {
         ExpenseReason.new('a', 'reason', false)
       }.to raise_error ArgumentError, 'Id must be numeric'
     end
@@ -38,7 +38,7 @@ describe ExpenseReason do
   describe '#to_hash' do
     it 'returns the right keys and values' do
       er = ExpenseReason.new(34, 'reason', true)
-      expect(er.to_hash).to eq({ id: 34, reason: 'reason', reason_text: true})
+      expect(er.to_hash).to eq({ id: 34, reason: 'reason', reason_text: true })
     end
   end
 end

@@ -8,7 +8,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
   let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
-  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider)}
+  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider) }
   let(:supplier_number) { litigator.provider.lgfs_supplier_numbers.first.supplier_number }
 
   describe "GET #new" do
@@ -213,7 +213,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
         let!(:graduated_fee_type_1)     { FactoryBot.create :graduated_fee_type, description: 'Graduated Fee Type 1' }
 
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'case_number'} }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k,v| k == 'case_number' } }
 
         context 'graduated fee case types' do
           context 'valid params' do
@@ -382,7 +382,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
 
       context 'and deleting a rep order' do
         before {
-          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts' }
+          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } }, commit_save_draft: 'Save to drafts' }
         }
         it 'reduces the number of associated rep orders by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
@@ -473,7 +473,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
       "case_concluded_at_yyyy" => "2015",
       "evidence_checklist_ids" => ["1", "5", ""],
       "defendants_attributes"=>
-        {"0"=>
+        { "0"=>
           {
             "first_name" => "Stephen",
             "last_name" => "Richards",
@@ -498,12 +498,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
         },
       "misc_fees_attributes"=>
         {
-          "0"=>{"fee_type_id" => misc_fee_type_1.id.to_s, "amount" => "125", "_destroy" => "false"},
-          "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "amount" => "250", "_destroy" => "false"},
+          "0"=>{ "fee_type_id" => misc_fee_type_1.id.to_s, "amount" => "125", "_destroy" => "false" },
+          "1"=>{ "fee_type_id" => misc_fee_type_2.id.to_s, "amount" => "250", "_destroy" => "false" },
          },
       "expenses_attributes"=>
         {
-          "0"=>{"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false"}
+          "0"=>{ "expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false" }
         },
       "apply_vat" => "0"
     }.with_indifferent_access

@@ -108,7 +108,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'save the setting' do
-        expect(subject.settings).to eq({'setting1' => 'hello'})
+        expect(subject.settings).to eq({ 'setting1' => 'hello' })
       end
     end
 
@@ -189,7 +189,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
-        expect{
+        expect {
           User.active.find(@dead_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find User with 'id'=#{@dead_user_1.id} [WHERE "users"."deleted_at" IS NULL]}
       end
@@ -211,7 +211,7 @@ RSpec.describe User, type: :model do
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect(User.find(@live_user_1.id)).to eq(@live_user_1)
-        expect{
+        expect {
           User.softly_deleted.find(@live_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find User with 'id'=#{@live_user_1.id}/
       end

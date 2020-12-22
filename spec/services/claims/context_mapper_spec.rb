@@ -183,7 +183,7 @@ RSpec.describe Claims::ContextMapper do
     end
 
     context 'for AGFS scheme filter' do
-      let(:options) { {scheme: :agfs} }
+      let(:options) { { scheme: :agfs } }
 
       it 'returns all AGFS claims for the provider for the admin context' do
         expected_ids = [ @claim_a1.id, @claim_a2.id ].sort
@@ -199,7 +199,7 @@ RSpec.describe Claims::ContextMapper do
     end
 
     context 'for LGFS scheme filter' do
-      let(:options) { {scheme: :lgfs} }
+      let(:options) { { scheme: :lgfs } }
 
       it 'returns all LGFS claims for the provider for the admin context' do
         expected_ids = [ @claim_l1.id, @claim_l2.id ].sort

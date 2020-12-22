@@ -80,7 +80,7 @@ RSpec.describe VatRatesController, type: :controller do
 
     context 'litigator claims' do
       it 'should add a flat vat amount provided by user and round to two decimal places ' do
-        get :index, params: { :format => 'json', 'net_amount' => '3115.768744', 'date' => '2006-07-15', 'scheme' => 'lgfs', 'lgfs_vat_amount' => '22.229'}
+        get :index, params: { :format => 'json', 'net_amount' => '3115.768744', 'date' => '2006-07-15', 'scheme' => 'lgfs', 'lgfs_vat_amount' => '22.229' }
         expect(response).to be_successful
         expect(response.body).to eq(
           {

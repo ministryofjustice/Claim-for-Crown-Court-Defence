@@ -22,7 +22,7 @@ module NotificationQueue
 
       let(:claim) { create(:advocate_claim) }
 
-      it { is_expected.to eql true}
+      it { is_expected.to eql true }
     end
   end
 end

@@ -52,7 +52,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       end
 
       it "should create one new representation_order" do
-        expect{ post_to_create_endpoint }.to change { RepresentationOrder.count }.by(1)
+        expect { post_to_create_endpoint }.to change { RepresentationOrder.count }.by(1)
       end
 
       context 'MAAT reference' do
@@ -124,7 +124,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
 
         before { travel_to(Date.new(2018, 5, 1)) }
 
-        specify { expect{ post_to_create_endpoint }.to change { RepresentationOrder.count }.by(1) }
+        specify { expect { post_to_create_endpoint }.to change { RepresentationOrder.count }.by(1) }
       end
     end
   end

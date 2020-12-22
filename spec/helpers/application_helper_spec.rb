@@ -10,7 +10,7 @@ describe ApplicationHelper do
     end
 
     it 'yields a <Classname>Presenter Class' do
-      expect{ |b| present(claim, &b) }.to yield_with_args(Claim::BaseClaimPresenter)
+      expect { |b| present(claim, &b) }.to yield_with_args(Claim::BaseClaimPresenter)
     end
 
   end

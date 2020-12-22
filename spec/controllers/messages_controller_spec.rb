@@ -124,7 +124,7 @@ RSpec.describe MessagesController, type: :controller do
 
     context 'case_worker_sending_messages' do
 
-      let(:sender) { create :case_worker}
+      let(:sender) { create :case_worker }
 
       context 'claim creator is set up to receive mails' do
         it 'sends an email' do

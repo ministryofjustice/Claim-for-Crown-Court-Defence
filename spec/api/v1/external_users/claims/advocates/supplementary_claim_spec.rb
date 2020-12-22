@@ -11,7 +11,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
   let!(:other_provider) { create(:provider) }
   let!(:vendor) { create(:external_user, :admin, provider: provider) }
   let!(:advocate) { create(:external_user, :advocate, provider: provider) }
-  let!(:court) { create(:court)}
+  let!(:court) { create(:court) }
   let!(:valid_params) do
     {
       :api_key => provider.api_key,

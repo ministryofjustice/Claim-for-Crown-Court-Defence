@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec::Matchers.define :be_valid_api_lgfs_claim do |expected|
   match do |claim|
     @results = results(claim)
-    @results.values.map{ |arr| arr.uniq.length.eql?(1) }.all?
+    @results.values.map { |arr| arr.uniq.length.eql?(1) }.all?
   end
 
   def results_hash
@@ -42,7 +42,7 @@ RSpec::Matchers.define :be_valid_api_lgfs_claim do |expected|
 
   failure_message do |owner|
     msg = "should be a valid API claim with matching attributes"
-    failures = @results.select{ |_k, v| !v.uniq.length.eql?(1) }
+    failures = @results.select { |_k, v| !v.uniq.length.eql?(1) }
     failures.each_pair do |k, v|
       msg += "\nexpected: #{k} to eql #{v[0].inspect.humanize} but got #{v[1].inspect.humanize}"
     end
@@ -66,7 +66,7 @@ RSpec.describe 'API claim creation for LGFS' do
   let!(:other_provider) { create(:provider) }
   let!(:vendor) { create(:external_user, :admin, provider: provider) }
   let!(:litigator) { create(:external_user, :litigator, provider: provider) }
-  let!(:court) { create(:court)}
+  let!(:court) { create(:court) }
   let(:offence_class) { create(:offence_class, class_letter: 'A') }
   let(:offence) { create(:offence, :with_fee_scheme, lgfs_fee_scheme: true, offence_class: offence_class) }
 
@@ -77,7 +77,7 @@ RSpec.describe 'API claim creation for LGFS' do
   let(:miscellaneous_fee_type) { Fee::BaseFeeType.find_by(unique_code: 'MIEVI') }
   let(:expense_car) { ExpenseType.find_by(unique_code: 'CAR') }
   let(:expense_hotel) { ExpenseType.find_by(unique_code: 'HOTEL') }
-  let(:disbursement_type) { DisbursementType.find_by(unique_code: 'ARP')} # Accident reconstruction report
+  let(:disbursement_type) { DisbursementType.find_by(unique_code: 'ARP') } # Accident reconstruction report
 
   let(:claim_params) do
     {
@@ -219,7 +219,7 @@ RSpec.describe 'API claim creation for LGFS' do
     result = example.run
     if result.is_a?(RSpec::Expectations::ExpectationNotMetError)
       begin
-        puts JSON.parse(last_response.body).map{ |hash| hash['error'] }.join("\n").red
+        puts JSON.parse(last_response.body).map { |hash| hash['error'] }.join("\n").red
       rescue StandardError
         nil
       end

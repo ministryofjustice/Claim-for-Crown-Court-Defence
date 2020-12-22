@@ -2,7 +2,7 @@
 
 RSpec.describe Rule::Struct, type: :rule do
   subject(:instance) { described_class.new(:myattribute, :equal, 1, options) }
-  let(:options) { { } }
+  let(:options) { {} }
 
   it {
     is_expected.to respond_to(:attribute,

@@ -368,13 +368,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     it 'finds only claims with states that match dashboard displayable states' do
       sql = Claim::AdvocateClaim.search('%',states,:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
-      state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map{ |s| "\'#{s}\'"}.join(', ')
+      state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "\'#{s}\'" }.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 
     context 'invalid search options' do
       it 'raises' do
-        expect{
+        expect {
           Claim::AdvocateClaim.search('My search term', [], 'caseworker-name')
         }.to raise_error RuntimeError, 'Invalid search option'
       end
@@ -569,7 +569,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'with invalid option' do
       it 'raises error for invalid option' do
-        expect{
+        expect {
           Claim::AdvocateClaim.search('foo', states, :case_worker_name_or_email, :foo)
         }.to raise_error(/Invalid search option/)
       end
@@ -577,7 +577,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'with invalid state' do
       it 'raises error for invalid option' do
-        expect{
+        expect {
           Claim::AdvocateClaim.search('foo',:rubbish_state, :case_worker_name_or_email)
         }.to raise_error(/Invalid state, rubbish_state, specified/)
       end
@@ -1177,13 +1177,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     it 'should have a supplier number, derived from the external_user, after creation' do
-      expect{ claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number)
+      expect { claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number)
     end
 
     it 'should reset supplier number to match external_user' do
       claim.save!
       claim.external_user = another_advocate
-      expect{ claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number)
+      expect { claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number)
     end
   end
 
@@ -1477,8 +1477,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       court = FactoryBot.create :court
       offence = FactoryBot.create :offence
 
-      params = {"claim"=>
-        {"case_type_id" => case_type.id,
+      params = { "claim"=>
+        { "case_type_id" => case_type.id,
          "trial_fixed_notice_at_dd" => "",
          "trial_fixed_notice_at_mm" => "",
          "trial_fixed_notice_at_yyyy" => "",
@@ -1503,26 +1503,26 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
          "trial_concluded_at_mm" => "9",
          "trial_concluded_at_yyyy" => "2015",
          "defendants_attributes"=>
-          {"0"=>
-            {"first_name" => "Foo",
+          { "0"=>
+            { "first_name" => "Foo",
              "last_name" => "Bar",
              "date_of_birth_dd" => "04",
              "date_of_birth_mm" => "10",
              "date_of_birth_yyyy" => "1980",
              "order_for_judicial_apportionment" => "0",
              "representation_orders_attributes"=>
-              {"0"=>
-                {"representation_order_date_dd" => "30",
+              { "0"=>
+                { "representation_order_date_dd" => "30",
                  "representation_order_date_mm" => "08",
                  "representation_order_date_yyyy" => "2015",
                  "maat_reference" => "1234567890",
-                 "_destroy" => "false"}},
-             "_destroy" => "false"}},
+                 "_destroy" => "false" } },
+             "_destroy" => "false" } },
          "additional_information" => "",
          "basic_fees_attributes"=>
-          {"0" => {"quantity" => "1", "rate" => "150", "fee_type_id" => fee_type.id}},
-         "misc_fees_attributes" => {"0" => {"fee_type_id"=> "", "quantity" => "", "rate" => "", "_destroy" => "false"}},
-         "fixed_fees_attributes" => {"0" => {"fee_type_id" => "", "quantity" => "", "rate" => "", "_destroy" => "false"}},
+          { "0" => { "quantity" => "1", "rate" => "150", "fee_type_id" => fee_type.id } },
+         "misc_fees_attributes" => { "0" => { "fee_type_id"=> "", "quantity" => "", "rate" => "", "_destroy" => "false" } },
+         "fixed_fees_attributes" => { "0" => { "fee_type_id" => "", "quantity" => "", "rate" => "", "_destroy" => "false" } },
          "expenses_attributes"=>
            { "0" =>
              { "expense_type_id" => expense_type.id,
@@ -1539,10 +1539,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
            },
          "apply_vat"=>"0",
          "document_ids"=>[""],
-         "evidence_checklist_ids"=>["1", ""]},
-       "offence_category"=>{"description"=>""},
-       "offence_class"=>{"description"=>"64"},
-       "commit_submit_claim"=>"Submit to LAA"}
+         "evidence_checklist_ids"=>["1", ""] },
+       "offence_category"=>{ "description"=>"" },
+       "offence_class"=>{ "description"=>"64" },
+       "commit_submit_claim"=>"Submit to LAA" }
       claim = Claim::AdvocateClaim.new(params['claim'])
       claim.creator = external_user
       expect(claim.save).to be true
@@ -1601,8 +1601,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 # ---------------------
   def valid_params
     external_user = FactoryBot.create :external_user
-    {"claim"=>
-        {"external_user_id" => external_user.id,
+    { "claim"=>
+        { "external_user_id" => external_user.id,
         "creator_id" => external_user.id,
         "case_type_id"=>"1",
         "trial_fixed_notice_at_dd"=>"",
@@ -1628,29 +1628,29 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         "trial_concluded_at_mm"=>"9",
         "trial_concluded_at_yyyy"=>"2015",
         "defendants_attributes"=>
-          {"0"=>
-            {"first_name"=>"Foo",
+          { "0"=>
+            { "first_name"=>"Foo",
             "last_name"=>"Bar",
             "date_of_birth_dd"=>"04",
             "date_of_birth_mm"=>"10",
             "date_of_birth_yyyy"=>"1980",
             "order_for_judicial_apportionment"=>"0",
             "representation_orders_attributes"=>
-              {"0"=>
-                {"representation_order_date_dd"=>"30",
+              { "0"=>
+                { "representation_order_date_dd"=>"30",
                 "representation_order_date_mm"=>"08",
                 "representation_order_date_yyyy"=>"2015",
                 "maat_reference"=>"aaa1111",
-                "_destroy"=>"false"}},
-            "_destroy"=>"false"}},
+                "_destroy"=>"false" } },
+            "_destroy"=>"false" } },
         "additional_information"=>"",
         "basic_fees_attributes"=>
-          {"0"=>{"quantity"=>"1", "rate"=>"450", "fee_type_id"=>@bft1.id}},
+          { "0"=>{ "quantity"=>"1", "rate"=>"450", "fee_type_id"=>@bft1.id } },
         "apply_vat"=>"0",
         "document_ids"=>[""],
-        "evidence_checklist_ids"=>["1", ""]},
-      "offence_category"=>{"description"=>""},
-      "offence_class"=>{"description"=>"64"}
+        "evidence_checklist_ids"=>["1", ""] },
+      "offence_category"=>{ "description"=>"" },
+      "offence_class"=>{ "description"=>"64" }
     }
   end
 end

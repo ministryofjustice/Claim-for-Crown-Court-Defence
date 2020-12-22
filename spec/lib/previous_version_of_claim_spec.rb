@@ -24,7 +24,7 @@ RSpec.describe PreviousVersionOfClaim do
         version.update_columns object: PaperTrail.serializer.dump(new_object)
       end
 
-      it { expect{ previous_version.version }.to raise_error(ActiveRecord::SerializationTypeMismatch) }
+      it { expect { previous_version.version }.to raise_error(ActiveRecord::SerializationTypeMismatch) }
     end
   end
 end

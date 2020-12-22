@@ -37,7 +37,7 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
     end
 
     it 'assigns trial_cracked_at to current date' do
-      expect{ claim.submit! }.to change { claim.trial_cracked_at }.from(1.week.ago.to_date).to(Date.today)
+      expect { claim.submit! }.to change { claim.trial_cracked_at }.from(1.week.ago.to_date).to(Date.today)
     end
   end
 
@@ -53,7 +53,7 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
 
     context 'when allocated' do
       it 'does NOT assign trial_cracked_at' do
-        expect{ claim.allocate! }.not_to change { claim.trial_cracked_at }
+        expect { claim.allocate! }.not_to change { claim.trial_cracked_at }
       end
     end
 
@@ -61,7 +61,7 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
       before { claim.allocate! }
 
       it 'rejection does NOT assign trial_cracked_at' do
-        expect{ claim.reject! }.not_to change { claim.trial_cracked_at }
+        expect { claim.reject! }.not_to change { claim.trial_cracked_at }
       end
 
       it 'authorising an amount does NOT assign trial_cracked_at' do

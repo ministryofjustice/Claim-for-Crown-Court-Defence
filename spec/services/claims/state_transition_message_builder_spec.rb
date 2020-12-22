@@ -7,7 +7,7 @@ RSpec.describe Claims::StateTransitionMessageBuilder do
    context 'when refused' do
       let(:state) { 'refused' }
       let(:reasons) { %w[wrong_ia duplicate_claim other_refuse] }
-      let(:reason_text) { 'refused because...'}
+      let(:reason_text) { 'refused because...' }
 
       it 'contains message header' do
         is_expected.to match /Your claim has been refused:/
@@ -32,7 +32,7 @@ RSpec.describe Claims::StateTransitionMessageBuilder do
     context 'when rejected' do
       let(:state) { 'rejected' }
       let(:reasons) { %w[wrong_maat_ref no_indictment other] }
-      let(:reason_text) { 'rejected because...'}
+      let(:reason_text) { 'rejected because...' }
 
       it 'contains message header' do
         is_expected.to match /Your claim has been rejected:/

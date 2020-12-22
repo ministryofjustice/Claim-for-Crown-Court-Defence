@@ -71,7 +71,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     context 'when mandatory params for super admin are not provided' do
       it 'raises a paramenter missing error' do
         expect {
-          put :update_password, params: { id: subject, super_admin: { } }
+          put :update_password, params: { id: subject, super_admin: {} }
         }.to raise_error(ActionController::ParameterMissing)
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
 
  describe "PUT #update" do
     before(:each) do
-      put :update, params: { id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'password', email: 'superadmin@bigblackhhole.com'} } }
+      put :update, params: { id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'password', email: 'superadmin@bigblackhhole.com' } } }
     end
 
     context 'when valid' do

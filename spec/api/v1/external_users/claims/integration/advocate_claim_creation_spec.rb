@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec::Matchers.define :be_valid_api_agfs_claim do |expected|
   match do |claim|
     @results = results(claim)
-    @results.values.map{ |arr| arr.uniq.length.eql?(1) }.all?
+    @results.values.map { |arr| arr.uniq.length.eql?(1) }.all?
   end
 
   def results_hash
@@ -40,7 +40,7 @@ RSpec::Matchers.define :be_valid_api_agfs_claim do |expected|
 
   failure_message do |owner|
     msg = "should be a valid API claim with matching attributes"
-    failures = @results.select{ |_k, v| !v.uniq.length.eql?(1) }
+    failures = @results.select { |_k, v| !v.uniq.length.eql?(1) }
     failures.each_pair do |k, v|
       msg += "\nexpected: #{k} to eql #{v[0].inspect.humanize} but got #{v[1].inspect.humanize}"
     end
@@ -360,7 +360,7 @@ RSpec.describe 'API claim creation for AGFS' do
   let!(:other_provider) { create(:provider) }
   let!(:vendor) { create(:external_user, :admin, provider: provider) }
   let!(:advocate) { create(:external_user, :advocate, provider: provider) }
-  let!(:court) { create(:court)}
+  let!(:court) { create(:court) }
 
   let(:basic_fee) { Fee::BaseFeeType.find_by(unique_code: 'BABAF') }
   let(:daily_attendance_3) { Fee::BaseFeeType.find_by(unique_code: 'BADAF') }
@@ -449,7 +449,7 @@ RSpec.describe 'API claim creation for AGFS' do
     result = example.run
     if result.is_a?(RSpec::Expectations::ExpectationNotMetError)
       begin
-        puts JSON.parse(last_response.body).map{ |hash| hash['error'] }.join("\n").red
+        puts JSON.parse(last_response.body).map { |hash| hash['error'] }.join("\n").red
       rescue StandardError
         nil
       end

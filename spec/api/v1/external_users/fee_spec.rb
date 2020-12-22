@@ -15,7 +15,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
     claim.reload
   end
 
-  let!(:provider){ create(:provider) }
+  let!(:provider) { create(:provider) }
   let!(:other_provider) { create(:provider) }
   let!(:basic_fee_type) { create(:basic_fee_type) }
   let!(:basic_fee_dat_type) { create(:basic_fee_type, :dat) }
@@ -30,7 +30,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
 
   let!(:claim) { create(:claim, source: 'api').reload }
   let(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
-  let(:json_error_response) { [ {"error" => "Type of fee not found by ID or Unique Code" } ].to_json }
+  let(:json_error_response) { [ { "error" => "Type of fee not found by ID or Unique Code" } ].to_json }
 
   context 'sending non-permitted verbs' do
     ALL_FEE_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -63,7 +63,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       end
 
       it "should create one new fee" do
-        expect{ post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(1)
+        expect { post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(1)
       end
 
       it 'should create a new fee record with all provided attributes except amount' do
@@ -158,7 +158,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         end
 
         it 'should update, not create, one basic fee' do
-          expect{ post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(0)
+          expect { post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(0)
         end
 
         it 'should raise error if basic fee does not exist on claim' do
@@ -293,7 +293,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       context 'quantity is forbidden' do
         context 'for interim fee disbursement only' do
           let!(:interim_fee_type) { create(:interim_fee_type, :disbursement_only) }
-          let!(:valid_params) { {api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: interim_fee_type.id, quantity: 3, rate: 50.00} }
+          let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: interim_fee_type.id, quantity: 3, rate: 50.00 } }
 
           it 'should raise error if quantity is provided' do
             post_to_create_endpoint
@@ -304,7 +304,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
 
         context 'for interim fee warrant only' do
           let!(:interim_fee_type) { create(:interim_fee_type, :warrant) }
-          let!(:valid_params) { {api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: interim_fee_type.id, quantity: 3, rate: 50.00} }
+          let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: interim_fee_type.id, quantity: 3, rate: 50.00 } }
 
           it 'should raise error if quantity is provided' do
             post_to_create_endpoint
@@ -427,7 +427,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           result_hash = JSON.parse(last_response.body)
-          expect(result_hash).to eq( [ {"error"=>"RangeError"} ] )
+          expect(result_hash).to eq( [ { "error"=>"RangeError" } ] )
         end
       end
 

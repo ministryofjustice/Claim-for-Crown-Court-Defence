@@ -8,7 +8,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
   let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
-  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider)}
+  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider) }
   let(:supplier_number) { litigator.provider.lgfs_supplier_numbers.first.supplier_number }
 
   describe 'GET #new' do
@@ -338,7 +338,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                      representation_orders_attributes: {
                        '0' => {
                          id: subject.defendants.first.representation_orders.first,
-                         _destroy: 1}
+                         _destroy: 1 }
                      }
                    }
                  }

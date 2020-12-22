@@ -157,12 +157,12 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     context 'when invalid' do
       it 'does not create a case worker' do
         expect {
-          post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} } }
+          post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: { email: 'invalidemail' } } }
         }.to_not change(User, :count)
       end
 
       it 'renders the new template' do
-        post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} } }
+        post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: { email: 'invalidemail' } } }
         expect(response).to render_template(:new)
       end
     end
@@ -228,7 +228,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     context 'when mandatory params for case worker are not provided' do
       it 'raises a paramenter missing error' do
         expect {
-          put :update_password, params: { id: subject, case_worker: { } }
+          put :update_password, params: { id: subject, case_worker: {} }
         }.to raise_error(ActionController::ParameterMissing)
       end
     end

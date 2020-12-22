@@ -32,9 +32,9 @@ RSpec.describe API::V1::ExternalUsers::Expense do
 
     let(:json_error_response) do
       [
-        {"error" => "Choose a type for the expense"},
-        {"error" => "Enter a quantity for the expense"},
-        {"error" => "Enter a rate for the expense"}
+        { "error" => "Choose a type for the expense" },
+        { "error" => "Enter a quantity for the expense" },
+        { "error" => "Enter a rate for the expense" }
       ].to_json
     end
 
@@ -79,7 +79,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         end
 
         it "should create one new expense" do
-          expect{ post_to_create_endpoint }.to change { Expense.count }.by(1)
+          expect { post_to_create_endpoint }.to change { Expense.count }.by(1)
         end
 
         it "should create a new record using the params provided" do
@@ -125,7 +125,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
               params.delete(field)
               post_to_create_endpoint
               expect(last_response.status).to eq 400
-              expect(parsed_body.first).to eq({"error" => expected_message})
+              expect(parsed_body.first).to eq({ "error" => expected_message })
             end
           end
         end
@@ -206,7 +206,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
             params.delete(field)
             post_to_validate_endpoint
             expect(last_response.status).to eq 400
-            expect(parsed_body.first).to eq({"error" => expected_message})
+            expect(parsed_body.first).to eq({ "error" => expected_message })
           end
         end
       end

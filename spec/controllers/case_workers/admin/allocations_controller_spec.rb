@@ -66,7 +66,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
   describe 'POST #create' do
 
-    let(:case_worker_service_instance) { double CaseWorkerService, active: 'case_worker_collection'}
+    let(:case_worker_service_instance) { double CaseWorkerService, active: 'case_worker_collection' }
     let(:case_worker_claims_instance) { double Claims::CaseWorkerClaims, claims: claims_collection }
     let(:claims_collection) { double  Remote::Claim, remote?: true, first: double('page of claims', map: [1, 3, 4]) }
     let(:allocation) { double Allocation, successful_claims: 'successful_claims_collection', case_worker: @case_worker }

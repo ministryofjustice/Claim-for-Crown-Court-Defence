@@ -105,7 +105,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
           TRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
             context "with an estimated length of #{length}" do
-              let(:length){ length }
+              let(:length) { length }
               it_returns 'a successful fee calculator response', amount: amount
             end
           end
@@ -1077,7 +1077,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       context 'because resource not found' do
         before do
           stub_request(:get, %r{\Ahttps://(.*)laa-fee-calculator.(.*).gov.uk/api/v1/.*\z}).
-            to_return(status: 404, body: {'error': '"detail": "Not found."'}.to_json, headers: {})
+            to_return(status: 404, body: { 'error': '"detail": "Not found."' }.to_json, headers: {})
         end
 
         let(:claim) { instance_double(::Claim::BaseClaim, agfs?: true, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false ) }

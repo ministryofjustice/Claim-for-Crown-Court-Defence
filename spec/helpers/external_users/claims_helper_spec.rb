@@ -74,7 +74,7 @@ describe ExternalUsers::ClaimsHelper do
     end
 
     context 'user has seen the promo' do
-      let(:user_settings) { {timed_retention_banner_seen: '1'} }
+      let(:user_settings) { { timed_retention_banner_seen: '1' } }
 
       it 'should return false' do
         expect(helper.show_timed_retention_banner_to_user?).to be_falsey
@@ -110,7 +110,7 @@ describe ExternalUsers::ClaimsHelper do
       end
 
       context 'user has seen/dismissed the banner' do
-        let(:user_settings) { {hardship_claims_banner_seen: '1'} }
+        let(:user_settings) { { hardship_claims_banner_seen: '1' } }
 
         it 'should return false' do
           expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
@@ -180,7 +180,7 @@ describe ExternalUsers::ClaimsHelper do
     end
 
     context 'when claim fee_scheme is ten' do
-      let!(:scheme_10) { create(:fee_scheme, :agfs_ten)}
+      let!(:scheme_10) { create(:fee_scheme, :agfs_ten) }
       let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
 
       context 'and has a case type of Trial' do
@@ -242,7 +242,7 @@ describe ExternalUsers::ClaimsHelper do
     end
 
     context 'when claim fee_scheme is ten' do
-      let!(:scheme_10) { create(:fee_scheme, :agfs_ten)}
+      let!(:scheme_10) { create(:fee_scheme, :agfs_ten) }
       let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
       let(:fee) { build :basic_fee, :baf_fee, claim: claim }
 

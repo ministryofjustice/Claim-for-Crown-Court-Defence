@@ -4,7 +4,7 @@ RSpec.describe Claims::StateTransitionMessageBuilder do
   subject { described_class.new(state, reasons, reason_text).call }
 
   context '#call' do
-   context 'when refused' do
+    context 'when refused' do
       let(:state) { 'refused' }
       let(:reasons) { %w[wrong_ia duplicate_claim other_refuse] }
       let(:reason_text) { 'refused because...' }

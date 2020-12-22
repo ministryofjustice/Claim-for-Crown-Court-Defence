@@ -97,7 +97,7 @@ RSpec.describe Redetermination do
                   "  disbursements: 44.33\n" +
                   "  vat_amount:    93.82\n" +
                   "  total:         469.1\n\n"
-       expect(rd.to_s).to eq expected
+      expect(rd.to_s).to eq expected
     end
   end
 end

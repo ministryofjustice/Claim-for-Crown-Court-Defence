@@ -186,7 +186,7 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
         it { should_error_with(claim, :trial_concluded_at, 'check_other_date') }
       end
 
-    context 'when trial concluded at not present' do
+      context 'when trial concluded at not present' do
         before { claim.trial_concluded_at = nil }
 
         it { should_error_with(claim, :trial_concluded_at, 'blank') }

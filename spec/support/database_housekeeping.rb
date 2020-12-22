@@ -1,5 +1,5 @@
 module DatabaseHousekeeping
-	def clean_database
+  def clean_database
     raise 'Warning: do not use in non-test enviroments' unless Rails.env.test?
     truncate_application_tables
   end

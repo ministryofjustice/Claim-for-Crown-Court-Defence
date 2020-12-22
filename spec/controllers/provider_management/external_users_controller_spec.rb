@@ -146,7 +146,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
       expect(response).to be_successful
     end
 
-   it 'assigns @provider and @external_user' do
+    it 'assigns @provider and @external_user' do
       expect(assigns(:provider)).to eq(provider)
       expect(assigns(:external_user)).to eq(external_user)
     end

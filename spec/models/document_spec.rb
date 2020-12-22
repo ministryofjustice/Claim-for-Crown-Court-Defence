@@ -105,7 +105,7 @@ RSpec.describe Document, type: :model do
           with(headers: { "Content-Type" => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                           "Content-Length" => '5055' })
 
-          expect { subject.save! }.not_to raise_error
+        expect { subject.save! }.not_to raise_error
       end
 
       it 'uses the canned S3 private ACL' do

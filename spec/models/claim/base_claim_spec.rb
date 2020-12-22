@@ -575,11 +575,11 @@ RSpec.describe MockBaseClaim do
     it 'should accept a variety of formats and populate the date accordingly' do
       def make_date_params(date_string)
         day, month, year = date_string.split('-')
-         {
-           "first_day_of_trial_dd" => day,
-           "first_day_of_trial_mm" => month,
-           "first_day_of_trial_yyyy" => year,
-         }
+        {
+          "first_day_of_trial_dd" => day,
+          "first_day_of_trial_mm" => month,
+          "first_day_of_trial_yyyy" => year,
+        }
       end
 
       dates = {

@@ -240,7 +240,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
               expect(assigns(:claim).misc_fees.map(&:amount).sum).to eq 375
             end
 
-             it 'should update claim total to sum of graduated and miscellaneous fees' do
+            it 'should update claim total to sum of graduated and miscellaneous fees' do
               expect(assigns(:claim).fees_total).to eq 2375.00
             end
           end

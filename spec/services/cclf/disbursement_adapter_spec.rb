@@ -41,7 +41,7 @@ RSpec.describe CCLF::DisbursementAdapter, type: :adapter do
     VOI: ['DISBURSEMENT', 'VOICE_RECOG'], # Voice recognition
   }.freeze
 
-context 'bill mappings' do
+  context 'bill mappings' do
     DISBURSEMENT_BILL_TYPES.each do |unique_code, bill_types|
       final_claim_bill_scenarios.each do |fee_type_code, scenario|
         context "when a disbursement of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do

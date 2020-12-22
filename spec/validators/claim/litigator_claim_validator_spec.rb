@@ -74,7 +74,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
             allow(claim).to receive(:from_api?).and_return true
           end
 
-         it 'should not error' do
+          it 'should not error' do
             should_not_error(claim, :base)
           end
         end

@@ -387,7 +387,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           end
         end
 
-       context 'case numbers' do
+        context 'case numbers' do
           let(:basic_fee) { build(:basic_fee, :noc_fee, quantity: 2, case_numbers: 'T20172765, T20172766') }
 
           it 'property included' do

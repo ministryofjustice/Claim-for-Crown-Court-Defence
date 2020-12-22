@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :api_advocate_claim, class: Claim::AdvocateClaim do
+  factory :api_advocate_claim, class: 'Claim::AdvocateClaim' do
     # Attempt to create minimal API submitted claims
     # the main claim factories would have needed too much hacking to
     # remove the default values required for a web based submission

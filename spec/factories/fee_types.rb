@@ -17,7 +17,7 @@
 #
 
 FactoryBot.define do
-  factory :basic_fee_type, class: Fee::BasicFeeType do
+  factory :basic_fee_type, class: 'Fee::BasicFeeType' do
     sequence(:description) { |n| "AGFS, Basic fee type, basic fee -#{n}" }
     code { random_safe_code }
     calculated { true }
@@ -187,7 +187,7 @@ FactoryBot.define do
       npw
     end
 
-    factory :misc_fee_type, class: Fee::MiscFeeType do
+    factory :misc_fee_type, class: 'Fee::MiscFeeType' do
       sequence(:description) { |n| "AGFS, Misc fee type, Noting brief - #{n}" }
       code { random_safe_code }
       calculated { true }
@@ -349,7 +349,7 @@ FactoryBot.define do
       end
     end
 
-    factory :fixed_fee_type, class: Fee::FixedFeeType do
+    factory :fixed_fee_type, class: 'Fee::FixedFeeType' do
       sequence(:description) { |n| "AGFS, Fixed fee type, Contempt - #{n}" }
       code { random_safe_code }
       calculated { true }
@@ -429,7 +429,7 @@ FactoryBot.define do
       end
     end
 
-    factory :graduated_fee_type, class: Fee::GraduatedFeeType do
+    factory :graduated_fee_type, class: 'Fee::GraduatedFeeType' do
       sequence(:description) { |n| "LGFS, Fixed fee, Elected case not proceeded - #{n}" }
       code { 'GTRL' }
       calculated { false }
@@ -444,7 +444,7 @@ FactoryBot.define do
       end
     end
 
-    factory :interim_fee_type, class: Fee::InterimFeeType do
+    factory :interim_fee_type, class: 'Fee::InterimFeeType' do
       sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
       code { 'ITRS' }
       calculated { false }
@@ -487,7 +487,7 @@ FactoryBot.define do
       end
     end
 
-    factory :transfer_fee_type, class: Fee::TransferFeeType do
+    factory :transfer_fee_type, class: 'Fee::TransferFeeType' do
       calculated { false }
       code { 'TRANS' }
       unique_code { 'TRANS' }
@@ -495,7 +495,7 @@ FactoryBot.define do
       roles { ['lgfs'] }
     end
 
-    factory :warrant_fee_type, class: Fee::WarrantFeeType do
+    factory :warrant_fee_type, class: 'Fee::WarrantFeeType' do
       description { 'Warrant Fee' }
       code { 'XWAR' }
       calculated { false }
@@ -506,14 +506,14 @@ FactoryBot.define do
       end
     end
 
-    factory :hardship_fee_type, class: Fee::HardshipFeeType do
+    factory :hardship_fee_type, class: 'Fee::HardshipFeeType' do
       description { 'Hardship Fee' }
       code { 'HARDSHIP' }
       calculated { false }
       roles { ['lgfs'] }
     end
 
-    factory :child_fee_type, class: Fee::FixedFeeType do
+    factory :child_fee_type, class: 'Fee::FixedFeeType' do
       description { 'Child' }
       roles { ['lgfs'] }
 

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :litigator_hardship_claim, class: Claim::LitigatorHardshipClaim do
+  factory :litigator_hardship_claim, class: 'Claim::LitigatorHardshipClaim' do
     litigator_base_setup
     case_type { nil }
     case_stage { build :case_stage, :pre_ptph_or_ptph_adjourned }

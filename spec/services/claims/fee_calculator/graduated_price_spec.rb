@@ -49,9 +49,9 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
         context 'when 2 defendants' do
           it_returns 'a successful fee calculator response',
-                      number_of_defendants: 2,
-                      scheme: 'lgfs',
-                      amount: 6171.44
+                     number_of_defendants: 2,
+                     scheme: 'lgfs',
+                     amount: 6171.44
         end
       end
 
@@ -75,9 +75,9 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
         context 'when 2 defendants' do
           it_returns 'a successful fee calculator response',
-                      number_of_defendants: 2,
-                      scheme: 'lgfs',
-                      amount: 1085.50
+                     number_of_defendants: 2,
+                     scheme: 'lgfs',
+                     amount: 1085.50
         end
       end
 
@@ -113,9 +113,9 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           context 'when 2 defendants' do
             let(:length) { 10 }
             it_returns 'a successful fee calculator response',
-                        number_of_defendants: 2,
-                        scheme: 'lgfs',
-                        amount: 1761.10
+                       number_of_defendants: 2,
+                       scheme: 'lgfs',
+                       amount: 1761.10
           end
         end
 

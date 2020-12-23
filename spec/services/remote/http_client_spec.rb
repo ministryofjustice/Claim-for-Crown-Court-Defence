@@ -3,9 +3,7 @@ require 'rails_helper'
 module Remote
 
   describe HttpClient do
-
     describe '.current' do
-
       context 'self.instance already exists' do
         it 'returns the instance' do
           client = HttpClient.current
@@ -18,7 +16,6 @@ module Remote
           client = HttpClient.current
           expect(HttpClient.current).to eq client
         end
-
       end
     end
 
@@ -40,7 +37,6 @@ module Remote
     end
 
     describe '.get' do
-
       let(:api_url)  { 'my_api_url' }
       let(:api_key)  { 'my_key' }
       let(:path)     { 'my_path' }
@@ -68,7 +64,5 @@ module Remote
         expect(result).to eq( { key: 'value' } )
       end
     end
-
-
   end
 end

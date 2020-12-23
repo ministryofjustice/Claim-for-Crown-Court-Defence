@@ -3,7 +3,6 @@ require 'rails_helper'
 module Stats
   module Collector
     describe ClaimRedeterminationsCollector do
-
       let(:report_day) { Date.today }
 
       before(:each) do
@@ -35,7 +34,6 @@ module Stats
           expect(stats.first.value_1).to eq(1) # 7-days average (rounded to closest integer)
         end
       end
-
 
       def create_claim(state, date)
         travel_to(date) do

@@ -226,4 +226,3 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
     end
   end
 end
-

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'fee_type_rules_creator' do
-   it { is_expected.to respond_to(:sets) }
+  it { is_expected.to respond_to(:sets) }
 
   before do
     create(:misc_fee_type, :miumu)

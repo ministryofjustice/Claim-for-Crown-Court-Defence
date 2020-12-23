@@ -21,7 +21,6 @@ describe Claims::CreateClaim do
   end
 
   describe '#call' do
-
     before { expect(subject.claim.persisted?).to be_falsey }
 
     context 'with a valid Claim' do

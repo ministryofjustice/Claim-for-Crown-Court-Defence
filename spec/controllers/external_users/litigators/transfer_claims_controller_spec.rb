@@ -35,9 +35,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     end
   end
 
-
   describe 'POST #create' do
-
     render_views
 
     let(:params) do
@@ -59,7 +57,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
     context 'continue button pressed' do
       context 'valid params' do
-
         before(:each) { post :create, params: params }
 
         it 'creates a claim' do
@@ -110,9 +107,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
     end
 
-
     context 'save as draft button pressed' do
-
       context 'valid_params' do
         before(:each) do
           params.delete('commit_continue')
@@ -166,11 +161,9 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         it 'redirects to all claims page' do
           expect(response).to redirect_to(external_users_claims_path)
         end
-
       end
     end
   end
-
 
   describe 'PATCH #update' do
     render_views
@@ -263,10 +256,8 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           'id' => '72'
         }
       end
-
     end
   end
-
 
   describe 'GET #edit' do
     let(:edit_request) { -> { get :edit, params: { id: claim } } }
@@ -325,7 +316,6 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     subject { create(:transfer_claim, creator: litigator) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
           put :update,
@@ -429,5 +419,4 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
     end
   end
-
 end

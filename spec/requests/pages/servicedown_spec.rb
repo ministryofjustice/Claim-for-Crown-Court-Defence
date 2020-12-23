@@ -58,31 +58,31 @@ RSpec.describe 'Servicedown mode', type: :request do
     end
 
     context 'caseworker' do
-        before do
-          sign_in(user)
-        end
-
-        let(:user) { create(:case_worker).user }
-          context '/case_workers/claims' do
-          before { get case_workers_home_path }
-          it_behaves_like 'maintenance page', status: 200
-        end
+      before do
+        sign_in(user)
       end
 
-      context 'advocate' do
-        before { sign_in user }
-        let(:user) { create(:external_user, :advocate).user }
-
-        context '/external_user/claims' do
-          before { get external_users_claims_path }
-          it_behaves_like 'maintenance page', status: 200
-        end
-
-        context '/advocates/claims/new' do
-          before { get new_advocates_claim_path }
-          it_behaves_like 'maintenance page', status: 200
-        end
+      let(:user) { create(:case_worker).user }
+      context '/case_workers/claims' do
+        before { get case_workers_home_path }
+        it_behaves_like 'maintenance page', status: 200
       end
+    end
+
+    context 'advocate' do
+      before { sign_in user }
+      let(:user) { create(:external_user, :advocate).user }
+
+      context '/external_user/claims' do
+        before { get external_users_claims_path }
+        it_behaves_like 'maintenance page', status: 200
+      end
+
+      context '/advocates/claims/new' do
+        before { get new_advocates_claim_path }
+        it_behaves_like 'maintenance page', status: 200
+      end
+    end
   end
 
   context 'api requests (json)' do

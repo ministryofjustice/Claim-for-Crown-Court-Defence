@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Hash do
-
   let(:h) do
     {
       key_id: '1',

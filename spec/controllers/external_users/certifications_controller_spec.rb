@@ -9,7 +9,6 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
   let(:claim) { create(:advocate_claim) }
 
   describe 'GET #new' do
-
     context 'claim is valid for submission' do
       before(:each) do
         get :new, params: { claim_id: claim.id }

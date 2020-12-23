@@ -46,7 +46,6 @@ RSpec.describe InterimClaimInfoValidator, type: :validator do
     end
 
     describe '#validate_warrant_executed_date' do
-
       it 'is invalid if before warrant_issued_date' do
         info.warrant_executed_date = info.warrant_issued_date - 1.day
         expect(info).not_to be_valid

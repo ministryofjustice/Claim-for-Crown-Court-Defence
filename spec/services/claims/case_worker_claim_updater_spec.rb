@@ -421,4 +421,3 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
     end
   end
 end
-

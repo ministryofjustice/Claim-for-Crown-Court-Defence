@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CCLF::Fee::InterimFeeAdapter, type: :adapter do
-   INTERIM_FEE_BILL_TYPES = {
+  INTERIM_FEE_BILL_TYPES = {
     INPCM: ['LIT_FEE', 'LIT_FEE'], # Effective PCMH
     INRNS: ['LIT_FEE', 'LIT_FEE'], # Retrial New solicitor
     INRST: ['LIT_FEE', 'LIT_FEE'], # Retrial start

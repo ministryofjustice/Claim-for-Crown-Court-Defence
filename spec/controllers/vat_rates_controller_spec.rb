@@ -12,7 +12,6 @@
 require 'rails_helper'
 
 RSpec.describe VatRatesController, type: :controller do
-
   before do
     VatRate.delete_all
     create(:vat_rate, effective_date: Date.new(2000, 1, 1), rate_base_points: 1750)
@@ -22,7 +21,7 @@ RSpec.describe VatRatesController, type: :controller do
   describe 'GET vat' do
     context 'advocate claims' do
       it 'if vat applies, it should return JSON struct with details' do
-        get :index, params: { :format => 'json',  'apply_vat' => 'true', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
+        get :index, params: { :format => 'json', 'apply_vat' => 'true', 'net_amount' => '115.76', 'date' => '2015-07-15', 'scheme' => 'agfs' }
         expect(response).to be_successful
         expect(response.body).to eq(
           {
@@ -94,5 +93,4 @@ RSpec.describe VatRatesController, type: :controller do
       end
     end
   end
-
 end

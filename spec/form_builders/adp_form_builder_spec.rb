@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe AdpFormBuilder do
-
   let(:resource)  { FactoryBot.create :claim }
   let(:builder)   { AdpFormBuilder.new(:claim, resource, self, {} ) }
 
@@ -68,7 +67,6 @@ describe AdpFormBuilder do
     end
   end
 end
-
 
 def squash(html)
   html.gsub(/\s+\</, '<').chomp

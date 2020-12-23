@@ -28,7 +28,7 @@ shared_examples 'defendant upliftable' do
   it { is_expected.to respond_to(:orphan_defendant_uplift?) }
   it { is_expected.to respond_to(:case_uplift_parent_unique_code) }
 
- describe '#defendant_uplift?' do
+  describe '#defendant_uplift?' do
     subject { fee_type.defendant_uplift? }
 
     it 'returns true when fee_type is a defendant uplift' do

@@ -210,7 +210,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
       end
 
       context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params)      { { claim_class: 'Claim::AdvocateClaim' } }
+        let(:invalid_claim_params) { { claim_class: 'Claim::AdvocateClaim' } }
         it 'does not create a claim' do
           expect {
             post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
@@ -224,7 +224,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
       end
 
       context 'basic and non-basic fees' do
-
         before do
           seed_case_types
           seed_fee_types
@@ -346,7 +345,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
           expect(claim.evidence_checklist_ids).to eql( [ 2, 3 ] )
         end
       end
-
     end
   end
 
@@ -421,7 +419,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
     subject { create(:claim, external_user: advocate) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
           put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } }, commit_save_draft: 'Save to drafts' }
@@ -484,7 +481,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
           put :update, params: { id: subject, claim: { additional_information: 'foo' } }
           expect(response).to redirect_to(external_users_claims_path)
         end
-
       end
 
       context 'and submitted to LAA' do
@@ -592,5 +588,4 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
     "apply_vat" => "0"
   }.with_indifferent_access
   end
-
 end

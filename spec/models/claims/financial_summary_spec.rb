@@ -4,7 +4,6 @@ RSpec.describe Claims::FinancialSummary, type: :model do
   # Uses default VAT rate factory (implicitly) with VAT rate of 17.5%
 
   context 'by advocate' do
-
     # TODO should not rely on values in factory which may change
     let!(:submitted_claim)  { create(:submitted_claim,) }
     let!(:allocated_claim)  { create(:allocated_claim,) }
@@ -113,7 +112,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
       let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim, external_user: advocate1_with_vat) }
       let!(:authorised_claim_from_advocate1)       { create(:authorised_claim, external_user: advocate1_with_vat) }
       let!(:authorised_claim_from_advocate2)       { create(:authorised_claim, external_user: advocate2_with_vat) }
-      let(:summary)                               { Claims::FinancialSummary.new(agfs_provider.claims) }
+      let(:summary)                                { Claims::FinancialSummary.new(agfs_provider.claims) }
 
       describe '#total_outstanding_claim_value' do
         it 'calculates the value of outstanding claims' do
@@ -134,12 +133,11 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     end
 
     context 'claim without VAT applied' do
-
       let!(:submitted_claim_from_advocate1)        { create(:submitted_claim,        external_user: advocate1_without_vat) }
       let!(:allocated_claim_from_advocate2)        { create(:allocated_claim,        external_user: advocate2_without_vat) }
       let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim,  external_user: advocate1_without_vat) }
       let!(:authorised_claim_from_advocate2)       { create(:authorised_claim,       external_user: advocate2_without_vat) }
-      let(:summary)                   { Claims::FinancialSummary.new(agfs_provider.claims) }
+      let(:summary)                                { Claims::FinancialSummary.new(agfs_provider.claims) }
 
       it 'calculates the value of outstanding claims' do
         expect(summary.total_outstanding_claim_value).to eq(submitted_claim_from_advocate1.total +

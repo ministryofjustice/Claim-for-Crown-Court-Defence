@@ -6,7 +6,8 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
   let(:claim) { create(:advocate_claim) }
 
   let(:misc_fee) do
-    create(:misc_fee, :mispf_fee, :with_date_attended,
+    create(
+      :misc_fee, :mispf_fee, :with_date_attended,
       claim: claim,
       quantity: 1.1,
       rate: 25

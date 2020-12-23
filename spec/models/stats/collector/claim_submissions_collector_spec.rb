@@ -3,7 +3,6 @@ require 'rails_helper'
 module Stats
   module Collector
     describe ClaimSubmissionsCollector do
-
       let(:report_day) { 5.days.ago }
 
       before(:each) do
@@ -40,7 +39,6 @@ module Stats
           expect(stat.value_1).to eq 0
         end
       end
-
 
       def create_claim(state, date)
         travel_to(date) do

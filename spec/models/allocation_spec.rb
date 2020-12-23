@@ -21,7 +21,7 @@ RSpec.describe Allocation, type: :model do
   describe '#save' do
     context 'allocating' do
       let(:case_worker) { create(:case_worker) }
-      let(:allocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true, current_user: current_user) }
+      let(:allocator) { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true, current_user: current_user) }
 
       context 'when valid' do
         let(:claims) { create_list(:submitted_claim, 3) }
@@ -84,7 +84,7 @@ RSpec.describe Allocation, type: :model do
 
       context 'when creator is a litigator' do
         let!(:claim) { create :submitted_claim }
-        let(:allocator)  { Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user: current_user) }
+        let(:allocator) { Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user: current_user) }
 
         describe 'and then changes role to advocate' do
           before do
@@ -100,7 +100,7 @@ RSpec.describe Allocation, type: :model do
 
       context 'when invalid because no caseworker id specified' do
         let(:claims) { create_list(:submitted_claim, 3) }
-        let(:allocator)  { Allocation.new(claim_ids: claims.map(&:id), allocating: true) }
+        let(:allocator) { Allocation.new(claim_ids: claims.map(&:id), allocating: true) }
 
         it 'returns false' do
           expect(allocator.save).to be false
@@ -117,13 +117,12 @@ RSpec.describe Allocation, type: :model do
           allocator.save
           expect(allocator.errors[:case_worker_id]).to include("can't be blank")
         end
-
       end
     end
 
     context 'reallocating' do
       let(:case_worker) { create(:case_worker) }
-      let(:reallocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, current_user: current_user) }
+      let(:reallocator) { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, current_user: current_user) }
 
       context 'when valid' do
         let(:claims) { create_list(:allocated_claim, 3) }
@@ -156,7 +155,7 @@ RSpec.describe Allocation, type: :model do
 
       context 'when in an invalid state' do
         let(:claims) { create_list(:submitted_claim, 2) }
-        let(:reallocator)  { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id) }
+        let(:reallocator) { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id) }
 
         it 'responds true to reallocating?' do
           expect(reallocator.__send__(:reallocating?)).to be true

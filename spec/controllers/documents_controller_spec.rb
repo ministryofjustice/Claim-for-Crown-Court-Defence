@@ -160,5 +160,4 @@ RSpec.describe DocumentsController, type: :controller do
     end
     IO.binread(path)
   end
-
 end

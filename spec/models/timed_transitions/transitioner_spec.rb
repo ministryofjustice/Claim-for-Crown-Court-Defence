@@ -385,15 +385,17 @@ RSpec.describe TimedTransitions::Transitioner do
 
           it 'writes to the log file' do
             expect(LogStuff).to receive(:debug)
-              .with('TimedTransitions::Transitioner',
-                     action: 'archive',
-                     claim_id: @claim.id,
-                     claim_state: 'authorised',
-                     softly_deleted_on: @claim.deleted_at,
-                     valid_until: @claim.valid_until,
-                     dummy_run: true,
-                     error: nil,
-                     succeeded: false)
+              .with(
+                'TimedTransitions::Transitioner',
+                action: 'archive',
+                claim_id: @claim.id,
+                claim_state: 'authorised',
+                softly_deleted_on: @claim.deleted_at,
+                valid_until: @claim.valid_until,
+                dummy_run: true,
+                error: nil,
+                succeeded: false
+              )
             described_class.new(@claim, true).run
           end
 
@@ -442,15 +444,17 @@ RSpec.describe TimedTransitions::Transitioner do
 
           it 'writes to the log file' do
             expect(LogStuff).to receive(:debug)
-              .with('TimedTransitions::Transitioner',
-                     action: 'destroy',
-                     claim_id: @claim.id,
-                     claim_state: @claim.state,
-                     softly_deleted_on: @claim.deleted_at,
-                     valid_until: @claim.valid_until,
-                     dummy_run: true,
-                     error: nil,
-                     succeeded: false)
+              .with(
+                'TimedTransitions::Transitioner',
+                action: 'destroy',
+                claim_id: @claim.id,
+                claim_state: @claim.state,
+                softly_deleted_on: @claim.deleted_at,
+                valid_until: @claim.valid_until,
+                dummy_run: true,
+                error: nil,
+                succeeded: false
+              )
             described_class.new(@claim, true).run
           end
 

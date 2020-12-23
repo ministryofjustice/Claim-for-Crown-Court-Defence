@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe FeedbackHelper do
-
   describe '#referrer_is_claim?' do
     %w(claims /claims claims/ /claims/).each do |path|
       it "should be truthy for path containing `#{path}`" do

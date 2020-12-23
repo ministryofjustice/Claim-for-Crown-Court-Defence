@@ -125,13 +125,13 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 0)] }
 
         context 'within 1 calendar month limit' do
-        let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 0)] }
+          let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 0)] }
           it 'returns full amount' do
             is_expected.to eql 266.00
           end
         end
       end
-     end
+    end
 
     context 'for a fixed_fee fee (e.g. elected case not proceeded)' do
       let(:price) do

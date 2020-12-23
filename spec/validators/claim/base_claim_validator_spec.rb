@@ -358,7 +358,6 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'trial_cracked_at_third' do
-
     context 'for cracked trials' do
       before { claim.case_type = cracked_trial }
 
@@ -414,7 +413,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   context 'amount_assessed' do
     before { claim.submit!; claim.allocate! }
 
-    let(:assessed_claim)  do
+    let(:assessed_claim) do
       claim.assessment.update!(fees: 101.22, expenses: 28.55, disbursements: 92.66)
       claim
     end
@@ -804,7 +803,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             context 'and the calculated distance is nil' do
               let(:calculated_distance) { nil }
 
-              it { is_expected.to be true  }
+              it { is_expected.to be true }
             end
           end
 
@@ -927,7 +926,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             context 'and the calculated distance is nil' do
               let(:calculated_distance) { nil }
 
-              it { is_expected.to be true  }
+              it { is_expected.to be true }
             end
           end
 
@@ -977,7 +976,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             context 'and the calculated distance is nil' do
               let(:calculated_distance) { nil }
 
-              it { is_expected.to be true  }
+              it { is_expected.to be true }
             end
           end
         end
@@ -1001,7 +1000,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             context 'and the calculated distance is nil' do
               let(:calculated_distance) { nil }
 
-              it { is_expected.to be true  }
+              it { is_expected.to be true }
             end
           end
         end
@@ -1016,7 +1015,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         claim.form_step = :travel_expenses
       end
 
-      it { is_expected.to be true  }
+      it { is_expected.to be true }
     end
   end
 end

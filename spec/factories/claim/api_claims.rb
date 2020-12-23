@@ -30,6 +30,5 @@ FactoryBot.define do
     end
 
     after(:build) { |claim| assign_external_user_as_creator(claim) }
-
   end
 end

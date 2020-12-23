@@ -14,7 +14,6 @@ describe DocumentRecloner do
     clean_database
   end
 
-
   it 'should reclone documents from the source claim' do
     # given a source claim with 4 docs, and a cloned claim with 4 docs, three of which are corrupted
     source_claim = create_source_claim
@@ -107,7 +106,7 @@ describe DocumentRecloner do
     invalid_doc_ids = []
     valid_doc_ids = []
 
-    claim.documents.each do  |doc|
+    claim.documents.each do |doc|
       check_file_has_been_written(doc)
       size = File.stat(doc.document.path).size
       size > 0 ? valid_doc_ids << doc.id : invalid_doc_ids << doc.id

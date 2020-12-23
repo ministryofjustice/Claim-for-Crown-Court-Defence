@@ -70,4 +70,3 @@ RSpec.describe DisbursementValidator, type: :validator do
     end
   end
 end
-

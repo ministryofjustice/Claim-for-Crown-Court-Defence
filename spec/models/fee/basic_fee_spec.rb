@@ -44,7 +44,7 @@ RSpec.describe Fee::BasicFee do
       expect(fee.calculated?).to be false
     end
     it 'should return true for any other fees' do
-      saf = FactoryBot.create(:basic_fee_type,  code: 'SAF')
+      saf = FactoryBot.create(:basic_fee_type, code: 'SAF')
       fee = FactoryBot.create(:basic_fee, fee_type: saf)
       expect(fee.calculated?).to be true
     end

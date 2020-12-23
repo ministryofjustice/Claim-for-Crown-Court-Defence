@@ -2,7 +2,6 @@ require 'rails_helper'
 require File.join(Rails.root, 'lib', 'working_day_calculator')
 
 describe WorkingDayCalculator do
-
   let(:tue_19_jul) { Date.new(2016, 7, 19) }
   let(:mon_18_jul) { Date.new(2016, 7, 18) }
   let(:sun_17_jul) { Date.new(2016, 7, 17) }
@@ -57,15 +56,10 @@ describe WorkingDayCalculator do
         expectations.each { |ex| expect_working_days(ex) }
       end
     end
-
   end
-
 
   def expect_working_days(expectation)
     start_day, end_day, num_days = expectation
     expect(WorkingDayCalculator.new(start_day, end_day).working_days).to eq num_days
   end
-
-
-
 end

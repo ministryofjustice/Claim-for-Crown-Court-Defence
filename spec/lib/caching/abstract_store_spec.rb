@@ -9,6 +9,5 @@ module Caching
         }.to raise_error RuntimeError, 'not implemented'
       end
     end
-
   end
 end

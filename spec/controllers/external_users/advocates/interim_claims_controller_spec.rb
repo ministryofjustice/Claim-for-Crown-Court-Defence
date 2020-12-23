@@ -253,7 +253,6 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
         end
       end
 
-
       context 'and the user is authorized to manage this claim type' do
         before do
           sign_in(authorized_user.user)

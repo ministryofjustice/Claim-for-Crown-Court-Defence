@@ -108,7 +108,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
 
     include_examples "invalid API key validate endpoint", exclude: :other_provider
 
-     it 'valid requests should return 200 and String true' do
+    it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
       expect_validate_success_response
     end

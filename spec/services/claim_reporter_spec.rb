@@ -20,7 +20,6 @@ RSpec.describe ClaimReporter do
     clean_database
   end
 
-
   subject { ClaimReporter.new }
 
   describe '#completion_rate' do

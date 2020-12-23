@@ -16,11 +16,11 @@
 require 'rails_helper'
 
 RSpec.describe Assessment do
-  let(:claim)         { FactoryBot.create :claim }
+  let(:claim) { FactoryBot.create :claim }
 
   context 'validations' do
     context 'fees' do
-      it 'should not accept negative values'  do
+      it 'should not accept negative values' do
         expect {
           # FactoryBot.create :assessment, claim: claim, fees: -33.55
           claim.assessment.update!(fees: -33.35)
@@ -36,7 +36,7 @@ RSpec.describe Assessment do
     end
 
     context 'expenses' do
-      it 'should not accept negative values'  do
+      it 'should not accept negative values' do
         expect {
           claim.assessment.update!(expenses: -33.55)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed expenses must be greater than or equal to zero'
@@ -81,7 +81,7 @@ RSpec.describe Assessment do
     end
 
     it 'updates determination\'s vat_amount' do
-      expect { assessment.update!(fees: 150.0, expenses: 250.0, disbursements: 0)  }.to change(assessment, :vat_amount).from(0).to(80)
+      expect { assessment.update!(fees: 150.0, expenses: 250.0, disbursements: 0) }.to change(assessment, :vat_amount).from(0).to(80)
     end
   end
 
@@ -105,7 +105,7 @@ RSpec.describe Assessment do
       context 'litigator claims' do
         let(:assessment) { create(:litigator_claim, apply_vat: true).assessment }
         it 'should not update/calculate the VAT amount' do
-          expect { assessment.update!(fees: 100.0, expenses: 250.0, disbursements: 150.0)  }.not_to change(assessment, :vat_amount)
+          expect { assessment.update!(fees: 100.0, expenses: 250.0, disbursements: 150.0) }.not_to change(assessment, :vat_amount)
         end
       end
     end

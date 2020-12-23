@@ -105,10 +105,12 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect { claim.submit! }.to      change { claim.state }.to('submitted') }
       it { expect { claim.refuse! }.to      change { claim.state }.to('refused') }
 
-      it { expect {
+      it do
+        expect do
           claim.assessment.update(fees: 100.00, expenses: 23.45)
           claim.authorise_part!
-        }.to change { claim.state }.to('part_authorised') }
+        end.to change { claim.state }.to('part_authorised')
+      end
 
       it { expect {
         claim.assessment.update(fees: 100.00, expenses: 23.45)
@@ -349,7 +351,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   end
 
   describe '.is_in_state?' do
-    let(:claim)         { build :unpersisted_claim }
+    let(:claim) { build :unpersisted_claim }
 
     it 'should be true if state is in EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('allocated')

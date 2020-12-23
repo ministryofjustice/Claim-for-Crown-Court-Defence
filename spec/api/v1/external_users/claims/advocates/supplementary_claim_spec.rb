@@ -21,7 +21,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
       :advocate_category => 'Leading junior',
       :court_id => court.id
     }
-    end
+  end
 
   after(:all) { clean_database }
 

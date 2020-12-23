@@ -4,7 +4,6 @@ module Stats
   module GeckoWidgets
 
     describe 'LineGraph' do
-
       before(:each) do
         @lg = LineGraph.new
         @lg.add_dataset('Tories', [33, 5, 6])
@@ -71,7 +70,6 @@ module Stats
             expect(@lg.to_json).to eq data.to_json
           end
         end
-
       end
 
       describe '#to_a' do
@@ -99,7 +97,6 @@ module Stats
             expect(@lg.to_a).to eq array
           end
         end
-
       end
     end
   end

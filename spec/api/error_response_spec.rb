@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe API::ErrorResponse do
-
     VALID_MODEL_KLASSES = [::Fee, ::Expense, ::Disbursement, ::Claim, ::Defendant, ::DateAttended, ::RepresentationOrder]
     EXCEPTION_KLASSES = [RuntimeError, ArgumentError]
 
@@ -23,7 +22,6 @@ describe API::ErrorResponse do
     end
 
     context 'accepts exception objects' do
-
       EXCEPTION_KLASSES.each do |exception_klass|
         let(:ex) { exception_klass.new('my exception message') }
         
@@ -75,5 +73,4 @@ describe API::ErrorResponse do
       expect(claim).to be_valid
       expect { described_class.new(claim) }.to raise_error("unable to build error response as no errors were found")
     end
-
 end

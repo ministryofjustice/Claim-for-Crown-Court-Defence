@@ -7,7 +7,6 @@ RSpec.describe Fee::GraduatedFeeType, type: :model do
     let(:fee_type) { create(:graduated_fee_type, :grtrl) }
 
     it { is_expected.to eql fee_type }
-
   end
 
   describe '#fee_category_name' do

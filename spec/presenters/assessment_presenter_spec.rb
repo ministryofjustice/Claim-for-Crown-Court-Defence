@@ -18,5 +18,4 @@ RSpec.describe AssessmentPresenter do
       expect(presenter.total_inc_vat).to match currency_pattern
     end
   end
-
 end

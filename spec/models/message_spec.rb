@@ -86,9 +86,7 @@ RSpec.describe Message, type: :model do
     end
   end
 
-
   context 'automotic state change of claim on message creation' do
-
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 
@@ -128,7 +126,7 @@ RSpec.describe Message, type: :model do
   end
 
   context 'send_email_if_required' do
-    let(:claim) { create :allocated_claim  }
+    let(:claim) { create :allocated_claim }
     let(:creator) { claim.creator }
     let(:case_worker) { claim.case_workers.first }
 

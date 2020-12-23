@@ -6,7 +6,6 @@
 #   limits of claimable SAFs (5+) see AGFS 2013 regs. Schedule 1, part, para.12
 #
 RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
-
   SCHEME_9_FEE_TYPE_LIMIT_MAPPINGS = {
     BABAF: { from: 1, to: 2 },
     BADAF: { from: 3, to: 40 },
@@ -138,4 +137,3 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
     end
   end
 end
-

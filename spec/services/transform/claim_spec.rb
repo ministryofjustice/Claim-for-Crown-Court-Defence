@@ -13,7 +13,6 @@ RSpec.describe Transform::Claim do
     end
 
     context 'runs different import types' do
-
       it 'retrieves data from linked objects' do
         expect(call[:case_type]).to eq claim.case_type.name
       end

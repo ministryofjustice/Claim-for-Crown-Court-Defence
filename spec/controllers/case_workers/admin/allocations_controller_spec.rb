@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
-
   before(:all) do
     # create(:graduated_fee_type, code: 'GTRL') #use seeded case types 'real' fee type codes
     # load '#{Rails.root}/db/seeds/case_types.rb'
@@ -65,7 +64,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
   end
 
   describe 'POST #create' do
-
     let(:case_worker_service_instance) { double CaseWorkerService, active: 'case_worker_collection' }
     let(:case_worker_claims_instance) { double Claims::CaseWorkerClaims, claims: claims_collection }
     let(:claims_collection) { double  Remote::Claim, remote?: true, first: double('page of claims', map: [1, 3, 4]) }
@@ -111,7 +109,6 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       end
     end
   end
-
 
   describe 'GET #new' do
     it 'calls the Caseworker service and Claims::CaseWorkerClaims services' do

@@ -9,7 +9,7 @@ RSpec.describe AdpTextField do
                      assigns = {},
                      controller = ActionController::Base.new())
     end
-    let(:resource)  { FactoryBot.create :claim, case_number: nil }
+    let(:resource) { FactoryBot.create :claim, case_number: nil }
     let(:error_presenter) { ErrorPresenter.new(resource) }
     let(:builder)   { AdpFormBuilder.new(:claim, resource, helper, {} ) }
 
@@ -112,7 +112,6 @@ RSpec.describe AdpTextField do
 
         expect(atf.to_html).to eq a200_value_no_hint_disabled
       end
-
 
       it 'should produce expected result when readonly' do
         resource.case_number = '555'
@@ -223,13 +222,13 @@ RSpec.describe AdpTextField do
       subject(:html_output) { adp_text_field.to_html }
 
       context 'shown' do
-        let(:adp_text_field) {  AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', hint_text: 'Hint text here', errors: error_presenter) }
+        let(:adp_text_field) { AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', hint_text: 'Hint text here', errors: error_presenter) }
 
         it { is_expected.to eq squash(d100_no_value_hint_shown) }
       end
 
       context 'hidden' do
-        let(:adp_text_field) {  AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', hint_text: 'Hint text here', hide_hint: true, errors: error_presenter) }
+        let(:adp_text_field) { AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', hint_text: 'Hint text here', hide_hint: true, errors: error_presenter) }
 
         it { is_expected.to eq squash(e100_no_value_hint_hidden) }
       end

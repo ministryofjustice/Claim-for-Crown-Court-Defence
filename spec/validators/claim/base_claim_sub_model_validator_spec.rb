@@ -45,7 +45,6 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       claim.force_validation = true
       claim.form_step = :offence_details
     end
-
   end
 
   context 'bubbling up errors to the claim' do
@@ -67,7 +66,6 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
         expect(claim.errors[:defendant_1_first_name]).to eq(['blank'])
       end
     end
-
 
     context 'bubbling up errors two levels to the claim' do
       let(:expected_results) do

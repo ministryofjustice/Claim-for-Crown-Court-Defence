@@ -3,7 +3,6 @@ require 'rails_helper'
 module Claims
 
   describe ValueBands do
-
     describe '.band_id_for_claim' do
       context 'with VAT' do
         it 'returns band 10' do
@@ -88,6 +87,5 @@ module Claims
         expect(bands.first.name).to eq 'All Claims'
       end
     end
-
   end
 end

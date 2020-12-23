@@ -1,11 +1,5 @@
 require 'rails_helper'
 
-RSpec::Matchers.define :include_match do |regex|
-  match do |actual|
-    actual.find { |str| str.match?(regex) }
-  end
-end
-
 RSpec.describe ClaimStateTransitionReason, type: :model do
   describe '.new' do
     let(:reason) { described_class.new('code', 'short description', 'long description') }

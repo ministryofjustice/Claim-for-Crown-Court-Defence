@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2020_04_23_153710) do
     t.index ["case_type_id"], name: "index_case_stages_on_case_type_id"
   end
 
-  create_table "case_types", force: :cascade do |t|
+  create_table "case_types", id: :serial, force: :cascade do |t|
     t.string "name"
     t.boolean "is_fixed_fee"
     t.datetime "created_at"

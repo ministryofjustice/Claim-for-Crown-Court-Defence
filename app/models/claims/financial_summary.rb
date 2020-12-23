@@ -16,10 +16,10 @@ class Claims::FinancialSummary
   end
 
   def total_outstanding_claim_value
-    outstanding_claims.map { |c| c.total + c.vat_amount }.sum
+    outstanding_claims.sum { |c| c.total + c.vat_amount }
   end
 
   def total_authorised_claim_value
-    authorised_claims.map(&:amount_assessed).sum
+    authorised_claims.sum(&:amount_assessed)
   end
 end

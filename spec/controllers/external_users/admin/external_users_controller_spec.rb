@@ -11,7 +11,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     before { sign_in admin.user }
 
     describe "GET #index" do
-
       it "returns http success" do
         get :index
         expect(response).to be_successful
@@ -118,7 +117,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
             post :create, params: params
           }.to change(User, :count).by(1)
           user = User.find_by_email('foo@foobar.com')
-          expect(user.settings).to eq({'email_notification_of_message' => true})
+          expect(user.settings).to eq({ 'email_notification_of_message' => true })
         end
 
         it 'redirects to external_users index' do
@@ -151,7 +150,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     describe "PUT #update" do
-
       context 'when valid' do
         before(:each) { put :update, params: { id: subject, external_user: { roles: ['admin'] } } }
 
@@ -181,7 +179,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     describe "PUT #update_password" do
-
       before do
         subject.user.update(password: 'password', password_confirmation: 'password')
         sign_in subject.user #need to sign in again after password change
@@ -201,7 +198,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       context 'when mandatory params for external user are not provided' do
         it 'raises a paramenter missing error' do
           expect {
-            put :update_password, params: { id: subject, external_user: { } }
+            put :update_password, params: { id: subject, external_user: {} }
           }.to raise_error(ActionController::ParameterMissing)
         end
       end
@@ -215,13 +212,11 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     describe "DELETE #destroy" do
-
-
       it 'destroys the external user' do
-        subject     # create an additional External user
-        expect{
+        subject # create an additional External user
+        expect {
           delete :destroy, params: { id: subject }
-        }.to change{ExternalUser.active.count}.by(-1)
+        }.to change { ExternalUser.active.count }.by(-1)
         expect(subject.reload.deleted_at).not_to be_nil
       end
 
@@ -231,7 +226,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
   end
-
 
   ######################## NON ADMIN USER #################
 
@@ -294,7 +288,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
           expect(external_user.email).to_not eq 'bobsmith@example.com'
           put :update, params: params_updating_email(external_user)
           expect(external_user.user.reload.email).to eq 'bobsmith@example.com'
-
         end
 
         it 'ignores roles attributes' do
@@ -318,7 +311,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
           expect(flash[:alert]).to eq "Unauthorised"
         end
       end
-
     end
     describe "DELETE #destroy" do
       it 'does not allow user to delete himself' do
@@ -347,7 +339,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     def params_updating_email(external_user)
-        {id: external_user,
+        { id: external_user,
           external_user: {
             user_attributes: {
               id: external_user.user.id,
@@ -356,6 +348,5 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
           }
         }.with_indifferent_access
     end
-
   end
 end

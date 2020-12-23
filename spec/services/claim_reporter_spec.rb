@@ -20,12 +20,11 @@ RSpec.describe ClaimReporter do
     clean_database
   end
 
-
   subject { ClaimReporter.new }
 
   describe '#completion_rate' do
     before do
-      Timecop.freeze(5.weeks.ago) do
+      travel -5.weeks do
         create(:claim_intention, form_id: @submitted_claim_1.form_id)
         create(:claim_intention, form_id: @allocated_claim_1.form_id)
 

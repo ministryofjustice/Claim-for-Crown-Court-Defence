@@ -71,3 +71,9 @@ kube*/**/temp*secret*.*
 
 # prevent files uploaded locally by active storage being git add'ed
 storage/
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity

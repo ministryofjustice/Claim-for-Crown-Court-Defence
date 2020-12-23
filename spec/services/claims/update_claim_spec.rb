@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Claims::UpdateClaim do
-
   after(:all) do
     clean_database
   end
@@ -51,7 +50,7 @@ describe Claims::UpdateClaim do
 
       context 'when submitting persisted agfs fixed fees marked for destruction' do
         let(:claim) { create :advocate_claim, :with_fixed_fee_case, fixed_fees: fixed_fees }
-        let(:claim_params) { {"form_step"=>"fixed_fees", "fixed_fees_attributes": {"0": {"id"=>fixed_fees.first.id.to_s, "fee_type_id"=>"12", "quantity"=>"", "rate"=>"", "price_calculated"=>"true", "_destroy"=>"true" }}} }
+        let(:claim_params) { { "form_step"=>"fixed_fees", "fixed_fees_attributes": { "0": { "id"=>fixed_fees.first.id.to_s, "fee_type_id"=>"12", "quantity"=>"", "rate"=>"", "price_calculated"=>"true", "_destroy"=>"true" } } } }
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50), build(:fixed_fee, :fxsaf_fee, quantity: 1)] }
 
         before do
@@ -66,7 +65,7 @@ describe Claims::UpdateClaim do
     end
 
     context 'unsuccessful updates' do
-      let(:claim_params) { { case_number: '123' } }
+      let(:claim_params) { { case_number: '123456789012345678901' } }
 
       it 'is unsuccessful' do
         expect(subject.claim).not_to receive(:update_claim_document_owners)

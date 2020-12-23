@@ -1,13 +1,19 @@
+require_relative 'scheme_date_helpers'
+
 module FactoryHelpers
-    def add_defendant_and_reporder(claim, representation_order_date = nil)
+  include SchemeDateHelpers
+
+  def add_defendant_and_reporder(claim, representation_order_date = nil)
     defendant = if representation_order_date
                   create(:defendant, :without_reporder, claim: claim)
                 else
                   create(:defendant, claim: claim)
                 end
-    create(:representation_order,
-            defendant: defendant,
-            representation_order_date: representation_order_date&.to_date || 380.days.ago)
+    create(
+      :representation_order,
+      defendant: defendant,
+      representation_order_date: representation_order_date&.to_date || 380.days.ago
+    )
     claim.reload
   end
 
@@ -29,7 +35,7 @@ module FactoryHelpers
   def authorise_claim(claim)
     allocate_claim(claim)
     claim.reload
-    set_amount_assessed(claim)
+    assign_fees_and_expenses_for(claim)
     claim.authorise!
     claim.last_decision_transition.update_author_id(claim.case_workers.first.user.id)
   end
@@ -37,9 +43,17 @@ module FactoryHelpers
   def advance_to_pending_delete(c)
     allocate_claim(c)
     c.reload
-    set_amount_assessed(c)
+    assign_fees_and_expenses_for(c)
     c.authorise!
     c.archive_pending_delete!
+  end
+
+  def advance_to_pending_review(c)
+    allocate_claim(c)
+    c.reload
+    assign_fees_and_expenses_for(c)
+    c.authorise!
+    c.archive_pending_review!
   end
 
   def make_claim_creator_advocate_admin(claim)
@@ -51,7 +65,13 @@ module FactoryHelpers
   def post_build_actions_for_draft_final_claim(claim)
     certify_claim(claim)
     add_fee(:misc_fee, claim)
-    set_creator(claim)
+    assign_external_user_as_creator(claim)
+    populate_required_fields(claim)
+  end
+
+  def post_build_actions_for_draft_hardship_claim(claim)
+    certify_claim(claim)
+    assign_external_user_as_creator(claim)
     populate_required_fields(claim)
   end
 
@@ -67,12 +87,14 @@ module FactoryHelpers
     claim.fees << build(factory, claim: claim)
   end
 
-  def set_creator(claim)
+  def assign_external_user_as_creator(claim)
     claim.creator = claim.external_user
   end
 
   def scheme_date_for(text)
     case text&.downcase&.strip
+      when 'scheme 12' then
+        Settings.clar_release_date.strftime
       when 'scheme 11' then
         Settings.agfs_scheme_11_release_date.strftime
       when 'scheme 10' || 'post agfs reform' then

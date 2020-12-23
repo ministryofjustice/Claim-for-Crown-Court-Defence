@@ -1,7 +1,6 @@
 require "rails_helper"
 
 describe ApplicationHelper do
-
   context '#present' do
     let(:claim) { create(:advocate_claim) }
 
@@ -10,9 +9,8 @@ describe ApplicationHelper do
     end
 
     it 'yields a <Classname>Presenter Class' do
-      expect{ |b| present(claim, &b) }.to yield_with_args(Claim::BaseClaimPresenter)
+      expect { |b| present(claim, &b) }.to yield_with_args(Claim::BaseClaimPresenter)
     end
-
   end
 
   context '#present_collection' do
@@ -27,11 +25,9 @@ describe ApplicationHelper do
     it 'should yield a collection of <Classname>Presenter Class instances' do
       expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter,Claim::BaseClaimPresenter])
     end
-
   end
 
   context '#number_with_precision_or_default' do
-
     it 'should return empty string if given integer zero and no precision' do
       expect(number_with_precision_or_default(0)).to eq ''
     end
@@ -89,9 +85,7 @@ describe ApplicationHelper do
         allow(helper).to receive(:current_user).and_return(litigator.user)
         expect(helper.user_requires_scheme_column?).to eql true
       end
-
     end
-
   end
 
   describe '#cp' do

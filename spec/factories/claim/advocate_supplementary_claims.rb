@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :advocate_supplementary_claim, class: Claim::AdvocateSupplementaryClaim do
+  factory :advocate_supplementary_claim, class: 'Claim::AdvocateSupplementaryClaim' do
     advocate_base_setup
     offence { nil }
     case_type { nil }

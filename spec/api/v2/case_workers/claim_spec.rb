@@ -47,7 +47,7 @@ RSpec.describe API::V2::CaseWorkers::Claim do
     end
 
     context 'when accessed by a ExternalUser' do
-      before { do_request(api_key: external_user.user.api_key )}
+      before { do_request(api_key: external_user.user.api_key ) }
 
       it 'returns unauthorised' do
         expect(last_response.status).to eq 401
@@ -100,11 +100,10 @@ RSpec.describe API::V2::CaseWorkers::Claim do
         expect(claim_ids).to match_array( [ @lgfs_sub_gf_vb10.id, @lgfs_sub_gf_vb30.id ])
       end
 
-
       def do_request_and_extract_claim_ids(my_params = params)
         response = do_request(my_params)
         body = JSON.parse(response.body, symbolize_names: true)
-        body[:items].map{ |item| item[:id] }
+        body[:items].map { |item| item[:id] }
       end
 
       def create_lgfs_submitted_fixed_fee
@@ -130,7 +129,6 @@ RSpec.describe API::V2::CaseWorkers::Claim do
       end
     end
 
-
     context 'pagination' do
       def pagination_details(response)
         JSON.parse(response.body, symbolize_names: true).fetch(:pagination)
@@ -139,7 +137,7 @@ RSpec.describe API::V2::CaseWorkers::Claim do
       context 'default' do
         it 'should paginate with default values' do
           pagination = pagination_details(do_request)
-          expect(pagination.sort.to_h).to eq({current_page: 1, limit_value: 10, total_count: 0, total_pages: 0})
+          expect(pagination.sort.to_h).to eq({ current_page: 1, limit_value: 10, total_count: 0, total_pages: 0 })
         end
       end
 
@@ -148,7 +146,7 @@ RSpec.describe API::V2::CaseWorkers::Claim do
 
         it 'should paginate with default values' do
           pagination = pagination_details(do_request)
-          expect(pagination.sort.to_h).to eq({current_page: 3, limit_value: 5, total_count: 0, total_pages: 0})
+          expect(pagination.sort.to_h).to eq({ current_page: 3, limit_value: 5, total_count: 0, total_pages: 0 })
         end
       end
     end

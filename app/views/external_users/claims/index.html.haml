@@ -9,7 +9,7 @@
   = render partial: 'financial_summary', locals: { financial_summary: @financial_summary }
   .column-one-third
     %p.heading-large
-      = link_to t('link.add_claim'), types_external_users_claims_path, class: 'button button-start', role:'button'
+      = govuk_button_start(t('link.add_claim'), types_external_users_claims_path)
 
 .container.search-wrapper#listanchor
   .grid-row

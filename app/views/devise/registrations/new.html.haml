@@ -1,5 +1,8 @@
-%h1.page-title
-  Sign up
+
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   - if resource.errors.any?
@@ -38,6 +41,6 @@
     = f.input_field :password_confirmation, class: 'form-control'
 
   .form-group
-    = f.button :submit, 'Sign up', class: 'button'
+    = govuk_button('Sign up')
 
 = render 'devise/shared/links'

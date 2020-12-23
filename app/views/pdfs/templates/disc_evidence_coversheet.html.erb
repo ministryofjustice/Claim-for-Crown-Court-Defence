@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <%= wicked_pdf_stylesheet_link_tag("pdf", media: 'all') %>
+    <link href='<%= webpacker_source_url('disc-evidence.css') %>' rel='stylesheet' media='all' />
     <title>
       <%= "Disc evidence coversheet #{@disc_evidence_coversheet.case_number}" %>
     </title>
@@ -15,7 +15,7 @@
       <tbody>
         <tr>
           <td>
-            <%= image_tag(wicked_pdf_asset_base64('laa_logo.png'), alt: 'Legal Aid Agency logo', class: 'pdf-logo') %>
+            <%= image_tag(webpacker_source_url('media/images/laa_logo.png'), alt: 'Legal Aid Agency logo', class: 'pdf-logo') %>
           </td>
           <td class='pdf-laa-address'>
             Legal Aid Agency<br>

@@ -23,7 +23,7 @@
       - providers.each do |provider|
         %tr{ id: dom_id(provider) }
           %td
-            = link_to provider.name, provider_management_provider_path(provider)
+            = govuk_link_to provider.name, provider_management_provider_path(provider)
           %td
             = provider.provider_type.humanize
           %td
@@ -31,4 +31,4 @@
           %td
             = provider.vat_registered == true ? t('global_yes') : t('global_no')
           %td
-            = link_to t('.manage_user'), provider_management_provider_external_users_path(provider)
+            = govuk_link_to t('.manage_user'), provider_management_provider_external_users_path(provider)

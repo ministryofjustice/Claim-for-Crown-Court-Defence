@@ -6,7 +6,7 @@ module NotificationQueue
 
     let(:client) do
       Aws::SNS::Client.new(
-        region: 'eu_west_1',
+        region: 'eu-west-1',
         stub_responses:
           {
             publish: stub_publish_response
@@ -22,7 +22,7 @@ module NotificationQueue
 
       let(:claim) { create(:advocate_claim) }
 
-      it { is_expected.to eql true}
+      it { is_expected.to eql true }
     end
   end
 end

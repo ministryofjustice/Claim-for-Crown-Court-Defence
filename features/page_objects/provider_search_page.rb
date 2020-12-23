@@ -3,5 +3,5 @@ class ProviderSearchPage < BasePage
 
   element :email, "input.email"
 
-  element :search, "input.button"
+  element :search, "button.govuk-button"
 end

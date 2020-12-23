@@ -1,13 +1,28 @@
 require 'rails_helper'
 require 'cgi'
 
+RSpec.shared_examples 'last claim state transition reason_text' do
+  let(:mock_claim_state_transitions) do
+    [
+      instance_double(ClaimStateTransition, reason_text: 'first reason'),
+      instance_double(ClaimStateTransition, reason_text: 'another reason'),
+      instance_double(ClaimStateTransition, reason_text: 'last reason')
+    ]
+  end
+
+  before { allow(claim).to receive(:claim_state_transitions).and_return(mock_claim_state_transitions) }
+
+  it 'returns last claim state transition reason text' do
+    is_expected.to eql 'last reason'
+  end
+end
+
 RSpec.describe Claim::BaseClaimPresenter do
   let(:claim) { create(:advocate_claim) }
   subject(:presenter) { described_class.new(claim, view) }
 
   before do
     next if claim.remote?
-    Timecop.freeze(Time.current)
     @first_defendant = claim.defendants.first
     @first_defendant.first_name = 'Mark'
     @first_defendant.last_name = "O'Reilly"
@@ -15,8 +30,6 @@ RSpec.describe Claim::BaseClaimPresenter do
     create(:defendant, first_name: 'Robert', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
     create(:defendant, first_name: 'Adam', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
   end
-
-  after { Timecop.return }
 
   describe '#show_sidebar?' do
     context 'when current step does NOT require sidebar' do
@@ -75,7 +88,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     expect(subject.authorised_at).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
     expect(subject.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
-    expect{subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
+    expect { subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
   end
 
   it '#unique_id' do
@@ -91,6 +104,11 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'returns it when provided' do
       expect(subject.case_number).to eql(claim.case_number)
     end
+  end
+
+  it '#formatted_case_number' do
+    subject.case_number = 'S20094903'
+    expect(subject.formatted_case_number).to eql('S20 094 903')
   end
 
   describe '#valid_transitions' do
@@ -124,10 +142,9 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'should list valid transitions from part_authorised' do
       claim.state = 'part_authorised'
       presenter = Claim::BaseClaimPresenter.new(claim, view)
-      expect(presenter.valid_transitions).to eq( {:redetermination=>"Redetermination", :awaiting_written_reasons=>"Awaiting written reasons"} )
+      expect(presenter.valid_transitions).to eq( { :redetermination=>"Redetermination", :awaiting_written_reasons=>"Awaiting written reasons" } )
     end
   end
-
 
   describe '#assessment_date' do
     context 'blank assessment' do
@@ -140,22 +157,22 @@ RSpec.describe Claim::BaseClaimPresenter do
     let(:assessment_date) { Time.new(2015, 9, 1, 12, 34, 55) }
     let(:first_redetermination_date)  { Time.new(2015, 9, 4, 7, 33, 22) }
     let(:second_redetermination_date) { Time.new(2015, 9, 9, 13, 33, 55) }
-    let(:presenter)  { Claim::BaseClaimPresenter.new(@claim, view) }
+    let(:presenter) { Claim::BaseClaimPresenter.new(@claim, view) }
 
     context 'one assessment, no redeterminations' do
       it 'returns the updated date of the assessment' do
-        Timecop.freeze(creation_date) { @claim = create :submitted_claim }
-        Timecop.freeze(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
+        travel_to(creation_date) { @claim = create :submitted_claim }
+        travel_to(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
         expect(presenter.assessment_date).to eq '01/09/2015'
       end
     end
 
     context 'multiple redeterminations' do
       it 'returns creation date of last redetermination' do
-        Timecop.freeze(creation_date) { @claim = create :submitted_claim }
-        Timecop.freeze(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
-        Timecop.freeze (first_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 110.0, expenses: 205.88) }
-        Timecop.freeze (second_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 113.0, expenses: 208.88) }
+        travel_to(creation_date) { @claim = create :submitted_claim }
+        travel_to(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
+        travel_to(first_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 110.0, expenses: 205.88) }
+        travel_to(second_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 113.0, expenses: 208.88) }
         expect(presenter.assessment_date).to eq '09/09/2015'
       end
     end
@@ -163,21 +180,21 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe 'assessment_fees' do
     it 'should return formatted assessment fees' do
-      claim.assessment.update_values(1234.56, 0.0, 300.0)
+      claim.assessment.update!(fees: 1234.56, expenses: 0.0, disbursements: 300.0)
       expect(subject.assessment_fees).to eq '£1,234.56'
     end
   end
 
   describe 'assessment_expenses' do
     it 'should return formatted assessment expenses' do
-      claim.assessment.update_values(0.0, 1234.56, 300.0)
+      claim.assessment.update!(fees: 0.0, expenses: 1234.56, disbursements: 300.0)
       expect(subject.assessment_expenses).to eq '£1,234.56'
     end
   end
 
   describe 'assessment_disbursements' do
     it 'should return formatted assessment disbursements' do
-      claim.assessment.update_values(0.0, 0.0, 300.0)
+      claim.assessment.update!(fees: 0.0, expenses: 0.0, disbursements: 300.0)
       expect(subject.assessment_disbursements).to eq '£300.00'
     end
   end
@@ -283,31 +300,40 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#representation_order_details' do
+    let(:claim) do
+      claim = build(:claim)
+      claim.defendants << defendant_1
+      claim.defendants << defendant_2
+      claim
+    end
 
-    claim = FactoryBot.build :unpersisted_claim
-    subject { Claim::BaseClaimPresenter.new(claim, view) }
-
-    it 'should return an html safe string of all the dates' do
-
-      defendant_1 = FactoryBot.build :defendant
-      defendant_2 = FactoryBot.build :defendant
-      Timecop.freeze 5.days.ago do
-        defendant_1.representation_orders = [
-          FactoryBot.build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '1234abc'),
-          FactoryBot.build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: 'abc1234'),
+    let(:defendant_1) do
+      defendant = build(:defendant)
+      travel_to 5.days.ago do
+        defendant.representation_orders = [
+          build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '222222'),
+          build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: '333333'),
         ]
       end
-      Timecop.freeze 2.days.ago do
-        defendant_2.representation_orders =[ FactoryBot.build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: 'xyz4321') ]
+      defendant
+    end
+
+    let(:defendant_2) do
+      defendant = build(:defendant)
+      travel_to 2.days.ago do
+        defendant.representation_orders =[ build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '444444') ]
       end
-      claim.defendants = [ defendant_1, defendant_2 ]
-      expect(subject.representation_order_details).to eq( "01/03/2015 1234abc<br />13/08/2015 abc1234<br />01/03/2015 xyz4321" )
+      defendant
+    end
+
+    it 'should return an html safe string of all the dates' do
+      expect(presenter.representation_order_details).to eq( "01/03/2015 222222<br />13/08/2015 333333<br />01/03/2015 444444" )
     end
   end
 
   it '#case_worker_names' do
-    claim.case_workers << FactoryBot.build(:case_worker, user: FactoryBot.build(:user, first_name: "Alexander", last_name: 'Bell'))
-    claim.case_workers << FactoryBot.build(:case_worker, user: FactoryBot.build(:user, first_name: "Louis", last_name: 'Pasteur'))
+    claim.case_workers << build(:case_worker, user: build(:user, first_name: "Alexander", last_name: 'Bell'))
+    claim.case_workers << build(:case_worker, user: build(:user, first_name: "Louis", last_name: 'Pasteur'))
     expect(subject.case_worker_names).to eq('Alexander Bell, Louis Pasteur')
   end
 
@@ -316,7 +342,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       before do
         claim.submit!
         claim.allocate!
-        claim.assessment.update_values(100, 20.43, 50.45)
+        claim.assessment.update!(fees: 100, expenses: 20.43, disbursements: 50.45)
         claim.authorise!
       end
 
@@ -334,7 +360,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   context 'defendant_summary' do
     let(:my_claim)  { Claim::AdvocateClaim.new }
-    let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view)}
+    let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view) }
 
     context '3 defendants' do
       it 'returns name and intial of first defendant and count of additional defendants' do
@@ -494,7 +520,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#has_conference_and_views?' do
     subject { presenter.has_conference_and_views? }
-    let!(:fee) { create(:basic_fee, :cav_fee, claim: claim, quantity: quantity, rate: rate)}
+    let!(:fee) { create(:basic_fee, :cav_fee, claim: claim, quantity: quantity, rate: rate) }
 
     before { claim.reload }
 
@@ -547,22 +573,6 @@ RSpec.describe Claim::BaseClaimPresenter do
       expect(claim).to receive(:documents).and_return []
       expect(claim).to receive(:evidence_checklist_ids).and_return []
       expect(presenter.mandatory_supporting_evidence?).to be_falsey
-    end
-  end
-
-  RSpec.shared_examples 'last claim state transition reason_text' do
-    let(:mock_claim_state_transitions) do
-      [
-        instance_double(ClaimStateTransition, reason_text: 'first reason'),
-        instance_double(ClaimStateTransition, reason_text: 'another reason'),
-        instance_double(ClaimStateTransition, reason_text: 'last reason')
-      ]
-    end
-
-    before { allow(claim).to receive(:claim_state_transitions).and_return(mock_claim_state_transitions) }
-
-    it 'returns last claim state transition reason text' do
-      is_expected.to eql 'last reason'
     end
   end
 
@@ -737,6 +747,59 @@ RSpec.describe Claim::BaseClaimPresenter do
     specify { expect(presenter.display_days?).to be_falsey }
   end
 
+  describe '#display_case_type?' do
+    subject { presenter.display_case_type? }
+
+    let(:external_user) { build(:external_user) }
+    let(:case_worker) { build(:case_worker) }
+
+    context 'when claim has no case type' do
+      let(:claim) { create(:claim, case_type: nil) }
+
+      context 'when user is caseworker' do
+        before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when user is external_user' do
+        before { allow(view).to receive(:current_user).and_return(external_user.user) }
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'when claim delegates case type' do
+      let(:claim) { create(:advocate_hardship_claim, case_type: nil, case_stage: build(:case_stage, :trial_not_concluded)) }
+
+      it 'case type is expected to be truthy' do
+        expect(claim.case_type).to be_truthy
+      end
+
+      context 'when user is caseworker' do
+        before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when user is external_user' do
+        before { allow(view).to receive(:current_user).and_return(external_user.user) }
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'when claim has a non-delegated case type' do
+      let(:claim) { create(:claim, case_type: build(:case_type)) }
+
+      context 'when user is caseworker' do
+        before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when user is external_user' do
+        before { allow(view).to receive(:current_user).and_return(external_user.user) }
+        it { is_expected.to be_truthy }
+      end
+    end
+  end
+
   describe 'calculate #misc_fees' do
     before do
       allow(presenter).to receive(:raw_misc_fees_total).and_return 10.0
@@ -785,5 +848,43 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'returns #fixed_fees_gross with the associated currency' do
       expect(presenter.fixed_fees_gross).to eq('£12.00')
     end
+  end
+
+  describe '#has_clar_fees?' do
+    subject { presenter.has_clar_fees? }
+    let!(:fee) { create(:misc_fee, :miphc_fee, claim: claim, quantity: quantity, rate: rate) }
+
+    before { claim.reload }
+
+    context 'when the claims CLAR fee is populated' do
+      let(:rate) { 1 }
+      let(:quantity) { 3 }
+
+      it { is_expected.to be true }
+    end
+
+    context 'when the claims CLAR fee is empty' do
+      let(:rate) { 0 }
+      let(:quantity) { 0 }
+
+      it { is_expected.to be false }
+    end
+  end
+
+  describe '#eligible_misc_fee_type_options_for_select' do
+    subject { presenter.eligible_misc_fee_type_options_for_select }
+
+    let!(:mispf_fee_type) { create(:misc_fee_type, :mispf) }
+
+    it { is_expected.to be_a Array }
+    it {
+      is_expected.to include(
+                          [
+                            mispf_fee_type.description,
+                            mispf_fee_type.id,
+                            data: { unique_code: mispf_fee_type.unique_code }
+                          ]
+                        )
+    }
   end
 end

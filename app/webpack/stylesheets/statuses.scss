@@ -1,0 +1,25 @@
+// Styling specifically for Claim statuses
+.status {
+  padding: $gutter-one-sixth $gutter-half;
+  border: 3px solid $black;
+
+  &.rejected,
+  &.refused {
+    border-color: $mellow-red;
+    color: $mellow-red;
+  }
+
+  &.submitted,
+  &.allocated,
+  &.redermination,
+  &.draft {
+    border-color: $turquoise;
+    color: $turquoise;
+  }
+
+  &.part_authorised,
+  &.authorised {
+    border-color: $grass-green;
+    color: $grass-green;
+  }
+}

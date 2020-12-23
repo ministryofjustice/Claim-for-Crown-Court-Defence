@@ -44,7 +44,7 @@ RSpec.describe Claims::Cloner, type: :model do
       it 'tests the functionality in the new way' do
         non_rejected_claim = build :claim
         allow(non_rejected_claim).to receive(:rejected?).and_return(false)
-        expect{
+        expect {
           non_rejected_claim.clone_rejected_to_new_draft
         }.to raise_error(ArgumentError)
       end
@@ -212,7 +212,6 @@ RSpec.describe Claims::Cloner, type: :model do
 
     include_examples 'common defendants cloning tests'
   end
-
 
   # helper methods ---------------
   #

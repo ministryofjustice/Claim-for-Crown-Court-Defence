@@ -45,7 +45,7 @@ RSpec.describe 'Disc evidence covertsheet', type: :request do
       end
 
       it 'returns the pdf mime type' do
-        expect(response.content_type).to eql('application/pdf')
+        expect(response.media_type).to eql('application/pdf')
       end
 
       it 'renders a pdf' do
@@ -73,7 +73,7 @@ RSpec.describe 'Disc evidence covertsheet', type: :request do
       end
 
       it 'returns the html mime type' do
-        expect(response.content_type).to eql('text/html')
+        expect(response.media_type).to eql('text/html')
       end
     end
   end

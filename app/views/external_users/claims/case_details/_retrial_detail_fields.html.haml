@@ -22,10 +22,5 @@
 
   = validation_error_message(@error_presenter, :retrial_reduction)
 
-  %details
-    %summary
-      %span.summary
-        = t('.retrial_reduction_help_link')
-    .panel.panel-border-narrow
-      %p
-        = t('.retrial_reduction_help_html')
+  = govuk_detail t('.retrial_reduction_help_link') do
+    = t('.retrial_reduction_help_html')

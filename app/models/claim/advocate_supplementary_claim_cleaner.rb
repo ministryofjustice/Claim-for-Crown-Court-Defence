@@ -2,12 +2,7 @@ module Claim
   class AdvocateSupplementaryClaimCleaner
     attr_accessor :claim
 
-    delegate  :misc_fees,
-              :interim?,
-              :agfs?,
-              :supplementary?,
-              :agfs_reform?,
-              to: :claim
+    delegate_missing_to :claim
 
     def initialize(claim)
       @claim = claim

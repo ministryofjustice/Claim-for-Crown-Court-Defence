@@ -7,7 +7,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
   before { sign_in admin.user }
 
-
   describe 'GET #index' do
     before { get :index }
 
@@ -34,7 +33,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "GET #show" do
-
     before { get :show, params: { id: subject } }
 
     it "returns http success" do
@@ -50,7 +48,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     render_views
-
   end
 
   describe "GET #new" do
@@ -69,11 +66,9 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     render_views
-
   end
 
   describe "GET #edit" do
-
     before { get :edit, params: { id: subject } }
 
     it "returns http success" do
@@ -90,7 +85,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "GET #change_password" do
-
     before { get :change_password, params: { id: subject } }
 
     it "returns http success" do
@@ -157,19 +151,18 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     context 'when invalid' do
       it 'does not create a case worker' do
         expect {
-          post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} } }
+          post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: { email: 'invalidemail' } } }
         }.to_not change(User, :count)
       end
 
       it 'renders the new template' do
-        post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: {email: 'invalidemail'} } }
+        post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: { email: 'invalidemail' } } }
         expect(response).to render_template(:new)
       end
     end
   end
 
   describe "PUT #update" do
-
     context 'when valid' do
       before(:each) { put :update, params: { id: subject, case_worker: { roles: ['admin'] } } }
 
@@ -209,7 +202,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   end
 
   describe "PUT #update_password" do
-
     before do
       subject.user.update(password: 'password', password_confirmation: 'password')
       sign_in subject.user #need to sign in again after password change
@@ -228,7 +220,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     context 'when mandatory params for case worker are not provided' do
       it 'raises a paramenter missing error' do
         expect {
-          put :update_password, params: { id: subject, case_worker: { } }
+          put :update_password, params: { id: subject, case_worker: {} }
         }.to raise_error(ActionController::ParameterMissing)
       end
     end
@@ -247,7 +239,6 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     context 'case worker without sent messages' do
-
       it 'destroys the case worker' do
         delete :destroy, params: { id: subject }
         expect(CaseWorker.active.count).to eq(1)

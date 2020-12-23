@@ -20,6 +20,7 @@
 #
 
 require 'rails_helper'
+require_relative 'shared_examples_for_duplicable'
 
 RSpec.describe Fee::InterimFee do
   let(:fee)               { build :interim_fee }

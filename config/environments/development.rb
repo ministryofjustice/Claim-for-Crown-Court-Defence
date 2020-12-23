@@ -92,7 +92,7 @@ Rails.application.configure do
 
   # normal dev mail configuration
   config.action_mailer.perform_deliveries = Settings.govuk_notify.api_key.present?
-  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.raise_delivery_errors = false
 
   # Store files locally.
   config.active_storage.service = :local

@@ -133,8 +133,6 @@ RSpec.describe ApplicationController, type: :controller do
         expect { subject.signed_in_user_profile_path }.to raise_error(NameError)
       end
     end
-
-
   end
 
   context 'Exceptions handling' do
@@ -169,24 +167,6 @@ RSpec.describe ApplicationController, type: :controller do
         get :another_exception
         expect(response).to redirect_to(error_500_url)
       end
-    end
-  end
-
-  context 'force_ssl when in production' do
-    controller do
-      def test_endpoint; end
-    end
-
-    before do
-      allow(Rails).to receive(:env).and_return('production'.inquiry)
-    end
-
-    it 'should redirect to https' do
-      routes.draw { get 'test_endpoint' => 'anonymous#test_endpoint' }
-
-      get :test_endpoint
-      expect(response.status).to eq(301)
-      expect(response.location).to start_with('https:')
     end
   end
 end

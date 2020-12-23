@@ -15,6 +15,7 @@
 #
 
 require 'rails_helper'
+require 'support/shared_examples_for_claim_types'
 
 RSpec.describe Provider, type: :model do
   let(:firm) { create(:provider, :firm) }
@@ -36,7 +37,7 @@ RSpec.describe Provider, type: :model do
     it 'should destroy external users' do
       expect(ExternalUser.count).to eq 1
       expect(Provider.count).to eq 1
-      expect{ chamber.destroy }.to change {ExternalUser.count}.by(-1)
+      expect { chamber.destroy }.to change { ExternalUser.count }.by(-1)
     end
   end
 
@@ -113,7 +114,7 @@ RSpec.describe Provider, type: :model do
   context '.regenerate_api_key' do
     it 'should create a new api_key' do
       old_api_key = chamber.api_key
-      expect{ chamber.regenerate_api_key! }.to change{ chamber.api_key }.from(old_api_key)
+      expect { chamber.regenerate_api_key! }.to change { chamber.api_key }.from(old_api_key)
     end
   end
 
@@ -158,12 +159,14 @@ RSpec.describe Provider, type: :model do
   end
 
   describe 'available_claim_types' do
+    include_context 'claim-types object helpers'
+
     context 'for an AGFS provider' do
       let(:provider) { build :provider, :agfs }
 
       it 'returns the list of available claim types' do
-        expect(provider.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim])
+        expect(provider.available_claim_types.map(&:to_s))
+          .to match_array(agfs_claim_object_types)
       end
     end
 
@@ -171,17 +174,17 @@ RSpec.describe Provider, type: :model do
       let(:provider) { build :provider, :lgfs }
 
       it 'returns the list of available claim types for LGFS' do
-        expect(provider.available_claim_types)
-          .to match_array([Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+        expect(provider.available_claim_types.map(&:to_s))
+          .to match_array(lgfs_claim_object_types)
       end
     end
 
     context 'for a AGFS and LGFS provider' do
       let(:provider) { build(:provider, :agfs_lgfs) }
 
-      it 'returns the list of available claim types' do
-        expect(provider.available_claim_types)
-          .to match_array([Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim])
+      it 'returns the list of all available claim types' do
+        expect(provider.available_claim_types.map(&:to_s))
+          .to match_array(all_claim_object_types)
       end
     end
   end
@@ -278,6 +281,5 @@ RSpec.describe Provider, type: :model do
         expect(provider.agfs_supplier_numbers).to be_empty
       end
     end
-
   end
 end

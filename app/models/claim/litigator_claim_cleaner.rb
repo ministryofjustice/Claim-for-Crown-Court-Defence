@@ -2,10 +2,7 @@ module Claim
   class LitigatorClaimCleaner
     attr_accessor :claim
 
-    delegate  :case_type,
-              :graduated_fee,
-              :fixed_fee,
-              to: :claim
+    delegate_missing_to :claim
 
     def initialize(claim)
       @claim = claim

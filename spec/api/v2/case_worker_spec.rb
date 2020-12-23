@@ -58,23 +58,22 @@ describe API::V2::CaseWorker do
     end
 
     context 'sorting' do
-      def get_case_workers_ids
+      let(:case_workers_ids) do
         response = do_request
-        body = JSON.parse(response.body, symbolize_names: true)
-        body.map { |cw| cw[:id] }
+        JSON.parse(response.body, symbolize_names: true).pluck(:id)
       end
 
       context 'default' do
         it 'should sort by ID ASC by default' do
-          expect(get_case_workers_ids).to eq(case_workers.map(&:id).sort)
+          expect(case_workers_ids).to eq(case_workers.map(&:id).sort)
         end
       end
 
       context 'custom sorting' do
-        let(:sorting) { {sorting: 'id', direction: 'desc'} }
+        let(:sorting) { { sorting: 'id', direction: 'desc' } }
 
         it 'should sort with specified params' do
-          expect(get_case_workers_ids).to eq(case_workers.map(&:id).sort.reverse)
+          expect(case_workers_ids).to eq(case_workers.map(&:id).sort.reverse)
         end
       end
     end

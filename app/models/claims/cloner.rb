@@ -19,6 +19,7 @@ module Claims::Cloner
       exclude_association :case_worker_claims
       exclude_association :case_workers
       exclude_association :claim_state_transitions
+      exclude_association :archived_claim_state_transitions
       exclude_association :versions
       exclude_association :determinations
       exclude_association :assessment

@@ -8,7 +8,6 @@ RSpec.describe ExpensePresenter do
   subject(:presenter) { described_class.new(expense, view) }
 
   describe '#dates_attended_delimited_string' do
-
     before {
       claim.expenses.each do |fee|
         expense.dates_attended << create(:date_attended, attended_item: fee, date: Date.parse('21/05/2015'), date_to: Date.parse('23/05/2015'))

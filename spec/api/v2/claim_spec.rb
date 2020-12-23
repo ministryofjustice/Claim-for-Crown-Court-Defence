@@ -11,10 +11,10 @@ RSpec.describe API::V2::Claim do
   end
 
   def do_request(claim_uuid: @claim.uuid, api_key: case_worker.user.api_key)
-    get "/api/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}
+    get "/api/claims/#{claim_uuid}", { api_key: api_key }, { format: :json }
   end
 
-  def get_full_claim
+  def full_claim
     response = do_request
     expect(response.status).to eq 200
 
@@ -62,7 +62,7 @@ RSpec.describe API::V2::Claim do
     end
 
     context 'when accessed by a ExternalUser' do
-      before { do_request(api_key: @claim.external_user.user.api_key )}
+      before { do_request(api_key: @claim.external_user.user.api_key ) }
 
       it 'returns unauthorised' do
         expect(last_response.status).to eq 401
@@ -72,19 +72,19 @@ RSpec.describe API::V2::Claim do
 
     # TODO: to be updated and enabled once the claim export structure is finalised.
     # it 'should return a JSON with the required information' do
-    #   claim = get_full_claim
+    #   claim = full_claim
     #   expect(claim.keys).to eq([:claim_uuid, :claim_details, :case_details, :defendants, :fees, :expenses, :disbursements, :documents, :messages, :assessment, :redeterminations])
     # end
 
     # TODO: to be updated and enabled once the claim export structure is finalised.
     context 'should return the expected details' do
       # it 'claim details' do
-      #   details = get_full_claim[:claim_details]
+      #   details = full_claim[:claim_details]
       #   expect(details.to_json).to eq '{"uuid":"uuid","type":"Claim::AdvocateClaim","provider_code":"XY666","advocate_category":"QC","additional_information":"This is some important additional information.","apply_vat":true,"state":"redetermination","submitted_at":"2016-03-10T11:44:55Z","originally_submitted_at":"2016-03-10T11:44:55Z","authorised_at":"2016-03-10T11:44:55Z","created_by":{"id":1,"uuid":"uuid","first_name":"John","last_name":"Smith","email":"john.smith@example.com"},"external_user":{"id":1,"uuid":"uuid","first_name":"John","last_name":"Smith","email":"john.smith@example.com"}}'
       # end
 
       context 'case details' do
-        subject { get_full_claim[:case_details] }
+        subject { full_claim[:case_details] }
         it 'contains name and uuid', skip: 'flickers alot' do
           is_expected.to include(case_type: 'Fixed fee', case_type_uuid: @claim.case_type.uuid)
         end
@@ -92,43 +92,43 @@ RSpec.describe API::V2::Claim do
 
       #
       #   it 'defendants details' do
-      #     details = get_full_claim[:defendants]
+      #     details = full_claim[:defendants]
       #     expect(details.to_json).to eq '[{"id":1,"uuid":"uuid","first_name":"Kaia","last_name":"Casper","date_of_birth":"1995-06-20T00:00:00Z","representation_orders":[{"id":1,"uuid":"uuid","maat_reference":"1234567890","date":"2016-01-10T00:00:00Z"}]}]'
       #   end
       #
       #   it 'fees details' do
-      #     details = get_full_claim[:fees]
+      #     details = full_claim[:fees]
       #     expect(details.to_json).to eq '[{"type":"Pages of prosecution evidence","code":"PPE","date":null,"quantity":1.0,"amount":25.0,"rate":0.0,"dates_attended":[]}]'
       #   end
       #
       #   it 'expenses details' do
-      #     details = get_full_claim[:expenses]
+      #     details = full_claim[:expenses]
       #     expect(details.to_json).to eq '[{"date":"2016-01-10T00:00:00Z","type":"Car travel","location":"Brighton","mileage_rate":"45p","reason":"Pre-trial conference expert witnesses","distance":27.0,"hours":0.0,"quantity":0.0,"rate":0.0,"net_amount":9.99,"vat_amount":0.0}]'
       #   end
       #
       #   # Advocate claims do not have disbursements, tested separated in /spec/api/entities/disbursement_spec.rb
       #   it 'disbursements details' do
-      #     details = get_full_claim[:disbursements]
+      #     details = full_claim[:disbursements]
       #     expect(details.to_json).to eq '[]'
       #   end
       #
       #   it 'documents details' do
-      #     details = get_full_claim[:documents]
+      #     details = full_claim[:documents]
       #     expect(details.to_json).to eq '[{"uuid":"uuid","url":"assets/test/images/longer_lorem.pdf","file_name":"longer_lorem.pdf","size":49993}]'
       #   end
       #
       #   it 'messages details' do
-      #     details = get_full_claim[:messages]
+      #     details = full_claim[:messages]
       #     expect(details.to_json).to eq '[{"created_at":"2016-03-10T11:44:55Z","sender_uuid":"uuid","body":"This is the message body.","document":{"url":"assets/test/images/shorter_lorem.docx","file_name":"shorter_lorem.docx","size":14713}}]'
       #   end
       #
       #   it 'assessment details' do
-      #     details = get_full_claim[:assessment]
+      #     details = full_claim[:assessment]
       #     expect(details.to_json).to eq '{"created_at":"2016-03-10T11:44:55Z","totals":{"fees":24.2,"expenses":8.5,"disbursements":0.0,"vat_amount":5.72,"total":32.7}}'
       #   end
       #
       #   it 'redeterminations details' do
-      #     details = get_full_claim[:redeterminations]
+      #     details = full_claim[:redeterminations]
       #     expect(details.to_json).to eq '[{"created_at":"2016-03-10T11:44:55Z","totals":{"fees":25.0,"expenses":9.2,"disbursements":0.0,"vat_amount":5.99,"total":34.2}}]'
       #   end
     end

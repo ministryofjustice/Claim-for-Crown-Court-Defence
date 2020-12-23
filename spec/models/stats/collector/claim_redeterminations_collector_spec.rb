@@ -3,7 +3,6 @@ require 'rails_helper'
 module Stats
   module Collector
     describe ClaimRedeterminationsCollector do
-
       let(:report_day) { Date.today }
 
       before(:each) do
@@ -36,9 +35,8 @@ module Stats
         end
       end
 
-
       def create_claim(state, date)
-        Timecop.freeze(date) do
+        travel_to(date) do
           create factory_name(state)
         end
       end

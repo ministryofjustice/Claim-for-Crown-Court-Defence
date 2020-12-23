@@ -6,8 +6,8 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   before_action :validate_report_type, only: %i[download generate]
 
   def index
-    @available_report_types = Stats::StatsReport::TYPES.each_with_object({}) do |report_type, hash|
-      hash[report_type] = Stats::StatsReport.most_recent_by_type(report_type)
+    @available_report_types = Stats::StatsReport::TYPES.index_with do |report_type|
+      Stats::StatsReport.most_recent_by_type(report_type)
     end
   end
 

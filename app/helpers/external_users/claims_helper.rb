@@ -9,7 +9,10 @@ module ExternalUsers::ClaimsHelper
   end
 
   def build_dates_attended?(fee)
-    ['discontinuance', 'guilty plea'].include? fee.claim.case_type.name.downcase
+    [
+      ['discontinuance', 'guilty plea'].include?(fee.claim.case_type.name.downcase),
+      !fee.claim.hardship?
+    ].all?
   end
 
   def validation_error_message(error_presenter_or_resource, attribute)
@@ -26,7 +29,7 @@ module ExternalUsers::ClaimsHelper
 
   def validation_message_from_presenter(presenter, attribute)
     if presenter.errors_for?(attribute.to_sym)
-      content_tag :span, class: 'error error-message' do
+      tag.span(class: 'error error-message') do
         presenter.field_level_error_for(attribute.to_sym)
       end
     else
@@ -36,7 +39,7 @@ module ExternalUsers::ClaimsHelper
 
   def validation_message_from_errors_hash(resource, attribute)
     if resource[attribute]
-      content_tag :span, class: 'error error-message' do
+      tag.span(class: 'error error-message') do
         resource[attribute].join(', ')
       end
     else
@@ -60,9 +63,14 @@ module ExternalUsers::ClaimsHelper
   end
 
   def show_timed_retention_banner_to_user?
-    Settings.timed_retention_banner_enabled? &&
-      current_user_is_external_user? &&
+    current_user_is_external_user? &&
       current_user.setting?(:timed_retention_banner_seen).nil?
+  end
+
+  def show_hardship_claims_banner_to_user?
+    Settings.hardship_claims_banner_enabled? &&
+      current_user_is_external_user? &&
+      current_user.setting?(:hardship_claims_banner_seen).nil?
   end
 
   def supplier_number_hint

@@ -12,7 +12,7 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
 
   it_behaves_like 'a mapping fee adapter'
 
-  EXCLUSIONS = %i[BACAV].freeze
+  EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO].freeze
 
   MAPPINGS = {
     BACAV: %w[AGFS_MISC_FEES AGFS_CONFERENCE], # Conferences and views (basic fee)
@@ -52,7 +52,14 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     MIUAV2: %w[AGFS_MISC_FEES AGFS_UN_VAC_WL], # Unsuccessful application to vacate a guilty plea (whole day)
     MIWPF: %w[AGFS_MISC_FEES AGFS_WSTD_PREP], # Wasted preparation fee
     MIWOA: %w[AGFS_MISC_FEES AGFS_WRTN_ORAL], # Written / oral advice
-  }.except(*EXCLUSIONS).freeze
+    MIPHC: %w[AGFS_MISC_FEES AGFS_PAP_HEAVY], # Paper heavy case - AGFS 12 only
+    MIUMU: %w[AGFS_MISC_FEES AGFS_UNUSED_UP3], # Unused material (upto 3 hours) - AGFS 12 only
+    MIUMO: %w[AGFS_MISC_FEES AGFS_UNUSED_OV3] # Unused material (over 3 hours) - AGFS 12 only
+  }.freeze
+
+  def self.mappings(exclusions: true)
+    exclusions ? MAPPINGS.except(*EXCLUSIONS) : MAPPINGS
+  end
 
   describe '#bill_type' do
     subject { described_class.new.call(fee).bill_type }
@@ -62,9 +69,9 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     end
 
     context 'mappings' do
-      MAPPINGS.each do |code, bill_types|
+      mappings.each do |code, bill_types|
         bill_type = bill_types[0]
-        context "maps #{code} to #{bill_type || 'nil'}" do
+        context "with unique_code #{code}" do
           before do
             allow(fee_type).to receive(:unique_code).and_return code
           end
@@ -81,9 +88,9 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     subject { described_class.new.call(fee).bill_subtype }
 
     context 'mappings' do
-      MAPPINGS.each do |code, bill_types|
+      mappings.each do |code, bill_types|
         bill_subtype = bill_types[1]
-        context "maps #{code} to #{bill_subtype || 'nil'}" do
+        context "with unique_code #{code}" do
           before do
             allow(fee_type).to receive(:unique_code).and_return code
           end
@@ -96,22 +103,25 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     end
 
     context 'mapping exclusions' do
-      context 'for conferences and view - BACAV' do
-        before { allow(fee_type).to receive(:unique_code).and_return 'BACAV' }
+      EXCLUSIONS.each do |code|
+        context "with unique_code #{code}" do
+          before { allow(fee_type).to receive(:unique_code).and_return code }
+          bill_subtype = mappings(exclusions: false)[code][1]
 
-        context 'with exclusions (default)' do
-          subject { described_class.new.call(fee).bill_subtype }
-          it { is_expected.to be_nil }
-        end
+          context 'with exclusions (default)' do
+            subject { described_class.new.call(fee).bill_subtype }
+            it { is_expected.to be_nil }
+          end
 
-        context 'with exclusions requested' do
-          subject { described_class.new(exclusions: true).call(fee).bill_subtype }
-          it { is_expected.to be_nil }
-        end
+          context 'with exclusions requested' do
+            subject { described_class.new(exclusions: true).call(fee).bill_subtype }
+            it { is_expected.to be_nil }
+          end
 
-        context 'without exclusions' do
-          subject { described_class.new(exclusions: false).call(fee).bill_subtype }
-          it { is_expected.to eql 'AGFS_CONFERENCE' }
+          context "without exclusions" do
+            subject { described_class.new(exclusions: false).call(fee).bill_subtype }
+            it { is_expected.to eql bill_subtype }
+          end
         end
       end
     end

@@ -9,7 +9,7 @@ RSpec.describe Claim::TransferBrain do
     end
 
     it 'raises if invalid id given' do
-      expect{ described_class.transfer_stage_by_id(55) }.to raise_error ArgumentError, 'No such transfer stage id: 55'
+      expect { described_class.transfer_stage_by_id(55) }.to raise_error ArgumentError, 'No such transfer stage id: 55'
     end
   end
 
@@ -19,7 +19,7 @@ RSpec.describe Claim::TransferBrain do
     end
 
     it 'raises if no such transfer stage with the given name' do
-      expect{ described_class.transfer_stage_id('xxx') }.to raise_error ArgumentError, "No such transfer stage: 'xxx'"
+      expect { described_class.transfer_stage_id('xxx') }.to raise_error ArgumentError, "No such transfer stage: 'xxx'"
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe Claim::TransferBrain do
     end
 
     it 'raises if invalid id given' do
-      expect{ described_class.case_conclusion_by_id(55) }.to raise_error ArgumentError, 'No such case conclusion id: 55'
+      expect { described_class.case_conclusion_by_id(55) }.to raise_error ArgumentError, 'No such case conclusion id: 55'
     end
   end
 
@@ -45,7 +45,7 @@ RSpec.describe Claim::TransferBrain do
     end
 
     it 'raises if no such case conclusion with the given name' do
-      expect{ described_class.case_conclusion_id('xxx') }.to raise_error ArgumentError, "No such case conclusion: 'xxx'"
+      expect { described_class.case_conclusion_id('xxx') }.to raise_error ArgumentError, "No such case conclusion: 'xxx'"
     end
   end
 

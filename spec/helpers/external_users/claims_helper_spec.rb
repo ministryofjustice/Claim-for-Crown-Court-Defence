@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe ExternalUsers::ClaimsHelper do
-
   describe '#error_class?' do
     let(:presenter) { instance_double(ErrorPresenter) }
 
@@ -55,43 +54,75 @@ describe ExternalUsers::ClaimsHelper do
     let(:user_settings) { {} }
 
     before do
-      allow(Settings).to receive(:timed_retention_banner_enabled?).and_return(timed_retention_banner_enabled)
+      allow(current_user).to receive(:settings).and_return(user_settings)
+      allow(helper).to receive(:current_user).and_return(current_user)
+    end
+
+    context 'user is not an external user' do
+      let(:current_user) { create(:case_worker).user }
+
+      it 'should return false' do
+        expect(helper.show_timed_retention_banner_to_user?).to be_falsey
+      end
+    end
+
+    context 'user has not seen yet the promo' do
+      it 'should return true' do
+        expect(helper.show_timed_retention_banner_to_user?).to be_truthy
+      end
+    end
+
+    context 'user has seen the promo' do
+      let(:user_settings) { { timed_retention_banner_seen: '1' } }
+
+      it 'should return false' do
+        expect(helper.show_timed_retention_banner_to_user?).to be_falsey
+      end
+    end
+  end
+
+  describe '#show_hardship_claims_banner_to_user?' do
+    let(:current_user) { create(:external_user, :advocate).user }
+    let(:user_settings) { {} }
+
+    before do
+      allow(Settings).to receive(:hardship_claims_banner_enabled?).and_return(hardship_claims_banner_enabled)
       allow(current_user).to receive(:settings).and_return(user_settings)
       allow(helper).to receive(:current_user).and_return(current_user)
     end
 
     context 'feature flag enabled' do
-      let(:timed_retention_banner_enabled) { true }
+      let(:hardship_claims_banner_enabled) { true }
 
       context 'user is not an external user' do
         let(:current_user) { create(:case_worker).user }
 
         it 'should return false' do
-          expect(helper.show_timed_retention_banner_to_user?).to be_falsey
+          expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
         end
       end
 
       context 'user has not seen yet the promo' do
         it 'should return true' do
-          expect(helper.show_timed_retention_banner_to_user?).to be_truthy
+          expect(helper.show_hardship_claims_banner_to_user?).to be_truthy
         end
       end
 
-      context 'user has seen the promo' do
-        let(:user_settings) { {timed_retention_banner_seen: '1'} }
+      context 'user has seen/dismissed the banner' do
+        let(:user_settings) { { hardship_claims_banner_seen: '1' } }
 
         it 'should return false' do
-          expect(helper.show_timed_retention_banner_to_user?).to be_falsey
+          expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
         end
       end
     end
 
     context 'feature flag disabled' do
-      let(:timed_retention_banner_enabled) { false }
+      let(:hardship_claims_banner_enabled) { false }
 
       it 'should return false regardless of the user setting' do
         expect(helper).not_to receive(:current_user)
-        expect(helper.show_timed_retention_banner_to_user?).to be_falsey
+        expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
       end
     end
   end
@@ -148,7 +179,7 @@ describe ExternalUsers::ClaimsHelper do
     end
 
     context 'when claim fee_scheme is ten' do
-      let!(:scheme_10) { create(:fee_scheme, :agfs_ten)}
+      let!(:scheme_10) { create(:fee_scheme, :agfs_ten) }
       let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
 
       context 'and has a case type of Trial' do
@@ -210,7 +241,7 @@ describe ExternalUsers::ClaimsHelper do
     end
 
     context 'when claim fee_scheme is ten' do
-      let!(:scheme_10) { create(:fee_scheme, :agfs_ten)}
+      let!(:scheme_10) { create(:fee_scheme, :agfs_ten) }
       let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
       let(:fee) { build :basic_fee, :baf_fee, claim: claim }
 
@@ -240,64 +271,66 @@ describe ExternalUsers::ClaimsHelper do
     end
   end
 
-  describe 'build_dates_attended??' do
+  describe '#build_dates_attended?' do
     subject { helper.build_dates_attended?(fee) }
 
-    context 'when claim fee_scheme is nine' do
-      let(:claim) { build(:advocate_claim, case_type: case_type) }
-      let(:fee) { build :basic_fee, :baf_fee, claim: claim }
+    let(:claim) { create(:claim, case_type: case_type) }
+    let(:fee) { build :basic_fee, :baf_fee, claim: claim }
+
+    context 'when claim is not hardship' do
+      before { allow(claim).to receive(:hardship?).and_return false }
 
       context 'and has a case type of Trial' do
         let(:case_type) { build(:case_type, :trial) }
-
         it { is_expected.to be false }
       end
 
       context 'and has a case type of Retrial' do
         let(:case_type) { build(:case_type, :retrial) }
-
         it { is_expected.to be false }
-      end
-
-      context 'and has a case type of Guilty pLea' do
-        let(:case_type) { build(:case_type, :guilty_plea) }
-
-        it { is_expected.to be true }
       end
 
       context 'and has a case type of Contempt' do
         let(:case_type) { build(:case_type, :contempt) }
-
-        it { is_expected.to be false }
-      end
-    end
-
-    context 'when claim fee_scheme is ten' do
-      let!(:scheme_10) { create(:fee_scheme, :agfs_ten)}
-      let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
-      let(:fee) { build :basic_fee, :baf_fee, claim: claim }
-
-      context 'and has a case type of Trial' do
-        let(:case_type) { build(:case_type, :trial) }
-
-        it { is_expected.to be false }
-      end
-
-      context 'and has a case type of Retrial' do
-        let(:case_type) { build(:case_type, :retrial) }
-
         it { is_expected.to be false }
       end
 
       context 'and has a case type of Guilty plea' do
         let(:case_type) { build(:case_type, :guilty_plea) }
-
         it { is_expected.to be true }
+      end
+
+      context 'and has a case type of Discontinuance' do
+        let(:case_type) { build(:case_type, :discontinuance) }
+        it { is_expected.to be true }
+      end
+    end
+
+    context 'when claim is hardship' do
+      before { allow(claim).to receive(:hardship?).and_return true }
+
+      context 'and has a case type of Trial' do
+        let(:case_type) { build(:case_type, :trial) }
+        it { is_expected.to be false }
+      end
+
+      context 'and has a case type of Retrial' do
+        let(:case_type) { build(:case_type, :retrial) }
+        it { is_expected.to be false }
       end
 
       context 'and has a case type of Contempt' do
         let(:case_type) { build(:case_type, :contempt) }
+        it { is_expected.to be false }
+      end
 
+      context 'and has a case type of Guilty plea' do
+        let(:case_type) { build(:case_type, :guilty_plea) }
+        it { is_expected.to be false }
+      end
+
+      context 'and has a case type of Discontinuance' do
+        let(:case_type) { build(:case_type, :discontinuance) }
         it { is_expected.to be false }
       end
     end

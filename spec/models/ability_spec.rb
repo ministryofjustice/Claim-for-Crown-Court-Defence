@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'cancan/matchers'
+require 'support/shared_examples_for_claim_types'
 
 RSpec.shared_examples 'user cannot' do |user, actions|
   actions.each do |action|
@@ -12,6 +13,8 @@ RSpec.describe Ability do
 
   let(:user) { nil }
   let(:another_user) { create(:external_user).user }
+
+  include_context 'claim-types object helpers'
 
   context 'when not a signed in user' do
     it { should_not be_able_to(:create, Message.new) }
@@ -46,20 +49,20 @@ RSpec.describe Ability do
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
-      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim].each do |model|
+      agfs_claim_type_objects.each do |model|
         it { should be_able_to(action, model) }
       end
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
-      [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
+      lgfs_claim_type_objects.each do |model|
         it { should_not be_able_to(action, model) }
       end
     end
 
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy].each do |action|
-        [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim].each do |model|
+        agfs_claim_type_objects.each do |model|
           it { should be_able_to(action, model.new(external_user: external_user)) }
         end
       end
@@ -69,7 +72,7 @@ RSpec.describe Ability do
       let(:other_external_user) { create(:external_user, :advocate, provider: provider) }
 
       [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy].each do |action|
-        [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim].each do |model|
+        agfs_claim_type_objects.each do |model|
           it { should_not be_able_to(action, model.new(external_user: other_external_user)) }
         end
       end
@@ -158,20 +161,14 @@ RSpec.describe Ability do
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
-      [
-        Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
-        Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
-      ].each do |model|
+      all_claim_type_objects.each do |model|
         it { should be_able_to(action, model) }
       end
     end
 
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
-        [
-          Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
-          Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
-        ].each do |model|
+        all_claim_type_objects.each do |model|
           it { should be_able_to(action, model.new(external_user: external_user, creator: external_user)) }
         end
       end
@@ -181,10 +178,7 @@ RSpec.describe Ability do
       let(:other_external_user) { create(:external_user, provider: provider) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
-        [
-          Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
-          Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
-        ].each do |model|
+        all_claim_type_objects.each do |model|
           it { should be_able_to(action, model.new(external_user: other_external_user, creator: external_user)) }
         end
       end
@@ -193,10 +187,7 @@ RSpec.describe Ability do
     context 'cannot manage claims by another external_user with a different provider' do
       let(:other_external_user) { create(:external_user, :advocate) }
       [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
-          [
-            Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
-            Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim
-          ].each do |model|
+        all_claim_type_objects.each do |model|
           it { should_not be_able_to(action, model.new(external_user: other_external_user, creator: other_external_user)) }
         end
       end
@@ -303,20 +294,20 @@ RSpec.describe Ability do
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
-      [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
+      lgfs_claim_type_objects.each do |model|
         it { should be_able_to(action, model) }
       end
     end
 
     [:index, :outstanding, :authorised, :archived, :new, :create].each do |action|
-      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim].each do |model|
+      agfs_claim_type_objects.each do |model|
         it { should_not be_able_to(action, model) }
       end
     end
 
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
-        [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
+        lgfs_claim_type_objects.each do |model|
           it { should be_able_to(action, model.new(external_user: external_user)) }
         end
       end
@@ -325,7 +316,7 @@ RSpec.describe Ability do
     context 'cannot manage claims by another external_user with a different provider' do
       let(:other_external_user) { create(:external_user, :litigator) }
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
-        [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
+        lgfs_claim_type_objects.each do |model|
           it { should_not be_able_to(action, model.new(external_user: other_external_user)) }
         end
       end
@@ -369,7 +360,7 @@ RSpec.describe Ability do
   end
 
   context 'external_user litigator admin' do
-    let(:external_user)       { create(:external_user, :litigator_and_admin) }
+    let(:external_user) { create(:external_user, :litigator_and_admin) }
     let(:provider)      { external_user.provider }
     let(:user)          { external_user.user }
 
@@ -395,7 +386,7 @@ RSpec.describe Ability do
       let(:other_external_user) { create(:external_user, provider: provider) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
-        [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
+        lgfs_claim_type_objects.each do |model|
           it { should be_able_to(action, model.new(external_user: other_external_user, creator: external_user)) }
         end
       end
@@ -405,7 +396,7 @@ RSpec.describe Ability do
       let(:other_external_user) { create(:external_user, :litigator) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
-        [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
+        lgfs_claim_type_objects.each do |model|
           it { should_not be_able_to(action, model.new(external_user: other_external_user, creator: other_external_user)) }
         end
       end
@@ -466,7 +457,7 @@ RSpec.describe Ability do
     end
 
     context 'cannot update claim when not assigned to claim' do
-      [Claim::AdvocateClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
+      all_claim_type_objects.each do |model|
         it { should_not be_able_to(:update, model.new) }
       end
     end
@@ -551,8 +542,8 @@ RSpec.describe Ability do
     let(:other_super_admin) { create(:super_admin) }
     let(:provider)          { create(:provider) }
     let(:other_provider)    { create(:provider) }
-    let(:external_user)          { create(:external_user, provider: provider)}
-    let(:other_external_user)    { create(:external_user, provider: other_provider)}
+    let(:external_user)          { create(:external_user, provider: provider) }
+    let(:other_external_user)    { create(:external_user, provider: other_provider) }
 
     it { should be_able_to(:update_settings, user) }
     it { should_not be_able_to(:update_settings, another_user) }

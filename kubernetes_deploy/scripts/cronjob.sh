@@ -4,7 +4,7 @@ function _cronjob() {
   Usage: cronjob job environment [branch]
   Where:
     job [archive_stale|clean_ecr]
-    environment [dev|staging|api-sandbox|production]
+    environment [dev|dev-lgfs|staging|api-sandbox|production]
     branch [<branchname>-latest|commit-sha]
 
   Example:
@@ -27,15 +27,14 @@ function _cronjob() {
     return 0
   fi
 
-  context='live-1'
-
   case "$1" in
     archive_stale)
       job=$1
       ;;
     clean_ecr)
-      echo "Setting environment to dev as only this has the ECR secret..."
-      kubectl apply --context ${context} -n cccd-dev -f kubernetes_deploy/cron_jobs/$1.yaml
+      echo "Setting namespace to dev as only this has the ECR secret..."
+      kubectl config set-context --current --namespace=cccd-dev
+      kubectl apply -f kubernetes_deploy/cron_jobs/$1.yaml
       return $?
       ;;
     *)
@@ -45,7 +44,7 @@ function _cronjob() {
   esac
 
   case "$2" in
-    dev | staging | api-sandbox | production)
+    dev | dev-lgfs | staging | api-sandbox | production)
       environment=$2
       ;;
     *)
@@ -62,18 +61,20 @@ function _cronjob() {
     current_version=$3
   fi
 
+  context=$(kubectl config current-context)
   component=app
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
 
   printf "\e[33m--------------------------------------------------\e[0m\n"
-  printf "\e[33mJob: kubernetes_deploy/cron_jobs/${job}.yaml\e[0m\n"
+  printf "\e[33mCronJob file: ${job}.yaml\e[0m\n"
   printf "\e[33mContext: $context\e[0m\n"
   printf "\e[33mEnvironment: $environment\e[0m\n"
   printf "\e[33mDocker image: $docker_image_tag\e[0m\n"
   printf "\e[33m--------------------------------------------------\e[0m\n"
 
-  kubectl set image -f kubernetes_deploy/cron_jobs/${job}.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply --context ${context} -n cccd-${environment} -f -
+  kubectl config set-context --current --namespace=cccd-${environment}
+  kubectl set image -f kubernetes_deploy/cron_jobs/${job}.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
 
 }
 

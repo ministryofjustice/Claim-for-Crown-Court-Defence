@@ -174,7 +174,7 @@ end
 When(/^I should see the AGFS filters$/) do
   options = %w(All Fixed\ fee Cracked Trial Guilty\ Plea Redetermination
                Awaiting\ written\ reasons Disk\ evidence Injection\ errors
-               Warrants Supplementary)
+               Warrants Supplementary Hardship)
   expect(page.find('#filter-tasks-agfs')).to have_select(options: options)
 end
 

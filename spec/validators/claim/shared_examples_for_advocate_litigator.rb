@@ -1,5 +1,4 @@
-RSpec.shared_examples "common advocate litigator validations" do |external_user_type, options|
-
+RSpec.shared_examples 'common advocate litigator validations' do |external_user_type, options|
   context 'external_user' do
     it 'should error if not present, regardless' do
       claim.external_user = nil
@@ -54,9 +53,7 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
       end
 
       context 'and transfer court is not set' do
-        before do
-          claim.transfer_court = nil
-        end
+        before { claim.transfer_court = nil }
 
         it 'should error' do
           should_error_with(claim, :transfer_court, 'blank')
@@ -64,15 +61,14 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
       end
 
       context 'and transfer court is set' do
+        before { claim.transfer_court = court }
+
         let(:court) { build(:court) }
 
-        before do
-          claim.transfer_court = court
+        it 'should NOT error' do
+          should_not_error(claim, :transfer_court)
         end
-
-        specify { expect(claim).to be_valid }
       end
-
     end
   end
 
@@ -80,13 +76,23 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
     before(:each) { claim.transfer_court = FactoryBot.build(:court) }
 
     it 'should NOT error if blank' do
-      expect(claim.transfer_case_number).to be_blank
-      expect(claim).to be_valid
+      claim.transfer_case_number = nil
+      should_not_error(claim, :transfer_case_number)
+    end
+
+    it 'should NOT error if valid case_number' do
+      claim.transfer_case_number = 'A20161234'
+      should_not_error(claim, :transfer_case_number)
+    end
+
+    it 'should NOT error if valid URN' do
+      claim.transfer_case_number = 'ABCDEFGHIJ1234567890'
+      should_not_error(claim, :transfer_case_number)
     end
 
     it 'should error if wrong format' do
-      claim.transfer_case_number = 'ABC'
-      should_error_with(claim, :transfer_case_number, 'invalid')
+      claim.transfer_case_number = 'ABC_'
+      should_error_with(claim, :transfer_case_number, 'invalid_case_number_or_urn')
     end
 
     context 'when case was transferred from another court' do
@@ -113,11 +119,11 @@ RSpec.shared_examples "common advocate litigator validations" do |external_user_
 
         context 'and transfer case number has an invalid format' do
           before do
-            claim.transfer_case_number = 'ABC'
+            claim.transfer_case_number = 'ABC_'
           end
 
           it 'contains an invalid error on transfer case number' do
-            should_error_with(claim, :transfer_case_number, 'invalid')
+            should_error_with(claim, :transfer_case_number, 'invalid_case_number_or_urn')
           end
         end
       end
@@ -159,7 +165,7 @@ RSpec.shared_examples "common litigator validations" do |*flags|
     before do
       # TODO: refactor shared examples so that things that do not apply to all litigator claims
       # are not set as common/shared examples :/
-      skip('does not apply to an interim claim') if flags.include?(:interim_claim)
+      skip('does not apply to this claim type') if ([:interim_claim, :hardship_claim] & flags).any?
       claim.force_validation = true
     end
 
@@ -214,6 +220,7 @@ RSpec.shared_examples "common litigator validations" do |*flags|
     end
 
     it 'should error if NOT present for case type without fixed fees' do
+      skip('does not apply to this claim type') if ([:hardship_claim] & flags).any?
       claim.case_type.is_fixed_fee = false
       should_error_with(claim, :offence, 'blank_class')
       claim.case_type.is_fixed_fee = true

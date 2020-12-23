@@ -1,5 +1,3 @@
-.phase-banner
-  %p
-    = t('layouts.phase_banner_html', feedback: new_feedback_path, feedback_type: new_feedback_path(type: 'bug_report') )
+= govuk_phase_banner '', t('layouts.phase_banner_html', feedback: new_feedback_path, feedback_type: new_feedback_path(type: 'bug_report'))
 
-  = render partial: 'shared/downtime_warning'
+= render partial: 'shared/downtime_warning'

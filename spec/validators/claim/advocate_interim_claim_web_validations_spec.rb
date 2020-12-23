@@ -97,7 +97,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:case_number]).to match_array(['invalid'])
+        expect(claim.errors[:case_number]).to match_array(['invalid_case_number_or_urn'])
       }
     end
 
@@ -150,7 +150,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
         specify {
           is_expected.to be_invalid
-          expect(claim.errors[:transfer_case_number]).to match_array(['invalid'])
+          expect(claim.errors[:transfer_case_number]).to match_array(['invalid_case_number_or_urn'])
         }
       end
     end

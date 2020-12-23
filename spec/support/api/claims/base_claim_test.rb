@@ -1,24 +1,25 @@
 require_relative 'debuggable'
-require_relative '../../test_helpers'
+require_relative '../../scheme_date_helpers'
 
 class BaseClaimTest
   include Debuggable
-  include TestHelpers
+  include SchemeDateHelpers
 
   attr_accessor :client, :claim_uuid
 
   # dropdown endpoints
-  CASE_TYPE_ENDPOINT          = 'case_types'.freeze
-  COURT_ENDPOINT              = 'courts'.freeze
-  ADVOCATE_CATEGORY_ENDPOINT  = 'advocate_categories'.freeze
-  CRACKED_THIRD_ENDPOINT      = 'trial_cracked_at_thirds'.freeze
-  OFFENCE_CLASS_ENDPOINT      = 'offence_classes'.freeze
-  OFFENCE_ENDPOINT            = 'offences'.freeze
-  FEE_TYPE_ENDPOINT           = 'fee_types'.freeze
-  EXPENSE_TYPE_ENDPOINT       = 'expense_types'.freeze
-  DISBURSEMENT_TYPE_ENDPOINT  = 'disbursement_types'.freeze
-  TRANSFER_STAGES_ENDPOINT    = 'transfer_stages'.freeze
+  CASE_TYPE_ENDPOINT                 = 'case_types'.freeze
+  COURT_ENDPOINT                     = 'courts'.freeze
+  ADVOCATE_CATEGORY_ENDPOINT         = 'advocate_categories'.freeze
+  CRACKED_THIRD_ENDPOINT             = 'trial_cracked_at_thirds'.freeze
+  OFFENCE_CLASS_ENDPOINT             = 'offence_classes'.freeze
+  OFFENCE_ENDPOINT                   = 'offences'.freeze
+  FEE_TYPE_ENDPOINT                  = 'fee_types'.freeze
+  EXPENSE_TYPE_ENDPOINT              = 'expense_types'.freeze
+  DISBURSEMENT_TYPE_ENDPOINT         = 'disbursement_types'.freeze
+  TRANSFER_STAGES_ENDPOINT           = 'transfer_stages'.freeze
   TRANSFER_CASE_CONCLUSIONS_ENDPOINT = 'transfer_case_conclusions'.freeze
+  CASE_STAGE_ENDPOINT                = 'case_stages'.freeze
 
   ADVOCATE_TEST_EMAIL  = 'advocateadmin@example.com'.freeze
   LITIGATOR_TEST_EMAIL = 'litigatoradmin@example.com'.freeze

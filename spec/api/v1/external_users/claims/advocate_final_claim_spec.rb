@@ -10,8 +10,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
   let!(:vendor)         { create(:external_user, :admin, provider: provider) }
   let!(:advocate)       { create(:external_user, :advocate, provider: provider) }
   let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
-  let!(:offence)        { create(:offence)}
-  let!(:court)          { create(:court)}
+  let!(:offence)        { create(:offence) }
+  let!(:court)          { create(:court) }
   let!(:valid_params)   { {
       :api_key => provider.api_key,
       :creator_email => vendor.user.email,
@@ -37,8 +37,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
   it_behaves_like 'a claim endpoint', relative_endpoint: :advocate
   it_behaves_like 'a claim validate endpoint', relative_endpoint: :advocate
   it_behaves_like 'a claim create endpoint', relative_endpoint: :advocate
-  it_behaves_like 'a deprecated claim endpoint', relative_endpoint: :advocate, action: :validate, deprecation_datetime: Time.new(2020, 1, 31)
-  it_behaves_like 'a deprecated claim endpoint', relative_endpoint: :advocate, action: :create, deprecation_datetime: Time.new(2020, 1, 31)
+  it_behaves_like 'a deprecated claim endpoint', relative_endpoint: :advocate, action: :validate, deprecation_datetime: Time.new(2021, 3, 31)
+  it_behaves_like 'a deprecated claim endpoint', relative_endpoint: :advocate, action: :create, deprecation_datetime: Time.new(2021, 3, 31)
 
   # TODO: write a generic date error handling spec and share
   describe "POST #{ClaimApiEndpoints.for(:advocate).validate}" do

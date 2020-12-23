@@ -41,8 +41,8 @@
 .form-section
   .grid-row
     .column-one-half
-      = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation') }, class: 'button'
+      = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation'), module: 'govuk-button' }, class: 'govuk-button', draggable: 'false'
     .column-one-half
       - if can? :edit, @provider
-        = link_to t('.edit_provider'), edit_external_users_admin_provider_path(@provider), class: 'button-gray-3'
+        = govuk_link_button_secondary(t('.edit_provider'), edit_external_users_admin_provider_path(@provider))
 

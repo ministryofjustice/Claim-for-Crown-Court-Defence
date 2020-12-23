@@ -4,34 +4,31 @@ RSpec.describe Claims::FinancialSummary, type: :model do
   # Uses default VAT rate factory (implicitly) with VAT rate of 17.5%
 
   context 'by advocate' do
-
     # TODO should not rely on values in factory which may change
     let!(:submitted_claim)  { create(:submitted_claim,) }
     let!(:allocated_claim)  { create(:allocated_claim,) }
 
     let!(:old_part_authorised_claim) do
-      Timecop.freeze(Time.now - 2.week) do
-        claim = create(:part_authorised_claim)
-        Timecop.freeze(Time.now + 1.week) do
-          claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
-          claim
-        end
+      travel_to(Time.now - 2.week)
+      create(:part_authorised_claim).tap do |claim|
+        travel_to(Time.now + 1.week)
+        claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
+        travel_back
       end
     end
 
     let!(:part_authorised_claim) do
-      Timecop.freeze(Time.now - 2.week) do
-        claim = create(:part_authorised_claim)
-        Timecop.freeze(Time.now + 2.week) do
-          claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
-          claim
-        end
+      travel_to(Time.now - 2.week)
+      create(:part_authorised_claim).tap do |claim|
+        travel_to(Time.now + 2.week)
+        claim.determinations.first.update(fees: claim.fees_total/2, expenses: claim.expenses_total)
+        travel_back
       end
     end
 
     let!(:authorised_claim) do
       claim = create(:authorised_claim)
-      claim.assessment.update_values!(claim.fees_total, claim.expenses_total, claim.disbursements_total)
+      claim.assessment.update!(fees: claim.fees_total, expenses: claim.expenses_total, disbursements: claim.disbursements_total)
       claim
     end
 
@@ -112,10 +109,10 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     context 'with VAT' do
       let!(:submitted_claim_from_advocate1)        { create(:submitted_claim, external_user: advocate1_with_vat) }
       let!(:allocated_claim_from_advocate2)        { create(:allocated_claim, external_user: advocate2_with_vat) }
-      let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim, external_user: advocate1_with_vat)}
-      let!(:authorised_claim_from_advocate1)       { create(:authorised_claim, external_user: advocate1_with_vat)}
-      let!(:authorised_claim_from_advocate2)       { create(:authorised_claim, external_user: advocate2_with_vat)}
-      let(:summary)                               { Claims::FinancialSummary.new(agfs_provider.claims) }
+      let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim, external_user: advocate1_with_vat) }
+      let!(:authorised_claim_from_advocate1)       { create(:authorised_claim, external_user: advocate1_with_vat) }
+      let!(:authorised_claim_from_advocate2)       { create(:authorised_claim, external_user: advocate2_with_vat) }
+      let(:summary)                                { Claims::FinancialSummary.new(agfs_provider.claims) }
 
       describe '#total_outstanding_claim_value' do
         it 'calculates the value of outstanding claims' do
@@ -136,12 +133,11 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     end
 
     context 'claim without VAT applied' do
-
       let!(:submitted_claim_from_advocate1)        { create(:submitted_claim,        external_user: advocate1_without_vat) }
       let!(:allocated_claim_from_advocate2)        { create(:allocated_claim,        external_user: advocate2_without_vat) }
       let!(:part_authorised_claim_from_advocate1)  { create(:part_authorised_claim,  external_user: advocate1_without_vat) }
       let!(:authorised_claim_from_advocate2)       { create(:authorised_claim,       external_user: advocate2_without_vat) }
-      let(:summary)                   { Claims::FinancialSummary.new(agfs_provider.claims) }
+      let(:summary)                                { Claims::FinancialSummary.new(agfs_provider.claims) }
 
       it 'calculates the value of outstanding claims' do
         expect(summary.total_outstanding_claim_value).to eq(submitted_claim_from_advocate1.total +

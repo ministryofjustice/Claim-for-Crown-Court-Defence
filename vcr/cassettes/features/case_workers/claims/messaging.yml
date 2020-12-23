@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=787b6244-58fb-40a4-92f9-a693d2c74ac7&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=7b46a7fd-7f42-487b-bb27-a0cba1bd54c1&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -10,7 +10,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.5p114
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
@@ -25,27 +25,26 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"16e3b1f570728430b4348be7d1ba4801"
+      - W/"02ba8cf13bc944cf3a799be2f58689e5"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
       - 0.7.2
       X-Request-Id:
-      - 6538c606-ce59-496f-bafc-2dbee70969ad
+      - b36f4d9f-4a1a-4f45-bda3-5e71908211d4
       X-Runtime:
-      - '0.066917'
+      - '0.603046'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"24d1e02d-3c5c-4a4d-be77-e70d3159d376","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2019-09-06T10:32:23Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"7229c4e8-146e-4471-9e53-997d84cfe629","first_name":"Denny","last_name":"Klocko","email":"willy@funkhodkiewicz.biz"},"defendants":[{"id":1,"uuid":"bb8b812f-d8fa-405f-918b-b6c6a296b58e","first_name":"Sonny","last_name":"Nikolaus","date_of_birth":"1989-09-06","representation_orders":[{"id":1,"uuid":"0083a5bb-e3b6-4312-b608-e42c9433b965","maat_reference":"4498196","date":"2016-01-01"},{"id":2,"uuid":"d62dec62-0b63-4b8b-94f5-2f93bec799e4","maat_reference":"6173751","date":"2018-08-22"}]}],"case_type":{"id":154,"name":"Case
-        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"584b1fd1-1437-4930-860b-17254750a390","first_name":"Tyrell","last_name":"Mosciski","email":"tyrell.mosciski@laa.gov.uk"},{"id":1,"uuid":"affd9fff-5a3d-4a0d-b040-47adb25e6cf1","first_name":"Cristy","last_name":"Upton","email":"cristy.upton@laa.gov.uk"}],"court":{"id":757,"code":"IEZ-1","name":"Schmeler,
-        Feeney and Okuneva-1","court_type":"crown"}}]}'
-    http_version: 
-  recorded_at: Fri, 06 Sep 2019 10:32:24 GMT
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"9d0a258f-632b-4f00-b90d-4c26c87d1d73","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2020-10-26T12:43:04Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"8ef773a4-ee1d-4ef9-ac26-5f3ef970c5a7","first_name":"Chieko","last_name":"Erdman","email":"jae@thiel-jacobi.name"},"defendants":[{"id":1,"uuid":"19ddfe9e-eb07-418a-9041-44730ffc0640","first_name":"Marion","last_name":"Spinka","date_of_birth":"1990-10-26","representation_orders":[{"id":1,"uuid":"4ec32dda-a047-4457-9cb5-30cda4c288d6","maat_reference":"8917610","date":"2016-01-01"},{"id":2,"uuid":"bc976be2-821a-4fd7-b1d7-1edb6fa67c4d","maat_reference":"7630280","date":"2019-10-12"}]}],"case_type":{"id":101,"name":"Case
+        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"ff218a72-be1e-4a69-8321-087a3e01c92a","first_name":"Mohammad","last_name":"Schiller","email":"mohammad.schiller@laa.gov.uk"},{"id":1,"uuid":"f1522896-3df4-4fe6-a28e-c7ff83afb9af","first_name":"Corliss","last_name":"Effertz","email":"corliss.effertz@laa.gov.uk"}],"court":{"id":503,"code":"SQK-1","name":"Shanahan,
+        Feeney and Parker-1","court_type":"crown"}}]}'
+  recorded_at: Mon, 26 Oct 2020 12:43:08 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=787b6244-58fb-40a4-92f9-a693d2c74ac7&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=7b46a7fd-7f42-487b-bb27-a0cba1bd54c1&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -53,7 +52,7 @@ http_interactions:
       Accept:
       - "*/*"
       User-Agent:
-      - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.3p62
+      - rest-client/2.1.0 (darwin17.7.0 x86_64) ruby/2.6.5p114
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
       Host:
@@ -68,22 +67,21 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"db1fe938fa555c8adb1191dfbcad7dd2"
+      - W/"ea7387374bfcdc874a841b6a751ffb47"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
       - 0.7.2
       X-Request-Id:
-      - 0d04cc43-aac0-455d-bf63-3e28b52dbb98
+      - cf902ed7-79f9-4ef0-bb82-b6166d1fa71d
       X-Runtime:
-      - '0.050765'
+      - '0.095082'
       Transfer-Encoding:
       - chunked
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"24d1e02d-3c5c-4a4d-be77-e70d3159d376","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2019-09-06T10:32:23Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":2,"unread_messages_count":1,"external_user":{"id":1,"uuid":"7229c4e8-146e-4471-9e53-997d84cfe629","first_name":"Denny","last_name":"Klocko","email":"willy@funkhodkiewicz.biz"},"defendants":[{"id":1,"uuid":"bb8b812f-d8fa-405f-918b-b6c6a296b58e","first_name":"Sonny","last_name":"Nikolaus","date_of_birth":"1989-09-06","representation_orders":[{"id":1,"uuid":"0083a5bb-e3b6-4312-b608-e42c9433b965","maat_reference":"4498196","date":"2016-01-01"},{"id":2,"uuid":"d62dec62-0b63-4b8b-94f5-2f93bec799e4","maat_reference":"6173751","date":"2018-08-22"}]}],"case_type":{"id":154,"name":"Case
-        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"584b1fd1-1437-4930-860b-17254750a390","first_name":"Tyrell","last_name":"Mosciski","email":"tyrell.mosciski@laa.gov.uk"},{"id":1,"uuid":"affd9fff-5a3d-4a0d-b040-47adb25e6cf1","first_name":"Cristy","last_name":"Upton","email":"cristy.upton@laa.gov.uk"}],"court":{"id":757,"code":"IEZ-1","name":"Schmeler,
-        Feeney and Okuneva-1","court_type":"crown"}}]}'
-    http_version: 
-  recorded_at: Fri, 06 Sep 2019 10:32:29 GMT
-recorded_with: VCR 5.0.0
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"9d0a258f-632b-4f00-b90d-4c26c87d1d73","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2020-10-26T12:43:04Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":2,"unread_messages_count":1,"external_user":{"id":1,"uuid":"8ef773a4-ee1d-4ef9-ac26-5f3ef970c5a7","first_name":"Chieko","last_name":"Erdman","email":"jae@thiel-jacobi.name"},"defendants":[{"id":1,"uuid":"19ddfe9e-eb07-418a-9041-44730ffc0640","first_name":"Marion","last_name":"Spinka","date_of_birth":"1990-10-26","representation_orders":[{"id":1,"uuid":"4ec32dda-a047-4457-9cb5-30cda4c288d6","maat_reference":"8917610","date":"2016-01-01"},{"id":2,"uuid":"bc976be2-821a-4fd7-b1d7-1edb6fa67c4d","maat_reference":"7630280","date":"2019-10-12"}]}],"case_type":{"id":101,"name":"Case
+        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"ff218a72-be1e-4a69-8321-087a3e01c92a","first_name":"Mohammad","last_name":"Schiller","email":"mohammad.schiller@laa.gov.uk"},{"id":1,"uuid":"f1522896-3df4-4fe6-a28e-c7ff83afb9af","first_name":"Corliss","last_name":"Effertz","email":"corliss.effertz@laa.gov.uk"}],"court":{"id":503,"code":"SQK-1","name":"Shanahan,
+        Feeney and Parker-1","court_type":"crown"}}]}'
+  recorded_at: Mon, 26 Oct 2020 12:43:35 GMT
+recorded_with: VCR 6.0.0

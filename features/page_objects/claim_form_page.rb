@@ -2,6 +2,7 @@ require_relative 'sections/common_date_section'
 require_relative 'sections/common_autocomplete_section'
 require_relative 'sections/supplier_numbers_section'
 require_relative 'sections/retrial_section'
+require_relative 'sections/cracked_trial_section'
 require_relative 'sections/fee_dates_section_condensed'
 require_relative 'sections/fee_dates_section'
 require_relative 'sections/fee_section'
@@ -16,7 +17,6 @@ require_relative 'sections/advocate_category_section'
 require_relative 'sections/evidence_checklist_section'
 require_relative 'sections/yes_no_section'
 
-
 class ClaimFormPage < BasePage
   include SelectHelper
 
@@ -24,10 +24,12 @@ class ClaimFormPage < BasePage
 
   element :providers_ref, "#providers_ref"
   section :auto_case_type, CommonAutocomplete, "#cc-case-type"
+  section :auto_case_stage, CommonAutocomplete, "#cc-case-stage"
   section :auto_court, CommonAutocomplete, "#cc-court"
   section :auto_offence, CommonAutocomplete, "#cc-offence"
 
   element :case_number, "#case_number"
+  element :case_type_dropdown, "#case_type"
 
   section :trial_details, "#trial-dates" do
     section :first_day_of_trial, CommonDateSection, '#first_day_of_trial'
@@ -37,6 +39,7 @@ class ClaimFormPage < BasePage
   end
 
   section :retrial_details, RetrialSection, "#retrial-dates"
+  section :cracked_trial_details, CrackedTrialSection, "#cracked-trial-dates"
 
   sections :defendants, ".defendant-details" do
     element :first_name, "div.first-name input"
@@ -75,8 +78,8 @@ class ClaimFormPage < BasePage
 
   element :additional_information, "textarea#claim_additional_information"
   element :continue, "div.button-holder > input:nth-of-type(1)"
-  element :submit_to_laa, "div.button-holder > input:nth-of-type(1)" # this maps to Save and continue too
-  element :save_to_drafts, "div.button-holder > input:nth-of-type(2)"
+  element :submit_to_laa, "div.button-holder > button:nth-of-type(1)" # this maps to Save and continue too
+  element :save_to_drafts, "div.button-holder > button:nth-of-type(2)"
 
   sections :errors, "div.error-summary > ul > li" do
     element :message, "a"

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Fee::FixedFeePresenter do
-  let(:fixed_fee) { instance_double(Fee::FixedFee, claim: double, quantity_is_decimal?: false, errors: {:quantity => []}) }
+  let(:fixed_fee) { instance_double(Fee::FixedFee, claim: double, quantity_is_decimal?: false, errors: { :quantity => [] }) }
   let(:presenter) { Fee::FixedFeePresenter.new(fixed_fee, view) }
 
   context '#rate' do

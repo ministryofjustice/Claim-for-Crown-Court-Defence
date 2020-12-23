@@ -25,7 +25,7 @@ module Stats
     end
 
     def self.create_or_update(date, report_name, claim_type, value1, value2 = 0)
-      stat = Statistic.where(date: date, report_name: report_name, claim_type: claim_type.to_s).first
+      stat = Statistic.find_by(date: date, report_name: report_name, claim_type: claim_type.to_s)
       if stat
         stat.update(value_1: value1, value_2: value2)
         retval = 0

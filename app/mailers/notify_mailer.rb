@@ -11,7 +11,7 @@ class NotifyMailer < GovukNotifyRails::Mailer
       user_name: user.name,
       claim_case_number: claim.case_number,
       claim_url: external_users_claim_url(claim, messages: true),
-      edit_user_url: edit_external_users_admin_external_user_url(user)
+      edit_user_url: edit_external_users_admin_external_user_url(user.persona)
     )
     mail(to: user.email)
   end

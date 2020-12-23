@@ -49,14 +49,18 @@ max_item_amount: 200_000.00     # An item is each of the individual expenses, di
 max_claim_amount: 1_000_000.00  # The total sum of all the individual items in a claim
 
 claim_csv_headers:
+  - :id
   - :scheme
   - :case_number
   - :supplier_number
   - :organisation
   - :case_type_name
+  - :bill_type
   - :claim_total
   - :submission_type
-  - :submitted_at
+  - :transitioned_at
+  - :last_submitted_at
+  - :originally_submitted_at
   - :allocated_at
   - :completed_at
   - :current_or_end_state
@@ -66,17 +70,15 @@ claim_csv_headers:
   - :disk_evidence_case
   - :main_defendant
   - :maat_reference
+  - :rep_order_issued_date
   - :af1_lf1_processed_by
+  - :misc_fees
 
 expense_schema_version: 2
 
-# Feature flag to enable or disable API promo banner in the claims page
-# If enabled, users will see it, and will have a 'dismiss' link to hide and do not show it again
-api_promo_enabled?: true
-
-# Feature flag to enable or disable the timed retention banner
+# Feature flag to enable or disable the hardship claim banner
 # If enabled, external users will see it, and will have a 'dismiss' link to hide and do not show it again
-timed_retention_banner_enabled?: true
+hardship_claims_banner_enabled?: true
 
 # Feature flag to enable or disable the downtime warning
 # If enabled, all users will see it up until "downtime_warning_date"
@@ -86,11 +88,6 @@ downtime_warning_date: <%= Date.new(2019, 11, 20) %>
 # Feature flag to enable or disable the scheme filters in the claims list page
 # If enabled, users with proper roles will see scheme radio buttons to filter the list
 scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
-
-# Feature flag to enable ability to set user email notification user preferences.  If true, external
-# users will be able to set preference to say whether they want email notifications of outstanding messages
-# on their claim
-email_notification_enabled?: true
 
 # Feature flag to enable maintenance mode
 # If enabled all routes mapped to pages#servicedown on startup
@@ -104,6 +101,7 @@ reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).ch
 
 agfs_fee_reform_release_date: <%= Date.new(2018, 4, 1) %>
 agfs_scheme_11_release_date: <%= Date.new(2018, 12, 31) %>
+clar_release_date: <%= Date.new(2020, 9, 17) %>
 
 # number of weeks in one state before automatic transition to archived pending delete
 timed_transition_stale_weeks: 16

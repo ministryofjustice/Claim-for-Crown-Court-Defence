@@ -18,14 +18,14 @@
     - if f.object.fee_type.case_uplift?
       .form-group
         = f.adp_text_field :case_numbers,
-          label: t('.case_numbers'),
+          label: t('.case_numbers_html', context: f.object.description),
           input_classes:'js-fixed-fee-case-numbers',
           hint_text:'Separate by commas',
           errors: @error_presenter
 
     .form-group
       = f.adp_text_field :quantity,
-        label: t('.quantity'),
+        label: t('.quantity_html', context: f.object.description),
         hint_text: t('.quantity_hint'),
         hide_hint: true,
         input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity",
@@ -36,7 +36,7 @@
     .form-group.js-unit-price-effectee
       .calculated-unit-fee
       = f.adp_text_field :rate,
-          label: t('.rate'),
+          label: t('.rate_html', context: f.object.description),
           input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
           input_type: 'currency',
           errors: @error_presenter,
@@ -47,13 +47,8 @@
       = f.hidden_field :price_calculated, value: f.object.price_calculated?
 
     .fee-calc-help-wrapper.form-group.hidden
-      %details
-        %summary
-          %span.summary
-            = t('.help_how_we_calculate_rate_title')
-        .panel.panel-border-narrow
-          %p
-            = t('.help_how_we_calculate_rate_body')
+      = govuk_detail t('.help_how_we_calculate_rate_title') do
+        = t('.help_how_we_calculate_rate_body')
 
     .dates-wrapper.form-group
       .cocoon-insert-wrapper
@@ -63,8 +58,10 @@
 
       = link_to_add_association t('.add_date_attended'), f, :dates_attended, partial: 'date_attended_fields', data: { 'association-insertion-method' => 'append', 'association-insertion-node' => '.cocoon-insert-wrapper', 'association-insertion-traversal' => 'prev'}
 
-    .form-group
-      %label.form-label-bold
-        = t('.net_amount')
-      .fee-net-amount.total
-        = fee.amount || number_to_currency(0)
+    .cccd-summary-list
+      %dl.govuk-summary-list
+        .govuk-summary-list__row
+          %dt.govuk-summary-list__key
+            = t('.net_amount')
+          %dd.govuk-summary-list__value.fee-net-amount.total
+            = fee.amount || number_to_currency(0)

@@ -15,12 +15,12 @@
           %td
             = document.document_file_name
           %td
-            = link_to t('common.download'),
+            = govuk_link_to t('common.download'),
                       download_document_path(document),
                       class: 'download',
                       'aria-label': "Download document: #{document.document_file_name}"
             = ' | '
-            = link_to t('common.remove'),
+            = govuk_link_to t('common.remove'),
                       document_path(document),
                       method: :delete,
                       remote: true,

@@ -63,11 +63,11 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     it 'returns a correctly named file' do
-      expect(response.headers['Content-Disposition']).to eq "attachment; filename=\"#{claim.case_number}-documents.zip\""
+      expect(response.headers['Content-Disposition']).to eq "attachment; filename=\"#{claim.case_number}-documents.zip\"; filename*=UTF-8''#{claim.case_number}-documents.zip"
     end
   end
 
-  describe  'GET show' do
+  describe 'GET show' do
     let(:claim) { create :claim }
 
     before(:each) { get :show, params: { id: claim } }
@@ -97,8 +97,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-
-    let(:claim) {create :allocated_claim }
+    let(:claim) { create :allocated_claim }
     let(:updater) { double Claims::CaseWorkerClaimUpdater }
     let(:params) { strong_params('additional_information' => 'foo bar', 'current_user'=> @case_worker.user) }
 
@@ -142,7 +141,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       clean_database
     end
 
-    describe '#archived with no filtering', vcr: {cassette_name: 'spec/case_workers/claims/archived'} do
+    describe '#archived with no filtering', vcr: { cassette_name: 'spec/case_workers/claims/archived' } do
       before(:each) do
         get :archived, params: { 'tab' => 'archived' }
       end
@@ -153,7 +152,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       end
     end
 
-    describe '#archived with filtering by defendant name', vcr: {cassette_name: 'spec/case_workers/claims/archived_search_by_defendant'} do
+    describe '#archived with filtering by defendant name', vcr: { cassette_name: 'spec/case_workers/claims/archived_search_by_defendant' } do
       search_terms = {
         'Joex Bloggs' => 2,
         'Fred Bloggs' => 4,

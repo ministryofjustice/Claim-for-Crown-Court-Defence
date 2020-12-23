@@ -4,12 +4,12 @@ class ClaimShowPage < BasePage
     element :archive, "li:nth-of-type(2) > a"
   end
 
-  element :status, "div.claim-hgroup div.claim-status > span.state"
+  element :status, "div.claim-hgroup div.claim-status > strong.govuk-tag"
   element :edit_this_claim, "div.claim-detail-actions a:nth-of-type(1)"
   element :fees, "#claim_assessment_attributes_fees"
   element :expenses, "#claim_assessment_attributes_expenses"
   element :authorised, "label[for='claim_state_authorised']"
-  element :update, "input#button.button"
+  element :update, "button#button.govuk-button"
   element :refused, "label[for='claim_state_refused']"
   element :rejected, "label[for='claim_state_rejected']"
 
@@ -27,7 +27,7 @@ class ClaimShowPage < BasePage
 
   section :messages_panel, "#claim-accordion .messages-container" do
     element :enter_your_message, "textarea#message_body"
-    element :send, "form#new_message div.submit-column > input.button-secondary"
+    element :send, "form#new_message div.submit-column > button.app-button--blue"
 
     def upload_file(path)
       attach_file("message_attachment", path)

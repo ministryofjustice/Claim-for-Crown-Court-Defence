@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :controller, focus: true do
+RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :controller do
   let(:resource_klass) { Claim::AdvocateInterimClaim }
   let(:unauthorized_user) { create(:external_user, :litigator) }
   let(:authorized_user) { create(:external_user, :advocate) }
@@ -252,7 +252,6 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
           expect(flash[:alert]).to eq('Unauthorised')
         end
       end
-
 
       context 'and the user is authorized to manage this claim type' do
         before do

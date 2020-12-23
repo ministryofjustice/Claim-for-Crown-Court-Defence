@@ -1,10 +1,10 @@
 RSpec.shared_examples 'a base claim' do
   context '.belongs_to' do
     it { is_expected.to belong_to(:external_user) }
-    it { is_expected.to belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
+    it { is_expected.to belong_to(:creator).class_name('ExternalUser') }
 
     it { is_expected.to belong_to(:court) }
-    it { is_expected.to belong_to(:transfer_court).class_name('Court').with_foreign_key('transfer_court_id') }
+    it { is_expected.to belong_to(:transfer_court).class_name('Court') }
     it { is_expected.to belong_to(:offence) }
   end
 

@@ -2,6 +2,8 @@ class FeeScheme < ApplicationRecord
   NINE = 9
   TEN = 10
   ELEVEN = 11
+  TWELVE = 12
+
   validates :start_date, :version, :name, presence: true
 
   has_many :offence_fee_schemes
@@ -12,8 +14,9 @@ class FeeScheme < ApplicationRecord
   scope :nine, -> { where(version: FeeScheme::NINE) }
   scope :ten, -> { where(version: FeeScheme::TEN) }
   scope :eleven, -> { where(version: FeeScheme::ELEVEN) }
+  scope :twelve, -> { where(version: FeeScheme::TWELVE) }
   scope :current, lambda {
-    where('(:now BETWEEN start_date AND end_date) OR (start_date < :now AND end_date IS NULL)', now: Time.zone.now)
+    where('(:now BETWEEN start_date AND end_date) OR (start_date <= :now AND end_date IS NULL)', now: Time.zone.now)
   }
   scope :for, lambda { |check_date|
     where('(:date BETWEEN start_date AND end_date) OR (start_date <= :date AND end_date IS NULL)', date: check_date)
@@ -25,6 +28,10 @@ class FeeScheme < ApplicationRecord
 
   def agfs_reform?
     agfs? && version >= 10
+  end
+
+  def agfs_scheme_12?
+    agfs? && version.eql?(12)
   end
 
   def self.current_agfs

@@ -1,0 +1,690 @@
+// Ported from v1 stylesheets
+.fx-duplicate-expense {
+  display: inline-block;
+  padding: $gutter-one-sixth $gutter-half;
+}
+
+.dz-error-message {
+  color: $error-colour;
+}
+
+.case-worker-reallocation {
+  padding-bottom: $gutter;
+
+  .margin-spacer-sm {
+    margin: 25px 0 0 25px;
+    padding: 0;
+  }
+
+  .awesomplete {
+    input {
+      width: 88%;
+    }
+  }
+}
+
+#js-provider-roles {
+  display: none;
+}
+
+.search-wrapper {
+  @include container;
+  position: relative;
+}
+
+caption {
+  @include container;
+}
+
+.table-caption {
+  @include span(6 of 12);
+  @include first;
+}
+
+.claim-count {
+  @include span(6 of 12);
+  @include last;
+  font-weight: 400;
+  text-align: right;
+}
+
+// Start a new claim
+.expense-cost {
+  legend {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    font-weight: normal;
+  }
+
+  label {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+// claim detail page
+.financial-summary {
+  padding-bottom: 56px;
+  @include span(8 of 12);
+  @include first;
+
+  div {
+    @include span(6 of 12);
+
+    &:first-child {
+      @include first;
+    }
+
+    &:last-child {
+      @include last;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+}
+
+.claims-actions {
+  @include span(3 of 12);
+  @include last;
+}
+
+// claims-list.SCSS
+#claims-list {
+  margin: 0;
+  padding: 0;
+
+  li {
+    padding: 0;
+    list-style-type: none;
+  }
+}
+
+#claims-list > li {
+  padding: 1rem;
+  clear: both;
+  overflow: hidden;
+  background-color: $grey-4;
+
+  &:nth-child(even) {
+    background-color: $grey-3;
+  }
+}
+
+.case-data-headings {
+  margin: 0;
+  padding: 0;
+
+  li {
+    //  @include span-columns(4);
+    list-style-type: none;
+  }
+}
+
+.detail-link {
+  padding: .5rem;
+  border: 1px solid $button-colour;
+  color: $button-colour;
+  text-decoration: none;
+}
+
+.claim-controls {
+  .toggle {
+    display: inline-block;
+    width: 42px;
+    height: 24px;
+    margin: 0 0 $gutter-two-thirds 2px;
+    background-image: file-url("list-toggle.png");
+    background-position: 0 -48px;
+    cursor: pointer;
+
+    &.expanded {
+      background-position: 0 0;
+    }
+  }
+}
+
+.status-indicator {
+  width: $gutter-two-thirds;
+  height: $gutter-two-thirds;
+}
+
+// claim-accordion.SCSS
+form {
+  .extra-margin {
+    margin-right: .2em;
+    margin-left: .2em;
+  }
+
+  .validation-error {
+    display: block;
+    clear: left;
+    color: $error-colour;
+  }
+
+  h2 {
+    margin-top: $gutter-two-thirds;
+  }
+
+  fieldset legend {
+    font-weight: 700;
+  }
+
+  .user-form {
+    border-bottom: 0;
+  }
+
+  textarea {
+    width: $full-width;
+    font-size: 1em;
+  }
+
+  h2 + fieldset {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  .nested-fields {
+    position: relative;
+    margin-bottom: $gutter-two-thirds;
+
+    td,
+    th {
+      border-top: 1px solid $grey-2;
+      border-bottom: 0;
+    }
+
+    &.extra-data th,
+    &.extra-data td {
+      border-top: 0;
+      border-bottom: 1px solid $grey-2;
+    }
+  }
+}
+
+.has-file {
+  border-color: govuk-colour('green');
+  color: $ministry-of-justice;
+  font-weight: 700;
+}
+
+.warning {
+  display: block;
+  padding: $gutter-half;
+  color: govuk-colour('red');
+}
+
+.remove-expense:first-child a {
+  display: none;
+}
+
+.evidence-checklist div {
+  margin-top: $gutter-two-thirds;
+  margin-right: $gutter-one-third;
+  float: left;
+}
+
+.defendants {
+  .nested-fields .indent-fieldset {
+    padding: 0;
+  }
+}
+
+.controller-feedback fieldset {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  border: 0;
+}
+
+.indent-fieldset {
+  padding-top: $gutter-one-sixth;
+  padding-bottom: $gutter-one-sixth;
+  padding-left: $gutter-half;
+  border-bottom: 0;
+  border-left: 5px solid $border-colour;
+}
+
+// ADMIN.SCSS
+.working-pattern {
+  li {
+    display: inline;
+    display: inline-block;
+    width: 15%;
+    padding-top: .3em;
+
+    border-top: 1px solid $black;
+    border-right: 1px solid $black;
+    border-bottom: 1px solid $black;
+    background-color: $page-colour;
+    text-align: center;
+
+    &:first-child {
+      border-left: 1px solid $black;
+    }
+  }
+
+  .working-day {
+    background-color: $grey-2;
+  }
+}
+
+// FLASH-NOTICES MESS
+.flash {
+  width: $two-thirds;
+  margin: auto;
+  padding: $gutter-one-sixth;
+  font-weight: 700;
+
+  &.alert {
+    color: govuk-colour('red');
+  }
+}
+
+// TANDCS.SCSS
+.tandcs {
+  .section-title {
+    font-weight: 700;
+  }
+
+  b {
+    font-weight: 700;
+  }
+
+  ul {
+    padding-left: $gutter;
+    list-style-type: disc;
+
+    ul {
+      list-style-type: circle;
+    }
+  }
+}
+
+// certification.SCSS
+.certification {
+  ul,
+  ol {
+    list-style-type: initial;
+  }
+
+  ul {
+    margin-left: 7%;
+  }
+
+  .confirmation-list {
+    li {
+      margin-bottom: $gutter;
+    }
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  .radio-wrapper {
+    margin-left: 5%;
+    @include clearfix;
+  }
+}
+
+// claims-table.SCSS
+.totals {
+  padding-top: $gutter-two-thirds;
+  padding-bottom: $gutter-two-thirds;
+  text-align: right;
+}
+
+.filter-by-value {
+  margin-right: $gutter-one-sixth;
+  margin-left: $gutter-one-sixth;
+}
+
+// search result for tables when nothing exists
+.search-summary .panel-indent {
+  margin-top: 0;
+  margin-right: 0;
+}
+
+// Page specific styling for the Claims detail page
+.claim-header,
+.claim-detail-header {
+  margin-bottom: $gutter-half;
+}
+
+// Other Claim Navigation
+.other-claims {
+  text-align: right;
+}
+
+.evidence-checklist-read-only .selected {
+  width: 16px;
+  height: 16px;
+  margin-right: 10px;
+}
+
+.defendant-card {
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+  padding: $gutter-half $gutter-one-third $gutter-half $gutter-half;
+  border: 1px solid $border-colour;
+}
+
+// Styling for Claims Messaging
+.messages {
+  .none {
+    color: $black;
+  }
+
+  .new-message {
+    width: 26px;
+    height: 26px;
+    margin-left: $gutter-one-sixth;
+  }
+
+  >* {
+    vertical-align: middle;
+  }
+}
+
+// icons.SCSS
+.search-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.confirmation-tick {
+  width: 36px;
+  height: 36px;
+}
+
+.contact-us-footer {
+  margin-top: $gutter-two-thirds;
+  margin-bottom: $gutter-two-thirds;
+  padding-top: $gutter-two-thirds;
+  clear: both;
+  border-top: 1px solid $border-colour;
+}
+
+// Dropzone
+.dropzone {
+  display: flex;
+  margin-bottom: $gutter + $gutter-one-third;
+  padding: $gutter * 2;
+  transition: outline-offset .1s ease-in-out, background-color .1s linear;
+  outline: 2px dashed $secondary-text-colour;
+  text-align: center;
+  align-items: flex-start;
+  justify-content: center;
+
+  label {
+    @include core-19;
+    position: absolute;
+    left: -9999em;
+  }
+}
+
+.dropzone-enhanced {
+  label {
+    position: static;
+    left: 0;
+    margin-bottom: 0;
+    padding: $gutter-one-third $gutter-two-thirds;
+    border: none;
+    color: $text-colour;
+    background-color: $panel-colour;
+    appearance: none;
+
+    &:hover {
+      background-color: $border-colour;
+    }
+  }
+
+  [type=file] {
+    position: absolute;
+    left: -9999em;
+  }
+}
+
+.dropzone-dragover {
+  outline: 2px dashed $secondary-text-colour;
+  outline-offset: -$gutter-one-third;
+  background: $black;
+}
+
+.dropzone-focused {
+  outline: none;
+  box-shadow: 0 0 1px 4px $focus-colour;
+}
+
+.files {
+  margin-bottom: $gutter;
+  table-layout: fixed;
+
+  .error {
+    font-weight: 700;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .success {
+    color: $green;
+    font-weight: 700;
+  }
+
+  td,
+  th {
+    word-break: break-all;
+  }
+
+  td:first-child,
+  th:first-child {
+    width: 50%;
+  }
+
+  progress {
+    width: $full-width;
+    margin-top: $gutter-one-sixth;
+  }
+}
+// Dropzone end
+
+.b {
+  font-weight: 700;
+}
+
+.error .error-message {
+  @include core-16;
+}
+
+.form-date p {
+  margin-bottom: 0;
+}
+
+.panel-margin-fix {
+  margin-bottom: $gutter;
+}
+
+.disk-evidence {
+  display: block;
+  color: $error-colour;
+}
+
+.js-allocation-page #page-h1 {
+  margin-bottom: 0;
+}
+
+// banner: https://moj-design-system.herokuapp.com/components/banner
+.moj-banner {
+  @extend .error-summary; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  width: calc(100% - 40px); // 40px is magic number for padding and border
+  border: 5px solid #1d70b8;
+  color: #1d70b8;
+  font-size: 0; // Removes white space when using inline-block on child element.
+
+  .moj-banner__icon {
+    margin-right: 10px;
+    float: left;
+    fill: currentColor;
+  }
+
+  .moj-banner__message {
+    font-size: 1.1875rem;
+    line-height: 1.31579;
+  }
+
+  .govuk-heading-m {
+    display: block;
+    margin-top: 0;
+    color: #0b0c0c;
+    font-size: 18px;
+    font-weight: 700;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    h2 {
+      display: block;
+      font-size: 1.5em;
+      font-weight: 700;
+      margin-block-start: .83em;
+      margin-block-end: .83em;
+      margin-inline-start: 0;
+      margin-inline-end: 0;
+    }
+  }
+}
+
+#download-files-report,
+.previously-uploaded {
+  td,
+  th {
+    word-break: break-all;
+  }
+}
+
+#download-files-report {
+  td:first-child,
+  th:first-child {
+    width: 50%;
+  }
+}
+
+// Ported from v1 stylesheets
+.grid-row {
+  margin-bottom: $gutter-half;
+}
+
+.contactus-link {
+  @include core-19;
+  @include clearfix;
+  margin-top: $gutter * 2;
+  margin-bottom: -($gutter * 2);
+
+  @include media($max-width: 768px) {
+    margin-top: $gutter-half;
+    margin-bottom: $gutter-half;
+  }
+}
+
+.search-form {
+  @include clearfix;
+
+  .heading-medium {
+    margin-top: 0;
+  }
+}
+
+.supplier-number-group {
+  margin-bottom: $gutter;
+
+  .form-group {
+    &.supplier_number_wrapper {
+      margin-bottom: $gutter-one-third;
+    }
+  }
+}
+
+#provider-form {
+  .new_provider,
+  .edit_provider {
+    #js-fee-schemes,
+    #js-agfs-supplier-number,
+    #js-lgfs-supplier-numbers,
+    #js-vat {
+      display: none;
+    }
+  }
+}
+
+.js-cw-claim-assessment {
+  .error {
+    display: none;
+  }
+}
+
+.fee-date-from,
+.fee-date-to {
+  div {
+    display: inline;
+  }
+}
+
+.js-checkbox-table,
+.report {
+  td {
+    vertical-align: top;
+  }
+}
+
+#offence-list {
+  padding: 0;
+
+  .offence-item {
+    margin: 0;
+    padding: $gutter-one-third;
+    border-bottom: 1px solid $border-colour;
+
+    .align-right {
+      text-align: right;
+    }
+  }
+
+  .offence-item:nth-child(odd) {
+    color: $black;
+    background-color: $grey-4;
+  }
+
+  .offence-item:hover {
+    color: $black;
+    background-color: $grey-4;
+  }
+
+  .offence-item .offence-item-button {
+    visibility: hidden;
+  }
+
+  .offence-item:hover .offence-item-button {
+    visibility: visible;
+  }
+
+  .empty-message {
+    border-bottom: 1px solid $border-colour;
+    color: $black;
+    background-color: $grey-4;
+  }
+}
+
+.selected-offence {
+  padding: $gutter-half $gutter;
+  background: $grey-4;
+}
+
+.highlight {
+  background-color: $yellow;
+}
+
+.error {
+  color: $error-colour;
+}

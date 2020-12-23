@@ -106,4 +106,3 @@ RSpec.describe CCR::ExpensesAdapter, type: :adapter do
     end
   end
 end
-

@@ -1,7 +1,9 @@
+# devise mail backgrounding achieved via User#send_devise_notification
+# https://github.com/heartcombo/devise#activejob-integration
+#
 class DeviseMailer < GovukNotifyRails::Mailer
-  # gives access to all helpers defined within `application_helper`.
   helper :application
-  # Optional. eg. `confirmation_url`
+
   include Devise::Controllers::UrlHelpers
   include ActionView::Helpers::DateHelper
 

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus: true do
+RSpec.describe ExternalUsers::CertificationsController, type: :controller do
   let(:certification_type) { create(:certification_type) }
   let!(:advocate) { create(:external_user) }
 
@@ -9,7 +9,6 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
   let(:claim) { create(:advocate_claim) }
 
   describe 'GET #new' do
-
     context 'claim is valid for submission' do
       before(:each) do
         get :new, params: { claim_id: claim.id }
@@ -56,7 +55,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
       let(:claim) { create(:advocate_claim) }
       let(:sns_client) do
         Aws::SNS::Client.new(
-            region: 'eu_west_1',
+            region: 'eu-west-1',
             stub_responses:
                 {
                     publish: {}
@@ -133,7 +132,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller, focus
 
       let(:sns_client) do
         Aws::SNS::Client.new(
-          region: 'eu_west_1',
+          region: 'eu-west-1',
           stub_responses:
             {
               publish: {}

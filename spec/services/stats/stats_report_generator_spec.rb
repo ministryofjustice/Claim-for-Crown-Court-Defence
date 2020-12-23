@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe Stats::StatsReportGenerator, type: :service do
   describe '.call' do
     context 'when the report type is not valid' do
+      before do
+        allow(Settings).to receive(:notify_report_errors).and_return(false)
+      end
+
       let(:report_type) { 'some-report-type' }
 
       it 'raises an invalid report type error' do

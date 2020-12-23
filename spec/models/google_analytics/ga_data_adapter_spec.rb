@@ -13,7 +13,7 @@ module GoogleAnalytics
       context 'for virtual_page' do
         it 'returns the expected hash for this template' do
           expect(described_class.new(:virtual_page, {}).template).to \
-            eq({hitType: 'pageview', page: '%{url}', title: '%{title}'})
+            eq({ hitType: 'pageview', page: '%{url}', title: '%{title}' })
         end
       end
     end
@@ -26,7 +26,7 @@ module GoogleAnalytics
         end
 
         it 'returns the expected javascript string for this template with the data for interpolation provided' do
-          expect(described_class.new(:virtual_page, {url: '/test/%{id}/%{action}', title: 'Test %{id} %{action}'}, {id: 123, action: 'new'}).to_s).to \
+          expect(described_class.new(:virtual_page, { url: '/test/%{id}/%{action}', title: 'Test %{id} %{action}' }, { id: 123, action: 'new' }).to_s).to \
             eq %q{ga('send', {"hitType":"pageview","page":"/test/123/new","title":"Test 123 new"});}
         end
       end

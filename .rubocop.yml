@@ -15,24 +15,37 @@ AllCops:
     - 'lib/demo_data/**/*'
     - 'lib/tasks/**/*'
     - 'features/**/*'
+    - 'node_modules/**/*'
     - 'old_features/**/*'
-    - 'spec/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
 
-Style/Documentation:
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: false
 
-Style/FrozenStringLiteralComment:
+Layout/EmptyLineAfterGuardClause:
   Enabled: false
-
-Style/FormatStringToken:
-  EnforcedStyle: template
 
 Layout/LineLength:
+  Enabled: true
   Max: 120
   IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
   AllowHeredoc: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
 
 Metrics/BlockLength:
   ExcludedMethods:
@@ -45,16 +58,211 @@ Metrics/BlockLength:
     - state_machine
     - resource
 
-Metrics/ModuleLength:
-  Exclude:
-    - 'app/models/claims/calculations.rb'
-    - 'app/models/claims/state_machine.rb'
-    - 'app/helpers/application_helper.rb'
+Performance/AncestorsInclude:
+  Enabled: true
+
+Performance/BigDecimalWithNumericArgument:
+  Enabled: true
+
+Performance/BlockGivenWithExplicitBlock:
+  Enabled: true
+
+Performance/CollectionLiteralInLoop:
+  Enabled: true
+
+Performance/ConstantRegexp:
+  Enabled: true
+
+Performance/MethodObjectAsBlock:
+  Enabled: true
+
+Performance/RedundantSortBlock:
+  Enabled: true
+
+Performance/RedundantStringChars:
+  Enabled: true
+
+Performance/ReverseFirst:
+  Enabled: true
+
+Performance/SortReverse:
+  Enabled: true
+
+Performance/Squeeze:
+  Enabled: true
+
+Performance/StringInclude:
+  Enabled: true
+
+Performance/Sum:
+  Enabled: true
+
+Rails/ActiveRecordCallbacksOrder:
+  Enabled: true
+
+Rails/AfterCommitOverride:
+  Enabled: true
+
+Rails/AttributeDefaultBlockValue:
+  Enabled: true
+
+Rails/FindById:
+  Enabled: true
+
+Rails/Inquiry:
+  Enabled: true
+
+Rails/MailerName:
+  Enabled: true
+
+Rails/MatchRoute:
+  Enabled: true
+
+Rails/NegateInclude:
+  Enabled: true
+
+Rails/Pluck:
+  Enabled: true
+
+Rails/PluckInWhere:
+  Enabled: true
+
+Rails/RenderInline:
+  Enabled: true
+
+Rails/RenderPlainText:
+  Enabled: true
+
+Rails/ShortI18n:
+  Enabled: true
+
+Rails/SquishedSQLHeredocs:
+  Enabled: false
+
+Rails/WhereEquals:
+  Enabled: true
+
+Rails/WhereExists:
+  Enabled: true
+
+Rails/WhereNot:
+  Enabled: true
+
+RSpec/StubbedMock:
+  Enabled: true
 
 Style/DateTime:
   AllowCoercion: true
 
-Layout/EmptyLineAfterGuardClause:
+Style/Documentation:
+  Enabled: false
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/FormatStringToken:
+  EnforcedStyle: template
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+
+Style/RedundantRegexpEscape:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: true
+
+Layout/BeginEndAlignment: # (new in 0.91)
+  Enabled: true
+Lint/BinaryOperatorWithIdenticalOperands: # (new in 0.89)
+  Enabled: true
+Lint/ConstantDefinitionInBlock: # (new in 0.91)
+  Enabled: true
+Lint/DuplicateElsifCondition: # (new in 0.88)
+  Enabled: true
+Lint/DuplicateRequire: # (new in 0.90)
+  Enabled: true
+Lint/DuplicateRescueException: # (new in 0.89)
+  Enabled: true
+Lint/EmptyConditionalBody: # (new in 0.89)
+  Enabled: true
+Lint/EmptyFile: # (new in 0.90)
+  Enabled: true
+Lint/FloatComparison: # (new in 0.89)
+  Enabled: true
+Lint/HashCompareByIdentity: # (new in 0.93)
+  Enabled: true
+Lint/IdentityComparison: # (new in 0.91)
+  Enabled: true
+Lint/MissingSuper: # (new in 0.89)
+  Enabled: true
+Lint/OutOfRangeRegexpRef: # (new in 0.89)
+  Enabled: true
+Lint/RedundantSafeNavigation: # (new in 0.93)
+  Enabled: true
+Lint/SelfAssignment: # (new in 0.89)
+  Enabled: true
+Lint/TopLevelReturnWithArgument: # (new in 0.89)
+  Enabled: true
+Lint/TrailingCommaInAttributeDeclaration: # (new in 0.90)
+  Enabled: true
+Lint/UnreachableLoop: # (new in 0.89)
+  Enabled: true
+Lint/UselessMethodDefinition: # (new in 0.90)
+  Enabled: true
+Lint/UselessTimes: # (new in 0.91)
+  Enabled: true
+Style/AccessorGrouping: # (new in 0.87)
+  Enabled: true
+Style/BisectedAttrAccessor: # (new in 0.87)
+  Enabled: true
+Style/CaseLikeIf: # (new in 0.88)
+  Enabled: true
+Style/ClassEqualityComparison: # (new in 0.93)
+  Enabled: true
+Style/CombinableLoops: # (new in 0.90)
+  Enabled: true
+Style/ExplicitBlockArgument: # (new in 0.89)
+  Enabled: true
+Style/GlobalStdStream: # (new in 0.89)
+  Enabled: true
+Style/HashAsLastArrayItem: # (new in 0.88)
+  Enabled: true
+Style/HashLikeCase: # (new in 0.88)
+  Enabled: true
+Style/KeywordParametersOrder: # (new in 0.90)
+  Enabled: true
+Style/OptionalBooleanParameter: # (new in 0.89)
+  Enabled: true
+Style/RedundantAssignment: # (new in 0.87)
+  Enabled: true
+Style/RedundantFetchBlock: # (new in 0.86)
+  Enabled: true
+Style/RedundantFileExtensionInRequire: # (new in 0.88)
+  Enabled: true
+Style/RedundantSelfAssignment: # (new in 0.90)
+  Enabled: true
+Style/SingleArgumentDig: # (new in 0.89)
+  Enabled: true
+Style/SoleNestedConditional: # (new in 0.89)
+  Enabled: true
+Style/StringConcatenation: # (new in 0.89)
+  Enabled: false
+
+# Temporarily disable while fixing sped/* directory
+Lint/RedundantCopDisableDirective:
   Enabled: false
 
 inherit_from: .rubocop_todo.yml

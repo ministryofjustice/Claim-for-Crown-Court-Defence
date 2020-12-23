@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/shared_examples_for_claim_types'
 
 RSpec.describe Claims::ContextMapper do
   # NOTE: the external user claim controller spec also test this to a degree
@@ -8,51 +9,51 @@ RSpec.describe Claims::ContextMapper do
     let(:context) { Claims::ContextMapper.new(external_user) }
     let(:external_user) { create(:external_user, :advocate_litigator) }
 
-    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim] }
-    let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
-    let(:all_claim_types) { advocate_claim_types | litigator_claim_types }
+    include_context 'claim-types object helpers'
 
     # TODO: i believe this is flawed as an advocate should return only advocate type claims)
     # e.g. an admin in an agfs only provider can only create advocate claims
     context 'AGFS only provider' do
       let(:external_user) { create(:external_user, :advocate, provider: build(:provider, :agfs)) }
-      it { is_expected.to match_array(advocate_claim_types) }
+
+      it { is_expected.to match_array(agfs_claim_object_types) }
     end
 
     context 'LGFS only provider' do
       let(:external_user) { create(:external_user, :litigator, provider: build(:provider, :lgfs)) }
-      it { is_expected.to match_array(litigator_claim_types) }
+
+      it { is_expected.to match_array(lgfs_claim_object_types) }
     end
 
     context 'AGFS and LGFS providers' do
       it 'should return litigator claim for a litigators' do
         external_user.roles = ['litigator']
-        is_expected.to match_array(litigator_claim_types)
+        is_expected.to match_array(lgfs_claim_object_types)
       end
 
       it 'should return litigator and advocate claim for a litigator admins' do
         external_user.roles = ['litigator', 'admin']
-        is_expected.to match_array(all_claim_types)
+        is_expected.to match_array(all_claim_object_types)
       end
 
       it 'should return advocate claim for a advocates' do
         external_user.roles = ['advocate']
-        is_expected.to match_array(advocate_claim_types)
+        is_expected.to match_array(agfs_claim_object_types)
       end
 
       it 'should return advocate and litigator claim for a advocate admins' do
         external_user.roles = ['advocate', 'admin']
-        is_expected.to match_array(all_claim_types)
+        is_expected.to match_array(all_claim_object_types)
       end
 
       it 'should return advocate AND litigator claims for a admins' do
         external_user.roles = ['admin']
-        is_expected.to match_array(all_claim_types)
+        is_expected.to match_array(all_claim_object_types)
       end
 
       it 'should return advocate AND litigator claims for users with admin, litigator and advocate roles' do
         external_user.roles = ['admin', 'advocate', 'litigator']
-        is_expected.to match_array(all_claim_types)
+        is_expected.to match_array(all_claim_object_types)
       end
     end
   end
@@ -91,7 +92,6 @@ RSpec.describe Claims::ContextMapper do
   end
 
   describe '#available_claims' do
-
     before(:all) do
       @agfs_provider    = create :provider, :agfs
       @lgfs_provider    = create :provider, :lgfs
@@ -151,7 +151,6 @@ RSpec.describe Claims::ContextMapper do
   end
 
   context 'AGFS/LGFS' do
-
     before(:all) do
       @provider    = create :provider, :agfs_lgfs
       @litigator_1 = create :external_user, :litigator, provider: @provider
@@ -182,7 +181,7 @@ RSpec.describe Claims::ContextMapper do
     end
 
     context 'for AGFS scheme filter' do
-      let(:options) { {scheme: :agfs} }
+      let(:options) { { scheme: :agfs } }
 
       it 'returns all AGFS claims for the provider for the admin context' do
         expected_ids = [ @claim_a1.id, @claim_a2.id ].sort
@@ -198,7 +197,7 @@ RSpec.describe Claims::ContextMapper do
     end
 
     context 'for LGFS scheme filter' do
-      let(:options) { {scheme: :lgfs} }
+      let(:options) { { scheme: :lgfs } }
 
       it 'returns all LGFS claims for the provider for the admin context' do
         expected_ids = [ @claim_l1.id, @claim_l2.id ].sort

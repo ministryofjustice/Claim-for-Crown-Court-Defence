@@ -12,19 +12,21 @@ module Claims
     CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES    = %w[allocated].freeze
     CASEWORKER_DASHBOARD_UNALLOCATED_STATES         = %w[submitted redetermination awaiting_written_reasons].freeze
     CASEWORKER_DASHBOARD_ARCHIVED_STATES            = %w[ authorised part_authorised rejected
-                                                          refused archived_pending_delete].freeze
+                                                          refused archived_pending_delete
+                                                          archived_pending_review].freeze
     VALID_STATES_FOR_REDETERMINATION                = %w[authorised part_authorised refused rejected].freeze
     VALID_STATES_FOR_ARCHIVAL                       = %w[authorised part_authorised refused rejected].freeze
     VALID_STATES_FOR_ALLOCATION                     = %w[submitted redetermination awaiting_written_reasons].freeze
     VALID_STATES_FOR_DEALLOCATION                   = %w[allocated].freeze
     NON_DRAFT_STATES                                = %w[ allocated authorised part_authorised refused rejected
                                                           submitted awaiting_written_reasons redetermination
-                                                          archived_pending_delete ].freeze
-    NON_VALIDATION_STATES                           = %w[ allocated archived_pending_delete
+                                                          archived_pending_delete archived_pending_review].freeze
+    NON_VALIDATION_STATES                           = %w[ allocated archived_pending_delete archived_pending_review
                                                           authorised awaiting_written_reasons deallocated deleted
                                                           part_authorised redetermination refused rejected ].freeze
     AUTHORISED_STATES                               = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES +
                                                       EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
+    PREVIOUSLY_AUTHORISED_STATES                    = %w[authorised part_authorised].freeze
 
     def self.dashboard_displayable_states
       (
@@ -40,7 +42,7 @@ module Claims
     # will return true if there is a constant defined in this class with the same name
     # in upper case as method with the trailing question mark removed
     def self.has_state?(method)
-      return false unless method.match?(/\?$/)
+      return false unless method.to_s.end_with?('?')
       const_defined?("#{method.to_s.chop.upcase}_STATES")
     end
 
@@ -58,6 +60,7 @@ module Claims
 
         state :allocated,
               :archived_pending_delete,
+              :archived_pending_review,
               :awaiting_written_reasons,
               :deleted,
               :draft,
@@ -104,7 +107,12 @@ module Claims
         end
 
         event :archive_pending_delete do
-          transition VALID_STATES_FOR_ARCHIVAL.map(&:to_sym) => :archived_pending_delete
+          transition VALID_STATES_FOR_ARCHIVAL.map(&:to_sym) => :archived_pending_delete, unless: :hardship?
+          transition archived_pending_review: :archived_pending_delete, if: :hardship?
+        end
+
+        event :archive_pending_review do
+          transition VALID_STATES_FOR_ARCHIVAL.map(&:to_sym) => :archived_pending_review, if: :hardship?
         end
 
         event :authorise_part do
@@ -133,30 +141,34 @@ module Claims
       end
 
       klass.state_machine.states.map(&:name).each do |s|
-        klass.scope s, -> { klass.where(state: s) }
+        klass.scope s, -> { where(state: s) }
       end
 
-      klass.scope :non_archived_pending_delete, -> { klass.where.not(state: :archived_pending_delete) }
-      klass.scope :non_draft, -> { klass.where(state: NON_DRAFT_STATES) }
+      klass.has_many :archived_claim_state_transitions, lambda {
+        where(to: CASEWORKER_DASHBOARD_ARCHIVED_STATES).order(created_at: :asc)
+      }, class_name: 'ClaimStateTransition', foreign_key: :claim_id
+
+      klass.scope :non_archived_pending_delete, -> { where.not(state: :archived_pending_delete) }
+      klass.scope :non_draft, -> { where(state: NON_DRAFT_STATES) }
       klass.scope :submitted_or_redetermination_or_awaiting_written_reasons, lambda {
-        klass.where(state: CASEWORKER_DASHBOARD_UNALLOCATED_STATES)
+        where(state: CASEWORKER_DASHBOARD_UNALLOCATED_STATES)
       }
-      klass.scope :external_user_dashboard_draft, -> { klass.where(state: EXTERNAL_USER_DASHBOARD_DRAFT_STATES) }
-      klass.scope :external_user_dashboard_rejected, -> { klass.where(state: EXTERNAL_USER_DASHBOARD_REJECTED_STATES) }
+      klass.scope :external_user_dashboard_draft, -> { where(state: EXTERNAL_USER_DASHBOARD_DRAFT_STATES) }
+      klass.scope :external_user_dashboard_rejected, -> { where(state: EXTERNAL_USER_DASHBOARD_REJECTED_STATES) }
       klass.scope :external_user_dashboard_submitted, lambda {
-        klass.where(state: EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES)
+        where(state: EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES)
       }
       klass.scope :external_user_dashboard_part_authorised, lambda {
-        klass.where(state: EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES)
+        where(state: EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES)
       }
       klass.scope :external_user_dashboard_completed, lambda {
-        klass.where(state: EXTERNAL_USER_DASHBOARD_COMPLETED_STATES)
+        where(state: EXTERNAL_USER_DASHBOARD_COMPLETED_STATES)
       }
-      klass.scope :caseworker_dashboard_completed, -> { klass.where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES) }
+      klass.scope :caseworker_dashboard_completed, -> { where(state: CASEWORKER_DASHBOARD_COMPLETED_STATES) }
       klass.scope :caseworker_dashboard_under_assessment, lambda {
-        klass.where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES)
+        where(state: CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES)
       }
-      klass.scope :caseworker_dashboard_archived, -> { klass.where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
+      klass.scope :caseworker_dashboard_archived, -> { where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
     end
     # rubocop:enable Metrics/MethodLength
 
@@ -237,12 +249,12 @@ module Claims
     end
 
     def set_amount_assessed_zero!
-      return if has_been_previously_assessed?
+      return if has_been_previously_authorised?
       assessment.zeroize! if state == 'allocated'
     end
 
-    def has_been_previously_assessed?
-      claim_state_transitions.map(&:to).any? { |state| %w[authorised part_authorised].include?(state) }
+    def has_been_previously_authorised?
+      claim_state_transitions.map(&:to).any? { |state| PREVIOUSLY_AUTHORISED_STATES.include?(state) }
     end
 
     def remove_case_workers!

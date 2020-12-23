@@ -1,5 +1,3 @@
-
-
 def create_or_update_by_name  (options)
   ct = CaseType.find_by_name(options[:name])
   if ct.nil?

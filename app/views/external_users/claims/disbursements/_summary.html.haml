@@ -1,9 +1,10 @@
 - step = local_assigns[:step] ? local_assigns[:step] : :disbursements
-.form-section
-  %h2.heading-large
+.app-summary-section
+  %h2.govuk-heading-l
     = t('external_users.claims.disbursements.summary.header')
-    - if local_assigns[:editable]
-      = link_to t('.change'), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+
+  - if local_assigns[:editable]
+    = govuk_link_to t('common.change_html', context: t('external_users.claims.disbursements.summary.header')), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change'
 
   - if claim.disbursements.empty?
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

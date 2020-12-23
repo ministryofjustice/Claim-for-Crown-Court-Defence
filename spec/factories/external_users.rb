@@ -15,8 +15,14 @@
 
 FactoryBot.define do
   factory :external_user do
-    after(:build) do |a|
-      a.user ||= build(:user, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: 'password', password_confirmation: 'password')
+    transient do
+      build_user { true }
+    end
+
+    after(:build) do |eu, evaluator|
+      if evaluator.build_user
+        eu.user ||= build(:user, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: 'password', password_confirmation: 'password')
+      end
     end
 
     provider

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true do
+RSpec.describe ExternalUsers::ClaimsController, type: :controller do
   let!(:advocate) { create(:external_user, :advocate) }
 
   before { sign_in advocate.user }
@@ -10,8 +10,8 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
     let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
 
     let!(:litigator)      { create(:external_user, :litigator) }
-    let!(:litigator_admin){ create(:external_user, :litigator_and_admin, provider: litigator.provider) }
-    let!(:other_litigator){ create(:external_user, :litigator, provider: litigator.provider) }
+    let!(:litigator_admin) { create(:external_user, :litigator_and_admin, provider: litigator.provider) }
+    let!(:other_litigator) { create(:external_user, :litigator, provider: litigator.provider) }
 
     describe '#GET index' do
       it 'returns success' do
@@ -102,7 +102,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'ALL filter' do
-          let(:query_params) { {scheme: 'all'} }
+          let(:query_params) { { scheme: 'all' } }
 
           it 'should assign context to claims for the provider' do
             expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims_created)
@@ -110,7 +110,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'AGFS filter' do
-          let(:query_params) { {scheme: 'agfs'} }
+          let(:query_params) { { scheme: 'agfs' } }
 
           it 'should assign context to claims for the provider' do
             expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims_created)
@@ -118,7 +118,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'LGFS filter' do
-          let(:query_params) { {scheme: 'lgfs'} }
+          let(:query_params) { { scheme: 'lgfs' } }
 
           it 'should assign context to claims for the provider' do
             expect(assigns(:claims_context)).to eq([])
@@ -155,7 +155,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'case number ascending' do
-          let(:query_params) { {sort: 'case_number', direction: 'asc'} }
+          let(:query_params) { { sort: 'case_number', direction: 'asc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:case_number))
@@ -163,7 +163,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'case number descending' do
-          let(:query_params) { {sort: 'case_number', direction: 'desc'} }
+          let(:query_params) { { sort: 'case_number', direction: 'desc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:case_number).reverse)
@@ -171,7 +171,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'advocate name ascending' do
-          let(:query_params) { {sort: 'advocate', direction: 'asc'} }
+          let(:query_params) { { sort: 'advocate', direction: 'asc' } }
 
           it 'returns ordered claims' do
             returned_names = assigns(:claims).map(&:external_user).map(&:user).map(&:sortable_name)
@@ -180,7 +180,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'advocate name descending' do
-          let(:query_params) { {sort: 'advocate', direction: 'desc'} }
+          let(:query_params) { { sort: 'advocate', direction: 'desc' } }
 
           it 'returns ordered claims' do
             returned_names = assigns(:claims).map(&:external_user).map(&:user).map(&:sortable_name)
@@ -189,7 +189,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'claimed amount ascending' do
-          let(:query_params) { {sort: 'total_inc_vat', direction: 'asc'} }
+          let(:query_params) { { sort: 'total_inc_vat', direction: 'asc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:total_including_vat))
@@ -197,7 +197,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'claimed amount descending' do
-          let(:query_params) { {sort: 'total_inc_vat', direction: 'desc'} }
+          let(:query_params) { { sort: 'total_inc_vat', direction: 'desc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:total_including_vat).reverse)
@@ -205,7 +205,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'assessed amount ascending' do
-          let(:query_params) { {sort: 'amount_assessed', direction: 'asc'} }
+          let(:query_params) { { sort: 'amount_assessed', direction: 'asc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims).map(&:amount_assessed)).to eq(assigns(:claims).sort_by(&:amount_assessed).map(&:amount_assessed))
@@ -213,7 +213,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'assessed amount descending' do
-          let(:query_params) { {sort: 'amount_assessed', direction: 'desc'} }
+          let(:query_params) { { sort: 'amount_assessed', direction: 'desc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims).map(&:amount_assessed)).to \
@@ -222,7 +222,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'status ascending' do
-          let(:query_params) { {sort: 'state', direction: 'asc'} }
+          let(:query_params) { { sort: 'state', direction: 'asc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:state))
@@ -230,7 +230,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'status descending' do
-          let(:query_params) { {sort: 'state', direction: 'desc'} }
+          let(:query_params) { { sort: 'state', direction: 'desc' } }
 
           it 'returns ordered claims' do
             expect(assigns(:claims)).to eq(assigns(:claims).sort_by(&:state).reverse)
@@ -238,18 +238,18 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         end
 
         context 'date submitted ascending' do
-          let(:query_params) { {sort: 'last_submitted_at', direction: 'asc'} }
+          let(:query_params) { { sort: 'last_submitted_at', direction: 'asc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by{|c| c.last_submitted_at.to_i})
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by { |c| c.last_submitted_at.to_i })
           end
         end
 
         context 'date submitted descending' do
-          let(:query_params) { {sort: 'last_submitted_at', direction: 'desc'} }
+          let(:query_params) { { sort: 'last_submitted_at', direction: 'desc' } }
 
           it 'returns ordered claims' do
-            expect(assigns(:claims)).to eq(assigns(:claims).sort_by{|c| c.last_submitted_at.to_i}.reverse)
+            expect(assigns(:claims)).to eq(assigns(:claims).sort_by { |c| c.last_submitted_at.to_i }.reverse)
           end
         end
 
@@ -279,6 +279,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         before do
           create(:draft_claim, external_user: advocate)
           create(:archived_pending_delete_claim, external_user: advocate)
+          create(:hardship_archived_pending_review_claim, external_user: advocate)
           create(:draft_claim, external_user: other_advocate)
         end
 
@@ -290,7 +291,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           end
           it 'should assign claims to archived only' do
             get :archived
-            expect(assigns(:claims)).to eq(advocate.claims.archived_pending_delete)
+            expect(assigns(:claims)).to match_array(advocate.claims.where(state: %w[archived_pending_delete archived_pending_review]))
           end
         end
 
@@ -302,7 +303,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           end
           it 'should assign claims to archived only' do
             get :archived
-            expect(assigns(:claims)).to eq(advocate_admin.provider.claims.archived_pending_delete)
+            expect(assigns(:claims)).to match_array(advocate.claims.where(state: %w[archived_pending_delete archived_pending_review]))
           end
         end
       end
@@ -326,11 +327,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
           before { sign_in litigator_admin.user }
           it 'should assign context to claims created by all members of the provider' do
             get :archived
-            expect(assigns(:claims_context).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.active.sort_by{|c| c.id})
+            expect(assigns(:claims_context).sort_by { |c| c.id }).to eq(litigator_admin.provider.claims_created.active.sort_by { |c| c.id })
           end
           it 'should retrieve archived state claims only' do
             get :archived
-            expect(assigns(:claims).sort_by{|c| c.id}).to eq(litigator_admin.provider.claims_created.active.archived_pending_delete.sort_by{|c| c.id})
+            expect(assigns(:claims).sort_by { |c| c.id }).to eq(litigator_admin.provider.claims_created.active.archived_pending_delete.sort_by { |c| c.id })
           end
         end
       end
@@ -548,58 +549,105 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe "PATCH #clone_rejected" do
-    context 'from rejected claim' do
-      subject { create(:rejected_claim, external_user: advocate) }
-
-      before do
-        patch :clone_rejected, params: { id: subject }
+    context 'with a rejected claim' do
+      subject(:claim) do
+        create(:rejected_claim, external_user: advocate).tap do |c|
+          c.documents << build_list(:document, 2, :verified, claim: c, document_file_size: 5000000)
+        end
       end
 
-      it 'creates a draft from the rejected claim' do
-        expect(Claim::BaseClaim.active.last).to be_draft
-        expect(Claim::BaseClaim.active.last.case_number).to eq(subject.case_number)
+      context 'when no errors encountered' do
+        before do
+          allow(LogStuff).to receive(:info)
+          patch :clone_rejected, params: { id: claim.id }
+        end
+
+        it 'creates a clone of the rejected claim' do
+          expect(Claim::BaseClaim.active.last.case_number).to eq(claim.case_number)
+        end
+
+        it 'creates claim in draft state' do
+          expect(Claim::BaseClaim.active.last).to be_draft
+        end
+
+        it 'redirects to the draft\'s edit page' do
+          expect(response).to redirect_to(edit_advocates_claim_path(Claim::BaseClaim.active.last))
+        end
+
+        it 'logs success details' do
+          expect(LogStuff).to have_received(:info).with(
+            'ExternalUsers::ClaimsController',
+            action: 'clone',
+            claim_id: claim.id,
+            documents: 2,
+            total_size: '9.54 MB'
+          )
+        end
+
+        it'displays a flash notice' do
+          expect(flash[:notice]).to eq "Draft created"
+        end
       end
 
-      it 'redirects to the draft\'s edit page' do
-        expect(response).to redirect_to(edit_advocates_claim_path(Claim::BaseClaim.active.last))
+      context 'when cloning execution expired' do
+        before do
+          allow(LogStuff).to receive(:error)
+          allow_any_instance_of(Claims::ExternalUserClaimUpdater).to \
+            receive(:clone_rejected)
+            .and_raise(Timeout::Error, 'execution expired')
+          patch :clone_rejected, params: { id: claim.id }
+        end
+
+        it 'logs an error' do
+          expect(LogStuff).to \
+            have_received(:error).with('ExternalUsers::ClaimsController',
+                                       action: 'clone',
+                                       claim_id: claim.id,
+                                       documents: 2,
+                                       total_size: '9.54 MB',
+                                       error: 'Timeout::Error: execution expired')
+        end
+
+        it'displays a flash alert' do
+          expect(flash[:alert]).to eq "An error is preventing this claim from being redrafted.\nThe problem has been logged and is being investigated.\nTo continue please start a new claim.\n"
+        end
       end
     end
 
-    context 'from non-rejected claim' do
-      subject { create(:submitted_claim, external_user: advocate) }
+    context 'with a non-rejected claim' do
+      subject(:claim) { create(:submitted_claim, external_user: advocate) }
 
-      it 'logs the actual error message' do
-        expect(LogStuff).to receive(:error).with('ExternalUsers::ClaimsController',
-                                                 action: 'clone',
-                                                 claim_id: subject.id,
-                                                 documents: 0,
-                                                 total_size: 0,
-                                                 error: 'Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
-        patch :clone_rejected, params: { id: subject }
+      before do
+        allow(LogStuff).to receive(:error)
+        patch :clone_rejected, params: { id: claim }
       end
 
-      describe 'the response' do
-        before do
-          patch :clone_rejected, params: { id: subject }
-        end
+      it 'logs an error' do
+        expect(LogStuff).to \
+          have_received(:error)
+          .with('ExternalUsers::ClaimsController',
+                action: 'clone',
+                claim_id: claim.id,
+                documents: 0,
+                total_size: '0 Bytes',
+                error: 'RuntimeError: Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
+      end
 
-        it 'redirects to advocates dashboard' do
-          expect(response).to redirect_to(external_users_claims_url)
-        end
+      it 'redirects to advocates dashboard' do
+        expect(response).to redirect_to(external_users_claims_url)
+      end
 
-        it 'does not create a draft claim' do
-          expect(Claim::BaseClaim.active.last).to_not be_draft
-        end
+      it 'does not create a draft claim' do
+        expect(Claim::BaseClaim.active.last).to_not be_draft
+      end
 
-        it'displays a flash error' do
-          expect(flash[:alert]).to eq "An error is preventing this claim from being redrafted.\nThe problem has been logged and is being investigated.\nTo continue please start a new claim.\n"
-        end
+      it'displays a flash error' do
+        expect(flash[:alert]).to eq "An error is preventing this claim from being redrafted.\nThe problem has been logged and is being investigated.\nTo continue please start a new claim.\n"
       end
     end
   end
 
   describe "DELETE #destroy" do
-
     context 'on success' do
       before { delete :destroy, params: { id: claim } }
 
@@ -622,6 +670,16 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
         it "sets the claim's state to 'archived_pending_delete'" do
           expect(Claim::BaseClaim.active.count).to eq(1)
           expect(claim.reload.state).to eq 'archived_pending_delete'
+          expect(flash[:notice]).to eq 'Claim archived'
+        end
+      end
+
+      context 'when non-draft hardship claim in a valid state for archival' do
+        let(:claim) { create(:advocate_hardship_claim, :rejected, external_user: advocate) }
+
+        it "sets the claim's state to 'archived_pending_review'" do
+          expect(Claim::BaseClaim.active.count).to eq(1) 
+          expect(claim.reload.state).to eq 'archived_pending_review'
           expect(flash[:notice]).to eq 'Claim archived'
         end
       end
@@ -652,7 +710,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
   end
 
   describe "PATCH #unarchive" do
-    context 'when archived claim' do
+    context 'when archived_pending_delete claim' do
       let(:claim) do
         claim = create(:authorised_claim, external_user: advocate)
         claim.archive_pending_delete!
@@ -668,6 +726,26 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller, focus: true d
 
         it 'redirects to external users root url' do
           expect(response).to redirect_to(external_users_claims_url)
+        end
+      end
+
+      context 'when archived_pending_review claim' do
+        let(:claim) do
+          claim = create(:advocate_hardship_claim, :rejected, external_user: advocate)
+          claim.archive_pending_review!
+          claim
+        end
+  
+        context 'when the current version of paper trail is used' do
+          before { patch :unarchive, params: { id: claim } }
+  
+          it 'unarchives the claim and restores to state prior to archiving' do
+            expect(claim.reload).to be_rejected
+          end
+  
+          it 'redirects to external users root url' do
+            expect(response).to redirect_to(external_users_claims_url)
+          end
         end
       end
     end
@@ -752,7 +830,7 @@ end
 
 def build_sortable_claims_sample(advocate)
   [:draft, :submitted, :allocated, :authorised, :rejected].each_with_index do |state, i|
-    Timecop.freeze(i.days.ago) do
+    travel_to(i.days.ago) do
       n = i+1
       claim = create("#{state}_claim".to_sym, external_user: advocate, case_number: "A2016#{(n).to_s.rjust(4,'0')}")
       claim.fees.destroy_all
@@ -763,7 +841,7 @@ def build_sortable_claims_sample(advocate)
       claim.state = 'draft'
       create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
       claim.state = old_state
-      claim.assessment.update_values!(claim.fees_total, 0, 0) if claim.authorised?
+      claim.assessment.update!(fees: claim.fees_total, expenses: 0, disbursements: 0) if claim.authorised?
     end
   end
 end

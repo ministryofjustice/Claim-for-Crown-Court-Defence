@@ -6,7 +6,7 @@ class MessagePresenter < BasePresenter
   end
 
   def body
-    h.content_tag :div do
+    h.tag.div do
       h.concat(simple_format(message.body))
       attachment_field if message.attachment.present?
     end
@@ -19,8 +19,8 @@ class MessagePresenter < BasePresenter
 
   def download_file_link
     h.concat(
-      h.content_tag(
-        :a, "#{attachment_file_name} (#{attachment_file_size})",
+      h.tag.a(
+        "#{attachment_file_name} (#{attachment_file_size})",
         href: "/messages/#{message.id}/download_attachment",
         title: 'Download ' + attachment_file_name
       )

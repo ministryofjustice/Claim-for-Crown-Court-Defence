@@ -74,6 +74,9 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_case_number
     @record.case_number&.upcase!
     validate_presence(:case_number, 'blank')
+    validate_pattern(:case_number, CASE_URN_PATTERN, 'invalid_case_number_or_urn')
+    return unless looks_like_a_case_number?(:case_number)
+
     validate_pattern(:case_number, CASE_NUMBER_PATTERN, 'invalid')
   end
 
@@ -91,6 +94,9 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_transfer_case_number
     return if @record.errors[:transfer_case_number].present?
+    validate_pattern(:transfer_case_number, CASE_URN_PATTERN, 'invalid_case_number_or_urn')
+    return unless looks_like_a_case_number?(:transfer_case_number)
+
     validate_pattern(:transfer_case_number, CASE_NUMBER_PATTERN, 'invalid')
   end
 
@@ -352,6 +358,10 @@ class Claim::BaseClaimValidator < BaseValidator
 
     validate_on_or_after(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
     validate_too_far_in_past(start_attribute)
+  end
+
+  def validate_not_in_future(attribute)
+    validate_on_or_before(Date.today, attribute, 'check_not_in_future')
   end
 
   def validate_too_far_in_past(start_attribute)

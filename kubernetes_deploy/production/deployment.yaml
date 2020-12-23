@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: claim-for-crown-court-defence
@@ -46,71 +46,23 @@ spec:
                   value: "on"
             initialDelaySeconds: 30
             periodSeconds: 60
+
+          # configMapRef: non-secret env vars defined in `app-config.yaml`
+          # secretRef: secret env vars defined by app secrets
+          # WHERE env var name matches key name
+          #
+          envFrom:
+            - configMapRef:
+                name: cccd-app-config
+            - secretRef:
+                name: cccd-secrets
+
           env:
-            - name: ENV
-              value: 'production'
-            - name: RAILS_ENV
-              value: 'production'
-            - name: GRAPE_SWAGGER_ROOT_URL
-              value: 'https://claim-crown-court-defence.service.gov.uk'
-            - name: GA_TRACKER_ID
-              value: 'UA-37377084-37'
-            - name: MAINTENANCE_MODE
-              value: 'false'
-            - name: SETTINGS__SLACK__BOT_NAME
-              value: 'Injectotron'
-            - name: SETTINGS__SLACK__FAIL_ICON
-              value: ':katyperry:'
-            - name: SETTINGS__SLACK__SUCCESS_ICON
-              value: ':taytay:'
-            - name: SETTINGS__AWS__POLL_MESSAGE_COUNT
-              value: '1'
-            - name: SETTINGS__AWS__POLL_MESSAGE_WAIT_TIME
-              value: '10'
-            - name: SETTINGS__AWS__S3__REGION
-              value: 'eu-west-2'
-            - name: LAA_FEE_CALCULATOR_HOST
-              value: https://laa-fee-calculator.service.justice.gov.uk/api/v1
             - name: DATABASE_URL
               valueFrom:
                 secretKeyRef:
                   name: cccd-rds
                   key: url
-            - name: SECRET_KEY_BASE
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SECRET_KEY_BASE
-            - name: CASE_WORKER_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: CASE_WORKER_PASSWORD
-            - name: ADVOCATE_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: ADVOCATE_PASSWORD
-            - name: ADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: ADMIN_PASSWORD
-            - name: SUPERADMIN_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SUPERADMIN_USERNAME
-            - name: SUPERADMIN_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SUPERADMIN_PASSWORD
-            - name: AWS_REGION
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: AWS_REGION
             - name: SETTINGS__AWS__S3__ACCESS
               valueFrom:
                 secretKeyRef:
@@ -126,26 +78,6 @@ spec:
                 secretKeyRef:
                   name: cccd-s3-bucket
                   key: bucket_name
-            - name: GECKOBOARD_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: GECKOBOARD_TOKEN
-            - name: GOOGLE_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: GOOGLE_API_KEY
-            - name: GECKOBOARD_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: GECKOBOARD_API_KEY
-            - name: SETTINGS__SLACK__BOT_URL
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SETTINGS__SLACK__BOT_URL
             - name: SETTINGS__AWS__SNS__SUBMITTED_TOPIC_ARN
               valueFrom:
                 secretKeyRef:
@@ -176,91 +108,6 @@ spec:
                 secretKeyRef:
                   name: cccd-messaging
                   key: sqs_cccd_name
-            - name: SETTINGS__GOVUK_NOTIFY__API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SETTINGS__GOVUK_NOTIFY__API_KEY
-            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__MESSAGE_ADDED_EMAIL
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__MESSAGE_ADDED_EMAIL
-            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_USER
-            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_ADVOCATE_ADMIN
-            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_LITIGATOR_ADMIN
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__NEW_EXTERNAL_LITIGATOR_ADMIN
-            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__PASSWORD_RESET
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__PASSWORD_RESET
-            - name: SETTINGS__GOVUK_NOTIFY__TEMPLATES__UNLOCK_INSTRUCTIONS
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SETTINGS__GOVUK_NOTIFY__TEMPLATES__UNLOCK_INSTRUCTIONS
-            - name: SETTINGS__GECKOBOARD__WIDGETS__TRAVEL_AUTOMATION
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SETTINGS__GECKOBOARD__WIDGETS__TRAVEL_AUTOMATION
-            - name: TEST_CHAMBER_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: TEST_CHAMBER_API_KEY
-            - name: ZENDESK_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: ZENDESK_USERNAME
-            - name: ZENDESK_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: ZENDESK_TOKEN
-            - name: SENTRY_DSN
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: SENTRY_DSN
-            - name: CCR_CASEWORKER_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: CCR_CASEWORKER_API_KEY
-            - name: CCLF_CASEWORKER_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: CCLF_CASEWORKER_API_KEY
-            - name: CURRENCY_API_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: CURRENCY_API_KEY
-            - name: PERF_PLAT_TBC_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: PERF_PLAT_TBC_TOKEN
-            - name: PERF_PLAT_QV_TOKEN
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-secrets
-                  key: PERF_PLAT_QV_TOKEN
             - name: REDIS_URL
               valueFrom:
                 secretKeyRef:

@@ -56,7 +56,7 @@ RSpec.describe CaseWorker, type: :model do
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
-        expect{
+        expect {
           CaseWorker.active.find(@dead_cw1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find CaseWorker with 'id'=#{@dead_cw1.id} [WHERE "case_workers"."deleted_at" IS NULL]}
       end
@@ -73,7 +73,7 @@ RSpec.describe CaseWorker, type: :model do
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect(CaseWorker.find(@live_cw1.id)).to eq(@live_cw1)
-        expect{
+        expect {
           CaseWorker.softly_deleted.find(@live_cw1.id)
         }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find CaseWorker with 'id'=#{@live_cw1.id}/
       end
@@ -98,7 +98,6 @@ RSpec.describe CaseWorker, type: :model do
     end
   end
 
-
   describe 'soft_delete' do
     it 'should set deleted at on the caseworker and user records' do
       cw = create :case_worker
@@ -120,5 +119,4 @@ RSpec.describe CaseWorker, type: :model do
       expect(cw.active?).to be true
     end
   end
-
 end

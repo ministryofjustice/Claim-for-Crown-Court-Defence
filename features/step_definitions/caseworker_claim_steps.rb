@@ -78,7 +78,7 @@ When(/^I click update$/) do
 end
 
 Then(/^the status at top of page should be (.*)$/) do |text|
-  expect(@case_worker_claim_show_page.status.text).to eq(text)
+  expect(@case_worker_claim_show_page.status.text).to eq(text.upcase)
 end
 
 Then(/^the claim I've just updated is no longer in the list$/) do

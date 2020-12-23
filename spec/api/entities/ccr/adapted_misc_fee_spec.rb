@@ -6,7 +6,8 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
   let(:claim) { create(:advocate_claim) }
 
   let(:misc_fee) do
-    create(:misc_fee, :mispf_fee, :with_date_attended,
+    create(
+      :misc_fee, :mispf_fee, :with_date_attended,
       claim: claim,
       quantity: 1.1,
       rate: 25
@@ -67,6 +68,18 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
       it 'returns sum of all (defendant) uplift quantities plus one for the main defendant' do
         is_expected.to eq "5"
       end
+    end
+  end
+
+  context 'when fee type type is excluded' do
+    let(:misc_fee) { create(:misc_fee, :miphc_fee, claim: claim) }
+
+    it 'exposes bill_type as nil' do
+      expect(response).to include(bill_type: nil)
+    end
+
+    it 'exposes bill_subtype as nil' do
+      expect(response).to include(bill_subtype: nil)
     end
   end
 end

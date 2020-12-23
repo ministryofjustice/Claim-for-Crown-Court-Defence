@@ -62,6 +62,9 @@ class ClaimStateTransitionPresenter < BasePresenter
       },
       'archived_pending_delete' => {
         'CaseWorker' => 'Claim archived', 'ExternalUser' => 'Your claim has been archived'
+      },
+      'archived_pending_review' => {
+        'CaseWorker' => 'Claim archived', 'ExternalUser' => 'Your claim has been archived'
       }
     }
   end

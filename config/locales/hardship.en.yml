@@ -1,0 +1,10 @@
+---
+en:
+  external_users:
+    hardship_claims:
+      basic_fees:
+        fields:
+          page_header: Hardship fees
+          page_hint: All fees should be entered exclusive of VAT.
+        summary:
+          header: Hardship fees

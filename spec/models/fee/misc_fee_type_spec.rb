@@ -20,23 +20,63 @@ require 'rails_helper'
 RSpec.describe Fee::MiscFeeType do
   let(:fee_type) { build :misc_fee_type }
 
-  context 'scopes' do
-    subject { described_class }
+  context 'when querying using scopes' do
+    it { expect(described_class).to respond_to(:supplementary, :without_supplementary_only, :agfs_scheme_12s) }
 
-    describe 'default' do
+    describe '.all (default scope)' do
+      subject { described_class.all.map(&:description) }
+
       before do
-        create(:misc_fee_type, description: 'Ppppp')
-        create(:misc_fee_type, description: 'Xxxxx')
-        create(:misc_fee_type, description: 'Sssss')
+        create(:misc_fee_type, description: 'A')
+        create(:misc_fee_type, description: 'C')
+        create(:misc_fee_type, description: 'B')
       end
 
       it 'orders by description ascending' do
-        expect(Fee::MiscFeeType.all.map(&:description)).to eq ['Ppppp','Sssss','Xxxxx']
+       is_expected.to eq ['A','B','C']
       end
     end
 
-    it { is_expected.to respond_to(:supplementary) }
-    it { is_expected.to respond_to(:without_supplementary_only) }
+    describe '.supplementary' do
+      subject { described_class.supplementary.map(&:unique_code) }
+
+      before do
+        create(:misc_fee_type, unique_code: 'NOT_SUPPLEMENTARY' )
+        create(:misc_fee_type, unique_code: 'MISAF')
+        create(:misc_fee_type, unique_code: 'MISAU')
+      end
+
+      it 'returns fee types with unique codes defined in class constants' do
+        is_expected.to match_array(%w[MISAF MISAU])
+      end
+    end
+
+    describe '.without_supplementary_only' do
+      subject { described_class.without_supplementary_only.map(&:unique_code) }
+
+      before do
+        create(:misc_fee_type, unique_code: 'MISAF' )
+        create(:misc_fee_type, unique_code: 'MISAU')
+      end
+
+      it 'returns fee types excluding those for only supplementary claims' do
+        is_expected.to match_array(%w[MISAU])
+      end
+    end
+
+    describe '.without_trial_fee_only' do
+      subject { described_class.without_trial_fee_only.map(&:unique_code) }
+
+      before do
+        create(:misc_fee_type, unique_code: 'MISPF' )
+        create(:misc_fee_type, unique_code: 'MIUMU')
+        create(:misc_fee_type, unique_code: 'MIUMO')
+      end
+
+      it 'returns fee types excluding those only for "trial" case type claims' do
+        is_expected.to match_array(%w[MISPF])
+      end
+    end
   end
 
   describe '#fee_category_name' do

@@ -1,0 +1,65 @@
+// Navigation styles
+
+.primary-nav-bar nav,
+.pagination {
+  @include container;
+  padding: $gutter-half 0;
+}
+
+nav {
+  ul {
+    padding-left: 0;
+
+    li {
+      display: inline-block;
+      list-style: none;
+
+      &:first-child a {
+        padding-left: 0;
+      }
+
+      &:last-child a {
+        margin-right: 0;
+        padding-right: 0;
+        border-right: none;
+      }
+    }
+
+    a {
+      display: block;
+    }
+  }
+}
+
+.pagination {
+  float: right;
+
+  a {
+    padding: $gutter-one-sixth;
+    border: none;
+  }
+
+  .page {
+    padding: 0 $gutter-one-sixth;
+  }
+
+  .prev {
+    padding-left: $gutter-one-sixth;
+  }
+
+  .next {
+    padding-right: $gutter-one-sixth;
+  }
+
+  .current {
+    padding: $gutter-one-sixth;
+    font-weight: 700;
+  }
+}
+
+.primary-nav-bar {
+  a {
+    padding: 0 $gutter-half / 2;
+    border-right: 1px solid $grey-3;
+  }
+}

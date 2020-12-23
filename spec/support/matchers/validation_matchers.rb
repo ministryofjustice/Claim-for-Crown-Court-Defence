@@ -3,17 +3,13 @@ require 'rspec/expectations'
 RSpec::Matchers.define :include_field_error_when do |options|
   options.assert_valid_keys :field, :other_field, :field_value, :other_field_value, :message, :translated_message, :translated_message_type
   match do |record|
-    set_options(options)
+    @options = options
     record.send("#{field}=", options[:field_value])
     record.send("#{other_field}=", options[:other_field_value])
     record.valid?
     result = record.errors[field].include?(message) if message.present?
     result = translation_match? if result && translated_message.present?
     result
-  end
-
-  def set_options(options)
-    @options = options
   end
 
   def options

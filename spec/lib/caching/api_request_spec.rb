@@ -1,13 +1,14 @@
 require 'rails_helper'
 require 'caching/api_request'
 
-describe Caching::ApiRequest do
+RSpec.describe Caching::ApiRequest do
   let(:url) { 'http://test.com/ping.json' }
 
+  let(:headers) { {} }
   let(:value1) { 'test value 1' }
-  let(:response1) { double('Response1', headers: {}, body: value1) }
+  let(:response1) { double('Response1', headers: headers, body: value1) }
   let(:value2) { 'test value 2' }
-  let(:response2) { double('Response2', headers: {}, body: value2) }
+  let(:response2) { double('Response2', headers: headers, body: value2) }
 
   before(:each) do
     Caching.backend = Caching::MemoryStore
@@ -30,7 +31,7 @@ describe Caching::ApiRequest do
     end
 
     context 'custom set' do
-      let(:options) { {ttl: 180, ignore_params: ['sorting']} }
+      let(:options) { { ttl: 180, ignore_params: ['sorting'] } }
 
       it 'should override default options if provided' do
         expect(subject.options[:ttl]).to eq(180)
@@ -62,28 +63,131 @@ describe Caching::ApiRequest do
     end
   end
 
-  describe 'writing and reading from the cache' do
+  describe '.cache' do
+    before do
+      allow(current_store).to receive(:set).and_call_original
+      allow(current_store).to receive(:get).and_call_original
+    end
+
     let(:current_store) { Caching.backend.current }
+    let(:max_age) { 3600 }
 
-    context 'caching new content' do
-      it 'should write to the cache and return the content' do
-        expect(current_store).to receive(:set).with(/api:/, /test value 1/).once.and_call_original
-        returned = described_class.cache(url) { response1 }
-        expect(returned).to eq(value1)
-      end
+    context 'when ttl option supplied' do
+      let(:headers) { {} }
+      let(:options) { { ttl: 1800 } }
 
-      it 'should cache again a stale content' do
-        Timecop.freeze(1.day.ago) do
+      context 'when cache is empty' do
+        before { Caching.clear }
+
+        it 'writes to the cache' do
+          described_class.cache(url) { response1 }
+          expect(current_store).to have_received(:set).with(/api:/, /test value 1/).once
+        end
+
+        it 'returns content' do
           returned = described_class.cache(url) { response1 }
           expect(returned).to eq(value1)
         end
+      end
 
-        returned = described_class.cache(url) { response2 }
-        expect(returned).to eq(value2)
+      context 'when cache content is stale' do
+        before do
+          over_ttl = (options[:ttl]+1).seconds.ago
+          travel_to(over_ttl) do
+            described_class.cache(url) { response1 }
+          end
+        end
+
+        it 'writes to the cache' do
+          described_class.cache(url) { response2 }
+          expect(current_store).to have_received(:set).with(/api:/, /test value 2/).once
+        end
+
+        it 'returns new content' do
+          returned = described_class.cache(url) { response2 }
+          expect(returned).to eq(value2)
+        end
+      end
+
+      context 'when cache content is NOT stale' do
+        before do
+          under_ttl = (options[:ttl]-10).seconds.ago
+          travel_to(under_ttl) do
+            described_class.cache(url) { response1 }
+          end
+        end
+
+        it 'reads from the cache' do
+          described_class.cache(url) { response1 }
+          expect(current_store).to have_received(:get).with(/api:/).twice
+        end
+
+        it 'returns content from cache' do
+          returned = described_class.cache(url) { response1 }
+          expect(returned).to eq(value1)
+        end
       end
     end
 
-    context 'reading from cache existing content' do
+    context 'when max-age header set' do
+      let(:headers) { { cache_control: "max-age=#{max_age}" } }
+
+      context 'when cache is empty' do
+        before { Caching.clear }
+
+        it 'writes to the cache' do
+          described_class.cache(url) { response1 }
+          expect(current_store).to have_received(:set).with(/api:/, /test value 1/).once
+        end
+
+        it 'returns content' do
+          returned = described_class.cache(url) { response1 }
+          expect(returned).to eq(value1)
+        end
+      end
+
+      context 'when cache content is available and not stale' do
+        before do
+          under_max_age = (max_age-10).seconds.ago
+          travel_to(under_max_age) do
+            described_class.cache(url) { response1 }
+          end
+        end
+
+        it 'reads from the cache' do
+          described_class.cache(url) { response1 }
+          expect(current_store).to have_received(:get).with(/api:/).twice
+        end
+
+        it 'returns content from cache' do
+          returned = described_class.cache(url) { response1 }
+          expect(returned).to eq(value1)
+        end
+      end
+
+      context 'when cache content is stale' do
+        before do
+          over_max_age = (max_age+1).seconds.ago
+          travel_to(over_max_age) do
+            described_class.cache(url) { response1 }
+          end
+        end
+
+        it 'writes to the cache' do
+          described_class.cache(url) { response2 }
+          expect(current_store).to have_received(:set).with(/api:/, /test value 2/).once
+        end
+
+        it 'returns new content' do
+          returned = described_class.cache(url) { response2 }
+          expect(returned).to eq(value2)
+        end
+      end
+    end
+
+    context 'reading from cache' do
+      let(:headers) { { cache_control: "max-age=30" } }
+
       it 'should read from the cache and return the content' do
         expect(current_store).to receive(:set).with(/api:/, /test value 1/).once.and_call_original
         expect(current_store).not_to receive(:set).with(/api:/, /test value 2/)

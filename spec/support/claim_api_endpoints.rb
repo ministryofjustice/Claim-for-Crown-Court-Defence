@@ -16,11 +16,11 @@ class ClaimApiEndpoints
     end
 
     def create
-      CREATE_URL_PATTERN % {type: namespace}
+      CREATE_URL_PATTERN % { type: namespace }
     end
 
     def validate
-      VALIDATE_URL_PATTERN % {type: namespace}
+      VALIDATE_URL_PATTERN % { type: namespace }
     end
 
     def all

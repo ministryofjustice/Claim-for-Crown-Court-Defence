@@ -25,11 +25,11 @@ plugins:
             - "(call _ expose ___)" # exlude expose methods
   rubocop:
     enabled: true
-    channel: rubocop-0-76
+    channel: rubocop-0-92
     config:
       file: .rubocop.yml
   brakeman:
-    enabled: true
+    enabled: false
   bundler-audit:
     enabled: true
 exclude_patterns: # customize
@@ -49,6 +49,7 @@ exclude_patterns: # customize
 - spikes/
 - app/interfaces/api/v1/*
 - lib/demo_data/*
+- lib/tasks/**/*
 - db/*
 - db/migrate/*
 - db/seeds/*

@@ -1,10 +1,10 @@
 = content_for :navigation do
   - referrer_url = params[:referrer] && url_for_referrer(params[:referrer], @claim)
   - if referrer_url
-    = link_to t('layouts.navigation.back_to_referrer_html'), referrer_url, class: 'link-back'
+    = govuk_back_link_to t('layouts.navigation.back_to_referrer_html'), referrer_url
   - elsif @claim && @claim.step_back?
-    = link_to t('layouts.navigation.back_to_referrer_html'), edit_polymorphic_path(@claim, step: @claim.previous_step), class: 'link-back'
+    = govuk_back_link_to t('layouts.navigation.back_to_referrer_html'), edit_polymorphic_path(@claim, step: @claim.previous_step)
   - else
-    = link_to t('layouts.navigation.home'), external_users_root_path, class: 'link-back'
+    = govuk_back_link_to t('layouts.navigation.home'), external_users_root_path
 
 = render template: 'layouts/application'

@@ -81,7 +81,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
 
         it 'displays expected table headers' do
           within '.fees-summary' do |summary|
-            expect(summary).to include_table_headers('Fee category', 'Fee type', 'PPE',  'Actual trial length', 'Amount')
+            expect(summary).to include_table_headers('Fee category', 'Fee type', 'PPE', 'Actual trial length', 'Amount')
           end
         end
       end
@@ -327,7 +327,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
         end
 
         it 'has the correct status display' do
-          expect(rendered).to have_selector('span.state.state-rejected', text: 'Rejected')
+          expect(rendered).to have_selector('strong.govuk-tag.app-tag--rejected', text: 'Rejected')
         end
 
         it 'renders the reason header with the correct tense' do

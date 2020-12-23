@@ -14,10 +14,10 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def show_sidebar?
-    !%i[case_details
-        defendants
-        offence_details
-        transfer_fee_details].include? claim.current_step
+    %i[case_details
+       defendants
+       offence_details
+       transfer_fee_details].exclude?(claim.current_step)
   end
 
   # NOTE: this is an interim solution for what probably should be
@@ -36,12 +36,10 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   present_with_currency :misc_fees_total, :disbursements_total, :total_inc
 
-  # returns a hash of state as a symbol, and state as a human readable name suitable for use in drop down
-  #
   def valid_transitions(options = { include_submitted: true })
     states = claim.state_transitions.map(&:to_name) - %i[archived_pending_delete deallocated]
     states -= [:submitted] if options[:include_submitted] == false
-    states.map { |state| [state, state.to_s.humanize] }.to_h
+    states.index_with { |state| state.to_s.humanize }
   end
 
   def valid_transitions_for_detail_form
@@ -73,6 +71,11 @@ class Claim::BaseClaimPresenter < BasePresenter
     else
       ''
     end
+  end
+
+  def display_case_type?
+    return false if claim&.case_stage && h.current_user.persona.is_a?(ExternalUser)
+    claim&.case_type.present?
   end
 
   def case_type_name
@@ -129,6 +132,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.case_number.blank? ? 'N/A' : claim.case_number
   end
 
+  def formatted_case_number
+    claim.case_number.blank? ? 'N/A' : claim.case_number.scan(/.{1,3}/).join(' ')
+  end
+
   def unique_id
     "##{claim.id}"
   end
@@ -180,8 +187,9 @@ class Claim::BaseClaimPresenter < BasePresenter
   #   h.number_to_currency(claim.[association]_[calc_method_name])
   # end
   #
+  CALC_METHOD_NAMES = %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].freeze
   %w[expenses disbursements].each do |object_name|
-    %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].each do |method|
+    CALC_METHOD_NAMES.each do |method|
       method_name = "#{object_name}_#{method}"
       define_method method_name do
         h.number_to_currency(claim.send(method_name.to_sym))
@@ -389,6 +397,20 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   def fixed_fees_gross
     h.number_to_currency(raw_fixed_fees_gross)
+  end
+
+  def has_clar_fees?
+    claim.fees.select { |f| f.fee_type.unique_code.in?(%w[MIPHC MIUMU MIUMO]) }.any? { |x| x.amount&.nonzero? }
+  end
+
+  def eligible_misc_fee_type_options_for_select
+    claim.eligible_misc_fee_types.map do |fee_type|
+      [
+        fee_type.description,
+        fee_type.id,
+        data: { unique_code: fee_type.unique_code }
+      ]
+    end
   end
 
   private

@@ -3,9 +3,7 @@ class AllocationPage < BasePage
 
   set_url "/case_workers/admin"
 
-  element :notice, "#notice-summary-heading"
-
-  element :allocate, "input.button.allocation-submit"
+  element :allocate, "button.govuk-button.allocation-submit"
 
   section :auto_caseworker, CommonAutocomplete, "#cc-caseworker"
 

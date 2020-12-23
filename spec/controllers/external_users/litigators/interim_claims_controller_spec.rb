@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :controller, focus: true do
+RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :controller do
   before { sign_in litigator.user }
 
   let!(:litigator)    { create(:external_user, :litigator) }
@@ -8,7 +8,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
   let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
-  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider)}
+  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider) }
   let(:supplier_number) { litigator.provider.lgfs_supplier_numbers.first.supplier_number }
 
   describe 'GET #new' do
@@ -38,7 +38,6 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
   describe 'POST #create' do
     context 'when litigator signed in' do
       context 'and the input is valid' do
-
         let(:claim_params) do
           {
             external_user_id: litigator.id,
@@ -106,7 +105,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
         context 'multi-step form submit to LAA' do
           let(:case_number) { 'A20168888' }
-          let(:interim_fee_type)  { create(:interim_fee_type, :effective_pcmh) }
+          let(:interim_fee_type) { create(:interim_fee_type, :effective_pcmh) }
 
           let(:interim_fee_params) {
             {
@@ -189,13 +188,12 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
               expect(subject_claim.interim_fee.quantity).to eql 2
               expect(subject_claim.interim_fee.amount).to eql 10.00
             end
-
           end
         end
       end
 
       context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params)      { { advocate_category: 'QC' } }
+        let(:invalid_claim_params) { { advocate_category: 'QC' } }
         it 'does not create a claim' do
           expect {
             post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
@@ -261,10 +259,9 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     subject { create(:interim_claim, :interim_effective_pcmh_fee, creator: litigator) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
-          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts' }
+          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } }, commit_save_draft: 'Save to drafts' }
         }
         it 'reduces the number of associated rep orders by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
@@ -324,5 +321,4 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
       end
     end
   end
-
 end

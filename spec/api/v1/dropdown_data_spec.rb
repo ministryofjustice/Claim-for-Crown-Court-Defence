@@ -4,18 +4,19 @@ RSpec.describe API::V1::DropdownData do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CASE_TYPE_ENDPOINT          = "/api/case_types"
-  COURT_ENDPOINT              = "/api/courts"
-  ADVOCATE_CATEGORY_ENDPOINT  = "/api/advocate_categories"
-  CRACKED_THIRD_ENDPOINT      = "/api/trial_cracked_at_thirds"
-  OFFENCE_CLASS_ENDPOINT      = "/api/offence_classes"
-  OFFENCE_ENDPOINT            = "/api/offences"
-  FEE_TYPE_ENDPOINT           = "/api/fee_types"
-  EXPENSE_TYPE_ENDPOINT       = "/api/expense_types"
-  EXPENSE_REASONS_ENDPOINT    = "/api/expense_reasons"
-  DISBURSEMENT_TYPE_ENDPOINT  = "/api/disbursement_types"
-  TRANSFER_STAGES_ENDPOINT    = "/api/transfer_stages"
-  TRANSFER_CASE_CONCLUSIONS_ENDPOINT = "/api/transfer_case_conclusions"
+  CASE_TYPE_ENDPOINT                  = "/api/case_types"
+  COURT_ENDPOINT                      = "/api/courts"
+  ADVOCATE_CATEGORY_ENDPOINT          = "/api/advocate_categories"
+  CRACKED_THIRD_ENDPOINT              = "/api/trial_cracked_at_thirds"
+  OFFENCE_CLASS_ENDPOINT              = "/api/offence_classes"
+  OFFENCE_ENDPOINT                    = "/api/offences"
+  FEE_TYPE_ENDPOINT                   = "/api/fee_types"
+  EXPENSE_TYPE_ENDPOINT               = "/api/expense_types"
+  EXPENSE_REASONS_ENDPOINT            = "/api/expense_reasons"
+  DISBURSEMENT_TYPE_ENDPOINT          = "/api/disbursement_types"
+  TRANSFER_STAGES_ENDPOINT            = "/api/transfer_stages"
+  TRANSFER_CASE_CONCLUSIONS_ENDPOINT  = "/api/transfer_case_conclusions"
+  CASE_STAGE_ENDPOINT                 = "/api/case_stages"
 
   FORBIDDEN_DROPDOWN_VERBS = [:post, :put, :patch, :delete]
   ALL_DROPDOWN_ENDPOINTS = [
@@ -30,11 +31,12 @@ RSpec.describe API::V1::DropdownData do
       EXPENSE_REASONS_ENDPOINT,
       DISBURSEMENT_TYPE_ENDPOINT,
       TRANSFER_STAGES_ENDPOINT,
-      TRANSFER_CASE_CONCLUSIONS_ENDPOINT
+      TRANSFER_CASE_CONCLUSIONS_ENDPOINT,
+      CASE_STAGE_ENDPOINT
   ]
 
   let(:provider) { create(:provider) }
-  let(:params) { {api_key: provider.api_key} }
+  let(:params) { { api_key: provider.api_key } }
 
   context 'when sending non-permitted verbs' do
     ALL_DROPDOWN_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -63,13 +65,15 @@ RSpec.describe API::V1::DropdownData do
         EXPENSE_REASONS_ENDPOINT => API::Entities::ExpenseReasonSet.represent(ExpenseType.reason_sets).to_json,
         DISBURSEMENT_TYPE_ENDPOINT => API::Entities::DisbursementType.represent(DisbursementType.active).to_json,
         TRANSFER_STAGES_ENDPOINT => API::Entities::SimpleKeyValueList.represent(Claim::TransferBrain::TRANSFER_STAGES.to_a).to_json,
-        TRANSFER_CASE_CONCLUSIONS_ENDPOINT => API::Entities::SimpleKeyValueList.represent(Claim::TransferBrain::CASE_CONCLUSIONS.to_a).to_json
+        TRANSFER_CASE_CONCLUSIONS_ENDPOINT => API::Entities::SimpleKeyValueList.represent(Claim::TransferBrain::CASE_CONCLUSIONS.to_a).to_json,
+        CASE_STAGE_ENDPOINT => API::Entities::CaseStage.represent(CaseStage.active.all).to_json
       }
     end
 
     before do
       seed_fee_schemes
       seed_case_types
+      seed_case_stages
       create_list(:court, 2)
       create_list(:offence_class, 2, :with_lgfs_offence)
       create_list(:offence, 2, :with_fee_scheme_nine)
@@ -192,78 +196,155 @@ RSpec.describe API::V1::DropdownData do
 
   context 'GET api/fee_types/[:category]' do
     before {
-      create(:basic_fee_type, :agfs_scheme_9, id: 1)
-      create(:misc_fee_type, id: 2)
-      create(:fixed_fee_type, :agfs_scheme_9, id: 3)
-      create(:graduated_fee_type, id: 4) # LGFS fee, not applicable to AGFS
-      create(:basic_fee_type, :agfs_scheme_10, id: 5)
-      create(:misc_fee_type, :agfs_scheme_10, id: 6)
-      create(:fixed_fee_type, :agfs_all_schemes, id: 7)
+      create(:basic_fee_type, :agfs_scheme_9)
+      create(:misc_fee_type, :agfs_scheme_9)
+      create(:fixed_fee_type, :agfs_scheme_9)
+
+      create(:basic_fee_type, :agfs_scheme_10)
+      create(:fixed_fee_type, :agfs_scheme_10)
+      create(:misc_fee_type, :agfs_scheme_10)
+
+      create(:basic_fee_type, :agfs_scheme_12)
+      create(:fixed_fee_type, :agfs_scheme_12)
+      create(:misc_fee_type, :agfs_scheme_12)
+
+      create(:basic_fee_type, :agfs_all_schemes)
+      create(:fixed_fee_type, :agfs_all_schemes)
+      create(:misc_fee_type, :agfs_all_schemes)
+
+      create(:graduated_fee_type) # LGFS fee, not applicable to AGFS
     }
 
-    def get_filtered_fee_types(category=nil)
-      params.merge!(category: category)
-      get FEE_TYPE_ENDPOINT, params, format: :json
+    %w(all basic misc fixed graduated interim transfer warrant).each do |cat|
+      context "with category filter: #{cat}" do
+        before { get FEE_TYPE_ENDPOINT, params.merge(category: cat), format: :json }
+
+        it { expect(last_response.status).to eq 200 }
+      end
     end
 
-    it 'should filter by category and scheme applicability' do
-      categories = %w(basic misc fixed)
-      categories.each do |category|
-        response = get_filtered_fee_types(category)
-        expect(response.status).to eq 200
-        expect(response.body).to eq API::Entities::BaseFeeType.represent(Fee::BaseFeeType.send(category).agfs).to_json
+    context 'with category filter' do
+      before { get FEE_TYPE_ENDPOINT, params.merge(category: category), format: :json }
+
+      let(:parsed_body) { JSON.parse(last_response.body) }
+
+      context 'with all' do
+        let(:category) { 'all' }
+
+        it 'returns all fee types' do
+          expect(parsed_body.pluck('type').uniq).to \
+            match_array(['Fee::BasicFeeType','Fee::FixedFeeType','Fee::MiscFeeType', 'Fee::GraduatedFeeType'])
+        end
+      end
+
+      context 'with basic' do
+        let(:category) { 'basic' }
+
+        it 'returns basic fee types only' do
+          expect(parsed_body.pluck('type')).to all(eql('Fee::BasicFeeType'))
+        end
+      end
+
+      context 'with fixed' do
+        let(:category) { 'fixed' }
+
+        it 'returns fixed fee types only' do
+          expect(parsed_body.pluck('type')).to all(eql('Fee::FixedFeeType'))
+        end
+      end
+
+      context 'with misc' do
+        let(:category) { 'misc' }
+
+        it 'returns misc fee types only' do
+          expect(parsed_body.pluck('type')).to all(eql('Fee::MiscFeeType'))
+        end
       end
     end
 
     context 'with role filter' do
       let(:parsed_body) { JSON.parse(last_response.body) }
 
-      it 'should only include AGFS fee types' do
+      it 'should only include AGFS scheme 9 fee types' do
         get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_9'), format: :json
-        expect(parsed_body.collect{|e| e['roles'].include?('agfs_scheme_9') }.uniq).to eq([true])
+        expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_9'))
+      end
+
+      it 'should only include AGFS scheme 10 fee types' do
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_10'), format: :json
+        expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_10'))
+      end
+
+      it 'should only include AGFS scheme 12 fee types' do
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_12'), format: :json
+        expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_12'))
       end
 
       it 'should only include LGFS fee types' do
         get FEE_TYPE_ENDPOINT, params.merge(role: 'lgfs'), format: :json
-        expect(parsed_body.collect{|e| e['roles'].include?('lgfs') }.uniq).to eq([true])
+        expect(parsed_body.pluck('roles')).to all(include('lgfs'))
       end
 
-      context 'fixed fees for' do
+      context 'when fixed category specified' do
         before { get FEE_TYPE_ENDPOINT, params.merge(category: 'fixed', role: role), format: :json }
 
-        context 'agfs' do
+        context 'with agfs role' do
           let(:role) { 'agfs' }
 
-          it 'returns scheme 9 agfs roles' do
-            expect(parsed_body.pluck('id')).to match_array([3, 7])
+          it 'returns fixed fee types only' do
+            expect(parsed_body.pluck('type')).to all(eql('Fee::FixedFeeType'))
+          end
+
+          it 'returns agfs fee types only' do
+            expect(parsed_body.pluck('roles')).to all(include('agfs'))
           end
         end
 
-        context 'agfs_scheme_9' do
+        context 'with agfs_scheme_9 role' do
           let(:role) { 'agfs_scheme_9' }
 
-          it 'returns scheme 9 agfs roles' do
-            expect(parsed_body.pluck('id')).to match_array([3, 7])
+          it 'returns fixed fee types only' do
+            expect(parsed_body.pluck('type')).to all(eql('Fee::FixedFeeType'))
+          end
+
+          it 'returns agfs scheme 9 fee types only' do
+            expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_9'))
           end
         end
 
-        context 'agfs_scheme_10' do
+        context 'with agfs_scheme_10 role' do
           let(:role) { 'agfs_scheme_10' }
 
-          it 'returns scheme 10 agfs roles' do
-            expect(parsed_body.pluck('id')).to eq([7])
+          it 'returns fixed fee types only' do
+            expect(parsed_body.pluck('type')).to all(eql('Fee::FixedFeeType'))
+          end
+
+          it 'returns agfs scheme 10 fee types only' do
+            expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_10'))
+          end
+        end
+
+        context 'with agfs_scheme_12 role' do
+          let(:role) { 'agfs_scheme_12' }
+
+          it 'returns fixed fee types only' do
+            expect(parsed_body.pluck('type')).to all(eql('Fee::FixedFeeType'))
+          end
+
+          it 'returns agfs scheme 12 fee types only' do
+            expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_12'))
           end
         end
       end
     end
 
     context 'with unique code filter' do
-      subject do
+      subject(:response_body) do
         response = get FEE_TYPE_ENDPOINT, params.merge(unique_code: unique_code), format: :json
         response.body
       end
 
-      before { create(:misc_fee_type, :midth, id: 8) }
+      before { create(:misc_fee_type, :midth) }
 
       context 'when unique_code exists' do
         let(:unique_code) { 'MIDTH' }
@@ -283,14 +364,14 @@ RSpec.describe API::V1::DropdownData do
       context 'when unique_code is nil' do
         let(:unique_code) { nil }
         it 'returns all' do
-          is_expected.to have_json_size 8
+          expect(JSON.parse(response_body).size).to be > 1
         end
       end
 
       context 'when unique_code is empty string' do
         let(:unique_code) { '' }
         it 'returns all' do
-          is_expected.to have_json_size 8
+          expect(JSON.parse(response_body).size).to be > 1
         end
       end
     end
@@ -298,49 +379,75 @@ RSpec.describe API::V1::DropdownData do
 
   context 'GET api/advocate_categories[:category]' do
     before do
-      allow(Settings).to receive(:agfs_reform_advocate_categories).and_return(['QC', 'Leading junior', 'Junior'])
-      allow(Settings).to receive(:advocate_categories).and_return(['QC', 'Led junior', 'Leading junior', 'Junior'])
       params.merge!(role: role)
       get ADVOCATE_CATEGORY_ENDPOINT, params, format: :json
+    end
+
+    let(:parsed_response) { JSON.parse(last_response.body) }
+
+    shared_examples 'returns agfs scheme 9 advocate categories' do
+      let(:agfs_scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone'] }
+
+      it 'returns agfs scheme 9 advocate categories' do
+        expect(parsed_response).to match_array(agfs_scheme_9_advocate_categories)
+      end
+    end
+
+    shared_examples 'returns agfs scheme 10+ advocate categories' do
+      let(:agfs_scheme_10_plus_advocate_categories) { ['QC', 'Leading junior', 'Junior'] }
+
+      it 'returns agfs scheme 10+ advocate categories' do
+        expect(parsed_response).to match_array(agfs_scheme_10_plus_advocate_categories)
+      end
     end
 
     context 'when role is nil' do
       let(:role) { nil }
 
-      it 'returns 4 options' do
-        expect(JSON.parse(last_response.body).count).to eq 4
+      include_examples 'returns agfs scheme 9 advocate categories'
+    end
+
+    context 'when role is invalid' do
+      let(:role) { :non_existent_role }
+
+      it 'returns error' do
+        expect(parsed_response.first).to have_key('error')
+      end
+
+      it 'returns error message' do
+        expect(parsed_response.first['error']).to match(/not.*valid/)
       end
     end
 
     context 'when role is agfs' do
       let(:role) { 'agfs' }
 
-      it 'returns 4 options' do
-        expect(JSON.parse(last_response.body).count).to eq 4
-      end
+      include_examples 'returns agfs scheme 9 advocate categories'
     end
 
     context 'when role is agfs_scheme_9' do
       let(:role) { 'agfs_scheme_9' }
 
-      it 'returns 4 options' do
-        expect(JSON.parse(last_response.body).count).to eq 4
-      end
+      include_examples 'returns agfs scheme 9 advocate categories'
     end
 
     context 'when role is agfs_scheme_10' do
       let(:role) { 'agfs_scheme_10' }
 
-      it 'returns 3 options' do
-        expect(JSON.parse(last_response.body).count).to eq 3
-      end
+      include_examples 'returns agfs scheme 10+ advocate categories'
+    end
+
+    context 'when role is agfs_scheme_12' do
+      let(:role) { 'agfs_scheme_12' }
+
+      include_examples 'returns agfs scheme 10+ advocate categories'
     end
 
     context 'when role is lgfs' do
       let(:role) { 'lgfs' }
 
-      it 'returns 4 options' do
-        expect(JSON.parse(last_response.body).count).to eq 4
+      it 'returns no advocate categories' do
+        expect(parsed_response).to be_empty
       end
     end
   end
@@ -363,12 +470,12 @@ RSpec.describe API::V1::DropdownData do
       context 'with role filter' do
         it 'should only include AGFS scheme 9 expense types' do
           get EXPENSE_TYPE_ENDPOINT, params.merge(role: 'agfs'), format: :json
-          expect(parsed_body.collect{|e| e['roles'].include?('agfs') }.uniq).to eq([true])
+          expect(parsed_body.collect { |e| e['roles'].include?('agfs') }.uniq).to eq([true])
         end
 
         it 'should only include LGFS expense types' do
           get EXPENSE_TYPE_ENDPOINT, params.merge(role: 'lgfs'), format: :json
-          expect(parsed_body.collect{|e| e['roles'].include?('lgfs') }.uniq).to eq([true])
+          expect(parsed_body.collect { |e| e['roles'].include?('lgfs') }.uniq).to eq([true])
         end
       end
 

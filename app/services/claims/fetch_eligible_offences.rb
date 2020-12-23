@@ -18,15 +18,17 @@ module Claims
     attr_reader :claim
 
     def agfs_reform_offences
-      Offence.unscoped.in_scheme_ten
-             .joins(offence_band: :offence_category)
-             .includes(offence_band: :offence_category)
-             .group('offences.description, offences.id, offence_bands.id, offence_categories.id')
+      fee_scheme_offences
+        .joins(offence_band: :offence_category)
+        .includes(offence_band: :offence_category)
+        .group('offences.description, offences.id, offence_bands.id, offence_categories.id')
+    end
+
+    def fee_scheme_offences
+      Offence.unscoped.send("in_scheme_#{claim.fee_scheme.version}")
     end
 
     def default_offences
-      # TODO: Eventually they will need to be scoped by fee scheme 9
-      # which currently does not exist
       if claim.offence
         [claim.offence]
       else

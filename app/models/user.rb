@@ -81,7 +81,7 @@ class User < ApplicationRecord
   end
 
   def save_settings!(data)
-    update_attributes(settings: settings.merge(data).to_json)
+    update(settings: settings.merge(data).to_json)
   end
   alias save_setting! save_settings!
 
@@ -122,5 +122,12 @@ class User < ApplicationRecord
 
   def before_soft_delete
     self.email = "#{email}.deleted.#{id}"
+  end
+
+  # To enable Devise emails to be delivered in the background.
+  # https://github.com/heartcombo/devise#activejob-integration
+  #
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
   end
 end

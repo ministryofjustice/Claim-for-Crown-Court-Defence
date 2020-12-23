@@ -11,7 +11,7 @@
 #
 
 FactoryBot.define do
-  factory :stats_report, class: Stats::StatsReport do
+  factory :stats_report, class: 'Stats::StatsReport' do
     report_name { 'management_information' }
     report { 'report contents' }
     status { 'completed' }

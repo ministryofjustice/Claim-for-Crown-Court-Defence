@@ -4,7 +4,7 @@
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 = content_for :search_html_block do
-  = link_to t('.create_case_worker'), new_case_workers_admin_case_worker_path
+  = govuk_link_to t('.create_case_worker'), new_case_workers_admin_case_worker_path
 
 = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_case_workers_path(anchor: 'listanchor'), hint_text: t('hint.search_caseworker'), button_text: t('search.caseworkers') }
 
@@ -32,8 +32,8 @@
             = case_worker.location.name
           %td.user-controls
             - if case_worker.active?
-              = link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker), 'aria-label': t('.edit_link_label', case_worker: case_worker.name)
+              = govuk_link_to t('common.edit'), edit_case_workers_admin_case_worker_path(case_worker), 'aria-label': t('.edit_link_label', case_worker: case_worker.name)
               = ' | '
-              = link_to t('common.delete'), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: t('.confirmation') }, 'aria-label': t('.delete_link_label', case_worker: case_worker.name)
+              = govuk_link_to t('common.delete'), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: t('.confirmation') }, 'aria-label': t('.delete_link_label', case_worker: case_worker.name)
             - else
               Inactive

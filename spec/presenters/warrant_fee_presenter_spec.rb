@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 describe Fee::WarrantFeePresenter do
-
   let(:warrant_fee) { instance_double(Fee::WarrantFee, claim: double) }
   let(:presenter) { Fee::WarrantFeePresenter.new(warrant_fee, view) }
 
@@ -53,5 +52,4 @@ describe Fee::WarrantFeePresenter do
       expect(presenter.warrant_executed?).to be false
     end
   end
-
 end

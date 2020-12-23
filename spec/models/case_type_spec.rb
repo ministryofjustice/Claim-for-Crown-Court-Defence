@@ -1,39 +1,21 @@
-# == Schema Information
-#
-# Table name: case_types
-#
-#  id                      :integer          not null, primary key
-#  name                    :string
-#  is_fixed_fee            :boolean
-#  created_at              :datetime
-#  updated_at              :datetime
-#  requires_cracked_dates  :boolean
-#  requires_trial_dates    :boolean
-#  allow_pcmh_fee_type     :boolean          default(FALSE)
-#  requires_maat_reference :boolean          default(FALSE)
-#  requires_retrial_dates  :boolean          default(FALSE)
-#  roles                   :string
-#  fee_type_code           :string
-#  uuid                    :uuid
-#
-
 require 'rails_helper'
 
-describe CaseType do
-
+RSpec.describe CaseType, type: :model do
   it_behaves_like 'roles', CaseType, CaseType::ROLES
 
   after(:all) do
     clean_database
   end
 
+  it { is_expected.to have_many(:case_stages).dependent(:destroy) }
+
   describe 'graduated_fee_type' do
-    let!(:grad_fee_type)     { create :graduated_fee_type, unique_code: 'GRAD' }
-    let(:grad_case_type)    { build :case_type, fee_type_code: 'GRAD' }
-    let(:grad_case_type_x)  { build :case_type, fee_type_code: 'XXXX' }
-    let(:nil_case_type)      { build :case_type, fee_type_code: nil }
-    let!(:fixed_fee_type)     { create :fixed_fee_type, unique_code: 'FIXED' }
-    let(:fixed_case_type)    { build :case_type, fee_type_code: 'FIXED' }
+    let!(:grad_fee_type)   { create :graduated_fee_type, unique_code: 'GRAD' }
+    let(:grad_case_type)   { build :case_type, fee_type_code: 'GRAD' }
+    let(:grad_case_type_x) { build :case_type, fee_type_code: 'XXXX' }
+    let(:nil_case_type)    { build :case_type, fee_type_code: nil }
+    let!(:fixed_fee_type)  { create :fixed_fee_type, unique_code: 'FIXED' }
+    let(:fixed_case_type)  { build :case_type, fee_type_code: 'FIXED' }
 
     it 'returns nil if no fee_type_code' do
       expect(fixed_case_type.graduated_fee_type).to be_nil
@@ -64,14 +46,13 @@ describe CaseType do
         expect(fixed_case_type.is_graduated_fee?).to eql false
       end
     end
-
   end
 
   describe 'fixed_fee_type' do
-    let!(:fixed_fee_type)     { create :fixed_fee_type, unique_code: 'FIXED' }
-    let(:fixed_case_type)    { build :case_type, fee_type_code: 'FIXED' }
-    let(:fixed_case_type_x)  { build :case_type, fee_type_code: 'XXXX' }
-    let(:grad_case_type)   { build :case_type, fee_type_code: nil }
+    let!(:fixed_fee_type)   { create :fixed_fee_type, unique_code: 'FIXED' }
+    let(:fixed_case_type)   { build :case_type, fee_type_code: 'FIXED' }
+    let(:fixed_case_type_x) { build :case_type, fee_type_code: 'XXXX' }
+    let(:grad_case_type)    { build :case_type, fee_type_code: nil }
 
     it 'returns nil if no fee_type_code' do
       expect(grad_case_type.fixed_fee_type).to be_nil
@@ -83,6 +64,84 @@ describe CaseType do
 
     it 'returns nil if the code doesnt exist' do
       expect(fixed_case_type_x.fixed_fee_type).to be_nil
+    end
+  end
+
+  describe 'is_trial_fee?' do
+    subject { case_type.is_trial_fee? }
+
+    context 'with fee_type_code matching "trial" fee case type' do
+      let(:case_type) { create(:case_type, fee_type_code: 'GRTRL') }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with fee_type_code not matching "trial" fee case type' do
+      let(:case_type) { create(:case_type, fee_type_code: 'GRGLT') }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with nil fee_type_code' do
+      let(:case_type) { create(:case_type, fee_type_code: nil) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  context 'scopes' do
+    before(:all) { seed_case_types }
+    after(:all) { destroy_case_types }
+
+    describe '.fixed_fee' do
+      subject { described_class.fixed_fee }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(is_fixed_fee: true)) }
+    end
+
+    describe '.not_fixed_fee' do
+      subject { described_class.not_fixed_fee }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(is_fixed_fee: false)) }
+    end
+
+    describe '.requires_cracked_dates' do
+      subject { described_class.requires_cracked_dates }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(requires_cracked_dates: true)) }
+    end
+
+    describe '.requires_trial_dates' do
+      subject { described_class.requires_trial_dates }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(requires_trial_dates: true)) }
+    end
+
+    describe '.requires_retrial_dates' do
+      subject { described_class.requires_retrial_dates }
+
+      it { is_expected.not_to be_empty }
+      it { is_expected.to all(have_attributes(requires_retrial_dates: true)) }
+    end
+
+    describe '.graduated_fees' do
+      subject(:graduated_fees) { described_class.graduated_fees }
+
+      before { create(:graduated_fee_type, :grtrl) }
+
+      it { is_expected.not_to be_empty }
+      it { expect(graduated_fees.map(&:fee_type_code)).to all(be_one_of(%w[GRCBR GRRAK GRDIS GRGLT GRRTR GRTRL])) }
+    end
+
+    describe '.trial_fees' do
+      subject(:trial_fees) { described_class.trial_fees }
+
+      it { is_expected.not_to be_empty }
+      it { expect(trial_fees.map(&:fee_type_code)).to all(be_one_of(%w[GRCBR GRRAK GRRTR GRTRL])) }
     end
   end
 end

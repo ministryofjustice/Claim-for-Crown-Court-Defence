@@ -12,6 +12,20 @@ module Fee
 
     private
 
+    def validate_fee_type
+      if run_base_fee_validators?
+        super
+      else
+        validate_presence(:fee_type, 'blank')
+        validate_lgfs_fee_type_rules
+      end
+    end
+
+    def validate_lgfs_fee_type_rules
+      rule_sets = Fee::Lgfs::FeeTypeRules.where(unique_code: @record.fee_type&.unique_code)
+      Rule::Validator.new(@record, rule_sets).validate if rule_sets.present?
+    end
+
     def validate_quantity
       super if run_base_fee_validators?
     end
@@ -31,7 +45,7 @@ module Fee
     end
 
     def run_base_fee_validators?
-      !@record.claim.lgfs?
+      !@record&.claim&.lgfs?
     end
 
     def validate_evidence_provision_fee

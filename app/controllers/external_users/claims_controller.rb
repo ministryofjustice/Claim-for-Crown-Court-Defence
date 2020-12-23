@@ -38,7 +38,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def archived
-    @claims = @claims_context.archived_pending_delete
+    @claims = @claims_context.where(state: %w[archived_pending_delete archived_pending_review])
     search(:archived_pending_delete) if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'desc')
   end
@@ -87,34 +87,37 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def clone_rejected
     draft = nil
-    Timeout.timeout(15) do
+    Timeout.timeout(20) do
       draft = claim_updater.clone_rejected
     end
-    LogStuff.send(:info, 'ExternalUsers::ClaimsController',
+    LogStuff.send(:info,
+                  'ExternalUsers::ClaimsController',
                   action: 'clone',
                   claim_id: @claim.id,
                   documents: @claim.documents.count,
-                  total_size: @claim.documents.sum(:document_file_size)) do
+                  total_size: helpers.number_to_human_size(@claim.documents.sum(:document_file_size))) do
       'Redraft succeeded'
     end
 
     redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
   rescue StandardError => e
-    LogStuff.send(:error, 'ExternalUsers::ClaimsController',
+    LogStuff.send(:error,
+                  'ExternalUsers::ClaimsController',
                   action: 'clone',
                   claim_id: @claim.id,
                   documents: @claim.documents.count,
-                  total_size: @claim.documents.sum(:document_file_size),
-                  error: e.message) do
+                  total_size: helpers.number_to_human_size(@claim.documents.sum(:document_file_size)),
+                  error: "#{e.class}: #{e.message}") do
       'Redraft failed'
     end
+
     redirect_to external_users_claims_url, alert: t('external_users.claims.redraft.error_html').html_safe
   end
 
   def destroy
     message = if @claim.draft?
                 flash_message_for :delete, claim_updater.delete
-              elsif @claim.can_archive_pending_delete?
+              elsif @claim.can_archive_pending_delete? || @claim.can_archive_pending_review?
                 flash_message_for :archive, claim_updater.archive
               else
                 { alert: 'This claim cannot be deleted' }
@@ -125,7 +128,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def unarchive
     claim_url = external_users_claim_url(@claim)
-    return redirect_to claim_url, alert: t('.not_archived') unless @claim.archived_pending_delete?
+    return redirect_to claim_url, alert: t('.not_archived') unless unarchive_allowed?
     @claim = PreviousVersionOfClaim.new(@claim).call
     @claim.zeroise_nil_totals!
     @claim.save!(validate: false)
@@ -286,6 +289,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :transfer_case_number,
       :case_number,
       :case_type_id,
+      :case_stage_id,
       :offence_id,
       :travel_expense_additional_information,
       date_attributes_for(:first_day_of_trial),
@@ -388,6 +392,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :price_calculated,
         date_attributes_for(:warrant_issued_date),
         date_attributes_for(:warrant_executed_date)
+      ],
+      hardship_fee_attributes: %i[
+        id
+        claim_id
+        fee_type_id
+        amount
+        price_calculated
+        quantity
       ],
       expenses_attributes: [
         :id,
@@ -543,5 +555,9 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def flash_message_for(event, status)
     status ? { notice: "Claim #{event}d" } : { alert: "Claim could not be #{event}d" }
+  end
+
+  def unarchive_allowed?
+    @claim.archived_pending_delete? || @claim.archived_pending_review?
   end
 end

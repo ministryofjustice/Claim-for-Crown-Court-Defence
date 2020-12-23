@@ -31,7 +31,7 @@ module Duplicable
     def duplicate_this(&block)
       self.amoeba_blocks ||= begin
         blocks = [proc { enable }]
-        blocks << block if block_given?
+        blocks << block if block
         blocks
       end
 

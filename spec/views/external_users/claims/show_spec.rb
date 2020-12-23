@@ -110,7 +110,7 @@ RSpec.describe 'external_users/claims/show.html.haml', type: :view do
         it 'should not render state labels' do
           claim.reload
           render
-          expect(rendered).to_not have_selector('span.state.state-unverified', text: 'Unverified')
+          expect(rendered).to_not have_selector('strong.govuk-tag.app-tag--unverified', text: 'Unverified')
         end
       end
     end

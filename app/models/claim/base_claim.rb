@@ -16,6 +16,7 @@ module Claim
 
     attr_reader :form_step
     alias current_step form_step
+
     attr_accessor :disable_for_state_transition
     attribute :case_transferred_from_another_court, :boolean
 
@@ -23,7 +24,6 @@ module Claim
     extend ::Claims::Search
     extend ::Claims::Sort
     include ::Claims::Calculations
-    include ::Claims::UserMessages
     include ::Claims::Cloner
     include ::Claims::AllocationFilters
 
@@ -31,15 +31,16 @@ module Claim
     numeric_attributes :fees_total, :expenses_total, :disbursements_total, :total, :vat_amount
 
     belongs_to :court
-    belongs_to :transfer_court, foreign_key: 'transfer_court_id', class_name: 'Court'
+    belongs_to :transfer_court, class_name: 'Court'
     belongs_to :offence
     belongs_to :external_user
-    belongs_to :creator, foreign_key: 'creator_id', class_name: 'ExternalUser'
+    belongs_to :creator, class_name: 'ExternalUser'
     belongs_to :case_type
+    belongs_to :case_stage
 
     delegate :provider_id, :provider, to: :creator
     delegate :requires_trial_dates?, :requires_retrial_dates?, to: :case_type, allow_nil: true
-    delegate :agfs_reform?, to: :fee_scheme, allow_nil: true
+    delegate :agfs_reform?, :agfs_scheme_12?, to: :fee_scheme, allow_nil: true
 
     has_many :case_worker_claims, foreign_key: :claim_id, dependent: :destroy
     has_many :case_workers, through: :case_worker_claims
@@ -205,6 +206,10 @@ module Claim
       false
     end
 
+    def hardship?
+      false
+    end
+
     def supplementary?
       false
     end
@@ -243,11 +248,14 @@ module Claim
     end
 
     def self.agfs_claim_types
-      [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim]
+      [Claim::AdvocateClaim,
+       Claim::AdvocateInterimClaim,
+       Claim::AdvocateSupplementaryClaim,
+       Claim::AdvocateHardshipClaim]
     end
 
     def self.lgfs_claim_types
-      [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim]
+      [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::LitigatorHardshipClaim]
     end
 
     def self.agfs?
@@ -276,11 +284,6 @@ module Claim
       else
         where(value_band_id: value_band_id)
       end
-    end
-
-    # TODO: this appears to only be used by tests
-    def update_amount_assessed(options)
-      assessment.update_values(options[:fees], options[:expenses], options[:disbursements])
     end
 
     def pretty_type
@@ -377,7 +380,7 @@ module Claim
     end
 
     def applicable_for_written_reasons?
-      claim_state_transitions.any? { |x| x.to == 'redetermination' }
+      claim_state_transitions.any? { |x| x.to == 'redetermination' } && !hardship?
     end
 
     def perform_validation?
@@ -600,6 +603,14 @@ module Claim
       Claims::FetchEligibleDocumentTypes.for(self)
     end
 
+    def discontinuance?
+      case_type&.fee_type_code.eql?('GRDIS')
+    end
+
+    def unread_messages_for(user)
+      messages.joins(:user_message_statuses).where(user_message_statuses: { read: false, user: user })
+    end
+
     private
 
     # called from state_machine before_transition on submit - override in subclass
@@ -615,7 +626,7 @@ module Claim
     def find_and_associate_documents
       return if form_id.nil?
 
-      Document.where(form_id: form_id).each do |document|
+      Document.where(form_id: form_id).find_each do |document|
         document.update_column(:claim_id, id)
         document.update_column(:external_user_id, external_user_id)
       end

@@ -37,6 +37,9 @@ module API
         expose :injection_errored
         expose :cav_warning
         expose :supplementary
+        expose :agfs_hardship
+        expose :lgfs_hardship
+        expose :clar_fees_warning
       end
 
       private
@@ -73,7 +76,7 @@ module API
       end
 
       def redetermination
-        object.state.eql?('redetermination').to_i
+        (object.state.eql?('redetermination') && !hardship_claim?).to_i
       end
 
       def fixed_fee
@@ -130,6 +133,14 @@ module API
 
       def supplementary
         object.case_type.eql?('Supplementary').to_i
+      end
+
+      def agfs_hardship
+        object.scheme_type.eql?('AdvocateHardship').to_i
+      end
+
+      def lgfs_hardship
+        object.scheme_type.eql?('LitigatorHardship').to_i
       end
     end
   end

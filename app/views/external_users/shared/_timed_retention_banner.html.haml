@@ -1,17 +1,11 @@
 - if show_timed_retention_banner_to_user?
 
   .js-callout-banner{'data-setting': 'timed_retention_banner_seen'}
-    .notice
-      %i.icon.icon-important
-        %span.visuallyhidden
-          = "Warning"
-
-      %strong.bold-small
-        = "Time-limited retention of claims is being introduced from 19th September 2016."
+    = govuk_warning_text t('callout_banner.time_retention_warning_text')
 
     %ul.list
       %li
-        = link_to 'More information', timed_retention_page_path
+        = govuk_link_to t('callout_banner.time_retention_information'), timed_retention_page_path
 
       %li.hide-link
-        = link_to 'Do not show this message again', settings_user_path(current_user.id, timed_retention_banner_seen: 1), method: :put, remote: true
+        = govuk_link_to t('callout_banner.time_retention_hide_banner'), settings_user_path(current_user.id, timed_retention_banner_seen: 1), method: :put, remote: true

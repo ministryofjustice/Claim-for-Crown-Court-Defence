@@ -29,9 +29,8 @@ require 'fileutils'
 TEMPFILE_NAME = File.join(Rails.root, 'tmp', 'document_spec', 'test.txt')
 
 RSpec.describe Document, type: :model do
-
   it { should belong_to(:external_user) }
-  it { should belong_to(:creator).class_name('ExternalUser').with_foreign_key('creator_id') }
+  it { should belong_to(:creator).class_name('ExternalUser') }
   it { should belong_to(:claim) }
   it { should delegate_method(:provider_id).to(:external_user) }
 
@@ -67,7 +66,6 @@ RSpec.describe Document, type: :model do
     let(:document) { create :document, claim: claim }
 
     context 'total number of documents for this form_id' do
-
       it 'validates that the total number of documents for this claim has not been exceeded' do
         allow(Settings).to receive(:max_document_upload_count).and_return(2)
         create :document, claim_id: claim.id, form_id: claim.form_id
@@ -80,7 +78,6 @@ RSpec.describe Document, type: :model do
     end
 
     context 'cryptic error message is deciphered' do
-
       it 'calls transform_cryptic_paperclip_error every time it is unable to save' do
         expect(document).to receive(:save).and_return(false)
         expect(document).to receive(:transform_cryptic_paperclip_error)
@@ -98,43 +95,41 @@ RSpec.describe Document, type: :model do
   context 'storage' do
     context 'on S3' do
       subject { build(:document) }
-      before { allow(subject).to receive(:generate_pdf_tmpfile).and_return(nil)}
+      before { allow(subject).to receive(:generate_pdf_tmpfile).and_return(nil) }
 
       it 'saves the original' do
         stub_request(:put, /https\:\/\/moj-cbo-documents-test\.s3\.amazonaws\.com\/.+\/shorter_lorem\.docx/).
           with(headers: { "Content-Type" => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                          "Content-Length" => '5055'})
+                          "Content-Length" => '5055' })
 
-          expect{ subject.save! }.not_to raise_error
+        expect { subject.save! }.not_to raise_error
       end
 
       it 'uses the canned S3 private ACL' do
         stub_request(:put, /shorter_lorem\.docx/).
           with(headers: { 'X-Amz-Acl' => 'private' })
 
-        expect{ subject.save! }.not_to raise_error
+        expect { subject.save! }.not_to raise_error
       end
 
       it 'sets a no-cache header' do
         stub_request(:put, /shorter_lorem\.docx/).
           with(headers: { 'x-amz-meta-Cache-Control' => 'no-cache' })
 
-        expect{ subject.save! }.not_to raise_error
+        expect { subject.save! }.not_to raise_error
       end
 
       it 'sets an expiry header' do
         stub_request(:put, /shorter_lorem\.docx/).
-          with(headers: { 'Expires' => /.+/ })  # Timecop and paperclip or webmock aren't playing well together.
+          with(headers: { 'Expires' => /.+/ }) # Timecop and paperclip or webmock aren't playing well together.
 
-        expect{ subject.save! }.not_to raise_error
+        expect { subject.save! }.not_to raise_error
       end
     end
   end
 
   context '#generate_pdf_tmpfile' do
-
     context 'when the original attachment is a .docx' do
-
       subject { build(:document, :docx, document_content_type: 'application/msword') }
 
       it 'called by a before_save hook' do
@@ -146,11 +141,9 @@ RSpec.describe Document, type: :model do
         expect(subject).to receive(:convert_and_assign_document)
         subject.generate_pdf_tmpfile
       end
-
     end
 
     context 'when the original attachment is a .pdf' do
-
       subject { build(:document) }
 
       it 'is still called by a before_save hook' do
@@ -167,13 +160,10 @@ RSpec.describe Document, type: :model do
         subject.save!
         expect(subject.pdf_tmpfile).to eq subject.document
       end
-
     end
-
   end
 
   context '#convert_and_assign_document' do
-
     subject { build(:document, :docx, document_content_type: 'application/msword') }
 
     it 'depends on the Libreconv gem' do
@@ -183,13 +173,11 @@ RSpec.describe Document, type: :model do
 
     it 'handles IOError when Libreconv is not in PATH' do
       allow(Libreconv).to receive(:convert).and_raise(IOError) # raise IOError as if Libreoffice exe were not found
-      expect{ subject.save! }.to change{ Document.count }.by(1) # error handled and document is still saved
+      expect { subject.save! }.to change { Document.count }.by(1) # error handled and document is still saved
     end
-
   end
 
   context '#add_converted_preview_document' do
-
     subject { build(:document) }
 
     before { allow(Libreconv).to receive(:convert) }
@@ -207,8 +195,7 @@ RSpec.describe Document, type: :model do
   end
 
   context 'save_and_verify' do
-
-    let(:document)  { build :document }
+    let(:document) { build :document }
 
     after(:each) { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
 
@@ -231,7 +218,6 @@ RSpec.describe Document, type: :model do
         expect(document.verified).to be true
         expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
         expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'verify', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-
       end
     end
 

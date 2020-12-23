@@ -20,6 +20,6 @@
     = f.input_field :password_confirmation, class: 'form-control'
 
   .form-group
-    = f.button :submit, t('.change_password'), class: 'button'
+    = govuk_button(t('.change_password'))
 
 = render 'devise/shared/links'

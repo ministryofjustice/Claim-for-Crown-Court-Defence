@@ -104,7 +104,7 @@ When(/^I check “I attended the main hearing”$/) do
 end
 
 When(/^I click Certify and submit claim$/) do
-  allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu_west_1', stub_responses: true)
+  allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu-west-1', stub_responses: true)
   @certification_page.wait_until_certify_and_submit_claim_visible
   patiently do
     @certification_page.certify_and_submit_claim.click
@@ -137,7 +137,7 @@ end
 Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'(?: and a claimed amount of '(.*?)')?$/) do |case_number, status, claimed|
   my_claim = @external_user_home_page.claim_for(case_number)
   expect(my_claim).not_to be_nil
-  expect(my_claim.state.text).to eq(status)
+  expect(my_claim.state.text).to eq(status.upcase)
   expect(my_claim.claimed.text).to eq(claimed) if claimed
 end
 
@@ -175,7 +175,7 @@ Then(/^I should see "([^"]*)"$/) do |arg1|
 end
 
 And(/^I should see the field '(.*?)' with value '(.*?)' in '(.*?)'$/) do |field, value, section|
-  within(page.find(:css, 'div.form-section', text: section)) do
+  within(page.find(:css, 'div.app-summary-section', text: section)) do
     expect(page).to have_content(value)
   end
 end

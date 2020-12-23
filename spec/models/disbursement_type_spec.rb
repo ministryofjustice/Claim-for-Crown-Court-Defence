@@ -13,7 +13,6 @@
 require 'rails_helper'
 
 RSpec.describe DisbursementType, type: :model do
-
   it { should have_many(:disbursements) }
 
   it { should validate_presence_of(:name) }
@@ -22,7 +21,6 @@ RSpec.describe DisbursementType, type: :model do
   it { should validate_uniqueness_of(:unique_code).ignoring_case_sensitivity.with_message('A disbursement type with this unique code already exists') }
 
   context 'scopes' do
-
     before(:all) do
       create :disbursement_type, name: 'Zebras'
       create :disbursement_type, name: 'Travel Costs', deleted_at: 3.minutes.ago

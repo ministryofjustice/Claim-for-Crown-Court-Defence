@@ -10,7 +10,6 @@
 require 'rails_helper'
 
 RSpec.describe SuperAdmin, type: :model do
-
   it { should have_one(:user) }
 
   it { should validate_presence_of(:user) }
@@ -29,5 +28,4 @@ RSpec.describe SuperAdmin, type: :model do
       expect(subject.name).to eq("#{subject.first_name} #{subject.last_name}")
     end
   end
-
 end

@@ -32,8 +32,12 @@ module MessageQueue
     private
 
     def queue_url(queue)
-      return queue if queue.match?(/\A#{URI.regexp(%w[http https])}\z/)
+      return queue if queue.match?(valid_web_url_regex)
       @sqs.get_queue_url(queue_name: queue).queue_url
+    end
+
+    def valid_web_url_regex
+      /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/
     end
 
     def messages

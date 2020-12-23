@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, focus: true do
-
+RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   before { sign_in litigator.user }
 
   let!(:litigator)    { create(:external_user, :litigator) }
@@ -9,7 +8,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   let(:offence)       { create(:offence, :miscellaneous) }
   let(:case_type)     { create(:case_type, :hsts) }
   let(:expense_type)  { create(:expense_type, :car_travel, :lgfs) }
-  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider)}
+  let(:external_user) { create(:external_user, :litigator, provider: litigator.provider) }
   let(:supplier_number) { litigator.provider.lgfs_supplier_numbers.first.supplier_number }
 
   describe "GET #new" do
@@ -35,7 +34,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
       it 'renders the template' do
         expect(response).to render_template(:new)
       end
-
     end
   end
 
@@ -57,7 +55,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
   describe "POST #create" do
     context 'when litigator signed in' do
       context 'and the input is valid' do
-
         let(:expense_type) { create(:expense_type, :train) }
         let(:expense_date) { 10.days.ago }
         let(:claim_params) do
@@ -194,7 +191,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
       end
 
       context 'submit to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params)      { { advocate_category: 'QC' } }
+        let(:invalid_claim_params) { { advocate_category: 'QC' } }
         it 'does not create a claim' do
           expect {
             post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
@@ -214,7 +211,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         let!(:graduated_fee_type_1)     { FactoryBot.create :graduated_fee_type, description: 'Graduated Fee Type 1' }
 
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject{ |k,v| k == 'case_number'} }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k,v| k == 'case_number' } }
 
         context 'graduated fee case types' do
           context 'valid params' do
@@ -241,7 +238,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
               expect(assigns(:claim).misc_fees.map(&:amount).sum).to eq 375
             end
 
-             it 'should update claim total to sum of graduated and miscellaneous fees' do
+            it 'should update claim total to sum of graduated and miscellaneous fees' do
               expect(assigns(:claim).fees_total).to eq 2375.00
             end
           end
@@ -325,7 +322,6 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
           expect(assigns(:claim).evidence_checklist_ids).to eql( [ 2, 3 ] )
         end
       end
-
     end
   end
 
@@ -380,10 +376,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
     subject { create(:litigator_claim, creator: litigator) }
 
     context 'when valid' do
-
       context 'and deleting a rep order' do
         before {
-          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: {'0' => {id: subject.defendants.first.representation_orders.first, _destroy: 1}}}}}, commit_save_draft: 'Save to drafts' }
+          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } }, commit_save_draft: 'Save to drafts' }
         }
         it 'reduces the number of associated rep orders by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
@@ -474,7 +469,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
       "case_concluded_at_yyyy" => "2015",
       "evidence_checklist_ids" => ["1", "5", ""],
       "defendants_attributes"=>
-        {"0"=>
+        { "0"=>
           {
             "first_name" => "Stephen",
             "last_name" => "Richards",
@@ -499,12 +494,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller, f
         },
       "misc_fees_attributes"=>
         {
-          "0"=>{"fee_type_id" => misc_fee_type_1.id.to_s, "amount" => "125", "_destroy" => "false"},
-          "1"=>{"fee_type_id" => misc_fee_type_2.id.to_s, "amount" => "250", "_destroy" => "false"},
+          "0"=>{ "fee_type_id" => misc_fee_type_1.id.to_s, "amount" => "125", "_destroy" => "false" },
+          "1"=>{ "fee_type_id" => misc_fee_type_2.id.to_s, "amount" => "250", "_destroy" => "false" },
          },
       "expenses_attributes"=>
         {
-          "0"=>{"expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false"}
+          "0"=>{ "expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false" }
         },
       "apply_vat" => "0"
     }.with_indifferent_access

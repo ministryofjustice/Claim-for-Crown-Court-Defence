@@ -40,7 +40,7 @@ module StringExtension
   end
 
   def to_css_class
-    downcase.strip.tr(' _', '--')
+    downcase.strip.tr(' _', '-').tr('()', '')
   end
 
   private

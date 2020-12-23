@@ -4,7 +4,6 @@ require File.join(Rails.root, 'lib', 'demo_data', 'claim_state_advancer')
 module Stats
   module Collector
     describe TimeToCompletionCollector do
-
       let(:base_time) { Time.new(2016, 1, 1, 12, 0, 0) }
       let(:decision_time) { base_time + 14.days }
 
@@ -32,7 +31,6 @@ module Stats
         @claim_f = create_decided_claim('authorised', base_time + 10.days, decision_time + 2.days)
       end
 
-
       it 'should work out the average time to completion' do
         # the following claims should be authorised on decision day (Friday 15 Jan):
         # - claim_c - submitted 4 days earlier - 4 working days
@@ -48,25 +46,23 @@ module Stats
         expect(stat.value_2).to eq 3
       end
 
-
       def create_submitted_claim(time_submitted)
         claim = nil
-        Timecop.freeze(base_time) do
+        travel_to base_time do
           claim = create :draft_claim, external_user: advocate, creator: advocate
-          Timecop.freeze(time_submitted) do
-            claim.submit!
-          end
+          travel_to time_submitted
+          claim.submit!
         end
         claim
       end
 
       def create_decided_claim(final_state, time_submitted, decision_time)
-        claim = create_submitted_claim(time_submitted)
-        Timecop.freeze(decision_time) do
-          claim.allocate!
-          DemoData::ClaimStateAdvancer.new(claim).advance_from_allocated_to(final_state)
+        create_submitted_claim(time_submitted).tap do |claim|
+          travel_to decision_time do
+            claim.allocate!
+            DemoData::ClaimStateAdvancer.new(claim).advance_from_allocated_to(final_state)
+          end
         end
-        claim
       end
     end
   end

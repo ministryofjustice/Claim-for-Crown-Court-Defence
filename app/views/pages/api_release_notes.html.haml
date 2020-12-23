@@ -2,10 +2,187 @@
 
 %section.api-github-issue
   Any development issues? aside from our
-  = link_to 'vendor support slack channel', 'https://laavendorsupport.slack.com'
+  = govuk_link_to 'vendor support slack channel', 'https://laavendorsupport.slack.com'
   you can raise
-  = link_to 'Github issues', 'https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues'
+  = govuk_link_to 'Github issues', 'https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/issues'
   for bugs or other problems.
+
+%section.api-documentation
+  %hr
+  %h2 17th September 2020
+  %ul.list-bullet
+    %li
+      New miscellaneous fee types
+      %br/
+      %br/
+      In line with the
+      %a{ href: 'https://consult.justice.gov.uk/criminal-legal-aid/criminal-legal-aid-review/results/clar-consultation-govt-response.pdf', target: '_blank' } Criminal Legal Aid Review's (CLAR) Accelerated Measures package
+      three new fee types have been added for use on AGFS claims and two for LGFS claims.
+      %br
+      %br
+      These will be available for claims with representation orders issued on or after the implementation date for the
+      %a{ href: 'https://www.legislation.gov.uk/uksi/2020/903/contents/made', target: '_blank' } Accelerated Measures
+      on 17th September 2020.
+      %br
+      %br
+      The fee types will be eligible on AGFS final, supplementary and hardship claims (Paper Heavy and Unused Materials) and LGFS Final, Transfer and Hardship claims (Unused Materials) where the earliest representation order date is on or after the CLAR accelerated measures release date.
+
+      %br
+      %br
+      %table
+        %caption
+          New fee types
+        %thead
+          %tr
+            %th
+              Unique code
+            %th
+              Description
+            %th
+              Scheme
+            %th
+              Claim types
+            %th
+              Validations
+        %tbody
+          %tr
+            %td
+              MIPHC
+            %td
+              Paper heavy case
+            %td
+              AGFS
+            %td
+              AGFS Final, Supplementary and Hardship claims
+            %td
+              Not claimable on claims with offences in Bands 1, 6 and 9
+              %sup{ style: "font-size: 10px"}
+                1
+            %th
+          %tr
+            %td
+              MIUMU
+            %td
+              Unused material (upto 3 hours)
+            %td
+              AGFS, LGFS
+            %td
+              AGFS Final, Supplementary and Hardship claims.
+              %br
+              %br
+              LGFS Final, Transfer and Hardship claims.
+            %td
+              %code
+                quantity
+              of one only (not required for LGFS)
+              %br
+              %br
+              Only claimable on claims with a Graduated case type
+              %sup{ style: "font-size: 10px"}
+                2
+          %tr
+            %td
+              MIUMO
+            %td
+              Unused material (over 3 hours)
+            %td
+              AGFS, LGFS
+            %td
+              AGFS Final, Supplementary and Hardship claims.
+              %br
+              %br
+              LGFS Final, Transfer and Hardship claims.
+            %td
+              Decimal
+              %code
+                quantity
+              of over 0 (not required for LGFS)
+              %sup{ style: "font-size: 10px"}
+                3
+              %br
+              %br
+              Only claimable on claims with a Graduated case type
+              %sup{ style: "font-size: 10px"}
+                2
+              %br
+              %br
+              Should be claimed together with Unused material (upto 3 hours), which covers the first 3 hours.
+        %tfoot
+          %tr
+            %td{ colspan: 5}
+              %sup{ style: "font-size: 10px"}
+                1
+              %code
+                offence_band.offence_category.number
+              \. See
+              %a{ href: '/api/documentation?v=1#!/api/getApiOffences', target: '_blank' } api/offences
+              %br
+              %sup{ style: "font-size: 10px"}
+                2
+              graduated case types include Trial, Retrial, Cracked Trial and Cracked before retrial. See
+              %a{ href: '/api/documentation#!/api/getApiCaseTypes', target: '_blank' } api/case_types
+              %br
+              %sup{ style: "font-size: 10px"}
+                3
+              The number of hours in excess of the first 3 hours
+    %li
+      New AGFS offence codes
+      %br/
+      %br/
+      As with the introduction of AGFS fee scheme 11 it has been necessary to add an entire set of new offences for the CLAR accelerated measures
+      which we have named, for this app, AGFS fee scheme 12.
+      %br/
+      %br/
+      When creating an AGFS final or hardship claim for AGFS fee scheme 12 via the API you should ensure you are attaching an AGFS scheme 12 offence - this is the only way to ensure the system is aware it is an AGFS fee scheme 12 claim (prior to attaching a defendant with a representation order).
+      This, then, effects eligibility of fee types and validations.
+      %br/
+      %br/
+      You can query the new offences on the
+      %a{ href: '/api/documentation?v=1#!/api/getApiOffences', target: '_blank' } api/offences
+      endpoint - note that you will need to provide a
+      %code.code='rep_order_date'
+      parameter that falls on or after the AGFS fee scheme 12 start date - 2020-09-17
+
+
+%section.api-documentation
+  %hr
+  %h2 TBC
+  %ul.list-bullet
+    %li
+      Case Number modified to also accept URNs
+      %br/
+      %br/
+      These are <= 20 characters and alphanumeric
+      %br/
+      %br/
+
+%section.api-documentation
+  %hr
+  %h2 12th May 2020
+  %ul.list-bullet
+    %li
+      Addition of Litigator and Advocate hardship type claim endpoints
+      %br/
+      %br/
+      In line with the web application interface, new endpoints to facilitate the creation of Litigator and Advocate hardship claims has been added.
+      %br/
+      %br/
+      The new endpoints are interactively documented at the links below:
+      %ul.list-bullet
+        %li
+          %a{ href: '/api/documentation?#!/api/postApiExternalUsersClaimsLitigatorsHardship', target: '_blank' } litigator hardship claim creation
+        %li
+          %a{ href: '/api/documentation?#!/api/documentation#!/api/postApiExternalUsersClaimsLitigatorsHardship', target: '_blank' } litigator hardship claim validate
+        %li
+          %a{ href: '/api/documentation?#!/api/postApiExternalUsersClaimsAdvocatesHardship', target: '_blank' } advocate hardship claim creation
+        %li
+          %a{ href: '/api/documentation?#!/api/documentation#!/api/postApiExternalUsersClaimsAdvocatesHardshipValidate', target: '_blank' } advocate hardship claim validate
+      %br/
+      %br/
+      A list of valid Case Stages (to be used when creating a hardship claim) can be retrieved via:
+      %table
+        %tr
+          %td GET /api/case_stages
 
 %section.api-documentation
   %hr
@@ -96,7 +273,7 @@
       ) have been exposed.
       %br
       %br
-      .panel
+      = govuk_inset_text do
         Note that an offence's
         %code.code='id'
         should not be persisted in consumers and relied on to add a specific offence to a claim.
@@ -126,12 +303,12 @@
       Additional fee scheme 10 and 11 offence codes added
       %br/
       The following additional specific offence has been added to both fee scheme 10 and 11:
-      .panel
+      = govuk_inset_text do
         'Aiding, abetting, causing or permitting dangerous driving' in band 17.1
       %br/
       The following additional catchall offences have been added to both fee scheme 10 and 11 in every band
       %br
-      .panel
+      = govuk_inset_text do
         'Other offences' in bands 1.1, 1.2, 1.3, 1.4, 2.1, 2.2, 3.1, 3.2, 3.3, 3.4, 3.5, 4.1, 4.2, 4.3, 5.1, 5.2, 5.3, 6.1, 6.2, 6.3, 6.4, 6.5, 7.1, 7.2, 7.3, 8.1, 9.1, 9.2, 9.3, 9.4, 9.5, 9.6, 9.7, 10.1, 11.1, 11.2, 12.1, 12.2, 12.3, 13.1, 14.1, 15.1, 15.2, 15.3, 16.1, 16.2, 16.3, 17.1
       %br/
       You can query all offences on the
@@ -312,7 +489,7 @@
       You can get the whole list of LGFS miscellaneous fee types using this query:
       %pre.code
         curl -X GET --header 'Accept: application/json' &&
-        'https://api-sandbox-adp.dsd.io/api/fee_types?api_key=[your-api-key]&role=lgfs&category=misc'
+        'https://api-sandbox.claim-crown-court-defence.service.justice.gov.uk/api/fee_types?api_key=[your-api-key]&role=lgfs&category=misc'
       %br/
       This is being done as part of fee calculation integration into the CCCD web application. We are applying defendant uplifts to LGFS graduated, transfer and interim
       fees based on the number of defendants supplied on the claim.
@@ -714,7 +891,7 @@
         \/api/external_users/claims/advocates/interim
       and enables a submission of a warrant fee.
       Please see the
-      =link_to 'Crown Court Fee Guidance', 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/696617/crown-court-fee-guidance.-post-1-apr-2018.pdf'
+      = govuk_link_to 'Crown Court Fee Guidance', 'https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/696617/crown-court-fee-guidance.-post-1-apr-2018.pdf'
       for details.
       %br/
       %br/
@@ -755,7 +932,7 @@
   %ul.list-bullet
     %li
       The Evidence provision fee is now locked to two values, £45 and £90 as described in the
-      = link_to 'guidance', 'https://www.gov.uk/guidance/claim-the-evidence-provision-fee#lower-and-upper-tiers'
+      = govuk_link_to 'guidance', 'https://www.gov.uk/guidance/claim-the-evidence-provision-fee#lower-and-upper-tiers'
       ='.'
       %br/
       %br/
@@ -1043,7 +1220,7 @@
   %ul.list-bullet
     %li
       Litigator Claims can now be submitted via the API. Please consult the
-      = link_to "interactive documentation", grape_swagger_rails_path
+      = govuk_link_to "interactive documentation", grape_swagger_rails_path
       for further deatils.
       %p
       An overview of which endpoints to use for claim submission is as follows:

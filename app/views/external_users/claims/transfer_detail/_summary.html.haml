@@ -1,10 +1,11 @@
 - transfer_detail_translations = 'external_users.claims.transfer_fee.summary'
 
-.form-section
-  %h2.heading-medium
+.app-summary-section
+  %h2.govuk-heading-l
     = t('external_users.claims.transfer_detail.summary.header')
-    - if local_assigns[:editable]
-      = link_to t('.change'), edit_polymorphic_path(claim, step: :transfer_fee_details, referrer: :summary), class: 'link-change', 'aria-label': t('.change_link_label')
+
+  - if local_assigns[:editable]
+    = govuk_link_to t('common.change_html', context: t('external_users.claims.transfer_detail.summary.header')), edit_polymorphic_path(claim, step: :transfer_fee_details, referrer: :summary), class: 'link-change'
 
   - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
     = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :transfer_fee_details }

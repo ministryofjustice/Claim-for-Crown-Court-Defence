@@ -34,7 +34,7 @@ module FeeReform
     attr_reader :filters, :fee_scheme, :offences_table, :bands_table, :categories_table
 
     def fee_scheme_offences
-      Offence.unscoped.joins(:fee_schemes).merge(FeeScheme.where(id: fee_scheme.id)).distinct
+      Offence.unscoped.send("in_scheme_#{fee_scheme.version}")
     end
 
     def description_scope(description)

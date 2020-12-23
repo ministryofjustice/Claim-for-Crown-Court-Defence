@@ -22,7 +22,7 @@ module Stats
 
     scope :completed, -> { where(status: 'completed') }
     scope :errored, -> { where(status: 'error') }
-    scope :not_errored, -> { where('status != ?', 'error') }
+    scope :not_errored, -> { where.not(status: 'error') }
 
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
     scope :provisional_assessment, -> { not_errored.where(report_name: 'provisional_assessment') }
@@ -53,6 +53,7 @@ module Stats
     end
 
     def write_report(report_result)
+      log(:info, :write_report, "Writing report #{report_name} to DB...")
       update(
         document: StringIO.new(report_result.content),
         document_file_name: "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}",
@@ -60,6 +61,9 @@ module Stats
         status: 'completed',
         completed_at: Time.now
       )
+    rescue StandardError => e
+      log(:error, :write_report, "error writing report #{report_name}...", e)
+      raise
     end
 
     def write_error(report_contents)
@@ -72,7 +76,6 @@ module Stats
     end
 
     def download_filename
-      # TODO: set the appropriate format as required
       "#{report_name}_#{started_at.to_s(:number)}.csv"
     end
 
@@ -82,6 +85,19 @@ module Stats
 
     def self.destroy_unfinished_reports_older_than(report_name, timestamp)
       where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
+    end
+
+    private
+
+    def log(level, action, message, error = nil)
+      LogStuff.send(
+        level.to_sym,
+        class: self.class.name,
+        action: action,
+        error: error ? "#{error.class} - #{error.message}" : 'false'
+      ) do
+        message
+      end
     end
   end
 end

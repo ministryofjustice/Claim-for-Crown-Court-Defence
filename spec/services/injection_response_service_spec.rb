@@ -7,9 +7,9 @@ RSpec.describe InjectionResponseService, slack_bot: true do
   let(:injection_attempt) { claim.injection_attempts.last }
 
   let(:invalid_json) { { "errors": [], 'claim_id': '1234567', "messages":[] } }
-  let(:valid_json_with_invalid_uuid) { { "from":"external application", "errors":[], "uuid":'b08cfd61-9999-8888-7777-651477183efb', "messages":[{'message':'Claim injected successfully.'}]} }
-  let(:valid_json_on_success) { { "from":"external application", "errors":[], "uuid":claim.uuid, "messages":[{'message':'Claim injected successfully.'}]} }
-  let(:valid_json_on_failure) { { "from":"external application", "errors":[ {'error':"No defendant found for Rep Order Number: '123456432'."}, {'error':error_message} ],"uuid":claim.uuid,"messages":[] } }
+  let(:valid_json_with_invalid_uuid) { { "from":"external application", "errors":[], "uuid":'b08cfd61-9999-8888-7777-651477183efb', "messages":[{ 'message':'Claim injected successfully.' }] } }
+  let(:valid_json_on_success) { { "from":"external application", "errors":[], "uuid":claim.uuid, "messages":[{ 'message':'Claim injected successfully.' }] } }
+  let(:valid_json_on_failure) { { "from":"external application", "errors":[ { 'error':"No defendant found for Rep Order Number: '123456432'." }, { 'error':error_message } ],"uuid":claim.uuid,"messages":[] } }
   let(:error_message) { "Another injection error." }
 
   shared_examples "creates injection attempts" do
@@ -18,7 +18,7 @@ RSpec.describe InjectionResponseService, slack_bot: true do
     end
 
     it 'creates an injection attempt' do
-      expect{ run! }.to change(InjectionAttempt, :count).by(1)
+      expect { run! }.to change(InjectionAttempt, :count).by(1)
     end
   end
 

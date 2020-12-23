@@ -14,7 +14,7 @@ RSpec::Matchers.define :be_valid_cclf_claim_json do
   failure_message do |response|
     spacer = "\s" * 2
     "expected JSON to be valid against CCLF formatted claim schema but the following errors were raised:\n" +
-    @errors.each_with_index.map { |error, idx| "#{spacer}#{idx+1}. #{error}"}.join("\n")
+    @errors.each_with_index.map { |error, idx| "#{spacer}#{idx+1}. #{error}" }.join("\n")
   end
 end
 
@@ -95,7 +95,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
   let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type) }
 
   def do_request(claim_uuid: claim.uuid, api_key: case_worker.user.api_key)
-    get "/api/cclf/claims/#{claim_uuid}", {api_key: api_key}, {format: :json}
+    get "/api/cclf/claims/#{claim_uuid}", { api_key: api_key }, { format: :json }
   end
 
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
@@ -117,7 +117,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     end
 
     context 'when accessed by an ExternalUser' do
-      before { do_request(api_key: claim.external_user.user.api_key )}
+      before { do_request(api_key: claim.external_user.user.api_key ) }
 
       it 'returns unauthorised' do
         expect(last_response.status).to eq 401
@@ -277,23 +277,36 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           end
 
           context 'when miscellaneous fees exists' do
-            let(:mispf) { create(:misc_fee_type, :lgfs, :mispf) }
-            let(:misc_fee) { create(:misc_fee, :lgfs, fee_type: mispf) }
             let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, misc_fees: [misc_fee]) }
+            let(:misc_fee) { build(:misc_fee, :lgfs, fee_type: fee_type) }
 
             before do
               allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
             end
 
-            it { is_valid_cclf_json(response) }
+            context 'with a mappable fee type - Special preparation' do
+              let(:fee_type) { create(:misc_fee_type, :lgfs, :mispf) }
 
-            it 'returns array containing fee bill' do
-              is_expected.to have_json_size(1).at_path("bills")
+              it { is_valid_cclf_json(response) }
+
+              it 'returns array containing fee bill' do
+                is_expected.to have_json_size(1).at_path("bills")
+              end
+
+              it 'returns array containing a special prep fee bill' do
+                is_expected.to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
+                is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
+              end
             end
 
-            it 'returns array containing a special prep fee bill' do
-              is_expected.to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
-              is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
+            context 'with an unmappable fee type - Unused materials (over 3 hours)' do
+              let(:fee_type) { create(:misc_fee_type, :miumo) }
+
+              before { expect(claim.misc_fees.count).to eql 1 }
+
+              it 'returns array containing no fee bill' do
+                is_expected.to have_json_size(0).at_path("bills")
+              end
             end
           end
 
@@ -509,6 +522,50 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it 'returns array NOT containing misc fee bills' do
             is_expected.to have_json_size(1).at_path("bills")
             is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+          end
+        end
+      end
+
+      context 'hardship claims' do
+        context 'when hardship fee, alone, exists' do
+          let(:claim) { create(:litigator_hardship_claim, :submitted, :with_hardship_fee) }
+          it { is_valid_cclf_json(response) }
+
+          it 'returns array containing 1 bill' do
+            is_expected.to have_json_size(1).at_path("bills")
+          end
+
+          it 'returns a litigator fee bill' do
+            is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
+            is_expected.to be_json_eql('HARDSHIP'.to_json).at_path("bills/0/bill_subtype")
+          end
+
+          it 'returns a bill scenario based on transfer details' do
+            is_expected.to be_json_eql('ST2TS1T0'.to_json).at_path("case_type/bill_scenario")
+          end
+        end
+
+        context 'when an additional misc fee exists' do
+          let(:claim) do
+            create(:litigator_hardship_claim, :submitted, :with_hardship_fee).tap do |claim|
+              create(:misc_fee, :lgfs, claim: claim, amount: '45', fee_type: fee_type)
+            end
+          end
+          let(:fee_type) { build(:misc_fee_type, :lgfs, :mievi) }
+
+          it { is_valid_cclf_json(response) }
+
+          it 'returns array containing 2 bills' do
+            is_expected.to have_json_size(2).at_path("bills")
+          end
+
+          it 'returns a litigator fee bill' do
+            is_expected.to be_json_eql('EVID_PROV_FEE'.to_json).at_path("bills/1/bill_type")
+            is_expected.to be_json_eql('EVID_PROV_FEE'.to_json).at_path("bills/1/bill_subtype")
+          end
+
+          it 'returns a bill scenario based on transfer details' do
+            is_expected.to be_json_eql('ST2TS1T0'.to_json).at_path("case_type/bill_scenario")
           end
         end
       end

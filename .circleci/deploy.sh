@@ -1,4 +1,5 @@
 #!/bin/sh
+
 function _circleci_deploy() {
   usage="deploy -- deploy image from current commit to an environment
   Usage: $0 environment
@@ -8,6 +9,10 @@ function _circleci_deploy() {
     # deploy image for current circleCI commit to dev
     deploy.sh dev
     "
+
+  # exit when any command fails
+  set -e
+  trap 'echo command at lineno $LINENO completed with exit code $?.' EXIT
 
   if [[ -z "${ECR_ENDPOINT}" ]] || \
       [[ -z "${GIT_CRYPT_KEY}" ]] || \
@@ -36,6 +41,10 @@ function _circleci_deploy() {
       environment=$1
       cp_context=sandbox
       ;;
+    dev-lgfs)
+      environment=$1
+      cp_context=$(echo $1 | tr -d '-')
+      ;;
     *)
       echo "$usage"
       return 1
@@ -43,7 +52,7 @@ function _circleci_deploy() {
   esac
 
   # Cloud platform required setup
-  $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
+  aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_ENDPOINT}
   setup-kube-auth
   kubectl config use-context ${cp_context}
 
@@ -59,9 +68,13 @@ function _circleci_deploy() {
 
   docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
 
-  # apply image specific config
+  # apply common config
   kubectl apply -f kubernetes_deploy/${environment}/secrets.yaml
+  kubectl apply -f kubernetes_deploy/${environment}/app-config.yaml
+
+  # apply new image
   kubectl set image -f kubernetes_deploy/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
+  kubectl set image -f kubernetes_deploy/${environment}/deployment-worker.yaml cccd-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
   kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
 
   # apply non-image specific config
@@ -75,6 +88,11 @@ function _circleci_deploy() {
   fi
 
   kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"
+  kubectl annotate deployments/claim-for-crown-court-defence-worker kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"
+
+  # wait for rollout to succeed or fail/timeout
+  kubectl rollout status deployments/claim-for-crown-court-defence
+  kubectl rollout status deployments/claim-for-crown-court-defence-worker
 }
 
 _circleci_deploy $@

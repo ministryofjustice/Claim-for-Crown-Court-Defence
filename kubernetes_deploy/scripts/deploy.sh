@@ -19,6 +19,12 @@ function _deploy() {
     deploy.sh dev <commit-sha>
     "
 
+  # exit when any command fails, keep track of the last for output
+  # https://intoli.com/blog/exit-on-errors-in-bash-scripts/
+  set -e
+  trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
+  trap 'echo "\"${last_command}\" command completed with exit code $?."' EXIT
+
   if [ $# -gt 2 ]
   then
     echo "$usage"
@@ -26,7 +32,7 @@ function _deploy() {
   fi
 
   case "$1" in
-    dev | staging | api-sandbox | production)
+    dev | dev-lgfs | staging | api-sandbox | production)
       environment=$1
       ;;
     *)
@@ -43,13 +49,10 @@ function _deploy() {
     current_version=$2
   fi
 
-  context='live-1'
+  context=$(kubectl config current-context)
   component=app
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
-
-  kubectl config set-context ${context} --namespace=cccd-${environment}
-  kubectl config use-context ${context}
 
   printf "\e[33m--------------------------------------------------\e[0m\n"
   printf "\e[33mContext: $context\e[0m\n"
@@ -57,11 +60,15 @@ function _deploy() {
   printf "\e[33mDocker image: $docker_image_tag\e[0m\n"
   printf "\e[33m--------------------------------------------------\e[0m\n"
 
-  # TODO: check if image exists and if not offer to build or abort
+  kubectl config set-context --current --namespace=cccd-${environment}
 
-  # apply image specific config
+  # apply common config
   kubectl apply -f kubernetes_deploy/${environment}/secrets.yaml
+  kubectl apply -f kubernetes_deploy/${environment}/app-config.yaml
+
+  # apply new image
   kubectl set image -f kubernetes_deploy/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local --output yaml | kubectl apply -f -
+  kubectl set image -f kubernetes_deploy/${environment}/deployment-worker.yaml cccd-worker=${docker_image_tag} --local --output yaml | kubectl apply -f -
   kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local --output yaml | kubectl apply -f -
 
   # apply non-image specific config
@@ -69,18 +76,24 @@ function _deploy() {
     -f kubernetes_deploy/${environment}/service.yaml \
     -f kubernetes_deploy/${environment}/ingress.yaml
 
-  # only needed in one environment and cccd-dev has credentials
+  # ECR only exists in one environment and cccd-dev has credentials
   if [[ ${environment} == 'dev' ]]; then
     kubectl apply -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
   fi
 
   kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine"
+  kubectl annotate deployments/claim-for-crown-court-defence-worker kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine"
 
   # Forcibly restart the app regardless of whether
-  # there are changes to apply new secrets, at least.
+  # there are changes - to apply new secrets and configmaps at least.
   # - requires kubectl verion 1.15+
   #
   kubectl rollout restart deployments/claim-for-crown-court-defence
+  kubectl rollout restart deployments/claim-for-crown-court-defence-worker
+
+  # wait for rollout to succeed or fail/timeout
+  kubectl rollout status deployments/claim-for-crown-court-defence --timeout=600s
+  kubectl rollout status deployments/claim-for-crown-court-defence-worker --timeout=600s
 }
 
 _deploy $@

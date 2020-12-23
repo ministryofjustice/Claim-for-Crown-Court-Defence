@@ -16,7 +16,11 @@ When(/^I select the court '(.*?)'$/) do |court_name|
 end
 
 When(/^I select a case type of '(.*?)'$/) do |case_type|
-  @claim_form_page.auto_case_type.choose_autocomplete_option(case_type)
+  @claim_form_page.case_type_dropdown.select case_type
+end
+
+When(/^I select a case stage of '(.*?)'$/) do |case_stage|
+  @claim_form_page.auto_case_stage.choose_autocomplete_option(case_stage)
   wait_for_ajax
 end
 
@@ -50,7 +54,7 @@ When(/^I add another defendant, (.*?)representation order and MAAT reference$/) 
 end
 
 Then(/^I should see (\d+)\s*representation orders$/) do |count|
-  expect(@claim_form_page).to have_content("Representation order details", count: count)
+  expect(@claim_form_page).to have_selector("fieldset legend", text: "Representation order details", count: count)
 end
 
 When(/^I upload (\d+) documents?$/) do |count|
@@ -90,7 +94,7 @@ When(/^I add some additional information$/) do
 end
 
 When(/^I click Submit to LAA$/) do
-  allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu_west_1', stub_responses: true)
+  allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu-west-1', stub_responses: true)
   @claim_form_page.wait_until_submit_to_laa_visible
   patiently do
     @claim_form_page.submit_to_laa.click

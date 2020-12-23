@@ -10,8 +10,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
   let!(:vendor)         { create(:external_user, :admin, provider: provider) }
   let!(:litigator)      { create(:external_user, :litigator, provider: provider) }
   let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
-  let!(:offence)        { create(:offence, :miscellaneous)}
-  let!(:court)          { create(:court)}
+  let!(:offence)        { create(:offence, :miscellaneous) }
+  let!(:court)          { create(:court) }
   let!(:valid_params)   { {
     :api_key => provider.api_key,
     :creator_email => vendor.user.email,
@@ -30,4 +30,3 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
   it_behaves_like 'a claim validate endpoint', relative_endpoint: :interim
   it_behaves_like 'a claim create endpoint', relative_endpoint: :interim
 end
-

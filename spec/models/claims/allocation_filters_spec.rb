@@ -11,7 +11,6 @@ module Claims
         ctf1 = create :case_type, :fixed_fee, fee_type_code: fft.unique_code
         ctg1 = create :case_type, :graduated_fee, fee_type_code: gft.unique_code
 
-
         @claim_fixed_1 = create :claim, case_type: ctf1
         @claim_fixed_2 = create :claim, case_type: ctf1
         @claim_grad_1 = create :claim, case_type: ctg1
@@ -22,7 +21,7 @@ module Claims
         clean_database
       end
 
-      describe 'all_fixed-fee' do
+      describe 'all_fixed_fee' do
         it 'returns all claims with fixed fee case types' do
           expect(Claim::BaseClaim.all_fixed_fee).to match_array( [@claim_fixed_1, @claim_fixed_2] )
         end
@@ -32,7 +31,6 @@ module Claims
         it 'returns all claims with graduated fee case types' do
           expect(Claim::BaseClaim.all_graduated_fees).to match_array( [@claim_grad_1, @claim_grad_2] )
         end
-
       end
     end
   end

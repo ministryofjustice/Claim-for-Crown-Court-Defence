@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 module Stats
 
   describe ClaimSubmissionsDataGenerator do
@@ -57,5 +56,3 @@ module Stats
     end
   end
 end
-
-

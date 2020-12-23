@@ -5,15 +5,7 @@
   = f.adp_text_field :providers_ref, label: t('common.external_user.providers_ref'), errors: @error_presenter, hint_text: t('common.external_user.providers_ref_hint')
 
   - if @claim.requires_case_type?
-
-    #cc-case-type.form-group{ class: error_class?(@error_presenter, :case_type) ? 'form-group-error dropdown_field_with_errors' : '' }
-      %label.form-label-bold{ for: 'case_type' }
-        = t('.case_type')
-        .form-hint.xsmall.zero-vert-margin
-          = t('.case_type_hint')
-        = validation_error_message(@error_presenter, :case_type)
-
-      = f.select :case_type_id, @case_types.map{ |ct| [ct.name, ct.id, { data: { 'is-fixed-fee': ct.is_fixed_fee?, 'requires-cracked-dates': ct&.requires_cracked_dates?, 'requires-retrial-dates': ct&.requires_retrial_dates?, 'requires-trial-dates': ct&.requires_trial_dates? } }] }, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', id: 'case_type', 'aria-label': t('.case_type') }
+    = render partial: 'external_users/claims/case_details/case_type_fields', locals: { f: f }
 
   #cc-court.form-group{ class: error_class?(@error_presenter, :court) ? 'form-group-error dropdown_field_with_errors' : '' }
     %label.form-label-bold{ for: 'court' }
@@ -24,26 +16,12 @@
 
     = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', id: 'court', 'aria-label': t('.court') }
 
-
   = f.adp_text_field :case_number,
-    label: t('.case_number'),
-    hint_text: t('.case_number_hint'),
+    label: t('.case_number_or_urn'),
+    hint_text: t('.case_number_or_urn_hint'),
     errors: @error_presenter
 
-  .form-group
-    %fieldset{ 'aria-describedby': 'radio-control-legend-transfer' }
-      %legend#radio-control-legend-transfer
-        %h2.heading-medium
-          = t('.case_transferred_from_another_court')
-
-      = f.collection_radio_buttons(:case_transferred_from_another_court, yes_no_options.reverse, :last, :first ) do |b|
-        .multiple-choice{ 'data-target': b.value.to_bool ? 'transfer-court-details' : nil }
-          = b.radio_button('aria-labelledby': "radio-control-legend-transfer #{b.text.to_css_class}")
-          = b.label { b.text }
-
-        - if b.value.to_bool
-          #transfer-court-details.panel.panel-border-narrow.js-hidden
-            = render partial: 'external_users/claims/case_details/transfer_court_fields', locals: { f: f }
+  = render partial: 'external_users/claims/case_details/transfer_court_question_fields', locals: { f: f }
 
 - if @claim.agfs? && !@claim.interim?
   = render partial: 'external_users/claims/case_details/cracked_trial_fields', locals: { f: f }

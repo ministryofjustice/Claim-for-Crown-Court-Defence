@@ -6,7 +6,7 @@
 
 .grid-row
   .column-two-thirds
-    .panel.panel-border-wide
+    = govuk_inset_text do
       %p
         = t('.intro')
         = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
@@ -36,4 +36,4 @@
       = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
 
       .button-holder
-        = f.submit 'Send', class: 'button button-primary', id: 'submit-button'
+        = govuk_button(t('.send'), id: 'submit-button')

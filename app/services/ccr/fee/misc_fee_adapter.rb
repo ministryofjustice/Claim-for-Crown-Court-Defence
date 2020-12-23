@@ -38,10 +38,13 @@ module CCR
         MIUAV1: zip(%w[AGFS_MISC_FEES AGFS_UN_VAC_HF]), # Unsuccessful application to vacate a guilty plea (half day)
         MIUAV2: zip(%w[AGFS_MISC_FEES AGFS_UN_VAC_WL]), # Unsuccessful application to vacate a guilty plea (whole day)
         MIWPF: zip(%w[AGFS_MISC_FEES AGFS_WSTD_PREP]), # Wasted preparation fee
-        MIWOA: zip(%w[AGFS_MISC_FEES AGFS_WRTN_ORAL]) # Written / oral advice
+        MIWOA: zip(%w[AGFS_MISC_FEES AGFS_WRTN_ORAL]), # Written / oral advice
+        MIPHC: zip(%w[AGFS_MISC_FEES AGFS_PAP_HEAVY]), # Paper heavy case - AGFS 12 only
+        MIUMU: zip(%w[AGFS_MISC_FEES AGFS_UNUSED_UP3]), # Unused material (upto 3 hours) - AGFS 12 only
+        MIUMO: zip(%w[AGFS_MISC_FEES AGFS_UNUSED_OV3]) # Unused material (over 3 hours) - AGFS 12 only
       }.freeze
 
-      MISC_FEE_BILL_MAPPING_EXCLUSIONS = %i[BACAV].freeze
+      MISC_FEE_BILL_MAPPING_EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO].freeze
 
       def claimed?
         maps? && charges?

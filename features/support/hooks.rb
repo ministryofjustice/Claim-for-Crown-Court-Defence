@@ -1,5 +1,5 @@
 NON_TRUNCATED_TABLES ||= %w(
-  vat_rates courts offence_classes offences case_types fee_types certification_types expense_types disbursement_types
+  vat_rates courts offence_classes offences case_types case_stages fee_types certification_types expense_types disbursement_types
   offence_bands offence_categories offence_fee_schemes fee_schemes establishments
 )
 
@@ -9,11 +9,13 @@ Before('not @no-site-prism') do
   @case_worker_claim_show_page = CaseWorkerClaimShowPage.new
 
   @claim_form_page = ClaimFormPage.new
+  @advocate_hardship_claim_form_page = AdvocateHardshipClaimFormPage.new
   @advocate_interim_claim_form_page = AdvocateInterimClaimFormPage.new
   @advocate_supplementary_claim_form_page = AdvocateSupplementaryClaimFormPage.new
   @litigator_claim_form_page = LitigatorClaimFormPage.new
   @litigator_interim_claim_form_page = LitigatorInterimClaimFormPage.new
   @litigator_transfer_claim_form_page = LitigatorTransferClaimFormPage.new
+  @litigator_hardship_claim_form_page = LitigatorHardshipClaimFormPage.new
 
   @claim_summary_page = ClaimSummaryPage.new
   @external_user_home_page = ExternalUserHomePage.new
@@ -29,6 +31,7 @@ end
 Before do
   unless ($seed_done ||= false)
 
+    # IMPORTANT - add any seeded tables to list of NON_TRUNCATED_TABLES
     ActiveRecord::Base.connection.reset_pk_sequence!('offences')
     load "#{Rails.root}/db/seeds/courts.rb"
     load "#{Rails.root}/db/seeds/offence_classes.rb"
@@ -36,6 +39,7 @@ Before do
     load "#{Rails.root}/db/seeds/scheme_10.rb"
     load "#{Rails.root}/db/seeds/scheme_11.rb"
     load "#{Rails.root}/db/seeds/case_types.rb"
+    load "#{Rails.root}/db/seeds/case_stages.rb"
     load "#{Rails.root}/db/seeds/fee_types.rb"
     load "#{Rails.root}/db/seeds/certification_types.rb"
     load "#{Rails.root}/db/seeds/disbursement_types.rb"
@@ -66,16 +70,11 @@ After do |scenario|
   # future
   #
   Capybara.current_session.driver.tap do |driver|
-    puts browser_logs(driver).red if scenario.failed?
     driver.quit if driver.respond_to?(:quit)
   end
 
   # undo any time travel set by scenario
   travel_back
-end
-
-def browser_logs(driver)
-  "Browser logs:\n" << driver.browser.manage.logs.get(:browser).map(&:to_s).join("\n")
 end
 
 at_exit do

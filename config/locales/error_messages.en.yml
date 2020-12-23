@@ -36,7 +36,6 @@ claim:
     short: You must specify a claim
     api: Claim cannot be blank
 
-# applies to representation order
 defendant:
     _seq: 5
     blank:
@@ -133,6 +132,32 @@ case_type:
     long: Choose a case type
     short: Choose a case type
     api: Choose a case type
+  inclusion:
+    long: Choose an eligible case type
+    short: Choose an eligible case type
+    api: Choose an eligible case type
+
+case_type_id:
+  _seq: 30
+  present:
+    long: case_type_id not allowed (choose a case stage for hardship claims?)
+    short: case_type_id not allowed
+    api: case_type_id not allowed (choose a case stage for hardship claims?)
+
+case_stage:
+  _seq: 31
+  blank:
+    long: Choose a case stage
+    short: Choose a case stage
+    api: Choose a case stage
+  present:
+    long: Case stage not allowed
+    short: Case stage not allowed
+    api: Case stage not allowed
+  inclusion:
+    long: Choose an eligible case stage
+    short: Choose an eligible case stage
+    api: Choose an eligible case stage
 
 court:
   _seq: 40
@@ -144,13 +169,17 @@ court:
 case_number:
   _seq: 50
   blank:
-    long: Enter a case number for example A20161234
+    long: Enter a case number
     short: Enter a case number
-    api: Enter a case number for example A20161234
+    api: Enter a case number
   invalid:
     long: The case number must be in the format A20161234
     short: Invalid case number
     api: The case number must be in the format A20161234
+  invalid_case_number_or_urn:
+    long: The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
+    short: Invalid case number
+    api: The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
 
 transfer_court:
   _seq: 55
@@ -173,6 +202,10 @@ transfer_case_number:
     long: The transfer case number must be in the format A20161234
     short: Invalid transfer case number
     api: The transfer case number must be in the format A20161234
+  invalid_case_number_or_urn:  
+    long: The transfer case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
+    short: Invalid transfer case number
+    api: The transfer case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
 
 first_day_of_trial:
   _seq: 70
@@ -187,6 +220,10 @@ first_day_of_trial:
   check_other_date:
     long: 'Check the date for "First day of trial"'
     short: Can't be after the date "Trial concluded"
+    api: 'Check the date for "First day of trial"'
+  check_not_in_future:
+    long: 'Check the date for "First day of trial"'
+    short: *in_future
     api: 'Check the date for "First day of trial"'
   check_not_too_far_in_past:
     long: 'Check the date for "First day of trial"'
@@ -979,6 +1016,18 @@ misc_fee:
       long: 'Choose a type for the #{misc_fee}'
       short: Choose a fee type
       api: Choose a type for the miscellaneous fee
+    case_type_inclusion:
+      long: 'Choose an applicable type for the #{misc_fee}'
+      short: Not applicable to case type
+      api: Fee type is not applicable to this case type
+    offence_category_exclusion:
+      long: 'Choose an applicable type for the #{misc_fee}'
+      short: Not applicable to offence category
+      api: Fee type is not applicable to this offence category
+    fee_scheme_applicability:
+      long: 'Choose an applicable type for the #{misc_fee}'
+      short: Not applicable to fee scheme
+      api: Fee type is not applicable to the fee scheme, based on representation order date
 
   rate:
     _seq: 20
@@ -997,6 +1046,18 @@ misc_fee:
       long: You must specify a whole number for this type of fee
       short: Whole number
       api: You must specify a whole number for this type of fee
+    pcm_invalid:
+      long: Enter a valid quantity for plea and trial preparation hearing
+      short: *enter_valid_quantity
+      api: Enter a valid quantity for plea and trial preparation hearing
+    pcm_numericality:
+      long: Enter a valid quantity (1 to 3) for plea and case management hearing fees
+      short: Must be 1 to 3
+      api: Enter a valid quantity (1 to 3) for plea and case management hearing fees
+    miumu_numericality:
+      long: 'Enter a valid quantity for the #{misc_fee}'
+      short: Must be exactly 1
+      api: Enter a valid quantity (1) for unused material (upto 3 hours)
 
   case_numbers:
     _seq: 40
@@ -1765,6 +1826,55 @@ interim_fee:
       long: Adding a warrant to this claim is not allowed
       short: Do not add a warrant
       api: Adding a warrant to this claim is not allowed
+
+#################################################################################
+#                                                                               #
+#   HARDSHIP FEE                                                                 #
+#                                                                               #
+#################################################################################
+
+hardship_fee:
+  _seq: 1200
+  blank:
+    _seq: 5
+    long: Add a hardship fee
+    short: *enter_amount
+    api: Add a hardship fee
+
+  base:
+    uneditable_state:
+      long: You cannot edit a claim that is not in draft state
+      short: You cannot edit this claim
+      api: You cannot edit a claim that is not in draft state
+
+  fee_type:
+    _seq: 10
+    blank:
+      long: Choose a type for the hardship fee
+      short: Choose a fee type
+      api: Choose a type for the hardship fee
+
+  quantity:
+    _seq: 20
+    blank:
+      long: Enter a PPE quantity for the hardship fee
+      short: *enter_quantity
+      api: Enter a PPE quantity for the hardship fee
+    numericality:
+      long: Enter a valid PPE quantity for the hardship fee
+      short: *enter_valid_quantity
+      api: Enter a valid PPE quantity for the hardship fee
+
+  amount:
+    _seq: 30
+    numericality:
+      long: Enter a valid amount for the hardship fee
+      short: *enter_valid_amount
+      api: Enter a valid amount for the hardship fee
+    present:
+      long: Do not enter an amount for the hardship fee
+      short: Do not enter an amount
+      api: Do not enter an amount for the hardship fee
 
 total:
   _seq: 9999

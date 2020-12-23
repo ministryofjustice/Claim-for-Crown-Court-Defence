@@ -1,0 +1,110 @@
+html {
+  background: $grey-3;
+}
+
+body {
+  background: $white;
+}
+
+.container {
+  @include container;
+}
+
+.site-wrapper {
+  @extend %site-width-container;
+}
+
+.summary-wrapper {
+  h2 {
+    margin-top: $gutter;
+    font-weight: 700;
+  }
+
+  .table-summary {
+    width: 98%;
+
+    td {
+      vertical-align: top;
+    }
+
+    .summary-headings {
+      width: 35%;
+    }
+
+    tfoot th,
+    tfoot td {
+      @include core-19;
+    }
+  }
+}
+
+#show-messages-wrapper {
+  .print-messages-hint {
+    padding-top: $gutter-one-third;
+    padding-bottom: 8px;
+    clear: both;
+  }
+
+  .panel {
+    &.no-border {
+      padding: 0;
+      border: none;
+    }
+  }
+
+  .messages-container {
+    .messages-list {
+      max-height: none;
+      overflow-x: visible;
+      overflow-y: visible;
+    }
+  }
+}
+
+.auto-width {
+  label {
+    display: block;
+    margin: $gutter-half 0 $gutter-one-sixth;
+  }
+}
+
+td {
+  .auto-width {
+    @include span(4 of 12);
+
+    &:first-child {
+      @include first;
+    }
+
+    &:last-child {
+      @include last;
+      @include post(4 of 12);
+    }
+  }
+}
+
+#trial-details,
+#retrial-details {
+  @include container;
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+
+  .auto-width {
+    &:nth-child(odd) {
+      @include span(4 of 12);
+      @include first;
+    }
+
+    &:nth-child(even) {
+      @include span(4 of 12);
+      @include post(4 of 12);
+    }
+  }
+}
+
+// Replacement for the deprecated `.form-section`
+.app-cost-summary-section,
+.app-summary-section {
+  @include govuk-responsive-margin(9, "bottom");
+  position: relative;
+}

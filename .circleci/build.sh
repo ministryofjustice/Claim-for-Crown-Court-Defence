@@ -22,8 +22,7 @@ function _circleci_build() {
   printf "\e[33mBranch: $CIRCLE_BRANCH\e[0m\n"
   printf "\e[33mRegistry tag: $docker_registry_tag\e[0m\n"
   printf "\e[33m------------------------------------------------------------------------\e[0m\n"
-
-  $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
+  aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_ENDPOINT}
 
   docker build \
     --build-arg VERSION_NUMBER="NOT USED ANYMORE" \

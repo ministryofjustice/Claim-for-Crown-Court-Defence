@@ -30,7 +30,6 @@
 require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
-
   describe 'PUT #update_settings' do
     let(:external_user) { create(:external_user) }
     let(:user) { external_user.user }
@@ -45,11 +44,22 @@ RSpec.describe UsersController, type: :controller do
       user.reload
     end
 
-    it 'updates the setting' do
+    it 'can update the api_promo_seen setting' do
       do_put(api_promo_seen: 'test')
-      expect(assigns(:settings).to_h).to eq({'api_promo_seen' => 'test'})
-      expect(user.settings).to eq({'api_promo_seen' => 'test'})
+      expect(assigns(:settings).to_h).to eq({ 'api_promo_seen' => 'test' })
+      expect(user.settings).to eq({ 'api_promo_seen' => 'test' })
+    end
+
+    it 'can update the timed_retention_banner_seen setting' do
+      do_put(timed_retention_banner_seen: 'test')
+      expect(assigns(:settings).to_h).to eq({ 'timed_retention_banner_seen' => 'test' })
+      expect(user.settings).to eq({ 'timed_retention_banner_seen' => 'test' })
+    end
+
+    it 'can update the hardship_claims_banner_seen setting' do
+      do_put(hardship_claims_banner_seen: 'test')
+      expect(assigns(:settings).to_h).to eq({ 'hardship_claims_banner_seen' => 'test' })
+      expect(user.settings).to eq({ 'hardship_claims_banner_seen' => 'test' })
     end
   end
-
 end

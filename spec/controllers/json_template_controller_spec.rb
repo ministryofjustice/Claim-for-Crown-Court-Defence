@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe JsonTemplateController, type: :controller do
-
   describe 'GET #show/:schema' do
     before do
       get :show, params: { schema: 'ccr_schema' }
@@ -16,7 +15,7 @@ RSpec.describe JsonTemplateController, type: :controller do
     end
 
     it 'renders json' do
-      expect(response.content_type).to eq "application/json"
+      expect(response.media_type).to eq "application/json"
     end
   end
 end

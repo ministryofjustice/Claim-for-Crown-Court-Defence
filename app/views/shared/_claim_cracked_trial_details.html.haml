@@ -19,6 +19,9 @@
 
 %tr
   %th{ scope: 'row' }
-    = t("#{cracked_trial_detail_translations}.trial_cracked_at_third")
+    - if claim.hardship?
+      = t("#{cracked_trial_detail_translations}.trial_cracked_at_third.hardship")
+    - else
+      = t("#{cracked_trial_detail_translations}.trial_cracked_at_third.default")
   %td
     = claim.trial_cracked_at_third.humanize rescue ''

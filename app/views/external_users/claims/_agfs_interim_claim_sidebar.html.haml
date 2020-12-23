@@ -1,20 +1,20 @@
 %dl
   %dt.fx-seed-interimFees{ data: { seed: claim.raw_warrant_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-    = 'Interim fees'
+    = t('.interim_fees')
   %dd.total-interimFees
     = claim.warrant_fees_total
 
   %dt.fx-seed-expenses{ data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-    = 'Expenses'
+    = t('.travel_expenses')
   %dd.total-expenses
     = claim.expenses_total
 
   %dt.fx-seed{ 'data-vat-total': claim.raw_vat_amount }
-    = 'VAT'
+    = t('.vat')
   %dd.total-vat
     = claim.vat_amount
 
   %dt.fx-seed{ 'data-total-inc': claim.raw_total_inc }
-    = 'Total'
+    = t('.total')
   %dd.total-grandTotal
     = claim.total_inc

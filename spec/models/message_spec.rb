@@ -18,7 +18,7 @@ require 'rails_helper'
 
 RSpec.describe Message, type: :model do
   it { should belong_to(:claim) }
-  it { should belong_to(:sender).class_name('User').with_foreign_key('sender_id').inverse_of(:messages_sent) }
+  it { should belong_to(:sender).class_name('User').inverse_of(:messages_sent) }
   it { should have_many(:user_message_statuses) }
 
   it { should validate_presence_of(:sender).with_message('Message sender cannot be blank') }
@@ -86,9 +86,7 @@ RSpec.describe Message, type: :model do
     end
   end
 
-
   context 'automotic state change of claim on message creation' do
-
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 
@@ -128,7 +126,7 @@ RSpec.describe Message, type: :model do
   end
 
   context 'send_email_if_required' do
-    let(:claim) { create :allocated_claim  }
+    let(:claim) { create :allocated_claim }
     let(:creator) { claim.creator }
     let(:case_worker) { claim.case_workers.first }
 

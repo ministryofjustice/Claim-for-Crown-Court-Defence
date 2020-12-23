@@ -4,27 +4,6 @@ orbs:
   slack: circleci/slack@3.4.1
 
 references:
-  _restore-cache: &restore-cache
-    restore_cache:
-      keys:
-        - v2-dependencies-{{ checksum "Gemfile.lock" }}
-        # fallback to using the latest cache if no exact match is found
-        - v2-dependencies-
-
-  _install-dependencies: &install-dependencies
-    run:
-      name: Install dependencies
-      command: |
-        bundler_version=$(cat Gemfile.lock | tail -1 | tr -d " ")
-        gem install bundler -v $bundler_version
-        bundle check || bundle install --jobs=4 --retry=3 --path vendor/bundle
-
-  _save-cache: &save-cache
-    save_cache:
-      key: v2-dependencies-{{ checksum "Gemfile.lock" }}
-      paths:
-        - vendor/bundle
-
   _attach-tmp-workspace: &attach-tmp-workspace
       attach_workspace:
         at: ~/repo/tmp
@@ -35,6 +14,8 @@ references:
       command: |
         mkdir -p tmp/
         mkdir -p tmp/coverage/
+        mkdir -p /tmp/test-results/rspec
+        mkdir -p /tmp/test-results/cucumber
 
   _install-codeclimate: &install-codeclimate
     run:
@@ -72,23 +53,9 @@ references:
   _jasmine: &jasmine
     run:
       name: Run jasmine
-      command: bundle exec rake jasmine:ci
-
-  _rspec: &rspec
-    run:
-      name: Run rspec tests
       command: |
-        tmp/cc-test-reporter before-build
-        TESTS=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split)
-        bundle exec rspec ${TESTS}
-        tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
-
-  _cucumber: &cucumber
-    run:
-        name: Run cucumber tests
-        command: |
-          FEATURES=$(circleci tests glob "features/**/*.feature" | circleci tests split)
-          bundle exec cucumber ${FEATURES} --format progress --color
+        bundle exec rake webpacker:compile
+        bundle exec rake jasmine:ci
 
   _install-wkhtmltopdf: &install-wkhtmltopdf
     run:
@@ -98,15 +65,24 @@ references:
 
   _script-build-app-container: &script-build-app-container
     run:
-        name: Build and push cccd docker image
-        command: |
-          .circleci/build.sh
+      name: Build and push cccd docker image
+      command: |
+        .circleci/build.sh
 
 # ------------------
 # EXECUTORS
 # ------------------
 executors:
+  basic-executor:
+    resource_class: small
+    docker:
+      - image: cimg/base:2020.01
+        environment:
+          GITHUB_TEAM_NAME_SLUG: laa-get-paid
+          REPO_NAME: cccd
+
   cloud-platform-executor:
+    resource_class: small
     docker:
     - image: ${ECR_ENDPOINT}/cloud-platform/tools:circleci
       environment:
@@ -114,6 +90,7 @@ executors:
         REPO_NAME: cccd
 
   smoke-test-executor:
+    resource_class: medium
     working_directory: /usr/src/app
     docker:
       - image: ${ECR_ENDPOINT}/laa-get-paid/cccd:app-latest
@@ -159,11 +136,97 @@ executors:
 # COMMANDS
 # ------------------
 commands:
+  run-rspec:
+    description: >
+      Run rspec tests and store results
+    steps:
+      - *attach-tmp-workspace
+      - run:
+          name: Run rspec tests
+          command: |
+            tmp/cc-test-reporter before-build
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=filename)
+
+            bundle exec rspec --format progress \
+            --format RspecJunitFormatter \
+            -o /tmp/test-results/rspec/rspec.xml \
+            -- ${TESTFILES}
+
+            tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - coverage/codeclimate.*.json
+      - store_artifacts:
+          path: tmp/coverage
+      - store_test_results:
+          path: /tmp/test-results/rspec
+
+  run-cucumber:
+    description: >
+      Run cucumber tests and store results
+    steps:
+      - run:
+          name: Make cucumber test storage dir
+          command: |
+            mkdir -p /tmp/test-results/cucumber
+      - run:
+          name: Run cucumber tests
+          command: |
+            TESFILES=$(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings --timings-type=filename)
+
+            RUBYOPT='-W0' bundle exec cucumber \
+            --format pretty \
+            --format json \
+            --out /tmp/test-results/cucumber/tests.cucumber \
+            -- ${TESFILES}
+      - store_artifacts:
+          path: ~/capybara
+      - store_test_results:
+          path: /tmp/test-results/cucumber
+
+  install-gem-dependencies:
+    description: >
+      Install, or restore from cache, ruby gem dependencies
+    steps:
+      - restore_cache:
+          keys:
+            - v2-dependencies-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v2-dependencies-
+      - run:
+          name: Install ruby gem dependencies
+          command: |
+            bundler_version=$(cat Gemfile.lock | tail -1 | tr -d " ")
+            gem install bundler -v $bundler_version
+            bundle check || bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - save_cache:
+          key: v2-dependencies-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+  install-js-dependencies:
+    description: >
+      Install, or restore from cache, javacsript package dependencies
+    steps:
+      - restore_cache:
+          keys:
+            - v1-js-dependencies-{{ checksum "yarn.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-js-dependencies
+      - run:
+          name: Install javascript package dependencies
+          command: |
+            yarn install --frozen-lockfile
+      - save_cache:
+          key: v1-js-dependencies-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
+
   build-base:
     steps:
-      - *restore-cache
-      - *install-dependencies
-      - *save-cache
+      - install-gem-dependencies
+      - install-js-dependencies
 
   deploy-to:
     description: >
@@ -263,30 +326,25 @@ jobs:
       - smoke-test
 
   smoke-test-notification:
-    executor: slack/alpine
+    executor: basic-executor
     steps:
       - smoke-test-notification
 
   rspec-tests:
     executor: test-executor
-    parallelism: 4
+    resource_class: large
+    parallelism: 6
     steps:
       - checkout
       - build-base
       - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
-      - *attach-tmp-workspace
-      - *rspec
-      - persist_to_workspace:
-          root: tmp
-          paths:
-            - coverage/codeclimate.*.json
-      - store_artifacts:
-          path: tmp/coverage
+      - run-rspec
 
   cucumber-tests:
     executor: test-executor
+    resource_class: medium
     parallelism: 4
     steps:
       - checkout
@@ -294,12 +352,11 @@ jobs:
       - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
-      - *cucumber
-      - store_artifacts:
-          path: tmp/capybara
+      - run-cucumber
 
   other-tests:
     executor: test-executor
+    resource_class: small
     steps:
       - checkout
       - build-base
@@ -309,12 +366,13 @@ jobs:
 
   upload-coverage:
     executor: test-executor
+    resource_class: small
     steps:
       - *attach-tmp-workspace
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            tmp/cc-test-reporter sum-coverage --output - --parts 4 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
+            tmp/cc-test-reporter sum-coverage --output - --parts 6 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
 
   build-app-container:
     executor: cloud-platform-executor
@@ -324,13 +382,13 @@ jobs:
       - *script-build-app-container
 
   hold-build-notification:
-    executor: cloud-platform-executor
+    executor: basic-executor
     steps:
       - hold-notification:
           message: "Do you want to build <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH>?"
 
   hold-deploy-notification:
-    executor: cloud-platform-executor
+    executor: basic-executor
     steps:
       - hold-notification:
           message: "Deployment of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> pending approval"
@@ -340,6 +398,12 @@ jobs:
     steps:
       - deploy-to:
           environment: dev
+
+  deploy-dev-lgfs:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          environment: dev-lgfs
 
   deploy-staging:
     executor: cloud-platform-executor
@@ -467,6 +531,10 @@ workflows:
           type: approval
           requires:
             - build-app-container
+      - hold-dev-lgfs:
+          type: approval
+          requires:
+            - build-app-container
       - hold-staging:
           type: approval
           requires:
@@ -478,6 +546,9 @@ workflows:
       - deploy-dev:
           requires:
             - hold-dev
+      - deploy-dev-lgfs:
+          requires:
+            - hold-dev-lgfs
       - deploy-staging:
           requires:
             - hold-staging

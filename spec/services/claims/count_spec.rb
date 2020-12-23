@@ -27,7 +27,7 @@ describe Claims::Count do
     context 'when period and date are set manually' do
       subject(:call) { claims_count.call_transitions }
 
-      it { is_expected.to eql 3  }
+      it { is_expected.to eql 3 }
     end
   end
 

@@ -68,7 +68,6 @@ RSpec.describe ExpenseType, type: :model do
     end
   end
 
-
   context 'expense reasons' do
     let(:expense_type_set_a) { create :expense_type }
     let(:expense_type_set_b) { create :expense_type, :reason_set_b }

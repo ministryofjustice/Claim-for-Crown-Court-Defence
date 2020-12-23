@@ -1,0 +1,79 @@
+#claim-accordion {
+  div[aria-hidden="true"] {
+    display: none;
+  }
+
+  .indent-sides {
+    padding-right: $gutter + $gutter-one-third;
+    padding-left: $gutter + $gutter-one-third;
+
+    th,
+    td {
+      &:first-child {
+        padding-left: $gutter + $gutter-one-third;
+      }
+
+      &:last-child {
+        padding-right: $gutter + $gutter-one-third;
+      }
+    }
+  }
+
+  #claim-status {
+    label.container {
+      margin-top: $gutter-two-thirds; // stylelint-disable-line selector-no-qualifying-type
+      border: 1px solid $black;
+      line-height: 4;
+      text-align: center;
+    }
+
+    .actions {
+      float: right;
+    }
+  }
+
+  .draft {
+    position: relative;
+    top: 1px;
+    margin-right: $gutter-two-thirds;
+    padding: 0 .5rem;
+    border: 1px solid $button-colour;
+    color: $button-colour;
+    background-color: $white;
+    font-size: 1em;
+    line-height: 1.8;
+    text-decoration: none;
+  }
+}
+
+.minimalist-accordion__panel[aria-hidden=true] {
+  display: none;
+}
+
+.minimalist-accordion__panel {
+  margin: $gutter-one-third;
+
+  h2 {
+    display: none;
+  }
+}
+
+.minimalist-accordion__header {
+  display: block;
+}
+
+.minimalist-accordion__header[aria-expanded="true"]:before {
+  content: "- ";
+}
+
+.minimalist-accordion__header[aria-expanded="false"]:before {
+  content: "+ ";
+}
+
+.minimalist-accordion__header[aria-selected="true"]:after {
+  content: " (selected)";
+}
+
+.minimalist-accordion__header[aria-selected="false"]:after {
+  content: " (unselected)";
+}

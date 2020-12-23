@@ -14,6 +14,7 @@
 #
 
 require 'rails_helper'
+require 'support/shared_examples_for_claim_types'
 
 RSpec.describe ExternalUser, type: :model do
   it_behaves_like 'roles', ExternalUser, ExternalUser::ROLES
@@ -261,18 +262,16 @@ RSpec.describe ExternalUser, type: :model do
   describe '#available_claim_types' do
     subject { user.available_claim_types.map(&:to_s) }
 
-    let(:advocate_claim_types) { %w[Claim::AdvocateClaim Claim::AdvocateInterimClaim Claim::AdvocateSupplementaryClaim] }
-    let(:litigator_claim_types) { %w[Claim::LitigatorClaim Claim::InterimClaim Claim::TransferClaim] }
-    let(:all_claim_types) { advocate_claim_types | litigator_claim_types }
+    include_context 'claim-types object helpers'
 
     context 'for users with only an advocate role' do
       let(:user) { build(:external_user, :advocate) }
-      it { is_expected.to match_array(advocate_claim_types) }
+      it { is_expected.to match_array(agfs_claim_object_types) }
     end
 
     context 'for users with only a litigator role' do
       let(:user) { build(:external_user, :litigator) }
-      it { is_expected.to match_array(litigator_claim_types) }
+      it { is_expected.to match_array(lgfs_claim_object_types) }
     end
 
     context 'for users with an admin role' do
@@ -280,12 +279,12 @@ RSpec.describe ExternalUser, type: :model do
 
       # TODO: i believe this is flawed as an admin should delegate available claim types to the provider)
       # e.g. an admin in an agfs only provider can only create advocate claims
-      it { is_expected.to match_array(all_claim_types) }
+      it { is_expected.to match_array(all_claim_object_types) }
     end
 
     context 'for users with both an advocate and litigator role in provider with both agfs and lgfs role' do
       let(:user) { build(:external_user, :advocate_litigator) }
-      it { is_expected.to match_array(all_claim_types) }
+      it { is_expected.to match_array(all_claim_object_types) }
     end
   end
 
@@ -351,7 +350,7 @@ RSpec.describe ExternalUser, type: :model do
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
-        expect{
+        expect {
           ExternalUser.active.find(@dead_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find ExternalUser with 'id'=#{@dead_user_1.id} [WHERE "external_users"."deleted_at" IS NULL]}
       end
@@ -368,7 +367,7 @@ RSpec.describe ExternalUser, type: :model do
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect(ExternalUser.find(@live_user_1.id)).to eq(@live_user_1)
-        expect{
+        expect {
           ExternalUser.softly_deleted.find(@live_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find ExternalUser with 'id'=#{@live_user_1.id}/
       end
@@ -425,7 +424,6 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'supplier number not present but provider is a firm' do
-
       let(:provider) { create :provider, :agfs_lgfs, firm_agfs_supplier_number: '999XX' }
       let(:external_user) { create :external_user, :advocate, supplier_number: nil, provider: provider }
 
@@ -437,7 +435,7 @@ RSpec.describe ExternalUser, type: :model do
 
   context 'email notification of messages preferences' do
     context 'settings on user record are nil' do
-      let(:eu)  { build :external_user }
+      let(:eu) { build :external_user }
 
       it 'has an underlying user setting of nil' do
         expect(eu.user.settings).to eq Hash.new
@@ -459,7 +457,6 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'no setttings for email notifications present' do
-
       let(:eu)  { build :external_user, :with_settings }
 
       it 'returns false' do
@@ -478,8 +475,7 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'settings for email notification are true' do
-
-      let(:eu) { build :external_user, :with_email_notification_of_messages}
+      let(:eu) { build :external_user, :with_email_notification_of_messages }
 
       it 'returns true' do
         expect(eu.send_email_notification_of_message?).to be true
@@ -492,7 +488,6 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'settings for email notification are false' do
-
       let(:eu) { build :external_user, :without_email_notification_of_messages }
 
       it 'returns false' do

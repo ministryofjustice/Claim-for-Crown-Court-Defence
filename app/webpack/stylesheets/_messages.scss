@@ -1,0 +1,279 @@
+// stylelint-disable max-nesting-depth
+
+@mixin normalize-bubble($direction:left) {
+  @if $direction == "left" {
+    @media print {
+      margin-right: 95px;
+    }
+
+    .message-audit {
+      color: $text-colour;
+      text-align: left;
+    }
+  }
+
+  @if $direction == "right" {
+    @media print {
+      margin-left: 95px;
+    }
+
+    .message-audit {
+      text-align: right;
+    }
+  }
+
+  @media print {
+    .message-audit {
+      color: $black;
+      font-weight: 700;
+    }
+
+    .message-body {
+      border: 1px solid $black;
+      background: none;
+
+      &:after {
+        border: none;
+      }
+    }
+  }
+}
+
+.messages-container {
+  margin-top: $gutter-two-thirds;
+  margin-bottom: $gutter-two-thirds;
+  overflow: hidden;
+  border: 1px solid $border-colour;
+
+  .messages-list {
+    min-height: 200px;
+    max-height: 400px;
+    margin-bottom: $gutter-two-thirds;
+    padding: $gutter-one-sixth;
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    .history {
+      .event {
+        margin-right: $gutter-two-thirds;
+        margin-bottom: $gutter-one-sixth;
+        padding: $gutter-one-sixth $gutter-one-third;
+        color: $link-visited-colour;
+        text-align: right;
+
+        strong {
+          font-weight: 700;
+        }
+
+        .message-container,
+        .message-body {
+          margin-right: 0;
+          padding-right: 0;
+          border: 0;
+        }
+
+        table {
+          width: $half;
+          margin-left: auto;
+
+          .visuallyhidden {
+            display: none;
+          }
+
+          td {
+            border-top: 1px solid $border-colour;
+          }
+        }
+      }
+
+      .message-right {
+        .message-body {
+          border: 0;
+          color: $text-colour;
+          background: none;
+          text-align: right;
+
+          &:after {
+            border-left: 0;
+          }
+
+          .message-audit {
+            margin-top: 0;
+            margin-bottom: 0;
+            color: $text-colour;
+          }
+
+          p {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .single-date {
+      text-align: center;
+
+      legend {
+        margin-bottom: $gutter-half;
+        padding-top: $gutter-one-sixth;
+        padding-right: $gutter;
+        padding-left: $gutter;
+        border: 1px solid $border-colour;
+        color: $secondary-text-colour;
+        font-weight: 700;
+        text-align: center;
+      }
+    }
+
+    .event-date {
+      display: inline-block;
+      margin-top: $gutter-half;
+      margin-bottom: $gutter-half;
+      padding: $gutter-one-sixth $gutter-one-third;
+      border: 2px solid $green;
+      border-radius: .5em;
+      color: $green;
+      font-weight: 700;
+    }
+
+    .message-container {
+      margin-right: $gutter-two-thirds;
+      margin-bottom: $gutter-two-thirds;
+      margin-left: $gutter-two-thirds;
+
+      .message-body {
+        padding: $gutter-one-third $gutter-two-thirds;
+        word-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+        overflow-wrap: break-word;
+      }
+    }
+
+    .message-audit {
+      @include bold-16;
+      color: $page-colour;
+      text-align: left;
+
+      .sent {
+        padding-right: 1.6em;
+        text-align: right;
+      }
+    }
+
+    .message-right {
+      @include normalize-bubble('right');
+
+      .message-body {
+        position: relative;
+        border-radius: .5em .5em .75em;
+        color: $page-colour;
+        background-color: $link-colour;
+        text-align: left;
+
+        &:after {
+          content: "";
+          position: absolute;
+          right: -1.5em;
+          bottom: 0;
+          width: 1.5em;
+          height: 1.5em;
+          border-left: 1em solid $link-colour;
+          border-bottom-left-radius: 1.75em 1.5em;
+        }
+
+        a {
+          &:link {
+            // Essentially means a[href], or that the link actually goes somewhere
+            color: $page-colour;
+          }
+
+          &:hover {
+            color: $border-colour;
+          }
+
+          &:active {
+            color: $page-colour;
+          }
+        }
+      }
+    }
+
+    .message-left {
+      @include normalize-bubble('left');
+
+      .message-body {
+        position: relative;
+        border-radius: .5em .5em .5em .75em;
+        background-color: $panel-colour;
+        text-align: left;
+
+        &:after {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          left: -1.5em;
+          width: 1.5em;
+          height: 1.5em;
+          border-right: 1em solid $panel-colour;
+          border-bottom-right-radius: 1.75em 1.5em;
+        }
+      }
+    }
+  }
+
+  .message-controls {
+    padding: $gutter-half;
+    border-top: 1px solid $border-colour;
+
+    .upload-column {
+      .upload-button {
+        margin: 0;
+        overflow: hidden;
+        text-align: center;
+        cursor: pointer;
+      }
+    }
+
+    .message-column {
+      margin: $gutter-half 0;
+
+      input[type="text"] {
+        width: $half;
+        padding: 2px $gutter-one-sixth;
+        @include core-19;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+    }
+
+    .file-to-be-uploaded {
+      display: none;
+      padding-top: $gutter-half;
+      border-top: 1px solid $border-colour;
+
+      .filename {
+        font-weight: 700;
+      }
+    }
+  }
+
+  .messages-print-link {
+    padding-right: $gutter-two-thirds;
+    text-align: right;
+  }
+
+  .message-status {
+    .message-success {
+      color: $green;
+      font-weight: 700;
+    }
+
+    .message-error {
+      color: $error-colour;
+      font-weight: 700;
+    }
+  }
+}

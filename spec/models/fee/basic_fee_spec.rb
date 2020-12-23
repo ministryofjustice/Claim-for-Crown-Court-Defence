@@ -25,7 +25,7 @@ require_relative 'shared_examples_for_duplicable'
 
 RSpec.describe Fee::BasicFee do
   it { should belong_to(:fee_type) }
-  it { should validate_presence_of(:claim).with_message('blank')}
+  it { should validate_presence_of(:claim).with_message('blank') }
   it { should validate_presence_of(:fee_type).with_message('blank') }
 
   include_examples 'defendant uplift delegation'
@@ -44,7 +44,7 @@ RSpec.describe Fee::BasicFee do
       expect(fee.calculated?).to be false
     end
     it 'should return true for any other fees' do
-      saf = FactoryBot.create(:basic_fee_type,  code: 'SAF')
+      saf = FactoryBot.create(:basic_fee_type, code: 'SAF')
       fee = FactoryBot.create(:basic_fee, fee_type: saf)
       expect(fee.calculated?).to be true
     end

@@ -9,7 +9,7 @@ module API
             optional :claim_ids,
                      type: Array[Integer],
                      desc: I18n.t('api.v2.allocate.params.claim_ids'),
-                     coerce_with: ->(val) { val.split(/[,]/).map(&:to_i) }
+                     coerce_with: ->(val) { val.split(',').map(&:to_i) }
           end
 
           resource :allocate, desc: 'Allocate claims' do

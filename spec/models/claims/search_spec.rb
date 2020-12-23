@@ -20,6 +20,7 @@ RSpec.describe Claims::Search do
       end
     }
     let(:archived_pending_delete_claim) { create(:litigator_claim, :archived_pending_delete) }
+    let(:archived_pending_review_claim) { create(:hardship_archived_pending_review_claim) }
 
     # NOTE: Claim::BaseClaim is including this module, hence testing
     # it on the claim class itself
@@ -32,6 +33,7 @@ RSpec.describe Claims::Search do
       rejected_claim
       refused_claim
       archived_pending_delete_claim
+      archived_pending_review_claim
     end
 
     context 'for archived claims' do
@@ -54,8 +56,8 @@ RSpec.describe Claims::Search do
         end
 
         it 'returns all archived claims' do
-          expected_claim_ids = [authorised_claim, part_authorised_claim, rejected_claim, refused_claim, archived_pending_delete_claim].map(&:id)
-          expect(query.count).to eq(5)
+          expected_claim_ids = [authorised_claim, part_authorised_claim, rejected_claim, refused_claim, archived_pending_delete_claim, archived_pending_review_claim].map(&:id)
+          expect(query.count).to eq(6)
           expect(query.map(&:id)).to match_array(expected_claim_ids)
         end
       end
@@ -108,6 +110,13 @@ RSpec.describe Claims::Search do
             ])
           ])
         }
+        let(:archived_pending_review_claim) {
+          create(:hardship_archived_pending_review_claim, case_number: 'T20751665', defendants: [
+            create(:defendant, first_name: 'Mary', last_name: 'Doe', representation_orders: [
+              create(:representation_order, maat_reference: '1111158')
+            ])
+          ])
+        }
 
         it 'includes related filters in the SQL query' do
           filters = [
@@ -121,8 +130,8 @@ RSpec.describe Claims::Search do
         end
 
         it 'returns all matching archived claims' do
-          expected_claim_ids = [authorised_claim, part_authorised_claim, archived_pending_delete_claim].map(&:id)
-          expect(query.count).to eq(3)
+          expected_claim_ids = [authorised_claim, part_authorised_claim, archived_pending_delete_claim, archived_pending_review_claim].map(&:id)
+          expect(query.count).to eq(4)
           expect(query.map(&:id)).to match_array(expected_claim_ids)
         end
       end

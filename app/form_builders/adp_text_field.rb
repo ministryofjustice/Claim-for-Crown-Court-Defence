@@ -28,7 +28,7 @@ class AdpTextField
     extract_options
   end
 
-  # the methods output_buffer= and output_buffer are required by the content_tag
+  # the methods output_buffer= and output_buffer are required by the tag
   # methods, called from the validation_error_message in ExternalUsers::ClaimsHelper
   #
   def output_buffer=(value)

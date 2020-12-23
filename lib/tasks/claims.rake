@@ -47,7 +47,12 @@ namespace :claims do
 
   desc 'Creates sample users'
   task :sample_users => :environment do
-    load File.join(Rails.root, 'lib', 'demo_data', 'demo_seeds.rb')
+    require File.join(Rails.root, 'lib', 'demo_data', 'external_user_seeder')
+    require File.join(Rails.root, 'lib', 'demo_data', 'case_worker_seeder')
+    print 'Seeding sample users...'
+    DemoData::ExternalUserSeeder.run
+    DemoData::CaseWorkerSeeder.run
+    puts 'done'.green
   end
 
   desc 'ADP Task: Loads dummy claims'
@@ -61,11 +66,11 @@ namespace :claims do
     Rake::Task['claims:demo_data:transfers'].invoke(params[:num_claims_per_state], params[:num_external_users])
   end
 
-  namespace  :demo_data do
+  namespace :demo_data do
     desc 'ADP Task: Load seed data and demo external users, providers and case workers [num_claims_per_state=1, num_claims_per_user=1]'
     task :seed do
       Rake::Task['db:seed'].invoke
-      load File.join(Rails.root, 'lib', 'demo_data', 'demo_seeds.rb')
+      Rake::Task['claims:sample_users'].invoke
     end
 
     desc 'ADP Task: Load demo data Advocate Claims [num_claims_per_state=1, num_claims_per_user=1]'
@@ -126,5 +131,14 @@ namespace :claims do
     end
 
     TimedTransitions::BatchTransitioner.new(limit: 10000, dummy: @dummy).run
+  end
+
+  desc 'Create a CSV file of all archived claims'
+  task :archive_report, [:filename] => :environment do |_task, args|
+    require_relative 'rake_helpers/archived_claims'
+
+    puts "Writing archived claims to #{args[:filename]}".green
+    RakeHelpers::ArchivedClaims.write args[:filename]
+    puts 'Done'.green
   end
 end

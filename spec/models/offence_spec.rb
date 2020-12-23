@@ -21,6 +21,20 @@ RSpec.describe Offence, type: :model do
   it { should validate_uniqueness_of(:unique_code) }
   it { should validate_presence_of(:description) }
 
+  it 'can be queried by fee scheme types' do
+    expect(described_class).to \
+      respond_to(
+        :in_scheme_nine,
+        :in_scheme_9,
+        :in_scheme_ten,
+        :in_scheme_10,
+        :in_scheme_eleven,
+        :in_scheme_11,
+        :in_scheme_twelve,
+        :in_scheme_12
+      )
+  end
+
   describe '#offence_class_description' do
     it 'returns class letter and description' do
       offence_class = create :offence_class, class_letter: 'A', description: 'My offence class'
@@ -56,39 +70,55 @@ RSpec.describe Offence, type: :model do
   end
 
   describe '#scheme_nine?' do
-    subject(:scheme_nine?) { offence.scheme_nine? }
+    subject { offence.scheme_nine? }
 
     context 'when the fee_scheme is set to ten' do
       let(:offence) { create(:offence, :with_fee_scheme_ten) }
 
-      it { expect(scheme_nine?).to be_falsey }
+      it { is_expected.to be_falsey }
     end
 
     context 'when the fee_scheme is set to nine' do
       let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { expect(scheme_nine?).to be_truthy }
+      it { is_expected.to be_truthy }
     end
   end
 
   describe '#scheme_ten?' do
-    subject(:scheme_ten?) { offence.scheme_ten? }
+    subject { offence.scheme_ten? }
 
     context 'when the fee_scheme is set to ten' do
       let(:offence) { create(:offence, :with_fee_scheme_ten) }
 
-      it { expect(scheme_ten?).to be_truthy }
+      it { is_expected.to be_truthy }
     end
 
     context 'when the fee_scheme is set to nine' do
       let(:offence) { create(:offence, :with_fee_scheme) }
 
-      it { expect(scheme_ten?).to be_falsey }
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#scheme_eleven?' do
+    subject { offence.scheme_eleven? }
+
+    context 'when the fee_scheme is set to eleven' do
+      let(:offence) { create(:offence, :with_fee_scheme_eleven) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when the fee_scheme is set to nine' do
+      let(:offence) { create(:offence, :with_fee_scheme) }
+
+      it { is_expected.to be_falsey }
     end
   end
 
   describe '#post_agfs_reform?' do
-    subject(:post_agfs_reform?) { offence.post_agfs_reform? }
+    subject { offence.post_agfs_reform? }
 
     context 'when the fee_scheme is set to eleven' do
       let(:offence) { create(:offence, :with_fee_scheme_eleven) }
@@ -106,6 +136,28 @@ RSpec.describe Offence, type: :model do
       let(:offence) { create(:offence, :with_fee_scheme) }
 
       it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#scheme_twelve?' do
+    subject { offence.scheme_twelve? }
+
+    context 'when the fee_scheme is set to nine' do
+      let(:offence) { create(:offence, :with_fee_scheme) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the fee_scheme is set to eleven' do
+      let(:offence) { create(:offence, :with_fee_scheme_eleven) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the fee_scheme is set to twelve' do
+      let(:offence) { create(:offence, :with_fee_scheme_twelve) }
+
+      it { is_expected.to be_truthy }
     end
   end
 end

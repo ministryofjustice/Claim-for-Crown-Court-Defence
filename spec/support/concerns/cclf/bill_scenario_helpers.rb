@@ -30,7 +30,7 @@ module CCLF
 
     # transfer fee bill scenarios are based on transfer detail combinations,
     # not case type or fee type.
-     TRANSFER_FEE_BILL_SCENARIOS = {
+    TRANSFER_FEE_BILL_SCENARIOS = {
       TRANS: ''
     }.freeze
 

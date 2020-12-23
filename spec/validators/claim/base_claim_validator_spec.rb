@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Claim::BaseClaimValidator, type: :validator do
   let(:claim)                       { FactoryBot.create :claim }
-  let(:guilty_plea)                 { FactoryBot.build :case_type, :fixed_fee, name: 'Guilty plea'}
+  let(:guilty_plea)                 { FactoryBot.build :case_type, :fixed_fee, name: 'Guilty plea' }
   let(:contempt)                    { FactoryBot.build :case_type, :requires_trial_dates, name: 'Contempt' }
   let(:retrial)                     { FactoryBot.build :case_type, :retrial }
-  let(:breach_of_crown_court_order) { FactoryBot.build :case_type, name: 'Breach of Crown Court order'}
+  let(:breach_of_crown_court_order) { FactoryBot.build :case_type, name: 'Breach of Crown Court order' }
   let(:cracked_trial)               { FactoryBot.build :case_type, :requires_cracked_dates, name: "Cracked trial" }
-  let(:cracked_before_retrial)      { FactoryBot.build :case_type, :requires_cracked_dates, name: 'Cracked before retrial'}
+  let(:cracked_before_retrial)      { FactoryBot.build :case_type, :requires_cracked_dates, name: 'Cracked before retrial' }
 
   before do
     claim.force_validation = true
@@ -123,7 +123,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
         context 'when assessment included' do
           it 'raises no errors' do
-            claim.update_amount_assessed(fees: 100.00)
+            claim.assessment.update!(fees: 100.00)
             expect { claim.authorise! }.to_not raise_only_amount_assessed_error
           end
         end
@@ -140,7 +140,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
         context 'when assessment included' do
           it 'raises no errors' do
-            claim.update_amount_assessed(fees: 100.00)
+            claim.assessment.update!(fees: 100.00)
             expect { claim.authorise_part! }.to_not raise_only_amount_assessed_error
           end
         end
@@ -218,28 +218,59 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       should_error_with(claim, :case_number, "blank")
     end
 
-    it 'should not error if valid' do
-      claim.case_number = 'T20161234'
-      expect(claim).to be_valid
+    context 'with URN format' do
+      it 'should not error if valid' do
+        claim.case_number = 'ABCDEFGHIJ1234567890'
+        expect(claim).to be_valid
+      end
+
+      it 'is invalid if contains non alphanumeric characters' do
+        %w(_ - * ? ,).each do |character|
+          claim.case_number = 'KLMNOPQRST134456789' + character
+          should_error_with(claim, :case_number, 'invalid_case_number_or_urn')
+        end
+      end
+
+      it 'is invalid if the URN is too long' do
+        claim.case_number = '1234567890UVWXYZABCDE'
+        should_error_with(claim, :case_number, 'invalid_case_number_or_urn')
+      end
     end
 
-    it 'should error if invalid' do
-      claim.case_number = 'T87654321'
-      should_error_with(claim, :case_number, 'invalid')
-    end
+    context 'with T-type format' do
+      it 'should not error if valid' do
+        claim.case_number = 'T20161234'
+        expect(claim).to be_valid
+      end
 
-    it 'upcases the first letter and does not error' do
-      claim.case_number = 't20161234'
-      expect(claim).to be_valid
-      expect(claim.case_number).to eq 'T20161234'
-    end
+      it 'should error if too short' do
+        claim.case_number = 'T2020432'
+        should_error_with(claim, :case_number, 'invalid')
+      end
 
-    it 'validates against the regex' do
-      %w(A S T U).each do |letter|
-        (1990..2020).each do |year|
-          %w(0001 1111 9999).each do |number|
-            case_number = [letter, year, number].join
-            expect(case_number.match(BaseValidator::CASE_NUMBER_PATTERN)).to be_truthy
+      it 'should error if too long' do
+        claim.case_number = 'T202043298'
+        should_error_with(claim, :case_number, 'invalid')
+      end
+
+      it 'should error if it doesnt start with BAST or U' do
+        claim.case_number = 'G20204321'
+        should_error_with(claim, :case_number, 'invalid')
+      end
+
+      it 'upcases the first letter and does not error' do
+        claim.case_number = 't20161234'
+        expect(claim).to be_valid
+        expect(claim.case_number).to eq 'T20161234'
+      end
+
+      it 'validates against the regex' do
+        %w(A S T U).each do |letter|
+          (1990..2020).each do |year|
+            %w(0001 1111 9999).each do |number|
+              case_number = [letter, year, number].join
+              expect(case_number.match(BaseValidator::CASE_NUMBER_PATTERN)).to be_truthy
+            end
           end
         end
       end
@@ -327,7 +358,6 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'trial_cracked_at_third' do
-
     context 'for cracked trials' do
       before { claim.case_type = cracked_trial }
 
@@ -372,7 +402,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'for other case types' do
-      before { claim.case_type = guilty_plea}
+      before { claim.case_type = guilty_plea }
       it 'should not error if not present' do
         claim.trial_cracked_at_third = nil
         should_not_error(claim, :trial_cracked_at_third)
@@ -383,18 +413,18 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   context 'amount_assessed' do
     before { claim.submit!; claim.allocate! }
 
-    let(:assessed_claim)  do
-      claim.update_amount_assessed(fees: 101.22, expenses: 28.55, disbursements: 92.66)
+    let(:assessed_claim) do
+      claim.assessment.update!(fees: 101.22, expenses: 28.55, disbursements: 92.66)
       claim
     end
 
     it 'should NOT error if assessment provided prior to authorise! or part_authorise! transistions' do
-      expect{ assessed_claim.authorise! }.to_not raise_error
+      expect { assessed_claim.authorise! }.to_not raise_error
     end
 
     it 'should error if NO assessment present and state is transitioned to authorised or part_authorised' do
-      expect{ claim.authorise! }.to raise_error(StateMachines::InvalidTransition)
-      expect{ claim.authorise_part! }.to raise_error(StateMachines::InvalidTransition)
+      expect { claim.authorise! }.to raise_error(StateMachines::InvalidTransition)
+      expect { claim.authorise_part! }.to raise_error(StateMachines::InvalidTransition)
     end
 
     it 'should error if authorised claim has assessment zeroized' do
@@ -589,7 +619,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         subject { cracked_trial_claim }
 
         it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'blank', translated_message: 'Enter a date') }
-        it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future')}
+        it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
         it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
         it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
         it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
@@ -773,7 +803,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             context 'and the calculated distance is nil' do
               let(:calculated_distance) { nil }
 
-              it { is_expected.to be true  }
+              it { is_expected.to be true }
             end
           end
 
@@ -896,7 +926,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             context 'and the calculated distance is nil' do
               let(:calculated_distance) { nil }
 
-              it { is_expected.to be true  }
+              it { is_expected.to be true }
             end
           end
 
@@ -946,7 +976,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             context 'and the calculated distance is nil' do
               let(:calculated_distance) { nil }
 
-              it { is_expected.to be true  }
+              it { is_expected.to be true }
             end
           end
         end
@@ -970,7 +1000,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             context 'and the calculated distance is nil' do
               let(:calculated_distance) { nil }
 
-              it { is_expected.to be true  }
+              it { is_expected.to be true }
             end
           end
         end
@@ -985,7 +1015,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         claim.form_step = :travel_expenses
       end
 
-      it { is_expected.to be true  }
+      it { is_expected.to be true }
     end
   end
 end

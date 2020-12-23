@@ -11,9 +11,11 @@ module API
           mount API::V1::ExternalUsers::Claims::Advocates::FinalClaim
           mount API::V1::ExternalUsers::Claims::Advocates::InterimClaim
           mount API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim
+          mount API::V1::ExternalUsers::Claims::Advocates::HardshipClaim
           mount API::V1::ExternalUsers::Claims::FinalClaim
           mount API::V1::ExternalUsers::Claims::InterimClaim
           mount API::V1::ExternalUsers::Claims::TransferClaim
+          mount API::V1::ExternalUsers::Claims::Litigators::HardshipClaim
         end
       end
     end

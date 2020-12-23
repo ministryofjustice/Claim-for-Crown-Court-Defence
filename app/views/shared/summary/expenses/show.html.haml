@@ -3,8 +3,7 @@
     %span.bold-normal
       = expense.name
     - if current_user_is_caseworker? && @claim.lgfs?
-      %span.state{ class: "state-#{expense.state.downcase}" }
-        = expense.state
+      = govuk_tag expense.state, class: "app-tag--#{expense.state.downcase}"
   %td
     %span.bold-normal
       = expense.reason

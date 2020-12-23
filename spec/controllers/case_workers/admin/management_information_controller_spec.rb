@@ -12,6 +12,10 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     describe 'GET #index' do
       before { get :index }
 
+      it 'assigns available_report_types' do
+        expect(assigns(:available_report_types).keys).to match_array(%w[management_information provisional_assessment rejections_refusals])
+      end
+
       it 'returns http success' do
         expect(response).to be_successful
       end

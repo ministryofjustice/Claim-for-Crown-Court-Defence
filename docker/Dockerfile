@@ -11,6 +11,7 @@ RUN set -ex
 # - libxml2-dev/libxslt-dev for nokogiri, at least
 # - postgres-dev for pg/activerecord gems
 # - git for installing gems referred to use as git:// uri
+# - yarn for js dependency management
 #
 # runtime dependencies:
 # - file: for paperclip file type spoofing check
@@ -20,6 +21,7 @@ RUN set -ex
 # - ttf-ubuntu-font-family: needed by wkhtmltopdf/wicked_pdf & libreoffice
 # - wkhtmltopdf: for pdf generation from html
 # - redis: for backend key-value store
+# - postgresql-client - only needed for database dump
 #
 RUN apk --no-cache add --virtual build-dependencies \
                     build-base \
@@ -27,6 +29,7 @@ RUN apk --no-cache add --virtual build-dependencies \
                     libxslt-dev \
                     postgresql-dev \
                     git \
+                    yarn \
 && apk --no-cache add \
                   file \
                   nodejs \
@@ -35,7 +38,8 @@ RUN apk --no-cache add --virtual build-dependencies \
                   ttf-ubuntu-font-family \
                   wkhtmltopdf \
                   libreoffice \
-                  redis
+                  redis \
+                  postgresql-client
 
 # add non-root user and group with alpine first available uid, 1000
 RUN addgroup -g 1000 -S appgroup \
@@ -62,13 +66,19 @@ RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
 && bundle config build.nokogiri --use-system-libraries \
 && bundle install
 
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --production --silent
+
 ####################
 # DEPENDENCIES END #
 ####################
 COPY . .
 
 # precompile assets, silently (as verbose)
-RUN bundle exec rake assets:precompile SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here 2> /dev/null
+# note: webpacker:compile appended to the assets:precompile task
+RUN SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here \
+RAILS_ENV=production \
+bundle exec rails assets:precompile 2> /dev/null
 
 # tidy up installation
 RUN apk update && apk del build-dependencies

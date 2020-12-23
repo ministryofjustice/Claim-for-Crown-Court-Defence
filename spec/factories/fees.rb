@@ -20,7 +20,7 @@
 #
 
 FactoryBot.define do
-  factory :fixed_fee, class: Fee::FixedFee do
+  factory :fixed_fee, class: 'Fee::FixedFee' do
     claim { build(:advocate_claim, :with_fixed_fee_case) }
     fee_type { build :fixed_fee_type }
     quantity { 1 }
@@ -71,7 +71,7 @@ FactoryBot.define do
     end
   end
 
-  factory :misc_fee, class: Fee::MiscFee do
+  factory :misc_fee, class: 'Fee::MiscFee' do
     claim
     fee_type { build :misc_fee_type }
     quantity { 1 }
@@ -111,9 +111,21 @@ FactoryBot.define do
     trait :minbr_fee do
       fee_type { Fee::MiscFeeType.find_by(unique_code: 'MINBR') || build(:misc_fee_type, :minbr) }
     end
+
+    trait :miphc_fee do
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MIPHC') || build(:misc_fee_type, :miphc) }
+    end
+
+    trait :miumu_fee do
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MIUMU') || build(:misc_fee_type, :miumu) }
+    end
+
+    trait :miumo_fee do
+      fee_type { Fee::MiscFeeType.find_by(unique_code: 'MIUMO') || build(:misc_fee_type, :miumo) }
+    end
   end
 
-  factory :warrant_fee, class: Fee::WarrantFee do
+  factory :warrant_fee, class: 'Fee::WarrantFee' do
     claim
     fee_type { build :warrant_fee_type }
     warrant_issued_date { Fee::WarrantFeeValidator::MINIMUM_PERIOD_SINCE_ISSUED.ago }
@@ -132,7 +144,7 @@ FactoryBot.define do
     end
   end
 
-  factory :interim_fee, class: Fee::InterimFee do
+  factory :interim_fee, class: 'Fee::InterimFee' do
     claim { build :interim_claim }
     fee_type { build :interim_fee_type }
     quantity { 2 }
@@ -175,7 +187,7 @@ FactoryBot.define do
     end
   end
 
-  factory :basic_fee, class: Fee::BasicFee do
+  factory :basic_fee, class: 'Fee::BasicFee' do
     claim
     fee_type { build :basic_fee_type }
     quantity { 1 }
@@ -254,7 +266,7 @@ FactoryBot.define do
     trait :banpw_fee do npw_fee end
   end
 
-  factory :transfer_fee, class: Fee::TransferFee do
+  factory :transfer_fee, class: 'Fee::TransferFee' do
     claim { build :transfer_claim }
     fee_type { build :transfer_fee_type }
     quantity { 0 }
@@ -262,7 +274,7 @@ FactoryBot.define do
     amount { 25 }
   end
 
-  factory :graduated_fee, class: Fee::GraduatedFee do
+  factory :graduated_fee, class: 'Fee::GraduatedFee' do
     claim
     fee_type { build :graduated_fee_type }
     quantity { 1 }
@@ -277,6 +289,13 @@ FactoryBot.define do
     trait :trial_fee do
       fee_type { build(:graduated_fee_type, :grtrl) }
     end
+  end
+
+  factory :hardship_fee, class: 'Fee::HardshipFee' do
+    claim
+    fee_type { build :hardship_fee_type }
+    quantity { 1 }
+    amount { 25 }
   end
 
   trait :with_date_attended do

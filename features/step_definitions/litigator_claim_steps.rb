@@ -82,7 +82,7 @@ And(/^I add a litigator miscellaneous fee '(.*)'$/) do |name|
 end
 
 Then(/^the first miscellaneous fee should have fee types\s*'([^']*)'$/) do |descriptions|
-  descriptions = descriptions.split(',')
+  descriptions = descriptions.split(',').map(&:strip)
   expect(@litigator_claim_form_page.miscellaneous_fees.first.fee_type).to be_visible
   expect(@litigator_claim_form_page.miscellaneous_fees.first.fee_type.radio_labels).to match_array(descriptions)
 end

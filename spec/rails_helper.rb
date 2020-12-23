@@ -23,10 +23,12 @@ SimpleCov.configure do
   add_filter 'app/validators/expense_v1_validator.rb'         # no longer used - can be removed when all claims with v1 expenses deleted (see PT https://www.pivotaltracker.com/story/show/119351871 )
   add_filter 'lib/caching/redis_store.rb'                     # unable to mock a local instance of Redis
   add_filter 'lib/messaging'                                  # all the files used in the proof of concept to export calims to LAA systems
+  add_filter 'db/seed_helper.rb'
 
   # exclude patterns from test coverage results
   add_filter %r{^/lib\/rack/} # only used to prevent feature test flickering
   add_filter %r{^/lib\/demo_data/} # only used for generation of demo data
+  add_filter %r{^/lib\/tasks/} # not currently specing tasks or their helpers but probably should be
   add_filter %r{^/factories/}
 
   # group functionality for test coverage report
@@ -61,7 +63,6 @@ require 'rspec/rails'
 require 'shoulda/matchers'
 require 'paperclip/matchers'
 require 'webmock/rspec'
-require 'kaminari_rspec'
 require 'vcr_helper'
 require 'sidekiq/testing'
 
@@ -93,7 +94,6 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
   config.include ViewSpecHelper, type: :view
-  config.include KaminariRspec::TestHelpers, type: :controller
   config.include ActionView::TestCase::Behavior, file_path: %r{spec/presenters}
   config.include ActiveSupport::Testing::TimeHelpers
   config.include JsonSpec::Helpers
@@ -179,7 +179,7 @@ RSpec.configure do |config|
 
   config.before(:each) do |example|
     if example.metadata[:delete]
-      DatabaseCleaner.strategy = :truncation, {:except => ['vat_rates']}
+      DatabaseCleaner.strategy = :truncation, { :except => ['vat_rates'] }
     else
       DatabaseCleaner.strategy = :transaction
     end

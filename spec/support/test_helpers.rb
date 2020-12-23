@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/database_housekeeping'
+require_relative 'scheme_date_helpers'
 
 module TestHelpers
   # Methods here are exposed globally to all rspec tests, but do not abuse this.
@@ -11,6 +12,7 @@ module TestHelpers
   # file or files that actually need it.
 
   include DatabaseHousekeeping
+  include SchemeDateHelpers
 
   def expect_invalid_attribute_with_message(record, attribute, value, message)
     error_attribute = attribute if error_attribute.nil?
@@ -48,6 +50,8 @@ module TestHelpers
 
   def scheme_date_for(text)
     case text&.downcase&.strip
+      when 'scheme 12' then
+        Settings.clar_release_date.strftime
       when 'scheme 11' then
         Settings.agfs_scheme_11_release_date.strftime
       when 'scheme 10' || 'post agfs reform' then

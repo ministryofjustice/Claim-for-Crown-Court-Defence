@@ -1,0 +1,10 @@
+- if show_hardship_claims_banner_to_user?
+  .js-callout-banner{'data-setting': 'hardship_claims_banner_seen'}
+    = govuk_warning_text t('callout_banner.hardship_warning_text')
+
+    %ul.list
+      %li
+        = govuk_link_to t('callout_banner.hardship_information'), hardship_claims_page_path
+
+      %li.hide-link
+        = govuk_link_to t('callout_banner.hardship_hide_banner'), settings_user_path(current_user.id, hardship_claims_banner_seen: 1), method: :put, remote: true

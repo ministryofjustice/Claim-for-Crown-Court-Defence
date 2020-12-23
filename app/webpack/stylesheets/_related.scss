@@ -1,0 +1,72 @@
+.related-container {
+  box-sizing: border-box;
+  margin-top: $gutter + $gutter-one-third;
+  padding: 0 $gutter-half;
+}
+
+.related {
+  padding-top: $gutter-one-sixth;
+  border-top: 10px solid $govuk-blue;
+}
+
+.related nav {
+  margin-bottom: $gutter-two-thirds;
+}
+
+.related h2 {
+  @include heading-24;
+  margin-top: $gutter-one-sixth;
+  margin-bottom: $gutter-one-sixth;
+  font-weight: 700;
+}
+
+.related ul {
+  @include core-16;
+  overflow: hidden;
+  list-style: none;
+}
+
+.related li {
+  display: list-item;
+  margin-bottom: $gutter-one-third;
+  padding-left: 0;
+}
+
+.related .related-topic {
+  list-style: none outside none;
+}
+
+.related .related-topic a {
+  display: inline;
+  font-weight: 700;
+}
+
+.related li a {
+  display: block;
+  background-repeat: no-repeat;
+  background-position: 0 -287px;
+}
+
+.related li a:hover {
+  background-position: 0 10px;
+}
+
+.related li .view-all {
+  margin: $gutter-one-third 0 $gutter-one-third;
+}
+
+.related .return-to-top {
+  @include core-16;
+
+  @media (min-width: 769px) {
+    position: absolute;
+    left: -9999em;
+  }
+}
+
+@media (min-width: 641px) {
+  .page-header div {
+    margin-top: $gutter;
+    margin-bottom: $gutter;
+  }
+}

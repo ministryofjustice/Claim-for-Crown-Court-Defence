@@ -2,19 +2,7 @@ module Claim
   class AdvocateClaimCleaner
     attr_accessor :claim
 
-    delegate  :from_api?,
-              :case_type,
-              :requires_cracked_dates?,
-              :interim?,
-              :agfs?,
-              :offence,
-              :fixed_fees,
-              :basic_fees,
-              :trial_fixed_notice_at,
-              :trial_fixed_at,
-              :trial_cracked_at,
-              :trial_cracked_at_third,
-              to: :claim
+    delegate_missing_to :claim
 
     def initialize(claim)
       @claim = claim

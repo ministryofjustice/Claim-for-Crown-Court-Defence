@@ -1,0 +1,207 @@
+// Typography Settings
+.bold-xsmall {
+  @include bold-14;
+}
+
+.bold-normal {
+  @include bold-16;
+}
+
+.unique-id-small {
+  display: block;
+  color: $black;
+  font-size: 12px;
+}
+
+.case-number-header .unique-id-small {
+  display: inline-block;
+}
+
+.main-header {
+  @include container;
+  margin-bottom: $gutter;
+
+  h1 {
+    @include span(8 of 12);
+    @include first;
+    @include heading-48;
+    font-weight: 700;
+  }
+}
+
+.sub-header {
+  margin-bottom: $gutter-half;
+}
+
+.hgroup {
+  h2 {
+    @include core-24;
+    margin: 0;
+    color: $grey-1;
+    font-weight: 400;
+  }
+
+  .numerical-value {
+    @include bold-36;
+    display: block;
+    color: $text-colour;
+  }
+}
+
+.claim-hgroup {
+  margin-bottom: $gutter-one-third;
+
+  h1 {
+    @include first;
+
+    @include media(desktop) {
+      margin-left: 0;
+    }
+
+    @include core-19;
+    display: inline-block;
+    margin-left: 0;
+    padding-top: 0;
+  }
+
+  .case-number-header {
+    @include core-36;
+    display: block;
+    font-weight: 700;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    overflow-wrap: break-word;
+  }
+
+  .claim-status {
+    @include span(7 of 12);
+
+    @include core-19;
+    display: block;
+    margin-bottom: $gutter-one-third;
+    float: none;
+  }
+
+  .claim-detail-actions {
+    @include last;
+
+    @include media(mobile) {
+      @include first;
+      margin-bottom: $gutter-one-third;
+    }
+
+    @include core-19;
+
+    .button {
+      margin-right: $gutter-one-sixth;
+    }
+
+    .resubmit-claim {
+      width: $gutter * 7;
+      padding-left: $gutter / 10;
+    }
+
+    .action-wrapper a:first-child,
+    .action-wrapper .resubmit-claim {
+      margin-right: $gutter-two-thirds;
+    }
+  }
+}
+
+.new-claim-content {
+  h2 {
+    @include core-24;
+    margin-top: $gutter;
+    font-weight: 800;
+  }
+
+  h2 ~ h2 {
+    margin-top: $gutter * 2;
+  }
+}
+
+// --------------------------------------- */
+// Sidebar */
+// --------------------------------------- */
+
+.new-claim-hgroup {
+  margin-top: $gutter-one-sixth;
+  border-top: 5px solid $link-colour;
+
+  h2 {
+    @include core-24;
+    margin-top: $gutter-half;
+    font-weight: 800;
+  }
+
+  h3 {
+    @include core-19;
+    font-weight: 800;
+  }
+
+  .numeric {
+    display: block;
+    font-weight: normal;
+  }
+
+  dl dt {
+    font-weight: 700;
+  }
+}
+
+.error-summary,
+.notice-summary {
+  @include first;
+  float: none;
+
+  h1 {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.notice-summary {
+  @extend .error-summary; // stylelint-disable-line scss/at-extend-no-missing-placeholder
+  border-color: $button-colour;
+}
+
+.contact-us-details {
+  margin-bottom: $gutter;
+
+  dt {
+    margin-right: $gutter-one-sixth;
+    float: left;
+
+    &:after {
+      content: ":";
+    }
+  }
+}
+
+.timed-retention-states {
+  padding-left: $gutter-two-thirds;
+
+  li {
+    line-height: 30px;
+    list-style: disc inside;
+
+    &:last-child {
+      margin-bottom: $gutter;
+    }
+  }
+}
+
+.json-schema {
+  font-family: "Courier New", monospace;
+  font-size: 80%;
+}
+
+.file-upload-name {
+  margin: $gutter-one-sixth 0 0;
+  font-style: italic;
+}
+
+.heading-medium {
+  margin-top: 0;
+}

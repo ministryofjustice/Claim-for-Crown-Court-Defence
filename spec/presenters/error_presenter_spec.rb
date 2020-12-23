@@ -1,12 +1,10 @@
 require 'rails_helper'
 
 describe ErrorPresenter do
-
   let(:claim)           { FactoryBot.build :claim }
 
   let(:filename)        { File.dirname(__FILE__) + '/data/error_messages.en.yml' }
   let(:presenter)       { ErrorPresenter.new(claim, filename) }
-
 
   describe 'generate_sequence' do
     context 'base class level fieldnames' do
@@ -27,7 +25,6 @@ describe ErrorPresenter do
   context 'one error message per attribute' do
     context 'header_errors' do
       context 'fieldname present in translations file' do
-
         context 'error string present in translations file' do
           it 'should use the long form of the translation' do
             claim.errors[:name] << 'cannot_be_blank'
@@ -41,7 +38,7 @@ describe ErrorPresenter do
 
         context 'error string not present in translations file' do
           it 'should generate an error message from the field name and the error' do
-            claim.errors[:date_of_birth]  << 'cannot_be_blank'
+            claim.errors[:date_of_birth] << 'cannot_be_blank'
             expect(presenter.header_errors).to eq(
               [
                 ErrorDetail.new(:date_of_birth, 'Date of birth cannot be blank', 'Cannot be blank', 'Date of birth cannot be blank')
@@ -65,7 +62,6 @@ describe ErrorPresenter do
 
     context '#field_level_error_for' do
       context 'fieldname present in translations file' do
-
         context 'error string present in translations file' do
           it 'should return the short message' do
             claim.errors[:name] << 'cannot_be_blank'
@@ -75,7 +71,7 @@ describe ErrorPresenter do
 
         context 'error string not present in translations file' do
           it 'should return the error message without the fieldame' do
-            claim.errors[:date_of_birth]  << 'cannot be blank'
+            claim.errors[:date_of_birth] << 'cannot be blank'
             expect(presenter.field_level_error_for(:date_of_birth)).to eq 'Cannot be blank'
           end
         end
@@ -94,14 +90,14 @@ describe ErrorPresenter do
     context 'header messages' do
       context 'fieldname present in translation file' do
         it 'should use the long forms of the translation' do
-            claim.errors[:name] << 'cannot_be_blank'
-            claim.errors[:name] << 'too_long'
-            expect(presenter.header_errors).to eq(
-              [
-                ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name','The claimant name must not be blank', 50),
-                ErrorDetail.new(:name, 'The name cannot be longer than 50 characters', 'Too long','The name cannot be longer than 50 characters', 50)
-              ] )
-          end
+          claim.errors[:name] << 'cannot_be_blank'
+          claim.errors[:name] << 'too_long'
+          expect(presenter.header_errors).to eq(
+            [
+              ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name','The claimant name must not be blank', 50),
+              ErrorDetail.new(:name, 'The name cannot be longer than 50 characters', 'Too long','The name cannot be longer than 50 characters', 50)
+            ] )
+        end
       end
     end
   end

@@ -17,7 +17,7 @@
 #
 
 FactoryBot.define do
-  factory :basic_fee_type, class: Fee::BasicFeeType do
+  factory :basic_fee_type, class: 'Fee::BasicFeeType' do
     sequence(:description) { |n| "AGFS, Basic fee type, basic fee -#{n}" }
     code { random_safe_code }
     calculated { true }
@@ -41,8 +41,16 @@ FactoryBot.define do
       roles { %w[agfs agfs_scheme_10] }
     end
 
+    trait :agfs_scheme_12 do
+      roles { %w[agfs agfs_scheme_12] }
+    end
+
+    trait :lgfs_agfs_scheme_12 do
+      roles { %w[lgfs agfs agfs_scheme_12] }
+    end
+
     trait :agfs_all_schemes do
-      roles { %w[agfs agfs_scheme_9 agfs_scheme_10] }
+      roles { %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12] }
     end
 
     trait :baf do
@@ -179,7 +187,7 @@ FactoryBot.define do
       npw
     end
 
-    factory :misc_fee_type, class: Fee::MiscFeeType do
+    factory :misc_fee_type, class: 'Fee::MiscFeeType' do
       sequence(:description) { |n| "AGFS, Misc fee type, Noting brief - #{n}" }
       code { random_safe_code }
       calculated { true }
@@ -281,6 +289,33 @@ FactoryBot.define do
         agfs_all_schemes
       end
 
+      trait :miphc do
+        description { 'Paper heavy case' }
+        code { 'PHC' }
+        unique_code { 'MIPHC' }
+        calculated { true }
+        quantity_is_decimal { true }
+        agfs_scheme_12
+      end
+
+      trait :miumu do
+        description { 'Unused materials (upto 3 hours)' }
+        code { 'UMU' }
+        unique_code { 'MIUMU' }
+        calculated { true }
+        quantity_is_decimal { true }
+        lgfs_agfs_scheme_12
+      end
+
+      trait :miumo do
+        description { 'Unused materials (over 3 hours)' }
+        code { 'UMO' }
+        unique_code { 'MIUMO' }
+        calculated { true }
+        quantity_is_decimal { true }
+        lgfs_agfs_scheme_12
+      end
+
       trait :miupl do
         lgfs
         description { 'Defendant uplift' }
@@ -296,9 +331,25 @@ FactoryBot.define do
         unique_code { 'MIEVI' }
         quantity_is_decimal { false }
       end
+
+      trait :midse do
+        description { 'Deferred sentence hearings' }
+        code { 'DSE' }
+        unique_code { 'MIDSE' }
+        calculated { true }
+        quantity_is_decimal { false }
+      end
+
+      trait :midsu do
+        description { 'Deferred sentence hearings uplift' }
+        code { 'DSU' }
+        unique_code { 'MIDSU' }
+        calculated { true }
+        quantity_is_decimal { false }
+      end
     end
 
-    factory :fixed_fee_type, class: Fee::FixedFeeType do
+    factory :fixed_fee_type, class: 'Fee::FixedFeeType' do
       sequence(:description) { |n| "AGFS, Fixed fee type, Contempt - #{n}" }
       code { random_safe_code }
       calculated { true }
@@ -378,7 +429,7 @@ FactoryBot.define do
       end
     end
 
-    factory :graduated_fee_type, class: Fee::GraduatedFeeType do
+    factory :graduated_fee_type, class: 'Fee::GraduatedFeeType' do
       sequence(:description) { |n| "LGFS, Fixed fee, Elected case not proceeded - #{n}" }
       code { 'GTRL' }
       calculated { false }
@@ -393,7 +444,7 @@ FactoryBot.define do
       end
     end
 
-    factory :interim_fee_type, class: Fee::InterimFeeType do
+    factory :interim_fee_type, class: 'Fee::InterimFeeType' do
       sequence(:description) { |n| "#{Faker::Lorem.word}-#{n}" }
       code { 'ITRS' }
       calculated { false }
@@ -436,7 +487,7 @@ FactoryBot.define do
       end
     end
 
-    factory :transfer_fee_type, class: Fee::TransferFeeType do
+    factory :transfer_fee_type, class: 'Fee::TransferFeeType' do
       calculated { false }
       code { 'TRANS' }
       unique_code { 'TRANS' }
@@ -444,7 +495,7 @@ FactoryBot.define do
       roles { ['lgfs'] }
     end
 
-    factory :warrant_fee_type, class: Fee::WarrantFeeType do
+    factory :warrant_fee_type, class: 'Fee::WarrantFeeType' do
       description { 'Warrant Fee' }
       code { 'XWAR' }
       calculated { false }
@@ -455,7 +506,14 @@ FactoryBot.define do
       end
     end
 
-    factory :child_fee_type, class: Fee::FixedFeeType do
+    factory :hardship_fee_type, class: 'Fee::HardshipFeeType' do
+      description { 'Hardship Fee' }
+      code { 'HARDSHIP' }
+      calculated { false }
+      roles { ['lgfs'] }
+    end
+
+    factory :child_fee_type, class: 'Fee::FixedFeeType' do
       description { 'Child' }
       roles { ['lgfs'] }
 

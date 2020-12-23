@@ -86,5 +86,11 @@ RSpec.describe Claims::FeeCalculator::BillScenario do
 
       it_returns 'expected bill scenario', scenario: 'MYTRANSFERCODE'
     end
+
+    context 'hardship fee' do
+      let(:claim) { build(:litigator_hardship_claim) }
+
+      it_returns 'expected bill scenario', scenario: 'ST2TS1T0'
+    end
   end
 end

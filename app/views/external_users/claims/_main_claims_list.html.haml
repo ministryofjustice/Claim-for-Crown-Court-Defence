@@ -16,26 +16,26 @@
           = t('.type')
 
       %th{ scope: 'col' }
-        = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), tabindex: 0, id: 'case_number'
+        = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number'
 
       - if current_user.persona.admin?
         %th{ scope: 'col' }
-          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), tabindex: 0, id: 'advocate'
+          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate'
 
       %th{ scope: 'col' }
         = t('.defendants')
 
       %th.numeric{ scope: 'col' }
-        = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), tabindex: 0, id: 'total_inc_vat'
+        = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), id: 'total_inc_vat'
 
       %th.numeric{ scope: 'col' }
-        = sortable 'amount_assessed', t('.assessed'), 'aria-label': t('.amount_assessed_sort_label'), tabindex: 0, id: 'amount_assessed'
+        = sortable 'amount_assessed', t('.assessed'), 'aria-label': t('.amount_assessed_sort_label'), id: 'amount_assessed'
 
       %th{ scope: 'col' }
-        = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), tabindex: 0, id: 'state'
+        = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), id: 'state'
 
       %th.numeric{ scope: 'col' }
-        = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), tabindex: 0, id: 'last_submitted_at'
+        = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at'
 
       %th{ scope: 'col' }
         = t('.messages')
@@ -43,13 +43,13 @@
       %tr.mobile-sort
         %th{ scope: 'col' }
           Sort by:
-          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), tabindex: 0, id: 'case_number_ms'
+          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number_ms'
           - if current_user.persona.admin?
-            = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), tabindex: 0, id: 'advocate_ms'
-          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), tabindex: 0, id: 'total_inc_vat_ms'
-          = sortable 'amount_assessed', t('.assessed'), 'aria-label': t('.amount_assessed_sort_label'), tabindex: 0, id: 'amount_assessed_ms'
-          = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), tabindex: 0, id: 'state_ms'
-          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), tabindex: 0, id: 'last_submitted_at_ms'
+            = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate_ms'
+          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), id: 'total_inc_vat_ms'
+          = sortable 'amount_assessed', t('.assessed'), 'aria-label': t('.amount_assessed_sort_label'), id: 'amount_assessed_ms'
+          = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), id: 'state_ms'
+          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at_ms'
       - present_collection(claims).each do |claim|
         %tr{ id: dom_id(claim), class: claim.state }
 
@@ -58,7 +58,7 @@
               = claim.pretty_type
 
           %td{ 'data-label': t('.case_number') }
-            = link_to claim.case_number,
+            = govuk_link_to claim.case_number,
                       external_users_claim_path_for_state(claim),
                       class: 'js-test-case-number-link',
                       'aria-label': t('.case_number_label', claim_state: claim.state.humanize, case_number: claim.case_number)
@@ -79,8 +79,7 @@
             = claim.amount_assessed
 
           %td{ 'data-label': t('.status') }
-            %span.state{ class: 'state-' << claim.state.dasherize }
-              = claim.state.humanize
+            = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state.dasherize}"
 
           %td.numeric{ 'data-label': t('.submission_date') }
             - if claim.submitted_at.blank?
@@ -91,6 +90,6 @@
 
           %td.messages{ 'data-label': t('.messages') }
             - if claim.messages.any?
-              = link_to claim.has_unread_messages_for?(current_user) ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{external_users_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
+              = govuk_link_to claim.unread_messages_for(current_user).any? ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{external_users_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
             - else
               %span.none= t('.none')

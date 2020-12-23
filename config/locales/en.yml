@@ -34,6 +34,7 @@ en:
   rejected: Rejected
 
   # global - layout footer
+  accessibility: Accessibility statement
   contact: Contact
   cookies: Cookies
   footer_feedback: Feedback
@@ -80,6 +81,10 @@ en:
       paragraph_3: "Claims in archived state can be viewed by clicking the Archive link at the top of the page from anywhere in the application, and can be unarchived, ie. returned to their original state."
       paragraph_4: "Claims that have been in archived state for %{archived_weeks} weeks, along with any attached documents, will be deleted from the database and will no longer be retrievable."
       contact_us_html: "Contact <a href='mailto:%{email}'>%{email}</a> if you have any questions about this policy."
+    hardship_claims:
+      page_heading: "Hardship claim submission"
+      paragraph_1: "The amended arrangements for hardship claims are being introduced to help representatives of assisted persons in Crown Court trials during the COVID-19 transmission control period."
+      paragraph_2: "Hardship claims are, first and foremost, a form of interim payment to assist with cash flow in these difficult times."
     tandcs:
       page_title: Terms and conditions for claim for Crown court defence
       page_heading: Terms and conditions
@@ -158,6 +163,10 @@ en:
       external_user_litigator: &litigator 'Litigator'
       case_worker: &case_worker 'Case worker'
     attributes:
+      claims:
+        case_type: &case_type Case type
+        case_stage: &case_stage Case stage
+        offence: &offence Offence
       users:
         roles: &roles 'Roles'
         email: &email 'Email'
@@ -179,7 +188,7 @@ en:
     not_applicable: *not_applicable
     not_applicable_html: <span arial-label="not applicable">n/a</span>
   content:
-    graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fees Calculator">graduated fees calculators init</a> for help.
+    graduated_fee_calculators_help: &graduated_fee_calculators_help Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" class="govuk-link" rel="noreferrer noopener" target="_blank">graduated fees calculators <span class="govuk-visually-hidden">(opens in new tab)</span></a> for help.
     how_is_this_calculated_help: &how_is_this_calculated_help How is this calculated?
     miscellaneous_fees: &miscellaneous_fees Miscellaneous fees
     miscellaneous_fee: &miscellaneous_fee Miscellaneous fee
@@ -340,6 +349,7 @@ en:
       claim_creator: Claim creator
       providers_ref: Reference number
       providers_ref_hint: Your internal reference number for this claim
+    change_html: Change <span class="govuk-visually-hidden">%{context}</span>
     court: Court
     crown_court: Crown court
     transfer_court: Transfer court
@@ -355,6 +365,7 @@ en:
     upload: Import claims
     download: Download
     remove: Remove
+    remove_html: Remove <span class="govuk-visually-hidden">%{context} <span class="fx-numberedList-number"></span></span>
     edit: Edit
     delete: Delete
     view: View
@@ -362,12 +373,14 @@ en:
     interim_claim_info: Warrant fees
     interim_fees: "Interim fees"
     transfer_fees: Transfer fees
+    hardship_fees: Hardship fees
     prosecution_evidence: Was prosecution evidence served on this case?
     search:
       label: Search
       legend: Search for a claim using a case number, defendant name or advocate/litigator name
     description: Description
     warning: 'Warning'
+    send: &send Send
   link:
     add_claim: Start a claim
     back: Back
@@ -384,15 +397,13 @@ en:
     providers: 'Search providers'
     claims: 'Search claims'
     caseworkers: 'Search case workers'
-  prep_forms:
-    advocates_html: Complete <a href="https://www.gov.uk/government/uploads/system/uploads/attachment_data/file/503308/af1-special-prep-form.pdf" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
-    litigators_html: Complete <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a> and attach
   disk_evidence:
     header: 'Evidence supplied on disk'
-    question: 'Will you be sending disk evidence for this claim?'
+    question: 'Will you be sending electronic evidence for this claim?'
     help_sending_evidence: 'Help with sending the evidence'
     hint: 'You have electronic evidence on disk that relates to this claim. It is recommended that you send it by recorded delivery.'
-    hint_html: 'Please fill the <a href="%{link}" rel="external" target="_blank">electronic evidence coversheet</a> and include it with your disk(s).'
+    hint_html: 'Please fill the <a href="%{link}" class="govuk-link" rel="noreferrer noopener" target="_blank">electronic evidence coversheet <span class="govuk-visually-hidden">(opens in new tab)</span></a> and include it with your disk(s).'
+    sfe_hint_html: 'Log in to <a href="%{link}" class="govuk-link" rel="noreferrer noopener" target="_blank">secure file exchange <span class="govuk-visually-hidden">(opens in new tab)</span></a> and upload your files and folders to a workspace.'
   fee_calculator:
     calculate:
       amount_unavailable: The calculated rate is unavailable, please enter manually.
@@ -693,8 +704,10 @@ en:
           advocates: 'Users'
           add_advocate: 'Add User'
           edit: *edit
+          edit_html: Edit <span class="govuk-visually-hidden">user %{context}</span>
           email: 'Email'
           delete: *delete
+          delete_html: Delete <span class="govuk-visually-hidden">user %{context}</span>
           confirm_delete: 'Are you sure?'
           first_name: 'Name'
           last_name: 'Surname'
@@ -812,10 +825,12 @@ en:
         page_title:
           agfs_final: Certify and submit the advocate final fees claim
           agfs_interim: Certify and submit the advocate warrant fees claim
+          agfs_hardship: Certify and submit the advocate hardship fees claim
           agfs_supplementary: Certify and submit the advocate supplementary fees claim
           lgfs_final: Certify and submit the litigator final fees claim
           lgfs_interim: Certify and submit the litigator interim fees claim
           lgfs_transfer: Certify and submit the litigator transfer fees claim
+          lgfs_hardship: Certify and submit the litigator hardship fees claim
     claim_types:
       chosen:
         errors:
@@ -831,8 +846,14 @@ en:
         agfs_rb: Advocate final fee
         agfs_supplementary_rb: Advocate supplementary fee
         agfs_supplementary_hint: For miscellaneous fees claimed without a graduated or fixed fee
+        agfs_hardship_rb: Advocate hardship fee
+        agfs_hardship_hint_html: |
+          For advance payments in exceptional circumstances. If a trial has commenced and been adjourned you are
+          advised to submit a graduated fee claim.
+          See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" class="govuk-link" rel="noreferrer noopener" target="_blank">COVID 19 Remuneration Regulations <span class="govuk-visually-hidden">(opens in new tab)</span></a> for full details
         agfs_interim_rb: Advocate warrant fee
         agfs_interim_hint: For warrant fee claims with the earliest representation order dated on or after 1 April 2018
+        lgfs_hardship_hint_html: If a PTPH has already taken place, it is advisable to submit an interim claim. See <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" class="govuk-link" rel="noreferrer noopener" target="_blank" title="Financial relief for legal aid practitioners">COVID 19 Remuneration Regulations <span class="govuk-visually-hidden">(opens in new tab)</span></a> for full details.
         claim_type_prompt_section_heading: 'What would you like to do?'
         choose_claim_type_prompt_text: Choose your bill type
         errors:
@@ -841,6 +862,7 @@ en:
         lgfs_final_rb: Litigator final fee
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee
+        lgfs_hardship_rb: Litigator hardship fee
     disc_evidence_coversheets:
         new:
           page_title: Disc evidence coversheet
@@ -899,6 +921,7 @@ en:
         basic_fee_fields_primary:
           add_dates: Add another date
           net_amount: *net_amount
+          net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context}</span>
           date_label:
             trial: Second day of trial
             cracked_trial: Date case cracked on
@@ -926,6 +949,7 @@ en:
               <p>We calculate the rate based upon the fee scheme, advocate category, offence and case type</p>
         extra_fee_fields:
           net_amount: *net_amount
+          net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context}</span>
           help_how_we_calculate_rate_title: *how_is_this_calculated_help
           help_how_we_calculate_rate_body: We calculate the amount based upon the fee scheme, case type, offence, advocate category and fee type.
           npw:
@@ -933,7 +957,7 @@ en:
             quantity: Total number of prosecution witnesses
             quantity_hint: *empty_input
           ppe:
-            quantity: Total number of pages
+            quantity: Total number of pages of prosecution evidence
             quantity_hint: Please remove all cover sheets from the total count
             heading_html: |
               Pages of prosecution evidence (<abbr title="pages of prosecution evidence">PPE</abbr>)
@@ -942,6 +966,7 @@ en:
 
         additional_fee_fields:
           case_numbers: Additional case numbers
+          case_numbers_or_urns: Additional case numbers or URNs
           quantity: *quantity
           quantity_hint: *empty_input
           add_date_attended: Add another date
@@ -949,6 +974,7 @@ en:
           amount: *net_amount
           remove: *remove
           rate: *rate
+          rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context}</span>
           help_how_we_calculate_rate_title: *how_is_this_calculated_help
           help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, case type, offence, advocate category and fee type.
           daf:
@@ -976,7 +1002,7 @@ en:
           basic_fees: 'Initial fees'
           heading: Basic fees
           fee_prompt_text: |
-            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fees Calculator">graduated fees calculators</a>
+            You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" class="govuk-link" rel="noreferrer noopener" target="_blank">graduated fees calculators <span class="govuk-visually-hidden">(opens in new tab)</span></a>
             for help.
           fee_type: *fee_type
           quantity: *quantity
@@ -994,13 +1020,23 @@ en:
         advocate_fields:
           advocate: Instructed advocate
           advocate_hint: The instructed advocate for the case
+          help_missing_advocates_summary_body_html: You can add more advocates in settings under the <a class="govuk-link" href="%{link}">%{link_text}</a> section
           help_missing_advocates_summary_heading: Help with missing instructed advocates
+          help_missing_advocates_summary_link_text: manage users
         case_concluded_date:
           case_concluded_at: 'Date case concluded'
+        case_type_fields:
+          case_type: Case type
+          case_type_hint: For example Trial
+          select_option: Choose a case type
+          stage_type: What stage has the case reached?
+          agfs_stage_type_hint: For example Trial started but not concluded
         cracked_trial_fields:
           cracked_trial_details: Cracked trial details
           trial_cracked_at: Case cracked on
-          trial_cracked_at_third: Case cracked in
+          trial_cracked_at_third:
+            default: Case cracked in
+            hardship: If the case cracked today, which third would it be?
           date_hint: 'For example, 31 3 2017'
           trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
           trial_fixed_at: '1st fixed/warned trial'
@@ -1010,8 +1046,10 @@ en:
           case_offence: 'Case & offence'
           case_number: 'Case number'
           case_number_hint: For example T20170101
-          case_type: 'Case type'
-          case_type_hint: For example Trial
+          case_type: *case_type
+          case_stage: *case_stage
+          case_number_or_urn: 'Case number or URN'
+          case_number_or_urn_hint: For example T20170101 or 05PP1000915
           court: 'Court'
           court_hint: For example Cardiff
           cracked_trial_detail: 'Cracked trial detail'
@@ -1019,15 +1057,18 @@ en:
           offence_class: 'Offence class'
           offence_category: 'Offence category'
           select_category: 'Please select'
-          case_transferred_from_another_court: 'Was this case transferred from another court?'
         offence_select:
           offence_class: 'Offence class'
           select_offence_class: 'Please select'
         transfer_court_fields:
           transfer_case_number: Case number
           transfer_case_number_hint: For example T20170101
+          transfer_case_number_or_urn: Case number or URN
+          transfer_case_number_or_urn_hint: For example T20170101 or 05PP1000915
           transfer_court: Court
           transfer_court_hint: For example Cardiff
+        transfer_court_question_fields:
+          case_transferred_from_another_court: 'Was this case transferred from another court?'
         trial_detail_fields:
           trial_detail: Trial details
           actual_trial_length: *actual_trial_length
@@ -1078,6 +1119,7 @@ en:
           answer_no: *global_no
       offence_details:
         actions:
+          clear_offence_details: Clear offence details
           clear_selection: Clear selection
         fields:
           offence_band: Band
@@ -1108,11 +1150,15 @@ en:
       defendants:
         defendant_fields:
           first_name: *first_name
+          first_name_html: First name <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           last_name: *last_name
+          last_name_html: Last name <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           full_name: Full name
-          date_of_birth: 'Date of birth'
+          date_of_birth: Date of birth
+          date_of_birth_html: Date of birth <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           judical_apportionment: Judicial apportionment
           order_for_judicial_apportionment:  Order for judicial apportionment
+          order_for_judicial_apportionment_html: Order for judicial apportionment <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, please ensure you upload a copy of the order to your claim.
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
@@ -1124,8 +1170,10 @@ en:
           page_heading: Defendant details
         representation_order_fields:
           date: Representation order date
+          date_html: Representation order date <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           representation_order: Representation order details
           maat_reference_number: MAAT reference
+          maat_reference_number_html: MAAT reference <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           maat_reference_number_eg: 'this should be 7 digits long, starting with at least a 4'
           remove: Remove
         summary:
@@ -1204,9 +1252,12 @@ en:
         disbursement_fields:
           page_header: Disbursements
           net_amount: *net_amount
+          net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
           vat_amount: *vat_amount
+          vat_amount_html: VAT amount <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
           total: Total
           disbursement_type: Type of disbursement
+          disbursement_type_html: Type of disbursement <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
           disbursement: Disbursement
           remove: Remove
       expenses:
@@ -1225,25 +1276,35 @@ en:
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison
           select_option: Please select
           travel_reason: Travel reason
+          travel_reason_html: Travel reason <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           type_of_expense: Type of expense
+          type_of_expense_html: Type of expense <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           expense: Expense
           cost: Cost per mile
+          cost_html: Cost per mile <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           location: Location
+          location_html: Location <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           reason_text: Other reason
+          reason_text_html: Other reason <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           add_date_attended: Add dates
           date: Date of expense
+          date_html: Date of expense <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           date_hint: For example 31 3 2017
           destination: Destination
           distance: Distance
+          distance_html: Distance <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           distance_hint: Total mileage for the return journey
           distance_summary_heading: How we calculate the distance
           distance_summary_text: |
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison.
           hours: Hours
+          hours_html: Hours <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           net_amount: *net_amount
+          net_amount_html: Net amount <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           remove: Remove
           total: Total amount
           vat_amount: *vat_amount
+          vat_amount_html: VAT amount <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
         fields:
           add_another_expense: 'Add another expense'
           duplicate: Duplicate last expense
@@ -1311,10 +1372,16 @@ en:
           advocate_interim_claim:
             page_title: View claim summary for advocate warrant fees claim
             page_heading: Claim for advocate warrant fees
+          advocate_hardship_claim:
+            page_title: View claim summary for advocate hardship fees claim
+            page_heading: Claim for advocate hardship fees
         lgfs:
           final_claim:
             page_title: View claim summary for litigator final fees claim
             page_heading: Claim for litigator final fees
+          litigator_hardship_claim:
+            page_title: View claim summary for litigator hardship fees claim
+            page_heading: Claim for litigator hardship fees
           litigator_claim:
             page_title: View claim summary for litigator final fees claim
             page_heading: Claim for litigator final fees
@@ -1337,16 +1404,15 @@ en:
             fixed_fees: 'Fixed fees'
             page_header: 'Fixed fees'
             page_hint: *fees_vat_prompt
-            page_intro_html: |
-              If needed, please complete
-              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
-              and attach to the claim.
           fixed_fee_fields:
             fixed_fee: "Fixed fee"
             quantity: *quantity
+            quantity_html: Quantity <span class="govuk-visually-hidden">for %{context}</span>
             quantity_hint: 'Enter a quantity'
             rate: *rate
+            rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context}</span>
             case_numbers: *case_numbers
+            case_numbers_html: Case number <span class="govuk-visually-hidden">for %{context}</span>
             no_dates: 'No dates currently selected.'
             fee_type: 'Type of fee'
             add_date_attended: 'Add another date'
@@ -1374,7 +1440,8 @@ en:
         page_hint: *fees_vat_prompt
         page_intro_html: |
           If needed, please complete an
-          <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" target="_blank" rel="external" title="Special Prep Forms">appropriate special prep form</a>
+          <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">appropriate special prep form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
+          or <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
           and attach to the claim.
         advocates:
           fields:
@@ -1382,10 +1449,13 @@ en:
           misc_fee_fields:
             misc_fee: *miscellaneous_fee
             rate: Rate
+            rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
             net_amount: *net_amount
             quantity: *quantity
             quantity_hint: Enter a quantity
+            quantity_html: Quantity <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
             fee_type: *fee_type
+            fee_type_html: Fee of type <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
             add_date_attended: Add dates
             remove: Remove
             no_dates: No dates currently selected.
@@ -1397,28 +1467,33 @@ en:
               misc_fee: *miscellaneous_fee
             misc_fee_fields:
               rate: Rate
+              rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context}</span>
               net_amount: *net_amount
+              net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
               quantity: *quantity
               quantity_hint: Enter a quantity
+              quantity_html: Quantity <span class="govuk-visually-hidden">for %{context}</span>
               add_date_attended: Add dates
               help_how_we_calculate_rate_title: *how_is_this_calculated_help
               help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, advocate category and fee type.
         litigators:
           fields:
             misc_fees: *miscellaneous_fees
-            add_misc_fee: "Add another fee"
+            add_misc_fee: Add another fee
             page_hint: *fees_vat_prompt
             page_intro_html: |
               If needed, please complete
-              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" target="_blank" rel="external" title="Special Prep Form">special prep form</a>
+              <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">special prep form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
+              or <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
               and attach to the claim.
           misc_fee_fields:
             misc_fee: *miscellaneous_fee
             fee_type: *fee_type
             case_numbers: *case_numbers
+            type_of_fee_html: '%{context} <span class="govuk-visually-hidden">for miscellaneous fee <span class="fx-numberedList-number"></span></span>'
             net_amount: *net_amount
+            net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
             remove: "Remove"
-
         summary:
           header: *miscellaneous_fees
       financial_summary:
@@ -1487,7 +1562,7 @@ en:
           file_upload_message: Drag and drop files here
           legend: Upload supporting evidence
           or: or
-          uploading_docs: 'Documents waiting to be uploaded'
+          uploading_docs: 'Documents waiting to be saved'
       supporting_evidence:
         summary:
           header: Supporting evidence
@@ -1519,6 +1594,21 @@ en:
       supplier_number:
         fields:
           lgfs_supplier_number: "LGFS supplier number"
+      hardship_fee:
+        fields:
+          page_header: Hardship fee
+          hardship_fee: Hardship fee
+          page_hint: *fees_vat_prompt
+          quantity: Total pages of evidence
+          quantity_hint: At the time the claim is made
+          amount: *net_amount
+          help_how_we_calculate_amount_title: *how_is_this_calculated_help
+          help_how_we_calculate_amount_body: We calculate the amount based upon the fee scheme and the total pages of evidence'
+        summary:
+          caption: 'Hardship Fees: This section contains details of any hardship fees that have been claimed.'
+          change: Change
+          change_link_label: Change hardship fees
+          header: Hardship fees
       interim_fee:
         fields:
           page_header: Interim fee
@@ -1566,7 +1656,7 @@ en:
         fees: Fees
         fees_header_prompt_text_html: *fees_vat_prompt
         fees_calculator_html: |
-            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" target="_blank" rel="external" title="Graduated Fees Calculator">graduated fees calculators</a> for help.
+            Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" class="govuk-link" rel="noreferrer noopener" target="_blank">graduated fees calculators <span class="govuk-visually-hidden">(opens in new tab)</span></a> for help.
       summary_claims_sidebar:
         button_label: *continue_to_certification_button
         continue: 'Continue'
@@ -1625,6 +1715,37 @@ en:
 
         basic_and_fixed_fees_form_step:
           page_title: Enter fixed fees for advocate final fees claim
+
+      hardship_claims:
+        new:
+          page_title: &agfs_hardship_claim_title Enter case details for advocate hardship fees claim
+          page_heading: &agfs_hardship_claim_heading Claim for advocate hardship fees
+
+        edit:
+          page_title: *agfs_hardship_claim_title
+          page_heading: *agfs_hardship_claim_heading
+
+        case_details_form_step:
+          page_title: *agfs_hardship_claim_title
+          page_heading: Case details
+
+        defendants_form_step:
+          page_title: Enter defendant details for advocate hardship fees claim
+
+        basic_fees_form_step:
+          page_title: Enter graduated fees for advocate hardship fees claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for advocate hardship fees claim
+
+        offence_details_form_step:
+          page_title: Enter offence details for advocate hardship fees claim
+
+        travel_expenses_form_step:
+          page_title: Enter travel expenses for advocate hardship fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for advocate hardship fees claim
 
       interim_claims:
         new:
@@ -1787,6 +1908,40 @@ en:
 
         warrant_fees_form_step:
           page_title: Enter warrant fees for litigator final fees claim
+
+      hardship_claims:
+        new:
+          page_title: &lgfs_hardship_claims_title Enter case details for litigator hardship fees claim
+          page_heading: &lgfs_hardship_claim_heading Claim for litigator hardship fees
+
+        edit:
+          page_title: *lgfs_hardship_claims_title
+          page_heading: *lgfs_hardship_claim_heading
+
+        case_details_form_step:
+          page_title: *lgfs_hardship_claims_title
+          page_heading: Case details
+          case_stage_warning_html: |
+            An LGFS hardship claim can only be made before the PTPH or the PTPH has been adjourned for a further hearing</br>
+            If you think your claim is valid, but it is post PTPH please see
+            <a href="https://www.gov.uk/guidance/financial-relief-for-legal-aid-practitioners" class="govuk-link" rel="noreferrer noopener" target="_blank">COVID 19 Remuneration Regulations <span class="govuk-visually-hidden">(opens in new tab)</span></a>
+            for guidance
+
+        defendants_form_step:
+          page_title: Enter defendant details for litigator hardship fees claim
+
+        offence_details_form_step:
+          page_title: Enter offence details for litigator hardship fees claim
+
+        hardship_fees_form_step:
+          page_title: Enter hardship fees for litigator hardship fees claim
+
+        miscellaneous_fees_form_step:
+          page_title: Enter miscellaneous fees for litigator hardship fees claim
+
+        supporting_evidence_form_step:
+          page_title: Upload supporting evidence for litigator hardship fees claim
+
   shared:
     not_available: 'not available'
     claim_header:
@@ -1804,6 +1959,8 @@ en:
       banner_message: This service will be unavailable between 4:00pm and 11:59pm on %{date_string}
     claim_defendant_details:
       caption: 'Defendant: Additional information'
+      date: Order date
+      no_reporder: No representation orders have been supplied for this defendant.
     evidence_checklist:
       caption: 'Supporting evidence checklist'
       summary: 'Note: To best navigate this table, step down the second column'
@@ -1840,12 +1997,12 @@ en:
       invalid_claim: 'Claim is not in a state to be submitted'
     claim:
       advocate_category: Advocate category
-      litigator_category: 'Litigator category'
       assignee: "Assigned to:"
       case: Case
       case_cracked: Case cracked in
       case_num: Case number
-      case_type: Case type
+      case_type: *case_type
+      case_stage: *case_stage
       case_worker: Case worker
       defendant: Defendant names
       j_a: Judicial apportionment
@@ -1870,12 +2027,15 @@ en:
       cav_warning:
         header: 'Warning: conferences and views were not injected'
         message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Please enter them manually.'
+      clar_fees_warning:
+        header: 'Warning: CLAR fees were not injected'
+        message: 'The provider has claimed Criminal Legal Aid Review fees on this claim, but they have not been injected. Please enter them manually.'
 
     message_controls:
       update_claim_status: Update your claim status
       upload: "+ Upload"
       message_placeholder: Enter your message here
-      send: Send
+      send: *send
       accepted_files_help_text: "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
       remove_file_tool_tip: "Remove the file you have selected to upload"
       remove: Remove
@@ -1978,11 +2138,11 @@ en:
       vat_amount: *vat_amount
       total: Total
       total_amount: Total amount
-      basic_fees: Basic fees
+      basic_fees: Basic and additional fees
       fixed_fees: Fixed fees
       graduated_fees: Graduated fees
+      hardship_fees: Hardship fees
       miscellaneous_fees: Miscellaneous fees
-      additional_fees: Additional fees
       vat: VAT
       date: Date
       disbursement: Disbursement
@@ -2041,6 +2201,7 @@ en:
         transfer_fee: "There are no transfer fee for this claim"
         graduated_fees: "There are no graduated fees for this claim"
         interim_fee: "There is no interim fee for this claim"
+        hardship_fee: "There is no hardship fee for this claim"
         misc_fees: "There are no miscellaneous fees for this claim"
         offence_details: "There are no offence details for this claim"
         supporting_evidence: "There is no supporting evidence for this claim"
@@ -2251,8 +2412,8 @@ en:
           page_title: View %{caseworker}'s details
           change_password: *change_password
           edit: Edit
+          edit_html: Edit <span class="govuk-visually-hidden">your account</span>
           page_heading: Your account
-          edit_aria_label: 'Edit your account'
           roles: Roles
       allocations:
         filter_value_bands:
@@ -2356,6 +2517,7 @@ en:
           trial: Trial
           warrants: Warrants
           supplementary: Supplementary
+          hardship: Hardship
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported
@@ -2598,6 +2760,7 @@ en:
       event_label: What you were doing when the fault occurred?
       event_hint: Include as much information as possible, including the fee scheme (Advocate, Litigator final, Litigator interim or Litigator transfer) and case type
       outcome_label: What went wrong?
+      send: *send
     feedback:
       page_title: Help us improve this service
       error_summary: 'This feedback has '
@@ -2605,5 +2768,19 @@ en:
       callout: 'We will use your answers to the questions below to help us build a better service.'
       comment: 'Tell us about your experience of using this service today.'
       comment_hint: "Don't include any personal or sensitive information."
-      send: Send
+      send: *send
       rating: 'Overall, how satisfied were you with this service?'
+
+  callout_banner:
+    api_promo_hide_banner: Do not show API information again
+    api_promo_information_html:
+      You may be able to create claims without re-typing. <a class="govuk-link" href="%{href}">Read more on API information</a>.
+    api_promo_warning_text: Do you use a case management system?
+
+    hardship_hide_banner: Do not show hardship claims information again
+    hardship_information: More information on hardship claims
+    hardship_warning_text: The amended arrangements for hardship claims are being introduced from 1st May 2020.
+
+    time_retention_hide_banner: Do not show time-limited retention information again
+    time_retention_information: More information on time-limited retention
+    time_retention_warning_text: Time-limited retention of claims is being introduced from 19th September 2016.

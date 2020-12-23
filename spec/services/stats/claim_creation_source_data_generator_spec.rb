@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Stats
   describe ClaimCreationSourceDataGenerator do
-
     it 'produces the correct stats as json' do
       generate_stats_data
       result = ClaimCreationSourceDataGenerator.new.run
@@ -13,11 +12,11 @@ module Stats
     def expected_json
       {
         'x_axis' => {
-          'labels' => ['-3', '-2', '-1']},
+          'labels' => ['-3', '-2', '-1'] },
         'series' => [
-          {'name' => 'Web', 'data' => [66, 36, 6]},
-          {'name' => 'API', 'data' => [22, 12, 2]},
-          {'name' => 'JSON', 'data' => [44, 24, 4]}
+          { 'name' => 'Web', 'data' => [66, 36, 6] },
+          { 'name' => 'API', 'data' => [22, 12, 2] },
+          { 'name' => 'JSON', 'data' => [44, 24, 4] }
         ]
       }.to_json
     end
@@ -39,6 +38,5 @@ module Stats
         end
       end
     end
-
   end
 end

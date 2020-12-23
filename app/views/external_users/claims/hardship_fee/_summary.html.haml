@@ -1,0 +1,20 @@
+.app-summary-section
+  %h2.govuk-heading-l
+    = t('external_users.claims.hardship_fee.summary.header')
+
+  - if local_assigns[:editable]
+    = govuk_link_to t('common.change_html', context: t('external_users.claims.hardship_fee.summary.header')), edit_polymorphic_path(claim, step: :hardship_fees, referrer: :summary), class: 'link-change'
+
+  - if claim.hardship_fee.nil?
+    - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
+      = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :hardship_fees }
+    - else
+      %p
+        = t('shared.summary.no_values.hardship_fee')
+  - else
+    - fee = present(claim.hardship_fee)
+
+    = govuk_summary_list do
+      = govuk_summary_list_row( t('shared.summary.fee_type') ) { fee.fee_type.description }
+      = govuk_summary_list_row( t('shared.summary.ppe_total') ) { fee.quantity }
+      = govuk_summary_list_row( t('shared.summary.amount') ) { fee.amount }

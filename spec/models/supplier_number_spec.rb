@@ -10,7 +10,6 @@
 require 'rails_helper'
 
 RSpec.describe SupplierNumber, type: :model do
-
   subject(:supplier) { build(:supplier_number) }
 
   context 'uniqueness' do

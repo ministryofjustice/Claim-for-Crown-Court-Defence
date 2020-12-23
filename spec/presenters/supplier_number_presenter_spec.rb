@@ -21,7 +21,6 @@ RSpec.describe SupplierNumberPresenter do
       end
     end
 
-
     context 'when the supplier does not have a defined name' do
       let(:supplier_name) { nil }
 

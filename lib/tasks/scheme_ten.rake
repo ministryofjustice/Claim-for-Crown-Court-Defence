@@ -1,8 +1,7 @@
 namespace :db do
-  namespace :seed do
-
+  namespace :scheme_ten do
     desc 'Create the db structures and records required for AGFS10'
-    task :scheme_ten => :environment do
+    task :seed => :environment do
       abort 'Scheme ten has already been seeded' if Offence.count > 500
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1

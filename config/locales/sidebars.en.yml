@@ -1,0 +1,48 @@
+---
+en:
+  sidebar_common:
+    - &sidebar_fixed_fees Fixed fees
+    - &sidebar_graduated_fees Graduated fees
+    - &sidebar_miscellaneous_fees Miscellaneous fees
+    - &sidebar_travel_expenses Travel expenses
+    - &sidebar_disbursements Disbursements
+    - &sidebar_vat VAT
+    - &sidebar_total Total
+    - &sidebar_defaults
+      travel_expenses: *sidebar_travel_expenses
+      vat: *sidebar_vat
+      total: *sidebar_total
+  external_users:
+    claims:
+      agfs_final_claim_sidebar:
+        fixed_fees: *sidebar_fixed_fees
+        graduated_fees: *sidebar_graduated_fees
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        <<: *sidebar_defaults
+      agfs_hardship_claim_sidebar:
+        graduated_fees: Hardship fees
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        <<: *sidebar_defaults
+      agfs_interim_claim_sidebar:
+        interim_fees: Interim fees
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        <<: *sidebar_defaults
+      agfs_supplementary_claim_sidebar:
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        <<: *sidebar_defaults
+      lgfs_final_claim_sidebar:
+        fixed_fees: *sidebar_fixed_fees
+        graduated_fees: *sidebar_graduated_fees
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        disbursements: *sidebar_disbursements
+        <<: *sidebar_defaults
+      lgfs_transfer_claim_sidebar:
+        transfer_fees: Transfer fees
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        disbursements: *sidebar_disbursements
+        <<: *sidebar_defaults
+      lgfs_interim_claim_sidebar:
+        interim_fees: Interim fees
+        travel_expenses: *sidebar_travel_expenses
+        disbursements: *sidebar_disbursements
+        <<: *sidebar_defaults

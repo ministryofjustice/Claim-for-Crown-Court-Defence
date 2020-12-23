@@ -28,7 +28,7 @@ RSpec.describe Defendant, type: :model do
     context 'non-draft claim' do
       before { subject.claim = create(:submitted_claim) }
 
-      it { should validate_presence_of(:claim).with_message('blank')  }
+      it { should validate_presence_of(:claim).with_message('blank') }
       it { should validate_presence_of(:first_name).with_message('blank') }
       it { should validate_presence_of(:last_name).with_message('blank')  }
     end
@@ -39,14 +39,13 @@ RSpec.describe Defendant, type: :model do
         subject.claim.source = 'api'
       }
 
-      it { should validate_presence_of(:claim).with_message('blank')  }
-      it { should validate_presence_of(:first_name).with_message('blank')  }
-      it { should validate_presence_of(:last_name).with_message('blank')  }
+      it { should validate_presence_of(:claim).with_message('blank') }
+      it { should validate_presence_of(:first_name).with_message('blank') }
+      it { should validate_presence_of(:last_name).with_message('blank') }
     end
   end
 
   describe '#validate_date?' do
-
     let(:defendant) { Defendant.new(claim: Claim::AdvocateClaim.new(case_type: CaseType.new)) }
 
     before(:each) do

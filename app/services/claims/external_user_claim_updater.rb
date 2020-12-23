@@ -12,7 +12,11 @@ module Claims
     end
 
     def archive
-      claim.archive_pending_delete!(audit_attributes)
+      if claim.hardship?
+        claim.archive_pending_review!(audit_attributes)
+      else
+        claim.archive_pending_delete!(audit_attributes)
+      end
     end
 
     def clone_rejected

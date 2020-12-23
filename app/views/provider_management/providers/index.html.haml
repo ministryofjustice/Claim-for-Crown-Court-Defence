@@ -5,7 +5,7 @@
 
 .form-section
   .form-group.form-buttons
-    = link_to t('.add_a_provider'), new_provider_management_provider_path, class: 'button', role: 'button'
-    = link_to t('.find_provider_by_email'), provider_management_external_users_find_path, class: 'link-secondary'
+    = govuk_link_button(t('.add_a_provider'), new_provider_management_provider_path)
+    = govuk_link_button_secondary(t('.find_provider_by_email'), provider_management_external_users_find_path)
 
 = render partial: 'providers', locals: { providers: @providers }

@@ -26,10 +26,10 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
 
   let(:json_error_response) do
     [
-      {"error" => "Choose a type for the disbursement"},
-      {"error" => "Enter a net amount for the disbursement"},
-      {"error" => "Enter a VAT amount for the disbursement"},
-      {"error" => "Enter a total amount for the disbursement"}
+      { "error" => "Choose a type for the disbursement" },
+      { "error" => "Enter a net amount for the disbursement" },
+      { "error" => "Enter a VAT amount for the disbursement" },
+      { "error" => "Enter a total amount for the disbursement" }
     ].to_json
   end
 
@@ -56,7 +56,6 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
   }
 
   describe "POST #{endpoint(:disbursements)}" do
-
     def post_to_create_endpoint
       post endpoint(:disbursements), params, format: :json
     end
@@ -74,7 +73,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
       end
 
       it "should create one new disbursement" do
-        expect{ post_to_create_endpoint }.to change { Disbursement.count }.by(1)
+        expect { post_to_create_endpoint }.to change { Disbursement.count }.by(1)
       end
 
       it "should create a new record using the params provided" do
@@ -114,7 +113,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
             params.delete(field)
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect(parsed_body.first).to eq({"error" => expected_message})
+            expect(parsed_body.first).to eq({ "error" => expected_message })
           end
         end
       end
@@ -194,7 +193,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
           params.delete(field)
           post_to_validate_endpoint
           expect(last_response.status).to eq 400
-          expect(parsed_body.first).to eq({"error" => expected_message})
+          expect(parsed_body.first).to eq({ "error" => expected_message })
         end
       end
     end
@@ -215,5 +214,4 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
       end
     end
   end
-
 end

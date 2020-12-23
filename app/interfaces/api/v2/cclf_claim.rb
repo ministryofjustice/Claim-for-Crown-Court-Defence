@@ -13,6 +13,8 @@ module API
             API::Entities::CCLF::InterimClaim
           elsif claim.transfer?
             API::Entities::CCLF::TransferClaim
+          elsif claim.hardship?
+            API::Entities::CCLF::HardshipClaim
           else
             API::Entities::CCLF::FinalClaim
           end

@@ -3,7 +3,6 @@ require 'rails_helper'
 module Stats
   module Collector
     describe ClaimSubmissionsCollector do
-
       let(:report_day) { 5.days.ago }
 
       before(:each) do
@@ -41,9 +40,8 @@ module Stats
         end
       end
 
-
       def create_claim(state, date)
-        Timecop.freeze(date) do
+        travel_to(date) do
           create factory_name(state)
         end
       end

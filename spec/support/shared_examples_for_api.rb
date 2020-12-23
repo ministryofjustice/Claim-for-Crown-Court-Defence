@@ -98,7 +98,7 @@ RSpec.shared_examples "malformed or not iso8601 compliant dates" do |options|
 end
 
 RSpec.shared_examples 'advocate claim test setup' do
-   describe 'test setup' do
+  describe 'test setup' do
     it 'vendor should belong to same provider as advocate' do
       expect(vendor.provider).to eql(advocate.provider)
     end
@@ -106,7 +106,7 @@ RSpec.shared_examples 'advocate claim test setup' do
 end
 
 RSpec.shared_examples 'litigator claim test setup' do
-   describe 'test setup' do
+  describe 'test setup' do
     it 'vendor should belong to same provider as litigator' do
       expect(vendor.provider).to eql(litigator.provider)
     end
@@ -137,7 +137,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
     end
 
     let(:claim_user_type) do
-      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer)}) ? 'Litigator' : 'Advocate'
+      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer|hardship)}) ? 'Litigator' : 'Advocate'
     end
 
     include_examples 'invalid API key validate endpoint'
@@ -178,7 +178,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
     end
 
     let(:claim_user_type) do
-      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer)}) ? 'Litigator' : 'Advocate'
+      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer|hardship)}) ? 'Litigator' : 'Advocate'
     end
 
     context "when claim params are valid" do
@@ -214,6 +214,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         it "has attributes matching the params" do
           valid_params.each do |attribute, value|
             next if [:api_key, :creator_email, :user_email].include?(attribute) # because these are used for authentication and authorisation only
+            next if [:case_stage_unique_code].include?(attribute) # used internally for adding case stage to hardship claims only
             valid_params[attribute] = value.to_date if claim.send(attribute).class.eql?(Date) # because the saved claim record has Date objects but the param has date strings
             expect(claim.send(attribute).to_s).to eq valid_params[attribute].to_s # some strings are converted to ints on save
           end
@@ -254,17 +255,15 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         end
 
         it "should not create a new claim" do
-          expect{ post_to_create_endpoint }.not_to change { claim_class.active.count }
+          expect { post_to_create_endpoint }.not_to change { claim_class.active.count }
         end
       end
-
+     
       context "existing but invalid value" do
         it "response 400 and JSON error array of model validation BLANK errors" do
           valid_params[:court_id] = -1
-          valid_params[:case_number] = -1
           post_to_create_endpoint
           expect_error_response("Choose a court", 0)
-          expect_error_response("The case number must be in the format A20161234", 1)
         end
 
         it "response 400 and JSON error array of model validation INVALID errors" do
@@ -273,6 +272,14 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           post_to_create_endpoint
           expect_error_response("Choose a court", 0)
           expect_error_response("Enter a case number", 1)
+        end
+      end
+
+      context 'invalid case number input' do
+        it "response 400 and JSON error array of model validation BLANK errors" do
+          valid_params[:case_number] = -1
+          post_to_create_endpoint
+          expect_error_response("The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)", 0)
         end
       end
 
@@ -289,7 +296,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         end
 
         it "should not create a new claim" do
-          expect{ post_to_create_endpoint }.not_to change { claim_class.active.count }
+          expect { post_to_create_endpoint }.not_to change { claim_class.active.count }
         end
       end
     end
@@ -300,10 +307,9 @@ RSpec.shared_examples 'a deprecated claim endpoint' do |options|
   include_context 'deactivate deprecation warnings'
 
   subject(:headers) do
-    response = post ClaimApiEndpoints.for(options[:relative_endpoint]).
-      send(options[:action]),
-      valid_params,
-      format: :json
+    response = post ClaimApiEndpoints.for(options[:relative_endpoint]).send(options[:action]),
+                    valid_params,
+                    format: :json
     response.headers
   end
 

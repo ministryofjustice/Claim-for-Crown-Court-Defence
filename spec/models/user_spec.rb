@@ -108,7 +108,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'save the setting' do
-        expect(subject.settings).to eq({'setting1' => 'hello'})
+        expect(subject.settings).to eq({ 'setting1' => 'hello' })
       end
     end
 
@@ -189,7 +189,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
-        expect{
+        expect {
           User.active.find(@dead_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find User with 'id'=#{@dead_user_1.id} [WHERE "users"."deleted_at" IS NULL]}
       end
@@ -211,7 +211,7 @@ RSpec.describe User, type: :model do
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect(User.find(@live_user_1.id)).to eq(@live_user_1)
-        expect{
+        expect {
           User.softly_deleted.find(@live_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find User with 'id'=#{@live_user_1.id}/
       end
@@ -262,6 +262,26 @@ RSpec.describe User, type: :model do
         expect(active_user).to receive(:override_paranoid_setting).with(false)
         active_user.unauthenticated_message
       end
+    end
+  end
+
+  describe '#send_devise_notification' do
+    let(:devise_mailer) { instance_double('devise_mailer') }
+    let(:mailer) { instance_double('mailer') }
+
+    before do
+      allow(user).to receive(:devise_mailer).and_return(devise_mailer)
+      allow(devise_mailer).to receive(:send).and_return(mailer)
+      allow(mailer).to receive(:deliver_later)
+      user.send_devise_notification(:my_test_email, :an_arg)
+    end
+
+    it 'passes args through to devise mailer' do
+      expect(devise_mailer).to have_received(:send).with(:my_test_email, user, :an_arg)
+    end
+
+    it 'uses `deliver_later`' do
+      expect(mailer).to have_received(:deliver_later)
     end
   end
 end

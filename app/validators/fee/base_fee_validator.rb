@@ -28,6 +28,12 @@ module Fee
 
     def validate_fee_type
       validate_presence(:fee_type, 'blank')
+      validate_agfs_fee_type_rules
+    end
+
+    def validate_agfs_fee_type_rules
+      rule_sets = Fee::Agfs::FeeTypeRules.where(unique_code: @record.fee_type&.unique_code)
+      Rule::Validator.new(@record, rule_sets).validate if rule_sets.present?
     end
 
     def validate_date
@@ -74,7 +80,7 @@ module Fee
     end
 
     def validate_pcm_quantity
-      if @record.claim.case_type.try(:allow_pcmh_fee_type?)
+      if @record.claim.supplementary? || @record.claim.case_type.try(:allow_pcmh_fee_type?)
         add_error(:quantity, 'pcm_numericality') if @record.quantity > 3
       else
         add_error(:quantity, 'pcm_not_applicable') unless @record.quantity.zero? || @record.quantity.blank?
@@ -162,11 +168,16 @@ module Fee
 
     def daf_trial_length_combination_invalid(lower_bound, trial_length_modifier, max_quantity = nil)
       raise ArgumentError if trial_length_modifier.positive?
-      return false if daf_retrial_combo_ignorable
+      return false if daf_trial_length_ignorable?
 
       max_quantity = infinity if max_quantity.blank?
       upper_bound = [max_quantity, @actual_trial_length + trial_length_modifier].min
       @actual_trial_length < lower_bound || @record.quantity > upper_bound
+    end
+
+    # TODO: allow hardship claims through for now?!
+    def daf_trial_length_ignorable?
+      daf_retrial_combo_ignorable || @record.claim.hardship?
     end
 
     # This is required for retrial claims created prior to retrial fields being added.

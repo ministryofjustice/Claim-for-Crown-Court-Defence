@@ -3,13 +3,13 @@ require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
 RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
-  include_context "force-validation"
+  include_context 'force-validation'
 
   let(:litigator) { build(:external_user, :litigator) }
   let(:claim) { create(:litigator_claim) }
 
-  include_examples "common advocate litigator validations", :litigator
-  include_examples "common litigator validations"
+  include_examples 'common advocate litigator validations', :litigator
+  include_examples 'common litigator validations'
 
   include_examples 'common partial validations', {
     case_details: %i[
@@ -74,7 +74,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
             allow(claim).to receive(:from_api?).and_return true
           end
 
-         it 'should not error' do
+          it 'should not error' do
             should_not_error(claim, :base)
           end
         end
@@ -124,7 +124,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
 
       it 'are ignored' do
         miupl_fee = claim.fees.joins(:fee_type).where(fee_types: { unique_code: 'MIUPL' }).first
-        claim.update_attributes(
+        claim.update(
           :misc_fees_attributes => {
             '0' => {
               'id' => miupl_fee.id,
@@ -149,7 +149,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
       end
 
       it 'are ignored' do
-        claim.update_attributes(
+        claim.update(
           :defendants_attributes => {
             '0' => {
               'id' => claim.defendants.first.id,

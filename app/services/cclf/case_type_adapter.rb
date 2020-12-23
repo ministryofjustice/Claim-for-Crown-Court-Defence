@@ -22,7 +22,8 @@ module CCLF
       INPCM: 'ST1TS0T0', # Interim Claim - Effective PCMH - Trial only
       INTDT: 'ST1TS1T0', # Interim Claim - Trial start - Trial only
       INRNS: 'ST1TS2T0', # Interim Claim - Retrial New solicitor - Retrial only
-      INRST: 'ST1TS3T0'  # Interim Claim - Retrial start - Retrial only
+      INRST: 'ST1TS3T0', # Interim Claim - Retrial start - Retrial only
+      HARDSHIP: 'ST2TS1T0' # Hardship Claim - up to and including PCMH transfer (org)
     }.freeze
 
     def initialize(claim)
@@ -34,6 +35,7 @@ module CCLF
     def bill_scenario
       return interim_bill_scenario if interim_scenario_applicable?
       return transfer_bill_scenario if transfer_scenario_applicable?
+      return hardship_bill_scenario if hardship_scenario_applicable?
       final_bill_scenario
     end
 
@@ -53,6 +55,14 @@ module CCLF
 
     def transfer_bill_scenario
       claim.transfer_detail&.bill_scenario
+    end
+
+    def hardship_scenario_applicable?
+      claim.hardship? && claim.lgfs? && hardship_bill_scenario
+    end
+
+    def hardship_bill_scenario
+      BILL_SCENARIOS[:HARDSHIP]
     end
 
     def final_bill_scenario

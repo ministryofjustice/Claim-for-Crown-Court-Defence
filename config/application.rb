@@ -3,9 +3,16 @@ require_relative 'boot'
 require 'rails/all'
 
 require 'susy'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+
+# load `.env` earlier in boot sequence for use in settings.yml
+Dotenv::Railtie.load
+
+# Custom railties that are not gems can be required here
+require_relative '../lib/govuk_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application

@@ -57,6 +57,14 @@ Metrics/BlockLength:
     - group
     - state_machine
     - resource
+    - context
+    - describe
+    - configure
+    - shared_examples
+    - shared_examples_for
+    - factory
+    - trait
+    - define
 
 Performance/AncestorsInclude:
   Enabled: true

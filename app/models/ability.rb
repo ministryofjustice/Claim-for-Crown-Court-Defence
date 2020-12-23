@@ -95,10 +95,6 @@ class Ability
         document.external_user.provider.id == persona.provider.id
       end
     end
-
-    can %i[new create], DiscEvidenceCoversheet do |coversheet|
-      coversheet.external_user&.provider&.id == persona.provider.id
-    end
   end
 
   def can_administer_provider(persona)
@@ -132,10 +128,6 @@ class Ability
       else
         document.external_user_id == persona.id
       end
-    end
-
-    can %i[new create], DiscEvidenceCoversheet do |coversheet|
-      coversheet.external_user&.user&.id == persona.user.id
     end
   end
 

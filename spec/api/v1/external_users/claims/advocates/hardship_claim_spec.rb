@@ -14,7 +14,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
   let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence) }
   let!(:court)          { create(:court) }
-  let!(:valid_params)   { {
+  let!(:valid_params) do
+    {
       api_key: provider.api_key,
       creator_email: vendor.user.email,
       user_email: advocate.user.email,
@@ -26,7 +27,9 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
       actual_trial_length: 9,
       advocate_category: 'Led junior',
       offence_id: offence.id,
-      court_id: court.id } }
+      court_id: court.id
+    }
+  end
 
   after(:all) { clean_database }
 

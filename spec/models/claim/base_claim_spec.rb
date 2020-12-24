@@ -722,7 +722,8 @@ RSpec.describe MockBaseClaim do
         defendants.each do |defendant|
           expect(defendant).to receive(:earliest_representation_order).and_return(nil)
         end
-        expect(earliest_representation_order).to be_nil }
+        expect(earliest_representation_order).to be_nil
+      }
     end
 
     context 'when some of the defendants have an earliest representation order set' do

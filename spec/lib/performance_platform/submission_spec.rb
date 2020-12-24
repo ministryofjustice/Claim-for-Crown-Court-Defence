@@ -54,14 +54,18 @@ describe PerformancePlatform::Submission do
     end
 
     context 'when the endpoint returns an error' do
-      before do
-        stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 401, body: error_response, headers: {})
-        submission.add_data_set(Date.new(2018,8,13), channel: 'Paper', count: 0)
-      end
-      let(:error_response) { {
+      let(:error_response) do
+        {
           "message": "Unauthorized: Invalid bearer token 'bad_token' for 'test_transactions_by_channel'",
           "status": "error"
-      }.to_json }
+        }.to_json
+      end
+
+      before do
+        stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z})
+          .to_return(status: 401, body: error_response, headers: {})
+        submission.add_data_set(Date.new(2018,8,13), channel: 'Paper', count: 0)
+      end
 
       it 'returns the error message' do
         expect(subject).to eql error_response

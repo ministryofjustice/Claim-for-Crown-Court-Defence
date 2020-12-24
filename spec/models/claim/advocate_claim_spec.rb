@@ -163,8 +163,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryBot.build :claim }
-    let(:all_states)  { [  'allocated', 'archived_pending_delete',
-                           'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
+    let(:all_states)  { %w[allocated archived_pending_delete draft authorised part_authorised refused rejected submitted] }
 
     context 'external_user_dashboard_draft?' do
       before(:each) { allow(claim).to receive(:state).and_return('draft') }

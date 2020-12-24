@@ -19,6 +19,8 @@ Rails.application.configure do
     url: "tmp/test/reports/:filename"
   }
 
+  config.active_storage.service = :test
+
   # logstasher
   # Enable the logstasher logs for the current environment
   config.logstasher.enabled = true

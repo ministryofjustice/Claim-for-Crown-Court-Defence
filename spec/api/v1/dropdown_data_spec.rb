@@ -480,7 +480,7 @@ RSpec.describe API::V1::DropdownData do
       end
 
       it 'has all the expected keys' do
-        %w{ id name roles reason_set }.each do |key|
+        %w{id name roles reason_set}.each do |key|
           expect(parsed_body.first).to have_key(key)
         end
       end

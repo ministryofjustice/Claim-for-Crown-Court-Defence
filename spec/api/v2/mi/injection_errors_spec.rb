@@ -92,11 +92,11 @@ RSpec.describe API::V2::MI::InjectionErrors do
               create_list(:injection_attempt, 5, :with_errors),
               create_list(
                 :injection_attempt, 2, :with_errors,
-                error_messages: { errors: [ { error: 'Cannot calculate the fee BLA' } ] }
+                error_messages: { errors: [{ error: 'Cannot calculate the fee BLA' }] }
               ),
               create_list(
                 :injection_attempt, 1, :with_errors,
-                error_messages: { errors: [ { error: 'The supplier account code ...' } ] }
+                error_messages: { errors: [{ error: 'The supplier account code ...' }] }
               )
             ]
           end
@@ -115,15 +115,15 @@ RSpec.describe API::V2::MI::InjectionErrors do
               create_list(:injection_attempt, 1, :with_errors),
               create_list(
                 :injection_attempt, 3, :with_errors,
-                error_messages: { errors: [ { error: 'No defendant found for Rep Order Number BLA' } ] }
+                error_messages: { errors: [{ error: 'No defendant found for Rep Order Number BLA' }] }
               ),
               create_list(
                 :injection_attempt, 1, :with_errors,
-                error_messages: { errors: [ { error: 'Expense Date Incurred ...' } ] }
+                error_messages: { errors: [{ error: 'Expense Date Incurred ...' }] }
               ),
               create_list(
                 :injection_attempt, 2, :with_errors,
-                error_messages: { errors: [ { error: 'A claim already exists for these case details' } ] }
+                error_messages: { errors: [{ error: 'A claim already exists for these case details' }] }
               )
             ]
           end

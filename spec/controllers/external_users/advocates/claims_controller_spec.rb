@@ -59,7 +59,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
             offence_id: offence,
             case_number: 'A20161234',
             advocate_category: 'QC',
-            expenses_attributes: [ expense_params ],
+            expenses_attributes: [expense_params],
             defendants_attributes: [
               {
                 first_name: 'John',
@@ -252,16 +252,16 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
               claim = assigns(:claim)
               # one record for every basic fee regardless of whether blank or not
               expect(claim.basic_fees.size).to eq 11
-              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f ).to eq 1000
-              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f ).to eq 9000.45
-              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f ).to eq 125.0
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f).to eq 1000
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f).to eq 9000.45
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f).to eq 125.0
               expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
 
               # fixed fees are deleted implicitly by claim model for non-fixed-fee case types
               expect(claim.fixed_fees.size).to eq 0
 
               expect(claim.misc_fees.size).to eq 1
-              expect(claim.misc_fees.detect { |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f ).to eq 250.0
+              expect(claim.misc_fees.detect { |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f).to eq 250.0
 
               expect(claim.reload.fees_total).to eq 10_375.45
             end
@@ -341,7 +341,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         it 'should create a claim with document checklist items' do
           post :create, params: { claim: claim_params }
           claim = assigns(:claim)
-          expect(claim.evidence_checklist_ids).to eql( [ 2, 3 ] )
+          expect(claim.evidence_checklist_ids).to eql([2, 3])
         end
       end
     end

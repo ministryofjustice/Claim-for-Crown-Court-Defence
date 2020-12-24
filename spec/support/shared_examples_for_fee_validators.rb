@@ -174,7 +174,7 @@ RSpec.shared_examples 'common warrant fee validations' do
     it 'should be invalid if not present' do
       fee.warrant_issued_date = nil
       expect(fee).to be_invalid
-      expect(fee.errors[:warrant_issued_date]).to eq( [ 'blank' ] )
+      expect(fee.errors[:warrant_issued_date]).to eq(['blank'])
     end
   end
 
@@ -182,7 +182,7 @@ RSpec.shared_examples 'common warrant fee validations' do
     it 'should raise error if before warrant_issued_date' do
       fee.warrant_executed_date = fee.warrant_issued_date - 1.day
       expect(fee).to be_invalid
-      expect(fee.errors[:warrant_executed_date]).to eq( [ 'warrant_executed_before_issued'] )
+      expect(fee.errors[:warrant_executed_date]).to eq(['warrant_executed_before_issued'])
     end
 
     it 'should raise error if in future' do

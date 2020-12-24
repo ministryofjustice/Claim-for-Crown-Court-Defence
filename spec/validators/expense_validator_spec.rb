@@ -3,9 +3,9 @@ require 'rails_helper'
 RSpec.describe 'ExpenseValidator', type: :validator do
   let(:claim)                       { build :claim }
   let(:expense)                     { build :expense, :train, claim: claim }
-  let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim ) }
-  let(:bike_travel_expense)         { build(:expense, :bike_travel, claim: claim ) }
-  let(:parking_expense)             { build(:expense, :parking, claim: claim ) }
+  let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim) }
+  let(:bike_travel_expense)         { build(:expense, :bike_travel, claim: claim) }
+  let(:parking_expense)             { build(:expense, :parking, claim: claim) }
   let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation, claim: claim) }
   let(:train_expense)               { build(:expense, :train, claim: claim) }
   let(:road_tolls_expense)          { build(:expense, :road_tolls, claim: claim) }

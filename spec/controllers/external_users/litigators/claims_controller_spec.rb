@@ -261,7 +261,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
 
             it 'should not persist any of the data' do
               claim = assigns(:claim)
-              expect(claim.graduated_fee).to have_attributes(fee_type_id: graduated_fee_type_1.id, quantity: 12, amount: 2000 )
+              expect(claim.graduated_fee).to have_attributes(fee_type_id: graduated_fee_type_1.id, quantity: 12, amount: 2000)
               expect(claim.misc_fees.count).to eq 0
             end
           end
@@ -319,7 +319,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
 
         it 'should create a claim with document checklist items' do
           post :create, params: { claim: claim_params }
-          expect(assigns(:claim).evidence_checklist_ids).to eql( [ 2, 3 ] )
+          expect(assigns(:claim).evidence_checklist_ids).to eql([2, 3])
         end
       end
     end

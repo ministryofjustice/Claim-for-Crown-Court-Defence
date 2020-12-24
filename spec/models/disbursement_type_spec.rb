@@ -31,13 +31,13 @@ RSpec.describe DisbursementType, type: :model do
 
     describe 'default scope' do
       it 'returns in alphabetical order by name' do
-        expect(DisbursementType.all.map(&:name)).to eq([ 'Aardvarks', 'Travel Costs', 'Zebras' ])
+        expect(DisbursementType.all.map(&:name)).to eq(['Aardvarks', 'Travel Costs', 'Zebras'])
       end
     end
 
     describe 'active scope' do
       it 'excludes records with non-nil deleted_at' do
-        expect(DisbursementType.active.map(&:name)).to eq([ 'Aardvarks', 'Zebras' ])
+        expect(DisbursementType.active.map(&:name)).to eq(['Aardvarks', 'Zebras'])
       end
     end
   end

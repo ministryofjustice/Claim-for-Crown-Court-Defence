@@ -63,7 +63,7 @@ RSpec.shared_examples 'scheme 9 advocate final claim' do |options|
       post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
       expect(last_response.status).to eql 201
 
-      defendant = Defendant.find_by(uuid: last_response_uuid )
+      defendant = Defendant.find_by(uuid: last_response_uuid)
 
       post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
       expect(last_response.status).to eql 201
@@ -74,7 +74,7 @@ RSpec.shared_examples 'scheme 9 advocate final claim' do |options|
       post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: daily_attendance_3.id), format: :json
       expect(last_response.status).to eql 200
 
-      fee = Fee::BaseFee.find_by(uuid: last_response_uuid )
+      fee = Fee::BaseFee.find_by(uuid: last_response_uuid)
 
       post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date.as_json), format: :json
       expect(last_response.status).to eql 201
@@ -110,7 +110,7 @@ RSpec.shared_examples 'scheme 9 advocate final claim' do |options|
       post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
       expect(last_response.status).to eql 201
 
-      defendant = Defendant.find_by(uuid: last_response_uuid )
+      defendant = Defendant.find_by(uuid: last_response_uuid)
 
       post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
       expect(last_response.status).to eql 201
@@ -121,7 +121,7 @@ RSpec.shared_examples 'scheme 9 advocate final claim' do |options|
       post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: fixed_uplift.id), format: :json
       expect(last_response.status).to eql 201
 
-      fee = Fee::BaseFee.find_by(uuid: last_response_uuid )
+      fee = Fee::BaseFee.find_by(uuid: last_response_uuid)
 
       post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date.as_json), format: :json
       expect(last_response.status).to eql 201
@@ -161,7 +161,7 @@ RSpec.shared_examples 'scheme 10 advocate final claim' do |options|
       post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
       expect(last_response.status).to eql 201
 
-      defendant = Defendant.find_by(uuid: last_response_uuid )
+      defendant = Defendant.find_by(uuid: last_response_uuid)
 
       post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
       expect(last_response.status).to eql 201
@@ -172,7 +172,7 @@ RSpec.shared_examples 'scheme 10 advocate final claim' do |options|
       post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: daily_attendance_2.id), format: :json
       expect(last_response.status).to eql 200
 
-      fee = Fee::BaseFee.find_by(uuid: last_response_uuid )
+      fee = Fee::BaseFee.find_by(uuid: last_response_uuid)
 
       post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date.as_json), format: :json
       expect(last_response.status).to eql 201
@@ -264,7 +264,7 @@ RSpec.shared_examples 'scheme 12 advocate final claim' do |options|
       post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
       expect(last_response.status).to eql 201
 
-      defendant = Defendant.find_by(uuid: last_response_uuid )
+      defendant = Defendant.find_by(uuid: last_response_uuid)
       post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
       expect(last_response.status).to eql 201
 
@@ -274,7 +274,7 @@ RSpec.shared_examples 'scheme 12 advocate final claim' do |options|
       post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: daily_attendance_2.id), format: :json
       expect(last_response.status).to eql 200
 
-      fee = Fee::BaseFee.find_by(uuid: last_response_uuid )
+      fee = Fee::BaseFee.find_by(uuid: last_response_uuid)
 
       post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date.as_json), format: :json
       expect(last_response.status).to eql 201
@@ -491,7 +491,7 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -527,7 +527,7 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -573,7 +573,7 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201

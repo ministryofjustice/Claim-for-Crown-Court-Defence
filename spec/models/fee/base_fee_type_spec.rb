@@ -119,51 +119,51 @@ RSpec.describe Fee::BaseFeeType, type: :model do
 
     describe '.basic' do
       it 'returns all basic fee types' do
-        expect(described_class.basic).to match_array( [ @bf1, @bf2 ] )
+        expect(described_class.basic).to match_array([@bf1, @bf2])
       end
     end
 
     describe '.misc' do
       it 'returns all misc fee types' do
-        expect(described_class.misc).to match_array( [ @mf1, @mf2 ] )
+        expect(described_class.misc).to match_array([@mf1, @mf2])
       end
     end
 
     describe '.fixed' do
       it 'returns all fixed fee types' do
-        expect(described_class.fixed).to match_array( [ @ff1, @ff2 ] )
+        expect(described_class.fixed).to match_array([@ff1, @ff2])
       end
     end
 
     describe '.warrant' do
       it 'returns all warrant fee types' do
-        expect(described_class.warrant).to match_array( [ @wf1, @wf2 ] )
+        expect(described_class.warrant).to match_array([@wf1, @wf2])
       end
     end
 
     describe '.graduated' do
       it 'returns all graduated fee types' do
-        expect(described_class.graduated).to match_array( [ @gf1, @gf2 ] )
+        expect(described_class.graduated).to match_array([@gf1, @gf2])
       end
     end
 
     describe '.interim' do
       it 'returns all interim fee types' do
-        expect(described_class.interim).to match_array( [ @if1, @if2 ] )
+        expect(described_class.interim).to match_array([@if1, @if2])
       end
     end
 
     describe '.transfer' do
       it 'returns all transfer fee types' do
-        expect(described_class.transfer).to match_array( [ @tf1 ] )
+        expect(described_class.transfer).to match_array([@tf1])
       end
     end
   end
 
   context 'when calling scheme role scope' do
     before do
-      create(:basic_fee_type, description: 'Scheme 9, 10 and 12 roles', roles: %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12] )
-      create(:fixed_fee_type, description: 'Scheme 10 and 12 roles', roles: %w[agfs agfs_scheme_10 agfs_scheme_12] )
+      create(:basic_fee_type, description: 'Scheme 9, 10 and 12 roles', roles: %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12])
+      create(:fixed_fee_type, description: 'Scheme 10 and 12 roles', roles: %w[agfs agfs_scheme_10 agfs_scheme_12])
       create(:misc_fee_type, description: 'Scheme 12 role only', roles: %w[agfs agfs_scheme_12])
       create(:misc_fee_type, description: 'Scheme 9 role only', roles: %w[agfs agfs_scheme_9])
     end

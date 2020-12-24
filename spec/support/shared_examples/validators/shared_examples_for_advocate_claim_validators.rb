@@ -72,7 +72,7 @@ RSpec.shared_examples 'advocate claim case concluded at' do
     it 'is invalid when present' do
       claim.case_concluded_at = 1.month.ago
       expect(claim).not_to be_valid
-      expect(claim.errors[:case_concluded_at]).to eq([ 'present' ])
+      expect(claim.errors[:case_concluded_at]).to eq(['present'])
     end
   end
 end

@@ -23,7 +23,7 @@ RSpec.describe ExpenseType, type: :model do
 
   context 'ROLES' do
     it 'should have "agfs" and "lgfs"' do
-      expect(Provider::ROLES).to match_array(%w( agfs lgfs ))
+      expect(Provider::ROLES).to match_array(%w(agfs lgfs))
     end
   end
 
@@ -84,11 +84,11 @@ RSpec.describe ExpenseType, type: :model do
 
     describe '#expense_reasons' do
       it 'returns reason set a' do
-        expect(expense_type_set_a.expense_reasons.map(&:id)).to eq( [ 1, 2, 3, 4, 5 ] )
+        expect(expense_type_set_a.expense_reasons.map(&:id)).to eq([1, 2, 3, 4, 5])
       end
 
       it 'returns reason set b' do
-        expect(expense_type_set_b.expense_reasons.map(&:id)).to eq( [ 2, 3, 4 ] )
+        expect(expense_type_set_b.expense_reasons.map(&:id)).to eq([2, 3, 4])
       end
     end
 

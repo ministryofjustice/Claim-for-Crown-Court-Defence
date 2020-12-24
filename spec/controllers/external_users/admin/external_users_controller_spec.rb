@@ -334,7 +334,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
               email: 'bobsmith@example.com'
             }
           },
-          roles: %w{ admin advocate litigator}
+          roles: %w{admin advocate litigator}
         }.with_indifferent_access
     end
 

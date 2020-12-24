@@ -69,13 +69,13 @@ module Claims
       it 'returns an array of bands in ascending order' do
         bands = ValueBands.bands
         expect(bands.size).to eq 4
-        expect(bands.map(&:id)).to eq( [ 10, 20, 30, 40 ])
+        expect(bands.map(&:id)).to eq([10, 20, 30, 40])
       end
     end
 
     describe '.band_ids' do
       it 'returns a list of band ids' do
-        expect(ValueBands.band_ids).to eq( [ 10, 20, 30, 40 ] )
+        expect(ValueBands.band_ids).to eq([10, 20, 30, 40])
       end
     end
 
@@ -83,7 +83,7 @@ module Claims
       it 'returns an array of Bands including a dummy on for all bands' do
         bands = ValueBands.collection_select
         expect(bands.size).to eq 5
-        expect(bands.map(&:id)).to eq( [ 0, 10, 20, 30, 40 ] )
+        expect(bands.map(&:id)).to eq([0, 10, 20, 30, 40])
         expect(bands.first.name).to eq 'All Claims'
       end
     end

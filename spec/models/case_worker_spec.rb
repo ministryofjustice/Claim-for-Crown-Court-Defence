@@ -34,7 +34,7 @@ RSpec.describe CaseWorker, type: :model do
 
   describe 'ROLES' do
     it 'should have "admin", "case_worker" and "provider_management"' do
-      expect(CaseWorker::ROLES).to match_array(%w( admin case_worker provider_management ))
+      expect(CaseWorker::ROLES).to match_array(%w(admin case_worker provider_management))
     end
   end
 
@@ -52,7 +52,7 @@ RSpec.describe CaseWorker, type: :model do
 
     describe 'active scope' do
       it 'should only return undeleted records' do
-        expect(CaseWorker.active.order(:id)).to eq([ @live_cw1, @live_cw2 ])
+        expect(CaseWorker.active.order(:id)).to eq([@live_cw1, @live_cw2])
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
@@ -85,7 +85,7 @@ RSpec.describe CaseWorker, type: :model do
 
     describe 'default scope' do
       it 'should return deleted and undeleted records' do
-        expect(CaseWorker.order(:id)).to eq([ @live_cw1, @live_cw2, @dead_cw1, @dead_cw2])
+        expect(CaseWorker.order(:id)).to eq([@live_cw1, @live_cw2, @dead_cw1, @dead_cw2])
       end
 
       it 'should return the record if find by id relates to a deleted record' do

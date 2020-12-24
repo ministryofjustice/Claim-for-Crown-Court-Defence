@@ -58,7 +58,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'redetermination' do
       it 'should display the case type name with a redetermination label' do
-        %w( submit allocate refuse redetermine allocate ).each { |event| claim.send("#{event}!") }
+        %w(submit allocate refuse redetermine allocate).each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:opened_for_redetermination?).and_return(true)
         expect(subject.case_type_name).to eq(claim.case_type.name)
       end
@@ -66,7 +66,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'awaiting written reasons' do
       it 'should display the case type name with an awaiting written reasons label' do
-        %w( submit allocate refuse await_written_reasons allocate ).each { |event| claim.send("#{event}!") }
+        %w(submit allocate refuse await_written_reasons allocate).each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:written_reasons_outstanding?).and_return(true)
         expect(subject.case_type_name).to eq(claim.case_type.name)
       end
@@ -142,7 +142,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'should list valid transitions from part_authorised' do
       claim.state = 'part_authorised'
       presenter = Claim::BaseClaimPresenter.new(claim, view)
-      expect(presenter.valid_transitions).to eq( { :redetermination => 'Redetermination', :awaiting_written_reasons => 'Awaiting written reasons' } )
+      expect(presenter.valid_transitions).to eq({ :redetermination => 'Redetermination', :awaiting_written_reasons => 'Awaiting written reasons' })
     end
   end
 
@@ -321,13 +321,13 @@ RSpec.describe Claim::BaseClaimPresenter do
     let(:defendant_2) do
       defendant = build(:defendant)
       travel_to 2.days.ago do
-        defendant.representation_orders = [ build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '444444') ]
+        defendant.representation_orders = [build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '444444')]
       end
       defendant
     end
 
     it 'should return an html safe string of all the dates' do
-      expect(presenter.representation_order_details).to eq( '01/03/2015 222222<br />13/08/2015 333333<br />01/03/2015 444444' )
+      expect(presenter.representation_order_details).to eq('01/03/2015 222222<br />13/08/2015 333333<br />01/03/2015 444444')
     end
   end
 

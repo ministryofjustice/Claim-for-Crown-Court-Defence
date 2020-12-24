@@ -99,7 +99,7 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
         it 'should error if not a valid sub type' do
           fee.sub_type = unrelated_child
           expect(fee).to_not be_valid
-          expect(fee.errors[:sub_type]).to include( 'invalid' )
+          expect(fee.errors[:sub_type]).to include('invalid')
         end
       end
 

@@ -13,7 +13,7 @@ module Stats
 
       describe '#dataaset_names' do
         it 'should return an array of dataset names in the order they were added' do
-          expect(@lg.dataset_names).to eq %w{ Tories Labour LibDems }
+          expect(@lg.dataset_names).to eq %w{Tories Labour LibDems}
         end
       end
 
@@ -27,7 +27,7 @@ module Stats
         context 'without specifying x-axis labels' do
           it 'should preoduce a json structure suitable for generating a Geckoboard Line graph widget' do
             data = {
-              'x_axis' => { 'labels' => %w( -3 -2 -1) },
+              'x_axis' => { 'labels' => %w(-3 -2 -1) },
               'series' => [
                 {
                   'name' => 'Tories',
@@ -49,9 +49,9 @@ module Stats
 
         context 'with specifying custom x-axis labels' do
           it 'should preoduce a json structure suitable for generating a Geckoboard Line graph widget' do
-            @lg.x_axis_labels = %w{ Jan Feb Mar}
+            @lg.x_axis_labels = %w{Jan Feb Mar}
             data = {
-              'x_axis' => { 'labels' => %w( Jan Feb Mar ) },
+              'x_axis' => { 'labels' => %w(Jan Feb Mar) },
               'series' => [
                 {
                   'name' => 'Tories',
@@ -88,7 +88,7 @@ module Stats
 
         context 'specifying custom x-axis labels' do
           it 'should produce an array of arrays suitable for displaying in a tabular format' do
-            @lg.x_axis_labels = %w{ Jan Feb Mar }
+            @lg.x_axis_labels = %w{Jan Feb Mar}
             array = [
               ['Jan', 33, 22, 5],
               ['Feb', 5, 24, 8],

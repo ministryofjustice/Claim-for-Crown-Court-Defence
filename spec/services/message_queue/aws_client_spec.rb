@@ -33,7 +33,7 @@ module MessageQueue
       {
         from: 'external application',
         uuid: '3d34c071-c19a-4248-93ea-6f0e91002561',
-        errors: [ { error: 'PPE is a mandatory field for Claim Element of type Advocate Fee.' } ],
+        errors: [{ error: 'PPE is a mandatory field for Claim Element of type Advocate Fee.' }],
         messages: []
       }.to_json
     end

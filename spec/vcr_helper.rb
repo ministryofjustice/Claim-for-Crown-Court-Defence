@@ -28,7 +28,8 @@ VCR.configure do |c|
   #
   c.ignore_request do |request|
     uri = URI(request.uri)
-    [ uri.path == '/__identify__',
+    [
+      uri.path == '/__identify__',
       [
         !uri.path.start_with?('/api/'),
         !uri.path =~ /maps.googleapis.com/,

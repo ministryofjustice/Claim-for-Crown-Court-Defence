@@ -25,7 +25,7 @@ RSpec.describe Claim::TransferBrain do
 
   describe '.transfer_stage_ids' do
     it 'returns transfer stage ids' do
-      expect(described_class.transfer_stage_ids).to eq( [ 10, 20, 30, 40, 50, 60, 70 ])
+      expect(described_class.transfer_stage_ids).to eq([10, 20, 30, 40, 50, 60, 70])
     end
   end
 
@@ -58,13 +58,13 @@ RSpec.describe Claim::TransferBrain do
     end
 
     it 'returns true for visible combos' do
-      [ transfer_detail('new', false, 20, 30), transfer_detail('new', false, 30, 20), transfer_detail('new', false, 50, 40) ].each do |detail|
+      [transfer_detail('new', false, 20, 30), transfer_detail('new', false, 30, 20), transfer_detail('new', false, 50, 40)].each do |detail|
         expect(described_class.details_combo_valid?(detail)).to be true
       end
     end
 
     it 'returns true for hidden combos' do
-      [ transfer_detail('original', false, 70), transfer_detail('original', true, 50), transfer_detail('original', false, 10) ].each do |detail|
+      [transfer_detail('original', false, 70), transfer_detail('original', true, 50), transfer_detail('original', false, 10)].each do |detail|
         expect(described_class.details_combo_valid?(detail)).to be true
       end
     end

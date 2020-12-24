@@ -25,7 +25,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'should raise error message if no external user is specified' do
       subject.external_user_id = nil
       expect(subject).not_to be_valid
-      expect(subject.errors[:external_user]).to eq( ['blank_advocate'] )
+      expect(subject.errors[:external_user]).to eq(['blank_advocate'])
     end
 
     it 'should be valid with the same external_user_id and creator_id' do
@@ -163,8 +163,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryBot.build :claim }
-    let(:all_states)  { [  'allocated', 'archived_pending_delete',
-                           'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
+    let(:all_states)  { ['allocated', 'archived_pending_delete',
+                         'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted'] }
 
     context 'external_user_dashboard_draft?' do
       before(:each) { allow(claim).to receive(:state).and_return('draft') }
@@ -199,14 +199,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'external_user_dashboard_submitted?' do
       it 'should respond true' do
-        [ 'allocated', 'submitted' ].each do |claim_state|
+        ['allocated', 'submitted'].each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'allocated', 'submitted' ]).each do |claim_state|
+        (all_states - ['allocated', 'submitted']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be false
         end
@@ -215,14 +215,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'external_user_dashboard_part_authorised' do
       it 'should respond true' do
-        [ 'part_authorised' ].each do |state|
+        ['part_authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_part_authorised?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'part_authorised' ]).each do |claim_state|
+        (all_states - ['part_authorised']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_part_authorised?).to be false
         end
@@ -231,14 +231,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'external_user_dashboard_completed_states' do
       it 'should respond true' do
-        [ 'refused', 'authorised' ].each do |state|
+        ['refused', 'authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_completed?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'refused', 'authorised' ]).each do |claim_state|
+        (all_states - ['refused', 'authorised']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_completed?).to be false
         end
@@ -384,9 +384,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:search_options) { :maat_reference }
 
       before do
-        create :defendant, claim: subject, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '111111') ]
-        create :defendant, claim: subject, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '222222') ]
-        create :defendant, claim: other_claim, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '333333') ]
+        create :defendant, claim: subject, representation_orders: [FactoryBot.create(:representation_order, maat_reference: '111111')]
+        create :defendant, claim: subject, representation_orders: [FactoryBot.create(:representation_order, maat_reference: '222222')]
+        create :defendant, claim: other_claim, representation_orders: [FactoryBot.create(:representation_order, maat_reference: '333333')]
         subject.reload
         other_claim.reload
       end
@@ -410,7 +410,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'find by Defendant name' do
       let!(:current_external_user) { create(:external_user) }
-      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
+      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
       let(:search_options)         { :defendant_name }
 
       before do
@@ -502,7 +502,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'find by advocate and defendant' do
       let!(:current_external_user) { create(:external_user) }
-      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
+      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
       let(:search_options)         { [:advocate_name, :defendant_name] }
 
       before do
@@ -778,14 +778,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { create(:advocate_claim) }
 
     it 'should not be archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
-      %w( allocated awaiting_written_reasons draft redetermination ).each do |state|
+      %w(allocated awaiting_written_reasons draft redetermination).each do |state|
         allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(false)
       end
     end
 
     it 'should be archivable from states: refused, rejected, part authorised, authorised' do
-      %w( refused rejected part_authorised authorised ).each do |state|
+      %w(refused rejected part_authorised authorised).each do |state|
         allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(true)
       end

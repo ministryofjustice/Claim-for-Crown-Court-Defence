@@ -59,7 +59,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       it 'returns 401, Unauthorised when api key is for an external user' do
-        do_request(api_key: claim.external_user.user.api_key )
+        do_request(api_key: claim.external_user.user.api_key)
         expect(last_response.status).to eq 401
         expect(last_response.body).to include('Unauthorised')
       end
@@ -81,7 +81,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
     context 'entities' do
       context 'with advocate "final" claims' do
         it 'presents claim with CCR final claim entity' do
-          expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::FinalClaim )
+          expect_any_instance_of(dsl).to receive(:present).with(instance_of(Claim::AdvocateClaim), with: API::Entities::CCR::FinalClaim)
           do_request
         end
       end
@@ -404,7 +404,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'number_of_defendants' do
-          let(:basic_fees) { [ build(:basic_fee, :baf_fee, quantity: 1) ] }
+          let(:basic_fees) { [build(:basic_fee, :baf_fee, quantity: 1)] }
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee]) }
 
           it 'property included' do
@@ -450,7 +450,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'daily attendances' do
-          let(:basic_fees) { [ build(:basic_fee, :baf_fee, quantity: 1) ] }
+          let(:basic_fees) { [build(:basic_fee, :baf_fee, quantity: 1)] }
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, basic_fees: basic_fees, misc_fees: [misc_fee]) }
 
           it 'includes property' do
@@ -620,7 +620,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
 
           context 'without uplifts' do
-            let(:fixed_fees) { [ build(:fixed_fee, :fxcbr_fee, quantity: 1) ] }
+            let(:fixed_fees) { [build(:fixed_fee, :fxcbr_fee, quantity: 1)] }
 
             it 'includes property' do
               expect(response).to have_json_path('bills/0/number_of_defendants')
@@ -706,8 +706,8 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
         context 'when CCCD fee has a defendant uplift' do
           context 'advocate final claim standard appearances' do
-            let(:basic_fees) { [ build(:basic_fee, :basaf_fee, rate: 91.0, quantity: 2) ] }
-            let(:misc_fees) { [ build(:misc_fee, :misau_fee, rate: 18.20, quantity: 1) ] }
+            let(:basic_fees) { [build(:basic_fee, :basaf_fee, rate: 91.0, quantity: 2)] }
+            let(:misc_fees) { [build(:misc_fee, :misau_fee, rate: 18.20, quantity: 1)] }
             let(:claim) do
               create_claim(:submitted_claim, :without_fees, case_type: case_type).tap do |claim|
                 claim.basic_fees << basic_fees
@@ -731,7 +731,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           end
 
           context 'advocate supplementary claim standard appearances' do
-            let(:misc_fees) { [ build(:misc_fee, :misaf_fee, rate: 91.0, quantity: 2), build(:misc_fee, :misau_fee, rate: 18.20, quantity: 1) ] }
+            let(:misc_fees) { [build(:misc_fee, :misaf_fee, rate: 91.0, quantity: 2), build(:misc_fee, :misau_fee, rate: 18.20, quantity: 1)] }
             let(:claim) do
               create_claim(:advocate_supplementary_claim, :submitted, with_misc_fee: false).tap do |claim|
                 claim.misc_fees << misc_fees

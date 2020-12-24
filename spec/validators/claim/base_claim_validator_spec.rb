@@ -431,18 +431,18 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       assessed_claim.authorise!
       assessed_claim.assessment.zeroize!
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state Authorised'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq(['Amount assessed cannot be zero for claims in state Authorised'])
     end
 
     it 'should error if authorised claim has assessment updated to zero' do
       assessed_claim.authorise_part!
       assessed_claim.assessment.update(fees: 0, expenses: 0, disbursements: 0)
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state Part authorised'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq(['Amount assessed cannot be zero for claims in state Part authorised'])
     end
 
     context 'should be valid if amount assessed is zero' do
-        %w{ draft allocated refused rejected submitted }.each do |state|
+        %w{draft allocated refused rejected submitted}.each do |state|
           it "for claims in state #{state}" do
             factory_name = "#{state}_claim".to_sym
             claim = FactoryBot.create factory_name
@@ -453,13 +453,13 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'should be invalid if amount assessed is not zero' do
-      %w{ draft refused rejected submitted }.each do |state|
+      %w{draft refused rejected submitted}.each do |state|
         it "should error if amount assessed is not zero for #{state}" do
           factory_name = "#{state}_claim".to_sym
           claim = FactoryBot.create factory_name
           claim.assessment.fees = 35.22
           expect(claim).to_not be_valid
-          expect(claim.errors[:amount_assessed]).to eq( ["Amount assessed must be zero for claims in state #{state.humanize}"] )
+          expect(claim.errors[:amount_assessed]).to eq(["Amount assessed must be zero for claims in state #{state.humanize}"])
         end
       end
     end
@@ -496,7 +496,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       should_not_error(claim,:evidence_checklist_ids)
       claim.save!
       dup = Claim::BaseClaim.active.find claim.id
-      expect(dup.evidence_checklist_ids).to eq( doc_types )
+      expect(dup.evidence_checklist_ids).to eq(doc_types)
     end
 
     it 'should NOT error if ids are string integers and should exclude blank strings' do

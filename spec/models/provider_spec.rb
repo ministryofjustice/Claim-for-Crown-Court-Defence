@@ -94,7 +94,7 @@ RSpec.describe Provider, type: :model do
 
   context 'ROLES' do
     it 'should have "agfs" and "lgfs"' do
-      expect(Provider::ROLES).to match_array(%w( agfs lgfs ))
+      expect(Provider::ROLES).to match_array(%w(agfs lgfs))
     end
   end
 
@@ -271,7 +271,7 @@ RSpec.describe Provider, type: :model do
         provider = create :provider, :agfs
         provider.external_users << create(:external_user, :advocate, supplier_number: '888AA')
         provider.external_users << create(:external_user, :advocate, supplier_number: '999BB')
-        expect(provider.agfs_supplier_numbers).to match_array %w{ 888AA 999BB }
+        expect(provider.agfs_supplier_numbers).to match_array %w{888AA 999BB}
       end
     end
 

@@ -241,7 +241,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -288,7 +288,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -330,7 +330,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -363,7 +363,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -409,7 +409,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -438,7 +438,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201

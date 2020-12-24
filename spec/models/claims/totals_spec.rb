@@ -134,7 +134,7 @@ RSpec.describe Claim, type: :model do
 
           # add expenses for 9.99
           claim.expenses << create(:expense, amount: 9.99, vat_amount: 1.75)
-          is_expected.to have_totals( fees_total: 37.75, fees_vat: 7.55, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 9.99, expenses_vat: 2.0 )
+          is_expected.to have_totals(fees_total: 37.75, fees_vat: 7.55, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 9.99, expenses_vat: 2.0)
 
           # add disbursements for 55.33 & 100
           claim.disbursements << create(:disbursement, claim: claim, net_amount: 55.33, vat_amount: 9.68)

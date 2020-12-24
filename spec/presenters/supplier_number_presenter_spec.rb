@@ -4,7 +4,7 @@ RSpec.describe SupplierNumberPresenter do
   let(:account_number) { '3N677Q' }
   let(:postcode) { 'W3A 7RG' }
   let(:supplier_name) { 'Some name' }
-  let(:supplier_number) { build(:supplier_number, supplier_number: account_number, postcode: postcode, name: supplier_name ) }
+  let(:supplier_number) { build(:supplier_number, supplier_number: account_number, postcode: postcode, name: supplier_name) }
 
   subject(:presenter) { described_class.new(supplier_number, view) }
 

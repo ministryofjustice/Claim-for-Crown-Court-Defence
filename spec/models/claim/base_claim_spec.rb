@@ -152,13 +152,13 @@ RSpec.describe Claim::BaseClaim do
 
     describe '#expenses.with_vat' do
       it 'returns an array of expenses with VAT' do
-        expect(@claim.expenses.with_vat).to match_array( [ @ex1, @ex3 ] )
+        expect(@claim.expenses.with_vat).to match_array([@ex1, @ex3])
       end
     end
 
     describe '#expenses.without_vat' do
       it 'returns an array of expenses without VAT' do
-        expect(@claim.expenses.without_vat).to match_array( [ @ex2, @ex4 ] )
+        expect(@claim.expenses.without_vat).to match_array([@ex2, @ex4])
       end
     end
 
@@ -205,13 +205,13 @@ RSpec.describe Claim::BaseClaim do
 
     describe '#disbursements.with_vat' do
       it 'returns an array of disbursements with VAT' do
-        expect(@claim.disbursements.with_vat).to match_array( [ @db1, @db3 ] )
+        expect(@claim.disbursements.with_vat).to match_array([@db1, @db3])
       end
     end
 
     describe '#disbursements.without_vat' do
       it 'returns an array of disbursements without VAT' do
-        expect(@claim.disbursements.without_vat).to match_array( [ @db2, @db4 ] )
+        expect(@claim.disbursements.without_vat).to match_array([@db2, @db4])
       end
     end
 
@@ -631,8 +631,8 @@ RSpec.describe MockBaseClaim do
   describe '#evidence_doc_types' do
     it 'returns an array of DocType objects' do
       claim = described_class.new(evidence_checklist_ids: [1, 5, 10])
-      expect(claim.evidence_doc_types.map(&:class)).to eq( [ DocType, DocType, DocType ] )
-      expect(claim.evidence_doc_types.map(&:name)).to match_array( [ 'Representation order', 'Order in respect of judicial apportionment', 'Special preparation form'])
+      expect(claim.evidence_doc_types.map(&:class)).to eq([DocType, DocType, DocType])
+      expect(claim.evidence_doc_types.map(&:name)).to match_array(['Representation order', 'Order in respect of judicial apportionment', 'Special preparation form'])
     end
   end
 

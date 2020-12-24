@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module TimedTransitions
   describe BatchTransitioner do
-    let(:claim_ids) { [ 22, 878 ] }
+    let(:claim_ids) { [22, 878] }
     let(:claim_22) { double'Claim 22', state: 'authorised', last_state_transition_time: 2.days.ago }
     let(:claim_878) { double 'Claim 878', state: 'authorised', last_state_transition_time: 2.days.ago }
     let(:transitioner_22) { double('Transitioner 22', success?: true) }

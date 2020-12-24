@@ -13,6 +13,9 @@ Rails.application.configure do
     url: "tmp/dev/reports/:filename"
   }
 
+  config.active_storage.service = :local
+  # config.active_storage.service = :amazon_dev
+
   # logging
   jsonlogger = LogStuff.new_logger("#{Rails.root}/log/logstash_development.log", Logger::INFO)
   config.logstasher.enabled = true

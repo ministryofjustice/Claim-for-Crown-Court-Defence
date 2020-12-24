@@ -10,15 +10,15 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
 
     let(:expected_fields) do
       [
-          Geckoboard::DateField.new(:date, name: 'Date'),
-          Geckoboard::NumberField.new(:total_ccr_succeeded, name: 'Total CCR'),
-          Geckoboard::NumberField.new(:total_ccr, name: 'Total number of CCR injections'),
-          Geckoboard::PercentageField.new(:percentage_ccr_succeeded, name: 'Percentage of successful CCR injections'),
-          Geckoboard::NumberField.new(:total_cclf_succeeded, name: 'Total CCLF succeeded'),
-          Geckoboard::NumberField.new(:total_cclf, name: 'Total number of CCLF injections'),
-          Geckoboard::PercentageField.new(:percentage_cclf_succeeded, name: 'Percentage of successful CCLF injections'),
-          Geckoboard::NumberField.new(:total_succeeded, name: 'Total succeeded'),
-          Geckoboard::NumberField.new(:total, name: 'Total number of injections')
+        Geckoboard::DateField.new(:date, name: 'Date'),
+        Geckoboard::NumberField.new(:total_ccr_succeeded, name: 'Total CCR'),
+        Geckoboard::NumberField.new(:total_ccr, name: 'Total number of CCR injections'),
+        Geckoboard::PercentageField.new(:percentage_ccr_succeeded, name: 'Percentage of successful CCR injections'),
+        Geckoboard::NumberField.new(:total_cclf_succeeded, name: 'Total CCLF succeeded'),
+        Geckoboard::NumberField.new(:total_cclf, name: 'Total number of CCLF injections'),
+        Geckoboard::PercentageField.new(:percentage_cclf_succeeded, name: 'Percentage of successful CCLF injections'),
+        Geckoboard::NumberField.new(:total_succeeded, name: 'Total succeeded'),
+        Geckoboard::NumberField.new(:total, name: 'Total number of injections')
       ].map { |field| [field.class, field.id, field.name] }
     end
 

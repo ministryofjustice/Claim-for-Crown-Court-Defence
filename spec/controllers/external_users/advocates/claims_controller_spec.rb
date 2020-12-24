@@ -59,12 +59,10 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
             offence_id: offence,
             case_number: 'A20161234',
             advocate_category: 'QC',
-            expenses_attributes:
-              [
-                  expense_params
-              ],
+            expenses_attributes: [ expense_params ],
             defendants_attributes: [
-              { first_name: 'John',
+              {
+                first_name: 'John',
                 last_name: 'Smith',
                 date_of_birth_dd: '4',
                 date_of_birth_mm: '10',
@@ -164,20 +162,21 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
                 case_number: case_number,
                 advocate_category: 'QC',
                 defendants_attributes: [
-                    { first_name: 'John',
-                      last_name: 'Smith',
-                      date_of_birth_dd: '4',
-                      date_of_birth_mm: '10',
-                      date_of_birth_yyyy: '1980',
-                      representation_orders_attributes: [
-                          {
-                              representation_order_date_dd: Time.now.day.to_s,
-                              representation_order_date_mm: Time.now.month.to_s,
-                              representation_order_date_yyyy: Time.now.year.to_s,
-                              maat_reference: '4561237'
-                          }
-                      ]
-                    }
+                  {
+                    first_name: 'John',
+                    last_name: 'Smith',
+                    date_of_birth_dd: '4',
+                    date_of_birth_mm: '10',
+                    date_of_birth_yyyy: '1980',
+                    representation_orders_attributes: [
+                      {
+                            representation_order_date_dd: Time.now.day.to_s,
+                            representation_order_date_mm: Time.now.month.to_s,
+                            representation_order_date_yyyy: Time.now.year.to_s,
+                            maat_reference: '4561237'
+                      }
+                    ]
+                  }
                 ]
             }
           end

@@ -155,21 +155,21 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
             {
               form_step: :defendants,
               defendants_attributes: [
-                  {
-                    first_name: 'John',
-                    last_name: 'Smith',
-                    date_of_birth_dd: '4',
-                    date_of_birth_mm: '10',
-                    date_of_birth_yyyy: '1980',
-                    representation_orders_attributes: [
-                        {
-                          representation_order_date_dd: representation_order_date.day.to_s,
-                          representation_order_date_mm: representation_order_date.month.to_s,
-                          representation_order_date_yyyy: representation_order_date.year.to_s,
-                          maat_reference: '4561237'
-                        }
-                    ]
-                  }
+                {
+                  first_name: 'John',
+                  last_name: 'Smith',
+                  date_of_birth_dd: '4',
+                  date_of_birth_mm: '10',
+                  date_of_birth_yyyy: '1980',
+                  representation_orders_attributes: [
+                    {
+                        representation_order_date_dd: representation_order_date.day.to_s,
+                        representation_order_date_mm: representation_order_date.month.to_s,
+                        representation_order_date_yyyy: representation_order_date.year.to_s,
+                        maat_reference: '4561237'
+                    }
+                  ]
+                }
               ]
             }
           end

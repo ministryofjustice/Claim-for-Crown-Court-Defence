@@ -72,8 +72,8 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
         before(:each) do
           put :update, params: { id: subject, provider: {
               lgfs_supplier_numbers_attributes: [
-                  { supplier_number: 'XY123' },
-                  { supplier_number: '' }
+                { supplier_number: 'XY123' },
+                { supplier_number: '' }
               ]
           } }
         end
@@ -92,8 +92,8 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
         before(:each) do
           put :update, params: { id: subject, provider: {
               lgfs_supplier_numbers_attributes: [
-                  { supplier_number: '1B222Z' },
-                  { supplier_number: '2B555Z' }
+                { supplier_number: '1B222Z' },
+                { supplier_number: '2B555Z' }
               ]
           } }
         end

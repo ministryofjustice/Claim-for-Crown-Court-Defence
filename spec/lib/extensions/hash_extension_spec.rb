@@ -6,24 +6,24 @@ RSpec.describe Hash do
       key_id: '1',
       hash1: { key_id: '2' },
       array1: [
-                { key_id: '3' },
-                { key_id: '4' }
-              ],
+        { key_id: '3' },
+        { key_id: '4' }
+      ],
       array2: [
-                { hash2:
-                  { key_id: '5' },
-                  array3: [key_id: '6']
-                },
-                hash3:
-                  {
-                    key_id: { key_id: '7' }
-                  }
-              ],
+        { hash2:
+          { key_id: '5' },
+          array3: [key_id: '6']
+        },
+        hash3:
+          {
+            key_id: { key_id: '7' }
+          }
+      ],
       array4: [
-                {
-                  key_id: [:key_id, :key_id]
-                }
-              ]
+        {
+          key_id: [:key_id, :key_id]
+        }
+      ]
     }
   end
 

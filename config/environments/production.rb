@@ -22,6 +22,9 @@ Rails.application.configure do
     url: "reports/:filename"
   }
 
+  config.active_storage.service = :local
+  # config.active_storage.service = :amazon
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # Excluding some endpoints due to ELB only talking HTTP on port 80 and not following redirects to https.
   config.ssl_options = { redirect: { exclude: -> request { request.path =~ /healthcheck|ping/ } } }

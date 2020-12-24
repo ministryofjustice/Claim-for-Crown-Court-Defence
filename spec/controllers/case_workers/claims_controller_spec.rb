@@ -156,7 +156,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       search_terms = {
         'Joex Bloggs' => 2,
         'Fred Bloggs' => 4,
-        'Bloggs'      => 6
+        'Bloggs' => 6
       }
       search_terms.each do |search_term, expected_number_of_results|
         xit 'returns only the claims where the defendant is is in the search terms' do

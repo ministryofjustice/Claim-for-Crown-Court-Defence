@@ -39,11 +39,11 @@ RSpec.describe HeartbeatController, type: :controller do
     context 'when environment variables set' do
       let(:expected_json) do
         {
-          'version_number'  => '123',
-          'build_date'      => '20150721',
-          'commit_id'       => 'afb12cb3',
-          'build_tag'       => 'test',
-          'app_branch'      => 'test_branch'
+          'version_number' => '123',
+          'build_date' => '20150721',
+          'commit_id' => 'afb12cb3',
+          'build_tag' => 'test',
+          'app_branch' => 'test_branch'
         }
       end
 

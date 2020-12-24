@@ -117,11 +117,11 @@ RSpec.describe Claim::BaseClaimPresenter do
       presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions).to eq(
         {
-            :part_authorised => 'Part authorised',
-                 :authorised => 'Authorised',
-                    :refused => 'Refused',
-                   :rejected => 'Rejected',
-                  :submitted => 'Submitted'
+          part_authorised: 'Part authorised',
+          authorised: 'Authorised',
+          refused: 'Refused',
+          rejected: 'Rejected',
+          submitted: 'Submitted'
         }
       )
     end
@@ -131,10 +131,10 @@ RSpec.describe Claim::BaseClaimPresenter do
       presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions_for_detail_form).to eq(
         {
-            :part_authorised => 'Part authorised',
-                 :authorised => 'Authorised',
-                    :refused => 'Refused',
-                   :rejected => 'Rejected'
+          part_authorised: 'Part authorised',
+          authorised: 'Authorised',
+          refused: 'Refused',
+          rejected: 'Rejected'
         }
       )
     end

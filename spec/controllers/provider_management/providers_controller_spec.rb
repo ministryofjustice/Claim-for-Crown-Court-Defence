@@ -158,7 +158,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
           roles: ['lgfs', 'agfs'],
           vat_registered: false,
           lgfs_supplier_numbers_attributes: {
-            '0'=>{ 'supplier_number' => '2E481W', '_destroy' => 'false' }
+            '0' => { 'supplier_number' => '2E481W', '_destroy' => 'false' }
           }
         }
       end

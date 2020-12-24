@@ -71,7 +71,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       let(:expected_results) do
         {
           defendant_1_representation_order_1_representation_order_date: 'not_before_earliest_permitted_date',
-          defendant_1_date_of_birth:                                    'blank',
+          defendant_1_date_of_birth: 'blank',
         }
       end
 

@@ -82,7 +82,7 @@ RSpec.describe Claims::UpdateDraft do
           'form_step' => 'fees',
           'interim_fee_attributes' => {
             'fee_type_id' => fee_type.id,
-            'quantity'=>'',
+            'quantity' => '',
             'warrant_issued_date_dd' => '',
             'warrant_issued_date_mm' => '',
             'warrant_issued_date_yyyy' => '',

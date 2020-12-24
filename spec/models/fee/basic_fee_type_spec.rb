@@ -49,7 +49,7 @@ module Fee
       context 'for basic fees related to case uplifts' do
         before { allow(fee_type).to receive(:unique_code).and_return 'BANOC' }
 
-        it "BANOC should return true" do
+        it 'BANOC should return true' do
           is_expected.to be_truthy
         end
       end
@@ -67,7 +67,7 @@ module Fee
 
     describe 'default scope' do
       it 'should order by id' do
-        expect(Fee::BasicFeeType.all.to_sql).to include("ORDER BY \"fee_types\".\"id\" ASC")
+        expect(Fee::BasicFeeType.all.to_sql).to include('ORDER BY "fee_types"."id" ASC')
       end
     end
 

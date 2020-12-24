@@ -23,7 +23,7 @@ RSpec.describe API::Entities::CCR::AdaptedWarrantFee, type: :adapter do
       bill_type: 'AGFS_ADVANCE',
       bill_subtype: 'AGFS_WARRANT',
       amount: '111.01',
-      warrant_issued_date: "2018-04-01"
+      warrant_issued_date: '2018-04-01'
     )
   end
 end

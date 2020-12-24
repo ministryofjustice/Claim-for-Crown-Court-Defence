@@ -17,7 +17,7 @@ RSpec.describe DocType do
     it 'should raise if no record with that id is found' do
       expect {
         DocType.find(888)
-      }.to raise_error ArgumentError, "No DocType with id 888"
+      }.to raise_error ArgumentError, 'No DocType with id 888'
     end
   end
 

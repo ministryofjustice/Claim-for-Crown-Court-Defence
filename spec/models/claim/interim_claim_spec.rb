@@ -129,5 +129,5 @@ RSpec.describe Claim::InterimClaim, type: :model do
     end
   end
 
-  include_examples "common litigator claim attributes"
+  include_examples 'common litigator claim attributes'
 end

@@ -5,7 +5,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
   before { sign_in advocate.user }
 
-  context "list views" do
+  context 'list views' do
     let!(:advocate_admin) { create(:external_user, :admin, provider: advocate.provider) }
     let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
 
@@ -517,12 +517,12 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
   end
 
-  describe "GET #show" do
+  describe 'GET #show' do
     subject { create(:claim, external_user: advocate) }
 
     let(:case_worker) { create(:case_worker) }
 
-    it "returns http success" do
+    it 'returns http success' do
       get :show, params: { id: subject }
       expect(response).to be_successful
     end
@@ -548,7 +548,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
   end
 
-  describe "PATCH #clone_rejected" do
+  describe 'PATCH #clone_rejected' do
     context 'with a rejected claim' do
       subject(:claim) do
         create(:rejected_claim, external_user: advocate).tap do |c|
@@ -585,7 +585,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         it'displays a flash notice' do
-          expect(flash[:notice]).to eq "Draft created"
+          expect(flash[:notice]).to eq 'Draft created'
         end
       end
 
@@ -647,7 +647,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     context 'on success' do
       before { delete :destroy, params: { id: claim } }
 
@@ -709,7 +709,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
   end
 
-  describe "PATCH #unarchive" do
+  describe 'PATCH #unarchive' do
     context 'when archived_pending_delete claim' do
       let(:claim) do
         claim = create(:authorised_claim, external_user: advocate)

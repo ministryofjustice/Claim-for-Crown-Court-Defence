@@ -186,7 +186,7 @@ RSpec.describe Caching::ApiRequest do
     end
 
     context 'reading from cache' do
-      let(:headers) { { cache_control: "max-age=30" } }
+      let(:headers) { { cache_control: 'max-age=30' } }
 
       it 'should read from the cache and return the content' do
         expect(current_store).to receive(:set).with(/api:/, /test value 1/).once.and_call_original

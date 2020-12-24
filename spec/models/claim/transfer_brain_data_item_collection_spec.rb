@@ -39,7 +39,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       end
 
       it 'assigns deep nested hash with expected keys' do
-        expect(collection_hash.dig("new", true, 10, "*").keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable)
+        expect(collection_hash.dig('new', true, 10, '*').keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable)
       end
 
       it 'adds one nested hash for each data item' do

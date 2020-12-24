@@ -170,5 +170,5 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
   end
 
-  include_examples "common litigator claim attributes"
+  include_examples 'common litigator claim attributes'
 end

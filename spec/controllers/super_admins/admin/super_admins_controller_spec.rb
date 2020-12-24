@@ -6,10 +6,10 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
   subject { super_admin }
   before { sign_in subject.user }
 
-  describe "GET #show" do
+  describe 'GET #show' do
     before { get :show, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -18,10 +18,10 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     end
   end
 
-  describe "GET #edit" do
+  describe 'GET #edit' do
     before { get :edit, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -34,10 +34,10 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     end
   end
 
-  describe "GET #change_password" do
+  describe 'GET #change_password' do
     before { get :change_password, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -50,7 +50,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     end
   end
 
-  describe "PUT #update_password" do
+  describe 'PUT #update_password' do
     before do
       subject.user.update(password: 'password', password_confirmation: 'password')
       sign_in subject.user #need to sign in again after password change
@@ -80,7 +80,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe 'PUT #update' do
     before(:each) do
       put :update, params: { id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'password', email: 'superadmin@bigblackhhole.com' } } }
     end

@@ -32,7 +32,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
     let(:expected_items) do
       [
         {
-          date: "2017-03-19",
+          date: '2017-03-19',
           accepted: 0,
           cost_increased: 5,
           cost_reduction: 0,
@@ -44,7 +44,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
           total_calculated: 2
         },
         {
-          date: "2017-03-20",
+          date: '2017-03-20',
           accepted: 2,
           cost_increased: 0,
           cost_reduction: 0,
@@ -56,7 +56,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
           total_calculated: 2
         },
         {
-          date: "2017-03-21",
+          date: '2017-03-21',
           accepted: 0,
           cost_increased: 0,
           cost_reduction: 5,

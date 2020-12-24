@@ -15,7 +15,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
   context 'creator' do
     it 'should error if not present, regardless' do
       claim.creator = nil
-      should_error_with(claim, :creator, "blank")
+      should_error_with(claim, :creator, 'blank')
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
     context 'case_type' do
       it 'should error if not present' do
         claim.case_type = nil
-        should_error_with(claim, :case_type, "blank")
+        should_error_with(claim, :case_type, 'blank')
       end
     end
   end
@@ -131,7 +131,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
   end
 end
 
-RSpec.shared_examples "common litigator validations" do |*flags|
+RSpec.shared_examples 'common litigator validations' do |*flags|
   let(:advocate)      { build(:external_user, :advocate) }
   let(:offence)       { build(:offence) }
   let(:offence_class) { build(:offence_class, class_letter: 'X', description: 'Offences of dishonesty in Class F where the value in is in excess of £100,000') }
@@ -141,7 +141,7 @@ RSpec.shared_examples "common litigator validations" do |*flags|
     it 'rejects creators whose provider is only agfs' do
       claim.creator = build(:external_user, provider: build(:provider, :agfs))
       expect(claim).not_to be_valid
-      expect(claim.errors[:creator]).to eq(["must be from a provider with permission to submit LGFS claims"])
+      expect(claim.errors[:creator]).to eq(['must be from a provider with permission to submit LGFS claims'])
     end
 
     it 'accepts creators whose provider is only lgfs' do
@@ -191,25 +191,25 @@ RSpec.shared_examples "common litigator validations" do |*flags|
   context 'external_user' do
     it 'should error when does not have advocate role' do
       claim.external_user = advocate
-      should_error_with(claim, :external_user, "must have litigator role")
+      should_error_with(claim, :external_user, 'must have litigator role')
     end
 
     it 'should error if not present, regardless' do
       claim.external_user = nil
-      should_error_with(claim, :external_user, "blank_litigator")
+      should_error_with(claim, :external_user, 'blank_litigator')
     end
 
     it 'should error if does not belong to the same provider as the creator' do
       claim.creator = create(:external_user, :litigator)
       claim.external_user = create(:external_user, :litigator)
-      should_error_with(claim, :external_user, "Creator and litigator must belong to the same provider")
+      should_error_with(claim, :external_user, 'Creator and litigator must belong to the same provider')
     end
   end
 
   context 'creator' do
     it 'should error when their provider does not have LGFS role' do
       claim.creator = create(:external_user, :advocate)
-      should_error_with(claim, :creator, "must be from a provider with permission to submit LGFS claims")
+      should_error_with(claim, :creator, 'must be from a provider with permission to submit LGFS claims')
     end
   end
 

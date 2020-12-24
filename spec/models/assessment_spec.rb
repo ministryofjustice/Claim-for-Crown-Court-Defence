@@ -72,7 +72,7 @@ RSpec.describe Assessment do
     end
   end
 
-  RSpec.shared_examples "calculates assessment VAT" do
+  RSpec.shared_examples 'calculates assessment VAT' do
     let(:assessment) { claim.assessment }
 
     it 'determines rate using VatRate model' do

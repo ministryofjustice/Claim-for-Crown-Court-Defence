@@ -573,7 +573,7 @@ RSpec.describe Ability do
       it_behaves_like 'user cannot', :external_user, [:destroy]
     end
 
-    context "cannot manage any provider" do
+    context 'cannot manage any provider' do
       actions = [:show, :index, :new, :create, :edit, :update]
       it_behaves_like 'user cannot', :provider, actions
     end

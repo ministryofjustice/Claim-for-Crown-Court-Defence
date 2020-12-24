@@ -39,10 +39,10 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       post endpoint(:representation_orders), valid_params, format: :json
     end
 
-    include_examples "should NOT be able to amend a non-draft claim"
+    include_examples 'should NOT be able to amend a non-draft claim'
 
     context 'when representation_order params are valid' do
-      it "should create fee, return 201 and expense JSON output including UUID" do
+      it 'should create fee, return 201 and expense JSON output including UUID' do
         post_to_create_endpoint
         expect(last_response.status).to eq 201
         json = JSON.parse(last_response.body)
@@ -51,7 +51,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
         expect(RepresentationOrder.find_by(uuid: json['id']).defendant.uuid).to eq(json['defendant_id'])
       end
 
-      it "should create one new representation_order" do
+      it 'should create one new representation_order' do
         expect { post_to_create_endpoint }.to change { RepresentationOrder.count }.by(1)
       end
 
@@ -83,13 +83,13 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
     end
 
     context 'when params are invalid' do
-      include_examples "invalid API key create endpoint", exclude: :other_provider
+      include_examples 'invalid API key create endpoint', exclude: :other_provider
 
       context 'missing defendant id' do
         it 'should return 400 and a JSON error array' do
           valid_params.delete(:defendant_id)
           post_to_create_endpoint
-          expect_error_response("Defendant cannot be blank")
+          expect_error_response('Defendant cannot be blank')
         end
       end
 
@@ -97,7 +97,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
         it 'should return 400 and a JSON error array' do
           valid_params[:defendant_id] = SecureRandom.uuid
           post_to_create_endpoint
-          expect_error_response("Defendant cannot be blank")
+          expect_error_response('Defendant cannot be blank')
         end
       end
     end
@@ -134,7 +134,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       post endpoint(:representation_orders, :validate), valid_params, format: :json
     end
 
-    include_examples "invalid API key validate endpoint", exclude: :other_provider
+    include_examples 'invalid API key validate endpoint', exclude: :other_provider
 
     it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
@@ -144,19 +144,19 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
     it 'missing required params should return 400 and a JSON error array' do
       valid_params.delete(:representation_order_date)
       post_to_validate_endpoint
-      expect_error_response("Enter a representation order date for the representation order of the defendant")
+      expect_error_response('Enter a representation order date for the representation order of the defendant')
     end
 
     it 'invalid claim id should return 400 and a JSON error array' do
       valid_params[:defendant_id] = SecureRandom.uuid
       post_to_validate_endpoint
-      expect_error_response("Defendant cannot be blank")
+      expect_error_response('Defendant cannot be blank')
     end
 
     it 'returns 400 and JSON error when dates are not in acceptable format' do
       valid_params[:representation_order_date] = '10-06-2015'
       post_to_validate_endpoint
-      expect_error_response("representation_order_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])")
+      expect_error_response('representation_order_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])')
     end
   end
 end

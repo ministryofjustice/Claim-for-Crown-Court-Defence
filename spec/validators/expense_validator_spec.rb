@@ -209,7 +209,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
     end
 
     it 'enforces absence for parking' do
-      parking_expense.location = "Somewhere"
+      parking_expense.location = 'Somewhere'
       expect(parking_expense.valid?).to be false
       expect(parking_expense.errors[:location]).to include 'invalid'
     end
@@ -244,7 +244,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       (1..4).each do |i|
         expense.expense_type.reason_set = 'A'
         expense.reason_id = i
-        expense.reason_text = "xxx" if expense.expense_reason_other?
+        expense.reason_text = 'xxx' if expense.expense_reason_other?
         expect(expense).to be_valid
       end
     end

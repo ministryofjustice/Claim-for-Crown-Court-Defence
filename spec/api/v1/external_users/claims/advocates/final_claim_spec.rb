@@ -20,15 +20,15 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       :user_email => advocate.user.email,
       :case_type_id => FactoryBot.create(:case_type, :retrial).id,
       :case_number => 'A20161234',
-      :first_day_of_trial => "2015-01-01",
+      :first_day_of_trial => '2015-01-01',
       :estimated_trial_length => 10,
       :actual_trial_length => 9,
-      :trial_concluded_at => "2015-01-09",
-      :retrial_started_at => "2015-02-01",
-      :retrial_concluded_at => "2015-02-05",
-      :retrial_actual_length => "4",
-      :retrial_estimated_length => "5",
-      :retrial_reduction => "true",
+      :trial_concluded_at => '2015-01-09',
+      :retrial_started_at => '2015-02-01',
+      :retrial_concluded_at => '2015-02-05',
+      :retrial_actual_length => '4',
+      :retrial_estimated_length => '5',
+      :retrial_reduction => 'true',
       :advocate_category => 'Led junior',
       :offence_id => offence.id,
       :court_id => court.id } }
@@ -56,13 +56,13 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       expect(last_response.status).to eq(400)
       body = last_response.body
       [
-        "first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"
+        'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
       ].each do |error|
         expect(body).to include(error)
       end
@@ -75,7 +75,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)")
+      expect(body).to include('The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)')
     end
 
     it 'returns 400 and JSON error when URN contains a special character' do
@@ -83,7 +83,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)")
+      expect(body).to include('The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)')
     end
 
     it 'returns 400 and JSON error when the case number does not start with a BAST or U' do
@@ -91,7 +91,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be in the format A20161234")
+      expect(body).to include('The case number must be in the format A20161234')
     end
 
     it 'returns 400 and JSON error when the case number is too long' do
@@ -99,7 +99,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be in the format A20161234")
+      expect(body).to include('The case number must be in the format A20161234')
     end
 
     it 'returns 400 and JSON error when the case number is too short' do
@@ -107,7 +107,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be in the format A20161234")
+      expect(body).to include('The case number must be in the format A20161234')
     end
 
     it 'returns 200 and valid when case_number is a valid common platform URN' do
@@ -115,7 +115,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       body = last_response.body
-      expect(body).to include("valid")
+      expect(body).to include('valid')
     end
 
     it 'returns 200 and valid when the URN is a valid URN containing a year' do
@@ -123,7 +123,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       body = last_response.body
-      expect(body).to include("valid")
+      expect(body).to include('valid')
     end
 
     it 'returns 200 and valid when case_number is a valid case number' do
@@ -131,7 +131,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       body = last_response.body
-      expect(body).to include("valid")
+      expect(body).to include('valid')
     end
   end
 end

@@ -64,7 +64,7 @@ describe Reports::PerformancePlatform::TransactionsByChannel do
 
     before do
       report.populate_data
-      stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 200, body: "", headers: {})
+      stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 200, body: '', headers: {})
     end
 
     it { is_expected.to be_truthy }

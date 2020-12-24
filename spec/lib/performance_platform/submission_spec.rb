@@ -4,12 +4,12 @@ describe PerformancePlatform::Submission do
   subject(:submission) { described_class.new(report) }
 
   let(:service) { 'cccd' }
-  let(:report) { { type: "test-transactions-by-channel", period: "weekly", fields: [:channel, :count], token: 'fake-token' } }
+  let(:report) { { type: 'test-transactions-by-channel', period: 'weekly', fields: [:channel, :count], token: 'fake-token' } }
 
   it { is_expected.to respond_to :add_data_set }
   it { is_expected.to respond_to :send_data! }
   before do
-    stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 200, body: "", headers: {})
+    stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 200, body: '', headers: {})
   end
 
   describe '#add_data_set' do
@@ -60,7 +60,7 @@ describe PerformancePlatform::Submission do
       end
       let(:error_response) { {
           "message": "Unauthorized: Invalid bearer token 'bad_token' for 'test_transactions_by_channel'",
-          "status": "error"
+          "status": 'error'
       }.to_json }
 
       it 'returns the error message' do

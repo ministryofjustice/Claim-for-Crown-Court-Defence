@@ -1,4 +1,4 @@
-shared_examples "common litigator claim attributes" do |*flags|
+shared_examples 'common litigator claim attributes' do |*flags|
   it { should delegate_method(:provider_id).to(:creator) }
 
   describe '#lgfs?' do

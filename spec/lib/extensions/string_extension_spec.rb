@@ -110,23 +110,23 @@ describe String do
   end
 
   describe '#to_css_class' do
-    it "downcases all chars" do
+    it 'downcases all chars' do
       expect('part AUTHORISED'.to_css_class).to eq('part-authorised')
     end
 
-    it "replaces whitespace with hyphens" do
+    it 'replaces whitespace with hyphens' do
       expect('part authorised'.to_css_class).to eq('part-authorised')
     end
 
-    it "replaces underscore with hyphens" do
+    it 'replaces underscore with hyphens' do
       expect('part_authorised'.to_css_class).to eq('part-authorised')
     end
 
-    it "replaces braces with blank" do
+    it 'replaces braces with blank' do
       expect('authorised (in part)'.to_css_class).to eq('authorised-in-part')
     end
 
-    it "strips whitespace from ends" do
+    it 'strips whitespace from ends' do
       expect(' part authorised '.to_css_class).to eq('part-authorised')
     end
   end

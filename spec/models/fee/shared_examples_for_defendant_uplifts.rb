@@ -17,7 +17,7 @@ shared_examples '.defendant_uplift_sums' do
       end
 
       it 'returns hash of sums grouped by fee\'s unique_code' do
-        is_expected.to eql({ "MIAHU" => 3 })
+        is_expected.to eql({ 'MIAHU' => 3 })
       end
     end
   end

@@ -3,7 +3,7 @@ require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
 RSpec.describe Claim::TransferClaimValidator, type: :validator do
-  include_context "force-validation"
+  include_context 'force-validation'
 
   let(:claim) { build :transfer_claim }
   let(:transfer_detail) { build :transfer_detail, claim: claim }

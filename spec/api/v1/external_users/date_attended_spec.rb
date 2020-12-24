@@ -32,10 +32,10 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
       post endpoint(:dates_attended), valid_params, format: :json
     end
 
-    include_examples "should NOT be able to amend a non-draft claim"
+    include_examples 'should NOT be able to amend a non-draft claim'
 
     context 'when date_attended params are valid' do
-      it "should create date_attended, return 201 and date_attended JSON output including UUID" do
+      it 'should create date_attended, return 201 and date_attended JSON output including UUID' do
         post_to_create_endpoint
         expect(last_response.status).to eq 201
         json = JSON.parse(last_response.body)
@@ -44,11 +44,11 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
         expect(DateAttended.find_by(uuid: json['id']).attended_item.uuid).to eq(json['attended_item_id'])
       end
 
-      it "should create one new date attended" do
+      it 'should create one new date attended' do
         expect { post_to_create_endpoint }.to change { DateAttended.count }.by(1)
       end
 
-      it "should be associated with fee" do
+      it 'should be associated with fee' do
         post_to_create_endpoint
         expect(fee.reload.dates_attended.count).to eq(1)
       end
@@ -63,13 +63,13 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
     end
 
     context 'when date_attended params are invalid' do
-      include_examples "invalid API key create endpoint", exclude: :other_provider
+      include_examples 'invalid API key create endpoint', exclude: :other_provider
 
-      context "missing expected params" do
-        it "should return a JSON error array with required model attributes" do
+      context 'missing expected params' do
+        it 'should return a JSON error array with required model attributes' do
           valid_params.delete(:date)
           post_to_create_endpoint
-          expect_error_response("Enter the date attended (from)")
+          expect_error_response('Enter the date attended (from)')
         end
       end
 
@@ -77,7 +77,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
         it 'should return 400 and a JSON error array' do
           valid_params.delete(:attended_item_id)
           post_to_create_endpoint
-          expect_error_response("Attended item cannot be blank")
+          expect_error_response('Attended item cannot be blank')
         end
       end
 
@@ -85,19 +85,19 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
         it 'should return 400 and a JSON error array' do
           valid_params[:attended_item_id] = SecureRandom.uuid
           post_to_create_endpoint
-          expect_error_response("Attended item cannot be blank")
+          expect_error_response('Attended item cannot be blank')
         end
       end
 
-      context "malformed attended_item_id UUID" do
-        it "rejects malformed uuids" do
+      context 'malformed attended_item_id UUID' do
+        it 'rejects malformed uuids' do
           valid_params[:attended_item_id] = 'any-old-rubbish'
           post_to_create_endpoint
-          expect_error_response("Attended item cannot be blank")
+          expect_error_response('Attended item cannot be blank')
         end
       end
 
-      include_examples "malformed or not iso8601 compliant dates", action: :create, attributes: [:date, :date_to]
+      include_examples 'malformed or not iso8601 compliant dates', action: :create, attributes: [:date, :date_to]
     end
   end
 
@@ -106,7 +106,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
       post endpoint(:dates_attended, :validate), valid_params, format: :json
     end
 
-    include_examples "invalid API key validate endpoint", exclude: :other_provider
+    include_examples 'invalid API key validate endpoint', exclude: :other_provider
 
     it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
@@ -116,15 +116,15 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
     it 'missing required params should return 400 and a JSON error array' do
       valid_params.delete(:date)
       post_to_validate_endpoint
-      expect_error_response("Enter the date attended (from)")
+      expect_error_response('Enter the date attended (from)')
     end
 
     it 'invalid attended item id should return 400 and a JSON error array' do
       valid_params[:attended_item_id] = SecureRandom.uuid
       post_to_validate_endpoint
-      expect_error_response("Attended item cannot be blank")
+      expect_error_response('Attended item cannot be blank')
     end
 
-    include_examples "malformed or not iso8601 compliant dates", action: :validate, attributes: [:date, :date_to]
+    include_examples 'malformed or not iso8601 compliant dates', action: :validate, attributes: [:date, :date_to]
   end
 end

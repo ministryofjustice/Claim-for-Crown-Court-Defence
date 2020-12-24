@@ -138,7 +138,7 @@ RSpec.describe RepresentationOrder do
 
     context 'when rep order date present' do
       it 'returns a string with the MAAT reference and rep order date' do
-        expect(rep_order.detail).to eq("25/09/2015 1234567")
+        expect(rep_order.detail).to eq('25/09/2015 1234567')
       end
     end
 
@@ -148,7 +148,7 @@ RSpec.describe RepresentationOrder do
       end
 
       it 'returns a string with the MAAT reference' do
-        expect(rep_order.detail).to eq("1234567")
+        expect(rep_order.detail).to eq('1234567')
       end
     end
   end

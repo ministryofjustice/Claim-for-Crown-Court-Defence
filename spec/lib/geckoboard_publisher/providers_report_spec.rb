@@ -30,21 +30,21 @@ RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
               firms_added: 0,
               chambers_added: 1,
               total_added: 1,
-              date: "2017-03-19",
+              date: '2017-03-19',
               overall_count: 1
           },
           {
               firms_added: 1,
               chambers_added: 1,
               total_added: 2,
-              date: "2017-03-20",
+              date: '2017-03-20',
               overall_count: 3
           },
           {
               firms_added: 0,
               chambers_added: 1,
               total_added: 1,
-              date: "2017-03-21",
+              date: '2017-03-21',
               overall_count: 4
           }
       ]

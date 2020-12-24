@@ -8,7 +8,7 @@ RSpec::Matchers.define :match_hash do |expected|
   end
 
   description do
-    "match expected hash"
+    'match expected hash'
   end
 
   failure_message do
@@ -19,12 +19,12 @@ RSpec::Matchers.define :match_hash do |expected|
   end
 
   failure_message_when_negated do |owner|
-    "expected hashes not to match"
+    'expected hashes not to match'
   end
 
   def format_diff(diff)
     spacer = "-\s"
-    diff_sep = "--------------------"
+    diff_sep = '--------------------'
 
     diff_array = diff.each_with_object([]) do |el, memo|
       if el.is_a? Array

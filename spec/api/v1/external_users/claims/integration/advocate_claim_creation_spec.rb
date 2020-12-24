@@ -35,11 +35,11 @@ RSpec::Matchers.define :be_valid_api_agfs_claim do |expected|
   end
 
   description do
-    "a valid api created claim with matching attributes"
+    'a valid api created claim with matching attributes'
   end
 
   failure_message do |owner|
-    msg = "should be a valid API claim with matching attributes"
+    msg = 'should be a valid API claim with matching attributes'
     failures = @results.select { |_k, v| !v.uniq.length.eql?(1) }
     failures.each_pair do |k, v|
       msg += "\nexpected: #{k} to eql #{v[0].inspect.humanize} but got #{v[1].inspect.humanize}"
@@ -54,7 +54,7 @@ RSpec.shared_examples 'scheme 9 advocate final claim' do |options|
   context "graduated fee claim on #{ClaimApiEndpoints.for(options[:relative_endpoint]).create}" do
     let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') } # Trial
 
-    specify "Case management system creates a valid scheme 9 graduated fee claim" do
+    specify 'Case management system creates a valid scheme 9 graduated fee claim' do
       post ClaimApiEndpoints.for(options[:relative_endpoint]).create, claim_params.merge(offence_id: offence.id), format: :json
       expect(last_response.status).to eql 201
 
@@ -101,7 +101,7 @@ RSpec.shared_examples 'scheme 9 advocate final claim' do |options|
   context "fixed fee claim on #{ClaimApiEndpoints.for(options[:relative_endpoint]).create}" do
     let(:case_type) { CaseType.find_by(fee_type_code: 'FXACV') } # Appeal against conviction
 
-    specify "Case management system creates a valid scheme 9 fixed fee claim" do
+    specify 'Case management system creates a valid scheme 9 fixed fee claim' do
       post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length,:trial_concluded_at), format: :json
       expect(last_response.status).to eql 201
 
@@ -200,7 +200,7 @@ RSpec.shared_examples 'scheme 10 advocate final claim' do |options|
     let(:case_type) { CaseType.find_by(fee_type_code: 'FXACV') } # Appeal against conviction
     let(:advocate_category) { 'Junior' }
 
-    specify "Case management system creates a valid scheme 10 fixed fee claim" do
+    specify 'Case management system creates a valid scheme 10 fixed fee claim' do
       post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length,:trial_concluded_at), format: :json
       expect(last_response.status).to eql 201
 
@@ -301,7 +301,7 @@ RSpec.shared_examples 'scheme 12 advocate final claim' do |options|
     let(:case_type) { CaseType.find_by(fee_type_code: 'FXACV') } # Appeal against conviction
     let(:advocate_category) { 'Junior' }
 
-    specify "Case management system creates a valid scheme 12 fixed fee claim" do
+    specify 'Case management system creates a valid scheme 12 fixed fee claim' do
       post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length,:trial_concluded_at), format: :json
       expect(last_response.status).to eql 201
 
@@ -397,9 +397,9 @@ RSpec.describe 'API claim creation for AGFS' do
     {
       api_key: provider.api_key,
       claim_id: nil,
-      first_name: "JohnAPI",
-      last_name: "SmithAPI",
-      date_of_birth: "1980-05-10"
+      first_name: 'JohnAPI',
+      last_name: 'SmithAPI',
+      date_of_birth: '1980-05-10'
     }
   end
 
@@ -439,7 +439,7 @@ RSpec.describe 'API claim creation for AGFS' do
       location: 'London',
       distance: nil,
       reason_id: 5,
-      reason_text: "Foo",
+      reason_text: 'Foo',
       mileage_rate_id: nil,
       date: representation_order_date.as_json
     }

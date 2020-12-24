@@ -107,7 +107,7 @@ describe ErrorPresenter do
       it 'should replace the numbered submodel in the title' do
         claim.errors[:defendant_2_first_name]  << 'blank'
         expect(presenter.header_errors).to eq( [
-          ErrorDetail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a name', "The first name for the second defendant must not be blank")
+          ErrorDetail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a name', 'The first name for the second defendant must not be blank')
           ] )
       end
     end

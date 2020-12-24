@@ -81,35 +81,35 @@ RSpec.describe Claim::TransferBrain do
   describe '.allocation_type' do
     it 'returns a string describing an allocation filtering type' do
       td = transfer_detail('new', true, 10)
-      expect(described_class.allocation_type(td)).to eq "Fixed"
+      expect(described_class.allocation_type(td)).to eq 'Fixed'
     end
   end
 
   describe '.bill_scenario' do
     it 'returns a bill scenario for use in CCLF data injection' do
       td = transfer_detail('new', true, 10)
-      expect(described_class.bill_scenario(td)).to eq "ST4TS0T3"
+      expect(described_class.bill_scenario(td)).to eq 'ST4TS0T3'
     end
   end
 
   describe '.ppe_required' do
     it 'returns a boolean string denoting whether PPE quantity is required for the transfer fee' do
       td = transfer_detail('new', true, 10)
-      expect(described_class.ppe_required(td)).to eq "FALSE"
+      expect(described_class.ppe_required(td)).to eq 'FALSE'
     end
   end
 
   describe '.days_claimable' do
     it 'returns a boolean string denoting whether total days claimed (actual_trial_length) quantity effects calculated price ' do
       td = transfer_detail('new', true, 10)
-      expect(described_class.days_claimable(td)).to eq "FALSE"
+      expect(described_class.days_claimable(td)).to eq 'FALSE'
     end
   end
 
   describe '.transfer_detail_summary' do
     it 'returns a string describing the transfer details' do
       td = transfer_detail('new', true, 10)
-      expect(described_class.transfer_detail_summary(td)).to eq "elected case - up to and including PCMH transfer (new)"
+      expect(described_class.transfer_detail_summary(td)).to eq 'elected case - up to and including PCMH transfer (new)'
     end
   end
 

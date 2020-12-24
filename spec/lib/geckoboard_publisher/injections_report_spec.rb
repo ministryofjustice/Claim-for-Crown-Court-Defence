@@ -31,7 +31,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
     let(:expected_items) do
       [
         {
-          date: "2017-03-19",
+          date: '2017-03-19',
           total_ccr_succeeded: 3,
           total_ccr: 5,
           percentage_ccr_succeeded: 0.6,
@@ -42,7 +42,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
           total: 11
         },
         {
-          date: "2017-03-20",
+          date: '2017-03-20',
           total_ccr_succeeded: 2,
           total_ccr: 6,
           percentage_ccr_succeeded: 0.3333333333333333,
@@ -53,7 +53,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
           total: 12
         },
         {
-          date: "2017-03-21",
+          date: '2017-03-21',
           total_ccr_succeeded: 5,
           total_ccr: 6,
           percentage_ccr_succeeded: 0.8333333333333334,

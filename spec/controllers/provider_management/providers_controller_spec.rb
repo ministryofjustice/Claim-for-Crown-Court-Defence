@@ -9,10 +9,10 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
 
   before { sign_in case_worker_manager.user }
 
-  describe "GET #show" do
+  describe 'GET #show' do
     before { get :show, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -21,10 +21,10 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
   end
 
-  describe "GET #index" do
+  describe 'GET #index' do
     before { get :index }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -35,10 +35,10 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
   end
 
-  describe "GET #edit" do
+  describe 'GET #edit' do
     before { get :edit, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -47,7 +47,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe 'PUT #update' do
     context 'when changing from firm to chamber' do
       it 'changes from chamber to firm and removes LGFS supplier numbers' do
         firm = create :provider, :firm, :with_lgfs_supplier_numbers
@@ -132,19 +132,19 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
   end
 
-  describe "GET #new" do
+  describe 'GET #new' do
     before { get :new }
 
     it 'returns http succes' do
       expect(response).to be_successful
     end
 
-    it "assigns a new provider to @provider" do
+    it 'assigns a new provider to @provider' do
       expect(assigns(:provider)).to be_a_new(Provider)
     end
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     before(:each) do
       post :create, params: { provider: params }
     end
@@ -163,7 +163,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
         }
       end
 
-      it "creates a new provider" do
+      it 'creates a new provider' do
         expect(flash[:notice]).to eq 'Provider successfully created'
       end
 
@@ -177,7 +177,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
         { name: 'St Johns', supplier_number: '4321' }
       end
 
-      it "does not create a provider" do
+      it 'does not create a provider' do
         expect(Provider.count).to eq(0)
       end
 

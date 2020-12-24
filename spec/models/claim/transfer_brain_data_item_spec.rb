@@ -43,16 +43,16 @@ RSpec.describe Claim::TransferBrainDataItem do
 
     def expected_hash
       {
-        "new" => {
+        'new' => {
           false => {
             10 => {
               50 => {
                 :validity => true,
-                :transfer_fee_full_name => "up to and including PCMH transfer (new) - guilty plea",
-                :allocation_type => "Grad",
-                :bill_scenario => "ST3TS1T2",
-                :ppe_required => "FALSE",
-                :days_claimable => "FALSE"
+                :transfer_fee_full_name => 'up to and including PCMH transfer (new) - guilty plea',
+                :allocation_type => 'Grad',
+                :bill_scenario => 'ST3TS1T2',
+                :ppe_required => 'FALSE',
+                :days_claimable => 'FALSE'
               }
             }
           }

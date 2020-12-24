@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe InjectionAttemptsController, type: :controller do
-  describe "PATCH #dismiss" do
+  describe 'PATCH #dismiss' do
     let(:case_worker) { create(:case_worker) }
     let(:claim) { create(:submitted_claim) }
     let(:injection_attempt) { create(:injection_attempt, :with_errors, claim: claim) }
@@ -17,7 +17,7 @@ RSpec.describe InjectionAttemptsController, type: :controller do
       do_put
     end
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -29,7 +29,7 @@ RSpec.describe InjectionAttemptsController, type: :controller do
       expect(assigns(:dismissed)).to be_truthy
     end
 
-    it "softley deletes the injection attempt" do
+    it 'softley deletes the injection attempt' do
       expect(injection_attempt).to_not be_active
     end
   end

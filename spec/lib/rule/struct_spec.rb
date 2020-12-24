@@ -21,7 +21,7 @@ RSpec.describe Rule::Struct, type: :rule do
     end
 
     context 'with no message option provided' do
-      it { is_expected.to eq "myattribute is invalid" }
+      it { is_expected.to eq 'myattribute is invalid' }
     end
   end
 end

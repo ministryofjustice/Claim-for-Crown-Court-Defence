@@ -96,7 +96,7 @@ RSpec.describe Expense, type: :model do
       end
 
       it 'returns the reason_text from the record for reason id 5' do
-        expect(ex_5.displayable_reason_text).to eq "My unique reason"
+        expect(ex_5.displayable_reason_text).to eq 'My unique reason'
       end
     end
   end

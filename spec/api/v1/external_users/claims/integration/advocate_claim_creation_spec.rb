@@ -426,7 +426,7 @@ RSpec.describe 'API claim creation for AGFS' do
     {
       api_key: provider.api_key,
       attended_item_id: nil,
-      date: nil,
+      date: nil
     }
   end
 

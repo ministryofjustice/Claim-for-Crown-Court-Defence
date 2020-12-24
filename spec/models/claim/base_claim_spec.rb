@@ -578,7 +578,7 @@ RSpec.describe MockBaseClaim do
         {
           'first_day_of_trial_dd' => day,
           'first_day_of_trial_mm' => month,
-          'first_day_of_trial_yyyy' => year,
+          'first_day_of_trial_yyyy' => year
         }
       end
 
@@ -598,7 +598,7 @@ RSpec.describe MockBaseClaim do
        '4-Oct-2010' => Date.new(2010, 10, 04),
        '04-Oct-2010' => Date.new(2010, 10, 04),
        '04-nov-2001' => Date.new(2001, 11, 04),
-       '4-jAn-1999' => Date.new(1999, 01, 04),
+       '4-jAn-1999' => Date.new(1999, 01, 04)
       }
       dates.each do |date_string, date|
         params = make_date_params(date_string)

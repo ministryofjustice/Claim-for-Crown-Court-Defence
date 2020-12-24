@@ -24,7 +24,7 @@ describe API::ErrorResponse do
     context 'accepts exception objects' do
       EXCEPTION_KLASSES.each do |exception_klass|
         let(:ex) { exception_klass.new('my exception message') }
-        
+
         it "does not raise a runtime error for #{exception_klass}" do
           expect { er = described_class.new(ex) }.not_to raise_error
         end

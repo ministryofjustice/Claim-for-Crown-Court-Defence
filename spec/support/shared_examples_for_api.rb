@@ -258,7 +258,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           expect { post_to_create_endpoint }.not_to change { claim_class.active.count }
         end
       end
-     
+
       context 'existing but invalid value' do
         it 'response 400 and JSON error array of model validation BLANK errors' do
           valid_params[:court_id] = -1

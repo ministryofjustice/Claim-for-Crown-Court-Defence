@@ -54,7 +54,7 @@ RSpec.describe ClaimHistoryPresenter do
           second_message
         ],
         '23/09/2015' => [
-          third_message,
+          third_message
         ],
         '24/09/2015' => [
           assessment

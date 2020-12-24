@@ -312,7 +312,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       travel_to 5.days.ago do
         defendant.representation_orders = [
           build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '222222'),
-          build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: '333333'),
+          build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: '333333')
         ]
       end
       defendant

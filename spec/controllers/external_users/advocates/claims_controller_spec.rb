@@ -559,7 +559,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
               'representation_order_date_dd' => '13',
               'representation_order_date_mm' => '05',
               'representation_order_date_yyyy' => '2015',
-              'maat_reference' => '1594851269',
+              'maat_reference' => '1594851269'
           }
           }
         }
@@ -575,7 +575,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         '0' => { 'fee_type_id' => fixed_fee_type_1.id.to_s, 'quantity' => '25', 'rate' => '10', '_destroy' => 'false' }
       },
       'misc_fees_attributes' => {
-        '1' => { 'fee_type_id' => misc_fee_type_2.id.to_s, 'quantity' => '2', 'rate' => '125', '_destroy' => 'false' },
+        '1' => { 'fee_type_id' => misc_fee_type_2.id.to_s, 'quantity' => '2', 'rate' => '125', '_destroy' => 'false' }
       },
       'expenses_attributes' => {
         '0' => { 'expense_type_id' => '', 'location' => '', 'quantity' => '', 'rate' => '', 'amount' => '', '_destroy' => 'false' }

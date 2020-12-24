@@ -136,7 +136,7 @@ shared_examples 'defendant upliftable' do
         MISHR: 'MISHU', # Sentence hearings uplift
         MITNP: 'MITNU', # Trial not proceed uplift
         MIUAV1: 'MIUAV3', # Unsuccessful application to vacate a guilty plea (half day uplift)
-        MIUAV2: 'MIUAV4', # Unsuccessful application to vacate a guilty plea (whole day uplift)
+        MIUAV2: 'MIUAV4' # Unsuccessful application to vacate a guilty plea (whole day uplift)
     }.freeze
 
     context 'mappings' do

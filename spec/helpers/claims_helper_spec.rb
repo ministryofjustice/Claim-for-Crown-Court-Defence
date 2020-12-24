@@ -147,7 +147,7 @@ RSpec.describe ClaimsHelper do
       it 'should return false' do
         expect(show_api_promo_to_user?).to be_falsey
       end
-    end 
+    end
   end
 
   describe '#show_message_controls?' do

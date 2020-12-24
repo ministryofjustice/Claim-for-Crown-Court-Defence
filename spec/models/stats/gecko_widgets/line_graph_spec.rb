@@ -40,7 +40,7 @@ module Stats
                 {
                   'name' => 'LibDems',
                   'data' => [5, 8, 14]
-                },
+                }
               ]
             }
             expect(@lg.to_json).to eq data.to_json
@@ -64,7 +64,7 @@ module Stats
                 {
                   'name' => 'LibDems',
                   'data' => [5, 8, 14]
-                },
+                }
               ]
             }
             expect(@lg.to_json).to eq data.to_json

@@ -147,7 +147,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
               case_number: case_number,
               case_concluded_at_dd: case_concluded_at.day.to_s,
               case_concluded_at_mm: case_concluded_at.month.to_s,
-              case_concluded_at_yyyy: case_concluded_at.year.to_s,
+              case_concluded_at_yyyy: case_concluded_at.year.to_s
             }
           end
 
@@ -481,7 +481,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
               'representation_order_date_dd' => '13',
               'representation_order_date_mm' => '05',
               'representation_order_date_yyyy' => '2015',
-              'maat_reference' => '1594851269',
+              'maat_reference' => '1594851269'
             }
           }
         }
@@ -492,7 +492,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
       },
       'misc_fees_attributes' => {
         '0' => { 'fee_type_id' => misc_fee_type_1.id.to_s, 'amount' => '125', '_destroy' => 'false' },
-        '1' => { 'fee_type_id' => misc_fee_type_2.id.to_s, 'amount' => '250', '_destroy' => 'false' },
+        '1' => { 'fee_type_id' => misc_fee_type_2.id.to_s, 'amount' => '250', '_destroy' => 'false' }
       },
       'expenses_attributes' => {
         '0' => { 'expense_type_id' => '', 'location' => '', 'quantity' => '', 'rate' => '', 'amount' => '', '_destroy' => 'false' }

@@ -50,7 +50,7 @@ describe PerformancePlatform::Submission do
         expect(a_request(:post, /\Ahttps:\/\/www.performance.service.gov.uk\/data\/.*\z/)).to have_been_made.times(1)
       end
 
-      it { is_expected.to be_truthy } 
+      it { is_expected.to be_truthy }
     end
 
     context 'when the endpoint returns an error' do

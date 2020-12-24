@@ -77,7 +77,7 @@ RSpec.describe Assessment do
 
     it 'determines rate using VatRate model' do
       expect(VatRate).to receive(:vat_amount).at_least(:once).and_call_original
-      assessment.update!(fees: 150.0, expenses: 250.0, disbursements: 0) 
+      assessment.update!(fees: 150.0, expenses: 250.0, disbursements: 0)
     end
 
     it 'updates determination\'s vat_amount' do

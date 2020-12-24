@@ -8,7 +8,7 @@ module CCLF
       GRTRL: 'ST1TS0T4', # Trial
       GRRTR: 'ST1TS0TA', # Retrial
       GRRAK: 'ST1TS0T3', # Cracked trial
-      GRCBR: 'ST1TS0T9', # Cracked before retrial
+      GRCBR: 'ST1TS0T9' # Cracked before retrial
     }.freeze
 
     FIXED_FEE_BILL_SCENARIOS = {
@@ -18,14 +18,14 @@ module CCLF
       FXCSE: 'ST1TS0T7', # Committal for Sentence
       FXCON: 'ST1TS0T8', # Contempt
       FXENP: 'ST4TS0T1', # Elected cases not proceeded
-      FXH2S: 'ST1TS0TC', # Hearing subsequent to sentence
+      FXH2S: 'ST1TS0TC' # Hearing subsequent to sentence
     }.freeze
 
     INTERIM_FEE_BILL_SCENARIOS = {
       INPCM: 'ST1TS0T0', # Effective PCMH
       INRNS: 'ST1TS2T0', # Retrial New solicitor
       INRST: 'ST1TS3T0', # Retrial start
-      INTDT: 'ST1TS1T0', # Trial start
+      INTDT: 'ST1TS1T0' # Trial start
     }.freeze
 
     # transfer fee bill scenarios are based on transfer detail combinations,

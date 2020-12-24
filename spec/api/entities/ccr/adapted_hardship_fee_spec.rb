@@ -9,7 +9,7 @@ describe API::Entities::CCR::AdaptedHardshipFee, type: :adapter do
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'AGFS_ADVANCE',
-      bill_subtype: 'AGFS_HARDSHIP',
+      bill_subtype: 'AGFS_HARDSHIP'
     )
   end
 

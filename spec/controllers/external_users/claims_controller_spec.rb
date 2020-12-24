@@ -678,7 +678,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         let(:claim) { create(:advocate_hardship_claim, :rejected, external_user: advocate) }
 
         it "sets the claim's state to 'archived_pending_review'" do
-          expect(Claim::BaseClaim.active.count).to eq(1) 
+          expect(Claim::BaseClaim.active.count).to eq(1)
           expect(claim.reload.state).to eq 'archived_pending_review'
           expect(flash[:notice]).to eq 'Claim archived'
         end
@@ -735,14 +735,14 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           claim.archive_pending_review!
           claim
         end
-  
+
         context 'when the current version of paper trail is used' do
           before { patch :unarchive, params: { id: claim } }
-  
+
           it 'unarchives the claim and restores to state prior to archiving' do
             expect(claim.reload).to be_rejected
           end
-  
+
           it 'redirects to external users root url' do
             expect(response).to redirect_to(external_users_claims_url)
           end

@@ -54,7 +54,7 @@ RSpec.describe Caching::ApiRequest do
       %w(http://test.com?api_key=1      http://test.com?api_key=1),
       %w(http://test.com?api_key=1&a=b  http://test.com?a=b&api_key=1),
       %w(http://test.com?b=1&a=2        http://test.com?a=2&b=1),
-      %w(http://test.com?a=1#anchor     http://test.com?a=1),
+      %w(http://test.com?a=1#anchor     http://test.com?a=1)
     ].each do |(url, processed_url)|
       it "should process #{url} and return #{processed_url}" do
         instance = described_class.new(url)

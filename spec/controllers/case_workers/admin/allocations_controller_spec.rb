@@ -39,7 +39,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       tab: 'unallocated',
       allocation: {
         case_worker_id: '75',
-        claim_ids: [ '4', ''],
+        claim_ids: [ '4', '']
       },
       commit: 'Allocate',
       controller: 'case_workers/admin/allocations',
@@ -55,7 +55,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       allocation: {
         deallocate: 'true',
         case_worker_id: '',
-        claim_ids: ['3', '4', ''],
+        claim_ids: ['3', '4', '']
       },
       commit: 'Re-allocate',
       controller: 'case_workers/admin/allocations',

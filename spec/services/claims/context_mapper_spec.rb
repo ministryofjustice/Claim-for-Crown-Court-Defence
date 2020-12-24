@@ -80,7 +80,7 @@ RSpec.describe Claims::ContextMapper do
         [%w(admin),                     [:agfs, :lgfs]],
         [%w(litigator admin),           [:agfs, :lgfs]],
         [%w(advocate admin),            [:agfs, :lgfs]],
-        [%w(admin advocate litigator),  [:agfs, :lgfs]],
+        [%w(admin advocate litigator),  [:agfs, :lgfs]]
       ].each do |(roles, schemes)|
         it "returns the schemes #{schemes} for roles #{roles}" do
           external_user.roles = roles

@@ -39,7 +39,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
     subject(:post_to_validate_endpoint) do
       post ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate, valid_params, format: :json
     end
-  
+
     it 'returns 200 when parameters that are optional for hardship claims are empty' do
       valid_params.delete(:last_day_of_trial)
       valid_params.delete(:estimated_trial_length)

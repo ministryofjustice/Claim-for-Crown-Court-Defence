@@ -5,8 +5,8 @@ RSpec.describe Claims::FinancialSummary, type: :model do
 
   context 'by advocate' do
     # TODO should not rely on values in factory which may change
-    let!(:submitted_claim)  { create(:submitted_claim,) }
-    let!(:allocated_claim)  { create(:allocated_claim,) }
+    let!(:submitted_claim)  { create(:submitted_claim) }
+    let!(:allocated_claim)  { create(:allocated_claim) }
 
     let!(:old_part_authorised_claim) do
       travel_to(Time.now - 2.week)

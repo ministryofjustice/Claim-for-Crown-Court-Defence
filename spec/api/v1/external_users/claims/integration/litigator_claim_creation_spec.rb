@@ -185,7 +185,7 @@ RSpec.describe 'API claim creation for LGFS' do
       api_key: provider.api_key,
       claim_id: nil,
       fee_type_id: nil,
-      amount: 45.00,
+      amount: 45.00
     }
   end
 

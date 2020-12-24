@@ -1512,7 +1512,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           },
           'additional_information' => '',
           'basic_fees_attributes' => { '0' => { 'quantity' => '1', 'rate' => '150', 'fee_type_id' => fee_type.id } },
-          'misc_fees_attributes' => { '0' => { 'fee_type_id'=> '', 'quantity' => '', 'rate' => '', '_destroy' => 'false' } },
+          'misc_fees_attributes' => { '0' => { 'fee_type_id' => '', 'quantity' => '', 'rate' => '', '_destroy' => 'false' } },
           'fixed_fees_attributes' => { '0' => { 'fee_type_id' => '', 'quantity' => '', 'rate' => '', '_destroy' => 'false' } },
           'expenses_attributes' => {
             '0' => {
@@ -1532,8 +1532,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           'document_ids' => [''],
           'evidence_checklist_ids' => ['1', '']
         },
-        'offence_category' => { 'description'=>'' },
-        'offence_class' => { 'description'=>'64' },
+        'offence_category' => { 'description' => '' },
+        'offence_class' => { 'description' => '64' },
         'commit_submit_claim' => 'Submit to LAA'
       }
       claim = Claim::AdvocateClaim.new(params['claim'])
@@ -1642,13 +1642,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           }
         },
         'additional_information' => '',
-        'basic_fees_attributes' => { '0'=>{ 'quantity'=>'1', 'rate'=>'450', 'fee_type_id'=>@bft1.id } },
+        'basic_fees_attributes' => { '0' => { 'quantity' => '1', 'rate' => '450', 'fee_type_id' => @bft1.id } },
         'apply_vat' => '0',
         'document_ids' => [''],
         'evidence_checklist_ids' => ['1', '']
       },
-      'offence_category' => { 'description'=>'' },
-      'offence_class' => { 'description'=>'64' }
+      'offence_category' => { 'description' => '' },
+      'offence_class' => { 'description' => '64' }
     }
   end
 end

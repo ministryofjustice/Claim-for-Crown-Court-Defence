@@ -261,7 +261,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     end
 
     context 'when one of the defendants has a first name over the permitted length' do
-      let(:other_defendant_attrs) { valid_other_defendant_attrs.merge(first_name: 'A'*41) }
+      let(:other_defendant_attrs) { valid_other_defendant_attrs.merge(first_name: 'A' * 41) }
 
       specify {
         is_expected.to be_invalid
@@ -279,7 +279,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     end
 
     context 'when one of the defendants has a last name over the permitted length' do
-      let(:other_defendant_attrs) { valid_other_defendant_attrs.merge(last_name: 'A'*41) }
+      let(:other_defendant_attrs) { valid_other_defendant_attrs.merge(last_name: 'A' * 41) }
 
       specify {
         is_expected.to be_invalid

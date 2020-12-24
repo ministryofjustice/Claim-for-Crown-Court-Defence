@@ -16,13 +16,13 @@ module TransferBrainHelpers
   DATA_ITEM_COLLECTION_HASH = {
     'new' => {
       true => {
-        10 => { '*'=>{ validity: true, transfer_fee_full_name: 'elected case - up to and including PCMH transfer (new)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T3', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
-        20 => { '*'=>{ validity: true, transfer_fee_full_name: 'elected case - before trial transfer (new)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T5', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
-        30 => { '*'=>{ validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
-        40 => { '*'=>{ validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
-        50 => { '*'=>{ validity: true, transfer_fee_full_name: 'elected case - transfer before retrial (new)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T7', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
-        60 => { '*'=>{ validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
-        70 => { '*'=>{ validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } }
+        10 => { '*' => { validity: true, transfer_fee_full_name: 'elected case - up to and including PCMH transfer (new)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T3', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
+        20 => { '*' => { validity: true, transfer_fee_full_name: 'elected case - before trial transfer (new)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T5', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
+        30 => { '*' => { validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
+        40 => { '*' => { validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
+        50 => { '*' => { validity: true, transfer_fee_full_name: 'elected case - transfer before retrial (new)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T7', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
+        60 => { '*' => { validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
+        70 => { '*' => { validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } }
       },
       false => {
         10 => {
@@ -55,22 +55,22 @@ module TransferBrainHelpers
     },
     'original' => {
       true => {
-        10 => { '*'=>{ validity: true, transfer_fee_full_name: 'elected case - up to and including PCMH transfer (org)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T2', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
-        20 => { '*'=>{ validity: true, transfer_fee_full_name: 'elected case - before trial transfer (org)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T4', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
-        30 => { '*'=>{ validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
-        40 => { '*'=>{ validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
-        50 => { '*'=>{ validity: true, transfer_fee_full_name: 'elected case - transfer before retrial (org)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T6', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
-        60 => { '*'=>{ validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
-        70 => { '*'=>{ validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } }
+        10 => { '*' => { validity: true, transfer_fee_full_name: 'elected case - up to and including PCMH transfer (org)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T2', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
+        20 => { '*' => { validity: true, transfer_fee_full_name: 'elected case - before trial transfer (org)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T4', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
+        30 => { '*' => { validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
+        40 => { '*' => { validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
+        50 => { '*' => { validity: true, transfer_fee_full_name: 'elected case - transfer before retrial (org)', allocation_type: 'Fixed', bill_scenario: 'ST4TS0T6', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
+        60 => { '*' => { validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } },
+        70 => { '*' => { validity: false, transfer_fee_full_name: nil, allocation_type: nil, bill_scenario: nil, ppe_required: nil, days_claimable: nil } }
       },
       false => {
-        10 => { '*'=>{ validity: true, transfer_fee_full_name: 'up to and including PCMH transfer (org)', allocation_type: 'Grad', bill_scenario: 'ST2TS1T0', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
-        20 => { '*'=>{ validity: true, transfer_fee_full_name: 'before trial transfer (org)', allocation_type: 'Grad', bill_scenario: 'ST2TS2T0', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
-        30 => { '*'=>{ validity: true, transfer_fee_full_name: 'during trial transfer (org) - trial', allocation_type: 'Grad', bill_scenario: 'ST2TS3T0', ppe_required: 'TRUE', days_claimable: 'TRUE' } },
-        40 => { '*'=>{ validity: true, transfer_fee_full_name: 'transfer after trial and before sentence hearing (org)', allocation_type: 'Grad', bill_scenario: 'ST2TS7T4', ppe_required: 'TRUE', days_claimable: 'TRUE' } },
-        50 => { '*'=>{ validity: true, transfer_fee_full_name: 'transfer before retrial (org) - retrial', allocation_type: 'Grad', bill_scenario: 'ST2TS4T0', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
-        60 => { '*'=>{ validity: true, transfer_fee_full_name: 'transfer during retrial (org) - retrial', allocation_type: 'Grad', bill_scenario: 'ST2TS5T0', ppe_required: 'TRUE', days_claimable: 'TRUE' } },
-        70 => { '*'=>{ validity: true, transfer_fee_full_name: 'transfer after retrial and before sentence hearing (org)', allocation_type: 'Grad', bill_scenario: 'ST2TS6TA', ppe_required: 'TRUE', days_claimable: 'TRUE' } }
+        10 => { '*' => { validity: true, transfer_fee_full_name: 'up to and including PCMH transfer (org)', allocation_type: 'Grad', bill_scenario: 'ST2TS1T0', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
+        20 => { '*' => { validity: true, transfer_fee_full_name: 'before trial transfer (org)', allocation_type: 'Grad', bill_scenario: 'ST2TS2T0', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
+        30 => { '*' => { validity: true, transfer_fee_full_name: 'during trial transfer (org) - trial', allocation_type: 'Grad', bill_scenario: 'ST2TS3T0', ppe_required: 'TRUE', days_claimable: 'TRUE' } },
+        40 => { '*' => { validity: true, transfer_fee_full_name: 'transfer after trial and before sentence hearing (org)', allocation_type: 'Grad', bill_scenario: 'ST2TS7T4', ppe_required: 'TRUE', days_claimable: 'TRUE' } },
+        50 => { '*' => { validity: true, transfer_fee_full_name: 'transfer before retrial (org) - retrial', allocation_type: 'Grad', bill_scenario: 'ST2TS4T0', ppe_required: 'FALSE', days_claimable: 'FALSE' } },
+        60 => { '*' => { validity: true, transfer_fee_full_name: 'transfer during retrial (org) - retrial', allocation_type: 'Grad', bill_scenario: 'ST2TS5T0', ppe_required: 'TRUE', days_claimable: 'TRUE' } },
+        70 => { '*' => { validity: true, transfer_fee_full_name: 'transfer after retrial and before sentence hearing (org)', allocation_type: 'Grad', bill_scenario: 'ST2TS6TA', ppe_required: 'TRUE', days_claimable: 'TRUE' } }
       }
     }
   }.freeze

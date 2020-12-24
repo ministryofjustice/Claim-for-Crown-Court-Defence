@@ -515,7 +515,7 @@ RSpec.describe ManagementInformationPresenter do
         it 'the rejection reason code should be reflected in the MI' do
           ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('other')
-            expect(csv[0][colidx+1]).to eq('Rejection reason')
+            expect(csv[0][colidx + 1]).to eq('Rejection reason')
           end
         end
       end
@@ -565,7 +565,7 @@ RSpec.describe ManagementInformationPresenter do
         it 'the rejection reason code should be reflected in the MI' do
           ManagementInformationPresenter.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('other')
-            expect(csv[0][colidx+1]).to eq('Rejection reason')
+            expect(csv[0][colidx + 1]).to eq('Rejection reason')
           end
         end
       end

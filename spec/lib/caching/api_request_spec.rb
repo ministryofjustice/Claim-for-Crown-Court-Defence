@@ -92,7 +92,7 @@ RSpec.describe Caching::ApiRequest do
 
       context 'when cache content is stale' do
         before do
-          over_ttl = (options[:ttl]+1).seconds.ago
+          over_ttl = (options[:ttl] + 1).seconds.ago
           travel_to(over_ttl) do
             described_class.cache(url) { response1 }
           end
@@ -111,7 +111,7 @@ RSpec.describe Caching::ApiRequest do
 
       context 'when cache content is NOT stale' do
         before do
-          under_ttl = (options[:ttl]-10).seconds.ago
+          under_ttl = (options[:ttl] - 10).seconds.ago
           travel_to(under_ttl) do
             described_class.cache(url) { response1 }
           end
@@ -148,7 +148,7 @@ RSpec.describe Caching::ApiRequest do
 
       context 'when cache content is available and not stale' do
         before do
-          under_max_age = (max_age-10).seconds.ago
+          under_max_age = (max_age - 10).seconds.ago
           travel_to(under_max_age) do
             described_class.cache(url) { response1 }
           end
@@ -167,7 +167,7 @@ RSpec.describe Caching::ApiRequest do
 
       context 'when cache content is stale' do
         before do
-          over_max_age = (max_age+1).seconds.ago
+          over_max_age = (max_age + 1).seconds.ago
           travel_to(over_max_age) do
             described_class.cache(url) { response1 }
           end

@@ -39,7 +39,7 @@ module ValidationHelpers
   end
 
   def should_error_if_exceeds_length(record, field, value, message, options = {})
-    record.send("#{field}=", 'x' * (value+1))
+    record.send("#{field}=", 'x' * (value + 1))
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]

@@ -107,7 +107,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
           user_attributes: {
             email: 'foo@foobar.com',
             email_confirmation: 'foo@foobar.com',
-            first_name: options[:valid]==false ? '' : 'john',
+            first_name: options[:valid] == false ? '' : 'john',
             last_name: 'Smith'
           },
           roles: ['advocate'],

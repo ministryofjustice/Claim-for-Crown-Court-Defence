@@ -427,7 +427,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           result_hash = JSON.parse(last_response.body)
-          expect(result_hash).to eq( [ { 'error'=>'RangeError' } ] )
+          expect(result_hash).to eq( [ { 'error' => 'RangeError' } ] )
         end
       end
 

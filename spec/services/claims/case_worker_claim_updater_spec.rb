@@ -163,7 +163,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
     context 'errors' do
       it 'errors if no state and and no values submitted' do
-        params = { 'assessment_attributes'=>{ 'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3' }, 'state'=>'' }
+        params = { 'assessment_attributes' => { 'fees' => '0.00', 'expenses' => '0.00', 'id' => '3' }, 'state' => '' }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.assessment).to be_zero
@@ -171,7 +171,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'errors if part auth selected and no values' do
-        params = { 'assessment_attributes'=>{ 'fees'=>'0.00', 'expenses'=>'0.00', 'id'=>'3' }, 'state'=>'part_authorised' }
+        params = { 'assessment_attributes' => { 'fees' => '0.00', 'expenses' => '0.00', 'id' => '3' }, 'state' => 'part_authorised' }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.assessment).to be_zero

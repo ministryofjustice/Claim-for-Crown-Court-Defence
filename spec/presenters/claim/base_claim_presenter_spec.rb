@@ -142,7 +142,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'should list valid transitions from part_authorised' do
       claim.state = 'part_authorised'
       presenter = Claim::BaseClaimPresenter.new(claim, view)
-      expect(presenter.valid_transitions).to eq( { :redetermination=>'Redetermination', :awaiting_written_reasons=>'Awaiting written reasons' } )
+      expect(presenter.valid_transitions).to eq( { :redetermination => 'Redetermination', :awaiting_written_reasons => 'Awaiting written reasons' } )
     end
   end
 
@@ -321,7 +321,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     let(:defendant_2) do
       defendant = build(:defendant)
       travel_to 2.days.ago do
-        defendant.representation_orders =[ build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '444444') ]
+        defendant.representation_orders = [ build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '444444') ]
       end
       defendant
     end

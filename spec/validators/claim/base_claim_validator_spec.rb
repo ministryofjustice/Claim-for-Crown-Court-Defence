@@ -368,7 +368,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'should error if NOT in expected value list' do
         # NOTE: stored value is snake case
-        claim.trial_cracked_at_third ='Final third'
+        claim.trial_cracked_at_third = 'Final third'
         should_error_with(claim,:trial_cracked_at_third, 'invalid')
       end
 
@@ -391,12 +391,12 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'should error if NOT in expected value list' do
         # NOTE: stored value is snake case
-        claim.trial_cracked_at_third ='Final third'
+        claim.trial_cracked_at_third = 'Final third'
         should_error_with(claim,:trial_cracked_at_third, 'invalid')
       end
 
       it 'should error if NOT final third' do
-        claim.trial_cracked_at_third ='first_third'
+        claim.trial_cracked_at_third = 'first_third'
         should_error_with(claim,:trial_cracked_at_third,'invalid_case_type_third_combination')
       end
     end

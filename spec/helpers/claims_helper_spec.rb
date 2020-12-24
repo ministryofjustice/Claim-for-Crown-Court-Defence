@@ -32,12 +32,12 @@ RSpec.describe ClaimsHelper do
     end
 
     it 'returns true if state included as comma delimited string' do
-      states_as_comma_delimited_string='draft,allocated'
+      states_as_comma_delimited_string = 'draft,allocated'
       expect(includes_state?(only_allocated_claims,states_as_comma_delimited_string)).to eql(true)
     end
 
     it 'returns false if state NOT included' do
-      invalid_states ='draft,submitted'
+      invalid_states = 'draft,submitted'
       expect(includes_state?(only_allocated_claims,invalid_states)).to eql(false)
     end
   end

@@ -14,7 +14,7 @@ RSpec::Matchers.define :be_valid_cclf_claim_json do
   failure_message do |response|
     spacer = "\s" * 2
     "expected JSON to be valid against CCLF formatted claim schema but the following errors were raised:\n" +
-    @errors.each_with_index.map { |error, idx| "#{spacer}#{idx+1}. #{error}" }.join("\n")
+    @errors.each_with_index.map { |error, idx| "#{spacer}#{idx + 1}. #{error}" }.join("\n")
   end
 end
 

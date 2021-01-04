@@ -101,28 +101,21 @@ RSpec.describe Claims::StateMachine, type: :model do
         claim.allocate!
       end
 
-      it { expect { claim.reject! }.to      change { claim.state }.to('rejected') }
-      it { expect { claim.submit! }.to      change { claim.state }.to('submitted') }
-      it { expect { claim.refuse! }.to      change { claim.state }.to('refused') }
+      it { expect { claim.reject! }.to change { claim.state }.to('rejected') }
+      it { expect { claim.submit! }.to change { claim.state }.to('submitted') }
+      it { expect { claim.refuse! }.to change { claim.state }.to('refused') }
 
-      it do
-        expect do
-          claim.assessment.update(fees: 100.00, expenses: 23.45)
-          claim.authorise_part!
-        end.to change { claim.state }.to('part_authorised')
+      context 'with an assessed amount' do
+        before { claim.assessment.update(fees: 100.00, expenses: 23.45) }
+
+        it { expect { claim.authorise_part! }.to change { claim.state }.to('part_authorised') }
+        it { expect { claim.authorise! }.to change { claim.state }.to('authorised') }
       end
-
-      it { expect {
-        claim.assessment.update(fees: 100.00, expenses: 23.45)
-        claim.authorise!
-      }.to change { claim.state }.to('authorised') }
 
       it { expect { claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
 
       it 'should be able to deallocate' do
-        expect {
-          claim.deallocate!
-        }.to change { claim.state }.to('submitted')
+        expect { claim.deallocate! }.to change { claim.state }.to('submitted')
       end
 
       it 'should unlink case workers on deallocate' do

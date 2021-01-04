@@ -10,15 +10,15 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
 
     let(:expected_fields) do
       [
-          Geckoboard::DateField.new(:date, name: 'Date'),
-          Geckoboard::NumberField.new(:total_ccr_succeeded, name: 'Total CCR'),
-          Geckoboard::NumberField.new(:total_ccr, name: 'Total number of CCR injections'),
-          Geckoboard::PercentageField.new(:percentage_ccr_succeeded, name: 'Percentage of successful CCR injections'),
-          Geckoboard::NumberField.new(:total_cclf_succeeded, name: 'Total CCLF succeeded'),
-          Geckoboard::NumberField.new(:total_cclf, name: 'Total number of CCLF injections'),
-          Geckoboard::PercentageField.new(:percentage_cclf_succeeded, name: 'Percentage of successful CCLF injections'),
-          Geckoboard::NumberField.new(:total_succeeded, name: 'Total succeeded'),
-          Geckoboard::NumberField.new(:total, name: 'Total number of injections')
+        Geckoboard::DateField.new(:date, name: 'Date'),
+        Geckoboard::NumberField.new(:total_ccr_succeeded, name: 'Total CCR'),
+        Geckoboard::NumberField.new(:total_ccr, name: 'Total number of CCR injections'),
+        Geckoboard::PercentageField.new(:percentage_ccr_succeeded, name: 'Percentage of successful CCR injections'),
+        Geckoboard::NumberField.new(:total_cclf_succeeded, name: 'Total CCLF succeeded'),
+        Geckoboard::NumberField.new(:total_cclf, name: 'Total number of CCLF injections'),
+        Geckoboard::PercentageField.new(:percentage_cclf_succeeded, name: 'Percentage of successful CCLF injections'),
+        Geckoboard::NumberField.new(:total_succeeded, name: 'Total succeeded'),
+        Geckoboard::NumberField.new(:total, name: 'Total number of injections')
       ].map { |field| [field.class, field.id, field.name] }
     end
 
@@ -31,7 +31,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
     let(:expected_items) do
       [
         {
-          date: "2017-03-19",
+          date: '2017-03-19',
           total_ccr_succeeded: 3,
           total_ccr: 5,
           percentage_ccr_succeeded: 0.6,
@@ -42,7 +42,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
           total: 11
         },
         {
-          date: "2017-03-20",
+          date: '2017-03-20',
           total_ccr_succeeded: 2,
           total_ccr: 6,
           percentage_ccr_succeeded: 0.3333333333333333,
@@ -53,7 +53,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
           total: 12
         },
         {
-          date: "2017-03-21",
+          date: '2017-03-21',
           total_ccr_succeeded: 5,
           total_ccr: 6,
           percentage_ccr_succeeded: 0.8333333333333334,

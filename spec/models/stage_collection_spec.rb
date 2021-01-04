@@ -5,7 +5,7 @@ RSpec.describe StageCollection do
     [
       {
         name: :stage_1,
-        transitions: [ { to_stage: :stage_2 } ]
+        transitions: [{ to_stage: :stage_2 }]
       },
       { name: :stage_2 }
     ]
@@ -67,7 +67,7 @@ RSpec.describe StageCollection do
         [
           {
             name: :stage_1,
-            transitions: [ { to_stage: :stage_2 } ]
+            transitions: [{ to_stage: :stage_2 }]
           },
           { name: :stage_2 }
         ]

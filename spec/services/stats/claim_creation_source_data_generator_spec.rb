@@ -29,11 +29,11 @@ module Stats
       }.each do |source, multiplier|
         [2, 12, 22].each do |days_ago|
           Statistic.create!(
-                     date: days_ago.days.ago,
-                     report_name: "creations_source_#{source}",
-                     claim_type: 'Claim::BaseClaim',
-                     value_1: days_ago * multiplier,
-                     value_2:0
+            date: days_ago.days.ago,
+            report_name: "creations_source_#{source}",
+            claim_type: 'Claim::BaseClaim',
+            value_1: days_ago * multiplier,
+            value_2: 0
           )
         end
       end

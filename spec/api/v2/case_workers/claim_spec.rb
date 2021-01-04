@@ -47,7 +47,7 @@ RSpec.describe API::V2::CaseWorkers::Claim do
     end
 
     context 'when accessed by a ExternalUser' do
-      before { do_request(api_key: external_user.user.api_key ) }
+      before { do_request(api_key: external_user.user.api_key) }
 
       it 'returns unauthorised' do
         expect(last_response.status).to eq 401
@@ -82,22 +82,22 @@ RSpec.describe API::V2::CaseWorkers::Claim do
 
       it 'returns all lgfs_claims' do
         claim_ids = do_request_and_extract_claim_ids
-        expect(claim_ids).to match_array( [ @lgfs_sub_ff_vb10.id, @lgfs_sub_ff_vb20.id, @lgfs_sub_gf_vb10.id, @lgfs_sub_gf_vb30.id ])
+        expect(claim_ids).to match_array([@lgfs_sub_ff_vb10.id, @lgfs_sub_ff_vb20.id, @lgfs_sub_gf_vb10.id, @lgfs_sub_gf_vb30.id])
       end
 
       it 'returns only lgfs claims in value band 10' do
         claim_ids = do_request_and_extract_claim_ids(params.merge(value_band_id: 10))
-        expect(claim_ids).to match_array( [ @lgfs_sub_ff_vb10.id, @lgfs_sub_gf_vb10.id ])
+        expect(claim_ids).to match_array([@lgfs_sub_ff_vb10.id, @lgfs_sub_gf_vb10.id])
       end
 
       it 'returns all lgfs fixed fee claims' do
         claim_ids = do_request_and_extract_claim_ids(params.merge(filter: 'fixed_fee'))
-        expect(claim_ids).to match_array( [ @lgfs_sub_ff_vb10.id, @lgfs_sub_ff_vb20.id ])
+        expect(claim_ids).to match_array([@lgfs_sub_ff_vb10.id, @lgfs_sub_ff_vb20.id])
       end
 
       it 'returns all graduated fee claims' do
         claim_ids = do_request_and_extract_claim_ids(params.merge(filter: 'graduated_fees'))
-        expect(claim_ids).to match_array( [ @lgfs_sub_gf_vb10.id, @lgfs_sub_gf_vb30.id ])
+        expect(claim_ids).to match_array([@lgfs_sub_gf_vb10.id, @lgfs_sub_gf_vb30.id])
       end
 
       def do_request_and_extract_claim_ids(my_params = params)

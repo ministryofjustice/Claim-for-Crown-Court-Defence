@@ -46,7 +46,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
 
     context 'when matching misc fee (defendant) uplift NOT claimed' do
       it 'returns 1 for the main defendant' do
-        is_expected.to eq "1"
+        is_expected.to eq '1'
       end
     end
 
@@ -56,7 +56,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
       end
 
       it 'returns sum of (defendant) uplift quantity plus one for the main defendant' do
-        is_expected.to eq "3"
+        is_expected.to eq '3'
       end
     end
 
@@ -66,7 +66,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
       end
 
       it 'returns sum of all (defendant) uplift quantities plus one for the main defendant' do
-        is_expected.to eq "5"
+        is_expected.to eq '5'
       end
     end
   end

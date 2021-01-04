@@ -51,7 +51,7 @@ describe WorkingDayCalculator do
     context 'spanning two weekends' do
       it 'should return the expected number of days when period spans two full weekends' do
         expectations = [
-          [thu_30_jun, tue_19_jul, 13],
+          [thu_30_jun, tue_19_jul, 13]
         ]
         expectations.each { |ex| expect_working_days(ex) }
       end

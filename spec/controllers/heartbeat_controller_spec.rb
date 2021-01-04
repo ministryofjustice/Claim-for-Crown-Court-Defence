@@ -32,18 +32,18 @@ RSpec.describe HeartbeatController, type: :controller do
       end
 
       it 'returns "Not Available"' do
-        expect(JSON.parse(response.body).values).to be_all("Not Available")
+        expect(JSON.parse(response.body).values).to be_all('Not Available')
       end
     end
 
     context 'when environment variables set' do
       let(:expected_json) do
         {
-          'version_number'  => '123',
-          'build_date'      => '20150721',
-          'commit_id'       => 'afb12cb3',
-          'build_tag'       => 'test',
-          'app_branch'      => 'test_branch'
+          'version_number' => '123',
+          'build_date' => '20150721',
+          'commit_id' => 'afb12cb3',
+          'build_tag' => 'test',
+          'app_branch' => 'test_branch'
         }
       end
 
@@ -69,7 +69,7 @@ RSpec.describe HeartbeatController, type: :controller do
       allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 0))
       allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 0))
       connection = double('connection')
-      allow(connection).to receive(:info).and_return({ redis_version: "5.0.0" })
+      allow(connection).to receive(:info).and_return({ redis_version: '5.0.0' })
       allow(Sidekiq).to receive(:redis).and_yield(connection)
     end
 

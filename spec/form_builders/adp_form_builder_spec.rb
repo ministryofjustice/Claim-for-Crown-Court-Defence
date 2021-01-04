@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe AdpFormBuilder do
   let(:resource)  { FactoryBot.create :claim }
-  let(:builder)   { AdpFormBuilder.new(:claim, resource, self, {} ) }
+  let(:builder)   { AdpFormBuilder.new(:claim, resource, self, {}) }
 
   describe 'anchored_label' do
     context 'no anchor name supplied' do

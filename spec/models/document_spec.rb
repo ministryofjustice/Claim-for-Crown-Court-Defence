@@ -73,7 +73,7 @@ RSpec.describe Document, type: :model do
 
         doc = build :document, claim_id: claim.id, form_id: claim.form_id
         expect(doc).not_to be_valid
-        expect(doc.errors[:document]).to eq( [ 'Total documents exceed maximum of 2. This document has not been uploaded.'])
+        expect(doc.errors[:document]).to eq(['Total documents exceed maximum of 2. This document has not been uploaded.'])
       end
     end
 
@@ -87,7 +87,7 @@ RSpec.describe Document, type: :model do
       it 'displays human-understandable error message' do
         document.errors[:document] << 'has contents that are not what they are reported to be'
         document.__send__(:transform_cryptic_paperclip_error)
-        expect(document.errors[:document]).to eq( [ 'The contents of the file do not match the file extension' ] )
+        expect(document.errors[:document]).to eq(['The contents of the file do not match the file extension'])
       end
     end
   end
@@ -99,8 +99,8 @@ RSpec.describe Document, type: :model do
 
       it 'saves the original' do
         stub_request(:put, /https\:\/\/moj-cbo-documents-test\.s3\.amazonaws\.com\/.+\/shorter_lorem\.docx/).
-          with(headers: { "Content-Type" => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                          "Content-Length" => '5055' })
+          with(headers: { 'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                          'Content-Length' => '5055' })
 
         expect { subject.save! }.not_to raise_error
       end

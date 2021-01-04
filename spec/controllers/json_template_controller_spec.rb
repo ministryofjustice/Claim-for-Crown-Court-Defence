@@ -15,7 +15,7 @@ RSpec.describe JsonTemplateController, type: :controller do
     end
 
     it 'renders json' do
-      expect(response.media_type).to eq "application/json"
+      expect(response.media_type).to eq 'application/json'
     end
   end
 end

@@ -138,11 +138,11 @@ RSpec.describe Claim::TransferDetail do
       subject { detail.transfer_stage }
       let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil) }
 
-      it "returns a transfer stage struct" do
+      it 'returns a transfer stage struct' do
         is_expected.to be_a Struct::TransferStage
       end
 
-      it "returns expected transfer stage struct values" do
+      it 'returns expected transfer stage struct values' do
         is_expected.to eql Struct::TransferStage.new(10, 'Up to and including PCMH transfer', true)
       end
     end

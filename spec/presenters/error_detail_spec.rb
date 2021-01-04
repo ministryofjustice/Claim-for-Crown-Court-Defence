@@ -27,10 +27,10 @@ describe ErrorDetail do
   end
 
   it 'compares all message attributes when testing for equality' do
-    expect(ed1==ed2).to eql false
-    expect(ed3==ed4).to eql true
-    expect(ed3==ed5).to eql false
-    expect(ed3==ed6).to eql false
-    expect(ed3==ed7).to eql false
+    expect(ed1 == ed2).to eql false
+    expect(ed3 == ed4).to eql true
+    expect(ed3 == ed5).to eql false
+    expect(ed3 == ed6).to eql false
+    expect(ed3 == ed7).to eql false
   end
 end

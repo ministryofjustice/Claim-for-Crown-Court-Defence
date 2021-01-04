@@ -118,7 +118,7 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
             it { is_expected.to be_nil }
           end
 
-          context "without exclusions" do
+          context 'without exclusions' do
             subject { described_class.new(exclusions: false).call(fee).bill_subtype }
             it { is_expected.to eql bill_subtype }
           end

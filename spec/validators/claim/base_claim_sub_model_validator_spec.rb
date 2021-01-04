@@ -71,7 +71,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       let(:expected_results) do
         {
           defendant_1_representation_order_1_representation_order_date: 'not_before_earliest_permitted_date',
-          defendant_1_date_of_birth:                                    'blank',
+          defendant_1_date_of_birth: 'blank'
         }
       end
 
@@ -92,7 +92,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
 
         it 'should bubble up the error from reporder to defendant and then to the claim' do
           expected_results.each do |key, message|
-            expect(claim.errors[key]).to eq( [message] ), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
+            expect(claim.errors[key]).to eq([message]), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
           end
         end
       end
@@ -116,7 +116,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
 
         it 'should bubble up the error from reporder to defendant and then to the claim' do
           expected_results.each do |key, message|
-            expect(claim.errors[key]).to eq( [message] ), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
+            expect(claim.errors[key]).to eq([message]), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
           end
         end
       end

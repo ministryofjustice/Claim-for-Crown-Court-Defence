@@ -4,7 +4,7 @@ RSpec.describe API::Entities::Offence do
   subject { described_class.represent(offence) }
 
   context 'when scheme nine' do
-    let(:offence) { create(:offence, :with_fee_scheme, offence_class: create(:offence_class, :with_lgfs_offence )) }
+    let(:offence) { create(:offence, :with_fee_scheme, offence_class: create(:offence_class, :with_lgfs_offence)) }
 
     it { expect(JSON.parse(subject.to_json).keys).to eq %w[id description unique_code offence_class_id offence_class] }
   end

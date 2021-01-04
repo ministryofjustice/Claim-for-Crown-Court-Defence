@@ -100,7 +100,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     context 'no fixed fee exists' do
       it 'returns and empty array' do
         claim = build :litigator_claim
-        expect(claim.fixed_fees).to eq( [] )
+        expect(claim.fixed_fees).to eq([])
       end
     end
 
@@ -108,7 +108,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
       it 'returns the fixed fee in an array' do
         claim = create :litigator_claim, :fixed_fee
         fee = create :fixed_fee, claim: claim
-        expect(claim.fixed_fees).to eq( [ fee ] )
+        expect(claim.fixed_fees).to eq([fee])
       end
     end
   end
@@ -170,5 +170,5 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
   end
 
-  include_examples "common litigator claim attributes"
+  include_examples 'common litigator claim attributes'
 end

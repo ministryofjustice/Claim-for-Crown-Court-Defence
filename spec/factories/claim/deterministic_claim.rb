@@ -68,8 +68,11 @@ FactoryBot.define do
     end
 
     defendants do |env|
-      build_list(:defendant, 1, first_name: 'Kaia', last_name: 'Casper', date_of_birth: Date.new(1995, 6, 20),
-                 representation_orders: build_list(:representation_order, 1, maat_reference: '4567890', representation_order_date: env.rep_order_date))
+      build_list(
+        :defendant, 1, first_name: 'Kaia', last_name: 'Casper', date_of_birth: Date.new(1995, 6, 20),
+                       representation_orders: build_list(:representation_order, 1, maat_reference: '4567890',
+                                                                                   representation_order_date: env.rep_order_date)
+      )
     end
 
     fees do

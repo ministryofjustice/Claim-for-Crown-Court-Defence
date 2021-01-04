@@ -22,13 +22,13 @@ RSpec.describe CCLF::ExpenseAdapter, type: :adapter do
           end
 
           describe '#bill_type' do
-            it "returns DISBURSEMENT" do
+            it 'returns DISBURSEMENT' do
               expect(instance.bill_type).to eql 'DISBURSEMENT'
             end
           end
 
           describe '#bill_subtype' do
-            it "returns TRAVEL COSTS" do
+            it 'returns TRAVEL COSTS' do
               expect(instance.bill_subtype).to eql 'TRAVEL COSTS'
             end
           end

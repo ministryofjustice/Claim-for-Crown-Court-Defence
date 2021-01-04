@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe FeedbackController, type: :controller do
-  describe "GET #new" do
+  describe 'GET #new' do
     let(:params) { {} }
 
     before { get :new, params: params }
@@ -10,14 +10,14 @@ RSpec.describe FeedbackController, type: :controller do
       expect(assigns(:feedback)).to_not be_nil
     end
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
     context 'feedback' do
       let(:params) { { type: 'feedback' } }
 
-      it "renders the feedback template" do
+      it 'renders the feedback template' do
         expect(response).to render_template('feedback/feedback')
       end
     end
@@ -25,13 +25,13 @@ RSpec.describe FeedbackController, type: :controller do
     context 'bug report' do
       let(:params) { { type: 'bug_report' } }
 
-      it "renders the bug report template" do
+      it 'renders the bug report template' do
         expect(response).to render_template('feedback/bug_report')
       end
     end
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     before do
       allow(ZendeskAPI::Ticket).to receive(:create!).and_return(true)
     end
@@ -49,14 +49,14 @@ RSpec.describe FeedbackController, type: :controller do
             sign_in advocate.user
           end
 
-          it "redirects to the users home" do
+          it 'redirects to the users home' do
             post :create, params: { feedback: params }
             expect(response).to redirect_to(external_users_root_url)
           end
         end
 
         context 'and no user signed in' do
-          it "redirects to the sign in page" do
+          it 'redirects to the sign in page' do
             post :create, params: { feedback: params }
             expect(response).to redirect_to(new_user_session_url)
           end
@@ -73,7 +73,7 @@ RSpec.describe FeedbackController, type: :controller do
           { type: 'feedback', rating: nil }
         end
 
-        it "renders the new template" do
+        it 'renders the new template' do
           post :create, params: { feedback: params }
           expect(response).to render_template('feedback/feedback')
         end
@@ -93,14 +93,14 @@ RSpec.describe FeedbackController, type: :controller do
             sign_in advocate.user
           end
 
-          it "redirects to the users home" do
+          it 'redirects to the users home' do
             post :create, params: { feedback: params }
             expect(response).to redirect_to(external_users_root_url)
           end
         end
 
         context 'and no user signed in' do
-          it "redirects to the sign in page" do
+          it 'redirects to the sign in page' do
             post :create, params: { feedback: params }
             expect(response).to redirect_to(new_user_session_url)
           end
@@ -112,7 +112,7 @@ RSpec.describe FeedbackController, type: :controller do
           { type: 'bug_report', event: nil }
         end
 
-        it "renders the new template" do
+        it 'renders the new template' do
           post :create, params: { feedback: params }
           expect(response).to render_template('feedback/bug_report')
         end

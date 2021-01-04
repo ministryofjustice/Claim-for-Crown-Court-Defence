@@ -154,7 +154,7 @@ RSpec.describe ExternalUser, type: :model do
 
   describe 'ROLES' do
     it 'should have "admin" and "advocate" and "litigator"' do
-      expect(ExternalUser::ROLES).to match_array(%w( admin advocate litigator))
+      expect(ExternalUser::ROLES).to match_array(%w(admin advocate litigator))
     end
   end
 
@@ -346,7 +346,7 @@ RSpec.describe ExternalUser, type: :model do
 
     describe 'active scope' do
       it 'should only return undeleted records' do
-        expect(ExternalUser.active.order(:id)).to eq([ @live_user_1, @live_user_2 ])
+        expect(ExternalUser.active.order(:id)).to eq([@live_user_1, @live_user_2])
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
@@ -379,7 +379,7 @@ RSpec.describe ExternalUser, type: :model do
 
     describe 'default scope' do
       it 'should return deleted and undeleted records' do
-        expect(ExternalUser.order(:id)).to eq([ @live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
+        expect(ExternalUser.order(:id)).to eq([@live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
       end
 
       it 'should return the record if find by id relates to a deleted record' do

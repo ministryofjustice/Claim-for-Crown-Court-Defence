@@ -4,35 +4,35 @@ RSpec.describe API::V1::DropdownData do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  CASE_TYPE_ENDPOINT                  = "/api/case_types"
-  COURT_ENDPOINT                      = "/api/courts"
-  ADVOCATE_CATEGORY_ENDPOINT          = "/api/advocate_categories"
-  CRACKED_THIRD_ENDPOINT              = "/api/trial_cracked_at_thirds"
-  OFFENCE_CLASS_ENDPOINT              = "/api/offence_classes"
-  OFFENCE_ENDPOINT                    = "/api/offences"
-  FEE_TYPE_ENDPOINT                   = "/api/fee_types"
-  EXPENSE_TYPE_ENDPOINT               = "/api/expense_types"
-  EXPENSE_REASONS_ENDPOINT            = "/api/expense_reasons"
-  DISBURSEMENT_TYPE_ENDPOINT          = "/api/disbursement_types"
-  TRANSFER_STAGES_ENDPOINT            = "/api/transfer_stages"
-  TRANSFER_CASE_CONCLUSIONS_ENDPOINT  = "/api/transfer_case_conclusions"
-  CASE_STAGE_ENDPOINT                 = "/api/case_stages"
+  CASE_TYPE_ENDPOINT                  = '/api/case_types'
+  COURT_ENDPOINT                      = '/api/courts'
+  ADVOCATE_CATEGORY_ENDPOINT          = '/api/advocate_categories'
+  CRACKED_THIRD_ENDPOINT              = '/api/trial_cracked_at_thirds'
+  OFFENCE_CLASS_ENDPOINT              = '/api/offence_classes'
+  OFFENCE_ENDPOINT                    = '/api/offences'
+  FEE_TYPE_ENDPOINT                   = '/api/fee_types'
+  EXPENSE_TYPE_ENDPOINT               = '/api/expense_types'
+  EXPENSE_REASONS_ENDPOINT            = '/api/expense_reasons'
+  DISBURSEMENT_TYPE_ENDPOINT          = '/api/disbursement_types'
+  TRANSFER_STAGES_ENDPOINT            = '/api/transfer_stages'
+  TRANSFER_CASE_CONCLUSIONS_ENDPOINT  = '/api/transfer_case_conclusions'
+  CASE_STAGE_ENDPOINT                 = '/api/case_stages'
 
   FORBIDDEN_DROPDOWN_VERBS = [:post, :put, :patch, :delete]
   ALL_DROPDOWN_ENDPOINTS = [
-      CASE_TYPE_ENDPOINT,
-      COURT_ENDPOINT,
-      ADVOCATE_CATEGORY_ENDPOINT,
-      CRACKED_THIRD_ENDPOINT,
-      OFFENCE_CLASS_ENDPOINT,
-      OFFENCE_ENDPOINT,
-      FEE_TYPE_ENDPOINT,
-      EXPENSE_TYPE_ENDPOINT,
-      EXPENSE_REASONS_ENDPOINT,
-      DISBURSEMENT_TYPE_ENDPOINT,
-      TRANSFER_STAGES_ENDPOINT,
-      TRANSFER_CASE_CONCLUSIONS_ENDPOINT,
-      CASE_STAGE_ENDPOINT
+    CASE_TYPE_ENDPOINT,
+    COURT_ENDPOINT,
+    ADVOCATE_CATEGORY_ENDPOINT,
+    CRACKED_THIRD_ENDPOINT,
+    OFFENCE_CLASS_ENDPOINT,
+    OFFENCE_ENDPOINT,
+    FEE_TYPE_ENDPOINT,
+    EXPENSE_TYPE_ENDPOINT,
+    EXPENSE_REASONS_ENDPOINT,
+    DISBURSEMENT_TYPE_ENDPOINT,
+    TRANSFER_STAGES_ENDPOINT,
+    TRANSFER_CASE_CONCLUSIONS_ENDPOINT,
+    CASE_STAGE_ENDPOINT
   ]
 
   let(:provider) { create(:provider) }
@@ -83,7 +83,7 @@ RSpec.describe API::V1::DropdownData do
       create_list(:disbursement_type, 2)
     end
 
-    it "should return a JSON formatted list of the required information" do
+    it 'should return a JSON formatted list of the required information' do
       results.each do |endpoint, json|
         response = get endpoint, params, format: :json
         expect(response.status).to eq 200
@@ -350,7 +350,7 @@ RSpec.describe API::V1::DropdownData do
         let(:unique_code) { 'MIDTH' }
         it 'returns a specific fee type' do
           is_expected.to have_json_size 1
-          is_expected.to be_json_eql('Confiscation hearings (half day)'.to_json).at_path("0/description")
+          is_expected.to be_json_eql('Confiscation hearings (half day)'.to_json).at_path('0/description')
         end
       end
 
@@ -452,14 +452,14 @@ RSpec.describe API::V1::DropdownData do
     end
   end
 
-  context "expense v2" do
+  context 'expense v2' do
     before do
       create_list(:expense_type, 2)
       create(:expense_type,:lgfs)
       get EXPENSE_TYPE_ENDPOINT, params, format: :json
     end
 
-    context "with api key" do
+    context 'with api key' do
       let(:parsed_body) { JSON.parse(last_response.body) }
 
       it 'should return a JSON formatted list of the required information' do
@@ -479,20 +479,20 @@ RSpec.describe API::V1::DropdownData do
         end
       end
 
-      it "has all the expected keys" do
-        %w{ id name roles reason_set }.each do |key|
+      it 'has all the expected keys' do
+        %w{id name roles reason_set}.each do |key|
           expect(parsed_body.first).to have_key(key)
         end
       end
 
-      it "has correct roles" do
-        expect(parsed_body.first["roles"].size).to eq(2)
-        expect(parsed_body.first["roles"]).to include("agfs")
-        expect(parsed_body.first["roles"]).to include("lgfs")
+      it 'has correct roles' do
+        expect(parsed_body.first['roles'].size).to eq(2)
+        expect(parsed_body.first['roles']).to include('agfs')
+        expect(parsed_body.first['roles']).to include('lgfs')
       end
     end
 
-    context "without api key" do
+    context 'without api key' do
       let(:params) { {} }
 
       it 'should require an API key' do

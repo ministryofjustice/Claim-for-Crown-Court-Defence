@@ -41,7 +41,7 @@ RSpec.describe InterimClaimInfoValidator, type: :validator do
       it 'is invalid if not present' do
         info.warrant_issued_date = nil
         expect(info).not_to be_valid
-        expect(info.errors[:warrant_issued_date]).to eq( [ 'blank' ] )
+        expect(info.errors[:warrant_issued_date]).to eq(['blank'])
       end
     end
 
@@ -49,7 +49,7 @@ RSpec.describe InterimClaimInfoValidator, type: :validator do
       it 'is invalid if before warrant_issued_date' do
         info.warrant_executed_date = info.warrant_issued_date - 1.day
         expect(info).not_to be_valid
-        expect(info.errors[:warrant_executed_date]).to eq( [ 'warrant_executed_before_issued'] )
+        expect(info.errors[:warrant_executed_date]).to eq(['warrant_executed_before_issued'])
       end
 
       it 'is invalid if present and too far in the past' do

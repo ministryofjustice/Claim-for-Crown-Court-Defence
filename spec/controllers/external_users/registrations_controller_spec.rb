@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
   before do
-    @request.env["devise.mapping"] = Devise.mappings[:user]
+    @request.env['devise.mapping'] = Devise.mappings[:user]
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     let(:email) { Faker::Internet.email }
     let(:sign_up_attributes) do
       {

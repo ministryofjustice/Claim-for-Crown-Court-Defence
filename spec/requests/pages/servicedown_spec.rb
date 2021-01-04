@@ -20,7 +20,7 @@ RSpec.describe 'Servicedown mode', type: :request do
   shared_examples 'maintenance json' do
     it { expect(response).to have_http_status :service_unavailable }
     it { expect(response.body).to be_json }
-    it { expect(response.body).to include_json({ error: "Service temporarily unavailable" }.to_json) }
+    it { expect(response.body).to include_json({ error: 'Service temporarily unavailable' }.to_json) }
   end
 
   context '/ping' do

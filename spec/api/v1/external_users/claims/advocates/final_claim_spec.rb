@@ -44,7 +44,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
   it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
   it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
   it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
- 
+
   # TODO: write a generic date error handling spec and share
   describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
     it 'returns 400 and JSON error when dates are not in acceptable format' do
@@ -59,13 +59,13 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       expect(last_response.status).to eq(400)
       body = last_response.body
       [
-        "first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"
+        'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
       ].each do |error|
         expect(body).to include(error)
       end
@@ -78,7 +78,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)")
+      expect(body).to include('The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)')
     end
 
     it 'returns 400 and JSON error when URN contains a special character' do
@@ -86,7 +86,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)")
+      expect(body).to include('The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)')
     end
 
     it 'returns 400 and JSON error when the case number does not start with a BAST or U' do
@@ -94,7 +94,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be in the format A20161234")
+      expect(body).to include('The case number must be in the format A20161234')
     end
 
     it 'returns 400 and JSON error when the case number is too long' do
@@ -102,7 +102,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be in the format A20161234")
+      expect(body).to include('The case number must be in the format A20161234')
     end
 
     it 'returns 400 and JSON error when the case number is too short' do
@@ -110,7 +110,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
-      expect(body).to include("The case number must be in the format A20161234")
+      expect(body).to include('The case number must be in the format A20161234')
     end
 
     it 'returns 200 and valid when case_number is a valid common platform URN' do
@@ -118,7 +118,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       body = last_response.body
-      expect(body).to include("valid")
+      expect(body).to include('valid')
     end
 
     it 'returns 200 and valid when the URN is a valid URN containing a year' do
@@ -126,7 +126,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       body = last_response.body
-      expect(body).to include("valid")
+      expect(body).to include('valid')
     end
 
     it 'returns 200 and valid when case_number is a valid case number' do
@@ -134,7 +134,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
       body = last_response.body
-      expect(body).to include("valid")
+      expect(body).to include('valid')
     end
   end
 end

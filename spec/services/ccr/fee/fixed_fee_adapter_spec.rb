@@ -28,7 +28,7 @@ RSpec.describe CCR::Fee::FixedFeeAdapter, type: :adapter do
       FXCBR: 'AGFS_ORDER_BRCH', # Breach of Crown Court order
       FXCSE: 'AGFS_COMMITTAL', # Committal for Sentence
       FXENP: 'AGFS_FEE', # Elected cases not proceeded
-      FXH2S: nil, # Hearing subsequent to sentence??? LGFS only
+      FXH2S: nil # Hearing subsequent to sentence??? LGFS only
     }.freeze
 
     context 'mappings' do

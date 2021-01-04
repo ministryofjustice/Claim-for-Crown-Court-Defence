@@ -66,56 +66,108 @@ RSpec.describe Claims::Search do
         let(:term) { '158' }
         let(:draft_claim) { create(:litigator_claim, :draft, case_number: 'T20222665') }
         let(:authorised_claim) {
-          create(:litigator_claim, :authorised, case_number: 'T20158665', defendants: [
-            create(:defendant, first_name: 'Rupert', last_name: 'Doe', representation_orders: [
-              create(:representation_order, maat_reference: '4444444444')
-            ])
-          ])
+          create(
+            :litigator_claim, :authorised,
+            case_number: 'T20158665',
+            defendants: [
+              create(
+                :defendant,
+                first_name: 'Rupert', last_name: 'Doe',
+                representation_orders: [create(:representation_order, maat_reference: '4444444444')]
+              )
+            ]
+          )
         }
         let(:part_authorised_claim) {
-          create(:litigator_claim, :part_authorised, case_number: 'T20444665', defendants: [
-            create(:defendant, first_name: 'First 158', representation_orders: [
-              create(:representation_order, maat_reference: '4444444111')
-            ]),
-            create(:defendant, last_name: '158 Last', representation_orders: [
-              create(:representation_order, maat_reference: '4444444222')
-            ]),
-            create(:defendant, first_name: 'John', last_name: 'Doe', representation_orders: [
-              create(:representation_order, maat_reference: '4444444333'),
-              create(:representation_order, maat_reference: '4444444666')
-            ])
-          ])
+          create(
+            :litigator_claim, :part_authorised,
+            case_number: 'T20444665',
+            defendants: [
+              create(
+                :defendant,
+                first_name: 'First 158', representation_orders: [create(:representation_order, maat_reference: '4444444111')]
+              ),
+              create(
+                :defendant,
+                last_name: '158 Last', representation_orders: [create(:representation_order, maat_reference: '4444444222')]
+              ),
+              create(
+                :defendant,
+                first_name: 'John', last_name: 'Doe',
+                representation_orders: [
+                  create(:representation_order, maat_reference: '4444444333'),
+                  create(:representation_order, maat_reference: '4444444666')
+                ]
+              )
+            ]
+          )
         }
         let(:rejected_claim) {
-          create(:litigator_claim, :rejected, case_number: 'T20999665', defendants: [
-            create(:defendant, first_name: 'Olivia', last_name: 'Doe', representation_orders: [
-              create(:representation_order, maat_reference: '5555555555')
-            ])
-          ])
+          create(
+            :litigator_claim, :rejected,
+            case_number: 'T20999665',
+            defendants: [
+              create(
+                :defendant,
+                first_name: 'Olivia', last_name: 'Doe',
+                representation_orders: [
+                  create(:representation_order, maat_reference: '5555555555')
+                ]
+              )
+            ]
+          )
         }
         let(:refused_claim) {
-          create(:litigator_claim, :refused, case_number: 'T20555665', defendants: [
-            create(:defendant, first_name: 'Peter', last_name: 'Doe', representation_orders: [
-              create(:representation_order, maat_reference: '7777777777')
-            ]),
-            create(:defendant, first_name: 'Silvia', last_name: 'Doe', representation_orders: [
-              create(:representation_order, maat_reference: '9999999999')
-            ])
-          ])
+          create(
+            :litigator_claim, :refused,
+            case_number: 'T20555665',
+            defendants: [
+              create(
+                :defendant,
+                first_name: 'Peter', last_name: 'Doe',
+                representation_orders: [
+                  create(:representation_order, maat_reference: '7777777777')
+                ]
+              ),
+              create(
+                :defendant,
+                first_name: 'Silvia', last_name: 'Doe',
+                representation_orders: [
+                  create(:representation_order, maat_reference: '9999999999')
+                ]
+              )
+            ]
+          )
         }
         let(:archived_pending_delete_claim) {
-          create(:litigator_claim, :archived_pending_delete, case_number: 'T20111665', defendants: [
-            create(:defendant, first_name: 'Jane', last_name: 'Doe', representation_orders: [
-              create(:representation_order, maat_reference: '1111158')
-            ])
-          ])
+          create(
+            :litigator_claim, :archived_pending_delete,
+            case_number: 'T20111665',
+            defendants: [
+              create(
+                :defendant,
+                first_name: 'Jane', last_name: 'Doe',
+                representation_orders: [
+                  create(:representation_order, maat_reference: '1111158')
+                ]
+              )
+            ]
+          )
         }
         let(:archived_pending_review_claim) {
-          create(:hardship_archived_pending_review_claim, case_number: 'T20751665', defendants: [
-            create(:defendant, first_name: 'Mary', last_name: 'Doe', representation_orders: [
-              create(:representation_order, maat_reference: '1111158')
-            ])
-          ])
+          create(
+            :hardship_archived_pending_review_claim,
+            case_number: 'T20751665',
+            defendants: [
+              create(
+                :defendant,
+                first_name: 'Mary', last_name: 'Doe',
+                representation_orders: [
+                  create(:representation_order, maat_reference: '1111158')
+                ]
+              )
+            ]
+          )
         }
 
         it 'includes related filters in the SQL query' do

@@ -185,7 +185,7 @@ RSpec.describe User, type: :model do
 
     describe 'active scope' do
       it 'should only return undeleted records' do
-        expect(User.active.order(:id)).to eq([ @live_user_1, @live_user_2 ])
+        expect(User.active.order(:id)).to eq([@live_user_1, @live_user_2])
       end
 
       it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
@@ -223,7 +223,7 @@ RSpec.describe User, type: :model do
 
     describe 'default scope' do
       it 'should return deleted and undeleted records' do
-        expect(User.order(:id)).to eq([ @live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
+        expect(User.order(:id)).to eq([@live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
       end
 
       it 'should return the record if find by id relates to a deleted record' do

@@ -42,19 +42,19 @@ RSpec.describe Caching::ApiRequest do
 
   describe 'url normalization and param filtering' do
     [
-      %w(http://test.com                http://test.com),
-      %w(http://Test.Com                http://test.com),
-      %w(http://test.com?               http://test.com),
-      %w(http://test.com/               http://test.com/),
-      %w(http://test.com/?              http://test.com/),
-      %w(http://test.com?123            http://test.com?123),
-      %w(http://test.com/?123           http://test.com/?123),
-      %w(http://test.com/?321           http://test.com/?321),
-      %w(http://test.com?test=1         http://test.com?test=1),
-      %w(http://test.com?api_key=1      http://test.com?api_key=1),
-      %w(http://test.com?api_key=1&a=b  http://test.com?a=b&api_key=1),
-      %w(http://test.com?b=1&a=2        http://test.com?a=2&b=1),
-      %w(http://test.com?a=1#anchor     http://test.com?a=1),
+      %w(http://test.com http://test.com),
+      %w(http://Test.Com http://test.com),
+      %w(http://test.com? http://test.com),
+      %w(http://test.com/ http://test.com/),
+      %w(http://test.com/? http://test.com/),
+      %w(http://test.com?123 http://test.com?123),
+      %w(http://test.com/?123 http://test.com/?123),
+      %w(http://test.com/?321 http://test.com/?321),
+      %w(http://test.com?test=1 http://test.com?test=1),
+      %w(http://test.com?api_key=1 http://test.com?api_key=1),
+      %w(http://test.com?api_key=1&a=b http://test.com?a=b&api_key=1),
+      %w(http://test.com?b=1&a=2 http://test.com?a=2&b=1),
+      %w(http://test.com?a=1#anchor http://test.com?a=1)
     ].each do |(url, processed_url)|
       it "should process #{url} and return #{processed_url}" do
         instance = described_class.new(url)
@@ -92,7 +92,7 @@ RSpec.describe Caching::ApiRequest do
 
       context 'when cache content is stale' do
         before do
-          over_ttl = (options[:ttl]+1).seconds.ago
+          over_ttl = (options[:ttl] + 1).seconds.ago
           travel_to(over_ttl) do
             described_class.cache(url) { response1 }
           end
@@ -111,7 +111,7 @@ RSpec.describe Caching::ApiRequest do
 
       context 'when cache content is NOT stale' do
         before do
-          under_ttl = (options[:ttl]-10).seconds.ago
+          under_ttl = (options[:ttl] - 10).seconds.ago
           travel_to(under_ttl) do
             described_class.cache(url) { response1 }
           end
@@ -148,7 +148,7 @@ RSpec.describe Caching::ApiRequest do
 
       context 'when cache content is available and not stale' do
         before do
-          under_max_age = (max_age-10).seconds.ago
+          under_max_age = (max_age - 10).seconds.ago
           travel_to(under_max_age) do
             described_class.cache(url) { response1 }
           end
@@ -167,7 +167,7 @@ RSpec.describe Caching::ApiRequest do
 
       context 'when cache content is stale' do
         before do
-          over_max_age = (max_age+1).seconds.ago
+          over_max_age = (max_age + 1).seconds.ago
           travel_to(over_max_age) do
             described_class.cache(url) { response1 }
           end
@@ -186,7 +186,7 @@ RSpec.describe Caching::ApiRequest do
     end
 
     context 'reading from cache' do
-      let(:headers) { { cache_control: "max-age=30" } }
+      let(:headers) { { cache_control: 'max-age=30' } }
 
       it 'should read from the cache and return the content' do
         expect(current_store).to receive(:set).with(/api:/, /test value 1/).once.and_call_original

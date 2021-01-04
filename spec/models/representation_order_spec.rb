@@ -18,25 +18,25 @@ RSpec.describe RepresentationOrder do
       it 'should error if blank' do
         representation_order.maat_reference = nil
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
       it 'should error if less than 7 numeric characters' do
         representation_order.maat_reference = '456213'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
       it 'should error if greater than 7 numeric characters' do
         representation_order.maat_reference = '4562131111111'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
       it 'should error if non-numeric characters present' do
         representation_order.maat_reference = '1111a1111'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq( [ 'invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
       it 'should not error if 7 numeric digits' do
@@ -95,8 +95,8 @@ RSpec.describe RepresentationOrder do
       it 'should return an array of representation orders' do
         rep_orders = ro1.reporders_for_same_defendant
         expect(rep_orders.size).to eq 2
-        expect(rep_orders.map(&:class).uniq).to eq( [ RepresentationOrder ] )
-        expect(rep_orders.map(&:defendant_id).uniq).to eq( [ claim.defendants.first.id ] )
+        expect(rep_orders.map(&:class).uniq).to eq([RepresentationOrder])
+        expect(rep_orders.map(&:defendant_id).uniq).to eq([claim.defendants.first.id])
       end
     end
 
@@ -119,7 +119,7 @@ RSpec.describe RepresentationOrder do
 
   describe '#reporders_for_same_defendant' do
     it 'returns empty array if reporder not completely set up' do
-      expect(RepresentationOrder.new.reporders_for_same_defendant).to eq ( [] )
+      expect(RepresentationOrder.new.reporders_for_same_defendant).to eq ( [])
     end
 
     it 'returns an aray of all reporders including this for the same defendant' do
@@ -127,7 +127,7 @@ RSpec.describe RepresentationOrder do
       create :representation_order, defendant: defendant
       reporder_2 = create :representation_order, defendant: defendant
       defendant.reload
-      expect(reporder_2.reporders_for_same_defendant).to match_array( defendant.representation_orders )
+      expect(reporder_2.reporders_for_same_defendant).to match_array(defendant.representation_orders)
     end
   end
 
@@ -138,7 +138,7 @@ RSpec.describe RepresentationOrder do
 
     context 'when rep order date present' do
       it 'returns a string with the MAAT reference and rep order date' do
-        expect(rep_order.detail).to eq("25/09/2015 1234567")
+        expect(rep_order.detail).to eq('25/09/2015 1234567')
       end
     end
 
@@ -148,7 +148,7 @@ RSpec.describe RepresentationOrder do
       end
 
       it 'returns a string with the MAAT reference' do
-        expect(rep_order.detail).to eq("1234567")
+        expect(rep_order.detail).to eq('1234567')
       end
     end
   end

@@ -58,7 +58,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'redetermination' do
       it 'should display the case type name with a redetermination label' do
-        %w( submit allocate refuse redetermine allocate ).each { |event| claim.send("#{event}!") }
+        %w(submit allocate refuse redetermine allocate).each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:opened_for_redetermination?).and_return(true)
         expect(subject.case_type_name).to eq(claim.case_type.name)
       end
@@ -66,7 +66,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'awaiting written reasons' do
       it 'should display the case type name with an awaiting written reasons label' do
-        %w( submit allocate refuse await_written_reasons allocate ).each { |event| claim.send("#{event}!") }
+        %w(submit allocate refuse await_written_reasons allocate).each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:written_reasons_outstanding?).and_return(true)
         expect(subject.case_type_name).to eq(claim.case_type.name)
       end
@@ -117,11 +117,11 @@ RSpec.describe Claim::BaseClaimPresenter do
       presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions).to eq(
         {
-            :part_authorised => "Part authorised",
-                 :authorised => "Authorised",
-                    :refused => "Refused",
-                   :rejected => "Rejected",
-                  :submitted => "Submitted"
+          part_authorised: 'Part authorised',
+          authorised: 'Authorised',
+          refused: 'Refused',
+          rejected: 'Rejected',
+          submitted: 'Submitted'
         }
       )
     end
@@ -131,10 +131,10 @@ RSpec.describe Claim::BaseClaimPresenter do
       presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions_for_detail_form).to eq(
         {
-            :part_authorised => "Part authorised",
-                 :authorised => "Authorised",
-                    :refused => "Refused",
-                   :rejected => "Rejected"
+          part_authorised: 'Part authorised',
+          authorised: 'Authorised',
+          refused: 'Refused',
+          rejected: 'Rejected'
         }
       )
     end
@@ -142,7 +142,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'should list valid transitions from part_authorised' do
       claim.state = 'part_authorised'
       presenter = Claim::BaseClaimPresenter.new(claim, view)
-      expect(presenter.valid_transitions).to eq( { :redetermination=>"Redetermination", :awaiting_written_reasons=>"Awaiting written reasons" } )
+      expect(presenter.valid_transitions).to eq({ :redetermination => 'Redetermination', :awaiting_written_reasons => 'Awaiting written reasons' })
     end
   end
 
@@ -217,12 +217,12 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#any_judicial_apportionments' do
-    it "returns yes if any defendants have an order for judicial apportionment" do
+    it 'returns yes if any defendants have an order for judicial apportionment' do
       @first_defendant.update_attribute(:order_for_judicial_apportionment,true)
       expect(subject.any_judicial_apportionments).to eql 'Yes'
     end
 
-    it "returns no if no defendants have an order for judicial apportionment" do
+    it 'returns no if no defendants have an order for judicial apportionment' do
       @first_defendant.update_attribute(:order_for_judicial_apportionment,false)
       expect(subject.any_judicial_apportionments).to eql 'No'
     end
@@ -231,7 +231,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   # TODO: do currency converters need internationalisation??
   it '#amount_assessed' do
     claim.assessment.update(fees: 80.35, expenses: 19.65, disbursements: 52.48)
-    expect(subject.assessment_total).to eql("£152.48")
+    expect(subject.assessment_total).to eql('£152.48')
   end
 
   context 'dynamically defined methods' do
@@ -254,7 +254,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'returns total expenses and total of expense vat in currency format' do
       claim.expenses_total = 100
       claim.expenses_vat = 25
-      expect(subject.expenses_gross).to eql("£125.00")
+      expect(subject.expenses_gross).to eql('£125.00')
     end
   end
 
@@ -262,22 +262,22 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'returns total disbursements and total disbursment vat in currency format' do
       claim.disbursements_total = 100
       claim.disbursements_vat = 25
-      expect(subject.disbursements_gross).to eql("£125.00")
+      expect(subject.disbursements_gross).to eql('£125.00')
     end
   end
 
   describe '#fees_total' do
     it 'returns total of all fees in currency format' do
       claim.fees_total = 100
-      expect(subject.fees_total).to eql("£100.00")
+      expect(subject.fees_total).to eql('£100.00')
     end
   end
 
-  describe "#total_inc_vat" do
+  describe '#total_inc_vat' do
     it 'returns total of all fees and total of all fee vat in currency format' do
       claim.total = 60
       claim.vat_amount = 40
-      expect(subject.total_inc_vat).to eql("£100.00")
+      expect(subject.total_inc_vat).to eql('£100.00')
     end
   end
 
@@ -312,7 +312,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       travel_to 5.days.ago do
         defendant.representation_orders = [
           build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '222222'),
-          build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: '333333'),
+          build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: '333333')
         ]
       end
       defendant
@@ -321,19 +321,19 @@ RSpec.describe Claim::BaseClaimPresenter do
     let(:defendant_2) do
       defendant = build(:defendant)
       travel_to 2.days.ago do
-        defendant.representation_orders =[ build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '444444') ]
+        defendant.representation_orders = [build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '444444')]
       end
       defendant
     end
 
     it 'should return an html safe string of all the dates' do
-      expect(presenter.representation_order_details).to eq( "01/03/2015 222222<br />13/08/2015 333333<br />01/03/2015 444444" )
+      expect(presenter.representation_order_details).to eq('01/03/2015 222222<br />13/08/2015 333333<br />01/03/2015 444444')
     end
   end
 
   it '#case_worker_names' do
-    claim.case_workers << build(:case_worker, user: build(:user, first_name: "Alexander", last_name: 'Bell'))
-    claim.case_workers << build(:case_worker, user: build(:user, first_name: "Louis", last_name: 'Pasteur'))
+    claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Alexander', last_name: 'Bell'))
+    claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Louis', last_name: 'Pasteur'))
     expect(subject.case_worker_names).to eq('Alexander Bell, Louis Pasteur')
   end
 
@@ -616,7 +616,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#submitted_at_short' do
     subject { presenter.submitted_at_short }
     it 'returns short date formatted string of #last_submitted_at' do
-      expect(claim).to receive(:last_submitted_at).and_return DateTime.parse("2019-03-31 09:38:00.000000")
+      expect(claim).to receive(:last_submitted_at).and_return DateTime.parse('2019-03-31 09:38:00.000000')
       is_expected.to eql '31/03/19'
     end
   end
@@ -632,7 +632,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
 
     context 'when claim#trial_concluded_at' do
-      before { allow(claim).to receive(:trial_concluded_at).and_return DateTime.parse("2019-03-31 09:38:00.000000") }
+      before { allow(claim).to receive(:trial_concluded_at).and_return DateTime.parse('2019-03-31 09:38:00.000000') }
       it 'returns app specific date string format' do
         is_expected.to eql '31/03/2019'
       end

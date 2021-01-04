@@ -11,7 +11,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
     claim.reload
   end
 
-  describe "GET #new" do
+  describe 'GET #new' do
     subject(:new_request) { get :new }
 
     context 'when the user in NOT authenticated' do
@@ -57,7 +57,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
     end
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     let(:court) { create(:court) }
     let(:form_action) { { commit_continue: 'Save and continue' } }
     let(:claim_params) {
@@ -225,7 +225,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
     end
   end
 
-  describe "GET #edit" do
+  describe 'GET #edit' do
     let(:claim) { create(:advocate_interim_claim, external_user: authorized_user, creator: authorized_user) }
 
     subject(:edit_request) { get :edit, params: { id: claim.id } }
@@ -298,7 +298,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
     end
   end
 
-  describe "PUT #update" do
+  describe 'PUT #update' do
     let(:original_case_number) { 'A20161234' }
     let(:original_court) { create(:court) }
     let!(:claim) { create(:advocate_interim_claim, external_user: authorized_user, creator: authorized_user, case_number: original_case_number, court: original_court) }

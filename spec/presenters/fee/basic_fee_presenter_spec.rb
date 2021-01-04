@@ -77,7 +77,7 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
   end
 
   describe '#display_extra_fees?' do
-    # method calls #should_be_displayed? after discontinuance 
+    # method calls #should_be_displayed? after discontinuance
     # guard clause test logic other than this is covered.
     context 'should return false if claim is discontinuance' do
       let(:discontinuance) { create(:case_type, :discontinuance) }

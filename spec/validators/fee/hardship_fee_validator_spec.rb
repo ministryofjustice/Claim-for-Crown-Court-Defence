@@ -24,7 +24,7 @@ RSpec.describe Fee::HardshipFeeValidator, type: :validator do
     describe '#validate_quantity' do
       it 'be valid if quantity is equal to zero' do
         should_be_valid_if_equal_to_value(fee, :quantity, 0.00)
-      end 
+      end
 
       it 'adds error if quantity is less than zero' do
         should_error_if_equal_to_value(fee, :quantity, -10.00, 'numericality')

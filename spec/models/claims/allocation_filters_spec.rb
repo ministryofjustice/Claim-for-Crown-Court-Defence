@@ -23,13 +23,13 @@ module Claims
 
       describe 'all_fixed_fee' do
         it 'returns all claims with fixed fee case types' do
-          expect(Claim::BaseClaim.all_fixed_fee).to match_array( [@claim_fixed_1, @claim_fixed_2] )
+          expect(Claim::BaseClaim.all_fixed_fee).to match_array([@claim_fixed_1, @claim_fixed_2])
         end
       end
 
       describe 'all_graduated_fees' do
         it 'returns all claims with graduated fee case types' do
-          expect(Claim::BaseClaim.all_graduated_fees).to match_array( [@claim_grad_1, @claim_grad_2] )
+          expect(Claim::BaseClaim.all_graduated_fees).to match_array([@claim_grad_1, @claim_grad_2])
         end
       end
     end

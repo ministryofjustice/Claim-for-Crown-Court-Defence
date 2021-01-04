@@ -11,11 +11,11 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   let(:external_user) { create(:external_user, :litigator, provider: litigator.provider) }
   let(:supplier_number) { litigator.provider.lgfs_supplier_numbers.first.supplier_number }
 
-  describe "GET #new" do
+  describe 'GET #new' do
     context 'LGFS provider members only' do
       before { get :new }
 
-      it "returns http success" do
+      it 'returns http success' do
         expect(response).to be_successful
       end
 
@@ -40,7 +40,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   def expense_params
     {
       expense_type_id: expense_type.id,
-      location: "London",
+      location: 'London',
       quantity: 1,
       rate: 40,
       reason_id: 1,
@@ -52,7 +52,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
     }
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     context 'when litigator signed in' do
       context 'and the input is valid' do
         let(:expense_type) { create(:expense_type, :train) }
@@ -147,7 +147,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
               case_number: case_number,
               case_concluded_at_dd: case_concluded_at.day.to_s,
               case_concluded_at_mm: case_concluded_at.month.to_s,
-              case_concluded_at_yyyy: case_concluded_at.year.to_s,
+              case_concluded_at_yyyy: case_concluded_at.year.to_s
             }
           end
 
@@ -155,21 +155,21 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
             {
               form_step: :defendants,
               defendants_attributes: [
-                  {
-                    first_name: 'John',
-                    last_name: 'Smith',
-                    date_of_birth_dd: '4',
-                    date_of_birth_mm: '10',
-                    date_of_birth_yyyy: '1980',
-                    representation_orders_attributes: [
-                        {
-                          representation_order_date_dd: representation_order_date.day.to_s,
-                          representation_order_date_mm: representation_order_date.month.to_s,
-                          representation_order_date_yyyy: representation_order_date.year.to_s,
-                          maat_reference: '4561237'
-                        }
-                    ]
-                  }
+                {
+                  first_name: 'John',
+                  last_name: 'Smith',
+                  date_of_birth_dd: '4',
+                  date_of_birth_mm: '10',
+                  date_of_birth_yyyy: '1980',
+                  representation_orders_attributes: [
+                    {
+                        representation_order_date_dd: representation_order_date.day.to_s,
+                        representation_order_date_mm: representation_order_date.month.to_s,
+                        representation_order_date_yyyy: representation_order_date.year.to_s,
+                        maat_reference: '4561237'
+                    }
+                  ]
+                }
               ]
             }
           end
@@ -256,12 +256,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
             end
 
             it 'should display error messages ' do
-              expect(response.body).to have_content("Enter a case number")
+              expect(response.body).to have_content('Enter a case number')
             end
 
             it 'should not persist any of the data' do
               claim = assigns(:claim)
-              expect(claim.graduated_fee).to have_attributes(fee_type_id: graduated_fee_type_1.id, quantity: 12, amount: 2000 )
+              expect(claim.graduated_fee).to have_attributes(fee_type_id: graduated_fee_type_1.id, quantity: 12, amount: 2000)
               expect(claim.misc_fees.count).to eq 0
             end
           end
@@ -313,19 +313,19 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
              case_type_id: case_type.id,
              offence_id: offence,
              case_number: 'A20161234',
-             evidence_checklist_ids:  ['2', '3', '']
+             evidence_checklist_ids: ['2', '3', '']
           }
         end
 
         it 'should create a claim with document checklist items' do
           post :create, params: { claim: claim_params }
-          expect(assigns(:claim).evidence_checklist_ids).to eql( [ 2, 3 ] )
+          expect(assigns(:claim).evidence_checklist_ids).to eql([2, 3])
         end
       end
     end
   end
 
-  describe "GET #edit" do
+  describe 'GET #edit' do
     let(:edit_request) { -> { get :edit, params: { id: claim } } }
 
     before { edit_request.call }
@@ -333,7 +333,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
     context 'editable claim' do
       let(:claim) { create(:litigator_claim, creator: litigator) }
 
-      it "returns http success" do
+      it 'returns http success' do
         expect(response).to be_successful
       end
 
@@ -372,7 +372,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe 'PUT #update' do
     subject { create(:litigator_claim, creator: litigator) }
 
     context 'when valid' do
@@ -449,59 +449,55 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
     case_type = FactoryBot.create :case_type
 
     {
-      "source" => 'web',
-      "supplier_number" => supplier_number,
-      "case_type_id" => case_type.id.to_s,
-      "court_id" => court.id.to_s,
-      "case_number" => "A20161234",
-      "offence_class_id" => offence.offence_class.id.to_s,
-      "offence_id" => offence.id.to_s,
-      "first_day_of_trial_dd" => '13',
-      "first_day_of_trial_mm" => '5',
-      "first_day_of_trial_yyyy" => '2015',
-      "estimated_trial_length" => "2",
-      "actual_trial_length" => "2",
-      "trial_concluded_at_dd" => "15",
-      "trial_concluded_at_mm" => "05",
-      "trial_concluded_at_yyyy" => "2015",
-      "case_concluded_at_dd" => "15",
-      "case_concluded_at_mm" => "05",
-      "case_concluded_at_yyyy" => "2015",
-      "evidence_checklist_ids" => ["1", "5", ""],
-      "defendants_attributes"=>
-        { "0"=>
-          {
-            "first_name" => "Stephen",
-            "last_name" => "Richards",
-            "date_of_birth_dd" => "13",
-            "date_of_birth_mm" => "08",
-            "date_of_birth_yyyy" => "1966",
-            "_destroy" => "false",
-            "representation_orders_attributes"=>{
-              "0"=>{
-                "representation_order_date_dd" => "13",
-                "representation_order_date_mm" => "05",
-                "representation_order_date_yyyy" => "2015",
-                "maat_reference" => "1594851269",
-             }
+      'source' => 'web',
+      'supplier_number' => supplier_number,
+      'case_type_id' => case_type.id.to_s,
+      'court_id' => court.id.to_s,
+      'case_number' => 'A20161234',
+      'offence_class_id' => offence.offence_class.id.to_s,
+      'offence_id' => offence.id.to_s,
+      'first_day_of_trial_dd' => '13',
+      'first_day_of_trial_mm' => '5',
+      'first_day_of_trial_yyyy' => '2015',
+      'estimated_trial_length' => '2',
+      'actual_trial_length' => '2',
+      'trial_concluded_at_dd' => '15',
+      'trial_concluded_at_mm' => '05',
+      'trial_concluded_at_yyyy' => '2015',
+      'case_concluded_at_dd' => '15',
+      'case_concluded_at_mm' => '05',
+      'case_concluded_at_yyyy' => '2015',
+      'evidence_checklist_ids' => ['1', '5', ''],
+      'defendants_attributes' => {
+        '0' => {
+          'first_name' => 'Stephen',
+          'last_name' => 'Richards',
+          'date_of_birth_dd' => '13',
+          'date_of_birth_mm' => '08',
+          'date_of_birth_yyyy' => '1966',
+          '_destroy' => 'false',
+          'representation_orders_attributes' => {
+            '0' => {
+              'representation_order_date_dd' => '13',
+              'representation_order_date_mm' => '05',
+              'representation_order_date_yyyy' => '2015',
+              'maat_reference' => '1594851269'
             }
           }
-        },
-      "additional_information" => "",
-      "graduated_fee_attributes"=>
-        {
-          "fee_type_id" => graduated_fee_type_1.id.to_s, "quantity" => "12", "amount" => "2000", "date_dd" => "15", "date_mm" => "05", "date_yyyy" => "2015", "_destroy" => "false"
-        },
-      "misc_fees_attributes"=>
-        {
-          "0"=>{ "fee_type_id" => misc_fee_type_1.id.to_s, "amount" => "125", "_destroy" => "false" },
-          "1"=>{ "fee_type_id" => misc_fee_type_2.id.to_s, "amount" => "250", "_destroy" => "false" },
-         },
-      "expenses_attributes"=>
-        {
-          "0"=>{ "expense_type_id" => "", "location" => "", "quantity" => "", "rate" => "", "amount" => "", "_destroy" => "false" }
-        },
-      "apply_vat" => "0"
+        }
+      },
+      'additional_information' => '',
+      'graduated_fee_attributes' => {
+        'fee_type_id' => graduated_fee_type_1.id.to_s, 'quantity' => '12', 'amount' => '2000', 'date_dd' => '15', 'date_mm' => '05', 'date_yyyy' => '2015', '_destroy' => 'false'
+      },
+      'misc_fees_attributes' => {
+        '0' => { 'fee_type_id' => misc_fee_type_1.id.to_s, 'amount' => '125', '_destroy' => 'false' },
+        '1' => { 'fee_type_id' => misc_fee_type_2.id.to_s, 'amount' => '250', '_destroy' => 'false' }
+      },
+      'expenses_attributes' => {
+        '0' => { 'expense_type_id' => '', 'location' => '', 'quantity' => '', 'rate' => '', 'amount' => '', '_destroy' => 'false' }
+      },
+      'apply_vat' => '0'
     }.with_indifferent_access
   end
 

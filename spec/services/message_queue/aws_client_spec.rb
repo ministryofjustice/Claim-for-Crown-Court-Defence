@@ -31,9 +31,9 @@ module MessageQueue
     end
     let(:body) do
       {
-        from: "external application",
-        uuid: "3d34c071-c19a-4248-93ea-6f0e91002561",
-        errors: [ { error: "PPE is a mandatory field for Claim Element of type Advocate Fee." } ],
+        from: 'external application',
+        uuid: '3d34c071-c19a-4248-93ea-6f0e91002561',
+        errors: [{ error: 'PPE is a mandatory field for Claim Element of type Advocate Fee.' }],
         messages: []
       }.to_json
     end

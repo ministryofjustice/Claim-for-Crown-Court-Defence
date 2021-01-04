@@ -11,7 +11,7 @@ RSpec.describe AdpTextField do
     end
     let(:resource) { FactoryBot.create :claim, case_number: nil }
     let(:error_presenter) { ErrorPresenter.new(resource) }
-    let(:builder)   { AdpFormBuilder.new(:claim, resource, helper, {} ) }
+    let(:builder)   { AdpFormBuilder.new(:claim, resource, helper, {}) }
 
     context 'simple text field without hint' do
       it 'should produce expected html when resource is nil' do

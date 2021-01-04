@@ -33,7 +33,7 @@ RSpec.describe Fee::BasicFee do
 
   describe 'default scope' do
     it 'should order by claim id and fee type id ascending' do
-      expect(Fee::BasicFee.all.to_sql).to include("ORDER BY \"fees\".\"id\" ASC, \"fees\".\"claim_id\" ASC, \"fees\".\"fee_type_id\" ASC")
+      expect(Fee::BasicFee.all.to_sql).to include('ORDER BY "fees"."id" ASC, "fees"."claim_id" ASC, "fees"."fee_type_id" ASC')
     end
   end
 

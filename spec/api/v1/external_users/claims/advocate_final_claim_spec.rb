@@ -61,13 +61,13 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
       expect(last_response.status).to eq(400)
       body = last_response.body
       [
-        "first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"
+        'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
       ].each do |error|
         expect(body).to include(error)
       end

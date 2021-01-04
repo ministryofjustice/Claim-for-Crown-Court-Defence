@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe PerformancePlatform::Reports do
   subject(:reports) { described_class.new }
-  let(:expected_yaml) { { "reports"=>{ "transactions_by_channel"=>{ "type"=>"test-transactions-by-channel", "period"=>"weekly", "fields"=>[:channel, :count], "token"=>nil } } } }
+  let(:expected_yaml) { { 'reports' => { 'transactions_by_channel' => { 'type' => 'test-transactions-by-channel', 'period' => 'weekly', 'fields' => [:channel, :count], 'token' => nil } } } }
 
   before do
     allow_any_instance_of(described_class).to receive(:yaml_file).and_return(expected_yaml)

@@ -350,7 +350,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
         end
 
         context 'scheme 10' do
-          let(:offence_band) { create(:offence_band, description: "1.1") }
+          let(:offence_band) { create(:offence_band, description: '1.1') }
           let(:offence) { create(:offence, :with_fee_scheme_ten, offence_band: offence_band) }
           let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_10: true, case_type: case_type, offence: offence) }
           let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior', days: 1 } }
@@ -362,7 +362,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
         end
 
         context 'scheme 11' do
-          let(:offence_band) { create(:offence_band, description: "1.1") }
+          let(:offence_band) { create(:offence_band, description: '1.1') }
           let(:offence) { create(:offence, :with_fee_scheme_eleven, offence_band: offence_band) }
           let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_11: true, case_type: case_type, offence: offence) }
           let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior', days: 1 } }
@@ -1080,7 +1080,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             to_return(status: 404, body: { 'error': '"detail": "Not found."' }.to_json, headers: {})
         end
 
-        let(:claim) { instance_double(::Claim::BaseClaim, agfs?: true, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false ) }
+        let(:claim) { instance_double(::Claim::BaseClaim, agfs?: true, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }
         let(:params) { { fee_type_id: create(:graduated_fee_type, :grtrl).id } }
 
         it_returns 'a failed fee calculator response', message: /not found/i

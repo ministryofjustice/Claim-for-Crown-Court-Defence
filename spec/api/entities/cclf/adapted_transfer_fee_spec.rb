@@ -11,7 +11,7 @@ RSpec.describe API::Entities::CCLF::AdaptedTransferFee, type: :adapter do
       claim: claim,
       fee_type: fee_type,
       quantity: 888.0,
-      amount: 303.03,
+      amount: 303.03
     )
   end
 

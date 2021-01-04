@@ -142,7 +142,7 @@ def publicise_errors(claim, &block)
       puts d.errors.full_messages
       d.representation_orders.each do |r|
         ap r
-        puts ">>> rep order"
+        puts '>>> rep order'
         puts r.errors.full_messages
       end
     end

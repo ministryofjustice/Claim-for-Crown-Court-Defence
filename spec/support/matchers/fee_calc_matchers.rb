@@ -12,7 +12,7 @@ RSpec::Matchers.define :include_fee_calc_error do |expected = nil|
 
   description do
     return "include fee calculator error matching #{expected}" if expected
-    "include fee calculator error"
+    'include fee calculator error'
   end
 
   failure_message do |actual|

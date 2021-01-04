@@ -99,7 +99,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   describe 'PATCH #update' do
     let(:claim) { create :allocated_claim }
     let(:updater) { double Claims::CaseWorkerClaimUpdater }
-    let(:params) { strong_params('additional_information' => 'foo bar', 'current_user'=> @case_worker.user) }
+    let(:params) { strong_params('additional_information' => 'foo bar', 'current_user' => @case_worker.user) }
 
     before(:each) do
       expect(updater).to receive(:update!).and_return(updater)
@@ -156,7 +156,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       search_terms = {
         'Joex Bloggs' => 2,
         'Fred Bloggs' => 4,
-        'Bloggs'      => 6
+        'Bloggs' => 6
       }
       search_terms.each do |search_term, expected_number_of_results|
         xit 'returns only the claims where the defendant is is in the search terms' do

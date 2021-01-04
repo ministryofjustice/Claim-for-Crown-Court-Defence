@@ -57,7 +57,7 @@ describe Fee::InterimFeeTypePresenter do
         ppe: ppe,
         fee_total: total,
         warrant: warrant,
-        disbursements: disb,
+        disbursements: disb
     }
   end
 end

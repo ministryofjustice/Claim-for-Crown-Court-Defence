@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe DisbursementValidator, type: :validator do
-  let(:claim) { build(:litigator_claim, force_validation: true ) }
+  let(:claim) { build(:litigator_claim, force_validation: true) }
   let(:disbursement) { build(:disbursement, claim: claim, net_amount: 100, vat_amount: 20) }
 
   describe '#validate_claim' do
     it { should_error_if_not_present(disbursement, :claim, 'blank') }
 
-    context "AGFS claims" do
+    context 'AGFS claims' do
       before { allow(claim).to receive(:agfs?).and_return true }
       it 'should raise invalid fee scheme error' do
         expect(disbursement).to be_invalid
@@ -15,7 +15,7 @@ RSpec.describe DisbursementValidator, type: :validator do
       end
     end
 
-    context "LGFS claims" do
+    context 'LGFS claims' do
       before { allow(claim).to receive(:agfs?).and_return false }
       it 'should NOT raise invalid fee scheme error' do
         expect(disbursement).to be_valid

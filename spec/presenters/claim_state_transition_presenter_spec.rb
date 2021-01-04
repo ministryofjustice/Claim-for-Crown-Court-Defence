@@ -15,7 +15,7 @@ RSpec.describe ClaimStateTransitionPresenter do
     end
 
     it 'returns a human readable string describing a state change' do
-      is_expected.to eq "Claim allocated"
+      is_expected.to eq 'Claim allocated'
     end
   end
 

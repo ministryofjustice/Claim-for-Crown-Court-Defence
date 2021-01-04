@@ -41,7 +41,7 @@ RSpec.describe Fee::MiscFeeType do
       subject { described_class.supplementary.map(&:unique_code) }
 
       before do
-        create(:misc_fee_type, unique_code: 'NOT_SUPPLEMENTARY' )
+        create(:misc_fee_type, unique_code: 'NOT_SUPPLEMENTARY')
         create(:misc_fee_type, unique_code: 'MISAF')
         create(:misc_fee_type, unique_code: 'MISAU')
       end
@@ -55,7 +55,7 @@ RSpec.describe Fee::MiscFeeType do
       subject { described_class.without_supplementary_only.map(&:unique_code) }
 
       before do
-        create(:misc_fee_type, unique_code: 'MISAF' )
+        create(:misc_fee_type, unique_code: 'MISAF')
         create(:misc_fee_type, unique_code: 'MISAU')
       end
 
@@ -68,7 +68,7 @@ RSpec.describe Fee::MiscFeeType do
       subject { described_class.without_trial_fee_only.map(&:unique_code) }
 
       before do
-        create(:misc_fee_type, unique_code: 'MISPF' )
+        create(:misc_fee_type, unique_code: 'MISPF')
         create(:misc_fee_type, unique_code: 'MIUMU')
         create(:misc_fee_type, unique_code: 'MIUMO')
       end

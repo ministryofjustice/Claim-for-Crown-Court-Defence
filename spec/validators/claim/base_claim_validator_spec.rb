@@ -6,7 +6,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   let(:contempt)                    { FactoryBot.build :case_type, :requires_trial_dates, name: 'Contempt' }
   let(:retrial)                     { FactoryBot.build :case_type, :retrial }
   let(:breach_of_crown_court_order) { FactoryBot.build :case_type, name: 'Breach of Crown Court order' }
-  let(:cracked_trial)               { FactoryBot.build :case_type, :requires_cracked_dates, name: "Cracked trial" }
+  let(:cracked_trial)               { FactoryBot.build :case_type, :requires_cracked_dates, name: 'Cracked trial' }
   let(:cracked_before_retrial)      { FactoryBot.build :case_type, :requires_cracked_dates, name: 'Cracked before retrial' }
 
   before do
@@ -215,7 +215,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   context 'case_number' do
     it 'should error if not present' do
       claim.case_number = nil
-      should_error_with(claim, :case_number, "blank")
+      should_error_with(claim, :case_number, 'blank')
     end
 
     context 'with URN format' do
@@ -281,7 +281,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should error if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.estimated_trial_length = nil
-      should_error_with(claim, :estimated_trial_length, "blank")
+      should_error_with(claim, :estimated_trial_length, 'blank')
     end
 
     it 'should NOT error if not present and case type does NOT require trial dates' do
@@ -293,7 +293,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should error if less than zero' do
       claim.case_type = contempt
       claim.estimated_trial_length = -1
-      should_error_with(claim, :estimated_trial_length, "invalid")
+      should_error_with(claim, :estimated_trial_length, 'invalid')
     end
   end
 
@@ -301,7 +301,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should error if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.actual_trial_length = nil
-      should_error_with(claim, :actual_trial_length, "blank")
+      should_error_with(claim, :actual_trial_length, 'blank')
     end
 
     it 'should NOT error if not present and case type does NOT require trial dates' do
@@ -313,7 +313,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should error if less than zero' do
       claim.case_type = contempt
       claim.actual_trial_length = -1
-      should_error_with(claim, :actual_trial_length, "invalid")
+      should_error_with(claim, :actual_trial_length, 'invalid')
     end
   end
 
@@ -321,7 +321,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should error if not present and case type requires retrial dates' do
       claim.case_type = retrial
       claim.retrial_estimated_length = nil
-      should_error_with(claim, :retrial_estimated_length, "blank")
+      should_error_with(claim, :retrial_estimated_length, 'blank')
     end
 
     it 'should NOT error if not present and case type does NOT require retrial dates' do
@@ -333,7 +333,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should error if less than zero' do
       claim.case_type = retrial
       claim.retrial_estimated_length = -1
-      should_error_with(claim, :retrial_estimated_length, "invalid")
+      should_error_with(claim, :retrial_estimated_length, 'invalid')
     end
   end
 
@@ -341,7 +341,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should error if not present and case type requires retrial dates' do
       claim.case_type = retrial
       claim.retrial_actual_length = nil
-      should_error_with(claim, :retrial_actual_length, "blank")
+      should_error_with(claim, :retrial_actual_length, 'blank')
     end
 
     it 'should NOT error if not present and case type does NOT require retrial dates' do
@@ -353,7 +353,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should error if less than zero' do
       claim.case_type = retrial
       claim.retrial_actual_length = -1
-      should_error_with(claim, :retrial_actual_length, "invalid")
+      should_error_with(claim, :retrial_actual_length, 'invalid')
     end
   end
 
@@ -363,13 +363,13 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'should error if NOT present' do
         claim.trial_cracked_at_third = nil
-        should_error_with(claim,:trial_cracked_at_third,"blank")
+        should_error_with(claim,:trial_cracked_at_third,'blank')
       end
 
       it 'should error if NOT in expected value list' do
         # NOTE: stored value is snake case
-        claim.trial_cracked_at_third ='Final third'
-        should_error_with(claim,:trial_cracked_at_third, "invalid")
+        claim.trial_cracked_at_third = 'Final third'
+        should_error_with(claim,:trial_cracked_at_third, 'invalid')
       end
 
       Settings.trial_cracked_at_third.each do |third|
@@ -386,18 +386,18 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'should error if NOT present' do
         claim.trial_cracked_at_third = nil
-        should_error_with(claim,:trial_cracked_at_third,"blank")
+        should_error_with(claim,:trial_cracked_at_third,'blank')
       end
 
       it 'should error if NOT in expected value list' do
         # NOTE: stored value is snake case
-        claim.trial_cracked_at_third ='Final third'
-        should_error_with(claim,:trial_cracked_at_third, "invalid")
+        claim.trial_cracked_at_third = 'Final third'
+        should_error_with(claim,:trial_cracked_at_third, 'invalid')
       end
 
       it 'should error if NOT final third' do
-        claim.trial_cracked_at_third ='first_third'
-        should_error_with(claim,:trial_cracked_at_third,"invalid_case_type_third_combination")
+        claim.trial_cracked_at_third = 'first_third'
+        should_error_with(claim,:trial_cracked_at_third,'invalid_case_type_third_combination')
       end
     end
 
@@ -431,18 +431,18 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       assessed_claim.authorise!
       assessed_claim.assessment.zeroize!
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state Authorised'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq(['Amount assessed cannot be zero for claims in state Authorised'])
     end
 
     it 'should error if authorised claim has assessment updated to zero' do
       assessed_claim.authorise_part!
       assessed_claim.assessment.update(fees: 0, expenses: 0, disbursements: 0)
       expect(assessed_claim).to_not be_valid
-      expect(assessed_claim.errors[:amount_assessed]).to eq( ['Amount assessed cannot be zero for claims in state Part authorised'] )
+      expect(assessed_claim.errors[:amount_assessed]).to eq(['Amount assessed cannot be zero for claims in state Part authorised'])
     end
 
     context 'should be valid if amount assessed is zero' do
-        %w{ draft allocated refused rejected submitted }.each do |state|
+        %w{draft allocated refused rejected submitted}.each do |state|
           it "for claims in state #{state}" do
             factory_name = "#{state}_claim".to_sym
             claim = FactoryBot.create factory_name
@@ -453,13 +453,13 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'should be invalid if amount assessed is not zero' do
-      %w{ draft refused rejected submitted }.each do |state|
+      %w{draft refused rejected submitted}.each do |state|
         it "should error if amount assessed is not zero for #{state}" do
           factory_name = "#{state}_claim".to_sym
           claim = FactoryBot.create factory_name
           claim.assessment.fees = 35.22
           expect(claim).to_not be_valid
-          expect(claim.errors[:amount_assessed]).to eq( ["Amount assessed must be zero for claims in state #{state.humanize}"] )
+          expect(claim.errors[:amount_assessed]).to eq(["Amount assessed must be zero for claims in state #{state.humanize}"])
         end
       end
     end
@@ -496,7 +496,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       should_not_error(claim,:evidence_checklist_ids)
       claim.save!
       dup = Claim::BaseClaim.active.find claim.id
-      expect(dup.evidence_checklist_ids).to eq( doc_types )
+      expect(dup.evidence_checklist_ids).to eq(doc_types)
     end
 
     it 'should NOT error if ids are string integers and should exclude blank strings' do
@@ -509,10 +509,10 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       should_not_error(claim,:evidence_checklist_ids)
     end
 
-    it "should error if ids are zero or strings" do
+    it 'should error if ids are zero or strings' do
       invalid_ids.each do |id|
         claim.evidence_checklist_ids = [id]
-        should_error_with(claim,:evidence_checklist_ids,"Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids")
+        should_error_with(claim,:evidence_checklist_ids,'Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids')
       end
     end
 
@@ -683,7 +683,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'first day of trial' do
       let(:contempt_claim_with_nil_first_day) { nulify_fields_on_record(FactoryBot.create(:claim, case_type: contempt), :first_day_of_trial) }
       before { contempt_claim_with_nil_first_day.force_validation = true }
-      it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, "blank", translated_message: 'Enter a date') }
+      it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, 'blank', translated_message: 'Enter a date') }
       it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, 'check_other_date', translated_message: 'Can\'t be after the date "Trial concluded"') }
       it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_earlier_than_rep_order', translated_message: 'Check combination of representation order date and trial dates') }
       it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
@@ -692,7 +692,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'trial_concluded_at' do
       let(:contempt_claim_with_nil_concluded_at) { nulify_fields_on_record(FactoryBot.create(:claim, case_type: contempt), :trial_concluded_at) }
       before { contempt_claim_with_nil_concluded_at.force_validation = true }
-      it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, "blank", translated_message: 'Enter a date') }
+      it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'blank', translated_message: 'Enter a date') }
       it { should_error_if_earlier_than_other_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, :first_day_of_trial, 'check_other_date', translated_message: 'Can\'t be before the "First day of trial"') }
       it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'check_not_earlier_than_rep_order', translated_message: 'Check combination of representation order date and trial dates') }
       it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
@@ -704,7 +704,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'retrial_started_at' do
       context 'when not present' do
-        it { should_error_if_not_present(claim, :retrial_started_at, "blank", translated_message: 'Enter a date') }
+        it { should_error_if_not_present(claim, :retrial_started_at, 'blank', translated_message: 'Enter a date') }
       end
 
       context 'when later than retrial_concluded_at' do
@@ -740,7 +740,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'retrial_concluded_at' do
       context 'when not present' do
-        it { should_error_if_not_present(claim, :retrial_concluded_at, "blank", translated_message: 'Enter a date') }
+        it { should_error_if_not_present(claim, :retrial_concluded_at, 'blank', translated_message: 'Enter a date') }
       end
 
       context 'when earlier than retrial_started_at' do

@@ -31,27 +31,30 @@ module MessageQueue
     end
     let(:body) do
       {
-        from: "external application",
-        uuid: "3d34c071-c19a-4248-93ea-6f0e91002561",
-        errors: [ { error: "PPE is a mandatory field for Claim Element of type Advocate Fee." } ],
+        from: 'external application',
+        uuid: '3d34c071-c19a-4248-93ea-6f0e91002561',
+        errors: [{ error: 'PPE is a mandatory field for Claim Element of type Advocate Fee.' }],
         messages: []
       }.to_json
     end
 
-    let(:stub_poll_response_success) { Aws::SQS::Types::ReceiveMessageResult.new(
-      messages: [
-        Aws::SQS::Types::Message.new(
-          {
-            message_id: "a1dc5042-e8bf-4417-a443-ed9a2c9558e6",
-            receipt_handle: "AQEB4y8lIzE9G2HiEVen7vRjcmv0xFQML6VcyZYDbnOUzOHFO00yLwaZFE0flYhEv2XMTVyURrK3pRNgaHUH4KK7kFd6cGay35L58UljtEHCJNbBEHSJpuWiV98G56fz04DtTDZN5IKG4tBthDjeDlAheUBkMiiBBLESHSOlUsgGj0vu++x9IlcdjO8+pszXH8356DM3/eayvgoOq9i2yCKkSy4piO6tNX9/VHFVH0fyjIwW3knpbWJHNg2ROKs3RloXKIaBmD4boqc8DSPDx4Mx77zh/T0z3UBG/1CXzmtcXt9NfJJzSqzHus11s4l7bY6qEqIheTaQVl1rl6XF5RBN46M+qIR2i4ggV50TINn+629dP7H2J1yPDPWKJmkV/BzNuCF4fXWlsxiuleoM8v1pbQ==",
-            md5_of_body: "06ca6b264e9878e64c76b3b6858a1676",
-            body: body,
-            attributes: {},
-            md5_of_message_attributes: nil,
-            message_attributes: {}
-          })
-      ]
-    )}
+    let(:stub_poll_response_success) do
+      Aws::SQS::Types::ReceiveMessageResult.new(
+        messages: [
+          Aws::SQS::Types::Message.new(
+            {
+              message_id: "a1dc5042-e8bf-4417-a443-ed9a2c9558e6",
+              receipt_handle: "AQEB4y8lIzE9G2HiEVen7vRjcmv0xFQML6VcyZYDbnOUzOHFO00yLwaZFE0flYhEv2XMTVyURrK3pRNgaHUH4KK7kFd6cGay35L58UljtEHCJNbBEHSJpuWiV98G56fz04DtTDZN5IKG4tBthDjeDlAheUBkMiiBBLESHSOlUsgGj0vu++x9IlcdjO8+pszXH8356DM3/eayvgoOq9i2yCKkSy4piO6tNX9/VHFVH0fyjIwW3knpbWJHNg2ROKs3RloXKIaBmD4boqc8DSPDx4Mx77zh/T0z3UBG/1CXzmtcXt9NfJJzSqzHus11s4l7bY6qEqIheTaQVl1rl6XF5RBN46M+qIR2i4ggV50TINn+629dP7H2J1yPDPWKJmkV/BzNuCF4fXWlsxiuleoM8v1pbQ==",
+              md5_of_body: "06ca6b264e9878e64c76b3b6858a1676",
+              body: body,
+              attributes: {},
+              md5_of_message_attributes: nil,
+              message_attributes: {}
+            }
+          )
+        ]
+      )
+    end
 
     before do
       allow(Aws::SQS::Client).to receive(:new).and_return client

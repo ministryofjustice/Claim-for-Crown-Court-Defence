@@ -31,7 +31,7 @@ RSpec.describe Caching::Response do
   describe '#ttl' do
     subject(:ttl) { instance.ttl }
 
-    let(:response) { instance_double('mock_response', body: 'body content', headers: headers ) }
+    let(:response) { instance_double('mock_response', body: 'body content', headers: headers) }
 
     context 'with max-age Cache-Control headers' do
       let(:headers) { { cache_control: 'max-age=900, private, re-validate' } }

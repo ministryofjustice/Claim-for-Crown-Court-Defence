@@ -57,7 +57,7 @@ RSpec::Matchers.define :include_field_error_when do |options|
   end
 
   failure_message do |record|
-    msg = ""
+    msg = ''
     msg += "expected valid: false\n got: true\n " if record.valid?
     msg += "expected error: #{message} on #{field}\n got: #{record.errors[field]}\n" if message.present? && !record.errors[field].include?(message)
     msg += "expected #{translated_message_type + ' '}translation: \"#{translated_message}\"\n got: \"#{actual_translated_message}\"" if translated_message.present? && !actual_translated_message.eql?(translated_message)

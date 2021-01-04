@@ -62,7 +62,7 @@ RSpec.describe API::V2::Claim do
     end
 
     context 'when accessed by a ExternalUser' do
-      before { do_request(api_key: @claim.external_user.user.api_key ) }
+      before { do_request(api_key: @claim.external_user.user.api_key) }
 
       it 'returns unauthorised' do
         expect(last_response.status).to eq 401

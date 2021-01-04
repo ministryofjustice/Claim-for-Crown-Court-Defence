@@ -32,7 +32,7 @@ describe API::Entities::CCR::AdaptedBasicFee, type: :adapter do
     let(:adapted_basic_fees) { ::CCR::Fee::BasicFeeAdapter.new(claim) }
 
     it 'exposes expected json key-value pairs' do
-      expect(response).to include(ppe: '1') 
+      expect(response).to include(ppe: '1')
     end
   end
 end

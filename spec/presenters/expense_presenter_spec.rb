@@ -325,7 +325,7 @@ RSpec.describe ExpensePresenter do
           it { is_expected.to eql '.distance_claimed' }
         end
       end
-      
+
       context 'when the distance has not been calculated' do
         let(:calculated_distance) { nil }
 

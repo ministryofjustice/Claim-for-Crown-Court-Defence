@@ -24,13 +24,13 @@ RSpec.describe MessagesController, type: :controller do
       sign_in sender.user
     end
 
-    describe "POST #create" do
+    describe 'POST #create' do
       let(:claim) { create(:advocate_claim) }
       let(:message_params) do
         {
           claim_id: claim.id,
           sender_id: sender.user.id,
-          body: 'lorem ipsum',
+          body: 'lorem ipsum'
         }
       end
 

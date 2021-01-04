@@ -101,7 +101,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
 
       context 'when "Number of defendant uplifts" NOT claimed' do
         it 'returns 1 for the main defendant' do
-          is_expected.to eq "1"
+          is_expected.to eq '1'
         end
       end
 
@@ -111,7 +111,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
         end
 
         it 'returns sum of all Number of defendants uplift quantities plus one for the main defendant' do
-          is_expected.to eq "5"
+          is_expected.to eq '5'
         end
       end
     end

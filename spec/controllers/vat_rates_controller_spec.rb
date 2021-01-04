@@ -25,10 +25,10 @@ RSpec.describe VatRatesController, type: :controller do
         expect(response).to be_successful
         expect(response.body).to eq(
           {
-            'net_amount'    => '£115.76',
-            'date'          => '15/07/2015',
-            'rate'          => '20%',
-            'vat_amount'    => '£23.15',
+            'net_amount' => '£115.76',
+            'date' => '15/07/2015',
+            'rate' => '20%',
+            'vat_amount' => '£23.15',
             'total_inc_vat' => '£138.91'
           }.to_json
         )
@@ -39,10 +39,10 @@ RSpec.describe VatRatesController, type: :controller do
         expect(response).to be_successful
         expect(response.body).to eq(
           {
-            'net_amount'    => '£3,115.77',
-            'date'          => '15/07/2006',
-            'rate'          => '17.5%',
-            'vat_amount'    => '£545.26',
+            'net_amount' => '£3,115.77',
+            'date' => '15/07/2006',
+            'rate' => '17.5%',
+            'vat_amount' => '£545.26',
             'total_inc_vat' => '£3,661.03'
           }.to_json
         )
@@ -53,10 +53,10 @@ RSpec.describe VatRatesController, type: :controller do
         expect(response).to be_successful
         expect(response.body).to eq(
           {
-            'net_amount'    => '£115.76',
-            'date'          => '',
-            'rate'          => '0%',
-            'vat_amount'    => '£0.00',
+            'net_amount' => '£115.76',
+            'date' => '',
+            'rate' => '0%',
+            'vat_amount' => '£0.00',
             'total_inc_vat' => '£115.76'
           }.to_json
         )
@@ -67,10 +67,10 @@ RSpec.describe VatRatesController, type: :controller do
         expect(response).to be_successful
         expect(response.body).to eq(
           {
-            'net_amount'    => '£3,115.77',
-            'date'          => '',
-            'rate'          => '0%',
-            'vat_amount'    => '£0.00',
+            'net_amount' => '£3,115.77',
+            'date' => '',
+            'rate' => '0%',
+            'vat_amount' => '£0.00',
             'total_inc_vat' => '£3,115.77'
           }.to_json
         )
@@ -83,10 +83,10 @@ RSpec.describe VatRatesController, type: :controller do
         expect(response).to be_successful
         expect(response.body).to eq(
           {
-            'net_amount'    => '£3,115.77',
-            'date'          => '',
-            'rate'          => '0%',
-            'vat_amount'    => '£22.23',
+            'net_amount' => '£3,115.77',
+            'date' => '',
+            'rate' => '0%',
+            'vat_amount' => '£22.23',
             'total_inc_vat' => '£3,138.00'
           }.to_json
         )

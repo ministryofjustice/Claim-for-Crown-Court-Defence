@@ -12,7 +12,7 @@ RSpec.shared_examples 'fee_type_rules_creator' do
     subject { described_class.all }
 
     it { is_expected.to be_an Array }
-    it { is_expected.to all( be_a(Rule::Set) ) }
+    it { is_expected.to all(be_a(Rule::Set)) }
   end
 
   describe '.where' do
@@ -21,7 +21,7 @@ RSpec.shared_examples 'fee_type_rules_creator' do
     context 'with unique code matching existing set' do
       let(:unique_code) { 'MIUMU' }
 
-      it { is_expected.to all( be_a(Rule::Set) ) }
+      it { is_expected.to all(be_a(Rule::Set)) }
     end
 
     context 'with unique code not matching existing set' do

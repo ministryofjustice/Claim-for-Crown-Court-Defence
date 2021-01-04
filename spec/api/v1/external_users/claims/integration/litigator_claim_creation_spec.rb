@@ -37,11 +37,11 @@ RSpec::Matchers.define :be_valid_api_lgfs_claim do |expected|
   end
 
   description do
-    "a valid api created claim with matching attributes"
+    'a valid api created claim with matching attributes'
   end
 
   failure_message do |owner|
-    msg = "should be a valid API claim with matching attributes"
+    msg = 'should be a valid API claim with matching attributes'
     failures = @results.select { |_k, v| !v.uniq.length.eql?(1) }
     failures.each_pair do |k, v|
       msg += "\nexpected: #{k} to eql #{v[0].inspect.humanize} but got #{v[1].inspect.humanize}"
@@ -89,7 +89,7 @@ RSpec.describe 'API claim creation for LGFS' do
       case_number: 'A20181234',
       providers_ref: 'A20181234/1',
       cms_number: 'Meridian',
-      case_concluded_at: "2018-04-19",
+      case_concluded_at: '2018-04-19',
       offence_id: nil,
       actual_trial_length: nil,
       court_id: court.id,
@@ -102,9 +102,9 @@ RSpec.describe 'API claim creation for LGFS' do
     {
       api_key: provider.api_key,
       claim_id: nil,
-      first_name: "JohnAPI",
-      last_name: "SmithAPI",
-      date_of_birth: "1980-05-10"
+      first_name: 'JohnAPI',
+      last_name: 'SmithAPI',
+      date_of_birth: '1980-05-10'
     }
   end
 
@@ -122,7 +122,7 @@ RSpec.describe 'API claim creation for LGFS' do
       api_key: provider.api_key,
       claim_id: nil,
       fee_type_id: nil,
-      date: "2018-04-19",
+      date: '2018-04-19',
       quantity: 330,
       amount: 5142.87
     }
@@ -133,7 +133,7 @@ RSpec.describe 'API claim creation for LGFS' do
       api_key: provider.api_key,
       claim_id: nil,
       fee_type_id: nil,
-      warrant_issued_date: "2018-04-19",
+      warrant_issued_date: '2018-04-19',
       quantity: nil,
       amount: 200
     }
@@ -164,7 +164,7 @@ RSpec.describe 'API claim creation for LGFS' do
       api_key: provider.api_key,
       claim_id: nil,
       fee_type_id: nil,
-      date: "2018-04-19",
+      date: '2018-04-19',
       quantity: 1,
       rate: 349.47
     }
@@ -175,7 +175,7 @@ RSpec.describe 'API claim creation for LGFS' do
       api_key: provider.api_key,
       claim_id: nil,
       fee_type_id: nil,
-      date: "2018-04-19",
+      date: '2018-04-19',
       amount: 349.47
     }
   end
@@ -185,7 +185,7 @@ RSpec.describe 'API claim creation for LGFS' do
       api_key: provider.api_key,
       claim_id: nil,
       fee_type_id: nil,
-      amount: 45.00,
+      amount: 45.00
     }
   end
 
@@ -199,9 +199,9 @@ RSpec.describe 'API claim creation for LGFS' do
       location: 'London',
       distance: nil,
       reason_id: 5,
-      reason_text: "Foo",
+      reason_text: 'Foo',
       mileage_rate_id: nil,
-      date: "2018-04-19T12:30:00"
+      date: '2018-04-19T12:30:00'
     }
   end
 
@@ -232,7 +232,7 @@ RSpec.describe 'API claim creation for LGFS' do
       let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') } # Trial
       let(:representation_order_date) { Date.new(2018, 03, 31).as_json }
 
-      specify "Case management system creates a valid scheme 9 graduated fee claim" do
+      specify 'Case management system creates a valid scheme 9 graduated fee claim' do
         post ClaimApiEndpoints.for(:final).create, claim_params.merge(offence_id: offence.id, actual_trial_length: 10), format: :json
         expect(last_response.status).to eql 201
 
@@ -241,7 +241,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -279,7 +279,7 @@ RSpec.describe 'API claim creation for LGFS' do
       let(:case_type) { CaseType.find_by(fee_type_code: 'FXACV') } # Appeal against conviction
       let(:representation_order_date) { Date.new(2018, 03, 31).as_json }
 
-      specify "Case management system creates a valid scheme 9 fixed fee claim" do
+      specify 'Case management system creates a valid scheme 9 fixed fee claim' do
         post ClaimApiEndpoints.for(:final).create, claim_params, format: :json
         expect(last_response.status).to eql 201
 
@@ -288,7 +288,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -321,7 +321,7 @@ RSpec.describe 'API claim creation for LGFS' do
       let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') } # Trial
       let(:representation_order_date) { Date.new(2018, 03, 31).as_json }
 
-      specify "Case management system creates a valid scheme 9 interim (warrant) fee claim" do
+      specify 'Case management system creates a valid scheme 9 interim (warrant) fee claim' do
         post ClaimApiEndpoints.for(:interim).create, claim_params.merge(offence_id: offence.id), format: :json
         expect(last_response.status).to eql 201
 
@@ -330,7 +330,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -354,7 +354,7 @@ RSpec.describe 'API claim creation for LGFS' do
       let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') } # Trial
       let(:representation_order_date) { Date.new(2018, 03, 31).as_json }
 
-      specify "Case management system creates a valid scheme 9 transfer fee claim" do
+      specify 'Case management system creates a valid scheme 9 transfer fee claim' do
         post ClaimApiEndpoints.for(:transfer).create, claim_params.merge(offence_id: offence.id, **transfer_detail_params), format: :json
         expect(last_response.status).to eql 201
 
@@ -363,7 +363,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -400,7 +400,7 @@ RSpec.describe 'API claim creation for LGFS' do
       let(:case_type) { CaseType.find_by(fee_type_code: 'FXACV') } # Appeal against conviction
       let(:representation_order_date) { Date.new(2018, 03, 31).as_json }
 
-      specify "Case management system creates a valid scheme 9 fixed fee claim" do
+      specify 'Case management system creates a valid scheme 9 fixed fee claim' do
         post ClaimApiEndpoints.for(:final).create, claim_params, format: :json
         expect(last_response.status).to eql 201
 
@@ -409,7 +409,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201
@@ -429,7 +429,7 @@ RSpec.describe 'API claim creation for LGFS' do
       let(:case_stage) { create(:case_stage, :pre_ptph_or_ptph_adjourned) }
       let(:representation_order_date) { Date.new(2020, 03, 31).as_json }
 
-      specify "Case management system creates a valid hardship claim" do
+      specify 'Case management system creates a valid hardship claim' do
         post ClaimApiEndpoints.for('litigators/hardship').create, claim_params.merge(case_stage_unique_code: case_stage.unique_code, offence_id: offence.id), format: :json
         expect(last_response.status).to eql 201
 
@@ -438,7 +438,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eql 201
 
-        defendant = Defendant.find_by(uuid: last_response_uuid )
+        defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
         expect(last_response.status).to eql 201

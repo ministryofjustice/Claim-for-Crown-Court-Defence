@@ -9,10 +9,10 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
 
   before { sign_in case_worker_manager.user }
 
-  describe "GET #show" do
+  describe 'GET #show' do
     before { get :show, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -21,10 +21,10 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
   end
 
-  describe "GET #index" do
+  describe 'GET #index' do
     before { get :index }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -35,10 +35,10 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
   end
 
-  describe "GET #edit" do
+  describe 'GET #edit' do
     before { get :edit, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -47,7 +47,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe 'PUT #update' do
     context 'when changing from firm to chamber' do
       it 'changes from chamber to firm and removes LGFS supplier numbers' do
         firm = create :provider, :firm, :with_lgfs_supplier_numbers
@@ -94,12 +94,10 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
 
       context 'when invalid' do
         before(:each) do
-          put :update, params: { id: subject, provider: {
-              supplier_numbers_attributes: [
-                  { supplier_number: 'XY123' },
-                  { supplier_number: '' }
-              ]
-          } }
+          put :update, params: {
+            id: subject,
+            provider: { supplier_numbers_attributes: [{ supplier_number: 'XY123' }, { supplier_number: '' }] }
+          }
         end
 
         it 'does not update provider' do
@@ -113,12 +111,10 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
 
       context 'when valid' do
         before(:each) do
-          put :update, params: { id: subject, provider: {
-              lgfs_supplier_numbers_attributes: [
-                  { supplier_number: '1B222Z' },
-                  { supplier_number: '2B555Z' }
-              ]
-          } }
+          put :update, params: {
+            id: subject,
+            provider: { lgfs_supplier_numbers_attributes: [{ supplier_number: '1B222Z' }, { supplier_number: '2B555Z' }] }
+}
         end
 
         it 'updates the provider' do
@@ -132,19 +128,19 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
   end
 
-  describe "GET #new" do
+  describe 'GET #new' do
     before { get :new }
 
     it 'returns http succes' do
       expect(response).to be_successful
     end
 
-    it "assigns a new provider to @provider" do
+    it 'assigns a new provider to @provider' do
       expect(assigns(:provider)).to be_a_new(Provider)
     end
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     before(:each) do
       post :create, params: { provider: params }
     end
@@ -158,12 +154,12 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
           roles: ['lgfs', 'agfs'],
           vat_registered: false,
           lgfs_supplier_numbers_attributes: {
-            '0'=>{ 'supplier_number' => '2E481W', '_destroy' => 'false' }
+            '0' => { 'supplier_number' => '2E481W', '_destroy' => 'false' }
           }
         }
       end
 
-      it "creates a new provider" do
+      it 'creates a new provider' do
         expect(flash[:notice]).to eq 'Provider successfully created'
       end
 
@@ -177,7 +173,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
         { name: 'St Johns', supplier_number: '4321' }
       end
 
-      it "does not create a provider" do
+      it 'does not create a provider' do
         expect(Provider.count).to eq(0)
       end
 

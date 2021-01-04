@@ -12,24 +12,27 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
   let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence) }
   let!(:court)          { create(:court) }
-  let!(:valid_params)   { {
-      :api_key => provider.api_key,
-      :creator_email => vendor.user.email,
-      :user_email => advocate.user.email,
-      :case_type_id => FactoryBot.create(:case_type, :retrial).id,
-      :case_number => 'A20161234',
-      :first_day_of_trial => "2015-01-01",
-      :estimated_trial_length => 10,
-      :actual_trial_length => 9,
-      :trial_concluded_at => "2015-01-09",
-      :retrial_started_at => "2015-02-01",
-      :retrial_concluded_at => "2015-02-05",
-      :retrial_actual_length => "4",
-      :retrial_estimated_length => "5",
-      :retrial_reduction => "true",
-      :advocate_category => 'Led junior',
-      :offence_id => offence.id,
-      :court_id => court.id } }
+  let!(:valid_params) do
+    {
+      api_key: provider.api_key,
+      creator_email: vendor.user.email,
+      user_email: advocate.user.email,
+      case_type_id: FactoryBot.create(:case_type, :retrial).id,
+      case_number: 'A20161234',
+      first_day_of_trial: "2015-01-01",
+      estimated_trial_length: 10,
+      actual_trial_length: 9,
+      trial_concluded_at: "2015-01-09",
+      retrial_started_at: "2015-02-01",
+      retrial_concluded_at: "2015-02-05",
+      retrial_actual_length: "4",
+      retrial_estimated_length: "5",
+      retrial_reduction: "true",
+      advocate_category: 'Led junior',
+      offence_id: offence.id,
+      court_id: court.id
+    }
+  end
 
   after(:all) { clean_database }
 
@@ -58,13 +61,13 @@ RSpec.describe API::V1::ExternalUsers::Claims::AdvocateClaim do
       expect(last_response.status).to eq(400)
       body = last_response.body
       [
-        "first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])",
-        "retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])"
+        'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
       ].each do |error|
         expect(body).to include(error)
       end

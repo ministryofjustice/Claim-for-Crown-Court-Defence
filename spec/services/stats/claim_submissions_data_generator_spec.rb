@@ -37,15 +37,15 @@ module Stats
         'series' => [
           {
             'name' => 'Advocate',
-            'data' => [250, 260, 270, 280, 290],
+            'data' => [250, 260, 270, 280, 290]
           },
           {
             'name' => 'Litigator interim',
-            'data' => [150, 160, 170, 180, 190],
+            'data' => [150, 160, 170, 180, 190]
           },
           {
             'name' => 'Litigator final',
-            'data' => [350, 360, 370, 380, 390],
+            'data' => [350, 360, 370, 380, 390]
           },
           {
             'name' => 'Litigator transfer',

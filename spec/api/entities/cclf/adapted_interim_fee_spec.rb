@@ -48,8 +48,8 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
         bill_subtype: 'WARRANT',
         amount: '101.01',
         quantity: '0',
-        warrant_issued_date: "2017-06-01",
-        warrant_executed_date: "2017-08-01"
+        warrant_issued_date: '2017-06-01',
+        warrant_executed_date: '2017-08-01'
       )
     end
   end

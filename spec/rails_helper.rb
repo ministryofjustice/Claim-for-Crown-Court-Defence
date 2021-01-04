@@ -125,19 +125,19 @@ RSpec.configure do |config|
   # see https://github.com/titusfortner/webdrivers/wiki/Using-with-VCR-or-WebMock
   # for details
   allowed_sites = [
-    "https://chromedriver.storage.googleapis.com",
-    "https://github.com/mozilla/geckodriver/releases",
-    "https://selenium-release.storage.googleapis.com",
-    "https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver"
+    'https://chromedriver.storage.googleapis.com',
+    'https://github.com/mozilla/geckodriver/releases',
+    'https://selenium-release.storage.googleapis.com',
+    'https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver'
   ]
   WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
 
   config.before :each, geckoboard: true do
-    stub_request(:get, "https://api.geckoboard.com/").
-        with(headers: { 'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=> /Geckoboard-Ruby\/0\.[\d]+(\.[\d])*/ }).
-        to_return(status: 200, body: "", headers: {})
+    stub_request(:get, 'https://api.geckoboard.com/').
+        with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => /Geckoboard-Ruby\/0\.[\d]+(\.[\d])*/ }).
+        to_return(status: 200, body: '', headers: {})
     stub_request(:post, %r{\Ahttps://push.geckoboard.com/v1/send/.*\z}).
-        to_return(status: 200, body: "", headers: {})
+        to_return(status: 200, body: '', headers: {})
   end
 
   config.before :each, slack_bot: true do

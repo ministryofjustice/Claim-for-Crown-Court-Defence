@@ -7,7 +7,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimSubModelValidator, type: :valida
   include_examples 'common partial association validations', {
     has_one: {
       case_details: [],
-      defendants: [],
+      defendants: []
     },
     has_many: {
       case_details: [],

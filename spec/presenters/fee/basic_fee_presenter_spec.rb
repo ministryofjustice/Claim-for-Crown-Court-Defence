@@ -47,33 +47,28 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
 
       context 'and fee type has restrictions to be displayed' do
         let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+        let(:offence) do
+          create(
+            :offence, :with_fee_scheme_ten,
+            offence_band: create(:offence_band, offence_category: offence_category)
+          )
+        end
+        let(:claim) { build(:advocate_claim, offence: offence) }
 
         context 'and the offence category number is neither 6 or 9' do
-          let!(:offence) {
-            create(:offence, :with_fee_scheme_ten,
-                   offence_band: create(:offence_band,
-                                        offence_category: create(:offence_category, number: 2))) }
-          let(:claim) { build(:advocate_claim, offence: offence) }
+          let(:offence_category) { build :offence_category, number: 2 }
 
           specify { expect(presenter.should_be_displayed?).to be_falsey }
         end
 
         context 'and the offence category number is 6' do
-          let!(:offence) {
-            create(:offence, :with_fee_scheme_ten,
-                   offence_band: create(:offence_band,
-                                        offence_category: create(:offence_category, number: 6))) }
-          let(:claim) { build(:advocate_claim, offence: offence) }
+          let(:offence_category) { build :offence_category, number: 6 }
 
           specify { expect(presenter.should_be_displayed?).to be_truthy }
         end
 
         context 'and the offence category number is 9' do
-          let!(:offence) {
-            create(:offence, :with_fee_scheme_ten,
-                   offence_band: create(:offence_band,
-                                        offence_category: create(:offence_category, number: 9))) }
-          let(:claim) { build(:advocate_claim, offence: offence) }
+          let(:offence_category) { build :offence_category, number: 9 }
 
           specify { expect(presenter.should_be_displayed?).to be_truthy }
         end
@@ -82,7 +77,7 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
   end
 
   describe '#display_extra_fees?' do
-    # method calls #should_be_displayed? after discontinuance 
+    # method calls #should_be_displayed? after discontinuance
     # guard clause test logic other than this is covered.
     context 'should return false if claim is discontinuance' do
       let(:discontinuance) { create(:case_type, :discontinuance) }
@@ -104,33 +99,28 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
 
       context 'and fee type has restrictions to be displayed' do
         let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+        let(:offence) do
+          create(
+            :offence, :with_fee_scheme_ten,
+            offence_band: create(:offence_band, offence_category: offence_category)
+          )
+        end
+        let(:claim) { build(:advocate_claim, offence: offence) }
 
         context 'and the offence category number is neither 6 or 9' do
-          let!(:offence) {
-            create(:offence, :with_fee_scheme_ten,
-                   offence_band: create(:offence_band,
-                                        offence_category: create(:offence_category, number: 2))) }
-          let(:claim) { build(:advocate_claim, offence: offence) }
+          let(:offence_category) { build :offence_category, number: 2 }
 
           specify { expect(presenter.display_help_text?).to be_falsey }
         end
 
         context 'and the offence category number is 6' do
-          let!(:offence) {
-            create(:offence, :with_fee_scheme_ten,
-                   offence_band: create(:offence_band,
-                                        offence_category: create(:offence_category, number: 6))) }
-          let(:claim) { build(:advocate_claim, offence: offence) }
+          let(:offence_category) { build :offence_category, number: 6 }
 
           specify { expect(presenter.display_help_text?).to be_truthy }
         end
 
         context 'and the offence category number is 9' do
-          let!(:offence) {
-            create(:offence, :with_fee_scheme_ten,
-                   offence_band: create(:offence_band,
-                                        offence_category: create(:offence_category, number: 9))) }
-          let(:claim) { build(:advocate_claim, offence: offence) }
+          let(:offence_category) { build :offence_category, number: 9 }
 
           specify { expect(presenter.display_help_text?).to be_truthy }
         end

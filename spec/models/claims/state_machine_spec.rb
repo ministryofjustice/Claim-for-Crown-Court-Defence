@@ -101,28 +101,21 @@ RSpec.describe Claims::StateMachine, type: :model do
         claim.allocate!
       end
 
-      it { expect { claim.reject! }.to      change { claim.state }.to('rejected') }
-      it { expect { claim.submit! }.to      change { claim.state }.to('submitted') }
-      it { expect { claim.refuse! }.to      change { claim.state }.to('refused') }
+      it { expect { claim.reject! }.to change { claim.state }.to('rejected') }
+      it { expect { claim.submit! }.to change { claim.state }.to('submitted') }
+      it { expect { claim.refuse! }.to change { claim.state }.to('refused') }
 
-      it do
-        expect do
-          claim.assessment.update(fees: 100.00, expenses: 23.45)
-          claim.authorise_part!
-        end.to change { claim.state }.to('part_authorised')
+      context 'with an assessed amount' do
+        before { claim.assessment.update(fees: 100.00, expenses: 23.45) }
+
+        it { expect { claim.authorise_part! }.to change { claim.state }.to('part_authorised') }
+        it { expect { claim.authorise! }.to change { claim.state }.to('authorised') }
       end
-
-      it { expect {
-        claim.assessment.update(fees: 100.00, expenses: 23.45)
-        claim.authorise!
-      }.to change { claim.state }.to('authorised') }
 
       it { expect { claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
 
       it 'should be able to deallocate' do
-        expect {
-          claim.deallocate!
-        }.to change { claim.state }.to('submitted')
+        expect { claim.deallocate! }.to change { claim.state }.to('submitted')
       end
 
       it 'should unlink case workers on deallocate' do
@@ -226,30 +219,30 @@ RSpec.describe Claims::StateMachine, type: :model do
       end
     end
 
-    context "Allocated claim" do
+    context 'Allocated claim' do
       let(:claim) { create(:allocated_claim) }
 
-      it "has a blank assessment" do
+      it 'has a blank assessment' do
         expect(claim.assessment).not_to eq(nil)
         expect(claim.assessment.fees).to eq(0)
         expect(claim.assessment.expenses).to eq(0)
         expect(claim.assessment.disbursements).to eq(0)
       end
 
-      context "updating assessment" do
-        context "without updating the status" do
+      context 'updating assessment' do
+        context 'without updating the status' do
           let(:params) do
             {
-              "assessment_attributes" => {
-                "fees" => "1.00",
-                "expenses" => "0.00",
-                "vat_amount" => "0.00",
-                "id" => claim.assessment.id
+              'assessment_attributes' => {
+                'fees' => '1.00',
+                'expenses' => '0.00',
+                'vat_amount' => '0.00',
+                'id' => claim.assessment.id
               }
             }
           end
 
-          it "does not update the assessment" do
+          it 'does not update the assessment' do
             claim.update_model_and_transition_state(params) rescue nil
             expect(claim.reload.assessment.fees).to eq(0)
           end

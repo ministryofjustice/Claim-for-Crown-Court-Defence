@@ -44,7 +44,7 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
 
   before { sign_in advocate.user }
 
-  describe "POST #calculate.json" do
+  describe 'POST #calculate.json' do
     context 'message sending' do
       subject(:calculate) { post :calculate, params: params }
       let(:claim) { create(:draft_claim) }

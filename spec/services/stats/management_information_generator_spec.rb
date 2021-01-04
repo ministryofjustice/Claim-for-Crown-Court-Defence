@@ -4,30 +4,34 @@ RSpec.describe Stats::ManagementInformationGenerator do
   subject(:result) { described_class.call }
 
   let(:frozen_time) { Time.new(2015, 3, 10, 11, 44, 55) }
-  let(:report_columns) { ['Id',
-                          'Scheme',
-                          'Case number',
-                          'Supplier number',
-                          'Organisation',
-                          'Case type name',
-                          'Bill type',
-                          'Claim total',
-                          'Submission type',
-                          'Transitioned at',
-                          'Last submitted at',
-                          'Originally submitted at',
-                          'Allocated at',
-                          'Completed at',
-                          'Current or end state',
-                          'State reason code',
-                          'Rejection reason',
-                          'Case worker',
-                          'Disk evidence case',
-                          'Main defendant',
-                          'Maat reference',
-                          'Rep order issued date',
-                          'AF1/LF1 processed by',
-                          'Misc fees'] }
+  let(:report_columns) do
+    [
+      'Id',
+      'Scheme',
+      'Case number',
+      'Supplier number',
+      'Organisation',
+      'Case type name',
+      'Bill type',
+      'Claim total',
+      'Submission type',
+      'Transitioned at',
+      'Last submitted at',
+      'Originally submitted at',
+      'Allocated at',
+      'Completed at',
+      'Current or end state',
+      'State reason code',
+      'Rejection reason',
+      'Case worker',
+      'Disk evidence case',
+      'Main defendant',
+      'Maat reference',
+      'Rep order issued date',
+      'AF1/LF1 processed by',
+      'Misc fees'
+    ]
+  end
 
   context 'when generating data' do
     subject(:contents) { result.content.split("\n") }

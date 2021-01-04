@@ -9,7 +9,7 @@ describe API::Entities::CCLF::CaseType do
     let(:adapter_klass) { ::CCLF::CaseTypeAdapter }
     let(:adapter) { instance_double(adapter_klass) }
 
-    it "delegates bill_scenario to adapter" do
+    it 'delegates bill_scenario to adapter' do
       expect(adapter_klass).to receive(:new).with(claim).and_return(adapter)
       expect(adapter).to receive(:bill_scenario)
       response

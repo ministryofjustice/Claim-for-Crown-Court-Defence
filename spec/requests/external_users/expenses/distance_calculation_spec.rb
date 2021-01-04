@@ -40,7 +40,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
 
     context 'but the associated claim does not exist' do
       it 'returns an unprocessable response' do
-        post "/external_users/claims/999999/expenses/calculate_distance.json", params: params.to_json, headers: headers
+        post '/external_users/claims/999999/expenses/calculate_distance.json', params: params.to_json, headers: headers
 
         expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:unprocessable_entity)

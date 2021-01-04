@@ -152,13 +152,13 @@ RSpec.describe Claim::BaseClaim do
 
     describe '#expenses.with_vat' do
       it 'returns an array of expenses with VAT' do
-        expect(@claim.expenses.with_vat).to match_array( [ @ex1, @ex3 ] )
+        expect(@claim.expenses.with_vat).to match_array([@ex1, @ex3])
       end
     end
 
     describe '#expenses.without_vat' do
       it 'returns an array of expenses without VAT' do
-        expect(@claim.expenses.without_vat).to match_array( [ @ex2, @ex4 ] )
+        expect(@claim.expenses.without_vat).to match_array([@ex2, @ex4])
       end
     end
 
@@ -205,13 +205,13 @@ RSpec.describe Claim::BaseClaim do
 
     describe '#disbursements.with_vat' do
       it 'returns an array of disbursements with VAT' do
-        expect(@claim.disbursements.with_vat).to match_array( [ @db1, @db3 ] )
+        expect(@claim.disbursements.with_vat).to match_array([@db1, @db3])
       end
     end
 
     describe '#disbursements.without_vat' do
       it 'returns an array of disbursements without VAT' do
-        expect(@claim.disbursements.without_vat).to match_array( [ @db2, @db4 ] )
+        expect(@claim.disbursements.without_vat).to match_array([@db2, @db4])
       end
     end
 
@@ -576,29 +576,29 @@ RSpec.describe MockBaseClaim do
       def make_date_params(date_string)
         day, month, year = date_string.split('-')
         {
-          "first_day_of_trial_dd" => day,
-          "first_day_of_trial_mm" => month,
-          "first_day_of_trial_yyyy" => year,
+          'first_day_of_trial_dd' => day,
+          'first_day_of_trial_mm' => month,
+          'first_day_of_trial_yyyy' => year
         }
       end
 
       dates = {
-       '04-10-80'    => Date.new(80, 10, 04),
-       '04-10-1980'  => Date.new(1980, 10, 04),
-       '04-1-1980'   => Date.new(1980, 01, 04),
-       '4-1-1980'    => Date.new(1980, 01, 04),
-       '4-10-1980'   => Date.new(1980, 10, 04),
-       '4-Oct-1980'  => Date.new(1980, 10, 04),
+       '04-10-80' => Date.new(80, 10, 04),
+       '04-10-1980' => Date.new(1980, 10, 04),
+       '04-1-1980' => Date.new(1980, 01, 04),
+       '4-1-1980' => Date.new(1980, 01, 04),
+       '4-10-1980' => Date.new(1980, 10, 04),
+       '4-Oct-1980' => Date.new(1980, 10, 04),
        '04-Oct-1980' => Date.new(1980, 10, 04),
-       '04-10-10'    => Date.new(10, 10, 04),
-       '04-10-2010'  => Date.new(2010, 10, 04),
-       '04-1-2010'   => Date.new(2010, 01, 04),
-       '4-1-2010'    => Date.new(2010, 01, 04),
-       '4-10-2010'   => Date.new(2010, 10, 04),
-       '4-Oct-2010'  => Date.new(2010, 10, 04),
+       '04-10-10' => Date.new(10, 10, 04),
+       '04-10-2010' => Date.new(2010, 10, 04),
+       '04-1-2010' => Date.new(2010, 01, 04),
+       '4-1-2010' => Date.new(2010, 01, 04),
+       '4-10-2010' => Date.new(2010, 10, 04),
+       '4-Oct-2010' => Date.new(2010, 10, 04),
        '04-Oct-2010' => Date.new(2010, 10, 04),
        '04-nov-2001' => Date.new(2001, 11, 04),
-       '4-jAn-1999'  => Date.new(1999, 01, 04),
+       '4-jAn-1999' => Date.new(1999, 01, 04)
       }
       dates.each do |date_string, date|
         params = make_date_params(date_string)
@@ -631,8 +631,8 @@ RSpec.describe MockBaseClaim do
   describe '#evidence_doc_types' do
     it 'returns an array of DocType objects' do
       claim = described_class.new(evidence_checklist_ids: [1, 5, 10])
-      expect(claim.evidence_doc_types.map(&:class)).to eq( [ DocType, DocType, DocType ] )
-      expect(claim.evidence_doc_types.map(&:name)).to match_array( [ 'Representation order', 'Order in respect of judicial apportionment', 'Special preparation form'])
+      expect(claim.evidence_doc_types.map(&:class)).to eq([DocType, DocType, DocType])
+      expect(claim.evidence_doc_types.map(&:name)).to match_array(['Representation order', 'Order in respect of judicial apportionment', 'Special preparation form'])
     end
   end
 
@@ -722,7 +722,8 @@ RSpec.describe MockBaseClaim do
         defendants.each do |defendant|
           expect(defendant).to receive(:earliest_representation_order).and_return(nil)
         end
-        expect(earliest_representation_order).to be_nil }
+        expect(earliest_representation_order).to be_nil
+      }
     end
 
     context 'when some of the defendants have an earliest representation order set' do

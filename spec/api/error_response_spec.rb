@@ -24,7 +24,7 @@ describe API::ErrorResponse do
     context 'accepts exception objects' do
       EXCEPTION_KLASSES.each do |exception_klass|
         let(:ex) { exception_klass.new('my exception message') }
-        
+
         it "does not raise a runtime error for #{exception_klass}" do
           expect { er = described_class.new(ex) }.not_to raise_error
         end
@@ -45,7 +45,7 @@ describe API::ErrorResponse do
     end
 
     context 'accepts other objects without breaking' do
-      [1,"1",[1,2]].each do |other_object|
+      [1,'1',[1,2]].each do |other_object|
         it "accepts #{other_object.class.name} without raising an error" do
           expect { described_class.new(other_object) }.not_to raise_error
         end
@@ -71,6 +71,6 @@ describe API::ErrorResponse do
     it 'raises an error if model is valid' do  #pending because claim.errors contains an empty array for external_users
       claim.update_attribute(:case_number, 'A20161234')
       expect(claim).to be_valid
-      expect { described_class.new(claim) }.to raise_error("unable to build error response as no errors were found")
+      expect { described_class.new(claim) }.to raise_error('unable to build error response as no errors were found')
     end
 end

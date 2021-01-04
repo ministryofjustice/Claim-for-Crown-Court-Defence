@@ -61,14 +61,14 @@ describe DocumentRecloner do
 
   def create_source_claim
     claim = create :rejected_claim
-    %w{ hardship indictment LAC_1 repo_order_1}.each { |doc| add_doc(claim, doc) }
+    %w{hardship indictment LAC_1 repo_order_1}.each { |doc| add_doc(claim, doc) }
     claim.reload
   end
 
   def create_cloned_claim(source_claim)
     claim = create :claim, external_user: source_claim.external_user
     claim.update(clone_source_id: source_claim.id)
-    %w{ hardship  LAC_1 repo_order_1}.each { |doc| add_corrupted_doc(claim, doc) }
+    %w{hardship LAC_1 repo_order_1}.each { |doc| add_corrupted_doc(claim, doc) }
     add_doc(claim, 'indictment')
 
     claim.reload
@@ -111,7 +111,7 @@ describe DocumentRecloner do
       size = File.stat(doc.document.path).size
       size > 0 ? valid_doc_ids << doc.id : invalid_doc_ids << doc.id
     end
-    [ invalid_doc_ids, valid_doc_ids ]
+    [invalid_doc_ids, valid_doc_ids]
   end
 
   def check_file_has_been_written(doc)

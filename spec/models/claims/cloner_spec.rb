@@ -96,14 +96,14 @@ RSpec.describe Claims::Cloner, type: :model do
       include_examples 'common defendants cloning tests'
 
       it 'does not clone the uuids of expense dates attended' do
-        cloned_claim_uuids = @cloned_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
-        rejected_claim_uuids = @original_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
+        cloned_claim_uuids = @cloned_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid) }.flatten
+        rejected_claim_uuids = @original_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid) }.flatten
         expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
       end
 
       it 'does not clone the uuids of fee dates attended' do
-        cloned_claim_uuids = @cloned_claim.fees.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
-        rejected_claim_uuids = @original_claim.fees.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid ) }.flatten
+        cloned_claim_uuids = @cloned_claim.fees.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid) }.flatten
+        rejected_claim_uuids = @original_claim.fees.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid) }.flatten
         expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
       end
 

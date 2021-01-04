@@ -7,12 +7,12 @@ RSpec.describe InjectionResponseService, slack_bot: true do
   let(:injection_attempt) { claim.injection_attempts.last }
 
   let(:invalid_json) { { "errors": [], 'claim_id': '1234567', "messages":[] } }
-  let(:valid_json_with_invalid_uuid) { { "from":"external application", "errors":[], "uuid":'b08cfd61-9999-8888-7777-651477183efb', "messages":[{ 'message':'Claim injected successfully.' }] } }
-  let(:valid_json_on_success) { { "from":"external application", "errors":[], "uuid":claim.uuid, "messages":[{ 'message':'Claim injected successfully.' }] } }
-  let(:valid_json_on_failure) { { "from":"external application", "errors":[ { 'error':"No defendant found for Rep Order Number: '123456432'." }, { 'error':error_message } ],"uuid":claim.uuid,"messages":[] } }
-  let(:error_message) { "Another injection error." }
+  let(:valid_json_with_invalid_uuid) { { "from":'external application', "errors":[], "uuid":'b08cfd61-9999-8888-7777-651477183efb', "messages":[{ 'message':'Claim injected successfully.' }] } }
+  let(:valid_json_on_success) { { "from":'external application', "errors":[], "uuid":claim.uuid, "messages":[{ 'message':'Claim injected successfully.' }] } }
+  let(:valid_json_on_failure) { { "from":'external application', "errors":[{ 'error':"No defendant found for Rep Order Number: '123456432'." }, { 'error':error_message }],"uuid":claim.uuid,"messages":[] } }
+  let(:error_message) { 'Another injection error.' }
 
-  shared_examples "creates injection attempts" do
+  shared_examples 'creates injection attempts' do
     it 'returns true' do
       is_expected.to be true
     end
@@ -50,7 +50,7 @@ RSpec.describe InjectionResponseService, slack_bot: true do
 
       it 'does not send a slack message' do
         run!
-        expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).not_to have_been_made
+        expect(a_request(:post, 'https://hooks.slack.com/services/fake/endpoint')).not_to have_been_made
       end
     end
 
@@ -65,14 +65,14 @@ RSpec.describe InjectionResponseService, slack_bot: true do
 
       it 'sends a slack message' do
         run!
-        expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).to have_been_made.times(1)
+        expect(a_request(:post, 'https://hooks.slack.com/services/fake/endpoint')).to have_been_made.times(1)
       end
 
       it 'adds error messages from the response' do
         run!
         expect(injection_attempt.error_messages).to be_present
         expect(injection_attempt.error_messages).to be_an Array
-        expect(injection_attempt.error_messages).to include("No defendant found for Rep Order Number: '123456432'.","Another injection error.")
+        expect(injection_attempt.error_messages).to include("No defendant found for Rep Order Number: '123456432'.",'Another injection error.')
       end
 
       context 'with a known, ignorable, error' do
@@ -80,7 +80,7 @@ RSpec.describe InjectionResponseService, slack_bot: true do
 
         it 'does not send a slack message' do
           run!
-          expect(a_request(:post, "https://hooks.slack.com/services/fake/endpoint")).not_to have_been_made
+          expect(a_request(:post, 'https://hooks.slack.com/services/fake/endpoint')).not_to have_been_made
         end
       end
     end

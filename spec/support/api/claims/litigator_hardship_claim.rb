@@ -18,7 +18,7 @@ class LitigatorHardshipClaimTest < BaseClaimTest
     client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
 
     # CREATE graduated fee
-    client.post_to_endpoint('fees', graduated_fee_data)   
+    client.post_to_endpoint('fees', graduated_fee_data)
   ensure
     clean_up
   end

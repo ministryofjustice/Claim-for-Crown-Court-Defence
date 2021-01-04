@@ -17,7 +17,7 @@ RSpec.shared_examples 'advocate category validations' do |options|
 
   it 'should error if not in the available list' do
     claim.advocate_category = 'not-a-QC'
-    should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
+    should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
   end
 
   context 'when on a pre fee reform scheme' do
@@ -44,7 +44,7 @@ RSpec.shared_examples 'advocate category validations' do |options|
     fee_reform_invalid_categories.each do |category|
       it "should error if '#{category}' specified" do
         claim.advocate_category = category
-        should_error_with(claim, :advocate_category, "Advocate category must be one of those in the provided list")
+        should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
       end
     end
   end
@@ -56,7 +56,7 @@ RSpec.shared_examples 'advocate claim external user role' do
   context 'external_user' do
     it 'should error when does not have advocate role' do
       claim.external_user = litigator
-      should_error_with(claim, :external_user, "must have advocate role")
+      should_error_with(claim, :external_user, 'must have advocate role')
     end
   end
 end
@@ -72,7 +72,7 @@ RSpec.shared_examples 'advocate claim case concluded at' do
     it 'is invalid when present' do
       claim.case_concluded_at = 1.month.ago
       expect(claim).not_to be_valid
-      expect(claim.errors[:case_concluded_at]).to eq([ 'present' ])
+      expect(claim.errors[:case_concluded_at]).to eq(['present'])
     end
   end
 end
@@ -84,7 +84,7 @@ RSpec.shared_examples 'advocate claim creator role' do
     before { claim.creator = litigator }
 
     it 'should error when their provider does not have AGFS role' do
-      should_error_with(claim, :creator, "must be from a provider with permission to submit AGFS claims")
+      should_error_with(claim, :creator, 'must be from a provider with permission to submit AGFS claims')
     end
 
     context 'when validation has been overridden' do

@@ -10,11 +10,11 @@ RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
 
     let(:expected_fields) do
       [
-          Geckoboard::DateField.new(:date, name: 'Date'),
-          Geckoboard::NumberField.new(:firms_added, name: 'Firms added'),
-          Geckoboard::NumberField.new(:chambers_added, name: 'Chambers added'),
-          Geckoboard::NumberField.new(:total_added, name: 'Total created'),
-          Geckoboard::NumberField.new(:overall_count, name: 'Overall provider count')
+        Geckoboard::DateField.new(:date, name: 'Date'),
+        Geckoboard::NumberField.new(:firms_added, name: 'Firms added'),
+        Geckoboard::NumberField.new(:chambers_added, name: 'Chambers added'),
+        Geckoboard::NumberField.new(:total_added, name: 'Total created'),
+        Geckoboard::NumberField.new(:overall_count, name: 'Overall provider count')
       ].map { |field| [field.class, field.id, field.name] }
     end
 
@@ -26,27 +26,27 @@ RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
 
     let(:expected_items) do
       [
-          {
-              firms_added: 0,
-              chambers_added: 1,
-              total_added: 1,
-              date: "2017-03-19",
-              overall_count: 1
-          },
-          {
-              firms_added: 1,
-              chambers_added: 1,
-              total_added: 2,
-              date: "2017-03-20",
-              overall_count: 3
-          },
-          {
-              firms_added: 0,
-              chambers_added: 1,
-              total_added: 1,
-              date: "2017-03-21",
-              overall_count: 4
-          }
+        {
+          firms_added: 0,
+          chambers_added: 1,
+          total_added: 1,
+          date: '2017-03-19',
+          overall_count: 1
+        },
+        {
+          firms_added: 1,
+          chambers_added: 1,
+          total_added: 2,
+          date: '2017-03-20',
+          overall_count: 3
+        },
+        {
+          firms_added: 0,
+          chambers_added: 1,
+          total_added: 1,
+          date: '2017-03-21',
+          overall_count: 4
+        }
       ]
     end
 

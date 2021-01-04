@@ -79,17 +79,17 @@ RSpec.describe Claims::UpdateDraft do
       let(:claim) { FactoryBot.create :interim_claim, case_number: 'A20161234' }
       let(:draft_claim_params) {
         {
-          "form_step" => "fees",
-          "interim_fee_attributes" => {
-            "fee_type_id" => fee_type.id,
-            "quantity"=>"",
-            "warrant_issued_date_dd" => "",
-            "warrant_issued_date_mm" => "",
-            "warrant_issued_date_yyyy" => "",
-            "warrant_executed_date_dd" => "",
-            "warrant_executed_date_mm" => "",
-            "warrant_executed_date_yyyy" => "",
-            "amount" => ""
+          'form_step' => 'fees',
+          'interim_fee_attributes' => {
+            'fee_type_id' => fee_type.id,
+            'quantity' => '',
+            'warrant_issued_date_dd' => '',
+            'warrant_issued_date_mm' => '',
+            'warrant_issued_date_yyyy' => '',
+            'warrant_executed_date_dd' => '',
+            'warrant_executed_date_mm' => '',
+            'warrant_executed_date_yyyy' => '',
+            'amount' => ''
           }
         }
       }
@@ -102,8 +102,8 @@ RSpec.describe Claims::UpdateDraft do
         let(:new_case_number) { 'A20165555' }
         let(:claim_params) {
           {
-            "form_step" => "case_details",
-            "case_number" => new_case_number
+            'form_step' => 'case_details',
+            'case_number' => new_case_number
           }
         }
 
@@ -118,8 +118,8 @@ RSpec.describe Claims::UpdateDraft do
       context 'when current form step requires the invalid record to be validated' do
         let(:claim_params) {
           {
-            "form_step" => "interim_fees",
-            "case_number" => 'A20165555'
+            'form_step' => 'interim_fees',
+            'case_number' => 'A20165555'
           }
         }
 

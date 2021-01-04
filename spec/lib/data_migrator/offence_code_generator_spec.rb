@@ -12,7 +12,7 @@ RSpec.describe OffenceCodeGenerator do
 
     context 'when the offence is in' do
       context 'scheme nine' do
-        let(:offence) { create(:offence, :with_fee_scheme, description: 'Murder', offence_class: create(:offence_class )) }
+        let(:offence) { create(:offence, :with_fee_scheme, description: 'Murder', offence_class: create(:offence_class)) }
 
         it { is_expected.to match(/^MURDER_[A-K]$/) }
       end

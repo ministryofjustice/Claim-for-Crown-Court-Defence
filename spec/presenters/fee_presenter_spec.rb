@@ -82,7 +82,7 @@ RSpec.describe Fee::BaseFeePresenter do
       it 'outputs placeholder html indicating rate is not applicable' do
         fee.rate = nil
         fee.fee_type.calculated = false
-        expect(presenter.rate).to eq "<div class=\"form-hint\">n/a</div>"
+        expect(presenter.rate).to eq '<div class="form-hint">n/a</div>'
       end
     end
   end
@@ -97,13 +97,13 @@ RSpec.describe Fee::BaseFeePresenter do
       it 'outputs header' do
         allow(I18n).to receive(:t).and_return('header_text')
         fee.fee_type.code = 'PPE'
-        expect(presenter.section_header('scope.for.translation')).to eq "header_text"
+        expect(presenter.section_header('scope.for.translation')).to eq 'header_text'
       end
 
       it 'outputs hint' do
         allow(I18n).to receive(:t).and_return('hint_text')
         fee.fee_type.code = 'PPE'
-        expect(presenter.section_hint('scope.for.translation')).to eq "hint_text"
+        expect(presenter.section_hint('scope.for.translation')).to eq 'hint_text'
       end
     end
   end

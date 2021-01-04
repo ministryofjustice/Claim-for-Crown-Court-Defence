@@ -3,7 +3,7 @@ require_relative 'shared_examples_for_advocate_litigator'
 require_relative 'shared_examples_for_step_validators'
 
 RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
-  include_context "force-validation"
+  include_context 'force-validation'
   include_context 'seed-fee-schemes'
 
   let(:claim) { create(:advocate_hardship_claim) }
@@ -261,7 +261,7 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
     end
 
     it 'should error if not present' do
-      should_error_with(claim, :offence, "blank")
+      should_error_with(claim, :offence, 'blank')
     end
 
     context 'when the claim is associated with the new fee reform scheme' do

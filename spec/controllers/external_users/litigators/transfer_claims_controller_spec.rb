@@ -245,7 +245,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                   }
                 },
                 'id' => '100'
-              },
+              }
 
             }
           },

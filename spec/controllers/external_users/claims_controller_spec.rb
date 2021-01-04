@@ -5,7 +5,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
   before { sign_in advocate.user }
 
-  context "list views" do
+  context 'list views' do
     let!(:advocate_admin) { create(:external_user, :admin, provider: advocate.provider) }
     let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
 
@@ -77,7 +77,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
           it 'should assign claims to dashboard displayable state claims for all members of the provder' do
             get :index
-            expect(assigns(:claims)).to eq( [@draft_claim] )
+            expect(assigns(:claims)).to eq([@draft_claim])
           end
         end
 
@@ -517,12 +517,12 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
   end
 
-  describe "GET #show" do
+  describe 'GET #show' do
     subject { create(:claim, external_user: advocate) }
 
     let(:case_worker) { create(:case_worker) }
 
-    it "returns http success" do
+    it 'returns http success' do
       get :show, params: { id: subject }
       expect(response).to be_successful
     end
@@ -548,7 +548,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
   end
 
-  describe "PATCH #clone_rejected" do
+  describe 'PATCH #clone_rejected' do
     context 'with a rejected claim' do
       subject(:claim) do
         create(:rejected_claim, external_user: advocate).tap do |c|
@@ -585,7 +585,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         it'displays a flash notice' do
-          expect(flash[:notice]).to eq "Draft created"
+          expect(flash[:notice]).to eq 'Draft created'
         end
       end
 
@@ -647,7 +647,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     context 'on success' do
       before { delete :destroy, params: { id: claim } }
 
@@ -678,7 +678,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         let(:claim) { create(:advocate_hardship_claim, :rejected, external_user: advocate) }
 
         it "sets the claim's state to 'archived_pending_review'" do
-          expect(Claim::BaseClaim.active.count).to eq(1) 
+          expect(Claim::BaseClaim.active.count).to eq(1)
           expect(claim.reload.state).to eq 'archived_pending_review'
           expect(flash[:notice]).to eq 'Claim archived'
         end
@@ -709,7 +709,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
   end
 
-  describe "PATCH #unarchive" do
+  describe 'PATCH #unarchive' do
     context 'when archived_pending_delete claim' do
       let(:claim) do
         claim = create(:authorised_claim, external_user: advocate)
@@ -735,14 +735,14 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           claim.archive_pending_review!
           claim
         end
-  
+
         context 'when the current version of paper trail is used' do
           before { patch :unarchive, params: { id: claim } }
-  
+
           it 'unarchives the claim and restores to state prior to archiving' do
             expect(claim.reload).to be_rejected
           end
-  
+
           it 'redirects to external users root url' do
             expect(response).to redirect_to(external_users_claims_url)
           end
@@ -831,7 +831,7 @@ end
 def build_sortable_claims_sample(advocate)
   [:draft, :submitted, :allocated, :authorised, :rejected].each_with_index do |state, i|
     travel_to(i.days.ago) do
-      n = i+1
+      n = i + 1
       claim = create("#{state}_claim".to_sym, external_user: advocate, case_number: "A2016#{(n).to_s.rjust(4,'0')}")
       claim.fees.destroy_all
       claim.expenses.destroy_all
@@ -839,7 +839,7 @@ def build_sortable_claims_sample(advocate)
       # cannot stub/mock here so temporarily change state to draft to enable amount calculation of fees
       old_state = claim.state
       claim.state = 'draft'
-      create(:misc_fee, claim: claim, quantity: n*1, rate: n*1)
+      create(:misc_fee, claim: claim, quantity: n * 1, rate: n * 1)
       claim.state = old_state
       claim.assessment.update!(fees: claim.fees_total, expenses: 0, disbursements: 0) if claim.authorised?
     end

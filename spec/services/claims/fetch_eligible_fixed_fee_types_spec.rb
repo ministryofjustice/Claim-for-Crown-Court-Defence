@@ -22,7 +22,7 @@ RSpec.describe Claims::FetchEligibleFixedFeeTypes, type: :service do
     # is not used for LGFS claims.
     context 'LGFS' do
       let(:claim) do
-        create(:litigator_claim, :without_fees, case_type: CaseType.find_by(name: 'Appeal against conviction') )
+        create(:litigator_claim, :without_fees, case_type: CaseType.find_by(name: 'Appeal against conviction'))
       end
 
       it 'returns LGFS only fixed fee types' do

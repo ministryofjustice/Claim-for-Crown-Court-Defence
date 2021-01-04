@@ -73,7 +73,7 @@ describe CaseWorkers::ClaimsHelper do
   end
 
   context 'carousel helper methods' do
-    let(:claim_ids) { [ 1244, 36364, 3774, 2773, 73773] }
+    let(:claim_ids) { [1244, 36364, 3774, 2773, 73773] }
 
     before(:each) do
       allow(helper).to receive(:claim_ids).and_return(claim_ids)

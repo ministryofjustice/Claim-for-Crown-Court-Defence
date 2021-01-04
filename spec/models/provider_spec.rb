@@ -94,7 +94,7 @@ RSpec.describe Provider, type: :model do
 
   context 'ROLES' do
     it 'should have "agfs" and "lgfs"' do
-      expect(Provider::ROLES).to match_array(%w( agfs lgfs ))
+      expect(Provider::ROLES).to match_array(%w(agfs lgfs))
     end
   end
 
@@ -261,7 +261,7 @@ RSpec.describe Provider, type: :model do
     it 'returns error if supplier numbers is blank' do
       allow(firm).to receive(:lgfs_supplier_numbers).and_return([])
       expect(firm).to_not be_valid
-      expect(firm.errors[:base]).to eq(["You must specify at least one LGFS supplier number"])
+      expect(firm.errors[:base]).to eq(['You must specify at least one LGFS supplier number'])
     end
   end
 
@@ -271,7 +271,7 @@ RSpec.describe Provider, type: :model do
         provider = create :provider, :agfs
         provider.external_users << create(:external_user, :advocate, supplier_number: '888AA')
         provider.external_users << create(:external_user, :advocate, supplier_number: '999BB')
-        expect(provider.agfs_supplier_numbers).to match_array %w{ 888AA 999BB }
+        expect(provider.agfs_supplier_numbers).to match_array %w{888AA 999BB}
       end
     end
 

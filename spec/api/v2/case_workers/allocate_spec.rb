@@ -58,7 +58,7 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
 
       it 'should return JSON containing an error description' do
         body = JSON.parse(last_response.body, symbolize_names: true)
-        expected = [{ :error=>'claim_ids is invalid' }]
+        expected = [{ :error => 'claim_ids is invalid' }]
         expect(body).to eq(expected)
       end
     end

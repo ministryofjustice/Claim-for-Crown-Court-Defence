@@ -9,7 +9,7 @@ describe ErrorDetailCollection do
   context 'assign a single values to a key' do
     it 'should make an array containing the single object' do
       edc[:key1] = 'value for key 1'
-      expect(edc[:key1]).to eq( ['value for key 1'] )
+      expect(edc[:key1]).to eq(['value for key 1'])
     end
   end
 
@@ -17,7 +17,7 @@ describe ErrorDetailCollection do
     it 'should make an array containing all the objects assigned' do
       edc[:key1] = 'value for key 1'
       edc[:key1] = 'second value for key 1'
-      expect(edc[:key1]).to eq( ['value for key 1', 'second value for key 1'] )
+      expect(edc[:key1]).to eq(['value for key 1', 'second value for key 1'])
     end
   end
 

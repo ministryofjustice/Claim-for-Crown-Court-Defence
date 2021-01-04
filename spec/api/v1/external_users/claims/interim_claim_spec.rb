@@ -20,7 +20,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
     :case_type_id => FactoryBot.create(:case_type, :trial).id,
     :case_number => 'A20161234',
     :offence_id => offence.id,
-    :court_id => court.id,
+    :court_id => court.id
   } }
 
   after(:all) { clean_database }

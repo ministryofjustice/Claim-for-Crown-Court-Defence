@@ -81,7 +81,7 @@ RSpec.describe Claims::FeeCalculator::BillScenario do
       before do
         expect(claim).to receive(:lgfs?).and_return(true)
         expect(claim).to receive(:transfer?).and_return(true)
-        expect(claim).to receive(:transfer_detail).and_return instance_double(Claim::TransferDetail, bill_scenario: 'MYTRANSFERCODE' )
+        expect(claim).to receive(:transfer_detail).and_return instance_double(Claim::TransferDetail, bill_scenario: 'MYTRANSFERCODE')
       end
 
       it_returns 'expected bill scenario', scenario: 'MYTRANSFERCODE'

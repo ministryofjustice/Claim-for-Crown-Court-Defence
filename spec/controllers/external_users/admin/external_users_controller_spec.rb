@@ -10,8 +10,8 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
     before { sign_in admin.user }
 
-    describe "GET #index" do
-      it "returns http success" do
+    describe 'GET #index' do
+      it 'returns http success' do
         get :index
         expect(response).to be_successful
       end
@@ -29,10 +29,10 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
 
-    describe "GET #show" do
+    describe 'GET #show' do
       before { get :show, params: { id: subject } }
 
-      it "returns http success" do
+      it 'returns http success' do
         expect(response).to be_successful
       end
 
@@ -45,10 +45,10 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
 
-    describe "GET #new" do
+    describe 'GET #new' do
       before { get :new }
 
-      it "returns http success" do
+      it 'returns http success' do
         expect(response).to be_successful
       end
 
@@ -61,10 +61,10 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
 
-    describe "GET #edit" do
+    describe 'GET #edit' do
       before { get :edit, params: { id: subject } }
 
-      it "returns http success" do
+      it 'returns http success' do
         expect(response).to be_successful
       end
 
@@ -77,10 +77,10 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
 
-    describe "GET #change_password" do
+    describe 'GET #change_password' do
       before { get :change_password, params: { id: subject } }
 
-      it "returns http success" do
+      it 'returns http success' do
         expect(response).to be_successful
       end
 
@@ -93,7 +93,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
 
-    describe "POST #create" do
+    describe 'POST #create' do
       context 'when valid' do
         let(:params) {
           {
@@ -149,7 +149,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
 
-    describe "PUT #update" do
+    describe 'PUT #update' do
       context 'when valid' do
         before(:each) { put :update, params: { id: subject, external_user: { roles: ['admin'] } } }
 
@@ -178,7 +178,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
 
-    describe "PUT #update_password" do
+    describe 'PUT #update_password' do
       before do
         subject.user.update(password: 'password', password_confirmation: 'password')
         sign_in subject.user #need to sign in again after password change
@@ -211,7 +211,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
     end
 
-    describe "DELETE #destroy" do
+    describe 'DELETE #destroy' do
       it 'destroys the external user' do
         subject # create an additional External user
         expect {
@@ -238,15 +238,15 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       sign_in external_user.user
     end
 
-    describe "GET #index" do
+    describe 'GET #index' do
       it 'redirects to all claims page with Unauthorised in flash' do
         get :index
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq "Unauthorised"
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 
-    describe "GET #show" do
+    describe 'GET #show' do
       it 'displays the show page for the current user' do
         get :show, params: { id: external_user }
         expect(response).to be_successful
@@ -255,34 +255,34 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       it 'doesnt show the details for a different user' do
         get :show, params: { id: other_external_user }
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq "Unauthorised"
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 
-    describe "GET #new" do
+    describe 'GET #new' do
       it 'redirects to all claims page with Unauthorised in flash' do
         get :new
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq "Unauthorised"
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 
-    describe "POST #create" do
+    describe 'POST #create' do
       it 'redirects to all claims page with Unauthorised in flash' do
         get :new
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq "Unauthorised"
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 
-    describe "GET #edit" do
+    describe 'GET #edit' do
       it 'displays the edit form' do
         get :edit, params: { id: external_user }
         expect(response).to be_successful
       end
     end
 
-    describe "PUT #update" do
+    describe 'PUT #update' do
       context 'current user' do
         it 'updates non-roles attributes' do
           expect(external_user.email).to_not eq 'bobsmith@example.com'
@@ -308,21 +308,21 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
         it 'does not allow any updates' do
           put :update, params: params_updating_email(other_external_user)
           expect(response).to redirect_to(external_users_root_path)
-          expect(flash[:alert]).to eq "Unauthorised"
+          expect(flash[:alert]).to eq 'Unauthorised'
         end
       end
     end
-    describe "DELETE #destroy" do
+    describe 'DELETE #destroy' do
       it 'does not allow user to delete himself' do
         delete :destroy, params: { id: external_user }
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq "Unauthorised"
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
 
       it 'does not allow user to delete other user' do
         delete :destroy, params: { id: other_external_user }
         expect(response).to redirect_to(external_users_root_path)
-        expect(flash[:alert]).to eq "Unauthorised"
+        expect(flash[:alert]).to eq 'Unauthorised'
       end
     end
 
@@ -334,7 +334,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
               email: 'bobsmith@example.com'
             }
           },
-          roles: %w{ admin advocate litigator}
+          roles: %w{admin advocate litigator}
         }.with_indifferent_access
     end
 

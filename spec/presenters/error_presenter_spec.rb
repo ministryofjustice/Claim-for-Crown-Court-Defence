@@ -96,7 +96,8 @@ describe ErrorPresenter do
             [
               ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name','The claimant name must not be blank', 50),
               ErrorDetail.new(:name, 'The name cannot be longer than 50 characters', 'Too long','The name cannot be longer than 50 characters', 50)
-            ] )
+            ]
+          )
         end
       end
     end
@@ -105,10 +106,12 @@ describe ErrorPresenter do
   context 'numbered_submodel_errors' do
     context 'single level numbered submodel errors' do
       it 'should replace the numbered submodel in the title' do
-        claim.errors[:defendant_2_first_name]  << 'blank'
-        expect(presenter.header_errors).to eq( [
-          ErrorDetail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a name', "The first name for the second defendant must not be blank")
-          ] )
+        claim.errors[:defendant_2_first_name] << 'blank'
+        expect(presenter.header_errors).to eq(
+          [
+            ErrorDetail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a name', 'The first name for the second defendant must not be blank')
+          ]
+        )
       end
     end
   end

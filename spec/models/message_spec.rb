@@ -103,7 +103,7 @@ RSpec.describe Message, type: :model do
     end
 
     it 'should change claim state from if claim_action not set' do
-      claim.messages.build( sender: user, body: 'xxxxx')
+      claim.messages.build(sender: user, body: 'xxxxx')
       claim.save
       expect(claim.state).to eq 'part_authorised'
     end
@@ -119,7 +119,7 @@ RSpec.describe Message, type: :model do
       claim.save
       claim.reload
 
-      expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq( [ nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'authorise_part' ] )
+      expect(claim.claim_state_transitions.reorder(created_at: :asc).map(&:event)).to eq([nil, 'submit', 'allocate', 'authorise_part', 'await_written_reasons', 'authorise_part'])
       expect(claim.last_state_transition.author_id).to eq(user.id)
       expect(claim.state).to eq 'part_authorised'
     end

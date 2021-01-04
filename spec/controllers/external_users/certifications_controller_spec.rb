@@ -185,14 +185,14 @@ end
 def valid_certification_params(claim, certification_type)
   certification_date = claim.created_at
   {
-    'claim_id'      => claim.id,
-    'commit'        => "Certify and Submit Claim",
+    'claim_id' => claim.id,
+    'commit' => 'Certify and Submit Claim',
     'certification' => {
-      'certification_type_id'   => certification_type.id,
-      'certified_by'            => 'David Cameron',
-      'main_hearing'            => 'true',
-      'certification_date_dd'   => certification_date.day,
-      'certification_date_mm'   => certification_date.month,
+      'certification_type_id' => certification_type.id,
+      'certified_by' => 'David Cameron',
+      'main_hearing' => 'true',
+      'certification_date_dd' => certification_date.day,
+      'certification_date_mm' => certification_date.month,
       'certification_date_yyyy' => certification_date.year
     }
   }

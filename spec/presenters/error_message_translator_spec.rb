@@ -3,52 +3,68 @@ require 'rails_helper'
 RSpec.describe ErrorMessageTranslator do
   let(:translations) do
     {
-    "name"=>{
-      "_seq" => 50,
-      "cannot_be_blank"=>{
-        "long" => "The claimant name must not be blank, please enter a name",
-        "short" => "Enter a name",
-        "api" => "The claimant name must not be blank" },
-      "too_long"=>{
-        "long" => "The name cannot be longer than 50 characters",
-        "short" => "Too long",
-        "api" => "The name cannot be longer than 50 characters" } },
-    "date_of_birth"=>{
-      "too_early"=>{
-        "long" => "The date of birth may not be more than 100 years old",
-        "short" => "Invalid date",
-        "api" => "The date of birth may not be more than 100 years old" }
+    'name' => {
+      '_seq' => 50,
+      'cannot_be_blank' => {
+        'long' => 'The claimant name must not be blank, please enter a name',
+        'short' => 'Enter a name',
+        'api' => 'The claimant name must not be blank'
       },
-    "trial_date"=>{
-      "_seq" => 20,
-      "not_future"=>{
-        "long" => "The trial date may not be in the future",
-        "short" => "Invalid date",
-        "api" => "The trial date may not be in the future" } },
-    "defendant"=>{
-      "_seq" => 30,
-      "first_name"=>{
-        "_seq" => 10,
-        "blank"=>{
-          "long" => "Enter a first name for the \#{defendant}",
-          "short" => "Cannot be blank",
-          "api" => "The first name for the \#{defendant} must not be blank" } } },
-    "fixed_fee"=>{
-      "_seq" => 600,
-      "quantity"=>{
-        "_seq" => 30,
-        "invalid"=>{
-          "long" => 'Enter a valid quantity for the #{fixed_fee}',
-          "short" => 'Enter a valid quantity',
-          "api" => 'Enter a valid quantity for the fixed fee' } } },
-    "representation_order"=>{
-        "_seq" => 80,
-        "maat_reference" => {
-          "seq" => 20,
-          "blank" =>{
-            "long" => "The MAAT Reference must be 7-10 numeric digits for the \#{representation_order} of the \#{defendant}",
-            "short" => "Invalid format",
-            "api" => "The MAAT Reference must be 7-10 numeric digits for the \#{representation_order} of the \#{defendant}" } } } }
+      'too_long' => {
+        'long' => 'The name cannot be longer than 50 characters',
+        'short' => 'Too long',
+        'api' => 'The name cannot be longer than 50 characters'
+      }
+    },
+    'date_of_birth' => {
+      'too_early' => {
+        'long' => 'The date of birth may not be more than 100 years old',
+        'short' => 'Invalid date',
+        'api' => 'The date of birth may not be more than 100 years old'
+      }
+    },
+    'trial_date' => {
+      '_seq' => 20,
+      'not_future' => {
+        'long' => 'The trial date may not be in the future',
+        'short' => 'Invalid date',
+        'api' => 'The trial date may not be in the future'
+      }
+    },
+    'defendant' => {
+      '_seq' => 30,
+      'first_name' => {
+        '_seq' => 10,
+        'blank' => {
+          'long' => "Enter a first name for the \#{defendant}",
+          'short' => 'Cannot be blank',
+          'api' => "The first name for the \#{defendant} must not be blank"
+        }
+      }
+    },
+    'fixed_fee' => {
+      '_seq' => 600,
+      'quantity' => {
+        '_seq' => 30,
+        'invalid' => {
+          'long' => 'Enter a valid quantity for the #{fixed_fee}',
+          'short' => 'Enter a valid quantity',
+          'api' => 'Enter a valid quantity for the fixed fee'
+        }
+      }
+    },
+    'representation_order' => {
+        '_seq' => 80,
+        'maat_reference' => {
+          'seq' => 20,
+          'blank' => {
+            'long' => "The MAAT Reference must be 7-10 numeric digits for the \#{representation_order} of the \#{defendant}",
+            'short' => 'Invalid format',
+            'api' => "The MAAT Reference must be 7-10 numeric digits for the \#{representation_order} of the \#{defendant}"
+          }
+        }
+      }
+    }
   end
 
   let(:emt) { ErrorMessageTranslator.new(translations, key, error) }
@@ -101,7 +117,7 @@ RSpec.describe ErrorMessageTranslator do
         let(:error)         { 'blank' }
         it 'returns defendant 2 error messages' do
           expect(emt.translation_found?).to be true
-          expect(emt.long_message).to eq "Enter a first name for the second defendant"
+          expect(emt.long_message).to eq 'Enter a first name for the second defendant'
           expect(emt.short_message).to eq 'Cannot be blank'
           expect(emt.api_message).to eq 'The first name for the second defendant must not be blank'
         end
@@ -133,7 +149,7 @@ RSpec.describe ErrorMessageTranslator do
     end
 
     context 'has_one relations' do
-      let(:key) { "fixed_fee.quantity" }
+      let(:key) { 'fixed_fee.quantity' }
       let(:error) { 'invalid' }
       it 'returns error defaulting error message' do
         expect(emt.translation_found?).to be true
@@ -148,9 +164,9 @@ RSpec.describe ErrorMessageTranslator do
       let(:error)         { 'blank' }
       it 'returns defendant 5 reporder 2 errors' do
         expect(emt.translation_found?).to be true
-        expect(emt.long_message).to   eq "The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant"
+        expect(emt.long_message).to   eq 'The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant'
         expect(emt.short_message).to  eq 'Invalid format'
-        expect(emt.api_message).to    eq "The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant"
+        expect(emt.api_message).to    eq 'The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant'
       end
     end
 

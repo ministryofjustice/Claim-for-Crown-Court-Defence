@@ -9,7 +9,7 @@ RSpec.describe Feedback, type: :model do
     }
   end
 
-  it { is_expected.to validate_inclusion_of(:type).in_array(%w( feedback bug_report )) }
+  it { is_expected.to validate_inclusion_of(:type).in_array(%w(feedback bug_report)) }
 
   context 'feedback' do
     let(:feedback_params) do

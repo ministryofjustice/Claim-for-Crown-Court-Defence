@@ -32,10 +32,10 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
   end
 
-  describe "GET #show" do
+  describe 'GET #show' do
     before { get :show, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -50,10 +50,10 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     render_views
   end
 
-  describe "GET #new" do
+  describe 'GET #new' do
     before { get :new }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -68,10 +68,10 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     render_views
   end
 
-  describe "GET #edit" do
+  describe 'GET #edit' do
     before { get :edit, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -84,10 +84,10 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
   end
 
-  describe "GET #change_password" do
+  describe 'GET #change_password' do
     before { get :change_password, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -100,7 +100,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     context 'when valid' do
       let(:case_worker_params) {
         {
@@ -162,7 +162,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe 'PUT #update' do
     context 'when valid' do
       before(:each) { put :update, params: { id: subject, case_worker: { roles: ['admin'] } } }
 
@@ -201,7 +201,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
   end
 
-  describe "PUT #update_password" do
+  describe 'PUT #update_password' do
     before do
       subject.user.update(password: 'password', password_confirmation: 'password')
       sign_in subject.user #need to sign in again after password change
@@ -233,7 +233,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
   end
 
-  describe "DELETE #destroy" do
+  describe 'DELETE #destroy' do
     after do
       expect(response).to redirect_to(case_workers_admin_case_workers_url)
     end

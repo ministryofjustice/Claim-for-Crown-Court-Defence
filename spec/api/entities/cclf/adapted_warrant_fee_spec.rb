@@ -23,8 +23,8 @@ RSpec.describe API::Entities::CCLF::AdaptedWarrantFee, type: :adapter do
       bill_type: 'FEE_ADVANCE',
       bill_subtype: 'WARRANT',
       amount: '111.01',
-      warrant_issued_date: "2017-06-01",
-      warrant_executed_date: "2017-08-01"
+      warrant_issued_date: '2017-06-01',
+      warrant_executed_date: '2017-08-01'
     )
   end
 end

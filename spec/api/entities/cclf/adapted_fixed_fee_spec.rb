@@ -16,7 +16,7 @@ RSpec.describe API::Entities::CCLF::AdaptedFixedFee, type: :adapter do
     expect(response).to include(
       bill_type: 'LIT_FEE',
       bill_subtype: 'LIT_FEE',
-      quantity: "10"
+      quantity: '10'
     )
   end
 end

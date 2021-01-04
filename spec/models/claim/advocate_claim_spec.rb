@@ -25,7 +25,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'should raise error message if no external user is specified' do
       subject.external_user_id = nil
       expect(subject).not_to be_valid
-      expect(subject.errors[:external_user]).to eq( ['blank_advocate'] )
+      expect(subject.errors[:external_user]).to eq(['blank_advocate'])
     end
 
     it 'should be valid with the same external_user_id and creator_id' do
@@ -163,8 +163,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'State Machine meta states magic methods' do
     let(:claim)       { FactoryBot.build :claim }
-    let(:all_states)  { [  'allocated', 'archived_pending_delete',
-                           'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted' ] }
+    let(:all_states)  { ['allocated', 'archived_pending_delete',
+                         'draft', 'authorised', 'part_authorised', 'refused', 'rejected', 'submitted'] }
 
     context 'external_user_dashboard_draft?' do
       before(:each) { allow(claim).to receive(:state).and_return('draft') }
@@ -199,14 +199,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'external_user_dashboard_submitted?' do
       it 'should respond true' do
-        [ 'allocated', 'submitted' ].each do |claim_state|
+        ['allocated', 'submitted'].each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'allocated', 'submitted' ]).each do |claim_state|
+        (all_states - ['allocated', 'submitted']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be false
         end
@@ -215,14 +215,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'external_user_dashboard_part_authorised' do
       it 'should respond true' do
-        [ 'part_authorised' ].each do |state|
+        ['part_authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_part_authorised?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'part_authorised' ]).each do |claim_state|
+        (all_states - ['part_authorised']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_part_authorised?).to be false
         end
@@ -231,14 +231,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'external_user_dashboard_completed_states' do
       it 'should respond true' do
-        [ 'refused', 'authorised' ].each do |state|
+        ['refused', 'authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_completed?).to be true
         end
       end
 
       it 'should respond false to anything else' do
-        (all_states - [ 'refused', 'authorised' ]).each do |claim_state|
+        (all_states - ['refused', 'authorised']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_completed?).to be false
         end
@@ -384,9 +384,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:search_options) { :maat_reference }
 
       before do
-        create :defendant, claim: subject, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '111111') ]
-        create :defendant, claim: subject, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '222222') ]
-        create :defendant, claim: other_claim, representation_orders: [ FactoryBot.create(:representation_order, maat_reference: '333333') ]
+        create :defendant, claim: subject, representation_orders: [FactoryBot.create(:representation_order, maat_reference: '111111')]
+        create :defendant, claim: subject, representation_orders: [FactoryBot.create(:representation_order, maat_reference: '222222')]
+        create :defendant, claim: other_claim, representation_orders: [FactoryBot.create(:representation_order, maat_reference: '333333')]
         subject.reload
         other_claim.reload
       end
@@ -410,7 +410,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'find by Defendant name' do
       let!(:current_external_user) { create(:external_user) }
-      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
+      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
       let(:search_options)         { :defendant_name }
 
       before do
@@ -502,7 +502,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'find by advocate and defendant' do
       let!(:current_external_user) { create(:external_user) }
-      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider ) }
+      let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
       let(:search_options)         { [:advocate_name, :defendant_name] }
 
       before do
@@ -778,14 +778,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { create(:advocate_claim) }
 
     it 'should not be archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
-      %w( allocated awaiting_written_reasons draft redetermination ).each do |state|
+      %w(allocated awaiting_written_reasons draft redetermination).each do |state|
         allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(false)
       end
     end
 
     it 'should be archivable from states: refused, rejected, part authorised, authorised' do
-      %w( refused rejected part_authorised authorised ).each do |state|
+      %w(refused rejected part_authorised authorised).each do |state|
         allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(true)
       end
@@ -1464,72 +1464,78 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       court = FactoryBot.create :court
       offence = FactoryBot.create :offence
 
-      params = { "claim"=>
-        { "case_type_id" => case_type.id,
-         "trial_fixed_notice_at_dd" => "",
-         "trial_fixed_notice_at_mm" => "",
-         "trial_fixed_notice_at_yyyy" => "",
-         "trial_fixed_at_dd" => "",
-         "trial_fixed_at_mm" => "",
-         "trial_fixed_at_yyyy" => "",
-         "trial_cracked_at_dd" => "",
-         "trial_cracked_at_mm" => "",
-         "trial_cracked_at_yyyy" => "",
-         "trial_cracked_at_third" => "",
-         "court_id" => court.id,
-         "case_number" => "B20161234",
-         "advocate_category" => "QC",
-         "external_user_id" => external_user.id,
-         "offence_id" => offence.id,
-         "first_day_of_trial_dd" => "8",
-         "first_day_of_trial_mm" => "9",
-         "first_day_of_trial_yyyy" => "2015",
-         "estimated_trial_length" => "0",
-         "actual_trial_length" => "0",
-         "trial_concluded_at_dd" => "11",
-         "trial_concluded_at_mm" => "9",
-         "trial_concluded_at_yyyy" => "2015",
-         "defendants_attributes"=>
-          { "0"=>
-            { "first_name" => "Foo",
-             "last_name" => "Bar",
-             "date_of_birth_dd" => "04",
-             "date_of_birth_mm" => "10",
-             "date_of_birth_yyyy" => "1980",
-             "order_for_judicial_apportionment" => "0",
-             "representation_orders_attributes"=>
-              { "0"=>
-                { "representation_order_date_dd" => "30",
-                 "representation_order_date_mm" => "08",
-                 "representation_order_date_yyyy" => "2015",
-                 "maat_reference" => "1234567890",
-                 "_destroy" => "false" } },
-             "_destroy" => "false" } },
-         "additional_information" => "",
-         "basic_fees_attributes"=>
-          { "0" => { "quantity" => "1", "rate" => "150", "fee_type_id" => fee_type.id } },
-         "misc_fees_attributes" => { "0" => { "fee_type_id"=> "", "quantity" => "", "rate" => "", "_destroy" => "false" } },
-         "fixed_fees_attributes" => { "0" => { "fee_type_id" => "", "quantity" => "", "rate" => "", "_destroy" => "false" } },
-         "expenses_attributes"=>
-           { "0" =>
-             { "expense_type_id" => expense_type.id,
-               "location" => "London",
-               "mileage_rate_id" => "1",
-               "_destroy" => "false",
-               "reason_id" => "3",
-               "distance" => '48',
-               "amount" => '40.00',
-               "date_mm" => 10.days.ago.month.to_s,
-               "date_dd" => 10.days.ago.day.to_s,
-               "date_yyyy" => 10.days.ago.year.to_s
-             }
-           },
-         "apply_vat"=>"0",
-         "document_ids"=>[""],
-         "evidence_checklist_ids"=>["1", ""] },
-       "offence_category"=>{ "description"=>"" },
-       "offence_class"=>{ "description"=>"64" },
-       "commit_submit_claim"=>"Submit to LAA" }
+      params = {
+        'claim' => {
+          'case_type_id' => case_type.id,
+          'trial_fixed_notice_at_dd' => '',
+          'trial_fixed_notice_at_mm' => '',
+          'trial_fixed_notice_at_yyyy' => '',
+          'trial_fixed_at_dd' => '',
+          'trial_fixed_at_mm' => '',
+          'trial_fixed_at_yyyy' => '',
+          'trial_cracked_at_dd' => '',
+          'trial_cracked_at_mm' => '',
+          'trial_cracked_at_yyyy' => '',
+          'trial_cracked_at_third' => '',
+          'court_id' => court.id,
+          'case_number' => 'B20161234',
+          'advocate_category' => 'QC',
+          'external_user_id' => external_user.id,
+          'offence_id' => offence.id,
+          'first_day_of_trial_dd' => '8',
+          'first_day_of_trial_mm' => '9',
+          'first_day_of_trial_yyyy' => '2015',
+          'estimated_trial_length' => '0',
+          'actual_trial_length' => '0',
+          'trial_concluded_at_dd' => '11',
+          'trial_concluded_at_mm' => '9',
+          'trial_concluded_at_yyyy' => '2015',
+          'defendants_attributes' => {
+            '0' => {
+              'first_name' => 'Foo',
+              'last_name' => 'Bar',
+              'date_of_birth_dd' => '04',
+              'date_of_birth_mm' => '10',
+              'date_of_birth_yyyy' => '1980',
+              'order_for_judicial_apportionment' => '0',
+              'representation_orders_attributes' => {
+                '0' => {
+                  'representation_order_date_dd' => '30',
+                  'representation_order_date_mm' => '08',
+                  'representation_order_date_yyyy' => '2015',
+                  'maat_reference' => '1234567890',
+                  '_destroy' => 'false'
+                }
+              },
+              '_destroy' => 'false'
+            }
+          },
+          'additional_information' => '',
+          'basic_fees_attributes' => { '0' => { 'quantity' => '1', 'rate' => '150', 'fee_type_id' => fee_type.id } },
+          'misc_fees_attributes' => { '0' => { 'fee_type_id' => '', 'quantity' => '', 'rate' => '', '_destroy' => 'false' } },
+          'fixed_fees_attributes' => { '0' => { 'fee_type_id' => '', 'quantity' => '', 'rate' => '', '_destroy' => 'false' } },
+          'expenses_attributes' => {
+            '0' => {
+              'expense_type_id' => expense_type.id,
+              'location' => 'London',
+              'mileage_rate_id' => '1',
+              '_destroy' => 'false',
+              'reason_id' => '3',
+              'distance' => '48',
+              'amount' => '40.00',
+              'date_mm' => 10.days.ago.month.to_s,
+              'date_dd' => 10.days.ago.day.to_s,
+              'date_yyyy' => 10.days.ago.year.to_s
+            }
+          },
+          'apply_vat' => '0',
+          'document_ids' => [''],
+          'evidence_checklist_ids' => ['1', '']
+        },
+        'offence_category' => { 'description' => '' },
+        'offence_class' => { 'description' => '64' },
+        'commit_submit_claim' => 'Submit to LAA'
+      }
       claim = Claim::AdvocateClaim.new(params['claim'])
       claim.creator = external_user
       expect(claim.save).to be true
@@ -1550,25 +1556,25 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       context 'when claim is scheme 9' do
         context 'when claim is a discontinuance' do
-          it 'returns true' do 
+          it 'returns true' do
             expect(claim_discontinuance_9.discontinuance?).to be true
           end
-        end 
-        
+        end
+
         context 'when claim is not a discontinuance' do
           it 'returns false' do
             expect(claim_9.discontinuance?).to be false
           end
         end
       end
-  
+
       context 'when claim is scheme 10' do
         context 'when claim is a discontinuance' do
           it 'returns true' do
             expect(claim_discontinuance_10.discontinuance?).to be true
           end
         end
-  
+
         context 'when claim is not a discontinuance' do
           it 'returns true' do
             expect(claim_10.discontinuance?).to be false
@@ -1588,56 +1594,61 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 # ---------------------
   def valid_params
     external_user = FactoryBot.create :external_user
-    { "claim"=>
-        { "external_user_id" => external_user.id,
-        "creator_id" => external_user.id,
-        "case_type_id"=>"1",
-        "trial_fixed_notice_at_dd"=>"",
-        "trial_fixed_notice_at_mm"=>"",
-        "trial_fixed_notice_at_yyyy"=>"",
-        "trial_fixed_at_dd"=>"",
-        "trial_fixed_at_mm"=>"",
-        "trial_fixed_at_yyyy"=>"",
-        "trial_cracked_at_dd"=>"",
-        "trial_cracked_at_mm"=>"",
-        "trial_cracked_at_yyyy"=>"",
-        "trial_cracked_at_third"=>"",
-        "court_id"=>"1",
-        "case_number"=>"A20161234",
-        "advocate_category"=>"QC",
-        "offence_id"=>"1",
-        "first_day_of_trial_dd"=>"8",
-        "first_day_of_trial_mm"=>"9",
-        "first_day_of_trial_yyyy"=>"2015",
-        "estimated_trial_length"=>"0",
-        "actual_trial_length"=>"0",
-        "trial_concluded_at_dd"=>"11",
-        "trial_concluded_at_mm"=>"9",
-        "trial_concluded_at_yyyy"=>"2015",
-        "defendants_attributes"=>
-          { "0"=>
-            { "first_name"=>"Foo",
-            "last_name"=>"Bar",
-            "date_of_birth_dd"=>"04",
-            "date_of_birth_mm"=>"10",
-            "date_of_birth_yyyy"=>"1980",
-            "order_for_judicial_apportionment"=>"0",
-            "representation_orders_attributes"=>
-              { "0"=>
-                { "representation_order_date_dd"=>"30",
-                "representation_order_date_mm"=>"08",
-                "representation_order_date_yyyy"=>"2015",
-                "maat_reference"=>"aaa1111",
-                "_destroy"=>"false" } },
-            "_destroy"=>"false" } },
-        "additional_information"=>"",
-        "basic_fees_attributes"=>
-          { "0"=>{ "quantity"=>"1", "rate"=>"450", "fee_type_id"=>@bft1.id } },
-        "apply_vat"=>"0",
-        "document_ids"=>[""],
-        "evidence_checklist_ids"=>["1", ""] },
-      "offence_category"=>{ "description"=>"" },
-      "offence_class"=>{ "description"=>"64" }
+    {
+      'claim' => {
+        'external_user_id' => external_user.id,
+        'creator_id' => external_user.id,
+        'case_type_id' => '1',
+        'trial_fixed_notice_at_dd' => '',
+        'trial_fixed_notice_at_mm' => '',
+        'trial_fixed_notice_at_yyyy' => '',
+        'trial_fixed_at_dd' => '',
+        'trial_fixed_at_mm' => '',
+        'trial_fixed_at_yyyy' => '',
+        'trial_cracked_at_dd' => '',
+        'trial_cracked_at_mm' => '',
+        'trial_cracked_at_yyyy' => '',
+        'trial_cracked_at_third' => '',
+        'court_id' => '1',
+        'case_number' => 'A20161234',
+        'advocate_category' => 'QC',
+        'offence_id' => '1',
+        'first_day_of_trial_dd' => '8',
+        'first_day_of_trial_mm' => '9',
+        'first_day_of_trial_yyyy' => '2015',
+        'estimated_trial_length' => '0',
+        'actual_trial_length' => '0',
+        'trial_concluded_at_dd' => '11',
+        'trial_concluded_at_mm' => '9',
+        'trial_concluded_at_yyyy' => '2015',
+        'defendants_attributes' => {
+          '0' => {
+            'first_name' => 'Foo',
+            'last_name' => 'Bar',
+            'date_of_birth_dd' => '04',
+            'date_of_birth_mm' => '10',
+            'date_of_birth_yyyy' => '1980',
+            'order_for_judicial_apportionment' => '0',
+            'representation_orders_attributes' => {
+              '0' => {
+                'representation_order_date_dd' => '30',
+                'representation_order_date_mm' => '08',
+                'representation_order_date_yyyy' => '2015',
+                'maat_reference' => 'aaa1111',
+                '_destroy' => 'false'
+              }
+            },
+            '_destroy' => 'false'
+          }
+        },
+        'additional_information' => '',
+        'basic_fees_attributes' => { '0' => { 'quantity' => '1', 'rate' => '450', 'fee_type_id' => @bft1.id } },
+        'apply_vat' => '0',
+        'document_ids' => [''],
+        'evidence_checklist_ids' => ['1', '']
+      },
+      'offence_category' => { 'description' => '' },
+      'offence_class' => { 'description' => '64' }
     }
   end
 end

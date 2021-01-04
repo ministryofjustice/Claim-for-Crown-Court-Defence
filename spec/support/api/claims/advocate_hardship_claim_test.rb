@@ -63,7 +63,7 @@ class AdvocateHardshipClaimTest < BaseClaimTest
       "court_id": court_id,
       "cms_number": '12345678',
       "additional_information": 'string',
-      "apply_vat": true,
+      "apply_vat": true
     }
   end
 

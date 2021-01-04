@@ -39,7 +39,7 @@ RSpec.describe DiscEvidenceCoversheet, type: :model do
     end
 
     context 'when params do specify parts' do
-      let(:params) { { claim_id: claim.id, current_date_dd: "01", current_date_mm: "01", current_date_yyyy: "2019" } }
+      let(:params) { { claim_id: claim.id, current_date_dd: '01', current_date_mm: '01', current_date_yyyy: '2019' } }
 
       it 'sets current_date from parts' do
         is_expected.to eql Date.new(2019, 01, 01)
@@ -51,9 +51,9 @@ RSpec.describe DiscEvidenceCoversheet, type: :model do
       let(:params) { { claim_id: claim.id, current_date: date } }
 
       it 'sets parts from current_date param' do
-        expect(instance.current_date_dd).to eql "01"
-        expect(instance.current_date_mm).to eql "12"
-        expect(instance.current_date_yyyy).to eql "2017"
+        expect(instance.current_date_dd).to eql '01'
+        expect(instance.current_date_mm).to eql '12'
+        expect(instance.current_date_yyyy).to eql '2017'
       end
 
       it 'sets current_date from param' do
@@ -178,7 +178,7 @@ RSpec.describe DiscEvidenceCoversheet, type: :model do
     end
 
     context 'when params do specify parts' do
-      let(:params) { { claim_id: claim.id, claim_submitted_at_dd: "01", claim_submitted_at_mm: "01", claim_submitted_at_yyyy: "2019" } }
+      let(:params) { { claim_id: claim.id, claim_submitted_at_dd: '01', claim_submitted_at_mm: '01', claim_submitted_at_yyyy: '2019' } }
 
       it 'sets current_date from parts' do
         is_expected.to eql Date.new(2019, 01, 01)
@@ -190,9 +190,9 @@ RSpec.describe DiscEvidenceCoversheet, type: :model do
       let(:params) { { claim_id: claim.id, claim_submitted_at: date } }
 
       it 'sets parts from current_date param' do
-        expect(instance.claim_submitted_at_dd).to eql "01"
-        expect(instance.claim_submitted_at_mm).to eql "12"
-        expect(instance.claim_submitted_at_yyyy).to eql "2017"
+        expect(instance.claim_submitted_at_dd).to eql '01'
+        expect(instance.claim_submitted_at_mm).to eql '12'
+        expect(instance.claim_submitted_at_yyyy).to eql '2017'
       end
 
       it 'sets claim_submitted_at from param' do

@@ -9,7 +9,7 @@ describe API::Entities::CCR::AdaptedHardshipFee, type: :adapter do
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
       bill_type: 'AGFS_ADVANCE',
-      bill_subtype: 'AGFS_HARDSHIP',
+      bill_subtype: 'AGFS_HARDSHIP'
     )
   end
 
@@ -36,7 +36,7 @@ describe API::Entities::CCR::AdaptedHardshipFee, type: :adapter do
       end
 
       it 'sums amounts of BABAF, BADAF, BADAJ, BADAH, BANOC, BANDR, BANPW, BAPPE fees' do
-        is_expected.to eql "1068.0"
+        is_expected.to eql '1068.0'
       end
     end
 
@@ -54,7 +54,7 @@ describe API::Entities::CCR::AdaptedHardshipFee, type: :adapter do
       end
 
       it 'sums amounts of BABAF, BADAT, BANOC, BANDR fees' do
-        is_expected.to eql "16.0"
+        is_expected.to eql '16.0'
       end
     end
   end

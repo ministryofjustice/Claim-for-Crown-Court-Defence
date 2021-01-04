@@ -4,7 +4,7 @@ FactoryBot.define do
       claim.defendants.each do |defendant|
         defendant
           .representation_orders
-          .update_all(representation_order_date: Settings.agfs_fee_reform_release_date-1)
+          .update_all(representation_order_date: Settings.agfs_fee_reform_release_date - 1)
       end
     end
   end

@@ -226,30 +226,30 @@ RSpec.describe Claims::StateMachine, type: :model do
       end
     end
 
-    context "Allocated claim" do
+    context 'Allocated claim' do
       let(:claim) { create(:allocated_claim) }
 
-      it "has a blank assessment" do
+      it 'has a blank assessment' do
         expect(claim.assessment).not_to eq(nil)
         expect(claim.assessment.fees).to eq(0)
         expect(claim.assessment.expenses).to eq(0)
         expect(claim.assessment.disbursements).to eq(0)
       end
 
-      context "updating assessment" do
-        context "without updating the status" do
+      context 'updating assessment' do
+        context 'without updating the status' do
           let(:params) do
             {
-              "assessment_attributes" => {
-                "fees" => "1.00",
-                "expenses" => "0.00",
-                "vat_amount" => "0.00",
-                "id" => claim.assessment.id
+              'assessment_attributes' => {
+                'fees' => '1.00',
+                'expenses' => '0.00',
+                'vat_amount' => '0.00',
+                'id' => claim.assessment.id
               }
             }
           end
 
-          it "does not update the assessment" do
+          it 'does not update the assessment' do
             claim.update_model_and_transition_state(params) rescue nil
             expect(claim.reload.assessment.fees).to eq(0)
           end

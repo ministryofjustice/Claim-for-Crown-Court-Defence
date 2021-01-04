@@ -10,16 +10,16 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
 
     let(:expected_fields) do
       [
-          Geckoboard::DateField.new(:date, name: 'Date'),
-          Geckoboard::NumberField.new(:total_calculated, name: 'Total calculated'),
-          Geckoboard::NumberField.new(:accepted, name: 'Distances accepted'),
-          Geckoboard::NumberField.new(:increased, name: 'Distances increased'),
-          Geckoboard::NumberField.new(:reduced, name: 'Distances reduced'),
-          Geckoboard::PercentageField.new(:percent_accepted, name: 'Percentage of distances accepted'),
-          Geckoboard::PercentageField.new(:percent_increased, name: 'Percentage of distances increased'),
-          Geckoboard::PercentageField.new(:percent_reduced, name: 'Percentage of distances reduced'),
-          Geckoboard::MoneyField.new(:cost_increased, currency_code: 'GBP', name: 'Cost of increased claims'),
-          Geckoboard::MoneyField.new(:cost_reduction, currency_code: 'GBP', name: 'Cost of reduced claims')
+        Geckoboard::DateField.new(:date, name: 'Date'),
+        Geckoboard::NumberField.new(:total_calculated, name: 'Total calculated'),
+        Geckoboard::NumberField.new(:accepted, name: 'Distances accepted'),
+        Geckoboard::NumberField.new(:increased, name: 'Distances increased'),
+        Geckoboard::NumberField.new(:reduced, name: 'Distances reduced'),
+        Geckoboard::PercentageField.new(:percent_accepted, name: 'Percentage of distances accepted'),
+        Geckoboard::PercentageField.new(:percent_increased, name: 'Percentage of distances increased'),
+        Geckoboard::PercentageField.new(:percent_reduced, name: 'Percentage of distances reduced'),
+        Geckoboard::MoneyField.new(:cost_increased, currency_code: 'GBP', name: 'Cost of increased claims'),
+        Geckoboard::MoneyField.new(:cost_reduction, currency_code: 'GBP', name: 'Cost of reduced claims')
       ].map { |field| [field.class, field.id, field.name] }
     end
 
@@ -32,7 +32,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
     let(:expected_items) do
       [
         {
-          date: "2017-03-19",
+          date: '2017-03-19',
           accepted: 0,
           cost_increased: 5,
           cost_reduction: 0,
@@ -44,7 +44,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
           total_calculated: 2
         },
         {
-          date: "2017-03-20",
+          date: '2017-03-20',
           accepted: 2,
           cost_increased: 0,
           cost_reduction: 0,
@@ -56,7 +56,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
           total_calculated: 2
         },
         {
-          date: "2017-03-21",
+          date: '2017-03-21',
           accepted: 0,
           cost_increased: 0,
           cost_reduction: 5,
@@ -100,22 +100,24 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
         expect(subject.size).to eql 1
       end
 
-      it { is_expected.to match_array(
-  [
-          {
-            date: Date.yesterday.to_s(:db),
-            accepted: 0,
-            cost_increased: 0,
-            cost_reduction: 0,
-            increased: 0,
-            percent_accepted: 0,
-            percent_increased: 0,
-            percent_reduced: 0,
-            reduced: 0,
-            total_calculated: 0
-          }
-        ])
-      }
+      it do
+        is_expected.to match_array(
+          [
+            {
+              date: Date.yesterday.to_s(:db),
+              accepted: 0,
+              cost_increased: 0,
+              cost_reduction: 0,
+              increased: 0,
+              percent_accepted: 0,
+              percent_increased: 0,
+              percent_reduced: 0,
+              reduced: 0,
+              total_calculated: 0
+            }
+          ]
+        )
+      end
     end
 
     context 'when run with parameters' do

@@ -28,7 +28,8 @@ VCR.configure do |c|
   #
   c.ignore_request do |request|
     uri = URI(request.uri)
-    [ uri.path == "/__identify__",
+    [
+      uri.path == '/__identify__',
       [
         !uri.path.start_with?('/api/'),
         !uri.path =~ /maps.googleapis.com/,
@@ -47,10 +48,10 @@ VCR.configure do |c|
   # for details
   #
   c.ignore_hosts(
-    "chromedriver.storage.googleapis.com",
-    "github.com/mozilla/geckodriver/releases",
-    "selenium-release.storage.googleapis.com",
-    "developer.microsoft.com/en-us/microsoft-edge/tools/webdriver"
+    'chromedriver.storage.googleapis.com',
+    'github.com/mozilla/geckodriver/releases',
+    'selenium-release.storage.googleapis.com',
+    'developer.microsoft.com/en-us/microsoft-edge/tools/webdriver'
   )
 
   # replace sensitive data in cassettes with placeholder and apply secrets on the fly

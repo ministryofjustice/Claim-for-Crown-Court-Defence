@@ -164,7 +164,7 @@ RSpec.describe TimedTransitions::Transitioner do
                           softly_deleted_on: @claim.deleted_at,
                           valid_until: nil,
                           dummy_run: false,
-                          error: "Cannot transition state via :archive_pending_delete from :authorised (Reason(s): My mocked invalid state transition error message)",
+                          error: 'Cannot transition state via :archive_pending_delete from :authorised (Reason(s): My mocked invalid state transition error message)',
                           succeeded: false)
                   described_class.new(@claim).run
                 end
@@ -181,7 +181,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
               it 'claim is invalid' do
                 @claim.valid?
-                expect(@claim.errors.messages).to include(external_user: ["Creator and advocate must belong to the same provider"])
+                expect(@claim.errors.messages).to include(external_user: ['Creator and advocate must belong to the same provider'])
               end
 
               it 'still transitions to archived_pending_delete' do

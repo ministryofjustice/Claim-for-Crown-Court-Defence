@@ -128,7 +128,7 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
           fee_type: basic_fee_type,
           quantity: 0,
           rate: 0,
-          amount: 0,
+          amount: 0
           )
       end
 

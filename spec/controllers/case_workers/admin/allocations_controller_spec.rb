@@ -17,7 +17,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
   let(:mock_claim_1) { double('MockClaim', id: 1) }
   let(:mock_claim_2) { double('MockClaim', id: 2) }
 
-  let(:claims_collection) { double('claims collection', remote?: true, first: [ mock_claim_1, mock_claim_2 ] ) }
+  let(:claims_collection) { double('claims collection', remote?: true, first: [mock_claim_1, mock_claim_2]) }
 
   let(:paginated_collection) { double(Remote::Collections::PaginatedCollection, claims: claims_collection) }
 
@@ -39,7 +39,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       tab: 'unallocated',
       allocation: {
         case_worker_id: '75',
-        claim_ids: [ '4', ''],
+        claim_ids: ['4', '']
       },
       commit: 'Allocate',
       controller: 'case_workers/admin/allocations',
@@ -55,7 +55,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       allocation: {
         deallocate: 'true',
         case_worker_id: '',
-        claim_ids: ['3', '4', ''],
+        claim_ids: ['3', '4', '']
       },
       commit: 'Re-allocate',
       controller: 'case_workers/admin/allocations',
@@ -72,7 +72,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     let(:expected_params) do
       {
         'case_worker_id' => '75',
-        'claim_ids' => [ '4', '' ],
+        'claim_ids' => ['4', ''],
         'allocating' => true
       }
     end
@@ -80,7 +80,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
     let(:expected_params_with_user) do
       {
         'case_worker_id' => '75',
-        'claim_ids' => [ '4', '' ],
+        'claim_ids' => ['4', ''],
         'allocating' => true,
         'current_user' => @admin.user
       }

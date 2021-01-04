@@ -8,13 +8,13 @@ RSpec::Matchers.define :be_valid_cclf_claim_json do
   end
 
   description do
-    "be valid against the CCLF claim JSON schema"
+    'be valid against the CCLF claim JSON schema'
   end
 
   failure_message do |response|
     spacer = "\s" * 2
     "expected JSON to be valid against CCLF formatted claim schema but the following errors were raised:\n" +
-    @errors.each_with_index.map { |error, idx| "#{spacer}#{idx+1}. #{error}" }.join("\n")
+    @errors.each_with_index.map { |error, idx| "#{spacer}#{idx + 1}. #{error}" }.join("\n")
   end
 end
 
@@ -31,7 +31,7 @@ end
 
 RSpec.shared_examples 'CCLF disbursement' do |options|
   let(:bill_index) { options.fetch(:bill_index, 0) }
-  let(:bill_subtype) { options.fetch(:bill_subtype, "NO_SUBTYPE_SPECFIFED") }
+  let(:bill_subtype) { options.fetch(:bill_subtype, 'NO_SUBTYPE_SPECFIFED') }
 
   it 'returns a disbursement bill type' do
     expect(response).to be_json_eql('DISBURSEMENT'.to_json).at_path("bills/#{bill_index}/bill_type")
@@ -51,24 +51,24 @@ RSpec.shared_examples 'bill scenarios are based on case type' do
   context 'bill scenarios are based on case type' do
     it 'for trials' do
       allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRRTR'
-      is_expected.to be_json_eql('ST1TS0TA'.to_json).at_path("case_type/bill_scenario")
+      is_expected.to be_json_eql('ST1TS0TA'.to_json).at_path('case_type/bill_scenario')
     end
 
     it 'for retrials' do
       allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'GRTRL'
-      is_expected.to be_json_eql('ST1TS0T4'.to_json).at_path("case_type/bill_scenario")
+      is_expected.to be_json_eql('ST1TS0T4'.to_json).at_path('case_type/bill_scenario')
     end
   end
 end
 
 RSpec.shared_examples 'litigator fee bill' do
   it 'returns array containing 1 bill' do
-    is_expected.to have_json_size(1).at_path("bills")
+    is_expected.to have_json_size(1).at_path('bills')
   end
 
   it 'returns a litigator fee bill' do
-    is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
-    is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+    is_expected.to be_json_eql('LIT_FEE'.to_json).at_path('bills/0/bill_type')
+    is_expected.to be_json_eql('LIT_FEE'.to_json).at_path('bills/0/bill_subtype')
   end
 end
 
@@ -117,7 +117,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     end
 
     context 'when accessed by an ExternalUser' do
-      before { do_request(api_key: claim.external_user.user.api_key ) }
+      before { do_request(api_key: claim.external_user.user.api_key) }
 
       it 'returns unauthorised' do
         expect(last_response.status).to eq 401
@@ -188,7 +188,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       end
 
       it 'returns a bill scenario based on case type' do
-        is_expected.to be_json_eql('ST1TS0T8'.to_json).at_path("case_type/bill_scenario")
+        is_expected.to be_json_eql('ST1TS0T8'.to_json).at_path('case_type/bill_scenario')
       end
     end
 
@@ -232,7 +232,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       let(:case_type_grtrl) { create(:case_type, :trial) }
 
       it 'returns empty array if no bills found' do
-        is_expected.to have_json_size(0).at_path("bills")
+        is_expected.to have_json_size(0).at_path('bills')
         expect(bills).to be_an Array
         expect(bills).to be_empty
       end
@@ -261,7 +261,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             end
 
             it 'returns quantity of ppe' do
-              is_expected.to be_json_eql('1000'.to_json).at_path("bills/0/quantity")
+              is_expected.to be_json_eql('1000'.to_json).at_path('bills/0/quantity')
             end
           end
 
@@ -290,12 +290,12 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
               it { is_valid_cclf_json(response) }
 
               it 'returns array containing fee bill' do
-                is_expected.to have_json_size(1).at_path("bills")
+                is_expected.to have_json_size(1).at_path('bills')
               end
 
               it 'returns array containing a special prep fee bill' do
-                is_expected.to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/0/bill_type")
-                is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/0/bill_subtype")
+                is_expected.to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path('bills/0/bill_type')
+                is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path('bills/0/bill_subtype')
               end
             end
 
@@ -305,7 +305,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
               before { expect(claim.misc_fees.count).to eql 1 }
 
               it 'returns array containing no fee bill' do
-                is_expected.to have_json_size(0).at_path("bills")
+                is_expected.to have_json_size(0).at_path('bills')
               end
             end
           end
@@ -319,12 +319,12 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing the bill' do
-              is_expected.to have_json_size(1).at_path("bills")
+              is_expected.to have_json_size(1).at_path('bills')
             end
 
             it 'returns a warrant fee bill' do
-              is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
-              is_expected.to be_json_eql('WARRANT'.to_json).at_path("bills/0/bill_subtype")
+              is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path('bills/0/bill_type')
+              is_expected.to be_json_eql('WARRANT'.to_json).at_path('bills/0/bill_subtype')
             end
           end
 
@@ -340,7 +340,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing fee bill' do
-              is_expected.to have_json_size(1).at_path("bills")
+              is_expected.to have_json_size(1).at_path('bills')
             end
 
             it_behaves_like 'CCLF disbursement', bill_subtype: 'FORENSICS'
@@ -357,7 +357,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing fee bill' do
-              is_expected.to have_json_size(1).at_path("bills")
+              is_expected.to have_json_size(1).at_path('bills')
             end
 
             it_behaves_like 'CCLF disbursement', bill_subtype: 'TRAVEL COSTS'
@@ -383,7 +383,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it_behaves_like 'litigator fee bill'
 
           it 'returns a bill scenario based on the interim fee type' do
-            is_expected.to be_json_eql('ST1TS0T0'.to_json).at_path("case_type/bill_scenario")
+            is_expected.to be_json_eql('ST1TS0T0'.to_json).at_path('case_type/bill_scenario')
           end
         end
 
@@ -397,7 +397,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it { is_valid_cclf_json(response) }
 
           it 'returns array containing fee bill' do
-            is_expected.to have_json_size(1).at_path("bills")
+            is_expected.to have_json_size(1).at_path('bills')
           end
 
           it_behaves_like 'CCLF disbursement', bill_subtype: 'FORENSICS'
@@ -410,12 +410,12 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it { is_valid_cclf_json(response) }
 
           it 'returns array containing the bill' do
-            is_expected.to have_json_size(1).at_path("bills")
+            is_expected.to have_json_size(1).at_path('bills')
           end
 
           it 'returns a warrant fee bill' do
-            is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
-            is_expected.to be_json_eql('WARRANT'.to_json).at_path("bills/0/bill_subtype")
+            is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path('bills/0/bill_type')
+            is_expected.to be_json_eql('WARRANT'.to_json).at_path('bills/0/bill_subtype')
           end
 
           include_examples 'bill scenarios are based on case type'
@@ -428,7 +428,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             it { is_valid_cclf_json(response) }
 
             it 'returns array containing 2 bills' do
-              is_expected.to have_json_size(2).at_path("bills")
+              is_expected.to have_json_size(2).at_path('bills')
             end
 
             it_behaves_like 'CCLF disbursement', bill_subtype: 'TRAVEL COSTS', bill_index: 1
@@ -445,7 +445,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it_behaves_like 'litigator fee bill'
 
           it 'returns a bill scenario based on transfer details' do
-            is_expected.to be_json_eql('ST4TS0T3'.to_json).at_path("case_type/bill_scenario")
+            is_expected.to be_json_eql('ST4TS0T3'.to_json).at_path('case_type/bill_scenario')
           end
         end
 
@@ -463,11 +463,11 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it { is_valid_cclf_json(response) }
 
           it 'returns array containing 2 bill' do
-            is_expected.to have_json_size(2).at_path("bills")
+            is_expected.to have_json_size(2).at_path('bills')
           end
 
           it 'returns array containing a tranfer bill' do
-            is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_subtype")
+            is_expected.to be_json_eql('LIT_FEE'.to_json).at_path('bills/0/bill_subtype')
           end
 
           it_behaves_like 'CCLF disbursement', bill_subtype: 'FORENSICS', bill_index: 1
@@ -483,7 +483,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it { is_valid_cclf_json(response) }
 
           it 'returns array containing 2 bills' do
-            is_expected.to have_json_size(2).at_path("bills")
+            is_expected.to have_json_size(2).at_path('bills')
           end
 
           it_behaves_like 'CCLF disbursement', bill_subtype: 'TRAVEL COSTS', bill_index: 1
@@ -500,12 +500,12 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it { is_valid_cclf_json(response) }
 
           it 'returns array containing 2 bills' do
-            is_expected.to have_json_size(2).at_path("bills")
+            is_expected.to have_json_size(2).at_path('bills')
           end
 
           it 'returns array containing a special prep fee bill' do
-            is_expected.to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path("bills/1/bill_type")
-            is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path("bills/1/bill_subtype")
+            is_expected.to be_json_eql('FEE_SUPPLEMENT'.to_json).at_path('bills/1/bill_type')
+            is_expected.to be_json_eql('SPECIAL_PREP'.to_json).at_path('bills/1/bill_subtype')
           end
         end
 
@@ -520,8 +520,8 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it { is_valid_cclf_json(response) }
 
           it 'returns array NOT containing misc fee bills' do
-            is_expected.to have_json_size(1).at_path("bills")
-            is_expected.to be_json_eql('LIT_FEE'.to_json).at_path("bills/0/bill_type")
+            is_expected.to have_json_size(1).at_path('bills')
+            is_expected.to be_json_eql('LIT_FEE'.to_json).at_path('bills/0/bill_type')
           end
         end
       end
@@ -532,16 +532,16 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it { is_valid_cclf_json(response) }
 
           it 'returns array containing 1 bill' do
-            is_expected.to have_json_size(1).at_path("bills")
+            is_expected.to have_json_size(1).at_path('bills')
           end
 
           it 'returns a litigator fee bill' do
-            is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path("bills/0/bill_type")
-            is_expected.to be_json_eql('HARDSHIP'.to_json).at_path("bills/0/bill_subtype")
+            is_expected.to be_json_eql('FEE_ADVANCE'.to_json).at_path('bills/0/bill_type')
+            is_expected.to be_json_eql('HARDSHIP'.to_json).at_path('bills/0/bill_subtype')
           end
 
           it 'returns a bill scenario based on transfer details' do
-            is_expected.to be_json_eql('ST2TS1T0'.to_json).at_path("case_type/bill_scenario")
+            is_expected.to be_json_eql('ST2TS1T0'.to_json).at_path('case_type/bill_scenario')
           end
         end
 
@@ -556,16 +556,16 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           it { is_valid_cclf_json(response) }
 
           it 'returns array containing 2 bills' do
-            is_expected.to have_json_size(2).at_path("bills")
+            is_expected.to have_json_size(2).at_path('bills')
           end
 
           it 'returns a litigator fee bill' do
-            is_expected.to be_json_eql('EVID_PROV_FEE'.to_json).at_path("bills/1/bill_type")
-            is_expected.to be_json_eql('EVID_PROV_FEE'.to_json).at_path("bills/1/bill_subtype")
+            is_expected.to be_json_eql('EVID_PROV_FEE'.to_json).at_path('bills/1/bill_type')
+            is_expected.to be_json_eql('EVID_PROV_FEE'.to_json).at_path('bills/1/bill_subtype')
           end
 
           it 'returns a bill scenario based on transfer details' do
-            is_expected.to be_json_eql('ST2TS1T0'.to_json).at_path("case_type/bill_scenario")
+            is_expected.to be_json_eql('ST2TS1T0'.to_json).at_path('case_type/bill_scenario')
           end
         end
       end

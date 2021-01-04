@@ -36,7 +36,7 @@ RSpec::Matchers.define :be_json do
   end
 
   description do
-    "should be JSON format"
+    'should be JSON format'
   end
 
   failure_message do |actual|

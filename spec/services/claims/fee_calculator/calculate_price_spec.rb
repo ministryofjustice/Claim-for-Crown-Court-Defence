@@ -51,7 +51,7 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
   it { is_expected.to respond_to(:quantity) }
   it { is_expected.to respond_to(:current_page_fees) }
   it { is_expected.to respond_to(:pages_of_prosecuting_evidence) }
-  
+
   describe '#call' do
     subject(:response) { instance.call }
     let(:instance) { described_class.new(claim, params) }

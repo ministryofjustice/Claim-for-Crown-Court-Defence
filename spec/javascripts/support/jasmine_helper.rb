@@ -8,7 +8,7 @@
 #   config.boot_files = lambda { ['/absolute/path/to/boot_dir/file.js'] }
 #end
 #
-require "jasmine/runners/selenium"
+require 'jasmine/runners/selenium'
 require 'webdrivers'
 
 # pin chromedriver version to latest compatible found

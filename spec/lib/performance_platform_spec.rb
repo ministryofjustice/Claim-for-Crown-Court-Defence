@@ -7,7 +7,7 @@ RSpec.describe PerformancePlatform do
     subject(:report) { described_class.report(report_name) }
 
     before do
-      expected_yaml = { "reports"=>{ "transactions_by_channel"=>{ "type"=>"test-transactions-by-channel", "period"=>"weekly", "fields"=>[:channel, :count], "token"=>nil } } }
+      expected_yaml = { 'reports' => { 'transactions_by_channel' => { 'type' => 'test-transactions-by-channel', 'period' => 'weekly', 'fields' => [:channel, :count], 'token' => nil } } }
       allow_any_instance_of(PerformancePlatform::Reports).to receive(:yaml_file).and_return(expected_yaml)
     end
 

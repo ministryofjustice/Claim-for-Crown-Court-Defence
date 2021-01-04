@@ -6,13 +6,13 @@ RSpec.describe 'Hardship claims', type: :request do
 
   before { seed_case_types }
 
-  describe "GET #new" do
+  describe 'GET #new' do
     context 'when user is not signed in' do
       before do
         get new_advocates_hardship_claim_path
       end
 
-      it "redirects to sign in page" do
+      it 'redirects to sign in page' do
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -23,7 +23,7 @@ RSpec.describe 'Hardship claims', type: :request do
         get new_advocates_hardship_claim_path
       end
 
-      it "redirects to home page" do
+      it 'redirects to home page' do
         expect(response).to redirect_to external_users_root_path
       end
     end
@@ -34,7 +34,7 @@ RSpec.describe 'Hardship claims', type: :request do
         get new_advocates_hardship_claim_path
       end
 
-      it "returns http success" do
+      it 'returns http success' do
         expect(response).to be_successful
       end
 
@@ -60,7 +60,7 @@ RSpec.describe 'Hardship claims', type: :request do
     end
   end
 
-  describe "GET #edit" do
+  describe 'GET #edit' do
     let(:claim) { create(:advocate_hardship_claim, external_user: advocate) }
 
     context 'when user is not signed in' do
@@ -68,7 +68,7 @@ RSpec.describe 'Hardship claims', type: :request do
         get edit_advocates_hardship_claim_path(claim)
       end
 
-      it "redirects to sign in page" do
+      it 'redirects to sign in page' do
         expect(response).to redirect_to new_user_session_path
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe 'Hardship claims', type: :request do
         get edit_advocates_hardship_claim_path(claim)
       end
 
-      it "redirects to home page" do
+      it 'redirects to home page' do
         expect(response).to redirect_to external_users_root_path
       end
     end
@@ -90,7 +90,7 @@ RSpec.describe 'Hardship claims', type: :request do
         get edit_advocates_hardship_claim_path(claim)
       end
 
-      it "returns http success" do
+      it 'returns http success' do
         expect(response).to be_successful
       end
 

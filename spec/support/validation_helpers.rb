@@ -1,6 +1,6 @@
 module ValidationHelpers
 
-  shared_context "force-validation" do
+  shared_context 'force-validation' do
     before do
       claim.force_validation = true
     end
@@ -39,7 +39,7 @@ module ValidationHelpers
   end
 
   def should_error_if_exceeds_length(record, field, value, message, options = {})
-    record.send("#{field}=", 'x' * (value+1))
+    record.send("#{field}=", 'x' * (value + 1))
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
@@ -62,7 +62,7 @@ module ValidationHelpers
   end
 
   def should_error_if_too_far_in_the_past(record, field, message, options = {})
-    record.send("#{field}=", Settings.earliest_permitted_date - 1.day )
+    record.send("#{field}=", Settings.earliest_permitted_date - 1.day)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]

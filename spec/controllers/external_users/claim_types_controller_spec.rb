@@ -44,12 +44,12 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
     context 'admin of AGFS and LGFS provider' do
       let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
 
-      it "assigns bill types based on provider roles" do
+      it 'assigns bill types based on provider roles' do
         get :selection
         expect(assigns(:available_claim_types)).to match_array(all_claim_types)
       end
 
-      it "renders the bill type options page" do
+      it 'renders the bill type options page' do
         get :selection
         expect(response).to render_template(:selection)
       end
@@ -58,12 +58,12 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
     context 'admin of AGFS provider' do
       let(:external_user) { create(:external_user, :admin, provider: create(:provider, :agfs)) }
 
-      it "assigns bill types based on provider roles" do
+      it 'assigns bill types based on provider roles' do
         get :selection
         expect(assigns(:available_claim_types)).to match_array(agfs_claim_types)
       end
 
-      it "renders the bill type options page" do
+      it 'renders the bill type options page' do
         get :selection
         expect(response).to render_template(:selection)
       end
@@ -72,12 +72,12 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
     context 'admin of LGFS provider' do
       let(:external_user) { create(:external_user, :admin, provider: create(:provider, :lgfs)) }
 
-      it "assigns bill types based on provider roles" do
+      it 'assigns bill types based on provider roles' do
         get :selection
         expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
       end
 
-      it "renders bill type selection page" do
+      it 'renders bill type selection page' do
         get :selection
         expect(response).to render_template(:selection)
       end
@@ -86,7 +86,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
     context 'litigator' do
       let(:external_user) { create(:external_user, :litigator) }
 
-      it "assigns bill types based on external_user roles" do
+      it 'assigns bill types based on external_user roles' do
         get :selection
         expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
       end
@@ -102,40 +102,40 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
     context 'when an invalid scheme is provided' do
       before { post :chosen, params: { claim_type: 'invalid' } }
 
-      it "redirects the user to the claims page with an error" do
+      it 'redirects the user to the claims page with an error' do
         expect(response).to redirect_to(external_users_claims_url)
         expect(flash[:alert]).to eq 'Invalid bill type selected'
       end
     end
 
-    context "AGFS claim" do
+    context 'AGFS claim' do
       before { post :chosen, params: { claim_type: 'agfs' } }
 
-      it "should redirect to the new advocate claim form page" do
+      it 'should redirect to the new advocate claim form page' do
         expect(response).to redirect_to(new_advocates_claim_path)
       end
     end
 
-    context "LGFS final claim" do
+    context 'LGFS final claim' do
       before { post :chosen, params: { claim_type: 'lgfs_final' } }
 
-      it "should redirect to the new litigator final claim form page" do
+      it 'should redirect to the new litigator final claim form page' do
         expect(response).to redirect_to(new_litigators_claim_path)
       end
     end
 
-    context "LGFS interim claim" do
+    context 'LGFS interim claim' do
       before { post :chosen, params: { claim_type: 'lgfs_interim' } }
 
-      it "should redirect to the new litigator interim claim form page" do
+      it 'should redirect to the new litigator interim claim form page' do
         expect(response).to redirect_to(new_litigators_interim_claim_path)
       end
     end
 
-    context "LGFS transfer claim" do
+    context 'LGFS transfer claim' do
       before { post :chosen, params: { claim_type: 'lgfs_transfer' } }
 
-      it "should redirect to the new litigator transfer claim form page" do
+      it 'should redirect to the new litigator transfer claim form page' do
         expect(response).to redirect_to(new_litigators_transfer_claim_path)
       end
     end

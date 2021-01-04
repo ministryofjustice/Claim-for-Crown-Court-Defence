@@ -8,10 +8,10 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
 
   before { sign_in case_worker_manager.user }
 
-  describe "GET #show" do
+  describe 'GET #show' do
     before { get :show, params: { provider_id: provider, id: external_user } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -21,10 +21,10 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe "GET #index" do
+  describe 'GET #index' do
     before { get :index, params: { provider_id: provider } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -69,7 +69,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe "GET #new" do
+  describe 'GET #new' do
     let(:external_user) do
       ExternalUser.new(provider: provider).tap do |eu|
         eu.build_user
@@ -78,7 +78,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
 
     before { get :new, params: { provider_id: provider } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -99,7 +99,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe "POST #create" do
+  describe 'POST #create' do
     def post_to_create_external_user_action(options = {})
       post :create, params: {
         provider_id: provider,
@@ -107,7 +107,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
           user_attributes: {
             email: 'foo@foobar.com',
             email_confirmation: 'foo@foobar.com',
-            first_name: options[:valid]==false ? '' : 'john',
+            first_name: options[:valid] == false ? '' : 'john',
             last_name: 'Smith'
           },
           roles: ['advocate'],
@@ -139,10 +139,10 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe "GET #edit" do
+  describe 'GET #edit' do
     before { get :edit, params: { provider_id: provider, id: external_user } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -156,7 +156,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe 'PUT #update' do
     context 'when valid' do
       before(:each) { put :update, params: { provider_id: provider, id: external_user, external_user: { supplier_number: 'XX100', roles: ['advocate'] } } }
 
@@ -184,10 +184,10 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe "GET #change_password" do
+  describe 'GET #change_password' do
     before { get :change_password, params: { provider_id: provider, id: external_user } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -201,7 +201,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe "PUT #update_password" do
+  describe 'PUT #update_password' do
     let(:password) { 'password123' }
     let(:password_confirm) { password }
     subject(:password_update_request) do

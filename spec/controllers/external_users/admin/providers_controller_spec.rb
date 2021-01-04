@@ -8,10 +8,10 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
 
   before { sign_in admin.user }
 
-  describe "GET #show" do
+  describe 'GET #show' do
     before { get :show, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -20,10 +20,10 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
     end
   end
 
-  describe "GET #edit" do
+  describe 'GET #edit' do
     before { get :edit, params: { id: subject } }
 
-    it "returns http success" do
+    it 'returns http success' do
       expect(response).to be_successful
     end
 
@@ -32,7 +32,7 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe 'PUT #update' do
     it 'does not allow updating of provider type' do
       put :update, params: { id: subject, provider: { provider_type: 'chamber' } }
       expect(subject.reload).to be_firm
@@ -72,8 +72,8 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
         before(:each) do
           put :update, params: { id: subject, provider: {
               lgfs_supplier_numbers_attributes: [
-                  { supplier_number: 'XY123' },
-                  { supplier_number: '' }
+                { supplier_number: 'XY123' },
+                { supplier_number: '' }
               ]
           } }
         end
@@ -92,8 +92,8 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
         before(:each) do
           put :update, params: { id: subject, provider: {
               lgfs_supplier_numbers_attributes: [
-                  { supplier_number: '1B222Z' },
-                  { supplier_number: '2B555Z' }
+                { supplier_number: '1B222Z' },
+                { supplier_number: '2B555Z' }
               ]
           } }
         end

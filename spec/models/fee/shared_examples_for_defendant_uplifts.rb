@@ -17,7 +17,7 @@ shared_examples '.defendant_uplift_sums' do
       end
 
       it 'returns hash of sums grouped by fee\'s unique_code' do
-        is_expected.to eql({ "MIAHU" => 3 })
+        is_expected.to eql({ 'MIAHU' => 3 })
       end
     end
   end
@@ -136,7 +136,7 @@ shared_examples 'defendant upliftable' do
         MISHR: 'MISHU', # Sentence hearings uplift
         MITNP: 'MITNU', # Trial not proceed uplift
         MIUAV1: 'MIUAV3', # Unsuccessful application to vacate a guilty plea (half day uplift)
-        MIUAV2: 'MIUAV4', # Unsuccessful application to vacate a guilty plea (whole day uplift)
+        MIUAV2: 'MIUAV4' # Unsuccessful application to vacate a guilty plea (whole day uplift)
     }.freeze
 
     context 'mappings' do

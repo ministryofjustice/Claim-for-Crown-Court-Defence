@@ -38,7 +38,7 @@ RSpec.describe CCLF::DisbursementAdapter, type: :adapter do
     SCR: ['DISBURSEMENT', 'TRANSCRIPTS'], # Transcripts
     TRA: ['DISBURSEMENT', 'TRANSLATOR'], # Translator
     VET: ['DISBURSEMENT', 'VET_REPORT'], # Vet report
-    VOI: ['DISBURSEMENT', 'VOICE_RECOG'], # Voice recognition
+    VOI: ['DISBURSEMENT', 'VOICE_RECOG'] # Voice recognition
   }.freeze
 
   context 'bill mappings' do

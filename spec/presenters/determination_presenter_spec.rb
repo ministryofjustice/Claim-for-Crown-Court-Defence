@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DeterminationPresenter do
   let(:changeset) { {} }
-  let(:pt_version) { instance_double(PaperTrail::Version, item_type: 'Determination', changeset: changeset, event: 'my_event', created_at: DateTime.parse("2019-03-31 09:38:00.000000")) }
+  let(:pt_version) { instance_double(PaperTrail::Version, item_type: 'Determination', changeset: changeset, event: 'my_event', created_at: DateTime.parse('2019-03-31 09:38:00.000000')) }
   let(:presenter) { DeterminationPresenter.new(pt_version, view) }
 
   describe '#event' do
@@ -37,12 +37,12 @@ RSpec.describe DeterminationPresenter do
     it 'successively yields attribute and new value to block' do
       expect { |block|
         presenter.itemise(&block)
-      }.to yield_successive_args(["Fees", 1.0],
-                                 ["Expenses", 2.0],
-                                 ["Disbursements", 3.0],
-                                 ["Total (ex VAT)", 4.0],
-                                 ["VAT", 1.5],
-                                 ["Total (inc VAT)", 5.5])
+      }.to yield_successive_args(['Fees', 1.0],
+                                 ['Expenses', 2.0],
+                                 ['Disbursements', 3.0],
+                                 ['Total (ex VAT)', 4.0],
+                                 ['VAT', 1.5],
+                                 ['Total (inc VAT)', 5.5])
     end
   end
 

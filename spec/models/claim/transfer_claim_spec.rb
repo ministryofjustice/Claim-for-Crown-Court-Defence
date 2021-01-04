@@ -62,7 +62,7 @@
 #  retrial_reduction        :boolean          default(FALSE)
 #
 
-require "rails_helper"
+require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
 describe Claim::TransferClaim, type: :model do
@@ -72,7 +72,7 @@ describe Claim::TransferClaim, type: :model do
   it { should_not delegate_method(:requires_retrial_dates?).to(:case_type) }
 
   context 'should delegate transfer detail attributes to transfer detail object' do
-    [ :litigator_type, :elected_case, :transfer_stage_id, :transfer_date, :transfer_date_dd, :transfer_date_mm, :transfer_date_yyyy, :case_conclusion_id ].
+    [:litigator_type, :elected_case, :transfer_stage_id, :transfer_date, :transfer_date_dd, :transfer_date_mm, :transfer_date_yyyy, :case_conclusion_id].
     each do |attribute|
       it { should delegate_method(attribute).to(:transfer_detail) }
     end
@@ -117,7 +117,7 @@ describe Claim::TransferClaim, type: :model do
     end
 
     it 'populates transfer detail with transfer detail attributes' do
-      claim = Claim::TransferClaim.new(case_number: 'A20161234', litigator_type: "new", elected_case: false, transfer_stage_id: 10, transfer_date: today, case_conclusion_id: 30)
+      claim = Claim::TransferClaim.new(case_number: 'A20161234', litigator_type: 'new', elected_case: false, transfer_stage_id: 10, transfer_date: today, case_conclusion_id: 30)
       expect(claim.case_number).to eq 'A20161234'
       expect(claim.litigator_type).to eq 'new'
       expect(claim.elected_case).to be false
@@ -185,5 +185,5 @@ describe Claim::TransferClaim, type: :model do
     end
   end
 
-  include_examples "common litigator claim attributes"
+  include_examples 'common litigator claim attributes'
 end

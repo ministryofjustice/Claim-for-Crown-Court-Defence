@@ -39,7 +39,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       end
 
       it 'assigns deep nested hash with expected keys' do
-        expect(collection_hash.dig("new", true, 10, "*").keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable)
+        expect(collection_hash.dig('new', true, 10, '*').keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable)
       end
 
       it 'adds one nested hash for each data item' do
@@ -61,7 +61,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       let(:detail) { with_specific_mapping }
 
       it 'returns a valid data item' do
-        is_expected.to include({ :validity=>true })
+        is_expected.to include({ :validity => true })
       end
     end
 
@@ -69,7 +69,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       let(:detail) { with_wildcard_mapping }
 
       it 'returns a valid data item' do
-        is_expected.to include({ :validity=>true })
+        is_expected.to include({ :validity => true })
       end
     end
 
@@ -201,7 +201,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
   describe '#valid_transfer_stage_ids' do
     context 'new litigator type with elected case' do
       it 'returns a list of valid transfer_stage_ids' do
-        expect(described_class.instance.valid_transfer_stage_ids('new', true)).to eq([ 10, 20, 50 ])
+        expect(described_class.instance.valid_transfer_stage_ids('new', true)).to eq([10, 20, 50])
       end
     end
 
@@ -215,13 +215,13 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
   describe '#valid_case_conclusion_ids' do
     context 'new litigator type with elected case and transfer stage id of 20' do
       it 'returns a full set of conclusiont ids' do
-        expect(described_class.instance.valid_case_conclusion_ids('new', true, 20)).to eq([ 10, 20, 30, 40, 50 ])
+        expect(described_class.instance.valid_case_conclusion_ids('new', true, 20)).to eq([10, 20, 30, 40, 50])
       end
     end
 
     context 'new litigator type with elected case and transfer stage id of 20' do
       it 'returns a limited set of conclusion ids' do
-        expect(described_class.instance.valid_case_conclusion_ids('new', false, 20)).to eq( [ 10, 30 ])
+        expect(described_class.instance.valid_case_conclusion_ids('new', false, 20)).to eq([10, 30])
       end
     end
   end

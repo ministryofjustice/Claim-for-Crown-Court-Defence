@@ -80,7 +80,7 @@ RSpec.describe Claims::ContextMapper do
         [%w(admin),                     [:agfs, :lgfs]],
         [%w(litigator admin),           [:agfs, :lgfs]],
         [%w(advocate admin),            [:agfs, :lgfs]],
-        [%w(admin advocate litigator),  [:agfs, :lgfs]],
+        [%w(admin advocate litigator),  [:agfs, :lgfs]]
       ].each do |(roles, schemes)|
         it "returns the schemes #{schemes} for roles #{roles}" do
           external_user.roles = roles
@@ -169,13 +169,13 @@ RSpec.describe Claims::ContextMapper do
     end
 
     it 'returns all claims for the provider for the admin context' do
-      expected_ids = [ @claim_l1.id, @claim_l2.id, @claim_a1.id, @claim_a2.id ].sort
+      expected_ids = [@claim_l1.id, @claim_l2.id, @claim_a1.id, @claim_a2.id].sort
       actual_ids = Claims::ContextMapper.new(@admin).available_claims.map(&:id).sort
       expect(actual_ids).to eq expected_ids
     end
 
     it 'returns all claims for the external user' do
-      expected_ids = [ @claim_a1.id ]
+      expected_ids = [@claim_a1.id]
       actual_ids = Claims::ContextMapper.new(@advocate_1).available_claims.map(&:id).sort
       expect(actual_ids).to eq expected_ids
     end
@@ -184,13 +184,13 @@ RSpec.describe Claims::ContextMapper do
       let(:options) { { scheme: :agfs } }
 
       it 'returns all AGFS claims for the provider for the admin context' do
-        expected_ids = [ @claim_a1.id, @claim_a2.id ].sort
+        expected_ids = [@claim_a1.id, @claim_a2.id].sort
         actual_ids = Claims::ContextMapper.new(@admin, options).available_claims.map(&:id).sort
         expect(actual_ids).to eq expected_ids
       end
 
       it 'returns all AGFS claims for the external user' do
-        expected_ids = [ @claim_a1.id ]
+        expected_ids = [@claim_a1.id]
         actual_ids = Claims::ContextMapper.new(@advocate_1, options).available_claims.map(&:id).sort
         expect(actual_ids).to eq expected_ids
       end
@@ -200,7 +200,7 @@ RSpec.describe Claims::ContextMapper do
       let(:options) { { scheme: :lgfs } }
 
       it 'returns all LGFS claims for the provider for the admin context' do
-        expected_ids = [ @claim_l1.id, @claim_l2.id ].sort
+        expected_ids = [@claim_l1.id, @claim_l2.id].sort
         actual_ids = Claims::ContextMapper.new(@admin, options).available_claims.map(&:id).sort
         expect(actual_ids).to eq expected_ids
       end

@@ -34,13 +34,13 @@ describe Reports::PerformancePlatform::QuarterlyVolume, :currency_vcr do
       results_by_time: [
         Aws::CostExplorer::Types::ResultByTime.new(
           time_period: Aws::CostExplorer::Types::DateInterval.new(
-            start: "2018-10-01",
-            end: "2018-11-01"
+            start: '2018-10-01',
+            end: '2018-11-01'
           ),
           total: {
             'UnblendedCost' => Aws::CostExplorer::Types::MetricValue.new(
-              amount: "2633.102095783",
-              unit: "USD"
+              amount: '2633.102095783',
+              unit: 'USD'
             )
           }
         )
@@ -98,7 +98,7 @@ describe Reports::PerformancePlatform::QuarterlyVolume, :currency_vcr do
 
     before do
       report.populate_data
-      stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 200, body: "", headers: {})
+      stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 200, body: '', headers: {})
     end
 
     it { is_expected.to be_truthy }

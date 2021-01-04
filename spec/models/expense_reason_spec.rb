@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ExpenseReason do 
+describe ExpenseReason do
   describe '.new' do
     it 'raises if allow_explanatory_text not boolean' do
       expect {

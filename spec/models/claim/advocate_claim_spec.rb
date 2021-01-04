@@ -1288,7 +1288,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         travel_to new_time do
           claim.redetermine!
         end
-        expect(claim.last_submitted_at).to be_within_seconds_of(new_time, 1)
+        expect(claim.last_submitted_at).to be_within(1.second).of(new_time)
       end
     end
 

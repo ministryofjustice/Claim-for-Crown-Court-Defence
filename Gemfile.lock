@@ -394,7 +394,7 @@ GEM
     http_parser.rb (0.6.0)
     i18n (1.8.7)
       concurrent-ruby (~> 1.0)
-    i18n-tasks (0.9.31)
+    i18n-tasks (0.9.33)
       activesupport (>= 4.0.2)
       ast (>= 2.1.0)
       erubi
@@ -714,7 +714,7 @@ GEM
     sys-uname (1.2.1)
       ffi (>= 1.0.0)
     temple (0.8.1)
-    terminal-table (1.8.0)
+    terminal-table (2.0.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)

@@ -125,7 +125,6 @@ Rails.application.routes.draw do
       get 'authorised',             on: :collection
       get 'archived',               on: :collection
       get 'messages',               on: :member
-      resource :disc_evidence_coversheets, only: [:new, :create]
 
       patch 'clone_rejected',       to: 'claims#clone_rejected',  on: :member
       patch 'unarchive',            to: 'claims#unarchive',       on: :member

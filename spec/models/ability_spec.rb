@@ -23,7 +23,6 @@ RSpec.describe Ability do
     it { should_not be_able_to(:update, UserMessageStatus.new) }
     it { should_not be_able_to(:create, Document.new) }
     it { should_not be_able_to(:update_settings, User.new) }
-    it { should_not be_able_to(:create, DiscEvidenceCoversheet.new) }
   end
 
   context 'when a signed in user' do
@@ -95,32 +94,6 @@ RSpec.describe Ability do
 
       [:show, :download, :destroy].each do |action|
         it { should_not be_able_to(action, Document.new(external_user: other_external_user)) }
-      end
-    end
-
-    context 'can new/create their own disc evidence coversheets' do
-      let(:claim) { create(:advocate_claim, external_user: external_user) }
-
-      [:new, :create].each do |action|
-        it { should be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
-      end
-    end
-
-    context 'cannot new/create another external users disc evidence coversheets in the same provider' do
-      let(:other_external_user) { create(:external_user, provider: provider) }
-      let(:claim) { create(:advocate_claim, external_user: other_external_user, creator: other_external_user) }
-
-      [:new, :create].each do |action|
-        it { should_not be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
-      end
-    end
-
-    context 'cannot new/create another external users disc evidence coversheets from a different provider' do
-      let(:other_external_user) { create(:external_user) }
-      let(:claim) { create(:advocate_claim, external_user: other_external_user, creator: other_external_user) }
-
-      [:new, :create].each do |action|
-        it { should_not be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
       end
     end
 
@@ -240,32 +213,6 @@ RSpec.describe Ability do
 
       [:show, :download, :destroy].each do |action|
         it { should_not be_able_to(action, Document.new(external_user: other_external_user)) }
-      end
-    end
-
-    context 'can new/create their own disc evidence coversheets' do
-      let(:claim) { create(:advocate_claim, external_user: external_user, creator: external_user) }
-
-      [:new, :create].each do |action|
-        it { should be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
-      end
-    end
-
-    context 'can new/create another external users disc evidence coversheets from in the same provider' do
-      let(:other_external_user) { create(:external_user, provider: provider) }
-      let(:claim) { create(:advocate_claim, external_user: other_external_user, creator: other_external_user) }
-
-      [:new, :create].each do |action|
-        it { should be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
-      end
-    end
-
-    context 'cannot new/create another external users disc evidence coversheets from a different provider' do
-      let(:other_external_user) { create(:external_user) }
-      let(:claim) { create(:advocate_claim, external_user: other_external_user, creator: other_external_user) }
-
-      [:new, :create].each do |action|
-        it { should_not be_able_to(action, DiscEvidenceCoversheet.new(claim_id: claim.id)) }
       end
     end
 

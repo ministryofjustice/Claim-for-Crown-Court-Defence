@@ -57,12 +57,6 @@ references:
         bundle exec rake webpacker:compile
         bundle exec rake jasmine:ci
 
-  _install-wkhtmltopdf: &install-wkhtmltopdf
-    run:
-      name: Install wkhtmltopdf
-      command: |
-        sudo apt-get update && sudo apt-get -y install wkhtmltopdf
-
   _script-build-app-container: &script-build-app-container
     run:
       name: Build and push cccd docker image
@@ -337,7 +331,6 @@ jobs:
     steps:
       - checkout
       - build-base
-      - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
       - run-rspec
@@ -349,7 +342,6 @@ jobs:
     steps:
       - checkout
       - build-base
-      - *install-wkhtmltopdf
       - *wait-for-db
       - *load-db
       - run-cucumber

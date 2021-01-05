@@ -52,18 +52,6 @@ You can run a multi-process server like unicorn on port 3000. This can be done w
 rails server -e devunicorn
 ```
 
-#### Install wkhtmltopdf
-Install [wkhtmltopdf](http://macappstore.org/wkhtmltopdf) - used to generate PDFs from html templates. You will need to install this locally.
-
-```bash
-# for mac osx
-brew cask install wkhtmltopdf
-```
-or
-```bash
-brew bundle
-```
-
 #### Install Libreoffice
 Libreoffice is used to convert files uploaded in CCCD to PDFs for generating performant, viewable documents of any document type, accessed via a view link. You will need to install this locally.
 

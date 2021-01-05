@@ -18,8 +18,7 @@ RUN set -ex
 # - nodejs: for ExecJS and asset compilation
 # - runit for process management (because we have multiple services)
 # - libreoffice: for pdf conversion
-# - ttf-ubuntu-font-family: needed by wkhtmltopdf/wicked_pdf & libreoffice
-# - wkhtmltopdf: for pdf generation from html
+# - ttf-ubuntu-font-family: needed by libreoffice
 # - redis: for backend key-value store
 # - postgresql-client - only needed for database dump
 #
@@ -36,7 +35,6 @@ RUN apk --no-cache add --virtual build-dependencies \
                   linux-headers \
                   runit \
                   ttf-ubuntu-font-family \
-                  wkhtmltopdf \
                   libreoffice \
                   redis \
                   postgresql-client

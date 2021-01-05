@@ -63,7 +63,3 @@ updates:
   - dependency-name: simplecov-console
     versions:
     - "> 0.4.2"
-  - dependency-name: wicked_pdf
-    versions:
-    - ">= 2.1.a"
-    - "< 2.2"

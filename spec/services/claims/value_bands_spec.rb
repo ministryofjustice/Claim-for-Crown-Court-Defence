@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 module Claims
-
   describe ValueBands do
     describe '.band_id_for_claim' do
       context 'with VAT' do

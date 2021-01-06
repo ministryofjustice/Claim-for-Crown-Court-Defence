@@ -68,14 +68,18 @@ require_relative 'shared_examples_for_lgfs_claim'
 describe Claim::TransferClaim, type: :model do
   let(:claim) { build :transfer_claim }
 
-  it { should_not delegate_method(:requires_trial_dates?).to(:case_type) }
-  it { should_not delegate_method(:requires_retrial_dates?).to(:case_type) }
+  it { is_expected.not_to delegate_method(:requires_trial_dates?).to(:case_type) }
+  it { is_expected.not_to delegate_method(:requires_retrial_dates?).to(:case_type) }
 
   context 'should delegate transfer detail attributes to transfer detail object' do
-    [:litigator_type, :elected_case, :transfer_stage_id, :transfer_date, :transfer_date_dd, :transfer_date_mm, :transfer_date_yyyy, :case_conclusion_id].
-    each do |attribute|
-      it { should delegate_method(attribute).to(:transfer_detail) }
-    end
+    it { is_expected.to delegate_method(:litigator_type).to(:transfer_detail) }
+    it { is_expected.to delegate_method(:elected_case).to(:transfer_detail) }
+    it { is_expected.to delegate_method(:transfer_stage_id).to(:transfer_detail) }
+    it { is_expected.to delegate_method(:transfer_date).to(:transfer_detail) }
+    it { is_expected.to delegate_method(:transfer_date_dd).to(:transfer_detail) }
+    it { is_expected.to delegate_method(:transfer_date_mm).to(:transfer_detail) }
+    it { is_expected.to delegate_method(:transfer_date_yyyy).to(:transfer_detail) }
+    it { is_expected.to delegate_method(:case_conclusion_id).to(:transfer_detail) }
   end
 
   context 'transfer fee' do

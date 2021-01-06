@@ -17,8 +17,8 @@ RSpec.describe ZendeskSender do
 
   describe '#send!' do
     let(:stubbed_request) do
-      stub_request(:post, 'https://ministryofjustice.zendesk.com/api/v2/tickets').
-        with(
+      stub_request(:post, 'https://ministryofjustice.zendesk.com/api/v2/tickets')
+        .with(
           :body => '{"ticket":{"subject":"Bug report","description":"event - outcome - email address","custom_fields":[{"id":"26047167","value":"/claims"},{"id":"23757677","value":"advocate_defence_payments"},{"id":"23791776","value":"chrome"},{"id":"32342378","value":"test"}]}}',
           :headers => {
             'Accept' => 'application/json',

@@ -735,10 +735,6 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  describe '#can_have_expenses?' do
-    specify { expect(presenter.can_have_expenses?).to be_truthy }
-  end
-
   describe '#can_have_disbursements?' do
     specify { expect(presenter.can_have_disbursements?).to be_truthy }
   end

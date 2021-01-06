@@ -82,14 +82,13 @@
                 %td
                   = info.warrant_executed_date
 
-    - if claim.can_have_expenses?
-      - if claim.expenses.empty?
-        %h3.heading-medium
-          = t('common.expenses')
-        %p
-          = t('shared.summary.no_values.expenses')
-      - else
-        = render partial: 'shared/summary/expenses', locals: { claim: claim }
+    - if claim.expenses.empty?
+      %h3.heading-medium
+        = t('common.expenses')
+      %p
+        = t('shared.summary.no_values.expenses')
+    - else
+      = render partial: 'shared/summary/expenses', locals: { claim: claim }
 
     - if claim.can_have_disbursements?
       - if claim.disbursements.empty?

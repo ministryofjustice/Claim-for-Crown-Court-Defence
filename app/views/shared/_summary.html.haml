@@ -55,70 +55,69 @@
         = t('.fees_total')
         = claim.fees_total
 
-    - if claim.can_have_expenses?
-      %h3.heading-medium
-        = t('common.expenses')
-      - if claim.expenses.empty?
-        %p
-          = t('shared.summary.no_values.expenses')
-      - else
-        / table does noe require summary
-        %table
-          %caption.visually-hidden
-            = t('.expenses.caption')
+    %h3.heading-medium
+      = t('common.expenses')
+    - if claim.expenses.empty?
+      %p
+        = t('shared.summary.no_values.expenses')
+    - else
+      / table does noe require summary
+      %table
+        %caption.visually-hidden
+          = t('.expenses.caption')
 
-          %thead
-            %tr
-              %th{ scope: 'col' }
-                = t('.date')
-              %th{ scope: 'col' }
-                = t('.expense_type')
+        %thead
+          %tr
+            %th{ scope: 'col' }
+              = t('.date')
+            %th{ scope: 'col' }
+              = t('.expense_type')
+            %th.numeric{ scope: 'col' }
+              = t('.distance')
+            - if claim.agfs?
               %th.numeric{ scope: 'col' }
-                = t('.distance')
+                = t('.quantity_hours')
+            %th{ scope: 'col' }
+              = t('.location')
+            %th.numeric{ scope: 'col' }
+              = t('.amount')
+            - if claim.lgfs?
+              %th.numeric{ scope: 'col' }
+                = t('.vat_amount')
+              %th.numeric{ scope: 'col' }
+                = t('shared.summary.total_amount')
+
+        %tbody
+          - present_collection(claim.expenses).each do |expense|
+            %tr.no-border
+              %td
+                = expense.pretty_date
+              %td
+                = expense.name
+                - if expense.distance?
+                  (#{expense.mileage_rate})
+              %td.numeric
+                = expense.distance
               - if claim.agfs?
-                %th.numeric{ scope: 'col' }
-                  = t('.quantity_hours')
-              %th{ scope: 'col' }
-                = t('.location')
-              %th.numeric{ scope: 'col' }
-                = t('.amount')
+                %td.numeric
+                  = expense.hours
+              %td
+                = expense.location
+              %td.numeric
+                = expense.amount
               - if claim.lgfs?
-                %th.numeric{ scope: 'col' }
-                  = t('.vat_amount')
-                %th.numeric{ scope: 'col' }
-                  = t('shared.summary.total_amount')
-
-          %tbody
-            - present_collection(claim.expenses).each do |expense|
-              %tr.no-border
-                %td
-                  = expense.pretty_date
-                %td
-                  = expense.name
-                  - if expense.distance?
-                    (#{expense.mileage_rate})
                 %td.numeric
-                  = expense.distance
-                - if claim.agfs?
-                  %td.numeric
-                    = expense.hours
-                %td
-                  = expense.location
+                  = expense.vat_amount
                 %td.numeric
-                  = expense.amount
-                - if claim.lgfs?
-                  %td.numeric
-                    = expense.vat_amount
-                  %td.numeric
-                    = expense.total
-              %tr
-                %td{ colspan: '7' }
-                  .bold-normal
-                    = t('.reason')
-                  = expense.reason
-        .totals
-          = t('.expenses_total')
-          = claim.expenses_total
+                  = expense.total
+            %tr
+              %td{ colspan: '7' }
+                .bold-normal
+                  = t('.reason')
+                = expense.reason
+      .totals
+        = t('.expenses_total')
+        = claim.expenses_total
 
     - if claim.can_have_disbursements?
       %h3.heading-medium

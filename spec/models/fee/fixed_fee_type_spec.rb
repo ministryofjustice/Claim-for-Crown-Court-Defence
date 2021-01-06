@@ -40,7 +40,7 @@ module Fee
 
     describe '#fee_category_name' do
       it 'should return the category name' do
-          expect(fee_type.fee_category_name).to eq 'Fixed Fees'
+        expect(fee_type.fee_category_name).to eq 'Fixed Fees'
       end
     end
 

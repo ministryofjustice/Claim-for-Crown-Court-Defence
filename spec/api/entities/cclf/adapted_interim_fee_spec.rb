@@ -71,7 +71,7 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
     end
 
     it 'does not expose warrant attributes' do
-       expect(response.keys).not_to include(:warrant_issued_date, :warrant_executed_date)
+      expect(response.keys).not_to include(:warrant_issued_date, :warrant_executed_date)
     end
   end
 end

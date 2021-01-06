@@ -16,9 +16,9 @@ RSpec.describe Fee::TransferFeePresenter do
     subject(:days_claimed) { presenter.days_claimed }
 
     it 'sends message to #claim.actual_trial_length' do
-     expect(presenter).to receive(:claim).and_return claim
-     expect(claim).to receive(:actual_trial_length)
-     days_claimed
+      expect(presenter).to receive(:claim).and_return claim
+      expect(claim).to receive(:actual_trial_length)
+      days_claimed
     end
   end
 end

@@ -871,28 +871,24 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe '#has_authorised_state?' do
     let(:claim) { create(:draft_claim) }
 
-    def expect_has_authorised_state_to_be(bool)
-     expect(claim.has_authorised_state?).to eql(bool)
-    end
-
     it 'should return false for draft, submitted, allocated, and rejected claims' do
-     expect_has_authorised_state_to_be false
-     claim.submit
-     expect_has_authorised_state_to_be false
-     claim.allocate
-     expect_has_authorised_state_to_be false
-     claim.reject
-     expect_has_authorised_state_to_be false
+      expect(claim.has_authorised_state?).to be_falsey
+      claim.submit
+      expect(claim.has_authorised_state?).to be_falsey
+      claim.allocate
+      expect(claim.has_authorised_state?).to be_falsey
+      claim.reject
+      expect(claim.has_authorised_state?).to be_falsey
     end
 
     it 'should return true for part_authorised, authorised claims' do
-     claim.submit
-     claim.allocate
-     claim.assessment.update(fees: 30.01, expenses: 70.00)
-     claim.authorise_part
-     expect_has_authorised_state_to_be true
-     claim.authorise
-     expect_has_authorised_state_to_be true
+      claim.submit
+      claim.allocate
+      claim.assessment.update(fees: 30.01, expenses: 70.00)
+      claim.authorise_part
+      expect(claim.has_authorised_state?).to be_truthy
+      claim.authorise
+      expect(claim.has_authorised_state?).to be_truthy
     end
   end
 

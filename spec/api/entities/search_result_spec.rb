@@ -51,26 +51,26 @@ describe API::Entities::SearchResult do
       subject(:filter) { JSON.parse(search_result.to_json, symbolize_names: true)[:filter] }
       let(:result) do
        {
-          disk_evidence: 0,
-          redetermination: 0,
-          fixed_fee: 0,
-          awaiting_written_reasons: 0,
-          cracked: 0,
-          trial: 0,
-          guilty_plea: 0,
-          graduated_fees: 0,
-          interim_fees: 0,
-          lgfs_warrants: 0,
-          agfs_warrants: 0,
-          interim_disbursements: 0,
-          risk_based_bills: 0,
-          injection_errored: 0,
-          cav_warning: 0,
-          supplementary: 0,
-          agfs_hardship: 0,
-          lgfs_hardship: 0,
-          clar_fees_warning: 0
-        }
+         disk_evidence: 0,
+         redetermination: 0,
+         fixed_fee: 0,
+         awaiting_written_reasons: 0,
+         cracked: 0,
+         trial: 0,
+         guilty_plea: 0,
+         graduated_fees: 0,
+         interim_fees: 0,
+         lgfs_warrants: 0,
+         agfs_warrants: 0,
+         interim_disbursements: 0,
+         risk_based_bills: 0,
+         injection_errored: 0,
+         cav_warning: 0,
+         supplementary: 0,
+         agfs_hardship: 0,
+         lgfs_hardship: 0,
+         clar_fees_warning: 0
+       }
       end
 
       shared_examples 'returns expected JSON filter values' do

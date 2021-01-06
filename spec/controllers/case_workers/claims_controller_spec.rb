@@ -12,10 +12,10 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     let(:claims_collection) { double('Claims Collection', remote?: true, first: page_of_claims) }
     let(:params) do
       {
-      'tab' => 'current',
-      'controller' => 'case_workers/claims',
-      'action' => 'index'
-    }
+        'tab' => 'current',
+        'controller' => 'case_workers/claims',
+        'action' => 'index'
+      }
     end
 
     let(:criteria) do

@@ -43,18 +43,20 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
 
   describe '#summary_sections' do
     specify {
-      expect(presenter.summary_sections).to eq({
-        transfer_detail: :transfer_fee_details,
-        case_details: :case_details,
-        defendants: :defendants,
-        offence_details: :offence_details,
-        transfer_fee: :transfer_fees,
-        misc_fees: :miscellaneous_fees,
-        disbursements: :disbursements,
-        expenses: :travel_expenses,
-        supporting_evidence: :supporting_evidence,
-        additional_information: :supporting_evidence
-      })
+      expect(presenter.summary_sections).to eq(
+        {
+          transfer_detail: :transfer_fee_details,
+          case_details: :case_details,
+          defendants: :defendants,
+          offence_details: :offence_details,
+          transfer_fee: :transfer_fees,
+          misc_fees: :miscellaneous_fees,
+          disbursements: :disbursements,
+          expenses: :travel_expenses,
+          supporting_evidence: :supporting_evidence,
+          additional_information: :supporting_evidence
+        }
+      )
     }
   end
 

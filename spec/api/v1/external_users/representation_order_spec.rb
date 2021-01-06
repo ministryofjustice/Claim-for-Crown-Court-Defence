@@ -12,14 +12,14 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
   let!(:provider) { create(:provider) }
   let!(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: create(:offence, :with_fee_scheme)) }
   let!(:defendant) { create(:defendant, :without_reporder, claim: claim).reload }
-  let!(:valid_params) {
+  let!(:valid_params) do
     {
-        api_key: provider.api_key,
-        defendant_id: defendant.uuid,
-        representation_order_date: representation_order_date.as_json,
-        maat_reference: '4567890'
+      api_key: provider.api_key,
+      defendant_id: defendant.uuid,
+      representation_order_date: representation_order_date.as_json,
+      maat_reference: '4567890'
     }
-  }
+  end
 
   context 'when sending non-permitted verbs' do
     ALL_REP_ORDER_ENDPOINTS.each do |endpoint| # for each endpoint

@@ -70,12 +70,10 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
 
       context 'when invalid' do
         before(:each) do
-          put :update, params: { id: subject, provider: {
-              lgfs_supplier_numbers_attributes: [
-                { supplier_number: 'XY123' },
-                { supplier_number: '' }
-              ]
-          } }
+          put :update, params: {
+            id: subject,
+            provider: { lgfs_supplier_numbers_attributes: [{ supplier_number: 'XY123' }, { supplier_number: '' }] }
+          }
         end
 
         it 'does not update provider' do
@@ -91,10 +89,10 @@ RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
       context 'when valid' do
         before(:each) do
           put :update, params: { id: subject, provider: {
-              lgfs_supplier_numbers_attributes: [
-                { supplier_number: '1B222Z' },
-                { supplier_number: '2B555Z' }
-              ]
+            lgfs_supplier_numbers_attributes: [
+              { supplier_number: '1B222Z' },
+              { supplier_number: '2B555Z' }
+            ]
           } }
         end
 

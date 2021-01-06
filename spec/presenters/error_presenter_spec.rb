@@ -52,10 +52,10 @@ describe ErrorPresenter do
         it 'should generate an error message from the field name and the error' do
           claim.errors[:defendant_2_name] << 'is invalid'
           expect(presenter.header_errors).to eq(
-              [
-                ErrorDetail.new(:defendant_2_name, 'Defendant 2 name is invalid', 'Is invalid', 'Defendant 2 name is invalid')
-              ]
-            )
+            [
+              ErrorDetail.new(:defendant_2_name, 'Defendant 2 name is invalid', 'Is invalid', 'Defendant 2 name is invalid')
+            ]
+          )
         end
       end
     end

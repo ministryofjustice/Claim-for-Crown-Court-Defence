@@ -1104,11 +1104,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
           it 'removes the cracked details' do
             expect(claim).to have_attributes(
-                                trial_fixed_notice_at: nil,
-                                trial_fixed_at: nil,
-                                trial_cracked_at: nil,
-                                trial_cracked_at_third: nil
-                              )
+              trial_fixed_notice_at: nil,
+              trial_fixed_at: nil,
+              trial_cracked_at: nil,
+              trial_cracked_at_third: nil
+            )
           end
         end
 
@@ -1117,11 +1117,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
           it 'does not remove the cracked details' do
             expect(claim).to have_attributes(
-                                trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-                                trial_fixed_at: cracked_details[:trial_fixed_at],
-                                trial_cracked_at: cracked_details[:trial_cracked_at],
-                                trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-                              )
+              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+              trial_fixed_at: cracked_details[:trial_fixed_at],
+              trial_cracked_at: cracked_details[:trial_cracked_at],
+              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+            )
           end
         end
 
@@ -1130,11 +1130,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
           it 'does not remove the cracked details' do
             expect(claim).to have_attributes(
-                                trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-                                trial_fixed_at: cracked_details[:trial_fixed_at],
-                                trial_cracked_at: cracked_details[:trial_cracked_at],
-                                trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-                              )
+              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+              trial_fixed_at: cracked_details[:trial_fixed_at],
+              trial_cracked_at: cracked_details[:trial_cracked_at],
+              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+            )
           end
         end
       end

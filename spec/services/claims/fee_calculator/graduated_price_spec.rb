@@ -24,13 +24,14 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       let(:offence) { create(:offence, offence_class: offence_class) }
 
       context 'final claim' do
-        let(:claim) { create(
+        let(:claim) do
+          create(
             :litigator_claim,
             create_defendant_and_rep_order_for_scheme_8: true,
             case_type: case_type,
             offence: offence
           )
-        }
+        end
 
         let(:fee) { create(:graduated_fee, :trial_fee, claim: claim, date: scheme_date_for('lgfs'), quantity: 1) }
         let(:params) { { fee_type_id: fee.fee_type.id, days: 10, ppe: 1 } }

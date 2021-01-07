@@ -23,23 +23,23 @@ class Message < ApplicationRecord
 
   attr_accessor :claim_action, :written_reasons_submitted
 
-  has_attached_file :attachment, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+  has_one_attached :attachment
 
-  validates_attachment :attachment,
-                       size: { in: 0.megabytes..20.megabytes },
-                       content_type: {
-                         content_type: ['application/pdf',
-                                        'application/msword',
-                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                                        'application/vnd.oasis.opendocument.text',
-                                        'text/rtf',
-                                        'application/rtf',
-                                        'image/jpeg',
-                                        'image/png',
-                                        'image/tiff',
-                                        'image/bmp',
-                                        'image/x-bitmap']
-                       }
+  # validates_attachment :attachment,
+  #                      size: { in: 0.megabytes..20.megabytes },
+  #                      content_type: {
+  #                        content_type: ['application/pdf',
+  #                                       'application/msword',
+  #                                       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  #                                       'application/vnd.oasis.opendocument.text',
+  #                                       'text/rtf',
+  #                                       'application/rtf',
+  #                                       'image/jpeg',
+  #                                       'image/png',
+  #                                       'image/tiff',
+  #                                       'image/bmp',
+  #                                       'image/x-bitmap']
+  #                      }
 
   validates :sender, presence: { message: 'Message sender cannot be blank' }
   validates :body, presence: { message: 'Message body cannot be blank' }

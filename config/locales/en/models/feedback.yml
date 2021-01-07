@@ -1,0 +1,13 @@
+---
+en:
+  activemodel:
+    errors:
+      models:
+        feedback:
+          attributes:
+            event:
+              blank: "%{attribute} cannot be empty"
+            outcome:
+              blank: "%{attribute} cannot be empty"
+            rating:
+              inclusion: Choose a rating

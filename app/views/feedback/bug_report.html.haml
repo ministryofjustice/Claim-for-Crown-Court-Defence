@@ -1,39 +1,32 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'errors/error_summary', locals: { ep: @feedback, error_summary: t('.error_summary') }
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
-.grid-row
-  .column-two-thirds
-    = govuk_inset_text do
-      %p
-        = t('.intro')
-        = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
-
-    = form_for @feedback, builder: AdpFormBuilder, url: feedback_index_path, html: { novalidate: 'novalidate', class: 'normal'} do |f|
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = form_for @feedback, builder: GOVUKDesignSystemFormBuilder::FormBuilder, url: feedback_index_path, html: { novalidate: 'novalidate' } do |f|
       = f.hidden_field :type
       = f.hidden_field :referrer
 
-      .form-group
-        = f.label :case_number, class: 'form-label', id: :case_number do
-          = t('.case_number_label')
-          %span.form-hint
-            = t('.case_number_hint')
-        = f.text_field :case_number, class: 'form-control'
+      = f.govuk_error_summary
 
-      .form-group
-        = f.label :event, class: 'form-label', id: :event do
-          = t('.event_label')
-          %span.form-hint
-            = t('.event_hint')
-        = f.text_area :event, rows: 6, class: 'form-control'
+      = govuk_inset_text do
+        %p
+          = t('.intro')
+          = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
 
-      .form-group
-        = f.label :outcome, t('.outcome_label'), class: 'form-label', id: :outcome
-        = f.text_area :outcome, rows: 6, class: 'form-control'
+      = f.govuk_text_field :case_number,
+        label: { text: t('.case_number_label') },
+        hint: { text: t('.case_number_hint') }
+
+      = f.govuk_text_area :event,
+        label: { text: t('.event_label') },
+        hint: { text: t('.event_hint') }
+
+      = f.govuk_text_area :outcome,
+        label: { text: t('.outcome_label') }
 
       = render partial: 'feedback/anonymous_email_prompt', locals: { f: f } if cannot_identify_user?
 
-      .button-holder
-        = govuk_button(t('.send'), id: 'submit-button')
+      = f.govuk_submit(t('.send'))

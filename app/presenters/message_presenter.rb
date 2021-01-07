@@ -12,6 +12,16 @@ class MessagePresenter < BasePresenter
     end
   end
 
+  def sender_name
+    return '(Case worker)' if sender_is_a?(CaseWorker) && hide_author?
+    message.sender.name
+  end
+
+  def timestamp
+    message.created_at.strftime('%H:%M')
+  end
+
+  private
   def attachment_field
     h.concat('Attachment: ')
     download_file_link
@@ -33,15 +43,6 @@ class MessagePresenter < BasePresenter
 
   def attachment_file_size
     h.number_to_human_size(message.attachment_file_size)
-  end
-
-  def sender_name
-    return '(Case worker)' if sender_is_a?(CaseWorker) && hide_author?
-    message.sender.name
-  end
-
-  def timestamp
-    message.created_at.strftime('%H:%M')
   end
 
   def hide_author?

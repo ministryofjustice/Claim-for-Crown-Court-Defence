@@ -80,19 +80,5 @@ describe('Modules.Autocomplete', function () {
         expect($.fn.typeahead).toHaveBeenCalled()
       })
     })
-
-    describe('...typeaheadInit', function () {
-      it('should throw and error if either param is undefined', function () {
-        expect(function () {
-          module.typeaheadInit()
-        }).toThrowError('Missing params')
-      })
-
-      it('should call $.fn.typeahead', function () {
-        spyOn($.fn, 'typeahead')
-        module.typeaheadInit($('<input />'), [])
-        expect($.fn.typeahead).toHaveBeenCalled()
-      })
-    })
   })
 })

@@ -18,6 +18,7 @@ data:
     ## Default:
     - config/locales/%{locale}.yml
     ## More files:
+    - config/locales/%{locale}/**/*.yml
     - config/locales/devise.%{locale}.yml
     # - config/locales/**/*.%{locale}.yml
     ## Another gem (replace %#= with %=):

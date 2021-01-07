@@ -1,7 +1,3 @@
-.form-group
-  = f.label :email, class: 'form-label', id: :email do
-    = t('activemodel.attributes.feedback.email')
-    %span.form-hint
-      = t('activemodel.attributes.feedback.email_hint')
-
-    = f.text_field :email, class: 'form-control'
+= f.govuk_text_field :email,
+  label: { text: t('.email') },
+  hint: { text: t('.email_hint') }

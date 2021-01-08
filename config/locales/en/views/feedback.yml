@@ -1,0 +1,18 @@
+---
+en:
+  feedback:
+    anonymous_email_prompt:
+      email: What is your email address? (Optional)
+      email_hint: We will need your email address to be able to respond to your message.
+
+    claim_edit_alert:
+      claim_availability: Your claim is still available on a separate tab.
+
+    feedback:
+      callout: We will use your answers to the questions below to help us build a better service.
+      comment: Tell us about your experience of using this service today.
+      comment_hint: Don't include any personal or sensitive information.
+      page_heading: Help us improve this service
+      page_title: Help us improve this service
+      rating: Overall, how satisfied were you with this service?
+      send: Send

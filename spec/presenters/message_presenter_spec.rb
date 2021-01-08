@@ -18,6 +18,10 @@ RSpec.describe MessagePresenter, type: :helper do
       let(:file_size) { number_to_human_size(File.size(file)) }
       let(:attachment) { Rack::Test::UploadedFile.new(file) }
 
+      before do
+        allow(message.attachment).to receive(:service_url).and_return('http://example.com')
+      end
+
       it 'includes a download link to the attachment' do
         expect(presenter.body)
           .to match(%r{Attachment:\s*<a.*>shorter_lorem.docx \(#{file_size}\)</a>})

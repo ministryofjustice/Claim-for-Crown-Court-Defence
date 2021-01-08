@@ -71,27 +71,6 @@ RSpec.describe MessagesController, type: :controller do
         end
       end
     end
-
-    describe 'GET #download_attachment' do
-      context 'when message has attachment' do
-        subject { create(:message, :with_attachment) }
-
-        it 'returns the attachment file' do
-          get :download_attachment, params: { id: subject.id }
-          expect(response.headers['Content-Disposition']).to include("filename=\"#{subject.attachment.original_filename}\"")
-        end
-      end
-
-      context 'when message does not have attachment' do
-        subject { create(:message) }
-
-        it 'redirects to 500 page' do
-          expect {
-            get :download_attachment, params: { id: subject.id }
-          }.to raise_exception('No attachment present on this message')
-        end
-      end
-    end
   end
 
   context 'email notifications' do

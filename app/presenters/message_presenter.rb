@@ -32,7 +32,7 @@ class MessagePresenter < BasePresenter
     h.concat(
       h.tag.a(
         "#{attachment_file_name} (#{attachment_file_size})",
-        href: "/messages/#{message.id}/download_attachment",
+        href: message.attachment.service_url,
         title: 'Download ' + attachment_file_name
       )
     )

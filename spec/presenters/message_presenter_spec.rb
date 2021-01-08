@@ -9,7 +9,7 @@ RSpec.describe MessagePresenter, type: :helper do
   describe '#body' do
     context 'without an attachment' do
       it 'does not include a download link for the attachment' do
-        expect(presenter.body).not_to match(%r{Attachment:\s*<a.*download_attachment.*>.*</a>})
+        expect(presenter.body).not_to match(%r{Attachment:\s*<a.*>.*</a>})
       end
     end
 
@@ -20,7 +20,7 @@ RSpec.describe MessagePresenter, type: :helper do
 
       it 'includes a download link to the attachment' do
         expect(presenter.body)
-          .to match(%r{Attachment:\s*<a.*download_attachment.*>shorter_lorem.docx \(#{file_size}\)</a>})
+          .to match(%r{Attachment:\s*<a.*>shorter_lorem.docx \(#{file_size}\)</a>})
       end
     end
   end

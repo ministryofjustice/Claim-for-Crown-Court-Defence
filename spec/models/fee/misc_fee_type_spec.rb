@@ -33,7 +33,7 @@ RSpec.describe Fee::MiscFeeType do
       end
 
       it 'orders by description ascending' do
-       is_expected.to eq ['A','B','C']
+        is_expected.to eq ['A','B','C']
       end
     end
 

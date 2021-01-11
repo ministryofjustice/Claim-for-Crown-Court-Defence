@@ -20,11 +20,11 @@ RSpec.describe Stats::RejectionsRefusalsReportGenerator, type: :service do
       result = described_class.call
       expect(result).to be_kind_of(Stats::Result)
       expected_output = <<~OUTPUT
-      provider_name,provider_type,supplier_number,claims_issued,rejections,rejections_percent,refusals,refusals_percent,rejections_refusals_percent
-      Provider Foo,firm,2A333Z,23,2,0.08,17,0.74,0.87
-      Provider Foo,firm,2A444B,45,10,0.045,22,0.49,0.71
-      Provider Foo,chamber,2A555G,102,24,0.24,40,0.39,0.63
-      Provider Bar,firm,2A999Z,76,7,0.09,31,0.41,0.5
+        provider_name,provider_type,supplier_number,claims_issued,rejections,rejections_percent,refusals,refusals_percent,rejections_refusals_percent
+        Provider Foo,firm,2A333Z,23,2,0.08,17,0.74,0.87
+        Provider Foo,firm,2A444B,45,10,0.045,22,0.49,0.71
+        Provider Foo,chamber,2A555G,102,24,0.24,40,0.39,0.63
+        Provider Bar,firm,2A999Z,76,7,0.09,31,0.41,0.5
       OUTPUT
       expect(result.content).to eq(expected_output)
       expect(result.format).to eq('csv')

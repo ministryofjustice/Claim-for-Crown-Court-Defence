@@ -127,17 +127,17 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
           context 'blank expenses' do
             let(:expense_params) do
               {
-                  expense_type_id: '',
-                  location: '',
-                  distance: '',
-                  date_dd: '',
-                  date_mm: '',
-                  date_yyyy: '',
-                  reason_id: '',
-                  reason_text: '',
-                  amount: '0.00',
-                  vat_amount: '0.00',
-                  _destroy: false
+                expense_type_id: '',
+                location: '',
+                distance: '',
+                date_dd: '',
+                date_mm: '',
+                date_yyyy: '',
+                reason_id: '',
+                reason_text: '',
+                amount: '0.00',
+                vat_amount: '0.00',
+                _destroy: false
               }
             end
 
@@ -155,29 +155,29 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
           let(:claim_params_step1) do
             {
-                claim_class: 'Claim::AdvocateClaim',
-                court_id: court,
-                case_type_id: case_type.id,
-                offence_id: offence,
-                case_number: case_number,
-                advocate_category: 'QC',
-                defendants_attributes: [
-                  {
-                    first_name: 'John',
-                    last_name: 'Smith',
-                    date_of_birth_dd: '4',
-                    date_of_birth_mm: '10',
-                    date_of_birth_yyyy: '1980',
-                    representation_orders_attributes: [
-                      {
-                            representation_order_date_dd: Time.now.day.to_s,
-                            representation_order_date_mm: Time.now.month.to_s,
-                            representation_order_date_yyyy: Time.now.year.to_s,
-                            maat_reference: '4561237'
-                      }
-                    ]
-                  }
-                ]
+              claim_class: 'Claim::AdvocateClaim',
+              court_id: court,
+              case_type_id: case_type.id,
+              offence_id: offence,
+              case_number: case_number,
+              advocate_category: 'QC',
+              defendants_attributes: [
+                {
+                  first_name: 'John',
+                  last_name: 'Smith',
+                  date_of_birth_dd: '4',
+                  date_of_birth_mm: '10',
+                  date_of_birth_yyyy: '1980',
+                  representation_orders_attributes: [
+                    {
+                      representation_order_date_dd: Time.now.day.to_s,
+                      representation_order_date_mm: Time.now.month.to_s,
+                      representation_order_date_yyyy: Time.now.year.to_s,
+                      maat_reference: '4561237'
+                    }
+                  ]
+                }
+              ]
             }
           end
 
@@ -328,13 +328,13 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         let(:case_type)         { create(:case_type) }
         let(:claim_params) do
           {
-             additional_information: 'foo',
-             court_id: court,
-             case_type_id: case_type.id,
-             offence_id: offence,
-             case_number: '12345',
-             advocate_category: 'QC',
-             evidence_checklist_ids: ['2', '3', '']
+            additional_information: 'foo',
+            court_id: court,
+            case_type_id: case_type.id,
+            offence_id: offence,
+            case_number: '12345',
+            advocate_category: 'QC',
+            evidence_checklist_ids: ['2', '3', '']
           }
         end
 
@@ -560,7 +560,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
               'representation_order_date_mm' => '05',
               'representation_order_date_yyyy' => '2015',
               'maat_reference' => '1594851269'
-          }
+            }
           }
         }
       },

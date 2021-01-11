@@ -178,9 +178,9 @@ module Fee
         let(:fee) { build(:misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255) }
 
         it 'should recalculate amount if fee type is calculated' do
-            fee.claim.force_validation = true
-            expect(fee).to be_valid
-            expect(fee.amount).to eq 110
+          fee.claim.force_validation = true
+          expect(fee).to be_valid
+          expect(fee.amount).to eq 110
         end
         it 'should NOT recalculate amount if fee type is NOT calculated' do
           misc_fee_type.calculated = false

@@ -43,20 +43,20 @@ RSpec.describe Document, type: :model do
   it_behaves_like 'an s3 bucket'
 
   it do
-    should validate_attachment_content_type(:document).
-      allowing('application/pdf',
-               'application/msword',
-               'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-               'application/vnd.oasis.opendocument.text',
-               'text/rtf',
-               'application/rtf',
-               'image/jpeg',
-               'image/png',
-               'image/tiff',
-               'image/bmp',
-               'image/x-bitmap').
-      rejecting('text/plain',
-                'text/html')
+    should validate_attachment_content_type(:document)
+      .allowing('application/pdf',
+                'application/msword',
+                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                'application/vnd.oasis.opendocument.text',
+                'text/rtf',
+                'application/rtf',
+                'image/jpeg',
+                'image/png',
+                'image/tiff',
+                'image/bmp',
+                'image/x-bitmap')
+      .rejecting('text/plain',
+                 'text/html')
   end
 
   it { should validate_attachment_size(:document).in(0.megabytes..20.megabytes) }
@@ -98,30 +98,32 @@ RSpec.describe Document, type: :model do
       before { allow(subject).to receive(:generate_pdf_tmpfile).and_return(nil) }
 
       it 'saves the original' do
-        stub_request(:put, /https\:\/\/moj-cbo-documents-test\.s3\.amazonaws\.com\/.+\/shorter_lorem\.docx/).
-          with(headers: { 'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                          'Content-Length' => '5055' })
+        stub_request(:put, /https\:\/\/moj-cbo-documents-test\.s3\.amazonaws\.com\/.+\/shorter_lorem\.docx/)
+          .with(headers: {
+                  'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                  'Content-Length' => '5055'
+                })
 
         expect { subject.save! }.not_to raise_error
       end
 
       it 'uses the canned S3 private ACL' do
-        stub_request(:put, /shorter_lorem\.docx/).
-          with(headers: { 'X-Amz-Acl' => 'private' })
+        stub_request(:put, /shorter_lorem\.docx/)
+          .with(headers: { 'X-Amz-Acl' => 'private' })
 
         expect { subject.save! }.not_to raise_error
       end
 
       it 'sets a no-cache header' do
-        stub_request(:put, /shorter_lorem\.docx/).
-          with(headers: { 'x-amz-meta-Cache-Control' => 'no-cache' })
+        stub_request(:put, /shorter_lorem\.docx/)
+          .with(headers: { 'x-amz-meta-Cache-Control' => 'no-cache' })
 
         expect { subject.save! }.not_to raise_error
       end
 
       it 'sets an expiry header' do
-        stub_request(:put, /shorter_lorem\.docx/).
-          with(headers: { 'Expires' => /.+/ }) # Timecop and paperclip or webmock aren't playing well together.
+        stub_request(:put, /shorter_lorem\.docx/)
+          .with(headers: { 'Expires' => /.+/ }) # Timecop and paperclip or webmock aren't playing well together.
 
         expect { subject.save! }.not_to raise_error
       end

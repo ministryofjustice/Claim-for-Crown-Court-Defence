@@ -24,13 +24,14 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       let(:offence) { create(:offence, offence_class: offence_class) }
 
       context 'final claim' do
-        let(:claim) { create(
+        let(:claim) do
+          create(
             :litigator_claim,
             create_defendant_and_rep_order_for_scheme_8: true,
             case_type: case_type,
             offence: offence
           )
-        }
+        end
 
         let(:fee) { create(:graduated_fee, :trial_fee, claim: claim, date: scheme_date_for('lgfs'), quantity: 1) }
         let(:params) { { fee_type_id: fee.fee_type.id, days: 10, ppe: 1 } }
@@ -1076,8 +1077,8 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
       context 'because resource not found' do
         before do
-          stub_request(:get, %r{\Ahttps://(.*)laa-fee-calculator.(.*).gov.uk/api/v1/.*\z}).
-            to_return(status: 404, body: { 'error': '"detail": "Not found."' }.to_json, headers: {})
+          stub_request(:get, %r{\Ahttps://(.*)laa-fee-calculator.(.*).gov.uk/api/v1/.*\z})
+            .to_return(status: 404, body: { 'error': '"detail": "Not found."' }.to_json, headers: {})
         end
 
         let(:claim) { instance_double(::Claim::BaseClaim, agfs?: true, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }

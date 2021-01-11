@@ -46,7 +46,7 @@ FactoryBot.define do
     trait :docx do
       document do
         Rack::Test::UploadedFile.new(
-          File.expand_path('features/examples/longer_lorem.docx', Rails.root),
+          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
           'application/msword'
         )
       end

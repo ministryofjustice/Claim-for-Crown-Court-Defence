@@ -131,7 +131,7 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context '#convert_and_assign_document' do
+  context '.save!' do
     subject { build(:document, :docx, document_content_type: 'application/msword') }
 
     it 'depends on the Libreconv gem' do

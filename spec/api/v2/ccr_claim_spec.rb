@@ -558,12 +558,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'daily attendances' do
-          let(:fixed_fees) {
-           [
-             build(:fixed_fee, :fxcbr_fee, quantity: 3),
-             build(:fixed_fee, :fxcbr_fee, quantity: 2)
-           ]
-          }
+          let(:fixed_fees) do
+            [
+              build(:fixed_fee, :fxcbr_fee, quantity: 3),
+              build(:fixed_fee, :fxcbr_fee, quantity: 2)
+            ]
+          end
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
 
           it 'includes property' do
@@ -577,12 +577,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'case uplift details' do
-          let(:fixed_fees) {
-           [
-             build(:fixed_fee, :fxcbr_fee, quantity: 1),
-             build(:fixed_fee, :fxnoc_fee, quantity: 3, case_numbers: 'S20170003, S20170001, S20170002')
-           ]
-          }
+          let(:fixed_fees) do
+            [
+              build(:fixed_fee, :fxcbr_fee, quantity: 1),
+              build(:fixed_fee, :fxnoc_fee, quantity: 3, case_numbers: 'S20170003, S20170001, S20170002')
+            ]
+          end
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
 
           context 'number_of_cases' do
@@ -611,12 +611,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
         end
 
         context 'number_of_defendants' do
-          let(:fixed_fees) {
-           [
-             build(:fixed_fee, :fxcbr_fee, quantity: 1),
-             build(:fixed_fee, :fxndr_fee, quantity: 1)
-           ]
-          }
+          let(:fixed_fees) do
+            [
+              build(:fixed_fee, :fxcbr_fee, quantity: 1),
+              build(:fixed_fee, :fxndr_fee, quantity: 1)
+            ]
+          end
           let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type, fixed_fees: fixed_fees) }
 
           context 'without uplifts' do

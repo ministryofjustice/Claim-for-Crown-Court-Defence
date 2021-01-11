@@ -54,15 +54,17 @@ RSpec.describe Claim::LitigatorHardshipClaimPresenter, type: :presenter do
     subject { presenter.summary_sections }
 
     it {
-      is_expected.to eq({
-        case_details: :case_details,
-        defendants: :defendants,
-        offence_details: :offence_details,
-        hardship_fee: :hardship_fees,
-        misc_fees: :miscellaneous_fees,
-        supporting_evidence: :supporting_evidence,
-        additional_information: :supporting_evidence
-      })
+      is_expected.to eq(
+        {
+          case_details: :case_details,
+          defendants: :defendants,
+          offence_details: :offence_details,
+          hardship_fee: :hardship_fees,
+          misc_fees: :miscellaneous_fees,
+          supporting_evidence: :supporting_evidence,
+          additional_information: :supporting_evidence
+        }
+      )
     }
   end
 

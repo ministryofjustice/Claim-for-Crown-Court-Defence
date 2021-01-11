@@ -879,12 +879,12 @@ RSpec.describe Claim::BaseClaimPresenter do
     it { is_expected.to be_a Array }
     it {
       is_expected.to include(
-                          [
-                            mispf_fee_type.description,
-                            mispf_fee_type.id,
-                            data: { unique_code: mispf_fee_type.unique_code }
-                          ]
-                        )
+        [
+          mispf_fee_type.description,
+          mispf_fee_type.id,
+          data: { unique_code: mispf_fee_type.unique_code }
+        ]
+      )
     }
   end
 end

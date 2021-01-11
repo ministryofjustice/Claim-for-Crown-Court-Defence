@@ -367,12 +367,13 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
     context 'when one of the defendants has a representation order set before the earliest permitted date' do
       let(:earliest_permitted_date) { Date.parse(Settings.earliest_permitted_date.to_s) }
-      let(:one_other_representation_order_attrs) {
+      let(:one_other_representation_order_attrs) do
         valid_one_other_representation_order_attrs.merge(
-                                         representation_order_date_dd: (earliest_permitted_date - 1.day).day.to_s,
-                                         representation_order_date_mm: (earliest_permitted_date - 1.day).month.to_s,
-                                         representation_order_date_yyyy: (earliest_permitted_date - 1.day).year.to_s)
-      }
+          representation_order_date_dd: (earliest_permitted_date - 1.day).day.to_s,
+          representation_order_date_mm: (earliest_permitted_date - 1.day).month.to_s,
+          representation_order_date_yyyy: (earliest_permitted_date - 1.day).year.to_s
+        )
+      end
 
       specify {
         is_expected.to be_invalid
@@ -382,12 +383,13 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
     context 'when one of the defendants has a representation order set before the AGFS fee reform release date' do
       let(:release_date) { Date.parse(Settings.agfs_fee_reform_release_date.to_s) }
-      let(:one_other_representation_order_attrs) {
+      let(:one_other_representation_order_attrs) do
         valid_one_other_representation_order_attrs.merge(
-                                         representation_order_date_dd: (release_date - 1.day).day.to_s,
-                                         representation_order_date_mm: (release_date - 1.day).month.to_s,
-                                         representation_order_date_yyyy: (release_date - 1.day).year.to_s)
-      }
+          representation_order_date_dd: (release_date - 1.day).day.to_s,
+          representation_order_date_mm: (release_date - 1.day).month.to_s,
+          representation_order_date_yyyy: (release_date - 1.day).year.to_s
+        )
+      end
 
       specify {
         is_expected.to be_invalid

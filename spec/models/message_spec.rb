@@ -30,8 +30,8 @@ RSpec.describe Message, type: :model do
   it_behaves_like 'an s3 bucket'
 
   it do
-     should validate_attachment_content_type(:attachment).
-       allowing('application/pdf',
+    should validate_attachment_content_type(:attachment)
+      .allowing('application/pdf',
                 'application/msword',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                 'application/vnd.oasis.opendocument.text',
@@ -41,8 +41,8 @@ RSpec.describe Message, type: :model do
                 'image/png',
                 'image/tiff',
                 'image/bmp',
-                'image/x-bitmap').
-       rejecting('text/plain',
+                'image/x-bitmap')
+      .rejecting('text/plain',
                  'text/html')
   end
 

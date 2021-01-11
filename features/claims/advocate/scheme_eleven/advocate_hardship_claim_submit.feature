@@ -66,8 +66,7 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
 
     And I eject the VCR cassette
 
-    When I click "Continue" in the claim form
-    Then I should be in the 'Travel expenses' form page
+    Then I click "Continue" in the claim form and move to the 'Travel expenses' form page
     And I should see a page title "Enter travel expenses for advocate hardship fees claim"
 
     When I select an expense type "Parking"

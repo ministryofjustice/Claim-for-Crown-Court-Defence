@@ -50,7 +50,7 @@ describe API::Entities::SearchResult do
     describe 'filters' do
       subject(:filter) { JSON.parse(search_result.to_json, symbolize_names: true)[:filter] }
       let(:result) do
-       {
+        {
           disk_evidence: 0,
           redetermination: 0,
           fixed_fee: 0,

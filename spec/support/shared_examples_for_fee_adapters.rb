@@ -129,7 +129,7 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
           quantity: 0,
           rate: 0,
           amount: 0
-          )
+        )
       end
 
       before do

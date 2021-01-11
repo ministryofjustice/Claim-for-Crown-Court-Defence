@@ -2,7 +2,6 @@ require 'rails_helper'
 
 module Stats
   module GeckoWidgets
-
     describe 'LineGraph' do
       before(:each) do
         @lg = LineGraph.new

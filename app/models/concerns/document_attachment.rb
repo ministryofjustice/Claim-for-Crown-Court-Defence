@@ -50,19 +50,23 @@ module DocumentAttachment
       # Either of these would have the advantage of reducing the response time
       # when a new file is added.
 
-      pdf_tmpfile = Tempfile.new
-      original = document.record.attachment_changes['document'].attachable.tempfile.path
+      pdf_file = convert_to_pdf document.record.attachment_changes['document'].attachable.tempfile.path
 
-      begin
-        Libreconv.convert(original, pdf_tmpfile)
-        self.converted_preview_document.attach(
-          io: pdf_tmpfile,
-          filename: "#{document.filename}.pdf",
-          content_type: 'application/pdf'
-        )
-      rescue IOError
-        nil # raised if Libreoffice exe is not in PATH
-      end
+      self.converted_preview_document.attach(
+        io: pdf_file,
+        filename: "#{document.filename}.pdf",
+        content_type: 'application/pdf'
+      ) if pdf_file
     end
+  end
+
+  private
+
+  def convert_to_pdf original
+    pdf_tmpfile = Tempfile.new
+    Libreconv.convert(original, pdf_tmpfile)
+    pdf_tmpfile
+  rescue IOError
+    nil # raised if Libreoffice exe is not in PATH
   end
 end

@@ -43,23 +43,22 @@ RSpec.describe Document, type: :model do
   it_behaves_like 'an s3 bucket'
 
   it do
-    should validate_attachment_content_type(:document).
-      allowing('application/pdf',
-               'application/msword',
-               'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-               'application/vnd.oasis.opendocument.text',
-               'text/rtf',
-               'application/rtf',
-               'image/jpeg',
-               'image/png',
-               'image/tiff',
-               'image/bmp',
-               'image/x-bitmap').
-      rejecting('text/plain',
-                'text/html')
+    is_expected.to validate_content_type_of(:document).allowing(
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.oasis.opendocument.text',
+      'text/rtf',
+      'application/rtf',
+      'image/jpeg',
+      'image/png',
+      'image/tiff',
+      'image/bmp',
+      'image/x-bitmap'
+    )
   end
 
-  it { should validate_attachment_size(:document).in(0.megabytes..20.megabytes) }
+  it { is_expected.to validate_size_of(:document).less_than_or_equal_to(20.megabytes) }
 
   context 'validation' do
     let(:claim) { create :claim }
@@ -128,19 +127,42 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context 'with a pdf document' do
-    subject(:pdf_document) { create :document, document: file }
+  describe '#converted_preview_document' do
+    subject(:preview_document) { document.converted_preview_document }
 
-    let(:file) do
-      Rack::Test::UploadedFile.new(
-        File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
-        'application/pdf'
-      )
+    let(:document) { create :document, document: file }
+
+    context 'with a pdf document' do
+      let(:file) do
+        Rack::Test::UploadedFile.new(
+          File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
+          'application/pdf'
+        )
+      end
+
+      it 'is identical to #document' do
+        expect(preview_document.checksum).to eq document.document.checksum
+      end
     end
 
-    describe '#converted_preview_document' do
-      it 'is identical to #document' do
-        expect(pdf_document.document.checksum).to eq pdf_document.converted_preview_document.checksum
+    context 'with a docx document' do
+      let(:file) do
+        Rack::Test::UploadedFile.new(
+          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
+          'application/msword'
+        )
+      end
+
+      it 'is different from #document' do
+        expect(preview_document.checksum).not_to eq document.document.checksum
+      end
+
+      it 'is a PDF file' do
+        expect(preview_document.content_type).to eq 'application/pdf'
+      end
+
+      it 'is named after the original file' do
+        expect(preview_document.filename.to_s).to eq 'shorter_lorem.docx.pdf'
       end
     end
   end

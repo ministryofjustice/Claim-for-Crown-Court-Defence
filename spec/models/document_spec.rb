@@ -145,23 +145,6 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context '#add_converted_preview_document' do
-    subject { build(:document) }
-
-    before { allow(Libreconv).to receive(:convert) }
-
-    it 'is triggered by document#save' do
-      expect(subject).to receive(:add_converted_preview_document)
-      subject.save!
-    end
-
-    it 'assigns converted_preview_document a file' do
-      expect(subject.converted_preview_document.present?).to be false
-      subject.save!
-      expect(subject.converted_preview_document.present?).to be true
-    end
-  end
-
   context 'save_and_verify' do
     let(:document) { build :document }
 

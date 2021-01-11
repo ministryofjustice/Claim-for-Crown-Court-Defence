@@ -131,41 +131,6 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context '#generate_pdf_tmpfile' do
-    context 'when the original attachment is a .docx' do
-      subject { build(:document, :docx, document_content_type: 'application/msword') }
-
-      it 'called by a before_save hook' do
-        expect(subject).to receive(:generate_pdf_tmpfile)
-        subject.save!
-      end
-
-      it 'calls document#convert_and_assign_document' do
-        expect(subject).to receive(:convert_and_assign_document)
-        subject.generate_pdf_tmpfile
-      end
-    end
-
-    context 'when the original attachment is a .pdf' do
-      subject { build(:document) }
-
-      it 'is still called by a before_save hook' do
-        expect(subject).to receive(:generate_pdf_tmpfile).and_return(nil)
-        subject.save!
-      end
-
-      it 'does not call document#convert_and_assign_document' do
-        expect(subject).to_not receive(:convert_and_assign_document)
-        subject.generate_pdf_tmpfile
-      end
-
-      it 'assigns original document to document#pdf_tmpfile' do
-        subject.save!
-        expect(subject.pdf_tmpfile).to eq subject.document
-      end
-    end
-  end
-
   context '#convert_and_assign_document' do
     subject { build(:document, :docx, document_content_type: 'application/msword') }
 

@@ -11,8 +11,9 @@ module DocumentAttachment
 
     before_save :create_preview_document
 
-    # validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
+    validates :converted_preview_document, content_type: 'application/pdf'
     validates :document,
+              presence: true,
               size: { less_than: 20.megabytes },
               content_type: [
                 'application/pdf',

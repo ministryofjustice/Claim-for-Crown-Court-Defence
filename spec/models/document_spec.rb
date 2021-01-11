@@ -34,11 +34,11 @@ RSpec.describe Document, type: :model do
   it { should belong_to(:claim) }
   it { should delegate_method(:provider_id).to(:external_user) }
 
-  it { should have_attached_file(:document) }
-  it { should validate_attachment_presence(:document) }
+  it { is_expected.to have_one_attached :document }
+  it { is_expected.to validate_presence_of :document }
 
-  it { should have_attached_file(:converted_preview_document) }
-  it { should validate_attachment_content_type(:converted_preview_document).allowing('application/pdf') }
+  it { is_expected.to have_one_attached :converted_preview_document }
+  it { is_expected.to validate_content_type_of(:converted_preview_document).allowing('application/pdf') }
 
   it_behaves_like 'an s3 bucket'
 

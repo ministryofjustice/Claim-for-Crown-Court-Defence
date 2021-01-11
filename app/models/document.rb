@@ -51,8 +51,8 @@ class Document < ApplicationRecord
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
 
-  before_save :generate_pdf_tmpfile
-  before_save :add_converted_preview_document
+  # before_save :generate_pdf_tmpfile
+  # before_save :add_converted_preview_document
 
   validate :documents_count
 

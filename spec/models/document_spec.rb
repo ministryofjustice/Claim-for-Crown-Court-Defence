@@ -128,6 +128,23 @@ RSpec.describe Document, type: :model do
     end
   end
 
+  context 'with a pdf document' do
+    subject(:pdf_document) { create :document, document: file }
+
+    let(:file) do
+      Rack::Test::UploadedFile.new(
+        File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
+        'application/pdf'
+      )
+    end
+
+    describe '#converted_preview_document' do
+      it 'is identical to #document' do
+        expect(pdf_document.document.checksum).to eq pdf_document.converted_preview_document.checksum
+      end
+    end
+  end
+
   context '#generate_pdf_tmpfile' do
     context 'when the original attachment is a .docx' do
       subject { build(:document, :docx, document_content_type: 'application/msword') }

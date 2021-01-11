@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 module GoogleAnalytics
-
   describe GTMDataAdapter do
     describe '.new' do
       it 'raises an exception if the template is unknown' do

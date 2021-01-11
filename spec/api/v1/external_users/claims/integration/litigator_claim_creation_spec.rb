@@ -110,10 +110,10 @@ RSpec.describe 'API claim creation for LGFS' do
 
   let(:representation_order_params) do
     {
-        api_key: provider.api_key,
-        defendant_id: nil,
-        representation_order_date: representation_order_date,
-        maat_reference: '2320006'
+      api_key: provider.api_key,
+      defendant_id: nil,
+      representation_order_date: representation_order_date,
+      maat_reference: '2320006'
     }
   end
 

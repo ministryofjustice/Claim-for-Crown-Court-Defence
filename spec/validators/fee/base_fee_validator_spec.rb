@@ -399,8 +399,8 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
       context 'daily_attendance_41_50 (DAH)' do
         it 'should error if trial length is less than 40 days' do
-            dah_fee.claim.actual_trial_length = 35
-            should_error_if_equal_to_value(dah_fee, :quantity, 2, 'dah_qty_mismatch')
+          dah_fee.claim.actual_trial_length = 35
+          should_error_if_equal_to_value(dah_fee, :quantity, 2, 'dah_qty_mismatch')
         end
 
         context 'trial length greater than 40 days' do
@@ -422,11 +422,11 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
 
         it 'should validate based on retrial length for retrials' do
-            dah_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
-            dah_fee.claim.actual_trial_length = 2
-            dah_fee.claim.retrial_actual_length = 45
-            should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
-            should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
+          dah_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
+          dah_fee.claim.actual_trial_length = 2
+          dah_fee.claim.retrial_actual_length = 45
+          should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
+          should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
         end
       end
 
@@ -452,11 +452,11 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
 
         it 'should validate based on retrial length for retrials' do
-            daj_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
-            daj_fee.claim.actual_trial_length = 2
-            daj_fee.claim.retrial_actual_length = 70
-            should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
-            should_error_if_equal_to_value(daj_fee, :quantity, 21, 'daj_qty_mismatch')
+          daj_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
+          daj_fee.claim.actual_trial_length = 2
+          daj_fee.claim.retrial_actual_length = 70
+          should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
+          should_error_if_equal_to_value(daj_fee, :quantity, 21, 'daj_qty_mismatch')
         end
       end
 

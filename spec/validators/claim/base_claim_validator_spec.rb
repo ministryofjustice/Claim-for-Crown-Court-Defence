@@ -374,9 +374,9 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       Settings.trial_cracked_at_third.each do |third|
         it "can be \"#{third}\" third for Cracked trials" do
-            claim.trial_cracked_at_third = third
-            claim.valid?
-            expect(claim.errors[:trial_cracked_at_third]).to be_empty
+          claim.trial_cracked_at_third = third
+          claim.valid?
+          expect(claim.errors[:trial_cracked_at_third]).to be_empty
         end
       end
     end
@@ -442,14 +442,14 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'should be valid if amount assessed is zero' do
-        %w{draft allocated refused rejected submitted}.each do |state|
-          it "for claims in state #{state}" do
-            factory_name = "#{state}_claim".to_sym
-            claim = FactoryBot.create factory_name
-            expect(claim.assessment.total).to eq 0
-            expect(claim).to be_valid
-          end
+      %w{draft allocated refused rejected submitted}.each do |state|
+        it "for claims in state #{state}" do
+          factory_name = "#{state}_claim".to_sym
+          claim = FactoryBot.create factory_name
+          expect(claim.assessment.total).to eq 0
+          expect(claim).to be_valid
         end
+      end
     end
 
     context 'should be invalid if amount assessed is not zero' do

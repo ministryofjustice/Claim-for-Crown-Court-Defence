@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 module Remote
-
   describe HttpClient do
     describe '.current' do
       context 'self.instance already exists' do

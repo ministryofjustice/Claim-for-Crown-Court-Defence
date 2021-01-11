@@ -49,15 +49,15 @@ describe Fee::InterimFeeTypePresenter do
 
   def expected_data(epcmh, trial_dates, lat, tcon, retrial, ppe, total, warrant, disb)
     {
-        effective_pcmh: epcmh,
-        trial_dates: trial_dates,
-        legal_aid_transfer: lat,
-        trial_concluded: tcon,
-        retrial_dates: retrial,
-        ppe: ppe,
-        fee_total: total,
-        warrant: warrant,
-        disbursements: disb
+      effective_pcmh: epcmh,
+      trial_dates: trial_dates,
+      legal_aid_transfer: lat,
+      trial_concluded: tcon,
+      retrial_dates: retrial,
+      ppe: ppe,
+      fee_total: total,
+      warrant: warrant,
+      disbursements: disb
     }
   end
 end

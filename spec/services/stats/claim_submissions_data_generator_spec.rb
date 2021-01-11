@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 module Stats
-
   describe ClaimSubmissionsDataGenerator do
     it 'should instantiate' do
       populate_statistics_table

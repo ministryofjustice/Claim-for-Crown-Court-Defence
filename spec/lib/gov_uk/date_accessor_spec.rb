@@ -15,11 +15,11 @@ RSpec.describe GovUk::DateAccessor do
 
       it 'date parts are nil' do
         is_expected.to have_attributes(
-                        date_field: nil,
-                        date_field_dd: nil,
-                        date_field_mm: nil,
-                        date_field_yyyy: nil
-                      )
+          date_field: nil,
+          date_field_dd: nil,
+          date_field_mm: nil,
+          date_field_yyyy: nil
+        )
       end
     end
 

@@ -163,10 +163,10 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
                   date_of_birth_yyyy: '1980',
                   representation_orders_attributes: [
                     {
-                        representation_order_date_dd: representation_order_date.day.to_s,
-                        representation_order_date_mm: representation_order_date.month.to_s,
-                        representation_order_date_yyyy: representation_order_date.year.to_s,
-                        maat_reference: '4561237'
+                      representation_order_date_dd: representation_order_date.day.to_s,
+                      representation_order_date_mm: representation_order_date.month.to_s,
+                      representation_order_date_yyyy: representation_order_date.year.to_s,
+                      maat_reference: '4561237'
                     }
                   ]
                 }
@@ -308,12 +308,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
       context 'document checklist' do
         let(:claim_params) do
           {
-             additional_information: 'foo',
-             court_id: court,
-             case_type_id: case_type.id,
-             offence_id: offence,
-             case_number: 'A20161234',
-             evidence_checklist_ids: ['2', '3', '']
+            additional_information: 'foo',
+            court_id: court,
+            case_type_id: case_type.id,
+            offence_id: offence,
+            case_number: 'A20161234',
+            evidence_checklist_ids: ['2', '3', '']
           }
         end
 

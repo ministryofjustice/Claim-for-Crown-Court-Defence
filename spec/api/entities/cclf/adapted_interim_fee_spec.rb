@@ -35,11 +35,11 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
 
     before do
       allow(interim_fee).to receive_messages(
-          amount: 101.01,
-          warrant_issued_date: '01-Jun-2017'.to_date,
-          warrant_executed_date: '01-Aug-2017'.to_date,
-          is_interim_warrant?: true
-        )
+        amount: 101.01,
+        warrant_issued_date: '01-Jun-2017'.to_date,
+        warrant_executed_date: '01-Aug-2017'.to_date,
+        is_interim_warrant?: true
+      )
     end
 
     it 'exposes expected json key-value pairs' do
@@ -71,7 +71,7 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
     end
 
     it 'does not expose warrant attributes' do
-       expect(response.keys).not_to include(:warrant_issued_date, :warrant_executed_date)
+      expect(response.keys).not_to include(:warrant_issued_date, :warrant_executed_date)
     end
   end
 end

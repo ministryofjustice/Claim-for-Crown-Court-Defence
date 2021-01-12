@@ -69,7 +69,8 @@ module Stats
     end
 
     def document_url(timeout = 10_000)
-      return unless document?
+      return unless document.attached?
+
       document.options[:storage] == :filesystem ? document.path : document.expiring_url(timeout)
     end
 

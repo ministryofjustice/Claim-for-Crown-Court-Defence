@@ -13,7 +13,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
 
   def download
     record = Stats::StatsReport.most_recent_by_type(params[:report_type])
-    if record.document?
+    if record.document.attached?
       data = open(record.document_url).read
       content_type = record.document_content_type
     else

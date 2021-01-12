@@ -12,7 +12,9 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
     @external_users = @external_users.ordered_by_last_name
   end
 
-  def show; end
+  def show
+    render 'errors/internal_server_error', status: 500
+  end
 
   def edit; end
 

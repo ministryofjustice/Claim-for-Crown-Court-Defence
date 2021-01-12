@@ -86,22 +86,37 @@ RSpec.describe Stats::StatsReport do
     end
 
     describe '#write_report' do
-      it 'updates with report contents and completed_at time' do
-        frozen_time = Time.new(2015, 3, 16, 13, 36, 12)
-        record = nil
-        travel_to(frozen_time) do
-          record = described_class.record_start('my_new_report')
-        end
+      subject(:report) { described_class.completed.where(report_name: report_name).first }
 
-        travel_to(frozen_time + 2.minutes) do
-          record.write_report(Stats::Result.new('The contents of my new report', 'csv'))
-        end
+      let(:report_name) { 'my_new_report' }
+      let(:start_time) { Time.new(2015, 3, 16, 13, 36, 12) }
+      let(:end_time) { Time.new(2015, 3, 16, 13, 38, 52) }
 
-        report = described_class.completed.where(report_name: 'my_new_report').first
-        expect(report.document).to be_kind_of(Paperclip::Attachment)
-        expect(open(report.document.path).read).to eq 'The contents of my new report'
-        expect(report.started_at).to eq frozen_time
-        expect(report.completed_at).to eq frozen_time + 2.minutes
+      before do
+        travel_to start_time
+        record = described_class.record_start(report_name)
+        travel_to end_time
+        record.write_report(Stats::Result.new("key1,key2\n3,6", 'csv'))
+        travel_back
+      end
+
+      it 'creates a report with the correct content' do
+        rows = CSV.parse(report.document.download, headers: true)
+        expect(rows.count).to eq 1
+        expect(rows[0]['key1']).to eq '3'
+        expect(rows[0]['key2']).to eq '6'
+      end
+
+      it 'sets the filename based on the report name and time' do
+        expect(report.document.filename.to_s).to match %(#{report_name}_#{start_time.to_s(:number)})
+      end
+
+      it 'sets the started at time' do
+        expect(report.started_at).to eq start_time
+      end
+
+      it 'sets the completed at time' do
+        expect(report.completed_at).to eq end_time
       end
     end
   end

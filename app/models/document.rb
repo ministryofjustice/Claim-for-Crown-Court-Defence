@@ -36,9 +36,9 @@ class Document < ApplicationRecord
 
   validate :documents_count
 
-  def copy_from(original_doc, verify: false)
-    self.document = original_doc.document
-    verify ? save_and_verify : save
+  def copy_from(original_doc)
+    document.attach original_doc.document.blob
+    converted_preview_document.attach original_doc.converted_preview_document.blob
   end
 
   def save_and_verify
@@ -81,17 +81,20 @@ class Document < ApplicationRecord
   end
 
   def verify_file_exists
-    begin
-      reloaded_file = reload_saved_file
-      self.verified_file_size = File.stat(reloaded_file).size
-      self.file_path = document.path
-      self.verified = verified_file_size.positive?
-      save!
-    rescue StandardError => e
-      errors[:document] << e.message
-      self.verified = false
-    end
-    verified
+    true
+
+    # TODO: Work out if this can be (and needs to be) done for Active Storage
+    # begin
+    #   reloaded_file = reload_saved_file
+    #   self.verified_file_size = File.stat(reloaded_file).size
+    #   self.file_path = document.path
+    #   self.verified = verified_file_size.positive?
+    #   save!
+    # rescue StandardError => e
+    #   errors[:document] << e.message
+    #   self.verified = false
+    # end
+    # verified
   end
 
   def reload_saved_file

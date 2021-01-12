@@ -145,110 +145,115 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context 'save_and_verify' do
-    let(:document) { build :document }
+  # TODO: Determine if these checks are still needed, and how to do them with
+  #       Active Storage
+  # describe '#save_and_verify' do
+  #   let(:document) { build :document }
 
-    after(:each) { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
+  #   after(:each) { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
 
-    context 'save without verification' do
-      it 'has not recorded verified filesize, path and is not verified' do
-        document.save!
-        expect(document.verified_file_size).to be_nil
-        expect(document.file_path).to be_blank
-        expect(document.verified).to be false
-      end
+  #   context 'save without verification' do
+  #     it 'has not recorded verified filesize, path and is not verified' do
+  #       document.save!
+  #       expect(document.verified_file_size).to be_nil
+  #       expect(document.file_path).to be_blank
+  #       expect(document.verified).to be false
+  #     end
+  #   end
+
+  #   context 'success' do
+  #     it 'records filesize, path and verified in the record' do
+  #       allow(LogStuff).to receive(:info).exactly(2)
+
+  #       expect(document.save_and_verify).to be true
+  #       expect(document.verified_file_size).to eq 49993
+  #       expect(document.file_path).to_not be_blank
+  #       expect(document.verified).to be true
+  #       expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
+  #       expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'verify', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
+  #     end
+  #   end
+
+  #   context 'failure to verify' do
+  #     it 'marks the document as unverified' do
+  #       file_path = make_empty_temp_file
+  #       allow(document).to receive(:reload_saved_file).and_return(file_path)
+
+  #       allow(LogStuff).to receive(:info).exactly(1)
+  #       allow(LogStuff).to receive(:error).exactly(1)
+
+  #       expect(document.save_and_verify).to be false
+  #       expect(document.verified_file_size).to eq 0
+  #       expect(document.file_path).not_to be_blank
+  #       expect(document.verified).to be false
+
+  #       expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
+  #       expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
+  #     end
+  #   end
+
+  #   context 'failure to save' do
+  #     it 'logs and returns false' do
+  #       allow(LogStuff).to receive(:error).exactly(1)
+  #       allow(document).to receive(:save).and_return(false)
+
+  #       expect(document.save_and_verify).to be false
+  #       expect(document.verified_file_size).to eq nil
+  #       expect(document.file_path).to be_blank
+  #       expect(document.verified).to be false
+  #       expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'save_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
+  #     end
+  #   end
+
+  #   context 'exception trying to verify' do
+  #     it 'populates the error hash' do
+  #       allow(LogStuff).to receive(:error).exactly(1)
+  #       allow(document).to receive(:save).and_return(true)
+  #       expect(document).to receive(:reload_saved_file).and_raise(RuntimeError, 'my error message')
+
+  #       expect(document.save_and_verify).to be false
+  #       expect(document.verified_file_size).to eq nil
+  #       expect(document.file_path).to be_blank
+  #       expect(document.verified).to be false
+  #       expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
+  #       expect(document.errors[:document]).to match_array(['my error message'])
+  #     end
+  #   end
+
+  #   def make_empty_temp_file
+  #     require 'fileutils'
+  #     FileUtils.mkdir_p File.dirname(TEMPFILE_NAME)
+  #     file_paths = FileUtils.touch TEMPFILE_NAME
+  #     file_paths.first
+  #   end
+  # end
+
+  describe '#copy_from' do
+    subject(:new_document) { build :document, :empty }
+    let(:file) do
+      Rack::Test::UploadedFile.new(
+        File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
+        'application/pdf'
+      )
+    end
+    let(:old_document) { create :document, document: file }
+
+    before { new_document.copy_from old_document }
+
+    it 'copies the document from the old document' do
+      expect(new_document.document.checksum).to eq old_document.document.checksum
     end
 
-    context 'success' do
-      it 'records filesize, path and verified in the record' do
-        allow(LogStuff).to receive(:info).exactly(2)
-
-        expect(document.save_and_verify).to be true
-        expect(document.verified_file_size).to eq 49993
-        expect(document.file_path).to_not be_blank
-        expect(document.verified).to be true
-        expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-        expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'verify', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-      end
+    it 'copies the document filename from the old document' do
+      expect(new_document.document.filename).to eq old_document.document.filename
     end
 
-    context 'failure to verify' do
-      it 'marks the document as unverified' do
-        file_path = make_empty_temp_file
-        allow(document).to receive(:reload_saved_file).and_return(file_path)
-
-        allow(LogStuff).to receive(:info).exactly(1)
-        allow(LogStuff).to receive(:error).exactly(1)
-
-        expect(document.save_and_verify).to be false
-        expect(document.verified_file_size).to eq 0
-        expect(document.file_path).not_to be_blank
-        expect(document.verified).to be false
-
-        expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-        expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-      end
+    it 'copies the document preview from the old document' do
+      expect(new_document.converted_preview_document.checksum).to eq old_document.converted_preview_document.checksum
     end
 
-    context 'failure to save' do
-      it 'logs and returns false' do
-        allow(LogStuff).to receive(:error).exactly(1)
-        allow(document).to receive(:save).and_return(false)
-
-        expect(document.save_and_verify).to be false
-        expect(document.verified_file_size).to eq nil
-        expect(document.file_path).to be_blank
-        expect(document.verified).to be false
-        expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'save_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-      end
-    end
-
-    context 'exception trying to verify' do
-      it 'populates the error hash' do
-        allow(LogStuff).to receive(:error).exactly(1)
-        allow(document).to receive(:save).and_return(true)
-        expect(document).to receive(:reload_saved_file).and_raise(RuntimeError, 'my error message')
-
-        expect(document.save_and_verify).to be false
-        expect(document.verified_file_size).to eq nil
-        expect(document.file_path).to be_blank
-        expect(document.verified).to be false
-        expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-        expect(document.errors[:document]).to match_array(['my error message'])
-      end
-    end
-
-    def make_empty_temp_file
-      require 'fileutils'
-      FileUtils.mkdir_p File.dirname(TEMPFILE_NAME)
-      file_paths = FileUtils.touch TEMPFILE_NAME
-      file_paths.first
-    end
-  end
-
-  context '#copy_from' do
-    let(:document) { build(:document) }
-    let(:new_document) { build(:document, :empty) }
-
-    before(:each) do
-      document.save_and_verify
-      new_document.save_and_verify
-    end
-
-    it 'copies and verifies the document data' do
-      expect(new_document.verified).to be_falsey
-      expect(new_document.verified_file_size).to eq(0)
-
-      # Wait for document creation to finish if necessary
-      5.times do
-        break if File.exist?(document.file_path)
-        sleep 0.1
-      end
-
-      new_document.copy_from(document, verify: true)
-      expect(new_document.verified).to be_truthy
-      expect(new_document.verified_file_size).not_to eq(0)
-      expect(new_document.verified_file_size).to eq(document.verified_file_size)
+    it 'copies the document preview filename from the old document' do
+      expect(new_document.converted_preview_document.filename).to eq old_document.converted_preview_document.filename
     end
   end
 end

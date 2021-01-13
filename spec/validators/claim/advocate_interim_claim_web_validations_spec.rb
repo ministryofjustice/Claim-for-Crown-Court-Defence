@@ -832,11 +832,13 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
     context 'when one of the expenses requires a date but its in the future' do
       let(:date_in_future) { 5.days.from_now.to_date }
-      let(:one_expense_attributes) { valid_one_expense_attributes.merge(
-        date_dd: date_in_future.day.to_s,
-        date_mm: date_in_future.month.to_s,
-        date_yyyy: date_in_future.year.to_s)
-      }
+      let(:one_expense_attributes) do
+        valid_one_expense_attributes.merge(
+          date_dd: date_in_future.day.to_s,
+          date_mm: date_in_future.month.to_s,
+          date_yyyy: date_in_future.year.to_s
+        )
+      end
 
       specify {
         is_expected.to be_invalid
@@ -846,11 +848,13 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
     context 'when one of the expenses requires a date but its before the earliest permitted date' do
       let(:date_too_old) { Date.parse(Settings.earliest_permitted_date.to_s) - 2.days }
-      let(:one_expense_attributes) { valid_one_expense_attributes.merge(
-        date_dd: date_too_old.day.to_s,
-        date_mm: date_too_old.month.to_s,
-        date_yyyy: date_too_old.year.to_s)
-      }
+      let(:one_expense_attributes) do
+        valid_one_expense_attributes.merge(
+          date_dd: date_too_old.day.to_s,
+          date_mm: date_too_old.month.to_s,
+          date_yyyy: date_too_old.year.to_s
+        )
+      end
 
       specify {
         is_expected.to be_invalid

@@ -304,7 +304,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_other_defendant_attrs.merge(
           date_of_birth_dd: recent_date_of_birth.day.to_s,
           date_of_birth_mm: recent_date_of_birth.month.to_s,
-          date_of_birth_yyyy: recent_date_of_birth.year.to_s)
+          date_of_birth_yyyy: recent_date_of_birth.year.to_s
+        )
       }
 
       specify {
@@ -319,7 +320,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_other_defendant_attrs.merge(
           date_of_birth_dd: recent_date_of_birth.day.to_s,
           date_of_birth_mm: recent_date_of_birth.month.to_s,
-          date_of_birth_yyyy: recent_date_of_birth.year.to_s)
+          date_of_birth_yyyy: recent_date_of_birth.year.to_s
+        )
       }
 
       specify {
@@ -356,7 +358,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_one_other_representation_order_attrs.merge(
           representation_order_date_dd: future_date.day.to_s,
           representation_order_date_mm: future_date.month.to_s,
-          representation_order_date_yyyy: future_date.year.to_s)
+          representation_order_date_yyyy: future_date.year.to_s
+        )
       }
 
       specify {
@@ -599,7 +602,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_warrant_fee_attributes.merge(
           warrant_issued_date_dd: old_warrant_issued_date.day.to_s,
           warrant_issued_date_mm: old_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: old_warrant_issued_date.year.to_s)
+          warrant_issued_date_yyyy: old_warrant_issued_date.year.to_s
+        )
       }
 
       specify {
@@ -614,7 +618,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_warrant_fee_attributes.merge(
           warrant_issued_date_dd: future_warrant_issued_date.day.to_s,
           warrant_issued_date_mm: future_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: future_warrant_issued_date.year.to_s)
+          warrant_issued_date_yyyy: future_warrant_issued_date.year.to_s
+        )
       }
 
       specify {
@@ -629,7 +634,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_warrant_fee_attributes.merge(
           warrant_issued_date_dd: new_warrant_issued_date.day.to_s,
           warrant_issued_date_mm: new_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s)
+          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s
+        )
       }
 
       specify {
@@ -644,7 +650,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_warrant_fee_attributes.merge(
           warrant_issued_date_dd: new_warrant_issued_date.day.to_s,
           warrant_issued_date_mm: new_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s)
+          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s
+        )
       }
 
       specify {

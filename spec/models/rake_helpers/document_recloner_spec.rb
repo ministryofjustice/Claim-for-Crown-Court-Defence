@@ -81,7 +81,8 @@ describe DocumentRecloner do
       claim: claim,
       document: file,
       document_content_type: 'application/pdf',
-      external_user: claim.external_user)
+      external_user: claim.external_user
+    )
     doc.save_and_verify
   end
 
@@ -92,7 +93,8 @@ describe DocumentRecloner do
       claim: claim,
       document: file,
       document_content_type: 'application/pdf',
-      external_user: claim.external_user)
+      external_user: claim.external_user
+    )
     doc.save_and_verify
     write_empty_document(doc.document.path)
   end

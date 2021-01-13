@@ -10,14 +10,11 @@ RSpec.describe Hash do
         { key_id: '4' }
       ],
       array2: [
-        { hash2:
-          { key_id: '5' },
+        {
+          hash2: { key_id: '5' },
           array3: [key_id: '6']
         },
-        hash3:
-          {
-            key_id: { key_id: '7' }
-          }
+        hash3: { key_id: { key_id: '7' } }
       ],
       array4: [
         {

@@ -12,7 +12,8 @@ module Stats
     def expected_json
       {
         'x_axis' => {
-          'labels' => ['-3', '-2', '-1'] },
+          'labels' => ['-3', '-2', '-1']
+        },
         'series' => [
           { 'name' => 'Web', 'data' => [66, 36, 6] },
           { 'name' => 'API', 'data' => [22, 12, 2] },

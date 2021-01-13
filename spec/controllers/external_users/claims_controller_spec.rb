@@ -584,7 +584,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           )
         end
 
-        it'displays a flash notice' do
+        it 'displays a flash notice' do
           expect(flash[:notice]).to eq 'Draft created'
         end
       end
@@ -608,7 +608,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
                                        error: 'Timeout::Error: execution expired')
         end
 
-        it'displays a flash alert' do
+        it 'displays a flash alert' do
           expect(flash[:alert]).to eq "An error is preventing this claim from being redrafted.\nThe problem has been logged and is being investigated.\nTo continue please start a new claim.\n"
         end
       end
@@ -641,7 +641,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         expect(Claim::BaseClaim.active.last).to_not be_draft
       end
 
-      it'displays a flash error' do
+      it 'displays a flash error' do
         expect(flash[:alert]).to eq "An error is preventing this claim from being redrafted.\nThe problem has been logged and is being investigated.\nTo continue please start a new claim.\n"
       end
     end

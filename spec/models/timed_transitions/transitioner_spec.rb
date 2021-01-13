@@ -240,7 +240,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
               it 'deletes the application' do
                 expect(claim).to receive(:destroy)
-                expect { described_class.new(claim).run } .to change { Stats::MIData.count }.by 1
+                expect { described_class.new(claim).run }.to change { Stats::MIData.count }.by 1
               end
             end
           end

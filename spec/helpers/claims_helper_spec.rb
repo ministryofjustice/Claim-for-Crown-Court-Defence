@@ -209,7 +209,7 @@ RSpec.describe ClaimsHelper do
       let(:persona) { nil }
       let(:state) { 'submitted' }
 
-      it { is_expected. to be_falsey }
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -233,14 +233,14 @@ RSpec.describe ClaimsHelper do
         let(:state) { 'rejected' }
         let(:claim_action) { 'Request written reasons' }
 
-        it { is_expected. to be_truthy }
+        it { is_expected.to be_truthy }
       end
 
       %w[submitted allocated authorised part_authorised rejected refused redetermination awaiting_written_reasons].each do |state|
         context "when claim state is #{state}" do
           let(:state) { state }
 
-          it { is_expected. to be_falsey }
+          it { is_expected.to be_falsey }
         end
       end
     end
@@ -252,7 +252,7 @@ RSpec.describe ClaimsHelper do
         let(:state) { 'rejected' }
         let(:claim_action) { 'Request written reasons' }
 
-        it { is_expected. to be_truthy }
+        it { is_expected.to be_truthy }
       end
 
       context 'for non redeterminable claim states' do
@@ -262,7 +262,7 @@ RSpec.describe ClaimsHelper do
           context "when claim state is #{state}" do
             let(:state) { state }
 
-            it { is_expected. to be_truthy }
+            it { is_expected.to be_truthy }
           end
         end
       end
@@ -274,7 +274,7 @@ RSpec.describe ClaimsHelper do
           context "when claim state is #{state}" do
             let(:state) { state }
 
-            it { is_expected. to be_falsey }
+            it { is_expected.to be_falsey }
           end
         end
       end

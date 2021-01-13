@@ -164,13 +164,13 @@ RSpec.describe Claim::BaseClaim do
 
     describe '#expenses_with_vat_total' do
       it 'return the sum of the amounts for the expenses with vat' do
-        expect(@claim.expenses_with_vat_net). to eq 150.50
+        expect(@claim.expenses_with_vat_net).to eq 150.50
       end
     end
 
     describe '#expenses_without_vat_total' do
       it 'return the sum of the amounts for the expenses without vat' do
-        expect(@claim.expenses_without_vat_net). to eq 125.0
+        expect(@claim.expenses_without_vat_net).to eq 125.0
       end
     end
   end
@@ -217,13 +217,13 @@ RSpec.describe Claim::BaseClaim do
 
     describe '#disbursements' do
       it 'return the sum of the amounts for the disbursements with vat' do
-        expect(@claim.disbursements_with_vat_net). to eq 150.50
+        expect(@claim.disbursements_with_vat_net).to eq 150.50
       end
     end
 
     describe '#disbursements' do
       it 'return the sum of the amounts for the disbursements without vat' do
-        expect(@claim.disbursements_without_vat_net). to eq 125.0
+        expect(@claim.disbursements_without_vat_net).to eq 125.0
       end
     end
   end

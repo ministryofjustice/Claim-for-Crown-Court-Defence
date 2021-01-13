@@ -28,7 +28,7 @@ RSpec.describe ExternalUsers::CreateUser do
     context 'when a previous supplier exists' do
       before do
         service.call!
-        #simulate calling the service twice
+        # simulate calling the service twice
         service.call!
       end
 

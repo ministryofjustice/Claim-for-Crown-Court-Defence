@@ -13,7 +13,13 @@ RSpec.describe DeviseMailer, type: :mailer do
   describe 'reset_password_instructions' do
     subject(:mail) { described_class.reset_password_instructions(external_user.user, 'fake_token', inviting_user.name) }
 
-    let(:external_user) { create(:external_user, supplier_number: 'XX878', user: create(:user, last_name: 'Smith', first_name: 'John', email:'test@example.com')) }
+    let(:external_user) do
+      create(
+        :external_user,
+        supplier_number: 'XX878',
+        user: create(:user, last_name: 'Smith', first_name: 'John', email: 'test@example.com')
+      )
+    }
     let(:inviting_user) { create(:external_user) }
 
     it 'is a govuk_notify delivery' do
@@ -72,7 +78,7 @@ RSpec.describe DeviseMailer, type: :mailer do
   describe 'unlock_instructions' do
     subject(:mail) { described_class.unlock_instructions(external_user.user, 'fake_token') }
 
-    let(:external_user) { create(:external_user, supplier_number: 'XX878', user: create(:user, last_name: 'Smith', first_name: 'John', email:'test@example.com')) }
+    let(:external_user) { create(:external_user, supplier_number: 'XX878', user: create(:user, last_name: 'Smith', first_name: 'John', email: 'test@example.com')) }
 
     it 'is a govuk_notify delivery' do
       expect(mail.delivery_method).to be_a(GovukNotifyRails::Delivery)

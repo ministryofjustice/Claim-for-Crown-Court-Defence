@@ -19,7 +19,7 @@ RSpec.describe DeviseMailer, type: :mailer do
         supplier_number: 'XX878',
         user: create(:user, last_name: 'Smith', first_name: 'John', email: 'test@example.com')
       )
-    }
+    end
     let(:inviting_user) { create(:external_user) }
 
     it 'is a govuk_notify delivery' do

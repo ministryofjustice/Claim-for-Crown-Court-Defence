@@ -994,8 +994,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
               claim.save
             }.to change {
               claim.fixed_fees.size
-            }.from(1)
-             .to(0)
+            }.from(1).to(0)
           end
 
           it 'removes the date attended fee associated with the fixed fee' do
@@ -1004,8 +1003,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
               claim.save
             }.to change {
               claim.fixed_fees.flat_map(&:dates_attended).size
-            }.from(1)
-             .to(0)
+            }.from(1).to(0)
           end
         end
       end
@@ -1021,8 +1019,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             claim.save
           }.to change {
             [claim.fixed_fees.size, claim.basic_fees.size]
-          }.from([1, 0])
-           .to([0, 1])
+          }.from([1, 0]).to([0, 1])
         end
 
         it 'keeps the misc fees' do
@@ -1056,7 +1053,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           }.to change {
             [claim.fixed_fees.size, claim.basic_fees.size]
           }.from([0, 2])
-           .to([1, 2])
+            .to([1, 2])
           expect(claim.basic_fees.map(&:amount).sum.to_f).to eq(0.0)
         end
 

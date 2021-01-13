@@ -93,7 +93,7 @@ RSpec.describe InjectionResponseService, slack_bot: true do
         run!
         expect(injection_attempt.error_messages).to be_present
         expect(injection_attempt.error_messages).to be_an Array
-        expect(injection_attempt.error_messages).to include("No defendant found for Rep Order Number: '123456432'.",'Another injection error.')
+        expect(injection_attempt.error_messages).to include("No defendant found for Rep Order Number: '123456432'.", 'Another injection error.')
       end
 
       context 'with a known, ignorable, error' do

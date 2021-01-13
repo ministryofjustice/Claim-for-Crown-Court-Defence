@@ -30,13 +30,13 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
       end
       travel_to(Date.new(2018, 02, 14)) do
         create(:litigator_claim, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) do |lgfs_claim|
-          create(:expense, :with_calculated_distance, date: 3.days.ago,claim: lgfs_claim)
+          create(:expense, :with_calculated_distance, date: 3.days.ago, claim: lgfs_claim)
         end
         create(:litigator_claim, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) do |lgfs_claim|
-          create(:expense, :with_calculated_distance_decreased, date: 3.days.ago,claim: lgfs_claim)
+          create(:expense, :with_calculated_distance_decreased, date: 3.days.ago, claim: lgfs_claim)
         end
         create(:litigator_claim, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) do |lgfs_claim|
-          create(:expense, date: 4.days.ago,claim: lgfs_claim)
+          create(:expense, date: 4.days.ago, claim: lgfs_claim)
         end
       end
     end

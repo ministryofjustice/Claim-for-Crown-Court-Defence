@@ -233,7 +233,7 @@ RSpec.describe API::V1::DropdownData do
 
         it 'returns all fee types' do
           expect(parsed_body.pluck('type').uniq).to \
-            match_array(['Fee::BasicFeeType','Fee::FixedFeeType','Fee::MiscFeeType', 'Fee::GraduatedFeeType'])
+            match_array(['Fee::BasicFeeType', 'Fee::FixedFeeType', 'Fee::MiscFeeType', 'Fee::GraduatedFeeType'])
         end
       end
 
@@ -455,7 +455,7 @@ RSpec.describe API::V1::DropdownData do
   context 'expense v2' do
     before do
       create_list(:expense_type, 2)
-      create(:expense_type,:lgfs)
+      create(:expense_type, :lgfs)
       get EXPENSE_TYPE_ENDPOINT, params, format: :json
     end
 

@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Claims::Count do
   subject(:claims_count) { described_class.new(date, period) }
 
-  let(:date) { Date.new(2018,1,20) }
+  let(:date) { Date.new(2018, 1, 20) }
   let(:period) { :month }
 
   before do

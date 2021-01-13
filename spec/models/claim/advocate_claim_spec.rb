@@ -366,7 +366,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:states) { nil }
 
     it 'finds only claims with states that match dashboard displayable states' do
-      sql = Claim::AdvocateClaim.search('%',states,:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
+      sql = Claim::AdvocateClaim.search('%', states, :advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
       state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "\'#{s}\'" }.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
@@ -487,11 +487,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds only claims of the single state specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins',:archived_pending_delete, search_options).count).to eql 2
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eql 2
       end
 
       it 'finds only claims of the multiple states specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins',[:archived_pending_delete, :authorised], search_options).count).to eql 4
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', [:archived_pending_delete, :authorised], search_options).count).to eql 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
@@ -569,7 +569,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'with invalid state' do
       it 'raises error for invalid option' do
         expect {
-          Claim::AdvocateClaim.search('foo',:rubbish_state, :case_worker_name_or_email)
+          Claim::AdvocateClaim.search('foo', :rubbish_state, :case_worker_name_or_email)
         }.to raise_error(/Invalid state, rubbish_state, specified/)
       end
     end

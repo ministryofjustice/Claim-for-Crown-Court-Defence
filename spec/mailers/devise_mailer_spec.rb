@@ -89,7 +89,7 @@ RSpec.describe DeviseMailer, type: :mailer do
     end
 
     it 'sets the personalisation' do
-      expect(mail.govuk_notify_personalisation.keys.sort).to eq([:unlock_url,:user_full_name])
+      expect(mail.govuk_notify_personalisation.keys.sort).to eq([:unlock_url, :user_full_name])
     end
   end
 end

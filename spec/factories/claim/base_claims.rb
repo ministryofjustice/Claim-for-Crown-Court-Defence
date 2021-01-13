@@ -39,7 +39,7 @@ FactoryBot.define do
     external_user       { creator }
     source              { 'web' }
     apply_vat           { false }
-    offence             { create(:offence, :miscellaneous) } #only miscellaneous offences valid for LGFS
+    offence             { create(:offence, :miscellaneous) } # only miscellaneous offences valid for LGFS
     case_type           { create(:case_type) }
     case_concluded_at   { 5.days.ago }
     supplier_number     { provider.lgfs_supplier_numbers.first.supplier_number }

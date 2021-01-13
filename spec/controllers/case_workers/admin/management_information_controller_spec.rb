@@ -50,12 +50,13 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
           let(:content) { 'header1,header2,header3' }
           let(:document) { StringIO.new(content) }
           let!(:stats_report) {
-            create(:stats_report,
-                   report_name: report_type,
-                   document: document,
-                   document_file_name: "#{report_type}_#{Time.now.to_s(:number)}.csv",
-                   document_content_type: 'text/csv'
-                  )
+            create(
+              :stats_report,
+              report_name: report_type,
+              document: document,
+              document_file_name: "#{report_type}_#{Time.now.to_s(:number)}.csv",
+              document_content_type: 'text/csv'
+            )
           }
 
           before do

@@ -204,7 +204,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
   describe 'PUT #update_password' do
     before do
       subject.user.update(password: 'password', password_confirmation: 'password')
-      sign_in subject.user #need to sign in again after password change
+      sign_in subject.user # need to sign in again after password change
     end
 
     context 'when valid' do

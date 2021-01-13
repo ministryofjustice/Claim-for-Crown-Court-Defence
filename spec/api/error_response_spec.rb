@@ -68,7 +68,7 @@ describe API::ErrorResponse do
     expect { er.body.to_json }.not_to raise_error
   end
 
-  it 'raises an error if model is valid' do  #pending because claim.errors contains an empty array for external_users
+  it 'raises an error if model is valid' do  # pending because claim.errors contains an empty array for external_users
     claim.update_attribute(:case_number, 'A20161234')
     expect(claim).to be_valid
     expect { described_class.new(claim) }.to raise_error('unable to build error response as no errors were found')

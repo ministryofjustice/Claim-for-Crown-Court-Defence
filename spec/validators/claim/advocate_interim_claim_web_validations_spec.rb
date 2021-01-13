@@ -304,7 +304,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_other_defendant_attrs.merge(
           date_of_birth_dd: recent_date_of_birth.day.to_s,
           date_of_birth_mm: recent_date_of_birth.month.to_s,
-          date_of_birth_yyyy: recent_date_of_birth.year.to_s)
+          date_of_birth_yyyy: recent_date_of_birth.year.to_s
+        )
       }
 
       specify {
@@ -319,7 +320,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_other_defendant_attrs.merge(
           date_of_birth_dd: recent_date_of_birth.day.to_s,
           date_of_birth_mm: recent_date_of_birth.month.to_s,
-          date_of_birth_yyyy: recent_date_of_birth.year.to_s)
+          date_of_birth_yyyy: recent_date_of_birth.year.to_s
+        )
       }
 
       specify {
@@ -356,7 +358,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_one_other_representation_order_attrs.merge(
           representation_order_date_dd: future_date.day.to_s,
           representation_order_date_mm: future_date.month.to_s,
-          representation_order_date_yyyy: future_date.year.to_s)
+          representation_order_date_yyyy: future_date.year.to_s
+        )
       }
 
       specify {
@@ -599,7 +602,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_warrant_fee_attributes.merge(
           warrant_issued_date_dd: old_warrant_issued_date.day.to_s,
           warrant_issued_date_mm: old_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: old_warrant_issued_date.year.to_s)
+          warrant_issued_date_yyyy: old_warrant_issued_date.year.to_s
+        )
       }
 
       specify {
@@ -614,7 +618,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_warrant_fee_attributes.merge(
           warrant_issued_date_dd: future_warrant_issued_date.day.to_s,
           warrant_issued_date_mm: future_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: future_warrant_issued_date.year.to_s)
+          warrant_issued_date_yyyy: future_warrant_issued_date.year.to_s
+        )
       }
 
       specify {
@@ -629,7 +634,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_warrant_fee_attributes.merge(
           warrant_issued_date_dd: new_warrant_issued_date.day.to_s,
           warrant_issued_date_mm: new_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s)
+          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s
+        )
       }
 
       specify {
@@ -644,7 +650,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         valid_warrant_fee_attributes.merge(
           warrant_issued_date_dd: new_warrant_issued_date.day.to_s,
           warrant_issued_date_mm: new_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s)
+          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s
+        )
       }
 
       specify {
@@ -832,11 +839,13 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
     context 'when one of the expenses requires a date but its in the future' do
       let(:date_in_future) { 5.days.from_now.to_date }
-      let(:one_expense_attributes) { valid_one_expense_attributes.merge(
-        date_dd: date_in_future.day.to_s,
-        date_mm: date_in_future.month.to_s,
-        date_yyyy: date_in_future.year.to_s)
-      }
+      let(:one_expense_attributes) do
+        valid_one_expense_attributes.merge(
+          date_dd: date_in_future.day.to_s,
+          date_mm: date_in_future.month.to_s,
+          date_yyyy: date_in_future.year.to_s
+        )
+      end
 
       specify {
         is_expected.to be_invalid
@@ -846,11 +855,13 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
     context 'when one of the expenses requires a date but its before the earliest permitted date' do
       let(:date_too_old) { Date.parse(Settings.earliest_permitted_date.to_s) - 2.days }
-      let(:one_expense_attributes) { valid_one_expense_attributes.merge(
-        date_dd: date_too_old.day.to_s,
-        date_mm: date_too_old.month.to_s,
-        date_yyyy: date_too_old.year.to_s)
-      }
+      let(:one_expense_attributes) do
+        valid_one_expense_attributes.merge(
+          date_dd: date_too_old.day.to_s,
+          date_mm: date_too_old.month.to_s,
+          date_yyyy: date_too_old.year.to_s
+        )
+      end
 
       specify {
         is_expected.to be_invalid

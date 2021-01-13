@@ -39,7 +39,7 @@ module Remote
       end
     end
 
-    describe 'all_by_status'do
+    describe 'all_by_status' do
       let(:claim_collection) { double 'Claim Collection', map: 'mapped_collection' }
       let(:user) { double Remote::User, api_key: 'my_api_key' }
       let(:query_params) do

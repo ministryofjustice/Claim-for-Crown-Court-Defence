@@ -104,7 +104,7 @@ RSpec.describe TimedTransitions::Transitioner do
           context 'when the case type is a Hardship claim' do
             before do
               travel_to(17.weeks.ago) do
-                @claim = create(:advocate_hardship_claim, :authorised , case_number: 'A20164444')
+                @claim = create(:advocate_hardship_claim, :authorised, case_number: 'A20164444')
               end
             end
 

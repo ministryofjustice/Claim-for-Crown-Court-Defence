@@ -1,4 +1,3 @@
-
 FactoryBot.define do
   factory :statistic, class: 'Stats::Statistic' do
     date { Date.today }

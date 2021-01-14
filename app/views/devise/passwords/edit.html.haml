@@ -1,25 +1,22 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'errors/error_summary', locals:{ ep: resource, error_summary: t('.error_summary')}
-
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
-= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  .form-group
-  = f.hidden_field :reset_password_token
-  = f.full_error :reset_password_token
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, builder: GOVUKDesignSystemFormBuilder::FormBuilder) do |f|
+      = render "devise/shared/error_messages", resource: resource
 
-  .form-group
-    %a{name: 'password'}
-    = f.label :password, t('.new_password'), class: 'form-label-bold'
-    = f.input_field :password, autofocus: true, class: 'form-control'
-  .form-group
-    %a{name: 'password_confirmation'}
-    = f.label :password_confirmation, t('.confirm_your_password'), class: 'form-label-bold'
-    = f.input_field :password_confirmation, class: 'form-control'
+      = f.hidden_field :reset_password_token
 
-  .form-group
-    = govuk_button(t('.change_password'))
+      = f.govuk_password_field :password,
+        label: { text: t('.new_password') },
+        autofocus: true
 
-= render 'devise/shared/links'
+      = f.govuk_password_field :password_confirmation,
+        label: { text: t('.confirm_your_password') }
+
+      = f.govuk_submit t('.change_password')
+
+    = render 'devise/shared/links'

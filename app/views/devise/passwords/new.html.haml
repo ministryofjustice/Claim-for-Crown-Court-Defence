@@ -3,21 +3,12 @@
 
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
-= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-  - if resource.errors.any?
-    .validation-summary
-      %h2.heading-small
-        = "This #{resource_name} has #{pluralize(resource.errors.count, 'error')}"
-      %ul
-        - resource.errors.each do |attribute, message|
-          %li
-            = "#{attribute.to_s.humanize} #{message}"
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }, builder: GOVUKDesignSystemFormBuilder::FormBuilder) do |f|
+      = render "devise/shared/error_messages", resource: resource
 
-  .form-group
-    = f.label :email, class: 'form-label-bold'
-    = f.input_field :email, autofocus: true, autocomplete: 'off', class: 'form-control'
+      = f.govuk_email_field :email, label: { text: t('.email') }, autofocus: true, autocomplete: 'off'
+      = f.govuk_submit t('.send_button')
 
-  .form-group
-    = govuk_button(t('.send_button'))
-
-= render 'devise/shared/links'
+    = render 'devise/shared/links'

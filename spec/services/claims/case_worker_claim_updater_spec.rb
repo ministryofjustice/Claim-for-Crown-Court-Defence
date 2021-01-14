@@ -186,7 +186,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'errors if values are supplied with refused' do
-        params = { 'state' => 'refused', 'assessment_attributes' => { 'fees' => '93.65','expenses' => '42.88' } }
+        params = { 'state' => 'refused', 'assessment_attributes' => { 'fees' => '93.65', 'expenses' => '42.88' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:determinations]).to include('must not have values when refusing a claim')
@@ -197,7 +197,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'errors if values are supplied with rejected' do
-        params = { 'state' => 'rejected', 'assessment_attributes' => { 'fees' => '93.65','expenses' => '42.88' } }
+        params = { 'state' => 'rejected', 'assessment_attributes' => { 'fees' => '93.65', 'expenses' => '42.88' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :error
         expect(updater.claim.errors[:determinations]).to include('must not have values when rejecting a claim')

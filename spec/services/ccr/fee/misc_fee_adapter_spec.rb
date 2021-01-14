@@ -145,7 +145,7 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
       is_expected.to be false
     end
 
-    it 'returns false when the misc has nil values for quantity, rate and amount'do
+    it 'returns false when the misc has nil values for quantity, rate and amount' do
       allow(fee).to receive_messages(quantity: nil, rate: nil, amount: nil)
       is_expected.to be false
     end

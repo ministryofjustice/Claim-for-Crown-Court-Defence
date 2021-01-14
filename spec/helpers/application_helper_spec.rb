@@ -23,7 +23,7 @@ describe ApplicationHelper do
     end
 
     it 'should yield a collection of <Classname>Presenter Class instances' do
-      expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter,Claim::BaseClaimPresenter])
+      expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter, Claim::BaseClaimPresenter])
     end
   end
 

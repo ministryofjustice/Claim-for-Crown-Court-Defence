@@ -6,7 +6,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     sign_in @case_worker.user
   end
 
-  describe 'GET index'do
+  describe 'GET index' do
     let(:claims_service) { double Claims::CaseWorkerClaims }
     let(:page_of_claims) { double('Page of claims', map: [1, 2, 3]) }
     let(:claims_collection) { double('Claims Collection', remote?: true, first: page_of_claims) }

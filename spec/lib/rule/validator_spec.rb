@@ -72,7 +72,7 @@ RSpec.describe Rule::Validator, type: :rule do
   end
 
   describe '#validate' do
-    let(:instance) { described_class.new('object','rule_set') }
+    let(:instance) { described_class.new('object', 'rule_set') }
 
     it 'is alias for met?' do
       expect(instance.method(:validate)).to eq(instance.method(:met?))

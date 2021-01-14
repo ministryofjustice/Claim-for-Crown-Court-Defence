@@ -121,7 +121,7 @@ RSpec.describe ClaimStateTransitionPresenter do
 
     context '2+ reasons (including other)' do
       before do
-        allow(transition).to receive(:reason_code).and_return(['wrong_maat_ref','other'])
+        allow(transition).to receive(:reason_code).and_return(['wrong_maat_ref', 'other'])
         allow(transition).to receive(:reason_text).and_return('rejecting because...')
       end
 

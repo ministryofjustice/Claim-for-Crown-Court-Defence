@@ -9,7 +9,7 @@ module MessageQueue
         region: 'eu-west-1',
         stub_responses:
           {
-            list_queues: { queue_urls:['valid_queue_name'] },
+            list_queues: { queue_urls: ['valid_queue_name'] },
             get_queue_url: stub_queue_response,
             send_message: stub_send_response,
             receive_message: stub_poll_response,

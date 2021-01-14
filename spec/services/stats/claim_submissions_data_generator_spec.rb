@@ -11,7 +11,7 @@ module Stats
       advocates = [250, 260, 270, 280, 290]
       interims = [150, 160, 170, 180, 190]
       litigators = [350, 360, 370, 380, 390]
-      transfers = [50, 60, 70 ,80, 90]
+      transfers = [50, 60, 70, 80, 90]
 
       populate_statistics_records('Advocate', advocates)
       populate_statistics_records('Interim', interims)
@@ -48,7 +48,7 @@ module Stats
           },
           {
             'name' => 'Litigator transfer',
-            'data' => [50, 60, 70 ,80, 90]
+            'data' => [50, 60, 70, 80, 90]
           }
         ]
       }

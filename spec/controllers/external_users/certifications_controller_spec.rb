@@ -26,7 +26,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
         cert = assigns(:certification)
         expect(cert).to be_instance_of(Certification)
         expect(cert.claim_id).to eq claim.id
-        expect(cert.certification_date). to eq(Date.today)
+        expect(cert.certification_date).to eq(Date.today)
         expect(cert.certified_by).to eq advocate.name
       end
     end

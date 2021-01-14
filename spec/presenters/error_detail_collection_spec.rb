@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe ErrorDetailCollection do
   let(:edc) { ErrorDetailCollection.new }
-  let(:ed2) { ErrorDetail.new(:first_name, 'You must specify a first name', 'Cannot be blank','You must specify a first name',20) }
-  let(:ed1) { ErrorDetail.new(:dob, 'Date of birth is invalid', 'Invalid date','Date of birth is invalid',10) }
-  let(:ed3) { ErrorDetail.new(:dob, 'Date of birth too far in the past', 'Too old','Date of birth too far in the past',30) }
+  let(:ed2) { ErrorDetail.new(:first_name, 'You must specify a first name', 'Cannot be blank', 'You must specify a first name', 20) }
+  let(:ed1) { ErrorDetail.new(:dob, 'Date of birth is invalid', 'Invalid date', 'Date of birth is invalid', 10) }
+  let(:ed3) { ErrorDetail.new(:dob, 'Date of birth too far in the past', 'Too old', 'Date of birth too far in the past', 30) }
 
   context 'assign a single values to a key' do
     it 'should make an array containing the single object' do

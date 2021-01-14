@@ -27,18 +27,18 @@ RSpec.describe ClaimsHelper do
     let(:only_allocated_claims) { create_list(:allocated_claim, 5) }
 
     it 'returns true if state included as array' do
-      states_as_arr = ['draft','allocated']
-      expect(includes_state?(only_allocated_claims,states_as_arr)).to eql(true)
+      states_as_arr = ['draft', 'allocated']
+      expect(includes_state?(only_allocated_claims, states_as_arr)).to eql(true)
     end
 
     it 'returns true if state included as comma delimited string' do
       states_as_comma_delimited_string = 'draft,allocated'
-      expect(includes_state?(only_allocated_claims,states_as_comma_delimited_string)).to eql(true)
+      expect(includes_state?(only_allocated_claims, states_as_comma_delimited_string)).to eql(true)
     end
 
     it 'returns false if state NOT included' do
       invalid_states = 'draft,submitted'
-      expect(includes_state?(only_allocated_claims,invalid_states)).to eql(false)
+      expect(includes_state?(only_allocated_claims, invalid_states)).to eql(false)
     end
   end
 
@@ -209,7 +209,7 @@ RSpec.describe ClaimsHelper do
       let(:persona) { nil }
       let(:state) { 'submitted' }
 
-      it { is_expected. to be_falsey }
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -233,14 +233,14 @@ RSpec.describe ClaimsHelper do
         let(:state) { 'rejected' }
         let(:claim_action) { 'Request written reasons' }
 
-        it { is_expected. to be_truthy }
+        it { is_expected.to be_truthy }
       end
 
       %w[submitted allocated authorised part_authorised rejected refused redetermination awaiting_written_reasons].each do |state|
         context "when claim state is #{state}" do
           let(:state) { state }
 
-          it { is_expected. to be_falsey }
+          it { is_expected.to be_falsey }
         end
       end
     end
@@ -252,7 +252,7 @@ RSpec.describe ClaimsHelper do
         let(:state) { 'rejected' }
         let(:claim_action) { 'Request written reasons' }
 
-        it { is_expected. to be_truthy }
+        it { is_expected.to be_truthy }
       end
 
       context 'for non redeterminable claim states' do
@@ -262,7 +262,7 @@ RSpec.describe ClaimsHelper do
           context "when claim state is #{state}" do
             let(:state) { state }
 
-            it { is_expected. to be_truthy }
+            it { is_expected.to be_truthy }
           end
         end
       end
@@ -274,7 +274,7 @@ RSpec.describe ClaimsHelper do
           context "when claim state is #{state}" do
             let(:state) { state }
 
-            it { is_expected. to be_falsey }
+            it { is_expected.to be_falsey }
           end
         end
       end

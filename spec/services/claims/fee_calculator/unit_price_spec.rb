@@ -493,7 +493,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           include_examples 'a successful basic uplift fee calculation', uplift_fee_type: :banoc, unit: 'case', scheme_9_amount: 195.80, scheme_10_amount: 55.00
         end
 
-        context 'discontinuance'do
+        context 'discontinuance' do
           let(:case_type) { create(:case_type, :discontinuance) }
 
           # discontinuance daily attendances do not exist in API

@@ -39,7 +39,7 @@ module Remote
       end
     end
 
-    describe 'all_by_status'do
+    describe 'all_by_status' do
       let(:claim_collection) { double 'Claim Collection', map: 'mapped_collection' }
       let(:user) { double Remote::User, api_key: 'my_api_key' }
       let(:query_params) do
@@ -54,7 +54,7 @@ module Remote
         client = double Remote::HttpClient
         expect(Remote::HttpClient).to receive(:current).and_return(client)
         expect(client).to receive(:get).with('case_workers/claims', query_params).and_return(claim_collection)
-        expect(::Remote::Claim.__send__(:all_by_status, 'current', user: user , query: query)).to eq('mapped_collection')
+        expect(::Remote::Claim.__send__(:all_by_status, 'current', user: user, query: query)).to eq('mapped_collection')
       end
     end
   end

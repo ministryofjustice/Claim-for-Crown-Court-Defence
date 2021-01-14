@@ -49,7 +49,7 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
 
   describe '#raw_fixed_fees_combined_total' do
     it 'sends messages to self' do
-      expect(presenter.raw_fixed_fees_combined_total). to be_kind_of(BigDecimal)
+      expect(presenter.raw_fixed_fees_combined_total).to be_kind_of(BigDecimal)
     end
   end
 

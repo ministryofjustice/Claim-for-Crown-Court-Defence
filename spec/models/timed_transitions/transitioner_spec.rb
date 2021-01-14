@@ -104,7 +104,7 @@ RSpec.describe TimedTransitions::Transitioner do
           context 'when the case type is a Hardship claim' do
             before do
               travel_to(17.weeks.ago) do
-                @claim = create(:advocate_hardship_claim, :authorised , case_number: 'A20164444')
+                @claim = create(:advocate_hardship_claim, :authorised, case_number: 'A20164444')
               end
             end
 
@@ -240,7 +240,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
               it 'deletes the application' do
                 expect(claim).to receive(:destroy)
-                expect { described_class.new(claim).run } .to change { Stats::MIData.count }.by 1
+                expect { described_class.new(claim).run }.to change { Stats::MIData.count }.by 1
               end
             end
           end

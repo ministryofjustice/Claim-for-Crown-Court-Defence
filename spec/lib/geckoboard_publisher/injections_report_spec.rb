@@ -134,9 +134,9 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
 
       let(:total_excluding_error) do
         InjectionAttempt
-        .where(created_at: start_date)
-        .exclude_error('%already exist%')
-        .count
+          .where(created_at: start_date)
+          .exclude_error('%already exist%')
+          .count
       end
 
       it 'excludes errors that are considered warnings' do

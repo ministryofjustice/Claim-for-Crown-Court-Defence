@@ -287,7 +287,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should NOT error if not present and case type does NOT require trial dates' do
       claim.case_type = guilty_plea
       claim.estimated_trial_length = nil
-      should_not_error(claim,:estimated_trial_length)
+      should_not_error(claim, :estimated_trial_length)
     end
 
     it 'should error if less than zero' do
@@ -307,7 +307,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should NOT error if not present and case type does NOT require trial dates' do
       claim.case_type = guilty_plea
       claim.actual_trial_length = nil
-      should_not_error(claim,:actual_trial_length)
+      should_not_error(claim, :actual_trial_length)
     end
 
     it 'should error if less than zero' do
@@ -327,7 +327,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should NOT error if not present and case type does NOT require retrial dates' do
       claim.case_type = guilty_plea
       claim.retrial_estimated_length = nil
-      should_not_error(claim,:retrial_estimated_length)
+      should_not_error(claim, :retrial_estimated_length)
     end
 
     it 'should error if less than zero' do
@@ -347,7 +347,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'should NOT error if not present and case type does NOT require retrial dates' do
       claim.case_type = guilty_plea
       claim.retrial_actual_length = nil
-      should_not_error(claim,:retrial_actual_length)
+      should_not_error(claim, :retrial_actual_length)
     end
 
     it 'should error if less than zero' do
@@ -363,13 +363,13 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'should error if NOT present' do
         claim.trial_cracked_at_third = nil
-        should_error_with(claim,:trial_cracked_at_third,'blank')
+        should_error_with(claim, :trial_cracked_at_third, 'blank')
       end
 
       it 'should error if NOT in expected value list' do
         # NOTE: stored value is snake case
         claim.trial_cracked_at_third = 'Final third'
-        should_error_with(claim,:trial_cracked_at_third, 'invalid')
+        should_error_with(claim, :trial_cracked_at_third, 'invalid')
       end
 
       Settings.trial_cracked_at_third.each do |third|
@@ -386,18 +386,18 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'should error if NOT present' do
         claim.trial_cracked_at_third = nil
-        should_error_with(claim,:trial_cracked_at_third,'blank')
+        should_error_with(claim, :trial_cracked_at_third, 'blank')
       end
 
       it 'should error if NOT in expected value list' do
         # NOTE: stored value is snake case
         claim.trial_cracked_at_third = 'Final third'
-        should_error_with(claim,:trial_cracked_at_third, 'invalid')
+        should_error_with(claim, :trial_cracked_at_third, 'invalid')
       end
 
       it 'should error if NOT final third' do
         claim.trial_cracked_at_third = 'first_third'
-        should_error_with(claim,:trial_cracked_at_third,'invalid_case_type_third_combination')
+        should_error_with(claim, :trial_cracked_at_third, 'invalid_case_type_third_combination')
       end
     end
 
@@ -489,35 +489,35 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
   context 'evidence_checklist_ids' do
     let(:doc_types) { DocType.all.sample(4).map(&:id) }
-    let(:invalid_ids) { ['a','ABC','??','-'] }
+    let(:invalid_ids) { ['a', 'ABC', '??', '-'] }
 
     it 'should serialize and deserialize as Array' do
       claim.evidence_checklist_ids = doc_types
-      should_not_error(claim,:evidence_checklist_ids)
+      should_not_error(claim, :evidence_checklist_ids)
       claim.save!
       dup = Claim::BaseClaim.active.find claim.id
       expect(dup.evidence_checklist_ids).to eq(doc_types)
     end
 
     it 'should NOT error if ids are string integers and should exclude blank strings' do
-      claim.evidence_checklist_ids = ['6','3',' ']
-      should_not_error(claim,:evidence_checklist_ids)
+      claim.evidence_checklist_ids = ['6', '3', ' ']
+      should_not_error(claim, :evidence_checklist_ids)
     end
 
     it 'should NOT error if ids are valid doctype ids' do
       claim.evidence_checklist_ids = doc_types
-      should_not_error(claim,:evidence_checklist_ids)
+      should_not_error(claim, :evidence_checklist_ids)
     end
 
     it 'should error if ids are zero or strings' do
       invalid_ids.each do |id|
         claim.evidence_checklist_ids = [id]
-        should_error_with(claim,:evidence_checklist_ids,'Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids')
+        should_error_with(claim, :evidence_checklist_ids, 'Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids')
       end
     end
 
     it 'should error if, and for each, id that is not valid doctype ids' do
-      claim.evidence_checklist_ids = [101,1001,200,32]
+      claim.evidence_checklist_ids = [101, 1001, 200, 32]
       expect(claim.valid?).to be false
       expect(claim.errors[:evidence_checklist_ids]).to include(/^Evidence checklist id 101 is invalid, please use valid evidence checklist ids/)
     end
@@ -530,7 +530,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'when evidence_checklist_ids have been made invalid' do
-      before { claim.evidence_checklist_ids = [101,1001,200,32] }
+      before { claim.evidence_checklist_ids = [101, 1001, 200, 32] }
 
       context 'and validation has been overridden' do
         before { claim.disable_for_state_transition = :all }
@@ -582,7 +582,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
           }
         end
 
-        [4,3,2].each do |num|
+        [4, 3, 2].each do |num|
           it { is_expected.to include_field_error_when(options.merge(field_value: 3.days.ago.to_date, other_field_value: num.days.ago.to_date)) }
         end
 

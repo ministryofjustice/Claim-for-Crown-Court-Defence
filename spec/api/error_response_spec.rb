@@ -16,7 +16,7 @@ describe API::ErrorResponse do
     VALID_MODEL_KLASSES.each do |model_klass|
       let(:model_instance) { FactoryBot.build(model_klass.name.underscore.to_sym) }
       it "accepts #{model_klass.name}" do
-        expect { er = described_class.new(model_instance) }.to raise_error(RuntimeError ,'unable to build error response as no errors were found')
+        expect { er = described_class.new(model_instance) }.to raise_error(RuntimeError, 'unable to build error response as no errors were found')
       end
     end
   end
@@ -45,7 +45,7 @@ describe API::ErrorResponse do
   end
 
   context 'accepts other objects without breaking' do
-    [1,'1',[1,2]].each do |other_object|
+    [1, '1', [1, 2]].each do |other_object|
       it "accepts #{other_object.class.name} without raising an error" do
         expect { described_class.new(other_object) }.not_to raise_error
       end

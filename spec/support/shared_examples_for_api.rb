@@ -81,7 +81,7 @@ RSpec.shared_examples 'should NOT be able to amend a non-draft claim' do
     it "should NOT be able to create #{described_class.to_s.split('::').last}" do
       post_to_create_endpoint
       expect(last_response.status).to eq 400
-      expect_error_response('You cannot edit a claim that is not in draft state',0)
+      expect_error_response('You cannot edit a claim that is not in draft state', 0)
     end
   end
 end

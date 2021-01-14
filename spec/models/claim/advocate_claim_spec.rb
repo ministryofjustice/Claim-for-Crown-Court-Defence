@@ -366,7 +366,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:states) { nil }
 
     it 'finds only claims with states that match dashboard displayable states' do
-      sql = Claim::AdvocateClaim.search('%',states,:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
+      sql = Claim::AdvocateClaim.search('%', states, :advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
       state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "\'#{s}\'" }.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
@@ -487,11 +487,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds only claims of the single state specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins',:archived_pending_delete, search_options).count).to eql 2
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eql 2
       end
 
       it 'finds only claims of the multiple states specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins',[:archived_pending_delete, :authorised], search_options).count).to eql 4
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', [:archived_pending_delete, :authorised], search_options).count).to eql 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
@@ -569,7 +569,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'with invalid state' do
       it 'raises error for invalid option' do
         expect {
-          Claim::AdvocateClaim.search('foo',:rubbish_state, :case_worker_name_or_email)
+          Claim::AdvocateClaim.search('foo', :rubbish_state, :case_worker_name_or_email)
         }.to raise_error(/Invalid state, rubbish_state, specified/)
       end
     end
@@ -819,7 +819,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       it 'claims in any state other than draft or archived_pending_delete' do
         states = Claim::AdvocateClaim.state_machine.states.map(&:name)
         states = states.map { |s| if not [:draft, :archived_pending_delete].include?(s) then s; end; }.compact
-        states.each do | state |
+        states.each do |state|
           claim.state = state
           expect(claim.validation_required?).to eq true
         end
@@ -994,8 +994,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
               claim.save
             }.to change {
               claim.fixed_fees.size
-            }.from(1)
-             .to(0)
+            }.from(1).to(0)
           end
 
           it 'removes the date attended fee associated with the fixed fee' do
@@ -1004,8 +1003,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
               claim.save
             }.to change {
               claim.fixed_fees.flat_map(&:dates_attended).size
-            }.from(1)
-             .to(0)
+            }.from(1).to(0)
           end
         end
       end
@@ -1021,8 +1019,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             claim.save
           }.to change {
             [claim.fixed_fees.size, claim.basic_fees.size]
-          }.from([1, 0])
-           .to([0, 1])
+          }.from([1, 0]).to([0, 1])
         end
 
         it 'keeps the misc fees' do
@@ -1056,7 +1053,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           }.to change {
             [claim.fixed_fees.size, claim.basic_fees.size]
           }.from([0, 2])
-           .to([1, 2])
+            .to([1, 2])
           expect(claim.basic_fees.map(&:amount).sum.to_f).to eq(0.0)
         end
 
@@ -1580,7 +1577,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       context 'when the claim has been saved as draft before the case type is set' do
         let(:claim) { build :advocate_claim, case_type: nil }
 
-        it { expect(claim.discontinuance?). to be false }
+        it { expect(claim.discontinuance?).to be false }
       end
     end
   end

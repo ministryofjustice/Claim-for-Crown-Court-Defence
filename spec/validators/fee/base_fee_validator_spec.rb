@@ -285,7 +285,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       it 'should NOT raise an error when amount is zero and quantity is not' do
-        [ppe_fee,npw_fee].each do |f|
+        [ppe_fee, npw_fee].each do |f|
           f.amount = 0
           expect(f).to be_valid
         end
@@ -332,13 +332,13 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           end
 
           it 'should raise numericality error when quantity not in range 0 to 1' do
-            [-1,2].each do |q|
+            [-1, 2].each do |q|
               should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_qty_numericality')
             end
           end
 
           it 'should raise invalid error when quantity is nil or 0' do
-            [nil,0].each do |q|
+            [nil, 0].each do |q|
               should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_invalid')
             end
           end

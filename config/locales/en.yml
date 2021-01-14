@@ -2581,38 +2581,7 @@ en:
         dashboard: Dashboard
         payments: Payments
         reporting_tool: Reporting tool
-  devise:
-    sessions:
-      new:
-        page_title: Sign in to claim for Crown court defence
-        page_heading: Sign in
-        sign_in: Sign in
-    shared:
-      links:
-        sign_in: Sign in
-        forgot_your_password: Forgot your password?
-        terms_and_conditions: terms and conditions
-        api_sign_up_and_documentation: API Sign up and documentation
-        didnt_receive_confirmation_instructions: Didn't receive confirmation instructions?
-        didnt_receive_unlock_instructions: Didn't receive unlock instructions?
-        sign_in_with: Sign in with
-    passwords:
-      new:
-        page_title: Retrieve your password for claim for Crown court defence
-        send_button: Send me password reset instructions
-        page_heading: Forgot your password?
-      edit:
-        change_password: *change_password
-        confirm_your_password: Confirm your password
-        error_summary: 'This password change has '
-        page_heading: Change your password
-        page_title: Change your password for claim for Crown court defence
-        new_password: New password
-    unlocks:
-      new:
-        page_heading: Resend password reset instructions
-        page_title: Resend unlock instructions for claim for Crown court defence
-        submit: Resend unlock instructions
+
   validators:
     advocate:
       category: 'Advocate category must be one of those in the provided list'

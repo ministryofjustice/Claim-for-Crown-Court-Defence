@@ -1,6 +1,6 @@
 class ExternalUsers::RegistrationsController < Devise::RegistrationsController
   skip_load_and_authorize_resource only: %i[new create]
-  before_action :check_environment
+  # before_action :check_environment
   before_action :configure_permitted_parameters, only: [:create]
 
   def create

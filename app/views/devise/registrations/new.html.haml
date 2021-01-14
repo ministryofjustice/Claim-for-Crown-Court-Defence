@@ -4,43 +4,38 @@
 
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-  - if resource.errors.any?
-    .validation-summary
-      %h2.heading-small= "This #{resource_name} has #{pluralize(resource.errors.count, 'error')}"
-      %ul
-        - resource.errors.each do |attribute, message|
-          %li
-            = "#{attribute.to_s.humanize} #{message}"
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = form_with(model: resource, as: resource_name, url: registration_path(resource_name), builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true) do |f|
+      = f.govuk_error_summary
+      = render "devise/shared/error_messages", resource: resource
 
-  .form-group
-    = render 'terms_and_conditions'
 
-    = label_tag :terms_and_conditions_acceptance, required: true, class: 'form-label-bold' do
-      = check_box_tag :terms_and_conditions_acceptance
-      Accept terms and conditions
+      = label_tag :terms_and_conditions_acceptance, required: true, class: 'form-label-bold' do
+        = check_box_tag :terms_and_conditions_acceptance
+        Accept terms and conditions
 
-  .form-group
-    = f.label :first_name, class: 'form-label'
-    = f.input_field :first_name, class: 'form-control'
 
-  .form-group
-    = f.label :last_name, class: 'form-label'
-    = f.input_field :last_name, class: 'form-control'
+      -# = f.govuk_check_boxes_fieldset :terms_and_conditions_acceptance,
+      -#   multiple: false,
+      -#   legend: { text: t('.terms_legend'), size: 'm' } do
 
-  .form-group
-    = f.label :email, required: true, class: 'form-label'
-    = f.input_field :email, class: 'form-control'
+      -#   .govuk-body
+      -#     = render 'terms_and_conditions'
 
-  .form-group
-    = f.label :password, required: true, class: 'form-label'
-    = f.input_field :password, class: 'form-control'
+        -# ERROR: undefined method `terms_and_conditions_acceptance' for #<User:0x00007fa225170308>
+        -# = f.govuk_check_box :terms_and_conditions_acceptance,
+        -#   0,
+        -#   1,
+        -#   multiple: false,
+        -#   link_errors: true,
+        -#   label: { text: t('.terms_label') }
 
-  .form-group
-    = f.label :password_confirmation, required: true, class: 'form-label'
-    = f.input_field :password_confirmation, class: 'form-control'
+      = f.govuk_text_field :first_name, label: { text: t('.first_name') }
+      = f.govuk_text_field :last_name, label: { text: t('.last_name') }
+      = f.govuk_text_field :email, label: { text: t('.email') }
+      = f.govuk_password_field :password, label: { text: t('.password') }
+      = f.govuk_password_field :password_confirmation, label: { text: t('.password_confirmation') }
+      = f.govuk_submit t('.sign_up')
 
-  .form-group
-    = govuk_button('Sign up')
-
-= render 'devise/shared/links'
+    = render 'devise/shared/links'

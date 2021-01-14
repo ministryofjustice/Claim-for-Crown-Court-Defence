@@ -1,0 +1,9 @@
+- if resource.errors.any?
+  .govuk-error-summary{ tabindex: '-1', role: 'alert', 'data-module': 'govuk-error-summary', 'aria-labelledby': 'error-summary-title' }
+    %h2#error-summary-title.govuk-error-summary__title
+      = t('.error_summary_title')
+
+    .govuk-error-summary__body
+      %ul.govuk-list.govuk-error-summary__list
+        - resource.errors.each do |attribute, message|
+          %li= "#{attribute.to_s.humanize} #{message}"

@@ -16,11 +16,6 @@ require_relative '../lib/govuk_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application
-    # remove active storage routes - not used (yet)
-    initializer(:remove_activestorage_routes, after: :add_routing_paths) do |app|
-      app.routes_reloader.paths.delete_if {|path| path =~ /activestorage/}
-    end
-
     config.middleware.use Rack::Deflater
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

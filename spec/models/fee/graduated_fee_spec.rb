@@ -21,7 +21,6 @@
 
 require 'rails_helper'
 require_relative 'shared_examples_for_duplicable'
-require_relative 'shared_examples_for_duplicable'
 
 RSpec.describe Fee::GraduatedFee do
   it { should belong_to(:fee_type) }

@@ -48,7 +48,7 @@ RSpec.describe Claims::Search do
           filters = [
             /claims.case_number ILIKE/,
             /representation_orders.maat_reference ILIKE/,
-            %r{lower(defendants.first_name || ' ' || defendants.last_name) ILIKE}
+            /lower(defendants.first_name || ' ' || defendants.last_name) ILIKE/
           ]
           filters.each do |filter|
             expect(query.to_sql).not_to match(filter)

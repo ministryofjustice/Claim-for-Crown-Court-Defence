@@ -337,7 +337,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
 
       # NOT exhaustive
       context 'Fee Category' do
-        before (:each) { valid_params.delete(:rate) }
+        before { valid_params.delete(:rate) }
 
         context 'advocate (final) claim' do
           it 'basic fees should raise basic fee errors from translations' do

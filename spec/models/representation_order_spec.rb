@@ -49,7 +49,7 @@ RSpec.describe RepresentationOrder do
 
         context 'with environment configured MAAT regex' do
           before do
-            allow(Settings).to receive(:maat_regexp).and_return /^[4-9][0-9]{6}$/
+            allow(Settings).to receive(:maat_regexp).and_return(/^[4-9][0-9]{6}$/)
           end
 
           it 'should error' do

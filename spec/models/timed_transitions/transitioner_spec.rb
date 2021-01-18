@@ -284,21 +284,41 @@ RSpec.describe TimedTransitions::Transitioner do
               2.times { claim.messages << create(:message, claim: claim) }
               claim.injection_attempts << create(:injection_attempt, claim: claim)
               claim.expenses.first.dates_attended << DateAttended.new
-              claim.documents << create(:document, claim: claim, verified: true)
               claim.certification = create(:certification, claim: claim)
               claim.save!
               claim.reload
 
               @first_expense_id = claim.expenses.first.id
               @first_defendant_id = claim.defendants.first.id
-              @first_document_document = claim.documents.first.document
-              @first_document_converted_preview_document = claim.documents.first.converted_preview_document
             end
 
             it 'destroys all associated records', delete: true do
               check_associations
               described_class.new(claim).run
               expect_claim_and_all_associations_to_be_gone
+            end
+          end
+
+          context 'with an associated document' do
+            let(:file) do
+              Rack::Test::UploadedFile.new(
+                File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
+                'application/pdf'
+              )
+            end
+            let(:document) { create :document, document: file, verified: true }
+
+            before { claim.update(documents: [document]) }
+
+            it 'destroys associated documents' do
+              expect { described_class.new(claim).run }.to change(Document, :count).by(-1)
+            end
+
+            it 'deletes the file from storage' do
+              file_on_disk = ActiveStorage::Blob.service.send(:path_for, claim.documents.first.document.blob.key)
+
+              expect { described_class.new(claim).run }
+                .to change { File.exist? file_on_disk }.from(true).to false
             end
           end
 
@@ -325,9 +345,6 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(claim.disbursements).not_to be_empty
             expect(claim.defendants).not_to be_empty
             expect(claim.defendants.first.representation_orders).not_to be_empty
-            expect(claim.documents).not_to be_empty
-            # expect(File.exist?(claim.documents.first.document.path)).to be true
-            # expect(File.exist?(claim.documents.first.converted_preview_document.path)).to be true
             expect(claim.messages).not_to be_empty
             expect(claim.claim_state_transitions).not_to be_empty
             expect(claim.determinations).not_to be_empty
@@ -344,9 +361,6 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(Disbursement.where(claim_id: claim.id)).to be_empty
             expect(Defendant.where(claim_id: claim.id)).to be_empty
             expect(RepresentationOrder.where(defendant_id: @first_defendant_id)).to be_empty
-            expect(Document.where(claim_id: claim.id)).to be_empty
-            # expect(File.exist?(@first_document_document.path)).to be false
-            # expect(File.exist?(@first_document_converted_preview_document.path)).to be false
             expect(Message.where(claim_id: claim.id)).to be_empty
             expect(ClaimStateTransition.where(claim_id: claim.id)).to be_empty
             expect(Determination.where(claim_id: claim.id)).to be_empty
@@ -448,21 +462,40 @@ RSpec.describe TimedTransitions::Transitioner do
               2.times { claim.disbursements << create(:disbursement, claim: claim) }
               2.times { claim.messages << create(:message, claim: claim) }
               claim.expenses.first.dates_attended << DateAttended.new
-              claim.documents << create(:document, claim: claim, verified: true)
               claim.certification = create(:certification, claim: claim)
               claim.save!
               claim.reload
 
               @first_expense_id = claim.expenses.first.id
               @first_defendant_id = claim.defendants.first.id
-              @first_document_document = claim.documents.first.document
-              @first_document_converted_preview_document = claim.documents.first.converted_preview_document
             end
 
             it 'does not destroy all associated records' do
               check_associations
               described_class.new(claim, true).run
               expect_claim_and_all_associations_to_be_present
+            end
+          end
+
+          context 'with an associated document' do
+            let(:file) do
+              Rack::Test::UploadedFile.new(
+                File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
+                'application/pdf'
+              )
+            end
+            let(:document) { create :document, document: file, verified: true }
+
+            before { claim.update(documents: [document]) }
+
+            it 'does not destroy associated documents' do
+              expect { described_class.new(claim, true).run }.not_to change(Document, :count)
+            end
+
+            it 'does not delete the file from storage' do
+              file_on_disk = ActiveStorage::Blob.service.send(:path_for, claim.documents.first.document.blob.key)
+
+              expect { described_class.new(claim, true).run }.not_to(change { File.exist? file_on_disk })
             end
           end
 
@@ -491,8 +524,6 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(claim.disbursements).not_to be_empty
             expect(claim.defendants).not_to be_empty
             expect(claim.defendants.first.representation_orders).not_to be_empty
-            # expect(claim.documents).not_to be_empty
-            # expect(File.exist?(claim.documents.first.document.path)).to be true
             expect(claim.messages).not_to be_empty
             expect(claim.claim_state_transitions).not_to be_empty
             expect(claim.determinations).not_to be_empty
@@ -508,7 +539,6 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(Disbursement.where(claim_id: claim.id)).not_to be_empty
             expect(Defendant.where(claim_id: claim.id)).not_to be_empty
             expect(RepresentationOrder.where(defendant_id: @first_defendant_id)).not_to be_empty
-            # expect(Document.where(claim_id: claim.id)).not_to be_empty
             expect(Message.where(claim_id: claim.id)).not_to be_empty
             expect(ClaimStateTransition.where(claim_id: claim.id)).not_to be_empty
             expect(Determination.where(claim_id: claim.id)).not_to be_empty

@@ -82,7 +82,7 @@ class Document < ApplicationRecord
   end
 
   def verify_file_exists
-    true
+    self.verified = true
 
     # TODO: Work out if this can be (and needs to be) done for Active Storage
     # begin

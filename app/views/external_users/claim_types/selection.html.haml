@@ -1,28 +1,13 @@
 = content_for :page_title, flush: true do
   = claim_type_page_header(current_user)
 
-= render partial: 'layouts/header', locals: { page_heading: claim_type_prompt_heading_for(current_user) }
 = render partial: 'external_users/shared/hardship_claims_banner'
 
-= form_tag(types_external_users_claims_path, method: 'post') do
-  .form-section
-    .form-group
-      %fieldset
-        %legend
-          %h2.heading-large
-            = t('.choose_claim_type_prompt_text')
+= form_with url: types_external_users_claims_path, method: 'post', builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+  = f.govuk_radio_buttons_fieldset :claim_type, legend: { text: t('.choose_claim_type_prompt_text'), size: 'xl', tag: 'h1' } do
+    - @available_claim_types.each_with_index do |claim_type, index|
+      - claim_type_hint = t(".#{claim_type}_hint_html", default: t(".#{claim_type}_hint", default: ''))
+      = f.govuk_radio_button :claim_type, claim_type, label: { text: t(".#{claim_type}_rb") }, hint: { text: claim_type_hint }, link_errors: index.zero?
 
-        - @available_claim_types.each_with_index do |claim_type, index|
-          .multiple-choice
-            = radio_button_tag :claim_type, claim_type, index.zero?
-            = label_tag "claim_type_#{claim_type}", nil do
-              = t(".#{claim_type}_rb")
-              - claim_type_hint = t(".#{claim_type}_hint_html", default: t(".#{claim_type}_hint", default: ''))
-              - if claim_type_hint.present?
-                %span.form-hint
-                  = claim_type_hint
-
-  .form-section
-    .form-group.form-buttons
-      = govuk_button(t('.continue'))
-      = govuk_link_button_secondary(t('.cancel'), external_users_root_path)
+  = f.govuk_submit t('.continue')
+  = govuk_link_button_secondary t('.cancel'), external_users_root_path

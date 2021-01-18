@@ -27,7 +27,8 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     if redirect_url
       redirect_to redirect_url
     else
-      redirect_to external_users_claims_url, alert: error_message(:invalid_claim_types)
+      # redirect_to external_users_claims_url, alert: error_message(:invalid_claim_types)
+      redirect_to types_external_users_claims_path, alert: error_message(:invalid_claim_types)
     end
   end
 

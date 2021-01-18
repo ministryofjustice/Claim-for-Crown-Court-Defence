@@ -49,7 +49,7 @@ RSpec.describe RepresentationOrder do
 
         context 'with environment configured MAAT regex' do
           before do
-            allow(Settings).to receive(:maat_regexp).and_return /^[4-9][0-9]{6}$/
+            allow(Settings).to receive(:maat_regexp).and_return(/^[4-9][0-9]{6}$/)
           end
 
           it 'should error' do
@@ -119,7 +119,7 @@ RSpec.describe RepresentationOrder do
 
   describe '#reporders_for_same_defendant' do
     it 'returns empty array if reporder not completely set up' do
-      expect(RepresentationOrder.new.reporders_for_same_defendant).to eq ( [])
+      expect(RepresentationOrder.new.reporders_for_same_defendant).to eq([])
     end
 
     it 'returns an aray of all reporders including this for the same defendant' do

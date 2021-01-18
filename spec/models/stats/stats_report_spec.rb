@@ -153,7 +153,7 @@ RSpec.describe Stats::StatsReport do
   #       end
 
   #       it 'returns the an expiring url for the document' do
-  #         expect(report.document_url).to match(/tmp\/test\/reports\/report.csv\?([0-9])+/)
+  #         expect(report.document_url).to match(%r{tmp/test/reports/report.csv\?([0-9])+})
   #       end
   #     end
   #   end

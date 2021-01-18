@@ -102,7 +102,7 @@ describe CaseWorkers::ClaimsHelper do
     describe '#next_claim_link' do
       it 'returns a link for the next claim id in the series' do
         assign(:claim, double(Claim::BaseClaim, id: 3774))
-        expect(helper.next_claim_link('my_text')).to eq (link_to('my_text', case_workers_claim_path(2773)))
+        expect(helper.next_claim_link('my_text')).to eq(link_to('my_text', case_workers_claim_path(2773)))
       end
     end
   end

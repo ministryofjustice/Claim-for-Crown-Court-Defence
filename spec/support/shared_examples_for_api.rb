@@ -255,7 +255,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         end
 
         it 'should not create a new claim' do
-          expect { post_to_create_endpoint }.not_to change { claim_class.active.count }
+          expect { post_to_create_endpoint }.not_to(change { claim_class.active.count })
         end
       end
 
@@ -296,7 +296,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         end
 
         it 'should not create a new claim' do
-          expect { post_to_create_endpoint }.not_to change { claim_class.active.count }
+          expect { post_to_create_endpoint }.not_to(change { claim_class.active.count })
         end
       end
     end

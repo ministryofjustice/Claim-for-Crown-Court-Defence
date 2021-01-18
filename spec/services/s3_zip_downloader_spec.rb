@@ -11,6 +11,6 @@ RSpec.describe S3ZipDownloader do
 
     it { is_expected.to be_a String }
 
-    it { expect(File.exists?(subject)).to be true }
+    it { expect(File.exist?(subject)).to be true }
   end
 end

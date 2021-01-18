@@ -40,7 +40,7 @@ describe ErrorDetailCollection do
 
   describe 'header_errors' do
     let(:expected_headers_array) { [ed1, ed2, ed3] }
-    before (:each) do
+    before do
       edc[:first_name] = ed2
       edc[:dob] = ed1
       edc[:dob] = ed3

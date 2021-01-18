@@ -47,7 +47,7 @@ RSpec.describe ErrorMessageTranslator do
         'quantity' => {
           '_seq' => 30,
           'invalid' => {
-            'long' => 'Enter a valid quantity for the #{fixed_fee}',
+            'long' => "Enter a valid quantity for the \#{fixed_fee}",
             'short' => 'Enter a valid quantity',
             'api' => 'Enter a valid quantity for the fixed fee'
           }

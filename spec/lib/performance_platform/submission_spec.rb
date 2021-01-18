@@ -47,7 +47,7 @@ describe PerformancePlatform::Submission do
       end
 
       it 'hits the performance platform' do
-        expect(a_request(:post, /\Ahttps:\/\/www.performance.service.gov.uk\/data\/.*\z/)).to have_been_made.times(1)
+        expect(a_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z})).to have_been_made.times(1)
       end
 
       it { is_expected.to be_truthy }

@@ -4,7 +4,7 @@ RSpec.describe StatsReportGenerationJob, type: :job do
   subject(:job) { described_class.new }
 
   describe '#perform' do
-    subject (:perform) { job.perform(report_type) }
+    subject(:perform) { job.perform(report_type) }
 
     let(:report_type) { 'provisional_assessment' }
 

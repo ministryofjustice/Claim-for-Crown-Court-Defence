@@ -98,11 +98,13 @@ RSpec.describe Document, type: :model do
       before { allow(subject).to receive(:generate_pdf_tmpfile).and_return(nil) }
 
       it 'saves the original' do
-        stub_request(:put, /https\:\/\/moj-cbo-documents-test\.s3\.amazonaws\.com\/.+\/shorter_lorem\.docx/)
-          .with(headers: {
-                  'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                  'Content-Length' => '5055'
-                })
+        stub_request(:put, %r{https\://moj-cbo-documents-test\.s3\.amazonaws\.com/.+/shorter_lorem\.docx})
+          .with(
+            headers: {
+              'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+              'Content-Length' => '5055'
+            }
+          )
 
         expect { subject.save! }.not_to raise_error
       end

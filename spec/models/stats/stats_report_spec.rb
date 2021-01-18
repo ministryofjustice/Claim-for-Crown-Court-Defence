@@ -121,42 +121,43 @@ RSpec.describe Stats::StatsReport do
     end
   end
 
-  describe '#document_url' do
-    context 'when document is nil' do
-      let(:report) { build(:stats_report, report: nil, document: nil) }
+  # Not used for the moment. May come back in another form.
+  # describe '#document_url' do
+  #   context 'when document is nil' do
+  #     let(:report) { build(:stats_report, report: nil, document: nil) }
 
-      it { expect(report.document_url).to be_nil }
-    end
+  #     it { expect(report.document_url).to be_nil }
+  #   end
 
-    context 'when document exists' do
-      let(:report) { build(:stats_report, :with_document) }
+  #   context 'when document exists' do
+  #     let(:report) { build(:stats_report, :with_document) }
 
-      context 'and the document storage is filesystem' do
-        let(:options) { { storage: :filesystem } }
+  #     context 'and the document storage is filesystem' do
+  #       let(:options) { { storage: :filesystem } }
 
-        before do
-          allow(report.document).to receive(:options).and_return(options)
-        end
+  #       before do
+  #         allow(report.document).to receive(:options).and_return(options)
+  #       end
 
-        it 'returns the document path' do
-          expect(report.document_url).to eq('tmp/test/reports/report.csv')
-        end
-      end
+  #       it 'returns the document path' do
+  #         expect(report.document_url).to eq('tmp/test/reports/report.csv')
+  #       end
+  #     end
 
-      context 'and the document storage is S3' do
-        let(:options) { { storage: :s3 } }
+  #     context 'and the document storage is S3' do
+  #       let(:options) { { storage: :s3 } }
 
-        before do
-          original_options = report.document.options
-          allow(report.document).to receive(:options).and_return(original_options.merge(options))
-        end
+  #       before do
+  #         original_options = report.document.options
+  #         allow(report.document).to receive(:options).and_return(original_options.merge(options))
+  #       end
 
-        it 'returns the an expiring url for the document' do
-          expect(report.document_url).to match(/tmp\/test\/reports\/report.csv\?([0-9])+/)
-        end
-      end
-    end
-  end
+  #       it 'returns the an expiring url for the document' do
+  #         expect(report.document_url).to match(/tmp\/test\/reports\/report.csv\?([0-9])+/)
+  #       end
+  #     end
+  #   end
+  # end
 
   context 'housekeeping' do
     describe '.destroy_reports_older_than' do

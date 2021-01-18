@@ -9,134 +9,113 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
 
   include_context 'claim-types helpers'
 
-  describe 'GET #selection' do
+  describe 'GET #new' do
     context 'when provider has no available claim types' do
       let(:context_mapper) { instance_double(Claims::ContextMapper) }
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
         allow(context_mapper).to receive(:available_comprehensive_claim_types).and_return([])
+        get :new
       end
 
-      it 'redirects the user to the claims page with an error' do
-        get :selection
-        expect(response).to redirect_to(external_users_claims_url)
-        expect(flash[:alert]).to eq 'AGFS/LGFS claim type choice incomplete'
-      end
+      it { expect(response).to redirect_to(external_users_claims_url) }
+      it { expect(controller).to set_flash[:alert].to('No applicable bill types available for user') }
     end
 
-    context 'when the only claim type available cannot be managed by the user' do
+    # OPTIMIZE: check if this flow and functionality is event possible (leftover from when there were fewer claim types?!)
+    context 'when provider has only one claim type available' do
       let(:context_mapper) { instance_double(Claims::ContextMapper) }
       let(:claim_class) { Claim::BaseClaim }
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
-        allow(context_mapper).to receive(:available_comprehensive_claim_types).and_return(%w[invalid_bill_type])
+        allow(context_mapper).to receive(:available_comprehensive_claim_types).and_return(%w[agfs])
+        get :new
       end
 
-      it 'redirects the user to the claims page with an error' do
-        get :selection
-        expect(response).to redirect_to(external_users_claims_url)
-        expect(flash[:alert]).to eq 'Invalid bill type selected'
-      end
+      it { expect(response).to redirect_to('/advocates/claims/new') }
     end
 
-    context 'admin of AGFS and LGFS provider' do
+    context 'when provider has agfs and lgs admin role' do
       let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
 
-      it 'assigns bill types based on provider roles' do
-        get :selection
-        expect(assigns(:available_claim_types)).to match_array(all_claim_types)
-      end
+      before { get :new }
 
-      it 'renders the bill type options page' do
-        get :selection
-        expect(response).to render_template(:selection)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(all_claim_types) }
     end
 
-    context 'admin of AGFS provider' do
+    context 'when provider has agfs admin role' do
       let(:external_user) { create(:external_user, :admin, provider: create(:provider, :agfs)) }
 
-      it 'assigns bill types based on provider roles' do
-        get :selection
-        expect(assigns(:available_claim_types)).to match_array(agfs_claim_types)
-      end
+      before { get :new }
 
-      it 'renders the bill type options page' do
-        get :selection
-        expect(response).to render_template(:selection)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(agfs_claim_types) }
     end
 
-    context 'admin of LGFS provider' do
+    context 'when provider has advocate role' do
+      let(:external_user) { create(:external_user, :advocate) }
+
+      before { get :new }
+
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(agfs_claim_types) }
+    end
+
+    context 'when provider has lgfs admin role' do
       let(:external_user) { create(:external_user, :admin, provider: create(:provider, :lgfs)) }
 
-      it 'assigns bill types based on provider roles' do
-        get :selection
-        expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
-      end
+      before { get :new }
 
-      it 'renders bill type selection page' do
-        get :selection
-        expect(response).to render_template(:selection)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types) }
     end
 
-    context 'litigator' do
+    context 'when provider has litigator role' do
       let(:external_user) { create(:external_user, :litigator) }
 
-      it 'assigns bill types based on external_user roles' do
-        get :selection
-        expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
-      end
+      before { get :new }
 
-      it 'renders the bill type selection page' do
-        get :selection
-        expect(response).to render_template(:selection)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types) }
     end
   end
 
-  describe 'POST #chosen' do
-    context 'when an invalid scheme is provided' do
-      before { post :chosen, params: { claim_type: 'invalid' } }
-
-      it 'redirects the user to the claims page with an error' do
-        expect(response).to redirect_to(external_users_claims_url)
-        expect(flash[:alert]).to eq 'Invalid bill type selected'
-      end
+  describe 'POST #create' do
+    def self.claim_type_redirect_mappings
+      { 'agfs' => '/advocates/claims/new',
+        'agfs_interim' => '/advocates/interim_claims/new',
+        'agfs_supplementary' => '/advocates/supplementary_claims/new',
+        'agfs_hardship' => '/advocates/hardship_claims/new',
+        'lgfs_final' => '/litigators/claims/new',
+        'lgfs_interim' => '/litigators/interim_claims/new',
+        'lgfs_transfer' => '/litigators/transfer_claims/new',
+        'lgfs_hardship' => '/litigators/hardship_claims/new' }
     end
 
-    context 'AGFS claim' do
-      before { post :chosen, params: { claim_type: 'agfs' } }
+    context 'with no claim type' do
+      render_views
+      before { post :create }
 
-      it 'should redirect to the new advocate claim form page' do
-        expect(response).to redirect_to(new_advocates_claim_path)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(response.body).to have_content('Choose a bill type') }
     end
 
-    context 'LGFS final claim' do
-      before { post :chosen, params: { claim_type: 'lgfs_final' } }
+    context 'with an invalid claim type' do
+      render_views
+      before { post :create, params: { claim_type: { id: 'invalid' } } }
 
-      it 'should redirect to the new litigator final claim form page' do
-        expect(response).to redirect_to(new_litigators_claim_path)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(response.body).to have_content('Choose a valid bill type') }
     end
 
-    context 'LGFS interim claim' do
-      before { post :chosen, params: { claim_type: 'lgfs_interim' } }
+    claim_type_redirect_mappings.each_pair do |claim_type_id, claim_type_route|
+      context "with #{claim_type_id} claim" do
+        before { post :create, params: { claim_type: { id: claim_type_id } } }
 
-      it 'should redirect to the new litigator interim claim form page' do
-        expect(response).to redirect_to(new_litigators_interim_claim_path)
-      end
-    end
-
-    context 'LGFS transfer claim' do
-      before { post :chosen, params: { claim_type: 'lgfs_transfer' } }
-
-      it 'should redirect to the new litigator transfer claim form page' do
-        expect(response).to redirect_to(new_litigators_transfer_claim_path)
+        it { expect(response).to redirect_to(claim_type_route) }
       end
     end
   end

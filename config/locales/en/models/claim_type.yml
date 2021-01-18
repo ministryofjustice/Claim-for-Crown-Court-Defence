@@ -1,0 +1,10 @@
+---
+en:
+  activemodel:
+    errors:
+      models:
+        claim_type:
+          attributes:
+            id:
+              blank: Choose a bill type
+              inclusion: Choose a valid bill type

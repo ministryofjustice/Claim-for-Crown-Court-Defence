@@ -489,23 +489,6 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(@claim.certification).not_to be_nil
           end
 
-          def expect_claim_and_all_associations_to_be_gone
-            expect { Claim::BaseClaim.find(@claim.id) }.to raise_error ActiveRecord::RecordNotFound, "Couldn't find Claim::BaseClaim with 'id'=#{@claim.id}"
-            expect(CaseWorkerClaim.where(claim_id: @claim.id)).to be_empty
-            expect(Fee::BaseFee.where(claim_id: @claim.id)).to be_empty
-            expect(Expense.where(claim_id: @claim.id)).to be_empty
-            expect(DateAttended.where(attended_item_id: @expense.id, attended_item_type: 'Expense')).to be_empty
-            expect(Disbursement.where(claim_id: @claim.id)).to be_empty
-            expect(Defendant.where(claim_id: @claim.id)).to be_empty
-            expect(RepresentationOrder.where(defendant_id: @defendant.id)).to be_empty
-            expect(Document.where(claim_id: @claim.id)).to be_empty
-            # expect(File.exist?(@document.document.path)).to be false
-            expect(Message.where(claim_id: @claim.id)).to be_empty
-            expect(ClaimStateTransition.where(claim_id: @claim.id)).to be_empty
-            expect(Determination.where(claim_id: @claim.id)).to be_empty
-            expect(Certification.where(claim_id: @claim.id)).to be_empty
-          end
-
           def expect_claim_and_all_associations_to_be_present
             expect(Claim::BaseClaim.find(@claim.id)).to eq @claim
             expect(CaseWorkerClaim.where(claim_id: @claim.id)).not_to be_empty

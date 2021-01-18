@@ -39,6 +39,7 @@ class Document < ApplicationRecord
   def copy_from(original_doc)
     document.attach original_doc.document.blob
     converted_preview_document.attach original_doc.converted_preview_document.blob
+    update(verified: original_doc.verified)
   end
 
   def save_and_verify

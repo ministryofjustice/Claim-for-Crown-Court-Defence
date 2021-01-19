@@ -44,14 +44,15 @@ class Document < ApplicationRecord
 
   def save_and_verify
     self.verified = true
-    result = save
+    save
+    # result = save
     # if result
     #   result = verify_and_log
     # else
     #   transform_cryptic_paperclip_error
     #   log_save_error
     # end
-    result
+    # result
   end
 
   # def verify_and_log

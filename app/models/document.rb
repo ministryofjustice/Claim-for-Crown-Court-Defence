@@ -43,28 +43,29 @@ class Document < ApplicationRecord
   end
 
   def save_and_verify
+    self.verified = true
     result = save
-    if result
-      result = verify_and_log
-    else
-      transform_cryptic_paperclip_error
-      log_save_error
-    end
+    # if result
+    #   result = verify_and_log
+    # else
+    #   transform_cryptic_paperclip_error
+    #   log_save_error
+    # end
     result
   end
 
-  def verify_and_log
-    generate_log_stuff(:info, 'save', 'Document saved')
-    if verify_file_exists
-      generate_log_stuff(:info, 'verify', 'Document verified')
-      result = true
-    else
-      generate_log_stuff(:error, 'verify_fail', 'Unable to verify document')
-      errors[:document] << 'Unable to save the file - please retry' if verified_file_size&.zero?
-      result = false
-    end
-    result
-  end
+  # def verify_and_log
+  #   generate_log_stuff(:info, 'save', 'Document saved')
+  #   if verify_file_exists
+  #     generate_log_stuff(:info, 'verify', 'Document verified')
+  #     result = true
+  #   else
+  #     generate_log_stuff(:error, 'verify_fail', 'Unable to verify document')
+  #     errors[:document] << 'Unable to save the file - please retry' if verified_file_size&.zero?
+  #     result = false
+  #   end
+  #   result
+  # end
 
   def log_save_error
     generate_log_stuff(:error, 'save_fail', 'Unable to save document')

@@ -112,9 +112,9 @@ class Document < ApplicationRecord
     errors.add(:document, "Total documents exceed maximum of #{max_doc_count}. This document has not been uploaded.")
   end
 
-  def transform_cryptic_paperclip_error
-    return unless errors[:document].include?('has contents that are not what they are reported to be')
-    errors[:document].delete('has contents that are not what they are reported to be')
-    errors[:document] << 'The contents of the file do not match the file extension'
-  end
+  # def transform_cryptic_paperclip_error
+  #   return unless errors[:document].include?('has contents that are not what they are reported to be')
+  #   errors[:document].delete('has contents that are not what they are reported to be')
+  #   errors[:document] << 'The contents of the file do not match the file extension'
+  # end
 end

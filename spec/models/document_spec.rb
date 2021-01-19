@@ -75,20 +75,6 @@ RSpec.describe Document, type: :model do
         expect(doc.errors[:document]).to eq(['Total documents exceed maximum of 2. This document has not been uploaded.'])
       end
     end
-
-    context 'cryptic error message is deciphered' do
-      it 'calls transform_cryptic_paperclip_error every time it is unable to save' do
-        expect(document).to receive(:save).and_return(false)
-        expect(document).to receive(:transform_cryptic_paperclip_error)
-        document.save_and_verify
-      end
-
-      it 'displays human-understandable error message' do
-        document.errors[:document] << 'has contents that are not what they are reported to be'
-        document.__send__(:transform_cryptic_paperclip_error)
-        expect(document.errors[:document]).to eq(['The contents of the file do not match the file extension'])
-      end
-    end
   end
 
   describe '#converted_preview_document' do

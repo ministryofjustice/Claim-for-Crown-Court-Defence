@@ -88,7 +88,7 @@ group :development, :devunicorn, :test do
   gem 'guard-rspec'
   gem 'guard-rubocop'
   gem 'guard-webpacker', '~> 0.2.1'
-  gem 'jasmine', git: 'https://github.com/jasmine/jasmine-gem.git', branch: 'master'
+  gem 'jasmine', '>= 3.5.1'
   gem 'jasmine_selenium_runner', require: false
   gem 'listen', '~> 3.2.1'
   gem 'meta_request'

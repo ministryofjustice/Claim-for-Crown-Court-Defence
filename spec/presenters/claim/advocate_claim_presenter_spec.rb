@@ -20,10 +20,6 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
     specify { expect(presenter.can_have_disbursements?).to be_falsey }
   end
 
-  describe '#can_have_expenses?' do
-    specify { expect(presenter.can_have_expenses?).to be_truthy }
-  end
-
   describe '#requires_interim_claim_info?' do
     subject { presenter.requires_interim_claim_info? }
 

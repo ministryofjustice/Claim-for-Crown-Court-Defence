@@ -19,10 +19,6 @@ RSpec.describe Claim::LitigatorClaimPresenter do
     end
   end
 
-  it 'should have expenses' do
-    expect(subject.can_have_expenses?).to eq(true)
-  end
-
   it 'should have disbursements' do
     expect(subject.can_have_disbursements?).to eq(true)
   end

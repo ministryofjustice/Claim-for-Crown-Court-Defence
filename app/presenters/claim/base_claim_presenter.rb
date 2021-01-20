@@ -268,10 +268,6 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   # Override in subclasses if necessary
-  def can_have_expenses?
-    true
-  end
-
   def can_have_disbursements?
     true
   end

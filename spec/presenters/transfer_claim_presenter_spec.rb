@@ -7,10 +7,6 @@ RSpec.describe Claim::TransferClaimPresenter do
   it { expect(presenter).to be_instance_of(Claim::TransferClaimPresenter) }
   it { expect(presenter).to be_kind_of(Claim::BaseClaimPresenter) }
 
-  it 'should have expenses' do
-    expect(presenter.can_have_expenses?).to eq(true)
-  end
-
   it 'should have disbursements' do
     expect(presenter.can_have_disbursements?).to eq(true)
   end

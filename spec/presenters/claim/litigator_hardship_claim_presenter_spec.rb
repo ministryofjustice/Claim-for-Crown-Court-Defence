@@ -20,10 +20,6 @@ RSpec.describe Claim::LitigatorHardshipClaimPresenter, type: :presenter do
     specify { expect(presenter.can_have_disbursements?).to be_truthy }
   end
 
-  describe '#can_have_expenses?' do
-    specify { expect(presenter.can_have_expenses?).to be_truthy }
-  end
-
   describe '#mandatory_case_details?' do
     subject { presenter.mandatory_case_details? }
 

@@ -13,12 +13,14 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
 
   def download
     record = Stats::StatsReport.most_recent_by_type(params[:report_type])
-
     if record.document.attached?
-      redirect_to record.document.blob.service_url(disposition: 'attachment')
+      data = open(record.document_url).read
+      content_type = record.document_content_type
     else
-      redirect_to case_workers_admin_management_information_url, alert: t('.missing_report')
+      data = record.report
+      content_type = 'text/csv'
     end
+    send_data data, filename: record.download_filename, type: content_type
   end
 
   def generate

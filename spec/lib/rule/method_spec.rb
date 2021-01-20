@@ -76,7 +76,7 @@ RSpec.describe Rule::Method, type: :rule do
         context 'when source nil' do
           let(:src) { nil }
 
-          it { expect { call } .to raise_error NoMethodError }
+          it { expect { call }.to raise_error NoMethodError }
 
           context 'with allow_nil: true' do
             let(:options) { { allow_nil: true } }
@@ -87,7 +87,7 @@ RSpec.describe Rule::Method, type: :rule do
           context 'with allow_nil: false' do
             let(:options) { { allow_nil: false } }
 
-            it { expect { call } .to raise_error NoMethodError }
+            it { expect { call }.to raise_error NoMethodError }
           end
         end
       end
@@ -126,7 +126,7 @@ RSpec.describe Rule::Method, type: :rule do
         context 'when source nil' do
           let(:src) { nil }
 
-          it { expect { call } .to raise_error NoMethodError }
+          it { expect { call }.to raise_error NoMethodError }
 
           context 'with allow_nil: true' do
             let(:options) { { allow_nil: true } }
@@ -137,7 +137,7 @@ RSpec.describe Rule::Method, type: :rule do
           context 'with allow_nil: false' do
             let(:options) { { allow_nil: false } }
 
-            it { expect { call } .to raise_error NoMethodError }
+            it { expect { call }.to raise_error NoMethodError }
           end
         end
       end

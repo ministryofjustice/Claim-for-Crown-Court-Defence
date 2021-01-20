@@ -26,7 +26,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
         cert = assigns(:certification)
         expect(cert).to be_instance_of(Certification)
         expect(cert.claim_id).to eq claim.id
-        expect(cert.certification_date). to eq(Date.today)
+        expect(cert.certification_date).to eq(Date.today)
         expect(cert.certified_by).to eq advocate.name
       end
     end
@@ -53,15 +53,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
   describe 'POST create' do
     context 'AGFS' do
       let(:claim) { create(:advocate_claim) }
-      let(:sns_client) do
-        Aws::SNS::Client.new(
-            region: 'eu-west-1',
-            stub_responses:
-                {
-                    publish: {}
-                }
-        )
-      end
+      let(:sns_client) { Aws::SNS::Client.new(region: 'eu-west-1', stub_responses: { publish: {} }) }
 
       before do
         allow(Aws::SNS::Client).to receive(:new).and_return sns_client

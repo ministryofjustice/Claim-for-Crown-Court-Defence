@@ -212,7 +212,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
 
     context 'when valid' do
       it 'does not require current password to be successful in updating the user record ' do
-        expect { password_update_request }.to change { external_user.reload.user.updated_at }
+        expect { password_update_request }.to(change { external_user.reload.user.updated_at })
       end
 
       it 'redirects to external_user show action' do
@@ -225,7 +225,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
       let(:password_confirm) { 'passwordxxx' }
 
       it 'does not update the user record' do
-        expect { password_update_request }.not_to change { external_user.reload.user.updated_at }
+        expect { password_update_request }.not_to(change { external_user.reload.user.updated_at })
       end
 
       it 'renders the change password template' do

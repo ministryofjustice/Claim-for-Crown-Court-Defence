@@ -34,13 +34,13 @@ module Fee
       end
 
       it 'should order by description ascending' do
-        expect(Fee::FixedFeeType.all.pluck(:description)).to eq ['Ppppp','Sssss','Xxxxx']
+        expect(Fee::FixedFeeType.all.pluck(:description)).to eq ['Ppppp', 'Sssss', 'Xxxxx']
       end
     end
 
     describe '#fee_category_name' do
       it 'should return the category name' do
-          expect(fee_type.fee_category_name).to eq 'Fixed Fees'
+        expect(fee_type.fee_category_name).to eq 'Fixed Fees'
       end
     end
 

@@ -45,7 +45,7 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
 
   describe '#raw_fixed_fees_combined_total' do
     it 'sends messages to self' do
-      expect(presenter.raw_fixed_fees_combined_total). to be_kind_of(BigDecimal)
+      expect(presenter.raw_fixed_fees_combined_total).to be_kind_of(BigDecimal)
     end
   end
 
@@ -78,17 +78,19 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
     subject { presenter.summary_sections }
 
     it {
-      is_expected.to eq({
-        case_details: :case_details,
-        defendants: :defendants,
-        offence_details: :offence_details,
-        basic_fees: :basic_fees,
-        fixed_fees: :fixed_fees,
-        misc_fees: :miscellaneous_fees,
-        expenses: :travel_expenses,
-        supporting_evidence: :supporting_evidence,
-        additional_information: :supporting_evidence
-      })
+      is_expected.to eq(
+        {
+          case_details: :case_details,
+          defendants: :defendants,
+          offence_details: :offence_details,
+          basic_fees: :basic_fees,
+          fixed_fees: :fixed_fees,
+          misc_fees: :miscellaneous_fees,
+          expenses: :travel_expenses,
+          supporting_evidence: :supporting_evidence,
+          additional_information: :supporting_evidence
+        }
+      )
     }
   end
 

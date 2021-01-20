@@ -73,7 +73,8 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
               expense_params
             ],
             defendants_attributes: [
-              { first_name: 'John',
+              {
+                first_name: 'John',
                 last_name: 'Smith',
                 date_of_birth_dd: '4',
                 date_of_birth_mm: '10',
@@ -163,10 +164,10 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
                   date_of_birth_yyyy: '1980',
                   representation_orders_attributes: [
                     {
-                        representation_order_date_dd: representation_order_date.day.to_s,
-                        representation_order_date_mm: representation_order_date.month.to_s,
-                        representation_order_date_yyyy: representation_order_date.year.to_s,
-                        maat_reference: '4561237'
+                      representation_order_date_dd: representation_order_date.day.to_s,
+                      representation_order_date_mm: representation_order_date.month.to_s,
+                      representation_order_date_yyyy: representation_order_date.year.to_s,
+                      maat_reference: '4561237'
                     }
                   ]
                 }
@@ -211,7 +212,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
         let!(:graduated_fee_type_1)     { FactoryBot.create :graduated_fee_type, description: 'Graduated Fee Type 1' }
 
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k,v| k == 'case_number' } }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k, v| k == 'case_number' } }
 
         context 'graduated fee case types' do
           context 'valid params' do
@@ -308,12 +309,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
       context 'document checklist' do
         let(:claim_params) do
           {
-             additional_information: 'foo',
-             court_id: court,
-             case_type_id: case_type.id,
-             offence_id: offence,
-             case_number: 'A20161234',
-             evidence_checklist_ids: ['2', '3', '']
+            additional_information: 'foo',
+            court_id: court,
+            case_type_id: case_type.id,
+            offence_id: offence,
+            case_number: 'A20161234',
+            evidence_checklist_ids: ['2', '3', '']
           }
         end
 
@@ -425,18 +426,28 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
 
     context 'Date Parameter handling' do
       it 'should transform dates with named months into dates' do
-        put :update, params: { id: subject, claim: {
-          'first_day_of_trial_yyyy' => '2015',
-          'first_day_of_trial_mm' => 'jan',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA' }
+        put :update, params: {
+          id: subject,
+          claim: {
+            'first_day_of_trial_yyyy' => '2015',
+            'first_day_of_trial_mm' => 'jan',
+            'first_day_of_trial_dd' => '4'
+          },
+          commit_submit_claim: 'Submit to LAA'
+        }
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
       it 'should transform dates with numbered months into dates' do
-        put :update, params: { id: subject, claim: {
-          'first_day_of_trial_yyyy' => '2015',
-          'first_day_of_trial_mm' => '11',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA' }
+        put :update, params: {
+          id: subject,
+          claim: {
+            'first_day_of_trial_yyyy' => '2015',
+            'first_day_of_trial_mm' => '11',
+            'first_day_of_trial_dd' => '4'
+          },
+          commit_submit_claim: 'Submit to LAA'
+        }
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end

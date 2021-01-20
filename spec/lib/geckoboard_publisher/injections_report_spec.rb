@@ -107,21 +107,23 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
         expect(subject.size).to eql 1
       end
 
-      it { is_expected.to match_array(
-        [
-          {
-            date: Date.yesterday.to_s(:db),
-            total_ccr_succeeded: 0,
-            total_ccr: 0,
-            percentage_ccr_succeeded: 0.0,
-            total_cclf_succeeded: 0,
-            total_cclf: 0,
-            percentage_cclf_succeeded: 0.0,
-            total_succeeded: 0,
-            total: 0
-          }
-        ])
-      }
+      it do
+        is_expected.to match_array(
+          [
+            {
+              date: Date.yesterday.to_s(:db),
+              total_ccr_succeeded: 0,
+              total_ccr: 0,
+              percentage_ccr_succeeded: 0.0,
+              total_cclf_succeeded: 0,
+              total_cclf: 0,
+              percentage_cclf_succeeded: 0.0,
+              total_succeeded: 0,
+              total: 0
+            }
+          ]
+        )
+      end
     end
 
     context 'when run with parameters' do
@@ -132,9 +134,9 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
 
       let(:total_excluding_error) do
         InjectionAttempt
-        .where(created_at: start_date)
-        .exclude_error('%already exist%')
-        .count
+          .where(created_at: start_date)
+          .exclude_error('%already exist%')
+          .count
       end
 
       it 'excludes errors that are considered warnings' do

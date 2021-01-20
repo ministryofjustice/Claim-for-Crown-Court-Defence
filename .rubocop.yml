@@ -23,6 +23,9 @@ AllCops:
 Lint/MixedRegexpCaptureTypes:
   Enabled: true
 
+Layout/EmptyLineBetweenDefs:
+  AllowAdjacentOneLineDefs: true
+
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: false
 

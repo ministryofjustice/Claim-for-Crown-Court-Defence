@@ -9,17 +9,6 @@ GIT
       eventmachine (>= 0.12.8)
       rufus-scheduler (~> 2.0.24)
 
-GIT
-  remote: https://github.com/jasmine/jasmine-gem.git
-  revision: 0f303af020000f0ced11d4652f14c42390719bba
-  branch: master
-  specs:
-    jasmine (3.5.1)
-      jasmine-core (~> 3.5.0)
-      phantomjs
-      rack (>= 1.2.1)
-      rake
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -119,9 +108,16 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.2.2)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-matchers (2.6.1)
-      dumb_delegator (~> 0.8)
-      virtus (~> 1.0)
+    axe-core-api (4.1.0)
+      capybara
+      dumb_delegator
+      selenium-webdriver
+      virtus
+      watir
+    axe-core-cucumber (4.1.0)
+      axe-core-api
+      dumb_delegator
+      virtus
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
@@ -131,7 +127,7 @@ GEM
       coderay (>= 1.0.0)
       erubi (>= 1.0.0)
       rack (>= 0.9.0)
-    binding_of_caller (0.8.0)
+    binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
     bootsnap (1.5.1)
       msgpack (~> 1.0)
@@ -210,7 +206,7 @@ GEM
       cucumber-messages (~> 13.0, >= 13.0.1)
     daemons (1.3.1)
     database_cleaner (1.8.5)
-    debug_inspector (0.0.3)
+    debug_inspector (1.0.0)
     deep_merge (1.2.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -228,10 +224,9 @@ GEM
     dotenv-rails (2.7.6)
       dotenv (= 2.7.6)
       railties (>= 3.2)
-    dry-configurable (0.11.6)
+    dry-configurable (0.12.0)
       concurrent-ruby (~> 1.0)
-      dry-core (~> 0.4, >= 0.4.7)
-      dry-equalizer (~> 0.2)
+      dry-core (~> 0.5, >= 0.5.0)
     dry-container (0.7.2)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 0.1, >= 0.1.3)
@@ -240,10 +235,9 @@ GEM
     dry-equalizer (0.3.0)
     dry-inflector (0.2.0)
     dry-initializer (3.0.4)
-    dry-logic (1.0.8)
+    dry-logic (1.1.0)
       concurrent-ruby (~> 1.0)
-      dry-core (~> 0.2)
-      dry-equalizer (~> 0.2)
+      dry-core (~> 0.5, >= 0.5)
     dry-monads (1.3.5)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.4, >= 0.4.4)
@@ -270,7 +264,7 @@ GEM
       dry-equalizer (~> 0.2)
       dry-initializer (~> 3.0)
       dry-schema (~> 1.5, >= 1.5.2)
-    dumb_delegator (0.8.1)
+    dumb_delegator (1.0.0)
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
@@ -288,7 +282,7 @@ GEM
       i18n (>= 1.6, < 2)
     faraday (0.17.3)
       multipart-post (>= 1.2, < 3)
-    ffi (1.13.1)
+    ffi (1.14.2)
     formatador (0.2.5)
     geckoboard-ruby (0.4.0)
     get_process_mem (0.2.3)
@@ -299,6 +293,10 @@ GEM
       nokogiri (~> 1.7, >= 1.7.1)
     gov_uk_date_fields (3.0.0)
       rails (>= 5.0)
+    govuk_design_system_formbuilder (2.1.5)
+      actionview (>= 5.2)
+      activemodel (>= 5.2)
+      activesupport (>= 5.2)
     govuk_elements_rails (3.1.3)
       govuk_frontend_toolkit (>= 6.0.2)
       rails (>= 4.1.0)
@@ -324,7 +322,7 @@ GEM
     grape-papertrail (0.2.0)
       loofah (~> 2.2.x)
       nokogiri (~> 1.8, >= 1.8.2)
-    grape-swagger (1.3.0)
+    grape-swagger (1.3.1)
       grape (~> 1.3)
     grape-swagger-rails (0.3.1)
       railties (>= 3.2.12)
@@ -358,9 +356,9 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    guard-rubocop (1.3.0)
+    guard-rubocop (1.4.0)
       guard (~> 2.0)
-      rubocop (~> 0.20)
+      rubocop (< 2.0)
     guard-webpacker (0.2.1)
       guard (>= 2)
       guard-compat (~> 1.0)
@@ -407,7 +405,12 @@ GEM
       terminal-table (>= 1.5.1)
     ice_nine (0.11.2)
     inflection (1.0.0)
-    jasmine-core (3.5.0)
+    jasmine (3.6.0)
+      jasmine-core (~> 3.6.0)
+      phantomjs
+      rack (>= 1.2.1)
+      rake
+    jasmine-core (3.6.0)
     jasmine_selenium_runner (3.0.0)
       jasmine (~> 3.0)
       selenium-webdriver (~> 3.8)
@@ -456,7 +459,7 @@ GEM
     loofah (2.8.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
-    lumberjack (1.2.4)
+    lumberjack (1.2.8)
     mail (2.7.1)
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
@@ -516,7 +519,7 @@ GEM
       middleware
       thor
       thread_safe
-    pry (0.13.0)
+    pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     pry-byebug (3.9.0)
@@ -575,8 +578,8 @@ GEM
     rainbow (3.0.0)
     raindrops (0.19.0)
     rake (12.3.3)
-    rb-fsevent (0.10.3)
-    rb-inotify (0.10.0)
+    rb-fsevent (0.10.4)
+    rb-inotify (0.10.1)
       ffi (~> 1.0)
     redis (4.2.5)
     regexp_parser (1.8.2)
@@ -753,7 +756,10 @@ GEM
       equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.9)
       rack (>= 2.0.9)
-    webdrivers (4.4.1)
+    watir (6.17.0)
+      regexp_parser (~> 1.2)
+      selenium-webdriver (~> 3.6)
+    webdrivers (4.4.2)
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
       selenium-webdriver (>= 3.0, < 4.0)
@@ -792,7 +798,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1)
   aws-sdk-sns (~> 1)
   aws-sdk-sqs (~> 1)
-  axe-matchers (~> 2.6)
+  axe-core-cucumber (~> 4.1)
   better_errors
   binding_of_caller
   bootsnap
@@ -816,6 +822,7 @@ DEPENDENCIES
   geckoboard-ruby
   googlemaps-services (~> 1.5.0)
   gov_uk_date_fields (~> 3.0.0)
+  govuk_design_system_formbuilder (~> 2.1)
   govuk_elements_rails (~> 3.1.2)
   govuk_frontend_toolkit (~> 8.2.0)
   govuk_notify_rails (~> 2.1.2)
@@ -823,7 +830,7 @@ DEPENDENCIES
   grape (~> 1.5.1)
   grape-entity (~> 0.8.1)
   grape-papertrail (~> 0.2.0)
-  grape-swagger (~> 1.3.0)
+  grape-swagger (~> 1.3.1)
   grape-swagger-rails (~> 0.3.0)
   guard-cucumber
   guard-jasmine (~> 3.1)
@@ -835,7 +842,7 @@ DEPENDENCIES
   hashdiff (>= 1.0.0.beta1, < 2.0.0)
   hashie-forbidden_attributes (>= 0.1.1)
   i18n-tasks
-  jasmine!
+  jasmine (>= 3.5.1)
   jasmine_selenium_runner
   jquery-rails (~> 4.4.0)
   json-schema (~> 2.8.0)

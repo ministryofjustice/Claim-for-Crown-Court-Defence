@@ -14,7 +14,7 @@ describe PerformancePlatform::Submission do
 
   describe '#add_data_set' do
     subject(:add_data_set) { submission.add_data_set(date, fields) }
-    let(:date) { Date.new(2018,8,13) }
+    let(:date) { Date.new(2018, 8, 13) }
     let(:fields) { { channel: 'Paper', count: 0 } }
 
     context 'when the fields are valid' do
@@ -42,12 +42,12 @@ describe PerformancePlatform::Submission do
 
     context 'when data_set has been filled' do
       before do
-        submission.add_data_set(Date.new(2018,8,13), channel: 'Paper', count: 0)
+        submission.add_data_set(Date.new(2018, 8, 13), channel: 'Paper', count: 0)
         subject
       end
 
       it 'hits the performance platform' do
-        expect(a_request(:post, /\Ahttps:\/\/www.performance.service.gov.uk\/data\/.*\z/)).to have_been_made.times(1)
+        expect(a_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z})).to have_been_made.times(1)
       end
 
       it { is_expected.to be_truthy }
@@ -64,7 +64,7 @@ describe PerformancePlatform::Submission do
       before do
         stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z})
           .to_return(status: 401, body: error_response, headers: {})
-        submission.add_data_set(Date.new(2018,8,13), channel: 'Paper', count: 0)
+        submission.add_data_set(Date.new(2018, 8, 13), channel: 'Paper', count: 0)
       end
 
       it 'returns the error message' do

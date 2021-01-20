@@ -188,7 +188,7 @@ RSpec.describe Fee::BaseFeeType, type: :model do
       subject { described_class.agfs_scheme_12s.map(&:description) }
 
       it {
-        is_expected.to match_array(['Scheme 9, 10 and 12 roles', 'Scheme 10 and 12 roles','Scheme 12 role only'])
+        is_expected.to match_array(['Scheme 9, 10 and 12 roles', 'Scheme 10 and 12 roles', 'Scheme 12 role only'])
       }
     end
   end

@@ -129,7 +129,7 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
           quantity: 0,
           rate: 0,
           amount: 0
-          )
+        )
       end
 
       before do
@@ -151,12 +151,12 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
         is_expected.to be true
       end
 
-      it 'returns false when the basic fee has 0 values for quantity, rate and amount'do
+      it 'returns false when the basic fee has 0 values for quantity, rate and amount' do
         allow(basic_fee).to receive_messages(quantity: 0, rate: 0, amount: 0)
         is_expected.to be false
       end
 
-      it 'returns false when the basic fee has nil values for quantity, rate and amount'do
+      it 'returns false when the basic fee has nil values for quantity, rate and amount' do
         allow(basic_fee).to receive_messages(quantity: nil, rate: nil, amount: nil)
         is_expected.to be false
       end

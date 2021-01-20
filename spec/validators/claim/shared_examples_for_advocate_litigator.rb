@@ -170,7 +170,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
     end
 
     it 'is invalid when absent' do
-      should_error_if_not_present(claim,:case_concluded_at,'blank')
+      should_error_if_not_present(claim, :case_concluded_at, 'blank')
     end
 
     it 'is invalid when too far in past' do

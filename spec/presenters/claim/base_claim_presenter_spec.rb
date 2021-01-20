@@ -218,12 +218,12 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#any_judicial_apportionments' do
     it 'returns yes if any defendants have an order for judicial apportionment' do
-      @first_defendant.update_attribute(:order_for_judicial_apportionment,true)
+      @first_defendant.update_attribute(:order_for_judicial_apportionment, true)
       expect(subject.any_judicial_apportionments).to eql 'Yes'
     end
 
     it 'returns no if no defendants have an order for judicial apportionment' do
-      @first_defendant.update_attribute(:order_for_judicial_apportionment,false)
+      @first_defendant.update_attribute(:order_for_judicial_apportionment, false)
       expect(subject.any_judicial_apportionments).to eql 'No'
     end
   end
@@ -311,8 +311,8 @@ RSpec.describe Claim::BaseClaimPresenter do
       defendant = build(:defendant)
       travel_to 5.days.ago do
         defendant.representation_orders = [
-          build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '222222'),
-          build(:representation_order, representation_order_date: Date.new(2015,8,13), maat_reference: '333333')
+          build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '222222'),
+          build(:representation_order, representation_order_date: Date.new(2015, 8, 13), maat_reference: '333333')
         ]
       end
       defendant
@@ -321,7 +321,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     let(:defendant_2) do
       defendant = build(:defendant)
       travel_to 2.days.ago do
-        defendant.representation_orders = [build(:representation_order, representation_order_date: Date.new(2015,3,1), maat_reference: '444444')]
+        defendant.representation_orders = [build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '444444')]
       end
       defendant
     end
@@ -347,7 +347,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
 
       it 'display a currency formatted amount assessed' do
-        expect(subject.amount_assessed).to match /£\d{3}\.\d{2}/
+        expect(subject.amount_assessed).to match(/£\d{3}\.\d{2}/)
       end
     end
 
@@ -875,12 +875,12 @@ RSpec.describe Claim::BaseClaimPresenter do
     it { is_expected.to be_a Array }
     it {
       is_expected.to include(
-                          [
-                            mispf_fee_type.description,
-                            mispf_fee_type.id,
-                            data: { unique_code: mispf_fee_type.unique_code }
-                          ]
-                        )
+        [
+          mispf_fee_type.description,
+          mispf_fee_type.id,
+          data: { unique_code: mispf_fee_type.unique_code }
+        ]
+      )
     }
   end
 end

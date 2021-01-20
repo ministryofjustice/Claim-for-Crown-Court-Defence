@@ -142,14 +142,15 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
       # date in order to reduce and afix VCR cassettes required (that have to match
       # on query values), prevent flickering specs (from random offence classes,
       # rep order dates) and to allow testing actual amounts "calculated".
-      let(:claim) { create(
-            :litigator_claim,
-            create_defendant_and_rep_order_for_scheme_8: true,
-            case_type: case_type,
-            offence: offence,
-            actual_trial_length: 10
-          )
-      }
+      let(:claim) do
+        create(
+          :litigator_claim,
+          create_defendant_and_rep_order_for_scheme_8: true,
+          case_type: case_type,
+          offence: offence,
+          actual_trial_length: 10
+        )
+      end
       let(:case_type) { create(:case_type, :trial) }
       let(:offence_class) { create(:offence_class, class_letter: 'J') }
       let(:offence) { create(:offence, offence_class: offence_class) }

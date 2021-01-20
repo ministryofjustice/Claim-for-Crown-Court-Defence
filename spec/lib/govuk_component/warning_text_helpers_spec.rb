@@ -33,7 +33,7 @@ RSpec.describe GovukComponent::WarningTextHelpers, type: :helper do
     it 'yields content to nested strong tag' do
       is_expected.to have_tag(:div) do
         with_tag(:strong) do
-          with_text /You can be fined up to £5,000 if you do not register/
+          with_text(/You can be fined up to £5,000 if you do not register/)
         end
       end
     end

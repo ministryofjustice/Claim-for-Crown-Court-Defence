@@ -9,9 +9,7 @@ describe DeviseExtension do
     it 'should override the setting and call the passed block' do
       expect(Devise.paranoid).to be_truthy
 
-      expect(
-        example_class.override_paranoid_setting(false) { Devise.paranoid }
-      ).to be_falsey
+      expect(example_class.override_paranoid_setting(false) { Devise.paranoid }).to be_falsey
 
       expect(Devise.paranoid).to be_truthy
     end
@@ -23,9 +21,7 @@ describe DeviseExtension do
     it 'should override the setting and call the passed block' do
       expect(Devise.paranoid).to be_falsey
 
-      expect(
-          example_class.override_paranoid_setting(true) { Devise.paranoid }
-      ).to be_truthy
+      expect(example_class.override_paranoid_setting(true) { Devise.paranoid }).to be_truthy
 
       expect(Devise.paranoid).to be_falsey
     end

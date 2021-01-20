@@ -48,7 +48,8 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             case_number: 'A20161234',
             supplier_number: supplier_number,
             defendants_attributes: [
-              { first_name: 'John',
+              {
+                first_name: 'John',
                 last_name: 'Smith',
                 date_of_birth_dd: '4',
                 date_of_birth_mm: '10',
@@ -107,44 +108,44 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
           let(:case_number) { 'A20168888' }
           let(:interim_fee_type) { create(:interim_fee_type, :effective_pcmh) }
 
-          let(:interim_fee_params) {
+          let(:interim_fee_params) do
             {
-                interim_fee_attributes: {
-                    fee_type_id: interim_fee_type.id,
-                    quantity: 2,
-                    amount: 10.0
-                },
-                effective_pcmh_date_dd: 5.days.ago.day.to_s,
-                effective_pcmh_date_mm: 5.days.ago.month.to_s,
-                effective_pcmh_date_yyyy: 5.days.ago.year.to_s
+              interim_fee_attributes: {
+                fee_type_id: interim_fee_type.id,
+                quantity: 2,
+                amount: 10.0
+              },
+              effective_pcmh_date_dd: 5.days.ago.day.to_s,
+              effective_pcmh_date_mm: 5.days.ago.month.to_s,
+              effective_pcmh_date_yyyy: 5.days.ago.year.to_s
             }
-          }
+          end
 
           let(:claim_params_step1) do
             {
-                external_user_id: litigator.id,
-                supplier_number: supplier_number,
-                court_id: court,
-                case_type_id: case_type.id,
-                offence_id: offence,
-                case_number: case_number,
-                defendants_attributes: [
-                  {
-                    first_name: 'John',
-                    last_name: 'Smith',
-                    date_of_birth_dd: '4',
-                    date_of_birth_mm: '10',
-                    date_of_birth_yyyy: '1980',
-                    representation_orders_attributes: [
-                      {
-                            representation_order_date_dd: Time.now.day.to_s,
-                            representation_order_date_mm: Time.now.month.to_s,
-                            representation_order_date_yyyy: Time.now.year.to_s,
-                            maat_reference: '4561237'
-                      }
-                    ]
-                  }
-                ]
+              external_user_id: litigator.id,
+              supplier_number: supplier_number,
+              court_id: court,
+              case_type_id: case_type.id,
+              offence_id: offence,
+              case_number: case_number,
+              defendants_attributes: [
+                {
+                  first_name: 'John',
+                  last_name: 'Smith',
+                  date_of_birth_dd: '4',
+                  date_of_birth_mm: '10',
+                  date_of_birth_yyyy: '1980',
+                  representation_orders_attributes: [
+                    {
+                      representation_order_date_dd: Time.now.day.to_s,
+                      representation_order_date_mm: Time.now.month.to_s,
+                      representation_order_date_yyyy: Time.now.year.to_s,
+                      maat_reference: '4561237'
+                    }
+                  ]
+                }
+              ]
             }
           end
 
@@ -306,18 +307,28 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
     context 'Date Parameter handling' do
       it 'should transform dates with named months into dates' do
-        put :update, params: { id: subject, claim: {
-          'first_day_of_trial_yyyy' => '2015',
-          'first_day_of_trial_mm' => 'jan',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA' }
+        put :update, params: {
+          id: subject,
+          claim: {
+            'first_day_of_trial_yyyy' => '2015',
+            'first_day_of_trial_mm' => 'jan',
+            'first_day_of_trial_dd' => '4'
+          },
+          commit_submit_claim: 'Submit to LAA'
+        }
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
       it 'should transform dates with numbered months into dates' do
-        put :update, params: { id: subject, claim: {
-          'first_day_of_trial_yyyy' => '2015',
-          'first_day_of_trial_mm' => '11',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA' }
+        put :update, params: {
+          id: subject,
+          claim: {
+            'first_day_of_trial_yyyy' => '2015',
+            'first_day_of_trial_mm' => '11',
+            'first_day_of_trial_dd' => '4'
+          },
+          commit_submit_claim: 'Submit to LAA'
+        }
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end

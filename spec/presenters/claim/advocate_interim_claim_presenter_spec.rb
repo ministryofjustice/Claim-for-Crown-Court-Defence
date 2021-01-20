@@ -72,14 +72,16 @@ RSpec.describe Claim::AdvocateInterimClaimPresenter, type: :presenter do
   end
 
   specify {
-    expect(presenter.summary_sections).to eq({
-      case_details: :case_details,
-      defendants: :defendants,
-      offence_details: :offence_details,
-      warrant_fee: :interim_fees,
-      expenses: :travel_expenses,
-      supporting_evidence: :supporting_evidence,
-      additional_information: :supporting_evidence
-    })
+    expect(presenter.summary_sections).to eq(
+      {
+        case_details: :case_details,
+        defendants: :defendants,
+        offence_details: :offence_details,
+        warrant_fee: :interim_fees,
+        expenses: :travel_expenses,
+        supporting_evidence: :supporting_evidence,
+        additional_information: :supporting_evidence
+      }
+    )
   }
 end

@@ -66,7 +66,7 @@ require 'webmock/rspec'
 require 'vcr_helper'
 require 'sidekiq/testing'
 
-include ActionDispatch::TestProcess #required for fixture_file_upload
+include ActionDispatch::TestProcess # required for fixture_file_upload
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -133,11 +133,16 @@ RSpec.configure do |config|
   WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
 
   config.before :each, geckoboard: true do
-    stub_request(:get, 'https://api.geckoboard.com/').
-        with(headers: { 'Accept' => '*/*', 'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent' => /Geckoboard-Ruby\/0\.[\d]+(\.[\d])*/ }).
-        to_return(status: 200, body: '', headers: {})
-    stub_request(:post, %r{\Ahttps://push.geckoboard.com/v1/send/.*\z}).
-        to_return(status: 200, body: '', headers: {})
+    stub_request(:get, 'https://api.geckoboard.com/')
+      .with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => %r{Geckoboard-Ruby/0\.[\d]+(\.[\d])*}
+        }
+      ).to_return(status: 200, body: '', headers: {})
+    stub_request(:post, %r{\Ahttps://push.geckoboard.com/v1/send/.*\z})
+      .to_return(status: 200, body: '', headers: {})
   end
 
   config.before :each, slack_bot: true do

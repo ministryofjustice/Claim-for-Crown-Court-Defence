@@ -24,7 +24,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   context 'fees' do
     before(:each) do
       @basic_fee = FactoryBot.create :basic_fee, :with_date_attended, claim: claim
-      @misc_fee = FactoryBot.create :misc_fee,:with_date_attended, claim: claim
+      @misc_fee = FactoryBot.create :misc_fee, :with_date_attended, claim: claim
       FactoryBot.create :date_attended, attended_item: @misc_fee
       claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
       claim.form_step = :basic_fees

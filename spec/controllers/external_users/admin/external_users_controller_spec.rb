@@ -181,7 +181,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     describe 'PUT #update_password' do
       before do
         subject.user.update(password: 'password', password_confirmation: 'password')
-        sign_in subject.user #need to sign in again after password change
+        sign_in subject.user # need to sign in again after password change
       end
 
       context 'when valid' do
@@ -234,7 +234,6 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     let(:other_external_user)   { create(:external_user, provider: provider) }
 
     before do
-      2.times { create :user }
       sign_in external_user.user
     end
 
@@ -312,6 +311,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
         end
       end
     end
+
     describe 'DELETE #destroy' do
       it 'does not allow user to delete himself' do
         delete :destroy, params: { id: external_user }
@@ -327,26 +327,28 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
     end
 
     def params_updating_roles(external_user)
-        { id: external_user,
-          external_user: {
-            user_attributes: {
-              id: external_user.user.id,
-              email: 'bobsmith@example.com'
-            }
-          },
-          roles: %w{admin advocate litigator}
-        }.with_indifferent_access
+      {
+        id: external_user,
+        external_user: {
+          user_attributes: {
+            id: external_user.user.id,
+            email: 'bobsmith@example.com'
+          }
+        },
+        roles: %w{admin advocate litigator}
+      }.with_indifferent_access
     end
 
     def params_updating_email(external_user)
-        { id: external_user,
-          external_user: {
-            user_attributes: {
-              id: external_user.user.id,
-              email: 'bobsmith@example.com'
-            }
+      {
+        id: external_user,
+        external_user: {
+          user_attributes: {
+            id: external_user.user.id,
+            email: 'bobsmith@example.com'
           }
-        }.with_indifferent_access
+        }
+      }.with_indifferent_access
     end
   end
 end

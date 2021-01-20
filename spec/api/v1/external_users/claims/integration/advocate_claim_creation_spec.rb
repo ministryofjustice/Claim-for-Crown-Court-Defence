@@ -102,7 +102,7 @@ RSpec.shared_examples 'scheme 9 advocate final claim' do |options|
     let(:case_type) { CaseType.find_by(fee_type_code: 'FXACV') } # Appeal against conviction
 
     specify 'Case management system creates a valid scheme 9 fixed fee claim' do
-      post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length,:trial_concluded_at), format: :json
+      post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
       expect(last_response.status).to eql 201
 
       claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
@@ -201,7 +201,7 @@ RSpec.shared_examples 'scheme 10 advocate final claim' do |options|
     let(:advocate_category) { 'Junior' }
 
     specify 'Case management system creates a valid scheme 10 fixed fee claim' do
-      post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length,:trial_concluded_at), format: :json
+      post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
       expect(last_response.status).to eql 201
 
       claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
@@ -302,7 +302,7 @@ RSpec.shared_examples 'scheme 12 advocate final claim' do |options|
     let(:advocate_category) { 'Junior' }
 
     specify 'Case management system creates a valid scheme 12 fixed fee claim' do
-      post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length,:trial_concluded_at), format: :json
+      post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
       expect(last_response.status).to eql 201
 
       claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
@@ -405,10 +405,10 @@ RSpec.describe 'API claim creation for AGFS' do
 
   let(:representation_order_params) do
     {
-        api_key: provider.api_key,
-        defendant_id: nil,
-        representation_order_date: representation_order_date.as_json,
-        maat_reference: '2320006'
+      api_key: provider.api_key,
+      defendant_id: nil,
+      representation_order_date: representation_order_date.as_json,
+      maat_reference: '2320006'
     }
   end
 

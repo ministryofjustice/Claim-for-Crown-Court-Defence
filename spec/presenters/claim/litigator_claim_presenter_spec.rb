@@ -170,18 +170,20 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
 
   describe '#summary_sections' do
     specify {
-      expect(presenter.summary_sections).to eq({
-        case_details: :case_details,
-        defendants: :defendants,
-        offence_details: :offence_details,
-        fixed_fees: :fixed_fees,
-        graduated_fees: :graduated_fees,
-        misc_fees: :miscellaneous_fees,
-        disbursements: :disbursements,
-        expenses: :travel_expenses,
-        supporting_evidence: :supporting_evidence,
-        additional_information: :supporting_evidence
-      })
+      expect(presenter.summary_sections).to eq(
+        {
+          case_details: :case_details,
+          defendants: :defendants,
+          offence_details: :offence_details,
+          fixed_fees: :fixed_fees,
+          graduated_fees: :graduated_fees,
+          misc_fees: :miscellaneous_fees,
+          disbursements: :disbursements,
+          expenses: :travel_expenses,
+          supporting_evidence: :supporting_evidence,
+          additional_information: :supporting_evidence
+        }
+      )
     }
   end
 end

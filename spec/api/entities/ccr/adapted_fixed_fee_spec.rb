@@ -67,7 +67,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
 
         it 'excludes repeated additional case numbers' do
           create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170003')
-          is_expected.to contain_exactly('T20170001','T20170002','T20170003')
+          is_expected.to contain_exactly('T20170001', 'T20170002', 'T20170003')
           expect(number_of_cases).to eq '4'
         end
       end

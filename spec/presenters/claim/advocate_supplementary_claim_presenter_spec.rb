@@ -30,13 +30,15 @@ RSpec.describe Claim::AdvocateSupplementaryClaimPresenter, type: :presenter do
   end
 
   specify {
-    expect(presenter.summary_sections).to eq({
-      case_details: :case_details,
-      defendants: :defendants,
-      misc_fees: :miscellaneous_fees,
-      expenses: :travel_expenses,
-      supporting_evidence: :supporting_evidence,
-      additional_information: :supporting_evidence
-    })
+    expect(presenter.summary_sections).to eq(
+      {
+        case_details: :case_details,
+        defendants: :defendants,
+        misc_fees: :miscellaneous_fees,
+        expenses: :travel_expenses,
+        supporting_evidence: :supporting_evidence,
+        additional_information: :supporting_evidence
+      }
+    )
   }
 end

@@ -53,7 +53,7 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
 
     context 'when allocated' do
       it 'does NOT assign trial_cracked_at' do
-        expect { claim.allocate! }.not_to change { claim.trial_cracked_at }
+        expect { claim.allocate! }.not_to(change { claim.trial_cracked_at })
       end
     end
 
@@ -61,14 +61,14 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
       before { claim.allocate! }
 
       it 'rejection does NOT assign trial_cracked_at' do
-        expect { claim.reject! }.not_to change { claim.trial_cracked_at }
+        expect { claim.reject! }.not_to(change { claim.trial_cracked_at })
       end
 
       it 'authorising an amount does NOT assign trial_cracked_at' do
         expect {
           claim.assessment.update!(fees: random_amount, expenses: random_amount)
           claim.authorise!
-        }.not_to change { claim.trial_cracked_at }
+        }.not_to(change { claim.trial_cracked_at })
       end
     end
   end
@@ -139,11 +139,11 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
 
         it 'removes the cracked details' do
           expect(claim).to have_attributes(
-                              trial_fixed_notice_at: nil,
-                              trial_fixed_at: nil,
-                              trial_cracked_at: nil,
-                              trial_cracked_at_third: nil
-                            )
+            trial_fixed_notice_at: nil,
+            trial_fixed_at: nil,
+            trial_cracked_at: nil,
+            trial_cracked_at_third: nil
+          )
         end
       end
 
@@ -152,11 +152,11 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
 
         it 'does not remove the cracked details' do
           expect(claim).to have_attributes(
-                              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-                              trial_fixed_at: cracked_details[:trial_fixed_at],
-                              trial_cracked_at: cracked_details[:trial_cracked_at],
-                              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-                            )
+            trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+            trial_fixed_at: cracked_details[:trial_fixed_at],
+            trial_cracked_at: cracked_details[:trial_cracked_at],
+            trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+          )
         end
       end
 
@@ -165,11 +165,11 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
 
         it 'does not remove the cracked details' do
           expect(claim).to have_attributes(
-                              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-                              trial_fixed_at: cracked_details[:trial_fixed_at],
-                              trial_cracked_at: cracked_details[:trial_cracked_at],
-                              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-                            )
+            trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+            trial_fixed_at: cracked_details[:trial_fixed_at],
+            trial_cracked_at: cracked_details[:trial_cracked_at],
+            trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+          )
         end
       end
     end

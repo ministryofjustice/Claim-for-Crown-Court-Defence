@@ -1,5 +1,4 @@
 module ValidationHelpers
-
   shared_context 'force-validation' do
     before do
       claim.force_validation = true
@@ -69,7 +68,7 @@ module ValidationHelpers
   end
 
   def should_error_if_earlier_than_earliest_repo_date(record, field, message, options = {})
-    stub_earliest_rep_order(record,1.year.ago.to_date)
+    stub_earliest_rep_order(record, 1.year.ago.to_date)
     record.send("#{field}=", 13.months.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
@@ -77,7 +76,7 @@ module ValidationHelpers
   end
 
   def should_error_if_earlier_than_earliest_reporder_date(claim_record, other_record, field, message, options = {})
-    stub_earliest_rep_order(claim_record,1.year.ago.to_date)
+    stub_earliest_rep_order(claim_record, 1.year.ago.to_date)
     other_record.send("#{field}=", 13.months.ago)
     expect(other_record.send(:valid?)).to be false
     expect(other_record.errors[field]).to include(message)
@@ -125,7 +124,7 @@ module ValidationHelpers
     record.send("#{other_date}=", 7.day.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
-    with_expected_error_translation(field,message,options) if options[:translated_message]
+    with_expected_error_translation(field, message, options) if options[:translated_message]
   end
 
   def should_error_if_equal_to_value(record, field, value, message)
@@ -151,5 +150,4 @@ module ValidationHelpers
     end
     record
   end
-
 end

@@ -320,20 +320,21 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         before {
           put :update,
               params: {
-               id: subject,
-               claim: {
-                 defendants_attributes: {
-                   '1' => {
-                     id: subject.defendants.first,
-                     representation_orders_attributes: {
-                       '0' => {
-                         id: subject.defendants.first.representation_orders.first,
-                         _destroy: 1 }
-                     }
-                   }
-                 }
-               },
-               commit_save_draft: 'Save to drafts'
+                id: subject,
+                claim: {
+                  defendants_attributes: {
+                    '1' => {
+                      id: subject.defendants.first,
+                      representation_orders_attributes: {
+                        '0' => {
+                          id: subject.defendants.first.representation_orders.first,
+                          _destroy: 1
+                        }
+                      }
+                    }
+                  }
+                },
+                commit_save_draft: 'Save to drafts'
               }
         }
         it 'reduces the number of associated rep orders by 1' do
@@ -406,7 +407,8 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         put :update, params: { id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => 'jan',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA' }
+          'first_day_of_trial_dd' => '4'
+        }, commit_submit_claim: 'Submit to LAA' }
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
@@ -414,7 +416,8 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         put :update, params: { id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => '11',
-          'first_day_of_trial_dd' => '4' }, commit_submit_claim: 'Submit to LAA' }
+          'first_day_of_trial_dd' => '4'
+        }, commit_submit_claim: 'Submit to LAA' }
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 11, 4)
       end
     end

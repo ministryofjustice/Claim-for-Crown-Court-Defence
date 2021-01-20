@@ -77,7 +77,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
 
       context 'missing expected params' do
         it 'should return a JSON error array with required model attributes' do
-          [:first_name,:last_name,:date_of_birth].each { |k| valid_params.delete(k) }
+          [:first_name, :last_name, :date_of_birth].each { |k| valid_params.delete(k) }
           post_to_create_endpoint
           expect(last_response.status).to eq 400
           expect(last_response.body).to eq(json_error_response)
@@ -107,7 +107,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
     end
 
     it 'missing required params should return 400 and a JSON error array' do
-      [:first_name,:last_name,:date_of_birth].each { |k| valid_params.delete(k) }
+      [:first_name, :last_name, :date_of_birth].each { |k| valid_params.delete(k) }
       post_to_validate_endpoint
       expect(last_response.status).to eq 400
       expect(last_response.body).to eq(json_error_response)

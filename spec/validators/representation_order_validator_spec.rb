@@ -182,7 +182,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
     let(:claim) { build :interim_claim }
 
     context 'representation_order_date' do
-      let(:earliest_permitted_date) { Date.new(2014,10,2) }
+      let(:earliest_permitted_date) { Date.new(2014, 10, 2) }
       it { should_error_if_before_specified_date(reporder, :representation_order_date, earliest_permitted_date, 'not_before_interim_earliest_permitted_date') }
     end
   end

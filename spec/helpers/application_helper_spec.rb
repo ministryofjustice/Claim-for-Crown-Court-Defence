@@ -5,7 +5,7 @@ describe ApplicationHelper do
     let(:claim) { create(:advocate_claim) }
 
     it 'returns a <Classname>Presenter instance' do
-     expect(present(claim)).to be_a Claim::BaseClaimPresenter
+      expect(present(claim)).to be_a Claim::BaseClaimPresenter
     end
 
     it 'yields a <Classname>Presenter Class' do
@@ -23,7 +23,7 @@ describe ApplicationHelper do
     end
 
     it 'should yield a collection of <Classname>Presenter Class instances' do
-      expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter,Claim::BaseClaimPresenter])
+      expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter, Claim::BaseClaimPresenter])
     end
   end
 

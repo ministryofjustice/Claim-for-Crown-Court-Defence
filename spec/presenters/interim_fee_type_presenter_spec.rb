@@ -39,7 +39,7 @@ describe Fee::InterimFeeTypePresenter do
       end
     end
 
-    context 'warrant'do
+    context 'warrant' do
       let(:fee_type) { build :interim_fee_type, :warrant }
       it 'produces expected data attributes' do
         expect(presenter.data_attributes).to eq expected_data(false, false, false, false, false, false, true, true, false)
@@ -49,15 +49,15 @@ describe Fee::InterimFeeTypePresenter do
 
   def expected_data(epcmh, trial_dates, lat, tcon, retrial, ppe, total, warrant, disb)
     {
-        effective_pcmh: epcmh,
-        trial_dates: trial_dates,
-        legal_aid_transfer: lat,
-        trial_concluded: tcon,
-        retrial_dates: retrial,
-        ppe: ppe,
-        fee_total: total,
-        warrant: warrant,
-        disbursements: disb
+      effective_pcmh: epcmh,
+      trial_dates: trial_dates,
+      legal_aid_transfer: lat,
+      trial_concluded: tcon,
+      retrial_dates: retrial,
+      ppe: ppe,
+      fee_total: total,
+      warrant: warrant,
+      disbursements: disb
     }
   end
 end

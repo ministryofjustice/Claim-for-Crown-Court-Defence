@@ -28,7 +28,7 @@ RSpec.describe ExternalUsers::CreateUser do
     context 'when a previous supplier exists' do
       before do
         service.call!
-        #simulate calling the service twice
+        # simulate calling the service twice
         service.call!
       end
 
@@ -48,7 +48,7 @@ RSpec.describe ExternalUsers::CreateUser do
 
       it 'does not create an external user related with the provided user' do
         expect { service.call! rescue nil }
-          .not_to change { ExternalUser.count }
+          .not_to(change { ExternalUser.count })
       end
     end
   end

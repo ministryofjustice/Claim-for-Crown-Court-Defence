@@ -366,7 +366,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:states) { nil }
 
     it 'finds only claims with states that match dashboard displayable states' do
-      sql = Claim::AdvocateClaim.search('%',states,:advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
+      sql = Claim::AdvocateClaim.search('%', states, :advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
       state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "\'#{s}\'" }.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
@@ -487,11 +487,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds only claims of the single state specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins',:archived_pending_delete, search_options).count).to eql 2
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eql 2
       end
 
       it 'finds only claims of the multiple states specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins',[:archived_pending_delete, :authorised], search_options).count).to eql 4
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', [:archived_pending_delete, :authorised], search_options).count).to eql 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
@@ -569,7 +569,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'with invalid state' do
       it 'raises error for invalid option' do
         expect {
-          Claim::AdvocateClaim.search('foo',:rubbish_state, :case_worker_name_or_email)
+          Claim::AdvocateClaim.search('foo', :rubbish_state, :case_worker_name_or_email)
         }.to raise_error(/Invalid state, rubbish_state, specified/)
       end
     end
@@ -819,7 +819,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       it 'claims in any state other than draft or archived_pending_delete' do
         states = Claim::AdvocateClaim.state_machine.states.map(&:name)
         states = states.map { |s| if not [:draft, :archived_pending_delete].include?(s) then s; end; }.compact
-        states.each do | state |
+        states.each do |state|
           claim.state = state
           expect(claim.validation_required?).to eq true
         end
@@ -871,28 +871,24 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe '#has_authorised_state?' do
     let(:claim) { create(:draft_claim) }
 
-    def expect_has_authorised_state_to_be(bool)
-     expect(claim.has_authorised_state?).to eql(bool)
-    end
-
     it 'should return false for draft, submitted, allocated, and rejected claims' do
-     expect_has_authorised_state_to_be false
-     claim.submit
-     expect_has_authorised_state_to_be false
-     claim.allocate
-     expect_has_authorised_state_to_be false
-     claim.reject
-     expect_has_authorised_state_to_be false
+      expect(claim.has_authorised_state?).to be_falsey
+      claim.submit
+      expect(claim.has_authorised_state?).to be_falsey
+      claim.allocate
+      expect(claim.has_authorised_state?).to be_falsey
+      claim.reject
+      expect(claim.has_authorised_state?).to be_falsey
     end
 
     it 'should return true for part_authorised, authorised claims' do
-     claim.submit
-     claim.allocate
-     claim.assessment.update(fees: 30.01, expenses: 70.00)
-     claim.authorise_part
-     expect_has_authorised_state_to_be true
-     claim.authorise
-     expect_has_authorised_state_to_be true
+      claim.submit
+      claim.allocate
+      claim.assessment.update(fees: 30.01, expenses: 70.00)
+      claim.authorise_part
+      expect(claim.has_authorised_state?).to be_truthy
+      claim.authorise
+      expect(claim.has_authorised_state?).to be_truthy
     end
   end
 
@@ -998,8 +994,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
               claim.save
             }.to change {
               claim.fixed_fees.size
-            }.from(1)
-             .to(0)
+            }.from(1).to(0)
           end
 
           it 'removes the date attended fee associated with the fixed fee' do
@@ -1008,8 +1003,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
               claim.save
             }.to change {
               claim.fixed_fees.flat_map(&:dates_attended).size
-            }.from(1)
-             .to(0)
+            }.from(1).to(0)
           end
         end
       end
@@ -1025,8 +1019,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             claim.save
           }.to change {
             [claim.fixed_fees.size, claim.basic_fees.size]
-          }.from([1, 0])
-           .to([0, 1])
+          }.from([1, 0]).to([0, 1])
         end
 
         it 'keeps the misc fees' do
@@ -1060,7 +1053,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
           }.to change {
             [claim.fixed_fees.size, claim.basic_fees.size]
           }.from([0, 2])
-           .to([1, 2])
+            .to([1, 2])
           expect(claim.basic_fees.map(&:amount).sum.to_f).to eq(0.0)
         end
 
@@ -1104,11 +1097,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
           it 'removes the cracked details' do
             expect(claim).to have_attributes(
-                                trial_fixed_notice_at: nil,
-                                trial_fixed_at: nil,
-                                trial_cracked_at: nil,
-                                trial_cracked_at_third: nil
-                              )
+              trial_fixed_notice_at: nil,
+              trial_fixed_at: nil,
+              trial_cracked_at: nil,
+              trial_cracked_at_third: nil
+            )
           end
         end
 
@@ -1117,11 +1110,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
           it 'does not remove the cracked details' do
             expect(claim).to have_attributes(
-                                trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-                                trial_fixed_at: cracked_details[:trial_fixed_at],
-                                trial_cracked_at: cracked_details[:trial_cracked_at],
-                                trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-                              )
+              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+              trial_fixed_at: cracked_details[:trial_fixed_at],
+              trial_cracked_at: cracked_details[:trial_cracked_at],
+              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+            )
           end
         end
 
@@ -1130,11 +1123,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
           it 'does not remove the cracked details' do
             expect(claim).to have_attributes(
-                                trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-                                trial_fixed_at: cracked_details[:trial_fixed_at],
-                                trial_cracked_at: cracked_details[:trial_cracked_at],
-                                trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-                              )
+              trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
+              trial_fixed_at: cracked_details[:trial_fixed_at],
+              trial_cracked_at: cracked_details[:trial_cracked_at],
+              trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
+            )
           end
         end
       end
@@ -1584,70 +1577,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       context 'when the claim has been saved as draft before the case type is set' do
         let(:claim) { build :advocate_claim, case_type: nil }
 
-        it { expect(claim.discontinuance?). to be false }
+        it { expect(claim.discontinuance?).to be false }
       end
     end
-  end
-
-# local helpers
-# ---------------------
-  def valid_params
-    external_user = FactoryBot.create :external_user
-    {
-      'claim' => {
-        'external_user_id' => external_user.id,
-        'creator_id' => external_user.id,
-        'case_type_id' => '1',
-        'trial_fixed_notice_at_dd' => '',
-        'trial_fixed_notice_at_mm' => '',
-        'trial_fixed_notice_at_yyyy' => '',
-        'trial_fixed_at_dd' => '',
-        'trial_fixed_at_mm' => '',
-        'trial_fixed_at_yyyy' => '',
-        'trial_cracked_at_dd' => '',
-        'trial_cracked_at_mm' => '',
-        'trial_cracked_at_yyyy' => '',
-        'trial_cracked_at_third' => '',
-        'court_id' => '1',
-        'case_number' => 'A20161234',
-        'advocate_category' => 'QC',
-        'offence_id' => '1',
-        'first_day_of_trial_dd' => '8',
-        'first_day_of_trial_mm' => '9',
-        'first_day_of_trial_yyyy' => '2015',
-        'estimated_trial_length' => '0',
-        'actual_trial_length' => '0',
-        'trial_concluded_at_dd' => '11',
-        'trial_concluded_at_mm' => '9',
-        'trial_concluded_at_yyyy' => '2015',
-        'defendants_attributes' => {
-          '0' => {
-            'first_name' => 'Foo',
-            'last_name' => 'Bar',
-            'date_of_birth_dd' => '04',
-            'date_of_birth_mm' => '10',
-            'date_of_birth_yyyy' => '1980',
-            'order_for_judicial_apportionment' => '0',
-            'representation_orders_attributes' => {
-              '0' => {
-                'representation_order_date_dd' => '30',
-                'representation_order_date_mm' => '08',
-                'representation_order_date_yyyy' => '2015',
-                'maat_reference' => 'aaa1111',
-                '_destroy' => 'false'
-              }
-            },
-            '_destroy' => 'false'
-          }
-        },
-        'additional_information' => '',
-        'basic_fees_attributes' => { '0' => { 'quantity' => '1', 'rate' => '450', 'fee_type_id' => @bft1.id } },
-        'apply_vat' => '0',
-        'document_ids' => [''],
-        'evidence_checklist_ids' => ['1', '']
-      },
-      'offence_category' => { 'description' => '' },
-      'offence_class' => { 'description' => '64' }
-    }
   end
 end

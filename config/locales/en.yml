@@ -2497,6 +2497,7 @@ en:
           invalid_report_type: &invalid_report_type The requested report type is not supported
         download:
           invalid_report_type: *invalid_report_type
+          missing_report: The requested report is missing
         generate:
           invalid_report_type: *invalid_report_type
         index:

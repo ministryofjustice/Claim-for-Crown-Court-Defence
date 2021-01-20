@@ -26,65 +26,50 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     end
 
     describe '#GET download' do
-      context 'for a valid report type' do
+      subject(:download) { get :download, params: { report_type: report_type } }
+
+      context 'when the report type is valid' do
         let(:report_type) { 'management_information' }
+        let(:service_url) { 'https://example.com/document.csv' }
 
-        context 'using DB storage' do
-          let(:content) { 'header1,header2,header3' }
-          let!(:stats_report) { create(:stats_report, report_name: 'management_information', report: content) }
-
-          before do
-            get :download, params: { report_type: report_type }
-          end
-
-          it 'returns http success' do
-            expect(response).to be_successful
-          end
-
-          it 'renders the template' do
-            expect(response.headers['Content-Type']).to eq 'text/csv'
-          end
+        before do
+          create :stats_report, :with_document, report_name: report_type
+          ActiveStorage::Current.host = 'https://example.com'
+          download
         end
 
-        context 'using S3 storage' do
-          let(:content) { 'header1,header2,header3' }
-          let(:document) { StringIO.new(content) }
-          let!(:stats_report) {
-            create(
-              :stats_report,
-              report_name: report_type,
-              document: document,
-              document_file_name: "#{report_type}_#{Time.now.to_s(:number)}.csv",
-              document_content_type: 'text/csv'
-            )
-          }
-
-          before do
-            get :download, params: { report_type: report_type }
-          end
-
-          after { document.close }
-
-          it 'returns http success' do
-            expect(response).to be_successful
-          end
-
-          it 'renders the template' do
-            expect(response.headers['Content-Type']).to eq 'text/csv'
-          end
+        it 'redirects to the service url of the document' do
+          expect(response.location).to match %r{https://example.com}
         end
       end
 
-      context 'for an invalid report type' do
-        let(:report_type) { 'invalid_report_type' }
+      context 'when the report is completed but the file is missing' do
+        let(:report_type) { 'management_information' }
+        let(:stats_report) { create :stats_report, report_name: report_type }
 
         before do
-          get :download, params: { report_type: report_type }
+          create :stats_report, report_name: report_type
         end
 
-        it 'redirects to the management information page with an error' do
-          expect(response).to have_http_status(:redirect)
-          expect(response).to redirect_to(case_workers_admin_management_information_url)
+        it 'redirects to the management information page' do
+          expect(download).to redirect_to case_workers_admin_management_information_url
+        end
+
+        it 'displays an error' do
+          download
+          expect(flash[:alert]).to eq('The requested report is missing')
+        end
+      end
+
+      context 'when the report type is invalid' do
+        let(:report_type) { 'invalid_report_type' }
+
+        it 'redirects to the management information page' do
+          expect(download).to redirect_to case_workers_admin_management_information_url
+        end
+
+        it 'displays an error' do
+          download
           expect(flash[:alert]).to eq('The requested report type is not supported')
         end
       end

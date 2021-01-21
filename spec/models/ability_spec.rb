@@ -18,6 +18,7 @@ RSpec.describe Ability do
 
   context 'when not a signed in user' do
     it { should_not be_able_to(:create, Message.new) }
+    it { should_not be_able_to(:download_attachment, Message.new) }
     it { should_not be_able_to(:index, UserMessageStatus) }
     it { should_not be_able_to(:update, UserMessageStatus.new) }
     it { should_not be_able_to(:create, Document.new) }
@@ -28,6 +29,7 @@ RSpec.describe Ability do
     let(:user) { create(:external_user).user }
 
     it { should be_able_to(:create, Message.new) }
+    it { should be_able_to(:download_attachment, Message.new) }
     it { should be_able_to(:index, UserMessageStatus) }
     it { should be_able_to(:update, UserMessageStatus.new) }
 

@@ -1,6 +1,4 @@
 class MessagePresenter < BasePresenter
-  include Rails.application.routes.url_helpers
-
   presents :message
 
   def sender_is_a?(klass)
@@ -34,7 +32,7 @@ class MessagePresenter < BasePresenter
     h.concat(
       h.tag.a(
         "#{attachment_file_name} (#{attachment_file_size})",
-        href: rails_blob_path(message.attachment, disposition: 'attachment', only_path: true),
+        href: "/messages/#{message.id}/download_attachment",
         title: 'Download ' + attachment_file_name
       )
     )

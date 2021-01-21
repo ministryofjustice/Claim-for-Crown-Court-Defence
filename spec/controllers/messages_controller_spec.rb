@@ -71,6 +71,33 @@ RSpec.describe MessagesController, type: :controller do
         end
       end
     end
+
+    describe 'GET #download_attachment' do
+      subject(:download_attachment) { get :download_attachment, params: { id: message.id } }
+
+      context 'when message has attachment' do
+        let(:message) { create(:message, :with_attachment) }
+        let(:service_url) { 'https://example.com/document.pdf' }
+
+        before do
+          allow_any_instance_of(ActiveStorage::Blob).to receive(:service_url).and_return(service_url)
+        end
+
+        it 'redirects to the attachment' do
+          expect(download_attachment).to redirect_to service_url
+        end
+      end
+
+      context 'when message does not have attachment' do
+        let(:message) { create(:message) }
+
+        it 'redirects to 500 page' do
+          expect {
+            download_attachment
+          }.to raise_exception('No attachment present on this message')
+        end
+      end
+    end
   end
 
   context 'email notifications' do

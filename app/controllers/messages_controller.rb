@@ -32,6 +32,12 @@ class MessagesController < ApplicationController
     end
   end
 
+  def download_attachment
+    raise 'No attachment present on this message' unless message.attachment.attached?
+
+    redirect_to message.attachment.blob.service_url(disposition: 'attachment')
+  end
+
   private
 
   def message

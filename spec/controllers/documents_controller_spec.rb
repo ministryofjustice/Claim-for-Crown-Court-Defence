@@ -109,46 +109,55 @@ RSpec.describe DocumentsController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:params) do
-      {
-        document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf')
-      }
-    end
+    subject(:create_document) { post :create, params: { document: params } }
+
+    let(:params) { { document: document } }
 
     context 'when valid' do
+      let(:document) { Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf') }
+
       it 'creates a document' do
-        expect {
-          post :create, params: { document: params }
-        }.to change(Document, :count).by(1)
+        expect { create_document }.to change(Document, :count).by(1)
       end
 
       it 'returns status created' do
-        post :create, params: { document: params }
+        create_document
         expect(response.status).to eq(201)
       end
 
-      it 'returns the created document as JSON' do
-        post :create, params: { document: params }
-        expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
+      # TODO: Check that nothing other than id and filename are required
+      # it 'returns the created document as JSON' do
+      #   create_document
+      #   expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
+      # end
+
+      it 'includes the document id in the response' do
+        create_document
+        expect(JSON.parse(response.body)['document']['id']).to eq Document.last.id
+      end
+
+      it 'includes the document filename in the response' do
+        create_document
+        # TODO: Change to something not so Paperclip-esque
+        # This is used in app/webpack/javascript/external_users/claims/Dropzone.js
+        expect(JSON.parse(response.body)['document']['document_file_name']).to eq 'longer_lorem.pdf'
       end
     end
 
     context 'when invalid' do
-      let(:params) { { document: nil } }
+      let(:document) { Rack::Test::UploadedFile.new(Tempfile.new, 'video/mpeg') }
 
       it 'does not create a document' do
-        expect {
-          post :create, params: { document: params }
-        }.to_not change(Document, :count)
+        expect { create_document }.to_not change(Document, :count)
       end
 
       it 'returns status unprocessable entity' do
-        post :create, params: { document: params }
+        create_document
         expect(response.status).to eq(422)
       end
 
       it 'returns errors in response' do
-        post :create, params: { document: params }
+        create_document
         expect(JSON.parse(response.body)).to have_key('error')
       end
     end

@@ -33,11 +33,11 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    send_file Paperclip.io_adapters.for(document.converted_preview_document).path, view_file_options
+    redirect_to document.converted_preview_document.blob.service_url(disposition: 'inline')
   end
 
   def download
-    send_file Paperclip.io_adapters.for(document.document).path, download_file_options
+    redirect_to document.document.blob.service_url(disposition: 'attachment')
   end
 
   def create

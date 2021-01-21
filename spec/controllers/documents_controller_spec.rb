@@ -57,22 +57,55 @@ RSpec.describe DocumentsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
-    let(:document) { create(:document, external_user_id: external_user.id) }
+  shared_examples 'view document' do
+    let(:service_url) { 'https://example.com/document.pdf' }
 
-    it 'downloads a preview of the document' do
-      get :show, params: { id: document.id }
-      expect(response.body).to eq binread(document.converted_preview_document.path)
+    context 'with a document owned by the logged in user' do
+      let(:document) { create :document, external_user: external_user }
+
+      before do
+        allow_any_instance_of(ActiveStorage::Blob).to receive(:service_url).and_return(service_url)
+      end
+
+      it 'redirects to the attachment' do
+        expect(view_document).to redirect_to service_url
+      end
+    end
+
+    context 'with a document owned by a different user' do
+      let(:document) { create :document, external_user: create(:external_user) }
+
+      it 'redirects to the claims page' do
+        expect(view_document).to redirect_to external_users_root_url
+      end
+    end
+
+    context 'when signed out' do
+      let(:document) { create :document, external_user: create(:external_user) }
+
+      before { sign_out user }
+
+      it 'redirects to the login page' do
+        expect(view_document).to redirect_to new_user_session_url
+      end
     end
   end
 
-  describe 'GET #download' do
-    let(:document) { create(:document, external_user_id: external_user.id) }
+  describe 'GET #show' do
+    # TODO: 1) The shared examples test that the user is redirected to a
+    #       download link but it is not check that it is the link for
+    #       converted_preview_document.
+    #       2) There isn't a test for whether the disposition is 'attachment'
+    #       or 'inline'.
+    subject(:view_document) { get :show, params: { id: document.id } }
 
-    it 'downloads the document' do
-      get :show, params: { id: document.id }
-      expect(response.body).to eq binread(document.document.path)
-    end
+    include_examples 'view document'
+  end
+
+  describe 'GET #download' do
+    subject(:view_document) { get :download, params: { id: document.id } }
+
+    include_examples 'view document'
   end
 
   describe 'POST #create' do
@@ -118,21 +151,6 @@ RSpec.describe DocumentsController, type: :controller do
         post :create, params: { document: params }
         expect(JSON.parse(response.body)).to have_key('error')
       end
-    end
-  end
-
-  describe 'GET #download' do
-    it 'downloads the file' do
-      file = Tempfile.new('foo')
-      file.write('foo')
-      file.close
-      document = create :document, external_user: external_user
-      paperclip_adapters = double(Paperclip::AdapterRegistry)
-      paperclip_document = double(Paperclip::Attachment)
-      expect(paperclip_document).to receive(:path).at_least(1).and_return(file.path)
-      expect(paperclip_adapters).to receive(:for).at_least(1).with(instance_of(Paperclip::Attachment)).and_return(paperclip_document)
-      expect(Paperclip).to receive(:io_adapters).at_least(1).and_return(paperclip_adapters)
-      get :download, params: { id: document.id }
     end
   end
 

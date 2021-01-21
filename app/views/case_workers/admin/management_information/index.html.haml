@@ -15,7 +15,7 @@
         = t('.unavailable_report')
     %p
       - if report&.started_at.present?
-        = govuk_link_button(t('.download'), rails_blob_path(report.document, disposition: 'attachment'))
+        = govuk_link_button(t('.download'), case_workers_admin_management_information_download_url(report_type: report_type, format: :csv))
 
       = govuk_link_button(t('.regenerate'), case_workers_admin_management_information_generate_url(report_type: report_type))
 

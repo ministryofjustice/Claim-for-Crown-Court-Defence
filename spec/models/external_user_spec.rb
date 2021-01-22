@@ -292,7 +292,7 @@ RSpec.describe ExternalUser, type: :model do
     subject { user.available_roles }
     let(:user) { create(:external_user, :advocate, provider: provider) }
 
-    # Note: there is provider cannot be blank validation - pointless test?
+    # NOTE: there is provider cannot be blank validation - pointless test?
     context 'when the user does not belong to a provider' do
       let(:provider) { build(:provider) }
       before { user.provider = nil }

@@ -55,7 +55,7 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
 
   describe '#validate_quantity' do
     it 'numericality, must be between 0 and 999999' do
-      # note: before validation hook sets nil to zero
+      # NOTE: before validation hook sets nil to zero
       fee.quantity = nil
       expect(fee).to be_valid
 

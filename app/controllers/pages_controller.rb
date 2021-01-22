@@ -18,16 +18,16 @@ class PagesController < ApplicationController
       format.json do
         render  json:
                 [{ error: 'Service temporarily unavailable' }],
-                status: 503
+                status: :service_unavailable
       end
       format.js do
         render  json:
                 [{ error: 'Service temporarily unavailable' }],
-                status: 503
+                status: :service_unavailable
       end
       format.all do
         render  plain: 'error: Service temporarily unavailable',
-                status: 503
+                status: :service_unavailable
       end
     end
   end

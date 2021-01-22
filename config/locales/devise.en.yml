@@ -61,8 +61,16 @@ en:
       update_needs_confirmation: "You updated your account successfully, but we need to verify your new email address. Please check your email and follow the confirm link to confirm your new email address."
       updated: "Your account has been updated successfully."
       new:
+        email: *email
+        first_name: First name
+        last_name: Last name
         page_title: Sign up
         page_heading: Sign up
+        password: Password
+        password_confirmation: Password confirmation
+        sign_up: Sign up
+        terms_label: I agree to the terms and conditions
+        terms_legend: Terms and conditions
     sessions:
       new:
         email: *email

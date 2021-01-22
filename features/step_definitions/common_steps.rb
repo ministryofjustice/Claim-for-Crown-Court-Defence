@@ -33,6 +33,7 @@ Given(/^I click 'Your claims' link$/) do
 end
 
 Then(/^I should (see|not see) '(.*)'$/) do |visibility, text|
+  # binding.pry if text == 'judicial_appointment_order.pdf'
   if (visibility == 'see')
     expect(page).to have_content(text)
   else

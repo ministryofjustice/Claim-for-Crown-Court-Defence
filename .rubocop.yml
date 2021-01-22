@@ -51,7 +51,7 @@ Lint/StructNewOverride:
   Enabled: true
 
 Metrics/BlockLength:
-  ExcludedMethods:
+  IgnoredMethods:
     - included
     - class_methods
     - namespace

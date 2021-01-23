@@ -74,6 +74,8 @@ en:
         page_heading: Sign up
         password: Password
         password_confirmation: Password confirmation
+        terms_and_conditions_sentence_html: |
+          Our %{terms_and_conditions_link} contain important information you must agree to
         sign_up: Sign up
         terms_label: I agree to the terms and conditions
         terms_legend: Terms and conditions

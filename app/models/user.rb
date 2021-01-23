@@ -42,13 +42,20 @@ class User < ApplicationRecord
           :validatable,
           :lockable
 
+  attribute :terms_and_conditions, :boolean
+  attr_accessor :email_confirmation
+
   belongs_to :persona, polymorphic: true
   has_many :messages_sent, foreign_key: 'sender_id', class_name: 'Message'
   has_many :user_message_statuses
 
   validates :first_name, :last_name, presence: true, length: { maximum: 40 }
   validates :email, confirmation: true, length: { maximum: 80 }
-  attr_accessor :email_confirmation
+  validates :terms_and_conditions,
+            acceptance: ['1', true],
+            allow_nil: false,
+            on: :create,
+            if: proc { Rails.host.api_sandbox? }
 
   # enable current_user to directly call persona methods (in controllers)
   delegate :claims, to: :persona

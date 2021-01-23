@@ -6,57 +6,65 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
   end
 
   describe 'POST #create' do
-    let(:email) { Faker::Internet.email }
+    subject(:perform_post) { post :create, params: { user: sign_up_attributes } }
+
     let(:sign_up_attributes) do
-      {
-        first_name: 'Bob',
+      { first_name: 'Bob',
         last_name: 'Smith',
-        email: email,
+        email: 'foo@bar.com',
         password: 'password1234',
-        password_confirmation: 'password1234'
-      }
+        password_confirmation: 'password1234',
+        terms_and_conditions: '1' }
     end
 
-    context 'when env not api-sandbox' do
-      before { post :create, params: { user: sign_up_attributes, terms_and_conditions_acceptance: '1' } }
+    context 'when env not api-sandbox but attributes valid' do
+      around do |example|
+        with_env('production') do
+          example.run
+        end
+      end
 
       it 'redirects to user sign up path' do
+        perform_post
         expect(response).to redirect_to(external_users_root_url)
       end
 
       it 'does not create a user' do
+        perform_post
         expect(User.count).to eq(0)
       end
 
       it 'does not create an external user' do
+        perform_post
         expect(ExternalUser.count).to eq(0)
       end
 
       it 'does not create a provider' do
+        perform_post
         expect(Provider.count).to eq(0)
       end
     end
 
     context 'when env api-sandbox' do
       around do |example|
-        with_env('api-sandbox') { example.run }
+        with_env('api-sandbox') do
+          example.run
+        end
       end
 
-      context 'when valid' do
-        context 'and terms and conditions are accepted' do
-          before { post :create, params: { user: sign_up_attributes, terms_and_conditions_acceptance: '1' } }
+      context 'with valid attributes' do
+        before { perform_post }
 
-          it 'creates a user' do
-            expect(User.first.email).to eq(email)
-          end
+        it 'creates a user' do
+          expect(User.first.email).to eq('foo@bar.com')
+        end
 
-          it 'creates an external user' do
-            expect(User.first.persona).to be_a(ExternalUser)
-          end
+        it 'creates an external user' do
+          expect(User.first.persona).to be_a(ExternalUser)
+        end
 
-          it 'creates a provider' do
-            expect(User.first.persona.provider).to_not eq(nil)
-          end
+        it 'creates a provider' do
+          expect(User.first.persona.provider).to_not eq(nil)
         end
 
         xcontext 'when the created user is not active_for_authentication?' do
@@ -83,32 +91,46 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
             expect(response).to redirect_to('/')
           end
         end
+      end
 
-        context 'and terms and conditions are not accepted' do
-          before { post :create, params: { user: sign_up_attributes } }
+      context 'with missing persisted user attribute' do
+        let(:sign_up_attributes) do
+          { first_name: 'Bob',
+            last_name: 'Smith',
+            email: '',
+            password: 'password1234',
+            password_confirmation: 'password1234',
+            terms_and_conditions: '1' }
+        end
 
-          it 'redirects to the sign up path' do
-            expect(response).to redirect_to(new_user_registration_path)
-          end
+        before { perform_post }
 
-          it 'does not create a user' do
-            expect(User.count).to eq(0)
-          end
+        it 'does not create a user' do
+          expect(User.count).to eq(0)
+        end
 
-          it 'does not create an external user' do
-            expect(ExternalUser.count).to eq(0)
-          end
+        it 'does not create an external user' do
+          expect(ExternalUser.count).to eq(0)
+        end
 
-          it 'does not create a provider' do
-            expect(Provider.count).to eq(0)
-          end
+        it 'does not create a provider' do
+          expect(Provider.count).to eq(0)
         end
       end
 
-      context 'when invalid' do
-        before do
-          sign_up_attributes.delete(:email)
-          post :create, params: { user: sign_up_attributes }
+      context 'with terms and conditions not accepted' do
+        let(:sign_up_attributes) do
+          { first_name: 'Bob',
+            last_name: 'Smith',
+            email: 'foo@bar.com',
+            password: 'password1234',
+            password_confirmation: 'password1234' }
+        end
+
+        before { perform_post }
+
+        it 'renders new' do
+          expect(response).to render_template(:new)
         end
 
         it 'does not create a user' do

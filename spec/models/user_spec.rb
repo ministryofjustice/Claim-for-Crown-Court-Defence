@@ -42,13 +42,17 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_length_of(:password).is_at_least(8).with_message('Email must be at least 8 characters') }
 
   context 'when host is not api-sandbox' do
-    before { allow(Rails.host).to receive(:api_sandbox?).and_return(false) }
+    around do |example|
+      with_env('production') { example.run }
+    end
 
     it { is_expected.not_to validate_acceptance_of(:terms_and_conditions) }
   end
 
   context 'when host is api-sandbox' do
-    before { allow(Rails.host).to receive(:api_sandbox?).and_return(true) }
+    around do |example|
+      with_env('api-sandbox') { example.run }
+    end
 
     context 'when creating' do
       it {

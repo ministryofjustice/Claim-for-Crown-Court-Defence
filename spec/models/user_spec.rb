@@ -32,12 +32,38 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   subject(:user) { build(:user) }
 
+  it { is_expected.to validate_presence_of(:first_name).with_message('Enter a first name') }
+  it { is_expected.to validate_presence_of(:last_name).with_message('Enter a last name') }
+  it { is_expected.to validate_length_of(:first_name).is_at_most(40).with_message('First name must be 40 characters or less') }
+  it { is_expected.to validate_length_of(:last_name).is_at_most(40).with_message('Last name must be 40 characters or less') }
+  it { is_expected.to validate_length_of(:email).is_at_most(80).with_message('Email must be 80 characters or less') }
+  it { is_expected.to allow_value('email@addresse.foo').for(:email) }
+  it { is_expected.not_to allow_value('foo').for(:email) }
+  it { is_expected.to validate_length_of(:password).is_at_least(8).with_message('Email must be at least 8 characters') }
+
+  context 'when host is not api-sandbox' do
+    before { allow(Rails.host).to receive(:api_sandbox?).and_return(false) }
+
+    it { is_expected.not_to validate_acceptance_of(:terms_and_conditions) }
+  end
+
+  context 'when host is api-sandbox' do
+    before { allow(Rails.host).to receive(:api_sandbox?).and_return(true) }
+
+    context 'when creating' do
+      it {
+        expect(user).to validate_acceptance_of(:terms_and_conditions)
+          .on(:create)
+          .with_message('You must accept the terms and conditions')
+      }
+    end
+
+    context 'when updating' do
+      it { is_expected.not_to validate_acceptance_of(:terms_and_conditions).on(:update) }
+    end
+  end
+
   it { should belong_to(:persona) }
-  it { should validate_presence_of(:first_name) }
-  it { should validate_presence_of(:last_name) }
-  it { should validate_length_of(:first_name) }
-  it { should validate_length_of(:last_name) }
-  it { should validate_length_of(:email) }
   it { should have_many(:messages_sent).class_name('Message').with_foreign_key('sender_id') }
   it { should have_many(:user_message_statuses) }
 

@@ -38,6 +38,7 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
       end
 
       context 'with valid attributes' do
+        it { expect(perform_post).to redirect_to(external_users_root_url) }
         it { expect { perform_post }.to change(User, :count).by(1) }
         it { expect { perform_post }.to change(ExternalUser, :count).by(1) }
         it { expect { perform_post }.to change(Provider, :count).by(1) }

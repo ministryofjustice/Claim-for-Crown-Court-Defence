@@ -13,9 +13,7 @@
         legend: { text: t('devise.shared.links.terms_and_conditions').humanize, size: 'l' } do
 
         %p.govuk-body
-          Our
-          = link_to t('devise.shared.links.terms_and_conditions'), tandcs_page_path
-          contain important information you must agree to
+          = t('devise.registrations.new.terms_and_conditions_sentence_html', terms_and_conditions_link: link_to(t('devise.shared.links.terms_and_conditions'), tandcs_page_path))
 
         = f.govuk_check_box :terms_and_conditions,
           1,

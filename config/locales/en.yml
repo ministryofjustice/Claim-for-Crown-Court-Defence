@@ -281,18 +281,25 @@ en:
         user:
           attributes:
             email:
-              blank: *blank
+              blank: Enter an email
+              too_long: Email must be 80 characters or less
             email_confirmation:
-              confirmation: 'and email must match'
-              blank: You must enter an email confirmation
+              confirmation: email and confirmation must match
+              blank: Enter an email confirmation
             password:
-              blank: cannot be blank
+              blank: Enter a password
+              too_short: Email must be at least 8 characters
             password_confirmation:
-              blank: You must enter a password confirmation
+              blank: Enter a password confirmation
+              confirmation: password and confirmation must match
             first_name:
-              blank: *blank
+              blank: Enter a first name
+              too_long: First name must be 40 characters or less
             last_name:
-              blank: *blank
+              blank: Enter a last name
+              too_long: Last name must be 40 characters or less
+            terms_and_conditions:
+              accepted: You must accept the terms and conditions
         expense:
           attributes:
             expense_type:

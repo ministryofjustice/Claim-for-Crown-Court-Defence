@@ -24,25 +24,10 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
         end
       end
 
-      it 'redirects to user sign up path' do
-        perform_post
-        expect(response).to redirect_to(external_users_root_url)
-      end
-
-      it 'does not create a user' do
-        perform_post
-        expect(User.count).to eq(0)
-      end
-
-      it 'does not create an external user' do
-        perform_post
-        expect(ExternalUser.count).to eq(0)
-      end
-
-      it 'does not create a provider' do
-        perform_post
-        expect(Provider.count).to eq(0)
-      end
+      it { expect(perform_post).to redirect_to(external_users_root_url) }
+      it { expect { perform_post }.to change(User, :count).by(0) }
+      it { expect { perform_post }.to change(ExternalUser, :count).by(0) }
+      it { expect { perform_post }.to change(Provider, :count).by(0) }
     end
 
     context 'when env api-sandbox' do
@@ -53,19 +38,9 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
       end
 
       context 'with valid attributes' do
-        before { perform_post }
-
-        it 'creates a user' do
-          expect(User.first.email).to eq('foo@bar.com')
-        end
-
-        it 'creates an external user' do
-          expect(User.first.persona).to be_a(ExternalUser)
-        end
-
-        it 'creates a provider' do
-          expect(User.first.persona.provider).to_not eq(nil)
-        end
+        it { expect { perform_post }.to change(User, :count).by(1) }
+        it { expect { perform_post }.to change(ExternalUser, :count).by(1) }
+        it { expect { perform_post }.to change(Provider, :count).by(1) }
 
         xcontext 'when the created user is not active_for_authentication?' do
           before do
@@ -103,19 +78,9 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
             terms_and_conditions: '1' }
         end
 
-        before { perform_post }
-
-        it 'does not create a user' do
-          expect(User.count).to eq(0)
-        end
-
-        it 'does not create an external user' do
-          expect(ExternalUser.count).to eq(0)
-        end
-
-        it 'does not create a provider' do
-          expect(Provider.count).to eq(0)
-        end
+        it { expect { perform_post }.to change(User, :count).by(0) }
+        it { expect { perform_post }.to change(ExternalUser, :count).by(0) }
+        it { expect { perform_post }.to change(Provider, :count).by(0) }
       end
 
       context 'with terms and conditions not accepted' do
@@ -127,23 +92,10 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
             password_confirmation: 'password1234' }
         end
 
-        before { perform_post }
-
-        it 'renders new' do
-          expect(response).to render_template(:new)
-        end
-
-        it 'does not create a user' do
-          expect(User.count).to eq(0)
-        end
-
-        it 'does not create an external user' do
-          expect(ExternalUser.count).to eq(0)
-        end
-
-        it 'does not create a provider' do
-          expect(Provider.count).to eq(0)
-        end
+        it { expect(perform_post).to render_template(:new) }
+        it { expect { perform_post }.to change(User, :count).by(0) }
+        it { expect { perform_post }.to change(ExternalUser, :count).by(0) }
+        it { expect { perform_post }.to change(Provider, :count).by(0) }
       end
     end
   end

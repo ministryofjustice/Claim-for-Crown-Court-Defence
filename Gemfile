@@ -101,7 +101,7 @@ group :development, :devunicorn, :test do
   gem 'rspec_junit_formatter'
   gem 'net-ssh'
   gem 'net-scp'
-  gem 'rubocop', '~> 0.93'
+  gem 'rubocop', '~> 1.8'
   gem 'rubocop-rspec'
   gem 'rubocop-rails'
   gem 'rubocop-performance'

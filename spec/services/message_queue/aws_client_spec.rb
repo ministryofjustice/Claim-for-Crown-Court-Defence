@@ -20,8 +20,8 @@ module MessageQueue
     let(:claim) { create(:advocate_claim) }
     let(:aws_queue_id) { 'valid_queue_name' }
     let(:stub_queue_response) { stub_queue_response_success }
-    let(:stub_send_response) {}
-    let(:stub_poll_response) {}
+    let(:stub_send_response) { nil }
+    let(:stub_poll_response) { nil }
     let(:stub_queue_response_success) { { queue_url: 'http://aws_url' } }
     let(:stub_queue_response_failure) do
       Aws::SQS::Errors::NonExistentQueue.new(

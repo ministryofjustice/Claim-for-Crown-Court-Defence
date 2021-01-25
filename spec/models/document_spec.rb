@@ -263,4 +263,30 @@ RSpec.describe Document, type: :model do
       end
     end
   end
+
+  describe '#document_file_name' do
+    # For backward compatibility with Paperclip.
+    subject(:document_file_name) { document.document_file_name }
+    let(:document) { build :document, :empty }
+    let(:filename) { 'test_file.doc' }
+
+    before { document.document.attach(io: StringIO.new('stuff'), filename: filename) }
+
+    it 'is the name of the file' do
+      expect(document_file_name).to eq filename
+    end
+  end
+
+  describe '#document_file_size' do
+    # For backward compatibility with Paperclip.
+    subject(:document_file_size) { document.document_file_size }
+    let(:document) { build :document, :empty }
+    let(:filename) { 'test_file.doc' }
+
+    before { document.document.attach(io: StringIO.new('x' * 1024), filename: filename) }
+
+    it 'is the size of the file in bytes' do
+      expect(document_file_size).to eq 1024
+    end
+  end
 end

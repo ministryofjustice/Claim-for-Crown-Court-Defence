@@ -11,12 +11,12 @@
     %p= t('.account_confirmation', resource: resource.unconfirmed_email)
 
   = f.govuk_password_field :password,
-    label: { text: t('.new_password') },
-    hint: { text: t('.new_password_hint') },
+    label: { text: t('.password') },
+    hint: { text: t('.password_hint') },
     autocomplete: 'off'
 
   = f.govuk_password_field :password_confirmation,
-    label: { text: t('.confirm_your_password') },
+    label: { text: t('.password_confirmation') },
     autocomplete: 'off'
 
   = f.govuk_password_field :current_password,

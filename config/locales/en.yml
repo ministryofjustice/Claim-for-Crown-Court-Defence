@@ -282,6 +282,7 @@ en:
           attributes:
             email:
               blank: Enter an email
+              taken: Email address is already registered
               too_long: Email must be 80 characters or less
             email_confirmation:
               confirmation: email and confirmation must match

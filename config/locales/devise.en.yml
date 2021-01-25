@@ -2,6 +2,8 @@
 
 en:
   email: &email Email
+  password: &password Password
+  password_confirmation: &password_confirmation Password confirmation
 
   devise:
     confirmations:
@@ -62,8 +64,8 @@ en:
         current_password_hint: we need your current password to confirm your changes
         edit_resource: Edit %{resource}
         email: *email
-        password: Password
-        password_confirmation: Password confirmation
+        password: *password
+        password_confirmation: *password_confirmation
         password_hint: "leave it blank if you don't want to change it"
         submit: Update
       new:
@@ -72,8 +74,8 @@ en:
         last_name: Last name
         page_title: Sign up
         page_heading: Sign up
-        password: Password
-        password_confirmation: Password confirmation
+        password: *password
+        password_confirmation: *password_confirmation
         terms_and_conditions_sentence_html: |
           Our %{terms_and_conditions_link} contain important information you must agree to
         sign_up: Sign up

@@ -16,6 +16,14 @@ require_relative '../lib/govuk_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application
+    # Remove active storage routes (rails_blob_path and rails_blob_url)
+    # These routes are obfuscated but fixed and, as they are not authenticated,
+    # can potentially allow public access to sensitive files.
+    # See https://edgeguides.rubyonrails.org/active_storage_overview.html#linking-to-files
+    initializer(:remove_activestorage_routes, after: :add_routing_paths) do |app|
+      app.routes_reloader.paths.delete_if {|path| path =~ /activestorage/}
+    end
+
     config.middleware.use Rack::Deflater
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

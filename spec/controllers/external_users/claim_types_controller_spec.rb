@@ -99,7 +99,18 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
   end
 
   describe 'POST #chosen' do
-    context 'when an invalid scheme is provided' do
+    def self.claim_type_redirect_mappings
+      { 'agfs' => '/advocates/claims/new',
+        'agfs_interim' => '/advocates/interim_claims/new',
+        'agfs_supplementary' => '/advocates/supplementary_claims/new',
+        'agfs_hardship' => '/advocates/hardship_claims/new',
+        'lgfs_final' => '/litigators/claims/new',
+        'lgfs_interim' => '/litigators/interim_claims/new',
+        'lgfs_transfer' => '/litigators/transfer_claims/new',
+        'lgfs_hardship' => '/litigators/hardship_claims/new' }
+    end
+
+    context 'with an invalid claim type' do
       before { post :chosen, params: { claim_type: 'invalid' } }
 
       it 'redirects the user to the claims page with an error' do
@@ -108,35 +119,11 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       end
     end
 
-    context 'AGFS claim' do
-      before { post :chosen, params: { claim_type: 'agfs' } }
+    claim_type_redirect_mappings.each_pair do |claim_type, claim_type_route|
+      context "with #{claim_type} claim" do
+        before { post :chosen, params: { claim_type: claim_type } }
 
-      it 'should redirect to the new advocate claim form page' do
-        expect(response).to redirect_to(new_advocates_claim_path)
-      end
-    end
-
-    context 'LGFS final claim' do
-      before { post :chosen, params: { claim_type: 'lgfs_final' } }
-
-      it 'should redirect to the new litigator final claim form page' do
-        expect(response).to redirect_to(new_litigators_claim_path)
-      end
-    end
-
-    context 'LGFS interim claim' do
-      before { post :chosen, params: { claim_type: 'lgfs_interim' } }
-
-      it 'should redirect to the new litigator interim claim form page' do
-        expect(response).to redirect_to(new_litigators_interim_claim_path)
-      end
-    end
-
-    context 'LGFS transfer claim' do
-      before { post :chosen, params: { claim_type: 'lgfs_transfer' } }
-
-      it 'should redirect to the new litigator transfer claim form page' do
-        expect(response).to redirect_to(new_litigators_transfer_claim_path)
+        it { expect(response).to redirect_to(claim_type_route) }
       end
     end
   end

@@ -13,7 +13,7 @@ module NotificationQueue
           }
       )
     end
-    let(:stub_publish_response) {}
+    let(:stub_publish_response) { nil }
 
     before { allow(Aws::SNS::Client).to receive(:new).and_return client }
 

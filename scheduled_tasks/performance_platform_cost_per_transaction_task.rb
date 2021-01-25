@@ -2,6 +2,7 @@
 class PerformancePlatformCostPerTransactionTask < Scheduler::SchedulerTask
   cron '15 4 1 1,4,7,10 *' # 04:15 on the 2nd and third of every quarter
   class ReportNotActivated < RuntimeError; end
+
   def run
     raise ReportNotActivated unless ENV['PERF_PLAT_QV_TOKEN']
     log('Performance Platform - Cost Per Transaction Task started')

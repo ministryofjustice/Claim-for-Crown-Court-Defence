@@ -1,6 +1,8 @@
 RSpec.shared_examples 'a successful fee calculator response' do |options|
   # Singleton class requires reset before use
+  # rubocop:disable RSpec/BeforeAfterAll
   before(:all) { Claims::FeeCalculator::FeeTypeMappings.reset }
+  # rubocop:enable RSpec/BeforeAfterAll
 
   before do
     number_of_defendants = options&.fetch(:number_of_defendants, nil)
@@ -48,7 +50,9 @@ end
 
 RSpec.shared_examples 'a failed fee calculator response' do |options|
   # Singleton class requires reset before use
+  # rubocop:disable RSpec/BeforeAfterAll
   before(:all) { Claims::FeeCalculator::FeeTypeMappings.reset }
+  # rubocop:enable RSpec/BeforeAfterAll
 
   it 'includes success? false' do
     expect(response.success?).to be false

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Fee::InterimFeeValidator, type: :validator do
-  # note: before validation hook sets nil to zero
+  # NOTE: before validation hook sets nil to zero
   shared_examples 'quantity numericality between' do |min, max|
     it "valid when between #{min} and #{max}" do
       should_be_valid_if_equal_to_value(fee, :quantity, min)

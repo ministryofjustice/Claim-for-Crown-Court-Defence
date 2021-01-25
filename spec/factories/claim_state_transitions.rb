@@ -1,4 +1,3 @@
 FactoryBot.define do
-  factory :claim_state_transition do
-  end
+  factory :claim_state_transition
 end

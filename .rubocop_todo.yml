@@ -2352,7 +2352,6 @@ RSpec/MultipleExpectations:
     - 'spec/validators/interim_claim_info_validator_spec.rb'
     - 'spec/validators/representation_order_validator_spec.rb'
     - 'spec/views/case_workers/claims/show_spec.rb'
-    - 'spec/views/external_users/claim_types/selection_spec.rb'
     - 'spec/views/external_users/claims/show_spec.rb'
 
 # Offense count: 1344

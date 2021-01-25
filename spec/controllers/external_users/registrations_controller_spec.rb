@@ -43,34 +43,46 @@ RSpec.describe ExternalUsers::RegistrationsController, type: :controller do
         it { expect { perform_post }.to change(ExternalUser, :count).by(1) }
         it { expect { perform_post }.to change(Provider, :count).by(1) }
 
+        it 'sets flash to indicate success' do
+          perform_post
+          expect(flash[:notice]).to match(/You have signed up successfully/)
+        end
+
         context 'when the created user is not active_for_authentication?' do
           before do
             # NOTE: For the user to reach this context, the user would have to already exist
             # and have been soft deleted. Given this is the registrations controller I'm not
             # sure how this would ever happen :S (confused)
-            resource = double(User)
-            external_user = double(ExternalUser)
-
-            allow(controller).to receive(:resource).and_return(resource)
-            allow(resource).to receive(:save).and_return(true)
-            allow(resource).to receive(:persisted?).and_return(true)
-            allow(controller).to receive(:create_external_user).and_return(resource)
-            allow(ExternalUser).to receive(:new).and_return(external_user)
-            allow(resource).to receive(:reload)
-            allow(resource).to receive(:active_for_authentication?).and_return(false)
-            allow(resource).to receive(:inactive_message).and_return(:locked)
-            allow(external_user).to receive(:user=)
-            allow(external_user).to receive(:save!)
-            allow(controller).to receive(:after_inactive_sign_up_path_for).with(resource).and_return('/')
-            perform_post
+            allow(controller).to receive(:resource).and_return(user)
+            allow(user).to receive(:active_for_authentication?).and_return(false)
           end
 
-          it 'sets flash to indicate locked status' do
-            expect(flash[:notice]).to eq I18n.t('devise.registrations.signed_up_but_locked')
+          let(:user) { build(:user, **sign_up_attributes) }
+
+          context 'with locked status' do
+            before do
+              allow(user).to receive(:inactive_message).and_return(:locked)
+              perform_post
+            end
+
+            it { expect(response).to redirect_to('/') }
+
+            it 'sets flash to indicate locked status' do
+              expect(flash[:notice]).to match(/signed up successfully.* is locked/)
+            end
           end
 
-          it 'redirects to the inactive sign up path' do
-            expect(response).to redirect_to('/')
+          context 'with inactive status' do
+            before do
+              allow(user).to receive(:inactive_message).and_return(:inactive)
+              perform_post
+            end
+
+            it { expect(response).to redirect_to('/') }
+
+            it 'sets flash to indicate inactiveq status' do
+              expect(flash[:notice]).to match(/signed up successfully.*account is not yet activated/)
+            end
           end
         end
       end

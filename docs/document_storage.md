@@ -13,7 +13,7 @@ Each of these three cases is dealt with slightly differently.
 
 ### `Document#document` and `Document#converted_preview_document`
 
-Evidence documents for claims are uploaded during the claim creation form.
+Evidence documents for claims are uploaded during the claim creation process.
 They are uploaded individually via the documents controller
 (`DocumentsController#create`), which returns the document id and filename,
 to allow the form to attach the document to the claim and give feedback to the

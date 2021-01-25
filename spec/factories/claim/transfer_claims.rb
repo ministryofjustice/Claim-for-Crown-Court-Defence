@@ -4,7 +4,7 @@ FactoryBot.define do
     claim_state_common_traits
     case_type { nil }
 
-    # note: transfer_detail attribute getter/setters are delegated to claim
+    # NOTE: transfer_detail attribute getter/setters are delegated to claim
     litigator_type { 'original' }
     elected_case { false }
     transfer_stage_id { 10 }

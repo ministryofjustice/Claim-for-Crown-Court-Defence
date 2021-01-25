@@ -120,9 +120,6 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
     end
 
     context 'with invalid trial details' do
-      context 'when trial start after trial end' do
-      end
-
       context 'when estimated trial length not present' do
         before { claim.estimated_trial_length = nil }
 

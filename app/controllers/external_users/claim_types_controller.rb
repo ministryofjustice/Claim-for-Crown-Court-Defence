@@ -8,7 +8,7 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     if @available_claim_types.empty?
       redirect_to(
         external_users_claims_url,
-        alert: t('.errors.claim_types_unavailable')
+        alert: t('external_users.claim_types.new.errors.claim_types_unavailable')
       ) && return
     end
 
@@ -40,7 +40,7 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     if redirect_url
       redirect_to claim_type_redirect_url_for(claim_type)
     else
-      redirect_to external_users_claims_path, alert: t('.errors.claim_type_invalid')
+      redirect_to external_users_claims_path, alert: t('external_users.claim_types.new.errors.claim_type_invalid')
     end
   end
 

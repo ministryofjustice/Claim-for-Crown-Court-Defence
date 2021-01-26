@@ -22,10 +22,8 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     @claim_type = ClaimType.new(claim_type_params[:claim_type])
 
     if @claim_type.valid?
-      puts 'redirecting'.green
       redirect_for_claim_type(@claim_type.id)
     else
-      puts 'rendering new'.green
       render :new
     end
   end

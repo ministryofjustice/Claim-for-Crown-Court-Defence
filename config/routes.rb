@@ -117,6 +117,8 @@ Rails.application.routes.draw do
   namespace :external_users do
     root to: 'claims#index'
 
+    resource :claim_types, only: [:new, :create]
+
     resources :claims, except: [:new, :create, :edit, :update] do
       get 'confirmation',           on: :member
       get 'summary',                on: :member
@@ -128,8 +130,6 @@ Rails.application.routes.draw do
 
       patch 'clone_rejected',       to: 'claims#clone_rejected',  on: :member
       patch 'unarchive',            to: 'claims#unarchive',       on: :member
-      get 'types',                 to: 'claim_types#selection',  on: :collection
-      post 'types',                 to: 'claim_types#chosen',     on: :collection
 
       resource :certification, only: [:new, :create, :update]
 

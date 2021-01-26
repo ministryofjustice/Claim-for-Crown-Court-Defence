@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
+RSpec.describe 'external_users/claim_types/new.html.haml', type: :view do
   let(:external_user) { create(:external_user) }
+  let(:claim_type) { ClaimType.new }
 
   before(:each) do
     initialize_view_helpers(view)
@@ -14,6 +17,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
     context 'with all available_claim_types' do
       before do
         assign(:available_claim_types, all_claim_types)
+        assign(:claim_type, claim_type)
         render
       end
 
@@ -32,6 +36,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
     context 'with lgfs available_claim_types' do
       before do
         assign(:available_claim_types, lgfs_claim_types)
+        assign(:claim_type, claim_type)
         render
       end
 
@@ -53,6 +58,7 @@ RSpec.describe 'external_users/claim_types/selection.html.haml', type: :view do
     context 'with agfs available_claim_types' do
       before do
         assign(:available_claim_types, agfs_claim_types)
+        assign(:claim_type, claim_type)
         render
       end
 

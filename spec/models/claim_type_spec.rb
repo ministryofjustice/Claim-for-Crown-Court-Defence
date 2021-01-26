@@ -1,4 +1,6 @@
-RSpec.fdescribe ClaimType, type: :model do
+# frozen_string_literal: true
+
+RSpec.describe ClaimType, type: :model do
   let(:instance) { described_class.new(id: id, description: description) }
   let(:id) { 'agfs' }
   let(:description) { 'test' }

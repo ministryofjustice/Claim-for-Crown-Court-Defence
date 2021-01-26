@@ -114,7 +114,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       before { post :create, params: { claim_type: 'invalid' } }
 
       it 'redirects the user to the claims type page with an error' do
-        expect(response).to redirect_to(types_external_users_claims_path)
+        expect(response).to redirect_to(external_users_claims_path)
         expect(flash[:alert]).to eq 'Invalid bill type selected'
       end
     end

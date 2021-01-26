@@ -34,7 +34,7 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     params.permit(claim_type: :id)
   end
 
-  # TODO should not be possible to reach this else statement
+  # TODO: should not be possible to reach this else statement
   def redirect_for_claim_type(claim_type)
     redirect_url = claim_type_redirect_url_for(claim_type)
     if redirect_url

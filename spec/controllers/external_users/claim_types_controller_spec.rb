@@ -21,7 +21,7 @@ RSpec.fdescribe ExternalUsers::ClaimTypesController, type: :controller do
       it 'redirects the user to the claims page with an error' do
         get :new
         expect(response).to redirect_to(external_users_claims_url)
-        expect(flash[:alert]).to eq 'AGFS/LGFS claim type choice incomplete'
+        expect(flash[:alert]).to eq 'No applicable bill types available for user'
       end
     end
 

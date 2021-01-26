@@ -8,7 +8,7 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     if @available_claim_types.empty?
       redirect_to(
         external_users_claims_url,
-        alert: error_message(:claim_type_choice_incomplete)
+        alert: t('.errors.claim_types_unavailable')
       ) && return
     end
 
@@ -34,12 +34,13 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     params.permit(claim_type: :id)
   end
 
+  # TODO should not be possible to reach this else statement
   def redirect_for_claim_type(claim_type)
     redirect_url = claim_type_redirect_url_for(claim_type)
     if redirect_url
-      redirect_to redirect_url
+      redirect_to claim_type_redirect_url_for(claim_type)
     else
-      redirect_to types_external_users_claims_path, alert: error_message(:invalid_claim_types)
+      redirect_to external_users_claims_path, alert: t('.errors.claim_type_invalid')
     end
   end
 
@@ -59,9 +60,5 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
       'lgfs_transfer' => new_litigators_transfer_claim_url,
       'lgfs_hardship' => new_litigators_hardship_claim_url
     }[claim_type.to_s]
-  end
-
-  def error_message(error_code)
-    t(".errors.#{error_code}")
   end
 end

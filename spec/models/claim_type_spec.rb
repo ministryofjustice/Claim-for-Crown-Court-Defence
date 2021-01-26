@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 RSpec.describe ClaimType, type: :model do
-  let(:instance) { described_class.new(id: id, description: description) }
+  let(:instance) { described_class.new(id: id) }
   let(:id) { 'agfs' }
-  let(:description) { 'test' }
   let(:valid_ids) do
     %w[agfs
        agfs_interim
@@ -25,9 +24,5 @@ RSpec.describe ClaimType, type: :model do
     it { expect(instance.id).to be_kind_of(String) }
     it { is_expected.to validate_presence_of(:id).with_message('Choose a bill type') }
     it { is_expected.to validate_inclusion_of(:id).in_array(valid_ids).with_message('Choose a valid bill type') }
-  end
-
-  describe '#description' do
-    it { expect(instance.description).to be_kind_of(String) }
   end
 end

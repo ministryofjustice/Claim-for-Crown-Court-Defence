@@ -6,7 +6,6 @@ class ClaimType
   include ActiveModel::Validations
 
   attribute :id, :string
-  attribute :description, :string
 
   def self.valid_ids
     %w[agfs

@@ -821,11 +821,7 @@ en:
           lgfs_transfer: Certify and submit the litigator transfer fees claim
           lgfs_hardship: Certify and submit the litigator hardship fees claim
     claim_types:
-      chosen:
-        errors:
-          claim_type_choice_incomplete: 'AGFS/LGFS claim type choice incomplete'
-          invalid_claim_types: 'Invalid bill type selected'
-      selection:
+      new:
         continue: Continue
         cancel: Cancel
         page_title_advocate: Choose a bill type for advocate claim

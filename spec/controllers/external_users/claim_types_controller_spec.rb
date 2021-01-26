@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
+RSpec.fdescribe ExternalUsers::ClaimTypesController, type: :controller do
   let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
 
   before do
@@ -9,7 +9,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
 
   include_context 'claim-types helpers'
 
-  describe 'GET #selection' do
+  describe 'GET #new' do
     context 'when provider has no available claim types' do
       let(:context_mapper) { instance_double(Claims::ContextMapper) }
 
@@ -19,7 +19,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       end
 
       it 'redirects the user to the claims page with an error' do
-        get :selection
+        get :new
         expect(response).to redirect_to(external_users_claims_url)
         expect(flash[:alert]).to eq 'AGFS/LGFS claim type choice incomplete'
       end
@@ -35,7 +35,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       end
 
       it 'redirects the user to the claims page with an error' do
-        get :selection
+        get :new
         expect(response).to redirect_to(external_users_claims_url)
         expect(flash[:alert]).to eq 'Invalid bill type selected'
       end
@@ -45,13 +45,13 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
 
       it 'assigns bill types based on provider roles' do
-        get :selection
+        get :new
         expect(assigns(:available_claim_types)).to match_array(all_claim_types)
       end
 
       it 'renders the bill type options page' do
-        get :selection
-        expect(response).to render_template(:selection)
+        get :new
+        expect(response).to render_template(:new)
       end
     end
 
@@ -59,13 +59,13 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       let(:external_user) { create(:external_user, :admin, provider: create(:provider, :agfs)) }
 
       it 'assigns bill types based on provider roles' do
-        get :selection
+        get :new
         expect(assigns(:available_claim_types)).to match_array(agfs_claim_types)
       end
 
       it 'renders the bill type options page' do
-        get :selection
-        expect(response).to render_template(:selection)
+        get :new
+        expect(response).to render_template(:new)
       end
     end
 
@@ -73,13 +73,13 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       let(:external_user) { create(:external_user, :admin, provider: create(:provider, :lgfs)) }
 
       it 'assigns bill types based on provider roles' do
-        get :selection
+        get :new
         expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
       end
 
-      it 'renders bill type selection page' do
-        get :selection
-        expect(response).to render_template(:selection)
+      it 'renders claim type new page' do
+        get :new
+        expect(response).to render_template(:new)
       end
     end
 
@@ -87,18 +87,18 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       let(:external_user) { create(:external_user, :litigator) }
 
       it 'assigns bill types based on external_user roles' do
-        get :selection
+        get :new
         expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
       end
 
-      it 'renders the bill type selection page' do
-        get :selection
-        expect(response).to render_template(:selection)
+      it 'renders the claim type new page' do
+        get :new
+        expect(response).to render_template(:new)
       end
     end
   end
 
-  describe 'POST #chosen' do
+  describe 'POST #create' do
     def self.claim_type_redirect_mappings
       { 'agfs' => '/advocates/claims/new',
         'agfs_interim' => '/advocates/interim_claims/new',
@@ -111,7 +111,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
     end
 
     context 'with an invalid claim type' do
-      before { post :chosen, params: { claim_type: 'invalid' } }
+      before { post :create, params: { claim_type: 'invalid' } }
 
       it 'redirects the user to the claims page with an error' do
         expect(response).to redirect_to(external_users_claims_url)
@@ -121,7 +121,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
 
     claim_type_redirect_mappings.each_pair do |claim_type, claim_type_route|
       context "with #{claim_type} claim" do
-        before { post :chosen, params: { claim_type: claim_type } }
+        before { post :create, params: { claim_type: claim_type } }
 
         it { expect(response).to redirect_to(claim_type_route) }
       end

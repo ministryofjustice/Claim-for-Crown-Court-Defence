@@ -1,10 +1,10 @@
 class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
   skip_load_and_authorize_resource
 
-  before_action :set_available_claim_types_for_provider, only: %i[selection]
+  before_action :set_available_claim_types_for_provider, only: %i[new create]
   layout 'claim_forms', only: %i[selection]
 
-  def selection
+  def new
     if @available_claim_types.empty?
       redirect_to(
         external_users_claims_url,
@@ -12,15 +12,29 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
       ) && return
     end
 
+    @claim_type = ClaimType.new
+
     track_visit(url: 'external_user/claim_types', title: 'Choose claim type')
     @available_claim_types.size > 1 ? render : redirect_for_claim_type(@available_claim_types.first)
   end
 
-  def chosen
-    redirect_for_claim_type(params[:claim_type])
+  def create
+    @claim_type = ClaimType.new(claim_type_params[:claim_type])
+
+    if @claim_type.valid?
+      puts 'redirecting'.green
+      redirect_for_claim_type(@claim_type.id)
+    else
+      puts 'rendering new'.green
+      render :new
+    end
   end
 
   private
+
+  def claim_type_params
+    params.permit(claim_type: :id)
+  end
 
   def redirect_for_claim_type(claim_type)
     redirect_url = claim_type_redirect_url_for(claim_type)

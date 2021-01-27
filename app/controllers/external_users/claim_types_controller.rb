@@ -15,14 +15,14 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     @claim_type = ClaimType.new
 
     track_visit(url: 'external_user/claim_types', title: 'Choose claim type')
-    @available_claim_types.size > 1 ? render : redirect_for_claim_type(@available_claim_types.first)
+    @available_claim_types.size > 1 ? render : redirect_to_claim_type(@available_claim_types.first)
   end
 
   def create
     @claim_type = ClaimType.new(claim_type_params[:claim_type])
 
     if @claim_type.valid?
-      redirect_for_claim_type(@claim_type.id)
+      redirect_to_claim_type(@claim_type.id)
     else
       render :new
     end
@@ -34,14 +34,8 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
     params.permit(claim_type: :id)
   end
 
-  # TODO: should not be possible to reach this else statement
-  def redirect_for_claim_type(claim_type)
-    redirect_url = claim_type_redirect_url_for(claim_type)
-    if redirect_url
-      redirect_to claim_type_redirect_url_for(claim_type)
-    else
-      redirect_to external_users_claims_path, alert: t('external_users.claim_types.new.errors.claim_type_invalid')
-    end
+  def redirect_to_claim_type(claim_type)
+    redirect_to claim_type_redirect_url_for(claim_type)
   end
 
   def set_available_claim_types_for_provider

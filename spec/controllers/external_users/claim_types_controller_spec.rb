@@ -25,19 +25,19 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       end
     end
 
-    context 'when the only claim type available cannot be managed by the user' do
+    # OPTIMIZE: check if this flow and functionality is event possible (leftover from when there were fewer claim types?!)
+    context 'when user has only one available only claim type available cannot be managed by the user' do
       let(:context_mapper) { instance_double(Claims::ContextMapper) }
       let(:claim_class) { Claim::BaseClaim }
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
-        allow(context_mapper).to receive(:available_comprehensive_claim_types).and_return(%w[invalid_bill_type])
+        allow(context_mapper).to receive(:available_comprehensive_claim_types).and_return(%w[agfs])
       end
 
       it 'redirects the user to the claims page with an error' do
         get :new
-        expect(response).to redirect_to(external_users_claims_url)
-        expect(flash[:alert]).to eq 'Invalid bill type selected'
+        expect(response).to redirect_to('/advocates/claims/new')
       end
     end
 

@@ -843,7 +843,6 @@ en:
         choose_claim_type_prompt_text: Choose your bill type
         errors:
           claim_types_unavailable: No applicable bill types available for user
-          claim_type_invalid: Invalid bill type selected
         lgfs_final_rb: Litigator final fee
         lgfs_interim_rb: Litigator interim fee
         lgfs_transfer_rb: Litigator transfer fee

@@ -24,7 +24,7 @@ gem 'govuk_frontend_toolkit', '~> 8.2.0'
 gem 'govuk_elements_rails',   '~> 3.1.2'
 gem 'govuk_notify_rails',     '~> 2.1.2'
 gem 'grape',                  '~> 1.5.1'
-gem 'grape-entity',           '~> 0.8.1'
+gem 'grape-entity',           '~> 0.8.2'
 gem 'grape-papertrail',       '~> 0.2.0'
 gem 'grape-swagger',          '~> 1.3.1'
 gem 'grape-swagger-rails',    '~> 0.3.0'
@@ -128,6 +128,6 @@ group :test do
   gem 'test-prof'
   gem 'timecop'
   gem 'vcr'
-  gem 'webdrivers', '~> 4.4', require: false
+  gem 'webdrivers', '~> 4.5', require: false
   gem 'webmock'
 end

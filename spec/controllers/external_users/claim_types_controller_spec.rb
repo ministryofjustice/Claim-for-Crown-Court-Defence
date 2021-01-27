@@ -16,85 +16,70 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
         allow(context_mapper).to receive(:available_comprehensive_claim_types).and_return([])
+        get :new
       end
 
-      it 'redirects the user to the claims page with an error' do
-        get :new
-        expect(response).to redirect_to(external_users_claims_url)
-        expect(flash[:alert]).to eq 'No applicable bill types available for user'
-      end
+      it { expect(response).to redirect_to(external_users_claims_url) }
+      it { expect(controller).to set_flash[:alert].to('No applicable bill types available for user') }
     end
 
     # OPTIMIZE: check if this flow and functionality is event possible (leftover from when there were fewer claim types?!)
-    context 'when user has only one available only claim type available cannot be managed by the user' do
+    context 'when provider has only one claim type available' do
       let(:context_mapper) { instance_double(Claims::ContextMapper) }
       let(:claim_class) { Claim::BaseClaim }
 
       before do
         allow(Claims::ContextMapper).to receive(:new).and_return(context_mapper)
         allow(context_mapper).to receive(:available_comprehensive_claim_types).and_return(%w[agfs])
+        get :new
       end
 
-      it 'redirects the user to the claims page with an error' do
-        get :new
-        expect(response).to redirect_to('/advocates/claims/new')
-      end
+      it { expect(response).to redirect_to('/advocates/claims/new') }
     end
 
-    context 'admin of AGFS and LGFS provider' do
+    context 'when provider has agfs and lgs admin role' do
       let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
 
-      it 'assigns bill types based on provider roles' do
-        get :new
-        expect(assigns(:available_claim_types)).to match_array(all_claim_types)
-      end
+      before { get :new }
 
-      it 'renders the bill type options page' do
-        get :new
-        expect(response).to render_template(:new)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(all_claim_types) }
     end
 
-    context 'admin of AGFS provider' do
+    context 'when provider has agfs admin role' do
       let(:external_user) { create(:external_user, :admin, provider: create(:provider, :agfs)) }
 
-      it 'assigns bill types based on provider roles' do
-        get :new
-        expect(assigns(:available_claim_types)).to match_array(agfs_claim_types)
-      end
+      before { get :new }
 
-      it 'renders the bill type options page' do
-        get :new
-        expect(response).to render_template(:new)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(agfs_claim_types) }
     end
 
-    context 'admin of LGFS provider' do
+    context 'when provider has advocate role' do
+      let(:external_user) { create(:external_user, :advocate) }
+
+      before { get :new }
+
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(agfs_claim_types) }
+    end
+
+    context 'when provider has lgfs admin role' do
       let(:external_user) { create(:external_user, :admin, provider: create(:provider, :lgfs)) }
 
-      it 'assigns bill types based on provider roles' do
-        get :new
-        expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
-      end
+      before { get :new }
 
-      it 'renders claim type new page' do
-        get :new
-        expect(response).to render_template(:new)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types) }
     end
 
-    context 'litigator' do
+    context 'when provider has litigator role' do
       let(:external_user) { create(:external_user, :litigator) }
 
-      it 'assigns bill types based on external_user roles' do
-        get :new
-        expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types)
-      end
+      before { get :new }
 
-      it 'renders the claim type new page' do
-        get :new
-        expect(response).to render_template(:new)
-      end
+      it { expect(response).to render_template(:new) }
+      it { expect(assigns(:available_claim_types)).to match_array(lgfs_claim_types) }
     end
   end
 
@@ -115,7 +100,6 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       before { post :create }
 
       it { expect(response).to render_template(:new) }
-
       it { expect(response.body).to have_content('Choose a bill type') }
     end
 
@@ -124,7 +108,6 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       before { post :create, params: { claim_type: { id: 'invalid' } } }
 
       it { expect(response).to render_template(:new) }
-
       it { expect(response.body).to have_content('Choose a valid bill type') }
     end
 
@@ -132,7 +115,7 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
       context "with #{claim_type_id} claim" do
         before { post :create, params: { claim_type: { id: claim_type_id } } }
 
-        fit { expect(response).to redirect_to(claim_type_route) }
+        it { expect(response).to redirect_to(claim_type_route) }
       end
     end
   end

@@ -18,7 +18,6 @@ class ClaimType
        lgfs_hardship].freeze
   end
 
-  # TODO: move messages to implicit translation locations
-  validates :id, presence: { message: 'Choose a bill type' }
-  validates :id, inclusion: { in: valid_ids, message: 'Choose a valid bill type' }
+  validates :id, presence: true
+  validates :id, inclusion: { in: valid_ids }
 end

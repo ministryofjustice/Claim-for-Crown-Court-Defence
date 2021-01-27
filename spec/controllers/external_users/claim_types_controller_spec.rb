@@ -110,20 +110,29 @@ RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
         'lgfs_hardship' => '/litigators/hardship_claims/new' }
     end
 
-    context 'with an invalid claim type' do
-      before { post :create, params: { claim_type: 'invalid' } }
+    context 'with no claim type' do
+      render_views
+      before { post :create }
 
-      it 'redirects the user to the claims type page with an error' do
-        expect(response).to redirect_to(external_users_claims_path)
-        expect(flash[:alert]).to eq 'Invalid bill type selected'
-      end
+      it { expect(response).to render_template(:new) }
+
+      it { expect(response.body).to have_content('Choose a bill type') }
     end
 
-    claim_type_redirect_mappings.each_pair do |claim_type, claim_type_route|
-      context "with #{claim_type} claim" do
-        before { post :create, params: { claim_type: claim_type } }
+    context 'with an invalid claim type' do
+      render_views
+      before { post :create, params: { claim_type: { id: 'invalid' } } }
 
-        it { expect(response).to redirect_to(claim_type_route) }
+      it { expect(response).to render_template(:new) }
+
+      it { expect(response.body).to have_content('Choose a valid bill type') }
+    end
+
+    claim_type_redirect_mappings.each_pair do |claim_type_id, claim_type_route|
+      context "with #{claim_type_id} claim" do
+        before { post :create, params: { claim_type: { id: claim_type_id } } }
+
+        fit { expect(response).to redirect_to(claim_type_route) }
       end
     end
   end

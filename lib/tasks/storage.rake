@@ -47,4 +47,31 @@ namespace :storage do
       updated_at_field: :updated_at
     )
   end
+
+  desc 'Create some dummy files for testing (assumes local storage)'
+  task dummy_files: :environment do
+    Message.where.not(attachment_file_name: nil).each do |message|
+      filename = File.absolute_path(message.attachment.path)
+      FileUtils.mkdir_p File.dirname(filename)
+      File.open(filename, 'wb') do |file|
+        file.write(SecureRandom.random_bytes(message.attachment_file_size))
+      end
+    end
+
+    Stats::StatsReport.where.not(document_file_name: nil).each do |report|
+      filename = File.absolute_path(report.document.path)
+      FileUtils.mkdir_p File.dirname(filename)
+      File.open(filename, 'wb') do |file|
+        file.write(SecureRandom.random_bytes(report.document_file_size))
+      end
+    end
+
+    Document.where.not(document_file_name: nil).each do |document|
+      filename = File.absolute_path(document.document.path)
+      FileUtils.mkdir_p File.dirname(filename)
+      File.open(filename, 'wb') do |file|
+        file.write(SecureRandom.random_bytes(document.document_file_size))
+      end
+    end
+  end
 end

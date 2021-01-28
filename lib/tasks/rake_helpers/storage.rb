@@ -78,7 +78,6 @@ class Storage
 
       io.rewind
     end.base64digest
-    io.tempfile.close(true) if io.tempfile
   rescue Errno::ENOENT
     'FileMissing'
   end

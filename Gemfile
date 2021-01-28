@@ -128,6 +128,6 @@ group :test do
   gem 'test-prof'
   gem 'timecop'
   gem 'vcr'
-  gem 'webdrivers', '~> 4.4', require: false
+  gem 'webdrivers', '~> 4.5', require: false
   gem 'webmock'
 end

@@ -104,7 +104,8 @@ en:
         sign_in: Sign in
         forgot_your_password: Forgot your password?
         terms_and_conditions: terms and conditions
-        api_sign_up_and_documentation: API Sign up and documentation
+        terms_and_conditions_html: Read our <a class="govuk-link" href="%{link}">terms and conditions</a>
+        api_sign_up_and_documentation_html:  View our <a class="govuk-link" href="%{link}">API Sign up and documentation</a>
         didnt_receive_confirmation_instructions: Didn't receive confirmation instructions?
         didnt_receive_unlock_instructions: Didn't receive unlock instructions?
         sign_in_with: Sign in with

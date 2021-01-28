@@ -17,7 +17,7 @@
               %li
                 = govuk_link_to t('.api_documentation'), api_landing_page_path, class: cp(api_landing_page_path)
             %li
-              = govuk_link_to t('link.add_claim'), types_external_users_claims_path, class: cp(types_external_users_claims_path)
+              = govuk_link_to t('link.add_claim'), new_external_users_claim_types_path, class: cp(new_external_users_claim_types_path)
 
             - if current_user.persona.admin?
               %li

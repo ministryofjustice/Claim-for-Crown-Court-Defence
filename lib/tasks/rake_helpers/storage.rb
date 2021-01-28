@@ -14,19 +14,24 @@ class Storage
     SQL
   end
 
-  def migrate names:, model:, records:
+  def migrate names:, model:, records:, updated_at_field:
     puts model.green
-    records.each do |record|
-      puts "  #{record.id}".green
+    bar = ProgressBar.create(
+      title: model,
+      format: "%a [%e] %b\u{15E7}%i %c/%C",
+      progress_mark: '#'.green,
+      remainder_mark: "\u{FF65}".yellow,
+      starting_at: 0,
+      total: records.count
+    )
+    records.each_with_index do |record, i|
+      bar.increment
       names.each do |name|
-        print  "    - #{name}"
-        if ActiveStorage::Attachment.find_by(name: name, record_type: model, record_id: record.id)
-          puts ' [EXISTS]'.yellow
-          next
-        end
+        next if ActiveStorage::Attachment.find_by(name: name, record_type: model, record_id: record.id)
 
-        Document.transaction do
+        ActiveStorage::Attachment.transaction do
           attachment = record.send(name)
+          updated_at = record.send(updated_at_field).iso8601
 
           blob = ActiveStorage::Blob.find_by(key: attachment.path)
           if blob.nil?
@@ -37,8 +42,8 @@ class Storage
                 record.send("#{name}_file_name"),
                 record.send("#{name}_content_type"),
                 record.send("#{name}_file_size"),
-                compute_checksum_in_chunks(Paperclip.io_adapters.for(attachment)),
-                record.updated_at.iso8601
+                compute_checksum_in_chunks(attachment),
+                updated_at
               ]
             )
 
@@ -52,10 +57,9 @@ class Storage
               model,
               record.id,
               blob.id,
-              record.updated_at.iso8601
+              updated_at
             ]
           )
-          puts ' [CREATED]'.green
         end
       end
     end
@@ -64,7 +68,9 @@ class Storage
   private
 
   # Copied from https://github.com/rails/rails/blob/main/activestorage/app/models/active_storage/blob.rb
-  def compute_checksum_in_chunks(io)
+  def compute_checksum_in_chunks(attachment)
+    io = Paperclip.io_adapters.for(attachment)
+
     Digest::MD5.new.tap do |checksum|
       while chunk = io.read(5.megabytes)
         checksum << chunk
@@ -72,5 +78,8 @@ class Storage
 
       io.rewind
     end.base64digest
+    io.tempfile.close(true) if io.tempfile
+  rescue Errno::ENOENT
+    'FileMissing'
   end
 end

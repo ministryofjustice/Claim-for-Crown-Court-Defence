@@ -30,24 +30,32 @@ class Storage
         next if ActiveStorage::Attachment.find_by(name: name, record_type: model, record_id: record.id)
 
         ActiveStorage::Attachment.transaction do
-          attachment = record.send(name)
+          key = record.send(name).path
+          filename = record.send("#{name}_file_name")
+          content_type = record.send("#{name}_content_type")
+          byte_size = record.send("#{name}_file_size")
           updated_at = record.send(updated_at_field).iso8601
 
-          blob = ActiveStorage::Blob.find_by(key: attachment.path)
+          # Paperclip.io_adapters.for fails if the filename is too long.
+          # This is fine as long as record isn't saved, right?
+          record.send("#{name}_file_name=", 'temp_file') if filename.length > 100
+          checksum = compute_checksum_in_chunks(record.send(name))
+
+          blob = ActiveStorage::Blob.find_by(key: key)
           if blob.nil?
             @connection.exec_prepared(
               'active_storage_blob_statement',
               [
-                attachment.path,
-                record.send("#{name}_file_name"),
-                record.send("#{name}_content_type"),
-                record.send("#{name}_file_size"),
-                compute_checksum_in_chunks(attachment),
+                key,
+                filename,
+                content_type,
+                byte_size,
+                checksum,
                 updated_at
               ]
             )
 
-            blob = ActiveStorage::Blob.find_by(key: attachment.path)
+            blob = ActiveStorage::Blob.find_by(key: key)
           end
 
           @connection.exec_prepared(

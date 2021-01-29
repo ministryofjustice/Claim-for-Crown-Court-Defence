@@ -15,11 +15,11 @@ RSpec::Matchers.define :raise_only_amount_assessed_error do
     true
   end
 
-  failure_message do |actual|
+  failure_message do
     "expected calling state transition to only raise an amount assessed error but got #{@error_message.nil? ? 'no error!' : "\"#{@error_message}\""}"
   end
 
-  failure_message_when_negated do |actual|
+  failure_message_when_negated do
     "expected calling state transition to only raise an amount assessed error but got #{@error_message.nil? ? 'no error!' : "\"#{@error_message}\""}"
   end
 end

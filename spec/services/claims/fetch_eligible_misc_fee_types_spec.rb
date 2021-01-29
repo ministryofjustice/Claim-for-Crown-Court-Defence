@@ -43,7 +43,7 @@ RSpec.shared_examples 'with AGFS scheme 9 and 10+ fetch excludes supplementary-o
 end
 
 RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
-  before(:all) do |example|
+  before(:all) do
     seed_fee_schemes
     seed_case_types
     seed_fee_types

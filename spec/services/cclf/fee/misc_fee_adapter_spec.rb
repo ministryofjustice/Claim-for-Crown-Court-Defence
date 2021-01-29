@@ -18,7 +18,7 @@ RSpec.describe CCLF::Fee::MiscFeeAdapter, type: :adapter do
 
   context 'bill mappings' do
     MISC_FEE_BILL_TYPES.each do |unique_code, bill_types|
-      final_claim_bill_scenarios.each do |fee_type_code, scenario|
+      final_claim_bill_scenarios.each_key do |fee_type_code|
         context "when a misc fee of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do
           subject(:instance) { described_class.new(fee) }
           let(:claim) { instance_double(::Claim::LitigatorClaim, case_type: case_type) }

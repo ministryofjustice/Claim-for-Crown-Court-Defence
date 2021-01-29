@@ -179,7 +179,7 @@ namespace :db do
           Message.find_each(batch_size: batch_size) do |message|
             message.body = Faker::Lorem.sentence(word_count: 6, supplemental: false, random_words_to_add: 10)
             if message.attachment_file_name.present?
-              message.attachment_file_name = fake_file_name(message.attachment_file_name)
+              message.attachment_file_name = fake_file_name(content_type: message.attachment_content_type)
             end
             writer.call(message)
           end
@@ -192,7 +192,7 @@ namespace :db do
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
           Document.find_each(batch_size: batch_size) do |document|
-            with_file_name(fake_file_name(document.document_file_name)) do |file_name, ext|
+            with_file_name(fake_file_name(content_type: document.document_content_type)) do |file_name, ext|
               document.document_file_name = "#{file_name}.#{ext}"
               document.converted_preview_document_file_name = "#{file_name}#{ '.' + ext unless ext == 'pdf' }.pdf"
               document.file_path = "/s3/path/to/#{file_name}.#{ext}"
@@ -232,9 +232,8 @@ namespace :db do
       excluded_tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
     end
 
-      def fake_file_name original_file_name
-      *file_parts, _last = Faker::File.file_name.gsub(/\//,'_').split('.')
-      file_parts.join + '.' + original_file_name.split('.').last
+    def fake_file_name(content_type:)
+      Faker::File.file_name(dir: 'fake_file_name', ext: MIME::Types[content_type].first.extensions.first).tr('/','_')
     end
 
     def with_file_name file_name, &block

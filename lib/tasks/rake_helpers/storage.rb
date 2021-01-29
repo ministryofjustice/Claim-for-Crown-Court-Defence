@@ -73,6 +73,11 @@ class Storage
     end
   end
 
+  def self.make_dummy_file(filename, size)
+    FileUtils.mkdir_p File.dirname(filename)
+    File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(size)) }
+  end
+
   private
 
   # Copied from https://github.com/rails/rails/blob/main/activestorage/app/models/active_storage/blob.rb

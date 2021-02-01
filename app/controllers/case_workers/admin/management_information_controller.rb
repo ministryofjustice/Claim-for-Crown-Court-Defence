@@ -12,6 +12,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   end
 
   def download
+    log_download_start
     record = Stats::StatsReport.most_recent_by_type(params[:report_type])
 
     if record.document.attached?
@@ -32,5 +33,14 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   def validate_report_type
     return if Stats::StatsReport::TYPES.include?(params[:report_type])
     redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_type')
+  end
+
+  def log_download_start
+    LogStuff.send(:info,
+                  class: 'CaseWorkers::Admin::ManagementInformationController',
+                  action: 'download',
+                  downloading_user_id: @current_user&.id) do
+      'MI Report download started'
+    end
   end
 end

@@ -133,28 +133,28 @@ end
 def publicise_errors(claim, &block)
   begin
     block.call
-  rescue => err
+  rescue => e
     puts "***************** DEBUG validation errors #{__FILE__}::#{__LINE__} **********"
     ap claim
     puts claim.errors.full_messages
-    claim.defendants.each do |d|
-      ap d
-      puts d.errors.full_messages
-      d.representation_orders.each do |r|
-        ap r
+    claim.defendants.each do |defendant|
+      ap defendant
+      puts defendant.errors.full_messages
+      d.representation_orders.each do |rep|
+        ap rep
         puts '>>> rep order'
-        puts r.errors.full_messages
+        puts rep.errors.full_messages
       end
     end
-    claim.fees.each do |f|
-      ap f
-      puts f.errors.full_messages
+    claim.fees.each do |fee|
+      ap fee
+      puts fee.errors.full_messages
     end
-    claim.expenses.each do |e|
-      ap e
-      puts e.errors.full_messages
+    claim.expenses.each do |expense|
+      ap expense
+      puts expense.errors.full_messages
     end
-    raise err
+    raise e
   end
 end
 

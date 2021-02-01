@@ -50,7 +50,7 @@ RSpec.describe Claims::StateMachine, type: :model do
         reject: %i[allocate! reject!]
       }
 
-      TRANSITION_EVENT_CHAINS.each do |transition, events|
+      TRANSITION_EVENT_CHAINS.each_value do |events|
         context "when transitioning via event chain #{events}" do
           before do
             *precursor_events, _event = events

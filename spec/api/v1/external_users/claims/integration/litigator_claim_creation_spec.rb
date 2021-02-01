@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec::Matchers.define :be_valid_api_lgfs_claim do |expected|
   match do |claim|
-    @results = results(claim)
+    @results = results(claim, expected)
     @results.values.map { |arr| arr.uniq.length.eql?(1) }.all?
   end
 
@@ -10,7 +10,7 @@ RSpec::Matchers.define :be_valid_api_lgfs_claim do |expected|
     { valid: [], fee_scheme: [], offence: [], source: [], state: [], defendant_count: [], representation_orders_count: [], vat_amount: [], total: [] }
   end
 
-  def results(claim)
+  def results(claim, expected)
     results = results_hash
 
     results[:valid][0] = expected.fetch(:valid, true)
@@ -40,7 +40,7 @@ RSpec::Matchers.define :be_valid_api_lgfs_claim do |expected|
     'a valid api created claim with matching attributes'
   end
 
-  failure_message do |owner|
+  failure_message do
     msg = 'should be a valid API claim with matching attributes'
     failures = @results.select { |_k, v| !v.uniq.length.eql?(1) }
     failures.each_pair do |k, v|

@@ -42,8 +42,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
           described_class.call(report_type)
         }.to change { Stats::StatsReport.where(report_name: report_type).completed.count }.from(1).to(2)
         new_record = Stats::StatsReport.where(report_name: report_type).completed.last
-        expect(new_record.document).to be_kind_of(Paperclip::Attachment)
-        expect(open(new_record.document.path).read).to eq('some new content')
+        expect(new_record.document.download).to eq('some new content')
       end
 
       context 'but an error happens during the generation of the report' do

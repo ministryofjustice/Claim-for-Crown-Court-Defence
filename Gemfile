@@ -7,7 +7,6 @@ gem 'aws-sdk-costexplorer',   '~> 1'
 gem 'aws-sdk-s3',             '~> 1'
 gem 'aws-sdk-sns',            '~> 1'
 gem 'aws-sdk-sqs',            '~> 1'
-gem 'awesome_print'
 gem 'bootsnap', require: false
 gem 'cancancan',              '~> 3.2'
 gem 'cocoon',                 '~> 1.2.15'

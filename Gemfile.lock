@@ -82,7 +82,6 @@ GEM
     ast (2.4.1)
     auto_strip_attributes (2.6.0)
       activerecord (>= 4.0)
-    awesome_print (1.8.0)
     aws-eventstream (1.1.0)
     aws-partitions (1.417.0)
     aws-sdk-core (3.111.2)
@@ -793,7 +792,6 @@ DEPENDENCIES
   amoeba (~> 3.1.0)
   annotate
   auto_strip_attributes (~> 2.6.0)
-  awesome_print
   aws-sdk-costexplorer (~> 1)
   aws-sdk-s3 (~> 1)
   aws-sdk-sns (~> 1)

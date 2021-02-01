@@ -4,10 +4,6 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
   before_action :configure_permitted_parameters, only: [:create]
 
   def create
-    unless params[:terms_and_conditions_acceptance] == '1'
-      return redirect_to new_user_registration_url, alert: 'You must accept the terms and conditions before continuing'
-    end
-
     build_resource(sign_up_params)
 
     resource.save
@@ -29,7 +25,7 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[first_name last_name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[terms_and_conditions first_name last_name])
   end
 
   def notify_resource

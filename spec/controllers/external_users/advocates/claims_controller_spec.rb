@@ -239,7 +239,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
         let(:claim_params)              { valid_claim_fee_params }
-        let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k, v| k == 'advocate_category' } }
+        let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k, _v| k == 'advocate_category' } }
 
         context 'non fixed fee case types' do
           before(:each) do

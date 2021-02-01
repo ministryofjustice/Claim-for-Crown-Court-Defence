@@ -21,7 +21,7 @@ RSpec::Matchers.define :have_totals do |expected|
     'have valid totals'
   end
 
-  failure_message do |actual|
+  failure_message do
     @errors.each_with_object('Invalid totals:') do |(k, v), msg|
       msg << "\n- #{k}: expected #{v[0]}, got #{v[1]}"
     end

@@ -3,15 +3,11 @@
 
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
-= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }) do |f|
-  .form-group
-    = f.label :email, class: "form-label-bold"
-    = f.input_field :email, autofocus: true, class: "form-control"
-  .form-group
-    = f.label :password, class: "form-label-bold"
-    = f.input_field :password, autocomplete: 'off', class: "form-control"
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = form_with(model: resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }, builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true) do |f|
+      = f.govuk_text_field :email, label: { text: t('.email') }, autofocus: true
+      = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'off'
+      = f.govuk_submit t('.sign_in')
 
-  .form-group
-    = govuk_button(t('.sign_in'))
-
-  = render "devise/shared/links"
+    = render "devise/shared/links"

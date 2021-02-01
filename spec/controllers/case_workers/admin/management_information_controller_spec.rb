@@ -32,6 +32,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
         let(:report_type) { 'management_information' }
         let(:service_url) { 'https://example.com/document.csv' }
 
+        # TODO: Avoid using allow_any_instance_of
         # rubocop:disable RSpec/AnyInstance
         before do
           create :stats_report, :with_document, report_name: report_type

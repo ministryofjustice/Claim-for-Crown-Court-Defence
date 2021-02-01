@@ -5,8 +5,7 @@
 
 = render partial: 'external_users/shared/timed_retention_banner'
 
-.container.search-wrapper#listanchor
-  = render partial: 'search_form', locals: { archived: true }
+= render partial: 'search_form', locals: { archived: true }
 
 .container#details
   = render partial: 'main_claims_list', locals: { claims: @claims }

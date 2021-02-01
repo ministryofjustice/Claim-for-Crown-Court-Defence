@@ -11,11 +11,11 @@
     %p.heading-large
       = govuk_button_start(t('link.add_claim'), new_external_users_claim_types_path)
 
-.container.search-wrapper#listanchor
-  .grid-row
-    .column-full
-      = render partial: 'shared/scheme_filters', locals: { available_schemes: @available_schemes }
-      = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_external_users_claims_path(anchor: 'listanchor') : external_users_claims_path(anchor: 'listanchor'), hint_text: t('hint.search'), button_text: t('search.claims') }
+
+= render partial: 'shared/scheme_filters', locals: { available_schemes: @available_schemes }
+
+= render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_external_users_claims_path(anchor: 'search-button') : external_users_claims_path(anchor: 'search-button'), hint_text: t('hint.search'), button_text: t('search.claims') }
+
 .container
   .importer-results{'aria-live': 'polite'}
 

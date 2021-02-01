@@ -5,7 +5,7 @@
       "warning_code": 70,
       "fingerprint": "068f21e75ff2347f986c43eed66f00d0be08ce368dc2b5a2927f198e4f519547",
       "check_name": "MassAssignment",
-      "message": "Parameters should be whitelisted for mass assignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
       "file": "app/helpers/application_helper.rb",
       "line": 85,
       "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
@@ -39,8 +39,28 @@
       "user_input": "Claim::BaseClaim.active.find(params[:id])",
       "confidence": "Weak",
       "note": "Caseworkers need to identify the downloads correspond to the cases they are processing"
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "fc469a28ef113fae0ef0022ac73c65a4867936f8aaa0299100108f00c9f195d7",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/case_workers/admin/management_information_controller.rb",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.service_url(:disposition => \"attachment\"))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CaseWorkers::Admin::ManagementInformationController",
+        "method": "download"
+      },
+      "user_input": "Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.service_url(:disposition => \"attachment\")",
+      "confidence": "High",
+      "note": ""
     }
   ],
-  "updated": "2019-07-11 10:02:57 +0100",
-  "brakeman_version": "4.5.1"
+  "updated": "2021-02-01 12:34:48 +0000",
+  "brakeman_version": "4.10.0"
 }

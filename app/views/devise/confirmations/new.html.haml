@@ -1,0 +1,16 @@
+= content_for :page_title, flush: true do
+  = 'Resend confirmation instructions'
+
+= render partial: 'layouts/header', locals: {page_heading: 'Resend confirmation instructions'}
+
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = form_with(model: resource, as: resource_name, url: confirmation_path(resource_name), method: :post, builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: true) do |f|
+      = render "devise/shared/error_messages", resource: resource
+
+      = f.hidden_field :confirmation_token
+
+      = f.govuk_text_field :email, label: { text: t('.email') }, autofocus: true
+      = f.govuk_submit t('.submit')
+
+    = render 'devise/shared/links'

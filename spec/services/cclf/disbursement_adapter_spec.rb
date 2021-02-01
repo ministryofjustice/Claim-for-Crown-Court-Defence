@@ -43,7 +43,7 @@ RSpec.describe CCLF::DisbursementAdapter, type: :adapter do
 
   context 'bill mappings' do
     DISBURSEMENT_BILL_TYPES.each do |unique_code, bill_types|
-      final_claim_bill_scenarios.each do |fee_type_code, scenario|
+      final_claim_bill_scenarios.each_key do |fee_type_code|
         context "when a disbursement of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do
           subject(:instance) { described_class.new(disbursement) }
           let(:claim) { instance_double(::Claim::LitigatorClaim, case_type: case_type) }

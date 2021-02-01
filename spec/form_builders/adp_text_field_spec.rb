@@ -34,26 +34,26 @@ RSpec.describe AdpTextField do
       end
 
       def a100_no_value_no_hint
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-          </label>
-          <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+            </label>
+            <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="" />
+          </div>
+        HTML
         squash(html)
       end
 
       def a200_value_no_hint
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-          </label>
-          <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="X22334455" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+            </label>
+            <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="X22334455" />
+          </div>
+        HTML
         squash(html)
       end
     end
@@ -71,26 +71,26 @@ RSpec.describe AdpTextField do
       end
 
       def a100_no_value_no_hint
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-          </label>
-          <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+            </label>
+            <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
+          </div>
+        HTML
         squash(html)
       end
 
       def a200_value_no_hint
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-          </label>
-          <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="555" min="0" max="99999" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+            </label>
+            <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="555" min="0" max="99999" />
+          </div>
+        HTML
         squash(html)
       end
     end
@@ -123,54 +123,54 @@ RSpec.describe AdpTextField do
       end
 
       def a100_no_value_no_hint
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-          </label>
-          <span class="currency-indicator form-input-denote">&pound;</span>
-          <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+            </label>
+            <span class="currency-indicator form-input-denote">&pound;</span>
+            <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
+          </div>
+        HTML
         squash(html)
       end
 
       def a200_value_no_hint
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-          </label>
-          <span class="currency-indicator form-input-denote">&pound;</span>
-          <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="555" min="0" max="99999" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+            </label>
+            <span class="currency-indicator form-input-denote">&pound;</span>
+            <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="555" min="0" max="99999" />
+          </div>
+        HTML
         squash(html)
       end
 
       def a200_value_no_hint_disabled
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-          </label>
-          <span class="currency-indicator form-input-denote">&pound;</span>
-          <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="555" min="0" max="99999" disabled />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+            </label>
+            <span class="currency-indicator form-input-denote">&pound;</span>
+            <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="555" min="0" max="99999" disabled />
+          </div>
+        HTML
         squash(html)
       end
 
       def a200_value_no_hint_readonly
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-          </label>
-          <span class="currency-indicator form-input-denote">&pound;</span>
-          <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="555" min="0" max="99999" readonly />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+            </label>
+            <span class="currency-indicator form-input-denote">&pound;</span>
+            <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="555" min="0" max="99999" readonly />
+          </div>
+        HTML
         squash(html)
       end
     end
@@ -183,15 +183,15 @@ RSpec.describe AdpTextField do
       end
 
       def b100_with_value_with_hint
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-            <span class="form-hint" >Hint text here</span>
-          </label>
-          <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="X22334455" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+              <span class="form-hint" >Hint text here</span>
+            </label>
+            <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="X22334455" />
+          </div>
+        HTML
         squash(html)
       end
     end
@@ -206,16 +206,16 @@ RSpec.describe AdpTextField do
       end
 
       def c100_with_value_with_hint_and_error
-        html = <<-eos
-        <div class="form-group case_number_wrapper field_with_errors form-group-error">
-          <label class="form-label-bold" for="case_number">
-            Case number
-            <span class="form-hint" >Hint text here</span>
-            <span class="error error-message">Validation error here</span>
-          </label>
-          <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper field_with_errors form-group-error">
+            <label class="form-label-bold" for="case_number">
+              Case number
+              <span class="form-hint" >Hint text here</span>
+              <span class="error error-message">Validation error here</span>
+            </label>
+            <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="" />
+          </div>
+        HTML
         squash(html)
       end
     end
@@ -236,28 +236,28 @@ RSpec.describe AdpTextField do
       end
 
       def d100_no_value_hint_shown
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-            <span class="form-hint" >Hint text here</span>
-          </label>
-          <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+              <span class="form-hint" >Hint text here</span>
+            </label>
+            <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
+          </div>
+        HTML
         squash(html)
       end
 
       def e100_no_value_hint_hidden
-        html = <<-eos
-        <div class="form-group case_number_wrapper">
-          <label class="form-label-bold" for="case_number">
-            Case number
-            <span class="form-hint" style="display: none;">Hint text here</span>
-          </label>
-          <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
-        </div>
-        eos
+        html = <<~HTML
+          <div class="form-group case_number_wrapper">
+            <label class="form-label-bold" for="case_number">
+              Case number
+              <span class="form-hint" style="display: none;">Hint text here</span>
+            </label>
+            <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
+          </div>
+        HTML
         squash(html)
       end
     end

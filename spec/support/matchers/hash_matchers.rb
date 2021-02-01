@@ -18,7 +18,7 @@ RSpec::Matchers.define :match_hash do |expected|
     msg
   end
 
-  failure_message_when_negated do |owner|
+  failure_message_when_negated do
     'expected hashes not to match'
   end
 

@@ -16,15 +16,15 @@ RSpec::Matchers.define :expose do |expected|
     "expose the \"#{expected}\" attribute"
   end
 
-  failure_message do |_actual|
+  failure_message do
     "expected JSON attributes #{@hashed.keys} to include \"#{expected}\""
   end
 
-  failure_message do |_actual|
+  failure_message do
     "expected JSON attributes #{@hashed.keys} to include \"#{expected}\""
   end
 
-  failure_message_when_negated do |_actual|
+  failure_message_when_negated do
     "expected JSON attributes #{@hashed.keys} not to include #{expected} "
   end
 end

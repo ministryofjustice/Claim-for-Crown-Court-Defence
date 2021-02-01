@@ -11,7 +11,7 @@ RSpec::Matchers.define :be_valid_ccr_claim_json do
     'be valid against the CCR claim JSON schema'
   end
 
-  failure_message do |response|
+  failure_message do
     spacer = "\s" * 2
     "expected JSON to be valid against CCR formatted claim schema but the following errors were raised:\n" +
       @errors.each_with_index.map { |error, idx| "#{spacer}#{idx + 1}. #{error}" }.join("\n")

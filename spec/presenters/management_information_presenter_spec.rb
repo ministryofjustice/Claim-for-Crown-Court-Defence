@@ -175,11 +175,7 @@ RSpec.describe ManagementInformationPresenter do
       end
 
       context 'with a submitted claim' do
-        it {
-          presenter.present! do |claim_journeys|
-            is_expected.to eql 'n/a'
-          end
-        }
+        it { presenter.present! { is_expected.to eql 'n/a' } }
       end
 
       context 'with a submitted, allocated claim' do
@@ -190,9 +186,7 @@ RSpec.describe ManagementInformationPresenter do
         end
 
         it 'returns the name of the caseworker allocated to the claim' do
-          presenter.present! do |claim_journeys|
-            is_expected.to eq case_worker1.user.name
-          end
+          presenter.present! { is_expected.to eq case_worker1.user.name }
         end
       end
 
@@ -206,11 +200,7 @@ RSpec.describe ManagementInformationPresenter do
           travel_to(5.days.ago) { claim.redetermine!(author_id: claim.external_user.user.id) }
         end
 
-        it {
-          presenter.present! do |claim_journeys|
-            is_expected.to eql 'n/a'
-          end
-        }
+        it { presenter.present! { is_expected.to eql 'n/a' } }
       end
 
       context 'with a submitted, rejected then awaiting written reasons claim' do
@@ -223,11 +213,7 @@ RSpec.describe ManagementInformationPresenter do
           travel_to(5.days.ago) { claim.await_written_reasons!(author_id: claim.external_user.user.id) }
         end
 
-        it {
-          presenter.present! do |claim_journeys|
-            is_expected.to eql 'n/a'
-          end
-        }
+        it { presenter.present! { is_expected.to eql 'n/a' } }
       end
 
       context 'with a submitted, allocated then authorised claim' do
@@ -288,41 +274,43 @@ RSpec.describe ManagementInformationPresenter do
     end
 
     describe '#af1_lf1_processed_by' do
+      let(:presenter) { ManagementInformationPresenter.new(claim, view) }
+
       context 'an allocated claim' do
+        let(:claim) { create :authorised_claim }
+
         it 'returns nil' do
-          claim = create :authorised_claim
-          presenter = ManagementInformationPresenter.new(claim, view)
-          presenter.present! do |claim_journeys|
-            expect(presenter.af1_lf1_processed_by).to eq ''
-          end
+          presenter.present! { expect(presenter.af1_lf1_processed_by).to eq '' }
         end
       end
 
       context 'a redetermined claim' do
-        it 'returns the name of the last caseworker to update before redetermination' do
-          claim = create :authorised_claim
+        let(:claim) { create :authorised_claim }
+
+        before do
           transition = claim.last_decision_transition
           transition.update_author_id(previous_user.id)
           claim.redetermine!
-          presenter = ManagementInformationPresenter.new(claim, view)
-          presenter.present! do |claim_journeys|
-            expect(presenter.af1_lf1_processed_by).to eq previous_user.name
-          end
+        end
+
+        it 'returns the name of the last caseworker to update before redetermination' do
+          presenter.present! { expect(presenter.af1_lf1_processed_by).to eq previous_user.name }
         end
       end
 
       context 'a claim that is redetermined twice' do
-        it 'returns the name of the last caseworker to update before redetermination' do
-          claim = create :redetermination_claim
+        let(:claim) { create :redetermination_claim }
+
+        before do
           claim.allocate!
           claim.authorise!
           transition = claim.last_decision_transition
           transition.update_author_id(another_user.id)
           claim.redetermine!
-          presenter = ManagementInformationPresenter.new(claim, view)
-          presenter.present! do |claim_journeys|
-            expect(presenter.af1_lf1_processed_by).to eq another_user.name
-          end
+        end
+
+        it 'returns the name of the last caseworker to update before redetermination' do
+          presenter.present! { expect(presenter.af1_lf1_processed_by).to eq another_user.name }
         end
       end
     end

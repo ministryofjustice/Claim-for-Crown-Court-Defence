@@ -1,14 +1,8 @@
 require 'tasks/rake_helpers/storage.rb'
 
 namespace :storage do
-  desc 'Migrate storage from Paperclip to Active Storage'
-  task migrate_paperclip_to_active_storage: :environment do
-    class TempMessage < ApplicationRecord
-      include S3Headers
-      self.table_name = 'messages'
-      has_attached_file :attachment, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
-    end
-
+  desc 'Migrate stats reports from Paperclip to Active Storage'
+  task migrate_stats_reports: :environment do
     module TempStats
       class StatsReport < ApplicationRecord
         include S3Headers
@@ -17,6 +11,32 @@ namespace :storage do
       end
     end
 
+    Storage.new.migrate(
+      names: ['document'],
+      model: 'Stats::StatsReport',
+      records: TempStats::StatsReport.where.not(document_file_name: nil),
+      updated_at_field: :document_updated_at
+    )
+  end
+
+  desc 'Migrate messages from Paperclip to Active Storage'
+  task migrate_messages: :environment do
+    class TempMessage < ApplicationRecord
+      include S3Headers
+      self.table_name = 'messages'
+      has_attached_file :attachment, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+    end
+
+    Storage.new.migrate(
+      names: ['attachment'],
+      model: 'Message',
+      records: TempMessage.where.not(attachment_file_name: nil),
+      updated_at_field: :updated_at
+    )
+  end
+
+  desc 'Migrate documents from Paperclip to Active Storage'
+  task migrate_documents: :environment do
     class TempDocument < ApplicationRecord
       include S3Headers
       self.table_name = 'documents'
@@ -24,23 +44,7 @@ namespace :storage do
       has_attached_file :document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
     end
 
-    storage = Storage.new
-
-    storage.migrate(
-      names: ['attachment'],
-      model: 'Message',
-      records: TempMessage.where.not(attachment_file_name: nil),
-      updated_at_field: :updated_at
-    )
-
-    storage.migrate(
-      names: ['document'],
-      model: 'Stats::StatsReport',
-      records: TempStats::StatsReport.where.not(document_file_name: nil),
-      updated_at_field: :document_updated_at
-    )
-
-    storage.migrate(
+    Storage.new.migrate(
       names: ['document', 'converted_preview_document'],
       model: 'Document',
       records: TempDocument.all,
@@ -48,31 +52,26 @@ namespace :storage do
     )
   end
 
-  desc 'Create some dummy files for testing (assumes local storage)'
-  task dummy_files: :environment do
-    Message.where.not(attachment_file_name: nil).each do |message|
-      Storage.make_dummy_file(
-        File.absolute_path(message.attachment.path),
-        message.attachment_file_size
-      )
-    end
+  desc 'Create dummy stats report files (assumes local storage)'
+  task dummy_stats_reports: :environment do
+    reports = Stats::StatsReport.where.not(document_file_name: nil)
+    
+    Storage.new.make_dummy_files reports, 'document'
+  end
 
-    Stats::StatsReport.where.not(document_file_name: nil).each do |report|
-      Storage.make_dummy_file(
-        File.absolute_path(report.document.path),
-        report.document_file_size
-      )
-    end
+  desc 'Create dummy message files (assumes local storage)'
+  task dummy_messages: :environment do
+    messages = Message.where.not(attachment_file_name: nil)
+    
+    Storage.new.make_dummy_files messages, 'attachment'
+  end
 
-    Document.where.not(document_file_name: nil).each do |document|
-      Storage.make_dummy_file(
-        File.absolute_path(document.document.path),
-        document.document_file_size
-      )
-      Storage.make_dummy_file(
-        File.absolute_path(document.converted_preview_document.path),
-        document.document_file_size
-      )
-    end
+  desc 'Create dummy document files (assumes local storage)'
+  task dummy_documents: :environment do
+    documents = Document.where.not(document_file_name: nil)
+    
+    storage = Storage.new
+    storage.make_dummy_files documents, 'document'
+    storage.make_dummy_files documents, 'converted_preview_document'
   end
 end

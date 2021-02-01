@@ -15,15 +15,8 @@ class Storage
   end
 
   def migrate names:, model:, records:, updated_at_field:
-    puts model.green
-    bar = ProgressBar.create(
-      title: model,
-      format: "%a [%e] %b\u{15E7}%i %c/%C",
-      progress_mark: '#'.green,
-      remainder_mark: "\u{FF65}".yellow,
-      starting_at: 0,
-      total: records.count
-    )
+    progress_bar title: model, total: records.count
+
     records.each_with_index do |record, i|
       bar.increment
       names.each do |name|
@@ -73,12 +66,29 @@ class Storage
     end
   end
 
-  def self.make_dummy_file(filename, size)
-    FileUtils.mkdir_p File.dirname(filename)
-    File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(size)) }
+  def make_dummy_files(records, name)
+    bar = progress_bar title: name, total: records.count
+
+    records.each do |record|
+      bar.increment
+      filename = File.absolute_path(record.send(name).path)
+      FileUtils.mkdir_p File.dirname(filename)
+      File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{name}_file_size"))) }
+    end
   end
 
   private
+
+  def progress_bar(title:, total:)
+    ProgressBar.create(
+      title: title,
+      format: "%a [%e] %b\u{15E7}%i %c/%C",
+      progress_mark: '#'.green,
+      remainder_mark: "\u{FF65}".yellow,
+      starting_at: 0,
+      total: total
+    )
+  end
 
   # Copied from https://github.com/rails/rails/blob/main/activestorage/app/models/active_storage/blob.rb
   def compute_checksum_in_chunks(attachment)

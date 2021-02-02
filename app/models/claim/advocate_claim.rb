@@ -31,9 +31,7 @@ module Claim
 
     delegate :requires_cracked_dates?, to: :case_type, allow_nil: true
 
-    after_initialize do
-      instantiate_basic_fees
-    end
+    after_initialize :instantiate_basic_fees, if: :new_record?
 
     before_validation do
       set_supplier_number

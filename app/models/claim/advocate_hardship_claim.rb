@@ -20,9 +20,7 @@ module Claim
                    unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::AdvocateHardshipClaimSubModelValidator
 
-    after_initialize do
-      instantiate_basic_fees
-    end
+    after_initialize :instantiate_basic_fees, if: :new_record?
 
     before_validation do
       set_supplier_number

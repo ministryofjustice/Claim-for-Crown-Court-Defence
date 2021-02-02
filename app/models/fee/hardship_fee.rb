@@ -24,7 +24,7 @@ class Fee::HardshipFee < Fee::BaseFee
 
   validates_with Fee::HardshipFeeValidator
 
-  after_initialize :default_values
+  after_initialize :default_values, if: :new_record?
 
   def is_hardship?
     true

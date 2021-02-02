@@ -20,68 +20,25 @@
       = govuk_link_button(t('.regenerate'), case_workers_admin_management_information_generate_url(report_type: report_type))
 
 #provisional-assessment-date.form-section.fx-dates-chooser
-  .form-group
-    %h2.heading-large
-      = t('.provisional_assessments_by_date')
-    .form-group
-      .report-status
-        = hidden_field_tag :user_api_key, @current_user.api_key
-        = t('.report_information')
+  %h2.heading-large
+    = t('.provisional_assessments_by_date')
 
-    -# GDS Date start
-    .form-group.fx-start-date
-      %fieldset
-        %legend
-          %span.form-label-bold
-            = t('.start_date')
-          %span.form-hint
-            = t('.example_date')
+  = form_with builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+    = f.hidden_field :user_api_key, id: :user_api_key, value: @current_user.api_key
 
-        .form-date
-          .form-group.form-group-day
-            %label.form-label{ for: 'dob-day-1' }
-              = t('.day')
-            %input#dob-day-1.form-control{ name: 'dob-day-1', pattern: '[0-9]*', type: 'number' }
+    %p= t('.report_information')
 
-          .form-group.form-group-month
-            %label.form-label{ for: 'dob-month-1' }
-              = t('.month')
-            %input#dob-month-1.form-control{ name: 'dob-month-1', pattern: '[0-9]*', type: 'number' }
+    .fx-start-date
+      = f.govuk_date_field :dob1,
+        legend: { text: t('.start_date') },
+        hint: { text: t('.example_date') }
 
-          .form-group.form-group-year
-            %label.form-label{ for: 'dob-year-1' }
-              = t('.year')
-            %input#dob-year-1.form-control{ name: 'dob-year-1', pattern: '[0-9]*', type: 'number' }
+    .fx-end-date
+      = f.govuk_date_field :dob2,
+        legend: { text: t('.end_date') },
+        hint: { text: t('.example_date') }
 
-    -# GDS End start
-    .form-group.fx-end-date
-      %fieldset
-        %legend
-          %span.form-label-bold
-            = t('.end_date')
-          %span.form-hint
-            = t('.example_date')
-
-        .form-date
-          .form-group.form-group-day
-            %label.form-label{ for: 'dob-day-2' }
-              = t('.day')
-            %input#dob-day-2.form-control{ name: 'dob-day-2', pattern: '[0-9]*', type: 'number' }
-
-          .form-group.form-group-month
-            %label.form-label{ for: 'dob-month-2' }
-              = t('.month')
-            %input#dob-month-2.form-control{ name: 'dob-month-2', pattern: '[0-9]*', type: 'number' }
-
-          .form-group.form-group-year
-            %label.form-label{ for: 'dob-year-2' }
-              = t('.year')
-            %input#dob-year-2.form-control{ name: 'dob-year-2', pattern: '[0-9]*', type: 'number' }
-
-
-  .form-group
-    = govuk_link_button(t('.download'), '', disabled: 'true', id: 'provisional_assessments_date_download')
-
+  = govuk_link_button(t('.download'), '', disabled: 'true', id: 'provisional_assessments_date_download')
 
 = govuk_inset_text do
   = t('.report_instructions')

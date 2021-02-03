@@ -25,28 +25,27 @@ RSpec.describe Message, type: :model do
   it { should validate_presence_of(:claim_id).with_message('Message claim_id cannot be blank') }
   it { should validate_presence_of(:body).with_message('Message body cannot be blank') }
 
-  it { should have_attached_file(:attachment) }
+  it { is_expected.to have_one_attached :attachment }
 
   it_behaves_like 'an s3 bucket'
 
   it do
-    should validate_attachment_content_type(:attachment)
-      .allowing('application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.oasis.opendocument.text',
-                'text/rtf',
-                'application/rtf',
-                'image/jpeg',
-                'image/png',
-                'image/tiff',
-                'image/bmp',
-                'image/x-bitmap')
-      .rejecting('text/plain',
-                 'text/html')
+    is_expected.to validate_content_type_of(:attachment).allowing(
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'application/vnd.oasis.opendocument.text',
+      'text/rtf',
+      'application/rtf',
+      'image/jpeg',
+      'image/png',
+      'image/tiff',
+      'image/bmp',
+      'image/x-bitmap'
+    ).rejecting('text/plain', 'text/html')
   end
 
-  it { should validate_attachment_size(:attachment).in(0.megabytes..20.megabytes) }
+  it { is_expected.to validate_size_of(:attachment).less_than_or_equal_to(20.megabytes) }
 
   describe '.for' do
     let(:message) { create(:message) }

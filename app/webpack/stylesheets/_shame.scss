@@ -27,11 +27,6 @@
   display: none;
 }
 
-.search-wrapper {
-  @include container;
-  position: relative;
-}
-
 caption {
   @include container;
 }

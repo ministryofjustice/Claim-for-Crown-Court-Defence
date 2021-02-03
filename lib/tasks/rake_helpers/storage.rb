@@ -15,7 +15,7 @@ class Storage
   end
 
   def migrate names:, model:, records:, updated_at_field:
-    progress_bar title: model, total: records.count
+    bar = progress_bar title: model, total: records.count
 
     records.each_with_index do |record, i|
       bar.increment

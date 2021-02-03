@@ -11,10 +11,14 @@ namespace :storage do
       end
     end
 
+    records = TempStats::StatsReport
+      .where.not(id: ActiveStorage::Attachment.where(record_type: 'Stats::StatsReport').pluck(:record_id).uniq)
+      .where.not(document_file_name: nil)
+
     Storage.new.migrate(
       names: ['document'],
       model: 'Stats::StatsReport',
-      records: TempStats::StatsReport.where.not(document_file_name: nil),
+      records: records,
       updated_at_field: :document_updated_at
     )
   end
@@ -27,10 +31,14 @@ namespace :storage do
       has_attached_file :attachment, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
     end
 
+    records = TempMessage
+      .where.not(id: ActiveStorage::Attachment.where(record_type: 'Message').pluck(:record_id).uniq)
+      .where.not(attachment_file_name: nil)
+
     Storage.new.migrate(
       names: ['attachment'],
       model: 'Message',
-      records: TempMessage.where.not(attachment_file_name: nil),
+      records: records,
       updated_at_field: :updated_at
     )
   end
@@ -44,10 +52,13 @@ namespace :storage do
       has_attached_file :document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
     end
 
+    records = TempDocument
+      .where.not(id: ActiveStorage::Attachment.where(record_type: 'Document').pluck(:record_id).uniq)
+
     Storage.new.migrate(
       names: ['document', 'converted_preview_document'],
       model: 'Document',
-      records: TempDocument.all,
+      records: records,
       updated_at_field: :updated_at
     )
   end

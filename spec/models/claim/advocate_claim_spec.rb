@@ -166,7 +166,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:all_states)  { %w[allocated archived_pending_delete draft authorised part_authorised refused rejected submitted] }
 
     context 'external_user_dashboard_draft?' do
-      before(:each) { allow(claim).to receive(:state).and_return('draft') }
+      before { allow(claim).to receive(:state).and_return('draft') }
 
       it 'responds true in draft' do
         allow(claim).to receive(:state).and_return('draft')
@@ -182,7 +182,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'external_user_dashboard_rejected?' do
-      before(:each) { allow(claim).to receive(:state).and_return('rejected') }
+      before { allow(claim).to receive(:state).and_return('rejected') }
       it 'responds true' do
         allow(claim).to receive(:state).and_return('rejected')
         expect(claim.external_user_dashboard_rejected?).to be true
@@ -259,7 +259,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { FactoryBot.build :unpersisted_claim }
     let(:early_date) { scheme_date_for(nil).to_date - 10.days }
 
-    before(:each) do
+    before do
       # add a second defendant
       claim.defendants << FactoryBot.create(:defendant, claim: claim)
 
@@ -1173,7 +1173,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { FactoryBot.build :unpersisted_claim }
 
     describe 'for a chamber provider' do
-      before :each do
+      before do
         allow(claim.provider).to receive(:provider_type).and_return('chamber')
       end
 
@@ -1186,7 +1186,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     describe 'for a firm provider' do
-      before :each do
+      before do
         allow(claim.provider).to receive(:provider_type).and_return('firm')
       end
 
@@ -1199,7 +1199,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     describe 'for an unknown provider' do
-      before :each do
+      before do
         allow(claim.provider).to receive(:provider_type).and_return('zzzz')
       end
 
@@ -1363,7 +1363,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe '#requested_redetermination?' do
     context 'allocated state from redetermination' do
-      before(:each) do
+      before do
         @claim = FactoryBot.create :redetermination_claim
         @claim.allocate!
       end

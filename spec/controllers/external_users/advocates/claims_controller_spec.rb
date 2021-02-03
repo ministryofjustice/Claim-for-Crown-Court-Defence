@@ -81,7 +81,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         end
 
         context 'create draft' do
-          before(:each) do
+          before do
             expect(Claim::AdvocateClaim.active.count).to eq(0)
             post :create, params: { commit_save_draft: 'Save to drafts', claim: claim_params }
           end
@@ -242,7 +242,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k, _v| k == 'advocate_category' } }
 
         context 'non fixed fee case types' do
-          before(:each) do
+          before do
             @file = fixture_file_upload('files/repo_order_1.pdf', 'application/pdf')
           end
 
@@ -428,7 +428,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
       end
 
       context 'and editing an API created claim' do
-        before(:each) do
+        before do
           subject.update(source: 'api')
         end
 
@@ -448,7 +448,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
       end
 
       context 'and editing a JSON imported claim' do
-        before(:each) do
+        before do
           subject.update(source: 'json_import')
         end
 

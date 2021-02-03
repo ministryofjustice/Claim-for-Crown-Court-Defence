@@ -158,7 +158,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
 
   describe 'PUT #update' do
     context 'when valid' do
-      before(:each) { put :update, params: { provider_id: provider, id: external_user, external_user: { supplier_number: 'XX100', roles: ['advocate'] } } }
+      before { put :update, params: { provider_id: provider, id: external_user, external_user: { supplier_number: 'XX100', roles: ['advocate'] } } }
 
       it 'updates an external_user' do
         external_user.reload
@@ -171,7 +171,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, params: { provider_id: provider, id: external_user, external_user: { roles: ['foo'] } } }
+      before { put :update, params: { provider_id: provider, id: external_user, external_user: { roles: ['foo'] } } }
 
       it 'does not update external_user' do
         external_user.reload
@@ -208,7 +208,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
       put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } }
     end
 
-    before(:each) { travel_to(6.months.ago) { external_user } }
+    before { travel_to(6.months.ago) { external_user } }
 
     context 'when valid' do
       it 'does not require current password to be successful in updating the user record ' do

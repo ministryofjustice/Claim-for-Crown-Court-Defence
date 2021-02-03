@@ -76,7 +76,7 @@ RSpec.shared_examples 'should NOT be able to amend a non-draft claim' do
   include_context 'deactivate deprecation warnings'
 
   context 'when claim is not a draft' do
-    before(:each) { claim.submit! }
+    before { claim.submit! }
 
     it "is not able to create #{described_class.to_s.split('::').last}" do
       post_to_create_endpoint

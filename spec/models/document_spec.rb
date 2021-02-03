@@ -201,7 +201,7 @@ RSpec.describe Document, type: :model do
   context 'save_and_verify' do
     let(:document) { build :document }
 
-    after(:each) { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
+    after { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
 
     context 'save without verification' do
       it 'has not recorded verified filesize, path and is not verified' do
@@ -283,7 +283,7 @@ RSpec.describe Document, type: :model do
     let(:document) { build(:document) }
     let(:new_document) { build(:document, :empty) }
 
-    before(:each) do
+    before do
       document.save_and_verify
       new_document.save_and_verify
     end

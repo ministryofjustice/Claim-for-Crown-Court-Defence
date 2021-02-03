@@ -4,7 +4,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   let(:claim) { FactoryBot.create :claim }
   let(:defendant) { claim.defendants.first }
 
-  before(:each) do
+  before do
     claim.force_validation = true
     claim.form_step = :defendants
   end
@@ -22,7 +22,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   end
 
   context 'fees' do
-    before(:each) do
+    before do
       @basic_fee = FactoryBot.create :basic_fee, :with_date_attended, claim: claim
       @misc_fee = FactoryBot.create :misc_fee, :with_date_attended, claim: claim
       FactoryBot.create :date_attended, attended_item: @misc_fee
@@ -38,7 +38,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   end
 
   context 'expenses' do
-    before(:each) do
+    before do
       @expense = FactoryBot.create :expense, :with_date_attended, claim: claim
       FactoryBot.create :date_attended, attended_item: @expense
       claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
@@ -48,7 +48,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   end
 
   context 'bubbling up errors to the claim' do
-    before(:each) do
+    before do
       claim.force_validation = false
     end
 

@@ -48,7 +48,7 @@ RSpec.describe Defendant, type: :model do
   describe '#validate_date?' do
     let(:defendant) { Defendant.new(claim: Claim::AdvocateClaim.new(case_type: CaseType.new)) }
 
-    before(:each) do
+    before do
       expect(defendant).to receive(:perform_validation?).and_return(true)
     end
 

@@ -6,7 +6,7 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
   let(:claim) { build :litigator_claim }
   let(:fee) { build :graduated_fee }
 
-  before(:each) do
+  before do
     allow(fee).to receive(:perform_validation?).and_return(true)
   end
 

@@ -10,7 +10,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
 
   after(:all) { clean_database }
 
-  before(:each) { sign_in @admin.user }
+  before { sign_in @admin.user }
 
   let(:tab) { nil } # default tab is 'unallocated' when tab not provided
 
@@ -86,7 +86,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       }
     end
 
-    before(:each) do
+    before do
       expect(CaseWorkerService).to receive(:new).and_return(case_worker_service_instance)
       expect(Claims::CaseWorkerClaims).to receive(:new).and_return(case_worker_claims_instance)
       expect(Allocation).to receive(:new).with(strong_params(expected_params))

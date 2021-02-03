@@ -144,7 +144,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           clean_database
         end
 
-        before(:each) do
+        before do
           allow(subject).to receive(:page_size).and_return(limit)
           sign_in advocate.user
           get :index, params: query_params
@@ -339,7 +339,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
       context 'sorting' do
         let(:limit) { 10 }
 
-        before(:each) do
+        before do
           create_list(:archived_pending_delete_claim, 3, external_user: advocate).each { |c| c.update_column(:last_submitted_at, 8.days.ago) }
           create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
           create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
@@ -364,7 +364,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
 
     describe '#GET outstanding' do
-      before(:each) do
+      before do
         get :outstanding
       end
 
@@ -406,7 +406,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
 
     describe '#GET authorised' do
-      before(:each) do
+      before do
         get :authorised
       end
 

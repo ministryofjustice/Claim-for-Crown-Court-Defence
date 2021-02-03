@@ -549,7 +549,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         let(:claim)   { build(:claim, force_validation: true) }
         let(:expense) { build(:expense, claim: claim, expense_type: build(:expense_type)) }
 
-        before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(1) }
+        before { allow(Settings).to receive(:expense_schema_version).and_return(1) }
 
         it 'is invalid if absent' do
           bike_travel_expense.mileage_rate_id = nil

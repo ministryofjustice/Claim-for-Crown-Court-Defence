@@ -21,7 +21,7 @@ module Stats
       let(:advocate_user) { create :user, email: 'advocate@example.com' }
       let(:advocate) { create :external_user, user: advocate_user }
 
-      before(:each) do
+      before do
         case_worker.user = case_worker_user
         @claim_a = create :draft_claim, external_user: advocate, creator: advocate
         @claim_b = create_submitted_claim(base_time + 3.days)

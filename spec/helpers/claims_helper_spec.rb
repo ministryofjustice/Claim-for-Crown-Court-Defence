@@ -5,7 +5,7 @@ RSpec.describe ClaimsHelper do
     let(:case_worker) { double CaseWorker }
     let(:claim) { double Claim }
 
-    before(:each) do
+    before do
       allow(claim).to receive(:id).and_return(66)
       allow(case_worker).to receive(:id).and_return(888)
     end

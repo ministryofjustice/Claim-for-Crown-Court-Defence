@@ -32,7 +32,7 @@ RSpec.describe Fee::BaseFeePresenter do
     end
 
     context 'quantity is not decimal' do
-      before(:each) { allow(fee).to receive(:quantity_is_decimal?).and_return(false) }
+      before { allow(fee).to receive(:quantity_is_decimal?).and_return(false) }
 
       context 'valid' do
         it 'returns an integer quantity' do

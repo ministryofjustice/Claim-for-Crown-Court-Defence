@@ -801,7 +801,7 @@ describe '#earliest_representation_order_date' do
   let(:jun_30) { Date.new(2016, 6, 30) }
   let(:claim) { create :claim }
 
-  before(:each) do
+  before do
     claim.defendants.clear
     claim.save
   end

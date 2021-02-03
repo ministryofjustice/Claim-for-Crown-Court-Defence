@@ -57,7 +57,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
     context 'continue button pressed' do
       context 'valid params' do
-        before(:each) { post :create, params: params }
+        before { post :create, params: params }
 
         it 'creates a claim' do
           expect {
@@ -78,7 +78,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
 
       context 'invalid params' do
-        before(:each) do
+        before do
           params['claim'].delete('litigator_type')
           post :create, params: params
         end
@@ -109,7 +109,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
     context 'save as draft button pressed' do
       context 'valid_params' do
-        before(:each) do
+        before do
           params.delete('commit_continue')
           params['commit'] = 'Continue'
           post :create, params: params
@@ -136,7 +136,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
 
       context 'invalid params' do
-        before(:each) do
+        before do
           params.delete('commit_continue')
           params['claim'].delete('litigator_type')
           params['commit'] = 'Continue'

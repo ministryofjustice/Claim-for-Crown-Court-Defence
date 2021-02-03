@@ -36,7 +36,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
   end
 
   context 'transfer_court' do
-    before(:each) { claim.transfer_case_number = 'A20161234' }
+    before { claim.transfer_case_number = 'A20161234' }
 
     it 'errors if blank when a transfer case number is filled' do
       should_error_with(claim, :transfer_court, 'blank')
@@ -73,7 +73,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
   end
 
   context 'transfer_case_number' do
-    before(:each) { claim.transfer_court = FactoryBot.build(:court) }
+    before { claim.transfer_court = FactoryBot.build(:court) }
 
     it 'does not error if blank' do
       claim.transfer_case_number = nil

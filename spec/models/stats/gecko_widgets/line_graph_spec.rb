@@ -3,7 +3,7 @@ require 'rails_helper'
 module Stats
   module GeckoWidgets
     describe 'LineGraph' do
-      before(:each) do
+      before do
         @lg = LineGraph.new
         @lg.add_dataset('Tories', [33, 5, 6])
         @lg.add_dataset('Labour', [22, 24, 9])

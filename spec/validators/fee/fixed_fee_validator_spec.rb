@@ -11,7 +11,7 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
   context 'LGFS claim' do
     let(:claim) { FactoryBot.build :litigator_claim }
 
-    before(:each) do
+    before do
       fee.clear   # reset some attributes set by the factory
       fee.amount = 1.00
     end
@@ -85,7 +85,7 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
       let!(:unrelated_child) { create :child_fee_type, :s74 }
       let!(:fee) { build :fixed_fee, :lgfs, fee_type: parent, sub_type: child, claim: fixed_fee_claim, date: nil }
 
-      before(:each) { fee.claim.force_validation = true }
+      before { fee.claim.force_validation = true }
 
       context 'should error if fee type has children but fee has no sub type' do
         it 'is present' do

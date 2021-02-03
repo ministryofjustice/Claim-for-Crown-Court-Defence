@@ -345,7 +345,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
 
         context 'when rate NOT present' do
-          before(:each) { baf_fee.rate = 0 }
+          before { baf_fee.rate = 0 }
 
           it 'is valid when quantity is zero' do
             should_be_valid_if_equal_to_value(baf_fee, :quantity, 0)
@@ -517,7 +517,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
       context 'plea and case management hearing (PCM)' do
         context 'permitted case type' do
-          before(:each) do
+          before do
             claim.case_type = FactoryBot.build :case_type, :allow_pcmh_fee_type
           end
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'pcm_invalid') }
@@ -527,7 +527,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
 
         context 'unpermitted case type' do
-          before(:each) do
+          before do
             claim.case_type = FactoryBot.build :case_type
           end
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
@@ -536,7 +536,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       context 'plea and case management hearing (PCM) for supplementary claims' do
-        before(:each) do
+        before do
           supplementary_claim.force_validation = true
         end
         it { should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 0, 'pcm_invalid') }

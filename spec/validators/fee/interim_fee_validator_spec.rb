@@ -25,7 +25,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   let(:disbursement_fee) { build :interim_fee, :disbursement }
   let(:interim_warrant_fee) { build :interim_fee, :warrant }
 
-  before(:each) do
+  before do
     allow(fee).to receive(:perform_validation?).and_return(true)
     allow(disbursement_fee).to receive(:perform_validation?).and_return(true)
     allow(interim_warrant_fee).to receive(:perform_validation?).and_return(true)

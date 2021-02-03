@@ -44,7 +44,7 @@ module Fee
       end
     end
 
-    before(:each) { allow(subject).to receive(:quantity_is_decimal?).and_return(false) }
+    before { allow(subject).to receive(:quantity_is_decimal?).and_return(false) }
 
     context 'zeroise nulls on save' do
       it 'zeroises the amount if null' do
@@ -131,7 +131,7 @@ module Fee
     end
 
     describe '#clear' do
-      before(:each) do
+      before do
         subject.quantity = 10
         subject.amount = 10
         subject.rate = 2

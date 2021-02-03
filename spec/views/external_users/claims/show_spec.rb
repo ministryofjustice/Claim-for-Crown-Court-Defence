@@ -10,7 +10,7 @@ RSpec.describe 'external_users/claims/show.html.haml', type: :view do
     clean_database
   end
 
-  before(:each) do
+  before do
     initialize_view_helpers(view)
     sign_in(@external_user.user, scope: :user)
     allow(view).to receive(:current_user_persona_is?).and_return(false)

@@ -10,11 +10,11 @@ RSpec.describe Caching::ApiRequest do
   let(:value2) { 'test value 2' }
   let(:response2) { double('Response2', headers: headers, body: value2) }
 
-  before(:each) do
+  before do
     Caching.backend = Caching::MemoryStore
   end
 
-  after(:each) do
+  after do
     Caching.clear
   end
 

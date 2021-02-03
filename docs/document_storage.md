@@ -32,7 +32,16 @@ provided by Active Storage so that they can be authenticated. These routes are:
 
 ### `Message#attachment`
 
-To do
+Messages added to a claim may optionally have a single document attached. These
+are uploaded with the same form submission as the rest of the message.
+
+As with `Stats::StatsReports` (above), the `download_attachment` method of the
+messages controller redirects the user to an expiring link to the file in S3.
+The route for this download is:
+
+* `/messages/:id/download_attachment`
+
+where `:id` is the id of the message.
 
 ### `Document#document` and `Document#converted_preview_document`
 

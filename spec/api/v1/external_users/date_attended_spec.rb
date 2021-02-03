@@ -45,7 +45,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
       end
 
       it 'creates one new date attended' do
-        expect { post_to_create_endpoint }.to change { DateAttended.count }.by(1)
+        expect { post_to_create_endpoint }.to change(DateAttended, :count).by(1)
       end
 
       it 'is associated with fee' do

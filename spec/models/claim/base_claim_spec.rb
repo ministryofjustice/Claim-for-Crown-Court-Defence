@@ -293,7 +293,7 @@ RSpec.describe Claim::BaseClaim do
 
       it 'does not change the current step' do
         expect { claim.next_step }
-          .not_to change { claim.current_step }
+          .not_to change(claim, :current_step)
           .from(step)
       end
 
@@ -314,7 +314,7 @@ RSpec.describe Claim::BaseClaim do
 
       it 'does not change the current step' do
         expect { claim.next_step }
-          .not_to change { claim.current_step }
+          .not_to change(claim, :current_step)
           .from(step)
       end
 
@@ -393,7 +393,7 @@ RSpec.describe Claim::BaseClaim do
 
       it 'does not change the current step' do
         expect { claim.previous_step }
-          .not_to change { claim.current_step }
+          .not_to change(claim, :current_step)
           .from(step)
       end
 
@@ -416,7 +416,7 @@ RSpec.describe Claim::BaseClaim do
 
       it 'does not change the current step' do
         expect { claim.previous_step }
-          .not_to change { claim.current_step }
+          .not_to change(claim, :current_step)
           .from(step)
       end
 

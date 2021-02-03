@@ -644,7 +644,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         it 'updates total when claim fee destroyed' do
           expect {
             claim.fixed_fees.first.destroy
-          }.to change { claim.fees_total }.from(1.0).to(0.5)
+          }.to change(claim, :fees_total).from(1.0).to(0.5)
         end
       end
 
@@ -669,13 +669,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         it 'updates the fees total' do
           expect {
             claim.basic_fees.create attributes_for(:basic_fee, :baf_fee, rate: 2.00)
-          }.to change { claim.fees_total }.from(7.5).to(9.5)
+          }.to change(claim, :fees_total).from(7.5).to(9.5)
         end
 
         it 'updates total when claim fee destroyed' do
           expect {
             claim.basic_fees.where(rate: 3.00).first.destroy
-          }.to change { claim.fees_total }.from(7.5).to(4.5)
+          }.to change(claim, :fees_total).from(7.5).to(4.5)
         end
       end
     end

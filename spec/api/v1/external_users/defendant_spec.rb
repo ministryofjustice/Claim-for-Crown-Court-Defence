@@ -57,7 +57,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
       end
 
       it 'creates one new defendant' do
-        expect { post_to_create_endpoint }.to change { Defendant.count }.by(1)
+        expect { post_to_create_endpoint }.to change(Defendant, :count).by(1)
       end
 
       it 'creates a new record using the params provided' do

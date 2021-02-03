@@ -713,8 +713,6 @@ GEM
       state_machines-activemodel (>= 0.8.0)
     state_machines-audit_trail (2.0.2)
       state_machines
-    susy (2.2.14)
-      sass (>= 3.3.0, < 3.5)
     sys-uname (1.2.1)
       ffi (>= 1.0.0)
     temple (0.8.1)
@@ -898,7 +896,6 @@ DEPENDENCIES
   state_machine (~> 1.2.0)
   state_machines-activerecord
   state_machines-audit_trail
-  susy (~> 2.2.14)
   test-prof
   timecop
   tzinfo-data

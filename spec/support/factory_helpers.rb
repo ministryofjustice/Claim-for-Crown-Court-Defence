@@ -40,20 +40,20 @@ module FactoryHelpers
     claim.last_decision_transition.update_author_id(claim.case_workers.first.user.id)
   end
 
-  def advance_to_pending_delete(c)
-    allocate_claim(c)
-    c.reload
-    assign_fees_and_expenses_for(c)
-    c.authorise!
-    c.archive_pending_delete!
+  def advance_to_pending_delete(claim)
+    allocate_claim(claim)
+    claim.reload
+    assign_fees_and_expenses_for(claim)
+    claim.authorise!
+    claim.archive_pending_delete!
   end
 
-  def advance_to_pending_review(c)
-    allocate_claim(c)
-    c.reload
-    assign_fees_and_expenses_for(c)
-    c.authorise!
-    c.archive_pending_review!
+  def advance_to_pending_review(claim)
+    allocate_claim(claim)
+    claim.reload
+    assign_fees_and_expenses_for(claim)
+    claim.authorise!
+    claim.archive_pending_review!
   end
 
   def make_claim_creator_advocate_admin(claim)

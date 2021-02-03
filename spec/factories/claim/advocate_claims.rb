@@ -80,45 +80,45 @@ FactoryBot.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |c| allocate_claim(c); c.reload }
+      after(:create) { |claim| allocate_claim(claim); claim.reload }
     end
 
     factory :archived_pending_delete_claim do
-      after(:create) { |c| advance_to_pending_delete(c) }
+      after(:create) { |claim| advance_to_pending_delete(claim) }
     end
 
     factory :authorised_claim do
       offence { create :offence, :with_fee_scheme, offence_class: create(:offence_class) }
-      after(:create) { |c| authorise_claim(c) }
+      after(:create) { |claim| authorise_claim(claim) }
     end
 
     factory :redetermination_claim do
-      after(:create) do |c|
-        Timecop.freeze(Time.now - 3.day) { c.submit! }
-        Timecop.freeze(Time.now - 2.day) { c.allocate! }
-        Timecop.freeze(Time.now - 1.day) { assign_fees_and_expenses_for(c); c.authorise! }
-        c.redetermine!
+      after(:create) do |claim|
+        Timecop.freeze(Time.now - 3.day) { claim.submit! }
+        Timecop.freeze(Time.now - 2.day) { claim.allocate! }
+        Timecop.freeze(Time.now - 1.day) { assign_fees_and_expenses_for(claim); claim.authorise! }
+        claim.redetermine!
       end
     end
 
     factory :awaiting_written_reasons_claim do
-      after(:create) { |c| c.submit!; c.allocate!; assign_fees_and_expenses_for(c); c.authorise!; c.await_written_reasons! }
+      after(:create) { |claim| claim.submit!; claim.allocate!; assign_fees_and_expenses_for(claim); claim.authorise!; claim.await_written_reasons! }
     end
 
     factory :part_authorised_claim do
-      after(:create) { |c| c.submit!; c.allocate!; assign_fees_and_expenses_for(c); c.authorise_part! }
+      after(:create) { |claim| claim.submit!; claim.allocate!; assign_fees_and_expenses_for(claim); claim.authorise_part! }
     end
 
     factory :refused_claim do
-      after(:create) { |c| c.submit!; c.allocate!; c.refuse! }
+      after(:create) { |claim| claim.submit!; claim.allocate!; claim.refuse! }
     end
 
     factory :rejected_claim do
-      after(:create) { |c| c.submit!; c.allocate!; c.reject! }
+      after(:create) { |claim| claim.submit!; claim.allocate!; claim.reject! }
     end
 
     factory :submitted_claim do
-      after(:create) { |c| publicise_errors(c) { c.submit! } }
+      after(:create) { |claim| publicise_errors(claim) { claim.submit! } }
 
       trait :with_injection do
         after(:create) do |claim|

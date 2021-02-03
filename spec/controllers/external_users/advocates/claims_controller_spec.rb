@@ -247,7 +247,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
           end
 
           context 'valid params' do
-            it 'should create a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
+            it 'creates a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
               post :create, params: { claim: claim_params }
               claim = assigns(:claim)
               # one record for every basic fee regardless of whether blank or not
@@ -269,7 +269,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
           context 'invalid params' do
             render_views
-            it 'should redisplay the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
+            it 'redisplays the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
               post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
@@ -300,7 +300,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
         context 'fixed fee case types' do
           context 'valid params' do
-            it 'should create a claim with fixed fees ONLY' do
+            it 'creates a claim with fixed fees ONLY' do
               ct = create :case_type, :fixed_fee
               claim_params['case_type_id'] = ct.id
               post :create, params: { claim: claim_params }
@@ -338,7 +338,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
           }
         end
 
-        it 'should create a claim with document checklist items' do
+        it 'creates a claim with document checklist items' do
           post :create, params: { claim: claim_params }
           claim = assigns(:claim)
           expect(claim.evidence_checklist_ids).to eql([2, 3])
@@ -508,7 +508,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
     end
 
     context 'Date Parameter handling' do
-      it 'should transform dates with named months into dates' do
+      it 'transforms dates with named months into dates' do
         put :update, params: {
           id: subject,
           claim: {
@@ -521,7 +521,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
-      it 'should transform dates with numbered months into dates' do
+      it 'transforms dates with numbered months into dates' do
         put :update, params: {
           id: subject,
           claim: {

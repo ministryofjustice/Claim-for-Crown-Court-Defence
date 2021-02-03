@@ -78,7 +78,7 @@ RSpec.shared_examples 'should NOT be able to amend a non-draft claim' do
   context 'when claim is not a draft' do
     before(:each) { claim.submit! }
 
-    it "should NOT be able to create #{described_class.to_s.split('::').last}" do
+    it "is not able to create #{described_class.to_s.split('::').last}" do
       post_to_create_endpoint
       expect(last_response.status).to eq 400
       expect_error_response('You cannot edit a claim that is not in draft state', 0)
@@ -254,7 +254,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           expect_error_response('Enter a case number')
         end
 
-        it 'should not create a new claim' do
+        it 'does not create a new claim' do
           expect { post_to_create_endpoint }.not_to(change { claim_class.active.count })
         end
       end
@@ -295,7 +295,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           expect_error_response('my unexpected error')
         end
 
-        it 'should not create a new claim' do
+        it 'does not create a new claim' do
           expect { post_to_create_endpoint }.not_to(change { claim_class.active.count })
         end
       end

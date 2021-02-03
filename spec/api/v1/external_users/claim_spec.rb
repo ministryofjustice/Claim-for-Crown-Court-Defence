@@ -41,14 +41,14 @@ RSpec.describe API::V1::ExternalUsers::Claim do
 
   describe 'Claim endpoints' do
     CLAIM_ENDPOINTS.each do |endpoint|
-      it "should expose #{endpoint}" do
+      it "exposes #{endpoint}" do
         expect(api_routes).to include(endpoint)
       end
     end
   end
 
   describe 'Support versioning via header' do
-    it 'should return 406 Not Acceptable if requested API version via header is not supported' do
+    it 'returns 406 Not Acceptable if requested API version via header is not supported' do
       header 'Accept-Version', 'v2'
 
       CLAIM_ENDPOINTS.each do |endpoint|

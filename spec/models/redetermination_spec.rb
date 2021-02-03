@@ -19,7 +19,7 @@ RSpec.describe Redetermination do
   let(:claim) { create(:claim) }
 
   context 'automatic calculation of total' do
-    it 'should calculate the total on save' do
+    it 'calculates the total on save' do
       rd = create(:redetermination)
       expect(rd.total).to eq(rd.fees + rd.expenses + rd.disbursements)
     end
@@ -59,7 +59,7 @@ RSpec.describe Redetermination do
         let(:claim) { create(:litigator_claim, apply_vat: true) }
         let(:redetermination) { build(:redetermination, fees: 100.0, expenses: 0, disbursements: 0, claim: claim) }
 
-        it 'should not update/calculate the VAT amount' do
+        it 'does not update/calculate the VAT amount' do
           expect { redetermination.save }.not_to change(redetermination, :vat_amount)
         end
       end
@@ -67,7 +67,7 @@ RSpec.describe Redetermination do
   end
 
   context 'default scope' do
-    it 'should return the redeterminations in order of creation date' do
+    it 'returns the redeterminations in order of creation date' do
       date_1 = 2.months.ago
       date_2 = 1.month.ago
       date_3 = 1.week.ago

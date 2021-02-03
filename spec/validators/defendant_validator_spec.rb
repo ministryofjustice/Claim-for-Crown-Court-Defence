@@ -36,7 +36,7 @@ RSpec.describe DefendantValidator, type: :validator do
     context 'from api' do
       let(:claim) { build(:claim, source: 'api') }
 
-      it 'should not validate for presence of a rep order' do
+      it 'does not validate for presence of a rep order' do
         expect(defendant).to be_valid
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe DefendantValidator, type: :validator do
     context 'not from api' do
       let(:claim) { create(:submitted_claim, source: 'web') }
 
-      it 'should validate for presence of a rep order' do
+      it 'validates for presence of a rep order' do
         expect(defendant).to_not be_valid
         expect(defendant.errors[:representation_order_1_representation_order_date]).to eq ['blank']
         expect(defendant.errors[:representation_order_1_maat_reference]).to eq ['invalid']

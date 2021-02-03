@@ -52,17 +52,17 @@ RSpec.describe Defendant, type: :model do
       expect(defendant).to receive(:perform_validation?).and_return(true)
     end
 
-    it 'should return false if there is no associated claim' do
+    it 'returns false if there is no associated claim' do
       defendant.claim = nil
       expect(defendant.validate_date?).to be_falsey
     end
 
-    it 'should return false if there is a claim but no case type' do
+    it 'returns false if there is a claim but no case type' do
       defendant.claim.case_type = nil
       expect(defendant.validate_date?).to be_falsey
     end
 
-    it 'should return true if there is a claim with any case type' do
+    it 'returns true if there is a claim with any case type' do
       expect(defendant.validate_date?).to be true
     end
   end
@@ -70,12 +70,12 @@ RSpec.describe Defendant, type: :model do
   context 'representation orders' do
     let(:defendant) { FactoryBot.create :defendant, claim: FactoryBot.create(:advocate_claim) }
 
-    it 'should be valid if there is one representation order that isnt blank' do
+    it 'is valid if there is one representation order that isnt blank' do
       expect(defendant).to be_valid
     end
 
     context 'draft claim' do
-      it 'should be valid if there is more than one representation order' do
+      it 'is valid if there is more than one representation order' do
         defendant.representation_orders << FactoryBot.create(:representation_order)
         expect(defendant).to be_valid
       end
@@ -87,7 +87,7 @@ RSpec.describe Defendant, type: :model do
         defendant.save
       end
 
-      it 'should not be valid if there are no representation orders' do
+      it 'is not valid if there are no representation orders' do
         defendant.representation_orders = []
         expect(defendant).not_to be_valid
         expect(defendant.errors).not_to be_blank

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Stats
   describe ClaimSubmissionsDataGenerator do
-    it 'should instantiate' do
+    it 'instantiates' do
       populate_statistics_table
       expect(ClaimSubmissionsDataGenerator.new.run.to_json).to eq expected_output.to_json
     end

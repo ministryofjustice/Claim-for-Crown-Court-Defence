@@ -32,7 +32,7 @@ RSpec.describe DateAttendedValidator, type: :validator do
       it { expect(date_attended).to be_valid }
     end
 
-    it 'should not error if less than two years before earliest rep order date' do
+    it 'does not error if less than two years before earliest rep order date' do
       date_attended.date = earliest_reporder_date - 369.days
       date_attended.date_to = nil
       expect(date_attended).to be_valid
@@ -43,7 +43,7 @@ RSpec.describe DateAttendedValidator, type: :validator do
     it { should_error_if_earlier_than_other_date(date_attended, :date_to, :date, 'not_before_date_from') }
     it { should_error_if_in_future(date_attended, :date_to, 'not_after_today') }
 
-    it 'should not error if nil' do
+    it 'does not error if nil' do
       date_attended.date_to = nil
       expect(date_attended).to be_valid
     end

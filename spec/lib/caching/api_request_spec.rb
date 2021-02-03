@@ -24,7 +24,7 @@ RSpec.describe Caching::ApiRequest do
     context 'default set' do
       let(:options) { {} }
 
-      it 'should have a default set of options, if none provided' do
+      it 'has a default set of options, if none provided' do
         expect(subject.options[:ttl]).to eq(900)
         expect(subject.options[:ignore_params]).to eq([])
       end
@@ -33,7 +33,7 @@ RSpec.describe Caching::ApiRequest do
     context 'custom set' do
       let(:options) { { ttl: 180, ignore_params: ['sorting'] } }
 
-      it 'should override default options if provided' do
+      it 'overrides default options if provided' do
         expect(subject.options[:ttl]).to eq(180)
         expect(subject.options[:ignore_params]).to eq(['sorting'])
       end
@@ -56,7 +56,7 @@ RSpec.describe Caching::ApiRequest do
       %w(http://test.com?b=1&a=2 http://test.com?a=2&b=1),
       %w(http://test.com?a=1#anchor http://test.com?a=1)
     ].each do |(url, processed_url)|
-      it "should process #{url} and return #{processed_url}" do
+      it "processes #{url} and return #{processed_url}" do
         instance = described_class.new(url)
         expect(instance.url).to eq(processed_url)
       end
@@ -188,7 +188,7 @@ RSpec.describe Caching::ApiRequest do
     context 'reading from cache' do
       let(:headers) { { cache_control: 'max-age=30' } }
 
-      it 'should read from the cache and return the content' do
+      it 'reads from the cache and return the content' do
         expect(current_store).to receive(:set).with(/api:/, /test value 1/).once.and_call_original
         expect(current_store).not_to receive(:set).with(/api:/, /test value 2/)
         expect(current_store).to receive(:get).with(/api:/).twice.and_call_original

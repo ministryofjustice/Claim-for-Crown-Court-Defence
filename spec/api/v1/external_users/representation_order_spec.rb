@@ -42,7 +42,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
     include_examples 'should NOT be able to amend a non-draft claim'
 
     context 'when representation_order params are valid' do
-      it 'should create fee, return 201 and expense JSON output including UUID' do
+      it 'creates fee, return 201 and expense JSON output including UUID' do
         post_to_create_endpoint
         expect(last_response.status).to eq 201
         json = JSON.parse(last_response.body)
@@ -51,7 +51,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
         expect(RepresentationOrder.find_by(uuid: json['id']).defendant.uuid).to eq(json['defendant_id'])
       end
 
-      it 'should create one new representation_order' do
+      it 'creates one new representation_order' do
         expect { post_to_create_endpoint }.to change { RepresentationOrder.count }.by(1)
       end
 
@@ -86,7 +86,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       include_examples 'invalid API key create endpoint', exclude: :other_provider
 
       context 'missing defendant id' do
-        it 'should return 400 and a JSON error array' do
+        it 'returns 400 and a JSON error array' do
           valid_params.delete(:defendant_id)
           post_to_create_endpoint
           expect_error_response('Defendant cannot be blank')
@@ -94,7 +94,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       end
 
       context 'invalid defendant id' do
-        it 'should return 400 and a JSON error array' do
+        it 'returns 400 and a JSON error array' do
           valid_params[:defendant_id] = SecureRandom.uuid
           post_to_create_endpoint
           expect_error_response('Defendant cannot be blank')

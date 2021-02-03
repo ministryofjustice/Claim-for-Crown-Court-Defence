@@ -26,11 +26,11 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
     let(:claim) { build :advocate_claim, source: 'json_import' }
 
-    it 'should not perform claim validation' do
+    it 'does not perform claim validation' do
       expect(claim.perform_validation?).to be_falsey
     end
 
-    it 'should perform fee validation' do
+    it 'performs fee validation' do
       expect(ppe_fee.perform_validation?).to be_truthy
     end
   end
@@ -185,7 +185,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   end
 
   describe '#validate_warrant_issued_date' do
-    it 'should raise error if date present' do
+    it 'raises error if date present' do
       fee.warrant_issued_date = Date.today
       expect(fee).not_to be_valid
       expect(fee.errors[:warrant_issued_date]).to eq(['present'])
@@ -193,7 +193,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   end
 
   describe '#validate_warrant_executed_date' do
-    it 'should raise error if date present' do
+    it 'raises error if date present' do
       fee.warrant_executed_date = Date.today
       expect(fee).not_to be_valid
       expect(fee.errors[:warrant_executed_date]).to eq(['present'])
@@ -230,7 +230,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     end
 
     context 'for fees on agfs draft claims' do
-      it 'should validate presence of rate' do
+      it 'validates presence of rate' do
         fee.amount = nil
         fee.rate = nil
         expect(fee).to_not be_valid
@@ -244,7 +244,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     context 'for fees on agfs submitted claims' do
       let(:claim) { build(:advocate_claim, :with_fixed_fee_case) }
 
-      it 'should NOT validate presence of rate' do
+      it 'does not validate presence of rate' do
         # TODO: there's some issues the factories related with the validity of its data
         # historically all claims were by default set with a form_step which is no longer
         # the case. Without it set, the claim as a whole is validated and other attributes
@@ -260,7 +260,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
     # TODO: this will become default after production claims archived/deleted
     context 'for fees entered after rate was reintroduced' do
-      it 'should require a rate of more than zero' do
+      it 'requires a rate of more than zero' do
         fee.amount = nil
         fee.rate = nil
         expect(fee).to_not be_valid
@@ -269,7 +269,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     end
 
     context 'for uncalculated fees (PPE and NPW)' do
-      it 'should raise an error when rate present' do
+      it 'raises an error when rate present' do
         [ppe_fee, npw_fee].each do |f|
           f.rate = 25
           expect(f).to_not be_valid
@@ -277,14 +277,14 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
       end
 
-      it 'should NOT raise an error when rate NOT present' do
+      it 'does not raise an error when rate NOT present' do
         [ppe_fee, npw_fee].each do |f|
           f.rate = nil
           expect(f).to be_valid
         end
       end
 
-      it 'should NOT raise an error when amount is zero and quantity is not' do
+      it 'does not raise an error when amount is zero and quantity is not' do
         [ppe_fee, npw_fee].each do |f|
           f.amount = 0
           expect(f).to be_valid
@@ -296,12 +296,12 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   describe '#validate_quantity' do
     context 'integer / decimal validation' do
       context 'integer' do
-        it 'should allow integers' do
+        it 'allows integers' do
           npw_fee.quantity = 44
           expect(npw_fee).to be_valid
         end
 
-        it 'should not allow decimals' do
+        it 'does not allow decimals' do
           npw_fee.quantity = 34.57
           expect(npw_fee).not_to be_valid
           expect(npw_fee.errors[:quantity]).to eq(['integer'])
@@ -309,12 +309,12 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       context 'decimal' do
-        it 'should allow integers' do
+        it 'allows integers' do
           spf_fee.quantity = 44
           expect(spf_fee).to be_valid
         end
 
-        it 'should allow decimals' do
+        it 'allows decimals' do
           spf_fee.quantity = 21.5
           expect(spf_fee).to be_valid
         end
@@ -327,17 +327,17 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
       context 'basic fee (BAF)' do
         context 'when rate present' do
-          it 'should be valid with quantity of one' do
+          it 'is valid with quantity of one' do
             should_be_valid_if_equal_to_value(baf_fee, :quantity, 1)
           end
 
-          it 'should raise numericality error when quantity not in range 0 to 1' do
+          it 'raises numericality error when quantity not in range 0 to 1' do
             [-1, 2].each do |q|
               should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_qty_numericality')
             end
           end
 
-          it 'should raise invalid error when quantity is nil or 0' do
+          it 'raises invalid error when quantity is nil or 0' do
             [nil, 0].each do |q|
               should_error_if_equal_to_value(baf_fee, :quantity, q, 'baf_invalid')
             end
@@ -347,11 +347,11 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         context 'when rate NOT present' do
           before(:each) { baf_fee.rate = 0 }
 
-          it 'should be valid when quantity is zero' do
+          it 'is valid when quantity is zero' do
             should_be_valid_if_equal_to_value(baf_fee, :quantity, 0)
           end
 
-          it 'should raise invalid RATE error when quantity is one' do
+          it 'raises invalid RATE error when quantity is one' do
             baf_fee.quantity = 1
             expect(baf_fee.valid?).to be false
             expect(baf_fee.errors[:rate]).to include('invalid')
@@ -361,24 +361,24 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
       context 'daily_attendance_3_40 (DAF)' do
         context 'trial length less than three days' do
-          it 'should error if trial length is less than three days' do
+          it 'errors if trial length is less than three days' do
             daf_fee.claim.actual_trial_length = 2
             should_error_if_equal_to_value(daf_fee, :quantity, 1, 'daf_qty_mismatch')
           end
         end
 
         context 'trial length greater than three days' do
-          it 'should error if quantity greater than 38 regardless of actual trial length' do
+          it 'errors if quantity greater than 38 regardless of actual trial length' do
             daf_fee.claim.actual_trial_length = 45
             should_error_if_equal_to_value(daf_fee, :quantity, 39, 'daf_qty_mismatch')
           end
 
-          it 'should error if quantity greater than actual trial length less 2 days' do
+          it 'errors if quantity greater than actual trial length less 2 days' do
             daf_fee.claim.actual_trial_length = 20
             should_error_if_equal_to_value(daf_fee, :quantity, 19, 'daf_qty_mismatch')
           end
 
-          it 'should not error if quantity is valid' do
+          it 'does not error if quantity is valid' do
             daf_fee.claim.actual_trial_length = 20
             should_be_valid_if_equal_to_value(daf_fee, :quantity, 17)
             should_be_valid_if_equal_to_value(daf_fee, :quantity, 10)
@@ -388,7 +388,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         context 'for retrials' do
           let(:case_type) { build(:case_type, :retrial) }
 
-          it 'should validate based on retrial length' do
+          it 'validates based on retrial length' do
             daf_fee.claim.actual_trial_length = 2
             daf_fee.claim.retrial_actual_length = 20
             should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
@@ -398,30 +398,30 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       context 'daily_attendance_41_50 (DAH)' do
-        it 'should error if trial length is less than 40 days' do
+        it 'errors if trial length is less than 40 days' do
           dah_fee.claim.actual_trial_length = 35
           should_error_if_equal_to_value(dah_fee, :quantity, 2, 'dah_qty_mismatch')
         end
 
         context 'trial length greater than 40 days' do
-          it 'should error if greater than trial length less 40 days' do
+          it 'errors if greater than trial length less 40 days' do
             dah_fee.claim.actual_trial_length = 45
             should_error_if_equal_to_value(dah_fee, :quantity, 6, 'dah_qty_mismatch')
           end
 
-          it 'should error if greater than 10 days regardless of actual trial length' do
+          it 'errors if greater than 10 days regardless of actual trial length' do
             dah_fee.claim.actual_trial_length = 70
             should_error_if_equal_to_value(dah_fee, :quantity, 12, 'dah_qty_mismatch')
           end
 
-          it 'should not error if valid' do
+          it 'does not error if valid' do
             dah_fee.claim.actual_trial_length = 55
             should_be_valid_if_equal_to_value(dah_fee, :quantity, 1)
             should_be_valid_if_equal_to_value(dah_fee, :quantity, 10)
           end
         end
 
-        it 'should validate based on retrial length for retrials' do
+        it 'validates based on retrial length for retrials' do
           dah_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
           dah_fee.claim.actual_trial_length = 2
           dah_fee.claim.retrial_actual_length = 45
@@ -432,26 +432,26 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
       context 'daily attendance 51 plus (DAJ)' do
         context 'trial length less than 51 days' do
-          it 'should error if trial length is less than 51 days' do
+          it 'errors if trial length is less than 51 days' do
             daj_fee.claim.actual_trial_length = 50
             should_error_if_equal_to_value(daj_fee, :quantity, 2, 'daj_qty_mismatch')
           end
         end
 
         context 'trial length greater than 50 days' do
-          it 'should error if greater than trial length less 50 days' do
+          it 'errors if greater than trial length less 50 days' do
             daj_fee.claim.actual_trial_length = 55
             should_error_if_equal_to_value(daj_fee, :quantity, 6, 'daj_qty_mismatch')
           end
 
-          it 'should not error if valid' do
+          it 'does not error if valid' do
             daj_fee.claim.actual_trial_length = 60
             should_be_valid_if_equal_to_value(daj_fee, :quantity, 1)
             should_be_valid_if_equal_to_value(daj_fee, :quantity, 10)
           end
         end
 
-        it 'should validate based on retrial length for retrials' do
+        it 'validates based on retrial length for retrials' do
           daj_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
           daj_fee.claim.actual_trial_length = 2
           daj_fee.claim.retrial_actual_length = 70
@@ -506,7 +506,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           end
         end
 
-        it 'should validate based on retrial length for retrials' do
+        it 'validates based on retrial length for retrials' do
           dat_fee.claim.case_type = create(:case_type, :retrial)
           dat_fee.claim.actual_trial_length = 2
           dat_fee.claim.retrial_actual_length = 10
@@ -565,11 +565,11 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       it { should_be_valid_if_equal_to_value(fee, :quantity, 99999) }
       it { should_error_if_equal_to_value(fee, :quantity, 100000, 'invalid') }
 
-      it 'should not allow zero if amount is not zero' do
+      it 'does not allow zero if amount is not zero' do
         should_error_if_equal_to_value(fee, :quantity, 0, 'invalid')
       end
 
-      it 'should error if resulting amount (rate * quantity) is greater than the max limit' do
+      it 'errors if resulting amount (rate * quantity) is greater than the max limit' do
         fee.fee_type.calculated = false
         fee.rate = 101
         fee.quantity = 2000
@@ -582,23 +582,23 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
   describe '#validate_amount' do
     context 'uncalculated fee validate amount against quantity' do
-      it 'should be valid if quantity greater than zero and amount is nil, zero or greater than zero' do
+      it 'is valid if quantity greater than zero and amount is nil, zero or greater than zero' do
         should_be_valid_if_equal_to_value(ppe_fee, :amount, nil)
         should_be_valid_if_equal_to_value(ppe_fee, :amount, 0.00)
         should_be_valid_if_equal_to_value(ppe_fee, :amount, 350.00)
       end
 
-      it 'should error if amount less than zero' do
+      it 'errors if amount less than zero' do
         should_error_if_equal_to_value(ppe_fee, :amount, -200, 'ppe_invalid')
         should_error_if_equal_to_value(npw_fee, :amount, -200, 'npw_invalid')
       end
 
-      it 'should error if amount is greater than the max limit' do
+      it 'errors if amount is greater than the max limit' do
         should_error_if_equal_to_value(ppe_fee, :amount, 200_001, 'ppe_invalid')
         should_error_if_equal_to_value(npw_fee, :amount, 200_001, 'npw_invalid')
       end
 
-      it 'should error if amount greater than zero and quantity is nil, zero or less than zero' do
+      it 'errors if amount greater than zero and quantity is nil, zero or less than zero' do
         should_error_if_equal_to_value(ppe_fee, :quantity, 0, 'ppe_invalid')
         should_error_if_equal_to_value(ppe_fee, :quantity, nil, 'ppe_invalid')
         should_error_if_equal_to_value(ppe_fee, :quantity, -2, 'ppe_invalid')
@@ -609,7 +609,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     end
 
     context 'calculated fees do NOT validate amount against quantity' do
-      it 'should always be valid since amount is derived from rate * quantity' do
+      it 'is always valid since amount is derived from rate * quantity' do
         should_be_valid_if_equal_to_value(baf_fee, :amount, nil)
         should_be_valid_if_equal_to_value(baf_fee, :amount, 0.00)
         should_be_valid_if_equal_to_value(baf_fee, :amount, 350.00)

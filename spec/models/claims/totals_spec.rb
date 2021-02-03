@@ -123,7 +123,7 @@ RSpec.describe Claim, type: :model do
       context 'with VAT' do
         before { allow(claim).to receive_messages(vat_registered?: true, apply_vat: true) }
 
-        it 'should add totals and calculate VAT as and when submodels are added or removed' do
+        it 'adds totals and calculate VAT as and when submodels are added or removed' do
           is_expected.to have_totals(fees_total: 0.0, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0)
 
           # add misc fees for 31.5, and 6.25 - VAT should be added in
@@ -157,7 +157,7 @@ RSpec.describe Claim, type: :model do
       context 'without VAT' do
         before { allow(claim).to receive_messages(vat_registered?: false, apply_vat?: false) }
 
-        it 'should add totals with explicit VAT amounts for expenses and disbursements as and when submodels are added or removed' do
+        it 'adds totals with explicit VAT amounts for expenses and disbursements as and when submodels are added or removed' do
           is_expected.to have_totals(fees_total: 0.0, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0)
 
           # add misc fees for 31.5, and 6.25 - VAT should not be added in

@@ -114,11 +114,11 @@ RSpec.describe Claims::StateMachine, type: :model do
 
       it { expect { claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
 
-      it 'should be able to deallocate' do
+      it 'is able to deallocate' do
         expect { claim.deallocate! }.to change { claim.state }.to('submitted')
       end
 
-      it 'should unlink case workers on deallocate' do
+      it 'unlinks case workers on deallocate' do
         expect(claim.case_workers).to receive(:destroy_all)
         claim.deallocate!
       end
@@ -346,17 +346,17 @@ RSpec.describe Claims::StateMachine, type: :model do
   describe '.is_in_state?' do
     let(:claim) { build :unpersisted_claim }
 
-    it 'should be true if state is in EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
+    it 'is true if state is in EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('allocated')
       expect(Claims::StateMachine.is_in_state?(:external_user_dashboard_submitted?, claim)).to be true
     end
 
-    it 'should return false if the state is not one of the EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
+    it 'returns false if the state is not one of the EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('draft')
       expect(Claims::StateMachine.is_in_state?(:external_user_dashboard_submitted?, claim)).to be false
     end
 
-    it 'should return false if the method name is not recognised' do
+    it 'returns false if the method name is not recognised' do
       allow(claim).to receive(:state).and_return('draft')
       expect(Claims::StateMachine.is_in_state?(:external_user_rubbish_submitted?, claim)).to be false
     end
@@ -373,7 +373,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       }
     end
 
-    it 'should log state transitions' do
+    it 'logs state transitions' do
       expect { claim.submit! }.to change(ClaimStateTransition, :count).by(1)
     end
 

@@ -69,7 +69,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
       include_examples 'should NOT be able to amend a non-draft claim'
 
       context 'when expense params are valid' do
-        it 'should create expense, return 201 and expense JSON output including UUID' do
+        it 'creates expense, return 201 and expense JSON output including UUID' do
           post_to_create_endpoint
           expect(last_response.status).to eq 201
           json = JSON.parse(last_response.body)
@@ -78,11 +78,11 @@ RSpec.describe API::V1::ExternalUsers::Expense do
           expect(Expense.find_by(uuid: json['id']).claim.uuid).to eq(json['claim_id'])
         end
 
-        it 'should create one new expense' do
+        it 'creates one new expense' do
           expect { post_to_create_endpoint }.to change { Expense.count }.by(1)
         end
 
-        it 'should create a new record using the params provided' do
+        it 'creates a new record using the params provided' do
           post_to_create_endpoint
           new_expense = Expense.last
           expect(new_expense.claim_id).to eq claim.id
@@ -96,7 +96,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
       context 'expense_type_unique_code' do
         let(:unique_code) { expense_type.unique_code }
 
-        it 'should create a new expense record with a expense type specified by unique code' do
+        it 'creates a new expense record with a expense type specified by unique code' do
           params.delete(:expense_type_id)
           params.merge!(expense_type_unique_code: unique_code)
 
@@ -121,7 +121,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
 
         context 'missing expected params' do
           EXPENSE_FIELDS_AND_ERRORS.each do |field, expected_message|
-            it "should give the correct error message when #{field} is blank" do
+            it "gives the correct error message when #{field} is blank" do
               params.delete(field)
               post_to_create_endpoint
               expect(last_response.status).to eq 400
@@ -131,7 +131,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         end
 
         context 'mutually exclusive params expense_type_id and expense_type_unique_code' do
-          it 'should return an error if both are provided' do
+          it 'returns an error if both are provided' do
             params[:expense_type_unique_code] = 'XXX'
             expect(params.keys).to include(:expense_type_id, :expense_type_unique_code)
 
@@ -142,7 +142,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         end
 
         context 'unexpected error' do
-          it 'should return 400 and JSON error array of error message' do
+          it 'returns 400 and JSON error array of error message' do
             allow_any_instance_of(Expense).to receive(:save!).and_raise(RangeError, 'out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer')
             post_to_create_endpoint
             expect(last_response.status).to eq(400)
@@ -152,7 +152,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         end
 
         context 'invalid claim id' do
-          it 'should return 400 and a JSON error array' do
+          it 'returns 400 and a JSON error array' do
             params[:claim_id] = SecureRandom.uuid
             post_to_create_endpoint
             expect(last_response.status).to eq 400
@@ -161,7 +161,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         end
 
         context 'malformed claim UUID' do
-          it 'should reject invalid uuids' do
+          it 'rejects invalid uuids' do
             params[:claim_id] = 'any-old-rubbish'
             post_to_create_endpoint
             expect(last_response.status).to eq(400)
@@ -170,7 +170,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         end
 
         context 'invalid expense_type_unique_code' do
-          it 'should return 400 and a JSON error if no expense type was found' do
+          it 'returns 400 and a JSON error if no expense type was found' do
             params.delete(:expense_type_id)
             params.merge!(expense_type_unique_code: 'XXXXX')
 
@@ -201,7 +201,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
 
       context 'missing expected params' do
         EXPENSE_FIELDS_AND_ERRORS.each do |field, expected_message|
-          it "should give the correct error message when #{field} is blank" do
+          it "gives the correct error message when #{field} is blank" do
             params.delete(field)
             post_to_validate_endpoint
             expect(last_response.status).to eq 400

@@ -1,11 +1,11 @@
 RSpec.shared_examples 'common advocate litigator validations' do |external_user_type, options|
   context 'external_user' do
-    it 'should error if not present, regardless' do
+    it 'errors if not present, regardless' do
       claim.external_user = nil
       should_error_with(claim, :external_user, "blank_#{external_user_type}")
     end
 
-    it 'should error if does not belong to the same provider as the creator' do
+    it 'errors if does not belong to the same provider as the creator' do
       claim.creator = create(:external_user, external_user_type)
       claim.external_user = create(:external_user, external_user_type)
       should_error_with(claim, :external_user, "Creator and #{external_user_type} must belong to the same provider")
@@ -13,7 +13,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
   end
 
   context 'creator' do
-    it 'should error if not present, regardless' do
+    it 'errors if not present, regardless' do
       claim.creator = nil
       should_error_with(claim, :creator, 'blank')
     end
@@ -21,7 +21,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
 
   unless options&.fetch(:case_type, nil) == false
     context 'case_type' do
-      it 'should error if not present' do
+      it 'errors if not present' do
         claim.case_type = nil
         should_error_with(claim, :case_type, 'blank')
       end
@@ -29,7 +29,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
   end
 
   context 'court' do
-    it 'should error if not present' do
+    it 'errors if not present' do
       claim.court = nil
       should_error_with(claim, :court, 'blank')
     end
@@ -38,11 +38,11 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
   context 'transfer_court' do
     before(:each) { claim.transfer_case_number = 'A20161234' }
 
-    it 'should error if blank when a transfer case number is filled' do
+    it 'errors if blank when a transfer case number is filled' do
       should_error_with(claim, :transfer_court, 'blank')
     end
 
-    it 'should error when the transfer court is the same as the original court' do
+    it 'errors when the transfer court is the same as the original court' do
       claim.transfer_court = claim.court
       should_error_with(claim, :transfer_court, 'same')
     end
@@ -55,7 +55,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
       context 'and transfer court is not set' do
         before { claim.transfer_court = nil }
 
-        it 'should error' do
+        it 'errors' do
           should_error_with(claim, :transfer_court, 'blank')
         end
       end
@@ -65,7 +65,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
 
         let(:court) { build(:court) }
 
-        it 'should NOT error' do
+        it 'does not error' do
           should_not_error(claim, :transfer_court)
         end
       end
@@ -75,22 +75,22 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
   context 'transfer_case_number' do
     before(:each) { claim.transfer_court = FactoryBot.build(:court) }
 
-    it 'should NOT error if blank' do
+    it 'does not error if blank' do
       claim.transfer_case_number = nil
       should_not_error(claim, :transfer_case_number)
     end
 
-    it 'should NOT error if valid case_number' do
+    it 'does not error if valid case_number' do
       claim.transfer_case_number = 'A20161234'
       should_not_error(claim, :transfer_case_number)
     end
 
-    it 'should NOT error if valid URN' do
+    it 'does not error if valid URN' do
       claim.transfer_case_number = 'ABCDEFGHIJ1234567890'
       should_not_error(claim, :transfer_case_number)
     end
 
-    it 'should error if wrong format' do
+    it 'errors if wrong format' do
       claim.transfer_case_number = 'ABC_'
       should_error_with(claim, :transfer_case_number, 'invalid_case_number_or_urn')
     end
@@ -189,17 +189,17 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
   end
 
   context 'external_user' do
-    it 'should error when does not have advocate role' do
+    it 'errors when does not have advocate role' do
       claim.external_user = advocate
       should_error_with(claim, :external_user, 'must have litigator role')
     end
 
-    it 'should error if not present, regardless' do
+    it 'errors if not present, regardless' do
       claim.external_user = nil
       should_error_with(claim, :external_user, 'blank_litigator')
     end
 
-    it 'should error if does not belong to the same provider as the creator' do
+    it 'errors if does not belong to the same provider as the creator' do
       claim.creator = create(:external_user, :litigator)
       claim.external_user = create(:external_user, :litigator)
       should_error_with(claim, :external_user, 'Creator and litigator must belong to the same provider')
@@ -207,7 +207,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
   end
 
   context 'creator' do
-    it 'should error when their provider does not have LGFS role' do
+    it 'errors when their provider does not have LGFS role' do
       claim.creator = create(:external_user, :advocate)
       should_error_with(claim, :creator, 'must be from a provider with permission to submit LGFS claims')
     end
@@ -219,7 +219,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
       claim.offence = nil
     end
 
-    it 'should error if NOT present for case type without fixed fees' do
+    it 'errors if NOT present for case type without fixed fees' do
       skip('does not apply to this claim type') if ([:hardship_claim] & flags).any?
       claim.case_type.is_fixed_fee = false
       should_error_with(claim, :offence, 'blank_class')
@@ -227,7 +227,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
       should_not_error(claim, :offence)
     end
 
-    it 'should NOT error if a Miscellaneous/other offence' do
+    it 'does not error if a Miscellaneous/other offence' do
       claim.offence = misc_offence
       expect(claim).to be_valid
     end

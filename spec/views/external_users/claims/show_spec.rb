@@ -107,7 +107,7 @@ RSpec.describe 'external_users/claims/show.html.haml', type: :view do
       context 'when travel expenses have been calculated' do
         let!(:expense) { create(:expense, :with_calculated_distance_increased, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim: claim) }
 
-        it 'should not render state labels' do
+        it 'does not render state labels' do
           claim.reload
           render
           expect(rendered).to_not have_selector('strong.govuk-tag.app-tag--unverified', text: 'Unverified')
@@ -145,7 +145,7 @@ RSpec.describe 'external_users/claims/show.html.haml', type: :view do
     end
 
     describe 'Fees, expenses and more information' do
-      it 'should not show the expenses section' do
+      it 'does not show the expenses section' do
         render
         expect(rendered).not_to have_selector('p', text: 'There are no expenses for this claim')
       end

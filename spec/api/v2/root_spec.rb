@@ -17,14 +17,14 @@ describe API::V2::Root do
     end
 
     V2_ENDPOINTS.each do |endpoint|
-      it "should expose #{endpoint}" do
+      it "exposes #{endpoint}" do
         expect(@declared_routes).to include(endpoint)
       end
     end
   end
 
   describe 'Support versioning via header' do
-    it 'should return 406 Not Acceptable if requested API version via header is not supported' do
+    it 'returns 406 Not Acceptable if requested API version via header is not supported' do
       header 'Accept-Version', 'v1'
 
       V2_ENDPOINTS.each do |endpoint|

@@ -403,7 +403,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     end
 
     context 'Date Parameter handling' do
-      it 'should transform dates with named months into dates' do
+      it 'transforms dates with named months into dates' do
         put :update, params: { id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => 'jan',
@@ -412,7 +412,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
-      it 'should transform dates with numbered months into dates' do
+      it 'transforms dates with numbered months into dates' do
         put :update, params: { id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => '11',

@@ -88,22 +88,22 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
       before(:each) { fee.claim.force_validation = true }
 
       context 'should error if fee type has children but fee has no sub type' do
-        it 'should be present' do
+        it 'is present' do
           should_error_if_not_present(fee, :sub_type, 'blank')
         end
 
-        it 'should NOT error if it is a valid sub type' do
+        it 'does not error if it is a valid sub type' do
           expect(fee).to be_valid
         end
 
-        it 'should error if not a valid sub type' do
+        it 'errors if not a valid sub type' do
           fee.sub_type = unrelated_child
           expect(fee).to_not be_valid
           expect(fee.errors[:sub_type]).to include('invalid')
         end
       end
 
-      it 'should error if fee type has no children but fee has a sub type' do
+      it 'errors if fee type has no children but fee has a sub type' do
         fee.fee_type = non_parent
         expect(fee).to_not be_valid
         expect(fee.errors[:sub_type]).to include 'present'

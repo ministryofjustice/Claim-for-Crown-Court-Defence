@@ -397,7 +397,7 @@ RSpec.describe ManagementInformationPresenter do
         claim.reload.deallocate!
       }
 
-      it 'should not be reflected in the MI' do
+      it 'is not reflected in the MI' do
         ManagementInformationPresenter.new(claim, view).present! do |csv|
           expect(csv[0]).not_to include('deallocated')
         end
@@ -419,7 +419,7 @@ RSpec.describe ManagementInformationPresenter do
         end
       end
 
-      it 'should not be reflected in the MI' do
+      it 'is not reflected in the MI' do
         ManagementInformationPresenter.new(claim, view).present! do |csv|
           expect(csv[0]).not_to include('archived_pending_delete')
         end
@@ -441,7 +441,7 @@ RSpec.describe ManagementInformationPresenter do
         end
       end
 
-      it 'should not be reflected in the MI' do
+      it 'is not reflected in the MI' do
         ManagementInformationPresenter.new(claim, view).present! do |csv|
           expect(csv[0]).not_to include('archived_pending_review')
         end

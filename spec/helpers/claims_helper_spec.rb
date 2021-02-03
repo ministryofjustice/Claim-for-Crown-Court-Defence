@@ -10,13 +10,13 @@ RSpec.describe ClaimsHelper do
       allow(case_worker).to receive(:id).and_return(888)
     end
 
-    it 'should produce the html for a checked checkbox if the claim is allocated to the case worker' do
+    it 'produces the html for a checked checkbox if the claim is allocated to the case worker' do
       expect(claim).to receive(:is_allocated_to_case_worker?).with(case_worker).and_return(true)
       expected_html = %q{<input checked="checked" id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">}
       expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
     end
 
-    it 'should produce the html for a un-checked checkbox if the claim is not allocated to the case worker' do
+    it 'produces the html for a un-checked checkbox if the claim is not allocated to the case worker' do
       expect(claim).to receive(:is_allocated_to_case_worker?).with(case_worker).and_return(false)
       expected_html = %q{<input  id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">}
       expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
@@ -136,7 +136,7 @@ RSpec.describe ClaimsHelper do
     context 'user has not seen yet the promo' do
       let(:api_promo_seen_setting) { nil }
 
-      it 'should return true' do
+      it 'returns true' do
         expect(show_api_promo_to_user?).to be_truthy
       end
     end
@@ -144,7 +144,7 @@ RSpec.describe ClaimsHelper do
     context 'user has seen the promo' do
       let(:api_promo_seen_setting) { '1' }
 
-      it 'should return false' do
+      it 'returns false' do
         expect(show_api_promo_to_user?).to be_falsey
       end
     end

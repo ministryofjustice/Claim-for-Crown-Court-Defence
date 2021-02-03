@@ -14,15 +14,15 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
         get :new, params: { claim_id: claim.id }
       end
 
-      it 'should return success' do
+      it 'returns success' do
         expect(response.status).to eq 200
       end
 
-      it 'should render new' do
+      it 'renders new' do
         expect(response).to render_template(:new)
       end
 
-      it 'should instantiate a new certification with pre-filled fields' do
+      it 'instantiates a new certification with pre-filled fields' do
         cert = assigns(:certification)
         expect(cert).to be_instance_of(Certification)
         expect(cert.claim_id).to eq claim.id
@@ -32,7 +32,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
     end
 
     context 'claim already in submitted state' do
-      it 'should redirect to claim path with a flash message' do
+      it 'redirects to claim path with a flash message' do
         claim = create(:submitted_claim)
         get :new, params: { claim_id: claim }
         expect(response).to redirect_to(external_users_claim_path(claim))
@@ -41,7 +41,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
     end
 
     context 'claim not in a valid state' do
-      it 'should redirect to the check your claim page with flash message' do
+      it 'redirects to the check your claim page with flash message' do
         claim = create(:claim, case_type_id: nil)
         get :new, params: { claim_id: claim }
         expect(response).to redirect_to(summary_external_users_claim_path(claim))
@@ -63,7 +63,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
       context 'claim not in a valid state' do
         let(:claim) { create(:claim, case_type_id: nil) }
 
-        it 'should redirect to check your claim page with flash message' do
+        it 'redirects to check your claim page with flash message' do
           post :create, params: valid_certification_params(claim, certification_type)
           expect(response).to redirect_to(summary_external_users_claim_path(claim))
           expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
@@ -73,17 +73,17 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
       context 'valid certification params for submission' do
         let(:frozen_time) { Time.new(2018, 8, 20, 13, 54, 22) }
 
-        it 'should be a redirect to confirmation' do
+        it 'is a redirect to confirmation' do
           post :create, params: valid_certification_params(claim, certification_type)
           expect(response).to redirect_to(confirmation_external_users_claim_path(claim))
         end
 
-        it 'should change the state to submitted' do
+        it 'changes the state to submitted' do
           post :create, params: valid_certification_params(claim, certification_type)
           expect(claim.reload).to be_submitted
         end
 
-        it 'should set the submitted at date' do
+        it 'sets the submitted at date' do
           travel_to(frozen_time) do
             post :create, params: valid_certification_params(claim, certification_type)
           end
@@ -146,7 +146,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
     context 'claim not in a valid state' do
       let(:claim) { create(:litigator_claim, case_type_id: nil) }
 
-      it 'should redirect to check your claim page with flash message' do
+      it 'redirects to check your claim page with flash message' do
         post :create, params: valid_certification_params(claim, certification_type)
         expect(response).to redirect_to(summary_external_users_claim_path(claim))
         expect(flash[:alert]).to eq 'Claim is not in a state to be submitted'
@@ -154,7 +154,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
     end
 
     context 'invalid certification' do
-      it 'should redirect to new' do
+      it 'redirects to new' do
         params = valid_certification_params(claim, certification_type)
         params['certification']['certification_type_id'] = 9999
         post :create, params: params
@@ -165,7 +165,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    it 'should redirect to claim path with a flash message' do
+    it 'redirects to claim path with a flash message' do
       claim = create(:advocate_claim)
       patch :update, params: { claim_id: claim }
       expect(response).to redirect_to(external_users_claim_path(claim))

@@ -127,7 +127,7 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe 'has_many documents association' do
-    it 'should return a collection of verified documents only' do
+    it 'returns a collection of verified documents only' do
       claim = create :claim
       verified_doc_1 = create :document, :verified, claim: claim
       _unverified_doc_1 = create :document, :unverified, claim: claim
@@ -572,7 +572,7 @@ RSpec.describe MockBaseClaim do
   it_behaves_like 'a base claim'
 
   context 'date formatting' do
-    it 'should accept a variety of formats and populate the date accordingly' do
+    it 'accepts a variety of formats and populate the date accordingly' do
       def make_date_params(date_string)
         day, month, year = date_string.split('-')
         {

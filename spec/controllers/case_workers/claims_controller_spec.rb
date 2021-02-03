@@ -107,18 +107,18 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       expect(Claims::CaseWorkerClaimUpdater).to receive(:new).with(claim.id.to_s, params).and_return(updater)
     end
 
-    it 'should call updater service with params' do
+    it 'calls updater service with params' do
       expect(updater).to receive(:result).and_return(:ok)
       patch :update, params: { id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update' }
     end
 
-    it 'should redirect if updater service responded :ok' do
+    it 'redirects if updater service responded :ok' do
       expect(updater).to receive(:result).and_return(:ok)
       patch :update, params: { id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update' }
       expect(response).to redirect_to case_workers_claim_path
     end
 
-    it 'should render show if updater service responds :error' do
+    it 'renders show if updater service responds :error' do
       expect(updater).to receive(:result).and_return(:error)
       patch :update, params: { id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update' }
       expect(response).to render_template(:show)

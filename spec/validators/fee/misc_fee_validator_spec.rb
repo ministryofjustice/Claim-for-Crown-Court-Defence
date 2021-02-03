@@ -190,7 +190,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
           should_be_valid_if_equal_to_value(fee, :case_numbers, nil)
         end
 
-        it 'should error if case_numbers is present' do
+        it 'errors if case_numbers is present' do
           should_error_if_equal_to_value(fee, :case_numbers, '123', 'present')
         end
       end

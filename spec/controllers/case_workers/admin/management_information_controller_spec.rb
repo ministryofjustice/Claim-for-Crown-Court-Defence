@@ -30,18 +30,18 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
 
       context 'when the report type is valid' do
         let(:report_type) { 'management_information' }
-        let(:service_url) { 'https://example.com/document.csv' }
+        let(:disk_service_prefix) { 'rails/active_storage/disk' }
+        let(:filename) { 'mi_report.csv' }
 
-        # TODO: Avoid using allow_any_instance_of
-        # rubocop:disable RSpec/AnyInstance
         before do
-          create :stats_report, :with_document, report_name: report_type
-          allow_any_instance_of(ActiveStorage::Blob).to receive(:service_url).and_return(service_url)
+          create(:stats_report, report_name: report_type).tap do |report|
+            report.document.attach(io: StringIO.new, filename: filename)
+          end
+          download
         end
-        # rubocop:enable RSpec/AnyInstance
 
         it 'redirects to the service url of the document' do
-          expect(download).to redirect_to service_url
+          expect(response.location).to match %{#{disk_service_prefix}/.*/#{filename}}
         end
       end
 

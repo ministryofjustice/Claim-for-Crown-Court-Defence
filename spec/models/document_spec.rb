@@ -29,37 +29,37 @@ require 'fileutils'
 TEMPFILE_NAME = File.join(Rails.root, 'tmp', 'document_spec', 'test.txt')
 
 RSpec.describe Document, type: :model do
-  it { should belong_to(:external_user) }
-  it { should belong_to(:creator).class_name('ExternalUser') }
-  it { should belong_to(:claim) }
-  it { should delegate_method(:provider_id).to(:external_user) }
+  it { is_expected.to belong_to(:external_user) }
+  it { is_expected.to belong_to(:creator).class_name('ExternalUser') }
+  it { is_expected.to belong_to(:claim) }
+  it { is_expected.to delegate_method(:provider_id).to(:external_user) }
 
-  it { should have_attached_file(:document) }
-  it { should validate_attachment_presence(:document) }
+  it { is_expected.to have_one_attached :document }
+  it { is_expected.to validate_presence_of :document }
 
-  it { should have_attached_file(:converted_preview_document) }
-  it { should validate_attachment_content_type(:converted_preview_document).allowing('application/pdf') }
+  it { is_expected.to have_one_attached :converted_preview_document }
+  it { is_expected.to validate_content_type_of(:converted_preview_document).allowing('application/pdf') }
 
   it_behaves_like 'an s3 bucket'
 
   it do
-    should validate_attachment_content_type(:document)
-      .allowing('application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.oasis.opendocument.text',
-                'text/rtf',
-                'application/rtf',
-                'image/jpeg',
-                'image/png',
-                'image/tiff',
-                'image/bmp',
-                'image/x-bitmap')
-      .rejecting('text/plain',
-                 'text/html')
+    is_expected.to validate_content_type_of(:document)
+      .allowing(
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.oasis.opendocument.text',
+        'text/rtf',
+        'application/rtf',
+        'image/jpeg',
+        'image/png',
+        'image/tiff',
+        'image/bmp',
+        'image/x-bitmap'
+      ).rejecting('text/plain', 'text/html')
   end
 
-  it { should validate_attachment_size(:document).in(0.megabytes..20.megabytes) }
+  it { should validate_size_of(:document).less_than_or_equal_to(20.megabytes) }
 
   context 'validation' do
     let(:claim) { create :claim }
@@ -76,98 +76,49 @@ RSpec.describe Document, type: :model do
         expect(doc.errors[:document]).to eq(['Total documents exceed maximum of 2. This document has not been uploaded.'])
       end
     end
+  end
 
-    context 'cryptic error message is deciphered' do
-      it 'calls transform_cryptic_paperclip_error every time it is unable to save' do
-        expect(document).to receive(:save).and_return(false)
-        expect(document).to receive(:transform_cryptic_paperclip_error)
-        document.save_and_verify
+  describe '#converted_preview_document' do
+    subject(:preview_document) { document.converted_preview_document }
+
+    let(:document) { create :document, document: file }
+
+    context 'with a pdf document' do
+      let(:file) do
+        Rack::Test::UploadedFile.new(
+          File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
+          'application/pdf'
+        )
       end
 
-      it 'displays human-understandable error message' do
-        document.errors[:document] << 'has contents that are not what they are reported to be'
-        document.__send__(:transform_cryptic_paperclip_error)
-        expect(document.errors[:document]).to eq(['The contents of the file do not match the file extension'])
+      it 'is identical to #document' do
+        expect(preview_document.checksum).to eq document.document.checksum
+      end
+    end
+
+    context 'with a docx document' do
+      let(:file) do
+        Rack::Test::UploadedFile.new(
+          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
+          'application/msword'
+        )
+      end
+
+      it 'is different from #document' do
+        expect(preview_document.checksum).not_to eq document.document.checksum
+      end
+
+      it 'is a PDF file' do
+        expect(preview_document.content_type).to eq 'application/pdf'
+      end
+
+      it 'is named after the original file' do
+        expect(preview_document.filename.to_s).to eq 'shorter_lorem.docx.pdf'
       end
     end
   end
 
-  context 'storage' do
-    context 'on S3' do
-      subject { build(:document) }
-      before { allow(subject).to receive(:generate_pdf_tmpfile).and_return(nil) }
-
-      it 'saves the original' do
-        stub_request(:put, %r{https\://moj-cbo-documents-test\.s3\.amazonaws\.com/.+/shorter_lorem\.docx})
-          .with(
-            headers: {
-              'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-              'Content-Length' => '5055'
-            }
-          )
-
-        expect { subject.save! }.not_to raise_error
-      end
-
-      it 'uses the canned S3 private ACL' do
-        stub_request(:put, /shorter_lorem\.docx/)
-          .with(headers: { 'X-Amz-Acl' => 'private' })
-
-        expect { subject.save! }.not_to raise_error
-      end
-
-      it 'sets a no-cache header' do
-        stub_request(:put, /shorter_lorem\.docx/)
-          .with(headers: { 'x-amz-meta-Cache-Control' => 'no-cache' })
-
-        expect { subject.save! }.not_to raise_error
-      end
-
-      it 'sets an expiry header' do
-        stub_request(:put, /shorter_lorem\.docx/)
-          .with(headers: { 'Expires' => /.+/ }) # Timecop and paperclip or webmock aren't playing well together.
-
-        expect { subject.save! }.not_to raise_error
-      end
-    end
-  end
-
-  context '#generate_pdf_tmpfile' do
-    context 'when the original attachment is a .docx' do
-      subject { build(:document, :docx, document_content_type: 'application/msword') }
-
-      it 'called by a before_save hook' do
-        expect(subject).to receive(:generate_pdf_tmpfile)
-        subject.save!
-      end
-
-      it 'calls document#convert_and_assign_document' do
-        expect(subject).to receive(:convert_and_assign_document)
-        subject.generate_pdf_tmpfile
-      end
-    end
-
-    context 'when the original attachment is a .pdf' do
-      subject { build(:document) }
-
-      it 'is still called by a before_save hook' do
-        expect(subject).to receive(:generate_pdf_tmpfile).and_return(nil)
-        subject.save!
-      end
-
-      it 'does not call document#convert_and_assign_document' do
-        expect(subject).to_not receive(:convert_and_assign_document)
-        subject.generate_pdf_tmpfile
-      end
-
-      it 'assigns original document to document#pdf_tmpfile' do
-        subject.save!
-        expect(subject.pdf_tmpfile).to eq subject.document
-      end
-    end
-  end
-
-  context '#convert_and_assign_document' do
+  context '#save!' do
     subject { build(:document, :docx, document_content_type: 'application/msword') }
 
     it 'depends on the Libreconv gem' do
@@ -181,127 +132,86 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context '#add_converted_preview_document' do
-    subject { build(:document) }
-
-    before { allow(Libreconv).to receive(:convert) }
-
-    it 'is triggered by document#save' do
-      expect(subject).to receive(:add_converted_preview_document)
-      subject.save!
-    end
-
-    it 'assigns converted_preview_document a file' do
-      expect(subject.converted_preview_document.present?).to be false
-      subject.save!
-      expect(subject.converted_preview_document.present?).to be true
-    end
-  end
-
-  context 'save_and_verify' do
+  describe '#save_and_verify' do
     let(:document) { build :document }
 
-    after(:each) { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
-
-    context 'save without verification' do
-      it 'has not recorded verified filesize, path and is not verified' do
-        document.save!
-        expect(document.verified_file_size).to be_nil
-        expect(document.file_path).to be_blank
-        expect(document.verified).to be false
-      end
-    end
-
-    context 'success' do
-      it 'records filesize, path and verified in the record' do
-        allow(LogStuff).to receive(:info).exactly(2)
-
-        expect(document.save_and_verify).to be true
-        expect(document.verified_file_size).to eq 49993
-        expect(document.file_path).to_not be_blank
-        expect(document.verified).to be true
-        expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-        expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'verify', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-      end
-    end
-
-    context 'failure to verify' do
-      it 'marks the document as unverified' do
-        file_path = make_empty_temp_file
-        allow(document).to receive(:reload_saved_file).and_return(file_path)
-
-        allow(LogStuff).to receive(:info).exactly(1)
-        allow(LogStuff).to receive(:error).exactly(1)
-
-        expect(document.save_and_verify).to be false
-        expect(document.verified_file_size).to eq 0
-        expect(document.file_path).not_to be_blank
-        expect(document.verified).to be false
-
-        expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-        expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-      end
-    end
-
-    context 'failure to save' do
-      it 'logs and returns false' do
-        allow(LogStuff).to receive(:error).exactly(1)
-        allow(document).to receive(:save).and_return(false)
-
-        expect(document.save_and_verify).to be false
-        expect(document.verified_file_size).to eq nil
-        expect(document.file_path).to be_blank
-        expect(document.verified).to be false
-        expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'save_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-      end
-    end
-
-    context 'exception trying to verify' do
-      it 'populates the error hash' do
-        allow(LogStuff).to receive(:error).exactly(1)
-        allow(document).to receive(:save).and_return(true)
-        expect(document).to receive(:reload_saved_file).and_raise(RuntimeError, 'my error message')
-
-        expect(document.save_and_verify).to be false
-        expect(document.verified_file_size).to eq nil
-        expect(document.file_path).to be_blank
-        expect(document.verified).to be false
-        expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-        expect(document.errors[:document]).to match_array(['my error message'])
-      end
-    end
-
-    def make_empty_temp_file
-      require 'fileutils'
-      FileUtils.mkdir_p File.dirname(TEMPFILE_NAME)
-      file_paths = FileUtils.touch TEMPFILE_NAME
-      file_paths.first
+    it 'marks the document as verified' do
+      # With Active Storage (for the moment) verified will always be true
+      # TODO: Either remove verified or implement a verification check
+      expect { document.save_and_verify }.to change(document, :verified).from(false).to true
     end
   end
 
   context '#copy_from' do
-    let(:document) { build(:document) }
-    let(:new_document) { build(:document, :empty) }
+    subject(:new_document) { build(:document, :empty) }
 
-    before(:each) do
-      document.save_and_verify
-      new_document.save_and_verify
+    let(:file) do
+      Rack::Test::UploadedFile.new(
+        File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
+        'application/pdf'
+      )
+    end
+    let(:verified) { true }
+    let(:old_document) { create :document, document: file, verified: verified }
+
+    before { new_document.copy_from old_document }
+
+    it 'copies the document from the old document' do
+      expect(new_document.document.checksum).to eq old_document.document.checksum
     end
 
-    it 'copies and verifies the document data' do
-      expect(new_document.verified).to be_falsey
-      expect(new_document.verified_file_size).to eq(0)
+    it 'copies the document filename from the old document' do
+      expect(new_document.document.filename).to eq old_document.document.filename
+    end
 
-      # Wait for document creation to finish if necessary
-      5.times do
-        break if File.exist?(document.file_path)
-        sleep 0.1
+    it 'copies the document preview from the old document' do
+      expect(new_document.converted_preview_document.checksum)
+        .to eq old_document.converted_preview_document.checksum
+    end
+
+    it 'copies the document preview filename from the old document' do
+      expect(new_document.converted_preview_document.filename)
+        .to eq old_document.converted_preview_document.filename
+    end
+
+    context 'when the document is verified' do
+      it 'sets the new document as verified' do
+        expect(new_document.verified).to be_truthy
       end
+    end
 
-      new_document.copy_from(document, verify: true)
-      expect(new_document.verified).to be_truthy
-      expect(new_document.verified_file_size).not_to eq(0)
-      expect(new_document.verified_file_size).to eq(document.verified_file_size)
+    context 'when the document is not verified' do
+      let(:verified) { false }
+
+      it 'sets the new document as not verified' do
+        expect(new_document.verified).to be_falsey
+      end
+    end
+  end
+
+  describe '#document_file_name' do
+    # For backward compatibility with Paperclip.
+    subject(:document_file_name) { document.document_file_name }
+    let(:document) { build :document, :empty }
+    let(:filename) { 'test_file.doc' }
+
+    before { document.document.attach(io: StringIO.new('stuff'), filename: filename) }
+
+    it 'is the name of the file' do
+      expect(document_file_name).to eq filename
+    end
+  end
+
+  describe '#document_file_size' do
+    # For backward compatibility with Paperclip.
+    subject(:document_file_size) { document.document_file_size }
+    let(:document) { build :document, :empty }
+    let(:filename) { 'test_file.doc' }
+
+    before { document.document.attach(io: StringIO.new('x' * 1024), filename: filename) }
+
+    it 'is the size of the file in bytes' do
+      expect(document_file_size).to eq 1024
     end
   end
 end

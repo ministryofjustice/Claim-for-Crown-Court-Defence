@@ -1,3 +1,5 @@
+# TODO: Get new version from #3686
+
 require 'rails_helper'
 
 RSpec.describe TimedTransitions::Transitioner do

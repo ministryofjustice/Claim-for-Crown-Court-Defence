@@ -81,7 +81,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
       end
 
       it 'does not create a claim record' do
-        expect { create_request }.not_to(change { resource_klass.count })
+        expect { create_request }.not_to change(resource_klass, :count)
       end
     end
 
@@ -99,7 +99,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
         end
 
         it 'does not create a claim record' do
-          expect { create_request }.not_to(change { resource_klass.count })
+          expect { create_request }.not_to change(resource_klass, :count)
         end
       end
 
@@ -133,7 +133,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
             end
 
             it 'creates a new claim record as draft with the submitted data' do
-              expect { create_request }.to change { resource_klass.count }.by(1)
+              expect { create_request }.to change(resource_klass, :count).by(1)
               new_claim = resource_klass.active.first
               expect(new_claim).to be_draft
               expect(new_claim.external_user).to eq(authorized_user)
@@ -158,7 +158,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
             end
 
             it 'does not create a claim record' do
-              expect { create_request }.not_to(change { resource_klass.count })
+              expect { create_request }.not_to change(resource_klass, :count)
             end
           end
 
@@ -176,7 +176,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
           end
 
           it 'does not create a claim record' do
-            expect { create_request }.not_to(change { resource_klass.count })
+            expect { create_request }.not_to change(resource_klass, :count)
           end
         end
 
@@ -195,7 +195,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
           end
 
           it 'creates a new claim record with the submitted data' do
-            expect { create_request }.to change { resource_klass.count }.by(1)
+            expect { create_request }.to change(resource_klass, :count).by(1)
             new_claim = resource_klass.active.first
             expect(new_claim).to be_draft
             expect(new_claim.external_user).to eq(authorized_user)
@@ -215,7 +215,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
         end
 
         it 'creates a new claim record with the submitted data' do
-          expect { create_request }.to change { resource_klass.count }.by(1)
+          expect { create_request }.to change(resource_klass, :count).by(1)
           new_claim = resource_klass.active.first
           expect(new_claim).to be_draft
           expect(new_claim.external_user).to eq(authorized_user)
@@ -326,7 +326,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
       end
 
       it 'does not update the existent claim record' do
-        expect { update_request }.not_to(change { claim.reload })
+        expect { update_request }.not_to change(claim, :reload)
       end
     end
 
@@ -344,7 +344,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
         end
 
         it 'does not update the existent claim record' do
-          expect { update_request }.not_to(change { claim.reload })
+          expect { update_request }.not_to change(claim, :reload)
         end
       end
 
@@ -365,7 +365,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
           end
 
           it 'does not update the existent claim record' do
-            expect { update_request }.not_to(change { claim.reload })
+            expect { update_request }.not_to change(claim, :reload)
           end
         end
 
@@ -382,7 +382,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
           end
 
           it 'does not update the existent claim record' do
-            expect { update_request }.not_to(change { claim.reload })
+            expect { update_request }.not_to change(claim, :reload)
           end
         end
 

@@ -27,7 +27,7 @@ RSpec.describe Fee::BaseFeeType, type: :model do
   subject(:fee_type) { FeeTypeDouble.new }
 
   context '#new' do
-    it 'should raise BaseFeeTypeAbstractClassError' do
+    it 'raises BaseFeeTypeAbstractClassError' do
       expect {
         described_class.new
       }.to raise_error Fee::BaseFeeTypeAbstractClassError, 'Fee::BaseFeeType is an abstract class and cannot be instantiated'
@@ -57,11 +57,11 @@ RSpec.describe Fee::BaseFeeType, type: :model do
   end
 
   describe '#quanity_is_decimal?' do
-    it 'should return false' do
+    it 'returns false' do
       ft = build :basic_fee_type
       expect(ft.quantity_is_decimal).to be false
     end
-    it 'should return true' do
+    it 'returns true' do
       ft = build :misc_fee_type, :spf
       expect(ft.quantity_is_decimal).to be true
     end

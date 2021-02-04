@@ -9,12 +9,12 @@ describe ExternalUsers::ClaimsHelper do
         allow(presenter).to receive(:field_level_error_for).with(kind_of(Symbol)).and_return('an error')
       end
 
-      it 'should return the default error class if there are any errors in the provided field' do
+      it 'returns the default error class if there are any errors in the provided field' do
         returned_class = error_class?(presenter, :test_field)
         expect(returned_class).to eq('dropdown_field_with_errors')
       end
 
-      it 'should return the specified class if provided' do
+      it 'returns the specified class if provided' do
         returned_class = error_class?(presenter, :test_field, name: 'custom-error')
         expect(returned_class).to eq('custom-error')
       end
@@ -26,12 +26,12 @@ describe ExternalUsers::ClaimsHelper do
         allow(presenter).to receive(:field_level_error_for).with(:test_field_2).and_return('an error')
       end
 
-      it 'should return the error class if there are errors in any of the provided field' do
+      it 'returns the error class if there are errors in any of the provided field' do
         returned_class = error_class?(presenter, :test_field_1, :test_field_2)
         expect(returned_class).to eq('dropdown_field_with_errors')
       end
 
-      it 'should return the specified class if provided' do
+      it 'returns the specified class if provided' do
         returned_class = error_class?(presenter, :test_field_1, :test_field_2, name: 'custom-error')
         expect(returned_class).to eq('custom-error')
       end
@@ -42,7 +42,7 @@ describe ExternalUsers::ClaimsHelper do
         allow(presenter).to receive(:field_level_error_for).with(kind_of(Symbol)).and_return(nil)
       end
 
-      it 'should return nil if there are no errors in the provided field' do
+      it 'returns nil if there are no errors in the provided field' do
         returned_class = error_class?(presenter, :test_field)
         expect(returned_class).to be_nil
       end
@@ -61,13 +61,13 @@ describe ExternalUsers::ClaimsHelper do
     context 'user is not an external user' do
       let(:current_user) { create(:case_worker).user }
 
-      it 'should return false' do
+      it 'returns false' do
         expect(helper.show_timed_retention_banner_to_user?).to be_falsey
       end
     end
 
     context 'user has not seen yet the promo' do
-      it 'should return true' do
+      it 'returns true' do
         expect(helper.show_timed_retention_banner_to_user?).to be_truthy
       end
     end
@@ -75,7 +75,7 @@ describe ExternalUsers::ClaimsHelper do
     context 'user has seen the promo' do
       let(:user_settings) { { timed_retention_banner_seen: '1' } }
 
-      it 'should return false' do
+      it 'returns false' do
         expect(helper.show_timed_retention_banner_to_user?).to be_falsey
       end
     end
@@ -97,13 +97,13 @@ describe ExternalUsers::ClaimsHelper do
       context 'user is not an external user' do
         let(:current_user) { create(:case_worker).user }
 
-        it 'should return false' do
+        it 'returns false' do
           expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
         end
       end
 
       context 'user has not seen yet the promo' do
-        it 'should return true' do
+        it 'returns true' do
           expect(helper.show_hardship_claims_banner_to_user?).to be_truthy
         end
       end
@@ -111,7 +111,7 @@ describe ExternalUsers::ClaimsHelper do
       context 'user has seen/dismissed the banner' do
         let(:user_settings) { { hardship_claims_banner_seen: '1' } }
 
-        it 'should return false' do
+        it 'returns false' do
           expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
         end
       end
@@ -120,7 +120,7 @@ describe ExternalUsers::ClaimsHelper do
     context 'feature flag disabled' do
       let(:hardship_claims_banner_enabled) { false }
 
-      it 'should return false regardless of the user setting' do
+      it 'returns false regardless of the user setting' do
         expect(helper).not_to receive(:current_user)
         expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
       end

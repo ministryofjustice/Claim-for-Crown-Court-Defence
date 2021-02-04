@@ -139,7 +139,7 @@ describe Claim::TransferClaim, type: :model do
   end
 
   describe '#eligible_case_types' do
-    it 'should return only Interim case types' do
+    it 'returns only Interim case types' do
       CaseType.delete_all
 
       c1 = create :case_type, name: 'AGFS case type', roles: ['agfs']
@@ -155,7 +155,7 @@ describe Claim::TransferClaim, type: :model do
   end
 
   describe '#transfer?' do
-    it 'should return true' do
+    it 'returns true' do
       expect(claim.transfer?).to eql true
     end
   end

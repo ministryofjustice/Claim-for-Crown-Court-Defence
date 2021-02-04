@@ -15,31 +15,31 @@ RSpec.describe RepresentationOrder do
         representation_order.defendant.claim.case_type = build(:case_type, :requires_maat_reference)
       end
 
-      it 'should error if blank' do
+      it 'errors if blank' do
         representation_order.maat_reference = nil
         expect(representation_order).not_to be_valid
         expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
-      it 'should error if less than 7 numeric characters' do
+      it 'errors if less than 7 numeric characters' do
         representation_order.maat_reference = '456213'
         expect(representation_order).not_to be_valid
         expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
-      it 'should error if greater than 7 numeric characters' do
+      it 'errors if greater than 7 numeric characters' do
         representation_order.maat_reference = '4562131111111'
         expect(representation_order).not_to be_valid
         expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
-      it 'should error if non-numeric characters present' do
+      it 'errors if non-numeric characters present' do
         representation_order.maat_reference = '1111a1111'
         expect(representation_order).not_to be_valid
         expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
       end
 
-      it 'should not error if 7 numeric digits' do
+      it 'does not error if 7 numeric digits' do
         representation_order.maat_reference = '5078332'
         expect(representation_order).to be_valid
       end
@@ -52,7 +52,7 @@ RSpec.describe RepresentationOrder do
             allow(Settings).to receive(:maat_regexp).and_return(/^[4-9][0-9]{6}$/)
           end
 
-          it 'should error' do
+          it 'errors' do
             expect(representation_order).not_to be_valid
           end
         end
@@ -62,7 +62,7 @@ RSpec.describe RepresentationOrder do
             allow(Settings).to receive(:maat_regexp).and_call_original
           end
 
-          it 'should be valid' do
+          it 'is valid' do
             expect(representation_order).to be_valid
           end
         end
@@ -74,12 +74,12 @@ RSpec.describe RepresentationOrder do
         representation_order.defendant.claim.case_type = build(:case_type, requires_maat_reference: false)
       end
 
-      it 'should not error if present' do
+      it 'does not error if present' do
         representation_order.maat_reference = '2078352232'
         expect(representation_order).to be_valid
       end
 
-      it 'should not error if absent' do
+      it 'does not error if absent' do
         representation_order.maat_reference = nil
         expect(representation_order).to be_valid
       end
@@ -92,7 +92,7 @@ RSpec.describe RepresentationOrder do
     let(:ro2) { claim.defendants.first.representation_orders.last }
 
     describe '#reporders_for_same_defendant' do
-      it 'should return an array of representation orders' do
+      it 'returns an array of representation orders' do
         rep_orders = ro1.reporders_for_same_defendant
         expect(rep_orders.size).to eq 2
         expect(rep_orders.map(&:class).uniq).to eq([RepresentationOrder])
@@ -101,17 +101,17 @@ RSpec.describe RepresentationOrder do
     end
 
     describe '#first_reporder_for_same_defendant' do
-      it 'should return the first reporder for the same defendant' do
+      it 'returns the first reporder for the same defendant' do
         expect(ro1.first_reporder_for_same_defendant).to eq ro1
       end
     end
 
     describe '#is_first_reporder_for_same_defendant?' do
-      it 'should be true for the first reporder' do
+      it 'is true for the first reporder' do
         expect(ro1.is_first_reporder_for_same_defendant?).to be true
       end
 
-      it 'should be false for other reporders' do
+      it 'is false for other reporders' do
         expect(ro2.is_first_reporder_for_same_defendant?).to be false
       end
     end

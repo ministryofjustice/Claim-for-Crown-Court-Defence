@@ -20,14 +20,14 @@ RSpec.describe Assessment do
 
   context 'validations' do
     context 'fees' do
-      it 'should not accept negative values' do
+      it 'does not accept negative values' do
         expect {
           # FactoryBot.create :assessment, claim: claim, fees: -33.55
           claim.assessment.update!(fees: -33.35)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed fees must be greater than or equal to zero'
       end
 
-      it 'should not accept nil values ' do
+      it 'does not accept nil values ' do
         expect {
           claim.assessment.update!(fees: nil)
           claim.assessment.save!
@@ -36,13 +36,13 @@ RSpec.describe Assessment do
     end
 
     context 'expenses' do
-      it 'should not accept negative values' do
+      it 'does not accept negative values' do
         expect {
           claim.assessment.update!(expenses: -33.55)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed expenses must be greater than or equal to zero'
       end
 
-      it 'should not accept nil values ' do
+      it 'does not accept nil values ' do
         expect {
           claim.assessment.update!(expenses: nil)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed expenses must be greater than or equal to zero'
@@ -50,13 +50,13 @@ RSpec.describe Assessment do
     end
 
     context 'disbursements' do
-      it 'should not accept negative values' do
+      it 'does not accept negative values' do
         expect {
           claim.assessment.update!(disbursements: -33.55)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed disbursements must be greater than or equal to zero'
       end
 
-      it 'should not accept nil values ' do
+      it 'does not accept nil values ' do
         expect {
           claim.assessment.update!(disbursements: nil)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed disbursements must be greater than or equal to zero'
@@ -65,7 +65,7 @@ RSpec.describe Assessment do
   end
 
   context 'automatic calculation of total' do
-    it 'should calculate the total on save' do
+    it 'calculates the total on save' do
       ass = create :assessment, expenses: 102.33, fees: 44.86
       ass = claim.assessment
       expect(ass.total).to eq(ass.fees + ass.expenses + ass.disbursements)
@@ -104,7 +104,7 @@ RSpec.describe Assessment do
 
       context 'litigator claims' do
         let(:assessment) { create(:litigator_claim, apply_vat: true).assessment }
-        it 'should not update/calculate the VAT amount' do
+        it 'does not update/calculate the VAT amount' do
           expect { assessment.update!(fees: 100.0, expenses: 250.0, disbursements: 150.0) }.not_to change(assessment, :vat_amount)
         end
       end
@@ -112,7 +112,7 @@ RSpec.describe Assessment do
   end
 
   context '#zeroize!' do
-    it 'should zeroize values and save' do
+    it 'zeroizes values and save' do
       assessment = create(:assessment, :random_amounts)
       expect(assessment.fees).not_to eq 0
       expect(assessment.expenses).not_to eq 0

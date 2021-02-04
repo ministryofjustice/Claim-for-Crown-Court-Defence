@@ -5,7 +5,7 @@ module Stats
     describe ClaimSubmissionsCollector do
       let(:report_day) { 5.days.ago }
 
-      before(:each) do
+      before do
         create_claim(:submitted, report_day - 2.days)
         create_claim(:draft, report_day)
         create_claim(:submitted, report_day)

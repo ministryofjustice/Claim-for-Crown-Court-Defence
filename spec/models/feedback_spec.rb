@@ -98,26 +98,26 @@ RSpec.describe Feedback, type: :model do
 
     describe '#is?' do
       context 'feedback' do
-        it 'should be true for feedback' do
+        it 'is true for feedback' do
           expect(subject.is?(:feedback)).to eq(true)
         end
       end
 
       context 'bug report' do
-        it 'should be false for feedback' do
+        it 'is false for feedback' do
           expect(subject.is?(:bug_report)).to eq(false)
         end
       end
     end
 
     describe '#feedback?' do
-      it 'should be feedback' do
+      it 'is feedback' do
         expect(subject).to be_feedback
       end
     end
 
     describe '#bug_report?' do
-      it 'should not be a bug report' do
+      it 'is not a bug report' do
         expect(subject).to_not be_bug_report
       end
     end
@@ -196,26 +196,26 @@ RSpec.describe Feedback, type: :model do
 
     describe '#is?' do
       context 'feedback' do
-        it 'should be false for bug report' do
+        it 'is false for bug report' do
           expect(subject.is?(:feedback)).to eq(false)
         end
       end
 
       context 'bug report' do
-        it 'should be true for bug report' do
+        it 'is true for bug report' do
           expect(subject.is?(:bug_report)).to eq(true)
         end
       end
     end
 
     describe '#feedback?' do
-      it 'should not be feedback' do
+      it 'is not feedback' do
         expect(subject).to_not be_feedback
       end
     end
 
     describe '#bug_report?' do
-      it 'should be a bug report' do
+      it 'is a bug report' do
         expect(subject).to be_bug_report
       end
     end

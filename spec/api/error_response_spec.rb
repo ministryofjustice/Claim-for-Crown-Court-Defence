@@ -7,7 +7,7 @@ describe API::ErrorResponse do
   let(:claim) { FactoryBot.build :claim, case_number: 'A123456' }
   let(:er) { described_class.new(claim) }
 
-  before(:each) do
+  before do
     claim.force_validation = true
     claim.valid?
   end

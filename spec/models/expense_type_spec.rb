@@ -22,7 +22,7 @@ RSpec.describe ExpenseType, type: :model do
   it { should validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message('An expense type with this name already exists') }
 
   context 'ROLES' do
-    it 'should have "agfs" and "lgfs"' do
+    it 'has "agfs" and "lgfs"' do
       expect(Provider::ROLES).to match_array(%w(agfs lgfs))
     end
   end

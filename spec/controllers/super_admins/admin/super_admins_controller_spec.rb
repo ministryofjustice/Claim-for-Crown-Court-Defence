@@ -81,7 +81,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
   end
 
   describe 'PUT #update' do
-    before(:each) do
+    before do
       put :update, params: { id: subject, super_admin: { user_attributes: { first_name: 'Joshua', last_name: 'Dude', password: 'password', email: 'superadmin@bigblackhhole.com' } } }
     end
 
@@ -97,7 +97,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) do
+      before do
         put :update, params: { id: subject, super_admin: { user_attributes: { first_name: '' } } }
       end
 

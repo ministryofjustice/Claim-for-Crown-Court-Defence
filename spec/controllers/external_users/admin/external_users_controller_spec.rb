@@ -151,7 +151,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
     describe 'PUT #update' do
       context 'when valid' do
-        before(:each) { put :update, params: { id: subject, external_user: { roles: ['admin'] } } }
+        before { put :update, params: { id: subject, external_user: { roles: ['admin'] } } }
 
         it 'updates a external_user' do
           subject.reload
@@ -164,7 +164,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
 
       context 'when invalid' do
-        before(:each) { put :update, params: { id: subject, external_user: { roles: ['foo'] } } }
+        before { put :update, params: { id: subject, external_user: { roles: ['foo'] } } }
 
         it 'does not update external_user' do
           subject.reload
@@ -185,7 +185,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
       end
 
       context 'when valid' do
-        before(:each) do
+        before do
           put :update_password, params: { id: subject, external_user: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } } }
         end
 

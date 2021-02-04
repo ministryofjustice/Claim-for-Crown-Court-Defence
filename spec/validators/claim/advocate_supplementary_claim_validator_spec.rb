@@ -29,7 +29,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
       claim.case_type = nil
     end
 
-    it 'should NOT error if not present' do
+    it 'does not error if not present' do
       should_not_error(claim, :case_type)
     end
   end
@@ -39,7 +39,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimValidator, type: :validator do
       claim.offence = nil
     end
 
-    it 'should NOT error if not present' do
+    it 'does not error if not present' do
       should_not_error(claim, :offence)
     end
   end

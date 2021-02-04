@@ -169,12 +169,12 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
   describe 'reason_text' do
     context 'other reason types' do
-      it 'should be valid if present' do
+      it 'is valid if present' do
         other_reason_type_expense.reason_text = 'my reasons'
         expect(other_reason_type_expense).to be_valid
       end
 
-      it 'should be invalid if absent' do
+      it 'is invalid if absent' do
         other_reason_type_expense.reason_text = nil
         expect(other_reason_type_expense).not_to be_valid
         expect(other_reason_type_expense.errors[:reason_text]).to include('blank_for_other')
@@ -193,7 +193,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
   describe '#validate_location' do
     let(:expenses_to_test) { [car_travel_expense, bike_travel_expense, hotel_accommodation_expense, train_expense, road_tolls_expense, cab_fares_expense, subsistence_expense] }
 
-    it 'should be mandatory for everything except parking and travel time ' do
+    it 'is mandatory for everything except parking and travel time' do
       expenses_to_test.each do |ex|
         ex.location = nil
         expect(ex.valid?).to be false
@@ -201,7 +201,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       end
     end
 
-    it 'should be valid when a location specified for everything except parking and travel time' do
+    it 'is valid when a location specified for everything except parking and travel time' do
       expenses_to_test.each do |ex|
         ex.location = 'Somewhere'
         expect(ex).to be_valid
@@ -240,7 +240,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
   end
 
   describe '#validate_reason_id' do
-    it 'should be valid with values 1-4 for reason set A' do
+    it 'is valid with values 1-4 for reason set A' do
       (1..4).each do |i|
         expense.expense_type.reason_set = 'A'
         expense.reason_id = i
@@ -249,21 +249,21 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       end
     end
 
-    it 'should be valid with value 5 for reason set A with reason text filled' do
+    it 'is valid with value 5 for reason set A with reason text filled' do
       expense.expense_type.reason_set = 'A'
       expense.reason_id = 5
       expense.reason_text = 'blah'
       expect(expense).to be_valid
     end
 
-    it 'should be invalid with value 5 for reason set A without reason text filled' do
+    it 'is invalid with value 5 for reason set A without reason text filled' do
       expense.expense_type.reason_set = 'A'
       expense.reason_id = 5
       expect(expense).not_to be_valid
       expect(expense.errors[:reason_text]).to include('blank_for_other')
     end
 
-    it 'should be invalid with values 6 and above for reason set A' do
+    it 'is invalid with values 6 and above for reason set A' do
       [0, 6, 22].each do |i|
         expense.expense_type.reason_set = 'B'
         expense.reason_id = i
@@ -272,7 +272,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       end
     end
 
-    it 'should be valid with values 1-4 for reason set B' do
+    it 'is valid with values 1-4 for reason set B' do
       (1..4).each do |i|
         expense.expense_type.reason_set = 'A'
         expense.reason_id = i
@@ -280,7 +280,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       end
     end
 
-    it 'should be invalid with values 5 and above for reason set B' do
+    it 'is invalid with values 5 and above for reason set B' do
       [0, 5, 15].each do |i|
         expense.expense_type.reason_set = 'B'
         expense.reason_id = i
@@ -549,7 +549,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         let(:claim)   { build(:claim, force_validation: true) }
         let(:expense) { build(:expense, claim: claim, expense_type: build(:expense_type)) }
 
-        before(:each) { allow(Settings).to receive(:expense_schema_version).and_return(1) }
+        before { allow(Settings).to receive(:expense_schema_version).and_return(1) }
 
         it 'is invalid if absent' do
           bike_travel_expense.mileage_rate_id = nil

@@ -2,13 +2,13 @@ shared_examples 'common litigator claim attributes' do |*flags|
   it { should delegate_method(:provider_id).to(:creator) }
 
   describe '#lgfs?' do
-    it 'should return true' do
+    it 'returns true' do
       expect(claim.lgfs?).to eql true
     end
   end
 
   describe '#agfs?' do
-    it 'should return false' do
+    it 'returns false' do
       expect(claim.agfs?).to eql false
     end
   end
@@ -21,7 +21,7 @@ shared_examples 'common litigator claim attributes' do |*flags|
   end
 
   describe '#requires_trial_dates?' do
-    it 'should always return false' do
+    it 'always returns false' do
       skip('does not apply to this claim type') if ([:hardship_claim] & flags).any?
       expect(claim.requires_trial_dates?).to eql false
     end

@@ -25,7 +25,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   let(:disbursement_fee) { build :interim_fee, :disbursement }
   let(:interim_warrant_fee) { build :interim_fee, :warrant }
 
-  before(:each) do
+  before do
     allow(fee).to receive(:perform_validation?).and_return(true)
     allow(disbursement_fee).to receive(:perform_validation?).and_return(true)
     allow(interim_warrant_fee).to receive(:perform_validation?).and_return(true)
@@ -142,7 +142,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   end
 
   describe 'interim warrant fee' do
-    it 'should validate there are no disbursements in the claim' do
+    it 'validates there are no disbursements in the claim' do
       allow(interim_warrant_fee.claim).to receive(:disbursements).and_return([instance_double(Disbursement)])
       expect(interim_warrant_fee).to be_invalid
       expect(interim_warrant_fee.errors[:disbursements]).to eq ['present']
@@ -150,7 +150,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   end
 
   describe 'disbursement only interim fee' do
-    it 'should validate existence of disbursements in the claim' do
+    it 'validates existence of disbursements in the claim' do
       allow(disbursement_fee.claim).to receive(:disbursements).and_return([])
       expect(disbursement_fee).to be_invalid
       expect(disbursement_fee.errors[:disbursements]).to eq ['blank']
@@ -158,7 +158,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   end
 
   describe 'any other interim fee type' do
-    it 'should allow having disbursements in the claim' do
+    it 'allows having disbursements in the claim' do
       allow(fee.claim).to receive(:disbursements).and_return([instance_double(Disbursement)])
       expect(fee).to be_valid
     end
@@ -170,7 +170,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
     include_examples 'common warrant fee validations'
 
     describe '#validate_warrant_issued_date' do
-      it 'should be valid if present and in the past' do
+      it 'is valid if present and in the past' do
         fee.warrant_issued_date = Date.today
         expect(fee).to be_valid
       end

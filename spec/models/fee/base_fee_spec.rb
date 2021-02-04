@@ -44,7 +44,7 @@ module Fee
       end
     end
 
-    before(:each) { allow(subject).to receive(:quantity_is_decimal?).and_return(false) }
+    before { allow(subject).to receive(:quantity_is_decimal?).and_return(false) }
 
     context 'zeroise nulls on save' do
       it 'zeroises the amount if null' do
@@ -79,7 +79,7 @@ module Fee
     end
 
     describe 'blank quantity should be set to zero before validation' do
-      it 'should replace blank quantities with zero before save' do
+      it 'replaces blank quantities with zero before save' do
         subject.quantity = nil
         subject.valid?
         expect(subject.quantity).to eq 0
@@ -87,7 +87,7 @@ module Fee
     end
 
     describe 'blank rate should be set to zero before validation' do
-      it 'should replace blank rate with zero before save' do
+      it 'replaces blank rate with zero before save' do
         subject.rate = nil
         subject.valid?
         expect(subject.rate).to eq 0
@@ -95,7 +95,7 @@ module Fee
     end
 
     describe 'blank amount with blank quantity and rate should be set to zero before validation' do
-      it 'should replace blank amount with zero before save' do
+      it 'replaces blank amount with zero before save' do
         subject.quantity = nil
         subject.rate = nil
         subject.amount = nil
@@ -105,33 +105,33 @@ module Fee
     end
 
     describe '#blank?' do
-      it 'should return true if all value fields are zero' do
+      it 'returns true if all value fields are zero' do
         subject.quantity = 0
         subject.rate = 0
         subject.amount = 0
         expect(subject.blank?).to be true
       end
-      it 'should return false if any value fields are non zero' do
+      it 'returns false if any value fields are non zero' do
         subject.rate = 10
         expect(subject.blank?).to be false
       end
     end
 
     describe '#present?' do
-      it 'should return false if all value fields are zero' do
+      it 'returns false if all value fields are zero' do
         subject.quantity = 0
         subject.rate = 0
         subject.amount = 0
         expect(subject.present?).to be false
       end
-      it 'should return true if any value fields are non zero' do
+      it 'returns true if any value fields are non zero' do
         subject.rate = 10
         expect(subject.present?).to be true
       end
     end
 
     describe '#clear' do
-      before(:each) do
+      before do
         subject.quantity = 10
         subject.amount = 10
         subject.rate = 2
@@ -166,7 +166,7 @@ module Fee
 
   RSpec.describe Fee::BaseFee, type: :model do
     context '#new' do
-      it 'should raise BaseFeeAbstractClassError' do
+      it 'raises BaseFeeAbstractClassError' do
         expect { BaseFee.new }.to raise_error(Fee::BaseFeeAbstractClassError)
       end
     end
@@ -177,19 +177,19 @@ module Fee
         let(:misc_fee_type) { build(:misc_fee_type) }
         let(:fee) { build(:misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255) }
 
-        it 'should recalculate amount if fee type is calculated' do
+        it 'recalculates amount if fee type is calculated' do
           fee.claim.force_validation = true
           expect(fee).to be_valid
           expect(fee.amount).to eq 110
         end
-        it 'should NOT recalculate amount if fee type is NOT calculated' do
+        it 'does not recalculate amount if fee type is NOT calculated' do
           misc_fee_type.calculated = false
           fee.rate = nil
           fee.claim.force_validation = true
           expect(fee).to be_valid
           expect(fee.amount).to eq 255
         end
-        it 'should ONLY recalculate amount if claim is editable' do
+        it 'only recalculates amount if claim is editable' do
           claim.submit!
           claim.force_validation = true
           fee.rate = nil
@@ -203,7 +203,7 @@ module Fee
         let(:misc_fee_type) { build :misc_fee_type, :lgfs }
         let(:fee) { build :misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim: claim }
 
-        it 'should NOT recalculate amount' do
+        it 'does not recalculate amount' do
           fee.rate = 0
           fee.claim.force_validation = true
           expect(fee).to be_valid

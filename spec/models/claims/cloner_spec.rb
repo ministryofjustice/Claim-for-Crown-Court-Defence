@@ -30,7 +30,7 @@ RSpec.describe Claims::Cloner, type: :model do
     let(:claim_types) { [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] }
     let(:excluded_associations) { Claims::Cloner::EXCLUDED_FEE_ASSOCIATIONS }
 
-    it 'should check found fee associations against excluded associations' do
+    it 'checks found fee associations against excluded associations' do
       found_associations = claim_types.inject([]) do |result, klass|
         result | klass.send(:fee_associations)
       end

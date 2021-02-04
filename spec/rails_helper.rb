@@ -182,7 +182,7 @@ RSpec.configure do |config|
     VatRate.delete_all
   end
 
-  config.before(:each) do |example|
+  config.before do |example|
     if example.metadata[:delete]
       DatabaseCleaner.strategy = :truncation, { :except => ['vat_rates'] }
     else
@@ -191,7 +191,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.after(:each) do
+  config.after do
     DatabaseCleaner.clean
   end
 end

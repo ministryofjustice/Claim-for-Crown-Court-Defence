@@ -46,7 +46,7 @@ RSpec.describe Claim::TransferDetail do
   end
 
   describe '#errors?' do
-    before(:each) { detail.claim = build(:transfer_claim) }
+    before { detail.claim = build(:transfer_claim) }
 
     it 'returns false if there are no errors relating to transfer_detail fields' do
       expect(detail.errors?).to be false

@@ -8,7 +8,7 @@ describe Remote::CaseType do
   end
 
   context 'class methods' do
-    before(:each) do
+    before do
       allow(described_class).to receive(:client).and_return(client)
     end
 

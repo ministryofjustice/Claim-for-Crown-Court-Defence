@@ -17,7 +17,7 @@ RSpec.describe ExternalUsers::CreateUser do
 
     it 'creates an external user related with the provided user and the created provider' do
       expect { service.call! }
-        .to change { ExternalUser.count }.by(1)
+        .to change(ExternalUser, :count).by(1)
 
       new_provider = Provider.order('created_at').last
       new_external_user = ExternalUser.order('created_at').last
@@ -47,8 +47,7 @@ RSpec.describe ExternalUsers::CreateUser do
       end
 
       it 'does not create an external user related with the provided user' do
-        expect { service.call! rescue nil }
-          .not_to(change { ExternalUser.count })
+        expect { service.call! rescue nil }.not_to change(ExternalUser, :count)
       end
     end
   end

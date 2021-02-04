@@ -46,7 +46,7 @@ end
 # not that the other step fields aren't, so could lead to false positives.
 RSpec.shared_examples 'common partial association validations' do |steps|
   context 'partial validation' do
-    before(:each) do
+    before do
       claim.force_validation = true
     end
 

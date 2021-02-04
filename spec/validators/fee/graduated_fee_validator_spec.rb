@@ -6,7 +6,7 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
   let(:claim) { build :litigator_claim }
   let(:fee) { build :graduated_fee }
 
-  before(:each) do
+  before do
     allow(fee).to receive(:perform_validation?).and_return(true)
   end
 
@@ -79,19 +79,19 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
   end
 
   describe 'absence of unnecessary attributes' do
-    it 'should validate absence of warrant issued date' do
+    it 'validates absence of warrant issued date' do
       fee.warrant_issued_date = Date.today
       expect(fee).not_to be_valid
     end
-    it 'should validate absence of warrant executed date' do
+    it 'validates absence of warrant executed date' do
       fee.warrant_executed_date = Date.today
       expect(fee).not_to be_valid
     end
-    it 'should validate absence of case-type-fee-sub-type' do
+    it 'validates absence of case-type-fee-sub-type' do
       fee.sub_type_id = 2
       expect(fee).not_to be_valid
     end
-    it 'should validate absence of case numbers' do
+    it 'validates absence of case numbers' do
       fee.case_numbers = 'T20150111,T20150222'
       expect(fee).not_to be_valid
     end

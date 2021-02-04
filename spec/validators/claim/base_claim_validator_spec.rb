@@ -198,7 +198,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'when total is not greater than 0' do
       let(:total) { 0.0 }
 
-      it 'should error' do
+      it 'errors' do
         should_error_with(claim, :total, 'numericality')
       end
     end
@@ -206,20 +206,20 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'when total is greater than the max limit' do
       let(:total) { 1_000_123 }
 
-      it 'should error' do
+      it 'errors' do
         should_error_with(claim, :total, 'claim_max_amount')
       end
     end
   end
 
   context 'case_number' do
-    it 'should error if not present' do
+    it 'errors if not present' do
       claim.case_number = nil
       should_error_with(claim, :case_number, 'blank')
     end
 
     context 'with URN format' do
-      it 'should not error if valid' do
+      it 'does not error if valid' do
         claim.case_number = 'ABCDEFGHIJ1234567890'
         expect(claim).to be_valid
       end
@@ -238,22 +238,22 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'with T-type format' do
-      it 'should not error if valid' do
+      it 'does not error if valid' do
         claim.case_number = 'T20161234'
         expect(claim).to be_valid
       end
 
-      it 'should error if too short' do
+      it 'errors if too short' do
         claim.case_number = 'T2020432'
         should_error_with(claim, :case_number, 'invalid')
       end
 
-      it 'should error if too long' do
+      it 'errors if too long' do
         claim.case_number = 'T202043298'
         should_error_with(claim, :case_number, 'invalid')
       end
 
-      it 'should error if it doesnt start with BAST or U' do
+      it 'errors if it doesnt start with BAST or U' do
         claim.case_number = 'G20204321'
         should_error_with(claim, :case_number, 'invalid')
       end
@@ -278,19 +278,19 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'estimated_trial_length' do
-    it 'should error if not present and case type requires trial dates' do
+    it 'errors if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.estimated_trial_length = nil
       should_error_with(claim, :estimated_trial_length, 'blank')
     end
 
-    it 'should NOT error if not present and case type does NOT require trial dates' do
+    it 'does not error if not present and case type does NOT require trial dates' do
       claim.case_type = guilty_plea
       claim.estimated_trial_length = nil
       should_not_error(claim, :estimated_trial_length)
     end
 
-    it 'should error if less than zero' do
+    it 'errors if less than zero' do
       claim.case_type = contempt
       claim.estimated_trial_length = -1
       should_error_with(claim, :estimated_trial_length, 'invalid')
@@ -298,19 +298,19 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'actual_trial_length' do
-    it 'should error if not present and case type requires trial dates' do
+    it 'errors if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.actual_trial_length = nil
       should_error_with(claim, :actual_trial_length, 'blank')
     end
 
-    it 'should NOT error if not present and case type does NOT require trial dates' do
+    it 'does not error if not present and case type does NOT require trial dates' do
       claim.case_type = guilty_plea
       claim.actual_trial_length = nil
       should_not_error(claim, :actual_trial_length)
     end
 
-    it 'should error if less than zero' do
+    it 'errors if less than zero' do
       claim.case_type = contempt
       claim.actual_trial_length = -1
       should_error_with(claim, :actual_trial_length, 'invalid')
@@ -318,19 +318,19 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'retrial_estimated_length' do
-    it 'should error if not present and case type requires retrial dates' do
+    it 'errors if not present and case type requires retrial dates' do
       claim.case_type = retrial
       claim.retrial_estimated_length = nil
       should_error_with(claim, :retrial_estimated_length, 'blank')
     end
 
-    it 'should NOT error if not present and case type does NOT require retrial dates' do
+    it 'does not error if not present and case type does NOT require retrial dates' do
       claim.case_type = guilty_plea
       claim.retrial_estimated_length = nil
       should_not_error(claim, :retrial_estimated_length)
     end
 
-    it 'should error if less than zero' do
+    it 'errors if less than zero' do
       claim.case_type = retrial
       claim.retrial_estimated_length = -1
       should_error_with(claim, :retrial_estimated_length, 'invalid')
@@ -338,19 +338,19 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'retrial_actual_length' do
-    it 'should error if not present and case type requires retrial dates' do
+    it 'errors if not present and case type requires retrial dates' do
       claim.case_type = retrial
       claim.retrial_actual_length = nil
       should_error_with(claim, :retrial_actual_length, 'blank')
     end
 
-    it 'should NOT error if not present and case type does NOT require retrial dates' do
+    it 'does not error if not present and case type does NOT require retrial dates' do
       claim.case_type = guilty_plea
       claim.retrial_actual_length = nil
       should_not_error(claim, :retrial_actual_length)
     end
 
-    it 'should error if less than zero' do
+    it 'errors if less than zero' do
       claim.case_type = retrial
       claim.retrial_actual_length = -1
       should_error_with(claim, :retrial_actual_length, 'invalid')
@@ -361,12 +361,12 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'for cracked trials' do
       before { claim.case_type = cracked_trial }
 
-      it 'should error if NOT present' do
+      it 'errors if NOT present' do
         claim.trial_cracked_at_third = nil
         should_error_with(claim, :trial_cracked_at_third, 'blank')
       end
 
-      it 'should error if NOT in expected value list' do
+      it 'errors if NOT in expected value list' do
         # NOTE: stored value is snake case
         claim.trial_cracked_at_third = 'Final third'
         should_error_with(claim, :trial_cracked_at_third, 'invalid')
@@ -384,18 +384,18 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'for cracked before retrial' do
       before { claim.case_type = cracked_before_retrial }
 
-      it 'should error if NOT present' do
+      it 'errors if NOT present' do
         claim.trial_cracked_at_third = nil
         should_error_with(claim, :trial_cracked_at_third, 'blank')
       end
 
-      it 'should error if NOT in expected value list' do
+      it 'errors if NOT in expected value list' do
         # NOTE: stored value is snake case
         claim.trial_cracked_at_third = 'Final third'
         should_error_with(claim, :trial_cracked_at_third, 'invalid')
       end
 
-      it 'should error if NOT final third' do
+      it 'errors if NOT final third' do
         claim.trial_cracked_at_third = 'first_third'
         should_error_with(claim, :trial_cracked_at_third, 'invalid_case_type_third_combination')
       end
@@ -403,7 +403,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'for other case types' do
       before { claim.case_type = guilty_plea }
-      it 'should not error if not present' do
+      it 'does not error if not present' do
         claim.trial_cracked_at_third = nil
         should_not_error(claim, :trial_cracked_at_third)
       end
@@ -418,23 +418,23 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       claim
     end
 
-    it 'should NOT error if assessment provided prior to authorise! or part_authorise! transistions' do
+    it 'does not error if assessment provided prior to authorise! or part_authorise! transistions' do
       expect { assessed_claim.authorise! }.to_not raise_error
     end
 
-    it 'should error if NO assessment present and state is transitioned to authorised or part_authorised' do
+    it 'errors if NO assessment present and state is transitioned to authorised or part_authorised' do
       expect { claim.authorise! }.to raise_error(StateMachines::InvalidTransition)
       expect { claim.authorise_part! }.to raise_error(StateMachines::InvalidTransition)
     end
 
-    it 'should error if authorised claim has assessment zeroized' do
+    it 'errors if authorised claim has assessment zeroized' do
       assessed_claim.authorise!
       assessed_claim.assessment.zeroize!
       expect(assessed_claim).to_not be_valid
       expect(assessed_claim.errors[:amount_assessed]).to eq(['Amount assessed cannot be zero for claims in state Authorised'])
     end
 
-    it 'should error if authorised claim has assessment updated to zero' do
+    it 'errors if authorised claim has assessment updated to zero' do
       assessed_claim.authorise_part!
       assessed_claim.assessment.update(fees: 0, expenses: 0, disbursements: 0)
       expect(assessed_claim).to_not be_valid
@@ -454,7 +454,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'should be invalid if amount assessed is not zero' do
       %w{draft refused rejected submitted}.each do |state|
-        it "should error if amount assessed is not zero for #{state}" do
+        it "errors if amount assessed is not zero for #{state}" do
           factory_name = "#{state}_claim".to_sym
           claim = FactoryBot.create factory_name
           claim.assessment.fees = 35.22
@@ -491,7 +491,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     let(:doc_types) { DocType.all.sample(4).map(&:id) }
     let(:invalid_ids) { ['a', 'ABC', '??', '-'] }
 
-    it 'should serialize and deserialize as Array' do
+    it 'serializes and deserialize as Array' do
       claim.evidence_checklist_ids = doc_types
       should_not_error(claim, :evidence_checklist_ids)
       claim.save!
@@ -499,30 +499,30 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       expect(dup.evidence_checklist_ids).to eq(doc_types)
     end
 
-    it 'should NOT error if ids are string integers and should exclude blank strings' do
+    it 'does not error if ids are string integers and should exclude blank strings' do
       claim.evidence_checklist_ids = ['6', '3', ' ']
       should_not_error(claim, :evidence_checklist_ids)
     end
 
-    it 'should NOT error if ids are valid doctype ids' do
+    it 'does not error if ids are valid doctype ids' do
       claim.evidence_checklist_ids = doc_types
       should_not_error(claim, :evidence_checklist_ids)
     end
 
-    it 'should error if ids are zero or strings' do
+    it 'errors if ids are zero or strings' do
       invalid_ids.each do |id|
         claim.evidence_checklist_ids = [id]
         should_error_with(claim, :evidence_checklist_ids, 'Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids')
       end
     end
 
-    it 'should error if, and for each, id that is not valid doctype ids' do
+    it 'errors if, and for each, id that is not valid doctype ids' do
       claim.evidence_checklist_ids = [101, 1001, 200, 32]
       expect(claim.valid?).to be false
       expect(claim.errors[:evidence_checklist_ids]).to include(/^Evidence checklist id 101 is invalid, please use valid evidence checklist ids/)
     end
 
-    it 'should throw an exception for anything other than an array' do
+    it 'throws an exception for anything other than an array' do
       expect {
         claim.evidence_checklist_ids = '1, 45, 457'
         claim.save!

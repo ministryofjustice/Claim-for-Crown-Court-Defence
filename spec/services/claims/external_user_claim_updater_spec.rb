@@ -17,7 +17,7 @@ module Claims
 
     describe '#archive' do
       before { subject.archive }
-      after(:each) do
+      after do
         expect(claim.last_state_transition.author_id).to eq(current_user.id)
       end
 
@@ -41,7 +41,7 @@ module Claims
     describe '#request_redetermination' do
       let(:claim) { create :part_authorised_claim }
 
-      after(:each) do
+      after do
         expect(claim.last_state_transition.author_id).to eq(current_user.id)
       end
 
@@ -54,7 +54,7 @@ module Claims
     describe '#request_written_reasons' do
       let(:claim) { create :part_authorised_claim }
 
-      after(:each) do
+      after do
         expect(claim.last_state_transition.author_id).to eq(current_user.id)
       end
 
@@ -67,7 +67,7 @@ module Claims
     describe '#submit' do
       let(:claim) { create :advocate_claim }
 
-      after(:each) do
+      after do
         expect(claim.last_state_transition.author_id).to eq(current_user.id)
       end
 

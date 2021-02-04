@@ -34,10 +34,10 @@ RSpec.describe Provider, type: :model do
 
   context '#destroy' do
     before { create(:external_user, :advocate, provider: chamber) }
-    it 'should destroy external users' do
+    it 'destroys external users' do
       expect(ExternalUser.count).to eq 1
       expect(Provider.count).to eq 1
-      expect { chamber.destroy }.to change { ExternalUser.count }.by(-1)
+      expect { chamber.destroy }.to change(ExternalUser, :count).by(-1)
     end
   end
 
@@ -93,17 +93,17 @@ RSpec.describe Provider, type: :model do
   end
 
   context 'ROLES' do
-    it 'should have "agfs" and "lgfs"' do
+    it 'has "agfs" and "lgfs"' do
       expect(Provider::ROLES).to match_array(%w(agfs lgfs))
     end
   end
 
   context '.set_api_key' do
-    it 'should set API key at creation' do
+    it 'sets API key at creation' do
       expect(chamber.api_key.present?).to eql true
     end
 
-    it 'should set API key before validation' do
+    it 'sets API key before validation' do
       chamber.api_key = nil
       expect(chamber.api_key.present?).to eql false
       expect(chamber).to be_valid
@@ -112,21 +112,21 @@ RSpec.describe Provider, type: :model do
   end
 
   context '.regenerate_api_key' do
-    it 'should create a new api_key' do
+    it 'creates a new api_key' do
       old_api_key = chamber.api_key
-      expect { chamber.regenerate_api_key! }.to change { chamber.api_key }.from(old_api_key)
+      expect { chamber.regenerate_api_key! }.to change(chamber, :api_key).from(old_api_key)
     end
   end
 
   describe '#firm?' do
     context 'when firm' do
-      it 'should return true' do
+      it 'returns true' do
         expect(firm.firm?).to eq(true)
       end
     end
 
     context 'when chamber' do
-      it 'should return false' do
+      it 'returns false' do
         expect(chamber.firm?).to eq(false)
       end
     end
@@ -134,13 +134,13 @@ RSpec.describe Provider, type: :model do
 
   describe '#chamber?' do
     context 'when firm' do
-      it 'should return false' do
+      it 'returns false' do
         expect(firm.chamber?).to eq(false)
       end
     end
 
     context 'when chamber' do
-      it 'should return true' do
+      it 'returns true' do
         expect(chamber.chamber?).to eq(true)
       end
     end

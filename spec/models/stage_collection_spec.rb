@@ -15,7 +15,7 @@ RSpec.describe StageCollection do
   subject(:collection) { described_class.new(stages, stagable_object) }
 
   describe '#stages' do
-    it 'should be an array of Stages' do
+    it 'is an array of Stages' do
       expect(collection.stages).to be_kind_of(Array)
       expect(collection.stages.size).to eq(stages.size)
       expect(collection.stages).to all(be_a(Stage))

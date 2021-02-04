@@ -7,19 +7,19 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
     let(:assigned_roles) { [] }
     subject { build(factory_name, roles: assigned_roles) }
 
-    it 'should be valid when a valid role is present' do
+    it 'is valid when a valid role is present' do
       assigned_roles << roles.first
       subject.valid?
       expect(subject.errors[:roles]).to be_empty
     end
 
-    it 'should not be valid with an invalid role' do
+    it 'is not valid with an invalid role' do
       assigned_roles << [roles.first, 'foobar123xyz']
       expect(subject).to_not be_valid
       expect(subject.errors[:roles]).to include("must be one or more of: #{roles.map { |r| r.humanize.downcase }.join(', ')}")
     end
 
-    it 'should not be valid without a role' do
+    it 'is not valid without a role' do
       expect(subject).to_not be_valid
       expect(subject.errors[:roles]).to include('at least one role must be present')
     end

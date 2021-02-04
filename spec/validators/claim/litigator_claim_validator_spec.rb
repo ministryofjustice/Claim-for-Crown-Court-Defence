@@ -54,7 +54,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
           expect(claim.misc_fees).to be_empty
         end
 
-        it 'should not error' do
+        it 'does not error' do
           should_not_error(claim, :base)
         end
       end
@@ -65,7 +65,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIUPL])
         end
 
-        it 'should error' do
+        it 'errors' do
           should_error_with(claim, :base, 'lgfs_defendant_uplifts_mismatch')
         end
 
@@ -74,7 +74,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
             allow(claim).to receive(:from_api?).and_return true
           end
 
-          it 'should not error' do
+          it 'does not error' do
             should_not_error(claim, :base)
           end
         end
@@ -93,7 +93,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIUPL])
         end
 
-        it 'should not error' do
+        it 'does not error' do
           should_not_error(claim, :base)
         end
       end
@@ -108,7 +108,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIUPL MIUPL MIUPL])
         end
 
-        it 'should add one error only' do
+        it 'adds one error only' do
           should_error_with(claim, :base, 'lgfs_defendant_uplifts_mismatch')
           expect(claim.errors[:base].size).to eql 1
         end

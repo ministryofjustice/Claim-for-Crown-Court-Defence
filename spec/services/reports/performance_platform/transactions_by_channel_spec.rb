@@ -47,14 +47,14 @@ describe Reports::PerformancePlatform::TransactionsByChannel do
 
     context 'when the data is fine' do
       it { expect(populate_data).to be_truthy }
-      it { expect { populate_data }.to change { report.ready_to_send }.from(false).to(true) }
+      it { expect { populate_data }.to change(report, :ready_to_send).from(false).to(true) }
     end
 
     context 'when a collation error occurs' do
       before { allow(report).to receive(:count_digital_claims).and_raise(StandardError) }
 
       it { expect(populate_data).to be_falsey }
-      it { expect { populate_data }.not_to change { report.ready_to_send }.from(false) }
+      it { expect { populate_data }.not_to change(report, :ready_to_send).from(false) }
     end
   end
 

@@ -61,7 +61,7 @@ RSpec.describe API::V2::Search do
   end
 
   describe 'GET unallocated' do
-    it 'should return 406 Not Acceptable if requested API version via header is not supported' do
+    it 'returns 406 Not Acceptable if requested API version via header is not supported' do
       header 'Accept-Version', 'v1'
 
       do_request
@@ -69,7 +69,7 @@ RSpec.describe API::V2::Search do
       expect(last_response.body).to include('The requested version is not supported.')
     end
 
-    it 'should require an API key' do
+    it 'requires an API key' do
       params.delete(:api_key)
 
       do_request

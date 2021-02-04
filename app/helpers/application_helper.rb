@@ -45,15 +45,6 @@ module ApplicationHelper
     'current' if path_matches(path) && tab_check_passes?(path)
   end
 
-  def number_with_precision_or_default(number, options = {})
-    default = options.delete(:default) || ''
-    if options.key?(:precision)
-      number.zero? ? default : number_with_precision(number, options)
-    else
-      number.zero? ? default : number.to_s
-    end
-  end
-
   def casual_date(date)
     if Date.parse(date) == Date.today
       'Today'

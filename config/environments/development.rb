@@ -14,7 +14,6 @@ Rails.application.configure do
   }
 
   config.active_storage.service = :local
-  # config.active_storage.service = :amazon
 
   # logging
   jsonlogger = LogStuff.new_logger("#{Rails.root}/log/logstash_development.log", Logger::INFO)

@@ -11,7 +11,8 @@ INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_si
          'chksum',
          updated_at
     FROM messages
-    WHERE attachment_file_name IS NOT NULL;
+    WHERE attachment_file_name IS NOT NULL
+      AND id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = 'Message');
 
 -- Create ActiveStorage::Attachment records for all the new ActiveStorage::Blob records
 -- Use the temporary value of the key to set the correct name and Message id

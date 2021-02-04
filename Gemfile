@@ -47,7 +47,6 @@ gem 'rubyzip'
 gem 'config',                 '~> 2.2' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
-gem 'sass-rails',             '~> 6.0.0'
 gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
 gem 'sentry-raven',           '~> 2.13.0'
 gem 'simple_form',            '~> 5.0.3'
@@ -109,7 +108,7 @@ end
 group :test do
   gem 'axe-core-cucumber', '~> 4.1'
   gem 'capybara-selenium'
-  gem 'capybara', '~> 3.34'
+  gem 'capybara', '~> 3.35'
   gem 'climate_control'
   gem 'codeclimate-test-reporter', require: false
   gem 'cucumber-rails', '~> 2.2.0', require: false

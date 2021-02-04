@@ -10,7 +10,8 @@ INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_si
          document_file_size,
          'chksum',
          updated_at
-    FROM documents;
+    FROM documents
+    WHERE id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = 'Document');
 
 -- Copy converted preview documents for the Document model into ActiveStorage::Blob
 -- Skip any documents that are identical to the original document
@@ -24,7 +25,8 @@ INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_si
          'chksum',
          updated_at
     FROM documents
-    WHERE document_file_name != converted_preview_document_file_name;
+    WHERE document_file_name != converted_preview_document_file_name
+      AND id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = 'Document');
 
 -- Create ActiveStorage::Attachment records for all the new ActiveStorage::Blob records
 -- Use the temporary value of the key to set the correct name and Document id

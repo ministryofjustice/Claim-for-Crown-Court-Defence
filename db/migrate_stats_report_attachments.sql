@@ -13,7 +13,8 @@ INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_si
          'chksum',
          document_updated_at
     FROM stats_reports
-    WHERE document_file_name IS NOT NULL;
+    WHERE document_file_name IS NOT NULL
+      AND id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = 'Stats::StatsReport');
 
 -- Create ActiveStorage::Attachment records for all the new ActiveStorage::Blob records
 -- Use the temporary value of the key to set the correct name and Stats::StatsReport id

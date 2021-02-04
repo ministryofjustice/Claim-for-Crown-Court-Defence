@@ -73,13 +73,13 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
   it { is_expected.to respond_to :disable_for_state_transition }
 
   describe '#final?' do
-    it 'should return true' do
+    it 'returns true' do
       expect(claim.final?).to eql true
     end
   end
 
   describe '#eligible_case_types' do
-    it 'should return only LGFS case types' do
+    it 'returns only LGFS case types' do
       claim = build :litigator_claim
       CaseType.delete_all
       agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']

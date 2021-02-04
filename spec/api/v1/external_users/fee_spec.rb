@@ -53,7 +53,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
     include_examples 'should NOT be able to amend a non-draft claim'
 
     context 'when fee params are valid' do
-      it 'should create fee, return 201 and fee JSON output including UUID' do
+      it 'creates fee, return 201 and fee JSON output including UUID' do
         post_to_create_endpoint
         expect(last_response.status).to eq 201
         json = JSON.parse(last_response.body)
@@ -62,11 +62,11 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         expect(Fee::BaseFee.find_by(uuid: json['id']).claim.uuid).to eq(json['claim_id'])
       end
 
-      it 'should create one new fee' do
+      it 'creates one new fee' do
         expect { post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(1)
       end
 
-      it 'should create a new fee record with all provided attributes except amount' do
+      it 'creates a new fee record with all provided attributes except amount' do
         post_to_create_endpoint
         fee = Fee::BaseFee.last
         expect(fee.claim_id).to eq claim.id
@@ -78,7 +78,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       context 'fee_type_unique_code' do
         let(:unique_code) { misc_fee_type.unique_code }
 
-        it 'should create a new fee record with a fee type specified by unique code' do
+        it 'creates a new fee record with a fee type specified by unique code' do
           valid_params.delete(:fee_type_id)
           valid_params.merge!(fee_type_unique_code: unique_code)
 
@@ -149,7 +149,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         let(:json) { JSON.parse(last_response.body) }
         let(:fee) { Fee::BaseFee.find_by(uuid: json['id']) }
 
-        it 'should return 200 and fee JSON output including UUID' do
+        it 'returns 200 and fee JSON output including UUID' do
           post_to_create_endpoint
           expect(last_response.status).to eq 200
           expect(json['id']).not_to be_nil
@@ -157,18 +157,18 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           expect(fee.claim.uuid).to eq(json['claim_id'])
         end
 
-        it 'should update, not create, one basic fee' do
+        it 'updates, not creates, one basic fee' do
           expect { post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(0)
         end
 
-        it 'should raise error if basic fee does not exist on claim' do
+        it 'raises error if basic fee does not exist on claim' do
           valid_params.merge!(fee_type_id: basic_fee_dat_type.id)
           post_to_create_endpoint
           expect(last_response.status).to eq 400
           expect_error_response('Basic fee not found on claim', 0)
         end
 
-        it 'should update quantity, rate and amount' do
+        it 'updates quantity, rate and amount' do
           post_to_create_endpoint
           expect(fee.claim_id).to eq claim.id
           expect(fee.fee_type_id).to eq basic_fee_type.id
@@ -192,7 +192,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           let!(:claim) { create_claim(:advocate_claim, source: 'api', first_day_of_trial: first_day_of_trial, trial_concluded_at: trial_concluded_at, actual_trial_length: actual_trial_length, case_type: case_type, defendants: defendants, basic_fees: basic_fees) }
           let(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_dat_type.id, quantity: 2, rate: 600.00 } }
 
-          it 'should return 200 and fee JSON output including UUID' do
+          it 'returns 200 and fee JSON output including UUID' do
             post_to_create_endpoint
             expect(last_response.status).to eq 200
             expect(json['id']).not_to be_nil
@@ -200,7 +200,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
             expect(fee.claim.uuid).to eq(json['claim_id'])
           end
 
-          it 'should update quantity, rate and amount' do
+          it 'updates quantity, rate and amount' do
             post_to_create_endpoint
             expect(fee.claim_id).to eq claim.id
             expect(fee.fee_type_id).to eq basic_fee_dat_type.id
@@ -295,7 +295,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           let!(:interim_fee_type) { create(:interim_fee_type, :disbursement_only) }
           let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: interim_fee_type.id, quantity: 3, rate: 50.00 } }
 
-          it 'should raise error if quantity is provided' do
+          it 'raises error if quantity is provided' do
             post_to_create_endpoint
             expect(last_response.status).to eq 400
             expect_error_response('Do not enter a PPE quantity for the interim fee', 0)
@@ -306,7 +306,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           let!(:interim_fee_type) { create(:interim_fee_type, :warrant) }
           let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: interim_fee_type.id, quantity: 3, rate: 50.00 } }
 
-          it 'should raise error if quantity is provided' do
+          it 'raises error if quantity is provided' do
             post_to_create_endpoint
             expect(last_response.status).to eq 400
             expect_error_response('Do not enter a PPE quantity for the interim fee', 0)
@@ -401,7 +401,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       include_examples 'invalid API key create endpoint', exclude: :other_provider
 
       context 'missing expected params' do
-        it 'should return a JSON error array with required model attributes' do
+        it 'returns a JSON error array with required model attributes' do
           valid_params.delete(:fee_type_id)
           post_to_create_endpoint
           expect(last_response.status).to eq 400
@@ -411,7 +411,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       end
 
       context 'mutually exclusive params fee_type_id and fee_type_unique_code' do
-        it 'should return an error if both are provided' do
+        it 'returns an error if both are provided' do
           valid_params[:fee_type_unique_code] = 'XXX'
           expect(valid_params.keys).to include(:fee_type_id, :fee_type_unique_code)
 
@@ -422,7 +422,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       end
 
       context 'unexpected error' do
-        it 'should return 400 and JSON error array of error message' do
+        it 'returns 400 and JSON error array of error message' do
           allow(API::Helpers::ApiHelper).to receive(:validate_resource).and_raise(RangeError)
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
@@ -432,7 +432,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       end
 
       context 'missing claim id' do
-        it 'should return 400 and a JSON error array' do
+        it 'returns 400 and a JSON error array' do
           valid_params.delete(:claim_id)
           post_to_create_endpoint
           expect(last_response.status).to eq 400
@@ -441,7 +441,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       end
 
       context 'invalid claim id' do
-        it 'should return 400 and a JSON error array' do
+        it 'returns 400 and a JSON error array' do
           valid_params[:claim_id] = SecureRandom.uuid
           post_to_create_endpoint
           expect(last_response.status).to eq 400
@@ -450,7 +450,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       end
 
       context 'malformed claim UUID' do
-        it 'should reject invalid claim id' do
+        it 'rejects invalid claim id' do
           valid_params[:claim_id] = 'any-old-rubbish'
           post_to_create_endpoint
           expect(last_response.status).to eq(400)

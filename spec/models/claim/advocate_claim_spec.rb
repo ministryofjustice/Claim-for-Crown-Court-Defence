@@ -22,27 +22,27 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:same_provider_external_user) { create(:external_user, provider: provider) }
     let(:other_provider_external_user) { create(:external_user, provider: other_provider) }
 
-    it 'should raise error message if no external user is specified' do
+    it 'raises error message if no external user is specified' do
       subject.external_user_id = nil
       expect(subject).not_to be_valid
       expect(subject.errors[:external_user]).to eq(['blank_advocate'])
     end
 
-    it 'should be valid with the same external_user_id and creator_id' do
+    it 'is valid with the same external_user_id and creator_id' do
       subject.external_user_id = external_user.id
       subject.creator_id = external_user.id
       subject.save
       expect(subject.reload.errors.messages[:external_user]).not_to be_present
     end
 
-    it 'should be valid with different external_user_id and creator_id but same provider' do
+    it 'is valid with different external_user_id and creator_id but same provider' do
       subject.external_user_id = external_user.id
       subject.creator_id = same_provider_external_user.id
       subject.save
       expect(subject.reload.errors.messages[:external_user]).not_to be_present
     end
 
-    it 'should not be valid when the external_user and creator are with different providers' do
+    it 'is not valid when the external_user and creator are with different providers' do
       subject.external_user_id = external_user.id
       subject.creator_id = other_provider_external_user.id
       subject.save
@@ -166,14 +166,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:all_states)  { %w[allocated archived_pending_delete draft authorised part_authorised refused rejected submitted] }
 
     context 'external_user_dashboard_draft?' do
-      before(:each) { allow(claim).to receive(:state).and_return('draft') }
+      before { allow(claim).to receive(:state).and_return('draft') }
 
-      it 'should respond true in draft' do
+      it 'responds true in draft' do
         allow(claim).to receive(:state).and_return('draft')
         expect(claim.external_user_dashboard_draft?).to be true
       end
 
-      it 'should respond false to anything else' do
+      it 'responds false to anything else' do
         (all_states - ['draft']).each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_draft?).to be false
@@ -182,13 +182,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'external_user_dashboard_rejected?' do
-      before(:each) { allow(claim).to receive(:state).and_return('rejected') }
-      it 'should respond true' do
+      before { allow(claim).to receive(:state).and_return('rejected') }
+      it 'responds true' do
         allow(claim).to receive(:state).and_return('rejected')
         expect(claim.external_user_dashboard_rejected?).to be true
       end
 
-      it 'should respond false to anything else' do
+      it 'responds false to anything else' do
         (all_states - ['rejected']).each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_rejected?).to be false
@@ -197,14 +197,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'external_user_dashboard_submitted?' do
-      it 'should respond true' do
+      it 'responds true' do
         ['allocated', 'submitted'].each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be true
         end
       end
 
-      it 'should respond false to anything else' do
+      it 'responds false to anything else' do
         (all_states - ['allocated', 'submitted']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be false
@@ -213,14 +213,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'external_user_dashboard_part_authorised' do
-      it 'should respond true' do
+      it 'responds true' do
         ['part_authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_part_authorised?).to be true
         end
       end
 
-      it 'should respond false to anything else' do
+      it 'responds false to anything else' do
         (all_states - ['part_authorised']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_part_authorised?).to be false
@@ -229,14 +229,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'external_user_dashboard_completed_states' do
-      it 'should respond true' do
+      it 'responds true' do
         ['refused', 'authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_completed?).to be true
         end
       end
 
-      it 'should respond false to anything else' do
+      it 'responds false to anything else' do
         (all_states - ['refused', 'authorised']).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_completed?).to be false
@@ -245,7 +245,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'unrecognised state' do
-      it 'should raise NoMethodError' do
+      it 'raises NoMethodError' do
         expect {
           claim.other_unknown_state?
         }.to raise_error NoMethodError, /undefined method `other_unknown_state\?'/
@@ -259,7 +259,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { FactoryBot.build :unpersisted_claim }
     let(:early_date) { scheme_date_for(nil).to_date - 10.days }
 
-    before(:each) do
+    before do
       # add a second defendant
       claim.defendants << FactoryBot.create(:defendant, claim: claim)
 
@@ -267,7 +267,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       claim.defendants.first.representation_orders << FactoryBot.create(:representation_order, representation_order_date: early_date)
     end
 
-    it 'should pick the earliest reporder' do
+    it 'picks the earliest reporder' do
       # given a claim with two defendants and three rep orders
       expect(claim.defendants).to have_exactly(2).items
       expect(claim.representation_orders).to have_exactly(3).items
@@ -284,13 +284,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:case_worker_1) { FactoryBot.create :case_worker }
     let(:case_worker_2) { FactoryBot.create :case_worker }
 
-    it 'should return true if allocated to the specified case_worker' do
+    it 'returns true if allocated to the specified case_worker' do
       subject.case_workers << case_worker_1
       subject.case_workers << case_worker_2
       expect(subject.is_allocated_to_case_worker?(case_worker_1)).to be true
     end
 
-    it 'should return false if not allocated to the specified case_worker' do
+    it 'returns false if not allocated to the specified case_worker' do
       subject.case_workers << case_worker_1
       expect(subject.is_allocated_to_case_worker?(case_worker_2)).to be false
     end
@@ -644,7 +644,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         it 'updates total when claim fee destroyed' do
           expect {
             claim.fixed_fees.first.destroy
-          }.to change { claim.fees_total }.from(1.0).to(0.5)
+          }.to change(claim, :fees_total).from(1.0).to(0.5)
         end
       end
 
@@ -669,13 +669,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         it 'updates the fees total' do
           expect {
             claim.basic_fees.create attributes_for(:basic_fee, :baf_fee, rate: 2.00)
-          }.to change { claim.fees_total }.from(7.5).to(9.5)
+          }.to change(claim, :fees_total).from(7.5).to(9.5)
         end
 
         it 'updates total when claim fee destroyed' do
           expect {
             claim.basic_fees.where(rate: 3.00).first.destroy
-          }.to change { claim.fees_total }.from(7.5).to(4.5)
+          }.to change(claim, :fees_total).from(7.5).to(4.5)
         end
       end
     end
@@ -760,15 +760,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:submitted) { create(:submitted_claim) }
     let(:allocated) { create(:allocated_claim) }
 
-    it 'should be editable when draft' do
+    it 'is editable when draft' do
       expect(draft.editable?).to eq(true)
     end
 
-    it 'should not be editable when submitted' do
+    it 'is not editable when submitted' do
       expect(submitted.editable?).to eq(false)
     end
 
-    it 'should not be editable when allocated' do
+    it 'is not editable when allocated' do
       expect(allocated.editable?).to eq(false)
     end
   end
@@ -776,14 +776,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe '#archivable?' do
     let(:claim) { create(:advocate_claim) }
 
-    it 'should not be archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
+    it 'is not archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
       %w(allocated awaiting_written_reasons draft redetermination).each do |state|
         allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(false)
       end
     end
 
-    it 'should be archivable from states: refused, rejected, part authorised, authorised' do
+    it 'is archivable from states: refused, rejected, part authorised, authorised' do
       %w(refused rejected part_authorised authorised).each do |state|
         allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to eq(true)
@@ -848,19 +848,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       subject.reload
     end
 
-    it 'should be "allocated"' do
+    it 'is "allocated"' do
       expect(subject).to be_allocated
     end
 
     context 'when case worker unassigned and other case workers remain' do
-      it 'should be "allocated"' do
+      it 'is "allocated"' do
         case_worker.claims.destroy(subject)
         expect(subject.reload).to be_allocated
       end
     end
 
     context 'when all case workers unassigned' do
-      it 'should be "submitted"' do
+      it 'is "submitted"' do
         case_worker.claims.destroy(subject)
         other_case_worker.claims.destroy(subject)
         expect(subject.reload).to be_submitted
@@ -871,7 +871,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe '#has_authorised_state?' do
     let(:claim) { create(:draft_claim) }
 
-    it 'should return false for draft, submitted, allocated, and rejected claims' do
+    it 'returns false for draft, submitted, allocated, and rejected claims' do
       expect(claim.has_authorised_state?).to be_falsey
       claim.submit
       expect(claim.has_authorised_state?).to be_falsey
@@ -881,7 +881,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       expect(claim.has_authorised_state?).to be_falsey
     end
 
-    it 'should return true for part_authorised, authorised claims' do
+    it 'returns true for part_authorised, authorised claims' do
       claim.submit
       claim.allocate
       claim.assessment.update(fees: 30.01, expenses: 70.00)
@@ -932,7 +932,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:ct_basic_1)          { FactoryBot.create :case_type }
     let(:ct_basic_2)          { FactoryBot.create :case_type }
 
-    it 'should only return claims with fixed fee case types' do
+    it 'only returns claims with fixed fee case types' do
       claim_1 = FactoryBot.create :claim, case_type_id: ct_fixed_1.id
       claim_2 = FactoryBot.create :claim, case_type_id: ct_fixed_2.id
       claim_3 = FactoryBot.create :claim, case_type_id: ct_basic_1.id
@@ -1154,15 +1154,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:another_advocate)  { create(:external_user, :advocate, provider: advocate.provider) }
     let(:claim)             { build(:advocate_claim, external_user: advocate) }
 
-    it 'should not have a supplier number before creation' do
+    it 'does not have a supplier number before creation' do
       expect(claim.supplier_number).to be_nil
     end
 
-    it 'should have a supplier number, derived from the external_user, after creation' do
+    it 'has a supplier number, derived from the external_user, after creation' do
       expect { claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number)
     end
 
-    it 'should reset supplier number to match external_user' do
+    it 'resets supplier number to match external_user' do
       claim.save!
       claim.external_user = another_advocate
       expect { claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number)
@@ -1173,7 +1173,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { FactoryBot.build :unpersisted_claim }
 
     describe 'for a chamber provider' do
-      before :each do
+      before do
         allow(claim.provider).to receive(:provider_type).and_return('chamber')
       end
 
@@ -1186,7 +1186,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     describe 'for a firm provider' do
-      before :each do
+      before do
         allow(claim.provider).to receive(:provider_type).and_return('firm')
       end
 
@@ -1199,7 +1199,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     describe 'for an unknown provider' do
-      before :each do
+      before do
         allow(claim.provider).to receive(:provider_type).and_return('zzzz')
       end
 
@@ -1212,14 +1212,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'calculate_vat' do
-    it 'should calaculate vat on submission if vat is applied' do
+    it 'calaculates vat on submission if vat is applied' do
       allow(VatRate).to receive(:vat_amount).and_return(10)
       claim = build(:unpersisted_claim, :with_fixed_fee_case, total: 100)
       claim.submit!
       expect(claim.vat_amount).to eq 10
     end
 
-    it 'should zeroise the vat amount if vat is not applied' do
+    it 'zeroises the vat amount if vat is not applied' do
       claim = build(:unpersisted_claim, :with_fixed_fee_case, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100)
       claim.external_user.vat_registered = false
       claim.submit!
@@ -1241,11 +1241,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.redetermine!
       end
 
-      it 'should be in an redetermination state' do
+      it 'is in an redetermination state' do
         expect(claim).to be_redetermination
       end
 
-      it 'should be open for redetermination' do
+      it 'is open for redetermination' do
         expect(claim.opened_for_redetermination?).to eq(true)
       end
     end
@@ -1258,7 +1258,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.allocate!
       end
 
-      it 'should be open for redetermination' do
+      it 'is open for redetermination' do
         expect(claim.opened_for_redetermination?).to be_truthy
       end
     end
@@ -1270,13 +1270,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.refuse!
       end
 
-      it 'should be close for redetermination' do
+      it 'is close for redetermination' do
         expect(claim.opened_for_redetermination?).to be_falsey
       end
     end
 
     describe 'submission_date' do
-      it 'should set the submission date to the date it was set to state redetermination' do
+      it 'sets the submission date to the date it was set to state redetermination' do
         new_time = 36.hours.from_now
         travel_to new_time do
           claim.redetermine!
@@ -1291,11 +1291,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.allocate!
       end
 
-      it 'should be in an allocated state' do
+      it 'is in an allocated state' do
         expect(claim).to be_allocated
       end
 
-      it 'should have been opened for redetermination before being allocated' do
+      it 'has been opened for redetermination before being allocated' do
         expect(claim.opened_for_redetermination?).to eq(true)
       end
     end
@@ -1326,11 +1326,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.allocate!
       end
 
-      it 'should be in an allocated state' do
+      it 'is in an allocated state' do
         expect(claim).to be_allocated
       end
 
-      it 'should have written_reasons_outstanding before being allocated' do
+      it 'has written_reasons_outstanding before being allocated' do
         expect(claim.written_reasons_outstanding?).to eq(true)
       end
     end
@@ -1343,7 +1343,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.allocate!
       end
 
-      it 'should be true' do
+      it 'is true' do
         expect(claim.written_reasons_outstanding?).to be_truthy
       end
     end
@@ -1355,7 +1355,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.refuse!
       end
 
-      it 'should not have written_reasons_outstanding' do
+      it 'does not have written_reasons_outstanding' do
         expect(claim.written_reasons_outstanding?).to be_falsey
       end
     end
@@ -1363,20 +1363,20 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe '#requested_redetermination?' do
     context 'allocated state from redetermination' do
-      before(:each) do
+      before do
         @claim = FactoryBot.create :redetermination_claim
         @claim.allocate!
       end
 
       context 'no previous redetermination' do
-        it 'should be true' do
+        it 'is true' do
           expect(@claim.redeterminations).to be_empty
           expect(@claim.requested_redetermination?).to be true
         end
       end
 
       context 'previous redetermination record created before state was changed to redetermination' do
-        it 'should be true' do
+        it 'is true' do
           @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
           travel_to(2.hours.since) do
             @claim.authorise_part!
@@ -1388,7 +1388,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       context 'latest redetermination created after transition to redetermination' do
-        it 'should be false' do
+        it 'is false' do
           travel_to(10.minutes.since) do
             @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
           end
@@ -1398,14 +1398,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'allocated state where the previous state was not redetermination' do
-      it 'should be false' do
+      it 'is false' do
         claim = FactoryBot.create :allocated_claim
         expect(claim.requested_redetermination?).to be false
       end
     end
 
     context 'not allocated state' do
-      it 'should be false' do
+      it 'is false' do
         claim = FactoryBot.create :redetermination_claim
         expect(claim.requested_redetermination?).to be false
       end
@@ -1427,7 +1427,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.authorise!
       end
 
-      it 'should return the amount assessed from the last determination' do
+      it 'returns the amount assessed from the last determination' do
         expect(claim.amount_assessed).to eq(6.91)
       end
     end
@@ -1441,14 +1441,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         claim.authorise!
       end
 
-      it 'should return the amount assessed from the last determination' do
+      it 'returns the amount assessed from the last determination' do
         expect(claim.amount_assessed).to eq(5.76)
       end
     end
   end
 
   describe 'not saving the expenses model' do
-    it 'should save the expenses model' do
+    it 'saves the expenses model' do
       external_user = FactoryBot.create :external_user
       expense_type = FactoryBot.create :expense_type, :car_travel
       fee_type = FactoryBot.create :basic_fee_type

@@ -59,7 +59,7 @@ RSpec.describe DeterminationPresenter do
         }
       }
 
-      it 'should return a hash with expected values' do
+      it 'returns a hash with expected values' do
         expect(presenter.items).to eq(expected_hash)
       end
     end
@@ -76,7 +76,7 @@ RSpec.describe DeterminationPresenter do
         }
       }
 
-      it 'should not fail when merging a changeset containing nil values' do
+      it 'does not fail when merging a changeset containing nil values' do
         expect(presenter.items).to eq(expected_hash)
       end
     end

@@ -39,7 +39,7 @@ RSpec.describe API::V2::Claim do
   end
 
   describe 'GET claim/:uuid' do
-    it 'should return 406 Not Acceptable if requested API version via header is not supported' do
+    it 'returns 406 Not Acceptable if requested API version via header is not supported' do
       header 'Accept-Version', 'v1'
 
       do_request
@@ -47,14 +47,14 @@ RSpec.describe API::V2::Claim do
       expect(last_response.body).to include('The requested version is not supported.')
     end
 
-    it 'should require an API key' do
+    it 'requires an API key' do
       do_request(api_key: nil)
       expect(last_response.status).to eq 401
       expect(last_response.body).to include('Unauthorised')
     end
 
     context 'claim not found' do
-      it 'should respond not found when claim is not found' do
+      it 'responds not found when claim is not found' do
         do_request(claim_uuid: '123-456-789')
         expect(last_response.status).to eq 404
         expect(last_response.body).to include('Claim not found')

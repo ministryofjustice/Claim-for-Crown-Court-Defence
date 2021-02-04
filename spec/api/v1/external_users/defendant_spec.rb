@@ -41,7 +41,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
     include_examples 'should NOT be able to amend a non-draft claim'
 
     context 'when defendant params are valid' do
-      it 'should create defendant, return 201 and defendant JSON output including UUID' do
+      it 'creates defendant, return 201 and defendant JSON output including UUID' do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
         json = JSON.parse(last_response.body)
@@ -49,18 +49,18 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
         expect(Defendant.find_by(uuid: json['id']).uuid).to eq(json['id'])
       end
 
-      it 'should exclude API key from response' do
+      it 'excludes API key from response' do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
         json = JSON.parse(last_response.body)
         expect(json['api_key']).to be_nil
       end
 
-      it 'should create one new defendant' do
-        expect { post_to_create_endpoint }.to change { Defendant.count }.by(1)
+      it 'creates one new defendant' do
+        expect { post_to_create_endpoint }.to change(Defendant, :count).by(1)
       end
 
-      it 'should create a new record using the params provided' do
+      it 'creates a new record using the params provided' do
         post_to_create_endpoint
         new_defendant = Defendant.last
         expect(new_defendant.claim_id).to eq claim.id
@@ -76,7 +76,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
       end
 
       context 'missing expected params' do
-        it 'should return a JSON error array with required model attributes' do
+        it 'returns a JSON error array with required model attributes' do
           [:first_name, :last_name, :date_of_birth].each { |k| valid_params.delete(k) }
           post_to_create_endpoint
           expect(last_response.status).to eq 400

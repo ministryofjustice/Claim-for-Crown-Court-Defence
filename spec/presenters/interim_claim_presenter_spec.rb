@@ -6,7 +6,7 @@ RSpec.describe Claim::InterimClaimPresenter do
 
   it { expect(subject).to be_kind_of(Claim::BaseClaimPresenter) }
 
-  it 'should have disbursements' do
+  it 'has disbursements' do
     expect(subject.can_have_disbursements?).to eq(true)
   end
 end

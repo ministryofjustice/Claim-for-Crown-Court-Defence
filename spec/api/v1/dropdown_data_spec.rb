@@ -83,7 +83,7 @@ RSpec.describe API::V1::DropdownData do
       create_list(:disbursement_type, 2)
     end
 
-    it 'should return a JSON formatted list of the required information' do
+    it 'returns a JSON formatted list of the required information' do
       results.each do |endpoint, json|
         response = get endpoint, params, format: :json
         expect(response.status).to eq 200
@@ -91,7 +91,7 @@ RSpec.describe API::V1::DropdownData do
       end
     end
 
-    it 'should require an API key' do
+    it 'requires an API key' do
       results.each do |endpoint, _|
         params.delete(:api_key)
         get endpoint, params, format: :json
@@ -100,7 +100,7 @@ RSpec.describe API::V1::DropdownData do
       end
     end
 
-    it 'should return 406 Not Acceptable if requested API version via header is not supported' do
+    it 'returns 406 Not Acceptable if requested API version via header is not supported' do
       header 'Accept-Version', 'v2'
 
       results.each do |endpoint, _|
@@ -265,22 +265,22 @@ RSpec.describe API::V1::DropdownData do
     context 'with role filter' do
       let(:parsed_body) { JSON.parse(last_response.body) }
 
-      it 'should only include AGFS scheme 9 fee types' do
+      it 'only includes AGFS scheme 9 fee types' do
         get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_9'), format: :json
         expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_9'))
       end
 
-      it 'should only include AGFS scheme 10 fee types' do
+      it 'only includes AGFS scheme 10 fee types' do
         get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_10'), format: :json
         expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_10'))
       end
 
-      it 'should only include AGFS scheme 12 fee types' do
+      it 'only includes AGFS scheme 12 fee types' do
         get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_12'), format: :json
         expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_12'))
       end
 
-      it 'should only include LGFS fee types' do
+      it 'only includes LGFS fee types' do
         get FEE_TYPE_ENDPOINT, params.merge(role: 'lgfs'), format: :json
         expect(parsed_body.pluck('roles')).to all(include('lgfs'))
       end
@@ -462,18 +462,18 @@ RSpec.describe API::V1::DropdownData do
     context 'with api key' do
       let(:parsed_body) { JSON.parse(last_response.body) }
 
-      it 'should return a JSON formatted list of the required information' do
+      it 'returns a JSON formatted list of the required information' do
         get EXPENSE_TYPE_ENDPOINT, params, format: :json
         expect(last_response.status).to eq 200
       end
 
       context 'with role filter' do
-        it 'should only include AGFS scheme 9 expense types' do
+        it 'only includes AGFS scheme 9 expense types' do
           get EXPENSE_TYPE_ENDPOINT, params.merge(role: 'agfs'), format: :json
           expect(parsed_body.collect { |e| e['roles'].include?('agfs') }.uniq).to eq([true])
         end
 
-        it 'should only include LGFS expense types' do
+        it 'only includes LGFS expense types' do
           get EXPENSE_TYPE_ENDPOINT, params.merge(role: 'lgfs'), format: :json
           expect(parsed_body.collect { |e| e['roles'].include?('lgfs') }.uniq).to eq([true])
         end
@@ -495,7 +495,7 @@ RSpec.describe API::V1::DropdownData do
     context 'without api key' do
       let(:params) { {} }
 
-      it 'should require an API key' do
+      it 'requires an API key' do
         expect(last_response.status).to eq 401
         expect(last_response.body).to include('Unauthorised')
       end

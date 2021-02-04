@@ -57,7 +57,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
     context 'continue button pressed' do
       context 'valid params' do
-        before(:each) { post :create, params: params }
+        before { post :create, params: params }
 
         it 'creates a claim' do
           expect {
@@ -78,7 +78,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
 
       context 'invalid params' do
-        before(:each) do
+        before do
           params['claim'].delete('litigator_type')
           post :create, params: params
         end
@@ -109,7 +109,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
     context 'save as draft button pressed' do
       context 'valid_params' do
-        before(:each) do
+        before do
           params.delete('commit_continue')
           params['commit'] = 'Continue'
           post :create, params: params
@@ -136,7 +136,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
 
       context 'invalid params' do
-        before(:each) do
+        before do
           params.delete('commit_continue')
           params['claim'].delete('litigator_type')
           params['commit'] = 'Continue'
@@ -403,7 +403,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     end
 
     context 'Date Parameter handling' do
-      it 'should transform dates with named months into dates' do
+      it 'transforms dates with named months into dates' do
         put :update, params: { id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => 'jan',
@@ -412,7 +412,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
-      it 'should transform dates with numbered months into dates' do
+      it 'transforms dates with numbered months into dates' do
         put :update, params: { id: subject, claim: {
           'first_day_of_trial_yyyy' => '2015',
           'first_day_of_trial_mm' => '11',

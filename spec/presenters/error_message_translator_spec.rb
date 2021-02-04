@@ -73,7 +73,7 @@ RSpec.describe ErrorMessageTranslator do
     let(:key)   { :name }
     let(:error) { 'cannot_be_blank' }
 
-    it 'should respond to long_message, short_message, api_message' do
+    it 'responds to long_message, short_message, api_message' do
       expect(emt).to respond_to :long_message
       expect(emt).to respond_to :short_message
       expect(emt).to respond_to :api_message

@@ -81,14 +81,14 @@ describe Reports::PerformancePlatform::QuarterlyVolume, :currency_vcr do
     context 'when the aws values are accepted' do
       context 'when the data is fine' do
         it { expect(populate_data).to be_truthy }
-        it { expect { populate_data }.to change { report.ready_to_send }.from(false).to(true) }
+        it { expect { populate_data }.to change(report, :ready_to_send).from(false).to(true) }
       end
 
       context 'when a collation error occurs' do
         before { allow(report).to receive(:inputs_numeric?).and_raise(StandardError) }
 
         it { expect(report.ready_to_send).to be false }
-        it { expect { populate_data }.not_to change { report.ready_to_send }.from(false) }
+        it { expect { populate_data }.not_to change(report, :ready_to_send).from(false) }
       end
     end
   end

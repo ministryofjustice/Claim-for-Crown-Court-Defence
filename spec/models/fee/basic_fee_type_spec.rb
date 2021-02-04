@@ -66,7 +66,7 @@ module Fee
     end
 
     describe 'default scope' do
-      it 'should order by id' do
+      it 'orders by id' do
         expect(Fee::BasicFeeType.all.to_sql).to include('ORDER BY "fee_types"."id" ASC')
       end
     end
@@ -75,7 +75,7 @@ module Fee
       context 'for fee types not requiring calculation' do
         let(:fee) { FactoryBot.build :basic_fee, :ppe_fee, quantity: 999, rate: 2.0, amount: 999 }
 
-        it 'should not calculate the amount' do
+        it 'does not calculate the amount' do
           expect(fee).to be_valid
           expect(fee.amount).to eq 999
         end

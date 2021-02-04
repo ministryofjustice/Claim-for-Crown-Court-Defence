@@ -52,7 +52,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   describe 'GET download_zip' do
     let(:claim) { create :claim }
 
-    before(:each) { get :download_zip, params: { id: claim } }
+    before { get :download_zip, params: { id: claim } }
 
     it 'responds with an http success' do
       expect(response).to be_successful
@@ -70,7 +70,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   describe 'GET show' do
     let(:claim) { create :claim }
 
-    before(:each) { get :show, params: { id: claim } }
+    before { get :show, params: { id: claim } }
 
     it 'responds with an http success' do
       expect(response).to be_successful
@@ -101,24 +101,24 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     let(:updater) { double Claims::CaseWorkerClaimUpdater }
     let(:params) { strong_params('additional_information' => 'foo bar', 'current_user' => @case_worker.user) }
 
-    before(:each) do
+    before do
       expect(updater).to receive(:update!).and_return(updater)
       expect(updater).to receive(:claim).and_return(claim)
       expect(Claims::CaseWorkerClaimUpdater).to receive(:new).with(claim.id.to_s, params).and_return(updater)
     end
 
-    it 'should call updater service with params' do
+    it 'calls updater service with params' do
       expect(updater).to receive(:result).and_return(:ok)
       patch :update, params: { id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update' }
     end
 
-    it 'should redirect if updater service responded :ok' do
+    it 'redirects if updater service responded :ok' do
       expect(updater).to receive(:result).and_return(:ok)
       patch :update, params: { id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update' }
       expect(response).to redirect_to case_workers_claim_path
     end
 
-    it 'should render show if updater service responds :error' do
+    it 'renders show if updater service responds :error' do
       expect(updater).to receive(:result).and_return(:error)
       patch :update, params: { id: claim, claim: { additional_information: 'foo bar' }, commit: 'Update' }
       expect(response).to render_template(:show)
@@ -142,7 +142,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
     end
 
     describe '#archived with no filtering', vcr: { cassette_name: 'spec/case_workers/claims/archived' } do
-      before(:each) do
+      before do
         get :archived, params: { 'tab' => 'archived' }
       end
 

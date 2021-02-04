@@ -5,7 +5,7 @@ module Stats
     describe ClaimRedeterminationsCollector do
       let(:report_day) { Date.today }
 
-      before(:each) do
+      before do
         create_claim(:redetermination,  report_day)
         create_claim(:redetermination,  report_day - 1.days)
         create_claim(:redetermination,  report_day - 1.days)

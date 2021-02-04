@@ -177,7 +177,7 @@ RSpec.describe Document, type: :model do
 
     it 'handles IOError when Libreconv is not in PATH' do
       allow(Libreconv).to receive(:convert).and_raise(IOError) # raise IOError as if Libreoffice exe were not found
-      expect { subject.save! }.to change { Document.count }.by(1) # error handled and document is still saved
+      expect { subject.save! }.to change(Document, :count).by(1) # error handled and document is still saved
     end
   end
 
@@ -201,7 +201,7 @@ RSpec.describe Document, type: :model do
   context 'save_and_verify' do
     let(:document) { build :document }
 
-    after(:each) { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
+    after { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
 
     context 'save without verification' do
       it 'has not recorded verified filesize, path and is not verified' do
@@ -283,7 +283,7 @@ RSpec.describe Document, type: :model do
     let(:document) { build(:document) }
     let(:new_document) { build(:document, :empty) }
 
-    before(:each) do
+    before do
       document.save_and_verify
       new_document.save_and_verify
     end

@@ -16,13 +16,13 @@ describe ApplicationHelper do
   describe '#present_collection' do
     let(:claims) { create_list(:claim, 2) }
 
-    it 'should return a collection of <Classname>Presenter instances' do
+    it 'returns a collection of <Classname>Presenter instances' do
       present_collection(claims).each do |claim|
         expect(claim).to be_instance_of Claim::AdvocateClaimPresenter
       end
     end
 
-    it 'should yield a collection of <Classname>Presenter Class instances' do
+    it 'yields a collection of <Classname>Presenter Class instances' do
       expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter, Claim::BaseClaimPresenter])
     end
   end
@@ -32,17 +32,17 @@ describe ApplicationHelper do
     let(:advocate)  { create(:external_user, :advocate) }
     let(:litigator) { create(:external_user, :litigator) }
 
-    it 'should return true for those users that could have AGFS and LGFS claims' do
+    it 'returns true for those users that could have AGFS and LGFS claims' do
       allow(helper).to receive(:current_user).and_return(admin.user)
       expect(helper.user_requires_scheme_column?).to eql true
     end
 
-    it 'should return false for users that only handle AGFS claims' do
+    it 'returns false for users that only handle AGFS claims' do
       allow(helper).to receive(:current_user).and_return(advocate.user)
       expect(helper.user_requires_scheme_column?).to eql false
     end
 
-    it 'should return true for users that only handle LGFS claims' do
+    it 'returns true for users that only handle LGFS claims' do
       allow(helper).to receive(:current_user).and_return(litigator.user)
       expect(helper.user_requires_scheme_column?).to eql true
     end

@@ -164,7 +164,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
               post :create, params: { commit_continue: 'Continue', claim: claim_params_step1 }
             end
 
-            it 'should leave claim in draft state' do
+            it 'leaves claim in draft state' do
               expect(subject_claim.draft?).to be_truthy
             end
 
@@ -306,7 +306,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     end
 
     context 'Date Parameter handling' do
-      it 'should transform dates with named months into dates' do
+      it 'transforms dates with named months into dates' do
         put :update, params: {
           id: subject,
           claim: {
@@ -319,7 +319,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
-      it 'should transform dates with numbered months into dates' do
+      it 'transforms dates with numbered months into dates' do
         put :update, params: {
           id: subject,
           claim: {

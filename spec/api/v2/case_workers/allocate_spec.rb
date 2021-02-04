@@ -42,11 +42,11 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
     let(:params) { valid_base_params.merge(claim_ids: claim_ids) }
 
     context 'with claim_ids as comma-separated string' do
-      it 'should return http status 201' do
+      it 'returns http status 201' do
         expect(last_response.status).to eq 201
       end
 
-      it 'should return a JSON with the required information' do
+      it 'returns a JSON with the required information' do
         body = JSON.parse(last_response.body, symbolize_names: true)
         expected = { result: true, allocated_claims: claims.map(&:id), errors: [] }
         expect(body).to eq(expected)
@@ -56,7 +56,7 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
     context 'with claim_ids as array of strings' do
       let(:claim_ids) { claims.map { |c| c.id.to_s } }
 
-      it 'should return JSON containing an error description' do
+      it 'returns JSON containing an error description' do
         body = JSON.parse(last_response.body, symbolize_names: true)
         expected = [{ :error => 'claim_ids is invalid' }]
         expect(body).to eq(expected)
@@ -78,14 +78,14 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
         claims << create(:allocated_claim)
       end
 
-      it 'should return a JSON with error messages' do
+      it 'returns a JSON with error messages' do
         body = JSON.parse(last_response.body, symbolize_names: true)
         expect(body[:errors][1]).to match(/Claim .* has already been allocated/)
       end
     end
 
     context 'caching' do
-      it 'should not cache response' do
+      it 'does not cache response' do
         expect(last_response.headers['Cache-Control'][/max-age=([0-9]+)/, 1]).to eq '0'
       end
     end

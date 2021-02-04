@@ -188,7 +188,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
   end
 
   context 'stand-alone rep order' do
-    it 'should always be valid if not attached to a defendant or claim' do
+    it 'is always valid if not attached to a defendant or claim' do
       reporder = build :representation_order, defendant: nil, representation_order_date: nil
       expect(reporder).to be_valid
     end
@@ -199,14 +199,14 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
     let(:ro1)   { claim.defendants.first.representation_orders.first }
     let(:ro2)   { claim.defendants.first.representation_orders.last }
 
-    it 'should be valid if the second reporder is dated after the first' do
+    it 'is valid if the second reporder is dated after the first' do
       ro1.update(representation_order_date: 2.weeks.ago)
       ro2.update(representation_order_date: 1.day.ago)
       claim.force_validation = true
       expect(ro2).to be_valid
     end
 
-    it 'should be invalid if second reporder dated before first' do
+    it 'is invalid if second reporder dated before first' do
       ro2.representation_order_date = ro1.representation_order_date - 1.day
       claim.force_validation = true
       expect(ro2).not_to be_valid

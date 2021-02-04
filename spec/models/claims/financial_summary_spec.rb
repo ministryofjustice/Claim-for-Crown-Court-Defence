@@ -166,7 +166,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
                                                             other_provider_claim)
         end
 
-        it 'should not include duplicates' do
+        it 'does not include duplicates' do
           create(:redetermination, claim: authorised_claim_from_advocate2)
           expect(summary.authorised_claims.count).to eq(2)
         end

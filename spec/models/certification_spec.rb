@@ -25,7 +25,7 @@ RSpec.describe Certification, type: :model do
   it { is_expected.to validate_presence_of(:certification_date) }
 
   context 'validations' do
-    it 'should be invalid without certification type' do
+    it 'is invalid without certification type' do
       certification.certification_type_id = nil
       expect(certification).to be_invalid
       expect(certification.errors.full_messages).to include('You must select one option on this form')
@@ -39,7 +39,7 @@ RSpec.describe Certification, type: :model do
           certification.certification_date = 3.days.ago
         end
 
-        it 'should be invalid' do
+        it 'is invalid' do
           expect(certification).to be_invalid
           expect(certification.errors.full_messages).to include('Certification date must be same day or after claim submission day')
         end
@@ -50,7 +50,7 @@ RSpec.describe Certification, type: :model do
           certification.certification_date = 10.days.from_now
         end
 
-        it 'should be invalid' do
+        it 'is invalid' do
           expect(certification).to be_invalid
           expect(certification.errors.full_messages).to include("Certification date can't be in the future")
         end

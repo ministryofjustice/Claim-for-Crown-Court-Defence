@@ -10,12 +10,12 @@ RSpec.shared_examples 'advocate category validations' do |options|
   fee_reform_invalid_categories = default_valid_categories - fee_reform_valid_categories
   all_valid_categories = (default_valid_categories + fee_reform_valid_categories).uniq
 
-  it 'should error if not present' do
+  it 'errors if not present' do
     claim.advocate_category = nil
     should_error_with(claim, :advocate_category, 'blank')
   end
 
-  it 'should error if not in the available list' do
+  it 'errors if not in the available list' do
     claim.advocate_category = 'not-a-QC'
     should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
   end
@@ -24,7 +24,7 @@ RSpec.shared_examples 'advocate category validations' do |options|
     let(:claim) { create(options[:factory], :agfs_scheme_9) }
 
     default_valid_categories.each do |valid_entry|
-      it "should not error if '#{valid_entry}' specified" do
+      it "does not error if '#{valid_entry}' specified" do
         claim.advocate_category = valid_entry
         should_not_error(claim, :advocate_category)
       end
@@ -35,14 +35,14 @@ RSpec.shared_examples 'advocate category validations' do |options|
     let(:claim) { create(options[:factory], :agfs_scheme_10) }
 
     fee_reform_valid_categories.each do |category|
-      it "should not error if '#{category}' specified" do
+      it "does not error if '#{category}' specified" do
         claim.advocate_category = category
         should_not_error(claim, :advocate_category)
       end
     end
 
     fee_reform_invalid_categories.each do |category|
-      it "should error if '#{category}' specified" do
+      it "errors if '#{category}' specified" do
         claim.advocate_category = category
         should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
       end
@@ -54,7 +54,7 @@ RSpec.shared_examples 'advocate claim external user role' do
   let(:litigator) { create(:external_user, :litigator) }
 
   context 'external_user' do
-    it 'should error when does not have advocate role' do
+    it 'errors when does not have advocate role' do
       claim.external_user = litigator
       should_error_with(claim, :external_user, 'must have advocate role')
     end
@@ -83,7 +83,7 @@ RSpec.shared_examples 'advocate claim creator role' do
   context 'creator' do
     before { claim.creator = litigator }
 
-    it 'should error when their provider does not have AGFS role' do
+    it 'errors when their provider does not have AGFS role' do
       should_error_with(claim, :creator, 'must be from a provider with permission to submit AGFS claims')
     end
 
@@ -100,7 +100,7 @@ RSpec.shared_examples 'advocate claim supplier number' do
     # NOTE: In reality supplier number is derived from external_user which in turn is validated in any event
     let(:advocate) { build(:external_user, :advocate, supplier_number: '9G606X') }
 
-    it 'should error when the supplier number does not match pattern' do
+    it 'errors when the supplier number does not match pattern' do
       claim.external_user = advocate
       should_error_with(claim, :supplier_number, 'invalid')
     end
@@ -142,7 +142,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
         expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to eql(%w[MIDTW])
       end
 
-      it 'should not error' do
+      it 'does not error' do
         should_not_error(claim, :base)
       end
     end
@@ -157,7 +157,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
         expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDTW MIDWU])
       end
 
-      it 'should error' do
+      it 'errors' do
         should_error_with(claim, :base, 'defendant_uplifts_misc_fees_mismatch')
       end
 
@@ -166,7 +166,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
           allow(claim).to receive(:from_api?).and_return true
         end
 
-        it 'should not error' do
+        it 'does not error' do
           should_not_error(claim, :base)
         end
       end
@@ -187,7 +187,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
         expect(claim.fixed_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[FXNDR FXSAF])
       end
 
-      it 'should not error' do
+      it 'does not error' do
         should_not_error(claim, :base)
       end
 
@@ -196,7 +196,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
           claim.form_step = :fixed_fees
         end
 
-        it 'should error on the uplift fee' do
+        it 'errors on the uplift fee' do
           position = claim.fixed_fees.find_index(&:defendant_uplift?) + 1
           should_error_with(claim, "fixed_fee_#{position}_quantity", 'defendant_uplifts_fixed_fees_mismatch')
         end
@@ -221,7 +221,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDSE MIDSU MIDTW MIDWU])
         end
 
-        it 'should not error' do
+        it 'does not error' do
           should_not_error(claim, :base)
         end
       end
@@ -237,7 +237,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDSE MIDSU MIDTW MIDWU])
         end
 
-        it 'should add one error only' do
+        it 'adds one error only' do
           should_error_with(claim, :base, 'defendant_uplifts_misc_fees_mismatch')
           expect(claim.errors[:base].size).to eql 1
         end
@@ -308,7 +308,7 @@ RSpec.shared_examples 'common defendant basic fees aggregation validation' do
       expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to include('BANDR')
     end
 
-    it 'should not error' do
+    it 'does not error' do
       should_not_error(claim, :base)
     end
 
@@ -317,7 +317,7 @@ RSpec.shared_examples 'common defendant basic fees aggregation validation' do
         claim.form_step = :basic_fees
       end
 
-      it 'should error' do
+      it 'errors' do
         should_error_with(claim, :base, 'defendant_uplifts_basic_fees_mismatch')
       end
     end

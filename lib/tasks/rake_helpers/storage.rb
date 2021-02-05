@@ -1,97 +1,95 @@
-class Storage
-  def initialize
-    @connection = ActiveRecord::Base.connection.raw_connection
+module Storage
+  ATTACHMENTS = {
+    'stats_reports' => ['document'],
+    'messages' => ['attachment'],
+    'documents' => ['document', 'converted_preview_document']
+  }.freeze
 
-    @connection.prepare('active_storage_blob_statement', <<-SQL)
-      INSERT INTO active_storage_blobs (
-        key, filename, content_type, metadata, byte_size, checksum, created_at
-      ) VALUES ($1, $2, $3, '{}', $4, $5, $6)
-    SQL
-    @connection.prepare('active_storage_attachment_statement', <<-SQL)
-      INSERT INTO active_storage_attachments (
-        name, record_type, record_id, blob_id, created_at
-      ) VALUES ($1, $2, $3, $4, $5)
-    SQL
+  def self.migrate model
+    connection = ActiveRecord::Base.connection.raw_connection
+    ATTACHMENTS[model].each do |name|
+      # Insert reference information for attachments into ActiveStorage::Blob
+      connection.prepare('create_active_storage_blobs', <<~SQL)
+        INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
+          SELECT CONCAT('in-progress/', CAST(id AS CHARACTER VARYING)),
+                #{name}_file_name,
+                #{name}_content_type,
+                '{}',
+                #{name}_file_size,
+                as_#{name}_checksum,
+                updated_at
+            FROM #{self.models(model).table_name}
+            WHERE #{name}_file_name IS NOT NULL
+              AND id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = '#{self.models(model)}');
+      SQL
+
+      # Link ActiveStorage::Blob objects to the correct records with ActiveStorage::Attachment
+      connection.prepare('create_active_storage_attachments', <<~SQL)
+        INSERT INTO active_storage_#{name} (name, record_type, record_id, blob_id, created_at)
+          SELECT '#{name}',
+                  #{self.models(model)},
+                  CAST(SPLIT_PART(key, '/', 3) AS INTEGER),
+                  id,
+                  created_at
+          FROM active_storage_blobs
+          WHERE key LIKE 'in-progress/%';
+      SQL
+
+      # Set the asset key correctly in ActiveStorage::Blob
+      key = PAPERCLIP_STORAGE_OPTIONS[:path].split('/')
+        .map do |part|
+          case part
+          when ':id_partition'
+            "TO_CHAR(CAST(SPLIT_PART(key, '/', 3) AS INTEGER), 'fm000/000/000/')"
+          when ':filename'
+            "filename"
+          else
+            "'#{part}/'"
+          end
+        end.join(', ')
+      connection.prepare('update_active_storage_blobs_keys', <<~SQL)
+        UPDATE active_storage_blobs SET key=CONCAT(#{key}) WHERE key LIKE 'in-progress/%';
+      SQL
+
+      connection.exec_prepared('create_active_storage_blobs');
+      connection.exec_prepared('create_active_storage_attachments');
+      connection.exec_prepared('update_active_storage_blobs_keys');
+    end
   end
 
-  def migrate names:, model:, records:, updated_at_field:
-    bar = progress_bar title: model, total: records.count
+  def self.make_dummy_files_for model
+    if self.models(model).nil?
+      puts "Cannot create dummy files for: #{model}"
+      exit
+    end
 
-    records.each_with_index do |record, i|
-      bar.increment
-      names.each do |name|
-        next if ActiveStorage::Attachment.find_by(name: name, record_type: model, record_id: record.id)
+    ATTACHMENTS[model].each do |name|
+      records = self.models(model).where.not("#{name}_file_name" => nil)
 
-        ActiveStorage::Attachment.transaction do
-          key = record.send(name).path
-          filename = record.send("#{name}_file_name")
-          content_type = record.send("#{name}_content_type")
-          byte_size = record.send("#{name}_file_size")
-          updated_at = record.send(updated_at_field).iso8601
+      bar = self.progress_bar title: name, total: records.count
 
-          # Paperclip.io_adapters.for fails if the filename is too long.
-          # This is fine as long as record isn't saved, right?
-          record.send("#{name}_file_name=", 'temp_file') if filename.length > 100
-          checksum = compute_checksum_in_chunks(record.send(name))
-
-          blob = ActiveStorage::Blob.find_by(key: key)
-          if blob.nil?
-            @connection.exec_prepared(
-              'active_storage_blob_statement',
-              [
-                key,
-                filename,
-                content_type,
-                byte_size,
-                checksum,
-                updated_at
-              ]
-            )
-
-            blob = ActiveStorage::Blob.find_by(key: key)
-          end
-
-          @connection.exec_prepared(
-            'active_storage_attachment_statement',
-            [
-              name,
-              model,
-              record.id,
-              blob.id,
-              updated_at
-            ]
-          )
-        end
+      records.each do |record|
+        bar.increment
+        filename = File.absolute_path(record.send(name).path)
+        FileUtils.mkdir_p File.dirname(filename)
+        File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{name}_file_size"))) }
       end
     end
   end
 
-  def make_dummy_files(records, name)
-    bar = progress_bar title: name, total: records.count
+  def self.set_checksums(records:, model:)
+    ATTACHMENTS[model].each do |name|
+      bar = self.progress_bar title: name, total: records.count
 
-    records.each do |record|
-      bar.increment
-      filename = File.absolute_path(record.send(name).path)
-      FileUtils.mkdir_p File.dirname(filename)
-      File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{name}_file_size"))) }
+      records.each do |record|
+        bar.increment
+        record.update("as_#{name}_checksum": self.compute_checksum_in_chunks(record.send(name)))
+      end
     end
   end
 
-  private
-
-  def progress_bar(title:, total:)
-    ProgressBar.create(
-      title: title,
-      format: "%a [%e] %b\u{15E7}%i %c/%C",
-      progress_mark: '#'.green,
-      remainder_mark: "\u{FF65}".yellow,
-      starting_at: 0,
-      total: total
-    )
-  end
-
   # Copied from https://github.com/rails/rails/blob/main/activestorage/app/models/active_storage/blob.rb
-  def compute_checksum_in_chunks(attachment)
+  def self.compute_checksum_in_chunks(attachment)
     io = Paperclip.io_adapters.for(attachment)
 
     Digest::MD5.new.tap do |checksum|
@@ -103,5 +101,26 @@ class Storage
     end.base64digest
   rescue Errno::ENOENT
     'FileMissing'
+  end
+
+  def self.progress_bar(title:, total:)
+    ProgressBar.create(
+      title: title,
+      format: "%a [%e] %b\u{15E7}%i %c/%C",
+      progress_mark: '#'.green,
+      remainder_mark: "\u{FF65}".yellow,
+      starting_at: 0,
+      total: total
+    )
+  end
+
+  private
+
+  def self.models model
+    {
+      'stats_reports' => Stats::StatsReport,
+      'messages' => Message,
+      'documents' => Document
+    }[model]  
   end
 end

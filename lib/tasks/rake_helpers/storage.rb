@@ -5,7 +5,7 @@ module Storage
     'documents' => ['document', 'converted_preview_document']
   }.freeze
 
-  def self.migrate model
+  def self.migrate(model)
     connection = ActiveRecord::Base.connection.raw_connection
     ATTACHMENTS[model].each do |name|
       # Insert reference information for attachments into ActiveStorage::Blob
@@ -59,7 +59,7 @@ module Storage
     end
   end
 
-  def self.make_dummy_files_for model
+  def self.make_dummy_files_for(model)
     if self.models(model).nil?
       puts "Cannot create dummy files for: #{model}"
       exit
@@ -80,29 +80,13 @@ module Storage
   end
 
   def self.set_checksums(records:, model:)
-    ATTACHMENTS[model].each do |name|
-      bar = self.progress_bar title: name, total: records.count
+    bar = self.progress_bar title: ATTACHMENTS[model].join(', '), total: records.count
 
-      records.each do |record|
-        bar.increment
-        record.update("as_#{name}_checksum": self.compute_checksum_in_chunks(record.send(name)))
-      end
+    records.each do |record|
+      bar.increment
+      record.populate_checksum
+      record.save
     end
-  end
-
-  # Copied from https://github.com/rails/rails/blob/main/activestorage/app/models/active_storage/blob.rb
-  def self.compute_checksum_in_chunks(attachment)
-    io = Paperclip.io_adapters.for(attachment)
-
-    Digest::MD5.new.tap do |checksum|
-      while chunk = io.read(5.megabytes)
-        checksum << chunk
-      end
-
-      io.rewind
-    end.base64digest
-  rescue Errno::ENOENT
-    'FileMissing'
   end
 
   def self.progress_bar(title:, total:)
@@ -118,7 +102,7 @@ module Storage
 
   private
 
-  def self.models model
+  def self.models(model)
     {
       'stats_reports' => Stats::StatsReport,
       'messages' => Message,
@@ -126,7 +110,7 @@ module Storage
     }[model]  
   end
 
-  def self.s3_path_pattern model
+  def self.s3_path_pattern(model)
     {
       'stats_reports' => REPORTS_STORAGE_OPTIONS[:path],
       'messages' => PAPERCLIP_STORAGE_OPTIONS[:path],

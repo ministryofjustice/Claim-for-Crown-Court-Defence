@@ -16,22 +16,41 @@ namespace :storage do
     module TempStats
       class StatsReport < ApplicationRecord
         include S3Headers
+        include CheckSummable
+
         self.table_name = 'stats_reports'
         has_attached_file :document, s3_headers.merge(REPORTS_STORAGE_OPTIONS)
+
+        def populate_checksum
+          add_checksum(:document) unless document_file_name.nil?
+        end
       end
     end
 
     class TempMessage < ApplicationRecord
       include S3Headers
+      include CheckSummable
+
       self.table_name = 'messages'
       has_attached_file :attachment, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+
+      def populate_checksum
+        add_checksum(:attachment) unless attachment_file_name.nil?
+      end
     end
 
     class TempDocument < ApplicationRecord
       include S3Headers
+      include CheckSummable
+
       self.table_name = 'documents'
       has_attached_file :converted_preview_document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
       has_attached_file :document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+
+      def populate_checksum
+        add_checksum(:document) unless document_file_name.nil?
+        add_checksum(:converted_preview_document) unless converted_preview_document.nil?
+      end
     end
 
     case args[:model]
@@ -46,6 +65,7 @@ namespace :storage do
       exit
     end
 
+    puts "Setting checksums for #{args[:model].green}"
     Storage.set_checksums(records: records, model: args[:model])
   end
 end

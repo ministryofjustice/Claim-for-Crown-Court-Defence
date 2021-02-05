@@ -13,6 +13,7 @@
 module Stats
   class StatsReport < ApplicationRecord
     include S3Headers
+    include CheckSummable
 
     TYPES = %w[management_information provisional_assessment rejections_refusals].freeze
 
@@ -54,10 +55,12 @@ module Stats
 
     def write_report(report_result)
       log(:info, :write_report, "Writing report #{report_name} to DB...")
+      io = StringIO.new(report_result.content)
       update(
-        document: StringIO.new(report_result.content),
+        document: io,
         document_file_name: "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}",
         document_content_type: report_result.content_type,
+        as_document_checksum: calculate_checksum(io),
         status: 'completed',
         completed_at: Time.now
       )
@@ -85,6 +88,11 @@ module Stats
 
     def self.destroy_unfinished_reports_older_than(report_name, timestamp)
       where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
+    end
+
+    # TODO: Remove after moving to Active Storage
+    def populate_checksum
+      add_checksum(:document) unless document_file_name.nil?
     end
 
     private

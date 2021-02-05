@@ -26,6 +26,7 @@
 class Document < ApplicationRecord
   include DocumentAttachment
   include Duplicable
+  include CheckSummable
 
   belongs_to :external_user
   belongs_to :creator, class_name: 'ExternalUser'
@@ -53,8 +54,15 @@ class Document < ApplicationRecord
 
   before_save :generate_pdf_tmpfile
   before_save :add_converted_preview_document
+  before_save :populate_checksum
 
   validate :documents_count
+
+  # TODO: Remove after moving to Active Storage
+  def populate_checksum
+    add_checksum(:document) unless document_file_name.nil?
+    add_checksum(:converted_preview_document) unless converted_preview_document.nil?
+  end
 
   def copy_from(original_doc, verify: false)
     self.document = original_doc.document

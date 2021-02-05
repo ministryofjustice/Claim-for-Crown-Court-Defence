@@ -101,6 +101,8 @@ module Storage
     end.base64digest
   rescue Errno::ENOENT
     'FileMissing'
+  rescue Errno::ENAMETOOLONG
+    'FilenameTooLong'
   end
 
   def self.progress_bar(title:, total:)

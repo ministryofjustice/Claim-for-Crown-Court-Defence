@@ -33,7 +33,7 @@ module Stats
 
     # TODO: Remove after moving to Active Storage
     def create_checksum(io)
-      checksum = Digest::MD5.new.tap do |checksum|
+      Digest::MD5.new.tap do |checksum|
         while (chunk = io.read(5.megabytes))
           checksum << chunk
         end

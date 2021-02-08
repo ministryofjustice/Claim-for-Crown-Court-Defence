@@ -49,9 +49,8 @@ class Message < ApplicationRecord
 
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
-  after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
-
   before_save :create_checksum
+  after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
 
   class << self
     def for(object)
@@ -71,15 +70,13 @@ class Message < ApplicationRecord
 
     io = Paperclip.io_adapters.for(attachment)
 
-    checksum = Digest::MD5.new.tap do |checksum|
+    self.as_attachment_checksum = Digest::MD5.new.tap do |checksum|
       while (chunk = io.read(5.megabytes))
         checksum << chunk
       end
 
       io.rewind
     end.base64digest
-
-    self.as_attachment_checksum = checksum
   rescue Errno::ENOENT
     self.as_attachment_checksum = nil
   end

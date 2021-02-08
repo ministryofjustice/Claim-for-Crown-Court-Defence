@@ -57,23 +57,21 @@ class Document < ApplicationRecord
 
   validate :documents_count
 
-
   # TODO: Remove after moving to Active Storage
   def create_checksum
     return if document_file_name.nil?
 
-    ['document', 'converted_preview_document'].each do |name|
+    %w[document converted_preview_document].each do |name|
       io = Paperclip.io_adapters.for(send(name))
+      next if io.nil?
 
-      checksum = Digest::MD5.new.tap do |checksum|
+      send("as_#{name}_checksum=", Digest::MD5.new.tap do |checksum|
         while (chunk = io.read(5.megabytes))
           checksum << chunk
         end
 
         io.rewind
-      end.base64digest
-
-      send("as_#{name}_checksum=", checksum)
+      end.base64digest)
     rescue Errno::ENOENT
       send("as_#{name}_checksum=", nil)
     end

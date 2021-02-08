@@ -7,14 +7,14 @@ describe ErrorDetailCollection do
   let(:ed3) { ErrorDetail.new(:dob, 'Date of birth too far in the past', 'Too old', 'Date of birth too far in the past', 30) }
 
   context 'assign a single values to a key' do
-    it 'should make an array containing the single object' do
+    it 'makes an array containing the single object' do
       edc[:key1] = 'value for key 1'
       expect(edc[:key1]).to eq(['value for key 1'])
     end
   end
 
   context 'assign multiple values to a key' do
-    it 'should make an array containing all the objects assigned' do
+    it 'makes an array containing all the objects assigned' do
       edc[:key1] = 'value for key 1'
       edc[:key1] = 'second value for key 1'
       expect(edc[:key1]).to eq(['value for key 1', 'second value for key 1'])
@@ -23,14 +23,14 @@ describe ErrorDetailCollection do
 
   describe 'short_messagas_for' do
     context 'one short_message per key' do
-      it 'should return the short message for the named key' do
+      it 'returns the short message for the named key' do
         edc[:dob] = ed1
         expect(edc.short_messages_for(:dob)).to eq 'Invalid date'
       end
     end
 
     context 'multiple short messages per key' do
-      it 'should return a comma separated lit of messages for the named key' do
+      it 'returns a comma separated lit of messages for the named key' do
         edc[:dob] = ed1
         edc[:dob] = ed3
         expect(edc.short_messages_for(:dob)).to eq 'Invalid date, Too old'
@@ -46,24 +46,24 @@ describe ErrorDetailCollection do
       edc[:dob] = ed3
     end
 
-    it 'should return an array of arrays containing feildname and long message for each error' do
+    it 'returns an array of arrays containing feildname and long message for each error' do
       expect(edc.header_errors.size).to eq 3
     end
 
-    it 'should sort the array of errors by specified sequence' do
+    it 'sorts the array of errors by specified sequence' do
       expect(edc.header_errors).to eq expected_headers_array
     end
   end
 
   describe 'size' do
     context 'empty collection' do
-      it 'should return zero' do
+      it 'returns zero' do
         expect(edc.size).to eq 0
       end
     end
 
     context 'several fieldnames, one error per fieldname' do
-      it 'should return the number of errors' do
+      it 'returns the number of errors' do
         edc[:first_name] = ed1
         edc[:dob] = ed2
         expect(edc.size).to eq 2
@@ -71,7 +71,7 @@ describe ErrorDetailCollection do
     end
 
     context 'several fieldnames, some with multiple errors' do
-      it 'should return the total number of errors' do
+      it 'returns the total number of errors' do
         edc[:first_name] = ed2
         edc[:dob] = ed1
         edc[:dob] = ed3

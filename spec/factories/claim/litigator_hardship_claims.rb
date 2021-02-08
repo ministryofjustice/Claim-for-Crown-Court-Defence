@@ -7,11 +7,11 @@ FactoryBot.define do
     after(:build) { |claim| post_build_actions_for_draft_hardship_claim(claim) }
 
     trait :submitted do
-      after(:create) { |c| c.submit! }
+      after(:create) { |claim| claim.submit! }
     end
 
     trait :authorised do
-      after(:create) { |c| authorise_claim(c) }
+      after(:create) { |claim| authorise_claim(claim) }
     end
 
     trait :with_hardship_fee do
@@ -21,13 +21,13 @@ FactoryBot.define do
     end
 
     trait :redetermination do
-      after(:create) do |c|
+      after(:create) do |claim|
         frozen_time do
-          c.submit!
-          c.allocate!
-          c.assessment.update(fees: 24.2, expenses: 8.5)
-          c.authorise!
-          c.redetermine!
+          claim.submit!
+          claim.allocate!
+          claim.assessment.update(fees: 24.2, expenses: 8.5)
+          claim.authorise!
+          claim.redetermine!
         end
       end
     end

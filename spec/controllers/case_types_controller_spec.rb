@@ -22,12 +22,12 @@ RSpec.describe CaseTypesController, type: :controller do
   let!(:case_type_1) { create :case_type, name: 'Case Type 1' }
 
   describe 'GET show' do
-    it 'should get case type with the id' do
+    it 'gets case type with the id' do
       get :show, params: { id: case_type_1.id }, xhr: true
       expect(assigns(:case_type)).to eq(case_type_1)
     end
 
-    it 'should render the show template' do
+    it 'renders the show template' do
       get :show, params: { id: case_type_1.id }, xhr: true
       expect(response).to render_template(:show)
     end

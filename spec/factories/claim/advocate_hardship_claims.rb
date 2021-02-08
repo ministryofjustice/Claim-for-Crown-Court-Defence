@@ -10,15 +10,15 @@ FactoryBot.define do
     end
 
     trait :authorised do
-      after(:create) { |c| authorise_claim(c) }
+      after(:create) { |claim| authorise_claim(claim) }
     end
 
     trait :rejected do
-      after(:create) { |c| c.submit!; c.allocate!; c.reject! }
+      after(:create) { |claim| claim.submit!; claim.allocate!; claim.reject! }
     end
 
     factory :hardship_archived_pending_review_claim do
-      after(:create) { |c| advance_to_pending_review(c) }
+      after(:create) { |claim| advance_to_pending_review(claim) }
     end
   end
 end

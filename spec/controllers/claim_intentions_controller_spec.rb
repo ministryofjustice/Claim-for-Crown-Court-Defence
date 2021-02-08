@@ -20,7 +20,7 @@ RSpec.describe ClaimIntentionsController, type: :controller do
     context 'when form_id present' do
       let(:form_id) { SecureRandom.uuid }
 
-      it 'should create a Claim Intention' do
+      it 'creates a Claim Intention' do
         expect {
           post :create, params: { claim_intention: { form_id: form_id } }
         }.to change(ClaimIntention, :count).by(1)
@@ -31,7 +31,7 @@ RSpec.describe ClaimIntentionsController, type: :controller do
           post :create, params: { claim_intention: { form_id: form_id } }
         end
 
-        it 'should records the logged in user ID' do
+        it 'recordses the logged in user ID' do
           intention = ClaimIntention.last
           expect(intention.form_id).to eq(form_id)
           expect(intention.user_id).to eq(external_user.user.id)
@@ -40,7 +40,7 @@ RSpec.describe ClaimIntentionsController, type: :controller do
     end
 
     context 'when form_id not present' do
-      it 'should not create a Claim Intention' do
+      it 'does not create a Claim Intention' do
         expect {
           post :create, params: { claim_intention: { form_id: nil } }
         }.to_not change(ClaimIntention, :count)

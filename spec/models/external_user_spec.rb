@@ -42,7 +42,7 @@ RSpec.describe ExternalUser, type: :model do
       context 'for advocate' do
         before { subject.roles = ['advocate'] }
 
-        it 'should be valid' do
+        it 'is valid' do
           a = build :external_user, :advocate
           expect(a).to be_valid
         end
@@ -51,7 +51,7 @@ RSpec.describe ExternalUser, type: :model do
       context 'for admin' do
         before { subject.roles = ['admin'] }
 
-        it 'should be valid' do
+        it 'is valid' do
           a = build :external_user, :admin
           expect(a).to be_valid
         end
@@ -70,7 +70,7 @@ RSpec.describe ExternalUser, type: :model do
       context 'for advocate' do
         before { subject.roles = ['advocate'] }
 
-        it 'should be valid without a supplier number' do
+        it 'is valid without a supplier number' do
           a = build :external_user, :advocate, provider: provider, supplier_number: nil
           expect(a).to be_valid
         end
@@ -81,7 +81,7 @@ RSpec.describe ExternalUser, type: :model do
 
         it { should_not validate_presence_of(:supplier_number) }
 
-        it 'should be valid without a supplier number' do
+        it 'is valid without a supplier number' do
           a = build :external_user, :admin, provider: provider, supplier_number: nil
           expect(a).to be_valid
         end
@@ -102,30 +102,30 @@ RSpec.describe ExternalUser, type: :model do
 
         it { should validate_presence_of(:supplier_number) }
 
-        it 'should not be valid without a supplier number' do
+        it 'is not valid without a supplier number' do
           a = build :external_user, provider: provider, supplier_number: nil
           expect(a).not_to be_valid
         end
 
-        it 'should fail validation if too long' do
+        it 'fails validation if too long' do
           a = build :external_user, supplier_number: 'ACC123', provider: provider
           expect(a).not_to be_valid
           expect(a.errors[:supplier_number]).to eq(format_error)
         end
 
-        it 'should fail validation if too short' do
+        it 'fails validation if too short' do
           a = build :external_user, supplier_number: 'AC12', provider: provider
           expect(a).not_to be_valid
           expect(a.errors[:supplier_number]).to eq(format_error)
         end
 
-        it 'should fail validation if not alpha-numeric' do
+        it 'fails validation if not alpha-numeric' do
           a = build :external_user, supplier_number: 'AC-12', provider: provider
           expect(a).not_to be_valid
           expect(a.errors[:supplier_number]).to eq(format_error)
         end
 
-        it 'should pass validation if 5 alpha-numeric' do
+        it 'passes validation if 5 alpha-numeric' do
           a = build :external_user, supplier_number: 'AC123', provider: provider
           expect(a).to be_valid
         end
@@ -136,7 +136,7 @@ RSpec.describe ExternalUser, type: :model do
 
         it { should_not validate_presence_of(:supplier_number) }
 
-        it 'should be valid without a supplier number' do
+        it 'is valid without a supplier number' do
           a = build :external_user, :admin, provider: provider, supplier_number: nil
           expect(a).to be_valid
         end
@@ -153,7 +153,7 @@ RSpec.describe ExternalUser, type: :model do
   end
 
   describe 'ROLES' do
-    it 'should have "admin" and "advocate" and "litigator"' do
+    it 'has "admin" and "advocate" and "litigator"' do
       expect(ExternalUser::ROLES).to match_array(%w(admin advocate litigator))
     end
   end
@@ -345,11 +345,11 @@ RSpec.describe ExternalUser, type: :model do
     after(:all) { clean_database }
 
     describe 'active scope' do
-      it 'should only return undeleted records' do
+      it 'only returns undeleted records' do
         expect(ExternalUser.active.order(:id)).to eq([@live_user_1, @live_user_2])
       end
 
-      it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
+      it 'returns ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
         expect {
           ExternalUser.active.find(@dead_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find ExternalUser with 'id'=#{@dead_user_1.id} [WHERE "external_users"."deleted_at" IS NULL]}
@@ -361,11 +361,11 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     describe 'deleted scope' do
-      it 'should return only deleted records' do
+      it 'returns only deleted records' do
         expect(ExternalUser.softly_deleted.order(:id)).to eq([@dead_user_1, @dead_user_2])
       end
 
-      it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
+      it 'returns ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect(ExternalUser.find(@live_user_1.id)).to eq(@live_user_1)
         expect {
           ExternalUser.softly_deleted.find(@live_user_1.id)
@@ -378,11 +378,11 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     describe 'default scope' do
-      it 'should return deleted and undeleted records' do
+      it 'returns deleted and undeleted records' do
         expect(ExternalUser.order(:id)).to eq([@live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
       end
 
-      it 'should return the record if find by id relates to a deleted record' do
+      it 'returns the record if find by id relates to a deleted record' do
         expect(ExternalUser.find(@dead_user_1.id)).to eq @dead_user_1
       end
 
@@ -393,7 +393,7 @@ RSpec.describe ExternalUser, type: :model do
   end
 
   describe 'soft_delete' do
-    it 'should set deleted at on the caseworker and user records' do
+    it 'sets deleted at on the caseworker and user records' do
       eu = create :external_user
       user = eu.user
       eu.soft_delete

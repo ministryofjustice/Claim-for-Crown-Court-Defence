@@ -16,18 +16,18 @@ RSpec.describe AdpTextField do
     let(:builder)   { AdpFormBuilder.new(:claim, resource, helper, {}) }
 
     context 'simple text field without hint' do
-      it 'should produce expected html when resource is nil' do
+      it 'produces expected html when resource is nil' do
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', errors: error_presenter)
         expect(atf.to_html).to eq squash(a100_no_value_no_hint)
       end
 
-      it 'should produce expected result when resource has a value' do
+      it 'produces expected result when resource has a value' do
         resource.case_number = 'X22334455'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', errors: error_presenter)
         expect(atf.to_html).to eq a200_value_no_hint
       end
 
-      it 'should strip html tags from output value' do
+      it 'strips html tags from output value' do
         resource.case_number = '<b>X22334455</b>'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', errors: error_presenter)
         expect(atf.to_html).to eq a200_value_no_hint
@@ -59,12 +59,12 @@ RSpec.describe AdpTextField do
     end
 
     context 'simple number field without hint' do
-      it 'should produce expected html when resource is nil' do
+      it 'produces expected html when resource is nil' do
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', errors: error_presenter)
         expect(atf.to_html).to eq squash(a100_no_value_no_hint)
       end
 
-      it 'should produce expected result when resource has a value' do
+      it 'produces expected result when resource has a value' do
         resource.case_number = '555'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'number', errors: error_presenter)
         expect(atf.to_html).to eq a200_value_no_hint
@@ -96,26 +96,26 @@ RSpec.describe AdpTextField do
     end
 
     context 'simple currency field without hint' do
-      it 'should produce expected html when resource is nil' do
+      it 'produces expected html when resource is nil' do
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'currency', errors: error_presenter)
         expect(atf.to_html).to eq squash(a100_no_value_no_hint)
       end
 
-      it 'should produce expected result when resource has a value' do
+      it 'produces expected result when resource has a value' do
         resource.case_number = '555'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'currency', errors: error_presenter)
 
         expect(atf.to_html).to eq a200_value_no_hint
       end
 
-      it 'should produce expected result when disabled' do
+      it 'produces expected result when disabled' do
         resource.case_number = '555'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'currency', input_disabled: true, errors: error_presenter)
 
         expect(atf.to_html).to eq a200_value_no_hint_disabled
       end
 
-      it 'should produce expected result when readonly' do
+      it 'produces expected result when readonly' do
         resource.case_number = '555'
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', input_type: 'currency', input_readonly: true, errors: error_presenter)
 

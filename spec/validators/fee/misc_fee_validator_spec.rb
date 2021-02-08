@@ -11,7 +11,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
   context 'LGFS claim' do
     let(:claim) { build :litigator_claim }
 
-    before(:each) do
+    before do
       fee.clear # reset some attributes set by the factory
       fee.amount = 1.00
     end
@@ -182,7 +182,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
     describe '#validate_case_numbers' do
       # NOTE: no case uplift misc fees exist
       context 'for a non Case Uplift fee type' do
-        before(:each) do
+        before do
           allow(fee.fee_type).to receive(:case_uplift?).and_return(false)
         end
 
@@ -190,7 +190,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
           should_be_valid_if_equal_to_value(fee, :case_numbers, nil)
         end
 
-        it 'should error if case_numbers is present' do
+        it 'errors if case_numbers is present' do
           should_error_if_equal_to_value(fee, :case_numbers, '123', 'present')
         end
       end

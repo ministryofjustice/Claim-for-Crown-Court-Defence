@@ -53,8 +53,29 @@ class Document < ApplicationRecord
 
   before_save :generate_pdf_tmpfile
   before_save :add_converted_preview_document
+  before_save :create_checksum
 
   validate :documents_count
+
+  # TODO: Remove after moving to Active Storage
+  def create_checksum
+    return if document_file_name.nil?
+
+    %w[document converted_preview_document].each do |name|
+      io = Paperclip.io_adapters.for(send(name))
+      next if io.nil?
+
+      send("as_#{name}_checksum=", Digest::MD5.new.tap do |checksum|
+        while (chunk = io.read(5.megabytes))
+          checksum << chunk
+        end
+
+        io.rewind
+      end.base64digest)
+    rescue Errno::ENOENT
+      send("as_#{name}_checksum=", nil)
+    end
+  end
 
   def copy_from(original_doc, verify: false)
     self.document = original_doc.document

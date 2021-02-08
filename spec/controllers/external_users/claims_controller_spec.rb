@@ -37,11 +37,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         context 'advocate' do
-          it 'should assign context to claims for the advocate only' do
+          it 'assigns context to claims for the advocate only' do
             get :index
             expect(assigns(:claims_context).map(&:id).sort).to eq(advocate.claims.map(&:id).sort)
           end
-          it 'should assign claims to dashboard displayable state claims for the advocate only' do
+          it 'assigns claims to dashboard displayable state claims for the advocate only' do
             get :index
             expect(assigns(:claims)).to eq(advocate.claims.dashboard_displayable_states)
           end
@@ -49,11 +49,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
         context 'advocate admin' do
           before { sign_in advocate_admin.user }
-          it 'should assign context to claims for the provider' do
+          it 'assigns context to claims for the provider' do
             get :index
             expect(assigns(:claims_context).map(&:id).sort).to eq(advocate_admin.provider.claims.map(&:id).sort)
           end
-          it 'should assign claims to dashboard displayable state claims for all members of the provder' do
+          it 'assigns claims to dashboard displayable state claims for all members of the provder' do
             get :index
             expect(assigns(:claims).map(&:id).sort).to eq(advocate_admin.provider.claims.dashboard_displayable_states.map(&:id).sort)
           end
@@ -69,13 +69,13 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
         context 'litigator' do
           before { sign_in litigator.user }
-          it 'should assign context to claims for the provider' do
+          it 'assigns context to claims for the provider' do
             get :index
             expected_claims = Claim::BaseClaim.where(external_user_id: litigator.id).pluck(:id)
             expect(assigns(:claims_context).map(&:id).sort).to eq(expected_claims.sort)
           end
 
-          it 'should assign claims to dashboard displayable state claims for all members of the provder' do
+          it 'assigns claims to dashboard displayable state claims for all members of the provder' do
             get :index
             expect(assigns(:claims)).to eq([@draft_claim])
           end
@@ -83,12 +83,12 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
         context 'litigator admin' do
           before { sign_in litigator_admin.user }
-          it 'should assign context to claims for the provider' do
+          it 'assigns context to claims for the provider' do
             get :index
             expect(assigns(:claims_context)).to eq(litigator_admin.provider.claims)
           end
 
-          it 'should assign claims to dashboard displayable state claims for all members of the provder' do
+          it 'assigns claims to dashboard displayable state claims for all members of the provder' do
             get :index
             expect(assigns(:claims)).to eq(litigator_admin.provider.claims_created.dashboard_displayable_states.order('last_submitted_at asc NULLS FIRST, id desc'))
           end
@@ -104,7 +104,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         context 'ALL filter' do
           let(:query_params) { { scheme: 'all' } }
 
-          it 'should assign context to claims for the provider' do
+          it 'assigns context to claims for the provider' do
             expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims_created)
           end
         end
@@ -112,7 +112,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         context 'AGFS filter' do
           let(:query_params) { { scheme: 'agfs' } }
 
-          it 'should assign context to claims for the provider' do
+          it 'assigns context to claims for the provider' do
             expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims_created)
           end
         end
@@ -120,7 +120,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         context 'LGFS filter' do
           let(:query_params) { { scheme: 'lgfs' } }
 
-          it 'should assign context to claims for the provider' do
+          it 'assigns context to claims for the provider' do
             expect(assigns(:claims_context)).to eq([])
           end
         end
@@ -144,7 +144,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           clean_database
         end
 
-        before(:each) do
+        before do
           allow(subject).to receive(:page_size).and_return(limit)
           sign_in advocate.user
           get :index, params: query_params
@@ -285,11 +285,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
         context 'advocate' do
           before { sign_in advocate.user }
-          it 'should assign context to provider claims based on external user' do
+          it 'assigns context to provider claims based on external user' do
             get :archived
             expect(assigns(:claims_context).map(&:id).sort).to eq(advocate.claims.map(&:id).sort)
           end
-          it 'should assign claims to archived only' do
+          it 'assigns claims to archived only' do
             get :archived
             expect(assigns(:claims)).to match_array(advocate.claims.where(state: %w[archived_pending_delete archived_pending_review]))
           end
@@ -297,11 +297,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
         context 'advocate admin' do
           before { sign_in advocate_admin.user }
-          it 'should assign context to provider claims based on external user' do
+          it 'assigns context to provider claims based on external user' do
             get :archived
             expect(assigns(:claims_context)).to eq(advocate_admin.provider.claims)
           end
-          it 'should assign claims to archived only' do
+          it 'assigns claims to archived only' do
             get :archived
             expect(assigns(:claims)).to match_array(advocate.claims.where(state: %w[archived_pending_delete archived_pending_review]))
           end
@@ -317,7 +317,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
         context 'litigator' do
           before { sign_in litigator.user }
-          it 'should see same context and claims as a litigator admin' do
+          it 'sees same context and claims as a litigator admin' do
             get :archived
             expect(assigns(:claims)).to eq(litigator.provider.claims_created.archived_pending_delete)
           end
@@ -325,11 +325,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
 
         context 'litigator admin' do
           before { sign_in litigator_admin.user }
-          it 'should assign context to claims created by all members of the provider' do
+          it 'assigns context to claims created by all members of the provider' do
             get :archived
             expect(assigns(:claims_context).sort_by { |c| c.id }).to eq(litigator_admin.provider.claims_created.active.sort_by { |c| c.id })
           end
-          it 'should retrieve archived state claims only' do
+          it 'retrieves archived state claims only' do
             get :archived
             expect(assigns(:claims).sort_by { |c| c.id }).to eq(litigator_admin.provider.claims_created.active.archived_pending_delete.sort_by { |c| c.id })
           end
@@ -339,7 +339,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
       context 'sorting' do
         let(:limit) { 10 }
 
-        before(:each) do
+        before do
           create_list(:archived_pending_delete_claim, 3, external_user: advocate).each { |c| c.update_column(:last_submitted_at, 8.days.ago) }
           create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 1.day.ago)
           create(:archived_pending_delete_claim, external_user: advocate).update_column(:last_submitted_at, 2.days.ago)
@@ -364,7 +364,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
 
     describe '#GET outstanding' do
-      before(:each) do
+      before do
         get :outstanding
       end
 
@@ -390,7 +390,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         context 'advocate' do
           before { sign_in advocate.user }
 
-          it 'should assign outstanding claims' do
+          it 'assigns outstanding claims' do
             expect(assigns(:claims)).to match_array(advocate.claims.outstanding)
           end
         end
@@ -398,7 +398,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         context 'advocate admin' do
           before { sign_in advocate_admin.user }
 
-          it 'should assign outstanding claims' do
+          it 'assigns outstanding claims' do
             expect(assigns(:claims)).to match_array(advocate_admin.provider.claims.outstanding)
           end
         end
@@ -406,7 +406,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
 
     describe '#GET authorised' do
-      before(:each) do
+      before do
         get :authorised
       end
 
@@ -432,7 +432,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         context 'advocate' do
           before { sign_in advocate.user }
 
-          it 'should assign authorised and part authorised claims' do
+          it 'assigns authorised and part authorised claims' do
             expect(assigns(:claims)).to match_array(advocate.claims.any_authorised)
           end
         end
@@ -440,7 +440,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         context 'advocate admin' do
           before { sign_in advocate_admin.user }
 
-          it 'should assign authorised and part authorised claims' do
+          it 'assigns authorised and part authorised claims' do
             expect(assigns(:claims)).to match_array(advocate_admin.provider.claims.any_authorised)
           end
         end

@@ -123,11 +123,11 @@ RSpec.describe ExpensePresenter do
       ExpenseType::REASON_SET_A.map { |reason| reason[1] if reason[1].allow_explanatory_text? }.compact.sample
     end
 
-    it 'should return "none" for expense reasons NOT requiring explanantory' do
+    it 'returns "none" for expense reasons NOT requiring explanantory' do
       expect(presenter.display_reason_text_css).to eql 'none'
     end
 
-    it 'should return "inline-block" for expense reasons requiring explanantory text' do
+    it 'returns "inline-block" for expense reasons requiring explanantory text' do
       expense.reason_id = reason_requiring_text.id
       expect(presenter.display_reason_text_css).to eql 'inline-block'
     end

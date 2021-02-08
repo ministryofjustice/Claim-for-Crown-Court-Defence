@@ -6,14 +6,14 @@ describe Fee::GraduatedFeePresenter do
   let(:presenter) { Fee::GraduatedFeePresenter.new(grad_fee, view) }
 
   describe '#rate' do
-    it 'should call not_applicable ' do
+    it 'calls not_applicable' do
       expect(presenter).to receive(:not_applicable)
       presenter.rate
     end
   end
 
   describe '#quantity' do
-    it 'should return fee quantity' do
+    it 'returns fee quantity' do
       expect(grad_fee).to receive(:quantity).and_return 12
       expect(presenter.quantity).to eq '12'
     end

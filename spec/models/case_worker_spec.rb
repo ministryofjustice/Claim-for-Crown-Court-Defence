@@ -33,7 +33,7 @@ RSpec.describe CaseWorker, type: :model do
   it { should validate_presence_of(:user).with_message('User cannot be blank') }
 
   describe 'ROLES' do
-    it 'should have "admin", "case_worker" and "provider_management"' do
+    it 'has "admin", "case_worker" and "provider_management"' do
       expect(CaseWorker::ROLES).to match_array(%w(admin case_worker provider_management))
     end
   end
@@ -51,11 +51,11 @@ RSpec.describe CaseWorker, type: :model do
     after(:all) { clean_database }
 
     describe 'active scope' do
-      it 'should only return undeleted records' do
+      it 'only returns undeleted records' do
         expect(CaseWorker.active.order(:id)).to eq([@live_cw1, @live_cw2])
       end
 
-      it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
+      it 'returns ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
         expect {
           CaseWorker.active.find(@dead_cw1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find CaseWorker with 'id'=#{@dead_cw1.id} [WHERE "case_workers"."deleted_at" IS NULL]}
@@ -67,11 +67,11 @@ RSpec.describe CaseWorker, type: :model do
     end
 
     describe 'deleted scope' do
-      it 'should return only deleted records' do
+      it 'returns only deleted records' do
         expect(CaseWorker.softly_deleted.order(:id)).to eq([@dead_cw1, @dead_cw2])
       end
 
-      it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
+      it 'returns ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect(CaseWorker.find(@live_cw1.id)).to eq(@live_cw1)
         expect {
           CaseWorker.softly_deleted.find(@live_cw1.id)
@@ -84,11 +84,11 @@ RSpec.describe CaseWorker, type: :model do
     end
 
     describe 'default scope' do
-      it 'should return deleted and undeleted records' do
+      it 'returns deleted and undeleted records' do
         expect(CaseWorker.order(:id)).to eq([@live_cw1, @live_cw2, @dead_cw1, @dead_cw2])
       end
 
-      it 'should return the record if find by id relates to a deleted record' do
+      it 'returns the record if find by id relates to a deleted record' do
         expect(CaseWorker.find(@dead_cw1.id)).to eq @dead_cw1
       end
 
@@ -99,7 +99,7 @@ RSpec.describe CaseWorker, type: :model do
   end
 
   describe 'soft_delete' do
-    it 'should set deleted at on the caseworker and user records' do
+    it 'sets deleted at on the caseworker and user records' do
       cw = create :case_worker
       user = cw.user
       cw.soft_delete

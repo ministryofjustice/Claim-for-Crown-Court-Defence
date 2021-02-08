@@ -28,13 +28,13 @@ RSpec.describe OffencesController, type: :controller do
   }
 
   describe 'GET index' do
-    it 'should return all offences if no description present' do
+    it 'returns all offences if no description present' do
       get :index, xhr: true
       expect(assigns(:offences).size).to eq 3
       expect(assigns(:offences).map(&:description)).to eq(['Offence 1', 'Offence 2', 'Offence 3'])
     end
 
-    it 'should just get the matching offence' do
+    it 'just gets the matching offence' do
       get :index, params: { description: 'Offence 3' }, xhr: true
       expect(assigns(:offences).map(&:description)).to eq(['Offence 3'])
     end

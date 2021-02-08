@@ -26,32 +26,32 @@ RSpec.describe Claims::ContextMapper do
     end
 
     context 'AGFS and LGFS providers' do
-      it 'should return litigator claim for a litigators' do
+      it 'returns litigator claim for a litigators' do
         external_user.roles = ['litigator']
         is_expected.to match_array(lgfs_claim_object_types)
       end
 
-      it 'should return litigator and advocate claim for a litigator admins' do
+      it 'returns litigator and advocate claim for a litigator admins' do
         external_user.roles = ['litigator', 'admin']
         is_expected.to match_array(all_claim_object_types)
       end
 
-      it 'should return advocate claim for a advocates' do
+      it 'returns advocate claim for a advocates' do
         external_user.roles = ['advocate']
         is_expected.to match_array(agfs_claim_object_types)
       end
 
-      it 'should return advocate and litigator claim for a advocate admins' do
+      it 'returns advocate and litigator claim for a advocate admins' do
         external_user.roles = ['advocate', 'admin']
         is_expected.to match_array(all_claim_object_types)
       end
 
-      it 'should return advocate AND litigator claims for a admins' do
+      it 'returns advocate AND litigator claims for a admins' do
         external_user.roles = ['admin']
         is_expected.to match_array(all_claim_object_types)
       end
 
-      it 'should return advocate AND litigator claims for users with admin, litigator and advocate roles' do
+      it 'returns advocate AND litigator claims for users with admin, litigator and advocate roles' do
         external_user.roles = ['admin', 'advocate', 'litigator']
         is_expected.to match_array(all_claim_object_types)
       end

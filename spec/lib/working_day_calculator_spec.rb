@@ -17,7 +17,7 @@ describe WorkingDayCalculator do
 
   describe '#working days' do
     context 'over one weekend' do
-      it 'should return the exepected number of days over one weekend' do
+      it 'returns the exepected number of days over one weekend' do
         expectations = [
           [thu_14_jul, mon_18_jul, 2],
           [sat_16_jul, mon_18_jul, 0],
@@ -28,7 +28,7 @@ describe WorkingDayCalculator do
     end
 
     context 'within one week' do
-      it 'should return the exepected number of days within one week' do
+      it 'returns the exepected number of days within one week' do
         expectations = [
           [mon_11_jul, mon_11_jul, 0],
           [mon_11_jul, fri_15_jul, 4]
@@ -38,7 +38,7 @@ describe WorkingDayCalculator do
     end
 
     context 'weekend to weekend' do
-      it 'should return the expected number of days when submitted one weekend and decided the next' do
+      it 'returns the expected number of days when submitted one weekend and decided the next' do
         expectations = [
           [sat_9_jul, sun_17_jul, 4],
           [sun_10_jul, sat_16_jul, 4],
@@ -49,7 +49,7 @@ describe WorkingDayCalculator do
     end
 
     context 'spanning two weekends' do
-      it 'should return the expected number of days when period spans two full weekends' do
+      it 'returns the expected number of days when period spans two full weekends' do
         expectations = [
           [thu_30_jun, tue_19_jul, 13]
         ]

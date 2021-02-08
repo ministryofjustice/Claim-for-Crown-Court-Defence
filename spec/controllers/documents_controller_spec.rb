@@ -57,82 +57,109 @@ RSpec.describe DocumentsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
-    let(:document) { create(:document, external_user_id: external_user.id) }
+  shared_examples 'view document' do
+    let(:service_url) { 'https://example.com/document.pdf' }
 
-    it 'downloads a preview of the document' do
-      get :show, params: { id: document.id }
-      expect(response.body).to eq binread(document.converted_preview_document.path)
+    context 'with a document owned by the logged in user' do
+      let(:document) { create :document, external_user: external_user }
+
+      before do
+        allow_any_instance_of(ActiveStorage::Blob).to receive(:service_url).and_return(service_url)
+      end
+
+      it 'redirects to the attachment' do
+        expect(view_document).to redirect_to service_url
+      end
     end
+
+    context 'with a document owned by a different user' do
+      let(:document) { create :document, external_user: create(:external_user) }
+
+      it 'redirects to the claims page' do
+        expect(view_document).to redirect_to external_users_root_url
+      end
+    end
+
+    context 'when signed out' do
+      let(:document) { create :document, external_user: create(:external_user) }
+
+      before { sign_out user }
+
+      it 'redirects to the login page' do
+        expect(view_document).to redirect_to new_user_session_url
+      end
+    end
+  end
+
+  describe 'GET #show' do
+    # TODO: 1) The shared examples test that the user is redirected to a
+    #       download link but it is not check that it is the link for
+    #       converted_preview_document.
+    #       2) There isn't a test for whether the disposition is 'attachment'
+    #       or 'inline'.
+    subject(:view_document) { get :show, params: { id: document.id } }
+
+    include_examples 'view document'
   end
 
   describe 'GET #download' do
-    let(:document) { create(:document, external_user_id: external_user.id) }
+    subject(:view_document) { get :download, params: { id: document.id } }
 
-    it 'downloads the document' do
-      get :show, params: { id: document.id }
-      expect(response.body).to eq binread(document.document.path)
-    end
+    include_examples 'view document'
   end
 
   describe 'POST #create' do
-    let(:params) do
-      {
-        document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf')
-      }
-    end
+    subject(:create_document) { post :create, params: { document: params } }
+
+    let(:params) { { document: document } }
 
     context 'when valid' do
+      let(:document) { Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf') }
+
       it 'creates a document' do
-        expect {
-          post :create, params: { document: params }
-        }.to change(Document, :count).by(1)
+        expect { create_document }.to change(Document, :count).by(1)
       end
 
       it 'returns status created' do
-        post :create, params: { document: params }
+        create_document
         expect(response.status).to eq(201)
       end
 
-      it 'returns the created document as JSON' do
-        post :create, params: { document: params }
-        expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
+      # TODO: Check that nothing other than id and filename are required
+      # it 'returns the created document as JSON' do
+      #   create_document
+      #   expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
+      # end
+
+      it 'includes the document id in the response' do
+        create_document
+        expect(JSON.parse(response.body)['document']['id']).to eq Document.last.id
+      end
+
+      it 'includes the document filename in the response' do
+        create_document
+        # TODO: Change to something not so Paperclip-esque
+        # This is used in app/webpack/javascript/external_users/claims/Dropzone.js
+        expect(JSON.parse(response.body)['document']['document_file_name']).to eq 'longer_lorem.pdf'
       end
     end
 
     context 'when invalid' do
-      let(:params) { { document: nil } }
+      let(:document) { Rack::Test::UploadedFile.new(Tempfile.new, 'video/mpeg') }
 
       it 'does not create a document' do
-        expect {
-          post :create, params: { document: params }
-        }.to_not change(Document, :count)
+        expect { create_document }.to_not change(Document, :count)
       end
 
       it 'returns status unprocessable entity' do
-        post :create, params: { document: params }
+        create_document
         expect(response.status).to eq(422)
       end
 
       it 'returns errors in response' do
-        post :create, params: { document: params }
+        create_document
         expect(JSON.parse(response.body)).to have_key('error')
       end
-    end
-  end
-
-  describe 'GET #download' do
-    it 'downloads the file' do
-      file = Tempfile.new('foo')
-      file.write('foo')
-      file.close
-      document = create :document, external_user: external_user
-      paperclip_adapters = double(Paperclip::AdapterRegistry)
-      paperclip_document = double(Paperclip::Attachment)
-      expect(paperclip_document).to receive(:path).at_least(1).and_return(file.path)
-      expect(paperclip_adapters).to receive(:for).at_least(1).with(instance_of(Paperclip::Attachment)).and_return(paperclip_document)
-      expect(Paperclip).to receive(:io_adapters).at_least(1).and_return(paperclip_adapters)
-      get :download, params: { id: document.id }
     end
   end
 
@@ -140,6 +167,7 @@ RSpec.describe DocumentsController, type: :controller do
     let!(:document) { create(:document, external_user_id: external_user.id) }
 
     it 'destroys the document' do
+      attachment = document.document
       expect {
         delete :destroy, params: { id: document.id }, format: :json
       }.to change(Document, :count).by(-1)

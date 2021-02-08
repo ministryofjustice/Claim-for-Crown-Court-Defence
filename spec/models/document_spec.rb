@@ -133,12 +133,23 @@ RSpec.describe Document, type: :model do
   end
 
   describe '#save_and_verify' do
+    subject(:save_and_verify) { document.save_and_verify }
     let(:document) { build :document }
 
     it 'marks the document as verified' do
       # With Active Storage (for the moment) verified will always be true
       # TODO: Either remove verified or implement a verification check
-      expect { document.save_and_verify }.to change(document, :verified).from(false).to true
+      expect { save_and_verify }.to change(document, :verified).from(false).to true
+    end
+
+    it 'copies the file name to #document_file_name' do
+      # For backward compatibility with Paperclip.
+      expect { save_and_verify }.to change(document, :document_file_name).to document.document.filename
+    end
+
+    it 'copies the byte size to #document_file_size' do
+      # For backward compatibility with Paperclip.
+      expect { save_and_verify }.to change(document, :document_file_size).to document.document.byte_size
     end
   end
 
@@ -186,32 +197,6 @@ RSpec.describe Document, type: :model do
       it 'sets the new document as not verified' do
         expect(new_document.verified).to be_falsey
       end
-    end
-  end
-
-  describe '#document_file_name' do
-    # For backward compatibility with Paperclip.
-    subject(:document_file_name) { document.document_file_name }
-    let(:document) { build :document, :empty }
-    let(:filename) { 'test_file.doc' }
-
-    before { document.document.attach(io: StringIO.new('stuff'), filename: filename) }
-
-    it 'is the name of the file' do
-      expect(document_file_name).to eq filename
-    end
-  end
-
-  describe '#document_file_size' do
-    # For backward compatibility with Paperclip.
-    subject(:document_file_size) { document.document_file_size }
-    let(:document) { build :document, :empty }
-    let(:filename) { 'test_file.doc' }
-
-    before { document.document.attach(io: StringIO.new('x' * 1024), filename: filename) }
-
-    it 'is the size of the file in bytes' do
-      expect(document_file_size).to eq 1024
     end
   end
 end

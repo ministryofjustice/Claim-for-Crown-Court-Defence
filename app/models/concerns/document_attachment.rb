@@ -9,6 +9,7 @@ module DocumentAttachment
     has_one_attached :document
 
     before_save :create_preview_document
+    before_save :copy_file_name
 
     validates :converted_preview_document, content_type: 'application/pdf'
     validates :document,
@@ -66,5 +67,13 @@ module DocumentAttachment
     )
   rescue IOError
     nil # raised if Libreoffice exe is not in PATH
+  end
+
+  # TODO: Remove this method, which exists for backward compatibility with Paperclip
+  def copy_file_name
+    self.document_file_name = document.filename.to_s
+    self.document_file_size = document.byte_size
+    self.converted_preview_document_file_name = document.filename.to_s
+    self.converted_preview_document_file_size = document.byte_size
   end
 end

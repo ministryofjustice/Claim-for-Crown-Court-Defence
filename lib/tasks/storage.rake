@@ -46,6 +46,7 @@ namespace :storage do
       exit
     end
 
+    puts "Setting checksums for #{args[:model].green}"
     Storage.set_checksums(records: records, model: args[:model])
   end
 end

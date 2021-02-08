@@ -78,11 +78,11 @@ module Storage
   end
 
   def self.set_checksums(records:, model:)
-    ATTACHMENTS[model].each do |name|
-      bar = self.progress_bar title: name, total: records.count
+    bar = self.progress_bar title: ATTACHMENTS[model].join(', '), total: records.count
 
-      records.each do |record|
-        bar.increment
+    records.each do |record|
+      bar.increment
+      ATTACHMENTS[model].each do |name|
         record.update("as_#{name}_checksum": self.compute_checksum_in_chunks(record.send(name)))
       end
     end

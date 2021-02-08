@@ -49,6 +49,7 @@ class Message < ApplicationRecord
 
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
+  before_save :create_checksum
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
 
   class << self
@@ -61,6 +62,23 @@ class Message < ApplicationRecord
                   end
       where(attribute => object.id)
     end
+  end
+
+  # TODO: Remove after moving to Active Storage
+  def create_checksum
+    return if attachment_file_name.nil?
+
+    io = Paperclip.io_adapters.for(attachment)
+
+    self.as_attachment_checksum = Digest::MD5.new.tap do |checksum|
+      while (chunk = io.read(5.megabytes))
+        checksum << chunk
+      end
+
+      io.rewind
+    end.base64digest
+  rescue Errno::ENOENT
+    self.as_attachment_checksum = nil
   end
 
   private

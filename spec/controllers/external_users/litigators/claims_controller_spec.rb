@@ -220,26 +220,26 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
               post :create, params: { claim: claim_params, commit_submit_claim: 'Submit to LAA' }
             end
 
-            it 'should be a redirect' do
+            it 'is a redirect' do
               expect(response.status).to eq 302
               # expect(response).to redirect_to summary_external_users_claim_url(assigns(:claim))
             end
 
-            it 'should be a valid claim' do
+            it 'is a valid claim' do
               expect(assigns(:claim)).to be_valid
             end
 
-            it 'should create the graduated fee' do
+            it 'creates the graduated fee' do
               expect(assigns(:claim).graduated_fee).to be_valid
               expect(assigns(:claim).graduated_fee.amount).to eq 2000
             end
 
-            it 'should create the miscellaneous fees' do
+            it 'creates the miscellaneous fees' do
               expect(assigns(:claim).misc_fees.size).to eq 2
               expect(assigns(:claim).misc_fees.map(&:amount).sum).to eq 375
             end
 
-            it 'should update claim total to sum of graduated and miscellaneous fees' do
+            it 'updates claim total to sum of graduated and miscellaneous fees' do
               expect(assigns(:claim).fees_total).to eq 2375.00
             end
           end
@@ -251,16 +251,16 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
               post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
             end
 
-            it 'should redisplay the page' do
+            it 'redisplays the page' do
               expect(response.status).to eq 200
               expect(response).to render_template(:new)
             end
 
-            it 'should display error messages ' do
+            it 'displays error messages' do
               expect(response.body).to have_content('Enter a case number')
             end
 
-            it 'should not persist any of the data' do
+            it 'does not persist any of the data' do
               claim = assigns(:claim)
               expect(claim.graduated_fee).to have_attributes(fee_type_id: graduated_fee_type_1.id, quantity: 12, amount: 2000)
               expect(claim.misc_fees.count).to eq 0
@@ -281,25 +281,25 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
               post :create, params: { claim: fixed_fee_claim_params, commit_submit_claim: 'Submit to LAA' }
             end
 
-            it 'should be a redirect' do
+            it 'is a redirect' do
               expect(response.status).to eq 302
             end
 
-            it 'should create the fixed fee' do
+            it 'creates the fixed fee' do
               expect(assigns(:claim).fixed_fee).to be_valid
               expect(assigns(:claim).fixed_fee.amount).to eq 388.30
             end
 
-            it 'should create the miscellaneous fees' do
+            it 'creates the miscellaneous fees' do
               expect(assigns(:claim).misc_fees.size).to eq 2
               expect(assigns(:claim).misc_fees.map(&:amount).sum).to eq 375
             end
 
-            it 'should NOT create the graduated fee' do
+            it 'does not create the graduated fee' do
               expect(assigns(:claim).graduated_fee).to be_nil
             end
 
-            it 'should update claim total to sum of fixed and miscellaneous fees' do
+            it 'updates claim total to sum of fixed and miscellaneous fees' do
               expect(assigns(:claim).fees_total).to eq 763.30
             end
           end
@@ -318,7 +318,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
           }
         end
 
-        it 'should create a claim with document checklist items' do
+        it 'creates a claim with document checklist items' do
           post :create, params: { claim: claim_params }
           expect(assigns(:claim).evidence_checklist_ids).to eql([2, 3])
         end
@@ -425,7 +425,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
     end
 
     context 'Date Parameter handling' do
-      it 'should transform dates with named months into dates' do
+      it 'transforms dates with named months into dates' do
         put :update, params: {
           id: subject,
           claim: {
@@ -438,7 +438,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
         expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
       end
 
-      it 'should transform dates with numbered months into dates' do
+      it 'transforms dates with numbered months into dates' do
         put :update, params: {
           id: subject,
           claim: {

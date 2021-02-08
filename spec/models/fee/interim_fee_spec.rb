@@ -34,67 +34,67 @@ RSpec.describe Fee::InterimFee do
   include_examples 'duplicable fee'
 
   describe '#is_interim?' do
-    it 'should be true' do
+    it 'is true' do
       expect(fee.is_interim?).to be true
     end
   end
 
   describe '#is_disbursement?' do
-    it 'should be true for disbursements' do
+    it 'is true for disbursements' do
       expect(disbursement_fee.is_disbursement?).to be true
     end
 
-    it 'should be false for other fees' do
+    it 'is false for other fees' do
       expect(warrant_fee.is_disbursement?).to be false
     end
   end
 
   describe '#is_interim_warrant?' do
-    it 'should be false for other fees' do
+    it 'is false for other fees' do
       expect(disbursement_fee.is_interim_warrant?).to be false
     end
 
-    it 'should be true for warrant_fees' do
+    it 'is true for warrant_fees' do
       expect(warrant_fee.is_interim_warrant?).to be true
     end
   end
 
   describe '#is_effective_pcmh?' do
-    it 'should be false for other fees' do
+    it 'is false for other fees' do
       expect(warrant_fee.is_effective_pcmh?).to be false
     end
 
-    it 'should be true for Effective PCMH fees' do
+    it 'is true for Effective PCMH fees' do
       expect(pcmh_fee.is_effective_pcmh?).to be true
     end
   end
 
   describe '#is_trial_start?' do
-    it 'should be false for other fees' do
+    it 'is false for other fees' do
       expect(warrant_fee.is_trial_start?).to be false
     end
 
-    it 'should be true for Trial start fees' do
+    it 'is true for Trial start fees' do
       expect(trial_start_fee.is_trial_start?).to be true
     end
   end
 
   describe '#is_retrial_start?' do
-    it 'should be false for other fees' do
+    it 'is false for other fees' do
       expect(warrant_fee.is_retrial_start?).to be false
     end
 
-    it 'should be true for Retrial start fees' do
+    it 'is true for Retrial start fees' do
       expect(retrial_start_fee.is_retrial_start?).to be true
     end
   end
 
   describe '#is_retrial_start?' do
-    it 'should be false for other fees' do
+    it 'is false for other fees' do
       expect(warrant_fee.is_retrial_new_solicitor?).to be false
     end
 
-    it 'should be true for Retrial New solicitor fees' do
+    it 'is true for Retrial New solicitor fees' do
       expect(retrial_new_solicitor_fee.is_retrial_new_solicitor?).to be true
     end
   end

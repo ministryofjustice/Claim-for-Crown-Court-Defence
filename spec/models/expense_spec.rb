@@ -198,6 +198,6 @@ RSpec.describe Expense, type: :model do
 
     let(:expense) { build :expense, reason_id: 4, reason_text: 'My unique reason' }
 
-    it { expect { remove_reason_text_unless_other }.to change { expense.reason_text }.to nil }
+    it { expect { remove_reason_text_unless_other }.to change(expense, :reason_text).to nil }
   end
 end

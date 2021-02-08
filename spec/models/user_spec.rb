@@ -214,11 +214,11 @@ RSpec.describe User, type: :model do
     after(:all) { clean_database }
 
     describe 'active scope' do
-      it 'should only return undeleted records' do
+      it 'only returns undeleted records' do
         expect(User.active.order(:id)).to eq([@live_user_1, @live_user_2])
       end
 
-      it 'should return ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
+      it 'returns ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
         expect {
           User.active.find(@dead_user_1.id)
         }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find User with 'id'=#{@dead_user_1.id} [WHERE "users"."deleted_at" IS NULL]}
@@ -235,11 +235,11 @@ RSpec.describe User, type: :model do
         expect(@live_user_1.reload.email).to eq "john.smith@example.com.deleted.#{@live_user_1.id}"
       end
 
-      it 'should return only deleted records' do
+      it 'returns only deleted records' do
         expect(User.softly_deleted.order(:id)).to eq([@dead_user_1, @dead_user_2])
       end
 
-      it 'should return ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
+      it 'returns ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
         expect(User.find(@live_user_1.id)).to eq(@live_user_1)
         expect {
           User.softly_deleted.find(@live_user_1.id)
@@ -252,11 +252,11 @@ RSpec.describe User, type: :model do
     end
 
     describe 'default scope' do
-      it 'should return deleted and undeleted records' do
+      it 'returns deleted and undeleted records' do
         expect(User.order(:id)).to eq([@live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
       end
 
-      it 'should return the record if find by id relates to a deleted record' do
+      it 'returns the record if find by id relates to a deleted record' do
         expect(User.find(@dead_user_1.id)).to eq @dead_user_1
       end
 

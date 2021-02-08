@@ -4,25 +4,25 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   let(:claim) { FactoryBot.create :claim }
   let(:defendant) { claim.defendants.first }
 
-  before(:each) do
+  before do
     claim.force_validation = true
     claim.form_step = :defendants
   end
 
-  it 'should call the validators on all the defendants' do
+  it 'calls the validators on all the defendants' do
     expect(claim.defendants).to have(1).members
     expect_any_instance_of(DefendantValidator).to receive(:validate_date_of_birth).at_least(:once)
     claim.valid?
   end
 
-  it 'should call the validator on all the representation orders' do
+  it 'calls the validator on all the representation orders' do
     expect(defendant.representation_orders).to have(2).items
     expect_any_instance_of(RepresentationOrderValidator).to receive(:validate_representation_order_date).at_least(:once)
     claim.valid?
   end
 
   context 'fees' do
-    before(:each) do
+    before do
       @basic_fee = FactoryBot.create :basic_fee, :with_date_attended, claim: claim
       @misc_fee = FactoryBot.create :misc_fee, :with_date_attended, claim: claim
       FactoryBot.create :date_attended, attended_item: @misc_fee
@@ -30,7 +30,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       claim.form_step = :basic_fees
     end
 
-    it 'should call the validator on all the attended dates for all the fees' do
+    it 'calls the validator on all the attended dates for all the fees' do
       expect(claim.fees).to have(3).members # because the claim factory includes one fee
       expect_any_instance_of(DateAttendedValidator).to receive(:validate_date).at_least(:once)
       claim.valid?
@@ -38,7 +38,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   end
 
   context 'expenses' do
-    before(:each) do
+    before do
       @expense = FactoryBot.create :expense, :with_date_attended, claim: claim
       FactoryBot.create :date_attended, attended_item: @expense
       claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
@@ -48,7 +48,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   end
 
   context 'bubbling up errors to the claim' do
-    before(:each) do
+    before do
       claim.force_validation = false
     end
 
@@ -56,7 +56,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       before do
         claim.force_validation = false
       end
-      it 'should transfer errors up to claim' do
+      it 'transfers errors up to claim' do
         claim.defendants.first.update(date_of_birth: nil)
         claim.defendants.first.update(first_name: nil)
         claim.force_validation = true
@@ -90,7 +90,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
           claim.valid?
         end
 
-        it 'should bubble up the error from reporder to defendant and then to the claim' do
+        it 'bubbles up the error from reporder to defendant and then to the claim' do
           expected_results.each do |key, message|
             expect(claim.errors[key]).to eq([message]), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
           end
@@ -114,7 +114,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
           claim.case_type.update_column(:requires_maat_reference, false)
         end
 
-        it 'should bubble up the error from reporder to defendant and then to the claim' do
+        it 'bubbles up the error from reporder to defendant and then to the claim' do
           expected_results.each do |key, message|
             expect(claim.errors[key]).to eq([message]), "EXPECTED: #{key} to have error [\"#{message}\"] but found #{claim.errors[key]}"
           end

@@ -21,7 +21,7 @@ RSpec.describe RedeterminationPresenter do
   context 'when VAT amount is nil' do
     before { allow(rd).to receive(:vat_amount).and_return(nil) }
 
-    it 'should still calculate' do
+    it 'still calculates' do
       expect(presenter.total_inc_vat).to eq '£6,031.65'
     end
   end

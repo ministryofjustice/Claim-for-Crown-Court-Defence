@@ -7,7 +7,7 @@ RSpec.describe Claim::TransferClaimPresenter do
   it { expect(presenter).to be_instance_of(Claim::TransferClaimPresenter) }
   it { expect(presenter).to be_kind_of(Claim::BaseClaimPresenter) }
 
-  it 'should have disbursements' do
+  it 'has disbursements' do
     expect(presenter.can_have_disbursements?).to eq(true)
   end
 
@@ -30,28 +30,28 @@ RSpec.describe Claim::TransferClaimPresenter do
   context '#transfer_detail_summary' do
     context 'for transfer details NOT requiring a conclusion' do
       let(:claim) { create :transfer_claim, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil }
-      it 'should return a string of expected values' do
+      it 'returns a string of expected values' do
         expect(presenter.transfer_detail_summary).to eql 'Elected case - up to and including PCMH transfer (new)'
       end
     end
 
     context 'for transfer details NOT requiring a conclusion and from original litigator' do
       let(:claim) { create :transfer_claim, litigator_type: 'original', elected_case: false, transfer_stage_id: 40, case_conclusion_id: nil }
-      it 'should return a string of expected values' do
+      it 'returns a string of expected values' do
         expect(presenter.transfer_detail_summary).to eql 'Transfer after trial and before sentence hearing (org)'
       end
     end
 
     context 'for transfer details requiring a conclusion' do
       let(:claim) { create :transfer_claim, litigator_type: 'new', elected_case: false, transfer_stage_id: 20, case_conclusion_id: 30 }
-      it 'should return a string of expected values' do
+      it 'returns a string of expected values' do
         expect(presenter.transfer_detail_summary).to eql 'Before trial transfer (new) - cracked'
       end
     end
 
     context 'for incomplete transfer details' do
       let(:claim) { create :transfer_claim, litigator_type: nil, elected_case: nil, transfer_stage_id: nil, case_conclusion_id: nil }
-      it 'should return blank string' do
+      it 'returns blank string' do
         expect(presenter.transfer_detail_summary).to be_blank
       end
     end

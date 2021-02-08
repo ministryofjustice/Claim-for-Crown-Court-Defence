@@ -164,7 +164,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
 
   describe 'PUT #update' do
     context 'when valid' do
-      before(:each) { put :update, params: { id: subject, case_worker: { roles: ['admin'] } } }
+      before { put :update, params: { id: subject, case_worker: { roles: ['admin'] } } }
 
       it 'updates a case_worker' do
         subject.reload
@@ -177,7 +177,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, params: { id: subject, case_worker: { roles: ['foo'] } } }
+      before { put :update, params: { id: subject, case_worker: { roles: ['foo'] } } }
 
       it 'does not update case worker' do
         subject.reload
@@ -208,7 +208,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
 
     context 'when valid' do
-      before(:each) do
+      before do
         put :update_password, params: { id: subject, case_worker: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } } }
       end
 

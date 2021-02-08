@@ -49,12 +49,12 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       let(:interim_fee_type) { build :interim_fee_type, :trial_start }
       let(:interim_fee) { build(:interim_fee, fee_type: interim_fee_type) }
 
-      it 'should error if not present and interim fee type requires it' do
+      it 'errors if not present and interim fee type requires it' do
         claim.estimated_trial_length = nil
         should_error_with(claim, :estimated_trial_length, 'blank')
       end
 
-      it 'should error if less than 10 days' do
+      it 'errors if less than 10 days' do
         claim.estimated_trial_length = 5
         should_error_with(claim, :estimated_trial_length, 'interim_invalid')
       end
@@ -64,12 +64,12 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       let(:interim_fee_type) { build :interim_fee_type, :retrial_start }
       let(:interim_fee) { build(:interim_fee, fee_type: interim_fee_type) }
 
-      it 'should error if not present and interim fee type requires it' do
+      it 'errors if not present and interim fee type requires it' do
         claim.retrial_estimated_length = nil
         should_error_with(claim, :retrial_estimated_length, 'blank')
       end
 
-      it 'should error if less than 10 days' do
+      it 'errors if less than 10 days' do
         claim.retrial_estimated_length = 5
         should_error_with(claim, :retrial_estimated_length, 'interim_invalid')
       end

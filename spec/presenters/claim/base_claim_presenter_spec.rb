@@ -51,13 +51,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#case_type_name' do
     context 'non redetermination or awaiting written reason' do
-      it 'should display the case type name' do
+      it 'displays the case type name' do
         expect(subject.case_type_name).to eq(claim.case_type.name)
       end
     end
 
     context 'redetermination' do
-      it 'should display the case type name with a redetermination label' do
+      it 'displays the case type name with a redetermination label' do
         %w(submit allocate refuse redetermine allocate).each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:opened_for_redetermination?).and_return(true)
         expect(subject.case_type_name).to eq(claim.case_type.name)
@@ -65,7 +65,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
 
     context 'awaiting written reasons' do
-      it 'should display the case type name with an awaiting written reasons label' do
+      it 'displays the case type name with an awaiting written reasons label' do
         %w(submit allocate refuse await_written_reasons allocate).each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:written_reasons_outstanding?).and_return(true)
         expect(subject.case_type_name).to eq(claim.case_type.name)
@@ -112,7 +112,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#valid_transitions' do
-    it 'should list valid transitions from allocated' do
+    it 'lists valid transitions from allocated' do
       claim.state = 'allocated'
       presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions).to eq(
@@ -126,7 +126,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       )
     end
 
-    it 'should list valid transitions from allocated with include_submitted => false' do
+    it 'lists valid transitions from allocated with include_submitted => false' do
       claim.state = 'allocated'
       presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions_for_detail_form).to eq(
@@ -139,7 +139,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       )
     end
 
-    it 'should list valid transitions from part_authorised' do
+    it 'lists valid transitions from part_authorised' do
       claim.state = 'part_authorised'
       presenter = Claim::BaseClaimPresenter.new(claim, view)
       expect(presenter.valid_transitions).to eq({ :redetermination => 'Redetermination', :awaiting_written_reasons => 'Awaiting written reasons' })
@@ -179,21 +179,21 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe 'assessment_fees' do
-    it 'should return formatted assessment fees' do
+    it 'returns formatted assessment fees' do
       claim.assessment.update!(fees: 1234.56, expenses: 0.0, disbursements: 300.0)
       expect(subject.assessment_fees).to eq '£1,234.56'
     end
   end
 
   describe 'assessment_expenses' do
-    it 'should return formatted assessment expenses' do
+    it 'returns formatted assessment expenses' do
       claim.assessment.update!(fees: 0.0, expenses: 1234.56, disbursements: 300.0)
       expect(subject.assessment_expenses).to eq '£1,234.56'
     end
   end
 
   describe 'assessment_disbursements' do
-    it 'should return formatted assessment disbursements' do
+    it 'returns formatted assessment disbursements' do
       claim.assessment.update!(fees: 0.0, expenses: 0.0, disbursements: 300.0)
       expect(subject.assessment_disbursements).to eq '£300.00'
     end
@@ -326,7 +326,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       defendant
     end
 
-    it 'should return an html safe string of all the dates' do
+    it 'returns an html safe string of all the dates' do
       expect(presenter.representation_order_details).to eq('01/03/2015 222222<br />13/08/2015 333333<br />01/03/2015 444444')
     end
   end

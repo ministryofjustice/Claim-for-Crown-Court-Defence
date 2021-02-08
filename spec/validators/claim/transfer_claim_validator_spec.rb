@@ -118,7 +118,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
         expect(claim.first_day_of_trial).to be_nil
       end
 
-      it 'should not require trial dates' do
+      it 'does not require trial dates' do
         expect(claim).to be_valid
       end
     end
@@ -129,7 +129,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
         expect(claim.retrial_started_at).to be_nil
       end
 
-      it 'should not require retrial dates' do
+      it 'does not require retrial dates' do
         expect(claim).to be_valid
       end
     end
@@ -142,7 +142,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       expect(claim.case_type).to be_nil
     end
 
-    it 'should not require case type' do
+    it 'does not require case type' do
       expect(claim).to be_valid
     end
   end
@@ -166,11 +166,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     context 'presence and absence' do
       let(:claim) { build(:transfer_claim, litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10) }
 
-      it 'should error if absent but required' do
+      it 'errors if absent but required' do
         claim.transfer_stage_id = 30
         expect_invalid_attribute_with_message(claim, :case_conclusion_id, nil, 'blank')
       end
-      it 'should error if present but not required' do
+      it 'errors if present but not required' do
         claim.transfer_stage_id = 40
         expect_invalid_attribute_with_message(claim, :case_conclusion_id, 10, 'present')
       end

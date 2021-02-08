@@ -13,14 +13,14 @@ RSpec.describe SupplierNumber, type: :model do
   subject(:supplier) { build(:supplier_number) }
 
   context 'uniqueness' do
-    it 'should fail if two records with the same suppplier number are created' do
+    it 'fails if two records with the same suppplier number are created' do
       create :supplier_number, supplier_number: '9X999X'
       expect {
         create :supplier_number, supplier_number: '9X999X'
       }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number has already been taken'
     end
 
-    it 'should fail if the supplier number after upcasing is the same as an existing record' do
+    it 'fails if the supplier number after upcasing is the same as an existing record' do
       create :supplier_number, supplier_number: '9X999X'
       expect {
         create :supplier_number, supplier_number: '9x999x'

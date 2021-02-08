@@ -63,7 +63,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
 
     context 'when valid' do
-      before(:each) { put :update, params: { id: subject, provider: { name: 'test firm' } } }
+      before { put :update, params: { id: subject, provider: { name: 'test firm' } } }
 
       it 'updates successfully' do
         expect(subject.reload.name).to eq('test firm')
@@ -75,7 +75,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
     end
 
     context 'when invalid' do
-      before(:each) { put :update, params: { id: subject, provider: { name: '' } } }
+      before { put :update, params: { id: subject, provider: { name: '' } } }
 
       it 'does not update provider' do
         expect(subject.reload.name).to eq('test 123')
@@ -90,10 +90,10 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
       let(:provider) { create(:provider, :lgfs) }
       subject { provider }
 
-      before(:each) { subject.lgfs_supplier_numbers.delete_all }
+      before { subject.lgfs_supplier_numbers.delete_all }
 
       context 'when invalid' do
-        before(:each) do
+        before do
           put :update, params: {
             id: subject,
             provider: { supplier_numbers_attributes: [{ supplier_number: 'XY123' }, { supplier_number: '' }] }
@@ -110,7 +110,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
       end
 
       context 'when valid' do
-        before(:each) do
+        before do
           put :update, params: {
             id: subject,
             provider: { lgfs_supplier_numbers_attributes: [{ supplier_number: '1B222Z' }, { supplier_number: '2B555Z' }] }
@@ -141,7 +141,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
   end
 
   describe 'POST #create' do
-    before(:each) do
+    before do
       post :create, params: { provider: params }
     end
 

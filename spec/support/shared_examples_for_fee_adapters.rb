@@ -29,7 +29,7 @@ RSpec.shared_examples_for 'a simple bill adapter' do |options|
   it { is_expected.to respond_to(:bill_type) }
   it { is_expected.to respond_to(:bill_subtype) }
 
-  it 'should respond to .acts_as_simple_bill' do
+  it 'responds to .acts_as_simple_bill' do
     expect(described_class).to respond_to :acts_as_simple_bill
   end
 

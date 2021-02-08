@@ -10,7 +10,7 @@ RSpec.describe ClaimStateTransitionPresenter do
   describe '#transition_message' do
     subject { presenter.transition_message }
 
-    before(:each) do
+    before do
       allow(presenter).to receive(:current_user_persona).and_return('CaseWorker')
     end
 
@@ -24,7 +24,7 @@ RSpec.describe ClaimStateTransitionPresenter do
     let(:is_external_user) { false }
     let(:claim) { create(:submitted_claim) }
 
-    before(:each) do
+    before do
       allow(view).to receive(:current_user_is_external_user?).and_return(is_external_user)
     end
 
@@ -38,12 +38,12 @@ RSpec.describe ClaimStateTransitionPresenter do
       let(:is_external_user) { true }
       let(:claim) { create(:rejected_claim) }
 
-      before(:each) do
+      before do
         allow(view).to receive(:current_user).and_return(current_user)
       end
 
       context 'and the transition was triggered by the same user' do
-        before(:each) do
+        before do
           claim.archive_pending_delete!(author_id: current_user.id)
         end
 
@@ -53,7 +53,7 @@ RSpec.describe ClaimStateTransitionPresenter do
       end
 
       context 'and the transition was triggered by a different user' do
-        before(:each) do
+        before do
           claim.archive_pending_delete!(author_id: another_user.id)
         end
 
@@ -66,7 +66,7 @@ RSpec.describe ClaimStateTransitionPresenter do
     context 'with an author user but without a subject user' do
       let(:claim) { create(:rejected_claim) }
 
-      before(:each) do
+      before do
         claim.archive_pending_delete!(author_id: current_user.id)
       end
 
@@ -79,7 +79,7 @@ RSpec.describe ClaimStateTransitionPresenter do
     context 'with a subject user' do
       let(:claim) { create(:submitted_claim) }
 
-      before(:each) do
+      before do
         claim.allocate!(author_id: current_user.id, subject_id: another_user.id)
       end
 

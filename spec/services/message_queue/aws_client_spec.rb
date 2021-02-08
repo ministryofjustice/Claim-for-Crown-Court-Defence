@@ -104,7 +104,7 @@ module MessageQueue
       context 'when there are messages on the queue' do
         let(:stub_poll_response) { stub_poll_response_success }
 
-        it { expect { poll! }.to change { InjectionAttempt.count }.by(1) }
+        it { expect { poll! }.to change(InjectionAttempt, :count).by(1) }
       end
     end
   end

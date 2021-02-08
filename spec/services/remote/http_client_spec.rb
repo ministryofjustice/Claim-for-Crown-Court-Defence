@@ -42,7 +42,7 @@ module Remote
       let(:query)    { { 'key' => 'value' } }
       let(:endpoint) { 'my_api_url/my_path?api_key=my_key&key=value' }
 
-      before(:each) do
+      before do
         HttpClient.configure do |client|
           client.base_url = api_url
           client.api_key = api_key

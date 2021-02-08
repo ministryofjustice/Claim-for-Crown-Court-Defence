@@ -89,19 +89,19 @@ RSpec.describe Message, type: :model do
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 
-    it 'should change claim state from allocated to redetermination if claim_action set to apply for redetermination' do
+    it 'changes claim state from allocated to redetermination if claim_action set to apply for redetermination' do
       claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Apply for redetermination')
       claim.save
       expect(claim.state).to eq 'redetermination'
     end
 
-    it 'should change claim state from allocated to await_written_reasons if claim_action set to request written reasons' do
+    it 'changes claim state from allocated to await_written_reasons if claim_action set to request written reasons' do
       claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
       claim.save
       expect(claim.state).to eq 'awaiting_written_reasons'
     end
 
-    it 'should change claim state from if claim_action not set' do
+    it 'changes claim state from if claim_action not set' do
       claim.messages.build(sender: user, body: 'xxxxx')
       claim.save
       expect(claim.state).to eq 'part_authorised'
@@ -112,7 +112,7 @@ RSpec.describe Message, type: :model do
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 
-    it 'should change claim state back to what it was before, if written reasons submitted' do
+    it 'changes claim state back to what it was before, if written reasons submitted' do
       claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
       claim.messages.first.written_reasons_submitted = '1'
       claim.save

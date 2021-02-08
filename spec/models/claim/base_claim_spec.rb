@@ -127,7 +127,7 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe 'has_many documents association' do
-    it 'should return a collection of verified documents only' do
+    it 'returns a collection of verified documents only' do
       claim = create :claim
       verified_doc_1 = create :document, :verified, claim: claim
       _unverified_doc_1 = create :document, :unverified, claim: claim
@@ -293,7 +293,7 @@ RSpec.describe Claim::BaseClaim do
 
       it 'does not change the current step' do
         expect { claim.next_step }
-          .not_to change { claim.current_step }
+          .not_to change(claim, :current_step)
           .from(step)
       end
 
@@ -314,7 +314,7 @@ RSpec.describe Claim::BaseClaim do
 
       it 'does not change the current step' do
         expect { claim.next_step }
-          .not_to change { claim.current_step }
+          .not_to change(claim, :current_step)
           .from(step)
       end
 
@@ -393,7 +393,7 @@ RSpec.describe Claim::BaseClaim do
 
       it 'does not change the current step' do
         expect { claim.previous_step }
-          .not_to change { claim.current_step }
+          .not_to change(claim, :current_step)
           .from(step)
       end
 
@@ -416,7 +416,7 @@ RSpec.describe Claim::BaseClaim do
 
       it 'does not change the current step' do
         expect { claim.previous_step }
-          .not_to change { claim.current_step }
+          .not_to change(claim, :current_step)
           .from(step)
       end
 
@@ -572,7 +572,7 @@ RSpec.describe MockBaseClaim do
   it_behaves_like 'a base claim'
 
   context 'date formatting' do
-    it 'should accept a variety of formats and populate the date accordingly' do
+    it 'accepts a variety of formats and populate the date accordingly' do
       def make_date_params(date_string)
         day, month, year = date_string.split('-')
         {
@@ -801,7 +801,7 @@ describe '#earliest_representation_order_date' do
   let(:jun_30) { Date.new(2016, 6, 30) }
   let(:claim) { create :claim }
 
-  before(:each) do
+  before do
     claim.defendants.clear
     claim.save
   end

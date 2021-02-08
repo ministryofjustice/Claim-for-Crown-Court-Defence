@@ -128,7 +128,7 @@ RSpec.describe Document, type: :model do
 
     it 'handles IOError when Libreconv is not in PATH' do
       allow(Libreconv).to receive(:convert).and_raise(IOError) # raise IOError as if Libreoffice exe were not found
-      expect { subject.save! }.to change { Document.count }.by(1) # error handled and document is still saved
+      expect { subject.save! }.to change(Document, :count).by(1) # error handled and document is still saved
     end
   end
 

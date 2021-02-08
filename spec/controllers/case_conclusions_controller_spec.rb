@@ -8,11 +8,11 @@ RSpec.describe CaseConclusionsController, type: :controller do
     context 'basics' do
       before { get :index, params: params, xhr: true }
 
-      it 'should assign @transfer_details' do
+      it 'assigns @transfer_details' do
         expect(assigns(:transfer_detail)).to have_attributes(litigator_type: 'new', elected_case: false, transfer_stage_id: 30)
       end
 
-      it 'should render the index template' do
+      it 'renders the index template' do
         expect(response).to render_template(:index)
       end
     end
@@ -20,12 +20,12 @@ RSpec.describe CaseConclusionsController, type: :controller do
     context 'for new litigator_type' do
       before { get :index, params: params, xhr: true }
 
-      it 'should assign @transfer_stage_label_text to say start' do
+      it 'assigns @transfer_stage_label_text to say start' do
         expect(assigns(:transfer_stage_label_text)).to_not be_nil
         expect(assigns(:transfer_stage_label_text)).to eql 'When did you start acting?'
       end
 
-      it 'should assign @transfer_date_label_text to say started' do
+      it 'assigns @transfer_date_label_text to say started' do
         expect(assigns(:transfer_date_label_text)).to_not be_nil
         expect(assigns(:transfer_date_label_text)).to eql 'Date started acting'
       end
@@ -36,11 +36,11 @@ RSpec.describe CaseConclusionsController, type: :controller do
         params[:litigator_type] = 'original'
         get :index, params: params, xhr: true
       end
-      it 'should assign @transfer_stage_label_text to say stop' do
+      it 'assigns @transfer_stage_label_text to say stop' do
         expect(assigns(:transfer_stage_label_text)).to eql 'When did you stop acting?'
       end
 
-      it 'should assign @transfer_date_label_text to say stopped' do
+      it 'assigns @transfer_date_label_text to say stopped' do
         expect(assigns(:transfer_date_label_text)).to eql 'Date stopped acting'
       end
     end

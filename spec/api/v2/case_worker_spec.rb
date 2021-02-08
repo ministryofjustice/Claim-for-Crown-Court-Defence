@@ -21,7 +21,7 @@ describe API::V2::CaseWorker do
   end
 
   describe 'GET case workers' do
-    it 'should return 406 Not Acceptable if requested API version via header is not supported' do
+    it 'returns 406 Not Acceptable if requested API version via header is not supported' do
       header 'Accept-Version', 'v1'
 
       do_request
@@ -29,7 +29,7 @@ describe API::V2::CaseWorker do
       expect(last_response.body).to include('The requested version is not supported.')
     end
 
-    it 'should require an API key' do
+    it 'requires an API key' do
       params.delete(:api_key)
 
       do_request
@@ -47,7 +47,7 @@ describe API::V2::CaseWorker do
       end
     end
 
-    it 'should return a JSON with the required information' do
+    it 'returns a JSON with the required information' do
       response = do_request
       expect(response.status).to eq 200
 
@@ -64,7 +64,7 @@ describe API::V2::CaseWorker do
       end
 
       context 'default' do
-        it 'should sort by ID ASC by default' do
+        it 'sorts by ID ASC by default' do
           expect(case_workers_ids).to eq(case_workers.map(&:id).sort)
         end
       end
@@ -72,7 +72,7 @@ describe API::V2::CaseWorker do
       context 'custom sorting' do
         let(:sorting) { { sorting: 'id', direction: 'desc' } }
 
-        it 'should sort with specified params' do
+        it 'sorts with specified params' do
           expect(case_workers_ids).to eq(case_workers.map(&:id).sort.reverse)
         end
       end

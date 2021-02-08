@@ -21,7 +21,7 @@ module Stats
       let(:advocate_user) { create :user, email: 'advocate@example.com' }
       let(:advocate) { create :external_user, user: advocate_user }
 
-      before(:each) do
+      before do
         case_worker.user = case_worker_user
         @claim_a = create :draft_claim, external_user: advocate, creator: advocate
         @claim_b = create_submitted_claim(base_time + 3.days)
@@ -31,7 +31,7 @@ module Stats
         @claim_f = create_decided_claim('authorised', base_time + 10.days, decision_time + 2.days)
       end
 
-      it 'should work out the average time to completion' do
+      it 'works out the average time to completion' do
         # the following claims should be authorised on decision day (Friday 15 Jan):
         # - claim_c - submitted 4 days earlier - 4 working days
         # - claim_d - submitted 1 day earlier - 1 working day

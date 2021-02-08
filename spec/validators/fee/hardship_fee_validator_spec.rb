@@ -8,7 +8,7 @@ RSpec.describe Fee::HardshipFeeValidator, type: :validator do
   context 'LGFS claim' do
     let(:claim) { FactoryBot.build :litigator_hardship_claim }
 
-    before(:each) do
+    before do
       fee.clear   # reset some attributes set by the factory
       fee.amount = 1.00
     end

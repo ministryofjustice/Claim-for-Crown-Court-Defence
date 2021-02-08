@@ -167,7 +167,6 @@ RSpec.describe DocumentsController, type: :controller do
     let!(:document) { create(:document, external_user_id: external_user.id) }
 
     it 'destroys the document' do
-      attachment = document.document
       expect {
         delete :destroy, params: { id: document.id }, format: :json
       }.to change(Document, :count).by(-1)

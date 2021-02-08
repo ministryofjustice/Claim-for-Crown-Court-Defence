@@ -51,6 +51,8 @@ class Message < ApplicationRecord
 
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
 
+  before_save :create_checksum
+
   class << self
     def for(object)
       attribute = case object.class.to_s
@@ -61,6 +63,25 @@ class Message < ApplicationRecord
                   end
       where(attribute => object.id)
     end
+  end
+
+  # TODO: Remove after moving to Active Storage
+  def create_checksum
+    return if attachment_file_name.nil?
+
+    io = Paperclip.io_adapters.for(attachment)
+
+    checksum = Digest::MD5.new.tap do |checksum|
+      while (chunk = io.read(5.megabytes))
+        checksum << chunk
+      end
+
+      io.rewind
+    end.base64digest
+
+    self.as_attachment_checksum = checksum
+  rescue Errno::ENOENT
+    self.as_attachment_checksum = nil
   end
 
   private

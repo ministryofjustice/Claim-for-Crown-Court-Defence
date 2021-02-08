@@ -31,6 +31,17 @@ module Stats
 
     validates_attachment_content_type :document, content_type: ['text/csv']
 
+    # TODO: Remove after moving to Active Storage
+    def create_checksum(io)
+      checksum = Digest::MD5.new.tap do |checksum|
+        while (chunk = io.read(5.megabytes))
+          checksum << chunk
+        end
+
+        io.rewind
+      end.base64digest
+    end
+
     def self.clean_up(report_name)
       destroy_reports_older_than(report_name, 1.month.ago)
       destroy_unfinished_reports_older_than(report_name, 2.hours.ago)
@@ -54,10 +65,12 @@ module Stats
 
     def write_report(report_result)
       log(:info, :write_report, "Writing report #{report_name} to DB...")
+      io = StringIO.new(report_result.content)
       update(
-        document: StringIO.new(report_result.content),
+        document: io,
         document_file_name: "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}",
         document_content_type: report_result.content_type,
+        as_document_checksum: create_checksum(io),
         status: 'completed',
         completed_at: Time.now
       )

@@ -36,7 +36,7 @@ class Document < ApplicationRecord
 
   validate :documents_count
 
-  def copy_from(original_doc, verify: false)
+  def copy_from(original_doc)
     document.attach original_doc.document.blob
     converted_preview_document.attach original_doc.converted_preview_document.blob
     update(verified: original_doc.verified)

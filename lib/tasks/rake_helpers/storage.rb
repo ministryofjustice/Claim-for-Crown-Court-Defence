@@ -5,12 +5,6 @@ module Storage
     'documents' => ['document', 'converted_preview_document']
   }.freeze
 
-  S3_PATH_PATTERN = {
-    'stats_report' => REPORTS_STORAGE_OPTIONS[:path],
-    'messages' => PAPERCLIP_STORAGE_OPTIONS[:path],
-    'documents' => PAPERCLIP_STORAGE_OPTIONS[:path]
-  }
-
   def self.migrate model
     connection = ActiveRecord::Base.connection.raw_connection
     ATTACHMENTS[model].each do |name|
@@ -42,7 +36,7 @@ module Storage
       SQL
 
       # Set the asset key correctly in ActiveStorage::Blob
-      key = S3_PATH_PATTERN[model].split('/')
+      key = self.s3_path_pattern(model).split('/')
         .map do |part|
           case part
           when ':id_partition'
@@ -130,5 +124,13 @@ module Storage
       'messages' => Message,
       'documents' => Document
     }[model]  
+  end
+
+  def self.s3_path_pattern model
+    {
+      'stats_report' => REPORTS_STORAGE_OPTIONS[:path],
+      'messages' => PAPERCLIP_STORAGE_OPTIONS[:path],
+      'documents' => PAPERCLIP_STORAGE_OPTIONS[:path]
+    }[model]
   end
 end

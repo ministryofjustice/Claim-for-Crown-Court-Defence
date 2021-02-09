@@ -72,7 +72,7 @@ describe('Modules.ManagementInformation.js', function () {
       '    </div>',
       '  </div>',
       '  <a id="provisional_assessments_date_download">link</a>',
-      '</div>',
+      '</div>'
     ]
     return html.join('')
   }

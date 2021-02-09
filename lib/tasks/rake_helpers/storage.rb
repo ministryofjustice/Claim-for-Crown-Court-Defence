@@ -9,51 +9,53 @@ module Storage
     connection = ActiveRecord::Base.connection.raw_connection
     ATTACHMENTS[model].each do |name|
       # Insert reference information for attachments into ActiveStorage::Blob
-      connection.prepare('create_active_storage_blobs', <<~SQL)
-        INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-          SELECT CONCAT('in-progress/', CAST(id AS CHARACTER VARYING)),
-                #{name}_file_name,
-                #{name}_content_type,
-                '{}',
-                #{name}_file_size,
-                as_#{name}_checksum,
-                updated_at
-            FROM #{self.models(model).table_name}
-            WHERE #{name}_file_name IS NOT NULL
-              AND id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = '#{self.models(model)}');
-      SQL
-
-      # Link ActiveStorage::Blob objects to the correct records with ActiveStorage::Attachment
-      connection.prepare('create_active_storage_attachments', <<~SQL)
-        INSERT INTO active_storage_#{name} (name, record_type, record_id, blob_id, created_at)
-          SELECT '#{name}',
-                  #{self.models(model)},
-                  CAST(SPLIT_PART(key, '/', 3) AS INTEGER),
-                  id,
-                  created_at
-          FROM active_storage_blobs
-          WHERE key LIKE 'in-progress/%';
-      SQL
-
       # Set the asset key correctly in ActiveStorage::Blob
-      key = PAPERCLIP_STORAGE_OPTIONS[:path].split('/')
+      key = self.s3_path_pattern(model).split('/')
         .map do |part|
           case part
           when ':id_partition'
-            "TO_CHAR(CAST(SPLIT_PART(key, '/', 3) AS INTEGER), 'fm000/000/000/')"
+            "TO_CHAR(id, 'fm000/000/000/')"
           when ':filename'
-            "filename"
+            "#{name}_file_name"
           else
             "'#{part}/'"
           end
         end.join(', ')
-      connection.prepare('update_active_storage_blobs_keys', <<~SQL)
-        UPDATE active_storage_blobs SET key=CONCAT(#{key}) WHERE key LIKE 'in-progress/%';
+
+      connection.prepare('create_active_storage_blobs', <<~SQL)
+        INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
+          SELECT CONCAT(#{key}),
+                 #{name}_file_name,
+                 #{name}_content_type,
+                 CONCAT('in-progress/', CAST(id AS CHARACTER VARYING)),
+                 #{name}_file_size,
+                 as_#{name}_checksum,
+                 #{name}_updated_at
+            FROM #{self.models(model).table_name}
+            WHERE #{name}_file_name IS NOT NULL
+              AND id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = '#{self.models(model)}')
+          ON CONFLICT DO NOTHING;
+      SQL
+
+      # Link ActiveStorage::Blob objects to the correct records with ActiveStorage::Attachment
+      connection.prepare('create_active_storage_attachments', <<~SQL)
+        INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
+          SELECT '#{name}',
+                 '#{self.models(model)}',
+                 CAST(SPLIT_PART(metadata, '/', 2) AS INTEGER),
+                 id,
+                 created_at
+          FROM active_storage_blobs
+          WHERE metadata LIKE 'in-progress/%';
+      SQL
+
+      connection.prepare('update_active_storage_blobs_metadata', <<~SQL)
+        UPDATE active_storage_blobs SET metadata='{}' WHERE metadata LIKE 'in-progress/%';
       SQL
 
       connection.exec_prepared('create_active_storage_blobs');
       connection.exec_prepared('create_active_storage_attachments');
-      connection.exec_prepared('update_active_storage_blobs_keys');
+      connection.exec_prepared('update_active_storage_blobs_metadata');
     end
   end
 
@@ -124,5 +126,13 @@ module Storage
       'messages' => Message,
       'documents' => Document
     }[model]  
+  end
+
+  def self.s3_path_pattern model
+    {
+      'stats_reports' => REPORTS_STORAGE_OPTIONS[:path],
+      'messages' => PAPERCLIP_STORAGE_OPTIONS[:path],
+      'documents' => PAPERCLIP_STORAGE_OPTIONS[:path]
+    }[model]
   end
 end

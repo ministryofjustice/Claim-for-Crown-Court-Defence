@@ -17,7 +17,7 @@ module Storage
                 '{}',
                 #{name}_file_size,
                 as_#{name}_checksum,
-                updated_at
+                #{name}_updated_at
             FROM #{self.models(model).table_name}
             WHERE #{name}_file_name IS NOT NULL
               AND id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = '#{self.models(model)}');
@@ -25,12 +25,12 @@ module Storage
 
       # Link ActiveStorage::Blob objects to the correct records with ActiveStorage::Attachment
       connection.prepare('create_active_storage_attachments', <<~SQL)
-        INSERT INTO active_storage_#{name} (name, record_type, record_id, blob_id, created_at)
+        INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
           SELECT '#{name}',
-                  #{self.models(model)},
-                  CAST(SPLIT_PART(key, '/', 3) AS INTEGER),
-                  id,
-                  created_at
+                 '#{self.models(model)}',
+                 CAST(SPLIT_PART(key, '/', 2) AS INTEGER),
+                 id,
+                 created_at
           FROM active_storage_blobs
           WHERE key LIKE 'in-progress/%';
       SQL
@@ -40,7 +40,7 @@ module Storage
         .map do |part|
           case part
           when ':id_partition'
-            "TO_CHAR(CAST(SPLIT_PART(key, '/', 3) AS INTEGER), 'fm000/000/000/')"
+            "TO_CHAR(CAST(SPLIT_PART(key, '/', 2) AS INTEGER), 'fm000/000/000/')"
           when ':filename'
             "filename"
           else

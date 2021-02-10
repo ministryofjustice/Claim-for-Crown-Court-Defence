@@ -10,7 +10,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -18,30 +18,27 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:07 GMT
+      - Tue, 09 Feb 2021 18:26:33 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '156'
       Connection:
       - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
       Vary:
       - Accept, Cookie
       Allow:
       - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:07 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:33 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -52,7 +49,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -60,27 +57,24 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:07 GMT
+      - Tue, 09 Feb 2021 18:26:33 GMT
       Content-Type:
       - application/json
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '4119'
       Connection:
       - keep-alive
       Vary:
       - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Allow:
       - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
         plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
         against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
@@ -125,8 +119,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:07 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:33 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=5
@@ -137,7 +130,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -145,30 +138,26 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:08 GMT
+      - Tue, 09 Feb 2021 18:26:33 GMT
       Content-Type:
       - application/json
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '272'
       Connection:
       - keep-alive
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
       Allow:
       - GET, HEAD, OPTIONS
       X-Frame-Options:
       - SAMEORIGIN
+      Vary:
+      - Accept, Cookie
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":58843,"scenario":5,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"349.47000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:08 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:33 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -179,7 +168,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -187,10 +176,8 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:10 GMT
+      - Tue, 09 Feb 2021 18:26:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -209,8 +196,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:10 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:35 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -221,7 +207,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -229,19 +215,16 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:10 GMT
+      - Tue, 09 Feb 2021 18:26:35 GMT
       Content-Type:
       - application/json
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '4119'
       Connection:
       - keep-alive
       Vary:
       - Accept, Cookie
-      - Accept-Encoding
       X-Frame-Options:
       - SAMEORIGIN
       Allow:
@@ -249,7 +232,7 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
         plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
         against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
@@ -294,8 +277,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:10 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:35 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=5
@@ -306,7 +288,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -314,30 +296,26 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:10 GMT
+      - Tue, 09 Feb 2021 18:26:35 GMT
       Content-Type:
       - application/json
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '272'
       Connection:
       - keep-alive
       Vary:
       - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Allow:
       - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":58843,"scenario":5,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"349.47000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:10 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:35 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -348,7 +326,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -356,20 +334,18 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:14 GMT
+      - Tue, 09 Feb 2021 18:26:39 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '156'
       Connection:
       - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
       Allow:
       - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
       Vary:
       - Accept, Cookie
       Strict-Transport-Security:
@@ -378,8 +354,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:14 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:39 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -390,7 +365,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -398,19 +373,16 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:14 GMT
+      - Tue, 09 Feb 2021 18:26:40 GMT
       Content-Type:
       - application/json
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '4119'
       Connection:
       - keep-alive
       Vary:
       - Accept, Cookie
-      - Accept-Encoding
       Allow:
       - GET, HEAD, OPTIONS
       X-Frame-Options:
@@ -418,7 +390,7 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
         plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
         against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
@@ -463,8 +435,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:14 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:40 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=32
@@ -475,7 +446,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -483,30 +454,26 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:15 GMT
+      - Tue, 09 Feb 2021 18:26:40 GMT
       Content-Type:
       - application/json
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '273'
       Connection:
       - keep-alive
       Vary:
       - Accept, Cookie
-      - Accept-Encoding
-      Allow:
-      - GET, HEAD, OPTIONS
       X-Frame-Options:
       - SAMEORIGIN
+      Allow:
+      - GET, HEAD, OPTIONS
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":52217,"scenario":32,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"155.32000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:15 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:40 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -517,7 +484,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -525,30 +492,27 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:19 GMT
+      - Tue, 09 Feb 2021 18:26:45 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '156'
       Connection:
       - keep-alive
-      X-Frame-Options:
-      - SAMEORIGIN
-      Allow:
-      - GET, HEAD, OPTIONS
       Vary:
       - Accept, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:19 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:45 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -559,7 +523,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -567,19 +531,16 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:20 GMT
+      - Tue, 09 Feb 2021 18:26:45 GMT
       Content-Type:
       - application/json
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '4119'
       Connection:
       - keep-alive
       Vary:
       - Accept, Cookie
-      - Accept-Encoding
       X-Frame-Options:
       - SAMEORIGIN
       Allow:
@@ -587,7 +548,7 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"count":51,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"ST1TS0T1"},{"id":2,"name":"Guilty
         plea","code":"ST1TS0T2"},{"id":3,"name":"Cracked trial","code":"ST1TS0T3"},{"id":4,"name":"Trial","code":"ST1TS0T4"},{"id":5,"name":"Appeal
         against conviction","code":"ST1TS0T5"},{"id":6,"name":"Appeal against sentence","code":"ST1TS0T6"},{"id":7,"name":"Committal
@@ -632,8 +593,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:20 GMT
+  recorded_at: Tue, 09 Feb 2021 18:26:45 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=12
@@ -644,7 +604,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.0.0
+      - laa-fee-calculator-client/1.2.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -652,30 +612,26 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Server:
-      - nginx/1.15.8
       Date:
-      - Mon, 05 Aug 2019 14:10:20 GMT
+      - Tue, 09 Feb 2021 18:26:45 GMT
       Content-Type:
       - application/json
-      Transfer-Encoding:
-      - chunked
+      Content-Length:
+      - '757'
       Connection:
       - keep-alive
-      Vary:
-      - Accept, Cookie
-      - Accept-Encoding
-      X-Frame-Options:
-      - SAMEORIGIN
       Allow:
       - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
+      Vary:
+      - Accept, Cookie
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
-      encoding: ASCII-8BIT
+      encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":58865,"scenario":12,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"330.33000","limit_from":0,"limit_to":null,"modifiers":[{"limit_from":2,"limit_to":4,"fixed_percent":"20.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":true},{"limit_from":5,"limit_to":null,"fixed_percent":"30.00","percent_per_unit":"0.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":true}],"strict_range":false}]}'
-    http_version: 
-  recorded_at: Mon, 05 Aug 2019 14:10:20 GMT
-recorded_with: VCR 4.0.0
+  recorded_at: Tue, 09 Feb 2021 18:26:45 GMT
+recorded_with: VCR 6.0.0

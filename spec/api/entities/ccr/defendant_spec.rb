@@ -25,12 +25,12 @@ describe API::Entities::CCR::Defendant do
 
   it 'returns main defendant true for the defendant created first' do
     @created_at = 1.minute.ago
-    expect(response[:main_defendant]).to eql true
+    expect(response[:main_defendant]).to be true
   end
 
   it 'returns main defendant false for defendant created after other defendants' do
     @created_at = 1.minute.from_now
-    expect(response[:main_defendant]).to eql false
+    expect(response[:main_defendant]).to be false
   end
 
   it 'returns representation order' do
@@ -46,7 +46,7 @@ describe API::Entities::CCR::Defendant do
     end
 
     it 'returns a single rep_order' do
-      expect(response[:representation_orders].count).to eql 1
+      expect(response[:representation_orders].count).to eq 1
     end
 
     it 'returns the first representation order entered' do

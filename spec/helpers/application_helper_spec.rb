@@ -34,17 +34,17 @@ describe ApplicationHelper do
 
     it 'returns true for those users that could have AGFS and LGFS claims' do
       allow(helper).to receive(:current_user).and_return(admin.user)
-      expect(helper.user_requires_scheme_column?).to eql true
+      expect(helper.user_requires_scheme_column?).to be true
     end
 
     it 'returns false for users that only handle AGFS claims' do
       allow(helper).to receive(:current_user).and_return(advocate.user)
-      expect(helper.user_requires_scheme_column?).to eql false
+      expect(helper.user_requires_scheme_column?).to be false
     end
 
     it 'returns true for users that only handle LGFS claims' do
       allow(helper).to receive(:current_user).and_return(litigator.user)
-      expect(helper.user_requires_scheme_column?).to eql true
+      expect(helper.user_requires_scheme_column?).to be true
     end
   end
 
@@ -71,7 +71,7 @@ describe ApplicationHelper do
         context 'and does not match' do
           let(:path_with_params) { 'test?tab=still_not_a_test' }
 
-          it { is_expected.to eql nil }
+          it { is_expected.to be_nil }
         end
       end
     end
@@ -79,7 +79,7 @@ describe ApplicationHelper do
     context 'when the current request path does not match the one passed in' do
       before { controller.request.path = 'not_a_test' }
 
-      it { is_expected.to eql nil }
+      it { is_expected.to be_nil }
     end
   end
 end

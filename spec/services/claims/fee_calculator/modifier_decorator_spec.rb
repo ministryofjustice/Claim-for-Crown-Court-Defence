@@ -24,8 +24,8 @@ RSpec.shared_examples 'equality' do |method|
   context 'when called with arg of same class of object' do
     let(:other_decorated_modifier) { described_class.new(OpenStruct.new(fixed_percent: '-20.00', percent_per_unit: '0.00')) }
     it 'calls super' do
-      expect(decorated_modifier.send(method, decorated_modifier)).to eql true
-      expect(decorated_modifier.send(method, other_decorated_modifier)).to eql false
+      expect(decorated_modifier.send(method, decorated_modifier)).to be true
+      expect(decorated_modifier.send(method, other_decorated_modifier)).to be false
     end
   end
 
@@ -61,12 +61,12 @@ RSpec.describe Claims::FeeCalculator::ModifierDecorator do
 
     let(:modifier) { OpenStruct.new(fixed_percent: '-30.00', percent_per_unit: '0.00') }
     context 'when value is negative percentage (-30.00)' do
-      it { is_expected.to eql 0.7 }
+      it { is_expected.to be 0.7 }
     end
 
     context 'when value is positive percentage (20.00)' do
       let(:modifier) { OpenStruct.new(fixed_percent: '0.00', percent_per_unit: '20.00') }
-      it { is_expected.to eql 0.2 }
+      it { is_expected.to be 0.2 }
     end
   end
 

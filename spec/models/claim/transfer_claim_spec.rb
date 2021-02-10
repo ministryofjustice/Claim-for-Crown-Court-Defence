@@ -156,7 +156,7 @@ describe Claim::TransferClaim, type: :model do
 
   describe '#transfer?' do
     it 'returns true' do
-      expect(claim.transfer?).to eql true
+      expect(claim.transfer?).to be true
     end
   end
 
@@ -173,13 +173,13 @@ describe Claim::TransferClaim, type: :model do
 
   describe '#requires_trial_dates?' do
     it 'never requires trial dates' do
-      expect(claim.requires_trial_dates?).to eql false
+      expect(claim.requires_trial_dates?).to be false
     end
   end
 
   describe '#requires_retrial_dates?' do
     it 'never requires retrial dates' do
-      expect(claim.requires_retrial_dates?).to eql false
+      expect(claim.requires_retrial_dates?).to be false
     end
   end
 

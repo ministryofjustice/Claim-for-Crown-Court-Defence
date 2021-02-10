@@ -19,7 +19,7 @@ describe Claims::Count do
     context 'when period and date are set manually' do
       subject(:call) { claims_count.call }
 
-      it { is_expected.to eql 3 }
+      it { is_expected.to eq 3 }
     end
   end
 
@@ -27,7 +27,7 @@ describe Claims::Count do
     context 'when period and date are set manually' do
       subject(:call) { claims_count.call_transitions }
 
-      it { is_expected.to eql 3 }
+      it { is_expected.to eq 3 }
     end
   end
 
@@ -35,26 +35,26 @@ describe Claims::Count do
     describe '.quarter' do
       subject { described_class.quarter(date) }
 
-      it { is_expected.to eql 6 }
+      it { is_expected.to eq 6 }
     end
 
     describe '.month' do
       subject { described_class.month(date) }
 
-      it { is_expected.to eql 3 }
+      it { is_expected.to eq 3 }
     end
 
     describe '.week' do
       context 'when the week has data' do
         subject { described_class.week(date) }
 
-        it { is_expected.to eql 3 }
+        it { is_expected.to eq 3 }
       end
 
       context 'when the week has no data' do
         subject { described_class.week(date + 7.days) }
 
-        it { is_expected.to eql 0 }
+        it { is_expected.to eq 0 }
       end
     end
   end

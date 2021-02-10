@@ -51,7 +51,7 @@ RSpec.describe CCR::Fee::FixedFeeAdapter, type: :adapter do
 
     context 'when claim is of a fixed fee variety' do
       it 'returns true' do
-        is_expected.to eql true
+        is_expected.to be true
       end
     end
 
@@ -59,7 +59,7 @@ RSpec.describe CCR::Fee::FixedFeeAdapter, type: :adapter do
       let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL') }
 
       it 'returns false' do
-        is_expected.to eql false
+        is_expected.to be false
       end
     end
   end

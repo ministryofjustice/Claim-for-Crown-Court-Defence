@@ -66,7 +66,7 @@ RSpec.shared_examples 'advocate claim case concluded at' do
     it 'is valid when absent' do
       expect(claim.case_concluded_at).to be_nil
       claim.valid?
-      expect(claim.errors.key?(:case_concluded_at)).to be false
+      expect(claim.errors).not_to have_key(:case_concluded_at)
     end
 
     it 'is invalid when present' do
@@ -130,15 +130,15 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
   end
 
   it 'test setup' do
-    expect(claim.defendants.size).to eql 1
-    expect(claim.misc_fees.size).to eql 1
+    expect(claim.defendants.size).to eq 1
+    expect(claim.misc_fees.size).to eq 1
     expect(claim.misc_fees.first.fee_type).to have_attributes(unique_code: 'MIDTW')
   end
 
   context 'with 1 defendant' do
     context 'when there are 0 uplifts' do
       it 'test setup' do
-        expect(claim.defendants.size).to eql 1
+        expect(claim.defendants.size).to eq 1
         expect(claim.misc_fees.map { |f| f.fee_type.unique_code }).to eql(%w[MIDTW])
       end
 
@@ -153,7 +153,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
       end
 
       it 'test setup' do
-        expect(claim.defendants.size).to eql 1
+        expect(claim.defendants.size).to eq 1
         expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDTW MIDWU])
       end
 
@@ -183,7 +183,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
       end
 
       it 'test setup' do
-        expect(claim.defendants.size).to eql 1
+        expect(claim.defendants.size).to eq 1
         expect(claim.fixed_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[FXNDR FXSAF])
       end
 
@@ -217,7 +217,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
         end
 
         it 'test setup' do
-          expect(claim.defendants.size).to eql 2
+          expect(claim.defendants.size).to eq 2
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDSE MIDSU MIDTW MIDWU])
         end
 
@@ -233,13 +233,13 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
         end
 
         it 'test setup' do
-          expect(claim.defendants.size).to eql 2
+          expect(claim.defendants.size).to eq 2
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDSE MIDSU MIDTW MIDWU])
         end
 
         it 'adds one error only' do
           should_error_with(claim, :base, 'defendant_uplifts_misc_fees_mismatch')
-          expect(claim.errors[:base].size).to eql 1
+          expect(claim.errors[:base].size).to eq 1
         end
       end
     end
@@ -250,7 +250,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
       end
 
       it 'test setup' do
-        expect(claim.defendants.size).to eql 1
+        expect(claim.defendants.size).to eq 1
         expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDTW MIDWU])
         expect(claim).to be_invalid
       end
@@ -277,7 +277,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
       end
 
       it 'test setup' do
-        expect(claim.defendants.size).to eql 2
+        expect(claim.defendants.size).to eq 2
         expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIDTW MIDWU])
         expect(claim).to be_valid
       end
@@ -304,7 +304,7 @@ RSpec.shared_examples 'common defendant basic fees aggregation validation' do
     end
 
     it 'test setup' do
-      expect(claim.defendants.size).to eql 1
+      expect(claim.defendants.size).to eq 1
       expect(claim.basic_fees.map { |f| f.fee_type.unique_code }.sort).to include('BANDR')
     end
 

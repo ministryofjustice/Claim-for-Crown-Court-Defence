@@ -104,7 +104,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
 
     context 'when run without parameters' do
       it 'returns expected data item count' do
-        expect(subject.size).to eql 1
+        expect(subject.size).to eq 1
       end
 
       it do
@@ -145,7 +145,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
       end
 
       it 'returns expected data item count' do
-        expect(subject.size).to eql 3
+        expect(subject.size).to eq 3
       end
 
       it 'returns the expected items' do

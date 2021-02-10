@@ -42,19 +42,19 @@ RSpec.describe Caching::Response do
     context 'with no-cache Cache-Control headers' do
       let(:headers) { { cache_control: 'no-cache' } }
 
-      it { is_expected.to eql 0 }
+      it { is_expected.to eq 0 }
     end
 
     context 'with unrelated Cache-Control headers' do
       let(:headers) { { cache_control: 'private, re-validate' } }
 
-      it { is_expected.to eql nil }
+      it { is_expected.to be_nil }
     end
 
     context 'without Cache-Control headers' do
       let(:headers) { {} }
 
-      it { is_expected.to eql nil }
+      it { is_expected.to be_nil }
     end
   end
 end

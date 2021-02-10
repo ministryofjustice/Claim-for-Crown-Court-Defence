@@ -100,14 +100,14 @@ RSpec.describe Provider, type: :model do
 
   context '.set_api_key' do
     it 'sets API key at creation' do
-      expect(chamber.api_key.present?).to eql true
+      expect(chamber.api_key.present?).to be true
     end
 
     it 'sets API key before validation' do
       chamber.api_key = nil
-      expect(chamber.api_key.present?).to eql false
+      expect(chamber.api_key.present?).to be false
       expect(chamber).to be_valid
-      expect(chamber.api_key.present?).to eql true
+      expect(chamber.api_key.present?).to be true
     end
   end
 

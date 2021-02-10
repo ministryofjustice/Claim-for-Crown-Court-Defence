@@ -28,21 +28,21 @@ RSpec.shared_examples 'common basic fees presenters' do
     it 'sends message to VatRate' do
       allow(presenter).to receive(:raw_basic_fees_total).and_return(101.00)
       allow(presenter).to receive(:raw_basic_fees_vat).and_return(20.20)
-      expect(presenter.raw_basic_fees_gross).to eql 121.20
+      expect(presenter.raw_basic_fees_gross).to eq 121.20
     end
   end
 
   describe '#basic_fees_vat' do
     it 'sends message to VatRate' do
       allow(presenter).to receive(:raw_basic_fees_vat).and_return(20.20)
-      expect(presenter.basic_fees_vat).to eql '£20.20'
+      expect(presenter.basic_fees_vat).to eq '£20.20'
     end
   end
 
   describe '#basic_fees_gross' do
     it 'sends message to VatRate' do
       allow(presenter).to receive(:raw_basic_fees_gross).and_return(101.00)
-      expect(presenter.basic_fees_gross).to eql '£101.00'
+      expect(presenter.basic_fees_gross).to eq '£101.00'
     end
   end
 end

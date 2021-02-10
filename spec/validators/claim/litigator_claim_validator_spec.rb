@@ -40,8 +40,8 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
     end
 
     it 'test setup' do
-      expect(claim.defendants.size).to eql 1
-      expect(claim.misc_fees.size).to eql 1
+      expect(claim.defendants.size).to eq 1
+      expect(claim.misc_fees.size).to eq 1
       expect(claim.misc_fees.first.fee_type).to have_attributes(unique_code: 'MIUPL')
     end
 
@@ -50,7 +50,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
         before { claim.misc_fees.delete_all }
 
         it 'test setup' do
-          expect(claim.defendants.size).to eql 1
+          expect(claim.defendants.size).to eq 1
           expect(claim.misc_fees).to be_empty
         end
 
@@ -61,7 +61,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
 
       context 'when there is 1 defendant uplift fee' do
         it 'test setup' do
-          expect(claim.defendants.size).to eql 1
+          expect(claim.defendants.size).to eq 1
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIUPL])
         end
 
@@ -89,7 +89,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
 
       context 'when there is 1 defendant uplift fee' do
         it 'test setup' do
-          expect(claim.defendants.size).to eql 2
+          expect(claim.defendants.size).to eq 2
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIUPL])
         end
 
@@ -104,20 +104,20 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
         end
 
         it 'test setup' do
-          expect(claim.defendants.size).to eql 2
+          expect(claim.defendants.size).to eq 2
           expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIUPL MIUPL MIUPL])
         end
 
         it 'adds one error only' do
           should_error_with(claim, :base, 'lgfs_defendant_uplifts_mismatch')
-          expect(claim.errors[:base].size).to eql 1
+          expect(claim.errors[:base].size).to eq 1
         end
       end
     end
 
     context 'defendant uplifts fee marked for destruction' do
       it 'test setup' do
-        expect(claim.defendants.size).to eql 1
+        expect(claim.defendants.size).to eq 1
         expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIUPL])
         expect(claim).to be_invalid
       end
@@ -143,7 +143,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
       end
 
       it 'test setup' do
-        expect(claim.defendants.size).to eql 2
+        expect(claim.defendants.size).to eq 2
         expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIUPL])
         expect(claim).to be_valid
       end

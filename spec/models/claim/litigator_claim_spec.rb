@@ -74,7 +74,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
   describe '#final?' do
     it 'returns true' do
-      expect(claim.final?).to eql true
+      expect(claim.final?).to be true
     end
   end
 
@@ -148,7 +148,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
     end
   end
 
-  describe 'when supplier number has been invalidated' do
+  context 'when supplier number has been invalidated' do
     subject { claim.valid? }
 
     before { SupplierNumber.find_by(supplier_number: claim.supplier_number).delete }

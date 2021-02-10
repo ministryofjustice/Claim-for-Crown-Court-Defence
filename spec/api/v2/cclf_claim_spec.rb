@@ -302,7 +302,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             context 'with an unmappable fee type - Unused materials (over 3 hours)' do
               let(:fee_type) { create(:misc_fee_type, :miumo) }
 
-              before { expect(claim.misc_fees.count).to eql 1 }
+              before { expect(claim.misc_fees.count).to eq 1 }
 
               it 'returns array containing no fee bill' do
                 is_expected.to have_json_size(0).at_path('bills')

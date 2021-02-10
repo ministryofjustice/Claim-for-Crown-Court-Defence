@@ -97,7 +97,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
 
     context 'when run without parameters' do
       it 'returns expected data item count' do
-        expect(subject.size).to eql 1
+        expect(subject.size).to eq 1
       end
 
       it do
@@ -127,7 +127,7 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
       let(:end_date) { Date.new(2017, 3, 21) }
 
       it 'returns expected data item count' do
-        expect(subject.size).to eql 3
+        expect(subject.size).to eq 3
       end
 
       it 'returns the expected items' do

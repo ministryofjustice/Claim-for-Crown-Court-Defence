@@ -67,7 +67,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
 
     context 'for a fee_per_unit fee (e.g. appeal against crown court conviction)' do
       it 'returns expected amount' do
-        is_expected.to eql 130.0
+        is_expected.to eq 130.0
       end
 
       context 'with number of cases modifier' do
@@ -75,7 +75,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         let(:parent_quantity) { 1 }
 
         it 'returns amount multiplied by scale factor' do
-          is_expected.to eql 26.0
+          is_expected.to eq 26.0
         end
       end
 
@@ -84,7 +84,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         let(:parent_quantity) { 2 }
 
         it 'returns amount multiplied by scale factor multiplied by parent quantity' do
-          is_expected.to eql 52.0
+          is_expected.to eq 52.0
         end
       end
 
@@ -93,7 +93,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         let(:parent_quantity) { 1 }
 
         it 'returns amount multiplied by scale factor' do
-          is_expected.to eql 26.0
+          is_expected.to eq 26.0
         end
       end
 
@@ -105,14 +105,14 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
           let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 0)] }
 
           it 'returns amount multiplied by inverse scale factor (-30%)' do
-            is_expected.to eql 371.00
+            is_expected.to eq 371.00
           end
         end
 
         context 'over 1 calendar month limit' do
           let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 1)] }
           it 'returns amount multiplied by inverse scale factor (-20%)' do
-            is_expected.to eql 424.00
+            is_expected.to eq 424.00
           end
         end
       end
@@ -127,7 +127,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         context 'within 1 calendar month limit' do
           let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 0)] }
           it 'returns full amount' do
-            is_expected.to eql 266.00
+            is_expected.to eq 266.00
           end
         end
       end
@@ -142,7 +142,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
       end
 
       it 'returns expected amount' do
-        is_expected.to eql 194.0
+        is_expected.to eq 194.0
       end
 
       context 'with number of cases modifier' do
@@ -150,7 +150,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         let(:parent_quantity) { 1 }
 
         it 'returns amount multiplied by scale factor' do
-          is_expected.to eql 38.80
+          is_expected.to eq 38.80
         end
       end
 
@@ -159,7 +159,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         let(:parent_quantity) { 2 }
 
         it 'returns amount multiplied by scale factor, ignoring parent quantity' do
-          is_expected.to eql 38.8
+          is_expected.to eq 38.8
         end
       end
     end
@@ -171,7 +171,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         let(:unit_modifiers) { [] }
 
         it 'returns unmodified amount' do
-          is_expected.to eql 1632.00
+          is_expected.to eq 1632.00
         end
       end
 
@@ -179,7 +179,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 0)] }
 
         it 'returns amount multiplied by scale factor (-30%)' do
-          is_expected.to eql 1142.40
+          is_expected.to eq 1142.40
         end
       end
 
@@ -192,7 +192,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         end
 
         it 'returns amount multiplied by inverse scale factor (-30%) and scale factor (20%)' do
-          is_expected.to eql 228.48
+          is_expected.to eq 228.48
         end
       end
 
@@ -205,7 +205,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         end
 
         it 'returns amount multiplied by inverse scale factor (-30%) and scale factor (20%)' do
-          is_expected.to eql 228.48
+          is_expected.to eq 228.48
         end
       end
     end

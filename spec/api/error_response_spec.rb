@@ -31,7 +31,7 @@ describe API::ErrorResponse do
 
       it 'populates status with 400 and body with a JSON error format message' do
         er = described_class.new(ex)
-        expect(er.status).to eql 400
+        expect(er.status).to eq 400
         json = JSON.parse(er.body.to_json)
         expect(json[0]['error']).to include('my exception message')
       end
@@ -40,7 +40,7 @@ describe API::ErrorResponse do
     it 'populates status with 401 if exception message is "Unauthorized"' do
       ex = ArgumentError.new('Unauthorised')
       er = described_class.new(ex)
-      expect(er.status).to eql 401
+      expect(er.status).to eq 401
     end
   end
 

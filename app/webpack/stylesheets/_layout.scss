@@ -10,10 +10,6 @@ body {
   @include container;
 }
 
-.site-wrapper {
-  @extend %site-width-container;
-}
-
 .summary-wrapper {
   h2 {
     margin-top: $gutter;

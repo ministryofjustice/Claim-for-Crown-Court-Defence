@@ -1,35 +1,50 @@
-- content_for?(:page_title) ? yield(:page_title) : contextual_title
+!!!
+%html.govuk-template{ lang: 'en' }
+  %head
+    %title
+      = content_for?(:page_title) ? yield(:page_title) : contextual_title
 
-- content_for :head do
-  %meta{ name: 'format-detection', content: 'telephone=no' }
-  = stylesheet_pack_tag 'application', media: 'all'
+    %meta{ charset: 'utf-8' }
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
+    %meta{ name: 'theme-color', content: 'blue' }
+    %meta{ 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
+    = csrf_meta_tags
 
-- content_for :body_classes do
-  = "controller-" + controller.controller_name
+    %link{ rel: 'shortcut icon', sizes: '16x16 32x32 48x48', href: asset_pack_path('media/images/favicon.ico'), type: 'image/x-icon' }
+    %link{ rel: 'mask-icon', href: asset_pack_path('media/images/govuk-mask-icon.svg'), color: 'blue' }
+    %link{ rel: 'apple-touch-icon', sizes: '180x180', href: asset_pack_path('media/images/govuk-apple-touch-icon-180x180.png') }
+    %link{ rel: 'apple-touch-icon', sizes: '167x167', href: asset_pack_path('media/images/govuk-apple-touch-icon-167x167.png') }
+    %link{ rel: 'apple-touch-icon', sizes: '152x152', href: asset_pack_path('media/images/govuk-apple-touch-icon-152x152.png') }
+    %link{ rel: 'apple-touch-icon', href: asset_pack_path('media/images/govuk-apple-touch-icon.png') }
+    = stylesheet_pack_tag 'application', media: 'all'
+    = stylesheet_pack_tag 'govuk-frontend', media: 'all'
+    = tag :meta, property: 'og:image', content: request.base_url + asset_pack_path('media/images/govuk-opengraph-image.png')
 
-- content_for :header_class do
-  = "with-proposition"
+  %body{ class: "govuk-template__body controller-#{controller.controller_name}" }
+    :javascript
+      document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 
-- content_for :proposition_header do
-  .header-proposition
-    .content
-      %nav#proposition-menu
-        %a#proposition-name{href: "/"}
-          %span.visuallyhidden
-            = "Home link"
-          = "Claim for crown court defence"
+    %a.govuk-skip-link{ href: '#main-content' }
+      = t('layouts.skip_content')
 
-= content_for :content do
-  = csrf_meta_tags
-  .site-wrapper
-    %main#content
-      = yield
-      = render partial: 'layouts/contact_us_link'
+    %header.govuk-header.with-proposition{ role: 'banner', data: { module: 'govuk-header' } }
+      .govuk-header__container.govuk-width-container
+        .govuk-header__logo
+          = render 'layouts/govuk_logo'
 
-- content_for :footer_support_links do
-  = render partial: 'layouts/footer'
+        .govuk-header__content
+          = link_to 'Claim for crown court defence', unauthenticated_root_path, class: 'govuk-header__link govuk-header__link--service-name'
 
-- content_for :body_end do
-  = javascript_include_tag '/packs/js/application.bundle.js'
+    .govuk-width-container
+      %main#main-content.govuk-main-wrapper{ role: 'main' }
+        .govuk-grid-row
+          .govuk-grid-column-two-thirds
+            = render partial: 'shared/downtime_warning'
+            = render partial: 'layouts/flashes' unless flash.empty?
+            -# TODO: improve how page heading is handled
+            = content_for :page_heading
 
-= render template: 'layouts/govuk_template'
+        = yield
+
+    = render partial: 'layouts/footer'
+    = render partial: 'layouts/body_end'

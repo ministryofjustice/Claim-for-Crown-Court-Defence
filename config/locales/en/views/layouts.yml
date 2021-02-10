@@ -1,0 +1,46 @@
+---
+en:
+  layouts:
+    application:
+      phase_banner_html: Your <a class="govuk-link" href="%{feedback}">feedback</a> will help us improve this service. You can <a class="govuk-link" href="%{feedback_type}">report a fault here</a>.
+
+    footer:
+      accessibility: Accessibility statement
+      contact: Contact
+      cookies: Cookies
+      copyright_html: "&copy; Crown copyright"
+      feedback: Feedback
+      licence_html: All content is available under the <a class="govuk-footer__link" href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" rel="license">Open Government Licence v3.0</a>, except where otherwise stated
+      service_owner_html: <span>Built by</span> <a class="govuk-footer__link" href="%{link}"><abbr title="Ministry of Justice">MOJ Digital Services</abbr></a>
+      support_link: Support links
+      terms_and_conditions: Terms and Conditions
+
+    navigation:
+      home: "Home"
+      back_to_referrer_html: Back <span class="govuk-visually-hidden">to referrer page</span>
+
+    primary_navigation:
+      add_a_provider: Add a provider
+      allocation: Allocation
+      api_documentation: API Documentation
+      archive: Your archive
+      error: There was an error
+      manage_provider: Manage provider
+      manage_providers: Providers
+      manage_users: Manage users
+      manage_your_settings: Manage your settings
+      manage_case_workers: Case workers
+      management_information: Reports
+      your_claims: Your claims
+      re_allocation: Re-allocation
+      sidekiq_console: Sidekiq console
+      all_claims: Your claims
+      sub_navigation: Sub navigation
+
+    skip_content: Skip to main content
+
+    user:
+      menu: Menu
+      show_hide_menu: Show or hide navigation menu
+      sign_out: Sign out
+      top_navigation: Top Level Navigation

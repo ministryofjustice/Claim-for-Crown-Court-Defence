@@ -80,7 +80,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
 
         it 'creates a new fee record with a fee type specified by unique code' do
           valid_params.delete(:fee_type_id)
-          valid_params.merge!(fee_type_unique_code: unique_code)
+          valid_params[:fee_type_unique_code] = unique_code
 
           post_to_create_endpoint
           expect(last_response.status).to eq 201
@@ -162,7 +162,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         end
 
         it 'raises error if basic fee does not exist on claim' do
-          valid_params.merge!(fee_type_id: basic_fee_dat_type.id)
+          valid_params[:fee_type_id] = basic_fee_dat_type.id
           post_to_create_endpoint
           expect(last_response.status).to eq 400
           expect_error_response('Basic fee not found on claim', 0)
@@ -283,7 +283,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
 
       it 'uncalculated fees (PPE/NPW) should raise an error when rate provided' do
         valid_params[:fee_type_id] = basic_fee_type.id
-        valid_params.merge!(rate: 25)
+        valid_params[:rate] = 25
         basic_fee_type.update(code: 'PPE', calculated: false) # need to use real basic fee codes to trigger code specific validation and errors
         post_to_create_endpoint
         expect(last_response.status).to eq 400

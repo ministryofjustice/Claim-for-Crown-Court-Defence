@@ -129,7 +129,7 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
 
       context 'failure', :fee_calc_vcr do
         before do
-          calculator_params.merge!('advocate_category' => 'Rubbish')
+          calculator_params['advocate_category'] = 'Rubbish'
           post :calculate, params: calculator_params
         end
 
@@ -186,7 +186,7 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
 
       context 'failure', :fee_calc_vcr do
         before do
-          calculator_params.merge!('fee_type_id' => 'Rubbish')
+          calculator_params['fee_type_id'] = 'Rubbish'
           post :calculate, params: calculator_params
         end
 

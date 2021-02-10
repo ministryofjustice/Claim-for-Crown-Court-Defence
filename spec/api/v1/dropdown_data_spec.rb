@@ -134,21 +134,21 @@ RSpec.describe API::V1::DropdownData do
           end
 
           it 'returns scheme 9 offences' do
-            params.merge!(rep_order_date: '2016-03-01')
+            params[:rep_order_date] = '2016-03-01'
             is_expected.to match_array([exposed_offence[scheme_9_offence]])
           end
         end
 
         context 'using a scheme 10 date' do
           it 'returns scheme 10 offences' do
-            params.merge!(rep_order_date: '2018-04-01')
+            params[:rep_order_date] = '2018-04-01'
             is_expected.to match_array([exposed_offence[scheme_10_offence]])
           end
         end
 
         context 'using a scheme 11 date' do
           it 'returns scheme 11 offences' do
-            params.merge!(rep_order_date: '2018-12-31')
+            params[:rep_order_date] = '2018-12-31'
             is_expected.to match_array([exposed_offence[scheme_11_offence]])
           end
         end
@@ -158,7 +158,7 @@ RSpec.describe API::V1::DropdownData do
         let!(:offence_with_same_description) { create(:offence, :with_fee_scheme_nine, description: scheme_9_offence.description) }
 
         it 'returns offences matching description' do
-          params.merge!(offence_description: scheme_9_offence.description)
+          params[:offence_description] = scheme_9_offence.description
           is_expected.to match_array([exposed_offence[scheme_9_offence], exposed_offence[offence_with_same_description]])
         end
       end
@@ -379,7 +379,7 @@ RSpec.describe API::V1::DropdownData do
 
   context 'GET api/advocate_categories[:category]' do
     before do
-      params.merge!(role: role)
+      params[:role] = role
       get ADVOCATE_CATEGORY_ENDPOINT, params, format: :json
     end
 

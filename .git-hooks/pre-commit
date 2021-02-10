@@ -31,6 +31,10 @@ fi
 printf '\nLinting JavaScript files...\n'
 
 yarn run validate:js
+if [[ $? -ne 0 ]]; then
+  printf 'StandardJS errors were detected. Aborting commit.\n'
+  exit 1
+fi
 
 
 ################################################################################
@@ -40,3 +44,7 @@ yarn run validate:js
 printf '\nLinting SCSS files...\n'
 
 yarn run validate:scss
+if [[ $? -ne 0 ]]; then
+  printf 'Stylelint errors were detected. Aborting commit.\n'
+  exit 1
+fi

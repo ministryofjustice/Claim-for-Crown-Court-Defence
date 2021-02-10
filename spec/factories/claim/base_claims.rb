@@ -130,9 +130,9 @@ def claim_state_common_traits
   end
 end
 
-def publicise_errors(claim, &block)
+def publicise_errors(claim)
   begin
-    block.call
+    yield
   rescue => e
     puts "***************** DEBUG validation errors #{__FILE__}::#{__LINE__} **********"
     ap claim

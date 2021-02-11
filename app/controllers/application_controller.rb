@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     if exception.is_a?(ActiveRecord::RecordNotFound)
       redirect_to error_404_url
     else
-      Raven.capture_exception(exception)
+      Sentry.capture_exception(exception)
       redirect_to error_500_url
     end
   end

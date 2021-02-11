@@ -65,7 +65,7 @@ gem 'shell-spinner', '~> 1.0', '>= 1.0.4'
 gem 'ruby-progressbar'
 gem 'geckoboard-ruby'
 gem 'posix-spawn', '~> 0.3.15'
-gem 'laa-fee-calculator-client', '~> 1.1'
+gem 'laa-fee-calculator-client', '~> 1.2'
 gem 'webpacker', '~> 5.2'
 
 group :production, :devunicorn do

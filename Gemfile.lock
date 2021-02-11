@@ -670,9 +670,6 @@ GEM
       redis (>= 4.2.0)
     sidekiq-failures (1.0.0)
       sidekiq (>= 4.0.0)
-    simple_form (5.1.0)
-      actionpack (>= 5.2)
-      activemodel (>= 5.2)
     simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -876,7 +873,6 @@ DEPENDENCIES
   shoulda-matchers (>= 4.0.0.rc1)
   sidekiq (~> 6.1)
   sidekiq-failures (~> 1.0)
-  simple_form (~> 5.1.0)
   simplecov
   simplecov-csv
   simplecov-multi

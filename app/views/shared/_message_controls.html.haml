@@ -1,5 +1,5 @@
-= simple_form_for message, remote: !@claim.redeterminable?, authenticity_token: true do |f|
-  = f.input :claim_id, value: @claim.id, as: :hidden
+= form_for message, remote: !@claim.redeterminable?, authenticity_token: true do |f|
+  = f.hidden_field :claim_id, value: @claim.id
 
   - if current_user_persona_is?(ExternalUser) && @claim.redeterminable?
     .js-hide-status
@@ -23,7 +23,8 @@
 
           - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
             .written-reasons-checkbox
-              = f.input :written_reasons_submitted, as: :boolean
+              = f.check_box :written_reasons_submitted
+              = f.label :written_reasons_submitted
         .upload-column.govuk-form-group
           = f.label :attachment, 'Optionally attach a file (maximum 1 file per message)', class: 'govuk-label'
           = f.file_field :attachment

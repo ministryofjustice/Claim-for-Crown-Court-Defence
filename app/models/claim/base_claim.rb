@@ -304,12 +304,6 @@ module Claim
       @force_validation
     end
 
-    # if allocated, and the last state was redetermination
-    # and happened since the last redetermination record was created
-    def requested_redetermination?
-      allocated? ? redetermination_since_allocation? : false
-    end
-
     def redetermination_since_allocation?
       if last_state_transition.from == 'redetermination'
         last_state_transition_later_than_redetermination?(last_state_transition)

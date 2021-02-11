@@ -151,7 +151,7 @@ RSpec.describe ApplicationController, type: :controller do
       it 'does not report the exception, and redirect to the 404 error page' do
         routes.draw { get 'record_not_found' => 'anonymous#record_not_found' }
 
-        expect(Raven).not_to receive(:capture_exception)
+        expect(Sentry).not_to receive(:capture_exception)
 
         get :record_not_found
         expect(response).to redirect_to(error_404_url)
@@ -162,7 +162,7 @@ RSpec.describe ApplicationController, type: :controller do
       it 'reports the exception, and redirect to the 500 error page' do
         routes.draw { get 'another_exception' => 'anonymous#another_exception' }
 
-        expect(Raven).to receive(:capture_exception)
+        expect(Sentry).to receive(:capture_exception)
 
         get :another_exception
         expect(response).to redirect_to(error_500_url)

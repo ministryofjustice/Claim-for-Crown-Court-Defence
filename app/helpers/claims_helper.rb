@@ -9,11 +9,6 @@ module ClaimsHelper
     awaiting_written_reasons
   ].freeze
 
-  def includes_state?(claims, states)
-    states.gsub(/\s+/, '').split(',').to_a unless states.is_a?(Array)
-    claims.map(&:state).uniq.any? { |s| states.include?(s) }
-  end
-
   def claim_allocation_checkbox_helper(claim, case_worker)
     checked = claim.is_allocated_to_case_worker?(case_worker) ? 'checked="checked"' : nil
     element_id = "id=\"case_worker_claim_ids_#{claim.id}\""

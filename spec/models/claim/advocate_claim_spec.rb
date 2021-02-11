@@ -1361,57 +1361,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  describe '#requested_redetermination?' do
-    context 'allocated state from redetermination' do
-      before do
-        @claim = FactoryBot.create :redetermination_claim
-        @claim.allocate!
-      end
-
-      context 'no previous redetermination' do
-        it 'is true' do
-          expect(@claim.redeterminations).to be_empty
-          expect(@claim.requested_redetermination?).to be true
-        end
-      end
-
-      context 'previous redetermination record created before state was changed to redetermination' do
-        it 'is true' do
-          @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
-          travel_to(2.hours.since) do
-            @claim.authorise_part!
-            @claim.redetermine!
-            @claim.allocate!
-          end
-          expect(@claim.requested_redetermination?).to be true
-        end
-      end
-
-      context 'latest redetermination created after transition to redetermination' do
-        it 'is false' do
-          travel_to(10.minutes.since) do
-            @claim.redeterminations << Redetermination.new(fees: 12.12, expenses: 35.55, disbursements: 0)
-          end
-          expect(@claim.requested_redetermination?).to be false
-        end
-      end
-    end
-
-    context 'allocated state where the previous state was not redetermination' do
-      it 'is false' do
-        claim = FactoryBot.create :allocated_claim
-        expect(claim.requested_redetermination?).to be false
-      end
-    end
-
-    context 'not allocated state' do
-      it 'is false' do
-        claim = FactoryBot.create :redetermination_claim
-        expect(claim.requested_redetermination?).to be false
-      end
-    end
-  end
-
   describe '#amount_assessed' do
     let(:external_user) { build(:external_user, vat_registered: false) }
     let!(:claim) { create(:claim, state: 'draft', external_user: external_user) }

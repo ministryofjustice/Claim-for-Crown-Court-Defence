@@ -1,7 +1,7 @@
 class GeckoboardApi::StatisticsController < ApplicationController
   skip_load_and_authorize_resource only: [:index]
 
-  layout 'basic'
+  before_action :disable_analytics, :disable_phase_banner, :disable_navigation, :disable_flashes
 
   def index
     @available_reports = {

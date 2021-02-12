@@ -98,4 +98,20 @@ class ApplicationController < ActionController::Base
   def suppress_hotline_link
     @suppress_contact_us_message = true
   end
+
+  def disable_analytics
+    @disable_analytics = true
+  end
+
+  def disable_phase_banner
+    @disable_phase_banner = true
+  end
+
+  def disable_navigation
+    @disable_navigation = true
+  end
+
+  def disable_flashes
+    @disable_flashes = true
+  end
 end

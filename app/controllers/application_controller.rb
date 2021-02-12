@@ -114,4 +114,8 @@ class ApplicationController < ActionController::Base
   def disable_flashes
     @disable_flashes = true
   end
+
+  def enable_breadcrumb
+    @enable_breadcrumb = true
+  end
 end

@@ -50,8 +50,7 @@
     .govuk-width-container
       = govuk_phase_banner '', t('.phase_banner_html', feedback: new_feedback_path, feedback_type: new_feedback_path(type: 'bug_report')) unless @disable_phase_banner
 
-      - if user_signed_in? && !@disable_navigation
-        = content_for?(:navigation) ? yield(:navigation) : render('layouts/primary_navigation')
+      = render partial: 'layouts/primary_navigation'
 
       %main#main-content.govuk-main-wrapper{ role: 'main' }
         .govuk-grid-row

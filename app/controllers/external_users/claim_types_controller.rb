@@ -2,7 +2,7 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
   skip_load_and_authorize_resource
 
   before_action :set_available_claim_types_for_provider, only: %i[new create]
-  layout 'claim_forms', only: %i[selection]
+  before_action :enable_breadcrumb, only: %i[selection]
 
   def new
     if @available_claim_types.empty?
@@ -27,6 +27,8 @@ class ExternalUsers::ClaimTypesController < ExternalUsers::ApplicationController
       render :new
     end
   end
+
+  def selection; end
 
   private
 

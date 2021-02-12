@@ -9,12 +9,12 @@ Feature: A hardship claims banner will appear on the claims list, until the user
 
     And I click 'Start a claim'
     Then The hardship claims banner is visible
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
 
     When I click the link 'Do not show hardship claims information again'
     Then The hardship claims banner is not visible
 
-    When I click the link 'Home'
+    When I click the link 'Claim for crown court defence'
     Then I am on the 'Your claims' page
     And I click 'Start a claim'
     Then The hardship claims banner is not visible

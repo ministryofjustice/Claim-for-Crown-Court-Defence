@@ -1,0 +1,139 @@
+!!!
+%html.govuk-template{ lang: 'en', 'data-swagger-options': "#{GrapeSwaggerRails.options.marshal_dump.to_json}" }
+  %head
+    %title
+      = GrapeSwaggerRails.options.app_name || 'Swagger UI'
+
+    %meta{ charset: 'utf-8' }
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
+    %meta{ name: 'theme-color', content: 'blue' }
+    %meta{ 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
+    = csrf_meta_tags
+
+    %link{ rel: 'shortcut icon', sizes: '16x16 32x32 48x48', href: asset_pack_path('media/images/favicon.ico'), type: 'image/x-icon' }
+    %link{ rel: 'mask-icon', href: asset_pack_path('media/images/govuk-mask-icon.svg'), color: 'blue' }
+    %link{ rel: 'apple-touch-icon', sizes: '180x180', href: asset_pack_path('media/images/govuk-apple-touch-icon-180x180.png') }
+    %link{ rel: 'apple-touch-icon', sizes: '167x167', href: asset_pack_path('media/images/govuk-apple-touch-icon-167x167.png') }
+    %link{ rel: 'apple-touch-icon', sizes: '152x152', href: asset_pack_path('media/images/govuk-apple-touch-icon-152x152.png') }
+    %link{ rel: 'apple-touch-icon', href: asset_pack_path('media/images/govuk-apple-touch-icon.png') }
+    %link{ rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Droid+Sans:400,700', type: 'text/css' }
+    = stylesheet_link_tag 'grape_swagger_rails/application.css'
+    = javascript_include_tag 'grape_swagger_rails/application.js'
+
+    = stylesheet_pack_tag 'application', media: 'all'
+    = stylesheet_pack_tag 'govuk-frontend', media: 'all'
+
+    = tag :meta, property: 'og:image', content: request.base_url + asset_pack_path('media/images/govuk-opengraph-image.png')
+    :javascript
+      (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
+
+    :javascript
+      $(function () {
+        var options = $("html").data('swagger-options');
+        var headers = {};
+        window.swaggerUi = new SwaggerUi({
+          url: options.app_url + options.url,
+          dom_id: "swagger-ui-container",
+          supportHeaderParams: true,
+          supportedSubmitMethods: options.supported_submit_methods || [],
+          authorizations: headers,
+          onComplete: function(swaggerApi, swaggerUi){
+            if('console' in window) {
+              console.log("Loaded SwaggerUI")
+              console.log(swaggerApi);
+              console.log(swaggerUi);
+            }
+            $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+          },
+          onFailure: function(data) {
+            if('console' in window) {
+              console.log("Unable to Load SwaggerUI");
+              console.log(data);
+            }
+          },
+          docExpansion: options.doc_expansion,
+          validatorUrl: options.validator_url,
+          apisSorter: "alpha"
+        });
+
+        window.swaggerUi.load();
+      });
+
+  %body.govuk-template__body.swagger-section
+    :javascript
+      document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+
+    %a.govuk-skip-link{ href: '#main-content' }
+      = t('layouts.skip_content')
+
+    - unless @omit_header
+      %header.govuk-header.with-proposition{ role: 'banner', data: { module: 'govuk-header' } }
+        .govuk-header__container.govuk-width-container
+          .govuk-header__logo
+            = render 'layouts/govuk_logo'
+
+          .govuk-header__content
+            = link_to 'Claim for crown court defence', '/', class: 'govuk-header__link govuk-header__link--service-name'
+
+            -# = render 'layouts/user' if user_signed_in?
+            -# renderd partial err: undefined local variable or method `signed_in_user_profile_path'
+            - if user_signed_in?
+              %button.govuk-header__menu-button.govuk-js-header-toggle{ aria: { controls: 'navigation', label: t('layouts.user.show_hide_menu') }, type: 'button' }
+                = t('layouts.user.menu')
+              %nav
+                %ul#navigation.govuk-header__navigation{ aria: { label: t('layouts.user.top_navigation') } }
+                  %li.govuk-header__navigation-item
+                    = govuk_header_link_to current_user.name, "/external_users/admin/external_users/#{current_user.persona.id}"
+                  %li.govuk-header__navigation-item
+                    = govuk_header_link_to t('layouts.user.sign_out'), '/users/sign_out', method: :delete
+
+
+    .govuk-width-container
+      %main#main-content.govuk-main-wrapper{ role: 'main' }
+        #message-bar.swagger-ui-wrap
+
+        #swagger-ui-container.swagger-ui-wrap
+
+        #global-app-error.app-error.hidden
+
+        = yield
+
+    -# = render partial: 'layouts/footer'
+    -# renderd partial err: undefined local variable or method `contact_us_page_path'
+    %footer.govuk-footer{ role: 'contentinfo' }
+      .govuk-width-container
+        .govuk-footer__meta
+          .govuk-footer__meta-item.govuk-footer__meta-item--grow
+            %h2.govuk-visually-hidden
+              = t('layouts.footer.support_link')
+
+            %ul.govuk-footer__inline-list
+              %li.govuk-footer__inline-list-item
+                = govuk_footer_link_to t('layouts.footer.cookies'), 'http://www.gov.uk/help/cookies'
+
+              %li.govuk-footer__inline-list-item
+                = govuk_footer_link_to t('layouts.footer.contact'), '/contact_us'
+
+              %li.govuk-footer__inline-list-item
+                = govuk_footer_link_to t('layouts.footer.accessibility'), 'accessibility-statement'
+
+              %li.govuk-footer__inline-list-item
+                = govuk_footer_link_to t('layouts.footer.terms_and_conditions'), 'tandcs'
+
+              %li.govuk-footer__inline-list-item
+                = govuk_footer_link_to t('layouts.footer.feedback'), '/feedback/new'
+
+              %li.govuk-footer__inline-list-item
+                = t('layouts.footer.service_owner_html', link: 'https://mojdigital.blog.gov.uk/')
+
+            %svg.govuk-footer__licence-logo{ focusable: 'false', height: '17', 'aria-hidden': 'true', viewbox: '0 0 483.2 195.7', width: '41', xmlns: 'http://www.w3.org/2000/svg' }
+              %path{ d: 'M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145', fill: 'currentColor' }
+
+            %span.govuk-footer__licence-description
+              = t('layouts.footer.licence_html')
+
+          .govuk-footer__meta-item
+            %a.govuk-footer__link.govuk-footer__copyright-logo{ href: 'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/' }
+              = t('layouts.footer.copyright_html')
+
+    = javascript_pack_tag 'adp_swagger_application', defer: true

@@ -1,6 +1,6 @@
 require_relative 'abstract_store'
 
-module Caching
+class Caching
   class MemoryStore < AbstractStore
     def initialize
       self.store = {}

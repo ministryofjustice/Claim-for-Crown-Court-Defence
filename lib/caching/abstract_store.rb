@@ -1,4 +1,4 @@
-module Caching
+class Caching
   class AbstractStore
     cattr_accessor :instance, :store
     private_class_method :new

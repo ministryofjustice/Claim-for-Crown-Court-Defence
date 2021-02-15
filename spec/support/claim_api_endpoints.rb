@@ -3,8 +3,9 @@ class ClaimApiEndpoints
   VALIDATE_URL_PATTERN = '/api/external_users/claims%{type}/validate'
   FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete]
 
+  cattr_accessor :type
+
   class << self
-    cattr_accessor :type
 
     def for(type)
       self.type = type

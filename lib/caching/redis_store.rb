@@ -1,6 +1,6 @@
 require_relative 'abstract_store'
 
-module Caching
+class Caching
   class RedisStore < AbstractStore
     def initialize
       self.store = Redis.current

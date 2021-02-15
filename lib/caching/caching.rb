@@ -1,7 +1,7 @@
-module Caching
-  class << self
-    cattr_accessor :backend
+class Caching
+  cattr_accessor :backend
 
+  class << self
     def method_missing(method, *args, &block)
       if backend.current.respond_to?(method, false)
         backend.current.send(method, *args, &block)

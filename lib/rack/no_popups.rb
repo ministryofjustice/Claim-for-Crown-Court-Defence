@@ -1,5 +1,6 @@
 # Disable alerts during headless chrome run
 #
+require 'rack/injectable'
 module Rack
   class NoPopups
     include Injectable

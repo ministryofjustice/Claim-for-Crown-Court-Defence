@@ -4,6 +4,7 @@
 # in config/environments/test.rb
 # config.middleware.use Rack::NoAnimations
 #
+require 'rack/injectable'
 module Rack
   class NoAnimations
     include Injectable

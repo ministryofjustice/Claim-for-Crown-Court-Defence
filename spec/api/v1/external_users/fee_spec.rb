@@ -165,7 +165,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           valid_params[:fee_type_id] = basic_fee_dat_type.id
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          expect_error_response('Basic fee not found on claim', 0)
+          expect_error_response('Basic fee not found on claim')
         end
 
         it 'updates quantity, rate and amount' do
@@ -276,9 +276,9 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         basic_fee_type.update(code: 'BAF') # need to use real basic fee codes to trigger code specific validation and errors
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response('Enter a quantity of 0 to 1 for basic fee', 0)
+        expect_error_response('Enter a quantity of 0 to 1 for basic fee')
         # NOTE: basic fee should allow 0 rate for claim basic fee at instantiation/creation but not thereafter
-        expect_error_response('Enter a valid rate for the basic fee', 1)
+        expect_error_response('Enter a valid rate for the basic fee')
       end
 
       it 'uncalculated fees (PPE/NPW) should raise an error when rate provided' do
@@ -287,7 +287,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         basic_fee_type.update(code: 'PPE', calculated: false) # need to use real basic fee codes to trigger code specific validation and errors
         post_to_create_endpoint
         expect(last_response.status).to eq 400
-        expect_error_response('Pages of prosecution evidence fees must not have a rate', 0)
+        expect_error_response('Pages of prosecution evidence fees must not have a rate')
       end
 
       context 'quantity is forbidden' do
@@ -298,7 +298,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           it 'raises error if quantity is provided' do
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response('Do not enter a PPE quantity for the interim fee', 0)
+            expect_error_response('Do not enter a PPE quantity for the interim fee')
           end
         end
 
@@ -309,7 +309,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           it 'raises error if quantity is provided' do
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response('Do not enter a PPE quantity for the interim fee', 0)
+            expect_error_response('Do not enter a PPE quantity for the interim fee')
           end
         end
       end
@@ -322,7 +322,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           valid_params[:quantity] = 9.5
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          expect_error_response('You must specify a whole number for this type of fee', 0)
+          expect_error_response('You must specify a whole number for this type of fee')
         end
 
         it 'decimal quantity should NOT raise error if fee type accepts decimals quantities' do
@@ -344,21 +344,21 @@ RSpec.describe API::V1::ExternalUsers::Fee do
             valid_params[:fee_type_id] = basic_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response('Enter a valid rate for the basic fee', 0)
+            expect_error_response('Enter a valid rate for the basic fee')
           end
 
           it 'misc fees should raise misc fee errors from translations' do
             valid_params[:fee_type_id] = misc_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response('Enter a rate/net amount for the miscellaneous fee', 0)
+            expect_error_response('Enter a rate/net amount for the miscellaneous fee')
           end
 
           it 'fixed fees should raise fixed fee errors from translations' do
             valid_params[:fee_type_id] = fixed_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response('Enter a rate/net amount for the fixed fee', 0)
+            expect_error_response('Enter a rate/net amount for the fixed fee')
           end
         end
 
@@ -369,7 +369,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
             valid_params[:fee_type_id] = interim_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response('Enter a valid amount for the interim fee', 0)
+            expect_error_response('Enter a valid amount for the interim fee')
           end
         end
 
@@ -380,7 +380,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
             valid_params[:fee_type_id] = graduated_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response('Enter the graduated fee date', 0)
+            expect_error_response('Enter the graduated fee date')
           end
         end
 
@@ -391,7 +391,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
             valid_params[:fee_type_id] = transfer_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response('Enter a valid amount for the transfer fee', 0)
+            expect_error_response('Enter a valid amount for the transfer fee')
           end
         end
       end
@@ -436,7 +436,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           valid_params.delete(:claim_id)
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          expect_error_response('Claim cannot be blank', 0)
+          expect_error_response('Claim cannot be blank')
         end
       end
 
@@ -445,7 +445,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           valid_params[:claim_id] = SecureRandom.uuid
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          expect_error_response('Claim cannot be blank', 0)
+          expect_error_response('Claim cannot be blank')
         end
       end
 
@@ -454,7 +454,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           valid_params[:claim_id] = 'any-old-rubbish'
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
-          expect_error_response('Claim cannot be blank', 0)
+          expect_error_response('Claim cannot be blank')
         end
       end
     end

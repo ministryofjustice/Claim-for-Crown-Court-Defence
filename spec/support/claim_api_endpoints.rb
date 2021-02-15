@@ -6,7 +6,6 @@ class ClaimApiEndpoints
   cattr_accessor :type
 
   class << self
-
     def for(type)
       self.type = type
       self

@@ -100,6 +100,14 @@ module Storage
     )
   end
 
+  def self.highlight(n, good: nil, warning: nil, bad: nil)
+    return n.to_s.green if good&.include? n
+    return n.to_s.yellow if warning&.include? n
+    return n.to_s.red if bad&.include? n
+
+    n.to_s
+  end
+
   private
 
   def self.models(model)

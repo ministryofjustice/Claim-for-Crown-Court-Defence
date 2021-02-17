@@ -40,38 +40,4 @@ RSpec.describe Claims::StateMachine, type: :model do
       end
     end
   end
-
-  describe 'scoped associations' do
-    describe '.archived_claim_state_transitions' do
-      subject { claim.archived_claim_state_transitions }
-      let(:claim) { create :advocate_claim }
-
-      context 'with all available state transitions' do
-        let!(:draft) { create :claim_state_transition, claim: claim, to: 'draft' }
-        let!(:submitted) { create :claim_state_transition, claim: claim, to: 'submitted' }
-        let!(:allocated) { create :claim_state_transition, claim: claim, to: 'allocated' }
-        let!(:rejected) { create :claim_state_transition, claim: claim, to: 'rejected' }
-        let!(:authorised) { create :claim_state_transition, claim: claim, to: 'authorised' }
-        let!(:redetermination) { create :claim_state_transition, claim: claim, to: 'redetermination' }
-        let!(:awaiting_written_reasons) { create :claim_state_transition, claim: claim, to: 'awaiting_written_reasons' }
-        let!(:part_authorised) { create :claim_state_transition, claim: claim, to: 'part_authorised' }
-        let!(:refused) { create :claim_state_transition, claim: claim, to: 'refused' }
-        let!(:archived_pending_delete) { create :claim_state_transition, claim: claim, to: 'archived_pending_delete' }
-        let!(:archived_pending_review) { create :claim_state_transition, claim: claim, to: 'archived_pending_review' }
-
-        it 'only returns transitions to archived state' do
-          is_expected.to match_array(
-            [
-              authorised,
-              part_authorised,
-              rejected,
-              refused,
-              archived_pending_delete,
-              archived_pending_review
-            ]
-          )
-        end
-      end
-    end
-  end
 end

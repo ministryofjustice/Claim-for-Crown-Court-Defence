@@ -19,11 +19,4 @@ module DatabaseHousekeeping
       end
     end
   end
-
-  def report_record_counts
-    models = ApplicationRecord.descendants
-    models.each do |model|
-      puts "#{model} count: #{model.count}"
-    end
-  end
 end

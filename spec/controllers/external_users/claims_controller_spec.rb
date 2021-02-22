@@ -822,12 +822,6 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
   end
 end
 
-def build_claim_in_state(state)
-  claim = FactoryBot.build :unpersisted_claim
-  allow(claim).to receive(:state).and_return(state.to_s)
-  claim
-end
-
 def build_sortable_claims_sample(advocate)
   [:draft, :submitted, :allocated, :authorised, :rejected].each_with_index do |state, i|
     travel_to(i.days.ago) do

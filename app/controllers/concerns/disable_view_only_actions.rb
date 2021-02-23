@@ -6,7 +6,7 @@ module DisableViewOnlyActions
   end
 
   def disable_analytics
-    @disable_analytics = true
+    GoogleAnalytics::DataTracking.active = false
   end
 
   def disable_phase_banner

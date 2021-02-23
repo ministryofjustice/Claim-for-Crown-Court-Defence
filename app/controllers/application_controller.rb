@@ -107,10 +107,6 @@ class ApplicationController < ActionController::Base
     @disable_phase_banner = true
   end
 
-  def disable_navigation
-    @disable_navigation = true
-  end
-
   def disable_flashes
     @disable_flashes = true
   end

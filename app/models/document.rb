@@ -26,6 +26,7 @@
 class Document < ApplicationRecord
   include DocumentAttachment
   include Duplicable
+  include CheckSummable
 
   belongs_to :external_user
   belongs_to :creator, class_name: 'ExternalUser'
@@ -53,6 +54,7 @@ class Document < ApplicationRecord
 
   before_save :generate_pdf_tmpfile
   before_save :add_converted_preview_document
+  before_save :populate_checksum
 
   validate :documents_count
 
@@ -130,5 +132,10 @@ class Document < ApplicationRecord
     return unless errors[:document].include?('has contents that are not what they are reported to be')
     errors[:document].delete('has contents that are not what they are reported to be')
     errors[:document] << 'The contents of the file do not match the file extension'
+  end
+
+  def populate_checksum
+    add_checksum(:document)
+    add_checksum(:converted_preview_document)
   end
 end

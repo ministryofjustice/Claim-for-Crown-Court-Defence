@@ -86,22 +86,46 @@ RSpec.describe Stats::StatsReport do
     end
 
     describe '#write_report' do
-      it 'updates with report contents and completed_at time' do
-        frozen_time = Time.new(2015, 3, 16, 13, 36, 12)
-        record = nil
-        travel_to(frozen_time) do
-          record = described_class.record_start('my_new_report')
+      subject(:write_report) do
+        report.tap do |r|
+          travel_to(end_time) do
+            r.write_report(Stats::Result.new(document_content, 'csv'))
+          end
         end
+      end
 
-        travel_to(frozen_time + 2.minutes) do
-          record.write_report(Stats::Result.new('The contents of my new report', 'csv'))
+      let(:report) do
+        travel_to(start_time) do
+          described_class.record_start('my_new_report')
         end
+      end
 
-        report = described_class.completed.where(report_name: 'my_new_report').first
-        expect(report.document).to be_kind_of(Paperclip::Attachment)
-        expect(open(report.document.path).read).to eq 'The contents of my new report'
-        expect(report.started_at).to eq frozen_time
-        expect(report.completed_at).to eq frozen_time + 2.minutes
+      let(:document_content) { 'The contents of my report' }
+      let(:start_time) { Time.zone.local(2021, 2, 24, 11, 24, 37) }
+      let(:end_time) { Time.zone.local(2021, 2, 24, 11, 29, 12) }
+      let(:checksum) { Digest::MD5.new.tap { |digest| digest << document_content }.base64digest }
+
+      it 'copies the document to the document storage' do
+        write_report
+        expect(File.open(report.document.path).read).to eq document_content
+      end
+
+      it 'does not change the started_at time' do
+        expect { write_report }.not_to change(report, :started_at)
+      end
+
+      it 'updates the completed_at time' do
+        expect { write_report }.to change(report, :completed_at).to(end_time)
+      end
+
+      it 'sets the report as current' do
+        expect { write_report }
+          .to change { described_class.completed.where(report_name: 'my_new_report').first }
+          .to report
+      end
+
+      it 'sets the checksum' do
+        expect { write_report }.to change(report, :as_document_checksum).to(checksum)
       end
     end
   end

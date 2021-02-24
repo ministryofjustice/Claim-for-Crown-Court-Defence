@@ -304,4 +304,20 @@ RSpec.describe Document, type: :model do
       expect(new_document.verified_file_size).to eq(document.verified_file_size)
     end
   end
+
+  describe '#as_document_checksum' do
+    let(:document) { create(:document) }
+
+    it 'is a checksum' do
+      expect(document.as_document_checksum).to match(/==$/)
+    end
+  end
+
+  describe '#as_converted_preview_document_checksum' do
+    let(:document) { create(:document) }
+
+    it 'is a checksum' do
+      expect(document.as_converted_preview_document_checksum).to match(/==$/)
+    end
+  end
 end

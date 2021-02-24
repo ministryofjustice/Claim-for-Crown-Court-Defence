@@ -200,4 +200,22 @@ RSpec.describe Message, type: :model do
       end
     end
   end
+
+  describe '#as_attachment_checksum' do
+    context 'with no attachment' do
+      let(:message) { create(:message) }
+
+      it 'is nil' do
+        expect(message.as_attachment_checksum).to be_nil
+      end
+    end
+
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
+
+      it 'is a checksum' do
+        expect(message.as_attachment_checksum).to match(/==$/)
+      end
+    end
+  end
 end

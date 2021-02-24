@@ -17,20 +17,20 @@
 require 'rails_helper'
 
 RSpec.describe Message, type: :model do
-  it { should belong_to(:claim) }
-  it { should belong_to(:sender).class_name('User').inverse_of(:messages_sent) }
-  it { should have_many(:user_message_statuses) }
+  it { is_expected.to belong_to(:claim) }
+  it { is_expected.to belong_to(:sender).class_name('User').inverse_of(:messages_sent) }
+  it { is_expected.to have_many(:user_message_statuses) }
 
-  it { should validate_presence_of(:sender).with_message('Message sender cannot be blank') }
-  it { should validate_presence_of(:claim_id).with_message('Message claim_id cannot be blank') }
-  it { should validate_presence_of(:body).with_message('Message body cannot be blank') }
+  it { is_expected.to validate_presence_of(:sender).with_message('Message sender cannot be blank') }
+  it { is_expected.to validate_presence_of(:claim_id).with_message('Message claim_id cannot be blank') }
+  it { is_expected.to validate_presence_of(:body).with_message('Message body cannot be blank') }
 
-  it { should have_attached_file(:attachment) }
+  it { is_expected.to have_attached_file(:attachment) }
 
   it_behaves_like 'an s3 bucket'
 
   it do
-    should validate_attachment_content_type(:attachment)
+    is_expected.to validate_attachment_content_type(:attachment)
       .allowing('application/pdf',
                 'application/msword',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -46,7 +46,7 @@ RSpec.describe Message, type: :model do
                  'text/html')
   end
 
-  it { should validate_attachment_size(:attachment).in(0.megabytes..20.megabytes) }
+  it { is_expected.to validate_attachment_size(:attachment).in(0.megabytes..20.megabytes) }
 
   describe '.for' do
     let(:message) { create(:message) }
@@ -54,11 +54,11 @@ RSpec.describe Message, type: :model do
     let(:user) { message.sender }
 
     it 'returns the messaages for the user' do
-      expect(Message.for(user)).to eq([message])
+      expect(described_class.for(user)).to eq([message])
     end
 
     it 'returns the messaages for the claim' do
-      expect(Message.for(claim)).to eq([message])
+      expect(described_class.for(claim)).to eq([message])
     end
   end
 
@@ -68,7 +68,7 @@ RSpec.describe Message, type: :model do
     let!(:third_message) { create(:message) }
 
     it 'returns the message sorted by most recent first' do
-      expect(Message.most_recent_first).to eq([third_message, second_message, first_message])
+      expect(described_class.most_recent_first).to eq([third_message, second_message, first_message])
     end
   end
 
@@ -86,7 +86,7 @@ RSpec.describe Message, type: :model do
     end
   end
 
-  context 'automotic state change of claim on message creation' do
+  context 'automatic state change of claim on message creation' do
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 
@@ -109,7 +109,7 @@ RSpec.describe Message, type: :model do
     end
   end
 
-  context 'process written reasons' do
+  describe 'process written reasons' do
     let(:claim)     { create :part_authorised_claim }
     let(:user)      { create :user }
 
@@ -125,14 +125,14 @@ RSpec.describe Message, type: :model do
     end
   end
 
-  context 'send_email_if_required' do
+  describe 'after_create :send_email_if_required' do
     let(:claim) { create :allocated_claim }
     let(:creator) { claim.creator }
     let(:case_worker) { claim.case_workers.first }
 
     it { expect(claim.state).to eq 'allocated' }
 
-    let(:message_params) { message_params = { claim_id: claim.id, sender_id: sender.user.id, body: 'lorem ipsum' } }
+    let(:message_params) { { claim_id: claim.id, sender_id: sender.user.id, body: 'lorem ipsum' } }
 
     context 'when message created by external_user' do
       let(:sender) { creator }
@@ -142,7 +142,7 @@ RSpec.describe Message, type: :model do
         creator.save
       end
 
-      context 'set up to receive mails' do
+      context 'when set up to receive mails' do
         let(:email_notification_of_message) { 'true' }
 
         it 'does not attempt to send an email' do
@@ -151,7 +151,7 @@ RSpec.describe Message, type: :model do
         end
       end
 
-      context 'NOT set up to receive mails' do
+      context 'when NOT set up to receive mails' do
         let(:email_notification_of_message) { 'false' }
 
         it 'does not attempt to send an email' do
@@ -168,7 +168,7 @@ RSpec.describe Message, type: :model do
         creator.user.email_notification_of_message = email_notification_of_message
       end
 
-      context 'claim creator is set up to receive mails' do
+      context 'when claim creator is set up to receive mails' do
         let(:email_notification_of_message) { 'true' }
 
         it 'sends an email' do
@@ -178,7 +178,7 @@ RSpec.describe Message, type: :model do
           create(:message, message_params)
         end
 
-        context 'but has been deleted' do
+        context 'when has been deleted' do
           before do
             claim.creator.soft_delete
           end
@@ -190,7 +190,7 @@ RSpec.describe Message, type: :model do
         end
       end
 
-      context 'claim creator is not set up to receive mails' do
+      context 'when claim creator is not set up to receive mails' do
         let(:email_notification_of_message) { 'false' }
 
         it 'does not attempt to send an email' do

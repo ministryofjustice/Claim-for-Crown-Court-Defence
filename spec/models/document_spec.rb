@@ -29,21 +29,21 @@ require 'fileutils'
 TEMPFILE_NAME = File.join(Rails.root, 'tmp', 'document_spec', 'test.txt')
 
 RSpec.describe Document, type: :model do
-  it { should belong_to(:external_user) }
-  it { should belong_to(:creator).class_name('ExternalUser') }
-  it { should belong_to(:claim) }
-  it { should delegate_method(:provider_id).to(:external_user) }
+  it { is_expected.to belong_to(:external_user) }
+  it { is_expected.to belong_to(:creator).class_name('ExternalUser') }
+  it { is_expected.to belong_to(:claim) }
+  it { is_expected.to delegate_method(:provider_id).to(:external_user) }
 
-  it { should have_attached_file(:document) }
-  it { should validate_attachment_presence(:document) }
+  it { is_expected.to have_attached_file(:document) }
+  it { is_expected.to validate_attachment_presence(:document) }
 
-  it { should have_attached_file(:converted_preview_document) }
-  it { should validate_attachment_content_type(:converted_preview_document).allowing('application/pdf') }
+  it { is_expected.to have_attached_file(:converted_preview_document) }
+  it { is_expected.to validate_attachment_content_type(:converted_preview_document).allowing('application/pdf') }
 
   it_behaves_like 'an s3 bucket'
 
   it do
-    should validate_attachment_content_type(:document)
+    is_expected.to validate_attachment_content_type(:document)
       .allowing('application/pdf',
                 'application/msword',
                 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -59,9 +59,9 @@ RSpec.describe Document, type: :model do
                  'text/html')
   end
 
-  it { should validate_attachment_size(:document).in(0.megabytes..20.megabytes) }
+  it { is_expected.to validate_attachment_size(:document).in(0.megabytes..20.megabytes) }
 
-  context 'validation' do
+  describe 'validation' do
     let(:claim) { create :claim }
     let(:document) { create :document, claim: claim }
 
@@ -132,7 +132,7 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context '#generate_pdf_tmpfile' do
+  describe '#generate_pdf_tmpfile' do
     context 'when the original attachment is a .docx' do
       subject { build(:document, :docx, document_content_type: 'application/msword') }
 
@@ -156,7 +156,7 @@ RSpec.describe Document, type: :model do
       end
 
       it 'does not call document#convert_and_assign_document' do
-        expect(subject).to_not receive(:convert_and_assign_document)
+        expect(subject).not_to receive(:convert_and_assign_document)
         subject.generate_pdf_tmpfile
       end
 
@@ -167,7 +167,7 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context '#convert_and_assign_document' do
+  describe '#convert_and_assign_document' do
     subject { build(:document, :docx, document_content_type: 'application/msword') }
 
     it 'depends on the Libreconv gem' do
@@ -177,11 +177,11 @@ RSpec.describe Document, type: :model do
 
     it 'handles IOError when Libreconv is not in PATH' do
       allow(Libreconv).to receive(:convert).and_raise(IOError) # raise IOError as if Libreoffice exe were not found
-      expect { subject.save! }.to change(Document, :count).by(1) # error handled and document is still saved
+      expect { subject.save! }.to change(described_class, :count).by(1) # error handled and document is still saved
     end
   end
 
-  context '#add_converted_preview_document' do
+  describe '#add_converted_preview_document' do
     subject { build(:document) }
 
     before { allow(Libreconv).to receive(:convert) }
@@ -198,7 +198,7 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context 'save_and_verify' do
+  describe '#save_and_verify' do
     let(:document) { build :document }
 
     after { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
@@ -212,20 +212,20 @@ RSpec.describe Document, type: :model do
       end
     end
 
-    context 'success' do
+    context 'with success' do
       it 'records filesize, path and verified in the record' do
         allow(LogStuff).to receive(:info).exactly(2)
 
         expect(document.save_and_verify).to be true
         expect(document.verified_file_size).to eq 49993
-        expect(document.file_path).to_not be_blank
+        expect(document.file_path).not_to be_blank
         expect(document.verified).to be true
         expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
         expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'verify', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
       end
     end
 
-    context 'failure to verify' do
+    context 'with failure to verify' do
       it 'marks the document as unverified' do
         file_path = make_empty_temp_file
         allow(document).to receive(:reload_saved_file).and_return(file_path)
@@ -243,7 +243,7 @@ RSpec.describe Document, type: :model do
       end
     end
 
-    context 'failure to save' do
+    context 'with failure to save' do
       it 'logs and returns false' do
         allow(LogStuff).to receive(:error).exactly(1)
         allow(document).to receive(:save).and_return(false)
@@ -256,7 +256,7 @@ RSpec.describe Document, type: :model do
       end
     end
 
-    context 'exception trying to verify' do
+    context 'with exception trying to verify' do
       it 'populates the error hash' do
         allow(LogStuff).to receive(:error).exactly(1)
         allow(document).to receive(:save).and_return(true)
@@ -279,7 +279,7 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  context '#copy_from' do
+  describe '#copy_from' do
     let(:document) { build(:document) }
     let(:new_document) { build(:document, :empty) }
 

@@ -140,7 +140,7 @@ RSpec.describe Stats::StatsReport do
     context 'when document exists' do
       let(:report) { build(:stats_report, :with_document) }
 
-      context 'and the document storage is filesystem' do
+      context 'when the document storage is filesystem' do
         let(:options) { { storage: :filesystem } }
 
         before do
@@ -152,7 +152,7 @@ RSpec.describe Stats::StatsReport do
         end
       end
 
-      context 'and the document storage is S3' do
+      context 'when the document storage is S3' do
         let(:options) { { storage: :s3 } }
 
         before do
@@ -167,7 +167,7 @@ RSpec.describe Stats::StatsReport do
     end
   end
 
-  context 'housekeeping' do
+  describe 'housekeeping' do
     describe '.destroy_reports_older_than' do
       it 'destroys all reports for named report older than specified time' do
         _my_report_old = create :stats_report, started_at: 63.days.ago

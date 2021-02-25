@@ -683,7 +683,7 @@ GEM
       simplecov
     simplecov-html (0.10.2)
     simplecov-multi (0.0.1)
-    site_prism (3.7)
+    site_prism (3.7.1)
       addressable (~> 2.5)
       capybara (~> 3.8)
       site_prism-all_there (>= 0.3.1, < 1.0)

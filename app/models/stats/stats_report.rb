@@ -90,6 +90,10 @@ module Stats
       where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
     end
 
+    def populate_checksum
+      add_checksum(:document)
+    end
+
     private
 
     def log(level, action, message, error = nil)

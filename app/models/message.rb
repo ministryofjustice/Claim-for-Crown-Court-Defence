@@ -65,6 +65,10 @@ class Message < ApplicationRecord
     end
   end
 
+  def populate_checksum
+    add_checksum(:attachment)
+  end
+
   private
 
   def send_email_if_required
@@ -108,9 +112,5 @@ class Message < ApplicationRecord
 
   def claim_updater
     Claims::ExternalUserClaimUpdater.new(claim, current_user: sender)
-  end
-
-  def populate_checksum
-    add_checksum(:attachment)
   end
 end

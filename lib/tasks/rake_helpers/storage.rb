@@ -22,7 +22,7 @@ module Storage
           end
         end.join(', ')
 
-      connection.prepare('create_active_storage_blobs', <<~SQL)
+      connection.prepare("create_active_storage_blobs_#{name}", <<~SQL)
         INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
           SELECT CONCAT(#{key}),
                  #{name}_file_name,
@@ -31,14 +31,14 @@ module Storage
                  #{name}_file_size,
                  as_#{name}_checksum,
                  #{name}_updated_at
-            FROM #{self.models(model).table_name}
+            FROM #{model}
             WHERE #{name}_file_name IS NOT NULL
               AND id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = '#{self.models(model)}')
           ON CONFLICT DO NOTHING;
       SQL
 
       # Link ActiveStorage::Blob objects to the correct records with ActiveStorage::Attachment
-      connection.prepare('create_active_storage_attachments', <<~SQL)
+      connection.prepare("create_active_storage_attachments_#{name}", <<~SQL)
         INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
           SELECT '#{name}',
                  '#{self.models(model)}',
@@ -49,13 +49,39 @@ module Storage
           WHERE metadata LIKE 'in-progress/%';
       SQL
 
-      connection.prepare('update_active_storage_blobs_metadata', <<~SQL)
+      connection.prepare("update_active_storage_blobs_metadata_#{name}", <<~SQL)
         UPDATE active_storage_blobs SET metadata='{}' WHERE metadata LIKE 'in-progress/%';
       SQL
 
-      connection.exec_prepared('create_active_storage_blobs');
-      connection.exec_prepared('create_active_storage_attachments');
-      connection.exec_prepared('update_active_storage_blobs_metadata');
+      puts "Creating Active Storage Blobs for #{name}"
+      connection.exec_prepared("create_active_storage_blobs_#{name}");
+      puts "Creating Active Storage Attachments for #{name}"
+      connection.exec_prepared("create_active_storage_attachments_#{name}");
+      puts "Updating Active Storage blobs metadata for #{name}"
+      connection.exec_prepared("update_active_storage_blobs_metadata_#{name}");
+    end
+  end
+
+  def self.rollback(model)
+    connection = ActiveRecord::Base.connection.raw_connection
+    ATTACHMENTS[model].each do |name|
+      # Delete blobs for the model
+      connection.prepare("delete_active_storage_blobs_#{name}", <<~SQL)
+        DELETE FROM active_storage_blobs
+          WHERE id IN (SELECT blob_id FROM active_storage_attachments WHERE record_type='#{self.models(model)}' AND name='#{name}')
+      SQL
+      # Delete active storage records for the model
+      connection.prepare("delete_active_storage_attachments_#{name}", <<~SQL)
+        DELETE FROM active_storage_attachments WHERE record_type='#{self.models(model)}' AND name='#{name}'
+      SQL
+      # Clear checksums
+      connection.prepare("clear_checksums_#{name}", <<~SQL)
+        UPDATE #{model} SET as_#{name}_checksum=NULL
+      SQL
+
+      connection.exec_prepared("delete_active_storage_blobs_#{name}");
+      connection.exec_prepared("delete_active_storage_attachments_#{name}");
+      connection.exec_prepared("clear_checksums_#{name}");
     end
   end
 

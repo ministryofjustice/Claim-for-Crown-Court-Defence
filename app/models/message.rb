@@ -16,6 +16,7 @@
 
 class Message < ApplicationRecord
   include S3Headers
+  include CheckSummable
 
   belongs_to :claim, class_name: 'Claim::BaseClaim'
   belongs_to :sender, class_name: 'User', inverse_of: :messages_sent
@@ -49,6 +50,7 @@ class Message < ApplicationRecord
 
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
+  before_save :populate_checksum
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
 
   class << self
@@ -106,5 +108,9 @@ class Message < ApplicationRecord
 
   def claim_updater
     Claims::ExternalUserClaimUpdater.new(claim, current_user: sender)
+  end
+
+  def populate_checksum
+    add_checksum(:attachment)
   end
 end

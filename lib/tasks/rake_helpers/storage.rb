@@ -33,8 +33,12 @@ module Storage
                  #{name}_updated_at
             FROM #{model}
             WHERE #{name}_file_name IS NOT NULL
-              AND id NOT IN (SELECT DISTINCT record_id FROM active_storage_attachments WHERE record_type = '#{self.models(model)}')
-          ON CONFLICT DO NOTHING;
+              AND id NOT IN (
+                SELECT DISTINCT record_id FROM active_storage_attachments
+                  WHERE record_type = '#{self.models(model)}'
+                    AND name = '#{name}'
+              )
+          ON CONFLICT (key) DO UPDATE SET metadata=EXCLUDED.metadata;
       SQL
 
       # Link ActiveStorage::Blob objects to the correct records with ActiveStorage::Attachment
@@ -65,22 +69,22 @@ module Storage
   def self.rollback(model)
     connection = ActiveRecord::Base.connection.raw_connection
     ATTACHMENTS[model].each do |name|
-      # Delete blobs for the model
-      connection.prepare("delete_active_storage_blobs_#{name}", <<~SQL)
-        DELETE FROM active_storage_blobs
-          WHERE id IN (SELECT blob_id FROM active_storage_attachments WHERE record_type='#{self.models(model)}' AND name='#{name}')
-      SQL
-      # Delete active storage records for the model
+      # Delete active storage attachments for the model
       connection.prepare("delete_active_storage_attachments_#{name}", <<~SQL)
         DELETE FROM active_storage_attachments WHERE record_type='#{self.models(model)}' AND name='#{name}'
+      SQL
+      # Delete blobs no longer linked to an attachment
+      connection.prepare("delete_active_storage_blobs_#{name}", <<~SQL)
+        DELETE FROM active_storage_blobs
+          WHERE id NOT IN (SELECT blob_id FROM active_storage_attachments)
       SQL
       # Clear checksums
       connection.prepare("clear_checksums_#{name}", <<~SQL)
         UPDATE #{model} SET as_#{name}_checksum=NULL
       SQL
 
-      connection.exec_prepared("delete_active_storage_blobs_#{name}");
       connection.exec_prepared("delete_active_storage_attachments_#{name}");
+      connection.exec_prepared("delete_active_storage_blobs_#{name}");
       connection.exec_prepared("clear_checksums_#{name}");
     end
   end
@@ -141,7 +145,7 @@ module Storage
       'stats_reports' => Stats::StatsReport,
       'messages' => Message,
       'documents' => Document
-    }[model]  
+    }[model]
   end
 
   def self.s3_path_pattern(model)
@@ -152,4 +156,3 @@ module Storage
     }[model]
   end
 end
-  

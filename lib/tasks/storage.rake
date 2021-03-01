@@ -73,7 +73,7 @@ namespace :storage do
     end
 
     puts "Setting checksums for #{args[:model].green}"
-    Storage.set_checksums(records: records, model: args[:model])
+    Storage.set_paperclip_checksums(records: records, model: args[:model])
   end
 
   desc 'Clear temporary checksums'

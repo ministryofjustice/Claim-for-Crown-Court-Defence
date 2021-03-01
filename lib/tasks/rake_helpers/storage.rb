@@ -117,7 +117,7 @@ module Storage
     end
   end
 
-  def self.set_checksums(records:, model:)
+  def self.set_paperclip_checksums(records:, model:)
     bar = self.progress_bar title: ATTACHMENTS[model].join(', '), total: records.count
 
     records.each do |record|

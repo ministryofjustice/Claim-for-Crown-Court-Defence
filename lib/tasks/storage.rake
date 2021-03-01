@@ -20,6 +20,8 @@ namespace :storage do
 
   desc 'Add file checksums to paperclip columns'
   task :add_paperclip_checksums, [:model] => :environment do |_task, args|
+    continue?("Set paperclip checksums for all records of #{args[:model]}?")
+
     module TempStats
       class StatsReport < ApplicationRecord
         include S3Headers
@@ -78,6 +80,7 @@ namespace :storage do
 
   desc 'Clear temporary paperclip checksums for specified model'
   task :clear_paperclip_checksums, [:model] => :environment do |_task, args|
+    continue?("Clear paperclip checksums for all records of #{args[:model]}?")
     Storage.clear_paperclip_checksums args[:model]
   end
 

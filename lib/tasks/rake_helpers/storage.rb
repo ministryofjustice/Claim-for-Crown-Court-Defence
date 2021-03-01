@@ -38,7 +38,7 @@ module Storage
                   WHERE record_type = '#{self.models(model)}'
                     AND name = '#{name}'
               )
-          ON CONFLICT #{self.conflict_clause_for(model)};
+          #{self.conflict_clause_for(model)};
       SQL
 
       # Link ActiveStorage::Blob objects to the correct records with ActiveStorage::Attachment
@@ -198,9 +198,9 @@ module Storage
   end
 
   def self.conflict_clause_for(model)
-    return 'ON CONFLICT (key) DO UPDATE SET metadata=EXCLUDED.metadata' if model == 'documents'
+    return 'ON CONFLICT (key) DO U PDATE SET metadata=EXCLUDED.metadata' if model == 'documents'
 
-    'DO NOTHING'
+    'ON CONFLICT DO NOTHING'
   end
 
   def self.highlight(n, good: nil, warning: nil, bad: nil)

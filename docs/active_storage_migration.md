@@ -100,37 +100,23 @@ rails> ActiveStorage::Attachment.where(record_type: 'Stats::StatsReport').sample
 
 ### Rollback
 
-**Note 1:** This rollback should not be attempted after PR #3722 has been deployed
-(final step, above) as this will delete assets from Active Storage that do not
-exist in Paperclip.
+**Note:** This rollback should not be attempted after
+[CBO-1683](https://dsdmoj.atlassian.net/browse/CBO-1683) has been completed
+as this will delete assets from Active Storage that do not exist in Paperclip.
 
-**Note 2:** Using `destroy` or `destroy_all` on `ActiveStorage::Attachment` may
-delete the actual files so `delete` is used instead, even though it is more
-involved.
+* To roll back the migration of assets from Paperclip to Active Storage use the
+  `storage:rollback` task. This will delete records from the
+  `active_storage_attachments` and `active_storage_blobs` tables.
 
-1) Get a list of stats reports records in Active Storage:
-
-```ruby
-rails> attachments = ActiveStorage::Attachment.where(record_type: 'Stats::StatsReport')
+```bash
+$ bundle exec rails 'storage:rollback[stats_reports]'
 ```
 
-2) Record the list of blobs for these attachments:
-
-```ruby
-rails> blobs = ActiveStorage::Blob.where(id: attachments.pluck(:blob_id))
-```
-
-3) Remove attachment and blob records:
-
-```ruby
-rails> attachments.delete_all
-rails> blobs.delete_all
-```
-
-4) Delete checksums
-
-```ruby
-rails> Stats::StatsReport.update_all(as_document_checksum: nil)
+* To delete checksums that have been calculated prior to migration use the
+  `storage:clear_checksums` task.
+  
+```bash
+$ bundle exec rails 'storage:clear_checksums[stats_reports]'
 ```
 
 ## Messages
@@ -200,37 +186,23 @@ rails> ActiveStorage::Attachment.where(record_type: 'Message').sample.service_ur
 
 ### Rollback
 
-**Note 1:** This rollback should not be attempted after PR #3735 has been deployed
-(final step, above) as this will delete assets from Active Storage that do not
-exist in Paperclip.
+**Note:** This rollback should not be attempted after
+[CBO-1692](https://dsdmoj.atlassian.net/browse/CBO-1692) has been completed
+as this will delete assets from Active Storage that do not exist in Paperclip.
 
-**Note 2:** Using `destroy` or `destroy_all` on `ActiveStorage::Attachment` may
-delete the actual files so `delete` is used instead, even though it is more
-involved.
+* To roll back the migration of assets from Paperclip to Active Storage use the
+  `storage:rollback` task. This will delete records from the
+  `active_storage_attachments` and `active_storage_blobs` tables.
 
-1) Get a list of stats reports records in Active Storage:
-
-```ruby
-rails> attachments = ActiveStorage::Attachment.where(record_type: 'Message')
+```bash
+$ bundle exec rails 'storage:rollback[messages]'
 ```
 
-2) Record the list of blobs for these attachments:
-
-```ruby
-rails> blobs = ActiveStorage::Blob.where(id: attachments.pluck(:blob_id))
-```
-
-3) Remove attachment and blob records:
-
-```ruby
-rails> attachments.delete_all
-rails> blobs.delete_all
-```
-
-4) Delete checksums
-
-```ruby
-rails> Message.update_all(as_attachment_checksum: nil)
+* To delete checksums that have been calculated prior to migration use the
+  `storage:clear_checksums` task.
+  
+```bash
+$ bundle exec rails 'storage:clear_checksums[messages]'
 ```
 
 ## Documents
@@ -327,37 +299,23 @@ rails> ActiveStorage::Attachment.where(record_type: 'Document', name: 'converted
 
 ### Rollback
 
-**Note 1:** This rollback should not be attempted after PR #3739 has been deployed
-(final step, above) as this will delete assets from Active Storage that do not
-exist in Paperclip.
+**Note:** This rollback should not be attempted after
+[CBO-1693](https://dsdmoj.atlassian.net/browse/CBO-1693) has been completed
+as this will delete assets from Active Storage that do not exist in Paperclip.
 
-**Note 2:** Using `destroy` or `destroy_all` on `ActiveStorage::Attachment` may
-delete the actual files so `delete` is used instead, even though it is more
-involved.
+* To roll back the migration of assets from Paperclip to Active Storage use the
+  `storage:rollback` task. This will delete records from the
+  `active_storage_attachments` and `active_storage_blobs` tables.
 
-1) Get a list of stats reports records in Active Storage:
-
-```ruby
-rails> attachments = ActiveStorage::Attachment.where(record_type: 'Document')
+```bash
+$ bundle exec rails 'storage:rollback[documents]'
 ```
 
-2) Record the list of blobs for these attachments:
-
-```ruby
-rails> blobs = ActiveStorage::Blob.where(id: attachments.pluck(:blob_id))
-```
-
-3) Remove attachment and blob records:
-
-```ruby
-rails> attachments.delete_all
-rails> blobs.delete_all
-```
-
-4) Delete checksums
-
-```ruby
-rails> Document.update_all(as_document_checksum: nil, as_converted_preview_document_checksum: nil)
+* To delete checksums that have been calculated prior to migration use the
+  `storage:clear_checksums` task.
+  
+```bash
+$ bundle exec rails 'storage:clear_checksums[documents]'
 ```
 
 ## Redrafting bug

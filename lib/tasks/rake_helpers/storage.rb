@@ -198,7 +198,7 @@ module Storage
   end
 
   def self.conflict_clause_for(model)
-    return 'ON CONFLICT (key) DO U PDATE SET metadata=EXCLUDED.metadata' if model == 'documents'
+    return 'ON CONFLICT (key) DO UPDATE SET metadata=EXCLUDED.metadata' if model == 'documents'
 
     'ON CONFLICT DO NOTHING'
   end

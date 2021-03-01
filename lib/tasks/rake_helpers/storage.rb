@@ -38,7 +38,7 @@ module Storage
                   WHERE record_type = '#{self.models(model)}'
                     AND name = '#{name}'
               )
-          ON CONFLICT (key) DO UPDATE SET metadata=EXCLUDED.metadata;
+          ON CONFLICT #{self.conflict_clause_for(model)};
       SQL
 
       # Link ActiveStorage::Blob objects to the correct records with ActiveStorage::Attachment
@@ -138,12 +138,45 @@ module Storage
     )
   end
 
-  def self.highlight(n, good: nil, warning: nil, bad: nil)
-    return n.to_s.green if good&.include? n
-    return n.to_s.yellow if warning&.include? n
-    return n.to_s.red if bad&.include? n
+  def self.status(model)
+    checksum_formats = { good: [0], bad: (1..) }
 
-    n.to_s
+    puts model.titlecase
+    puts "="*model.length
+
+    all = self.models(model).all
+    puts "Total records:      #{all.count.to_s.green}"
+
+    case model
+    when 'stats_reports'
+      sr_unique = all.distinct.count(:document_file_name)
+      puts "Total unique files: #{sr_unique.to_s.green}"
+      puts "Missing checksums:  #{self.highlight(all.where(as_document_checksum: nil).count, **checksum_formats)}"
+      as = ActiveStorage::Attachment.where(record_type: 'Stats::StatsReport')
+      puts "AS records:         #{self.highlight(as.count, bad: (0..sr_unique-1), good: [sr_unique], warning: (sr_unique+1..))}"
+      puts "AS records checked: #{self.validate(attachments: as)}"
+    when 'messages'
+      ms_attachments = all.where.not(attachment_file_name: nil)
+      ms_attachments_count = ms_attachments.count
+      puts "Total attachments:  #{ms_attachments_count.to_s.green}"
+      puts "Missing checksums:  #{self.highlight(ms_attachments.where(as_attachment_checksum: nil).count, **checksum_formats)}"
+      as = ActiveStorage::Attachment.where(record_type: 'Message')
+      puts "AS records:         #{self.highlight(as.count, bad: (0..ms_attachments_count-1), good: [ms_attachments_count], warning: (ms_attachments_count+1..))}"
+      puts "AS records checked: #{self.validate(attachments: as)}"
+    when 'documents'
+      ds_count = all.count
+      migrated_formats = { bad: (0..ds_count-1), good: [ds_count], warning: (ds_count+1..) }
+      puts 'Missing checksums'
+      puts "  Document:         #{self.highlight(all.where(as_document_checksum: nil).count, **checksum_formats)}"
+      puts "  Preview:          #{self.highlight(all.where(as_converted_preview_document_checksum: nil).count, **checksum_formats)}"
+      as_doc = ActiveStorage::Attachment.where(record_type: 'Document', name: 'document')
+      as_preview = ActiveStorage::Attachment.where(record_type: 'Document', name: 'converted_preview_document')
+      puts 'AS records'
+      puts "  Document:         #{self.highlight(as_doc.count, **migrated_formats)}"
+      puts "  Document checked: #{self.validate(attachments: as_doc)}"
+      puts "  Preview:          #{self.highlight(as_preview.count, **migrated_formats)}"
+      puts "  Preview checked:  #{self.validate(attachments: as_preview)}"
+    end
   end
 
   private
@@ -162,5 +195,27 @@ module Storage
       'messages' => PAPERCLIP_STORAGE_OPTIONS[:path],
       'documents' => PAPERCLIP_STORAGE_OPTIONS[:path]
     }[model]
+  end
+
+  def self.conflict_clause_for(model)
+    return 'ON CONFLICT (key) DO UPDATE SET metadata=EXCLUDED.metadata' if model == 'documents'
+
+    'DO NOTHING'
+  end
+
+  def self.highlight(n, good: nil, warning: nil, bad: nil)
+    return n.to_s.green if good&.include? n
+    return n.to_s.yellow if warning&.include? n
+    return n.to_s.red if bad&.include? n
+
+    n.to_s
+  end
+
+  def self.validate(attachments:)
+    attachments.each_with_object(true) do |attachment, check|
+      check &&
+        attachment.blob.filename == attachment.record.send("#{attachment.name}_file_name") &&
+        attachment.blob.checksum == attachment.record.send("as_#{attachment.name}_checksum")
+    end ? 'OK'.green : 'Failed'.red
   end
 end

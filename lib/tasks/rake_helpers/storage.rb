@@ -85,19 +85,19 @@ module Storage
     connection.exec_prepared("delete_active_storage_blobs");
   end
 
-  def self.clear_checksums(model)
+  def self.clear_paperclip_checksums(model)
     connection = ActiveRecord::Base.connection.raw_connection
     ATTACHMENTS[model].each do |name|
       # Clear checksums
-      connection.prepare("clear_checksums_#{name}", <<~SQL)
+      connection.prepare("clear_paperclip_checksums_#{name}", <<~SQL)
         UPDATE #{model} SET as_#{name}_checksum=NULL
       SQL
 
-      connection.exec_prepared("clear_checksums_#{name}");
+      connection.exec_prepared("clear_paperclip_checksums_#{name}");
     end
   end
 
-  def self.make_dummy_files_for(model)
+  def self.create_dummy_paperclip_files_for(model)
     if self.models(model).nil?
       puts "Cannot create dummy files for: #{model}"
       exit
@@ -117,10 +117,10 @@ module Storage
     end
   end
 
-  def self.set_checksums(records:, model:)
-    bar = self.progress_bar title: ATTACHMENTS[model].join(', '), total: records.count
+  def self.set_paperclip_checksums(relation:, model:)
+    bar = self.progress_bar title: ATTACHMENTS[model].join(', '), total: relation.count
 
-    records.each do |record|
+    relation.each do |record|
       bar.increment
       record.populate_checksum
       record.save

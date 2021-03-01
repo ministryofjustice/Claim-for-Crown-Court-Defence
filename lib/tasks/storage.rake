@@ -11,15 +11,16 @@ namespace :storage do
     Storage.rollback args[:model]
   end
 
-  desc 'Create dummy assets files'
-  task :dummy_files, [:model] => :environment do |_task, args|
+  desc 'Create/replace dummy paperclip asset files'
+  task :create_dummy_paperclip_files, [:model] => :environment do |_task, args|
     production_protected
+    continue?("Warning: this will overwrite existing files for #{args[:model]} with random bytes! Are you sure?")
 
-    Storage.make_dummy_files_for args[:model]
+    Storage.create_dummy_paperclip_files_for args[:model]
   end
 
-  desc 'Calculate checksums'
-  task :calculate_checksums, [:model] => :environment do |_task, args|
+  desc 'Add file checksums to paperclip columns'
+  task :add_paperclip_checksums, [:model] => :environment do |_task, args|
     module TempStats
       class StatsReport < ApplicationRecord
         include S3Headers
@@ -62,23 +63,23 @@ namespace :storage do
 
     case args[:model]
     when 'stats_reports'
-      records = TempStats::StatsReport.where.not(document_file_name: nil).where(as_document_checksum: nil)
+      relation = TempStats::StatsReport.where.not(document_file_name: nil).where(as_document_checksum: nil)
     when 'messages'
-      records = TempMessage.where.not(attachment_file_name: nil).where(as_attachment_checksum: nil)
+      relation = TempMessage.where.not(attachment_file_name: nil).where(as_attachment_checksum: nil)
     when 'documents'
-      records = TempDocument.where(as_document_checksum: nil)
+      relation = TempDocument.where(as_document_checksum: nil)
     else
       puts "Cannot calculate checksums for: #{args[:model]}"
       exit
     end
 
     puts "Setting checksums for #{args[:model].green}"
-    Storage.set_checksums(records: records, model: args[:model])
+    Storage.set_paperclip_checksums(relation: relation, model: args[:model])
   end
 
-  desc 'Clear temporary checksums'
-  task :clear_checksums, [:model] => :environment do |_task, args|
-    Storage.clear_checksums args[:model]
+  desc 'Clear temporary paperclip checksums for specified model'
+  task :clear_paperclip_checksums, [:model] => :environment do |_task, args|
+    Storage.clear_paperclip_checksums args[:model]
   end
 
   desc 'Show status of storage migration'

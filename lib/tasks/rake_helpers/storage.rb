@@ -91,9 +91,11 @@ module Storage
       # Clear checksums
       connection.prepare("clear_paperclip_checksums_#{name}", <<~SQL)
         UPDATE #{model} SET as_#{name}_checksum=NULL
+        WHERE as_#{name}_checksum IS NOT NULL
       SQL
 
-      connection.exec_prepared("clear_paperclip_checksums_#{name}");
+      result = connection.exec_prepared("clear_paperclip_checksums_#{name}")
+      puts "Updated #{result.cmd_tuples.to_s.green} rows"
     end
   end
 

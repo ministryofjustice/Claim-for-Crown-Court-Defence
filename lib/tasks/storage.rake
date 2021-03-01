@@ -18,8 +18,8 @@ namespace :storage do
     Storage.make_dummy_files_for args[:model]
   end
 
-  desc 'Calculate checksums'
-  task :calculate_checksums, [:model] => :environment do |_task, args|
+  desc 'Add file checksums to paperclip columns'
+  task :add_paperclip_checksums, [:model] => :environment do |_task, args|
     module TempStats
       class StatsReport < ApplicationRecord
         include S3Headers

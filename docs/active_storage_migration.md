@@ -113,10 +113,10 @@ $ bundle exec rails 'storage:rollback[stats_reports]'
 ```
 
 * To delete checksums that have been calculated prior to migration use the
-  `storage:clear_checksums` task.
+  `storage:clear_paperclip_checksums` task.
 
 ```bash
-$ bundle exec rails 'storage:clear_checksums[stats_reports]'
+$ bundle exec rails 'storage:clear_paperclip_checksums[stats_reports]'
 ```
 
 ## Messages
@@ -199,10 +199,10 @@ $ bundle exec rails 'storage:rollback[messages]'
 ```
 
 * To delete checksums that have been calculated prior to migration use the
-  `storage:clear_checksums` task.
+  `storage:clear_paperclip_checksums` task.
 
 ```bash
-$ bundle exec rails 'storage:clear_checksums[messages]'
+$ bundle exec rails 'storage:clear_paperclip_checksums[messages]'
 ```
 
 ## Documents
@@ -312,10 +312,10 @@ $ bundle exec rails 'storage:rollback[documents]'
 ```
 
 * To delete checksums that have been calculated prior to migration use the
-  `storage:clear_checksums` task.
+  `storage:clear_paperclip_checksums` task.
 
 ```bash
-$ bundle exec rails 'storage:clear_checksums[documents]'
+$ bundle exec rails 'storage:clear_paperclip_checksums[documents]'
 ```
 
 ## Redrafting bug

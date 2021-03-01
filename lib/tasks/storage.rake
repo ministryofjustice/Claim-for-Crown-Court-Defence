@@ -76,9 +76,9 @@ namespace :storage do
     Storage.set_paperclip_checksums(records: records, model: args[:model])
   end
 
-  desc 'Clear temporary checksums'
-  task :clear_checksums, [:model] => :environment do |_task, args|
-    Storage.clear_checksums args[:model]
+  desc 'Clear temporary paperclip checksums for specified model'
+  task :clear_paperclip_checksums, [:model] => :environment do |_task, args|
+    Storage.clear_paperclip_checksums args[:model]
   end
 
   desc 'Show status of storage migration'

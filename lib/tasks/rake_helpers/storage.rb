@@ -85,15 +85,15 @@ module Storage
     connection.exec_prepared("delete_active_storage_blobs");
   end
 
-  def self.clear_checksums(model)
+  def self.clear_paperclip_checksums(model)
     connection = ActiveRecord::Base.connection.raw_connection
     ATTACHMENTS[model].each do |name|
       # Clear checksums
-      connection.prepare("clear_checksums_#{name}", <<~SQL)
+      connection.prepare("clear_paperclip_checksums_#{name}", <<~SQL)
         UPDATE #{model} SET as_#{name}_checksum=NULL
       SQL
 
-      connection.exec_prepared("clear_checksums_#{name}");
+      connection.exec_prepared("clear_paperclip_checksums_#{name}");
     end
   end
 

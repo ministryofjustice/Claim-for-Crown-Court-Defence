@@ -99,7 +99,7 @@ module Storage
     end
   end
 
-  def self.make_dummy_files_for(model)
+  def self.create_dummy_paperclip_files_for(model)
     if self.models(model).nil?
       puts "Cannot create dummy files for: #{model}"
       exit

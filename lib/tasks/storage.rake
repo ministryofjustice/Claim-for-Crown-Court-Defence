@@ -11,11 +11,12 @@ namespace :storage do
     Storage.rollback args[:model]
   end
 
-  desc 'Create dummy assets files'
-  task :dummy_files, [:model] => :environment do |_task, args|
+  desc 'Create/replace dummy paperclip asset files'
+  task :create_dummy_paperclip_files, [:model] => :environment do |_task, args|
     production_protected
+    continue?("Warning: this will overwrite existing files for #{args[:model]} with random bytes! Are you sure?")
 
-    Storage.make_dummy_files_for args[:model]
+    Storage.create_dummy_paperclip_files_for args[:model]
   end
 
   desc 'Add file checksums to paperclip columns'

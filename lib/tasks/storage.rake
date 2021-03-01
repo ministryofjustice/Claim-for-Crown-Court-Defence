@@ -76,12 +76,17 @@ namespace :storage do
     Storage.set_checksums(records: records, model: args[:model])
   end
 
+  desc 'Clear temporary checksums'
+  task :clear_checksums, [:model] => :environment do |_task, args|
+    Storage.clear_checksums args[:model]
+  end
+
   desc 'Show status of storage migration'
   task status: :environment do
     checksum_formats = { good: [0], bad: (1..) }
 
-    puts "Stats Reports"
-    puts "============="
+    puts 'Stats Reports'
+    puts '============='
     sr = Stats::StatsReport.all
     puts "Total records:      #{sr.count.to_s.green}"
     sr_unique = sr.distinct.count(:document_file_name)
@@ -91,8 +96,8 @@ namespace :storage do
     puts "AS records:         #{Storage.highlight(as.count, bad: (0..sr_unique-1), good: [sr_unique], warning: (sr_unique+1..))}"
 
     puts
-    puts "Messages"
-    puts "========"
+    puts 'Messages'
+    puts '========'
     ms = Message.all
     puts "Total records:      #{ms.count.to_s.green}"
     ms_attachments = ms.where.not(attachment_file_name: nil)
@@ -103,8 +108,8 @@ namespace :storage do
     puts "AS records:         #{Storage.highlight(as.count, bad: (0..ms_attachments_count-1), good: [ms_attachments_count], warning: (ms_attachments_count+1..))}"
 
     puts
-    puts "Documents"
-    puts "========="
+    puts 'Documents'
+    puts '========='
     ds = Document.all
     puts "Total records:      #{ds.count.to_s.green}"
     ds_count = ds.count

@@ -73,18 +73,26 @@ module Storage
       connection.prepare("delete_active_storage_attachments_#{name}", <<~SQL)
         DELETE FROM active_storage_attachments WHERE record_type='#{self.models(model)}' AND name='#{name}'
       SQL
-      # Delete blobs no longer linked to an attachment
-      connection.prepare("delete_active_storage_blobs_#{name}", <<~SQL)
-        DELETE FROM active_storage_blobs
-          WHERE id NOT IN (SELECT blob_id FROM active_storage_attachments)
-      SQL
+
+      connection.exec_prepared("delete_active_storage_attachments_#{name}");
+    end
+
+    # Delete blobs no longer linked to an attachment
+    connection.prepare("delete_active_storage_blobs", <<~SQL)
+      DELETE FROM active_storage_blobs
+        WHERE id NOT IN (SELECT blob_id FROM active_storage_attachments)
+    SQL
+    connection.exec_prepared("delete_active_storage_blobs");
+  end
+
+  def self.clear_checksums(model)
+    connection = ActiveRecord::Base.connection.raw_connection
+    ATTACHMENTS[model].each do |name|
       # Clear checksums
       connection.prepare("clear_checksums_#{name}", <<~SQL)
         UPDATE #{model} SET as_#{name}_checksum=NULL
       SQL
 
-      connection.exec_prepared("delete_active_storage_attachments_#{name}");
-      connection.exec_prepared("delete_active_storage_blobs_#{name}");
       connection.exec_prepared("clear_checksums_#{name}");
     end
   end

@@ -106,17 +106,33 @@ module Storage
     end
 
     ATTACHMENTS[model].each do |name|
-      records = self.models(model).where.not("#{name}_file_name" => nil)
+      if model.eql?('documents')
+        records = DummyDocument.where.not("#{name}_file_name" => nil)
+      else
+        records = self.models(model).where.not("#{name}_file_name" => nil)
+      end
 
       bar = self.progress_bar title: name, total: records.count
 
       records.each do |record|
         bar.increment
-        filename = File.absolute_path(record.send(name).path)
+
+        if paperclip_storage.eql?(:s3)
+          filename = File.join('tmp', record.send(name).path)
+        else
+          filename = File.absolute_path(record.send(name).path)
+        end
+
         FileUtils.mkdir_p File.dirname(filename)
         File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{name}_file_size"))) }
+        record.send("#{name}=", File.open(filename))
+        record.save(validate: false)
       end
     end
+  end
+
+  def self.paperclip_storage
+    PAPERCLIP_STORAGE_OPTIONS[:storage]
   end
 
   def self.set_paperclip_checksums(relation:)

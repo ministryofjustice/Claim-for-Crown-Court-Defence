@@ -119,10 +119,10 @@ module Storage
     end
   end
 
-  def self.set_paperclip_checksums(records:, model:)
-    bar = self.progress_bar title: ATTACHMENTS[model].join(', '), total: records.count
+  def self.set_paperclip_checksums(relation:, model:)
+    bar = self.progress_bar title: ATTACHMENTS[model].join(', '), total: relation.count
 
-    records.each do |record|
+    relation.each do |record|
       bar.increment
       record.populate_checksum
       record.save

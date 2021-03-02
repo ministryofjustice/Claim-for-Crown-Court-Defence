@@ -30,7 +30,41 @@ with some small differences and can be summarised as:
 5) Update the application to use Active Storage to create and access assets.
 6) Test that existing assets can be accessed and new assets can be created.
 
+The current status of the storage migration can be seen using the
+`storage:status` task:
+
+```bash
+$ bundle exec rails storage:status
+Stats Reports
+=============
+Total records:      58
+Total unique files: 42
+Missing checksums:  58
+AS records:         0
+AS records checked: OK
+(etc)
+```
+
 ## Stats Reports
+
+The 'Stats Reports' section of the `storage:status` task output contains:
+
+```bash
+Total records:      58  <-- Total number of stats reports records. Each record
+                            includes a Paperclip attachment, although some
+                            files are attached to multiple records.
+Total unique files: 42  <-- Total number excluding duplicate Paperclip
+                            attachments.
+Missing checksums:  58  <-- Number of records without a checksum. On completion
+                            this should be zero.
+AS records:         0   <-- Number of Active Storage attachments for stats
+                            reports. On completion this should be the same as
+                            the total number of stats reports records excluding
+                            duplicates.
+AS records checked: OK  <-- Check that each Active Storage record is linked to
+                            the same file and has the same checksum as the
+                            corresponding Paperclip attachment.
+```
 
 1) Generate checksums:
 
@@ -38,23 +72,8 @@ with some small differences and can be summarised as:
 $ bundle exec rails 'storage:add_paperclip_checksums[stats_reports]'
 ```
 
-2) Ensure that the checksums have been created correctly:
-
-```ruby
-rails> srs = Stats::StatsReport.all
-
-# Total number of stats reports
-rails> srs.count
-
-# Number of stats reports with nil checksum
-rails> srs.where(as_attachment_checksum: nil).count
-# Should be zero
-
-# Number of stats reports with a valid checksum
-# A valid checksum ends with '==', such as '4+g5Nmjax5aCg3HtRmCO5Q=='
-rails> srs.select { |sr| sr.as_attachment_checksum&.match(/==$/) }.count
-# Should be the same as srs.count, above
-```
+2) Ensure that the checksums have been created correctly using the
+`storage:status` task (see above). The `Missing checksum` count should be zero.
 
 3) Migrate assets details from Paperclip to Active Storage:
 
@@ -62,21 +81,9 @@ rails> srs.select { |sr| sr.as_attachment_checksum&.match(/==$/) }.count
 $ bundle exec rails 'storage:migrate[stats_reports]'
 ```
 
-4) Confirm that all reports have been migrated:
-
-```ruby
-# List of Paperclip filenames
-# Note that there may be duplicate Stats::StatsReport records for the same
-# file but the file will only be copied to Active Storage once
-rails> pc_filenames = Stats::StatsReport.pluck(:document_file_name).uniq.sort
-
-# List of Active Storage filenames
-rails> as_filenames = ActiveStorage::Attachment.where(record_type: 'Stats::StatsReport').map(&:filename).map(&:to_s).sort
-
-rails> pc_filenames == as_filenames
-# => true inducates that the migration is successful
-# => false indicates that the migraiton has failed
-```
+4) Confirm that all records have been migrated using the `storage:status` task
+(see above). The `AS records` count should be the same as the `Total unique
+files` count and `AS records checked` should be `OK`.
 
 5) Test that a sample document can be downloaded via Active Storage (this will only work when S3 is used for storage):
 
@@ -121,29 +128,33 @@ $ bundle exec rails 'storage:clear_paperclip_checksums[stats_reports]'
 
 ## Messages
 
+The 'Messages' section of the `storage:status` task output contains:
+
+```bash
+Total records:      117587  <-- Total number of messages records. Each message
+                                record has an optional Paperclip attachment.
+Total attachments:  20715   <-- Total number of message records that have a
+                                Paperclip attachment.
+Missing checksums:  20715   <-- Number of records with Paperclip attachments
+                                without a checksum. On completion this should
+                                be zero.
+AS records:         0       <-- Number of Active Storage attachments for
+                                messages. On completion this should be the same
+                                as the total number of Paperclip attachments.
+AS records checked: OK      <-- Check that each Active Storage record for
+                                messages is linked to the same for and has the
+                                same checksum as the corresponding Paperclip
+                                attachment.
+```
+
 1) Generate checksums:
 
 ```bash
 $ bundle exec rails 'storage:add_paperclip_checksums[messages]'
 ```
 
-2) Ensure that the checksums have been created correctly:
-
-```ruby
-rails> ms = Message.all
-
-# Total number of messages
-rails> ms.count
-
-# Number of messages with nil checksum
-rails> ms.where(as_attachment_checksum: nil).count
-# Should be zero
-
-# Number of attachments with a valid checksum
-# A valid checksum ends with '==', such as '4+g5Nmjax5aCg3HtRmCO5Q=='
-rails> ms.select { |m| m.as_attachment_checksum&.match(/==$/) }.count
-# Should be the same as ms.count, above
-```
+2) Ensure that the checksums have been created correctly using the
+`storage:status` task (see above). The `Missing checksum` count should be zero.
 
 3) Migrate assets details from Paperclip to Active Storage:
 
@@ -151,19 +162,9 @@ rails> ms.select { |m| m.as_attachment_checksum&.match(/==$/) }.count
 $ bundle exec rails 'storage:migrate[messages]'
 ```
 
-4) Confirm that all messages have been migrated:
-
-```ruby
-# List of Paperclip filenames
-rails> pc_filenames = Message.pluck(:attachment_file_name).sort
-
-# List of Active Storage filenames
-rails> as_filenames = ActiveStorage::Attachment.where(record_type: 'Message').map(&:filename).map(&:to_s).sort
-
-rails> pc_filenames == as_filenames
-# => true inducates that the migration is successful
-# => false indicates that the migraiton has failed
-```
+4) Confirm that all records have been migrated using the `storage:status` task
+(see above). The `AS records` count should be the same as the `Total
+attachments` count and `AS records checked` should be `OK`.
 
 5) Test that a sample message attachment can be downloaded via Active Storage (this will only work when S3 is used for storage):
 
@@ -207,38 +208,51 @@ $ bundle exec rails 'storage:clear_paperclip_checksums[messages]'
 
 ## Documents
 
+
+The 'Documents' section of the `storage:status` task output contains:
+
+```
+Total records:      204432 <-- Total number of document records. Each document
+                               includes two Paperclip attachments, for the
+                               original document and the converted preview. If
+                               the original document is a PDF then both
+                               Paperclip attachments will link to the same
+                               file.
+Missing checksums
+  Document:         204432 <-- Number of document records for which the
+                               checksum for the original document is missing.
+                               On completion this should be zero.
+  Preview:          204432 <-- Number of document records for which the
+                               checksum for the converted preview is missing.
+                               On completion this should be zero.
+AS records
+  Document:         0      <-- Number of Active Storage attachments for the
+                               original documents. On completion this should be
+                               the same as the total number of document
+                               records.
+  Document checked: OK     <-- Check that each Active Storage record for the
+                               original documents is linked to the same file
+                               and has the same checksum as the corresponding
+                               Paperclip attachment.
+  Preview:          0      <-- Number of Active Storage attachments for the
+                               converted previews. On completion this should be
+                               the same as the total number of document
+                               records.
+  Preview checked:  OK     <-- Check that each Active Storage record for the
+                               converted previews is linked to the same file
+                               and has the same checksum as the corresponding
+                               Paperclip attachment.
+```
+
 1) Generate checksums:
 
 ```bash
 $ bundle exec rails 'storage:add_paperclip_checksums[documents]'
 ```
 
-2) Ensure that the checksums have been created correctly:
-
-```ruby
-rails> ds = Document.all
-
-# Total number of documents
-rails> ds.count
-
-# Number of documents with nil checksum
-rails> ds.where(as_document_checksum: nil).count
-# Should be zero
-
-# Number of preview documents with nil checksum
-rails> ds.where(as_converted_preview_document_checksum: nil).count
-# Should be zero
-
-# Number of documents with a valid checksum
-# A valid checksum ends with '==', such as '4+g5Nmjax5aCg3HtRmCO5Q=='
-rails> ds.select { |d| d.as_document_checksum&.match(/==$/) }.count
-# Should be the same as ds.count, above
-
-# Number of preview documents with a valid checksum
-# A valid checksum ends with '==', such as '4+g5Nmjax5aCg3HtRmCO5Q=='
-rails> ds.select { |d| d.as_converted_preview_document_checksum&.match(/==$/) }.count
-# Should be the same as ds.count, above
-```
+2) Ensure that the checksums have been created correctly using the
+`storage:status` task (see above). The `Missing checksum` count for both
+document and preview should be zero.
 
 3) Migrate assets details from Paperclip to Active Storage:
 
@@ -246,29 +260,10 @@ rails> ds.select { |d| d.as_converted_preview_document_checksum&.match(/==$/) }.
 $ bundle exec rails 'storage:migrate[documents]'
 ```
 
-4) Confirm that all documents have been migrated:
-
-```ruby
-# List of Paperclip filenames for original documents
-rails> pc_document_filenames = Message.pluck(:document_file_name).sort
-
-# List of Active Storage filenames for original documents
-rails> as_document_filenames = ActiveStorage::Attachment.where(record_type: 'Document', name: 'document').map(&:filename).map(&:to_s).sort
-
-rails> pc_document_filenames == as_document_filenames
-# => true inducates that the migration is successful
-# => false indicates that the migraiton has failed
-
-# List of Paperclip filenames for preview documents
-rails> pc_preview_filenames = Message.pluck(:document_file_name).sort
-
-# List of Active Storage filenames for preview documents
-rails> as_preview_filenames = ActiveStorage::Attachment.where(record_type: 'Document', name: 'converted_preview_document').map(&:filename).map(&:to_s).sort
-
-rails> pc_preview_filenames == as_preview_filenames
-# => true inducates that the migration is successful
-# => false indicates that the migraiton has failed
-```
+4) Confirm that all records have been migrated using the `storage:status` task
+(see above). The `AS records` count should be the same as the `Total records`
+count for `Document` and `Preview`, and `Document checked` and `Preview
+checked` should both be `OK`.
 
 5) Test that a sample document can be downloaded via Active Storage (this will only work when S3 is used for storage):
 

@@ -20,8 +20,8 @@ namespace :storage do
   end
 
   desc 'Add file checksums to paperclip columns'
-  task :add_paperclip_checksums, [:model] => :environment do |_task, args|
-    continue?("Set paperclip checksums for all records of #{args[:model]}?")
+  task :add_paperclip_checksums, [:model, :count] => :environment do |_task, args|
+    continue?("Set #{args[:count] || 'all'} paperclip checksums for all records of #{args[:model]}?")
 
     module TempStats
       class StatsReport < ApplicationRecord
@@ -74,6 +74,7 @@ namespace :storage do
       puts "Cannot calculate checksums for: #{args[:model]}"
       exit
     end
+    relation = relation.limit(args[:count]) if args[:count]
 
     puts "Setting checksums for #{relation.table_name.green}"
     Storage.set_paperclip_checksums(relation: relation)

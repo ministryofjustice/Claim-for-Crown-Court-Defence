@@ -119,8 +119,8 @@ module Storage
     end
   end
 
-  def self.set_paperclip_checksums(relation:, model:)
-    bar = self.progress_bar title: ATTACHMENTS[model].join(', '), total: relation.count
+  def self.set_paperclip_checksums(relation:)
+    bar = self.progress_bar title: relation.table_name, total: relation.count
 
     relation.each do |record|
       bar.increment

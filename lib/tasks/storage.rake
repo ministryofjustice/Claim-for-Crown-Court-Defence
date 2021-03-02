@@ -75,8 +75,8 @@ namespace :storage do
       exit
     end
 
-    puts "Setting checksums for #{args[:model].green}"
-    Storage.set_paperclip_checksums(relation: relation, model: args[:model])
+    puts "Setting checksums for #{relation.table_name.green}"
+    Storage.set_paperclip_checksums(relation: relation)
   end
 
   desc 'Clear temporary paperclip checksums for specified model'

@@ -349,3 +349,7 @@ Paperclip can be removed.
     `converted_preview_document_file_size`,
     `converted_preview_document_updated_at`,
     `as_document_checksum`, `as_converted_preview_document_checksum`
+ * Remove unneeded (?!check) `documents.file_path` attribute. This was added as a part
+   of upload "verification" and should probably have been called `verified_file_path`.
+   It holds the full s3 path. It is, nonetheless, unclear why
+   it is needed at all.

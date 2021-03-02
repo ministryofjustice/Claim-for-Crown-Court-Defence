@@ -116,10 +116,10 @@ namespace :db do
 
     shell_working 'recreating schema' do
       system (with_config do |_db_name, connection_opts|
-          "PGPASSWORD=$DB_PASSWORD psql -q -P pager=off #{connection_opts} -c \"drop schema public cascade\""
+          "PGPASSWORD=#{ActiveRecord::Base.connection_config[:password]} psql -q -P pager=off #{connection_opts} -c \"drop schema public cascade\""
         end)
       system (with_config do |_db_name, connection_opts|
-        "PGPASSWORD=$DB_PASSWORD psql -q -P pager=off #{connection_opts} -c \"create schema public\""
+        "PGPASSWORD=#{ActiveRecord::Base.connection_config[:password]} psql -q -P pager=off #{connection_opts} -c \"create schema public\""
       end)
     end
 

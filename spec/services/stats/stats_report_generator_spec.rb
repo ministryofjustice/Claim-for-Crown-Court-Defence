@@ -41,7 +41,8 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
       it 'puts data into the new report' do
         call_report_generator
         new_record = Stats::StatsReport.where(report_name: report_type).completed.last
-        expect(open(new_record.document.path).read).to eq('some new content')
+        file_path = ActiveStorage::Blob.service.path_for(new_record.document.blob.key)
+        expect(File.open(file_path).read).to eq('some new content')
       end
     end
 

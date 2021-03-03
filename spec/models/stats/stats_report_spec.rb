@@ -121,7 +121,7 @@ RSpec.describe Stats::StatsReport do
 
       it 'copies the document to the document storage' do
         write_report
-        expect(File.open(report.document.path).read).to eq document_content
+        expect(File.open(ActiveStorage::Blob.service.path_for(report.document.blob.key)).read).to eq document_content
       end
 
       it 'does not change the started_at time' do
@@ -136,47 +136,6 @@ RSpec.describe Stats::StatsReport do
         expect { write_report }
           .to change { described_class.completed.where(report_name: 'my_new_report').first }
           .to report
-      end
-
-      it 'sets the checksum' do
-        expect { write_report }.to change(report, :as_document_checksum).to(checksum)
-      end
-    end
-  end
-
-  describe '#document_url' do
-    context 'when document is nil' do
-      let(:report) { build(:stats_report, report: nil, document: nil) }
-
-      it { expect(report.document_url).to be_nil }
-    end
-
-    context 'when document exists' do
-      let(:report) { build(:stats_report, :with_document) }
-
-      context 'when the document storage is filesystem' do
-        let(:options) { { storage: :filesystem } }
-
-        before do
-          allow(report.document).to receive(:options).and_return(options)
-        end
-
-        it 'returns the document path' do
-          expect(report.document_url).to eq('tmp/test/reports/report.csv')
-        end
-      end
-
-      context 'when the document storage is S3' do
-        let(:options) { { storage: :s3 } }
-
-        before do
-          original_options = report.document.options
-          allow(report.document).to receive(:options).and_return(original_options.merge(options))
-        end
-
-        it 'returns the an expiring url for the document' do
-          expect(report.document_url).to match(%r{tmp/test/reports/report.csv\?([0-9])+})
-        end
       end
     end
   end

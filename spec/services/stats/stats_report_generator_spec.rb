@@ -34,7 +34,8 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
       before { allow(Stats::ManagementInformationGenerator).to receive(:call).and_return(mocked_result) }
 
       it 'adds a new completed report' do
-        expect { call_report_generator }.to change(Stats::StatsReport.where(report_name: report_type).completed, :count).by 1
+        expect { call_report_generator }
+          .to change(Stats::StatsReport.where(report_name: report_type).completed, :count).by 1
       end
 
       it 'puts data into the new report' do

@@ -39,7 +39,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
         end
 
         it 'redirects to the service url of the document' do
-          expect(response.location).to match %{#{disk_service_prefix}/.*/#{filename}}
+          expect(response.location).to match %(#{disk_service_prefix}/.*/#{filename})
         end
       end
 

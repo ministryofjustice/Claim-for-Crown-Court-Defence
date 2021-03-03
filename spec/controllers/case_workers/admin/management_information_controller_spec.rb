@@ -1,13 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :controller do
-  let(:case_worker_admin) { create(:case_worker, :admin) }
-  let(:case_worker) { create(:case_worker) }
-
   before { sign_in persona.user }
 
   context 'when signed in as an admin' do
-    let(:persona) { case_worker_admin }
+    let(:persona) { create(:case_worker, :admin) }
 
     describe 'GET #index' do
       before { get :index }
@@ -26,65 +23,50 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     end
 
     describe '#GET download' do
-      context 'for a valid report type' do
-        let(:report_type) { 'management_information' }
+      subject(:download) { get :download, params: { report_type: report_type } }
 
-        context 'using DB storage' do
-          let(:content) { 'header1,header2,header3' }
-          let!(:stats_report) { create(:stats_report, report_name: 'management_information', report: content) }
+      let(:report_type) { 'management_information' }
 
-          before do
-            get :download, params: { report_type: report_type }
+      context 'when the report type is valid' do
+        let(:disk_service_prefix) { 'rails/active_storage/disk' }
+        let(:filename) { 'mi_report.csv' }
+
+        before do
+          create(:stats_report, report_name: report_type).tap do |report|
+            report.document.attach(io: StringIO.new, filename: filename)
           end
-
-          it 'returns http success' do
-            expect(response).to be_successful
-          end
-
-          it 'renders the template' do
-            expect(response.headers['Content-Type']).to eq 'text/csv'
-          end
+          download
         end
 
-        context 'using S3 storage' do
-          let(:content) { 'header1,header2,header3' }
-          let(:document) { StringIO.new(content) }
-          let!(:stats_report) {
-            create(
-              :stats_report,
-              report_name: report_type,
-              document: document,
-              document_file_name: "#{report_type}_#{Time.now.to_s(:number)}.csv",
-              document_content_type: 'text/csv'
-            )
-          }
-
-          before do
-            get :download, params: { report_type: report_type }
-          end
-
-          after { document.close }
-
-          it 'returns http success' do
-            expect(response).to be_successful
-          end
-
-          it 'renders the template' do
-            expect(response.headers['Content-Type']).to eq 'text/csv'
-          end
+        it 'redirects to the service url of the document' do
+          expect(response.location).to match %{#{disk_service_prefix}/.*/#{filename}}
         end
       end
 
-      context 'for an invalid report type' do
-        let(:report_type) { 'invalid_report_type' }
-
+      context 'when the report is complete but the file is missing' do
         before do
-          get :download, params: { report_type: report_type }
+          create :stats_report, report_name: report_type
         end
 
-        it 'redirects to the management information page with an error' do
-          expect(response).to have_http_status(:redirect)
-          expect(response).to redirect_to(case_workers_admin_management_information_url)
+        it 'redirects to the management information page' do
+          expect(download).to redirect_to case_workers_admin_management_information_url
+        end
+
+        it 'displays an error' do
+          download
+          expect(flash[:alert]).to eq('The requested report is missing')
+        end
+      end
+
+      context 'when the report type is invalid' do
+        let(:report_type) { 'invalid_report_type' }
+
+        it 'redirects to the management information page' do
+          expect(download).to redirect_to case_workers_admin_management_information_url
+        end
+
+        it 'displays an error' do
+          download
           expect(flash[:alert]).to eq('The requested report type is not supported')
         end
       end
@@ -127,7 +109,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
   end
 
   context 'when signed in as a case worker' do
-    let(:persona) { case_worker }
+    let(:persona) { create(:case_worker) }
 
     [:index, :download, :generate].each do |view|
       describe "GET ##{view}" do

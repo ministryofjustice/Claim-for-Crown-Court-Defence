@@ -28,9 +28,7 @@ module Stats
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
     scope :provisional_assessment, -> { not_errored.where(report_name: 'provisional_assessment') }
 
-    has_attached_file :document, s3_headers.merge(REPORTS_STORAGE_OPTIONS)
-
-    validates_attachment_content_type :document, content_type: ['text/csv']
+    has_one_attached :document
 
     def self.clean_up(report_name)
       destroy_reports_older_than(report_name, 1.month.ago)
@@ -54,16 +52,10 @@ module Stats
     end
 
     def write_report(report_result)
-      log(:info, :write_report, "Writing report #{report_name} to DB...")
-      io = StringIO.new(report_result.content)
-      update(
-        document: io,
-        document_file_name: "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}",
-        document_content_type: report_result.content_type,
-        as_document_checksum: calculate_checksum(io),
-        status: 'completed',
-        completed_at: Time.now
-      )
+      filename = "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}"
+      log(:info, :write_report, "Writing report #{report_name} to #{filename}")
+      document.attach(io: StringIO.new(report_result.content), filename: filename)
+      update(status: 'completed', completed_at: Time.zone.now)
     rescue StandardError => e
       log(:error, :write_report, "error writing report #{report_name}...", e)
       raise

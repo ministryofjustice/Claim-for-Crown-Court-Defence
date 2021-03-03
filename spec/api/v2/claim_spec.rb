@@ -32,9 +32,9 @@ RSpec.describe API::V2::Claim do
       value.map { |h| normalise_ids!(h) } if value.is_a?(Array)
     end
 
-    hash.merge!(id: 1) if hash.key?(:id)
-    hash.merge!(uuid: 'uuid') if hash.key?(:uuid)
-    hash.merge!(sender_uuid: 'uuid') if hash.key?(:sender_uuid)
+    hash[:id] = 1 if hash.key?(:id)
+    hash[:uuid] = 'uuid' if hash.key?(:uuid)
+    hash[:sender_uuid] = 'uuid' if hash.key?(:sender_uuid)
     hash
   end
 

@@ -98,7 +98,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
 
         it 'creates a new expense record with a expense type specified by unique code' do
           params.delete(:expense_type_id)
-          params.merge!(expense_type_unique_code: unique_code)
+          params[:expense_type_unique_code] = unique_code
 
           post_to_create_endpoint
           expect(last_response.status).to eq 201
@@ -172,7 +172,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         context 'invalid expense_type_unique_code' do
           it 'returns 400 and a JSON error if no expense type was found' do
             params.delete(:expense_type_id)
-            params.merge!(expense_type_unique_code: 'XXXXX')
+            params[:expense_type_unique_code] = 'XXXXX'
 
             post_to_create_endpoint
             expect(last_response.status).to eq 400

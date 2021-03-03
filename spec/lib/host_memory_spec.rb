@@ -11,7 +11,7 @@ describe HostMemory do
     subject { described_class.total }
 
     it 'returns total memory using linux free command' do
-      is_expected.to eql 4046828
+      is_expected.to eq 4046828
     end
   end
 
@@ -19,14 +19,14 @@ describe HostMemory do
     subject { described_class.used }
 
     it 'returns used memory using linux free command' do
-      is_expected.to eql 3266332
+      is_expected.to eq 3266332
     end
   end
 
   describe '.free' do
     subject { described_class.free }
     it 'returns free memory using linux free command' do
-      is_expected.to eql 780496
+      is_expected.to eq 780496
     end
   end
 end

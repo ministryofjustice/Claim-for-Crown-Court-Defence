@@ -31,19 +31,19 @@ RSpec.describe CaseType, type: :model do
 
     describe 'is_graduated_fee?' do
       it 'returns false if no fee_type_code' do
-        expect(nil_case_type.is_graduated_fee?).to eql false
+        expect(nil_case_type.is_graduated_fee?).to be false
       end
 
       it 'returns false if invalid fee_type_code' do
-        expect(grad_case_type_x.is_graduated_fee?).to eql false
+        expect(grad_case_type_x.is_graduated_fee?).to be false
       end
 
       it 'returns true if is a grad fee case type' do
-        expect(grad_case_type.is_graduated_fee?).to eql true
+        expect(grad_case_type.is_graduated_fee?).to be true
       end
 
       it 'returns false if it is not a grad fee case type' do
-        expect(fixed_case_type.is_graduated_fee?).to eql false
+        expect(fixed_case_type.is_graduated_fee?).to be false
       end
     end
   end

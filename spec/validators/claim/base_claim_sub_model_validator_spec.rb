@@ -77,7 +77,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
 
       context 'when claim has case type requiring MAAT reference' do
         before do
-          expected_results.merge!(defendant_1_representation_order_1_maat_reference: 'invalid')
+          expected_results[:defendant_1_representation_order_1_maat_reference] = 'invalid'
 
           claim.case_type.update_column(:requires_maat_reference, true)
 

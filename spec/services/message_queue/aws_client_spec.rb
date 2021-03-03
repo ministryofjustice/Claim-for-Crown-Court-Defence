@@ -82,13 +82,13 @@ module MessageQueue
       let(:message) { { body: 'Claim added', attributes: { 'uuid': { data_type: 'String', string_value: SecureRandom.uuid } } } }
 
       context 'when values are good' do
-        it { is_expected.to eql true }
+        it { is_expected.to be true }
       end
 
       context 'when the message has no attributes' do
         let(:message) { { body: 'Claim added' } }
 
-        it { is_expected.to eql true }
+        it { is_expected.to be true }
       end
 
       context 'when an error occurs (simulate someone deleting the queue mid-submission?!)' do

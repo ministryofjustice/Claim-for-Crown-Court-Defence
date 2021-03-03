@@ -3,13 +3,13 @@ shared_examples 'common litigator claim attributes' do |*flags|
 
   describe '#lgfs?' do
     it 'returns true' do
-      expect(claim.lgfs?).to eql true
+      expect(claim.lgfs?).to be true
     end
   end
 
   describe '#agfs?' do
     it 'returns false' do
-      expect(claim.agfs?).to eql false
+      expect(claim.agfs?).to be false
     end
   end
 
@@ -23,7 +23,7 @@ shared_examples 'common litigator claim attributes' do |*flags|
   describe '#requires_trial_dates?' do
     it 'always returns false' do
       skip('does not apply to this claim type') if ([:hardship_claim] & flags).any?
-      expect(claim.requires_trial_dates?).to eql false
+      expect(claim.requires_trial_dates?).to be false
     end
   end
 end

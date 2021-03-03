@@ -141,16 +141,16 @@ module Fee
 
       it 'sets fee amount, quantity, rate and case_numbers to nil' do
         subject.clear
-        expect(subject.quantity).to eql nil
-        expect(subject.amount).to eql nil
-        expect(subject.rate).to eql nil
-        expect(subject.case_numbers).to eql nil
+        expect(subject.quantity).to be_nil
+        expect(subject.amount).to be_nil
+        expect(subject.rate).to be_nil
+        expect(subject.case_numbers).to be_nil
       end
 
       it 'destroys any child relations (dates attended)' do
-        expect(subject.dates_attended.size).to eql 1
+        expect(subject.dates_attended.size).to eq 1
         subject.clear
-        expect(subject.dates_attended.size).to eql 0
+        expect(subject.dates_attended.size).to eq 0
       end
     end
 

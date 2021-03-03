@@ -22,22 +22,14 @@ module TestHelpers
   end
 
   def expect_valid_attribute(record, attribute, value)
-    # error_attribute = attribute if error_attribute.nil?
     set_value(record, attribute, value)
     record.valid?
-    expect(no_error_for(record, attribute)).to be true
-    # expect(record.errors.keys).not_to include(error_attribute)
+    expect(record.errors[attribute]).to be_blank
   end
 
   def set_value(record, attribute, value)
     setter_method = "#{attribute}=".to_sym
     record.__send__(setter_method, value)
-  end
-
-  def no_error_for(record, attribute)
-    return true unless record.errors.keys.include?(attribute)
-    return true if record.errors[attribute].empty?
-    return false
   end
 
   def with_env(env)

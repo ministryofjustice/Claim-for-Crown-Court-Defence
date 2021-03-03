@@ -89,7 +89,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
 
       it 'creates a new disbursement record with a disbursement type specified by unique code' do
         params.delete(:disbursement_type_id)
-        params.merge!(disbursement_type_unique_code: unique_code)
+        params[:disbursement_type_unique_code] = unique_code
 
         post_to_create_endpoint
         expect(last_response.status).to eq 201
@@ -160,7 +160,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
       context 'invalid disbursement_type_unique_code' do
         it 'returns 400 and a JSON error if no disbursement type was found' do
           params.delete(:disbursement_type_id)
-          params.merge!(disbursement_type_unique_code: 'XXXXX')
+          params[:disbursement_type_unique_code] = 'XXXXX'
 
           post_to_create_endpoint
           expect(last_response.status).to eq 400

@@ -35,7 +35,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
           end
 
           it "returns sum of daily attendance fee types plus #{attendances_incl_in_basic_fee} (included in basic fee)" do
-            is_expected.to eql 51
+            is_expected.to eq 51
           end
         end
       end
@@ -81,7 +81,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
           end
 
           it "returns sum of daily attendance fee types plus #{attendances_incl_in_basic_fee} (included in basic fee)" do
-            is_expected.to eql 10
+            is_expected.to eq 10
           end
         end
       end

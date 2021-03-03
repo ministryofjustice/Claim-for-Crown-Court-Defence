@@ -187,8 +187,8 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
             it 'updates the interim fee' do
               expect(subject_claim.interim_fee).to_not be_nil
-              expect(subject_claim.interim_fee.quantity).to eql 2
-              expect(subject_claim.interim_fee.amount).to eql 10.00
+              expect(subject_claim.interim_fee.quantity).to eq 2
+              expect(subject_claim.interim_fee.amount).to eq 10.00
             end
           end
         end

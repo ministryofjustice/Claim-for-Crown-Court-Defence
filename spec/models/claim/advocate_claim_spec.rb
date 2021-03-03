@@ -161,11 +161,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     }
   end
 
-  context 'State Machine meta states magic methods' do
+  describe 'State Machine meta states magic methods' do
     let(:claim)       { FactoryBot.build :claim }
     let(:all_states)  { %w[allocated archived_pending_delete draft authorised part_authorised refused rejected submitted] }
 
-    context 'external_user_dashboard_draft?' do
+    describe '#external_user_dashboard_draft?' do
       before { allow(claim).to receive(:state).and_return('draft') }
 
       it 'responds true in draft' do
@@ -181,7 +181,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
     end
 
-    context 'external_user_dashboard_rejected?' do
+    describe '#external_user_dashboard_rejected?' do
       before { allow(claim).to receive(:state).and_return('rejected') }
       it 'responds true' do
         allow(claim).to receive(:state).and_return('rejected')
@@ -196,7 +196,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
     end
 
-    context 'external_user_dashboard_submitted?' do
+    describe '#external_user_dashboard_submitted?' do
       it 'responds true' do
         ['allocated', 'submitted'].each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
@@ -212,7 +212,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
     end
 
-    context 'external_user_dashboard_part_authorised' do
+    describe '#external_user_dashboard_part_authorised?' do
       it 'responds true' do
         ['part_authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
@@ -228,7 +228,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
     end
 
-    context 'external_user_dashboard_completed_states' do
+    describe '#external_user_dashboard_completed_states?' do
       it 'responds true' do
         ['refused', 'authorised'].each do |state|
           allow(claim).to receive(:state).and_return(state)
@@ -280,7 +280,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  describe '.is_allocated_to_case_worker' do
+  describe '#is_allocated_to_case_worker?' do
     let(:case_worker_1) { FactoryBot.create :case_worker }
     let(:case_worker_2) { FactoryBot.create :case_worker }
 
@@ -487,15 +487,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds only claims of the single state specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eql 2
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eq 2
       end
 
       it 'finds only claims of the multiple states specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins', [:archived_pending_delete, :authorised], search_options).count).to eql 4
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', [:archived_pending_delete, :authorised], search_options).count).to eq 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins', nil, search_options).count).to eql 3
+        expect(Claim::AdvocateClaim.search('Bob Hoskins', nil, search_options).count).to eq 3
       end
     end
 

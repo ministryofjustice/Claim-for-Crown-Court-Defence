@@ -37,7 +37,7 @@ VCR.configure do |c|
       ].all?,
       [
         uri.host.eql?('127.0.0.1'),
-        (9515..9999).include?(uri.port)
+        (9515..9999).cover?(uri.port)
       ].all?
     ].any?
   end

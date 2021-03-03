@@ -96,7 +96,7 @@ RSpec.describe API::V2::Search do
 
       it 'returns a single claims' do
         search_result = JSON.parse(last_response.body, symbolize_names: true).count
-        expect(search_result).to eql 1
+        expect(search_result).to eq 1
       end
 
       context 'filtered by LGFS' do
@@ -104,7 +104,7 @@ RSpec.describe API::V2::Search do
 
         it 'returns no claims' do
           search_result = JSON.parse(last_response.body, symbolize_names: true).count
-          expect(search_result).to eql 0
+          expect(search_result).to eq 0
         end
       end
     end

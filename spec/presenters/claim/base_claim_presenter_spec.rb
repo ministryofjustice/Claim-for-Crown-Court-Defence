@@ -674,7 +674,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#raw_misc_fees_total' do
     it 'sends message to claim' do
       expect(claim).to receive(:calculate_fees_total).with(:misc_fees).and_return 101.00
-      expect(presenter.raw_misc_fees_total).to eql 101.00
+      expect(presenter.raw_misc_fees_total).to eq 101.00
     end
   end
 
@@ -724,7 +724,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     it 'sends messages to claim' do
       expect(claim).to receive(:total).and_return 120.00
       expect(claim).to receive(:vat_amount).and_return 24.00
-      expect(presenter.raw_total_inc).to eql 144.00
+      expect(presenter.raw_total_inc).to eq 144.00
     end
   end
 

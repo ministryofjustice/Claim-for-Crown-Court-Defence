@@ -14,7 +14,7 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
   end
 
   context 'when the claim is not yet saved' do
-    it { is_expected.to eql nil }
+    it { is_expected.to be_nil }
   end
 
   context 'when the claim is saved' do

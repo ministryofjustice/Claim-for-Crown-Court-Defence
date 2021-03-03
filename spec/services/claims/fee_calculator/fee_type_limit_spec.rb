@@ -80,7 +80,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
         context 'other fee types' do
           let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: 'NONSENSE') }
-          it { is_expected.to eql 1 }
+          it { is_expected.to eq 1 }
         end
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
       let(:claim) { lgfs_claim }
       context 'all fee types' do
         let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: 'NONSENSE') }
-        it { is_expected.to eql 0 }
+        it { is_expected.to eq 0 }
       end
     end
   end

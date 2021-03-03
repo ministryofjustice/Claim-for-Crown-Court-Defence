@@ -98,21 +98,21 @@ RSpec.describe Claim::LitigatorHardshipClaimPresenter, type: :presenter do
     it 'sends message to VatRate' do
       allow(presenter).to receive(:raw_hardship_fees_total).and_return(101.00)
       allow(presenter).to receive(:raw_hardship_fees_vat).and_return(20.20)
-      expect(presenter.raw_hardship_fees_gross).to eql 121.20
+      expect(presenter.raw_hardship_fees_gross).to eq 121.20
     end
   end
 
   describe '#hardship_fees_vat' do
     it 'sends message to VatRate' do
       allow(presenter).to receive(:raw_hardship_fees_vat).and_return(20.20)
-      expect(presenter.hardship_fees_vat).to eql '£20.20'
+      expect(presenter.hardship_fees_vat).to eq '£20.20'
     end
   end
 
   describe '#hardship_fees_gross' do
     it 'sends message to VatRate' do
       allow(presenter).to receive(:raw_hardship_fees_gross).and_return(101.00)
-      expect(presenter.hardship_fees_gross).to eql '£101.00'
+      expect(presenter.hardship_fees_gross).to eq '£101.00'
     end
   end
 end

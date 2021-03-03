@@ -73,7 +73,7 @@ RSpec.describe Claim::InterimClaim, type: :model do
 
   describe '#interim?' do
     it 'returns true' do
-      expect(claim.interim?).to eql true
+      expect(claim.interim?).to be true
     end
   end
 

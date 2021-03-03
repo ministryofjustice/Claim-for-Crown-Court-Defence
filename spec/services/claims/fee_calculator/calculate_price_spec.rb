@@ -111,7 +111,7 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
       end
 
       it 'populates data amount' do
-        expect(response.data.amount).to eql 1001.00
+        expect(response.data.amount).to eq 1001.00
       end
 
       it 'unit may be populated' do

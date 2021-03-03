@@ -19,7 +19,7 @@ describe ErrorDetail do
   end
 
   it 'defaults sequence to 99999' do
-    expect(ed0.sequence).to eql 99999
+    expect(ed0.sequence).to eq 99999
   end
 
   it 'sorts against other ErrorDetail instances by sequence' do
@@ -27,10 +27,10 @@ describe ErrorDetail do
   end
 
   it 'compares all message attributes when testing for equality' do
-    expect(ed1 == ed2).to eql false
-    expect(ed3 == ed4).to eql true
-    expect(ed3 == ed5).to eql false
-    expect(ed3 == ed6).to eql false
-    expect(ed3 == ed7).to eql false
+    expect(ed1).not_to eq ed2
+    expect(ed3).to eq ed4
+    expect(ed3).not_to eq ed5
+    expect(ed3).not_to eq ed6
+    expect(ed3).not_to eq ed7
   end
 end

@@ -100,29 +100,29 @@ RSpec.describe Claim::BaseClaim do
 
   describe '#agfs?' do
     it 'returns true if claim is advocate/agfs claim, false for litigator/lgfs claims' do
-      expect(agfs_claim.agfs?).to eql true
-      expect(lgfs_claim.agfs?).to eql false
+      expect(agfs_claim.agfs?).to be true
+      expect(lgfs_claim.agfs?).to be false
     end
   end
 
   describe '#lgfs?' do
     it 'returns true if claim is litigator/lgfs claim, false for advocate/agfs claims' do
-      expect(lgfs_claim.lgfs?).to eql true
-      expect(agfs_claim.lgfs?).to eql false
+      expect(lgfs_claim.lgfs?).to be true
+      expect(agfs_claim.lgfs?).to be false
     end
   end
 
   describe '.agfs?' do
     it 'returns true if class is advocate claim, false otherwise' do
-      expect(agfs_claim.class.agfs?).to eql true
-      expect(lgfs_claim.class.agfs?).to eql false
+      expect(agfs_claim.class.agfs?).to be true
+      expect(lgfs_claim.class.agfs?).to be false
     end
   end
 
   describe '.lgfs?' do
     it 'returns true if claim is litigator/lgfs claim, false for advocate/agfs claims' do
-      expect(lgfs_claim.class.lgfs?).to eql true
-      expect(agfs_claim.class.lgfs?).to eql false
+      expect(lgfs_claim.class).to be_lgfs
+      expect(agfs_claim.class).not_to be_lgfs
     end
   end
 
@@ -175,7 +175,7 @@ RSpec.describe Claim::BaseClaim do
     end
   end
 
-  describe '.applicable_for_written_reasons?' do
+  describe '#applicable_for_written_reasons?' do
     subject(:applicable_for_written_reasons?) { claim.applicable_for_written_reasons? }
 
     context 'when the claim is a Hardship claim' do
@@ -656,22 +656,23 @@ RSpec.describe MockBaseClaim do
   describe '#discontinuance?' do
     subject { claim.discontinuance? }
 
-    let(:claim) { described_class.new }
-
-    before { allow(claim).to receive(:case_type).and_return case_type }
+    let(:claim) { described_class.new(case_type: case_type) }
 
     context 'when case type nil' do
       let(:case_type) { nil }
+
       it { is_expected.to be_falsey }
     end
 
     context 'when case type not a discontinuance' do
       let(:case_type) { build(:case_type, :trial) }
+
       it { is_expected.to be_falsey }
     end
 
     context 'when case type is a discontinuance' do
       let(:case_type) { build(:case_type, :discontinuance) }
+
       it { is_expected.to be_truthy }
     end
   end
@@ -808,7 +809,7 @@ describe '#earliest_representation_order_date' do
 
   it 'returns nil if there are no reporders' do
     expect(claim.representation_orders).to be_empty
-    expect(claim.earliest_representation_order_date).to be nil
+    expect(claim.earliest_representation_order_date).to be_nil
   end
 
   it 'returns the date of the only rep order' do

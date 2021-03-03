@@ -415,7 +415,7 @@ RSpec.describe ManagementInformationPresenter do
 
       it 'adds a single row to the MI' do
         ManagementInformationPresenter.new(claim, view).present! do |csv|
-          expect(csv.size).to eql 1
+          expect(csv.size).to eq 1
         end
       end
 
@@ -437,7 +437,7 @@ RSpec.describe ManagementInformationPresenter do
 
       it 'adds a single row to the MI' do
         ManagementInformationPresenter.new(claim, view).present! do |csv|
-          expect(csv.size).to eql 1
+          expect(csv.size).to eq 1
         end
       end
 

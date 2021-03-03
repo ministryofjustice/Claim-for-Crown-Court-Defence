@@ -22,7 +22,7 @@ RSpec.shared_examples 'an s3 bucket' do
       subject(:s3_permissions) { described_class.s3_headers[:s3_permissions] }
 
       it 'includes private directive for s3' do
-        is_expected.to eql(:private)
+        is_expected.to be(:private)
       end
     end
 

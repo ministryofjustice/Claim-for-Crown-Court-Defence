@@ -5,12 +5,12 @@ module MessageQueue
         body: 'Claim submitted',
         attributes:
         {
-          'type':
+          type:
         {
           data_type: 'String',
           string_value: type
         },
-          'uuid':
+          uuid:
           {
             data_type: 'String',
             string_value: uuid

@@ -53,7 +53,7 @@ class ExpenseType < ApplicationRecord
   validates :reason_set, inclusion: { in: %w[A B C] }
 
   def self.reason_sets
-    [{ 'A': REASON_SET_A.values }, { 'B': REASON_SET_B.values }, { 'C': REASON_SET_C.values }]
+    [{ A: REASON_SET_A.values }, { B: REASON_SET_B.values }, { C: REASON_SET_C.values }]
   end
 
   def expense_reasons_hash

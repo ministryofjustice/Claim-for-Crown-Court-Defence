@@ -56,8 +56,8 @@ describe PerformancePlatform::Submission do
     context 'when the endpoint returns an error' do
       let(:error_response) do
         {
-          "message": "Unauthorized: Invalid bearer token 'bad_token' for 'test_transactions_by_channel'",
-          "status": "error"
+          message: "Unauthorized: Invalid bearer token 'bad_token' for 'test_transactions_by_channel'",
+          status: "error"
         }.to_json
       end
 

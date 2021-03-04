@@ -35,17 +35,17 @@ class LitigatorTransferClaimTest < BaseClaimTest
     case_conclusion_id = json_value_at_index(client.get_dropdown_endpoint(TRANSFER_CASE_CONCLUSIONS_ENDPOINT, api_key), 'id', 4) # 50 - Guilty plea
 
     {
-      "api_key": api_key,
-      "creator_email": 'litigatoradmin@example.com',
-      "user_email": 'litigator@example.com',
-      "case_number": 'A20161234',
-      "supplier_number": supplier_number,
-      "case_type_id": case_type_id,
-      "offence_id": offence_id,
-      "court_id": court_id,
-      "cms_number": '12345678',
-      "additional_information": 'string',
-      "case_concluded_at": 1.month.ago.as_json,
+      api_key: api_key,
+      creator_email: 'litigatoradmin@example.com',
+      user_email: 'litigator@example.com',
+      case_number: 'A20161234',
+      supplier_number: supplier_number,
+      case_type_id: case_type_id,
+      offence_id: offence_id,
+      court_id: court_id,
+      cms_number: '12345678',
+      additional_information: 'string',
+      case_concluded_at: 1.month.ago.as_json,
       'litigator_type' => 'new',
       'elected_case' => false,
       'transfer_stage_id' => transfer_stage_id,
@@ -58,10 +58,10 @@ class LitigatorTransferClaimTest < BaseClaimTest
     fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'transfer'), 'id')
 
     {
-      "api_key": api_key,
-      "claim_id": claim_uuid,
-      "fee_type_id": fee_type_id, # Transfer
-      "amount": 150.25
+      api_key: api_key,
+      claim_id: claim_uuid,
+      fee_type_id: fee_type_id, # Transfer
+      amount: 150.25
     }
   end
 end

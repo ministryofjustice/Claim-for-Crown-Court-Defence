@@ -1,11 +1,11 @@
 module CCR
   class AdvocateCategoryAdapter
     TRANSLATION_TABLE = {
-      'QC': 'QC',
+      QC: 'QC',
       'Led junior': 'LEDJR',
       'Leading junior': 'LEADJR',
       'Junior alone': 'JRALONE',
-      'Junior': 'JUNIOR'
+      Junior: 'JUNIOR'
     }.stringify_keys.freeze
 
     class << self

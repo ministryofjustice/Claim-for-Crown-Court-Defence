@@ -128,6 +128,24 @@ module Storage
     end
   end
 
+  def self.paperclip_storage
+    PAPERCLIP_STORAGE_OPTIONS[:storage]
+  end
+
+  def self.create_or_update_dummy_file(record:, doc_attribute:, filename:)
+    FileUtils.mkdir_p File.dirname(filename)
+    File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{doc_attribute}_file_size"))) }
+
+    record.send("#{doc_attribute}=", File.open(filename))
+    record.save(validate: false)
+  rescue Paperclip::Error => err
+    LogStuff.warn(
+      module: self.name,
+      action: "#{__method__} for #{record.class.table_name}",
+      error: "#{err.class} - #{err.message}"
+    ) { err.message }
+  end
+
   # Deleting filesystem/s3 files
   # doc.document.destroy will delete the doc and its meta data in the doc model (not want we want)
   # doc.document.clear wil delete the paperclip attachment file, without changing the meta data, unless you save
@@ -157,24 +175,6 @@ module Storage
         record.update_column("as_#{attachment}_checksum", nil)
       end
     end
-  end
-
-  def self.paperclip_storage
-    PAPERCLIP_STORAGE_OPTIONS[:storage]
-  end
-
-  def self.create_or_update_dummy_file(record:, doc_attribute:, filename:)
-    FileUtils.mkdir_p File.dirname(filename)
-    File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{doc_attribute}_file_size"))) }
-
-    record.send("#{doc_attribute}=", File.open(filename))
-    record.save(validate: false)
-  rescue Paperclip::Error => err
-    LogStuff.warn(
-      module: self.name,
-      action: "#{__method__} for #{record.class.table_name}",
-      error: "#{err.class} - #{err.message}"
-    ) { err.message }
   end
 
   def self.set_paperclip_checksums(relation:)

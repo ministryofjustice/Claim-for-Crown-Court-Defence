@@ -57,7 +57,7 @@ class CaseType < ApplicationRecord
   end
 
   def is_graduated_fee?
-    graduated_fee_type.nil? ? false : true
+    !graduated_fee_type.nil?
   end
 
   def is_trial_fee?

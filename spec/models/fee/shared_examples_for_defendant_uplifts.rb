@@ -115,7 +115,7 @@ shared_examples 'defendant upliftable' do
   describe '::DEFENDANT_UPLIFT_MAPPINGS' do
     subject { described_class::DEFENDANT_UPLIFT_MAPPINGS[code] }
 
-    DEFENDANT_UPLIFT_MAPPINGS ||= {
+    defendant_uplift_mappings = {
       MISAF: 'MISAU', # Standard appearance fee uplift (supplementary)
       MIAPH: 'MIAHU', # Abuse of process hearings (half day uplift)
       MIAPW: 'MIAWU', # Abuse of process hearings (whole day uplift)
@@ -140,7 +140,7 @@ shared_examples 'defendant upliftable' do
     }.freeze
 
     context 'mappings' do
-      DEFENDANT_UPLIFT_MAPPINGS.each do |code, uplift_code|
+      defendant_uplift_mappings.each do |code, uplift_code|
         context "code #{code}" do
           let(:code) { code }
 

@@ -18,11 +18,4 @@
     has_attached_file :document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
 
     do_not_validate_attachment_file_type :document
-
-    before_save :populate_checksum
-
-    def populate_checksum
-      add_checksum(:document) unless document_file_name.nil?
-      add_checksum(:converted_preview_document) unless converted_preview_document.nil?
-    end
   end

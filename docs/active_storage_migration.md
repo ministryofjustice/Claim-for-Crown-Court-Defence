@@ -329,6 +329,7 @@ due to timeouts in Kibana logs, for example.
 After the migration to Active Storage has been completed successfully
 Paperclip can be removed.
 
+* Delete s3 dummy files, to save money (see `storage::clear_dummy_paperclip_files`)
 * Remove the `paperclip` gem from `Gemfile`
 * Delete `lib/tasks/storage.rake` and `lib/tasks/rake_helpers/storage.rb`
 * Delete `app/models/dummy_document.rb`

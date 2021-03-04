@@ -117,22 +117,33 @@ module Storage
       records.each do |record|
         bar.increment
 
-        if paperclip_storage.eql?(:s3)
-          filename = File.join('tmp', record.send(name).path)
-        else
-          filename = File.absolute_path(record.send(name).path)
-        end
+        filename = if paperclip_storage.eql?(:s3)
+                     File.join('tmp', record.send(name).path)
+                   else
+                     File.absolute_path(record.send(name).path)
+                   end
 
-        FileUtils.mkdir_p File.dirname(filename)
-        File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{name}_file_size"))) }
-        record.send("#{name}=", File.open(filename))
-        record.save(validate: false)
+        create_or_update_dummy_file(record: record, doc_attribute: name, filename: filename)
       end
     end
   end
 
   def self.paperclip_storage
     PAPERCLIP_STORAGE_OPTIONS[:storage]
+  end
+
+  def self.create_or_update_dummy_file(record:, doc_attribute:, filename:)
+    FileUtils.mkdir_p File.dirname(filename)
+    File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{doc_attribute}_file_size"))) }
+
+    record.send("#{doc_attribute}=", File.open(filename))
+    record.save(validate: false)
+  rescue Paperclip::Error => err
+    LogStuff.warn(
+      module: self.name,
+      action: "#{__method__} for #{record.class.table_name}",
+      error: "#{err.class} - #{err.message}"
+    ) { err.message }
   end
 
   def self.set_paperclip_checksums(relation:)

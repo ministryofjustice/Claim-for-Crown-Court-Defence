@@ -157,7 +157,7 @@ class BaseValidator < ActiveModel::Validator
 
     roles = *role_or_roles
     return if roles.any? { |role| object.is?(role) }
-    @record.errors[error_message_key] << error_message
+    @record.errors.add(error_message_key,  error_message)
   end
 
   def validate_zero_or_negative(attribute, message)

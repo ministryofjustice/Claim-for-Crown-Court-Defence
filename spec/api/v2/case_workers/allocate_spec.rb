@@ -80,7 +80,7 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
 
       it 'returns a JSON with error messages' do
         body = JSON.parse(last_response.body, symbolize_names: true)
-        expect(body[:errors][1]).to match(/Claim .* has already been allocated/)
+        expect(body[:errors][0]).to match(/Claim .* has already been allocated/)
       end
     end
 

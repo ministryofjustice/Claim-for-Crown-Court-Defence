@@ -181,7 +181,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
               it 'claim is invalid' do
                 @claim.valid?
-                expect(@claim.errors.messages).to include(external_user: ['Creator and advocate must belong to the same provider'])
+                expect(@claim.errors.messages[:external_user]).to eq ['Creator and advocate must belong to the same provider']
               end
 
               it 'still transitions to archived_pending_delete' do
@@ -203,7 +203,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
               it 'submodel is invalid' do
                 record.valid?
-                expect(record.errors.messages).to include(maat_reference: ['invalid'])
+                expect(record.errors.messages[:maat_reference]).to eq ['invalid']
               end
 
               it 'still transitions to archived_pending_delete' do

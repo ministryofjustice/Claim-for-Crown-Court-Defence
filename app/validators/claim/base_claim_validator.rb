@@ -43,7 +43,7 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_creator_and_external_user_have_same_provider
     return if @record.creator_id == @record.external_user_id ||
               @record.creator.try(:provider) == @record.external_user.try(:provider)
-    @record.errors[:external_user] << "Creator and #{@record.external_user_type} must belong to the same provider"
+    @record.errors.add(:external_user, "Creator and #{@record.external_user_type} must belong to the same provider")
   end
 
   def validate_total

@@ -76,9 +76,9 @@ RSpec.describe Allocation, type: :model do
         it 'details the errors' do
           allocator.save
           expect(allocator.errors[:base].size).to eq 3
-          expect(allocator.errors[:base]).to include('NO claims allocated because: ')
+          expect(allocator.errors[:base][0]).to match(/^Claim [A-Z][0-9]{8} has already been allocated to/)
           expect(allocator.errors[:base][1]).to match(/^Claim [A-Z][0-9]{8} has already been allocated to/)
-          expect(allocator.errors[:base][2]).to match(/^Claim [A-Z][0-9]{8} has already been allocated to/)
+          expect(allocator.errors[:base][2]).to eq('NO claims were allocated')
         end
       end
 
@@ -195,8 +195,8 @@ RSpec.describe Allocation, type: :model do
         it 'will populate allocation errors including header without failing' do
           subject.save
           expect(subject.errors.count).to eq 2 # claim error plus heading error warning
-          expect(subject.errors.full_messages.first).to match(/NO claims allocated/)
-          expect(subject.errors.full_messages.second).to match(/Claim .* has already been allocated/)
+          expect(subject.errors.full_messages.first).to match(/Claim .* has already been allocated/)
+          expect(subject.errors.full_messages.second).to match(/NO claims were allocated/)
           expect(case_worker.claims.count).to eq 0
         end
       end

@@ -226,35 +226,15 @@
     padding: $gutter-half;
     border-top: 1px solid $border-colour;
 
-    .upload-column {
-      .upload-button {
-        margin: 0;
-        overflow: hidden;
-        text-align: center;
-        cursor: pointer;
-      }
-    }
-
-    .message-column {
-      margin: $gutter-half 0;
-
-      input[type="text"] {
-        width: $half;
-        padding: 2px $gutter-one-sixth;
-        @include core-19;
-      }
-
-      textarea {
-        resize: vertical;
-      }
-    }
-
     .file-to-be-uploaded {
       display: none;
       padding-top: $gutter-half;
       border-top: 1px solid $border-colour;
 
       .filename {
+        margin-right: govuk-spacing(1);
+        padding-right: govuk-spacing(2);
+        border-right: 1px solid $black;
         font-weight: 700;
       }
     }

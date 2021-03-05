@@ -26,11 +26,11 @@ class ClaimShowPage < BasePage
   element :refuse_reason_text, '#claim_refuse_reason_text'
 
   section :messages_panel, "#claim-accordion .messages-container" do
-    element :enter_your_message, "textarea#message_body"
-    element :send, "form#new_message div.submit-column > button.app-button--blue"
+    element :enter_your_message, "textarea#message-body-field"
+    element :send, "input.govuk-button[value='Send']"
 
     def upload_file(path)
-      attach_file("message_attachment", path)
+      attach_file("message-attachment-field", path)
     end
 
     sections :messages, '.message-body' do

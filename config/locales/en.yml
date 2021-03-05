@@ -1980,13 +1980,16 @@ en:
         message: 'The provider has claimed Criminal Legal Aid Review fees on this claim, but they have not been injected. Please enter them manually.'
 
     message_controls:
+      attachment_label: Optionally attach a file
       update_claim_status: Update your claim status
       upload: "+ Upload"
-      message_placeholder: Enter your message here
+      message_placeholder: Enter a message
       send: *send
       accepted_files_help_text: "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
-      remove_file_tool_tip: "Remove the file you have selected to upload"
+      remove_file_html: Remove <span class="govuk-visually-hidden filename"></span>
       remove: Remove
+      written_reasons_heading: Written reasons
+      written_reasons: I have submitted written reasons
 
     providers:
       new:

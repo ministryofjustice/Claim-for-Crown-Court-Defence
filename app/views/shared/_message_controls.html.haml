@@ -1,43 +1,39 @@
-= form_for message, remote: !@claim.redeterminable?, authenticity_token: true do |f|
+= form_with(model: message, authenticity_token: true, builder: GOVUKDesignSystemFormBuilder::FormBuilder, local: false) do |f|
   = f.hidden_field :claim_id, value: @claim.id
 
-  - if current_user_persona_is?(ExternalUser) && @claim.redeterminable?
-    .js-hide-status
-      %fieldset.inline{ 'aria-describedby': 'radio-control-legend-1' }
-        %legend#radio-control-legend-1
-          %span.form-label-bold
-            = t('.update_claim_status')
+  = f.govuk_error_summary
 
-        .form-group.inline.js-test-claim-action
-          = f.collection_radio_buttons(:claim_action, Claims::ExternalUserActions.available_for(@claim), :to_s, :to_s) do |b|
-            .multiple-choice
-              = b.radio_button('aria-labelledby': "radio-control-legend-1 #{b.text.to_css_class}")
-              = b.label(id: b.value.to_css_class) { b.value.humanize }
+  - if current_user_persona_is?(ExternalUser) && @claim.redeterminable?
+    .js-hide-status.js-test-claim-action
+      = f.govuk_collection_radio_buttons :claim_action,
+        Claims::ExternalUserActions.available_for(@claim),
+        :to_s,
+        :to_s,
+        inline: true,
+        legend: { text: t('.update_claim_status') }
 
   - if messaging_permitted?(message) || current_user_is_caseworker?
-    .grid-row.js-test-send-buttons
-      .column-full
-        .message-column.govuk-form-group
-          = f.label :body, 'Enter a message', class: 'govuk-label'
-          = f.text_area :body, as: :text, rows: 10, label: false, class: 'govuk-textarea'
+    .message-column
+      = f.govuk_text_area :body,
+        label: { text: t('.message_placeholder') },
+        rows: 10
 
-          - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
-            .written-reasons-checkbox
-              = f.check_box :written_reasons_submitted
-              = f.label :written_reasons_submitted
-        .upload-column.govuk-form-group
-          = f.label :attachment, 'Optionally attach a file (maximum 1 file per message)', class: 'govuk-label'
-          = f.file_field :attachment
+    - if current_user_is_caseworker? && @claim.written_reasons_outstanding?
+      .written-reasons-checkbox
+        = f.govuk_check_boxes_fieldset :written_reasons_submitted, multiple: false, legend: { text: t('.written_reasons_heading'), size: 'm' } do
+          = f.govuk_check_box :written_reasons_submitted,
+            1,
+            0,
+            multiple: false,
+            link_errors: true,
+            label: { text: t('.written_reasons') }
 
-    .xsmall.form-hint
-      = t('.accepted_files_help_text')
+    = f.govuk_file_field :attachment,
+      label: { text: t('.attachment_label') },
+      hint: { text: t('.accepted_files_help_text') }
 
-    .file-to-be-uploaded
+    .file-to-be-uploaded.govuk-form-group
       %span.filename
-      = ' | '
-      %a{ href: '#', 'aria-label': t('.remove_file_tool_tip') }
-        = t('.remove')
+      = govuk_link_to t('.remove_file_html'), '#'
 
-    .submit-column
-      = govuk_button(t('.send'), class: 'app-button--blue')
-
+  = f.govuk_submit t('.send'), classes: 'app-button--blue'

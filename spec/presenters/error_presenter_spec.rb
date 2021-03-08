@@ -90,8 +90,8 @@ describe ErrorPresenter do
     context 'header messages' do
       context 'fieldname present in translation file' do
         it 'uses the long forms of the translation' do
-          claim.errors.add(:name,'cannot_be_blank')
-          claim.errors.add(:name,'too_long')
+          claim.errors.add(:name, 'cannot_be_blank')
+          claim.errors.add(:name, 'too_long')
           expect(presenter.header_errors).to eq(
             [
               ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name', 'The claimant name must not be blank', 50),

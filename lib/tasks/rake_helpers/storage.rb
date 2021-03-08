@@ -117,6 +117,8 @@ module Storage
       records.each do |record|
         bar.increment
 
+        next if record.send(attachment).exists?
+
         filename = if paperclip_storage.eql?(:s3)
                      File.join('tmp', record.send(attachment).path)
                    else

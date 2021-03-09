@@ -74,13 +74,14 @@ module API
     end
 
     def fetch_and_translate_error_messages
-      @model.errors.each do |field_name, error|
-        field_name = format_field_name(field_name)
-        emt = ErrorMessageTranslator.new(@translations, field_name, error)
+      @model.errors.each do |error|
+        message = error.message
+        field_name = format_field_name(error.attribute)
+        emt = ErrorMessageTranslator.new(@translations, field_name, message)
         if emt.translation_found?
           error_messages.push(error: emt.api_message)
         else
-          error_messages.push(error: fallback_api_message(field_name, error))
+          error_messages.push(error: fallback_api_message(field_name, message))
         end
       end
     end

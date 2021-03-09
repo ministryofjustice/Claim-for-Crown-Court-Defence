@@ -11,11 +11,11 @@ RSpec.describe API::V1::ExternalUsers::Expense do
   let(:parsed_body) { JSON.parse(last_response.body) }
 
   describe 'v2' do
-    let!(:provider) { create(:provider) }
-    let!(:claim) { create(:claim, source: 'api').reload }
-    let!(:expense_type) { create(:expense_type, :car_travel) }
+    let(:provider) { create(:provider) }
+    let(:claim) { create(:claim, source: 'api').reload }
+    let(:expense_type) { create(:expense_type, :car_travel) }
 
-    let!(:params) do
+    let(:params) do
       {
         api_key: provider.api_key,
         claim_id: claim.uuid,
@@ -28,14 +28,6 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         mileage_rate_id: 1,
         date: scheme_date_for('scheme 10')
       }
-    end
-
-    let(:json_error_response) do
-      [
-        { 'error' => 'Choose a type for the expense' },
-        { 'error' => 'Enter a quantity for the expense' },
-        { 'error' => 'Enter a rate for the expense' }
-      ].to_json
     end
 
     context 'sending non-permitted verbs' do
@@ -125,7 +117,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
               params.delete(field)
               post_to_create_endpoint
               expect(last_response.status).to eq 400
-              expect(parsed_body.first).to eq({ 'error' => expected_message })
+              expect(parsed_body).to include({ 'error' => expected_message })
             end
           end
         end
@@ -205,7 +197,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
             params.delete(field)
             post_to_validate_endpoint
             expect(last_response.status).to eq 400
-            expect(parsed_body.first).to eq({ 'error' => expected_message })
+            expect(parsed_body).to include({ 'error' => expected_message })
           end
         end
       end

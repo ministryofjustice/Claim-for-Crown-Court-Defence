@@ -28,29 +28,23 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
       let(:report_type) { 'management_information' }
 
       context 'when the report type is valid' do
-        let(:disk_service_prefix) { 'rails/active_storage/disk' }
-        let(:filename) { 'mi_report.csv' }
+        let(:test_url) { 'https://example.com/mi_report.csv#123abc' }
 
         before do
-          create(:stats_report, report_name: report_type).tap do |report|
-            report.document.attach(io: StringIO.new, filename: filename)
-          end
+          stats_report = create(:stats_report, :with_document, report_name: report_type)
+          allow(Stats::StatsReport).to receive(:most_recent_by_type).and_return(stats_report)
+          allow(stats_report.document.blob).to receive(:service_url).and_return(test_url)
+
           download
         end
 
-        it 'redirects to the service url of the document' do
-          expect(response.location).to match %(#{disk_service_prefix}/.*/#{filename})
-        end
+        it { is_expected.to redirect_to test_url }
       end
 
       context 'when the report is complete but the file is missing' do
-        before do
-          create :stats_report, report_name: report_type
-        end
+        before { create :stats_report, report_name: report_type }
 
-        it 'redirects to the management information page' do
-          expect(download).to redirect_to case_workers_admin_management_information_url
-        end
+        it { is_expected.to redirect_to case_workers_admin_management_information_url }
 
         it 'displays an error' do
           download
@@ -61,9 +55,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
       context 'when the report type is invalid' do
         let(:report_type) { 'invalid_report_type' }
 
-        it 'redirects to the management information page' do
-          expect(download).to redirect_to case_workers_admin_management_information_url
-        end
+        it { is_expected.to redirect_to case_workers_admin_management_information_url }
 
         it 'displays an error' do
           download

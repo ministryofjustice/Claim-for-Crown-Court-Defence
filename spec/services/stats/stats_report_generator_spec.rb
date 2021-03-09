@@ -79,8 +79,8 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
         before { allow(Settings).to receive(:notify_report_errors).and_return(false) }
 
         it 'does not sends an error notification' do
-          expect(ActiveSupport::Notifications).not_to receive(:instrument)
           call_report_generator rescue nil
+          expect(ActiveSupport::Notifications).not_to have_received(:instrument)
         end
       end
     end

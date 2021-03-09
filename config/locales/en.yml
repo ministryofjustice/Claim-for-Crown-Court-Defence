@@ -33,38 +33,9 @@ en:
   refused: Refused
   rejected: Rejected
 
-  # global - layout footer
-  accessibility: Accessibility statement
-  contact: Contact
-  cookies: Cookies
-  footer_feedback: Feedback
-  terms_and_conditions: Terms and Conditions
-  service_owner_html: <span>Built by</span> <a href="%{link}"><abbr title="Ministry of Justice">MOJ Digital Services</abbr></a>
-
   TrueClass: *global_yes
   FalseClass: *global_no
-  layouts:
-    phase_banner_html: 'This is a new service – your <a href="%{feedback}"><span class="visuallyhidden">Give your </span>feedback</a> will help us to improve it. You can <a href="%{feedback_type}">report a fault here</a>.'
-    primary_navigation:
-      add_a_provider: Add a provider
-      allocation: Allocation
-      api_documentation: API Documentation
-      archive: Your archive
-      error: There was an error
-      manage_provider: Manage provider
-      manage_providers: Providers
-      manage_users: Manage users
-      manage_your_settings: Manage your settings
-      manage_case_workers: Case workers
-      management_information: Reports
-      your_claims: Your claims
-      re_allocation: Re-allocation
-      sidekiq_console: Sidekiq console
-      all_claims: Your claims
-      sub_navigation: Sub navigation
-    navigation:
-      home: "Home"
-      back_to_referrer_html: "Back <span class='visually-hidden'>to referrer page</span>"
+
   pages:
     api_landing:
       page_heading: Claim for crown court defence API

@@ -25,7 +25,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   include ReadMessages
   include MessageControlsDisplay
 
-  layout 'claim_forms', only: %i[new create edit update]
+  before_action :enable_breadcrumb, only: %i[new create edit update]
 
   def index
     track_visit(url: 'external_user/claims', title: 'Your claims')

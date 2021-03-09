@@ -10,7 +10,7 @@ Feature: An API promotion banner will appear on the create claim page, until the
     Then I should be on the new claim page
 
     And The API promo banner is visible
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     When I click the link 'Do not show API information again'
     Then The API promo banner is not visible
 

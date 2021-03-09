@@ -6,10 +6,10 @@ Feature: Advocate submits a claim
 
     Given I am a signed in advocate
     And I am on the 'Your claims' page
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     And I click 'Start a claim'
 
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     And I select the fee scheme 'Advocate final fee'
 
     Then I should be on the new claim page
@@ -17,12 +17,12 @@ Feature: Advocate submits a claim
     And I select a case type of 'Appeal against conviction'
     And I select the court 'Caernarfon'
     And I enter a case number of 'A20181234'
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I should see a page title "Enter defendant details for advocate final fees claim"
     And I enter defendant, scheme 10 representation order and MAAT reference
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     Then I click "Continue" in the claim form
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/fixed_fee_calculations'
@@ -41,14 +41,14 @@ Feature: Advocate submits a claim
     Then the summary total should equal '£528.00'
     Then I uncheck the fixed fee "Number of defendants uplift"
     Then the summary total should equal '£468.00'
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     Then I click "Continue" in the claim form
 
     And I should be in the 'Miscellaneous fees' form page
     And I should see a page title "Enter miscellaneous fees for advocate final fees claim"
     And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
     Then the last 'miscellaneous' fee rate should be populated with '108.00'
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     And I eject the VCR cassette
     Then I click "Continue" in the claim form
 
@@ -58,7 +58,7 @@ Feature: Advocate submits a claim
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
     And I add an expense date for scheme 10
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     Then I click "Continue" in the claim form
 
     And I should be in the 'Supporting evidence' form page
@@ -67,7 +67,7 @@ Feature: Advocate submits a claim
     And I should see 10 evidence check boxes
     And I check the evidence boxes for 'A copy of the indictment'
     And I add some additional information
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     Then I click Submit to LAA
 
     And I should be on the check your claim page
@@ -84,18 +84,18 @@ Feature: Advocate submits a claim
     And I should see 'indictment.pdf'
     And I should see 'A copy of the indictment'
     And I should see 'Bish bosh bash'
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     When I click "Continue"
 
     Then I should be on the certification page
     And I should see a page title "Certify and submit the advocate final fees claim"
     When I check “I attended the main hearing”
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
     And I click Certify and submit claim
 
     Then I should be on the claim confirmation page
     And I should see a page title "Thank you for submitting your claim"
-    Then the page should be accessible within "#content"
+    Then the page should be accessible
 
     When I click View your claims
     Then I should be on the your claims page

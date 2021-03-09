@@ -1,5 +1,5 @@
 class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
-  layout 'basic'
+  before_action :disable_analytics, :disable_phase_banner, :disable_flashes
 
   def claims
     respond_payload_from_class(Stats::ClaimPercentageAuthorisedGenerator)

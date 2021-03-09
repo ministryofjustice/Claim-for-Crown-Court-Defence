@@ -1,5 +1,9 @@
-%ul#proposition-links
-  %li
-    = govuk_link_to tag.span('Your account', class: 'visuallyhidden') + current_user.name, signed_in_user_profile_path, class: cp(signed_in_user_profile_path)
-  %li
-    = govuk_link_to 'Sign out', destroy_user_session_path, method: :delete
+%button.govuk-header__menu-button.govuk-js-header-toggle{ aria: { controls: 'navigation', label: t('.show_hide_menu') }, type: 'button' }
+  = t('.menu')
+
+%nav
+  %ul#navigation.govuk-header__navigation{ aria: { label: t('.top_navigation') } }
+    %li.govuk-header__navigation-item
+      = govuk_header_link_to current_user.name, signed_in_user_profile_path
+    %li.govuk-header__navigation-item
+      = govuk_header_link_to t('.sign_out'), destroy_user_session_path, method: :delete

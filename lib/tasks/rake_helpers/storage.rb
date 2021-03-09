@@ -142,11 +142,7 @@ module Storage
     record.send("#{doc_attribute}=", file)
     record.save(validate: false)
   rescue StandardError => err
-    LogStuff.warn(
-      module: self.name,
-      action: "#{__method__} for #{record.class.table_name}",
-      error: "#{err.class} - #{err.message}"
-    ) { err.message }
+    Rails.logger.info "[#{__method__}]: #{err.class} - #{err.message}"
   ensure
     file.close if file
   end

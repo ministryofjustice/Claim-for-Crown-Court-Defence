@@ -137,15 +137,18 @@ module Storage
   def self.create_or_update_dummy_file(record:, doc_attribute:, filename:)
     FileUtils.mkdir_p File.dirname(filename)
     File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{doc_attribute}_file_size"))) }
+    file = File.open(filename)
 
-    record.send("#{doc_attribute}=", File.open(filename))
+    record.send("#{doc_attribute}=", file)
     record.save(validate: false)
-  rescue Paperclip::Error => err
+  rescue StandardError => err
     LogStuff.warn(
       module: self.name,
       action: "#{__method__} for #{record.class.table_name}",
       error: "#{err.class} - #{err.message}"
     ) { err.message }
+  ensure
+    file.close if file
   end
 
   # Deleting filesystem/s3 files

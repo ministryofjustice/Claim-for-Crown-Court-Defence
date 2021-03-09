@@ -106,26 +106,18 @@ module Storage
     end
 
     ATTACHMENTS[model].each do |attachment|
-      if model.eql?('documents')
-        records = DummyDocument.where.not("#{attachment}_file_name" => nil)
-      else
-        records = self.models(model).where.not("#{attachment}_file_name" => nil)
-      end
+      relation = if model.eql?('documents')
+                   DummyDocument.where.not("#{attachment}_file_name" => nil)
+                 else
+                   self.models(model).where.not("#{attachment}_file_name" => nil)
+                 end
 
-      bar = self.progress_bar title: attachment, total: records.count
+      bar = self.progress_bar title: attachment, total: relation.count
 
-      records.each do |record|
+      relation.each do |record|
         bar.increment
-
         next if record.send(attachment).exists?
-
-        filename = if paperclip_storage.eql?(:s3)
-                     File.join('tmp', record.send(attachment).path)
-                   else
-                     File.absolute_path(record.send(attachment).path)
-                   end
-
-        create_or_update_dummy_file(record: record, doc_attribute: attachment, filename: filename)
+        create_or_update_dummy_file(record: record, doc_attribute: attachment, filename: File.join('tmp', record.send(attachment).path))
       end
     end
   end
@@ -136,8 +128,8 @@ module Storage
 
   def self.create_or_update_dummy_file(record:, doc_attribute:, filename:)
     FileUtils.mkdir_p File.dirname(filename)
-    File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{doc_attribute}_file_size"))) }
-    file = File.open(filename)
+    file = File.open(filename, 'wb')
+    file.write(SecureRandom.random_bytes(record.send("#{doc_attribute}_file_size")))
 
     record.send("#{doc_attribute}=", file)
     record.save(validate: false)

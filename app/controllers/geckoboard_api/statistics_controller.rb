@@ -1,7 +1,7 @@
 class GeckoboardApi::StatisticsController < ApplicationController
-  skip_load_and_authorize_resource only: [:index]
+  include DisableViewOnlyActions
 
-  before_action :disable_analytics, :disable_phase_banner, :disable_flashes
+  skip_load_and_authorize_resource only: [:index]
 
   def index
     @available_reports = {

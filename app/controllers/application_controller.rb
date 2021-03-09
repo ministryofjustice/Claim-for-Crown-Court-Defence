@@ -99,18 +99,6 @@ class ApplicationController < ActionController::Base
     @suppress_contact_us_message = true
   end
 
-  def disable_analytics
-    @disable_analytics = true
-  end
-
-  def disable_phase_banner
-    @disable_phase_banner = true
-  end
-
-  def disable_flashes
-    @disable_flashes = true
-  end
-
   def enable_breadcrumb
     @enable_breadcrumb = true
   end

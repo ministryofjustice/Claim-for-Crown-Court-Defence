@@ -1,10 +1,10 @@
 module GoogleAnalytics
   class DataTracking
-    cattr_accessor :adapter, :adapter_name, :active
+    cattr_accessor :adapter, :adapter_name
 
     class << self
       def enabled?
-        active && adapter.present? && Rails.env.production?
+        adapter.present? && Rails.env.production?
       end
 
       def tag_manager?

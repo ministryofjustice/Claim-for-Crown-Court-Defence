@@ -2,7 +2,7 @@
 
 = javascript_pack_tag "application-test" if Rails.env.test?
 
-- if GoogleAnalytics::DataTracking.analytics?
+- if GoogleAnalytics::DataTracking.analytics? && !@disable_analytics
   :javascript
     ga(function(tracker) {
       var clientId = tracker.get('clientId');

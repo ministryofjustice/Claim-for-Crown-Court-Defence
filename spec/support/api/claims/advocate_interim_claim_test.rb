@@ -47,26 +47,26 @@ class AdvocateInterimClaimTest < BaseClaimTest
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
 
     {
-      "api_key": api_key,
-      "creator_email": 'advocateadmin@example.com',
-      "advocate_email": 'advocate@example.com',
-      "case_number": 'S20161234',
-      "providers_ref": SecureRandom.uuid[3..15].upcase,
-      "advocate_category": advocate_category,
-      "offence_id": offence_id,
-      "court_id": court_id,
-      "cms_number": '12345678',
-      "additional_information": 'string',
-      "apply_vat": true
+      api_key: api_key,
+      creator_email: 'advocateadmin@example.com',
+      advocate_email: 'advocate@example.com',
+      case_number: 'S20161234',
+      providers_ref: SecureRandom.uuid[3..15].upcase,
+      advocate_category: advocate_category,
+      offence_id: offence_id,
+      court_id: court_id,
+      cms_number: '12345678',
+      additional_information: 'string',
+      apply_vat: true
     }
   end
 
   def representation_order_data(defendant_uuid)
     {
-      "api_key": api_key,
-      "defendant_id": defendant_uuid,
-      "maat_reference": '4546963',
-      "representation_order_date": scheme_10_date
+      api_key: api_key,
+      defendant_id: defendant_uuid,
+      maat_reference: '4546963',
+      representation_order_date: scheme_10_date
     }
   end
 
@@ -74,11 +74,11 @@ class AdvocateInterimClaimTest < BaseClaimTest
     fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant', role: 'agfs_scheme_10'), 'id')
 
     {
-      "api_key": api_key,
-      "claim_id": claim_uuid,
-      "fee_type_id": fee_type_id,
-      "warrant_issued_date": scheme_10_date,
-      "amount": 255.50
+      api_key: api_key,
+      claim_id: claim_uuid,
+      fee_type_id: fee_type_id,
+      warrant_issued_date: scheme_10_date,
+      amount: 255.50
     }
   end
 
@@ -86,21 +86,21 @@ class AdvocateInterimClaimTest < BaseClaimTest
     fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs_scheme_10'), 'id')
 
     {
-      "api_key": api_key,
-      "claim_id": claim_uuid,
-      "fee_type_id": fee_type_id,
-      "quantity": 2,
-      "rate": 1.55
+      api_key: api_key,
+      claim_id: claim_uuid,
+      fee_type_id: fee_type_id,
+      quantity: 2,
+      rate: 1.55
     }
   end
 
   def date_attended_data(attended_item_uuid, attended_item_type)
     {
-      "api_key": api_key,
-      "attended_item_id": attended_item_uuid,
-      "attended_item_type": attended_item_type,
-      "date": scheme_10_date,
-      "date_to": scheme_10_date
+      api_key: api_key,
+      attended_item_id: attended_item_uuid,
+      attended_item_type: attended_item_type,
+      date: scheme_10_date,
+      date_to: scheme_10_date
     }
   end
 
@@ -108,16 +108,16 @@ class AdvocateInterimClaimTest < BaseClaimTest
     expense_type_id = json_value_at_index(client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role: role), 'id')
 
     {
-      "api_key": api_key,
-      "claim_id": claim_uuid,
-      "expense_type_id": expense_type_id,
-      "amount": 500.15,
-      "location": 'London',
-      "reason_id": 5,
-      "reason_text": 'Foo',
-      "date": scheme_10_date,
-      "distance": 100.58,
-      "mileage_rate_id": 1
+      api_key: api_key,
+      claim_id: claim_uuid,
+      expense_type_id: expense_type_id,
+      amount: 500.15,
+      location: 'London',
+      reason_id: 5,
+      reason_text: 'Foo',
+      date: scheme_10_date,
+      distance: 100.58,
+      mileage_rate_id: 1
     }
   end
 end

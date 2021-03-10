@@ -20,9 +20,6 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
 
-Lint/MixedRegexpCaptureTypes:
-  Enabled: true
-
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true
 
@@ -33,22 +30,9 @@ Layout/EmptyLineAfterGuardClause:
   Enabled: false
 
 Layout/LineLength:
-  Enabled: true
   Max: 120
   IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
   AllowHeredoc: true
-
-Layout/SpaceAroundMethodCallOperator:
-  Enabled: true
-
-Lint/DeprecatedOpenSSLConstant:
-  Enabled: true
-
-Lint/RaiseException:
-  Enabled: true
-
-Lint/StructNewOverride:
-  Enabled: true
 
 Metrics/BlockLength:
   IgnoredMethods:
@@ -75,97 +59,94 @@ Metrics/BlockLength:
     - trait
     - define
 
-Performance/AncestorsInclude:
+Performance/AncestorsInclude: # (new in 1.7)
   Enabled: true
 
-Performance/BigDecimalWithNumericArgument:
+Performance/BigDecimalWithNumericArgument: # (new in 1.7)
   Enabled: true
 
 Performance/BlockGivenWithExplicitBlock:
   Enabled: true
 
-Performance/CollectionLiteralInLoop:
+Performance/CollectionLiteralInLoop: # (new in 1.8)
   Enabled: true
 
-Performance/ConstantRegexp:
+Performance/ConstantRegexp: # (new in 1.9)
   Enabled: true
 
-Performance/MethodObjectAsBlock:
+Performance/MethodObjectAsBlock: # (new in 1.9)
   Enabled: true
 
-Performance/RedundantSortBlock:
+Performance/RedundantSortBlock: # (new in 1.7)
   Enabled: true
 
-Performance/RedundantStringChars:
+Performance/RedundantStringChars: # (new in 1.7)
   Enabled: true
 
-Performance/ReverseFirst:
+Performance/ReverseFirst: # (new in 1.7)
   Enabled: true
 
-Performance/SortReverse:
+Performance/SortReverse: # (new in 1.7)
   Enabled: true
 
-Performance/Squeeze:
+Performance/Squeeze: # (new in 1.7)
   Enabled: true
 
-Performance/StringInclude:
+Performance/StringInclude: # (new in 1.7)
   Enabled: true
 
-Performance/Sum:
+Performance/Sum: # (new in 1.8)
   Enabled: true
 
-Rails/ActiveRecordCallbacksOrder:
+Rails/ActiveRecordCallbacksOrder: # (new in 2.7)
   Enabled: true
 
-Rails/AfterCommitOverride:
+Rails/AfterCommitOverride: # (new in 2.8)
   Enabled: true
 
-Rails/AttributeDefaultBlockValue:
+Rails/AttributeDefaultBlockValue: # (new in 2.9)
   Enabled: true
 
-Rails/FindById:
+Rails/FindById: # (new in 2.7)
   Enabled: true
 
-Rails/Inquiry:
+Rails/Inquiry: # (new in 2.7)
   Enabled: true
 
-Rails/MailerName:
+Rails/MailerName: # (new in 2.7)
   Enabled: true
 
-Rails/MatchRoute:
+Rails/MatchRoute: # (new in 2.7)
   Enabled: true
 
-Rails/NegateInclude:
+Rails/NegateInclude: # (new in 2.7)
   Enabled: true
 
-Rails/Pluck:
+Rails/Pluck: # (new in 2.7)
   Enabled: true
 
-Rails/PluckInWhere:
+Rails/PluckInWhere: # (new in 2.7)
   Enabled: true
 
-Rails/RenderInline:
+Rails/RenderInline: # (new in 2.7)
   Enabled: true
 
-Rails/RenderPlainText:
+Rails/RenderPlainText: # (new in 2.7)
   Enabled: true
 
-Rails/ShortI18n:
+Rails/ShortI18n: # (new in 2.7)
   Enabled: true
 
 Rails/SquishedSQLHeredocs:
   Enabled: false
 
-Rails/WhereEquals:
+Rails/WhereEquals: # (new in 2.9)
   Enabled: true
 
-Rails/WhereExists:
+Rails/WhereExists: # (new in 2.7)
   Enabled: true
 
-Rails/WhereNot:
-  Enabled: true
-
-RSpec/StubbedMock:
+Rails/WhereNot: # (new in 2.8)
   Enabled: true
 
 Style/DateTime:
@@ -174,107 +155,12 @@ Style/DateTime:
 Style/Documentation:
   Enabled: false
 
-Style/ExponentialNotation:
-  Enabled: true
-
 Style/FrozenStringLiteralComment:
   Enabled: false
 
 Style/FormatStringToken:
   EnforcedStyle: template
 
-Style/HashEachMethods:
-  Enabled: true
-
-Style/HashTransformKeys:
-  Enabled: true
-
-Style/HashTransformValues:
-  Enabled: true
-
-Style/RedundantRegexpCharacterClass:
-  Enabled: true
-
-Style/RedundantRegexpEscape:
-  Enabled: true
-
-Style/SlicingWithRange:
-  Enabled: true
-
-Layout/BeginEndAlignment: # (new in 0.91)
-  Enabled: true
-Lint/BinaryOperatorWithIdenticalOperands: # (new in 0.89)
-  Enabled: true
-Lint/ConstantDefinitionInBlock: # (new in 0.91)
-  Enabled: true
-Lint/DuplicateElsifCondition: # (new in 0.88)
-  Enabled: true
-Lint/DuplicateRequire: # (new in 0.90)
-  Enabled: true
-Lint/DuplicateRescueException: # (new in 0.89)
-  Enabled: true
-Lint/EmptyConditionalBody: # (new in 0.89)
-  Enabled: true
-Lint/EmptyFile: # (new in 0.90)
-  Enabled: true
-Lint/FloatComparison: # (new in 0.89)
-  Enabled: true
-Lint/HashCompareByIdentity: # (new in 0.93)
-  Enabled: true
-Lint/IdentityComparison: # (new in 0.91)
-  Enabled: true
-Lint/MissingSuper: # (new in 0.89)
-  Enabled: true
-Lint/OutOfRangeRegexpRef: # (new in 0.89)
-  Enabled: true
-Lint/RedundantSafeNavigation: # (new in 0.93)
-  Enabled: true
-Lint/SelfAssignment: # (new in 0.89)
-  Enabled: true
-Lint/TopLevelReturnWithArgument: # (new in 0.89)
-  Enabled: true
-Lint/TrailingCommaInAttributeDeclaration: # (new in 0.90)
-  Enabled: true
-Lint/UnreachableLoop: # (new in 0.89)
-  Enabled: true
-Lint/UselessMethodDefinition: # (new in 0.90)
-  Enabled: true
-Lint/UselessTimes: # (new in 0.91)
-  Enabled: true
-Style/AccessorGrouping: # (new in 0.87)
-  Enabled: true
-Style/BisectedAttrAccessor: # (new in 0.87)
-  Enabled: true
-Style/CaseLikeIf: # (new in 0.88)
-  Enabled: true
-Style/ClassEqualityComparison: # (new in 0.93)
-  Enabled: true
-Style/CombinableLoops: # (new in 0.90)
-  Enabled: true
-Style/ExplicitBlockArgument: # (new in 0.89)
-  Enabled: true
-Style/GlobalStdStream: # (new in 0.89)
-  Enabled: true
-Style/HashAsLastArrayItem: # (new in 0.88)
-  Enabled: true
-Style/HashLikeCase: # (new in 0.88)
-  Enabled: true
-Style/KeywordParametersOrder: # (new in 0.90)
-  Enabled: true
-Style/OptionalBooleanParameter: # (new in 0.89)
-  Enabled: true
-Style/RedundantAssignment: # (new in 0.87)
-  Enabled: true
-Style/RedundantFetchBlock: # (new in 0.86)
-  Enabled: true
-Style/RedundantFileExtensionInRequire: # (new in 0.88)
-  Enabled: true
-Style/RedundantSelfAssignment: # (new in 0.90)
-  Enabled: true
-Style/SingleArgumentDig: # (new in 0.89)
-  Enabled: true
-Style/SoleNestedConditional: # (new in 0.89)
-  Enabled: true
 Style/StringConcatenation: # (new in 0.89)
   Enabled: false
 
@@ -322,8 +208,22 @@ Style/RedundantArgument: # (new in 1.4)
  Enabled: true
 Style/SwapValues: # (new in 1.1)
   Enabled: true
+Lint/NumberedParameterAssignment: # (new in 1.9)
+  Enabled: true
+Lint/OrAssignmentToConstant: # (new in 1.9)
+  Enabled: true
+Lint/SymbolConversion: # (new in 1.9)
+  Enabled: true
+Lint/TripleQuotes: # (new in 1.9)
+  Enabled: true
+Style/IfWithBooleanLiteralBranches: # (new in 1.9)
+  Enabled: true
+Gemspec/DateAssignment: # (new in 1.10)
+  Enabled: true
+Style/HashConversion: # (new in 1.10)
+  Enabled: true
 
-# Temporarily disable while fixing sped/* directory
+# Temporarily disable while fixing spec/* directory
 Lint/RedundantCopDisableDirective:
   Enabled: false
 

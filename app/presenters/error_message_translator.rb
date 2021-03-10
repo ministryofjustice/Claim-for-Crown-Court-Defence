@@ -66,7 +66,7 @@ class ErrorMessageTranslator
 
   def submodel_key_exists?(translations, key)
     parent_model, = last_parent_attribute(translations, key)
-    translations[parent_model].nil? ? false : true
+    !translations[parent_model].nil?
   end
 
   def key_refers_to_numbered_submodel?(key)

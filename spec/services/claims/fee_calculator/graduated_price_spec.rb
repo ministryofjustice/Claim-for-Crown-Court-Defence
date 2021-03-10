@@ -1078,7 +1078,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       context 'because resource not found' do
         before do
           stub_request(:get, %r{\Ahttps://(.*)laa-fee-calculator.(.*).gov.uk/api/v1/.*\z})
-            .to_return(status: 404, body: { 'error': '"detail": "Not found."' }.to_json, headers: {})
+            .to_return(status: 404, body: { error: '"detail": "Not found."' }.to_json, headers: {})
         end
 
         let(:claim) { instance_double(::Claim::BaseClaim, agfs?: true, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }

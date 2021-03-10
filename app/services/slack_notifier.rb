@@ -18,10 +18,10 @@ class SlackNotifier
     @payload[:icon_emoji] = message_icon
     @payload[:attachments] = [
       {
-        'fallback': message,
-        'color': pass_fail_colour(pass_fail),
-        'title': title,
-        'text': message
+        fallback: message,
+        color: pass_fail_colour(pass_fail),
+        title: title,
+        text: message
       }
     ]
     @ready_to_send = true
@@ -35,11 +35,11 @@ class SlackNotifier
     @payload[:icon_emoji] = message_icon
     @payload[:attachments] = [
       {
-        'fallback': injection_fallback,
-        'color': message_colour,
-        'title': injection_title,
-        'text': @response['uuid'],
-        'fields': fields
+        fallback: injection_fallback,
+        color: message_colour,
+        title: injection_title,
+        text: @response['uuid'],
+        fields: fields
       }
     ]
     @ready_to_send = true
@@ -87,8 +87,8 @@ class SlackNotifier
 
   def fields
     fields = [
-      { 'title': 'Claim number', 'value': @claim&.case_number, 'short': true },
-      { 'title': 'environment', 'value': ENV['ENV'], 'short': true }
+      { title: 'Claim number', value: @claim&.case_number, short: true },
+      { title: 'environment', value: ENV['ENV'], short: true }
     ]
     errors = has_no_errors? ? [] : error_fields
     fields + errors
@@ -97,7 +97,7 @@ class SlackNotifier
   def error_fields
     errors = @response['errors'].map { |x| x['error'] }.join('\n')
     [
-      { 'title': 'Errors', 'value': errors }
+      { title: 'Errors', value: errors }
     ]
   end
 

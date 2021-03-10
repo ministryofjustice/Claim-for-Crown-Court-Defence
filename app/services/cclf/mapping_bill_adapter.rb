@@ -8,7 +8,7 @@ module CCLF
     delegate :bill_type, :bill_subtype, to: :@bill_types
 
     def self.zip(bill_types = [])
-      Hash[KEYS.zip(bill_types)]
+      KEYS.zip(bill_types).to_h
     end
 
     def initialize(object)

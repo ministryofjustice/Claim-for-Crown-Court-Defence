@@ -28,17 +28,17 @@ class LitigatorHardshipClaimTest < BaseClaimTest
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
 
     {
-      "api_key": api_key,
-      "creator_email": 'litigatoradmin@example.com',
-      "user_email": 'litigator@example.com',
-      "case_number": 'A20201234',
-      "supplier_number": supplier_number,
-      "case_stage_unique_code": 'PREPTPHADJ',
-      "offence_id": offence_id,
-      "court_id": court_id,
-      "cms_number": '12345678',
-      "additional_information": 'string',
-      "effective_pcmh_date": 1.month.ago.as_json
+      api_key: api_key,
+      creator_email: 'litigatoradmin@example.com',
+      user_email: 'litigator@example.com',
+      case_number: 'A20201234',
+      supplier_number: supplier_number,
+      case_stage_unique_code: 'PREPTPHADJ',
+      offence_id: offence_id,
+      court_id: court_id,
+      cms_number: '12345678',
+      additional_information: 'string',
+      effective_pcmh_date: 1.month.ago.as_json
     }
   end
 
@@ -46,12 +46,12 @@ class LitigatorHardshipClaimTest < BaseClaimTest
     fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'graduated', role: 'lgfs'), 'id', 5) # Trial
 
     {
-      "api_key": api_key,
-      "claim_id": claim_uuid,
-      "fee_type_id": fee_type_id,
-      "quantity": 5,
-      "amount": 100.25,
-      "date": 1.month.ago.as_json
+      api_key: api_key,
+      claim_id: claim_uuid,
+      fee_type_id: fee_type_id,
+      quantity: 5,
+      amount: 100.25,
+      date: 1.month.ago.as_json
     }
   end
 end

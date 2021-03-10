@@ -97,7 +97,7 @@ group :development, :devunicorn, :test do
   gem 'rspec_junit_formatter'
   gem 'net-ssh'
   gem 'net-scp'
-  gem 'rubocop', '~> 1.8'
+  gem 'rubocop', '~> 1.11'
   gem 'rubocop-rspec'
   gem 'rubocop-rails'
   gem 'rubocop-performance'
@@ -125,6 +125,6 @@ group :test do
   gem 'test-prof'
   gem 'timecop'
   gem 'vcr'
-  gem 'webdrivers', '~> 4.5', require: false
+  gem 'webdrivers', '~> 4.6', require: false
   gem 'webmock'
 end

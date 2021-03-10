@@ -2,36 +2,22 @@ require 'rails_helper'
 
 module GoogleAnalytics
   describe DataTracking do
-    before do
-      allow(described_class).to receive(:adapter).and_return('Adapter')
-      allow(Rails).to receive(:env).and_return('production'.inquiry)
-      described_class.active = true
-    end
-
     describe '#enabled?' do
       subject { described_class.enabled? }
-
-      context 'when host is staging' do
-        before { allow(RailsHost).to receive(:env).and_return('staging') }
-
-        it { is_expected.to be_truthy }
-
-        context 'when active is false' do
-          before { described_class.active = false }
-
-          it { is_expected.to be_falsey }
-        end
+      before do
+        allow(Rails).to receive(:env).and_return('production'.inquiry)
       end
 
-      context 'when host is production' do
-        before { allow(RailsHost).to receive(:env).and_return('production') }
+      context 'with an adapter set' do
+        before do
+          allow(described_class).to receive(:adapter).and_return('Adapter')
+        end
 
-        it { is_expected.to be_truthy }
-
-        context 'when active is false' do
-          before { described_class.active = false }
-
-          it { is_expected.to be_falsey }
+        %w(staging production).each do |host|
+          it "returns true when host is #{host}" do
+            allow(RailsHost).to receive(:env).and_return(host)
+            expect(described_class.enabled?).to be_truthy
+          end
         end
       end
 
@@ -54,47 +40,53 @@ module GoogleAnalytics
       end
     end
 
-    describe '#tag_manager?' do
-      subject(:tag_manager) { described_class.tag_manager? }
-
-      context 'when the adapter is google_tag_manager' do
-        before { allow(described_class).to receive(:adapter_name).and_return(:gtm) }
-
-        it { is_expected.to be true }
+    describe 'type methods' do
+      before do
+        allow(described_class).to receive(:adapter).and_return('Adapter')
+        allow(Rails).to receive(:env).and_return('production'.inquiry)
       end
 
-      context 'when the adapter is google_analytics' do
-        before { allow(described_class).to receive(:adapter_name).and_return(:ga) }
+      context '#tag_manager?' do
+        subject(:tag_manager) { described_class.tag_manager? }
+        context 'when the adapter is google_tag_manager' do
+          before { allow(described_class).to receive(:adapter_name).and_return(:gtm) }
 
-        it { is_expected.to be false }
+          it { is_expected.to be true }
+        end
+
+        context 'when the adapter is google_analytics' do
+          before { allow(described_class).to receive(:adapter_name).and_return(:ga) }
+
+          it { is_expected.to be false }
+        end
+
+        context 'when the adapter is nil' do
+          before { allow(described_class).to receive(:adapter).and_return(nil) }
+
+          it { is_expected.to be false }
+        end
       end
 
-      context 'when the adapter is nil' do
-        before { allow(described_class).to receive(:adapter).and_return(nil) }
+      context '#analytics?' do
+        subject(:analytics) { described_class.analytics? }
 
-        it { is_expected.to be false }
-      end
-    end
+        context 'when the adapter is google_tag_manager' do
+          before { allow(described_class).to receive(:adapter_name).and_return(:gtm) }
 
-    describe '#analytics?' do
-      subject(:analytics) { described_class.analytics? }
+          it { is_expected.to be false }
+        end
 
-      context 'when the adapter is google_tag_manager' do
-        before { allow(described_class).to receive(:adapter_name).and_return(:gtm) }
+        context 'when the adapter is google_analytics' do
+          before { allow(described_class).to receive(:adapter_name).and_return(:ga) }
 
-        it { is_expected.to be false }
-      end
+          it { is_expected.to be true }
+        end
 
-      context 'when the adapter is google_analytics' do
-        before { allow(described_class).to receive(:adapter_name).and_return(:ga) }
+        context 'when the adapter is nil' do
+          before { allow(described_class).to receive(:adapter).and_return(nil) }
 
-        it { is_expected.to be true }
-      end
-
-      context 'when the adapter is nil' do
-        before { allow(described_class).to receive(:adapter).and_return(nil) }
-
-        it { is_expected.to be false }
+          it { is_expected.to be false }
+        end
       end
     end
   end

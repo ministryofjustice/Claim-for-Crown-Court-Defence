@@ -1,0 +1,42 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cccd-add-evidence-document-checksums
+spec:
+  schedule: "*/30 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 300
+  jobTemplate:
+    spec:
+      backoffLimit: 0
+      ttlSecondsAfterFinished: 250000
+      template:
+        metadata:
+          labels:
+            tier: worker
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: cronjob-worker
+            image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
+            imagePullPolicy: Always
+            command:
+              - bundle
+              - exec
+              - rails
+              - "storage:add_paperclip_checksums[documents,10,no_prompt]"
+
+            envFrom:
+            - configMapRef:
+                name: cccd-app-config
+            - secretRef:
+                name: cccd-secrets
+
+            env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-rds
+                  key: url

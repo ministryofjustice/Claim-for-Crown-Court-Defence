@@ -338,6 +338,8 @@ Paperclip can be removed.
 * Remove `PAPERCLIP_STORAGE_OPTIONS`, `REPORTS_STORAGE_OPTIONS` and
   `REPORTS_STORAGE_OPTIONS` from the configuration files in
   `config/environments`.
+* Remove `kubernetes_deploy/cron_jobs/add_evidence_document_checksums.yml`
+* Amend ` kubernetes_deploy/scripts/cronjob.sh` to remove reference to `add_evidence_document_checksums`
 * **Note:** This step is destructive and cannot be reverted.
   Remove Paperclip related fields from the database:
   * In `stats_reports`; `document_file_name`, `document_content_type`,

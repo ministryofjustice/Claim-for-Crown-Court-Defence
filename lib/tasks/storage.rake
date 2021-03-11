@@ -11,12 +11,20 @@ namespace :storage do
     Storage.rollback args[:model]
   end
 
-  desc 'Create/replace dummy paperclip asset files'
+  desc 'Create/replace dummy paperclip asset files, based on attachment metadata'
   task :create_dummy_paperclip_files, [:model] => :environment do |_task, args|
     production_protected
     continue?("Warning: this will overwrite existing files for #{args[:model]} with random bytes! Are you sure?")
 
-    Storage.create_dummy_paperclip_files_for args[:model]
+    Storage.create_dummy_paperclip_files_for(args[:model])
+  end
+
+  desc 'Clear dummy paperclip asset files, but leave attachment meta data in place'
+  task :clear_dummy_paperclip_files, [:model] => :environment do |_task, args|
+    production_protected
+    continue?("Warning: this will delete existing files for #{args[:model]}! Are you sure?")
+
+    Storage.clear_dummy_paperclip_files_for(args[:model])
   end
 
   desc 'Add file checksums to paperclip columns'

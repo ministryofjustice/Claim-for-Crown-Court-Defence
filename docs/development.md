@@ -152,7 +152,7 @@ $ rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','production']
 $ rake db:restore['tmp/production/20201013214202_dump.psql']
 ```
 
-Alternatively, if dump files already exist for the environment you can list them - `db:dump:list_s3_dumps` - and then copy the one you want locally - they listed most recent first. You can also use `db:dump:list_s3_dumps` task to retrieve time-limited presigned s3 urls that can be used to download the file.
+Alternatively, if dump files already exist for the environment you can list them - `db:dump:list_s3_dumps` - and then copy the one you want locally - they are listed with most recent first.
 
  ### Deleting dump files
 
@@ -165,6 +165,42 @@ $ rake db:dump:delete_s3_dumps['production']
 # delete all dump files
 $ rake db:dump:delete_s3_dumps['production','all']
 ```
+
+### Restoring dump on remote host
+
+The dump files can be restored on a remote host as well. To achieve this you will need to transfer the dump file to the host and then run the restore task on the host. You should use the worker pod to mitigate impact of restore on server hosts.
+
+* Create dir on remote host (optional):
+  ```bash
+  # shell into host
+  kubectl exec -it <pod-name> sh
+
+  # create
+  /usr/src/app $ mkdir tmp/production
+  /usr/src/app $ exit
+  ```
+
+* Compress local copy if necessary - to avoid long transfer times
+  ```bash
+  # compress file but retain uncompressed version
+  gzip < dump_file_name.psql.psql > dump_file_name.psql.gz
+  ```
+
+* User kubernetes to copy local file to remote host
+  ```bash
+  # copy source to pod:destination
+  kubectl cp tmp/production/dump_file_name.psql.gz <pod-name>:tmp/production/dump_file_name.psql.gz
+  ```
+  *Note: for a large file, 1G+, this can take 20+ minutes*
+
+* Restore remote database using dumpfile on remote host
+  ```bash
+  # shell into host
+  kubectl exec -it <pod-name> sh
+
+  # restore database
+  /usr/src/app $ rake db:restore['tmp/production/dump_file_name.psql.gz']
+  ```
 
 #### A note on architecture
 

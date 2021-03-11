@@ -61,7 +61,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
         }.to change { Stats::StatsReport.where(report_name: report_type).errored.count }.from(0).to(1)
       end
 
-      context 'when when the error notifications are enabled' do
+      context 'when the error notifications are enabled' do
         before do
           allow(Settings).to receive(:notify_report_errors).and_return(true)
         end

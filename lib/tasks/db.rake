@@ -59,6 +59,8 @@ namespace :db do
 
   desc 'CCCD task: clear the database, run migrations, seeds and reloads demo data'
   task :reload do
+    production_protected
+
     Rake::Task['db:clear'].invoke
     Rake::Task['db:schema:load'].invoke
     Rake::Task['db:migrate'].invoke
@@ -158,7 +160,9 @@ namespace :db do
   # OPTIMIZE: https://stackoverflow.com/questions/148451/how-to-use-sed-to-replace-only-the-first-occurrence-in-a-file/11458836#11458836
   # required because of this change
   # https://www.postgresql.org/about/news/postgresql-103-968-9512-9417-and-9322-released-1834/
+  # NOTE: this is POSIX compliant so that BSD (osx) and GNU sed can be used
   def set_pg_search_path(dump_file)
-    `sed -i '' -e "s/SELECT pg_catalog.set_config('search_path', '', false)/SELECT pg_catalog.set_config('search_path', 'public, pg_catalog', true)/" #{dump_file}`
+    `sed -e "s/SELECT pg_catalog.set_config('search_path', '', false)/SELECT pg_catalog.set_config('search_path', 'public, pg_catalog', true)/" #{dump_file} > #{dump_file}.tmp`
+    `mv -- #{dump_file}.tmp #{dump_file}`
   end
 end

@@ -105,16 +105,67 @@ module Storage
       exit
     end
 
-    ATTACHMENTS[model].each do |name|
-      records = self.models(model).where.not("#{name}_file_name" => nil)
+    ATTACHMENTS[model].each do |attachment|
+      relation = if model.eql?('documents')
+                   DummyDocument.where.not("#{attachment}_file_name" => nil)
+                 else
+                   self.models(model).where.not("#{attachment}_file_name" => nil)
+                 end
 
-      bar = self.progress_bar title: name, total: records.count
+      bar = self.progress_bar title: attachment, total: relation.count
+
+      relation.each do |record|
+        bar.increment
+        next if record.send(attachment).exists?
+        create_or_update_dummy_file(record: record, doc_attribute: attachment, filename: File.join('tmp', record.send(attachment).path))
+      end
+    end
+  end
+
+  def self.paperclip_storage
+    PAPERCLIP_STORAGE_OPTIONS[:storage]
+  end
+
+  def self.create_or_update_dummy_file(record:, doc_attribute:, filename:)
+    FileUtils.mkdir_p File.dirname(filename)
+    file = File.open(filename, 'wb')
+    file.write(SecureRandom.random_bytes(record.send("#{doc_attribute}_file_size")))
+
+    record.send("#{doc_attribute}=", file)
+    record.save(validate: false)
+  rescue StandardError => err
+    Rails.logger.info "[#{__method__}]: #{err.class} - #{err.message}"
+  ensure
+    file.close if file
+  end
+
+  # Deleting filesystem/s3 files
+  # doc.document.destroy will delete the doc and its meta data in the doc model (not want we want)
+  # doc.document.clear wil delete the paperclip attachment file, without changing the meta data, unless you save
+  # the model object immediatley afterwards.
+
+  # NOTE: for the Document model the `doc.document.clear` message removes the "folder" (tested locally)
+  # which includes the converted_preview_document object too. However, calling `.clear` on a non-existant
+  # attachment does not raise an error.
+  #
+  def self.clear_dummy_paperclip_files_for(model)
+    if self.models(model).nil?
+      puts "Cannot clear dummy files for: #{model}"
+      exit
+    end
+
+    ATTACHMENTS[model].each do |attachment|
+      records = self.models(model).where.not("#{attachment}_file_name" => nil)
+
+      bar = self.progress_bar title: attachment, total: records.count
 
       records.each do |record|
         bar.increment
-        filename = File.absolute_path(record.send(name).path)
-        FileUtils.mkdir_p File.dirname(filename)
-        File.open(filename, 'wb') { |file| file.write(SecureRandom.random_bytes(record.send("#{name}_file_size"))) }
+        record.send(attachment).clear
+        record.send(attachment).save
+
+        # IMPORTANT: do not save the record itself or it will clear meta data
+        record.update_column("as_#{attachment}_checksum", nil)
       end
     end
   end

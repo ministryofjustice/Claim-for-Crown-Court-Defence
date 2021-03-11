@@ -76,10 +76,12 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
       end
 
       context 'when the error notifications are disabled' do
-        before { allow(Settings).to receive(:notify_report_errors).and_return(false) }
+        before do
+          allow(Settings).to receive(:notify_report_errors).and_return(false)
+          allow(ActiveSupport::Notifications).to receive(:instrument)
+        end
 
         it 'does not send an error notification' do
-          allow(ActiveSupport::Notifications).to receive(:instrument)
           call_report_generator rescue nil
           expect(ActiveSupport::Notifications).not_to have_received(:instrument)
         end

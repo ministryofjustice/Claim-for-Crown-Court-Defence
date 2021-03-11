@@ -91,6 +91,11 @@ class Document < ApplicationRecord
     generate_log_stuff(:error, 'save_fail', 'Unable to save document')
   end
 
+  def populate_checksum
+    add_checksum(:document)
+    add_checksum(:converted_preview_document)
+  end
+
   private
 
   def generate_log_stuff(type, action, message)
@@ -132,10 +137,5 @@ class Document < ApplicationRecord
     return unless errors[:document].include?('has contents that are not what they are reported to be')
     errors[:document].delete('has contents that are not what they are reported to be')
     errors[:document] << 'The contents of the file do not match the file extension'
-  end
-
-  def populate_checksum
-    add_checksum(:document)
-    add_checksum(:converted_preview_document)
   end
 end

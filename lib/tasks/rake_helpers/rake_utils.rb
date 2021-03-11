@@ -22,7 +22,7 @@ module RakeUtils
 
   def decompress_file(filename)
     shell_working "decompressing file #{filename}" do
-      system "gunzip -3 -f #{filename}"
+      system "gunzip #{filename}"
     end
   end
 

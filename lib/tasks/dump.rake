@@ -210,7 +210,7 @@ namespace :db do
           ActiveStorage::Blob.find_each(batch_size: batch_size) do |blob|
             if (blob.attachments.map(&:record_type) - ['Stats::StatsReport']).any?
               blob.filename = fake_file_name(content_type: blob.content_type)
-              # Ex-Paperclip keys are include the filename
+              # Ex-Paperclip keys include the filename
               key_match = blob.key.match(/^(.*\d{3}\/\d{3}\/\d{3})\//)
               if key_match
                 blob.key = "#{key_match[1]}/#{blob.filename}"

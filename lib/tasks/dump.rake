@@ -203,6 +203,25 @@ namespace :db do
       end
     end
 
+    desc 'Export anonymised active storage blob data'
+    task :active_storage_blobs, [:file] => :environment do |task, args|
+      shell_working "exporting anonymised #{task.name.split(':').last} data" do
+        write_to_file(args.file) do |writer|
+          ActiveStorage::Blob.find_each(batch_size: batch_size) do |blob|
+            if (blob.attachments.map(&:record_type) - ['Stats::StatsReport']).any?
+              blob.filename = fake_file_name(content_type: blob.content_type)
+              # Ex-Paperclip keys are include the filename
+              key_match = blob.key.match(/^(.*\d{3}\/\d{3}\/\d{3})\//)
+              if key_match
+                blob.key = "#{key_match[1]}/#{blob.filename}"
+              end
+            end
+            writer.call(blob)
+          end
+        end
+      end
+    end
+
     desc 'Export anonymised claims data'
     task :claims, [:file] => :environment do |task, args|
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
@@ -224,7 +243,7 @@ namespace :db do
     end
 
     def excluded_tables
-      %w(providers users claims defendants messages documents)
+      %w(providers users claims defendants messages documents active_storage_blobs)
     end
 
     def sensitive_table_exclusions

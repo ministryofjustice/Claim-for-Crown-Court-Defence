@@ -147,24 +147,34 @@ RSpec.describe ApplicationController, type: :controller do
       request.env['HTTPS'] = 'on'
     end
 
-    context 'ActiveRecord::RecordNotFound' do
-      it 'does not report the exception, and redirect to the 404 error page' do
+    context 'when ActiveRecord::RecordNotFound raised' do
+      before do
+        allow(Sentry).to receive(:capture_exception)
         routes.draw { get 'record_not_found' => 'anonymous#record_not_found' }
-
-        expect(Sentry).not_to receive(:capture_exception)
-
         get :record_not_found
+      end
+
+      it 'does not report the exception' do
+        expect(Sentry).not_to have_received(:capture_exception)
+      end
+
+      it 'redirects to the 404 error page' do
         expect(response).to redirect_to(error_404_url)
       end
     end
 
-    context 'Other exceptions' do
-      it 'reports the exception, and redirect to the 500 error page' do
+    context 'when StandardError raised' do
+      before do
+        allow(Sentry).to receive(:capture_exception)
         routes.draw { get 'another_exception' => 'anonymous#another_exception' }
-
-        expect(Sentry).to receive(:capture_exception)
-
         get :another_exception
+      end
+
+      it 'reports the exception' do
+        expect(Sentry).to have_received(:capture_exception)
+      end
+
+      it 'redirects to the 500 error page' do
         expect(response).to redirect_to(error_500_url)
       end
     end

@@ -14,49 +14,49 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   include_examples 'advocate claim creator role'
   include_examples 'advocate claim supplier number'
 
-  context 'advocate_category' do
-    default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
-    fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
-    fee_reform_invalid_categories = default_valid_categories - fee_reform_valid_categories
-    all_valid_categories = (default_valid_categories + fee_reform_valid_categories).uniq
+  describe 'advocate_category' do
+    shared_examples 'claim is valid for advocate category' do |advocate_category, trait|
+      subject(:claim) { create(:api_advocate_claim, trait) }
+
+      before { claim.advocate_category = advocate_category }
+
+      it "advocate category #{advocate_category} should be valid #{trait}" do
+        should_not_error(claim, :advocate_category)
+      end
+    end
+
+    shared_examples 'claim is invalid for advocate category' do |advocate_category, trait|
+      subject(:claim) { create(:api_advocate_claim, trait) }
+
+      before { claim.advocate_category = advocate_category }
+
+      it "advocate category #{advocate_category} should not be valid #{trait}" do
+        should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
+      end
+    end
 
     # API behaviour is different because fixed fees
     # do not require an offence so cannot rely on
     # either offence or rep order date to determine valid
     # advocate categories
     context 'when claim from API' do
-      context 'with scheme 9 offence' do
-        let(:claim) { create(:api_advocate_claim, :with_scheme_nine_offence) }
+      it_behaves_like 'claim is valid for advocate category', 'QC', :with_scheme_nine_offence
+      it_behaves_like 'claim is valid for advocate category', 'Led junior', :with_scheme_nine_offence
+      it_behaves_like 'claim is valid for advocate category', 'Leading junior', :with_scheme_nine_offence
+      it_behaves_like 'claim is valid for advocate category', 'Junior alone', :with_scheme_nine_offence
+      it_behaves_like 'claim is invalid for advocate category', 'Junior', :with_scheme_nine_offence
 
-        default_valid_categories.each do |category|
-          it "does not error if '#{category}' specified" do
-            claim.advocate_category = category
-            should_not_error(claim, :advocate_category)
-          end
-        end
-      end
+      it_behaves_like 'claim is valid for advocate category', 'QC', :with_scheme_ten_offence
+      it_behaves_like 'claim is invalid for advocate category', 'Led junior', :with_scheme_ten_offence
+      it_behaves_like 'claim is valid for advocate category', 'Leading junior', :with_scheme_ten_offence
+      it_behaves_like 'claim is invalid for advocate category', 'Junior alone', :with_scheme_ten_offence
+      it_behaves_like 'claim is valid for advocate category', 'Junior', :with_scheme_ten_offence
 
-      context 'with scheme 10 offence' do
-        let(:claim) { create(:api_advocate_claim, :with_scheme_ten_offence) }
-
-        fee_reform_valid_categories.each do |category|
-          it "does not error if '#{category}' specified" do
-            claim.advocate_category = category
-            should_not_error(claim, :advocate_category)
-          end
-        end
-      end
-
-      context 'with no offence (fixed fee case type)' do
-        let(:claim) { create(:api_advocate_claim, :with_no_offence) }
-
-        all_valid_categories.each do |category|
-          it "does not error if '#{category}' specified" do
-            claim.advocate_category = category
-            should_not_error(claim, :advocate_category)
-          end
-        end
-      end
+      it_behaves_like 'claim is valid for advocate category', 'QC', :with_no_offence
+      it_behaves_like 'claim is valid for advocate category', 'Led junior', :with_no_offence
+      it_behaves_like 'claim is valid for advocate category', 'Leading junior', :with_no_offence
+      it_behaves_like 'claim is valid for advocate category', 'Junior alone', :with_no_offence
+      it_behaves_like 'claim is valid for advocate category', 'Junior', :with_no_offence
     end
 
     context 'when on the basic fees step' do

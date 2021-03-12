@@ -16,6 +16,10 @@ class ApplicationController < ActionController::Base
     redirect_to error_500_url
   end
 
+  rescue_from ActionController::InvalidAuthenticityToken do |_exception|
+    redirect_back fallback_location: unauthenticated_root_path
+  end
+
   rescue_from ActiveRecord::RecordNotFound do |_exception|
     raise unless Rails.env.production?
 

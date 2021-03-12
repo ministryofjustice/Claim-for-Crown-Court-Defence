@@ -135,11 +135,12 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  context 'Exceptions handling' do
+  context 'when an exception is raised' do
     controller do
       skip_load_and_authorize_resource
       def record_not_found; raise ActiveRecord::RecordNotFound; end
       def another_exception; raise StandardError; end
+      def invalid_authenticity_token; raise ActionController::InvalidAuthenticityToken; end
     end
 
     before do
@@ -147,7 +148,7 @@ RSpec.describe ApplicationController, type: :controller do
       request.env['HTTPS'] = 'on'
     end
 
-    context 'when ActiveRecord::RecordNotFound raised' do
+    context 'with ActiveRecord::RecordNotFound' do
       before do
         allow(Sentry).to receive(:capture_exception)
         routes.draw { get 'record_not_found' => 'anonymous#record_not_found' }
@@ -163,7 +164,7 @@ RSpec.describe ApplicationController, type: :controller do
       end
     end
 
-    context 'when StandardError raised' do
+    context 'with StandardError' do
       before do
         allow(Sentry).to receive(:capture_exception)
         routes.draw { get 'another_exception' => 'anonymous#another_exception' }
@@ -176,6 +177,42 @@ RSpec.describe ApplicationController, type: :controller do
 
       it 'redirects to the 500 error page' do
         expect(response).to redirect_to(error_500_url)
+      end
+    end
+
+    context 'with ActionController::InvalidAuthenticityToken and no referer' do
+      before do
+        allow(Sentry).to receive(:capture_exception)
+        routes.draw { get 'invalid_authenticity_token' => 'anonymous#invalid_authenticity_token' }
+        request.env['HTTP_REFERER'] = nil
+        get :invalid_authenticity_token
+      end
+
+      it 'does not report the exception' do
+        expect(Sentry).not_to have_received(:capture_exception)
+      end
+
+      it 'redirects to unauthenticated_root_path' do
+        expect(response).to redirect_to(unauthenticated_root_path)
+      end
+    end
+
+    context 'with ActionController::InvalidAuthenticityToken and referer exists' do
+      before do
+        allow(Sentry).to receive(:capture_exception)
+        routes.draw { get 'invalid_authenticity_token' => 'anonymous#invalid_authenticity_token' }
+        request.env['HTTP_REFERER'] = edit_advocates_claim_path(1)
+        get :invalid_authenticity_token
+      end
+
+      it 'does not report the exception' do
+        expect(Sentry).not_to have_received(:capture_exception)
+      end
+
+      # NOTE: in reality this would suffer a further redirect to unauthenticated_root_path
+      # as user would not be signed in, but they would get a flash message to that effect
+      it 'redirects back to referer' do
+        expect(response).to redirect_to(edit_advocates_claim_path(1))
       end
     end
   end

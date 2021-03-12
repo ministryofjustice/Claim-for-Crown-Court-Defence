@@ -1,0 +1,23 @@
+= content_for :page_title, flush: true do
+  = t('.cookies_heading')
+
+= render partial: 'layouts/header', locals: { page_heading: t('.cookies_heading') }
+
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = form_with model: @cookies, url: cookies_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: 'post', local: true do |f|
+      = f.govuk_error_summary
+
+      = t('.intro_html')
+      = t('.cookie_settings_html')
+      = t('.essential_cookies_html')
+
+      = f.govuk_radio_buttons_fieldset :cookies, legend: { size: 'l', tag: 'h2', text: t('.analytics_cookie') } do
+        = t('.analytics_cookies_html')
+        = f.govuk_radio_button :analytics, 'true', label: { text: t('.analytics_cookie_on_label') }, link_errors: true
+        = f.govuk_radio_button :analytics, 'false', label: { text: t('.analytics_cookie_off_label') }
+
+      %p.govuk-body
+        = govuk_link_to t('.cookie_details'), '#'
+
+      = f.govuk_submit t('.save_changes')

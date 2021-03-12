@@ -214,6 +214,10 @@ Rails.application.routes.draw do
 
   post '/', to: 'errors#not_endpoint'
 
+  resources :cookies, only: %i[new create], path: '/help/cookies' do
+    get '/', to: 'cookies#new', on: :collection
+  end
+
   # catch-all route
   # -------------------------------------------------
   # WARNING: do not put routes below this point

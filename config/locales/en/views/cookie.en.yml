@@ -1,0 +1,27 @@
+---
+en:
+  cookies:
+    new:
+      analytics_cookie: Cookies that measure website use
+      analytics_cookies_html:
+        '<p class="govuk-body">We use Google Analytics to measure how you use the website so we can improve it based on user needs. We do not allow Google to use or share the data about how you use this site.</p>
+        <p class="govuk-body">Google Analytics sets cookies that store anonymised information about:</p>
+        <ul class="govuk-list govuk-list--bullet">
+        <li>how you got to the site</li>
+        <li>the pages you visit on Claim for crown court defence, and how long you spend on each page</li>
+        <li>what you click on while you are visiting the site</li>
+        </ul>'
+      analytics_cookie_off_label: Do not use cookies that measure my website use
+      analytics_cookie_on_label: Use cookies that measure my website use
+      cookie_details: Find out more about cookies on Claim for crown court defence
+      cookies_heading: Cookies on Claim for crown court defence
+      cookie_settings_html:
+        '<h2 class="govuk-heading-l">Cookie settings</h2>
+        <p class="govuk-body">We use 2 types of cookie. You can choose which cookies you are happy for us to use.</p>'
+      essential_cookies_html:
+        '<h2 class="govuk-heading-l">Essential cookies</h2>
+        <p class="govuk-body">These essential cookies do things like keep your information secure while you use this service. They always need to be on.</p>'
+      intro_html:
+        '<p class="govuk-body">Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
+        <p class="govuk-body">We use cookies to store information about how you use the Claim for crown court defence website, such as the pages you visit.</p>'
+      save_changes: Save changes

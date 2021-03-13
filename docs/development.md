@@ -7,6 +7,9 @@
 - [Anonymised database dump and restore](#anonymised-database-dump-and-restore)
 - [A note on architecture](#a-note-on-architecture)
 
+## Other links:
+- [Cookie rotation](cookie_rotation.md)
+
 ## Setting up development environment
 
 - Install dependencies

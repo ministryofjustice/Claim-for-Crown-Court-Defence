@@ -59,10 +59,12 @@ ENV['ADP_API_PASS'] = 'api_password'
 require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
+
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'shoulda/matchers'
 require 'paperclip/matchers'
 require 'webmock/rspec'
+require 'parallel_spec_helper'
 require 'vcr_helper'
 require 'sidekiq/testing'
 

@@ -506,6 +506,8 @@ GEM
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
     parallel (1.20.1)
+    parallel_tests (3.5.2)
+      parallel
     parser (3.0.0.0)
       ast (~> 2.4.1)
     pg (1.2.3)
@@ -847,6 +849,7 @@ DEPENDENCIES
   nokogiri (~> 1.11)
   paper_trail (~> 11.1.0)
   paperclip (~> 6.1.0)
+  parallel_tests
   pg (~> 1.2.3)
   posix-spawn (~> 0.3.15)
   pry-byebug

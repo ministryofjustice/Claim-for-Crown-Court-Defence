@@ -48,7 +48,7 @@ gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
 gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
 gem 'sentry-rails',           '~> 4.1.7'
-gem 'sentry-sidekiq',         '~> 4.1.2' 
+gem 'sentry-sidekiq',         '~> 4.1.2'
 gem 'sprockets-rails',        '~> 3.2.1'
 gem 'state_machine',          '~> 1.2.0'
 gem 'state_machines-activerecord'
@@ -88,6 +88,7 @@ group :development, :devunicorn, :test do
   gem 'jasmine_selenium_runner', require: false
   gem 'listen', '~> 3.2.1'
   gem 'meta_request'
+  gem 'parallel_tests'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'puma'

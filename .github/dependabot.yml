@@ -38,6 +38,7 @@ updates:
   - "jsugarman"
   - "kmahern"
   - "jrmhaig"
+  - "mabely"
   ignore:
   - dependency-name: govuk_frontend_toolkit
     versions:

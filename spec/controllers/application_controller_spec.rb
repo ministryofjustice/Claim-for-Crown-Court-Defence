@@ -1,5 +1,13 @@
 require 'rails_helper'
 
+RSpec.shared_context 'raise invalid_authenticity_token' do
+  before do
+    routes.draw { get 'invalid_authenticity_token' => 'anonymous#invalid_authenticity_token' }
+    request.env['HTTP_REFERER'] = referer
+    get :invalid_authenticity_token
+  end
+end
+
 RSpec.describe ApplicationController, type: :controller do
   let(:super_admin) { create(:super_admin) }
   let(:advocate) { create(:external_user, :advocate) }
@@ -144,76 +152,49 @@ RSpec.describe ApplicationController, type: :controller do
     end
 
     before do
+      allow(Sentry).to receive(:capture_exception)
       allow(Rails).to receive(:env).and_return('production'.inquiry)
       request.env['HTTPS'] = 'on'
     end
 
     context 'with ActiveRecord::RecordNotFound' do
       before do
-        allow(Sentry).to receive(:capture_exception)
         routes.draw { get 'record_not_found' => 'anonymous#record_not_found' }
         get :record_not_found
       end
 
-      it 'does not report the exception' do
-        expect(Sentry).not_to have_received(:capture_exception)
+      it { expect(Sentry).not_to have_received(:capture_exception) }
+      it { expect(response).to redirect_to(error_404_url) }
+    end
+
+    context 'with ActionController::InvalidAuthenticityToken and no referer' do
+      include_context 'raise invalid_authenticity_token' do
+        let(:referer) { nil }
       end
 
-      it 'redirects to the 404 error page' do
-        expect(response).to redirect_to(error_404_url)
+      it { expect(Sentry).not_to have_received(:capture_exception) }
+      it { expect(response).to redirect_to(unauthenticated_root_path) }
+    end
+
+    context 'with ActionController::InvalidAuthenticityToken and referer exists' do
+      include_context 'raise invalid_authenticity_token' do
+        let(:referer) { edit_advocates_claim_path(1) }
       end
+
+      it { expect(Sentry).not_to have_received(:capture_exception) }
+
+      # NOTE: In reality this would further redirect to unauthenticated_root_path
+      it { expect(response).to redirect_to(edit_advocates_claim_path(1)) }
     end
 
     context 'with StandardError' do
       before do
-        allow(Sentry).to receive(:capture_exception)
         routes.draw { get 'another_exception' => 'anonymous#another_exception' }
         get :another_exception
       end
 
-      it 'reports the exception' do
-        expect(Sentry).to have_received(:capture_exception)
-      end
-
-      it 'redirects to the 500 error page' do
-        expect(response).to redirect_to(error_500_url)
-      end
-    end
-
-    context 'with ActionController::InvalidAuthenticityToken and no referer' do
-      before do
-        allow(Sentry).to receive(:capture_exception)
-        routes.draw { get 'invalid_authenticity_token' => 'anonymous#invalid_authenticity_token' }
-        request.env['HTTP_REFERER'] = nil
-        get :invalid_authenticity_token
-      end
-
-      it 'does not report the exception' do
-        expect(Sentry).not_to have_received(:capture_exception)
-      end
-
-      it 'redirects to unauthenticated_root_path' do
-        expect(response).to redirect_to(unauthenticated_root_path)
-      end
-    end
-
-    context 'with ActionController::InvalidAuthenticityToken and referer exists' do
-      before do
-        allow(Sentry).to receive(:capture_exception)
-        routes.draw { get 'invalid_authenticity_token' => 'anonymous#invalid_authenticity_token' }
-        request.env['HTTP_REFERER'] = edit_advocates_claim_path(1)
-        get :invalid_authenticity_token
-      end
-
-      it 'does not report the exception' do
-        expect(Sentry).not_to have_received(:capture_exception)
-      end
-
-      # NOTE: in reality this would suffer a further redirect to unauthenticated_root_path
-      # as user would not be signed in, but they would get a flash message to that effect
-      it 'redirects back to referer' do
-        expect(response).to redirect_to(edit_advocates_claim_path(1))
-      end
+      it { expect(Sentry).to have_received(:capture_exception) }
+      it { expect(response).to redirect_to(error_500_url) }
     end
   end
 end

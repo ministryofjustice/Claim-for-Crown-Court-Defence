@@ -20,17 +20,21 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
     # either offence or rep order date to determine valid
     # advocate categories
     context 'when claim from API' do
-      context 'with scheme nine offence' do
-        include_examples 'default valid advocate categories', factory: :api_advocate_claim, trait: :with_scheme_nine_offence
-      end
-
-      context 'with scheme ten offence' do
-        include_examples 'fee reform valid advocate categories', factory: :api_advocate_claim, trait: :with_scheme_ten_offence
-      end
-
-      context 'with no offence' do
-        include_examples 'all advocate categories valid', factory: :api_advocate_claim, trait: :with_no_offence
-      end
+      include_examples(
+        'default valid advocate categories',
+        factory: :api_advocate_claim,
+        trait: :with_scheme_nine_offence
+      )
+      include_examples(
+        'fee reform valid advocate categories',
+        factory: :api_advocate_claim,
+        trait: :with_scheme_ten_offence
+      )
+      include_examples(
+        'all advocate categories valid',
+        factory: :api_advocate_claim,
+        trait: :with_no_offence
+      )
     end
 
     context 'when on the basic fees step' do

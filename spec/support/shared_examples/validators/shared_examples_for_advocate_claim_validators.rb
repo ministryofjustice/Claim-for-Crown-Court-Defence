@@ -1,94 +1,99 @@
 RSpec.shared_examples 'default valid advocate categories' do |options|
-  subject(:claim) { create(options[:factory], options[:trait]) }
+  context "with factory='#{options[:factory]}', trait='#{options[:trait]}' and form_step='#{options[:form_step]}'" do
+    subject(:claim) { create(options[:factory], options[:trait]) }
 
-  before { claim.form_step = options[:form_step] }
+    before { claim.form_step = options[:form_step] }
 
-  it 'should be valid for QC' do
-    claim.advocate_category = 'QC'
-    should_not_error(claim, :advocate_category)
-  end
+    it 'is valid for QC' do
+      claim.advocate_category = 'QC'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should be valid for Led junior' do
-    claim.advocate_category = 'Led junior'
-    should_not_error(claim, :advocate_category)
-  end
+    it 'is valid for Led junior' do
+      claim.advocate_category = 'Led junior'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should be valid for Leading junior' do
-    claim.advocate_category = 'Leading junior'
-    should_not_error(claim, :advocate_category)
-  end
+    it 'is valid for Leading junior' do
+      claim.advocate_category = 'Leading junior'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should be valid for Junior alone' do
-    claim.advocate_category = 'Junior alone'
-    should_not_error(claim, :advocate_category)
-  end
+    it 'is valid for Junior alone' do
+      claim.advocate_category = 'Junior alone'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should not be valid for Junior' do
-    claim.advocate_category = 'Junior'
-    should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
+    it 'is not be valid for Junior' do
+      claim.advocate_category = 'Junior'
+      should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
+    end
   end
 end
 
 RSpec.shared_examples 'fee reform valid advocate categories' do |options|
-  subject(:claim) { create(options[:factory], options[:trait]) }
+  context "with factory='#{options[:factory]}', trait='#{options[:trait]}' and form_step='#{options[:form_step]}'" do
+    subject(:claim) { create(options[:factory], options[:trait]) }
 
-  before { claim.form_step = options[:form_step] }
+    before { claim.form_step = options[:form_step] }
 
-  it 'should be valid for QC' do
-    claim.advocate_category = 'QC'
-    should_not_error(claim, :advocate_category)
-  end
+    it 'is valid for QC' do
+      claim.advocate_category = 'QC'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should not be valid for Led junior' do
-    claim.advocate_category = 'Led junior'
-    should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
-  end
+    it 'is not be valid for Led junior' do
+      claim.advocate_category = 'Led junior'
+      should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
+    end
 
-  it 'should be valid for Leading junior' do
-    claim.advocate_category = 'Leading junior'
-    should_not_error(claim, :advocate_category)
-  end
+    it 'is valid for Leading junior' do
+      claim.advocate_category = 'Leading junior'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should be valid for Junior alone' do
-    claim.advocate_category = 'Junior alone'
-    should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
-  end
+    it 'is valid for Junior alone' do
+      claim.advocate_category = 'Junior alone'
+      should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
+    end
 
-  it 'should not be valid for Junior' do
-    claim.advocate_category = 'Junior'
-    should_not_error(claim, :advocate_category)
+    it 'is not be valid for Junior' do
+      claim.advocate_category = 'Junior'
+      should_not_error(claim, :advocate_category)
+    end
   end
 end
 
 RSpec.shared_examples 'all advocate categories valid' do |options|
-  subject(:claim) { create(options[:factory], options[:trait]) }
+  context "with factory='#{options[:factory]}', trait='#{options[:trait]}' and form_step='#{options[:form_step]}'" do
+    subject(:claim) { create(options[:factory], options[:trait]) }
 
-  before { claim.form_step = options[:form_step] }
+    before { claim.form_step = options[:form_step] }
 
+    it 'is valid for QC' do
+      claim.advocate_category = 'QC'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should be valid for QC' do
-    claim.advocate_category = 'QC'
-    should_not_error(claim, :advocate_category)
-  end
+    it 'is valid for Led junior' do
+      claim.advocate_category = 'Led junior'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should be valid for Led junior' do
-    claim.advocate_category = 'Led junior'
-    should_not_error(claim, :advocate_category)
-  end
+    it 'is valid for Leading junior' do
+      claim.advocate_category = 'Leading junior'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should be valid for Leading junior' do
-    claim.advocate_category = 'Leading junior'
-    should_not_error(claim, :advocate_category)
-  end
+    it 'is valid for Junior alone' do
+      claim.advocate_category = 'Junior alone'
+      should_not_error(claim, :advocate_category)
+    end
 
-  it 'should be valid for Junior alone' do
-    claim.advocate_category = 'Junior alone'
-    should_not_error(claim, :advocate_category)
-  end
-
-  it 'should be valid for Junior' do
-    claim.advocate_category = 'Junior'
-    should_not_error(claim, :advocate_category)
+    it 'is valid for Junior' do
+      claim.advocate_category = 'Junior'
+      should_not_error(claim, :advocate_category)
+    end
   end
 end
 
@@ -109,13 +114,8 @@ RSpec.shared_examples 'advocate category validations' do |options|
     end
   end
 
-  context 'when on a pre fee reform scheme' do
-    include_examples 'default valid advocate categories', options.merge(trait: :agfs_scheme_9)
-  end
-
-  context 'when on fee reform scheme' do
-    include_examples 'fee reform valid advocate categories', options.merge(trait: :agfs_scheme_10)
-  end
+  include_examples 'default valid advocate categories', options.merge(trait: :agfs_scheme_9)
+  include_examples 'fee reform valid advocate categories', options.merge(trait: :agfs_scheme_10)
 end
 
 RSpec.shared_examples 'advocate claim external user role' do

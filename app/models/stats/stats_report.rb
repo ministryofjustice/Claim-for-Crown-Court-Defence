@@ -54,7 +54,7 @@ module Stats
     def write_report(report_result)
       filename = "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}"
       log(:info, :write_report, "Writing report #{report_name} to #{filename}")
-      document.attach(io: StringIO.new(report_result.content), filename: filename)
+      document.attach(io: report_result.io, filename: filename, content_type: report_result.content_type)
       update(status: 'completed', completed_at: Time.zone.now)
     rescue StandardError => e
       log(:error, :write_report, "error writing report #{report_name}...", e)

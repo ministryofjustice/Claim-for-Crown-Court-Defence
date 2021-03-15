@@ -8,10 +8,14 @@ module Stats
     end
 
     def content_type
-      {
+      @content_type ||= {
         csv: 'text/csv',
         json: 'application/json'
       }[format.to_sym]
+    end
+
+    def io
+      @io ||= StringIO.new(content)
     end
   end
 end

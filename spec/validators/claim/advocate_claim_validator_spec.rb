@@ -15,48 +15,22 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   include_examples 'advocate claim supplier number'
 
   describe 'advocate_category' do
-    shared_examples 'claim is valid for advocate category' do |advocate_category, trait|
-      subject(:claim) { create(:api_advocate_claim, trait) }
-
-      before { claim.advocate_category = advocate_category }
-
-      it "advocate category #{advocate_category} should be valid #{trait}" do
-        should_not_error(claim, :advocate_category)
-      end
-    end
-
-    shared_examples 'claim is invalid for advocate category' do |advocate_category, trait|
-      subject(:claim) { create(:api_advocate_claim, trait) }
-
-      before { claim.advocate_category = advocate_category }
-
-      it "advocate category #{advocate_category} should not be valid #{trait}" do
-        should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
-      end
-    end
-
     # API behaviour is different because fixed fees
     # do not require an offence so cannot rely on
     # either offence or rep order date to determine valid
     # advocate categories
     context 'when claim from API' do
-      it_behaves_like 'claim is valid for advocate category', 'QC', :with_scheme_nine_offence
-      it_behaves_like 'claim is valid for advocate category', 'Led junior', :with_scheme_nine_offence
-      it_behaves_like 'claim is valid for advocate category', 'Leading junior', :with_scheme_nine_offence
-      it_behaves_like 'claim is valid for advocate category', 'Junior alone', :with_scheme_nine_offence
-      it_behaves_like 'claim is invalid for advocate category', 'Junior', :with_scheme_nine_offence
+      context 'with scheme nine offence' do
+        include_examples 'default valid advocate categories', factory: :api_advocate_claim, trait: :with_scheme_nine_offence
+      end
 
-      it_behaves_like 'claim is valid for advocate category', 'QC', :with_scheme_ten_offence
-      it_behaves_like 'claim is invalid for advocate category', 'Led junior', :with_scheme_ten_offence
-      it_behaves_like 'claim is valid for advocate category', 'Leading junior', :with_scheme_ten_offence
-      it_behaves_like 'claim is invalid for advocate category', 'Junior alone', :with_scheme_ten_offence
-      it_behaves_like 'claim is valid for advocate category', 'Junior', :with_scheme_ten_offence
+      context 'with scheme ten offence' do
+        include_examples 'fee reform valid advocate categories', factory: :api_advocate_claim, trait: :with_scheme_ten_offence
+      end
 
-      it_behaves_like 'claim is valid for advocate category', 'QC', :with_no_offence
-      it_behaves_like 'claim is valid for advocate category', 'Led junior', :with_no_offence
-      it_behaves_like 'claim is valid for advocate category', 'Leading junior', :with_no_offence
-      it_behaves_like 'claim is valid for advocate category', 'Junior alone', :with_no_offence
-      it_behaves_like 'claim is valid for advocate category', 'Junior', :with_no_offence
+      context 'with no offence' do
+        include_examples 'all advocate categories valid', factory: :api_advocate_claim, trait: :with_no_offence
+      end
     end
 
     context 'when on the basic fees step' do

@@ -12,6 +12,45 @@ To execute unit tests
 bundle exec rspec
 bundle exec rake jasmine:ci
 ```
+
+### Javascript Unit Testing
+
+Run it using the `guard` command. Jasmine output available here: [http://localhost:8888](http://localhost:8888)
+
+## Features tests
+
+To execute cucumber feature tests
+
+```
+bundle exec cucumber
+```
+
+## Parallel spec running
+
+There are over 10k of rspec examples. This can take in excess of an hour to run locally in a single process. To run rspec examples in parallel, in as many processes as you have cores, you can use the following setup and execution. It should reduce the runtime to
+approximately 15 minutes on an 8 core machine.
+
+- One time setup
+  ```
+  rake parallel:create
+  rake parallel:prepare
+  rake parallel:migrate # needed after each migration
+  ```
+  *see [parallet_test setup for rails](https://github.com/grosser/parallel_tests#setup-for-rails) for more*
+
+
+- Then to execute...
+  ```
+  rake parallel:spec
+  ```
+  *see [parallel_test running](https://github.com/grosser/parallel_tests#run) for more*
+
+## Parallel feature running
+
+While `rake parallel:features` will run the cucumber features in parallel they will error for various reasons. See [parallel_test getting stuff running wiki](https://github.com/grosser/parallel_tests/wiki) for various potential fixes.
+
+## Linting
+
 ### Sass Linting
 
 To ensure code quality and consistency in our Sass files we check that certain
@@ -26,18 +65,6 @@ You can manually run it using `$ yarn run validate:scss`
 CCCD uses [standardjs](http://standardjs.com/), an opinionated JavaScript linter. All JavaScript (except vendor files) files follow its conventions, and it runs on git pre-commit to ensure that commits are in line with them.
 
 You can manually run it using `$ yarn run validate:js`
-
-### Javascript Unit Testing
-
-Run it using the `guard` command. Jasmine output available here: [http://localhost:8888](http://localhost:8888)
-
-## Features tests
-
-To execute cucumber feature tests
-
-```
-bundle exec cucumber
-```
 
 ## How we test external services
 

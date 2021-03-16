@@ -22,29 +22,3 @@ if [[ $? -ne 0 ]]; then
 else
   printf "none found!"
 fi
-
-
-################################################################################
-# JavaScript linting using standardJS
-#
-
-printf '\nLinting JavaScript files...\n'
-
-yarn run validate:js
-if [[ $? -ne 0 ]]; then
-  printf 'StandardJS errors were detected. Aborting commit.\n'
-  exit 1
-fi
-
-
-################################################################################
-# SCSS linting using styleLint
-#
-
-printf '\nLinting SCSS files...\n'
-
-yarn run validate:scss
-if [[ $? -ne 0 ]]; then
-  printf 'Stylelint errors were detected. Aborting commit.\n'
-  exit 1
-fi

@@ -28,8 +28,8 @@ namespace :storage do
   end
 
   desc 'Add file checksums to paperclip columns'
-  task :add_paperclip_checksums, [:model, :count] => :environment do |_task, args|
-    continue?("Set #{args[:count] || 'all'} paperclip checksums for all records of #{args[:model]}?")
+  task :add_paperclip_checksums, [:model, :limit, :prompt] => :environment do |_task, args|
+    continue?("Set paperclip checksums for #{args[:limit] || 'all'} records of #{args[:model]}?") unless args[:prompt].eql?('no_prompt')
 
     module TempStats
       class StatsReport < ApplicationRecord
@@ -82,10 +82,12 @@ namespace :storage do
       puts "Cannot calculate checksums for: #{args[:model]}"
       exit
     end
-    relation = relation.limit(args[:count]) if args[:count]
+    relation = relation.limit(args[:limit]) if args[:limit]
 
-    puts "Setting checksums for #{relation.table_name.green}"
+    puts "Setting paperclip checksums for #{args[:limit] || 'all'} records of #{relation.table_name.green}"
     Storage.set_paperclip_checksums(relation: relation)
+
+    Rake::Task['storage:status'].invoke
   end
 
   desc 'Clear temporary paperclip checksums for specified model'

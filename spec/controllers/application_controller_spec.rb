@@ -1,5 +1,13 @@
 require 'rails_helper'
 
+RSpec.shared_context 'raise invalid_authenticity_token' do
+  before do
+    routes.draw { get 'invalid_authenticity_token' => 'anonymous#invalid_authenticity_token' }
+    request.env['HTTP_REFERER'] = referer
+    get :invalid_authenticity_token
+  end
+end
+
 RSpec.describe ApplicationController, type: :controller do
   let(:super_admin) { create(:super_admin) }
   let(:advocate) { create(:external_user, :advocate) }
@@ -135,38 +143,58 @@ RSpec.describe ApplicationController, type: :controller do
     end
   end
 
-  context 'Exceptions handling' do
+  context 'when an exception is raised' do
     controller do
       skip_load_and_authorize_resource
       def record_not_found; raise ActiveRecord::RecordNotFound; end
       def another_exception; raise StandardError; end
+      def invalid_authenticity_token; raise ActionController::InvalidAuthenticityToken; end
     end
 
     before do
+      allow(Sentry).to receive(:capture_exception)
       allow(Rails).to receive(:env).and_return('production'.inquiry)
       request.env['HTTPS'] = 'on'
     end
 
-    context 'ActiveRecord::RecordNotFound' do
-      it 'does not report the exception, and redirect to the 404 error page' do
+    context 'with ActiveRecord::RecordNotFound' do
+      before do
         routes.draw { get 'record_not_found' => 'anonymous#record_not_found' }
-
-        expect(Sentry).not_to receive(:capture_exception)
-
         get :record_not_found
-        expect(response).to redirect_to(error_404_url)
       end
+
+      it { expect(Sentry).not_to have_received(:capture_exception) }
+      it { expect(response).to redirect_to(error_404_url) }
     end
 
-    context 'Other exceptions' do
-      it 'reports the exception, and redirect to the 500 error page' do
-        routes.draw { get 'another_exception' => 'anonymous#another_exception' }
-
-        expect(Sentry).to receive(:capture_exception)
-
-        get :another_exception
-        expect(response).to redirect_to(error_500_url)
+    context 'with ActionController::InvalidAuthenticityToken and no referer' do
+      include_context 'raise invalid_authenticity_token' do
+        let(:referer) { nil }
       end
+
+      it { expect(Sentry).not_to have_received(:capture_exception) }
+      it { expect(response).to redirect_to(unauthenticated_root_path) }
+    end
+
+    context 'with ActionController::InvalidAuthenticityToken and referer exists' do
+      include_context 'raise invalid_authenticity_token' do
+        let(:referer) { edit_advocates_claim_path(1) }
+      end
+
+      it { expect(Sentry).not_to have_received(:capture_exception) }
+
+      # NOTE: In reality this would further redirect to unauthenticated_root_path
+      it { expect(response).to redirect_to(edit_advocates_claim_path(1)) }
+    end
+
+    context 'with StandardError' do
+      before do
+        routes.draw { get 'another_exception' => 'anonymous#another_exception' }
+        get :another_exception
+      end
+
+      it { expect(Sentry).to have_received(:capture_exception) }
+      it { expect(response).to redirect_to(error_500_url) }
     end
   end
 end

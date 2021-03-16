@@ -12,12 +12,18 @@ class ApplicationController < ActionController::Base
   rescue_from Exception do |exception|
     raise unless Rails.env.production?
 
-    if exception.is_a?(ActiveRecord::RecordNotFound)
-      redirect_to error_404_url
-    else
-      Sentry.capture_exception(exception)
-      redirect_to error_500_url
-    end
+    Sentry.capture_exception(exception)
+    redirect_to error_500_url
+  end
+
+  rescue_from ActionController::InvalidAuthenticityToken do |_exception|
+    redirect_back fallback_location: unauthenticated_root_path
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do |_exception|
+    raise unless Rails.env.production?
+
+    redirect_to error_404_url
   end
 
   rescue_from CanCan::AccessDenied do |_exception|

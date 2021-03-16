@@ -334,7 +334,8 @@ Paperclip can be removed.
 * Delete `lib/tasks/storage.rake` and `lib/tasks/rake_helpers/storage.rb`
 * Delete `app/models/dummy_document.rb`
 * Delete `app/models/concerns/check_summable.rb` together with all instances
-  `include CheckSummable`, `add_checksum` and `calculate_checksum`
+  `include CheckSummable`, `add_checksum` and `calculate_checksum`. Remove
+  `spec/models/concern/check_summable_spec.rb`.
 * Remove `PAPERCLIP_STORAGE_OPTIONS`, `REPORTS_STORAGE_OPTIONS` and
   `REPORTS_STORAGE_OPTIONS` from the configuration files in
   `config/environments`.
@@ -353,7 +354,10 @@ Paperclip can be removed.
     `converted_preview_document_file_size`,
     `converted_preview_document_updated_at`,
     `as_document_checksum`, `as_converted_preview_document_checksum`
- * Remove unneeded (?!check) `documents.file_path` attribute. This was added as a part
-   of upload "verification" and should probably have been called `verified_file_path`.
-   It holds the full s3 path. It is, nonetheless, unclear why
-   it is needed at all.
+* Remove unneeded (?!check) `documents.file_path` attribute. This was added as a part
+  of upload "verification" and should probably have been called `verified_file_path`.
+  It holds the full s3 path. It is, nonetheless, unclear why
+  it is needed at all.
+* Remove `app/models/concerns/paperclip_path.rb` together with all instances
+  of `include PaperclipPath` and `paperclip_path`. Remove
+  `spec/models/concerns/paperclip_path_spec.rb`.

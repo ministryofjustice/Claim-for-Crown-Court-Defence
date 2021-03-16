@@ -1,13 +1,15 @@
 module DocumentAttachment
   extend ActiveSupport::Concern
   include S3Headers
+  include PaperclipPath
 
   included do
     attr_accessor :pdf_tmpfile
 
-    has_attached_file :converted_preview_document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+    has_attached_file :converted_preview_document,
+                      s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS).merge(path: :preview_dynamic_path)
 
-    has_attached_file :document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+    has_attached_file :document, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS).merge(path: :dynamic_path)
 
     validates_attachment_content_type :converted_preview_document, content_type: 'application/pdf'
   end
@@ -30,5 +32,15 @@ module DocumentAttachment
 
   def add_converted_preview_document
     self.converted_preview_document = pdf_tmpfile if converted_preview_document_file_name.nil?
+  end
+
+  private
+
+  def dynamic_path
+    paperclip_path(name: 'document', default: PAPERCLIP_STORAGE_OPTIONS[:path])
+  end
+
+  def preview_dynamic_path
+    paperclip_path(name: 'converted_preview_document', default: PAPERCLIP_STORAGE_OPTIONS[:path])
   end
 end

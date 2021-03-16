@@ -17,6 +17,7 @@
 class Message < ApplicationRecord
   include S3Headers
   include CheckSummable
+  include PaperclipPath
 
   belongs_to :claim, class_name: 'Claim::BaseClaim'
   belongs_to :sender, class_name: 'User', inverse_of: :messages_sent
@@ -24,7 +25,7 @@ class Message < ApplicationRecord
 
   attr_accessor :claim_action, :written_reasons_submitted
 
-  has_attached_file :attachment, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS)
+  has_attached_file :attachment, s3_headers.merge(PAPERCLIP_STORAGE_OPTIONS).merge(path: :dynamic_path)
 
   validates_attachment :attachment,
                        size: { in: 0.megabytes..20.megabytes },
@@ -112,5 +113,9 @@ class Message < ApplicationRecord
 
   def claim_updater
     Claims::ExternalUserClaimUpdater.new(claim, current_user: sender)
+  end
+
+  def dynamic_path
+    paperclip_path(name: 'attachment', default: PAPERCLIP_STORAGE_OPTIONS[:path])
   end
 end

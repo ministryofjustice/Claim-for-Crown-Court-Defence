@@ -59,19 +59,19 @@ class Offence < ApplicationRecord
   end
 
   def scheme_nine?
-    fee_schemes.map(&:version).any? { |s| s == FeeScheme::NINE }
+    fee_schemes.map(&:version).any?(FeeScheme::NINE)
   end
 
   def scheme_ten?
-    fee_schemes.map(&:version).any? { |s| s == FeeScheme::TEN }
+    fee_schemes.map(&:version).any?(FeeScheme::TEN)
   end
 
   def scheme_eleven?
-    fee_schemes.map(&:version).any? { |s| s == FeeScheme::ELEVEN }
+    fee_schemes.map(&:version).any?(FeeScheme::ELEVEN)
   end
 
   def scheme_twelve?
-    fee_schemes.map(&:version).any? { |s| s == FeeScheme::TWELVE }
+    fee_schemes.map(&:version).any?(FeeScheme::TWELVE)
   end
 
   def post_agfs_reform?

@@ -40,6 +40,11 @@ RSpec.describe PaperclipPath do
     let(:default) { 'default/path' }
 
     context 'without an Active Storage attachment' do
+      before do
+        ACTIVE_STORAGE_TEST_CONNECTION.exec_prepared('clear_attachment')
+        ACTIVE_STORAGE_TEST_CONNECTION.exec_prepared('clear_blob')
+      end
+
       it { is_expected.to eq default }
     end
 

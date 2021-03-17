@@ -4,6 +4,18 @@ en:
     application:
       phase_banner_html: Your <a class="govuk-link" href="%{feedback}">feedback</a> will help us improve this service. You can <a class="govuk-link" href="%{feedback_type}">report a fault here</a>.
 
+    cookie_banner:
+      title: Cookies on Claim for crown court defence
+      content_html:
+        "<p>We use some essential cookies to make this service work.</p>
+        <p>We’d also like to use analytics cookies so we can understand how you use the service and make improvements.</p>"
+      accept_button: Accept analytics cookies
+      reject_button: Reject analytics cookies
+      view_cookies: View cookies
+      acceptance_confirmation_html:
+        <p>You’ve accepted analytics cookies. You can <a class="govuk-link" href="%{link}">change your cookie settings</a> at any time.</p>
+      hiden_button: Hide this message
+
     footer:
       accessibility: Accessibility statement
       contact: Contact

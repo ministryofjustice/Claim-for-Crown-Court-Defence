@@ -1,0 +1,26 @@
+.govuk-cookie-banner{ role: 'region', 'aria-label': t('.title') }
+  .govuk-cookie-banner__message.govuk-width-container
+
+    .govuk-grid-row
+      .govuk-grid-column-two-thirds
+        %h2.govuk-cookie-banner__heading.govuk-heading-m 
+          = t('.title') 
+
+        .govuk-cookie-banner__content
+          = t('.content_html')
+
+    .govuk-button-group
+      = govuk_button(t('.accept_button'), name: 'cookies', value: 'accept')
+      = govuk_button(t('.reject_button'), name: 'cookies', value: 'reject')
+
+      = govuk_link_to(t('.view_cookies'), cookies_path)
+
+  .govuk-cookie-banner__confirmation.govuk-width-container
+    .govuk-grid-row
+      .govuk-grid-column-two-thirds
+
+        .govuk-cookie-banner__content
+          = t('.acceptance_confirmation_html', link: cookies_path)
+
+    .govuk-button-group
+      = govuk_button(t('.hide_button'))

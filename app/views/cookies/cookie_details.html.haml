@@ -1,0 +1,11 @@
+= content_for :page_title, flush: true do
+  = t('.cookie_details_heading')
+
+= render partial: 'layouts/header', locals: { page_heading: t('.cookie_details_heading') }
+
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = t('.intro_html')
+    = t('.analytics_cookies_html')
+    = t('.strictly_necessary_cookies_html')
+    = t('.cookie_settings_html', link: cookies_path)

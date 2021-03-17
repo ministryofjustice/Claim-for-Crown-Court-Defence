@@ -1,5 +1,5 @@
 class CookiesController < ApplicationController
-  skip_load_and_authorize_resource only: %i[new create]
+  skip_load_and_authorize_resource only: %i[new create cookie_details]
 
   def new
     @cookies = Cookies.new

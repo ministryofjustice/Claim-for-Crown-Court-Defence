@@ -25,3 +25,94 @@ en:
         '<p class="govuk-body">Cookies are files saved on your phone, tablet or computer when you visit a website.</p>
         <p class="govuk-body">We use cookies to store information about how you use the Claim for crown court defence website, such as the pages you visit.</p>'
       save_changes: Save changes
+
+    cookie_details:
+      analytics_cookies_html:
+        '<h2 class="govuk-heading-l">Cookies that measure website use</h2>
+        <p class="govuk-body">We use Google Analytics software (Universal Analytics) to collect anonymised information about how you use Claim for crown court defence. We do this to help make sure the site is meeting the needs of its users and to help us make improvements to the site and to government digital services.</p>
+        <div class="govuk-inset-text">We do not allow Google to use or share the data about how you use this site.</div>
+        <p class="govuk-body">Google Analytics stores information about:</p>
+        <ul class="govuk-list govuk-list--bullet">
+        <li>how you got to the site</li>
+        <li>the pages you visit on Claim for crown court defence, and how long you spend on each page</li>
+        <li>what you click on while you are visiting the site</li>
+        </ul>
+        <p class="govuk-body">Google Analytics sets the following cookies.</p>
+        <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-visually-hidden">Google Analytics cookies and their purpose</caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Name</th>
+        <th scope="col" class="govuk-table__header">Purpose</th>
+        <th scope="col" class="govuk-table__header">Expires</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+        <td class="govuk-table__cell">_ga</td>
+        <td class="govuk-table__cell">These help us count how many people visit Claim for crown court defence by tracking if you have visited before</td>
+        <td class="govuk-table__cell">2 years</td>
+        </tr>
+        <tr class="govuk-table__row">
+        <td class="govuk-table__cell">_gat</td>
+        <td class="govuk-table__cell">Used to manage the rate at which page view requests are made.</td>
+        <td class="govuk-table__cell">1 minute</td>
+        </tr>
+        <tr class="govuk-table__row">
+        <td class="govuk-table__cell">_gid</td>
+        <td class="govuk-table__cell">These help us count how many people visit Claim for crown court defence by tracking if you have visited before</td>
+        <td class="govuk-table__cell">24 hours</td>
+        </tr>
+        </tbody>
+        </table>'
+      cookie_details_heading: Details about cookies on Claim for crown court defence
+      cookie_settings_html:
+        '<h2 class="govuk-heading-l">Change your settings</h2>
+        <p class="govuk-body">You can <a class="govuk-link" href="%{link}">change which cookies you are happy for us to use</a>.</p>'
+      intro_html:
+        '<p class="govuk-body">Claim for crown court defence puts small files (known as ‘cookies’) onto your computer to collect information about how you browse the site. Find out more about the cookies we use, what they are for and when they expire.</p>'
+      strictly_necessary_cookies_html:
+        '<h2 class="govuk-heading-l">Strictly necessary cookies</h2>
+        <h3 class="govuk-heading-s">Cookies message</h3>
+        <p class="govuk-body">You may see a banner when you visit GOV.UK inviting you to accept cookies or review your settings. We’ll set cookies so that your computer knows you’ve seen it and not to show it again, and also to store your settings.</p>
+        <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-visually-hidden">Cookies message</caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Name</th>
+        <th scope="col" class="govuk-table__header">Purpose</th>
+        <th scope="col" class="govuk-table__header">Expires</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+        <td class="govuk-table__cell">cookies_preferences_set</td>
+        <td class="govuk-table__cell">Lets us know that you’ve saved your cookie consent settings	</td>
+        <td class="govuk-table__cell">1 year</td>
+        </tr>
+        <tr class="govuk-table__row">
+        <td class="govuk-table__cell">usage_opt_in</td>
+        <td class="govuk-table__cell">Saves your usage (Analytics) consent settings</td>
+        <td class="govuk-table__cell">1 year</td>
+        </tr>
+        </tbody>
+        </table>
+
+        <h3 class="govuk-heading-s">Session cookies</h3>
+        <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-visually-hidden">Session cookies and their purpose</caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Name</th>
+        <th scope="col" class="govuk-table__header">Purpose</th>
+        <th scope="col" class="govuk-table__header">Expires</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+        <td class="govuk-table__cell">_advocate_defence_payments_session</td>
+        <td class="govuk-table__cell">Remembers you as you use the service</td>
+        <td class="govuk-table__cell">At the end of the session</td>
+        </tr>
+        </tbody>
+        </table>'

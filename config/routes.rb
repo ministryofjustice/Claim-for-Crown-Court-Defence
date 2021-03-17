@@ -217,6 +217,7 @@ Rails.application.routes.draw do
   resources :cookies, only: %i[new create], path: '/help/cookies' do
     get '/', to: 'cookies#new', on: :collection
   end
+  get '/help/cookie-details', to: 'cookies#cookie_details'
 
   # catch-all route
   # -------------------------------------------------

@@ -325,8 +325,8 @@ RSpec.describe Document, type: :model do
     let(:document) do
       create :document, document_file_name: 'test_file.doc', converted_preview_document_file_name: 'test_file.doc.pdf'
     end
-    let(:id_partition) { ('%09d' % document.id).scan(/\d{3}/).join('/') }
-    let(:filename) { document.attachment_file_name }
+    let(:id_partition) { format('%09d', document.id).scan(/\d{3}/).join('/') }
+    let(:filename) { document.document_file_name }
 
     before do
       stub_const 'PAPERCLIP_STORAGE_PATH', 'public/assets/test/images/:id_partition/:filename'
@@ -403,7 +403,7 @@ RSpec.describe Document, type: :model do
     let(:document) do
       create :document, document_file_name: 'test_file.doc', converted_preview_document_file_name: 'test_file.doc.pdf'
     end
-    let(:id_partition) { ('%09d' % document.id).scan(/\d{3}/).join('/') }
+    let(:id_partition) { format('%09d', document.id).scan(/\d{3}/).join('/') }
     let(:filename) { document.converted_preview_document_file_name }
 
     before do

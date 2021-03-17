@@ -66,6 +66,7 @@ gem 'geckoboard-ruby'
 gem 'posix-spawn', '~> 0.3.15'
 gem 'laa-fee-calculator-client', '~> 1.2'
 gem 'webpacker', '~> 5.2'
+gem 'active_storage_validations'
 
 group :production, :devunicorn do
   gem 'unicorn-rails', '2.2.1'

@@ -39,28 +39,28 @@ RSpec.describe Message, type: :model do
   it { is_expected.to validate_presence_of(:claim_id).with_message('Message claim_id cannot be blank') }
   it { is_expected.to validate_presence_of(:body).with_message('Message body cannot be blank') }
 
-  it { is_expected.to have_attached_file(:attachment) }
+  it { is_expected.to have_one_attached(:attachment) }
 
   it_behaves_like 'an s3 bucket'
 
   it do
-    is_expected.to validate_attachment_content_type(:attachment)
-      .allowing('application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.oasis.opendocument.text',
-                'text/rtf',
-                'application/rtf',
-                'image/jpeg',
-                'image/png',
-                'image/tiff',
-                'image/bmp',
-                'image/x-bitmap')
-      .rejecting('text/plain',
-                 'text/html')
+    is_expected.to validate_content_type_of(:attachment)
+      .allowing(
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.oasis.opendocument.text',
+        'text/rtf',
+        'application/rtf',
+        'image/jpeg',
+        'image/png',
+        'image/tiff',
+        'image/bmp',
+        'image/x-bitmap'
+      ).rejecting('text/plain', 'text/html')
   end
 
-  it { is_expected.to validate_attachment_size(:attachment).in(0.megabytes..20.megabytes) }
+  it { is_expected.to validate_size_of(:attachment).less_than_or_equal_to(20.megabytes) }
 
   describe '.for' do
     let(:message) { create(:message) }
@@ -215,21 +215,68 @@ RSpec.describe Message, type: :model do
     end
   end
 
-  describe '#as_attachment_checksum' do
+  # To allow rolling back to Paperclip
+  describe '#attachment_file_name' do
+    subject { message.attachment_file_name }
+
     context 'with no attachment' do
       let(:message) { create(:message) }
 
-      it 'is nil' do
-        expect(message.as_attachment_checksum).to be_nil
-      end
+      it { is_expected.to be_nil }
     end
 
     context 'with an attachment' do
       let(:message) { create(:message, :with_attachment) }
 
-      it 'is a checksum' do
-        expect(message.as_attachment_checksum).to match(/==$/)
-      end
+      it { is_expected.to eq message.attachment.filename.to_s }
+    end
+  end
+
+  describe '#attachment_file_size' do
+    subject { message.attachment_file_size }
+
+    context 'with no attachment' do
+      let(:message) { create(:message) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
+
+      it { is_expected.to eq message.attachment.byte_size }
+    end
+  end
+
+  describe '#attachment_content_type' do
+    subject { message.attachment_content_type }
+
+    context 'with no attachment' do
+      let(:message) { create(:message) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
+
+      it { is_expected.to eq message.attachment.content_type }
+    end
+  end
+
+  describe '#as_attachment_checksum' do
+    subject { message.as_attachment_checksum }
+
+    context 'with no attachment' do
+      let(:message) { create(:message) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
+
+      it { is_expected.to eq message.attachment.checksum }
     end
   end
 

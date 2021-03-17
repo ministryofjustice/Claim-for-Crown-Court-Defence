@@ -28,6 +28,29 @@ require 'fileutils'
 
 TEMPFILE_NAME = File.join(Rails.root, 'tmp', 'document_spec', 'test.txt')
 
+RSpec.shared_context 'add active storage record assets' do
+  before do
+    ActiveStorage::Attachment.connection.execute(<<~SQL)
+      INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
+        VALUES ('test_key_original', 'test_file.doc', 100, '{}', 100, 'abc==', NOW())
+    SQL
+    ActiveStorage::Attachment.connection.execute(<<~SQL)
+      INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
+        VALUES ('document', 'Document', #{document.id}, LASTVAL(), NOW())
+    SQL
+    ActiveStorage::Attachment.connection.execute(<<~SQL)
+      INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
+        VALUES ('test_key_preview', 'test_file.doc.pdf', 100, '{}', 100, 'abc==', NOW())
+    SQL
+    ActiveStorage::Attachment.connection.execute(<<~SQL)
+      INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
+        VALUES ('converted_preview_document', 'Document', #{document.id}, LASTVAL(), NOW())
+    SQL
+
+    allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+  end
+end
+
 RSpec.describe Document, type: :model do
   it { is_expected.to belong_to(:external_user) }
   it { is_expected.to belong_to(:creator).class_name('ExternalUser') }
@@ -322,6 +345,8 @@ RSpec.describe Document, type: :model do
   end
 
   describe '#document#path' do
+    subject { document.document.path }
+
     let(:document) do
       create :document, document_file_name: 'test_file.doc', converted_preview_document_file_name: 'test_file.doc.pdf'
     end
@@ -333,73 +358,33 @@ RSpec.describe Document, type: :model do
     end
 
     context 'without an Active Storage attachment' do
-      it 'has a path based on the filename' do
-        expect(document.document.path).to eq "public/assets/test/images/#{id_partition}/#{filename}"
-      end
+      it { is_expected.to eq "public/assets/test/images/#{id_partition}/#{filename}" }
     end
 
     context 'with an Active Storage attachment in disk storage' do
       require 'active_storage/service/disk_service'
 
-      before do
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES ('test_key_original', 'test_file.doc', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES ('document', 'Document', #{document.id}, LASTVAL(), NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES ('test_key_preview', 'test_file.doc.pdf', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES ('converted_preview_document', 'Document', #{document.id}, LASTVAL(), NOW())
-        SQL
-
-        service = ActiveStorage::Service::DiskService.new(root: '/root/')
-        allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+      include_context 'add active storage record assets' do
+        let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
       end
 
-      it 'has the path for disk storage' do
-        expect(document.document.path).to eq '/root/te/st/test_key_original'
-      end
+      it { is_expected.to eq '/root/te/st/test_key_original' }
     end
 
     context 'with an Active Storage attachment in S3' do
       require 'active_storage/service/s3_service'
 
-      before do
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES ('test_key_original', 'test_file.doc', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES ('document', 'Document', #{document.id}, LASTVAL(), NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES ('test_key_preview', 'test_file.doc.pdf', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES ('converted_preview_document', 'Document', #{document.id}, LASTVAL(), NOW())
-        SQL
-
-        service = ActiveStorage::Service::S3Service.new(bucket: 'bucket')
-        allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+      include_context 'add active storage record assets' do
+        let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
       end
 
-      it 'has the path for disk storage' do
-        expect(document.document.path).to eq 'test_key_original'
-      end
+      it { is_expected.to eq 'test_key_original' }
     end
   end
 
   describe '#converted_preview_document#path' do
+    subject { document.converted_preview_document.path }
+
     let(:document) do
       create :document, document_file_name: 'test_file.doc', converted_preview_document_file_name: 'test_file.doc.pdf'
     end
@@ -411,69 +396,27 @@ RSpec.describe Document, type: :model do
     end
 
     context 'without an Active Storage attachment' do
-      it 'has a path based on the filename' do
-        expect(document.converted_preview_document.path).to eq "public/assets/test/images/#{id_partition}/#{filename}"
-      end
+      it { is_expected.to eq "public/assets/test/images/#{id_partition}/#{filename}" }
     end
 
     context 'with an Active Storage attachment in disk storage' do
       require 'active_storage/service/disk_service'
 
-      before do
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES ('test_key_original', 'test_file.doc', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES ('document', 'Document', #{document.id}, LASTVAL(), NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES ('test_key_preview', 'test_file.doc.pdf', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES ('converted_preview_document', 'Document', #{document.id}, LASTVAL(), NOW())
-        SQL
-
-        service = ActiveStorage::Service::DiskService.new(root: '/root/')
-        allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+      include_context 'add active storage record assets' do
+        let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
       end
 
-      it 'has the path for disk storage' do
-        expect(document.converted_preview_document.path).to eq '/root/te/st/test_key_preview'
-      end
+      it { is_expected.to eq '/root/te/st/test_key_preview' }
     end
 
     context 'with an Active Storage attachment in S3' do
       require 'active_storage/service/s3_service'
 
-      before do
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES ('test_key_original', 'test_file.doc', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES ('document', 'Document', #{document.id}, LASTVAL(), NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES ('test_key_preview', 'test_file.doc.pdf', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES ('converted_preview_document', 'Document', #{document.id}, LASTVAL(), NOW())
-        SQL
-
-        service = ActiveStorage::Service::S3Service.new(bucket: 'bucket')
-        allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+      include_context 'add active storage record assets' do
+        let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
       end
 
-      it 'has the path for disk storage' do
-        expect(document.converted_preview_document.path).to eq 'test_key_preview'
-      end
+      it { is_expected.to eq 'test_key_preview' }
     end
   end
 end

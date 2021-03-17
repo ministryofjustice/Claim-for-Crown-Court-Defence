@@ -339,6 +339,8 @@ Paperclip can be removed.
 * Remove `PAPERCLIP_STORAGE_OPTIONS`, `REPORTS_STORAGE_OPTIONS` and
   `REPORTS_STORAGE_OPTIONS` from the configuration files in
   `config/environments`.
+* Remove `PAPERCLIP_STORAGE_PATH` and `REPORTS_STORAGE_PATH' from the
+  configuration files in `config/environments`.
 * Remove `kubernetes_deploy/cron_jobs/add_evidence_document_checksums.yml`
 * Amend ` kubernetes_deploy/scripts/cronjob.sh` to remove reference to `add_evidence_document_checksums`
 * **Note:** This step is destructive and cannot be reverted.
@@ -358,6 +360,8 @@ Paperclip can be removed.
   of upload "verification" and should probably have been called `verified_file_path`.
   It holds the full s3 path. It is, nonetheless, unclear why
   it is needed at all.
-* Remove `app/models/concerns/paperclip_path.rb` together with all instances
-  of `include PaperclipPath` and `paperclip_path`. Remove
-  `spec/models/concerns/paperclip_path_spec.rb`.
+* Remove `config/initializers/paperclip.rb`
+* Remove `#document#path` and  `#converted_preview_document#path` tests from
+  `spec/model/document_spec.rb`
+* Remove `#attachment#path` from `spec/model/message_spec.rb`
+* Remove `#document#path` from `spec/model/stats/stats_report_spec.rb`

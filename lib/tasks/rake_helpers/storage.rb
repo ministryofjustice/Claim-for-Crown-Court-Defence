@@ -267,8 +267,8 @@ module Storage
   def self.validate(attachments:)
     attachments.each_with_object(true) do |attachment, check|
       check &&
-        attachment.blob.filename == attachment.record.send("#{attachment.name}_file_name") &&
-        attachment.blob.checksum == attachment.record.send("as_#{attachment.name}_checksum")
+        attachment.blob.filename == attachment.record&.send("#{attachment.name}_file_name") &&
+        attachment.blob.checksum == attachment.record&.send("as_#{attachment.name}_checksum")
     end ? 'OK'.green : 'Failed'.red
   end
 end

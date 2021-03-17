@@ -14,7 +14,6 @@ module Stats
   class StatsReport < ApplicationRecord
     include S3Headers
     include CheckSummable
-    include PaperclipPath
 
     TYPES = %w[management_information provisional_assessment rejections_refusals].freeze
 
@@ -29,7 +28,7 @@ module Stats
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
     scope :provisional_assessment, -> { not_errored.where(report_name: 'provisional_assessment') }
 
-    has_attached_file :document, s3_headers.merge(REPORTS_STORAGE_OPTIONS).merge(path: :dynamic_path)
+    has_attached_file :document, s3_headers.merge(REPORTS_STORAGE_OPTIONS)
 
     validates_attachment_content_type :document, content_type: ['text/csv']
 
@@ -106,10 +105,6 @@ module Stats
       ) do
         message
       end
-    end
-
-    def dynamic_path
-      paperclip_path(name: 'document', default: REPORTS_STORAGE_OPTIONS[:path])
     end
   end
 end

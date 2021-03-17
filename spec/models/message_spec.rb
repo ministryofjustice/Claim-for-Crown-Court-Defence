@@ -218,4 +218,64 @@ RSpec.describe Message, type: :model do
       end
     end
   end
+
+  describe '#attachment#path' do
+    let(:message) { create :message, :with_attachment }
+    let(:id_partition) { ('%09d' % message.id).scan(/\d{3}/).join('/') }
+    let(:filename) { message.attachment_file_name }
+
+    before do
+      stub_const 'PAPERCLIP_STORAGE_PATH', 'public/assets/test/images/:id_partition/:filename'
+    end
+
+    context 'without an Active Storage attachment' do
+      it 'has a path based on the filename' do
+        expect(message.attachment.path).to eq "public/assets/test/images/#{id_partition}/#{filename}"
+      end
+    end
+
+    context 'with an Active Storage attachment in disk storage' do
+      require 'active_storage/service/disk_service'
+
+      before do
+        ActiveStorage::Attachment.connection.execute(<<~SQL)
+          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
+            VALUES('test_key', 'testfile_csv', 100, '{}', 100, 'abc==', NOW())
+        SQL
+        ActiveStorage::Attachment.connection.execute(<<~SQL)
+          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
+            VALUES('attachment', 'Message', #{message.id}, LASTVAL(), NOW())
+        SQL
+
+        service = ActiveStorage::Service::DiskService.new(root: '/root/')
+        allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+      end
+
+      it 'has the path for disk storage' do
+        expect(message.attachment.path).to eq '/root/te/st/test_key'
+      end
+    end
+
+    context 'with an Active Storage attachment in S3' do
+      require 'active_storage/service/s3_service'
+
+      before do
+        ActiveStorage::Attachment.connection.execute(<<~SQL)
+          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
+            VALUES('test_key', 'testfile_csv', 100, '{}', 100, 'abc==', NOW())
+        SQL
+        ActiveStorage::Attachment.connection.execute(<<~SQL)
+          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
+            VALUES('attachment', 'Message', #{message.id}, LASTVAL(), NOW())
+        SQL
+
+        service = ActiveStorage::Service::S3Service.new(bucket: 'bucket')
+        allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+      end
+
+      it 'has the path for disk storage' do
+        expect(message.attachment.path).to eq 'test_key'
+      end
+    end
+  end
 end

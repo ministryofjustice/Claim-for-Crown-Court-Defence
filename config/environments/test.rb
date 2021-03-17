@@ -3,7 +3,7 @@ Rails.application.configure do
 
   PAPERCLIP_STORAGE_OPTIONS = {
     storage: :filesystem,
-    path: "public/assets/test/images/:id_partition/:filename",
+    path: ":active_storage_path",
     url: "assets/test/images/:filename"
   }
 
@@ -15,9 +15,12 @@ Rails.application.configure do
 
   REPORTS_STORAGE_OPTIONS = {
     storage: :filesystem,
-    path: "tmp/test/reports/:filename",
+    path: ":active_storage_path",
     url: "tmp/test/reports/:filename"
   }
+
+  PAPERCLIP_STORAGE_PATH = 'public/assets/test/images/:id_partition/:filename'
+  REPORTS_STORAGE_PATH = 'tmp/test/reports/:filename'
 
   config.active_storage.service = :test
 

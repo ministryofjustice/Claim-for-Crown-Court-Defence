@@ -221,7 +221,7 @@ RSpec.describe Message, type: :model do
 
   describe '#attachment#path' do
     let(:message) { create :message, :with_attachment }
-    let(:id_partition) { ('%09d' % message.id).scan(/\d{3}/).join('/') }
+    let(:id_partition) { format('%09d', message.id).scan(/\d{3}/).join('/') }
     let(:filename) { message.attachment_file_name }
 
     before do

@@ -4,7 +4,7 @@ Rails.application.configure do
   PAPERCLIP_STORAGE_OPTIONS = {
     storage: :s3,
     s3_credentials: 'config/aws.yml',
-    path: "documents/:id_partition/:filename",
+    path: ":active_storage_path",
     url: "documents/:id_partition/:filename",
   }
 
@@ -18,9 +18,12 @@ Rails.application.configure do
   REPORTS_STORAGE_OPTIONS = {
     storage: :s3,
     s3_credentials: 'config/aws.yml',
-    path: "reports/:filename",
+    path: ":active_storage_path",
     url: "reports/:filename"
   }
+
+  PAPERCLIP_STORAGE_PATH = 'documents/:id_partition/:filename'
+  REPORTS_STORAGE_PATH = 'reports/:filename'
 
   config.active_storage.service = :amazon
 

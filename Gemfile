@@ -122,7 +122,6 @@ group :test do
   gem 'simplecov-csv', require: false
   gem 'simplecov-multi', require: false
   gem 'simplecov', require: false
-  gem 'test-prof'
   gem 'timecop'
   gem 'vcr'
   gem 'webdrivers', '~> 4.6', require: false

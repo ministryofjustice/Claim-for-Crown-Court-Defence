@@ -47,12 +47,12 @@ namespace :db do
       filename = File.join('tmp', "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql")
 
       shell_working "exporting unanonymised database data to #{filename}..." do
-        cmd = "pg_dump $DATABASE_URL --no-owner --no-privileges --no-password #{sensitive_table_exclusions} -f #{filename}"
+        cmd = "pg_dump $DATABASE_URL --no-owner --no-privileges --no-password #{sensitive_table_exclusions} #{unneeded_table_exclusions} -f #{filename}"
         system(cmd)
       end
 
       # $arel_silence_type_casting_deprecation = true
-      excluded_tables.each do |table|
+      sensitive_tables.each do |table|
         task_name = "db:dump:#{table}"
         Rake::Task[task_name].invoke(filename)
       end
@@ -242,13 +242,25 @@ namespace :db do
       %w[dev dev-lgfs staging api-sandbox production]
     end
 
-    def excluded_tables
+    def sensitive_table_exclusions
+      # make sure a db:dump task exists for each of the excluded tables (i.e. db:dump:providers)
+      exclude_table_data_for(sensitive_tables)
+    end
+
+    def sensitive_tables
       %w(providers users claims defendants messages documents active_storage_blobs)
     end
 
-    def sensitive_table_exclusions
-      # make sure a db:dump task exists for each of the excluded tables (i.e. db:dump:providers)
-      excluded_tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
+    def unneeded_table_exclusions
+      exclude_table_data_for(unneeded_tables)
+    end
+
+    def unneeded_tables
+      %w(versions)
+    end
+
+    def exclude_table_data_for(tables)
+      tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
     end
 
     def fake_file_name(content_type:)

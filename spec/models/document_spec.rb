@@ -28,7 +28,7 @@ require 'fileutils'
 
 TEMPFILE_NAME = File.join(Rails.root, 'tmp', 'document_spec', 'test.txt')
 
-RSpec.shared_context 'add active storage record assets' do
+RSpec.shared_context 'add active storage record assets for documents' do
   before do
     ActiveStorage::Attachment.connection.execute(<<~SQL)
       INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
@@ -364,7 +364,7 @@ RSpec.describe Document, type: :model do
     context 'with an Active Storage attachment in disk storage' do
       require 'active_storage/service/disk_service'
 
-      include_context 'add active storage record assets' do
+      include_context 'add active storage record assets for documents' do
         let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
       end
 
@@ -374,7 +374,7 @@ RSpec.describe Document, type: :model do
     context 'with an Active Storage attachment in S3' do
       require 'active_storage/service/s3_service'
 
-      include_context 'add active storage record assets' do
+      include_context 'add active storage record assets for documents' do
         let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
       end
 
@@ -402,7 +402,7 @@ RSpec.describe Document, type: :model do
     context 'with an Active Storage attachment in disk storage' do
       require 'active_storage/service/disk_service'
 
-      include_context 'add active storage record assets' do
+      include_context 'add active storage record assets for documents' do
         let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
       end
 
@@ -412,7 +412,7 @@ RSpec.describe Document, type: :model do
     context 'with an Active Storage attachment in S3' do
       require 'active_storage/service/s3_service'
 
-      include_context 'add active storage record assets' do
+      include_context 'add active storage record assets for documents' do
         let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
       end
 

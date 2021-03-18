@@ -1,5 +1,19 @@
 require 'rails_helper'
 
+RSpec.shared_context 'add active storage record assets for stats reports' do
+  before do
+    ActiveStorage::Attachment.connection.execute(<<~SQL)
+      INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
+        VALUES('test_key', 'testfile_csv', 100, '{}', 100, 'abc==', NOW())
+    SQL
+    ActiveStorage::Attachment.connection.execute(<<~SQL)
+      INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
+        VALUES('document', 'Stats::StatsReport', #{report.id}, LASTVAL(), NOW())
+    SQL
+    allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+  end
+end
+
 RSpec.describe Stats::StatsReport do
   it_behaves_like 'an s3 bucket'
 
@@ -183,18 +197,8 @@ RSpec.describe Stats::StatsReport do
     context 'with an Active Storage attachment in disk storage' do
       require 'active_storage/service/disk_service'
 
-      before do
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES('test_key', 'testfile_csv', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES('document', 'Stats::StatsReport', #{report.id}, LASTVAL(), NOW())
-        SQL
-
-        service = ActiveStorage::Service::DiskService.new(root: '/root/')
-        allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+      include_context 'add active storage record assets for stats reports' do
+        let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
       end
 
       it 'has the path for disk storage' do
@@ -205,18 +209,8 @@ RSpec.describe Stats::StatsReport do
     context 'with an Active Storage attachment in S3' do
       require 'active_storage/service/s3_service'
 
-      before do
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-            VALUES('test_key', 'testfile_csv', 100, '{}', 100, 'abc==', NOW())
-        SQL
-        ActiveStorage::Attachment.connection.execute(<<~SQL)
-          INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-            VALUES('document', 'Stats::StatsReport', #{report.id}, LASTVAL(), NOW())
-        SQL
-
-        service = ActiveStorage::Service::S3Service.new(bucket: 'bucket')
-        allow(ActiveStorage::Blob).to receive(:service).and_return(service)
+      include_context 'add active storage record assets for stats reports' do
+        let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
       end
 
       it 'has the path for disk storage' do

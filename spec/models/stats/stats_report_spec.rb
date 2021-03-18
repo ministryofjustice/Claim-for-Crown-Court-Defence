@@ -163,44 +163,6 @@ RSpec.describe Stats::StatsReport do
     end
   end
 
-  describe '#document#path' do
-    let(:report) { create :stats_report, document_file_name: 'test_file.csv' }
-
-    before do
-      stub_const 'REPORTS_STORAGE_PATH', 'reports/:filename'
-    end
-
-    context 'without an Active Storage attachment' do
-      it 'has a path based on the filename' do
-        expect(report.document.path).to eq 'reports/test_file.csv'
-      end
-    end
-
-    context 'with an Active Storage attachment in disk storage' do
-      require 'active_storage/service/disk_service'
-
-      include_context 'add active storage record assets for stats reports' do
-        let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
-      end
-
-      it 'has the path for disk storage' do
-        expect(report.document.path).to eq '/root/te/st/test_key'
-      end
-    end
-
-    context 'with an Active Storage attachment in S3' do
-      require 'active_storage/service/s3_service'
-
-      include_context 'add active storage record assets for stats reports' do
-        let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
-      end
-
-      it 'has the path for disk storage' do
-        expect(report.document.path).to eq 'test_key'
-      end
-    end
-  end
-
   describe 'housekeeping' do
     describe '.destroy_reports_older_than' do
       it 'destroys all reports for named report older than specified time' do

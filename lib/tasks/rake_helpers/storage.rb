@@ -244,9 +244,9 @@ module Storage
 
   def self.s3_path_pattern(model)
     {
-      'stats_reports' => REPORTS_STORAGE_OPTIONS[:path],
-      'messages' => PAPERCLIP_STORAGE_OPTIONS[:path],
-      'documents' => PAPERCLIP_STORAGE_OPTIONS[:path]
+      'stats_reports' => REPORTS_STORAGE_PATH,
+      'messages' => PAPERCLIP_STORAGE_PATH,
+      'documents' => PAPERCLIP_STORAGE_PATH
     }[model]
   end
 

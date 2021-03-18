@@ -19,6 +19,7 @@ AllCops:
     - 'old_features/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
+    - 'storage/**/*'
 
 Layout/EmptyLineBetweenDefs:
   AllowAdjacentOneLineDefs: true

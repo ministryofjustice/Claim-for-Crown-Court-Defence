@@ -17,6 +17,7 @@ AllCops:
     - 'features/**/*'
     - 'node_modules/**/*'
     - 'old_features/**/*'
+    - 'public/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
     - 'storage/**/*'

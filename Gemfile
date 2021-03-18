@@ -109,7 +109,6 @@ group :test do
   gem 'axe-core-cucumber', '~> 4.1'
   gem 'capybara-selenium'
   gem 'capybara', '~> 3.35'
-  gem 'climate_control'
   gem 'codeclimate-test-reporter', require: false
   gem 'cucumber-rails', '~> 2.2.0', require: false
   gem 'database_cleaner'

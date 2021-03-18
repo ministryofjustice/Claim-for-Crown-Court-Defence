@@ -50,7 +50,6 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
       before do
         allow(Stats::ManagementInformationGenerator).to receive(:call).and_raise(StandardError)
       end
-    end
 
       it 'raises the error' do
         expect { call_report_generator }.to raise_error(StandardError)

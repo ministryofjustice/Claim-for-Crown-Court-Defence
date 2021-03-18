@@ -797,7 +797,6 @@ DEPENDENCIES
   cancancan (~> 3.2)
   capybara (~> 3.35)
   capybara-selenium
-  climate_control
   cocoon (~> 1.2.15)
   codeclimate-test-reporter
   colorize

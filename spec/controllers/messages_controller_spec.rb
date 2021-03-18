@@ -76,18 +76,16 @@ RSpec.describe MessagesController, type: :controller do
       subject(:download_attachment) { get :download_attachment, params: { id: message.id } }
 
       context 'when message has attachment' do
-        let(:disk_service_prefix) { 'rails/active_storage/disk' }
-        let(:filename) { 'test_document.docx' }
         let(:message) { create(:message) }
+        let(:test_url) { 'https://example/com/attachment.doc#123abc' }
 
         before do
-          message.attachment.attach(io: StringIO.new, filename: filename)
-          download_attachment
+          message.attachment.attach(io: StringIO.new, filename: 'attachment.doc')
+          allow(Message).to receive(:find).with(message[:id].to_s).and_return(message)
+          allow(message.attachment.blob).to receive(:service_url).and_return(test_url)
         end
 
-        it 'redirects to the attachment' do
-          expect(response.location).to match %r{#{disk_service_prefix}/.*/#{filename}}
-        end
+        it { is_expected.to redirect_to test_url }
       end
 
       context 'when message does not have attachment' do

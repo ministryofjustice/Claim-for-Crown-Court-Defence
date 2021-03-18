@@ -242,21 +242,25 @@ namespace :db do
       %w[dev dev-lgfs staging api-sandbox production]
     end
 
+    def sensitive_table_exclusions
+      # make sure a db:dump task exists for each of the excluded tables (i.e. db:dump:providers)
+      exclude_table_data_for(sensitive_tables)
+    end
+
     def sensitive_tables
       %w(providers users claims defendants messages documents active_storage_blobs)
     end
 
-    def sensitive_table_exclusions
-      # make sure a db:dump task exists for each of the excluded tables (i.e. db:dump:providers)
-      sensitive_tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
+    def unneeded_table_exclusions
+      exclude_table_data_for(unneeded_tables)
     end
 
     def unneeded_tables
       %w(versions)
     end
 
-    def unneeded_table_exclusions
-      unneeded_tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
+    def exclude_table_data_for(tables)
+      tables.map { |table| "--exclude-table-data #{table}" }.join(' ')
     end
 
     def fake_file_name(content_type:)

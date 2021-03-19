@@ -12,8 +12,8 @@ en:
       accept_button: Accept analytics cookies
       reject_button: Reject analytics cookies
       view_cookies: View cookies
-      acceptance_confirmation_html:
-        <p>You’ve accepted analytics cookies. You can <a class="govuk-link" href="%{link}">change your cookie settings</a> at any time.</p>
+      cookie_confirmation_html:
+        <p>Your cookie settings were saved. You can <a class="govuk-link" href="%{link}">change your cookie settings</a> at any time.</p>
       hiden_button: Hide this message
 
     footer:

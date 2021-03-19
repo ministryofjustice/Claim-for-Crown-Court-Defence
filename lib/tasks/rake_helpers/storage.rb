@@ -30,7 +30,7 @@ module Storage
                  CONCAT('in-progress/', CAST(id AS CHARACTER VARYING)),
                  #{name}_file_size,
                  as_#{name}_checksum,
-                 #{name}_updated_at
+                 COALESCE(#{name}_updated_at, NOW())
             FROM #{model}
             WHERE #{name}_file_name IS NOT NULL
               AND id NOT IN (
@@ -244,9 +244,9 @@ module Storage
 
   def self.s3_path_pattern(model)
     {
-      'stats_reports' => REPORTS_STORAGE_OPTIONS[:path],
-      'messages' => PAPERCLIP_STORAGE_OPTIONS[:path],
-      'documents' => PAPERCLIP_STORAGE_OPTIONS[:path]
+      'stats_reports' => REPORTS_STORAGE_PATH,
+      'messages' => PAPERCLIP_STORAGE_PATH,
+      'documents' => PAPERCLIP_STORAGE_PATH
     }[model]
   end
 

@@ -114,12 +114,17 @@ class Message < ApplicationRecord
     Claims::ExternalUserClaimUpdater.new(claim, current_user: sender)
   end
 
+  # High ABC Size due to setting Paperclip fields for possible revert.
+  # This 'rubocop:disable' can be removed when the Paperclip fields are removed.
+  # rubocop:disable Metrics/AbcSize
   def populate_paperclip
     return unless attachment.attached?
 
     self.attachment_file_name = attachment.filename
     self.attachment_file_size = attachment.byte_size
     self.attachment_content_type = attachment.content_type
+    self.attachment_updated_at = Time.zone.now
     self.as_attachment_checksum = attachment.checksum
   end
+  # rubocop:enable Metrics/AbcSize
 end

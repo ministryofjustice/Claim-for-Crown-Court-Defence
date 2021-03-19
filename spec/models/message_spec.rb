@@ -250,6 +250,25 @@ RSpec.describe Message, type: :model do
     end
   end
 
+  describe '#attachment_updated_at' do
+    subject { message.attachment_updated_at }
+
+    context 'with no attachment' do
+      let(:message) { create(:message) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
+      let(:time) { Time.zone.parse('19 January 2021, 11:05:00') }
+
+      before { travel_to time }
+
+      it { is_expected.to eq time }
+    end
+  end
+
   describe '#as_attachment_checksum' do
     subject { message.as_attachment_checksum }
 

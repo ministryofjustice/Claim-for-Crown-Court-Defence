@@ -28,9 +28,7 @@ module Stats
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
     scope :provisional_assessment, -> { not_errored.where(report_name: 'provisional_assessment') }
 
-    has_attached_file :document, s3_headers.merge(REPORTS_STORAGE_OPTIONS)
-
-    validates_attachment_content_type :document, content_type: ['text/csv']
+    has_one_attached :document
 
     def self.clean_up(report_name)
       destroy_reports_older_than(report_name, 1.month.ago)
@@ -53,21 +51,27 @@ module Stats
       create!(report_name: report_name, status: 'started', started_at: Time.now)
     end
 
+    # High ABC Size due to setting Paperclip fields for possible revert.
+    # This 'rubocop:disable' can be removed when the Paperclip fields are removed.
+    # rubocop:disable Metrics/AbcSize
     def write_report(report_result)
-      log(:info, :write_report, "Writing report #{report_name} to DB...")
-      io = StringIO.new(report_result.content)
+      filename = "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}"
+      log(:info, :write_report, "Writing report #{report_name} to #{filename}")
+      document.attach(io: report_result.io, filename: filename, content_type: report_result.content_type)
       update(
-        document: io,
-        document_file_name: "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}",
-        document_content_type: report_result.content_type,
-        as_document_checksum: calculate_checksum(io),
         status: 'completed',
-        completed_at: Time.now
+        completed_at: Time.zone.now,
+        document_file_name: filename,
+        document_file_size: document.byte_size,
+        document_content_type: report_result.content_type,
+        document_updated_at: document.created_at,
+        as_document_checksum: document.checksum
       )
     rescue StandardError => e
       log(:error, :write_report, "error writing report #{report_name}...", e)
       raise
     end
+    # rubocop:enable Metrics/AbcSize
 
     def write_error(report_contents)
       update(report: report_contents, status: 'error', completed_at: nil)

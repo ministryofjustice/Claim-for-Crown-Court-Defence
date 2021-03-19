@@ -1,6 +1,8 @@
 require 'csv'
 
 class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::ApplicationController
+  include ActiveStorage::SetCurrent
+
   skip_load_and_authorize_resource only: %i[index download generate]
   before_action -> { authorize! :view, :management_information }, only: %i[index download generate]
   before_action :validate_report_type, only: %i[download generate]
@@ -14,14 +16,13 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   def download
     log_download_start
     record = Stats::StatsReport.most_recent_by_type(params[:report_type])
-    if record.document?
-      data = open(record.document_url).read
-      content_type = record.document_content_type
+
+    if record.document.attached?
+      # TODO: Change service_url to url when moving to Rails 6.1
+      redirect_to record.document.blob.service_url(disposition: 'attachment')
     else
-      data = record.report
-      content_type = 'text/csv'
+      redirect_to case_workers_admin_management_information_url, alert: t('.missing_report')
     end
-    send_data data, filename: record.download_filename, type: content_type
   end
 
   def generate

@@ -1,13 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :controller do
-  let(:case_worker_admin) { create(:case_worker, :admin) }
-  let(:case_worker) { create(:case_worker) }
-
   before { sign_in persona.user }
 
   context 'when signed in as an admin' do
-    let(:persona) { case_worker_admin }
+    let(:persona) { create(:case_worker, :admin) }
 
     describe 'GET #index' do
       before { get :index }
@@ -26,65 +23,42 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     end
 
     describe '#GET download' do
-      context 'for a valid report type' do
-        let(:report_type) { 'management_information' }
+      subject(:download) { get :download, params: { report_type: report_type } }
 
-        context 'using DB storage' do
-          let(:content) { 'header1,header2,header3' }
-          let!(:stats_report) { create(:stats_report, report_name: 'management_information', report: content) }
+      let(:report_type) { 'management_information' }
 
-          before do
-            get :download, params: { report_type: report_type }
-          end
+      context 'when the report type is valid' do
+        let(:test_url) { 'https://example.com/mi_report.csv#123abc' }
 
-          it 'returns http success' do
-            expect(response).to be_successful
-          end
+        before do
+          stats_report = create(:stats_report, :with_document, report_name: report_type)
+          allow(Stats::StatsReport).to receive(:most_recent_by_type).and_return(stats_report)
+          allow(stats_report.document.blob).to receive(:service_url).and_return(test_url)
 
-          it 'renders the template' do
-            expect(response.headers['Content-Type']).to eq 'text/csv'
-          end
+          download
         end
 
-        context 'using S3 storage' do
-          let(:content) { 'header1,header2,header3' }
-          let(:document) { StringIO.new(content) }
-          let!(:stats_report) {
-            create(
-              :stats_report,
-              report_name: report_type,
-              document: document,
-              document_file_name: "#{report_type}_#{Time.now.to_s(:number)}.csv",
-              document_content_type: 'text/csv'
-            )
-          }
+        it { is_expected.to redirect_to test_url }
+      end
 
-          before do
-            get :download, params: { report_type: report_type }
-          end
+      context 'when the report is complete but the file is missing' do
+        before { create :stats_report, report_name: report_type }
 
-          after { document.close }
+        it { is_expected.to redirect_to case_workers_admin_management_information_url }
 
-          it 'returns http success' do
-            expect(response).to be_successful
-          end
-
-          it 'renders the template' do
-            expect(response.headers['Content-Type']).to eq 'text/csv'
-          end
+        it 'displays an error' do
+          download
+          expect(flash[:alert]).to eq('The requested report is missing')
         end
       end
 
-      context 'for an invalid report type' do
+      context 'when the report type is invalid' do
         let(:report_type) { 'invalid_report_type' }
 
-        before do
-          get :download, params: { report_type: report_type }
-        end
+        it { is_expected.to redirect_to case_workers_admin_management_information_url }
 
-        it 'redirects to the management information page with an error' do
-          expect(response).to have_http_status(:redirect)
-          expect(response).to redirect_to(case_workers_admin_management_information_url)
+        it 'displays an error' do
+          download
           expect(flash[:alert]).to eq('The requested report type is not supported')
         end
       end
@@ -127,7 +101,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
   end
 
   context 'when signed in as a case worker' do
-    let(:persona) { case_worker }
+    let(:persona) { create(:case_worker) }
 
     [:index, :download, :generate].each do |view|
       describe "GET ##{view}" do

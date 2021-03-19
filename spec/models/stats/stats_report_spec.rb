@@ -121,7 +121,12 @@ RSpec.describe Stats::StatsReport do
 
       it 'copies the document to the document storage' do
         write_report
-        expect(File.open(report.document.path).read).to eq document_content
+        expect(File.open(ActiveStorage::Blob.service.path_for(report.document.blob.key)).read).to eq document_content
+      end
+
+      it 'names the document based on the report type and timestamp' do
+        write_report
+        expect(report.document.filename).to eq "my_new_report_#{start_time.to_s(:number)}.csv"
       end
 
       it 'does not change the started_at time' do
@@ -138,83 +143,26 @@ RSpec.describe Stats::StatsReport do
           .to report
       end
 
-      it 'sets the checksum' do
-        expect { write_report }.to change(report, :as_document_checksum).to(checksum)
-      end
-    end
-  end
-
-  describe '#document_url' do
-    context 'when document is nil' do
-      let(:report) { build(:stats_report, report: nil, document: nil) }
-
-      it { expect(report.document_url).to be_nil }
-    end
-
-    context 'when document exists' do
-      let(:report) { build(:stats_report, :with_document) }
-
-      context 'when the document storage is filesystem' do
-        let(:options) { { storage: :filesystem } }
-
-        before do
-          allow(report.document).to receive(:options).and_return(options)
-        end
-
-        it 'returns the document path' do
-          expect(report.document_url).to eq('tmp/test/reports/report.csv')
-        end
+      # These are to allow reverting back to Paperclip if necessary
+      it 'sets the paperclip filename' do
+        expect { write_report }
+          .to change(report, :document_file_name).to "my_new_report_#{start_time.to_s(:number)}.csv"
       end
 
-      context 'when the document storage is S3' do
-        let(:options) { { storage: :s3 } }
-
-        before do
-          original_options = report.document.options
-          allow(report.document).to receive(:options).and_return(original_options.merge(options))
-        end
-
-        it 'returns the an expiring url for the document' do
-          expect(report.document_url).to match(%r{tmp/test/reports/report.csv\?([0-9])+})
-        end
-      end
-    end
-  end
-
-  describe '#document#path' do
-    let(:report) { create :stats_report, document_file_name: 'test_file.csv' }
-
-    before do
-      stub_const 'REPORTS_STORAGE_PATH', 'reports/:filename'
-    end
-
-    context 'without an Active Storage attachment' do
-      it 'has a path based on the filename' do
-        expect(report.document.path).to eq 'reports/test_file.csv'
-      end
-    end
-
-    context 'with an Active Storage attachment in disk storage' do
-      require 'active_storage/service/disk_service'
-
-      include_context 'add active storage record assets for stats reports' do
-        let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
+      it 'sets the paperclip file size' do
+        expect { write_report }.to change(report, :document_file_size)
       end
 
-      it 'has the path for disk storage' do
-        expect(report.document.path).to eq '/root/te/st/test_key'
-      end
-    end
-
-    context 'with an Active Storage attachment in S3' do
-      require 'active_storage/service/s3_service'
-
-      include_context 'add active storage record assets for stats reports' do
-        let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
+      it 'sets the paperclip content type' do
+        expect { write_report }.to change(report, :document_content_type).to 'text/csv'
       end
 
-      it 'has the path for disk storage' do
-        expect(report.document.path).to eq 'test_key'
+      it 'sets the paperclip checksum' do
+        expect { write_report }.to change(report, :as_document_checksum).to checksum
+      end
+
+      it 'sets the paperclip updated at' do
+        expect { write_report }.to change(report, :document_updated_at).from(nil)
       end
     end
   end

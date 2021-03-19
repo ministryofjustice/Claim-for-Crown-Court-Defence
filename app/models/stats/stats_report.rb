@@ -64,6 +64,7 @@ module Stats
         document_file_name: filename,
         document_file_size: document.byte_size,
         document_content_type: report_result.content_type,
+        document_updated_at: document.created_at,
         as_document_checksum: document.checksum
       )
     rescue StandardError => e

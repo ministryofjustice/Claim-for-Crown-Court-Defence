@@ -160,6 +160,10 @@ RSpec.describe Stats::StatsReport do
       it 'sets the paperclip checksum' do
         expect { write_report }.to change(report, :as_document_checksum).to checksum
       end
+
+      it 'sets the paperclip updated at' do
+        expect { write_report }.to change(report, :document_updated_at).from(nil)
+      end
     end
   end
 

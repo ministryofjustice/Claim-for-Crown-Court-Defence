@@ -6,6 +6,8 @@
 * [Stats Reports](#Stats-Reports)
 * [Messages](#Messages)
 * [Documents](#Documents)
+* [Switchover](#Switchover)
+* [Switchover rollback](#Switchover-rollback)
 * [Clean up](#Clean-up)
 
 ## Overview
@@ -107,9 +109,9 @@ rails> ActiveStorage::Attachment.where(record_type: 'Stats::StatsReport').sample
 
 ### Rollback
 
-**Note:** This rollback should not be attempted after
-[CBO-1683](https://dsdmoj.atlassian.net/browse/CBO-1683) has been completed
-as this will delete assets from Active Storage that do not exist in Paperclip.
+> **_IMPORTANT:_** This rollback section relates to cleaning up migrated data and should NOT be used to rollback the application to using paperclip after switching over to active storage. To rollback to using paperclip see [Switchover rollback](#switchover-rollback)
+
+**Note:** This rollback should not be attempted after [CBO-1683](https://dsdmoj.atlassian.net/browse/CBO-1683) has been completed
 
 * To roll back the migration of assets from Paperclip to Active Storage use the
   `storage:rollback` task. This will delete records from the
@@ -187,9 +189,9 @@ rails> ActiveStorage::Attachment.where(record_type: 'Message').sample.service_ur
 
 ### Rollback
 
-**Note:** This rollback should not be attempted after
-[CBO-1692](https://dsdmoj.atlassian.net/browse/CBO-1692) has been completed
-as this will delete assets from Active Storage that do not exist in Paperclip.
+> **_IMPORTANT:_** This rollback section relates to cleaning up migrated data and should NOT be used to rollback the application to using paperclip after switching over to active storage. To rollback to using paperclip see [Switchover rollback](#switchover-rollback)
+
+**Note:** This rollback should not be attempted after [CBO-1692](https://dsdmoj.atlassian.net/browse/CBO-1692) has been completed.
 
 * To roll back the migration of assets from Paperclip to Active Storage use the
   `storage:rollback` task. This will delete records from the
@@ -294,9 +296,7 @@ rails> ActiveStorage::Attachment.where(record_type: 'Document', name: 'converted
 
 ### Rollback
 
-**Note:** This rollback should not be attempted after
-[CBO-1693](https://dsdmoj.atlassian.net/browse/CBO-1693) has been completed
-as this will delete assets from Active Storage that do not exist in Paperclip.
+> **_IMPORTANT:_** This rollback section relates to cleaning up migrated data and should NOT be used to rollback the application to using paperclip after switching over to active storage. To rollback to using paperclip see [Switchover rollback](#switchover-rollback)
 
 * To roll back the migration of assets from Paperclip to Active Storage use the
   `storage:rollback` task. This will delete records from the
@@ -324,6 +324,56 @@ Storage migration is complete this last ticket needs to be reviewed to see if
 the issue has been resolved. This can be done by checking for redraft failures
 due to timeouts in Kibana logs, for example.
 
+## Switchover
+
+> **_NOTE:_** This switchover from paperclip to active storage assumes that checksums have been calculated for the model being activated and the target environment has latest master on it - with the `storage.rake` tasks is available on it.
+
+---
+**Summary**
+  - migrate
+  - deploy activating branch *
+  - migrate
+---
+
+  - merge the activating branch \*. Ensure you use a merge commit as this can be easily reverted if necessary.
+  - wait for CircleCI to have successfully built master and be waiting for approval to deploy to the target environment
+  - migrate phase 1: shell into the target environments worker pod and run rake task to migrate data from paperclip to active storage
+    ```
+    rails storage:migrate[model_table_name]
+    rails storage:status
+    ```
+  - migrate phase 2: approve deploy of the merged activating branch to the environment and wait for rollout to complete
+  - migrate phase 3: shell into target environments worker pod and rerun migration to ensure any records created by users during deploy are migrated
+    ```
+    rails storage:migrate[model_table_name]
+    rails storage:status
+    ```
+
+  \* activating branch: the branch that switches on active storage use for the specific model
+
+| model/env | dev-lgfs | dev | staging | api-sandbox | production |
+|-|-|-|-|-|-|
+| stats_reports | &check; | &check; | &check; | &check; | &check; |
+| messages |  |  |  |  |  |
+| documents |  |  |  |  |  |
+
+## Switchover rollback
+
+The code base has been changed to continue to update paperclip fields with the relevant data for accessing files added to the
+app by users even after switchover to active storage. This means switching back to using paperclip is purely a matter of
+reverting the commit that activated active storage.
+
+ * find the commit
+ * revert it
+ ```
+ git checkout -b revert-to-paperclip-for-stats_reports
+ git revert -m 1 <merge-commit-sha-for-stats-report>
+ git push -u origin revert-to-paperclip-for-stats_reports
+ # raise PR
+ ```
+
+> **_NOTE:_** It may be advantageous to prepare such a reverting PR before performing the related switchover in case reversion becomes necessary
+
 ## Clean up
 
 After the migration to Active Storage has been completed successfully
@@ -339,7 +389,7 @@ Paperclip can be removed.
 * Remove `PAPERCLIP_STORAGE_OPTIONS`, `REPORTS_STORAGE_OPTIONS` and
   `REPORTS_STORAGE_OPTIONS` from the configuration files in
   `config/environments`.
-* Remove `PAPERCLIP_STORAGE_PATH` and `REPORTS_STORAGE_PATH' from the
+* Remove `PAPERCLIP_STORAGE_PATH` and `REPORTS_STORAGE_PATH`from the
   configuration files in `config/environments`.
 * Remove `kubernetes_deploy/cron_jobs/add_evidence_document_checksums.yml`
 * Amend ` kubernetes_deploy/scripts/cronjob.sh` to remove reference to `add_evidence_document_checksums`
@@ -365,3 +415,6 @@ Paperclip can be removed.
   `spec/model/document_spec.rb`
 * Remove `#attachment#path` from `spec/model/message_spec.rb`
 * Remove `#document#path` from `spec/model/stats/stats_report_spec.rb`
+* Ticket to find and remove orphan document, message and stats_reports records
+# Ticket to find and remove active storage records with no s3 object associated with them.
+

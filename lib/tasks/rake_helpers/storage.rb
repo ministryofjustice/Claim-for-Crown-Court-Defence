@@ -30,7 +30,7 @@ module Storage
                  CONCAT('in-progress/', CAST(id AS CHARACTER VARYING)),
                  #{name}_file_size,
                  as_#{name}_checksum,
-                 #{name}_updated_at
+                 COALESCE(#{name}_updated_at, NOW())
             FROM #{model}
             WHERE #{name}_file_name IS NOT NULL
               AND id NOT IN (

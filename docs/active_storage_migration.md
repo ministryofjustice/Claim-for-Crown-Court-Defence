@@ -415,3 +415,6 @@ Paperclip can be removed.
   `spec/model/document_spec.rb`
 * Remove `#attachment#path` from `spec/model/message_spec.rb`
 * Remove `#document#path` from `spec/model/stats/stats_report_spec.rb`
+* Ticket to find and remove orphan document, message and stats_reports records
+# Ticket to find and remove active storage records with no s3 object associated with them.
+

@@ -32,8 +32,8 @@ VCR.configure do |c|
       uri.path == '/__identify__',
       [
         !uri.path.start_with?('/api/'),
-        !uri.path =~ /maps.googleapis.com/,
-        !uri.path =~ /apilayer.net/
+        !uri.hostname.eql?('maps.googleapis.com'),
+        !uri.hostname.eql?('apilayer.net')
       ].all?,
       [
         uri.host.eql?('127.0.0.1'),

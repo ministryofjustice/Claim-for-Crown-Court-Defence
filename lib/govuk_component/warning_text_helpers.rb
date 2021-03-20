@@ -7,7 +7,7 @@ module GovukComponent
 
       text__assistive = tag.span(assistive_text, class: 'govuk-warning-text__assistive')
       content = sanitize(body)
-      tag.div(tag_options) do
+      tag.div(**tag_options) do
         concat tag.span('!', class: 'govuk-warning-text__icon', 'aria-hidden': true)
         concat tag.strong(text__assistive + content, class: 'govuk-warning-text__text')
       end

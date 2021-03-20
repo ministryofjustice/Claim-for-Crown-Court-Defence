@@ -2,10 +2,10 @@
 
 module GovukComponent
   module SummaryListHelpers
-    def govuk_summary_list(**tag_options, &block)
+    def govuk_summary_list(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-summary-list', tag_options)
       list_row = capture(&block)
-      tag.dl(list_row, tag_options)
+      tag.dl(list_row, **tag_options)
     end
 
     def govuk_summary_list_row(list_key = nil, list_actions = nil, &block)

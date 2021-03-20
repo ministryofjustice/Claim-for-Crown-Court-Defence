@@ -17,7 +17,7 @@ module GovukComponent
       d: 'M0 0h13l20 20-20 20H0l20-20z'
     }.freeze
 
-    def govuk_button(content = nil, **tag_options, &block)
+    def govuk_button(content = nil, tag_options = {}, &block)
       tag_options = prepend_classes('govuk-button', tag_options)
       tag_options[:data] = { module: 'govuk-button', 'prevent-double-click': 'true' }
       disable_if(tag_options)
@@ -25,17 +25,17 @@ module GovukComponent
       if block
         tag.button(tag_options, &block)
       else
-        tag.button(content, tag_options)
+        tag.button(content, **tag_options)
       end
     end
 
-    def govuk_button_secondary(content = nil, **tag_options, &block)
+    def govuk_button_secondary(content = nil, tag_options = {}, &block)
       tag_options = prepend_classes('govuk-button--secondary', tag_options)
 
       govuk_button(content, tag_options, &block)
     end
 
-    def govuk_button_warning(content = nil, **tag_options, &block)
+    def govuk_button_warning(content = nil, tag_options = {}, &block)
       tag_options = prepend_classes('govuk-button--warning', tag_options)
 
       govuk_button(content, tag_options, &block)
@@ -43,7 +43,7 @@ module GovukComponent
 
     # Following the Rails link_to helper
     # `https://api.rubyonrails.org/v6.0.3/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to`
-    def govuk_button_start(name = nil, options = nil, **tag_options, &block)
+    def govuk_button_start(name = nil, options = nil, tag_options = {}, &block)
       options = name if block
       url = url_for(options)
       tag_options[:href] ||= url
@@ -51,13 +51,13 @@ module GovukComponent
       govuk_link_button_options(tag_options)
       content = block ? capture(&block) : name || url
 
-      tag.a(tag_options) do
+      tag.a(**tag_options) do
         concat content
         concat govuk_button_start_svg
       end
     end
 
-    def govuk_link_button(name = nil, options = nil, **tag_options, &block)
+    def govuk_link_button(name = nil, options = nil, tag_options = {}, &block)
       options = name if block
       url = url_for(options)
       tag_options[:href] ||= url
@@ -65,16 +65,16 @@ module GovukComponent
       disable_if(tag_options)
       content = block ? capture(&block) : name || url
 
-      tag.a(content, tag_options, &block)
+      tag.a(content, **tag_options, &block)
     end
 
-    def govuk_link_button_secondary(name = nil, options = nil, **tag_options, &block)
+    def govuk_link_button_secondary(name = nil, options = nil, tag_options = {}, &block)
       tag_options = prepend_classes('govuk-button--secondary', tag_options)
 
       govuk_link_button(name, options, tag_options, &block)
     end
 
-    def govuk_link_button_warning(name = nil, options = nil, **tag_options, &block)
+    def govuk_link_button_warning(name = nil, options = nil, tag_options = {}, &block)
       tag_options = prepend_classes('govuk-button--warning', tag_options)
 
       govuk_link_button(name, options, tag_options, &block)
@@ -96,8 +96,8 @@ module GovukComponent
     end
 
     def govuk_button_start_svg
-      svg_path = tag.path(GOVUK_BUTTON_START_SVG_PATH_OPTIONS)
-      tag.svg(svg_path, GOVUK_BUTTON_START_SVG_OPTIONS)
+      svg_path = tag.path(**GOVUK_BUTTON_START_SVG_PATH_OPTIONS)
+      tag.svg(svg_path, **GOVUK_BUTTON_START_SVG_OPTIONS)
     end
   end
 end

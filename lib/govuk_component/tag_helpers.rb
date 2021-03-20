@@ -6,7 +6,7 @@ module GovukComponent
       tag_options = prepend_classes('govuk-tag--' + color, tag_options) if color.present?
       tag_options = prepend_classes('govuk-tag', tag_options)
 
-      tag.strong(body, tag_options)
+      tag.strong(body, **tag_options)
     end
   end
 end

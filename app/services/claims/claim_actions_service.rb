@@ -2,8 +2,8 @@ module Claims
   class ClaimActionsService
     attr_accessor :claim, :params, :validate
 
-    def self.call(*args)
-      new(*args).call
+    def self.call(claim, **kwargs)
+      new(claim, **kwargs).call
     end
 
     def draft?

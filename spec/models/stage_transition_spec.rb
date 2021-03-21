@@ -10,7 +10,7 @@ RSpec.describe StageTransition do
     }
   }
 
-  subject(:transition) { described_class.new(options) }
+  subject(:transition) { described_class.new(**options) }
 
   describe '#to_stage' do
     specify { expect(transition.to_stage).to eq(:next_stage) }

@@ -19,7 +19,7 @@ module Maps
 
     def call
       params = query_options.merge(origin: origin, destination: destination)
-      result = Maps::DirectionsResult.new(directions.query(params))
+      result = Maps::DirectionsResult.new(directions.query(**params))
       result.max_distance
     rescue StandardError => e
       Rails.logger.error "Error calculating distance #{e.message}"

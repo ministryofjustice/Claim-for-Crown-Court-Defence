@@ -47,7 +47,7 @@ module Claims
       end
 
       def amount
-        fee_scheme.calculate(calculator_options)
+        fee_scheme.calculate(**calculator_options)
       end
 
       def calculator_options

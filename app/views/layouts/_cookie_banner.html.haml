@@ -11,12 +11,12 @@
             = t('.content_html')
 
       .govuk-button-group
-        = govuk_link_button(t('.accept_button'), '?usage_opt_in=true')
-        = govuk_link_button(t('.reject_button'), '?usage_opt_in=false')
+        = govuk_link_button(t('.accept_button'), '?usage_opt_in=true&show_banner=true')
+        = govuk_link_button(t('.reject_button'), '?usage_opt_in=false&show_banner=true')
 
         = govuk_link_to(t('.view_cookies'), cookies_path)
 
-- if @has_cookies_preferences_set
+- if @show_banner == "true"
   .govuk-cookie-banner{ role: 'region', 'aria-label': t('.title') }
     .govuk-cookie-banner__confirmation.govuk-width-container
       .govuk-grid-row
@@ -26,4 +26,4 @@
             = t('.cookie_confirmation_html', link: cookies_path)
 
       .govuk-button-group
-        = govuk_link_button(t('.hide_button'), '?hide_banner=true')
+        = govuk_link_button(t('.hide_button'), '?show_banner=false')

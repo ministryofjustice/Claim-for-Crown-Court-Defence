@@ -119,7 +119,7 @@ class ApplicationController < ActionController::Base
       set_cookie_preference
     end
     @has_cookies_preferences_set = has_cookies_preferences_set?
-    @hide_banner = params[:hide_banner].present? ? params[:hide_banner] : false
+    @show_banner = params[:show_banner].present? ? params[:show_banner] : false
   end
 
   def set_usage_policy(usage = false)

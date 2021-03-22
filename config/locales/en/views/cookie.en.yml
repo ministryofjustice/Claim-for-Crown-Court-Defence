@@ -15,6 +15,7 @@ en:
       analytics_cookie_on_label: Use cookies that measure my website use
       cookie_details: Find out more about cookies on Claim for crown court defence
       cookies_heading: Cookies on Claim for crown court defence
+      cookie_notification: You’ve set your cookie preferences.
       cookie_settings_html:
         '<h2 class="govuk-heading-l">Cookie settings</h2>
         <p class="govuk-body">We use 2 types of cookie. You can choose which cookies you are happy for us to use.</p>'

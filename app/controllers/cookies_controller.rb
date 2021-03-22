@@ -12,14 +12,14 @@ class CookiesController < ApplicationController
     @cookies = Cookies.new(cookies_params[:cookies])
 
     if @cookies.valid?
-      flash[:notice] = 'Your cookie settings were saved'
+      flash[:success] = t('cookies.new.cookie_notification')
 
       set_usage_policy(@cookies.analytics)
       set_cookie_preference
       @has_cookies_preferences_set = has_cookies_preferences_set?
     end
 
-    render :new
+    redirect_to cookies_path
   end
 
   private

@@ -11,7 +11,7 @@ FactoryBot.define do
     # expected values are not yet set.
     # More details can be found here:
     # https://stackoverflow.com/questions/5916162/problem-with-factory-girl-association-and-after-initialize
-    initialize_with { new(attributes) }
+    initialize_with { new(**attributes) }
 
     advocate_base_setup
 

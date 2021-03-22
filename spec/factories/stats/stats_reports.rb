@@ -20,7 +20,11 @@ FactoryBot.define do
 
     trait :with_document do
       report { nil }
-      document { fixture_file_upload "#{Rails.root}/spec/fixtures/files/report.csv", 'text/csv' }
+      document {
+        Rack::Test::UploadedFile.new(
+          File.expand_path('spec/fixtures/files/report.csv', Rails.root),
+          'text/csv')
+      }
     end
 
     trait :incomplete do

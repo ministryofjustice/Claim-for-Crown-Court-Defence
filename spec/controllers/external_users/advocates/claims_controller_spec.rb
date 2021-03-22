@@ -243,7 +243,10 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
         context 'non fixed fee case types' do
           before do
-            @file = fixture_file_upload('files/repo_order_1.pdf', 'application/pdf')
+            @file = Rack::Test::UploadedFile.new(
+                      File.expand_path('spec/fixtures/files/repo_order_1.pdf', Rails.root),
+                      'text/csv'
+                    )
           end
 
           context 'valid params' do

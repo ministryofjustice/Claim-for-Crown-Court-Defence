@@ -242,10 +242,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k, _v| k == 'advocate_category' } }
 
         context 'non fixed fee case types' do
-          before do
-            @file = fixture_file_upload('files/repo_order_1.pdf', 'application/pdf')
-          end
-
           context 'valid params' do
             it 'creates a claim with all basic fees and specified miscellaneous but NOT the fixed fees' do
               post :create, params: { claim: claim_params }

@@ -15,8 +15,6 @@
 #
 
 class MessagesController < ApplicationController
-  include ActiveStorage::SetCurrent
-
   respond_to :html
 
   def create
@@ -35,9 +33,11 @@ class MessagesController < ApplicationController
   end
 
   def download_attachment
-    raise 'No attachment present on this message' unless message.attachment.attached?
+    raise 'No attachment present on this message' if message.attachment.blank?
 
-    redirect_to message.attachment.blob.service_url(disposition: 'attachment')
+    send_file Paperclip.io_adapters.for(message.attachment).path, type: message.attachment_content_type,
+                                                                  filename: message.attachment_file_name,
+                                                                  x_sendfile: true
   end
 
   private

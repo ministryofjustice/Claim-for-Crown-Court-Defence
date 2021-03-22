@@ -30,6 +30,7 @@ RSpec.describe Ability do
 
     it { should be_able_to(:create, Message.new) }
     it { should be_able_to(:download_attachment, Message.new) }
+    it { should be_able_to(:download_attachment, Message.new) }
     it { should be_able_to(:index, UserMessageStatus) }
     it { should be_able_to(:update, UserMessageStatus.new) }
 

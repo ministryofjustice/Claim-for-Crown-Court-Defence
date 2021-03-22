@@ -1,5 +1,5 @@
 - unless @has_cookies_preferences_set
-  .govuk-cookie-banner{ role: 'region', 'aria-label': t('.title') }
+  .govuk-cookie-banner{ role: 'region', 'aria-label': t('.title'), 'tab-index': '-1' }
     .govuk-cookie-banner__message.govuk-width-container
 
       .govuk-grid-row
@@ -17,7 +17,7 @@
         = govuk_link_to(t('.view_cookies'), cookies_path)
 
 - if @show_banner == "true"
-  .govuk-cookie-banner{ role: 'region', 'aria-label': t('.title') }
+  .govuk-cookie-banner{ role: 'alert', 'aria-label': t('.title'), 'tab-index': '-1' }
     .govuk-cookie-banner__confirmation.govuk-width-container
       .govuk-grid-row
         .govuk-grid-column-two-thirds

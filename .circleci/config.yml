@@ -195,9 +195,9 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v2-dependencies-{{ checksum "Gemfile.lock" }}
+            - v3-dependencies-{{ checksum "Gemfile.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v2-dependencies-
+            - v3-dependencies-
       - run:
           name: Install ruby gem dependencies
           command: |
@@ -205,7 +205,7 @@ commands:
             gem install bundler -v $bundler_version
             bundle check || bundle install --jobs=4 --retry=3 --path vendor/bundle
       - save_cache:
-          key: v2-dependencies-{{ checksum "Gemfile.lock" }}
+          key: v3-dependencies-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
@@ -215,15 +215,15 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v1-js-dependencies-{{ checksum "yarn.lock" }}
+            - v2-js-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v1-js-dependencies
+            - v2-js-dependencies
       - run:
           name: Install javascript package dependencies
           command: |
             yarn install --frozen-lockfile
       - save_cache:
-          key: v1-js-dependencies-{{ checksum "yarn.lock" }}
+          key: v2-js-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
 

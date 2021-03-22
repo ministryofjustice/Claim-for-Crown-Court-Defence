@@ -73,22 +73,26 @@ RSpec.describe MessagesController, type: :controller do
     end
 
     describe 'GET #download_attachment' do
-      context 'when message has attachment' do
-        subject { create(:message, :with_attachment) }
+      subject(:download_attachment) { get :download_attachment, params: { id: message.id } }
 
-        it 'returns the attachment file' do
-          get :download_attachment, params: { id: subject.id }
-          expect(response.headers['Content-Disposition']).to include("filename=\"#{subject.attachment.original_filename}\"")
+      context 'when message has attachment' do
+        let(:message) { create(:message) }
+        let(:test_url) { 'https://example/com/attachment.doc#123abc' }
+
+        before do
+          message.attachment.attach(io: StringIO.new, filename: 'attachment.doc')
+          allow(Message).to receive(:find).with(message[:id].to_s).and_return(message)
+          allow(message.attachment.blob).to receive(:service_url).and_return(test_url)
         end
+
+        it { is_expected.to redirect_to test_url }
       end
 
       context 'when message does not have attachment' do
-        subject { create(:message) }
+        let(:message) { create(:message) }
 
         it 'redirects to 500 page' do
-          expect {
-            get :download_attachment, params: { id: subject.id }
-          }.to raise_exception('No attachment present on this message')
+          expect { download_attachment }.to raise_exception('No attachment present on this message')
         end
       end
     end

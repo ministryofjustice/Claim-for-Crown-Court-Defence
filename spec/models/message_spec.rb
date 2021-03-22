@@ -16,20 +16,6 @@
 
 require 'rails_helper'
 
-RSpec.shared_context 'add active storage record assets for messages' do
-  before do
-    ActiveStorage::Attachment.connection.execute(<<~SQL)
-      INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-        VALUES('test_key', 'testfile_csv', 100, '{}', 100, 'abc==', NOW())
-    SQL
-    ActiveStorage::Attachment.connection.execute(<<~SQL)
-      INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-        VALUES('attachment', 'Message', #{message.id}, LASTVAL(), NOW())
-    SQL
-    allow(ActiveStorage::Blob).to receive(:service).and_return(service)
-  end
-end
-
 RSpec.describe Message, type: :model do
   it { is_expected.to belong_to(:claim) }
   it { is_expected.to belong_to(:sender).class_name('User').inverse_of(:messages_sent) }
@@ -39,28 +25,28 @@ RSpec.describe Message, type: :model do
   it { is_expected.to validate_presence_of(:claim_id).with_message('Message claim_id cannot be blank') }
   it { is_expected.to validate_presence_of(:body).with_message('Message body cannot be blank') }
 
-  it { is_expected.to have_attached_file(:attachment) }
+  it { is_expected.to have_one_attached(:attachment) }
 
   it_behaves_like 'an s3 bucket'
 
   it do
-    is_expected.to validate_attachment_content_type(:attachment)
-      .allowing('application/pdf',
-                'application/msword',
-                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                'application/vnd.oasis.opendocument.text',
-                'text/rtf',
-                'application/rtf',
-                'image/jpeg',
-                'image/png',
-                'image/tiff',
-                'image/bmp',
-                'image/x-bitmap')
-      .rejecting('text/plain',
-                 'text/html')
+    is_expected.to validate_content_type_of(:attachment)
+      .allowing(
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.oasis.opendocument.text',
+        'text/rtf',
+        'application/rtf',
+        'image/jpeg',
+        'image/png',
+        'image/tiff',
+        'image/bmp',
+        'image/x-bitmap'
+      ).rejecting('text/plain', 'text/html')
   end
 
-  it { is_expected.to validate_attachment_size(:attachment).in(0.megabytes..20.megabytes) }
+  it { is_expected.to validate_size_of(:attachment).less_than_or_equal_to(20.megabytes) }
 
   describe '.for' do
     let(:message) { create(:message) }
@@ -215,61 +201,87 @@ RSpec.describe Message, type: :model do
     end
   end
 
-  describe '#as_attachment_checksum' do
+  # To allow rolling back to Paperclip
+  describe '#attachment_file_name' do
+    subject { message.attachment_file_name }
+
     context 'with no attachment' do
       let(:message) { create(:message) }
 
-      it 'is nil' do
-        expect(message.as_attachment_checksum).to be_nil
-      end
+      it { is_expected.to be_nil }
     end
 
     context 'with an attachment' do
       let(:message) { create(:message, :with_attachment) }
 
-      it 'is a checksum' do
-        expect(message.as_attachment_checksum).to match(/==$/)
-      end
+      it { is_expected.to eq message.attachment.filename.to_s }
     end
   end
 
-  describe '#attachment#path' do
-    let(:message) { create :message, :with_attachment }
-    let(:id_partition) { format('%09d', message.id).scan(/\d{3}/).join('/') }
-    let(:filename) { message.attachment_file_name }
+  describe '#attachment_file_size' do
+    subject { message.attachment_file_size }
 
-    before do
-      stub_const 'PAPERCLIP_STORAGE_PATH', 'public/assets/test/images/:id_partition/:filename'
+    context 'with no attachment' do
+      let(:message) { create(:message) }
+
+      it { is_expected.to be_nil }
     end
 
-    context 'without an Active Storage attachment' do
-      it 'has a path based on the filename' do
-        expect(message.attachment.path).to eq "public/assets/test/images/#{id_partition}/#{filename}"
-      end
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
+
+      it { is_expected.to eq message.attachment.byte_size }
+    end
+  end
+
+  describe '#attachment_content_type' do
+    subject { message.attachment_content_type }
+
+    context 'with no attachment' do
+      let(:message) { create(:message) }
+
+      it { is_expected.to be_nil }
     end
 
-    context 'with an Active Storage attachment in disk storage' do
-      require 'active_storage/service/disk_service'
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
 
-      include_context 'add active storage record assets for messages' do
-        let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
-      end
+      it { is_expected.to eq message.attachment.content_type }
+    end
+  end
 
-      it 'has the path for disk storage' do
-        expect(message.attachment.path).to eq '/root/te/st/test_key'
-      end
+  describe '#attachment_updated_at' do
+    subject { message.attachment_updated_at }
+
+    context 'with no attachment' do
+      let(:message) { create(:message) }
+
+      it { is_expected.to be_nil }
     end
 
-    context 'with an Active Storage attachment in S3' do
-      require 'active_storage/service/s3_service'
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
+      let(:time) { Time.zone.parse('19 January 2021, 11:05:00') }
 
-      include_context 'add active storage record assets for messages' do
-        let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
-      end
+      before { travel_to time }
 
-      it 'has the path for disk storage' do
-        expect(message.attachment.path).to eq 'test_key'
-      end
+      it { is_expected.to eq time }
+    end
+  end
+
+  describe '#as_attachment_checksum' do
+    subject { message.as_attachment_checksum }
+
+    context 'with no attachment' do
+      let(:message) { create(:message) }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
+
+      it { is_expected.to eq message.attachment.checksum }
     end
   end
 end

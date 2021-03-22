@@ -2,7 +2,9 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery prepend: true, with: :exception unless ENV['DISABLE_CSRF'] == '1'
-  before_action :set_default_usage_policy
+
+  include CookieConcern
+  before_action :set_default_cookie_usage
 
   helper_method :current_user_messages_count
   helper_method :signed_in_user_profile_path
@@ -71,7 +73,6 @@ class ApplicationController < ActionController::Base
     send(method_name)
   end
 
-
   private
 
   def after_sign_in_path_for_super_admin
@@ -109,38 +110,5 @@ class ApplicationController < ActionController::Base
 
   def enable_breadcrumb
     @enable_breadcrumb = true
-  end
-
-  def set_default_usage_policy
-    return set_usage_policy if cookies[:usage_opt_in].nil?
-
-    if params[:usage_opt_in].present?
-      set_usage_policy(params[:usage_opt_in]) 
-      set_cookie_preference
-    end
-    @has_cookies_preferences_set = has_cookies_preferences_set?
-    @show_banner = params[:show_banner].present? ? params[:show_banner] : false
-  end
-
-  def set_usage_policy(usage = false)
-    cookies[:usage_opt_in] = {
-      value: usage,
-      domain: request.host,
-      expires: Time.now + 1.years,
-      secure: true
-    }
-  end
-
-  def set_cookie_preference
-    cookies[:cookies_preferences_set] = {
-      value: true,
-      domain: request.host,
-      expires: Time.now + 1.years,
-      secure: true
-    }
-  end
-
-  def has_cookies_preferences_set?
-    cookies[:cookies_preferences_set]
   end
 end

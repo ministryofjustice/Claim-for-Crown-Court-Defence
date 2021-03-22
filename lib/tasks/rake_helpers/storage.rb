@@ -265,7 +265,7 @@ module Storage
   end
 
   def self.validate(attachments:)
-    attachments.each_with_object(true) do |attachment, check|
+    attachments.includes(:blob, :record).each_with_object(true) do |attachment, check|
       check &&
         attachment.blob.filename == attachment.record&.send("#{attachment.name}_file_name") &&
         attachment.blob.checksum == attachment.record&.send("as_#{attachment.name}_checksum")

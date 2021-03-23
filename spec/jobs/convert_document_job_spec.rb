@@ -29,6 +29,16 @@ RSpec.describe ConvertDocumentJob, type: :job do
     context 'with a docx document' do
       let(:document) { create :document, :docx }
 
+      before do
+        allow(Libreconv).to receive(:convert).with(any_args) do |_file_in, file_out|
+          File.open(Rails.root + 'features/examples/longer_lorem.pdf', 'rb') do |input|
+            while buff = input.read(4096)
+              file_out.write(buff)
+            end
+          end
+        end
+      end
+
       it do
         expect { perform }
           .to change { document.reload.converted_preview_document_file_name }.to(document.document_file_name + '.pdf')
@@ -41,7 +51,11 @@ RSpec.describe ConvertDocumentJob, type: :job do
 
       it { expect { perform }.not_to raise_error }
 
-      it { expect { perform }.to change { document.reload.as_converted_preview_document_checksum.to_s[-2..] }.to('==') }
+      it do
+        expect { perform }
+          .to change { document.reload.as_converted_preview_document_checksum }
+          .to('VJnssr9u1aT2uVBaTtQ7eQ==')
+      end
     end
 
     context 'when Libreconv fails' do

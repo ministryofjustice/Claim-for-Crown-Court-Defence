@@ -14,7 +14,7 @@ class CookiesController < ApplicationController
     if @cookies.valid?
       flash[:success] = t('cookies.new.cookie_notification')
       add_and_update_cookies
-      @has_cookies_preferences_set = has_cookies_preferences_set?
+      @cookies_preferences_set = cookies_preferences_set?
       redirect_to cookies_path
     else
       render :new
@@ -24,8 +24,8 @@ class CookiesController < ApplicationController
   private
 
   def add_and_update_cookies
-    set_cookie("usage_opt_in", @cookies.analytics)
-    set_cookie("cookies_preference", true)
+    set_cookie('usage_opt_in', value: @cookies.analytics)
+    set_cookie('cookies_preference', value: true)
   end
 
   def cookies_params

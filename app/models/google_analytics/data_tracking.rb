@@ -4,7 +4,7 @@ module GoogleAnalytics
 
     class << self
       def enabled?
-        usage_name.eql?('true') && adapter.present? && Rails.env.production?
+        usage_name.eql?('true') && adapter.present? && Rails.env.development?
       end
 
       def tag_manager?

@@ -32,7 +32,7 @@ RSpec.describe ConvertDocumentJob, type: :job do
       before do
         allow(Libreconv).to receive(:convert).with(any_args) do |_file_in, file_out|
           File.open(Rails.root + 'features/examples/longer_lorem.pdf', 'rb') do |input|
-            while buff = input.read(4096)
+            while (buff = input.read(4096))
               file_out.write(buff)
             end
           end

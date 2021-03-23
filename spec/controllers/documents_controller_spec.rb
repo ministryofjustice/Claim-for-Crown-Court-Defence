@@ -58,7 +58,7 @@ RSpec.describe DocumentsController, type: :controller do
   end
 
   describe 'GET #show' do
-    let(:document) { create(:document, external_user_id: external_user.id) }
+    let(:document) { create(:document, :with_preview, external_user_id: external_user.id) }
 
     it 'downloads a preview of the document' do
       get :show, params: { id: document.id }
@@ -67,7 +67,7 @@ RSpec.describe DocumentsController, type: :controller do
   end
 
   describe 'GET #download' do
-    let(:document) { create(:document, external_user_id: external_user.id) }
+    let(:document) { create(:document, :with_preview, external_user_id: external_user.id) }
 
     it 'downloads the document' do
       get :show, params: { id: document.id }

@@ -118,7 +118,6 @@ RSpec.describe Document, type: :model do
   context 'storage' do
     context 'on S3' do
       subject { build(:document) }
-      before { allow(subject).to receive(:generate_pdf_tmpfile).and_return(nil) }
 
       it 'saves the original' do
         stub_request(:put, %r{https\://moj-cbo-documents-test\.s3\.amazonaws\.com/.+/shorter_lorem\.docx})
@@ -152,72 +151,6 @@ RSpec.describe Document, type: :model do
 
         expect { subject.save! }.not_to raise_error
       end
-    end
-  end
-
-  describe '#generate_pdf_tmpfile' do
-    context 'when the original attachment is a .docx' do
-      subject { build(:document, :docx, document_content_type: 'application/msword') }
-
-      it 'called by a before_save hook' do
-        expect(subject).to receive(:generate_pdf_tmpfile)
-        subject.save!
-      end
-
-      it 'calls document#convert_and_assign_document' do
-        expect(subject).to receive(:convert_and_assign_document)
-        subject.generate_pdf_tmpfile
-      end
-    end
-
-    context 'when the original attachment is a .pdf' do
-      subject { build(:document) }
-
-      it 'is still called by a before_save hook' do
-        expect(subject).to receive(:generate_pdf_tmpfile).and_return(nil)
-        subject.save!
-      end
-
-      it 'does not call document#convert_and_assign_document' do
-        expect(subject).not_to receive(:convert_and_assign_document)
-        subject.generate_pdf_tmpfile
-      end
-
-      it 'assigns original document to document#pdf_tmpfile' do
-        subject.save!
-        expect(subject.pdf_tmpfile).to eq subject.document
-      end
-    end
-  end
-
-  describe '#convert_and_assign_document' do
-    subject { build(:document, :docx, document_content_type: 'application/msword') }
-
-    it 'depends on the Libreconv gem' do
-      expect(Libreconv).to receive(:convert)
-      subject.save!
-    end
-
-    it 'handles IOError when Libreconv is not in PATH' do
-      allow(Libreconv).to receive(:convert).and_raise(IOError) # raise IOError as if Libreoffice exe were not found
-      expect { subject.save! }.to change(described_class, :count).by(1) # error handled and document is still saved
-    end
-  end
-
-  describe '#add_converted_preview_document' do
-    subject { build(:document) }
-
-    before { allow(Libreconv).to receive(:convert) }
-
-    it 'is triggered by document#save' do
-      expect(subject).to receive(:add_converted_preview_document)
-      subject.save!
-    end
-
-    it 'assigns converted_preview_document a file' do
-      expect(subject.converted_preview_document.present?).to be false
-      subject.save!
-      expect(subject.converted_preview_document.present?).to be true
     end
   end
 
@@ -336,14 +269,6 @@ RSpec.describe Document, type: :model do
     end
   end
 
-  describe '#as_converted_preview_document_checksum' do
-    let(:document) { create(:document) }
-
-    it 'is a checksum' do
-      expect(document.as_converted_preview_document_checksum).to match(/==$/)
-    end
-  end
-
   describe '#document#path' do
     subject { document.document.path }
 
@@ -417,6 +342,19 @@ RSpec.describe Document, type: :model do
       end
 
       it { is_expected.to eq 'test_key_preview' }
+    end
+  end
+
+  describe '#save' do
+    subject(:save_document) { document.save }
+
+    let(:document) { build :document }
+
+    before { ActiveJob::Base.queue_adapter = :test }
+
+    it 'schedules a ConvertDocument job' do
+      expect { save_document }
+        .to(have_enqueued_job(ConvertDocumentJob).with { |id| expect(id).to eq document.reload.id })
     end
   end
 end

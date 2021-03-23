@@ -303,7 +303,7 @@ RSpec.describe TimedTransitions::Transitioner do
             2.times { @claim.messages << create(:message, claim: @claim) }
             @claim.injection_attempts << create(:injection_attempt, claim: @claim)
             @claim.expenses.first.dates_attended << DateAttended.new
-            @claim.documents << create(:document, claim: @claim, verified: true)
+            @claim.documents << create(:document, :with_preview, claim: @claim, verified: true)
             @claim.certification = create(:certification, claim: @claim)
             @claim.save!
             @claim.reload

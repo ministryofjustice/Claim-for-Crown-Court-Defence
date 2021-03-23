@@ -52,9 +52,8 @@ class Document < ApplicationRecord
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
 
-  before_save :generate_pdf_tmpfile
-  before_save :add_converted_preview_document
   before_save :populate_checksum
+  after_save :convert_document
 
   validate :documents_count
 
@@ -137,5 +136,9 @@ class Document < ApplicationRecord
     return unless errors[:document].include?('has contents that are not what they are reported to be')
     errors[:document].delete('has contents that are not what they are reported to be')
     errors[:document] << 'The contents of the file do not match the file extension'
+  end
+
+  def convert_document
+    ConvertDocumentJob.perform_later(id)
   end
 end

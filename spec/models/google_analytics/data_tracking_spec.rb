@@ -13,10 +13,23 @@ module GoogleAnalytics
           allow(described_class).to receive(:adapter).and_return('Adapter')
         end
 
-        %w(staging production).each do |host|
-          it "returns true when host is #{host}" do
-            allow(RailsHost).to receive(:env).and_return(host)
-            expect(described_class.enabled?).to be_truthy
+        context 'with usage tracking accepted' do
+          %w(staging production).each do |host|
+            it "returns true when host is #{host}" do
+              allow(RailsHost).to receive(:env).and_return(host)
+              allow(described_class).to receive(:usage_name).and_return('true')
+              expect(described_class.enabled?).to be_truthy
+            end
+          end
+        end
+
+        context 'with usage tracking rejected' do
+          %w(staging production).each do |host|
+            it "returns false when host is #{host}" do
+              allow(RailsHost).to receive(:env).and_return(host)
+              allow(described_class).to receive(:usage_name).and_return('false')
+              expect(described_class.enabled?).to be_falsy
+            end
           end
         end
       end
@@ -43,11 +56,13 @@ module GoogleAnalytics
     describe 'type methods' do
       before do
         allow(described_class).to receive(:adapter).and_return('Adapter')
+        allow(described_class).to receive(:usage_name).and_return('true')
         allow(Rails).to receive(:env).and_return('production'.inquiry)
       end
 
       context '#tag_manager?' do
         subject(:tag_manager) { described_class.tag_manager? }
+
         context 'when the adapter is google_tag_manager' do
           before { allow(described_class).to receive(:adapter_name).and_return(:gtm) }
 

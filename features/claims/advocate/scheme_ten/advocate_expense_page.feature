@@ -46,9 +46,19 @@ Feature: Advocate creates, saves, edits claims and expenses
     And I select a mileage rate of '20p per mile'
 
     Then I should see 'Distance'
-    Then I should see 'Cost per mile'
-    Then I should see '20p per mile'
-    Then I should see 'Other reason'
+    And I should see 'Cost per mile'
+    And I should see '20p per mile'
+    And I should see 'Other reason'
+
+    Given I should not see 'Expense 1'
+    When I click the link 'Duplicate last expense'
+    Then I should see 'Expense 1'
+    And I should see 'Expense 2'
+
+    When I click the first 'Remove' link
+    Then I should not see 'Expense 1'
+    And I should not see 'Expense 2'
+    But I should see 'Expense'
 
     And I should see a page title "Enter travel expenses for advocate final fees claim"
     And I save as draft

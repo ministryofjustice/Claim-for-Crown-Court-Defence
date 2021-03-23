@@ -1,10 +1,10 @@
 module GoogleAnalytics
   class DataTracking
-    cattr_accessor :adapter, :adapter_name
+    cattr_accessor :adapter, :adapter_name, :usage_name
 
     class << self
       def enabled?
-        adapter.present? && Rails.env.production?
+        usage_name.eql?('true') && adapter.present? && Rails.env.production?
       end
 
       def tag_manager?
@@ -24,6 +24,10 @@ module GoogleAnalytics
       def adapter=(name)
         @@adapter_name = name
         @@adapter = "GoogleAnalytics::#{name.upcase}DataAdapter".constantize
+      end
+
+      def usage=(name)
+        @@usage_name = name
       end
     end
 

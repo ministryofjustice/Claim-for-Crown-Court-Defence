@@ -12,6 +12,7 @@ module CookieConcern
     end
 
     show_hide_cookie_banners
+    set_datatracking_usage
   end
 
   def set_cookie(type, value = false)
@@ -38,5 +39,9 @@ module CookieConcern
   def show_hide_cookie_banners
     @has_cookies_preferences_set = has_cookies_preferences_set?
     @show_confirm_banner = params[:show_confirmation].present? ? params[:show_confirmation] : false
+  end
+
+  def set_datatracking_usage
+    GoogleAnalytics::DataTracking.usage = cookies[:usage_opt_in]
   end
 end

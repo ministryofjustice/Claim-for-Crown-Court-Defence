@@ -1,8 +1,8 @@
 <%
 rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
 rerun_opts = rerun.to_s.strip.empty? ? "--format #{ENV['CUCUMBER_FORMAT'] || 'progress'} features" : "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} #{rerun}"
-std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags 'not @wip'"
-focus_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags @focus"
+std_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags 'not @wip' --publish-quiet"
+focus_opts = "--format #{ENV['CUCUMBER_FORMAT'] || 'pretty'} --strict --tags @focus --publish-quiet"
 %>
 default: <%= std_opts %> features
 focus: <%= focus_opts %> features

@@ -70,7 +70,7 @@ RSpec.describe DocumentsController, type: :controller do
     let(:document) { create(:document, :with_preview, external_user_id: external_user.id) }
 
     it 'downloads the document' do
-      get :show, params: { id: document.id }
+      get :download, params: { id: document.id }
       expect(response.body).to eq binread(document.document.path)
     end
   end

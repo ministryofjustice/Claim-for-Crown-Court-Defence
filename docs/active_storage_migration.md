@@ -354,7 +354,7 @@ due to timeouts in Kibana logs, for example.
 | model/env | dev-lgfs | dev | staging | api-sandbox | production |
 |-|-|-|-|-|-|
 | stats_reports | &check; | &check; | &check; | &check; | &check; |
-| messages |  |  |  |  |  |
+| messages | &check; | &check; | &check; | &check; | &check; |
 | documents |  |  |  |  |  |
 
 ## Switchover rollback
@@ -416,5 +416,5 @@ Paperclip can be removed.
 * Remove `#attachment#path` from `spec/model/message_spec.rb`
 * Remove `#document#path` from `spec/model/stats/stats_report_spec.rb`
 * Ticket to find and remove orphan document, message and stats_reports records
-# Ticket to find and remove active storage records with no s3 object associated with them.
+* Ticket to find and remove active storage records with no s3 object associated with them.
 

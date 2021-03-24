@@ -24,6 +24,7 @@ Feature: Advocate creates, saves, edits claims and expenses
 
     When I click the claim 'A20181234'
     And I edit the claim's expenses
+    Then I should see a page title "Enter travel expenses for advocate final fees claim"
 
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
@@ -39,23 +40,31 @@ Feature: Advocate creates, saves, edits claims and expenses
 
     And I select an expense type "Bike travel"
     And I select a travel reason "Other"
-    And I add an expense distance of "873"
-
     And I add an other reason of "Other reason text"
-
+    And I add an expense location of 'My other location'
+    And I add an expense distance of "873"
     And I select a mileage rate of '20p per mile'
 
     Then I should see 'Distance'
-    Then I should see 'Cost per mile'
-    Then I should see '20p per mile'
-    Then I should see 'Other reason'
+    And I should see 'Cost per mile'
+    And I should see '20p per mile'
+    And I should see 'Other reason'
 
-    And I should see a page title "Enter travel expenses for advocate final fees claim"
-    And I save as draft
+    Given I should not see 'Expense 1'
+    When I click the link 'Duplicate last expense'
+    Then I should see 'Expense 1'
+    And I should see 'Expense 2'
 
-    When I click the claim 'A20181234'
+    When I click the first 'Remove' link
+    Then I should not see 'Expense 1'
+    And I should not see 'Expense 2'
+    But I should see 'Expense'
+
+    When I save as draft
+    Then I click the claim 'A20181234'
     Then I should see 'Bike travel'
-    Then I should see 'Other reason text'
-    Then I should see '20p'
-    Then I should see '873'
-    Then I should see '£174.60'
+    And I should see 'Destination: My other location'
+    And I should see 'Cost per mile: 20p per mile'
+    And I should see 'Distance: 873 miles'
+    And I should see 'Other reason text'
+    And I should see '£174.60'

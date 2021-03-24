@@ -74,6 +74,11 @@ When(/I click the claim '(.*?)'$/) do |case_number|
   @external_user_home_page.claim_for(case_number).case_number.click
 end
 
+When(/I click the first '(.*?)' link$/) do |text|
+  expect(page).to have_link(text)
+  click_link(text, match: :first)
+end
+
 When(/I click the link '(.*?)'$/) do |text|
   expect(page).to have_link(text)
   click_link(text)
@@ -170,8 +175,8 @@ And(/^I should be in the '(.*?)' form page$/) do |page_heading|
   wait_for_ajax
 end
 
-Then(/^I should see "([^"]*)"$/) do |arg1|
-  expect(page).to have_content(arg1)
+Then(/^I should see "([^"]*)"$/) do |string|
+  expect(page).to have_content(string)
 end
 
 And(/^I should see the field '(.*?)' with value '(.*?)' in '(.*?)'$/) do |field, value, section|

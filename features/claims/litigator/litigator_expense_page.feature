@@ -24,6 +24,7 @@ Feature: Litigator expense specific page features
     Given I am later on the Your claims page
     When I click the claim 'A20161234'
     And I edit the claim's expenses
+    Then I should see a page title "Enter travel expenses for litigator final fees claim"
 
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
@@ -42,13 +43,25 @@ Feature: Litigator expense specific page features
 
     And I select an expense type "Bike travel"
     And I select a travel reason "Other"
+    And I add an expense location of 'My other location'
     And I add an expense distance of "873"
     And I add an other reason of "Other reason text"
 
-    Then I should see 'Location'
-    Then I should see 'Distance'
-    Then I should see 'Cost per mile'
-    Then I should see '20p per mile'
-    Then I should see 'Other reason'
+    Given I should not see 'Expense 1'
+    When I click the link 'Duplicate last expense'
+    Then I should see 'Expense 1'
+    And I should see 'Expense 2'
 
-    Then I click "Continue" in the claim form
+    When I click the first 'Remove' link
+    Then I should not see 'Expense 1'
+    And I should not see 'Expense 2'
+    But I should see 'Expense'
+
+    When I save as draft
+    Then I click the claim 'A20161234'
+    Then I should see 'Bike travel'
+    And I should see 'Destination: My other location'
+    And I should see 'Cost per mile: 20p per mile'
+    And I should see 'Distance: 873 miles'
+    And I should see 'Other reason text'
+    And I should see '£174.60'

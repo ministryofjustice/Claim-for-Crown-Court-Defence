@@ -114,6 +114,10 @@ Then(/^I add an other reason of "([^"]*)"$/) do |reason_text|
   @claim_form_page.expenses.last.other_reason_input.set reason_text
 end
 
+Then('I add an expense location of {string}') do |string|
+  @claim_form_page.expenses.last.destination.set string
+end
+
 Then(/^I add an expense location$/) do
   @claim_form_page.expenses.last.destination.set 'Liverpool'
 end

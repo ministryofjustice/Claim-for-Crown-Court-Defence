@@ -53,7 +53,7 @@ class Document < ApplicationRecord
   delegate :provider_id, to: :external_user
 
   before_save :populate_checksum
-  after_save :convert_document
+  after_create :convert_document
 
   validate :documents_count
 
@@ -63,14 +63,16 @@ class Document < ApplicationRecord
   end
 
   def save_and_verify
-    result = save
-    if result
-      result = verify_and_log
-    else
-      transform_cryptic_paperclip_error
-      log_save_error
-    end
-    result
+    self.verified = true
+    save
+    # result = save
+    # if result
+    #   result = verify_and_log
+    # else
+    #   transform_cryptic_paperclip_error
+    #   log_save_error
+    # end
+    # result
   end
 
   def verify_and_log

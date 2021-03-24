@@ -87,7 +87,7 @@ group :development, :devunicorn, :test do
   gem 'guard-webpacker', '~> 0.2.1'
   gem 'jasmine', '>= 3.5.1'
   gem 'jasmine_selenium_runner', require: false
-  gem 'listen', '~> 3.2.1'
+  gem 'listen', '~> 3.5.0'
   gem 'meta_request'
   gem 'parallel_tests'
   gem 'pry-byebug'

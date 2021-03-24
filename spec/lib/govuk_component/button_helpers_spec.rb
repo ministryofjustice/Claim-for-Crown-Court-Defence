@@ -58,19 +58,47 @@ RSpec.describe GovukComponent::ButtonHelpers, type: :helper do
   end
 
   describe '#govuk_link_button' do
-    subject(:markup) { helper.govuk_link_button('Save and continue', '#') }
+    subject(:markup) { helper.govuk_link_button('Some link description', 'http://test.com/edit') }
 
     it 'adds a default govuk link button' do
-      is_expected.to have_tag(:a, with: { class: 'govuk-button', 'data-module': 'govuk-button', draggable: 'false', role: 'button' }, text: 'Save and continue')
+      is_expected.to have_tag(:a, with: { class: 'govuk-button', href: 'http://test.com/edit', 'data-module': 'govuk-button', draggable: 'false', role: 'button' }, text: 'Some link description')
     end
 
     context 'with custom classes' do
       subject(:markup) do
-        helper.govuk_link_button('Save and continue', '#', class: 'my-custom-class1 my-custom-class2')
+        helper.govuk_link_button('Some link description', 'http://test.com/edit', class: 'my-custom-class1 my-custom-class2')
       end
 
       it 'adds a default govuk link button with custom classes' do
-        is_expected.to have_tag(:a, with: { class: 'govuk-button my-custom-class1 my-custom-class2', 'data-module': 'govuk-button', draggable: 'false', role: 'button' }, text: 'Save and continue')
+        is_expected.to have_tag(:a, with: { class: 'govuk-button my-custom-class1 my-custom-class2' })
+      end
+    end
+
+    context 'with nil href' do
+      subject(:markup) do
+        helper.govuk_link_button('Some link description', nil)
+      end
+
+      before do
+        allow(helper).to receive(:url_for).with(nil).and_return('/default/path/from/controller')
+      end
+
+      it 'adds a default href for controller and view' do
+        is_expected.to have_tag(:a, with: { href: '/default/path/from/controller' })
+      end
+    end
+
+    context 'with nil href and custom classes' do
+      subject(:markup) do
+        helper.govuk_link_button('Some link description', nil, class: 'some-javascript-hook')
+      end
+
+      before do
+        allow(helper).to receive(:url_for).with(nil).and_return('/default/path/from/controller')
+      end
+
+      it 'adds a default href and appends classes' do
+        is_expected.to have_tag(:a, with: { class: 'govuk-button some-javascript-hook', href: '/default/path/from/controller' })
       end
     end
   end

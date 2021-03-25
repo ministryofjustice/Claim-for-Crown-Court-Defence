@@ -29,6 +29,7 @@ class Message < ApplicationRecord
   validates :attachment,
             size: { less_than: 20.megabytes },
             content_type: [
+              'application/zip',
               'application/pdf',
               'application/msword',
               'application/vnd.openxmlformats-officedocument.wordprocessingml.document',

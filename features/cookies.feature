@@ -1,18 +1,17 @@
 Feature: Cookies
 
-Scenario: Accepting default cookies
+  Scenario: Accepting default cookies
     Given I visit "/"
     When I see the cookies banner
-    And I click the button 'Accept analytics cookies'
+    And I click the link 'Accept analytics cookies'
     And I see the 'accepted analytics cookies' confirmation message
-    And I click the button 'Hide this message'
-    Then the cookie banner is hidden
+    And I click the link 'Hide this message'
+    Then the cookie banner is not available
 
-Scenario: Rejecting default cookies
+  Scenario: Rejecting default cookies
     Given I visit "/"
     When I see the cookies banner
-    And I click the button 'Reject analytics cookies'
+    And I click the link 'Reject analytics cookies'
     And I see the 'rejected analytics cookies' confirmation message
-    And I click the button 'Hide this message'
-    Then the cookie banner is hidden
-
+    And I click the link 'Hide this message'
+    Then the cookie banner is not available

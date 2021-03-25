@@ -20,7 +20,7 @@ module CookieConcern
       value: value,
       domain: request.host,
       expires: Time.zone.now + 1.year,
-      secure: true
+      secure: !Rails.env.test?
     }
   end
 
@@ -42,6 +42,6 @@ module CookieConcern
   end
 
   def set_datatracking_usage
-    GoogleAnalytics::DataTracking.usage = cookies[:usage_opt_in]
+    GoogleAnalytics::DataTracking.usage_name = cookies[:usage_opt_in]
   end
 end

@@ -25,10 +25,6 @@ module GoogleAnalytics
         @@adapter_name = name
         @@adapter = "GoogleAnalytics::#{name.upcase}DataAdapter".constantize
       end
-
-      def usage=(name)
-        @@usage_name = name
-      end
     end
 
     private_class_method :new

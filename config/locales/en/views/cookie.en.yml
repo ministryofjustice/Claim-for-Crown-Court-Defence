@@ -87,7 +87,7 @@ en:
         </thead>
         <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
-        <td class="govuk-table__cell">cookies_preferences_set</td>
+        <td class="govuk-table__cell">cookies_preference</td>
         <td class="govuk-table__cell">Lets us know that you’ve saved your cookie consent settings	</td>
         <td class="govuk-table__cell">1 year</td>
         </tr>

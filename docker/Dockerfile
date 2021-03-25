@@ -21,6 +21,7 @@ RUN set -ex
 # - ttf-ubuntu-font-family: needed by libreoffice
 # - redis: for backend key-value store
 # - postgresql-client - only needed for database dump
+# - shared-mime-info - for MIT licensed version of mimemagic
 #
 RUN apk --no-cache add --virtual build-dependencies \
                     build-base \
@@ -37,7 +38,8 @@ RUN apk --no-cache add --virtual build-dependencies \
                   ttf-ubuntu-font-family \
                   libreoffice \
                   redis \
-                  postgresql-client
+                  postgresql-client \
+                  shared-mime-info
 
 # add non-root user and group with alpine first available uid, 1000
 RUN addgroup -g 1000 -S appgroup \

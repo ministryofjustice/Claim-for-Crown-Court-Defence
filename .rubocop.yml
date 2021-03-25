@@ -224,6 +224,10 @@ Gemspec/DateAssignment: # (new in 1.10)
   Enabled: true
 Style/HashConversion: # (new in 1.10)
   Enabled: true
+Performance/RedundantEqualityComparisonBlock: # (new in 1.10)
+  Enabled: true
+Performance/RedundantSplitRegexpArgument: # (new in 1.10)
+  Enabled: true
 
 # Temporarily disable while fixing spec/* directory
 Lint/RedundantCopDisableDirective:

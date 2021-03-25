@@ -36,7 +36,8 @@ class Document < ApplicationRecord
                        presence: { message: 'Document must have an attachment' },
                        size: { in: 0.megabytes..20.megabytes },
                        content_type: {
-                         content_type: ['application/pdf',
+                         content_type: ['application/zip',
+                                        'application/pdf',
                                         'application/msword',
                                         'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                                         'application/vnd.oasis.opendocument.text',

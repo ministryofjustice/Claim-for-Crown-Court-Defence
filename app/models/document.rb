@@ -26,7 +26,6 @@
 class Document < ApplicationRecord
   include DocumentAttachment
   include Duplicable
-  include CheckSummable
 
   belongs_to :external_user
   belongs_to :creator, class_name: 'ExternalUser'
@@ -34,8 +33,6 @@ class Document < ApplicationRecord
 
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
-
-  # before_save :populate_checksum
 
   validate :documents_count
 

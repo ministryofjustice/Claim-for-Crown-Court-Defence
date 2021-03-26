@@ -26,31 +26,6 @@
 require 'rails_helper'
 require 'fileutils'
 
-TEMPFILE_NAME = File.join(Rails.root, 'tmp', 'document_spec', 'test.txt')
-
-RSpec.shared_context 'add active storage record assets for documents' do
-  before do
-    ActiveStorage::Attachment.connection.execute(<<~SQL)
-      INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-        VALUES ('test_key_original', 'test_file.doc', 100, '{}', 100, 'abc==', NOW())
-    SQL
-    ActiveStorage::Attachment.connection.execute(<<~SQL)
-      INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-        VALUES ('document', 'Document', #{document.id}, LASTVAL(), NOW())
-    SQL
-    ActiveStorage::Attachment.connection.execute(<<~SQL)
-      INSERT INTO active_storage_blobs (key, filename, content_type, metadata, byte_size, checksum, created_at)
-        VALUES ('test_key_preview', 'test_file.doc.pdf', 100, '{}', 100, 'abc==', NOW())
-    SQL
-    ActiveStorage::Attachment.connection.execute(<<~SQL)
-      INSERT INTO active_storage_attachments (name, record_type, record_id, blob_id, created_at)
-        VALUES ('converted_preview_document', 'Document', #{document.id}, LASTVAL(), NOW())
-    SQL
-
-    allow(ActiveStorage::Blob).to receive(:service).and_return(service)
-  end
-end
-
 RSpec.describe Document, type: :model do
   it { is_expected.to belong_to(:external_user) }
   it { is_expected.to belong_to(:creator).class_name('ExternalUser') }
@@ -79,10 +54,9 @@ RSpec.describe Document, type: :model do
 
     let(:document) { build :document, trait, claim: claim, form_id: claim.form_id }
     let(:claim) { create :claim }
+    let(:trait) { :pdf }
 
     context 'with a pdf document' do
-      let(:trait) { :pdf }
-
       before { document_save }
 
       it 'creates the preview as a copy of the original' do
@@ -117,8 +91,6 @@ RSpec.describe Document, type: :model do
     end
 
     context 'when the maximum document limit is reached' do
-      let(:trait) { :pdf }
-
       before do
         allow(Settings).to receive(:max_document_upload_count).and_return 2
         create_list :document, 2, claim: claim, form_id: claim.form_id
@@ -129,6 +101,50 @@ RSpec.describe Document, type: :model do
       it 'reports a sensible error' do
         document_save
         expect(document.errors[:document]).to include('Total documents exceed maximum of 2. This document has not been uploaded.')
+      end
+    end
+
+    context 'when allowing for Paperclip rollback' do
+      before { document_save }
+
+      it 'sets document_file_name' do
+        expect(document.document_file_name).to eq document.document.filename.to_s
+      end
+
+      it 'sets document_file_size' do
+        expect(document.document_file_size).to eq document.document.byte_size
+      end
+
+      it 'sets document_content_type' do
+        expect(document.document_content_type).to eq document.document.content_type
+      end
+
+      it 'sets document_updated_at' do
+        expect(document.document_updated_at).not_to be_nil
+      end
+
+      it 'sets as_document_checksum' do
+        expect(document.as_document_checksum).to eq document.document.checksum
+      end
+
+      it 'sets converted_preview_document_file_name' do
+        expect(document.converted_preview_document_file_name).to eq document.converted_preview_document.filename.to_s
+      end
+
+      it 'sets converted_preview_document_file_size' do
+        expect(document.converted_preview_document_file_size).to eq document.converted_preview_document.byte_size
+      end
+
+      it 'sets converted_preview_document_content_type' do
+        expect(document.converted_preview_document_content_type).to eq document.converted_preview_document.content_type
+      end
+
+      it 'sets converted_preview_document_updated_at' do
+        expect(document.converted_preview_document_updated_at).not_to be_nil
+      end
+
+      it 'sets as_converted_preview_document_checksum' do
+        expect(document.as_converted_preview_document_checksum).to eq document.converted_preview_document.checksum
       end
     end
   end
@@ -180,82 +196,6 @@ RSpec.describe Document, type: :model do
   #
   #   it 'is a checksum' do
   #     expect(document.as_converted_preview_document_checksum).to match(/==$/)
-  #   end
-  # end
-
-  # describe '#document#path' do
-  #   subject { document.document.path }
-  #
-  #   let(:document) do
-  #     create :document, document_file_name: 'test_file.doc', converted_preview_document_file_name: 'test_file.doc.pdf'
-  #   end
-  #   let(:id_partition) { format('%09d', document.id).scan(/\d{3}/).join('/') }
-  #   let(:filename) { document.document_file_name }
-  #
-  #   before do
-  #     stub_const 'PAPERCLIP_STORAGE_PATH', 'public/assets/test/images/:id_partition/:filename'
-  #   end
-  #
-  #   context 'without an Active Storage attachment' do
-  #     it { is_expected.to eq "public/assets/test/images/#{id_partition}/#{filename}" }
-  #   end
-  #
-  #   context 'with an Active Storage attachment in disk storage' do
-  #     require 'active_storage/service/disk_service'
-  #
-  #     include_context 'add active storage record assets for documents' do
-  #       let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
-  #     end
-  #
-  #     it { is_expected.to eq '/root/te/st/test_key_original' }
-  #   end
-  #
-  #   context 'with an Active Storage attachment in S3' do
-  #     require 'active_storage/service/s3_service'
-  #
-  #     include_context 'add active storage record assets for documents' do
-  #       let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
-  #     end
-  #
-  #     it { is_expected.to eq 'test_key_original' }
-  #   end
-  # end
-
-  # describe '#converted_preview_document#path' do
-  #   subject { document.converted_preview_document.path }
-  #
-  #   let(:document) do
-  #     create :document, document_file_name: 'test_file.doc', converted_preview_document_file_name: 'test_file.doc.pdf'
-  #   end
-  #   let(:id_partition) { format('%09d', document.id).scan(/\d{3}/).join('/') }
-  #   let(:filename) { document.converted_preview_document_file_name }
-  #
-  #   before do
-  #     stub_const 'PAPERCLIP_STORAGE_PATH', 'public/assets/test/images/:id_partition/:filename'
-  #   end
-  #
-  #   context 'without an Active Storage attachment' do
-  #     it { is_expected.to eq "public/assets/test/images/#{id_partition}/#{filename}" }
-  #   end
-  #
-  #   context 'with an Active Storage attachment in disk storage' do
-  #     require 'active_storage/service/disk_service'
-  #
-  #     include_context 'add active storage record assets for documents' do
-  #       let(:service) { ActiveStorage::Service::DiskService.new(root: '/root/') }
-  #     end
-  #
-  #     it { is_expected.to eq '/root/te/st/test_key_preview' }
-  #   end
-  #
-  #   context 'with an Active Storage attachment in S3' do
-  #     require 'active_storage/service/s3_service'
-  #
-  #     include_context 'add active storage record assets for documents' do
-  #       let(:service) { ActiveStorage::Service::S3Service.new(bucket: 'bucket') }
-  #     end
-  #
-  #     it { is_expected.to eq 'test_key_preview' }
   #   end
   # end
 end

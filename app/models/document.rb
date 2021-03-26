@@ -45,68 +45,16 @@ class Document < ApplicationRecord
   end
 
   def save_and_verify
+    # For backward compatiblity
+    # Previously there was a step that marked documents as 'verified' and only these documents are visible to the user.
+    # Therefore this flag needs to be set or the documents will not appear. The scope in BaseClaim in the
+    # `has_many :documents` clause cannot be remove or documents that were previously marked as unverified would begin
+    # to appear. Over time, however, the number of these documents will be reduced and so this field can be removed.
     self.verified = true
     save
-    # result = save
-    # if result
-    #   result = verify_and_log
-    # else
-    #   transform_cryptic_paperclip_error
-    #   log_save_error
-    # end
-    # result
   end
 
-  # def verify_and_log
-  #   generate_log_stuff(:info, 'save', 'Document saved')
-  #   if verify_file_exists
-  #     generate_log_stuff(:info, 'verify', 'Document verified')
-  #     result = true
-  #   else
-  #     generate_log_stuff(:error, 'verify_fail', 'Unable to verify document')
-  #     errors[:document] << 'Unable to save the file - please retry' if verified_file_size&.zero?
-  #     result = false
-  #   end
-  #   result
-  # end
-
-  # def log_save_error
-  #   generate_log_stuff(:error, 'save_fail', 'Unable to save document')
-  # end
-
-  # def populate_checksum
-  #   add_checksum(:document)
-  #   add_checksum(:converted_preview_document)
-  # end
-
   private
-
-  # def generate_log_stuff(type, action, message)
-  #   LogStuff.send(type,
-  #                 :paperclip,
-  #                 action: action,
-  #                 document_id: id,
-  #                 claim_id: claim_id,
-  #                 filename: document_file_name, form_id: form_id) { message }
-  # end
-
-  # def verify_file_exists
-  #   begin
-  #     reloaded_file = reload_saved_file
-  #     self.verified_file_size = File.stat(reloaded_file).size
-  #     self.file_path = document.path
-  #     self.verified = verified_file_size.positive?
-  #     save!
-  #   rescue StandardError => e
-  #     errors[:document] << e.message
-  #     self.verified = false
-  #   end
-  #   verified
-  # end
-
-  # def reload_saved_file
-  #   Paperclip.io_adapters.for(document).path
-  # end
 
   def documents_count
     return true if form_id.nil?
@@ -115,10 +63,4 @@ class Document < ApplicationRecord
     return unless count >= max_doc_count
     errors.add(:document, "Total documents exceed maximum of #{max_doc_count}. This document has not been uploaded.")
   end
-
-  # def transform_cryptic_paperclip_error
-  #   return unless errors[:document].include?('has contents that are not what they are reported to be')
-  #   errors[:document].delete('has contents that are not what they are reported to be')
-  #   errors[:document] << 'The contents of the file do not match the file extension'
-  # end
 end

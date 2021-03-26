@@ -130,90 +130,16 @@ RSpec.describe Document, type: :model do
         document_save
         expect(document.errors[:document]).to include('Total documents exceed maximum of 2. This document has not been uploaded.')
       end
-
     end
   end
 
-  # describe '#save_and_verify' do
-  #   let(:document) { build :document }
-  #
-  #   after { FileUtils.rm TEMPFILE_NAME if File.exist? TEMPFILE_NAME }
-  #
-  #   context 'save without verification' do
-  #     it 'has not recorded verified filesize, path and is not verified' do
-  #       document.save!
-  #       expect(document.verified_file_size).to be_nil
-  #       expect(document.file_path).to be_blank
-  #       expect(document.verified).to be false
-  #     end
-  #   end
-  #
-  #   context 'with success' do
-  #     it 'records filesize, path and verified in the record' do
-  #       allow(LogStuff).to receive(:info).exactly(2)
-  #
-  #       expect(document.save_and_verify).to be true
-  #       expect(document.verified_file_size).to eq 49993
-  #       expect(document.file_path).not_to be_blank
-  #       expect(document.verified).to be true
-  #       expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-  #       expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'verify', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-  #     end
-  #   end
-  #
-  #   context 'with failure to verify' do
-  #     it 'marks the document as unverified' do
-  #       file_path = make_empty_temp_file
-  #       allow(document).to receive(:reload_saved_file).and_return(file_path)
-  #
-  #       allow(LogStuff).to receive(:info).exactly(1)
-  #       allow(LogStuff).to receive(:error).exactly(1)
-  #
-  #       expect(document.save_and_verify).to be false
-  #       expect(document.verified_file_size).to eq 0
-  #       expect(document.file_path).not_to be_blank
-  #       expect(document.verified).to be false
-  #
-  #       expect(LogStuff).to have_received(:info).exactly(1).with(:paperclip, action: 'save', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-  #       expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-  #     end
-  #   end
-  #
-  #   context 'with failure to save' do
-  #     it 'logs and returns false' do
-  #       allow(LogStuff).to receive(:error).exactly(1)
-  #       allow(document).to receive(:save).and_return(false)
-  #
-  #       expect(document.save_and_verify).to be false
-  #       expect(document.verified_file_size).to eq nil
-  #       expect(document.file_path).to be_blank
-  #       expect(document.verified).to be false
-  #       expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'save_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-  #     end
-  #   end
-  #
-  #   context 'with exception trying to verify' do
-  #     it 'populates the error hash' do
-  #       allow(LogStuff).to receive(:error).exactly(1)
-  #       allow(document).to receive(:save).and_return(true)
-  #       expect(document).to receive(:reload_saved_file).and_raise(RuntimeError, 'my error message')
-  #
-  #       expect(document.save_and_verify).to be false
-  #       expect(document.verified_file_size).to eq nil
-  #       expect(document.file_path).to be_blank
-  #       expect(document.verified).to be false
-  #       expect(LogStuff).to have_received(:error).exactly(1).with(:paperclip, action: 'verify_fail', document_id: document.id, claim_id: document.claim_id, filename: document.document_file_name, form_id: document.form_id)
-  #       expect(document.errors[:document]).to match_array(['my error message'])
-  #     end
-  #   end
-  #
-  #   def make_empty_temp_file
-  #     require 'fileutils'
-  #     FileUtils.mkdir_p File.dirname(TEMPFILE_NAME)
-  #     file_paths = FileUtils.touch TEMPFILE_NAME
-  #     file_paths.first
-  #   end
-  # end
+  describe '#save_and_verify' do
+    subject(:save_and_verify) { document.save_and_verify }
+
+    let(:document) { build :document }
+
+    it { expect { save_and_verify }.to change(document, :verified).to true }
+  end
 
   # describe '#copy_from' do
   #   let(:document) { build(:document) }

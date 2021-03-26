@@ -57,24 +57,6 @@ RSpec.describe DocumentsController, type: :controller do
     end
   end
 
-  describe 'GET #show' do
-    let(:document) { create(:document, external_user_id: external_user.id) }
-
-    it 'downloads a preview of the document' do
-      get :show, params: { id: document.id }
-      expect(response.body).to eq binread(document.converted_preview_document.path)
-    end
-  end
-
-  describe 'GET #download' do
-    let(:document) { create(:document, external_user_id: external_user.id) }
-
-    it 'downloads the document' do
-      get :show, params: { id: document.id }
-      expect(response.body).to eq binread(document.document.path)
-    end
-  end
-
   describe 'POST #create' do
     let(:params) do
       {
@@ -118,21 +100,6 @@ RSpec.describe DocumentsController, type: :controller do
         post :create, params: { document: params }
         expect(JSON.parse(response.body)).to have_key('error')
       end
-    end
-  end
-
-  describe 'GET #download' do
-    it 'downloads the file' do
-      file = Tempfile.new('foo')
-      file.write('foo')
-      file.close
-      document = create :document, external_user: external_user
-      paperclip_adapters = double(Paperclip::AdapterRegistry)
-      paperclip_document = double(Paperclip::Attachment)
-      expect(paperclip_document).to receive(:path).at_least(1).and_return(file.path)
-      expect(paperclip_adapters).to receive(:for).at_least(1).with(instance_of(Paperclip::Attachment)).and_return(paperclip_document)
-      expect(Paperclip).to receive(:io_adapters).at_least(1).and_return(paperclip_adapters)
-      get :download, params: { id: document.id }
     end
   end
 

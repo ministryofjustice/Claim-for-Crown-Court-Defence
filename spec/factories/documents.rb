@@ -34,6 +34,8 @@ FactoryBot.define do
     claim
     external_user
 
+    trait :pdf # default
+
     trait :docx do
       document do
         Rack::Test::UploadedFile.new(

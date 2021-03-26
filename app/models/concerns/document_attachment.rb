@@ -8,6 +8,8 @@ module DocumentAttachment
     has_one_attached :converted_preview_document
     has_one_attached :document
 
+    before_save :create_preview_document
+
     validates :converted_preview_document, content_type: 'application/pdf'
     validates :document,
               presence: true,
@@ -27,23 +29,42 @@ module DocumentAttachment
               ]
   end
 
-  # def generate_pdf_tmpfile
-  #   if File.extname(document_file_name).casecmp('.pdf').zero?
-  #     self.pdf_tmpfile = document # if original document is PDF, make tmpfile from original doc
-  #   else
-  #     convert_and_assign_document
-  #   end
-  # end
+  private
 
-  # def convert_and_assign_document
-  #   # Libreconvert performs both actions in one call
-  #   self.pdf_tmpfile = File.new("#{Dir.mktmpdir}/#{document_file_name}.pdf", 'wb+')
-  #   Libreconv.convert(Paperclip.io_adapters.for(document).path, pdf_tmpfile) # Libreoffice exe must be in PATH
-  # rescue IOError
-  #   nil # raised if Libreoffice exe is not in PATH
-  # end
+  def create_preview_document
+    if document.content_type == 'application/pdf'
+      converted_preview_document.attach(document.blob)
+    else
+      convert_document_to_pdf
+    end
+  end
 
-  # def add_converted_preview_document
-  #   self.converted_preview_document = pdf_tmpfile if converted_preview_document_file_name.nil?
-  # end
+  def convert_document_to_pdf
+    # This is an attempt to recreate how the preview PDF was created with
+    # Paperclip. However, it is accessing the original file in an
+    # undocumented way and so may change with future versions of Rails. It
+    # is done in this way because the file is not accessible to Active
+    # Storage until after the `save` but this conversion is being done
+    # before.
+    #
+    # Possible alternatives are:
+    #
+    # 1) Convert the file in a background job.
+    # 2) Use the built-in Active Storage Previewer functionality, although
+    #    this may not behave in exactly the same way.
+    #
+    # Either of these would have the advantage of reducing the response time
+    # when a new file is added.
+
+    original = document.record.attachment_changes['document'].attachable.tempfile.path
+    pdf_tmpfile = Tempfile.new
+    Libreconv.convert(original, pdf_tmpfile)
+    converted_preview_document.attach(
+      io: pdf_tmpfile,
+      filename: "#{document.filename}.pdf",
+      content_type: 'application/pdf'
+    )
+  rescue IOError
+    nil # raised if Libreoffice exe is not in PATH
+  end
 end

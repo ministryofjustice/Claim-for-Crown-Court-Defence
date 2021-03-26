@@ -105,111 +105,47 @@ RSpec.describe Document, type: :model do
     # end
   end
 
-  context 'storage' do
-    context 'on S3' do
-      subject { build(:document) }
-      # before { allow(subject).to receive(:generate_pdf_tmpfile).and_return(nil) }
+  describe '#save' do
+    subject(:document_save) { document.save }
 
-      it 'saves the original' do
-        stub_request(:put, %r{https\://moj-cbo-documents-test\.s3\.amazonaws\.com/.+/shorter_lorem\.docx})
-          .with(
-            headers: {
-              'Content-Type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-              'Content-Length' => '5055'
-            }
-          )
+    let(:document) { build :document, trait }
 
-        expect { subject.save! }.not_to raise_error
-      end
+    context 'with a pdf document' do
+      let(:trait) { :pdf }
 
-      it 'uses the canned S3 private ACL' do
-        stub_request(:put, /shorter_lorem\.docx/)
-          .with(headers: { 'X-Amz-Acl' => 'private' })
+      before { document_save }
 
-        expect { subject.save! }.not_to raise_error
-      end
-
-      it 'sets a no-cache header' do
-        stub_request(:put, /shorter_lorem\.docx/)
-          .with(headers: { 'x-amz-meta-Cache-Control' => 'no-cache' })
-
-        expect { subject.save! }.not_to raise_error
-      end
-
-      it 'sets an expiry header' do
-        stub_request(:put, /shorter_lorem\.docx/)
-          .with(headers: { 'Expires' => /.+/ }) # Timecop and paperclip or webmock aren't playing well together.
-
-        expect { subject.save! }.not_to raise_error
+      it 'creates the preview as a copy of the original' do
+        expect(document.converted_preview_document.checksum).to eq document.document.checksum
       end
     end
+
+    context 'with a docx document' do
+      let(:trait) { :docx }
+
+      before { document_save }
+
+      it 'creates a preview that is different from the original' do
+        expect(document.converted_preview_document.checksum).not_to eq document.document.checksum
+      end
+
+      it 'creates a preview of type application/pdf' do
+        expect(document.converted_preview_document.content_type).to eq 'application/pdf'
+      end
+
+      it 'creates a preview with name based on the orginal' do
+        expect(document.converted_preview_document.filename).to eq "#{document.document.filename}.pdf"
+      end
+    end
+
+    context 'when Libreconv fails' do
+      let(:trait) { :docx }
+
+      before { allow(Libreconv).to receive(:convert).and_raise(IOError) }
+
+      it { expect { document_save }.not_to raise_error }
+    end
   end
-
-  # describe '#generate_pdf_tmpfile' do
-  #   context 'when the original attachment is a .docx' do
-  #     subject { build(:document, :docx, document_content_type: 'application/msword') }
-  #
-  #     it 'called by a before_save hook' do
-  #       expect(subject).to receive(:generate_pdf_tmpfile)
-  #       subject.save!
-  #     end
-  #
-  #     it 'calls document#convert_and_assign_document' do
-  #       expect(subject).to receive(:convert_and_assign_document)
-  #       subject.generate_pdf_tmpfile
-  #     end
-  #   end
-  #
-  #   context 'when the original attachment is a .pdf' do
-  #     subject { build(:document) }
-  #
-  #     it 'is still called by a before_save hook' do
-  #       expect(subject).to receive(:generate_pdf_tmpfile).and_return(nil)
-  #       subject.save!
-  #     end
-  #
-  #     it 'does not call document#convert_and_assign_document' do
-  #       expect(subject).not_to receive(:convert_and_assign_document)
-  #       subject.generate_pdf_tmpfile
-  #     end
-  #
-  #     it 'assigns original document to document#pdf_tmpfile' do
-  #       subject.save!
-  #       expect(subject.pdf_tmpfile).to eq subject.document
-  #     end
-  #   end
-  # end
-
-  # describe '#convert_and_assign_document' do
-  #   subject { build(:document, :docx, document_content_type: 'application/msword') }
-  #
-  #   it 'depends on the Libreconv gem' do
-  #     expect(Libreconv).to receive(:convert)
-  #     subject.save!
-  #   end
-  #
-  #   it 'handles IOError when Libreconv is not in PATH' do
-  #     allow(Libreconv).to receive(:convert).and_raise(IOError) # raise IOError as if Libreoffice exe were not found
-  #     expect { subject.save! }.to change(described_class, :count).by(1) # error handled and document is still saved
-  #   end
-  # end
-
-  # describe '#add_converted_preview_document' do
-  #   subject { build(:document) }
-  #
-  #   before { allow(Libreconv).to receive(:convert) }
-  #
-  #   it 'is triggered by document#save' do
-  #     expect(subject).to receive(:add_converted_preview_document)
-  #     subject.save!
-  #   end
-  #
-  #   it 'assigns converted_preview_document a file' do
-  #     expect(subject.converted_preview_document.present?).to be false
-  #     subject.save!
-  #     expect(subject.converted_preview_document.present?).to be true
-  #   end
-  # end
 
   # describe '#save_and_verify' do
   #   let(:document) { build :document }

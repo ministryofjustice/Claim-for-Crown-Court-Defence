@@ -74,41 +74,11 @@ RSpec.describe Document, type: :model do
 
   it_behaves_like 'an s3 bucket'
 
-  describe 'validation' do
-    let(:claim) { create :claim }
-    let(:document) { create :document, claim: claim }
-
-    context 'total number of documents for this form_id' do
-      it 'validates that the total number of documents for this claim has not been exceeded' do
-        allow(Settings).to receive(:max_document_upload_count).and_return(2)
-        create :document, claim_id: claim.id, form_id: claim.form_id
-        create :document, claim_id: claim.id, form_id: claim.form_id
-
-        doc = build :document, claim_id: claim.id, form_id: claim.form_id
-        expect(doc).not_to be_valid
-        expect(doc.errors[:document]).to eq(['Total documents exceed maximum of 2. This document has not been uploaded.'])
-      end
-    end
-
-    # context 'cryptic error message is deciphered' do
-    #   it 'calls transform_cryptic_paperclip_error every time it is unable to save' do
-    #     expect(document).to receive(:save).and_return(false)
-    #     expect(document).to receive(:transform_cryptic_paperclip_error)
-    #     document.save_and_verify
-    #   end
-    #
-    #   it 'displays human-understandable error message' do
-    #     document.errors[:document] << 'has contents that are not what they are reported to be'
-    #     document.__send__(:transform_cryptic_paperclip_error)
-    #     expect(document.errors[:document]).to eq(['The contents of the file do not match the file extension'])
-    #   end
-    # end
-  end
-
   describe '#save' do
     subject(:document_save) { document.save }
 
-    let(:document) { build :document, trait }
+    let(:document) { build :document, trait, claim: claim, form_id: claim.form_id }
+    let(:claim) { create :claim }
 
     context 'with a pdf document' do
       let(:trait) { :pdf }
@@ -144,6 +114,23 @@ RSpec.describe Document, type: :model do
       before { allow(Libreconv).to receive(:convert).and_raise(IOError) }
 
       it { expect { document_save }.not_to raise_error }
+    end
+
+    context 'when the maximum document limit is reached' do
+      let(:trait) { :pdf }
+
+      before do
+        allow(Settings).to receive(:max_document_upload_count).and_return 2
+        create_list :document, 2, claim: claim, form_id: claim.form_id
+      end
+
+      it { expect(document).not_to be_valid }
+
+      it 'reports a sensible error' do
+        document_save
+        expect(document.errors[:document]).to include('Total documents exceed maximum of 2. This document has not been uploaded.')
+      end
+
     end
   end
 

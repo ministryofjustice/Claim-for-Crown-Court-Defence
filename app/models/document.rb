@@ -50,6 +50,11 @@ class Document < ApplicationRecord
     # to appear. Over time, however, the number of these documents will be reduced and so this field can be removed.
     self.verified = true
     save
+  rescue ActiveSupport::MessageVerifier::InvalidSignature => e
+    # This is to replecate old Paperclip behavour. The controller tests attempted to submit with an empty string instead
+    # of a file upload. This should never happen unless the front-end is broken.
+    errors.add(:base, e.message)
+    self.verified = false
   end
 
   private

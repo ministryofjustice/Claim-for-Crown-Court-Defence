@@ -57,52 +57,6 @@ RSpec.describe DocumentsController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
-    let(:params) do
-      {
-        document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf')
-      }
-    end
-
-    context 'when valid' do
-      it 'creates a document' do
-        expect {
-          post :create, params: { document: params }
-        }.to change(Document, :count).by(1)
-      end
-
-      it 'returns status created' do
-        post :create, params: { document: params }
-        expect(response.status).to eq(201)
-      end
-
-      it 'returns the created document as JSON' do
-        post :create, params: { document: params }
-        expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
-      end
-    end
-
-    context 'when invalid' do
-      let(:params) { { document: nil } }
-
-      it 'does not create a document' do
-        expect {
-          post :create, params: { document: params }
-        }.to_not change(Document, :count)
-      end
-
-      it 'returns status unprocessable entity' do
-        post :create, params: { document: params }
-        expect(response.status).to eq(422)
-      end
-
-      it 'returns errors in response' do
-        post :create, params: { document: params }
-        expect(JSON.parse(response.body)).to have_key('error')
-      end
-    end
-  end
-
   describe 'DELETE #destroy' do
     let!(:document) { create(:document, external_user_id: external_user.id) }
 

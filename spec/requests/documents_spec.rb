@@ -30,6 +30,22 @@ RSpec.shared_examples 'download evidence document' do
   end
 end
 
+RSpec.shared_examples 'failed document upload' do
+  it 'does not create a document' do
+    expect { create_document }.not_to change(Document, :count)
+  end
+
+  it 'returns status unprocessable entity' do
+    create_document
+    expect(response.status).to eq(422)
+  end
+
+  it 'returns errors in response' do
+    create_document
+    expect(JSON.parse(response.body)).to have_key('error')
+  end
+end
+
 RSpec.describe '/documents', type: :request do
   let(:external_user) { create :external_user }
   let(:user) { external_user.user }
@@ -49,6 +65,52 @@ RSpec.describe '/documents', type: :request do
       subject(:download_document) { get download_document_path(document) }
 
       let(:expected_disposition) { 'attachment' }
+    end
+  end
+
+  describe 'POST /documents' do
+    subject(:create_document) { post documents_path, params: params }
+
+    let(:params) do
+      {
+        document: {
+          document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.pdf', 'application/pdf')
+        }
+      }
+    end
+
+    context 'when the document is valid' do
+      it 'creates a document' do
+        expect { create_document }.to change(Document, :count).by(1)
+      end
+
+      it 'returns status created' do
+        create_document
+        expect(response.status).to eq(201)
+      end
+
+      it 'returns the created document as JSON' do
+        create_document
+        expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
+      end
+    end
+
+    it_behaves_like 'failed document upload' do
+      let(:params) do
+        {
+          document: {
+            document: Rack::Test::UploadedFile.new(Rails.root + 'features/examples/longer_lorem.html', 'text/html')
+          }
+        }
+      end
+    end
+
+    it_behaves_like 'failed document upload' do
+      let(:params) { { document: { document: '' } } }
+    end
+
+    it_behaves_like 'failed document upload' do
+      let(:params) { { document: { document: nil } } }
     end
   end
 end

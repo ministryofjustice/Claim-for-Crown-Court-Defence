@@ -157,45 +157,30 @@ RSpec.describe Document, type: :model do
     it { expect { save_and_verify }.to change(document, :verified).to true }
   end
 
-  # describe '#copy_from' do
-  #   let(:document) { build(:document) }
-  #   let(:new_document) { build(:document, :empty) }
-  #
-  #   before do
-  #     document.save_and_verify
-  #     new_document.save_and_verify
-  #   end
-  #
-  #   it 'copies and verifies the document data' do
-  #     expect(new_document.verified).to be_falsey
-  #     expect(new_document.verified_file_size).to eq(0)
-  #
-  #     # Wait for document creation to finish if necessary
-  #     5.times do
-  #       break if File.exist?(document.file_path)
-  #       sleep 0.1
-  #     end
-  #
-  #     new_document.copy_from(document, verify: true)
-  #     expect(new_document.verified).to be_truthy
-  #     expect(new_document.verified_file_size).not_to eq(0)
-  #     expect(new_document.verified_file_size).to eq(document.verified_file_size)
-  #   end
-  # end
+  describe '#copy_from' do
+    let(:old_document) { create :document, :with_preview, verified: true }
+    let(:new_document) { build :document, :empty }
 
-  # describe '#as_document_checksum' do
-  #   let(:document) { create(:document) }
-  #
-  #   it 'is a checksum' do
-  #     expect(document.as_document_checksum).to match(/==$/)
-  #   end
-  # end
+    before { new_document.copy_from(old_document) }
 
-  # describe '#as_converted_preview_document_checksum' do
-  #   let(:document) { create(:document) }
-  #
-  #   it 'is a checksum' do
-  #     expect(document.as_converted_preview_document_checksum).to match(/==$/)
-  #   end
-  # end
+    it 'copies the document from the old document' do
+      expect(new_document.document.blob).to eq old_document.document.blob
+    end
+
+    it 'copies the converted preview document from the old document' do
+      expect(new_document.converted_preview_document.blob).to eq old_document.converted_preview_document.blob
+    end
+
+    it 'makes the new document verified' do
+      expect(new_document.verified).to be_truthy
+    end
+
+    context 'when the old document is not verified' do
+      let(:old_document) { create :document, :with_preview, verified: false }
+
+      it 'makes the new document not verified' do
+        expect(new_document.verified).to be_falsey
+      end
+    end
+  end
 end

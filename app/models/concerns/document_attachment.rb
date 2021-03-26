@@ -34,6 +34,8 @@ module DocumentAttachment
   private
 
   def create_preview_document
+    return if converted_preview_document.attached?
+
     if document.content_type == 'application/pdf'
       converted_preview_document.attach(document.blob)
     else

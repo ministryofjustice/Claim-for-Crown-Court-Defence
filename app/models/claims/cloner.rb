@@ -90,7 +90,7 @@ module Claims::Cloner
         exclude_association :document
 
         customize(lambda do |original_doc, new_doc|
-          new_doc.copy_from(original_doc, verify: true)
+          new_doc.copy_from(original_doc)
         end)
       end
     end

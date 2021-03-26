@@ -45,6 +45,21 @@ FactoryBot.define do
       end
     end
 
+    trait :with_preview do
+      document do
+        Rack::Test::UploadedFile.new(
+          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
+          'application/msword'
+        )
+      end
+      converted_preview_document do
+        Rack::Test::UploadedFile.new(
+          File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
+          'application/pdf'
+        )
+      end
+    end
+
     trait :unverified do
       verified_file_size { 0 }
       verified { false }

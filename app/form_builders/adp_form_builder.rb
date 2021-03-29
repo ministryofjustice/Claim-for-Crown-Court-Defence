@@ -1,5 +1,9 @@
 class AdpFormBuilder < ActionView::Helpers::FormBuilder
+  delegate :content_tag, :tag, :safe_join, :link_to, :capture, to: :@template
+
   include ActionView::Helpers::FormTagHelper
+  include ActionView::Context
+  include GOVUKDesignSystemFormBuilder::Builder
 
   def adp_text_field(method, options = {})
     atf = AdpTextField.new(self, method, options)

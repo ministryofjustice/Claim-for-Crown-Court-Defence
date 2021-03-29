@@ -24,7 +24,6 @@
 #
 
 class Document < ApplicationRecord
-  include DocumentAttachment
   include Duplicable
 
   belongs_to :external_user
@@ -92,7 +91,7 @@ class Document < ApplicationRecord
   end
 
   def create_preview_document
-    convert_document from: document, to: converted_preview_document
+    DocumentConverterService.new(document).to(converted_preview_document)
   end
 
   def populate_paperclip_for_document

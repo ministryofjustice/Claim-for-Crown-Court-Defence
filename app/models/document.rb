@@ -25,6 +25,7 @@
 
 class Document < ApplicationRecord
   include Duplicable
+  include PaperclipRollback
 
   belongs_to :external_user
   belongs_to :creator, class_name: 'ExternalUser'
@@ -56,8 +57,8 @@ class Document < ApplicationRecord
   delegate :provider_id, to: :external_user
 
   before_save :create_preview_document
-  before_save :populate_paperclip_for_document
-  before_save :populate_paperclip_for_converted_preview_document
+  before_save -> { populate_paperclip_for :document }
+  before_save -> { populate_paperclip_for :converted_preview_document }
 
   def copy_from(other)
     document.attach(other.document.blob)
@@ -93,26 +94,4 @@ class Document < ApplicationRecord
   def create_preview_document
     DocumentConverterService.new(document).to(converted_preview_document)
   end
-
-  def populate_paperclip_for_document
-    self.document_file_name = document.filename
-    self.document_file_size = document.byte_size
-    self.document_content_type = document.content_type
-    self.document_updated_at = Time.zone.now
-    self.as_document_checksum = document.checksum
-  end
-
-  # High ABC Size due to setting Paperclip fields for possible revert.
-  # This 'rubocop:disable' can be removed when the Paperclip fields are removed.
-  # rubocop:disable Metrics/AbcSize
-  def populate_paperclip_for_converted_preview_document
-    return unless converted_preview_document.attached?
-
-    self.converted_preview_document_file_name = converted_preview_document.filename
-    self.converted_preview_document_file_size = converted_preview_document.byte_size
-    self.converted_preview_document_content_type = converted_preview_document.content_type
-    self.converted_preview_document_updated_at = Time.zone.now
-    self.as_converted_preview_document_checksum = converted_preview_document.checksum
-  end
-  # rubocop:enable Metrics/AbcSize
 end

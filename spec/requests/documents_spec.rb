@@ -52,6 +52,36 @@ RSpec.describe '/documents', type: :request do
 
   before { sign_in user }
 
+  describe 'GET /documents' do
+    subject(:index_documents) { get documents_path, params: params }
+
+    let(:params) { {} }
+
+    context 'when form_id not present' do
+      before { index_documents }
+
+      it 'returns an empty JSON set' do
+        expect(response.body).to eq([].to_json)
+      end
+    end
+
+    context 'when form_id present' do
+      let(:params) { { form_id: form_id } }
+      let(:form_id) { SecureRandom.uuid }
+      let!(:matching_documents) { create_list(:document, 2, form_id: form_id) }
+
+      before do
+        create_list(:document, 1, form_id: SecureRandom.uuid)
+        index_documents
+      end
+
+      it 'returns documents matching the form_id' do
+        ids = JSON.parse(response.body).map { |h| h['id'] }
+        expect(ids).to match_array(matching_documents.map(&:id))
+      end
+    end
+  end
+
   describe 'GET /documents/:id' do
     it_behaves_like 'download evidence document' do
       subject(:show_document) { get document_path(document) }
@@ -111,6 +141,25 @@ RSpec.describe '/documents', type: :request do
 
     it_behaves_like 'failed document upload' do
       let(:params) { { document: { document: nil } } }
+    end
+  end
+
+  describe 'DELETE /documents/:id' do
+    subject(:delete_document) { delete document_path(document, format: :json) }
+
+    let!(:document) { create(:document, external_user_id: external_user.id) }
+
+    it 'destroys the document' do
+      expect { delete_document }.to change(Document, :count).by(-1)
+    end
+
+    context 'when unable to destroy a document' do
+      before do
+        allow(Document).to receive(:find).with(document.to_param).and_return(document)
+        allow(document).to receive(:destroy).and_return(false)
+      end
+
+      it { expect { delete_document }.not_to change(Document, :count) }
     end
   end
 end

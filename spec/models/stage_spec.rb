@@ -10,7 +10,7 @@ RSpec.describe Stage do
     }
   }
 
-  subject(:stage) { described_class.new(options) }
+  subject(:stage) { described_class.new(**options) }
 
   describe '#name' do
     specify { expect(stage.name).to eq(stage_name) }

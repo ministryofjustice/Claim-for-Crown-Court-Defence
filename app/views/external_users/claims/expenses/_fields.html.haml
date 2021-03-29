@@ -13,7 +13,7 @@
   .form-section
     = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class: 'govuk-button app-button--blue', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.js-cocoon-expenses', module: 'govuk-button' }, role: 'button', draggable: 'false'
 
-    = govuk_link_button_secondary(t('.duplicate'), class: 'fx-duplicate-expense')
+    = govuk_link_button_secondary(t('.duplicate'), nil, class: 'fx-duplicate-expense')
 
   .form-section.fx-additional-info
     = render 'external_users/claims/expenses/textarea_additional_info', f: f

@@ -47,7 +47,7 @@ module Claims
       end
 
       def unit_price
-        @prices = fee_scheme.prices(price_options)
+        @prices = fee_scheme.prices(**price_options)
         filter_third_cracked_prices
         price
       end

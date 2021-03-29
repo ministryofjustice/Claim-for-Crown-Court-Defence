@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe AdpFormBuilder do
+RSpec.describe AdpFormBuilder do
   let(:resource)  { FactoryBot.create :claim }
   let(:builder)   { AdpFormBuilder.new(:claim, resource, self, {}) }
 

@@ -65,7 +65,7 @@ module Seeds
 
           log "Updating: #{record.description}".yellow
           log "Attribute Diff: #{Hashdiff.diff(current_attributes, new_attributes)}".yellow
-          record.update_attributes!(attributes) unless dry_mode
+          record.update!(attributes) unless dry_mode
           self.total_updated += 1
         else
           log "Creating with attributes: #{attributes.inspect}"

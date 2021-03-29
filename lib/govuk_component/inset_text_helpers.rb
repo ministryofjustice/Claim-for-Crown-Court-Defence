@@ -6,7 +6,7 @@ module GovukComponent
       tag_options = prepend_classes('govuk-inset-text', tag_options)
       content = capture(&block)
 
-      tag.div(content, tag_options)
+      tag.div(content, **tag_options)
     end
   end
 end

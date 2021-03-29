@@ -20,7 +20,7 @@ module Claims
     end
 
     def clone_rejected
-      claim.clone_rejected_to_new_draft(audit_attributes)
+      claim.clone_rejected_to_new_draft(**audit_attributes)
     end
 
     def request_redetermination

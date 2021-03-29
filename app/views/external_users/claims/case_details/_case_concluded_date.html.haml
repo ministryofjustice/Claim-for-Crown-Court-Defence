@@ -1,2 +1,4 @@
-= f.gov_uk_date_field(:case_concluded_at, legend_text: t('.case_concluded_at'), legend_class: 'govuk-legend', id: 'case_concluded_at',
-    error_messages: gov_uk_date_field_error_messages(@error_presenter, :case_concluded_at))
+-# div¢case_concluded_at.case-concluded-date
+= f.govuk_date_field :case_concluded_at,
+  legend: { text: t('.case_concluded_at') },
+  hint: { text: t('.date_hint') }

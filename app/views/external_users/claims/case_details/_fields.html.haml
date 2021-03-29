@@ -2,24 +2,23 @@
   - if @claim.agfs? && @external_user.admin?
     = render partial: 'external_users/claims/case_details/advocate_fields', locals: { f: f }
 
-  = f.adp_text_field :providers_ref, label: t('common.external_user.providers_ref'), errors: @error_presenter, hint_text: t('common.external_user.providers_ref_hint')
+  = f.govuk_text_field :providers_ref,
+    label: { text: t('common.external_user.providers_ref') },
+    hint: { text: t('common.external_user.providers_ref_hint') }
 
   - if @claim.requires_case_type?
     = render partial: 'external_users/claims/case_details/case_type_fields', locals: { f: f }
 
-  #cc-court.form-group{ class: error_class?(@error_presenter, :court) ? 'form-group-error dropdown_field_with_errors' : '' }
-    %label.form-label-bold{ for: 'court' }
-      = t('.court')
-      .form-hint.xsmall.zero-vert-margin
-        = t('.court_hint')
-      = validation_error_message(@error_presenter, :court)
+  = f.govuk_collection_select :court_id,
+    Court.alphabetical,
+    :id,
+    :name,
+    label: { text: t('.court') },
+    hint: { text:t('.court_hint') }
 
-    = f.collection_select :court_id, Court.alphabetical, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control fx-autocomplete', id: 'court', 'aria-label': t('.court') }
-
-  = f.adp_text_field :case_number,
-    label: t('.case_number_or_urn'),
-    hint_text: t('.case_number_or_urn_hint'),
-    errors: @error_presenter
+  = f.govuk_text_field :case_number,
+    label: { text: t('.case_number_or_urn') },
+    hint: { text: t('.case_number_or_urn_hint') }
 
   = render partial: 'external_users/claims/case_details/transfer_court_question_fields', locals: { f: f }
 

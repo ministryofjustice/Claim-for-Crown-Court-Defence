@@ -14,20 +14,40 @@ module GoogleAnalytics
         end
 
         context 'with usage tracking accepted' do
-          %w(staging production).each do |host|
-            it "returns true when host is #{host}" do
-              allow(RailsHost).to receive(:env).and_return(host)
-              allow(described_class).to receive(:usage_name).and_return('true')
+          before { allow(described_class).to receive(:usage_name).and_return('true') }
+
+          context 'when on staging' do
+            before { allow(RailsHost).to receive(:env).and_return('staging') }
+
+            it 'returns true' do
+              expect(described_class.enabled?).to be_truthy
+            end
+          end
+
+          context 'when on production' do
+            before { allow(RailsHost).to receive(:env).and_return('production') }
+
+            it 'returns true' do
               expect(described_class.enabled?).to be_truthy
             end
           end
         end
 
         context 'with usage tracking rejected' do
-          %w(staging production).each do |host|
-            it "returns false when host is #{host}" do
-              allow(RailsHost).to receive(:env).and_return(host)
-              allow(described_class).to receive(:usage_name).and_return('false')
+          before { allow(described_class).to receive(:usage_name).and_return('false') }
+
+          context 'when on staging' do
+            before { allow(RailsHost).to receive(:env).and_return('staging') }
+
+            it 'returns false' do
+              expect(described_class.enabled?).to be_falsy
+            end
+          end
+
+          context 'when on production' do
+            before { allow(RailsHost).to receive(:env).and_return('production') }
+
+            it 'returns false' do
               expect(described_class.enabled?).to be_falsy
             end
           end

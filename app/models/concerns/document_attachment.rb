@@ -1,49 +1,19 @@
 module DocumentAttachment
   extend ActiveSupport::Concern
-  include S3Headers
-
-  included do
-    attr_accessor :pdf_tmpfile
-
-    has_one_attached :converted_preview_document
-    has_one_attached :document
-
-    before_save :create_preview_document
-    before_save :populate_paperclip_for_document
-    before_save :populate_paperclip_for_converted_preview_document
-
-    validates :converted_preview_document, content_type: 'application/pdf'
-    validates :document,
-              presence: true,
-              size: { less_than: 20.megabytes },
-              content_type: %w[
-                application/pdf
-                application/msword
-                application/vnd.openxmlformats-officedocument.wordprocessingml.document
-                application/vnd.oasis.opendocument.text
-                text/rtf
-                application/rtf
-                image/jpeg
-                image/png
-                image/tiff
-                image/bmp
-                image/x-bitmap
-              ]
-  end
 
   private
 
-  def create_preview_document
-    return if converted_preview_document.attached?
+  def convert_document from:, to:
+    return if to.attached?
 
-    if document.content_type == 'application/pdf'
-      converted_preview_document.attach(document.blob)
+    if from.content_type == 'application/pdf'
+      to.attach(from.blob)
     else
-      convert_document_to_pdf
+      convert_document_to_pdf from: from, to: to
     end
   end
 
-  def convert_document_to_pdf
+  def convert_document_to_pdf from:, to:
     # This is an attempt to recreate how the preview PDF was created with
     # Paperclip. However, it is accessing the original file in an
     # undocumented way and so may change with future versions of Rails. It
@@ -60,37 +30,15 @@ module DocumentAttachment
     # Either of these would have the advantage of reducing the response time
     # when a new file is added.
 
-    original = document.record.attachment_changes['document'].attachable.tempfile.path
+    original = from.record.attachment_changes['document'].attachable.tempfile.path
     pdf_tmpfile = Tempfile.new
     Libreconv.convert(original, pdf_tmpfile)
-    converted_preview_document.attach(
+    to.attach(
       io: pdf_tmpfile,
-      filename: "#{document.filename}.pdf",
+      filename: "#{from.filename}.pdf",
       content_type: 'application/pdf'
     )
   rescue IOError
     nil # raised if Libreoffice exe is not in PATH
   end
-
-  def populate_paperclip_for_document
-    self.document_file_name = document.filename
-    self.document_file_size = document.byte_size
-    self.document_content_type = document.content_type
-    self.document_updated_at = Time.zone.now
-    self.as_document_checksum = document.checksum
-  end
-
-  # High ABC Size due to setting Paperclip fields for possible revert.
-  # This 'rubocop:disable' can be removed when the Paperclip fields are removed.
-  # rubocop:disable Metrics/AbcSize
-  def populate_paperclip_for_converted_preview_document
-    return unless converted_preview_document.attached?
-
-    self.converted_preview_document_file_name = converted_preview_document.filename
-    self.converted_preview_document_file_size = converted_preview_document.byte_size
-    self.converted_preview_document_content_type = converted_preview_document.content_type
-    self.converted_preview_document_updated_at = Time.zone.now
-    self.as_converted_preview_document_checksum = converted_preview_document.checksum
-  end
-  # rubocop:enable Metrics/AbcSize
 end

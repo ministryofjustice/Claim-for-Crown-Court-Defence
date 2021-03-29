@@ -47,8 +47,6 @@ RSpec.describe Document, type: :model do
   it { is_expected.to have_one_attached(:converted_preview_document) }
   it { is_expected.to validate_content_type_of(:converted_preview_document).allowing('application/pdf') }
 
-  it_behaves_like 'an s3 bucket'
-
   describe '#save' do
     subject(:document_save) { document.save }
 

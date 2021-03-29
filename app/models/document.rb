@@ -31,10 +31,34 @@ class Document < ApplicationRecord
   belongs_to :creator, class_name: 'ExternalUser'
   belongs_to :claim, class_name: 'Claim::BaseClaim'
 
+  has_one_attached :converted_preview_document
+  has_one_attached :document
+
+  validate :documents_count
+  validates :converted_preview_document, content_type: 'application/pdf'
+  validates :document,
+            presence: true,
+            size: { less_than: 20.megabytes },
+            content_type: %w[
+              application/pdf
+              application/msword
+              application/vnd.openxmlformats-officedocument.wordprocessingml.document
+              application/vnd.oasis.opendocument.text
+              text/rtf
+              application/rtf
+              image/jpeg
+              image/png
+              image/tiff
+              image/bmp
+              image/x-bitmap
+            ]
+
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
 
-  validate :documents_count
+  before_save :create_preview_document
+  before_save :populate_paperclip_for_document
+  before_save :populate_paperclip_for_converted_preview_document
 
   def copy_from(other)
     document.attach(other.document.blob)
@@ -66,4 +90,30 @@ class Document < ApplicationRecord
     return unless count >= max_doc_count
     errors.add(:document, "Total documents exceed maximum of #{max_doc_count}. This document has not been uploaded.")
   end
+
+  def create_preview_document
+    convert_document from: document, to: converted_preview_document
+  end
+
+  def populate_paperclip_for_document
+    self.document_file_name = document.filename
+    self.document_file_size = document.byte_size
+    self.document_content_type = document.content_type
+    self.document_updated_at = Time.zone.now
+    self.as_document_checksum = document.checksum
+  end
+
+  # High ABC Size due to setting Paperclip fields for possible revert.
+  # This 'rubocop:disable' can be removed when the Paperclip fields are removed.
+  # rubocop:disable Metrics/AbcSize
+  def populate_paperclip_for_converted_preview_document
+    return unless converted_preview_document.attached?
+
+    self.converted_preview_document_file_name = converted_preview_document.filename
+    self.converted_preview_document_file_size = converted_preview_document.byte_size
+    self.converted_preview_document_content_type = converted_preview_document.content_type
+    self.converted_preview_document_updated_at = Time.zone.now
+    self.as_converted_preview_document_checksum = converted_preview_document.checksum
+  end
+  # rubocop:enable Metrics/AbcSize
 end

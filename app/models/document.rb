@@ -56,9 +56,11 @@ class Document < ApplicationRecord
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
 
-  before_save :create_preview_document
-  before_save -> { populate_paperclip_for :document }
-  before_save -> { populate_paperclip_for :converted_preview_document }
+  before_create :create_preview_document
+  before_create -> { populate_paperclip_for :document }
+  before_create -> { populate_paperclip_for :converted_preview_document }
+
+  before_destroy :purge_attachments
 
   def copy_from(original)
     document.attach(original.document.blob)
@@ -93,5 +95,10 @@ class Document < ApplicationRecord
 
   def create_preview_document
     DocumentConverterService.new(document, converted_preview_document).call
+  end
+
+  def purge_attachments
+    document.purge
+    converted_preview_document.purge
   end
 end

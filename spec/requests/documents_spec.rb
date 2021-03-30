@@ -147,19 +147,23 @@ RSpec.describe '/documents', type: :request do
   describe 'DELETE /documents/:id' do
     subject(:delete_document) { delete document_path(document, format: :json) }
 
-    let!(:document) { create(:document, external_user_id: external_user.id) }
+    let!(:document) { create(:document, :with_preview, external_user_id: external_user.id) }
 
-    it 'destroys the document' do
-      expect { delete_document }.to change(Document, :count).by(-1)
-    end
+    it { expect { delete_document }.to change(Document, :count).by(-1) }
+    it { expect { delete_document }.to change(ActiveStorage::Attachment, :count).by(-2) }
+    it { expect { delete_document }.to change(ActiveStorage::Blob, :count).by(-2) }
 
-    context 'when unable to destroy a document' do
+    context 'when the ActiveStorage::Blobs are attached to another document' do
       before do
-        allow(Document).to receive(:find).with(document.to_param).and_return(document)
-        allow(document).to receive(:destroy).and_return(false)
+        other = build :document, :empty
+        other.document.attach(document.document.blob)
+        other.converted_preview_document.attach(document.converted_preview_document.blob)
+        other.save
       end
 
-      it { expect { delete_document }.not_to change(Document, :count) }
+      it { expect { delete_document }.to change(Document, :count).by(-1) }
+      it { expect { delete_document }.to change(ActiveStorage::Attachment, :count).by(-2) }
+      it { expect { delete_document }.not_to change(ActiveStorage::Blob, :count) }
     end
   end
 end

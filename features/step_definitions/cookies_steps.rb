@@ -13,12 +13,11 @@ Then('the cookie banner is not available') do
   expect(page).not_to have_selector('.govuk-cookie-banner')
 end
 
-When('I choose to turn cookies {string}') do |status|
-  option_label = "cookies.new.analytics_cookie_#{status}_label"
-  choose(I18n.t(option_label))
+When('I choose {string} cookies') do |option|
+  choose("#{option} cookies that measure my website use")
 end
 
 Then('the cookie preference is saved') do
   expect(find('.govuk-notification-banner--success').visible?).to eq true
-  expect(page).to have_content I18n.t('cookies.new.cookie_notification')
+  expect(page).to have_content 'You’ve set your cookie preferences.'
 end

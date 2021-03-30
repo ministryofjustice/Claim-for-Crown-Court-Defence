@@ -20,7 +20,7 @@ Feature: Cookies
     Given I visit "/"
     When I see the cookies banner
     And I click the link 'View cookies'
-    And I choose to turn cookies 'on'
+    And I choose 'Use' cookies
     And I click the button 'Save changes'
     Then the cookie preference is saved
     And the cookie banner is not available
@@ -29,7 +29,7 @@ Feature: Cookies
     Given I visit "/"
     When I see the cookies banner
     And I click the link 'View cookies'
-    And I choose to turn cookies 'off'
+    And I choose 'Do not use' cookies
     And I click the button 'Save changes'
     Then the cookie preference is saved
     And the cookie banner is not available

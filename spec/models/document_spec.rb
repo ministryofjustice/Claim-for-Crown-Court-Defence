@@ -64,11 +64,24 @@ RSpec.describe Document, type: :model do
 
     context 'with a docx document' do
       let(:trait) { :docx }
+      let(:checksum) { 'LmC+AfCP6+Q69vCYuAt7rQ==' } # Checksum of shorter_lorem.pdf
 
-      before { document_save }
+      before do
+        allow(Libreconv).to receive(:convert).with(anything, anything) do |from_file, to_file|
+          if File.exist?(from_file)
+            File.open(File.expand_path('features/examples/shorter_lorem.pdf', Rails.root)) do |input_stream|
+              File.open(to_file, 'wb') do |output_stream|
+                IO.copy_stream(input_stream, output_stream)
+              end
+            end
+          end
+        end
 
-      it 'creates a preview that is different from the original' do
-        expect(document.converted_preview_document.checksum).not_to eq document.document.checksum
+        document_save
+      end
+
+      it 'creates a preview using Libreconv' do
+        expect(document.converted_preview_document.checksum).to eq checksum
       end
 
       it 'creates a preview of type application/pdf' do

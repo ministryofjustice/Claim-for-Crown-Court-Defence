@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe DocumentConverterService do
-  subject(:convert_document) { described_class.new(document).to(new_document) }
+  subject(:convert_document) { described_class.new(document, new_document).call }
 
   let(:document) { message.attachment }
   let(:new_document) { build(:message).attachment }

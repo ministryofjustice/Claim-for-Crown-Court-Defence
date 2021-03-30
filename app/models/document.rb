@@ -60,10 +60,10 @@ class Document < ApplicationRecord
   before_save -> { populate_paperclip_for :document }
   before_save -> { populate_paperclip_for :converted_preview_document }
 
-  def copy_from(other)
-    document.attach(other.document.blob)
-    converted_preview_document.attach(other.converted_preview_document.blob)
-    self.verified = other.verified
+  def copy_from(original)
+    document.attach(original.document.blob)
+    converted_preview_document.attach(original.converted_preview_document.blob)
+    self.verified = original.verified
   end
 
   def save_and_verify
@@ -92,6 +92,6 @@ class Document < ApplicationRecord
   end
 
   def create_preview_document
-    DocumentConverterService.new(document).to(converted_preview_document)
+    DocumentConverterService.new(document, converted_preview_document).call
   end
 end

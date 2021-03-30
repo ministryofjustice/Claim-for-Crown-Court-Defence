@@ -1,21 +1,22 @@
 class DocumentConverterService
-  def initialize(original)
+  def initialize(original, converted)
     @original = original
+    @converted = converted
   end
 
-  def to(converted)
-    return if converted.attached?
+  def call
+    return if @converted.attached?
 
     if @original.content_type == 'application/pdf'
-      converted.attach(@original.blob)
+      @converted.attach(@original.blob)
     else
-      convert_document_to_pdf from: @original, to: converted
+      convert_to_pdf from: @original, to: @converted
     end
   end
 
   private
 
-  def convert_document_to_pdf(from:, to:)
+  def convert_to_pdf(from:, to:)
     with_attached_file(from) do |original|
       pdf_tmpfile = Tempfile.new
       Libreconv.convert(original, pdf_tmpfile)

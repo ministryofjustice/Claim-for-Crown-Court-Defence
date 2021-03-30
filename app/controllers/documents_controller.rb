@@ -24,6 +24,8 @@
 #
 
 class DocumentsController < ApplicationController
+  include ActiveStorage::SetCurrent
+
   respond_to :html
   before_action :document, only: %i[show download destroy]
 

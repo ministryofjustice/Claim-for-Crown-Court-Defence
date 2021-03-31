@@ -42,6 +42,7 @@ module CookieConcern
   end
 
   def set_datatracking_usage
-    GoogleAnalytics::DataTracking.usage_name = cookies[:usage_opt_in]
+    cookie_value = ActiveModel::Type::Boolean.new.cast(cookies[:usage_opt_in])
+    GoogleAnalytics::DataTracking.usage_name = cookie_value
   end
 end

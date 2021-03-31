@@ -14,7 +14,7 @@ module GoogleAnalytics
         end
 
         context 'with usage tracking accepted' do
-          before { allow(described_class).to receive(:usage_name).and_return('true') }
+          before { allow(described_class).to receive(:usage_name).and_return(true) }
 
           context 'when on staging' do
             before { allow(RailsHost).to receive(:env).and_return('staging') }
@@ -34,7 +34,7 @@ module GoogleAnalytics
         end
 
         context 'with usage tracking rejected' do
-          before { allow(described_class).to receive(:usage_name).and_return('false') }
+          before { allow(described_class).to receive(:usage_name).and_return(false) }
 
           context 'when on staging' do
             before { allow(RailsHost).to receive(:env).and_return('staging') }
@@ -76,7 +76,7 @@ module GoogleAnalytics
     describe 'type methods' do
       before do
         allow(described_class).to receive(:adapter).and_return('Adapter')
-        allow(described_class).to receive(:usage_name).and_return('true')
+        allow(described_class).to receive(:usage_name).and_return(true)
         allow(Rails).to receive(:env).and_return('production'.inquiry)
       end
 

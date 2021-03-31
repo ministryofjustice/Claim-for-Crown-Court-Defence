@@ -38,22 +38,4 @@ FactoryBot.define do
       )
     end
   end
-
-  trait :with_docx_attachment do
-    attachment do
-      Rack::Test::UploadedFile.new(
-        File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
-        'application/msword'
-      )
-    end
-  end
-
-  trait :with_pdf_attachment do
-    attachment do
-      Rack::Test::UploadedFile.new(
-        File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
-        'application/pdf'
-      )
-    end
-  end
 end

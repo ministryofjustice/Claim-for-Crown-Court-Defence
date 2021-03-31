@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe DocumentConverterService do
-  subject(:convert_document) { described_class.new(document, new_document).call }
+  subject(:convert_document) { described_class.new(attachment, converted_attachment).call }
 
-  let(:document) { message.attachment }
-  let(:new_document) { build(:message).attachment }
+  let(:attachment) { document.document }
+  let(:converted_attachment) { document.converted_preview_document }
   let(:checksum) { 'LmC+AfCP6+Q69vCYuAt7rQ==' } # Checksum of shorter_lorem.pdf
 
   before do
@@ -20,28 +20,28 @@ RSpec.describe DocumentConverterService do
   end
 
   context 'when the source attachment is a PDF' do
-    let(:message) { build :message, :with_pdf_attachment }
+    let(:document) { build :document, :pdf }
 
     before { convert_document }
 
-    it { expect(new_document.blob).to eq document.blob }
+    it { expect(converted_attachment.blob).to eq attachment.blob }
   end
 
   context 'when the source attachment has been saved' do
-    let(:message) { create :message, :with_docx_attachment }
+    let(:document) { create :document, :docx }
 
     before { convert_document }
 
-    it { expect(new_document.content_type).to eq 'application/pdf' }
-    it { expect(new_document.checksum).to eq checksum }
+    it { expect(converted_attachment.content_type).to eq 'application/pdf' }
+    it { expect(converted_attachment.checksum).to eq checksum }
   end
 
   context 'when the source attachment is new (i.e., not saved)' do
-    let(:message) { build :message, :with_docx_attachment }
+    let(:document) { build :document, :docx }
 
     before { convert_document }
 
-    it { expect(new_document.content_type).to eq 'application/pdf' }
-    it { expect(new_document.checksum).to eq checksum }
+    it { expect(converted_attachment.content_type).to eq 'application/pdf' }
+    it { expect(converted_attachment.checksum).to eq checksum }
   end
 end

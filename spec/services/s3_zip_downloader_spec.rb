@@ -6,7 +6,7 @@ RSpec.describe S3ZipDownloader do
 
   before { create :document, :verified, claim: claim }
 
-  describe 'generate!' do
+  describe '#generate!' do
     subject(:generated_file) { s3_zip_downloader.generate! }
 
     it { is_expected.to be_a String }

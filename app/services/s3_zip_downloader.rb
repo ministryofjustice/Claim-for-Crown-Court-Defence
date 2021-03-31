@@ -14,7 +14,7 @@ class S3ZipDownloader
   private
 
   def build_zip_file(documents, bundle)
-    Dir.mktmpdir("#{@claim.case_number}-", './tmp') do |tmp_dir|
+    Dir.mktmpdir("#{@claim.case_number}-") do |tmp_dir|
       Zip::File.open(bundle, Zip::File::CREATE) do |zip_file|
         documents.map(&:document).each do |document|
           zip_file.add(document.filename, local_file(document, tmp_dir))

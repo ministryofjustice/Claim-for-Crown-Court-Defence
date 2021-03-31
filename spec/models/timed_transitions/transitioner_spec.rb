@@ -278,6 +278,8 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(Claim::BaseClaim.where(id: claim.id)).to be_empty
           end
 
+          # TODO: This tests that various associated records are deleted when the claim is deleted. To avoid confusion
+          #       these should be split up into separate tests.
           context 'with test associations' do
             before do
               claim.defendants.first.representation_orders << RepresentationOrder.new
@@ -458,6 +460,8 @@ RSpec.describe TimedTransitions::Transitioner do
             expect(Claim::BaseClaim.where(id: claim.id)).not_to be_empty
           end
 
+          # TODO: This tests that various associated records are not deleted when the claim is not deleted. This could
+          # probably be deleted or, at least, split up into separate tests to avoid confusion.
           context 'with test associations' do
             before do
               claim.defendants.first.representation_orders << RepresentationOrder.new

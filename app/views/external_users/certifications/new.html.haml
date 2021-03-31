@@ -1,114 +1,43 @@
 = content_for :page_title, flush: true do
   = t(".page_title.#{present(@claim).type_identifier}")
 
-= render partial: 'errors/error_summary', locals: { ep: @certification, error_summary: t('.error_summary') }
-
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
-= form_for @certification, builder: AdpFormBuilder, url: external_users_claim_certification_path(@claim) do |f|
-  .certification.normal
-    - if @claim.agfs?
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = form_with model: @certification, url: external_users_claim_certification_path(@claim), builder: GdsAdpFormBuilder, local: true do |f|
+      = f.govuk_error_summary
 
-      .grid-row
-        .column-two-thirds
-          %p
-            By ticking a box, you confirm you are the trial advocate (in cases where legal
-            aid was granted on or after 5 May 2015) or instructed advocate and that you
-            are entitled to submit a claim for this case. If our records show that you are
-            not the trial or instructed advocate, we may reject this claim without payment.
+      - if @claim.agfs?
+        = t('.agfs_claim_collection_html')
 
-          %p
-            Please only tick the relevant box.
+        = f.govuk_collection_radio_buttons :certification_type_id,
+          CertificationType.post_may_2015.agfs,
+          :id,
+          :name,
+          legend: { text: t('.certification_type_post_may_2015'), size: 's' }
 
-      %a#base
-      .grid-row
-        .column-two-thirds
-          %p.bold-normal
-            Final fee claims where the representation order was granted on or after 5 May 2015.
+        = f.govuk_collection_radio_buttons :certification_type_id,
+          CertificationType.pre_may_2015.agfs,
+          :id,
+          :name,
+          legend: { text: t('.certification_type_pre_may_2015'), size: 's' },
+          hint: { text: t('.certification_type_pre_may_2015_hint') }
 
-          .form-group
-            %fieldset
-              %legend
-                I certify that I am the trial advocate as:
+        = t('.agfs_claim_confirmation_info_html')
 
-              = f.collection_radio_buttons(:certification_type_id, CertificationType.post_may_2015.agfs, :id, :name, include_hidden: false) do |b|
-                .multiple-choice
-                  = b.radio_button
-                  = b.label(class: "#{to_slug(b.object.name)}") { b.object.name }
+      - elsif @claim.is_a? Claim::LitigatorClaim
+        = t('.lgfs_claim_html')
 
-      .grid-row
-        .column-two-thirds
+      - else
+        = t('.other_claim_html')
 
-          .form-group
-            %fieldset
-              %legend
-                All other claims
-                %span.form-hint
-                  I certify that I am the instructed advocate as:
+      = f.govuk_text_field :certified_by,
+        label: { text: t('.certified_by') },
+        hint: { text: t('.certified_by_prompt_text') }
 
-              = f.collection_radio_buttons(:certification_type_id, CertificationType.pre_may_2015.agfs, :id, :name, include_hidden: false) do |b|
-                .multiple-choice
-                  = b.radio_button
-                  = b.label { b.object.name }
+      = f.govuk_date_field :certification_date,
+        legend: { text: t('.date'), size: 's' }
 
-
-      .grid-row
-        .column-two-thirds
-          %p
-            All of the above options are in accordance with relevant provision of any secondary legislation arising from the Legal Aid, Sentencing and Punishment of Offenders Act 2012.
-
-          %p.bold-normal
-            You also confirm that you certify that:
-
-          %ul.confirmation-list
-            %li
-              where you’ve represented more than one defendant in a case, you have only made, and will make, one claim for
-              all those defendants together, including where one defendant has transferred representation to another advocate.
-
-            %li
-              neither you nor any other advocate has received any interim, hardship or staged payment on any case number
-              within this matter other than the one under which this claim is made - unless fully detailed (case number, court
-              and advocate supplier number under which payment was made) within this claim.
-
-            %li
-              where there is a joined indictment, you have included all matters that you as the instructed advocate have
-              dealt with within that indictment in this claim.
-
-            %li
-              where a case has been transferred from one crown court to another, no claim has been made separately for the
-              work in the first crown court and all work in both courts is included in this claim.
-
-            %li
-              this work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.
-
-            %li
-              the information you have provided is correct and that you have not made, and will not make, any other claim
-              for payment from criminal legal aid for the work you have done on this claim. You understand that you have given
-              incorrect or misleading information, your payment may be recouped.
-
-            %li
-              if you are claiming a staged payment, you will make sure that any subsequent trial advocate is advised of this
-              payment, with all necessary claim and payment details.
-
-    - elsif @claim.is_a? Claim::LitigatorClaim
-      %p
-        I certify on behalf of the payee, that the information provided is correct. This work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.
-
-    - else
-      %p
-        I certify on behalf of the payee, that the information provided is correct.
-
-    .grid-row
-      .column-one-third
-        = f.adp_text_field :certified_by,
-                          label: t('.certified_by'),
-                          hint_text: t('.certified_by_prompt_text'),
-                          input_classes: 'long-input',
-                          id: 'certified_by'
-
-      .column-one-third
-        = f.gov_uk_date_field(:certification_date, form_hint_text: '', legend_text: t('.date'), legend_class: 'govuk-legend', id: 'certification_date')
-
-    .button-holder
-      = govuk_button(t('.submit'))
-      = govuk_link_button_secondary(t('.return'), edit_polymorphic_path(@claim))
+      = f.govuk_submit t('.submit')
+      = govuk_link_button_secondary t('.return'), edit_polymorphic_path(@claim)

@@ -26,6 +26,8 @@ Before('not @no-site-prism') do
   @provider_index_page = ProviderIndexPage.new
   @new_provider_page = ProviderPage.new
   @provider_search_page = ProviderSearchPage.new
+
+  @cookie_page = CookiePage.new
 end
 
 Before do

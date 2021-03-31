@@ -26,7 +26,7 @@ RSpec.describe 'Cookies', type: :request do
       before { post '/help/cookies', params: { cookies: { analytics: true } } }
 
       it 'sets the flash message' do
-        expect(flash[:success]).to eq I18n.t('cookies.new.cookie_notification')
+        expect(flash[:success]).to eq 'You’ve set your cookie preferences.'
       end
 
       it 'sets the usage_opt_in cookie' do

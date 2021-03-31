@@ -35,7 +35,7 @@ module Claims::Calculations
              .where(claim_id: claim_id)
              .where(attribute_is_null_to_s(net_attribute))
              .pluck(vat_attribute, net_attribute)
-    { vat: values.map { |v| v.first || BigDecimal.new(0.0, 8) }.sum, net: values.map(&:last).sum }
+    { vat: values.map { |v| v.first || BigDecimal(0.0, 8) }.sum, net: values.map(&:last).sum }
   end
 
   # NOTE: This is meant to reproduce the same behaviour as totalize_for_claim
@@ -44,7 +44,7 @@ module Claims::Calculations
     records = public_send(association_name)
     records.each_with_object(vat: 0, net: 0) do |record, memo|
       next if record.marked_for_destruction? || record.public_send(net_attribute).nil?
-      memo[:vat] += (record.public_send(vat_attribute) || BigDecimal.new(0.0, 8))
+      memo[:vat] += (record.public_send(vat_attribute) || BigDecimal(0.0, 8))
       memo[:net] += record.public_send(net_attribute)
     end
   end

@@ -44,6 +44,7 @@
   },
   "resolutions": {
     "node-forge": "^0.10.0",
+    "ssri": "^8.0.1",
     "webpack": "^4.44.2"
   },
   "standard": {

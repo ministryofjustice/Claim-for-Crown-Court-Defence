@@ -1,13 +1,15 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'download evidence document' do
-  let(:document) { create :document, external_user: document_owner }
+  let(:document) { create :document, :with_preview, external_user: document_owner }
   let(:document_owner) { external_user }
   let(:test_url) { 'https://example.com/document.doc#123abc' }
 
   before do
     allow(Document).to receive(:find).with(document.to_param).and_return(document)
-    allow(document.document.blob).to receive(:service_url).and_return(test_url)
+    allow(document.document.blob).to receive(:service_url) { |args|
+      "#{test_url}?response-content-disposition=#{args[:disposition] || 'inline'}"
+    }
     allow(document.converted_preview_document.blob).to receive(:service_url) { |args|
       "#{test_url}?response-content-disposition=#{args[:disposition] || 'inline'}"
     }
@@ -83,10 +85,17 @@ RSpec.describe 'Document management', type: :request do
   end
 
   describe 'GET /documents/:id' do
-    it_behaves_like 'download evidence document' do
-      subject(:show_document) { get document_path(document) }
+    subject(:show_document) { get document_path(document) }
 
+    it_behaves_like 'download evidence document' do
       let(:expected_disposition) { 'inline' }
+    end
+
+    context 'when the preview does not exist' do
+      let(:document) { create :document, external_user: document_owner }
+      let(:document_owner) { external_user }
+
+      it { expect { show_document }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 

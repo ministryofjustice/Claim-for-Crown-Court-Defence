@@ -54,51 +54,11 @@ RSpec.describe Document, type: :model do
     let(:claim) { create :claim }
     let(:trait) { :pdf }
 
-    context 'with a pdf document' do
-      before { document_save }
+    before { ActiveJob::Base.queue_adapter = :test }
 
-      it 'creates the preview as a copy of the original' do
-        expect(document.converted_preview_document.checksum).to eq document.document.checksum
-      end
-    end
-
-    context 'with a docx document' do
-      let(:trait) { :docx }
-      let(:checksum) { 'LmC+AfCP6+Q69vCYuAt7rQ==' } # Checksum of shorter_lorem.pdf
-
-      before do
-        allow(Libreconv).to receive(:convert).with(anything, anything) do |from_file, to_file|
-          if File.exist?(from_file)
-            File.open(File.expand_path('features/examples/shorter_lorem.pdf', Rails.root)) do |input_stream|
-              File.open(to_file, 'wb') do |output_stream|
-                IO.copy_stream(input_stream, output_stream)
-              end
-            end
-          end
-        end
-
-        document_save
-      end
-
-      it 'creates a preview using Libreconv' do
-        expect(document.converted_preview_document.checksum).to eq checksum
-      end
-
-      it 'creates a preview of type application/pdf' do
-        expect(document.converted_preview_document.content_type).to eq 'application/pdf'
-      end
-
-      it 'creates a preview with name based on the orginal' do
-        expect(document.converted_preview_document.filename).to eq "#{document.document.filename}.pdf"
-      end
-    end
-
-    context 'when Libreconv fails' do
-      let(:trait) { :docx }
-
-      before { allow(Libreconv).to receive(:convert).and_raise(IOError) }
-
-      it { expect { document_save }.not_to raise_error }
+    it 'schedules a ConvertDocumentJob' do
+      expect { document_save }
+        .to(have_enqueued_job(ConvertDocumentJob).with { |id| expect(id).to eq document.reload.to_param })
     end
 
     context 'when the maximum document limit is reached' do
@@ -112,6 +72,10 @@ RSpec.describe Document, type: :model do
       it 'reports a sensible error' do
         document_save
         expect(document.errors[:document]).to include('Total documents exceed maximum of 2. This document has not been uploaded.')
+      end
+
+      it 'does not schedule a ConvertDocumentJob' do
+        expect { document_save }.not_to have_enqueued_job(ConvertDocumentJob)
       end
     end
 
@@ -136,26 +100,6 @@ RSpec.describe Document, type: :model do
 
       it 'sets as_document_checksum' do
         expect(document.as_document_checksum).to eq document.document.checksum
-      end
-
-      it 'sets converted_preview_document_file_name' do
-        expect(document.converted_preview_document_file_name).to eq document.converted_preview_document.filename.to_s
-      end
-
-      it 'sets converted_preview_document_file_size' do
-        expect(document.converted_preview_document_file_size).to eq document.converted_preview_document.byte_size
-      end
-
-      it 'sets converted_preview_document_content_type' do
-        expect(document.converted_preview_document_content_type).to eq document.converted_preview_document.content_type
-      end
-
-      it 'sets converted_preview_document_updated_at' do
-        expect(document.converted_preview_document_updated_at).not_to be_nil
-      end
-
-      it 'sets as_converted_preview_document_checksum' do
-        expect(document.as_converted_preview_document_checksum).to eq document.converted_preview_document.checksum
       end
     end
   end

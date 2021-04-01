@@ -1,0 +1,10 @@
+---
+en:
+  activemodel:
+    errors:
+      models:
+        cookies:
+          attributes:
+            analytics:
+              blank: Choose analytics cookie setting
+              inclusion: Choose analytics cookie setting

@@ -84,6 +84,11 @@ When(/I click the link '(.*?)'$/) do |text|
   click_link(text)
 end
 
+When(/I click the button '(.*?)'$/) do |text|
+  expect(page).to have_button(text)
+  click_button(text)
+end
+
 When(/I edit this claim/) do
   @external_user_claim_show_page.edit_this_claim.click
 end

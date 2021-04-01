@@ -63,7 +63,9 @@ class Document < ApplicationRecord
 
   def copy_from(original)
     document.attach(original.document.blob)
-    converted_preview_document.attach(original.converted_preview_document.blob)
+    if original.converted_preview_document.attached?
+      converted_preview_document.attach(original.converted_preview_document.blob)
+    end
     self.verified = original.verified
   end
 

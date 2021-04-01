@@ -113,28 +113,48 @@ RSpec.describe Document, type: :model do
   end
 
   describe '#copy_from' do
+    subject(:copy_from) { new_document.copy_from(old_document) }
+
     let(:old_document) { create :document, :with_preview, verified: true }
     let(:new_document) { build :document, :empty }
 
-    before { new_document.copy_from(old_document) }
-
-    it 'copies the document from the old document' do
-      expect(new_document.document.blob).to eq old_document.document.blob
+    it do
+      expect { copy_from }
+        .to change { new_document.document.attached? && new_document.document.blob }.to old_document.document.blob
     end
 
-    it 'copies the converted preview document from the old document' do
-      expect(new_document.converted_preview_document.blob).to eq old_document.converted_preview_document.blob
+    it do
+      expect { copy_from }
+        .to change { new_document.converted_preview_document.attached? && new_document.converted_preview_document.blob }
+        .to eq old_document.converted_preview_document.blob
     end
 
-    it 'makes the new document verified' do
-      expect(new_document.verified).to be_truthy
-    end
+    it { expect { copy_from }.to change(new_document, :verified).to true }
 
     context 'when the old document is not verified' do
       let(:old_document) { create :document, :with_preview, verified: false }
 
-      it 'makes the new document not verified' do
-        expect(new_document.verified).to be_falsey
+      it { expect { copy_from }.not_to change(new_document, :verified).from false }
+    end
+
+    context 'when the old document does not have a preview' do
+      let(:old_document) { create :document, :docx, verified: true }
+
+      before { ActiveJob::Base.queue_adapter = :test }
+
+      it do
+        expect { copy_from }
+          .to change { new_document.document.attached? && new_document.document.blob }.to old_document.document.blob
+      end
+
+      it { expect { copy_from }.to change(new_document, :verified).to true }
+
+      it 'schedules a ConvertDocumentJob (after save)' do
+        old_document # Preload so that the ConvertDocumentJob doesn't affect the test
+        expect do
+          copy_from
+          new_document.save
+        end.to(have_enqueued_job(ConvertDocumentJob).with { |id| expect(id).to eq new_document.reload.to_param })
       end
     end
   end

@@ -76,3 +76,9 @@ kube*/**/temp*secret*.*
 yarn-debug.log*
 .yarn-integrity
 /storage
+
+
+# Cypress
+cypress/integration/examples
+cypress/screenshots
+cypress/videos

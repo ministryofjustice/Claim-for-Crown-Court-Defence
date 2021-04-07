@@ -14,6 +14,8 @@
   },
   "homepage": "https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence#readme",
   "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "validate:js": "standard",
     "validate:scss": "stylelint **/*.scss"
   },
@@ -36,6 +38,7 @@
     "webpack-concat-plugin": "^3.0.0"
   },
   "devDependencies": {
+    "cypress": "^7.0.0",
     "standard": "^16.0.3",
     "stylelint": "^13.12.0",
     "stylelint-config-gds": "^0.1.0",
@@ -49,9 +52,20 @@
     "webpack": "^4.44.2"
   },
   "standard": {
-    "env": [ "jasmine", "jquery" ],
-    "globals": [ "GOVUK", "moj" ],
-    "ignore": [ "app/webpack/javascripts/vendor/", "spec/javascripts/helpers/" ]
+    "env": [
+      "jasmine",
+      "jquery",
+      "mocha"
+    ],
+    "globals": [
+      "cy",
+      "GOVUK",
+      "moj"
+    ],
+    "ignore": [
+      "app/webpack/javascripts/vendor/",
+      "spec/javascripts/helpers/"
+    ]
   },
   "@comments": {
     "@dependencies": {

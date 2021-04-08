@@ -189,6 +189,15 @@ commands:
       - store_test_results:
           path: /tmp/test-results/cucumber
 
+  run-cypress:
+    description: >
+      Run cypress tests
+    steps:
+      - run:
+          name: Run cypress tests
+          command: |
+            yarn run cypress:ci
+
   install-gem-dependencies:
     description: >
       Install, or restore from cache, ruby gem dependencies
@@ -215,17 +224,18 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v2-js-dependencies-{{ checksum "yarn.lock" }}
+            - v3-js-dependencies-{{ checksum "yarn.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v2-js-dependencies
+            - v3-js-dependencies
       - run:
           name: Install javascript package dependencies
           command: |
             yarn install --frozen-lockfile
       - save_cache:
-          key: v2-js-dependencies-{{ checksum "yarn.lock" }}
+          key: v3-js-dependencies-{{ checksum "yarn.lock" }}
           paths:
             - node_modules
+            - ~/.cache
 
   build-base:
     steps:
@@ -368,6 +378,17 @@ jobs:
       - *standardjs
       - *stylelint
 
+  cypress-tests:
+    executor: test-executor
+    resource_class: medium
+    parallelism: 4
+    steps:
+      - checkout
+      - build-base
+      - *wait-for-db
+      - *load-db
+      - run-cypress
+
   upload-coverage:
     executor: test-executor
     resource_class: small
@@ -454,11 +475,15 @@ workflows:
       - cucumber-tests:
           requires:
             - build-test-container
+      - cypress-tests:
+          requires:
+            - build-test-container
       - upload-coverage:
           requires:
             - rspec-tests
             - cucumber-tests
             - other-tests
+            - cypress-tests
       - build-app-container:
           requires:
             - upload-coverage
@@ -509,11 +534,15 @@ workflows:
       - cucumber-tests:
           requires:
             - build-test-container
+      - cypress-tests:
+          requires:
+            - build-test-container
       - upload-coverage:
           requires:
             - rspec-tests
             - cucumber-tests
             - other-tests
+            - cypress-tests
 
   build-deploy-branch:
     jobs:

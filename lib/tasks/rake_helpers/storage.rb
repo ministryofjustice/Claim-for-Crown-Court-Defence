@@ -33,10 +33,12 @@ module Storage
                  COALESCE(#{name}_updated_at, NOW())
             FROM #{model}
             WHERE #{name}_file_name IS NOT NULL
-              AND id NOT IN (
-                SELECT DISTINCT record_id FROM active_storage_attachments
-                  WHERE record_type = '#{self.models(model)}'
-                    AND name = '#{name}'
+              AND NOT EXISTS (
+                SELECT '1'
+                  FROM active_storage_attachments AS asa
+                 WHERE asa.record_type = '#{self.models(model)}'
+                   AND asa.name = '#{name}'
+                   AND asa.record_id = #{model}.id
               )
           #{self.conflict_clause_for(model)};
       SQL

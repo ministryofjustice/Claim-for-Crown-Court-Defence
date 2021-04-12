@@ -7,12 +7,15 @@ describe('Cookies', () => {
 
   context('Banner', () => {
     it('shows the correct banners when cookies are accepted', () => {
+      cy.customCheckAlly()
       cy.get('a').contains('Accept analytics cookies').click()
       cy.get('.govuk-cookie-banner__confirmation').contains('Your cookie settings were saved').should('exist')
       cy.getCookie('usage_opt_in').should('have.property', 'value', 'true')
       cy.getCookie('cookies_preference').should('have.property', 'value', 'true')
+      cy.customCheckAlly()
       cy.get('a').contains('Hide this message').click()
       cy.get('.govuk-cookie-banner').should('not.exist')
+      cy.customCheckAlly()
     })
 
     it('shows the correct banners when cookies are rejected', () => {
@@ -27,6 +30,7 @@ describe('Cookies', () => {
 
   context('Page', () => {
     it('does not show banner when accepting cookies in settings', () => {
+      cy.customCheckAlly()
       cy.get('a').contains('View cookies').click()
       cy.get('#cookies-analytics-true-field').click()
       cy.get('[type=submit]').click()
@@ -34,6 +38,7 @@ describe('Cookies', () => {
       cy.get('.govuk-cookie-banner').should('not.exist')
       cy.getCookie('usage_opt_in').should('have.property', 'value', 'true')
       cy.getCookie('cookies_preference').should('have.property', 'value', 'true')
+      cy.customCheckAlly()
     })
 
     it('does not show banner when rejecting cookies in settings', () => {

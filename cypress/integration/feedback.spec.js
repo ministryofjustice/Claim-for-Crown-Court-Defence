@@ -8,8 +8,12 @@ describe('Feedback', () => {
       cy.url().should('include', 'feedback/new')
       cy.title().should('eq', 'Help us improve this service')
 
+      cy.customCheckAlly()
+
       cy.get('[type=submit]').contains('Send').click()
       cy.get('.govuk-error-summary').should('contain', 'Choose a rating')
+
+      cy.customCheckAlly()
 
       cy.get('form').within(() => {
         cy.get('[name="feedback[email]"]').type('email@example.com')
@@ -17,6 +21,7 @@ describe('Feedback', () => {
         cy.get('[type=submit]').contains('Send').click()
       })
       cy.get('.notice-summary-heading').should('contain', 'Feedback submitted')
+      cy.customCheckAlly()
     })
   })
 
@@ -26,9 +31,13 @@ describe('Feedback', () => {
       cy.url().should('include', 'feedback/new?type=bug_report')
       cy.title().should('eq', 'Bug report')
 
+      cy.customCheckAlly()
+
       cy.get('[type=submit]').contains('Send').click()
       cy.get('.govuk-error-summary').should('contain', 'Event cannot be empty')
       cy.get('.govuk-error-summary').should('contain', 'Outcome cannot be empty')
+
+      cy.customCheckAlly()
 
       cy.intercept('POST', '/feedback').as('submitBug')
 

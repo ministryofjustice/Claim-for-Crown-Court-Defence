@@ -43,5 +43,5 @@ end
 
 Then('the cookie preference is saved') do
   expect(@cookie_page.success_notification).to be_visible
-  expect(@cookie_page.success_notification).to have_content 'You’ve set your cookie preferences.'
+  expect(@cookie_page.success_notification).to have_content "You've set your cookie preferences."
 end

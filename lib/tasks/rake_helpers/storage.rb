@@ -207,7 +207,7 @@ module Storage
       puts "Missing checksums:  #{self.highlight(all.where(as_document_checksum: nil).count, **checksum_formats)}"
       as = ActiveStorage::Attachment.where(record_type: 'Stats::StatsReport')
       puts "AS records:         #{self.highlight(as.count, bad: (0..sr_unique-1), good: [sr_unique], warning: (sr_unique+1..))}"
-      puts "AS records checked: #{self.validate(attachments: as)}"
+      puts "AS records checked: #{self.validate(attachments: as, table: 'stats_reports', field: 'document')}"
     when 'messages'
       ms_attachments = all.where.not(attachment_file_name: nil)
       ms_attachments_count = ms_attachments.count
@@ -215,7 +215,7 @@ module Storage
       puts "Missing checksums:  #{self.highlight(ms_attachments.where(as_attachment_checksum: nil).count, **checksum_formats)}"
       as = ActiveStorage::Attachment.where(record_type: 'Message')
       puts "AS records:         #{self.highlight(as.count, bad: (0..ms_attachments_count-1), good: [ms_attachments_count], warning: (ms_attachments_count+1..))}"
-      puts "AS records checked: #{self.validate(attachments: as)}"
+      puts "AS records checked: #{self.validate(attachments: as, table: 'messages', field: 'attachment')}"
     when 'documents'
       ds_count = all.count
       migrated_formats = { bad: (0..ds_count-1), good: [ds_count], warning: (ds_count+1..) }
@@ -226,9 +226,9 @@ module Storage
       as_preview = ActiveStorage::Attachment.where(record_type: 'Document', name: 'converted_preview_document')
       puts 'AS records'
       puts "  Document:         #{self.highlight(as_doc.count, **migrated_formats)}"
-      puts "  Document checked: #{self.validate(attachments: as_doc)}"
+      puts "  Document checked: #{self.validate(attachments: as_doc, table: 'documents', field: 'document')}"
       puts "  Preview:          #{self.highlight(as_preview.count, **migrated_formats)}"
-      puts "  Preview checked:  #{self.validate(attachments: as_preview)}"
+      puts "  Preview checked:  #{self.validate(attachments: as_preview, table: 'documents', field: 'converted_preview_document')}"
     end
   end
 
@@ -264,11 +264,11 @@ module Storage
     n.to_s
   end
 
-  def self.validate(attachments:)
-    attachments.includes(:blob, :record).each_with_object(true) do |attachment, check|
-      check &&
-        attachment.blob.filename == attachment.record&.send("#{attachment.name}_file_name") &&
-        attachment.blob.checksum == attachment.record&.send("as_#{attachment.name}_checksum")
-    end ? 'OK'.green : 'Failed'.red
+  def self.validate(attachments:, table:, field:)
+    attachments
+      .joins(:blob)
+      .joins("INNER JOIN #{table} ON active_storage_attachments.record_id = #{table}.id")
+      .where.not("(#{table}.#{field}_file_name = active_storage_blobs.filename AND #{table}.as_#{field}_checksum = active_storage_blobs.checksum)")
+      .count == 0 ? 'OK'.green : 'Failed'.red
   end
 end

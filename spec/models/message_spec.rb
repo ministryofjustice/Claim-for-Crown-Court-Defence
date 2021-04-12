@@ -201,6 +201,26 @@ RSpec.describe Message, type: :model do
     end
   end
 
+  describe '#destroy' do
+    subject(:destroy_message) { message.destroy }
+
+    before { message }
+
+    context 'without an attachment' do
+      let(:message) { create(:message) }
+
+      it { expect { destroy_message }.not_to change(ActiveStorage::Attachment, :count) }
+      it { expect { destroy_message }.not_to change(ActiveStorage::Blob, :count) }
+    end
+
+    context 'with an attachment' do
+      let(:message) { create(:message, :with_attachment) }
+
+      it { expect { destroy_message }.to change(ActiveStorage::Attachment, :count).by(-1) }
+      it { expect { destroy_message }.to change(ActiveStorage::Blob, :count).by(-1) }
+    end
+  end
+
   # To allow rolling back to Paperclip
   describe '#attachment_file_name' do
     subject { message.attachment_file_name }

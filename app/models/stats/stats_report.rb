@@ -28,6 +28,8 @@ module Stats
     scope :management_information, -> { not_errored.where(report_name: 'management_information') }
     scope :provisional_assessment, -> { not_errored.where(report_name: 'provisional_assessment') }
 
+    before_destroy -> { document.purge }
+
     has_one_attached :document
 
     def self.clean_up(report_name)

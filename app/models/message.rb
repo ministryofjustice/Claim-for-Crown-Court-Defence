@@ -52,6 +52,7 @@ class Message < ApplicationRecord
 
   before_save :populate_paperclip
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
+  before_destroy -> { attachment.purge }
 
   class << self
     def for(object)

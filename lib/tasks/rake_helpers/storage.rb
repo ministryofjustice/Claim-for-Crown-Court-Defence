@@ -34,7 +34,7 @@ module Storage
             FROM #{model}
             WHERE #{name}_file_name IS NOT NULL
               AND NOT EXISTS (
-                SELECT '1'
+                SELECT 1
                   FROM active_storage_attachments AS asa
                  WHERE asa.record_type = '#{self.models(model)}'
                    AND asa.name = '#{name}'
@@ -78,7 +78,7 @@ module Storage
     ATTACHMENTS[model].each do |name|
       # Delete active storage attachments for the model
       connection.prepare("delete_active_storage_attachments_#{name}", <<~SQL)
-        DELETE FROM active_storage_attachments WHERE record_type='#{self.models(model)}' AND name='#{name}'
+        DELETE FROM active_storage_attachments WHERE record_type='#{self.models(model)}' AND name='#{name}';
       SQL
 
       print "Deleting #{model} active_storage_attachments called #{name}..."
@@ -89,10 +89,14 @@ module Storage
     # Delete blobs no longer linked to an attachment
     connection.prepare("delete_active_storage_blobs", <<~SQL)
       DELETE FROM active_storage_blobs
-        WHERE id NOT IN (SELECT blob_id FROM active_storage_attachments)
+      WHERE NOT EXISTS (
+          SELECT 1
+          FROM active_storage_attachments
+          WHERE active_storage_attachments.blob_id = active_storage_blobs.id
+      );
     SQL
 
-    print "Deleting #{model} active_storage_blobs called #{name}..."
+    print "Deleting #{model} active_storage_blobs with no attachment..."
     blob_result = connection.exec_prepared("delete_active_storage_blobs")
     puts "#{blob_result.cmd_tuples.to_s.green} rows deleted"
   end

@@ -8,6 +8,7 @@ namespace :storage do
 
   desc 'Rollback asset migration'
   task :rollback, [:model] => :environment do |_task, args|
+    production_protected
     Storage.rollback args[:model]
   end
 

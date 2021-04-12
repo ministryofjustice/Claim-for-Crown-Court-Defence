@@ -79,7 +79,9 @@ module Storage
         DELETE FROM active_storage_attachments WHERE record_type='#{self.models(model)}' AND name='#{name}'
       SQL
 
-      connection.exec_prepared("delete_active_storage_attachments_#{name}");
+      print "Deleting #{model} active_storage_attachments called #{name}..."
+      attachment_result = connection.exec_prepared("delete_active_storage_attachments_#{name}")
+      puts "#{attachment_result.cmd_tuples.to_s.green} rows deleted"
     end
 
     # Delete blobs no longer linked to an attachment
@@ -87,7 +89,10 @@ module Storage
       DELETE FROM active_storage_blobs
         WHERE id NOT IN (SELECT blob_id FROM active_storage_attachments)
     SQL
-    connection.exec_prepared("delete_active_storage_blobs");
+
+    print "Deleting #{model} active_storage_blobs called #{name}..."
+    blob_result = connection.exec_prepared("delete_active_storage_blobs")
+    puts "#{blob_result.cmd_tuples.to_s.green} rows deleted"
   end
 
   def self.clear_paperclip_checksums(model)

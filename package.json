@@ -40,7 +40,9 @@
     "webpack-concat-plugin": "^3.0.0"
   },
   "devDependencies": {
+    "axe-core": "^4.1.4",
     "cypress": "^7.0.0",
+    "cypress-axe": "^0.12.2",
     "standard": "^16.0.3",
     "start-server-and-test": "^1.12.1",
     "stylelint": "^13.12.0",
@@ -62,6 +64,7 @@
     ],
     "globals": [
       "cy",
+      "Cypress",
       "GOVUK",
       "moj"
     ],

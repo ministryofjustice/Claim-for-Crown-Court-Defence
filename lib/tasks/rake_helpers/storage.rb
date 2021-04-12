@@ -57,12 +57,17 @@ module Storage
         UPDATE active_storage_blobs SET metadata='{}' WHERE metadata LIKE 'in-progress/%';
       SQL
 
-      puts "Creating Active Storage Blobs for #{name}"
-      connection.exec_prepared("create_active_storage_blobs_#{name}");
-      puts "Creating Active Storage Attachments for #{name}"
-      connection.exec_prepared("create_active_storage_attachments_#{name}");
-      puts "Updating Active Storage blobs metadata for #{name}"
-      connection.exec_prepared("update_active_storage_blobs_metadata_#{name}");
+      print "Creating Active Storage Blobs for #{name}..."
+      blob_result = connection.exec_prepared("create_active_storage_blobs_#{name}")
+      puts "#{blob_result.cmd_tuples.to_s.green} rows created"
+
+      print "Creating Active Storage Attachments for #{name}..."
+      attachment_result = connection.exec_prepared("create_active_storage_attachments_#{name}")
+      puts "#{attachment_result.cmd_tuples.to_s.green} rows created"
+
+      print "Updating Active Storage blobs metadata for #{name}..."
+      blob_update_result = connection.exec_prepared("update_active_storage_blobs_metadata_#{name}")
+      puts "#{blob_update_result.cmd_tuples.to_s.green} rows updated"
     end
   end
 

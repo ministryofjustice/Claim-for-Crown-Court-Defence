@@ -204,17 +204,17 @@ RSpec.describe Message, type: :model do
   describe '#destroy' do
     subject(:destroy_message) { message.destroy }
 
-    before { message }
+    let!(:message) { create(:message, trait) }
 
     context 'without an attachment' do
-      let(:message) { create(:message) }
+      let(:trait) { nil }
 
       it { expect { destroy_message }.not_to change(ActiveStorage::Attachment, :count) }
       it { expect { destroy_message }.not_to change(ActiveStorage::Blob, :count) }
     end
 
     context 'with an attachment' do
-      let(:message) { create(:message, :with_attachment) }
+      let(:trait) { :with_attachment }
 
       it { expect { destroy_message }.to change(ActiveStorage::Attachment, :count).by(-1) }
       it { expect { destroy_message }.to change(ActiveStorage::Blob, :count).by(-1) }

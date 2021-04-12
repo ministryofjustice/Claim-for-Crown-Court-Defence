@@ -170,9 +170,7 @@ RSpec.describe Stats::StatsReport do
   describe '#destroy' do
     subject(:destroy_report) { report.destroy }
 
-    before { report }
-
-    let(:report) { create(:stats_report, :with_document) }
+    let!(:report) { create(:stats_report, :with_document) }
 
     it { expect { destroy_report }.to change(ActiveStorage::Attachment, :count).by(-1) }
     it { expect { destroy_report }.to change(ActiveStorage::Blob, :count).by(-1) }

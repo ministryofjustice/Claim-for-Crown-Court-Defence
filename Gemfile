@@ -23,7 +23,7 @@ gem 'govuk_frontend_toolkit', '~> 8.2.0'
 gem 'govuk_elements_rails',   '~> 3.1.2'
 gem 'govuk_notify_rails',     '~> 2.1.2'
 gem 'grape',                  '~> 1.5.3'
-gem 'grape-entity',           '~> 0.8.2'
+gem 'grape-entity',           '~> 0.9.0'
 gem 'grape-papertrail',       '~> 0.2.0'
 gem 'grape-swagger',          '~> 1.3.1'
 gem 'grape-swagger-rails',    '~> 0.3.0'
@@ -43,7 +43,7 @@ gem 'pg',                     '~> 1.2.3'
 gem 'rails',                  '~> 6.0.3.4'
 gem 'redis',                  '~> 4.2.5'
 gem 'rubyzip'
-gem 'config',                 '~> 2.2' # this gem provides our Settings.xxx mechanism
+gem 'config',                 '~> 3.1' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
 gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
@@ -87,7 +87,7 @@ group :development, :devunicorn, :test do
   gem 'guard-webpacker', '~> 0.2.1'
   gem 'jasmine', '>= 3.5.1'
   gem 'jasmine_selenium_runner', require: false
-  gem 'listen', '~> 3.5.0'
+  gem 'listen', '~> 3.5.1'
   gem 'meta_request'
   gem 'parallel_tests'
   gem 'pry-byebug'

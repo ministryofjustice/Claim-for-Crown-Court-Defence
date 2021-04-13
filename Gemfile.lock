@@ -447,7 +447,7 @@ GEM
     launchy (2.5.0)
       addressable (~> 2.7)
     libreconv (0.9.5)
-    listen (3.5.0)
+    listen (3.5.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     logstash-event (1.1.5)
@@ -844,7 +844,7 @@ DEPENDENCIES
   laa-fee-calculator-client (~> 1.2)
   launchy (~> 2.5.0)
   libreconv (~> 0.9.5)
-  listen (~> 3.5.0)
+  listen (~> 3.5.1)
   logstasher (= 2.1.5)
   logstuff (= 0.0.2)
   meta_request

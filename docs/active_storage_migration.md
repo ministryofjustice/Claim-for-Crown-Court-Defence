@@ -386,8 +386,6 @@ Paperclip can be removed.
 * Delete `app/models/concerns/check_summable.rb` together with all instances
   `include CheckSummable`, `add_checksum` and `calculate_checksum`. Remove
   `spec/models/concern/check_summable_spec.rb`.
-* Delete `app/models/concerns/paperclip_rollback.rb` together with all
-  instances of `include PaperclipRollback` and `populate_paperclip_for`.
 * Remove `PAPERCLIP_STORAGE_OPTIONS`, `REPORTS_STORAGE_OPTIONS` and
   `REPORTS_STORAGE_OPTIONS` from the configuration files in
   `config/environments`.

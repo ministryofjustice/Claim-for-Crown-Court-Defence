@@ -25,39 +25,22 @@
 
 FactoryBot.define do
   factory :document do
-    document do
-      Rack::Test::UploadedFile.new(
-        File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
-        'application/pdf'
-      )
-    end
+    document { File.open(Rails.root + 'features/examples/longer_lorem.pdf') }
     claim
     external_user
 
-    trait :pdf # default
-
-    trait :docx do
-      document do
-        Rack::Test::UploadedFile.new(
-          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
-          'application/msword'
-        )
+    after(:create) do |doc|
+      # The tests very often check to see if the converted preview doc exists before
+      # it has been created, so here we just wait until it has been created up to a maximum of 1 second
+      5.times do
+        break if File.exist?(doc.converted_preview_document.path)
+        sleep 0.2
       end
     end
 
-    trait :with_preview do
-      document do
-        Rack::Test::UploadedFile.new(
-          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
-          'application/msword'
-        )
-      end
-      converted_preview_document do
-        Rack::Test::UploadedFile.new(
-          File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
-          'application/pdf'
-        )
-      end
+    trait :docx do
+      document { File.open(Rails.root + 'features/examples/shorter_lorem.docx') }
+      document_content_type { 'application/msword' }
     end
 
     trait :unverified do
@@ -67,12 +50,7 @@ FactoryBot.define do
 
     trait :verified do
       verified_file_size { 2663 }
-      document do
-        Rack::Test::UploadedFile.new(
-          File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
-          'application/pdf'
-        )
-      end
+      file_path { Rails.root + 'features/examples/longer_lorem.pdf' }
       verified { true }
     end
 

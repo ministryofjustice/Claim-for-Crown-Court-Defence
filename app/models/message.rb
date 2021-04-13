@@ -17,7 +17,6 @@
 class Message < ApplicationRecord
   include S3Headers
   include CheckSummable
-  include PaperclipRollback
 
   belongs_to :claim, class_name: 'Claim::BaseClaim'
   belongs_to :sender, class_name: 'User', inverse_of: :messages_sent
@@ -51,7 +50,7 @@ class Message < ApplicationRecord
 
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
-  before_save -> { populate_paperclip_for :attachment }
+  before_save :populate_paperclip
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
   before_destroy -> { attachment.purge }
 
@@ -115,4 +114,18 @@ class Message < ApplicationRecord
   def claim_updater
     Claims::ExternalUserClaimUpdater.new(claim, current_user: sender)
   end
+
+  # High ABC Size due to setting Paperclip fields for possible revert.
+  # This 'rubocop:disable' can be removed when the Paperclip fields are removed.
+  # rubocop:disable Metrics/AbcSize
+  def populate_paperclip
+    return unless attachment.attached?
+
+    self.attachment_file_name = attachment.filename
+    self.attachment_file_size = attachment.byte_size
+    self.attachment_content_type = attachment.content_type
+    self.attachment_updated_at = Time.zone.now
+    self.as_attachment_checksum = attachment.checksum
+  end
+  # rubocop:enable Metrics/AbcSize
 end

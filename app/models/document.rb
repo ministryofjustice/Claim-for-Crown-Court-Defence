@@ -24,66 +24,106 @@
 #
 
 class Document < ApplicationRecord
+  include DocumentAttachment
   include Duplicable
-  include PaperclipRollback
+  include CheckSummable
 
   belongs_to :external_user
   belongs_to :creator, class_name: 'ExternalUser'
   belongs_to :claim, class_name: 'Claim::BaseClaim'
 
-  has_one_attached :converted_preview_document
-  has_one_attached :document
-
-  validate :documents_count
-  validates :converted_preview_document, content_type: 'application/pdf'
-  validates :document,
-            presence: true,
-            size: { less_than: 20.megabytes },
-            content_type: %w[
-              application/pdf
-              application/msword
-              application/vnd.openxmlformats-officedocument.wordprocessingml.document
-              application/vnd.oasis.opendocument.text
-              text/rtf
-              application/rtf
-              image/jpeg
-              image/png
-              image/tiff
-              image/bmp
-              image/x-bitmap
-            ]
+  validates_attachment :document,
+                       presence: { message: 'Document must have an attachment' },
+                       size: { in: 0.megabytes..20.megabytes },
+                       content_type: {
+                         content_type: ['application/pdf',
+                                        'application/msword',
+                                        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                        'application/vnd.oasis.opendocument.text',
+                                        'text/rtf',
+                                        'application/rtf',
+                                        'image/jpeg',
+                                        'image/png',
+                                        'image/tiff',
+                                        'image/bmp',
+                                        'image/x-bitmap']
+                       }
 
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
 
-  before_create :create_preview_document
-  before_create -> { populate_paperclip_for :document }
-  before_create -> { populate_paperclip_for :converted_preview_document }
+  before_save :generate_pdf_tmpfile
+  before_save :add_converted_preview_document
+  before_save :populate_checksum
 
-  before_destroy :purge_attachments
+  validate :documents_count
 
-  def copy_from(original)
-    document.attach(original.document.blob)
-    converted_preview_document.attach(original.converted_preview_document.blob)
-    self.verified = original.verified
+  def copy_from(original_doc, verify: false)
+    self.document = original_doc.document
+    verify ? save_and_verify : save
   end
 
   def save_and_verify
-    # For backward compatiblity
-    # Previously there was a step that marked documents as 'verified' and only these documents are visible to the user.
-    # Therefore this flag needs to be set or the documents will not appear. The scope in BaseClaim in the
-    # `has_many :documents` clause cannot be remove or documents that were previously marked as unverified would begin
-    # to appear. Over time, however, the number of these documents will be reduced and so this field can be removed.
-    self.verified = true
-    save
-  rescue ActiveSupport::MessageVerifier::InvalidSignature => e
-    # This is to replecate old Paperclip behavour. The controller tests attempted to submit with an empty string instead
-    # of a file upload. This should never happen unless the front-end is broken.
-    errors.add(:base, e.message)
-    self.verified = false
+    result = save
+    if result
+      result = verify_and_log
+    else
+      transform_cryptic_paperclip_error
+      log_save_error
+    end
+    result
+  end
+
+  def verify_and_log
+    generate_log_stuff(:info, 'save', 'Document saved')
+    if verify_file_exists
+      generate_log_stuff(:info, 'verify', 'Document verified')
+      result = true
+    else
+      generate_log_stuff(:error, 'verify_fail', 'Unable to verify document')
+      errors[:document] << 'Unable to save the file - please retry' if verified_file_size&.zero?
+      result = false
+    end
+    result
+  end
+
+  def log_save_error
+    generate_log_stuff(:error, 'save_fail', 'Unable to save document')
+  end
+
+  def populate_checksum
+    add_checksum(:document)
+    add_checksum(:converted_preview_document)
   end
 
   private
+
+  def generate_log_stuff(type, action, message)
+    LogStuff.send(type,
+                  :paperclip,
+                  action: action,
+                  document_id: id,
+                  claim_id: claim_id,
+                  filename: document_file_name, form_id: form_id) { message }
+  end
+
+  def verify_file_exists
+    begin
+      reloaded_file = reload_saved_file
+      self.verified_file_size = File.stat(reloaded_file).size
+      self.file_path = document.path
+      self.verified = verified_file_size.positive?
+      save!
+    rescue StandardError => e
+      errors[:document] << e.message
+      self.verified = false
+    end
+    verified
+  end
+
+  def reload_saved_file
+    Paperclip.io_adapters.for(document).path
+  end
 
   def documents_count
     return true if form_id.nil?
@@ -93,12 +133,9 @@ class Document < ApplicationRecord
     errors.add(:document, "Total documents exceed maximum of #{max_doc_count}. This document has not been uploaded.")
   end
 
-  def create_preview_document
-    DocumentConverterService.new(document, converted_preview_document).call
-  end
-
-  def purge_attachments
-    document.purge
-    converted_preview_document.purge
+  def transform_cryptic_paperclip_error
+    return unless errors[:document].include?('has contents that are not what they are reported to be')
+    errors[:document].delete('has contents that are not what they are reported to be')
+    errors[:document] << 'The contents of the file do not match the file extension'
   end
 end

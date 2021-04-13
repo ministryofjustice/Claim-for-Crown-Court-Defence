@@ -43,7 +43,7 @@ gem 'pg',                     '~> 1.2.3'
 gem 'rails',                  '~> 6.0.3.4'
 gem 'redis',                  '~> 4.2.5'
 gem 'rubyzip'
-gem 'config',                 '~> 2.2' # this gem provides our Settings.xxx mechanism
+gem 'config',                 '~> 3.1' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
 gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'

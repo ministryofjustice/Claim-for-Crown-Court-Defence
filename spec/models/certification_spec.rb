@@ -28,7 +28,13 @@ RSpec.describe Certification, type: :model do
     it 'is invalid without certification type' do
       certification.certification_type_id = nil
       expect(certification).to be_invalid
-      expect(certification.errors.full_messages).to include('You must select one option on this form')
+      expect(certification.errors.messages[:certification_type_id]).to include('Choose a certification type')
+    end
+
+    it 'is invalid without certification by' do
+      certification.certified_by = nil
+      expect(certification).to be_invalid
+      expect(certification.errors.messages[:certified_by]).to include('Enter the name of person certifying')
     end
 
     context 'certification date' do
@@ -41,7 +47,7 @@ RSpec.describe Certification, type: :model do
 
         it 'is invalid' do
           expect(certification).to be_invalid
-          expect(certification.errors.full_messages).to include('Certification date must be same day or after claim submission day')
+          expect(certification.errors.messages[:certification_date]).to include('Certification date must be same day or after claim submission day')
         end
       end
 
@@ -52,7 +58,7 @@ RSpec.describe Certification, type: :model do
 
         it 'is invalid' do
           expect(certification).to be_invalid
-          expect(certification.errors.full_messages).to include("Certification date can't be in the future")
+          expect(certification.errors.messages[:certification_date]).to include('Certification date cannot be in the future')
         end
       end
     end

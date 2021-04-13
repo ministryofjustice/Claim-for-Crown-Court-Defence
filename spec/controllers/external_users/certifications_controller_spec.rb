@@ -156,10 +156,10 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
     context 'invalid certification' do
       it 'redirects to new' do
         params = valid_certification_params(claim, certification_type)
-        params['certification']['certification_type_id'] = 9999
+        params['certification']['certification_type_id'] = nil
         post :create, params: params
         expect(response).to render_template(:new)
-        expect(assigns(:certification).errors.full_messages).to eq(['You must select one option on this form'])
+        expect(assigns(:certification).errors.messages[:certification_type_id]).to eq(['Choose a certification type'])
       end
     end
   end
@@ -183,9 +183,9 @@ def valid_certification_params(claim, certification_type)
       'certification_type_id' => certification_type.id,
       'certified_by' => 'David Cameron',
       'main_hearing' => 'true',
-      'certification_date_dd' => certification_date.day,
-      'certification_date_mm' => certification_date.month,
-      'certification_date_yyyy' => certification_date.year
+      'certification_date(3i)' => certification_date.day,
+      'certification_date(2i)' => certification_date.month,
+      'certification_date(1i)' => certification_date.year
     }
   }
 end

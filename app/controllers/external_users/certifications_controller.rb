@@ -58,9 +58,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
     params.require(:certification).permit(
       :certification_type_id,
       :certified_by,
-      :certification_date_dd,
-      :certification_date_mm,
-      :certification_date_yyyy
+      :certification_date
     )
   end
 

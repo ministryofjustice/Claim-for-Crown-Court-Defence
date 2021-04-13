@@ -1,5 +1,19 @@
 ---
 en:
+  activerecord:
+    errors:
+      models:
+        certification:
+          attributes:
+            certification_date:
+              after_claim_creation: Certification date must be same day or after claim submission day
+              blank: Enter certifying date
+              not_in_the_future: Certification date cannot be in the future
+            certification_type_id:
+              blank: Choose a certification type
+            certified_by:
+              blank: Enter the name of person certifying
+
   external_users:
     certifications:
       new:
@@ -26,3 +40,22 @@ en:
           <p class="govuk-body">I certify on behalf of the payee, that the information provided is correct. This work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.</p>
         other_claim_html:
           <p class="govuk-body">I certify on behalf of the payee, that the information provided is correct.</p>
+        submit: Certify and submit claim
+        return: Return to claim
+        error_summary: This claim certification has
+        certified_by: 'Name of person certifying'
+        certified_by_prompt_text: 'Enter full name'
+        certification_date: 'Date'
+        date: 'Date'
+        page_title_transfer_claim: Certify and submit the litigator transfer fees claim
+        page_title_advocate_claim: advocate claim
+        page_heading: Certification
+        page_title:
+          agfs_final: Certify and submit the advocate final fees claim
+          agfs_interim: Certify and submit the advocate warrant fees claim
+          agfs_hardship: Certify and submit the advocate hardship fees claim
+          agfs_supplementary: Certify and submit the advocate supplementary fees claim
+          lgfs_final: Certify and submit the litigator final fees claim
+          lgfs_interim: Certify and submit the litigator interim fees claim
+          lgfs_transfer: Certify and submit the litigator transfer fees claim
+          lgfs_hardship: Certify and submit the litigator hardship fees claim

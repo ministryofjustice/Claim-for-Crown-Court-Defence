@@ -37,11 +37,8 @@ module DemoData
       @checklist_ids << EXAMPLE_DOC_TYPES[pdf_name]
       filename = "#{Rails.root}/spec/fixtures/files/#{pdf_name}"
       file = File.open(filename)
-      document = Document.create(
-        claim: @claim,
-        document: file,
-        document_content_type: 'application/pdf',
-        external_user: @claim.external_user)
+      document = Document.new(claim: @claim, external_user: @claim.external_user)
+      document.document.attach(io: file, filename: pdf_name)
       document.save_and_verify
     end
   end

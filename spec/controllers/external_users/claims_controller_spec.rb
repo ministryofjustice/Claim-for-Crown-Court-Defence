@@ -552,9 +552,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     context 'with a rejected claim' do
       subject(:claim) do
         create(:rejected_claim, external_user: advocate).tap do |c|
-          c.documents << build_list(:document, 2, :verified, claim: c, document_file_size: 5000000)
+          c.documents << build_list(:document, 2, :verified, claim: c)
         end
       end
+
+      let(:longer_lorem_size) { 48.8 }
 
       context 'when no errors encountered' do
         before do
@@ -580,7 +582,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
             action: 'clone',
             claim_id: claim.id,
             documents: 2,
-            total_size: '9.54 MB'
+            total_size: "#{longer_lorem_size * 2} KB"
           )
         end
 
@@ -604,7 +606,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
                                        action: 'clone',
                                        claim_id: claim.id,
                                        documents: 2,
-                                       total_size: '9.54 MB',
+                                       total_size: "#{longer_lorem_size * 2} KB",
                                        error: 'Timeout::Error: execution expired')
         end
 

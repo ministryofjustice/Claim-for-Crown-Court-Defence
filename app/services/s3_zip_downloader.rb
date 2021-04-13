@@ -3,31 +3,29 @@ class S3ZipDownloader
 
   def initialize(claim)
     @claim = claim
-    @folder = Dir.mktmpdir("#{@claim.case_number}-", './tmp')
-    move_files
-    @files_to_zip = Dir.entries(@folder) - %w[. ..]
-    @zip_file = "./tmp/#{@claim.case_number}-#{SecureRandom.uuid}-documents.zip"
   end
 
   def generate!
-    zip_files
-    FileUtils.rm_rf(@folder)
-    @zip_file
+    "./tmp/#{@claim.case_number}-#{SecureRandom.uuid}-documents.zip".tap do |bundle|
+      build_zip_file @claim.documents, bundle
+    end
   end
 
   private
 
-  def zip_files
-    Zip::File.open(@zip_file, Zip::File::CREATE) do |zip_file|
-      @files_to_zip.each do |filename|
-        zip_file.add(filename, File.join(@folder, filename))
+  def build_zip_file(documents, bundle)
+    Dir.mktmpdir("#{@claim.case_number}-") do |tmp_dir|
+      Zip::File.open(bundle, Zip::File::CREATE) do |zip_file|
+        documents.map(&:document).each do |document|
+          zip_file.add(document.filename, local_file(document, tmp_dir))
+        end
       end
     end
   end
 
-  def move_files
-    @claim.documents.each do |file|
-      FileUtils.copy(Paperclip.io_adapters.for(file.document).path, @folder)
+  def local_file(document, folder)
+    File.join(folder, document.filename.to_s).tap do |local_path|
+      document.open { |tmp_file| FileUtils.copy(tmp_file, local_path) }
     end
   end
 end

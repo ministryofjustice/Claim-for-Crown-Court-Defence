@@ -27,8 +27,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def download_zip
-    zipper = S3ZipDownloader.new(@claim)
-    zip_file = zipper.generate!
+    zip_file = S3ZipDownloader.new(@claim).generate!
 
     send_file zip_file,
               filename: "#{@claim.case_number}-documents.zip",

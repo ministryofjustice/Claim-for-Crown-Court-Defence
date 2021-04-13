@@ -24,6 +24,8 @@
 #
 
 class DocumentsController < ApplicationController
+  include ActiveStorage::SetCurrent
+
   respond_to :html
   before_action :document, only: %i[show download destroy]
 
@@ -33,11 +35,11 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    send_file Paperclip.io_adapters.for(document.converted_preview_document).path, view_file_options
+    redirect_to document.converted_preview_document.blob.service_url(disposition: :inline)
   end
 
   def download
-    send_file Paperclip.io_adapters.for(document.document).path, download_file_options
+    redirect_to document.document.blob.service_url(disposition: :attachment)
   end
 
   def create
@@ -70,22 +72,6 @@ class DocumentsController < ApplicationController
 
   def document
     @document ||= Document.find(params[:id])
-  end
-
-  def view_file_options
-    {
-      type: @document.converted_preview_document_content_type,
-      filename: @document.converted_preview_document_file_name,
-      disposition: 'inline'
-    }
-  end
-
-  def download_file_options
-    {
-      type: @document.document_content_type,
-      filename: @document.document_file_name,
-      x_sendfile: true
-    }
   end
 
   def document_params

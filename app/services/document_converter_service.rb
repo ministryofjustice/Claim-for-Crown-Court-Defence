@@ -22,22 +22,29 @@ class DocumentConverterService
       Libreconv.convert(original, pdf_tmpfile)
       to.attach(io: pdf_tmpfile, filename: "#{from.filename}.pdf", content_type: 'application/pdf')
     end
-  rescue IOError
-    nil # raised if Libreoffice exe is not in PATH
+  rescue IOError => e
+    log('Failed to convert document', e)
   end
 
   def with_attached_file(document)
-    # Currently, evidence documents are converted to PDF when the document is
-    # uploaded and before the instance of Document is saved. This is how it
-    # was done with Paperclip but with Active the file is not accessible at
-    # until it is saved. This is why the path is taken as the temporary file
-    # of the attachment.
     if document.new_record?
+      # If an Active Storage document is not yet saved then it is not
+      # accessible so the path is taken as the temporary upload location.
       yield(document.record.attachment_changes[document.name].attachable.tempfile.path)
     else
       document.open do |file|
         yield(file.path)
       end
     end
+  end
+
+  def log(message, error, action: nil)
+    LogStuff.warn(
+      class: self.class.name,
+      action: action || caller(1..1).first[/`.*'/][1..-2],
+      error: "#{error.class}: #{error.message}",
+      original: @original.to_param,
+      converted: @converted.to_param
+    ) { message }
   end
 end

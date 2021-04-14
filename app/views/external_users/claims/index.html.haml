@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-
+= render partial: 'external_users/shared/notification_banner'
 = render partial: 'layouts/header', locals: { page_heading: your_claims_header }
 = render partial: 'external_users/shared/timed_retention_banner'
 

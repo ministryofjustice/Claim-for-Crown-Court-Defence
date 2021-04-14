@@ -206,6 +206,8 @@ GEM
       cucumber-core (~> 8.0, >= 8.0.1)
       cucumber-cucumber-expressions (~> 10.3, >= 10.3.0)
       cucumber-messages (~> 13.0, >= 13.0.1)
+    cypress-on-rails (1.10.1)
+      rack
     daemons (1.3.1)
     database_cleaner (1.8.5)
     debug_inspector (1.0.0)
@@ -808,6 +810,7 @@ DEPENDENCIES
   colorize
   config (~> 2.2)
   cucumber-rails (~> 2.2.0)
+  cypress-on-rails (~> 1.0)
   database_cleaner
   devise (~> 4.7.3)
   dotenv-rails

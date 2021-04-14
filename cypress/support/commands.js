@@ -53,3 +53,4 @@ Cypress.Commands.add('customCheckAlly', () => {
     }
   }, terminalLog)
 })
+

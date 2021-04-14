@@ -82,6 +82,7 @@ group :development, :devunicorn, :test do
   gem 'guard-cucumber'
   gem 'guard-jasmine', '~> 3.1'
   gem 'guard-livereload', '>= 2.5.2'
+  gem 'cypress-on-rails', '~> 1.0'
   gem 'guard-rspec'
   gem 'guard-rubocop'
   gem 'guard-webpacker', '~> 0.2.1'

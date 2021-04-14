@@ -10,7 +10,7 @@ default: &default
 
 development:
   <<: *default
-  database: cbo_development
+  database: <%= ENV['CYPRESS'] ? "cccd_test#{ENV['TEST_ENV_NUMBER']}" : 'cbo_development' %>
 
 devunicorn:
   <<: *default

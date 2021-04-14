@@ -38,7 +38,7 @@ gem 'libreconv',              '~> 0.9.5'
 gem 'logstasher',             '2.1.5'
 gem 'logstuff',               '0.0.2'
 gem 'paperclip',              '~> 6.1.0'
-gem 'paper_trail',            '~> 11.1.0'
+gem 'paper_trail',            '~> 12.0.0'
 gem 'pg',                     '~> 1.2.3'
 gem 'rails',                  '~> 6.0.3.4'
 gem 'redis',                  '~> 4.2.5'
@@ -70,7 +70,7 @@ gem 'active_storage_validations'
 
 group :production, :devunicorn do
   gem 'unicorn-rails', '2.2.1'
-  gem 'unicorn-worker-killer', '~> 0.4.4'
+  gem 'unicorn-worker-killer', '~> 0.4.5'
 end
 
 group :development, :devunicorn, :test do
@@ -111,7 +111,7 @@ group :test do
   gem 'capybara-selenium'
   gem 'capybara', '~> 3.35'
   gem 'codeclimate-test-reporter', require: false
-  gem 'cucumber-rails', '~> 2.2.0', require: false
+  gem 'cucumber-rails', '~> 2.3.0', require: false
   gem 'database_cleaner'
   gem 'i18n-tasks'
   gem 'json_spec'

@@ -25,7 +25,9 @@ module Maps
         route['legs'].map { |leg| leg['distance']['value'] }
       end
     rescue StandardError => e
-      Rails.logger.error "[MAPS] Error mapping directions distance results: #{e.message}"
+      LogStuff.error(class: 'Maps::DirectionsResult', action: 'map_distances', error: "#{e.class} - #{e.message}") do
+        "[MAPS] Error mapping directions distance results: #{e.message}"
+      end
       []
     end
   end

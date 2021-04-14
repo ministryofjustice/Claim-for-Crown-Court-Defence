@@ -332,7 +332,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
     end
   end
 
-  describe '#validate distance' do
+  describe '#validate_distance' do
     context 'valid' do
       it 'is valid when present for car travel' do
         car_travel_expense.distance = 33
@@ -374,7 +374,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
     end
   end
 
-  describe 'calculated distance' do
+  describe '#validate_calculated_distance' do
     context 'when the expense is not car travel' do
       subject(:expense) { hotel_accommodation_expense }
 
@@ -412,6 +412,16 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         end
       end
 
+      context 'and the calculated distance is zero' do
+        before do
+          expense.calculated_distance = 0.0
+        end
+
+        it 'is valid' do
+          expect(expense).to be_valid
+        end
+      end
+
       context 'and the calculated distance is set' do
         let(:calculated_distance) { 123456 }
 
@@ -420,15 +430,6 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         end
 
         it { expect(expense).to be_valid }
-
-        context 'but is not a valid number' do
-          let(:calculated_distance) { 'this-is-not-a-valid-number' }
-
-          it 'is invalid' do
-            expect(expense).not_to be_valid
-            expect(expense.errors[:calculated_distance]).to include('numericality')
-          end
-        end
 
         context 'but has a value set below the minumum acceptable' do
           let(:calculated_distance) { 0.0001 }

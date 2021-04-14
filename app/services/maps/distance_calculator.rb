@@ -19,10 +19,11 @@ module Maps
 
     def call
       params = query_options.merge(origin: origin, destination: destination)
+      log("Calculating distance form #{origin} to #{destination}")
       result = Maps::DirectionsResult.new(directions.query(**params))
       result.max_distance
     rescue StandardError => e
-      Rails.logger.error "Error calculating distance #{e.message}"
+      log("Failed to calculating distance form #{origin} to #{destination}", error: e, level: :error)
       nil
     end
 
@@ -45,6 +46,19 @@ module Maps
         region: 'uk',
         alternatives: true
       }
+    end
+
+    def log(message, error: nil, level: :info)
+      LogStuff.send(
+        level,
+        class: 'Maps::DistanceCalculator',
+        action: 'call',
+        origin: origin,
+        destination: destination,
+        error: error ? "#{error.class} - #{error.message}" : 'false'
+      ) do
+        message
+      end
     end
   end
 end

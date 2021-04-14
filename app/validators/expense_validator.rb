@@ -66,8 +66,8 @@ class ExpenseValidator < BaseValidator
   end
 
   def validate_calculated_distance
-    return unless @record.car_travel? && @record.calculated_distance.present? && !@record.calculated_distance.zero?
-    validate_presence_and_numericality(:calculated_distance, minimum: 0.1)
+    return unless @record.car_travel? && @record.calculated_distance.present?
+    validate_presence_and_numericality(:calculated_distance, minimum: 0.0)
   end
 
   def validate_mileage_rate_id

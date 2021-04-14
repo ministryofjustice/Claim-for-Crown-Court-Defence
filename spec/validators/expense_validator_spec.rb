@@ -432,10 +432,10 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         it { expect(expense).to be_valid }
 
         context 'but has a value set below the minumum acceptable' do
-          let(:calculated_distance) { 0.0001 }
+          let(:calculated_distance) { -0.0001 }
 
           it 'is invalid' do
-            expect(expense).not_to be_valid
+            expect(expense).to be_invalid
             expect(expense.errors[:calculated_distance]).to include('numericality')
           end
         end

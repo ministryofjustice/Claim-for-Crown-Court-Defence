@@ -70,7 +70,7 @@ gem 'active_storage_validations'
 
 group :production, :devunicorn do
   gem 'unicorn-rails', '2.2.1'
-  gem 'unicorn-worker-killer', '~> 0.4.4'
+  gem 'unicorn-worker-killer', '~> 0.4.5'
 end
 
 group :development, :devunicorn, :test do

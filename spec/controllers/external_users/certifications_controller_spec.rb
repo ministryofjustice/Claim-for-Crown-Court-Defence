@@ -159,7 +159,6 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
         params['certification']['certification_type_id'] = nil
         post :create, params: params
         expect(response).to render_template(:new)
-        expect(assigns(:certification).errors.messages[:certification_type_id]).to eq(['Choose a certification type'])
       end
     end
   end

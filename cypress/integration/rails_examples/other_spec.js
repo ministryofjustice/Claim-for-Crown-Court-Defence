@@ -1,5 +1,5 @@
-describe('Rails Other examples', function() {
-  it('cypress eval', function() {
+describe('Rails Other examples', function () {
+  it('cypress eval', function () {
     cy.app('clean') // have a look at cypress/app_commands/clean.rb
     cy.appEval("Post.create(title: 'Hello Eval')")
 
@@ -10,10 +10,10 @@ describe('Rails Other examples', function() {
     })
   })
 
-  it('runs multiple commands', function() {
+  it('runs multiple commands', function () {
     cy.appCommands([{ name: 'clean' },
-                    { name: 'scenarios/basic' },
-                    { name: 'eval', options: "Post.create(title: 'Multi Command')" }])
+      { name: 'scenarios/basic' },
+      { name: 'eval', options: "Post.create(title: 'Multi Command')" }])
     cy.visit('/')
 
     cy.get('table').find('tbody').should(($tbody) => {

@@ -54,15 +54,15 @@ Cypress.Commands.add('customCheckAlly', () => {
   }, terminalLog)
 })
 
-Cypress.Commands.add("login", () => {
+Cypress.Commands.add('login', () => {
   return cy.request({
     method: 'POST',
-    url: "localhost:3000/users/sign_in",
+    url: 'localhost:3000/users/sign_in',
     form: true,
     failOnStatusCode: true,
     body: {
       'users[email]': 'someuser@mail.com',
       'users[password]': 'testing123'
     }
-  });
-});
+  })
+})

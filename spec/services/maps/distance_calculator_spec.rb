@@ -1,31 +1,67 @@
 require 'rails_helper'
+# See https://developers.google.com/maps/documentation/directions/get-directions for example responses from the
+# Google Directions API
 
 RSpec.describe Maps::DistanceCalculator, type: :service do
-  let(:options) { {} }
+  subject { described_class.new('SW1A 1AA', 'SW1A 2AA').call }
 
-  subject(:service) { -> { described_class.call(origin, destination, options) } }
+  before do
+    stub_request(:get, %r{maps.google.com/maps/api/directions/json})
+      .to_return(status: 200, body: { status: returned_status, routes: returned_routes }.to_json)
+  end
 
-  context 'when a valid origin and destination are provided', vcr: { cassette_name: 'maps/valid_result' } do
-    let(:origin) { 'SW1A 2BJ' }
-    let(:destination) { 'MK40 1HG' }
+  context 'when one route is returned' do
+    let(:returned_status) { 'OK' }
+    let(:returned_routes) { [{ legs: [{ distance: { value: 10_000, text: '6.2 mi' } }] }] }
 
-    it 'returns the maximum distance from the returned results' do
-      result = service.call
-      expect(result).to be_kind_of(Numeric)
+    it { is_expected.to eq 10_000 }
+  end
+
+  context 'when multiple routes are returned' do
+    let(:returned_status) { 'OK' }
+    let(:returned_routes) do
+      [
+        { legs: [{ distance: { value: 10_000, text: '6.2 mi' } }] },
+        { legs: [{ distance: { value: 15_000, text: '9.3 mi' } }] },
+        { legs: [{ distance: { value: 12_000, text: '7.5 mi' } }] }
+      ]
     end
+
+    it { is_expected.to eq 15_000 }
   end
 
-  context 'when an invalid origin is provided', vcr: { cassette_name: 'maps/invalid_origin_result' } do
-    let(:origin) { 'A galaxy far far away' }
-    let(:destination) { 'MK40 1HG' }
+  context 'when a location could not be found' do
+    let(:returned_status) { 'NOT_FOUND' }
+    let(:returned_routes) { [] }
 
-    it { expect(service.call).to be_nil }
+    it { is_expected.to be_nil }
   end
 
-  context 'when an invalid destination is provided', vcr: { cassette_name: 'maps/invalid_destination_result' } do
-    let(:origin) { 'SW1A 2BJ' }
-    let(:destination) { 'A galaxy far far away' }
+  context 'when no routes are returned' do
+    let(:returned_status) { 'ZERO_RESULTS' }
+    let(:returned_routes) { [] }
 
-    it { expect(service.call).to be_nil }
+    it { is_expected.to be_nil }
+  end
+
+  context 'when the limit of API calls has been exceeded' do
+    let(:returned_status) { 'OVER_QUERY_LIMIT' }
+    let(:returned_routes) { [] }
+
+    it { is_expected.to be_nil }
+  end
+
+  context 'when the request has been denied' do
+    let(:returned_status) { 'REQUEST_DENIED' }
+    let(:returned_routes) { [] }
+
+    it { is_expected.to be_nil }
+  end
+
+  context 'when there was an unknown error' do
+    let(:returned_status) { 'UNKNOWN_ERROR' }
+    let(:returned_routes) { [] }
+
+    it { is_expected.to be_nil }
   end
 end

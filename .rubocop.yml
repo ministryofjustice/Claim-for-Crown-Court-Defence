@@ -151,6 +151,9 @@ Rails/WhereExists: # (new in 2.7)
 Rails/WhereNot: # (new in 2.8)
   Enabled: true
 
+RSpec/NestedGroups:
+  Max: 4
+
 Style/DateTime:
   AllowCoercion: true
 

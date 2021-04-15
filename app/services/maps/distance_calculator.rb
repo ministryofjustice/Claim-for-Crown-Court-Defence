@@ -15,9 +15,8 @@ module Maps
     end
 
     def call
-      params = query_options.merge(origin: origin, destination: destination)
       log("Calculating distance form #{origin} to #{destination}")
-      result = Maps::DirectionsResult.new(JSON.parse(directions(**params).body))
+      result = Maps::DirectionsResult.new(routes)
       result.max_distance
     rescue StandardError => e
       log("Failed to calculating distance form #{origin} to #{destination}", error: e, level: :error)
@@ -26,7 +25,12 @@ module Maps
 
     private
 
-    def directions(params = {})
+    def routes
+      JSON.parse(directions.body)['routes']
+    end
+
+    def directions
+      params = query_options.merge(origin: origin, destination: destination)
       RestClient.get GOOGLE_DIRECTIONS_API, params: params
     end
 

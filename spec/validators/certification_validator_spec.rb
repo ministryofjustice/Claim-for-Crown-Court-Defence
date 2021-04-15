@@ -56,7 +56,8 @@ RSpec.describe CertificationValidator, type: :validator do
 
     it {
       certification.valid?
-      expect(certification.errors.messages[:certified_by]).to include('Enter the name of person certifying')
+      expect(certification.errors.messages[:certified_by])
+        .to include('Enter the name of person certifying')
     }
   end
 
@@ -72,7 +73,8 @@ RSpec.describe CertificationValidator, type: :validator do
 
       it {
         certification.valid?
-        expect(certification.errors.messages[:certification_date]).to include('Certification date must be same day or after claim submission day')
+        expect(certification.errors.messages[:certification_date])
+          .to include('Certification date must be same day or after claim submission day')
       }
     end
 
@@ -85,7 +87,8 @@ RSpec.describe CertificationValidator, type: :validator do
 
       it {
         certification.valid?
-        expect(certification.errors.messages[:certification_date]).to include('Certification date cannot be in the future')
+        expect(certification.errors.messages[:certification_date])
+          .to include('Certification date cannot be in the future')
       }
     end
   end

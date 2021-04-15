@@ -1,9 +1,6 @@
-require 'googlemaps/services/client'
-require 'googlemaps/services/directions'
-
 module Maps
   class DistanceCalculator
-    include GoogleMaps::Services
+    GOOGLE_DIRECTIONS_API = 'https://maps.google.com/maps/api/directions/json'.freeze
 
     def self.call(origin, destination, options = {})
       new(origin, destination, options).call
@@ -20,7 +17,7 @@ module Maps
     def call
       params = query_options.merge(origin: origin, destination: destination)
       log("Calculating distance form #{origin} to #{destination}")
-      result = Maps::DirectionsResult.new(directions.query(**params))
+      result = Maps::DirectionsResult.new(JSON.parse(directions(**params).body))
       result.max_distance
     rescue StandardError => e
       log("Failed to calculating distance form #{origin} to #{destination}", error: e, level: :error)
@@ -29,12 +26,8 @@ module Maps
 
     private
 
-    def client
-      GoogleClient.new(key: Rails.application.secrets.google_api_key, response_format: :json)
-    end
-
-    def directions
-      Directions.new(client)
+    def directions(params = {})
+      RestClient.get GOOGLE_DIRECTIONS_API, params: params
     end
 
     def query_options
@@ -44,7 +37,8 @@ module Maps
     def default_options
       {
         region: 'uk',
-        alternatives: true
+        alternatives: true,
+        key: Rails.application.secrets.google_api_key
       }
     end
 

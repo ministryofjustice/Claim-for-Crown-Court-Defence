@@ -23,14 +23,20 @@ RSpec.describe Maps::DirectionsResult, type: :model do
   end
 
   describe '#max_distance' do
+    it 'returns the max distance out of the available routes' do
+      expect(result.max_distance).to eq(118943)
+    end
+
     context 'when the provided response does not have any routes' do
       let(:response) { [] }
 
       it { expect(result.max_distance).to be_nil }
     end
 
-    it 'returns the max distance out of the available routes' do
-      expect(result.max_distance).to eq(118943)
+    context 'when the routes data is broken' do
+      let(:response) { [{ legs: [{ not_distance: { value: 10_000, text: '6.2 mi' } }] }] }
+
+      it { expect(result.max_distance).to be_nil }
     end
   end
 end

@@ -3,13 +3,6 @@ describe('Feedback', () => {
     cy.visit('/feedback/new')
   })
 
-  context('submitting feedback as a logged in user', () => {
-    it.only('logs in and does not show email field in form', () => {
-      cy.visit('/')
-      cy.login()
-      cy.visit('/')
-    })
-  })
   context('submitting feedback', () => {
     it('checks validation and accepts feedback', () => {
       cy.url().should('include', 'feedback/new')

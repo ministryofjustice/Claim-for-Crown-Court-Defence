@@ -92,6 +92,12 @@ FactoryBot.define do
         a.save_settings! email_notification_of_message: false
       end
     end
+
+    trait :for_test do
+      after(:build) do |a|
+        a.user = create(:user, email: 'person@example.com', password: 'password', password_confirmation: 'password')
+      end
+    end
   end
 end
 

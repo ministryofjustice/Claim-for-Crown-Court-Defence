@@ -8,7 +8,8 @@ class CertificationValidator < BaseValidator
   private
 
   def validate_certification_type_id
-    validate_presence(:certification_type_id, :blank) if @record&.claim&.agfs?
+    return unless @record&.claim&.agfs? && @record&.claim&.final?
+    validate_presence(:certification_type_id, :blank)
   end
 
   def validate_certified_by

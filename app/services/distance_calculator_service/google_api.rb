@@ -23,7 +23,7 @@ class DistanceCalculatorService
       @routes ||= begin
         JSON.parse(directions)['routes']
       rescue StandardError => e
-        log("Failed to calculating distance form #{@origin} to #{@destination}", error: e, level: :error)
+        log("Failed to calculate distance from #{@origin} to #{@destination}", error: e, level: :error)
         []
       end
     end

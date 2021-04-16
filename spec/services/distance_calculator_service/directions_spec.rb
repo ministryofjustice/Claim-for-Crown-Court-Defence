@@ -31,6 +31,32 @@ RSpec.describe DistanceCalculatorService::Directions do
       it { is_expected.to eq 15_000 }
     end
 
+    context 'when a route is missing any legs' do
+      let(:returned_status) { 'OK' }
+      let(:returned_routes) do
+        [
+          { legs: [{ distance: { value: 10_000, text: '6.2 mi' } }] },
+          {},
+          { legs: [{ distance: { value: 12_000, text: '7.5 mi' } }] }
+        ]
+      end
+
+      it { is_expected.to eq 12_000 }
+    end
+
+    context 'when a leg is missing a distance' do
+      let(:returned_status) { 'OK' }
+      let(:returned_routes) do
+        [
+          { legs: [{ distance: { value: 10_000, text: '6.2 mi' } }] },
+          { legs: [{}] },
+          { legs: [{ distance: { value: 12_000, text: '7.5 mi' } }] }
+        ]
+      end
+
+      it { is_expected.to eq 12_000 }
+    end
+
     context 'when a location could not be found' do
       let(:returned_status) { 'NOT_FOUND' }
       let(:returned_routes) { [] }

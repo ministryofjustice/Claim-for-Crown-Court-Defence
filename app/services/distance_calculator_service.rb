@@ -9,52 +9,38 @@ class DistanceCalculatorService
   end
 
   def call
-    return validation_error unless valid_inputs?
-    distance = DistanceCalculatorService::Directions.new(origin, destination).max_distance
-
-    return response(nil) unless distance
-    # NOTE: returned distance is just one way so for the purposes
-    # of the travel expense it needs to be a return distance (doubled up)
-    return response(distance * 2)
+    response.tap do |data|
+      data.value =  DistanceCalculatorService::Directions.new(origin, destination).max_distance unless data.error
+      # NOTE: returned distance is just one way so for the purposes
+      # of the travel expense it needs to be a return distance (doubled up)
+      data.value *= 2 if data.value
+    end
   end
 
   private
 
   attr_reader :claim, :params
-  attr_accessor :validation_error
 
-  def response(value=nil, error: nil)
-    OpenStruct.new(value: value, error: error)
-  end
-
-  def valid_inputs?
-    result = validate_inputs
-    self.validation_error = result if result.error
-    validation_error.nil?
+  def response
+    OpenStruct.new(value: nil, error: validate_inputs)
   end
 
   def validate_inputs
-    validate_claim
-    validate_origin
-    validate_destination
-
-    response
-  rescue RuntimeError => e
-    response(error: e.message.to_sym)
+    validate_claim || validate_origin || validate_destination
   end
 
   def validate_claim
-    raise 'claim_not_found' unless claim
-    raise 'invalid_claim_type' unless claim.lgfs?
+    return :claim_not_found unless claim
+    return :invalid_claim_type unless claim.lgfs?
   end
 
   def validate_origin
-    raise 'missing_origin' unless origin
+    return :missing_origin unless origin
   end
 
   def validate_destination
-    raise 'missing_destination' unless destination
-    raise 'invalid_destination' unless destination.match?(Settings.postcode_regexp)
+    return :missing_destination unless destination
+    return :invalid_destination unless destination.match?(Settings.postcode_regexp)
   end
 
   def origin

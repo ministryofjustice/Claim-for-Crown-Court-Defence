@@ -29,5 +29,26 @@ RSpec.describe Maps::DistanceCalculator, type: :service do
 
       it { is_expected.to be_nil }
     end
+
+    context 'when an invalid API key is used', vcr: { cassette_name: 'maps/invalid_key_response' } do
+      let(:origin) { 'SW1A 2BJ' }
+      let(:destination) { 'MK40 1HG' }
+
+      before do
+        allow(LogStuff).to receive(:send)
+      end
+
+      it { is_expected.to be_nil }
+
+      it 'logs info' do
+        call
+        expect(LogStuff).to have_received(:send).with(:info, any_args).once
+      end
+
+      it 'logs errors' do
+        call
+        expect(LogStuff).to have_received(:send).with(:error, any_args).once
+      end
+    end
   end
 end

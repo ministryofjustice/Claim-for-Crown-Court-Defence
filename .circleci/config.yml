@@ -241,7 +241,8 @@ commands:
         type: string
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.14
       - run:
           name: deploying to << parameters.environment >>
           command: |
@@ -318,7 +319,8 @@ jobs:
     executor: test-executor
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.14
       - *create-tmp-dir
       - *install-codeclimate
       - *persist-codeclimate
@@ -382,7 +384,8 @@ jobs:
     executor: cloud-platform-executor
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.14
       - *script-build-app-container
 
   hold-build-notification:

@@ -2,66 +2,68 @@ require 'rails_helper'
 # See https://developers.google.com/maps/documentation/directions/get-directions for example responses from the
 # Google Directions API
 
-RSpec.describe DistanceCalculatorService::Directions, type: :service do
-  subject { described_class.new('SW1A 1AA', 'SW1A 2AA').call }
-
+RSpec.describe DistanceCalculatorService::Directions do
   before do
     stub_request(:get, %r{maps.google.com/maps/api/directions/json})
       .to_return(status: 200, body: { status: returned_status, routes: returned_routes }.to_json)
   end
 
-  context 'when one route is returned' do
-    let(:returned_status) { 'OK' }
-    let(:returned_routes) { [{ legs: [{ distance: { value: 10_000, text: '6.2 mi' } }] }] }
+  describe '#max_distance' do
+    subject { described_class.new('SW1A 1AA', 'SW1A 2AA').max_distance }
 
-    it { is_expected.to eq 10_000 }
-  end
+    context 'when one route is returned' do
+      let(:returned_status) { 'OK' }
+      let(:returned_routes) { [{ legs: [{ distance: { value: 10_000, text: '6.2 mi' } }] }] }
 
-  context 'when multiple routes are returned' do
-    let(:returned_status) { 'OK' }
-    let(:returned_routes) do
-      [
-        { legs: [{ distance: { value: 10_000, text: '6.2 mi' } }] },
-        { legs: [{ distance: { value: 15_000, text: '9.3 mi' } }] },
-        { legs: [{ distance: { value: 12_000, text: '7.5 mi' } }] }
-      ]
+      it { is_expected.to eq 10_000 }
     end
 
-    it { is_expected.to eq 15_000 }
-  end
+    context 'when multiple routes are returned' do
+      let(:returned_status) { 'OK' }
+      let(:returned_routes) do
+        [
+          { legs: [{ distance: { value: 10_000, text: '6.2 mi' } }] },
+          { legs: [{ distance: { value: 15_000, text: '9.3 mi' } }] },
+          { legs: [{ distance: { value: 12_000, text: '7.5 mi' } }] }
+        ]
+      end
 
-  context 'when a location could not be found' do
-    let(:returned_status) { 'NOT_FOUND' }
-    let(:returned_routes) { [] }
+      it { is_expected.to eq 15_000 }
+    end
 
-    it { is_expected.to be_nil }
-  end
+    context 'when a location could not be found' do
+      let(:returned_status) { 'NOT_FOUND' }
+      let(:returned_routes) { [] }
 
-  context 'when no routes are returned' do
-    let(:returned_status) { 'ZERO_RESULTS' }
-    let(:returned_routes) { [] }
+      it { is_expected.to be_nil }
+    end
 
-    it { is_expected.to be_nil }
-  end
+    context 'when no routes are returned' do
+      let(:returned_status) { 'ZERO_RESULTS' }
+      let(:returned_routes) { [] }
 
-  context 'when the limit of API calls has been exceeded' do
-    let(:returned_status) { 'OVER_QUERY_LIMIT' }
-    let(:returned_routes) { [] }
+      it { is_expected.to be_nil }
+    end
 
-    it { is_expected.to be_nil }
-  end
+    context 'when the limit of API calls has been exceeded' do
+      let(:returned_status) { 'OVER_QUERY_LIMIT' }
+      let(:returned_routes) { [] }
 
-  context 'when the request has been denied' do
-    let(:returned_status) { 'REQUEST_DENIED' }
-    let(:returned_routes) { [] }
+      it { is_expected.to be_nil }
+    end
 
-    it { is_expected.to be_nil }
-  end
+    context 'when the request has been denied' do
+      let(:returned_status) { 'REQUEST_DENIED' }
+      let(:returned_routes) { [] }
 
-  context 'when there was an unknown error' do
-    let(:returned_status) { 'UNKNOWN_ERROR' }
-    let(:returned_routes) { [] }
+      it { is_expected.to be_nil }
+    end
 
-    it { is_expected.to be_nil }
+    context 'when there was an unknown error' do
+      let(:returned_status) { 'UNKNOWN_ERROR' }
+      let(:returned_routes) { [] }
+
+      it { is_expected.to be_nil }
+    end
   end
 end

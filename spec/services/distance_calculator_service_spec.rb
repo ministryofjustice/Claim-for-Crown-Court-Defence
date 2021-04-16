@@ -68,8 +68,8 @@ RSpec.describe DistanceCalculatorService, type: :service do
 
   context 'when the distance cannot be calculated' do
     it 'returns nil as the calculated distance' do
-      expect(DistanceCalculatorService::Directions)
-        .to receive(:call).with(supplier_postcode, destination).and_return(nil)
+      allow(DistanceCalculatorService::Directions)
+        .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: nil))
 
       result = service.call
 
@@ -79,8 +79,8 @@ RSpec.describe DistanceCalculatorService, type: :service do
   end
 
   it 'returns the calculated return distance value' do
-    expect(DistanceCalculatorService::Directions)
-      .to receive(:call).with(supplier_postcode, destination).and_return(847)
+    allow(DistanceCalculatorService::Directions)
+      .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: 847))
 
     result = service.call
 

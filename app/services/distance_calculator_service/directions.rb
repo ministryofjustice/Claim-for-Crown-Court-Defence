@@ -2,10 +2,6 @@ class DistanceCalculatorService
   class Directions
     GOOGLE_DIRECTIONS_API = 'https://maps.google.com/maps/api/directions/json'.freeze
 
-    def self.call(origin, destination, options = {})
-      new(origin, destination, options).call
-    end
-
     attr_reader :origin, :destination, :options
 
     def initialize(origin, destination, options = {})
@@ -14,8 +10,7 @@ class DistanceCalculatorService
       @options = options || {}
     end
 
-    def call
-      log("Calculating distance form #{origin} to #{destination}")
+    def max_distance
       result = DistanceCalculatorService::DirectionsResult.new(routes)
       result.max_distance
     rescue StandardError => e

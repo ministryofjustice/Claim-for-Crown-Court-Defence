@@ -74,7 +74,8 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
 
     context 'but the distance cannot be calculated' do
       it 'returns nil as the calculated distance' do
-        expect(DistanceCalculatorService::Directions).to receive(:call).with(supplier_postcode, destination).and_return(nil)
+        allow(DistanceCalculatorService::Directions)
+          .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: nil))
 
         post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
 
@@ -85,7 +86,8 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
     end
 
     it 'returns the calculated return distance value' do
-      expect(DistanceCalculatorService::Directions).to receive(:call).with(supplier_postcode, destination).and_return(847)
+      allow(DistanceCalculatorService::Directions)
+        .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: 847))
 
       post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
 

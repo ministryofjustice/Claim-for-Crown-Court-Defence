@@ -91,5 +91,13 @@ RSpec.describe DistanceCalculatorService::GoogleApi do
 
       it { is_expected.to eq([]) }
     end
+
+    context 'when the request fails' do
+      before do
+        stub_request(:get, %r{maps.google.com/maps/api/directions/json}).to_return(status: 500)
+      end
+
+      it { is_expected.to eq([]) }
+    end
   end
 end

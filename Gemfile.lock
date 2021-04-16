@@ -240,10 +240,6 @@ GEM
     dry-logic (1.1.1)
       concurrent-ruby (~> 1.0)
       dry-core (~> 0.5, >= 0.5)
-    dry-monads (1.3.5)
-      concurrent-ruby (~> 1.0)
-      dry-core (~> 0.4, >= 0.4.4)
-      dry-equalizer
     dry-schema (1.6.1)
       concurrent-ruby (~> 1.0)
       dry-configurable (~> 0.8, >= 0.8.3)
@@ -802,7 +798,6 @@ DEPENDENCIES
   database_cleaner
   devise (~> 4.7.3)
   dotenv-rails
-  dry-monads (~> 1.3.5)
   factory_bot_rails (~> 6.1.0)
   faker (~> 2.17.0)
   geckoboard-ruby

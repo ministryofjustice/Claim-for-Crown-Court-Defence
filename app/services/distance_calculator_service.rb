@@ -1,8 +1,4 @@
-require 'dry/monads/all'
-
 class DistanceCalculatorService
-  include Dry::Monads
-
   def self.call(claim, params)
     new(claim, params).call
   end
@@ -16,10 +12,10 @@ class DistanceCalculatorService
     return validation_error unless valid_inputs?
     distance = DistanceCalculatorService::Directions.new(origin, destination).max_distance
 
-    return Success.new(nil) unless distance
+    return response(nil) unless distance
     # NOTE: returned distance is just one way so for the purposes
     # of the travel expense it needs to be a return distance (doubled up)
-    Success.new(distance * 2)
+    return response(distance * 2)
   end
 
   private
@@ -27,9 +23,13 @@ class DistanceCalculatorService
   attr_reader :claim, :params
   attr_accessor :validation_error
 
+  def response(value=nil, error: nil)
+    OpenStruct.new(value: value, error: error)
+  end
+
   def valid_inputs?
     result = validate_inputs
-    self.validation_error = result unless result.success?
+    self.validation_error = result if result.error
     validation_error.nil?
   end
 
@@ -38,9 +38,9 @@ class DistanceCalculatorService
     validate_origin
     validate_destination
 
-    Success.new(:valid)
+    response
   rescue RuntimeError => e
-    Failure.new(e.message.to_sym)
+    response(error: e.message.to_sym)
   end
 
   def validate_claim

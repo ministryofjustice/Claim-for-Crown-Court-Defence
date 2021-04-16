@@ -3,6 +3,10 @@ require 'dry/monads/all'
 class DistanceCalculatorService
   include Dry::Monads
 
+  def self.call(claim, params)
+    new(claim, params).call
+  end
+
   def initialize(claim, params)
     @claim = claim
     @params = params

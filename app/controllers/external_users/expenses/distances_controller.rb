@@ -3,7 +3,7 @@ class ExternalUsers::Expenses::DistancesController < ExternalUsers::ApplicationC
   before_action :set_claim, only: %i[create]
 
   def create
-    result = DistanceCalculatorService.new(@claim, distance_params).call
+    result = DistanceCalculatorService.call(@claim, distance_params)
     respond_to do |format|
       format.json do
         if result.success?

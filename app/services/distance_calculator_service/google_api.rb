@@ -1,7 +1,5 @@
 class DistanceCalculatorService
   class GoogleApi
-    GOOGLE_DIRECTIONS_API = 'https://maps.google.com/maps/api/directions/json'.freeze
-
     def initialize(origin, destination)
       @origin = origin
       @destination = destination
@@ -29,7 +27,7 @@ class DistanceCalculatorService
     end
 
     def directions
-      @directions ||= RestClient.get(GOOGLE_DIRECTIONS_API, params: params).body
+      @directions ||= RestClient.get(Rails.application.config.google_directions_api_url, params: params).body
     end
 
     def params

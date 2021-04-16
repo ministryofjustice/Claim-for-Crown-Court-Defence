@@ -13,7 +13,7 @@ RSpec.describe Maps::DistanceCalculator, type: :service do
       let(:destination) { 'MK40 1HG' }
 
       it { is_expected.to be_kind_of(Numeric) }
-      it { is_expected.to be(118_943) }
+      it { is_expected.to be(116_252) }
     end
 
     context 'when an invalid origin is provided', vcr: { cassette_name: 'maps/invalid_origin_result' } do

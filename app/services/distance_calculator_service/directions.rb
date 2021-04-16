@@ -1,7 +1,5 @@
 class DistanceCalculatorService
   class Directions
-    GOOGLE_DIRECTIONS_API = 'https://maps.google.com/maps/api/directions/json'.freeze
-
     def initialize(origin, destination)
       @origin = origin
       @destination = destination

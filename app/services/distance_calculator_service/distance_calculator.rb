@@ -1,4 +1,4 @@
-module Maps
+class DistanceCalculatorService
   class DistanceCalculator
     GOOGLE_DIRECTIONS_API = 'https://maps.google.com/maps/api/directions/json'.freeze
 
@@ -16,7 +16,7 @@ module Maps
 
     def call
       log("Calculating distance form #{origin} to #{destination}")
-      result = Maps::DirectionsResult.new(routes)
+      result = DistanceCalculatorService::DirectionsResult.new(routes)
       result.max_distance
     rescue StandardError => e
       log("Failed to calculating distance form #{origin} to #{destination}", error: e, level: :error)
@@ -49,7 +49,7 @@ module Maps
     def log(message, error: nil, level: :info)
       LogStuff.send(
         level,
-        class: 'Maps::DistanceCalculator',
+        class: 'DistanceCalculatorService::DistanceCalculator',
         action: 'call',
         origin: origin,
         destination: destination,

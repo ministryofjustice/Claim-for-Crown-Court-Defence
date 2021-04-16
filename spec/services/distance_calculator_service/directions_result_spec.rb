@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Maps::DirectionsResult, type: :model do
+RSpec.describe DistanceCalculatorService::DirectionsResult, type: :model do
   let(:response) {
     VCR.use_cassette('maps/valid_result') do |cassette|
       interaction = cassette.serializable_hash['http_interactions'][0]

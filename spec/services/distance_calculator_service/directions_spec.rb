@@ -2,7 +2,7 @@ require 'rails_helper'
 # See https://developers.google.com/maps/documentation/directions/get-directions for example responses from the
 # Google Directions API
 
-RSpec.describe DistanceCalculatorService::DistanceCalculator, type: :service do
+RSpec.describe DistanceCalculatorService::Directions, type: :service do
   subject { described_class.new('SW1A 1AA', 'SW1A 2AA').call }
 
   before do

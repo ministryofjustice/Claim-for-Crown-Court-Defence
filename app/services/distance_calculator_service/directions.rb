@@ -1,5 +1,5 @@
 class DistanceCalculatorService
-  class DistanceCalculator
+  class Directions
     GOOGLE_DIRECTIONS_API = 'https://maps.google.com/maps/api/directions/json'.freeze
 
     def self.call(origin, destination, options = {})
@@ -49,7 +49,7 @@ class DistanceCalculatorService
     def log(message, error: nil, level: :info)
       LogStuff.send(
         level,
-        class: 'DistanceCalculatorService::DistanceCalculator',
+        class: 'DistanceCalculatorService::Directions',
         action: 'call',
         origin: origin,
         destination: destination,

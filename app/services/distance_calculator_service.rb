@@ -14,7 +14,8 @@ class DistanceCalculatorService
 
   def call
     return validation_error unless valid_inputs?
-    distance = DistanceCalculatorService::DistanceCalculator.call(origin, destination)
+    distance = DistanceCalculatorService::Directions.new(origin, destination).call
+
     return Success.new(nil) unless distance
     # NOTE: returned distance is just one way so for the purposes
     # of the travel expense it needs to be a return distance (doubled up)

@@ -1,11 +1,11 @@
 ---
 :logfile: ./log/sidekiq.log
 :queues:
+  - [convert_document, 3]
   - [mailers, 3]
   - [default, 2]
   - [claims, 2]
   - [stats_reports, 1]
-  - [convert_document, 1]
 development:
   :verbose: true
   :concurrency: 5

@@ -3,10 +3,6 @@ require 'dry/monads/all'
 class DistanceCalculatorService
   include Dry::Monads
 
-  def self.call(claim, params)
-    new(claim, params).call
-  end
-
   def initialize(claim, params)
     @claim = claim
     @params = params
@@ -14,7 +10,7 @@ class DistanceCalculatorService
 
   def call
     return validation_error unless valid_inputs?
-    distance = DistanceCalculatorService::Directions.new(origin, destination).call
+    distance = DistanceCalculatorService::Directions.new(origin, destination).max_distance
 
     return Success.new(nil) unless distance
     # NOTE: returned distance is just one way so for the purposes

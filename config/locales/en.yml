@@ -180,8 +180,6 @@ en:
         supplier_number: 'Supplier number'
       case_worker:
         roles: *roles
-      certification:
-        certified_by: 'Name of person certifying'
       user:
         email: *email
         password: *password
@@ -214,11 +212,6 @@ en:
               blank: "can't be blank"
             claim_ids:
               blank: "can't be blank"
-        certification:
-          attributes:
-            certification_date:
-              after_claim_creation: "must be same day or after claim submission day"
-              not_in_the_future: "can't be in the future"
         fee/graduated_fee:
           attributes:
             claim:
@@ -778,27 +771,6 @@ en:
     your_claims: Your claims
     claim_heading: Claim for Crown Court fees
 
-    certifications:
-      new:
-        submit: Certify and submit claim
-        return: Return to claim
-        error_summary: This claim certification has
-        certified_by: 'Name of person certifying'
-        certified_by_prompt_text: 'Enter full name'
-        certification_date: 'Date'
-        date: 'Date'
-        page_title_transfer_claim: Certify and submit the litigator transfer fees claim
-        page_title_advocate_claim: advocate claim
-        page_heading: Certification
-        page_title:
-          agfs_final: Certify and submit the advocate final fees claim
-          agfs_interim: Certify and submit the advocate warrant fees claim
-          agfs_hardship: Certify and submit the advocate hardship fees claim
-          agfs_supplementary: Certify and submit the advocate supplementary fees claim
-          lgfs_final: Certify and submit the litigator final fees claim
-          lgfs_interim: Certify and submit the litigator interim fees claim
-          lgfs_transfer: Certify and submit the litigator transfer fees claim
-          lgfs_hardship: Certify and submit the litigator hardship fees claim
     claim_types:
       new:
         continue: Continue

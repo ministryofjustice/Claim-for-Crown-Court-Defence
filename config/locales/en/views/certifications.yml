@@ -1,0 +1,61 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        certification:
+          attributes:
+            certification_date:
+              after_claim_creation: Certification date must be same day or after claim submission day
+              blank: Enter certifying date
+              not_in_the_future: Certification date cannot be in the future
+            certification_type_id:
+              blank: Choose a certification type
+            certified_by:
+              blank: Enter the name of person certifying
+
+  external_users:
+    certifications:
+      new:
+        agfs_claim_collection_html:
+          <p class="govuk-body">By ticking a box, you confirm you are the trial advocate (in cases where legal aid was granted on or after 5 May 2015) or instructed advocate and that you are entitled to submit a claim for this case. If our records show that you are not the trial or instructed advocate, we may reject this claim without payment.</p>
+          <p class="govuk-body">Please only tick the relevant box.</p>
+          <p class="govuk-body">Final fee claims where the representation order was granted on or after 5 May 2015.</p>
+        agfs_claim_confirmation_info_html:
+          <p class="govuk-body">All of the above options are in accordance with relevant provision of any secondary legislation arising from the Legal Aid, Sentencing and Punishment of Offenders Act 2012.</p>
+          <p class="govuk-body">You also confirm that you certify that:</p>
+          <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
+          <li>where you’ve represented more than one defendant in a case, you have only made, and will make, one claim for all those defendants together, including where one defendant has transferred representation to another advocate.</li>
+          <li>neither you nor any other advocate has received any interim, hardship or staged payment on any case number within this matter other than the one under which this claim is made - unless fully detailed (case number, court and advocate supplier number under which payment was made) within this claim.</li>
+          <li>where there is a joined indictment, you have included all matters that you as the instructed advocate have dealt with within that indictment in this claim.</li>
+          <li>where a case has been transferred from one crown court to another, no claim has been made separately for the work in the first crown court and all work in both courts is included in this claim.</li>
+          <li>this work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.</li>
+          <li>the information you have provided is correct and that you have not made, and will not make, any other claim for payment from criminal legal aid for the work you have done on this claim. You understand that you have given incorrect or misleading information, your payment may be recouped.</li>
+          <li>if you are claiming a staged payment, you will make sure that any subsequent trial advocate is advised of this payment, with all necessary claim and payment details.</li>
+          </ul>
+        certification_type_post_may_2015: "I certify that I am the trial advocate as:"
+        certification_type_pre_may_2015: All other claims
+        certification_type_pre_may_2015_hint: "I certify that I am the instructed advocate as:"
+        lgfs_claim_html:
+          <p class="govuk-body">I certify on behalf of the payee, that the information provided is correct. This work has not been and will not be the subject of any other claim for remuneration from criminal legal aid.</p>
+        other_claim_html:
+          <p class="govuk-body">I certify on behalf of the payee, that the information provided is correct.</p>
+        submit: Certify and submit claim
+        return: Return to claim
+        error_summary: This claim certification has
+        certified_by: 'Name of person certifying'
+        certified_by_prompt_text: 'Enter full name'
+        certification_date: 'Date'
+        date: 'Date'
+        page_title_transfer_claim: Certify and submit the litigator transfer fees claim
+        page_title_advocate_claim: advocate claim
+        page_heading: Certification
+        page_title:
+          agfs_final: Certify and submit the advocate final fees claim
+          agfs_interim: Certify and submit the advocate warrant fees claim
+          agfs_hardship: Certify and submit the advocate hardship fees claim
+          agfs_supplementary: Certify and submit the advocate supplementary fees claim
+          lgfs_final: Certify and submit the litigator final fees claim
+          lgfs_interim: Certify and submit the litigator interim fees claim
+          lgfs_transfer: Certify and submit the litigator transfer fees claim
+          lgfs_hardship: Certify and submit the litigator hardship fees claim

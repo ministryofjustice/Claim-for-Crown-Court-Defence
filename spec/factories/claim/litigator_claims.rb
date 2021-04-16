@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :litigator_claim, class: 'Claim::LitigatorClaim' do
+  factory :litigator_claim, aliases: [:litigator_final_claim], class: 'Claim::LitigatorClaim' do
     litigator_base_setup
     claim_state_common_traits
 

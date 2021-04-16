@@ -1,11 +1,16 @@
 class CertificationValidator < BaseValidator
   class << self
     def mandatory_fields
-      %i[certified_by certification_date]
+      %i[certification_type_id certified_by certification_date]
     end
   end
 
   private
+
+  def validate_certification_type_id
+    return unless @record&.claim&.agfs? && @record&.claim&.final?
+    validate_presence(:certification_type_id, :blank)
+  end
 
   def validate_certified_by
     validate_presence(:certified_by, :blank)

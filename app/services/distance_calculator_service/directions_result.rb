@@ -1,4 +1,4 @@
-module Maps
+class DistanceCalculatorService
   class DirectionsResult
     def initialize(response)
       @response = response
@@ -25,7 +25,7 @@ module Maps
         route['legs'].map { |leg| leg['distance']['value'] }
       end
     rescue StandardError => e
-      LogStuff.error(class: 'Maps::DirectionsResult', action: 'map_distances', error: "#{e.class} - #{e.message}") do
+      LogStuff.error(class: 'DistanceCalculatorService::DirectionsResult', action: 'map_distances', error: "#{e.class} - #{e.message}") do
         "[MAPS] Error mapping directions distance results: #{e.message}"
       end
       []

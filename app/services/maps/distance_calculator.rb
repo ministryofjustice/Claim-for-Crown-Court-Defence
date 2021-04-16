@@ -57,7 +57,7 @@ module Maps
         destination: destination,
         error: error ? "#{error.class} - #{error.message}" : 'false'
       ) do
-        message
+        message.prepend('[MAPS] ')
       end
     end
   end

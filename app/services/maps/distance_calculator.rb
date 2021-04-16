@@ -18,23 +18,26 @@ module Maps
     end
 
     def call
-      params = query_options.merge(origin: origin, destination: destination)
-      log("Calculating distance form #{origin} to #{destination}")
-      result = Maps::DirectionsResult.new(directions.query(**params))
-      result.max_distance
+      log("Calculating distance from #{origin} to #{destination}")
+      direction_result.max_distance
     rescue StandardError => e
-      log("Failed to calculating distance form #{origin} to #{destination}", error: e, level: :error)
+      log("Failed to calculate distance from #{origin} to #{destination}", error: e, level: :error)
       nil
     end
 
     private
 
-    def client
-      GoogleClient.new(key: Rails.application.secrets.google_api_key, response_format: :json)
+    def direction_result
+      params = query_options.merge(origin: origin, destination: destination)
+      Maps::DirectionsResult.new(directions_client.query(**params))
     end
 
-    def directions
-      Directions.new(client)
+    def directions_client
+      Directions.new(google_client)
+    end
+
+    def google_client
+      GoogleClient.new(key: Rails.application.secrets.google_api_key, response_format: :json)
     end
 
     def query_options

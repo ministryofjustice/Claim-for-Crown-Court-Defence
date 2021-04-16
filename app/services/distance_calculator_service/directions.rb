@@ -2,18 +2,20 @@ class DistanceCalculatorService
   class Directions
     GOOGLE_DIRECTIONS_API = 'https://maps.google.com/maps/api/directions/json'.freeze
 
-    delegate :max_distance, to: :results
-
     def initialize(origin, destination, options = {})
       @origin = origin
       @destination = destination
       @options = options
     end
 
+    def max_distance
+      distances.max
+    end
+
     private
 
-    def results
-      @results ||= DistanceCalculatorService::DirectionsResult.new(routes)
+    def distances
+      @distances ||= routes.map { |route| route['legs']&.sum { |leg| leg.dig('distance', 'value') }.to_i }
     end
 
     def routes

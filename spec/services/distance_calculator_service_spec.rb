@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Expenses::TravelDistanceCalculator, type: :service do
+RSpec.describe DistanceCalculatorService, type: :service do
   subject(:service) { described_class.new(claim, params) }
 
   let(:supplier_number) { '9A999I' }

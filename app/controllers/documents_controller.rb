@@ -35,6 +35,8 @@ class DocumentsController < ApplicationController
   end
 
   def show
+    raise ActiveRecord::RecordNotFound, 'Preview not found' unless document.converted_preview_document.attached?
+
     redirect_to document.converted_preview_document.blob.service_url(disposition: :inline)
   end
 

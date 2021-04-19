@@ -24,6 +24,7 @@ class DocumentConverterService
     end
   rescue IOError => e
     log('Failed to convert document', e)
+    raise
   end
 
   def with_attached_file(document)

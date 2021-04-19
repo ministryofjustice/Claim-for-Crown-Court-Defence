@@ -56,15 +56,16 @@ class Document < ApplicationRecord
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
 
-  before_create :create_preview_document
   before_create -> { populate_paperclip_for :document }
-  before_create -> { populate_paperclip_for :converted_preview_document }
+  after_create :convert_document
 
   before_destroy :purge_attachments
 
   def copy_from(original)
     document.attach(original.document.blob)
-    converted_preview_document.attach(original.converted_preview_document.blob)
+    if original.converted_preview_document.attached?
+      converted_preview_document.attach(original.converted_preview_document.blob)
+    end
     self.verified = original.verified
   end
 
@@ -93,8 +94,8 @@ class Document < ApplicationRecord
     errors.add(:document, "Total documents exceed maximum of #{max_doc_count}. This document has not been uploaded.")
   end
 
-  def create_preview_document
-    DocumentConverterService.new(document, converted_preview_document).call
+  def convert_document
+    ConvertDocumentJob.perform_later(to_param)
   end
 
   def purge_attachments

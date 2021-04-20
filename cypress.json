@@ -1,5 +1,6 @@
 {
   "baseUrl": "http://localhost:3000",
   "chromeWebSecurity": false,
+  "ignoreTestFiles": "**/integration/examples/*.spec.js",
   "video": false
 }

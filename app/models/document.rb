@@ -95,7 +95,7 @@ class Document < ApplicationRecord
   end
 
   def convert_document
-    ConvertDocumentJob.perform_later(to_param)
+    ConvertDocumentJob.set(wait: 30.seconds).perform_later(to_param)
   end
 
   def purge_attachments

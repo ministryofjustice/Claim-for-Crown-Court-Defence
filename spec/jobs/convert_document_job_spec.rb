@@ -55,6 +55,12 @@ RSpec.describe ConvertDocumentJob, type: :job do
       it { expect { perform }.to raise_error(IOError) }
     end
 
+    context 'when the document has been deleted' do
+      subject(:perform) { job.perform(999) }
+
+      it { expect { perform }.not_to raise_error }
+    end
+
     context 'when allowing for Paperclip rollback' do
       let(:document) { create :document, :docx }
 

@@ -25,7 +25,6 @@
 
 class Document < ApplicationRecord
   include Duplicable
-  include PaperclipRollback
 
   belongs_to :external_user
   belongs_to :creator, class_name: 'ExternalUser'
@@ -56,7 +55,6 @@ class Document < ApplicationRecord
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
 
-  before_create -> { populate_paperclip_for :document }
   after_create :convert_document
 
   before_destroy :purge_attachments

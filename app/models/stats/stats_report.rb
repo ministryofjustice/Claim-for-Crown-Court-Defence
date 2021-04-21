@@ -13,7 +13,6 @@
 module Stats
   class StatsReport < ApplicationRecord
     include S3Headers
-    include CheckSummable
 
     TYPES = %w[management_information provisional_assessment rejections_refusals].freeze
 
@@ -94,10 +93,6 @@ module Stats
 
     def self.destroy_unfinished_reports_older_than(report_name, timestamp)
       where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
-    end
-
-    def populate_checksum
-      add_checksum(:document)
     end
 
     private

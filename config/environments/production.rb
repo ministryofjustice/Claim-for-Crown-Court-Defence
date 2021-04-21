@@ -1,30 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  PAPERCLIP_STORAGE_OPTIONS = {
-    storage: :s3,
-    s3_credentials: 'config/aws.yml',
-    path: ":active_storage_path",
-    url: "documents/:id_partition/:filename",
-  }
-
-  REPORDER_STORAGE_OPTIONS = {
-    storage: :s3,
-    s3_credentials: 'config/aws.yml',
-    path: "reporders/:id_partition/:filename",
-    url: "reporders/:id_partition/:filename"
-  }
-
-  REPORTS_STORAGE_OPTIONS = {
-    storage: :s3,
-    s3_credentials: 'config/aws.yml',
-    path: ":active_storage_path",
-    url: "reports/:filename"
-  }
-
-  PAPERCLIP_STORAGE_PATH = 'documents/:id_partition/:filename'
-  REPORTS_STORAGE_PATH = 'reports/:filename'
-
   config.active_storage.service = :amazon
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.

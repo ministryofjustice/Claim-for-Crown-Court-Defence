@@ -16,8 +16,6 @@
 
 class Message < ApplicationRecord
   include S3Headers
-  include CheckSummable
-  include PaperclipRollback
 
   belongs_to :claim, class_name: 'Claim::BaseClaim'
   belongs_to :sender, class_name: 'User', inverse_of: :messages_sent
@@ -51,7 +49,6 @@ class Message < ApplicationRecord
 
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
-  before_save -> { populate_paperclip_for :attachment }
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
   before_destroy -> { attachment.purge }
 
@@ -65,10 +62,6 @@ class Message < ApplicationRecord
                   end
       where(attribute => object.id)
     end
-  end
-
-  def populate_checksum
-    add_checksum(:attachment)
   end
 
   private

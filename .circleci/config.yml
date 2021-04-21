@@ -123,7 +123,7 @@ executors:
   test-executor:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.7.1-node-browsers
+      - image: circleci/ruby:2.7.3-node-browsers
         environment:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_test
@@ -195,9 +195,9 @@ commands:
     steps:
       - restore_cache:
           keys:
-            - v3-dependencies-{{ checksum "Gemfile.lock" }}
+            - v4-dependencies-{{ checksum "Gemfile.lock" }}
             # fallback to using the latest cache if no exact match is found
-            - v3-dependencies-
+            - v4-dependencies-
       - run:
           name: Install ruby gem dependencies
           command: |
@@ -205,7 +205,7 @@ commands:
             gem install bundler -v $bundler_version
             bundle check || bundle install --jobs=4 --retry=3 --path vendor/bundle
       - save_cache:
-          key: v3-dependencies-{{ checksum "Gemfile.lock" }}
+          key: v4-dependencies-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
@@ -241,7 +241,8 @@ commands:
         type: string
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.14
       - run:
           name: deploying to << parameters.environment >>
           command: |
@@ -318,7 +319,8 @@ jobs:
     executor: test-executor
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.14
       - *create-tmp-dir
       - *install-codeclimate
       - *persist-codeclimate
@@ -382,7 +384,8 @@ jobs:
     executor: cloud-platform-executor
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 19.03.14
       - *script-build-app-container
 
   hold-build-notification:

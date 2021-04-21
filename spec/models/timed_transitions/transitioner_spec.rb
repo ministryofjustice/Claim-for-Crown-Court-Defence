@@ -305,11 +305,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
           context 'with an associated document' do
             let(:file) do
-              Rake::Test::UploadedFile.new(
-                File.expand_path('features/examples/longer_lorem.pdf'),
-                'application/pdf'
-              )
-              let(:document) { create :document, document: file, verified: true }
+              let(:document) { create :document, verified: true }
 
               before { claim.update(documents: [document]) }
 
@@ -486,24 +482,18 @@ RSpec.describe TimedTransitions::Transitioner do
           end
 
           context 'with an associated document' do
-            let(:file) do
-              Rake::Test::UploadedFile.new(
-                File.expand_path('features/examples/longer_lorem.pdf'),
-                'application/pdf'
-              )
-              let(:document) { create :document, document: file, verified: true }
+            let(:document) { create :document, verified: true }
 
-              before { claim.update(documents: [document]) }
+            before { claim.update(documents: [document]) }
 
-              it 'does not destroy associated documents' do
-                expect { run_transitioner }.not_to change(Document, :count)
-              end
+            it 'does not destroy associated documents' do
+              expect { run_transitioner }.not_to change(Document, :count)
+            end
 
-              it 'does not delete the file from storage' do
-                file_on_disk = ActiveStorage::Blob.service.send(:path_for, claim.documents.first.document.blob.key)
+            it 'does not delete the file from storage' do
+              file_on_disk = ActiveStorage::Blob.service.send(:path_for, claim.documents.first.document.blob.key)
 
-                expect { run_transitioner }.not_to(change { File.exist? file_on_disk })
-              end
+              expect { run_transitioner }.not_to(change { File.exist? file_on_disk })
             end
           end
 

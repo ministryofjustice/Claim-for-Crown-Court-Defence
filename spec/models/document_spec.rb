@@ -50,9 +50,8 @@ RSpec.describe Document, type: :model do
   describe '#save' do
     subject(:document_save) { document.save }
 
-    let(:document) { build :document, trait, claim: claim, form_id: claim.form_id }
+    let(:document) { build :document, :pdf, claim: claim, form_id: claim.form_id }
     let(:claim) { create :claim }
-    let(:trait) { :pdf }
 
     before { ActiveJob::Base.queue_adapter = :test }
 

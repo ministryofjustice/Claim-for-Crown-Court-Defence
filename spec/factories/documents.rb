@@ -25,11 +25,16 @@
 
 FactoryBot.define do
   factory :document do
+    transient do
+      sequence(:filename) { |n| "testfile#{n}.pdf" }
+    end
+
     document do
-      Rack::Test::UploadedFile.new(
-        File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
-        'application/pdf'
-      )
+      Dir.mktmpdir do |tmp|
+        temp_file = File.expand_path(filename, tmp)
+        FileUtils.cp(File.expand_path('features/examples/longer_lorem.pdf', Rails.root), temp_file)
+        Rack::Test::UploadedFile.new(temp_file, 'application/pdf')
+      end
     end
     claim
     external_user
@@ -37,26 +42,38 @@ FactoryBot.define do
     trait :pdf # default
 
     trait :docx do
+      transient do
+        sequence(:filename) { |n| "testfile#{n}.docx" }
+      end
+
       document do
-        Rack::Test::UploadedFile.new(
-          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
-          'application/msword'
-        )
+        Dir.mktmpdir do |tmp|
+          temp_file = File.expand_path(filename, tmp)
+          FileUtils.cp(File.expand_path('features/examples/shorter_lorem.docx', Rails.root), temp_file)
+          Rack::Test::UploadedFile.new(temp_file, 'application/msword')
+        end
       end
     end
 
     trait :with_preview do
-      document do
-        Rack::Test::UploadedFile.new(
-          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
-          'application/msword'
-        )
+      transient do
+        sequence(:filename) { |n| "testfile#{n}.docx" }
       end
+
+      document do
+        Dir.mktmpdir do |tmp|
+          temp_file = File.expand_path(filename, tmp)
+          FileUtils.cp(File.expand_path('features/examples/shorter_lorem.docx', Rails.root), temp_file)
+          Rack::Test::UploadedFile.new(temp_file, 'application/msword')
+        end
+      end
+
       converted_preview_document do
-        Rack::Test::UploadedFile.new(
-          File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
-          'application/pdf'
-        )
+        Dir.mktmpdir do |tmp|
+          temp_file = File.expand_path("#{filename}.pdf", tmp)
+          FileUtils.cp(File.expand_path('features/examples/longer_lorem.pdf', Rails.root), temp_file)
+          Rack::Test::UploadedFile.new(temp_file, 'application/pdf')
+        end
       end
     end
 
@@ -67,12 +84,6 @@ FactoryBot.define do
 
     trait :verified do
       verified_file_size { 2663 }
-      document do
-        Rack::Test::UploadedFile.new(
-          File.expand_path('features/examples/longer_lorem.pdf', Rails.root),
-          'application/pdf'
-        )
-      end
       verified { true }
     end
 

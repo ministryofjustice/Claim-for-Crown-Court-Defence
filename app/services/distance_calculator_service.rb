@@ -1,4 +1,6 @@
 class DistanceCalculatorService
+  Response = Struct.new(:value, :error)
+
   def self.call(claim, params)
     new(claim, params).call
   end
@@ -9,20 +11,22 @@ class DistanceCalculatorService
   end
 
   def call
-    response.tap do |data|
-      data.value =  DistanceCalculatorService::Directions.new(origin, destination).max_distance unless data.error
-      # NOTE: returned distance is just one way so for the purposes
-      # of the travel expense it needs to be a return distance (doubled up)
-      data.value *= 2 if data.value
-    end
+    error = validate_inputs
+    return Response.new(nil, error) if error
+
+    Response.new(distance(origin, destination), nil)
   end
 
   private
 
   attr_reader :claim, :params
 
-  def response
-    OpenStruct.new(value: nil, error: validate_inputs)
+  def distance(origin, destination)
+    value = DistanceCalculatorService::Directions.new(origin, destination).max_distance
+
+    # NOTE: returned distance is just one way so for the purposes
+    # of the travel expense it needs to be a return distance (doubled up)
+    2 * value if value
   end
 
   def validate_inputs

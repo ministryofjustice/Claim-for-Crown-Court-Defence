@@ -16,8 +16,7 @@ moj.Modules.AllocationDataTable = {
   // short cuts to UI elements
   ui: {
     $submit: null,
-    $msgSuccess: null,
-    $msgFail: null
+    $notificationMsg: null
   },
 
   // Filter / Search data object
@@ -167,8 +166,7 @@ moj.Modules.AllocationDataTable = {
   init: function () {
     this.$el = $('#dtAllocation')
     this.ui.$submit = $('.allocation-submit')
-    this.ui.$msgSuccess = $('.notice-summary')
-    this.ui.$msgFail = $('.error-summary')
+    this.ui.$notificationMsg = $('.govuk-notification-banner')
 
     this.searchConfig.key = $('#api-key').data('api-key')
 
@@ -303,11 +301,8 @@ moj.Modules.AllocationDataTable = {
 
     // EVENT: Allocate claims
     $('.allocation-submit').on('click', function (e) {
-      self.ui.$msgFail.find('span').html()
-      self.ui.$msgSuccess.addClass('hidden')
-
-      self.ui.$msgSuccess.find('span').html('Allocating.. please wait a moment..')
-      self.ui.$msgSuccess.removeClass('hidden')
+      self.ui.$notificationMsg.removeClass('govuk-!-display-none')
+      self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Allocating.. please wait a moment..')
 
       e.preventDefault()
       self.ui.$submit.prop('disabled', true)
@@ -348,16 +343,17 @@ moj.Modules.AllocationDataTable = {
           claim_ids: data
         }
       }).success(function (data) {
-        self.ui.$msgFail.addClass('hidden')
-        self.ui.$msgSuccess.find('span').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id').val())
-        self.ui.$msgSuccess.removeClass('hidden')
+        self.ui.$notificationMsg.removeClass('govuk-!-display-none')
+        self.ui.$notificationMsg.addClass('govuk-notification-banner--success')
+        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id').val())
+
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         })
       }).error(function (data) {
-        self.ui.$msgSuccess.addClass('hidden')
-        self.ui.$msgFail.find('span').html(data.responseJSON.errors.join(''))
-        self.ui.$msgFail.removeClass('hidden')
+        self.ui.$notificationMsg.removeClass('govuk-!-display-none')
+        self.ui.$notificationMsg.addClass('govuk-notification-banner--error')
+        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.responseJSON.errors.join(''))
       }).always(function () {
         self.ui.$submit.prop('disabled', false)
       })

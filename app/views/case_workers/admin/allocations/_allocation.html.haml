@@ -1,12 +1,6 @@
 = render partial: 'errors/error_summary', locals: { ep: @allocation, error_summary: t('.error_summary') }
 
-.notice-summary.hidden{ role: 'group', 'aria-labelledby': 'notice-summary-heading-id', tabindex: '-1' }
-  %span#notice-summary-heading-id.heading-medium.notice-summary-heading
-    %span.msg
-
-.error-summary.hidden{ role: 'group', 'aria-labelledby': 'error-summary-heading-id', tabindex: '-1' }
-  %span#error-summary-heading-id.heading-medium.error-summary-heading
-    %span.msg
+= govuk_notification_banner('Allocation', nil, class: 'govuk-!-display-none') unless !flash.empty?
 
 #api-key.grid-row{ data: { api_key: current_user.api_key } }
   .column-two-thirds

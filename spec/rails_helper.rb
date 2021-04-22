@@ -62,7 +62,6 @@ require 'rspec/rails'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 require 'shoulda/matchers'
-require 'paperclip/matchers'
 require 'webmock/rspec'
 require 'parallel_spec_helper'
 require 'vcr_helper'
@@ -89,7 +88,6 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
-  config.include Paperclip::Shoulda::Matchers
   config.include ValidationHelpers, type: :validator
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view

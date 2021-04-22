@@ -76,7 +76,7 @@ class Document < ApplicationRecord
     self.verified = true
     save
   rescue ActiveSupport::MessageVerifier::InvalidSignature => e
-    # This is to replecate old Paperclip behavour. The controller tests attempted to submit with an empty string instead
+    # This is to replicate old Paperclip behavour. The controller tests attempted to submit with an empty string instead
     # of a file upload. This should never happen unless the front-end is broken.
     errors.add(:base, e.message)
     self.verified = false

@@ -393,8 +393,8 @@ Paperclip can be removed.
   `config/environments`.
 * **[Done]** Remove `PAPERCLIP_STORAGE_PATH` and `REPORTS_STORAGE_PATH`from the
   configuration files in `config/environments`.
-* Remove `kubernetes_deploy/cron_jobs/add_evidence_document_checksums.yml`
-* Amend ` kubernetes_deploy/scripts/cronjob.sh` to remove reference to `add_evidence_document_checksums`
+* **[Done]** Remove `kubernetes_deploy/cron_jobs/add_evidence_document_checksums.yml`
+* **[Done]** Amend ` kubernetes_deploy/scripts/cronjob.sh` to remove reference to `add_evidence_document_checksums`
 * **Note:** This step is destructive and cannot be reverted.
   Remove Paperclip related fields from the database:
   * In `stats_reports`; `document_file_name`, `document_content_type`,
@@ -413,10 +413,10 @@ Paperclip can be removed.
   It holds the full s3 path. It is, nonetheless, unclear why
   it is needed at all.
 * **[Done]** Remove `config/initializers/paperclip.rb`
-* Remove `#document#path` and  `#converted_preview_document#path` tests from
+* **[Done]** Remove `#document#path` and  `#converted_preview_document#path` tests from
   `spec/model/document_spec.rb`
-* Remove `#attachment#path` from `spec/model/message_spec.rb`
-* Remove `#document#path` from `spec/model/stats/stats_report_spec.rb`
+* **[Done]** Remove `#attachment#path` from `spec/model/message_spec.rb`
+* **[Done]** Remove `#document#path` from `spec/model/stats/stats_report_spec.rb`
 * Ticket to find and remove orphan document, message and stats_reports records
 * Ticket to find and remove active storage records with no s3 object associated with them.
 

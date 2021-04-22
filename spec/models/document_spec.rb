@@ -58,7 +58,7 @@ RSpec.describe Document, type: :model do
 
     it 'schedules a ConvertDocumentJob' do
       document_save
-      expect(ConvertDocumentJob).to(have_been_enqueued.with(document.reload.to_param))
+      expect(ConvertDocumentJob).to have_been_enqueued.with(document.reload.to_param)
     end
 
     context 'when the maximum document limit is reached' do
@@ -152,7 +152,7 @@ RSpec.describe Document, type: :model do
       it 'schedules a ConvertDocumentJob (after save)' do
         copy_from
         new_document.save
-        expect(ConvertDocumentJob).to(have_been_enqueued.with(new_document.reload.to_param))
+        expect(ConvertDocumentJob).to have_been_enqueued.with(new_document.reload.to_param)
       end
     end
   end

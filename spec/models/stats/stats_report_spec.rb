@@ -15,8 +15,6 @@ RSpec.shared_context 'add active storage record assets for stats reports' do
 end
 
 RSpec.describe Stats::StatsReport do
-  it_behaves_like 'an s3 bucket'
-
   context 'management information reports' do
     before(:all) do
       @mi_old = create :stats_report, started_at: 10.days.ago
@@ -141,28 +139,6 @@ RSpec.describe Stats::StatsReport do
         expect { write_report }
           .to change { described_class.completed.where(report_name: 'my_new_report').first }
           .to report
-      end
-
-      # These are to allow reverting back to Paperclip if necessary
-      it 'sets the paperclip filename' do
-        expect { write_report }
-          .to change(report, :document_file_name).to "my_new_report_#{start_time.to_s(:number)}.csv"
-      end
-
-      it 'sets the paperclip file size' do
-        expect { write_report }.to change(report, :document_file_size)
-      end
-
-      it 'sets the paperclip content type' do
-        expect { write_report }.to change(report, :document_content_type).to 'text/csv'
-      end
-
-      it 'sets the paperclip checksum' do
-        expect { write_report }.to change(report, :as_document_checksum).to checksum
-      end
-
-      it 'sets the paperclip updated at' do
-        expect { write_report }.to change(report, :document_updated_at).from(nil)
       end
     end
   end

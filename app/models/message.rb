@@ -15,8 +15,6 @@
 #
 
 class Message < ApplicationRecord
-  include S3Headers
-
   belongs_to :claim, class_name: 'Claim::BaseClaim'
   belongs_to :sender, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy
@@ -27,18 +25,18 @@ class Message < ApplicationRecord
 
   validates :attachment,
             size: { less_than: 20.megabytes },
-            content_type: [
-              'application/pdf',
-              'application/msword',
-              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-              'application/vnd.oasis.opendocument.text',
-              'text/rtf',
-              'application/rtf',
-              'image/jpeg',
-              'image/png',
-              'image/tiff',
-              'image/bmp',
-              'image/x-bitmap'
+            content_type: %w[
+              application/pdf
+              application/msword
+              application/vnd.openxmlformats-officedocument.wordprocessingml.document
+              application/vnd.oasis.opendocument.text
+              text/rtf
+              application/rtf
+              image/jpeg
+              image/png
+              image/tiff
+              image/bmp
+              image/x-bitmap
             ]
 
   validates :sender, presence: { message: 'Message sender cannot be blank' }

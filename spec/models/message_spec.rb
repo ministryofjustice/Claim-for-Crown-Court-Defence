@@ -27,8 +27,6 @@ RSpec.describe Message, type: :model do
 
   it { is_expected.to have_one_attached(:attachment) }
 
-  it_behaves_like 'an s3 bucket'
-
   it do
     is_expected.to validate_content_type_of(:attachment)
       .allowing(

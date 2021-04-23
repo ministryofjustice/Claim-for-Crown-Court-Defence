@@ -9,19 +9,19 @@ module API
       private
 
       def attachment
-        object.is_a?(Paperclip::Attachment) ? object : object.attachment
+        object.is_a?(ActiveStorage::Attachment) ? object : object.attachment
       end
 
       def url
-        attachment.url(nil, timestamp: false)
+        attachment.blob.service_url(disposition: 'attachment') if attachment.attached?
       end
 
       def file_name
-        attachment.original_filename
+        attachment.filename if attachment.attached?
       end
 
       def size
-        attachment.size
+        attachment.byte_size if attachment.attached?
       end
     end
   end

@@ -79,6 +79,7 @@ yarn-debug.log*
 
 
 # Cypress
+cypress/fixtures/example.json
 cypress/integration/examples
 cypress/screenshots
 cypress/videos

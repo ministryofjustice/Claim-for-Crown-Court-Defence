@@ -83,7 +83,7 @@ class Document < ApplicationRecord
   end
 
   def document_file_name
-    document.filename
+    document.filename if document.attached?
   end
 
   private

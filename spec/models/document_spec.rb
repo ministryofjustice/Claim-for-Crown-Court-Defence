@@ -139,5 +139,11 @@ RSpec.describe Document, type: :model do
     let(:document) { create :document, filename: filename }
 
     it { is_expected.to eq filename }
+
+    context 'when the document has been destroyed' do
+      before { document.destroy }
+
+      it { is_expected.to be_nil }
+    end
   end
 end

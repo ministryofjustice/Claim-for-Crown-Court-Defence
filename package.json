@@ -2,6 +2,9 @@
   "name": "claim_for_crown_court_defense",
   "description": "Claim for Crown Court Defence",
   "version": "1.0.0",
+  "engines": {
+    "node": "14.16.1"
+  },
   "private": true,
   "repository": {
     "type": "git",

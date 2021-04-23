@@ -82,6 +82,10 @@ class Document < ApplicationRecord
     self.verified = false
   end
 
+  def document_file_name
+    document.filename
+  end
+
   private
 
   def documents_count

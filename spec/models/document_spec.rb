@@ -131,4 +131,13 @@ RSpec.describe Document, type: :model do
       end
     end
   end
+
+  describe '#document_file_name' do
+    subject(:document_file_name) { document.document_file_name }
+
+    let(:filename) { 'testfile.pdf' }
+    let(:document) { create :document, filename: filename }
+
+    it { is_expected.to eq filename }
+  end
 end

@@ -14,11 +14,10 @@ class S3ZipDownloader
   private
 
   def build_zip_file(documents, bundle)
-    filename_counts = {}
     Dir.mktmpdir("#{@claim.case_number}-") do |tmp_dir|
       Zip::File.open(bundle, Zip::File::CREATE) do |zip_file|
-        documents.map(&:document).each do |document|
-          zip_file.add(get_filename(document.filename, filename_counts), local_file(document, tmp_dir))
+        documents.map(&:document).each_with_index do |document, i|
+          zip_file.add("#{i}_#{document.filename}", local_file(document, tmp_dir))
         end
       end
     end
@@ -27,18 +26,6 @@ class S3ZipDownloader
   def local_file(document, folder)
     File.join(folder, document.filename.to_s).tap do |local_path|
       document.open { |tmp_file| FileUtils.copy(tmp_file, local_path) }
-    end
-  end
-
-  def get_filename(original, filename_counts)
-    original = original.to_s
-    if filename_counts.key? original
-      filename_counts[original] += 1
-      extension = File.extname(original)
-      "#{File.basename(original, extension)} (#{filename_counts[original]})#{extension}"
-    else
-      filename_counts[original] = 0
-      original
     end
   end
 end

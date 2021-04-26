@@ -1,17 +1,29 @@
 require 'rails_helper'
 
 RSpec.describe 'Distance calculation for travel expenses', type: :request do
+  subject(:calculate_distance) do
+    post(
+      "/external_users/claims/#{claim_id}/expenses/calculate_distance.json",
+      params: { destination: destination }.to_json,
+      headers: { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
+    )
+  end
+
   let(:supplier_number) { '9A999I' }
   let(:supplier_postcode) { 'MK40 3TN' }
-  let!(:supplier) { create(:supplier_number, supplier_number: supplier_number, postcode: supplier_postcode) }
   let(:claim) { create(:litigator_claim, supplier_number: supplier_number) }
+  let(:claim_id) { claim.id }
   let(:destination) { 'MK40 1HG' }
-  let(:params) { { destination: destination } }
-  let(:headers) { { 'Accept' => 'application/json', 'Content-Type' => 'application/json' } }
+
+  before do
+    create(:supplier_number, supplier_number: supplier_number, postcode: supplier_postcode)
+    allow(DistanceCalculatorService::Directions)
+      .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: 847))
+  end
 
   context 'when the user is not authenticated' do
     it 'returns an unauthorized response' do
-      post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
+      calculate_distance
 
       expect(response.media_type).to eq('application/json')
       expect(response).to have_http_status(:unauthorized)
@@ -30,7 +42,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
       let(:user) { create(:case_worker).user }
 
       it 'returns an unauthorized response' do
-        post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
+        calculate_distance
 
         expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:unauthorized)
@@ -39,8 +51,10 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
     end
 
     context 'but the associated claim does not exist' do
+      let(:claim_id) { 999_999 }
+
       it 'returns an unprocessable response' do
-        post '/external_users/claims/999999/expenses/calculate_distance.json', params: params.to_json, headers: headers
+        calculate_distance
 
         expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:unprocessable_entity)
@@ -52,7 +66,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
       let(:claim) { create(:advocate_claim) }
 
       it 'returns an unprocessable response' do
-        post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
+        calculate_distance
 
         expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:unprocessable_entity)
@@ -61,10 +75,10 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
     end
 
     context 'but the supplier associated with the claim does not have a postcode set' do
-      let!(:supplier) { create(:supplier_number, supplier_number: supplier_number, postcode: nil) }
+      let(:supplier_postcode) { nil }
 
       it 'returns an unprocessable response' do
-        post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
+        calculate_distance
 
         expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:unprocessable_entity)
@@ -73,10 +87,13 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
     end
 
     context 'but the distance cannot be calculated' do
-      it 'returns nil as the calculated distance' do
-        expect(Maps::DistanceCalculator).to receive(:call).with(supplier_postcode, destination).and_return(nil)
+      before do
+        allow(DistanceCalculatorService::Directions)
+          .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: nil))
+      end
 
-        post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
+      it 'returns nil as the calculated distance' do
+        calculate_distance
 
         expect(response.media_type).to eq('application/json')
         expect(response).to have_http_status(:ok)
@@ -85,9 +102,7 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
     end
 
     it 'returns the calculated return distance value' do
-      expect(Maps::DistanceCalculator).to receive(:call).with(supplier_postcode, destination).and_return(847)
-
-      post "/external_users/claims/#{claim.id}/expenses/calculate_distance.json", params: params.to_json, headers: headers
+      calculate_distance
 
       expect(response.media_type).to eq('application/json')
       expect(response).to have_http_status(:ok)

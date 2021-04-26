@@ -3,13 +3,13 @@ class ExternalUsers::Expenses::DistancesController < ExternalUsers::ApplicationC
   before_action :set_claim, only: %i[create]
 
   def create
-    result = ::Expenses::TravelDistanceCalculator.call(@claim, distance_params)
+    result = DistanceCalculatorService.call(@claim, distance_params)
     respond_to do |format|
       format.json do
-        if result.success?
-          render json: { distance: result.value! }
+        if result.error.present?
+          render json: { error: t(".errors.#{result.error}") }, status: :unprocessable_entity
         else
-          render json: { error: t(".errors.#{result.failure}") }, status: :unprocessable_entity
+          render json: { distance: result.value }
         end
       end
     end

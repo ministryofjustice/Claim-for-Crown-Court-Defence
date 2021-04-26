@@ -1,37 +1,31 @@
-= form_for [:case_workers, :admin, @case_worker], builder: AdpFormBuilder do |f|
+= form_with model: [:case_workers, :admin, @case_worker], builder: GdsAdpFormBuilder, local: true do |f|
   = f.fields_for :user do |user_fields|
-    %h2.heading-medium
-      = t('.case_worker_details')
+    = user_fields.govuk_error_summary
 
-    = user_fields.adp_text_field :first_name, label: t('.first_name')
+    = user_fields.govuk_text_field :first_name,
+      label: { text: t('.first_name') }
 
-    = user_fields.adp_text_field :last_name, label: t('.last_name')
+    = user_fields.govuk_text_field :last_name,
+      label: { text: t('.last_name') }
 
-    = user_fields.adp_text_field :email, label: t('.email')
+    = user_fields.govuk_email_field :email,
+      label: { text: t('.email') }
 
     - if @case_worker.new_record?
-      = user_fields.adp_text_field :email_confirmation, label: t('.email_confirmation')
+      = user_fields.govuk_email_field :email_confirmation,
+        label: { text: t('.email_confirmation') }
 
-    .form-group
-      %fieldset.inline{ 'aria-describedby': 'radio-control-legend-location' }
-        %legend#radio-control-legend-location
-          %span.form-label-bold
-            = t('.location')
-        = f.collection_radio_buttons(:location_id, Location.all, :id, :name) do |b|
-          .multiple-choice
-            = b.radio_button('aria-labelledby': "radio-control-legend-location #{b.text.to_css_class}")
-            = b.label(id: b.text.to_css_class) { b.object.name }
+    = f.govuk_collection_radio_buttons :location_id,
+      Location.all,
+      :id,
+      :name,
+      inline: true,
+      legend: { text: t('.location'), size: 's' }
 
+    = f.govuk_collection_check_boxes :roles,
+      CaseWorker::ROLES,
+      :to_s,
+      :humanize,
+      legend: { text: t('.roles'), size: 's' }
 
-    .form-group
-      %fieldset.inline{ 'aria-describedby': 'checkbox-control-legend-roles' }
-        %legend#checkbox-control-legend-roles
-          %span.form-label-bold
-            = t('.roles')
-
-        = f.collection_check_boxes(:roles, CaseWorker::ROLES, :to_s, :to_s) do |b|
-          .multiple-choice
-            = b.check_box("aria-labelledby": "checkbox-control-legend-roles #{b.text.to_css_class}")
-            = b.label(id: b.text.to_css_class) { b.value.humanize }
-
-    = govuk_button(t('.save'))
+    = f.govuk_submit t('.save')

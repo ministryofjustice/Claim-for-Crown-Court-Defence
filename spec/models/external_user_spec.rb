@@ -98,7 +98,7 @@ RSpec.describe ExternalUser, type: :model do
       context 'for advocate' do
         before { subject.roles = ['advocate'] }
 
-        let(:format_error) { ['must be 5 alpha-numeric uppercase characters'] }
+        let(:format_error) { ['Enter a valid supplier number'] }
 
         it { should validate_presence_of(:supplier_number) }
 

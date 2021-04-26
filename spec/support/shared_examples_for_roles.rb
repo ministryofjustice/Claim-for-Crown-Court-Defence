@@ -16,12 +16,12 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
     it 'is not valid with an invalid role' do
       assigned_roles << [roles.first, 'foobar123xyz']
       expect(subject).to_not be_valid
-      expect(subject.errors[:roles]).to include("must be one or more of: #{roles.map { |r| r.humanize.downcase }.join(', ')}")
+      expect(subject.errors[:roles]).to include("Must be one or more of: #{roles.map { |r| r.humanize.downcase }.join(', ')}")
     end
 
     it 'is not valid without a role' do
       expect(subject).to_not be_valid
-      expect(subject.errors[:roles]).to include('at least one role must be present')
+      expect(subject.errors[:roles]).to include('Choose at least one role')
     end
   end
 

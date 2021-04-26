@@ -233,11 +233,11 @@ en:
         external_user:
           attributes:
             roles:
-              blank: cannot be blank
+              blank: Choose at least one role
               inclusion: *inclusion
             supplier_number:
-              blank: cannot be blank
-              invalid: 'must be 5 alpha-numeric uppercase characters'
+              blank: Enter a supplier number
+              invalid: Enter a valid supplier number
         case_worker:
           attributes:
             roles:
@@ -246,17 +246,21 @@ en:
           attributes:
             email:
               blank: Enter an email
+              invalid: Enter a valid email
               taken: Email address is already registered
               too_long: Email must be 80 characters or less
             email_confirmation:
-              confirmation: email and confirmation must match
+              confirmation: Email and confirmation must match
               blank: Enter an email confirmation
+            current_password:
+              blank: Enter the currrent password
+              invalid: Enter the current password
             password:
               blank: Enter a password
               too_short: Email must be at least 8 characters
             password_confirmation:
               blank: Enter a password confirmation
-              confirmation: password and confirmation must match
+              confirmation: Password and confirmation must match
             first_name:
               blank: Enter a first name
               too_long: First name must be 40 characters or less
@@ -702,6 +706,7 @@ en:
           first_name: *first_name
           last_name: *last_name
           supplier_number: 'Supplier number'
+          supplier_number_hint: must be 5 alpha-numeric uppercase characters
           roles: *roles
           submit: 'Create user'
           answer_yes: *global_yes

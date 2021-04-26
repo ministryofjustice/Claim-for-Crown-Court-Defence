@@ -1,62 +1,50 @@
-= form_for [:external_users, :admin, @external_user] do |f|
+= form_with model: [:external_users, :admin, @external_user], builder: GdsAdpFormBuilder, local: true do |f|
 
   = f.fields_for :user do |user_fields|
-    .form-group
-      %a{ name: 'first_name' }
-      = user_fields.label :first_name, t('.first_name'), class: 'form-label-bold'
-      = user_fields.text_field :first_name, class: 'form-control'
-    .form-group
-      %a{ name: 'last_name' }
-      = user_fields.label :last_name, t('.last_name'), class: 'form-label-bold'
-      = user_fields.text_field :last_name, class: 'form-control'
+    = user_fields.govuk_error_summary
 
-    .form-group
-      %a{ name: 'email' }
-      = user_fields.label :email, t('.email'), class: 'form-label-bold'
-      = user_fields.email_field :email, class: 'form-control'
+    = user_fields.govuk_text_field :first_name,
+      label: { text: t('.first_name') }
+
+    = user_fields.govuk_text_field :last_name,
+      label: { text: t('.last_name') }
+
+    = user_fields.govuk_email_field :email,
+      label: { text: t('.email') }
+
     - if @external_user.new_record?
-      .form-group
-        %a{ name: 'email_confirmation' }
-        = user_fields.label :email_confirmation, t('.email_confirmation'), class: 'form-label-bold'
-        = user_fields.email_field :email_confirmation, class: 'form-control'
+      = user_fields.govuk_email_field :email_confirmation,
+        label: { text: t('.email_confirmation') }
 
-    .form-group
-      %fieldset.inline{ 'aria-describedby': 'radio-control-legend-email' }
-        %legend#radio-control-legend-email
-          %span.heading-medium
-            = t('.email_notification')
-
-        = user_fields.collection_radio_buttons(:email_notification_of_message, [true, false], :to_s, :to_s) do |b|
-          .multiple-choice
-            = b.radio_button('aria-labelledby': "radio-control-legend-email #{b.text.to_css_class}")
-            = b.label { (b.value.to_s == 'true' ? t('.answer_yes') : t('.answer_no')) }
+    = f.govuk_collection_radio_buttons :email_notification_of_message,
+      [['Yes','true'],['No','false']],
+      :last,
+      :first,
+      inline: true,
+      legend: { text: t('.email_notification'), size: 's' }
 
     - if current_user.persona.admin?
-      .form-group
-        %fieldset.inline.js-advocate-roles{ 'aria-describedby': 'checkbox-control-legend-roles' }
-          %legend#checkbox-control-legend-roles
-            %span.heading-medium
-              = t('.roles')
+      = f.govuk_check_boxes_fieldset :roles, legend: { text: t('.roles'), size: 's' } do
 
-          = f.collection_check_boxes(:roles, @external_user.available_roles, :to_s, :to_s) do |b|
-            .multiple-choice
-              = b.check_box('aria-labelledby': "checkbox-control-legend-roles #{b.text.to_css_class}")
-              = b.label(id: b.text.to_css_class) { b.value.humanize }
+        = f.govuk_check_box :roles,
+          @external_user.available_roles.first,
+          label: { text: 'Admin' },
+          link_errors: true
 
-    - if current_user.persona.provider.chamber?
-      .form-group.js-chamber-advocates-only
-        %fieldset.inline{ 'aria-describedby': 'checkbox-control-legend-vat' }
-          %legend#checkbox-control-legend-vat
-            = t('.vat_registered')
+        = f.govuk_check_box :roles,
+          @external_user.available_roles.last,
+          label: { text: 'Advocate' } do
 
-          = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
-            .multiple-choice
-              = b.radio_button('aria-labelledby': "checkbox-control-legend-vat #{b.text.to_css_class}")
-              = b.label { (b.value.to_s == 'true' ? t('.answer_yes') : t('.answer_no')) }
+          - if current_user.persona.provider.chamber?
+            = f.govuk_collection_radio_buttons :vat_registered,
+              [['Yes','true'],['No','false']],
+              :last,
+              :first,
+              inline: true,
+              legend: { text: t('.vat_registered'), size: 's' }
 
-      .form-group
-        = f.label :supplier_number, t('.supplier_number'), class: 'form-label-bold'
-        = f.text_field :supplier_number, class: 'form-control'
+    = f.govuk_text_field :supplier_number,
+      hint: { text: t('.supplier_number_hint') },
+      label: { text: t('.supplier_number') }
 
-  .form-group
-    = govuk_button(t('.save'))
+    = f.govuk_submit t('.save')

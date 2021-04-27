@@ -56,8 +56,8 @@ RSpec.describe Document, type: :model do
     before { ActiveJob::Base.queue_adapter = :test }
 
     it 'schedules a ConvertDocumentJob' do
-      expect { document_save }
-        .to(have_enqueued_job(ConvertDocumentJob).with { |id| expect(id).to eq document.reload.to_param })
+      document_save
+      expect(ConvertDocumentJob).to have_been_enqueued.with(document.reload.to_param)
     end
 
     context 'when the maximum document limit is reached' do
@@ -149,11 +149,9 @@ RSpec.describe Document, type: :model do
       it { expect { copy_from }.to change(new_document, :verified).to true }
 
       it 'schedules a ConvertDocumentJob (after save)' do
-        old_document # Preload so that the ConvertDocumentJob doesn't affect the test
-        expect do
-          copy_from
-          new_document.save
-        end.to(have_enqueued_job(ConvertDocumentJob).with { |id| expect(id).to eq new_document.reload.to_param })
+        copy_from
+        new_document.save
+        expect(ConvertDocumentJob).to have_been_enqueued.with(new_document.reload.to_param)
       end
     end
   end

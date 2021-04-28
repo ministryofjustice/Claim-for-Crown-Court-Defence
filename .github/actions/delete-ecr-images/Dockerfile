@@ -8,13 +8,16 @@ LABEL "com.github.actions.color"="red"
 
 # install dependencies
 
-RUN apk update && \
-  apk --no-cache add git python3 py3-pip
+RUN apk update \
+    && apk add --no-cache git python3 py3-pip
 
-RUN pip3 install awscli
+RUN pip3 install --upgrade pip \
+    && pip3 install awscli
 
-RUN apk --purge -v del py3-pip && \
-  rm /var/cache/apk/*
+RUN apk --purge -v del py3-pip \
+    && rm -rf /var/cache/apk/*
+
+RUN aws --version
 
 COPY entrypoint /usr/local/bin/delete-ecr-images
 

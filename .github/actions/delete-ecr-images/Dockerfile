@@ -12,9 +12,8 @@ RUN apk update \
     && apk add --no-cache git python3 py3-pip
 
 RUN pip3 install --upgrade pip \
-    && pip install awscli
-
-RUN apk --purge && rm -rf /var/cache/apk/*
+    && pip install awscli \
+    && rm -rf /var/cache/apk/*
 
 RUN aws --version
 

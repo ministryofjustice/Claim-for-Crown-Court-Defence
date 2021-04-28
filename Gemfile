@@ -66,6 +66,8 @@ gem 'laa-fee-calculator-client', '~> 1.2'
 gem 'webpacker', '~> 5.3'
 gem 'active_storage_validations'
 
+gem 'google-maps-directions', git: 'https://github.com/jsugarman/google-maps-directions-ruby'
+
 group :production, :devunicorn do
   gem 'unicorn-rails', '2.2.1'
   gem 'unicorn-worker-killer', '~> 0.4.5'

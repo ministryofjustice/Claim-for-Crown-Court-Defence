@@ -1,5 +1,39 @@
 require 'rails_helper'
 
+RSpec.configure do |config|
+  config.before(:each, gmaps_directions_with_alternatives: true) do
+    stub_request(:get, %r{https://maps.googleapis.com/maps/api/directions/json\?.*})
+      .to_return(
+        status: 200,
+        body: read_stub('google_maps-directions/valid_response_with_alternatives'),
+        headers: { 'Content-Type' => 'application/json; charset=utf-8' }
+      )
+  end
+
+  config.before(:each, gmaps_directions_invalid_origin: true) do
+    stub_request(:get, %r{https://maps.googleapis.com/maps/api/directions/json\?.*})
+      .to_return(
+        status: 200,
+        body: status_invalid_origin_request,
+        headers: { 'Content-Type' => 'application/json; charset=utf-8' }
+      )
+  end
+
+  def read_stub(file_name)
+    File.read("./spec/fixtures/stubs/#{file_name}.json")
+  end
+
+  def status_invalid_origin_request
+    <<~JSON
+      {
+        "error_message": "Invalid request. Missing the 'origin' parameter.",
+        "routes": [],
+        "status": "INVALID_REQUEST"
+      }
+    JSON
+  end
+end
+
 RSpec.describe DistanceCalculatorService, type: :service do
   subject(:result) { described_class.call(claim, params) }
 
@@ -11,16 +45,27 @@ RSpec.describe DistanceCalculatorService, type: :service do
 
   before do
     create(:supplier_number, supplier_number: supplier_number, postcode: supplier_postcode)
-    allow(DistanceCalculatorService::Directions)
-      .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: 847))
   end
 
-  it 'is expected to have no error' do
-    expect(result.error).to be_nil
-  end
+  context 'with valid claim and params', gmaps_directions_with_alternatives: true do
+    let(:expected_uri) do
+      'https://maps.googleapis.com/maps/api/directions/json?alternatives=true&destination=MK40 1HG&key=not-a-real-api-key&origin=MK40 3TN&region=uk'
+    end
 
-  it 'is expected to return double the route distance' do
-    expect(result.value).to eq 1694
+    let(:destination) { 'MK40 1HG' }
+
+    it 'returns result with nil error' do
+      expect(result.error).to be_nil
+    end
+
+    it 'sends request to expected directions API' do
+      result
+      expect(a_request(:get, expected_uri)).to have_been_made.once
+    end
+
+    it 'returns double the maximum route distance' do
+      expect(result.value).to eq 432624
+    end
   end
 
   context 'when the associated claim does not exist' do
@@ -63,18 +108,28 @@ RSpec.describe DistanceCalculatorService, type: :service do
     end
   end
 
-  context 'when the distance cannot be calculated' do
-    before do
-      allow(DistanceCalculatorService::Directions)
-        .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: nil))
-    end
+  context 'when the distance cannot be calculated', gmaps_directions_invalid_origin: true do
+    subject(:result) { instance.call }
 
-    it 'is expected to have no error' do
+    let(:instance) { described_class.new(claim, params) }
+
+    before { allow(instance).to receive(:log) }
+
+    it 'returns result with nil error' do
       expect(result.error).to be_nil
     end
 
-    it 'is expected to have a nil distance' do
+    it 'returns result with nil value' do
       expect(result.value).to be_nil
+    end
+
+    it 'logs google maps directions error' do
+      result
+      expect(instance)
+        .to have_received(:log)
+        .with(action: :distance,
+              error: kind_of(GoogleMaps::Directions::Error),
+              level: :error)
     end
   end
 end

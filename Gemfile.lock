@@ -9,6 +9,14 @@ GIT
       eventmachine (>= 0.12.8)
       rufus-scheduler (~> 2.0.24)
 
+GIT
+  remote: https://github.com/jsugarman/google-maps-directions-ruby
+  revision: 853e212d2b8939b5e1a8cfc1c31d182fe3bbea4b
+  specs:
+    google-maps-directions (0.1.0)
+      addressable (~> 2.3, >= 2.3.7)
+      faraday (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -801,6 +809,7 @@ DEPENDENCIES
   factory_bot_rails (~> 6.1.0)
   faker (~> 2.17.0)
   geckoboard-ruby
+  google-maps-directions!
   gov_uk_date_fields (~> 3.0.0)
   govuk_design_system_formbuilder (~> 2.1)
   govuk_elements_rails (~> 3.1.2)

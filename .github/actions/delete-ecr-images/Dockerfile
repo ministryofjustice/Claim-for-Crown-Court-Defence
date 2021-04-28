@@ -14,8 +14,7 @@ RUN apk update \
 RUN pip3 install --upgrade pip \
     && pip install awscli
 
-RUN apk --purge -v del py3-pip \
-    && rm -rf /var/cache/apk/*
+RUN apk --purge && rm -rf /var/cache/apk/*
 
 RUN aws --version
 

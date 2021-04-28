@@ -23,7 +23,7 @@ module Claims
     end
 
     def available_comprehensive_claim_types
-      available_claim_types.map { |claim_type| comprehensive_claim_type_for(claim_type) }.compact
+      available_claim_types.filter_map { |claim_type| comprehensive_claim_type_for(claim_type) }
     end
 
     def available_claims

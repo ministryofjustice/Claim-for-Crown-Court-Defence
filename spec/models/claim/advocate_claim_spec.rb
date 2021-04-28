@@ -818,7 +818,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       it 'claims in any state other than draft or archived_pending_delete' do
         states = Claim::AdvocateClaim.state_machine.states.map(&:name)
-        states = states.map { |s| if not [:draft, :archived_pending_delete].include?(s) then s; end; }.compact
+        states = states.filter_map { |s| if not [:draft, :archived_pending_delete].include?(s) then s; end; }
         states.each do |state|
           claim.state = state
           expect(claim.validation_required?).to eq true

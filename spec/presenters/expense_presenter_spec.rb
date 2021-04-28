@@ -120,7 +120,7 @@ RSpec.describe ExpensePresenter do
 
   describe '#display_reason_text_css' do
     def reason_requiring_text
-      ExpenseType::REASON_SET_A.map { |reason| reason[1] if reason[1].allow_explanatory_text? }.compact.sample
+      ExpenseType::REASON_SET_A.filter_map { |reason| reason[1] if reason[1].allow_explanatory_text? }.sample
     end
 
     it 'returns "none" for expense reasons NOT requiring explanantory' do

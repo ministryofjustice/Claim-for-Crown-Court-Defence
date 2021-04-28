@@ -14,7 +14,7 @@ class DistanceCalculatorService
     def sum_legs(legs)
       return 0 if legs.nil?
 
-      legs.map { |leg| leg.dig('distance', 'value') }.compact.sum
+      legs.filter_map { |leg| leg.dig('distance', 'value') }.sum
     end
 
     def routes

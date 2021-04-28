@@ -321,10 +321,8 @@ module Claim
 
     def earliest_representation_order
       return if defendants.empty?
-      defendants
-        .map(&:earliest_representation_order)
-        .compact
-        .sort_by(&:representation_order_date).first
+
+      defendants.filter_map(&:earliest_representation_order).min_by(&:representation_order_date)
     end
 
     def earliest_representation_order_date

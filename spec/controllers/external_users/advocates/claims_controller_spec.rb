@@ -304,7 +304,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
               # basic fees are cleared, but not destroyed, implicitly for fixed-fee case types
               expect(claim.basic_fees.size).to eq 4
-              expect(claim.basic_fees.map(&:amount).compact.sum.to_f).to eq 0.00
+              expect(claim.basic_fees.filter_map(&:amount).sum.to_f).to eq 0.00
 
               # miscellaneous fees are NOT destroyed implicitly by claim model for fixed-fee case types
               expect(claim.misc_fees.size).to eq 1

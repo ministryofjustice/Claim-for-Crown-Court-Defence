@@ -19,9 +19,7 @@ module Claims::Calculations
   end
 
   def calculate_total_for(fees_collection)
-    fees_collection.map do |fee|
-      calculate_fee_total(fee)
-    end.compact.sum
+    fees_collection.filter_map { |fee| calculate_fee_total(fee) }.sum
   end
 
   # returns totals for all klass records belonging to the named claim

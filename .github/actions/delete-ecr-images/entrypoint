@@ -42,6 +42,13 @@ module ECR
       @raw = json
       @collection = JSON.parse(json)
       @collection.map! { |el| Image.new(el) }
+    rescue JSON::ParserError => e
+      puts '========= JSON OUTPUT ========'
+      puts json
+      puts '=========== ERROR ========='
+      puts e
+      puts '============================'
+      raise
     end
 
     def each(&block)

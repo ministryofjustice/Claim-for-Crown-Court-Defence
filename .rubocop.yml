@@ -231,6 +231,8 @@ Performance/RedundantEqualityComparisonBlock: # (new in 1.10)
   Enabled: true
 Performance/RedundantSplitRegexpArgument: # (new in 1.10)
   Enabled: true
+Performance/MapCompact: # (new in 1.11)
+  Enabled: true
 Style/StringChars: # (new in 1.12)
   Enabled: true
 

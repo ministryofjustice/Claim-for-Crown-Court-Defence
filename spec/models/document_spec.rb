@@ -146,4 +146,19 @@ RSpec.describe Document, type: :model do
       it { is_expected.to be_nil }
     end
   end
+
+  describe '#document_file_size' do
+    subject(:document_file_size) { document.document_file_size }
+
+    let(:file_size) { document.document.byte_size }
+    let(:document) { create :document }
+
+    it { is_expected.to eq file_size }
+
+    context 'when the document has been destroyed' do
+      before { document.destroy }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

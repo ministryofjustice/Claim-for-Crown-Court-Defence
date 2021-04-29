@@ -86,6 +86,10 @@ class Document < ApplicationRecord
     document.filename if document.attached?
   end
 
+  def document_file_size
+    document.byte_size if document.attached?
+  end
+
   private
 
   def documents_count

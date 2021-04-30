@@ -497,7 +497,6 @@ GEM
       ast (~> 2.4.1)
     pg (1.2.3)
     phantomjs (2.1.1.0)
-    posix-spawn (0.3.15)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -822,7 +821,6 @@ DEPENDENCIES
   paper_trail (~> 12.0.0)
   parallel_tests
   pg (~> 1.2.3)
-  posix-spawn (~> 0.3.15)
   pry-byebug
   pry-rails
   puma

@@ -77,30 +77,6 @@ RSpec.describe Document, type: :model do
         expect { document_save }.not_to have_enqueued_job(ConvertDocumentJob)
       end
     end
-
-    context 'when allowing for Paperclip rollback' do
-      before { document_save }
-
-      it 'sets document_file_name' do
-        expect(document.document_file_name).to eq document.document.filename.to_s
-      end
-
-      it 'sets document_file_size' do
-        expect(document.document_file_size).to eq document.document.byte_size
-      end
-
-      it 'sets document_content_type' do
-        expect(document.document_content_type).to eq document.document.content_type
-      end
-
-      it 'sets document_updated_at' do
-        expect(document.document_updated_at).not_to be_nil
-      end
-
-      it 'sets as_document_checksum' do
-        expect(document.as_document_checksum).to eq document.document.checksum
-      end
-    end
   end
 
   describe '#save_and_verify' do
@@ -153,6 +129,36 @@ RSpec.describe Document, type: :model do
         new_document.save
         expect(ConvertDocumentJob).to have_been_enqueued.with(new_document.reload.to_param)
       end
+    end
+  end
+
+  describe '#document_file_name' do
+    subject(:document_file_name) { document.document_file_name }
+
+    let(:filename) { 'testfile.pdf' }
+    let(:document) { create :document, filename: filename }
+
+    it { is_expected.to eq filename }
+
+    context 'when the document has been destroyed' do
+      before { document.destroy }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#document_file_size' do
+    subject(:document_file_size) { document.document_file_size }
+
+    let(:file_size) { document.document.byte_size }
+    let(:document) { create :document }
+
+    it { is_expected.to eq file_size }
+
+    context 'when the document has been destroyed' do
+      before { document.destroy }
+
+      it { is_expected.to be_nil }
     end
   end
 end

@@ -25,7 +25,6 @@
 
 class Document < ApplicationRecord
   include Duplicable
-  include PaperclipRollback
 
   belongs_to :external_user
   belongs_to :creator, class_name: 'ExternalUser'
@@ -56,7 +55,6 @@ class Document < ApplicationRecord
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
 
-  before_create -> { populate_paperclip_for :document }
   after_create :convert_document
 
   before_destroy :purge_attachments
@@ -78,10 +76,18 @@ class Document < ApplicationRecord
     self.verified = true
     save
   rescue ActiveSupport::MessageVerifier::InvalidSignature => e
-    # This is to replecate old Paperclip behavour. The controller tests attempted to submit with an empty string instead
+    # This is to replicate old Paperclip behavour. The controller tests attempted to submit with an empty string instead
     # of a file upload. This should never happen unless the front-end is broken.
     errors.add(:base, e.message)
     self.verified = false
+  end
+
+  def document_file_name
+    document.filename if document.attached?
+  end
+
+  def document_file_size
+    document.byte_size if document.attached?
   end
 
   private

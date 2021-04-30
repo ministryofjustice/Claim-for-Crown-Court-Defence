@@ -1,27 +1,6 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  PAPERCLIP_STORAGE_OPTIONS = {
-    storage: :filesystem,
-    path: ":active_storage_path",
-    url: "assets/test/images/:filename"
-  }
-
-  REPORDER_STORAGE_OPTIONS = {
-    storage: :filesystem,
-    path: "public/assets/test/images/reporders/:id_partition/:filename",
-    url: "assets/test/images/reporders/:filename"
-  }
-
-  REPORTS_STORAGE_OPTIONS = {
-    storage: :filesystem,
-    path: ":active_storage_path",
-    url: "tmp/test/reports/:filename"
-  }
-
-  PAPERCLIP_STORAGE_PATH = 'public/assets/test/images/:id_partition/:filename'
-  REPORTS_STORAGE_PATH = 'tmp/test/reports/:filename'
-
   config.active_storage.service = :test
 
   # logstasher

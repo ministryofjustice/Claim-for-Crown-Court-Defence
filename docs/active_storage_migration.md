@@ -381,20 +381,20 @@ Paperclip can be removed.
 
 * Delete s3 dummy files, to save money (see `storage::clear_dummy_paperclip_files`)
 * Remove the `paperclip` gem from `Gemfile`
-* Delete `lib/tasks/storage.rake` and `lib/tasks/rake_helpers/storage.rb`
-* Delete `app/models/dummy_document.rb`
-* Delete `app/models/concerns/check_summable.rb` together with all instances
+* **[Done]** Delete `lib/tasks/storage.rake` and `lib/tasks/rake_helpers/storage.rb`
+* **[Done]** Delete `app/models/dummy_document.rb`
+* **[Done]** Delete `app/models/concerns/check_summable.rb` together with all instances
   `include CheckSummable`, `add_checksum` and `calculate_checksum`. Remove
   `spec/models/concern/check_summable_spec.rb`.
-* Delete `app/models/concerns/paperclip_rollback.rb` together with all
+* **[Done]** Delete `app/models/concerns/paperclip_rollback.rb` together with all
   instances of `include PaperclipRollback` and `populate_paperclip_for`.
-* Remove `PAPERCLIP_STORAGE_OPTIONS`, `REPORTS_STORAGE_OPTIONS` and
+* **[Done]** Remove `PAPERCLIP_STORAGE_OPTIONS`, `REPORTS_STORAGE_OPTIONS` and
   `REPORTS_STORAGE_OPTIONS` from the configuration files in
   `config/environments`.
-* Remove `PAPERCLIP_STORAGE_PATH` and `REPORTS_STORAGE_PATH`from the
+* **[Done]** Remove `PAPERCLIP_STORAGE_PATH` and `REPORTS_STORAGE_PATH`from the
   configuration files in `config/environments`.
-* Remove `kubernetes_deploy/cron_jobs/add_evidence_document_checksums.yml`
-* Amend ` kubernetes_deploy/scripts/cronjob.sh` to remove reference to `add_evidence_document_checksums`
+* **[Done]** Remove `kubernetes_deploy/cron_jobs/add_evidence_document_checksums.yml`
+* **[Done]** Amend ` kubernetes_deploy/scripts/cronjob.sh` to remove reference to `add_evidence_document_checksums`
 * **Note:** This step is destructive and cannot be reverted.
   Remove Paperclip related fields from the database:
   * In `stats_reports`; `document_file_name`, `document_content_type`,
@@ -412,11 +412,11 @@ Paperclip can be removed.
   of upload "verification" and should probably have been called `verified_file_path`.
   It holds the full s3 path. It is, nonetheless, unclear why
   it is needed at all.
-* Remove `config/initializers/paperclip.rb`
-* Remove `#document#path` and  `#converted_preview_document#path` tests from
+* **[Done]** Remove `config/initializers/paperclip.rb`
+* **[Done]** Remove `#document#path` and  `#converted_preview_document#path` tests from
   `spec/model/document_spec.rb`
-* Remove `#attachment#path` from `spec/model/message_spec.rb`
-* Remove `#document#path` from `spec/model/stats/stats_report_spec.rb`
+* **[Done]** Remove `#attachment#path` from `spec/model/message_spec.rb`
+* **[Done]** Remove `#document#path` from `spec/model/stats/stats_report_spec.rb`
 * Ticket to find and remove orphan document, message and stats_reports records
 * Ticket to find and remove active storage records with no s3 object associated with them.
 

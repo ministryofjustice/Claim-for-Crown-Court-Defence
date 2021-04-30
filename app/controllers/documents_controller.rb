@@ -45,8 +45,6 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    Rails.logger.info 'paperclip: Saving Document'
-
     @document = Document.new(document_params.merge(creator_id: current_user.id))
 
     if @document.save_and_verify

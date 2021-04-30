@@ -60,25 +60,5 @@ RSpec.describe ConvertDocumentJob, type: :job do
 
       it { expect { perform }.not_to raise_error }
     end
-
-    context 'when allowing for Paperclip rollback' do
-      let(:document) { create :document, :docx }
-
-      it do
-        expect { perform }
-          .to change { document.reload.converted_preview_document_file_name }
-          .to "#{document.document_file_name}.pdf"
-      end
-
-      it do
-        expect { perform }
-          .to change { document.reload.converted_preview_document_content_type }
-          .to 'application/pdf'
-      end
-
-      it { expect { perform }.to(change { document.reload.converted_preview_document_updated_at }) }
-      it { expect { perform }.to(change { document.reload.converted_preview_document_file_size }) }
-      it { expect { perform }.to(change { document.reload.as_converted_preview_document_checksum }) }
-    end
   end
 end

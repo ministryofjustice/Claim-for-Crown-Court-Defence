@@ -6,7 +6,5 @@ class ConvertDocumentJob < ApplicationJob
     return if document.nil?
 
     DocumentConverterService.new(document.document, document.converted_preview_document).call
-    document.populate_paperclip_for :converted_preview_document
-    document.save
   end
 end

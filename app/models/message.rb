@@ -15,10 +15,6 @@
 #
 
 class Message < ApplicationRecord
-  include S3Headers
-  include CheckSummable
-  include PaperclipRollback
-
   belongs_to :claim, class_name: 'Claim::BaseClaim'
   belongs_to :sender, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy
@@ -29,18 +25,18 @@ class Message < ApplicationRecord
 
   validates :attachment,
             size: { less_than: 20.megabytes },
-            content_type: [
-              'application/pdf',
-              'application/msword',
-              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-              'application/vnd.oasis.opendocument.text',
-              'text/rtf',
-              'application/rtf',
-              'image/jpeg',
-              'image/png',
-              'image/tiff',
-              'image/bmp',
-              'image/x-bitmap'
+            content_type: %w[
+              application/pdf
+              application/msword
+              application/vnd.openxmlformats-officedocument.wordprocessingml.document
+              application/vnd.oasis.opendocument.text
+              text/rtf
+              application/rtf
+              image/jpeg
+              image/png
+              image/tiff
+              image/bmp
+              image/x-bitmap
             ]
 
   validates :sender, presence: { message: 'Message sender cannot be blank' }
@@ -51,7 +47,6 @@ class Message < ApplicationRecord
 
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
-  before_save -> { populate_paperclip_for :attachment }
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
   before_destroy -> { attachment.purge }
 
@@ -65,10 +60,6 @@ class Message < ApplicationRecord
                   end
       where(attribute => object.id)
     end
-  end
-
-  def populate_checksum
-    add_checksum(:attachment)
   end
 
   private

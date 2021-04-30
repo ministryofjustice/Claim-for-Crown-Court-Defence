@@ -27,8 +27,6 @@ RSpec.describe Message, type: :model do
 
   it { is_expected.to have_one_attached(:attachment) }
 
-  it_behaves_like 'an s3 bucket'
-
   it do
     is_expected.to validate_content_type_of(:attachment)
       .allowing(
@@ -218,90 +216,6 @@ RSpec.describe Message, type: :model do
 
       it { expect { destroy_message }.to change(ActiveStorage::Attachment, :count).by(-1) }
       it { expect { destroy_message }.to change(ActiveStorage::Blob, :count).by(-1) }
-    end
-  end
-
-  # To allow rolling back to Paperclip
-  describe '#attachment_file_name' do
-    subject { message.attachment_file_name }
-
-    context 'with no attachment' do
-      let(:message) { create(:message) }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'with an attachment' do
-      let(:message) { create(:message, :with_attachment) }
-
-      it { is_expected.to eq message.attachment.filename.to_s }
-    end
-  end
-
-  describe '#attachment_file_size' do
-    subject { message.attachment_file_size }
-
-    context 'with no attachment' do
-      let(:message) { create(:message) }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'with an attachment' do
-      let(:message) { create(:message, :with_attachment) }
-
-      it { is_expected.to eq message.attachment.byte_size }
-    end
-  end
-
-  describe '#attachment_content_type' do
-    subject { message.attachment_content_type }
-
-    context 'with no attachment' do
-      let(:message) { create(:message) }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'with an attachment' do
-      let(:message) { create(:message, :with_attachment) }
-
-      it { is_expected.to eq message.attachment.content_type }
-    end
-  end
-
-  describe '#attachment_updated_at' do
-    subject { message.attachment_updated_at }
-
-    context 'with no attachment' do
-      let(:message) { create(:message) }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'with an attachment' do
-      let(:message) { create(:message, :with_attachment) }
-      let(:time) { Time.zone.parse('19 January 2021, 11:05:00') }
-
-      before { travel_to time }
-
-      it { is_expected.to eq time }
-    end
-  end
-
-  describe '#as_attachment_checksum' do
-    subject { message.as_attachment_checksum }
-
-    context 'with no attachment' do
-      let(:message) { create(:message) }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'with an attachment' do
-      let(:message) { create(:message, :with_attachment) }
-
-      it { is_expected.to eq message.attachment.checksum }
     end
   end
 end

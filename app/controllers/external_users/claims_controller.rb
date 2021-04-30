@@ -90,27 +90,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     Timeout.timeout(20) do
       draft = claim_updater.clone_rejected
     end
-    LogStuff.send(:info,
-                  'ExternalUsers::ClaimsController',
-                  action: 'clone',
-                  claim_id: @claim.id,
-                  documents: @claim.documents.count,
-                  total_size: helpers.number_to_human_size(@claim.documents.sum(:document_file_size))) do
-      'Redraft succeeded'
-    end
-
+    log('Redraft succeeded')
     redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
   rescue StandardError => e
-    LogStuff.send(:error,
-                  'ExternalUsers::ClaimsController',
-                  action: 'clone',
-                  claim_id: @claim.id,
-                  documents: @claim.documents.count,
-                  total_size: helpers.number_to_human_size(@claim.documents.sum(:document_file_size)),
-                  error: "#{e.class}: #{e.message}") do
-      'Redraft failed'
-    end
-
+    log('Redraft failed', level: :error, error: e)
     redirect_to external_users_claims_url, alert: t('external_users.claims.redraft.error_html').html_safe
   end
 
@@ -198,6 +181,17 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   private
+
+  def log(message, error: nil, level: :info)
+    log_data = {
+      action: 'clone',
+      claim_id: @claim.id,
+      documents: @claim.documents.count,
+      total_size: helpers.number_to_human_size(@claim.documents.sum { |doc| doc.document.byte_size })
+    }
+    log_data[:error] = "#{error.class}: #{error.message}" if error
+    LogStuff.send(level, 'ExternalUsers::ClaimsController', **log_data) { message }
+  end
 
   def generate_form_id
     @form_id = SecureRandom.uuid

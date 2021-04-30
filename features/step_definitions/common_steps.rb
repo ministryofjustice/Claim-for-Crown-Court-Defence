@@ -222,3 +222,7 @@ end
 And(/^I eject the VCR cassette$/) do
   VCR.eject_cassette
 end
+
+And("I print postgres version") do
+  puts ActiveRecord::Base.connection.execute("SELECT version();").to_a
+end

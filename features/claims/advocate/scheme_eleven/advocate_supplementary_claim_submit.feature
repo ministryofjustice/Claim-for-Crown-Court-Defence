@@ -9,6 +9,8 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate supplementary fee'
 
+    And I print postgres version
+
     Then I should be on the advocate supplementary new claim page
 
     When I enter a providers reference of 'AGFS supplementary fee test'

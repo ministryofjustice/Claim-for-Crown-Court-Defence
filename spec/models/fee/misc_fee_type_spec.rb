@@ -30,10 +30,13 @@ RSpec.describe Fee::MiscFeeType do
         create(:misc_fee_type, description: 'A')
         create(:misc_fee_type, description: 'C')
         create(:misc_fee_type, description: 'B')
+        create(:misc_fee_type, description: 'C (a)')
+        create(:misc_fee_type, description: 'C (a )')
+        create(:misc_fee_type, description: 'C (a a)')
       end
 
-      it 'orders by description ascending' do
-        is_expected.to eq ['A', 'B', 'C']
+      it 'orders by description ascending, ignoring parentheses' do
+        is_expected.to eq ['A', 'B', 'C', 'C (a)', 'C (a )', 'C (a a)']
       end
     end
 

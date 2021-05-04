@@ -1,25 +1,19 @@
 class ClaimSearchService
   class State < Base
-    STATES = {
-      archived: Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES,
-      allocated: Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES
-    }.freeze
-
-    def initialize(search, status:)
+    def initialize(search, state:)
       super
 
-      @status = status
+      @state = state
     end
 
     def run
-      @search.run.where(state: STATES[@status])
+      @search.run.where(state: @state)
     end
 
-    def self.decorate(search, status: nil, **_params)
-      status = status&.to_sym
-      return search if STATES[status].blank?
+    def self.decorate(search, state: nil, **_params)
+      return search if state.blank?
 
-      new(search, status: status)
+      new(search, state: Array(state))
     end
   end
 end

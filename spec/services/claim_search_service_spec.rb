@@ -8,7 +8,15 @@ RSpec.describe ClaimSearchService, type: :service do
     let(:expected_search) do
       [
         create(:authorised_claim),
-        create(:authorised_claim)
+        create(:authorised_claim),
+        create(:rejected_claim),
+        create(:refused_claim),
+        create(:part_authorised_claim),
+        create(:archived_pending_delete_claim),
+        create(:allocated_claim),
+        create(:submitted_claim),
+        create(:redetermination_claim),
+        create(:awaiting_written_reasons_claim)
       ]
     end
 
@@ -22,43 +30,23 @@ RSpec.describe ClaimSearchService, type: :service do
     end
   end
 
-  context 'when the status is archived' do
-    let(:params) { { status: 'archived' } }
+  context 'when there is a state filter' do
+    let(:params) { { state: [:authorised, :rejected, :refused] } }
     let(:expected_search) do
       [
         create(:authorised_claim),
-        create(:part_authorised_claim),
         create(:rejected_claim),
         create(:refused_claim),
-        create(:archived_pending_delete_claim),
-        create(:hardship_archived_pending_review_claim)
       ]
     end
 
     before do
+      create :part_authorised_claim
+      create :archived_pending_delete_claim
       create :allocated_claim
       create :submitted_claim
       create :redetermination_claim
       create :awaiting_written_reasons_claim
-    end
-
-    it { is_expected.to match_array expected_search }
-  end
-
-  context 'when the status is allocated' do
-    let(:params) { { status: 'allocated' } }
-    let(:expected_search) { [create(:allocated_claim)] }
-
-    before do
-      create :submitted_claim
-      create :redetermination_claim
-      create :awaiting_written_reasons_claim
-      create :authorised_claim
-      create :part_authorised_claim
-      create :rejected_claim
-      create :refused_claim
-      create :archived_pending_delete_claim
-      # create :hardship_archived_pending_review_claim
     end
 
     it { is_expected.to match_array expected_search }

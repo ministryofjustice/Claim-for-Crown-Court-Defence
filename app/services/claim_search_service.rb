@@ -8,7 +8,7 @@ class ClaimSearchService
     new(params).call
   end
 
-  def initialize(params = {})
+  def initialize(**params)
     @search = FILTERS.inject(ClaimSearchService::Base.new) do |partial_search, filter|
       filter.decorate(partial_search, params)
     end

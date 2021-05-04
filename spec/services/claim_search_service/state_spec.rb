@@ -6,28 +6,22 @@ RSpec.describe ClaimSearchService::State do
 
     let(:base) { ClaimSearchService::Base.new }
 
-    context 'when no status is given' do
+    context 'when no states are given' do
       let(:params) { {} }
 
       it { is_expected.not_to be_a described_class }
     end
 
-    context 'when the status is archived' do
-      let(:params) { { status: 'archived' } }
+    context 'when there is a single state' do
+      let(:params) { { state: 'authorised' } }
 
       it { is_expected.to be_a described_class }
     end
 
-    context 'when the status is allocated' do
-      let(:params) { { status: 'allocated' } }
+    context 'when there are multiple states' do
+      let(:params) { { state: %w[authorised part_authorised rejected] } }
 
       it { is_expected.to be_a described_class }
-    end
-
-    context 'when no status is unknown' do
-      let(:params) { { status: 'boo' } }
-
-      it { is_expected.not_to be_a described_class }
     end
   end
 end

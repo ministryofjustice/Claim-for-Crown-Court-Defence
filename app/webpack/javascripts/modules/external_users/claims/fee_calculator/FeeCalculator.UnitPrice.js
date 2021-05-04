@@ -260,7 +260,7 @@
       const self = this
       $(document).ready(function () {
         // TODO: this loop is causing multiple init procedures
-        // limiting it for now to at least one visible
+        // limiting it for now to, at most, one visible
         $('.calculated-unit-fee:visible:first').each(function () {
           self.calculateUnitPrice()
         })

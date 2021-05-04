@@ -63,4 +63,49 @@ RSpec.describe ClaimSearchService, type: :service do
 
     it { is_expected.to match_array expected_search }
   end
+
+  context 'with a case number search' do
+    let(:params) { { status: 'allocated', search: 'T202001' } }
+    let!(:expected_search) { [create(:allocated_claim, case_number: 'T20200101')] }
+
+    before { create :allocated_claim, case_number: 'T20209999' }
+
+    it { is_expected.to match_array expected_search }
+  end
+
+  context 'with a case-insensitive case number search' do
+    let(:params) { { status: 'allocated', search: 't202001' } }
+    let!(:expected_search) { [create(:allocated_claim, case_number: 'T20200101')] }
+
+    it { is_expected.to match_array expected_search }
+  end
+
+  context 'with a defendants forename search' do
+    let(:params) { { status: 'allocated', search: 'mic' } }
+    let(:expected_search) { [create(:allocated_claim, defendants: [build(:defendant, first_name: 'Michael')])] }
+
+    before { create :allocated_claim, defendants: [build(:defendant, first_name: 'Tom', last_name: 'Cruise')] }
+
+    it { is_expected.to match_array expected_search }
+  end
+
+  context 'with a defendants surname search' do
+    let(:params) { { status: 'allocated', search: 'cai' } }
+    let(:expected_search) { [create(:allocated_claim, defendants: [build(:defendant, last_name: 'Caine')])] }
+
+    before { create :allocated_claim, defendants: [build(:defendant, first_name: 'Tom', last_name: 'Cruise')] }
+
+    it { is_expected.to match_array expected_search }
+  end
+
+  context 'with a MAAT reference search' do
+    let(:params) { { status: 'allocated', search: '5123' } }
+    let(:representation_order) { build :representation_order, maat_reference: 5_123_456 }
+    let(:defendant) { build :defendant, representation_orders: [representation_order] }
+    let(:expected_search) { [create(:allocated_claim, defendants: [defendant])] }
+
+    before { create :allocated_claim, defendants: [build(:defendant)] }
+
+    it { is_expected.to match_array expected_search }
+  end
 end

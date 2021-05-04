@@ -5,7 +5,7 @@ class ClaimSearchService
     end
 
     def run
-      Claim::BaseClaim.active
+      Claim::BaseClaim.active.distinct
     end
   end
 end

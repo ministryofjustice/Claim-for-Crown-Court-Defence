@@ -1,6 +1,7 @@
 class ClaimSearchService
   FILTERS = [
-    ClaimSearchService::State
+    ClaimSearchService::State,
+    ClaimSearchService::Keyword
   ].freeze
 
   def self.call(params)

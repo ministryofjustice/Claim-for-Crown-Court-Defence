@@ -108,8 +108,6 @@ module Claims::Cloner
     draft = duplicate
     draft.transition_clone_to_draft!(author_id: author_id)
     draft
-  rescue StandardError => e
-    raise("Claims::Cloner.clone_rejected_to_new_draft failed with error '#{e.message}'")
   end
 
   # `other_claim` can be a draft instance of any kind of claim scheme (agfs or lgfs).

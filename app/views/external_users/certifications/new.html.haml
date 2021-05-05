@@ -17,8 +17,7 @@
             = f.govuk_radio_button :certification_type_id, certification_type.id, label: { text: certification_type.name }, link_errors: index.zero?
 
         = f.govuk_radio_buttons_fieldset :certification_type_id,
-          hint: { text: t('.certification_type_pre_may_2015_hint') },
-          legend: { text: t('.certification_type_pre_may_2015'), size: 's' } do
+          legend: { text: t('.certification_type_pre_may_2015_hint'), size: 's' } do
           - CertificationType.pre_may_2015.agfs.each_with_index do |certification_type, index|
             = f.govuk_radio_button :certification_type_id, certification_type.id, label: { text: certification_type.name }
 

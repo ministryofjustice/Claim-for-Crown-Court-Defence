@@ -1,21 +1,22 @@
 class ClaimSearchService
   class Keyword < Base
-    STATUSES = %w[archived allocated current].freeze
+    SPACE = Arel::Nodes.build_quoted(' ').freeze
 
-    def initialize(search, term:)
+    def initialize(search, term:, admin:)
       super
 
       @term = "%#{term}%"
+      @admin = admin
     end
 
     def run
       @search.run.merge(or_chain)
     end
 
-    def self.decorate(claim_search, status: nil, search: nil, **_params)
-      return claim_search unless STATUSES.include?(status) && search.present?
+    def self.decorate(search, term: nil, user: nil, **_params)
+      return search if term.blank?
 
-      new(claim_search, term: search)
+      new(search, term: term, admin: user&.admin?)
     end
 
     private
@@ -27,21 +28,28 @@ class ClaimSearchService
     end
 
     def fields
-      [
-        Claim::BaseClaim.arel_table[:case_number],
-        Defendant.arel_table[:first_name],
-        Defendant.arel_table[:last_name],
-        User.arel_table[:first_name],
-        User.arel_table[:last_name],
-        RepresentationOrder.arel_table[:maat_reference]
-      ]
+      @fields ||= begin
+        fields = [
+          Claim::BaseClaim.arel_table[:case_number],
+          full_name_for(Defendant),
+          RepresentationOrder.arel_table[:maat_reference]
+        ]
+        @admin ? fields + [full_name_for(User), User.arel_table[:email]] : fields
+      end
+    end
+
+    def full_name_for(model)
+      Arel::Nodes::NamedFunction.new('concat', [model.arel_table[:first_name], SPACE, model.arel_table[:last_name]])
     end
 
     def stub
-      @stub ||= Claim::BaseClaim.joins(
-        defendants: :representation_orders,
-        external_user: :user
-      )
+      @stub ||= Claim::BaseClaim.joins(joins)
+    end
+
+    def joins
+      return { defendants: :representation_orders, case_workers: :user } if @admin
+
+      { defendants: :representation_orders }
     end
   end
 end

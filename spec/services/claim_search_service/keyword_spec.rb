@@ -6,28 +6,16 @@ RSpec.describe ClaimSearchService::Keyword do
 
     let(:base) { ClaimSearchService::Base.new }
 
-    context 'when no status is given' do
-      let(:params) { { search: 'T20200101' } }
-
-      it { is_expected.not_to be_a described_class }
-    end
-
     context 'when no search term is given' do
-      let(:params) { { status: 'allocated' } }
+      let(:params) { {} }
 
       it { is_expected.not_to be_a described_class }
     end
 
-    context 'when the status is allocated and there is a search term' do
-      let(:params) { { status: 'archived', search: 'T20200101' } }
+    context 'when a search term is provided' do
+      let(:params) { { term: 'T20200101' } }
 
       it { is_expected.to be_a described_class }
-    end
-
-    context 'when no status is unknown' do
-      let(:params) { { status: 'boo', search: 'T20200101' } }
-
-      it { is_expected.not_to be_a described_class }
     end
   end
 end

@@ -3,7 +3,7 @@ function _cronjob() {
   usage="cronjob -- apply job in the specified environment
   Usage: cronjob job environment [branch]
   Where:
-    job [archive_stale|clean_ecr]
+    job [archive_stale|clean_ecr|vacuum_db]
     environment [dev|dev-lgfs|staging|api-sandbox|production]
     branch [<branchname>-latest|commit-sha]
 
@@ -28,7 +28,7 @@ function _cronjob() {
   fi
 
   case "$1" in
-    archive_stale)
+    archive_stale | vacuum_db)
       job=$1
       ;;
     clean_ecr)

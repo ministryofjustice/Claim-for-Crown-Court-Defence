@@ -11,18 +11,15 @@
       - if @claim.agfs?
         = t('.agfs_claim_collection_html')
 
-        = f.govuk_collection_radio_buttons :certification_type_id,
-          CertificationType.post_may_2015.agfs,
-          :id,
-          :name,
-          legend: { text: t('.certification_type_post_may_2015'), size: 's' }
+        = f.govuk_radio_buttons_fieldset :certification_type_id,
+          legend: { text: t('.certification_type_post_may_2015'), size: 's' } do
+          - CertificationType.post_may_2015.agfs.each_with_index do |certification_type, index|
+            = f.govuk_radio_button :certification_type_id, certification_type.id, label: { text: certification_type.name }, link_errors: index.zero?
 
-        = f.govuk_collection_radio_buttons :certification_type_id,
-          CertificationType.pre_may_2015.agfs,
-          :id,
-          :name,
-          legend: { text: t('.certification_type_pre_may_2015'), size: 's' },
-          hint: { text: t('.certification_type_pre_may_2015_hint') }
+        = f.govuk_radio_buttons_fieldset :certification_type_id,
+          legend: { text: t('.certification_type_pre_may_2015_hint'), size: 's' } do
+          - CertificationType.pre_may_2015.agfs.each_with_index do |certification_type, index|
+            = f.govuk_radio_button :certification_type_id, certification_type.id, label: { text: certification_type.name }
 
         = t('.agfs_claim_confirmation_info_html')
 

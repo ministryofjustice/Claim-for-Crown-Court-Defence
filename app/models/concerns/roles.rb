@@ -47,9 +47,9 @@ module Roles
 
   def roles_valid
     if roles.empty?
-      errors[:roles] << 'at least one role must be present'
+      errors[:roles] << 'Choose at least one role'
     elsif (roles - self.class::ROLES).any?
-      errors[:roles] << "must be one or more of: #{roles_string}"
+      errors[:roles] << "Must be one or more of: #{roles_string}"
     end
   end
 

@@ -30,7 +30,7 @@ Before('not @no-site-prism') do
   @cookie_page = CookiePage.new
 end
 
-Before do
+Before('not @no-seed') do
   unless ($seed_done ||= false)
 
     # IMPORTANT - add any seeded tables to list of NON_TRUNCATED_TABLES

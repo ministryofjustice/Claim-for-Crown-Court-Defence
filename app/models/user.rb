@@ -42,6 +42,7 @@ class User < ApplicationRecord
           :validatable,
           :lockable
 
+  attribute :terms_and_conditions_required, :boolean, default: false
   attribute :terms_and_conditions, :boolean
   attr_accessor :email_confirmation
 
@@ -55,7 +56,7 @@ class User < ApplicationRecord
             acceptance: ['1', true],
             allow_nil: false,
             on: :create,
-            if: proc { Rails.host.api_sandbox? }
+            if: proc { terms_and_conditions_required? }
 
   # enable current_user to directly call persona methods (in controllers)
   delegate :claims, to: :persona

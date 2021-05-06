@@ -6,8 +6,11 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
 
+    resource.terms_and_conditions_required = true
     resource.save
+
     yield resource if block_given?
+
     if resource.persisted?
       ExternalUsers::CreateUser.new(resource).call!
       notify_resource

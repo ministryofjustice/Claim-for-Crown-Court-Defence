@@ -41,18 +41,14 @@ RSpec.describe User, type: :model do
   it { is_expected.not_to allow_value('foo').for(:email) }
   it { is_expected.to validate_length_of(:password).is_at_least(8).with_message('Password must be at least 8 characters') }
 
-  context 'when host is not api-sandbox' do
-    around do |example|
-      with_env('production') { example.run }
-    end
+  context 'with terms_and_conditions_required: false' do
+    before { user.terms_and_conditions_required = false }
 
     it { is_expected.not_to validate_acceptance_of(:terms_and_conditions) }
   end
 
-  context 'when host is api-sandbox' do
-    around do |example|
-      with_env('api-sandbox') { example.run }
-    end
+  context 'with terms_and_conditions_required: true' do
+    before { user.terms_and_conditions_required = true }
 
     context 'when creating' do
       it do
@@ -63,7 +59,10 @@ RSpec.describe User, type: :model do
     end
 
     context 'when updating' do
-      it { is_expected.not_to validate_acceptance_of(:terms_and_conditions).on(:update) }
+      it do
+        expect(user).not_to validate_acceptance_of(:terms_and_conditions)
+          .on(:update)
+      end
     end
   end
 

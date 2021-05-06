@@ -16,7 +16,7 @@
       = user_fields.govuk_email_field :email_confirmation,
         label: { text: t('.email_confirmation') }
 
-    = f.govuk_collection_radio_buttons :email_notification_of_message,
+    = user_fields.govuk_collection_radio_buttons :email_notification_of_message,
       [['Yes','true'],['No','false']],
       :last,
       :first,

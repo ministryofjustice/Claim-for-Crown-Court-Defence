@@ -7,6 +7,8 @@ Before('not @no-site-prism') do
   @fee_scheme_selector = FeeSchemeSelectorPage.new
   @external_user_claim_show_page = ExternalUserClaimShowPage.new
   @case_worker_claim_show_page = CaseWorkerClaimShowPage.new
+  @manage_users_page = ManageUsersPage.new
+  @new_user_page = NewUserPage.new
 
   @claim_form_page = ClaimFormPage.new
   @advocate_hardship_claim_form_page = AdvocateHardshipClaimFormPage.new
@@ -30,7 +32,7 @@ Before('not @no-site-prism') do
   @cookie_page = CookiePage.new
 end
 
-Before do
+Before('not @no-seed') do
   unless ($seed_done ||= false)
 
     # IMPORTANT - add any seeded tables to list of NON_TRUNCATED_TABLES

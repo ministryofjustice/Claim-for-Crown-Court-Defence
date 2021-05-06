@@ -222,3 +222,17 @@ end
 And(/^I eject the VCR cassette$/) do
   VCR.eject_cassette
 end
+
+And('I fill in {string} with {string}') do |label, text|
+  fill_in label, with: text
+end
+
+And('I click govuk checkbox {string}') do |label|
+  find('.govuk-checkboxes__item label', text: label).click
+end
+
+And('I choose govuk radio {string} for {string}') do |label, legend|
+  within('.govuk-fieldset', text: legend) do
+    find('.govuk-radios__item label', text: label).click
+  end
+end

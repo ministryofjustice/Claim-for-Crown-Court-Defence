@@ -189,7 +189,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       documents: @claim.documents.count,
       total_size: helpers.number_to_human_size(@claim.documents.sum { |doc| doc.document.byte_size })
     }
-    log_data[:error] = "#{error.class}: #{error.message}" if error
+    if error
+      log_data[:error] = "#{error.class}: #{error.message}"
+      log_data[:backtrace] = error.backtrace
+    end
     LogStuff.send(level, 'ExternalUsers::ClaimsController', **log_data) { message }
   end
 

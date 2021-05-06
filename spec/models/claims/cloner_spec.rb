@@ -185,9 +185,7 @@ RSpec.describe Claims::Cloner, type: :model do
 
         before { allow_any_instance_of(Claim::BaseClaim).to receive(:transition_clone_to_draft!).and_raise(RuntimeError) }
 
-        it 'raises the correct error' do
-          expect { clone_fail }.to raise_error("Claims::Cloner.clone_rejected_to_new_draft failed with error 'RuntimeError'")
-        end
+        it { expect { clone_fail }.to raise_error(RuntimeError) }
       end
     end
   end

@@ -92,7 +92,7 @@ RSpec.describe Claims::ExternalUserClaimUpdater do
       let(:claim) { create :submitted_claim }
 
       it 'raises an appropriate error' do
-        expect { subject.clone_rejected }.to raise_error('Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
+        expect { subject.clone_rejected }.to raise_error('Can only clone claims in state "rejected"')
       end
     end
   end

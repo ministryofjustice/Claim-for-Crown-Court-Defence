@@ -601,13 +601,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
         end
 
         it 'logs an error' do
-          expect(LogStuff).to \
-            have_received(:error).with('ExternalUsers::ClaimsController',
-                                       action: 'clone',
-                                       claim_id: claim.id,
-                                       documents: 2,
-                                       total_size: "#{longer_lorem_size * 2} KB",
-                                       error: 'Timeout::Error: execution expired')
+          expect(LogStuff).to have_received(:error)
+            .with(
+              'ExternalUsers::ClaimsController',
+              hash_including(:action, :claim_id, :documents, :total_size, :error, :backtrace)
+            )
         end
 
         it 'displays a flash alert' do
@@ -625,14 +623,11 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
       end
 
       it 'logs an error' do
-        expect(LogStuff).to \
-          have_received(:error)
-          .with('ExternalUsers::ClaimsController',
-                action: 'clone',
-                claim_id: claim.id,
-                documents: 0,
-                total_size: '0 Bytes',
-                error: 'RuntimeError: Claims::Cloner.clone_rejected_to_new_draft failed with error \'Can only clone claims in state "rejected"\'')
+        expect(LogStuff).to have_received(:error)
+          .with(
+            'ExternalUsers::ClaimsController',
+            hash_including(:action, :claim_id, :documents, :total_size, :error, :backtrace)
+          )
       end
 
       it 'redirects to advocates dashboard' do

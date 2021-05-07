@@ -13,6 +13,8 @@ RSpec.shared_examples 'external user created' do
 end
 
 RSpec.describe 'User sign up', type: :request do
+  include Capybara::RSpecMatchers
+
   describe 'GET #new' do
     subject(:request) { get new_user_registration_path }
 
@@ -39,6 +41,11 @@ RSpec.describe 'User sign up', type: :request do
       it {
         request
         expect(response).to render_template('devise/registrations/new')
+      }
+
+      it {
+        request
+        expect(response.body).to have_link('software vendor terms and conditions', href: vendor_tandcs_page_path)
       }
     end
   end

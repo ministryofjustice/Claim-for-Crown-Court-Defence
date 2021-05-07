@@ -57,18 +57,17 @@ module API
               current_user.claims.where(id: generic_claims)
             end
 
-            def archived_claims
+            def unallocated_claims
               generic_claims
-            end
-
-            def allocated_claims
-              generic_claims.public_send(scheme)
+                .filter_by(filter)
+                .value_band(value_band_id)
             end
 
             def generic_claims
               ClaimSearchService.call(
                 state: states_for_status,
                 term: search_terms,
+                scheme: scheme,
                 user: current_user.persona
               )
             end
@@ -84,14 +83,9 @@ module API
               end
             end
 
-            def unallocated_claims
-              generic_claims
-                .__send__(scheme)
-                .filter_by(filter)
-                .value_band(value_band_id)
-            end
-
             def claims_scope
+              return generic_claims if %w[archived allocated].include? params[:status]
+
               send("#{params[:status]}_claims")
             end
 

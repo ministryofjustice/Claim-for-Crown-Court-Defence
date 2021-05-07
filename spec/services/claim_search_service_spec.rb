@@ -145,4 +145,46 @@ RSpec.describe ClaimSearchService, type: :service do
       it { is_expected.not_to include claim }
     end
   end
+
+  context 'with an agfs scheme' do
+    let(:params) { { scheme: 'agfs' } }
+    let(:expected_search) do
+      [
+        create(:advocate_claim),
+        create(:advocate_interim_claim),
+        create(:advocate_supplementary_claim),
+        create(:advocate_hardship_claim)
+      ]
+    end
+
+    before do
+      create :litigator_claim
+      create :interim_claim
+      create :transfer_claim
+      create :litigator_hardship_claim
+    end
+
+    it { is_expected.to match_array expected_search }
+  end
+
+  context 'with an lgfs scheme' do
+    let(:params) { { scheme: 'lgfs' } }
+    let(:expected_search) do
+      [
+        create(:litigator_claim),
+        create(:interim_claim),
+        create(:transfer_claim),
+        create(:litigator_hardship_claim)
+      ]
+    end
+
+    before do
+      create :advocate_claim
+      create :advocate_interim_claim
+      create :advocate_supplementary_claim
+      create :advocate_hardship_claim
+    end
+
+    it { is_expected.to match_array expected_search }
+  end
 end

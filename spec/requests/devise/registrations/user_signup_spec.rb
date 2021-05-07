@@ -141,29 +141,33 @@ RSpec.describe 'User sign up', type: :request do
         end
       end
 
-      context 'with missing persisted user attribute' do
+      context 'without invalid user attributes supplied' do
         let(:sign_up_attributes) do
-          { first_name: 'Bob',
-            last_name: 'Smith',
+          { first_name: '',
+            last_name: '',
             email: '',
-            password: 'password1234',
-            password_confirmation: 'password1234',
-            terms_and_conditions: '1' }
+            password: '',
+            password_confirmation: '',
+            terms_and_conditions: '0' }
         end
 
-        include_examples 'external user not created'
-      end
+        it {
+          request
+          expect(response).to render_template('devise/registrations/new')
+        }
 
-      context 'with terms and conditions not accepted' do
-        let(:sign_up_attributes) do
-          { first_name: 'Bob',
-            last_name: 'Smith',
-            email: 'foo@bar.com',
-            password: 'password1234',
-            password_confirmation: 'password1234' }
-        end
+        it {
+          request
+          expect(response.body).to have_css('.govuk-error-summary', text: 'Enter an email')
+            .and have_css('.govuk-error-summary', text: 'Enter a first name')
+            .and have_css('.govuk-error-summary', text: 'Enter a last name')
+            .and have_css('.govuk-error-summary', text: 'Enter a password')
+        }
 
-        it { expect(request).to render_template('devise/registrations/new') }
+        it {
+          request
+          expect(response.body).to have_css('.govuk-error-summary', text: 'You must accept the terms and conditions')
+        }
 
         include_examples 'external user not created'
       end

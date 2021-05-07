@@ -27,7 +27,7 @@
       "check_name": "SendFile",
       "message": "Model attribute used in file name",
       "file": "app/controllers/case_workers/claims_controller.rb",
-      "line": 33,
+      "line": 32,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "send_file(S3ZipDownloader.new(Claim::BaseClaim.active.find(params[:id])).generate!, :filename => (\"#{Claim::BaseClaim.active.find(params[:id]).case_number}-documents.zip\"), :type => \"application/zip\", :disposition => \"attachment\")",
       "render_path": null,
@@ -39,6 +39,26 @@
       "user_input": "Claim::BaseClaim.active.find(params[:id])",
       "confidence": "Weak",
       "note": "Caseworkers need to identify the downloads correspond to the cases they are processing"
+    },
+    {
+      "warning_type": "Dangerous Send",
+      "warning_code": 23,
+      "fingerprint": "bc8de62047e25c98883fb9cfdba7dabd67afb1e2057969ff8f552fae1b91dca5",
+      "check_name": "Send",
+      "message": "User controlled method execution",
+      "file": "app/interfaces/api/v2/case_workers/claim.rb",
+      "line": 81,
+      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_send/",
+      "code": "send(\"#{params[:status]}_claims\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "API::V2::CaseWorkers::Claim",
+        "method": "claims_scope"
+      },
+      "user_input": "params[:status]",
+      "confidence": "High",
+      "note": ""
     },
     {
       "warning_type": "Redirect",
@@ -61,6 +81,6 @@
       "note": ""
     }
   ],
-  "updated": "2021-03-03 16:39:39 +0000",
-  "brakeman_version": "5.0.0"
+  "updated": "2021-05-07 11:52:13 +0100",
+  "brakeman_version": "5.0.1"
 }

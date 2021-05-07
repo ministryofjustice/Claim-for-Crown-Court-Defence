@@ -36,6 +36,8 @@ module API
             end
 
             def search_terms
+              return if params[:params] == 'unallocated'
+
               params[:search].to_s.strip
             end
 
@@ -52,27 +54,39 @@ module API
             end
 
             def current_claims
-              current_user.claims.where(id: ::Claim::BaseClaim.search(
-                search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options
-              ))
+              current_user.claims.where(id: generic_claims)
             end
 
             def archived_claims
-              ::Claim::BaseClaim.active.search(
-                search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES, *search_options
-              )
+              generic_claims
             end
 
             def allocated_claims
-              ::Claim::BaseClaim.active.public_send(scheme).search(
-                search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options
+              generic_claims.public_send(scheme)
+            end
+
+            def generic_claims
+              ClaimSearchService.call(
+                state: states_for_status,
+                term: search_terms,
+                user: current_user.persona
               )
             end
 
+            def states_for_status
+              case params[:status]
+              when 'allocated'
+                Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES
+              when 'current', 'archived'
+                Claims::StateMachine::CASEWORKER_DASHBOARD_ARCHIVED_STATES
+              when 'unallocated'
+                Claims::StateMachine::CASEWORKER_DASHBOARD_UNALLOCATED_STATES
+              end
+            end
+
             def unallocated_claims
-              ::Claim::BaseClaim
-                .active.__send__(scheme)
-                .submitted_or_redetermination_or_awaiting_written_reasons
+              generic_claims
+                .__send__(scheme)
                 .filter_by(filter)
                 .value_band(value_band_id)
             end

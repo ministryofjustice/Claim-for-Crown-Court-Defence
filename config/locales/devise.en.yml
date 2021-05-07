@@ -76,8 +76,6 @@ en:
         page_heading: Sign up
         password: *password
         password_confirmation: *password_confirmation
-        terms_and_conditions_sentence_html: |
-          Our %{terms_and_conditions_link} contain important information you must agree to
         sign_up: Sign up
         terms_label: I agree to the terms and conditions
         terms_legend: Terms and conditions
@@ -109,6 +107,11 @@ en:
         didnt_receive_confirmation_instructions: Didn't receive confirmation instructions?
         didnt_receive_unlock_instructions: Didn't receive unlock instructions?
         sign_in_with: Sign in with
+        vendor_terms_and_conditions:
+          short_html: |
+            Read our <a class="govuk-link" href="%{link}">software vendor terms and conditions</a>
+          long_html: |
+            Our <a class="govuk-link" href="%{link}">software vendor terms and conditions</a> contain important information you must agree to
     unlocks:
       new:
         email: *email

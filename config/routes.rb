@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   get 'servicedown',    to: 'pages#servicedown',      as: :service_down_page
   get '/tandcs',        to: 'pages#tandcs',           as: :tandcs_page
+  get '/vendor_tandcs', to: 'pages#vendor_tandcs',    as: :vendor_tandcs_page
   get '/contact_us',    to: 'pages#contact_us',       as: :contact_us_page
   get '/timed_retention', to: 'pages#timed_retention', as: :timed_retention_page
   get '/hardship_claims', to: 'pages#hardship_claims', as: :hardship_claims_page

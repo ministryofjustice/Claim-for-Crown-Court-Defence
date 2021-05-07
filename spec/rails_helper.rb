@@ -91,6 +91,7 @@ RSpec.configure do |config|
   config.include ValidationHelpers, type: :validator
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::ControllerHelpers, type: :view
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ViewSpecHelper, type: :view
   config.include ActionView::TestCase::Behavior, file_path: %r{spec/presenters}
   config.include ActiveSupport::Testing::TimeHelpers
@@ -98,7 +99,6 @@ RSpec.configure do |config|
   config.include CCLF::BillScenarioHelpers, type: :adapter
   config.include StrongParamHelpers
   config.include RequestSpecHelper, type: :request
-  config.include Devise::Test::IntegrationHelpers, type: :request
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"

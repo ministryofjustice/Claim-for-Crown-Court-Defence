@@ -4,6 +4,8 @@ class PagesController < ApplicationController
 
   def tandcs; end
 
+  def vendor_tandcs; end
+
   def contact_us; end
 
   def api_landing; end

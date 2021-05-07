@@ -7,6 +7,7 @@
 
   - if Rails.host.api_sandbox?
     %li= t(".api_sign_up_and_documentation_html", link: api_landing_page_path)
+    %li= t(".vendor_terms_and_conditions.short_html", link: vendor_tandcs_page_path)
 
   - if devise_mapping.confirmable? && controller_name != 'confirmations'
     %li= govuk_link_to t(".didnt_receive_confirmation_instructions"), new_confirmation_path(resource_name)

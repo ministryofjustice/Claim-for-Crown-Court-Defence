@@ -20,7 +20,7 @@ RSpec.describe 'User sign up', type: :request do
 
     context 'when NOT on api-sandbox' do
       around do |example|
-        with_env('production') do
+        with_env('staging') do
           example.run
         end
       end
@@ -65,7 +65,7 @@ RSpec.describe 'User sign up', type: :request do
 
     context 'when not on api-sandbox but attributes valid' do
       around do |example|
-        with_env('production') do
+        with_env('staging') do
           example.run
         end
       end

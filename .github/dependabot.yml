@@ -12,10 +12,6 @@ updates:
   - ministryofjustice/crime-billing-online
   - "naseberry"
   ignore:
-  - dependency-name: govuk_frontend_toolkit
-    versions:
-    - ">= 9.a"
-    - "< 10"
   - dependency-name: jquery
     versions:
     - ">= 3.a"
@@ -53,10 +49,6 @@ updates:
   - dependency-name: sdoc
     versions:
     - "> 0.4.2"
-  - dependency-name: sidekiq
-    versions:
-    - ">= 6.0.a"
-    - "< 6.1"
   - dependency-name: sidekiq
     versions:
     - ">= 6.1.a"

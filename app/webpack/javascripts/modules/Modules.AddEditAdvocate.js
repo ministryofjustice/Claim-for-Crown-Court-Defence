@@ -1,3 +1,11 @@
+/*
+ * TODO: [js-chamber-advocates-only was removed here](https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence/blame/4493dfb63782ad5df696a4cca65e1b57dcdaaa65/app/views/external_users/admin/external_users/_form.html.haml#L47)
+ * I do not believe this module is require any longer, however I also bellieve
+ * that current functionality is not performing the conditional diaply of the supplier numer
+ * field (but is for "VAT registered" radio options)
+ *
+ * see [ticket CFP-114](https://dsdmoj.atlassian.net/browse/CFP-114)
+*/
 moj.Modules.AddEditAdvocate = {
   el: 'js-advocate-roles',
   $userRole: {},

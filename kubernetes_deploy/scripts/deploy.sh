@@ -69,8 +69,11 @@ function _deploy() {
   # apply new image
   kubectl set image -f kubernetes_deploy/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local --output yaml | kubectl apply -f -
   kubectl set image -f kubernetes_deploy/${environment}/deployment-worker.yaml cccd-worker=${docker_image_tag} --local --output yaml | kubectl apply -f -
-  kubectl set image -f kubernetes_deploy/cron_jobs/archive_stale.yaml cronjob-worker=${docker_image_tag} --local --output yaml | kubectl apply -f -
-  kubectl set image -f kubernetes_deploy/cron_jobs/vacuum_db.yaml cronjob-worker=${docker_image_tag} --local --output yaml | kubectl apply -f -
+
+  # apply changes that always use app-latest tagged images
+  kubectl apply \
+  -f kubernetes_deploy/cron_jobs/archive_stale.yaml \
+  -f kubernetes_deploy/cron_jobs/vacuum_db.yaml
 
   # apply non-image specific config
   kubectl apply \

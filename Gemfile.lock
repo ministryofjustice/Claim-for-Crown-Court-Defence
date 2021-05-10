@@ -606,13 +606,13 @@ GEM
     rspec-support (3.10.2)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.12.1)
+    rubocop (1.14.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml
-      rubocop-ast (>= 1.2.0, < 2.0)
+      rubocop-ast (>= 1.5.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 1.4.0, < 3.0)
     rubocop-ast (1.5.0)
@@ -844,7 +844,7 @@ DEPENDENCIES
   rspec-mocks
   rspec-rails (~> 5.0.1)
   rspec_junit_formatter
-  rubocop (~> 1.12)
+  rubocop (~> 1.14)
   rubocop-performance
   rubocop-rails
   rubocop-rspec

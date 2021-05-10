@@ -20,7 +20,7 @@ spec:
           restartPolicy: Never
           containers:
           - name: cronjob-worker
-            image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
+            image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-latest
             imagePullPolicy: Always
             command:
               - rails

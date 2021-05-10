@@ -187,4 +187,16 @@ RSpec.describe ClaimSearchService, type: :service do
 
     it { is_expected.to match_array expected_search }
   end
+
+  context 'with a current user claims search' do
+    let(:current_case_worker) { build :case_worker }
+    let(:other_case_worker) { build :case_worker }
+    let(:params) { { user: current_case_worker, current_user_claims: true } }
+
+    let!(:expected_search) { [create(:allocated_claim, case_workers: [current_case_worker])] }
+
+    before { create(:allocated_claim, case_workers: [other_case_worker]) }
+
+    it { is_expected.to match_array expected_search }
+  end
 end

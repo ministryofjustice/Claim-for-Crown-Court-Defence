@@ -53,8 +53,8 @@ module API
               params[:value_band_id]
             end
 
-            def current_claims
-              current_user.claims.where(id: generic_claims)
+            def current_user_claims
+              params[:status] == 'current'
             end
 
             def unallocated_claims
@@ -68,7 +68,8 @@ module API
                 state: states_for_status,
                 term: search_terms,
                 scheme: scheme,
-                user: current_user.persona
+                user: current_user.persona,
+                current_user_claims: current_user_claims
               )
             end
 
@@ -84,9 +85,9 @@ module API
             end
 
             def claims_scope
-              return generic_claims if %w[archived allocated].include? params[:status]
+              return unallocated_claims if params[:status] == 'unallocated'
 
-              send("#{params[:status]}_claims")
+              generic_claims
             end
 
             def claims

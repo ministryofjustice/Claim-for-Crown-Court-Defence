@@ -57,18 +57,64 @@ class ExternalUser < ApplicationRecord
     delegate "#{role}?".to_sym, to: :provider
   end
 
-  def available_roles
-    return %w[admin] if provider.nil?
+  class EligibleRoles
+    attr_reader :provider
 
-    if provider.agfs? && provider.lgfs?
-      %w[admin advocate litigator]
-    elsif provider.agfs?
-      %w[admin advocate]
-    elsif provider.lgfs?
-      %w[admin litigator]
-    else
-      raise "Provider has no valid roles available: #{Provider::ROLES.join(', ')}"
+    delegate :t, to: 'I18n'
+
+    RoleDescriptor = Struct.new(:id, :label, :hint) do
+      def to_s
+        id.to_s
+      end
     end
+
+    def self.for(provider)
+      new(provider).for
+    end
+
+    def initialize(provider)
+      @provider = provider
+    end
+
+    def for
+      if provider.agfs? && provider.lgfs?
+        [admin, advocate, litigator]
+      elsif provider.agfs?
+        [admin, advocate]
+      elsif provider.lgfs?
+        [admin, litigator]
+      elsif provider.nil?
+        [admin]
+      else
+        raise "Provider has no valid roles available: #{Provider::ROLES.join(', ')}"
+      end
+    end
+
+    private
+
+    def descriptors
+      {
+        admin: RoleDescriptor.new(:admin, t('roles.admin.label'), t('roles.admin.hint')),
+        advocate: RoleDescriptor.new(:advocate, t('roles.advocate.label'), t('roles.advocate.hint')),
+        litigator: RoleDescriptor.new(:litigator, t('roles.litigator.label'), t('roles.litigator.hint'))
+      }
+    end
+
+    def admin
+      descriptors[:admin]
+    end
+
+    def advocate
+      descriptors[:advocate]
+    end
+
+    def litigator
+      descriptors[:litigator]
+    end
+  end
+
+  def available_roles
+    EligibleRoles.for(provider)
   end
 
   def advocate_claim_types

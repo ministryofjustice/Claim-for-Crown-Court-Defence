@@ -81,9 +81,13 @@ Feature: Create new external user
     And I fill in 'Email confirmation' with 'jammy.dodger@example.com'
     And I choose govuk radio 'Yes' for 'Get email notifications of caseworker messages on claims you created?'
 
-    Given I click govuk checkbox 'Admin'
-    And I click govuk checkbox 'Advocate'
-    But I should not see 'VAT registered'
+    And I can see govuk hint 'Can create user'
+    And I can see govuk hint 'Can create AGFS claims'
+    And I can see govuk hint 'Can create LGFS claims'
+
+    And I click govuk checkbox 'Admin'
+    When I click govuk checkbox 'Advocate'
+    Then I should not see 'VAT registered'
     And I click govuk checkbox 'Litigator'
     And I fill in 'Supplier number' with 'SAD2A'
 

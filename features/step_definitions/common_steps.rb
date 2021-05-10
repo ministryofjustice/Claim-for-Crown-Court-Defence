@@ -241,3 +241,7 @@ And('the text field {string} should be filled with {string}') do |label, value|
   actual_value = find_field(label).value
   expect(actual_value).to eql(value)
 end
+
+And('I can see govuk hint {string}') do |hint|
+  expect(page).to have_css('.govuk-hint', text: hint)
+end

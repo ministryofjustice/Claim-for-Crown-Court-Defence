@@ -1,0 +1,12 @@
+---
+en:
+  roles:
+    admin:
+      hint: Can create users
+      label: Administrator
+    advocate:
+      hint: Can create AGFS claims
+      label: Advocate
+    litigator:
+      hint: Can create LGFS claims
+      label: Litigator

@@ -27,8 +27,9 @@
       = f.govuk_check_boxes_fieldset :roles, legend: { text: t('.roles'), size: 's' } do
         - @external_user.available_roles.each_with_index do |role, idx|
           = f.govuk_check_box(:roles,
-            role,
-            label: { text: role.humanize },
+            role.id,
+            label: { text: role.label },
+            hint: { text: role.hint },
             link_errors: idx.eql?(0)) do
 
             - if role.eql?('advocate') && current_user.persona.provider.chamber?

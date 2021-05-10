@@ -186,10 +186,10 @@ RSpec.configure do |config|
     else
       DatabaseCleaner.strategy = :transaction
     end
-    DatabaseCleaner.start
+    DatabaseCleaner.start unless example.metadata[:no_database_cleaner]
   end
 
-  config.after do
-    DatabaseCleaner.clean
+  config.after do |example|
+    DatabaseCleaner.clean unless example.metadata[:no_database_cleaner]
   end
 end

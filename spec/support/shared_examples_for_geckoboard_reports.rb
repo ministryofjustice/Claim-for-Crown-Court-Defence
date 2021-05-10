@@ -17,6 +17,7 @@ shared_examples 'geckoboard publishable report' do
   it { is_expected.to respond_to :published? }
 
   def mock_expectations(exit_without_ping = nil)
+    allow(ENV).to receive(:[]).and_call_original
     allow(ENV).to receive(:[]).with('ENV').and_return 'staging'
     expect(ENV).to receive(:[]).with('GECKOBOARD_API_KEY').and_return 'fake-API-key'
     expect(Geckoboard).to receive(:client).with('fake-API-key').and_return client

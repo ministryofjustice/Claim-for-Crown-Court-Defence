@@ -232,7 +232,12 @@ And('I click govuk checkbox {string}') do |label|
 end
 
 And('I choose govuk radio {string} for {string}') do |label, legend|
-  within('.govuk-fieldset', text: legend) do
-    find('.govuk-radios__item label', text: label).click
-  end
+  find('.govuk-fieldset__legend', text: legend)
+    .find(:xpath, '..')
+    .find('.govuk-radios__item label', text: label).click
+end
+
+And('the text field {string} should be filled with {string}') do |label, value|
+  actual_value = find_field(label).value
+  expect(actual_value).to eql(value)
 end

@@ -1,32 +1,3 @@
-# == Schema Information
-#
-# Table name: users
-#
-#  id                     :integer          not null, primary key
-#  email                  :string           default(""), not null
-#  encrypted_password     :string           default(""), not null
-#  reset_password_token   :string
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  sign_in_count          :integer          default(0), not null
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :inet
-#  last_sign_in_ip        :inet
-#  persona_id             :integer
-#  persona_type           :string
-#  created_at             :datetime
-#  updated_at             :datetime
-#  first_name             :string
-#  last_name              :string
-#  failed_attempts        :integer          default(0), not null
-#  locked_at              :datetime
-#  unlock_token           :string
-#  settings               :text
-#  deleted_at             :datetime
-#  api_key                :uuid
-#
-
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
@@ -41,18 +12,14 @@ RSpec.describe User, type: :model do
   it { is_expected.not_to allow_value('foo').for(:email) }
   it { is_expected.to validate_length_of(:password).is_at_least(8).with_message('Password must be at least 8 characters') }
 
-  context 'when host is not api-sandbox' do
-    around do |example|
-      with_env('production') { example.run }
-    end
+  context 'with terms_and_conditions_required: false' do
+    before { user.terms_and_conditions_required = false }
 
     it { is_expected.not_to validate_acceptance_of(:terms_and_conditions) }
   end
 
-  context 'when host is api-sandbox' do
-    around do |example|
-      with_env('api-sandbox') { example.run }
-    end
+  context 'with terms_and_conditions_required: true' do
+    before { user.terms_and_conditions_required = true }
 
     context 'when creating' do
       it do
@@ -63,7 +30,10 @@ RSpec.describe User, type: :model do
     end
 
     context 'when updating' do
-      it { is_expected.not_to validate_acceptance_of(:terms_and_conditions).on(:update) }
+      it do
+        expect(user).not_to validate_acceptance_of(:terms_and_conditions)
+          .on(:update)
+      end
     end
   end
 

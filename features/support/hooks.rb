@@ -77,6 +77,10 @@ AfterConfiguration do
 end
 
 After do |scenario|
+  # undo any time travel set by scenario
+  travel_back
+
+  # screenshot failure for storage as artifcate in circleCI
   name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
   screenshot_image(name) if scenario.failed?
 
@@ -90,9 +94,6 @@ After do |scenario|
   Capybara.current_session.driver.tap do |driver|
     driver.quit if driver.respond_to?(:quit)
   end
-
-  # undo any time travel set by scenario
-  travel_back
 end
 
 at_exit do

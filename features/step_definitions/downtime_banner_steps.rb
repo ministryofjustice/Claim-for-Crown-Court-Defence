@@ -1,8 +1,8 @@
-Given("the downtime feature flag is enabled") do
+Given('the downtime feature flag is enabled') do
   allow(Settings).to receive(:downtime_warning_enabled?).and_return true
 end
 
-Given("the downtime date is set to {string}") do |string|
+Given('the downtime date is set to {string}') do |string|
   allow(Settings).to receive(:downtime_warning_date).and_return(string)
 end
 
@@ -14,7 +14,7 @@ Then(/^the downtime banner is (not )?displayed$/) do |negate|
   end
 end
 
-Then("the downtime banner should say {string}") do |string|
+Then('the downtime banner should say {string}') do |string|
   expect(page).to have_selector(downtime_banner, text: string)
 end
 

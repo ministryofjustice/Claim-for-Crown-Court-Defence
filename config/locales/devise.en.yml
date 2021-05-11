@@ -2,6 +2,7 @@
 
 en:
   email: &email Email
+  email_confirmation: &email_confirmation Email confirmation
   password: &password Password
   password_confirmation: &password_confirmation Password confirmation
 
@@ -70,6 +71,7 @@ en:
         submit: Update
       new:
         email: *email
+        email_confirmation: *email_confirmation
         first_name: First name
         last_name: Last name
         page_title: Sign up

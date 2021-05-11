@@ -31,6 +31,7 @@ module DemoData
           first_name: 'Barry',
           last_name: 'Stir',
           email: 'advocate@example.com',
+          email_confirmation: 'advocate@example.com',
           password: ENV.fetch('ADVOCATE_PASSWORD'),
           password_confirmation: ENV.fetch('ADVOCATE_PASSWORD'),
         )
@@ -45,6 +46,7 @@ module DemoData
           first_name: 'Advo',
           last_name: 'Kate-Admin',
           email: 'advocateadmin@example.com',
+          email_confirmation: 'advocateadmin@example.com',
           password: ENV.fetch('ADMIN_PASSWORD'),
           password_confirmation: ENV.fetch('ADMIN_PASSWORD')
         )
@@ -70,6 +72,7 @@ module DemoData
           first_name: 'Liti',
           last_name: 'Gator',
           email: 'litigator@example.com',
+          email_confirmation: 'litigator@example.com',
           password: ENV['ADVOCATE_PASSWORD'],
           password_confirmation: ENV['ADVOCATE_PASSWORD']
         )
@@ -84,6 +87,7 @@ module DemoData
           first_name: 'Liti',
           last_name: 'Gator-Admin',
           email: 'litigatoradmin@example.com',
+          email_confirmation: 'litigatoradmin@example.com',
           password: ENV['ADMIN_PASSWORD'],
           password_confirmation: ENV['ADMIN_PASSWORD']
         )
@@ -112,6 +116,7 @@ module DemoData
           first_name: 'Adi',
           last_name: 'Firmstein',
           email: 'advocate@agfslgfs.com',
+          email_confirmation: 'advocate@agfslgfs.com',
           password: ENV['ADVOCATE_PASSWORD'],
           password_confirmation: ENV['ADVOCATE_PASSWORD']
         )
@@ -127,6 +132,7 @@ module DemoData
           first_name: 'Adliti',
           last_name: 'Vogator-Admin',
           email: 'admin@agfslgfs.com',
+          email_confirmation: 'admin@agfslgfs.com',
           password: ENV['ADMIN_PASSWORD'],
           password_confirmation: ENV['ADMIN_PASSWORD']
         )
@@ -141,6 +147,7 @@ module DemoData
             first_name: 'Adliti',
             last_name: 'Gator',
             email: 'litigator@agfslgfs.com',
+            email_confirmation: 'litigator@agfslgfs.com',
             password: ENV['ADMIN_PASSWORD'],
             password_confirmation: ENV['ADMIN_PASSWORD']
         )

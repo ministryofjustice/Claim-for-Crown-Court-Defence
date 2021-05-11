@@ -20,8 +20,16 @@ FactoryBot.define do
     end
 
     after(:build) do |eu, evaluator|
+
       if evaluator.build_user
-        eu.user ||= build(:user, first_name: Faker::Name.first_name, last_name: Faker::Name.last_name, email: Faker::Internet.email, password: 'password', password_confirmation: 'password')
+        email = Faker::Internet.email
+        eu.user ||= build(:user,
+                          first_name: Faker::Name.first_name,
+                          last_name: Faker::Name.last_name,
+                          email: email,
+                          email_confirmation: email,
+                          password: 'password',
+                          password_confirmation: 'password')
       end
     end
 

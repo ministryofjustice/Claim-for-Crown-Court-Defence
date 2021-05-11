@@ -250,8 +250,8 @@ en:
               taken: Email address is already registered
               too_long: Email must be 80 characters or less
             email_confirmation:
-              confirmation: Email and confirmation must match
               blank: Enter an email confirmation
+              confirmation: Email and confirmation must match
             current_password:
               blank: Enter the currrent password
               invalid: Enter the current password

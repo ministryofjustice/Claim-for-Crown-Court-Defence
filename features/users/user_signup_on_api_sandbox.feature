@@ -1,4 +1,4 @@
-@javascript @no-seed
+@javascript @no-seed @focus
 Feature: User signup on api-sandbox
 
   @on-api-sandbox
@@ -23,9 +23,12 @@ Feature: User signup on api-sandbox
     Then I fill in 'First name' with 'Jim'
     And I fill in 'Last name' with 'Bob'
     And I fill in 'Email' with 'jim.bob@example.com'
+    And I fill in 'Email confirmation' with 'jim.bob@example.com'
     And I fill in 'Password' with 'my-password'
     And I fill in 'Password confirmation' with 'my-password'
+    And I save and open screenshot
     And I click the button 'Sign up'
+    And I save and open screenshot
 
     Then My new claim should be displayed
     And I should see 'Welcome! You have signed up successfully.'

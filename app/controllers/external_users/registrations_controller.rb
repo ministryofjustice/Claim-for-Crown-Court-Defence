@@ -28,7 +28,7 @@ class ExternalUsers::RegistrationsController < Devise::RegistrationsController
   end
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: %i[terms_and_conditions first_name last_name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[terms_and_conditions first_name last_name email_confirmation])
   end
 
   def notify_resource

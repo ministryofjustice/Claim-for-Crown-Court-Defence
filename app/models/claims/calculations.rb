@@ -51,10 +51,6 @@ module Claims::Calculations
     "#{net_attribute} IS NOT NULL"
   end
 
-  def calculate_expenses_total
-    Expense.where(claim_id: id).where.not(amount: nil).pluck(:amount).sum
-  end
-
   def calculate_total
     fees_total + expenses_total + disbursements_total
   end

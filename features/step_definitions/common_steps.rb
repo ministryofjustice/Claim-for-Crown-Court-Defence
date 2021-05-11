@@ -249,3 +249,7 @@ end
 When('I go back') do
   page.go_back
 end
+
+Then('I am on the fee scheme selector page') do
+  expect(@fee_scheme_selector).to be_displayed
+end

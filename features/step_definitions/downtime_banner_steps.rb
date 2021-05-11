@@ -3,7 +3,7 @@ Given('the downtime feature flag is enabled') do
 end
 
 Given('the downtime date is set to {string}') do |string|
-  allow(Settings).to receive(:downtime_warning_date).and_return(string)
+  allow(Settings).to receive(:downtime_warning_date).and_return(Date.parse(string))
 end
 
 Then(/^the downtime banner is (not )?displayed$/) do |negate|
@@ -19,5 +19,5 @@ Then('the downtime banner should say {string}') do |string|
 end
 
 def downtime_banner
-  'div.moj-banner'.freeze
+  'div.govuk-notification-banner'.freeze
 end

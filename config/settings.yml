@@ -83,7 +83,7 @@ hardship_claims_banner_enabled?: true
 # Feature flag to enable or disable the downtime warning
 # If enabled, all users will see it up until "downtime_warning_date"
 downtime_warning_enabled?: false
-downtime_warning_date: <%= Date.new(2019, 11, 20) %>
+downtime_warning_date: <%= Date.new(2021, 05, 26) %>
 
 # Feature flag to enable or disable the scheme filters in the claims list page
 # If enabled, users with proper roles will see scheme radio buttons to filter the list

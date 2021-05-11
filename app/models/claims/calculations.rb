@@ -1,10 +1,4 @@
 module Claims::Calculations
-  def calculate_fee_total(fee)
-    return 0 unless fee
-    fee.calculate_amount
-    fee.amount || 0
-  end
-
   def calculate_fees_total(category = nil)
     # TODO: revisit this method to understand if it is
     # possible to remove the cumbersome
@@ -16,39 +10,6 @@ module Claims::Calculations
       fees_records = public_send(category) if respond_to?(category)
       fees_records.is_a?(Enumerable) ? calculate_total_for(fees_records) : calculate_fee_total(fees_records)
     end
-  end
-
-  def calculate_total_for(fees_collection)
-    fees_collection.filter_map { |fee| calculate_fee_total(fee) }.sum
-  end
-
-  # returns totals for all klass records belonging to the named claim
-  # params:
-  # * klass: The class to be totaled
-  # * claim_id: the id of the claim
-  # * net_attribute: the name of the attribute holding the net amount to be summed
-  # * vat_attribute: the name of the attribute holding the vat amount to be summed
-  def totalize_for_claim(klass, claim_id, net_attribute, vat_attribute)
-    values = klass
-             .where(claim_id: claim_id)
-             .where(attribute_is_null_to_s(net_attribute))
-             .pluck(vat_attribute, net_attribute)
-    { vat: values.map { |v| v.first || BigDecimal(0.0, 8) }.sum, net: values.map(&:last).sum }
-  end
-
-  # NOTE: This is meant to reproduce the same behaviour as totalize_for_claim
-  # but doing all the operations in memory without hitting the DB
-  def calculate_association_total(association_name, net_attribute, vat_attribute)
-    records = public_send(association_name)
-    records.each_with_object(vat: 0, net: 0) do |record, memo|
-      next if record.marked_for_destruction? || record.public_send(net_attribute).nil?
-      memo[:vat] += (record.public_send(vat_attribute) || BigDecimal(0.0, 8))
-      memo[:net] += record.public_send(net_attribute)
-    end
-  end
-
-  def attribute_is_null_to_s(net_attribute)
-    "#{net_attribute} IS NOT NULL"
   end
 
   def calculate_total
@@ -111,14 +72,6 @@ module Claims::Calculations
     update_column(:total, calculate_total)
   end
 
-  def calculate_fees_vat(fees_total)
-    VatRate.vat_amount(fees_total, vat_date, calculate: apply_vat?)
-  end
-
-  def calculate_total_vat
-    self.vat_amount = (expenses_vat || 0.0) + (fees_vat || 0.0) + (disbursements_vat || 0.0)
-  end
-
   def update_vat
     update_column(:apply_vat, vat_registered?) if vat_registered?
     update_column(:vat_amount, calculate_total_vat)
@@ -127,5 +80,54 @@ module Claims::Calculations
   def assign_vat
     assign_attributes(apply_vat: vat_registered?) if vat_registered?
     assign_attributes(vat_amount: calculate_total_vat)
+  end
+
+  private
+
+  def calculate_fee_total(fee)
+    return 0 unless fee
+    fee.calculate_amount
+    fee.amount || 0
+  end
+
+  def calculate_total_for(fees_collection)
+    fees_collection.filter_map { |fee| calculate_fee_total(fee) }.sum
+  end
+
+  # returns totals for all klass records belonging to the named claim
+  # params:
+  # * klass: The class to be totaled
+  # * claim_id: the id of the claim
+  # * net_attribute: the name of the attribute holding the net amount to be summed
+  # * vat_attribute: the name of the attribute holding the vat amount to be summed
+  def totalize_for_claim(klass, claim_id, net_attribute, vat_attribute)
+    values = klass
+             .where(claim_id: claim_id)
+             .where(attribute_is_null_to_s(net_attribute))
+             .pluck(vat_attribute, net_attribute)
+    { vat: values.map { |v| v.first || BigDecimal(0.0, 8) }.sum, net: values.map(&:last).sum }
+  end
+
+  # NOTE: This is meant to reproduce the same behaviour as totalize_for_claim
+  # but doing all the operations in memory without hitting the DB
+  def calculate_association_total(association_name, net_attribute, vat_attribute)
+    records = public_send(association_name)
+    records.each_with_object(vat: 0, net: 0) do |record, memo|
+      next if record.marked_for_destruction? || record.public_send(net_attribute).nil?
+      memo[:vat] += (record.public_send(vat_attribute) || BigDecimal(0.0, 8))
+      memo[:net] += record.public_send(net_attribute)
+    end
+  end
+
+  def attribute_is_null_to_s(net_attribute)
+    "#{net_attribute} IS NOT NULL"
+  end
+
+  def calculate_fees_vat(fees_total)
+    VatRate.vat_amount(fees_total, vat_date, calculate: apply_vat?)
+  end
+
+  def calculate_total_vat
+    self.vat_amount = (expenses_vat || 0.0) + (fees_vat || 0.0) + (disbursements_vat || 0.0)
   end
 end

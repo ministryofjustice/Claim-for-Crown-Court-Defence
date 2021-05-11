@@ -55,6 +55,20 @@ Before('not @no-seed') do
   end
 end
 
+Before('@on-api-sandbox') do
+  allow(ENV).to receive(:[]).and_call_original
+  allow(ENV).to receive(:[]).with('ENV').and_return 'api-sandbox'
+
+  @api_landing_page = ApiLandingPage.new
+  @new_user_sign_up_page = NewUserSignUpPage.new
+  @vendor_tandcs_page = VendorTandcsPage.new
+  @external_user_home_page = ExternalUserHomePage.new
+end
+
+After('@on-api-sandbox') do
+  allow(ENV).to receive(:[]).with('ENV').and_call_original
+end
+
 AfterConfiguration do
   # Possible values are :truncation and :transaction
   # The :transaction strategy is faster, but might give you threading problems.

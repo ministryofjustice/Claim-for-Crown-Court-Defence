@@ -273,10 +273,10 @@ GEM
     erubis (2.7.0)
     eventmachine (1.2.7)
     execjs (2.7.0)
-    factory_bot (6.1.0)
+    factory_bot (6.2.0)
       activesupport (>= 5.0.0)
-    factory_bot_rails (6.1.0)
-      factory_bot (~> 6.1.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
     faker (2.17.0)
       i18n (>= 1.6, < 2)
@@ -792,7 +792,7 @@ DEPENDENCIES
   database_cleaner
   devise (~> 4.8.0)
   dotenv-rails
-  factory_bot_rails (~> 6.1.0)
+  factory_bot_rails (~> 6.2.0)
   faker (~> 2.17.0)
   geckoboard-ruby
   gov_uk_date_fields (~> 3.0.0)

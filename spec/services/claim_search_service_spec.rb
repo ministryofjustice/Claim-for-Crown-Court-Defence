@@ -195,8 +195,20 @@ RSpec.describe ClaimSearchService, type: :service do
 
     let!(:expected_search) { [create(:allocated_claim, case_workers: [current_case_worker])] }
 
-    before { create(:allocated_claim, case_workers: [other_case_worker]) }
+    before { create :allocated_claim, case_workers: [other_case_worker] }
 
     it { is_expected.to match_array expected_search }
   end
+
+  # TODO: Fix these. value_band_id is set when the claim is saved based on the
+  #       total, which is calculated in Claims::Calculations.
+  # context 'with a value band id search' do
+  #   let(:params) { { value_band_id: 10 } }
+  #
+  #   let!(:expected_search) { [create(:allocated_claim, value_band_id: 10)] }
+  #
+  #   before { create :allocated_claim, value_band_id: 20 }
+  #
+  #   it { is_expected.to match_array expected_search }
+  # end
 end

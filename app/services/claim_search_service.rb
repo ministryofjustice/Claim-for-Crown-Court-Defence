@@ -3,6 +3,7 @@ class ClaimSearchService
     ClaimSearchService::State,
     ClaimSearchService::Keyword,
     ClaimSearchService::Scheme,
+    ClaimSearchService::ValueBand,
     # This needs to be last because of how it is implemented
     ClaimSearchService::CurrentUser
   ].freeze

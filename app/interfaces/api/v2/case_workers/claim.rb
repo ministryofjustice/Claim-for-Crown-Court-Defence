@@ -60,7 +60,6 @@ module API
             def unallocated_claims
               generic_claims
                 .filter_by(filter)
-                .value_band(value_band_id)
             end
 
             def generic_claims
@@ -69,7 +68,8 @@ module API
                 term: search_terms,
                 scheme: scheme,
                 user: current_user.persona,
-                current_user_claims: current_user_claims
+                current_user_claims: current_user_claims,
+                value_band_id: value_band_id
               )
             end
 

@@ -77,8 +77,9 @@ AfterConfiguration do
 end
 
 After do |scenario|
-  # undo any time travel set by scenario
+  # undo any mocks and stubs created by scenario steps
   travel_back
+  RSpec::Mocks.space.proxy_for(Settings).reset
 
   # screenshot failure for storage as artifcate in circleCI
   name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')

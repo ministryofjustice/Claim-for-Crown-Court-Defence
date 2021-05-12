@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ApplicationHelper do
+RSpec.describe ApplicationHelper do
   describe '#present' do
     let(:claim) { create(:advocate_claim) }
 
@@ -80,6 +80,120 @@ describe ApplicationHelper do
       before { controller.request.path = 'not_a_test' }
 
       it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#display_downtime_warning?' do
+    subject { helper.display_downtime_warning? }
+
+    before do
+      allow(Settings).to receive(:downtime_warning_enabled?).and_return(downtime_warning_enabled)
+      allow(Settings).to receive(:downtime_warning_date).and_return(downtime_warning_date)
+      allow(helper).to receive(:current_user).and_return(current_user)
+      allow(helper).to receive(:on_home_page?).and_return(true)
+    end
+
+    context 'feature flag enabled' do
+      let(:downtime_warning_enabled) { true }
+
+      around do |example|
+        travel_to(curr_date) do
+          example.run
+        end
+      end
+
+      context 'when current date is on or before downtime_warning_date' do
+        let(:curr_date) { Date.parse('2021-05-26') }
+        let(:downtime_warning_date) { '2021-05-26' }
+
+        context 'when no current user' do
+          let(:current_user) { nil }
+
+          it { is_expected.to be false }
+        end
+
+        context 'when current user is an external user' do
+          let(:current_user) { create(:external_user, :advocate).user }
+
+          it { is_expected.to be true }
+        end
+
+        context 'when current user is case worker' do
+          let(:current_user) { create(:case_worker).user }
+
+          it { is_expected.to be true }
+        end
+      end
+
+      context 'when current date is after downtime_warning_date' do
+        let(:curr_date) { Date.parse('2021-05-27') }
+        let(:downtime_warning_date) { '2021-05-26' }
+
+        context 'no current user' do
+          let(:current_user) { nil }
+
+          it { is_expected.to be false }
+        end
+
+        context 'current user is an external user' do
+          let(:current_user) { create(:external_user, :advocate).user }
+
+          it { is_expected.to be false }
+        end
+
+        context 'current user is case worker' do
+          let(:current_user) { create(:case_worker).user }
+
+          it { is_expected.to be false }
+        end
+      end
+
+      context 'when user on a home page' do
+        let(:curr_date) { Date.parse('2021-05-26') }
+        let(:downtime_warning_date) { '2021-05-26' }
+        let(:current_user) { create(:external_user).user }
+
+        before { allow(helper).to receive(:on_home_page?).and_return(true) }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when user NOT on a home page' do
+        let(:curr_date) { Date.parse('2021-05-26') }
+        let(:downtime_warning_date) { '2021-05-26' }
+        let(:current_user) { create(:external_user).user }
+
+        before { allow(helper).to receive(:on_home_page?).and_return(false) }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'feature flag disabled' do
+      let(:downtime_warning_enabled) { false }
+
+      context 'when date is on or before downtime_warning_date' do
+        let(:curr_date) { Date.parse('2021-05-26') }
+        let(:downtime_warning_date) { '2021-05-26' }
+
+        context 'no current user' do
+          let(:current_user) { nil }
+
+          it { is_expected.to be false }
+        end
+
+        context 'current user is an external user' do
+          let(:current_user) { create(:external_user, :advocate).user }
+
+          it { is_expected.to be false }
+        end
+
+        context 'current user is case worker' do
+          let(:current_user) { create(:case_worker).user }
+
+          it { is_expected.to be false }
+        end
+      end
     end
   end
 end

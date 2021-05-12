@@ -241,3 +241,11 @@ And('the text field {string} should be filled with {string}') do |label, value|
   actual_value = find_field(label).value
   expect(actual_value).to eql(value)
 end
+
+Then('I should see link {string}') do |string|
+  expect(page).to have_link(string)
+end
+
+When('I go back') do
+  page.go_back
+end

@@ -689,12 +689,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       subject.reload
     end
 
-    describe '#calculate_expenses_total' do
-      it 'calculates expenses total' do
-        expect(subject.calculate_expenses_total).to eq(146.5)
-      end
-    end
-
     describe '#update_expenses_total' do
       it 'stores the expenses total' do
         expect(subject.expenses_total).to eq(146.5)

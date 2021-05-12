@@ -36,12 +36,6 @@ RSpec.describe Claim, type: :model do
   context 'expenses total' do
     before { expenses; claim.reload }
 
-    describe '#calculate_expenses_total' do
-      it 'calculates expenses total' do
-        expect(claim.calculate_expenses_total).to eq(146.5)
-      end
-    end
-
     describe '#update_expenses_total' do
       it 'stores the expenses total' do
         expect(claim.expenses_total).to eq(146.5)

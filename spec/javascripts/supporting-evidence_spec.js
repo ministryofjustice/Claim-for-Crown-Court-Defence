@@ -9,11 +9,11 @@ describe('supportingEvidence', function () {
   }
 
   $submitButton = function () {
-    return $('input[name="commit_submit_claim"]')
+    return $('button[name="commit_submit_claim"]')
   }
 
   $saveDraftButton = function () {
-    return $('input[name="commit_save_draft"]')
+    return $('button[name="commit_save_draft"]')
   }
 
   $indictmentEvidence = function () {

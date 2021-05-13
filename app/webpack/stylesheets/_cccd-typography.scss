@@ -150,8 +150,7 @@
   }
 }
 
-.error-summary,
-.notice-summary {
+.error-summary {
   @include first;
   float: none;
 
@@ -159,11 +158,6 @@
     margin-top: 0;
     margin-bottom: 0;
   }
-}
-
-.notice-summary {
-  @extend .error-summary; // stylelint-disable-line scss/at-extend-no-missing-placeholder
-  border-color: $button-colour;
 }
 
 .contact-us-details {

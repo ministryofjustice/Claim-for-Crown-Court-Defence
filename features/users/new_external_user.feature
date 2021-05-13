@@ -12,8 +12,6 @@ Feature: Create new external user
     And I should see 'Add a new user to'
     And the page should be accessible
 
-    And the text field 'Supplier number' should be filled with ''
-
     Then I fill in 'First name' with 'Jim'
     And I fill in 'Last name' with 'Bob'
     And I fill in 'Email' with 'jim.bob@example.com'
@@ -22,9 +20,12 @@ Feature: Create new external user
     And I click govuk checkbox 'Admin'
 
     Given I should not see 'VAT registered'
+    And I should not see 'Supplier number'
     When I click govuk checkbox 'Advocate'
+    And the page should be accessible
     Then I should see 'VAT registered'
     And I choose govuk radio 'No' for 'VAT registered'
+    Then I should see 'Supplier number'
     And I fill in 'Supplier number' with 'BAR2A'
 
     When I click the button 'Save'
@@ -44,7 +45,6 @@ Feature: Create new external user
     Then I am on the new users page
     And I should see 'Add a new user to'
     And the page should be accessible
-    And the text field 'Supplier number' should be filled with ''
 
     Then I fill in 'First name' with 'John'
     And I fill in 'Last name' with 'Boy'
@@ -54,14 +54,14 @@ Feature: Create new external user
     And I click govuk checkbox 'Admin'
     And I click govuk checkbox 'Litigator'
     But I should not see 'VAT registered'
-    And I fill in 'Supplier number' with 'SOL2A'
+    And I should not see 'Supplier number'
 
     When I click the button 'Save'
     Then I am on the manage users page
     And I should see 'User successfully created'
     And the following user details are displayed:
       | Surname | Name | Supplier number | Email | Email notifications of messages? |
-      | Boy | John | SOL2A | john.boy@example.com | Yes |
+      | Boy | John | - | john.boy@example.com | Yes |
 
   Scenario: LGFS & AGFS Firm admin creates a new litigator-advocate user
     Given I am a signed in admin for an AGFS and LGFS firm
@@ -73,7 +73,6 @@ Feature: Create new external user
     Then I am on the new users page
     And I should see 'Add a new user to'
     And the page should be accessible
-    And the text field 'Supplier number' should be filled with '123AB'
 
     Then I fill in 'First name' with 'Jammy'
     And I fill in 'Last name' with 'Dodger'
@@ -84,12 +83,12 @@ Feature: Create new external user
     Given I click govuk checkbox 'Admin'
     And I click govuk checkbox 'Advocate'
     But I should not see 'VAT registered'
+    And I should not see 'Supplier number'
     And I click govuk checkbox 'Litigator'
-    And I fill in 'Supplier number' with 'SAD2A'
 
     When I click the button 'Save'
     Then I am on the manage users page
     And I should see 'User successfully created'
     And the following user details are displayed:
       | Surname | Name | Supplier number | Email | Email notifications of messages? |
-      | Dodger | Jammy | SAD2A | jammy.dodger@example.com | Yes |
+      | Dodger | Jammy | 123AB | jammy.dodger@example.com | Yes |

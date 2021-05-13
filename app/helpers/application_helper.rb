@@ -144,12 +144,12 @@ module ApplicationHelper
   private
 
   def on_home_page?
-    ['/',
-     '/super_admins',
-     '/case_workers',
-     '/case_workers/admin',
-     '/case_workers/claims',
-     '/external_users'].include?(request.path)
+    %w[/
+       /super_admins
+       /case_workers
+       /case_workers/admin
+       /case_workers/claims
+       /external_users].include?(request.path)
   end
 
   def path_matches(path)

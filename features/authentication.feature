@@ -1,4 +1,4 @@
-@javascript
+@javascript @no-seed
 Feature: Caseworker can log in while active, but not once inactive
 
   Scenario: I log in as a case worker admin and I see the allocation page

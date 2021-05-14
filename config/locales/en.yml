@@ -1875,13 +1875,15 @@ en:
       assessment_date: 'Claim assessed date:'
       defendant_names: 'Defendant names:'
       provider_type: 'Firm or Chambers:'
-      actions:  'Actions:'
+      actions: 'Actions:'
       confirm_text: Are you sure?
       redraft: 'Redraft this claim'
       archive: Archive
       unarchive: Unarchive
     downtime_warning:
-      banner_message: This service will be unavailable between 4:00pm and 11:59pm on %{date_string}
+      banner_title: Important
+      banner_heading: This service will be unavailable on %{date_string} from 5pm until midnight.
+      banner_paragraph: This is to enable routine maintenance work to be carried out. Please save and close any work before this time.
     claim_defendant_details:
       caption: 'Defendant: Additional information'
       date: Order date

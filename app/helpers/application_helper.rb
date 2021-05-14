@@ -134,7 +134,23 @@ module ApplicationHelper
     [%w[Yes true], %w[No false]]
   end
 
+  def display_downtime_warning?
+    [Settings.downtime_warning_enabled?,
+     Date.current <= Settings.downtime_warning_date.to_date,
+     current_user,
+     on_home_page?].all?
+  end
+
   private
+
+  def on_home_page?
+    %w[/
+       /super_admins
+       /case_workers
+       /case_workers/admin
+       /case_workers/claims
+       /external_users].include?(request.path)
+  end
 
   def path_matches(path)
     request.path == strip_params(path)

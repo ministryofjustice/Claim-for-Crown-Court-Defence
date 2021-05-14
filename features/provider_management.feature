@@ -1,4 +1,4 @@
-@javascript
+@javascript @no-seed @caseworker-seed-requirements
 Feature: Case worker can manage providers
 
   Scenario: A provider Manager can create a new chamber

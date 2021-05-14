@@ -48,10 +48,21 @@ Before('not @no-seed') do
     load "#{Rails.root}/db/seeds/certification_types.rb"
     load "#{Rails.root}/db/seeds/disbursement_types.rb"
     load "#{Rails.root}/db/seeds/expense_types.rb"
-    load "#{Rails.root}/db/seeds/vat_rates.rb"
+    load "#{Rails.root}/db/seeds/vat_rates.rb" unless @caseworker_seed_done
     load "#{Rails.root}/db/seeds/establishments.rb"
 
+    @caseworker_seed_done = true
     $seed_done = true
+  end
+end
+
+# minimum seeding necessary for case worker functionality
+# to avoid long start up time for basic case worker features
+#
+Before('@caseworker-seed-requirements') do
+  unless (@caseworker_seed_done ||= false)
+    load "#{Rails.root}/db/seeds/vat_rates.rb"
+    @caseworker_seed_done = true
   end
 end
 
@@ -77,6 +88,11 @@ AfterConfiguration do
 end
 
 After do |scenario|
+  # undo any mocks and stubs created by scenario steps
+  travel_back
+  RSpec::Mocks.space.proxy_for(Settings).reset
+
+  # screenshot failure for storage as artifcate in circleCI
   name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
   screenshot_image(name) if scenario.failed?
 
@@ -90,9 +106,6 @@ After do |scenario|
   Capybara.current_session.driver.tap do |driver|
     driver.quit if driver.respond_to?(:quit)
   end
-
-  # undo any time travel set by scenario
-  travel_back
 end
 
 at_exit do

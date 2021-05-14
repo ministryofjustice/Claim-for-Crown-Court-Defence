@@ -1,3 +1,9 @@
+# frozen_string_literal: true
+
+When('I visit the manage users page') do
+  @manage_users_page.load
+end
+
 Then('I am on the manage users page') do
   expect(@manage_users_page).to be_displayed
 end

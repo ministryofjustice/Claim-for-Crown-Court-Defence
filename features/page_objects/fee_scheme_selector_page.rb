@@ -1,5 +1,5 @@
 class FeeSchemeSelectorPage < BasePage
-  set_url "/external_users/claims/types"
+  set_url '/external_users/claim_types/new'
 
   element :advocate_final_fee, "label[for='claim-type-id-agfs-field']"
   element :advocate_hardship_fee, "label[for='claim-type-id-agfs-hardship-field']"

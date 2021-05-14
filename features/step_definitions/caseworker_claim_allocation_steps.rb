@@ -78,7 +78,7 @@ Given(/^submitted claims? exists? with case numbers? "(.*?)$/) do |case_numbers|
   end
 end
 
-When(/^I visit the allocation page$/) do
+When('I visit the allocation page') do
   @allocation_page.load
 end
 

@@ -14,12 +14,6 @@ When(/^I start a claim/) do
   find('.primary-nav-bar').click_link('Start a claim')
 end
 
-And(/^I select the fee scheme '(.*)'$/) do |fee_scheme|
-  method_name = fee_scheme.downcase.gsub(' ', '_').gsub('warrant','interim').to_sym
-  @fee_scheme_selector.send(method_name).click
-  @fee_scheme_selector.continue.click
-end
-
 Given(/^I am on the 'Your claims' page$/) do
   @external_user_home_page.load
 end
@@ -248,8 +242,4 @@ end
 
 When('I go back') do
   page.go_back
-end
-
-Then('I am on the fee scheme selector page') do
-  expect(@fee_scheme_selector).to be_displayed
 end

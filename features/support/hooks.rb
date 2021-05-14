@@ -48,10 +48,21 @@ Before('not @no-seed') do
     load "#{Rails.root}/db/seeds/certification_types.rb"
     load "#{Rails.root}/db/seeds/disbursement_types.rb"
     load "#{Rails.root}/db/seeds/expense_types.rb"
-    load "#{Rails.root}/db/seeds/vat_rates.rb"
+    load "#{Rails.root}/db/seeds/vat_rates.rb" unless @caseworker_seed_done
     load "#{Rails.root}/db/seeds/establishments.rb"
 
+    @caseworker_seed_done = true
     $seed_done = true
+  end
+end
+
+# minimum seeding necessary for case worker functionality
+# to avoid long start up time for basic case worker features
+#
+Before('@caseworker-seed-requirements') do
+  unless (@caseworker_seed_done ||= false)
+    load "#{Rails.root}/db/seeds/vat_rates.rb"
+    @caseworker_seed_done = true
   end
 end
 

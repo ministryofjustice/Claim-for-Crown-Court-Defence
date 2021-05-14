@@ -461,7 +461,6 @@ RSpec.describe 'API claim creation for AGFS' do
     let(:advocate_category) { 'Junior alone' }
 
     context 'final fee claims' do
-      include_context 'deactivate deprecation warnings'
       include_examples 'scheme 9 advocate final claim', relative_endpoint: 'advocates/final'
     end
   end
@@ -471,7 +470,6 @@ RSpec.describe 'API claim creation for AGFS' do
     let(:advocate_category) { 'Junior' }
 
     context 'final fee claims' do
-      include_context 'deactivate deprecation warnings'
       include_examples 'scheme 10 advocate final claim', relative_endpoint: 'advocates/final'
     end
 
@@ -610,7 +608,6 @@ RSpec.describe 'API claim creation for AGFS' do
         end
       end
 
-      include_context 'deactivate deprecation warnings'
       include_examples 'scheme 12 advocate final claim', relative_endpoint: 'advocates/final'
     end
   end

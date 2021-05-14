@@ -289,34 +289,6 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
   end
 end
 
-RSpec.shared_examples 'a deprecated claim endpoint' do |options|
-  subject(:headers) do
-    response = post ClaimApiEndpoints.for(options[:relative_endpoint]).send(options[:action]),
-                    valid_params,
-                    format: :json
-    response.headers
-  end
-
-  context "on #{options[:relative_endpoint]} #{options[:action]}" do
-    it 'response includes Sunset header ' do
-      expect(headers['Sunset']).to eql options[:deprecation_datetime].httpdate
-    end
-
-    it 'response includes Sunset Link header to API release notes' do
-      expect(headers['Link']).to eql '<http://example.org/api/release_notes>; rel="sunset";'
-    end
-
-    it 'logs a deprecation warning' do
-      expect(ActiveSupport::Deprecation).to receive(:warn)
-      subject
-    end
-
-    specify 'deprecation date not exceeded' do
-      expect(Time.current).to be <= options[:deprecation_datetime], 'WARNING: deprecation date exceeded'
-    end
-  end
-end
-
 RSpec.shared_examples 'fee validate endpoint' do
   it 'valid request response 200 and String true' do
     post_to_validate_endpoint

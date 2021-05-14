@@ -4,9 +4,6 @@ RSpec.describe API::V1::ExternalUsers::Claim do
   include Rack::Test::Methods
 
   CLAIM_ENDPOINTS = %w(
-    /api/external_users/claims
-    /api/external_users/claims/validate
-
     /api/external_users/claims/advocates/final
     /api/external_users/claims/advocates/final/validate
 

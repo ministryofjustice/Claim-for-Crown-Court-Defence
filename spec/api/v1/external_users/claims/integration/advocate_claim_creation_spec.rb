@@ -102,7 +102,7 @@ RSpec.shared_examples 'scheme 9 advocate final claim' do |options|
     let(:case_type) { CaseType.find_by(fee_type_code: 'FXACV') } # Appeal against conviction
 
     specify 'Case management system creates a valid scheme 9 fixed fee claim' do
-      post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
+      post ClaimApiEndpoints.for(options[:relative_endpoint]).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
       expect(last_response.status).to eq 201
 
       claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
@@ -201,7 +201,7 @@ RSpec.shared_examples 'scheme 10 advocate final claim' do |options|
     let(:advocate_category) { 'Junior' }
 
     specify 'Case management system creates a valid scheme 10 fixed fee claim' do
-      post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
+      post ClaimApiEndpoints.for(options[:relative_endpoint]).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
       expect(last_response.status).to eq 201
 
       claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
@@ -302,7 +302,7 @@ RSpec.shared_examples 'scheme 12 advocate final claim' do |options|
     let(:advocate_category) { 'Junior' }
 
     specify 'Case management system creates a valid scheme 12 fixed fee claim' do
-      post ClaimApiEndpoints.for(:advocate).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
+      post ClaimApiEndpoints.for(options[:relative_endpoint]).create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
       expect(last_response.status).to eq 201
 
       claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
@@ -462,7 +462,6 @@ RSpec.describe 'API claim creation for AGFS' do
 
     context 'final fee claims' do
       include_context 'deactivate deprecation warnings'
-      include_examples 'scheme 9 advocate final claim', relative_endpoint: :advocate
       include_examples 'scheme 9 advocate final claim', relative_endpoint: 'advocates/final'
     end
   end
@@ -473,7 +472,6 @@ RSpec.describe 'API claim creation for AGFS' do
 
     context 'final fee claims' do
       include_context 'deactivate deprecation warnings'
-      include_examples 'scheme 10 advocate final claim', relative_endpoint: :advocate
       include_examples 'scheme 10 advocate final claim', relative_endpoint: 'advocates/final'
     end
 
@@ -613,7 +611,6 @@ RSpec.describe 'API claim creation for AGFS' do
       end
 
       include_context 'deactivate deprecation warnings'
-      include_examples 'scheme 12 advocate final claim', relative_endpoint: :advocate
       include_examples 'scheme 12 advocate final claim', relative_endpoint: 'advocates/final'
     end
   end

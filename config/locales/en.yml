@@ -1882,8 +1882,8 @@ en:
       unarchive: Unarchive
     downtime_warning:
       banner_title: Important
-      banner_heading: This service will be unavailable on %{date_string} from 5pm until midnight
-      banner_paragraph: This is to enable routine maintenance work to be carried out
+      banner_heading: This service will be unavailable on %{date_string} from 5pm until midnight.
+      banner_paragraph: This is to enable routine maintenance work to be carried out. Please save and close any work before this time.
     claim_defendant_details:
       caption: 'Defendant: Additional information'
       date: Order date

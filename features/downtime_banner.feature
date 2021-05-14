@@ -9,7 +9,8 @@ Feature: A downtime warning banner appears on home pages only until downtime dat
     Given I am a signed in advocate admin
     When the current date is '2021-05-19'
     Then the downtime banner is displayed
-    And the downtime banner should say "This service will be unavailable on 26 May 2021 from 5pm until midnight"
+    And the downtime banner should say 'This service will be unavailable on Wednesday 26 May 2021 from 5pm until midnight.'
+    And the downtime banner should say 'This is to enable routine maintenance work to be carried out. Please save and close any work before this time.'
 
     # TODO: Page not accessible at this point, i believe due to the sign in flash notification.
     # However, even a refresh of the page, removing the sign in notification, results in
@@ -43,7 +44,8 @@ Feature: A downtime warning banner appears on home pages only until downtime dat
     And the current date is '2021-05-19'
 
     Then the downtime banner is displayed
-    And the downtime banner should say "This service will be unavailable on 26 May 2021 from 5pm until midnight"
+    And the downtime banner should say 'This service will be unavailable on Wednesday 26 May 2021 from 5pm until midnight.'
+    And the downtime banner should say 'This is to enable routine maintenance work to be carried out. Please save and close any work before this time.'
 
     # TODO: Page not accessible at this point, i believe due to the sign in flash notification.
     # However, even a refresh of the page, removing the sign in notification, results in

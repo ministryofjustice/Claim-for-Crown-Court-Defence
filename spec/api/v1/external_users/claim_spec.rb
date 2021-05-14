@@ -1,34 +1,22 @@
 require 'rails_helper'
 
-RSpec.describe API::V1::ExternalUsers::Claim do
+RSpec.shared_examples 'API claim endpoint' do |endpoint|
   include Rack::Test::Methods
 
-  CLAIM_ENDPOINTS = %w(
-    /api/external_users/claims/advocates/final
-    /api/external_users/claims/advocates/final/validate
+  it { expect(api_routes).to include(endpoint) }
 
-    /api/external_users/claims/advocates/interim
-    /api/external_users/claims/advocates/interim/validate
+  context 'when Accept-Version is set to v2' do
+    before do
+      header 'Accept-Version', 'v2'
+      post endpoint, session: { format: :json }
+    end
 
-    /api/external_users/claims/advocates/supplementary
-    /api/external_users/claims/advocates/supplementary/validate
+    it { expect(last_response.status).to eq 406 }
+    it { expect(last_response.body).to include('The requested version is not supported.') }
+  end
+end
 
-    /api/external_users/claims/advocates/hardship
-    /api/external_users/claims/advocates/hardship/validate
-
-    /api/external_users/claims/final
-    /api/external_users/claims/final/validate
-
-    /api/external_users/claims/interim
-    /api/external_users/claims/interim/validate
-
-    /api/external_users/claims/transfer
-    /api/external_users/claims/transfer/validate
-
-    /api/external_users/claims/litigators/hardship
-    /api/external_users/claims/litigators/hardship/validate
-  ).freeze
-
+RSpec.describe API::V1::ExternalUsers::Claim do
   let(:api_routes) do
     API::V1::Root.routes.each_with_object([]) do |route, api_routes|
       path = route.pattern.path
@@ -36,23 +24,20 @@ RSpec.describe API::V1::ExternalUsers::Claim do
     end
   end
 
-  describe 'Claim endpoints' do
-    CLAIM_ENDPOINTS.each do |endpoint|
-      it "exposes #{endpoint}" do
-        expect(api_routes).to include(endpoint)
-      end
-    end
-  end
-
-  describe 'Support versioning via header' do
-    it 'returns 406 Not Acceptable if requested API version via header is not supported' do
-      header 'Accept-Version', 'v2'
-
-      CLAIM_ENDPOINTS.each do |endpoint|
-        post endpoint, {}, format: :json
-        expect(last_response.status).to eq 406
-        expect(last_response.body).to include('The requested version is not supported.')
-      end
-    end
-  end
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/advocates/final'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/advocates/final/validate'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/advocates/interim'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/advocates/interim/validate'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/advocates/supplementary'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/advocates/supplementary/validate'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/advocates/hardship'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/advocates/hardship/validate'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/final'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/final/validate'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/interim'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/interim/validate'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/transfer'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/transfer/validate'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/litigators/hardship'
+  it_behaves_like 'API claim endpoint', '/api/external_users/claims/litigators/hardship/validate'
 end

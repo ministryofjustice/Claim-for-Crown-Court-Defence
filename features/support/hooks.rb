@@ -94,7 +94,7 @@ After do |scenario|
 
   # screenshot failure for storage as artifcate in circleCI
   name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
-  screenshot_image(name) if scenario.failed?
+  screenshot_image(name) if scenario.failed? && ENV['CI']
 
   # Following a local ruby and various dependecy updates cucumber no longer
   # appears to have been shutting down the chromedriver automatically.

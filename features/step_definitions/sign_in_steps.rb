@@ -34,6 +34,22 @@ Given(/^I am a signed in advocate$/) do
   sign_in(@advocate.user, 'password')
 end
 
+Given('I am a signed in advocate with final claim {string}') do |case_number|
+  @advocate = create(:external_user, :advocate)
+  create(:advocate_claim, creator: @advocate, external_user: @advocate, case_number: case_number)
+  visit new_user_session_path
+  switch_to_chrome_window
+  sign_in(@advocate.user, 'password')
+end
+
+Given('I am a signed in advocate with fixed fee claim {string}') do |case_number|
+  @advocate = create(:external_user, :advocate)
+  create(:advocate_claim, :with_fixed_fee_case, creator: @advocate, external_user: @advocate, case_number: case_number)
+  visit new_user_session_path
+  switch_to_chrome_window
+  sign_in(@advocate.user, 'password')
+end
+
 Given(/^I am a signed in advocate admin$/) do
   @advocate = create(:external_user, :advocate_and_admin)
   visit new_user_session_path
@@ -43,6 +59,14 @@ end
 
 Given(/^I am a signed in litigator$/) do
   @litigator = create(:external_user, :litigator)
+  visit new_user_session_path
+  switch_to_chrome_window
+  sign_in(@litigator.user, 'password')
+end
+
+Given('I am a signed in litigator with final claim {string}') do |case_number|
+  @litigator = create(:external_user, :litigator)
+  create(:litigator_claim, creator: @litigator, external_user: @litigator, case_number: case_number)
   visit new_user_session_path
   switch_to_chrome_window
   sign_in(@litigator.user, 'password')

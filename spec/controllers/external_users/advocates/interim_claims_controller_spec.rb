@@ -119,7 +119,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
           }
 
           context 'and the form params were submitted as a draft' do
-            let(:form_action) { { } }
+            let(:form_action) { {} }
 
             it 'assigns @claim with the newly created record' do
               create_request
@@ -397,7 +397,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
           }
 
           context 'and the form params were submitted as a draft' do
-            let(:form_action) { { } }
+            let(:form_action) { {} }
 
             it 'assigns @claim with the existent updated record' do
               update_request

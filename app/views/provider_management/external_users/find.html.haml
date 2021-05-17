@@ -1,11 +1,11 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
 
-= form_for(:external_user, url: provider_management_external_users_find_path) do |f|
-  .form-group
-    = f.label :email, t('.email'), class: 'form-label'
-    = f.email_field :email, class: 'form-control email'
+    = form_for :external_user, url: provider_management_external_users_find_path, builder: GdsAdpFormBuilder do |f|
+      = f.govuk_email_field :email,
+        label: { text: t('.page_heading'), tag: 'h1', size: 'l' }
 
-  = govuk_button(t('.submit'))
+      = f.govuk_submit t('.submit')

@@ -1,11 +1,8 @@
 = content_for :page_title, flush: true do
-  = t('.page_title')
+  = t('.section_heading')
 
-= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+= render partial: 'layouts/header', locals: { page_heading: t('.section_heading') }
 
-.grid-row
-  .column-full
-    %h2#section-heading.heading-large
-      = t('.section_heading')
-
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
     = render partial: 'shared/providers/form', locals: { form_url: url_for(controller: params[:controller], action: 'create') }

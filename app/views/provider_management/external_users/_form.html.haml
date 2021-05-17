@@ -1,60 +1,34 @@
-= form_for [:provider_management, @provider, @external_user] do |f|
-  - if @external_user.errors.any?
-    .error-summary{ 'aria-labelledby': 'error-summary-heading', role: 'alert', tabindex: '-1' }
-      %h2#error-summary-heading.heading-medium.error-summary-heading
-        = "#{t('.prohibited_save')} #{pluralize(@external_user.errors.count, t('.error'))}"
-      %ul.error-summary-list
-        - @external_user.errors.full_messages.each do |msg|
-          %li
-            = msg
+= form_with model: [:provider_management, @provider, @external_user], url: provider_management_provider_external_user_path(@provider, @external_user), builder: GdsAdpFormBuilder do |f|
 
   = f.fields_for :user do |user_fields|
-    .form-fields
-      %fieldset
-        %legend.visually-hidden New user
+    = user_fields.govuk_error_summary
 
-        .form-group
-          = user_fields.label :first_name, t('.first_name'), class: 'form-label'
-          = user_fields.text_field :first_name, class: 'form-control'
+    = user_fields.govuk_text_field :first_name,
+      label: { text: t('.first_name') }
 
-        .form-group
-          = user_fields.label :last_name, t('.last_name'), class: 'form-label'
-          = user_fields.text_field :last_name, class: 'form-control'
+    = user_fields.govuk_text_field :last_name,
+      label: { text: t('.last_name') }
 
-        .form-group
-          = user_fields.label :email, t('.email'), class: 'form-label'
-          = user_fields.email_field :email, class: 'form-control'
+    = user_fields.govuk_email_field :email,
+      label: { text: t('.email') }
 
-        .form-group
-          = user_fields.label :email_confirmation, t('.email_confirmation'), class: 'form-label'
-          = user_fields.email_field :email_confirmation, class: 'form-control'
+    = user_fields.govuk_email_field :email_confirmation,
+      label: { text: t('.email_confirmation') }
 
-      %fieldset.inline{ 'aria-describedby': 'checkbox-control-legend-roles' }
-        %legend#checkbox-control-legend-roles
-          %span.form-label-bold
-            = t('.roles')
+    = f.govuk_collection_check_boxes :roles,
+      @external_user.available_roles,
+      :to_s,
+      :humanize,
+      legend: { text: t('.roles'), size: 's' }
 
-        .form-group.inline.js-advocate-roles
-          = f.collection_check_boxes(:roles, @external_user.available_roles, :to_s, :to_s) do |b|
-            .multiple-choice
-              = b.check_box
-              = b.label(id: b.value.to_css_class) { b.value.humanize }
+    - if @provider.chamber?
+      = f.govuk_collection_radio_buttons :vat_registered,
+        [['Yes','true'],['No','false']],
+        :last,
+        :first,
+        legend: { text: t('.apply_vat'), size: 's' }
 
+      = f.govuk_text_field :supplier_number,
+        label: { text: t('.supplier_number') }
 
-      - if @provider.chamber?
-        .form-group
-          %fieldset.inline
-            %legend
-              %span.form-label-bold
-                = t('.apply_vat')
-              = f.collection_radio_buttons(:vat_registered, [true, false], :to_s, :to_s) do |b|
-                .multiple-choice
-                  = b.radio_button
-                  = b.label(id: b.value.to_css_class) { (b.value.to_s == 'true' ? 'Yes' : 'No') }
-
-        .form-group
-          = f.label :supplier_number, t('.supplier_number'), class: 'form-label'
-          = f.text_field :supplier_number, class: 'form-control'
-
-    .form-group
-      = govuk_button(t(".submit.#{action_name}"))
+    = f.govuk_submit t(".submit.#{action_name}")

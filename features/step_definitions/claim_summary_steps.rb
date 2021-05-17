@@ -25,3 +25,19 @@ end
 Then("I should be in the providers claim summary page") do
   expect(@external_user_claim_show_page).to be_displayed
 end
+
+When("I edit the claim's case details") do
+  @claim_summary_page.change_case_details.click
+end
+
+When("I edit the claim's defendants") do
+  @claim_summary_page.change_defendants.click
+end
+
+When("I edit the claim's expenses") do
+  @claim_summary_page.change_expenses.click
+end
+
+When("I edit the claim's supporting evidence") do
+  @claim_summary_page.change_supporting_evidence.click
+end

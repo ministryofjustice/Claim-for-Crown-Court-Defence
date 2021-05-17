@@ -56,8 +56,8 @@ When(/^I select the offence category '(.*?)'$/) do |offence_cat|
   wait_for_ajax
 end
 
-And(/^I sleep for '(.*?)' second$/) do |num_seconds|
-  sleep num_seconds.to_f
+And('I sleep for {int} seconds') do |seconds|
+  sleep seconds.to_i
 end
 
 Given(/^I am later on the Your claims page$/) do

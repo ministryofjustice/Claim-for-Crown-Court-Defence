@@ -7,4 +7,6 @@
 %h2.heading-medium
   = t('.heading', provider_name: @provider.name)
 
-= render 'form'
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = render 'form'

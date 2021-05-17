@@ -5,4 +5,5 @@ class ClaimSummaryPage < BasePage
   element :change_case_details, "#case-details-section a.link-change:nth-of-type(1)"
   element :change_defendants, "#defendants-section a.link-change:nth-of-type(1)"
   element :change_expenses, "#expenses-section a.link-change:nth-of-type(1)"
+  element :change_supporting_evidence, "#supporting-evidence-section a.link-change:nth-of-type(1)"
 end

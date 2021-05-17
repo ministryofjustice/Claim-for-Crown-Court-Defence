@@ -79,6 +79,8 @@ When(/^I check the evidence boxes for\s+'([^']*)'$/) do |labels|
       @claim_form_page.evidence_checklist.check(label)
     end
   end
+  wait_for_ajax
+  sleep 1 # can't find a way around need for this when popups enabled.
 end
 
 When("I answer {string} to was prosecution evidence served on this case?") do |string|

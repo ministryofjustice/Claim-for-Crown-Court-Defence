@@ -231,3 +231,8 @@ end
 When('I go back') do
   page.go_back
 end
+
+Given('popups are enabled') do
+  overwrite_constant :ENABLED, false, Rack::NoPopups
+end
+

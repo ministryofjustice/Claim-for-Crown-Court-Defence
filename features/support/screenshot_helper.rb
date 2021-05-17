@@ -6,12 +6,16 @@ module ScreenshotHelper
   end
 
   def screenshot_image(name = 'capybara-screenshot')
-    window = Capybara.current_session.driver.browser.manage.window
-    window.resize_to(*dimensions)
+    resize_window_to_fit
     screenshot_name = "#{name}-#{Time.now.utc.iso8601.gsub('-', '').gsub(':', '')}.#{SecureRandom.hex}.png"
     file_path = Rails.root.join("tmp/capybara/#{screenshot_name}").to_s
     save_screenshot(file_path)
     file_path
+  end
+
+  def resize_window_to_fit
+    window = Capybara.current_session.driver.browser.manage.window
+    window.resize_to(*dimensions)
   end
 
   def dimensions

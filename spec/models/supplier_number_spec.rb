@@ -52,7 +52,7 @@ RSpec.describe SupplierNumber, type: :model do
   end
 
   context 'validates supplier number format' do
-    let(:format_error) { ['invalid format'] }
+    let(:format_error) { ['Enter a valid LGFS supplier number'] }
 
     it 'fails for incorrect format' do
       allow(subject).to receive(:supplier_number).and_return('ABC123')

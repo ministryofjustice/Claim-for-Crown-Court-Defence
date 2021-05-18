@@ -1,6 +1,10 @@
 - if display_downtime_warning?
-  = govuk_notification_banner(t('.banner_title')) do
-    %h3.govuk-notification-banner__heading
-      = t('.banner_heading', date_string: Settings.downtime_warning_date.to_date.strftime('%A %d %B %Y'))
-    %p.govuk-body
-      = t('.banner_paragraph')
+  .govuk-notification-banner{'aria-labelledby': 'govuk-downtime-notification-banner-title', 'data-module': "govuk-notification-banner", role: 'alert'}
+    .govuk-notification-banner__header
+      %h2#govuk-downtime-notification-banner-title.govuk-notification-banner__title
+        = t('.banner_title')
+    .govuk-notification-banner__content
+      %h3.govuk-notification-banner__heading
+        = t('.banner_heading', date_string: Settings.downtime_warning_date.to_date.strftime('%A %d %B %Y'))
+      %p.govuk-body
+        = t('.banner_paragraph')

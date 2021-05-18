@@ -11,12 +11,7 @@ Feature: A downtime warning banner appears on home pages only until downtime dat
     Then the downtime banner is displayed
     And the downtime banner should say 'This service will be unavailable on Wednesday 26 May 2021 from 5pm until midnight.'
     And the downtime banner should say 'This is to enable routine maintenance work to be carried out. Please save and close any work before this time.'
-
-    # TODO: Page not accessible at this point, i believe due to the sign in flash notification.
-    # However, even a refresh of the page, removing the sign in notification, results in
-    # a duplicate-id-aria accessibility violation. This does not occur once navigation occurs, as below.
-    #
-    # And the page should be accessible => fails
+    And the page should be accessible
 
     When I visit the fee scheme selector page
     And the downtime banner is not displayed
@@ -46,12 +41,7 @@ Feature: A downtime warning banner appears on home pages only until downtime dat
     Then the downtime banner is displayed
     And the downtime banner should say 'This service will be unavailable on Wednesday 26 May 2021 from 5pm until midnight.'
     And the downtime banner should say 'This is to enable routine maintenance work to be carried out. Please save and close any work before this time.'
-
-    # TODO: Page not accessible at this point, i believe due to the sign in flash notification.
-    # However, even a refresh of the page, removing the sign in notification, results in
-    # a duplicate-id-aria accessibility violation. This does not occur once navigation occurs, as below.
-    #
-    # And the page should be accessible => fails
+    And the page should be accessible
 
     When I click the link 'Allocation'
     And the downtime banner is not displayed

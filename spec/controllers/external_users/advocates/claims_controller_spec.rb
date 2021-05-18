@@ -83,7 +83,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         context 'create draft' do
           before do
             expect(Claim::AdvocateClaim.active.count).to eq(0)
-            post :create, params: { commit_save_draft: 'Save to drafts', claim: claim_params }
+            post :create, params: { claim: claim_params }
           end
 
           it 'creates the claim and sets the state to "draft"' do
@@ -416,7 +416,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
     context 'when valid' do
       context 'and deleting a rep order' do
         before {
-          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } }, commit_save_draft: 'Save to drafts' }
+          put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } } }
         }
         it 'reduces the number of associated rep order by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
@@ -429,7 +429,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         end
 
         context 'and saving to draft' do
-          before { put :update, params: { id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' } }
+          before { put :update, params: { id: subject, claim: { additional_information: 'foo' } } }
           it 'sets API created claims source to indicate it is from API but has been edited in web' do
             expect(subject.reload.source).to eql 'api_web_edited'
           end
@@ -449,7 +449,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         end
 
         context 'and saving to draft' do
-          before { put :update, params: { id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' } }
+          before { put :update, params: { id: subject, claim: { additional_information: 'foo' } } }
 
           it 'updates the source to indicate it was originally from JSON import but has been edited via web' do
             expect(subject.reload.source).to eql 'json_import_web_edited'
@@ -467,7 +467,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
       context 'and saving to draft' do
         it 'updates a claim' do
-          put :update, params: { id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
+          put :update, params: { id: subject, claim: { additional_information: 'foo' } }
           subject.reload
           expect(subject.additional_information).to eq('foo')
         end

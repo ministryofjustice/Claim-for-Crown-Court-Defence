@@ -333,8 +333,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                       }
                     }
                   }
-                },
-                commit_save_draft: 'Save to drafts'
+                }
               }
         }
         it 'reduces the number of associated rep orders by 1' do
@@ -350,7 +349,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       #   end
       #
       #   context 'and saving to draft' do
-      #     before { put :update, id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
+      #     before { put :update, id: subject, claim: { additional_information: 'foo' } }
       #     it 'sets API created claims source to indicate it is from API but has been edited in web' do
       #       expect(subject.reload.source).to eql 'api_web_edited'
       #     end
@@ -366,7 +365,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
       context 'and saving to draft' do
         it 'updates a claim' do
-          put :update, params: { id: subject, claim: { additional_information: 'foo' }, commit_save_draft: 'Save to drafts' }
+          put :update, params: { id: subject, claim: { additional_information: 'foo' } }
           subject.reload
           expect(subject.additional_information).to eq('foo')
         end

@@ -62,7 +62,7 @@ gem 'ruby-progressbar'
 gem 'geckoboard-ruby'
 gem 'posix-spawn', '~> 0.3.15'
 gem 'laa-fee-calculator-client', '~> 1.2'
-gem 'webpacker', '~> 5.3'
+gem 'webpacker', '~> 5.4'
 gem 'active_storage_validations'
 
 group :production, :devunicorn do

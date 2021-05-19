@@ -294,7 +294,7 @@ GEM
       activesupport (>= 4.2.0)
     gov_uk_date_fields (3.0.0)
       rails (>= 5.0)
-    govuk_design_system_formbuilder (2.5.0)
+    govuk_design_system_formbuilder (2.5.1)
       actionview (>= 6.0)
       activemodel (>= 6.0)
       activesupport (>= 6.0)

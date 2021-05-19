@@ -21,6 +21,8 @@ module Seeds
           process_row(row)
         end
 
+        reset_pk_sequence!
+
         log "Created: #{total_created} | Updated: #{total_updated} | Error: #{total_with_error} | Processed: #{total}".yellow
       end
 
@@ -79,6 +81,10 @@ module Seeds
         self.total_with_error += 1
       ensure
         self.total += 1
+      end
+
+      def reset_pk_sequence!
+        ActiveRecord::Base.connection.reset_pk_sequence!('fee_types')
       end
 
       def log(message)

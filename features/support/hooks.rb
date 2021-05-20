@@ -48,10 +48,10 @@ Before('not @no-seed') do
     load "#{Rails.root}/db/seeds/certification_types.rb"
     load "#{Rails.root}/db/seeds/disbursement_types.rb"
     load "#{Rails.root}/db/seeds/expense_types.rb"
-    load "#{Rails.root}/db/seeds/vat_rates.rb" unless @caseworker_seed_done
+    load "#{Rails.root}/db/seeds/vat_rates.rb" unless @vat_seed_done
     load "#{Rails.root}/db/seeds/establishments.rb"
 
-    @caseworker_seed_done = true
+    @vat_seed_done = true
     $seed_done = true
   end
 end
@@ -59,10 +59,10 @@ end
 # minimum seeding necessary for case worker functionality
 # to avoid long start up time for basic case worker features
 #
-Before('@caseworker-seed-requirements') do
-  unless (@caseworker_seed_done ||= false)
+Before('@caseworker-seed-requirements or @vat-seeds') do
+  unless (@vat_seed_done ||= false)
     load "#{Rails.root}/db/seeds/vat_rates.rb"
-    @caseworker_seed_done = true
+    @vat_seed_done = true
   end
 end
 
@@ -94,7 +94,7 @@ After do |scenario|
 
   # screenshot failure for storage as artifcate in circleCI
   name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
-  screenshot_image(name) if scenario.failed?
+  screenshot_image(name) if scenario.failed? && ENV['CI']
 
   # Following a local ruby and various dependecy updates cucumber no longer
   # appears to have been shutting down the chromedriver automatically.

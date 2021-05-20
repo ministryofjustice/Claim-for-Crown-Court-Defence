@@ -56,8 +56,8 @@ When(/^I select the offence category '(.*?)'$/) do |offence_cat|
   wait_for_ajax
 end
 
-And(/^I sleep for '(.*?)' second$/) do |num_seconds|
-  sleep num_seconds.to_f
+And('I sleep for {int} seconds') do |seconds|
+  sleep seconds.to_i
 end
 
 Given(/^I am later on the Your claims page$/) do
@@ -85,18 +85,6 @@ end
 
 When(/I edit this claim/) do
   @external_user_claim_show_page.edit_this_claim.click
-end
-
-When(/^I edit the claim's case details$/) do
-  @claim_summary_page.change_case_details.click
-end
-
-When(/^I edit the claim's defendants$/) do
-  @claim_summary_page.change_defendants.click
-end
-
-When(/^I edit the claim's expenses$/) do
-  @claim_summary_page.change_expenses.click
 end
 
 Then(/^I should be on the certification page$/) do
@@ -243,3 +231,8 @@ end
 When('I go back') do
   page.go_back
 end
+
+Given('popups are enabled') do
+  overwrite_constant :ENABLED, false, Rack::NoPopups
+end
+

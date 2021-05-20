@@ -4,6 +4,8 @@ module Rack
   class NoPopups
     include Injectable
 
+    ENABLED = true
+
     DISABLE_POPUPS_HTML = <<~HTML.freeze
       <script type="text/javascript">
         window.alert = function() { };
@@ -13,8 +15,12 @@ module Rack
 
     private
 
+    def enabled?
+      ENABLED
+    end
+
     def fragment
-      DISABLE_POPUPS_HTML
+      enabled? ? DISABLE_POPUPS_HTML : ''
     end
   end
 end

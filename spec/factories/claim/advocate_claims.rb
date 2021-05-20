@@ -37,7 +37,7 @@ FactoryBot.define do
     end
 
     trait :with_fixed_fee_case do
-      case_type { association(:case_type, :fixed_fee) }
+      case_type { CaseType.find_by(fee_type_code: 'FXASE') || association(:case_type, :appeal_against_sentence) }
     end
 
     trait :with_graduated_fee_case do

@@ -114,7 +114,7 @@ executors:
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd
           LIVE1_DB_TASK: none
-      - image: circleci/postgres:9.6.20
+      - image: circleci/postgres:13.1
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: "circleci"
@@ -130,7 +130,7 @@ executors:
           TZ: Europe/London
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd
-      - image: circleci/postgres:9.6.20
+      - image: circleci/postgres:13.1
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: "circleci"

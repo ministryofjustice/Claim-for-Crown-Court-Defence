@@ -2,14 +2,14 @@ module TimedTransitions
   class Transitioner
     attr_accessor :success
 
-    @@timed_transition_specifications = {
+    TIMED_TRANSITION_SPECIFICATIONS = {
       draft: Specification.new(Settings.timed_transition_stale_weeks, :destroy_claim),
       authorised: Specification.new(Settings.timed_transition_stale_weeks, :archive),
       part_authorised: Specification.new(Settings.timed_transition_stale_weeks, :archive),
       refused: Specification.new(Settings.timed_transition_stale_weeks, :archive),
       rejected: Specification.new(Settings.timed_transition_stale_weeks, :archive),
       archived_pending_delete: Specification.new(Settings.timed_transition_pending_weeks, :destroy_claim)
-    }
+    }.freeze
 
     def self.candidate_claims_ids
       Claim::BaseClaim.where(state: candidate_states)
@@ -21,7 +21,7 @@ module TimedTransitions
     end
 
     def self.candidate_states
-      @@timed_transition_specifications.keys
+      TIMED_TRANSITION_SPECIFICATIONS.keys
     end
 
     def initialize(claim, dummy = false)
@@ -44,7 +44,7 @@ module TimedTransitions
     end
 
     def process_stale_claim
-      specification = @@timed_transition_specifications[@claim.state.to_sym]
+      specification = TIMED_TRANSITION_SPECIFICATIONS[@claim.state.to_sym]
       last_transition = @claim.last_state_transition_time
       return unless last_transition.nil? || last_transition < specification.period_in_weeks.weeks.ago
       send(specification.method)

@@ -41,12 +41,8 @@ module TimedTransitions
 
     private
 
-    def is_dummy?
-      @dummy
-    end
-
     def log_level
-      is_dummy? ? :debug : :info
+      @dummy ? :debug : :info
     end
 
     def process_stale_claim
@@ -58,7 +54,7 @@ module TimedTransitions
 
     def archive
       values = @claim.hardship? ? hardship_archive_checks : archive_checks
-      @claim.send(values[:event], reason_code: ['timed_transition']) unless is_dummy?
+      @claim.send(values[:event], reason_code: ['timed_transition']) unless @dummy
       @claim.reload # not sure if needed
       log(log_level,
           action: 'archive',
@@ -92,7 +88,7 @@ module TimedTransitions
     end
 
     def destroy_claim
-      Stats::MIData.import(@claim) && @claim.destroy unless is_dummy?
+      Stats::MIData.import(@claim) && @claim.destroy unless @dummy
       log(log_level,
           action: 'destroy',
           message: 'Destroying soft-deleted claim',

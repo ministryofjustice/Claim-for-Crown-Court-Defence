@@ -1,60 +1,29 @@
-#filter-tasks-agfs.form-group.dtFilter.dtFilterAGFS{ data: { scheme: 'agfs' } }
-  %label.form-label-bold{ for: 'filterAGFS' }
-    = t('.case_types')
+#filter-tasks-agfs.dtFilter.dtFilterAGFS{ data: { scheme: 'agfs' } }
+  = f.govuk_select :filterAGFS, label: { text: t('.case_types') } do
+    = options_for_select [[t('.all'), '']]
+    = options_for_select [[t('.fixed_fee'), 'fixed_fee']]
+    = options_for_select [[t('.cracked'), 'cracked']]
+    = options_for_select [[t('.trial'), 'trial']]
+    = options_for_select [[t('.guilty_plea'), 'guilty_plea']]
+    = options_for_select [[t('.redetermination'), 'redetermination']]
+    = options_for_select [[t('.awaiting_written_reasons'), 'awaiting_written_reasons']]
+    = options_for_select [[t('.disk_evidence'), 'disk_evidence']]
+    = options_for_select [[t('.injection_errors'), 'injection_errored']]
+    = options_for_select [[t('.warrants'), 'agfs_warrants']]
+    = options_for_select [[t('.supplementary'), 'supplementary']]
+    = options_for_select [[t('.hardship'), 'agfs_hardship']]
 
-  %select#filterAGFS.form-control.form-control-full{ name: 'tasks' }
-    %option{ value: '' }
-      = t('.all')
-    %option{ value: 'fixed_fee' }
-      = t('.fixed_fee')
-    %option{ value: 'cracked' }
-      = t('.cracked')
-    %option{ value: 'trial' }
-      = t('.trial')
-    %option{ value: 'guilty_plea' }
-      = t('.guilty plea')
-    %option{ value: 'redetermination' }
-      = t('.redetermination')
-    %option{ value: 'awaiting_written_reasons' }
-      = t('.awaiting_written_reasons')
-    %option{ value: 'disk_evidence' }
-      = t('.disk_evidence')
-    %option{ value: 'injection_errored' }
-      = t('.injection_errors')
-    %option{ value: 'agfs_warrants' }
-      = t('.warrants')
-    %option{ value: 'supplementary' }
-      = t('.supplementary')
-    %option{ value: 'agfs_hardship' }
-      = t('.hardship')
-
-
-#filter-tasks-lgfs.form-group.dtFilter.dtFilterLGFS.hidden{ data: { scheme: 'lgfs' } }
-  %label.form-label-bold{ for: 'filterLGFS' }
-    = t('.case_types')
-
-  %select#filterLGFS.form-control.form-control-full{ name: 'tasks' }
-    %option{ value: '' }
-      = t('.all')
-    %option{ value: 'fixed_fee' }
-      = t('.fixed_fee')
-    %option{ value: 'graduated_fees' }
-      = t('.graduated_fees')
-    %option{ value: 'interim_fees' }
-      = t('.interim_fees')
-    %option{ value: 'lgfs_warrants' }
-      = t('.warrants')
-    %option{ value: 'interim_disbursements' }
-      = t('.interim_disbursements')
-    %option{ value: 'risk_based_bills' }
-      = t('.risk_based_bills')
-    %option{ value: 'redetermination' }
-      = t('.redetermination')
-    %option{ value: 'awaiting_written_reasons' }
-      = t('.awaiting_written_reasons')
-    %option{ value: 'disk_evidence' }
-      = t('.disk_evidence')
-    %option{ value: 'injection_errored' }
-      = t('.injection_errors')
-    %option{ value: 'lgfs_hardship' }
-      = t('.hardship')
+#filter-tasks-lgfs.dtFilter.dtFilterLGFS.hidden{ data: { scheme: 'lgfs' } }
+  = f.govuk_select :filterLGFS, label: { text: t('.case_types') } do
+    = options_for_select [[t('.all'), '']]
+    = options_for_select [[t('.fixed_fee'), 'fixed_fee']]
+    = options_for_select [[t('.graduated_fees'), 'graduated_fees']]
+    = options_for_select [[t('.interim_fees'), 'interim_fees']]
+    = options_for_select [[t('.warrants'), 'lgfs_warrants']]
+    = options_for_select [[t('.interim_disbursements'), 'interim_disbursements']]
+    = options_for_select [[t('.risk_based_bills'), 'risk_based_bills']]
+    = options_for_select [[t('.redetermination'), 'redetermination']]
+    = options_for_select [[t('.awaiting_written_reasons'), 'awaiting_written_reasons']]
+    = options_for_select [[t('.disk_evidence'), 'disk_evidence']]
+    = options_for_select [[t('.injection_errors'), 'injection_errored']]
+    = options_for_select [[t('.hardship'), 'lgfs_hardship']]

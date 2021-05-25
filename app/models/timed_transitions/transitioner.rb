@@ -92,21 +92,26 @@ module TimedTransitions
     end
 
     def destroy_claim
+      document_count = @claim.documents.count
       Stats::MIData.import(@claim) && @claim.destroy unless is_dummy?
       log(log_level,
           action: 'destroy',
           message: 'Destroying soft-deleted claim',
+          document_count: document_count,
+          s3_bucket: Settings.aws.s3.bucket,
           succeeded: @claim.destroyed?)
       self.success = @claim.destroyed?
     rescue StandardError => e
       log(:error,
           action: 'destroy',
           message: 'Destroying soft-deleted claim failed!',
+          document_count: document_count,
+          s3_bucket: Settings.aws.s3.bucket,
           succeeded: @claim.destroyed?,
           error: e.message)
     end
 
-    def log(level = :info, action:, message:, succeeded:, error: nil)
+    def log(level = :info, action:, message:, succeeded:, error: nil, **args)
       LogStuff.send(
         level.to_sym,
         'TimedTransitions::Transitioner',
@@ -117,7 +122,8 @@ module TimedTransitions
         valid_until: @claim.valid_until,
         dummy_run: @dummy,
         error: error,
-        succeeded: succeeded
+        succeeded: succeeded,
+        **args
       ) do
         message
       end

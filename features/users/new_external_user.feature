@@ -10,7 +10,7 @@ Feature: Create new external user
     When I click the link 'Create a new user'
     Then I am on the new users page
     And I should see 'Add a new user to'
-    And the page should be accessible
+    And the page should be accessible skipping 'aria-allowed-attr'
 
     Then I fill in 'First name' with 'Jim'
     And I fill in 'Last name' with 'Bob'
@@ -22,7 +22,7 @@ Feature: Create new external user
     Given I should not see 'VAT registered'
     And I should not see 'Supplier number'
     When I click govuk checkbox 'Advocate'
-    And the page should be accessible
+    And the page should be accessible skipping 'aria-allowed-attr'
     Then I should see 'VAT registered'
     And I choose govuk radio 'No' for 'VAT registered'
     Then I should see 'Supplier number'

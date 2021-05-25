@@ -1,6 +1,6 @@
-.supplier-number-group.form-group.mod-supplier-details.fx-numberedList-item
-  %fieldset
-    %legend
+.supplier-number-group.fx-numberedList-item
+  %fieldset.govuk-fieldset
+    %legend.govuk-fieldset__legend.govuk-fieldset__legend--m
       %span.heading-medium
         = t('.details_heading')
         %span.fx-numberedList-number
@@ -11,9 +11,8 @@
         = t('common.remove_html', context: t('.details_heading'))
     - else
       - if f.object.has_non_archived_claims?
-        .form-group
-          %span.form-hint
-            Cannot remove supplier number while claims are still in progress
+        %span.govuk-hint
+          Cannot remove supplier number while claims are still in progress
       - else
         = link_to_remove_association f, wrapper_class: 'supplier-number-group', class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
           = t('common.remove_html', context: t('.details_heading'))
@@ -22,10 +21,16 @@
     - attributes_scope = 'activerecord.attributes.supplier_number'
     - form_scope = 'shared.providers.form.supplier_details'
 
-    = f.adp_text_field :name, id: "lgfs_supplier_number_#{f.options[:child_index]}_name", label: t('label.supplier_name', scope: form_scope), hint_text: t('hint_text.supplier_name', scope: form_scope), disabled: !editable, errors: f.options[:parent_builder].object.errors
+    = f.govuk_text_field :name,
+      hint: { text: t('hint_text.supplier_name', scope: form_scope) },
+      label: { text: t('label.supplier_name', scope: form_scope) }
 
-    = f.adp_text_field :postcode, id: "lgfs_supplier_number_#{f.options[:child_index]}_postcode", label: t('label.postcode', scope: form_scope), hint_text: t('hint_text.postcode', scope: form_scope), input_classes: 'form-control-1-4', disabled: !editable, errors: f.options[:parent_builder].object.errors
+    = f.govuk_text_field :postcode,
+      hint: { text: t('hint_text.postcode', scope: form_scope) },
+      label: { text: t('label.postcode', scope: form_scope) }
 
-    = f.adp_text_field :supplier_number, id: "lgfs_supplier_number_#{f.options[:child_index]}_supplier_number", label: t('label.supplier_number', scope: form_scope), hint_text: t('hint_text.supplier_number', scope: form_scope), input_classes: 'form-control-1-4', disabled: !editable, errors: f.options[:parent_builder].object.errors
+    = f.govuk_text_field :supplier_number,
+      hint: { text: t('hint_text.supplier_number', scope: form_scope) },
+      label: { text: t('label.supplier_number', scope: form_scope) }
 
   %hr/

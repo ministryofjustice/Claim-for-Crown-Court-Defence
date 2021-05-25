@@ -57,7 +57,7 @@
       const self = this
       const number = self.settings.number
       const action = self.settings.action
-      const items = $(this.settings.wrapper).find(this.settings.item + ':visible')
+      const items = $(this.settings.wrapper).find(this.settings.item)
 
       items.each(function (idx, el) {
         $(el).find(action).removeClass('govuk-!-display-none')

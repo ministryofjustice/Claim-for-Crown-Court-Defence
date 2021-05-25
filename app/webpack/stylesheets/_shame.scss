@@ -556,28 +556,6 @@ form {
   }
 }
 
-.supplier-number-group {
-  margin-bottom: $gutter;
-
-  .form-group {
-    &.supplier_number_wrapper {
-      margin-bottom: $gutter-one-third;
-    }
-  }
-}
-
-#provider-form {
-  .new_provider,
-  .edit_provider {
-    #js-fee-schemes,
-    #js-agfs-supplier-number,
-    #js-lgfs-supplier-numbers,
-    #js-vat {
-      display: none;
-    }
-  }
-}
-
 .js-cw-claim-assessment {
   .error {
     display: none;

@@ -11,16 +11,41 @@ Feature: Case worker can manage providers
 
     When I click the link 'Add a provider'
     Then I should be on the new provider page
-    Then the page should be accessible
+    Then the page should be accessible skipping 'aria-allowed-attr'
 
     When I set the provider name to 'Test Chambers'
-    And I set the provider type to 'Firm'
-    Then I should see 'LGFS'
-    Then I should see 'AGFS'
-    When I set the provider type to 'Chamber'
+    And I choose govuk radio 'Chamber' for 'Provider type'
+    Then I should not see 'AGFS'
     Then I should not see 'LGFS'
-    When I select the 'AGFS' fee scheme
+
+    When I click the Save details button
+    Then I should see 'Provider successfully created'
+    And the page should be accessible
+
+    And I eject the VCR cassette
+
+  Scenario: A provider Manager can create a new firm
+    When I insert the VCR cassette 'features/provider_management'
+    Given I am a signed in case worker provider manager
     Then the page should be accessible
+    When I click the link 'Providers'
+    Then I should be on the provider index page
+    And the page should be accessible
+
+    When I click the link 'Add a provider'
+    Then I should be on the new provider page
+    And the page should be accessible skipping 'aria-allowed-attr'
+
+    When I set the provider name to 'Test Chambers'
+    And I choose govuk radio 'Firm' for 'Provider type'
+    Then I should see 'AGFS'
+    And I should see 'LGFS'
+
+    And I click govuk checkbox 'LGFS'
+    And I set the supplier number to '1A234B'
+    And I choose govuk radio 'Yes' for 'Is the provider VAT registered?'
+    Then the page should be accessible skipping 'aria-allowed-attr'
+
     When I click the Save details button
     Then I should see 'Provider successfully created'
     Then the page should be accessible

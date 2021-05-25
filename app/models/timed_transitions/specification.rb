@@ -1,9 +1,8 @@
 module TimedTransitions
   class Specification
-    attr_reader :current_state, :period_in_weeks, :method
+    attr_reader :period_in_weeks, :method
 
-    def initialize(current_state, period_in_weeks, method)
-      @current_state    = current_state
+    def initialize(period_in_weeks, method)
       @period_in_weeks  = period_in_weeks
       @method           = method
     end

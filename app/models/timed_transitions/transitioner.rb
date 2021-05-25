@@ -2,16 +2,14 @@ module TimedTransitions
   class Transitioner
     attr_accessor :success
 
-    @@timed_transition_specifications = {
-      draft: Specification.new(:draft, Settings.timed_transition_stale_weeks, :destroy_claim),
-      authorised: Specification.new(:authorised, Settings.timed_transition_stale_weeks, :archive),
-      part_authorised: Specification.new(:part_authorised, Settings.timed_transition_stale_weeks, :archive),
-      refused: Specification.new(:refused, Settings.timed_transition_stale_weeks, :archive),
-      rejected: Specification.new(:rejected, Settings.timed_transition_stale_weeks, :archive),
-      archived_pending_delete: Specification.new(:archived_pending_delete,
-                                                 Settings.timed_transition_pending_weeks,
-                                                 :destroy_claim)
-    }
+    TIMED_TRANSITION_SPECIFICATIONS = {
+      draft: Specification.new(Settings.timed_transition_stale_weeks, :destroy_claim),
+      authorised: Specification.new(Settings.timed_transition_stale_weeks, :archive),
+      part_authorised: Specification.new(Settings.timed_transition_stale_weeks, :archive),
+      refused: Specification.new(Settings.timed_transition_stale_weeks, :archive),
+      rejected: Specification.new(Settings.timed_transition_stale_weeks, :archive),
+      archived_pending_delete: Specification.new(Settings.timed_transition_pending_weeks, :destroy_claim)
+    }.freeze
 
     def self.candidate_claims_ids
       Claim::BaseClaim.where(state: candidate_states)
@@ -23,7 +21,7 @@ module TimedTransitions
     end
 
     def self.candidate_states
-      @@timed_transition_specifications.keys
+      TIMED_TRANSITION_SPECIFICATIONS.keys
     end
 
     def initialize(claim, dummy = false)
@@ -41,16 +39,12 @@ module TimedTransitions
 
     private
 
-    def is_dummy?
-      @dummy
-    end
-
     def log_level
-      is_dummy? ? :debug : :info
+      @dummy ? :debug : :info
     end
 
     def process_stale_claim
-      specification = @@timed_transition_specifications[@claim.state.to_sym]
+      specification = TIMED_TRANSITION_SPECIFICATIONS[@claim.state.to_sym]
       last_transition = @claim.last_state_transition_time
       return unless last_transition.nil? || last_transition < specification.period_in_weeks.weeks.ago
       send(specification.method)
@@ -58,7 +52,7 @@ module TimedTransitions
 
     def archive
       values = @claim.hardship? ? hardship_archive_checks : archive_checks
-      @claim.send(values[:event], reason_code: ['timed_transition']) unless is_dummy?
+      @claim.send(values[:event], reason_code: ['timed_transition']) unless @dummy
       @claim.reload # not sure if needed
       log(log_level,
           action: 'archive',
@@ -92,7 +86,7 @@ module TimedTransitions
     end
 
     def destroy_claim
-      Stats::MIData.import(@claim) && @claim.destroy unless is_dummy?
+      Stats::MIData.import(@claim) && @claim.destroy unless @dummy
       log(log_level,
           action: 'destroy',
           message: 'Destroying soft-deleted claim',

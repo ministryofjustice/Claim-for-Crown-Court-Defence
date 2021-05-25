@@ -73,7 +73,7 @@ moj.Modules.AllocationDataTable = {
 
     // dom template with custom wrappers and structure
     // =>/options/dom
-    dom: '<"form-group"<"govuk-grid-column-one-half"f><"govuk-grid-column-one-half"i>>rt<"govuk-grid-row"<"govuk-grid-column-one-third"l><"govuk-grid-column-two-thirds"p>>',
+    dom: '<"govuk-grid-row"<"govuk-grid-column-one-half"<"govuk-form-group"f>><"govuk-grid-column-one-half"i>>rt<"govuk-grid-row govuk-!-margin-top-5"<"govuk-grid-column-one-third"<"govuk-form-group"l>><"govuk-grid-column-two-thirds"p>>',
 
     // rowId can be sourced from the row data
     rowId: 'id',
@@ -175,7 +175,12 @@ moj.Modules.AllocationDataTable = {
     this.dataTable = moj.Modules.DataTables._init(this.options, '#dtAllocation')
 
     // :(
-    $('#dtAllocation_filter').find('input').addClass('form-control')
+    $('#dtAllocation_filter').find('input').addClass('govuk-input govuk-!-width-three-quarters')
+    $('#dtAllocation_length').find('select').addClass('govuk-select')
+
+    // circumvent radio rule "Do not pre-select radio options"
+    // plugin requires a default scheme to be set
+    $('#scheme-agfs-field').prop('checked', true)
 
     this.bindEvents()
     this.registerCustomSearch()
@@ -277,14 +282,20 @@ moj.Modules.AllocationDataTable = {
     })
 
     // EVENT: Task filter
-    $.subscribe('/filter/tasks/', function (e, data) {
+    $.subscribe('/filter/filterAGFS/', function (e, data) {
+      self.searchConfig.task = data.data
+      self.clearCheckboxes()
+      self.tableDraw()
+    })
+
+    $.subscribe('/filter/filterLGFS/', function (e, data) {
       self.searchConfig.task = data.data
       self.clearCheckboxes()
       self.tableDraw()
     })
 
     // EVENT: Value band Filter
-    $.subscribe('/filter/filter_value_bands/', function (e, data) {
+    $.subscribe('/filter/filterValue/', function (e, data) {
       const valueSelected = data.data.split('|')
       self.searchConfig.valueBands = {}
       valueSelected.forEach(function (data) {
@@ -301,15 +312,15 @@ moj.Modules.AllocationDataTable = {
 
     // EVENT: Allocate claims
     $('.allocation-submit').on('click', function (e) {
-      self.ui.$notificationMsg.removeClass('govuk-!-display-none')
+      self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error govuk-notification-banner--success')
       self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Allocating.. please wait a moment..')
 
       e.preventDefault()
       self.ui.$submit.prop('disabled', true)
 
-      const quantityToAllocate = $('#quantity_to_allocate').val() || false
+      const quantityToAllocate = $('#quantity-to-allocate-field').val() || false
 
-      const allocationCaseWorkerId = $('#allocation_case_worker_id-select').val()
+      const allocationCaseWorkerId = $('#allocation-case-worker-id-field-select').val()
 
       if (!allocationCaseWorkerId) {
         // console.log('No Caseworker selected');
@@ -343,16 +354,19 @@ moj.Modules.AllocationDataTable = {
           claim_ids: data
         }
       }).success(function (data) {
-        self.ui.$notificationMsg.removeClass('govuk-!-display-none')
+        self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--success')
-        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation_case_worker_id').val())
+        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation-case-worker-id-field').val())
 
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         })
       }).error(function (data) {
-        self.ui.$notificationMsg.removeClass('govuk-!-display-none')
+        self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--success')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--error')
+        if (data.status === 422) {
+          return self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Unable to allocate claim')
+        }
         self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.responseJSON.errors.join(''))
       }).always(function () {
         self.ui.$submit.prop('disabled', false)

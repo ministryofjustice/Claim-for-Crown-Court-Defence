@@ -91,6 +91,10 @@ When(/^I click Allocate$/) do
   wait_for_ajax
 end
 
+Then('I enter {int} in the the number of claims field') do |int|
+  @allocation_page.quantity_to_allocate.set int
+end
+
 When(/^I enter (\d+) in the quantity text field$/) do |quantity|
   within('.report') do
     @case_numbers = all('.js-test-case-number').map(&:text)
@@ -196,7 +200,7 @@ end
 
 Then(/^I should no longer see the case workers dropdown$/) do
   within '.js-case-worker-list' do
-    expect(page).to_not have_selector('#allocation_case_worker_id')
+    expect(page).to_not have_selector('#allocation-case-worker-id-field')
     expect(page).to_not have_content('Case worker')
   end
 end

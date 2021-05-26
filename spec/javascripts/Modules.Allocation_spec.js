@@ -1,6 +1,6 @@
 describe('Modules.Allocation.js', function () {
   const mod = moj.Modules.Allocation
-  const filtersFixtureDOM = $('<div class="js-allocation-page"><select id="sampleID" class="fx-autocomplete"><option value="1">Option 1</option></select></div>')
+  const filtersFixtureDOM = $('<div class="js-allocation-page"><div class="fx-autocomplete-wrapper"><select id="sampleID"><option value="1">Option 1</option></select></div></div>')
 
   beforeEach(function () {
     $('body').append(filtersFixtureDOM)

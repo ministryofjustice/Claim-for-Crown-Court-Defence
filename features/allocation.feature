@@ -19,6 +19,10 @@ Feature: Case worker admin allocates claims
     Then claims "T20160001, T20160002" should be allocated to case worker "John Smith"
     And claims "T20160001, T20160002" should no longer be displayed
     And I should see '2 claims have been allocated to John Smith'
+    Then I enter 1 in the the number of claims field
+    And I select case worker "John Smith"
+    And I click Allocate
+    And I should see '1 claims have been allocated to John Smith'
     Then the page should be accessible
     And I sign out
     Then I should see a page title "Help us improve this service"

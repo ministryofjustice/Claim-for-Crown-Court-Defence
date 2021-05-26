@@ -1,4 +1,5 @@
-= govuk_notification_banner('Allocation', nil, class: 'govuk-!-display-none') unless !flash.empty?
+#allocation
+  = govuk_notification_banner('Allocation', nil, class: 'govuk-!-display-none') unless !flash.empty?
 
 #api-key.govuk-grid-row{ data: { api_key: current_user.api_key } }
   .govuk-grid-column-two-thirds

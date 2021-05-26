@@ -166,7 +166,7 @@ moj.Modules.AllocationDataTable = {
   init: function () {
     this.$el = $('#dtAllocation')
     this.ui.$submit = $('.allocation-submit')
-    this.ui.$notificationMsg = $('.govuk-notification-banner')
+    this.ui.$notificationMsg = $('#allocation .govuk-notification-banner')
 
     this.searchConfig.key = $('#api-key').data('api-key')
 

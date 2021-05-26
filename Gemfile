@@ -104,7 +104,7 @@ group :development, :devunicorn, :test do
 end
 
 group :test do
-  gem 'axe-core-cucumber', '~> 4.1'
+  gem 'axe-core-cucumber', '~> 4.2'
   gem 'capybara-selenium'
   gem 'capybara', '~> 3.35'
   gem 'codeclimate-test-reporter', require: false

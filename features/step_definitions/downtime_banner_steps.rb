@@ -15,9 +15,9 @@ Then(/^the downtime banner is (not )?displayed$/) do |negate|
 end
 
 Then('the downtime banner should say {string}') do |string|
-  expect(page).to have_selector(downtime_banner, text: string)
+  expect(page).to have_selector('.govuk-notification-banner', text: string)
 end
 
 def downtime_banner
-  'div.govuk-notification-banner'.freeze
+  'h2#govuk-downtime-notification-banner-title'.freeze
 end

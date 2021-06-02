@@ -592,7 +592,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['blank'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['blank'])
       }
     end
 
@@ -608,7 +608,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['check_not_too_far_in_past', 'check_on_or_after_earliest_representation_order'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['check_not_too_far_in_past', 'check_on_or_after_earliest_representation_order'])
       }
     end
 
@@ -624,7 +624,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['check_not_in_future', 'on_or_before'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['check_not_in_future', 'on_or_before'])
       }
     end
 
@@ -640,7 +640,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['on_or_before'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['on_or_before'])
       }
     end
 
@@ -656,7 +656,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:"warrant_fee.warrant_issued_date"]).to match_array(['check_on_or_after_earliest_representation_order'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['check_on_or_after_earliest_representation_order'])
       }
     end
 
@@ -665,7 +665,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:"warrant_fee.amount"]).to match_array(['numericality'])
+        expect(claim.errors[:'warrant_fee.amount']).to match_array(['numericality'])
       }
     end
 
@@ -674,7 +674,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:"warrant_fee.amount"]).to match_array(['numericality'])
+        expect(claim.errors[:'warrant_fee.amount']).to match_array(['numericality'])
       }
     end
   end

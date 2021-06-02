@@ -1,4 +1,4 @@
-@javascript @no-seed
+@javascript
 Feature: A downtime warning banner appears on home pages only until downtime date exceeded
 
   Background:

@@ -1,4 +1,4 @@
-@javascript @no-seed @vat-seeds
+@javascript @vat-seeds
 Feature: Evidence page "no indictment" warning
 
   Background:

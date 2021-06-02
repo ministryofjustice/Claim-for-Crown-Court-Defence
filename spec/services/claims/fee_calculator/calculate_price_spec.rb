@@ -25,7 +25,7 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
       advocate_category: 'Junior alone',
       fee_type_id: fee.fee_type.id,
       fees: {
-        "0": { fee_type_id: fee.fee_type.id, quantity: fee.quantity }
+        '0': { fee_type_id: fee.fee_type.id, quantity: fee.quantity }
       }
     }
   end

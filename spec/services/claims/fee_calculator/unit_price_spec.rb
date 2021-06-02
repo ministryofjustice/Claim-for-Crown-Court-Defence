@@ -193,7 +193,7 @@ RSpec.shared_examples 'a successful basic uplift fee calculation' do |options = 
 
     before do
       params[:fee_type_id] = uplift_fee.fee_type.id
-      params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+      params[:fees].merge!('1': { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
     end
 
     context 'scheme 9' do
@@ -218,7 +218,7 @@ RSpec.shared_examples 'a failed basic uplift fee calculation' do |options = {}|
 
     before do
       params[:fee_type_id] = uplift_fee.fee_type.id
-      params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+      params[:fees].merge!('1': { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
     end
 
     context 'scheme 9' do
@@ -271,7 +271,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           advocate_category: 'Junior alone',
           fee_type_id: fee.fee_type.id,
           fees: {
-            "0": { fee_type_id: fee.fee_type.id, quantity: fee.quantity }
+            '0': { fee_type_id: fee.fee_type.id, quantity: fee.quantity }
           }
         }
       end
@@ -374,7 +374,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                 before do
                   params[:fee_type_id] = uplift_fee.fee_type.id
-                  params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+                  params[:fees].merge!('1': { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
                 end
 
                 context 'scheme 9' do
@@ -451,7 +451,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                 before do
                   params[:fee_type_id] = uplift_fee.fee_type.id
-                  params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+                  params[:fees].merge!('1': { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
                 end
 
                 context 'scheme 9' do
@@ -578,7 +578,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
           before do
             params[:fee_type_id] = saf_fee.fee_type.id
-            params[:fees].merge!("1": { fee_type_id: saf_fee.fee_type.id, quantity: saf_fee.quantity })
+            params[:fees].merge!('1': { fee_type_id: saf_fee.fee_type.id, quantity: saf_fee.quantity })
           end
 
           it_returns 'a successful fee calculator response', unit: 'day', amount: 87.0
@@ -591,7 +591,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
           before do
             params[:fee_type_id] = uplift_fee.fee_type.id
-            params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+            params[:fees].merge!('1': { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
           end
 
           it_returns 'a successful fee calculator response', unit: 'case', amount: 26.0
@@ -603,7 +603,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
           before do
             params[:fee_type_id] = uplift_fee.fee_type.id
-            params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+            params[:fees].merge!('1': { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
           end
 
           it_returns 'a successful fee calculator response', unit: 'case', amount: 26.0
@@ -615,7 +615,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
           before do
             params[:fee_type_id] = uplift_fee.fee_type.id
-            params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+            params[:fees].merge!('1': { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
           end
 
           it_returns 'a successful fee calculator response', unit: 'defendant', amount: 26.0
@@ -646,7 +646,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
           before do
             params[:fee_type_id] = uplift_fee.fee_type.id
-            params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+            params[:fees].merge!('1': { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
           end
 
           it_returns 'a successful fee calculator response', unit: 'defendant', amount: 26.0
@@ -670,7 +670,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
             before do
               params[:fee_type_id] = uplift_fee.fee_type.id
-              params[:fees].merge!("1": { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
+              params[:fees].merge!('1': { fee_type_id: uplift_fee.fee_type.id, quantity: uplift_fee.quantity })
             end
 
             it_returns 'a successful fee calculator response', unit: 'defendant', amount: 17.4
@@ -722,7 +722,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
         {
           fee_type_id: fee.fee_type.id,
           fees: {
-            "0": { fee_type_id: fee.fee_type.id, quantity: fee.quantity }
+            '0': { fee_type_id: fee.fee_type.id, quantity: fee.quantity }
           }
         }
       end

@@ -177,4 +177,79 @@ RSpec.describe ClaimsHelper do
       end
     end
   end
+
+  describe '#miscellaneous_fees_notice' do
+    subject { miscellaneous_fees_notice(claim) }
+
+    # AGFS final claim
+    context 'with a scheme 12 AGFS final claim' do
+      let(:claim) { create :advocate_final_claim, :agfs_scheme_12 }
+
+      it { is_expected.to eq 'page_notice' }
+    end
+
+    context 'with a scheme 11 AGFS final claim' do
+      let(:claim) { create :advocate_final_claim, :agfs_scheme_11 }
+
+      it { is_expected.to be_nil }
+    end
+
+    # AGFS other claims
+    context 'with a scheme 12 AGFS interim claim' do
+      let(:claim) { create :advocate_interim_claim, :agfs_scheme_12 }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with a scheme 12 AGFS supplementary claim' do
+      let(:claim) { create :advocate_supplementary_claim, :agfs_scheme_12 }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with a scheme 12 AGFS hardship claim' do
+      let(:claim) { create :advocate_hardship_claim, :agfs_scheme_12 }
+
+      it { is_expected.to be_nil }
+    end
+
+    # LGFS final claim
+    context 'with a scheme 12 LGFS final claim' do
+      let(:claim) { create :litigator_final_claim, :agfs_scheme_12 }
+
+      it { is_expected.to eq 'page_notice' }
+    end
+
+    context 'with a scheme 11 LGFS final claim' do
+      let(:claim) { create :litigator_final_claim, :agfs_scheme_11 }
+
+      it { is_expected.to be_nil }
+    end
+
+    # LGFS transfer claim
+    context 'with a scheme 12 LGFS transfer claim' do
+      let(:claim) { create :litigator_transfer_claim, :agfs_scheme_12 }
+
+      it { is_expected.to eq 'page_notice' }
+    end
+
+    context 'with a scheme 11 LGFS transfer claim' do
+      let(:claim) { create :litigator_transfer_claim, :agfs_scheme_11 }
+
+      it { is_expected.to be_nil }
+    end
+
+    # LGFS other claims
+    context 'with a scheme 12 LGFS interim claim' do
+      let(:claim) { create :interim_claim, :agfs_scheme_12 }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with a scheme 12 LGFS hardship claim' do
+      let(:claim) { create :litigator_hardship_claim, :agfs_scheme_12 }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

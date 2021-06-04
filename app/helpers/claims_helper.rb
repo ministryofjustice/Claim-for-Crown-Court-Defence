@@ -40,4 +40,11 @@ module ClaimsHelper
     end
     false
   end
+
+  def miscellaneous_fees_notice(claim)
+    return unless claim.final? || claim.transfer?
+    return if claim.earliest_representation_order_date < Settings.clar_release_date.to_date.beginning_of_day
+
+    'page_notice'
+  end
 end

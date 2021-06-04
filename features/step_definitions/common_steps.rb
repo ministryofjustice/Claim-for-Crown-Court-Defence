@@ -10,10 +10,6 @@ When(/^I save and open screenshot$/) do
   screenshot_and_open_image
 end
 
-When(/^I start a claim/) do
-  find('.primary-nav-bar').click_link('Start a claim')
-end
-
 Given(/^I am on the 'Your claims' page$/) do
   @external_user_home_page.load
 end

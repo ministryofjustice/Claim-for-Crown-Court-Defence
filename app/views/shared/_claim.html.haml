@@ -4,9 +4,8 @@
 %h3.heading-medium
   = "Claim and case type"
 %table.table-summary
-  %caption
-    %span.table-caption.visuallyhidden
-      = "This section contains details of the case"
+  %caption.visuallyhidden
+    = "This section contains details of the case"
   %tbody
     - unless claim.providers_ref.blank?
       %tr

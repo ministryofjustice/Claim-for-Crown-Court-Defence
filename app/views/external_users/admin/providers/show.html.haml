@@ -3,11 +3,10 @@
 
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading', provider_name: @provider.name) }
 
-.table-container.container
+.table-container
   %table
     %caption
-      %span.table-caption
-        = t('.table_caption')
+      = t('.table_caption')
     %tbody
       %tr
         %th{ scope: 'row' }

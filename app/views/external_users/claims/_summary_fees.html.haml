@@ -15,9 +15,8 @@
 - if local_assigns.has_key?(:fee)
   - if fee
     %table.summary
-      %caption
-        %span.table-caption.visuallyhidden
-          = t('.caption')
+      %caption.visuallyhidden
+        = t('.caption')
       %tbody
         = render partial: 'external_users/claims/summary_fee', locals: { fee: present(fee) }
   - else
@@ -42,7 +41,7 @@
         = t('shared.summary.basic_fees')
 
     %table.summary
-      %caption.table-caption.visuallyhidden
+      %caption.visuallyhidden
         = t('.caption')
 
       %thead

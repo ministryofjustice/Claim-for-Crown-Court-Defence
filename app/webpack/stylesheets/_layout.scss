@@ -6,10 +6,6 @@ body {
   background: $white;
 }
 
-.container {
-  @include container;
-}
-
 .summary-wrapper {
   h2 {
     margin-top: $gutter;
@@ -64,38 +60,10 @@ body {
   }
 }
 
-td {
-  .auto-width {
-    @include span(4 of 12);
-
-    &:first-child {
-      @include first;
-    }
-
-    &:last-child {
-      @include last;
-      @include post(4 of 12);
-    }
-  }
-}
-
 #trial-details,
 #retrial-details {
-  @include container;
   margin-top: $gutter-half;
   margin-bottom: $gutter-half;
-
-  .auto-width {
-    &:nth-child(odd) {
-      @include span(4 of 12);
-      @include first;
-    }
-
-    &:nth-child(even) {
-      @include span(4 of 12);
-      @include post(4 of 12);
-    }
-  }
 }
 
 // Replacement for the deprecated `.form-section`

@@ -17,7 +17,6 @@
   #global-header,
   #global-header-bar,
   #footer,
-  .primary-nav-bar,
   a[href^="/"]:after,
   #claim-accordion button:after,
   textarea,
@@ -50,12 +49,6 @@
       margin-bottom: 0;
       padding-top: $gutter-two-thirds;
       border: none;
-    }
-  }
-
-  .claim-hgroup {
-    .claim-status {
-      @include span(8 of 12);
     }
   }
 

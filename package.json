@@ -32,7 +32,6 @@
     "jquery-xpath": "^0.3.1",
     "jquery.iframe-transport": "^1.0.0",
     "jsrender": "^1.0.11",
-    "susy": "2.2.14",
     "webpack-concat-plugin": "^3.0.0"
   },
   "devDependencies": {
@@ -56,8 +55,7 @@
   },
   "@comments": {
     "@dependencies": {
-      "jquery": "exact version required due to older API usage within app",
-      "susy": "exact version required due to `@mixin container`"
+      "jquery": "exact version required due to older API usage within app"
     }
   }
 }

@@ -17,18 +17,6 @@
   display: inline-block;
 }
 
-.main-header {
-  @include container;
-  margin-bottom: $gutter;
-
-  h1 {
-    @include span(8 of 12);
-    @include first;
-    @include heading-48;
-    font-weight: 700;
-  }
-}
-
 .sub-header {
   margin-bottom: $gutter-half;
 }
@@ -52,8 +40,6 @@
   margin-bottom: $gutter-one-third;
 
   h1 {
-    @include first;
-
     @include media(desktop) {
       margin-left: 0;
     }
@@ -75,8 +61,6 @@
   }
 
   .claim-status {
-    @include span(7 of 12);
-
     @include core-19;
     display: block;
     margin-bottom: $gutter-one-third;
@@ -84,10 +68,7 @@
   }
 
   .claim-detail-actions {
-    @include last;
-
     @include media(mobile) {
-      @include first;
       margin-bottom: $gutter-one-third;
     }
 
@@ -151,7 +132,6 @@
 }
 
 .error-summary {
-  @include first;
   float: none;
 
   h1 {

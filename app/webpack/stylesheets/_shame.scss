@@ -27,18 +27,7 @@
   display: none;
 }
 
-caption {
-  @include container;
-}
-
-.table-caption {
-  @include span(6 of 12);
-  @include first;
-}
-
 .claim-count {
-  @include span(6 of 12);
-  @include last;
   font-weight: 400;
   text-align: right;
 }
@@ -55,34 +44,6 @@ caption {
     margin-top: 0;
     margin-bottom: 0;
   }
-}
-
-// claim detail page
-.financial-summary {
-  padding-bottom: 56px;
-  @include span(8 of 12);
-  @include first;
-
-  div {
-    @include span(6 of 12);
-
-    &:first-child {
-      @include first;
-    }
-
-    &:last-child {
-      @include last;
-    }
-  }
-
-  p {
-    margin: 0;
-  }
-}
-
-.claims-actions {
-  @include span(3 of 12);
-  @include last;
 }
 
 // claims-list.SCSS

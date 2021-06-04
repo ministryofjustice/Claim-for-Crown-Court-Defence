@@ -44,14 +44,15 @@
           = govuk_button(t('.re_allocate'))
 
       - if @claims.any?
-        .container.table-container
+        .table-container
           %table.report.js-checkbox-table.js-reallocation-report
             %caption
-              %span.table-caption
-                = t('.re_allocation')
-              %span.claim-count
-                = t('.number_of_claims')
-                = @claims.total_count
+              .govuk-grid-row
+                .govuk-grid-column-one-half
+                  = t('.re_allocation')
+                .govuk-grid-column-one-half.claim-count
+                  = t('.number_of_claims')
+                  = @claims.total_count
 
             %thead
               %th.select{ scope: 'col' }

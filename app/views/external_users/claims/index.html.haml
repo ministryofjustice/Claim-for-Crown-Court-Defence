@@ -16,8 +16,7 @@
 
 = render partial: 'shared/search_form', locals: { search_path: defined?(archived) && archived ? archived_external_users_claims_path(anchor: 'search-button') : external_users_claims_path(anchor: 'search-button'), hint_text: t('hint.search'), button_text: t('search.claims') }
 
-.container
-  .importer-results{'aria-live': 'polite'}
+.importer-results{'aria-live': 'polite'}
 
 = render partial: 'main_claims_list', locals: { claims: @claims }
 = paginate @claims

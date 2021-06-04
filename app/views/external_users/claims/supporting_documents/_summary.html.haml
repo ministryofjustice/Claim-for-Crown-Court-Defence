@@ -3,9 +3,8 @@
     Evidence supplied on disk
 
   %table.summary
-    %caption
-      %span.table-caption.visuallyhidden
-        = "Evidence supplied on disk"
+    %caption.visuallyhidden
+      = "Evidence supplied on disk"
     %tbody
       %tr
         %th{ scope:'row', class: 'bold' }
@@ -17,9 +16,8 @@
   Supporting evidence documents
 
 %table.summary
-  %caption
-    %span.table-caption.visuallyhidden
-      = t('.caption')
+  %caption.visuallyhidden
+    = t('.caption')
   %tbody
     - claim.documents.each do |document|
       %tr

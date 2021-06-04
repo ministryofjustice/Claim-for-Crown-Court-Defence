@@ -1,6 +1,6 @@
 - if user_signed_in?
-  .grid-row
-    .column-full
+  .govuk-grid-row
+    .govuk-grid-column-full
       - if @enable_breadcrumb
         - referrer_url = params[:referrer] && url_for_referrer(params[:referrer], @claim)
         - if referrer_url

@@ -532,10 +532,6 @@ form {
 }
 
 // Ported from v1 stylesheets
-.grid-row {
-  margin-bottom: $gutter-half;
-}
-
 .contactus-link {
   @include core-19;
   @include clearfix;

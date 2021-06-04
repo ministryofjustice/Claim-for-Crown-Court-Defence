@@ -91,7 +91,7 @@ describe('Modules.AllocationDataTable.js', function () {
     })
 
     it('...should have `dom`', function () {
-      expect(options.dom).toEqual('<"form-group"<"column-one-half"f><"column-one-half"i>>rt<"grid-row"<"column-one-third"l><"column-two-thirds"p>>')
+      expect(options.dom).toEqual('<"form-group"<"govuk-grid-column-one-half"f><"govuk-grid-column-one-half"i>>rt<"govuk-grid-row"<"govuk-grid-column-one-third"l><"govuk-grid-column-two-thirds"p>>')
     })
 
     it('...should have `rowId`', function () {

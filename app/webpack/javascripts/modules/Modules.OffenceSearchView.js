@@ -13,8 +13,8 @@ moj.Modules.OffenceSearchView = {
 
   // template for each result
   template: function () {
-    return ['<div class="grid-row offence-item fx-result-item">',
-      '<div class="column-two-thirds">',
+    return ['<div class="govuk-grid-row offence-item fx-result-item">',
+      '<div class="govuk-grid-column-two-thirds">',
       '<span class="font-xsmall link-grey">',
       '<a href="#noop" class="fx-filter" data-category="{{:category.id}}">',
       '{{:category.description}}',
@@ -28,7 +28,7 @@ moj.Modules.OffenceSearchView = {
       '</br>',
       '<span class="font-xsmall link-grey">{{:contrary}}</a>',
       '</div>',
-      '<div class="column-one-third align-right">',
+      '<div class="govuk-grid-column-one-third align-right">',
       '</br>',
       '<a href="#" class="button offence-item-button set-selection" data-field="#claim_offence_id" data-value="{{:id}}">Select and continue</a>',
       '</div></div>'

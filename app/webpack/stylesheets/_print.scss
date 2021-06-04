@@ -14,8 +14,6 @@
   }
 
   .single-date .event-date,
-  .history > .column-third,
-  .message > .column-third,
   #global-header,
   #global-header-bar,
   #footer,
@@ -92,8 +90,7 @@
     }
   }
 
-  .column-third,
-  .column-one-third {
+  .govuk-grid-column-one-third {
     width: $one-third;
     float: left;
   }

@@ -1,7 +1,7 @@
-.grid-row.message{ id: dom_id(message) }
+.govuk-grid-row.message{ id: dom_id(message) }
 
   - if message.sender_is_a?(ExternalUser)
-    .column-two-thirds
+    .govuk-grid-column-two-thirds
       .message-left
         .message-container
           .message-body
@@ -10,13 +10,13 @@
               = message.sender_name
               = message.timestamp
 
-    .column-one-third
+    .govuk-grid-column-one-third
       &nbsp;
 
   - if message.sender_is_a?(CaseWorker)
-    .column-one-third
+    .govuk-grid-column-one-third
       &nbsp;
-    .column-two-thirds
+    .govuk-grid-column-two-thirds
       .message-right
         .message-container
           .message-body

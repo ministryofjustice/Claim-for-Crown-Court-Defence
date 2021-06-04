@@ -189,8 +189,8 @@ moj.Modules.Autocomplete = {
   // module currently being used. Right now don't really
   // know how to do that easily :(
   suggestionTemplate: function (data) {
-    return ['<div class="grid-row offence-item">',
-      '<div class="column-two-thirds">',
+    return ['<div class="govuk-grid-row offence-item">',
+      '<div class="govuk-grid-column-two-thirds">',
       '<span class="font-xsmall link-grey">',
       data.category.description,
       '&nbsp;&gt;&nbsp;Band:&nbsp;',
@@ -200,7 +200,7 @@ moj.Modules.Autocomplete = {
       '</br>',
       '<span class="font-xsmall link-grey">' + data.contrary + '</a>',
       '</div>',
-      '<div class="column-one-third align-right">',
+      '<div class="govuk-grid-column-one-third align-right">',
       '</br>',
       '<a href="#" class="button offence-item-button set-selection" data-field="#claim_offence_id" data-value="' + data.id + '">Select and continue</a>',
       '</div></div>'

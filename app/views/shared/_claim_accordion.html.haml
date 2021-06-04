@@ -1,10 +1,10 @@
 #claim-accordion
-  .grid-row
-    .column-one-half
+  .govuk-grid-row
+    .govuk-grid-column-one-half
       %h2.heading-medium
         = t('.h2_messages')
 
-    .column-one-half
+    .govuk-grid-column-one-half
       - if current_user.persona.is_a?(CaseWorker)
         .other-claims
           - if claim_ids.present? && claim_ids.include?(@claim.id)

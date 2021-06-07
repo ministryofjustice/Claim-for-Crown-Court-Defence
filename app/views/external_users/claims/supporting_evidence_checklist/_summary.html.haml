@@ -7,9 +7,8 @@
 - else
   / Table does not require summary
   %table{class:'table-summary'}
-    %caption
-      %span.table-caption.visuallyhidden
-        = t('.caption')
+    %caption.visuallyhidden
+      = t('.caption')
     %tbody
       - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
         %tr

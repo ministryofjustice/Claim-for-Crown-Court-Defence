@@ -1,38 +1,40 @@
 .claim-hgroup
-  .grid-row
-    .column-one-third
+  .govuk-grid-row{ class: 'govuk-!-margin-bottom-3' }
+    .govuk-grid-column-one-third
       %h1
         = t('.case_number')
         %span.case-number-header
           = claim.formatted_case_number
           %span.unique-id-small= claim.unique_id
-    .column-one-third
+    .govuk-grid-column-one-third
       .claim-status
         = t('.status')
-        = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state}"
+        .govuk-grid-row
+          .govuk-grid-column-full
+            = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state}"
 
-    .column-one-third
+    .govuk-grid-column-one-third
       %h2
         = t('.assessment_date')
         %span.case-number-header
           = claim.assessment_date
 
-  .grid-row
-    .column-one-third
+  .govuk-grid-row{ class: 'govuk-!-margin-bottom-3' }
+    .govuk-grid-column-one-third
       %h2
         = t('.defendant_names')
         %span.case-number-header
           = claim.defendant_name_and_initial
         %span
           = claim.other_defendant_summary
-    .column-one-third
+    .govuk-grid-column-one-third
       %h2
         = t('.provider_type')
         %span.case-number-header
           = claim.provider.name
 
 
-    .column-one-third.claim-detail-actions
+    .govuk-grid-column-one-third.claim-detail-actions
       - if current_user.persona.is_a?(ExternalUser)
         - if claim.editable?
           = t('.actions')

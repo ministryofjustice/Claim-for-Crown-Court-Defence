@@ -1,7 +1,7 @@
 = render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
 
-.grid-row
-  .column-two-thirds
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
     %h2#overview.heading-medium
       Overview
 
@@ -152,7 +152,7 @@
       = govuk_link_to 'Go to the interactive API', grape_swagger_rails_path
 
 
-  .column-one-third
+  .govuk-grid-column-one-third
     .related-container
       #related.related
         .inner.group.related-subsection

@@ -8,7 +8,6 @@ $path: '~images/';
 @import '~govuk_frontend_toolkit/stylesheets/measurements';
 @import '~govuk_frontend_toolkit/stylesheets/conditionals';
 @import '~govuk_frontend_toolkit/stylesheets/device-pixels';
-@import '~govuk_frontend_toolkit/stylesheets/grid_layout';
 @import '~govuk_frontend_toolkit/stylesheets/typography';
 @import '~govuk_frontend_toolkit/stylesheets/shims';
 
@@ -19,11 +18,6 @@ $path: '~images/';
 // GOV.UK elements (alphagov/govuk_elements)
 @import '~govuk-elements-sass/public/sass/elements/helpers';
 @import '~govuk-elements-sass/public/sass/elements/reset';
-
-// Base (unclassed HTML elements)
-
-// Main content container. Grid layout - rows and column widths
-@import '~govuk-elements-sass/public/sass/elements/layout';
 
 // Components (chunks of UI)
 @import '~govuk-elements-sass/public/sass/elements/elements-typography';
@@ -40,9 +34,7 @@ $path: '~images/';
 @import '~govuk-elements-sass/public/sass/elements/breadcrumbs';
 
 @import '~govuk-elements-sass/public/sass/elements/components';
-@import '~govuk-elements-sass/public/sass/elements/shame';
 
-@import '~susy/sass/susy';
 @import '~govuk_frontend_toolkit/stylesheets/url-helpers'; // Function to output image-url, or prefixed path (Rails and Compass only)
 @import '~govuk-frontend/govuk/base';
 

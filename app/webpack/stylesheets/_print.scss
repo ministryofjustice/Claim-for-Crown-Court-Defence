@@ -14,12 +14,9 @@
   }
 
   .single-date .event-date,
-  .history > .column-third,
-  .message > .column-third,
   #global-header,
   #global-header-bar,
   #footer,
-  .primary-nav-bar,
   a[href^="/"]:after,
   #claim-accordion button:after,
   textarea,
@@ -55,12 +52,6 @@
     }
   }
 
-  .claim-hgroup {
-    .claim-status {
-      @include span(8 of 12);
-    }
-  }
-
   .messages-container.no-print {
     padding: $gutter-one-third;
     text-align: center;
@@ -92,8 +83,7 @@
     }
   }
 
-  .column-third,
-  .column-one-third {
+  .govuk-grid-column-one-third {
     width: $one-third;
     float: left;
   }

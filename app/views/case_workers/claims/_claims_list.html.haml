@@ -1,11 +1,13 @@
-.container.table-container
+.table-container
   %table.report
     %caption
-      %span.table-caption
-        = params[:action] == 'archived' ? t('case_workers.table_headings.archived_claims') : t('case_workers.table_headings.your_claims')
-      %span.claim-count
-        = t('.number_of_claims')
-        = claims.total_count
+      .govuk-grid-row
+        .govuk-grid-column-one-half
+          = params[:action] == 'archived' ? t('case_workers.table_headings.archived_claims') : t('case_workers.table_headings.your_claims')
+        .govuk-grid-column-one-half.claim-count
+          = t('.number_of_claims')
+          = claims.total_count
+
     %thead
       %tr
         %th{ scope: 'col' }

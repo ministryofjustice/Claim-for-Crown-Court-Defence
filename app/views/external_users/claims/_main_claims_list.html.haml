@@ -1,15 +1,17 @@
-.table-container.container
+.table-container
   %table.report
     %caption
-      %span.table-caption
-        = your_claims_header
-      %span.claim-count
-        - if @claims.none?
-          = t('shared.no_claims_found')
-        - else
-          = "Showing #{pluralize(@claims.unscope(:order).size, 'claim')} of #{@claims.total_count}"
-          - if params[:search].present?
-            = "matching #{params[:search]}"
+      .govuk-grid-row
+        .govuk-grid-column-one-half
+          = your_claims_header
+        .govuk-grid-column-one-half.claim-count
+          - if @claims.none?
+            = t('shared.no_claims_found')
+          - else
+            = "Showing #{pluralize(@claims.unscope(:order).size, 'claim')} of #{@claims.total_count}"
+            - if params[:search].present?
+              = "matching #{params[:search]}"
+
     %thead
       - if user_requires_scheme_column?
         %th{ scope: 'col' }

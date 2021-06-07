@@ -7,6 +7,6 @@
 
 = render partial: 'search_form', locals: { archived: true }
 
-.container#details
+#details
   = render partial: 'main_claims_list', locals: { claims: @claims }
   = paginate @claims

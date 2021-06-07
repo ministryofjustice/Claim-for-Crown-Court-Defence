@@ -2,10 +2,10 @@
 
 = govuk_notification_banner('Allocation', nil, class: 'govuk-!-display-none') unless !flash.empty?
 
-#api-key.grid-row{ data: { api_key: current_user.api_key } }
-  .column-two-thirds
+#api-key.govuk-grid-row{ data: { api_key: current_user.api_key } }
+  .govuk-grid-column-two-thirds
     = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
-  .column-one-third.scheme-filters
+  .govuk-grid-column-one-third.scheme-filters
     -# FORM
     -# AGFS / LGFS Radios
     = render partial: 'scheme_filters'
@@ -21,15 +21,15 @@
     %legend
       %span.heading-medium
         = t('.allocate_claims')
-    .grid-row.js-typeahead
-      .column-one-third.js-typeahead
+    .govuk-grid-row.js-typeahead
+      .govuk-grid-column-one-third.js-typeahead
         = label_tag :quantity_to_allocate, t('.no_of_claims'), class: 'form-label-bold'
         = number_field_tag :quantity_to_allocate, nil, { min: 0, size: 5, class: 'form-control form-control-full' }
-      .column-one-third
+      .govuk-grid-column-one-third
         #cc-caseworker
           = label_tag :allocation_case_worker_id, t('dictionary.models.case_worker'), class: 'form-label-bold'
           = collection_select :allocation, :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control form-control-full fx-autocomplete' }
-      .column-one-third
+      .govuk-grid-column-one-third
         %br/
         = govuk_button(t('.allocate'), class: 'allocation-submit')
 
@@ -38,12 +38,12 @@
     %legend
       %span.heading-medium
         = t('.filter_claims')
-    .grid-row
-      .column-one-third.ui-filter
+    .govuk-grid-row
+      .govuk-grid-column-one-third.ui-filter
         = render partial: 'filter_tasks'
-      .column-one-third.ui-filter
+      .govuk-grid-column-one-third.ui-filter
         = render partial: 'filter_value_bands'
-      .column-one-third
+      .govuk-grid-column-one-third
         %br/
         = govuk_button(t('.clear_filters'), class: 'clear-filters app-button--blue')
 

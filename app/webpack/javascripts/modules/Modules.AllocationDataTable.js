@@ -73,7 +73,7 @@ moj.Modules.AllocationDataTable = {
 
     // dom template with custom wrappers and structure
     // =>/options/dom
-    dom: '<"form-group"<"column-one-half"f><"column-one-half"i>>rt<"grid-row"<"column-one-third"l><"column-two-thirds"p>>',
+    dom: '<"form-group"<"govuk-grid-column-one-half"f><"govuk-grid-column-one-half"i>>rt<"govuk-grid-row"<"govuk-grid-column-one-third"l><"govuk-grid-column-two-thirds"p>>',
 
     // rowId can be sourced from the row data
     rowId: 'id',

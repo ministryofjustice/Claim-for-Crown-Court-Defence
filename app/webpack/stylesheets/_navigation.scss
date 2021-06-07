@@ -1,11 +1,5 @@
 // Navigation styles
 
-.primary-nav-bar nav,
-.pagination {
-  @include container;
-  padding: $gutter-half 0;
-}
-
 nav {
   ul {
     padding-left: 0;
@@ -32,6 +26,7 @@ nav {
 }
 
 .pagination {
+  padding: $gutter-half 0;
   float: right;
 
   a {
@@ -54,12 +49,5 @@ nav {
   .current {
     padding: $gutter-one-sixth;
     font-weight: 700;
-  }
-}
-
-.primary-nav-bar {
-  a {
-    padding: 0 $gutter-half / 2;
-    border-right: 1px solid $grey-3;
   }
 }

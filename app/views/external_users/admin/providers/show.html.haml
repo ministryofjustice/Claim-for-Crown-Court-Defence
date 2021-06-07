@@ -3,11 +3,10 @@
 
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading', provider_name: @provider.name) }
 
-.table-container.container
+.table-container
   %table
     %caption
-      %span.table-caption
-        = t('.table_caption')
+      = t('.table_caption')
     %tbody
       %tr
         %th{ scope: 'row' }
@@ -39,10 +38,10 @@
             = @provider.vat_registered == true ? 'Yes' : 'No'
 
 .form-section
-  .grid-row
-    .column-one-half
+  .govuk-grid-row
+    .govuk-grid-column-one-half
       = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation'), module: 'govuk-button' }, class: 'govuk-button', draggable: 'false'
-    .column-one-half
+    .govuk-grid-column-one-half
       - if can? :edit, @provider
         = govuk_link_button_secondary(t('.edit_provider'), edit_external_users_admin_provider_path(@provider))
 

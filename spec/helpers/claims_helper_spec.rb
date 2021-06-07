@@ -11,14 +11,14 @@ RSpec.describe ClaimsHelper do
     end
 
     it 'produces the html for a checked checkbox if the claim is allocated to the case worker' do
-      expect(claim).to receive(:is_allocated_to_case_worker?).with(case_worker).and_return(true)
-      expected_html = %q{<input checked="checked" id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">}
+      allow(claim).to receive(:is_allocated_to_case_worker?).with(case_worker).and_return(true)
+      expected_html = '<input checked="checked" id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">'
       expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
     end
 
     it 'produces the html for a un-checked checkbox if the claim is not allocated to the case worker' do
-      expect(claim).to receive(:is_allocated_to_case_worker?).with(case_worker).and_return(false)
-      expected_html = %q{<input  id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">}
+      allow(claim).to receive(:is_allocated_to_case_worker?).with(case_worker).and_return(false)
+      expected_html = '<input  id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">'
       expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
     end
   end
@@ -30,7 +30,7 @@ RSpec.describe ClaimsHelper do
       end
     end
 
-    context 'user has not seen yet the promo' do
+    context 'when user has not seen yet the promo' do
       let(:api_promo_seen_setting) { nil }
 
       it 'returns true' do
@@ -38,7 +38,7 @@ RSpec.describe ClaimsHelper do
       end
     end
 
-    context 'user has seen the promo' do
+    context 'when user has seen the promo' do
       let(:api_promo_seen_setting) { '1' }
 
       it 'returns false' do
@@ -49,6 +49,7 @@ RSpec.describe ClaimsHelper do
 
   describe '#show_message_controls?' do
     subject(:subj_show_message_controls?) { show_message_controls?(claim) }
+
     require 'application_helper'
     let(:claim) { build :claim, state: state }
 
@@ -62,7 +63,7 @@ RSpec.describe ClaimsHelper do
       end
     end
 
-    context 'for case_worker' do
+    context 'when user is a case_worker' do
       let(:persona) { create :case_worker }
 
       %w[submitted allocated authorised part_authorised rejected refused redetermination awaiting_written_reasons].each do |state|
@@ -82,7 +83,7 @@ RSpec.describe ClaimsHelper do
       end
     end
 
-    context 'for external_user' do
+    context 'when user is an external_user' do
       let(:persona) { create :external_user }
 
       %w[submitted allocated part_authorised refused authorised redetermination awaiting_written_reasons].each do |state|
@@ -102,7 +103,7 @@ RSpec.describe ClaimsHelper do
       end
     end
 
-    context 'for user with invalid persona' do
+    context 'with a user with invalid persona' do
       let(:persona) { nil }
       let(:state) { 'submitted' }
 
@@ -123,10 +124,10 @@ RSpec.describe ClaimsHelper do
       end
     end
 
-    context 'for case_worker' do
+    context 'when user is a case_worker' do
       let(:persona) { create :case_worker }
 
-      context 'for a claim with claim actions' do
+      context 'with a claim with claim actions' do
         let(:state) { 'rejected' }
         let(:claim_action) { 'Request written reasons' }
 
@@ -142,17 +143,17 @@ RSpec.describe ClaimsHelper do
       end
     end
 
-    context 'for external_user' do
+    context 'when user is an external_user' do
       let(:persona) { create :external_user }
 
-      context 'for a claim with claim actions' do
+      context 'with a claim with claim actions' do
         let(:state) { 'rejected' }
         let(:claim_action) { 'Request written reasons' }
 
         it { is_expected.to be_truthy }
       end
 
-      context 'for non redeterminable claim states' do
+      context 'with non redeterminable claim states' do
         let(:claim) { build :claim, state: state }
 
         %w[submitted allocated redetermination awaiting_written_reasons].each do |state|
@@ -164,7 +165,7 @@ RSpec.describe ClaimsHelper do
         end
       end
 
-      context 'for redeterminable claim states' do
+      context 'with redeterminable claim states' do
         let(:claim) { build :claim, state: state }
 
         %w[authorised part_authorised rejected refused].each do |state|

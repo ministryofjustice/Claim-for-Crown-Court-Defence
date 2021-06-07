@@ -185,7 +185,7 @@ commands:
             --out /tmp/test-results/cucumber/tests.cucumber \
             -- ${TESFILES}
       - store_artifacts:
-          path: ~/capybara
+          path: tmp/capybara
       - store_test_results:
           path: /tmp/test-results/cucumber
 

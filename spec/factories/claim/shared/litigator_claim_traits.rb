@@ -4,7 +4,7 @@ FactoryBot.define do
       claim.defendants.each do |defendant|
         defendant
           .representation_orders
-          .update_all(representation_order_date: Settings.clar_release_date - 1.day)
+          .update(representation_order_date: Settings.clar_release_date - 1.day)
       end
     end
   end
@@ -14,7 +14,7 @@ FactoryBot.define do
       claim.defendants.each do |defendant|
         defendant
           .representation_orders
-          .update_all(representation_order_date: Settings.clar_release_date)
+          .update(representation_order_date: Settings.clar_release_date)
       end
     end
   end

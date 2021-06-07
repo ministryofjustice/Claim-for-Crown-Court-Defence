@@ -265,7 +265,6 @@ RSpec.describe ClaimsHelper do
       let(:factory) { :litigator_hardship_claim }
       let(:trait) { :clar }
 
-
       it { is_expected.to be_nil }
     end
   end

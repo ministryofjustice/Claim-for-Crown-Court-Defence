@@ -48,10 +48,10 @@ Before('not @no-seed') do
     load "#{Rails.root}/db/seeds/certification_types.rb"
     load "#{Rails.root}/db/seeds/disbursement_types.rb"
     load "#{Rails.root}/db/seeds/expense_types.rb"
-    load "#{Rails.root}/db/seeds/vat_rates.rb" unless @vat_seed_done
+    load "#{Rails.root}/db/seeds/vat_rates.rb" unless $vat_seed_done
     load "#{Rails.root}/db/seeds/establishments.rb"
 
-    @vat_seed_done = true
+    $vat_seed_done = true
     $seed_done = true
   end
 end
@@ -60,9 +60,9 @@ end
 # to avoid long start up time for basic case worker features
 #
 Before('@caseworker-seed-requirements or @vat-seeds') do
-  unless (@vat_seed_done ||= false)
+  unless ($vat_seed_done ||= false)
     load "#{Rails.root}/db/seeds/vat_rates.rb"
-    @vat_seed_done = true
+    $vat_seed_done = true
   end
 end
 

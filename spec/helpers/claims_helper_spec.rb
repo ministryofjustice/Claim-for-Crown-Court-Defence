@@ -181,73 +181,90 @@ RSpec.describe ClaimsHelper do
   describe '#miscellaneous_fees_notice' do
     subject { miscellaneous_fees_notice(claim) }
 
-    # AGFS final claim
-    context 'with a scheme 12 AGFS final claim' do
-      let(:claim) { create :advocate_final_claim, :agfs_scheme_12 }
+    let(:claim) { create factory, trait, case_type: case_type }
+    let(:case_type) { build :case_type, name: 'Trial' }
 
-      it { is_expected.to eq 'page_notice' }
+    context 'with an AGFS final claim' do
+      let(:factory) { :advocate_final_claim }
+
+      context 'with a scheme 12 claim' do
+        let(:trait) { :agfs_scheme_12 }
+
+        it { is_expected.to eq 'page_notice' }
+      end
+
+      context 'with a scheme 11 claim' do
+        let(:trait) { :agfs_scheme_11 }
+
+        it { is_expected.to be_nil }
+      end
     end
 
-    context 'with a scheme 11 AGFS final claim' do
-      let(:claim) { create :advocate_final_claim, :agfs_scheme_11 }
+    context 'with an AGFS interim claim' do
+      let(:factory) { :advocate_interim_claim }
+      let(:trait) { :agfs_scheme_12 }
 
       it { is_expected.to be_nil }
     end
 
-    # AGFS other claims
-    context 'with a scheme 12 AGFS interim claim' do
-      let(:claim) { create :advocate_interim_claim, :agfs_scheme_12 }
+    context 'with an AGFS supplementary claim' do
+      let(:factory) { :advocate_supplementary_claim }
+      let(:trait) { :agfs_scheme_12 }
 
       it { is_expected.to be_nil }
     end
 
-    context 'with a scheme 12 AGFS supplementary claim' do
-      let(:claim) { create :advocate_supplementary_claim, :agfs_scheme_12 }
+    context 'with an AGFS hardship claim' do
+      let(:factory) { :advocate_hardship_claim }
+      let(:trait) { :agfs_scheme_12 }
 
       it { is_expected.to be_nil }
     end
 
-    context 'with a scheme 12 AGFS hardship claim' do
-      let(:claim) { create :advocate_hardship_claim, :agfs_scheme_12 }
+    context 'with an LGFS final claim' do
+      let(:factory) { :litigator_final_claim }
 
-      it { is_expected.to be_nil }
+      context 'with a claim ' do
+        let(:trait) { :clar }
+
+        it { is_expected.to eq 'page_notice' }
+      end
+
+      context 'with a scheme 11 claim' do
+        let(:trait) { :pre_clar }
+
+        it { is_expected.to be_nil }
+      end
     end
 
-    # LGFS final claim
-    context 'with a scheme 12 LGFS final claim' do
-      let(:claim) { create :litigator_final_claim, :agfs_scheme_12 }
+    context 'with an LGFS transfer claim' do
+      let(:factory) { :litigator_transfer_claim }
 
-      it { is_expected.to eq 'page_notice' }
-    end
+      context 'with a scheme 12 claim' do
+        let(:trait) { :clar }
 
-    context 'with a scheme 11 LGFS final claim' do
-      let(:claim) { create :litigator_final_claim, :agfs_scheme_11 }
+        it { is_expected.to eq 'page_notice' }
+      end
 
-      it { is_expected.to be_nil }
-    end
+      context 'with a scheme 11 claim' do
+        let(:trait) { :pre_clar }
 
-    # LGFS transfer claim
-    context 'with a scheme 12 LGFS transfer claim' do
-      let(:claim) { create :litigator_transfer_claim, :agfs_scheme_12 }
-
-      it { is_expected.to eq 'page_notice' }
-    end
-
-    context 'with a scheme 11 LGFS transfer claim' do
-      let(:claim) { create :litigator_transfer_claim, :agfs_scheme_11 }
-
-      it { is_expected.to be_nil }
+        it { is_expected.to be_nil }
+      end
     end
 
     # LGFS other claims
-    context 'with a scheme 12 LGFS interim claim' do
-      let(:claim) { create :interim_claim, :agfs_scheme_12 }
+    context 'with an LGFS interim claim' do
+      let(:factory) { :interim_claim }
+      let(:trait) { :clar }
 
       it { is_expected.to be_nil }
     end
 
-    context 'with a scheme 12 LGFS hardship claim' do
-      let(:claim) { create :litigator_hardship_claim, :agfs_scheme_12 }
+    context 'with an LGFS hardship claim' do
+      let(:factory) { :litigator_hardship_claim }
+      let(:trait) { :clar }
+
 
       it { is_expected.to be_nil }
     end

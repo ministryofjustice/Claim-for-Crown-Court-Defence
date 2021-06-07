@@ -42,10 +42,7 @@ module ClaimsHelper
   end
 
   def miscellaneous_fees_notice(claim)
-    return unless claim.final? || claim.transfer?
-    return unless ['Trial', 'Cracked Trial'].include? claim.case_type.name
-    return if claim.earliest_representation_order_date < Settings.clar_release_date.to_date.beginning_of_day
-
-    'page_notice'
+    'page_notice' if (claim.final? || claim.transfer?) && claim.post_clar? &&
+                     ['Trial', 'Cracked Trial'].include?(claim.case_type.name)
   end
 end

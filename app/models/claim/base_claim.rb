@@ -329,6 +329,10 @@ module Claim
       earliest_representation_order.try(:representation_order_date)
     end
 
+    def post_clar?
+      earliest_representation_order_date >= Settings.clar_release_date.to_date.beginning_of_day
+    end
+
     def evidence_doc_types
       DocType.find_by_ids(evidence_checklist_ids)
     end

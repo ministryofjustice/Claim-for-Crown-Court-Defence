@@ -72,8 +72,8 @@ module Claims
     end
 
     def clar_rep_order_filter(relation)
-      return relation if claim&.earliest_representation_order_date.nil?
-      return relation if claim.earliest_representation_order_date >= Settings.clar_release_date.to_date.beginning_of_day
+      return relation if claim&.earliest_representation_order_date.nil? || claim.post_clar?
+
       relation.without_trial_fee_only
     end
   end

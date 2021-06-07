@@ -1,4 +1,4 @@
-@javascript @caseworker-seed-requirements
+@javascript @no-seed @vat-seeds
 Feature: Case worker can manage providers
 
   Scenario: A provider Manager can create a new chamber

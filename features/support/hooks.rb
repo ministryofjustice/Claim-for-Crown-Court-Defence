@@ -34,6 +34,8 @@ end
 
 Before('not @no-seed') do
   unless ($seed_done ||= false)
+    # IMPORTANT - Truncate lookup table data to ensure any factory created lookup data is cleared
+    truncate_lookup_tables
 
     # IMPORTANT - add any seeded tables to list of NON_TRUNCATED_TABLES
     ActiveRecord::Base.connection.reset_pk_sequence!('offences')
@@ -48,10 +50,10 @@ Before('not @no-seed') do
     load "#{Rails.root}/db/seeds/certification_types.rb"
     load "#{Rails.root}/db/seeds/disbursement_types.rb"
     load "#{Rails.root}/db/seeds/expense_types.rb"
-    load "#{Rails.root}/db/seeds/vat_rates.rb" unless @vat_seed_done
+    load "#{Rails.root}/db/seeds/vat_rates.rb"
     load "#{Rails.root}/db/seeds/establishments.rb"
 
-    @vat_seed_done = true
+    $vat_seed_done = true
     $seed_done = true
   end
 end
@@ -59,10 +61,10 @@ end
 # minimum seeding necessary for case worker functionality
 # to avoid long start up time for basic case worker features
 #
-Before('@caseworker-seed-requirements or @vat-seeds') do
-  unless (@vat_seed_done ||= false)
+Before('@vat-seeds') do
+  unless ($vat_seed_done ||= false)
     load "#{Rails.root}/db/seeds/vat_rates.rb"
-    @vat_seed_done = true
+    $vat_seed_done = true
   end
 end
 
@@ -92,9 +94,9 @@ After do |scenario|
   travel_back
   RSpec::Mocks.space.proxy_for(Settings).reset
 
-  # screenshot failure for storage as artifcate in circleCI
+  # screenshot failure for storage as artifact in circleCI
   name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
-  screenshot_image(name) if scenario.failed? && ENV['CI']
+  screenshot_image(name) if scenario.failed?
 
   # Following a local ruby and various dependecy updates cucumber no longer
   # appears to have been shutting down the chromedriver automatically.
@@ -115,8 +117,12 @@ at_exit do
   #       run's exit code.
   #
   exit_status = $!.status if $!.is_a?(SystemExit)
+  truncate_lookup_tables
+  exit exit_status if exit_status
+end
+
+def truncate_lookup_tables
   NON_TRUNCATED_TABLES.each do |table|
     table.sub('fee_types', 'Fee::BaseFeeType').classify.safe_constantize.delete_all
   end
-  exit exit_status if exit_status
 end

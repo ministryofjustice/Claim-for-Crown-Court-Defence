@@ -177,13 +177,13 @@ commands:
       - run:
           name: Run cucumber tests
           command: |
-            TESFILES=$(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings --timings-type=filename)
+            TESTFILES=$(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings --timings-type=filename)
 
             RUBYOPT='-W0' bundle exec cucumber \
             --format pretty \
             --format json \
             --out /tmp/test-results/cucumber/tests.cucumber \
-            -- ${TESFILES}
+            -- ${TESTFILES}
       - store_artifacts:
           path: tmp/capybara
       - store_test_results:

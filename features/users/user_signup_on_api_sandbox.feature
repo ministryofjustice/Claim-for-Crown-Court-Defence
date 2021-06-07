@@ -1,4 +1,4 @@
-@javascript
+@javascript @no-seed
 Feature: User signup on api-sandbox
 
   @on-api-sandbox

@@ -1,4 +1,4 @@
-@javascript
+@javascript @no-seed
 Feature: A downtime warning banner appears on home pages only until downtime date exceeded
 
   Background:
@@ -29,7 +29,7 @@ Feature: A downtime warning banner appears on home pages only until downtime dat
     And I refresh the page
     Then the downtime banner is not displayed
 
-  @caseworker-seed-requirements
+  @vat-seeds
   Scenario: Downtime warning active until 26 May 2021 for case workers
     Given the current date is '2021-05-19'
     And case worker "John Smith" exists

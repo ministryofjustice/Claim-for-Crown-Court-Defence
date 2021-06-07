@@ -1,4 +1,4 @@
-@javascript
+@javascript @no-seed
 Feature: Create new external user
 
   Scenario: Chamber admin creates a new advocate user

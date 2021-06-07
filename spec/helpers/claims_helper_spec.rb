@@ -198,6 +198,20 @@ RSpec.describe ClaimsHelper do
 
         it { is_expected.to be_nil }
       end
+
+      context 'with a cracked trial' do
+        let(:trait) { :agfs_scheme_12 }
+        let(:case_type) { build :case_type, name: 'Cracked Trial' }
+
+        it { is_expected.to eq 'page_notice' }
+      end
+
+      context 'with a case that is not trial or cracked trial' do
+        let(:trait) { :agfs_scheme_12 }
+        let(:case_type) { build :case_type, name: 'Appeal against conviction' }
+
+        it { is_expected.to eq nil }
+      end
     end
 
     context 'with an AGFS interim claim' do
@@ -235,6 +249,20 @@ RSpec.describe ClaimsHelper do
 
         it { is_expected.to be_nil }
       end
+
+      context 'with a cracked trial' do
+        let(:trait) { :clar }
+        let(:case_type) { build :case_type, name: 'Cracked Trial' }
+
+        it { is_expected.to eq 'page_notice' }
+      end
+
+      context 'with a case that is not trial or cracked trial' do
+        let(:trait) { :clar }
+        let(:case_type) { build :case_type, name: 'Appeal against conviction' }
+
+        it { is_expected.to eq nil }
+      end
     end
 
     context 'with an LGFS transfer claim' do
@@ -250,6 +278,20 @@ RSpec.describe ClaimsHelper do
         let(:trait) { :pre_clar }
 
         it { is_expected.to be_nil }
+      end
+
+      context 'with a cracked trial' do
+        let(:trait) { :clar }
+        let(:case_type) { build :case_type, name: 'Cracked Trial' }
+
+        it { is_expected.to eq 'page_notice' }
+      end
+
+      context 'with a case that is not trial or cracked trial' do
+        let(:trait) { :clar }
+        let(:case_type) { build :case_type, name: 'Appeal against conviction' }
+
+        it { is_expected.to eq nil }
       end
     end
 

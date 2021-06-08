@@ -112,8 +112,8 @@ RSpec.describe Claim::BaseClaim do
     end
   end
 
-  describe '#post_clar?' do
-    subject { claim.post_clar? }
+  describe '#clar?' do
+    subject { claim.clar? }
 
     context 'when the claim is AGFS scheme 12' do
       let(:claim) { create :advocate_claim, :agfs_scheme_12 }

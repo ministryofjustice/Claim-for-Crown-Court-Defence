@@ -72,7 +72,7 @@ module Claims
     end
 
     def clar_rep_order_filter(relation)
-      return relation if claim&.earliest_representation_order_date.nil? || claim.post_clar?
+      return relation if claim&.earliest_representation_order_date.nil? || claim.clar?
 
       relation.without_trial_fee_only
     end

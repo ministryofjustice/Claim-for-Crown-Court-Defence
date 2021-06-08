@@ -42,7 +42,7 @@ module ClaimsHelper
   end
 
   def miscellaneous_fees_notice(claim)
-    'page_notice' if (claim.final? || claim.transfer?) && claim.post_clar? &&
+    'page_notice' if (claim.final? || claim.transfer?) && claim.clar? &&
                      ['Trial', 'Cracked Trial'].include?(claim.case_type.name)
   end
 end

@@ -1,4 +1,4 @@
-- if @claim.documents.count > 0
+- if @claim.documents.any?
   %table.previously-uploaded
     %caption
       = t('.previously_uploaded_docs')

@@ -27,12 +27,12 @@ module API
             desc 'Retrieve claims created with a scheme 10 rep order'
             get do
               if params[:format].eql?('csv')
-                records = claims.count.zero? ? [{ 'No scheme ten claims filed on' => params[:date] }] : claims
+                records = claims.any? ? claims : [{ 'No scheme ten claims filed on' => params[:date] }]
                 csv = build_csv_from(records)
                 header 'Content-Disposition', "attachment; filename=scheme_ten_data-#{params[:date]}.csv"
                 present csv
               else
-                object, entity = claims.count.positive? ? [nil, nil] : [OpenStruct, API::Entities::AGFSSchemeTen::Claim]
+                object, entity = claims.any? ? [nil, nil] : [OpenStruct, API::Entities::AGFSSchemeTen::Claim]
                 present JSON.parse(claims.to_json, object_class: object), with: entity
               end
             end

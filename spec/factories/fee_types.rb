@@ -299,7 +299,7 @@ FactoryBot.define do
       end
 
       trait :miumu do
-        description { 'Unused materials (upto 3 hours)' }
+        description { 'Unused materials (up to 3 hours)' }
         code { 'UMU' }
         unique_code { 'MIUMU' }
         calculated { true }

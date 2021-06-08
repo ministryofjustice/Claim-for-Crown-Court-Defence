@@ -104,7 +104,7 @@ module SearchResultHelpers
     fees&.map do |fee|
       [
         fee[2].eql?('Fee::MiscFeeType'),
-        fee[1].in?(['Paper heavy case', 'Unused materials (upto 3 hours)', 'Unused materials (over 3 hours)']),
+        fee[1].in?(['Paper heavy case', 'Unused materials (up to 3 hours)', 'Unused materials (over 3 hours)']),
         fee[0].to_i.positive?
       ].all?
     end&.any?

@@ -84,7 +84,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
     it { should_error_if_not_present(fee, :fee_type, 'blank') }
 
-    context 'when validating Unused material (upto 3 hours)' do
+    context 'when validating Unused material (up to 3 hours)' do
       before { create(:misc_fee_type, :miumu) }
 
       context 'with valid quantity' do

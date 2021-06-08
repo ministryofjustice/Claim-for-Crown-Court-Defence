@@ -54,7 +54,7 @@ table {
           width: 320px;
           color: $error-colour;
 
-          @media (max-width: 1018px) {
+          @include govuk-media-query($until: desktop) {
             width: auto;
           }
         }
@@ -78,7 +78,7 @@ table {
           color: $orange;
           font-weight: 700;
 
-          @media (max-width: 1018px) {
+          @include govuk-media-query($until: desktop) {
             width: auto;
           }
         }
@@ -212,7 +212,7 @@ table {
   }
 }
 
-@include media($max-width: 1018px) {
+@include govuk-media-query($until: desktop) {
   .report {
     border: 0;
 

@@ -40,10 +40,6 @@
   margin-bottom: $gutter-one-third;
 
   h1 {
-    @include media(desktop) {
-      margin-left: 0;
-    }
-
     @include core-19;
     display: inline-block;
     margin-left: 0;
@@ -68,8 +64,10 @@
   }
 
   .claim-detail-actions {
-    @include media(mobile) {
-      margin-bottom: $gutter-one-third;
+    margin-bottom: $gutter-one-third;
+
+    @include govuk-media-query($from: tablet) {
+      margin-bottom: 0;
     }
 
     @include core-19;

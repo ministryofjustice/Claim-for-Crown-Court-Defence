@@ -2,7 +2,7 @@
   page-break-before: always;
 }
 
-@media print {
+@include govuk-media-query($media-type: print) {
   @page {
     size: 216mm 280mm;
   }

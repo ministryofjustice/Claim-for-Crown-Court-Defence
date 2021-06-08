@@ -12,7 +12,7 @@ fieldset {
   }
 
   legend {
-    @include govuk-media-query ($from: desktop) {
+    @include govuk-media-query($from: desktop) {
       float: left;
     }
     width: $full-width;
@@ -60,10 +60,6 @@ input.form-control:read-only {  // stylelint-disable-line selector-no-qualifying
 
 .form-control-full {
   width: $full-width;
-
-  @include media(tablet) {
-    width: $full-width;
-  }
 }
 
 .inline-form {

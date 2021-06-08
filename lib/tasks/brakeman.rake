@@ -21,7 +21,7 @@ namespace :brakeman do
     end
     puts "Finished in #{time_taken} seconds"
     puts "warnings: #{report.ignored_warnings.size}, new warnings: #{report.warnings.size}, errors: #{report.errors.size}"
-    exit 1 if report.warnings.count > 0
+    exit 1 if report.warnings.any?
   end
 
   def report_output

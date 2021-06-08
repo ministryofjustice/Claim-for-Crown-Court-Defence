@@ -83,12 +83,12 @@ en:
   views:
     pagination:
       title: "Pagination navigation"
-      first_html: "First <span class='visually-hidden'>page</span>"
-      last_html: "Last <span class='visually-hidden'>page</span>"
-      previous_html: "Previous <span class='visually-hidden'>page</span>"
-      next_html: "Next <span class='visually-hidden'>page</span>"
+      first_html: "First <span class='govuk-visually-hidden'>page</span>"
+      last_html: "Last <span class='govuk-visually-hidden'>page</span>"
+      previous_html: "Previous <span class='govuk-visually-hidden'>page</span>"
+      next_html: "Next <span class='govuk-visually-hidden'>page</span>"
       truncate: "&hellip;"
-      page_html: "<span class='visually-hidden'>Page </span>%{count}"
+      page_html: "<span class='govuk-visually-hidden'>Page </span>%{count}"
   helpers:
     page_entries_info:
       one_page:
@@ -1430,8 +1430,8 @@ en:
       financial_summary:
         total_outstanding: 'Total outstanding:'
         total_authorised: 'Total authorised:'
-        view_details_outstanding_html: 'View details <span class="visuallyhidden">for total outstanding</span>'
-        view_details_authorised_html: 'View details <span class="visuallyhidden">for total authorised</span>'
+        view_details_outstanding_html: 'View details <span class="govuk-visually-hidden">for total outstanding</span>'
+        view_details_authorised_html: 'View details <span class="govuk-visually-hidden">for total authorised</span>'
         outstanding_claim_details_label: View outstanding claims details
         authorised_claim_details_label: View authorised claims details
       graduated_fees:

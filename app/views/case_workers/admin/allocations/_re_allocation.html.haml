@@ -79,7 +79,7 @@
                   %tr{ id: dom_id(claim), class: claim.injection_error ? 'error injection-error' : nil }
                     %td{ 'data-label': t('.select') }
                       .error-message-container
-                        = b.label(class: 'visuallyhidden') { t('.choose_label', case_number: claim.case_number) }
+                        = b.label(class: 'govuk-visually-hidden') { t('.choose_label', case_number: claim.case_number) }
                         = b.check_box
                         - claim.injection_error do |message|
                           .error-message

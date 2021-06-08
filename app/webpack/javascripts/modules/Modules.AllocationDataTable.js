@@ -121,7 +121,7 @@ moj.Modules.AllocationDataTable = {
         selectAllPages: false
       },
       render: function (data, type, row) {
-        return '<input type="checkbox" class="dt-checkboxes" id="claim-' + data + '"><label for="claim-' + data + '" class="visually-hidden">claim id ' + data + '</label>'
+        return '<input type="checkbox" class="dt-checkboxes" id="claim-' + data + '"><label for="claim-' + data + '" class="govuk-visually-hidden">claim id ' + data + '</label>'
       }
     }, {
       targets: 1,

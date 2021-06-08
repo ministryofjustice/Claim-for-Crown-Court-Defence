@@ -3,7 +3,7 @@
     = t(".header_#{vat ? 'with_vat' : 'without_vat'}")
 
   %table.figures{ class: (current_user.case_worker? ? 'expenses-data-table' : nil) }
-    %caption.visually-hidden
+    %caption.govuk-visually-hidden
       = t('.caption')
 
     %thead

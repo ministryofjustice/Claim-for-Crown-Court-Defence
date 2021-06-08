@@ -11,7 +11,7 @@
   .js-enabled & {
     input[type="file"],
     .no-file-selected [type="submit"] {
-      @include visually-hidden;
+      @include govuk-visually-hidden;
     }
   }
 

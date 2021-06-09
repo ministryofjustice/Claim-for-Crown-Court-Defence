@@ -535,7 +535,7 @@ table.dataTable td {
   height: 0
 }
 
-@media screen and (max-width: 767px) {
+@include govuk-media-query($until: desktop) {
 
   .dataTables_wrapper .dataTables_info,
   .dataTables_wrapper .dataTables_paginate {
@@ -548,7 +548,7 @@ table.dataTable td {
   }
 }
 
-@media screen and (max-width: 640px) {
+@include govuk-media-query($until: tablet) {
 
   .dataTables_wrapper .dataTables_length,
   .dataTables_wrapper .dataTables_filter {
@@ -868,7 +868,7 @@ div.dt-button-background {
   z-index: 2001
 }
 
-@media screen and (max-width: 640px) {
+@include govuk-media-query($until: tablet) {
   div.dt-buttons {
     float: none !important;
     text-align: center
@@ -919,7 +919,7 @@ table.fixedHeader-locked {
   background-color: white
 }
 
-@media print {
+@include govuk-media-query($media-type: print) {
   table.fixedHeader-floating {
     display: none
   }
@@ -1059,7 +1059,7 @@ div.dataTables_wrapper span.select-item {
   margin-left: 0.5em
 }
 
-@media screen and (max-width: 640px) {
+@include govuk-media-query($until: tablet) {
 
   div.dataTables_wrapper span.select-info,
   div.dataTables_wrapper span.select-item {
@@ -1090,7 +1090,7 @@ div.dataTables_wrapper span.select-item {
   font-weight: 700;
 }
 
-@media screen and (max-width: 640px) {
+@include govuk-media-query($until: tablet) {
 
   div.dataTables_wrapper span.select-info,
   div.dataTables_wrapper span.select-item {

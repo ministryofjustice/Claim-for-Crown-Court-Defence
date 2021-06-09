@@ -91,7 +91,7 @@ describe('Modules.AllocationDataTable.js', function () {
     })
 
     it('...should have `dom`', function () {
-      expect(options.dom).toEqual('<"govuk-grid-row"<"govuk-grid-column-one-half"<"govuk-form-group"f>><"govuk-grid-column-one-half"i>>rt<"govuk-grid-row govuk-!-margin-top-5"<"govuk-grid-column-one-third"<"govuk-form-group"l>><"govuk-grid-column-two-thirds"p>>')
+      expect(options.dom).toEqual('<"form-group"<"govuk-grid-column-one-half"f><"govuk-grid-column-one-half"i>>rt<"govuk-grid-row"<"govuk-grid-column-one-third"l><"govuk-grid-column-two-thirds"p>>')
     })
 
     it('...should have `rowId`', function () {

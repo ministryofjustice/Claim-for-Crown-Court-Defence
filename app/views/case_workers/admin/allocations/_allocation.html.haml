@@ -1,54 +1,48 @@
-= render partial: 'errors/error_summary', locals: { ep: @allocation, error_summary: t('.error_summary') }
-
-= govuk_notification_banner('Allocation', nil, class: 'govuk-!-display-none') unless !flash.empty?
+#allocation
+  = govuk_notification_banner('Allocation', nil, class: 'govuk-!-display-none') unless !flash.empty?
 
 #api-key.govuk-grid-row{ data: { api_key: current_user.api_key } }
   .govuk-grid-column-two-thirds
     = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
-  .govuk-grid-column-one-third.scheme-filters
-    -# FORM
-    -# AGFS / LGFS Radios
-    = render partial: 'scheme_filters'
 
-= form_tag case_workers_admin_allocations_path, method: :get do
-  = hidden_field_tag :tab, params[:tab]
-  = hidden_field_tag :scheme, params[:scheme]
-  = hidden_field_tag :filter, params[:filter] if params[:filter]
-  = hidden_field_tag :page, params[:page]
-  = hidden_field_tag :value_band_id, params[:value_band_id] if params[:value_band_id]
+= form_with url: case_workers_admin_allocations_path, method: :get, builder: GdsAdpFormBuilder do |f|
+  = f.hidden_field :tab, id: :tab, value: params[:tab]
+  = f.hidden_field :scheme, id: :scheme, value: params[:scheme]
+  = f.hidden_field :filter, id: :filter, value: params[:filter] if params[:filter]
+  = f.hidden_field :page, id: :page, value: params[:page]
+  = f.hidden_field :value_band_id, id: :value_band_id, value: params[:value_band_id] if params[:value_band_id]
 
-  %fieldset.inline
-    %legend
-      %span.heading-medium
-        = t('.allocate_claims')
-    .govuk-grid-row.js-typeahead
-      .govuk-grid-column-one-third.js-typeahead
-        = label_tag :quantity_to_allocate, t('.no_of_claims'), class: 'form-label-bold'
-        = number_field_tag :quantity_to_allocate, nil, { min: 0, size: 5, class: 'form-control form-control-full' }
-      .govuk-grid-column-one-third
-        #cc-caseworker
-          = label_tag :allocation_case_worker_id, t('dictionary.models.case_worker'), class: 'form-label-bold'
-          = collection_select :allocation, :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control form-control-full fx-autocomplete' }
-      .govuk-grid-column-one-third
-        %br/
-        = govuk_button(t('.allocate'), class: 'allocation-submit')
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds.scheme-filters
+      = render partial: 'scheme_filters', locals: { f: f }
 
-
-  %fieldset.inline
-    %legend
-      %span.heading-medium
-        = t('.filter_claims')
+  = f.govuk_fieldset legend: { text: t('.allocate_claims'), size: 'm' } do
     .govuk-grid-row
-      .govuk-grid-column-one-third.ui-filter
-        = render partial: 'filter_tasks'
-      .govuk-grid-column-one-third.ui-filter
-        = render partial: 'filter_value_bands'
       .govuk-grid-column-one-third
-        %br/
-        = govuk_button(t('.clear_filters'), class: 'clear-filters app-button--blue')
+        = f.govuk_number_field :quantity_to_allocate, label: { text: t('.no_of_claims') }
 
-  %h2.heading-medium
+      #cc-caseworker.govuk-grid-column-one-third.fx-autocomplete-wrapper
+        = f.govuk_select :allocation_case_worker_id, label: { text: t('dictionary.models.case_worker') } do
+          = options_for_select [['', '']]
+          = options_from_collection_for_select @case_workers, :id, :name
+
+      .govuk-grid-column-one-third{ class: 'govuk-!-padding-top-6' }
+        = govuk_button t('.allocate'), class: 'allocation-submit'
+
+  = f.govuk_fieldset legend: { text: t('.filter_claims'), size: 'm' } do
+    .govuk-grid-row
+      .govuk-grid-column-one-third
+        = render partial: 'filter_tasks', locals: { f: f }
+
+      .govuk-grid-column-one-third
+        = render partial: 'filter_value_bands', locals: { f: f }
+
+      .govuk-grid-column-one-third{ class: 'govuk-!-padding-top-6' }
+        = govuk_button t('.clear_filters'), class: 'clear-filters app-button--blue'
+
+  %h2.govuk-heading-m
     = t('.allocation_queue')
+
   %table#dtAllocation
     %caption.visually-hidden
       = t('.table_summary')

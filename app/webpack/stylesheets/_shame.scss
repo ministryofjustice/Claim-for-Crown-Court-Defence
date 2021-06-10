@@ -494,7 +494,7 @@ form {
 
 // Ported from v1 stylesheets
 .search-form {
-  @include clearfix;
+  @include govuk-clearfix;
 
   .heading-medium {
     margin-top: 0;

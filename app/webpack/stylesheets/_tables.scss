@@ -241,7 +241,7 @@ table {
       }
 
       &.mobile-sort {
-        @include clearfix;
+        @include govuk-clearfix;
         display: inline-block;
         width: $full-width;
 

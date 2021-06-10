@@ -26,12 +26,12 @@
     - if current_user.persona.admin?
       = f.govuk_check_boxes_fieldset :roles, legend: { text: t('.roles'), size: 's' } do
         - @external_user.available_roles.each_with_index do |role, idx|
-          - if role.eql?('advocate') && current_user.persona.provider.chamber?
-            = f.govuk_check_box(:roles,
-              role,
-              label: { text: role.humanize },
-              link_errors: idx.zero?) do
+          = f.govuk_check_box(:roles,
+            role,
+            label: { text: role.humanize },
+            link_errors: idx.zero?) do
 
+            - if role.eql?('advocate') && current_user.persona.provider.chamber?
               = f.govuk_collection_radio_buttons :vat_registered,
                 [['Yes','true'],['No','false']],
                 :last,
@@ -42,11 +42,5 @@
               = f.govuk_text_field :supplier_number,
                 hint: { text: t('.supplier_number_hint') },
                 label: { text: t('.supplier_number') }
-
-          - else
-            = f.govuk_check_box(:roles,
-              role,
-              label: { text: role.humanize },
-              link_errors: idx.zero?)
 
     = f.govuk_submit t('.save')

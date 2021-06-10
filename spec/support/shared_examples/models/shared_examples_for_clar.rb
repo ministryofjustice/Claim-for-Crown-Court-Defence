@@ -13,6 +13,12 @@ RSpec.shared_examples 'a claim eligible for unused materials fee' do |case_type_
       let(:defendant) { build :defendant, scheme: 'scheme 12' }
 
       it { is_expected.to be_truthy }
+
+      context 'when there is no case type' do
+        let(:case_type) { nil }
+
+        it { is_expected.to be_falsey }
+      end
     end
 
     context 'when the earliest representation date is before 17th September 2020' do

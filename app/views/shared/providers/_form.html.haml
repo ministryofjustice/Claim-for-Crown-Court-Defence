@@ -7,10 +7,8 @@
 
   = f.govuk_radio_buttons_fieldset :provider_type, legend: { text: t('.provider_type'), size: 's' } do
     - Provider::PROVIDER_TYPES.each_with_index do |provider_type, index|
-
-      - if provider_type.eql?('firm')
-        = f.govuk_radio_button :provider_type, provider_type, label: { text: provider_type.capitalize }, link_errors: index.zero? do
-
+      = f.govuk_radio_button :provider_type, provider_type, label: { text: provider_type.capitalize }, link_errors: index.zero? do
+        - if provider_type.eql?('firm')
           = f.govuk_check_boxes_fieldset :roles, legend: { text: t('.fee_schemes'), size: 's' }, hint: { text: t('.fee_schemes_hint') } do
             - Provider::ROLES.each_with_index do |role_type, index|
               = f.govuk_check_box :roles, role_type, label: { text: role_type.upcase }, link_errors: index.zero? do
@@ -28,9 +26,6 @@
                     :first,
                     hint: { text: t('.vat_registered_hint') },
                     legend: { text: t('.vat_registered'), size: 's' }
-
-      - else
-        = f.govuk_radio_button :provider_type, provider_type, label: { text: provider_type.capitalize }, link_errors: index.zero?
 
   = f.govuk_submit t('.save_button') do
     - unless @provider.new_record?

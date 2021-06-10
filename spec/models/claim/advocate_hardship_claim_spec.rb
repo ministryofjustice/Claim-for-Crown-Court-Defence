@@ -1,3 +1,5 @@
+require 'support/shared_examples/models/shared_examples_for_clar'
+
 RSpec.shared_examples 'trial_cracked_at assigner' do
   subject { claim.trial_cracked_at }
 
@@ -78,6 +80,7 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
   let(:claim) { build(:advocate_hardship_claim) }
 
   it_behaves_like 'a base claim'
+  it_behaves_like 'a claim not eligible for unused materials fee'
 
   specify { expect(subject.agfs?).to be_truthy }
   specify { expect(subject.final?).to be_falsey }

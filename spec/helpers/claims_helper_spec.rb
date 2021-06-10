@@ -179,136 +179,27 @@ RSpec.describe ClaimsHelper do
     end
   end
 
-  describe '#miscellaneous_fees_notice' do
-    subject { miscellaneous_fees_notice(claim) }
+  describe '#fee_shared_headings' do
+    subject(:headings) { fee_shared_headings(claim, 'test.scope') }
 
-    let(:claim) { create factory, trait, case_type: case_type }
-    let(:case_type) { build :case_type, name: 'Trial' }
+    let(:claim) { build :claim }
 
-    context 'with an AGFS final claim' do
-      let(:factory) { :advocate_final_claim }
+    context 'with a claim eligible for unused materials fees' do
+      before { allow(claim).to receive(:unused_materials_applicable?).and_return true }
 
-      context 'with a scheme 12 claim' do
-        let(:trait) { :agfs_scheme_12 }
+      it { expect(headings[:page_notice]).not_to be_nil }
 
-        it { is_expected.to eq 'page_notice' }
-      end
+      context 'when unused material fees have already been claimed' do
+        before { create :misc_fee, :miumu_fee, claim: claim, quantity: 1 }
 
-      context 'with a scheme 11 claim' do
-        let(:trait) { :agfs_scheme_11 }
-
-        it { is_expected.to be_nil }
-      end
-
-      context 'with a cracked trial' do
-        let(:trait) { :agfs_scheme_12 }
-        let(:case_type) { build :case_type, name: 'Cracked Trial' }
-
-        it { is_expected.to eq 'page_notice' }
-      end
-
-      context 'with a case that is not trial or cracked trial' do
-        let(:trait) { :agfs_scheme_12 }
-        let(:case_type) { build :case_type, name: 'Appeal against conviction' }
-
-        it { is_expected.to eq nil }
+        it { expect(headings.keys).not_to include(:page_notice) }
       end
     end
 
-    context 'with an AGFS interim claim' do
-      let(:factory) { :advocate_interim_claim }
-      let(:trait) { :agfs_scheme_12 }
+    context 'with a claim ineligible for unused materials fees' do
+      before { allow(claim).to receive(:unused_materials_applicable?).and_return false }
 
-      it { is_expected.to be_nil }
-    end
-
-    context 'with an AGFS supplementary claim' do
-      let(:factory) { :advocate_supplementary_claim }
-      let(:trait) { :agfs_scheme_12 }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'with an AGFS hardship claim' do
-      let(:factory) { :advocate_hardship_claim }
-      let(:trait) { :agfs_scheme_12 }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'with an LGFS final claim' do
-      let(:factory) { :litigator_final_claim }
-
-      context 'with a claim ' do
-        let(:trait) { :clar }
-
-        it { is_expected.to eq 'page_notice' }
-      end
-
-      context 'with a scheme 11 claim' do
-        let(:trait) { :pre_clar }
-
-        it { is_expected.to be_nil }
-      end
-
-      context 'with a cracked trial' do
-        let(:trait) { :clar }
-        let(:case_type) { build :case_type, name: 'Cracked Trial' }
-
-        it { is_expected.to eq 'page_notice' }
-      end
-
-      context 'with a case that is not trial or cracked trial' do
-        let(:trait) { :clar }
-        let(:case_type) { build :case_type, name: 'Appeal against conviction' }
-
-        it { is_expected.to eq nil }
-      end
-    end
-
-    context 'with an LGFS transfer claim' do
-      let(:factory) { :litigator_transfer_claim }
-
-      context 'with a scheme 12 claim' do
-        let(:trait) { :clar }
-
-        it { is_expected.to eq 'page_notice' }
-      end
-
-      context 'with a scheme 11 claim' do
-        let(:trait) { :pre_clar }
-
-        it { is_expected.to be_nil }
-      end
-
-      context 'with a cracked trial' do
-        let(:trait) { :clar }
-        let(:case_type) { build :case_type, name: 'Cracked Trial' }
-
-        it { is_expected.to eq 'page_notice' }
-      end
-
-      context 'with a case that is not trial or cracked trial' do
-        let(:trait) { :clar }
-        let(:case_type) { build :case_type, name: 'Appeal against conviction' }
-
-        it { is_expected.to eq nil }
-      end
-    end
-
-    # LGFS other claims
-    context 'with an LGFS interim claim' do
-      let(:factory) { :interim_claim }
-      let(:trait) { :clar }
-
-      it { is_expected.to be_nil }
-    end
-
-    context 'with an LGFS hardship claim' do
-      let(:factory) { :litigator_hardship_claim }
-      let(:trait) { :clar }
-
-      it { is_expected.to be_nil }
+      it { expect(headings.keys).not_to include(:page_notice) }
     end
   end
 end

@@ -1,7 +1,20 @@
 require 'rails_helper'
+require 'support/shared_examples/models/shared_examples_for_clar'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
   it_behaves_like 'a base claim'
+
+  context 'when the claim is a trial' do
+    it_behaves_like 'a claim eligible for unused materials fee', 'Trial'
+  end
+
+  context 'when the claim is a cracked trial' do
+    it_behaves_like 'a claim eligible for unused materials fee', 'Cracked Trial'
+  end
+
+  context 'when the claim is not a trial or a cracked trial' do
+    it_behaves_like 'a claim not eligible for unused materials fee', 'Appeal against conviction'
+  end
 
   it { is_expected.to delegate_method(:requires_cracked_dates?).to(:case_type) }
 

@@ -41,8 +41,16 @@ module ClaimsHelper
     false
   end
 
-  def miscellaneous_fees_notice(claim)
-    'page_notice' if (claim.final? || claim.transfer?) && claim.clar? &&
-                     ['Trial', 'Cracked Trial'].include?(claim.case_type.name)
+  def fee_shared_headings(claim, scope)
+    {
+      page_header: t('page_header', scope: scope),
+      page_hint: t('page_hint', scope: scope)
+    }.tap do |headings|
+      headings[:page_notice] = t('unused_materials_notice', scope: scope) if display_unused_materials_notice_for(claim)
+    end
+  end
+
+  def display_unused_materials_notice_for(claim)
+    claim.unused_materials_applicable? && claim.fees.select { |f| f.fee_type.unique_code == 'MIUMU' }.empty?
   end
 end

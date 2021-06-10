@@ -64,9 +64,12 @@
 
 require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
+require 'support/shared_examples/models/shared_examples_for_clar'
 
 RSpec.describe Claim::InterimClaim, type: :model do
   let(:claim) { build :interim_claim }
+
+  it_behaves_like 'a claim not eligible for unused materials fee'
 
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }

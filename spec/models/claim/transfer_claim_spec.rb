@@ -64,9 +64,22 @@
 
 require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
+require 'support/shared_examples/models/shared_examples_for_clar'
 
 describe Claim::TransferClaim, type: :model do
   let(:claim) { build :transfer_claim }
+
+  context 'when the claim is a trial' do
+    it_behaves_like 'a claim eligible for unused materials fee', 'Trial'
+  end
+
+  context 'when the claim is a cracked trial' do
+    it_behaves_like 'a claim eligible for unused materials fee', 'Cracked Trial'
+  end
+
+  context 'when the claim is not a trial or a cracked trial' do
+    it_behaves_like 'a claim not eligible for unused materials fee', 'Appeal against conviction'
+  end
 
   it { is_expected.not_to delegate_method(:requires_trial_dates?).to(:case_type) }
   it { is_expected.not_to delegate_method(:requires_retrial_dates?).to(:case_type) }

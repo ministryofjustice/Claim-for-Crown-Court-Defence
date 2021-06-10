@@ -1,10 +1,12 @@
 require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
+require 'support/shared_examples/models/shared_examples_for_clar'
 
 RSpec.describe Claim::LitigatorHardshipClaim, type: :model do
   let(:claim) { build :litigator_hardship_claim }
 
   it_behaves_like 'a base claim'
+  it_behaves_like 'a claim not eligible for unused materials fee'
 
   specify { expect(subject.lgfs?).to be_truthy }
   specify { expect(subject.final?).to be_falsey }

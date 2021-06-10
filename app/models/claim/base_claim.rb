@@ -607,6 +607,10 @@ module Claim
       messages.joins(:user_message_statuses).where(user_message_statuses: { read: false, user: user })
     end
 
+    def unused_materials_applicable?
+      false
+    end
+
     private
 
     # called from state_machine before_transition on submit - override in subclass

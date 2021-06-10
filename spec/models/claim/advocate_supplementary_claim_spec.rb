@@ -1,9 +1,11 @@
 require 'rails_helper'
+require 'support/shared_examples/models/shared_examples_for_clar'
 
 RSpec.describe Claim::AdvocateSupplementaryClaim, type: :model do
   let(:claim) { build(:advocate_supplementary_claim) }
 
   it_behaves_like 'a base claim'
+  it_behaves_like 'a claim not eligible for unused materials fee'
 
   specify { expect(subject.external_user_type).to eq(:advocate) }
   specify { expect(subject.requires_case_type?).to be_falsey }

@@ -138,6 +138,14 @@ RSpec.describe Claim::BaseClaim do
 
       it { is_expected.to be_falsey }
     end
+
+    context 'with no defendants' do
+      let(:claim) { create :advocate_claim }
+
+      before { claim.update(defendants: []) }
+
+      it { is_expected.to be_falsey }
+    end
   end
 
   describe '.agfs?' do

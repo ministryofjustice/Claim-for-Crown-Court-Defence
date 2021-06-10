@@ -326,11 +326,12 @@ module Claim
     end
 
     def earliest_representation_order_date
-      earliest_representation_order.try(:representation_order_date)
+      @earliest_representation_order_date ||= earliest_representation_order.try(:representation_order_date)
     end
 
     def clar?
-      earliest_representation_order_date >= Settings.clar_release_date.to_date.beginning_of_day
+      earliest_representation_order_date &&
+        earliest_representation_order_date >= Settings.clar_release_date.to_date.beginning_of_day
     end
 
     def evidence_doc_types

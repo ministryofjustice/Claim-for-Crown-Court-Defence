@@ -66,7 +66,7 @@ module Claim
   class TransferClaim < BaseClaim
     route_key_name 'litigators_transfer_claim'
 
-    include CriminalLegalAidRemuneration2020
+    include CriminalLegalAidReview2020
 
     has_one :transfer_detail,
             foreign_key: :claim_id,

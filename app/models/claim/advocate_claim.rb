@@ -3,7 +3,7 @@ module Claim
     route_key_name 'advocates_claim'
 
     include ProviderDelegation
-    include CriminalLegalAidRemuneration2020
+    include CriminalLegalAidReview2020
 
     has_many :basic_fees,
              foreign_key: :claim_id,

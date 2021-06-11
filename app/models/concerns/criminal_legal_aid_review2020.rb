@@ -1,4 +1,4 @@
-module CriminalLegalAidRemuneration2020
+module CriminalLegalAidReview2020
   extend ActiveSupport::Concern
 
   def unused_materials_applicable?

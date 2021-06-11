@@ -23,30 +23,37 @@ RSpec.describe Fee::BaseFeePresenter do
   end
 
   describe '#quantity' do
-    context 'quantity  is decimal' do
-      it 'returns a decimal quantity' do
+    context 'when quantity allows a decimal' do
+      before do
         allow(fee).to receive(:quantity_is_decimal?).and_return(true)
+        fee.claim.force_validation = true
+      end
+
+      it 'returns a rounded decimal string' do
         fee.quantity = 54.769
+        fee.validate
         expect(presenter.quantity).to eq '54.77'
       end
     end
 
-    context 'quantity is not decimal' do
-      before { allow(fee).to receive(:quantity_is_decimal?).and_return(false) }
+    context 'when quantity does not allow a decimal' do
+      before do
+        allow(fee).to receive(:quantity_is_decimal?).and_return(false)
+        fee.claim.force_validation = true
+      end
 
-      context 'valid' do
-        it 'returns an integer quantity' do
-          allow(fee).to receive(:valid?).and_return(true)
+      context 'with integer value' do
+        it 'returns an integer string' do
           fee.quantity = 4.0
+          fee.validate
           expect(presenter.quantity).to eq '4'
         end
       end
 
-      context 'invalid' do
-        it 'returns decimal quantity' do
-          allow(fee).to receive(:valid?).and_return(false)
-          allow(fee.errors[:quantity]).to receive(:include?).with('integer').and_return true
+      context 'with decimal value' do
+        it 'returns the erroneous decimal string' do
           fee.quantity = 3.45
+          fee.validate
           expect(presenter.quantity).to eq '3.45'
         end
       end

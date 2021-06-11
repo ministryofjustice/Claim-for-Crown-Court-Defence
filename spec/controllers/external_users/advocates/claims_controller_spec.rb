@@ -151,47 +151,23 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
           end
         end
 
-        # TODO: This does not represent the current form step logic
+        # NOTE: This is the most minimal data required to progress form steps
         #
         context 'multi-step form submit to LAA' do
           let(:case_number) { 'A20168888' }
 
           let(:claim_params_mock_first_step) do
             {
-              claim_class: 'Claim::AdvocateClaim',
+              form_step: 'case_details',
               court_id: court,
               case_type_id: case_type.id,
-              offence_id: offence,
-              case_number: case_number,
-              advocate_category: 'QC',
-              defendants_attributes: [
-                {
-                  first_name: 'John',
-                  last_name: 'Smith',
-                  date_of_birth_dd: '4',
-                  date_of_birth_mm: '10',
-                  date_of_birth_yyyy: '1980',
-                  representation_orders_attributes: [
-                    {
-                      representation_order_date_dd: representation_order_date.day.to_s,
-                      representation_order_date_mm: representation_order_date.month.to_s,
-                      representation_order_date_yyyy: representation_order_date.year.to_s,
-                      maat_reference: '4561237'
-                    }
-                  ]
-                }
-              ]
+              case_number: case_number
             }
           end
 
           let(:claim_params_mock_last_step) do
             {
-              form_step: 'defendants',
-              additional_information: 'foo',
-              expenses_attributes:
-              [
-                expense_params
-              ]
+              form_step: 'supporting_evidence'
             }
           end
 

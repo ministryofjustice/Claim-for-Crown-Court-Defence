@@ -84,7 +84,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     # TODO: this should not require build + save + reload
     # understand what the factory is doing to solve this
     claim = build(*args)
-    claim.save
+    claim.save!
     claim.reload
   end
 
@@ -277,7 +277,8 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           end
 
           context 'when miscellaneous fees exists' do
-            let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, misc_fees: [misc_fee]) }
+            let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, case_type: case_type, misc_fees: [misc_fee]) }
+            let(:case_type) { build(:case_type, :trial) }
             let(:misc_fee) { build(:misc_fee, :lgfs, fee_type: fee_type) }
 
             before do

@@ -9,7 +9,7 @@ RSpec.shared_examples 'a claim eligible for unused materials fee' do |case_type_
   describe '#unused_materials_applicable?' do
     include_context 'when set up for #unused_materials_applicable? tests', case_type_name
 
-    context 'when the earliest representation date is on or after 17th September 2020 (scheme 12/CLAR)' do
+    context 'when the earliest representation date is on or after CLAR' do
       let(:defendant) { build :defendant, scheme: 'scheme 12' }
 
       it { is_expected.to be_truthy }
@@ -21,7 +21,7 @@ RSpec.shared_examples 'a claim eligible for unused materials fee' do |case_type_
       end
     end
 
-    context 'when the earliest representation date is before 17th September 2020' do
+    context 'when the earliest representation date is before CLAR' do
       let(:defendant) { build :defendant, scheme: 'scheme 11' }
 
       it { is_expected.to be_falsey }
@@ -33,7 +33,7 @@ RSpec.shared_examples 'a claim not eligible for unused materials fee' do |case_t
   describe '#unused_materials_applicable?' do
     include_context 'when set up for #unused_materials_applicable? tests', case_type_name
 
-    context 'when the earliest representation date is on or after 17th September 2020 (scheme 12/CLAR)' do
+    context 'when the earliest representation date is on or after CLAR' do
       let(:defendant) { build :defendant, scheme: 'scheme 12' }
 
       it { is_expected.to be_falsey }

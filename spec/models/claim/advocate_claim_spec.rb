@@ -5,15 +5,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   it_behaves_like 'a base claim'
 
   context 'when the claim is a trial' do
-    it_behaves_like 'a claim eligible for unused materials fee', 'Trial'
+    it_behaves_like 'a claim eligible for unused materials fee', :trial
   end
 
   context 'when the claim is a cracked trial' do
-    it_behaves_like 'a claim eligible for unused materials fee', 'Cracked Trial'
+    it_behaves_like 'a claim eligible for unused materials fee', :cracked_trial
   end
 
   context 'when the claim is not a trial or a cracked trial' do
-    it_behaves_like 'a claim not eligible for unused materials fee', 'Appeal against conviction'
+    it_behaves_like 'a claim not eligible for unused materials fee', :appeal_against_conviction
   end
 
   it { is_expected.to delegate_method(:requires_cracked_dates?).to(:case_type) }

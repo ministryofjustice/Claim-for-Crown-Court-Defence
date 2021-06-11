@@ -1,7 +1,7 @@
 RSpec.shared_context 'when set up for #unused_materials_applicable? tests' do |case_type_name|
   subject { claim.unused_materials_applicable? }
 
-  let(:case_type) { build :case_type, name: (case_type_name || 'Trial') }
+  let(:case_type) { build :case_type, (case_type_name || :trial) }
   let(:claim) { described_class.new(defendants: [defendant], case_type: case_type) }
 end
 

@@ -51,6 +51,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         let(:case_type)     { create(:case_type) }
         let(:expense_type)  { create(:expense_type, :train) }
         let(:expense_date)  { 10.days.ago }
+        let(:representation_order_date) { 11.days.ago }
         let(:claim_params) do
           {
             additional_information: 'foo',
@@ -69,9 +70,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
                 date_of_birth_yyyy: '1980',
                 representation_orders_attributes: [
                   {
-                    representation_order_date_dd: Time.now.day.to_s,
-                    representation_order_date_mm: Time.now.month.to_s,
-                    representation_order_date_yyyy: Time.now.year.to_s,
+                    representation_order_date_dd: representation_order_date.day.to_s,
+                    representation_order_date_mm: representation_order_date.month.to_s,
+                    representation_order_date_yyyy: representation_order_date.year.to_s,
                     maat_reference: '4561237895'
                   }
                 ]
@@ -150,10 +151,12 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
           end
         end
 
+        # TODO: This does not represent the current form step logic
+        #
         context 'multi-step form submit to LAA' do
           let(:case_number) { 'A20168888' }
 
-          let(:claim_params_step1) do
+          let(:claim_params_mock_first_step) do
             {
               claim_class: 'Claim::AdvocateClaim',
               court_id: court,
@@ -170,9 +173,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
                   date_of_birth_yyyy: '1980',
                   representation_orders_attributes: [
                     {
-                      representation_order_date_dd: Time.now.day.to_s,
-                      representation_order_date_mm: Time.now.month.to_s,
-                      representation_order_date_yyyy: Time.now.year.to_s,
+                      representation_order_date_dd: representation_order_date.day.to_s,
+                      representation_order_date_mm: representation_order_date.month.to_s,
+                      representation_order_date_yyyy: representation_order_date.year.to_s,
                       maat_reference: '4561237'
                     }
                   ]
@@ -181,7 +184,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
             }
           end
 
-          let(:claim_params_step2) do
+          let(:claim_params_mock_last_step) do
             {
               form_step: 'defendants',
               additional_information: 'foo',
@@ -192,18 +195,25 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
             }
           end
 
-          let(:subject_claim) { Claim::AdvocateClaim.active.where(case_number: case_number).first }
+          let(:claim) { Claim::AdvocateClaim.active.where(case_number: case_number).first }
 
-          it 'validates step fields and move to next steps' do
-            post :create, params: { commit_continue: 'Continue', claim: claim_params_step1 }
-            expect(subject_claim.draft?).to be_truthy
-            expect(subject_claim.valid?).to be_truthy
-            expect(response).to redirect_to(edit_advocates_claim_path(subject_claim, step: :defendants))
+          context 'when creating a claim' do
+            before { post :create, params: { commit_continue: 'Continue', claim: claim_params_mock_first_step } }
 
-            put :update, params: { id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2 }
-            expect(subject_claim.draft?).to be_truthy
-            expect(subject_claim.valid?).to be_truthy
-            expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))
+            it { expect(claim).to be_draft }
+            it { expect(claim).to be_valid }
+            it { expect(response).to redirect_to(edit_advocates_claim_path(claim, step: :defendants)) }
+          end
+
+          context 'when updating a claim' do
+            before do
+              post :create, params: { commit_continue: 'Continue', claim: claim_params_mock_first_step }
+              put :update, params: { id: claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_mock_last_step }
+            end
+
+            it { expect(claim).to be_draft }
+            it { expect(claim).to be_valid }
+            it { expect(response).to redirect_to(summary_external_users_claim_path(claim)) }
           end
         end
       end

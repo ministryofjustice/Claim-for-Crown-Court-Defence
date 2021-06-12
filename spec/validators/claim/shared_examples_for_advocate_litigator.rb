@@ -161,30 +161,27 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
     end
   end
 
-  context 'case concluded at date' do
-    before do
-      # TODO: refactor shared examples so that things that do not apply to all litigator claims
-      # are not set as common/shared examples :/
-      skip('does not apply to this claim type') if ([:interim_claim, :hardship_claim] & flags).any?
-      claim.force_validation = true
-    end
+  unless ([:interim_claim, :hardship_claim] & flags).any?
+    context 'case concluded at date' do
+      before { claim.force_validation = true }
 
-    it 'is invalid when absent' do
-      should_error_if_not_present(claim, :case_concluded_at, 'blank')
-    end
+      it 'is invalid when absent' do
+        should_error_if_not_present(claim, :case_concluded_at, 'blank')
+      end
 
-    it 'is invalid when too far in past' do
-      should_error_if_too_far_in_the_past(claim, :case_concluded_at, 'check_not_too_far_in_past')
-    end
+      it 'is invalid when too far in past' do
+        should_error_if_too_far_in_the_past(claim, :case_concluded_at, 'check_not_too_far_in_past')
+      end
 
-    it 'is invalid when in future' do
-      should_error_if_in_future(claim, :case_concluded_at, 'check_not_in_future')
-    end
+      it 'is invalid when in future' do
+        should_error_if_in_future(claim, :case_concluded_at, 'check_not_in_future')
+      end
 
-    it 'is valid when present' do
-      claim.case_concluded_at = 1.month.ago
-      expect(claim).to be_valid
-      expect(claim.errors.key?(:case_concluded_at)).to be false
+      it 'is valid when present' do
+        claim.case_concluded_at = 1.month.ago
+        expect(claim).to be_valid
+        expect(claim.errors.key?(:case_concluded_at)).to be false
+      end
     end
   end
 
@@ -219,12 +216,13 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
       claim.offence = nil
     end
 
-    it 'errors if NOT present for case type without fixed fees' do
-      skip('does not apply to this claim type') if ([:hardship_claim] & flags).any?
-      claim.case_type.is_fixed_fee = false
-      should_error_with(claim, :offence, 'blank_class')
-      claim.case_type.is_fixed_fee = true
-      should_not_error(claim, :offence)
+    unless ([:hardship_claim] & flags).any?
+      it 'errors if NOT present for case type without fixed fees' do
+        claim.case_type.is_fixed_fee = false
+        should_error_with(claim, :offence, 'blank_class')
+        claim.case_type.is_fixed_fee = true
+        should_not_error(claim, :offence)
+      end
     end
 
     it 'does not error if a Miscellaneous/other offence' do

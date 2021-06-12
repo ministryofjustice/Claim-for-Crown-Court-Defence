@@ -20,10 +20,11 @@ shared_examples 'common litigator claim attributes' do |*flags|
     end
   end
 
-  describe '#requires_trial_dates?' do
-    it 'always returns false' do
-      skip('does not apply to this claim type') if ([:hardship_claim] & flags).any?
-      expect(claim.requires_trial_dates?).to be false
+  unless ([:hardship_claim] & flags).any?
+    describe '#requires_trial_dates?' do
+      it 'always returns false' do
+        expect(claim.requires_trial_dates?).to be false
+      end
     end
   end
 end

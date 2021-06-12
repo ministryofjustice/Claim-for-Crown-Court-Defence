@@ -77,12 +77,12 @@ class BaseValidator < ActiveModel::Validator
 
   def validate_absence(attribute, message)
     return unless attr_present?(attribute)
-    clear_pre_existing_error(attribute) if is_gov_uk_date?(attribute)
+    delete_errors_for(attribute) if is_gov_uk_date?(attribute)
     add_error(attribute, message) unless attr_blank?(attribute)
   end
 
-  def clear_pre_existing_error(attribute)
-    @record.errors[attribute].clear
+  def delete_errors_for(attribute)
+    @record.errors.delete(attribute)
   end
 
   def validate_absence_or_zero(attribute, message)

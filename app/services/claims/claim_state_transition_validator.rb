@@ -14,7 +14,7 @@ module Claims
     end
 
     def add_error(message, attribute = :determinations)
-      claim.errors[attribute] << message
+      claim.errors.add(attribute, message)
       @result = :error
     end
 

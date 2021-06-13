@@ -53,7 +53,7 @@ RSpec.describe Claim::TransferDetail do
     end
 
     it 'returns true if any of the transfer detail fields are marked as in error on the claim' do
-      detail.claim.errors[:litigator_type] << 'error'
+      detail.claim.errors.add(:litigator_type, 'error')
       expect(detail.errors?).to be true
     end
 

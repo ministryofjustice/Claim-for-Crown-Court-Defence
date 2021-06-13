@@ -70,15 +70,15 @@ class Determination < ApplicationRecord
   private
 
   def fees_valid
-    errors[:base] << 'Assessed fees must be greater than or equal to zero' if negative_or_nil?(fees)
+    errors.add(:base, 'Assessed fees must be greater than or equal to zero') if negative_or_nil?(fees)
   end
 
   def expenses_valid
-    errors[:base] << 'Assessed expenses must be greater than or equal to zero' if negative_or_nil?(expenses)
+    errors.add(:base, 'Assessed expenses must be greater than or equal to zero') if negative_or_nil?(expenses)
   end
 
   def disbursements_valid
-    errors[:base] << 'Assessed disbursements must be greater than or equal to zero' if negative_or_nil?(disbursements)
+    errors.add(:base, 'Assessed disbursements must be greater than or equal to zero') if negative_or_nil?(disbursements)
   end
 
   def zero_or_nil?(value)

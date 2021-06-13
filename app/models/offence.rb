@@ -55,7 +55,7 @@ class Offence < ApplicationRecord
 
   def offence_class_xor_offence_band
     return if offence_class.present? ^ offence_band.present?
-    errors[:base] << I18n.t('external_users.claims.offence_details.scheme_xor.one_not_both')
+    errors.add(:base, I18n.t('external_users.claims.offence_details.scheme_xor.one_not_both'))
   end
 
   def scheme_nine?

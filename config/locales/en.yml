@@ -1374,7 +1374,13 @@ en:
           <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">appropriate special prep form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
           or <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
           and attach to the claim.
-        unused_materials_notice: This claim should be eligible for unused materials fees (up to 3 hours)
+        unused_materials:
+          heading: Unclaimed fees
+          notice: This claim should be eligible for unused materials fees (up to 3 hours)
+          notice_long: This claim should be eligible for unused materials fees (up to 3 hours) but they haven't been claimed
+          hint_start: Go to
+          hint_link: miscellaneous fees
+          hint_end: to add this to your claim
         advocates:
           fields:
             add_misc_fee: Add another fee

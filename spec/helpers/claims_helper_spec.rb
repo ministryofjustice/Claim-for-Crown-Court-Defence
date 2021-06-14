@@ -202,4 +202,28 @@ RSpec.describe ClaimsHelper do
       it { expect(headings.keys).not_to include(:page_notice) }
     end
   end
+
+  describe '#misc_fees_locals' do
+    subject(:locals) { misc_fees_locals(claim) }
+
+    let(:claim) { build :claim }
+
+    context 'with a claim eligible for unused materials fees' do
+      before { allow(claim).to receive(:unused_materials_applicable?).and_return true }
+
+      it { expect(locals[:unclaimed_fees_notice]).not_to be_nil }
+
+      context 'when unused material fees have already been claimed' do
+        before { create :misc_fee, :miumu_fee, claim: claim, quantity: 1 }
+
+        it { expect(locals.keys).not_to include(:unclaimed_fees_notice) }
+      end
+    end
+
+    context 'with a claim ineligible for unused materials fees' do
+      before { allow(claim).to receive(:unused_materials_applicable?).and_return false }
+
+      it { expect(locals.keys).not_to include(:unclaimed_fees_notice) }
+    end
+  end
 end

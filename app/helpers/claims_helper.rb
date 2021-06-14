@@ -46,7 +46,19 @@ module ClaimsHelper
       page_header: t('page_header', scope: scope),
       page_hint: t('page_hint', scope: scope)
     }.tap do |headings|
-      headings[:page_notice] = t('unused_materials_notice', scope: scope) if display_unused_materials_notice_for(claim)
+      headings[:page_notice] = t('unused_materials.notice', scope: scope) if display_unused_materials_notice_for(claim)
+    end
+  end
+
+  def misc_fees_locals(claim, args = {})
+    {
+      claim: claim, header: t('external_users.claims.misc_fees.summary.header'),
+      collection: claim.misc_fees, step: :miscellaneous_fees,
+      **args
+    }.tap do |locals|
+      if display_unused_materials_notice_for(claim)
+        locals[:unclaimed_fees_notice] = t('external_users.claims.misc_fees.unused_materials.notice_long')
+      end
     end
   end
 

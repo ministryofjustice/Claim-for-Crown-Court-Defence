@@ -1,5 +1,5 @@
 #miscellaneous-fees-section.app-summary-section
-  = render partial: 'summary_fees', locals: { claim: claim, header: t('external_users.claims.misc_fees.summary.header'), collection: claim.misc_fees, editable: editable, section: section, step: :miscellaneous_fees }
+  = render partial: 'summary_fees', locals: misc_fees_locals(claim, editable: editable, section: section)
 
   - if claim.requires_interim_claim_info?
     = render partial: 'external_users/claims/interim_claim_info/summary', locals: { claim: claim }

@@ -70,15 +70,15 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
   let(:claim) { build :litigator_claim }
 
   context 'when the claim is a trial' do
-    it_behaves_like 'a claim eligible for unused materials fee', :trial
+    it_behaves_like 'a claim eligible for unused materials fee', case_type_name: :trial
   end
 
   context 'when the claim is a cracked trial' do
-    it_behaves_like 'a claim eligible for unused materials fee', :cracked_trial
+    it_behaves_like 'a claim eligible for unused materials fee', case_type_name: :cracked_trial
   end
 
   context 'when the claim is not a trial or a cracked trial' do
-    it_behaves_like 'a claim not eligible for unused materials fee', :appeal_against_conviction
+    it_behaves_like 'a claim not eligible for unused materials fee', case_type_name: :appeal_against_conviction
   end
 
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }

@@ -69,16 +69,28 @@ require 'support/shared_examples/models/shared_examples_for_clar'
 describe Claim::TransferClaim, type: :model do
   let(:claim) { build :transfer_claim }
 
-  context 'when the claim is a trial' do
-    it_behaves_like 'a claim eligible for unused materials fee', :trial
+  context 'when the claim has a Grad allocation type' do
+    before { claim.update(case_conclusion_id: 10) }
+
+    it_behaves_like 'a claim eligible for unused materials fee', allocation_type: 'Grad'
   end
 
-  context 'when the claim is a cracked trial' do
-    it_behaves_like 'a claim eligible for unused materials fee', :cracked_trial
+  context 'when the claim has a guilty plea case conclusion' do
+    before { claim.update(case_conclusion_id: 50) }
+
+    it_behaves_like 'a claim not eligible for unused materials fee', allocation_type: 'Grad'
   end
 
-  context 'when the claim is not a trial or a cracked trial' do
-    it_behaves_like 'a claim not eligible for unused materials fee', :appeal_against_conviction
+  context 'when the claim has a Fixed allocation type' do
+    before { claim.update(case_conclusion_id: 10) }
+
+    it_behaves_like 'a claim not eligible for unused materials fee', allocation_type: 'Fixed'
+  end
+
+  context 'when the claim has a nil allocation type' do
+    before { claim.update(case_conclusion_id: 10) }
+
+    it_behaves_like 'a claim not eligible for unused materials fee', allocation_type: nil
   end
 
   it { is_expected.not_to delegate_method(:requires_trial_dates?).to(:case_type) }

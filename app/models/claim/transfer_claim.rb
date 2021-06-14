@@ -66,8 +66,6 @@ module Claim
   class TransferClaim < BaseClaim
     route_key_name 'litigators_transfer_claim'
 
-    include CriminalLegalAidReview2020
-
     has_one :transfer_detail,
             foreign_key: :claim_id,
             class_name: 'Claim::TransferDetail',
@@ -208,6 +206,10 @@ module Claim
 
     def requires_case_type?
       false
+    end
+
+    def unused_materials_applicable?
+      allocation_type == 'Grad' && case_conclusion_id != TransferBrain.case_conclusion_id('Guilty plea') && clar?
     end
 
     private

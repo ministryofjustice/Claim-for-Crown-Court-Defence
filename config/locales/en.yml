@@ -1378,9 +1378,8 @@ en:
           heading: Unclaimed fees
           notice: This claim should be eligible for unused materials fees (up to 3 hours)
           notice_long: This claim should be eligible for unused materials fees (up to 3 hours) but they haven't been claimed
-          hint_start: Go to
+          hint_html: Go to %{link} to add this to your claim
           hint_link: miscellaneous fees
-          hint_end: to add this to your claim
         advocates:
           fields:
             add_misc_fee: Add another fee

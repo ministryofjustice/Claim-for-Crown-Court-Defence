@@ -133,7 +133,8 @@ module Seeds
 
       def create_scheme_twelve_fee_types
         puts "Scheme 12 fee type count before: #{scheme_12_fee_type_count}".yellow
-        Rake::Task['data:migrate:fee_types:reseed'].invoke(pretending?)
+        require Rails.root.join('db','seeds', 'fee_types', 'csv_seeder')
+        Seeds::FeeTypes::CsvSeeder.new(dry_mode: pretending?, stdout: false).call
         puts "Scheme 12 fee type count after: #{scheme_12_fee_type_count}".yellow
       end
 

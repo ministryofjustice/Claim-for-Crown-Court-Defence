@@ -44,6 +44,7 @@ Before('not @no-seed') do
     load "#{Rails.root}/db/seeds/offences.rb"
     load "#{Rails.root}/db/seeds/scheme_10.rb"
     load "#{Rails.root}/db/seeds/scheme_11.rb"
+    load "#{Rails.root}/db/seeds/scheme_12.rb"
     load "#{Rails.root}/db/seeds/case_types.rb"
     load "#{Rails.root}/db/seeds/case_stages.rb"
     load "#{Rails.root}/db/seeds/fee_types.rb"

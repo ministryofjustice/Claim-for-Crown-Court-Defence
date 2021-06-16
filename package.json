@@ -28,7 +28,7 @@
     "jquery-accessible-accordion-aria": "^2.6.1",
     "jquery-highlight": "^3.5.0",
     "jquery-throttle-debounce": "^1.0.0",
-    "jquery-ujs": "^1.2.2",
+    "jquery-ujs": "^1.2.3",
     "jquery-xpath": "^0.3.1",
     "jquery.iframe-transport": "^1.0.0",
     "jsrender": "^1.0.11",

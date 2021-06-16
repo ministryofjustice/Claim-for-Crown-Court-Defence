@@ -38,12 +38,9 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I should see 'This claim should be eligible for unused materials fees (up to 3 hours)'
 
     When I add a calculated miscellaneous fee 'Unused materials (upto 3 hours)' with dates attended '2020-09-20'
-    And I save and open screenshot
     And I eject the VCR cassette
     And I click "Continue" in the claim form
-    And I save and open screenshot
     And I click the link 'Back'
 
     Then I should be in the 'Miscellaneous fees' form page
     And I should not see 'This claim should be eligible for unused materials fees (up to 3 hours)'
-    And I save and open screenshot

@@ -211,7 +211,7 @@ RSpec.describe ClaimsHelper do
     context 'with a claim eligible for unused materials fees' do
       before { allow(claim).to receive(:unused_materials_applicable?).and_return true }
 
-      it { expect(locals[:unclaimed_fees_notice]).not_to be_nil }
+      it { expect(locals[:unclaimed_fees_notice]).to eq "This claim should be eligible for unused materials fees (up to 3 hours) but they haven't been claimed" }
 
       context 'when unused material fees have already been claimed' do
         before { create :misc_fee, :miumu_fee, claim: claim, quantity: 1 }

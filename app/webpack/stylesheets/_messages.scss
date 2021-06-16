@@ -2,7 +2,7 @@
 
 @mixin normalize-bubble($direction:left) {
   @if $direction == "left" {
-    @media print {
+    @include govuk-media-query($media-type: print) {
       margin-right: 95px;
     }
 
@@ -13,7 +13,7 @@
   }
 
   @if $direction == "right" {
-    @media print {
+    @include govuk-media-query($media-type: print) {
       margin-left: 95px;
     }
 
@@ -22,7 +22,7 @@
     }
   }
 
-  @media print {
+  @include govuk-media-query($media-type: print) {
     .message-audit {
       color: $black;
       font-weight: 700;

@@ -130,7 +130,7 @@
 .autocomplete__option {
   padding: 4px;
 }
-@media (min-width: 641px) {
+@include govuk-media-query($from: tablet) {
   .autocomplete__hint,
   .autocomplete__input,
   .autocomplete__option {

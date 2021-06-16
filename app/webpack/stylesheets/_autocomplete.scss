@@ -1,4 +1,4 @@
-@media (min-width: 641px) {
+@include govuk-media-query($from: tablet) {
   // stylelint-disable selector-id-pattern
   #case_details,
   #transfer-detail {
@@ -31,7 +31,7 @@
   background-color: $page-colour;
 }
 
-@media (min-width: 641px) {
+@include govuk-media-query($from: tablet) {
   .tt-menu {
     width: $half;
   }

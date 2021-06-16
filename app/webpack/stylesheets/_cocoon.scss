@@ -1,6 +1,6 @@
 .remove_fields {
   @include govuk-responsive-margin(4, "bottom");
-  @include govuk-media-query ($from: desktop) {
+  @include govuk-media-query($from: desktop) {
     position: absolute;
     top: 0;
     right: 0;

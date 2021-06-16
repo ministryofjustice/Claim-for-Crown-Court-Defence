@@ -493,18 +493,6 @@ form {
 }
 
 // Ported from v1 stylesheets
-.contactus-link {
-  @include core-19;
-  @include clearfix;
-  margin-top: $gutter * 2;
-  margin-bottom: -($gutter * 2);
-
-  @include media($max-width: 768px) {
-    margin-top: $gutter-half;
-    margin-bottom: $gutter-half;
-  }
-}
-
 .search-form {
   @include clearfix;
 

@@ -6,7 +6,7 @@
   background-color: $grey-3;
   line-height: 1.1;
 
-  @media (min-width: 641px) {
+  @include govuk-media-query($from: tablet) {
     padding: $gutter-one-sixth + 2 $gutter-one-third + 2;
   }
 }
@@ -24,7 +24,7 @@
   color: $white;
   background-color: $error-colour;
 
-  @media (min-width: 641px) {
+  @include govuk-media-query($from: tablet) {
     padding: $gutter-one-sixth + 3 $gutter-one-third + 2;
   }
 }

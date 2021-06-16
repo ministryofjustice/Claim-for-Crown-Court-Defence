@@ -52,7 +52,7 @@ module ClaimsHelper
     end
   end
 
-  def misc_fees_locals(claim, args = {})
+  def misc_fees_summary_locals(claim, args = {})
     {
       claim: claim, header: t('external_users.claims.misc_fees.summary.header'),
       collection: claim.misc_fees, step: :miscellaneous_fees,

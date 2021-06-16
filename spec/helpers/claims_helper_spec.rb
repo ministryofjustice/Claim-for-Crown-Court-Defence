@@ -203,8 +203,8 @@ RSpec.describe ClaimsHelper do
     end
   end
 
-  describe '#misc_fees_locals' do
-    subject(:locals) { misc_fees_locals(claim) }
+  describe '#misc_fees_summary_locals' do
+    subject(:locals) { misc_fees_summary_locals(claim) }
 
     let(:claim) { build :claim }
 

@@ -12,7 +12,7 @@ moj.Modules.Allocation = {
 
       $('#allocation-case-worker-id-field-select').attr('aria-label', 'Case worker')
 
-      $('.dt-checkboxes-select-all input').replaceWith('<input type="checkbox" id="select-all-claim"><label for="select-all-claim" class="visually-hidden">Select all claims</label>')
+      $('.dt-checkboxes-select-all input').replaceWith('<input type="checkbox" id="select-all-claim"><label for="select-all-claim" class="govuk-visually-hidden">Select all claims</label>')
     }
   }
 }

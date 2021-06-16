@@ -15,7 +15,7 @@
 - if local_assigns.has_key?(:fee)
   - if fee
     %table.summary
-      %caption.visuallyhidden
+      %caption.govuk-visually-hidden
         = t('.caption')
       %tbody
         = render partial: 'external_users/claims/summary_fee', locals: { fee: present(fee) }
@@ -41,7 +41,7 @@
         = t('shared.summary.basic_fees')
 
     %table.summary
-      %caption.visuallyhidden
+      %caption.govuk-visually-hidden
         = t('.caption')
 
       %thead

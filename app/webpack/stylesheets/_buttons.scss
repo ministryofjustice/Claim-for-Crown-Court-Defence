@@ -31,7 +31,7 @@ $button-shadow-size: $govuk-border-width-form-element;
 }
 
 .button-holder {
-  @include clearfix;
+  @include govuk-clearfix;
 
   margin-top: $gutter;
 }

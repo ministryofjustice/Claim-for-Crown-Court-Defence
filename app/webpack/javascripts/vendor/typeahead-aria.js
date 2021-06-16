@@ -1931,7 +1931,7 @@
     var Status = function() {
         "use strict";
         function Status(options) {
-            this.el = '<span role="status" aria-live="polite" class="visuallyhidden"></span>';
+            this.el = '<span role="status" aria-live="polite" class="govuk-visually-hidden"></span>';
             this.$el = $(this.el);
             options.$input.after(this.$el);
             _.each(options.menu.datasets, _.bind(function(dataset) {

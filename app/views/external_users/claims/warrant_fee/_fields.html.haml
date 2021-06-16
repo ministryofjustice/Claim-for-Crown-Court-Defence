@@ -5,7 +5,7 @@
   = f.fields_for :warrant_fee do |wf|
     .form-group
       %fieldset
-        %legend.visuallyhidden
+        %legend.govuk-visually-hidden
           = t('.warrant_fee')
         .warrant-fee-issued-date-group
           = wf.gov_uk_date_field :warrant_issued_date,

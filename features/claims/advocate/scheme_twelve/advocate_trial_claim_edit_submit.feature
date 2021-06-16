@@ -10,7 +10,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     Then I should be on the new claim page
     And I should see a page title "Enter case details for advocate final fees claim"
 
-    When I enter a case number of 'A20181234'
+    When I enter a case number of 'A20201234'
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter scheme 12 trial start and end dates
@@ -37,10 +37,21 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     Then I should be in the 'Miscellaneous fees' form page
     And I should see 'This claim should be eligible for unused materials fees (up to 3 hours)'
 
-    When I add a calculated miscellaneous fee 'Unused materials (upto 3 hours)' with dates attended '2020-09-20'
-    And I eject the VCR cassette
-    And I click "Continue" in the claim form
-    And I click the link 'Back'
+    When I add a calculated miscellaneous fee 'Unused materials (upto 3 hours)'
+    And I add a calculated miscellaneous fee 'Unused materials (over 3 hours)' with quantity of '5'
+    And I should see 'You need to add a separate "Unused material (upto 3 hours)" fee for the first 3 hours'
+    And I add a calculated miscellaneous fee 'Paper heavy case'
+    And I add a calculated miscellaneous fee 'Deferred sentence hearings'
+    Then the following fee details should exist:
+      | section | fee_description | rate | hint | help |
+      | miscellaneous | Unused materials (upto 3 hours) | 59.09 | Number of hours | true |
+      | miscellaneous | Unused materials (over 3 hours) | 39.39 | Number of hours | true |
+      | miscellaneous | Paper heavy case | 39.39 | Number of hours | true |
+      | miscellaneous | Deferred sentence hearings | 175.00 | Number of days | true |
 
+    When I click "Continue" in the claim form
+    And I click the link 'Back'
     Then I should be in the 'Miscellaneous fees' form page
     And I should not see 'This claim should be eligible for unused materials fees (up to 3 hours)'
+
+    And I eject the VCR cassette

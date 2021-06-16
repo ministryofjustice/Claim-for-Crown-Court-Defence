@@ -66,8 +66,6 @@ module Claim
   class LitigatorClaim < BaseClaim
     route_key_name 'litigators_claim'
 
-    include CriminalLegalAidReview2020
-
     validates_with ::Claim::LitigatorClaimValidator, unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::LitigatorSupplierNumberValidator, if: proc { |c| c.draft? }
     validates_with ::Claim::LitigatorClaimSubModelValidator
@@ -198,6 +196,10 @@ module Claim
 
     def requires_case_concluded_date?
       true
+    end
+
+    def unused_materials_applicable?
+      %w[GRTRL GRRAK].include?(case_type&.fee_type_code) && clar?
     end
 
     private

@@ -3,7 +3,6 @@ module Claim
     route_key_name 'advocates_claim'
 
     include ProviderDelegation
-    include CriminalLegalAidReview2020
 
     has_many :basic_fees,
              foreign_key: :claim_id,
@@ -169,6 +168,10 @@ module Claim
 
     def discontinuance?
       case_type&.fee_type_code.eql?('GRDIS')
+    end
+
+    def unused_materials_applicable?
+      %w[GRTRL GRRAK].include?(case_type&.fee_type_code) && clar?
     end
 
     private

@@ -69,30 +69,6 @@ require 'support/shared_examples/models/shared_examples_for_clar'
 describe Claim::TransferClaim, type: :model do
   let(:claim) { build :transfer_claim }
 
-  context 'when the claim has a Grad allocation type' do
-    before { claim.update(case_conclusion_id: 10) }
-
-    it_behaves_like 'a claim eligible for unused materials fee', allocation_type: 'Grad'
-  end
-
-  context 'when the claim has a guilty plea case conclusion' do
-    before { claim.update(case_conclusion_id: 50) }
-
-    it_behaves_like 'a claim not eligible for unused materials fee', allocation_type: 'Grad'
-  end
-
-  context 'when the claim has a Fixed allocation type' do
-    before { claim.update(case_conclusion_id: 10) }
-
-    it_behaves_like 'a claim not eligible for unused materials fee', allocation_type: 'Fixed'
-  end
-
-  context 'when the claim has a nil allocation type' do
-    before { claim.update(case_conclusion_id: 10) }
-
-    it_behaves_like 'a claim not eligible for unused materials fee', allocation_type: nil
-  end
-
   it { is_expected.not_to delegate_method(:requires_trial_dates?).to(:case_type) }
   it { is_expected.not_to delegate_method(:requires_retrial_dates?).to(:case_type) }
 
@@ -215,4 +191,48 @@ describe Claim::TransferClaim, type: :model do
   end
 
   include_examples 'common litigator claim attributes'
+
+  describe '#unused_materials_applicable?' do
+    subject { claim.unused_materials_applicable? }
+
+    let(:claim) { described_class.new(defendants: defendants, allocation_type: allocation_type) }
+    let(:defendants) { [build(:defendant, scheme: 'scheme 12')] }
+    let(:allocation_type) { 'Grad' }
+
+    context 'when the claim has a Grad allocation type' do
+      before { claim.update(case_conclusion_id: 10) }
+
+      context 'when the earliest representation date is on or after CLAR' do
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when the earliest representation date is before CLAR' do
+        let(:defendants) { [build(:defendant, scheme: 'scheme 11')] }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'when the claim has a guilty plea case conclusion' do
+      before { claim.update(case_conclusion_id: 50) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the claim has a Fixed allocation type' do
+      let(:allocation_type) { 'Fixed' }
+
+      before { claim.update(case_conclusion_id: 10) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the claim has a nil allocation type' do
+      let(:allocation_type) { nil }
+
+      before { claim.update(case_conclusion_id: 10) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
 end

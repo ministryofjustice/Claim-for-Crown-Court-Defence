@@ -5,7 +5,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaim, type: :model do
   let(:claim) { build(:advocate_supplementary_claim) }
 
   it_behaves_like 'a base claim'
-  it_behaves_like 'a claim not eligible for unused materials fee'
+  it_behaves_like 'unused material fees tests for non-final claim'
 
   specify { expect(subject.external_user_type).to eq(:advocate) }
   specify { expect(subject.requires_case_type?).to be_falsey }

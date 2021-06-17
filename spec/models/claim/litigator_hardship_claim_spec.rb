@@ -6,7 +6,7 @@ RSpec.describe Claim::LitigatorHardshipClaim, type: :model do
   let(:claim) { build :litigator_hardship_claim }
 
   it_behaves_like 'a base claim'
-  it_behaves_like 'a claim not eligible for unused materials fee'
+  it_behaves_like 'unused material fees tests for non-final claim'
 
   specify { expect(subject.lgfs?).to be_truthy }
   specify { expect(subject.final?).to be_falsey }

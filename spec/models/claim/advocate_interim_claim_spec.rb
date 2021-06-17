@@ -3,7 +3,7 @@ require 'support/shared_examples/models/shared_examples_for_clar'
 
 RSpec.describe Claim::AdvocateInterimClaim, type: :model do
   it_behaves_like 'a base claim'
-  it_behaves_like 'a claim not eligible for unused materials fee'
+  it_behaves_like 'unused material fees tests for non-final claim'
 
   it { is_expected.to have_one(:warrant_fee) }
 

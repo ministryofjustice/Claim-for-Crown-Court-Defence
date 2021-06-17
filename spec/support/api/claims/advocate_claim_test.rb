@@ -9,7 +9,7 @@ class AdvocateClaimTest < BaseClaimTest
     puts 'starting'
 
     # create a claim
-    response = client.post_to_endpoint('claims', claim_data)
+    response = client.post_to_endpoint('claims/advocates/final', claim_data)
     return if client.failure
 
     self.claim_uuid = id_from_json(response)

@@ -116,31 +116,31 @@ RSpec.describe Claim::BaseClaim do
     subject { claim.clar? }
 
     context 'when the claim is AGFS scheme 12' do
-      let(:claim) { create :advocate_claim, :agfs_scheme_12 }
+      let(:claim) { create(:advocate_claim, :agfs_scheme_12) }
 
       it { is_expected.to be_truthy }
     end
 
     context 'when the claim is AGFS scheme 11' do
-      let(:claim) { create :advocate_claim, :agfs_scheme_11 }
+      let(:claim) { create(:advocate_claim, :agfs_scheme_11) }
 
       it { is_expected.to be_falsey }
     end
 
     context 'when the claim is LGFS CLAR' do
-      let(:claim) { create :litigator_claim, :clar }
+      let(:claim) { create(:litigator_claim, :clar) }
 
       it { is_expected.to be_truthy }
     end
 
     context 'when the claim is LGFS pre-CLAR' do
-      let(:claim) { create :litigator_claim, :pre_clar }
+      let(:claim) { create(:litigator_claim, :pre_clar) }
 
       it { is_expected.to be_falsey }
     end
 
     context 'with no defendants' do
-      let(:claim) { create :advocate_claim }
+      let(:claim) { create(:advocate_claim) }
 
       before { claim.update(defendants: []) }
 

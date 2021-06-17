@@ -182,7 +182,7 @@ RSpec.describe ClaimsHelper do
   describe '#fee_shared_headings' do
     subject(:headings) { fee_shared_headings(claim, 'test.scope') }
 
-    let(:claim) { build :claim }
+    let(:claim) { build(:claim) }
 
     context 'with a claim eligible for unused materials fees' do
       before { allow(claim).to receive(:unused_materials_applicable?).and_return true }
@@ -190,7 +190,7 @@ RSpec.describe ClaimsHelper do
       it { expect(headings[:page_notice]).not_to be_nil }
 
       context 'when unused material fees have already been claimed' do
-        before { create :misc_fee, :miumu_fee, claim: claim, quantity: 1 }
+        before { create(:misc_fee, :miumu_fee, claim: claim, quantity: 1) }
 
         it { expect(headings.keys).not_to include(:page_notice) }
       end

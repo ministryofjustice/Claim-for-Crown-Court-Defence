@@ -40,4 +40,21 @@ module ClaimsHelper
     end
     false
   end
+
+  def fee_shared_headings(claim, scope, fees_calculator_html = nil)
+    {
+      page_header: t('page_header', scope: scope),
+      page_hint: t('page_hint', scope: scope)
+    }.tap do |headings|
+      if display_unused_materials_notice_for(claim)
+        headings[:page_notice] = t('unused_materials_fee.notice', scope: scope)
+      end
+      headings[:fees_calculator_html] = fees_calculator_html unless fees_calculator_html.nil?
+    end
+  end
+
+  def display_unused_materials_notice_for(claim)
+    claim.eligible_misc_fee_types.map(&:unique_code).include?('MIUMU') &&
+      claim.fees.select { |f| f.fee_type.unique_code == 'MIUMU' }.empty?
+  end
 end

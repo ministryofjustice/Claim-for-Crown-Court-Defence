@@ -595,6 +595,10 @@ module Claim
       Claims::FetchEligibleDocumentTypes.for(self)
     end
 
+    def eligible_misc_fee_types
+      Claims::FetchEligibleMiscFeeTypes.new(self).call
+    end
+
     def discontinuance?
       case_type&.fee_type_code.eql?('GRDIS')
     end

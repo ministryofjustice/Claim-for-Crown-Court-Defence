@@ -196,10 +196,6 @@ module Claim
       CaseType.lgfs
     end
 
-    def eligible_misc_fee_types
-      Claims::FetchEligibleMiscFeeTypes.new(self).call
-    end
-
     def requires_case_concluded_date?
       true
     end

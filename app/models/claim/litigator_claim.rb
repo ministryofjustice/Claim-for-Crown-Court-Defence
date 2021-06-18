@@ -182,10 +182,6 @@ module Claim
       Fee::BasicFeeType.lgfs
     end
 
-    def eligible_misc_fee_types
-      Claims::FetchEligibleMiscFeeTypes.new(self).call
-    end
-
     def eligible_fixed_fee_types
       Claims::FetchEligibleFixedFeeTypes.new(self).call
     end

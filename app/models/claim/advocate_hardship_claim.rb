@@ -114,11 +114,6 @@ module Claim
       Fee::BasicFeeType.agfs_scheme_9s
     end
 
-    # TODO: Hardship claim - can be shared with all advocate claims
-    def eligible_misc_fee_types
-      Claims::FetchEligibleMiscFeeTypes.new(self).call
-    end
-
     def external_user_type
       :advocate
     end

@@ -3,7 +3,7 @@ require 'support/shared_examples/models/shared_examples_for_clar'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
   it_behaves_like 'a base claim'
-  it_behaves_like 'unused material fees tests for final claim'
+  include_examples 'unused material signpostable fees tests for final claim'
 
   it { is_expected.to delegate_method(:requires_cracked_dates?).to(:case_type) }
 

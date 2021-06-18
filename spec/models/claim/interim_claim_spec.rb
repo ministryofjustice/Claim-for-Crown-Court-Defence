@@ -69,7 +69,7 @@ require 'support/shared_examples/models/shared_examples_for_clar'
 RSpec.describe Claim::InterimClaim, type: :model do
   let(:claim) { build :interim_claim }
 
-  it_behaves_like 'unused material fees tests for non-final claim'
+  include_examples 'unused material signpostable fees tests for non-final claim'
 
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }

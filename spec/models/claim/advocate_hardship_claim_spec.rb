@@ -80,7 +80,7 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
   let(:claim) { build(:advocate_hardship_claim) }
 
   it_behaves_like 'a base claim'
-  it_behaves_like 'unused material fees tests for non-final claim'
+  include_examples 'unused material signpostable fees tests for non-final claim'
 
   specify { expect(subject.agfs?).to be_truthy }
   specify { expect(subject.final?).to be_falsey }

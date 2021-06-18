@@ -64,7 +64,6 @@
 
 require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
-require 'support/shared_examples/models/shared_examples_for_clar'
 
 describe Claim::TransferClaim, type: :model do
   let(:claim) { build :transfer_claim }

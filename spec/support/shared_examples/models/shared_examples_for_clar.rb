@@ -1,4 +1,4 @@
-RSpec.shared_examples 'unused material fees tests for final claim' do
+RSpec.shared_examples 'unused material signpostable fees tests for final claim' do
   describe '#unused_materials_applicable?' do
     subject { claim.unused_materials_applicable? }
 
@@ -45,7 +45,7 @@ RSpec.shared_examples 'unused material fees tests for final claim' do
   end
 end
 
-RSpec.shared_examples 'unused material fees tests for non-final claim' do
+RSpec.shared_examples 'unused material signpostable fees tests for non-final claim' do
   describe '#unused_materials_applicable?' do
     subject { claim.unused_materials_applicable? }
 

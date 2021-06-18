@@ -13,8 +13,8 @@ date_of_birth:
   _seq: 20
   too_early:
     long: 'The date of birth may not be more than 100 years old'
-    short: 'Invalid date'
-    api: 'The date of birth may not be more than 100 years old'
+    short: 'Enter a valid date'
+    api: 'The date of birth is too early'
 
 trial_date:
   _seq: 30

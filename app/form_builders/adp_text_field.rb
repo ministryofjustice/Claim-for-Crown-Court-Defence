@@ -39,14 +39,11 @@ class AdpTextField
     @errors
   end
 
-  # @errors can either be an instance of ActiveModel::Errors or ErrorDetail
+  # @errors can either be an instance of ActiveModel::Errors or ErrorPresenter
   def has_errors?
     return false if @errors.nil?
-    if @errors.is_a?(ActiveModel::Errors)
-      @errors.key?(@error_key.to_sym)
-    else
-      @errors.errors_for?(@error_key.to_sym)
-    end
+
+    @errors.key?(@error_key.to_sym)
   end
 
   def to_html

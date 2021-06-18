@@ -44,6 +44,7 @@ Before('not @no-seed') do
     load "#{Rails.root}/db/seeds/offences.rb"
     load "#{Rails.root}/db/seeds/scheme_10.rb"
     load "#{Rails.root}/db/seeds/scheme_11.rb"
+    load "#{Rails.root}/db/seeds/scheme_12.rb"
     load "#{Rails.root}/db/seeds/case_types.rb"
     load "#{Rails.root}/db/seeds/case_stages.rb"
     load "#{Rails.root}/db/seeds/fee_types.rb"
@@ -96,7 +97,7 @@ After do |scenario|
 
   # screenshot failure for storage as artifact in circleCI
   name = scenario.location.file.gsub('features/','').gsub(/\.|\//, '-')
-  screenshot_image(name) if scenario.failed?
+  screenshot_image(name) if scenario.failed? && ENV['CI']
 
   # Following a local ruby and various dependecy updates cucumber no longer
   # appears to have been shutting down the chromedriver automatically.

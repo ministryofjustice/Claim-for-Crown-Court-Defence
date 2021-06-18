@@ -53,6 +53,18 @@ module ClaimsHelper
     end
   end
 
+  def misc_fees_summary_locals(claim, args = {})
+    {
+      claim: claim, header: t('external_users.claims.misc_fees.summary.header'),
+      collection: claim.misc_fees, step: :miscellaneous_fees,
+      **args
+    }.tap do |locals|
+      if display_unused_materials_notice_for(claim)
+        locals[:unclaimed_fees_notice] = t('external_users.claims.misc_fees.unused_materials_fee.notice.long')
+      end
+    end
+  end
+
   def display_unused_materials_notice_for(claim)
     claim.eligible_misc_fee_types.map(&:unique_code).include?('MIUMU') &&
       claim.fees.select { |f| f.fee_type.unique_code == 'MIUMU' }.empty?

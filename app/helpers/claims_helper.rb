@@ -47,7 +47,7 @@ module ClaimsHelper
       page_hint: t('page_hint', scope: scope)
     }.tap do |headings|
       if display_unused_materials_notice_for(claim)
-        headings[:page_notice] = t('unused_materials_fee.notice', scope: scope)
+        headings[:page_notice] = t('unused_materials_fee.notice.short', scope: scope)
       end
       headings[:fees_calculator_html] = fees_calculator_html unless fees_calculator_html.nil?
     end

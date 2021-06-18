@@ -47,5 +47,33 @@ RSpec.describe GovukComponent::WarningTextHelpers, type: :helper do
         is_expected.to have_tag(:div, with: { class: 'govuk-warning-text my-custom-class1 my-custom-class2' })
       end
     end
+
+    context 'when called with a block' do
+      subject(:markup) do
+        helper.govuk_warning_text('You can be fined up to £5,000 if you do not register.', class: 'my-custom-class1 my-custom-class2') do
+          'Some extra information'
+        end
+      end
+
+      it 'adds tag with custom classes, prepended by govuk class' do
+        is_expected.to have_tag(:div) do
+          with_tag(:div, with: { class: 'govuk-warning-text__text govuk-\!-font-weight-regular govuk-\!-margin-top-4' })
+        end
+      end
+    end
+  end
+
+  describe '#govuk_warning_text_description' do
+    context 'when called with a block' do
+      subject(:markup) { helper.govuk_warning_text_description { 'You can be fined up to £5,000 if you do not register.' } }
+
+      it { is_expected.to have_tag(:div, with: { class: 'govuk-warning-text__text govuk-\!-font-weight-regular govuk-\!-margin-top-4' }) }
+    end
+
+    context 'when called without a block' do
+      subject(:markup) { helper.govuk_warning_text_description }
+
+      it { is_expected.to be_nil }
+    end
   end
 end

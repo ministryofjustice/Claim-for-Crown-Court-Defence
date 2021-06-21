@@ -6,7 +6,7 @@
 
 - present(@claim) do |claim|
 
-  - if display_unused_materials_notice_for(claim)
+  - if display_unused_materials_notice?(claim)
     = govuk_warning_text(t('external_users.claims.misc_fees.unused_materials_fee.heading')) do
       = t('external_users.claims.misc_fees.unused_materials_fee.notice.short')
       %br

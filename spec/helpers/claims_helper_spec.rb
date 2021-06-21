@@ -241,4 +241,31 @@ RSpec.describe ClaimsHelper do
       it { expect(locals.keys).not_to include(:unclaimed_fees_notice) }
     end
   end
+
+  describe '#display_unused_materials_notice?' do
+    subject { display_unused_materials_notice?(claim) }
+
+    let(:claim) { build(:claim) }
+    let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
+    let(:another_fee) { create(:misc_fee_type, :miphc) }
+    let(:eligible_fees) { [another_fee] }
+
+    before { allow(claim).to receive(:eligible_misc_fee_types).and_return Array(eligible_fees) }
+
+    context 'with a claim eligible for unused materials fees' do
+      let(:eligible_fees) { [unused_materials_fee, another_fee] }
+
+      it { is_expected.to be_truthy }
+
+      context 'when unused material fees have already been claimed' do
+        before { create(:misc_fee, fee_type: unused_materials_fee, claim: claim, quantity: 1) }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'with a claim ineligible for unused materials fees' do
+      it { is_expected.to be_falsey }
+    end
+  end
 end

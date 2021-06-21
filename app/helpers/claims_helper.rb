@@ -40,4 +40,33 @@ module ClaimsHelper
     end
     false
   end
+
+  def fee_shared_headings(claim, scope, fees_calculator_html = nil)
+    {
+      page_header: t('page_header', scope: scope),
+      page_hint: t('page_hint', scope: scope)
+    }.tap do |headings|
+      if display_unused_materials_notice?(claim)
+        headings[:page_notice] = t('unused_materials_fee.notice.short', scope: scope)
+      end
+      headings[:fees_calculator_html] = fees_calculator_html unless fees_calculator_html.nil?
+    end
+  end
+
+  def misc_fees_summary_locals(claim, args = {})
+    {
+      claim: claim, header: t('external_users.claims.misc_fees.summary.header'),
+      collection: claim.misc_fees, step: :miscellaneous_fees,
+      **args
+    }.tap do |locals|
+      if display_unused_materials_notice?(claim)
+        locals[:unclaimed_fees_notice] = t('external_users.claims.misc_fees.unused_materials_fee.notice.long')
+      end
+    end
+  end
+
+  def display_unused_materials_notice?(claim)
+    claim.eligible_misc_fee_types.map(&:unique_code).include?('MIUMU') &&
+      claim.fees.select { |f| f.fee_type.unique_code == 'MIUMU' }.empty?
+  end
 end

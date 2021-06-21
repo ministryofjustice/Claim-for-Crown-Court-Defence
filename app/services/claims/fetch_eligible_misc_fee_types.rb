@@ -5,8 +5,8 @@ module Claims
     end
 
     def call
-      return nil unless claim
-      return nil if claim&.interim?
+      return unless claim
+      return [] if claim&.interim?
       eligible_fee_types
     end
 

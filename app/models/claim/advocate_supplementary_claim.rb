@@ -89,11 +89,6 @@ module Claim
       Claims::FetchEligibleAdvocateCategories.for(self)
     end
 
-    # TODO: SUPPLEMENTARY_CLAIM_TODO promote or mixin/concern
-    def eligible_misc_fee_types
-      Claims::FetchEligibleMiscFeeTypes.new(self).call
-    end
-
     private
 
     def cleaner

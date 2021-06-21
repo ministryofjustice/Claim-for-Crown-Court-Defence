@@ -76,10 +76,6 @@ module Claim
       CaseStage.lgfs.where.not("unique_code LIKE 'OBSOLETE%'")
     end
 
-    def eligible_misc_fee_types
-      Claims::FetchEligibleMiscFeeTypes.new(self).call
-    end
-
     def external_user_type
       :litigator
     end

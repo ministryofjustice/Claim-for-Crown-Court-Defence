@@ -47,10 +47,6 @@ class ApiTestClient
     LitigatorHardshipClaimTest.new(client: self).test_creation!
   end
 
-  def run_debug_session
-    DebugFinalClaimTest.new(client: self).test_creation!
-  end
-
   def failure
     !@success
   end

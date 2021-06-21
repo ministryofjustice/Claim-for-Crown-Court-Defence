@@ -22,7 +22,8 @@ SimpleCov.configure do
   add_filter 'app/interfaces/api/helpers/xml_formatter.rb'    # only used for XML export proof of concept (LAA integration)
   add_filter 'app/validators/expense_v1_validator.rb'         # no longer used - can be removed when all claims with v1 expenses deleted (see PT https://www.pivotaltracker.com/story/show/119351871 )
   add_filter 'lib/caching/redis_store.rb'                     # unable to mock a local instance of Redis
-  add_filter 'lib/messaging'                                  # all the files used in the proof of concept to export calims to LAA systems
+  add_filter 'lib/id_sequence_resettable.rb'                  # only used for rake task to restore database locally
+  add_filter 'lib/messaging'                                  # all the files used in the proof of concept to export claims to LAA systems
   add_filter 'db/seed_helper.rb'
 
   # exclude patterns from test coverage results

@@ -44,7 +44,6 @@
   "resolutions": {
     "hosted-git-info": "^3.0.8",
     "is-svg": "^4.3.1",
-    "jquery": "^3.6.0",
     "node-forge": "^0.10.0",
     "ssri": "^8.0.1",
     "webpack": "^4.44.2"
@@ -53,5 +52,10 @@
     "env": [ "jasmine", "jquery" ],
     "globals": [ "GOVUK", "moj" ],
     "ignore": [ "app/webpack/javascripts/vendor/", "spec/javascripts/helpers/" ]
+  },
+  "@comments": {
+    "@dependencies": {
+      "jquery": "exact version required due to older API usage within app"
+    }
   }
 }

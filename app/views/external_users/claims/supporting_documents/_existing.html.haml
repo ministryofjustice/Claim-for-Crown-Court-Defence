@@ -1,4 +1,4 @@
-- if @claim.documents.any?
+- if @claim.documents.any?(&:persisted?)
   %table.previously-uploaded
     %caption
       = t('.previously_uploaded_docs')

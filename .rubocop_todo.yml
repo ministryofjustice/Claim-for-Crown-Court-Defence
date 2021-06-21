@@ -2879,11 +2879,6 @@ Rails/WhereEquals:
   Exclude:
     - 'spec/services/claims/context_mapper_spec.rb'
 
-# Offense count: 1
-Security/Open:
-  Exclude:
-    - 'lib/id_sequence_resettable.rb'
-
 # Offense count: 10
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle.

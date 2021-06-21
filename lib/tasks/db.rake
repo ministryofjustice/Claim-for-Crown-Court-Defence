@@ -1,6 +1,7 @@
 require_relative 'rake_helpers/dump_file_writer'
 require_relative 'rake_helpers/s3_bucket'
 require_relative 'rake_helpers/rake_utils'
+require_relative 'rake_helpers/id_sequence_resettable'
 require 'fileutils'
 include RakeUtils
 

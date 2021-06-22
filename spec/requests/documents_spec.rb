@@ -145,6 +145,10 @@ RSpec.describe 'Document management', type: :request do
     end
 
     it_behaves_like 'failed document upload' do
+      let(:params) { { document: { document: '' } } }
+    end
+
+    it_behaves_like 'failed document upload' do
       let(:params) { { document: { document: nil } } }
     end
   end

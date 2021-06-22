@@ -125,6 +125,38 @@ RSpec.describe ErrorMessageTranslator do
 
       it { is_expected.to eq 'Enter a valid quantity for the fixed fee' }
     end
+
+    context 'when the key has a sub-sub-module' do
+      let(:key) { :defendant_5_representation_order_2_maat_reference }
+      let(:error) { 'blank' }
+
+      it do
+        is_expected.to eq(
+          'The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant'
+        )
+      end
+    end
+
+    context 'when the sub-module does not exist and the key has a sub-sub-module' do
+      let(:key) { :defendant_5_court_order_2_maat_reference }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the sub-sub-module does not exist' do
+      let(:key) { :defendant_5_representation_order_2_court }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the error for the sub-sub-module does not exist' do
+      let(:key) { :defendant_5_representation_order_2_maat_reference }
+      let(:error) { 'no_such_error' }
+
+      it { is_expected.to be_nil }
+    end
   end
 
   describe '#short_message' do
@@ -182,6 +214,34 @@ RSpec.describe ErrorMessageTranslator do
       let(:error) { 'invalid' }
 
       it { is_expected.to eq 'Enter a valid quantity' }
+    end
+
+    context 'when the key has a sub-sub-module' do
+      let(:key) { :defendant_5_representation_order_2_maat_reference }
+      let(:error) { 'blank' }
+
+      it { is_expected.to eq 'Invalid format' }
+    end
+
+    context 'when the sub-module does not exist and the key has a sub-sub-module' do
+      let(:key) { :defendant_5_court_order_2_maat_reference }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the sub-sub-module does not exist' do
+      let(:key) { :defendant_5_representation_order_2_court }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the error for the sub-sub-module does not exist' do
+      let(:key) { :defendant_5_representation_order_2_maat_reference }
+      let(:error) { 'no_such_error' }
+
+      it { is_expected.to be_nil }
     end
   end
 
@@ -241,6 +301,38 @@ RSpec.describe ErrorMessageTranslator do
 
       it { is_expected.to eq 'Enter a valid quantity for the fixed fee' }
     end
+
+    context 'when the key has a sub-sub-module' do
+      let(:key) { :defendant_5_representation_order_2_maat_reference }
+      let(:error) { 'blank' }
+
+      it do
+        is_expected.to eq(
+          'The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant'
+        )
+      end
+    end
+
+    context 'when the sub-module does not exist and the key has a sub-sub-module' do
+      let(:key) { :defendant_5_court_order_2_maat_reference }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the sub-sub-module does not exist' do
+      let(:key) { :defendant_5_representation_order_2_court }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the error for the sub-sub-module does not exist' do
+      let(:key) { :defendant_5_representation_order_2_maat_reference }
+      let(:error) { 'no_such_error' }
+
+      it { is_expected.to be_nil }
+    end
   end
 
   describe '#translation_found?' do
@@ -299,42 +391,33 @@ RSpec.describe ErrorMessageTranslator do
 
       it { is_expected.to be_truthy }
     end
-  end
 
-  context 'sub-sub-model translations' do
-    context 'all keys and errors exist' do
-      let(:key)           { :defendant_5_representation_order_2_maat_reference }
-      let(:error)         { 'blank' }
-      it 'returns defendant 5 reporder 2 errors' do
-        expect(emt.translation_found?).to be true
-        expect(emt.long_message).to   eq 'The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant'
-        expect(emt.short_message).to  eq 'Invalid format'
-        expect(emt.api_message).to    eq 'The MAAT Reference must be 7-10 numeric digits for the second representation order of the fifth defendant'
-      end
+    context 'when the key has a sub-sub-module' do
+      let(:key) { :defendant_5_representation_order_2_maat_reference }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_truthy }
     end
 
-    context 'key for sub sub model does not exist' do
-      let(:key)           { :defendant_5_court_order_2_maat_reference }
-      let(:error)         { 'blank' }
-      it 'returns defendant 5 reporder 2 errors' do
-        expect_translation_not_found(emt)
-      end
+    context 'when the sub-module does not exist and the key has a sub-sub-module' do
+      let(:key) { :defendant_5_court_order_2_maat_reference }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_falsey }
     end
 
-    context 'key for field on sub sub model does not exist' do
-      let(:key)           { :defendant_5_representation_order_2_court }
-      let(:error)         { 'blank' }
-      it 'returns defendant 5 reporder 2 errors' do
-        expect_translation_not_found(emt)
-      end
+    context 'when the sub-sub-module does not exist' do
+      let(:key) { :defendant_5_representation_order_2_court }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_falsey }
     end
 
-    context 'key for error on sub sub model does not exist' do
-      let(:key)           { :defendant_5_representation_order_2_maat_reference }
-      let(:error)         { 'no_such_error' }
-      it 'returns defendant 5 reporder 2 errors' do
-        expect_translation_not_found(emt)
-      end
+    context 'when the error for the sub-sub-module does not exist' do
+      let(:key) { :defendant_5_representation_order_2_maat_reference }
+      let(:error) { 'no_such_error' }
+
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -367,14 +450,5 @@ RSpec.describe ErrorMessageTranslator do
       expect(emt.send(:to_ordinal, '43')).to eq '43rd'
       expect(emt.send(:to_ordinal, '67')).to eq '67th'
     end
-  end
-
-  # local helpers
-  # -------------
-  def expect_translation_not_found(emt)
-    expect(emt.translation_found?).to be false
-    expect(emt.long_message).to   be_nil
-    expect(emt.short_message).to  be_nil
-    expect(emt.api_message).to    be_nil
   end
 end

@@ -90,6 +90,41 @@ RSpec.describe ErrorMessageTranslator do
 
       it { is_expected.to be_nil }
     end
+
+    context 'when the key has a sub-model with a has_many relation' do
+      let(:key) { :defendant_2_first_name }
+      let(:error) { 'blank' }
+
+      it { is_expected.to eq 'Enter a first name for the second defendant' }
+    end
+
+    context 'when the field does not exist and there is a sub-model' do
+      let(:key) { :person_2_first_name }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the sub-module for the key does not exist' do
+      let(:key) { :defendant_2_age }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the error for a key and sub-module does not exist' do
+      let(:key) { :defendant_2_first_name }
+      let(:error) { 'balderdash' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the key has a sub-module with a has_one relation' do
+      let(:key) { 'fixed_fee.quantity' }
+      let(:error) { 'invalid' }
+
+      it { is_expected.to eq 'Enter a valid quantity for the fixed fee' }
+    end
   end
 
   describe '#short_message' do
@@ -112,6 +147,41 @@ RSpec.describe ErrorMessageTranslator do
       let(:error) { 'rubbish' }
 
       it { is_expected.to be_nil }
+    end
+
+    context 'when the key has a sub-model with a has_many relation' do
+      let(:key) { :defendant_2_first_name }
+      let(:error) { 'blank' }
+
+      it { is_expected.to eq 'Cannot be blank' }
+    end
+
+    context 'when the field does not exist and there is a sub-model' do
+      let(:key) { :person_2_first_name }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the sub-module for the key does not exist' do
+      let(:key) { :defendant_2_age }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the error for a key and sub-module does not exist' do
+      let(:key) { :defendant_2_first_name }
+      let(:error) { 'balderdash' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the key has a sub-module with a has_one relation' do
+      let(:key) { 'fixed_fee.quantity' }
+      let(:error) { 'invalid' }
+
+      it { is_expected.to eq 'Enter a valid quantity' }
     end
   end
 
@@ -136,6 +206,41 @@ RSpec.describe ErrorMessageTranslator do
 
       it { is_expected.to be_nil }
     end
+
+    context 'when the key has a sub-model with a has_many relation' do
+      let(:key) { :defendant_2_first_name }
+      let(:error) { 'blank' }
+
+      it { is_expected.to eq 'The first name for the second defendant must not be blank' }
+    end
+
+    context 'when the field does not exist and there is a sub-model' do
+      let(:key) { :person_2_first_name }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the sub-module for the key does not exist' do
+      let(:key) { :defendant_2_age }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the error for a key and sub-module does not exist' do
+      let(:key) { :defendant_2_first_name }
+      let(:error) { 'balderdash' }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the key has a sub-module with a has_one relation' do
+      let(:key) { 'fixed_fee.quantity' }
+      let(:error) { 'invalid' }
+
+      it { is_expected.to eq 'Enter a valid quantity for the fixed fee' }
+    end
   end
 
   describe '#translation_found?' do
@@ -159,53 +264,40 @@ RSpec.describe ErrorMessageTranslator do
 
       it { is_expected.to be_falsey }
     end
-  end
 
-  context 'sub-model translations' do
-    context 'has_many relations' do
-      context 'key and error exist in translations table' do
-        let(:key)           { :defendant_2_first_name }
-        let(:error)         { 'blank' }
-        it 'returns defendant 2 error messages' do
-          expect(emt.translation_found?).to be true
-          expect(emt.long_message).to eq 'Enter a first name for the second defendant'
-          expect(emt.short_message).to eq 'Cannot be blank'
-          expect(emt.api_message).to eq 'The first name for the second defendant must not be blank'
-        end
-      end
+    context 'when the key has a sub-model with a has_many relation' do
+      let(:key) { :defendant_2_first_name }
+      let(:error) { 'blank' }
 
-      context 'key for submodel does not exist in base model' do
-        let(:key) { :person_2_first_name }
-        let(:error) { 'blank' }
-        it 'returns defendant 2 error messages' do
-          expect_translation_not_found(emt)
-        end
-      end
-
-      context 'key for submodel exists but key for field in submodel does not' do
-        let(:key) { :defendant_2_age }
-        let(:error) { 'blank' }
-        it 'returns defendant 2 error messages' do
-          expect_translation_not_found(emt)
-        end
-      end
-
-      context 'key for submodel and field on submodel exists but error does not' do
-        let(:key) { :defendant_2_first_name }
-        let(:error) { 'baslderdash' }
-        it 'returns defendant 2 error messages' do
-          expect_translation_not_found(emt)
-        end
-      end
+      it { is_expected.to be_truthy }
     end
 
-    context 'has_one relations' do
+    context 'when the field does not exist and there is a sub-model' do
+      let(:key) { :person_2_first_name }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the sub-module for the key does not exist' do
+      let(:key) { :defendant_2_age }
+      let(:error) { 'blank' }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the error for a key and sub-module does not exist' do
+      let(:key) { :defendant_2_first_name }
+      let(:error) { 'balderdash' }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the key has a sub-module with a has_one relation' do
       let(:key) { 'fixed_fee.quantity' }
       let(:error) { 'invalid' }
-      it 'returns error defaulting error message' do
-        expect(emt.translation_found?).to be true
-        expect(emt.long_message).to eq 'Enter a valid quantity for the fixed fee'
-      end
+
+      it { is_expected.to be_truthy }
     end
   end
 

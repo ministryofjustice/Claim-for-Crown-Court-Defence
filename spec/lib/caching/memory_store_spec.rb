@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-class Caching
+module Caching
   describe MemoryStore do
     describe '.current' do
       context 'after a call has been made already' do

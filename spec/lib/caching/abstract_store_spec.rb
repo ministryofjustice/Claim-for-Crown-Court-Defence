@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-class Caching
+module Caching
   describe AbstractStore do
     describe '.current' do
       it 'raises' do

@@ -1,7 +1,7 @@
 require 'digest/sha1'
 require 'uri'
 
-class Caching
+module Caching
   class ApiRequest
     attr_accessor :url, :options
 

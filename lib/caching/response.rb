@@ -1,4 +1,4 @@
-class Caching
+module Caching
   class Response
     attr_accessor :response
 

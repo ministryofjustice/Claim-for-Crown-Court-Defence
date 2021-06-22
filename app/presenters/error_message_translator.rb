@@ -20,7 +20,7 @@ class ErrorMessageTranslator
   def translate!
     get_messages(@translations, @key, @error)
     return unless translation_found?
-    @long_message = substitute_submodel_numbers_and_names(@long_message)
+    @long_message  = substitute_submodel_numbers_and_names(@long_message)
     @short_message = substitute_submodel_numbers_and_names(@short_message)
     @api_message = substitute_submodel_numbers_and_names(@api_message)
   end
@@ -58,9 +58,9 @@ class ErrorMessageTranslator
       translation_subset, submodel_key = extract_submodel_attribute(translations, key)
       get_messages(translation_subset, submodel_key, error)
     elsif translation_exists?(translations, key, error)
-      @long_message = translations[key][error]['long']
+      @long_message  = translations[key][error]['long']
       @short_message = translations[key][error]['short']
-      @api_message = translations[key][error]['api']
+      @api_message   = translations[key][error]['api']
     end
   end
 

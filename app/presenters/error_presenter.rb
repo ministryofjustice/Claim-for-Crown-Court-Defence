@@ -1,8 +1,6 @@
 class ErrorPresenter
   SUBMODEL_REGEX = /^(\S+?)(_(\d+)_)(\S+)$/.freeze
 
-  attr_reader :error_details
-
   def initialize(claim, message_file = nil)
     @claim = claim
     @errors = claim.errors
@@ -12,9 +10,21 @@ class ErrorPresenter
     generate_messages
   end
 
-  delegate :errors_for?, :header_errors, :size, :short_messages_for, to: :error_details
-  alias key? errors_for?
-  alias field_level_error_for short_messages_for
+  def errors_for?(fieldname)
+    @error_details.errors_for?(fieldname)
+  end
+
+  def field_level_error_for(fieldname)
+    @error_details.short_messages_for(fieldname)
+  end
+
+  def header_errors
+    @error_details.header_errors
+  end
+
+  def size
+    @error_details.size
+  end
 
   private
 
@@ -35,7 +45,6 @@ class ErrorPresenter
 
   def populate_messages(error)
     emt = ErrorMessageTranslator.new(@translations, error.attribute, error.message)
-
     if emt.translation_found?
       OpenStruct.new(
         long: emt.long_message,

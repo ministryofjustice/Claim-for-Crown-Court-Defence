@@ -157,9 +157,6 @@ Rails/EnvironmentVariableAccess: # (new in 2.10)
 Rails/TimeZoneAssignment: # (new in 2.10)
   Enabled: true
 
-RSpec/ImplicitSubject:
-  EnforcedStyle: single_statement_only
-
 RSpec/NestedGroups:
   Max: 4
 

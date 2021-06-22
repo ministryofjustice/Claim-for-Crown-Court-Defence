@@ -19,18 +19,11 @@ class ErrorMessageTranslator
 
   def translate!
     get_messages(@translations, @key, @error)
+    fallback_messages
     return unless translation_found?
     @long_message = substitute_submodel_numbers_and_names(@long_message)
     @short_message = substitute_submodel_numbers_and_names(@short_message)
     @api_message = substitute_submodel_numbers_and_names(@api_message)
-  end
-
-  def translation_found?
-    !translation_not_found?
-  end
-
-  def translation_not_found?
-    @long_message.nil? || @short_message.nil? || @api_message.nil?
   end
 
   # Support for keys in the format: fixed_fee.date_attended_1_date
@@ -42,6 +35,10 @@ class ErrorMessageTranslator
   end
 
   private
+
+  def translation_found?
+    @translation_found
+  end
 
   # needed for GovUkDateField error handling (at least)
   def format_error(error)
@@ -62,6 +59,14 @@ class ErrorMessageTranslator
       @short_message = translations[key][error]['short']
       @api_message = translations[key][error]['api']
     end
+  end
+
+  def fallback_messages
+    @translation_found = @long_message && @short_message && @api_message
+
+    @long_message ||= "#{@key.to_s.humanize} #{@error.humanize.downcase}"
+    @short_message ||= @error.humanize
+    @api_message ||= "#{@key.to_s.humanize} #{@error.humanize.downcase}"
   end
 
   def submodel_key_exists?(translations, key)

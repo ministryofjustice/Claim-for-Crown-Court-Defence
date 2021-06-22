@@ -82,13 +82,13 @@ RSpec.describe ErrorMessageTranslator do
     context 'when the key does not exist in the translation table' do
       let(:key) { :stepmother }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Stepmother cannot be blank' }
     end
 
     context 'when the error does not exist in the translation table' do
       let(:error) { 'rubbish' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Name rubbish' }
     end
 
     context 'when the key has a sub-model with a has_many relation' do
@@ -102,21 +102,21 @@ RSpec.describe ErrorMessageTranslator do
       let(:key) { :person_2_first_name }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Person 2 first name blank' }
     end
 
     context 'when the sub-module for the key does not exist' do
       let(:key) { :defendant_2_age }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Defendant 2 age blank' }
     end
 
     context 'when the error for a key and sub-module does not exist' do
       let(:key) { :defendant_2_first_name }
       let(:error) { 'balderdash' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Defendant 2 first name balderdash' }
     end
 
     context 'when the key has a sub-module with a has_one relation' do
@@ -141,21 +141,21 @@ RSpec.describe ErrorMessageTranslator do
       let(:key) { :defendant_5_court_order_2_maat_reference }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Defendant 5 court order 2 maat reference blank' }
     end
 
     context 'when the sub-sub-module does not exist' do
       let(:key) { :defendant_5_representation_order_2_court }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Defendant 5 representation order 2 court blank' }
     end
 
     context 'when the error for the sub-sub-module does not exist' do
       let(:key) { :defendant_5_representation_order_2_maat_reference }
       let(:error) { 'no_such_error' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Defendant 5 representation order 2 maat reference no such error' }
     end
   end
 
@@ -172,13 +172,13 @@ RSpec.describe ErrorMessageTranslator do
     context 'when the key does not exist in the translation table' do
       let(:key) { :stepmother }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Cannot be blank' }
     end
 
     context 'when the error does not exist in the translation table' do
       let(:error) { 'rubbish' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Rubbish' }
     end
 
     context 'when the key has a sub-model with a has_many relation' do
@@ -192,21 +192,21 @@ RSpec.describe ErrorMessageTranslator do
       let(:key) { :person_2_first_name }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Blank' }
     end
 
     context 'when the sub-module for the key does not exist' do
       let(:key) { :defendant_2_age }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Blank' }
     end
 
     context 'when the error for a key and sub-module does not exist' do
       let(:key) { :defendant_2_first_name }
       let(:error) { 'balderdash' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Balderdash' }
     end
 
     context 'when the key has a sub-module with a has_one relation' do
@@ -227,21 +227,21 @@ RSpec.describe ErrorMessageTranslator do
       let(:key) { :defendant_5_court_order_2_maat_reference }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Blank' }
     end
 
     context 'when the sub-sub-module does not exist' do
       let(:key) { :defendant_5_representation_order_2_court }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Blank' }
     end
 
     context 'when the error for the sub-sub-module does not exist' do
       let(:key) { :defendant_5_representation_order_2_maat_reference }
       let(:error) { 'no_such_error' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'No such error' }
     end
   end
 
@@ -258,13 +258,13 @@ RSpec.describe ErrorMessageTranslator do
     context 'when the key does not exist in the translation table' do
       let(:key) { :stepmother }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Stepmother cannot be blank' }
     end
 
     context 'when the error does not exist in the translation table' do
       let(:error) { 'rubbish' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Name rubbish' }
     end
 
     context 'when the key has a sub-model with a has_many relation' do
@@ -278,21 +278,21 @@ RSpec.describe ErrorMessageTranslator do
       let(:key) { :person_2_first_name }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Person 2 first name blank' }
     end
 
     context 'when the sub-module for the key does not exist' do
       let(:key) { :defendant_2_age }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Defendant 2 age blank' }
     end
 
     context 'when the error for a key and sub-module does not exist' do
       let(:key) { :defendant_2_first_name }
       let(:error) { 'balderdash' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Defendant 2 first name balderdash' }
     end
 
     context 'when the key has a sub-module with a has_one relation' do
@@ -317,107 +317,21 @@ RSpec.describe ErrorMessageTranslator do
       let(:key) { :defendant_5_court_order_2_maat_reference }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Defendant 5 court order 2 maat reference blank' }
     end
 
     context 'when the sub-sub-module does not exist' do
       let(:key) { :defendant_5_representation_order_2_court }
       let(:error) { 'blank' }
 
-      it { is_expected.to be_nil }
+      it { is_expected.to eq 'Defendant 5 representation order 2 court blank' }
     end
 
     context 'when the error for the sub-sub-module does not exist' do
       let(:key) { :defendant_5_representation_order_2_maat_reference }
       let(:error) { 'no_such_error' }
 
-      it { is_expected.to be_nil }
-    end
-  end
-
-  describe '#translation_found?' do
-    subject { emt.translation_found? }
-
-    let(:key) { :name }
-    let(:error) { 'cannot_be_blank' }
-
-    context 'when the key and error both exist in the translation table' do
-      it { is_expected.to be_truthy }
-    end
-
-    context 'when the key does not exist in the translation table' do
-      let(:key) { :stepmother }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'when the error does not exist in the translation table' do
-      let(:error) { 'rubbish' }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'when the key has a sub-model with a has_many relation' do
-      let(:key) { :defendant_2_first_name }
-      let(:error) { 'blank' }
-
-      it { is_expected.to be_truthy }
-    end
-
-    context 'when the field does not exist and there is a sub-model' do
-      let(:key) { :person_2_first_name }
-      let(:error) { 'blank' }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'when the sub-module for the key does not exist' do
-      let(:key) { :defendant_2_age }
-      let(:error) { 'blank' }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'when the error for a key and sub-module does not exist' do
-      let(:key) { :defendant_2_first_name }
-      let(:error) { 'balderdash' }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'when the key has a sub-module with a has_one relation' do
-      let(:key) { 'fixed_fee.quantity' }
-      let(:error) { 'invalid' }
-
-      it { is_expected.to be_truthy }
-    end
-
-    context 'when the key has a sub-sub-module' do
-      let(:key) { :defendant_5_representation_order_2_maat_reference }
-      let(:error) { 'blank' }
-
-      it { is_expected.to be_truthy }
-    end
-
-    context 'when the sub-module does not exist and the key has a sub-sub-module' do
-      let(:key) { :defendant_5_court_order_2_maat_reference }
-      let(:error) { 'blank' }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'when the sub-sub-module does not exist' do
-      let(:key) { :defendant_5_representation_order_2_court }
-      let(:error) { 'blank' }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'when the error for the sub-sub-module does not exist' do
-      let(:key) { :defendant_5_representation_order_2_maat_reference }
-      let(:error) { 'no_such_error' }
-
-      it { is_expected.to be_falsey }
+      it { is_expected.to eq 'Defendant 5 representation order 2 maat reference no such error' }
     end
   end
 

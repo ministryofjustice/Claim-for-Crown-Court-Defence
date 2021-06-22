@@ -66,7 +66,7 @@ class Allocation
   def claims_in_correct_state_for?(new_state)
     claims.each do |claim|
       next if claim.state.in?(VALID_STATES_FOR_TRANSITION[new_state])
-      errors.add(:base, "Claim #{claim.id} cannot be transitioned to #{new_state} from #{claim.state}")
+      errors[:base] << "Claim #{claim.id} cannot be transitioned to #{new_state} from #{claim.state}"
     end
     errors[:base].empty?
   end
@@ -117,7 +117,7 @@ class Allocation
   end
 
   def rollback_all_allocations!
-    errors.add(:base, 'NO claims were allocated')
+    errors[:base].unshift('NO claims allocated because: ')
     @successful_claims = []
     raise ActiveRecord::Rollback
   end

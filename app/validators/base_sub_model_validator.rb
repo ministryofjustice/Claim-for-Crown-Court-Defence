@@ -51,16 +51,16 @@ class BaseSubModelValidator < BaseValidator
 
   def copy_errors_to_base_record(base_record, association_name, associated_record, record_num)
     error_prefix = "#{association_name.to_s.singularize}_#{record_num + 1}"
-    associated_record.errors.each do |error|
-      error_suffix = suffix_error_fields? ? "_#{error.attribute}" : ''
+    associated_record.errors.each do |fieldname, error_message|
+      error_suffix = suffix_error_fields? ? "_#{fieldname}" : ''
       base_record_error_key = [error_prefix, error_suffix].join.to_sym
-      base_record.errors.add(base_record_error_key, error.message)
+      base_record.errors[base_record_error_key] << error_message
     end
   end
 
   def remove_unnumbered_submodel_errors_from_base_record(base_record)
-    base_record.errors.each do |error|
-      base_record.errors.delete(error.attribute) if is_unnumbered_submodel_error?(error.attribute)
+    base_record.errors.each do |(key, _)|
+      base_record.errors.delete(key) if is_unnumbered_submodel_error?(key)
     end
   end
 

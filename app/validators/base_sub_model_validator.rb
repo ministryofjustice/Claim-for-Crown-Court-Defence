@@ -58,11 +58,15 @@ class BaseSubModelValidator < BaseValidator
     end
   end
 
-  def remove_unnumbered_submodel_errors_from_base_record(record)
-    # DO NOT loop over `errors` because you modify the loop your are iterating over.
-    record.errors.attribute_names.each do |attribute|
-      record.errors.delete(attribute) if attribute.to_s.include?('.')
+  def remove_unnumbered_submodel_errors_from_base_record(base_record)
+    base_record.errors.each do |error|
+      base_record.errors.delete(error.attribute) if is_unnumbered_submodel_error?(error.attribute)
     end
+  end
+
+  def is_unnumbered_submodel_error?(key)
+    key_as_string = key.to_s
+    key_as_string =~ /^(.*)\./ && has_many_association_names_for_errors.include?(Regexp.last_match(1).to_sym)
   end
 
   def has_many_association_names_for_errors

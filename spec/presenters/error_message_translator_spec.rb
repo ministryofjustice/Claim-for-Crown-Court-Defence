@@ -69,44 +69,95 @@ RSpec.describe ErrorMessageTranslator do
 
   let(:emt) { ErrorMessageTranslator.new(translations, key, error) }
 
-  context 'provides readble message attributes' do
-    let(:key)   { :name }
+  describe '#long_message' do
+    subject { emt.long_message }
+
+    let(:key) { :name }
     let(:error) { 'cannot_be_blank' }
 
-    it 'responds to long_message, short_message, api_message' do
-      expect(emt).to respond_to :long_message
-      expect(emt).to respond_to :short_message
-      expect(emt).to respond_to :api_message
+    context 'when the key and error both exist in the translation table' do
+      it { is_expected.to eq 'The claimant name must not be blank, please enter a name' }
+    end
+
+    context 'when the key does not exist in the translation table' do
+      let(:key) { :stepmother }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the error does not exist in the translation table' do
+      let(:error) { 'rubbish' }
+
+      it { is_expected.to be_nil }
     end
   end
 
-  context 'single_level_translations' do
-    let(:key)           { :name }
-    let(:error)         { 'cannot_be_blank' }
+  describe '#short_message' do
+    subject { emt.short_message }
 
-    context 'key and error exists in translations table' do
-      it 'returns top level long and short messages' do
-        expect(emt.translation_found?).to be true
-        expect(emt.long_message).to eq 'The claimant name must not be blank, please enter a name'
-        expect(emt.short_message).to eq 'Enter a name'
-        expect(emt.api_message).to eq 'The claimant name must not be blank'
-      end
+    let(:key) { :name }
+    let(:error) { 'cannot_be_blank' }
+
+    context 'when the key and error both exist in the translation table' do
+      it { is_expected.to eq 'Enter a name' }
     end
 
-    context 'key does not exist in translations table' do
-      let(:key)           { :stepmother }
-      let(:error)         { 'too_long' }
-      it 'returns nil and responds true to unable_to_find_translation' do
-        expect_translation_not_found(emt)
-      end
+    context 'when the key does not exist in the translation table' do
+      let(:key) { :stepmother }
+
+      it { is_expected.to be_nil }
     end
 
-    context 'key exists but error does not exist in translations table' do
-      let(:key)           { :name }
-      let(:error)         { 'rubbish' }
-      it 'returns nil and responds true to unable_to_find_translation' do
-        expect_translation_not_found(emt)
-      end
+    context 'when the error does not exist in the translation table' do
+      let(:error) { 'rubbish' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#api_message' do
+    subject { emt.api_message }
+
+    let(:key) { :name }
+    let(:error) { 'cannot_be_blank' }
+
+    context 'when the key and error both exist in the translation table' do
+      it { is_expected.to eq 'The claimant name must not be blank' }
+    end
+
+    context 'when the key does not exist in the translation table' do
+      let(:key) { :stepmother }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'when the error does not exist in the translation table' do
+      let(:error) { 'rubbish' }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#translation_found?' do
+    subject { emt.translation_found? }
+
+    let(:key) { :name }
+    let(:error) { 'cannot_be_blank' }
+
+    context 'when the key and error both exist in the translation table' do
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when the key does not exist in the translation table' do
+      let(:key) { :stepmother }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when the error does not exist in the translation table' do
+      let(:error) { 'rubbish' }
+
+      it { is_expected.to be_falsey }
     end
   end
 

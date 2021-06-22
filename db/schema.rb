@@ -220,8 +220,8 @@ ActiveRecord::Schema.define(version: 2021_03_05_134731) do
     t.datetime "updated_at"
     t.date "date_to"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
-    t.integer "attended_item_id"
     t.string "attended_item_type"
+    t.integer "attended_item_id"
     t.index ["attended_item_id", "attended_item_type"], name: "index_dates_attended_on_attended_item_id_and_attended_item_type"
   end
 
@@ -643,8 +643,8 @@ ActiveRecord::Schema.define(version: 2021_03_05_134731) do
     t.datetime "last_sign_in_at"
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
-    t.integer "persona_id"
     t.string "persona_type"
+    t.integer "persona_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string "first_name"
@@ -681,6 +681,7 @@ ActiveRecord::Schema.define(version: 2021_03_05_134731) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "claims", "case_stages", name: "fk_claims_case_stage_id"
+  add_foreign_key "injection_attempts", "claims"
   add_foreign_key "offence_bands", "offence_categories"
   add_foreign_key "offences", "offence_bands"
 end

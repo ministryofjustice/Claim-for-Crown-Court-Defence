@@ -234,7 +234,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         fee.amount = nil
         fee.rate = nil
         expect(fee).to_not be_valid
-        expect(fee.errors.attribute_names).to include(:rate)
+        expect(fee.errors.keys).to include(:rate)
         expect(fee.rate).to eq 0
         expect(fee.amount).to eq 0
       end

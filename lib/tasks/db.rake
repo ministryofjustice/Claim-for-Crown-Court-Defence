@@ -59,7 +59,7 @@ namespace :db do
   task :reseed => [:clear, 'db:migrate', 'db:seed']
 
   desc 'CCCD task: clear the database, run migrations, seeds and reloads demo data'
-  task :reload do
+  task reload: :environment do
     production_protected
 
     Rake::Task['db:clear'].invoke

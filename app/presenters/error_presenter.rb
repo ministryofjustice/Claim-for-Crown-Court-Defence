@@ -30,17 +30,15 @@ class ErrorPresenter
 
   def generate_messages
     @errors.each do |error|
-      error_message = error.message
-      attribute = error.attribute
-      emt = ErrorMessageTranslator.new(@translations, attribute, error_message)
-      messages = populate_messages(emt, error_message, attribute)
-      next if @error_details[attribute] && @error_details[attribute][0].long_message.eql?(messages.long)
-      @error_details[attribute] = ErrorDetail.new(
-        attribute,
+      emt = ErrorMessageTranslator.new(@translations, error.attribute, error.message)
+      messages = populate_messages(emt, error.message, error.attribute)
+      next if @error_details[error.attribute] && @error_details[error.attribute][0].long_message.eql?(messages.long)
+      @error_details[error.attribute] = ErrorDetail.new(
+        error.attribute,
         messages.long,
         messages.short,
         messages.api,
-        generate_sequence(attribute)
+        generate_sequence(error.attribute)
       )
     end
   end

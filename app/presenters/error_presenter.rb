@@ -30,8 +30,10 @@ class ErrorPresenter
 
   def generate_messages
     @errors.each do |error|
+      error_message = error.message
       attribute = error.attribute
-      messages = populate_messages(error)
+      emt = ErrorMessageTranslator.new(@translations, attribute, error_message)
+      messages = populate_messages(emt, error_message, attribute)
       next if @error_details[attribute] && @error_details[attribute][0].long_message.eql?(messages.long)
       @error_details[attribute] = ErrorDetail.new(
         attribute,
@@ -43,21 +45,18 @@ class ErrorPresenter
     end
   end
 
-  def populate_messages(error)
-    emt = ErrorMessageTranslator.new(@translations, error.attribute, error.message)
+  def populate_messages(emt, error, field_name)
+    message = Struct.new(:long, :short, :api).new
     if emt.translation_found?
-      OpenStruct.new(
-        long: emt.long_message,
-        short: emt.short_message,
-        api: emt.api_message
-      )
+      message.long = emt.long_message
+      message.short = emt.short_message
+      message.api = emt.api_message
     else
-      OpenStruct.new(
-        long: generate_standard_long_message(error),
-        short: generate_standard_short_message(error),
-        api: generate_standard_api_message(error)
-      )
+      message.long = generate_standard_long_message(field_name, error)
+      message.short = generate_standard_short_message(field_name, error)
+      message.api = generate_standard_api_message(field_name, error)
     end
+    message
   end
 
   def last_parent_attribute(_translations, key)
@@ -103,15 +102,15 @@ class ErrorPresenter
     '#' + fieldname
   end
 
-  def generate_standard_long_message(error)
-    "#{error.attribute.to_s.humanize} #{error.message.humanize.downcase}"
+  def generate_standard_long_message(fieldname, error)
+    "#{fieldname.to_s.humanize} #{error.humanize.downcase}"
   end
 
-  def generate_standard_short_message(error)
-    error.message.humanize
+  def generate_standard_short_message(_fieldname, error)
+    error.humanize
   end
 
-  def generate_standard_api_message(error)
-    "#{error.attribute.to_s.humanize} #{error.message.humanize.downcase}"
+  def generate_standard_api_message(fieldname, error)
+    "#{fieldname.to_s.humanize} #{error.humanize.downcase}"
   end
 end

@@ -1,5 +1,4 @@
 # This file is used by Rack-based servers to start the application.
-
 if %w(production devunicorn).include?(ENV['RAILS_ENV']) && ENV['ENV']
   require 'unicorn/worker_killer'
   require_relative 'lib/host_memory'
@@ -13,6 +12,5 @@ if %w(production devunicorn).include?(ENV['RAILS_ENV']) && ENV['ENV']
   use Unicorn::WorkerKiller::Oom, oom_min, oom_max
 end
 
-require_relative 'config/environment'
+require ::File.expand_path('../config/environment', __FILE__)
 run Rails.application
-Rails.application.load_server

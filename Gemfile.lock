@@ -750,7 +750,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.4.2)
-    zendesk_api (1.29.0)
+    zendesk_api (1.30.0)
       faraday (>= 0.9.0, < 2.0.0)
       hashie (>= 3.5.2, < 5.0.0)
       inflection
@@ -875,7 +875,7 @@ DEPENDENCIES
   webdrivers (~> 4.6)
   webmock
   webpacker (~> 5.4)
-  zendesk_api (= 1.29.0)
+  zendesk_api (= 1.30.0)
 
 RUBY VERSION
    ruby 2.7.3p183

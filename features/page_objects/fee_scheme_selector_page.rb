@@ -10,5 +10,5 @@ class FeeSchemeSelectorPage < BasePage
   element :litigator_transfer_fee, "label[for='claim-type-id-lgfs-transfer-field']"
   element :litigator_hardship_fee, "label[for='claim-type-id-lgfs-hardship-field']"
 
-  element :continue, "input[value='Continue']"
+  element :continue, 'button.govuk-button', text: 'Continue'
 end

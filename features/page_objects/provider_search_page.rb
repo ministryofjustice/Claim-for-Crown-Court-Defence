@@ -3,5 +3,5 @@ class ProviderSearchPage < BasePage
 
   element :email, 'input#external-user-email-field'
 
-  element :search, 'input[type="submit"]'
+  element :search, 'button.govuk-button', text: 'Search'
 end

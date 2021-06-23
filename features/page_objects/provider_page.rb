@@ -11,7 +11,7 @@ class ProviderPage < BasePage
 
   element :supplier_number, 'input#provider-lgfs-supplier-numbers-attributes-15-supplier-number-field'
 
-  element :save_details, 'input[value="Save details"]'
+  element :save_details, 'button.govuk-button', text: 'Save details'
 
   def choose(label)
     radios.find { |radio| radio.label.text.match?(label) }.click

@@ -27,7 +27,7 @@ class ClaimShowPage < BasePage
 
   section :messages_panel, "#claim-accordion .messages-container" do
     element :enter_your_message, "textarea#message-body-field"
-    element :send, "input.govuk-button[value='Send']"
+    element :send, 'button.govuk-button', text: 'Send'
 
     def upload_file(path)
       attach_file("message-attachment-field", path)

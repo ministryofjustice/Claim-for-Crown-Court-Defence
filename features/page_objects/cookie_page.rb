@@ -14,6 +14,6 @@ class CookiePage < BasePage
   section :form, 'form[action="/help/cookies"]' do
     element :accept_cookies, '#cookies-analytics-true-field'
     element :reject_cookies, '#cookies-analytics-false-field'
-    element :submit, 'input[value="Save changes"]'
+    element :submit, 'button.govuk-button', text: 'Save changes'
   end
 end

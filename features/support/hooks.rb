@@ -7,7 +7,7 @@ Before('not @no-site-prism') do
   @fee_scheme_selector = FeeSchemeSelectorPage.new
   @external_user_claim_show_page = ExternalUserClaimShowPage.new
   @case_worker_claim_show_page = CaseWorkerClaimShowPage.new
-  @manage_users_page = ManageUsersPage.new
+  @external_user_manage_users_page = ExternalUserManageUsersPage.new
   @new_user_page = NewUserPage.new
   @edit_user_page = EditUserPage.new
 
@@ -29,6 +29,10 @@ Before('not @no-site-prism') do
   @provider_index_page = ProviderIndexPage.new
   @new_provider_page = ProviderPage.new
   @provider_search_page = ProviderSearchPage.new
+  @provider_users_index_page = ProviderUsersIndexPage.new
+  @provider_users_show_page = ProviderUsersShowPage.new
+  @provider_users_new_page = ProviderUsersNewPage.new
+  @provider_users_edit_page = ProviderUsersEditPage.new
 
   @cookie_page = CookiePage.new
 end

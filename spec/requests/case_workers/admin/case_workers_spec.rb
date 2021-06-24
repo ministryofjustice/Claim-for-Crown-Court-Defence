@@ -1,7 +1,10 @@
 RSpec.describe 'Caseworker admin', type: :request do
   let(:admin) { create(:case_worker, :admin) }
 
-  before { sign_in admin.user }
+  before do
+    ActiveJob::Base.queue_adapter = :test
+    sign_in admin.user
+  end
 
   describe 'POST /case_workers/admin/case_workers' do
     let(:create_case_workers_request) { post(case_workers_admin_case_workers_path, params: case_worker_params) }
@@ -38,6 +41,11 @@ RSpec.describe 'Caseworker admin', type: :request do
         expect(DeviseMailer).to have_received(:reset_password_instructions)
       end
 
+      it 'enqueues a job to send the email' do
+        create_case_workers_request
+        expect(ActionMailer::DeliveryJob).to have_been_enqueued
+      end
+
       describe 'if there is an issue with delivering the email' do
         let(:mailer) { instance_double DeviseMailer }
 
@@ -66,6 +74,11 @@ RSpec.describe 'Caseworker admin', type: :request do
       it 'renders the new template' do
         create_case_workers_request
         expect(response).to render_template(:new)
+      end
+
+      it 'does not enqueue a job to send the email' do
+        create_case_workers_request
+        expect(ActionMailer::DeliveryJob).not_to have_been_enqueued
       end
     end
   end

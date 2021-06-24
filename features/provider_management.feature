@@ -1,7 +1,7 @@
 @javascript @no-seed @vat-seeds
 Feature: Case worker can manage providers
 
-  Scenario: A provider Manager can create a new chamber
+  Scenario: A Provider manager can create a new chamber
     When I insert the VCR cassette 'features/provider_management'
     Given I am a signed in case worker provider manager
     Then the page should be accessible
@@ -24,7 +24,7 @@ Feature: Case worker can manage providers
 
     And I eject the VCR cassette
 
-  Scenario: A provider Manager can create a new firm
+  Scenario: A Provider manager can create a new firm
     When I insert the VCR cassette 'features/provider_management'
     Given I am a signed in case worker provider manager
     Then the page should be accessible
@@ -52,7 +52,7 @@ Feature: Case worker can manage providers
 
     And I eject the VCR cassette
 
-  Scenario: A provider Manager can search for providers
+  Scenario: A Provider manager can search for providers
     When I insert the VCR cassette 'features/provider_management'
     Given I am a signed in case worker provider manager
     And an external provider exists
@@ -71,14 +71,18 @@ Feature: Case worker can manage providers
 
     And I eject the VCR cassette
 
-  Scenario: A provider Manager can add users to providers
+  Scenario: A Provider manager can create and update users on providers
     When I insert the VCR cassette 'features/provider_management'
     Given I am a signed in case worker provider manager
     And an external provider exists
     And I click the link 'Providers'
     And I click the link 'Manage users in provider'
-    And I click the link 'Add user to provider'
-    Then the page should be accessible
+    Then I should be on the provider manager user index page
+    And the page should be accessible
+
+    When I click the link 'Add user to provider'
+    Then I should be on the provider manager user new page
+    And the page should be accessible
 
     When I fill in 'First name' with 'David'
     And I fill in 'Last name' with 'Mann'
@@ -86,6 +90,19 @@ Feature: Case worker can manage providers
     And I fill in 'Email confirmation' with 'david.mann@example.com'
     And I click govuk checkbox 'Admin'
     And I click the button 'Create user'
-    Then I should see 'User successfully created'
+    Then I should be on the provider manager user show page
+    And I should see 'User successfully created'
+    And the page should be accessible
+
+    When I click the link 'Edit'
+    Then I should be on the provider manager user edit page
+    And the page should be accessible
+
+    When I fill in 'First name' with 'Bob'
+    And I fill in 'Email' with 'bob.mann@example.com'
+    And I fill in 'Email confirmation' with 'bob.mann@example.com'
+    And I click the button 'Update user'
+    Then I should be on the provider manager user show page
+    And I should see 'User successfully updated'
 
     And I eject the VCR cassette

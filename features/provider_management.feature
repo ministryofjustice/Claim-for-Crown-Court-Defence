@@ -70,3 +70,22 @@ Feature: Case worker can manage providers
     Then the page should be accessible
 
     And I eject the VCR cassette
+
+  Scenario: A provider Manager can add users to providers
+    When I insert the VCR cassette 'features/provider_management'
+    Given I am a signed in case worker provider manager
+    And an external provider exists
+    And I click the link 'Providers'
+    And I click the link 'Manage users in provider'
+    And I click the link 'Add user to provider'
+    Then the page should be accessible
+
+    When I fill in 'First name' with 'David'
+    And I fill in 'Last name' with 'Mann'
+    And I fill in 'Email' with 'david.mann@example.com'
+    And I fill in 'Email confirmation' with 'david.mann@example.com'
+    And I click govuk checkbox 'Admin'
+    And I click the button 'Create user'
+    Then I should see 'User successfully created'
+
+    And I eject the VCR cassette

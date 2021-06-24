@@ -100,67 +100,8 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
-    context 'when valid' do
-      let(:case_worker_params) {
-        {
-          case_worker: {
-            user_attributes: {
-              email: 'foo@foobar.com',
-              password: 'password',
-              password_confirmation: 'password',
-              first_name: 'John',
-              last_name: 'Smith'
-            },
-            roles: ['case_worker'],
-            location_id: create(:location).id
-          }
-        }
-      }
-
-      it 'creates a case_worker' do
-        expect {
-          post :create, params: case_worker_params
-        }.to change(User, :count).by(1)
-      end
-
-      it 'redirects to case workers index' do
-        post :create, params: case_worker_params
-        expect(response).to redirect_to(case_workers_admin_case_workers_url)
-      end
-
-      it 'attempts to deliver an email' do
-        expect(DeviseMailer).to receive(:reset_password_instructions)
-        post :create, params: case_worker_params
-      end
-
-      describe 'if there is an issue with delivering the email' do
-        let(:mailer) { double DeviseMailer }
-
-        before do
-          allow(DeviseMailer).to receive(:reset_password_instructions).and_raise(NoMethodError)
-        end
-
-        it 'raises an error' do
-          expect(Rails.logger).to receive(:error).with(/DEVISE MAILER ERROR: 'NoMethodError' while sending reset password mail/)
-          post :create, params: case_worker_params
-        end
-      end
-    end
-
-    context 'when invalid' do
-      it 'does not create a case worker' do
-        expect {
-          post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: { email: 'invalidemail' } } }
-        }.to_not change(User, :count)
-      end
-
-      it 'renders the new template' do
-        post :create, params: { case_worker: { roles: ['case_worker'], user_attributes: { email: 'invalidemail' } } }
-        expect(response).to render_template(:new)
-      end
-    end
-  end
+  # POST #create test converted to requests specs
+  # See spec/requests/case_workers/admin/case_workers_spec.rb
 
   describe 'PUT #update' do
     context 'when valid' do

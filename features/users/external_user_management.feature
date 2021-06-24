@@ -1,14 +1,14 @@
 @javascript @no-seed
-Feature: Create new external user
+Feature: Create new and update existing external users
 
-  Scenario: Chamber admin creates a new advocate user
+  Scenario: Chamber admin creates and updates an advocate user
     Given I am a signed in advocate admin
     When I click the link 'Manage users'
     Then I am on the manage users page
     And the page should be accessible
 
     When I click the link 'Create a new user'
-    Then I am on the new users page
+    Then I am on the new user page
     And I should see 'Add a new user to'
     And the page should be accessible skipping 'aria-allowed-attr'
 
@@ -35,6 +35,19 @@ Feature: Create new external user
       | Surname | Name | Supplier number | Email | Email notifications of messages? |
       | Bob | Jim | BAR2A | jim.bob@example.com | Yes |
 
+    When I click the link 'Edit' for user 'jim.bob@example.com' on the manage users page
+    Then I am on the edit user page
+    And the page should be accessible skipping 'aria-allowed-attr'
+
+    When I fill in 'First name' with 'John'
+    And I fill in 'Email' with 'john.bob@example.com'
+    And I click the button 'Save'
+    Then I am on the manage users page
+    And I should see 'User successfully updated'
+    And the following user details are displayed:
+      | Surname | Name | Supplier number | Email | Email notifications of messages? |
+      | Bob | John | BAR2A | john.bob@example.com | Yes |
+
   Scenario: LGFS Firm admin creates a new litigator user
     Given I am a signed in litigator admin
     When I click the link 'Manage users'
@@ -42,7 +55,7 @@ Feature: Create new external user
     And the page should be accessible
 
     When I click the link 'Create a new user'
-    Then I am on the new users page
+    Then I am on the new user page
     And I should see 'Add a new user to'
     And the page should be accessible
 
@@ -70,7 +83,7 @@ Feature: Create new external user
     And the page should be accessible
 
     When I click the link 'Create a new user'
-    Then I am on the new users page
+    Then I am on the new user page
     And I should see 'Add a new user to'
     And the page should be accessible
 

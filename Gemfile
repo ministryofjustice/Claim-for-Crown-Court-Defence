@@ -116,7 +116,6 @@ group :test do
   gem 'rspec-html-matchers', '~> 0.9.4'
   gem 'rspec-mocks'
   gem 'shoulda-matchers', '>= 4.0.0.rc1'
-  gem 'simplecov-csv', require: false
   gem 'simplecov-multi', require: false
   gem 'simplecov', require: false
   gem 'timecop'

@@ -24,7 +24,7 @@ module PasswordHelpers
     user.reset_password_token = enc
     user.reset_password_sent_at = Time.now.utc
     user.save(validate: false)
-    DeviseMailer.reset_password_instructions(user, token, current_user.name)
+    DeviseMailer.reset_password_instructions(user, token, current_user.name).deliver_later
   rescue StandardError => e
     Rails.logger.error("DEVISE MAILER ERROR: '#{e.message}' while sending reset password mail")
   end

@@ -87,7 +87,7 @@ class Message < ApplicationRecord
   end
 
   def process_claim_action
-    return unless Claims::StateMachine::VALID_STATES_FOR_REDETERMINATION.include?(claim.state)
+    return unless claim.redeterminable?
 
     case claim_action
     when /Apply for redetermination/

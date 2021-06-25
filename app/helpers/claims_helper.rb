@@ -35,9 +35,7 @@ module ClaimsHelper
 
   def messaging_permitted?(message)
     return true if message.claim_action.present?
-    if current_user_is_external_user?
-      return Claims::StateMachine::VALID_STATES_FOR_REDETERMINATION.exclude?(message.claim.state)
-    end
+    return !message.claim.redeterminable? if current_user_is_external_user?
     false
   end
 

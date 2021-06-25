@@ -7,7 +7,6 @@ require 'simplecov'
 # $ open coverage/index.html)
 # ```
 #
-SimpleCov.formatter = SimpleCov::Formatter::HTMLFormatter
 
 SimpleCov.configure do
   add_filter '_spec.rb'

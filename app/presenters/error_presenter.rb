@@ -71,8 +71,4 @@ class ErrorPresenter
       99_999
     end
   end
-
-  def generate_link(fieldname)
-    '#' + fieldname
-  end
 end

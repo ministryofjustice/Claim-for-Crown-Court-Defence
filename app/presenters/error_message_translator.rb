@@ -2,28 +2,13 @@
 # like :defendant_3_represntation_order_2_date_of_birth
 
 class ErrorMessageTranslator
-  attr_reader :long_message, :short_message, :api_message
-
   def initialize(translations, fieldname, error)
     @translations     = translations
     @key              = fieldname.to_s
     @error            = error
     @submodel_numbers = {}
-    @long_message     = nil
-    @short_message    = nil
-    @api_message      = nil
     @regex            = /^(\S+?)(_(\d+)_)(\S+)$/
     @submodel_regex   = /^(\S+?)\.(\S+)$/
-    translate!
-  end
-
-  def translate!
-    get_messages(@translations, @key, @error)
-    fallback_messages
-    return unless translation_found?
-    @long_message = substitute_submodel_numbers_and_names(@long_message)
-    @short_message = substitute_submodel_numbers_and_names(@short_message)
-    @api_message = substitute_submodel_numbers_and_names(@api_message)
   end
 
   # Support for keys in the format: fixed_fee.date_attended_1_date
@@ -34,10 +19,22 @@ class ErrorMessageTranslator
     key.sub('.', '_0_').sub('_1_', '_0_')
   end
 
+  def long_message
+    @long_message ||= substitute_submodel_numbers_and_names(all_messages[:long_message]) || "#{@key.to_s.humanize} #{@error.humanize.downcase}"
+  end
+
+  def short_message
+    @short_message ||= substitute_submodel_numbers_and_names(all_messages[:short_message]) || @error.humanize
+  end
+
+  def api_message
+    @api_message ||= substitute_submodel_numbers_and_names(all_messages[:api_message]) || "#{@key.to_s.humanize} #{@error.humanize.downcase}"
+  end
+
   private
 
-  def translation_found?
-    @translation_found
+  def all_messages
+    @all_messages ||= get_messages(@translations, @key, @error) || {}
   end
 
   # needed for GovUkDateField error handling (at least)
@@ -55,18 +52,12 @@ class ErrorMessageTranslator
       translation_subset, submodel_key = extract_submodel_attribute(translations, key)
       get_messages(translation_subset, submodel_key, error)
     elsif translation_exists?(translations, key, error)
-      @long_message = translations[key][error]['long']
-      @short_message = translations[key][error]['short']
-      @api_message = translations[key][error]['api']
+      {
+        long_message: translations[key][error]['long'],
+        short_message: translations[key][error]['short'],
+        api_message: translations[key][error]['api']
+      }
     end
-  end
-
-  def fallback_messages
-    @translation_found = @long_message && @short_message && @api_message
-
-    @long_message ||= "#{@key.to_s.humanize} #{@error.humanize.downcase}"
-    @short_message ||= @error.humanize
-    @api_message ||= "#{@key.to_s.humanize} #{@error.humanize.downcase}"
   end
 
   def submodel_key_exists?(translations, key)
@@ -115,6 +106,8 @@ class ErrorMessageTranslator
   end
 
   def substitute_submodel_numbers_and_names(message)
+    return if message.nil?
+
     @submodel_numbers.each do |submodel_name, number|
       substitution_key = '#{' + submodel_name + '}'
       substitution_value = [to_ordinal(number), humanize_submodel_name(submodel_name)].select(&:present?).join(' ')

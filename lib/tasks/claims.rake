@@ -141,4 +141,11 @@ namespace :claims do
     RakeHelpers::ArchivedClaims.write args[:filename]
     puts 'Done'.green
   end
+
+  desc 'Create a report of submitted claims'
+  task :submitted_claims_report, [:filename] => :environment do |_task, args|
+    require_relative 'rake_helpers/submitted_claims'
+
+    RakeHelpers::SubmittedClaims.write args[:filename]
+  end
 end

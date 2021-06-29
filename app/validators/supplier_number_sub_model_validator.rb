@@ -1,10 +1,8 @@
 class SupplierNumberSubModelValidator < BaseSubModelValidator
+  include GOVUKDesignSystemFormBuilderErrorable
+
   def has_many_association_names
     [:lgfs_supplier_numbers]
-  end
-
-  def suffix_error_fields?
-    true
   end
 
   def validate(record)

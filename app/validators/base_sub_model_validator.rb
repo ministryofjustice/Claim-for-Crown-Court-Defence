@@ -50,13 +50,16 @@ class BaseSubModelValidator < BaseValidator
   end
 
   def copy_errors_to_base_record(base_record, association_name, associated_record, record_num)
-    error_prefix = "#{association_name.to_s.singularize}_#{record_num + 1}"
     associated_record.errors.each do |error|
-      error_suffix = suffix_error_fields? ? "_#{error.attribute}" : ''
-      base_record_error_key = [error_prefix, error_suffix].join.to_sym
+      base_record_error_key = associated_error_attribute(association_name, record_num, error)
       base_record.errors.add(base_record_error_key, error.message)
     end
   end
+
+  def associated_error_attribute(association_name, record_num, error)
+    "#{association_name.to_s.singularize}_#{record_num + 1}_#{error.attribute}"
+  end
+  public :associated_error_attribute
 
   def remove_unnumbered_submodel_errors_from_base_record(record)
     # DO NOT loop over `errors` because you modify the loop your are iterating over.
@@ -67,14 +70,5 @@ class BaseSubModelValidator < BaseValidator
 
   def has_many_association_names_for_errors
     has_many_association_names
-  end
-
-  # Override this method in subclasses for associations that should not generate errors in the format:
-  #   supplier_number_3_field
-  # and instead should remove the field having errors:
-  #   supplier_number_3
-  #
-  def suffix_error_fields?
-    true
   end
 end

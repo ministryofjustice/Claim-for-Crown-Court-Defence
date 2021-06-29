@@ -47,7 +47,7 @@ RSpec.describe SupplierNumber, type: :model do
     it 'is invalid if postcode is filled and has the wrong format' do
       supplier.postcode = 'not-a-valid-postcode'
       expect(supplier).not_to be_valid
-      expect(supplier.errors[:postcode]).to include('is invalid')
+      expect(supplier.errors[:postcode]).to include('Enter a valid postcode')
     end
   end
 

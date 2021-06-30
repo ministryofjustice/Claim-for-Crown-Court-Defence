@@ -42,7 +42,7 @@ Feature: Case worker can manage providers
     And I should see 'LGFS'
 
     And I click govuk checkbox 'LGFS'
-    And I set the supplier number to '1A234B'
+    And I fill in 'Supplier number' with '1A234B'
     And I choose govuk radio 'Yes' for 'Is the provider VAT registered?'
     Then the page should be accessible skipping 'aria-allowed-attr'
 

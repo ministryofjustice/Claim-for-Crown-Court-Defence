@@ -54,7 +54,3 @@ end
 Then('I should be on the provider manager user edit page') do
   expect(@provider_users_edit_page).to be_displayed
 end
-
-When("I set the supplier number to {string}") do |string|
-  @new_provider_page.supplier_number.set string
-end

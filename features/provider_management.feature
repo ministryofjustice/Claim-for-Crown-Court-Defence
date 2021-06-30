@@ -13,12 +13,12 @@ Feature: Case worker can manage providers
     Then I should be on the new provider page
     Then the page should be accessible skipping 'aria-allowed-attr'
 
-    When I set the provider name to 'Test Chambers'
+    When I fill in 'Provider name' with 'Test Chambers'
     And I choose govuk radio 'Chamber' for 'Provider type'
     Then I should not see 'AGFS'
     Then I should not see 'LGFS'
 
-    When I click the Save details button
+    When I click the button 'Save details'
     Then I should see 'Provider successfully created'
     And the page should be accessible
 
@@ -36,7 +36,7 @@ Feature: Case worker can manage providers
     Then I should be on the new provider page
     And the page should be accessible skipping 'aria-allowed-attr'
 
-    When I set the provider name to 'Test Chambers'
+    When I fill in 'Provider name' with 'Test Chambers'
     And I choose govuk radio 'Firm' for 'Provider type'
     Then I should see 'AGFS'
     And I should see 'LGFS'
@@ -46,7 +46,7 @@ Feature: Case worker can manage providers
     And I choose govuk radio 'Yes' for 'Is the provider VAT registered?'
     Then the page should be accessible skipping 'aria-allowed-attr'
 
-    When I click the Save details button
+    When I click the button 'Save details'
     Then I should see 'Provider successfully created'
     Then the page should be accessible
 

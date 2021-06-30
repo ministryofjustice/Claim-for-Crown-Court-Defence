@@ -25,14 +25,16 @@ module Reports
     end
 
     def aggregated_query
-      %{SELECT provider_name,
-      provider_type,
-      supplier_number,
-      count(*) as claims_issued,
-      count(CASE WHEN rejections > 0 THEN 1 END) as rejections,
-      sum(refusals) as refusals
-      FROM mi_data
-      GROUP BY provider_name, provider_type, supplier_number}
+      <<~SQL
+        SELECT provider_name,
+          provider_type,
+          supplier_number,
+          count(*) as claims_issued,
+          count(CASE WHEN rejections > 0 THEN 1 END) as rejections,
+          sum(refusals) as refusals
+        FROM mi_data
+        GROUP BY provider_name, provider_type, supplier_number
+      SQL
     end
   end
 end

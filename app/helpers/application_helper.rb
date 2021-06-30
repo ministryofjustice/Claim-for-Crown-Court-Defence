@@ -70,7 +70,7 @@ module ApplicationHelper
     css_class = column == sort_column ? "current #{sort_direction}" : nil
     direction = column == sort_column && sort_direction == 'asc' ? 'desc' : 'asc'
 
-    # TODO: whitelist the permitted params!!!
+    # TODO: Only permit valid params!!!
     # Right now not sure what they are so using permit! is known to be a BAD workaround
     # non-sanitized request parameters
     query_params = params.except(:page).merge(sort: column, direction: direction, anchor: column).permit!

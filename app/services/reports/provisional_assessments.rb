@@ -29,15 +29,17 @@ module Reports
     end
 
     def suppliers_totals_query
-      %{SELECT provider_name,
-      provider_type,
-      supplier_number,
-      count(supplier_number) as supplier_claims,
-      sum(amount_claimed) as claimed,
-      sum(amount_authorised) as authorised,
-      sum(amount_authorised)/NULLIF(sum(amount_claimed), 0) as percent
-      FROM mi_data
-      GROUP BY provider_name, provider_type, supplier_number}
+      <<~SQL
+        SELECT provider_name,
+          provider_type,
+          supplier_number,
+          count(supplier_number) as supplier_claims,
+          sum(amount_claimed) as claimed,
+          sum(amount_authorised) as authorised,
+          sum(amount_authorised)/NULLIF(sum(amount_claimed), 0) as percent
+        FROM mi_data
+        GROUP BY provider_name, provider_type, supplier_number
+      SQL
     end
   end
 end

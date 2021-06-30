@@ -76,7 +76,7 @@ module Reports
 
     def when_no_error_description
       "WHEN ((obj->>'error' = '') IS NOT FALSE) OR (obj->>'error' = 'nil') " \
-      "OR (obj->>'error' = 'null') THEN 'NO_ERROR_DESCRIPTION'"
+        "OR (obj->>'error' = 'null') THEN 'NO_ERROR_DESCRIPTION'"
     end
 
     def date_range_clause

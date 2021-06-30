@@ -114,13 +114,13 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.2.3)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-core-api (4.2.0)
+    axe-core-api (4.2.1)
       capybara
       dumb_delegator
       selenium-webdriver
       virtus
       watir
-    axe-core-cucumber (4.2.0)
+    axe-core-cucumber (4.2.1)
       axe-core-api
       dumb_delegator
       virtus
@@ -154,8 +154,7 @@ GEM
       selenium-webdriver
     case_transform (0.2)
       activesupport
-    childprocess (1.0.1)
-      rake (< 13.0)
+    childprocess (3.0.0)
     chronic (0.10.2)
     cocoon (1.2.15)
     codeclimate-test-reporter (1.0.7)
@@ -272,7 +271,6 @@ GEM
     em-websocket (0.5.1)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
-    equalizer (0.0.11)
     erubi (1.10.0)
     erubis (2.7.0)
     eventmachine (1.2.7)
@@ -561,7 +559,7 @@ GEM
       thor (~> 1.0)
     rainbow (3.0.0)
     raindrops (0.19.1)
-    rake (12.3.3)
+    rake (13.0.3)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -718,11 +716,10 @@ GEM
     utf8-cleaner (1.0.0)
       activesupport
     vcr (6.0.0)
-    virtus (1.0.5)
+    virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
-      equalizer (~> 0.0, >= 0.0.9)
     warden (1.2.9)
       rack (>= 2.0.9)
     watir (6.19.1)

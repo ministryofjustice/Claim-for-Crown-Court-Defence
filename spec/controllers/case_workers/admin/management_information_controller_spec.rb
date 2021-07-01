@@ -7,10 +7,12 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     let(:persona) { create(:case_worker, :admin) }
 
     describe 'GET #index' do
+      let(:expected_report_types) { %w[management_information provisional_assessment rejections_refusals submitted_claims] }
+
       before { get :index }
 
       it 'assigns available_report_types' do
-        expect(assigns(:available_report_types).keys).to match_array(%w[management_information provisional_assessment rejections_refusals])
+        expect(assigns(:available_report_types).keys).to match_array(expected_report_types)
       end
 
       it 'returns http success' do

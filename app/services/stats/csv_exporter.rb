@@ -14,14 +14,16 @@ module Stats
     def call
       CSV.generate do |csv|
         csv << headers if headers.present?
-        data.each do |hash|
-          csv << hash.values
-        end
+        rows.each { |row| csv << row }
       end
     end
 
     private
 
     attr_reader :data, :headers
+
+    def rows
+      data.map { |row| row.is_a?(Array) ? row : row.values }
+    end
   end
 end

@@ -36,7 +36,7 @@ module Stats
       generator_klass = {
         management_information: ManagementInformationGenerator,
         provisional_assessment: ReportGenerator::ProvisionalAssessment,
-        rejections_refusals: RejectionsRefusalsReportGenerator,
+        rejections_refusals: ReportGenerator::RejectionsRefusals,
         submitted_claims: ReportGenerator::SubmittedClaims
       }[report_type.to_sym]
       generator_klass.call(options)

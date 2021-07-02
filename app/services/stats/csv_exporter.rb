@@ -23,6 +23,8 @@ module Stats
     attr_reader :data, :headers
 
     def rows
+      return [] if data.nil?
+
       data.map { |row| row.is_a?(Array) ? row : row.values }
     end
   end

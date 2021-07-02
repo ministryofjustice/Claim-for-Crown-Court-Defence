@@ -1,9 +1,0 @@
-{
-  "browser": true,
-  "jquery": true,
-  "predef": [
-    "moj",
-    "rorData",
-    "Dropzone"
-  ]
-}

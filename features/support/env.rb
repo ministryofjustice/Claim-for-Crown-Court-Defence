@@ -48,45 +48,6 @@ allowed_sites = [
 ]
 WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
 
-# set minimum threads to 0 (to allow shutdown?!)
-# and max threads to 5 (duplicate default development
-# settings)
-#
-Capybara.register_server :puma do |app, port, host|
-  require 'rack/handler/puma'
-  Rack::Handler::Puma.run(app, Host: host, Port: port, Threads: "0:5")
-end
-
-Capybara.register_driver :headless_chrome do |app|
-  capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-    chromeOptions: { args: %w(headless disable-gpu window-size=1366,768) }
-  )
-  Capybara::Selenium::Driver.new(app, browser: :chrome, desired_capabilities: capabilities)
-end
-
-# use headless chrome for javascript
-Capybara.javascript_driver = :headless_chrome
-
-Capybara.configure do |config|
-  config.default_max_wait_time = 10 # seconds
-end
-
-if ENV['BROWSER'] == 'chrome'
-  Capybara.register_driver :chrome do |app|
-    Capybara::Selenium::Driver.new(app, browser: :chrome)
-  end
-
-  Capybara.configure do |config|
-    config.default_max_wait_time = 10 # seconds
-    config.javascript_driver = :chrome
-  end
-end
-
-# Capybara defaults to CSS3 selectors rather than XPath.
-# If you'd prefer to use XPath, just uncomment this line and adjust any
-# selectors in your step definitions to use the XPath syntax.
-# Capybara.default_selector = :xpath
-
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how
 # your application behaves in the production environment, where an error page will

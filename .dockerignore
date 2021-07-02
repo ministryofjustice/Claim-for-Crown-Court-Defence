@@ -43,7 +43,6 @@ vcr
 .git
 .github
 .rspec
-.eslintrc
 .bundle
 .circleci
 .codeclimate.yml

@@ -30,11 +30,9 @@ Feature: Case worker can manage providers
     Then the page should be accessible
     When I click the link 'Providers'
     Then I should be on the provider index page
-    And the page should be accessible
 
     When I click the link 'Add a provider'
     Then I should be on the new provider page
-    And the page should be accessible skipping 'aria-allowed-attr'
 
     When I fill in 'Provider name' with 'Test Chambers'
     And I choose govuk radio 'Firm' for 'Provider type'

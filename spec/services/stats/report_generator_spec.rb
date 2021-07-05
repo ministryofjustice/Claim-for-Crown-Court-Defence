@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'package stats in CSV' do
+RSpec.shared_examples 'a stats report CSV exporter' do
   let(:mocked_data) { [{ key1: 1, key2: 2 }] }
   let(:csv_exporter_output) { 'CSV exporter output' }
   let(:headers) { reporter::COLUMNS }
@@ -30,21 +30,21 @@ RSpec.describe Stats::ReportGenerator, type: :service do
       let(:report) { 'provisional_assessment' }
       let(:reporter) { Reports::ProvisionalAssessments }
 
-      include_examples 'package stats in CSV'
+      it_behaves_like 'a stats report CSV exporter'
     end
 
     context 'with a rejections refusals report' do
       let(:report) { 'rejections_refusals' }
       let(:reporter) { Reports::RejectionsRefusals }
 
-      include_examples 'package stats in CSV'
+      it_behaves_like 'a stats report CSV exporter'
     end
 
     context 'with a submitted claims report' do
       let(:report) { 'submitted_claims' }
       let(:reporter) { Reports::SubmittedClaims }
 
-      include_examples 'package stats in CSV'
+      it_behaves_like 'a stats report CSV exporter'
     end
   end
 end

@@ -64,11 +64,6 @@ module Stats
       update(report: report_contents, status: 'error', completed_at: nil)
     end
 
-    def document_url(timeout = 10_000)
-      return unless document?
-      document.options[:storage] == :filesystem ? document.path : document.expiring_url(timeout)
-    end
-
     def download_filename
       "#{report_name}_#{started_at.to_s(:number)}.csv"
     end

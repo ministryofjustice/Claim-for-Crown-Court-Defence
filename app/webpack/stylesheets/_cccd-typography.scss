@@ -1,4 +1,7 @@
-// Typography Settings
+html {
+  font-family: $govuk-font-family-gds-transport;
+}
+
 .bold-xsmall {
   @include bold-14;
 }

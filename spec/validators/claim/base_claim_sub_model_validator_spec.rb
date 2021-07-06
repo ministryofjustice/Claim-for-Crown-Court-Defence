@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
+  subject(:validator) { described_class.new }
+
   let(:claim) { FactoryBot.create :claim }
   let(:defendant) { claim.defendants.first }
 
@@ -8,6 +10,8 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
     claim.force_validation = true
     claim.form_step = :defendants
   end
+
+  it_behaves_like 'a custom CCCD associated error handler'
 
   it 'calls the validators on all the defendants' do
     expect(claim.defendants).to have(1).members

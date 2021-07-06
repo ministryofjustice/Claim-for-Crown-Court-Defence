@@ -20,18 +20,30 @@ module CapybaraExtensions
         ].all?
       end
 
-      def has_govuk_error_summary?(error_text = nil)
+      def has_govuk_error_summary?(error_text = nil, options = {})
         summary = find('.govuk-error-summary[role="alert"]')
         [
           summary.has_selector?('#error-summary-title', text: 'There is a problem'),
-          summary.has_link?(error_text)
+          summary.has_link?(error_text, options)
         ].all?
       end
 
-      def has_govuk_error_field?(model, field, error_text = nil)
-        model = model.to_s.tr('_', '-')
-        field = field.to_s.tr('_', '-')
-        has_selector?(".govuk-error-message##{model}-#{field}-error", text: error_text)
+      def has_govuk_error_fieldset?(locator, text: nil, id: nil)
+        fieldset = find('.govuk-fieldset__legend', text: locator).find(:xpath, '..')
+
+        [
+          fieldset.find('.govuk-error-message').has_text?(text),
+          fieldset.first('label')[:for].eql?(id || fieldset.first('label')[:for])
+        ].all?
+      end
+
+      def has_govuk_error_field?(locator, text: nil, id: nil)
+        field = find_field(locator)
+
+        [
+          field.sibling('.govuk-error-message').has_text?(text),
+          field[:id].eql?(id || field[:id])
+        ].all?
       end
 
       def has_govuk_detail_summary?(text, options = {})

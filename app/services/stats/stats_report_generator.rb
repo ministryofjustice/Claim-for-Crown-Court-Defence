@@ -33,12 +33,9 @@ module Stats
     end
 
     def generate_new_report
-      generator_klass = {
-        management_information: ManagementInformationGenerator,
-        provisional_assessment: ProvisionalAssessmentReportGenerator,
-        rejections_refusals: RejectionsRefusalsReportGenerator
-      }[report_type.to_sym]
-      generator_klass.call(options)
+      return ManagementInformationGenerator.call(options) if report_type.to_sym == :management_information
+
+      ReportGenerator.call(report_type, **options)
     end
 
     def handle_error(error, record)

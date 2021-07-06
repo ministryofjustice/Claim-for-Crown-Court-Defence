@@ -12,7 +12,7 @@
 
 module Stats
   class StatsReport < ApplicationRecord
-    TYPES = %w[management_information provisional_assessment rejections_refusals].freeze
+    TYPES = %w[management_information provisional_assessment rejections_refusals submitted_claims].freeze
 
     validates :status, inclusion: { in: %w[started completed error] }
 
@@ -62,11 +62,6 @@ module Stats
 
     def write_error(report_contents)
       update(report: report_contents, status: 'error', completed_at: nil)
-    end
-
-    def document_url(timeout = 10_000)
-      return unless document?
-      document.options[:storage] == :filesystem ? document.path : document.expiring_url(timeout)
     end
 
     def download_filename

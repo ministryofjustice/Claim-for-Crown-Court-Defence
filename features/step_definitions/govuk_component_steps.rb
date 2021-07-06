@@ -1,5 +1,15 @@
 # frozen_string_literal: true
 
+When('I click govuk checkbox {string}') do |label|
+  find('.govuk-checkboxes__item label', text: label).click
+end
+
+When('I choose govuk radio {string} for {string}') do |label, legend|
+  find('.govuk-fieldset__legend', text: legend)
+    .find(:xpath, '..')
+    .find('.govuk-radios__item label', text: label).click
+end
+
 Then('I should see govuk error summary with {string}') do |text|
   expect(page).to have_govuk_error_summary(text)
 end
@@ -16,7 +26,7 @@ Then('I should see govuk error fieldset for {string} with error {string} and id 
   expect(page).to have_govuk_error_fieldset(locator, text: text, id: id)
 end
 
-Then('the following error details should exist:') do |table|
+Then('the following govuk error details should exist:') do |table|
   table.hashes.each do |row|
     type, locator, text, id = row['field_type'], row['field_locator'], row['error_text'], row['linked_id']
 

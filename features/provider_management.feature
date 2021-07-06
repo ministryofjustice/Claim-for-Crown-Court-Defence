@@ -62,7 +62,7 @@ Feature: Case worker can manage providers
     And I fill in 'Supplier number' with '11111'
 
     When I click the button 'Save details'
-    Then the following error details should exist:
+    Then the following govuk error details should exist:
       | field_type | field_locator | error_text | linked_id |
       | field | Provider name| Enter a provider name | provider-name-field-error |
       | field | Supplier number | Enter a valid LGFS supplier number | provider-lgfs-supplier-numbers-attributes-0-supplier-number-field-error |

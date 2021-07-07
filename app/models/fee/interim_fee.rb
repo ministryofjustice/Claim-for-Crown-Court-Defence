@@ -37,7 +37,7 @@ class Fee::InterimFee < Fee::BaseFee
   end
 
   def perform_validation?
-    (claim&.perform_validation? && validation_required?) || claim&.from_json_import?
+    claim&.perform_validation? && validation_required?
   end
 
   def validation_required?

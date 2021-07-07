@@ -439,10 +439,6 @@ module Claim
       source == 'web'
     end
 
-    def json_import_web_edited?
-      source == 'json_import_web_edited'
-    end
-
     def api_draft?
       draft? && from_api?
     end

@@ -80,8 +80,8 @@ GEM
       zeitwerk (~> 2.3)
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
-    amoeba (3.1.0)
-      activerecord (>= 3.2.6)
+    amoeba (3.2.0)
+      activerecord (>= 4.2.0)
     annotate (3.1.1)
       activerecord (>= 3.2, < 7.0)
       rake (>= 10.4, < 14.0)
@@ -757,7 +757,7 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.10.12)
   active_storage_validations
-  amoeba (~> 3.1.0)
+  amoeba (~> 3.2.0)
   annotate
   auto_strip_attributes (~> 2.6.0)
   awesome_print

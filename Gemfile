@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.7.3'
 gem 'active_model_serializers', '~> 0.10.12'
-gem 'amoeba',                 '~> 3.1.0'
+gem 'amoeba',                 '~> 3.2.0'
 gem 'auto_strip_attributes',  '~> 2.6.0'
 gem 'aws-sdk-costexplorer',   '~> 1'
 gem 'aws-sdk-s3',             '~> 1'

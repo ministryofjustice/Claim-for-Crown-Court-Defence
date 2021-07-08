@@ -3,9 +3,11 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
+  # default from rails 5.0
+  # see https://edgeguides.rubyonrails.org/configuring.html#for-5-0-baseline-defaults-from-below-and
+  config.ssl_options = { hsts: { subdomains: true } }
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # Excluding some endpoints due to ELB only talking HTTP on port 80 and not following redirects to https.
-  # config.ssl_options = { redirect: { exclude: -> request { request.path =~ /healthcheck|ping/ } } }
   config.force_ssl = true
 
   # Code is not reloaded between requests.

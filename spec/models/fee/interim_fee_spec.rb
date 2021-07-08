@@ -106,19 +106,10 @@ RSpec.describe Fee::InterimFee do
 
     before do
       allow(claim).to receive(:perform_validation?).and_return(false)
-      allow(claim).to receive(:from_json_import?).and_return(false)
       allow(fee).to receive(:validation_required?).and_return(false)
     end
 
     specify { is_expected.to be_falsey }
-
-    context 'when the associated claim is from a JSON import' do
-      before do
-        allow(claim).to receive(:from_json_import?).and_return(true)
-      end
-
-      specify { is_expected.to be_truthy }
-    end
 
     context 'when the associated claim needs validation' do
       before do

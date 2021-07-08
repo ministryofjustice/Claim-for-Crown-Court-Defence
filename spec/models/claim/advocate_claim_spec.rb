@@ -793,11 +793,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         expect(claim.validation_required?).to eq false
       end
 
-      it 'draft claims submitted by json importer' do
-        claim.source = 'json_import'
-        expect(claim.validation_required?).to eq false
-      end
-
       it 'archived_pending_delete claims' do
         claim = create(:archived_pending_delete_claim)
         expect(claim.validation_required?).to eq false

@@ -3,8 +3,7 @@ module Stats
     class ClaimCreationSourceCollector < BaseCollector
       CLAIM_SOURCES = {
         web: %w[web],
-        api: %w[api api_web_edited],
-        json: %w[json_import json_import_web_edited]
+        api: %w[api api_web_edited]
       }.freeze
 
       def collect

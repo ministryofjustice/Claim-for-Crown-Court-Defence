@@ -133,7 +133,6 @@ module Claim
       # TODO: this should return a list based on the current given fee scheme
       # rather than conditionally return scheme 10 specifically
       # TBD once all the fee scheme work is integrated
-      return Fee::BasicFeeType.all if from_json_import?
       return Fee::BasicFeeType.unscoped.agfs_scheme_10s.order(:position) if agfs_reform?
       Fee::BasicFeeType.agfs_scheme_9s
     end

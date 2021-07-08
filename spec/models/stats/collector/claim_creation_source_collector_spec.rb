@@ -8,9 +8,6 @@ module Stats
           create(:draft_claim, source: 'web')
           create(:submitted_claim, source: 'api_web_edited')
           create(:draft_claim, source: 'api')
-          create(:submitted_claim, source: 'json_import')
-          create(:submitted_claim, source: 'json_import_web_edited')
-          create(:draft_claim, source: 'json_import')
         end
       end
 
@@ -37,15 +34,6 @@ module Stats
           stat = stats.first
           expect(stat.claim_type).to eq 'Claim::BaseClaim'
           expect(stat.value_1).to eq 2
-        end
-
-        it 'counts the created claims on that day for source json' do
-          stats = Statistic.find_by_date_and_report_name(report_day, 'creations_source_json').to_a
-          expect(stats.size).to eq 1
-
-          stat = stats.first
-          expect(stat.claim_type).to eq 'Claim::BaseClaim'
-          expect(stat.value_1).to eq 3
         end
       end
 

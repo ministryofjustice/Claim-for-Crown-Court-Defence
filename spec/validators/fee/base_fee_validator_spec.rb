@@ -19,22 +19,6 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     claim.force_validation = true
   end
 
-  context 'for a JSON imported claim (and no forced validation)' do
-    before do
-      claim.force_validation = false
-    end
-
-    let(:claim) { build :advocate_claim, source: 'json_import' }
-
-    it 'does not perform claim validation' do
-      expect(claim.perform_validation?).to be_falsey
-    end
-
-    it 'performs fee validation' do
-      expect(ppe_fee.perform_validation?).to be_truthy
-    end
-  end
-
   describe '#validate_claim' do
     it { should_error_if_not_present(fee, :claim, 'blank') }
   end

@@ -429,28 +429,6 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         end
       end
 
-      context 'and editing a JSON imported claim' do
-        before do
-          subject.update(source: 'json_import')
-        end
-
-        context 'and saving to draft' do
-          before { put :update, params: { id: subject, claim: { additional_information: 'foo' } } }
-
-          it 'updates the source to indicate it was originally from JSON import but has been edited via web' do
-            expect(subject.reload.source).to eql 'json_import_web_edited'
-          end
-        end
-
-        context 'and submitted to LAA' do
-          before { put :update, params: { id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA' } }
-
-          it 'updates the source to indicate it was originally from JSON import but has been edited via web' do
-            expect(subject.reload.source).to eql 'json_import_web_edited'
-          end
-        end
-      end
-
       context 'and saving to draft' do
         it 'updates a claim' do
           put :update, params: { id: subject, claim: { additional_information: 'foo' } }

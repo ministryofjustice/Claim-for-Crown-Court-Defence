@@ -5,7 +5,7 @@ Rails.application.configure do
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   # Excluding some endpoints due to ELB only talking HTTP on port 80 and not following redirects to https.
-  config.ssl_options = { redirect: { exclude: -> request { request.path =~ /healthcheck|ping/ } } }
+  # config.ssl_options = { redirect: { exclude: -> request { request.path =~ /healthcheck|ping/ } } }
   config.force_ssl = true
 
   # Code is not reloaded between requests.

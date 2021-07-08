@@ -14,3 +14,13 @@ Rails.application.config.action_view.form_with_generates_ids = true
 # #cache_key method that is accompanied by a changing version in the
 # #cache_version method.
 Rails.application.config.active_record.cache_versioning = true
+
+# config.action_dispatch.use_authenticated_cookie_encryption controls whether
+# signed and encrypted cookies use the AES-256-GCM cipher or the older
+# AES-256-CBC cipher. It defaults to true.
+Rails.application.config.action_dispatch.use_authenticated_cookie_encryption = true
+
+# config.active_support.use_authenticated_message_encryption specifies whether
+# to use AES-256-GCM authenticated encryption as the default cipher for
+# encrypting messages instead of AES-256-CBC.
+Rails.application.config.active_support.use_authenticated_message_encryption = true

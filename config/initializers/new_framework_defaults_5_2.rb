@@ -9,3 +9,8 @@ Rails.application.config.action_controller.default_protect_from_forgery = true
 # config.action_view.form_with_generates_ids determines whether form_with
 # generates ids on inputs.
 Rails.application.config.action_view.form_with_generates_ids = true
+
+# config.active_record.cache_versioning indicates whether to use a stable
+# #cache_key method that is accompanied by a changing version in the
+# #cache_version method.
+Rails.application.config.active_record.cache_versioning = true

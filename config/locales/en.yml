@@ -2552,13 +2552,6 @@ en:
         completed_claims_count: Completed claims (%{completed_claims_count})
         current_claims_count: Allocated claims (%{current_claims_count})
         unallocated_claims_count: Allocated claims (%{unallocated_claims_count})
-      claims_sidebar:
-        advocate_details: Advocate details
-        completed_claims: Completed claims
-        current_claims: Current claims
-        dashboard: Dashboard
-        payments: Payments
-        reporting_tool: Reporting tool
 
   validators:
     advocate:

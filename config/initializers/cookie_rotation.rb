@@ -15,7 +15,7 @@ return unless Rails.application.secrets.old_secret_key_base.present?
 Rails.application.configure do
   # Not technically necessary, as this is the current default,
   # but it is to line up with the config below.
-  config.action_dispatch.use_authenticated_cookie_encryption = false
+  config.action_dispatch.use_authenticated_cookie_encryption = true
 
   # From:
   # https://www.gitmemory.com/issue/rails/rails/39964/668147345
@@ -23,7 +23,7 @@ Rails.application.configure do
   config.action_dispatch.cookies_rotations.tap do |cookies|
     salt = config.action_dispatch.encrypted_cookie_salt
     signed_salt = config.action_dispatch.encrypted_signed_cookie_salt
-    cipher = config.action_dispatch.encrypted_cookie_cipher || 'aes-256-cbc'
+    cipher = config.action_dispatch.encrypted_cookie_cipher || 'aes-256-gcm'
 
     old_secret_key_base = Rails.application.secrets.old_secret_key_base
     generator = ActiveSupport::KeyGenerator.new(old_secret_key_base, iterations: 1000)

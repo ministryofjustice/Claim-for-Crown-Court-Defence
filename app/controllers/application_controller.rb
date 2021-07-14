@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  protect_from_forgery prepend: true, with: :exception unless ENV['DISABLE_CSRF'] == '1'
+  skip_forgery_protection if ENV['DISABLE_CSRF'] == '1'
 
   include CookieConcern
   before_action :set_default_cookie_usage

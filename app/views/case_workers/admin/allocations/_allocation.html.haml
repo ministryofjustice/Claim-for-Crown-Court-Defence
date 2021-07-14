@@ -7,7 +7,6 @@
 
 = form_with url: case_workers_admin_allocations_path, method: :get, builder: GdsAdpFormBuilder do |f|
   = f.hidden_field :tab, id: :tab, value: params[:tab]
-  = f.hidden_field :scheme, id: :scheme, value: params[:scheme]
   = f.hidden_field :filter, id: :filter, value: params[:filter] if params[:filter]
   = f.hidden_field :page, id: :page, value: params[:page]
   = f.hidden_field :value_band_id, id: :value_band_id, value: params[:value_band_id] if params[:value_band_id]

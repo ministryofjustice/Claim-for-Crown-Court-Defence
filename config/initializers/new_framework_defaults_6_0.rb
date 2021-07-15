@@ -12,7 +12,7 @@
 # Rails.application.config.autoloader = :zeitwerk
 
 # Determines whether forms are generated with a hidden tag that forces older versions of Internet Explorer to submit forms encoded in UTF-8.
-# Rails.application.config.action_view.default_enforce_utf8 = false
+Rails.application.config.action_view.default_enforce_utf8 = false
 
 # Embed purpose and expiry metadata inside signed and encrypted
 # cookies for increased security.

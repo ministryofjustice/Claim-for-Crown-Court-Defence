@@ -10,7 +10,7 @@ module Stats
 
       def collect
         form_ids_created_at_period_start = ClaimIntention
-                                           .where(created_at: @start_date.beginning_of_day..@start_date.end_of_day)
+                                           .where(created_at: @start_date.all_day)
                                            .pluck(:form_id)
         num_started = form_ids_created_at_period_start.size
         num_completed = Claim::BaseClaim

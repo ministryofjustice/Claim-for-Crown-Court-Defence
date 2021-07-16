@@ -4,7 +4,7 @@ module GeckoboardPublisher
 
     def initialize(date)
       @date = date.to_date
-      @date_range = @date.beginning_of_day..@date.end_of_day
+      @date_range = @date.all_day
     end
 
     def to_h

@@ -19,7 +19,7 @@ Rails.application.config.action_view.default_enforce_utf8 = false
 #
 # This option is not backwards compatible with earlier Rails versions.
 # It's best enabled when your entire app is migrated and stable on 6.0.
-# Rails.application.config.action_dispatch.use_cookies_with_metadata = true
+Rails.application.config.action_dispatch.use_cookies_with_metadata = true
 
 # Send Active Storage analysis and purge jobs to dedicated queues.
 # Rails.application.config.active_storage.queues.analysis = :active_storage_analysis

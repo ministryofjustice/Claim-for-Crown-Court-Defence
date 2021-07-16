@@ -18,7 +18,7 @@ module Stats
       private
 
       def todays_transitions
-        ClaimStateTransition.where(created_at: @date.beginning_of_day..@date.end_of_day)
+        ClaimStateTransition.where(created_at: @date.all_day)
       end
 
       def decision_states

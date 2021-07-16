@@ -6,6 +6,8 @@
   - [default, 2]
   - [claims, 2]
   - [stats_reports, 1]
+  - [active_storage_analysis, 1]
+  - [active_storage_purge, 1]
 development:
   :verbose: true
   :concurrency: 5

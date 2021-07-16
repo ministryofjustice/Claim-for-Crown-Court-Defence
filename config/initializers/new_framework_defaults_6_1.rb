@@ -47,11 +47,13 @@
 # Make `form_with` generate non-remote forms by default.
 Rails.application.config.action_view.form_with_generates_remote_forms = false
 
-# Set the default queue name for the analysis job to the queue adapter default.
-# Rails.application.config.active_storage.queues.analysis = nil
+# Adopt separate queue name so we can control/lower priority
+# this is a change from default for rails 6.1 which is nil (i.e. default queue)
+Rails.application.config.active_storage.queues.analysis = :active_storage_analysis
 
-# Set the default queue name for the purge job to the queue adapter default.
-# Rails.application.config.active_storage.queues.purge = nil
+# Adopt separate queue name so we can control/lower priority
+# this is a change from default for rails 6.1 which is nil (i.e. default queue)
+Rails.application.config.active_storage.queues.purge = :active_storage_purge
 
 # Set the default queue name for the incineration job to the queue adapter default.
 # Rails.application.config.action_mailbox.queues.incineration = nil

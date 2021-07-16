@@ -22,6 +22,10 @@ Rails.application.config.action_view.default_enforce_utf8 = false
 Rails.application.config.action_dispatch.use_cookies_with_metadata = true
 
 # Send Active Storage analysis and purge jobs to dedicated queues.
+# DO NOT ENABLE: since we are on 6.1 and these options are both changed
+# to default to nil (which equates to using the default queue)
+# we do not need to enable these here.
+#
 # Rails.application.config.active_storage.queues.analysis = :active_storage_analysis
 # Rails.application.config.active_storage.queues.purge = :active_storage_purge
 

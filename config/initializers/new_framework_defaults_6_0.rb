@@ -45,4 +45,11 @@ Rails.application.config.action_dispatch.use_cookies_with_metadata = true
 # Enable the same cache key to be reused when the object being cached of type
 # `ActiveRecord::Relation` changes by moving the volatile information (max updated at and count)
 # of the relation's cache key into the cache version to support recycling cache key.
+# NOTE: this setting is not taking effect since it appears
+# that govuk_notify_rails is causing early rails loading and
+# causing it to be "lost".
+# see https://github.com/rails/rails/issues/39855#issuecomment-659670294
 Rails.application.config.active_record.collection_cache_versioning = true
+# This is a workaround for issue https://github.com/rails/rails/issues/39855#issuecomment-659670294
+# suggested by this issue comment https://github.com/rails/rails/issues/37030#issuecomment-524511912
+ActiveRecord::Base.collection_cache_versioning = true

@@ -31,7 +31,7 @@ Rails.application.config.action_dispatch.use_cookies_with_metadata = true
 
 # When assigning to a collection of attachments declared via `has_many_attached`, replace existing
 # attachments instead of appending. Use #attach to add new attachments without replacing existing ones.
-# Rails.application.config.active_storage.replace_on_assign_to_many = true
+Rails.application.config.active_storage.replace_on_assign_to_many = true
 
 # Use ActionMailer::MailDeliveryJob for sending parameterized and normal mail.
 #

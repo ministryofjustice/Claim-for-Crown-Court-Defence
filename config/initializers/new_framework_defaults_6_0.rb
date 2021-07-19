@@ -48,7 +48,7 @@ Rails.application.config.action_mailer.delivery_job = "ActionMailer::MailDeliver
 
 # This is a workaround for issue https://github.com/rails/rails/issues/39855#issuecomment-659670294
 # suggested by this issue comment https://github.com/rails/rails/issues/37030#issuecomment-524511912
-ActionMailer::Base.delivery_job = "ActionMailer::MailDeliveryJob"
+ActionMailer::Base.delivery_job = ActionMailer::MailDeliveryJob
 
 # Enable the same cache key to be reused when the object being cached of type
 # `ActiveRecord::Relation` changes by moving the volatile information (max updated at and count)

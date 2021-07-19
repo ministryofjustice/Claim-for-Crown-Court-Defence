@@ -43,7 +43,7 @@ RSpec.describe 'Caseworker admin', type: :request do
 
       it 'enqueues a job to send the email' do
         create_case_workers_request
-        expect(ActionMailer::DeliveryJob).to have_been_enqueued
+        expect(ActionMailer::MailDeliveryJob).to have_been_enqueued
       end
 
       describe 'if there is an issue with delivering the email' do

@@ -40,7 +40,15 @@ Rails.application.config.active_storage.replace_on_assign_to_many = true
 # If you send mail in the background, job workers need to have a copy of
 # MailDeliveryJob to ensure all delivery jobs are processed properly.
 # Make sure your entire app is migrated and stable on 6.0 before using this setting.
+#
+# NOTE: this setting is not taking effect since it appears
+# that govuk_notify_rails is causing early rails loading and
+# causing it to be "lost".
 Rails.application.config.action_mailer.delivery_job = "ActionMailer::MailDeliveryJob"
+
+# This is a workaround for issue https://github.com/rails/rails/issues/39855#issuecomment-659670294
+# suggested by this issue comment https://github.com/rails/rails/issues/37030#issuecomment-524511912
+ActionMailer::Base.delivery_job = "ActionMailer::MailDeliveryJob"
 
 # Enable the same cache key to be reused when the object being cached of type
 # `ActiveRecord::Relation` changes by moving the volatile information (max updated at and count)

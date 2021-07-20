@@ -8,21 +8,6 @@
   color: $error-colour;
 }
 
-.case-worker-reallocation {
-  padding-bottom: $gutter;
-
-  .margin-spacer-sm {
-    margin: 25px 0 0 25px;
-    padding: 0;
-  }
-
-  .awesomplete {
-    input {
-      width: 88%;
-    }
-  }
-}
-
 #js-provider-roles {
   display: none;
 }

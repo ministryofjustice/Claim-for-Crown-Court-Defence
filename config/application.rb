@@ -49,6 +49,9 @@ module AdvocateDefencePayments
 
     config.assets.enabled = true
 
+    # TODO: move to :zeitwork mode
+    config.autoloader = :classic
+
     config.autoload_paths << config.root.join('lib')
 
     config.eager_load_paths << config.root.join('lib')

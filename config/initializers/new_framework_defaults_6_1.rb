@@ -13,11 +13,17 @@
 # Rails.application.config.active_storage.track_variants = true
 
 # Apply random variation to the delay when retrying failed jobs.
-# Rails.application.config.active_job.retry_jitter = 0.15
+Rails.application.config.active_job.retry_jitter = 0.15
+# This is a workaround for issue https://github.com/rails/rails/issues/39855#issuecomment-659670294
+# suggested by this issue comment https://github.com/rails/rails/issues/37030#issuecomment-524511912
+ActiveJob::Base.retry_jitter = 0.15
 
 # Stop executing `after_enqueue`/`after_perform` callbacks if
 # `before_enqueue`/`before_perform` respectively halts with `throw :abort`.
-# Rails.application.config.active_job.skip_after_callbacks_if_terminated = true
+Rails.application.config.active_job.skip_after_callbacks_if_terminated = true
+# This is a workaround for issue https://github.com/rails/rails/issues/39855#issuecomment-659670294
+# suggested by this issue comment https://github.com/rails/rails/issues/37030#issuecomment-524511912
+ActiveJob::Base.skip_after_callbacks_if_terminated = true
 
 # Specify cookies SameSite protection level: either :none, :lax, or :strict.
 #

@@ -6,11 +6,6 @@
 #
 # Read the Guide for Upgrading Ruby on Rails for more info on each option.
 
-# see https://guides.rubyonrails.org/autoloading_and_reloading_constants.html
-# There is a separate ticket to handle upgrade to zeitwork, we should stick
-# to :classic for the time being.
-# Rails.application.config.autoloader = :zeitwerk
-
 # Determines whether forms are generated with a hidden tag that forces older versions of Internet Explorer to submit forms encoded in UTF-8.
 Rails.application.config.action_view.default_enforce_utf8 = false
 

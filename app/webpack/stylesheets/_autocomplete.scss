@@ -84,3 +84,11 @@
     font-weight: normal;
   }
 }
+
+.govuk-form-group--error .autocomplete__input {
+  border: $govuk-border-width-form-element-error solid $govuk-error-colour;
+
+  &:focus {
+    border-color: $govuk-input-border-colour;
+  }
+}

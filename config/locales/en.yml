@@ -2425,6 +2425,7 @@ en:
           legend: Allocate to
           allocation_pool: Allocation pool
           case_worker: Case worker
+          case_worker_name: Case worker name
           re_allocation: Re-allocation
           re_allocate: Re-allocate
           select_all: Select all

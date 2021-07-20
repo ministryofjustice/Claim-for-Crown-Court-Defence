@@ -1,0 +1,244 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=be31bb05-ed36-48a4-ae50-7ed271e47b7b
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      User-Agent:
+      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.3p183
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Etag:
+      - W/"eca5ff7f4df9900be3e4178078d06328"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
+      X-Request-Id:
+      - 976a76ab-bbc1-4c05-b59b-94d9fca725bb
+      X-Runtime:
+      - '0.242753'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"id":1,"uuid":"14dc4506-e0e0-4fc2-9650-15d69e25edfb","first_name":"Otis","last_name":"Predovic","email":"otis.predovic@laa.gov.uk"},{"id":2,"uuid":"180b870c-6b10-48b5-a5d8-eb495efdec30","first_name":"Kanesha","last_name":"Torphy","email":"kanesha.torphy@laa.gov.uk"},{"id":3,"uuid":"1d2d178d-d47d-4354-9c48-2d6b4a430841","first_name":"Stephan","last_name":"Connelly","email":"stephan.connelly@laa.gov.uk"},{"id":4,"uuid":"d8f085e4-3b4e-4cdc-933e-3e8a91d1dbb8","first_name":"Tristan","last_name":"Bailey","email":"tristan.bailey@laa.gov.uk"}]'
+  recorded_at: Fri, 23 Jul 2021 11:52:37 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=be31bb05-ed36-48a4-ae50-7ed271e47b7b&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      User-Agent:
+      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.3p183
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Etag:
+      - W/"0b9921e6a1d9f2ad5a25066dd183bacc"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
+      X-Request-Id:
+      - 721a98cb-2a53-49a5-a911-0fc982b72edf
+      X-Runtime:
+      - '0.024642'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":25},"items":[]}'
+  recorded_at: Fri, 23 Jul 2021 11:52:37 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=be31bb05-ed36-48a4-ae50-7ed271e47b7b
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      User-Agent:
+      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.3p183
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Etag:
+      - W/"1a694a1fbf51fb39787ea5654c8a3620"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
+      X-Request-Id:
+      - 2c5568bd-0a40-4994-b686-ae2679014f98
+      X-Runtime:
+      - '0.030519'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"id":1,"uuid":"14dc4506-e0e0-4fc2-9650-15d69e25edfb","first_name":"Otis","last_name":"Predovic","email":"otis.predovic@laa.gov.uk"},{"id":2,"uuid":"180b870c-6b10-48b5-a5d8-eb495efdec30","first_name":"Kanesha","last_name":"Torphy","email":"kanesha.torphy@laa.gov.uk"},{"id":3,"uuid":"1d2d178d-d47d-4354-9c48-2d6b4a430841","first_name":"Stephan","last_name":"Connelly","email":"stephan.connelly@laa.gov.uk"},{"id":4,"uuid":"d8f085e4-3b4e-4cdc-933e-3e8a91d1dbb8","first_name":"Tristan","last_name":"Bailey","email":"tristan.bailey@laa.gov.uk"}]'
+  recorded_at: Fri, 23 Jul 2021 11:52:38 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=be31bb05-ed36-48a4-ae50-7ed271e47b7b&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=allocated&value_band_id=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      User-Agent:
+      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.3p183
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Etag:
+      - W/"e8831241fe564106058d1c5335e9e9a4"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
+      X-Request-Id:
+      - 97cb0481-1036-4e85-8cf4-f486418468c3
+      X-Runtime:
+      - '0.376645'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"68fc3a84-354d-4344-ba96-65c74653bf0b","case_number":"T20160001","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2021-07-23T11:52:35Z","total":25.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"7f61fae7-e376-4793-99f7-5609ad822020","first_name":"Treasa","last_name":"Kulas","email":"reyes@lynch-aufderhar.name"},"defendants":[{"id":1,"uuid":"fd44cf72-203a-479a-9cd2-0b7267f00631","first_name":"Hiram","last_name":"Reilly","date_of_birth":"1991-07-23","representation_orders":[{"id":1,"uuid":"3567f76f-845b-4f9b-b29b-8e4417bde9a5","maat_reference":"9978722","date":"2016-01-01"},{"id":2,"uuid":"9b46641c-a864-4e59-8d90-30e0ea98fbe6","maat_reference":"6073416","date":"2020-07-08"}]}],"case_type":{"id":848,"name":"Case
+        Type 1","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":3,"uuid":"1d2d178d-d47d-4354-9c48-2d6b4a430841","first_name":"Stephan","last_name":"Connelly","email":"stephan.connelly@laa.gov.uk"},{"id":1,"uuid":"14dc4506-e0e0-4fc2-9650-15d69e25edfb","first_name":"Otis","last_name":"Predovic","email":"otis.predovic@laa.gov.uk"}],"court":{"id":3474,"code":"NAQ-1","name":"Jast-Carter-1","court_type":"crown"}}]}'
+  recorded_at: Fri, 23 Jul 2021 11:52:38 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers?api_key=be31bb05-ed36-48a4-ae50-7ed271e47b7b
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      User-Agent:
+      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.3p183
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Etag:
+      - W/"1c17f29604cef619e618515d98884e74"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
+      X-Request-Id:
+      - ed630933-56b4-4927-9474-a34c3f02f8b6
+      X-Runtime:
+      - '0.009158'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '[{"id":1,"uuid":"14dc4506-e0e0-4fc2-9650-15d69e25edfb","first_name":"Otis","last_name":"Predovic","email":"otis.predovic@laa.gov.uk"},{"id":2,"uuid":"180b870c-6b10-48b5-a5d8-eb495efdec30","first_name":"Kanesha","last_name":"Torphy","email":"kanesha.torphy@laa.gov.uk"},{"id":3,"uuid":"1d2d178d-d47d-4354-9c48-2d6b4a430841","first_name":"Stephan","last_name":"Connelly","email":"stephan.connelly@laa.gov.uk"},{"id":4,"uuid":"d8f085e4-3b4e-4cdc-933e-3e8a91d1dbb8","first_name":"Tristan","last_name":"Bailey","email":"tristan.bailey@laa.gov.uk"}]'
+  recorded_at: Fri, 23 Jul 2021 11:52:39 GMT
+- request:
+    method: get
+    uri: http://localhost:3001/api/case_workers/claims?api_key=be31bb05-ed36-48a4-ae50-7ed271e47b7b&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=does%20not%20exist&sorting=last_submitted_at&status=allocated&value_band_id=0
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - "*/*"
+      User-Agent:
+      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.3p183
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Host:
+      - localhost:3001
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/json
+      Vary:
+      - Accept-Encoding
+      Etag:
+      - W/"377a0dab609ccfbc513ab626622bd9c5"
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      X-Meta-Request-Version:
+      - 0.7.2
+      X-Request-Id:
+      - c038df9b-fe92-4937-93ff-e2670cdd77af
+      X-Runtime:
+      - '0.041896'
+      Transfer-Encoding:
+      - chunked
+    body:
+      encoding: ASCII-8BIT
+      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":25},"items":[]}'
+  recorded_at: Fri, 23 Jul 2021 11:52:39 GMT
+recorded_with: VCR 6.0.0

@@ -13,7 +13,6 @@
       = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path(anchor: 'search-button'), hint_text: t('hint.search'), button_text: t('search.claims') }
 
     = form_with model: [:case_workers, :admin, @allocation], builder: GdsAdpFormBuilder do |f|
-      = hidden_field_tag :tab, params[:tab]
       = hidden_field_tag :scheme, params[:scheme]
       = hidden_field_tag :page, params[:page]
 
@@ -22,12 +21,12 @@
           = f.govuk_radio_buttons_fieldset :deallocate, legend: { text: t('.legend'), size: 'm' }, hint: { text: t('.form_hint_html') } do
             = f.govuk_radio_button :deallocate, 'true', label: { text: t('.allocation_pool') }, link_errors: true
             = f.govuk_radio_button :deallocate, 'false', label: { text: t('.case_worker') } do
-              .fx-autocomplete-wrapper
+              #cc-caseworker.fx-autocomplete-wrapper
                 = f.govuk_select :case_worker_id, label: { text: t('.case_worker_name') } do
                   = options_for_select [['', '']]
                   = options_from_collection_for_select @case_workers, :id, :name
 
-          = f.govuk_submit t('.re_allocate')
+          = f.govuk_submit t('.re_allocate'), name: 'tab', value: 'allocated'
 
       - if @claims.any?
         .table-container
@@ -106,4 +105,5 @@
                         = claim.case_workers.map(&:name).join(', ')
 
       - else
-        = t('.no_claims_allocated')
+        %p.govuk-body{ class: 'govuk-!-font-weight-bold' }
+          = t('.no_claims_allocated')

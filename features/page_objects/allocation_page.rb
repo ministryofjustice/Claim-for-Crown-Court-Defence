@@ -15,7 +15,9 @@ class AllocationPage < BasePage
 
   def select_claims(case_numbers)
     wait_for_ajax
-    list_to_array(case_numbers).each { |case_number| find(:xpath, "//td/a[contains(., '#{case_number}')]/../../td/input").click() }
+    list_to_array(case_numbers).each do |case_number|
+      find('label', text: "Select case #{case_number}").click
+    end
   end
 
   def includes_any_cases?(comma_list)

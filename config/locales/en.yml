@@ -2431,10 +2431,9 @@ en:
           select_all: Select all
           allocated_to: Allocated to
           disk_evidence: Disk evidence
-          no_claims_allocated: No claims need to be allocated
+          no_claims_allocated: There is no claim available for allocation
           number_of_claims: 'Number of claims:'
-          choose_label: Choose claim number %{case_number}
-          choose_label_html: <span class="govuk-visually-hidden">Select claim %{case_number}</span>
+          choose_label_html: <span class="govuk-visually-hidden">Select case %{case_number}</span>
           form_hint_html: |
             To de-allocate claims, choose "Allocation pool".
             <br/><br/>

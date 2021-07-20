@@ -126,7 +126,7 @@ moj.Modules.AllocationDataTable = {
                 '<div class="govuk-checkboxes__item">' +
                 '<input class="govuk-checkboxes__input dt-checkboxes" type="checkbox" value="" name="claim-' + data + '" id="claim-' + data + '">' +
                 '<label class="govuk-label govuk-checkboxes__label" for="claim-' + data + '">' +
-                '<span class="govuk-visually-hidden">Select claim ' + data + '</span>' +
+                '<span class="govuk-visually-hidden">Select case ' + row.case_number + '</span>' +
                 '</label>' +
                 '</div>' +
                 '</div>' +

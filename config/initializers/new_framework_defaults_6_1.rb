@@ -68,7 +68,10 @@ Rails.application.config.action_mailbox.queues.incineration = nil
 Rails.application.config.action_mailbox.queues.routing = nil
 
 # Set the default queue name for the mail deliver job to the queue adapter default.
-# Rails.application.config.action_mailer.deliver_later_queue_name = nil
+Rails.application.config.action_mailer.deliver_later_queue_name = :mailers
+# This is a workaround for issue https://github.com/rails/rails/issues/39855#issuecomment-659670294
+# suggested by this issue comment https://github.com/rails/rails/issues/37030#issuecomment-524511912
+ActionMailer::Base.deliver_later_queue_name = :mailers
 
 # Generate a `Link` header that gives a hint to modern browsers about
 # preloading assets when using `javascript_include_tag` and `stylesheet_link_tag`.

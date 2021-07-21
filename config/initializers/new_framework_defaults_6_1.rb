@@ -48,7 +48,10 @@ ActiveSupport.utc_to_local_returns_utc_offset_times = true
 # Use new connection handling API. For most applications this won't have any
 # effect. For applications using multiple databases, this new API provides
 # support for granular connection swapping.
-# Rails.application.config.active_record.legacy_connection_handling = false
+Rails.application.config.active_record.legacy_connection_handling = false
+# This is a workaround for issue https://github.com/rails/rails/issues/39855#issuecomment-659670294
+# suggested by this issue comment https://github.com/rails/rails/issues/37030#issuecomment-524511912
+ActiveRecord::Base.legacy_connection_handling = false
 
 # Make `form_with` generate non-remote forms by default.
 Rails.application.config.action_view.form_with_generates_remote_forms = false

@@ -7,7 +7,10 @@
 # Read the Guide for Upgrading Ruby on Rails for more info on each option.
 
 # Support for inversing belongs_to -> has_many Active Record associations.
-# Rails.application.config.active_record.has_many_inversing = true
+Rails.application.config.active_record.has_many_inversing = true
+# This is a workaround for issue https://github.com/rails/rails/issues/39855#issuecomment-659670294
+# suggested by this issue comment https://github.com/rails/rails/issues/37030#issuecomment-524511912
+ActiveRecord::Base.has_many_inversing = true
 
 # Track Active Storage variants in the database.
 # Rails.application.config.active_storage.track_variants = true

@@ -121,7 +121,7 @@ RSpec.shared_examples 'returns valid items structure' do
 end
 
 RSpec.shared_examples 'a disabler of view only actions' do
-  it { expect(assigns(:disable_analytics)).to be_truthy }
-  it { expect(assigns(:disable_phase_banner)).to be_truthy }
-  it { expect(assigns(:disable_flashes)).to be_truthy }
+  specify { expect(assigns(:disable_analytics)).to be_truthy }
+  specify { expect(assigns(:disable_phase_banner)).to be_truthy }
+  specify { expect(assigns(:disable_flashes)).to be_truthy }
 end

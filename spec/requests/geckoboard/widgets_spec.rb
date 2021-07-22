@@ -27,7 +27,9 @@ RSpec.shared_examples 'an html stats table' do |options|
 end
 
 RSpec.describe 'Widgets', type: :request, allow_forgery_protection: true do
-  include GeckoboardApiHelpers
+  def self.widgets
+    @widgets ||= YAML.load_file('spec/fixtures/geckoboard_api_widgets.yaml')
+  end
 
   # needed? has no template!
   describe 'GET #claims' do

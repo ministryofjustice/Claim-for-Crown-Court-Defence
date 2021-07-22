@@ -14,6 +14,7 @@ require_relative '../lib/govuk_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application
+    config.load_defaults 6.1
     config.middleware.use Rack::Deflater
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -49,8 +50,16 @@ module AdvocateDefencePayments
 
     config.assets.enabled = true
 
-    # TODO: move to :zeitwork mode
+    # Non-default config for Rails 6.1
+    #
+    # This is config that if not set here will accept different
+    # defaults from the `config.load_defaults 6.1` command above
+    #
     config.autoloader = :classic
+    config.action_mailer.deliver_later_queue_name = :mailers
+    config.active_record.belongs_to_required_by_default = false
+    config.active_storage.queues.analysis = :active_storage_analysis
+    config.active_storage.queues.purge = :active_storage_purge
 
     config.autoload_paths << config.root.join('lib')
 

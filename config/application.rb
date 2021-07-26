@@ -33,21 +33,6 @@ module AdvocateDefencePayments
       g.helper_specs false
     end
 
-    # Application Title (Populates <title>)
-    config.app_title = 'Claim for crown court defence'
-    # Proposition Title (Populates proposition header)
-    config.proposition_title = 'Claim for crown court defence'
-    # Current Phase (Sets the current phase and the colour of phase tags)
-    # Presumed values: alpha, beta, live
-    config.phase = 'BETA'
-    # Product Type (Adds class to body based on service type)
-    # Presumed values: information, service
-    config.product_type = 'not_set'
-    # Feedback URL (URL for feedback link in phase banner)
-    config.feedback_url = 'not_set'
-    # Google Analytics ID (Tracking ID for the service)
-    config.ga_id = 'not_set'
-
     config.assets.enabled = true
 
     # Non-default config for Rails 6.1

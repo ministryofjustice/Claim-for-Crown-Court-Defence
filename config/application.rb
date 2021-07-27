@@ -47,14 +47,8 @@ module AdvocateDefencePayments
     config.active_storage.queues.purge = :active_storage_purge
 
     config.autoload_paths << config.root.join('lib')
-
     config.eager_load_paths << config.root.join('lib')
-
     config.exceptions_app = self.routes
-
-    config.to_prepare do
-      Devise::Mailer.layout "email" # email.haml or email.erb
-    end
 
     config.active_job.queue_adapter = :sidekiq
   end

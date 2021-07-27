@@ -1,52 +1,37 @@
-= render partial: 'errors/error_summary', locals: { ep: @allocation, error_summary: t('.error_summary') }
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
 .govuk-grid-row
   .govuk-grid-column-full
-    = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
-.govuk-grid-row
-  .govuk-grid-column-full
-    = form_tag case_workers_admin_allocations_path, method: :get do
-      = render partial: 'orig_scheme_filters'
+    .govuk-grid-row
+      .govuk-grid-column-two-thirds
+        = govuk_error_summary(@allocation, :allocation)
 
-      %noscript
-        = submit_tag t('.filter')
+    = form_with url: case_workers_admin_allocations_path, method: :get, builder: GdsAdpFormBuilder do |f|
+      = render partial: 'orig_scheme_filters', locals: { f: f }
 
       = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path(anchor: 'search-button'), hint_text: t('hint.search'), button_text: t('search.claims') }
 
-    = form_for [:case_workers, :admin, @allocation] do |f|
-      = hidden_field_tag :tab, params[:tab]
+    = form_with model: [:case_workers, :admin, @allocation], builder: GdsAdpFormBuilder do |f|
       = hidden_field_tag :scheme, params[:scheme]
       = hidden_field_tag :page, params[:page]
 
-      %fieldset.inline
-        %legend.normal.form-label-bold
-          = t('.legend')
+      .govuk-grid-row
+        .govuk-grid-column-two-thirds
+          = f.govuk_radio_buttons_fieldset :deallocate, legend: { text: t('.legend'), size: 'm' }, hint: { text: t('.form_hint_html') } do
+            = f.govuk_radio_button :deallocate, 'true', label: { text: t('.allocation_pool') }, link_errors: true
+            = f.govuk_radio_button :deallocate, 'false', label: { text: t('.case_worker') } do
+              #cc-caseworker.fx-autocomplete-wrapper
+                = f.govuk_select :case_worker_id, label: { text: t('.case_worker_name') } do
+                  = options_for_select [['', '']]
+                  = options_from_collection_for_select @case_workers, :id, :name
 
-        .form-group
-          .form-hint
-            = t('.form_hint_html')
-
-          .js-re-allocation-options
-            .multiple-choice
-              = f.radio_button :deallocate, true, checked: false, value: true
-              = f.label :deallocate, t('.allocation_pool'), 'aria-label': t('.allocation_pool_label'), value: true
-
-            .multiple-choice
-              = f.radio_button :deallocate, false, checked: true, value: false
-              = f.label :deallocate, t('.case_worker'), 'aria-label': t('.case_worker_label'), value: false
-
-      .case-worker-reallocation.govuk-grid-row.form-group.js-typeahead
-        .govuk-grid-column-one-quarter.js-case-worker-list
-          = f.label :case_worker_id, class: 'form-label-bold', id: :case_worker_id
-          = f.collection_select :case_worker_id, @case_workers, :id, :name, { include_blank: ''.html_safe }, { class: 'form-control form-control-full fx-autocomplete', 'aria-label': t('case_workers.admin.allocations.re_allocation.case_worker') }
-        .govuk-grid-column-one-half.margin-spacer-sm
-          = govuk_button(t('.re_allocate'))
+          = f.govuk_submit t('.re_allocate'), name: 'tab', value: 'allocated'
 
       - if @claims.any?
         .table-container
           %table.report.js-checkbox-table.js-reallocation-report
-            %caption
+            %caption#allocation-claim-ids-field-error
               .govuk-grid-row
                 .govuk-grid-column-one-half
                   = t('.re_allocation')
@@ -78,12 +63,16 @@
                 - present(b.object) do |claim|
                   %tr{ id: dom_id(claim), class: claim.injection_error ? 'error injection-error' : nil }
                     %td{ 'data-label': t('.select') }
-                      .error-message-container
-                        = b.label(class: 'govuk-visually-hidden') { t('.choose_label', case_number: claim.case_number) }
-                        = b.check_box
+                      .govuk-form-group.error-message-container
+                        .govuk-checkboxes.govuk-checkboxes--small{ 'data-module': 'govuk-checkboxes' }
+                          .govuk-checkboxes__item
+                            = b.check_box(class: 'govuk-checkboxes__input')
+                            = b.label(class: 'govuk-label govuk-checkboxes__label'){ t('.choose_label_html', case_number: claim.case_number) }
+
                         - claim.injection_error do |message|
                           .error-message
                             = message
+
                     %td{ 'data-label': t('.case_number') }
                       %span.js-test-case-number
                         = govuk_link_to claim.case_number, case_workers_claim_path(claim), 'aria-label': t('.case_number_label', case_number: claim.case_number)
@@ -92,22 +81,29 @@
                         - if claim.disk_evidence == true
                           %span.disk-evidence
                             = t('.disk_evidence')
+
                     %td{ 'data-label': t('.court') }
                       = claim.court.name
+
                     %td{ 'data-label': t('.defendants') }
                       = claim.defendant_names
+
                     %td{ 'data-label': t('.type') }
                       = claim.case_type_name
                       %br/
                       %span.claim-state
                         = claim.claim_state
+
                     %td.numeric{ 'data-label': t('.submitted_date') }
                       = claim.submitted_at_short
+
                     %td.numeric{ 'data-label': t('.claim_total') }
                       = claim.total_inc_vat
+
                     - if params[:tab] == 'allocated'
                       %td{ 'data-label': t('.allocated_to') }
                         = claim.case_workers.map(&:name).join(', ')
 
       - else
-        = t('.no_claims_allocated')
+        %p.govuk-body{ class: 'govuk-!-font-weight-bold' }
+          = t('.no_claims_allocated')

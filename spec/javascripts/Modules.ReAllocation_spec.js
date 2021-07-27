@@ -1,7 +1,7 @@
-describe('Modules.Allocation.js', function () {
-  const module = moj.Modules.Allocation
+describe('Modules.ReAllocation.js', function () {
+  const module = moj.Modules.ReAllocation
   const domFixture = $(
-    '<div class="js-allocation-page">',
+    '<div class="js-re-allocation-page">',
     '<div class="fx-autocomplete-wrapper">',
     '<select>',
     '<option value="1">Option 1</option>',

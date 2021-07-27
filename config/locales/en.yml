@@ -209,9 +209,9 @@ en:
         allocation:
           attributes:
             case_worker_id:
-              blank: "can't be blank"
+              blank: Select a case worker
             claim_ids:
-              blank: "can't be blank"
+              blank: Select at least one claim to re-allocate
         fee/graduated_fee:
           attributes:
             claim:
@@ -2425,14 +2425,15 @@ en:
           legend: Allocate to
           allocation_pool: Allocation pool
           case_worker: Case worker
+          case_worker_name: Case worker name
           re_allocation: Re-allocation
           re_allocate: Re-allocate
           select_all: Select all
           allocated_to: Allocated to
           disk_evidence: Disk evidence
-          no_claims_allocated: No claims need to be allocated
+          no_claims_allocated: There is no claim available for allocation
           number_of_claims: 'Number of claims:'
-          choose_label: Choose claim number %{case_number}
+          choose_label_html: <span class="govuk-visually-hidden">Select case %{case_number}</span>
           form_hint_html: |
             To de-allocate claims, choose "Allocation pool".
             <br/><br/>

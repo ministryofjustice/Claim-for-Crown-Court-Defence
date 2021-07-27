@@ -1,13 +1,4 @@
-.form-group
-  %fieldset.inline.allocation-filter-form{ 'aria-describedby': 'radio-control-hint' }
-    %legend
-      %span#radio-control-hint.form-label-bold
-        = t('.scheme_types')
+.allocation-filter-form
+  = f.govuk_radio_buttons_fieldset :scheme, legend: { text: t('.scheme_types'), size: 'm' } do
     - allocation_scheme_filters.each do | filter_scheme |
-      .multiple-choice
-        = radio_button_tag :scheme, filter_scheme, params[:scheme].blank? ? filter_scheme == 'agfs' : params[:scheme] == filter_scheme
-        = label_tag "scheme_#{filter_scheme}", nil, 'aria-label': t('.filter_scheme_label', scheme: filter_scheme), class: 'block-label' do
-          = filter_scheme.upcase
-    %noscript
-      = hidden_field_tag 'style', 'old'
-      = submit_tag t('.filter')
+      = f.govuk_radio_button :scheme, filter_scheme, label: { text: filter_scheme.upcase }

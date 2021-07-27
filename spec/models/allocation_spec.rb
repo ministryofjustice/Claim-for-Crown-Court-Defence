@@ -115,7 +115,7 @@ RSpec.describe Allocation, type: :model do
 
         it 'details the errors' do
           allocator.save
-          expect(allocator.errors[:case_worker_id]).to include("can't be blank")
+          expect(allocator.errors[:case_worker_id]).to contain_exactly('Select a case worker')
         end
       end
     end

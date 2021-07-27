@@ -1,3 +1,5 @@
-- title(page_heading) unless content_for?(:page_title)
-%h1#page-h1.govuk-heading-xl
-  = page_heading
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    - title(page_heading) unless content_for?(:page_title)
+    %h1#page-h1.govuk-heading-xl
+      = page_heading

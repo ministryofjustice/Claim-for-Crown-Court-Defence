@@ -121,7 +121,16 @@ moj.Modules.AllocationDataTable = {
         selectAllPages: false
       },
       render: function (data, type, row) {
-        return '<input type="checkbox" class="dt-checkboxes" id="claim-' + data + '"><label for="claim-' + data + '" class="govuk-visually-hidden">claim id ' + data + '</label>'
+        return '<div class="govuk-form-group">' +
+                '<div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">' +
+                '<div class="govuk-checkboxes__item">' +
+                '<input class="govuk-checkboxes__input dt-checkboxes" type="checkbox" value="" name="claim-' + data + '" id="claim-' + data + '">' +
+                '<label class="govuk-label govuk-checkboxes__label" for="claim-' + data + '">' +
+                '<span class="govuk-visually-hidden">Select case ' + row.case_number + '</span>' +
+                '</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>'
       }
     }, {
       targets: 1,
@@ -178,9 +187,9 @@ moj.Modules.AllocationDataTable = {
     $('#dtAllocation_filter').find('input').addClass('govuk-input govuk-!-width-three-quarters')
     $('#dtAllocation_length').find('select').addClass('govuk-select')
 
-    // circumvent radio rule "Do not pre-select radio options"
+    // circumvent GOVUK radio rule "Do not pre-select radio options"
     // plugin requires a default scheme to be set
-    $('#scheme-agfs-field').prop('checked', true)
+    $('.js-allocation-page #scheme-agfs-field').prop('checked', true)
 
     this.bindEvents()
     this.registerCustomSearch()

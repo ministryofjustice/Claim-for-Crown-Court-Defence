@@ -109,6 +109,14 @@ When(/^I attempt to sign in again as the deleted caseworker$/) do
   sign_in(@case_worker.user, 'password')
 end
 
+Given('a case worker admin user account exists') do
+  @case_worker = create(:case_worker, :admin)
+end
+
+When('I sign in as the case worker admin') do
+  sign_in(@case_worker.user, 'password')
+end
+
 Given(/^I am a signed in case worker admin$/) do
   @case_worker = create(:case_worker, :admin)
   sign_in(@case_worker.user, 'password')

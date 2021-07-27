@@ -1116,26 +1116,10 @@ div.dataTables_wrapper span.select-item {
   }
 }
 
-#dtAllocation_wrapper {
-  .govuk-grid-column-one-half {
-    padding-left: 0;
-  }
-
-  // search
-  #dtAllocation_filter {
-    width: 100%;
-    text-align: left;
-  }
-
-  // info
-  #dtAllocation_info {
-    padding: 0;
-    line-height: 2.3;
-    float: none;
-    text-align: right;
-  }
+#dtAllocation_wrapper #dtAllocation_info {
+  padding: 0;
+  line-height: 2.3;
 }
-
 
 .scheme-filters {
   margin-top: $gutter;

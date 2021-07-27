@@ -56,7 +56,7 @@
 
       %main#main-content.govuk-main-wrapper{ role: 'main' }
         .govuk-grid-row
-          .govuk-grid-column-full
+          .govuk-grid-column-two-thirds
             = render partial: 'shared/downtime_warning'
             = render partial: 'layouts/flashes' unless flash.empty? || @disable_flashes
             = content_for :page_heading

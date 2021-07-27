@@ -1,18 +1,48 @@
 moj.Modules.Allocation = {
   init: function () {
-    // Only work on the allocation page
-    if ($('.js-allocation-page').length > 0) {
-      $('.fx-autocomplete-wrapper select').is(function (idx, el) {
-        moj.Helpers.Autocomplete.new('#' + el.id, {
-          showAllValues: true,
-          autoselect: false,
-          displayMenu: 'overlay'
-        })
-      })
+    const allocationPage = document.querySelector('.js-allocation-page')
 
-      $('#allocation-case-worker-id-field-select').attr('aria-label', 'Case worker')
+    if (allocationPage) {
+      this.caseWorkerAutoComplete()
+      this.replaceDataTableInput()
+      this.toggleDataTableSelectionText()
+    }
+  },
 
-      $('.dt-checkboxes-select-all input').replaceWith('<input type="checkbox" id="select-all-claim"><label for="select-all-claim" class="govuk-visually-hidden">Select all claims</label>')
+  caseWorkerAutoComplete: function () {
+    return moj.Helpers.Autocomplete.new('.fx-autocomplete-wrapper select', {
+      showAllValues: true,
+      autoselect: false,
+      displayMenu: 'overlay'
+    })
+  },
+
+  replaceDataTableInput: function () {
+    // change to Web API: replaceWith (https://developer.mozilla.org/en-US/docs/Web/API/Element/replaceWith)
+    // once IE usage fall below 2%
+    $('.dt-checkboxes-select-all input')
+      .replaceWith(
+        '<div class="govuk-form-group">' +
+        '<div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">' +
+        '<div class="govuk-checkboxes__item">' +
+        '<input class="govuk-checkboxes__input" type="checkbox" name="select-all-claim" id="select-all-claim">' +
+        '<label class="govuk-label govuk-checkboxes__label" for="select-all-claim">' +
+        '<span class="govuk-visually-hidden">Select all</span>' +
+        '</label>' +
+        '</div>' +
+        '</div>' +
+        '</div>'
+      )
+  },
+
+  toggleDataTableSelectionText: function () {
+    const checkBox = document.querySelector('.dt-checkboxes-select-all input')
+    const checkBoxLabel = document.querySelector('.dt-checkboxes-select-all label span')
+
+    if (checkBox) {
+      checkBox.onclick = function () {
+        this.checked ? checkBoxLabel.innerText = 'De-select all' : checkBoxLabel.innerText = 'Select all'
+      }
     }
   }
 }

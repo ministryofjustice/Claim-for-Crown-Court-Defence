@@ -1,10 +1,12 @@
 class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
   include DisableViewOnlyActions
 
+  # TODO: needed? not linked in statistic/index
   def claims
     respond_payload_from_class(Stats::ClaimPercentageAuthorisedGenerator)
   end
 
+  # TODO: needed? not linked in statistic/index
   def claim_completion
     respond_payload_from_reporter_class(Stats::ClaimCompletionReporterGenerator)
   end
@@ -41,6 +43,7 @@ class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
     respond_payload_from_class(Stats::ClaimRedeterminationsDataGenerator)
   end
 
+  # TODO: needed? not linked in statistic/index
   def money_to_date
     respond_payload_from_class(Stats::MoneyToDateDataGenerator)
   end

@@ -42,14 +42,11 @@ module AdvocateDefencePayments
     #
     config.autoloader = :classic
     config.action_mailer.deliver_later_queue_name = :mailers
-    config.active_record.belongs_to_required_by_default = false
     config.active_storage.queues.analysis = :active_storage_analysis
     config.active_storage.queues.purge = :active_storage_purge
 
     config.autoload_paths << config.root.join('lib')
-
     config.eager_load_paths << config.root.join('lib')
-
     config.exceptions_app = self.routes
 
     config.to_prepare do

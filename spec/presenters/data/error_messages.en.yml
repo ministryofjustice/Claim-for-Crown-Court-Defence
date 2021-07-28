@@ -29,5 +29,5 @@ defendant:
     _seq: 10
     blank:
       long: "Enter a first name for the #{defendant}"
-      short: Enter a name
+      short: Enter a first name
       api: "The first name for the #{defendant} must not be blank"

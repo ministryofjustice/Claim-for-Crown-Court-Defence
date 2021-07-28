@@ -69,6 +69,44 @@ RSpec.describe ErrorMessage::DetailCollection do
     end
   end
 
+  describe '#long_messages_for' do
+    subject { instance.long_messages_for(:dob) }
+
+    context 'with one long_message per key' do
+      before { instance[:dob] = ed1 }
+
+      it { is_expected.to eq 'Enter a valid date of birth' }
+    end
+
+    context 'with multiple long messages per key' do
+      before do
+        instance[:dob] = ed1
+        instance[:dob] = ed3
+      end
+
+      it { is_expected.to eq 'Enter a valid date of birth, Check the date of birth' }
+    end
+  end
+
+  describe '#api_messages_for' do
+    subject { instance.api_messages_for(:dob) }
+
+    context 'with one api_message per key' do
+      before { instance[:dob] = ed1 }
+
+      it { is_expected.to eq 'Date of birth is invalid' }
+    end
+
+    context 'with multiple long messages per key' do
+      before do
+        instance[:dob] = ed1
+        instance[:dob] = ed3
+      end
+
+      it { is_expected.to eq 'Date of birth is invalid, Date of birth too far in the past' }
+    end
+  end
+
   describe '#header_errors' do
     subject(:header_errors) { instance.header_errors }
 

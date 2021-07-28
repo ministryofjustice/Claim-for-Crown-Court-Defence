@@ -6,7 +6,7 @@ class ErrorPresenter
   def initialize(claim, message_file = nil)
     @claim = claim
     @errors = claim.errors
-    message_file ||= "#{Rails.root}/config/locales/error_messages.#{I18n.locale}.yml"
+    message_file ||= default_file
     @translations = YAML.load_file(message_file)
     @error_details = ErrorDetailCollection.new
     generate_messages
@@ -112,5 +112,9 @@ class ErrorPresenter
 
   def generate_standard_api_message(error)
     "#{error.attribute.to_s.humanize} #{error.message.humanize.downcase}"
+  end
+
+  def default_file
+    "#{Rails.root}/config/locales/error_messages.#{I18n.locale}.yml"
   end
 end

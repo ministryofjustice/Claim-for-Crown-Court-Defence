@@ -225,19 +225,21 @@ en:
         provider:
           attributes:
             base:
-              blank_supplier_numbers: "You must specify at least one LGFS supplier number"
+              blank_supplier_numbers: blank_supplier_numbers
             firm_agfs_supplier_number:
-              blank: Enter an AGFS Supplier Number
-              invalid: Enter a valid AGFS supplier number
+              blank: blank
+              invalid: invalid
+            roles:
+
             supplier_number:
-              invalid: *invalid_supplier_number
+              invalid: invalid
             name:
-              blank: Enter a provider name
-              not_unique: There is already a provider with this name
+              blank: blank
+              not_unique: not_unique
             provider_type:
-              blank: Choose a provider type
+              blank: blank
             vat_registered:
-              inclusion: Choose VAT registration state
+              inclusion: inclusion
         external_user:
           attributes:
             roles:

@@ -2,9 +2,9 @@
 
 RSpec.describe ErrorDetailCollection do
   let(:instance) { described_class.new }
-  let(:ed2) { ErrorDetail.new(:first_name, 'You must specify a first name', 'Cannot be blank', 'You must specify a first name', 20) }
-  let(:ed1) { ErrorDetail.new(:dob, 'Date of birth is invalid', 'Invalid date', 'Date of birth is invalid', 10) }
-  let(:ed3) { ErrorDetail.new(:dob, 'Date of birth too far in the past', 'Too old', 'Date of birth too far in the past', 30) }
+  let(:ed2) { ErrorDetail.new(:first_name, 'Enter a first name', 'Cannot be blank', 'You must specify a first name', 20) }
+  let(:ed1) { ErrorDetail.new(:dob, 'Enter a valid date of birth', 'Invalid date', 'Date of birth is invalid', 10) }
+  let(:ed3) { ErrorDetail.new(:dob, 'Check the date of birth', 'Too old', 'Date of birth too far in the past', 30) }
 
   describe '#[]=' do
     context 'when assigning a single value to a key' do
@@ -45,6 +45,44 @@ RSpec.describe ErrorDetailCollection do
       end
 
       it { is_expected.to eq 'Invalid date, Too old' }
+    end
+  end
+
+  describe '#long_messages_for' do
+    subject { instance.long_messages_for(:dob) }
+
+    context 'with one long_message per key' do
+      before { instance[:dob] = ed1 }
+
+      it { is_expected.to eq 'Enter a valid date of birth' }
+    end
+
+    context 'with multiple long messages per key' do
+      before do
+        instance[:dob] = ed1
+        instance[:dob] = ed3
+      end
+
+      it { is_expected.to eq 'Enter a valid date of birth, Check the date of birth' }
+    end
+  end
+
+  describe '#api_messages_for' do
+    subject { instance.api_messages_for(:dob) }
+
+    context 'with one api_message per key' do
+      before { instance[:dob] = ed1 }
+
+      it { is_expected.to eq 'Date of birth is invalid' }
+    end
+
+    context 'with multiple long messages per key' do
+      before do
+        instance[:dob] = ed1
+        instance[:dob] = ed3
+      end
+
+      it { is_expected.to eq 'Date of birth is invalid, Date of birth too far in the past' }
     end
   end
 

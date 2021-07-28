@@ -1,6 +1,9 @@
-# This class holds a collection of ErrorDetail objects, keyed by fieldname to which error it pertains.
-# Each key can hold more than one ErrorDetail.  The class provides specialised methods for retrieving
-# short messages by fieldname, and all the long messages with associated fieldnames
+# This class holds a collection of ErrorDetail objects,
+# keyed by fieldname to which error it pertains.
+# Each key can hold more than one ErrorDetail. The class
+# provides specialised methods for retrieving
+# short messages by fieldname, and all the long
+# messages with associated fieldnames
 #
 class ErrorDetailCollection
   def initialize
@@ -24,9 +27,19 @@ class ErrorDetailCollection
   end
 
   def short_messages_for(fieldname)
-    error_detail_array = @error_details[fieldname]
-    return '' if error_detail_array.nil?
-    error_detail_array.map(&:short_message).join(', ')
+    error_details_for(fieldname).map(&:short_message).join(', ')
+  end
+
+  def long_messages_for(fieldname)
+    error_details_for(fieldname).map(&:long_message).join(', ')
+  end
+
+  def api_messages_for(fieldname)
+    error_details_for(fieldname).map(&:api_message).join(', ')
+  end
+
+  def error_details_for(fieldname)
+    self[fieldname] || []
   end
 
   def header_errors

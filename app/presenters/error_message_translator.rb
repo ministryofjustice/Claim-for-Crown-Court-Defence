@@ -1,5 +1,7 @@
-# This class is reponsible for translating messages, including nested submodel messages with keys
+# This class is reponsible for translating messages,
+# including nested submodel messages with keys
 # like :defendant_3_represntation_order_2_date_of_birth
+#
 
 class ErrorMessageTranslator
   attr_reader :long_message, :short_message, :api_message
@@ -70,18 +72,20 @@ class ErrorMessageTranslator
   end
 
   def key_refers_to_numbered_submodel?(key)
-    key =~ @regex
+    key.match?(@regex)
   end
 
   def key_refers_to_unnumbered_submodel?(key)
-    key =~ @submodel_regex
+    key.match?(@submodel_regex)
   end
 
   def last_parent_attribute(_translations, key)
     attribute = self.class.association_key(key)
     while attribute =~ @regex
       parent_model = Regexp.last_match(1)
-      submodel_id  = Regexp.last_match(3)
+      parent_model.slice!('_attributes')
+      parent_model = parent_model.singularize
+      submodel_id = Regexp.last_match(3)
       attribute = Regexp.last_match(4)
 
       # store each submodel instance number against parent model too
@@ -98,7 +102,7 @@ class ErrorMessageTranslator
 
   def extract_submodel_attribute(translations, key)
     key =~ @submodel_regex
-    parent_model = Regexp.last_match(1)
+    parent_model = Regexp.last_match(1)&.singularize
     attribute = Regexp.last_match(2)
     @submodel_numbers[parent_model] = 0
     translation_subset = translations.fetch(parent_model, {})

@@ -1,9 +1,9 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
 RSpec.describe ErrorPresenter do
-  subject(:presenter) { ErrorPresenter.new(claim, filename) }
+  subject(:presenter) { described_class.new(claim, filename) }
 
-  let(:claim) { FactoryBot.build :claim }
+  let(:claim) { FactoryBot.build(:claim) }
   let(:filename) { File.dirname(__FILE__) + '/data/error_messages.en.yml' }
 
   it { is_expected.to delegate_method(:errors_for?).to(:error_details) }
@@ -14,13 +14,13 @@ RSpec.describe ErrorPresenter do
   it { expect(presenter.method(:field_level_error_for)).to eq(presenter.method(:short_messages_for)) }
 
   describe '#generate_sequence' do
-    context 'when fieldname present' do
+    context 'when attribute present' do
       it 'returns the value from the error messages file' do
         expect(presenter.send(:generate_sequence, 'name')).to eq 50
       end
     end
 
-    context 'when fieldname not present' do
+    context 'when attribute not present' do
       it 'returns 99999' do
         expect(presenter.send(:generate_sequence, 'nokey')).to eq 99999
       end
@@ -30,7 +30,7 @@ RSpec.describe ErrorPresenter do
   describe '#header_errors' do
     subject { presenter.header_errors }
 
-    context 'with fieldname and message present in translations' do
+    context 'with attribute and message present in translations' do
       before { claim.errors.add(:date_of_birth, 'too_early') }
 
       it do
@@ -42,7 +42,7 @@ RSpec.describe ErrorPresenter do
       end
     end
 
-    context 'with fieldname but without message present in translations' do
+    context 'with attribute but without message present in translations' do
       before { claim.errors.add(:date_of_birth, 'foo_bar') }
 
       it do
@@ -54,7 +54,7 @@ RSpec.describe ErrorPresenter do
       end
     end
 
-    context 'without fieldname present in translation file' do
+    context 'without attribute present in translation file' do
       before { claim.errors.add(:defendant_2_name, 'is invalid') }
 
       it do
@@ -66,7 +66,7 @@ RSpec.describe ErrorPresenter do
       end
     end
 
-    context 'with nested submodel fieldname and message present in translations' do
+    context 'with nested submodel attribute and message present in translations' do
       before { claim.errors.add(:defendant_2_first_name, 'blank') }
 
       it do
@@ -98,26 +98,24 @@ RSpec.describe ErrorPresenter do
   describe '#field_level_error_for' do
     subject { presenter.field_level_error_for(attribute) }
 
-    context 'with fieldname and message present in translations' do
-      before { claim.errors.add(:date_of_birth, 'too_early') }
+    context 'with attribute and message present in translations' do
+      before { claim.errors.add(attribute, 'too_early') }
 
       let(:attribute) { :date_of_birth }
 
-      it 'returns the short message' do
-        is_expected.to eq('Enter a valid date')
-      end
+      it { is_expected.to eq('Enter a valid date') }
     end
 
-    context 'with fieldname but without message present in translations' do
-      before { claim.errors.add(:date_of_birth, 'foo_bar') }
+    context 'with attribute but without message present in translations' do
+      before { claim.errors.add(attribute, 'foo_bar') }
 
       let(:attribute) { :date_of_birth }
 
       it { is_expected.to eq('Foo bar') }
     end
 
-    context 'without fieldname present in translation file' do
-      before { claim.errors.add(:defendant_2_name, 'foo_bar_too') }
+    context 'without attribute present in translation file' do
+      before { claim.errors.add(attribute, 'foo_bar_too') }
 
       let(:attribute) { :defendant_2_name }
 

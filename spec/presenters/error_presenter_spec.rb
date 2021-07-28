@@ -72,7 +72,7 @@ RSpec.describe ErrorPresenter do
       it do
         is_expected.to eq(
           [
-            ErrorDetail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a name', 'The first name for the second defendant must not be blank')
+            ErrorDetail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a first name', 'The first name for the second defendant must not be blank')
           ]
         )
       end
@@ -114,12 +114,46 @@ RSpec.describe ErrorPresenter do
       it { is_expected.to eq('Foo bar') }
     end
 
-    context 'without attribute present in translation file' do
-      before { claim.errors.add(attribute, 'foo_bar_too') }
+    context 'with nested error and message present in translations' do
+      before do
+        claim.errors.add(attribute, 'blank')
+      end
 
-      let(:attribute) { :defendant_2_name }
+      let(:attribute) { :defendant_2_first_name }
 
-      it { is_expected.to eq('Foo bar too') }
+      it { is_expected.to eq('Enter a first name') }
+    end
+
+    context 'with nested error and message NOT present in translations' do
+      before do
+        claim.errors.add(attribute, 'foo_bar')
+      end
+
+      let(:attribute) { :defendant_2_first_name }
+
+      it { is_expected.to eq('Foo bar') }
+    end
+
+    context 'with multiple errors on attribute and message present in translations' do
+      before do
+        claim.errors.add(:name, 'cannot_be_blank')
+        claim.errors.add(:name, 'too_long')
+      end
+
+      let(:attribute) { :name }
+
+      it { is_expected.to eq('Enter a name, Too long') }
+    end
+
+    context 'with multiple errors on attribute and message NOT present in translations' do
+      before do
+        claim.errors.add(:name, 'cannot_be_blank')
+        claim.errors.add(:name, 'foo_bar')
+      end
+
+      let(:attribute) { :name }
+
+      it { is_expected.to eq('Enter a name, Foo bar') }
     end
   end
 end

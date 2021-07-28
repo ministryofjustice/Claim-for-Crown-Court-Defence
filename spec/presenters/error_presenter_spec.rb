@@ -9,9 +9,12 @@ RSpec.describe ErrorPresenter do
   it { is_expected.to delegate_method(:errors_for?).to(:error_details) }
   it { is_expected.to delegate_method(:header_errors).to(:error_details) }
   it { is_expected.to delegate_method(:short_messages_for).to(:error_details) }
+  it { is_expected.to delegate_method(:long_messages_for).to(:error_details) }
+  it { is_expected.to delegate_method(:api_messages_for).to(:error_details) }
   it { is_expected.to delegate_method(:size).to(:error_details) }
   it { expect(presenter.method(:key?)).to eq(presenter.method(:errors_for?)) }
   it { expect(presenter.method(:field_level_error_for)).to eq(presenter.method(:short_messages_for)) }
+  it { expect(presenter.method(:summary_error_for)).to eq(presenter.method(:long_messages_for)) }
 
   describe '#generate_sequence' do
     context 'when attribute present' do

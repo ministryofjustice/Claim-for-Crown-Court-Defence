@@ -1,82 +1,93 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-describe ErrorDetailCollection do
-  let(:edc) { ErrorDetailCollection.new }
+RSpec.describe ErrorDetailCollection do
+  let(:instance) { described_class.new }
   let(:ed2) { ErrorDetail.new(:first_name, 'You must specify a first name', 'Cannot be blank', 'You must specify a first name', 20) }
   let(:ed1) { ErrorDetail.new(:dob, 'Date of birth is invalid', 'Invalid date', 'Date of birth is invalid', 10) }
   let(:ed3) { ErrorDetail.new(:dob, 'Date of birth too far in the past', 'Too old', 'Date of birth too far in the past', 30) }
 
-  context 'assign a single values to a key' do
-    it 'makes an array containing the single object' do
-      edc[:key1] = 'value for key 1'
-      expect(edc[:key1]).to eq(['value for key 1'])
+  describe '#[]=' do
+    context 'when assigning a single value to a key' do
+      before { instance[:key1] = 'value for key 1' }
+
+      it 'makes an array containing the single element' do
+        expect(instance[:key1]).to eq(['value for key 1'])
+      end
+    end
+
+    context 'when assigning multiple values to a key' do
+      before do
+        instance[:key1] = 'value 1'
+        instance[:key1] = 'value 2'
+      end
+
+      it 'makes an array of all the elements assigned' do
+        expect(instance[:key1]).to match_array(['value 1', 'value 2'])
+      end
     end
   end
 
-  context 'assign multiple values to a key' do
-    it 'makes an array containing all the objects assigned' do
-      edc[:key1] = 'value for key 1'
-      edc[:key1] = 'second value for key 1'
-      expect(edc[:key1]).to eq(['value for key 1', 'second value for key 1'])
-    end
-  end
+  describe '#short_messages_for' do
+    subject { instance.short_messages_for(:dob) }
 
-  describe 'short_messagas_for' do
-    context 'one short_message per key' do
+    context 'with one short_message per key' do
+      before { instance[:dob] = ed1 }
+
       it 'returns the short message for the named key' do
-        edc[:dob] = ed1
-        expect(edc.short_messages_for(:dob)).to eq 'Invalid date'
+        is_expected.to eq 'Invalid date'
       end
     end
 
-    context 'multiple short messages per key' do
-      it 'returns a comma separated lit of messages for the named key' do
-        edc[:dob] = ed1
-        edc[:dob] = ed3
-        expect(edc.short_messages_for(:dob)).to eq 'Invalid date, Too old'
+    context 'with multiple short messages per key' do
+      before do
+        instance[:dob] = ed1
+        instance[:dob] = ed3
       end
+
+      it { is_expected.to eq 'Invalid date, Too old' }
     end
   end
 
-  describe 'header_errors' do
-    let(:expected_headers_array) { [ed1, ed2, ed3] }
+  describe '#header_errors' do
+    subject(:header_errors) { instance.header_errors }
+
     before do
-      edc[:first_name] = ed2
-      edc[:dob] = ed1
-      edc[:dob] = ed3
+      instance[:first_name] = ed2
+      instance[:dob] = ed1
+      instance[:dob] = ed3
     end
 
-    it 'returns an array of arrays containing feildname and long message for each error' do
-      expect(edc.header_errors.size).to eq 3
-    end
+    it { is_expected.to all(be_instance_of(ErrorDetail)) }
+    it { is_expected.to have(3).items }
 
-    it 'sorts the array of errors by specified sequence' do
-      expect(edc.header_errors).to eq expected_headers_array
+    it 'sorts the array by sequence values' do
+      expect(header_errors.map(&:sequence)).to eq [10, 20, 30]
     end
   end
 
-  describe 'size' do
-    context 'empty collection' do
-      it 'returns zero' do
-        expect(edc.size).to eq 0
-      end
+  describe '#size' do
+    subject { instance.size }
+
+    context 'with empty collection' do
+      it { is_expected.to eq 0 }
     end
 
-    context 'several fieldnames, one error per fieldname' do
-      it 'returns the number of errors' do
-        edc[:first_name] = ed1
-        edc[:dob] = ed2
-        expect(edc.size).to eq 2
+    context 'with multiple fieldnames with one error each' do
+      before do
+        instance[:first_name] = ed1
+        instance[:dob] = ed2
       end
+
+      it { is_expected.to eq 2 }
     end
 
-    context 'several fieldnames, some with multiple errors' do
-      it 'returns the total number of errors' do
-        edc[:first_name] = ed2
-        edc[:dob] = ed1
-        edc[:dob] = ed3
-        expect(edc.size).to eq 3
+    context 'with multiple errors on one fieldname' do
+      before do
+        instance[:dob] = ed1
+        instance[:dob] = ed3
       end
+
+      it { expect(instance.size).to eq 2 }
     end
   end
 end

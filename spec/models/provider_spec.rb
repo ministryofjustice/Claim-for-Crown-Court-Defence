@@ -22,22 +22,25 @@ RSpec.describe Provider, type: :model do
   let(:chamber) { create(:provider, :chamber) }
   let(:agfs_lgfs) { create(:provider, :agfs_lgfs) }
 
-  it { should have_many(:external_users) }
-  it { should have_many(:claims) }
+  it { is_expected.to have_many(:external_users) }
+  it { is_expected.to have_many(:claims) }
 
-  it { should validate_presence_of(:provider_type) }
-  it { should validate_presence_of(:name) }
-  it { should validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message(:not_unique) }
+  it { is_expected.to validate_presence_of(:provider_type) }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message(:not_unique) }
 
-  it { should delegate_method(:advocates).to(:external_users) }
-  it { should delegate_method(:admins).to(:external_users) }
+  it { is_expected.to delegate_method(:advocates).to(:external_users) }
+  it { is_expected.to delegate_method(:admins).to(:external_users) }
 
   context '#destroy' do
     before { create(:external_user, :advocate, provider: chamber) }
+
     it 'destroys external users' do
-      expect(ExternalUser.count).to eq 1
-      expect(Provider.count).to eq 1
       expect { chamber.destroy }.to change(ExternalUser, :count).by(-1)
+    end
+
+    it 'destroys provider' do
+      expect { chamber.destroy }.to change(Provider, :count).by(-1)
     end
   end
 
@@ -92,7 +95,7 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  context 'ROLES' do
+  context '::ROLES' do
     it 'has "agfs" and "lgfs"' do
       expect(Provider::ROLES).to match_array(%w(agfs lgfs))
     end
@@ -103,11 +106,10 @@ RSpec.describe Provider, type: :model do
       expect(chamber.api_key.present?).to be true
     end
 
-    it 'sets API key before validation' do
-      chamber.api_key = nil
-      expect(chamber.api_key.present?).to be false
-      expect(chamber).to be_valid
-      expect(chamber.api_key.present?).to be true
+    context 'when validating with nil #api_key' do
+      before { chamber.api_key = nil }
+
+      it { expect { chamber.validate }.to change(chamber, :api_key) }
     end
   end
 
@@ -158,10 +160,10 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  describe 'available_claim_types' do
+  describe '#available_claim_types' do
     include_context 'claim-types object helpers'
 
-    context 'for an AGFS provider' do
+    context 'with an AGFS provider' do
       let(:provider) { build :provider, :agfs }
 
       it 'returns the list of available claim types' do
@@ -170,7 +172,7 @@ RSpec.describe Provider, type: :model do
       end
     end
 
-    context 'for a LGFS provider' do
+    context 'with a LGFS provider' do
       let(:provider) { build :provider, :lgfs }
 
       it 'returns the list of available claim types for LGFS' do
@@ -179,7 +181,7 @@ RSpec.describe Provider, type: :model do
       end
     end
 
-    context 'for a AGFS and LGFS provider' do
+    context 'with an AGFS and LGFS provider' do
       let(:provider) { build(:provider, :agfs_lgfs) }
 
       it 'returns the list of all available claim types' do
@@ -214,70 +216,86 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  context 'AGFS supplier number validation for a chamber' do
-    context 'for a blank supplier number' do
+  context 'when validating AGFS supplier number for a chamber' do
+    context 'with a blank supplier number' do
+      before { chamber.firm_agfs_supplier_number = '' }
+
       it 'returns no errors' do
-        chamber.firm_agfs_supplier_number = ''
         expect(chamber).to be_valid
       end
     end
   end
 
-  context 'AGFS supplier number validation for a firm' do
-    context 'for a blank supplier number' do
+  context 'when validating AGFS supplier number for a firm' do
+    context 'with a blank supplier number' do
+      before { agfs_lgfs.firm_agfs_supplier_number = '' }
+
       it 'returns errors' do
-        agfs_lgfs.firm_agfs_supplier_number = ''
-        expect(agfs_lgfs).not_to be_valid
+        expect(agfs_lgfs).to be_invalid
       end
     end
 
-    context 'for a valid supplier number' do
+    context 'with a valid supplier number' do
+      before { agfs_lgfs.firm_agfs_supplier_number = '2M462' }
+
       it 'returns no errors' do
-        agfs_lgfs.firm_agfs_supplier_number = '2M462'
         expect(agfs_lgfs).to be_valid
       end
     end
 
-    context 'for an invalid supplier number' do
-      it 'returns errors' do
+    context 'with an invalid supplier number' do
+      before do
         agfs_lgfs.firm_agfs_supplier_number = 'XXX'
-        expect(agfs_lgfs).not_to be_valid
+        agfs_lgfs.validate
+      end
+
+      it 'returns error firm_agfs_supplier_number' do
         expect(agfs_lgfs.errors).to have_key(:firm_agfs_supplier_number)
       end
     end
   end
 
-  context 'LGFS supplier number validation' do
+  context 'when validating LGFS supplier number' do
     it 'validates the supplier numbers sub model for LGFS role' do
       expect_any_instance_of(SupplierNumberSubModelValidator).to receive(:validate_collection_for).with(firm, :lgfs_supplier_numbers)
       firm.valid?
     end
 
-    it 'doesn\'t validate the supplier numbers sub model for AGFS role' do
+    it 'does not validate the supplier numbers sub model for AGFS role' do
       expect_any_instance_of(SupplierNumberSubModelValidator).not_to receive(:validate_collection_for)
       chamber.valid?
     end
 
-    it 'returns error if supplier numbers is blank' do
-      allow(firm).to receive(:lgfs_supplier_numbers).and_return([])
-      expect(firm).to_not be_valid
-      expect(firm.errors[:base]).to eq(['You must specify at least one LGFS supplier number'])
+    context 'with blank supplier_number' do
+      before do
+        allow(firm).to receive(:lgfs_supplier_numbers).and_return([])
+        firm.validate
+      end
+
+      it 'returns error if supplier numbers is blank' do
+        expect(firm.errors[:base]).to eq(['You must specify at least one LGFS supplier number'])
+      end
     end
   end
 
   describe '#agfs_supplier_numbers' do
-    context 'agfs' do
-      it 'returns an array of supplier numbers' do
-        provider = create :provider, :agfs
+    context 'with AGFS provider' do
+      let(:provider) { create(:provider, :agfs) }
+
+      before do
         provider.external_users << create(:external_user, :advocate, supplier_number: '888AA')
         provider.external_users << create(:external_user, :advocate, supplier_number: '999BB')
+      end
+
+      it 'returns an array of supplier numbers' do
         expect(provider.agfs_supplier_numbers).to match_array %w{888AA 999BB}
       end
     end
 
-    context 'lgfs' do
+    context 'with LGFS provider' do
+      let(:provider) { create(:provider, :lgfs) }
+
       it 'returns an empty array' do
-        provider = create :provider, :lgfs
         expect(provider.agfs_supplier_numbers).to be_empty
       end
     end

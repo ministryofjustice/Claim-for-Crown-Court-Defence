@@ -34,7 +34,7 @@ class ErrorPresenter
   end
 
   def populate_messages(error)
-    emt = ErrorMessageTranslator.new(@translations, error.attribute, error.message)
+    emt = ErrorMessage::Translator.new(@translations, error.attribute, error.message)
 
     if emt.translation_found?
       OpenStruct.new(
@@ -52,7 +52,7 @@ class ErrorPresenter
   end
 
   def last_parent_attribute(_translations, key)
-    attribute = ErrorMessageTranslator.association_key(key)
+    attribute = ErrorMessage::Translator.association_key(key)
     while attribute =~ SUBMODEL_REGEX
       parent_model = Regexp.last_match(1)
       attribute = Regexp.last_match(4)

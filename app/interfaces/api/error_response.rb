@@ -77,7 +77,7 @@ module API
       @model.errors.each do |error|
         message = error.message
         field_name = format_field_name(error.attribute)
-        emt = ErrorMessageTranslator.new(@translations, field_name, message)
+        emt = ErrorMessage::Translator.new(@translations, field_name, message)
         if emt.translation_found?
           error_messages.push(error: emt.api_message)
         else

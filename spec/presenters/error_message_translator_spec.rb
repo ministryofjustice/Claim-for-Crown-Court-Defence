@@ -88,6 +88,47 @@ RSpec.describe ErrorMessageTranslator do
 
   it { is_expected.to respond_to(:long_message, :short_message, :api_message) }
 
+  describe '.association_key' do
+    subject(:association_key) { described_class.association_key(key) }
+
+    context 'with unnumbered key' do
+      let(:key) { 'foo.bar_1_baz' }
+
+      it { is_expected.to eq('foo_0_bar_0_baz') }
+    end
+
+    context 'with numbered key' do
+      let(:key) { 'foo_0_bar_0_baz' }
+
+      it { is_expected.to eq('foo_0_bar_0_baz') }
+    end
+  end
+
+  describe '#translation_found?' do
+    subject { emt.translation_found? }
+
+    context 'when key and error exists' do
+      let(:key) { :name }
+      let(:error) { 'cannot_be_blank' }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when key does not exist' do
+      let(:key) { :foo }
+      let(:error) { 'cannot_be_blank' }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when message does not exist' do
+      let(:key) { :name }
+      let(:error) { 'bar' }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
   context 'with single level translations' do
     context 'when key and error exists' do
       let(:key) { :name }

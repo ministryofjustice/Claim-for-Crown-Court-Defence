@@ -10,5 +10,9 @@ module GovukComponent
       options[:class] = classes.join(' ')
       options
     end
+
+    def capture_or_arg(data = nil, &block)
+      block ? capture(&block) : data
+    end
   end
 end

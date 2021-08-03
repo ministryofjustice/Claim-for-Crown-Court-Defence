@@ -44,6 +44,6 @@ class ProviderManagement::ProvidersController < ApplicationController
   end
 
   def error_message_file
-    @error_message_file ||= "#{Rails.root}/config/locales/#{I18n.locale}/error_messages/provider.yml"
+    @error_message_file ||= Rails.root.join("config/locales/#{I18n.locale}/error_messages/provider.yml")
   end
 end

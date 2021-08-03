@@ -3,10 +3,9 @@ class ErrorPresenter
 
   attr_reader :error_details
 
-  def initialize(claim, message_file = nil)
-    @claim = claim
-    @errors = claim.errors
-    message_file ||= default_file
+  def initialize(instance, message_file = nil)
+    @errors = instance.errors
+    message_file ||= default_file_for(instance)
     @translations = YAML.load_file(message_file)
     @error_details = ErrorDetailCollection.new
     generate_messages
@@ -114,7 +113,7 @@ class ErrorPresenter
     "#{error.attribute.to_s.humanize} #{error.message.humanize.downcase}"
   end
 
-  def default_file
-    "#{Rails.root}/config/locales/#{I18n.locale}/error_messages/claim.yml"
+  def default_file_for(instance)
+    Rails.root.join('config', 'locales', I18n.locale, 'error_messages', "#{instance.class.to_s.underscore}.yml")
   end
 end

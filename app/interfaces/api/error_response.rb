@@ -46,7 +46,7 @@ module API
     private
 
     def translations
-      message_file ||= Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml")
+      message_file ||= Rails.root.join('config', 'locales', I18n.locale, 'error_messages', 'claim.yml')
       YAML.load_file(message_file)
     end
 

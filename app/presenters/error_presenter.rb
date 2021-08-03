@@ -115,6 +115,6 @@ class ErrorPresenter
   end
 
   def default_file
-    "#{Rails.root}/config/locales/error_messages.#{I18n.locale}.yml"
+    "#{Rails.root}/config/locales/#{I18n.locale}/error_messages/claim.yml"
   end
 end

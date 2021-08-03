@@ -4,7 +4,7 @@ RSpec.describe ErrorPresenter do
   subject(:presenter) { described_class.new(claim, filename) }
 
   let(:claim) { FactoryBot.build(:claim) }
-  let(:filename) { File.dirname(__FILE__) + '/data/error_messages.en.yml' }
+  let(:filename) { File.dirname(__FILE__) + '/data/en/error_messages/claim.yml' }
 
   it { is_expected.to delegate_method(:errors_for?).to(:error_details) }
   it { is_expected.to delegate_method(:header_errors).to(:error_details) }

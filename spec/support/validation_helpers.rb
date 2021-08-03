@@ -46,7 +46,7 @@ module ValidationHelpers
 
   # checks the translation exists and has expected message
   def with_expected_error_translation(field, message, options = {})
-    @translations ||= YAML.load_file("#{Rails.root}/config/locales/error_messages.en.yml") # lazy load translations
+    @translations ||= YAML.load_file("#{Rails.root}/config/locales/en/error_messages/claim.yml") # lazy load translations
     message_type = options[:translated_message_type] || 'short'
     expect(@translations).to have_key(field.to_s)
     expect(@translations[field.to_s]).to have_key(message)

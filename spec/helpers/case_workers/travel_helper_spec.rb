@@ -7,9 +7,9 @@ RSpec.describe CaseWorkers::TravelHelper do
     let(:expense) { create(:expense, :with_calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago) }
 
     subject(:link) do
-      Nokogiri::HTML.fragment(helper.link_to_map(expense, origin: 'SE9 2XX', destination: 'SE9 3XX', target: '_blank'))
-                    .search('a')
-                    .first
+      Nokogiri::HTML4.fragment(helper.link_to_map(expense, origin: 'SE9 2XX', destination: 'SE9 3XX', target: '_blank'))
+                     .search('a')
+                     .first
     end
 
     context 'when on the higher mileage rate' do

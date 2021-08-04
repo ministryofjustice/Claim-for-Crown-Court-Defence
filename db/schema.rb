@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_04_123914) do
+ActiveRecord::Schema.define(version: 2021_08_04_151307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -277,26 +277,15 @@ ActiveRecord::Schema.define(version: 2021_08_04_123914) do
     t.integer "claim_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "document_file_name"
-    t.string "document_content_type"
-    t.integer "document_file_size"
-    t.datetime "document_updated_at"
     t.integer "external_user_id"
-    t.string "converted_preview_document_file_name"
-    t.string "converted_preview_document_content_type"
-    t.integer "converted_preview_document_file_size"
-    t.datetime "converted_preview_document_updated_at"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.string "form_id"
     t.integer "creator_id"
     t.integer "verified_file_size"
     t.string "file_path"
     t.boolean "verified", default: false
-    t.string "as_document_checksum"
-    t.string "as_converted_preview_document_checksum"
     t.index ["claim_id"], name: "index_documents_on_claim_id"
     t.index ["creator_id"], name: "index_documents_on_creator_id"
-    t.index ["document_file_name"], name: "index_documents_on_document_file_name"
     t.index ["external_user_id"], name: "index_documents_on_external_user_id"
   end
 

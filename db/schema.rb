@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_04_091216) do
+ActiveRecord::Schema.define(version: 2021_08_04_123914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -435,11 +435,6 @@ ActiveRecord::Schema.define(version: 2021_08_04_091216) do
     t.integer "sender_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "attachment_file_name"
-    t.string "attachment_content_type"
-    t.integer "attachment_file_size"
-    t.datetime "attachment_updated_at"
-    t.string "as_attachment_checksum"
     t.index ["claim_id"], name: "index_messages_on_claim_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end

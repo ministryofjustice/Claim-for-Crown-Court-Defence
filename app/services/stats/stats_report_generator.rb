@@ -19,7 +19,7 @@ module Stats
       report_contents = generate_new_report
       report_record.write_report(report_contents)
     rescue StandardError => e
-      handle_error(e, report_record)
+      notify_error(report_record, e)
       raise
     end
 
@@ -36,12 +36,6 @@ module Stats
       return ManagementInformationGenerator.call(options) if report_type.to_sym == :management_information
 
       ReportGenerator.call(report_type, **options)
-    end
-
-    def handle_error(error, record)
-      contents = "#{error.class} - #{error.message} \n #{error.backtrace}"
-      record&.write_error(contents)
-      notify_error(record, error)
     end
 
     def notify_error(report_record, error)

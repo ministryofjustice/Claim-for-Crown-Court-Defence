@@ -60,10 +60,6 @@ module Stats
       raise
     end
 
-    def write_error(report_contents)
-      update(report: report_contents, status: 'error', completed_at: nil)
-    end
-
     def download_filename
       "#{report_name}_#{started_at.to_s(:number)}.csv"
     end

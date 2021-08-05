@@ -48,7 +48,7 @@ RSpec.describe SupplierNumber, type: :model do
     let(:format_error) { ['Enter a valid LGFS supplier number'] }
 
     before do
-      allow(supplier).to receive(:supplier_number).and_return(supplier_number)
+      supplier.supplier_number = supplier_number
       supplier.validate
     end
 

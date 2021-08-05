@@ -92,7 +92,6 @@ RSpec.describe Stats::StatsReport do
           expect(record.report_name).to eq 'my_new_report'
           expect(record.started_at).to eq frozen_time
           expect(record.completed_at).to be_nil
-          expect(record.report).to be_nil
         end
       end
     end

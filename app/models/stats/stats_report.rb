@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: stats_reports
-#
-#  id           :integer          not null, primary key
-#  report_name  :string
-#  report       :string
-#  status       :string
-#  started_at   :datetime
-#  completed_at :datetime
-#
-
 module Stats
   class StatsReport < ApplicationRecord
     TYPES = %w[management_information provisional_assessment rejections_refusals submitted_claims].freeze

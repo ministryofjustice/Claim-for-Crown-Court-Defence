@@ -86,8 +86,6 @@ RSpec.describe ErrorMessageTranslator do
     }
   end
 
-  it { is_expected.to respond_to(:long_message, :short_message, :api_message) }
-
   describe '.association_key' do
     subject(:association_key) { described_class.association_key(key) }
 

@@ -12,7 +12,7 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
   end
 
   describe '#govuk_table_caption' do
-    subject(:markup) { helper.govuk_table_caption('My table caption', class: 'my-custom-class') }
+    subject(:markup) { helper.govuk_table_caption(class: 'my-custom-class') { 'My table caption' } }
 
     it 'adds a govuk table caption' do
       is_expected.to have_tag(:caption, with: { class: 'govuk-table__caption my-custom-class' },
@@ -46,7 +46,7 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
 
   describe '#govuk_table_th' do
     context 'with col scope' do
-      subject(:markup) { helper.govuk_table_th('table head') }
+      subject(:markup) { helper.govuk_table_th { 'table head' } }
 
       it 'adds a govuk table header cell' do
         is_expected.to have_tag(:th, with: { class: 'govuk-table__header', scope: 'col' }, text: 'table head')
@@ -54,7 +54,7 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
     end
 
     context 'with row scope' do
-      subject(:markup) { helper.govuk_table_th('table head', 'row') }
+      subject(:markup) { helper.govuk_table_th('row') { 'table head' } }
 
       it 'adds a govuk table header cell' do
         is_expected.to have_tag(:th, with: { class: 'govuk-table__header', scope: 'row' }, text: 'table head')
@@ -62,7 +62,7 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
     end
 
     context 'with custom class' do
-      subject(:markup) { helper.govuk_table_th('table head', 'row', class: 'my-custom-class') }
+      subject(:markup) { helper.govuk_table_th('row', class: 'my-custom-class') { 'table head' } }
 
       it 'adds a govuk table header cell' do
         is_expected.to have_tag(:th, with: { class: 'govuk-table__header my-custom-class', scope: 'row' },
@@ -72,7 +72,7 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
   end
 
   describe '#govuk_table_td' do
-    subject(:markup) { helper.govuk_table_td('table cell', class: 'my-custom-class') }
+    subject(:markup) { helper.govuk_table_td(class: 'my-custom-class') { 'table cell' } }
 
     it 'adds a govuk table cell' do
       is_expected.to have_tag(:td, with: { class: 'govuk-table__cell my-custom-class' }, text: 'table cell')
@@ -113,6 +113,18 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
         with_tag(:tr, with: { class: 'govuk-table__row' }, count: 2) do
           with_tag(:td, with: { class: 'govuk-table__cell' }, count: 4, text: /data cell/)
         end
+      end
+    end
+  end
+
+  describe '#govuk_table_row_collection' do
+    subject(:markup) do
+      helper.govuk_table_row_collection(['data cell 1', 'data cell 2'])
+    end
+
+    it 'adds a nested table cells in govuk table row' do
+      is_expected.to have_tag(:tr, with: { class: 'govuk-table__row' }) do
+        with_tag(:td, with: { class: 'govuk-table__cell' }, count: 2, text: /data cell/)
       end
     end
   end

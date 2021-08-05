@@ -6,83 +6,82 @@ module GovukComponent
   module TableHelpers
     def govuk_table(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table', tag_options)
-      capture_block = capture(&block)
 
-      tag.table(capture_block, tag_options)
+      tag.table(capture(&block), tag_options)
     end
 
-    def govuk_table_caption(caption = nil, tag_options = {}, &block)
+    def govuk_table_caption(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__caption', tag_options)
-      content = capture_or_arg(caption, &block)
 
-      tag.caption(content, tag_options)
+      tag.caption(capture(&block), tag_options)
     end
 
     def govuk_table_thead(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__head', tag_options)
-      capture_block = capture(&block)
 
-      tag.thead(capture_block, tag_options)
+      tag.thead(capture(&block), tag_options)
     end
 
     def govuk_table_tbody(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__body', tag_options)
-      capture_block = capture(&block)
 
-      tag.tbody(capture_block, tag_options)
+      tag.tbody(capture(&block), tag_options)
     end
 
     def govuk_table_row(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__row', tag_options)
-      capture_block = capture(&block)
 
-      tag.tr(capture_block, tag_options)
+      tag.tr(capture(&block), tag_options)
     end
 
-    def govuk_table_th(data = nil, scope = 'col', tag_options = {}, &block)
+    def govuk_table_th(scope = 'col', tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__header', tag_options)
       tag_options[:scope] = scope
-      content = capture_or_arg(data, &block)
 
-      tag.th(content, tag_options)
+      tag.th(capture(&block), tag_options)
     end
 
-    def govuk_table_td(data = nil, tag_options = {}, &block)
+    def govuk_table_td(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__cell', tag_options)
-      content = capture_or_arg(data, &block)
 
-      tag.td(content, tag_options)
+      tag.td(capture(&block), tag_options)
     end
 
     def govuk_table_and_caption(caption = nil, tag_options = {}, &block)
       govuk_table do
-        concat govuk_table_caption(caption, tag_options)
-        concat capture(&block)
+        concat(govuk_table_caption(tag_options) { caption })
+        concat(capture(&block))
       end
     end
 
-    def govuk_table_thead_collection(headers, _tag_options = {})
+    def govuk_table_thead_collection(data_collections)
       govuk_table_thead do
         govuk_table_row do
-          headers.each do |header|
-            concat govuk_table_th(header)
+          data_collections.each do |datum|
+            concat(govuk_table_th { datum })
           end
         end
       end
     end
 
-    def govuk_table_tbody_collection(data_collections, _tag_options = {})
+    def govuk_table_tbody_collection(data_collections)
       govuk_table_tbody do
-        table_rows = data_collections.map do |data|
-          data.map do |datum|
-            govuk_table_td(datum)
+        table_rows = data_collections.map do |row|
+          row.map do |data_cell|
+            govuk_table_td { data_cell }
           end.join
         end
 
-        table_rows.each do |table_cell|
-          # rubocop:disable Rails/OutputSafety
-          concat tag.tr(table_cell.html_safe, class: 'govuk-table__row')
-          # rubocop:enable Rails/OutputSafety
+        table_rows.each do |table_row|
+          concat(govuk_table_row { sanitize(table_row, tags: %w[td]) })
+        end
+      end
+    end
+
+    def govuk_table_row_collection(data_collections)
+      govuk_table_row do
+        data_collections.each do |datum|
+          concat(govuk_table_td { datum })
         end
       end
     end

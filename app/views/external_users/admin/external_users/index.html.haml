@@ -10,7 +10,9 @@
 = render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path(anchor: 'search-button'), hint_text: t('hint.search_users'), button_text: t('search.users') }
 
 
-= govuk_table_and_caption t('.table_caption', provider_name: "#{current_user.provider.name}"), class: 'govuk-visually-hidden' do
+= govuk_table(class: 'report') do
+  = govuk_table_caption(class: 'govuk-visually-hidden') do
+    = t('.table_caption', provider_name: "#{current_user.provider.name}")
 
   = govuk_table_thead_collection [t('.last_name'),
   t('.first_name'),
@@ -22,20 +24,20 @@
   = govuk_table_tbody do
     - @external_users.each do |advocate|
       = govuk_table_row do
-        = govuk_table_td advocate.last_name
+        = govuk_table_td('data-label': t('.last_name')) { advocate.last_name }
 
-        = govuk_table_td advocate.first_name
+        = govuk_table_td('data-label': t('.first_name')) { advocate.first_name }
 
-        = govuk_table_td do
+        = govuk_table_td('data-label': t('.supplier_number')) do
           = advocate.supplier_number ? advocate.supplier_number : '-'
 
-        = govuk_table_td do
+        = govuk_table_td('data-label': t('.email')) do
           = govuk_mail_to advocate.email, advocate.email, { title: t('.email_title', external_user: advocate.name) }
 
-        = govuk_table_td do
+        = govuk_table_td('data-label': t('.email_confirmation')) do
           = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
 
-        = govuk_table_td do
+        = govuk_table_td('data-label': t('.actions')) do
           - if advocate.active?
             = govuk_link_to t('.edit_html', context: advocate.name), edit_external_users_admin_external_user_path(advocate)
             = ' | '

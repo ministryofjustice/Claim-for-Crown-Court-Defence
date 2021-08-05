@@ -31,20 +31,11 @@ module ErrorMessage
       translate!
     end
 
-    def translation_found?
-      !translation_not_found?
-    end
-
-    def translation_not_found?
-      @long_message.nil? || @short_message.nil? || @api_message.nil?
-    end
-
     private
 
     def translate!
       get_messages(@translations, @key, @error)
 
-      return unless translation_found?
       @long_message = substitute_submodel_numbers_and_names(@long_message)
       @short_message = substitute_submodel_numbers_and_names(@short_message)
       @api_message = substitute_submodel_numbers_and_names(@api_message)
@@ -58,7 +49,13 @@ module ErrorMessage
         @long_message = translations[key][error]['long']
         @short_message = translations[key][error]['short']
         @api_message = translations[key][error]['api']
+      else
+        @long_message, @short_message, @api_message = fallback_messages
       end
+    end
+
+    def fallback_messages
+      Fallback.new(@key, @error).messages
     end
 
     def extract_submodel_attribute(key)

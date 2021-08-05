@@ -70,15 +70,13 @@ RSpec.shared_context 'with custom error messages' do
 end
 # rubocop:enable Metrics/BlockLength
 
-RSpec.shared_examples 'translation not found' do
-  it { expect(emt).not_to be_translation_found }
-  it { expect(emt.long_message).to be_nil }
-  it { expect(emt.short_message).to be_nil }
-  it { expect(emt.api_message).to be_nil }
+RSpec.shared_examples 'fallback translation generated' do |options|
+  it { expect(emt.long_message).to eq(options[:long]) }
+  it { expect(emt.short_message).to eq(options[:short]) }
+  it { expect(emt.api_message).to eq(options[:api]) }
 end
 
 RSpec.shared_examples 'translation found' do |options|
-  it { expect(emt).to be_translation_found }
   it { expect(emt.long_message).to eq(options[:long]) }
   it { expect(emt.short_message).to eq(options[:short]) }
   it { expect(emt.api_message).to eq(options[:api]) }
@@ -114,31 +112,6 @@ RSpec.describe ErrorMessage::Translator do
     end
   end
 
-  describe '#translation_found?' do
-    subject { emt.translation_found? }
-
-    context 'when key and error exists' do
-      let(:key) { :name }
-      let(:error) { 'cannot_be_blank' }
-
-      it { is_expected.to be_truthy }
-    end
-
-    context 'when key does not exist' do
-      let(:key) { :foo }
-      let(:error) { 'cannot_be_blank' }
-
-      it { is_expected.to be_falsey }
-    end
-
-    context 'when message does not exist' do
-      let(:key) { :name }
-      let(:error) { 'bar' }
-
-      it { is_expected.to be_falsey }
-    end
-  end
-
   context 'with single level translations' do
     context 'when key and error exists' do
       let(:key) { :name }
@@ -154,14 +127,20 @@ RSpec.describe ErrorMessage::Translator do
       let(:key) { :stepmother }
       let(:error) { 'too_long' }
 
-      it_behaves_like 'translation not found'
+      it_behaves_like 'fallback translation generated',
+                      long: 'Stepmother too long',
+                      short: 'Too long',
+                      api: 'Stepmother too long'
     end
 
     context 'when key exists but error does not exist' do
       let(:key) { :name }
       let(:error) { 'rubbish' }
 
-      it_behaves_like 'translation not found'
+      it_behaves_like 'fallback translation generated',
+                      long: 'Name rubbish',
+                      short: 'Rubbish',
+                      api: 'Name rubbish'
     end
   end
 
@@ -180,21 +159,30 @@ RSpec.describe ErrorMessage::Translator do
       let(:key) { :person_2_first_name }
       let(:error) { 'blank' }
 
-      it_behaves_like 'translation not found'
+      it_behaves_like 'fallback translation generated',
+                      long: 'Person 2 first name blank',
+                      short: 'Blank',
+                      api: 'Person 2 first name blank'
     end
 
     context 'when key for submodel exists but key for field in submodel does not' do
       let(:key) { :defendant_2_age }
       let(:error) { 'blank' }
 
-      it_behaves_like 'translation not found'
+      it_behaves_like 'fallback translation generated',
+                      long: 'Defendant 2 age blank',
+                      short: 'Blank',
+                      api: 'Defendant 2 age blank'
     end
 
     context 'when key for submodel and field on submodel exists but error does not' do
       let(:key) { :defendant_2_first_name }
       let(:error) { 'foo' }
 
-      it_behaves_like 'translation not found'
+      it_behaves_like 'fallback translation generated',
+                      long: 'Defendant 2 first name foo',
+                      short: 'Foo',
+                      api: 'Defendant 2 first name foo'
     end
   end
 
@@ -225,21 +213,30 @@ RSpec.describe ErrorMessage::Translator do
       let(:key) { :defendant_5_court_order_2_maat_reference }
       let(:error) { 'blank' }
 
-      it_behaves_like 'translation not found'
+      it_behaves_like 'fallback translation generated',
+                      long: 'Defendant 5 court order 2 maat reference blank',
+                      short: 'Blank',
+                      api: 'Defendant 5 court order 2 maat reference blank'
     end
 
     context 'when key for field on sub sub model does not exist' do
       let(:key) { :defendant_5_representation_order_2_court }
       let(:error) { 'blank' }
 
-      it_behaves_like 'translation not found'
+      it_behaves_like 'fallback translation generated',
+                      long: 'Defendant 5 representation order 2 court blank',
+                      short: 'Blank',
+                      api: 'Defendant 5 representation order 2 court blank'
     end
 
     context 'when key for error on sub sub model does not exist' do
       let(:key) { :defendant_5_representation_order_2_maat_reference }
       let(:error) { 'no_such_error' }
 
-      include_examples 'translation not found'
+      it_behaves_like 'fallback translation generated',
+                      long: 'Defendant 5 representation order 2 maat reference no such error',
+                      short: 'No such error',
+                      api: 'Defendant 5 representation order 2 maat reference no such error'
     end
   end
 
@@ -259,21 +256,30 @@ RSpec.describe ErrorMessage::Translator do
         let(:key) { 'foos_attributes_0_age' }
         let(:error) { 'blank' }
 
-        it_behaves_like 'translation not found'
+        it_behaves_like 'fallback translation generated',
+                        long: 'Foo 0 age blank',
+                        short: 'Blank',
+                        api: 'Foo 0 age blank'
       end
 
       context 'when key for submodel exists but key for attribute on submodel does not' do
         let(:key) { 'defendants_attributes_0_age' }
         let(:error) { 'blank' }
 
-        it_behaves_like 'translation not found'
+        it_behaves_like 'fallback translation generated',
+                        long: 'Defendant 0 age blank',
+                        short: 'Blank',
+                        api: 'Defendant 0 age blank'
       end
 
       context 'when key for submodel and attribute on submodel exists but error does not' do
         let(:key) { 'defendants_attributes_0_first_name' }
         let(:error) { 'bar' }
 
-        it_behaves_like 'translation not found'
+        it_behaves_like 'fallback translation generated',
+                        long: 'Defendant 0 first name bar',
+                        short: 'Bar',
+                        api: 'Defendant 0 first name bar'
       end
     end
 
@@ -292,21 +298,30 @@ RSpec.describe ErrorMessage::Translator do
         let(:key) { :defendants_attributes_4_foobars_attributes_1_maat_reference }
         let(:error) { 'blank' }
 
-        it_behaves_like 'translation not found'
+        it_behaves_like 'fallback translation generated',
+                        long: 'Defendant 4 foobar 1 maat reference blank',
+                        short: 'Blank',
+                        api: 'Defendant 4 foobar 1 maat reference blank'
       end
 
       context 'when key for attribute on sub-sub-model does not exist' do
         let(:key) { :defendants_attributes_4_representation_orders_attributes_1_foobar }
         let(:error) { 'blank' }
 
-        it_behaves_like 'translation not found'
+        it_behaves_like 'fallback translation generated',
+                        long: 'Defendant 4 representation order 1 foobar blank',
+                        short: 'Blank',
+                        api: 'Defendant 4 representation order 1 foobar blank'
       end
 
       context 'when key for error on sub-sub-model does not exist' do
         let(:key) { :defendants_attributes_4_representation_orders_attributes_1_maat_reference }
         let(:error) { 'foobar' }
 
-        include_examples 'translation not found'
+        it_behaves_like 'fallback translation generated',
+                        long: 'Defendant 4 representation order 1 maat reference foobar',
+                        short: 'Foobar',
+                        api: 'Defendant 4 representation order 1 maat reference foobar'
       end
     end
   end

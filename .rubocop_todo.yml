@@ -227,7 +227,6 @@ Metrics/BlockLength:
     - 'spec/controllers/external_users/litigators/transfer_claims_controller_spec.rb'
     - 'spec/lib/geckoboard_publisher/injections_report_spec.rb'
     - 'spec/lib/geckoboard_publisher/travel_automation_report_spec.rb'
-    - 'spec/presenters/error_message_translator_spec.rb'
     - 'spec/services/stats/management_information_generator_spec.rb'
     - 'spec/validators/claim/advocate_interim_claim_web_validations_spec.rb'
 

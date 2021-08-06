@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/BlockLength
 RSpec.shared_context 'with custom error messages' do
   let(:translations) do
     {
@@ -68,7 +67,6 @@ RSpec.shared_context 'with custom error messages' do
     }
   end
 end
-# rubocop:enable Metrics/BlockLength
 
 RSpec.shared_examples 'fallback translation generated' do |options|
   it { expect(emt.long_message).to eq(options[:long]) }

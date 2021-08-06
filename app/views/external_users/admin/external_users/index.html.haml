@@ -9,34 +9,35 @@
 
 = render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path(anchor: 'search-button'), hint_text: t('hint.search_users'), button_text: t('search.users') }
 
-%table.report
-  %thead
-    %th{ scope: 'col' }
-      = t('.last_name')
-    %th{ scope: 'col' }
-      = t('.first_name')
-    %th{ scope: 'col' }
-      = t('.supplier_number')
-    %th{ scope: 'col' }
-      = t('.email')
-    %th{ scope: 'col' }
-      = t('.email_confirmation')
-    %th{ scope: 'col' }
-      = t('.actions')
-  %tbody
+
+= govuk_table(class: 'report') do
+  = govuk_table_caption(class: 'govuk-visually-hidden') do
+    = t('.table_caption', provider_name: "#{current_user.provider.name}")
+
+  = govuk_table_thead_collection [t('.last_name'),
+  t('.first_name'),
+  t('.supplier_number'),
+  t('.email'),
+  t('.email_confirmation'),
+  t('.actions')]
+
+  = govuk_table_tbody do
     - @external_users.each do |advocate|
-      %tr
-        %td{ 'data-label': t('.last_name') }
-          = advocate.last_name
-        %td{ 'data-label': t('.first_name') }
-          = advocate.first_name
-        %td{ 'data-label': t('.supplier_number') }
+      = govuk_table_row do
+        = govuk_table_td('data-label': t('.last_name')) { advocate.last_name }
+
+        = govuk_table_td('data-label': t('.first_name')) { advocate.first_name }
+
+        = govuk_table_td('data-label': t('.supplier_number')) do
           = advocate.supplier_number ? advocate.supplier_number : '-'
-        %td{ 'data-label': t('.email') }
+
+        = govuk_table_td('data-label': t('.email')) do
           = govuk_mail_to advocate.email, advocate.email, { title: t('.email_title', external_user: advocate.name) }
-        %td{ 'data-label': t('.email_confirmation') }
+
+        = govuk_table_td('data-label': t('.email_confirmation')) do
           = advocate.send_email_notification_of_message? ? t('.option_yes') : t('.option_no')
-        %td.user-controls{ 'data-label': t('.actions') }
+
+        = govuk_table_td('data-label': t('.actions')) do
           - if advocate.active?
             = govuk_link_to t('.edit_html', context: advocate.name), edit_external_users_admin_external_user_path(advocate)
             = ' | '

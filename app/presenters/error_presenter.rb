@@ -21,15 +21,18 @@ class ErrorPresenter
       attribute = error.attribute
       message = translator.message(error.attribute, error.message)
       next if @error_details[attribute] && @error_details[attribute][0].long_message.eql?(message.long)
-
-      @error_details[attribute] = ErrorDetail.new(
-        attribute,
-        message.long,
-        message.short,
-        message.api,
-        generate_sequence(attribute)
-      )
+      add_error_detail(attribute, message)
     end
+  end
+
+  def add_error_detail(attribute, message)
+    @error_details[attribute] = ErrorDetail.new(
+      attribute,
+      message.long,
+      message.short,
+      message.api,
+      generate_sequence(attribute)
+    )
   end
 
   def translator

@@ -19,21 +19,21 @@ class ErrorPresenter
   def generate_messages
     @errors.each do |error|
       attribute = error.attribute
-      messages = translate(error)
-      next if @error_details[attribute] && @error_details[attribute][0].long_message.eql?(messages.long_message)
+      message = translator.message(error.attribute, error.message)
+      next if @error_details[attribute] && @error_details[attribute][0].long_message.eql?(message.long)
 
       @error_details[attribute] = ErrorDetail.new(
         attribute,
-        messages.long_message,
-        messages.short_message,
-        messages.api_message,
+        message.long,
+        message.short,
+        message.api,
         generate_sequence(attribute)
       )
     end
   end
 
-  def translate(error)
-    ErrorMessage::Translator.new(@translations, error.attribute, error.message)
+  def translator
+    @translator ||= ErrorMessage::Translator.new(@translations)
   end
 
   def translations_subset_and_parent_sequence(key)

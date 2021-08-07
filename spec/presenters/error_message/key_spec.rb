@@ -29,6 +29,28 @@ RSpec.describe ErrorMessage::Key do
     it { is_expected.to eq 'foos_attributes_4_bar' }
   end
 
+  describe '#zero_based?' do
+    subject { error_key.zero_based? }
+
+    context 'with rails nested error' do
+      let(:key) { 'foos_attributes_4_bar' }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with nested attribute errors' do
+      let(:key) { 'foo.bar' }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with custom nested errors' do
+      let(:key) { 'foo_4_bar' }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
   describe '#submodel?' do
     subject { error_key.submodel? }
 

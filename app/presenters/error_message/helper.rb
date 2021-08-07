@@ -41,10 +41,6 @@ module ErrorMessage
         /^(\S+?)\.(\S+)$/
       end
 
-      def zero_based?(key)
-        key.match?('_attributes') || key.match?(unnumbered_model_regex)
-      end
-
       # Needed for GovUkDateField and Roles error handling (at least)
       # examples:
       # "Invalid date" --> invalid_date
@@ -52,6 +48,20 @@ module ErrorMessage
       #
       def format_error(string)
         string.gsub(/\s+/, '_').downcase
+      end
+
+      def substitute_submodel_numbers_and_names(message, key = @key)
+        # puts "substitute_submodel_numbers_and_names(#{message}, #{key.class}: #{key}".red
+        key.all_model_indices.each do |model_name, number|
+          int = number.to_i
+          int += 1 if key.zero_based?
+          substitution_key = '#{' + model_name + '}'
+          substitution_value = [to_ordinal(int), humanize_model_name(model_name)].select(&:present?).join(' ')
+          message = message.sub(substitution_key, substitution_value)
+        end
+
+        # clean out unused message substitution keys
+        message.gsub(/#\{(\S+)\}/, '')
       end
 
       def humanize_model_name(model_name)

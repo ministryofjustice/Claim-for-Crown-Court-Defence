@@ -16,23 +16,47 @@ module ErrorMessage
     attr_reader :long_message,
                 :short_message,
                 :api_message,
-                :translations,
-                :translator
+                :translations
 
-    def initialize(translations, key, error)
+    def initialize(translations, key = nil, error = nil)
       @translations = translations
-      @key = Key.new(key)
-      @error = format_error(error)
-      @submodel_numbers = {}
+      @key = Key.new(key) if key
+      @error = format_error(error) if error
       @long_message = nil
       @short_message = nil
       @api_message = nil
 
-      translate!
+      translate! if key && error
+    end
+
+    # TODO: dependency inject Key.new from consumers
+    # TODO: use instance vars to negate need to pass key, error everywhere
+    def message(key, error)
+      key = Key.new(key)
+      error = format_error(error)
+      message_set = message_set(key, error)
+      Message.new(*message_set, key)
     end
 
     private
 
+    def message_set(key, error)
+      set = translations_for(key)
+
+      if translation_exists?(set, key.attribute, error)
+        [set[key.attribute][error]['long'],
+         set[key.attribute][error]['short'],
+         set[key.attribute][error]['api']]
+      else
+        FallbackMessage.new(key, error).all
+      end
+    end
+
+    def translations_for(key)
+      key.submodel? ? translations.fetch(key.model, {}) : translations
+    end
+
+    # DEPRECATED
     def translate!
       get_messages(@translations, @key, @error)
 
@@ -41,9 +65,10 @@ module ErrorMessage
       @api_message = substitute_submodel_numbers_and_names(@api_message)
     end
 
+    # DEPRECATED
     def get_messages(translations, key, error)
       if key.submodel?
-        translation_subset, submodel_key = extract_submodel_attribute(key)
+        translation_subset, submodel_key = translation_subset_and_attribute(key)
         get_messages(translation_subset, submodel_key, error)
       elsif translation_exists?(translations, key, error)
         @long_message = translations[key][error]['long']
@@ -54,31 +79,19 @@ module ErrorMessage
       end
     end
 
+    # DEPRECATED
     def fallback_messages
-      Fallback.new(@key, @error).messages
+      FallbackMessage.new(@key, @error).all
     end
 
-    def extract_submodel_attribute(key)
-      @submodel_numbers = key.all_model_indices
+    # DEPRECATED
+    def translation_subset_and_attribute(key)
       translation_subset = translations.fetch(key.model, {})
       [translation_subset, key.attribute]
     end
 
-    def substitute_submodel_numbers_and_names(message)
-      @submodel_numbers.each do |submodel_name, number|
-        int = number.to_i
-        int += 1 if zero_based?(@key)
-        substitution_key = '#{' + submodel_name + '}'
-        substitution_value = [to_ordinal(int), humanize_model_name(submodel_name)].select(&:present?).join(' ')
-        message = message.sub(substitution_key, substitution_value)
-      end
-
-      # clean out unused message substitution keys
-      message.gsub(/#\{(\S+)\}/, '')
-    end
-
-    def translation_exists?(translations, key, error)
-      translations.key?(key) && translations[key][error].present?
+    def translation_exists?(set, key, error)
+      set.key?(key) && set[key][error].present?
     end
   end
 end

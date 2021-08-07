@@ -8,6 +8,10 @@ module ErrorMessage
       super key.to_s
     end
 
+    def zero_based?
+      match?('_attributes') || match?(unnumbered_model_regex)
+    end
+
     def submodel?
       numbered_submodel? || unnumbered_submodel?
     end

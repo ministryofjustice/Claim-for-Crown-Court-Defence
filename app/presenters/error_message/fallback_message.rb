@@ -8,13 +8,13 @@
 # converts this format to `foo_0_bar_0_baz`
 #
 module ErrorMessage
-  class Fallback
+  class FallbackMessage
     def initialize(key, error)
       @key = parse(key)
       @error = error
     end
 
-    def messages
+    def all
       [long, short, api]
     end
 

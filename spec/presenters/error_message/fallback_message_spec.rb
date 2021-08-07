@@ -37,14 +37,14 @@ RSpec.shared_examples 'long message fallback' do
   end
 end
 
-RSpec.describe ErrorMessage::Fallback do
+RSpec.describe ErrorMessage::FallbackMessage do
   subject(:fallback) { described_class.new(key, error) }
 
   let(:key) { :name }
   let(:error) { 'cannot_be_blank' }
 
-  describe '#messages' do
-    subject(:messages) { fallback.messages }
+  describe '#all' do
+    subject(:all) { fallback.all }
 
     let(:key) { :key_name }
     let(:error) { 'error_message' }

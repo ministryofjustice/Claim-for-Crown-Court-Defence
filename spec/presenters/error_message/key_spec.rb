@@ -21,6 +21,28 @@ RSpec.describe ErrorMessage::Key do
     it { is_expected.to eq 'foos_attributes_4_bar' }
   end
 
+  describe '#association_key' do
+    subject(:association_key) { error_key.send(:association_key) }
+
+    context 'with unnumbered key' do
+      let(:key) { 'foo.bar.baz' }
+
+      it { is_expected.to eq('foo_0_bar_0_baz') }
+    end
+
+    context 'with partially unnumbered key' do
+      let(:key) { 'foo.bar_1_baz' }
+
+      it { is_expected.to eq('foo_0_bar_0_baz') }
+    end
+
+    context 'with numbered key' do
+      let(:key) { 'foo_0_bar_0_baz' }
+
+      it { is_expected.to eq('foo_0_bar_0_baz') }
+    end
+  end
+
   describe '#to_s' do
     subject { error_key.to_s }
 

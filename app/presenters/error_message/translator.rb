@@ -11,26 +11,18 @@
 
 module ErrorMessage
   class Translator
-    include ErrorMessage::Helper
-
     attr_reader :long_message,
                 :short_message,
                 :api_message,
                 :translations
 
-    def initialize(translations, key = nil, error = nil)
+    def initialize(translations)
       @translations = translations
-      @key = Key.new(key) if key
-      @error = format_error(error) if error
       @long_message = nil
       @short_message = nil
       @api_message = nil
-
-      translate! if key && error
     end
 
-    # TODO: dependency inject Key.new from consumers
-    # TODO: use instance vars to negate need to pass key, error everywhere
     def message(key, error)
       key = Key.new(key)
       error = format_error(error)
@@ -39,6 +31,15 @@ module ErrorMessage
     end
 
     private
+
+    # Needed for GovUkDateField and Roles error handling (at least)
+    # examples:
+    # "Invalid date" --> invalid_date
+    # "Choose at least one role" --> choose_at_least_one_role
+    #
+    def format_error(string)
+      string.gsub(/\s+/, '_').downcase
+    end
 
     def message_set(key, error)
       set = translations_for(key)
@@ -54,40 +55,6 @@ module ErrorMessage
 
     def translations_for(key)
       key.submodel? ? translations.fetch(key.model, {}) : translations
-    end
-
-    # DEPRECATED
-    def translate!
-      get_messages(@translations, @key, @error)
-
-      @long_message = substitute_submodel_numbers_and_names(@long_message)
-      @short_message = substitute_submodel_numbers_and_names(@short_message)
-      @api_message = substitute_submodel_numbers_and_names(@api_message)
-    end
-
-    # DEPRECATED
-    def get_messages(translations, key, error)
-      if key.submodel?
-        translation_subset, submodel_key = translation_subset_and_attribute(key)
-        get_messages(translation_subset, submodel_key, error)
-      elsif translation_exists?(translations, key, error)
-        @long_message = translations[key][error]['long']
-        @short_message = translations[key][error]['short']
-        @api_message = translations[key][error]['api']
-      else
-        @long_message, @short_message, @api_message = fallback_messages
-      end
-    end
-
-    # DEPRECATED
-    def fallback_messages
-      FallbackMessage.new(@key, @error).all
-    end
-
-    # DEPRECATED
-    def translation_subset_and_attribute(key)
-      translation_subset = translations.fetch(key.model, {})
-      [translation_subset, key.attribute]
     end
 
     def translation_exists?(set, key, error)

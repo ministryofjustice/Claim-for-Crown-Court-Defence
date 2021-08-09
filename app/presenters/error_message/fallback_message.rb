@@ -33,7 +33,8 @@ module ErrorMessage
     private
 
     def parse(key)
-      key.to_s
+      key.association_key
+         .gsub('_0_', '_1_')
          .gsub('_attributes', '')
          .split('_')
          .map(&:singularize)

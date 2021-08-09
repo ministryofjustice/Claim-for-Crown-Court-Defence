@@ -22,7 +22,7 @@ RSpec.describe ErrorMessage::Key do
   end
 
   describe '#association_key' do
-    subject(:association_key) { error_key.send(:association_key) }
+    subject(:association_key) { error_key.association_key }
 
     context 'with unnumbered key' do
       let(:key) { 'foo.bar.baz' }

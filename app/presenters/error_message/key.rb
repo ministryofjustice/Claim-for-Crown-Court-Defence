@@ -34,6 +34,17 @@ module ErrorMessage
       details[:all_model_indices]
     end
 
+    # Support for keys in nested attribute format
+    #
+    # Examples:
+    # fixed_fee.date_attended_1_date --> fixed_fee_0_date_attended_0_date
+    # defendant.representation_order.maat_reference --> defendant_0_representation_order_0_maat_reference
+    #
+    def association_key
+      return self if to_s.index('.').blank?
+      gsub('.', '_0_').gsub('_1_', '_0_')
+    end
+
     private
 
     def details
@@ -53,17 +64,6 @@ module ErrorMessage
       end
 
       { model: model, attribute: attribute, all_model_indices: all_model_indices }
-    end
-
-    # Support for keys in nested attribute format
-    #
-    # Examples:
-    # fixed_fee.date_attended_1_date --> fixed_fee_0_date_attended_0_date
-    # defendant.representation_order.maat_reference --> defendant_0_representation_order_0_maat_reference
-    #
-    def association_key
-      return self if to_s.index('.').blank?
-      gsub('.', '_0_').gsub('_1_', '_0_')
     end
 
     def numbered_model_regex

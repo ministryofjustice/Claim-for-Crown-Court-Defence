@@ -26,7 +26,8 @@ module ErrorMessage
     def message(key, error)
       key = Key.new(key)
       error = format_error(error)
-      message_set = message_set(key, error)
+      set = translations_for(key)
+      message_set = message_set(set, key, error)
       Message.new(*message_set, key)
     end
 
@@ -41,9 +42,7 @@ module ErrorMessage
       string.gsub(/\s+/, '_').downcase
     end
 
-    def message_set(key, error)
-      set = translations_for(key)
-
+    def message_set(set, key, error)
       if translation_exists?(set, key.attribute, error)
         [set[key.attribute][error]['long'],
          set[key.attribute][error]['short'],

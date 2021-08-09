@@ -82,7 +82,7 @@ RSpec.describe ErrorMessage::Translator do
   describe '#message' do
     subject(:message) { translator.message(key, error) }
 
-    context 'with single level translations' do
+    context 'with unnested translations' do
       context 'when key and error exists' do
         let(:key) { :name }
         let(:error) { 'cannot_be_blank' }
@@ -114,7 +114,7 @@ RSpec.describe ErrorMessage::Translator do
       end
     end
 
-    context 'with has_many sub-model translations' do
+    context 'with custom single nested errors' do
       context 'when key and error exist' do
         let(:key) { :defendant_2_first_name }
         let(:error) { 'blank' }
@@ -156,7 +156,7 @@ RSpec.describe ErrorMessage::Translator do
       end
     end
 
-    context 'with has_one sub-model translations' do
+    context 'with custom sinlge nested error with .format' do
       context 'when nested key and error exists' do
         let(:key) { 'fixed_fee.quantity' }
         let(:error) { 'invalid' }
@@ -168,7 +168,7 @@ RSpec.describe ErrorMessage::Translator do
       end
     end
 
-    context 'with has_many sub-sub-model translations' do
+    context 'with custom double level nested errors' do
       context 'when nested keys and errors exist' do
         let(:key) { :defendant_5_representation_order_2_maat_reference }
         let(:error) { 'blank' }
@@ -210,126 +210,142 @@ RSpec.describe ErrorMessage::Translator do
       end
     end
 
-    context 'with rails nested errors' do
-      context 'with has_many sub-model translations' do
-        context 'when key and error exist' do
-          let(:key) { 'defendants_attributes_0_first_name' }
-          let(:error) { 'blank' }
+    context 'with rails single level nested errors' do
+      context 'when key and error exist' do
+        let(:key) { 'defendants_attributes_0_first_name' }
+        let(:error) { 'blank' }
 
-          it_behaves_like 'message found',
-                          long: 'Enter a first name for the first defendant',
-                          short: 'Cannot be blank',
-                          api: 'The first name for the first defendant must not be blank'
-        end
-
-        context 'when key for submodel does not exist in base model' do
-          let(:key) { 'foos_attributes_0_age' }
-          let(:error) { 'blank' }
-
-          it_behaves_like 'message found',
-                          long: 'Foo 0 age blank',
-                          short: 'Blank',
-                          api: 'Foo 0 age blank'
-        end
-
-        context 'when key for submodel exists but key for attribute on submodel does not' do
-          let(:key) { 'defendants_attributes_0_age' }
-          let(:error) { 'blank' }
-
-          it_behaves_like 'message found',
-                          long: 'Defendant 0 age blank',
-                          short: 'Blank',
-                          api: 'Defendant 0 age blank'
-        end
-
-        context 'when key for submodel and attribute on submodel exists but error does not' do
-          let(:key) { 'defendants_attributes_0_first_name' }
-          let(:error) { 'bar' }
-
-          it_behaves_like 'message found',
-                          long: 'Defendant 0 first name bar',
-                          short: 'Bar',
-                          api: 'Defendant 0 first name bar'
-        end
+        it_behaves_like 'message found',
+                        long: 'Enter a first name for the first defendant',
+                        short: 'Cannot be blank',
+                        api: 'The first name for the first defendant must not be blank'
       end
 
-      context 'with has_many sub-sub-model translations' do
-        context 'when nested keys and errors exist' do
-          let(:key) { :defendants_attributes_4_representation_orders_attributes_1_maat_reference }
-          let(:error) { 'blank' }
+      context 'when key for submodel does not exist in base model' do
+        let(:key) { 'foos_attributes_0_age' }
+        let(:error) { 'blank' }
 
-          it_behaves_like 'message found',
-                          long: 'Enter a valid MAAT reference for the second representation order of the fifth defendant',
-                          short: 'Invalid format',
-                          api: 'Enter a valid MAAT reference for the second representation order of the fifth defendant'
-        end
+        it_behaves_like 'message found',
+                        long: 'Foo 1 age blank',
+                        short: 'Blank',
+                        api: 'Foo 1 age blank'
+      end
 
-        context 'when key for sub-sub-model does not exist' do
-          let(:key) { :defendants_attributes_4_foobars_attributes_1_maat_reference }
-          let(:error) { 'blank' }
+      context 'when key for submodel exists but key for attribute on submodel does not' do
+        let(:key) { 'defendants_attributes_0_age' }
+        let(:error) { 'blank' }
 
-          it_behaves_like 'message found',
-                          long: 'Defendant 4 foobar 1 maat reference blank',
-                          short: 'Blank',
-                          api: 'Defendant 4 foobar 1 maat reference blank'
-        end
+        it_behaves_like 'message found',
+                        long: 'Defendant 1 age blank',
+                        short: 'Blank',
+                        api: 'Defendant 1 age blank'
+      end
 
-        context 'when key for attribute on sub-sub-model does not exist' do
-          let(:key) { :defendants_attributes_4_representation_orders_attributes_1_foobar }
-          let(:error) { 'blank' }
+      context 'when key for submodel and attribute on submodel exists but error does not' do
+        let(:key) { 'defendants_attributes_0_first_name' }
+        let(:error) { 'bar' }
 
-          it_behaves_like 'message found',
-                          long: 'Defendant 4 representation order 1 foobar blank',
-                          short: 'Blank',
-                          api: 'Defendant 4 representation order 1 foobar blank'
-        end
-
-        context 'when key for error on sub-sub-model does not exist' do
-          let(:key) { :defendants_attributes_4_representation_orders_attributes_1_maat_reference }
-          let(:error) { 'foobar' }
-
-          it_behaves_like 'message found',
-                          long: 'Defendant 4 representation order 1 maat reference foobar',
-                          short: 'Foobar',
-                          api: 'Defendant 4 representation order 1 maat reference foobar'
-        end
+        it_behaves_like 'message found',
+                        long: 'Defendant 1 first name bar',
+                        short: 'Bar',
+                        api: 'Defendant 1 first name bar'
       end
     end
 
-    context 'with nested attribute errors' do
-      context 'with has_many sub-model translations' do
-        context 'when key and error exist' do
-          let(:key) { 'defendant.first_name' }
-          let(:error) { 'blank' }
+    context 'with rails double level nested errors' do
+      context 'when nested keys and errors exist' do
+        let(:key) { :defendants_attributes_4_representation_orders_attributes_1_maat_reference }
+        let(:error) { 'blank' }
 
-          it_behaves_like 'message found',
-                          long: 'Enter a first name for the first defendant',
-                          short: 'Cannot be blank',
-                          api: 'The first name for the first defendant must not be blank'
-        end
+        it_behaves_like 'message found',
+                        long: 'Enter a valid MAAT reference for the second representation order of the fifth defendant',
+                        short: 'Invalid format',
+                        api: 'Enter a valid MAAT reference for the second representation order of the fifth defendant'
       end
 
-      context 'with has_many sub-sub-model translations' do
-        context 'with . format' do
-          let(:key) { 'defendant.representation_order.maat_reference' }
-          let(:error) { 'blank' }
+      context 'when key for sub-sub-model does not exist' do
+        let(:key) { :defendants_attributes_4_foobars_attributes_1_maat_reference }
+        let(:error) { 'blank' }
 
-          it_behaves_like 'message found',
-                          long: 'Enter a valid MAAT reference for the first representation order of the first defendant',
-                          short: 'Invalid format',
-                          api: 'Enter a valid MAAT reference for the first representation order of the first defendant'
-        end
-
-        context 'with . plus numbered format' do
-          let(:key) { 'defendant.representation_order_1_maat_reference' }
-          let(:error) { 'blank' }
-
-          it_behaves_like 'message found',
-                          long: 'Enter a valid MAAT reference for the first representation order of the first defendant',
-                          short: 'Invalid format',
-                          api: 'Enter a valid MAAT reference for the first representation order of the first defendant'
-        end
+        it_behaves_like 'message found',
+                        long: 'Defendant 4 foobar 1 maat reference blank',
+                        short: 'Blank',
+                        api: 'Defendant 4 foobar 1 maat reference blank'
       end
+
+      context 'when key for attribute on sub-sub-model does not exist' do
+        let(:key) { :defendants_attributes_4_representation_orders_attributes_1_foobar }
+        let(:error) { 'blank' }
+
+        it_behaves_like 'message found',
+                        long: 'Defendant 4 representation order 1 foobar blank',
+                        short: 'Blank',
+                        api: 'Defendant 4 representation order 1 foobar blank'
+      end
+
+      context 'when key for error on sub-sub-model does not exist' do
+        let(:key) { :defendants_attributes_4_representation_orders_attributes_1_maat_reference }
+        let(:error) { 'foobar' }
+
+        it_behaves_like 'message found',
+                        long: 'Defendant 4 representation order 1 maat reference foobar',
+                        short: 'Foobar',
+                        api: 'Defendant 4 representation order 1 maat reference foobar'
+      end
+    end
+
+    context 'with nested attribute single level errors with .format' do
+      context 'when key and error exists' do
+        let(:key) { 'fixed_fee.quantity' }
+        let(:error) { 'invalid' }
+
+        it_behaves_like 'message found',
+                        long: 'Enter a valid quantity for the first fixed fee',
+                        short: 'Enter a valid quantity',
+                        api: 'Enter a valid quantity for the first fixed fee'
+      end
+
+      context 'when key does not exist' do
+        let(:key) { 'foo.bar' }
+        let(:error) { 'invalid' }
+
+        it_behaves_like 'message found',
+                        long: 'Foo 1 bar invalid',
+                        short: 'Invalid',
+                        api: 'Foo 1 bar invalid'
+      end
+    end
+
+    context 'with nested attribute double level errors with . format' do
+      context 'when key and error exists' do
+        let(:key) { 'defendant.representation_order.maat_reference' }
+        let(:error) { 'blank' }
+
+        it_behaves_like 'message found',
+                        long: 'Enter a valid MAAT reference for the first representation order of the first defendant',
+                        short: 'Invalid format',
+                        api: 'Enter a valid MAAT reference for the first representation order of the first defendant'
+      end
+
+      context 'when key does not exist' do
+        let(:key) { 'defendant.court_order.maat_reference' }
+        let(:error) { 'invalid' }
+
+        it_behaves_like 'message found',
+                        long: 'Defendant 1 court order 1 maat reference invalid',
+                        short: 'Invalid',
+                        api: 'Defendant 1 court order 1 maat reference invalid'
+      end
+    end
+
+    context 'with nested attribute double level errors with . plus numbered format' do
+      let(:key) { 'defendant.representation_order_1_maat_reference' }
+      let(:error) { 'blank' }
+
+      it_behaves_like 'message found',
+                      long: 'Enter a valid MAAT reference for the first representation order of the first defendant',
+                      short: 'Invalid format',
+                      api: 'Enter a valid MAAT reference for the first representation order of the first defendant'
     end
   end
 end

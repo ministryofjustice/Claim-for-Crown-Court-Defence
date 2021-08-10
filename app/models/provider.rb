@@ -58,7 +58,7 @@ class Provider < ApplicationRecord
   validates :api_key, presence: true
 
   validates :firm_agfs_supplier_number, presence: true, if: :agfs_firm?
-  validates :firm_agfs_supplier_number, absence: { message: :absent }, unless: :agfs_firm?
+  validates :firm_agfs_supplier_number, absence: true, unless: :agfs_firm?
   validates :firm_agfs_supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX,
                                                   allow_nil: true }
   validates :vat_registered, inclusion: [true, false], if: :lgfs?

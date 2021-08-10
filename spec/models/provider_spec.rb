@@ -1,20 +1,3 @@
-# == Schema Information
-#
-# Table name: providers
-#
-#  id                        :integer          not null, primary key
-#  name                      :string
-#  firm_agfs_supplier_number :string
-#  provider_type             :string
-#  vat_registered            :boolean
-#  uuid                      :uuid
-#  api_key                   :uuid
-#  created_at                :datetime         not null
-#  updated_at                :datetime         not null
-#  roles                     :string
-#
-
-require 'rails_helper'
 require 'support/shared_examples_for_claim_types'
 
 RSpec.describe Provider, type: :model do
@@ -22,12 +5,35 @@ RSpec.describe Provider, type: :model do
   let(:chamber) { create(:provider, :chamber) }
   let(:agfs_lgfs) { create(:provider, :agfs_lgfs) }
 
-  it { is_expected.to have_many(:external_users) }
-  it { is_expected.to have_many(:claims) }
+  it { is_expected.to have_many(:external_users).dependent(:destroy) }
+  it { is_expected.to have_many(:claims).conditions(deleted_at: nil).through(:external_users) }
+  it { is_expected.to have_many(:claims_created).conditions(deleted_at: nil).through(:external_users) }
+  it { is_expected.to have_many(:lgfs_supplier_numbers).class_name('SupplierNumber').dependent(:destroy) }
 
-  it { is_expected.to validate_presence_of(:provider_type) }
-  it { is_expected.to validate_presence_of(:name) }
-  it { is_expected.to validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message(:not_unique) }
+  it { is_expected.to accept_nested_attributes_for(:lgfs_supplier_numbers).allow_destroy(true) }
+
+  it { is_expected.to validate_presence_of(:provider_type).with_message('Choose a provider type') }
+  it { is_expected.to validate_presence_of(:name).with_message('Enter a name') }
+  it { is_expected.to validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message('Enter a name not already taken') }
+
+  context 'when validating an lgfs only firm' do
+    subject(:provider) { firm }
+
+    it { is_expected.to validate_absence_of(:firm_agfs_supplier_number).with_message('Remove the supplier number') }
+  end
+
+  context 'when validating an agfs firm' do
+    subject(:provider) { agfs_lgfs }
+
+    it { is_expected.to validate_presence_of(:firm_agfs_supplier_number).with_message('Enter a supplier number') }
+  end
+
+  context 'when validating a chamber' do
+    subject(:provider) { chamber }
+
+    it { is_expected.to_not validate_presence_of(:firm_agfs_supplier_number) }
+    it { is_expected.to_not validate_uniqueness_of(:firm_agfs_supplier_number) }
+  end
 
   it { is_expected.to delegate_method(:advocates).to(:external_users) }
   it { is_expected.to delegate_method(:admins).to(:external_users) }
@@ -44,53 +50,44 @@ RSpec.describe Provider, type: :model do
     end
   end
 
-  context 'when chamber' do
-    subject { chamber }
+  context 'when changing the provider type to chamber' do
+    subject(:change_to_chamber) do
+      provider.provider_type = 'chamber'
+      provider.save
+    end
 
-    it { should_not validate_presence_of(:firm_agfs_supplier_number) }
-    it { should_not validate_uniqueness_of(:firm_agfs_supplier_number) }
-  end
-
-  context 'when firm' do
     let(:provider) { firm }
 
-    context 'and changing the provider type to chamber' do
-      subject(:change_to_chamber) do
-        provider.provider_type = 'chamber'
-        provider.save
+    context 'with LGFS role only' do
+      let(:lgfs_supplier_numbers) { build_list(:supplier_number, 2) }
+      let(:roles) { %w[lgfs] }
+      let(:provider) { create(:provider, :firm, roles: roles, lgfs_supplier_numbers: lgfs_supplier_numbers) }
+
+      it 'removes LGFS role' do
+        expect { change_to_chamber }.to change { provider.reload.roles }.from(roles).to(%w[agfs])
       end
 
-      context 'with LGFS role only' do
-        let(:lgfs_supplier_numbers) { build_list(:supplier_number, 2) }
-        let(:roles) { %w[lgfs] }
-        let(:provider) { create(:provider, :firm, roles: roles, lgfs_supplier_numbers: lgfs_supplier_numbers) }
+      it 'resets LGFS suppliers that are only required for firm' do
+        expect { change_to_chamber }.to change { provider.reload.lgfs_supplier_numbers.count }.from(2).to(0)
+      end
+    end
 
-        it 'removes LGFS role' do
-          expect { change_to_chamber }.to change { provider.reload.roles }.from(roles).to(%w[agfs])
-        end
+    context 'with AGFS and LGFS roles' do
+      let(:firm_agfs_supplier_number) { '123AH' }
+      let(:lgfs_supplier_numbers) { build_list(:supplier_number, 2) }
+      let(:roles) { %w[agfs lgfs] }
+      let(:provider) { create(:provider, :firm, roles: roles, firm_agfs_supplier_number: firm_agfs_supplier_number, lgfs_supplier_numbers: lgfs_supplier_numbers) }
 
-        it 'resets LGFS suppliers that are only required for firm' do
-          expect { change_to_chamber }.to change { provider.reload.lgfs_supplier_numbers.count }.from(2).to(0)
-        end
+      it 'removes LGFS role' do
+        expect { change_to_chamber }.to change { provider.reload.roles }.from(roles).to(%w[agfs])
       end
 
-      context 'with AGFS and LGFS roles' do
-        let(:firm_agfs_supplier_number) { '123AH' }
-        let(:lgfs_supplier_numbers) { build_list(:supplier_number, 2) }
-        let(:roles) { %w[agfs lgfs] }
-        let(:provider) { create(:provider, :firm, roles: roles, firm_agfs_supplier_number: firm_agfs_supplier_number, lgfs_supplier_numbers: lgfs_supplier_numbers) }
+      it 'resets AGFS supplier number that is only required for firm' do
+        expect { change_to_chamber }.to change { provider.reload.firm_agfs_supplier_number }.from(firm_agfs_supplier_number).to(nil)
+      end
 
-        it 'removes LGFS role' do
-          expect { change_to_chamber }.to change { provider.reload.roles }.from(roles).to(%w[agfs])
-        end
-
-        it 'resets AGFS supplier number that is only required for firm' do
-          expect { change_to_chamber }.to change { provider.reload.firm_agfs_supplier_number }.from(firm_agfs_supplier_number).to(nil)
-        end
-
-        it 'resets LGFS suppliers that are only required for firm' do
-          expect { change_to_chamber }.to change { provider.reload.lgfs_supplier_numbers.count }.from(2).to(0)
-        end
+      it 'resets LGFS suppliers that are only required for firm' do
+        expect { change_to_chamber }.to change { provider.reload.lgfs_supplier_numbers.count }.from(2).to(0)
       end
     end
   end

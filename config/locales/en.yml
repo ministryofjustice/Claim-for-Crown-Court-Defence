@@ -230,7 +230,7 @@ en:
             firm_agfs_supplier_number:
               blank: Enter a supplier number
               invalid: Enter a valid supplier number
-              presence: Remove the supplier number
+              present: Remove the supplier number
             name:
               blank: Enter a name
               taken: Enter a name not already taken

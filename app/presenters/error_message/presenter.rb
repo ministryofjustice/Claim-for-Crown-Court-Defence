@@ -2,9 +2,8 @@ module ErrorMessage
   class Presenter
     attr_reader :error_details
 
-    def initialize(claim, message_file = nil)
-      @claim = claim
-      @errors = claim.errors
+    def initialize(object, message_file = nil)
+      @errors = object.errors
       message_file ||= default_file
       @translations = YAML.load_file(message_file)
       @error_details = DetailCollection.new

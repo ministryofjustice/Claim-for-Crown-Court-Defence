@@ -20,7 +20,7 @@ module ErrorMessage
            to: :error_details
 
     alias key? errors_for?
-    alias field_level_error_for short_messages_for
+    alias field_errors_for short_messages_for
     alias summary_error_for long_messages_for
 
     private

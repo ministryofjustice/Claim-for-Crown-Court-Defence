@@ -13,7 +13,7 @@ RSpec.describe ErrorMessage::Presenter do
   it { is_expected.to delegate_method(:api_messages_for).to(:error_details) }
   it { is_expected.to delegate_method(:size).to(:error_details) }
   it { expect(presenter.method(:key?)).to eq(presenter.method(:errors_for?)) }
-  it { expect(presenter.method(:field_level_error_for)).to eq(presenter.method(:short_messages_for)) }
+  it { expect(presenter.method(:field_errors_for)).to eq(presenter.method(:short_messages_for)) }
   it { expect(presenter.method(:summary_error_for)).to eq(presenter.method(:long_messages_for)) }
 
   describe '#generate_sequence' do
@@ -96,8 +96,8 @@ RSpec.describe ErrorMessage::Presenter do
     end
   end
 
-  describe '#field_level_error_for' do
-    subject { presenter.field_level_error_for(attribute) }
+  describe '#field_errors_for' do
+    subject { presenter.field_errors_for(attribute) }
 
     context 'with attribute and message present in translations' do
       before { claim.errors.add(attribute, 'too_early') }

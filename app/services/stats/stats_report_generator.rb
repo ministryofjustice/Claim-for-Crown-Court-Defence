@@ -19,7 +19,7 @@ module Stats
       report_contents = generate_new_report
       report_record.write_report(report_contents)
     rescue StandardError => e
-      report_record.update(status: 'error') if report_record
+      report_record&.update(status: 'error')
       notify_error(report_record, e)
       raise
     end

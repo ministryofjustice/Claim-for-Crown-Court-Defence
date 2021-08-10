@@ -54,10 +54,10 @@ class Provider < ApplicationRecord
   before_validation :set_defaults_and_normalise_data
 
   validates :provider_type, presence: true
-  validates :name, presence: { message: :blank }, uniqueness: { case_sensitive: false, message: :not_unique }
+  validates :name, presence: { message: :blank }, uniqueness: { case_sensitive: false }
   validates :api_key, presence: true
 
-  validates :firm_agfs_supplier_number, presence: { message: :blank }, if: :agfs_firm?
+  validates :firm_agfs_supplier_number, presence: true, if: :agfs_firm?
   validates :firm_agfs_supplier_number, absence: { message: :absent }, unless: :agfs_firm?
   validates :firm_agfs_supplier_number, format: { with: ExternalUser::SUPPLIER_NUMBER_REGEX,
                                                   allow_nil: true }

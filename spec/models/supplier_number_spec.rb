@@ -1,73 +1,48 @@
 RSpec.describe SupplierNumber, type: :model do
   subject(:supplier) { build(:supplier_number) }
 
-  context 'when validating uniqueness' do
-    before { create(:supplier_number, supplier_number: '9X999X') }
-
-    specify do
-      expect {
-        create :supplier_number, supplier_number: '9X999X'
-      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number has already been taken'
-    end
-
-    specify do
-      expect {
-        create :supplier_number, supplier_number: '9x999x'
-      }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Supplier number has already been taken'
-    end
-  end
+  it { is_expected.to belong_to(:provider) }
 
   context 'when validating postcode' do
-    it 'is valid if postcode is nil' do
-      supplier.postcode = nil
-      expect(supplier).to be_valid
-    end
+    let(:invalid_postcode_message) { 'Enter a valid postcode' }
 
-    it 'is valid if postcode is blank' do
-      supplier.postcode = ''
-      expect(supplier).to be_valid
-    end
-
-    it 'is valid if postcode is filled and has the right format' do
-      supplier.postcode = 'SW1H 9AJ'
-      expect(supplier).to be_valid
-    end
-
-    context 'with wrong format' do
-      before do
-        supplier.postcode = 'not-a-valid-postcode'
-        supplier.validate
-      end
-
-      it { expect(supplier).to be_invalid }
-      it { expect(supplier.errors.messages_for(:postcode)).to include('invalid') }
-    end
+    it { is_expected.to allow_value(nil).for(:postcode) }
+    it { is_expected.to allow_value('').for(:postcode) }
+    it { is_expected.to allow_value('SW1H 9AJ').for(:postcode) }
+    it { is_expected.not_to allow_value('123').for(:postcode).with_message(invalid_postcode_message) }
+    it { is_expected.not_to allow_value('SW1H').for(:postcode).with_message(invalid_postcode_message) }
   end
 
   context 'when validating supplier number' do
-    before do
-      supplier.supplier_number = supplier_number
-      supplier.validate
-    end
+    let(:invalid_supplier_message) { 'Enter a valid LGFS supplier number' }
 
-    context 'with invalid format' do
-      let(:supplier_number) { 'ABC123' }
+    it { is_expected.to allow_value('9A999A').for(:supplier_number) }
+    it { is_expected.not_to allow_value(nil).for(:supplier_number) }
+    it { is_expected.not_to allow_value('').for(:supplier_number) }
 
-      it { expect(supplier.errors.messages_for(:supplier_number)).to include('invalid') }
-    end
+    it { is_expected.not_to allow_value('9AA99A').for(:supplier_number).with_message(invalid_supplier_message) }
+    it { is_expected.not_to allow_value('AA999A').for(:supplier_number).with_message(invalid_supplier_message) }
+    it { is_expected.not_to allow_value('9A9999').for(:supplier_number).with_message(invalid_supplier_message) }
+    it { is_expected.not_to allow_value('9A9A9A').for(:supplier_number).with_message(invalid_supplier_message) }
+    it { is_expected.not_to allow_value('9A99AA').for(:supplier_number).with_message(invalid_supplier_message) }
 
-    context 'with valid lowercase format' do
-      let(:supplier_number) { '1b222z' }
+    it {
+      is_expected.to validate_uniqueness_of(:supplier_number)
+        .case_insensitive
+        .with_message('Enter supplier number that has not already been taken')
+    }
+  end
 
-      it { expect(supplier).to be_valid }
-      it { expect(supplier.supplier_number).to eq '1B222Z' }
-    end
+  it 'upcases supplier number before validation' do
+    supplier.supplier_number = '1b222z'
+    supplier.validate
+    expect(supplier.supplier_number).to eq '1B222Z'
+  end
 
-    context 'with valid format' do
-      let(:supplier_number) { '1B222Z' }
+  describe '#to_s' do
+    subject { described_class.new(supplier_number: '6X666X').to_s }
 
-      it { expect(supplier).to be_valid }
-    end
+    it { is_expected.to eq('6X666X') }
   end
 
   describe '#has_non_archived_claims?' do

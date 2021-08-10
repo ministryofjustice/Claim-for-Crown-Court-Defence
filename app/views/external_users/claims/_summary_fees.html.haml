@@ -51,7 +51,7 @@
         %tr
           %th{ scope: 'col' }
             = t('shared.summary.fee_type')
-          - unless claim.lgfs?
+          - unless claim.lgfs? && collection.any?(&:is_misc?)
             %th{ scope: 'col' }
               = t('shared.summary.dates')
             %th.numeric{ scope: 'col' }
@@ -73,7 +73,7 @@
         %tr
           %th{ scope: 'row' }
             = t('shared.summary.total')
-          - unless claim.lgfs?
+          - unless claim.lgfs? && collection.any?(&:is_misc?)
             %td.numeric
               = ''
             %td.numeric

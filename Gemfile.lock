@@ -637,10 +637,10 @@ GEM
     sentry-rails (4.6.3)
       railties (>= 5.0)
       sentry-ruby-core (~> 4.6.0)
-    sentry-ruby-core (4.6.3)
+    sentry-ruby-core (4.6.4)
       concurrent-ruby
       faraday
-    sentry-sidekiq (4.6.3)
+    sentry-sidekiq (4.6.4)
       sentry-ruby-core (~> 4.6.0)
       sidekiq (>= 3.0)
     sexp_processor (4.12.0)

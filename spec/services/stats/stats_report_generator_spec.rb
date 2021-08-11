@@ -21,7 +21,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
     end
 
     context 'when there is already a report of that type in progress' do
-      before { Stats::StatsReport.create(report_name: report_type, status: 'started', report: 'some content') }
+      before { Stats::StatsReport.create(report_name: report_type, status: 'started') }
 
       it 'does not create a new report' do
         expect { call_report_generator }.not_to change { Stats::StatsReport.count }.from(1)

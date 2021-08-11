@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: stats_reports
-#
-#  id           :integer          not null, primary key
-#  report_name  :string
-#  report       :string
-#  status       :string
-#  started_at   :datetime
-#  completed_at :datetime
-#
-
 module Stats
   class StatsReport < ApplicationRecord
     TYPES = %w[management_information provisional_assessment rejections_refusals submitted_claims].freeze
@@ -58,10 +46,6 @@ module Stats
     rescue StandardError => e
       log(:error, :write_report, "error writing report #{report_name}...", e)
       raise
-    end
-
-    def write_error(report_contents)
-      update(report: report_contents, status: 'error', completed_at: nil)
     end
 
     def download_filename

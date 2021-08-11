@@ -128,9 +128,14 @@ RSpec.describe 'Document management', type: :request do
         expect(response.status).to eq(201)
       end
 
-      it 'returns the created document as JSON' do
+      it 'returns the id of the created document' do
         create_document
-        expect(JSON.parse(response.body)['document']).to eq(JSON.parse(Document.first.to_json))
+        expect(JSON.parse(response.body)['document']['id']).to eq Document.last.id
+      end
+
+      it 'returns the file name of the document' do
+        create_document
+        expect(JSON.parse(response.body)['document']['document_file_name']).to eq 'longer_lorem.pdf'
       end
     end
 

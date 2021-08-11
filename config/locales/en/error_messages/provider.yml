@@ -56,6 +56,10 @@ lgfs_supplier_number:
       api: Enter a valid postcode
   supplier_number:
     _seq: 20
+    enter_an_lgfs_supplier_number:
+      long: "Enter an LGFS supplier number for the #{lgfs_supplier_number}"
+      short: _
+      api: Enter an valid LGFS supplier number
     enter_a_valid_lgfs_supplier_number:
       long: "Enter a valid LGFS supplier number for the #{lgfs_supplier_number}"
       short: _

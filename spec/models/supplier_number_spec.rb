@@ -15,10 +15,11 @@ RSpec.describe SupplierNumber, type: :model do
 
   context 'when validating supplier number' do
     let(:invalid_supplier_message) { 'Enter a valid LGFS supplier number' }
+    let(:blank_supplier_message) { 'Enter an LGFS supplier number' }
 
     it { is_expected.to allow_value('9A999A').for(:supplier_number) }
-    it { is_expected.not_to allow_value(nil).for(:supplier_number) }
-    it { is_expected.not_to allow_value('').for(:supplier_number) }
+    it { is_expected.not_to allow_value(nil).for(:supplier_number).with_message(blank_supplier_message) }
+    it { is_expected.not_to allow_value('').for(:supplier_number).with_message(blank_supplier_message) }
 
     it { is_expected.not_to allow_value('9AA99A').for(:supplier_number).with_message(invalid_supplier_message) }
     it { is_expected.not_to allow_value('AA999A').for(:supplier_number).with_message(invalid_supplier_message) }

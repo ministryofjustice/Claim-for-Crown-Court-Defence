@@ -17,8 +17,9 @@ class SupplierNumber < ApplicationRecord
   before_validation { supplier_number.upcase! unless supplier_number.blank? }
 
   validates :supplier_number,
-            format: { with: SUPPLIER_NUMBER_REGEX, allow_nil: false },
-            uniqueness: { case_sensitive: false }
+            format: { with: SUPPLIER_NUMBER_REGEX, allow_nil: true },
+            uniqueness: { case_sensitive: false },
+            presence: true
   validates :postcode,
             format: { with: Settings.postcode_regexp, allow_nil: true }
 

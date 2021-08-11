@@ -23,7 +23,7 @@ class DocumentsController < ApplicationController
     @document = Document.new(document_params.merge(creator_id: current_user.id))
 
     if @document.save_and_verify
-      render json: { document: { id: @document.id, document_file_name: @document.document.filename } }, status: :created
+      render json: { document: { id: @document.id, filename: @document.document.filename } }, status: :created
     else
       render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity
     end

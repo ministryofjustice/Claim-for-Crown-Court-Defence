@@ -135,7 +135,7 @@ RSpec.describe 'Document management', type: :request do
 
       it 'returns the file name of the document' do
         create_document
-        expect(JSON.parse(response.body)['document']['document_file_name']).to eq 'longer_lorem.pdf'
+        expect(JSON.parse(response.body)['document']['filename']).to eq 'longer_lorem.pdf'
       end
     end
 

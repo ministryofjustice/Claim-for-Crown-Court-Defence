@@ -32,8 +32,8 @@ module API
 
     def initialize(object)
       @error_messages = []
-      @translations = translations
-      if VALID_MODEL_KLASSES.include? object.class
+
+      if VALID_MODEL_KLASSES.include?(object.class)
         @model = object
         build_error_response
       else
@@ -45,45 +45,37 @@ module API
 
     private
 
-    def translations
-      message_file ||= Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml")
-      YAML.load_file(message_file)
-    end
-
-    def submodel_prefix
-      submodel_instance_num = ''
-      m = @model
-
-      if m.is_a?(Fee::BaseFee)
-        submodel = m.class.name.demodulize.underscore
-        submodel_instance_num = "#{submodel}_1_"
-      elsif !m.try(:claim).nil?
-        submodel_instance_num = "#{m.class.name.underscore}_1_"
-      end
-
-      submodel_instance_num
-    end
-
-    # format of field name determines lookup in translations
-    def format_field_name(field_name)
-      (submodel_prefix + field_name.to_s).to_s.to_sym
-    end
-
-    def fetch_and_translate_error_messages
-      @model.errors.each do |error|
-        message = error.message
-        field_name = format_field_name(error.attribute)
-        emt = ErrorMessage::Translator.new(@translations, field_name, message)
-        error_messages.push(error: emt.api_message)
-      end
-    end
-
     def build_error_response
       raise 'unable to build error response as no errors were found' if @model.errors.empty?
 
-      fetch_and_translate_error_messages
+      fetch_translated_error_messages
       @body = error_messages
       @status = 400
+    end
+
+    def fetch_translated_error_messages
+      @model.errors.each do |error|
+        key = translation_key(error.attribute)
+        error = error.message
+        message = translator.message(key, error)
+        error_messages.push(error: message.api)
+      end
+    end
+
+    def translation_key(attribute)
+      "#{model_index}#{attribute}".to_sym
+    end
+
+    def model_index
+      "#{@model.class.name.demodulize.underscore}_1_" unless @model.is_a?(Claim::BaseClaim)
+    end
+
+    def translator
+      @translator ||= ErrorMessage::Translator.new(translations)
+    end
+
+    def translations
+      @translations ||= YAML.load_file(Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml"))
     end
   end
 end

@@ -8,13 +8,13 @@
 # converts this format to `foo_0_bar_0_baz`
 #
 module ErrorMessage
-  class Fallback
+  class FallbackMessage
     def initialize(key, error)
       @key = parse(key)
       @error = error
     end
 
-    def messages
+    def all
       [long, short, api]
     end
 
@@ -33,7 +33,8 @@ module ErrorMessage
     private
 
     def parse(key)
-      key.to_s
+      key.association_key
+         .gsub('_0_', '_1_')
          .gsub('_attributes', '')
          .split('_')
          .map(&:singularize)

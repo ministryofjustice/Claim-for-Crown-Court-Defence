@@ -2,10 +2,12 @@
 
 module ErrorMessage
   class Key < String
-    include ErrorMessage::Helper
-
     def initialize(key)
       super key.to_s
+    end
+
+    def zero_based?
+      match?('_attributes') || match?(unnumbered_model_regex)
     end
 
     def submodel?
@@ -32,6 +34,17 @@ module ErrorMessage
       details[:all_model_indices]
     end
 
+    # Support for keys in nested attribute format
+    #
+    # Examples:
+    # fixed_fee.date_attended_1_date --> fixed_fee_0_date_attended_0_date
+    # defendant.representation_order.maat_reference --> defendant_0_representation_order_0_maat_reference
+    #
+    def association_key
+      return self unless include?('.')
+      gsub('.', '_0_').gsub('_1_', '_0_')
+    end
+
     private
 
     def details
@@ -39,7 +52,7 @@ module ErrorMessage
     end
 
     def parse
-      attribute = association_key(self)
+      attribute = association_key
       all_model_indices = {}
 
       while attribute.match(numbered_model_regex)
@@ -51,6 +64,14 @@ module ErrorMessage
       end
 
       { model: model, attribute: attribute, all_model_indices: all_model_indices }
+    end
+
+    def numbered_model_regex
+      /^(\S+?)(_(\d+)_)(\S+)$/
+    end
+
+    def unnumbered_model_regex
+      /^(\S+?)\.(\S+)$/
     end
   end
 end

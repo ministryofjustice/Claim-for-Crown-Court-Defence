@@ -15,11 +15,25 @@ RSpec.shared_examples 'long message fallback' do
     it { is_expected.to eq('Foo 4 bar baz') }
   end
 
+  context 'with single nested rails style keys with . format' do
+    let(:key) { 'foo.bar' }
+    let(:error) { 'baz' }
+
+    it { is_expected.to eq('Foo 1 bar baz') }
+  end
+
   context 'with triple nested rails style keys' do
     let(:key) { 'foos_attributes_4_bars_attributes_3_bazs_attributes_2_bing' }
     let(:error) { 'blank' }
 
     it { is_expected.to eq('Foo 4 bar 3 baz 2 bing blank') }
+  end
+
+  context 'with triple nested rails style keys with . format' do
+    let(:key) { 'foos.bars.bazs.bing' }
+    let(:error) { 'blank' }
+
+    it { is_expected.to eq('Foo 1 bar 1 baz 1 bing blank') }
   end
 
   context 'with single nested custom style keys' do
@@ -37,14 +51,16 @@ RSpec.shared_examples 'long message fallback' do
   end
 end
 
-RSpec.describe ErrorMessage::Fallback do
-  subject(:fallback) { described_class.new(key, error) }
+RSpec.describe ErrorMessage::FallbackMessage do
+  subject(:fallback) { described_class.new(error_key, error) }
+
+  let(:error_key) { ErrorMessage::Key.new(key) }
 
   let(:key) { :name }
   let(:error) { 'cannot_be_blank' }
 
-  describe '#messages' do
-    subject(:messages) { fallback.messages }
+  describe '#all' do
+    subject(:all) { fallback.all }
 
     let(:key) { :key_name }
     let(:error) { 'error_message' }

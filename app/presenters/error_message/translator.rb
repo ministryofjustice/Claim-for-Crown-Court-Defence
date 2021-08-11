@@ -24,11 +24,11 @@ module ErrorMessage
     end
 
     def message(key, error)
-      key = Key.new(key)
+      key = ErrorMessage::Key.new(key)
       error = format_error(error)
       set = translations_for(key)
       message_set = message_set(set, key, error)
-      Message.new(*message_set, key)
+      ErrorMessage::Message.new(*message_set, key)
     end
 
     private
@@ -48,7 +48,7 @@ module ErrorMessage
          set[key.attribute][error]['short'],
          set[key.attribute][error]['api']]
       else
-        FallbackMessage.new(key, error).all
+        ErrorMessage::FallbackMessage.new(key, error).all
       end
     end
 

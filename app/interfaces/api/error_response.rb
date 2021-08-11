@@ -79,7 +79,7 @@ module API
     end
 
     def translations_file
-      Rails.root.join('config', 'locales', I18n.locale.to_s, 'error_messages', 'claim.yml')
+      ErrorMessage.default_translation_file
     end
   end
 end

@@ -29,7 +29,11 @@ RSpec::Matchers.define :include_field_error_when do |options|
   end
 
   def translations
-    @translations ||= YAML.load_file("#{Rails.root}/config/locales/error_messages.en.yml") # lazy load translations
+    @translations ||= YAML.load_file(translations_file) # lazy load translations
+  end
+
+  def translations_file
+    Rails.root.join('config', 'locales', I18n.locale.to_s, 'error_messages', 'claim.yml')
   end
 
   def translated_message_type

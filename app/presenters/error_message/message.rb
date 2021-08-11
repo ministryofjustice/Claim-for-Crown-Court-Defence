@@ -12,23 +12,23 @@ module ErrorMessage
     end
 
     def long
-      substitute_submodel_numbers_and_names(@long, @key)
+      substitute_submodel_numbers_and_names(@long)
     end
 
     def short
-      substitute_submodel_numbers_and_names(@short, @key)
+      substitute_submodel_numbers_and_names(@short)
     end
 
     def api
-      substitute_submodel_numbers_and_names(@api, @key)
+      substitute_submodel_numbers_and_names(@api)
     end
 
     private
 
-    def substitute_submodel_numbers_and_names(message, key = @key)
-      key.all_model_indices.each do |model_name, number|
+    def substitute_submodel_numbers_and_names(message)
+      @key.all_model_indices.each do |model_name, number|
         int = number.to_i
-        int += 1 if key.zero_based?
+        int += 1 if @key.zero_based?
         substitution_key = '#{' + model_name + '}'
         substitution_value = [to_ordinal(int), humanize_model_name(model_name)].select(&:present?).join(' ')
         message = message.sub(substitution_key, substitution_value)

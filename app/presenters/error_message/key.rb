@@ -41,7 +41,7 @@ module ErrorMessage
     # defendant.representation_order.maat_reference --> defendant_0_representation_order_0_maat_reference
     #
     def association_key
-      return self if to_s.index('.').blank?
+      return self unless include?('.')
       gsub('.', '_0_').gsub('_1_', '_0_')
     end
 

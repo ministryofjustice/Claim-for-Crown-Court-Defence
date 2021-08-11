@@ -38,7 +38,7 @@ gem 'logstuff',               '0.0.2'
 gem 'paper_trail',            '~> 12.0.0'
 gem 'pg',                     '~> 1.2.3'
 gem 'rails',                  '~> 6.1.3'
-gem 'redis',                  '~> 4.3.1'
+gem 'redis',                  '~> 4.4.0'
 gem 'rubyzip'
 gem 'config',                 '~> 3.1' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'

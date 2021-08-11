@@ -216,13 +216,6 @@ en:
           attributes:
             claim:
               incompatible_case_type: Fixed fee invalid on non-fixed fee case types
-        supplier_number:
-          attributes:
-            postcode:
-              invalid: Enter a valid postcode
-            supplier_number:
-              invalid: Enter a valid LGFS supplier number
-              taken: Enter supplier number that has not already been taken
         external_user:
           attributes:
             roles:

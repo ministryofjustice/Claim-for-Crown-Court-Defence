@@ -1,28 +1,3 @@
-# == Schema Information
-#
-# Table name: documents
-#
-#  id                                      :integer          not null, primary key
-#  claim_id                                :integer
-#  created_at                              :datetime
-#  updated_at                              :datetime
-#  document_file_name                      :string
-#  document_content_type                   :string
-#  document_file_size                      :integer
-#  document_updated_at                     :datetime
-#  external_user_id                        :integer
-#  converted_preview_document_file_name    :string
-#  converted_preview_document_content_type :string
-#  converted_preview_document_file_size    :integer
-#  converted_preview_document_updated_at   :datetime
-#  uuid                                    :uuid
-#  form_id                                 :string
-#  creator_id                              :integer
-#  verified_file_size                      :integer
-#  file_path                               :string
-#  verified                                :boolean          default(FALSE)
-#
-
 class DocumentsController < ApplicationController
   include ActiveStorage::SetCurrent
 
@@ -48,7 +23,7 @@ class DocumentsController < ApplicationController
     @document = Document.new(document_params.merge(creator_id: current_user.id))
 
     if @document.save_and_verify
-      render json: { document: @document.reload }, status: :created
+      render json: { document: { id: @document.id, filename: @document.document.filename } }, status: :created
     else
       render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity
     end

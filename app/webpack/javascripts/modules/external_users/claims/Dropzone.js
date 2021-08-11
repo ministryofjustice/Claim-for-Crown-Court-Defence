@@ -155,12 +155,12 @@ moj.Modules.Dropzone = {
       contentType: false,
 
       success: $.proxy(function (response) {
-        const fileName = response.document.document_file_name
+        const fileName = response.document.filename
         const fileId = response.document.id
 
         this.createDocumentIdInput(response.document.id)
         tableRow.replaceWith(this.notificationHTML(fileName, 'success', 'File has been uploaded.', fileId))
-        this.status.html(response.document.document_file_name + ' has been uploaded.')
+        this.status.html(response.document.filename + ' has been uploaded.')
       }, this),
 
       error: $.proxy(function (xhr, status, error) {

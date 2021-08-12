@@ -9,7 +9,6 @@ updates:
     timezone: Europe/London
   open-pull-requests-limit: 5
   reviewers:
-  - ministryofjustice/crime-billing-online
   - "naseberry"
   ignore:
   - dependency-name: jquery
@@ -30,11 +29,8 @@ updates:
   open-pull-requests-limit: 5
   rebase-strategy: "disabled"
   reviewers:
-  - ministryofjustice/crime-billing-online
   - "jsugarman"
-  - "kmahern"
   - "jrmhaig"
-  - "mabely"
   ignore:
   - dependency-name: govuk_frontend_toolkit
     versions:

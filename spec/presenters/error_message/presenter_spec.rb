@@ -22,7 +22,7 @@ RSpec.describe ErrorMessage::Presenter do
 
     context 'when attribute not present' do
       it 'returns 99999' do
-        expect(presenter.send(:generate_sequence, 'nokey')).to eq 99999
+        expect(presenter.send(:generate_sequence, 'nokey')).to eq 99_999
       end
     end
   end
@@ -35,9 +35,9 @@ RSpec.describe ErrorMessage::Presenter do
 
       it do
         is_expected.to eq(
-          [
-            ErrorDetail.new(:date_of_birth, 'The date of birth may not be more than 100 years old', 'Enter a valid date', 'The date of birth is too early', 20)
-          ]
+          [ErrorDetail.new(:date_of_birth,
+                           'The date of birth may not be more than 100 years old', 'Enter a valid date',
+                           'The date of birth is too early', 20)]
         )
       end
     end
@@ -86,10 +86,8 @@ RSpec.describe ErrorMessage::Presenter do
 
       it do
         is_expected.to eq(
-          [
-            ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name', 'The claimant name must not be blank', 50),
-            ErrorDetail.new(:name, 'The name cannot be longer than 50 characters', 'Too long', 'The name cannot be longer than 50 characters', 50)
-          ]
+          [ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name', 'The claimant name must not be blank', 50),
+           ErrorDetail.new(:name, 'The name cannot be longer than 50 characters', 'Too long', 'The name cannot be longer than 50 characters', 50)]
         )
       end
     end

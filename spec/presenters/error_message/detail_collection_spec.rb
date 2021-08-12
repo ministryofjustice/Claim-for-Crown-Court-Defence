@@ -1,10 +1,31 @@
 # frozen_string_literal: true
 
-RSpec.describe ErrorDetailCollection do
+RSpec.describe ErrorMessage::DetailCollection do
   let(:instance) { described_class.new }
-  let(:ed2) { ErrorDetail.new(:first_name, 'You must specify a first name', 'Cannot be blank', 'You must specify a first name', 20) }
-  let(:ed1) { ErrorDetail.new(:dob, 'Date of birth is invalid', 'Invalid date', 'Date of birth is invalid', 10) }
-  let(:ed3) { ErrorDetail.new(:dob, 'Date of birth too far in the past', 'Too old', 'Date of birth too far in the past', 30) }
+
+  let(:ed2) do
+    ErrorDetail.new(:first_name,
+                    'You must specify a first name',
+                    'Cannot be blank',
+                    'You must specify a first name',
+                    20)
+  end
+
+  let(:ed1) do
+    ErrorDetail.new(:dob,
+                    'Date of birth is invalid',
+                    'Invalid date',
+                    'Date of birth is invalid',
+                    10)
+  end
+
+  let(:ed3) do
+    ErrorDetail.new(:dob,
+                    'Date of birth too far in the past',
+                    'Too old',
+                    'Date of birth too far in the past',
+                    30)
+  end
 
   describe '#[]=' do
     context 'when assigning a single value to a key' do

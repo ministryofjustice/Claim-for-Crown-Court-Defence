@@ -7,7 +7,7 @@ module ErrorMessage
       @errors = claim.errors
       message_file ||= Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml")
       @translations = YAML.load_file(message_file)
-      @error_details = ErrorDetailCollection.new
+      @error_details = DetailCollection.new
       generate_messages
     end
 
@@ -54,8 +54,7 @@ module ErrorMessage
       [translations_subset, parent_sequence]
     end
 
-    # NOTE:
-    # sequence = (attribute's _seq value + parent's _seq value) or parents _seq or 99999
+    # NOTE: sequence = (attribute's _seq value + parent's _seq value) or parents _seq or 99999
     #
     def generate_sequence(key)
       translations_subset, parent_sequence = translations_subset_and_parent_sequence(key)

@@ -27,7 +27,7 @@ module ErrorMessage
     end
 
     def add_error_detail(attribute, message)
-      @error_details[attribute] = ErrorDetail.new(
+      @error_details[attribute] = Detail.new(
         attribute,
         message.long,
         message.short,

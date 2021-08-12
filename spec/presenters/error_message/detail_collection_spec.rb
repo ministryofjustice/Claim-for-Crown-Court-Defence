@@ -4,27 +4,27 @@ RSpec.describe ErrorMessage::DetailCollection do
   let(:instance) { described_class.new }
 
   let(:ed2) do
-    ErrorDetail.new(:first_name,
-                    'You must specify a first name',
-                    'Cannot be blank',
-                    'You must specify a first name',
-                    20)
+    ErrorMessage::Detail.new(:first_name,
+                             'You must specify a first name',
+                             'Cannot be blank',
+                             'You must specify a first name',
+                             20)
   end
 
   let(:ed1) do
-    ErrorDetail.new(:dob,
-                    'Date of birth is invalid',
-                    'Invalid date',
-                    'Date of birth is invalid',
-                    10)
+    ErrorMessage::Detail.new(:dob,
+                             'Date of birth is invalid',
+                             'Invalid date',
+                             'Date of birth is invalid',
+                             10)
   end
 
   let(:ed3) do
-    ErrorDetail.new(:dob,
-                    'Date of birth too far in the past',
-                    'Too old',
-                    'Date of birth too far in the past',
-                    30)
+    ErrorMessage::Detail.new(:dob,
+                             'Date of birth too far in the past',
+                             'Too old',
+                             'Date of birth too far in the past',
+                             30)
   end
 
   describe '#[]=' do
@@ -78,7 +78,7 @@ RSpec.describe ErrorMessage::DetailCollection do
       instance[:dob] = ed3
     end
 
-    it { is_expected.to all(be_instance_of(ErrorDetail)) }
+    it { is_expected.to all(be_instance_of(ErrorMessage::Detail)) }
     it { is_expected.to have(3).items }
 
     it 'sorts the array by sequence values' do

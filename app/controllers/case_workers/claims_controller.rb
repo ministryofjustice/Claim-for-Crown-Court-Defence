@@ -45,7 +45,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
     if updater.result == :ok
       redirect_to case_workers_claim_path(permitted_params)
     else
-      @error_presenter = ErrorPresenter.new(@claim)
+      @error_presenter = ErrorMessage::Presenter.new(@claim)
       prepare_show_action
       render :show
     end

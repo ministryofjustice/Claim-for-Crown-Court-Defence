@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe ErrorPresenter do
+RSpec.describe ErrorMessage::Presenter do
   subject(:presenter) { described_class.new(claim, filename) }
 
   let(:claim) { FactoryBot.build(:claim) }
-  let(:filename) { File.dirname(__FILE__) + '/data/error_messages.en.yml' }
+  let(:filename) { Rails.root.join('spec', 'fixtures', 'config', 'locales', 'error_messages.en.yml') }
 
   it { is_expected.to delegate_method(:errors_for?).to(:error_details) }
   it { is_expected.to delegate_method(:header_errors).to(:error_details) }

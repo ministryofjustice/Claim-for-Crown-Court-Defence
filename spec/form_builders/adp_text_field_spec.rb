@@ -12,7 +12,7 @@ RSpec.describe AdpTextField do
       )
     end
     let(:resource) { FactoryBot.create :claim, case_number: nil }
-    let(:error_presenter) { ErrorPresenter.new(resource) }
+    let(:error_presenter) { ErrorMessage::Presenter.new(resource) }
     let(:builder)   { AdpFormBuilder.new(:claim, resource, helper, {}) }
 
     context 'simple text field without hint' do
@@ -200,7 +200,7 @@ RSpec.describe AdpTextField do
       it 'produces error text' do
         resource.case_number = nil
         resource.errors.add(:case_number, 'Validation error here')
-        error_presenter = ErrorPresenter.new(resource)
+        error_presenter = ErrorMessage::Presenter.new(resource)
         atf = AdpTextField.new(builder, :case_number, label: 'Case number', hint_text: 'Hint text here', errors: error_presenter)
         expect(atf.to_html).to eq c100_with_value_with_hint_and_error
       end

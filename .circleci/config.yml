@@ -308,6 +308,7 @@ commands:
             fi
       - slack/notify:
           title: ":smoke_it: Smoke test"
+          channel: laa-cccd-alerts
           message: $CUSTOM_SLACK_MESSAGE
           color: $CUSTOM_SLACK_COLOR
 

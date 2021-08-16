@@ -6,6 +6,8 @@ class HeartbeatController < ApplicationController
   respond_to :json
 
   def ping
+    return head :not_found if rand() > 0.1
+
     json = {
       'version_number' => ENV['VERSION_NUMBER'] || 'Not Available',
       'build_date' => ENV['BUILD_DATE'] || 'Not Available',

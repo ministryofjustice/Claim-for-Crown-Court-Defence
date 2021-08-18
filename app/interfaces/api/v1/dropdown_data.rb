@@ -120,7 +120,7 @@ module API
           desc 'Return all AGFS fee types (optional category and unique_code filter).'
           get do
             fee_types = Fee::BaseFeeType
-            fee_types = category.blank? || category.eql?('all') ? fee_types : fee_types.send(category)
+            fee_types = fee_types.send(category) unless category.blank? || category.eql?('all')
             fee_types = fee_types.send(role)
             fee_types = fee_types.where(unique_code: unique_code) if unique_code.present?
             present fee_types, with: API::Entities::BaseFeeType

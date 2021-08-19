@@ -870,7 +870,6 @@ RSpec/ContextWording:
     - 'spec/services/claims/update_draft_spec.rb'
     - 'spec/services/remote/http_client_spec.rb'
     - 'spec/services/simple_bill_adapter_spec.rb'
-    - 'spec/services/slack_notifier_spec.rb'
     - 'spec/services/stats/management_information_generator_spec.rb'
     - 'spec/services/transform/claim_spec.rb'
     - 'spec/support/shared_examples/models/shared_examples_for_base_claim.rb'
@@ -2134,7 +2133,6 @@ RSpec/NamedSubject:
     - 'spec/services/claims/update_draft_spec.rb'
     - 'spec/services/document_cleaner_spec.rb'
     - 'spec/services/injection_response_service_spec.rb'
-    - 'spec/services/slack_notifier_spec.rb'
     - 'spec/validators/expense_validator_spec.rb'
 
 # Offense count: 736

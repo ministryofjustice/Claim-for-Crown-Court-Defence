@@ -8,32 +8,20 @@ RSpec.describe SlackNotifier, slack_bot: true do
   describe '#send_message!' do
     subject(:send_message) { slack_notifier.send_message! }
 
-    context 'without a payload' do
+    context 'when the formatter is not ready to send' do
+      before { allow(formatter).to receive(:ready_to_send).and_return false }
+
       # TODO: Is this the correct behaviour? Would it be better to send the
       #       error to Slack?
       it { expect { send_message }.to raise_error(RuntimeError, 'Unable to send without payload') }
     end
 
-    context 'with a generic payload' do
-      let(:expected_payload) do
-        WebMock.hash_including(
-          {
-            icon_emoji: ':tada:',
-            channel: 'test-slack-channel',
-            username: 'monitor_bot',
-            attachments: [WebMock.hash_including(
-              {
-                title: 'Message title',
-                text: 'The body of the message',
-                fallback: 'The body of the message'
-              }
-            )]
-          }
-        )
-      end
+    context 'when the formatter is ready to send' do
+      let(:payload) { { icon_emoji: ':eyes:', attachments: [{ title: 'Hello' }] } }
 
       before do
-        slack_notifier.build_generic_payload(':tada:', 'Message title', 'The body of the message', true)
+        allow(formatter).to receive(:ready_to_send).and_return true
+        allow(formatter).to receive(:payload).and_return payload
         send_message
       end
 
@@ -41,50 +29,21 @@ RSpec.describe SlackNotifier, slack_bot: true do
 
       it do
         expect(WebMock).to have_requested(:post, 'https://hooks.slack.com/services/fake/endpoint')
-          .with(body: expected_payload)
+          .with(body: payload)
       end
     end
+  end
 
-    context 'with an injection payload' do
-      let(:formatter) { SlackNotifier::Formatter::Injection.new }
-      let(:valid_json_on_success) do
-        {
-          from: 'external application',
-          errors: [],
-          uuid: '12345678-90ab-cdef-1234-567890abcdef',
-          messages: [{ message: 'Claim injected successfully.' }]
-        }
-      end
-      let(:expected_payload) do
-        WebMock.hash_including(
-          {
-            icon_emoji: ':bad_icon:',
-            channel: 'test-slack-channel',
-            username: 'monitor_bot',
-            attachments: [WebMock.hash_including(
-              {
-                title: 'Injection into external application failed',
-                text: '12345678-90ab-cdef-1234-567890abcdef',
-                fallback: 'Failed to inject because no claim found {12345678-90ab-cdef-1234-567890abcdef}'
-              }
-            )]
-          }
-        )
-      end
+  describe '#build_payload' do
+    subject(:build_payload) { slack_notifier.build_payload(**args) }
 
-      before do
-        slack_notifier.build_injection_payload(valid_json_on_success)
-        send_message
-      end
+    let(:args) { { key1: 1, key2: 2 } }
 
-      it 'calls the slack api' do
-        expect(a_request(:post, 'https://hooks.slack.com/services/fake/endpoint')).to have_been_made.times(1)
-      end
-
-      it do
-        expect(WebMock).to have_requested(:post, 'https://hooks.slack.com/services/fake/endpoint')
-          .with(body: expected_payload)
-      end
+    before do
+      allow(formatter).to receive(:build)
+      build_payload
     end
+
+    it { expect(formatter).to have_received(:build).with(**args) }
   end
 end

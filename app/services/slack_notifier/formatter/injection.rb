@@ -3,19 +3,12 @@ class SlackNotifier
     class Injection < Formatter
       private
 
-      def prebuild(**data)
-        @response = data.stringify_keys
-        @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
+      def prebuild
+        @claim = Claim::BaseClaim.find_by(uuid: @data[:uuid])
       end
 
       def attachment
-        {
-          fallback: message_fallback,
-          color: message_colour,
-          title: message_title,
-          text: @response['uuid'],
-          fields: fields
-        }
+        super.merge(fields: fields)
       end
 
       def message_icon
@@ -23,7 +16,7 @@ class SlackNotifier
       end
 
       def message_fallback
-        "#{generate_message} {#{@response['uuid']}}"
+        "#{generate_message} {#{@data[:uuid]}}"
       end
 
       def generate_message
@@ -45,7 +38,11 @@ class SlackNotifier
       end
 
       def app_name
-        @response['from'] || 'indeterminable system'
+        @data[:from] || 'indeterminable system'
+      end
+
+      def message_text
+        @data[:uuid]
       end
 
       def fields
@@ -58,7 +55,7 @@ class SlackNotifier
       end
 
       def error_fields
-        errors = @response['errors'].map { |x| x['error'] }.join('\n')
+        errors = @data[:errors].map { |x| x['error'] }.join('\n')
         [{ title: 'Errors', value: errors }]
       end
 
@@ -67,7 +64,7 @@ class SlackNotifier
       end
 
       def no_errors?
-        @response['errors'].empty?
+        @data[:errors].empty?
       end
     end
   end

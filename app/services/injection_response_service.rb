@@ -1,14 +1,14 @@
 class InjectionResponseService
   def initialize(json)
-    @response = json.stringify_keys
-    raise ParseError, 'Invalid JSON string' unless @response.keys.sort.eql?(%w[errors from messages uuid])
-    @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
+    @response = json.symbolize_keys
+    raise ParseError, 'Invalid JSON string' unless @response.keys.sort.eql?(%i[errors from messages uuid])
+    @claim = Claim::BaseClaim.find_by(uuid: @response[:uuid])
     @channel = Claims::InjectionChannel.for(@claim)
   end
 
   def run!
-    slack.build_injection_payload(@response)
-    return failure(action: 'run!', uuid: @response['uuid']) unless @claim
+    slack.build_payload(**@response)
+    return failure(action: 'run!', uuid: @response[:uuid]) unless @claim
 
     injection_attempt
     slack.send_message! unless injection_attempt.notification_can_be_skipped?
@@ -28,11 +28,11 @@ class InjectionResponseService
   end
 
   def injected?
-    @response['errors'].empty? && @claim.present?
+    @response[:errors].empty? && @claim.present?
   end
 
   def error_messages
-    @response.slice('errors')
+    @response.slice(:errors)
   end
 
   def create_injection_attempt

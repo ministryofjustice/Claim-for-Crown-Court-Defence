@@ -13,14 +13,10 @@ class SlackNotifier
     end
 
     def build(**data)
-      prebuild(**data)
+      @data = data
+      prebuild
 
-      @payload = {
-        channel: @channel,
-        username: @username,
-        icon_emoji: message_icon,
-        attachments: [attachment]
-      }
+      @payload = { channel: @channel, username: @username, icon_emoji: message_icon, attachments: [attachment] }
       @ready_to_send = true
     rescue StandardError
       @ready_to_send = false
@@ -28,9 +24,7 @@ class SlackNotifier
 
     private
 
-    def prebuild(**data)
-      @data = data
-    end
+    def prebuild; end
 
     def attachment
       {

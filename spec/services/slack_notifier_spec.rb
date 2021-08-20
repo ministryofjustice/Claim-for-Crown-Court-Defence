@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe SlackNotifier, slack_bot: true do
-  subject(:slack_notifier) { described_class.new('test-slack-channel') }
+  subject(:slack_notifier) { described_class.new('test-slack-channel', formatter: formatter) }
+
+  let(:formatter) { SlackNotifier::Formatter.new }
 
   describe '#send_message!' do
     subject(:send_message) { slack_notifier.send_message! }
@@ -44,6 +46,7 @@ RSpec.describe SlackNotifier, slack_bot: true do
     end
 
     context 'with an injection payload' do
+      let(:formatter) { SlackNotifier::Formatter::Injection.new }
       let(:valid_json_on_success) do
         {
           from: 'external application',

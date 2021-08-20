@@ -3,7 +3,7 @@ module Subscribers
     def process
       report_id = event.payload[:id]
       report_name = event.payload[:name]
-      slack = SlackNotifier.new('cccd_development')
+      slack = SlackNotifier.new('cccd_development', formatter: SlackNotifier::Formatter.new)
       slack.build_generic_payload(':robot_face:',
                                   "#{report_name} failed on #{ENV['ENV']}",
                                   "Stats::StatsReport.id: #{report_id}",

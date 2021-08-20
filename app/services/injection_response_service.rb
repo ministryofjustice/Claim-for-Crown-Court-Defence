@@ -18,7 +18,7 @@ class InjectionResponseService
   private
 
   def slack
-    @slack ||= SlackNotifier.new(@channel)
+    @slack ||= SlackNotifier.new(@channel, formatter: SlackNotifier::Formatter::Injection.new)
   end
 
   def failure(options = {})

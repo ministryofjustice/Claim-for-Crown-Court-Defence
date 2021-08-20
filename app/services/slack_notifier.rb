@@ -14,10 +14,10 @@ class SlackNotifier
   end
 
   def build_generic_payload(message_icon, title, message, pass_fail)
-    @formatter.build(message_icon, title, message, pass_fail)
+    @formatter.build(icon: message_icon, title: title, message: message, status: (pass_fail ? :pass : :fail))
   end
 
   def build_injection_payload(response)
-    @formatter.build(response)
+    @formatter.build(**response)
   end
 end

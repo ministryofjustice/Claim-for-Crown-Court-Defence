@@ -34,8 +34,8 @@ class SlackNotifier
         end
       end
 
-      def message_colour
-        pass_fail_colour(injected?)
+      def status
+        injected? ? :pass : :fail
       end
 
       def injection_title

@@ -26,7 +26,7 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
       }
 
       expect(notifier).to receive(:build_payload).with(**notifier_args)
-      expect(notifier).to receive(:send_message!).and_return(send_result)
+      expect(notifier).to receive(:send_message).and_return(send_result)
       process
       expect(process).to be_kind_of(Subscribers::Base)
     end

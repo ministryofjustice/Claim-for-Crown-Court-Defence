@@ -10,7 +10,7 @@ module Subscribers
         message: "Stats::StatsReport.id: #{report_id}",
         status: :fail
       )
-      slack_notifier.send_message!
+      slack_notifier.send_message
     end
   end
 end

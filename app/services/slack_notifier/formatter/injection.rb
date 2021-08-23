@@ -1,28 +1,21 @@
 class SlackNotifier
   class Formatter
     class Injection < Formatter
-      def build(response)
-        @response = response
-        @claim = Claim::BaseClaim.find_by(uuid: @response[:uuid])
+      def attachment(uuid:, from: 'indeterminable system', errors: [], **_args)
+        @errors = errors
+        @claim = Claim::BaseClaim.find_by(uuid: uuid)
 
+        @message_icon = injected? ? Settings.slack.success_icon : Settings.slack.fail_icon
         {
-          fallback: injection_fallback,
+          fallback: "#{generate_message} {#{uuid}}",
           color: message_colour,
-          title: injection_title,
-          text: @response[:uuid],
-          fields: fields
+          title: "Injection into #{from} #{injected? ? 'succeeded' : 'failed'}",
+          text: uuid,
+          fields: fields(errors: errors)
         }
       end
 
-      def message_icon
-        injected? ? Settings.slack.success_icon : Settings.slack.fail_icon
-      end
-
       private
-
-      def injection_fallback
-        "#{generate_message} {#{@response[:uuid]}}"
-      end
 
       def generate_message
         if @claim.nil?
@@ -38,36 +31,21 @@ class SlackNotifier
         injected? ? :pass : :fail
       end
 
-      def injection_title
-        "Injection into #{app_name} #{injected? ? 'succeeded' : 'failed'}"
-      end
-
-      def app_name
-        @response[:from] || 'indeterminable system'
-      end
-
-      def fields
-        fields = [
+      def fields(errors: [])
+        [
           { title: 'Claim number', value: @claim&.case_number, short: true },
           { title: 'environment', value: ENV['ENV'], short: true }
-        ]
-        errors = no_errors? ? [] : error_fields
-        fields + errors
+        ] + error_fields(errors)
       end
 
-      def error_fields
-        errors = @response[:errors].map { |x| x['error'] }.join('\n')
-        [
-          { title: 'Errors', value: errors }
-        ]
+      def error_fields(errors)
+        return [] if errors.empty?
+
+        [{ title: 'Errors', value: errors.map { |x| x['error'] }.join('\n') }]
       end
 
       def injected?
-        no_errors? && @claim.present?
-      end
-
-      def no_errors?
-        @response[:errors].empty?
+        @errors.empty? && @claim.present?
       end
     end
   end

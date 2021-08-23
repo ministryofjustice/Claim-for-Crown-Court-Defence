@@ -1,5 +1,5 @@
 class SlackNotifier
-  def initialize(channel, formatter: nil)
+  def initialize(channel, formatter:)
     @formatter = formatter
     @slack_url = Settings.slack.bot_url
     @ready_to_send = false
@@ -16,7 +16,7 @@ class SlackNotifier
   end
 
   def build_payload(*args)
-    @payload[:attachments] = [@formatter.build(*args)]
+    @payload[:attachments] = [@formatter.attachment(*args)]
     @payload[:icon_emoji] = @formatter.message_icon
     @ready_to_send = true
   rescue StandardError

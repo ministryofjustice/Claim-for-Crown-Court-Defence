@@ -5,8 +5,8 @@ RSpec.describe SlackNotifier, slack_bot: true do
 
   let(:formatter) { SlackNotifier::Formatter.new }
 
-  describe '#send_message!' do
-    subject(:send_message) { slack_notifier.send_message! }
+  describe '#send_message' do
+    subject(:send_message) { slack_notifier.send_message }
 
     context 'when a payload has not been generated' do
       it 'raises an error' do

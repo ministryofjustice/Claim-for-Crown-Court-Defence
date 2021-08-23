@@ -9,7 +9,7 @@ class SlackNotifier
     }
   end
 
-  def send_message!
+  def send_message
     raise 'Unable to send without payload' unless @ready_to_send
 
     RestClient.post(@slack_url, @payload.to_json, content_type: :json)

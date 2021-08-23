@@ -11,7 +11,7 @@ class InjectionResponseService
     return failure(action: 'run!', uuid: @response[:uuid]) unless @claim
 
     injection_attempt
-    slack.send_message! unless injection_attempt.notification_can_be_skipped?
+    slack.send_message unless injection_attempt.notification_can_be_skipped?
     true
   end
 
@@ -23,7 +23,7 @@ class InjectionResponseService
 
   def failure(options = {})
     LogStuff.info('InjectionResponseService::NonExistentClaim', options) { 'Failed to inject because no claim found' }
-    slack.send_message!
+    slack.send_message
     false
   end
 

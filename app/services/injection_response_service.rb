@@ -1,38 +1,38 @@
 class InjectionResponseService
   def initialize(json)
-    @response = json.stringify_keys
-    raise ParseError, 'Invalid JSON string' unless @response.keys.sort.eql?(%w[errors from messages uuid])
-    @claim = Claim::BaseClaim.find_by(uuid: @response['uuid'])
+    @response = json.symbolize_keys
+    raise ParseError, 'Invalid JSON string' unless @response.keys.sort.eql?(%i[errors from messages uuid])
+    @claim = Claim::BaseClaim.find_by(uuid: @response[:uuid])
     @channel = Claims::InjectionChannel.for(@claim)
   end
 
   def run!
-    slack.build_injection_payload(@response)
-    return failure(action: 'run!', uuid: @response['uuid']) unless @claim
+    slack_notifier.build_payload(**@response)
+    return failure(action: 'run!', uuid: @response[:uuid]) unless @claim
 
     injection_attempt
-    slack.send_message! unless injection_attempt.notification_can_be_skipped?
+    slack_notifier.send_message! unless injection_attempt.notification_can_be_skipped?
     true
   end
 
   private
 
-  def slack
-    @slack ||= SlackNotifier.new(@channel)
+  def slack_notifier
+    @slack_notifier ||= SlackNotifier.new(@channel, formatter: SlackNotifier::Formatter::Injection.new)
   end
 
   def failure(options = {})
     LogStuff.info('InjectionResponseService::NonExistentClaim', options) { 'Failed to inject because no claim found' }
-    slack.send_message!
+    slack_notifier.send_message!
     false
   end
 
   def injected?
-    @response['errors'].empty? && @claim.present?
+    @response[:errors].empty? && @claim.present?
   end
 
   def error_messages
-    @response.slice('errors')
+    @response.slice(:errors)
   end
 
   def create_injection_attempt

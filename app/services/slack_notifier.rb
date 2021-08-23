@@ -15,16 +15,6 @@ class SlackNotifier
     RestClient.post(@slack_url, @payload.to_json, content_type: :json)
   end
 
-  def build_generic_payload(message_icon, title, message, pass_fail)
-    @formatter = Formatter::Generic.new
-    build_payload(icon: message_icon, title: title, message: message, pass_fail: pass_fail)
-  end
-
-  def build_injection_payload(response)
-    @formatter = Formatter::Injection.new
-    build_payload(**response.symbolize_keys)
-  end
-
   def build_payload(*args)
     @payload[:attachments] = [@formatter.build(*args)]
     @payload[:icon_emoji] = @formatter.message_icon

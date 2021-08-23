@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe SlackNotifier, slack_bot: true do
-  subject(:slack_notifier) { described_class.new('test-channel') }
+  subject(:slack_notifier) { described_class.new('test-channel', formatter: formatter) }
 
   describe '#send_message!' do
     subject(:send_message) { slack_notifier.send_message! }
+
+    let(:formatter) { SlackNotifier::Formatter::Generic.new }
 
     context 'when a payload has not been generated' do
       it 'raises an error' do
@@ -13,7 +15,7 @@ RSpec.describe SlackNotifier, slack_bot: true do
     end
 
     context 'when a generic payload has been generated' do
-      let(:valid_parameters) { [':robot-face:', 'Test title', 'Test message', true] }
+      let(:valid_parameters) { { icon: ':robot-face:', title: 'Test title', message: 'Test message', status: :pass } }
       let(:expected_attachment) do
         {
           fallback: 'Test message',
@@ -24,7 +26,7 @@ RSpec.describe SlackNotifier, slack_bot: true do
       end
 
       before do
-        slack_notifier.build_generic_payload(*valid_parameters)
+        slack_notifier.build_payload(**valid_parameters)
         send_message
       end
 
@@ -55,15 +57,6 @@ RSpec.describe SlackNotifier, slack_bot: true do
           messages: [{ message: 'Claim injected successfully.' }]
         }
       end
-      # TODO: This isn't used. Is there a missing test or is it redundant?
-      let(:valid_json_on_failure) do
-        {
-          from: 'external application',
-          errors: [{ error: "No defendant found for Rep Order Number: '123456432'." }],
-          uuid: claim.uuid,
-          messages: []
-        }
-      end
       let(:expected_attachment) do
         {
           fallback: "Claim #{claim.case_number} successfully injected {#{claim.uuid}}",
@@ -76,9 +69,10 @@ RSpec.describe SlackNotifier, slack_bot: true do
           ]
         }
       end
+      let(:formatter) { SlackNotifier::Formatter::Injection.new }
 
       before do
-        slack_notifier.build_injection_payload(json_response)
+        slack_notifier.build_payload(**json_response)
         send_message
       end
 

@@ -1,9 +1,16 @@
 class SlackNotifier
   class Formatter
+    def initialize
+      @colours = {
+        pass: '#36a64f',
+        fail: '#c41f1f'
+      }
+    end
+
     private
 
-    def pass_fail_colour(boolean)
-      boolean ? '#36a64f' : '#c41f1f'
+    def message_colour
+      @colours[status]
     end
   end
 end

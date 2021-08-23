@@ -1,14 +1,15 @@
 class SlackNotifier
   class Formatter
     class Generic < Formatter
-      attr_reader :message_icon
+      attr_reader :message_icon, :status
 
-      def build(icon:, title:, message:, pass_fail:)
+      def build(icon:, title:, message:, status:)
         @message_icon = icon
+        @status = status
 
         {
           fallback: message,
-          color: pass_fail_colour(pass_fail),
+          color: message_colour,
           title: title,
           text: message
         }

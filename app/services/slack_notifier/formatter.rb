@@ -35,32 +35,8 @@ class SlackNotifier
       }
     end
 
-    def message_icon
-      @data[:icon]
-    end
-
-    def message_fallback
-      @data[:message]
-    end
-
     def message_colour
       @colours[status]
-    end
-
-    def status
-      @data[:status]
-    end
-
-    def message_title
-      @data[:title]
-    end
-
-    def message_text
-      @data[:message]
-    end
-
-    def pass_fail_colour(boolean)
-      boolean ? '#36a64f' : '#c41f1f'
     end
   end
 end

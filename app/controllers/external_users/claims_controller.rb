@@ -503,7 +503,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def present_errors
-    @error_presenter = ErrorPresenter.new(@claim)
+    @error_presenter = ErrorMessage::Presenter.new(@claim)
   end
 
   def initialize_submodel_counts

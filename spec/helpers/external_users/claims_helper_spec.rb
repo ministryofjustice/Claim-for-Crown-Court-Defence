@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ExternalUsers::ClaimsHelper do
   describe '#error_class?' do
-    let(:presenter) { instance_double(ErrorPresenter) }
+    let(:presenter) { instance_double(ErrorMessage::Presenter) }
 
     context 'with errors' do
       before do

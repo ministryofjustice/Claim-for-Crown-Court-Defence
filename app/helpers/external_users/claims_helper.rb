@@ -18,7 +18,7 @@ module ExternalUsers::ClaimsHelper
   def validation_error_message(error_presenter_or_resource, attribute)
     return if error_presenter_or_resource.nil?
     case error_presenter_or_resource
-    when ErrorPresenter
+    when ErrorMessage::Presenter
       validation_message_from_presenter(error_presenter_or_resource, attribute)
     when ActiveModel::Errors
       validation_message_from_errors_hash(error_presenter_or_resource, attribute)
@@ -52,7 +52,7 @@ module ExternalUsers::ClaimsHelper
   end
 
   def gov_uk_date_field_error_messages(presenter, attribute)
-    return if presenter.nil? || !presenter.is_a?(ErrorPresenter)
+    return if presenter.nil? || !presenter.is_a?(ErrorMessage::Presenter)
     presenter.field_level_error_for(attribute.to_sym).split(',').each(&:strip!)
   end
 

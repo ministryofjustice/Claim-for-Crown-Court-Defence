@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe ErrorPresenter do
+RSpec.describe ErrorMessage::Presenter do
   subject(:presenter) { described_class.new(claim, filename) }
 
   let(:claim) { FactoryBot.build(:claim) }
-  let(:filename) { File.dirname(__FILE__) + '/data/error_messages.en.yml' }
+  let(:filename) { Rails.root.join('spec', 'fixtures', 'config', 'locales', 'error_messages.en.yml') }
 
   it { is_expected.to delegate_method(:errors_for?).to(:error_details) }
   it { is_expected.to delegate_method(:header_errors).to(:error_details) }
@@ -22,7 +22,7 @@ RSpec.describe ErrorPresenter do
 
     context 'when attribute not present' do
       it 'returns 99999' do
-        expect(presenter.send(:generate_sequence, 'nokey')).to eq 99999
+        expect(presenter.send(:generate_sequence, 'nokey')).to eq 99_999
       end
     end
   end
@@ -35,9 +35,9 @@ RSpec.describe ErrorPresenter do
 
       it do
         is_expected.to eq(
-          [
-            ErrorDetail.new(:date_of_birth, 'The date of birth may not be more than 100 years old', 'Enter a valid date', 'The date of birth is too early', 20)
-          ]
+          [ErrorMessage::Detail.new(:date_of_birth,
+                                    'The date of birth may not be more than 100 years old', 'Enter a valid date',
+                                    'The date of birth is too early', 20)]
         )
       end
     end
@@ -48,7 +48,7 @@ RSpec.describe ErrorPresenter do
       it do
         is_expected.to eq(
           [
-            ErrorDetail.new(:date_of_birth, 'Date of birth foo bar', 'Foo bar', 'Date of birth foo bar')
+            ErrorMessage::Detail.new(:date_of_birth, 'Date of birth foo bar', 'Foo bar', 'Date of birth foo bar')
           ]
         )
       end
@@ -60,7 +60,7 @@ RSpec.describe ErrorPresenter do
       it do
         expect(presenter.header_errors).to eq(
           [
-            ErrorDetail.new(:defendant_2_name, 'Defendant 2 name is invalid', 'Is invalid', 'Defendant 2 name is invalid')
+            ErrorMessage::Detail.new(:defendant_2_name, 'Defendant 2 name is invalid', 'Is invalid', 'Defendant 2 name is invalid')
           ]
         )
       end
@@ -72,7 +72,7 @@ RSpec.describe ErrorPresenter do
       it do
         is_expected.to eq(
           [
-            ErrorDetail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a first name', 'The first name for the second defendant must not be blank')
+            ErrorMessage::Detail.new(:defendant_2_first_name, 'Enter a first name for the second defendant', 'Enter a first name', 'The first name for the second defendant must not be blank')
           ]
         )
       end
@@ -86,10 +86,8 @@ RSpec.describe ErrorPresenter do
 
       it do
         is_expected.to eq(
-          [
-            ErrorDetail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name', 'The claimant name must not be blank', 50),
-            ErrorDetail.new(:name, 'The name cannot be longer than 50 characters', 'Too long', 'The name cannot be longer than 50 characters', 50)
-          ]
+          [ErrorMessage::Detail.new(:name, 'The claimant name must not be blank, please enter a name', 'Enter a name', 'The claimant name must not be blank', 50),
+           ErrorMessage::Detail.new(:name, 'The name cannot be longer than 50 characters', 'Too long', 'The name cannot be longer than 50 characters', 50)]
         )
       end
     end

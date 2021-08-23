@@ -6,6 +6,7 @@ module TimedTransitions
       @dummy = options.fetch(:dummy, false)
       @limit = options.fetch(:limit, '10000').to_i
       @transitions_counter = 0
+      @failed_transitions = []
     end
 
     def run
@@ -27,11 +28,19 @@ module TimedTransitions
       claim = Claim::BaseClaim.find(claim_id)
       transitioner = Transitioner.new(claim, dummy)
       transitioner.run
-      increment_counter if transitioner.success?
+      update_state(transitioner, claim_id)
     end
 
     def increment_counter
       @transitions_counter += 1
+    end
+
+    def update_state(transitioner, claim_id)
+      if transitioner.success?
+        increment_counter
+      else
+        @failed_transitions < claim_id
+      end
     end
 
     def limit_reached?
@@ -54,6 +63,9 @@ module TimedTransitions
     end
 
     def log_end
+      slack_notifier.build_payload(processed: @transitions_counter, failed: @failed_transitions)
+      slack_notifier.send_message
+
       log(:info,
           'Finished processing of stale claims',
           started_at: started_at,
@@ -75,6 +87,10 @@ module TimedTransitions
       ) do
         message
       end
+    end
+
+    def slack_notifier
+      @slack_notifier ||= SlackNotifier.new('laa-cccd-alerts', formatter: SlackNotifier::Formatter::Transitioner.new)
     end
   end
 end

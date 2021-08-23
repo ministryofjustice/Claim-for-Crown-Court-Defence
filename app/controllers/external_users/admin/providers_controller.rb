@@ -35,6 +35,6 @@ class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::Applicat
   end
 
   def error_presenter
-    ErrorPresenter.new(@provider, ErrorMessage.translation_file_for('provider'))
+    ErrorMessage::Presenter.new(@provider, ErrorMessage.translation_file_for('provider'))
   end
 end

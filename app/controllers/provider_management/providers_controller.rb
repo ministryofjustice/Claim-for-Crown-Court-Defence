@@ -44,6 +44,6 @@ class ProviderManagement::ProvidersController < ApplicationController
   end
 
   def error_presenter
-    ErrorPresenter.new(@provider, ErrorMessage.translation_file_for('provider'))
+    ErrorMessage::Presenter.new(@provider, ErrorMessage.translation_file_for('provider'))
   end
 end

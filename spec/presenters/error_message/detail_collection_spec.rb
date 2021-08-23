@@ -13,17 +13,17 @@ RSpec.describe ErrorMessage::DetailCollection do
 
   let(:ed1) do
     ErrorMessage::Detail.new(:dob,
-                             'Date of birth is invalid',
+                             'Enter a valid date of birth',
                              'Invalid date',
-                             'Date of birth is invalid',
+                             'Enter a valid date of birth',
                              10)
   end
 
   let(:ed3) do
     ErrorMessage::Detail.new(:dob,
-                             'Date of birth too far in the past',
+                             'Check the date of birth',
                              'Too old',
-                             'Date of birth too far in the past',
+                             'Check the date of birth',
                              30)
   end
 
@@ -51,6 +51,10 @@ RSpec.describe ErrorMessage::DetailCollection do
   describe '#short_messages_for' do
     subject { instance.short_messages_for(:dob) }
 
+    context 'with no messages for key' do
+      it { is_expected.to be_a(String).and be_empty }
+    end
+
     context 'with one short_message per key' do
       before { instance[:dob] = ed1 }
 
@@ -72,6 +76,10 @@ RSpec.describe ErrorMessage::DetailCollection do
   describe '#long_messages_for' do
     subject { instance.long_messages_for(:dob) }
 
+    context 'with no messages for key' do
+      it { is_expected.to be_a(String).and be_empty }
+    end
+
     context 'with one long_message per key' do
       before { instance[:dob] = ed1 }
 
@@ -91,10 +99,14 @@ RSpec.describe ErrorMessage::DetailCollection do
   describe '#api_messages_for' do
     subject { instance.api_messages_for(:dob) }
 
+    context 'with no messages for key' do
+      it { is_expected.to be_a(String).and be_empty }
+    end
+
     context 'with one api_message per key' do
       before { instance[:dob] = ed1 }
 
-      it { is_expected.to eq 'Date of birth is invalid' }
+      it { is_expected.to eq 'Enter a valid date of birth' }
     end
 
     context 'with multiple long messages per key' do
@@ -103,7 +115,7 @@ RSpec.describe ErrorMessage::DetailCollection do
         instance[:dob] = ed3
       end
 
-      it { is_expected.to eq 'Date of birth is invalid, Date of birth too far in the past' }
+      it { is_expected.to eq 'Enter a valid date of birth, Check the date of birth' }
     end
   end
 

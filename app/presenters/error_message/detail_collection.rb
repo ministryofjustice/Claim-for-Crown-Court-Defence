@@ -25,9 +25,15 @@ module ErrorMessage
     end
 
     def short_messages_for(fieldname)
-      error_detail_array = @error_details[fieldname]
-      return '' if error_detail_array.nil?
-      error_detail_array.map(&:short_message).join(', ')
+      messages_for(fieldname, :short_message)
+    end
+
+    def long_messages_for(fieldname)
+      messages_for(fieldname, :long_message)
+    end
+
+    def api_messages_for(fieldname)
+      messages_for(fieldname, :api_message)
     end
 
     def header_errors
@@ -42,6 +48,14 @@ module ErrorMessage
 
     def size
       @error_details.values.sum(&:size)
+    end
+
+    private
+
+    def messages_for(fieldname, message)
+      error_detail_array = @error_details[fieldname]
+      return '' if error_detail_array.nil?
+      error_detail_array.map { |detail| detail.send(message) }.join(', ')
     end
   end
 end

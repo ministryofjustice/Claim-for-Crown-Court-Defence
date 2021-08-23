@@ -11,12 +11,12 @@ module ErrorMessage
     end
 
     delegate :errors_for?,
-           :header_errors,
-           :size,
-           :short_messages_for,
-           :long_messages_for,
-           :api_messages_for,
-           to: :error_details
+             :header_errors,
+             :size,
+             :short_messages_for,
+             :long_messages_for,
+             :api_messages_for,
+             to: :error_details
 
     alias key? errors_for?
     alias field_errors_for short_messages_for
@@ -73,7 +73,7 @@ module ErrorMessage
     end
 
     def default_file
-      Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml")
+      ErrorMessage.default_translation_file
     end
   end
 end

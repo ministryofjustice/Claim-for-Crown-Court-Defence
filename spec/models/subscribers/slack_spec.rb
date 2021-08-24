@@ -13,10 +13,20 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
     subject(:process) { described_class.new(event_name, start, ending, transaction_id, payload) }
 
     it 'sends a message to slack channel with the error content' do
-      expect(SlackNotifier).to receive(:new).with('cccd_development').and_return(notifier)
-      notifier_args = [':robot_face:', 'provisional_assessment failed on test', 'Stats::StatsReport.id: 999', false]
-      expect(notifier).to receive(:build_generic_payload).with(*notifier_args)
-      expect(notifier).to receive(:send_message!).and_return(send_result)
+      expect(SlackNotifier)
+        .to receive(:new)
+        .with('cccd_development', formatter: an_instance_of(SlackNotifier::Formatter::Generic))
+        .and_return(notifier)
+
+      notifier_args = {
+        icon: ':robot_face:',
+        title: 'provisional_assessment failed on test',
+        message: 'Stats::StatsReport.id: 999',
+        status: :fail
+      }
+
+      expect(notifier).to receive(:build_payload).with(**notifier_args)
+      expect(notifier).to receive(:send_message).and_return(send_result)
       process
       expect(process).to be_kind_of(Subscribers::Base)
     end

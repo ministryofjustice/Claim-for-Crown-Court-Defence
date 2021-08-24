@@ -1,47 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe SlackNotifier, slack_bot: true do
-  subject(:slack_notifier) { described_class.new(claim) }
+  subject(:slack_notifier) { described_class.new('test-channel', formatter: formatter) }
 
-  let(:claim) { create :claim }
-  let(:valid_json_on_success) do
-    {
-      from: 'external application',
-      errors: [],
-      uuid: claim.uuid,
-      messages: [{ message: 'Claim injected successfully.' }]
-    }
-  end
-  # TODO: This isn't used. Is there a missing test or is it redundant?
-  let(:valid_json_on_failure) do
-    {
-      from: 'external application',
-      errors: [{ error: "No defendant found for Rep Order Number: '123456432'." }],
-      uuid: claim.uuid,
-      messages: []
-    }
-  end
+  let(:formatter) { SlackNotifier::Formatter.new }
 
-  it { is_expected.to be_a described_class }
+  describe '#send_message' do
+    subject(:send_message) { slack_notifier.send_message }
 
-  it { is_expected.to respond_to :build_injection_payload }
-  it { is_expected.to respond_to :send_message! }
-
-  describe '#send_message!' do
-    subject(:send_message!) { slack_notifier.send_message! }
-
-    context 'before message payload is set' do
+    context 'when a payload has not been generated' do
       it 'raises an error' do
-        expect { subject }.to raise_error(RuntimeError, 'Unable to send without payload')
+        expect { send_message }.to raise_error(RuntimeError, 'Unable to send without payload')
       end
     end
 
-    context 'after payload set' do
-      before { slack_notifier.build_injection_payload(valid_json_on_success) }
+    context 'when a payload has been generated' do
+      before do
+        allow(formatter).to receive(:attachment).with(hash_including(key: 'value')).and_return({ title: 'Test title' })
+        allow(formatter).to receive(:message_icon).and_return ':sign-roadworks:'
+        slack_notifier.build_payload(key: 'value')
+        send_message
+      end
 
       it 'calls the slack api' do
-        subject
-        expect(a_request(:post, 'https://hooks.slack.com/services/fake/endpoint')).to have_been_made.times(1)
+        expect(a_request(:post, 'https://hooks.slack.com/services/fake/endpoint')).to have_been_made.once
+      end
+
+      it 'sets the channel' do
+        expect(WebMock)
+          .to have_requested(:post, 'https://hooks.slack.com/services/fake/endpoint')
+          .with(body: hash_including(channel: 'test-channel', icon_emoji: ':sign-roadworks:'))
+      end
+
+      it 'sets the attachments' do
+        expect(WebMock)
+          .to have_requested(:post, 'https://hooks.slack.com/services/fake/endpoint')
+          .with(body: hash_including(attachments: [{ title: 'Test title' }]))
       end
     end
   end

@@ -65,93 +65,82 @@ RSpec.describe TimedTransitions::Transitioner do
   end
 
   describe '#run' do
+    subject(:run_transitioner) { transitioner.run }
+
     context 'with non-dummy run' do
+      let(:transitioner) { described_class.new(claim) }
+
       context 'when transitioning to archived pending delete' do
         context 'when last state transition less than 16 weeks ago' do
-          subject(:transitioner) { described_class.new(@claim) }
-
-          before do
-            travel_to(15.weeks.ago) do
-              @claim = create(:authorised_claim, case_number: 'A20164444')
-            end
-          end
+          let(:claim) { travel_to(15.weeks.ago) { create(:authorised_claim, case_number: 'A20164444') } }
 
           it 'does not archive the claim' do
-            transitioner.run
-            expect(@claim.reload.state).to eq 'authorised'
+            run_transitioner
+            expect(claim.reload.state).to eq 'authorised'
           end
         end
 
         context 'when last state change more than 16 weeks ago' do
-          subject(:transitioner) { described_class.new(@claim) }
-
-          before do
-            travel_to(17.weeks.ago) do
-              @claim = create(:authorised_claim, case_number: 'A20164444')
-            end
-          end
+          let(:claim) { travel_to(17.weeks.ago) { create(:authorised_claim, case_number: 'A20164444') } }
 
           it 'records success' do
-            transitioner.run
+            run_transitioner
             expect(transitioner.success?).to be true
           end
 
           it 'amends claim state to archived pending delete' do
-            transitioner.run
-            expect(@claim.reload.state).to eq 'archived_pending_delete'
+            run_transitioner
+            expect(claim.reload.state).to eq 'archived_pending_delete'
           end
 
           context 'when the case type is a Hardship claim' do
-            before do
-              travel_to(17.weeks.ago) do
-                @claim = create(:advocate_hardship_claim, :authorised, case_number: 'A20164444')
-              end
-            end
+            let(:claim) { travel_to(17.weeks.ago) { create(:advocate_hardship_claim, :authorised, case_number: 'A20164444') } }
 
             it 'amends claim state to archived pending review' do
-              transitioner.run
-              expect(@claim.reload.state).to eq 'archived_pending_review'
+              run_transitioner
+              expect(claim.reload.state).to eq 'archived_pending_review'
             end
           end
 
           it 'writes to the log file' do
+            claim
             freeze_time do
               expect(LogStuff).to receive(:info)
                 .with('TimedTransitions::Transitioner',
                       action: 'archive',
-                      claim_id: @claim.id,
+                      claim_id: claim.id,
                       claim_state: 'archived_pending_delete',
-                      softly_deleted_on: @claim.deleted_at,
+                      softly_deleted_on: claim.deleted_at,
                       valid_until: Time.now + 180.days,
                       dummy_run: false,
                       error: nil,
                       succeeded: true)
-              described_class.new(@claim).run
+              described_class.new(claim).run
             end
           end
 
           it 'records the transition in claim state transitions' do
-            described_class.new(@claim).run
-            last_transition = @claim.reload.claim_state_transitions.first
+            described_class.new(claim).run
+            last_transition = claim.reload.claim_state_transitions.first
             expect(last_transition.reason_code).to eq(['timed_transition'])
           end
 
           context 'when claim validation fails' do
-            context 'on StateMachines::InvalidTransition' do
+            context 'with StateMachines::InvalidTransition' do
               before do
-                @claim.errors.add(:base, 'My mocked invalid state transition error message')
-                allow(@claim).to receive(:archive_pending_delete!)
+                claim.errors.add(:base, 'My mocked invalid state transition error message')
+                allow(claim).to receive(:archive_pending_delete!)
                   .with(reason_code: ['timed_transition'])
                   .and_raise invalid_transition
               end
 
               let(:invalid_transition) do
-                machine = StateMachines::Machine.find_or_create(@claim.class)
-                StateMachines::InvalidTransition.new(@claim, machine, :archive_pending_delete)
+                machine = StateMachines::Machine.find_or_create(claim.class)
+                StateMachines::InvalidTransition.new(claim, machine, :archive_pending_delete)
               end
 
               it 'does not raise error' do
-                expect { described_class.new(@claim).run }.not_to raise_error
+                expect { described_class.new(claim).run }.not_to raise_error
               end
 
               it 'writes error to log' do
@@ -159,14 +148,14 @@ RSpec.describe TimedTransitions::Transitioner do
                   expect(LogStuff).to receive(:error)
                     .with('TimedTransitions::Transitioner',
                           action: 'archive',
-                          claim_id: @claim.id,
+                          claim_id: claim.id,
                           claim_state: 'authorised',
-                          softly_deleted_on: @claim.deleted_at,
+                          softly_deleted_on: claim.deleted_at,
                           valid_until: nil,
                           dummy_run: false,
                           error: 'Cannot transition state via :archive_pending_delete from :authorised (Reason(s): My mocked invalid state transition error message)',
                           succeeded: false)
-                  described_class.new(@claim).run
+                  described_class.new(claim).run
                 end
               end
             end
@@ -176,17 +165,17 @@ RSpec.describe TimedTransitions::Transitioner do
               let(:litigator) { create(:external_user, :litigator) }
 
               before do
-                @claim.update_attribute(:creator, litigator)
+                claim.update_attribute(:creator, litigator)
               end
 
               it 'claim is invalid' do
-                @claim.valid?
-                expect(@claim.errors.messages[:external_user]).to eq ['Creator and advocate must belong to the same provider']
+                claim.valid?
+                expect(claim.errors.messages[:external_user]).to eq ['Creator and advocate must belong to the same provider']
               end
 
               it 'still transitions to archived_pending_delete' do
-                described_class.new(@claim).run
-                expect(@claim.reload.state).to eq 'archived_pending_delete'
+                described_class.new(claim).run
+                expect(claim.reload.state).to eq 'archived_pending_delete'
               end
             end
 
@@ -196,7 +185,7 @@ RSpec.describe TimedTransitions::Transitioner do
             # via :archive_pending_delete from :authorised (Reason(s): Defendant 1
             # representation order 1 maat reference invalid)"
             context 'when a claim submodel has been invalidated' do
-              let(:record) { @claim.defendants.first.representation_orders.first }
+              let(:record) { claim.defendants.first.representation_orders.first }
               before do
                 record.update_attribute(:maat_reference, '999')
               end
@@ -208,8 +197,8 @@ RSpec.describe TimedTransitions::Transitioner do
 
               it 'still transitions to archived_pending_delete' do
                 record.valid?
-                described_class.new(@claim).run
-                expect(@claim.reload.state).to eq 'archived_pending_delete'
+                described_class.new(claim).run
+                expect(claim.reload.state).to eq 'archived_pending_delete'
               end
             end
           end
@@ -232,7 +221,7 @@ RSpec.describe TimedTransitions::Transitioner do
             expect { described_class.new(claim).run }.to change { Stats::MIData.count }.by 1
           end
 
-          context 'for hardship claims' do
+          context 'with hardship claims' do
             let(:claim) { create :advocate_hardship_claim }
 
             context 'when claim softly-deleted 17 weeks ago' do
@@ -247,7 +236,6 @@ RSpec.describe TimedTransitions::Transitioner do
         end
 
         context 'when last state transition less than 16 weeks ago' do
-          subject(:transitioner) { described_class.new(claim) }
           let(:claim) { double Claim }
 
           before do
@@ -258,13 +246,11 @@ RSpec.describe TimedTransitions::Transitioner do
 
           it 'does not call destroy' do
             expect(transitioner).not_to receive(:destroy_claim)
-            transitioner.run
+            run_transitioner
           end
         end
 
         context 'when last state transition more than 16 weeks ago' do
-          subject(:run_transitioner) { described_class.new(claim).run }
-
           let(:claim) do
             travel_to(17.weeks.ago) do
               create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'
@@ -371,9 +357,10 @@ RSpec.describe TimedTransitions::Transitioner do
     end
 
     context 'with dummy run' do
+      let(:transitioner) { described_class.new(claim, true) }
+
       context 'when transitioning to archived pending delete' do
         context 'when last state transition less than 16 weeks ago' do
-          subject(:transitioner) { described_class.new(claim, true) }
           let(:claim) { double Claim }
 
           before do
@@ -385,20 +372,16 @@ RSpec.describe TimedTransitions::Transitioner do
           it 'does not call archive on claim' do
             expect(transitioner).not_to receive(:archive)
             expect(LogStuff).not_to receive(:debug)
-            transitioner.run
+            run_transitioner
           end
         end
 
         context 'when last state transition more than 16 weeks ago' do
-          before do
-            travel_to(17.weeks.ago) do
-              @claim = create :authorised_claim, case_number: 'A20164444'
-            end
-          end
+          let(:claim) { travel_to(17.weeks.ago) { create :authorised_claim, case_number: 'A20164444' } }
 
           it 'leaves the claim in authorised state' do
-            described_class.new(@claim, true).run
-            expect(@claim.reload.state).to eq 'authorised'
+            described_class.new(claim, true).run
+            expect(claim.reload.state).to eq 'authorised'
           end
 
           it 'writes to the log file' do
@@ -406,27 +389,26 @@ RSpec.describe TimedTransitions::Transitioner do
               .with(
                 'TimedTransitions::Transitioner',
                 action: 'archive',
-                claim_id: @claim.id,
+                claim_id: claim.id,
                 claim_state: 'authorised',
-                softly_deleted_on: @claim.deleted_at,
-                valid_until: @claim.valid_until,
+                softly_deleted_on: claim.deleted_at,
+                valid_until: claim.valid_until,
                 dummy_run: true,
                 error: nil,
                 succeeded: false
               )
-            described_class.new(@claim, true).run
+            described_class.new(claim, true).run
           end
 
           it 'does not record a timed_transition in claim state transitions' do
-            described_class.new(@claim, true).run
-            expect(@claim.claim_state_transitions.map(&:reason_code)).not_to include('timed_transition')
+            described_class.new(claim, true).run
+            expect(claim.claim_state_transitions.map(&:reason_code)).not_to include('timed_transition')
           end
         end
       end
 
       context 'when destroying' do
         context 'when last state transition less than 16 weeks ago' do
-          subject(:transitioner) { described_class.new(claim, true) }
           let(:claim) { double Claim }
 
           before do
@@ -438,13 +420,11 @@ RSpec.describe TimedTransitions::Transitioner do
           it 'does not call archive on claim' do
             expect(transitioner).not_to receive(:destroy_claim)
             expect(LogStuff).not_to receive(:debug)
-            transitioner.run
+            run_transitioner
           end
         end
 
         context 'when last state transition more than 16 weeks ago' do
-          subject(:run_transitioner) { described_class.new(claim, true).run }
-
           let(:claim) do
             travel_to(17.weeks.ago) do
               create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'

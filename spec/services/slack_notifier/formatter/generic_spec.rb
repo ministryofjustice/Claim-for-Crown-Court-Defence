@@ -28,8 +28,7 @@ RSpec.describe SlackNotifier::Formatter::Generic do
     context 'without an icon' do
       let(:build_parameters) { valid_build_parameters.except(:icon) }
 
-      # TODO: Default icon?
-      it { expect { attachment }.not_to change(formatter, :message_icon) }
+      it { expect { attachment }.not_to change(formatter, :message_icon).from ':cccd:' }
     end
 
     context 'with a failing status' do

@@ -25,10 +25,4 @@ environment.plugins.append('ConcatPlugin', new ConcatPlugin({
   ]
 }))
 
-environment.config.merge({
-  output: {
-    filename: 'js/[name]-[hash].js'
-  }
-})
-
 module.exports = environment

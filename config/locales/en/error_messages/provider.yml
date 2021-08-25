@@ -20,11 +20,11 @@ firm_agfs_supplier_number:
     api: Remove the AGFS supplier number
 name:
   _seq: 10
-  enter_a_name:
+  enter_a_provider_name:
     long: Enter a provider name
     short: _
     api: Enter a provider name
-  enter_a_name_not_already_taken:
+  enter_a_provider_name_not_already_taken:
     long: Enter a provider name that is not already taken
     short: _
     api: Enter a provider name that is not already taken

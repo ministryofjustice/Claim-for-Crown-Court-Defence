@@ -13,8 +13,8 @@ RSpec.describe Provider, type: :model do
   it { is_expected.to accept_nested_attributes_for(:lgfs_supplier_numbers).allow_destroy(true) }
 
   it { is_expected.to validate_presence_of(:provider_type).with_message('Choose a provider type') }
-  it { is_expected.to validate_presence_of(:name).with_message('Enter a name') }
-  it { is_expected.to validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message('Enter a name not already taken') }
+  it { is_expected.to validate_presence_of(:name).with_message('Enter a provider name') }
+  it { is_expected.to validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message('Enter a provider name not already taken') }
 
   context 'when validating an lgfs only firm' do
     subject(:provider) { firm }

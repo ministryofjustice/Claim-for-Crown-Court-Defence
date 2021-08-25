@@ -31,8 +31,8 @@ RSpec.describe Provider, type: :model do
   context 'when validating a chamber' do
     subject(:provider) { chamber }
 
-    it { is_expected.to_not validate_presence_of(:firm_agfs_supplier_number) }
-    it { is_expected.to_not validate_uniqueness_of(:firm_agfs_supplier_number) }
+    it { is_expected.not_to validate_presence_of(:firm_agfs_supplier_number) }
+    it { is_expected.not_to validate_uniqueness_of(:firm_agfs_supplier_number) }
   end
 
   it { is_expected.to delegate_method(:advocates).to(:external_users) }

@@ -37,6 +37,7 @@
 public/system/documents
 public/paperclip
 public/uploads
+public/assets
 public/assets/test
 public/assets/dev
 features/examples/000

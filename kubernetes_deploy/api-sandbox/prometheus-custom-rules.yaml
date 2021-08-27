@@ -14,7 +14,7 @@ spec:
       expr: 100 * kube_resourcequota{job="kube-state-metrics",type="used",namespace="cccd-api-sandbox"} / ignoring(instance, job, type) (kube_resourcequota{job="kube-state-metrics",type="hard",namespace="cccd-api-sandbox"} > 0) > 90
       for: 1m
       labels:
-        severity: laa-court-get-paid
+        severity: laa-cccd-alerts
       annotations:
         message: cccd-api-sandbox is using {{ printf "%0.0f" $value}}% of its {{ $labels.resource }} quota.
         runbook_url: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-kubequotaexceeded
@@ -22,7 +22,7 @@ spec:
       expr: sum(rate(nginx_ingress_controller_requests{exported_namespace="cccd-api-sandbox", status="400"}[86400s])) * 86400 > 100
       for: 1m
       labels:
-        severity: laa-court-get-paid
+        severity: laa-cccd-alerts
       annotations:
         message: cccd-api-sandbox More than a hundred 404 errors in one day
         runbook_url: https://kibana.cloud-platform.service.justice.gov.uk/_plugin/kibana/app/kibana#/discover?_g=(refreshInterval:(pause:!t,value:0),time:(from:now-24h,mode:quick,to:now))&_a=(columns:!(_source),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:ec9109a0-2b35-11e9-ac82-95e56bd45b02,key:kubernetes.namespace_name,negate:!f,params:(query:cccd-api-sandbox,type:phrase),type:phrase,value:cccd-api-sandbox),query:(match:(kubernetes.namespace_name:(query:cccd-api-sandbox,type:phrase))))),index:ec9109a0-2b35-11e9-ac82-95e56bd45b02,interval:auto,query:(language:lucene,query:'log:%22RoutingError%22'),sort:!('@timestamp',desc))
@@ -30,7 +30,7 @@ spec:
       expr: sum(rate(nginx_ingress_controller_requests{exported_namespace="cccd-api-sandbox", status=~"5.."}[5m])) * 300 > 5
       for: 1m
       labels:
-        severity: laa-court-get-paid
+        severity: laa-cccd-alerts
       annotations:
         message: cccd-api-sandbox An HTTP 5xx error has occurred
         runbook_url: https://kibana.cloud-platform.service.justice.gov.uk/_plugin/kibana/app/kibana#/discover?_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-24h,to:now))&_a=(columns:!(log_processed.status,log_processed.http_referer,log_processed.request_uri),filters:!(('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'71644ed0-d648-11ea-b6f0-6bf964cd13a4',key:log_processed.kubernetes_namespace,negate:!f,params:(query:cccd-production),type:phrase,value:cccd-api-sandbox),query:(match:(log_processed.kubernetes_namespace:(query:cccd-api-sandbox,type:phrase)))),('$state':(store:appState),meta:(alias:!n,disabled:!f,index:'71644ed0-d648-11ea-b6f0-6bf964cd13a4',key:log_processed.status,negate:!f,params:(query:'500'),type:phrase,value:'500'),query:(match:(log_processed.status:(query:'500',type:phrase))))),index:'71644ed0-d648-11ea-b6f0-6bf964cd13a4',interval:auto,query:(language:lucene,query:''),sort:!(!('@timestamp',desc)))
@@ -38,6 +38,6 @@ spec:
       expr: container_fs_usage_bytes{namespace="cccd-api-sandbox"} / 1024 / 1024 > 1024 or absent(container_fs_usage_bytes{namespace="cccd-api-sandbox"})
       for: 1m
       labels:
-        severity: laa-court-get-paid
+        severity: laa-cccd-alerts
       annotations:
         message: cccd-api-sandbox Container disk space usage is more than 1Gi or is not reported

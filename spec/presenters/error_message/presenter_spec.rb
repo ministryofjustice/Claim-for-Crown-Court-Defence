@@ -6,20 +6,18 @@ RSpec.describe ErrorMessage::Presenter do
   let(:claim) { FactoryBot.build(:claim) }
   let(:filename) { Rails.root.join('spec', 'fixtures', 'config', 'locales', 'en', 'error_messages', 'claim.yml') }
 
-  it { is_expected.to delegate_method(:errors_for?).to(:error_details) }
-  it { is_expected.to delegate_method(:header_errors).to(:error_details) }
-  it { is_expected.to delegate_method(:short_messages_for).to(:error_details) }
-  it { is_expected.to delegate_method(:long_messages_for).to(:error_details) }
-  it { is_expected.to delegate_method(:api_messages_for).to(:error_details) }
-  it { is_expected.to delegate_method(:size).to(:error_details) }
+  it { is_expected.to delegate_method(:errors_for?).to(:error_detail_collection) }
+  it { is_expected.to delegate_method(:header_errors).to(:error_detail_collection) }
+  it { is_expected.to delegate_method(:short_messages_for).to(:error_detail_collection) }
+  it { is_expected.to delegate_method(:formatted_error_messages).to(:error_detail_collection) }
+  it { is_expected.to delegate_method(:size).to(:error_detail_collection) }
   it { expect(presenter.method(:key?)).to eq(presenter.method(:errors_for?)) }
   it { expect(presenter.method(:field_errors_for)).to eq(presenter.method(:short_messages_for)) }
-  it { expect(presenter.method(:summary_error_for)).to eq(presenter.method(:long_messages_for)) }
 
   describe '#generate_sequence' do
     context 'when attribute present' do
       it 'returns the value from the error messages file' do
-        expect(presenter.send(:generate_sequence, 'name')).to eq 50
+        expect(presenter.send(:generate_sequence, 'name')).to eq 60
       end
     end
 
@@ -155,6 +153,99 @@ RSpec.describe ErrorMessage::Presenter do
       let(:attribute) { :name }
 
       it { is_expected.to eq('Enter a name, Foo bar') }
+    end
+  end
+
+  # This method is called by govuk-formbuilder to generate summary errors
+  # when a presenter instance is injected in to govuk_error_summary.
+  #
+  describe '#formatted_error_messages' do
+    subject(:formatted_error_messages) { presenter.formatted_error_messages }
+
+    context 'with attribute and message present in translations' do
+      before { claim.errors.add(:date_of_birth, 'too_early') }
+
+      let(:attribute) { :date_of_birth }
+
+      it { is_expected.to eq([[:date_of_birth, 'The date of birth may not be more than 100 years old']]) }
+    end
+
+    context 'with attribute but without message present in translations' do
+      before { claim.errors.add(:date_of_birth, 'foo_bar') }
+
+      let(:attribute) { :date_of_birth }
+
+      it { is_expected.to eq([[:date_of_birth, 'Date of birth foo bar']]) }
+    end
+
+    context 'without attribute present in translation file' do
+      before { claim.errors.add(:defendant_2_name, 'is invalid') }
+
+      let(:attribute) { :defendant_2_name }
+
+      it { is_expected.to eq([[:defendant_2_name, 'Defendant 2 name is invalid']]) }
+    end
+
+    context 'with nested submodel attribute and message present in translations' do
+      before { claim.errors.add(:defendant_2_first_name, 'blank') }
+
+      let(:attribute) { :defendant_2_first_name }
+
+      it { is_expected.to eq([[:defendant_2_first_name, 'Enter a first name for the second defendant']]) }
+    end
+
+    context 'with multiple error messages on separate attributes' do
+      before do
+        claim.errors.add(:date_of_birth, 'too_early')
+        claim.errors.add(:trial_date, 'not_future')
+      end
+
+      let(:expected_error_messages) do
+        [[:date_of_birth, 'The date of birth may not be more than 100 years old'],
+         [:trial_date, 'The trial date may not be in the future']]
+      end
+
+      it { is_expected.to eq(expected_error_messages) }
+    end
+
+    context 'with multiple error messages on one attribute' do
+      before do
+        claim.errors.add(:name, 'cannot_be_blank')
+        claim.errors.add(:name, 'too_long')
+      end
+
+      let(:expected_error_messages) do
+        [
+          [:name, 'The claimant name must not be blank, please enter a name'],
+          [:name, 'The name cannot be longer than 50 characters']
+        ]
+      end
+
+      it { is_expected.to eq(expected_error_messages) }
+    end
+
+    context 'with multiple error messages across attributes' do
+      before do
+        claim.errors.add(:name, 'cannot_be_blank')
+        claim.errors.add(:name, 'too_long')
+        claim.errors.add(:defendant_2_first_name, 'blank')
+        claim.errors.add(:trial_date, 'not_future')
+        claim.errors.add(:date_of_birth, 'too_early')
+      end
+
+      let(:expected_error_messages) do
+        [
+          [:date_of_birth, 'The date of birth may not be more than 100 years old'],
+          [:trial_date, 'The trial date may not be in the future'],
+          [:defendant_2_first_name, 'Enter a first name for the second defendant'],
+          [:name, 'The claimant name must not be blank, please enter a name'],
+          [:name, 'The name cannot be longer than 50 characters']
+        ]
+      end
+
+      it 'sorts the errors by custom _seq value' do
+        expect(formatted_error_messages).to eq(expected_error_messages)
+      end
     end
   end
 end

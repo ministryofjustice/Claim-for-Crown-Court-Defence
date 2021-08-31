@@ -1,12 +1,12 @@
 module ErrorMessage
   class Presenter
-    attr_reader :error_details
+    attr_reader :error_detail_collection
 
     def initialize(object, message_file = nil)
       @errors = object.errors
       message_file ||= default_file
       @translations = YAML.load_file(message_file)
-      @error_details = DetailCollection.new
+      @error_detail_collection = DetailCollection.new
       generate_messages
     end
 
@@ -14,13 +14,11 @@ module ErrorMessage
              :header_errors,
              :size,
              :short_messages_for,
-             :long_messages_for,
-             :api_messages_for,
-             to: :error_details
+             :formatted_error_messages,
+             to: :error_detail_collection
 
     alias key? errors_for?
     alias field_errors_for short_messages_for
-    alias summary_error_for long_messages_for
 
     private
 
@@ -28,13 +26,19 @@ module ErrorMessage
       @errors.each do |error|
         attribute = error.attribute
         message = translator.message(error.attribute, error.message)
-        next if @error_details[attribute] && @error_details[attribute][0].long_message.eql?(message.long)
+
+        next if error_detail_item?(attribute, message)
         add_error_detail(attribute, message)
       end
     end
 
+    def error_detail_item?(attribute, message)
+      @error_detail_collection[attribute] &&
+        @error_detail_collection[attribute][0].long_message.eql?(message.long)
+    end
+
     def add_error_detail(attribute, message)
-      @error_details[attribute] = Detail.new(
+      @error_detail_collection[attribute] = Detail.new(
         attribute,
         message.long,
         message.short,

@@ -1,5 +1,5 @@
 name:
-  _seq: 50
+  _seq: 60
   cannot_be_blank:
     long: 'The claimant name must not be blank, please enter a name'
     short: 'Enter a name'

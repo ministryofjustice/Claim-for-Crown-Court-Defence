@@ -48,14 +48,15 @@ vat_registered:
     api: Choose VAT registration state
 
 lgfs_supplier_number:
+  _seq: 20
   postcode:
-    _seq: 10
+    _seq: 5
     enter_a_valid_postcode:
       long: "Enter a valid postcode for the #{lgfs_supplier_number}"
       short: _
       api: Enter a valid postcode
   supplier_number:
-    _seq: 20
+    _seq: 10
     enter_an_lgfs_supplier_number:
       long: "Enter an LGFS supplier number for the #{lgfs_supplier_number}"
       short: _

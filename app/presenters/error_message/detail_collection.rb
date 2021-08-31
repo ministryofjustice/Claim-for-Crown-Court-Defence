@@ -52,10 +52,10 @@ module ErrorMessage
 
     private
 
-    def messages_for(fieldname, message)
+    def messages_for(fieldname, message_version)
       error_detail_array = @error_details[fieldname]
       return '' if error_detail_array.nil?
-      error_detail_array.map { |detail| detail.send(message) }.join(', ')
+      error_detail_array.map { |detail| detail.send(message_version) }.join(', ')
     end
   end
 end

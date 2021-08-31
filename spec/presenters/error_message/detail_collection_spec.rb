@@ -48,47 +48,11 @@ RSpec.describe ErrorMessage::DetailCollection do
     end
   end
 
-  describe '#short_messages_for' do
-    subject { instance.short_messages_for(:dob) }
-
-    context 'with no messages for key' do
-      it { is_expected.to be_a(String).and be_empty }
-    end
-
-    context 'with one short_message per key' do
-      before { instance[:dob] = ed1 }
-
-      it 'returns the short message for the named key' do
-        is_expected.to eq 'Invalid date'
-      end
-    end
-
-    context 'with multiple short messages per key' do
-      before do
-        instance[:dob] = ed1
-        instance[:dob] = ed3
-      end
-
-      it { is_expected.to eq 'Invalid date, Too old' }
-    end
-  end
-
-  describe '#header_errors' do
-    subject(:header_errors) { instance.header_errors }
-
-    before do
-      instance[:first_name] = ed2
-      instance[:dob] = ed1
-      instance[:dob] = ed3
-    end
-
-    it { is_expected.to all(be_instance_of(ErrorMessage::Detail)) }
-    it { is_expected.to have(3).items }
-
-    it 'sorts the array by sequence values' do
-      expect(header_errors.map(&:sequence)).to eq [10, 20, 30]
-    end
-  end
+  # see integration tests in presenter spec for:
+  #
+  # - describe '#short_messages_for' --> field_errors_for
+  # - describe '#formatted_error_messages'
+  # - describe '#header_errors'
 
   describe '#size' do
     subject { instance.size }

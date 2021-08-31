@@ -29,7 +29,7 @@ RSpec.describe ErrorMessage::Presenter do
   end
 
   describe '#header_errors' do
-    subject { presenter.header_errors }
+    subject(:header_errors) { presenter.header_errors }
 
     context 'with attribute and message present in translations' do
       before { claim.errors.add(:date_of_birth, 'too_early') }
@@ -79,7 +79,7 @@ RSpec.describe ErrorMessage::Presenter do
       end
     end
 
-    context 'when there are multiple error messages per attribute' do
+    context 'with multiple error messages per attribute' do
       before do
         claim.errors.add(:name, 'cannot_be_blank')
         claim.errors.add(:name, 'too_long')
@@ -92,10 +92,34 @@ RSpec.describe ErrorMessage::Presenter do
         )
       end
     end
+
+    context 'with multiple errors with and without _seq values from translations' do
+      before do
+        claim.errors.add(:name, 'cannot_be_blank') # 60
+        claim.errors.add(:name, 'too_long') # 60
+        claim.errors.add(:defendant_2_first_name, 'blank') # 40 + 10 = 50
+        claim.errors.add(:trial_date, 'not_future') # 30
+        claim.errors.add(:date_of_birth, 'too_early') # 20
+        claim.errors.add(:foo, 'bar') # 99,999
+      end
+
+      it { is_expected.to all(be_instance_of(ErrorMessage::Detail)) }
+      it { is_expected.to have(6).items }
+
+      it 'sorts the array by sequence values' do
+        expect(header_errors.map(&:sequence)).to eq [20, 30, 50, 60, 60, 99_999]
+      end
+    end
   end
 
   describe '#field_errors_for' do
     subject { presenter.field_errors_for(attribute) }
+
+    context 'with no errors for that attribute' do
+      let(:attribute) { :date_of_birth }
+
+      it { is_expected.to be_a(String).and be_empty }
+    end
 
     context 'with attribute and message present in translations' do
       before { claim.errors.add(attribute, 'too_early') }

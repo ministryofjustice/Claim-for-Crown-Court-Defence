@@ -48,6 +48,24 @@ RSpec.describe ErrorMessage::DetailCollection do
     end
   end
 
+  describe '#errors_for?' do
+    subject { instance.errors_for?(fieldname) }
+
+    context 'when fieldname key exists in collection' do
+      let(:fieldname) { :foo }
+
+      before { instance[:foo] = 'bar' }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when fieldname key does not exist in collection' do
+      let(:fieldname) { :foo }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
   # see integration tests in presenter spec for:
   #
   # - describe '#short_messages_for' --> field_errors_for

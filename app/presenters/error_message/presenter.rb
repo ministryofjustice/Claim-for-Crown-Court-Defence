@@ -11,7 +11,7 @@ module ErrorMessage
     end
 
     delegate :errors_for?,
-             :header_errors,
+             :summary_errors,
              :size,
              :short_messages_for,
              :formatted_error_messages,

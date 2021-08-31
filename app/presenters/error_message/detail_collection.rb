@@ -32,17 +32,17 @@ module ErrorMessage
     # when a presenter instance is injected in to govuk_error_summary.
     #
     def formatted_error_messages
-      header_errors.map { |detail| [detail.attribute, detail.long_message] }
+      summary_errors.map { |detail| [detail.attribute, detail.long_message] }
     end
 
-    def header_errors
-      header_errors = []
+    def summary_errors
+      summary_errors = []
       @detail_collection.each_value do |detail_array|
         detail_array.each do |detail|
-          header_errors << detail
+          summary_errors << detail
         end
       end
-      header_errors.sort!
+      summary_errors.sort!
     end
 
     def size

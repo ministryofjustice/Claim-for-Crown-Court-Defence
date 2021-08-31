@@ -7,7 +7,7 @@ RSpec.describe ErrorMessage::Presenter do
   let(:filename) { Rails.root.join('spec', 'fixtures', 'config', 'locales', 'en', 'error_messages', 'claim.yml') }
 
   it { is_expected.to delegate_method(:errors_for?).to(:error_detail_collection) }
-  it { is_expected.to delegate_method(:header_errors).to(:error_detail_collection) }
+  it { is_expected.to delegate_method(:summary_errors).to(:error_detail_collection) }
   it { is_expected.to delegate_method(:short_messages_for).to(:error_detail_collection) }
   it { is_expected.to delegate_method(:formatted_error_messages).to(:error_detail_collection) }
   it { is_expected.to delegate_method(:size).to(:error_detail_collection) }
@@ -28,8 +28,8 @@ RSpec.describe ErrorMessage::Presenter do
     end
   end
 
-  describe '#header_errors' do
-    subject(:header_errors) { presenter.header_errors }
+  describe '#summary_errors' do
+    subject(:summary_errors) { presenter.summary_errors }
 
     context 'with attribute and message present in translations' do
       before { claim.errors.add(:date_of_birth, 'too_early') }
@@ -59,7 +59,7 @@ RSpec.describe ErrorMessage::Presenter do
       before { claim.errors.add(:defendant_2_name, 'is invalid') }
 
       it do
-        expect(presenter.header_errors).to eq(
+        is_expected.to eq(
           [
             ErrorMessage::Detail.new(:defendant_2_name, 'Defendant 2 name is invalid', 'Is invalid', 'Defendant 2 name is invalid')
           ]
@@ -107,7 +107,7 @@ RSpec.describe ErrorMessage::Presenter do
       it { is_expected.to have(6).items }
 
       it 'sorts the array by sequence values' do
-        expect(header_errors.map(&:sequence)).to eq [20, 30, 50, 60, 60, 99_999]
+        expect(summary_errors.map(&:sequence)).to eq [20, 30, 50, 60, 60, 99_999]
       end
     end
   end

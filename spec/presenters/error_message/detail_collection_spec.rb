@@ -70,7 +70,7 @@ RSpec.describe ErrorMessage::DetailCollection do
   #
   # - describe '#short_messages_for' --> field_errors_for
   # - describe '#formatted_error_messages'
-  # - describe '#header_errors'
+  # - describe '#summary_errors'
 
   describe '#size' do
     subject { instance.size }

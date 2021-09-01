@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SlackNotifier::Formatter::Transitioner do
   subject(:formatter) { described_class.new }
 
-  let(:valid_build_parameters) { { processed: 100, failed: [] } }
+  let(:valid_build_parameters) { { processed: 100, failed: 0 } }
 
   describe '#attachment' do
     subject(:attachment) { formatter.attachment(**build_parameters) }
@@ -19,7 +19,7 @@ RSpec.describe SlackNotifier::Formatter::Transitioner do
     end
 
     context 'with failed jobs' do
-      let(:build_parameters) { valid_build_parameters.merge(failed: [9, 13, 64]) }
+      let(:build_parameters) { valid_build_parameters.merge(failed: 3) }
 
       it { expect(attachment[:fallback]).to eq '100 transitions processed (3 failed)' }
       it { expect(attachment[:title]).to eq 'Stale claim archiver completed with failures' }

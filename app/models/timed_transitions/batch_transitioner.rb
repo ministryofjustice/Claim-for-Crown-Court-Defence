@@ -7,6 +7,10 @@ module TimedTransitions
       @limit = options.fetch(:limit, '10000').to_i
       @transitions_counter = 0
       @failed_transitions = []
+      @tally = {
+        processed: 0,
+        failed: 0
+      }
     end
 
     def run
@@ -28,18 +32,19 @@ module TimedTransitions
       claim = Claim::BaseClaim.find(claim_id)
       transitioner = Transitioner.new(claim, dummy)
       transitioner.run
-      update_state(transitioner, claim_id)
+      update_state(transitioner)
     end
 
     def increment_counter
       @transitions_counter += 1
     end
 
-    def update_state(transitioner, claim_id)
+    def update_state(transitioner)
       if transitioner.success?
         increment_counter
+        @tally[:processed] += 1
       else
-        @failed_transitions < claim_id
+        @tally[:failed] += 1
       end
     end
 
@@ -63,7 +68,7 @@ module TimedTransitions
     end
 
     def log_end
-      slack_notifier.build_payload(processed: @transitions_counter, failed: @failed_transitions)
+      slack_notifier.build_payload(**@tally)
       slack_notifier.send_message
 
       log(:info,

@@ -10,14 +10,13 @@ class SlackNotifier
       attr_reader :status
 
       def attachment(processed:, failed:)
-        @status = failed.empty? ? :pass : :fail
-        failed_count = failed.count
+        @status = failed.zero? ? :pass : :fail
 
         {
-          fallback: message_text(processed, failed_count),
+          fallback: message_text(processed, failed),
           color: message_colour,
-          title: message_title(failed_count),
-          text: message_text(processed, failed_count)
+          title: message_title(failed),
+          text: message_text(processed, failed)
         }.compact
       end
 

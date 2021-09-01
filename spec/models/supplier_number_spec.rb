@@ -40,13 +40,11 @@ RSpec.describe SupplierNumber, type: :model do
       end
 
       it { expect(supplier).to be_invalid }
-      it { expect(supplier.errors[:postcode]).to include('Enter a valid postcode') }
+      it { expect(supplier.errors.messages_for(:postcode)).to include('invalid') }
     end
   end
 
   context 'when validating supplier number' do
-    let(:format_error) { ['Enter a valid LGFS supplier number'] }
-
     before do
       supplier.supplier_number = supplier_number
       supplier.validate
@@ -55,7 +53,7 @@ RSpec.describe SupplierNumber, type: :model do
     context 'with invalid format' do
       let(:supplier_number) { 'ABC123' }
 
-      it { expect(supplier.errors[:supplier_number]).to eq(format_error) }
+      it { expect(supplier.errors.messages_for(:supplier_number)).to include('invalid') }
     end
 
     context 'with valid lowercase format' do

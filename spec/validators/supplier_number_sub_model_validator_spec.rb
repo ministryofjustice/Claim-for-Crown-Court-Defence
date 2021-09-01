@@ -32,7 +32,7 @@ RSpec.describe SupplierNumberSubModelValidator, type: :validator do
 
       specify do
         validate
-        expect(record.errors[:base]).to include('You must specify at least one LGFS supplier number')
+        expect(record.errors.messages_for(:base)).to include('blank_supplier_numbers')
       end
     end
   end

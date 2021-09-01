@@ -5,7 +5,7 @@ module ErrorMessage
     def initialize(claim, message_file = nil)
       @claim = claim
       @errors = claim.errors
-      message_file ||= Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml")
+      message_file ||= default_file
       @translations = YAML.load_file(message_file)
       @error_details = DetailCollection.new
       generate_messages
@@ -71,6 +71,10 @@ module ErrorMessage
       rescue StandardError
         99_999
       end
+    end
+
+    def default_file
+      Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml")
     end
   end
 end

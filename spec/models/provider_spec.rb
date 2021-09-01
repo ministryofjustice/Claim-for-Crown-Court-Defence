@@ -272,9 +272,7 @@ RSpec.describe Provider, type: :model do
         firm.validate
       end
 
-      it 'returns error if supplier numbers is blank' do
-        expect(firm.errors[:base]).to eq(['You must specify at least one LGFS supplier number'])
-      end
+      it { expect(firm.errors.messages_for(:base)).to include('blank_supplier_numbers') }
     end
   end
 

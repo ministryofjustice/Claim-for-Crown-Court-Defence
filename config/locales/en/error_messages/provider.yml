@@ -1,0 +1,58 @@
+base:
+  _seq: 10
+  blank_supplier_numbers:
+    long: Enter at least one LGFS supplier number
+    short: Enter an LGFS supplier number
+    api: Enter at least one LGFS supplier number
+firm_agfs_supplier_number:
+  _seq: 20
+  blank:
+    long: Enter an AGFS supplier Number
+    short: Enter an AGFS supplier Number
+    api: Enter an AGFS supplier Number
+  invalid:
+    long: Enter a valid AGFS supplier number
+    short: Enter a valid AGFS supplier number
+    api: Enter a valid AGFS supplier number
+name:
+  _seq: 10
+  blank:
+    long: Enter a provider name
+    short: Enter a provider name
+    api: Enter a provider name
+  not_unique:
+    long: There is already a provider with this name
+    short: Enter a unique provider name
+    api: There is already a provider with this name
+provider_type:
+  _seq: 20
+  blank:
+    long: Choose a provider type
+    short: Choose a provider type
+    api: Choose a provider type
+roles:
+  _seq: 30
+  choose_at_least_one_role:
+    long: Choose at least one fee scheme
+    short: Choose a fee scheme
+    api: Choose at least one fee scheme
+vat_registered:
+  _seq: 40
+  inclusion:
+    long: Choose VAT registration state
+    short: Choose VAT registration state
+    api: Choose VAT registration state
+
+lgfs_supplier_number:
+  postcode:
+    _seq: 10
+    invalid:
+      long: "Enter a valid postcode for the #{lgfs_supplier_number}"
+      short: Enter a valid postcode
+      api: Enter a valid postcode
+  supplier_number:
+    _seq: 20
+    invalid:
+      long: "Enter a valid LGFS supplier number for the #{lgfs_supplier_number}"
+      short: Enter a valid LGFS supplier number
+      api: Enter a valid LGFS supplier number

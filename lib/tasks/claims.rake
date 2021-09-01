@@ -130,7 +130,9 @@ namespace :claims do
       raise ArgumentError.new "Only valid parameter is 'dummy'"
     end
 
-    TimedTransitions::BatchTransitioner.new(limit: 10000, dummy: @dummy).run
+    slack_notifier = SlackNotifier.new('laa-cccd-alerts', formatter: SlackNotifier::Formatter::Transitioner.new)
+
+    TimedTransitions::BatchTransitioner.new(limit: 10000, dummy: @dummy, notifier: slack_notifier).run
   end
 
   desc 'Create a CSV file of all archived claims'

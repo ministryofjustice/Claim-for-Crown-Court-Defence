@@ -2,10 +2,12 @@ module TimedTransitions
   class BatchTransitioner
     attr_reader :dummy, :limit, :transitions_counter
 
-    def initialize(options = {})
-      @dummy = options.fetch(:dummy, false)
-      @limit = options.fetch(:limit, '10000').to_i
+    def initialize(dummy: false, limit: 10_000, notifier: nil)
+      @dummy = dummy
+      @limit = limit
+      @notifier = notifier
       @transitions_counter = 0
+      @tally = { processed: 0, failed: 0 }
     end
 
     def run
@@ -27,11 +29,20 @@ module TimedTransitions
       claim = Claim::BaseClaim.find(claim_id)
       transitioner = Transitioner.new(claim, dummy)
       transitioner.run
-      increment_counter if transitioner.success?
+      update_state(transitioner)
     end
 
     def increment_counter
       @transitions_counter += 1
+    end
+
+    def update_state(transitioner)
+      if transitioner.success?
+        increment_counter
+        @tally[:processed] += 1
+      else
+        @tally[:failed] += 1
+      end
     end
 
     def limit_reached?
@@ -54,6 +65,11 @@ module TimedTransitions
     end
 
     def log_end
+      if @notifier
+        @notifier.build_payload(**@tally)
+        @notifier.send_message
+      end
+
       log(:info,
           'Finished processing of stale claims',
           started_at: started_at,

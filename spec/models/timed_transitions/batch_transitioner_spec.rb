@@ -89,7 +89,7 @@ RSpec.shared_examples 'run all transitioners' do
   end
 end
 
-RSpec.describe TimedTransitions::BatchTransitioner, slack_bot: true do
+RSpec.describe TimedTransitions::BatchTransitioner do
   subject(:batch_transitioner) { described_class.new(**options) }
 
   let(:options) { { dummy: dummy } }
@@ -102,10 +102,12 @@ RSpec.describe TimedTransitions::BatchTransitioner, slack_bot: true do
 
       include_examples 'run all transitioners'
 
-      context 'with a sample of test transitions' do
+      context 'with a notifier' do
         let(:claim) { instance_double 'Claim' }
         let(:transitioner) { instance_double('Transitioner') }
-        let(:slack_notifier) { instance_double('SlackNotifier') }
+
+        let(:notifier) { instance_double('Notifier', send_message: nil) }
+        let(:options) { { dummy: dummy, notifier: notifier } }
 
         before do
           allow(TimedTransitions::Transitioner).to receive(:candidate_claims_ids).and_return([1, 2, 3, 4, 5])
@@ -119,14 +121,12 @@ RSpec.describe TimedTransitions::BatchTransitioner, slack_bot: true do
             false,
             true
           )
-          allow(SlackNotifier).to receive(:new).and_return(slack_notifier)
-          allow(slack_notifier).to receive(:build_payload)
-          allow(slack_notifier).to receive(:send_message)
+          allow(notifier).to receive(:build_payload)
         end
 
         it 'creates Slack attachment with tally of succeeded and failed transitions' do
           batch_transitioner_run
-          expect(slack_notifier).to have_received(:build_payload).with(processed: 3, failed: 2)
+          expect(notifier).to have_received(:build_payload).with(processed: 3, failed: 2)
         end
       end
     end

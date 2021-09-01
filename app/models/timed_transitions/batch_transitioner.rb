@@ -2,15 +2,12 @@ module TimedTransitions
   class BatchTransitioner
     attr_reader :dummy, :limit, :transitions_counter
 
-    def initialize(options = {})
-      @dummy = options.fetch(:dummy, false)
-      @limit = options.fetch(:limit, '10000').to_i
+    def initialize(dummy: false, limit: 10_000, notifier: nil)
+      @dummy = dummy
+      @limit = limit
+      @notifier = notifier
       @transitions_counter = 0
-      @failed_transitions = []
-      @tally = {
-        processed: 0,
-        failed: 0
-      }
+      @tally = { processed: 0, failed: 0 }
     end
 
     def run
@@ -68,8 +65,10 @@ module TimedTransitions
     end
 
     def log_end
-      slack_notifier.build_payload(**@tally)
-      slack_notifier.send_message
+      if @notifier
+        @notifier.build_payload(**@tally)
+        @notifier.send_message
+      end
 
       log(:info,
           'Finished processing of stale claims',
@@ -92,10 +91,6 @@ module TimedTransitions
       ) do
         message
       end
-    end
-
-    def slack_notifier
-      @slack_notifier ||= SlackNotifier.new('laa-cccd-alerts', formatter: SlackNotifier::Formatter::Transitioner.new)
     end
   end
 end

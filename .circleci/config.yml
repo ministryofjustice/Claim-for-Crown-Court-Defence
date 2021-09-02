@@ -251,6 +251,31 @@ commands:
           success_message: ":tada: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> successful!"
           failure_message: ":red_circle: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> failed!"
 
+  ui-smoke-test:
+    description: >
+      Check web UI is ok
+    parameters:
+      smoke-url:
+        description: url of web ui to test
+        type: string
+    steps:
+      - run:
+          name: Test status OK for << parameters.smoke-url >>
+          command: |
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" << parameters.smoke-url >>)
+            if [ $STATUS -eq 200 ]; then
+              circleci-agent step halt
+            fi
+      - slack/notify:
+          title: ":smoke_it: UI Smoke test"
+          channel: laa-cccd-alerts
+          message: ":no_smoking: UI smoke test << parameters.smoke-url >> failed!"
+          color: "#FF0000"
+      - run:
+          name: UI smoke test failed
+          command:
+            exit 1
+
   hold-notification:
     description: >
       Display a slack notification
@@ -437,6 +462,12 @@ jobs:
       - deploy-to:
           environment: dev
 
+  ui-smoke-test-dev:
+    executor: basic-executor
+    steps:
+      - ui-smoke-test:
+          smoke-url: https://dev.claim-crown-court-defence.service.justice.gov.uk
+
 # ------------------
 # WORKFLOWS
 # ------------------
@@ -472,27 +503,30 @@ workflows:
       - auto-deploy-dev:
           requires:
             - smoke-test
+      - ui-smoke-test-dev:
+          requires:
+            - auto-deploy-dev
       - hold-deploy-notification:
           requires:
-            - smoke-test
+            - ui-smoke-test-dev
       - hold-api-sandbox:
           type: approval
           requires:
-            - smoke-test
+            - ui-smoke-test-dev
       - deploy-api-sandbox:
           requires:
             - hold-api-sandbox
       - hold-staging:
           type: approval
           requires:
-            - smoke-test
+            - ui-smoke-test-dev
       - deploy-staging:
           requires:
             - hold-staging
       - hold-production:
           type: approval
           requires:
-            - smoke-test
+            - ui-smoke-test-dev
       - deploy-production:
           requires:
             - hold-production
@@ -563,6 +597,9 @@ workflows:
       - deploy-api-sandbox:
           requires:
             - hold-api-sandbox
+      - ui-smoke-test-dev:
+          requires:
+            - deploy-dev
 
   scheduled-smoke-test:
     triggers:

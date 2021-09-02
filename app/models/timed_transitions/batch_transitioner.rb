@@ -65,7 +65,7 @@ module TimedTransitions
     end
 
     def log_end
-      if @notifier
+      if @notifier && @tally[:failed].positive?
         @notifier.build_payload(**@tally)
         @notifier.send_message
       end

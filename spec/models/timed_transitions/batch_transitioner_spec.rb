@@ -97,36 +97,43 @@ RSpec.describe TimedTransitions::BatchTransitioner do
   describe '#run' do
     subject(:batch_transitioner_run) { batch_transitioner.run }
 
-    context 'with a non dummy run' do
-      let(:dummy) { false }
+    let(:dummy) { false }
 
-      include_examples 'run all transitioners'
+    include_examples 'run all transitioners'
 
-      context 'with a notifier' do
-        let(:claim) { instance_double 'Claim' }
-        let(:transitioner) { instance_double('Transitioner') }
+    context 'with a notifier' do
+      let(:claim) { instance_double 'Claim' }
+      let(:transitioner) { instance_double('Transitioner') }
+      let(:notifier) { instance_double('Notifier', send_message: nil) }
+      let(:options) { { dummy: dummy, notifier: notifier } }
 
-        let(:notifier) { instance_double('Notifier', send_message: nil) }
-        let(:options) { { dummy: dummy, notifier: notifier } }
+      before do
+        allow(TimedTransitions::Transitioner).to receive(:candidate_claims_ids).and_return([1, 2, 3, 4, 5])
+        allow(Claim::BaseClaim).to receive(:find).and_return(claim)
+        allow(TimedTransitions::Transitioner).to receive(:new).with(claim, dummy).and_return transitioner
+        allow(transitioner).to receive(:run)
+        allow(notifier).to receive(:build_payload)
+      end
 
+      context 'with failures' do
         before do
-          allow(TimedTransitions::Transitioner).to receive(:candidate_claims_ids).and_return([1, 2, 3, 4, 5])
-          allow(Claim::BaseClaim).to receive(:find).and_return(claim)
-          allow(TimedTransitions::Transitioner).to receive(:new).with(claim, dummy).and_return transitioner
-          allow(transitioner).to receive(:run)
-          allow(transitioner).to receive(:success?).and_return(
-            true,
-            true,
-            false,
-            false,
-            true
-          )
-          allow(notifier).to receive(:build_payload)
+          allow(transitioner).to receive(:success?).and_return(true, true, false, false, true)
         end
 
         it 'creates Slack attachment with tally of succeeded and failed transitions' do
           batch_transitioner_run
           expect(notifier).to have_received(:build_payload).with(processed: 3, failed: 2)
+        end
+      end
+
+      context 'without failures' do
+        before do
+          allow(transitioner).to receive(:success?).and_return(true, true, true, true, true)
+        end
+
+        it 'creates Slack attachment with tally of succeeded and failed transitions' do
+          batch_transitioner_run
+          expect(notifier).not_to have_received(:build_payload)
         end
       end
     end

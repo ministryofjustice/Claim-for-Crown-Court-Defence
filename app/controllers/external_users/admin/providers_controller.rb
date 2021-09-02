@@ -14,6 +14,7 @@ class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::Applicat
     if @provider.update(provider_params.except(*filtered_params))
       redirect_to external_users_admin_provider_path, notice: 'Provider successfully updated'
     else
+      @error_presenter = error_presenter
       render 'shared/providers/edit'
     end
   end
@@ -31,5 +32,9 @@ class ExternalUsers::Admin::ProvidersController < ExternalUsers::Admin::Applicat
   # when they change
   def filtered_params
     %i[roles provider_type]
+  end
+
+  def error_presenter
+    ErrorMessage::Presenter.new(@provider, ErrorMessage.translation_file_for('provider'))
   end
 end

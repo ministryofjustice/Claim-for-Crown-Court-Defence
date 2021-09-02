@@ -28,10 +28,14 @@ end
 
 Then('the following govuk error details should exist:') do |table|
   table.hashes.each do |row|
-    type, locator, text, id = row['field_type'], row['field_locator'], row['error_text'], row['linked_id']
+    type = row['field_type']
+    locator = row['field_locator']
+    summary_error_text = row['summary_error_text']
+    field_error_text = row['field_error_text']
+    id = row['linked_id']
 
-    expect(page).to have_govuk_error_summary(text, href: "##{id}")
-    expect(page).to send("have_govuk_error_#{type}", locator, text: text, id: id)
+    expect(page).to have_govuk_error_summary(summary_error_text, href: "##{id}")
+    expect(page).to send("have_govuk_error_#{type}", locator, text: field_error_text, id: id)
   end
 end
 

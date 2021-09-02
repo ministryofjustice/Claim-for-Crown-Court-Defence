@@ -1,19 +1,24 @@
 module ErrorMessage
   class Presenter
-    attr_reader :error_details
+    attr_reader :error_detail_collection
 
-    def initialize(claim, message_file = nil)
-      @claim = claim
-      @errors = claim.errors
-      message_file ||= Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml")
+    def initialize(object, message_file = nil)
+      @errors = object.errors
+      message_file ||= default_file
       @translations = YAML.load_file(message_file)
-      @error_details = DetailCollection.new
+      @error_detail_collection = DetailCollection.new
       generate_messages
     end
 
-    delegate :errors_for?, :header_errors, :size, :short_messages_for, to: :error_details
+    delegate :errors_for?,
+             :summary_errors,
+             :size,
+             :short_messages_for,
+             :formatted_error_messages,
+             to: :error_detail_collection
+
     alias key? errors_for?
-    alias field_level_error_for short_messages_for
+    alias field_errors_for short_messages_for
 
     private
 
@@ -21,13 +26,19 @@ module ErrorMessage
       @errors.each do |error|
         attribute = error.attribute
         message = translator.message(error.attribute, error.message)
-        next if @error_details[attribute] && @error_details[attribute][0].long_message.eql?(message.long)
+
+        next if error_detail_item?(attribute, message)
         add_error_detail(attribute, message)
       end
     end
 
+    def error_detail_item?(attribute, message)
+      @error_detail_collection[attribute] &&
+        @error_detail_collection[attribute][0].long_message.eql?(message.long)
+    end
+
     def add_error_detail(attribute, message)
-      @error_details[attribute] = Detail.new(
+      @error_detail_collection[attribute] = Detail.new(
         attribute,
         message.long,
         message.short,
@@ -63,6 +74,10 @@ module ErrorMessage
       rescue StandardError
         99_999
       end
+    end
+
+    def default_file
+      ErrorMessage.default_translation_file
     end
   end
 end

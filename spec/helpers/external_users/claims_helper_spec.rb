@@ -6,7 +6,7 @@ describe ExternalUsers::ClaimsHelper do
 
     context 'with errors' do
       before do
-        allow(presenter).to receive(:field_level_error_for).with(kind_of(Symbol)).and_return('an error')
+        allow(presenter).to receive(:field_errors_for).with(kind_of(Symbol)).and_return('an error')
       end
 
       it 'returns the default error class if there are any errors in the provided field' do
@@ -22,8 +22,8 @@ describe ExternalUsers::ClaimsHelper do
 
     context 'with errors and multiple fields' do
       before do
-        allow(presenter).to receive(:field_level_error_for).with(:test_field_1).and_return(nil)
-        allow(presenter).to receive(:field_level_error_for).with(:test_field_2).and_return('an error')
+        allow(presenter).to receive(:field_errors_for).with(:test_field_1).and_return(nil)
+        allow(presenter).to receive(:field_errors_for).with(:test_field_2).and_return('an error')
       end
 
       it 'returns the error class if there are errors in any of the provided field' do
@@ -39,7 +39,7 @@ describe ExternalUsers::ClaimsHelper do
 
     context 'without errors' do
       before do
-        allow(presenter).to receive(:field_level_error_for).with(kind_of(Symbol)).and_return(nil)
+        allow(presenter).to receive(:field_errors_for).with(kind_of(Symbol)).and_return(nil)
       end
 
       it 'returns nil if there are no errors in the provided field' do

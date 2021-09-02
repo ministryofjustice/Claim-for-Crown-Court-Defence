@@ -30,7 +30,7 @@ module ExternalUsers::ClaimsHelper
   def validation_message_from_presenter(presenter, attribute)
     if presenter.errors_for?(attribute.to_sym)
       tag.span(class: 'error error-message') do
-        presenter.field_level_error_for(attribute.to_sym)
+        presenter.field_errors_for(attribute.to_sym)
       end
     else
       ''
@@ -53,13 +53,13 @@ module ExternalUsers::ClaimsHelper
 
   def gov_uk_date_field_error_messages(presenter, attribute)
     return if presenter.nil? || !presenter.is_a?(ErrorMessage::Presenter)
-    presenter.field_level_error_for(attribute.to_sym).split(',').each(&:strip!)
+    presenter.field_errors_for(attribute.to_sym).split(',').each(&:strip!)
   end
 
   def error_class?(presenter, *attributes)
     return if presenter.nil?
     options = { name: 'dropdown_field_with_errors' }.merge(attributes.extract_options!)
-    options[:name] if attributes.detect { |att| presenter.field_level_error_for(att.to_sym).present? }
+    options[:name] if attributes.detect { |att| presenter.field_errors_for(att.to_sym).present? }
   end
 
   def show_timed_retention_banner_to_user?

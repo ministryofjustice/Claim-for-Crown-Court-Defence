@@ -57,18 +57,31 @@ Feature: Case worker can manage providers
     When I click the link 'Add a provider'
     Then I should be on the new provider page
 
+    When I click the button 'Save details'
+    Then the following govuk error details should exist:
+      | field_type | field_locator | summary_error_text | field_error_text | linked_id |
+      | fieldset | Provider type | Choose a provider type | Choose a provider type | provider-provider-type-field-error |
+      | field | Provider name | Enter a provider name | Enter a provider name | provider-name-field-error |
+    # NOTE: the following errors also appear on screen but should not because the user has not chosen a provider type at this point
+    # - roles (fee scheme)
+    # - LGFS supplier number presence
+
     When I choose govuk radio 'Firm' for 'Provider type'
     And I click govuk checkbox 'LGFS'
+    And I fill in 'Postcode' with 'SW1H'
     And I fill in 'Supplier number' with '11111'
 
     When I click the button 'Save details'
     Then the following govuk error details should exist:
-      | field_type | field_locator | error_text | linked_id |
-      | field | Provider name| Enter a provider name | provider-name-field-error |
-      | field | Supplier number | Enter a valid LGFS supplier number | provider-lgfs-supplier-numbers-attributes-0-supplier-number-field-error |
-      | fieldset | Is the provider VAT registered? | Choose VAT registration state | provider-vat-registered-field-error |
+      | field_type | field_locator | summary_error_text | field_error_text | linked_id |
+      | field | Provider name | Enter a provider name | Enter a provider name | provider-name-field-error |
+      | field | Postcode | Enter a valid postcode for the first lgfs supplier number | Enter a valid postcode | provider-lgfs-supplier-numbers-attributes-0-postcode-field-error |
+      | field | Supplier number | Enter a valid LGFS supplier number for the first lgfs supplier number | Enter a valid LGFS supplier number | provider-lgfs-supplier-numbers-attributes-0-supplier-number-field-error |
+      | fieldset | Is the provider VAT registered? | Choose VAT registration state | Choose VAT registration state | provider-vat-registered-field-error |
 
     When I fill in 'Provider name' with 'Test firm'
+    And I fill in 'Name (optional)' with '10 Lincolns Inn'
+    And I fill in 'Postcode' with 'SW1H 9AJ'
     And I fill in 'Supplier number' with '1A234B'
     And I choose govuk radio 'Yes' for 'Is the provider VAT registered?'
     And I click the button 'Save details'

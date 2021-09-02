@@ -13,17 +13,17 @@ RSpec.describe ErrorMessage::DetailCollection do
 
   let(:ed1) do
     ErrorMessage::Detail.new(:dob,
-                             'Date of birth is invalid',
+                             'Enter a valid date of birth',
                              'Invalid date',
-                             'Date of birth is invalid',
+                             'Enter a valid date of birth',
                              10)
   end
 
   let(:ed3) do
     ErrorMessage::Detail.new(:dob,
-                             'Date of birth too far in the past',
+                             'Check the date of birth',
                              'Too old',
-                             'Date of birth too far in the past',
+                             'Check the date of birth',
                              30)
   end
 
@@ -48,43 +48,29 @@ RSpec.describe ErrorMessage::DetailCollection do
     end
   end
 
-  describe '#short_messages_for' do
-    subject { instance.short_messages_for(:dob) }
+  describe '#errors_for?' do
+    subject { instance.errors_for?(fieldname) }
 
-    context 'with one short_message per key' do
-      before { instance[:dob] = ed1 }
+    context 'when fieldname key exists in collection' do
+      let(:fieldname) { :foo }
 
-      it 'returns the short message for the named key' do
-        is_expected.to eq 'Invalid date'
-      end
+      before { instance[:foo] = 'bar' }
+
+      it { is_expected.to be_truthy }
     end
 
-    context 'with multiple short messages per key' do
-      before do
-        instance[:dob] = ed1
-        instance[:dob] = ed3
-      end
+    context 'when fieldname key does not exist in collection' do
+      let(:fieldname) { :foo }
 
-      it { is_expected.to eq 'Invalid date, Too old' }
+      it { is_expected.to be_falsey }
     end
   end
 
-  describe '#header_errors' do
-    subject(:header_errors) { instance.header_errors }
-
-    before do
-      instance[:first_name] = ed2
-      instance[:dob] = ed1
-      instance[:dob] = ed3
-    end
-
-    it { is_expected.to all(be_instance_of(ErrorMessage::Detail)) }
-    it { is_expected.to have(3).items }
-
-    it 'sorts the array by sequence values' do
-      expect(header_errors.map(&:sequence)).to eq [10, 20, 30]
-    end
-  end
+  # see integration tests in presenter spec for:
+  #
+  # - describe '#short_messages_for' --> field_errors_for
+  # - describe '#formatted_error_messages'
+  # - describe '#summary_errors'
 
   describe '#size' do
     subject { instance.size }

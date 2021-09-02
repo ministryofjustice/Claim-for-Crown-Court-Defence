@@ -1,0 +1,71 @@
+base:
+  _seq: 10
+  blank_supplier_numbers:
+    long: Enter at least one LGFS supplier number
+    short: _
+    api: Enter at least one LGFS supplier number
+firm_agfs_supplier_number:
+  _seq: 20
+  enter_a_supplier_number:
+    long: Enter an AGFS supplier Number
+    short: _
+    api: Enter an AGFS supplier Number
+  enter_a_valid_supplier_number:
+    long: Enter a valid AGFS supplier number
+    short: _
+    api: Enter a valid AGFS supplier number
+  remove_the_supplier_number:
+    long: Remove the AGFS supplier number
+    short: _
+    api: Remove the AGFS supplier number
+name:
+  _seq: 10
+  enter_a_provider_name:
+    long: Enter a provider name
+    short: _
+    api: Enter a provider name
+  enter_a_provider_name_not_already_taken:
+    long: Enter a provider name that is not already taken
+    short: _
+    api: Enter a provider name that is not already taken
+provider_type:
+  _seq: 20
+  choose_a_provider_type:
+    long: Choose a provider type
+    short: _
+    api: Choose a provider type
+roles:
+  _seq: 30
+  choose_at_least_one_role:
+    long: Choose at least one fee scheme
+    short: _
+    api: Choose at least one fee scheme
+vat_registered:
+  _seq: 40
+  choose_vat_registration_state:
+    long: Choose VAT registration state
+    short: _
+    api: Choose VAT registration state
+
+lgfs_supplier_number:
+  _seq: 20
+  postcode:
+    _seq: 5
+    enter_a_valid_postcode:
+      long: "Enter a valid postcode for the #{lgfs_supplier_number}"
+      short: _
+      api: Enter a valid postcode
+  supplier_number:
+    _seq: 10
+    enter_an_lgfs_supplier_number:
+      long: "Enter an LGFS supplier number for the #{lgfs_supplier_number}"
+      short: _
+      api: Enter an valid LGFS supplier number
+    enter_a_valid_lgfs_supplier_number:
+      long: "Enter a valid LGFS supplier number for the #{lgfs_supplier_number}"
+      short: _
+      api: Enter a valid LGFS supplier number
+    enter_supplier_number_that_has_not_already_been_taken:
+      long: "Enter an LGFS supplier number for the #{lgfs_supplier_number} that has not been taken"
+      short: _
+      api: Enter supplier number that has not already been taken

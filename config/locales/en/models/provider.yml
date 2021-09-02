@@ -1,0 +1,20 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        provider:
+          attributes:
+            base:
+              blank_supplier_numbers: blank_supplier_numbers
+            firm_agfs_supplier_number:
+              blank: Enter a supplier number
+              invalid: Enter a valid supplier number
+              present: Remove the supplier number
+            name:
+              blank: Enter a provider name
+              taken: Enter a provider name not already taken
+            provider_type:
+              blank: Choose a provider type
+            vat_registered:
+              inclusion: Choose VAT registration state

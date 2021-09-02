@@ -18,6 +18,7 @@ class ProviderManagement::ProvidersController < ApplicationController
     if @provider.update(provider_params.except(*filtered_params))
       redirect_to provider_management_provider_path(@provider), notice: 'Provider successfully updated'
     else
+      @error_presenter = error_presenter
       render 'shared/providers/edit'
     end
   end
@@ -27,6 +28,7 @@ class ProviderManagement::ProvidersController < ApplicationController
     if @provider.save
       redirect_to provider_management_root_path, notice: 'Provider successfully created'
     else
+      @error_presenter = error_presenter
       render 'shared/providers/new'
     end
   end
@@ -39,5 +41,9 @@ class ProviderManagement::ProvidersController < ApplicationController
 
   def filtered_params
     []
+  end
+
+  def error_presenter
+    ErrorMessage::Presenter.new(@provider, ErrorMessage.translation_file_for('provider'))
   end
 end

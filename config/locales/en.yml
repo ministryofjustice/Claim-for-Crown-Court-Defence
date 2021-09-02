@@ -216,28 +216,6 @@ en:
           attributes:
             claim:
               incompatible_case_type: Fixed fee invalid on non-fixed fee case types
-        supplier_number:
-          attributes:
-            postcode:
-              invalid: Enter a valid postcode
-            supplier_number:
-              invalid: Enter a valid LGFS supplier number
-        provider:
-          attributes:
-            base:
-              blank_supplier_numbers: "You must specify at least one LGFS supplier number"
-            firm_agfs_supplier_number:
-              blank: Enter an AGFS Supplier Number
-              invalid: Enter a valid AGFS supplier number
-            supplier_number:
-              invalid: *invalid_supplier_number
-            name:
-              blank: Enter a provider name
-              not_unique: There is already a provider with this name
-            provider_type:
-              blank: Choose a provider type
-            vat_registered:
-              inclusion: Choose VAT registration state
         external_user:
           attributes:
             roles:

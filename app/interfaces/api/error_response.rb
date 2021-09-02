@@ -75,7 +75,11 @@ module API
     end
 
     def translations
-      @translations ||= YAML.load_file(Rails.root.join('config', 'locales', "error_messages.#{I18n.locale}.yml"))
+      @translations ||= YAML.load_file(translations_file)
+    end
+
+    def translations_file
+      ErrorMessage.default_translation_file
     end
   end
 end

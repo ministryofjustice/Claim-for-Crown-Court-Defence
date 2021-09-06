@@ -76,4 +76,13 @@ RSpec.describe ErrorMessage::Detail do
       end
     end
   end
+
+  describe '#to_summary_error' do
+    subject { detail.to_summary_error }
+
+    let(:detail) { described_class.new(:attribute_one, 'long', 'short', 'api') }
+
+    it { is_expected.to be_an(Array) }
+    it { is_expected.to eq([:attribute_one, 'long']) }
+  end
 end

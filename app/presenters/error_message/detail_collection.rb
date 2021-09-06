@@ -32,7 +32,7 @@ module ErrorMessage
     # when a presenter instance is injected in to govuk_error_summary.
     #
     def formatted_error_messages
-      summary_errors.map { |detail| [detail.attribute, detail.long_message] }
+      summary_errors.map(&:to_summary_error)
     end
 
     def summary_errors

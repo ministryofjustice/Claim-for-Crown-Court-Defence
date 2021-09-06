@@ -1,31 +1,79 @@
 # frozen_string_literal: true
 
 RSpec.describe ErrorMessage::Detail do
-  subject(:ed0) { described_class.new(:key0, 'long error', 'short error', 'api message') }
-
-  let(:ed1) { described_class.new(:key3, 'long error', 'short error', 'api message', 10) }
-  let(:ed2) { described_class.new(:key2, 'long error', 'short error', 'api message', 11) }
-  let(:ed3) { described_class.new(:key1, 'long error', 'short error', 'api message', 12) }
-  let(:ed4) { described_class.new(:key1, 'long error', 'short error', 'api message', 12) }
-  let(:ed5) { described_class.new(:key1, 'long error', 'different short error', 'api message', 12) }
-  let(:ed6) { described_class.new(:key1, 'different long error', 'short error', 'api message', 12) }
-  let(:ed7) { described_class.new(:key1, 'long error', 'short error', 'different api message', 12) }
+  subject { described_class.new(:attribute_one, 'long', 'short', 'api') }
 
   it { is_expected.to respond_to(:attribute, :long_message, :short_message, :api_message, :sequence) }
 
-  it 'defaults sequence to 99999' do
-    expect(ed0.sequence).to eq 99999
+  describe '#sequence' do
+    subject { detail.sequence }
+
+    context 'when sequence specified' do
+      let(:detail) { described_class.new(:attribute_one, 'long', 'short', 'api', 15) }
+
+      it { is_expected.to eq(15) }
+    end
+
+    context 'when sequence not specified' do
+      let(:detail) { described_class.new(:attribute_one, 'long', 'short', 'api') }
+
+      it { is_expected.to eq(99999) }
+    end
   end
 
-  it 'sorts against other ErrorMessage::Detail instances by sequence' do
-    expect([ed1, ed2].sort!).to eql [ed1, ed2]
+  describe '#<=>' do
+    let(:detail1) { described_class.new(:attribute_one, 'long', 'short', 'api', 10) }
+    let(:detail2) { described_class.new(:attribute_two, 'long', 'short', 'api', 11) }
+    let(:detail3) { described_class.new(:attribute_one, 'long', 'short', 'api', 9) }
+
+    it 'sorts by sequence ascending' do
+      expect([detail1, detail2, detail3].sort!).to eql([detail3, detail1, detail2])
+    end
   end
 
-  it 'compares all message attributes when testing for equality' do
-    expect(ed1).not_to eq ed2
-    expect(ed3).to eq ed4
-    expect(ed3).not_to eq ed5
-    expect(ed3).not_to eq ed6
-    expect(ed3).not_to eq ed7
+  describe '#==' do
+    context 'when comparing detail object with non-detail object' do
+      let(:detail_object) { described_class.new(:key3, 'long', 'short', 'api') }
+      let(:other_object) { 'not an ErrorDetail' }
+
+      it { expect(detail_object).not_to eq(other_object) }
+    end
+
+    context 'when comparing detail object with detail object' do
+      context 'with attribute, long_message, short_message and api_message equal' do
+        let(:detail_one) { described_class.new(:attribute_one, 'long', 'short', 'api') }
+        let(:detail_two) { described_class.new(:attribute_one, 'long', 'short', 'api') }
+
+        specify { expect(detail_one).to eq(detail_two) }
+      end
+
+      context 'with all but attribute different' do
+        let(:detail_one) { described_class.new(:attribute_one, 'long', 'short', 'api') }
+        let(:detail_two) { described_class.new(:attribute_two, 'long', 'short', 'api') }
+
+        specify { expect(detail_one).not_to eq(detail_two) }
+      end
+
+      context 'with all but long_message different' do
+        let(:detail_one) { described_class.new(:attribute_one, 'long', 'short', 'api') }
+        let(:detail_two) { described_class.new(:attribute_one, 'different', 'short', 'api') }
+
+        specify { expect(detail_one).not_to eq(detail_two) }
+      end
+
+      context 'with all but short_message different' do
+        let(:detail_one) { described_class.new(:attribute_one, 'long', 'short', 'api') }
+        let(:detail_two) { described_class.new(:attribute_one, 'long', 'different', 'api') }
+
+        specify { expect(detail_one).not_to eq(detail_two) }
+      end
+
+      context 'with all but api_message different' do
+        let(:detail_one) { described_class.new(:attribute_one, 'long', 'short', 'api') }
+        let(:detail_two) { described_class.new(:attribute_one, 'long', 'short', 'different') }
+
+        specify { expect(detail_one).not_to eq(detail_two) }
+      end
+    end
   end
 end

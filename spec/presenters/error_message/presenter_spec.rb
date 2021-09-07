@@ -180,8 +180,9 @@ RSpec.describe ErrorMessage::Presenter do
     end
   end
 
-  # This method is called by govuk-formbuilder to generate summary errors
+  # #formatted_error_messages called by govuk-formbuilder to generate summary errors
   # when a presenter instance is injected in to govuk_error_summary.
+  # See https://govuk-form-builder.netlify.app/introduction/error-handling/#custom-summary-error-presenter-injection
   #
   describe '#formatted_error_messages' do
     subject(:formatted_error_messages) { presenter.formatted_error_messages }

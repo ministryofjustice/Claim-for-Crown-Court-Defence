@@ -28,8 +28,9 @@ module ErrorMessage
       messages_for(fieldname, :short_message)
     end
 
-    # This method is called by govuk-formbuilder to generate summary errors
+    # Called by govuk-formbuilder to generate summary errors
     # when a presenter instance is injected in to govuk_error_summary.
+    # See https://govuk-form-builder.netlify.app/introduction/error-handling/#custom-summary-error-presenter-injection
     #
     def formatted_error_messages
       summary_errors.map(&:to_summary_error)

@@ -1,18 +1,6 @@
 module Claim
   class Cleaner
     class LitigatorHardship < Cleaner
-      attr_accessor :claim
-
-      delegate_missing_to :claim
-
-      def initialize(claim)
-        @claim = claim
-      end
-
-      def call
-        clear_inapplicable_fields
-      end
-
       private
 
       def clear_inapplicable_fields

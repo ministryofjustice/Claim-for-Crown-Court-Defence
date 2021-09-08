@@ -1,18 +1,6 @@
 module Claim
   class Cleaner
     class AdvocateHardship < Cleaner
-      attr_accessor :claim
-
-      delegate_missing_to :claim
-
-      def initialize(claim)
-        @claim = claim
-      end
-
-      def call
-        clear_inapplicable_fields
-      end
-
       private
 
       # TODO: Hardship claim - can be shared with advocate final claims

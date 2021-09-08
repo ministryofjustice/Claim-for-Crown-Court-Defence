@@ -1,21 +1,9 @@
 module Claim
   class Cleaner
     class AdvocateSupplementary < Cleaner
-      attr_accessor :claim
-
-      delegate_missing_to :claim
-
-      def initialize(claim)
-        @claim = claim
-      end
-
-      def call
-        destroy_ineligible_misc_fees
-      end
-
       private
 
-      def destroy_ineligible_misc_fees
+      def destroy_invalid_fees
         misc_fees.delete(ineligible_misc_fees)
       end
 

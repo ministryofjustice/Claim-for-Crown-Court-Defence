@@ -1,22 +1,9 @@
 module Claim
   class Cleaner
     class Advocate < Cleaner
-      attr_accessor :claim
-
-      delegate_missing_to :claim
-
-      def initialize(claim)
-        @claim = claim
-      end
-
-      def call
-        destroy_all_invalid_fee_types
-        clear_inapplicable_fields
-      end
-
       private
 
-      def destroy_all_invalid_fee_types
+      def destroy_invalid_fees
         if case_type.present? && case_type.is_fixed_fee?
           clear_basic_fees
           destroy_ineligible_fixed_fees

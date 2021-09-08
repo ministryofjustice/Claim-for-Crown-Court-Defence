@@ -183,7 +183,7 @@ module Claim
     end
 
     def cleaner
-      AdvocateClaimCleaner.new(self)
+      Cleaner::Advocate.new(self)
     end
   end
 end

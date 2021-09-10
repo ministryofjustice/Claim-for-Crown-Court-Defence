@@ -117,7 +117,7 @@ module Claim
     end
 
     def cleaner
-      Cleaner::LitigatorHardship.new(self)
+      ClaimCleanerService::LitigatorHardship.new(self)
     end
   end
 end

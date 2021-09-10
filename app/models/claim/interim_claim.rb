@@ -154,7 +154,7 @@ module Claim
     end
 
     def cleaner
-      Cleaner::Interim.new(self)
+      ClaimCleanerService::Interim.new(self)
     end
 
     def assign_total_attrs

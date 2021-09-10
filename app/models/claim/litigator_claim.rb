@@ -201,7 +201,7 @@ module Claim
     end
 
     def cleaner
-      Cleaner::Litigator.new(self)
+      ClaimCleanerService::Litigator.new(self)
     end
 
     def assign_total_attrs

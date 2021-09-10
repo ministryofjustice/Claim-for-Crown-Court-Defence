@@ -92,7 +92,7 @@ module Claim
     private
 
     def cleaner
-      Cleaner::AdvocateSupplementary.new(self)
+      ClaimCleanerService::AdvocateSupplementary.new(self)
     end
   end
 end

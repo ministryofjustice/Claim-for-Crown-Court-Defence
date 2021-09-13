@@ -1,5 +1,5 @@
-class ClaimCleanerService
-  class Litigator < ClaimCleanerService
+module Cleaners
+  class LitigatorClaimCleaner < BaseClaimCleaner
     private
 
     def destroy_invalid_fees

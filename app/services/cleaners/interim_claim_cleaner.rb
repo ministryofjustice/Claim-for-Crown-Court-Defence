@@ -1,5 +1,5 @@
-class ClaimCleanerService
-  class Interim < ClaimCleanerService
+module Cleaners
+  class InterimClaimCleaner < BaseClaimCleaner
     private
 
     def destroy_invalid_disbursements

@@ -1,4 +1,4 @@
-class ClaimCleanerService
+module Cleaners
   module CrackedDetailCleanable
     private
 

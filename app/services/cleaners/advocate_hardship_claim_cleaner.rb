@@ -1,5 +1,5 @@
-class ClaimCleanerService
-  class AdvocateHardship < ClaimCleanerService
+module Cleaners
+  class AdvocateHardshipClaimCleaner < BaseClaimCleaner
     include CrackedDetailCleanable
 
     def clear_inapplicable_fields

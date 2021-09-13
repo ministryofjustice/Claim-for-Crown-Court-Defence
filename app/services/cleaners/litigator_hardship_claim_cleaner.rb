@@ -1,5 +1,5 @@
-class ClaimCleanerService
-  class LitigatorHardship < ClaimCleanerService
+module Cleaners
+  class LitigatorHardshipClaimCleaner < BaseClaimCleaner
     private
 
     def clear_inapplicable_fields

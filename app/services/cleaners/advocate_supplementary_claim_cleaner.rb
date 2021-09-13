@@ -1,5 +1,5 @@
-class ClaimCleanerService
-  class AdvocateSupplementary < ClaimCleanerService
+module Cleaners
+  class AdvocateSupplementaryClaimCleaner < BaseClaimCleaner
     private
 
     def destroy_invalid_fees

@@ -1,5 +1,5 @@
-class ClaimCleanerService
-  class Advocate < ClaimCleanerService
+module Cleaners
+  class AdvocateClaimCleaner < BaseClaimCleaner
     include CrackedDetailCleanable
 
     private

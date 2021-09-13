@@ -170,7 +170,7 @@ module Claim
     end
 
     def cleaner
-      ClaimCleanerService::AdvocateHardship.new(self)
+      Cleaners::AdvocateHardshipClaimCleaner.new(self)
     end
   end
 end

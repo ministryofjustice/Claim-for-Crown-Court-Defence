@@ -1,8 +1,11 @@
 When(/^I fill in the '(.*?)' form$/) do |payload|
   case payload
   when 'feedback'
-    fill_in 'feedback[comment]', with: 'This is great!'
+    choose('Yes')
     choose('Very satisfied')
+    fill_in 'feedback[comment]', with: 'This is great!'
+    check('Other (please specify)')
+    fill_in 'feedback[other_reason]', with: 'Something Else'
     click_on 'Send'
   when 'bug report'
     fill_in 'feedback[event]', with: 'Filling in a new claim form'

@@ -35,11 +35,12 @@
     "webpack-concat-plugin": "^3.0.0"
   },
   "devDependencies": {
+    "@webpack-cli/serve": "^1.5.2",
     "standard": "^16.0.3",
     "stylelint": "^13.13.1",
     "stylelint-config-gds": "^0.1.0",
     "stylelint-order": "^4.1.0",
-    "webpack-dev-server": "^3.11.2"
+    "webpack-dev-server": "^4.2.0"
   },
   "resolutions": {
     "css-what": "^5.0.1",
@@ -49,12 +50,22 @@
     "node-forge": "^0.10.0",
     "normalize-url": "^4.5.1",
     "ssri": "^8.0.1",
-    "webpack": "^4.44.2"
+    "webpack": "^4.44.2",
+    "webpack-cli": "^4.8.0" 
   },
   "standard": {
-    "env": [ "jasmine", "jquery" ],
-    "globals": [ "GOVUK", "moj" ],
-    "ignore": [ "app/webpack/javascripts/vendor/", "spec/javascripts/helpers/" ]
+    "env": [
+      "jasmine",
+      "jquery"
+    ],
+    "globals": [
+      "GOVUK",
+      "moj"
+    ],
+    "ignore": [
+      "app/webpack/javascripts/vendor/",
+      "spec/javascripts/helpers/"
+    ]
   },
   "@comments": {
     "@dependencies": {

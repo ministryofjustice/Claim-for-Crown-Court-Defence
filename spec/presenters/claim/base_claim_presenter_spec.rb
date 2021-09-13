@@ -74,7 +74,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   it '#defendant_names' do
-    expect(subject.defendant_names).to eql("#{CGI.escapeHTML(@first_defendant.name)}, <br />Robert Smith, <br />Adam Smith")
+    expect(subject.defendant_names).to eql("#{CGI.escapeHTML(@first_defendant.name)}, <br>Robert Smith, <br>Adam Smith")
   end
 
   it '#submitted_at' do
@@ -326,8 +326,8 @@ RSpec.describe Claim::BaseClaimPresenter do
       defendant
     end
 
-    it 'returns an html safe string of all the dates' do
-      expect(presenter.representation_order_details).to eq('01/03/2015 222222<br />13/08/2015 333333<br />01/03/2015 444444')
+    it 'returns a string of all the dates' do
+      expect(presenter.representation_order_details).to eq('01/03/2015 222222<br>13/08/2015 333333<br>01/03/2015 444444')
     end
   end
 

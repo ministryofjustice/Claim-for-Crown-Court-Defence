@@ -1,5 +1,7 @@
 class ClaimCleanerService
   class Advocate < ClaimCleanerService
+    include ClearCrackedDetails
+
     private
 
     def destroy_invalid_fees
@@ -22,17 +24,6 @@ class ClaimCleanerService
       fixed_fees.each do |fee|
         fixed_fees.delete(fee) unless eligbile_fees.map(&:code).include?(fee.fee_type_code)
       end
-    end
-
-    def clear_inapplicable_fields
-      clear_cracked_details if case_type.present? && !requires_cracked_dates?
-    end
-
-    def clear_cracked_details
-      claim.trial_fixed_notice_at = nil if trial_fixed_notice_at
-      claim.trial_fixed_at = nil if trial_fixed_at
-      claim.trial_cracked_at = nil if trial_cracked_at
-      claim.trial_cracked_at_third = nil if trial_cracked_at_third
     end
   end
 end

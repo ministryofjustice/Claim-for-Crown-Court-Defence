@@ -1,8 +1,12 @@
 class ClaimCleanerService
   class Advocate < ClaimCleanerService
-    include ClearCrackedDetails
+    include CrackedDetailCleanable
 
     private
+
+    def clear_inapplicable_fields
+      clear_cracked_details if case_type.present? && !requires_cracked_dates?
+    end
 
     def destroy_invalid_fees
       if case_type.present? && case_type.is_fixed_fee?

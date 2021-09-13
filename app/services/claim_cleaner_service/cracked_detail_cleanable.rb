@@ -1,10 +1,6 @@
 class ClaimCleanerService
-  module ClearCrackedDetails
+  module CrackedDetailCleanable
     private
-
-    def clear_inapplicable_fields
-      clear_cracked_details if case_type.present? && !requires_cracked_dates?
-    end
 
     def clear_cracked_details
       claim.trial_fixed_notice_at = nil if trial_fixed_notice_at

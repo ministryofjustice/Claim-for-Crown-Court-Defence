@@ -90,7 +90,7 @@ class Claim::BaseClaimPresenter < BasePresenter
         h.concat(name)
         unless name == defendant_names.last
           h.concat(', ')
-          h.concat(h.tag(:br))
+          h.concat(h.tag.br)
         end
       end
     end
@@ -232,7 +232,7 @@ class Claim::BaseClaimPresenter < BasePresenter
     h.capture do
       rep_order_details.each do |details|
         h.concat(details)
-        h.concat(h.tag(:br)) unless details == rep_order_details.last
+        h.concat(h.tag.br) unless details == rep_order_details.last
       end
     end
   end

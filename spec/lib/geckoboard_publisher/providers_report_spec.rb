@@ -58,7 +58,6 @@ RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
     end
 
     before { travel_to Date.parse('22-MAR-2017') }
-    after { travel_back }
 
     include_examples 'returns valid items structure'
 

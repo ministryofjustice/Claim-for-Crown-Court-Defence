@@ -42,7 +42,6 @@ RSpec.describe API::V2::MI::AGFSSchemeTenClaims do
 
   describe 'GET s10_claims' do
     before { travel_to Date.parse('21-APR-2018') }
-    after { travel_back }
 
     context 'when accessed by a CaseWorker' do
       let(:api_key) { case_worker_admin.user.api_key }

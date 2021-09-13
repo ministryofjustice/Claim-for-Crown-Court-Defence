@@ -275,7 +275,6 @@ RSpec.describe Claims::StateMachine, type: :model do
 
     context 'make last_submitted_at attribute equal now' do
       before { freeze_time }
-      after  { travel_back }
 
       it 'sets the last_submitted_at to the current time' do
         current_time = Time.now

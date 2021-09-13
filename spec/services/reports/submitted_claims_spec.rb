@@ -8,8 +8,6 @@ RSpec.describe Reports::SubmittedClaims do
 
     before { travel_to(start_of_final_week + 9.days) }
 
-    after { travel_back }
-
     it 'counts the correct number of submitted claims for last week' do
       create(:claim, original_submission_date: Time.zone.parse('28 June 2021 01:01'))
       create(:claim, original_submission_date: Time.zone.parse('27 June 2021 15:31'))

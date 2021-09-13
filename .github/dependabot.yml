@@ -10,7 +10,7 @@ updates:
   open-pull-requests-limit: 5
   reviewers:
   - "naseberry"
-  - "imtiazahmd"
+  - "imtiazAhmd"
   ignore:
   - dependency-name: jquery
     versions:

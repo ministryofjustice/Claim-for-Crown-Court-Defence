@@ -1,30 +1,3 @@
-When(/^I fill in the '(.*?)' form$/) do |payload|
-  case payload
-  when 'feedback'
-    fill_in 'feedback[comment]', with: 'This is great!'
-    choose('Very satisfied')
-    click_on 'Send'
-  when 'bug report'
-    fill_in 'feedback[event]', with: 'Filling in a new claim form'
-    fill_in 'feedback[outcome]', with: 'Something went wrong'
-    click_on 'Send'
-  end
-end
-
-When(/^I fill in the '(.*?)' form with email of '(.*?)'$/) do |payload, email|
-  case payload
-    when 'feedback'
-      fill_in 'feedback[comment]', with: 'This is great!'
-      choose('Very satisfied')
-      fill_in 'feedback[email]', with: email
-      click_on 'Send'
-    when 'bug report'
-      fill_in 'feedback[event]', with: 'Filling in a new claim form'
-      fill_in 'feedback[outcome]', with: 'Something went wrong'
-      click_on 'Send'
-  end
-end
-
 When(/^I have not signed in$/) do
   visit new_user_session_path
 end

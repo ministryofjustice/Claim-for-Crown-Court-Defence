@@ -2,6 +2,12 @@ class Feedback
   include ActiveModel::Model
   include ActiveModel::Validations
 
+  TASKS = {
+    3 => 'Yes',
+    2 => 'No',
+    1 => 'Partially'
+  }.freeze
+
   RATINGS = {
     5 => 'Very satisfied',
     4 => 'Satisfied',
@@ -10,17 +16,22 @@ class Feedback
     1 => 'Very dissatisfied'
   }.freeze
 
+  REASONS = {
+    3 => 'Submit a LGFS Claims',
+    2 => 'Submit an AGFS Claims',
+    1 => 'Other (please specify)'
+  }.freeze
+
   FEEDBACK_TYPES = {
-    feedback: %i[rating comment email],
+    feedback: %i[task rating comment reason other_reason],
     bug_report: %i[case_number event outcome email]
   }.freeze
 
   attr_accessor :email, :referrer, :user_agent, :type
   attr_accessor :event, :outcome, :case_number
-  attr_accessor :comment, :rating
+  attr_accessor :task, :rating, :comment, :reason, :other_reason
 
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
-  validates :rating, inclusion: { in: RATINGS.keys.map(&:to_s) }, if: :feedback?
   validates :event, :outcome, presence: true, if: :bug_report?
 
   def initialize(attributes = {})

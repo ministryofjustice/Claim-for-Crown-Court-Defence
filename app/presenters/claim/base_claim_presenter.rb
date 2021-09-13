@@ -83,12 +83,10 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def defendant_names
-    defendant_names = claim.defendants.sort_by(&:id).map(&:name)
-
     h.capture do
-      defendant_names.each do |name|
+      defendant_names_list.each_with_index do |name, idx|
         h.concat(name)
-        unless name == defendant_names.last
+        unless idx == defendant_names_list.size - 1
           h.concat(', ')
           h.concat(h.tag.br)
         end
@@ -410,6 +408,10 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   private
+
+  def defendant_names_list
+    @defendant_names_list ||= claim.defendants.sort_by(&:id).map(&:name)
+  end
 
   # a blank assessment is created when the claim is created,
   # so the assessment date is the updated_at date, not created_at

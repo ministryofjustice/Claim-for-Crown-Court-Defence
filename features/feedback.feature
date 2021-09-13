@@ -1,30 +1,17 @@
-@stub_zendesk_request
-Feature: A user can provide feedback and report bugs
-  Scenario: An advocate is redirected to the feedback page upon sign out and is not prompted for their email
-    Given I am a signed in advocate
-    And I sign out
-    Then I should be redirected to the feedback page
-    And I should be informed that I have signed out
-    Then I should not see 'What is your email address?'
-    When I fill in the 'feedback' form
-    Then I expect ZendeskSender to receive a description with an email
-    And I see confirmation that my 'feedback' was received
-    And I should be on the sign in page
+@stub_zendesk_request @javascript
+Feature: A user can provide feedback
+  Scenario: A user can successfully submit a feedback
+    Given I visit "/"
+    When I click the link 'Provide feedback'
+    Then I should see a page title "Help us improve this service"
+    Then the page should be accessible skipping 'aria-allowed-attr'
 
-  Scenario: An advocate is unable to sign in and selects to submit feedback and is prompted for their email and ignores it
-    Given I have not signed in
-    When I click the link 'feedback'
-    Then I should see 'What is your email address?'
-    When I fill in the 'feedback' form
-    Then I expect ZendeskSender to receive a description without an email
-    And I see confirmation that my 'feedback' was received
-    And I should be on the sign in page
+    And I choose govuk radio 'Yes' for 'Were you able to complete the tasks you aimed to on Claim for crown court defence today?'
+    And I choose govuk radio 'Very satisfied' for 'How satisfied have you been in your experience of Claim for crown court defence today?'
+    And I fill in 'Tell us about your experience of using the service today' with 'This is great!'
+    And I click govuk checkbox 'Other (please specify)'
+    And I fill in 'Enter your comment' with 'Something Else'
+    And I click the button 'Send'
 
-  Scenario: An advocate is unable to sign in and selects to submit feedback and is prompted for their email and completes it
-    Given I have not signed in
-    When I click the link 'feedback'
-    Then I should see 'What is your email address?'
-    When I fill in the 'feedback' form with email of 'test@example.com'
-    Then I expect ZendeskSender to receive a description with an email
     And I see confirmation that my 'feedback' was received
-    And I should be on the sign in page
+    Then I should be on the sign in page

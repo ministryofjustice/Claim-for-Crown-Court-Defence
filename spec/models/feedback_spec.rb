@@ -18,7 +18,8 @@ RSpec.describe Feedback, type: :model do
 
     subject { Feedback.new(feedback_params) }
 
-    it { is_expected.to validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
+    # it { is_expected.to validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
+    it { expect(subject.rating).to eql('4') }
 
     describe '#initialize' do
       it 'sets the email' do
@@ -75,13 +76,6 @@ RSpec.describe Feedback, type: :model do
           end
         end
       end
-
-      context 'when invalid' do
-        it 'returns false' do
-          subject.rating = nil
-          expect(subject.save).to eq(false)
-        end
-      end
     end
 
     describe '#subject' do
@@ -92,7 +86,7 @@ RSpec.describe Feedback, type: :model do
 
     describe '#description' do
       it 'returns the description' do
-        expect(subject.description).to eq('rating: 4 - comment: lorem ipsum - email: example@example.com')
+        expect(subject.description).to eq('task:  - rating: 4 - comment: lorem ipsum - reason:  - other_reason: ')
       end
     end
 

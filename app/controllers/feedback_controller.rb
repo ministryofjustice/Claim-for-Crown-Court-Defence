@@ -64,14 +64,13 @@ class FeedbackController < ApplicationController
 
   def feedback_params
     params.require(:feedback).permit(
-      :type,
-      :comment,
-      :rating,
+      :task, :rating, :comment, :other_reason, :type,
       :event,
       :outcome,
       :case_number,
       :referrer,
-      :email
+      :email,
+      reason: []
     )
   end
 end

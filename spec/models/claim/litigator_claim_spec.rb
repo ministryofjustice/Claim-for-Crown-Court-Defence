@@ -68,6 +68,8 @@ require_relative 'shared_examples_for_lgfs_claim'
 RSpec.describe Claim::LitigatorClaim, type: :model do
   let(:claim) { build :litigator_claim }
 
+  it_behaves_like 'uses claim cleaner', Cleaners::LitigatorClaimCleaner
+
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
   it { is_expected.to respond_to :disable_for_state_transition }

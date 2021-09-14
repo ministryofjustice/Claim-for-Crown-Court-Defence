@@ -68,6 +68,8 @@ require_relative 'shared_examples_for_lgfs_claim'
 RSpec.describe Claim::InterimClaim, type: :model do
   let(:claim) { build :interim_claim }
 
+  it_behaves_like 'uses claim cleaner', Cleaners::InterimClaimCleaner
+
   it { should delegate_method(:requires_trial_dates?).to(:case_type) }
   it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
 

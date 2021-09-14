@@ -78,6 +78,7 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
   let(:claim) { build(:advocate_hardship_claim) }
 
   it_behaves_like 'a base claim'
+  it_behaves_like 'uses claim cleaner', Cleaners::AdvocateHardshipClaimCleaner
 
   specify { expect(subject.agfs?).to be_truthy }
   specify { expect(subject.final?).to be_falsey }
@@ -116,62 +117,6 @@ RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
       expect(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
       expect(service).to receive(:call)
       call
-    end
-  end
-
-  describe '#cleaner' do
-    context 'when cracked trial details exist' do
-      let(:claim) { build(:advocate_hardship_claim, case_stage: case_stage, **cracked_details) }
-
-      let(:cracked_details) {
-        {
-          trial_fixed_notice_at: Date.current - 3.days,
-          trial_fixed_at: Date.current - 1,
-          trial_cracked_at: Date.current,
-          trial_cracked_at_third: 'final_third'
-        }
-      }
-
-      before { claim.save }
-
-      context 'with guilty plea (not yet sentenced)' do
-        let(:case_stage) { create(:case_stage, :guilty_plea_not_sentenced) }
-
-        it 'removes the cracked details' do
-          expect(claim).to have_attributes(
-            trial_fixed_notice_at: nil,
-            trial_fixed_at: nil,
-            trial_cracked_at: nil,
-            trial_cracked_at_third: nil
-          )
-        end
-      end
-
-      context 'with cracked trial (After PTPH before trial)' do
-        let(:case_stage) { create(:case_stage, :cracked_trial) }
-
-        it 'does not remove the cracked details' do
-          expect(claim).to have_attributes(
-            trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-            trial_fixed_at: cracked_details[:trial_fixed_at],
-            trial_cracked_at: cracked_details[:trial_cracked_at],
-            trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-          )
-        end
-      end
-
-      context 'with cracked before retrial (Retrial listed but not started)' do
-        let(:case_stage) { create(:case_stage, :retrial_not_started) }
-
-        it 'does not remove the cracked details' do
-          expect(claim).to have_attributes(
-            trial_fixed_notice_at: cracked_details[:trial_fixed_notice_at],
-            trial_fixed_at: cracked_details[:trial_fixed_at],
-            trial_cracked_at: cracked_details[:trial_cracked_at],
-            trial_cracked_at_third: cracked_details[:trial_cracked_at_third]
-          )
-        end
-      end
     end
   end
 

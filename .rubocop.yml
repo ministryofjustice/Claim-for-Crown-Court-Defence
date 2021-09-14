@@ -37,6 +37,9 @@ Layout/LineLength:
   IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
   AllowHeredoc: true
 
+Lint/AmbiguousBlockAssociation:
+  IgnoredMethods: [change]
+
 Metrics/BlockLength:
   IgnoredMethods:
     - included

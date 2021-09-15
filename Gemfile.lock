@@ -90,7 +90,7 @@ GEM
       activerecord (>= 4.0)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.497.0)
+    aws-partitions (1.500.0)
     aws-sdk-core (3.121.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.239.0)
@@ -106,8 +106,8 @@ GEM
       aws-sdk-core (~> 3, >= 3.119.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.1)
-    aws-sdk-sns (1.44.0)
-      aws-sdk-core (~> 3, >= 3.119.0)
+    aws-sdk-sns (1.45.0)
+      aws-sdk-core (~> 3, >= 3.120.0)
       aws-sigv4 (~> 1.1)
     aws-sdk-sqs (1.44.0)
       aws-sdk-core (~> 3, >= 3.120.0)
@@ -490,7 +490,7 @@ GEM
     paper_trail (12.1.0)
       activerecord (>= 5.2)
       request_store (~> 1.1)
-    parallel (1.20.1)
+    parallel (1.21.0)
     parallel_tests (3.5.2)
       parallel
     parser (3.0.2.0)
@@ -601,7 +601,7 @@ GEM
     rspec-support (3.10.2)
     rspec_junit_formatter (0.4.1)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.20.0)
+    rubocop (1.21.0)
       parallel (~> 1.10)
       parser (>= 3.0.0.0)
       rainbow (>= 2.2.2, < 4.0)
@@ -835,7 +835,7 @@ DEPENDENCIES
   rspec-mocks
   rspec-rails (~> 5.0.2)
   rspec_junit_formatter
-  rubocop (~> 1.20)
+  rubocop (~> 1.21)
   rubocop-performance
   rubocop-rails
   rubocop-rspec

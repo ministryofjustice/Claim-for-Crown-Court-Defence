@@ -144,7 +144,7 @@ module Fee
     #   - agfs basic fees are calculated based on fee type, except for old claims (non-draft) that can have nil/0 rate
     #   - only lgfs fixed fees are calculated
     def calculation_required?
-      [editable?, calculated?, (agfs? || lgfs? && is_fixed?)].all?
+      [editable?, calculated?, agfs? || (lgfs? && is_fixed?)].all?
     end
 
     def calculate_amount

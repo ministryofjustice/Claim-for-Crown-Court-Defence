@@ -266,7 +266,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def set_form_step
     return unless @claim
     @claim.form_step = params[:step] ||
-                       params.key?(:claim) && claim_params[:form_step] ||
+                       (params.key?(:claim) && claim_params[:form_step]) ||
                        @claim.submission_stages.first
   end
 

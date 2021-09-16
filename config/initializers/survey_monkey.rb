@@ -1,26 +1,39 @@
 SurveyMonkey.configure do |config|
   config.root_url = 'https://api.eu.surveymonkey.com/v3/'
-  # Set SURVEY_MONKEY_AUTHORIZATION_BEARER in .env.development
-  # TODO: Set in kubernetes_deploy/*/secrets.yaml
   config.bearer = ENV['SURVEY_MONKEY_AUTHORIZATION_BEARER']
-  config.collector_id = 330140894
+  config.collector_id = ENV['SURVEY_MONKEY_COLLECTOR_ID']
 
-  # TODO: Set the correct survey pages, questions and answers
   config.register_page(
     :feedback, 25473840,
-    tasks: { id: 60742936, answers: { yes: 505487571, no: 505487572, partially: 505487573 } },
-    ratings: {
-      id: 789,
+    tasks: {
+      id: 60742936,
+      format: :radio,
       answers: {
-        very_satisfied: 6123451,
-        satisfied: 6123452,
-        neither_satisfied_nor_dissatisfied: 6123453,
-        dissatisfied: 6123454,
-        very_dissatisfied: 6123455
+        '3' => 505487572, # Yes
+        '2' => 505487573, # No
+        '1' => 505487574  # Partially
       }
     },
-    reasons: { id: 234, answers: { lgfs_claim: 7123451, agfs_claim: 7123452, other: 7123453 } },
-    # TODO: Allow for free text answer
-    # other_reason: { id: 567, answer: :text }
+    ratings: {
+      id: 60742964,
+      format: :radio,
+      answers: {
+        '5' => 505488046, # Very satisfied
+        '4' => 505488047, # Satisfied
+        '3' => 505488048, # Neither satisfied nor dissatisified
+        '2' => 505488049, # Dissatisfied
+        '1' => 505488050  # Very dissatisfied
+      }
+    },
+    comments: { id: 60742937, format: :text },
+    reasons: {
+      id: 60745386,
+      format: :checkboxes,
+      answers: {
+        '3' => 505511336, # Submit an LGFS claim
+        '2' => 505511337, # Submit an AGFS claim
+        '1' => { id: 505511338, other: true } # Other reasons
+      }
+    }
   )
 end

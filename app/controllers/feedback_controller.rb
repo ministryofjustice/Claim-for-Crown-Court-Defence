@@ -3,6 +3,7 @@ require 'google_analytics/api'
 class FeedbackController < ApplicationController
   skip_load_and_authorize_resource only: %i[new create]
   before_action :suppress_hotline_link
+  before_action :setup_page
 
   def new
     @feedback = Feedback.new(type: type, referrer: referrer_path)
@@ -15,6 +16,7 @@ class FeedbackController < ApplicationController
       submit_feedback_google_event if @feedback.is?('feedback')
       redirect_to after_create_url, notice: 'Feedback submitted'
     else
+      flash[:error] = @feedback.error
       render "feedback/#{@feedback.type}"
     end
   end
@@ -72,5 +74,9 @@ class FeedbackController < ApplicationController
       :email,
       reason: []
     )
+  end
+
+  def setup_page
+    @feedback_form = FeedbackForm.new if type == 'feedback'
   end
 end

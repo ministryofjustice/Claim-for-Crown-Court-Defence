@@ -2,26 +2,6 @@ class Feedback
   include ActiveModel::Model
   include ActiveModel::Validations
 
-  TASKS = {
-    3 => 'Yes',
-    2 => 'No',
-    1 => 'Partially'
-  }.freeze
-
-  RATINGS = {
-    5 => 'Very satisfied',
-    4 => 'Satisfied',
-    3 => 'Neither satisfied nor dissatisfied',
-    2 => 'Dissatisfied',
-    1 => 'Very dissatisfied'
-  }.freeze
-
-  REASONS = {
-    3 => 'Submit a LGFS Claims',
-    2 => 'Submit an AGFS Claims',
-    1 => 'Other (please specify)'
-  }.freeze
-
   FEEDBACK_TYPES = {
     feedback: %i[task rating comment reason other_reason],
     bug_report: %i[case_number event outcome email]
@@ -29,7 +9,7 @@ class Feedback
 
   attr_accessor :email, :referrer, :user_agent, :type
   attr_accessor :event, :outcome, :case_number
-  attr_accessor :task, :rating, :comment, :reason, :other_reason
+  attr_accessor :task, :rating, :comment, :reason, :other_reason, :error
 
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
   validates :event, :outcome, presence: true, if: :bug_report?
@@ -38,6 +18,8 @@ class Feedback
     attributes.each do |key, value|
       instance_variable_set(:"@#{key}", value)
     end
+
+    @reason.reject!(&:blank?) if @reason.present?
   end
 
   def feedback?
@@ -54,8 +36,8 @@ class Feedback
 
   def save
     return false unless valid?
-    ZendeskSender.send!(self) unless is_feedback_with_empty_comment?
-    true
+    return save_feedback if feedback?
+    save_bug_report
   end
 
   def subject
@@ -67,6 +49,17 @@ class Feedback
   end
 
   private
+
+  def save_feedback
+    response = SurveyMonkeySender.call(self)
+    @error = "Unable to submit feedback [#{response[:error_code]}]" unless response[:success]
+    response[:success]
+  end
+
+  def save_bug_report
+    ZendeskSender.send!(self) unless is_feedback_with_empty_comment?
+    true
+  end
 
   def feedback_type_attributes
     FEEDBACK_TYPES[type.to_sym]

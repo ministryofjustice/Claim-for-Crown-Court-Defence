@@ -12,107 +12,50 @@ RSpec.describe Feedback, type: :model do
   it { is_expected.to validate_inclusion_of(:type).in_array(%w(feedback bug_report)) }
 
   context 'feedback' do
+    subject(:feedback) { Feedback.new(feedback_params) }
+
     let(:feedback_params) do
-      params.merge(type: 'feedback', comment: 'lorem ipsum', rating: '4')
+      params.merge(type: 'feedback', task: '1', rating: '4', comment: 'lorem ipsum', reason: ['', '1', '2'], other_reason: 'dolor sit')
     end
 
-    subject { Feedback.new(feedback_params) }
+    it { expect(feedback.task).to eq '1' }
+    it { expect(feedback.rating).to eq '4' }
+    it { expect(feedback.comment).to eq 'lorem ipsum' }
 
-    # it { is_expected.to validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
-    it { expect(subject.rating).to eql('4') }
-
-    describe '#initialize' do
-      it 'sets the email' do
-        expect(subject.email).to eq('example@example.com')
-      end
-
-      it 'sets the comment' do
-        expect(subject.comment).to eq('lorem ipsum')
-      end
-
-      it 'sets the rating' do
-        expect(subject.rating).to eq('4')
-      end
-
-      it 'sets the user_agent' do
-        expect(subject.user_agent).to eq('Firefox')
-      end
-
-      it 'sets the referrer' do
-        expect(subject.referrer).to eq('/index')
-      end
+    it do
+      pending 'Blank value needs to be stripped out'
+      # NB; SurveyMonkeySender currently assumes the blank value is present
+      expect(feedback.reason).to eq %w[1 2]
     end
+
+    it { expect(feedback.other_reason).to eq 'dolor sit' }
+    it { is_expected.to be_feedback }
+    it { is_expected.not_to be_bug_report }
 
     describe '#save' do
-      before do
-        allow(ZendeskAPI::Ticket).to receive(:create!).and_return(true)
-      end
+      subject(:save) { feedback.save }
 
-      context 'when valid' do
-        it 'creates zendesk ticket and returns true' do
-          expect(ZendeskSender).to receive(:send!)
-          expect(subject.save).to eq(true)
+      before { allow(SurveyMonkeySender).to receive(:send_response) }
+
+      context 'when Survey Monkey succeeds' do
+        it 'sends the response to Survey Monkey' do
+          save
+          expect(SurveyMonkeySender).to have_received(:send_response).with(feedback)
         end
-
-        context 'and the comment is nil' do
-          let(:feedback_params) do
-            params.merge(type: 'feedback', comment: nil, rating: '4')
-          end
-
-          it 'does not create a zendesk ticket but still returns true' do
-            expect(ZendeskSender).not_to receive(:send!)
-            expect(subject.save).to eq(true)
-          end
-        end
-
-        context 'and the comment is empty' do
-          let(:feedback_params) do
-            params.merge(type: 'feedback', comment: '', rating: '4')
-          end
-
-          it 'does not create a zendesk ticket but still returns true' do
-            expect(ZendeskSender).not_to receive(:send!)
-            expect(subject.save).to eq(true)
-          end
-        end
-      end
-    end
-
-    describe '#subject' do
-      it 'returns the subject heading' do
-        expect(subject.subject).to eq('Feedback (test)')
-      end
-    end
-
-    describe '#description' do
-      it 'returns the description' do
-        expect(subject.description).to eq('task:  - rating: 4 - comment: lorem ipsum - reason:  - other_reason: ')
       end
     end
 
     describe '#is?' do
       context 'feedback' do
         it 'is true for feedback' do
-          expect(subject.is?(:feedback)).to eq(true)
+          expect(feedback.is?(:feedback)).to eq(true)
         end
       end
 
       context 'bug report' do
         it 'is false for feedback' do
-          expect(subject.is?(:bug_report)).to eq(false)
+          expect(feedback.is?(:bug_report)).to eq(false)
         end
-      end
-    end
-
-    describe '#feedback?' do
-      it 'is feedback' do
-        expect(subject).to be_feedback
-      end
-    end
-
-    describe '#bug_report?' do
-      it 'is not a bug report' do
-        expect(subject).to_not be_bug_report
       end
     end
   end

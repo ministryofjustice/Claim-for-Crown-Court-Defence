@@ -13,7 +13,6 @@ class FeedbackController < ApplicationController
   def create
     @feedback = Feedback.new(merged_feedback_params)
     if @feedback.save
-      submit_feedback_google_event if @feedback.is?('feedback')
       redirect_to after_create_url, notice: 'Feedback submitted'
     else
       flash[:error] = @feedback.error
@@ -22,12 +21,6 @@ class FeedbackController < ApplicationController
   end
 
   private
-
-  def submit_feedback_google_event
-    rating = merged_feedback_params[:rating]
-    label = Feedback::RATINGS[rating.to_i].downcase.tr(' ', '_')
-    GoogleAnalytics::Api.event('satisfaction', rating, label, params[:ga_client_id])
-  end
 
   def type
     %w[feedback bug_report].include?(params[:type]) ? params[:type] : 'feedback'

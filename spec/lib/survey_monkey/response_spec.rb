@@ -18,6 +18,9 @@ RSpec.describe SurveyMonkey::Response do
   describe '#submit' do
     subject(:submit) { response.submit }
 
+    let(:response_body) { { id: '10203456789' }.to_json }
+    let(:response_status) { 201 }
+
     before do
       SurveyMonkey.configure do |config|
         config.register_page(
@@ -29,20 +32,19 @@ RSpec.describe SurveyMonkey::Response do
           }
         )
       end
+
+      stub_request(:post, "#{survey_monkey_root}collectors/#{collector_id}/responses")
+        .to_return(body: response_body, status: response_status)
     end
 
     context 'with a successful response from Survey Monkey' do
-      before do
-        stub_request(:post, "#{survey_monkey_root}collectors/#{collector_id}/responses").to_return(status: 201)
-      end
-
       it 'submits to survey monkey' do
         submit
         expect(WebMock).to have_requested(:post, "#{survey_monkey_root}collectors/#{collector_id}/responses")
           .with(headers: { 'Authorization' => "Bearer #{authorization_bearer}" })
       end
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to eq({ id: 10_203_456_789, success: true }) }
 
       context 'with a radio button response' do
         before do
@@ -75,19 +77,37 @@ RSpec.describe SurveyMonkey::Response do
     end
 
     context 'with an error response from Survey Monkey' do
-      before do
-        stub_request(:post, "#{survey_monkey_root}collectors/#{collector_id}/responses").to_return(status: 401)
+      let(:response_body) do
+        {
+          error: {
+            id: '1011',
+            name: 'Authorization Error',
+            docs: 'https://developer.eu.surveymonkey.com/api/v3/#error-codes',
+            message: 'The authorization token provided was invalid.',
+            http_status_code: 401
+          }
+        }.to_json
       end
+      let(:response_status) { 401 }
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to eq({ success: false, error_code: 1011 }) }
     end
 
     context 'with a server error response from Survey Monkey' do
-      before do
-        stub_request(:post, "#{survey_monkey_root}collectors/#{collector_id}/responses").to_return(status: 500)
+      let(:response_body) do
+        {
+          error: {
+            id: '1050',
+            name: 'Internal Server Error',
+            docs: 'https://developer.eu.surveymonkey.com/api/v3/#error-codes',
+            message: 'Oh bananas! We couldn’t process your request.',
+            http_status_code: 401
+          }
+        }.to_json
       end
+      let(:response_status) { 500 }
 
-      it { is_expected.to be_falsey }
+      it { is_expected.to eq({ success: false, error_code: 1050 }) }
     end
   end
 

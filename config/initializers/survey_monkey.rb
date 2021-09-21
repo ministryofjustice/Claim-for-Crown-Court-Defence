@@ -2,6 +2,8 @@ SurveyMonkey.configure do |config|
   config.root_url = 'https://api.eu.surveymonkey.com/v3/'
   config.bearer = ENV['SURVEY_MONKEY_AUTHORIZATION_BEARER']
   config.collector_id = ENV['SURVEY_MONKEY_COLLECTOR_ID']
+  config.logger = Rails.logger
+  config.verbose_logging = true
 
   config.register_page(
     :feedback, 25473840,

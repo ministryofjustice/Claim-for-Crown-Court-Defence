@@ -35,7 +35,7 @@ RSpec.describe Feedback, type: :model do
     describe '#save' do
       subject(:save) { feedback.save }
 
-      before { allow(SurveyMonkeySender).to receive(:send_response) }
+      before { allow(SurveyMonkeySender).to receive(:send_response).and_return({ id: 123, success: true }) }
 
       context 'when Survey Monkey succeeds' do
         it 'sends the response to Survey Monkey' do

@@ -45,16 +45,8 @@ RSpec.describe 'send feedback', type: :request do
       }
     end
 
-    before do
-      SurveyMonkey.configure do |config|
-        config.root_url = 'https://surveymonkey.test/v3/'
-        config.bearer = 'authorization_bearer'
-        config.collector_id = 999
-      end
-    end
-
     context 'when posting to Survey Monkey is successful' do
-      before { stub_request(:post, /surveymonkey.test/).and_return(status: 201) }
+      before { allow(SurveyMonkeySender).to receive(:send_response).and_return({ id: 123, success: true }) }
 
       context 'when the user is signed in' do
         let(:advocate) { create(:external_user) }
@@ -80,7 +72,7 @@ RSpec.describe 'send feedback', type: :request do
 
     context 'when posting to Survey Monkey is unsuccessful' do
       before do
-        stub_request(:post, /surveymonkey.test/).and_return(status: 500)
+        allow(SurveyMonkeySender).to receive(:send_response).and_return({ success: false, error_code: '1020' })
         post_feedback
       end
 

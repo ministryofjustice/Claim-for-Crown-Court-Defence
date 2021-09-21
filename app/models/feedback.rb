@@ -29,7 +29,7 @@ class Feedback
 
   attr_accessor :email, :referrer, :user_agent, :type
   attr_accessor :event, :outcome, :case_number
-  attr_accessor :task, :rating, :comment, :reason, :other_reason
+  attr_accessor :task, :rating, :comment, :reason, :other_reason, :error
 
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
   validates :event, :outcome, presence: true, if: :bug_report?
@@ -55,7 +55,9 @@ class Feedback
   def save
     return false unless valid?
     if feedback?
-      SurveyMonkeySender.send_response(self)
+      response = SurveyMonkeySender.send_response(self)
+      @error = "Unable to submit feedback [#{response[:error_code]}]" unless response[:success]
+      response[:success]
     else
       ZendeskSender.send!(self) unless is_feedback_with_empty_comment?
       true

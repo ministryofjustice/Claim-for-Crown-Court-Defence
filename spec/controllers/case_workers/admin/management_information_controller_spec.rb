@@ -7,7 +7,14 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     let(:persona) { create(:case_worker, :admin) }
 
     describe 'GET #index' do
-      let(:expected_report_types) { %w[management_information provisional_assessment rejections_refusals submitted_claims] }
+      let(:expected_report_types) do
+        %w[management_information
+           agfs_management_information
+           lgfs_management_information
+           provisional_assessment
+           rejections_refusals
+           submitted_claims]
+      end
 
       before { get :index }
 

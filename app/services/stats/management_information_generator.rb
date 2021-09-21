@@ -10,6 +10,7 @@ module Stats
 
     def initialize(options = {})
       @format = options.fetch(:format, DEFAULT_FORMAT)
+      @claim_scope = options.fetch(:claim_scope, :all)
     end
 
     def call
@@ -25,8 +26,8 @@ module Stats
       Settings.claim_csv_headers.map { |header| header.to_s.humanize }
     end
 
-    def active_non_draft_claims
-      Claim::BaseClaim.active.non_draft
+    def claims
+      Claim::BaseClaim.active.non_draft.send(@claim_scope)
     end
 
     # TODO: separate data retrieval from exporting the data itself
@@ -35,7 +36,7 @@ module Stats
       log_info('Report generation started...')
       content = CSV.generate do |csv|
         csv << headers
-        active_non_draft_claims.find_each do |claim|
+        claims.find_each do |claim|
           ManagementInformationPresenter.new(claim, 'view').present! do |claim_journeys|
             claim_journeys.each { |journey| csv << journey } if claim_journeys.any?
           end

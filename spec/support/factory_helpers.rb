@@ -19,8 +19,8 @@ module FactoryHelpers
 
   def allocate_claim(claim)
     publicise_errors(claim) { claim.submit! }
-    case_worker = create :case_worker
-    case_worker_admin = create :case_worker, :admin
+    case_worker = create(:case_worker)
+    case_worker_admin = create(:case_worker, :admin)
     allocator_options = {
       current_user: case_worker_admin.user,
       case_worker_id: case_worker.id,

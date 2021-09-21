@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Stats::ManagementInformationGenerator do
-  let(:frozen_time) { Time.new(2015, 3, 10, 11, 44, 55) }
-  let(:report_columns) do
+  let(:expected_headers) do
     [
       'Id',
       'Scheme',
@@ -34,25 +33,49 @@ RSpec.describe Stats::ManagementInformationGenerator do
   describe '#call' do
     subject(:call) { described_class.new.call }
 
-    let(:rows) { call.content.split("\n") }
+    let(:csv) { CSV.parse(call.content, headers: true) }
 
-    let!(:valid_claims) {
-      [
-        create(:submitted_claim),
-        create(:allocated_claim),
-        create(:authorised_claim),
-        create(:part_authorised_claim)
-      ]
-    }
-    let!(:draft_claim) { create(:draft_claim) }
-    let!(:non_active_claim) { travel_to(frozen_time) { create(:allocated_claim) } }
+    before do
+      # excluded from MI report
+      create(:advocate_final_claim, :draft)
+      create(:advocate_final_claim, :authorised).soft_delete
+      travel_to(6.months.ago) { create(:advocate_final_claim, :allocated) }
 
-    it 'returns a row for all active non-draft claims' do
-      expect(rows.size).to eq(valid_claims.size + 1)
+      # included in MI report
+      create(:litigator_final_claim, :submitted)
+      create(:litigator_final_claim, :rejected)
+      create(:advocate_final_claim, :submitted)
+      create(:advocate_final_claim, :allocated)
+      create(:advocate_final_claim, :part_authorised)
+      travel_to(6.months.ago + 1.day) { create(:advocate_final_claim, :authorised) }
     end
 
     it 'has expected headers' do
-      expect(rows.first.split(',')).to match_array(report_columns)
+      expect(csv.headers).to match_array(expected_headers)
+    end
+
+    context 'with no scope' do
+      subject(:call) { described_class.new.call }
+
+      it 'returns rows of all active non-draft claims' do
+        expect(csv['Scheme']).to match_array(%w[LGFS LGFS AGFS AGFS AGFS AGFS])
+      end
+    end
+
+    context 'with AGFS scope' do
+      subject(:call) { described_class.new({ claim_scope: :agfs }).call }
+
+      it 'returns rows of AGFS active non-draft claims' do
+        expect(csv['Scheme']).to match_array(%w[AGFS] * 4)
+      end
+    end
+
+    context 'with LGFS scope' do
+      subject(:call) { described_class.new({ claim_scope: :lgfs }).call }
+
+      it 'returns rows of LGFS active non-draft claims' do
+        expect(csv['Scheme']).to match_array(%w[LGFS] * 2)
+      end
     end
   end
 

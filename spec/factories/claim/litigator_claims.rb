@@ -71,5 +71,13 @@ FactoryBot.define do
     trait :submitted do
       after(:create) { |c| c.submit! }
     end
+
+    trait :rejected do
+      after(:create) do |claim|
+        claim.submit!
+        allocate_claim(claim)
+        claim.reject!
+      end
+    end
   end
 end

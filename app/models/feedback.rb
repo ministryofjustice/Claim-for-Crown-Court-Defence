@@ -38,6 +38,8 @@ class Feedback
     attributes.each do |key, value|
       instance_variable_set(:"@#{key}", value)
     end
+
+    @reason.reject!(&:blank?) if @reason.present?
   end
 
   def feedback?

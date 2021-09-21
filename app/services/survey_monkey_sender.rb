@@ -24,9 +24,8 @@ class SurveyMonkeySender
   end
 
   def reasons(reason, other_reason)
-    return if reason.blank? || reason == ['']
+    return if reason.blank?
 
-    # TODO: Fix the Feedback class to strip out the empty first element
-    reason[1..] + [{ other: other_reason }]
+    reason + [{ other: other_reason }]
   end
 end

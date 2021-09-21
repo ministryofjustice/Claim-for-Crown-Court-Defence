@@ -18,9 +18,7 @@ RSpec.describe SurveyMonkeySender do
 
     context 'with all feedback options' do
       let(:feedback) do
-        Feedback.new(
-          task: '1', rating: '1', comment: 'A comment', reason: ['', '1', '3'], other_reason: 'Another reason'
-        )
+        Feedback.new(task: '1', rating: '1', comment: 'A comment', reason: %w[1 3], other_reason: 'Another reason')
       end
 
       it do
@@ -33,7 +31,13 @@ RSpec.describe SurveyMonkeySender do
     end
 
     context 'with only a comment' do
-      let(:feedback) { Feedback.new(task: nil, rating: nil, comment: 'A comment', reason: [''], other_reason: nil) }
+      let(:feedback) { Feedback.new(task: nil, rating: nil, comment: 'A comment', reason: [], other_reason: nil) }
+
+      it { expect(survey_monkey).to have_received(:add_page).with(:feedback, comments: 'A comment') }
+    end
+
+    context 'with a nil reason' do
+      let(:feedback) { Feedback.new(task: nil, rating: nil, comment: 'A comment', reason: nil, other_reason: nil) }
 
       it { expect(survey_monkey).to have_received(:add_page).with(:feedback, comments: 'A comment') }
     end

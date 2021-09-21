@@ -21,13 +21,7 @@ RSpec.describe Feedback, type: :model do
     it { expect(feedback.task).to eq '1' }
     it { expect(feedback.rating).to eq '4' }
     it { expect(feedback.comment).to eq 'lorem ipsum' }
-
-    it do
-      pending 'Blank value needs to be stripped out'
-      # NB; SurveyMonkeySender currently assumes the blank value is present
-      expect(feedback.reason).to eq %w[1 2]
-    end
-
+    it { expect(feedback.reason).to eq %w[1 2] }
     it { expect(feedback.other_reason).to eq 'dolor sit' }
     it { is_expected.to be_feedback }
     it { is_expected.not_to be_bug_report }

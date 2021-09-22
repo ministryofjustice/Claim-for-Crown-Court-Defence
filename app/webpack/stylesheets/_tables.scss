@@ -76,7 +76,6 @@ table {
           top: -$gutter;
           width: 320px;
           color: $orange;
-          font-weight: 700;
 
           @include govuk-media-query($until: desktop) {
             width: auto;

@@ -2358,7 +2358,7 @@ en:
           submit: Submit
         allocation:
           allocate_claims: Allocate claims
-          table_summary: List of allocated claims
+          table_summary: List of claims available for allocation
           clear_filters: Clear filter
           allocate: Allocate
           allocation_queue: Allocation queue

@@ -50,19 +50,23 @@ moj.Modules.AllocationDataTable = {
     ],
     // row callback to add injection errors
     createdRow: function (row, data, index) {
+      $(row).addClass('govuk-table__row')
+      $('td', row).addClass('govuk-table__cell')
+
       if (data.filter.injection_errored) {
         $(row).addClass('error injection-error')
-        $('td', row).eq(0).wrapInner("<div class='error-message-container'></div>")
-        $('td .error-message-container', row).eq(0).append("<div class='error-message'>" + data.injection_errors + '</div>')
+        $('td', row).eq(0).wrapInner('<div class="error-message-container"></div>')
+        $('td .error-message-container', row).eq(0).append('<div class="error-message">' + data.injection_errors + '</div>')
       } else if (data.filter.cav_warning) {
         $(row).addClass('injection-warning')
-        $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>")
-        $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CAVs not injected</div>")
+        $('td', row).eq(0).wrapInner('<div class="warning-message-container"></div>')
+        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">CAVs not injected</div>')
       } else if (data.filter.clar_fees_warning) {
         $(row).addClass('injection-warning')
-        $('td', row).eq(0).wrapInner("<div class='warning-message-container'></div>")
-        $('td .warning-message-container', row).eq(0).append("<div class='warning-message'>CLAR fees not injected</div>")
+        $('td', row).eq(0).wrapInner('<div class="warning-message-container"></div>')
+        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">CLAR fees not injected</div>')
       }
+
       return row
     },
 
@@ -89,9 +93,10 @@ moj.Modules.AllocationDataTable = {
       processing: 'Table loading, please wait a moment.'
     },
     initComplete: function (settings, json) {
+      $('.app-jq-datatable tbody').addClass('govuk-table__body')
       // block the row highlight from happening
       // when a link is clicked
-      $('#dtAllocation tbody tr').on('click', 'a', function (e) {
+      $('.app-jq-datatable tbody tr').on('click', 'a', function (e) {
         e.stopImmediatePropagation()
       })
     },
@@ -173,7 +178,7 @@ moj.Modules.AllocationDataTable = {
   },
 
   init: function () {
-    this.$el = $('#dtAllocation')
+    this.$el = $('.app-jq-datatable')
     this.ui.$submit = $('.allocation-submit')
     this.ui.$notificationMsg = $('#allocation .govuk-notification-banner')
 
@@ -181,7 +186,7 @@ moj.Modules.AllocationDataTable = {
 
     // Get the selected value and update the URL
     this.setAjaxURL(moj.Modules.AllocationScheme.selectedValue())
-    this.dataTable = moj.Modules.DataTables._init(this.options, '#dtAllocation')
+    this.dataTable = moj.Modules.DataTables._init(this.options, '.app-jq-datatable')
 
     // :(
     $('#dtAllocation_filter').find('input').addClass('govuk-input govuk-!-width-three-quarters')
@@ -384,7 +389,7 @@ moj.Modules.AllocationDataTable = {
 
     // EVENT: Clear selected checkboxes on search
     self.dataTable.on('search.dt', function () {
-      if ($('#dtAllocation thead input').prop('checked')) {
+      if ($('.app-jq-datatable thead input').prop('checked')) {
         self.clearCheckboxes()
       }
     })

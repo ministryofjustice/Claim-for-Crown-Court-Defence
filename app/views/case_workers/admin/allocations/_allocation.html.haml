@@ -42,24 +42,14 @@
   %h2.govuk-heading-m
     = t('.allocation_queue')
 
-  %table#dtAllocation
-    %caption.govuk-visually-hidden
+  = govuk_table(class: 'app-jq-datatable') do
+    = govuk_table_caption(class: 'govuk-visually-hidden') do
       = t('.table_summary')
-      %noscript
-        = t('shared.not_available')
-    %thead
-      %tr
-        %th{ scope: 'col' }
-          = ''
-        %th{ scope: 'col' }
-          = t('.case_number')
-        %th{ scope: 'col' }
-          = t('.court')
-        %th{ scope: 'col' }
-          = t('.defendents')
-        %th{ scope: 'col' }
-          = t('.type')
-        %th{ scope: 'col' }
-          = t('.submitted')
-        %th{ scope: 'col' }
-          = t('.total')
+
+    = govuk_table_thead_collection ['',
+    t('.case_number'),
+    t('.court'),
+    t('.defendents'),
+    t('.type'),
+    t('.submitted'),
+    t('.total')]

@@ -29,7 +29,7 @@ module Fee
   end
 
   RSpec.describe Fee::FeeDouble, type: :model do
-    let(:subject) { FeeDouble.new }
+    subject { FeeDouble.new }
 
     it { should belong_to(:claim) }
     it { should have_many(:dates_attended) }

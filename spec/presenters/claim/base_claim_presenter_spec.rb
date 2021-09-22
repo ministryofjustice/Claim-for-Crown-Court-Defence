@@ -552,7 +552,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       expect(presenter.mandatory_case_details?).to be_truthy
     end
 
-    it ' returns falsey when claim is missing one of case type, court or case number' do
+    it 'returns falsey when claim is missing one of case type, court or case number' do
       expect(claim).to receive(:case_type).and_return 'a case type'
       expect(claim).to receive(:court).and_return 'a court'
       expect(claim).to receive(:case_number).and_return nil

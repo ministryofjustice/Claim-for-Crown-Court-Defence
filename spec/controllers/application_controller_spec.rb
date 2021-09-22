@@ -27,7 +27,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'given an advocate' do
       before { sign_in advocate.user }
 
-      it 'returns advocates root url ' do
+      it 'returns advocates root url' do
         expect(subject.after_sign_in_path_for(advocate.user)).to eq(external_users_root_url)
       end
     end
@@ -35,7 +35,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'given a case worker' do
       before { sign_in case_worker.user }
 
-      it 'returns case workers root url ' do
+      it 'returns case workers root url' do
         expect(subject.after_sign_in_path_for(case_worker.user)).to eq(case_workers_root_url)
       end
     end
@@ -43,7 +43,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'given an admin advocate' do
       before { sign_in advocate_admin.user }
 
-      it 'returns advocates admin root url ' do
+      it 'returns advocates admin root url' do
         expect(subject.after_sign_in_path_for(advocate_admin.user)).to eq(external_users_root_url)
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'given an admin case worker' do
       before { sign_in case_worker_admin.user }
 
-      it 'returns case workers root url ' do
+      it 'returns case workers root url' do
         expect(subject.after_sign_in_path_for(case_worker_admin.user)).to eq(case_workers_admin_root_url)
       end
     end
@@ -82,7 +82,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'given an advocate' do
       let(:user) { advocate.user }
 
-      it 'returns advocates root url ' do
+      it 'returns advocates root url' do
         expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
       end
     end
@@ -90,7 +90,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'given a case worker' do
       let(:user) { case_worker.user }
 
-      it 'returns case workers root url ' do
+      it 'returns case workers root url' do
         expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
       end
     end
@@ -98,7 +98,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'given an admin advocate' do
       let(:user) { advocate_admin.user }
 
-      it 'returns advocates admin root url ' do
+      it 'returns advocates admin root url' do
         expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
       end
     end
@@ -106,7 +106,7 @@ RSpec.describe ApplicationController, type: :controller do
     context 'given an admin case worker' do
       let(:user) { case_worker_admin.user }
 
-      it 'returns case workers root url ' do
+      it 'returns case workers root url' do
         expect(subject.after_sign_out_path_for(user)).to eq(new_feedback_url(type: 'feedback'))
       end
     end

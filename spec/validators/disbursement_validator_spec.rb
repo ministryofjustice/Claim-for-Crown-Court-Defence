@@ -52,11 +52,11 @@ RSpec.describe DisbursementValidator, type: :validator do
         end
       end
 
-      it 'valid when VAT amount is less than or equal to VAT% of NET ' do
+      it 'valid when VAT amount is less than or equal to VAT% of NET' do
         should_be_valid_if_equal_to_value(disbursement, :vat_amount, 20.00)
       end
 
-      it 'valid when rounded VAT amount is less than or equal to VAT% of NET ' do
+      it 'valid when rounded VAT amount is less than or equal to VAT% of NET' do
         should_be_valid_if_equal_to_value(disbursement, :vat_amount, 20.001)
       end
 
@@ -64,7 +64,7 @@ RSpec.describe DisbursementValidator, type: :validator do
         should_error_if_equal_to_value(disbursement, :vat_amount, 20.01, 'max_vat_amount')
       end
 
-      it 'invalid when rounded VAT amount greater than VAT% of NET ' do
+      it 'invalid when rounded VAT amount greater than VAT% of NET' do
         should_error_if_equal_to_value(disbursement, :vat_amount, 20.009, 'max_vat_amount')
       end
     end

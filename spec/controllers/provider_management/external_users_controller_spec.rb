@@ -211,7 +211,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     before { travel_to(6.months.ago) { external_user } }
 
     context 'when valid' do
-      it 'does not require current password to be successful in updating the user record ' do
+      it 'does not require current password to be successful in updating the user record' do
         expect { password_update_request }.to(change { external_user.reload.user.updated_at })
       end
 

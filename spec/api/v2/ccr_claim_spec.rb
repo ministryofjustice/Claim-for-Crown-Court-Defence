@@ -591,7 +591,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
               is_expected.to have_json_type(String).at_path 'bills/0/number_of_cases'
             end
 
-            it 'calculated from the count of UNIQUE additional case numbers for all uplift fees of the applicable variety (+1 for "main" case number) ' do
+            it 'calculated from the count of UNIQUE additional case numbers for all uplift fees of the applicable variety (+1 for "main" case number)' do
               is_expected.to be_json_eql('4'.to_json).at_path 'bills/0/number_of_cases'
             end
           end

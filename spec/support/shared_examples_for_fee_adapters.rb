@@ -51,7 +51,7 @@ end
 RSpec.shared_examples 'a bill types delegator' do |adapter_klass|
   let(:adapter) { instance_double(adapter_klass) }
 
-  it "delegates bill types to #{adapter_klass} " do
+  it "delegates bill types to #{adapter_klass}" do
     expect(adapter_klass).to receive(:new).with(bill).and_return(adapter)
     expect(adapter).to receive(:bill_type)
     expect(adapter).to receive(:bill_subtype)

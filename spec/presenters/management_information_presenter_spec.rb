@@ -458,7 +458,7 @@ RSpec.describe ManagementInformationPresenter do
       let(:claim) { create(:allocated_claim) }
       let(:colidx) { 15 }
 
-      context 'rejected with a single reason as a string ' do
+      context 'rejected with a single reason as a string' do
         before do
           claim.reject!(reason_code: ['no_rep_order'])
         end
@@ -508,7 +508,7 @@ RSpec.describe ManagementInformationPresenter do
         end
       end
 
-      context 'refused with a single reason as a string ' do
+      context 'refused with a single reason as a string' do
         before do
           claim.refuse!(reason_code: ['no_rep_order'])
         end

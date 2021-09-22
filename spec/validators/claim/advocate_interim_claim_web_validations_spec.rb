@@ -792,7 +792,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       specify { is_expected.to be_valid }
     end
 
-    context 'when one of the expenses requires an expense type  but its not given' do
+    context 'when one of the expenses requires an expense type but its not given' do
       let(:one_expense_attributes) { valid_one_expense_attributes.except(:expense_type_id) }
 
       specify {
@@ -801,7 +801,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
     end
 
-    context 'when one of the expenses requires an expense type  but an invalid one is given' do
+    context 'when one of the expenses requires an expense type but an invalid one is given' do
       let(:other_expense_attributes) { valid_other_expense_attributes.merge(expense_type_id: 99999) }
 
       specify {

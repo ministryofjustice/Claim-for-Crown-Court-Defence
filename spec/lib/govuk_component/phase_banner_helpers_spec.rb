@@ -51,7 +51,7 @@ RSpec.describe GovukComponent::PhaseBannerHelpers, type: :helper do
     context 'without a phase' do
       subject(:markup) { helper.govuk_phase_banner('', 'This is a new service') }
 
-      it 'adds phase-banner without a content__tag ' do
+      it 'adds phase-banner without a content__tag' do
         is_expected.not_to have_tag(:strong, with: { class: 'govuk-tag govuk-phase-banner__content__tag' })
       end
     end

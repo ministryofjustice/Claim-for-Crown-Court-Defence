@@ -12,7 +12,7 @@ RSpec.describe ErrorMessage do
 
     let(:model_name) { 'claim' }
 
-    context 'with default locale ' do
+    context 'with default locale' do
       it { is_expected.to eq(Rails.root.join('config/locales/en/error_messages/claim.yml')) }
     end
 

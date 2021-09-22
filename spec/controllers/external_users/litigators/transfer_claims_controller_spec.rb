@@ -388,7 +388,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       end
     end
 
-    context 'when submitted to LAA and invalid ' do
+    context 'when submitted to LAA and invalid' do
       it 'does not set claim to submitted' do
         put :update, params: { id: subject, claim: { form_step: 'case_details', court_id: nil }, commit_submit_claim: 'Submit to LAA' }
         subject.reload

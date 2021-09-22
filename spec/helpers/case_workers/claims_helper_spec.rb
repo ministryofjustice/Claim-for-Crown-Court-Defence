@@ -59,7 +59,7 @@ describe CaseWorkers::ClaimsHelper do
       end
     end
 
-    context 'current user is  not admin' do
+    context 'current user is not admin' do
       it 'gets the count for current users claims' do
         case_worker = create :case_worker
         completed_claims = double('Completed Claims', count: 71)

@@ -27,7 +27,7 @@ RSpec.describe Assessment do
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed fees must be greater than or equal to zero'
       end
 
-      it 'does not accept nil values ' do
+      it 'does not accept nil values' do
         expect {
           claim.assessment.update!(fees: nil)
           claim.assessment.save!
@@ -42,7 +42,7 @@ RSpec.describe Assessment do
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed expenses must be greater than or equal to zero'
       end
 
-      it 'does not accept nil values ' do
+      it 'does not accept nil values' do
         expect {
           claim.assessment.update!(expenses: nil)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed expenses must be greater than or equal to zero'
@@ -56,7 +56,7 @@ RSpec.describe Assessment do
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed disbursements must be greater than or equal to zero'
       end
 
-      it 'does not accept nil values ' do
+      it 'does not accept nil values' do
         expect {
           claim.assessment.update!(disbursements: nil)
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed disbursements must be greater than or equal to zero'

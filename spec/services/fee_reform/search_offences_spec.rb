@@ -58,7 +58,7 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
     context 'with AGFS 11 fee scheme filter' do
       let(:scheme_filter) { 'AGFS 11' }
 
-      context 'with search_offence filter ' do
+      context 'with search_offence filter' do
         let(:filters) { { fee_scheme: scheme_filter, search_offence: 'pattern' } }
 
         it 'returns offences for the fee scheme that match the search pattern (including band description and category description)' do

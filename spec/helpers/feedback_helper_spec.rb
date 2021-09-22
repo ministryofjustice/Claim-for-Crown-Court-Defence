@@ -22,7 +22,7 @@ describe FeedbackHelper do
 
     before { allow(helper).to receive(:current_user).and_return(defined_user) }
 
-    context 'when user is not logged in ' do
+    context 'when user is not logged in' do
       let(:defined_user) { nil }
       let(:params) { { user_id: nil } }
       it { is_expected.to be_truthy }

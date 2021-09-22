@@ -365,21 +365,21 @@ RSpec.describe ManagementInformationPresenter do
         end
       end
 
-      it 'date allocated' do
+      it 'date allocated_at' do
         presenter.present! do |claim_journeys|
           expect(claim_journeys.first).to include((Time.zone.now - 2.day).strftime('%d/%m/%Y'))
           expect(claim_journeys.second).to include('n/a', 'n/a')
         end
       end
 
-      it 'date of last assessment' do
+      it 'date last assessment completed_at' do
         presenter.present! do |claim_journeys|
-          expect(claim_journeys.first).to include((Time.zone.now - 1.day).strftime('%d/%m/%Y %H:%M'))
+          expect(claim_journeys.first).to include((Time.zone.now - 1.day).strftime('%d/%m/%Y'))
           expect(claim_journeys.second).to include('n/a', 'n/a')
         end
       end
 
-      it 'current/end state' do
+      it 'current or end state' do
         presenter.present! do |claim_journeys|
           expect(claim_journeys.first).to include('authorised')
           expect(claim_journeys.second).to include('submitted')

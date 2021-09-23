@@ -1,11 +1,11 @@
 module SurveyMonkey
   module Answer
     class Checkboxes
-      def initialize(**args)
-        @question = args[:question]
-        @answers = args[:answers]
-        @other = args[:other]
-        @other_text = args[:other_text]
+      def initialize(question:, answers:, other: nil, other_text: nil)
+        @question = question
+        @answers = answers
+        @other = other
+        @other_text = other_text
       end
 
       def to_h

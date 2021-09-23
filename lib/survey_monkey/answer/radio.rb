@@ -1,9 +1,9 @@
 module SurveyMonkey
   module Answer
     class Radio
-      def initialize(**args)
-        @question = args[:question]
-        @answer = args[:answer]
+      def initialize(question:, answer:)
+        @question = question
+        @answer = answer
       end
 
       def to_h

@@ -1,7 +1,7 @@
 module SurveyMonkey
   module Question
     class Radio < Base
-      def initialize(id, answers:, **_args)
+      def initialize(id, answers:)
         super(id)
 
         @answers = answers

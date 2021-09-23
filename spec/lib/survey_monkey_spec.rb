@@ -18,7 +18,7 @@ RSpec.describe SurveyMonkey do
     context 'with a known page' do
       let(:page_name) { :test_survey }
 
-      it { expect(page.id).to eq 123 }
+      it { expect(page.id).to eq(123) }
     end
 
     context 'with an unknown page' do

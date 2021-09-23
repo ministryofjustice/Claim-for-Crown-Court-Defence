@@ -20,7 +20,7 @@ RSpec.describe SurveyMonkey::Configuration do
       let(:new_id) { 456 }
 
       it 'replaces an existing page' do
-        expect { register_page }.to change { SurveyMonkey.page_by_name(new_page).id }.from(123).to 456
+        expect { register_page }.to change { SurveyMonkey.page_by_name(new_page).id }.from(123).to(456)
       end
     end
   end

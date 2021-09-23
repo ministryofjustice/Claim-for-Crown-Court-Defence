@@ -140,7 +140,7 @@ def publicise_errors(claim)
     claim.defendants.each do |defendant|
       ap defendant
       puts defendant.errors.full_messages
-      d.representation_orders.each do |rep|
+      defendant.representation_orders.each do |rep|
         ap rep
         puts '>>> rep order'
         puts rep.errors.full_messages

@@ -7,7 +7,14 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     let(:persona) { create(:case_worker, :admin) }
 
     describe 'GET #index' do
-      let(:expected_report_types) { %w[management_information provisional_assessment rejections_refusals submitted_claims] }
+      let(:expected_report_types) do
+        %w[management_information
+           agfs_management_information
+           lgfs_management_information
+           provisional_assessment
+           rejections_refusals
+           submitted_claims]
+      end
 
       before { get :index }
 
@@ -35,7 +42,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
         before do
           stats_report = create(:stats_report, :with_document, report_name: report_type)
           allow(Stats::StatsReport).to receive(:most_recent_by_type).and_return(stats_report)
-          allow(stats_report.document.blob).to receive(:service_url).and_return(test_url)
+          allow(stats_report.document.blob).to receive(:url).and_return(test_url)
 
           download
         end

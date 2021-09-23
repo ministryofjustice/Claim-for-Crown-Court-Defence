@@ -75,6 +75,14 @@ FactoryBot.define do
       end
     end
 
+    trait :draft do
+      # NOTE: remove the certification that general build would have added
+      # as only submitted+ states need certifying
+      after(:build) do |claim|
+        claim.certification = nil if claim.certification
+      end
+    end
+
     #
     # states: initial/default state is draft
     # - alphabetical list
@@ -83,11 +91,20 @@ FactoryBot.define do
       after(:create) { |claim| allocate_claim(claim); claim.reload }
     end
 
+    trait :allocated do
+      after(:create) { |claim| allocate_claim(claim); claim.reload }
+    end
+
     factory :archived_pending_delete_claim do
       after(:create) { |claim| advance_to_pending_delete(claim) }
     end
 
     factory :authorised_claim do
+      offence { create :offence, :with_fee_scheme, offence_class: create(:offence_class) }
+      after(:create) { |claim| authorise_claim(claim) }
+    end
+
+    trait :authorised do
       offence { create :offence, :with_fee_scheme, offence_class: create(:offence_class) }
       after(:create) { |claim| authorise_claim(claim) }
     end
@@ -109,12 +126,25 @@ FactoryBot.define do
       after(:create) { |claim| claim.submit!; claim.allocate!; assign_fees_and_expenses_for(claim); claim.authorise_part! }
     end
 
+    trait :part_authorised do
+      offence { create :offence, :with_fee_scheme, offence_class: create(:offence_class) }
+      after(:create) { |claim| allocate_claim(claim); claim.reload; assign_fees_and_expenses_for(claim); claim.authorise_part! }
+    end
+
     factory :refused_claim do
       after(:create) { |claim| claim.submit!; claim.allocate!; claim.refuse! }
     end
 
+    trait :refused do
+      after(:create) { |claim| claim.submit!; allocate_claim(claim); claim.refuse! }
+    end
+
     factory :rejected_claim do
       after(:create) { |claim| claim.submit!; claim.allocate!; claim.reject! }
+    end
+
+    trait :rejected do
+      after(:create) { |claim| claim.submit!; allocate_claim(claim); claim.reject! }
     end
 
     factory :submitted_claim do
@@ -131,6 +161,10 @@ FactoryBot.define do
           create(:injection_attempt, :with_errors, claim: claim)
         end
       end
+    end
+
+    trait :submitted do
+      after(:create, &:submit!)
     end
   end
 end

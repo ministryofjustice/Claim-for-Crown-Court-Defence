@@ -18,8 +18,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
     record = Stats::StatsReport.most_recent_by_type(params[:report_type])
 
     if record.document.attached?
-      # TODO: Change service_url to url when moving to Rails 6.1
-      redirect_to record.document.blob.service_url(disposition: 'attachment')
+      redirect_to record.document.blob.url(disposition: 'attachment')
     else
       redirect_to case_workers_admin_management_information_url, alert: t('.missing_report')
     end

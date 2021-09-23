@@ -1,10 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Stats::ManagementInformationGenerator do
-  subject(:result) { described_class.call }
-
-  let(:frozen_time) { Time.new(2015, 3, 10, 11, 44, 55) }
-  let(:report_columns) do
+  let(:expected_headers) do
     [
       'Id',
       'Scheme',
@@ -33,47 +30,70 @@ RSpec.describe Stats::ManagementInformationGenerator do
     ]
   end
 
-  context 'when generating data' do
-    subject(:contents) { result.content.split("\n") }
+  describe '#call' do
+    subject(:call) { described_class.new.call }
 
-    let!(:valid_claims) {
-      [
-        create(:allocated_claim),
-        create(:authorised_claim),
-        create(:part_authorised_claim)
-      ]
-    }
-    let!(:draft_claim) { create(:draft_claim) }
-    let!(:non_active_claim) { travel_to(frozen_time) { create(:allocated_claim) } }
+    let(:csv) { CSV.parse(call.content, headers: true) }
 
-    it 'returns CSV content with a header and a row for all active non-draft claims' do
-      expect(contents.size).to eq(valid_claims.size + 1)
+    before do
+      # excluded from MI report
+      create(:advocate_final_claim, :draft)
+      create(:advocate_final_claim, :authorised).soft_delete
+      travel_to(6.months.ago) { create(:advocate_final_claim, :allocated) }
+
+      # included in MI report
+      create(:litigator_final_claim, :submitted)
+      create(:litigator_final_claim, :rejected)
+      create(:advocate_final_claim, :submitted)
+      create(:advocate_final_claim, :allocated)
+      create(:advocate_final_claim, :part_authorised)
+      travel_to(6.months.ago + 1.day) { create(:advocate_final_claim, :authorised) }
     end
 
-    it 'has expected columns' do
-      expect(contents.first.split(',')).to match_array(report_columns)
+    it 'has expected headers' do
+      expect(csv.headers).to match_array(expected_headers)
+    end
+
+    context 'with no scope' do
+      subject(:call) { described_class.new.call }
+
+      it 'returns rows of all active non-draft claims' do
+        expect(csv['Scheme']).to match_array(%w[LGFS LGFS AGFS AGFS AGFS AGFS])
+      end
+    end
+
+    context 'with AGFS scope' do
+      subject(:call) { described_class.new({ claim_scope: :agfs }).call }
+
+      it 'returns rows of AGFS active non-draft claims' do
+        expect(csv['Scheme']).to match_array(%w[AGFS] * 4)
+      end
+    end
+
+    context 'with LGFS scope' do
+      subject(:call) { described_class.new({ claim_scope: :lgfs }).call }
+
+      it 'returns rows of LGFS active non-draft claims' do
+        expect(csv['Scheme']).to match_array(%w[LGFS] * 2)
+      end
     end
   end
 
-  context 'For logging' do
-    let(:error) { StandardError.new('test error') }
+  context 'when logging without errors' do
+    it 'log start and end' do
+      expect(LogStuff).to receive(:info).twice
+      described_class.call
+    end
+  end
 
-    context 'when successful' do
-      it 'uses LogStuff to log start and end' do
-        expect(LogStuff).to receive(:info).twice
-        described_class.call
-      end
+  context 'when logging errors' do
+    before do
+      allow(CSV).to receive(:generate).and_raise(StandardError)
     end
 
-    context 'when error raised' do
-      before do
-        allow(CSV).to receive(:generate).and_raise error
-      end
-
-      it 'uses LogStuff to log error' do
-        expect(LogStuff).to receive(:error).once
-        described_class.call
-      end
+    it 'uses LogStuff to log error' do
+      expect(LogStuff).to receive(:error).once
+      described_class.call
     end
   end
 end

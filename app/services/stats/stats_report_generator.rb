@@ -29,20 +29,30 @@ module Stats
     attr_reader :report_type, :options
 
     def validate_report_type
-      return if StatsReport::TYPES.include?(report_type.to_s)
-      raise InvalidReportType
+      raise InvalidReportType unless StatsReport::TYPES.include?(report_type.to_s)
     end
 
     def generate_new_report
-      return ManagementInformationGenerator.call(options) if report_type.to_sym == :management_information
+      return management_information_generator if report_type.include?('management_information')
 
       ReportGenerator.call(report_type, **options)
     end
 
+    def management_information_generator
+      case report_type.to_sym
+      when :agfs_management_information
+        options[:claim_scope] = :agfs
+      when :lgfs_management_information
+        options[:claim_scope] = :lgfs
+      end
+
+      ManagementInformationGenerator.call(options)
+    end
+
     def notify_error(report_record, error)
       return unless Settings.notify_report_errors
-      ActiveSupport::Notifications.instrument 'call_failed.stats_report',
-                                              id: report_record&.id, name: report_type, error: error
+      ActiveSupport::Notifications.instrument('call_failed.stats_report',
+                                              id: report_record&.id, name: report_type, error: error)
     end
   end
 end

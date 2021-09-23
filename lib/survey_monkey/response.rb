@@ -16,7 +16,7 @@ module SurveyMonkey
         content_type: 'application/json'
       )
 
-      parse_response(response)
+      parse(response)
     end
 
     def add_page(page, **responses)
@@ -25,7 +25,7 @@ module SurveyMonkey
 
     private
 
-    def parse_response(response)
+    def parse(response)
       body = JSON.parse(response.body)
       if response.success?
         SurveyMonkey.log(:info, "Response submitted. #{body['analyze_url']}")

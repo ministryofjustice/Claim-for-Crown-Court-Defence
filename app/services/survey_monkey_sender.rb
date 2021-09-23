@@ -4,12 +4,12 @@ class SurveyMonkeySender
   end
 
   def initialize(feedback)
-    @monkey = SurveyMonkey::Response.new
-    @monkey.add_page(:feedback, **payload(feedback))
+    @survey_response = SurveyMonkey::Response.new
+    @survey_response.add_page(:feedback, **payload(feedback))
   end
 
   def send_response
-    @monkey.submit
+    @survey_response.submit
   end
 
   private

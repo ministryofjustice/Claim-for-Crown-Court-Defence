@@ -19,6 +19,11 @@ environment.plugins.append('ConcatPlugin', new ConcatPlugin({
     'jquery-throttle-debounce',
     'accessible-autocomplete',
     './app/webpack/javascripts/vendor/**/*',
+    'datatables.net/js/jquery.dataTables.min.js',
+    'datatables.net-buttons/js/dataTables.buttons.min.js',
+    'datatables.net-fixedheader/js/dataTables.fixedHeader.min.js',
+    'datatables.net-select/js/dataTables.select.min.js',
+    'jquery-datatables-checkboxes/js/dataTables.checkboxes.min.js',
     './app/webpack/javascripts/modules/**/*',
     './app/webpack/javascripts/plugins/**/*',
     './app/webpack/javascripts/application.js'

@@ -2798,6 +2798,63 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
+datatables.net-buttons-dt@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/datatables.net-buttons-dt/-/datatables.net-buttons-dt-2.0.0.tgz#6bd80a918bd5cfb4933b3a3c7c7674f209b85add"
+  integrity sha512-sc/ERXB+k+dXH2L4uVLsQf2ufUdRy9hiE9uao31r+K8fAkgi/zvrIYhbzMQb4ckZAOsxzWSMyGUfuRnW5yD7+w==
+  dependencies:
+    datatables.net-buttons ">=1.7.1"
+    datatables.net-dt ">=1.10.25"
+    jquery ">=1.7"
+
+datatables.net-buttons@>=1.7.1:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/datatables.net-buttons/-/datatables.net-buttons-2.0.0.tgz#a1452e4f851164d4a7fecc46ad4aff82186fac79"
+  integrity sha512-2DGrCekliPiVESRGJKXkNjxM6ECyZrHDREVb+VRBmz5TSX4y34xobxPdAkVEtYUMnLu+1OarOzOSeGevXrwGeA==
+  dependencies:
+    datatables.net ">=1.10.25"
+    jquery ">=1.7"
+
+datatables.net-dt@>=1.10.25, datatables.net-dt@^1.10.15, datatables.net-dt@^1.11.2:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/datatables.net-dt/-/datatables.net-dt-1.11.2.tgz#2c9c949209d014e78e3976c4694d6d841c7ffd0c"
+  integrity sha512-C6PzD0nD7kPelWET2v2S7IXPUw7WIuyvsSwrUGoJoIL5Zaos4aGtnOiO2ibyMuXoUms5ckNWWkFYpvtJnyyHtA==
+  dependencies:
+    datatables.net ">=1.10.25"
+    jquery ">=1.7"
+
+datatables.net-fixedheader-dt@^3.1.9:
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/datatables.net-fixedheader-dt/-/datatables.net-fixedheader-dt-3.1.9.tgz#7bd6648b8d0b129df8c134b48e6a07ad2c843f03"
+  integrity sha512-H1Ec+fIsChvXJL93+4fqq3hT2A/U/KhEWEGLoSQ0Ncp78IoayNdgmUEuPtn1camahNiHxiEqENL56UBA09WmlA==
+  dependencies:
+    datatables.net-dt "^1.10.15"
+    datatables.net-fixedheader "3.1.9"
+    jquery ">=1.7"
+
+datatables.net-fixedheader@3.1.9:
+  version "3.1.9"
+  resolved "https://registry.yarnpkg.com/datatables.net-fixedheader/-/datatables.net-fixedheader-3.1.9.tgz#fadadcd1b4f84cdfd68c8c40418585784b412c8d"
+  integrity sha512-pK73vpfuafF6ZVox3/xuaNyk/TgDK4/0DFjHbhvxjzjWMn4s3LT1Q8g22hHGZ86VsSjyIwzI4iBKG1RMdksK4A==
+  dependencies:
+    datatables.net "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net-select@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-1.3.3.tgz#9259f70bf257e5d32198f38424d005808b78dc6d"
+  integrity sha512-M4e9Qx790IPt+tc+CLgk7gPram3i+M2OmhIkhIpp7RcZ2Ay4App4ouQZcEx3j1MTRIWxtOz47xjpWrwVfJ23YQ==
+  dependencies:
+    datatables.net "^1.10.15"
+    jquery ">=1.7"
+
+datatables.net@>=1.10.25, datatables.net@>=1.10.8, datatables.net@^1.10.15:
+  version "1.11.2"
+  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.11.2.tgz#019b37cda35d22087a65f983afa4e876eb9202e3"
+  integrity sha512-Dg+Yeyky+BhXoooJqTDTGssLxkAxe73CljcjYd4630XQZKqqqy0akYk2r4RSHSJLyYCOGRZEZiUF/N39+5nqvg==
+  dependencies:
+    jquery ">=1.7"
+
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
@@ -4760,6 +4817,14 @@ jquery-accessible-accordion-aria@^2.6.1:
   dependencies:
     jquery ">=1.0.0"
 
+jquery-datatables-checkboxes@^1.2.12:
+  version "1.2.12"
+  resolved "https://registry.yarnpkg.com/jquery-datatables-checkboxes/-/jquery-datatables-checkboxes-1.2.12.tgz#55510b11b5c1fde726108c7f2ee50d845f5ce0bf"
+  integrity sha512-pXy4tikO0IA6qZPPp5kmCQKxxlp8G+9Y0Cj6KbaPx/D5LDL/kSCQhxudPJHNCGaqNRSb0O3r3dTp2G32kA7eyQ==
+  dependencies:
+    datatables.net ">=1.10.8"
+    jquery ">=1.7"
+
 jquery-highlight@^3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/jquery-highlight/-/jquery-highlight-3.5.0.tgz#354fb3a8b98c594525ec1ccc003fd3d1dc305815"
@@ -4798,6 +4863,11 @@ jquery@2.2.4:
   version "3.5.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.1.tgz#d7b4d08e1bfdb86ad2f1a3d039ea17304717abb5"
   integrity sha512-XwIBPqcMn57FxfT+Go5pzySnm4KWkT1Tv7gjrpT1srtf8Weynl6R273VJ5GjkRb51IzMp5nbaPjJXMWeju2MKg==
+
+jquery@>=1.7:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.0.tgz#c72a09f15c1bdce142f49dbf1170bdf8adac2470"
+  integrity sha512-JVzAR/AjBvVt2BmYhxRCSYysDsPcssdmTFnzyLEts9qNwmjmu4JTAMYubEfwVOSwpQ1I1sKKFcxhZCI2buerfw==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

@@ -1,4 +1,4 @@
-// stylelint-disable max-nesting-depth, selector-no-qualifying-type
+// stylelint-disable max-nesting-depth, selector-class-pattern, selector-no-qualifying-type
 
 .table-container {
   margin-top: $gutter-half;
@@ -53,10 +53,7 @@ table {
           top: -$gutter;
           width: 320px;
           color: $error-colour;
-
-          @include govuk-media-query($until: desktop) {
-            width: auto;
-          }
+          text-align: left;
         }
       }
     }
@@ -76,10 +73,7 @@ table {
           top: -$gutter;
           width: 320px;
           color: $orange;
-
-          @include govuk-media-query($until: desktop) {
-            width: auto;
-          }
+          text-align: left;
         }
       }
     }
@@ -381,4 +375,51 @@ table {
 
 .previously-uploaded th:first-child {
   width: 75%;
+}
+
+// DataTables
+.dataTables_wrapper {
+  .dataTables_filter {
+    float: none;
+    text-align: left;
+  }
+
+  .dataTables_filter input,
+  .dataTables_length select {
+    padding: govuk-spacing(1);
+    border: $govuk-border-width-form-element solid $govuk-input-border-colour;
+    border-radius: 0;
+  }
+
+  .dataTables_info {
+    float: right;
+  }
+
+  .select-item {
+    font-weight: bold;
+  }
+
+  .dataTables_paginate {
+    padding-top: 0;
+
+    .paginate_button.current {
+      border: 1px solid transparent;
+      background: none;
+      font-weight: bold;
+    }
+  }
+}
+
+table.dataTable {
+  border-collapse: collapse;
+
+  &.no-footer {
+    border-bottom: none;
+  }
+}
+
+.app-jq-datatable {
+  thead th {
+    vertical-align: middle;
+  }
 }

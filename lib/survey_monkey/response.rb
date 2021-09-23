@@ -29,7 +29,7 @@ module SurveyMonkey
       body = JSON.parse(response.body)
       if response.success?
         SurveyMonkey.log(:info, "Response submitted. #{body['analyze_url']}")
-        { id: JSON.parse(response.body)['id']&.to_i, success: true }
+        { id: body['id']&.to_i, success: true }
       else
         SurveyMonkey.log(:error, "Failed to submit response: #{body}")
         { success: false, error_code: body['error']['id'].to_i }

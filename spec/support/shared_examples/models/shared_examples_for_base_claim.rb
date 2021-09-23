@@ -44,4 +44,18 @@ RSpec.shared_examples 'a base claim' do
     it { is_expected.to accept_nested_attributes_for(:assessment) }
     it { is_expected.to accept_nested_attributes_for(:redeterminations) }
   end
+
+  describe 'cleaner' do
+    subject(:claim) { create(:draft_claim) }
+
+    let(:cleaner) { instance_double(cleaner_class) }
+
+    before do
+      allow(cleaner_class).to receive(:new).with(claim).and_return(cleaner)
+      allow(cleaner).to receive(:call)
+      claim.save
+    end
+
+    it { expect(cleaner).to have_received(:call) }
+  end
 end

@@ -569,7 +569,9 @@ RSpec.describe Claim::BaseClaim do
 end
 
 RSpec.describe MockBaseClaim do
-  it_behaves_like 'a base claim'
+  it_behaves_like 'a base claim' do
+    let(:cleaner_class) { Cleaners::BaseClaimCleaner }
+  end
 
   context 'date formatting' do
     it 'accepts a variety of formats and populate the date accordingly' do

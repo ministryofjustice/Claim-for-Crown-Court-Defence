@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
-  it_behaves_like 'a base claim'
+  it_behaves_like 'a base claim' do
+    let(:cleaner_class) { Cleaners::AdvocateClaimCleaner }
+  end
 
   it { is_expected.to delegate_method(:requires_cracked_dates?).to(:case_type) }
 

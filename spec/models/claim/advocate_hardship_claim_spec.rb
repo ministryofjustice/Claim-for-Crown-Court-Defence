@@ -77,7 +77,9 @@ end
 RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
   let(:claim) { build(:advocate_hardship_claim) }
 
-  it_behaves_like 'a base claim'
+  it_behaves_like 'a base claim' do
+    let(:cleaner_class) { Cleaners::BaseClaimCleaner }
+  end
 
   specify { expect(subject.agfs?).to be_truthy }
   specify { expect(subject.final?).to be_falsey }

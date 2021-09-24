@@ -27,34 +27,36 @@ SET first_name = translate(first_name, :chars_to_translate, :translation)
 UPDATE messages
 SET body = translate(body, :chars_to_translate, :translation);
 
-UPDATE messages
-SET attachment_file_name = translate(
-      substr(attachment_file_name, 1, char_length(attachment_file_name) - position('.' in reverse(attachment_file_name))),
-    :chars_to_translate,
-    :translation
-    )
-    || substr(attachment_file_name,char_length(attachment_file_name) - position('.' in reverse(attachment_file_name)) + 1)
-WHERE attachment_file_name IS NOT NULL;
+-- TODO: active_storage_blobs filename and key anonymisation
 
-UPDATE documents
-SET document_file_name = translate(
-      substr(document_file_name, 1, char_length(document_file_name) - position('.' in reverse(document_file_name))),
-    :chars_to_translate,
-    :translation
-    )
-    || substr(document_file_name,char_length(document_file_name) - position('.' in reverse(document_file_name)) + 1)
-  , converted_preview_document_file_name = translate(
-      substr(converted_preview_document_file_name, 1, char_length(converted_preview_document_file_name) - position('.' in reverse(document_file_name))),
-    :chars_to_translate,
-    :translation
-    )
-    || substr(converted_preview_document_file_name, char_length(converted_preview_document_file_name) - position('.' in reverse(converted_preview_document_file_name)) + 1)
-  , file_path = translate(
-      substr(file_path, 1, char_length(file_path) - position('.' in reverse(file_path))),
-    :chars_to_translate,
-    :translation
-    )
-    || substr(converted_preview_document_file_name, char_length(converted_preview_document_file_name) - position('.' in reverse(converted_preview_document_file_name)) + 1);
+-- UPDATE messages
+-- SET attachment_file_name = translate(
+--       substr(attachment_file_name, 1, char_length(attachment_file_name) - position('.' in reverse(attachment_file_name))),
+--     :chars_to_translate,
+--     :translation
+--     )
+--     || substr(attachment_file_name,char_length(attachment_file_name) - position('.' in reverse(attachment_file_name)) + 1)
+-- WHERE attachment_file_name IS NOT NULL;
+
+-- UPDATE documents
+-- SET document_file_name = translate(
+--       substr(document_file_name, 1, char_length(document_file_name) - position('.' in reverse(document_file_name))),
+--     :chars_to_translate,
+--     :translation
+--     )
+--     || substr(document_file_name,char_length(document_file_name) - position('.' in reverse(document_file_name)) + 1)
+--   , converted_preview_document_file_name = translate(
+--       substr(converted_preview_document_file_name, 1, char_length(converted_preview_document_file_name) - position('.' in reverse(document_file_name))),
+--     :chars_to_translate,
+--     :translation
+--     )
+--     || substr(converted_preview_document_file_name, char_length(converted_preview_document_file_name) - position('.' in reverse(converted_preview_document_file_name)) + 1)
+--   , file_path = translate(
+--       substr(file_path, 1, char_length(file_path) - position('.' in reverse(file_path))),
+--     :chars_to_translate,
+--     :translation
+--     )
+--     || substr(converted_preview_document_file_name, char_length(converted_preview_document_file_name) - position('.' in reverse(converted_preview_document_file_name)) + 1);
 
 UPDATE claims
 SET additional_information = translate(additional_information, :chars_to_translate, :translation)

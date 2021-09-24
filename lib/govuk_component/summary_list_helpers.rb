@@ -9,7 +9,8 @@ module GovukComponent
     end
 
     def govuk_summary_list_row(list_key = nil, list_actions = nil, &block)
-      list_value = capture(&block)
+      list_value = capture_output(&block)
+
       tag.div(class: 'govuk-summary-list__row') do
         concat tag.dt(list_key, class: 'govuk-summary-list__key')
         concat tag.dd(list_value, class: 'govuk-summary-list__value')

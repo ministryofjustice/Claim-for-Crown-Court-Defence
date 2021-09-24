@@ -10,5 +10,10 @@ module GovukComponent
       options[:class] = classes.join(' ')
       options
     end
+
+    def capture_output
+      output = proc { yield&.to_s }
+      capture(&output)
+    end
   end
 end

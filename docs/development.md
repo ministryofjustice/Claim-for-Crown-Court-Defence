@@ -124,7 +124,7 @@ This will create a `private` dump file in the host environments s3 bucket and li
 ```bash
 # requires live-1 kubeconfig secret access
 # list existing dump files for an environment
-rake db:dump:list_s3_dumps['dev']
+bundle exec rake db:dump:list_s3_dumps['dev']
 ```
 
 You can then download the s3 dump file locally using:
@@ -132,7 +132,7 @@ You can then download the s3 dump file locally using:
 ```bash
 # requires live-1 kubeconfig secret access
 # copy existing dump file from an environment and decompress
-rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','dev']
+bundle exec rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','dev']
 ```
 
 The output will specify the location of the decompressed dump file (`tmp/{environment}/filename`).
@@ -140,7 +140,7 @@ The output will specify the location of the decompressed dump file (`tmp/{enviro
 You can then load the database dump on to your local database suing:
 
 ```bash
-$ rake db:restore['local-dump-file-path']
+bundle exec rake db:restore['local-dump-file-path']
 ```
 
 Snippet for local dump and restore:

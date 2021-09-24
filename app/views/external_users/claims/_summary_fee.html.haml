@@ -14,21 +14,21 @@
       - if fee.date?
         = fee.date
 
-        - if fee.is_graduated? && fee.claim.actual_trial_length
-          = t('external_users.claims.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
+      - if fee.is_graduated? && fee.claim.actual_trial_length
+        = t('external_users.claims.graduated_fees.summary.actual_trial_length', count: fee.claim.actual_trial_length)
 
-        - if fee.is_transfer? && fee.claim.actual_trial_length
-          = t('external_users.claims.transfer_fee.summary.actual_trial_length_value', count: fee.claim.actual_trial_length)
+      - if fee.is_transfer? && fee.claim.actual_trial_length
+        = t('external_users.claims.transfer_fee.summary.actual_trial_length_value', count: fee.claim.actual_trial_length)
 
-        - if fee.fee_type.unique_code.eql?('BABAF')
-          - if fee.first_day_of_trial
-            = fee.first_day_of_trial
+      - if fee.fee_type.unique_code.eql?('BABAF')
+        - if fee.first_day_of_trial
+          = fee.first_day_of_trial
 
-          - if fee.retrial_started_at
-            = fee.retrial_started_at
+        - if fee.retrial_started_at
+          = fee.retrial_started_at
 
-        - if fee.dates_attended.any?
-          = fee.dates_attended_delimited_string
+      - if fee.dates_attended.any?
+        = fee.dates_attended_delimited_string
 
     %td.numeric
       - if fee.calculated? || fee.is_graduated? || fee.is_transfer?

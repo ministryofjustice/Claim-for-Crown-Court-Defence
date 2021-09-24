@@ -133,6 +133,7 @@ namespace :db do
         write_to_file(args.file) do |writer|
           Provider.find_each(batch_size: batch_size) do |provider|
             provider.name = [Faker::Company.name, provider.id].join(' ')
+            provider.api_key = SecureRandom.uuid
             writer.call(provider)
           end
         end
@@ -164,6 +165,7 @@ namespace :db do
               user.first_name = Faker::Name.first_name
               user.last_name = Faker::Name.last_name
               user.email = "#{user.id}@anonymous.com"
+              user.api_key = SecureRandom.uuid
             end
 
             writer.call(user)
@@ -178,9 +180,6 @@ namespace :db do
         write_to_file(args.file) do |writer|
           Message.find_each(batch_size: batch_size) do |message|
             message.body = Faker::Lorem.sentence(word_count: 6, supplemental: false, random_words_to_add: 10)
-            if message.attachment_file_name.present?
-              message.attachment_file_name = fake_file_name(content_type: message.attachment_content_type)
-            end
             writer.call(message)
           end
         end
@@ -192,10 +191,9 @@ namespace :db do
       shell_working "exporting anonymised #{task.name.split(':').last} data" do
         write_to_file(args.file) do |writer|
           Document.find_each(batch_size: batch_size) do |document|
-            with_file_name(fake_file_name(content_type: document.document_content_type)) do |file_name, ext|
-              document.document_file_name = "#{file_name}.#{ext}"
-              document.converted_preview_document_file_name = "#{file_name}#{ '.' + ext unless ext == 'pdf' }.pdf"
-              document.file_path = "/s3/path/to/#{file_name}.#{ext}"
+            with_file_name(fake_file_name(content_type: document.document.content_type)) do |file_name, ext|
+              # Ex-Paperclip documents include a file_path
+              document.file_path = "s3/path/to/#{file_name}.#{ext}" if document.file_path
             end
             writer.call(document)
           end

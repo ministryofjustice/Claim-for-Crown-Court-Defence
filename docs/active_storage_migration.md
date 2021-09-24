@@ -397,11 +397,11 @@ Paperclip can be removed.
 * **[Done]** Amend ` kubernetes_deploy/scripts/cronjob.sh` to remove reference to `add_evidence_document_checksums`
 * **Note:** This step is destructive and cannot be reverted.
   Remove Paperclip related fields from the database:
-  * In `stats_reports`; `document_file_name`, `document_content_type`,
+  * **[Done]** In `stats_reports`; `document_file_name`, `document_content_type`,
     `document_file_size`, `document_updated_at`, `as_document_checksum`
-  * In `messages`; `attachment_file_name`, `attachment_content_type`,
+  * **[Done]** In `messages`; `attachment_file_name`, `attachment_content_type`,
     `attachment_file_size`, `attachment_updated_at`, `as_attachment_checksum`
-  * In `documents`; `document_file_name`, `document_content_type`
+  * **[Done]** In `documents`; `document_file_name`, `document_content_type`
     `document_file_size`, `document_updated_at`,
     `converted_preview_document_file_name`,
     `converted_preview_document_content_type`
@@ -410,8 +410,7 @@ Paperclip can be removed.
     `as_document_checksum`, `as_converted_preview_document_checksum`
 * Remove unneeded (?!check) `documents.file_path` attribute. This was added as a part
   of upload "verification" and should probably have been called `verified_file_path`.
-  It holds the full s3 path. It is, nonetheless, unclear why
-  it is needed at all.
+  It holds the full s3 path. It is, nonetheless, unclear why it is needed at all.
 * **[Done]** Remove `config/initializers/paperclip.rb`
 * **[Done]** Remove `#document#path` and  `#converted_preview_document#path` tests from
   `spec/model/document_spec.rb`

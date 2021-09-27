@@ -5,28 +5,7 @@
 # Idea comes from:
 # https://github.com/DavyJonesLocker/capybara-extensions
 #
-require Rails.root.join('spec','support','capybara_extensions','matchers')
-
-module Capybara
-  module DSL
-    CapybaraExtensions::Matchers.instance_methods.each do |method|
-      define_method method do |*args, &block|
-        page.send method, *args, &block
-      end
-    end
-  end
-
-  class Session
-    CapybaraExtensions::Matchers.instance_methods.each do |method|
-      define_method method do |*args, &block|
-        current_scope.send method, *args, &block
-      end
-    end
-  end
-
-  Node::Base.include CapybaraExtensions::Matchers
-  Node::Simple.include CapybaraExtensions::Matchers
-end
+require Rails.root.join('spec', 'support', 'capybara_extensions')
 
 # set minimum threads to 0 (to allow shutdown?!)
 # and max threads to 5 (duplicate default development

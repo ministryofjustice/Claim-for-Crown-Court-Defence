@@ -4,6 +4,10 @@
 module CapybaraExtensions
   module GOVUKComponent
     module Matchers
+      def has_govuk_section_title?(**options)
+        has_selector?('h2.govuk-heading-l', **options)
+      end
+
       def has_govuk_page_title?(options = {})
         has_selector?('h1.govuk-heading-xl', **options)
       end

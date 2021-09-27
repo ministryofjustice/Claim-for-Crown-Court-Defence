@@ -1,8 +1,4 @@
-require 'survey_monkey/answers'
 require 'survey_monkey/configuration'
-require 'survey_monkey/page_collection'
-require 'survey_monkey/page'
-require 'survey_monkey/response'
 
 module SurveyMonkey
   class << self

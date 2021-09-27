@@ -4,6 +4,19 @@
 module CapybaraExtensions
   module GOVUKComponent
     module Matchers
+      def has_govuk_link?(**options)
+        href = options.delete(:href)
+        has_selector?('a.govuk-link', **options) &&
+          has_link?(options[:text], href: href)
+      end
+
+      def has_govuk_summary_row?(key, value)
+        all('.govuk-summary-list__row').map do |row|
+          row.has_selector?('.govuk-summary-list__key', text: key) &&
+            row.has_selector?('.govuk-summary-list__value', text: value)
+        end.any?
+      end
+
       def has_govuk_section_title?(**options)
         has_selector?('h2.govuk-heading-l', **options)
       end

@@ -46,7 +46,7 @@ RSpec.describe 'send feedback', type: :request do
     end
 
     context 'when posting to Survey Monkey is successful' do
-      before { allow(SurveyMonkeySender).to receive(:send_response).and_return({ id: 123, success: true }) }
+      before { allow(SurveyMonkeySender).to receive(:call).and_return({ id: 123, success: true }) }
 
       context 'when the user is signed in' do
         let(:advocate) { create(:external_user) }
@@ -72,7 +72,7 @@ RSpec.describe 'send feedback', type: :request do
 
     context 'when posting to Survey Monkey is unsuccessful' do
       before do
-        allow(SurveyMonkeySender).to receive(:send_response).and_return({ success: false, error_code: '1020' })
+        allow(SurveyMonkeySender).to receive(:call).and_return({ success: false, error_code: '1020' })
         post_feedback
       end
 

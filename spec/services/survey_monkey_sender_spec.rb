@@ -43,8 +43,8 @@ RSpec.describe SurveyMonkeySender do
     end
   end
 
-  describe '#send_response' do
-    subject(:send_response) { sender.send_response }
+  describe '#call' do
+    subject(:call) { sender.call }
 
     context 'with a sucessful submission' do
       before { allow(survey_monkey).to receive(:submit).and_return({ id: 123, success: true }) }

@@ -57,7 +57,7 @@ class Feedback
   def save
     return false unless valid?
     if feedback?
-      response = SurveyMonkeySender.send_response(self)
+      response = SurveyMonkeySender.call(self)
       @error = "Unable to submit feedback [#{response[:error_code]}]" unless response[:success]
       response[:success]
     else

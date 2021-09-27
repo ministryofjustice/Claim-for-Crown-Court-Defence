@@ -29,12 +29,12 @@ RSpec.describe Feedback, type: :model do
     describe '#save' do
       subject(:save) { feedback.save }
 
-      before { allow(SurveyMonkeySender).to receive(:send_response).and_return({ id: 123, success: true }) }
+      before { allow(SurveyMonkeySender).to receive(:call).and_return({ id: 123, success: true }) }
 
       context 'when Survey Monkey succeeds' do
         it 'sends the response to Survey Monkey' do
           save
-          expect(SurveyMonkeySender).to have_received(:send_response).with(feedback)
+          expect(SurveyMonkeySender).to have_received(:call).with(feedback)
         end
       end
     end

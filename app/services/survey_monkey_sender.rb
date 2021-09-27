@@ -1,6 +1,6 @@
 class SurveyMonkeySender
-  def self.send_response(feedback)
-    new(feedback).send_response
+  def self.call(feedback)
+    new(feedback).call
   end
 
   def initialize(feedback)
@@ -8,7 +8,7 @@ class SurveyMonkeySender
     @survey_response.add_page(:feedback, **payload(feedback))
   end
 
-  def send_response
+  def call
     @survey_response.submit
   end
 

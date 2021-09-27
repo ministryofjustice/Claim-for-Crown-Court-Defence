@@ -3,6 +3,7 @@ require 'google_analytics/api'
 class FeedbackController < ApplicationController
   skip_load_and_authorize_resource only: %i[new create]
   before_action :suppress_hotline_link
+  before_action :setup_page
 
   def new
     @feedback = Feedback.new(type: type, referrer: referrer_path)
@@ -66,5 +67,9 @@ class FeedbackController < ApplicationController
       :email,
       reason: []
     )
+  end
+
+  def setup_page
+    @feedback_page = FeedbackForm.new if type == 'feedback'
   end
 end

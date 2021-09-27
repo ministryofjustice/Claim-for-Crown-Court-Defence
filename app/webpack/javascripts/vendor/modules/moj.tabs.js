@@ -63,11 +63,11 @@
 
     _activateFirstLink: function () {
       // activate first tab
-      this.$tabNav.find('li').first().find('a').click();
+      this.$tabNav.find('li').first().find('a').trigger('click');
     },
 
     _focusFirstElement: function (el) {
-      el.find('a, input, textarea, select, button, [tabindex]').not(':disabled').first().focus();
+      el.find('a, input, textarea, select, button, [tabindex]').not(':disabled').first().trigger('focus');
     }
 
   };

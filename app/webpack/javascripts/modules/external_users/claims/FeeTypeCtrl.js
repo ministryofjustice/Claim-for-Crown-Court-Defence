@@ -31,12 +31,12 @@ moj.Modules.FeeTypeCtrl = {
     const $els = $el || $('.fx-fee-group')
 
     if ($('.fx-unused-materials-warning').exists()) {
-      $els.change(function () {
+      $els.on('change', function () {
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeSelectUniqueCode(this))
       })
     }
     if ($('.fee-quantity').exists()) {
-      $els.change(function () {
+      $els.on('change', function () {
         self.readOnlyQuantity(this, self.getFeeTypeSelectUniqueCode(this))
       })
     }
@@ -48,7 +48,7 @@ moj.Modules.FeeTypeCtrl = {
     const $els = $el || $('.fx-fee-group')
 
     if ($('.fx-unused-materials-warning').exists()) {
-      $els.change(function () {
+      $els.on('change', function () {
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeRadioUniqueCode(this))
       })
     }
@@ -69,14 +69,14 @@ moj.Modules.FeeTypeCtrl = {
       $quantity.attr('readonly', true)
     } else {
       $quantity.val()
-      $quantity.removeAttr('readonly')
+      $quantity.prop('readonly', false)
     }
   },
 
   pageLoad: function () {
     const self = this
 
-    $(document).ready(function () {
+    $(function () {
       $('.js-fee-type:visible').each(function () {
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeSelectUniqueCode(this))
         self.readOnlyQuantity(this, self.getFeeTypeSelectUniqueCode(this))

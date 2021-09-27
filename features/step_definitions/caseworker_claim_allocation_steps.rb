@@ -166,13 +166,13 @@ end
 When(/^I click on a claim row cell$/) do
   within('.report') do
     #click first row's 2nd column
-    page.find('tbody').all('tr')[0].all('td')[1].click()
+    page.find('tbody').all('tr')[0].all('td')[1].trigger('click')
   end
 end
 
 When(/^I click on a claims row cell$/) do
   #click the first row's first 2nd cell
-  page.find('tbody').all('tr')[0].all('td')[1].click()
+  page.find('tbody').all('tr')[0].all('td')[1].trigger('click')
 end
 
 When(/^I should see the AGFS filters$/) do

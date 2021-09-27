@@ -25,7 +25,7 @@ moj.Helpers.Blocks = {
 
     this.setVal = function (selector, val) {
       if (this.$el.find(selector).length) {
-        this.$el.find(selector).val(val).change()
+        this.$el.find(selector).val(val).trigger('change')
         return
       }
       throw new Error('Selector did not return an element: ' + selector)
@@ -34,7 +34,7 @@ moj.Helpers.Blocks = {
     this.setNumber = function (selector, val, points) {
       points = points || '2'
       if (this.$el.find(selector).length) {
-        this.$el.find(selector).val(parseFloat(val).toFixed(points)).change()
+        this.$el.find(selector).val(parseFloat(val).toFixed(points)).trigger('change')
       }
     }
 
@@ -558,7 +558,7 @@ moj.Helpers.Blocks = {
 
       $parent.append($detached)
 
-      return $parent.find('.fx-travel-expense-type select').focus()
+      return $parent.find('.fx-travel-expense-type select').trigger('focus')
     }
 
     /**
@@ -571,7 +571,7 @@ moj.Helpers.Blocks = {
       // Clearing the radio buttons if they are not required
       if (!state.config.mileage) {
         $dom.find('.fx-travel-mileage input[type=radio]').is(function () {
-          $(this).removeAttr('checked').prop('disabled', true)
+          $(this).prop('checked', false).prop('disabled', true)
         })
         return $dom
       }
@@ -610,7 +610,7 @@ moj.Helpers.Blocks = {
       // Bike mileage visibility, radio checked & disabled values
       $dom.find('.fx-travel-mileage-bike').css('display', config.bike)
       $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function () {
-        $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel).change()
+        $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel).trigger('change')
       })
       return $dom
     }

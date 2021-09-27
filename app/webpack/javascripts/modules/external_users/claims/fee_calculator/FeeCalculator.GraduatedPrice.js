@@ -22,7 +22,7 @@
     advocateTypeChange: function () {
       const self = this
       if ($('.calculated-grad-fee').exists()) {
-        $('.js-fee-calculator-advocate-type').change(function () {
+        $('.js-fee-calculator-advocate-type').on('change', function () {
           self.calculateAllGraduatedPrices()
         })
       }
@@ -31,7 +31,7 @@
     prosecutionEvidenceChange: function () {
       const self = this
       if ($('.calculated-grad-fee').exists()) {
-        $('.js-fee-calculator-prosecution-evidence').change(function () {
+        $('.js-fee-calculator-prosecution-evidence').on('change', function () {
           self.calculateAllGraduatedPrices()
         })
       }
@@ -110,7 +110,7 @@
       const $priceCalculated = $(context).find('.js-fee-calculator-success > input')
 
       $amount.val(data.toFixed(2))
-      $amount.change()
+      $amount.trigger('change')
       $priceCalculated.val(data > 0)
       $amount.prop('readonly', data > 0)
     },

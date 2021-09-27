@@ -34,7 +34,7 @@ describe('supportingEvidence', function () {
       it('and do not submit the form if answer to confirm is Cancel', function () {
         confirmAlert.and.returnValue(false)
 
-        $submitButton().click()
+        $submitButton().trigger('click')
 
         expect(confirmAlert).toHaveBeenCalled()
         expect(submitCallback).not.toHaveBeenCalled()
@@ -43,7 +43,7 @@ describe('supportingEvidence', function () {
       it('and submit the form if answer to confirm is OK', function () {
         confirmAlert.and.returnValue(true)
 
-        $submitButton().click()
+        $submitButton().trigger('click')
 
         expect(confirmAlert).toHaveBeenCalled()
         expect(submitCallback).toHaveBeenCalled()
@@ -52,9 +52,9 @@ describe('supportingEvidence', function () {
 
     describe('should not alert when copy of the indictment is selected in the supporting evidence checklist', function () {
       it('and submit the form', function () {
-        $indictmentEvidence().click()
+        $indictmentEvidence().trigger('click')
 
-        $submitButton().click()
+        $submitButton().trigger('click')
 
         expect(confirmAlert).not.toHaveBeenCalled()
         expect(submitCallback).toHaveBeenCalled()
@@ -65,7 +65,7 @@ describe('supportingEvidence', function () {
   describe('on claim save draft', function () {
     describe('should not alert when copy of the indictment is not selected in the supporting evidence checklist', function () {
       it('and submit the form', function () {
-        $saveDraftButton().click()
+        $saveDraftButton().trigger('click')
 
         expect(confirmAlert).not.toHaveBeenCalled()
         expect(submitCallback).toHaveBeenCalled()

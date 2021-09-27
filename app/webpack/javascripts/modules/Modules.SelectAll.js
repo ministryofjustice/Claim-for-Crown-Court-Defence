@@ -1,6 +1,6 @@
 moj.Modules.SelectAll = {
   init: function () {
-    $('.select-all').click(function () {
+    $('.select-all').on('click', function () {
       const $element = $(this)
       const checkedState = $element.data('all-checked')
 

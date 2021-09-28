@@ -32,33 +32,4 @@ RSpec.describe Claim::AdvocateSupplementaryClaim, type: :model do
       expect(claim.eligible_misc_fee_types).to eq(misc_fee_types)
     end
   end
-
-  describe '#cleaner' do
-    let(:claim) { build(:advocate_supplementary_claim, with_misc_fee: false) }
-    context 'destroys invalid fee types' do
-      before do
-        seed_fee_types
-      end
-
-      context 'when there are ineligible misc fees on the claim' do
-        before { claim.misc_fees << misc_fees }
-        let(:eligible_fee) { build(:misc_fee, :mispf_fee) }
-        let(:ineligible_fee) { build(:misc_fee, :minbr_fee) }
-        let(:another_ineligible_fee) { build(:misc_fee, :minbr_fee) }
-        let(:misc_fees) { [eligible_fee, ineligible_fee, another_ineligible_fee] }
-
-        specify 'removes the ineligible misc fee' do
-          expect { claim.save }.to change(claim.misc_fees, :size).from(3).to(1)
-          unique_codes = claim.misc_fees.map(&:fee_type).map(&:unique_code)
-          expect(unique_codes).to_not include(ineligible_fee.fee_type.unique_code)
-        end
-
-        specify 'saves the eligible fee' do
-          expect { claim.save }.to change(claim.misc_fees, :count).from(0).to(1)
-          unique_codes = claim.misc_fees.map(&:fee_type).map(&:unique_code)
-          expect(unique_codes).to match_array(eligible_fee.fee_type.unique_code)
-        end
-      end
-    end
-  end
 end

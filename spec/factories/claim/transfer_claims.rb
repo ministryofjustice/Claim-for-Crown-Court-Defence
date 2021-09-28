@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :transfer_claim, aliases: [:litigator_transfer_claim], class: 'Claim::TransferClaim' do
     litigator_base_setup
-    claim_state_common_traits
     case_type { nil }
 
     # NOTE: transfer_detail attribute getter/setters are delegated to claim
@@ -68,10 +67,6 @@ FactoryBot.define do
       elected_case { false }
       transfer_stage_id { 50 }
       case_conclusion_id { 40 }
-    end
-
-    trait :submitted do
-      after(:create) { |c| c.submit! }
     end
   end
 

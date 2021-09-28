@@ -30,11 +30,11 @@ module FactoryHelpers
     }
     allocator = Allocation.new(allocator_options)
     allocator.save
+    claim.reload
   end
 
   def authorise_claim(claim)
     allocate_claim(claim)
-    claim.reload
     assign_fees_and_expenses_for(claim)
     claim.authorise!
     claim.last_decision_transition.update_author_id(claim.case_workers.first.user.id)

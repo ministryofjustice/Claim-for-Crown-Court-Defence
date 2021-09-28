@@ -97,6 +97,10 @@ module Claims
           transition VALID_STATES_FOR_REDETERMINATION.map(&:to_sym) => :awaiting_written_reasons
         end
 
+        event :submit do
+          transition %i[draft allocated] => :submitted
+        end
+
         event :allocate do
           transition VALID_STATES_FOR_ALLOCATION.map(&:to_sym) => :allocated
         end
@@ -129,10 +133,6 @@ module Claims
 
         event :reject do
           transition %i[allocated awaiting_written_reasons] => :rejected, :if => :rejectable?
-        end
-
-        event :submit do
-          transition %i[draft allocated] => :submitted
         end
 
         event :transition_clone_to_draft do

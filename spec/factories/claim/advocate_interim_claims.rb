@@ -7,10 +7,6 @@ FactoryBot.define do
       claim.creator = claim.external_user
     end
 
-    trait :submitted do
-      after(:create) { |c| c.submit! }
-    end
-
     trait :without_fees do
       after(:build) do |claim|
         claim.fees.destroy_all

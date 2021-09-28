@@ -1,7 +1,6 @@
 FactoryBot.define do
   factory :litigator_claim, aliases: [:litigator_final_claim], class: 'Claim::LitigatorClaim' do
     litigator_base_setup
-    claim_state_common_traits
 
     after(:build) do |claim|
       claim.fees << build(:misc_fee, :lgfs, claim: claim) # fees required for valid claims
@@ -66,18 +65,6 @@ FactoryBot.define do
 
     trait :forced_validation do |claim|
       claim.force_validation { true }
-    end
-
-    trait :submitted do
-      after(:create) { |c| c.submit! }
-    end
-
-    trait :rejected do
-      after(:create) do |claim|
-        claim.submit!
-        allocate_claim(claim)
-        claim.reject!
-      end
     end
   end
 end

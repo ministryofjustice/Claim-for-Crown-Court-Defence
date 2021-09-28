@@ -45,7 +45,7 @@ RSpec.shared_examples 'a base claim' do
     it { is_expected.to accept_nested_attributes_for(:redeterminations) }
   end
 
-  describe 'cleaner' do
+  describe '#cleaner' do
     subject(:claim) { create(:draft_claim) }
 
     let(:cleaner) { instance_double(cleaner_class) }

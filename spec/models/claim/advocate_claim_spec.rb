@@ -962,19 +962,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  describe '#cleaner' do
-    subject(:claim) { create(:draft_claim) }
-    let(:cleaner) { instance_double(Cleaners::AdvocateClaimCleaner) }
-
-    before do
-      allow(Cleaners::AdvocateClaimCleaner).to receive(:new).with(claim).and_return(cleaner)
-      allow(cleaner).to receive(:call)
-      claim.save
-    end
-
-    it { expect(cleaner).to have_received(:call) }
-  end
-
   describe 'sets the source field before saving a claim' do
     let(:claim) { FactoryBot.build :claim }
 

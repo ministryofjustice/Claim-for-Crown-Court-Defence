@@ -33,8 +33,7 @@ VCR.configure do |c|
       [
         !uri.path.start_with?('/api/'),
         !uri.hostname.eql?('maps.googleapis.com'),
-        !uri.hostname.eql?('apilayer.net'),
-        !uri.hostname.eql?('api.eu.surveymonkey.com')
+        !uri.hostname.eql?('apilayer.net')
       ].all?,
       [
         uri.host.eql?('127.0.0.1'),

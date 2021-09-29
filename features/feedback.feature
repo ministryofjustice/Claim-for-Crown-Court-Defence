@@ -1,5 +1,6 @@
 @javascript @no-seed
 Feature: A user can provide feedback and bug report
+  @stub_survey_monkey_success
   Scenario: A user can successfully submit a feedback
     Given I visit "/"
     When I click the link 'Provide feedback'
@@ -11,13 +12,10 @@ Feature: A user can provide feedback and bug report
     And I fill in 'Tell us about your experience of using the service today' with 'This is great!'
     And I click govuk checkbox 'Other (please specify)'
     And I fill in 'Enter your comment' with 'Something Else'
-    Given I insert the VCR cassette 'features/feedback/survey_monkey'
     And I click the button 'Send'
 
     Then I see confirmation that my 'feedback' was received
     And I should be on the sign in page
-
-    Then I eject the VCR cassette
 
   @stub_zendesk_request
   Scenario: A user can successfully submit a bug report

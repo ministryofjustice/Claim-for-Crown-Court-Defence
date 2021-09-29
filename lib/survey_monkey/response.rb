@@ -1,6 +1,6 @@
 module SurveyMonkey
   class Response
-    delegate :connection, :collector_id, :page_by_name, :log, to: :SurveyMonkey
+    delegate :connection, :collector_id, :page_by_name, :log, to: :SurveyMonkey, private: true
 
     def initialize
       @pages = []

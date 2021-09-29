@@ -70,6 +70,6 @@ class FeedbackController < ApplicationController
   end
 
   def setup_page
-    @feedback_page = FeedbackForm.new if type == 'feedback'
+    @feedback_form = FeedbackForm.new if type == 'feedback'
   end
 end

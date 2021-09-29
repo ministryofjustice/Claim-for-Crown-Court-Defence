@@ -23,11 +23,11 @@
         = t('.report_fault_html', bug_report_link: new_feedback_path(type: 'bug_report'))
 
       = f.govuk_collection_radio_buttons :task,
-        @feedback_page.tasks[:answers], :key, :label,
+        @feedback_form.tasks.answers, :key, :label,
         legend: { text: t('.task_legend') }
 
       = f.govuk_collection_radio_buttons :rating,
-        @feedback_page.ratings[:answers], :key, :label,
+        @feedback_form.ratings.answers, :key, :label,
         legend: { text: t('.rating') }
 
       = f.govuk_text_area :comment,
@@ -36,7 +36,7 @@
 
       = f.govuk_check_boxes_fieldset :reason, legend: { text: t('.reason'), size: "m" } do
 
-        - @feedback_page.reasons[:answers].map do |reason|
+        - @feedback_form.reasons.answers.map do |reason|
           = f.govuk_check_box :reason,
             reason.key,
             label: { text: reason.label } do

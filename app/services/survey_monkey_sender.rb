@@ -4,22 +4,26 @@ class SurveyMonkeySender
   end
 
   def initialize(feedback)
-    @survey_response = SurveyMonkey::Response.new
-    @survey_response.add_page(:feedback, **payload(feedback))
+    @feedback = feedback
+    response.add_page(:feedback, **payload)
   end
 
   def call
-    @survey_response.submit
+    response.submit
   end
 
   private
 
-  def payload(feedback)
+  def response
+    @response ||= SurveyMonkey::Response.new
+  end
+
+  def payload
     {
-      tasks: feedback.task,
-      ratings: feedback.rating,
-      comments: feedback.comment,
-      reasons: reasons(feedback.reason, feedback.other_reason)
+      tasks: @feedback.task,
+      ratings: @feedback.rating,
+      comments: @feedback.comment,
+      reasons: reasons(@feedback.reason, @feedback.other_reason)
     }.delete_if { |_, value| value.blank? }
   end
 

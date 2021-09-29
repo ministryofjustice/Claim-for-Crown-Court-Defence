@@ -1,5 +1,12 @@
 class FeedbackForm
   Section = Struct.new(:id, :format, :answers)
+  Answer = Struct.new(:key, :label, :id, :other) do
+    def id
+      return { id: @id, other: true } if other
+
+      @id
+    end
+  end
 
   def name
     :feedback
@@ -22,9 +29,9 @@ class FeedbackForm
     Section.new(
       60_742_936, :radio,
       [
-        FormAnswer.new('3', 'Yes', 505_487_572),
-        FormAnswer.new('2', 'No', 505_487_573),
-        FormAnswer.new('1', 'Partially', 505_487_574)
+        Answer.new('3', 'Yes', 505_487_572),
+        Answer.new('2', 'No', 505_487_573),
+        Answer.new('1', 'Partially', 505_487_574)
       ]
     )
   end
@@ -33,11 +40,11 @@ class FeedbackForm
     Section.new(
       60_742_964, :radio,
       [
-        FormAnswer.new('5', 'Very satisfied', 505_488_046),
-        FormAnswer.new('4', 'Satisfied', 505_488_047),
-        FormAnswer.new('3', 'Neither satisfied nor dissatisified', 505_488_048),
-        FormAnswer.new('2', 'Dissatisfied', 505_488_049),
-        FormAnswer.new('1', 'Very dissatisfied', 505_488_050)
+        Answer.new('5', 'Very satisfied', 505_488_046),
+        Answer.new('4', 'Satisfied', 505_488_047),
+        Answer.new('3', 'Neither satisfied nor dissatisified', 505_488_048),
+        Answer.new('2', 'Dissatisfied', 505_488_049),
+        Answer.new('1', 'Very dissatisfied', 505_488_050)
       ]
     )
   end
@@ -46,9 +53,9 @@ class FeedbackForm
     Section.new(
       60_745_386, :checkboxes,
       [
-        FormAnswer.new('3', 'Submit an LGFS claim', 505_511_336),
-        FormAnswer.new('2', 'Submit an AGFS claim', 505_511_337),
-        FormAnswer.new('1', 'Other (please specify)', 505_511_338, other: true)
+        Answer.new('3', 'Submit an LGFS claim', 505_511_336),
+        Answer.new('2', 'Submit an AGFS claim', 505_511_337),
+        Answer.new('1', 'Other (please specify)', 505_511_338, other: true)
       ]
     )
   end

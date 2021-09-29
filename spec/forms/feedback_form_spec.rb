@@ -19,6 +19,7 @@ RSpec.describe FeedbackForm do
     subject(:template) { form.template }
 
     it { is_expected.to be_a Hash }
+    it { expect(template.values).to all(be_instance_of(Hash)) }
     it { expect(template.values.map(&:class).uniq).to match_array([Hash]) }
   end
 end

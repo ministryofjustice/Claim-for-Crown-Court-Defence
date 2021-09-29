@@ -7,7 +7,7 @@ VCR.configure do |c|
   # use webmock to hook into and replay requests
   c.hook_into :webmock
 
-  # enable rspec :vcr tag for autonmatically named cassettes. needed??
+  # enable rspec :vcr tag for automatically named cassettes. needed??
   c.configure_rspec_metadata!
   c.default_cassette_options = {
     erb: true,
@@ -24,7 +24,7 @@ VCR.configure do |c|
   # - capybara-selenium
   # - chrome browser/selenium requests to localhost port on which it runs
   # Do not ignore requests to:
-  # - CCCD API endpoints, LAA fee calculator and google maps
+  # - CCCD API endpoints, LAA fee calculator, google maps and survey monkey
   #
   c.ignore_request do |request|
     uri = URI(request.uri)
@@ -33,7 +33,8 @@ VCR.configure do |c|
       [
         !uri.path.start_with?('/api/'),
         !uri.hostname.eql?('maps.googleapis.com'),
-        !uri.hostname.eql?('apilayer.net')
+        !uri.hostname.eql?('apilayer.net'),
+        !uri.hostname.eql?('api.eu.surveymonkey.com')
       ].all?,
       [
         uri.host.eql?('127.0.0.1'),

@@ -9,6 +9,12 @@ FactoryBot.define do
       assign_external_user_as_creator(claim)
     end
 
+    trait :draft do
+      after(:build) do |claim|
+        claim.certification = nil if claim.certification
+      end
+    end
+
     trait :authorised do
       after(:create) { |claim| authorise_claim(claim) }
     end

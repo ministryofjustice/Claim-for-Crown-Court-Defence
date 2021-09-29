@@ -47,5 +47,39 @@ RSpec.describe GovukComponent::SummaryListHelpers, type: :helper do
         with_tag(:dd, with: { class: 'govuk-summary-list__actions' }, text: 'Edit')
       end
     end
+
+    context 'when passed a plain ruby block' do
+      subject(:markup) { helper.govuk_summary_list_row('Name', 'Edit') { value } }
+
+      context 'with a String' do
+        let(:value) { 'Foobar' }
+
+        it 'casts to string' do
+          is_expected.to have_tag(:div) do
+            with_tag(:dd, with: { class: 'govuk-summary-list__value' }, text: 'Foobar')
+          end
+        end
+      end
+
+      context 'with an integer' do
+        let(:value) { 101 }
+
+        it 'casts to string' do
+          is_expected.to have_tag(:div) do
+            with_tag(:dd, with: { class: 'govuk-summary-list__value' }, text: '101')
+          end
+        end
+      end
+
+      context 'with a date' do
+        let(:value) { Date.new(2001, 2, 25) }
+
+        it 'casts to string' do
+          is_expected.to have_tag(:div) do
+            with_tag(:dd, with: { class: 'govuk-summary-list__value' }, text: '25/02/2001 00:00')
+          end
+        end
+      end
+    end
   end
 end

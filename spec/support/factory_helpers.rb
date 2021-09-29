@@ -1,8 +1,6 @@
-require_relative 'scheme_date_helpers'
-
+# Custom helpers to mixin for use in factorybot
+#
 module FactoryHelpers
-  include SchemeDateHelpers
-
   def add_defendant_and_reporder(claim, representation_order_date = nil)
     defendant = if representation_order_date
                   create(:defendant, :without_reporder, claim: claim)
@@ -89,12 +87,5 @@ module FactoryHelpers
 
   def assign_external_user_as_creator(claim)
     claim.creator = claim.external_user
-  end
-end
-
-# FactoryBot::SyntaxRunner can be extended to add helpers
-module FactoryBot
-  class SyntaxRunner
-    include FactoryHelpers
   end
 end

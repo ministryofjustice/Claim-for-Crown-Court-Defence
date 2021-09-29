@@ -1,4 +1,6 @@
-World(FactoryBot::Syntax::Methods)
+RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+end
 
 require Rails.root.join('spec', 'support', 'factory_helpers')
 require Rails.root.join('spec', 'support', 'scheme_date_helpers')

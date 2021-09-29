@@ -1,5 +1,6 @@
-@stub_zendesk_request @javascript
-Feature: A user can provide feedback
+@javascript @no-seed
+Feature: A user can provide feedback and bug report
+  @stub_survey_monkey_success
   Scenario: A user can successfully submit a feedback
     Given I visit "/"
     When I click the link 'Provide feedback'
@@ -13,5 +14,18 @@ Feature: A user can provide feedback
     And I fill in 'Enter your comment' with 'Something Else'
     And I click the button 'Send'
 
-    And I see confirmation that my 'feedback' was received
-    Then I should be on the sign in page
+    Then I see confirmation that my 'feedback' was received
+    And I should be on the sign in page
+
+# TODO: Introduce a new test case for bug report
+  # @stub_zendesk_request
+  # Scenario: A user can successfully submit a bug report
+  #   Given I visit "/"
+  #   When I click the link 'report a fault'
+  #   Then I should see a page title "Bug report"
+  #   Then the page should be accessible
+
+  #   And I fill in 'What you were doing when the fault occurred?' with 'Filling in a new claim form'
+  #   And I fill in 'What went wrong?' with 'Something went wrong'
+  #   And I see confirmation that my 'bug report' was received
+  #   Then I should be on the sign in page

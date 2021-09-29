@@ -7,7 +7,7 @@ VCR.configure do |c|
   # use webmock to hook into and replay requests
   c.hook_into :webmock
 
-  # enable rspec :vcr tag for autonmatically named cassettes. needed??
+  # enable rspec :vcr tag for automatically named cassettes. needed??
   c.configure_rspec_metadata!
   c.default_cassette_options = {
     erb: true,

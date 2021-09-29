@@ -1,4 +1,4 @@
-@stub_zendesk_request @javascript @no-seed
+@javascript @no-seed
 Feature: A user can provide feedback and bug report
   Scenario: A user can successfully submit a feedback
     Given I visit "/"
@@ -14,11 +14,12 @@ Feature: A user can provide feedback and bug report
     Given I insert the VCR cassette 'features/feedback/survey_monkey'
     And I click the button 'Send'
 
-    And I see confirmation that my 'feedback' was received
-    Then I should be on the sign in page
+    Then I see confirmation that my 'feedback' was received
+    And I should be on the sign in page
 
-    And I eject the VCR cassette
+    Then I eject the VCR cassette
 
+  @stub_zendesk_request
   Scenario: A user can successfully submit a bug report
     Given I visit "/"
     When I click the link 'report a fault'

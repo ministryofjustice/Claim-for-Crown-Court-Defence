@@ -14,6 +14,10 @@ module TagHelper
   def fee_calc_vcr_tag?
     tag?('@fee_calc_vcr')
   end
+
+  def survey_monkey_vcr_tag?
+    tag?('@survey_monkey_vcr')
+  end
 end
 
 World(TagHelper)

@@ -1,5 +1,7 @@
 @javascript @no-seed
 Feature: A user can provide feedback and bug report
+
+  @survey_monkey_vcr
   Scenario: A user can successfully submit a feedback
     Given I visit "/"
     When I click the link 'Provide feedback'

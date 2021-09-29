@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.eu.surveymonkey.com/v3/collectors/330142588/responses
+    uri: https://api.eu.surveymonkey.com/v3/collectors/111111/responses
     body:
       encoding: UTF-8
       string: '{"pages":[{"id":"25473840","questions":[{"id":"60742936","answers":[{"choice_id":"505487572"}]},{"id":"60742964","answers":[{"choice_id":"505488046"}]},{"id":"60742937","answers":[{"text":"This

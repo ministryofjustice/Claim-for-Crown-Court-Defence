@@ -188,6 +188,8 @@ And(/^I insert the VCR cassette '(.*?)'(?: and record '(.*?)')?$/) do |name, rec
   VCR.eject_cassette if VCR.current_cassette
   if fee_calc_vcr_tag?
     VCR.insert_cassette(name, record: record_mode, :match_requests_on => [:method, :path_query_matcher])
+  elsif survey_monkey_vcr_tag?
+    VCR.insert_cassette(name, record: record_mode, :match_requests_on => [:host])
   else
     VCR.insert_cassette(name, record: record_mode)
   end

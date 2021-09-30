@@ -883,7 +883,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe 'Case type scopes' do
     before(:all) do
-      @case_types = load("#{Rails.root}/db/seeds/case_types.rb")
+      load(Rails.root.join('db', 'seeds', 'case_types.rb'))
       @trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial'))
       @retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial'))
       @cracked_trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial'))

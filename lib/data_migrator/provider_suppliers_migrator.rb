@@ -28,7 +28,7 @@ module DataMigrator
     attr_reader :seed_file, :dry_run
 
     def default_seed_file
-      File.join(Rails.root, 'db/data/providers.csv')
+      Rails.root.join('db', 'data', 'providers.csv')
     end
 
     def reset_totals

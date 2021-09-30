@@ -2429,28 +2429,6 @@ Rails/DynamicFindBy:
     - 'spec/models/stats/collector/claim_redeterminations_collector_spec.rb'
     - 'spec/models/stats/collector/claim_submissions_collector_spec.rb'
 
-# Offense count: 18
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: slashes, arguments
-Rails/FilePath:
-  Exclude:
-    - 'app/models/claim/transfer_brain_data_item_collection.rb'
-    - 'app/models/claim_json_schema_validator.rb'
-    - 'app/models/claim_state_transition_reason.rb'
-    - 'app/models/stats/collector/time_to_completion_collector.rb'
-    - 'lib/data_migrator/provider_suppliers_migrator.rb'
-    - 'lib/extensions/rails_module_extension.rb'
-    - 'lib/performance_platform/reports.rb'
-    - 'spec/lib/working_day_calculator_spec.rb'
-    - 'spec/models/claim/advocate_claim_spec.rb'
-    - 'spec/models/stats/collector/time_to_completion_collector_spec.rb'
-    - 'spec/presenters/error_message/presenter_spec.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/support/api/api_test_client.rb'
-    - 'spec/support/matchers/validation_matchers.rb'
-    - 'spec/support/seed_helpers.rb'
-    - 'spec/support/validation_helpers.rb'
-
 # Offense count: 12
 # Configuration parameters: Include.
 # Include: app/models/**/*.rb

@@ -1,6 +1,6 @@
 class ClaimJsonSchemaValidator
-  CCR_SCHEMA_FILE = File.join(Rails.root, 'config', 'schemas', 'ccr_claim_schema.json').freeze
-  CCLF_SCHEMA_FILE = File.join(Rails.root, 'config', 'schemas', 'cclf_claim_schema.json').freeze
+  CCR_SCHEMA_FILE = Rails.root.join('config', 'schemas', 'ccr_claim_schema.json').freeze
+  CCLF_SCHEMA_FILE = Rails.root.join('config', 'schemas', 'cclf_claim_schema.json').freeze
 
   class << self
     def ccr_schema

@@ -64,6 +64,9 @@ Metrics/BlockLength:
     - trait
     - define
 
+Rails/FilePath:
+  EnforcedStyle: arguments
+
 Rails/SquishedSQLHeredocs:
   Enabled: false
 

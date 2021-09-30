@@ -4,7 +4,7 @@ RSpec.describe ErrorMessage do
   describe '.default_translation_file' do
     subject { described_class.default_translation_file }
 
-    it { is_expected.to eq(Rails.root.join('config/locales/en/error_messages/claim.yml')) }
+    it { is_expected.to eq(Rails.root.join('config', 'locales', 'en', 'error_messages', 'claim.yml')) }
   end
 
   describe '.translation_file_for' do
@@ -13,7 +13,7 @@ RSpec.describe ErrorMessage do
     let(:model_name) { 'claim' }
 
     context 'with default locale' do
-      it { is_expected.to eq(Rails.root.join('config/locales/en/error_messages/claim.yml')) }
+      it { is_expected.to eq(Rails.root.join('config', 'locales', 'en', 'error_messages', 'claim.yml')) }
     end
 
     context 'with welsh locale and `provider`' do
@@ -21,7 +21,7 @@ RSpec.describe ErrorMessage do
 
       let(:model_name) { 'provider' }
 
-      it { is_expected.to eq(Rails.root.join('config/locales/cy/error_messages/provider.yml')) }
+      it { is_expected.to eq(Rails.root.join('config', 'locales', 'cy', 'error_messages', 'provider.yml')) }
     end
   end
 end

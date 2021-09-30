@@ -46,7 +46,7 @@ class ClaimStateTransitionReason
 
     def translations_file
       @translations_file ||=
-        File.join(Rails.root, 'config', 'locales', "claim_state_transition_reason.#{I18n.locale}.yml")
+        Rails.root.join('config', 'locales', "claim_state_transition_reason.#{I18n.locale}.yml")
     end
 
     def disbursement_only?(claim)

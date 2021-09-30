@@ -9,10 +9,6 @@ FactoryBot.define do
       Timecop.return
     end
 
-    trait :submitted do
-      after(:create) { |c| frozen_time { c.submit! } }
-    end
-
     trait :redetermination do
       after(:create) do |c|
         frozen_time do

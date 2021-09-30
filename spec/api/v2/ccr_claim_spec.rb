@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec::Matchers.define :be_valid_ccr_claim_json do
   match do |response|
-    schema_path = ClaimJsonSchemaValidator::CCR_SCHEMA_FILE
-    @errors = JSON::Validator.fully_validate(schema_path, response.respond_to?(:body) ? response.body : response)
+    schema = ClaimJsonSchemaValidator.ccr_schema
+    @errors = JSON::Validator.fully_validate(schema, response.respond_to?(:body) ? response.body : response)
     @errors.empty?
   end
 

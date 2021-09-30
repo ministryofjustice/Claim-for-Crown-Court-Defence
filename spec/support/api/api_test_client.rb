@@ -21,7 +21,7 @@
 
 require 'caching/api_request'
 require 'rest-client'
-Dir[File.join(Rails.root, 'spec', 'support', 'api', 'claims', '*.rb')].each { |file| require file }
+Dir[Rails.root.join('spec', 'support', 'api', 'claims', '*.rb')].each { |file| require file }
 
 class ApiTestClient
   include Debuggable

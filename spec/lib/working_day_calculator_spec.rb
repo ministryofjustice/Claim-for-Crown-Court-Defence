@@ -1,5 +1,5 @@
 require 'rails_helper'
-require File.join(Rails.root, 'lib', 'working_day_calculator')
+require Rails.root.join('lib', 'working_day_calculator')
 
 describe WorkingDayCalculator do
   let(:tue_19_jul) { Date.new(2016, 7, 19) }

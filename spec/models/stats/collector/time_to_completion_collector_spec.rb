@@ -1,5 +1,5 @@
 require 'rails_helper'
-require File.join(Rails.root, 'lib', 'demo_data', 'claim_state_advancer')
+require Rails.root.join('lib', 'demo_data', 'claim_state_advancer')
 
 module Stats
   module Collector

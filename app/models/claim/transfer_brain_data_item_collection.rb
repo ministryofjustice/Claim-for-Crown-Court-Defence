@@ -79,7 +79,7 @@ module Claim
     end
 
     def read_csv
-      file = File.join(Rails.root, 'config', 'transfer_brain_data_items.csv')
+      file = Rails.root.join('config', 'transfer_brain_data_items.csv')
       csv_content = File.read(file)
       CSV.parse(csv_content, headers: true)
     end

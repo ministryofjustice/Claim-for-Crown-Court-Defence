@@ -1,4 +1,4 @@
-require File.join(Rails.root, 'lib', 'rails_host.rb')
+require Rails.root.join('lib', 'rails_host.rb')
 
 module RailsModuleExtension
   def host

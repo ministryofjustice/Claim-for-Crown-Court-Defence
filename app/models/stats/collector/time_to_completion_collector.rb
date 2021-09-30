@@ -1,4 +1,4 @@
-require File.join(Rails.root, 'lib', 'working_day_calculator')
+require Rails.root.join('lib', 'working_day_calculator')
 
 module Stats
   module Collector

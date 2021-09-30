@@ -18,8 +18,8 @@
         %p
           = t('.callout')
           = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
-        
-      %p.govuk-body{:class => "govuk-!-margin-bottom-6"}
+
+      %p.govuk-body{class: 'govuk-!-margin-bottom-6'}
         = t('.report_fault_html', bug_report_link: new_feedback_path(type: 'bug_report'))
 
       = f.govuk_collection_radio_buttons :task,
@@ -29,7 +29,7 @@
       = f.govuk_collection_radio_buttons :rating,
         @feedback_form.ratings.answers, :key, :label,
         legend: { text: t('.rating') }
-      
+
       = f.govuk_text_area :comment,
         label: { text: t('.comment'), size: 'm' },
         hint: { text: t('.comment_hint') }
@@ -44,5 +44,5 @@
             - if reason.other
               = f.govuk_text_field :other_reason,
                 label: { text: t('.reason_other') }
-      
+
       = f.govuk_submit(t('.send'))

@@ -20,12 +20,16 @@ Then(/^I see confirmation that my '(.*?)' was received$/) do |payload|
   end
 end
 
+Then('I see a warning that my feedback was not submitted successfully') do
+  expect(page).to have_content "Unable to submit feedback [1050]"
+end
+
 Then(/^I should be informed that I have signed out$/) do
   expect(page).to have_content('You have signed out')
 end
 
-Then(/^I should be redirected to the feedback page$/) do
-  expect(current_path).to eq(new_feedback_path)
+Then(/^I should be on the feedback page$/) do
+  expect(current_path).to eq(feedback_index_path)
 end
 
 Then(/^I should be on the sign in page$/) do

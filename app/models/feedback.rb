@@ -9,7 +9,7 @@ class Feedback
 
   attr_accessor :email, :referrer, :user_agent, :type
   attr_accessor :event, :outcome, :case_number
-  attr_accessor :task, :rating, :comment, :reason, :other_reason, :error
+  attr_accessor :task, :rating, :comment, :reason, :other_reason, :response_failed_message
 
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
   validates :event, :outcome, presence: true, if: :bug_report?
@@ -52,7 +52,7 @@ class Feedback
 
   def save_feedback
     response = SurveyMonkeySender.call(self)
-    @error = "Unable to submit feedback [#{response[:error_code]}]" unless response[:success]
+    @response_failed_message = "Unable to submit feedback [#{response[:error_code]}]" unless response[:success]
     response[:success]
   end
 

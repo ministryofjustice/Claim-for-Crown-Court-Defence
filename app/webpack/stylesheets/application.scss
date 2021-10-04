@@ -1,3 +1,5 @@
+// stylelint-disable scss/at-import-partial-extension
+
 // Set a path for your image assets
 // The _url-helpers.scss partial requires that $path is defined in your main application stylesheet.
 $path: '~images/';
@@ -58,7 +60,8 @@ $govuk-font-url-function: frontend-font-url;
 @import 'breadcrumbs';
 @import 'callout';
 @import '~accessible-autocomplete/src/autocomplete';
-@import 'datatables';
+@import '~datatables.net-dt/css/jquery.dataTables';
+@import '~jquery-datatables-checkboxes/css/dataTables.checkboxes';
 @import 'tables';
 @import 'navigation';
 

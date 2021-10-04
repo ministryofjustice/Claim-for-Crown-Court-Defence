@@ -21,7 +21,7 @@ Then(/^I see confirmation that my '(.*?)' was received$/) do |payload|
 end
 
 Then('I see a warning that my feedback was not submitted successfully') do
-  expect(page).to have_content "Unable to submit feedback [1050]"
+  expect(page).to have_content(/Unable to submit feedback \[\d+\]/)
 end
 
 Then(/^I should be informed that I have signed out$/) do

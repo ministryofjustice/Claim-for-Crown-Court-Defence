@@ -9,21 +9,27 @@ class ManagementInformationPresenter < BasePresenter
     yield parsed_journeys if block_given?
   end
 
-  def journeys
-    sorted_and_filtered_state_transitions.slice_after { |transition| COMPLETED_STATES.include?(transition.to) }
-  end
-
-  def sorted_and_filtered_state_transitions
-    claim_state_transitions.sort.reject do |transition|
-      SORTED_AND_FILTERED_STATES.include?(transition.to) ||
-        transition.created_at < Time.zone.now - 6.months
-    end
-  end
-
   def parsed_journeys
     journeys.map do |journey|
       @journey = clean_deallocations(journey)
       Settings.claim_csv_headers.map { |method_call| send(method_call) } if @journey.any?
+    end
+  end
+
+  # cuts of transitions into chunks with each chunked ending with a completed state
+  # 1. so [submitted, allocated, rejected, reterminined, allocated, part_authorised]
+  # would break into [[submitted, allocated, rejected], [reterminined, allocated, part_authorised]]
+  # 2. so [submitted, allocated]
+  # would break into [submitted, allocated]
+  def journeys
+    sorted_and_filtered_state_transitions.slice_after { |transition| COMPLETED_STATES.include?(transition.to) }
+  end
+
+  # orders by primary key ascending by default
+  def sorted_and_filtered_state_transitions
+    claim_state_transitions.sort.reject do |transition|
+      SORTED_AND_FILTERED_STATES.include?(transition.to) ||
+        transition.created_at < Time.zone.now - 6.months
     end
   end
 

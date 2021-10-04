@@ -71,4 +71,11 @@ FactoryBot.define do
       claim.archive_pending_delete!
     end
   end
+
+  trait :archived_pending_review do
+    after(:create) do |claim|
+      authorise_claim(claim)
+      claim.archive_pending_review!
+    end
+  end
 end

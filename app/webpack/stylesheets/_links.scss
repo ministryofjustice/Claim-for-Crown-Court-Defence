@@ -33,3 +33,7 @@
 .delete-draft {
   color: $red;
 }
+
+.app-link-group .govuk-link {
+  @include govuk-responsive-margin(2, "right");
+}

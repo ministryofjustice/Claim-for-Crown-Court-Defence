@@ -2297,14 +2297,15 @@ en:
           location: Location
           actions: Manage details
           confirmation: Are you sure?
-          delete_link_label: "Delete case worker: %{case_worker}"
-          edit_link_label: "Edit case worker: %{case_worker}"
-          caption: Case worker list
+          delete_caseworker_html: 'Delete <span class="govuk-visually-hidden">case worker: %{case_worker}</span>'
+          edit_caseworker_html: 'Edit <span class="govuk-visually-hidden">case worker: %{case_worker}</span>'
+          caption: Case workers
           create_case_worker: Create a new case worker
           page_heading: Case workers
           summary: A list of case workers, ordered by surname. Edit and delete links in the last column.
           hint:
             search: for example case worker name
+          inactive: Inactive
         form:
           first_name: *first_name
           last_name: *last_name

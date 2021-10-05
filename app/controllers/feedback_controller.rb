@@ -40,14 +40,8 @@ class FeedbackController < ApplicationController
     if current_user
       current_user.email
     else
-      email_from_user_id || params[:feedback][:email] || 'anonymous'
+      params[:feedback][:email] || 'anonymous'
     end
-  end
-
-  def email_from_user_id
-    User.active.find(params[:user_id])&.email
-  rescue ActiveRecord::RecordNotFound
-    nil
   end
 
   def after_create_url

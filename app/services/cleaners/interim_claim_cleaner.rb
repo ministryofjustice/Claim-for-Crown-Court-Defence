@@ -1,5 +1,9 @@
 module Cleaners
   class InterimClaimCleaner < BaseClaimCleaner
+    def call
+      destroy_invalid_disbursements
+    end
+
     private
 
     def destroy_invalid_disbursements

@@ -1,5 +1,9 @@
 module Cleaners
   class AdvocateSupplementaryClaimCleaner < BaseClaimCleaner
+    def call
+      destroy_invalid_fees
+    end
+
     private
 
     def destroy_invalid_fees

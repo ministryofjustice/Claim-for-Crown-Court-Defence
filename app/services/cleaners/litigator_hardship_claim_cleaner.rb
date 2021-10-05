@@ -1,5 +1,9 @@
 module Cleaners
   class LitigatorHardshipClaimCleaner < BaseClaimCleaner
+    def call
+      clear_inapplicable_fields
+    end
+
     private
 
     def clear_inapplicable_fields

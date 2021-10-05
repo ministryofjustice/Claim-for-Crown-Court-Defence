@@ -1,5 +1,9 @@
 module Cleaners
   class LitigatorClaimCleaner < BaseClaimCleaner
+    def call
+      destroy_invalid_fees
+    end
+
     private
 
     def destroy_invalid_fees

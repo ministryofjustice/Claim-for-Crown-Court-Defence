@@ -14,9 +14,9 @@ class FeedbackController < ApplicationController
     @feedback = Feedback.new(merged_feedback_params)
 
     if @feedback.save
-      redirect_to after_create_url, notice: 'Feedback submitted'
+      redirect_to after_create_url, notice: @feedback.response_message
     else
-      flash.now[:error] = @feedback.response_failed_message if @feedback.response_failed_message
+      flash.now[:error] = @feedback.response_message
       render "feedback/#{@feedback.type}"
     end
   end

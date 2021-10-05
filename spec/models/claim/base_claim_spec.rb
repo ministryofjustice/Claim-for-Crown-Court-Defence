@@ -569,8 +569,11 @@ RSpec.describe Claim::BaseClaim do
 end
 
 RSpec.describe MockBaseClaim do
-  it_behaves_like 'a base claim' do
-    let(:cleaner_class) { Cleaners::BaseClaimCleaner }
+  it_behaves_like 'a base claim'
+  it_behaves_like 'uses claim cleaner', Cleaners::NullClaimCleaner do
+    let(:mock_claim_creator) { instance_double(ExternalUser, provider: instance_double(Provider, vat_registered?: false)) }
+
+    before { allow(ExternalUser).to receive(:new).and_return(mock_claim_creator) }
   end
 
   context 'date formatting' do

@@ -68,6 +68,8 @@ require_relative 'shared_examples_for_lgfs_claim'
 describe Claim::TransferClaim, type: :model do
   let(:claim) { build :transfer_claim }
 
+  it_behaves_like 'uses claim cleaner', Cleaners::NullClaimCleaner
+
   it { is_expected.not_to delegate_method(:requires_trial_dates?).to(:case_type) }
   it { is_expected.not_to delegate_method(:requires_retrial_dates?).to(:case_type) }
 

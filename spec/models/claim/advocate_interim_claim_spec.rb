@@ -1,9 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Claim::AdvocateInterimClaim, type: :model do
-  it_behaves_like 'a base claim' do
-    let(:cleaner_class) { Cleaners::BaseClaimCleaner }
-  end
+  it_behaves_like 'a base claim'
+  it_behaves_like 'uses claim cleaner', Cleaners::NullClaimCleaner
 
   it { is_expected.to have_one(:warrant_fee) }
 

@@ -610,7 +610,7 @@ module Claim
     end
 
     def cleaner
-      Cleaners::BaseClaimCleaner.new(self)
+      Cleaners::NullClaimCleaner.new(self)
     end
 
     def find_and_associate_documents

@@ -3,9 +3,8 @@ require 'rails_helper'
 RSpec.describe Claim::AdvocateSupplementaryClaim, type: :model do
   let(:claim) { build(:advocate_supplementary_claim) }
 
-  it_behaves_like 'a base claim' do
-    let(:cleaner_class) { Cleaners::BaseClaimCleaner }
-  end
+  it_behaves_like 'a base claim'
+  it_behaves_like 'uses claim cleaner', Cleaners::AdvocateSupplementaryClaimCleaner
 
   specify { expect(subject.external_user_type).to eq(:advocate) }
   specify { expect(subject.requires_case_type?).to be_falsey }

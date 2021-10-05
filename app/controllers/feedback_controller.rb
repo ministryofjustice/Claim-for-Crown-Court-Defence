@@ -12,6 +12,7 @@ class FeedbackController < ApplicationController
 
   def create
     @feedback = Feedback.new(merged_feedback_params)
+
     if @feedback.save
       redirect_to after_create_url, notice: 'Feedback submitted'
     else

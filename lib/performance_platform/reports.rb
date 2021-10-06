@@ -16,7 +16,7 @@ module PerformancePlatform
 
     def yaml_file
       file = Rails.root.join('config', 'performance_platform.yml')
-      YAML.safe_load(ERB.new(IO.read(file)).result, [Symbol])
+      YAML.safe_load(ERB.new(File.read(file)).result, [Symbol])
     end
   end
 end

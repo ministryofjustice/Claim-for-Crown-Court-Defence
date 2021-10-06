@@ -527,7 +527,7 @@ en:
         lgfs_supplier_numbers: 'LGFS supplier numbers'
         firm_agfs_supplier_number: 'AGFS supplier number'
         page_title: "View %{provider_name}'s details"
-        page_heading: Providers
+        page_heading: "Provider: %{provider_name}"
         edit: Edit
         answer_yes: *global_yes
         answer_no:  *global_no

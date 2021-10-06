@@ -1,46 +1,23 @@
 = content_for :page_title, flush: true do
   = t('.page_title', provider_name: @provider.name)
 
-= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading', provider_name: @provider.name) }
 
-.form-group
-  %table{ summary: t('.table_summary', provider_name: @provider.name) }
-    %caption
-      %h2.govuk-heading-m
-        = @provider.name
-    %tbody
-      %tr
-        %th{ scope: 'row' }
-          = t('.provider_type')
-        %td
-          = @provider.provider_type.capitalize
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
 
-      %tr
-        %th{ scope: 'row' }
-          = t('.fee_schemes')
-        %td
-          = @provider.roles.map(&:upcase) * ', '
+    = govuk_summary_list do
+      = govuk_summary_list_row(t('.provider_type')) { @provider.provider_type.capitalize }
+
+      = govuk_summary_list_row(t('.fee_schemes')) { @provider.roles.map(&:upcase) * ', ' }
 
       - if @provider.lgfs_supplier_numbers.any?
-        %tr
-          %th{ scope: 'row' }
-            = t('.lgfs_supplier_numbers')
-          %td
-            = @provider.lgfs_supplier_numbers.to_sentence
+        = govuk_summary_list_row(t('.lgfs_supplier_numbers')) { @provider.lgfs_supplier_numbers.to_sentence }
 
       - if @provider.firm? && @provider.agfs?
-        %tr
-          %th{ scope: 'row' }
-            = t('.firm_agfs_supplier_number')
-          %td
-            = @provider.firm_agfs_supplier_number
+        = govuk_summary_list_row(t('.firm_agfs_supplier_number')) { @provider.firm_agfs_supplier_number }
 
-      %tr
-        %th{ scope: 'row' }
-          = t('.vat_registered')
-        %td
-          = @provider.vat_registered == true ? t('.answer_yes') : t('.answer_no')
+      = govuk_summary_list_row(t('.vat_registered')) { @provider.vat_registered == true ? t('.answer_yes') : t('.answer_no') }
 
-- if can? :edit, @provider
-  .form-group
-    = govuk_link_button(t('.edit'), edit_provider_management_provider_path(@provider))
+    - if can? :edit, @provider
+      = govuk_link_button(t('.edit'), edit_provider_management_provider_path(@provider))

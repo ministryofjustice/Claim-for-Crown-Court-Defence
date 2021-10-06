@@ -546,7 +546,7 @@ en:
         caption: Provider list
         table_summary: A list of providers. Includes links to the provider page and to manage users
         users: Users
-        manage_user: "Manage users in provider"
+        manage_user_html: Manage users in provider <span class="govuk-visually-hidden">%{context}</span>
         no_provider: "No providers found"
       form:
         cancel_button: Cancel

@@ -1,34 +1,35 @@
-- if providers.none?
-  %p
-    = t('.no_provider')
+.govuk-grid-row{class: 'govuk-!-margin-top-9'}
+  .govuk-grid-column-full
 
-- else
-  %table{ summary: t('.table_summary') }
-    %caption.govuk-visually-hidden
-      = t('.caption')
+    - if providers.none?
+      %p
+        = t('.no_provider')
 
-    %thead
-      %th{ scope: 'col' }
-        = t('.provider_name')
-      %th{ scope: 'col' }
-        = t('.provider_type')
-      %th{ scope: 'col' }
-        = t('.fee_schemes')
-      %th{ scope: 'col' }
-        = t('.vat_registered')
-      %th{ scope: 'col' }
-        = t('.users')
+    - else
+      = govuk_table(class: 'report') do
+        = govuk_table_caption(class: 'govuk-visually-hidden') do
+          = t('.caption')
 
-    %tbody
-      - providers.each do |provider|
-        %tr{ id: dom_id(provider) }
-          %td
-            = govuk_link_to provider.name, provider_management_provider_path(provider)
-          %td
-            = provider.provider_type.humanize
-          %td
-            = provider.roles.map(&:upcase) * ', '
-          %td
-            = provider.vat_registered == true ? t('global_yes') : t('global_no')
-          %td
-            = govuk_link_to t('.manage_user'), provider_management_provider_external_users_path(provider)
+        = govuk_table_thead_collection [t('.provider_name'),
+        t('.provider_type'),
+        t('.fee_schemes'),
+        t('.vat_registered'),
+        t('.users')]
+
+        = govuk_table_tbody do
+          - providers.each do |provider|
+            = govuk_table_row(id: dom_id(provider)) do
+              = govuk_table_td('data-label': t('.provider_name')) do
+                = govuk_link_to provider.name, provider_management_provider_path(provider)
+
+              = govuk_table_td('data-label': t('.provider_type')) do
+                = provider.provider_type.humanize
+
+              = govuk_table_td('data-label': t('.fee_schemes')) do
+                = provider.roles.map(&:upcase) * ', '
+
+              = govuk_table_td('data-label': t('.vat_registered')) do
+                = provider.vat_registered == true ? t('global_yes') : t('global_no')
+
+              = govuk_table_td('data-label': t('.users')) do
+                = govuk_link_to t('.manage_user_html', context: provider.name), provider_management_provider_external_users_path(provider)

@@ -1,34 +1,33 @@
 = content_for :page_title, flush: true do
   = t('.page_title', provider_name: @provider.name)
 
-= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading', provider: @provider.name) }
 
-.form-group.form-buttons
-  = govuk_link_button(t('.add_provider'), new_provider_management_provider_external_user_path(@provider))
+.govuk-grid-row
+  .govuk-grid-column-full
 
-%table{ summary: t('.table_summary', provider_name: @provider.name) }
-  %caption
-    %h2.govuk-heading-m
-      = t('.caption', provider_name: @provider.name)
+    = govuk_link_button(t('.add_provider'), new_provider_management_provider_external_user_path(@provider))
 
-  %thead
-    %th{ scope: 'col' }
-      = t('.name')
-    %th{ scope: 'col' }
-      = t('.supplier_number')
-    %th{ scope: 'col' }
-      = t('.email')
-    %th{ scope: 'col' }
-      = t('.state')
+    = govuk_table(class: 'report govuk-!-margin-top-9') do
+      = govuk_table_caption(class: 'govuk-visually-hidden') do
+        = t('.caption', provider_name: @provider.name)
 
-  %tbody
-    - @external_users.each do |advocate|
-      %tr
-        %td
-          = advocate.active? ? govuk_link_to(advocate.name, provider_management_provider_external_user_path(@provider, advocate), 'aria-label': t('.view_details', text: advocate.name)) : advocate.name
-        %td
-          = advocate.supplier_number
-        %td
-          = govuk_mail_to advocate.email, advocate.email, 'aria-label': t('.title', provider: advocate.name)
-        %td
-          = advocate.active? ? t('.live') : t('.inactive')
+      = govuk_table_thead_collection [t('.name'),
+        t('.supplier_number'),
+        t('.email'),
+        t('.state')]
+
+      = govuk_table_tbody do
+        - @external_users.each do |advocate|
+          = govuk_table_row do
+            = govuk_table_td('data-label': t('.name')) do
+              = advocate.active? ? govuk_link_to(advocate.name, provider_management_provider_external_user_path(@provider, advocate), 'aria-label': t('.view_details', text: advocate.name)) : advocate.name
+
+            = govuk_table_td('data-label': t('.supplier_number')) do
+              = advocate.supplier_number
+
+            = govuk_table_td('data-label': t('.email')) do
+              = govuk_mail_to advocate.email, advocate.email, 'aria-label': t('.title', provider: advocate.name)
+
+            = govuk_table_td('data-label': t('.state')) do
+              = advocate.active? ? t('.live') : t('.inactive')

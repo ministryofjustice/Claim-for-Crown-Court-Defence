@@ -571,7 +571,7 @@ en:
         caption: Users in %{provider_name}
         state: Account state
         add_provider: Add user to provider
-        page_heading: Manage Users
+        page_heading: Manage %{provider} Users
         title: Click to email %{provider}
         live: Live
         inactive: Inactive

@@ -11,15 +11,6 @@ updates:
   reviewers:
   - "naseberry"
   - "imtiazAhmd"
-  ignore:
-  - dependency-name: jquery
-    versions:
-    - ">= 3.a"
-    - "< 4"
-  - dependency-name: susy
-    versions:
-    - ">= 3.a"
-    - "< 4"
 - package-ecosystem: bundler
   directory: "/"
   schedule:

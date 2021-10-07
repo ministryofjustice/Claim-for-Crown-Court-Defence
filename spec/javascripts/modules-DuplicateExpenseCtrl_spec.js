@@ -71,12 +71,12 @@ describe('Modules.DuplicateExpenseCtrl', function () {
       it('...should be defined', function () {
         expect(moj.Modules.DuplicateExpenseCtrl.step1).toBeDefined()
       })
-      it('...should call `$.publish` and `this.mapFormData`', function () {
+      it('...should call `$.publish` and `this.mapFormData`', function (done) {
+        const data = { a: 'e' }
+        const resolvedData = Promise.resolve(data)
         // set up spy
         spyOn($, 'publish')
-        spyOn(moj.Modules.DuplicateExpenseCtrl, 'mapFormData').and.returnValue($.when({
-          a: 'e'
-        }))
+        spyOn(moj.Modules.DuplicateExpenseCtrl, 'mapFormData').and.returnValue(resolvedData)
 
         // expect not to be called
         expect($.publish).not.toHaveBeenCalled()
@@ -84,12 +84,14 @@ describe('Modules.DuplicateExpenseCtrl', function () {
 
         // // fire step 1
         moj.Modules.DuplicateExpenseCtrl.step1()
-
-        // // expect to have been called
-        expect($.publish).toHaveBeenCalledWith('/step1/complete/', {
-          a: 'e'
-        })
         expect(moj.Modules.DuplicateExpenseCtrl.mapFormData).toHaveBeenCalled()
+        resolvedData.then(function () {
+        // expect to have been called
+          expect($.publish).toHaveBeenCalledWith('/step1/complete/', {
+            a: 'e'
+          })
+          done()
+        })
       })
     })
 

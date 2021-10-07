@@ -1163,21 +1163,22 @@ describe('Helpers.Blocks.js', function () {
               value: 'SomeThing'
             })
           })
-          it('should update the view correctly', function () {
-            const deferred = $.Deferred()
-            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(deferred.promise())
+          it('should update the view correctly', function (done) {
+            const optionsFixtureData = Promise.resolve(optionsFixture)
+            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(optionsFixtureData)
             expect(instance.$el.find('.fx-establishment-select').is(':visible')).toEqual(false)
             expect(instance.$el.find('.fx-establishment-select option').length).toEqual(2)
             expect(instance.$el.find('.location_wrapper').is(':visible')).toEqual(true)
             expect(instance.$el.find('.fx-travel-location .has-select label').text()).toEqual('Destination')
 
             instance.attachSelectWithOptions('crown_court', 'SomeThing')
-            deferred.resolve(optionsFixture)
-
-            expect(instance.$el.find('.fx-establishment-select').is(':visible')).toEqual(true)
-            expect(instance.$el.find('.fx-establishment-select option').length).toEqual(5)
-            expect(instance.$el.find('.location_wrapper').is(':visible')).toEqual(false)
-            expect(instance.$el.find('.fx-travel-location .has-select label').text()).toEqual('Crown court')
+            optionsFixtureData.then(function () {
+              expect(instance.$el.find('.fx-establishment-select').is(':visible')).toEqual(true)
+              expect(instance.$el.find('.fx-establishment-select option').length).toEqual(5)
+              expect(instance.$el.find('.location_wrapper').is(':visible')).toEqual(false)
+              expect(instance.$el.find('.fx-travel-location .has-select label').text()).toEqual('Crown court')
+              done()
+            })
           })
         })
       })

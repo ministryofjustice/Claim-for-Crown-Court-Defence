@@ -107,13 +107,19 @@ RSpec.describe Feedback, type: :model do
       context 'when zendesk submission fails' do
         before do
           allow(ZendeskAPI::Ticket).to receive(:create!).and_raise ZendeskAPI::Error::ClientError, 'oops, something went wrong'
+          allow(LogStuff).to receive(:error)
         end
 
         it { expect(bug_report.save).to be_falsey }
 
         it 'stores failure message on object' do
           bug_report.save
-          expect(bug_report.response_message).to eq('Unable to submit fault report [oops, something went wrong]')
+          expect(bug_report.response_message).to eq('Unable to submit fault report')
+        end
+
+        it 'logs error details' do
+          bug_report.save
+          expect(LogStuff).to have_received(:error).with(class: described_class, action: 'save', error_class: ZendeskAPI::Error::ClientError, error: 'oops, something went wrong')
         end
       end
     end

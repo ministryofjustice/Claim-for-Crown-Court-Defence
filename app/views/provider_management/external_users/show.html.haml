@@ -1,48 +1,31 @@
 = content_for :page_title, flush: true do
   = t('.page_title', external_user: @external_user.name)
 
-= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+= render partial: 'layouts/header', locals: { page_heading: t('.page_heading', external_user: @external_user.name) }
 
-.form-group
-  %table{ summary: t('.table_summary', external_user: @external_user.name) }
-    %caption
-      %h2.govuk-heading-m
-        = t('.caption')
-    %tbody
-      %tr
-        %th{ scope: 'row' }
-          = t('.provider')
-        %td
-          = govuk_link_to @external_user.provider.name, provider_management_provider_path(@provider), 'aria-label': t('.edit_provider')
-      %tr
-        %th{ scope: 'row' }
-          = t('.email')
-        %td
-          = @external_user.email
-      %tr
-        %th{ scope: 'row' }
-          = t('.name')
-        %td
-          = @external_user.name
-      %tr
-        %th{ scope: 'row' }
-          = t('.supplier_number')
-        %td
-          = @external_user.supplier_number
-      %tr
-        %th{ scope: 'row' }
-          = t('.vat_registered')
-        %td
-          = @external_user.vat_registered? ? t('.answer_yes') : t('.answer_no')
-      %tr
-        %th{ scope: 'row' }
-          = t('.role')
-        %td
-          = @external_user.roles.map(&:humanize).join(', ')
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
 
-.form-group
-  - if can? :edit, @external_user
-    = govuk_link_button(t('.edit'), edit_provider_management_provider_external_user_path(@provider, @external_user))
+    = govuk_summary_list do
+      = govuk_summary_list_row(t('.provider')) do
+        = govuk_link_to @external_user.provider.name, provider_management_provider_path(@provider), 'aria-label': t('.edit_provider')
 
-  - if can? :change_password, @external_user
-    = govuk_link_button(t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user))
+      = govuk_summary_list_row(t('.email')) do
+        = govuk_mail_to @external_user.email, @external_user.email
+
+      = govuk_summary_list_row(t('.name')) { @external_user.name }
+
+      = govuk_summary_list_row(t('.supplier_number')) { @external_user.supplier_number }
+
+      = govuk_summary_list_row(t('.vat_registered')) do
+        = @external_user.vat_registered? ? t('.answer_yes') : t('.answer_no')
+
+      = govuk_summary_list_row(t('.role')) do
+        = @external_user.roles.map(&:humanize).join(', ')
+
+    .govuk-button-group
+      - if can? :edit, @external_user
+        = govuk_link_button(t('.edit'), edit_provider_management_provider_external_user_path(@provider, @external_user))
+
+      - if can? :change_password, @external_user
+        = govuk_link_button_secondary(t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user))

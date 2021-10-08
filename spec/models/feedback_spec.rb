@@ -119,7 +119,7 @@ RSpec.describe Feedback, type: :model do
 
         it 'logs error details' do
           bug_report.save
-          expect(LogStuff).to have_received(:error).with(class: described_class, action: 'save', error_class: ZendeskAPI::Error::ClientError, error: 'oops, something went wrong')
+          expect(LogStuff).to have_received(:error).with(class: described_class.to_s, action: 'save', error_class: 'ZendeskAPI::Error::ClientError', error: 'oops, something went wrong')
         end
       end
     end

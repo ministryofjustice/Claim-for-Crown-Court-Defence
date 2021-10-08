@@ -65,7 +65,7 @@ class Feedback
     @response_message = 'Fault reported'
   rescue ZendeskAPI::Error::ClientError => e
     @response_message = 'Unable to submit fault report'
-    LogStuff.error(class: self.class, action: 'save', error_class: e.class, error: e.to_s) do
+    LogStuff.error(class: self.class.name, action: 'save', error_class: e.class.name, error: e.to_s) do
       'Bug report submisson failed!'
     end
     false

@@ -8,7 +8,7 @@ environment.plugins.append('ConcatPlugin', new ConcatPlugin({
   fileName: 'application.bundle.js',
   filesToConcat: [
     'jquery',
-    'jquery-migrate',
+    process.env.RAILS_ENV === 'development' ? 'jquery-migrate' : 'jquery-migrate/dist/jquery-migrate.min.js',
     'jquery-ujs',
     'jquery.iframe-transport',
     'dropzone',

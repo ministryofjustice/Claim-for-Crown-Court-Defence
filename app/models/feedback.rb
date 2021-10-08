@@ -9,7 +9,7 @@ class Feedback
 
   attr_accessor :email, :referrer, :user_agent, :type
   attr_accessor :event, :outcome, :case_number
-  attr_accessor :task, :rating, :comment, :reason, :other_reason, :response_failed_message
+  attr_accessor :task, :rating, :comment, :reason, :other_reason, :response_message
 
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
   validates :event, :outcome, presence: true, if: :bug_report?
@@ -35,7 +35,7 @@ class Feedback
   end
 
   def save
-    return false unless valid?
+    return unless valid?
     return save_feedback if feedback?
     save_bug_report
   end
@@ -52,20 +52,26 @@ class Feedback
 
   def save_feedback
     response = SurveyMonkeySender.call(self)
-    @response_failed_message = "Unable to submit feedback [#{response[:error_code]}]" unless response[:success]
+    @response_message = if response[:success]
+                          'Feedback submitted'
+                        else
+                          "Unable to submit feedback [#{response[:error_code]}]"
+                        end
     response[:success]
   end
 
   def save_bug_report
-    ZendeskSender.send!(self) unless is_feedback_with_empty_comment?
-    true
+    ZendeskSender.send!(self)
+    @response_message = 'Fault reported'
+  rescue ZendeskAPI::Error::ClientError => e
+    @response_message = 'Unable to submit fault report'
+    LogStuff.error(class: self.class, action: 'save', error_class: e.class, error: e.to_s) do
+      'Bug report submisson failed!'
+    end
+    false
   end
 
   def feedback_type_attributes
     FEEDBACK_TYPES[type.to_sym]
-  end
-
-  def is_feedback_with_empty_comment?
-    feedback? && comment.to_s.empty?
   end
 end

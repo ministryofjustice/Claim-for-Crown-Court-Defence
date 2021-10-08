@@ -14,9 +14,9 @@ class FeedbackController < ApplicationController
     @feedback = Feedback.new(merged_feedback_params)
 
     if @feedback.save
-      redirect_to after_create_url, notice: 'Feedback submitted'
+      redirect_to after_create_url, notice: @feedback.response_message
     else
-      flash.now[:error] = @feedback.response_failed_message if @feedback.response_failed_message
+      flash.now[:error] = @feedback.response_message
       render "feedback/#{@feedback.type}"
     end
   end
@@ -40,14 +40,8 @@ class FeedbackController < ApplicationController
     if current_user
       current_user.email
     else
-      email_from_user_id || params[:feedback][:email] || 'anonymous'
+      params[:feedback][:email] || 'anonymous'
     end
-  end
-
-  def email_from_user_id
-    User.active.find(params[:user_id])&.email
-  rescue ActiveRecord::RecordNotFound
-    nil
   end
 
   def after_create_url

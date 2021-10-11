@@ -1,21 +1,19 @@
-module Claim
-  class AdvocateClaimCleaner
-    attr_accessor :claim
-
-    delegate_missing_to :claim
-
-    def initialize(claim)
-      @claim = claim
-    end
+module Cleaners
+  class AdvocateClaimCleaner < BaseClaimCleaner
+    include CrackedDetailCleanable
 
     def call
-      destroy_all_invalid_fee_types
+      destroy_invalid_fees
       clear_inapplicable_fields
     end
 
     private
 
-    def destroy_all_invalid_fee_types
+    def clear_inapplicable_fields
+      clear_cracked_details if case_type.present? && !requires_cracked_dates?
+    end
+
+    def destroy_invalid_fees
       if case_type.present? && case_type.is_fixed_fee?
         clear_basic_fees
         destroy_ineligible_fixed_fees
@@ -35,17 +33,6 @@ module Claim
       fixed_fees.each do |fee|
         fixed_fees.delete(fee) unless eligbile_fees.map(&:code).include?(fee.fee_type_code)
       end
-    end
-
-    def clear_inapplicable_fields
-      clear_cracked_details if case_type.present? && !requires_cracked_dates?
-    end
-
-    def clear_cracked_details
-      claim.trial_fixed_notice_at = nil if trial_fixed_notice_at
-      claim.trial_fixed_at = nil if trial_fixed_at
-      claim.trial_cracked_at = nil if trial_cracked_at
-      claim.trial_cracked_at_third = nil if trial_cracked_at_third
     end
   end
 end

@@ -609,7 +609,9 @@ module Claim
       self.transfer_case_number = nil
     end
 
-    def cleaner; end
+    def cleaner
+      Cleaners::NullClaimCleaner.new(self)
+    end
 
     def find_and_associate_documents
       return if form_id.nil?

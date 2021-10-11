@@ -5,6 +5,7 @@ RSpec.describe Claim::LitigatorHardshipClaim, type: :model do
   let(:claim) { build :litigator_hardship_claim }
 
   it_behaves_like 'a base claim'
+  it_behaves_like 'uses claim cleaner', Cleaners::LitigatorHardshipClaimCleaner
 
   specify { expect(subject.lgfs?).to be_truthy }
   specify { expect(subject.final?).to be_falsey }
@@ -35,32 +36,6 @@ RSpec.describe Claim::LitigatorHardshipClaim, type: :model do
         expect(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
         expect(service).to receive(:call)
         call
-      end
-    end
-  end
-
-  describe '#cleaner' do
-    context 'when the hardship fee has ppe' do
-      let!(:hardship_fee) { create :hardship_fee, claim: claim, date: Date.today, quantity: 51, amount: 97.9 }
-      let!(:claim) { create(:litigator_hardship_claim, case_stage: create(:case_stage, :pre_ptph_with_evidence)) }
-
-      context 'with guilty plea' do
-        it 'leaves the quantity intact' do
-          expect(hardship_fee.quantity).to eq 51
-        end
-      end
-
-      context 'when the case_stage is changed to `with Pre PTPH (no evidence served)`' do
-        let(:no_evidence_case_stage) { create(:case_stage, :pre_ptph_no_evidence) }
-
-        before do
-          claim.update(case_stage: no_evidence_case_stage)
-          claim.save
-        end
-
-        it 'leaves the quantity intact' do
-          expect(hardship_fee.reload.quantity).to eq 0
-        end
       end
     end
   end

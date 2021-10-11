@@ -66,14 +66,14 @@ moj.Modules.Autocomplete = {
     const selectedTextString = $wrapper.find('select.typeahead option:selected').text()
 
     if (str === '' || !str) {
-      $wrapper.find('select.typeahead').prop('selectedIndex', 0).change()
+      $wrapper.find('select.typeahead').prop('selectedIndex', 0).trigger('change')
       return
     }
 
     if (str !== selectedTextString) {
       $wrapper.find('select.typeahead option').filter(function () {
         return $.trim($(this).text()) === $.trim(str)
-      }).prop('selected', true).change()
+      }).prop('selected', true).trigger('change')
     }
   },
 

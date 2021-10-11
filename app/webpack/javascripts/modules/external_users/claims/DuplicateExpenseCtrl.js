@@ -41,7 +41,7 @@ moj.Modules.DuplicateExpenseCtrl = {
    * @return {[type]}      [description]
    */
   step2: function (data) {
-    this.$el.find('.add_fields').click()
+    this.$el.find('.add_fields').trigger('click')
     this.populateNewItem(data)
     return this
   },
@@ -87,7 +87,7 @@ moj.Modules.DuplicateExpenseCtrl = {
 
   setRadioValue: function ($el, selector, val) {
     if (val) {
-      $el.find(selector + '[id$=mileage_rate_id_' + val + ']').prop('checked', true).click()
+      $el.find(selector + '[id$=mileage_rate_id_' + val + ']').prop('checked', true).trigger('click')
     }
   },
 

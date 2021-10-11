@@ -63,7 +63,7 @@
 
     _activateFirstLink: function () {
       // activate first tab
-      this.$tabNav.find('li').first().find('a').click();
+      this.$tabNav.find('li').first().find('a').trigger('click');
     },
 
     _focusFirstElement: function (el) {

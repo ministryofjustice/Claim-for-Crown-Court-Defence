@@ -37,7 +37,7 @@ describe('Modules.AllocationScheme.js', function () {
 
     spyOn($, 'publish').and.callThrough()
 
-    $('#allocation-filters input').change()
+    $('#allocation-filters input').trigger('change')
 
     expect($.publish).toHaveBeenCalledWith('/scheme/change/', { scheme: 'input-value' })
   })

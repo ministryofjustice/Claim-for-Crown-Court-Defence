@@ -49,7 +49,7 @@ describe('Modules.DuplicateExpenseCtrl', function () {
         const mod = moj.Modules.DuplicateExpenseCtrl
         spyOn(mod, 'step1')
         expect(mod.step1).not.toHaveBeenCalled()
-        $('.fx-duplicate-expense').click()
+        $('.fx-duplicate-expense').trigger('click')
         expect(mod.step1).toHaveBeenCalled()
       })
       it('...should subscribe to `/step1/complete/` event', function () {

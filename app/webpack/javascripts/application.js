@@ -117,7 +117,7 @@ if (!String.prototype.supplant) {
   $('.form-actions').on('cocoon:after-insert', function (e, el) {
     const $el = $(el)
     if ($el.hasClass('resource-details')) {
-      $el.find('a.add_fields').click()
+      $el.find('a.add_fields').trigger('click')
     }
   })
 

@@ -38,7 +38,7 @@ moj.Modules.CaseTypeCtrl = {
   bindEvents: function () {
     const self = this
 
-    $('#case_type').change(function () {
+    $('#case_type').on('change', function () {
       const selectElement = document.querySelector('#case_type')
       const selectedOption = $(this).find('option:selected')
       const selectedText = selectedOption.text()

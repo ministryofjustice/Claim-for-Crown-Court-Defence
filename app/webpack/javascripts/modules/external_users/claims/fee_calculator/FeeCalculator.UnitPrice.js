@@ -21,7 +21,7 @@
       const self = this
       // TODO: move this to a data-flag
       if ($('.calculated-unit-fee').exists()) {
-        $('.js-fee-calculator-advocate-type').change(function () {
+        $('.js-fee-calculator-advocate-type').on('change', function () {
           self.calculateUnitPrice()
         })
       }
@@ -80,7 +80,7 @@
       const $els = $el || $('.fx-misc-fee-calculation')
 
       if ($('.fx-misc-fee-calculation').exists() && $('.calculated-unit-fee').exists()) {
-        $els.change(function () {
+        $els.on('change', function () {
           self.calculateUnitPrice()
         })
       }
@@ -110,7 +110,7 @@
     feeRateChange: function ($el) {
       const self = this
       const $els = $el || $('.js-fee-calculator-rate')
-      $els.change(function () {
+      $els.on('change', function () {
         self.populateNetAmount(this)
       })
     },
@@ -120,7 +120,7 @@
       const $priceCalculated = $(context).siblings('.js-fee-calculator-success').find('input')
 
       $input.val(data.toFixed(2))
-      $input.change()
+      $input.trigger('change')
       $priceCalculated.val(data > 0)
       $input.prop('readonly', data > 0)
     },

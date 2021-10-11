@@ -3,6 +3,8 @@ require_relative 'document_generator'
 require_relative 'basic_fee_generator'
 require_relative 'fee_generator'
 require_relative 'expense_generator'
+require Rails.root.join('spec', 'support', 'scheme_date_helpers')
+FactoryBot::SyntaxRunner.include(SchemeDateHelpers)
 
 module DemoData
 

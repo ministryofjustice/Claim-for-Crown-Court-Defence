@@ -3,6 +3,7 @@ require 'google_analytics/api'
 class FeedbackController < ApplicationController
   skip_load_and_authorize_resource only: %i[new create]
   before_action :suppress_hotline_link
+  before_action :setup_page
 
   def new
     @feedback = Feedback.new(type: type, referrer: referrer_path)
@@ -11,21 +12,16 @@ class FeedbackController < ApplicationController
 
   def create
     @feedback = Feedback.new(merged_feedback_params)
+
     if @feedback.save
-      submit_feedback_google_event if @feedback.is?('feedback')
-      redirect_to after_create_url, notice: 'Feedback submitted'
+      redirect_to after_create_url, notice: @feedback.response_message
     else
+      flash.now[:error] = @feedback.response_message if @feedback.response_message
       render "feedback/#{@feedback.type}"
     end
   end
 
   private
-
-  def submit_feedback_google_event
-    rating = merged_feedback_params[:rating]
-    label = Feedback::RATINGS[rating.to_i].downcase.tr(' ', '_')
-    GoogleAnalytics::Api.event('satisfaction', rating, label, params[:ga_client_id])
-  end
 
   def type
     %w[feedback bug_report].include?(params[:type]) ? params[:type] : 'feedback'
@@ -44,14 +40,8 @@ class FeedbackController < ApplicationController
     if current_user
       current_user.email
     else
-      email_from_user_id || params[:feedback][:email] || 'anonymous'
+      params[:feedback][:email] || 'anonymous'
     end
-  end
-
-  def email_from_user_id
-    User.active.find(params[:user_id])&.email
-  rescue ActiveRecord::RecordNotFound
-    nil
   end
 
   def after_create_url
@@ -64,14 +54,17 @@ class FeedbackController < ApplicationController
 
   def feedback_params
     params.require(:feedback).permit(
-      :type,
-      :comment,
-      :rating,
+      :task, :rating, :comment, :other_reason, :type,
       :event,
       :outcome,
       :case_number,
       :referrer,
-      :email
+      :email,
+      reason: []
     )
+  end
+
+  def setup_page
+    @feedback_form = FeedbackForm.new if type == 'feedback'
   end
 end

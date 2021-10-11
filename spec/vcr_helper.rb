@@ -7,7 +7,7 @@ VCR.configure do |c|
   # use webmock to hook into and replay requests
   c.hook_into :webmock
 
-  # enable rspec :vcr tag for autonmatically named cassettes. needed??
+  # enable rspec :vcr tag for automatically named cassettes. needed??
   c.configure_rspec_metadata!
   c.default_cassette_options = {
     erb: true,
@@ -57,6 +57,7 @@ VCR.configure do |c|
   # replace sensitive data in cassettes with placeholder and apply secrets on the fly
   c.filter_sensitive_data('<GOOGLE_API_KEY>') { Rails.application.secrets.google_api_key }
   c.filter_sensitive_data('<CURRENCY_API_KEY>') { Rails.application.secrets.currency_api_key }
+  c.filter_sensitive_data('<SURVEY_MONKEY_BEARER_TOKEN>') { Rails.application.secrets.survey_monkey_bearer_token }
 
   # custom VCR request matcher to match request based on
   # path and query but not host because laa-fee-calculator

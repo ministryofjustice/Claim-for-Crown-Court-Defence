@@ -920,9 +920,8 @@ describe('Helpers.Blocks.js', function () {
             expect($('.fx-location-model').val()).toEqual('establishment selected')
           })
 
-          it('establishment location: should call `this.getDistance` if feature is enabled', function () {
-            const deferred = $.Deferred()
-            spyOn(instance, 'getDistance').and.returnValue(deferred.promise())
+          it('establishment location: should call `this.getDistance` if feature is enabled', function (done) {
+            spyOn(instance, 'getDistance').and.returnValue(Promise.resolve())
 
             const selector = '.fx-establishment-select select:last'
 
@@ -934,6 +933,7 @@ describe('Helpers.Blocks.js', function () {
               claimid: 99,
               destination: 'POSTCODE'
             })
+            done()
           })
 
           it('net amount: should bind keyup listner', function () {
@@ -1064,9 +1064,12 @@ describe('Helpers.Blocks.js', function () {
         })
 
         describe('...getDistance', function () {
-          it('should return the id and augmented distance object...', function () {
-            const deferred = $.Deferred()
-            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(deferred.promise())
+          it('should return the id and augmented distance object...', function (done) {
+            const data = {
+              distance: 204993
+            }
+            const resolvedData = Promise.resolve(data)
+            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(resolvedData)
             instance.$el.find('#mileage_rate_id_1').prop('checked', true)
             instance.getDistance({
               claimid: 2,
@@ -1083,15 +1086,15 @@ describe('Helpers.Blocks.js', function () {
               })
 
               expect(number).toEqual('1')
-            })
-
-            deferred.resolve({
-              distance: 204993
+              done()
             })
           })
-          it('should populate and return an error ...', function () {
-            const deferred = $.Deferred()
-            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(deferred.promise())
+          it('should populate and return an error ...', function (done) {
+            const data = {
+              error: 'error'
+            }
+            const resolvedData = Promise.reject(data)
+            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(resolvedData)
             instance.$el.find('#mileage_rate_id_1').prop('checked', true)
 
             instance.getDistance({
@@ -1104,10 +1107,7 @@ describe('Helpers.Blocks.js', function () {
               })
 
               expect(result).toEqual('error')
-            })
-
-            deferred.reject({
-              error: 'error'
+              done()
             })
           })
         })
@@ -1154,9 +1154,7 @@ describe('Helpers.Blocks.js', function () {
           })
 
           it('should call the Establishments API with the correct params ', function () {
-            const deferred = $.Deferred()
-            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(deferred.promise())
-
+            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(Promise.resolve())
             instance.attachSelectWithOptions('crown_court', 'SomeThing')
             expect(moj.Helpers.API.Establishments.getAsSelectWithOptions).toHaveBeenCalledWith('crown_court', {
               prop: 'name',

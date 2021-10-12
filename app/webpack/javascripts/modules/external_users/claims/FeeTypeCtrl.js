@@ -69,7 +69,7 @@ moj.Modules.FeeTypeCtrl = {
       $quantity.attr('readonly', true)
     } else {
       $quantity.val()
-      $quantity.removeAttr('readonly')
+      $quantity.attr('readonly', false)
     }
   },
 

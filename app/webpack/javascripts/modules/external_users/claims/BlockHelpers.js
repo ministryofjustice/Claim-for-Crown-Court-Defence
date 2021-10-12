@@ -571,7 +571,7 @@ moj.Helpers.Blocks = {
       // Clearing the radio buttons if they are not required
       if (!state.config.mileage) {
         $dom.find('.fx-travel-mileage input[type=radio]').is(function () {
-          $(this).removeAttr('checked').prop('disabled', true)
+          $(this).attr('checked', false).attr('disabled', true)
         })
         return $dom
       }

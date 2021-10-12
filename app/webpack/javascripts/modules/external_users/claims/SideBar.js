@@ -139,7 +139,7 @@ moj.Modules.SideBar = {
   sanitzeFeeToFloat: function () {
     const self = this
     $.each(this.totals, function (key, val) {
-      if ($.type(self.totals[key]) === 'string') {
+      if (typeof self.totals[key] === 'string') {
         self.totals[key] = self.strAmountToFloat(self.totals[key])
       }
     })

@@ -67,7 +67,7 @@
     },
 
     _focusFirstElement: function (el) {
-      el.find('a, input, textarea, select, button, [tabindex]').not(':disabled').first().focus();
+      el.find('a, input, textarea, select, button, [tabindex]').not(':disabled').first().trigger('focus');
     }
 
   };

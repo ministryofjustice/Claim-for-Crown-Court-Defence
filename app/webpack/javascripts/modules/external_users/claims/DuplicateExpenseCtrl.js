@@ -79,7 +79,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id)
 
     // set focus state on '.remove_fields' within the new section
-    $el.find('.remove_fields:last').focus()
+    $el.find('.remove_fields:last').trigger('focus')
 
     // trigger the side bar to recalculate all totals
     $('#claim-form').trigger('recalculate')

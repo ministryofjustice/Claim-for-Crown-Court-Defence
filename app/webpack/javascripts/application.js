@@ -69,7 +69,7 @@ if (!String.prototype.supplant) {
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper)
     moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem)
 
-    $insertedItem.find('.remove_fields:first').focus()
+    $insertedItem.find('.remove_fields:first').trigger('focus')
   })
 
   // Basic fees page

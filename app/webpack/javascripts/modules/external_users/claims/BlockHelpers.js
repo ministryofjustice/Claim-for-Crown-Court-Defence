@@ -558,7 +558,7 @@ moj.Helpers.Blocks = {
 
       $parent.append($detached)
 
-      return $parent.find('.fx-travel-expense-type select').focus()
+      return $parent.find('.fx-travel-expense-type select').trigger('focus')
     }
 
     /**

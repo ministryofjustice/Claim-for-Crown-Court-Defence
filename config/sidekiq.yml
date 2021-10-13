@@ -13,4 +13,4 @@ development:
   :concurrency: 5
 production:
   :verbose: true
-  :concurrency: 10
+  :concurrency: 5

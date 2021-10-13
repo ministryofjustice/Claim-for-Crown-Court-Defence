@@ -17,9 +17,8 @@ describe('Helpers.API.Establishments.js', function () {
       $('#expenses').remove()
     })
 
-    it('should call `loadData` if the DOM triggers are in place', function () {
-      const deferred = $.Deferred()
-      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise())
+    it('should call `loadData` if the DOM triggers are in place', function (done) {
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(Promise.resolve([]))
 
       helper.init().then(function () {
         expect(moj.Helpers.API._CORE.query).toHaveBeenCalledWith({
@@ -27,55 +26,48 @@ describe('Helpers.API.Establishments.js', function () {
           type: 'GET',
           dataType: 'json'
         })
+        done()
       })
-      deferred.resolve([])
     })
 
-    it('should call `$.publish` the success event', function () {
-      const deferred = $.Deferred()
-      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise())
-
+    it('should call `$.publish` the success event', function (done) {
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(Promise.resolve([]))
       spyOn($, 'publish')
 
       helper.init().then(function () {
         expect($.publish).toHaveBeenCalledWith('/API/establishments/loaded/')
+        done()
       })
-      deferred.resolve([])
     })
 
-    it('should call `$.publish` the error event', function () {
-      const deferred = $.Deferred()
-      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise())
+    it('should call `$.publish` the error event', function (done) {
+      const errorData = 'error status'
 
       spyOn($, 'publish')
-
-      helper.init().then(function () {}, function () {
-        expect($.publish).toHaveBeenCalledWith('/API/establishments/load/error/', {
-          status: 'status',
-          error: 'error'
-        })
-      })
-      deferred.reject('status', 'error')
-    })
-
-    it('should set the internalCache', function () {
-      const deferred = $.Deferred()
-      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise())
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(Promise.reject(errorData))
 
       helper.init().then(function () {
-        expect(helper.getLocationByCategory()).toEqual([{
-          id: 1,
-          name: 'HMP Altcourse',
-          category: 'prison',
-          postcode: 'L9 7LH'
-        }])
+        expect($.publish).toHaveBeenCalledWith('/API/establishments/load/error/', {
+          error: undefined,
+          status: 'error status'
+        })
+        done()
       })
-      deferred.resolve([{
+    })
+
+    it('should set the internalCache', function (done) {
+      const fixtureData = [{
         id: 1,
         name: 'HMP Altcourse',
         category: 'prison',
         postcode: 'L9 7LH'
-      }])
+      }]
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(Promise.resolve(fixtureData))
+
+      helper.init().then(function () {
+        expect(helper.getLocationByCategory()).toEqual(fixtureData)
+        done()
+      })
     })
   })
 
@@ -87,8 +79,7 @@ describe('Helpers.API.Establishments.js', function () {
       $('#expenses').remove()
     })
 
-    it('should return all the data with no params passed', function () {
-      const deferred = $.Deferred()
+    it('should return all the data with no params passed', function (done) {
       const fixtureData = [{
         id: 1,
         name: 'HMP One',
@@ -105,16 +96,15 @@ describe('Helpers.API.Establishments.js', function () {
         category: 'crown_court',
         postcode: 'L9 7LH'
       }]
-      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise())
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(Promise.resolve(fixtureData))
 
       helper.init().then(function () {
         expect(helper.getLocationByCategory()).toEqual(fixtureData)
+        done()
       })
-      deferred.resolve(fixtureData)
     })
 
-    it('should filter the results', function () {
-      const deferred = $.Deferred()
+    it('should filter the results', function (done) {
       const fixtureData = [{
         id: 1,
         name: 'HMP One',
@@ -132,14 +122,14 @@ describe('Helpers.API.Establishments.js', function () {
         postcode: 'L9 7LH'
       }]
 
-      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise())
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(Promise.resolve(fixtureData))
 
       helper.init().then(function () {
         expect(helper.getLocationByCategory('prison')).toEqual([fixtureData[2]])
 
         expect(helper.getLocationByCategory('crown_court')).toEqual([fixtureData[1]])
+        done()
       })
-      deferred.resolve(fixtureData)
     })
   })
 
@@ -151,8 +141,7 @@ describe('Helpers.API.Establishments.js', function () {
       $('#expenses').remove()
     })
 
-    it('should filter the results', function () {
-      const deferred = $.Deferred()
+    it('should filter the results', function (done) {
       const fixtureData = [{
         id: 1,
         name: 'HMP One',
@@ -169,17 +158,18 @@ describe('Helpers.API.Establishments.js', function () {
         category: 'crown_court',
         postcode: 'L9 7LH'
       }]
-      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise())
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(Promise.resolve(fixtureData))
 
       helper.init().then(function () {
         helper.getAsOptions('prison').then(function (el) {
           expect(el).toEqual(['<option value="">Please select</option>', '<option value="2" data-postcode="L9 7LH">HMP Two</option>'])
+          done()
         })
         helper.getAsOptions('crown_court').then(function (el) {
           expect(el).toEqual(['<option value="">Please select</option>', '<option value="3" data-postcode="L9 7LH">HMP Three</option>'])
+          done()
         })
       })
-      deferred.resolve(fixtureData)
     })
   })
 })

@@ -527,7 +527,7 @@ en:
         lgfs_supplier_numbers: 'LGFS supplier numbers'
         firm_agfs_supplier_number: 'AGFS supplier number'
         page_title: "View %{provider_name}'s details"
-        page_heading: Providers
+        page_heading: "Provider: %{provider_name}"
         edit: Edit
         answer_yes: *global_yes
         answer_no:  *global_no
@@ -546,7 +546,7 @@ en:
         caption: Provider list
         table_summary: A list of providers. Includes links to the provider page and to manage users
         users: Users
-        manage_user: "Manage users in provider"
+        manage_user_html: Manage users in provider <span class="govuk-visually-hidden">%{context}</span>
         no_provider: "No providers found"
       form:
         cancel_button: Cancel
@@ -571,7 +571,7 @@ en:
         caption: Users in %{provider_name}
         state: Account state
         add_provider: Add user to provider
-        page_heading: Manage Users
+        page_heading: Manage %{provider} Users
         title: Click to email %{provider}
         live: Live
         inactive: Inactive
@@ -591,7 +591,7 @@ en:
         answer_yes: *global_yes
         answer_no:  *global_no
         manage_user: Manage user
-        page_heading: Manage user
+        page_heading: Manage user %{external_user}
         table_summary: A list of user details for %{external_user}
         edit_provider: edit the provider
       edit:

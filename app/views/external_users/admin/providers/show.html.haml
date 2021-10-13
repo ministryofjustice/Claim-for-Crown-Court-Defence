@@ -3,45 +3,20 @@
 
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading', provider_name: @provider.name) }
 
-.table-container
-  %table
-    %caption
-      = t('.table_caption')
-    %tbody
-      %tr
-        %th{ scope: 'row' }
-          = t('.provider_name')
-        %td
-          = @provider.name
-      %tr
-        %th{ scope: 'row' }
-          = t('.api_key')
-        %td#api-key
-          = @provider.api_key
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
 
+    = govuk_summary_list do
+      = govuk_summary_list_row(t('.provider_name')) { @provider.name }
+      = govuk_summary_list_row(t('.api_key')) { @provider.api_key }
       - if @provider.firm?
-        %tr
-          %th{ scope: 'row' }
-            = t('.lgfs_supplier_numbers')
-          %td
-            = @provider.lgfs_supplier_numbers.to_sentence
+        = govuk_summary_list_row(t('.lgfs_supplier_numbers')) { @provider.lgfs_supplier_numbers.to_sentence }
         - if @provider.agfs?
-          %tr
-            %th{ scope: 'row' }
-              = t('.firm_agfs_supplier_number')
-            %td
-              = @provider.firm_agfs_supplier_number
-        %tr
-          %th{ scope: 'row' }
-            = t('.vat_registered')
-          %td
-            = @provider.vat_registered == true ? 'Yes' : 'No'
+          = govuk_summary_list_row(t('.firm_agfs_supplier_number')) { @provider.firm_agfs_supplier_number }
+      = govuk_summary_list_row(t('.vat_registered')) { @provider.vat_registered == true ? t('global_yes') : t('global_no') }
 
-.form-section
-  .govuk-grid-row
-    .govuk-grid-column-one-half
+    .app-link-group
       = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation'), module: 'govuk-button' }, class: 'govuk-button', draggable: 'false'
-    .govuk-grid-column-one-half
+
       - if can? :edit, @provider
         = govuk_link_button_secondary(t('.edit_provider'), edit_external_users_admin_provider_path(@provider))
-

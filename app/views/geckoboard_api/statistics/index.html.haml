@@ -1,9 +1,10 @@
-.body-content
-  = govuk_inset_text do
-    %p
-      Statistics reports in tabular format.
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    %h1.govuk-heading-l
+      = 'Statistics reports'
 
-    %table
+  .govuk-grid-column-two-thirds
+    %ul.govuk-list.govuk-list--bullet.govuk-list--spaced
       - @available_reports.each do |title, url_part|
-        %tr
-          %td= link_to(title, send("#{url_part}_geckoboard_api_widgets_path", format: 'html'))
+        %li
+          = link_to(title, send("#{url_part}_geckoboard_api_widgets_path", format: 'html'))

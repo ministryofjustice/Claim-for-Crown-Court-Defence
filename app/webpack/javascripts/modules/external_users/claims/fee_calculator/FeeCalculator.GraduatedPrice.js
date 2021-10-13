@@ -198,7 +198,7 @@
 
     pageLoad: function () {
       const self = this
-      $(document).ready(function () {
+      $(function () {
         $('.calculated-grad-fee').each(function () {
           self.calculateAllGraduatedPrices(self)
         })

@@ -76,7 +76,7 @@ moj.Modules.FeeTypeCtrl = {
   pageLoad: function () {
     const self = this
 
-    $(document).ready(function () {
+    $(function () {
       $('.js-fee-type:visible').each(function () {
         self.showHideUnusedMaterialWarning(this, self.getFeeTypeSelectUniqueCode(this))
         self.readOnlyQuantity(this, self.getFeeTypeSelectUniqueCode(this))

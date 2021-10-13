@@ -125,7 +125,7 @@
     getAsSelectWithOptions: getAsSelectWithOptions
   }
 
-  $(document).ready(init)
+  $(init)
 
   exports.Helpers.API = Module
 }(moj, jQuery))

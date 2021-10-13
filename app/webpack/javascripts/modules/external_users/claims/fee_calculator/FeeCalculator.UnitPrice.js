@@ -258,7 +258,7 @@
 
     pageLoad: function () {
       const self = this
-      $(document).ready(function () {
+      $(function () {
         // TODO: this loop is causing multiple init procedures
         // limiting it for now to, at most, one visible
         $('.calculated-unit-fee:visible:first').each(function () {

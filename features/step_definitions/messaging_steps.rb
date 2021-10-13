@@ -46,6 +46,7 @@ end
 
 When(/^I click send$/) do
   @external_user_claim_show_page.messages_panel.send.click
+  sleep 1
 end
 
 Then(/^the claim should be visible with 1 new message$/) do

@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+require_relative 'claim_type_filterable'
+
 module Stats
   module ManagementInformation
     module JourneyQueryable

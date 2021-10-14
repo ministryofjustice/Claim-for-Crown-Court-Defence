@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
+require_relative 'journey_queryable'
+
 module Stats
   module ManagementInformation
-    class Query
+    class DailyReportQuery
       include JourneyQueryable
       include ClaimTypeQueryable
 

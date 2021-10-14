@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Stats::ManagementInformation::Query do
+RSpec.describe Stats::ManagementInformation::DailyReportQuery do
   describe '.call' do
     subject(:response) { described_class.call }
 

@@ -39,7 +39,7 @@ RSpec.describe Stats::ManagementInformation::Scheme do
       end
     end
 
-    context 'when comparing scheme object with symbol' do
+    context 'when comparing scheme object with string or symbol' do
       it { expect(described_class.new(:foo)).to be == :foo }
       it { expect(described_class.new(:FOO)).to be == :foo }
       it { expect(described_class.new('foo')).to be == :foo }
@@ -56,16 +56,20 @@ RSpec.describe Stats::ManagementInformation::Scheme do
   end
 
   describe '#valid?' do
-    it { expect(described_class.new('agfs')).to be_valid }
-    it { expect(described_class.new('AGFS')).to be_valid }
-    it { expect(described_class.new(:agfs)).to be_valid }
-    it { expect(described_class.new(:AGFS)).to be_valid }
-    it { expect(described_class.new('lgfs')).to be_valid }
-    it { expect(described_class.new('LGFS')).to be_valid }
-    it { expect(described_class.new(:lgfs)).to be_valid }
-    it { expect(described_class.new(:LGFS)).to be_valid }
+    context 'with valid values' do
+      it { expect(described_class.new('agfs')).to be_valid }
+      it { expect(described_class.new('AGFS')).to be_valid }
+      it { expect(described_class.new(:agfs)).to be_valid }
+      it { expect(described_class.new(:AGFS)).to be_valid }
+      it { expect(described_class.new('lgfs')).to be_valid }
+      it { expect(described_class.new('LGFS')).to be_valid }
+      it { expect(described_class.new(:lgfs)).to be_valid }
+      it { expect(described_class.new(:LGFS)).to be_valid }
+    end
 
-    it { expect(described_class.new(:foo)).not_to be_valid }
-    it { expect(described_class.new(:BAR)).not_to be_valid }
+    context 'with invalid values' do
+      it { expect(described_class.new(:foo)).not_to be_valid }
+      it { expect(described_class.new(:BAR)).not_to be_valid }
+    end
   end
 end

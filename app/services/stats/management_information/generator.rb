@@ -64,12 +64,28 @@ module Stats
       # - :rep_order_issued_date
       # - :af1_lf1_processed_by
       # - :misc_fees
+
+      # weekly stats filters: values used by caseworkers to filter and aggregate/count records returned
+      #
+      # query.scheme
+      # query.case_type_name
+      # presenter.submission_type
+      # query.original_submission_date
+      # query.disk_evidence
+      # query.claim_total
+      #
+
       def row(rec)
         rec = Presenter.new(rec)
 
-        [rec[:id], rec[:scheme], rec[:case_number], rec[:supplier_number],
-         rec[:organisation], rec[:case_type_name], rec[:bill_type], rec[:claim_total],
-         rec.submission_type, rec.transitioned_at]
+        [
+          rec[:id], rec[:scheme], rec[:case_number], rec[:supplier_number],
+          rec[:organisation], rec[:case_type_name], rec[:bill_type], rec[:claim_total],
+          rec.submission_type, rec.transitioned_at, rec.last_submitted_at,
+          rec.originally_submitted_at, rec.allocated_at, rec.completed_at,
+          rec.current_or_end_state, rec.state_reason_code, rec.rejection_reason,
+          rec.case_worker
+        ]
       end
 
       def headers
@@ -77,7 +93,7 @@ module Stats
       end
 
       def claim_journeys
-        @claim_journeys ||= Query.call(scheme: @scheme)
+        @claim_journeys ||= DailyReportQuery.call(scheme: @scheme)
       end
 
       def log_error(error)

@@ -17,7 +17,7 @@ module Stats
       return if StatsReport.generation_in_progress?(report_type)
       report_record = Stats::StatsReport.record_start(report_type)
       report_contents = generate_new_report
-      report_record.write_report(report_contents)
+      report_r
     rescue StandardError => e
       report_record&.update(status: 'error')
       notify_error(report_record, e)
@@ -33,9 +33,14 @@ module Stats
     end
 
     def generate_new_report
+      return management_information_generator_v2 if report_type.include?('management_information_v2')
       return management_information_generator if report_type.include?('management_information')
 
       ReportGenerator.call(report_type, **options)
+    end
+
+    def management_information_generator_v2
+      Stats::ManagementInformation::Generator.call(options)
     end
 
     def management_information_generator

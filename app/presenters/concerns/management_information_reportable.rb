@@ -84,7 +84,8 @@ module ManagementInformationReportable
     end
 
     def case_worker
-      return claim.case_workers.first.name if claim.allocated?
+      return @journey&.last&.subject&.name if @journey&.last&.to == 'allocated'
+
       COMPLETED_STATES.include?(@journey&.last&.to) ? @journey&.last&.author&.name : 'n/a'
     end
 

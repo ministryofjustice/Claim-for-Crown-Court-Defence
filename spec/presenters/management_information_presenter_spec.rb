@@ -2,8 +2,7 @@ require 'rails_helper'
 
 module ClaimAllocatorHelpers
   def claim_allocator_call!(options)
-    allocator = Allocation.new(options)
-    allocator.save
+    Allocation.new(options).save
     claim.reload
   end
 
@@ -196,7 +195,10 @@ RSpec.describe ManagementInformationPresenter do
             claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker1.id))
           end
 
-          travel_to(6.days.ago) { claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting') }
+          travel_to(6.days.ago) do
+            claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting')
+          end
+
           travel_to(5.days.ago) { claim.redetermine!(author_id: claim.external_user.user.id) }
         end
 
@@ -209,7 +211,10 @@ RSpec.describe ManagementInformationPresenter do
             claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker1.id))
           end
 
-          travel_to(6.days.ago) { claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting') }
+          travel_to(6.days.ago) do
+            claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting')
+          end
+
           travel_to(5.days.ago) { claim.await_written_reasons!(author_id: claim.external_user.user.id) }
         end
 
@@ -236,13 +241,41 @@ RSpec.describe ManagementInformationPresenter do
         end
       end
 
+      context 'with a rejected, redetermined and then allocated' do
+        before do
+          travel_to(7.days.ago) do
+            claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker1.id))
+          end
+
+          travel_to(6.days.ago) do
+            claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting')
+          end
+
+          travel_to(5.days.ago) { claim.redetermine! }
+
+          travel_to(4.days.ago) do
+            claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker2.id))
+          end
+        end
+
+        it 'returns name of the caseworker that made each decision' do
+          presenter.present! do |claim_journeys|
+            case_worker_names = claim_journeys.map { |journey| journey[case_worker_name_idx] }
+            expect(case_worker_names).to match_array([case_worker1.name, case_worker2.name])
+          end
+        end
+      end
+
       context 'with a rejected, redetermined, part_authorised, redetermined and then fully authorised claim' do
         before do
           travel_to(7.days.ago) do
             claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker1.id))
           end
 
-          travel_to(6.days.ago) { claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting') }
+          travel_to(6.days.ago) do
+            claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting')
+          end
+
           travel_to(5.days.ago) { claim.redetermine! }
 
           travel_to(4.days.ago) do

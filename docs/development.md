@@ -113,7 +113,7 @@ In order to create an anonymised dump of an environments database you can:
 
 ```bash
 # run the db-dump job in the given environment
-$ rake db:dump:run_job['dev']
+$ bundle exec rake db:dump:run_job['dev']
 ```
 
 This task requires you have kubectl installed locally and access to git-crypted secrets.
@@ -147,12 +147,12 @@ Snippet for local dump and restore:
 
 ```bash
 $ cd <cccd_root>
-$ rake db:dump:run_job['production'] # optional
-$ rake db:dump:list_s3_dumps['production']
+$ bundle exec rake db:dump:run_job['production'] # optional
+$ bundle exec rake db:dump:list_s3_dumps['production']
    => Key: tmp/20201013214202_dump.psql.gz
       ...
-$ rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','production']
-$ rake db:restore['tmp/production/20201013214202_dump.psql']
+$ bundle exec rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','production']
+$ bundle exec rake db:restore['tmp/production/20201013214202_dump.psql']
 ```
 
 Alternatively, if dump files already exist for the environment you can list them - `db:dump:list_s3_dumps` - and then copy the one you want locally - they are listed with most recent first.

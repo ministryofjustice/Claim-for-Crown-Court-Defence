@@ -135,13 +135,14 @@ describe('Modules.DuplicateExpenseCtrl', function () {
         expect(moj.Modules.DuplicateExpenseCtrl.mapFormData).toBeDefined()
       })
 
-      it('...should return an `Object`', function () {
+      it('...should return an `Object`', function (done) {
         $('body').append(domFixture)
         const def = moj.Modules.DuplicateExpenseCtrl.mapFormData()
         def.then(function (data) {
           expect(data).toEqual({
             modelname: '12'
           })
+          done()
         })
         domFixture.empty()
       })

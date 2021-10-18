@@ -55,23 +55,25 @@ describe('Helpers.FormControls.js', function () {
       }).toThrowError('Missing param: collection')
     })
 
-    it('...should return an array of options in a promise', function () {
+    it('...should return an array of options in a promise', function (done) {
       helper.getOptions([{
         id: 'id',
         postcode: 'postcode',
         name: 'name'
       }]).then(function (el) {
         expect(el).toEqual(['<option value="">Please select</option>', '<option value="id" data-postcode="postcode">name</option>'])
+        done()
       })
     })
 
-    it('...should set the selected option', function () {
+    it('...should set the selected option', function (done) {
       helper.getOptions([{
         id: 'id',
         postcode: 'postcode',
         name: 'name'
       }], { value: 'name', prop: 'name' }).then(function (el) {
         expect(el).toEqual(['<option value="">Please select</option>', '<option value="id" selected="" data-postcode="postcode">name</option>'])
+        done()
       })
     })
   })

@@ -5,7 +5,7 @@ moj.Modules.ClaimIntentions = {
     const self = this
 
     if ($('#claim-form .new_claim').exists() && !$('div.error-summary').exists()) {
-      $('input, select').change(function () {
+      $('input, select').on('change', function () {
         if (!self.valueChanged) {
           self.valueChanged = true
 

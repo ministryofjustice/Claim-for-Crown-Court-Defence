@@ -812,7 +812,7 @@ describe('Helpers.Blocks.js', function () {
             const selector = '.fx-travel-expense-type select'
             const spyEvent = spyOnEvent(selector, 'change')
 
-            $(selector).change()
+            $(selector).trigger('change')
 
             expect('change').toHaveBeenTriggeredOn(selector)
             expect(spyEvent).toHaveBeenTriggered()
@@ -822,7 +822,7 @@ describe('Helpers.Blocks.js', function () {
             const selector = '.fx-travel-expense-type select'
             instance.bindListners()
             spyOn(instance, 'statemanager')
-            $(selector).change()
+            $(selector).trigger('change')
 
             expect(instance.statemanager).toHaveBeenCalledWith(selector)
           })
@@ -831,7 +831,7 @@ describe('Helpers.Blocks.js', function () {
             const selector = '.fx-travel-reason select:last'
             const spyEvent = spyOnEvent(selector, 'change')
 
-            $(selector).change()
+            $(selector).trigger('change')
 
             expect('change').toHaveBeenTriggeredOn(selector)
             expect(spyEvent).toHaveBeenTriggered()
@@ -843,11 +843,11 @@ describe('Helpers.Blocks.js', function () {
             spyOn(instance, 'setLocationElement')
 
             instance.bindListners()
-            $(selector).prop('selectedIndex', 1).change()
+            $(selector).prop('selectedIndex', 1).trigger('change')
 
             expect(instance.$el.find('.fx-travel-reason-other').is(':visible')).toBe(true)
 
-            $(selector).prop('selectedIndex', 2).change()
+            $(selector).prop('selectedIndex', 2).trigger('change')
             expect(instance.$el.find('.fx-travel-reason-other').is(':visible')).toBe(false)
           })
 
@@ -858,11 +858,11 @@ describe('Helpers.Blocks.js', function () {
             spyOn(instance, 'setLocationElement')
 
             instance.bindListners()
-            $(selector).prop('selectedIndex', 1).change()
+            $(selector).prop('selectedIndex', 1).trigger('change')
 
             expect(instance.setVal).toHaveBeenCalledWith('.fx-location-type', '')
 
-            $(selector).prop('selectedIndex', 2).change()
+            $(selector).prop('selectedIndex', 2).trigger('change')
             expect(instance.setVal).toHaveBeenCalledWith('.fx-location-type', 'test-location')
           })
 
@@ -873,11 +873,11 @@ describe('Helpers.Blocks.js', function () {
             spyOn(instance, 'setLocationElement')
 
             instance.bindListners()
-            $(selector).prop('selectedIndex', 1).change()
+            $(selector).prop('selectedIndex', 1).trigger('change')
 
             expect(instance.setState).toHaveBeenCalledWith('.fx-travel-reason-other', true)
 
-            $(selector).prop('selectedIndex', 2).change()
+            $(selector).prop('selectedIndex', 2).trigger('change')
             expect(instance.setState).toHaveBeenCalledWith('.fx-travel-reason-other', false)
           })
 
@@ -888,13 +888,13 @@ describe('Helpers.Blocks.js', function () {
             spyOn(instance, 'setLocationElement')
 
             instance.bindListners()
-            $(selector).prop('selectedIndex', 1).change()
+            $(selector).prop('selectedIndex', 1).trigger('change')
 
             expect(instance.setLocationElement).toHaveBeenCalledWith({
               reasonText: true
             })
 
-            $(selector).prop('selectedIndex', 2).change()
+            $(selector).prop('selectedIndex', 2).trigger('change')
             expect(instance.setLocationElement).toHaveBeenCalledWith({
               reasonText: false,
               locationType: 'test-location'
@@ -905,7 +905,7 @@ describe('Helpers.Blocks.js', function () {
             const selector = '.fx-establishment-select select:last'
             const spyEvent = spyOnEvent(selector, 'change')
 
-            $(selector).change()
+            $(selector).trigger('change')
 
             expect('change').toHaveBeenTriggeredOn(selector)
             expect(spyEvent).toHaveBeenTriggered()
@@ -915,25 +915,25 @@ describe('Helpers.Blocks.js', function () {
             const selector = '.fx-establishment-select select:last'
 
             instance.bindListners()
-            $(selector).prop('selectedIndex', 1).change()
+            $(selector).prop('selectedIndex', 1).trigger('change')
 
             expect($('.fx-location-model').val()).toEqual('establishment selected')
           })
 
-          it('establishment location: should call `this.getDistance` if feature is enabled', function () {
-            const deferred = $.Deferred()
-            spyOn(instance, 'getDistance').and.returnValue(deferred.promise())
+          it('establishment location: should call `this.getDistance` if feature is enabled', function (done) {
+            spyOn(instance, 'getDistance').and.returnValue(Promise.resolve())
 
             const selector = '.fx-establishment-select select:last'
 
             instance.bindListners()
             instance.distanceLookupEnabled = true
-            $(selector).prop('selectedIndex', 1).change()
+            $(selector).prop('selectedIndex', 1).trigger('change')
 
             expect(instance.getDistance).toHaveBeenCalledWith({
               claimid: 99,
               destination: 'POSTCODE'
             })
+            done()
           })
 
           it('net amount: should bind keyup listner', function () {
@@ -1064,9 +1064,12 @@ describe('Helpers.Blocks.js', function () {
         })
 
         describe('...getDistance', function () {
-          it('should return the id and augmented distance object...', function () {
-            const deferred = $.Deferred()
-            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(deferred.promise())
+          it('should return the id and augmented distance object...', function (done) {
+            const data = {
+              distance: 204993
+            }
+            const resolvedData = Promise.resolve(data)
+            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(resolvedData)
             instance.$el.find('#mileage_rate_id_1').prop('checked', true)
             instance.getDistance({
               claimid: 2,
@@ -1083,15 +1086,15 @@ describe('Helpers.Blocks.js', function () {
               })
 
               expect(number).toEqual('1')
-            })
-
-            deferred.resolve({
-              distance: 204993
+              done()
             })
           })
-          it('should populate and return an error ...', function () {
-            const deferred = $.Deferred()
-            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(deferred.promise())
+          it('should populate and return an error ...', function (done) {
+            const data = {
+              error: 'error'
+            }
+            const resolvedData = Promise.reject(data)
+            spyOn(moj.Helpers.API.Distance, 'query').and.returnValue(resolvedData)
             instance.$el.find('#mileage_rate_id_1').prop('checked', true)
 
             instance.getDistance({
@@ -1104,10 +1107,7 @@ describe('Helpers.Blocks.js', function () {
               })
 
               expect(result).toEqual('error')
-            })
-
-            deferred.reject({
-              error: 'error'
+              done()
             })
           })
         })
@@ -1154,9 +1154,7 @@ describe('Helpers.Blocks.js', function () {
           })
 
           it('should call the Establishments API with the correct params ', function () {
-            const deferred = $.Deferred()
-            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(deferred.promise())
-
+            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(Promise.resolve())
             instance.attachSelectWithOptions('crown_court', 'SomeThing')
             expect(moj.Helpers.API.Establishments.getAsSelectWithOptions).toHaveBeenCalledWith('crown_court', {
               prop: 'name',

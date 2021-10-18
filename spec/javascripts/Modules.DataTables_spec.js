@@ -84,7 +84,7 @@ describe('Modules.DataTables.js', function () {
 
       spyOn($, 'publish')
 
-      $('.clear-filters').click()
+      $('.clear-filters').trigger('click')
 
       expect($.publish).toHaveBeenCalledWith('/general/clear-filters/')
     })

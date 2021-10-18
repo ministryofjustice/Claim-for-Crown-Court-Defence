@@ -94,9 +94,8 @@ describe('Modules.OffenceSearchInput.js', function () {
     })
 
     describe('...runQuery', function () {
-      it('should construct the `dataOptions` object correctly', function () {
-        const deferred = $.Deferred()
-        const spy = spyOn(module, 'query').and.returnValue(deferred.promise())
+      it('should construct the `dataOptions` object correctly', function (done) {
+        const spy = spyOn(module, 'query').and.returnValue(Promise.resolve())
         spyOn($, 'publish')
 
         module.init()
@@ -138,12 +137,12 @@ describe('Modules.OffenceSearchInput.js', function () {
           band_id: 22,
           category_id: 99
         })
+        done()
       })
 
-      it('should show the `clear search` link', function () {
-        const deferred = $.Deferred()
+      it('should show the `clear search` link', function (done) {
         spyOn($, 'publish')
-
+        spyOn(module, 'query').and.returnValue(Promise.resolve())
         module.init()
 
         spyOn(module.$clear, 'removeClass').and.callThrough()
@@ -152,13 +151,11 @@ describe('Modules.OffenceSearchInput.js', function () {
 
         module.query().then(function () {
           expect(module.$clear.removeClass).toHaveBeenCalled()
+          done()
         })
-
-        deferred.resolve({})
       })
 
-      it('should publish the search results', function () {
-        const deferred = $.Deferred()
+      it('should publish the search results', function (done) {
         const fixtureData = {
           fee_scheme: 'AGFS 10',
           search_offence: 'mur',
@@ -167,16 +164,16 @@ describe('Modules.OffenceSearchInput.js', function () {
           }]
         }
         spyOn($, 'publish')
+        spyOn(module, 'query').and.returnValue(Promise.resolve(fixtureData))
 
         module.init()
 
         module.runQuery()
 
-        module.query().then(function () {
+        module.query().then(function (params) {
           expect($.publish).toHaveBeenCalledWith('/offence/search/results/', fixtureData)
+          done()
         })
-
-        deferred.resolve(fixtureData)
       })
     })
 

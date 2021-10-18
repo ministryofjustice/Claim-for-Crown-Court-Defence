@@ -69,7 +69,7 @@ if (!String.prototype.supplant) {
     moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper)
     moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem)
 
-    $insertedItem.find('.remove_fields:first').focus()
+    $insertedItem.find('.remove_fields:first').trigger('focus')
   })
 
   // Basic fees page
@@ -117,7 +117,7 @@ if (!String.prototype.supplant) {
   $('.form-actions').on('cocoon:after-insert', function (e, el) {
     const $el = $(el)
     if ($el.hasClass('resource-details')) {
-      $el.find('a.add_fields').click()
+      $el.find('a.add_fields').trigger('click')
     }
   })
 

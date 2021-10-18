@@ -41,7 +41,7 @@ moj.Modules.DuplicateExpenseCtrl = {
    * @return {[type]}      [description]
    */
   step2: function (data) {
-    this.$el.find('.add_fields').click()
+    this.$el.find('.add_fields').trigger('click')
     this.populateNewItem(data)
     return this
   },
@@ -79,7 +79,7 @@ moj.Modules.DuplicateExpenseCtrl = {
     this.setRadioValue($el, '.fx-travel-mileage input', data.mileage_rate_id)
 
     // set focus state on '.remove_fields' within the new section
-    $el.find('.remove_fields:last').focus()
+    $el.find('.remove_fields:last').trigger('focus')
 
     // trigger the side bar to recalculate all totals
     $('#claim-form').trigger('recalculate')
@@ -87,7 +87,7 @@ moj.Modules.DuplicateExpenseCtrl = {
 
   setRadioValue: function ($el, selector, val) {
     if (val) {
-      $el.find(selector + '[id$=mileage_rate_id_' + val + ']').prop('checked', true).click()
+      $el.find(selector + '[id$=mileage_rate_id_' + val + ']').prop('checked', true).trigger('click')
     }
   },
 

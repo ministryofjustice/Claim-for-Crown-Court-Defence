@@ -49,7 +49,7 @@ describe('Modules.DuplicateExpenseCtrl', function () {
         const mod = moj.Modules.DuplicateExpenseCtrl
         spyOn(mod, 'step1')
         expect(mod.step1).not.toHaveBeenCalled()
-        $('.fx-duplicate-expense').click()
+        $('.fx-duplicate-expense').trigger('click')
         expect(mod.step1).toHaveBeenCalled()
       })
       it('...should subscribe to `/step1/complete/` event', function () {
@@ -135,13 +135,14 @@ describe('Modules.DuplicateExpenseCtrl', function () {
         expect(moj.Modules.DuplicateExpenseCtrl.mapFormData).toBeDefined()
       })
 
-      it('...should return an `Object`', function () {
+      it('...should return an `Object`', function (done) {
         $('body').append(domFixture)
         const def = moj.Modules.DuplicateExpenseCtrl.mapFormData()
         def.then(function (data) {
           expect(data).toEqual({
             modelname: '12'
           })
+          done()
         })
         domFixture.empty()
       })

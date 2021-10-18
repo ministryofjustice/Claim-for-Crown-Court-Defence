@@ -16,9 +16,8 @@ describe('Helpers.API.Distance.js', function () {
     afterEach(function () {
       $('#feature-form').remove()
     })
-    it('should set default parameters', function () {
-      const deferred = $.Deferred()
-      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise())
+    it('should set default parameters', function (done) {
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(Promise.resolve())
 
       expect(function () {
         helper.query()
@@ -35,12 +34,10 @@ describe('Helpers.API.Distance.js', function () {
           destination: 'Something'
         })
       }).toThrowError('Missing param: `params.claimid` is required')
-
-      deferred.resolve({})
+      done()
     })
-    it('should call `_CORE` with the correct parameters', function () {
-      const deferred = $.Deferred()
-      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(deferred.promise())
+    it('should call `_CORE` with the correct parameters', function (done) {
+      spyOn(moj.Helpers.API._CORE, 'query').and.returnValue(Promise.resolve())
 
       helper.query({
         claimid: '99',
@@ -53,8 +50,8 @@ describe('Helpers.API.Distance.js', function () {
             destination: 'Woking'
           }
         })
+        done()
       })
-      deferred.resolve({})
     })
   })
 })

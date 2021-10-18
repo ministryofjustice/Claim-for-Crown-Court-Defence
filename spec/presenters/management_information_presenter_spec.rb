@@ -2,8 +2,7 @@ require 'rails_helper'
 
 module ClaimAllocatorHelpers
   def claim_allocator_call!(options)
-    allocator = Allocation.new(options)
-    allocator.save
+    Allocation.new(options).save
     claim.reload
   end
 
@@ -25,11 +24,11 @@ end
 
 RSpec.describe ManagementInformationPresenter do
   let(:claim) { create(:redetermination_claim) }
-  let(:presenter) { ManagementInformationPresenter.new(claim, view) }
+  let(:presenter) { described_class.new(claim, view) }
   let(:previous_user) { create(:user, first_name: 'Thea', last_name: 'Conway') }
   let(:another_user) { create(:user, first_name: 'Hilda', last_name: 'Rogers') }
 
-  context '#present!' do
+  describe '#present!' do
     context 'with identical values for' do
       it 'case_number' do
         presenter.present! do |claim_journeys|
@@ -196,7 +195,10 @@ RSpec.describe ManagementInformationPresenter do
             claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker1.id))
           end
 
-          travel_to(6.days.ago) { claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting') }
+          travel_to(6.days.ago) do
+            claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting')
+          end
+
           travel_to(5.days.ago) { claim.redetermine!(author_id: claim.external_user.user.id) }
         end
 
@@ -209,7 +211,10 @@ RSpec.describe ManagementInformationPresenter do
             claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker1.id))
           end
 
-          travel_to(6.days.ago) { claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting') }
+          travel_to(6.days.ago) do
+            claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting')
+          end
+
           travel_to(5.days.ago) { claim.await_written_reasons!(author_id: claim.external_user.user.id) }
         end
 
@@ -236,13 +241,41 @@ RSpec.describe ManagementInformationPresenter do
         end
       end
 
+      context 'with a rejected, redetermined and then allocated' do
+        before do
+          travel_to(7.days.ago) do
+            claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker1.id))
+          end
+
+          travel_to(6.days.ago) do
+            claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting')
+          end
+
+          travel_to(5.days.ago) { claim.redetermine! }
+
+          travel_to(4.days.ago) do
+            claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker2.id))
+          end
+        end
+
+        it 'returns name of the caseworker that made each decision' do
+          presenter.present! do |claim_journeys|
+            case_worker_names = claim_journeys.map { |journey| journey[case_worker_name_idx] }
+            expect(case_worker_names).to match_array([case_worker1.name, case_worker2.name])
+          end
+        end
+      end
+
       context 'with a rejected, redetermined, part_authorised, redetermined and then fully authorised claim' do
         before do
           travel_to(7.days.ago) do
             claim_allocator_call!(allocator_options.merge(case_worker_id: case_worker1.id))
           end
 
-          travel_to(6.days.ago) { claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting') }
+          travel_to(6.days.ago) do
+            claim.reject!(author_id: case_worker1.user.id, reason_code: ['other'], reason_text: 'I am rejecting')
+          end
+
           travel_to(5.days.ago) { claim.redetermine! }
 
           travel_to(4.days.ago) do
@@ -274,9 +307,9 @@ RSpec.describe ManagementInformationPresenter do
     end
 
     describe '#af1_lf1_processed_by' do
-      let(:presenter) { ManagementInformationPresenter.new(claim, view) }
+      let(:presenter) { described_class.new(claim, view) }
 
-      context 'an allocated claim' do
+      context 'with an allocated claim' do
         let(:claim) { create :authorised_claim }
 
         it 'returns nil' do
@@ -284,7 +317,7 @@ RSpec.describe ManagementInformationPresenter do
         end
       end
 
-      context 'a redetermined claim' do
+      context 'with a redetermined claim' do
         let(:claim) { create :authorised_claim }
 
         before do
@@ -298,7 +331,7 @@ RSpec.describe ManagementInformationPresenter do
         end
       end
 
-      context 'a claim that is redetermined twice' do
+      context 'with a claim that is redetermined twice' do
         let(:claim) { create :redetermination_claim }
 
         before do
@@ -324,7 +357,7 @@ RSpec.describe ManagementInformationPresenter do
     describe '#transitioned_at' do
       it 'set per transition' do
         presenter.present! do |claim_journeys|
-          expect(claim_journeys.first).to include((Time.zone.now - 3.day).strftime('%d/%m/%Y'))
+          expect(claim_journeys.first).to include((Time.zone.now - 3.days).strftime('%d/%m/%Y'))
           expect(claim_journeys.second).to include((Time.zone.now).strftime('%d/%m/%Y'))
         end
       end
@@ -354,8 +387,9 @@ RSpec.describe ManagementInformationPresenter do
       it { is_expected.to eql original_submission_date.strftime('%d/%m/%Y') }
     end
 
-    context 'and unique values for' do
-      before { Timecop.freeze(Time.now) }
+    context 'with unique values for' do
+      before { Timecop.freeze(Time.zone.now) }
+
       after { Timecop.return }
 
       it 'submission type' do
@@ -367,7 +401,7 @@ RSpec.describe ManagementInformationPresenter do
 
       it 'date allocated_at' do
         presenter.present! do |claim_journeys|
-          expect(claim_journeys.first).to include((Time.zone.now - 2.day).strftime('%d/%m/%Y'))
+          expect(claim_journeys.first).to include((Time.zone.now - 2.days).strftime('%d/%m/%Y'))
           expect(claim_journeys.second).to include('n/a', 'n/a')
         end
       end
@@ -390,21 +424,21 @@ RSpec.describe ManagementInformationPresenter do
     context 'deallocation' do
       let(:claim) { create(:allocated_claim) }
 
-      before {
+      before do
         case_worker = claim.case_workers.first
         claim.deallocate!
         claim.case_workers << case_worker
         claim.reload.deallocate!
-      }
+      end
 
       it 'is not reflected in the MI' do
-        ManagementInformationPresenter.new(claim, view).present! do |csv|
+        described_class.new(claim, view).present! do |csv|
           expect(csv[0]).not_to include('deallocated')
         end
       end
 
       it 'and the claim should be refelcted as being in the state prior to allocation' do
-        ManagementInformationPresenter.new(claim, view).present! do |csv|
+        described_class.new(claim, view).present! do |csv|
           expect(csv[0]).to include('submitted')
         end
       end
@@ -414,19 +448,19 @@ RSpec.describe ManagementInformationPresenter do
       let(:claim) { create(:archived_pending_delete_claim) }
 
       it 'adds a single row to the MI' do
-        ManagementInformationPresenter.new(claim, view).present! do |csv|
+        described_class.new(claim, view).present! do |csv|
           expect(csv.size).to eq 1
         end
       end
 
       it 'is not reflected in the MI' do
-        ManagementInformationPresenter.new(claim, view).present! do |csv|
+        described_class.new(claim, view).present! do |csv|
           expect(csv[0]).not_to include('archived_pending_delete')
         end
       end
 
       it 'and the claim should be reflected as being in the state prior to archive' do
-        ManagementInformationPresenter.new(claim, view).present! do |csv|
+        described_class.new(claim, view).present! do |csv|
           expect(csv[0]).to include('authorised')
         end
       end
@@ -436,19 +470,19 @@ RSpec.describe ManagementInformationPresenter do
       let(:claim) { create(:hardship_archived_pending_review_claim) }
 
       it 'adds a single row to the MI' do
-        ManagementInformationPresenter.new(claim, view).present! do |csv|
+        described_class.new(claim, view).present! do |csv|
           expect(csv.size).to eq 1
         end
       end
 
       it 'is not reflected in the MI' do
-        ManagementInformationPresenter.new(claim, view).present! do |csv|
+        described_class.new(claim, view).present! do |csv|
           expect(csv[0]).not_to include('archived_pending_review')
         end
       end
 
       it 'and the claim should be reflected as being in the state prior to archive' do
-        ManagementInformationPresenter.new(claim, view).present! do |csv|
+        described_class.new(claim, view).present! do |csv|
           expect(csv[0]).to include('authorised')
         end
       end
@@ -465,7 +499,7 @@ RSpec.describe ManagementInformationPresenter do
 
         it 'the rejection reason code should be reflected in the MI' do
           allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
-          ManagementInformationPresenter.new(claim, view).present! do |csv|
+          described_class.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('no_rep_order')
           end
         end
@@ -477,7 +511,7 @@ RSpec.describe ManagementInformationPresenter do
         end
 
         it 'the rejection reason code should be reflected in the MI' do
-          ManagementInformationPresenter.new(claim, view).present! do |csv|
+          described_class.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('no_rep_order')
           end
         end
@@ -485,11 +519,11 @@ RSpec.describe ManagementInformationPresenter do
 
       context 'rejected with a multiple reasons' do
         before do
-          claim.reject!(reason_code: ['no_rep_order', 'wrong_case_no'])
+          claim.reject!(reason_code: %w[no_rep_order wrong_case_no])
         end
 
         it 'the rejection reason code should be reflected in the MI' do
-          ManagementInformationPresenter.new(claim, view).present! do |csv|
+          described_class.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('no_rep_order, wrong_case_no')
           end
         end
@@ -501,7 +535,7 @@ RSpec.describe ManagementInformationPresenter do
         end
 
         it 'the rejection reason code should be reflected in the MI' do
-          ManagementInformationPresenter.new(claim, view).present! do |csv|
+          described_class.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('other')
             expect(csv[0][colidx + 1]).to eq('Rejection reason')
           end
@@ -515,7 +549,7 @@ RSpec.describe ManagementInformationPresenter do
 
         it 'the refusal reason code should be reflected in the MI' do
           allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('no_rep_order')
-          ManagementInformationPresenter.new(claim, view).present! do |csv|
+          described_class.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('no_rep_order')
           end
         end
@@ -527,7 +561,7 @@ RSpec.describe ManagementInformationPresenter do
         end
 
         it 'the refusal reason code should be reflected in the MI' do
-          ManagementInformationPresenter.new(claim, view).present! do |csv|
+          described_class.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('no_rep_order')
           end
         end
@@ -535,11 +569,11 @@ RSpec.describe ManagementInformationPresenter do
 
       context 'refused with multiple reasons' do
         before do
-          claim.refuse!(reason_code: ['no_rep_order', 'wrong_case_no'])
+          claim.refuse!(reason_code: %w[no_rep_order wrong_case_no])
         end
 
         it 'the refusal reason code should be reflected in the MI' do
-          ManagementInformationPresenter.new(claim, view).present! do |csv|
+          described_class.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('no_rep_order, wrong_case_no')
           end
         end
@@ -551,7 +585,7 @@ RSpec.describe ManagementInformationPresenter do
         end
 
         it 'the rejection reason code should be reflected in the MI' do
-          ManagementInformationPresenter.new(claim, view).present! do |csv|
+          described_class.new(claim, view).present! do |csv|
             expect(csv[0][colidx]).to eq('other')
             expect(csv[0][colidx + 1]).to eq('Rejection reason')
           end

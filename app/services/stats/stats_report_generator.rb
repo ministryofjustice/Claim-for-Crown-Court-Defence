@@ -17,7 +17,7 @@ module Stats
       return if StatsReport.generation_in_progress?(report_type)
       report_record = Stats::StatsReport.record_start(report_type)
       report_contents = generate_new_report
-      report_r
+      report_record.write_report(report_contents)
     rescue StandardError => e
       report_record&.update(status: 'error')
       notify_error(report_record, e)

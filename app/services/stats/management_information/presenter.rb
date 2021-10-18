@@ -53,20 +53,18 @@ module Stats
 
       def state_reason_code
         reason_codes = journey.last[:reason_code]
-        reason_codes = YAML::load(reason_codes).join(', ') if reason_codes
+        YAML.safe_load(reason_codes).join(', ') if reason_codes
       end
 
       def rejection_reason
         journey.last[:reason_text]
       end
 
-      # OPTIMIZE - this is an N+1 which will slow report writing down considerably
-      # could retrieve name of each claim_state_transition author and subject in query
       def case_worker
-        if journey.last[:to].eql? 'allocated'
-          User.find(journey.last[:subject_id])&.name
+        if journey.last[:to].eql?('allocated')
+          journey.last[:subject_name]
         elsif COMPLETED_STATES.include?(journey.last[:to])
-          User.find(journey.last[:author_id])&.name
+          journey.last[:author_name]
         else
           'n/a'
         end

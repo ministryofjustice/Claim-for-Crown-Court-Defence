@@ -38,15 +38,30 @@ module Stats
               rec record;
               transition jsonb;
               slice jsonb := '[]'::jsonb;
-              filtered_states constant varchar[] = array['draft', 'archived_pending_delete' , 'archived_pending_review'];
-              completed_states constant varchar[] = array['rejected', 'refused', 'authorised', 'part_authorised'];
+              filtered_states constant varchar[] := array['draft', 'archived_pending_delete' , 'archived_pending_review'];
+              completed_states constant varchar[] := array['rejected', 'refused', 'authorised', 'part_authorised'];
             BEGIN
               for rec in (
-                select t.claim_id, jsonb_agg(to_jsonb(t) order by t.created_at asc) as transitions
-                from claim_state_transitions t
-                where t.claim_id = in_claim_id
-                and t.to not in (select * from unnest(filtered_states))
-                and DATE_TRUNC('day', t.created_at) > DATE_TRUNC('day', current_date - '6 months'::interval)
+                with transitions as (
+                  select t.claim_id,
+                         t.to,
+                         t.created_at,
+                         t.reason_code,
+                         t.reason_text,
+                         (authors.first_name || ' ' || authors.last_name) as author_name,
+                         (subjects.first_name || ' ' || subjects.last_name) as subject_name
+                  from claim_state_transitions t
+                  left outer join users as authors
+                    on t.author_id = authors.id
+                  left outer join users as subjects
+                    on t.subject_id = subjects.id
+                  where t.claim_id = in_claim_id
+                  and t.to not in (select * from unnest(filtered_states))
+                  and DATE_TRUNC('day', t.created_at) > DATE_TRUNC('day', current_date - '6 months'::interval)
+                )
+                select t.claim_id,
+                       jsonb_agg(to_jsonb(t) order by t.created_at asc) as transitions
+                from transitions t
                 group by t.claim_id
               ) loop
                 slice := '[]'::jsonb;

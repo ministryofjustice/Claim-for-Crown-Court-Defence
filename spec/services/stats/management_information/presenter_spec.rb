@@ -182,7 +182,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
     end
 
     context 'with claim journey ending in transition with array of reasons' do
-      let(:options) { {reason_code: %w[reason1 reason2] } }
+      let(:options) { { reason_code: %w[reason1 reason2] } }
       let(:record) { query.first }
 
       it { is_expected.to eql('reason1, reason2') }
@@ -193,7 +193,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
     subject { presenter.rejection_reason }
 
     before do
-      create(:advocate_final_claim, :rejected).tap do |c|
+      create(:advocate_final_claim, :allocated).tap do |c|
         c.reject!(options)
       end
     end
@@ -216,24 +216,26 @@ RSpec.describe Stats::ManagementInformation::Presenter do
   describe '#case_worker' do
     subject { presenter.case_worker }
 
-    let(:record) { query.first }
-
-    context 'with claim journey ending allocated state' do
+    context 'with claim journey ending in allocated state' do
       let!(:claim) { create(:advocate_final_claim, :allocated) }
+      let(:record) { query.first }
 
-      it { is_expected.to claim.claim_state_transitions.last.subject.name }
+      it { is_expected.to be == claim.claim_state_transitions.find_by(to: 'allocated').subject.name }
     end
 
-    context 'with claim journey ending in completed state' do
+    context 'with claim journey ending in "completed" state' do
       let!(:claim) { create(:advocate_final_claim, :rejected) }
+      let(:record) { query.first }
 
-      it { is_expected.to claim.claim_state_transitions.last.author.name }
+      it { is_expected.to be == claim.claim_state_transitions.find_by(to: 'rejected').author.name }
     end
 
-    context 'with claim journey not ending in completed or allocated state' do
-      let!(:claim) { create(:advocate_final_claim, :redetermination) }
+    context 'with claim journey not ending in "completed" or allocated state' do
+      before { create(:advocate_final_claim, :redetermination) }
 
-      it { is_expected.to 'n/a' }
+      let(:record) { query.second }
+
+      it { is_expected.to be == 'n/a' }
     end
   end
 end

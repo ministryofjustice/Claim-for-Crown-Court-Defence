@@ -43,6 +43,7 @@ RSpec.describe Stats::ManagementInformation::Generator do
       it { expect(rows['Current or end state']).to match_array(%w[submitted authorised]) }
       it { expect(rows['State reason code']).to all(be_nil) }
       it { expect(rows['Rejection reason']).to all(be_nil) }
+      it { expect(rows['Case worker']).to match_array(['n/a', lgfs_claim.claim_state_transitions.find_by(to: 'authorised').author.name]) }
 
       xit 'with a multiple journey claim' do
       end

@@ -37,10 +37,6 @@ updates:
   - dependency-name: sdoc
     versions:
     - "> 0.4.2"
-  - dependency-name: sidekiq
-    versions:
-    - ">= 6.1.a"
-    - "< 6.2"
   - dependency-name: simplecov
     versions:
     - "> 0.17.1"

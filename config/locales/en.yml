@@ -1901,11 +1901,22 @@ en:
       reason_hint: These reasons will be displayed to providers
       update_the_claim_status: Update the claim status
       reason_text: Reason text
+      laa_heading: Total authorised by LAA
+      laa_heading_hint: include any amount already authorised
     determinations_table:
       caption: 'This section contains a categorised list of amounts claimed and the amount authorised by the LAA'
       summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       claimed_by: 'Claimed by %{type}'
       laa_heading: 'Total authorised by LAA'
+    determination_amounts:
+      claimed_by: Claimed by %{type}
+      disbursements: Disbursements
+      expenses: Expenses
+      fees: Fees
+      laa_heading: Total authorised by LAA
+      total_with_vat: Total (including %{context} VAT)
+      total_without_vat: Total (excluding VAT)
+      vat: VAT (%{context})
     help_summary_heading: Help with completing this form
     no_claims_found: 'No claims found'
     certification:

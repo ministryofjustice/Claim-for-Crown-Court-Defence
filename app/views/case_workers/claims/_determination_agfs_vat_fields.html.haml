@@ -1,16 +1,21 @@
-%tr.determination-form-fields
-  %td
+= govuk_table_row do
+  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
     = t('.vat_rate', vat_rate: VatRate.pretty_rate(Date.parse(claim.vat_date)))
-  %td
+
+  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
     = claim.vat_amount
-  %td
+
+  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
     %span.js-vat-determination
       = number_to_currency(f.object.vat_amount)
-%tr.determination-form-fields
-  %td
+
+= govuk_table_row do
+  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
     = t('.total_inc_vat_rate', vat_rate: VatRate.pretty_rate(Date.parse(claim.vat_date)))
-  %td
+
+  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
     = claim.total_inc_vat
-  %td
+
+  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
     %span.js-total-determination
       = number_to_currency(f.object.total_including_vat)

@@ -30,39 +30,39 @@
 
       - if @claims.any?
         .table-container
-          %table.report.js-checkbox-table.js-reallocation-report
-            %caption#allocation-claim-ids-field-error
+          = govuk_table(class: 'report js-checkbox-table js-reallocation-report') do
+            = govuk_table_caption(id: 'allocation-claim-ids-field-error') do
               .govuk-grid-row
                 .govuk-grid-column-one-half
                   = t('.re_allocation')
-                .govuk-grid-column-one-half.claim-count
-                  = t('.number_of_claims')
-                  = @claims.total_count
+                .govuk-grid-column-one-half.claim-count{ class: 'govuk-!-text-align-right' }
+                  = t('.number_of_claims', claim_count: @claims.total_count)
 
-            %thead
-              %th.select{ scope: 'col' }
-                = govuk_link_to t('.select_all'), '#', class: 'select-all', data: { 'all-checked': 'false' }, 'aria-label': t('.select_all_label')
-              %th.case-number{ scope: 'col' }
-                = t('.case_number')
-              %th.court{ scope: 'col' }
-                = t('.court')
-              %th{ scope: 'col' }
-                = t('.defendants')
-              %th.type{ scope: 'col' }
-                = t('.type')
-              %th.numeric.submit-date{ scope: 'col' }
-                = t('.submitted_date')
-              %th.numeric.claim-total{ scope: 'col' }
-                = t('.claim_total')
-              - if params[:tab] == 'allocated'
-                %th{ scope: 'col' }
-                  = t('.allocated_to')
+            = govuk_table_thead do
+              = govuk_table_row do
+                = govuk_table_th(class: 'select') do
+                  = govuk_link_to t('.select_all'), '#', class: 'select-all', data: { 'all-checked': 'false' }, 'aria-label': t('.select_all_label')
+                = govuk_table_th(class: 'case-number') do
+                  = t('.case_number')
+                = govuk_table_th(class: 'court') do
+                  = t('.court')
+                = govuk_table_th do
+                  = t('.defendants')
+                = govuk_table_th(class: 'type') do
+                  = t('.type')
+                = govuk_table_th_numeric(class: 'submit-date') do
+                  = t('.submitted_date')
+                = govuk_table_th_numeric(class: 'claim-total') do
+                  = t('.claim_total')
+                - if params[:tab] == 'allocated'
+                  = govuk_table_th do
+                    = t('.allocated_to')
 
-            %tbody
+            = govuk_table_tbody do
               = collection_check_boxes :allocation, :claim_ids, @claims, :id, :case_number do |b|
                 - present(b.object) do |claim|
-                  %tr{ id: dom_id(claim), class: claim.injection_error ? 'error injection-error' : nil }
-                    %td{ 'data-label': t('.select') }
+                  = govuk_table_row(id: dom_id(claim), class: claim.injection_error ? 'error injection-error' : nil) do
+                    = govuk_table_td('data-label': t('.select')) do
                       .govuk-form-group.error-message-container
                         .govuk-checkboxes.govuk-checkboxes--small{ 'data-module': 'govuk-checkboxes' }
                           .govuk-checkboxes__item
@@ -73,7 +73,7 @@
                           .error-message
                             = message
 
-                    %td{ 'data-label': t('.case_number') }
+                    = govuk_table_td('data-label': t('.case_number')) do
                       %span.js-test-case-number
                         = govuk_link_to claim.case_number, case_workers_claim_path(claim), 'aria-label': t('.case_number_label', case_number: claim.case_number)
                         %span.unique-id-small
@@ -82,26 +82,26 @@
                           %span.disk-evidence
                             = t('.disk_evidence')
 
-                    %td{ 'data-label': t('.court') }
+                    = govuk_table_td('data-label': t('.court')) do
                       = claim.court.name
 
-                    %td{ 'data-label': t('.defendants') }
+                    = govuk_table_td('data-label': t('.defendants')) do
                       = claim.defendant_names
 
-                    %td{ 'data-label': t('.type') }
+                    = govuk_table_td('data-label': t('.type')) do
                       = claim.case_type_name
                       %br/
                       %span.claim-state
                         = claim.claim_state
 
-                    %td.numeric{ 'data-label': t('.submitted_date') }
+                    = govuk_table_td_numeric('data-label': t('.submitted_date')) do
                       = claim.submitted_at_short
 
-                    %td.numeric{ 'data-label': t('.claim_total') }
+                    = govuk_table_td_numeric('data-label': t('.claim_total')) do
                       = claim.total_inc_vat
 
                     - if params[:tab] == 'allocated'
-                      %td{ 'data-label': t('.allocated_to') }
+                      = govuk_table_td('data-label': t('.allocated_to')) do
                         = claim.case_workers.map(&:name).join(', ')
 
       - else

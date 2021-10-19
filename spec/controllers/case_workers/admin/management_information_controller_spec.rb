@@ -10,6 +10,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
       let(:expected_report_types) do
         %w[management_information
            management_information_v2
+           management_information_daily_counts
            agfs_management_information
            lgfs_management_information
            provisional_assessment

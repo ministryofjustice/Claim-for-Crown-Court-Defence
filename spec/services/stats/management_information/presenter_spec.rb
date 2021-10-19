@@ -238,4 +238,24 @@ RSpec.describe Stats::ManagementInformation::Presenter do
       it { is_expected.to be == 'n/a' }
     end
   end
+
+  describe '#disk_evidence_case' do
+    subject { presenter.disk_evidence_case }
+
+    let(:record) { query.first }
+
+    context 'with claim with disk evidence' do
+      before { create(:advocate_final_claim, :allocated, disk_evidence: true) }
+
+      let(:record) { query.first }
+
+      it { is_expected.to eql('Yes') }
+    end
+
+    context 'with claim without disk evidence' do
+      before { create(:advocate_final_claim, :rejected, disk_evidence: false) }
+
+      it { is_expected.to eql('No') }
+    end
+  end
 end

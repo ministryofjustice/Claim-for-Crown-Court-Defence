@@ -44,6 +44,7 @@ RSpec.describe Stats::ManagementInformation::Generator do
       it { expect(rows['State reason code']).to all(be_nil) }
       it { expect(rows['Rejection reason']).to all(be_nil) }
       it { expect(rows['Case worker']).to match_array(['n/a', lgfs_claim.claim_state_transitions.find_by(to: 'authorised').author.name]) }
+      it { expect(rows['Disk evidence case']).to match_array(%w[No No]) }
 
       xit 'with a multiple journey claim' do
       end
@@ -64,15 +65,13 @@ RSpec.describe Stats::ManagementInformation::Generator do
       end
 
       context 'with AGFS scheme' do
-        let(:options) { { scheme: scheme } }
-        let(:scheme) { scheme_class.new('agfs') }
+        let(:options) { { scheme: :agfs } }
 
         it { expect(rows['Scheme']).to match_array(%w[AGFS]) }
       end
 
       context 'with LGFS scheme' do
-        let(:options) { { scheme: scheme } }
-        let(:scheme) { scheme_class.new('lgfs') }
+        let(:options) { { scheme: :lgfs } }
 
         it { expect(rows['Scheme']).to match_array(%w[LGFS]) }
       end

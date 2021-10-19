@@ -14,10 +14,9 @@ module Stats
       #  select count(*) from claims c LEFT JOIN LATERAL journeys(c.id) on true where c.id = 621750;
       #
       included do
-        def journeys
+        def prepare
           ActiveRecord::Base.connection.execute(drop_journeys_func)
           ActiveRecord::Base.connection.execute(create_journeys_func)
-          ActiveRecord::Base.connection.execute(journeys_query)
         end
 
         def drop_journeys_func

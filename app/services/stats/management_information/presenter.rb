@@ -70,6 +70,10 @@ module Stats
         end
       end
 
+      def disk_evidence_case
+        record[:disk_evidence] ? 'Yes' : 'No'
+      end
+
       private
 
       # OPTIMIZE: there should be only one submission per journey as each journey

@@ -10,7 +10,7 @@ module Stats
 
         def claim_type_filter
           return in_statement_for(claim_types) if scheme.blank?
-          return in_statement_for(agfs_claim_types) if scheme.eql?(:agfs)
+          return in_statement_for(agfs_claim_types) if scheme.eql?('AGFS')
           in_statement_for(lgfs_claim_types)
         end
 

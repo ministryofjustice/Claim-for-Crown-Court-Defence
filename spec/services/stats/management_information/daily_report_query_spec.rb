@@ -53,7 +53,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     context 'with invalid scheme scope' do
       subject(:call) { described_class.call({ scheme: scheme }) }
 
-      let(:scheme) { scheme_class.new('foobar') }
+      let(:scheme) { :foobar }
 
       it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
     end
@@ -61,7 +61,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     context 'with AGFS scheme scope' do
       subject(:response) { described_class.call({ scheme: scheme }) }
 
-      let(:scheme) { scheme_class.new('agfs') }
+      let(:scheme) { :agfs }
 
       it 'returns AGFS claims only' do
         create(:advocate_final_claim, :submitted)
@@ -75,7 +75,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     context 'with LGFS claim scope' do
       subject(:response) { described_class.call({ scheme: scheme }) }
 
-      let(:scheme) { scheme_class.new('lgfs') }
+      let(:scheme) { :lgfs }
 
       it 'returns LGFS claims only' do
         create(:advocate_final_claim, :submitted)

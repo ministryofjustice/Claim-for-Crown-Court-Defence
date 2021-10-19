@@ -65,16 +65,6 @@ module Stats
       # - :af1_lf1_processed_by
       # - :misc_fees
 
-      # weekly stats filters: values used by caseworkers to filter and aggregate/count records returned
-      #
-      # query.scheme
-      # query.case_type_name
-      # presenter.submission_type
-      # query.original_submission_date
-      # query.disk_evidence
-      # query.claim_total
-      #
-
       def row(rec)
         rec = Presenter.new(rec)
 
@@ -84,7 +74,7 @@ module Stats
           rec.submission_type, rec.transitioned_at, rec.last_submitted_at,
           rec.originally_submitted_at, rec.allocated_at, rec.completed_at,
           rec.current_or_end_state, rec.state_reason_code, rec.rejection_reason,
-          rec.case_worker
+          rec.case_worker, rec.disk_evidence_case
         ]
       end
 

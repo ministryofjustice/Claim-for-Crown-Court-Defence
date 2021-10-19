@@ -2504,6 +2504,7 @@ en:
         advocate_litigator: *advocate_litigator
         advocate_sort_label: 'Sort by: Provider name'
         case_number: Case number
+        case_number_html: <span class="govuk-visually-hidden">View Case number</span> %{context}
         case_number_sort_label: 'Sort by: Case number'
         case_type: Case type
         case_type_sort_label: 'Sort by: Case type'
@@ -2512,7 +2513,7 @@ en:
         last_submitted_at_sort_label: 'Sort by: Last submitted at date'
         messages: Messages
         none: None
-        number_of_claims: 'Number of claims: '
+        number_of_claims: 'Number of claims: %{claim_count}'
         state_sort_label: 'Sort by: Claim state'
         status: Status
         submission_date: Date submitted

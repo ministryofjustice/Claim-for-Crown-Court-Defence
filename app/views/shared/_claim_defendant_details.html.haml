@@ -1,7 +1,6 @@
-.defendant-card
+.app-card--defendant
   %h4.govuk-heading-s
-    = t('common.defendant')
-    = index
+    = t('.defendant', context: index)
 
   = govuk_summary_list do
     = govuk_summary_list_row( t('external_users.claims.defendants.defendant_fields.full_name') ) { defendant.name }
@@ -14,23 +13,20 @@
 
 
   - if defendant.representation_orders.any?
-    %table.govuk-table
-      %caption.govuk-table__caption
+    = govuk_table(class: 'report') do
+      = govuk_table_caption do
         = t('shared.claim.reporders')
 
-      %thead.govuk-table__head
-        %tr.govuk-table__row
-          %th.govuk-table__header{ scope: 'col' }
-            = t('.date')
-          %th.govuk-table__header{ scope: 'col' }
-            = t('external_users.claims.defendants.representation_order_fields.maat_reference_number')
+      = govuk_table_thead_collection [t('.date'),
+      t('external_users.claims.defendants.representation_order_fields.maat_reference_number')]
 
-      %tbody.govuk-table__body
+      = govuk_table_tbody do
         - defendant.representation_orders.each do | representation_order |
-          %tr.govuk-table__row
-            %td.govuk-table__cell
+          = govuk_table_row do
+            = govuk_table_td('data-label': t('.date')) do
               = representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
-            %td.govuk-table__cell
+
+            = govuk_table_td('data-label': t('external_users.claims.defendants.representation_order_fields.maat_reference_number')) do
               = representation_order.maat_reference
 
   - else

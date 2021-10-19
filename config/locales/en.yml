@@ -1878,9 +1878,12 @@ en:
       banner_title: Important
       banner_heading: This service will be unavailable on %{date_string} from 5pm until midnight.
       banner_paragraph: This is to enable routine maintenance work to be carried out. Please save and close any work before this time.
+    claim_defendants:
+      defendants: Defendants
     claim_defendant_details:
       caption: 'Defendant: Additional information'
       date: Order date
+      defendant: Defendant %{context}
       no_reporder: No representation orders have been supplied for this defendant.
     evidence_checklist:
       caption: 'Supporting evidence checklist'
@@ -1936,8 +1939,11 @@ en:
       case_type: *case_type
       case_stage: *case_stage
       case_worker: Case worker
+      claim_type: Claim and case type
       defendant: Defendant names
+      defendants: Defendants
       j_a: Judicial apportionment
+      no_defendant: No defendant details have been supplied for this claim
       offence: Offence
       offence_class: Offence class
       q:

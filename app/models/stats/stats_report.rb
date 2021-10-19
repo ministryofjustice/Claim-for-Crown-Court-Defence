@@ -2,7 +2,7 @@ module Stats
   class StatsReport < ApplicationRecord
     TYPES = %w[management_information
                management_information_v2
-               management_information_daily_statistics
+               agfs_management_information_daily_statistics
                agfs_management_information
                lgfs_management_information
                provisional_assessment

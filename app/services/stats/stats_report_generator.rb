@@ -2,6 +2,23 @@ module Stats
   class StatsReportGenerator
     class InvalidReportType < StandardError; end
 
+    # rubocop:disable Metrics/MethodLength
+    def self.for(report_type)
+      Hash.new({ class: ReportGenerator, args: [report_type] }).merge(
+        management_information:
+          { class: ManagementInformationGenerator, args: [] },
+        agfs_management_information:
+          { class: ManagementInformationGenerator, args: [{ scheme: :agfs }] },
+        lgfs_management_information:
+          { class: ManagementInformationGenerator, args: [{ scheme: :agfs }] },
+        management_information_v2:
+          { class: Stats::ManagementInformation::DailyReportGenerator, args: [] },
+        agfs_management_information_daily_statistics:
+          { class: Stats::ManagementInformation::DailyCountGenerator, args: [{ scheme: :agfs }] }
+      )[report_type.to_sym]
+    end
+    # rubocop:enable Metrics/MethodLength
+
     def self.call(report_type, options = {})
       new(report_type, options).call
     end
@@ -33,25 +50,8 @@ module Stats
     end
 
     def generate_new_report
-      return management_information_generator_v2 if report_type.include?('management_information_v2')
-      return management_information_generator if report_type.include?('management_information')
-
-      ReportGenerator.call(report_type, **options)
-    end
-
-    def management_information_generator_v2
-      Stats::ManagementInformation::Generator.call(options)
-    end
-
-    def management_information_generator
-      case report_type.to_sym
-      when :agfs_management_information
-        options[:claim_scope] = :agfs
-      when :lgfs_management_information
-        options[:claim_scope] = :lgfs
-      end
-
-      ManagementInformationGenerator.call(options)
+      generator = self.class.for(report_type)
+      generator[:class].call(*generator[:args])
     end
 
     def notify_error(report_record, error)

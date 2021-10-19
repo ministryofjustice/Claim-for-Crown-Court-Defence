@@ -31,7 +31,7 @@ module Stats
       end
 
       def query
-        raise RuntimeError, 'query not implemented!'
+        raise RuntimeError
       end
     end
   end

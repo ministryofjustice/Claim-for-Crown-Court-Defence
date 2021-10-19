@@ -22,8 +22,8 @@
 # - claim_total
 #
 
-Dir[Rails.root.join('app', 'services', 'stats', 'management_information', 'concerns', '*.rb')].each { |f| require_dependency f }
-Dir[Rails.root.join('app', 'services', 'stats', 'management_information', 'queries', '*.rb')].each { |f| require_dependency f }
+Dir[File.join(__dir__, 'concerns', '*.rb')].each { |f| require_dependency f }
+Dir[File.join(__dir__, 'queries', '*.rb')].each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
@@ -36,6 +36,7 @@ module Stats
         @scheme = options[:scheme]&.to_s&.upcase
         @day = options[:day]&.iso8601
         raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
+        raise ArgumentError, 'day must be provided' if @day.blank?
       end
 
       def call

@@ -7,12 +7,6 @@ module Stats
     module JourneyQueryable
       extend ActiveSupport::Concern
 
-      # Query to bring back data for MI report
-      #
-      # Example aggregation using this table function:
-      #  To count the number of "journeys" for a claim:
-      #  select count(*) from claims c LEFT JOIN LATERAL journeys(c.id) on true where c.id = 621750;
-      #
       included do
         def prepare
           ActiveRecord::Base.connection.execute(drop_journeys_func)

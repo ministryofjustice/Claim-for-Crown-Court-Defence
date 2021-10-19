@@ -4,7 +4,7 @@ require 'csv'
 
 module Stats
   module ManagementInformation
-    class Generator
+    class DailyReportGenerator
       def self.call(options = {})
         new(options).call
       end
@@ -21,9 +21,9 @@ module Stats
       private
 
       def generate_report
-        log_info('Report generation started...')
+        log_info('Daily MI Report generation started...')
         content = generate_csv
-        log_info('Report generation finished')
+        log_info('Daily MI Report generation finished')
         content
       rescue StandardError => e
         log_error(e)
@@ -37,6 +37,14 @@ module Stats
             csv << row(rec)
           end
         end
+      end
+
+      def headers
+        Settings.claim_csv_headers.map { |header| header.to_s.humanize }
+      end
+
+      def claim_journeys
+        @claim_journeys ||= DailyReportQuery.call(scheme: @scheme)
       end
 
       #
@@ -76,14 +84,6 @@ module Stats
           rec.current_or_end_state, rec.state_reason_code, rec.rejection_reason,
           rec.case_worker, rec.disk_evidence_case
         ]
-      end
-
-      def headers
-        Settings.claim_csv_headers.map { |header| header.to_s.humanize }
-      end
-
-      def claim_journeys
-        @claim_journeys ||= DailyReportQuery.call(scheme: @scheme)
       end
 
       def log_error(error)

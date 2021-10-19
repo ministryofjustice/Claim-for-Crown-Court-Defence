@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Stats::ManagementInformation::Generator do
+RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
   subject(:generator) { described_class.new(options) }
 
   let(:options) { {} }
@@ -30,10 +30,22 @@ RSpec.describe Stats::ManagementInformation::Generator do
       it { expect(rows['Scheme']).to match_array(%w[AGFS LGFS]) }
       it { expect(rows['Case number']).to match_array([agfs_claim.case_number, lgfs_claim.case_number]) }
       it { expect(rows['Supplier number']).to match_array([agfs_claim.supplier_number, lgfs_claim.supplier_number]) }
-      it { expect(rows['Organisation']).to match_array([agfs_claim.creator.provider.name, lgfs_claim.creator.provider.name]) }
+
+      it {
+        expect(rows['Organisation'])
+          .to match_array([agfs_claim.creator.provider.name,
+                           lgfs_claim.creator.provider.name])
+      }
+
       it { expect(rows['Case type name']).to match_array([agfs_claim.case_type.name, lgfs_claim.case_type.name]) }
       it { expect(rows['Bill type']).to match_array(['AGFS Final', 'LGFS Final']) }
-      it { expect(rows['Claim total']).to match_array([(agfs_claim.total + agfs_claim.vat_amount).to_s, (lgfs_claim.total + lgfs_claim.vat_amount).to_s]) }
+
+      it {
+        expect(rows['Claim total'])
+          .to match_array([(agfs_claim.total + agfs_claim.vat_amount).to_s,
+                           (lgfs_claim.total + lgfs_claim.vat_amount).to_s])
+      }
+
       it { expect(rows['Submission type']).to all(be == 'new') }
       it { expect(rows['Transitioned at']).to all(match(%r{\d{2}/\d{2}/\d{4}})) }
       it { expect(rows['Last submitted at']).to all(match(%r{\d{2}/\d{2}/\d{4}})) }
@@ -43,7 +55,13 @@ RSpec.describe Stats::ManagementInformation::Generator do
       it { expect(rows['Current or end state']).to match_array(%w[submitted authorised]) }
       it { expect(rows['State reason code']).to all(be_nil) }
       it { expect(rows['Rejection reason']).to all(be_nil) }
-      it { expect(rows['Case worker']).to match_array(['n/a', lgfs_claim.claim_state_transitions.find_by(to: 'authorised').author.name]) }
+
+      it {
+        expect(rows['Case worker'])
+          .to match_array(['n/a',
+                           lgfs_claim.claim_state_transitions.find_by(to: 'authorised').author.name])
+      }
+
       it { expect(rows['Disk evidence case']).to match_array(%w[No No]) }
 
       xit 'with a multiple journey claim' do

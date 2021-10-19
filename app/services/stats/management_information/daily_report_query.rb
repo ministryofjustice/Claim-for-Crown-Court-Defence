@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-Dir[Rails.root.join('app', 'services', 'stats', 'management_information', 'concerns', '*.rb')].each { |f| require_dependency f }
-Dir[Rails.root.join('app', 'services', 'stats', 'management_information', 'queries', '*.rb')].each { |f| require_dependency f }
+Dir[File.join(__dir__, 'concerns', '*.rb')].each { |f| require_dependency f }
+Dir[File.join(__dir__, 'queries', '*.rb')].each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation

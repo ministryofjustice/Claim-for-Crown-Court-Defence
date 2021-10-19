@@ -9,27 +9,7 @@
 #
 module Stats
   module ManagementInformation
-    class Af2RedeterminationQuery
-      include JourneyQueryable
-      include ClaimTypeQueryable
-
-      attr_reader :scheme
-
-      def self.call(options = {})
-        new(options).call
-      end
-
-      def initialize(options = {})
-        @scheme = options[:scheme]&.to_s&.upcase
-        @day = options[:day]
-        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
-      end
-
-      def call
-        prepare
-        ActiveRecord::Base.connection.execute(query)
-      end
-
+    class Af2RedeterminationQuery < BaseQuery
       private
 
       def prepare

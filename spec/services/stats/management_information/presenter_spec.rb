@@ -258,4 +258,20 @@ RSpec.describe Stats::ManagementInformation::Presenter do
       it { is_expected.to eql('No') }
     end
   end
+
+  describe '#method_missing' do
+    before { create(:advocate_final_claim, :allocated) }
+
+    let(:record) { query.first }
+
+    let(:expected_missing_methods) do
+      %i[id scheme case_number supplier_number
+         organisation case_type_name bill_type
+         claim_total]
+    end
+
+    it {
+      expect(presenter).to respond_to(*expected_missing_methods)
+    }
+  end
 end

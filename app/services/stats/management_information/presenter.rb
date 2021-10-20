@@ -17,7 +17,6 @@ module Stats
       end
 
       attr_reader :record
-      delegate_missing_to :record
 
       def submission_type
         journey.first[:to] == 'submitted' ? 'new' : journey.first[:to]
@@ -72,6 +71,18 @@ module Stats
 
       def disk_evidence_case
         record[:disk_evidence] ? 'Yes' : 'No'
+      end
+
+      def method_missing(method_name, *args, &block)
+        if record.key?(method_name)
+          record[method_name]
+        else
+          super
+        end
+      end
+
+      def respond_to_missing?(method_name, *args)
+        record.key?(method_name) || super
       end
 
       private

@@ -73,17 +73,15 @@ module Stats
       # - :af1_lf1_processed_by
       # - :misc_fees
 
+      # TODO: complete all required columns (without any N+1 queries)
       def row(rec)
-        rec = Presenter.new(rec)
+        presenter = Presenter.new(rec)
+        todos = %i[main_defendant maat_reference rep_order_issued_date af1_lf1_processed_by misc_fees]
 
-        [
-          rec[:id], rec[:scheme], rec[:case_number], rec[:supplier_number],
-          rec[:organisation], rec[:case_type_name], rec[:bill_type], rec[:claim_total],
-          rec.submission_type, rec.transitioned_at, rec.last_submitted_at,
-          rec.originally_submitted_at, rec.allocated_at, rec.completed_at,
-          rec.current_or_end_state, rec.state_reason_code, rec.rejection_reason,
-          rec.case_worker, rec.disk_evidence_case
-        ]
+        Settings
+          .claim_csv_headers
+          .reject { |header| todos.include?(header) }
+          .map { |header| presenter.send(header) }
       end
 
       def log_error(error)

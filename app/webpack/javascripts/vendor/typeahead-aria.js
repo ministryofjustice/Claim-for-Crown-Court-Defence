@@ -1482,7 +1482,7 @@
                 return this;
             },
             focus: function focus() {
-                this.$input.focus();
+                this.$input.trigger('focus');
             },
             blur: function blur() {
                 this.$input.blur();
@@ -2060,7 +2060,7 @@
                         $e.preventDefault();
                         $e.stopImmediatePropagation();
                         _.defer(function() {
-                            $input.focus();
+                            $input.trigger('focus');
                         });
                     }
                 });

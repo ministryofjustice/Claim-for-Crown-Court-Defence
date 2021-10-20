@@ -46,7 +46,7 @@
 
       $(el).on('cocoon:after-insert', function (e, insertedItem) {
         self.updateNumbers()
-        insertedItem.find('.remove_fields:first').focus()
+        insertedItem.find('.remove_fields:first').trigger('focus')
       })
 
       $(el).on('cocoon:after-remove', function (e) {

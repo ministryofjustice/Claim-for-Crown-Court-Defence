@@ -10,7 +10,7 @@ module Stats
         agfs_management_information:
           { class: ManagementInformationGenerator, args: [{ scheme: :agfs }] },
         lgfs_management_information:
-          { class: ManagementInformationGenerator, args: [{ scheme: :agfs }] },
+          { class: ManagementInformationGenerator, args: [{ scheme: :lgfs }] },
         management_information_v2:
           { class: Stats::ManagementInformation::DailyReportGenerator, args: [] },
         agfs_management_information_daily_statistics:
@@ -19,13 +19,12 @@ module Stats
     end
     # rubocop:enable Metrics/MethodLength
 
-    def self.call(report_type, options = {})
-      new(report_type, options).call
+    def self.call(report_type)
+      new(report_type).call
     end
 
-    def initialize(report_type, options = {})
+    def initialize(report_type)
       @report_type = report_type
-      @options = options
     end
 
     def call
@@ -43,7 +42,7 @@ module Stats
 
     private
 
-    attr_reader :report_type, :options
+    attr_reader :report_type
 
     def validate_report_type
       raise InvalidReportType unless StatsReport::TYPES.include?(report_type.to_s)

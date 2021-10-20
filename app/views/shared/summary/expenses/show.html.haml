@@ -1,19 +1,20 @@
-%tr.no-border
-  %td
-    %span.bold-normal
+= govuk_table_row do
+  = govuk_table_td do
+    %span{class: 'govuk-!-font-weight-bold'}
       = expense.name
     - if current_user_is_caseworker? && @claim.lgfs?
       = govuk_tag expense.state, class: "app-tag--#{expense.state.downcase}"
-  %td
-    %span.bold-normal
+  = govuk_table_td do
+    %span{class: 'govuk-!-font-weight-bold'}
       = expense.reason
-  %td
+  = govuk_table_td do
     = render partial: 'shared/summary/expenses/details', locals: { claim: claim, expense: expense }
-  %td
+  = govuk_table_td do
     = expense.pretty_date
-  %td.numeric
+  = govuk_table_td_numeric do
     = expense.amount
-  %td.numeric
-    = expense.vat_present? ? expense.vat_amount : ''
-  %td.numeric
+  - if expense.vat_present?
+    = govuk_table_td_numeric do
+      = expense.vat_amount
+  = govuk_table_td_numeric do
     = expense.gross_amount

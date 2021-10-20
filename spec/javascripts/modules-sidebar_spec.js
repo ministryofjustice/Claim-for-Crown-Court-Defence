@@ -2,7 +2,7 @@ describe('Modules.SideBar.js', function () {
   const sidebarFixtureDOM = $('<div class="grid-sidebar"/>')
   const jsBlockFixtureDOM = $('<div id="claim-form"/>')
 
-  const sideBarView = ['<div class="new-claim-hgroup js-stick-at-top-when-scrolling totals-summary">',
+  const sideBarView = ['<div class="new-claim-hgroup totals-summary">',
     '  <h2>Summary total</h2>',
     '  <h3>Fees total <span class="numeric total-fees" data-total-fees="£1.11">£1.11</span></h3>',
     '  <h3>Disbursements total <span class="numeric total-disbursements" data-total-disbursements="£1.22">£1.22</span></h3>',

@@ -9,6 +9,9 @@
 # And Where claim total < 20,000
 # Then show sum of number of submissions meeting the above criteria
 #
+
+require_relative 'base_query'
+
 module Stats
   module ManagementInformation
     class IntakeFixedFeeQuery < BaseQuery

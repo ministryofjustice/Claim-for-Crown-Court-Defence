@@ -8,6 +8,9 @@
 # And Where disk evidence = no
 # And Where claim total < 20,000
 #
+
+require_relative 'base_query'
+
 module Stats
   module ManagementInformation
     class IntakeFinalFeeQuery < BaseQuery

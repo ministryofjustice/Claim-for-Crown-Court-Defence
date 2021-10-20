@@ -6,6 +6,9 @@
 # And Where originally submitted = DATE specified for this lookup *
 # And Where disk evidence = yes
 #
+
+require_relative 'base_query'
+
 module Stats
   module ManagementInformation
     class Af2DiskQuery < BaseQuery

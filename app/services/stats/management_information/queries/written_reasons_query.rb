@@ -6,6 +6,8 @@
 # And Where originally submitted = DATE specified for this lookup *
 #
 
+require_relative 'base_query'
+
 module Stats
   module ManagementInformation
     class WrittenReasonsQuery < BaseQuery

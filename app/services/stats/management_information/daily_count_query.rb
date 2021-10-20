@@ -46,15 +46,21 @@ module Stats
       private
 
       def queries
+        stats.transform_values do |query|
+          query.call(**args).first['count']
+        end
+      end
+
+      def stats
         {
-          intake_fixed_fee: IntakeFixedFeeQuery.call(**args).first['count'],
-          intake_final_fee: IntakeFinalFeeQuery.call(**args).first['count'],
-          af1_high_value: Af1HighValueQuery.call(**args).first['count'],
-          af1_disk: Af1DiskQuery.call(**args).first['count'],
-          af2_redetermination: Af2RedeterminationQuery.call(**args).first['count'],
-          af2_high_value: Af2HighValueQuery.call(**args).first['count'],
-          af2_disk: Af2DiskQuery.call(**args).first['count'],
-          written_reasons: WrittenReasonsQuery.call(**args).first['count']
+          intake_fixed_fee: IntakeFixedFeeQuery,
+          intake_final_fee: IntakeFinalFeeQuery,
+          af1_high_value: Af1HighValueQuery,
+          af1_disk: Af1DiskQuery,
+          af2_redetermination: Af2RedeterminationQuery,
+          af2_high_value: Af2HighValueQuery,
+          af2_disk: Af2DiskQuery,
+          written_reasons: WrittenReasonsQuery
         }
       end
 

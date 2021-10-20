@@ -17,7 +17,9 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
       expect(result.content).to be_truthy
     end
 
+    # TODO
     xit 'has expected headers' do
+      true
     end
 
     context 'with some data' do
@@ -64,7 +66,9 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
 
       it { expect(rows['Disk evidence case']).to match_array(%w[No No]) }
 
+      # TODO
       xit 'with a multiple journey claim' do
+        true
       end
     end
 

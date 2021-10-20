@@ -316,11 +316,13 @@ en:
     search: Search
     upload: Import claims
     download: Download
+    download_html: Download <span class="govuk-visually-hidden">%{context}</span>
     remove: Remove
     remove_html: Remove <span class="govuk-visually-hidden">%{context} <span class="fx-numberedList-number"></span></span>
     edit: Edit
     delete: Delete
     view: View
+    view_html: View <span class="govuk-visually-hidden">%{context}</span>
     warrant_fees: Warrant fees
     interim_claim_info: Warrant fees
     interim_fees: "Interim fees"
@@ -2291,7 +2293,7 @@ en:
     disbursements_gross: 'Disbursements with VAT'
     disbursements_no_vat: 'Disbursements without VAT'
     disbursements_total: 'Disbursements total'
-    download_all: 'Download all'
+    download_all_html: Download all <span class="govuk-visually-hidden">%{context}</span>
     expenses_net: 'Expenses without VAT'
     fees: 'Fees'
     gross_amount: 'Gross amount'

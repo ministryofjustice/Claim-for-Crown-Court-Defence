@@ -28,6 +28,12 @@ module GovukComponent
       tag.tbody(capture(&block), tag_options)
     end
 
+    def govuk_table_tfoot(tag_options = {}, &block)
+      tag_options = prepend_classes('govuk-table__foot', tag_options)
+
+      tag.tfoot(capture(&block), tag_options)
+    end
+
     def govuk_table_row(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__row', tag_options)
 

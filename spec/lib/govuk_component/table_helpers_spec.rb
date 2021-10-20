@@ -36,6 +36,14 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
     end
   end
 
+  describe '#govuk_table_tfoot' do
+    subject(:markup) { helper.govuk_table_tfoot(class: 'my-custom-class') { nil } }
+
+    it 'adds a govuk table tfoot' do
+      is_expected.to have_tag(:tfoot, with: { class: 'govuk-table__foot my-custom-class' })
+    end
+  end
+
   describe '#govuk_table_row' do
     subject(:markup) { helper.govuk_table_row(class: 'my-custom-class') { nil } }
 

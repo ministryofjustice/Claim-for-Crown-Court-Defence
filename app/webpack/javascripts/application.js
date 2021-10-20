@@ -53,8 +53,8 @@ if (!String.prototype.supplant) {
   showHideContent.init()
 
   // Sticky sidebar
-  // TODO: Re-init / reset the screen dimentions as page expands
-  GOVUK.stickAtTopWhenScrolling.init()
+  const stickAtTopWhenScrolling = document.querySelectorAll('.stick-at-top')
+  Stickyfill.add(stickAtTopWhenScrolling)
 
   /**
    * Cocoon call back to init features once they have been

@@ -7,8 +7,6 @@
 # daily and then entered into a weekly statistics report compiled
 # by case workers by hand.
 #
-# Note that claim archival makes running this
-#
 # Filters include one or more of those below
 #
 # This prefixed by query are available in the journey query itself

@@ -2496,7 +2496,7 @@ en:
             lgfs_management_information: LGFS management information
             management_information: Management information
             management_information_v2: Management information V2
-            agfs_management_information_daily_statistics: AGFS Management information V2 daily statistics
+            agfs_management_information_daily_statistics: AGFS Management information V2 weekly statistics
             provisional_assessment: Provisional assessment
             rejections_refusals: 'Rejections/Refusals'
           unavailable_report: "There is currently no report available"

@@ -32,9 +32,10 @@ module Stats
 
       def generate_csv
         CSV.generate do |csv|
-          csv << %w[Name Count]
-          aggregations.each_pair do |stat_name, count|
-            csv << [stat_name.to_s.humanize, count]
+          csv << %w[Name Saturday Sunday Monday Tuesday Wednesday Thursday Friday]
+          aggregations.each do |rec|
+            csv << [rec[:name], rec[:saturday], rec[:sunday], rec[:monday],
+                    rec[:tuesday], rec[:wednesday], rec[:thursday], rec[:friday]]
           end
         end
       end

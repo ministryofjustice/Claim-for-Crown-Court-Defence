@@ -34,7 +34,7 @@ module Stats
 
       def initialize(options = {})
         @scheme = options[:scheme]&.to_s&.upcase
-        @day = options[:day]&.iso8601
+        @day = options[:day]
         raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
         raise ArgumentError, 'day must be provided' if @day.blank?
       end
@@ -46,8 +46,12 @@ module Stats
       private
 
       def queries
-        stats.transform_values do |query|
-          query.call(**args).first['count']
+        stats.each_with_object([]) do |(name, query), results|
+          result = { name: name.to_s.humanize }
+          week_range.each do |day|
+            result[day.strftime('%A').downcase.to_sym] = query.call(scheme: @scheme, day: day.iso8601).first['count']
+          end
+          results.append(result)
         end
       end
 
@@ -64,8 +68,8 @@ module Stats
         }
       end
 
-      def args
-        { scheme: @scheme, day: @day }
+      def week_range
+        @day.beginning_of_week(:saturday)..@day.end_of_week(:saturday)
       end
     end
   end

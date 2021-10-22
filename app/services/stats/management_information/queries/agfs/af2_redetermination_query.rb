@@ -16,11 +16,6 @@ module Stats
       class Af2RedeterminationQuery < BaseQuery
         private
 
-        def prepare
-          ActiveRecord::Base.connection.execute(drop_journeys_func)
-          ActiveRecord::Base.connection.execute(create_journeys_func)
-        end
-
         def query
           <<~SQL
             WITH journeys AS (

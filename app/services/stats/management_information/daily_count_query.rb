@@ -20,8 +20,8 @@
 # - claim_total
 #
 
-Dir[File.join(__dir__, 'concerns', '*.rb')].each { |f| require_dependency f }
-Dir[File.join(__dir__, 'queries', '*.rb')].each { |f| require_dependency f }
+Dir.glob(File.join(__dir__, 'concerns', '**', '*.rb')).each { |f| require_dependency f }
+Dir.glob(File.join(__dir__, 'queries', '**', '*.rb')).each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
@@ -44,7 +44,16 @@ module Stats
       private
 
       def queries
-        stats.each_with_object([]) do |(name, query), results|
+        case @scheme
+        when 'AGFS'
+          agfs_queries
+        when 'LGFS'
+          lgfs_queries
+        end
+      end
+
+      def agfs_queries
+        agfs_stats.each_with_object([]) do |(name, query), results|
           result = { name: name.to_s.humanize }
           week_range.each do |day|
             result[day.strftime('%A').downcase.to_sym] = query.call(scheme: @scheme, day: day.iso8601).first['count']
@@ -53,17 +62,22 @@ module Stats
         end
       end
 
-      def stats
+      # OPTIMIZE: inject this so we can avoid the agfs/lgfs conditional logic
+      def agfs_stats
         {
-          intake_fixed_fee: IntakeFixedFeeQuery,
-          intake_final_fee: IntakeFinalFeeQuery,
-          af1_high_value: Af1HighValueQuery,
-          af1_disk: Af1DiskQuery,
-          af2_redetermination: Af2RedeterminationQuery,
-          af2_high_value: Af2HighValueQuery,
-          af2_disk: Af2DiskQuery,
-          written_reasons: WrittenReasonsQuery
+          intake_fixed_fee: Agfs::IntakeFixedFeeQuery,
+          intake_final_fee: Agfs::IntakeFinalFeeQuery,
+          af1_high_value: Agfs::Af1HighValueQuery,
+          af1_disk: Agfs::Af1DiskQuery,
+          af2_redetermination: Agfs::Af2RedeterminationQuery,
+          af2_high_value: Agfs::Af2HighValueQuery,
+          af2_disk: Agfs::Af2DiskQuery,
+          written_reasons: Agfs::WrittenReasonsQuery
         }
+      end
+
+      def lgfs_stats
+        { test: nil }
       end
 
       def week_range

@@ -33,8 +33,12 @@
             isNumber: function(obj) {
                 return typeof obj === "number";
             },
-            isArray: $.isArray,
-            isFunction: $.isFunction,
+            isArray: function isArray(obj) {
+              return ({}.toString).call(obj) === '[object Array]';
+            },
+            isFunction: function(obj) {
+              return typeof obj === 'function';
+            },
             isObject: $.isPlainObject,
             isUndefined: function(obj) {
                 return typeof obj === "undefined";
@@ -95,7 +99,7 @@
                 };
             },
             templatify: function templatify(obj) {
-                return $.isFunction(obj) ? obj : template;
+              return (typeof obj === 'function') ? obj : template;
                 function template() {
                     return String(obj);
                 }
@@ -953,8 +957,12 @@
             isNumber: function(obj) {
                 return typeof obj === "number";
             },
-            isArray: $.isArray,
-            isFunction: $.isFunction,
+            isArray: function isArray(obj) {
+              return ({}.toString).call(obj) === '[object Array]';
+            },
+            isFunction: function(obj) {
+              return typeof obj === 'function';
+            },
             isObject: $.isPlainObject,
             isUndefined: function(obj) {
                 return typeof obj === "undefined";
@@ -1015,7 +1023,7 @@
                 };
             },
             templatify: function templatify(obj) {
-                return $.isFunction(obj) ? obj : template;
+              return (typeof obj === 'function') ? obj : template;
                 function template() {
                     return String(obj);
                 }
@@ -2463,7 +2471,7 @@
             });
         }
         function buildHintFromInput($input, www) {
-            return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).removeAttr("id name placeholder required").attr({
+            return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).attr('id', false).attr('name', false).attr('placeholder', false).attr('required',false).attr({
                 spellcheck: "false",
                 tabindex: -1
             });
@@ -2500,7 +2508,7 @@
             www = $input.data(keys.www);
             $wrapper = $input.parent().filter(www.selectors.wrapper);
             _.each($input.data(keys.attrs), function(val, key) {
-                _.isUndefined(val) ? $input.removeAttr(key) : $input.attr(key, val);
+                _.isUndefined(val) ? $input.attr(key, false) : $input.attr(key, val);
             });
             $input.removeData(keys.typeahead).removeData(keys.www).removeData(keys.attr).removeClass(www.classes.input);
             if ($wrapper.length) {

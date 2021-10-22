@@ -25,12 +25,12 @@ module Stats
             SELECT count(*)
             FROM journeys j
             WHERE j.scheme = '#{@scheme}'
-            AND date_trunc('day', j.original_submission_date) = '#{@day}'
             AND (
                 trim(lower(j.case_type_name)) in ('cracked before retrial', 'cracked trial', 'discontinuance', 'guilty plea', 'retrial', 'trial')
                 OR j.case_type_name is NULL
                 )
             AND j.journey -> 0 ->> 'to' = 'submitted'
+            AND date_trunc('day', j.original_submission_date) = '#{@day}'
             AND NOT j.disk_evidence
             AND j.claim_total::float < 20000.00
           SQL

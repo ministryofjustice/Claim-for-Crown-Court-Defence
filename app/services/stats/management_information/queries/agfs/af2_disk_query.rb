@@ -23,8 +23,8 @@ module Stats
             SELECT count(*)
             FROM journeys j
             WHERE j.scheme = '#{@scheme}'
-            AND date_trunc('day', j.original_submission_date) = '#{@day}'
             AND j.journey -> 0 ->> 'to' = 'redetermination'
+            AND date_trunc('day', j.original_submission_date) = '#{@day}'
             AND j.disk_evidence
           SQL
         end

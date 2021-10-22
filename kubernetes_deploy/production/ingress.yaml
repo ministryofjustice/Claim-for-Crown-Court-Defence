@@ -1,6 +1,9 @@
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
+  annotations:
+    external-dns.alpha.kubernetes.io/set-identifier: cccd-app-ingress-cccd-production-blue
+    external-dns.alpha.kubernetes.io/aws-weight: "100"
   name: cccd-app-ingress
   namespace: cccd-production
 spec:

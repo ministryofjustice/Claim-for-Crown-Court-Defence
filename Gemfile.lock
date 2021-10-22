@@ -385,13 +385,13 @@ GEM
       terminal-table (>= 1.5.1)
     ice_nine (0.11.2)
     inflection (1.0.0)
-    jasmine (3.9.2)
-      jasmine-core (~> 3.9.0)
+    jasmine (3.10.0)
+      jasmine-core (~> 3.10.0)
       phantomjs
       rack (>= 2.1.4)
       rake
       webrick
-    jasmine-core (3.9.0)
+    jasmine-core (3.10.0)
     jasmine_selenium_runner (3.0.0)
       jasmine (~> 3.0)
       selenium-webdriver (~> 3.8)

@@ -95,7 +95,7 @@
                 };
             },
             templatify: function templatify(obj) {
-                return $.isFunction(obj) ? obj : template;
+                return typeof obj === 'function' ? obj : template;
                 function template() {
                     return String(obj);
                 }
@@ -179,7 +179,7 @@
         }
         function getObjTokenizer(tokenizer) {
             return function setKey(keys) {
-                keys = _.isArray(keys) ? keys : [].slice.call(arguments, 0);
+                keys = Array.isArray(keys) ? keys : [].slice.call(arguments, 0);
                 return function tokenize(o) {
                     var tokens = [];
                     _.each(keys, function(k) {
@@ -439,7 +439,7 @@
             },
             add: function(data) {
                 var that = this;
-                data = _.isArray(data) ? data : [ data ];
+                data = Array.isArray(data) ? data : [ data ];
                 _.each(data, function(datum) {
                     var id, tokens;
                     that.datums[id = that.identify(datum)] = datum;
@@ -675,7 +675,7 @@
             o.sorter = sorter ? function(x) {
                 return x.sort(sorter);
             } : _.identity;
-            o.local = _.isFunction(o.local) ? o.local() : o.local;
+            o.local = typeof o.local === 'function' ? o.local() : o.local;
             o.prefetch = parsePrefetch(o.prefetch);
             o.remote = parseRemote(o.remote);
             return o;
@@ -877,7 +877,7 @@
                 return this;
             },
             get: function get(ids) {
-                ids = _.isArray(ids) ? ids : [].slice.call(arguments);
+                ids = Array.isArray(ids) ? ids : [].slice.call(arguments);
                 return this.index.get(ids);
             },
             search: function search(query, sync, async) {
@@ -1015,7 +1015,7 @@
                 };
             },
             templatify: function templatify(obj) {
-                return $.isFunction(obj) ? obj : template;
+                return typeof obj === 'function' ? obj : template;
                 function template() {
                     return String(obj);
                 }
@@ -1319,7 +1319,7 @@
             if (!o.node || !o.pattern) {
                 return;
             }
-            o.pattern = _.isArray(o.pattern) ? o.pattern : [ o.pattern ];
+            o.pattern = Array.isArray(o.pattern) ? o.pattern : [ o.pattern ];
             regex = getRegex(o.pattern, o.caseSensitive, o.wordsOnly);
             traverse(o.node, hightlightTextNode);
             function hightlightTextNode(textNode) {
@@ -1767,7 +1767,7 @@
         return Dataset;
         function getDisplayFn(display) {
             display = display || _.stringify;
-            return _.isFunction(display) ? display : displayFn;
+            return typeof display === 'function' ? display : displayFn;
             function displayFn(obj) {
                 return obj[display];
             }
@@ -2295,7 +2295,7 @@
         methods = {
             initialize: function initialize(o, datasets) {
                 var www;
-                datasets = _.isArray(datasets) ? datasets : [].slice.call(arguments, 1);
+                datasets = Array.isArray(datasets) ? datasets : [].slice.call(arguments, 1);
                 o = o || {};
                 www = WWW(o.classNames);
                 return this.each(attach);
@@ -2463,7 +2463,7 @@
             });
         }
         function buildHintFromInput($input, www) {
-            return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).removeAttr("id name placeholder required").attr({
+            return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).attr("id name placeholder required", false).attr({
                 spellcheck: "false",
                 tabindex: -1
             });
@@ -2500,7 +2500,7 @@
             www = $input.data(keys.www);
             $wrapper = $input.parent().filter(www.selectors.wrapper);
             _.each($input.data(keys.attrs), function(val, key) {
-                _.isUndefined(val) ? $input.removeAttr(key) : $input.attr(key, val);
+                _.isUndefined(val) ? $input.attr(key, false) : $input.attr(key, val);
             });
             $input.removeData(keys.typeahead).removeData(keys.www).removeData(keys.attr).removeClass(www.classes.input);
             if ($wrapper.length) {

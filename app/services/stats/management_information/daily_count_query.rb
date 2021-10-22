@@ -35,6 +35,8 @@ module Stats
         @day = options[:day]
         raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
         raise ArgumentError, 'day must be provided' if @day.blank?
+
+        set_queries
       end
 
       def call
@@ -43,27 +45,18 @@ module Stats
 
       private
 
-      def queries
+      # OPTIMIZE: invert this so we can avoid the agfs/lgfs conditional logic
+      def set_queries
         case @scheme
         when 'AGFS'
-          agfs_queries
+          @queries = agfs_queries
         when 'LGFS'
-          lgfs_queries
+          @queries = lgfs_queries
         end
       end
 
+      # OPTIMIZE: invert this so we can avoid the agfs/lgfs conditional logic
       def agfs_queries
-        agfs_stats.each_with_object([]) do |(name, query), results|
-          result = { name: name.to_s.humanize }
-          week_range.each do |day|
-            result[day.strftime('%A').downcase.to_sym] = query.call(scheme: @scheme, day: day.iso8601).first['count']
-          end
-          results.append(result)
-        end
-      end
-
-      # OPTIMIZE: inject this so we can avoid the agfs/lgfs conditional logic
-      def agfs_stats
         {
           intake_fixed_fee: Agfs::IntakeFixedFeeQuery,
           intake_final_fee: Agfs::IntakeFinalFeeQuery,
@@ -76,8 +69,29 @@ module Stats
         }
       end
 
-      def lgfs_stats
-        { test: nil }
+      # OPTIMIZE: invert this so we can avoid the agfs/lgfs conditional logic
+      def lgfs_queries
+        {
+          intake_fixed_fee: Lgfs::IntakeFixedFeeQuery,
+          intake_final_fee: Lgfs::IntakeFinalFeeQuery,
+          lf1_high_value: Lgfs::Lf1HighValueQuery,
+          lf1_disk: Lgfs::Lf1DiskQuery,
+          lf2_redetermination: Lgfs::Lf2RedeterminationQuery,
+          lf2_high_value: Lgfs::Lf2HighValueQuery,
+          lf2_disk: Lgfs::Lf2DiskQuery,
+          written_reasons: Lgfs::WrittenReasonsQuery,
+          intake_interim_fee: Lgfs::IntakeInterimFeeQuery
+        }
+      end
+
+      def queries
+        @queries.each_with_object([]) do |(name, query), results|
+          result = { name: name.to_s.humanize }
+          week_range.each do |day|
+            result[day.strftime('%A').downcase.to_sym] = query.call(scheme: @scheme, day: day.iso8601).first['count']
+          end
+          results.append(result)
+        end
       end
 
       def week_range

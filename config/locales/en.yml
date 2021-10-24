@@ -2493,10 +2493,11 @@ en:
           example_date: "For example, 31 3 1980"
           report_types:
             agfs_management_information: AGFS management information
+            agfs_management_information_daily_statistics: AGFS Management information V2 weekly statistics
             lgfs_management_information: LGFS management information
+            lgfs_management_information_daily_statistics: LGFS Management information V2 weekly statistics
             management_information: Management information
             management_information_v2: Management information V2
-            agfs_management_information_daily_statistics: AGFS Management information V2 weekly statistics
             provisional_assessment: Provisional assessment
             rejections_refusals: 'Rejections/Refusals'
           unavailable_report: "There is currently no report available"

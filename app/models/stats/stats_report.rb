@@ -4,6 +4,8 @@ module Stats
                agfs_management_information
                lgfs_management_information
                management_information_v2
+               agfs_management_information_v2
+               lgfs_management_information_v2
                agfs_management_information_daily_statistics
                lgfs_management_information_daily_statistics
                provisional_assessment

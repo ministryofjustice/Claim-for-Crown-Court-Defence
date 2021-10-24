@@ -13,6 +13,10 @@ module Stats
           { class: ManagementInformationGenerator, args: [{ scheme: :lgfs }] },
         management_information_v2:
           { class: Stats::ManagementInformation::DailyReportGenerator, args: [] },
+        agfs_management_information_v2:
+          { class: Stats::ManagementInformation::DailyReportGenerator, args: [{ scheme: :agfs }] },
+        lgfs_management_information_v2:
+          { class: Stats::ManagementInformation::DailyReportGenerator, args: [{ scheme: :lgfs }] },
         agfs_management_information_daily_statistics:
           { class: Stats::ManagementInformation::DailyCountGenerator, args: [{ scheme: :agfs }] },
         lgfs_management_information_daily_statistics:

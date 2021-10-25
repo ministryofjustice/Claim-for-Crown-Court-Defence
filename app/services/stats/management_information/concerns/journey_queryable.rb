@@ -97,6 +97,9 @@ module Stats
               ct.name as case_type_name,
               c2.scheme || ' ' || c2.sub_type as bill_type,
               (c.total + c.vat_amount)::varchar as claim_total,
+              main_defendant.name as main_defendant,
+              earliest_representation_order.maat_reference as maat_reference,
+              earliest_representation_order.representation_order_date as rep_order_issued_date,
               journeys(c.id) as journey
             FROM claims c
             LEFT OUTER JOIN external_users AS creator
@@ -105,6 +108,21 @@ module Stats
               ON p.id = creator.provider_id
             LEFT OUTER JOIN case_types AS ct
               ON ct.id = c.case_type_id
+            LEFT JOIN LATERAL (
+              select first_name || ' ' || last_name as name
+              from defendants
+              where claim_id = c.id
+              fetch first row only
+            ) main_defendant ON TRUE
+            LEFT JOIN LATERAL (
+              select maat_reference,
+                     representation_order_date
+              from representation_orders r, defendants d2
+              where d2.claim_id = c.id
+                and r.defendant_id = d2.id
+              order by r.representation_order_date asc
+              fetch first row only
+            ) earliest_representation_order ON TRUE
             LEFT JOIN LATERAL (
               select
                case

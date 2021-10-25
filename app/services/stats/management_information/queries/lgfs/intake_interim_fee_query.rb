@@ -36,4 +36,3 @@ module Stats
     end
   end
 end
-

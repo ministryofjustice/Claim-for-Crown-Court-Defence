@@ -70,6 +70,7 @@ module Stats
       end
 
       # OPTIMIZE: invert this so we can avoid the agfs/lgfs conditional logic
+      # rubocop:disable Metrics/MethodLength
       def lgfs_queries
         {
           intake_fixed_fee: Lgfs::IntakeFixedFeeQuery,
@@ -83,6 +84,7 @@ module Stats
           intake_interim_fee: Lgfs::IntakeInterimFeeQuery
         }
       end
+      # rubocop:enable Metrics/MethodLength
 
       def queries
         @queries.each_with_object([]) do |(name, query), results|

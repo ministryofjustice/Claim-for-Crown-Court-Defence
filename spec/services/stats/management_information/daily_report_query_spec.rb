@@ -102,7 +102,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       end
     end
 
-    describe 'organisation' do
+    describe ':organisation' do
       subject { response.pluck(:organisation) }
 
       let!(:claim) { create(:advocate_final_claim, :submitted) }
@@ -110,7 +110,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       it { is_expected.to match_array([claim.provider.name]) }
     end
 
-    describe 'case_type_name' do
+    describe ':case_type_name' do
       subject { response.pluck(:case_type_name) }
 
       let!(:claim) { create(:advocate_final_claim, :submitted) }
@@ -118,7 +118,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       it { is_expected.to match_array([claim.case_type.name]) }
     end
 
-    describe 'bill_type' do
+    describe ':bill_type' do
       subject { response.pluck(:bill_type) }
 
       context 'with advocate final claim' do
@@ -146,12 +146,95 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       end
     end
 
-    describe 'claim_total' do
+    describe ':claim_total' do
       subject { response.pluck(:claim_total) }
 
       let!(:claim) { create(:litigator_final_claim, :submitted) }
 
       it { is_expected.to match_array([claim.total_including_vat.to_s]) }
+    end
+
+    describe ':main_defendant' do
+      subject { response.pluck(:main_defendant) }
+
+      before do
+        create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
+          create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant')
+          create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger')
+          claim.allocate!
+          claim.deallocate!
+          claim.allocate!
+
+          claim.tap do |c|
+            assign_fees_and_expenses_for(c)
+            c.authorise_part!
+          end
+
+          claim.redetermine!
+          claim.allocate!
+          claim.refuse!
+        end
+      end
+
+      it { is_expected.to match_array(['Main Defendant', 'Main Defendant']) }
+    end
+
+    describe ':maat_reference' do
+      subject { response.pluck(:maat_reference) }
+
+      before do
+        create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
+          create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
+            defendant.representation_orders = [create(:representation_order,
+                                                      defendant: defendant,
+                                                      representation_order_date: 30.days.ago,
+                                                      maat_reference: '4444442'),
+                                               create(:representation_order,
+                                                      defendant: defendant,
+                                                      representation_order_date: 29.days.ago,
+                                                      maat_reference: '4444444')]
+          end
+          create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
+            defendant.representation_orders = [create(:representation_order,
+                                                      defendant: defendant,
+                                                      representation_order_date: 31.days.ago,
+                                                      maat_reference: '4444441'),
+                                               create(:representation_order,
+                                                      defendant: defendant,
+                                                      representation_order_date: 29.days.ago,
+                                                      maat_reference: '4444443')]
+          end
+        end
+      end
+
+      it { is_expected.to match_array(['4444441']) }
+    end
+
+    describe ':rep_order_issued_date' do
+      subject { response.pluck(:rep_order_issued_date) }
+
+      before do
+        create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
+          create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
+            defendant.representation_orders = [create(:representation_order,
+                                                      defendant: defendant,
+                                                      representation_order_date: 30.days.ago),
+                                               create(:representation_order,
+                                                      defendant: defendant,
+                                                      representation_order_date: 29.days.ago)]
+          end
+          create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
+            defendant.representation_orders = [create(:representation_order,
+                                                      defendant: defendant,
+                                                      representation_order_date: 31.days.ago),
+                                               create(:representation_order,
+                                                      defendant: defendant,
+                                                      representation_order_date: 29.days.ago)]
+          end
+        end
+      end
+
+      it { is_expected.to match_array([31.days.ago.strftime('%F')]) }
     end
 
     context 'with claim state transitions' do

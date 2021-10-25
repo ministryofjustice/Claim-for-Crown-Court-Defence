@@ -66,6 +66,23 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
 
       it { expect(rows['Disk evidence case']).to match_array(%w[No No]) }
 
+      it {
+        expect(rows['Main defendant'])
+          .to match_array([agfs_claim.defendants.first.name, lgfs_claim.defendants.first.name])
+      }
+
+      it {
+        expect(rows['Maat reference'])
+          .to match_array([agfs_claim.earliest_representation_order.maat_reference,
+                           lgfs_claim.earliest_representation_order.maat_reference])
+      }
+
+      it {
+        expect(rows['Rep order issued date'])
+          .to match_array([agfs_claim.earliest_representation_order_date.strftime('%d/%m/%Y'),
+                           lgfs_claim.earliest_representation_order_date.strftime('%d/%m/%Y')])
+      }
+
       # TODO
       xit 'with a multiple journey claim' do
         true

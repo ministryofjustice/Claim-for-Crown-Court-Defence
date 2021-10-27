@@ -2508,7 +2508,7 @@
             www = $input.data(keys.www);
             $wrapper = $input.parent().filter(www.selectors.wrapper);
             _.each($input.data(keys.attrs), function(val, key) {
-                _.isUndefined(val) ? $input.attr(key, false) : $input.attr(key, val);
+                _.isUndefined(val) ? $input.removeAttr(key) : $input.attr(key, val);
             });
             $input.removeData(keys.typeahead).removeData(keys.www).removeData(keys.attr).removeClass(www.classes.input);
             if ($wrapper.length) {

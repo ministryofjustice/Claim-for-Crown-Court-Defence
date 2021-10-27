@@ -376,7 +376,7 @@ moj.Modules.AllocationDataTable = {
           case_worker_id: allocationCaseWorkerId,
           claim_ids: data
         }
-      }).success(function (data) {
+      }).done(function (data) {
         self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--success')
         self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation-case-worker-id-field').val())
@@ -384,7 +384,7 @@ moj.Modules.AllocationDataTable = {
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         })
-      }).error(function (data) {
+      }).fail(function (data) {
         self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--success')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--error')
         if (data.status === 422) {

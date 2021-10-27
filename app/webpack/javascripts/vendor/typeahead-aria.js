@@ -2471,7 +2471,7 @@
             });
         }
         function buildHintFromInput($input, www) {
-            return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).removeAttribute('id').removeAttribute('name').removeAttribute('placeholder').removeAttribute('required').attr({
+            return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).removeAttr('id').removeAttr('name').removeAttr('placeholder').removeAttr('required').attr({
                 spellcheck: "false",
                 tabindex: -1
             });

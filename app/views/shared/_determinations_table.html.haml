@@ -4,21 +4,23 @@
 
   = render partial: 'shared/summary_totals', locals: { claim: claim }
 
-  %h2.govuk-heading-m
-    = t('shared.determinations_form.assessment_summary')
+  = govuk_table(class: 'report', id: 'determinations') do
+    = govuk_table_caption do
+      %h2.govuk-heading-l
+        = t('shared.determinations_form.assessment_summary')
 
-  %table#determinations
-    %caption.govuk-visually-hidden
-      = t('.caption')
-    %thead
-      %tr
-        %th{ scope: 'col' }
+    = govuk_table_thead do
+      = govuk_table_row do
+        = govuk_table_th do
           = t('common.description')
-        %th.numeric{ scope: 'col' }
+
+        = govuk_table_th_numeric do
           = t('.claimed_by', type: claim.external_user_description)
-        %th.numeric{ scope: 'col' }
+
+        = govuk_table_th_numeric do
           = t('.laa_heading')
-    %tbody
+
+    = govuk_table_tbody do
       - if claim.redeterminations.any?
         = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.redeterminations.last }
       - else

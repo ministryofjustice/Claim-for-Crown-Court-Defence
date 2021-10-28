@@ -316,11 +316,13 @@ en:
     search: Search
     upload: Import claims
     download: Download
+    download_html: Download <span class="govuk-visually-hidden">%{context}</span>
     remove: Remove
     remove_html: Remove <span class="govuk-visually-hidden">%{context} <span class="fx-numberedList-number"></span></span>
     edit: Edit
     delete: Delete
     view: View
+    view_html: View <span class="govuk-visually-hidden">%{context}</span>
     warrant_fees: Warrant fees
     interim_claim_info: Warrant fees
     interim_fees: "Interim fees"
@@ -1878,9 +1880,12 @@ en:
       banner_title: Important
       banner_heading: This service will be unavailable on %{date_string} from 5pm until midnight.
       banner_paragraph: This is to enable routine maintenance work to be carried out. Please save and close any work before this time.
+    claim_defendants:
+      defendants: Defendants
     claim_defendant_details:
       caption: 'Defendant: Additional information'
       date: Order date
+      defendant: Defendant %{context}
       no_reporder: No representation orders have been supplied for this defendant.
     evidence_checklist:
       caption: 'Supporting evidence checklist'
@@ -1889,7 +1894,9 @@ en:
       evidence_hint: "If you don't provide enough evidence, your claim may be rejected."
       no_evidence: 'No documentary evidence specified as having been provided.'
     determination:
+      amount: Amount
       caption: 'Total of assessed amounts by category'
+      item: Item
       summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows'
     determinations_form:
       update: Update
@@ -1901,11 +1908,22 @@ en:
       reason_hint: These reasons will be displayed to providers
       update_the_claim_status: Update the claim status
       reason_text: Reason text
+      laa_heading: Total authorised by LAA
+      laa_heading_hint: include any amount already authorised
     determinations_table:
       caption: 'This section contains a categorised list of amounts claimed and the amount authorised by the LAA'
       summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'
       claimed_by: 'Claimed by %{type}'
       laa_heading: 'Total authorised by LAA'
+    determination_amounts:
+      claimed_by: Claimed by %{type}
+      disbursements: Disbursements
+      expenses: Expenses
+      fees: Fees
+      laa_heading: Total authorised by LAA
+      total_with_vat: Total (including %{context} VAT)
+      total_without_vat: Total (excluding VAT)
+      vat: VAT (%{context})
     help_summary_heading: Help with completing this form
     no_claims_found: 'No claims found'
     certification:
@@ -1925,8 +1943,11 @@ en:
       case_type: *case_type
       case_stage: *case_stage
       case_worker: Case worker
+      claim_type: Claim and case type
       defendant: Defendant names
+      defendants: Defendants
       j_a: Judicial apportionment
+      no_defendant: No defendant details have been supplied for this claim
       offence: Offence
       offence_class: Offence class
       q:
@@ -2054,6 +2075,14 @@ en:
           message:
             one: The distance claimed by the provider is greater than the calculated distance for one expense. Please see the table below for details.
             other: The distance claimed by the provider is greater than the calculated distance for %{count} expenses. Please see the table below for details.
+        show:
+          date: Date of expense
+          details: Details
+          expense_type: Type of expense
+          gross_amount: Gross amount
+          net_amount: *net_amount
+          reason: Reason for travel
+          vat: *vat_amount
       fee: Fee
       fee_index: Fee %{index}
       fees:
@@ -2274,7 +2303,7 @@ en:
     disbursements_gross: 'Disbursements with VAT'
     disbursements_no_vat: 'Disbursements without VAT'
     disbursements_total: 'Disbursements total'
-    download_all: 'Download all'
+    download_all_html: Download all <span class="govuk-visually-hidden">%{context}</span>
     expenses_net: 'Expenses without VAT'
     fees: 'Fees'
     gross_amount: 'Gross amount'
@@ -2412,7 +2441,7 @@ en:
           allocated_to: Allocated to
           disk_evidence: Disk evidence
           no_claims_allocated: There is no claim available for allocation
-          number_of_claims: 'Number of claims:'
+          number_of_claims: 'Number of claims: %{claim_count}'
           choose_label_html: <span class="govuk-visually-hidden">Select case %{case_number}</span>
           form_hint_html: |
             To de-allocate claims, choose "Allocation pool".
@@ -2504,6 +2533,7 @@ en:
         advocate_litigator: *advocate_litigator
         advocate_sort_label: 'Sort by: Provider name'
         case_number: Case number
+        case_number_html: <span class="govuk-visually-hidden">View Case number</span> %{context}
         case_number_sort_label: 'Sort by: Case number'
         case_type: Case type
         case_type_sort_label: 'Sort by: Case type'
@@ -2512,7 +2542,7 @@ en:
         last_submitted_at_sort_label: 'Sort by: Last submitted at date'
         messages: Messages
         none: None
-        number_of_claims: 'Number of claims: '
+        number_of_claims: 'Number of claims: %{claim_count}'
         state_sort_label: 'Sort by: Claim state'
         status: Status
         submission_date: Date submitted

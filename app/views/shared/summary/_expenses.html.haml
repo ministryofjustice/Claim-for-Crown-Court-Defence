@@ -6,9 +6,10 @@
 
 - if claim.travel_expense_additional_information.present?
   = govuk_inset_text do
-    %h3.govuk-heading-s
+    %h4.govuk-heading-s
       = t('.travel_expense_additional_information')
-    %p
+
+    %p.govuk-body
       = claim.travel_expense_additional_information
 
 - if claim.expenses.with_vat.any?

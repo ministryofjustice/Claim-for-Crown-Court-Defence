@@ -1,50 +1,62 @@
 - present(determination) do |determination|
   - unless claim.lgfs? && claim.interim? && claim.disbursement_only?
-    %tr.determination-display
-      %td
-        Fees
-      %td.numeric
+    = govuk_table_row do
+      = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
+        = t('.fees')
+
+      = govuk_table_td_numeric('data-label': t('.claimed_by', type: claim.external_user_description)) do
         = claim.fees_total
-      %td.numeric#determination-fees
+
+      = govuk_table_td_numeric('data-label': t('.laa_heading')) do
         = determination.fees_total
 
-  %tr.determination-display
-    %td
-      Expenses
-    %td.numeric
-      = claim.expenses_total
-    %td.numeric#determination-expenses
-      = determination.expenses_total
+    = govuk_table_row do
+      = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
+        = t('.expenses')
+
+      = govuk_table_td_numeric('data-label': t('.claimed_by', type: claim.external_user_description)) do
+        = claim.expenses_total
+
+      = govuk_table_td_numeric('data-label': t('.laa_heading')) do
+        = determination.expenses_total
 
   - if claim.can_have_disbursements?
-    %tr.determination-display
-      %td
-        Disbursements
-      %td.numeric
+    = govuk_table_row do
+      = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
+        = t('.disbursements')
+
+      = govuk_table_td_numeric('data-label': t('.claimed_by', type: claim.external_user_description)) do
         = claim.disbursements_total
-      %td.numeric#determination-disbursements
+
+      = govuk_table_td_numeric('data-label': t('.laa_heading')) do
         = determination.disbursements_total
 
-  %tr.determination-display
-    %td
-      Total(excluding VAT)
-    %td.numeric
+  = govuk_table_row do
+    = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
+      = t('.total_without_vat')
+
+    = govuk_table_td_numeric('data-label': t('.claimed_by', type: claim.external_user_description)) do
       = claim.total
-    %td.numeric#js-determination-total-exc-vat
+
+    = govuk_table_td_numeric('data-label': t('.laa_heading')) do
       = determination.total
 
-  %tr.determination-display
-    %td
-      = "VAT(#{VatRate.pretty_rate(Date.parse(claim.vat_date))})"
-    %td.numeric
+  = govuk_table_row do
+    = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
+      = t('.vat', context: "#{VatRate.pretty_rate(Date.parse(claim.vat_date))}")
+
+    = govuk_table_td_numeric('data-label': t('.claimed_by', type: claim.external_user_description)) do
       = claim.vat_amount
-    %td.numeric#js-determination-total-vat
+
+    = govuk_table_td_numeric('data-label': t('.laa_heading')) do
       = determination.vat_amount
 
-  %tr.determination-display
-    %td
-      = "Total(including #{VatRate.pretty_rate(Date.parse(claim.vat_date))} VAT)"
-    %td.numeric
+  = govuk_table_row do
+    = govuk_table_th(scope: 'row', 'data-label': t('common.description')) do
+      = t('.total_with_vat', context: "#{VatRate.pretty_rate(Date.parse(claim.vat_date))}")
+
+    = govuk_table_td_numeric('data-label': t('.claimed_by', type: claim.external_user_description)) do
       = claim.total_inc_vat
-    %td.numeric#js-determination-total-inc-vat
+
+    = govuk_table_td_numeric('data-label': t('.laa_heading')) do
       = determination.total_inc_vat

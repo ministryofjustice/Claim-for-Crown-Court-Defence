@@ -1,27 +1,19 @@
 - cracked_trial_detail_translations = 'external_users.claims.case_details.cracked_trial_fields'
-%tr
-  %th{ scope: 'row' }
-    = t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")
-  %td
-    = claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue ''
 
-%tr
-  %th{ scope: 'row' }
-    = t("#{cracked_trial_detail_translations}.trial_fixed_at")
-  %td
-    = claim.trial_fixed_at.strftime(Settings.date_format) rescue ''
+- trial_cracked_at_third_key = ''
+- if claim.hardship?
+  - trial_cracked_at_third_key = t("#{cracked_trial_detail_translations}.trial_cracked_at_third.hardship")
+- else
+  - trial_cracked_at_third_key = t("#{cracked_trial_detail_translations}.trial_cracked_at_third.default")
 
-%tr
-  %th{ scope: 'row' }
-    = t("#{cracked_trial_detail_translations}.trial_cracked_at")
-  %td
-    =  claim.trial_cracked_at.strftime(Settings.date_format) rescue ''
+= govuk_summary_list_row(t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")) do
+  = claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue ''
 
-%tr
-  %th{ scope: 'row' }
-    - if claim.hardship?
-      = t("#{cracked_trial_detail_translations}.trial_cracked_at_third.hardship")
-    - else
-      = t("#{cracked_trial_detail_translations}.trial_cracked_at_third.default")
-  %td
-    = claim.trial_cracked_at_third.humanize rescue ''
+= govuk_summary_list_row(t("#{cracked_trial_detail_translations}.trial_fixed_at")) do
+  = claim.trial_fixed_at.strftime(Settings.date_format) rescue ''
+
+= govuk_summary_list_row(t("#{cracked_trial_detail_translations}.trial_cracked_at")) do
+  = claim.trial_cracked_at.strftime(Settings.date_format) rescue ''
+
+= govuk_summary_list_row(trial_cracked_at_third_key) do
+  = claim.trial_cracked_at_third.humanize rescue ''

@@ -28,21 +28,40 @@ module GovukComponent
       tag.tbody(capture(&block), tag_options)
     end
 
+    def govuk_table_tfoot(tag_options = {}, &block)
+      tag_options = prepend_classes('govuk-table__foot', tag_options)
+
+      tag.tfoot(capture(&block), tag_options)
+    end
+
     def govuk_table_row(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__row', tag_options)
 
       tag.tr(capture(&block), tag_options)
     end
 
-    def govuk_table_th(scope = 'col', tag_options = {}, &block)
+    def govuk_table_th(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__header', tag_options)
-      tag_options[:scope] = scope
+      tag_options[:scope] = tag_options[:scope].presence || 'col'
+
+      tag.th(capture(&block), tag_options)
+    end
+
+    def govuk_table_th_numeric(tag_options = {}, &block)
+      tag_options = prepend_classes('govuk-table__header govuk-table__header--numeric', tag_options)
+      tag_options[:scope] = tag_options[:scope].presence || 'col'
 
       tag.th(capture(&block), tag_options)
     end
 
     def govuk_table_td(tag_options = {}, &block)
       tag_options = prepend_classes('govuk-table__cell', tag_options)
+
+      tag.td(capture(&block), tag_options)
+    end
+
+    def govuk_table_td_numeric(tag_options = {}, &block)
+      tag_options = prepend_classes('govuk-table__cell govuk-table__cell--numeric', tag_options)
 
       tag.td(capture(&block), tag_options)
     end

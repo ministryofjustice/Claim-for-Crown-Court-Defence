@@ -74,7 +74,7 @@ module Stats
       end
 
       def rep_order_issued_date
-        record[:rep_order_issued_date].strftime('%d/%m/%Y')
+        record[:rep_order_issued_date]&.strftime('%d/%m/%Y')
       end
 
       def method_missing(method_name, *args, &block)

@@ -262,7 +262,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
   describe '#rep_order_issued_date' do
     subject { presenter.rep_order_issued_date }
 
-    before { create(:advocate_final_claim, :allocated, disk_evidence: true) }
+    before { create(:advocate_final_claim, :allocated) }
 
     let(:record) { query.first }
 
@@ -277,7 +277,8 @@ RSpec.describe Stats::ManagementInformation::Presenter do
     let(:expected_missing_methods) do
       %i[id scheme case_number supplier_number
          organisation case_type_name bill_type
-         claim_total main_defendant maat_reference]
+         claim_total main_defendant maat_reference
+         af1_lf1_processed_by]
     end
 
     it {

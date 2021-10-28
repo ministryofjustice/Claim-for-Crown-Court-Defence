@@ -236,6 +236,37 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       it { is_expected.to match_array([31.days.ago.strftime('%F')]) }
     end
 
+    # authors full name for the "previous decision" that was redetermined or nil if previous decision was not redetermined
+    describe ':af1_lf1_processed_by' do
+      subject { response.pluck(:af1_lf1_processed_by) }
+
+      let(:case_worker1) { create(:case_worker, user: create(:user, first_name: 'Case', last_name: 'Worker-one')) }
+      let(:case_worker2) { create(:case_worker, user: create(:user, first_name: 'Case', last_name: 'Worker-two')) }
+      let(:case_worker3) { create(:case_worker, user: create(:user, first_name: 'Case', last_name: 'Worker-three')) }
+
+      before do
+        create(:advocate_final_claim, :allocated).tap do |claim|
+          claim.tap do |c|
+            assign_fees_and_expenses_for(c)
+            c.authorise_part!({ author_id: case_worker1.user.id })
+          end
+
+          claim.redetermine!
+          claim.allocate!
+          claim.refuse!({ author_id: case_worker2.user.id })
+          claim.redetermine!
+          claim.allocate!
+          claim.refuse!({ author_id: case_worker3.user.id })
+          claim.redetermine!
+          claim.allocate!
+        end
+      end
+
+      it {
+        is_expected.to eql([nil, 'Case Worker-one', 'Case Worker-two', 'Case Worker-three'])
+      }
+    end
+
     context 'with claim state transitions' do
       subject(:response) { described_class.call }
 

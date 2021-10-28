@@ -37,6 +37,7 @@ module Stats
               for rec in (
                 with transitions as (
                   select t.claim_id,
+                         t.from,
                          t.to,
                          t.created_at,
                          t.reason_code,
@@ -100,14 +101,17 @@ module Stats
               main_defendant.name as main_defendant,
               earliest_representation_order.maat_reference as maat_reference,
               earliest_representation_order.representation_order_date as rep_order_issued_date,
-              journeys(c.id) as journey
+              previous_redetermined_decision.author_name as af1_lf1_processed_by,
+              j.journey as journey
             FROM claims c
             LEFT OUTER JOIN external_users AS creator
               ON c.creator_id = creator.id
-            LEFT OUTER JOIN providers as p
+            LEFT OUTER JOIN providers AS p
               ON p.id = creator.provider_id
             LEFT OUTER JOIN case_types AS ct
               ON ct.id = c.case_type_id
+            LEFT JOIN LATERAL journeys(c.id) j
+              ON TRUE
             LEFT JOIN LATERAL (
               select first_name || ' ' || last_name as name
               from defendants
@@ -137,9 +141,20 @@ module Stats
               from claims
               where id = c.id
               ) c2 ON TRUE
+            LEFT JOIN LATERAL (
+              select transitions ->> 'author_name' as author_name
+              from journeys(c.id) j2,
+                   jsonb_array_elements(j2.journey) transitions
+              where j.journey -> 0 ->> 'to' = 'redetermination'
+              and transitions ->> 'to' = j.journey -> 0 ->> 'from'
+              and (transitions ->> 'created_at')::timestamp < (j.journey -> 0 ->> 'created_at')::timestamp
+              order by (transitions ->> 'created_at')::timestamp desc
+              fetch first row only
+            ) previous_redetermined_decision ON TRUE
             WHERE c.deleted_at IS NULL
               AND c.state != 'draft'
               AND c.type IN #{claim_type_filter}
+              AND j.journey::text <> '[]'
           SQL
         end
       end

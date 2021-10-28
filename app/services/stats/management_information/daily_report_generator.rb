@@ -76,7 +76,7 @@ module Stats
       # TODO: complete all required columns (without any N+1 queries)
       def row(rec)
         presenter = Presenter.new(rec)
-        todos = %i[af1_lf1_processed_by misc_fees]
+        todos = %i[misc_fees]
 
         Settings
           .claim_csv_headers

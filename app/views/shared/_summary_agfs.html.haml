@@ -7,7 +7,6 @@
       %p.govuk-body
         = t('shared.summary.no_values.fees')
     - else
-      / table does not require summary
       = govuk_table(class: 'report') do
         = govuk_table_caption(class: 'govuk-visually-hidden') do
           = t('.fees.caption')
@@ -28,7 +27,7 @@
         = govuk_table_tbody do
           - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
             = govuk_table_row do
-              = govuk_table_td do
+              = govuk_table_td('data-label': t('.fee_category')) do
                 = fee.fee_type&.fee_category_name || 'n/a'
                 %br/
                 - if fee.fee_type.unique_code.eql?('BABAF')
@@ -59,7 +58,7 @@
                 - if fee.date?
                   = t('.date')
                   = fee.date
-              = govuk_table_td do
+              = govuk_table_td('data-label': t('.fee_type')) do
                 = fee.fee_type&.description || 'n/a'
                 - if fee.sub_type.present?
                   %p
@@ -68,11 +67,11 @@
                   %br
                   = "#{t('.case_numbers')}: #{fee.case_numbers}"
               - unless claim.interim?
-                = govuk_table_td_numeric do
+                = govuk_table_td_numeric('data-label': t('.quantity')) do
                   = fee.quantity
-              = govuk_table_td_numeric do
+              = govuk_table_td_numeric('data-label': t('.rate')) do
                 = fee.rate
-              = govuk_table_td_numeric do
+              = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
                 = fee.amount
 
       = govuk_table(class: 'report') do
@@ -89,13 +88,13 @@
 
         = govuk_table_tbody do
           = govuk_table_row do
-            = govuk_table_td do
+            = govuk_table_td('data-label': t('shared.description')) do
               = t('shared.summary.fees_total')
-            = govuk_table_td_numeric do
+            = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
               = claim.fees_total
-            = govuk_table_td_numeric do
+            = govuk_table_td_numeric('data-label': t('shared.vat')) do
               = claim.fees_vat
-            = govuk_table_td_numeric do
+            = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
               = claim.fees_gross
 
     - if claim.final? && claim.interim_claim_info.present?

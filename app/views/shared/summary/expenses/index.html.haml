@@ -1,7 +1,7 @@
 %h3.govuk-heading-m
   = t(".header_#{vat ? 'with_vat' : 'without_vat'}")
 
-= govuk_table(class: current_user.case_worker? ? 'expenses-data-table' : nil) do
+= govuk_table(class: current_user.case_worker? ? 'report expenses-data-table' : 'report', style: 'width:100%') do
   = govuk_table_caption(class: 'govuk-visually-hidden') do
     = t('.caption')
 
@@ -30,13 +30,13 @@
 
   = govuk_table_tfoot do
     = govuk_table_row do
-      = govuk_table_th(scope: 'row', colspan: 4) do
+      = govuk_table_th(scope: 'row', colspan: 4, 'data-label': t('.expense_type')) do
         = succeed ':' do
           = t(".totals_#{vat ? 'with_vat' : 'without_vat'}")
-      = govuk_table_td_numeric do
+      = govuk_table_td_numeric('data-label': t('.net_amount')) do
         = vat ? claim.expenses_with_vat_net : claim.expenses_without_vat_net
       - if vat
-        = govuk_table_td_numeric do
+        = govuk_table_td_numeric('data-label': t('.vat')) do
           = claim.expenses_vat
-      = govuk_table_td_numeric do
+      = govuk_table_td_numeric('data-label': t('.gross_amount')) do
         = vat ? claim.expenses_with_vat_gross : claim.expenses_without_vat_gross

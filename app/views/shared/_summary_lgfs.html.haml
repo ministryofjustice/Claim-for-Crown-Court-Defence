@@ -157,16 +157,16 @@
 
             = govuk_table_tfoot do
               = govuk_table_row do
-                = govuk_table_th(scope: 'row') do
+                = govuk_table_th(scope: 'row', 'data-label': t('shared.disbursement_type')) do
                   = t('shared.disbursements_gross')
 
-                = govuk_table_td_numeric do
+                = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
                   = claim.disbursements_with_vat_net
 
-                = govuk_table_td_numeric do
+                = govuk_table_td_numeric('data-label': t('shared.vat')) do
                   = claim.disbursements_vat
 
-                = govuk_table_td_numeric do
+                = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
                   = claim.disbursements_with_vat_gross
 
         - if claim.disbursements.without_vat.any?
@@ -202,11 +202,11 @@
 
             = govuk_table_tfoot do
               = govuk_table_row do
-                = govuk_table_th(scope: 'row') do
+                = govuk_table_th(scope: 'row', 'data-label': t('shared.disbursement_type')) do
                   = t('shared.disbursements_no_vat')
 
-                = govuk_table_td_numeric do
+                = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
                   = claim.disbursements_without_vat_net
 
-                = govuk_table_td_numeric do
+                = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
                   = claim.disbursements_without_vat_gross

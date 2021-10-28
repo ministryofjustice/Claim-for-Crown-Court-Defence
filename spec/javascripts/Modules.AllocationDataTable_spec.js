@@ -59,7 +59,7 @@ describe('Modules.AllocationDataTable.js', function () {
         }
       }
       const output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row error injection-error"><td class="govuk-table__cell"><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>')
+      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row error injection-error"><td data-label="Select claim" class="govuk-table__cell"><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>')
     })
 
     it('...should have a `createdRow` callback defined for CAV warnings', function () {
@@ -71,7 +71,7 @@ describe('Modules.AllocationDataTable.js', function () {
         }
       }
       const output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row injection-warning"><td class="govuk-table__cell"><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>')
+      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"><div class="warning-message-container"><div class="warning-message">CAVs not injected</div></div></td></tr>')
     })
 
     it('...should have a `createdRow` callback defined for CLAR fee warnings', function () {
@@ -83,7 +83,7 @@ describe('Modules.AllocationDataTable.js', function () {
         }
       }
       const output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row injection-warning"><td class="govuk-table__cell"><div class="warning-message-container"><div class="warning-message">CLAR fees not injected</div></div></td></tr>')
+      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"><div class="warning-message-container"><div class="warning-message">CLAR fees not injected</div></div></td></tr>')
     })
 
     it('...should have `processing`', function () {

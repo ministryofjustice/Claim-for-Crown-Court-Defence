@@ -86,7 +86,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       end
     end
 
-    describe 'scheme' do
+    describe ':scheme' do
       subject { response.pluck(:scheme) }
 
       context 'with AGFS claim' do
@@ -161,7 +161,6 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
           create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant')
           create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger')
-          claim.allocate!
           claim.deallocate!
           claim.allocate!
 

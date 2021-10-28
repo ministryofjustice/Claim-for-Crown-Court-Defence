@@ -9,10 +9,13 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
     describe 'GET #index' do
       let(:expected_report_types) do
         %w[management_information
-           management_information_v2
-           agfs_management_information_daily_statistics
            agfs_management_information
            lgfs_management_information
+           management_information_v2
+           agfs_management_information_v2
+           lgfs_management_information_v2
+           agfs_management_information_daily_statistics
+           lgfs_management_information_daily_statistics
            provisional_assessment
            rejections_refusals
            submitted_claims]

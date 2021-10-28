@@ -13,7 +13,7 @@ moj.Modules.Dropzone = {
       self.setupDropzone()
       self.setupFileInput()
       self.setupStatusBox()
-      $('.files').on('click', '.file-remove', $.proxy(this, 'onFileRemoveClick'))
+      $('.files').on('click', '.file-remove', this.onFileRemoveClick.bind(this))
     }
   },
 
@@ -33,16 +33,16 @@ moj.Modules.Dropzone = {
   },
 
   setupDropzone: function () {
-    this.target.on('dragover', $.proxy(this, 'onDragOver'))
-    this.target.on('dragleave', $.proxy(this, 'onDragLeave'))
-    this.target.on('drop', $.proxy(this, 'onDrop'))
+    this.target.on('dragover', this.onDragOver.bind(this))
+    this.target.on('dragleave', this.onDragLeave.bind(this))
+    this.target.on('drop', this.onDrop.bind(this))
   },
 
   setupFileInput: function () {
     this.fileInput = this.target.find('[type=file]')
-    this.fileInput.on('change', $.proxy(this, 'onFileChange'))
-    this.fileInput.on('focus', $.proxy(this, 'onFileFocus'))
-    this.fileInput.on('blur', $.proxy(this, 'onFileBlur'))
+    this.fileInput.on('change', this.onFileChange.bind(this))
+    this.fileInput.on('focus', this.onFileFocus.bind(this))
+    this.fileInput.on('blur', this.onFileBlur.bind(this))
   },
 
   setupStatusBox: function () {
@@ -154,16 +154,16 @@ moj.Modules.Dropzone = {
       processData: false,
       contentType: false,
 
-      success: $.proxy(function (response) {
+      success: function (response) {
         const fileName = response.document.filename
         const fileId = response.document.id
 
         this.createDocumentIdInput(response.document.id)
         tableRow.replaceWith(this.notificationHTML(fileName, 'success', 'File has been uploaded.', fileId))
         this.status.html(response.document.filename + ' has been uploaded.')
-      }, this),
+      }.bind(this),
 
-      error: $.proxy(function (xhr, status, error) {
+      error: function (xhr, status, error) {
         const fileName = file.name
 
         if (status === 'timeout') {
@@ -173,7 +173,7 @@ moj.Modules.Dropzone = {
           tableRow.replaceWith(this.notificationHTML(fileName, 'error', xhr.responseJSON.error))
           this.status.html(fileName + ' ' + xhr.responseJSON.error)
         }
-      }, this),
+      }.bind(this),
 
       xhr: function () {
         const xhr = new XMLHttpRequest()

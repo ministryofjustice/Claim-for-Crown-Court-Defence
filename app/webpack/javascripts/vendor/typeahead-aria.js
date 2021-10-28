@@ -338,7 +338,7 @@
             return JSON.stringify(_.isUndefined(val) ? null : val);
         }
         function decode(val) {
-            return $.parseJSON(val);
+            return JSON.parse(val);
         }
         function gatherMatchingKeys(keyMatcher) {
             var i, key, keys = [], len = LOCAL_STORAGE.length;
@@ -2471,7 +2471,7 @@
             });
         }
         function buildHintFromInput($input, www) {
-            return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).removeAttr('id').removeAttr('name').removeAttr('placeholder').removeAttr('required').attr({
+            return $input.clone().addClass(www.classes.hint).removeData().css(www.css.hint).css(getBackgroundStyles($input)).prop("readonly", true).removeAttr("id name placeholder required").attr({
                 spellcheck: "false",
                 tabindex: -1
             });

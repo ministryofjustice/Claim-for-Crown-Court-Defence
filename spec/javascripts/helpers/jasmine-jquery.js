@@ -510,7 +510,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         return {
           compare: function (actual, text) {
             var actualText = $(actual).text()
-            var trimmedText = $.trim(actualText)
+            var trimmedText = (actualText).trim()
 
             if (text && (typeof text.test==='function')) {
               return { pass: text.test(actualText) || text.test(trimmedText) }
@@ -524,7 +524,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       toContainText: function () {
         return {
           compare: function (actual, text) {
-            var trimmedText = $.trim($(actual).text())
+            var trimmedText = ($(actual).text()).trim()
 
             if (text && (typeof text.test === 'function')) {
               return { pass: text.test(trimmedText) }

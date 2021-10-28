@@ -72,7 +72,7 @@ moj.Modules.Autocomplete = {
 
     if (str !== selectedTextString) {
       $wrapper.find('select.typeahead option').filter(function () {
-        return $.trim($(this).text()) === $.trim(str)
+        return ($(this).text()).trim() === str.trim()
       }).prop('selected', true).trigger('change')
     }
   },

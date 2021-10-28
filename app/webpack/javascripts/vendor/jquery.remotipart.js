@@ -78,7 +78,7 @@
 
     teardown: function (form) {
       form
-        .unbind('ajax:beforeSend.remotipart')
+        .off('ajax:beforeSend.remotipart')
         .removeData('remotipartSubmitted')
     }
   };

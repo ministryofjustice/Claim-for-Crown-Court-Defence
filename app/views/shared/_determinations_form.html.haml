@@ -2,7 +2,7 @@
   = hidden_field_tag :messages, 'true'
   .fx-assesment-hook
     #claim-status
-      %h2#radio-control-heading.govuk-heading-l{ 'aria-describedby': 'radio-control-heading radio-control-legend' }
+      %h3#radio-control-heading.govuk-heading-m{ 'aria-describedby': 'radio-control-heading radio-control-legend' }
         = t('.assessment_summary')
 
 
@@ -18,25 +18,18 @@
             %div
               = validation_error_message(@error_presenter, :determinations)
 
-      = govuk_table(class: 'report js-cw-claim-assessment', id: 'determinations') do
-        = govuk_table_caption(class: 'govuk-visually-hidden') do
-          %h3.govuk-heading-m
-            = t('.assessment_summary')
-
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
+      %table#determinations.js-cw-claim-assessment{ data: { apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' } }
+        %thead
+          %tr
+            %th{ scope: 'col' }
               = t('shared.description')
-
-            = govuk_table_th_numeric do
-              = t('shared.determinations_table.claimed_by', type: claim.external_user_description)
-
-            = govuk_table_th_numeric do
+            %th{ scope: 'col' }
+              = t('.claimed_by', type: claim.external_user_description)
+            %th{ scope: 'col' }
               = t('shared.determinations_table.laa_heading')
               - if claim.opened_for_redetermination?
-                .govuk-hint= t('.laa_heading_hint')
-
-        = govuk_table_tbody do
+                .form-hint.xsmall include any amount already authorised
+        %tbody
           // CASEWORKER
           - if current_user_is_caseworker? && @claim.enable_assessment_input?
             // ASSESSMENT INPUT

@@ -36,14 +36,6 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
     end
   end
 
-  describe '#govuk_table_tfoot' do
-    subject(:markup) { helper.govuk_table_tfoot(class: 'my-custom-class') { nil } }
-
-    it 'adds a govuk table tfoot' do
-      is_expected.to have_tag(:tfoot, with: { class: 'govuk-table__foot my-custom-class' })
-    end
-  end
-
   describe '#govuk_table_row' do
     subject(:markup) { helper.govuk_table_row(class: 'my-custom-class') { nil } }
 
@@ -62,7 +54,7 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
     end
 
     context 'with row scope' do
-      subject(:markup) { helper.govuk_table_th(scope: 'row') { 'table head' } }
+      subject(:markup) { helper.govuk_table_th('row') { 'table head' } }
 
       it 'adds a govuk table header cell' do
         is_expected.to have_tag(:th, with: { class: 'govuk-table__header', scope: 'row' }, text: 'table head')
@@ -70,39 +62,10 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
     end
 
     context 'with custom class' do
-      subject(:markup) { helper.govuk_table_th(scope: 'row', class: 'my-custom-class') { 'table head' } }
+      subject(:markup) { helper.govuk_table_th('row', class: 'my-custom-class') { 'table head' } }
 
       it 'adds a govuk table header cell' do
         is_expected.to have_tag(:th, with: { class: 'govuk-table__header my-custom-class', scope: 'row' },
-                                     text: 'table head')
-      end
-    end
-  end
-
-  describe '#govuk_table_th_numeric' do
-    context 'with col scope' do
-      subject(:markup) { helper.govuk_table_th_numeric { 'table head' } }
-
-      it 'adds a govuk table header cell' do
-        is_expected.to have_tag(:th, with: { class: 'govuk-table__header govuk-table__header--numeric', scope: 'col' },
-                                     text: 'table head')
-      end
-    end
-
-    context 'with row scope' do
-      subject(:markup) { helper.govuk_table_th_numeric(scope: 'row') { 'table head' } }
-
-      it 'adds a govuk table header cell' do
-        is_expected.to have_tag(:th, with: { class: 'govuk-table__header govuk-table__header--numeric', scope: 'row' },
-                                     text: 'table head')
-      end
-    end
-
-    context 'with custom class' do
-      subject(:markup) { helper.govuk_table_th_numeric(class: 'custom-class') { 'table head' } }
-
-      it 'adds a govuk table header cell' do
-        is_expected.to have_tag(:th, with: { class: 'govuk-table__header govuk-table__header--numeric custom-class' },
                                      text: 'table head')
       end
     end
@@ -113,15 +76,6 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
 
     it 'adds a govuk table cell' do
       is_expected.to have_tag(:td, with: { class: 'govuk-table__cell my-custom-class' }, text: 'table cell')
-    end
-  end
-
-  describe '#govuk_table_td_numeric' do
-    subject(:markup) { helper.govuk_table_td_numeric(class: 'my-custom-class') { 'table cell' } }
-
-    it 'adds a govuk table cell' do
-      is_expected.to have_tag(:td, with: { class: 'govuk-table__cell govuk-table__cell--numeric my-custom-class' },
-                                   text: 'table cell')
     end
   end
 

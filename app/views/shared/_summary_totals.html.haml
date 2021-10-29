@@ -1,81 +1,79 @@
-= govuk_table(class: 'report') do
-  = govuk_table_caption do
-    %h2.govuk-heading-l
-      = t('shared.summary_totals')
+%h2.govuk-heading-m
+  = t('shared.summary_totals')
 
-  = govuk_table_thead do
-    = govuk_table_row do
-      = govuk_table_th do
+%table.figures
+  %thead
+    %tr
+      %th{ scope: 'col' }
         = t('shared.description')
-      = govuk_table_th_numeric do
+      %th.col-net.numeric{ scope: 'col' }
         = t('shared.net_amount')
-      = govuk_table_th_numeric do
+      %th.col-vat.numeric{ scope: 'col' }
         = t('shared.vat')
-      = govuk_table_th_numeric do
+      %th.col-gross.numeric{ scope: 'col' }
         = t('shared.gross_amount')
 
-  = govuk_table_tbody do
-    = govuk_table_row do
-      = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+  %tbody
+    %tr
+      %td
         = t('shared.fees')
-      = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+      %td.numeric
         = claim.fees_total
-      = govuk_table_td_numeric('data-label': t('shared.vat')) do
+      %td.numeric
         = claim.fees_vat
-      = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+      %td.numeric
         = claim.fees_gross
 
     - if claim.expenses.with_vat.any?
-      = govuk_table_row do
-        = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+      %tr
+        %td
           = "Expenses with VAT"
-        = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+        %td.numeric
           = claim.expenses_with_vat_net
-        = govuk_table_td_numeric('data-label': t('shared.vat')) do
+        %td.numeric
           = claim.expenses_vat
-        = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+        %td.numeric
           = claim.expenses_with_vat_gross
 
     - if claim.expenses.without_vat.any?
-      = govuk_table_row do
-        = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+      %tr
+        %td
           = t('shared.expenses_net')
-        = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+        %td.numeric
           = claim.expenses_without_vat_net
-        = govuk_table_td_numeric('data-label': t('shared.vat')) do
+        %td.numeric
           = ''
-        = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+        %td.numeric
           = claim.expenses_without_vat_gross
 
     - if claim.disbursements.with_vat.any?
-      = govuk_table_row do
-        = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+      %tr
+        %td
           = t('shared.disbursements_gross')
-        = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+        %td.numeric
           = claim.disbursements_with_vat_net
-        = govuk_table_td_numeric('data-label': t('shared.vat')) do
+        %td.numeric
           = claim.disbursements_vat
-        = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+        %td.numeric
           = claim.disbursements_with_vat_gross
 
     - if claim.disbursements.without_vat.any?
-      = govuk_table_row do
-        = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+      %tr
+        %td
           = t('shared.disbursements_no_vat')
-        = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+        %td.numeric
           = claim.disbursements_without_vat_net
-        = govuk_table_td_numeric('data-label': t('shared.vat')) do
+        %td.numeric
           = "-"
-        = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+        %td.numeric
           = claim.disbursements_without_vat_gross
-
-  = govuk_table_tfoot do
-    = govuk_table_row do
-      = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+  %tfoot
+    %tr.totals
+      %td
         = t('shared.claim_total')
-      = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+      %td.numeric
         = claim.total
-      = govuk_table_td_numeric('data-label': t('shared.vat')) do
+      %td.numeric
         = claim.vat_amount
-      = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+      %td.numeric
         = claim.total_inc_vat

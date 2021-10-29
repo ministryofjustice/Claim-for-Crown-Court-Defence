@@ -1,104 +1,93 @@
-.govuk-grid-row{class: 'govuk-!-margin-top-9'}
-  .govuk-grid-column-full
-    %p.govuk-body{class: 'claim-count govuk-!-text-align-right'}
-      = t('.number_of_claims', claim_count: claims.total_count)
+.table-container
+  %table.report
+    %caption
+      .govuk-grid-row
+        .govuk-grid-column-one-half
+          = params[:action] == 'archived' ? t('case_workers.table_headings.archived_claims') : t('case_workers.table_headings.your_claims')
+        .govuk-grid-column-one-half.claim-count
+          = t('.number_of_claims')
+          = claims.total_count
 
-  .govuk-grid-column-full
-    = govuk_table(class: 'report') do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = params[:action] == 'archived' ? t('case_workers.table_headings.archived_claims') : t('case_workers.table_headings.your_claims')
+    %thead
+      %tr
+        %th{ scope: 'col' }
+          = sortable 'type', t('.type'), 'aria-label': t('.type_sort_label'), id: 'type'
 
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th do
-            = sortable 'type', t('.type'), 'aria-label': t('.type_sort_label'), id: 'type'
+        %th{ scope: 'col' }
+          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number'
 
-          = govuk_table_th do
-            = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number'
+        %th{ scope: 'col' }
+          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate'
 
-          = govuk_table_th do
-            = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate'
+        %th{ scope: 'col' }
+          = t('.defendants')
 
-          = govuk_table_th do
-            = t('.defendants')
+        %th.numeric{ scope: 'col' }
+          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), id: 'total_inc_vat'
 
-          = govuk_table_th_numeric do
-            = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), id: 'total_inc_vat'
+        - if params[:action] == 'archived'
+          %th{ scope: 'col' }
+            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), id: 'state'
 
+        %th{ scope: 'col' }
+          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), id: 'case_type'
+
+        %th.numeric{ scope: 'col' }
+          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at'
+
+        %th.message-placeholder{ scope: 'col' }
+          = t('.messages')
+    %tbody
+      %tr.mobile-sort
+        %th{ scope: 'col' }
+          Sort by:
+          = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number_ms'
+          = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate_ms'
+          = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), id: 'total_inc_vat_ms'
           - if params[:action] == 'archived'
-            = govuk_table_th do
-              = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), id: 'state'
+            = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), id: 'state_ms'
+          = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), id: 'case_type_ms'
+          = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at_ms'
+      - present_collection(claims).each do |claim|
+        %tr{ class: claim.injection_error ? 'error injection-error' : nil }
+          %td
+            .error-message-container
+              = claim.pretty_type
+              - claim.injection_error do |message|
+                .error-message
+                  = message
+          %td
+            = govuk_link_to claim.case_number,
+                      case_workers_claim_path(claim),
+                      class: 'js-test-case-number-link',
+                      'aria-label': "View #{claim.state.humanize} Claim, Case number: #{claim.case_number}"
 
-          = govuk_table_th do
-            = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), id: 'case_type'
+            - if claim.disk_evidence == true
+              %span.disk-evidence
+                = t('.disk_evidence')
 
-          = govuk_table_th_numeric do
-            = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at'
-
-          = govuk_table_th(class: 'message-placeholder') do
-            = t('.messages')
-
-      = govuk_table_tbody do
-        = govuk_table_row(class: 'mobile-sort') do
-          = govuk_table_th do
-            Sort by:
-            = sortable 'case_number', t('.case_number'), 'aria-label': t('.case_number_sort_label'), id: 'case_number_ms'
-            = sortable 'advocate', t('.advocate_litigator'), 'aria-label': t('.advocate_sort_label'), id: 'advocate_ms'
-            = sortable 'total_inc_vat', t('.total'), 'aria-label': t('.total_inc_vat_sort_label'), id: 'total_inc_vat_ms'
-            - if params[:action] == 'archived'
-              = sortable 'state', t('.status'), 'aria-label': t('.state_sort_label'), id: 'state_ms'
-            = sortable 'case_type', t('.case_type'), 'aria-label': t('.case_type_sort_label'), id: 'case_type_ms'
-            = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at_ms'
-
-        - present_collection(claims).each do |claim|
-          = govuk_table_row(class: claim.injection_error ? 'error injection-error' : nil) do
-            = govuk_table_td('data-label': t('.type')) do
-              .error-message-container
-                = claim.pretty_type
-                - claim.injection_error do |message|
-                  .error-message
-                    = message
-
-            = govuk_table_td('data-label': t('.case_number')) do
-              = govuk_link_to claim.case_number,
-                        case_workers_claim_path(claim),
-                        class: 'js-test-case-number-link',
-                        'aria-label': "View #{claim.state.humanize} Claim, Case number: #{claim.case_number}"
-
-              - if claim.disk_evidence == true
-                %span.disk-evidence
-                  = t('.disk_evidence')
-
-            = govuk_table_td('data-label': t('.advocate_litigator')) do
-              = claim.external_user.name
-
-            = govuk_table_td('data-label': t('.defendants')) do
-              = claim.defendant_names
-
-            = govuk_table_td_numeric(class: 'js-test-total', 'data-label': t('.total')) do
-              = claim.total_inc_vat
-
-            - if params[:action] == 'archived'
-              = govuk_table_td('data-label': t('.status')) do
-                = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state.dasherize}"
-
-            = govuk_table_td('data-label': t('.case_type')) do
-              = claim.case_type_name
-              %br/
-              %span.claim-state
-                = claim.claim_state
-
-            = govuk_table_td_numeric('data-label': t('.submission_date')) do
-              = claim.submitted_at(include_time: false)
-
-            = govuk_table_td(class: 'messages', 'data-label': t('.messages')) do
-              - if claim.has_messages?
-                - if claim.remote?
-                  = govuk_link_to claim.unread_messages_count.to_int > 0 ? t('.view_with_messages', message_count: claim.unread_messages_count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
-
-                - else
-                  = govuk_link_to claim.unread_messages_for(current_user).any? ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
-
+          %td
+            = claim.external_user.name
+          %td
+            = claim.defendant_names
+          %td.numeric.js-test-total
+            = claim.total_inc_vat
+          - if params[:action] == 'archived'
+            %td
+              = govuk_tag claim.state.humanize, class: "app-tag--#{claim.state.dasherize}"
+          %td
+            = claim.case_type_name
+            %br/
+            %span.claim-state
+              = claim.claim_state
+          %td.numeric
+            = claim.submitted_at(include_time: false)
+          %td.messages
+            - if claim.has_messages?
+              - if claim.remote?
+                = govuk_link_to claim.unread_messages_count.to_int > 0 ? t('.view_with_messages', message_count: claim.unread_messages_count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
               - else
-                %span.none
-                  = t('.none')
+                = govuk_link_to claim.unread_messages_for(current_user).any? ? t('.view_with_messages', message_count: claim.unread_messages_for(current_user).count) : t('.view'), "#{case_workers_claim_path(claim, messages: true)}#messages", 'aria-label': t('.view_messages_label', case_number: claim.case_number)
+            - else
+              %span.none
+                = t('.none')

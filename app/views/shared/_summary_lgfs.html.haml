@@ -2,42 +2,34 @@
   %section#summary
     %h3.govuk-heading-m
       = t('common.fees')
-
     - if @claim.fees_total == 0
-      %p.govuk-body
+      %p
         = t('shared.summary.no_values.fees')
-
     - else
-      = govuk_table(class: 'report') do
-        = govuk_table_caption(class: 'govuk-visually-hidden') do
+      / table does noe require summary
+      %table.figures
+        %caption.govuk-visually-hidden
           = t('.fees.caption')
-
-        = govuk_table_thead do
-          = govuk_table_row do
-            = govuk_table_th do
+        %thead
+          %tr
+            %th{ scope: 'col' }
               = t('.fee_category')
-
-            = govuk_table_th do
+            %th{ scope: 'col' }
               = t('.fee_type')
-
             - if claim.display_days?
-              = govuk_table_th_numeric do
+              %th.numeric{ scope: 'col' }
                 = claim.transfer? ? t('.days_claimed') : t('.actual_trial_length')
-
-            = govuk_table_th_numeric do
+            %th.numeric{ scope: 'col' }
               = claim.fixed_fee_case? ? t('.quantity') : 'PPE'
-
             - if claim.fixed_fee_case?
-              = govuk_table_th_numeric do
+              %th.numeric{ scope: 'col' }
                 = t('.rate')
-
-            = govuk_table_th_numeric do
+            %th.numeric{ scope: 'col' }
               = t('.amount')
-
-        = govuk_table_tbody do
+        %tbody
           - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
-            = govuk_table_row do
-              = govuk_table_td('data-label': t('.fee_category')) do
+            %tr
+              %td
                 = fee.fee_type&.fee_category_name || fee.not_applicable
                 - if fee.dates_attended.any?
                   %br
@@ -47,28 +39,23 @@
                   %br
                   = t('.date')
                   = fee.date
-
-              = govuk_table_td('data-label': t('.fee_type')) do
+              %td
                 = fee.fee_type&.description || fee.not_applicable
                 - if fee.sub_type.present?
-                  %br
-                  = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
+                  %p
+                    = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
                 - if fee.case_uplift?
                   %br
                   = "(#{t('.case_numbers')}: #{fee.case_numbers})"
-
               - if claim.display_days?
-                = govuk_table_td_numeric('data-label': claim.transfer? ? t('.days_claimed') : t('.actual_trial_length')) do
+                %td.numeric{ scope: 'col' }
                   = fee.days_claimed
-
-              = govuk_table_td_numeric('data-label': claim.fixed_fee_case? ? t('.quantity') : 'PPE') do
+              %td.numeric
                 = fee.quantity
-
               - if claim.fixed_fee_case?
-                = govuk_table_td_numeric('data-label': t('.rate')) do
+                %td.numeric
                   = fee.rate
-
-              = govuk_table_td_numeric('data-label': t('.amount')) do
+              %td.numeric
                 = fee.amount
 
       .totals
@@ -80,31 +67,25 @@
         - if info.warrant_fee_paid?
           %h3.govuk-heading-m
             = t('common.interim_claim_info')
-
-          = govuk_table(class: 'report') do
-            = govuk_table_caption(class: 'govuk-visually-hidden') do
+          %table.table-summary
+            %caption.hidden
               = t('.fees.caption')
-
-            = govuk_table_tbody do
-              = govuk_table_row do
-                = govuk_table_th do
+            %tbody
+              %tr
+                %th.col-date{ scope: 'col' }
                   = t('shared.claims.interim_claim_info.fields.date_issued')
-
-                = govuk_table_td do
+                %td
                   = info.warrant_issued_date
-
-              = govuk_table_row do
-                = govuk_table_th do
+              %tr
+                %th.col-date{ scope: 'col' }
                   = t('shared.claims.interim_claim_info.fields.date_executed')
-
-                = govuk_table_td do
+                %td
                   = info.warrant_executed_date
 
     - if claim.expenses.empty?
       %h3.govuk-heading-m
         = t('common.expenses')
-
-      %p.govuk-body
+      %p
         = t('shared.summary.no_values.expenses')
     - else
       = render partial: 'shared/summary/expenses', locals: { claim: claim }
@@ -113,100 +94,76 @@
       - if claim.disbursements.empty?
         %h3.govuk-heading-m
           = t('common.disbursements')
-
-        %p.govuk-body
+        %p
           = t('shared.summary.no_values.disbursements')
-
       - else
+        / table does noe require summary
         - if claim.disbursements.with_vat.any?
           %h3.govuk-heading-m
             = t('shared.disbursements_gross')
-
-          = govuk_table(class: 'report') do
-            = govuk_table_caption(class: 'govuk-visually-hidden') do
+          %table.figures
+            %caption.govuk-visually-hidden
               = t('.disbursements.caption')
-
-            = govuk_table_thead do
-              = govuk_table_row do
-                = govuk_table_th do
+            %thead
+              %tr
+                %th{ scope: 'col' }
                   = t('shared.disbursement_type')
-
-                = govuk_table_th_numeric do
+                %th.col-net.numeric{ scope: 'col' }
                   = t('shared.net_amount')
-
-                = govuk_table_th_numeric do
+                %th.col-vat.numeric{ scope: 'col' }
                   = t('shared.vat')
-
-                = govuk_table_th_numeric do
+                %th.col-gross.numeric{ scope: 'col' }
                   = t('shared.gross_amount')
-
-            = govuk_table_tbody do
+            %tbody
               - present_collection(claim.disbursements.with_vat).each do |disbursement|
-                = govuk_table_row do
-                  = govuk_table_td('data-label': t('shared.disbursement_type')) do
+                %tr
+                  %td
                     = disbursement.name
-
-                  = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+                  %td.numeric
                     = disbursement.net_amount
-
-                  = govuk_table_td_numeric('data-label': t('shared.vat')) do
+                  %td.numeric
                     = disbursement.vat_amount
-
-                  = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+                  %td.numeric
                     = disbursement.total
-
-            = govuk_table_tfoot do
-              = govuk_table_row do
-                = govuk_table_th(scope: 'row', 'data-label': t('shared.disbursement_type')) do
+            %tfoot
+              %tr.totals
+                %td
                   = t('shared.disbursements_gross')
-
-                = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+                %td.numeric
                   = claim.disbursements_with_vat_net
-
-                = govuk_table_td_numeric('data-label': t('shared.vat')) do
+                %td.numeric
                   = claim.disbursements_vat
-
-                = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+                %td.numeric
                   = claim.disbursements_with_vat_gross
 
         - if claim.disbursements.without_vat.any?
           %h3.govuk-heading-m
             = t('shared.disbursements_no_vat')
-
-          = govuk_table(class: 'report') do
-            = govuk_table_caption(class: 'govuk-visually-hidden') do
+          %table.figures
+            %caption.govuk-visually-hidden
               = t('.disbursements.caption')
-
-            = govuk_table_thead do
-              = govuk_table_row do
-                = govuk_table_th do
+            %thead
+              %tr
+                %th{ scope: 'col' }
                   = t('shared.disbursement_type')
-
-                = govuk_table_th_numeric do
+                %th.col-net.numeric{ scope: 'col' }
                   = t('shared.net_amount')
-
-                = govuk_table_th_numeric do
+                %th.col-gross.numeric{ scope: 'col' }
                   = t('shared.gross_amount')
-
-            = govuk_table_tbody do
+            %tbody
               - present_collection(claim.disbursements.without_vat).each do |disbursement|
-                = govuk_table_row do
-                  = govuk_table_td('data-label': t('shared.disbursement_type')) do
+                %tr
+                  %td
                     = disbursement.name
-
-                  = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+                  %td.numeric
                     = disbursement.net_amount
-
-                  = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+                  %td.numeric
                     = disbursement.total
-
-            = govuk_table_tfoot do
-              = govuk_table_row do
-                = govuk_table_th(scope: 'row', 'data-label': t('shared.disbursement_type')) do
+            %tfoot
+              %tr.totals
+                %td
                   = t('shared.disbursements_no_vat')
-
-                = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+                %td.numeric
                   = claim.disbursements_without_vat_net
-
-                = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+                %td.numeric
                   = claim.disbursements_without_vat_gross

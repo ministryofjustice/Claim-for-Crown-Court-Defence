@@ -51,15 +51,6 @@ moj.Modules.AllocationDataTable = {
     // row callback to add injection errors
     createdRow: function (row, data, index) {
       $(row).addClass('govuk-table__row')
-      //  Add data row for responsive table label
-      $(row).find('td').eq(0).attr('data-label', 'Select claim')
-      $(row).find('td').eq(1).attr('data-label', 'Case number')
-      $(row).find('td').eq(2).attr('data-label', 'Court')
-      $(row).find('td').eq(3).attr('data-label', 'Defendants')
-      $(row).find('td').eq(4).attr('data-label', 'Type')
-      $(row).find('td').eq(5).attr('data-label', 'Submitted')
-      $(row).find('td').eq(6).attr('data-label', 'Total')
-
       $('td', row).addClass('govuk-table__cell')
 
       if (data.filter.injection_errored) {
@@ -150,7 +141,7 @@ moj.Modules.AllocationDataTable = {
       targets: 1,
       data: null,
       render: function (data, type, full) {
-        return data.filter.disk_evidence ? '<span class="js-test-case-number"><a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span></span>' : '<span class="js-test-case-number"><a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a></span>'
+        return data.filter.disk_evidence ? '<a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span>' : '<a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a>'
       }
 
     }, {

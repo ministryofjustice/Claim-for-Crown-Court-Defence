@@ -1,49 +1,41 @@
 - unless claim.lgfs? && claim.interim? && claim.disbursement_only?
-  = govuk_table_row do
-    = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+  %tr.determination-form-fields
+    %td
       = f.label :fees, t('.fees')
-
-    = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
+    %td
       = claim.fees_total
-
-    = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+    %td
       .pound-wrapper
         = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control js-fees', size: 10, maxlength: 10
       = validation_error_message(f.object, :fees)
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+%tr.determination-form-fields
+  %td
     = f.label :expenses, t('.expenses')
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
+  %td
     = claim.expenses_total
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+  %td
     .pound-wrapper
       = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control js-expenses', size: 10, maxlength: 10
     = validation_error_message(f.object, :expenses)
 
 - if claim.can_have_disbursements?
-  = govuk_table_row do
-    = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+  %tr.determination-form-fields
+    %td
       = f.label :disbursements, t('.disbursements')
-
-    = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
+    %td
       = claim.disbursements_total
-
-    = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+    %td
       .pound-wrapper
         = f.text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control js-disbursements', size: 10, maxlength: 10
       = validation_error_message(f.object, :disbursements)
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+%tr.determination-form-fields
+  %td
     = t('.total_excluding_vat')
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
+  %td
     = claim.total
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+  %td
     %span.js-total-exc-vat-determination
       = number_to_currency(f.object.total || 0)
 

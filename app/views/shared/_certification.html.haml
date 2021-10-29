@@ -1,10 +1,20 @@
 %h3.govuk-heading-m
   = t('.certification_box_title')
 
-= govuk_summary_list do
-  = govuk_summary_list_row(t('.instructed_heading')) do
-    = claim.external_user.name
+%table.table-summary
+  %caption.govuk-visually-hidden
+    = t('.certification_caption')
 
-  - if @claim.agfs?
-    = govuk_summary_list_row(t('.certification_reason')) do
-      = claim.certification.certification_type.name rescue ''
+  %tbody
+    %tr
+      %th{ scope: 'row' }
+        = t('.instructed_heading')
+      %td
+        = claim.external_user.name
+
+    - if @claim.agfs?
+      %tr
+        %th{ scope: 'row' }
+          = t('.certification_reason')
+        %td
+          = claim.certification.certification_type.name rescue ''

@@ -1,22 +1,17 @@
-= govuk_table_row do
-  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+%tr.determination-form-fields
+  %td
     = f.label :vat_amount, t('.vat')
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
+  %td
     = claim.vat_amount
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+  %td
     .pound-wrapper
       = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control js-lgfs-vat-determination', size: 10, maxlength: 8
     = validation_error_message(f.object, :vat_amount)
-
-= govuk_table_row do
-  = govuk_table_th(scope: 'row', 'data-label': t('shared.description')) do
+%tr.determination-form-fields
+  %td
     = t('.total_inc_vat')
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.claimed_by', type: claim.external_user_description)) do
+  %td
     = claim.total_inc_vat
-
-  = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
+  %td
     %span.js-total-determination
       = number_to_currency(f.object.total_including_vat)

@@ -251,6 +251,13 @@ form {
   margin-right: 10px;
 }
 
+.defendant-card {
+  margin-top: $gutter-half;
+  margin-bottom: $gutter-half;
+  padding: $gutter-half $gutter-one-third $gutter-half $gutter-half;
+  border: 1px solid $border-colour;
+}
+
 // Styling for Claims Messaging
 .messages {
   .none {
@@ -435,6 +442,7 @@ form {
   }
 }
 
+#download-files-report,
 .previously-uploaded {
   td,
   th {

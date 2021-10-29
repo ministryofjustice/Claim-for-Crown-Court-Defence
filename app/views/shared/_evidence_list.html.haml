@@ -3,48 +3,44 @@
 .app-summary-section
   %h3.govuk-heading-m
     = t('.existing_evidence')
-
   - if current_user_persona_is?(CaseWorker) && @claim.documents.any?
-    = govuk_link_to t('shared.download_all_html', context: t('.existing_evidence')), download_zip_case_workers_claim_path(@claim), class: 'download-all-link'
+    = govuk_link_to t('shared.download_all'), download_zip_case_workers_claim_path(@claim), class: 'download-all-link'
 
   - if @claim.documents.none?
-    %p.govuk-body
-      = t('.no_documents_uploaded')
+    = t('.no_documents_uploaded')
 
   - else
-    = govuk_table(class: 'report') do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
+    %table#download-files-report
+      %caption.govuk-visually-hidden
         = t('.caption')
-
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th do
+      %thead
+        %tr
+          %th{ scope: 'col' }
             = t('.name_of_file')
-
-          = govuk_table_th_numeric do
+          %th{ scope: 'col' }
             = t('.file_size')
-
-          = govuk_table_th_numeric do
+          %th.numeric{ scope: 'col' }
             = t('.date_added')
-
-          = govuk_table_th_numeric do
+          %th.numeric{ scope: 'col' }
             = t('.actions')
 
-      = govuk_table_tbody do
+      %tbody
         - @claim.documents.each do |document|
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.name_of_file')) do
+          %tr
+            %td
               = document.document_file_name
-
-            = govuk_table_td_numeric('data-label': t('.file_size')) do
+            %td
               = number_to_human_size(document.document_file_size)
-
-            = govuk_table_td_numeric('data-label': t('.date_added')) do
+            %td.numeric
               = document.created_at.strftime(Settings.date_format)
-
-            = govuk_table_td_numeric('data-label': t('.actions')) do
-              .app-link-group
-                - if document.converted_preview_document.present?
-                  = govuk_link_to t('common.view_html', context: "#{document.document_file_name}")
-
-                = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), download_document_path(document)
+            %td.numeric
+              - if document.converted_preview_document.present?
+                = govuk_link_to t('common.view'),
+                          document_path(document),
+                          class: 'view',
+                          'aria-label': "Evidence: View document #{document.document_file_name}, opens in new window"
+                = ' | '
+              = govuk_link_to t('common.download'),
+                        download_document_path(document),
+                        class: 'download',
+                        'aria-label': "Evidence: Download document #{document.document_file_name}"

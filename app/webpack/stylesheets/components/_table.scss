@@ -171,40 +171,9 @@ table {
   display: none;
 }
 
+.app-table--responsive,
 .report {
-  td {
-    @include govuk-font(16);
-  }
-
-  .select {
-    width: 25px;
-  }
-
-  .case-number {
-    width: 100px;
-  }
-
-  .court {
-    width: 125px;
-  }
-
-  .submit-date {
-    width: 80px;
-  }
-
-  .claim-total {
-    width: 100px;
-  }
-
-  .type {
-    width: 200px;
-  }
-}
-
-@include govuk-media-query($until: desktop) {
-  .report {
-    border: 0;
-
+  @include govuk-media-query($until: desktop) {
     tr {
       display: block;
       margin-bottom: $gutter-one-third;
@@ -222,10 +191,6 @@ table {
         br {
           display: none;
         }
-      }
-
-      td:last-child {
-        border-bottom: 0;
       }
 
       &.mobile-sort {

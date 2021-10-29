@@ -62,7 +62,6 @@ $govuk-font-url-function: frontend-font-url;
 @import '~accessible-autocomplete/src/autocomplete';
 @import '~datatables.net-dt/css/jquery.dataTables';
 @import '~jquery-datatables-checkboxes/css/dataTables.checkboxes';
-@import 'tables';
 @import 'navigation';
 
 // Ported from v1 stylesheets
@@ -78,6 +77,7 @@ $govuk-font-url-function: frontend-font-url;
 
 @import 'components/card';
 @import 'components/code';
+@import 'components/table';
 @import 'components/tag';
 @import 'components/notification_banner';
 

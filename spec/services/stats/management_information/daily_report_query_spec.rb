@@ -267,6 +267,22 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       }
     end
 
+    describe ':misc_fees' do
+      subject { response.pluck(:misc_fees) }
+
+      before do
+        create(:advocate_final_claim, :allocated).tap do |claim|
+          claim.fees.clear
+          claim.fees << create(:misc_fee, :miaph_fee, claim: claim)
+          claim.fees << create(:misc_fee, :miahu_fee, claim: claim)
+        end
+      end
+
+      it {
+        is_expected.to match_array(['Abuse of process hearings (half day) Abuse of process hearings (half day uplift)'])
+      }
+    end
+
     context 'with claim state transitions' do
       subject(:response) { described_class.call }
 

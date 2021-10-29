@@ -102,6 +102,7 @@ module Stats
               earliest_representation_order.maat_reference as maat_reference,
               earliest_representation_order.representation_order_date as rep_order_issued_date,
               previous_redetermined_decision.author_name as af1_lf1_processed_by,
+              misc_fees.descriptions as misc_fees,
               j.journey as journey
             FROM claims c
             LEFT OUTER JOIN external_users AS creator
@@ -129,15 +130,15 @@ module Stats
             ) earliest_representation_order ON TRUE
             LEFT JOIN LATERAL (
               select
-               case
-                 when type in #{in_statement_for(agfs_claim_types)} then 'AGFS'
-                 when type in #{in_statement_for(lgfs_claim_types)} then 'LGFS'
-                 else 'Unknown'
-               end as scheme,
-               case
-                 when regexp_replace(type, 'Claim|::|Advocate|Litigator|\s+', '', 'g') = '' then 'Final'
-                 else regexp_replace(type, 'Claim|::|Advocate|Litigator|\s+', '', 'g')
-               end as sub_type
+                case
+                  when type in #{in_statement_for(agfs_claim_types)} then 'AGFS'
+                  when type in #{in_statement_for(lgfs_claim_types)} then 'LGFS'
+                  else 'Unknown'
+                end as scheme,
+                case
+                  when regexp_replace(type, 'Claim|::|Advocate|Litigator|\s+', '', 'g') = '' then 'Final'
+                  else regexp_replace(type, 'Claim|::|Advocate|Litigator|\s+', '', 'g')
+                end as sub_type
               from claims
               where id = c.id
               ) c2 ON TRUE
@@ -146,11 +147,19 @@ module Stats
               from journeys(c.id) j2,
                    jsonb_array_elements(j2.journey) transitions
               where j.journey -> 0 ->> 'to' = 'redetermination'
-              and transitions ->> 'to' = j.journey -> 0 ->> 'from'
-              and (transitions ->> 'created_at')::timestamp < (j.journey -> 0 ->> 'created_at')::timestamp
+                and transitions ->> 'to' = j.journey -> 0 ->> 'from'
+                and (transitions ->> 'created_at')::timestamp < (j.journey -> 0 ->> 'created_at')::timestamp
               order by (transitions ->> 'created_at')::timestamp desc
               fetch first row only
             ) previous_redetermined_decision ON TRUE
+            LEFT JOIN LATERAL (
+              select string_agg(ft.description, ' ') as descriptions
+              from fees f, fee_types ft
+              where f.claim_id = c.id
+                and f.fee_type_id = ft.id
+                and ft.type = 'Fee::MiscFeeType'
+              group by f.claim_id
+            ) misc_fees ON TRUE
             WHERE c.deleted_at IS NULL
               AND c.state != 'draft'
               AND c.type IN #{claim_type_filter}

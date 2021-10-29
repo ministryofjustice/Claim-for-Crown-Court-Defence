@@ -47,40 +47,11 @@ module Stats
         @claim_journeys ||= DailyReportQuery.call(scheme: @scheme)
       end
 
-      #
-      # - :id
-      # - :scheme
-      # - :case_number
-      # - :supplier_number
-      # - :organisation
-      # - :case_type_name
-      # - :bill_type
-      # - :claim_total
-      # - :submission_type
-      # - :transitioned_at
-      # - :last_submitted_at
-      # - :originally_submitted_at
-      # - :allocated_at
-      # - :completed_at
-      # - :current_or_end_state
-      # - :state_reason_code
-      # - :rejection_reason
-      # - :case_worker
-      # - :disk_evidence_case
-      # - :main_defendant
-      # - :maat_reference
-      # - :rep_order_issued_date
-      # - :af1_lf1_processed_by
-      # - :misc_fees
-
-      # TODO: complete all required columns (without any N+1 queries)
       def row(rec)
         presenter = Presenter.new(rec)
-        todos = %i[misc_fees]
 
         Settings
           .claim_csv_headers
-          .reject { |header| todos.include?(header) }
           .map { |header| presenter.send(header) }
       end
 

@@ -278,7 +278,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
       %i[id scheme case_number supplier_number
          organisation case_type_name bill_type
          claim_total main_defendant maat_reference
-         af1_lf1_processed_by]
+         af1_lf1_processed_by misc_fees]
     end
 
     it {

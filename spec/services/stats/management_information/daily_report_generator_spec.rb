@@ -160,6 +160,13 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
       }
 
       it { expect(rows['AF1/LF1 processed by']).to eql([nil, nil, 'Case Worker-one']) }
+
+      it {
+        expect(rows['Misc fees'])
+          .to match_array([agfs_claim.misc_fees.map {|f| f.fee_type.description }.join(' '),
+                           lgfs_claim.misc_fees.map {|f| f.fee_type.description }.join(' '),
+                           lgfs_claim.misc_fees.map {|f| f.fee_type.description }.join(' ')])
+      }
     end
 
     context 'when filtering by scheme' do

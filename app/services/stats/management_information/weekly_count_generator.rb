@@ -4,7 +4,7 @@ require 'csv'
 
 module Stats
   module ManagementInformation
-    class DailyCountGenerator
+    class WeeklyCountGenerator
       def self.call(options = {})
         new(options).call
       end
@@ -41,7 +41,7 @@ module Stats
       end
 
       def aggregations
-        @aggregations ||= DailyCountQuery.call(scheme: @scheme, day: Date.parse('2021-06-30'))
+        @aggregations ||= WeeklyCountQuery.call(scheme: @scheme, day: Date.parse('2021-06-30'))
       end
 
       def log_error(error)

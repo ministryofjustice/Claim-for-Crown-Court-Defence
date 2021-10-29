@@ -25,7 +25,7 @@ Dir.glob(File.join(__dir__, 'queries', '**', '*.rb')).each { |f| require_depende
 
 module Stats
   module ManagementInformation
-    class DailyCountQuery
+    class WeeklyCountQuery
       def self.call(options = {})
         new(options).call
       end

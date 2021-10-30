@@ -11,6 +11,7 @@ module Stats
 
       def initialize(options = {})
         @scheme = options[:scheme]
+        @day = options[:day]
       end
 
       def call
@@ -41,7 +42,7 @@ module Stats
       end
 
       def aggregations
-        @aggregations ||= WeeklyCountQuery.call(scheme: @scheme, day: Date.parse('2021-06-30'))
+        @aggregations ||= WeeklyCountQuery.call(scheme: @scheme, day: @day)
       end
 
       def log_error(error)

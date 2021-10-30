@@ -1,16 +1,30 @@
 module Stats
   class StatsReport < ApplicationRecord
-    TYPES = %w[management_information
-               agfs_management_information
-               lgfs_management_information
-               management_information_v2
-               agfs_management_information_v2
-               lgfs_management_information_v2
-               agfs_management_information_daily_statistics
-               lgfs_management_information_daily_statistics
-               provisional_assessment
-               rejections_refusals
-               submitted_claims].freeze
+    Report = Struct.new(:name, :date_required, keyword_init: true) do
+      def initialize(name:, date_required: false)
+        super
+      end
+
+      def date_required?
+        date_required
+      end
+
+      def to_s
+        name
+      end
+    end
+
+    REPORTS = [Report.new(name: 'management_information'),
+               Report.new(name: 'agfs_management_information'),
+               Report.new(name: 'lgfs_management_information'),
+               Report.new(name: 'management_information_v2'),
+               Report.new(name: 'agfs_management_information_v2'),
+               Report.new(name: 'lgfs_management_information_v2'),
+               Report.new(name: 'agfs_management_information_weekly_statistics', date_required: true),
+               Report.new(name: 'lgfs_management_information_weekly_statistics', date_required: true),
+               Report.new(name: 'provisional_assessment'),
+               Report.new(name: 'rejections_refusals'),
+               Report.new(name: 'submitted_claims')].freeze
 
     validates :status, inclusion: { in: %w[started completed error] }
 
@@ -27,25 +41,39 @@ module Stats
 
     has_one_attached :document
 
-    def self.clean_up(report_name)
-      destroy_reports_older_than(report_name, 1.month.ago)
-      destroy_unfinished_reports_older_than(report_name, 2.hours.ago)
-    end
+    class << self
+      def names
+        REPORTS.map(&:name)
+      end
 
-    def self.most_recent_by_type(report_type)
-      where(report_name: report_type).completed.first
-    end
+      def clean_up(report_name)
+        destroy_reports_older_than(report_name, 1.month.ago)
+        destroy_unfinished_reports_older_than(report_name, 2.hours.ago)
+      end
 
-    def self.most_recent_management_information
-      management_information.completed.first
-    end
+      def most_recent_by_type(report_type)
+        where(report_name: report_type).completed.first
+      end
 
-    def self.generation_in_progress?(report_name)
-      where('report_name = ? and status = ?', report_name, 'started').any?
-    end
+      def most_recent_management_information
+        management_information.completed.first
+      end
 
-    def self.record_start(report_name)
-      create!(report_name: report_name, status: 'started', started_at: Time.now)
+      def generation_in_progress?(report_name)
+        where('report_name = ? and status = ?', report_name, 'started').any?
+      end
+
+      def record_start(report_name)
+        create!(report_name: report_name, status: 'started', started_at: Time.now)
+      end
+
+      def destroy_reports_older_than(report_name, timestamp)
+        where(report_name: report_name, started_at: Time.at(0)..timestamp).destroy_all
+      end
+
+      def destroy_unfinished_reports_older_than(report_name, timestamp)
+        where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
+      end
     end
 
     def write_report(report_result)
@@ -60,14 +88,6 @@ module Stats
 
     def download_filename
       "#{report_name}_#{started_at.to_s(:number)}.csv"
-    end
-
-    def self.destroy_reports_older_than(report_name, timestamp)
-      where(report_name: report_name, started_at: Time.at(0)..timestamp).destroy_all
-    end
-
-    def self.destroy_unfinished_reports_older_than(report_name, timestamp)
-      where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
     end
 
     private

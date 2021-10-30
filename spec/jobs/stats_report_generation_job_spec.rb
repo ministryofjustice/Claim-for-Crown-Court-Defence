@@ -4,13 +4,15 @@ RSpec.describe StatsReportGenerationJob, type: :job do
   subject(:job) { described_class.new }
 
   describe '#perform' do
-    subject(:perform) { job.perform(report_type) }
+    subject(:perform) { job.perform('any_old_report_name', my_option: 1) }
 
-    let(:report_type) { 'provisional_assessment' }
+    before do
+      allow(Stats::StatsReportGenerator).to receive(:call).with(instance_of(String), instance_of(Hash))
+    end
 
     it 'calls the stats report generator with the provided report type' do
-      expect(Stats::StatsReportGenerator).to receive(:call).with(report_type)
       perform
+      expect(Stats::StatsReportGenerator).to have_received(:call).with('any_old_report_name', my_option: 1)
     end
   end
 end

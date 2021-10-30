@@ -1,12 +1,12 @@
 class StatsReportGenerationJob < ApplicationJob
   queue_as :stats_reports
 
-  def perform(report_type)
+  def perform(report_type, options = {})
     LogStuff.send(:info, class: self.class.name, action: 'perform') do
       "Stats report job starting for report type: #{report_type}"
     end
 
-    Stats::StatsReportGenerator.call(report_type)
+    Stats::StatsReportGenerator.call(report_type, options)
 
     LogStuff.send(:info, class: self.class.name, action: 'perform') do
       "Stats report job finished for report type: #{report_type}"

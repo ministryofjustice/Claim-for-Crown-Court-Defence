@@ -17,20 +17,21 @@ module Stats
           { class: Stats::ManagementInformation::DailyReportGenerator, args: [{ scheme: :agfs }] },
         lgfs_management_information_v2:
           { class: Stats::ManagementInformation::DailyReportGenerator, args: [{ scheme: :lgfs }] },
-        agfs_management_information_daily_statistics:
-          { class: Stats::ManagementInformation::DailyCountGenerator, args: [{ scheme: :agfs }] },
-        lgfs_management_information_daily_statistics:
-          { class: Stats::ManagementInformation::DailyCountGenerator, args: [{ scheme: :lgfs }] }
+        agfs_management_information_weekly_statistics:
+          { class: Stats::ManagementInformation::WeeklyCountGenerator, args: [{ scheme: :agfs }] },
+        lgfs_management_information_weekly_statistics:
+          { class: Stats::ManagementInformation::WeeklyCountGenerator, args: [{ scheme: :lgfs }] }
       )[report_type.to_sym]
     end
     # rubocop:enable Metrics/MethodLength
 
-    def self.call(report_type)
-      new(report_type).call
+    def self.call(report_type, options = {})
+      new(report_type, options).call
     end
 
-    def initialize(report_type)
+    def initialize(report_type, options = {})
       @report_type = report_type
+      @options = options
     end
 
     def call
@@ -48,15 +49,15 @@ module Stats
 
     private
 
-    attr_reader :report_type
+    attr_reader :report_type, :options
 
     def validate_report_type
-      raise InvalidReportType unless StatsReport::TYPES.include?(report_type.to_s)
+      raise InvalidReportType unless StatsReport.names.include?(report_type.to_s)
     end
 
     def generate_new_report
       generator = self.class.for(report_type)
-      generator[:class].call(*generator[:args])
+      generator[:class].call(options.merge(*generator[:args]))
     end
 
     def notify_error(report_record, error)

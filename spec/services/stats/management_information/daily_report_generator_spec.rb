@@ -163,9 +163,9 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
 
       it {
         expect(rows['Misc fees'])
-          .to match_array([agfs_claim.misc_fees.map {|f| f.fee_type.description }.join(' '),
-                           lgfs_claim.misc_fees.map {|f| f.fee_type.description }.join(' '),
-                           lgfs_claim.misc_fees.map {|f| f.fee_type.description }.join(' ')])
+          .to match_array([agfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' '),
+                           lgfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' '),
+                           lgfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' ')])
       }
     end
 

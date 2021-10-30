@@ -2477,42 +2477,47 @@ en:
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported
+        create:
+          invalid_report_type: *invalid_report_type
+          invalid_report_date: The supplied date is invalid
         download:
           invalid_report_type: *invalid_report_type
           missing_report: The requested report is missing
         generate:
           invalid_report_type: *invalid_report_type
         index:
-          page_title: View management information
-          page_heading: Reports
           all_claims_report: 'All claims report'
-          report_generated_at: "The latest report was generated at %{time}"
+          date_hint: For example 31 3 2017
           day: Day
-          month: Month
-          year: Year
-          example_date: "For example, 31 3 1980"
-          report_types:
-            agfs_management_information: AGFS management information
-            agfs_management_information_v2: AGFS management information V2
-            agfs_management_information_daily_statistics: AGFS Management information V2 weekly statistics
-            lgfs_management_information: LGFS management information
-            lgfs_management_information_v2: LGFS management information V2
-            lgfs_management_information_daily_statistics: LGFS Management information V2 weekly statistics
-            management_information: Management information
-            management_information_v2: Management information V2
-            provisional_assessment: Provisional assessment
-            rejections_refusals: 'Rejections/Refusals'
-          unavailable_report: "There is currently no report available"
+          day_in_week: Day in week
           download: Download
           end_date: End date
+          example_date: "For example, 31 3 2020"
+          example_day_in_week: "For example, 05 08 2021 will generate report for Saturday 03/08/2021 to Friday 09/08/2021"
+          month: Month
+          page_heading: Reports
+          page_title: View management information
           provisional_assessments_by_date: Provisional assessment by date
           regenerate: Regenerate
           report_information: |
             These reports are not saved and are generated on demand
           report_instructions: |
             Click 'Download' to download the report now, or click 'Regenerate' to generate a more up to date report and refresh this page in a few minutes to download the new report.
+          report_generated_at: "The latest report was generated at %{time}"
+          report_types:
+            agfs_management_information: AGFS management information
+            agfs_management_information_v2: AGFS management information V2
+            agfs_management_information_weekly_statistics: AGFS Management information V2 weekly statistics
+            lgfs_management_information: LGFS management information
+            lgfs_management_information_v2: LGFS management information V2
+            lgfs_management_information_weekly_statistics: LGFS Management information V2 weekly statistics
+            management_information: Management information
+            management_information_v2: Management information V2
+            provisional_assessment: Provisional assessment
+            rejections_refusals: 'Rejections/Refusals'
           start_date: Start date
-          date_hint: For example 31 3 2017
+          unavailable_report: "There is currently no report available"
+          year: Year
         job_scheduled: 'A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.'
     claims:
       archived:

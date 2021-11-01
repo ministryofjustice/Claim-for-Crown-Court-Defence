@@ -34,8 +34,7 @@ module FactoryHelpers
   def authorise_claim(claim)
     allocate_claim(claim)
     assign_fees_and_expenses_for(claim)
-    claim.authorise!
-    claim.last_decision_transition.update_author_id(claim.case_workers.first.user.id)
+    claim.authorise!({ author_id: claim.case_workers.first.user.id })
   end
 
   def advance_to_pending_delete(claim)

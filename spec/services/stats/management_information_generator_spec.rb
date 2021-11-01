@@ -63,7 +63,7 @@ RSpec.describe Stats::ManagementInformationGenerator do
     end
 
     context 'with AGFS scope' do
-      subject(:call) { described_class.new({ claim_scope: :agfs }).call }
+      subject(:call) { described_class.new({ scheme: :agfs }).call }
 
       it 'returns rows of AGFS active non-draft claims' do
         expect(csv['Scheme']).to match_array(%w[AGFS] * 4)
@@ -71,7 +71,7 @@ RSpec.describe Stats::ManagementInformationGenerator do
     end
 
     context 'with LGFS scope' do
-      subject(:call) { described_class.new({ claim_scope: :lgfs }).call }
+      subject(:call) { described_class.new({ scheme: :lgfs }).call }
 
       it 'returns rows of LGFS active non-draft claims' do
         expect(csv['Scheme']).to match_array(%w[LGFS] * 2)

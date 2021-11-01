@@ -3,6 +3,9 @@ module Stats
     TYPES = %w[management_information
                agfs_management_information
                lgfs_management_information
+               management_information_v2
+               agfs_management_information_v2
+               lgfs_management_information_v2
                provisional_assessment
                rejections_refusals
                submitted_claims].freeze

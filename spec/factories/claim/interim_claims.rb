@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :interim_claim, class: 'Claim::InterimClaim' do
+  factory :interim_claim, aliases: [:litigator_interim_claim], class: 'Claim::InterimClaim' do
     litigator_base_setup
     case_concluded_at { nil }
 

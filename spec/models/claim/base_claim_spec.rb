@@ -90,6 +90,10 @@ RSpec.describe Claim::BaseClaim do
     end
   end
 
+  describe '.claim_types' do
+    specify { expect(described_class.claim_types.map(&:to_s)).to match_array(agfs_claim_object_types | lgfs_claim_object_types) }
+  end
+
   describe '.agfs_claim_types' do
     specify { expect(described_class.agfs_claim_types.map(&:to_s)).to match_array(agfs_claim_object_types) }
   end

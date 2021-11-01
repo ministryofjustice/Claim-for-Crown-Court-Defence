@@ -10,7 +10,7 @@ module Stats
 
     def initialize(options = {})
       @format = options.fetch(:format, DEFAULT_FORMAT)
-      @claim_scope = options.fetch(:claim_scope, :all)
+      @scheme = options.fetch(:scheme, :all)
     end
 
     def call
@@ -27,7 +27,7 @@ module Stats
     end
 
     def claims
-      Claim::BaseClaim.active.non_draft.send(@claim_scope)
+      Claim::BaseClaim.active.non_draft.send(@scheme)
     end
 
     # TODO: separate data retrieval from exporting the data itself

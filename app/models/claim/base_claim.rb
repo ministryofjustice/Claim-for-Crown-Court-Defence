@@ -247,6 +247,10 @@ module Claim
       will_save_change_to_case_transferred_from_another_court?
     end
 
+    def self.claim_types
+      agfs_claim_types | lgfs_claim_types
+    end
+
     def self.agfs_claim_types
       [Claim::AdvocateClaim,
        Claim::AdvocateInterimClaim,

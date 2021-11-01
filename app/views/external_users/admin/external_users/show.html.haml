@@ -3,39 +3,24 @@
 
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
-.body-content
-  .table-container
-    %table
-      %caption
-        = t('.table_caption')
-      %colgroup
-        %col
-        %col
-      %tbody
-        %tr
-          %th{ scope: 'row' }
-            = t('.name')
-          %td
-            = @external_user.name
-        %tr
-          %th{ scope: 'row' }
-            = t('.email')
-          %td
-            = govuk_mail_to @external_user.email, @external_user.email
-        %tr
-          %th{ scope: 'row' }
-            = t('.roles')
-          %td
-            = @external_user.roles.map(&:humanize).join(', ')
-        %tr
-          %th{ scope: 'row' }
-            = t('.supplier_number')
-          %td
-            = @external_user.supplier_number
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = govuk_summary_list do
+      = govuk_summary_list_row(t('.name')) do
+        = @external_user.name
 
-  .form-group
-    - if can? :edit, @external_user
-      = govuk_link_button_secondary(t('.edit'), edit_external_users_admin_external_user_path(@external_user))
+      = govuk_summary_list_row(t('.email')) do
+        = govuk_mail_to @external_user.email, @external_user.email
 
-    - if can? :change_password, @external_user
-      = govuk_link_button_secondary(t('.change_password'), change_password_external_users_admin_external_user_path(@external_user))
+      = govuk_summary_list_row(t('.roles')) do
+        = @external_user.roles.map(&:humanize).join(', ')
+
+      = govuk_summary_list_row(t('.supplier_number')) do
+        = @external_user.supplier_number
+
+    .govuk-button-group
+      - if can? :edit, @external_user
+        = govuk_link_button(t('.edit'), edit_external_users_admin_external_user_path(@external_user))
+
+      - if can? :change_password, @external_user
+        = govuk_link_button_secondary(t('.change_password'), change_password_external_users_admin_external_user_path(@external_user))

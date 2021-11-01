@@ -715,10 +715,10 @@ en:
         show:
           page_title: View your account details
           table_caption: Your account details
-          name: 'Name:'
-          email: 'Email:'
-          roles: 'Roles:'
-          supplier_number: 'Supplier number:'
+          name: Name
+          email: Email
+          roles: Roles
+          supplier_number: Supplier number
           edit: Edit
           change_password: *change_password
           page_heading: Your account

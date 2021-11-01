@@ -4,13 +4,13 @@ module Stats
   class ManagementInformationGenerator
     DEFAULT_FORMAT = 'csv'.freeze
 
-    def self.call(options = {})
-      new(options).call
+    def self.call(**kwargs)
+      new(kwargs).call
     end
 
-    def initialize(options = {})
-      @format = options.fetch(:format, DEFAULT_FORMAT)
-      @scheme = options.fetch(:scheme, :all)
+    def initialize(**kwargs)
+      @format = kwargs.fetch(:format, DEFAULT_FORMAT)
+      @scheme = kwargs.fetch(:scheme, :all)
     end
 
     def call

@@ -2477,9 +2477,11 @@ en:
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported
+        validate_and_set_date:
+          invalid_report_date: &invalid_report_date The supplied date is invalid
         create:
           invalid_report_type: *invalid_report_type
-          invalid_report_date: The supplied date is invalid
+          invalid_report_date: *invalid_report_date
         download:
           invalid_report_type: *invalid_report_type
           missing_report: The requested report is missing

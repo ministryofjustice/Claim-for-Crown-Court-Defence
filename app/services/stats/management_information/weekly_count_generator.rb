@@ -10,8 +10,10 @@ module Stats
       end
 
       def initialize(options = {})
-        @scheme = options[:scheme]
+        @scheme = options[:scheme]&.to_s&.upcase
         @day = options[:day]
+        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
+        raise ArgumentError, 'day must be provided' if @day.blank?
       end
 
       def call
@@ -33,7 +35,7 @@ module Stats
 
       def generate_csv
         CSV.generate do |csv|
-          csv << %w[Name Saturday Sunday Monday Tuesday Wednesday Thursday Friday]
+          csv << headers
           aggregations.each do |rec|
             csv << [rec[:name], rec[:saturday], rec[:sunday], rec[:monday],
                     rec[:tuesday], rec[:wednesday], rec[:thursday], rec[:friday]]
@@ -41,8 +43,16 @@ module Stats
         end
       end
 
+      def headers
+        week_range.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name')
+      end
+
       def aggregations
-        @aggregations ||= WeeklyCountQuery.call(scheme: @scheme, day: @day)
+        @aggregations ||= WeeklyCountQuery.call(scheme: @scheme, date_range: week_range)
+      end
+
+      def week_range
+        @day.beginning_of_week(:saturday)..@day.end_of_week(:saturday)
       end
 
       def log_error(error)

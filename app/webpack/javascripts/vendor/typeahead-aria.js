@@ -33,8 +33,12 @@
             isNumber: function(obj) {
                 return typeof obj === "number";
             },
-            isArray: $.isArray,
-            isFunction: $.isFunction,
+            isArray: function isArray(obj) {
+              return ({}.toString).call(obj) === '[object Array]';
+            },
+            isFunction: function(obj) {
+              return typeof obj === 'function';
+            },
             isObject: $.isPlainObject,
             isUndefined: function(obj) {
                 return typeof obj === "undefined";
@@ -95,7 +99,7 @@
                 };
             },
             templatify: function templatify(obj) {
-                return $.isFunction(obj) ? obj : template;
+              return (typeof obj === 'function') ? obj : template;
                 function template() {
                     return String(obj);
                 }
@@ -334,7 +338,7 @@
             return JSON.stringify(_.isUndefined(val) ? null : val);
         }
         function decode(val) {
-            return $.parseJSON(val);
+            return JSON.parse(val);
         }
         function gatherMatchingKeys(keyMatcher) {
             var i, key, keys = [], len = LOCAL_STORAGE.length;
@@ -953,8 +957,12 @@
             isNumber: function(obj) {
                 return typeof obj === "number";
             },
-            isArray: $.isArray,
-            isFunction: $.isFunction,
+            isArray: function isArray(obj) {
+              return ({}.toString).call(obj) === '[object Array]';
+            },
+            isFunction: function(obj) {
+              return typeof obj === 'function';
+            },
             isObject: $.isPlainObject,
             isUndefined: function(obj) {
                 return typeof obj === "undefined";
@@ -1015,7 +1023,7 @@
                 };
             },
             templatify: function templatify(obj) {
-                return $.isFunction(obj) ? obj : template;
+              return (typeof obj === 'function') ? obj : template;
                 function template() {
                     return String(obj);
                 }
@@ -1482,7 +1490,7 @@
                 return this;
             },
             focus: function focus() {
-                this.$input.focus();
+                this.$input.trigger('focus');
             },
             blur: function blur() {
                 this.$input.blur();
@@ -2060,7 +2068,7 @@
                         $e.preventDefault();
                         $e.stopImmediatePropagation();
                         _.defer(function() {
-                            $input.focus();
+                            $input.trigger('focus');
                         });
                     }
                 });

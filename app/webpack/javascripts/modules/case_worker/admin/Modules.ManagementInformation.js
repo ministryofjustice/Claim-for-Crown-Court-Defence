@@ -60,7 +60,7 @@ moj.Modules.ManagementInformation = {
         .attr('aria-disabled', true)
     }
     this.$download
-      .attr('href', false)
+      .removeAttr('href')
       .attr('aria-disabled', false)
   },
 

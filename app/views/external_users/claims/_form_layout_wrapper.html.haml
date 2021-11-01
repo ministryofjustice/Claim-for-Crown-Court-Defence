@@ -2,7 +2,7 @@
   .govuk-grid-row
     .govuk-grid-column-two-thirds
       = render partial: 'form', locals: { claim: claim }
-    .govuk-grid-column-one-third
+    %aside.govuk-grid-column-one-third.stick-at-top
       - if claim.show_sidebar?
         = render partial: 'external_users/claims/summary_claims_sidebar', locals: { claim: claim }
       - else

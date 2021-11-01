@@ -72,3 +72,16 @@ body {
   @include govuk-responsive-margin(9, "bottom");
   position: relative;
 }
+
+// Replacement for stick-at-top-when-scrolling
+.stick-at-top {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+
+  &:before, // clearfix
+  &:after {
+    content: '';
+    display: table;
+  }
+}

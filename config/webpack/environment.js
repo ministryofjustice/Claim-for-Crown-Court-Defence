@@ -8,12 +8,10 @@ environment.plugins.append('ConcatPlugin', new ConcatPlugin({
   fileName: 'application.bundle.js',
   filesToConcat: [
     'jquery',
-    process.env.RAILS_ENV === 'development' ? 'jquery-migrate' : 'jquery-migrate/dist/jquery-migrate.min.js',
     'jquery-ujs',
     'jquery.iframe-transport',
     'dropzone',
-    'govuk_frontend_toolkit/javascripts/govuk/stick-at-top-when-scrolling.js',
-    'govuk_frontend_toolkit/javascripts/govuk/stop-scrolling-at-footer.js',
+    'stickyfilljs',
     'jquery-accessible-accordion-aria',
     'jsrender',
     'jquery-highlight',

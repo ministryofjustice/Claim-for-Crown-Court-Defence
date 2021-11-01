@@ -7,22 +7,36 @@
   .govuk-grid-column-two-thirds
     = govuk_inset_text do
       = t('.report_instructions')
-
-    - @available_report_types.each do |report_type, report|
-      - report_name = t(".report_types.#{report_type}_html")
+    - @available_reports.each do |report_object, report_rec|
       .form-section
-        %h2.govuk-heading-l{ id: "heading-#{report_type}" }
-          = report_name
-        %p{ role: 'group', 'aria-labelledby': "heading-#{report_type}" }
-          - if report&.started_at
-            = t('.report_generated_at', time: report.started_at.strftime(Settings.report_date_format))
+        %h2.govuk-heading-l{ id: "heading-#{report_object}" }
+          = t(".report_types.#{report_object}_html")
+
+        %p{ role: 'group', 'aria-labelledby': "heading-#{report_object}" }
+          - if report_rec&.started_at
+            = t('.report_generated_at', time: report_rec.started_at.strftime(Settings.report_date_format))
           - else
             = t('.unavailable_report')
-        %p
-          - if report&.started_at.present?
-            = govuk_link_button(t('.download'), case_workers_admin_management_information_download_url(report_type: report_type, format: :csv))
 
-          = govuk_link_button_secondary(t('.update_report'), case_workers_admin_management_information_generate_url(report_type: report_type))
+          - # TODO: move to weekly statistics or store logic against TYPES array
+          - if report_object.date_required?
+            = form_with url: case_workers_admin_management_information_create_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+              = f.hidden_field :report_type, value: report_object.name
+              = f.govuk_date_field :day,
+                                   legend: { text: t('.day_in_week') },
+                                   hint: { text: t('.example_day_in_week') }
+
+              - if report_rec&.started_at.present?
+                = govuk_link_button(t('.download'), case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
+
+              = f.govuk_submit t('.regenerate')
+
+          - else
+            %p
+              - if report_rec&.started_at.present?
+                = govuk_link_button(t('.download'), case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
+
+              = govuk_link_button(t('.regenerate'), case_workers_admin_management_information_generate_url(report_type: report_object.name))
 
     #provisional-assessment-date.form-section.fx-dates-chooser
       %h2.govuk-heading-l
@@ -44,4 +58,3 @@
             hint: { text: t('.example_date') }
 
       = govuk_link_button(t('.download'), '', disabled: 'true', id: 'provisional_assessments_date_download')
-

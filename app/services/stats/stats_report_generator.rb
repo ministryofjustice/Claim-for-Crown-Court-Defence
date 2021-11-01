@@ -48,7 +48,7 @@ module Stats
     attr_reader :report_type, :options
 
     def validate_report_type
-      raise InvalidReportType unless StatsReport::TYPES.include?(report_type.to_s)
+      raise InvalidReportType unless StatsReport.names.include?(report_type.to_s)
     end
 
     def generate_new_report

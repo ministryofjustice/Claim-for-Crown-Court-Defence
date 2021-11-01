@@ -355,6 +355,7 @@ Metrics/ModuleLength:
     - 'spec/models/fee/base_fee_spec.rb'
     - 'spec/support/validation_helpers.rb'
 
+
 # Offense count: 2
 # Configuration parameters: Max, CountKeywordArgs, MaxOptionalParameters.
 Metrics/ParameterLists:

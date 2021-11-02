@@ -1,7 +1,7 @@
 module Stats
-  class ReportGenerator
-    def self.call(*args)
-      new(*args).call
+  class SimpleReportGenerator
+    def self.call(**kwargs)
+      new(kwargs).call
     end
 
     def call
@@ -10,9 +10,9 @@ module Stats
       Stats::Result.new(output, @format)
     end
 
-    def initialize(report, format: 'csv')
-      @report = report
-      @format = format
+    def initialize(**kwargs)
+      @report = kwargs[:report_type]
+      @format = kwargs.fetch(:format, 'csv')
     end
 
     private

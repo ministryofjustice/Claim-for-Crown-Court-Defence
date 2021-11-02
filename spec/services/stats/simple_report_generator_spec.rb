@@ -10,38 +10,38 @@ RSpec.shared_examples 'a stats report CSV exporter' do
     allow(Stats::CsvExporter).to receive(:call).with(mocked_data, headers: headers).and_return(csv_exporter_output)
   end
 
-  it 'uses the the correct reporter' do
-    result
+  it 'uses the correct reporter' do
+    call
     expect(reporter).to have_received(:call)
   end
 
   it { is_expected.to be_kind_of(Stats::Result) }
-  it { expect(result.content).to eq(csv_exporter_output) }
-  it { expect(result.format).to eq('csv') }
+  it { expect(call.content).to eq(csv_exporter_output) }
+  it { expect(call.format).to eq('csv') }
 end
 
-RSpec.describe Stats::ReportGenerator, type: :service do
+RSpec.describe Stats::SimpleReportGenerator, type: :service do
   describe '.call' do
-    subject(:result) { described_class.call(report, **options) }
+    subject(:call) { described_class.call(**options) }
 
-    let(:options) { {} }
+    let(:options) { { report_type: report_type } }
 
     context 'with a provisional assessment report' do
-      let(:report) { 'provisional_assessment' }
+      let(:report_type) { 'provisional_assessment' }
       let(:reporter) { Reports::ProvisionalAssessments }
 
       it_behaves_like 'a stats report CSV exporter'
     end
 
     context 'with a rejections refusals report' do
-      let(:report) { 'rejections_refusals' }
+      let(:report_type) { 'rejections_refusals' }
       let(:reporter) { Reports::RejectionsRefusals }
 
       it_behaves_like 'a stats report CSV exporter'
     end
 
     context 'with a submitted claims report' do
-      let(:report) { 'submitted_claims' }
+      let(:report_type) { 'submitted_claims' }
       let(:reporter) { Reports::SubmittedClaims }
 
       it_behaves_like 'a stats report CSV exporter'

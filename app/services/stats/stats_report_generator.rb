@@ -2,24 +2,17 @@ module Stats
   class StatsReportGenerator
     class InvalidReportType < StandardError; end
 
-    # rubocop:disable Metrics/MethodLength
-    def self.for(report_type)
-      Hash.new({ class: ReportGenerator, args: [report_type] }).merge(
-        management_information:
-          { class: ManagementInformationGenerator, args: [] },
-        agfs_management_information:
-          { class: ManagementInformationGenerator, args: [{ scheme: :agfs }] },
-        lgfs_management_information:
-          { class: ManagementInformationGenerator, args: [{ scheme: :lgfs }] },
-        management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, args: [] },
-        agfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, args: [{ scheme: :agfs }] },
-        lgfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, args: [{ scheme: :lgfs }] }
-      )[report_type.to_sym]
-    end
-    # rubocop:enable Metrics/MethodLength
+    GENERATOR_FACTORIES = {
+      management_information: Stats::StatsReportFactory::ManagementInformation,
+      management_information_v2: Stats::StatsReportFactory::ManagementInformationV2,
+      agfs_management_information: Stats::StatsReportFactory::AgfsManagementInformation,
+      agfs_management_information_v2: Stats::StatsReportFactory::AgfsManagementInformationV2,
+      lgfs_management_information: Stats::StatsReportFactory::LgfsManagementInformation,
+      lgfs_management_information_v2: Stats::StatsReportFactory::LgfsManagementInformationV2,
+      provisional_assessment: Stats::StatsReportFactory::ProvisionalAssessment,
+      rejections_refusals: Stats::StatsReportFactory::RejectionsRefusals,
+      submitted_claims: Stats::StatsReportFactory::SubmittedClaims
+    }.freeze
 
     def self.call(report_type, options = {})
       new(report_type, options).call
@@ -52,8 +45,9 @@ module Stats
     end
 
     def generate_new_report
-      generator = self.class.for(report_type)
-      generator[:class].call(*generator[:args])
+      GENERATOR_FACTORIES[report_type.to_sym].generator(options).call
+      # or
+      # Stats::StatsReportFactory.const_get(report_type.camelize).generator(options).call
     end
 
     def notify_error(report_record, error)

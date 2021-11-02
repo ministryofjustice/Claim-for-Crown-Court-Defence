@@ -31,14 +31,18 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
     context 'with a valid report type that is not already in progress' do
       let(:mocked_result) { Stats::Result.new('some new content', 'csv') }
 
+      before { allow(generator).to receive(:call).and_return(mocked_result) }
+
       context 'with generic report type' do
         let(:report_type) { 'submitted_claims' }
 
-        before { allow(Stats::ReportGenerator).to receive(:call).and_return(mocked_result) }
+        let(:generator) { instance_double(Stats::ReportGenerator) }
+
+        before { allow(Stats::ReportGenerator).to receive(:new).and_return(generator) }
 
         it 'calls report generator' do
           call
-          expect(Stats::ReportGenerator).to have_received(:call)
+          expect(Stats::ReportGenerator).to have_received(:new)
         end
 
         it 'marks report as completed' do
@@ -55,12 +59,13 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
 
       context 'with management information report' do
         let(:report_type) { 'management_information' }
+        let(:generator) { instance_double(Stats::ManagementInformationGenerator) }
 
-        before { allow(Stats::ManagementInformationGenerator).to receive(:call).and_return(mocked_result) }
+        before { allow(Stats::ManagementInformationGenerator).to receive(:new).and_return(generator) }
 
         it 'calls management information generator with no claim scope' do
           call
-          expect(Stats::ManagementInformationGenerator).to have_received(:call).with(no_args)
+          expect(Stats::ManagementInformationGenerator).to have_received(:new).with(no_args)
         end
 
         it 'marks report as completed' do
@@ -77,32 +82,36 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
 
       context 'with AGFS management information report' do
         let(:report_type) { 'agfs_management_information' }
+        let(:generator) { instance_double(Stats::ManagementInformationGenerator) }
 
-        before { allow(Stats::ManagementInformationGenerator).to receive(:call).and_return(mocked_result) }
+        before { allow(Stats::ManagementInformationGenerator).to receive(:new).and_return(generator) }
 
         it 'calls management information generator with agfs scope' do
           call
-          expect(Stats::ManagementInformationGenerator).to have_received(:call).with({ scheme: :agfs })
+          expect(Stats::ManagementInformationGenerator).to have_received(:new).with({ scheme: :agfs })
         end
       end
 
       context 'with LGFS management information report' do
         let(:report_type) { 'lgfs_management_information' }
+        let(:generator) { instance_double(Stats::ManagementInformationGenerator) }
 
-        before { allow(Stats::ManagementInformationGenerator).to receive(:call).and_return(mocked_result) }
+        before { allow(Stats::ManagementInformationGenerator).to receive(:new).and_return(generator) }
 
         it 'calls management information generator with lgfs scope' do
           call
-          expect(Stats::ManagementInformationGenerator).to have_received(:call).with({ scheme: :lgfs })
+          expect(Stats::ManagementInformationGenerator).to have_received(:new).with({ scheme: :lgfs })
         end
       end
     end
 
     context 'with an unexpected error' do
       let(:report_type) { 'management_information' }
+      let(:generator) { instance_double(Stats::ManagementInformationGenerator) }
 
       before do
-        allow(Stats::ManagementInformationGenerator).to receive(:call).and_raise(StandardError)
+        allow(Stats::ManagementInformationGenerator).to receive(:new).and_return(generator)
+        allow(generator).to receive(:call).and_raise(StandardError)
       end
 
       it 'marks report as errored' do

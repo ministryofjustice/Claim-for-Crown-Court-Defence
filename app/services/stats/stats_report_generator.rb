@@ -25,13 +25,13 @@ module Stats
     end
     # rubocop:enable Metrics/MethodLength
 
-    def self.call(report_type, options = {})
-      new(report_type, options).call
+    def self.call(**kwargs)
+      new(kwargs).call
     end
 
-    def initialize(report_type, options = {})
-      @report_type = report_type
-      @options = options
+    def initialize(**kwargs)
+      @report_type = kwargs[:report_type]
+      @options = kwargs
     end
 
     def call

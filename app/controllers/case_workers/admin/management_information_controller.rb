@@ -26,13 +26,13 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   end
 
   def generate
-    StatsReportGenerationJob.perform_later(params[:report_type])
+    StatsReportGenerationJob.perform_later(report_type: params[:report_type])
     message = t('case_workers.admin.management_information.job_scheduled')
     redirect_to case_workers_admin_management_information_url, flash: { notification: message }
   end
 
   def create
-    StatsReportGenerationJob.perform_later(report_params[:report_type], day: @day)
+    StatsReportGenerationJob.perform_later(report_type: report_params[:report_type], day: @day)
     message = t('case_workers.admin.management_information.job_scheduled')
     redirect_to case_workers_admin_management_information_url, alert: message
   end
@@ -58,8 +58,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   end
 
   def log_download_start
-    LogStuff.send(:info,
-                  class: 'CaseWorkers::Admin::ManagementInformationController',
+    LogStuff.info(class: 'CaseWorkers::Admin::ManagementInformationController',
                   action: 'download',
                   downloading_user_id: @current_user&.id) do
       'MI Report download started'

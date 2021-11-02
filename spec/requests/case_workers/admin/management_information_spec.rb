@@ -144,23 +144,24 @@ RSpec.describe 'Management information administration', type: :request do
     context 'with a valid report type' do
       let(:report_type) { 'management_information' }
 
-      before do
-        allow(StatsReportGenerationJob).to receive(:perform_later).with(report_type)
+      before { ActiveJob::Base.queue_adapter = :test }
+
+      it 'enqueues a StatsReportGenerationJob for specified report' do
+        request
+        expect(StatsReportGenerationJob)
+          .to have_been_enqueued.with(report_type: report_type)
+                                .on_queue('stats_reports')
+                                .at(:no_wait)
       end
 
-      it { is_expected.to redirect_to(case_workers_admin_management_information_url) }
-
-      it 'displays message to indicate background job scheduled' do
+      it 'displays message to indicate background job enqueued' do
         request
         expect(flash[:alert])
           .to eq('A background job has been scheduled to regenerate the report. ' \
                  'Please refresh this page in a few minutes.')
       end
 
-      it 'starts a ManagemenInformationGeneration job' do
-        request
-        expect(StatsReportGenerationJob).to have_received(:perform_later).with(report_type)
-      end
+      it { is_expected.to redirect_to(case_workers_admin_management_information_url) }
     end
 
     context 'with an invalid report type' do
@@ -173,16 +174,31 @@ RSpec.describe 'Management information administration', type: :request do
   describe '#POST /case_workers/admin/management_information/create' do
     subject(:request) { post case_workers_admin_management_information_create_path(params: params) }
 
-    before do
-      allow(StatsReportGenerationJob).to receive(:perform_later).with(instance_of(String), day: instance_of(Date))
-    end
+    before { ActiveJob::Base.queue_adapter = :test }
 
     context 'with a valid report type and valid date' do
       let(:params) do
-        { report_type: 'agfs_management_information_weekly_statistics',
+        { report_type: report_type,
           'day(3i)' => '25',
           'day(2i)' => '12',
           'day(1i)' => '2020' }
+      end
+
+      let(:report_type) { 'agfs_management_information_weekly_statistics' }
+
+      it 'enqueues a StatsReportGenerationJob for specified report with date' do
+        request
+        expect(StatsReportGenerationJob)
+          .to have_been_enqueued.with(report_type: report_type, day: Date.parse('2020-12-25'))
+                                .on_queue('stats_reports')
+                                .at(:no_wait)
+      end
+
+      it 'displays message to indicate background job enqueued' do
+        request
+        expect(flash[:alert])
+          .to eq('A background job has been scheduled to regenerate the report. ' \
+                 'Please refresh this page in a few minutes.')
       end
 
       it 'returns http redirect' do
@@ -191,20 +207,6 @@ RSpec.describe 'Management information administration', type: :request do
       end
 
       it { is_expected.to redirect_to(case_workers_admin_management_information_url) }
-
-      it 'starts a StatsReportGenerationJob for report with a date' do
-        request
-        expect(StatsReportGenerationJob)
-          .to have_received(:perform_later)
-          .with('agfs_management_information_weekly_statistics', day: Date.parse('2020-12-25'))
-      end
-
-      it 'displays message to indicate background job scheduled' do
-        request
-        expect(flash[:alert])
-          .to eq('A background job has been scheduled to regenerate the report. ' \
-                 'Please refresh this page in a few minutes.')
-      end
     end
 
     context 'with an invalid report type and valid date' do

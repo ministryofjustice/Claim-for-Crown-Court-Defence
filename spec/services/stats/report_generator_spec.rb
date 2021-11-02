@@ -22,26 +22,21 @@ end
 
 RSpec.describe Stats::ReportGenerator, type: :service do
   describe '.call' do
-    subject(:result) { described_class.call(report, **options) }
-
-    let(:options) { {} }
+    subject(:result) { described_class.call(report_klass: reporter) }
 
     context 'with a provisional assessment report' do
-      let(:report) { 'provisional_assessment' }
       let(:reporter) { Reports::ProvisionalAssessments }
 
       it_behaves_like 'a stats report CSV exporter'
     end
 
     context 'with a rejections refusals report' do
-      let(:report) { 'rejections_refusals' }
       let(:reporter) { Reports::RejectionsRefusals }
 
       it_behaves_like 'a stats report CSV exporter'
     end
 
     context 'with a submitted claims report' do
-      let(:report) { 'submitted_claims' }
       let(:reporter) { Reports::SubmittedClaims }
 
       it_behaves_like 'a stats report CSV exporter'

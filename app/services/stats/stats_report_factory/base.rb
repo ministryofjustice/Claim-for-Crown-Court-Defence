@@ -5,7 +5,7 @@ module Stats
         new(options).generator
       end
 
-      def initialize(options)
+      def initialize(options = {})
         @options = options
       end
     end

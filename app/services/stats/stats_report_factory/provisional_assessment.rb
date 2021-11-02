@@ -2,7 +2,7 @@ module Stats
   module StatsReportFactory
     class ProvisionalAssessment < Base
       def generator
-        ReportGenerator.new('provisional_assessment', @options)
+        ReportGenerator.new(**@options.merge(report_klass: Reports::ProvisionalAssessments))
       end
     end
   end

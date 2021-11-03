@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@3.4.1
+  browser-tools: circleci/browser-tools@1.2.3
 
 references:
   _attach-tmp-workspace: &attach-tmp-workspace
@@ -39,33 +40,6 @@ references:
     run:
       name: Database setup
       command: bin/rails db:schema:load --trace
-
-  _rubocop: &rubocop
-    run:
-      name: Run rubocop
-      command: bundle exec rubocop
-
-  _brakeman: &brakeman
-    run:
-      name: Run brakeman
-      command: bundle exec brakeman
-
-  _jasmine: &jasmine
-    run:
-      name: Run jasmine
-      command: |
-        bundle exec rake webpacker:compile
-        bundle exec rake jasmine:ci
-
-  _standardjs: &standardjs
-    run:
-      name: Run standardJS
-      command: yarn run validate:js
-
-  _stylelint: &stylelint
-    run:
-      name: Run stylelint
-      command: yarn run validate:scss
 
   _script-build-app-container: &script-build-app-container
     run:
@@ -123,7 +97,7 @@ executors:
   test-executor:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.7.3-node-browsers
+      - image: cimg/ruby:2.7.3-browsers
         environment:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_test
@@ -140,6 +114,54 @@ executors:
 # COMMANDS
 # ------------------
 commands:
+  install-chrome:
+    steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+
+  run-rubocop:
+    description: >
+      Run rubocop
+    steps:
+      - run:
+          name: Run rubocop
+          command: bundle exec rubocop
+
+  run-brakeman:
+    description: >
+      Run brakeman
+    steps:
+      - run:
+          name: Run brakeman
+          command: bundle exec brakeman
+
+  run-standardjs:
+    description: >
+      Run standardJS
+    steps:
+      - run:
+          name: Run standardJS
+          command: yarn run validate:js
+
+  run-stylelint:
+    description: >
+      Run stylelint
+    steps:
+      - run:
+          name: Run stylelint
+          command: yarn run validate:scss
+
+  run-jasmine:
+    description: >
+      Run jasmine tests
+    steps:
+      - install-chrome
+      - run:
+          name: Run jasmine
+          command: |
+            bundle exec rake webpacker:compile
+            bundle exec rake jasmine:ci
+
   run-rspec:
     description: >
       Run rspec tests and store results
@@ -170,6 +192,7 @@ commands:
     description: >
       Run cucumber tests and store results
     steps:
+      - install-chrome
       - run:
           name: Make cucumber test storage dir
           command: |
@@ -390,11 +413,11 @@ jobs:
     steps:
       - checkout
       - build-base
-      - *rubocop
-      - *brakeman
-      - *jasmine
-      - *standardjs
-      - *stylelint
+      - run-rubocop
+      - run-brakeman
+      - run-jasmine
+      - run-standardjs
+      - run-stylelint
 
   upload-coverage:
     executor: test-executor

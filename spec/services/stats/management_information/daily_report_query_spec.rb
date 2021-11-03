@@ -151,7 +151,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       let!(:claim) { create(:litigator_final_claim, :submitted) }
 
-      it { is_expected.to match_array([claim.total_including_vat.to_s]) }
+      it { is_expected.to match_array([format('%.2f', claim.total_including_vat)]) }
     end
 
     describe ':main_defendant' do

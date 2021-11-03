@@ -102,8 +102,8 @@ RSpec.describe ManagementInformationPresenter do
 
       it 'total (inc VAT)' do
         presenter.present! do |claim_journeys|
-          expect(claim_journeys.first).to include(claim.total_including_vat.to_s)
-          expect(claim_journeys.second).to include(claim.total_including_vat.to_s)
+          expect(claim_journeys.first).to include(format('%.2f', claim.total_including_vat))
+          expect(claim_journeys.second).to include(format('%.2f', claim.total_including_vat))
         end
       end
 
@@ -313,7 +313,7 @@ RSpec.describe ManagementInformationPresenter do
         let(:claim) { create :authorised_claim }
 
         it 'returns nil' do
-          presenter.present! { expect(presenter.af1_lf1_processed_by).to eq '' }
+          presenter.present! { expect(presenter.af1_lf1_processed_by).to be_nil }
         end
       end
 

@@ -65,7 +65,7 @@ namespace :db do
     Rake::Task['db:clear'].invoke
     Rake::Task['db:schema:load'].invoke
     Rake::Task['db:migrate'].invoke
-    Rake::Task['claims:demo_data'].invoke
+    Rake::Task['db:seed'].invoke
   end
 
   desc 'Dumps an unuanonymised backup of the database'

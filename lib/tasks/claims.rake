@@ -39,7 +39,7 @@ namespace :claims do
     end
   end
 
-  desc "ADP Task: Delete all dummy docs after dropping the DB"
+  desc "Delete all dummy docs after dropping the DB"
   task :delete_docs do
     FileUtils.rm_rf('./public/assets/dev/images/')
     FileUtils.rm_rf('./public/assets/test/images/')
@@ -55,10 +55,10 @@ namespace :claims do
     puts 'done'.green
   end
 
-  desc 'ADP Task: Loads dummy claims'
+  desc 'Loads dummy claims'
   task :demo_data, :num_claims_per_state, :num_external_users do |_task, args|
     params = {num_claims_per_state: 1, num_external_users: 1}.merge(args)
-    Rake::Task['claims:demo_data:seed'].invoke
+    Rake::Task['claims:sample_users'].invoke
     Rake::Task["claims:demo_data:advocates"].invoke(params[:num_claims_per_state], params[:num_external_users])
     # Rake::Task["claims:demo_data:advocate_interims"].invoke(params[:num_claims_per_state], params[:num_external_users]) # TODO
     Rake::Task['claims:demo_data:litigators'].invoke(params[:num_claims_per_state], params[:num_external_users])
@@ -67,13 +67,7 @@ namespace :claims do
   end
 
   namespace :demo_data do
-    desc 'ADP Task: Load seed data and demo external users, providers and case workers [num_claims_per_state=1, num_claims_per_user=1]'
-    task :seed do
-      Rake::Task['db:seed'].invoke
-      Rake::Task['claims:sample_users'].invoke
-    end
-
-    desc 'ADP Task: Load demo data Advocate Claims [num_claims_per_state=1, num_claims_per_user=1]'
+    desc 'CCCD Task: Load demo data Advocate Claims [num_claims_per_state=1, num_claims_per_user=1]'
     task :advocates, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
       puts "#{task.name} with #{args}".green
@@ -84,7 +78,7 @@ namespace :claims do
       DemoData::AdvocateClaimGenerator.new(args).run
     end
 
-    desc "ADP Task: Load demo data Litigator Claims [num_claims_per_state=1, num_claims_per_user=1]"
+    desc "Load demo data Litigator Claims [num_claims_per_state=1, num_claims_per_user=1]"
     task :litigators, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
       puts "#{task.name} with #{args}".green
@@ -92,7 +86,7 @@ namespace :claims do
       DemoData::LitigatorClaimGenerator.new(num_external_users: 1).run
     end
 
-    desc "ADP Task: Load demo data Interim Claims [num_claims_per_state=1, num_claims_per_user=1]"
+    desc "Load demo data Interim Claims [num_claims_per_state=1, num_claims_per_user=1]"
     task :interims, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
       puts "#{task.name} with #{args}".green
@@ -100,7 +94,7 @@ namespace :claims do
       DemoData::InterimClaimGenerator.new(num_external_users: 1).run
     end
 
-    desc 'ADP Task: Load demo data Transfer Claims [num_claims_per_state=1, num_claims_per_user=1]'
+    desc 'Load demo data Transfer Claims [num_claims_per_state=1, num_claims_per_user=1]'
     task :transfers, :num_claims_per_state, :num_external_users do |task, args|
       Rake::Task[:environment].invoke
       puts "#{task.name} with #{args}".green
@@ -109,13 +103,13 @@ namespace :claims do
     end
   end
 
-  desc 'ADP Task: Delete sample providers'
+  desc 'Delete sample providers'
   task :destroy_sample_providers => :environment do
     require File.join(Rails.root, 'lib', 'demo_data', 'claim_destroyer')
     DemoData::ClaimDestroyer.new.run
   end
 
-  desc 'ADP Task: Archives or deletes stale claims'
+  desc 'Archives or deletes stale claims'
   task :archive_stale, [:param] => :environment do |_task, args|
     if args.names.size != 1
       raise ArgumentError.new "Only valid parameter is 'dummy'"

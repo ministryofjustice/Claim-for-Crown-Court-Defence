@@ -37,7 +37,8 @@ bin/setup
 - Load data
 
 ```
-rake db:drop db:create db:reload
+rails db:drop db:create db:reload
+rails claims::demo_data
 ```
 
 - Run the application server

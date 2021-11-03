@@ -2,6 +2,7 @@ version: 2.1
 
 orbs:
   slack: circleci/slack@3.4.1
+  browser-tools: circleci/browser-tools@1.2.3
 
 references:
   _attach-tmp-workspace: &attach-tmp-workspace
@@ -123,7 +124,7 @@ executors:
   test-executor:
     working_directory: ~/repo
     docker:
-      - image: circleci/ruby:2.7.3-node-browsers
+      - image: cimg/ruby:2.7.3-browsers
         environment:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_test
@@ -231,6 +232,8 @@ commands:
     steps:
       - install-gem-dependencies
       - install-js-dependencies
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
 
   deploy-to:
     description: >

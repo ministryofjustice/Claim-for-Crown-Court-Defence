@@ -114,9 +114,9 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
 
       it {
         expect(rows['Claim total'])
-          .to match_array([(agfs_claim.total + agfs_claim.vat_amount).to_s,
-                           (lgfs_claim.total + lgfs_claim.vat_amount).to_s,
-                           (lgfs_claim.total + lgfs_claim.vat_amount).to_s])
+          .to match_array([format('%.2f', agfs_claim.total + agfs_claim.vat_amount),
+                           format('%.2f', lgfs_claim.total + lgfs_claim.vat_amount),
+                           format('%.2f', lgfs_claim.total + lgfs_claim.vat_amount)])
       }
 
       it { expect(rows['Submission type']).to match_array(%w[new new redetermination]) }

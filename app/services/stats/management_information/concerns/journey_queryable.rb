@@ -97,7 +97,7 @@ module Stats
               p.name as organisation,
               ct.name as case_type_name,
               c2.scheme || ' ' || c2.sub_type as bill_type,
-              (c.total + c.vat_amount)::varchar as claim_total,
+              round(c.total + c.vat_amount, 2)::varchar as claim_total,
               main_defendant.name as main_defendant,
               earliest_representation_order.maat_reference as maat_reference,
               earliest_representation_order.representation_order_date as rep_order_issued_date,
@@ -153,7 +153,7 @@ module Stats
               fetch first row only
             ) previous_redetermined_decision ON TRUE
             LEFT JOIN LATERAL (
-              select string_agg(ft.description, ' ') as descriptions
+              select string_agg(ft.description, ' ' order by f.id) as descriptions
               from fees f, fee_types ft
               where f.claim_id = c.id
                 and f.fee_type_id = ft.id

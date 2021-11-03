@@ -41,26 +41,6 @@ references:
       name: Database setup
       command: bin/rails db:schema:load --trace
 
-  _rubocop: &rubocop
-    run:
-      name: Run rubocop
-      command: bundle exec rubocop
-
-  _brakeman: &brakeman
-    run:
-      name: Run brakeman
-      command: bundle exec brakeman
-
-  _standardjs: &standardjs
-    run:
-      name: Run standardJS
-      command: yarn run validate:js
-
-  _stylelint: &stylelint
-    run:
-      name: Run stylelint
-      command: yarn run validate:scss
-
   _script-build-app-container: &script-build-app-container
     run:
       name: Build and push cccd docker image
@@ -138,6 +118,38 @@ commands:
     steps:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
+
+  run-rubocop:
+    description: >
+      Run rubocop
+    steps:
+      - run:
+          name: Run rubocop
+          command: bundle exec rubocop
+
+  run-brakeman:
+    description: >
+      Run brakeman
+    steps:
+      - run:
+          name: Run brakeman
+          command: bundle exec brakeman
+
+  run-standardjs:
+    description: >
+      Run standardJS
+    steps:
+      - run:
+          name: Run standardJS
+          command: yarn run validate:js
+
+  run-stylelint:
+    description: >
+      Run stylelint
+    steps:
+      - run:
+          name: Run stylelint
+          command: yarn run validate:scss
 
   run-jasmine:
     description: >
@@ -401,11 +413,11 @@ jobs:
     steps:
       - checkout
       - build-base
-      - *rubocop
-      - *brakeman
+      - run-rubocop
+      - run-brakeman
       - run-jasmine
-      - *standardjs
-      - *stylelint
+      - run-standardjs
+      - run-stylelint
 
   upload-coverage:
     executor: test-executor

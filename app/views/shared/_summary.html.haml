@@ -7,27 +7,27 @@
         = t('shared.summary.no_values.fees')
     - else
       / table does noe require summary
-      %table
-        %caption.govuk-visually-hidden
+      = govuk_table do
+        = govuk_table_caption(class: 'govuk-visually-hidden') do
           = t('.fees.caption')
-        %thead
-          %tr
-            %th{ scope: 'col' }
+        = govuk_table_thead do
+          = govuk_table_row do
+            = govuk_table_th do
               = t('.fee_category')
-            %th{ scope: 'col' }
+            = govuk_table_th do
               = t('.fee_type')
             - unless claim.lgfs? && claim.interim?
-              %th.numeric{ scope: 'col' }
+              = govuk_table_th_numeric do
                 = t('.quantity')
             - if claim.agfs?
-              %th.numeric{ scope: 'col' }
+              = govuk_table_th_numeric do
                 = t('.rate')
-            %th.numeric{ scope: 'col' }
+            = govuk_table_th_numeric do
               = t('.amount')
-        %tbody
+        = govuk_table_tbody do
           - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
-            %tr
-              %td
+            = govuk_table_row do
+              = govuk_table_td('data-label': t('.fee_category')) do
                 = fee.fee_type&.fee_category_name || 'n/a'
                 - if fee.dates_attended.any?
                   %br
@@ -37,19 +37,19 @@
                   %br
                   = t('.date')
                   = fee.date
-              %td
+              = govuk_table_td('data-label': t('.fee_type')) do
                 = fee.fee_type&.description || 'n/a'
                 - if fee.sub_type.present?
                   %p
                     = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
 
               - unless claim.lgfs? && claim.interim?
-                %td.numeric
+                = govuk_table_td_numeric('data-label': t('.quantity')) do
                   = fee.quantity
               - if claim.agfs?
-                %td.numeric
+                = govuk_table_td_numeric('data-label': t('.rate')) do
                   = fee.rate
-              %td.numeric
+              = govuk_table_td_numeric('data-label': t('.amount')) do
                 = fee.amount
       .totals
         = t('.fees_total')
@@ -61,57 +61,57 @@
       %p
         = t('shared.summary.no_values.expenses')
     - else
-      / table does noe require summary
-      %table
-        %caption.govuk-visually-hidden
+
+      = govuk_table do
+        = govuk_table_caption(class: 'govuk-visually-hidden') do
           = t('.expenses.caption')
 
-        %thead
-          %tr
-            %th{ scope: 'col' }
+        = govuk_table_thead do
+          = govuk_table_row do
+            = govuk_table_th do
               = t('.date')
-            %th{ scope: 'col' }
+            = govuk_table_th do
               = t('.expense_type')
-            %th.numeric{ scope: 'col' }
+            = govuk_table_th_numeric do
               = t('.distance')
             - if claim.agfs?
-              %th.numeric{ scope: 'col' }
+              = govuk_table_th_numeric do
                 = t('.quantity_hours')
-            %th{ scope: 'col' }
+            = govuk_table_th do
               = t('.location')
-            %th.numeric{ scope: 'col' }
+            = govuk_table_th_numeric do
               = t('.amount')
             - if claim.lgfs?
-              %th.numeric{ scope: 'col' }
+              = govuk_table_th_numeric do
                 = t('.vat_amount')
-              %th.numeric{ scope: 'col' }
+              = govuk_table_th_numeric do
                 = t('shared.summary.total_amount')
 
-        %tbody
+        = govuk_table_tbody do
           - present_collection(claim.expenses).each do |expense|
-            %tr.no-border
-              %td
+            = govuk_table_row do
+              = govuk_table_td('data-label': t('.date')) do
                 = expense.pretty_date
-              %td
+              = govuk_table_td('data-label': t('.expense_type')) do
                 = expense.name
                 - if expense.distance?
                   (#{expense.mileage_rate})
-              %td.numeric
+              = govuk_table_td_numeric('data-label': t('.distance')) do
                 = expense.distance
               - if claim.agfs?
-                %td.numeric
+                = govuk_table_td_numeric('data-label': t('.quantity_hours')) do
                   = expense.hours
-              %td
+              = govuk_table_td('data-label': t('.location')) do
                 = expense.location
-              %td.numeric
+              = govuk_table_td_numeric('data-label': t('.amount')) do
                 = expense.amount
               - if claim.lgfs?
-                %td.numeric
+                = govuk_table_td_numeric('data-label': t('.vat_amount')) do
                   = expense.vat_amount
-                %td.numeric
+                = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
                   = expense.total
-            %tr
-              %td{ colspan: '7' }
+            = govuk_table_row do
+              = govuk_table_td('data-label': t('.reason'), colspan: '7') do
                 .bold-normal
                   = t('.reason')
                 = expense.reason
@@ -126,32 +126,32 @@
         %p
           = t('shared.summary.no_values.disbursements')
       - else
-        / table does noe require summary
-        %table
-          %caption.govuk-visually-hidden
+
+        = govuk_table do
+          = govuk_table_caption(class: 'govuk-visually-hidden') do
             = t('.disbursements.caption')
 
-          %thead
-            %tr
-              %th{ scope: 'col' }
-                = "Disbursement type"
-              %th.numeric{ scope: 'col' }
+          = govuk_table_thead do
+            = govuk_table_row do
+              = govuk_table_th do
+                = 'Disbursement type'
+              = govuk_table_th_numeric do
                 = t('shared.summary.amount')
-              %th.numeric{ scope: 'col' }
+              = govuk_table_th_numeric do
                 = t('shared.summary.vat_amount')
-              %th.numeric{ scope: 'col' }
+              = govuk_table_th_numeric do
                 = t('shared.summary.total_amount')
 
-          %tbody
+          = govuk_table_tbody do
             - present_collection(claim.disbursements).each do |disbursement|
-              %tr
-                %td{ scope: 'row' }
+              = govuk_table_row do
+                = govuk_table_td('data-label': 'Disbursement type', scope: 'row') do
                   = disbursement.name
-                %td.numeric
+                = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
                   = disbursement.net_amount
-                %td.numeric
+                = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
                   = disbursement.vat_amount
-                %td.numeric
+                = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
                   = disbursement.total
         .totals
           = t('shared.disbursements_total')

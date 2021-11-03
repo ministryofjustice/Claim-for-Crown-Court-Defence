@@ -15,49 +15,42 @@
     %h2.govuk-heading-m
       = t('shared.summary.cost_summary')
 
-    %table.summary
-      %caption
-        %span.govuk-visually-hidden
-          = t('.caption')
+    = govuk_table do
+      = govuk_table_caption(class: 'govuk-visually-hidden') do
+        = t('.caption')
 
-      %thead
-        %tr
-          %th{ scope: 'col' }
+      = govuk_table_thead do
+        = govuk_table_row do
+          = govuk_table_th do
             = t('shared.summary.expense_type')
-          %th.numeric{ scope: 'col' }
-            = t('shared.summary.quantity')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.amount')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.vat_amount')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.total_amount')
 
-      %tbody
+      = govuk_table_tbody do
         - present_collection(claim.expenses).each.with_index(1) do |expense, index|
-          %tr
-            %td
+          = govuk_table_row do
+            = govuk_table_td('data-label': t('shared.summary.expense_type')) do
               = expense.name
-            %td.numeric
-              = ''
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
               = expense.amount.present? ? expense.amount : t('general.not_applicable_html')
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
               = expense.vat_amount.present? ? expense.vat_amount : t('general.not_applicable_html')
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
               = expense.total.present? ? expense.total : t('general.not_applicable_html')
 
-      %tfoot
-        %tr
-          %th{ scope: 'row' }
+      = govuk_table_tfoot do
+        = govuk_table_row do
+          = govuk_table_th(scope: 'row') do
             = t('shared.summary.total')
-          %td.numeric
-            = ''
-          %td.numeric
+          = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
             = claim.expenses_total
-          %td.numeric
+          = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
             = claim.expenses_vat
-          %td.numeric
+          = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
             = claim.expenses_gross
 
   - if @claim.travel_expense_additional_information.present?
@@ -70,35 +63,35 @@
     %h3.govuk-heading-m
       = t('shared.summary.expenses.travel_details')
 
-    %table.summary
-      %caption.govuk-visually-hidden
+    = govuk_table do
+      = govuk_table_caption(class: 'govuk-visually-hidden') do
         = t('.additional_information')
 
-      %thead
-        %tr
-          %th{ scope: 'col' }
+      = govuk_table_thead do
+        = govuk_table_row do
+          = govuk_table_th do
             = t('shared.summary.expense_type')
-          %th{ scope: 'col' }
+          = govuk_table_th do
             = t('shared.summary.reason')
-          %th{ scope: 'col' }
-            = 'Details'
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th do
+            = t('shared.summary.details')
+          = govuk_table_th_numeric do
             = t('shared.summary.date_of_expense')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.amount')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.vat_amount')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.total_amount')
 
-      %tbody
+      = govuk_table_tbody do
         - present_collection(claim.expenses).each.with_index(1) do |expense, index|
-          %tr
-            %td
+          = govuk_table_row do
+            = govuk_table_td('data-label': t('shared.summary.expense_type')) do
               = expense.name
-            %td
+            = govuk_table_td('data-label': t('shared.summary.reason')) do
               = expense.reason
-            %td
+            = govuk_table_td('data-label': t('shared.summary.details')) do
               - if expense.location.present? || expense.distance.present? || expense.mileage_rate.present?
                 %ul.govuk-list
                   - if expense.location.present?
@@ -112,11 +105,11 @@
                       = t('shared.summary.cost_html', cost: expense.mileage_rate)
               - else
                 = t('general.not_applicable_html')
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.date_of_expense')) do
               = expense.date.present? ? expense.pretty_date : t('general.not_applicable_html')
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
               = expense.amount.present? ? expense.amount : t('general.not_applicable_html')
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
               = expense.vat_amount.present? ? expense.vat_amount : t('general.not_applicable_html')
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
               = expense.total.present? ? expense.total : t('general.not_applicable_html')

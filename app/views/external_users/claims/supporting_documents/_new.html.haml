@@ -16,17 +16,17 @@
       = f.label :documents, 'Upload file', class: 'form-group'
       = f.file_field :documents, name: 'documents', multiple: true, class: 'form-control'
 
-%table#dropzone-files.files.hidden
-  %caption
+= govuk_table(id: 'dropzone-files', class: 'files hidden') do
+  = govuk_table_caption do
     = t('.uploading_docs')
 
-  %thead
-    %tr
-      %th{ scope: 'col' }
+  = govuk_table_thead do
+    = govuk_table_row do
+      = govuk_table_th do
         = t('.file_name')
-      %th{ scope: 'col' }
+      = govuk_table_th do
         = t('.status')
-      %th{ scope: 'col' }
+      = govuk_table_th do
         = t('.action')
 
-  %tbody
+  %tbody.govuk-table__body

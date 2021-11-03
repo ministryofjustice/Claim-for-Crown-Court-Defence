@@ -2098,6 +2098,7 @@ en:
       miscellaneous_fees: Miscellaneous fees
       vat: VAT
       date: Date
+      details: Details
       disbursement: Disbursement
       disbursement_index: Disbursement %{index}
       disk_evidence: Will you be sending disk evidence for this claim?

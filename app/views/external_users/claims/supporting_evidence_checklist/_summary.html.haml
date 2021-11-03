@@ -1,18 +1,18 @@
 - if current_user.persona.is_a? ExternalUser
   %p.form-hint
-    If you don't provide enough evidence, your claim may be rejected.
+    = "If you don't provide enough evidence, your claim may be rejected."
 - if claim.evidence_checklist_ids.empty?
   %p
-    No documentary evidence specified as having been provided.
+    = 'No documentary evidence specified as having been provided.'
 - else
   / Table does not require summary
-  %table{class:'table-summary'}
-    %caption.govuk-visually-hidden
+  = govuk_table do
+    = govuk_table_caption(class: 'govuk-visually-hidden') do
       = t('.caption')
-    %tbody
+    = govuk_table_tbody do
       - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
-        %tr
-          %th
+        = govuk_table_row do
+          = govuk_table_th do
             = dt.name
-          %td
+          = govuk_table_td('data-label': dt.name) do
             Provided

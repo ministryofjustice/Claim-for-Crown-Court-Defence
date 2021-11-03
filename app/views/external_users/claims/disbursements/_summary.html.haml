@@ -13,40 +13,40 @@
       %p
         = t('shared.summary.no_values.disbursements')
   - else
-    %table.summary
-      %caption.govuk-visually-hidden
+    = govuk_table do
+      = govuk_table_caption(class: 'govuk-visually-hidden') do
         = t('.caption')
 
-      %thead
-        %tr
-          %th{ scope: 'col' }
+      = govuk_table_thead do
+        = govuk_table_row do
+          = govuk_table_th do
             = t('shared.summary.disbursements.type')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.disbursements.net_amount')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.disbursements.vat_amount')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.total_amount')
 
-      %tbody
+      = govuk_table_tbody do
         - present_collection(claim.disbursements).each.with_index(1) do |disbursement, index|
-          %tr
-            %td
+          = govuk_table_row do
+            = govuk_table_td('data-label': t('shared.summary.disbursements.type')) do
               = disbursement.name
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.disbursements.net_amount')) do
               = disbursement.net_amount
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.disbursements.vat_amount')) do
               = disbursement.vat_amount
-            %td.numeric
+            = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
               = disbursement.total
 
-      %tfoot
-        %tr
-          %th{ scope: 'row' }
+      = govuk_table_tfoot do
+        = govuk_table_row do
+          = govuk_table_th(scope: 'row') do
             = t('shared.summary.total')
-          %td.numeric
+          = govuk_table_td_numeric('data-label': t('shared.summary.disbursements.net_amount')) do
             = claim.disbursements_total
-          %td.numeric
+          = govuk_table_td_numeric('data-label': t('shared.summary.disbursements.vat_amount')) do
             = claim.disbursements_vat
-          %td.numeric
+          = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
             = claim.disbursements_gross

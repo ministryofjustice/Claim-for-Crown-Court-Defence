@@ -1,5 +1,5 @@
-%tr
-  %td
+= govuk_table_row do
+  = govuk_table_td('data-label': t('shared.summary.fee_type')) do
     - unless fee.is_transfer?
       = fee.fee_type&.description
       - if fee.sub_type.present?
@@ -10,7 +10,7 @@
           = fee.case_numbers
 
   - unless @claim.lgfs? && fee.is_misc?
-    %td
+    = govuk_table_td('data-label': t('shared.summary.dates')) do
       - if fee.date?
         = fee.date
 
@@ -30,20 +30,20 @@
         - if fee.dates_attended.any?
           = fee.dates_attended_delimited_string
 
-    %td.numeric
+    = govuk_table_td_numeric('data-label': t('shared.summary.quantity')) do
       - if fee.calculated? || fee.is_graduated? || fee.is_transfer?
         = fee.quantity
 
-    %td.numeric
+    = govuk_table_td_numeric('data-label': t('shared.summary.rate')) do
       - if fee.calculated?
         = fee.rate
 
-  %td.numeric
+  = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
     - if fee.display_amount?
       = fee.amount
 
-  %td.numeric
+  = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
     = fee.vat
 
-  %td.numeric
+  = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
     = fee.gross

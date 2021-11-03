@@ -1,7 +1,6 @@
-%table{ class: 'summary' }
-  %tbody
-    %tr
-      %th{ scope: 'row', class: 'bold' }
-        = t("common.prosecution_evidence")
-      %td
-        = t(claim.prosecution_evidence?.class)
+%dl.govuk-summary-list
+  .govuk-summary-list__row
+    %dt.govuk-summary-list__key
+      = t("common.prosecution_evidence")
+    %dd.govuk-summary-list__value
+      = t(claim.prosecution_evidence?.class)

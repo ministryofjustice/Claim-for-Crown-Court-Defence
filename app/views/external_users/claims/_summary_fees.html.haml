@@ -17,10 +17,10 @@
 
 - if local_assigns.has_key?(:fee)
   - if fee
-    %table.summary
-      %caption.govuk-visually-hidden
+    = govuk_table do
+      = govuk_table_caption(class: 'govuk-visually-hidden') do
         = t('.caption')
-      %tbody
+      = govuk_table_tbody do
         = render partial: 'external_users/claims/summary_fee', locals: { fee: present(fee) }
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
@@ -43,46 +43,42 @@
       %h3.govuk-heading-m
         = t('shared.summary.basic_fees')
 
-    %table.summary
-      %caption.govuk-visually-hidden
+    = govuk_table do
+      = govuk_table_caption(class: 'govuk-visually-hidden') do
         = t('.caption')
 
-      %thead
-        %tr
-          %th{ scope: 'col' }
+      = govuk_table_thead do
+        = govuk_table_row do
+          = govuk_table_th do
             = t('shared.summary.fee_type')
           - unless claim.lgfs? && collection.any?(&:is_misc?)
-            %th{ scope: 'col' }
+            = govuk_table_th do
               = t('shared.summary.dates')
-            %th.numeric{ scope: 'col' }
+            = govuk_table_th_numeric do
               = t('shared.summary.quantity')
-            %th.numeric{ scope: 'col' }
+            = govuk_table_th_numeric do
               = t('shared.summary.rate')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.amount')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.vat_amount')
-          %th.numeric{ scope: 'col' }
+          = govuk_table_th_numeric do
             = t('shared.summary.total_amount')
 
-      %tbody
+      = govuk_table_tbody do
         - present_collection(collection.sort_by(&:position)).each.with_index(1) do |fee, index|
           = render partial: 'external_users/claims/summary_fee', locals: { fee: fee }
 
-      %tfoot
-        %tr
-          %th{ scope: 'row' }
+      = govuk_table_tfoot do
+        = govuk_table_row do
+          = govuk_table_th(scope: 'row') do
             = t('shared.summary.total')
           - unless claim.lgfs? && collection.any?(&:is_misc?)
-            %td.numeric
-              = ''
-            %td.numeric
-              = ''
-            %td.numeric
-              = ''
-          %td.numeric
+            = govuk_table_td(colspan: '3') { nil }
+
+          = govuk_table_td_numeric('data-label': t('shared.summary.amount')) do
             = claim.send("#{section}_total")
-          %td.numeric
+          = govuk_table_td_numeric('data-label': t('shared.summary.vat_amount')) do
             = claim.send("#{section}_vat")
-          %td.numeric
+          = govuk_table_td_numeric('data-label': t('shared.summary.total_amount')) do
             = claim.send("#{section}_gross")

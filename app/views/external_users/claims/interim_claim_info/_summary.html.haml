@@ -4,19 +4,6 @@
     %h3.govuk-heading-m
       = t('common.warrant_fees')
 
-    %table.summary
-      %caption.govuk-visually-hidden
-        = t('.caption')
-
-      %tbody
-        %tr
-          %th{ scope: 'row' }
-            = t('shared.claims.interim_claim_info.fields.date_issued')
-          %td
-            = info.warrant_issued_date
-
-        %tr
-          %th{ scope: 'row' }
-            = t('shared.claims.interim_claim_info.fields.date_executed')
-          %td
-            = info.warrant_executed_date
+    = govuk_summary_list do
+      = govuk_summary_list_row(t('shared.claims.interim_claim_info.fields.date_issued')) {info.warrant_issued_date}
+      = govuk_summary_list_row(t('shared.claims.interim_claim_info.fields.date_executed')){info.warrant_executed_date}

@@ -100,17 +100,17 @@ moj.Modules.Dropzone = {
     let html = ''
 
     if (fileId) {
-      html += '<tr id="document_' + fileId + '"><td>' + fileName + '</td>'
+      html += '<tr id="document_' + fileId + '" class="govuk-table__row"><td data-label="File name" class="govuk-table__cell">' + fileName + '</td>'
     } else {
-      html += '<tr><td>' + fileName + '</td>'
+      html += '<tr class="govuk-table__row"><td data-label="File name" class="govuk-table__cell">' + fileName + '</td>'
     }
 
-    html += '<td><span class="' + fileStatus + '">' + fileStatusMsg + '</span></td>'
+    html += '<td data-label="Status" class="govuk-table__cell"><span class="' + fileStatus + '">' + fileStatusMsg + '</span></td>'
 
     if (fileId) {
-      html += '<td><a aria-label="Remove document: ' + fileName + '" class="file-remove" data-id="' + fileId + '" data-remote="true" data-method="delete" href="/documents/' + fileId + '" rel="nofollow">Remove</a></td></tr>'
+      html += '<td data-label="Action" class="govuk-table__cell"><a aria-label="Remove document: ' + fileName + '" class="file-remove" data-id="' + fileId + '" data-remote="true" data-method="delete" href="/documents/' + fileId + '" rel="nofollow">Remove</a></td></tr>'
     } else {
-      html += '<td><a aria-label="Remove document: ' + fileName + '" class="file-remove" href="#dropzone-files" rel="nofollow">Remove</a></td>'
+      html += '<td data-label="Action" class="govuk-table__cell"><a aria-label="Remove document: ' + fileName + '" class="file-remove" href="#dropzone-files" rel="nofollow">Remove</a></td>'
     }
 
     html += '</tr>'
@@ -140,7 +140,7 @@ moj.Modules.Dropzone = {
     formData.append('document[document]', file)
 
     const tableBody = $('.files tbody')
-    const tableRow = $('<tr><td><span class="file-name">' + file.name + '</span></td><td><progress value="0" max="100">0%</progress></td><td></td></tr>')
+    const tableRow = $('<tr class="govuk-table__row"><td data-label="File name" class="govuk-table__cell"><span class="file-name">' + file.name + '</span></td><td data-label="Upload Progress" class="govuk-table__cell"><progress value="0" max="100">0%</progress></td><td></td></tr>')
     tableBody.append(tableRow)
 
     const formId = $('#claim_form_id').val()

@@ -51,13 +51,6 @@ references:
       name: Run brakeman
       command: bundle exec brakeman
 
-  _jasmine: &jasmine
-    run:
-      name: Run jasmine
-      command: |
-        bundle exec rake webpacker:compile
-        bundle exec rake jasmine:ci
-
   _standardjs: &standardjs
     run:
       name: Run standardJS
@@ -141,6 +134,22 @@ executors:
 # COMMANDS
 # ------------------
 commands:
+  install-chrome:
+    steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+
+  run-jasmine:
+    description: >
+      Run jasmine tests
+    steps:
+      - install-chrome
+      - run:
+          name: Run jasmine
+          command: |
+            bundle exec rake webpacker:compile
+            bundle exec rake jasmine:ci
+
   run-rspec:
     description: >
       Run rspec tests and store results
@@ -171,6 +180,7 @@ commands:
     description: >
       Run cucumber tests and store results
     steps:
+      - install-chrome
       - run:
           name: Make cucumber test storage dir
           command: |
@@ -232,8 +242,6 @@ commands:
     steps:
       - install-gem-dependencies
       - install-js-dependencies
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
 
   deploy-to:
     description: >
@@ -395,7 +403,7 @@ jobs:
       - build-base
       - *rubocop
       - *brakeman
-      - *jasmine
+      - run-jasmine
       - *standardjs
       - *stylelint
 

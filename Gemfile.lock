@@ -215,7 +215,7 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    debug_inspector (1.0.0)
+    debug_inspector (1.1.0)
     deep_merge (1.2.1)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -347,7 +347,7 @@ GEM
     guard-webpacker (0.2.1)
       guard (>= 2)
       guard-compat (~> 1.0)
-    haml (5.1.0)
+    haml (5.2.2)
       temple (>= 0.8.0)
       tilt
     haml-rails (2.0.1)

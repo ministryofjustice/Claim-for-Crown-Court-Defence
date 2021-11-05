@@ -58,17 +58,6 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
   let(:trial_only_types) { %w[MIUMU MIUMO] }
   let(:supplementary_only_types) { %w[MISAF MIPCM] }
 
-  context 'with delegations' do
-    subject { described_class.new(nil) }
-
-    it { is_expected.to delegate_method(:case_type).to(:claim).allow_nil }
-    it { is_expected.to delegate_method(:agfs?).to(:claim).allow_nil }
-    it { is_expected.to delegate_method(:lgfs?).to(:claim).allow_nil }
-    it { is_expected.to delegate_method(:agfs_reform?).to(:claim).allow_nil }
-    it { is_expected.to delegate_method(:agfs_scheme_12?).to(:claim).allow_nil }
-    it { is_expected.to delegate_method(:hardship?).to(:claim).allow_nil }
-  end
-
   describe '#call' do
     subject(:call) { described_class.new(claim).call }
 

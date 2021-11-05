@@ -29,6 +29,66 @@ RSpec.describe Claim::TransferBrain do
     end
   end
 
+  describe '.transfer_stage' do
+    subject { described_class.transfer_stage(detail) }
+
+    let(:detail) { build(:transfer_detail, transfer_stage_id: stage_id) }
+
+    context 'with an "Up to and including PCMH transfer" transfer detail' do
+      let(:stage_id) { 10 }
+
+      it { is_expected.to have_attributes(id: 10, description: 'Up to and including PCMH transfer', requires_case_conclusion: true) }
+    end
+
+    context 'with a "Before trial transfer" transfer detail' do
+      let(:stage_id) { 20 }
+
+      it { is_expected.to have_attributes(id: 20, description: 'Before trial transfer', requires_case_conclusion: true) }
+    end
+
+    context 'with a "During trial transfer" transfer detail' do
+      let(:stage_id) { 30 }
+
+      it { is_expected.to have_attributes(id: 30, description: 'During trial transfer', requires_case_conclusion: true) }
+    end
+
+    context 'with a "Transfer after trial and before sentence hearing" transfer detail' do
+      let(:stage_id) { 40 }
+
+      it { is_expected.to have_attributes(id: 40, description: 'Transfer after trial and before sentence hearing', requires_case_conclusion: false) }
+    end
+
+    context 'with a "Transfer before retrial" transfer detail' do
+      let(:stage_id) { 50 }
+
+      it { is_expected.to have_attributes(id: 50, description: 'Transfer before retrial', requires_case_conclusion: true) }
+    end
+
+    context 'with a "Transfer during retrial" transfer detail' do
+      let(:stage_id) { 60 }
+
+      it { is_expected.to have_attributes(id: 60, description: 'Transfer during retrial', requires_case_conclusion: true) }
+    end
+
+    context 'with a "Transfer after retrial and before sentence hearing" transfer detail' do
+      let(:stage_id) { 70 }
+
+      it { is_expected.to have_attributes(id: 70, description: 'Transfer after retrial and before sentence hearing', requires_case_conclusion: false) }
+    end
+
+    context 'with an unknown transfer detail' do
+      let(:stage_id) { 5 }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with a nil transfer detail' do
+      let(:stage_id) { nil }
+
+      it { is_expected.to be_nil }
+    end
+  end
+
   describe '.case_conclusion_by_id' do
     it 'returns the name of the case conclusion with that id' do
       expect(described_class.case_conclusion_by_id(30)).to eq 'Cracked'
@@ -46,6 +106,54 @@ RSpec.describe Claim::TransferBrain do
 
     it 'raises if no such case conclusion with the given name' do
       expect { described_class.case_conclusion_id('xxx') }.to raise_error ArgumentError, "No such case conclusion: 'xxx'"
+    end
+  end
+
+  describe '.case_conclusion' do
+    subject { described_class.case_conclusion(detail) }
+
+    let(:detail) { build(:transfer_detail, case_conclusion_id: case_conclusion_id) }
+
+    context 'with a "Trial" case conclusion' do
+      let(:case_conclusion_id) { 10 }
+
+      it { is_expected.to eq 'Trial' }
+    end
+
+    context 'with a "Retrial" case conclusion' do
+      let(:case_conclusion_id) { 20 }
+
+      it { is_expected.to eq 'Retrial' }
+    end
+
+    context 'with a "Cracked" case conclusion' do
+      let(:case_conclusion_id) { 30 }
+
+      it { is_expected.to eq 'Cracked' }
+    end
+
+    context 'with a "Cracked before retrial" case conclusion' do
+      let(:case_conclusion_id) { 40 }
+
+      it { is_expected.to eq 'Cracked before retrial' }
+    end
+
+    context 'with a "Guilty" case conclusion' do
+      let(:case_conclusion_id) { 50 }
+
+      it { is_expected.to eq 'Guilty plea' }
+    end
+
+    context 'with an unknown case conclusion' do
+      let(:case_conclusion_id) { 5 }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with a nil case conclusion' do
+      let(:case_conclusion_id) { nil }
+
+      it { is_expected.to be_nil }
     end
   end
 

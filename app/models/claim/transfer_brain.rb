@@ -69,6 +69,10 @@ module Claim
       CASE_CONCLUSIONS.keys
     end
 
+    def self.case_conclusion(detail)
+      CASE_CONCLUSIONS[detail.case_conclusion_id]
+    end
+
     def self.details_combo_valid?(detail)
       TransferBrainDataItemCollection.instance.detail_valid?(detail) unless detail.errors?
     end

@@ -198,6 +198,20 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO]
           end
         end
+
+        context 'with rep order post CLAR and a guilty plea' do
+          include_context 'post CLAR rep order date'
+
+          before do
+            claim.transfer_detail.update(
+              case_conclusion_id: Claim::TransferBrain.case_conclusion_id('Guilty plea')
+            )
+          end
+
+          it 'returns all LGFS misc fee types except defendant uplifts' do
+            is_expected.to match_array %w[MICJA MICJP MIEVI MISPF]
+          end
+        end
       end
     end
 

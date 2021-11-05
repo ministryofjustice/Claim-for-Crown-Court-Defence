@@ -41,7 +41,11 @@ module Claims
     end
 
     def eligible_lgfs_misc_fee_types
-      filter_trial_only_types(lgfs_fee_types_by_claim_type, apply_clar_rep_order_filter? || apply_trial_fee_filter?)
+      filter_trial_only_types(lgfs_fee_types_by_claim_type, apply_filter_for_lgfs?)
+    end
+
+    def apply_filter_for_lgfs?
+      apply_clar_rep_order_filter? || apply_trial_fee_filter? || apply_transfer_guilty_plea_filter?
     end
 
     def lgfs_fee_types_by_claim_type
@@ -69,6 +73,10 @@ module Claims
     def apply_clar_rep_order_filter?
       claim&.earliest_representation_order_date &&
         (claim.earliest_representation_order_date < Settings.clar_release_date.to_date.beginning_of_day)
+    end
+
+    def apply_transfer_guilty_plea_filter?
+      claim.transfer? && claim.transfer_detail&.case_conclusion == 'Guilty plea'
     end
 
     def filter_trial_only_types(relation, filter)

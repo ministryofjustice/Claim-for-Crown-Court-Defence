@@ -39,7 +39,7 @@ module Stats
                   select t.claim_id,
                          t.from,
                          t.to,
-                         t.created_at,
+                         t.created_at at time zone 'utc' at time zone 'Europe/London' as created_at,
                          t.reason_code,
                          t.reason_text,
                          (authors.first_name || ' ' || authors.last_name) as author_name,

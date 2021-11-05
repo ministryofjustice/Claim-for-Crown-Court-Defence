@@ -22,7 +22,7 @@ module ManagementInformationReportable
     end
 
     def case_type_name
-      case_type&.name || ''
+      case_type&.name
     end
 
     def bill_type

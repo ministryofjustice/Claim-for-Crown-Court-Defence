@@ -26,7 +26,7 @@ module Claims
     end
 
     def eligible_agfs_misc_fee_types
-      trial_fee_filter(agfs_fee_types_by_claim_type)
+      filter_trial_only_types(agfs_fee_types_by_claim_type, apply_trial_fee_filter?)
     end
 
     def agfs_fee_types_by_claim_type
@@ -41,11 +41,7 @@ module Claims
     end
 
     def eligible_lgfs_misc_fee_types
-      clar_rep_order_filter(
-        trial_fee_filter(
-          lgfs_fee_types_by_claim_type
-        )
-      )
+      filter_trial_only_types(lgfs_fee_types_by_claim_type, apply_clar_rep_order_filter? || apply_trial_fee_filter?)
     end
 
     def lgfs_fee_types_by_claim_type
@@ -66,15 +62,17 @@ module Claims
       Fee::MiscFeeType.lgfs.where(unique_code: LGFS_TRIAL_CLAIM_ELIGIBILITY)
     end
 
-    def trial_fee_filter(relation)
-      return relation if case_type&.is_trial_fee? || case_type.nil?
-      relation.without_trial_fee_only
+    def apply_trial_fee_filter?
+      case_type && !case_type.is_trial_fee?
     end
 
-    def clar_rep_order_filter(relation)
-      return relation if claim&.earliest_representation_order_date.nil?
-      return relation if claim.earliest_representation_order_date >= Settings.clar_release_date.to_date.beginning_of_day
-      relation.without_trial_fee_only
+    def apply_clar_rep_order_filter?
+      claim&.earliest_representation_order_date &&
+        (claim.earliest_representation_order_date < Settings.clar_release_date.to_date.beginning_of_day)
+    end
+
+    def filter_trial_only_types(relation, filter)
+      filter ? relation.without_trial_fee_only : relation
     end
   end
 end

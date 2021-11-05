@@ -113,9 +113,23 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     describe ':case_type_name' do
       subject { response.pluck(:case_type_name) }
 
-      let!(:claim) { create(:advocate_final_claim, :submitted) }
+      context 'with a claim without a case type' do
+        let!(:claim) { create(:litigator_transfer_claim, :submitted) }
 
-      it { is_expected.to match_array([claim.case_type.name]) }
+        it { is_expected.to all(be_nil) }
+      end
+
+      context 'with a claim with a case type' do
+        let!(:claim) { create(:advocate_final_claim, :submitted) }
+
+        it { is_expected.to match_array([claim.case_type.name]) }
+      end
+
+      context 'with a claim with a case stage' do
+        let!(:claim) { create(:advocate_hardship_claim, :submitted, case_stage: build(:case_stage, :agfs_pre_ptph)) }
+
+        it { is_expected.to match_array('Discontinuance') }
+      end
     end
 
     describe ':bill_type' do

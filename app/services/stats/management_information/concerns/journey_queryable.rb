@@ -95,7 +95,10 @@ module Stats
               c.*,
               c2.scheme as scheme,
               p.name as organisation,
-              ct.name as case_type_name,
+              coalesce(ct.name, (select ct2.name
+                                   from case_types ct2
+                                  where ct2.id = cs.case_type_id)
+              ) as case_type_name,
               c2.scheme || ' ' || c2.sub_type as bill_type,
               round(c.total + c.vat_amount, 2)::varchar as claim_total,
               main_defendant.name as main_defendant,
@@ -111,6 +114,8 @@ module Stats
               ON p.id = creator.provider_id
             LEFT OUTER JOIN case_types AS ct
               ON ct.id = c.case_type_id
+            LEFT OUTER JOIN case_stages cs
+              ON cs.id = c.case_stage_id
             LEFT JOIN LATERAL journeys(c.id) j
               ON TRUE
             LEFT JOIN LATERAL (

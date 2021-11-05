@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_context 'pre CLAR rep order date' do
+RSpec.shared_context 'with a pre CLAR rep order date' do
   let(:pre_clar_date) { Settings.clar_release_date.end_of_day - 1.day }
 
   before do
@@ -10,7 +10,7 @@ RSpec.shared_context 'pre CLAR rep order date' do
   end
 end
 
-RSpec.shared_context 'post CLAR rep order date' do
+RSpec.shared_context 'with a post CLAR rep order date' do
   let(:post_clar_date) { Settings.clar_release_date.beginning_of_day }
 
   before do
@@ -26,8 +26,9 @@ RSpec.shared_examples 'with AGFS scheme 9 and 10+ fetch excludes supplementary-o
   context 'when scheme 9 claim' do
     let(:claim) { create(claim_factory, :agfs_scheme_9) }
 
+    it { is_expected.to have_at_least(1).items }
+
     it 'returns only misc fee types for AGFS scheme 9 without supplementary-only fee types' do
-      is_expected.to have_at_least(1).items
       is_expected.to match_array Fee::MiscFeeType.agfs_scheme_9s.without_supplementary_only.map(&:unique_code).reject
     end
   end
@@ -35,8 +36,9 @@ RSpec.shared_examples 'with AGFS scheme 9 and 10+ fetch excludes supplementary-o
   context 'when scheme 10+ claim' do
     let(:claim) { create(claim_factory, :agfs_scheme_10) }
 
+    it { is_expected.to have_at_least(1).items }
+
     it 'returns only misc fee types for AGFS scheme 10+ without supplementary-only fee types' do
-      is_expected.to have_at_least(1).items
       is_expected.to match_array Fee::MiscFeeType.agfs_scheme_10s.without_supplementary_only.map(&:unique_code)
     end
   end
@@ -112,20 +114,20 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
 
             context 'with rep order pre CLAR' do
-              include_context 'pre CLAR rep order date'
+              include_context 'with a pre CLAR rep order date'
 
               it { is_expected.to match_array %w[MICJA MICJP MIEVI MISPF] }
             end
 
             context 'with rep order post CLAR' do
-              include_context 'post CLAR rep order date'
+              include_context 'with a post CLAR rep order date'
 
               it { is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO] }
             end
           end
 
           context 'with "non-trial" fee claim' do
-            include_context 'post CLAR rep order date'
+            include_context 'with a post CLAR rep order date'
 
             context 'when case type is Guilty plea' do
               let(:case_type) { CaseType.find_by(fee_type_code: 'GRGLT') }
@@ -140,7 +142,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         let(:claim) { create(:litigator_hardship_claim, case_stage: case_stage) }
 
         context 'when rep order is post CLAR' do
-          include_context 'post CLAR rep order date'
+          include_context 'with a post CLAR rep order date'
 
           context 'with "trial" case stage' do
             let(:case_stage) { create(:case_stage, :trial_not_sentenced) }
@@ -160,7 +162,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         end
 
         context 'when rep order is pre CLAR' do
-          include_context 'pre CLAR rep order date'
+          include_context 'with a pre CLAR rep order date'
 
           context 'with "trial" case stage' do
             let(:case_stage) { create(:case_stage, :trial_not_sentenced) }
@@ -184,7 +186,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         let(:claim) { create(:litigator_transfer_claim, case_type: nil) }
 
         context 'with rep order pre CLAR' do
-          include_context 'pre CLAR rep order date'
+          include_context 'with a pre CLAR rep order date'
 
           it 'returns all LGFS misc fee types except defendant uplifts' do
             is_expected.to match_array %w[MICJA MICJP MIEVI MISPF]
@@ -192,7 +194,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         end
 
         context 'with rep order post CLAR' do
-          include_context 'post CLAR rep order date'
+          include_context 'with a post CLAR rep order date'
 
           it 'returns all LGFS misc fee types except defendant uplifts' do
             is_expected.to match_array %w[MICJA MICJP MIEVI MISPF MIUMU MIUMO]
@@ -200,7 +202,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         end
 
         context 'with rep order post CLAR and a guilty plea' do
-          include_context 'post CLAR rep order date'
+          include_context 'with a post CLAR rep order date'
 
           before do
             claim.transfer_detail.update(
@@ -223,7 +225,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       context 'with final claim' do
         include_examples 'with AGFS scheme 9 and 10+ fetch excludes supplementary-only', :advocate_claim
 
-        context 'scheme 12 claim' do
+        context 'with a scheme 12 claim' do
           let(:claim) { create(:advocate_claim, :agfs_scheme_12, case_type: case_type) }
 
           context 'with "trial" case type' do
@@ -244,7 +246,9 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*trial_only_types) }
 
             it 'returns misc fee types for AGFS scheme 12 without supplementary-only or trial-only fee types' do
-              is_expected.to match_array Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.without_trial_fee_only.map(&:unique_code)
+              is_expected.to match_array(
+                Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.without_trial_fee_only.map(&:unique_code)
+              )
             end
           end
         end
@@ -274,7 +278,9 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*trial_only_types) }
 
             it 'returns misc fee types for AGFS scheme 12 without supplementary-only or trial-only fee types' do
-              is_expected.to match_array Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.without_trial_fee_only.map(&:unique_code)
+              is_expected.to match_array(
+                Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.without_trial_fee_only.map(&:unique_code)
+              )
             end
           end
         end

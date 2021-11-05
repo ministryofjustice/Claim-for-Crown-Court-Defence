@@ -6,6 +6,15 @@ FactoryBot.define do
     sequence(:position) { |n| n }
     roles { %w[agfs lgfs] }
 
+    trait :agfs_pre_ptph do
+      description { 'Pre PTPH' }
+      unique_code { 'PREPTPH' }
+      position { 10 }
+      case_type_id { create(:case_type, :discontinuance).id }
+      roles { %w(agfs) }
+    end
+
+    # do not use obsolete
     trait :agfs_pre_ptph_evidence do
       description { 'Pre PTPH (evidence served)' }
       unique_code { 'PREPTPHES' }
@@ -14,6 +23,7 @@ FactoryBot.define do
       roles { %w(agfs) }
     end
 
+    # obsolete - do not use
     trait :agfs_pre_ptph_no_evidence do
       description { 'Pre PTPH (no evidence served)' }
       unique_code { 'PREPTPH' }
@@ -78,6 +88,7 @@ FactoryBot.define do
       roles { %w(agfs) }
     end
 
+    # obsolete - do not use
     trait :pre_ptph_with_evidence do
       description { 'Pre PTPH (evidence served)' }
       unique_code { 'NOPTPHWPPE' }
@@ -86,6 +97,7 @@ FactoryBot.define do
       roles { %w(lgfs) }
     end
 
+    # obsolete - do not use
     trait :pre_ptph_no_evidence do
       description { 'Pre PTPH (no evidence served)' }
       unique_code { 'NOPTPHNOPPE' }

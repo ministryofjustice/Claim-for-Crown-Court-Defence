@@ -204,6 +204,38 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       end
     end
 
+    describe ':originally_submitted_at' do
+      subject(:originally_submitted_ats) { response.pluck(:originally_submitted_at) }
+
+      context 'when outside of british summer time' do
+        let(:timestamp) { DateTime.parse('2021-03-27 23:59:59') }
+
+        before do
+          create(:litigator_final_claim, :submitted).tap do |claim|
+            claim.update!(original_submission_date: timestamp)
+          end
+        end
+
+        it 'retrieves correct date for Europe/London timezone' do
+          expect(originally_submitted_ats.first.to_date).to eql(Date.parse('2021-03-27'))
+        end
+      end
+
+      context 'when inside british summer time' do
+        let(:timestamp) { DateTime.parse('2021-03-29 23:59:59') }
+
+        before do
+          create(:litigator_final_claim, :submitted).tap do |claim|
+            claim.update!(original_submission_date: timestamp)
+          end
+        end
+
+        it 'retrieves correct date for Europe/London timezone' do
+          expect(originally_submitted_ats.first.to_date).to eql(Date.parse('2021-03-30'))
+        end
+      end
+    end
+
     describe ':main_defendant' do
       subject { response.pluck(:main_defendant) }
 

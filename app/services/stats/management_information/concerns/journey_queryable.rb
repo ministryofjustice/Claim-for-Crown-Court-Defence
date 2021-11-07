@@ -102,6 +102,7 @@ module Stats
               c2.scheme || ' ' || c2.sub_type as bill_type,
               round(c.total + c.vat_amount, 2)::varchar as claim_total,
               c.last_submitted_at at time zone 'utc' at time zone 'Europe/London' as last_submitted_at,
+              c.original_submission_date at time zone 'utc' at time zone 'Europe/London' as originally_submitted_at,
               main_defendant.name as main_defendant,
               earliest_representation_order.maat_reference as maat_reference,
               earliest_representation_order.representation_order_date as rep_order_issued_date,

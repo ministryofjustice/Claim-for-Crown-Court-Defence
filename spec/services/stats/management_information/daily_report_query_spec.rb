@@ -172,6 +172,38 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       it { is_expected.to match_array([format('%.2f', claim.total_including_vat)]) }
     end
 
+    describe ':last_submitted_at' do
+      subject(:last_submitted_ats) { response.pluck(:last_submitted_at) }
+
+      context 'when outside of british summer time' do
+        let(:timestamp) { DateTime.parse('2021-03-27 23:59:59') }
+
+        before do
+          create(:litigator_final_claim, :submitted).tap do |claim|
+            claim.update!(last_submitted_at: timestamp)
+          end
+        end
+
+        it 'retrieves correct date for Europe/London timezone' do
+          expect(last_submitted_ats.first.to_date).to eql(Date.parse('2021-03-27'))
+        end
+      end
+
+      context 'when inside british summer time' do
+        let(:timestamp) { DateTime.parse('2021-03-29 23:59:59') }
+
+        before do
+          create(:litigator_final_claim, :submitted).tap do |claim|
+            claim.update!(last_submitted_at: timestamp)
+          end
+        end
+
+        it 'retrieves correct date for Europe/London timezone' do
+          expect(last_submitted_ats.first.to_date).to eql(Date.parse('2021-03-30'))
+        end
+      end
+    end
+
     describe ':main_defendant' do
       subject { response.pluck(:main_defendant) }
 

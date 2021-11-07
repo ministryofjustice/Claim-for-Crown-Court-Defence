@@ -30,7 +30,7 @@ module Stats
       end
 
       def originally_submitted_at
-        record[:original_submission_date]&.strftime('%d/%m/%Y')
+        record[:originally_submitted_at]&.strftime('%d/%m/%Y')
       end
 
       # why `.last`, there should be only one allocation per journey?! see optimize below

@@ -83,7 +83,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
     context 'with no original_submission_date on record' do
       before do
         allow(record).to receive(:[])
-          .with(:original_submission_date).and_return(nil)
+          .with(:originally_submitted_at).and_return(nil)
       end
 
       it { is_expected.to be_nil }

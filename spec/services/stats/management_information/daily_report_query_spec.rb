@@ -114,21 +114,25 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       subject { response.pluck(:case_type_name) }
 
       context 'with a claim without a case type' do
-        let!(:claim) { create(:litigator_transfer_claim, :submitted) }
+        before { create(:litigator_transfer_claim, :submitted) }
 
         it { is_expected.to all(be_nil) }
       end
 
       context 'with a claim with a case type' do
-        let!(:claim) { create(:advocate_final_claim, :submitted) }
+        before { create(:advocate_final_claim, :submitted, case_type: build(:case_type, :cracked_trial)) }
 
-        it { is_expected.to match_array([claim.case_type.name]) }
+        it 'returns case_type#name' do
+          is_expected.to contain_exactly('Cracked Trial')
+        end
       end
 
       context 'with a claim with a case stage' do
-        let!(:claim) { create(:advocate_hardship_claim, :submitted, case_stage: build(:case_stage, :agfs_pre_ptph)) }
+        before { create(:advocate_hardship_claim, :submitted, case_stage: build(:case_stage, :agfs_pre_ptph)) }
 
-        it { is_expected.to match_array('Discontinuance') }
+        it 'returns case_type#name belonging to case_stage' do
+          is_expected.to contain_exactly('Discontinuance')
+        end
       end
     end
 

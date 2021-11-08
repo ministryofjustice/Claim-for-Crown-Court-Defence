@@ -271,32 +271,51 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     describe ':maat_reference' do
       subject { response.pluck(:maat_reference) }
 
-      before do
-        create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
-          create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
-            defendant.representation_orders = [create(:representation_order,
-                                                      defendant: defendant,
-                                                      representation_order_date: 30.days.ago,
-                                                      maat_reference: '4444442'),
-                                               create(:representation_order,
-                                                      defendant: defendant,
-                                                      representation_order_date: 29.days.ago,
-                                                      maat_reference: '4444444')]
+      context 'with multiple defendants with rep orders with different representation_order_dates' do
+        before do
+          create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
+            create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
+              defendant.representation_orders = [create(:representation_order,
+                                                        defendant: defendant,
+                                                        representation_order_date: 30.days.ago,
+                                                        maat_reference: '4444441')]
+            end
+            create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
+              defendant.representation_orders = [create(:representation_order,
+                                                        defendant: defendant,
+                                                        representation_order_date: 31.days.ago,
+                                                        maat_reference: '4444440')]
+            end
           end
-          create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
-            defendant.representation_orders = [create(:representation_order,
-                                                      defendant: defendant,
-                                                      representation_order_date: 31.days.ago,
-                                                      maat_reference: '4444441'),
-                                               create(:representation_order,
-                                                      defendant: defendant,
-                                                      representation_order_date: 29.days.ago,
-                                                      maat_reference: '4444443')]
-          end
+        end
+
+        it 'returns maat_reference of rep order with earliest representation_order_date' do
+          is_expected.to match_array(['4444440'])
         end
       end
 
-      it { is_expected.to match_array(['4444441']) }
+      context 'with multiple defendants with rep orders with the same representation_order_date' do
+        before do
+          create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
+            create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
+              defendant.representation_orders = [create(:representation_order,
+                                                        defendant: defendant,
+                                                        representation_order_date: 31.days.ago,
+                                                        maat_reference: '4444440')]
+            end
+            create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
+              defendant.representation_orders = [create(:representation_order,
+                                                        defendant: defendant,
+                                                        representation_order_date: 31.days.ago,
+                                                        maat_reference: '4444441')]
+            end
+          end
+        end
+
+        it 'returns maat_reference of first created rep order' do
+          is_expected.to match_array(['4444440'])
+        end
+      end
     end
 
     describe ':rep_order_issued_date' do

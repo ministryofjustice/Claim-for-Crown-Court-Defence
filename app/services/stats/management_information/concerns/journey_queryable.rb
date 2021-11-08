@@ -139,7 +139,7 @@ module Stats
               from representation_orders r, defendants d2
               where d2.claim_id = c.id
                 and r.defendant_id = d2.id
-              order by r.representation_order_date asc
+              order by r.representation_order_date, r.created_at asc
               fetch first row only
             ) earliest_representation_order ON TRUE
             LEFT JOIN LATERAL (

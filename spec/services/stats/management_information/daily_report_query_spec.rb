@@ -386,16 +386,16 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       end
 
       # TODO: remove debug helper
-      let(:time_info) do
-        { ruby_current_datetime: DateTime.current.iso8601,
-          ruby_now_datetime: DateTime.now.iso8601,
-          postgres_now: ActiveRecord::Base.connection.execute('select now()').to_a,
-          postgres_now_6_months_ago: ActiveRecord::Base.connection.execute("select (now() - '6 months'::interval)").to_a,
-          postgres_now_6_months_ago_cast: ActiveRecord::Base.connection.execute("select (now() - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London'").to_a,
-          postgres_now_6_months_ago_trunc_cast: ActiveRecord::Base.connection.execute("select DATE_TRUNC('day', (now() - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London')").to_a }
-      end
+      # let(:time_info) do
+      #   { ruby_current_datetime: DateTime.current.iso8601,
+      #     ruby_now_datetime: DateTime.now.iso8601,
+      #     postgres_now: ActiveRecord::Base.connection.execute('select now()').to_a,
+      #     postgres_now_6_months_ago: ActiveRecord::Base.connection.execute("select (now() - '6 months'::interval)").to_a,
+      #     postgres_now_6_months_ago_cast: ActiveRecord::Base.connection.execute("select (now() - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London'").to_a,
+      #     postgres_now_6_months_ago_trunc_cast: ActiveRecord::Base.connection.execute("select DATE_TRUNC('day', (now() - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London')").to_a }
+      # end
 
-      fcontext 'when applying 6 month rule' do
+      context 'when applying 6 month rule' do
         let(:claim) { create(:litigator_final_claim, :submitted) }
 
         # NOTE: The six month exclusion was only applied to handle failing reports and/or
@@ -412,33 +412,33 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         # (beginning november to end of march roughly) and the query is not using
         # 'Europe/London' timezone "casting".
         #
-        # IMPORTANT: query uses postgres `current_date` which cannot be stubbed
+        # IMPORTANT: query uses postgres `now()` which cannot be stubbed
         #
 
         # TODO: this emulates MI version 1 current behaviour, however:
 
         # 1. the 6 month rule should probably include transitions that are exactly 6 months old.
-        # 2. it is time sensitive and performance sensitive as there is no way to stub postgres
-        #    db now() method. It is likely to be flaky therefore.
-        # 3. to improve this we should truncate the date comparisons on old and new MI reports to nearest date
-        #    (i.e. not datetime). This will provide clear behaviour as well as be more testable
+        # 2. it is time sensitive (and performance sensitive) as there is no way to stub postgres
+        #    db now() method. It may be flaky therefore.
+        # 3. to improve this, and the report logic generally, we should truncate the date comparisons on
+        # old and new MI reports to nearest date (i.e. not datetime). This will provide clear behaviour
+        # as well as be more testable.
 
-        it 'includes all transitions under 6 months old', skip: 'see comments above' do
+        it 'includes all transitions under 6 months old' do
           travel_to(6.months.ago + 1.second) { claim }
           claim.allocate!
           expect(transition_tos).to match_array([%w[submitted allocated]])
         end
 
-        it 'excludes state transitions exactly 6 months old', skip: 'see comments above' do
+        it 'excludes state transitions exactly 6 months old' do
           travel_to(6.months.ago) { claim }
           claim.allocate!
           expect(transition_tos).to match_array([%w[allocated]])
         end
 
-        it 'excludes state transitions over 6 months old', skip: 'see comments above' do
-          travel_to(6.months.ago - 1.second) { claim; ap time_info }
+        it 'excludes state transitions over 6 months old' do
+          travel_to(6.months.ago - 1.second) { claim }
           claim.allocate!
-          ap response.pluck(:journey).map { |el| el.pluck(:to, :created_at) }
           expect(transition_tos).to match_array([%w[allocated]])
         end
       end

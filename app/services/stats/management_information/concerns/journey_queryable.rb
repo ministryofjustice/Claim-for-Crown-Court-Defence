@@ -51,10 +51,10 @@ module Stats
                     on t.subject_id = subjects.id
                   where t.claim_id = in_claim_id
                   and t.to not in (select * from unnest(filtered_states))
-                  and t.created_at at time zone 'utc' at time zone 'Europe/London' >= (now() - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London'
+                  and t.created_at >= (now() - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London'
                   --
                   -- postgres created_at is utc, now is utc
-                  -- to gain MI report v1 equivalent we need to compare created_at Europe/London to now() Europe/London
+                  -- to gain MI report v1 equivalent we need to compare created_at to now() Europe/London
                   -- to do this more simply we need to change MI report v1 to truncate dates to midnight (see old version 1)
                   -- and truncate these dates in this statement, as below
                   -- "and DATE_TRUNC('day', t.created_at at time zone 'utc' at time zone 'Europe/London') >= DATE_TRUNC('day', (current_date - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London')"

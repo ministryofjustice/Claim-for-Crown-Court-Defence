@@ -11,23 +11,6 @@ body {
     margin-top: $gutter;
     font-weight: 700;
   }
-
-  .table-summary {
-    width: 98%;
-
-    td {
-      vertical-align: top;
-    }
-
-    .summary-headings {
-      width: 35%;
-    }
-
-    tfoot th,
-    tfoot td {
-      @include govuk-font(19);
-    }
-  }
 }
 
 #show-messages-wrapper {

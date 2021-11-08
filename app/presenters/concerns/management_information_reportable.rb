@@ -38,7 +38,7 @@ module ManagementInformationReportable
     end
 
     def claim_total
-      format('%.2f', total_including_vat)
+      format('%.2f', total_including_vat.round(4))
     end
 
     def submission_type

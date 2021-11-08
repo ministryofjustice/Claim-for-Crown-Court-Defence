@@ -27,6 +27,22 @@ RSpec.describe Stats::ManagementInformation::Presenter do
     end
   end
 
+  describe '#claim_total' do
+    subject { presenter.claim_total }
+
+    before do
+      create(:litigator_final_claim, :submitted).tap do |c|
+        c.update!(total: 9999.98555)
+      end
+    end
+
+    let(:record) { query.first }
+
+    it 'returns decimal rounded to 4 and kernel formatted to 2 decimal places' do
+      is_expected.to eql('9999.99')
+    end
+  end
+
   describe '#transitioned_at' do
     subject { presenter.transitioned_at }
 
@@ -275,7 +291,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
     let(:expected_missing_methods) do
       %i[id scheme case_number supplier_number
          organisation case_type_name bill_type
-         claim_total main_defendant maat_reference
+         main_defendant maat_reference
          af1_lf1_processed_by misc_fees]
     end
 

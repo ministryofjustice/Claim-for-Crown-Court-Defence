@@ -21,6 +21,10 @@ module Stats
         journey.first[:to] == 'submitted' ? 'new' : journey.first[:to]
       end
 
+      def claim_total
+        format('%.2f', record[:claim_total])
+      end
+
       def transitioned_at
         submissions.present? ? submissions.first[:created_at].strftime('%d/%m/%Y') : 'n/a'
       end

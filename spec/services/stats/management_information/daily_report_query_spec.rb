@@ -167,9 +167,17 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     describe ':claim_total' do
       subject { response.pluck(:claim_total) }
 
-      let!(:claim) { create(:litigator_final_claim, :submitted) }
+      before do
+        create(:litigator_final_claim, :submitted).tap do |c|
+          c.update!(total: 9999.98555)
+        end
+      end
 
-      it { is_expected.to match_array([format('%.2f', claim.total_including_vat)]) }
+      it { is_expected.to all(be_a(BigDecimal)) }
+
+      it 'rounds to 4 decimal places' do
+        is_expected.to contain_exactly(9999.9856.to_d)
+      end
     end
 
     describe ':last_submitted_at' do

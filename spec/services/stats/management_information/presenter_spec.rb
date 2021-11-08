@@ -34,9 +34,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
 
     context 'when journey contains no submissions' do
       before do
-        travel_to(6.months.ago) do
-          claim
-        end
+        travel_to(6.months.ago - 1.second) { claim }
         claim.allocate!
       end
 

@@ -54,7 +54,7 @@ class DumpFileWriter
   end
 
   def prepare_sql
-    table.compile_insert(data).to_sql.gsub('"', '') + ';'
+    table.compile_insert(data).to_sql + ';'
   end
 
   def extract_attribute_names(column_names)

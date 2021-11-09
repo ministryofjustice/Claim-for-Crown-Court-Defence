@@ -169,7 +169,7 @@ namespace :db do
           # typically less than 5% will have reasons and fewer with additional text
           ClaimStateTransition.where.not(reason_text: nil).find_each(batch_size: batch_size) do |claim_state_transition|
             claim_state_transition.reason_code = ['other_refuse'] if claim_state_transition.reason_code.present?
-            claim_state_transition.reason_text = Faker::Lorem.sentence(word_count: 10, supplemental: false) if claim_state_transition.reason_text.present?
+            claim_state_transition.reason_text = Faker::Lorem.sentence(word_count: 10) if claim_state_transition.reason_text.present?
             writer.call(claim_state_transition)
           end
 

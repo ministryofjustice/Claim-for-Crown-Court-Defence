@@ -110,7 +110,14 @@ With your local rails server running you can browse to ```http://localhost:3000/
 
 ## Anonymised database dump and restore
 
-In order to create an anonymised dump of an environments database you can:
+In order to test running of an anonymised dump against your local database you can:
+
+```bash
+# run anonymised db dump locally for testing purposes
+$ bundle exec rails db:dump:anonymised
+```
+
+In order to create an anonymised dump of a hosted environments database you can:
 
 ```bash
 # run the db-dump job in the given environment

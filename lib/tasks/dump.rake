@@ -38,19 +38,18 @@ namespace :db do
     end
 
     desc 'Create anonymised database dump, compress (gzip) and upload to s3 - run on host via job (see run_job)'
-    task :anonymised, [:local] => :environment do |_task, args|
+    task :anonymised => :environment do
       cmd = 'pg_dump --version'
       puts '---------------------------'
       print "Using: #{%x(#{cmd})}".yellow
-      host = Rails.host.env
-      puts "Host environment: #{host || 'not set'}"
+      host = Rails.host.env || 'localhost'
+      puts "Host environment: #{host}"
       filename = File.join('tmp', "#{Time.now.strftime('%Y%m%d%H%M%S')}_dump.psql")
 
       shell_working "exporting unanonymised database data to #{filename}..." do
-        if args.local.eql?('local')
-          with_config do |host, db, user|
-            cmd = "pg_dump --no-owner --no-privileges --no-password #{sensitive_table_exclusions} #{unneeded_table_exclusions} #{db} -f #{filename}"
-          end
+        if host.eql?('localhost')
+          db = ActiveRecord::Base.connection_config[:database]
+          cmd = "pg_dump --no-owner --no-privileges --no-password #{sensitive_table_exclusions} #{unneeded_table_exclusions} #{db} -f #{filename}"
         else
           cmd = "pg_dump $DATABASE_URL --no-owner --no-privileges --no-password #{sensitive_table_exclusions} #{unneeded_table_exclusions} -f #{filename}"
         end
@@ -66,7 +65,7 @@ namespace :db do
 
       compressed_file = compress_file(filename)
 
-      exit if args.local.eql?('local')
+      exit if host.eql?('localhost')
 
       shell_working "writing dump file #{filename}.gz to #{host}'s s3 bucket..." do
         s3_bucket = S3Bucket.new(host)
@@ -269,12 +268,6 @@ namespace :db do
     end
 
     private
-
-    def with_config
-      yield ActiveRecord::Base.connection_config[:host],
-        ActiveRecord::Base.connection_config[:database],
-        ActiveRecord::Base.connection_config[:username]
-    end
 
     def valid_hosts
       %w[dev dev-lgfs staging api-sandbox production]

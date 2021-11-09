@@ -107,6 +107,9 @@ namespace :db do
 
       s3_bucket = S3Bucket.new(host)
       dump_files = s3_bucket.list('tmp').select { |item| item.key.match?('dump') }
+
+      abort("#{dump_files.size} dump file(s) found!".yellow) if dump_files.empty?
+
       dump_files.sort_by(&:last_modified).reverse[start..].map do |object|
         print "Deleting #{object.key}..."
         object.delete

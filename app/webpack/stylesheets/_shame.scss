@@ -435,13 +435,6 @@ form {
   }
 }
 
-.previously-uploaded {
-  td,
-  th {
-    word-break: break-all;
-  }
-}
-
 #download-files-report {
   td:first-child,
   th:first-child {
@@ -464,13 +457,6 @@ form {
 .fee-date-to {
   div {
     display: inline;
-  }
-}
-
-.js-checkbox-table,
-.report {
-  td {
-    vertical-align: top;
   }
 }
 

@@ -1,5 +1,59 @@
 // stylelint-disable max-nesting-depth, selector-class-pattern, selector-no-qualifying-type
 
+tr {
+  th,
+  td {
+    &:first-child {
+      padding-left: $gutter-half;
+    }
+
+    &:last-child {
+      padding-right: $gutter-one-sixth;
+    }
+  }
+
+  &.error.injection-error {
+    border-left: 5px solid $error-colour;
+    color: inherit;
+
+    td {
+      padding-top: $gutter;
+
+      .error-message-container {
+        position: relative;
+      }
+
+      .error-message {
+        position: absolute;
+        top: -$gutter;
+        width: 320px;
+        color: $error-colour;
+        text-align: left;
+      }
+    }
+  }
+
+  &.injection-warning {
+    border-left: 5px solid $orange;
+
+    td {
+      padding-top: $gutter;
+
+      .warning-message-container {
+        position: relative;
+      }
+
+      .warning-message {
+        position: absolute;
+        top: -$gutter;
+        width: 320px;
+        color: $orange;
+        text-align: left;
+      }
+    }
+  }
+}
+
 .mobile-sort {
   display: none;
 }
@@ -78,10 +132,6 @@
       display: inline;
     }
   }
-}
-
-.previously-uploaded th:first-child {
-  width: 75%;
 }
 
 // DataTables

@@ -117,6 +117,11 @@ In order to create an anonymised dump of an environments database you can:
 $ bundle exec rake db:dump:run_job['dev']
 ```
 
+```bash
+# run the db-dump job in the given environment using a built branch docker tag
+$ bundle exec rake db:dump:run_job['dev','my-branch-latest']
+```
+
 This task requires you have kubectl installed locally and access to git-crypted secrets.
 
 This will create a `private` dump file in the host environments s3 bucket and list all such dumps at the end. If the log tailing times out (it will on production currently) then you will need to list the dump files using:

@@ -651,7 +651,6 @@ RSpec/ContextMethod:
     - 'spec/presenters/fixed_fee_presenter_spec.rb'
     - 'spec/presenters/interim_fee_presenter_spec.rb'
     - 'spec/presenters/misc_fee_presenter_spec.rb'
-    - 'spec/presenters/transfer_claim_presenter_spec.rb'
     - 'spec/presenters/warrant_fee_presenter_spec.rb'
     - 'spec/services/claims/state_transition_message_builder_spec.rb'
     - 'spec/validators/claim/base_claim_validator_spec.rb'
@@ -793,7 +792,6 @@ RSpec/ContextWording:
     - 'spec/presenters/misc_fee_presenter_spec.rb'
     - 'spec/presenters/misc_fee_type_presenter_spec.rb'
     - 'spec/presenters/redetermination_presenter_spec.rb'
-    - 'spec/presenters/transfer_claim_presenter_spec.rb'
     - 'spec/presenters/warrant_fee_presenter_spec.rb'
     - 'spec/requests/external_users/expenses/distance_calculation_spec.rb'
     - 'spec/requests/pages/servicedown_spec.rb'
@@ -934,7 +932,6 @@ RSpec/DescribedClass:
     - 'spec/presenters/interim_fee_type_presenter_spec.rb'
     - 'spec/presenters/litigator_claim_presenter_spec.rb'
     - 'spec/presenters/misc_fee_presenter_spec.rb'
-    - 'spec/presenters/transfer_claim_presenter_spec.rb'
     - 'spec/presenters/warrant_fee_presenter_spec.rb'
     - 'spec/services/case_worker_service_spec.rb'
     - 'spec/services/claim_reporter_spec.rb'
@@ -976,7 +973,6 @@ RSpec/EmptyLineAfterExample:
     - 'spec/models/fee/basic_fee_spec.rb'
     - 'spec/presenters/claim/base_claim_presenter_spec.rb'
     - 'spec/presenters/interim_fee_presenter_spec.rb'
-    - 'spec/presenters/transfer_claim_presenter_spec.rb'
     - 'spec/support/shared_examples_for_expenses.rb'
     - 'spec/validators/claim/transfer_claim_validator_spec.rb'
     - 'spec/validators/fee/base_fee_validator_spec.rb'
@@ -1042,7 +1038,6 @@ RSpec/EmptyLineAfterFinalLet:
     - 'spec/presenters/interim_claim_presenter_spec.rb'
     - 'spec/presenters/interim_fee_type_presenter_spec.rb'
     - 'spec/presenters/litigator_claim_presenter_spec.rb'
-    - 'spec/presenters/transfer_claim_presenter_spec.rb'
     - 'spec/requests/pages/servicedown_spec.rb'
     - 'spec/routing/claims_controller_spec.rb'
     - 'spec/services/ccr/daily_attendance_adapter_spec.rb'
@@ -1318,7 +1313,6 @@ RSpec/FilePath:
     - 'spec/presenters/litigator_claim_presenter_spec.rb'
     - 'spec/presenters/misc_fee_presenter_spec.rb'
     - 'spec/presenters/misc_fee_type_presenter_spec.rb'
-    - 'spec/presenters/transfer_claim_presenter_spec.rb'
     - 'spec/presenters/transfer_fee_presenter_spec.rb'
     - 'spec/presenters/warrant_fee_presenter_spec.rb'
     - 'spec/services/cclf/fee/hardship_fee_adaptor_spec.rb'
@@ -1546,7 +1540,6 @@ RSpec/LetBeforeExamples:
   Exclude:
     - 'spec/models/message_spec.rb'
     - 'spec/presenters/claim/base_claim_presenter_spec.rb'
-    - 'spec/presenters/transfer_claim_presenter_spec.rb'
     - 'spec/services/claims/fee_calculator/fee_type_mappings_spec.rb'
     - 'spec/support/shared_examples_for_api.rb'
 
@@ -2170,7 +2163,6 @@ RSpec/ScatteredLet:
     - 'spec/controllers/external_users/certifications_controller_spec.rb'
     - 'spec/mailers/notify_mailer_spec.rb'
     - 'spec/models/message_spec.rb'
-    - 'spec/presenters/transfer_claim_presenter_spec.rb'
 
 # Offense count: 11
 RSpec/ScatteredSetup:
@@ -3603,7 +3595,6 @@ Layout/LineLength:
     - 'spec/presenters/interim_fee_type_presenter_spec.rb'
     - 'spec/presenters/management_information_presenter_spec.rb'
     - 'spec/presenters/supplier_number_presenter_spec.rb'
-    - 'spec/presenters/transfer_claim_presenter_spec.rb'
     - 'spec/services/ccr/daily_attendance_adapter_spec.rb'
     - 'spec/services/ccr/fee/misc_fee_adapter_spec.rb'
     - 'spec/services/claim_reporter_spec.rb'

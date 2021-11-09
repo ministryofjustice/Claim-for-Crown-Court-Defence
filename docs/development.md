@@ -169,10 +169,10 @@ Alternatively, if dump files already exist for the environment you can list them
 
 ```bash
 # delete all but the latest dump file
-$ rake db:dump:delete_s3_dumps['production']
+$ bundle exec rake db:dump:delete_s3_dumps['production']
 
 # delete all dump files
-$ rake db:dump:delete_s3_dumps['production','all']
+$ bundle exec rake db:dump:delete_s3_dumps['production','all']
 ```
 
 ### Restoring dump on remote host

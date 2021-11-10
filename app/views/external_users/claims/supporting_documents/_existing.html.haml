@@ -1,11 +1,11 @@
 - if @claim.documents.any?(&:persisted?)
-  = govuk_table do
+  = govuk_table(class: 'files') do
     = govuk_table_caption do
       = t('.previously_uploaded_docs')
 
     = govuk_table_thead do
       = govuk_table_row do
-        = govuk_table_th do
+        = govuk_table_th(class: 'govuk-!-width-two-thirds') do
           = t('.file_name')
         = govuk_table_th do
           = t('.action')

@@ -1,17 +1,6 @@
 // stylelint-disable max-nesting-depth, selector-class-pattern, selector-no-qualifying-type
 
 tr {
-  th,
-  td {
-    &:first-child {
-      padding-left: $gutter-half;
-    }
-
-    &:last-child {
-      padding-right: $gutter-one-sixth;
-    }
-  }
-
   &.error.injection-error {
     border-left: 5px solid $error-colour;
     color: inherit;
@@ -21,6 +10,7 @@ tr {
 
       .error-message-container {
         position: relative;
+        padding-left: $gutter-half;
       }
 
       .error-message {

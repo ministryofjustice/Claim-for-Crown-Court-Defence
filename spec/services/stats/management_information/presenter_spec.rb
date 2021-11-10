@@ -155,10 +155,26 @@ RSpec.describe Stats::ManagementInformation::Presenter do
   describe '#current_or_end_state' do
     subject { presenter.current_or_end_state }
 
-    context 'with claim journey ending in submission state' do
+    context 'with claim journey ending in submitted state' do
       before { create(:advocate_final_claim, :submitted) }
 
-      let(:record) { query.first }
+      let(:record) { query.last }
+
+      it { is_expected.to eql('submitted') }
+    end
+
+    context 'with claim journey ending in redetermination state' do
+      before { create(:advocate_final_claim, :refused).tap(&:redetermine!) }
+
+      let(:record) { query.last }
+
+      it { is_expected.to eql('submitted') }
+    end
+
+    context 'with claim journey ending in awaiting_written_reasons state' do
+      before { create(:advocate_final_claim, :refused).tap(&:await_written_reasons!) }
+
+      let(:record) { query.last }
 
       it { is_expected.to eql('submitted') }
     end
@@ -166,7 +182,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
     context 'with claim journey ending in non-submission state' do
       before { create(:advocate_final_claim, :refused) }
 
-      let(:record) { query.first }
+      let(:record) { query.last }
 
       it { is_expected.to eql('refused') }
     end

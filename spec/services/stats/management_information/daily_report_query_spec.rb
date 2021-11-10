@@ -392,64 +392,24 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       }
     end
 
-    context 'with claim state transitions' do
+    describe ':journey' do
       subject(:response) { described_class.call }
 
-      let(:transition_tos) { response.pluck(:journey).map { |el| el.pluck(:to) } }
+      let(:journey_tos) { response.pluck(:journey).map { |el| el.pluck(:to) } }
 
       it 'excludes state transitions to draft' do
         create(:advocate_final_claim, :allocated)
-        expect(transition_tos).to match_array([%w[submitted allocated]])
+        expect(journey_tos).to match_array([%w[submitted allocated]])
       end
 
       it 'excludes state transitions to archived_pending_delete' do
         create(:litigator_final_claim, :archived_pending_delete)
-        expect(transition_tos).to match_array([%w[submitted allocated authorised]])
+        expect(journey_tos).to match_array([%w[submitted allocated authorised]])
       end
 
       it 'excludes state transitions to archived_pending_review' do
         create(:litigator_hardship_claim, :archived_pending_review)
-        expect(transition_tos).to match_array([%w[submitted allocated authorised]])
-      end
-
-      # TODO: remove debug helper
-      # let(:time_info) do
-      #   { ruby_current_datetime: DateTime.current.iso8601,
-      #     ruby_now_datetime: DateTime.now.iso8601,
-      #     postgres_now: ActiveRecord::Base.connection.execute('select now()').to_a,
-      #     postgres_now_6_months_ago: ActiveRecord::Base.connection.execute("select (now() - '6 months'::interval)").to_a,
-      #     postgres_now_6_months_ago_cast: ActiveRecord::Base.connection.execute("select (now() - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London'").to_a,
-      #     postgres_now_6_months_ago_trunc_cast: ActiveRecord::Base.connection.execute("select DATE_TRUNC('day', (now() - '6 months'::interval) at time zone 'utc' at time zone 'Europe/London')").to_a }
-      # end
-
-      context 'when applying 6 month rule' do
-        let(:claim) { create(:litigator_final_claim, :submitted) }
-
-        # NOTE: The six month exclusion was only applied to handle failing reports and/or
-        # keep the spreadsheet small for filtering purposes. It could be removed
-        # if these problems are no longer issues.
-
-        # IMPORTANT: query uses postgres `current_date` which cannot be stubbed so do not use freeze_time
-        # as it will not be reflected by the query. We can, however, use time travel to set the created_at
-        # stamp in the DB.
-
-        it 'includes all transitions under 6 months old' do
-          travel_to(6.months.ago.beginning_of_day + 1.second) { claim }
-          claim.allocate!
-          expect(transition_tos).to contain_exactly(%w[submitted allocated])
-        end
-
-        it 'includes state transitions exactly 6 months old' do
-          travel_to(6.months.ago.beginning_of_day) { claim }
-          claim.allocate!
-          expect(transition_tos).to contain_exactly(%w[submitted allocated])
-        end
-
-        it 'excludes state transitions over 6 months old' do
-          travel_to(6.months.ago.beginning_of_day - 1.second) { claim }
-          claim.allocate!
-          expect(transition_tos).to contain_exactly(%w[allocated])
-        end
+        expect(journey_tos).to match_array([%w[submitted allocated authorised]])
       end
 
       # rubocop:disable RSpec/ExampleLength
@@ -460,7 +420,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
           claim.deallocate!
         end
 
-        expect(transition_tos).to eq([%w[submitted]])
+        expect(journey_tos).to eq([%w[submitted]])
       end
 
       it 'excludes deallocations and all but last allocation' do
@@ -471,9 +431,40 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
           claim.allocate!
         end
 
-        expect(transition_tos).to eq([%w[submitted allocated]])
+        expect(journey_tos).to eq([%w[submitted allocated]])
+      end
+      # rubocop:enable RSpec/ExampleLength
+
+      context 'when applying 6 month rule' do
+        let(:claim) { create(:litigator_final_claim, :submitted) }
+
+        # NOTE: The six month exclusion was only applied to handle failing reports and/or
+        # keep the spreadsheet small for filtering purposes. It could be removed
+        # if these problems are no longer issues.
+
+        # IMPORTANT: query uses postgres `current_date` which cannot be stubbed so do not use freeze_time
+        # as it will not be reflected by the query.
+
+        it 'includes all transitions under 6 months old' do
+          travel_to(6.months.ago.beginning_of_day + 1.second) { claim }
+          claim.allocate!
+          expect(journey_tos).to contain_exactly(%w[submitted allocated])
+        end
+
+        it 'includes state transitions exactly 6 months old' do
+          travel_to(6.months.ago.beginning_of_day) { claim }
+          claim.allocate!
+          expect(journey_tos).to contain_exactly(%w[submitted allocated])
+        end
+
+        it 'excludes state transitions over 6 months old' do
+          travel_to(6.months.ago.beginning_of_day - 1.second) { claim }
+          claim.allocate!
+          expect(journey_tos).to contain_exactly(%w[allocated])
+        end
       end
 
+      # rubocop:disable RSpec/ExampleLength
       context 'with a redetermination' do
         it 'slices transitions into "completed" chunks' do
           create(:advocate_final_claim, :allocated).tap do |claim|
@@ -487,7 +478,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
             claim.refuse!
           end
 
-          expect(transition_tos).to eq([%w[submitted allocated part_authorised], %w[redetermination allocated refused]])
+          expect(journey_tos).to eq([%w[submitted allocated part_authorised], %w[redetermination allocated refused]])
         end
 
         it 'slices transitions into "completed" chunks plus remainder' do
@@ -504,9 +495,9 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
             claim.allocate!
           end
 
-          expect(transition_tos).to eq([%w[submitted allocated part_authorised],
-                                        %w[redetermination allocated refused],
-                                        %w[redetermination allocated]])
+          expect(journey_tos).to eq([%w[submitted allocated part_authorised],
+                                     %w[redetermination allocated refused],
+                                     %w[redetermination allocated]])
         end
 
         it 'excludes deallocations and deallocated allocations per slice' do
@@ -528,7 +519,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
             claim.refuse!
           end
 
-          expect(transition_tos).to eq([%w[submitted allocated part_authorised], %w[redetermination allocated refused]])
+          expect(journey_tos).to eq([%w[submitted allocated part_authorised], %w[redetermination allocated refused]])
         end
       end
       # rubocop:enable RSpec/ExampleLength

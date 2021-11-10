@@ -429,44 +429,26 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         # keep the spreadsheet small for filtering purposes. It could be removed
         # if these problems are no longer issues.
 
-        # TODO: handle boundaries for BST and GMT/UTC
-        #
-        # 1. We want this to fail if 6.months.ago.beginning_of_day falls INSIDE BST
-        # (end of march to end of october rougly) and the query is not using
-        # 'Europe/London' timezone "casting".
-        #
-        # 2. We want this to fail if 6.months.ago.beginning_of_day falls OUTSIDE BST
-        # (beginning november to end of march roughly) and the query is not using
-        # 'Europe/London' timezone "casting".
-        #
-        # IMPORTANT: query uses postgres `now()` which cannot be stubbed
-        #
-
-        # TODO: this emulates MI version 1 current behaviour, however:
-
-        # 1. the 6 month rule should probably include transitions that are exactly 6 months old.
-        # 2. it is time sensitive (and performance sensitive) as there is no way to stub postgres
-        #    db now() method. It may be flaky therefore.
-        # 3. to improve this, and the report logic generally, we should truncate the date comparisons on
-        # old and new MI reports to nearest date (i.e. not datetime). This will provide clear behaviour
-        # as well as be more testable.
+        # IMPORTANT: query uses postgres `current_date` which cannot be stubbed so do not use freeze_time
+        # as it will not be reflected by the query. We can, however, use time travel to set the created_at
+        # stamp in the DB.
 
         it 'includes all transitions under 6 months old' do
-          travel_to(6.months.ago + 1.second) { claim }
+          travel_to(6.months.ago.beginning_of_day + 1.second) { claim }
           claim.allocate!
-          expect(transition_tos).to match_array([%w[submitted allocated]])
+          expect(transition_tos).to contain_exactly(%w[submitted allocated])
         end
 
-        it 'excludes state transitions exactly 6 months old' do
-          travel_to(6.months.ago) { claim }
+        it 'includes state transitions exactly 6 months old' do
+          travel_to(6.months.ago.beginning_of_day) { claim }
           claim.allocate!
-          expect(transition_tos).to match_array([%w[allocated]])
+          expect(transition_tos).to contain_exactly(%w[submitted allocated])
         end
 
         it 'excludes state transitions over 6 months old' do
-          travel_to(6.months.ago - 1.second) { claim }
+          travel_to(6.months.ago.beginning_of_day - 1.second) { claim }
           claim.allocate!
-          expect(transition_tos).to match_array([%w[allocated]])
+          expect(transition_tos).to contain_exactly(%w[allocated])
         end
       end
 

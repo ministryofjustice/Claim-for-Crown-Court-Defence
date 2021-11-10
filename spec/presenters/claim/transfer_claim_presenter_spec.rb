@@ -109,8 +109,10 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
     end
   end
 
-  it 'has disbursements' do
-    expect(presenter.can_have_disbursements?).to eq(true)
+  describe '#can_have_disbursements?' do
+    subject { presenter.can_have_disbursements? }
+
+    it { is_expected.to be_truthy }
   end
 
   describe '#case_conclusions' do
@@ -125,7 +127,7 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
     end
 
     it 'returns a has of case conclusion descriptions and ids' do
-      expect(presenter.case_conclusions).to match case_conclusions
+      expect(presenter.case_conclusions).to match(case_conclusions)
     end
   end
 

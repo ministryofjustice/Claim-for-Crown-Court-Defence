@@ -48,9 +48,9 @@ RSpec.describe Stats::ManagementInformation::Presenter do
 
     let(:record) { query.first }
 
-    context 'when journey contains no submissions' do
+    context 'when journey contains no submissions (within 6 month cut off)' do
       before do
-        travel_to(6.months.ago - 1.second) { claim }
+        travel_to(6.months.ago.beginning_of_day - 1.second) { claim }
         claim.allocate!
       end
 

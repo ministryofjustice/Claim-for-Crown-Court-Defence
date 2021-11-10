@@ -39,7 +39,7 @@ RSpec.describe Stats::ManagementInformationGenerator do
       # excluded from MI report
       create(:advocate_final_claim, :draft)
       create(:advocate_final_claim, :authorised).soft_delete
-      travel_to(6.months.ago) { create(:advocate_final_claim, :allocated) }
+      travel_to(6.months.ago.beginning_of_day - 1.second) { create(:advocate_final_claim, :allocated) }
 
       # included in MI report
       create(:litigator_final_claim, :submitted)
@@ -47,7 +47,7 @@ RSpec.describe Stats::ManagementInformationGenerator do
       create(:advocate_final_claim, :submitted)
       create(:advocate_final_claim, :allocated)
       create(:advocate_final_claim, :part_authorised)
-      travel_to(6.months.ago + 1.day) { create(:advocate_final_claim, :authorised) }
+      travel_to(6.months.ago.beginning_of_day) { create(:advocate_final_claim, :authorised) }
     end
 
     it 'has expected headers' do

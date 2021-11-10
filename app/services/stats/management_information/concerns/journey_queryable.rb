@@ -102,10 +102,7 @@ module Stats
               c.*,
               c2.scheme as scheme,
               p.name as organisation,
-              coalesce(ct.name, (select ct2.name
-                                   from case_types ct2
-                                  where ct2.id = cs.case_type_id)
-              ) as case_type_name,
+              coalesce(ct.name, ct2.name) as case_type_name,
               c2.scheme || ' ' || c2.sub_type as bill_type,
               round(c.total + c.vat_amount, 4) as claim_total,
               c.last_submitted_at at time zone 'utc' at time zone 'Europe/London' as last_submitted_at,
@@ -125,8 +122,24 @@ module Stats
               ON ct.id = c.case_type_id
             LEFT OUTER JOIN case_stages cs
               ON cs.id = c.case_stage_id
+            LEFT OUTER JOIN case_types AS ct2
+              ON ct2.id = cs.case_type_id
             LEFT JOIN LATERAL journeys(c.id) j
               ON TRUE
+            LEFT JOIN LATERAL (
+              select
+                case
+                  when type in #{in_statement_for(agfs_claim_types)} then 'AGFS'
+                  when type in #{in_statement_for(lgfs_claim_types)} then 'LGFS'
+                  else 'Unknown'
+                end as scheme,
+                case
+                  when regexp_replace(type, 'Claim|::|Advocate|Litigator|\s+', '', 'g') = '' then 'Final'
+                  else regexp_replace(type, 'Claim|::|Advocate|Litigator|\s+', '', 'g')
+                end as sub_type
+              from claims
+              where id = c.id
+            ) c2 ON TRUE
             LEFT JOIN LATERAL (
               select first_name || ' ' || last_name as name
               from defendants
@@ -142,20 +155,6 @@ module Stats
               order by r.representation_order_date, r.created_at asc
               fetch first row only
             ) earliest_representation_order ON TRUE
-            LEFT JOIN LATERAL (
-              select
-                case
-                  when type in #{in_statement_for(agfs_claim_types)} then 'AGFS'
-                  when type in #{in_statement_for(lgfs_claim_types)} then 'LGFS'
-                  else 'Unknown'
-                end as scheme,
-                case
-                  when regexp_replace(type, 'Claim|::|Advocate|Litigator|\s+', '', 'g') = '' then 'Final'
-                  else regexp_replace(type, 'Claim|::|Advocate|Litigator|\s+', '', 'g')
-                end as sub_type
-              from claims
-              where id = c.id
-              ) c2 ON TRUE
             LEFT JOIN LATERAL (
               select transitions ->> 'author_name' as author_name
               from journeys(c.id) j2,

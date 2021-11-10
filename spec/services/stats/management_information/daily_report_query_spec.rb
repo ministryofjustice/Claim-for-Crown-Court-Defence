@@ -116,7 +116,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       context 'with a claim without a case type' do
         before { create(:litigator_transfer_claim, :submitted) }
 
-        it { is_expected.to all(be_nil) }
+        it { is_expected.to contain_exactly(nil) }
       end
 
       context 'with a claim with a case type' do

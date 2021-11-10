@@ -14,7 +14,7 @@ FactoryBot.define do
       roles { %w(agfs) }
     end
 
-    # do not use obsolete
+    # obsolete - do not use
     trait :agfs_pre_ptph_evidence do
       description { 'Pre PTPH (evidence served)' }
       unique_code { 'PREPTPHES' }

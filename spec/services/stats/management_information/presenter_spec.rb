@@ -4,7 +4,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
   subject(:presenter) { described_class.new(record) }
 
   # OPTIMIZE: to use factory build instead of create and hash the claim object instead
-  # of querying the database. This would spead the tests up at the cost of being a less
+  # of querying the database. This would speed the tests up at the cost of being a less
   # realistic test.
   #
   let(:query) { Stats::ManagementInformation::DailyReportQuery.call }

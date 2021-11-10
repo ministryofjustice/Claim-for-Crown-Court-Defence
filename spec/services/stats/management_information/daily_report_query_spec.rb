@@ -142,25 +142,25 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       context 'with advocate final claim' do
         before { create(:advocate_final_claim, :submitted) }
 
-        it { is_expected.to match_array(['AGFS Final']) }
+        it { is_expected.to contain_exactly('AGFS Final') }
       end
 
       context 'with advocate supplementary claim' do
         before { create(:advocate_supplementary_claim, :submitted) }
 
-        it { is_expected.to match_array(['AGFS Supplementary']) }
+        it { is_expected.to contain_exactly('AGFS Supplementary') }
       end
 
       context 'with litigator final claim' do
         before { create(:litigator_final_claim, :submitted) }
 
-        it { is_expected.to match_array(['LGFS Final']) }
+        it { is_expected.to contain_exactly('LGFS Final') }
       end
 
       context 'with litigator transfer claim' do
         before { create(:litigator_transfer_claim, :submitted) }
 
-        it { is_expected.to match_array(['LGFS Transfer']) }
+        it { is_expected.to contain_exactly('LGFS Transfer') }
       end
     end
 

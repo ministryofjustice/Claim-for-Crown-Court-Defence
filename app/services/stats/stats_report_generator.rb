@@ -4,19 +4,19 @@ module Stats
 
     # rubocop:disable Metrics/MethodLength
     def self.for(report_type)
-      Hash.new({ class: ReportGenerator, args: [report_type] }).merge(
+      Hash.new({ class: ReportGenerator, default_args: [report_type] }).merge(
         management_information:
-          { class: ManagementInformationGenerator, args: [] },
+          { class: ManagementInformationGenerator, default_args: [] },
         agfs_management_information:
-          { class: ManagementInformationGenerator, args: [{ scheme: :agfs }] },
+          { class: ManagementInformationGenerator, default_args: [{ scheme: :agfs }] },
         lgfs_management_information:
-          { class: ManagementInformationGenerator, args: [{ scheme: :lgfs }] },
+          { class: ManagementInformationGenerator, default_args: [{ scheme: :lgfs }] },
         management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, args: [] },
+          { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [] },
         agfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, args: [{ scheme: :agfs }] },
+          { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [{ scheme: :agfs }] },
         lgfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, args: [{ scheme: :lgfs }] }
+          { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [{ scheme: :lgfs }] }
       )[report_type.to_sym]
     end
     # rubocop:enable Metrics/MethodLength
@@ -53,7 +53,7 @@ module Stats
 
     def generate_new_report
       generator = self.class.for(report_type)
-      generator[:class].call(*generator[:args])
+      generator[:class].call(*generator[:default_args])
     end
 
     def notify_error(report_record, error)

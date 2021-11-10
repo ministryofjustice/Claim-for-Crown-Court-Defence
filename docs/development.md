@@ -110,11 +110,23 @@ With your local rails server running you can browse to ```http://localhost:3000/
 
 ## Anonymised database dump and restore
 
-In order to create an anonymised dump of an environments database you can:
+In order to test running of an anonymised dump against your local database you can:
+
+```bash
+# run anonymised db dump locally for testing purposes
+$ bundle exec rails db:dump:anonymised
+```
+
+In order to create an anonymised dump of a hosted environments database you can:
 
 ```bash
 # run the db-dump job in the given environment
 $ bundle exec rake db:dump:run_job['dev']
+```
+
+```bash
+# run the db-dump job in the given environment using a built branch docker tag
+$ bundle exec rake db:dump:run_job['dev','my-branch-latest']
 ```
 
 This task requires you have kubectl installed locally and access to git-crypted secrets.
@@ -164,10 +176,10 @@ Alternatively, if dump files already exist for the environment you can list them
 
 ```bash
 # delete all but the latest dump file
-$ rake db:dump:delete_s3_dumps['production']
+$ bundle exec rake db:dump:delete_s3_dumps['production']
 
 # delete all dump files
-$ rake db:dump:delete_s3_dumps['production','all']
+$ bundle exec rake db:dump:delete_s3_dumps['production','all']
 ```
 
 ### Restoring dump on remote host

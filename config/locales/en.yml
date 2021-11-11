@@ -2499,7 +2499,6 @@ en:
           page_heading: Reports
           page_title: View management information
           provisional_assessments_by_date: Provisional assessment by date
-          regenerate: Regenerate
           report_information: |
             These reports are not saved and are generated on demand
           report_instructions: |
@@ -2516,8 +2515,9 @@ en:
             rejections_refusals: 'Rejections/Refusals'
           start_date: Start date
           unavailable_report: "There is currently no report available"
+          update_report: Update report
           year: Year
-        job_scheduled: 'A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.'
+        job_scheduled: Refresh this page in a few minutes to download the new report.
     claims:
       archived:
         page_heading: Your archive

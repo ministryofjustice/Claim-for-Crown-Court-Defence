@@ -27,7 +27,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   def generate
     StatsReportGenerationJob.perform_later(params[:report_type])
     message = t('case_workers.admin.management_information.job_scheduled')
-    redirect_to case_workers_admin_management_information_url, alert: message
+    redirect_to case_workers_admin_management_information_url, flash: { notification: message }
   end
 
   private

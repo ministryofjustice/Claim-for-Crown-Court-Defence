@@ -17,7 +17,7 @@
       - if report&.started_at.present?
         = govuk_link_button(t('.download'), case_workers_admin_management_information_download_url(report_type: report_type, format: :csv))
 
-      = govuk_link_button(t('.regenerate'), case_workers_admin_management_information_generate_url(report_type: report_type))
+      = govuk_link_button_secondary(t('.update_report'), case_workers_admin_management_information_generate_url(report_type: report_type))
 
 #provisional-assessment-date.form-section.fx-dates-chooser
   %h2.govuk-heading-l

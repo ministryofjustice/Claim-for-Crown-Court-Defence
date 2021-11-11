@@ -95,8 +95,10 @@ module Stats
         @submission ||= journey.find { |transition| SUBMITTED_STATES.include?(transition[:to]) }
       end
 
+      # we have to find the last due to edge case of "stuck" claims that have been "unstuck".
+      # such claims may have been [allocated, submitted, allocated, ...] so we want the last.
       def allocation
-        @allocation ||= journey.find { |transition| transition[:to] == 'allocated' }
+        @allocation ||= journey.reverse.find { |transition| transition[:to] == 'allocated' }
       end
 
       def completion

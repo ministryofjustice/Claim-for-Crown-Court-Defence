@@ -62,7 +62,7 @@ module Stats
 
                 for transition in (select jsonb_array_elements(rec.transitions))
                 loop
-                  -- remove "deallocated" allocations as not important for report
+                  -- remove "deallocated" allocations as not wanted for report
                   if transition ->> 'to' = 'deallocated' then
                     slice := slice - -1;
                   else

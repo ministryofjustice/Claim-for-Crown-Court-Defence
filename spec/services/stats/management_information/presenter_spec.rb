@@ -126,6 +126,25 @@ RSpec.describe Stats::ManagementInformation::Presenter do
 
       it { is_expected.to eql('n/a') }
     end
+
+    # we have to find the last due to edge case of "stuck" claims that have been "unstuck".
+    # such claims may have been [allocated, submitted, allocated, ...] so we want the last.
+    context 'with an "unstuck" claim' do
+      before do
+        travel_to(1.day.ago) { stuck_claim }
+        stuck_claim.allocate!
+      end
+
+      let(:stuck_claim) { create(:advocate_final_claim, :allocated).tap(&:submit!) }
+
+      let(:record) { query.first }
+
+      let(:allocated_ats) do
+        record[:journey].find_all { |j| j[:to].eql?('allocated') }
+      end
+
+      it { is_expected.to eql(allocated_ats.last[:created_at].strftime('%d/%m/%Y')) }
+    end
   end
 
   describe '#completed_at' do

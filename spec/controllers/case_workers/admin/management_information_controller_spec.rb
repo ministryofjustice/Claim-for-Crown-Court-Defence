@@ -88,7 +88,7 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
         it 'redirects the user to the management information page with a successful alert message' do
           expect(response).to have_http_status(:redirect)
           expect(response).to redirect_to(case_workers_admin_management_information_url)
-          expect(flash[:alert]).to eq('A background job has been scheduled to regenerate the report. Please refresh this page in a few minutes.')
+          expect(flash[:notification]).to eq('Refresh this page in a few minutes to download the new report.')
         end
 
         it 'starts a ManagemenInformationGeneration job' do

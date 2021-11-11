@@ -5,7 +5,7 @@
 module GovukComponent
   module TableHelpers
     def govuk_table(tag_options = {}, &block)
-      tag_options = prepend_classes('govuk-table', tag_options)
+      tag_options = prepend_classes('govuk-table app-table--responsive', tag_options)
 
       tag.table(capture(&block), tag_options)
     end

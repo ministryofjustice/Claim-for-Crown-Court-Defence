@@ -7,7 +7,7 @@ RSpec.describe GovukComponent::TableHelpers, type: :helper do
     subject(:markup) { helper.govuk_table(class: 'my-custom-class') { nil } }
 
     it 'adds a govuk table' do
-      is_expected.to have_tag(:table, with: { class: 'govuk-table my-custom-class' })
+      is_expected.to have_tag(:table, with: { class: 'govuk-table app-table--responsive my-custom-class' })
     end
   end
 

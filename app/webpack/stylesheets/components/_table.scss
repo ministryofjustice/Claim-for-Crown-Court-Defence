@@ -1,0 +1,172 @@
+// stylelint-disable max-nesting-depth, selector-class-pattern, selector-no-qualifying-type
+
+tr {
+  &.error.injection-error {
+    border-left: 5px solid $error-colour;
+    color: inherit;
+
+    td {
+      padding-top: $gutter;
+
+      .error-message-container {
+        position: relative;
+        padding-left: $gutter-half;
+      }
+
+      .error-message {
+        position: absolute;
+        top: -$gutter;
+        width: 320px;
+        color: $error-colour;
+        text-align: left;
+      }
+    }
+  }
+
+  &.injection-warning {
+    border-left: 5px solid $orange;
+
+    td {
+      padding-top: $gutter;
+
+      .warning-message-container {
+        position: relative;
+      }
+
+      .warning-message {
+        position: absolute;
+        top: -$gutter;
+        width: 320px;
+        color: $orange;
+        text-align: left;
+      }
+    }
+  }
+}
+
+.mobile-sort {
+  display: none;
+}
+
+.app-table--responsive {
+  @include govuk-media-query($until: desktop) {
+    tr {
+      display: block;
+      margin-bottom: $gutter-one-third;
+      border-bottom: 3px solid $grey-3;
+
+      .govuk-table__header:last-child,
+      .govuk-table__cell:last-child,
+      th,
+      td {
+        display: block;
+        padding: $gutter-half;
+        border-bottom: 1px solid $grey-3;
+        text-align: right;
+
+        br {
+          display: none;
+        }
+      }
+
+      &.mobile-sort {
+        @include govuk-clearfix;
+        display: inline-block;
+        width: $full-width;
+
+        background-color: $white;
+        vertical-align: inherit;
+
+        th {
+          text-align: left;
+
+          a {
+            display: inline-block;
+            margin: $gutter-one-sixth $gutter-half - 3;
+          }
+        }
+      }
+    }
+
+    tbody tr td:first-child {
+      background-color: $border-colour;
+      font-weight: 700;
+
+      a {
+        display: block;
+      }
+    }
+
+    thead {
+      display: none;
+    }
+
+    tbody tr:nth-child(odd),
+    tbody tr:nth-child(even) {
+      background-color: none;
+    }
+
+    th:before,
+    td:before {
+      content: attr(data-label);
+      float: left;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .unique-id-small {
+      display: none;
+    }
+
+    .state {
+      display: inline;
+    }
+  }
+}
+
+// DataTables
+.dataTables_wrapper {
+  .dataTables_filter {
+    float: none;
+    text-align: left;
+  }
+
+  .dataTables_filter input,
+  .dataTables_length select {
+    padding: govuk-spacing(1);
+    border: $govuk-border-width-form-element solid $govuk-input-border-colour;
+    border-radius: 0;
+  }
+
+  .dataTables_info {
+    float: right;
+  }
+
+  .select-item {
+    font-weight: bold;
+  }
+
+  .dataTables_paginate {
+    padding-top: 0;
+
+    .paginate_button.current {
+      border: 1px solid transparent;
+      background: none;
+      font-weight: bold;
+    }
+  }
+}
+
+table.dataTable {
+  border-collapse: collapse;
+
+  &.no-footer {
+    border-bottom: none;
+  }
+}
+
+.app-jq-datatable {
+  thead th {
+    vertical-align: middle;
+  }
+}

@@ -1,7 +1,2 @@
-%table{ class: 'summary' }
-  %tbody
-    %tr
-      %th{ scope: 'row', class: 'bold' }
-        = t("common.prosecution_evidence")
-      %td
-        = t(claim.prosecution_evidence?.class)
+= govuk_summary_list do
+  = govuk_summary_list_row(t('common.prosecution_evidence')) {t(claim.prosecution_evidence?.class)}

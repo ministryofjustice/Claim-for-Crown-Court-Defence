@@ -28,7 +28,6 @@ $govuk-font-url-function: frontend-font-url;
 @import '~govuk-elements-sass/public/sass/elements/buttons';
 @import '~govuk-elements-sass/public/sass/elements/icons';
 @import '~govuk-elements-sass/public/sass/elements/lists';
-@import '~govuk-elements-sass/public/sass/elements/tables';
 @import '~govuk-elements-sass/public/sass/elements/details';
 @import '~govuk-elements-sass/public/sass/elements/panels';
 @import '~govuk-elements-sass/public/sass/elements/forms';
@@ -62,7 +61,6 @@ $govuk-font-url-function: frontend-font-url;
 @import '~accessible-autocomplete/src/autocomplete';
 @import '~datatables.net-dt/css/jquery.dataTables';
 @import '~jquery-datatables-checkboxes/css/dataTables.checkboxes';
-@import 'tables';
 @import 'navigation';
 
 // Ported from v1 stylesheets
@@ -78,6 +76,7 @@ $govuk-font-url-function: frontend-font-url;
 
 @import 'components/card';
 @import 'components/code';
+@import 'components/table';
 @import 'components/tag';
 @import 'components/notification_banner';
 

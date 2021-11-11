@@ -2,50 +2,50 @@
   %h2.govuk-heading-m
     Evidence supplied on disk
 
-  %table.summary
-    %caption.govuk-visually-hidden
+  = govuk_table do
+    = govuk_table_caption(class: 'govuk-visually-hidden') do
       = "Evidence supplied on disk"
-    %tbody
-      %tr
-        %th{ scope:'row', class: 'bold' }
+    = govuk_table_tbody do
+      = govuk_table_row do
+        = govuk_table_th(scope:'row') do
           = "Reference number:"
-        %td
+        = govuk_table_td('data-label': "Reference number") do
           = claim.disk_evidence_reference
 
 %h2.govuk-heading-m
   Supporting evidence documents
 
-%table.summary
-  %caption.govuk-visually-hidden
+= govuk_table do
+  = govuk_table_caption(class: 'govuk-visually-hidden') do
     = t('.caption')
-  %tbody
+  = govuk_table_tbody do
     - claim.documents.each do |document|
-      %tr
-        %th.summary-headings{scope:'row'}
+      = govuk_table_row do
+        = govuk_table_th(scope:'row') do
           = t('shared.evidence_list.name_of_file')
-        %td
+        = govuk_table_td('data-label': t('shared.evidence_list.name_of_file')) do
           = document.document_file_name
-      %tr
-        %th{scope:'row'}
+      = govuk_table_row do
+        = govuk_table_th(scope:'row') do
           = t('shared.evidence_list.file_size')
-        %td
+        = govuk_table_td('data-label': t('shared.evidence_list.file_size')) do
           = number_to_human_size(document.document_file_size)
-      %tr
-        %th{scope:'row'}
+      = govuk_table_row do
+        = govuk_table_th(scope:'row') do
           = t('shared.evidence_list.date_added')
-        %td
+        = govuk_table_td('data-label': t('shared.evidence_list.date_added')) do
           = document.document_updated_at
-      %tr
-        %th{scope:'row'}
+      = govuk_table_row do
+        = govuk_table_th(scope:'row') do
           = t('shared.evidence_list.actions')
-        %td
-          - if document.converted_preview_document.present?
-            = govuk_link_to t('common.view'),
-                      document_path(document),
-                      class: 'view',
-                      'aria-label': "View document: #{document.document_file_name}"
-            = " | "
-          = govuk_link_to t('common.download'),
-                    download_document_path(document),
-                    class: 'download',
-                    'aria-label': "Download document: #{document.document_file_name}"
+        = govuk_table_td('data-label': t('shared.evidence_list.actions')) do
+          .app-link-group
+            - if document.converted_preview_document.present?
+              = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"),
+                        document_path(document),
+                        class: 'view'
+
+            = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"),
+                      download_document_path(document),
+                      class: 'download'
+

@@ -1,16 +1,16 @@
 %h1.govuk-heading-l
   Message notifications
 
-%table
-  %thead
-    %th{ scope: 'col' }
+= govuk_table do
+  = govuk_table_thead do
+    = govuk_table_th do
       Date
-    %th{ scope: 'col' }
+    = govuk_table_th do
       Claim
-  %tbody
+  = govuk_table_tbody do
     - @user_message_statuses.each do |user_message_status|
-      %tr
-        %td
+      = govuk_table_row do
+        = govuk_table_td('data-label': "Date") do
           = user_message_status.message.created_at.strftime(Settings.date_time_format)
-        %td
+        = govuk_table_td('data-label': "Claim") do
           = govuk_link_to 'View claim', __send__(current_user.persona.message_claim_path, user_message_status.message.claim, anchor: 'messages')

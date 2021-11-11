@@ -1,28 +1,26 @@
 - if @claim.documents.any?(&:persisted?)
-  %table.previously-uploaded
-    %caption
+  = govuk_table(class: 'files') do
+    = govuk_table_caption do
       = t('.previously_uploaded_docs')
 
-    %thead
-      %tr
-        %th{ scope: 'col' }
+    = govuk_table_thead do
+      = govuk_table_row do
+        = govuk_table_th(class: 'govuk-!-width-two-thirds') do
           = t('.file_name')
-        %th{ scope: 'col' }
+        = govuk_table_th do
           = t('.action')
-    %tbody
+    = govuk_table_tbody do
       - @claim.documents.order(created_at: :asc).each do |document|
-        %tr{ id: dom_id(document) }
-          %td
+        = govuk_table_row(id: dom_id(document)) do
+          = govuk_table_td('data-label': t('.file_name')) do
             = document.document_file_name
-          %td
-            = govuk_link_to t('common.download'),
-                      download_document_path(document),
-                      class: 'download',
-                      'aria-label': "Download document: #{document.document_file_name}"
-            = ' | '
-            = govuk_link_to t('common.remove'),
-                      document_path(document),
-                      method: :delete,
-                      remote: true,
-                      'aria-label': "Remove document: #{document.document_file_name}",
-                      data: { confirm: 'Are you sure?' }
+          = govuk_table_td('data-label': t('.action')) do
+            .app-link-group
+              = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"),
+                        download_document_path(document),
+                        class: 'download'
+              = govuk_link_to t('common.remove_html', context: "#{document.document_file_name}"),
+                        document_path(document),
+                        method: :delete,
+                        remote: true,
+                        data: { confirm: 'Are you sure?' }

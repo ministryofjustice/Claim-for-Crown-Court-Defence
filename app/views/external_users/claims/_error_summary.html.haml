@@ -1,12 +1,40 @@
-- if ep && ep.size > 0
-  .error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
-    %h1#error-summary-heading.govuk-heading-m.error-summary-heading
-      = "#{t('.prohibited_save')} #{pluralize(ep.size, t('.error'))}"
+-# govuk_design_system_formbuilder gem now
+-# allows the error summary to be rendered outside of the form
 
-    %span.form-hint
-      = t('shared.errors.form_error_hint')
+-# both the new and old error summary are displayed
+-# error linking on works between their relative frombuilders and their error summary
 
-    %ul.error-summary-list
-      - ep.summary_errors.each do |error_detail|
-        %li
-          = error_detail.long_message_link
+-# migrating one step at a time,
+-# check if form_step, then print the relevant error summary
+-# this assumes no migrated partials are used in later form_steps!
+-# if they are, what then??
+
+-# error linking can be resolved, by using
+-# Custom summary error presenter injection
+-# https://govuk-form-builder.netlify.app/introduction/error-handling/#custom-summary-error-presenter-injection
+-# thanks to @JoelSugarman
+
+-# there will be differences in the error summary components,
+-# we may be able to live with this until all
+-# form_steps have been migrated, at that point we
+-# can remove the below condtional checking
+
+-# = govuk_error_summary(@claim, :claim)
+
+
+- if %w[case_details].include?(@claim.form_step.to_s)
+  = govuk_error_summary(@claim, :claim, presenter: @error_presenter)
+
+- else
+  - if ep && ep.size > 0
+    .error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
+      %h1#error-summary-heading.govuk-heading-m.error-summary-heading
+        = "#{t('.prohibited_save')} #{pluralize(ep.size, t('.error'))}"
+
+      %span.form-hint
+        = t('shared.errors.form_error_hint')
+
+      %ul.error-summary-list
+        - ep.summary_errors.each do |error_detail|
+          %li
+            = error_detail.long_message_link

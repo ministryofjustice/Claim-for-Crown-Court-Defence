@@ -1,12 +1,15 @@
 module Cleaners
   class TransferClaimCleaner < BaseClaimCleaner
+    include IneligibleMiscFeesCleanable
+
     def call
-      destroy_invalid_fees
+      clear_graduate_fees
+      clear_ineligible_misc_fees
     end
 
     private
 
-    def destroy_invalid_fees
+    def clear_graduate_fees
       fees.where(type: 'Fee::GraduatedFee').destroy_all
     end
   end

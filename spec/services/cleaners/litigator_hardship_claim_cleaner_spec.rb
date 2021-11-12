@@ -13,6 +13,7 @@ RSpec.describe Cleaners::LitigatorHardshipClaimCleaner do
         case_stage: build(:case_stage, :pre_ptph_with_evidence)
       )
     end
+
     let(:hardship_fee) do
       create(
         :hardship_fee,

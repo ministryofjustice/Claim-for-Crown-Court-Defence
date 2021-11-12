@@ -14,24 +14,6 @@ FactoryBot.define do
       roles { %w(agfs) }
     end
 
-    # obsolete - do not use
-    trait :agfs_pre_ptph_evidence do
-      description { 'Pre PTPH (evidence served)' }
-      unique_code { 'PREPTPHES' }
-      position { 5 }
-      case_type_id { create(:case_type, :guilty_plea).id }
-      roles { %w(agfs) }
-    end
-
-    # obsolete - do not use
-    trait :agfs_pre_ptph_no_evidence do
-      description { 'Pre PTPH (no evidence served)' }
-      unique_code { 'PREPTPH' }
-      position { 10 }
-      case_type_id { create(:case_type, :discontinuance).id }
-      roles { %w(agfs) }
-    end
-
     trait :cracked_trial do
       description { 'After PTPH before trial' }
       unique_code { 'AFTPTPH' }
@@ -88,7 +70,7 @@ FactoryBot.define do
       roles { %w(agfs) }
     end
 
-    # obsolete - do not use
+    # TODO: this is case_stage with unique_code of "OBSOLETE1" on DB
     trait :pre_ptph_with_evidence do
       description { 'Pre PTPH (evidence served)' }
       unique_code { 'NOPTPHWPPE' }
@@ -97,7 +79,7 @@ FactoryBot.define do
       roles { %w(lgfs) }
     end
 
-    # obsolete - do not use
+    # TODO: this is case_stage with unique_code of "OBSOLETE2" on DB
     trait :pre_ptph_no_evidence do
       description { 'Pre PTPH (no evidence served)' }
       unique_code { 'NOPTPHNOPPE' }

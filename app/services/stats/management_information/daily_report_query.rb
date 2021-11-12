@@ -28,7 +28,7 @@ module Stats
       private
 
       def journeys
-        ActiveRecord::Base.connection.execute(journeys_query)
+        journeys_query.execute
       end
 
       def transform(result)

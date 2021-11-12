@@ -9,9 +9,9 @@ module Stats
         delegate :claim_types, :agfs_claim_types, :lgfs_claim_types, to: :'::Claim::BaseClaim'
 
         def claim_type_filter
-          return in_statement_for(claim_types) if scheme.blank?
           return in_statement_for(agfs_claim_types) if scheme.eql?('AGFS')
-          in_statement_for(lgfs_claim_types)
+          return in_statement_for(lgfs_claim_types) if scheme.eql?('LGFS')
+          in_statement_for(claim_types)
         end
 
         def in_statement_for(arr)

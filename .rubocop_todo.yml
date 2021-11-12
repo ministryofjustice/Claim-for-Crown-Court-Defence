@@ -352,7 +352,6 @@ Metrics/ModuleLength:
     - 'app/helpers/application_helper.rb'
     - 'app/models/claims/calculations.rb'
     - 'app/models/claims/state_machine.rb'
-    - 'app/services/stats/management_information/concerns/journey_queryable.rb'
     - 'spec/models/fee/base_fee_spec.rb'
     - 'spec/support/validation_helpers.rb'
 

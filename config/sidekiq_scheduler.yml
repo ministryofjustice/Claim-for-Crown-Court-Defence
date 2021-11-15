@@ -1,0 +1,60 @@
+agfs_management_information_v2:
+  class: AgfsManagementInformationV2GenerationScheduler
+  description: AGFS MI report
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 1:50 am')]
+
+agfs_management_information:
+  class: AgfsManagementInformationGenerationScheduler
+  description: AGFS MI report
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 2:00 am')]
+
+lgfs_management_information_v2:
+  class: LgfsManagementInformationV2GenerationScheduler
+  description: LGFS MI report
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 2:20 am')]
+
+lgfs_management_information:
+  class: LgfsManagementInformationGenerationScheduler
+  description: LGFS MI report
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 2:30 am')]
+
+management_information_v2:
+  class: ManagementInformationV2GenerationScheduler
+  description: AGFS/LGFS MI report
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 2:50 am')]
+
+management_information:
+  class: ManagementInformationGenerationScheduler
+  description: AGFS/LGFS MI report
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 3 am')]
+
+geckoboard_provider_report:
+  class: GeckoboardProviderReportScheduler
+  description: Providers report generation for geckoboard
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 3:50 am')]
+
+document_cleaner:
+  class: DocumentCleanerScheduler
+  description: Destroy documents with no claim_id
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 4 am')]
+
+geckoboard_travel_automation_report:
+  class: GeckoboardTravelAutomationReportScheduler
+  description: Various statistics collection
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 4:40 am')]
+
+daily_stats:
+  class: DailyStatsGenerationScheduler
+  description: Various statistics collection
+  queue: stats_reports
+  every: ['1d', first_at: Chronic.parse('next 5 am')]
+

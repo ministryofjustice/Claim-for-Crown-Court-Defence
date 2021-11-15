@@ -1,21 +1,22 @@
-require 'chronic'
+require 'sidekiq-scheduler'
 
-# https://github.com/ssoroka/scheduler_daemon for help
-class DailyStatsGenerator < Scheduler::SchedulerTask
-  every '1d', first_at: Chronic.parse('next 5 am')
+class DailyStatsGenerationScheduler
+  include Sidekiq::Worker
 
-  def run
-    log('Daily stats generation started')
+  def perform
+    LogStuff.info { "#{self.class.name} started" }
 
     collectors.each do |klass|
-      log("Starting #{klass}")
+      LogStuff.info { "#{klass} started" }
       begin
         klass.new(date).collect
       rescue StandardError => e
-        log("ERROR: #{e.class} #{e.message}")
+        LogStuff.error { "#{e.class} error: " + e.message }
+      ensure
+        LogStuff.info { "#{klass} finished" }
       end
     end
-    log('Daily stats generation finished')
+    LogStuff.info { "#{self.class.name} finished" }
   end
 
   private

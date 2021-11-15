@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     root to: 'super_admins/super_admins#show', as: :super_admins_home
 
     require 'sidekiq/web'
+    require 'sidekiq-scheduler/web'
     mount Sidekiq::Web => '/sidekiq'
   end
 

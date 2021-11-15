@@ -48,6 +48,8 @@ module AdvocateDefencePayments
 
     config.autoload_paths << config.root.join('lib')
     config.eager_load_paths << config.root.join('lib')
+    config.autoload_paths << config.root.join('scheduler')
+    config.eager_load_paths << config.root.join('scheduler')
     config.exceptions_app = self.routes
 
     config.active_job.queue_adapter = :sidekiq

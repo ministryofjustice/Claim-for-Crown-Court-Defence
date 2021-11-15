@@ -9,7 +9,7 @@
       = t('.report_instructions')
 
     - @available_report_types.each do |report_type, report|
-      - report_name = t(".report_types.#{report_type}")
+      - report_name = t(".report_types.#{report_type}_html")
       .form-section
         %h2.govuk-heading-l{ id: "heading-#{report_type}" }
           = report_name

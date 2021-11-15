@@ -2505,14 +2505,18 @@ en:
             Click ‘Download’ to download the report now, or click ‘Update report’ to create a new version of the report with the latest data.
           report_generated_at: "The latest report was generated at %{time}"
           report_types:
-            agfs_management_information: AGFS management information
-            agfs_management_information_v2: AGFS management information V2
-            lgfs_management_information: LGFS management information
-            lgfs_management_information_v2: LGFS management information V2
-            management_information: Management information
-            management_information_v2: Management information V2
-            provisional_assessment: Provisional assessment
-            rejections_refusals: 'Rejections/Refusals'
+            agfs_management_information_html: AGFS management information
+            agfs_management_information_v2_html: |
+              AGFS management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
+            lgfs_management_information_html: LGFS management information
+            lgfs_management_information_v2_html: |
+              LGFS management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
+            management_information_html: Management information
+            management_information_v2_html: |
+              Management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
+            provisional_assessment_html: Provisional assessment
+            rejections_refusals_html: 'Rejections/Refusals'
+            submitted_claims_html: Submitted claims
           start_date: Start date
           unavailable_report: "There is currently no report available"
           update_report: Update report

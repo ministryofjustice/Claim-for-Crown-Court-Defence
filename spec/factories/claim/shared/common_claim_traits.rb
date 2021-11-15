@@ -28,28 +28,28 @@ FactoryBot.define do
       allocate_claim(claim)
       claim.reload
       assign_fees_and_expenses_for(claim)
-      claim.authorise_part
+      claim.authorise_part({ author_id: claim.case_workers.first.user.id })
     end
   end
 
   trait :refused do
     after(:create) do |claim|
       allocate_claim(claim)
-      claim.refuse!
+      claim.refuse!({ author_id: claim.case_workers.first.user.id })
     end
   end
 
   trait :rejected do
     after(:create) do |claim|
       allocate_claim(claim)
-      claim.reject!
+      claim.reject!({ author_id: claim.case_workers.first.user.id })
     end
   end
 
   trait :awaiting_written_reasons do
     after(:create) do |claim|
       authorise_claim(claim)
-      claim.await_written_reasons!
+      claim.await_written_reasons!({ author_id: claim.external_user.user.id })
     end
   end
 
@@ -61,7 +61,7 @@ FactoryBot.define do
         assign_fees_and_expenses_for(claim)
         claim.authorise!
       end
-      claim.redetermine!
+      claim.redetermine!({ author_id: claim.external_user.user.id })
     end
   end
 
@@ -69,6 +69,13 @@ FactoryBot.define do
     after(:create) do |claim|
       authorise_claim(claim)
       claim.archive_pending_delete!
+    end
+  end
+
+  trait :archived_pending_review do
+    after(:create) do |claim|
+      authorise_claim(claim)
+      claim.archive_pending_review!
     end
   end
 end

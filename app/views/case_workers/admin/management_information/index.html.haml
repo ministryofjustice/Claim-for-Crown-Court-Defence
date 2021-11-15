@@ -3,42 +3,45 @@
 
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
-- @available_report_types.each do |report_type, report|
-  - report_name = t(".report_types.#{report_type}")
-  .form-section
-    %h2.govuk-heading-l{ id: "heading-#{report_type}" }
-      = report_name
-    %p{ role: 'group', 'aria-labelledby': "heading-#{report_type}" }
-      - if report&.started_at
-        = t('.report_generated_at', time: report.started_at.strftime(Settings.report_date_format))
-      - else
-        = t('.unavailable_report')
-    %p
-      - if report&.started_at.present?
-        = govuk_link_button(t('.download'), case_workers_admin_management_information_download_url(report_type: report_type, format: :csv))
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = govuk_inset_text do
+      = t('.report_instructions')
 
-      = govuk_link_button(t('.regenerate'), case_workers_admin_management_information_generate_url(report_type: report_type))
+    - @available_report_types.each do |report_type, report|
+      - report_name = t(".report_types.#{report_type}_html")
+      .form-section
+        %h2.govuk-heading-l{ id: "heading-#{report_type}" }
+          = report_name
+        %p{ role: 'group', 'aria-labelledby': "heading-#{report_type}" }
+          - if report&.started_at
+            = t('.report_generated_at', time: report.started_at.strftime(Settings.report_date_format))
+          - else
+            = t('.unavailable_report')
+        %p
+          - if report&.started_at.present?
+            = govuk_link_button(t('.download'), case_workers_admin_management_information_download_url(report_type: report_type, format: :csv))
 
-#provisional-assessment-date.form-section.fx-dates-chooser
-  %h2.govuk-heading-l
-    = t('.provisional_assessments_by_date')
+          = govuk_link_button_secondary(t('.update_report'), case_workers_admin_management_information_generate_url(report_type: report_type))
 
-  = form_with builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
-    = f.hidden_field :user_api_key, id: :user_api_key, value: @current_user.api_key
+    #provisional-assessment-date.form-section.fx-dates-chooser
+      %h2.govuk-heading-l
+        = t('.provisional_assessments_by_date')
 
-    %p= t('.report_information')
+      = form_with builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+        = f.hidden_field :user_api_key, id: :user_api_key, value: @current_user.api_key
 
-    .fx-start-date
-      = f.govuk_date_field :dob1,
-        legend: { text: t('.start_date') },
-        hint: { text: t('.example_date') }
+        %p= t('.report_information')
 
-    .fx-end-date
-      = f.govuk_date_field :dob2,
-        legend: { text: t('.end_date') },
-        hint: { text: t('.example_date') }
+        .fx-start-date
+          = f.govuk_date_field :dob1,
+            legend: { text: t('.start_date') },
+            hint: { text: t('.example_date') }
 
-  = govuk_link_button(t('.download'), '', disabled: 'true', id: 'provisional_assessments_date_download')
+        .fx-end-date
+          = f.govuk_date_field :dob2,
+            legend: { text: t('.end_date') },
+            hint: { text: t('.example_date') }
 
-= govuk_inset_text do
-  = t('.report_instructions')
+      = govuk_link_button(t('.download'), '', disabled: 'true', id: 'provisional_assessments_date_download')
+

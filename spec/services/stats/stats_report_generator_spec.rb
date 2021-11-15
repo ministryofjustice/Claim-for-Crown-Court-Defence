@@ -60,7 +60,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
 
         it 'calls management information generator with no claim scope' do
           call
-          expect(Stats::ManagementInformationGenerator).to have_received(:call).with(hash_excluding(:claim_scope))
+          expect(Stats::ManagementInformationGenerator).to have_received(:call).with(no_args)
         end
 
         it 'marks report as completed' do
@@ -82,7 +82,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
 
         it 'calls management information generator with agfs scope' do
           call
-          expect(Stats::ManagementInformationGenerator).to have_received(:call).with({ claim_scope: :agfs })
+          expect(Stats::ManagementInformationGenerator).to have_received(:call).with({ scheme: :agfs })
         end
       end
 
@@ -93,7 +93,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
 
         it 'calls management information generator with lgfs scope' do
           call
-          expect(Stats::ManagementInformationGenerator).to have_received(:call).with({ claim_scope: :lgfs })
+          expect(Stats::ManagementInformationGenerator).to have_received(:call).with({ scheme: :lgfs })
         end
       end
     end

@@ -9,6 +9,13 @@ class ManagementInformationPresenter < BasePresenter
     yield parsed_journeys if block_given?
   end
 
+  def parsed_journeys
+    journeys.map do |journey|
+      @journey = clean_deallocations(journey)
+      Settings.claim_csv_headers.map { |method_call| send(method_call) } if @journey.any?
+    end
+  end
+
   def journeys
     sorted_and_filtered_state_transitions.slice_after { |transition| COMPLETED_STATES.include?(transition.to) }
   end
@@ -16,14 +23,7 @@ class ManagementInformationPresenter < BasePresenter
   def sorted_and_filtered_state_transitions
     claim_state_transitions.sort.reject do |transition|
       SORTED_AND_FILTERED_STATES.include?(transition.to) ||
-        transition.created_at < Time.zone.now - 6.months
-    end
-  end
-
-  def parsed_journeys
-    journeys.map do |journey|
-      @journey = clean_deallocations(journey)
-      Settings.claim_csv_headers.map { |method_call| send(method_call) } if @journey.any?
+        transition.created_at.beginning_of_day < 6.months.ago.beginning_of_day
     end
   end
 

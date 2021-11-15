@@ -22,7 +22,7 @@ module ManagementInformationReportable
     end
 
     def case_type_name
-      case_type&.name || ''
+      case_type&.name
     end
 
     def bill_type
@@ -38,7 +38,7 @@ module ManagementInformationReportable
     end
 
     def claim_total
-      total_including_vat.to_s
+      format('%.2f', total_including_vat.round(4))
     end
 
     def submission_type
@@ -76,7 +76,7 @@ module ManagementInformationReportable
     def state_reason_code
       reason_code = @journey.last.reason_code
       reason_code = reason_code.flatten.join(', ') if reason_code.is_a?(Array)
-      reason_code
+      reason_code.presence
     end
 
     def rejection_reason
@@ -106,11 +106,12 @@ module ManagementInformationReportable
     end
 
     def af1_lf1_processed_by
-      previous_redetermination_steps.present? ? previous_redetermination_steps.last.author_name : ''
+      previous_redetermination_steps.present? ? previous_redetermination_steps.last.author_name : nil
     end
 
     def misc_fees
-      claim.misc_fees.map { |f| f.fee_type.description.tr(',', '') }.join(' ')
+      misc_fees = claim.misc_fees.map { |f| f.fee_type.description.tr(',', '') }.join(' ')
+      misc_fees.presence
     end
 
     def redetermination_steps

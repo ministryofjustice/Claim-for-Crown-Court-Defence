@@ -8,7 +8,8 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
     let(:start) { 2.minutes.ago }
     let(:ending) { 1.minutes.ago }
     let(:transaction_id) { SecureRandom.uuid }
-    let(:payload) { { id: 999, name: 'provisional_assessment', error: 'Some error' } }
+    let(:error) { StandardError.new('Test error') }
+    let(:payload) { { id: 999, name: 'provisional_assessment', error: error } }
     let(:notifier) { instance_double(SlackNotifier) }
     let(:send_result) { double(:send_result) }
 
@@ -32,7 +33,7 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
       notifier_args = {
         icon: ':robot_face:',
         title: 'provisional_assessment failed on test',
-        message: 'Stats::StatsReport.id: 999',
+        message: "Error: Test error\nStats::StatsReport.id: 999",
         status: :fail
       }
 

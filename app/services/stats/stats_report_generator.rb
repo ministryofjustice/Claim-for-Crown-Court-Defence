@@ -4,7 +4,7 @@ module Stats
 
     # rubocop:disable Metrics/MethodLength
     def self.for(report_type)
-      Hash.new({ class: ReportGenerator, default_args: [report_type] }).merge(
+      Hash.new({ class: SimpleReportGenerator, default_args: [] }).merge(
         management_information:
           { class: ManagementInformationGenerator, default_args: [] },
         agfs_management_information:
@@ -57,7 +57,7 @@ module Stats
 
     def generate_new_report
       generator = self.class.for(report_type)
-      generator[:class].call(*generator[:default_args])
+      generator[:class].call(options.merge(*generator[:default_args]))
     end
 
     def notify_error(report_record, error)

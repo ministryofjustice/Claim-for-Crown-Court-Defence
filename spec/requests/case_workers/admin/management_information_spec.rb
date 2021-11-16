@@ -156,9 +156,8 @@ RSpec.describe 'Management information administration', type: :request do
 
       it 'displays message to indicate background job enqueued' do
         request
-        expect(flash[:alert])
-          .to eq('A background job has been scheduled to regenerate the report. ' \
-                 'Please refresh this page in a few minutes.')
+        expect(flash[:notification])
+          .to eq('Refresh this page in a few minutes to download the new report.')
       end
 
       it { is_expected.to redirect_to(case_workers_admin_management_information_url) }
@@ -196,9 +195,8 @@ RSpec.describe 'Management information administration', type: :request do
 
       it 'displays message to indicate background job enqueued' do
         request
-        expect(flash[:alert])
-          .to eq('A background job has been scheduled to regenerate the report. ' \
-                 'Please refresh this page in a few minutes.')
+        expect(flash[:notification])
+          .to eq('Refresh this page in a few minutes to download the new report.')
       end
 
       it 'returns http redirect' do

@@ -5,6 +5,8 @@ require 'csv'
 module Stats
   module ManagementInformation
     class WeeklyCountGenerator
+      include StuffLogger
+
       def self.call(**kwargs)
         new(kwargs).call
       end
@@ -24,12 +26,12 @@ module Stats
       private
 
       def generate_report
-        log_info('Daily MI statistics generation started...')
+        log_info('MI statistics generation started...')
         content = generate_csv
-        log_info('Daily MI statistics generation finished')
+        log_info('MI statistics generation finished')
         content
       rescue StandardError => e
-        log_error(e)
+        log_error(e, 'MI statistics generation finished')
         raise
       end
 
@@ -53,19 +55,6 @@ module Stats
 
       def week_range
         @day.beginning_of_week(:saturday)..@day.end_of_week(:saturday)
-      end
-
-      def log_error(error)
-        LogStuff.error(class: self.class.name,
-                       action: caller_locations(1, 1)[0].label,
-                       error_message: "#{error.class} - #{error.message}",
-                       error_backtrace: error.backtrace.inspect.to_s) do
-                         'MI Report generation error'
-                       end
-      end
-
-      def log_info(message)
-        LogStuff.info(class: self.class.name, action: caller_locations(1, 1)[0].label) { message }
       end
     end
   end

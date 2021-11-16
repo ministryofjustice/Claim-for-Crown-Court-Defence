@@ -5,10 +5,10 @@ class ManagementInformationV2GenerationTask < Scheduler::SchedulerTask
   every '1d', first_at: Chronic.parse('next 2:50 am')
 
   def run
-    LogStuff.info { 'AGFS Management Information Generation V2 started' }
+    LogStuff.info { 'Management Information Generation V2 started' }
     Stats::StatsReportGenerator.call('management_information_v2')
-    LogStuff.info { 'AGFS Management Information Generation V2 finished' }
+    LogStuff.info { 'Management Information Generation V2 finished' }
   rescue StandardError => e
-    LogStuff.error { 'AGFS Management Information Generation V2 error: ' + e.message }
+    LogStuff.error { 'Management Information Generation V2 error: ' + e.message }
   end
 end

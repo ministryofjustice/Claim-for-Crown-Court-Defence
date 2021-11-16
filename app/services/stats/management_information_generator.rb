@@ -2,14 +2,14 @@ require 'csv'
 
 module Stats
   class ManagementInformationGenerator
-    DEFAULT_FORMAT = 'csv'.freeze
+    include StuffLogger
 
     def self.call(**kwargs)
       new(kwargs).call
     end
 
     def initialize(**kwargs)
-      @format = kwargs.fetch(:format, DEFAULT_FORMAT)
+      @format = kwargs.fetch(:format, :csv)
       @scheme = kwargs.fetch(:scheme, :all)
     end
 
@@ -33,7 +33,7 @@ module Stats
     # TODO: separate data retrieval from exporting the data itself
     # keeping existent behaviour for now
     def generate_new_report
-      log_info('Report generation started...')
+      log_info('MI Report generation started...')
       content = CSV.generate do |csv|
         csv << headers
         claims.find_each do |claim|
@@ -42,23 +42,10 @@ module Stats
           end
         end
       end
-      log_info('Report generation finished')
+      log_info('MI Report generation finished')
       content
     rescue StandardError => e
-      log_error(e)
-    end
-
-    def log_error(error)
-      LogStuff.error(class: self.class.name,
-                     action: caller_locations(1, 1)[0].label,
-                     error_message: "#{error.class} - #{error.message}",
-                     error_backtrace: error.backtrace.inspect.to_s) do
-                       'MI Report generation error'
-                     end
-    end
-
-    def log_info(message)
-      LogStuff.info(class: self.class.name, action: caller_locations(1, 1)[0].label) { message }
+      log_error(e, 'MI Report generation error')
     end
   end
 end

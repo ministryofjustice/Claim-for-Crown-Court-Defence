@@ -25,7 +25,7 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
     it 'creates a new SlackNotifier' do
       expect(SlackNotifier)
         .to have_received(:new)
-        .with('cccd_development', formatter: an_instance_of(SlackNotifier::Formatter::Generic))
+        .with('laa-cccd-alerts', formatter: an_instance_of(SlackNotifier::Formatter::Generic))
     end
 
     it 'builds the payload with the notifier arguments' do

@@ -12,11 +12,18 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
 
     subject(:process) { described_class.new(event_name, start, ending, transaction_id, payload) }
 
+    before do
+      allow(SlackNotifier).to receive(:new).and_return(notifier)
+      allow(notifier).to receive(:build_payload)
+      allow(notifier).to receive(:send_message).and_return(send_result)
+    end
+
     it 'sends a message to slack channel with the error content' do
+      process
+
       expect(SlackNotifier)
-        .to receive(:new)
+        .to have_received(:new)
         .with('cccd_development', formatter: an_instance_of(SlackNotifier::Formatter::Generic))
-        .and_return(notifier)
 
       notifier_args = {
         icon: ':robot_face:',
@@ -25,9 +32,8 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
         status: :fail
       }
 
-      expect(notifier).to receive(:build_payload).with(**notifier_args)
-      expect(notifier).to receive(:send_message).and_return(send_result)
-      process
+      expect(notifier).to have_received(:build_payload).with(**notifier_args)
+      expect(notifier).to have_received(:send_message)
       expect(process).to be_kind_of(Subscribers::Base)
     end
   end

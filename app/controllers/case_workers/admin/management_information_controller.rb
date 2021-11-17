@@ -32,7 +32,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   end
 
   def create
-    StatsReportGenerationJob.perform_later(report_type: report_params[:report_type], day: @day)
+    StatsReportGenerationJob.perform_later(report_type: report_params[:report_type], start_at: @start_at)
     message = t('case_workers.admin.management_information.job_scheduled')
     redirect_to case_workers_admin_management_information_url, flash: { notification: message }
   end
@@ -40,19 +40,21 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   private
 
   def validate_report_type
-    return if Stats::StatsReport.names.include?(params[:report_type])
+    return if Stats::StatsReport.names.include?(params[:report_type]&.to_sym)
     redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_type')
   end
 
   def report_params
     params.permit(
       :report_type,
-      :day
+      :start_at
     )
   end
 
   def validate_and_set_date
-    @day ||= Date.iso8601("#{report_params['day(1i)']}-#{report_params['day(2i)']}-#{report_params['day(3i)']}")
+    @start_at ||= Date.new(report_params['start_at(1i)'].to_i,
+                           report_params['start_at(2i)'].to_i,
+                           report_params['start_at(3i)'].to_i)
   rescue Date::Error
     redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_date')
   end

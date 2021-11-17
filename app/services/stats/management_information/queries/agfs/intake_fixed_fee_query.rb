@@ -10,12 +10,12 @@
 # Then show sum of number of submissions meeting the above criteria
 #
 
-require_relative '../base_query'
+Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
     module Agfs
-      class IntakeFixedFeeQuery < BaseQuery
+      class IntakeFixedFeeQuery < BaseCountQuery
         private
 
         def query
@@ -25,10 +25,10 @@ module Stats
             )
             SELECT count(*)
             FROM journeys j
-            WHERE j.scheme = '#{@scheme}'
+            WHERE j.scheme = 'AGFS'
             AND trim(lower(j.case_type_name)) in ('appeal against conviction', 'appeal against sentence', 'breach of crown court order', 'committal for sentence', 'contempt', 'elected cases not proceeded')
             AND j.journey -> 0 ->> 'to' = 'submitted'
-            AND date_trunc('day', j.original_submission_date) = '#{@day}'
+            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
             AND NOT j.disk_evidence
             AND j.claim_total::float < 20000.00
           SQL

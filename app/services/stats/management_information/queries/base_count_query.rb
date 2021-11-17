@@ -2,20 +2,19 @@
 
 module Stats
   module ManagementInformation
-    class BaseQuery
+    class BaseCountQuery
       include JourneyQueryable
       include ClaimTypeQueryable
 
       attr_reader :scheme
 
-      def self.call(options = {})
-        new(options).call
+      def self.call(**kwargs)
+        new(kwargs).call
       end
 
-      def initialize(options = {})
-        @scheme = options[:scheme]&.to_s&.upcase
-        @day = options[:day]
-        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
+      def initialize(day:, date_column_filter:)
+        @day = day.to_date.iso8601
+        @date_column_filter = sql_quote(date_column_filter)
       end
 
       def call
@@ -28,6 +27,10 @@ module Stats
       def prepare
         ActiveRecord::Base.connection.execute(drop_journeys_func)
         ActiveRecord::Base.connection.execute(create_journeys_func)
+      end
+
+      def sql_quote(column_name)
+        ActiveRecord::Base.connection.quote_column_name(column_name)
       end
 
       def query

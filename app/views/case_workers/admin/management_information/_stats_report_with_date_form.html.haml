@@ -1,0 +1,22 @@
+- i18n_scope = 'case_workers.admin.management_information.index'
+
+- if report_rec&.started_at
+  %p
+    = t('report_generated_at_html',
+        scope: i18n_scope,
+        datetime: report_rec.started_at.iso8601,
+        time: report_rec.started_at.strftime(Settings.report_date_format))
+
+  = govuk_link_button(t('download', scope: i18n_scope),
+                      case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
+- else
+  %p
+    = t('unavailable_report', scope: i18n_scope)
+
+= form_with url: case_workers_admin_management_information_create_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+  = f.hidden_field :report_type, value: report_object.name
+  = f.govuk_date_field :start_at,
+                       legend: { text: t('start_date', scope: i18n_scope) },
+                       hint: { text: t('daily_report_count_hint', scope: i18n_scope) }
+
+  = f.govuk_submit(t('update_report', scope: i18n_scope), class: 'govuk-button--secondary')

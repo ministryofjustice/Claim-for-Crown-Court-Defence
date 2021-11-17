@@ -9,14 +9,23 @@
 # And Where claim total < 20,000
 #
 
-require_relative '../base_query'
+Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
     module Agfs
-      class IntakeFinalFeeQuery < BaseQuery
+      class IntakeFinalFeeQuery < BaseCountQuery
         private
 
+        # NOTE: on time zone edge cases:
+        # `completed_at` and `originally_submitted_at` have already been converted to
+        # be in 'Europe/London' time but as UTC (i.e. WITHOUT time zone information).
+        # Therefore we do not need to use AT TIME ZONE here to handle boundaries issues.
+        # see https://www.enterprisedb.com/postgres-tutorials/postgres-time-zone-explained
+        #
+        # To check details being retrieved you can use this:
+        # puts ActiveRecord::Base.connection.execute("WITH journeys AS (#{journeys_query}) select scheme, case_type_name, journey -> 0 ->> 'to' as to_state, date_trunc('day', j.originally_submitted_at) as submitted_at, date_trunc('day', j.completed_at) as completed_at, j.disk_evidence, j.claim_total::float from journeys j").to_a
+        #
         def query
           <<~SQL
             WITH journeys AS (
@@ -24,13 +33,13 @@ module Stats
             )
             SELECT count(*)
             FROM journeys j
-            WHERE j.scheme = '#{@scheme}'
+            WHERE j.scheme = 'AGFS'
             AND (
                 trim(lower(j.case_type_name)) in ('cracked before retrial', 'cracked trial', 'discontinuance', 'guilty plea', 'retrial', 'trial')
                 OR j.case_type_name is NULL
                 )
             AND j.journey -> 0 ->> 'to' = 'submitted'
-            AND date_trunc('day', j.original_submission_date) = '#{@day}'
+            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
             AND NOT j.disk_evidence
             AND j.claim_total::float < 20000.00
           SQL

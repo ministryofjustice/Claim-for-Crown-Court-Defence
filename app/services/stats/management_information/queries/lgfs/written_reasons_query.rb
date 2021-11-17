@@ -6,12 +6,12 @@
 # And Where originally submitted = DATE specified for this lookup *
 #
 
-require_relative '../base_query'
+Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
     module Lgfs
-      class WrittenReasonsQuery < BaseQuery
+      class WrittenReasonsQuery < BaseCountQuery
         private
 
         # OPTIMIZE: this is the sames as Agfs::WrittenReasonsQuery
@@ -22,9 +22,9 @@ module Stats
             )
             SELECT count(*)
             FROM journeys j
-            WHERE j.scheme = '#{@scheme}'
+            WHERE j.scheme = 'LGFS'
             AND j.journey -> 0 ->> 'to' = 'awaiting_written_reasons'
-            AND date_trunc('day', j.original_submission_date) = '#{@day}'
+            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
           SQL
         end
       end

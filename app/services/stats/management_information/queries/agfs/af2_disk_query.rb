@@ -7,12 +7,12 @@
 # And Where disk evidence = yes
 #
 
-require_relative '../base_query'
+Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
     module Agfs
-      class Af2DiskQuery < BaseQuery
+      class Af2DiskQuery < BaseCountQuery
         private
 
         def query
@@ -22,9 +22,9 @@ module Stats
             )
             SELECT count(*)
             FROM journeys j
-            WHERE j.scheme = '#{@scheme}'
+            WHERE j.scheme = 'AGFS'
             AND j.journey -> 0 ->> 'to' = 'redetermination'
-            AND date_trunc('day', j.original_submission_date) = '#{@day}'
+            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
             AND j.disk_evidence
           SQL
         end

@@ -40,6 +40,7 @@ module Stats
                          t.from,
                          t.to,
                          t.created_at at time zone 'utc' at time zone 'Europe/London' as created_at,
+
                          t.reason_code,
                          t.reason_text,
                          (authors.first_name || ' ' || authors.last_name) as author_name,
@@ -100,6 +101,7 @@ module Stats
               round(c.total + c.vat_amount, 4) as claim_total,
               c.last_submitted_at at time zone 'utc' at time zone 'Europe/London' as last_submitted_at,
               c.original_submission_date at time zone 'utc' at time zone 'Europe/London' as originally_submitted_at,
+              completion.completed_at as completed_at,
               main_defendant.name as main_defendant,
               earliest_representation_order.maat_reference as maat_reference,
               earliest_representation_order.representation_order_date as rep_order_issued_date,
@@ -133,6 +135,12 @@ module Stats
               from claims
               where id = c.id
             ) c2 ON TRUE
+            LEFT JOIN LATERAL (
+              select (transitions ->> 'created_at')::timestamp at time zone 'Europe/London' as completed_at
+                from jsonb_array_elements(j.journey) transitions
+               where transitions ->> 'to' in ('rejected', 'refused', 'authorised', 'part_authorised')
+              fetch first row only
+            ) completion ON TRUE
             LEFT JOIN LATERAL (
               select first_name || ' ' || last_name as name
               from defendants d

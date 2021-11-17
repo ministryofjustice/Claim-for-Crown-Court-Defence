@@ -244,6 +244,67 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       end
     end
 
+    describe ':completed_at' do
+      subject(:completed_ats) { response.pluck(:completed_at) }
+
+      let(:authorised_at) { 1.week.ago.beginning_of_day + 10.hours + 30.minutes }
+      let(:redetermine_at) { 1.week.ago.beginning_of_day + 10.hours + 45.minutes }
+      let(:refused_at) { 1.week.ago.beginning_of_day + 11.hours + 15.minutes }
+      let(:claim) { create(:advocate_final_claim, :authorised) }
+
+      context 'with a completed journey' do
+        before do
+          travel_to(authorised_at) { claim }
+
+          travel_to(redetermine_at) do
+            claim.redetermine!
+            claim.allocate!
+          end
+
+          travel_to(refused_at) { claim.refuse! }
+        end
+
+        it 'returns the created_at timestamp for the claim transition to the completed state' do
+          expect(completed_ats).to eql([authorised_at, refused_at])
+        end
+      end
+
+      context 'with an uncompleted journey' do
+        before do
+          travel_to(authorised_at) { claim }
+
+          travel_to(redetermine_at) do
+            claim.redetermine!
+            claim.allocate!
+          end
+        end
+
+        it 'returns nil for timestamp of claim transition to a completed state' do
+          expect(completed_ats).to eql([authorised_at, nil])
+        end
+      end
+
+      # This non-deterministic test only tests BST when we are in BST
+      # and UTC/GMT when we are outside of BST.
+      # It will break only break during BST if the SQL query is not
+      # using correct time zone - `at time zone 'Europe/London' - as the
+      # app is using.
+      #
+      # Need to find a way to consistently stub a BST time within the last
+      # 6 months - because transitions ove 6 months old are excluded anyway.
+      # Note, we cannot stub postgres `current_date`.
+      #
+      context 'when handling timezones' do
+        before do
+          create(:advocate_final_claim, :authorised)
+        end
+
+        it 'returns date in same time zone as current time zone for rails' do
+          expect(completed_ats.first.utc).to be_within(5.seconds).of(Time.current.utc)
+        end
+      end
+    end
+
     describe ':main_defendant' do
       subject { response.pluck(:main_defendant) }
 

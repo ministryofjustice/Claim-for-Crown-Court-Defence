@@ -42,7 +42,7 @@ module Stats
       end
 
       def completed_at
-        completion.present? ? completion[:created_at].strftime('%d/%m/%Y %H:%M') : 'n/a'
+        record[:completed_at]&.strftime('%d/%m/%Y %H:%M') || 'n/a'
       end
 
       def current_or_end_state
@@ -99,10 +99,6 @@ module Stats
       # such claims may have been [allocated, submitted, allocated, ...] so we want the last.
       def allocation
         @allocation ||= journey.reverse.find { |transition| transition[:to] == 'allocated' }
-      end
-
-      def completion
-        @completion ||= journey.find { |transition| COMPLETED_STATES.include?(transition[:to]) }
       end
 
       def journey

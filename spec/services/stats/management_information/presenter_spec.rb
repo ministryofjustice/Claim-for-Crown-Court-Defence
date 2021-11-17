@@ -155,11 +155,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
 
       let(:record) { query.first }
 
-      let(:completed_at) do
-        record[:journey].find { |j| j[:to].eql?('authorised') }[:created_at]
-      end
-
-      it { is_expected.to eql(completed_at.strftime('%d/%m/%Y %H:%M')) }
+      it { is_expected.to match(%r{(\d{2}/\d{2}/\d{4} \d{2}:\d{2})}) }
     end
 
     context 'with incomplete claim journey' do

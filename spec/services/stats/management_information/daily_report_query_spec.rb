@@ -249,8 +249,12 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       before do
         create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
-          create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant')
           create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger')
+
+          travel_to(2.seconds.ago) do
+            create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant')
+          end
+
           claim.deallocate!
           claim.allocate!
 
@@ -265,7 +269,9 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         end
       end
 
-      it { is_expected.to match_array(['Main Defendant', 'Main Defendant']) }
+      it 'returns the defendant that was created first for each journey' do
+        is_expected.to match_array(['Main Defendant', 'Main Defendant'])
+      end
     end
 
     describe ':maat_reference' do

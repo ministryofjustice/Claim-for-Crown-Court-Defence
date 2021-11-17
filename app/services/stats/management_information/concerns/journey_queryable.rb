@@ -135,8 +135,9 @@ module Stats
             ) c2 ON TRUE
             LEFT JOIN LATERAL (
               select first_name || ' ' || last_name as name
-              from defendants
+              from defendants d
               where claim_id = c.id
+              order by d.created_at asc
               fetch first row only
             ) main_defendant ON TRUE
             LEFT JOIN LATERAL (

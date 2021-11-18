@@ -18,7 +18,7 @@
           - else
             = t('.unavailable_report')
 
-          - # TODO: move to weekly statistics or store logic against TYPES array
+          - # TODO: move to partial
           - if report_object.date_required?
             = form_with url: case_workers_admin_management_information_create_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
               = f.hidden_field :report_type, value: report_object.name

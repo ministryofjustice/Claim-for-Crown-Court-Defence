@@ -18,9 +18,9 @@ module Stats
         lgfs_management_information_v2:
           { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [{ scheme: :lgfs }] },
         agfs_management_information_weekly_statistics:
-          { class: Stats::ManagementInformation::WeeklyCountGenerator, default_args: [{ scheme: :agfs }] },
+          { class: Stats::ManagementInformation::DailyReportCountGenerator, default_args: [{ scheme: :agfs }] },
         lgfs_management_information_weekly_statistics:
-          { class: Stats::ManagementInformation::WeeklyCountGenerator, default_args: [{ scheme: :lgfs }] }
+          { class: Stats::ManagementInformation::DailyReportCountGenerator, default_args: [{ scheme: :lgfs }] }
       )[report_type.to_sym]
     end
     # rubocop:enable Metrics/MethodLength

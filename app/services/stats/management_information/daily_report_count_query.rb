@@ -1,23 +1,10 @@
 # frozen_string_literal: true
 
-# Weekly management information statistics
+# Management information statistics
 #
-# Daily counts of records from the management information (V2)
-# report filtered by various values (see below. These are run
-# daily and then entered into a weekly statistics report compiled
-# by case workers by hand.
-#
-# Filters include one or more of those below
-#
-# This prefixed by query are available in the journey query itself
-# those prefixed by presenter are only, currently available in the
-# presented object
-# - scheme
-# - case_type_name
-# - submission_type
-# - original_submission_date
-# - disk_evidence
-# - claim_total
+# Counts of records from the management information (V2)
+# report filtered by various values, including a date. That
+# date is specified as a range here.
 #
 
 Dir.glob(File.join(__dir__, 'concerns', '**', '*.rb')).each { |f| require_dependency f }
@@ -25,16 +12,16 @@ Dir.glob(File.join(__dir__, 'queries', '**', '*.rb')).each { |f| require_depende
 
 module Stats
   module ManagementInformation
-    class WeeklyCountQuery
-      def self.call(options = {})
-        new(options).call
+    class DailyReportCountQuery
+      def self.call(**kwargs)
+        new(kwargs).call
       end
 
-      def initialize(options = {})
-        @scheme = options[:scheme]&.to_s&.upcase
-        @date_range = options[:date_range]
-        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
-        raise ArgumentError, 'date range must be supplied' if @date_range.blank?
+      def initialize(**kwargs)
+        @scheme = kwargs[:scheme]&.to_s&.upcase
+        @date_range = kwargs[:date_range]
+        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if %w[AGFS LGFS].exclude?(@scheme)
+        raise ArgumentError, 'date range must be provided' if @date_range.blank?
         set_queries
       end
 
@@ -89,7 +76,7 @@ module Stats
         @queries.each_with_object([]) do |(name, query), results|
           result = { name: name.to_s.humanize }
           @date_range.each do |day|
-            result[day.strftime('%A').downcase.to_sym] = query.call(scheme: @scheme, day: day.iso8601).first['count']
+            result[day.iso8601] = query.call(scheme: @scheme, day: day.iso8601).first['count']
           end
           results.append(result)
         end

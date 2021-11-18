@@ -4,7 +4,7 @@ require 'csv'
 
 module Stats
   module ManagementInformation
-    class WeeklyCountGenerator
+    class DailyReportCountGenerator
       include StuffLogger
 
       def self.call(**kwargs)
@@ -14,7 +14,7 @@ module Stats
       def initialize(**kwargs)
         @scheme = kwargs[:scheme]&.to_s&.upcase
         @day = kwargs[:day]
-        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
+        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if %w[AGFS LGFS].exclude?(@scheme)
         raise ArgumentError, 'day must be provided' if @day.blank?
       end
 
@@ -50,7 +50,7 @@ module Stats
       end
 
       def aggregations
-        @aggregations ||= WeeklyCountQuery.call(scheme: @scheme, date_range: week_range)
+        @aggregations ||= DailyReportCountQuery.call(scheme: @scheme, date_range: week_range)
       end
 
       def week_range

@@ -108,7 +108,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
         subject(:call) { described_class.call(report_type: report_type, day: Time.zone.today) }
 
         let(:report_type) { 'agfs_management_information_weekly_statistics' }
-        let(:generator) { Stats::ManagementInformation::WeeklyCountGenerator }
+        let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }
 
         it_behaves_like 'a successful report generator caller', { report_type:
                                                                     'agfs_management_information_weekly_statistics',
@@ -120,7 +120,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
         subject(:call) { described_class.call(report_type: report_type, day: Time.zone.today) }
 
         let(:report_type) { 'lgfs_management_information_weekly_statistics' }
-        let(:generator) { Stats::ManagementInformation::WeeklyCountGenerator }
+        let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }
 
         it_behaves_like 'a successful report generator caller', { report_type:
                                                                     'lgfs_management_information_weekly_statistics',

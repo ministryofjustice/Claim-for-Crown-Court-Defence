@@ -1,0 +1,86 @@
+# frozen_string_literal: true
+
+RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
+  describe '.call' do
+    subject(:call) { described_class.call(kwargs) }
+
+    let(:kwargs) { { date_range: 1.month.ago.to_date..Time.zone.today, scheme: 'lgfs' } }
+
+    let(:instance) { instance_double(described_class) }
+    let(:result) { instance_double(Stats::Result) }
+
+    before do
+      allow(described_class).to receive(:new).with(any_args).and_return(instance)
+      allow(instance).to receive(:call).and_return(result)
+    end
+
+    it 'sends \'new\' with arguments' do
+      call
+      expect(described_class).to have_received(:new).with(hash_including(:scheme, :date_range))
+    end
+
+    it 'sends \'call\' to instance of class' do
+      call
+      expect(instance).to have_received(:call)
+    end
+  end
+
+  describe '#call' do
+    subject(:call) { described_class.new(kwargs).call }
+
+    let(:month_range) { 1.month.ago.to_date..Time.zone.today }
+
+    context 'without scheme' do
+      let(:kwargs) { { date_range: month_range } }
+
+      it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
+    end
+
+    context 'with invalid scheme' do
+      let(:kwargs) { { date_range: month_range, scheme: 'not_a_scheme' } }
+
+      it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
+    end
+
+    context 'without date range' do
+      let(:kwargs) { { scheme: 'agfs' } }
+
+      it { expect { call }.to raise_error ArgumentError, 'date range must be provided' }
+    end
+
+    context 'with scheme and date range' do
+      subject(:result) { described_class.new(kwargs).call }
+
+      let(:kwargs) { { date_range: month_range, scheme: 'agfs' } }
+
+      let(:expected_result_keys) do
+        month_range.to_a.collect(&:iso8601).prepend(:name)
+      end
+
+      let(:expected_result_values_types) do
+        ([instance_of(Integer)] * month_range.to_a.size).prepend(instance_of(String))
+      end
+
+      let(:expected_result_names) do
+        ['Intake fixed fee', 'Intake final fee',
+         'AF1 high value', 'AF1 disk',
+         'AF2 redetermination', 'AF2 high value', 'AF2 disk',
+         'Written reasons']
+      end
+
+      it { is_expected.to be_a(Array) }
+
+      it 'each element of array has expected :name value' do
+        expect(result.pluck(:name)).to contain_exactly(*expected_result_names)
+      end
+
+      it 'each element of array returns hash with expected keys' do
+        expect(result.map(&:keys)).to all(contain_exactly(*expected_result_keys))
+      end
+
+      it 'each element of array returns hash with expected value types' do
+        expect(result.map(&:values)).to all(contain_exactly(*expected_result_values_types))
+      end
+    end
+  end
+end

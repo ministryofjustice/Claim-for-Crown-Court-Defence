@@ -61,18 +61,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
         ([instance_of(Integer)] * month_range.to_a.size).prepend(instance_of(String))
       end
 
-      let(:expected_result_names) do
-        ['Intake fixed fee', 'Intake final fee',
-         'AF1 high value', 'AF1 disk',
-         'AF2 redetermination', 'AF2 high value', 'AF2 disk',
-         'Written reasons']
-      end
-
       it { is_expected.to be_a(Array) }
-
-      it 'each element of array has expected :name value' do
-        expect(result.pluck(:name)).to contain_exactly(*expected_result_names)
-      end
 
       it 'each element of array returns hash with expected keys' do
         expect(result.map(&:keys)).to all(contain_exactly(*expected_result_keys))
@@ -80,6 +69,36 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
 
       it 'each element of array returns hash with expected value types' do
         expect(result.map(&:values)).to all(contain_exactly(*expected_result_values_types))
+      end
+
+      context 'when scheme is AGFS' do
+        let(:kwargs) { { date_range: month_range, scheme: 'agfs' } }
+
+        let(:expected_result_names) do
+          ['Intake fixed fee', 'Intake final fee',
+           'AF1 high value', 'AF1 disk',
+           'AF2 redetermination', 'AF2 high value', 'AF2 disk',
+           'Written reasons']
+        end
+
+        it 'each element of array has expected :name value' do
+          expect(result.pluck(:name)).to contain_exactly(*expected_result_names)
+        end
+      end
+
+      context 'when scheme is LGFS' do
+        let(:kwargs) { { date_range: month_range, scheme: 'lgfs' } }
+
+        let(:expected_result_names) do
+          ['Intake fixed fee', 'Intake final fee',
+           'LF1 high value', 'LF1 disk',
+           'LF2 redetermination', 'LF2 high value', 'LF2 disk',
+           'Written reasons', 'Intake interim fee']
+        end
+
+        it 'each element of array has expected :name value' do
+          expect(result.pluck(:name)).to contain_exactly(*expected_result_names)
+        end
       end
     end
   end

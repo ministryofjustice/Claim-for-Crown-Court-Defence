@@ -39,22 +39,27 @@ module Stats
         CSV.generate do |csv|
           csv << headers
           aggregations.each do |rec|
-            csv << [rec[:name], rec[:saturday], rec[:sunday], rec[:monday],
-                    rec[:tuesday], rec[:wednesday], rec[:thursday], rec[:friday]]
+            csv << row_for(rec)
           end
         end
       end
 
+      # TODO: remove coupling by using the keys returned from query instead
       def headers
-        week_range.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name')
+        date_range.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name')
       end
 
       def aggregations
-        @aggregations ||= DailyReportCountQuery.call(scheme: @scheme, date_range: week_range)
+        @aggregations ||= DailyReportCountQuery.call(scheme: @scheme, date_range: date_range)
       end
 
-      def week_range
-        @day.beginning_of_week(:saturday)..@day.end_of_week(:saturday)
+      def row_for(rec)
+        date_range.map(&:iso8601).map { |date| rec[date] }.prepend(rec[:name])
+      end
+
+      # TODO: make interval an arg with default of 1.month
+      def date_range
+        @day..(@day + 1.month)
       end
     end
   end

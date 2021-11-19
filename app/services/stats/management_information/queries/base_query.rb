@@ -8,13 +8,13 @@ module Stats
 
       attr_reader :scheme
 
-      def self.call(options = {})
-        new(options).call
+      def self.call(**kwargs)
+        new(kwargs).call
       end
 
-      def initialize(options = {})
-        @scheme = options[:scheme]&.to_s&.upcase
-        @day = options[:day]
+      def initialize(**kwargs)
+        @scheme = kwargs[:scheme]&.to_s&.upcase
+        @day = kwargs[:day]
         raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
       end
 

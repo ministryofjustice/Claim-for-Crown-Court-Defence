@@ -14,6 +14,8 @@ module Stats
       def initialize(**kwargs)
         @scheme = kwargs[:scheme]&.to_s&.upcase
         @day = kwargs[:day]
+        @duration = kwargs[:duration] || 1.month
+
         raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if %w[AGFS LGFS].exclude?(@scheme)
         raise ArgumentError, 'day must be provided' if @day.blank?
       end
@@ -37,20 +39,25 @@ module Stats
 
       def generate_csv
         CSV.generate do |csv|
-          csv << headers
-          aggregations.each do |rec|
+          aggregations.each_with_index do |rec, idx|
+            csv << headers_for(rec) if idx.zero?
             csv << row_for(rec)
           end
         end
       end
 
-      # TODO: remove coupling by using the keys returned from query instead
-      def headers
-        date_range.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name')
-      end
-
       def aggregations
         @aggregations ||= DailyReportCountQuery.call(scheme: @scheme, date_range: date_range)
+      end
+
+      def headers_for(rec)
+        keys = rec.keys.map { |k| k.to_s.humanize }
+
+        keys.map do |key|
+          Date.parse(key).strftime("%d/%m/%Y\n%A")
+        rescue Date::Error
+          key
+        end
       end
 
       def row_for(rec)
@@ -59,7 +66,7 @@ module Stats
 
       # TODO: make interval an arg with default of 1.month
       def date_range
-        @day..(@day + 1.month)
+        @day..(@day + @duration)
       end
     end
   end

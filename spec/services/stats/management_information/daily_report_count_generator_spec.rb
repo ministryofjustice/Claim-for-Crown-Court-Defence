@@ -52,6 +52,10 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       let(:kwargs) { { day: start_date, scheme: 'agfs' } }
       let(:start_date) { 1.month.ago.to_date }
 
+      let(:expected_headers) do
+        (start_date..(start_date + 1.month)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name')
+      end
+
       it 'returns a Stats::Result object' do
         is_expected.to be_instance_of(Stats::Result)
       end
@@ -60,21 +64,59 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
         expect(result.content).to be_truthy
       end
 
-      let(:expected_headers) do
-        (start_date..(start_date + 1.month)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name')
-      end
-
       it 'generates expected CSV headers' do
         csv = CSV.parse(result.content, headers: true)
         expect(csv.headers).to match_array(expected_headers)
       end
     end
 
-    context 'when AGFS data exists' do
+    context 'with valid scheme, day and duration' do
       subject(:result) { described_class.new(kwargs).call }
 
-      let(:kwargs) { { day: start_date, scheme: 'agfs' } }
-      let(:start_date) { 1.month.ago.to_date }
+      let(:kwargs) { { scheme: 'agfs', day: start_date, duration: duration } }
+      let(:start_date) { 1.week.ago.to_date }
+
+      let(:expected_headers) do
+        (start_date..(start_date + duration)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name')
+      end
+
+      context 'with no duration' do
+        let(:kwargs) { { scheme: 'agfs', day: start_date } }
+        let(:duration) { 1.month }
+
+        it 'generates expected CSV headers' do
+          csv = CSV.parse(result.content, headers: true)
+          expect(csv.headers).to match_array(expected_headers)
+        end
+      end
+
+      context 'with 1 week duration' do
+        let(:duration) { 1.week }
+
+        it 'generates expected CSV headers' do
+          csv = CSV.parse(result.content, headers: true)
+          expect(csv.headers).to match_array(expected_headers)
+        end
+      end
+
+      context 'with 2 week duration' do
+        let(:duration) { 2.weeks }
+
+        it 'generates expected CSV headers' do
+          csv = CSV.parse(result.content, headers: true)
+          expect(csv.headers).to match_array(expected_headers)
+        end
+      end
+    end
+
+    # DEBUG help: To check SQL being counted
+    # you can use;
+    # ActiveRecord::Base.connection
+    #   .execute("WITH journeys AS (#{journeys_query}) select scheme, case_type_name, journey -> 0 ->> 'to', date_trunc('day', j.originally_submitted_at), j.disk_evidence, j.claim_total::float from journeys j")
+    #   .to_a
+    #
+    context 'when AGFS final claims data exists' do
+      subject(:result) { described_class.new(kwargs).call }
 
       before do
         travel_to(start_date.beginning_of_day) do
@@ -82,23 +124,21 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
         end
       end
 
+      let(:kwargs) { { day: start_date, scheme: 'agfs' } }
+      let(:start_date) { 1.month.ago.to_date }
       let(:rows) { CSV.parse(result.content, headers: true) }
 
-      # DEBUG help. To check SQL being counted
-      # you can use;
-      # ActiveRecord::Base.connection
-      #   .execute("WITH journeys AS (#{journeys_query}) select scheme, case_type_name, journey -> 0 ->> 'to', date_trunc('day', j.originally_submitted_at), j.disk_evidence, j.claim_total::float from journeys j")
-      #   .to_a
-      #
       it 'has expected counts in the date column' do
-        all_counts_for_day = rows[start_date.strftime("%d/%m/%Y\n%A")].map(&:to_i)
-        expect(all_counts_for_day).to contain_exactly(3, 0, 0, 0 ,0, 0, 0, 0)
+        all_counts_for_start_date = rows[start_date.strftime("%d/%m/%Y\n%A")].map(&:to_i)
+
+        expect(all_counts_for_start_date).to contain_exactly(3, 0, 0, 0, 0, 0, 0, 0)
       end
 
       it 'has expected count at expected row (intake_final_fee) and column (date)' do
-        counts = rows.find {|row| row['Name'].eql?('Intake final fee') }
-        count = counts[start_date.strftime("%d/%m/%Y\n%A")].to_i
-        expect(count).to eq(3)
+        intake_final_fee_counts = rows.find { |row| row['Name'].eql?('Intake final fee') }
+        intake_final_fee_count_for_start_date = intake_final_fee_counts[start_date.strftime("%d/%m/%Y\n%A")].to_i
+
+        expect(intake_final_fee_count_for_start_date).to eq(3)
       end
     end
 

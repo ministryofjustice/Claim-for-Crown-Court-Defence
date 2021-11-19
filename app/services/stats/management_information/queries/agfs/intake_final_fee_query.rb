@@ -17,7 +17,7 @@ module Stats
       class IntakeFinalFeeQuery < BaseQuery
         private
 
-        # NOTE on time zone edge cases:
+        # NOTE: on time zone edge cases:
         # j.originally_submitted_at is a date from query that is already
         # "at time zone 'Europe/London'" so, do we need to specify
         # `AND date_trunc('day', j.originally_submitted_at at time zone 'Europe/London') = '#{@day}'`

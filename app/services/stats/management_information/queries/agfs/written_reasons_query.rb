@@ -23,7 +23,7 @@ module Stats
             FROM journeys j
             WHERE j.scheme = '#{@scheme}'
             AND j.journey -> 0 ->> 'to' = 'awaiting_written_reasons'
-            AND date_trunc('day', j.original_submission_date) = '#{@day}'
+            AND date_trunc('day', j.originally_submitted_at) = '#{@day}'
           SQL
         end
       end

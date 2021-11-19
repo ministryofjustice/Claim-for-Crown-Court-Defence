@@ -26,7 +26,7 @@ module Stats
             SELECT count(*)
             FROM journeys j
             WHERE j.scheme = '#{@scheme}'
-            AND date_trunc('day', j.original_submission_date) = '#{@day}'
+            AND date_trunc('day', j.originally_submitted_at) = '#{@day}'
             AND trim(lower(j.bill_type)) = 'lgfs final'
             AND (
                 trim(lower(j.case_type_name)) in ('cracked before retrial', 'cracked trial', 'discontinuance', 'guilty plea', 'retrial', 'trial')

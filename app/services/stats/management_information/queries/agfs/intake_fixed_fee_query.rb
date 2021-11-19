@@ -28,7 +28,7 @@ module Stats
             WHERE j.scheme = '#{@scheme}'
             AND trim(lower(j.case_type_name)) in ('appeal against conviction', 'appeal against sentence', 'breach of crown court order', 'committal for sentence', 'contempt', 'elected cases not proceeded')
             AND j.journey -> 0 ->> 'to' = 'submitted'
-            AND date_trunc('day', j.original_submission_date) = '#{@day}'
+            AND date_trunc('day', j.originally_submitted_at) = '#{@day}'
             AND NOT j.disk_evidence
             AND j.claim_total::float < 20000.00
           SQL

@@ -6,7 +6,6 @@ module ThinkstCanary
 
     def configure
       yield(configuration) if block_given?
-      configuration
     end
   end
 end

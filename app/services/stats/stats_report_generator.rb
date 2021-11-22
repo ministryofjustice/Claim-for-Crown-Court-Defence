@@ -31,6 +31,7 @@ module Stats
 
     def initialize(**kwargs)
       @report_type = kwargs[:report_type]
+      @generator = self.class.for(report_type)
       @options = kwargs
     end
 
@@ -49,14 +50,13 @@ module Stats
 
     private
 
-    attr_reader :report_type, :options
+    attr_reader :report_type, :generator, :options
 
     def validate_report_type
       raise InvalidReportType unless StatsReport.names.include?(report_type.to_s)
     end
 
     def generate_new_report
-      generator = self.class.for(report_type)
       generator[:class].call(options.merge(*generator[:default_args]))
     end
 

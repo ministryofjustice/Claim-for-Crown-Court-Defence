@@ -1,11 +1,9 @@
 module ThinkstCanary
   module Token
     class Base
-      extend Forwardable
+      include ThinkstCanary::ApiQueryable
 
       attr_reader :memo, :canarytoken
-
-      def_delegators :configuration, :query
 
       def initialize(**kwargs)
         @memo = kwargs[:memo]
@@ -21,10 +19,6 @@ module ThinkstCanary
       end
 
       private
-
-      def configuration
-        ThinkstCanary.configuration
-      end
 
       def fetch_token
         response = query(:post, '/api/v1/canarytoken/factory/create', auth: false, params: create_options)

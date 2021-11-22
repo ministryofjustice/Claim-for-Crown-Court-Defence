@@ -34,7 +34,8 @@ en:
             These reports are not saved and are generated on demand
           report_instructions: |
             Click ‘Download’ to download the report now, or click ‘Update report’ to create a new version of the report with the latest data.
-          report_generated_at: The report was last updated on %{time}
+          report_generated_at_html: |
+            The report was last updated on <time datetime=%{datetime}>%{time}</time>
           report_types:
             agfs_management_information_html: AGFS management information
             agfs_management_information_v2_html: |

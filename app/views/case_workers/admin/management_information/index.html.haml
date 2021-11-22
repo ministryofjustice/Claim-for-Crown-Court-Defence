@@ -18,7 +18,9 @@
         - else
           %p{ role: 'group', 'aria-labelledby': "heading-#{report_object}" }
             - if report_rec&.started_at
-              = t('.report_generated_at', time: report_rec.started_at.strftime(Settings.report_date_format))
+              = t('.report_generated_at_html',
+                  datetime: report_rec.started_at.iso8601,
+                  time: report_rec.started_at.strftime(Settings.report_date_format))
             - else
               = t('.unavailable_report')
 

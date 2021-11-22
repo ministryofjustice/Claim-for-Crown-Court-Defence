@@ -3,8 +3,9 @@
   - i18n_scope = 'case_workers.admin.management_information.index'
 
   - if report_rec&.started_at
-    = t('report_generated_at',
+    = t('report_generated_at_html',
         scope: i18n_scope,
+        datetime: report_rec.started_at.iso8601,
         time: report_rec.started_at.strftime(Settings.report_date_format))
 
     %p

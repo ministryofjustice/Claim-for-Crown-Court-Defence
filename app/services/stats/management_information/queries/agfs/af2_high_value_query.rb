@@ -8,12 +8,12 @@
 # And Where claim total > 20,000
 #
 
-require_relative '../base_query'
+require_relative '../base_count_query'
 
 module Stats
   module ManagementInformation
     module Agfs
-      class Af2HighValueQuery < BaseQuery
+      class Af2HighValueQuery < BaseCountQuery
         private
 
         def query

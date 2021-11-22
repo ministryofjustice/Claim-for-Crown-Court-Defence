@@ -7,12 +7,12 @@
 # And Where disk evidence = yes
 #
 
-require_relative '../base_query'
+require_relative '../base_count_query'
 
 module Stats
   module ManagementInformation
     module Agfs
-      class Af2DiskQuery < BaseQuery
+      class Af2DiskQuery < BaseCountQuery
         private
 
         def query

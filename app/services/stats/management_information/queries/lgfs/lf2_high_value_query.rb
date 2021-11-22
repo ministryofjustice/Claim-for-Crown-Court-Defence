@@ -8,12 +8,12 @@
 # And Where claim total > 20,000
 #
 
-require_relative '../base_query'
+require_relative '../base_count_query'
 
 module Stats
   module ManagementInformation
     module Lgfs
-      class Lf2HighValueQuery < BaseQuery
+      class Lf2HighValueQuery < BaseCountQuery
         private
 
         # OPTIMIZE: this is the sames as Af2HighValueQuery

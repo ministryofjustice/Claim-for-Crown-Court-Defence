@@ -6,12 +6,12 @@
 # And Where originally submitted = DATE specified for this lookup *
 #
 
-require_relative '../base_query'
+require_relative '../base_count_query'
 
 module Stats
   module ManagementInformation
     module Lgfs
-      class WrittenReasonsQuery < BaseQuery
+      class WrittenReasonsQuery < BaseCountQuery
         private
 
         # OPTIMIZE: this is the sames as Agfs::WrittenReasonsQuery

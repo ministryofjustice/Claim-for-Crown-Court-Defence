@@ -9,12 +9,12 @@
 # Then show sum of number of submissions meeting the above criteria
 #
 
-require_relative '../base_query'
+require_relative '../base_count_query'
 
 module Stats
   module ManagementInformation
     module Agfs
-      class Af1HighValueQuery < BaseQuery
+      class Af1HighValueQuery < BaseCountQuery
         private
 
         def query

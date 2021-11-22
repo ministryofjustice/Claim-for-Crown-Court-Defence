@@ -7,12 +7,12 @@
 # And Where disk evidence = yes
 #
 
-require_relative '../base_query'
+require_relative '../base_count_query'
 
 module Stats
   module ManagementInformation
     module Lgfs
-      class Lf1DiskQuery < BaseQuery
+      class Lf1DiskQuery < BaseCountQuery
         private
 
         # OPTIMIZE: this is the sames as Af1DiskQuery

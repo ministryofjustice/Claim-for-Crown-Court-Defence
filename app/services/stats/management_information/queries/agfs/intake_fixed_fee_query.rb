@@ -10,12 +10,12 @@
 # Then show sum of number of submissions meeting the above criteria
 #
 
-require_relative '../base_query'
+require_relative '../base_count_query'
 
 module Stats
   module ManagementInformation
     module Agfs
-      class IntakeFixedFeeQuery < BaseQuery
+      class IntakeFixedFeeQuery < BaseCountQuery
         private
 
         def query

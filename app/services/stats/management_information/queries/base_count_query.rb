@@ -2,7 +2,7 @@
 
 module Stats
   module ManagementInformation
-    class BaseQuery
+    class BaseCountQuery
       include JourneyQueryable
       include ClaimTypeQueryable
 

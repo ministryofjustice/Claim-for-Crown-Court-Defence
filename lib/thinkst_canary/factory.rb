@@ -1,12 +1,8 @@
-require 'forwardable'
-
 module ThinkstCanary
   class Factory
-    extend Forwardable
+    include ThinkstCanary::ApiQueryable
 
     attr_reader :factory_auth, :flock_id, :memo
-
-    def_delegator :configuration, :query
 
     TOKEN_CLASS = {
       'doc-msword' => ThinkstCanary::Token::DocMsword
@@ -26,12 +22,6 @@ module ThinkstCanary
 
     def delete
       query(:delete, '/api/v1/canarytoken/delete_factory', params: { factory_auth: factory_auth })
-    end
-
-    private
-
-    def configuration
-      ThinkstCanary.configuration
     end
   end
 end

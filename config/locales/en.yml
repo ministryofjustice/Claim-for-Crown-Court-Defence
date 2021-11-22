@@ -2474,61 +2474,6 @@ en:
           warrants: Warrants
           supplementary: Supplementary
           hardship: Hardship
-      management_information:
-        validate_report_type:
-          invalid_report_type: &invalid_report_type The requested report type is not supported
-        validate_and_set_date:
-          invalid_report_date: &invalid_report_date The supplied date is invalid
-        create:
-          invalid_report_type: *invalid_report_type
-          invalid_report_date: *invalid_report_date
-        download:
-          invalid_report_type: *invalid_report_type
-          missing_report: The requested report is missing
-        generate:
-          invalid_report_type: *invalid_report_type
-        index:
-          all_claims_report: 'All claims report'
-          date_hint: For example 31 3 2017
-          day: Day
-          daily_report_count_hint: |
-            Enter a start date to create a new report for the next month. For example,
-            18 10 2021 will create a report for 18 October 2021 to 18 November 2021.
-          download: Download
-          end_date: End date
-          example_date: "For example, 31 3 2020"
-          example_day_in_week: "For example, 05 08 2021 will generate report for Saturday 03/08/2021 to Friday 09/08/2021"
-          month: Month
-          page_heading: Reports
-          page_title: View management information
-          provisional_assessments_by_date: Provisional assessment by date
-          report_information: |
-            These reports are not saved and are generated on demand
-          report_instructions: |
-            Click ‘Download’ to download the report now, or click ‘Update report’ to create a new version of the report with the latest data.
-          report_generated_at: "The latest report was generated at %{time}"
-          report_types:
-            agfs_management_information_html: AGFS management information
-            agfs_management_information_v2_html: |
-              AGFS management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
-            agfs_management_information_statistics_html:
-              AGFS management information statistics <strong class="govuk-tag govuk-tag--blue">beta</strong>
-            lgfs_management_information_html: LGFS management information
-            lgfs_management_information_v2_html: |
-              LGFS management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
-            lgfs_management_information_statistics_html:
-              LGFS management information statistics <strong class="govuk-tag govuk-tag--blue">beta</strong>
-            management_information_html: Management information
-            management_information_v2_html: |
-              Management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
-            provisional_assessment_html: Provisional assessment
-            rejections_refusals_html: 'Rejections/Refusals'
-            submitted_claims_html: Submitted claims
-          start_date: Start date
-          unavailable_report: "There is currently no report available"
-          update_report: Update report
-          year: Year
-        job_scheduled: Refresh this page in a few minutes to download the new report.
     claims:
       archived:
         page_heading: Your archive

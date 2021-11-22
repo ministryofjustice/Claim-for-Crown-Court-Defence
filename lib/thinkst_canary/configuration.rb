@@ -17,8 +17,6 @@ module ThinkstCanary
     end
 
     def query(action, url, params: {}, auth: true, json: true)
-      raise HttpUnknownAction, "Unknown action: '#{action}'" unless ALLOWED_ACTIONS.include?(action)
-
       response = raw_query(action, url, full_params(params, auth))
       raise HttpError, "HTTP status #{response.status}\nResponse body:\n#{response.body}" unless response.success?
       json ? JSON.parse(response.body) : response.body
@@ -31,6 +29,7 @@ module ThinkstCanary
     end
 
     def raw_query(action, url, params)
+      raise HttpUnknownAction, "Unknown action: '#{action}'" unless ALLOWED_ACTIONS.include?(action)
       return connection.post(url, **params) if action == :post
 
       connection.send(action, url, params)

@@ -15,7 +15,8 @@ module Stats
       def initialize(**kwargs)
         @scheme = kwargs[:scheme]&.to_s&.upcase
         @day = kwargs[:day]
-        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
+        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if %w[AGFS LGFS].exclude?(@scheme)
+        raise ArgumentError, 'day must be provided' if @day.blank?
       end
 
       def call

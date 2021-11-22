@@ -6,21 +6,29 @@ module Stats
     def self.for(report_type)
       Hash.new({ class: SimpleReportGenerator, default_args: [] }).merge(
         management_information:
-          { class: ManagementInformationGenerator, default_args: [] },
+          { class: ManagementInformationGenerator,
+            default_args: [] },
         agfs_management_information:
-          { class: ManagementInformationGenerator, default_args: [{ scheme: :agfs }] },
+          { class: ManagementInformationGenerator,
+            default_args: [{ scheme: :agfs }] },
         lgfs_management_information:
-          { class: ManagementInformationGenerator, default_args: [{ scheme: :lgfs }] },
+          { class: ManagementInformationGenerator,
+            default_args: [{ scheme: :lgfs }] },
         management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [] },
+          { class: Stats::ManagementInformation::DailyReportGenerator,
+            default_args: [] },
         agfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [{ scheme: :agfs }] },
+          { class: Stats::ManagementInformation::DailyReportGenerator,
+            default_args: [{ scheme: :agfs }] },
         lgfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [{ scheme: :lgfs }] },
-        agfs_management_information_weekly_statistics:
-          { class: Stats::ManagementInformation::DailyReportCountGenerator, default_args: [{ scheme: :agfs }] },
-        lgfs_management_information_weekly_statistics:
-          { class: Stats::ManagementInformation::DailyReportCountGenerator, default_args: [{ scheme: :lgfs }] }
+          { class: Stats::ManagementInformation::DailyReportGenerator,
+            default_args: [{ scheme: :lgfs }] },
+        agfs_management_information_statistics:
+          { class: Stats::ManagementInformation::DailyReportCountGenerator,
+            default_args: [{ scheme: :agfs, duration: 1.month }] },
+        lgfs_management_information_statistics:
+          { class: Stats::ManagementInformation::DailyReportCountGenerator,
+            default_args: [{ scheme: :lgfs, duration: 1.month }] }
       )[report_type.to_sym]
     end
     # rubocop:enable Metrics/MethodLength

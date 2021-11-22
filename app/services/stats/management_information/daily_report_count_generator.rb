@@ -13,11 +13,11 @@ module Stats
 
       def initialize(**kwargs)
         @scheme = kwargs[:scheme]&.to_s&.upcase
-        @day = kwargs[:day]
+        @start_at = kwargs[:start_at]
         @duration = kwargs[:duration] || 1.month
 
         raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if %w[AGFS LGFS].exclude?(@scheme)
-        raise ArgumentError, 'day must be provided' if @day.blank?
+        raise ArgumentError, 'start_at must be provided' if @start_at.blank?
       end
 
       def call
@@ -64,9 +64,8 @@ module Stats
         date_range.map(&:iso8601).map { |date| rec[date] }.prepend(rec[:name])
       end
 
-      # TODO: make interval an arg with default of 1.month
       def date_range
-        @day..(@day + @duration)
+        @start_at..(@start_at + @duration)
       end
     end
   end

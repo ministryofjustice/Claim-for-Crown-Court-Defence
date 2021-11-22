@@ -104,28 +104,28 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
                                                                   scheme: :lgfs }
       end
 
-      context 'with AGFS management weekly statistics report' do
-        subject(:call) { described_class.call(report_type: report_type, day: Time.zone.today) }
+      context 'with AGFS management information statistics report' do
+        subject(:call) { described_class.call(report_type: report_type, start_at: Time.zone.today) }
 
-        let(:report_type) { 'agfs_management_information_weekly_statistics' }
+        let(:report_type) { 'agfs_management_information_statistics' }
         let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type:
-                                                                    'agfs_management_information_weekly_statistics',
+        it_behaves_like 'a successful report generator caller', { report_type: 'agfs_management_information_statistics',
                                                                   scheme: :agfs,
-                                                                  day: Time.zone.today }
+                                                                  start_at: Time.zone.today,
+                                                                  duration: 1.month }
       end
 
-      context 'with LGFS management weekly statistics report' do
-        subject(:call) { described_class.call(report_type: report_type, day: Time.zone.today) }
+      context 'with LGFS management information statistics report' do
+        subject(:call) { described_class.call(report_type: report_type, start_at: Time.zone.today) }
 
-        let(:report_type) { 'lgfs_management_information_weekly_statistics' }
+        let(:report_type) { 'lgfs_management_information_statistics' }
         let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type:
-                                                                    'lgfs_management_information_weekly_statistics',
+        it_behaves_like 'a successful report generator caller', { report_type: 'lgfs_management_information_statistics',
                                                                   scheme: :lgfs,
-                                                                  day: Time.zone.today }
+                                                                  start_at: Time.zone.today,
+                                                                  duration: 1.month }
       end
     end
 

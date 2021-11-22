@@ -2491,7 +2491,9 @@ en:
           all_claims_report: 'All claims report'
           date_hint: For example 31 3 2017
           day: Day
-          day_in_week: Day in week
+          daily_report_count_hint: |
+            Enter a start date to create a new report for the next month. For example,
+            18 10 2021 will create a report for 18 October 2021 to 18 November 2021.
           download: Download
           end_date: End date
           example_date: "For example, 31 3 2020"
@@ -2509,13 +2511,13 @@ en:
             agfs_management_information_html: AGFS management information
             agfs_management_information_v2_html: |
               AGFS management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
-            agfs_management_information_weekly_statistics_html:
-              AGFS management information weekly statistics <strong class="govuk-tag govuk-tag--blue">beta</strong>
+            agfs_management_information_statistics_html:
+              AGFS management information statistics <strong class="govuk-tag govuk-tag--blue">beta</strong>
             lgfs_management_information_html: LGFS management information
             lgfs_management_information_v2_html: |
               LGFS management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
-            lgfs_management_information_weekly_statistics_html:
-              LGFS management information weekly statistics <strong class="govuk-tag govuk-tag--blue">beta</strong>
+            lgfs_management_information_statistics_html:
+              LGFS management information statistics <strong class="govuk-tag govuk-tag--blue">beta</strong>
             management_information_html: Management information
             management_information_v2_html: |
               Management information <strong class="govuk-tag govuk-tag--blue">beta</strong>

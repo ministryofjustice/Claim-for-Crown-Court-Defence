@@ -4,7 +4,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
   describe '.call' do
     subject(:call) { described_class.call(kwargs) }
 
-    let(:kwargs) { { day: Date.current, scheme: 'lgfs' } }
+    let(:kwargs) { { start_at: Date.current, scheme: 'lgfs' } }
 
     let(:instance) { instance_double(described_class) }
     let(:result) { instance_double(Stats::Result) }
@@ -16,7 +16,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
 
     it 'sends \'new\' with arguments' do
       call
-      expect(described_class).to have_received(:new).with(hash_including(:day, :scheme))
+      expect(described_class).to have_received(:new).with(hash_including(:start_at, :scheme))
     end
 
     it 'sends \'call\' to instance of class' do
@@ -29,27 +29,27 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     subject(:call) { described_class.new(kwargs).call }
 
     context 'without scheme' do
-      let(:kwargs) { { day: Date.current } }
+      let(:kwargs) { { start_at: Date.current } }
 
       it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
     end
 
     context 'with invalid scheme' do
-      let(:kwargs) { { day: Date.current, scheme: 'not_a_scheme' } }
+      let(:kwargs) { { start_at: Date.current, scheme: 'not_a_scheme' } }
 
       it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
     end
 
-    context 'without day' do
+    context 'without start_at' do
       let(:kwargs) { { scheme: 'agfs' } }
 
-      it { expect { call }.to raise_error ArgumentError, 'day must be provided' }
+      it { expect { call }.to raise_error ArgumentError, 'start_at must be provided' }
     end
 
-    context 'with valid scheme and day' do
+    context 'with valid scheme and start_at' do
       subject(:result) { described_class.new(kwargs).call }
 
-      let(:kwargs) { { day: start_date, scheme: 'agfs' } }
+      let(:kwargs) { { start_at: start_date, scheme: 'agfs' } }
       let(:start_date) { 1.month.ago.to_date }
 
       let(:expected_headers) do
@@ -70,10 +70,10 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       end
     end
 
-    context 'with valid scheme, day and duration' do
+    context 'with valid scheme, start_at and duration' do
       subject(:result) { described_class.new(kwargs).call }
 
-      let(:kwargs) { { scheme: 'agfs', day: start_date, duration: duration } }
+      let(:kwargs) { { scheme: 'agfs', start_at: start_date, duration: duration } }
       let(:start_date) { 1.week.ago.to_date }
 
       let(:expected_headers) do
@@ -81,7 +81,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       end
 
       context 'with no duration' do
-        let(:kwargs) { { scheme: 'agfs', day: start_date } }
+        let(:kwargs) { { scheme: 'agfs', start_at: start_date } }
         let(:duration) { 1.month }
 
         it 'generates expected CSV headers' do
@@ -124,7 +124,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
         end
       end
 
-      let(:kwargs) { { day: start_date, scheme: 'agfs' } }
+      let(:kwargs) { { start_at: start_date, scheme: 'agfs' } }
       let(:start_date) { 1.month.ago.to_date }
       let(:rows) { CSV.parse(result.content, headers: true) }
 
@@ -145,7 +145,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     context 'with logging' do
       before { allow(LogStuff).to receive(:info) }
 
-      let(:kwargs) { { day: Date.current, scheme: 'lgfs' } }
+      let(:kwargs) { { start_at: Date.current, scheme: 'lgfs' } }
 
       it 'logs start and end' do
         call
@@ -159,7 +159,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
         allow(LogStuff).to receive(:error)
       end
 
-      let(:kwargs) { { day: Date.current, scheme: 'lgfs' } }
+      let(:kwargs) { { start_at: Date.current, scheme: 'lgfs' } }
 
       it 'uses LogStuff to log error' do
         call

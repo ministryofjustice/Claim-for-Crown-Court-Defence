@@ -20,8 +20,8 @@ module Stats
                Report.new(name: 'management_information_v2'),
                Report.new(name: 'agfs_management_information_v2'),
                Report.new(name: 'lgfs_management_information_v2'),
-               Report.new(name: 'agfs_management_information_weekly_statistics', date_required: true),
-               Report.new(name: 'lgfs_management_information_weekly_statistics', date_required: true),
+               Report.new(name: 'agfs_management_information_statistics', date_required: true),
+               Report.new(name: 'lgfs_management_information_statistics', date_required: true),
                Report.new(name: 'provisional_assessment'),
                Report.new(name: 'rejections_refusals'),
                Report.new(name: 'submitted_claims')].freeze

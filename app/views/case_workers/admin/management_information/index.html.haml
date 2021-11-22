@@ -22,9 +22,9 @@
           - if report_object.date_required?
             = form_with url: case_workers_admin_management_information_create_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
               = f.hidden_field :report_type, value: report_object.name
-              = f.govuk_date_field :day,
-                                   legend: { text: t('.day_in_week') },
-                                   hint: { text: t('.example_day_in_week') }
+              = f.govuk_date_field :start_at,
+                                   legend: { text: t('.start_date') },
+                                   hint: { text: t('.daily_report_count_hint') }
 
               - if report_rec&.started_at.present?
                 = govuk_link_button(t('.download'), case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))

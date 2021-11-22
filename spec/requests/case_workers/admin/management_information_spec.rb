@@ -65,8 +65,8 @@ RSpec.describe 'Management information administration', type: :request do
          management_information_v2
          agfs_management_information_v2
          lgfs_management_information_v2
-         agfs_management_information_weekly_statistics
-         lgfs_management_information_weekly_statistics
+         agfs_management_information_statistics
+         lgfs_management_information_statistics
          provisional_assessment
          rejections_refusals
          submitted_claims]
@@ -178,17 +178,17 @@ RSpec.describe 'Management information administration', type: :request do
     context 'with a valid report type and valid date' do
       let(:params) do
         { report_type: report_type,
-          'day(3i)' => '25',
-          'day(2i)' => '12',
-          'day(1i)' => '2020' }
+          'start_at(3i)' => '25',
+          'start_at(2i)' => '12',
+          'start_at(1i)' => '2020' }
       end
 
-      let(:report_type) { 'agfs_management_information_weekly_statistics' }
+      let(:report_type) { 'agfs_management_information_statistics' }
 
       it 'enqueues a StatsReportGenerationJob for specified report with date' do
         request
         expect(StatsReportGenerationJob)
-          .to have_been_enqueued.with(report_type: report_type, day: Date.parse('2020-12-25'))
+          .to have_been_enqueued.with(report_type: report_type, start_at: Date.parse('2020-12-25'))
                                 .on_queue('stats_reports')
                                 .at(:no_wait)
       end
@@ -220,7 +220,7 @@ RSpec.describe 'Management information administration', type: :request do
 
     context 'with valid report type but no date' do
       let(:params) do
-        { report_type: 'agfs_management_information_weekly_statistics' }
+        { report_type: 'agfs_management_information_statistics' }
       end
 
       it_behaves_like 'date validator'
@@ -228,7 +228,7 @@ RSpec.describe 'Management information administration', type: :request do
 
     context 'with valid report type but an invalid date' do
       let(:params) do
-        { report_type: 'agfs_management_information_weekly_statistics',
+        { report_type: 'agfs_management_information_statistics',
           'day(3i)' => '-1',
           'day(2i)' => '12',
           'day(1i)' => '2020' }

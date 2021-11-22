@@ -39,8 +39,7 @@ namespace :canary do
 
     factory = ThinkstCanary::Factory.new(
       factory_auth: ENV['CANARY_FACTORY_AUTH_TOKEN'],
-      flock_id: ENV['CANARY_FLOCK_ID'],
-      memo: 'Example factory'
+      flock_id: ENV['CANARY_FLOCK_ID']
     )
 
     ##################
@@ -51,16 +50,20 @@ namespace :canary do
 
     token = factory.create_token(
       kind: 'doc-msword',
-      memo: 'Another example Canary token',
+      memo: "Fake reports access details file on '#{ENV['ENV']}'",
       file: File.open(original_file)
     )
 
     ##################
     # Fetch Token file
-    puts 'Fetching token and writing to file'
+    puts 'Fetching token and creating report'
 
-    File.open('tmp/test_token.docx', 'wb') do |file|
-      file.puts token.download
+    Stats::StatsReport.record_start('reports_access_details').tap do |report|
+      report.document.attach(
+        io: StringIO.new(token.download),
+        filename: 'reports_access_details.docx'
+      )
+      report.update(status: 'completed', completed_at: Time.zone.now)
     end
   end
 end

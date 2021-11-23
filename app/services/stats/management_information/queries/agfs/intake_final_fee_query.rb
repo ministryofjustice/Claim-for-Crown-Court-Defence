@@ -9,7 +9,7 @@
 # And Where claim total < 20,000
 #
 
-require_relative '../base_count_query'
+Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
@@ -18,10 +18,12 @@ module Stats
         private
 
         # NOTE: on time zone edge cases:
-        # j.originally_submitted_at is a date from query that is already
-        # "at time zone 'Europe/London'" so, do we need to specify
-        # `AND date_trunc('day', j.originally_submitted_at at time zone 'Europe/London') = '#{@day}'`
-        # to handle boundaries
+        # `completed_at` and `originally_submitted_at` have already been converted to
+        # be in 'Europe/London' time WITHOUT time zone information.
+        # Therefore we do not need to use AT TIME ZONE here to handle
+        # boundaries issues.
+        # see https://www.enterprisedb.com/postgres-tutorials/postgres-time-zone-explained
+        #
         def query
           <<~SQL
             WITH journeys AS (
@@ -35,7 +37,7 @@ module Stats
                 OR j.case_type_name is NULL
                 )
             AND j.journey -> 0 ->> 'to' = 'submitted'
-            AND date_trunc('day', j.originally_submitted_at) = '#{@day}'
+            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
             AND NOT j.disk_evidence
             AND j.claim_total::float < 20000.00
           SQL

@@ -6,7 +6,7 @@
 # And Where originally submitted = DATE specified for this lookup *
 #
 
-require_relative '../base_count_query'
+Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
@@ -24,7 +24,7 @@ module Stats
             FROM journeys j
             WHERE j.scheme = '#{@scheme}'
             AND j.journey -> 0 ->> 'to' = 'awaiting_written_reasons'
-            AND date_trunc('day', j.originally_submitted_at) = '#{@day}'
+            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
           SQL
         end
       end

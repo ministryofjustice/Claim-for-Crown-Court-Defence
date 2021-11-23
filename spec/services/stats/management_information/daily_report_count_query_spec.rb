@@ -54,11 +54,11 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
       let(:kwargs) { { date_range: month_range, scheme: 'agfs' } }
 
       let(:expected_result_keys) do
-        month_range.to_a.collect(&:iso8601).prepend(:name)
+        month_range.to_a.collect(&:iso8601).prepend(:name, :filter)
       end
 
       let(:expected_result_values_types) do
-        ([instance_of(Integer)] * month_range.to_a.size).prepend(instance_of(String))
+        ([instance_of(Integer)] * month_range.to_a.size).prepend(instance_of(String), instance_of(String))
       end
 
       it { is_expected.to be_a(Array) }
@@ -78,7 +78,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
           ['Intake fixed fee', 'Intake final fee',
            'AF1 high value', 'AF1 disk',
            'AF2 redetermination', 'AF2 high value', 'AF2 disk',
-           'Written reasons']
+           'Written reasons'] * 2
         end
 
         it 'each element of array has expected :name value' do
@@ -93,7 +93,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
           ['Intake fixed fee', 'Intake final fee',
            'LF1 high value', 'LF1 disk',
            'LF2 redetermination', 'LF2 high value', 'LF2 disk',
-           'Written reasons', 'Intake interim fee']
+           'Written reasons', 'Intake interim fee'] * 2
         end
 
         it 'each element of array has expected :name value' do

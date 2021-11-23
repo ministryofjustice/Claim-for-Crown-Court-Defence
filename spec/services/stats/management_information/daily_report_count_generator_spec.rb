@@ -53,7 +53,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       let(:start_date) { 1.month.ago.to_date }
 
       let(:expected_headers) do
-        (start_date..(start_date + 1.month)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name')
+        (start_date..(start_date + 1.month)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name', 'Filter')
       end
 
       it 'returns a Stats::Result object' do
@@ -77,7 +77,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       let(:start_date) { 1.week.ago.to_date }
 
       let(:expected_headers) do
-        (start_date..(start_date + duration)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name')
+        (start_date..(start_date + duration)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name', 'Filter')
       end
 
       context 'with no duration' do
@@ -130,8 +130,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
 
       it 'has expected counts in the date column' do
         all_counts_for_start_date = rows[start_date.strftime("%d/%m/%Y\n%A")].map(&:to_i)
-
-        expect(all_counts_for_start_date).to contain_exactly(3, 0, 0, 0, 0, 0, 0, 0)
+        expected_counts = [3, 0, 0, 0, 0, 0, 0, 0] * 2
+        expect(all_counts_for_start_date).to contain_exactly(*expected_counts)
       end
 
       it 'has expected count at expected row (intake_final_fee) and column (date)' do

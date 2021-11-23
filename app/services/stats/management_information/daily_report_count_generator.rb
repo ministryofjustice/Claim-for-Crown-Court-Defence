@@ -41,7 +41,7 @@ module Stats
         CSV.generate do |csv|
           aggregations.each_with_index do |rec, idx|
             csv << headers_for(rec) if idx.zero?
-            csv << row_for(rec)
+            csv << rec.values
           end
         end
       end
@@ -58,10 +58,6 @@ module Stats
         rescue Date::Error
           key
         end
-      end
-
-      def row_for(rec)
-        date_range.map(&:iso8601).map { |date| rec[date] }.prepend(rec[:name])
       end
 
       def date_range

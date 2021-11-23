@@ -12,9 +12,10 @@ module Stats
         new(kwargs).call
       end
 
-      def initialize(**kwargs)
-        @scheme = kwargs[:scheme]&.to_s&.upcase
-        @day = kwargs[:day]
+      def initialize(scheme:, day:, date_column_filter:)
+        @scheme = scheme&.to_s&.upcase
+        @day = day
+        @date_column_filter = date_column_filter
         raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if %w[AGFS LGFS].exclude?(@scheme)
         raise ArgumentError, 'day must be provided' if @day.blank?
       end

@@ -9,7 +9,7 @@
 # And Where claim total < 20,000
 #
 
-require_relative '../base_count_query'
+Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
@@ -25,7 +25,7 @@ module Stats
             SELECT count(*)
             FROM journeys j
             WHERE j.scheme = '#{@scheme}'
-            AND date_trunc('day', j.originally_submitted_at) = '#{@day}'
+            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
             AND trim(lower(j.case_type_name)) in ('appeal against conviction', 'appeal against sentence', 'breach of crown court order', 'committal for sentence', 'contempt', 'elected cases not proceeded', 'hearing subsequent to sentence')
             AND j.journey -> 0 ->> 'to' = 'submitted'
             AND NOT j.disk_evidence

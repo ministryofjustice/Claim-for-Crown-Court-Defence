@@ -26,7 +26,7 @@ module Stats
       end
 
       def call
-        queries
+        submission_queries + completion_queries
       end
 
       private
@@ -72,11 +72,25 @@ module Stats
       end
       # rubocop:enable Metrics/MethodLength
 
-      def queries
+      def submission_queries
         @queries.each_with_object([]) do |(name, query), results|
-          result = { name: name.to_s.humanize }
+          result = { name: name.to_s.humanize, filter: 'submissions' }
           @date_range.each do |day|
-            result[day.iso8601] = query.call(scheme: @scheme, day: day.iso8601).first['count']
+            result[day.iso8601] = query.call(scheme: @scheme,
+                                             day: day.iso8601,
+                                             date_column_filter: :originally_submitted_at).first['count']
+          end
+          results.append(result)
+        end
+      end
+
+      def completion_queries
+        @queries.each_with_object([]) do |(name, query), results|
+          result = { name: name.to_s.humanize, filter: 'completions' }
+          @date_range.each do |day|
+            result[day.iso8601] = query.call(scheme: @scheme,
+                                             day: day.iso8601,
+                                             date_column_filter: :completed_at).first['count']
           end
           results.append(result)
         end

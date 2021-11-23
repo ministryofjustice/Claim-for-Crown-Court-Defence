@@ -7,7 +7,7 @@
 # And Where disk evidence = yes
 #
 
-require_relative '../base_count_query'
+Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dependency f }
 
 module Stats
   module ManagementInformation
@@ -25,7 +25,7 @@ module Stats
             FROM journeys j
             WHERE j.scheme = '#{@scheme}'
             AND j.journey -> 0 ->> 'to' = 'submitted'
-            AND date_trunc('day', j.originally_submitted_at) = '#{@day}'
+            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
             AND j.disk_evidence
           SQL
         end

@@ -4,8 +4,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
   describe '.call' do
     subject(:call) { described_class.call(kwargs) }
 
-    let(:kwargs) { { start_at: Date.current, scheme: 'lgfs' } }
-
+    let(:kwargs) { { query_set: 'foo', start_at: 'bar' } }
     let(:instance) { instance_double(described_class) }
     let(:result) { instance_double(Stats::Result) }
 
@@ -16,7 +15,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
 
     it 'sends \'new\' with arguments' do
       call
-      expect(described_class).to have_received(:new).with(hash_including(:start_at, :scheme))
+      expect(described_class).to have_received(:new).with(hash_including(:query_set, :start_at))
     end
 
     it 'sends \'call\' to instance of class' do
@@ -28,28 +27,24 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
   describe '#call' do
     subject(:call) { described_class.new(kwargs).call }
 
-    context 'without scheme' do
+    context 'without query_set' do
       let(:kwargs) { { start_at: Date.current } }
 
-      it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
-    end
-
-    context 'with invalid scheme' do
-      let(:kwargs) { { start_at: Date.current, scheme: 'not_a_scheme' } }
-
-      it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
+      it { expect { call }.to raise_error ArgumentError, 'query set must be provided' }
     end
 
     context 'without start_at' do
-      let(:kwargs) { { scheme: 'agfs' } }
+      let(:kwargs) { { query_set: query_set } }
+      let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
 
       it { expect { call }.to raise_error ArgumentError, 'start_at must be provided' }
     end
 
-    context 'with valid scheme and start_at' do
+    context 'with query_set and start_at' do
       subject(:result) { described_class.new(kwargs).call }
 
-      let(:kwargs) { { start_at: start_date, scheme: 'agfs' } }
+      let(:kwargs) { { query_set: query_set, start_at: start_date } }
+      let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
       let(:start_date) { 1.month.ago.to_date }
 
       let(:expected_headers) do
@@ -73,36 +68,38 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     context 'with valid scheme, start_at and duration' do
       subject(:result) { described_class.new(kwargs).call }
 
-      let(:kwargs) { { scheme: 'agfs', start_at: start_date, duration: duration } }
+      let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
       let(:start_date) { 1.week.ago.to_date }
+      let(:duration) { 1.month }
 
       let(:expected_headers) do
         (start_date..(start_date + duration)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name', 'Filter')
       end
 
       context 'with no duration' do
-        let(:kwargs) { { scheme: 'agfs', start_at: start_date } }
-        let(:duration) { 1.month }
+        let(:kwargs) { { query_set: query_set, start_at: start_date } }
 
-        it 'generates expected CSV headers' do
+        it 'generates expected CSV headers with default of 1 month duration' do
           csv = CSV.parse(result.content, headers: true)
           expect(csv.headers).to match_array(expected_headers)
         end
       end
 
       context 'with 1 week duration' do
+        let(:kwargs) { { query_set: query_set, start_at: start_date, duration: duration } }
         let(:duration) { 1.week }
 
-        it 'generates expected CSV headers' do
+        it 'generates expected CSV headers covering 1 week duration' do
           csv = CSV.parse(result.content, headers: true)
           expect(csv.headers).to match_array(expected_headers)
         end
       end
 
       context 'with 2 week duration' do
-        let(:duration) { 2.weeks }
+        let(:kwargs) { { query_set: query_set, start_at: start_date, duration: duration } }
+        let(:duration) { 1.week }
 
-        it 'generates expected CSV headers' do
+        it 'generates expected CSV headers covering 2 week duration' do
           csv = CSV.parse(result.content, headers: true)
           expect(csv.headers).to match_array(expected_headers)
         end
@@ -124,7 +121,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
         end
       end
 
-      let(:kwargs) { { start_at: start_date, scheme: 'agfs' } }
+      let(:kwargs) { { query_set: query_set, start_at: start_date } }
+      let(:query_set) { Stats::ManagementInformation::AgfsQuerySet.new }
       let(:start_date) { 1.month.ago.to_date }
       let(:rows) { CSV.parse(result.content, headers: true) }
 
@@ -145,7 +143,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     context 'with logging' do
       before { allow(LogStuff).to receive(:info) }
 
-      let(:kwargs) { { start_at: Date.current, scheme: 'lgfs' } }
+      let(:kwargs) { { query_set: query_set, start_at: Date.current } }
+      let(:query_set) { Stats::ManagementInformation::AgfsQuerySet.new }
 
       it 'logs start and end' do
         call
@@ -159,7 +158,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
         allow(LogStuff).to receive(:error)
       end
 
-      let(:kwargs) { { start_at: Date.current, scheme: 'lgfs' } }
+      let(:kwargs) { { query_set: query_set, start_at: Date.current } }
+      let(:query_set) { Stats::ManagementInformation::AgfsQuerySet.new }
 
       it 'uses LogStuff to log error' do
         call

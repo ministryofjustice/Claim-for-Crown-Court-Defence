@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'a successful report generator caller' do |args|
+RSpec.shared_examples 'a successful report generator caller' do
   before { allow(generator).to receive(:call).with(args).and_return(mocked_result) }
 
   it 'calls generator with expected args' do
@@ -55,53 +55,63 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
         let(:report_type) { 'submitted_claims' }
         let(:generator) { Stats::SimpleReportGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type: 'submitted_claims' }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'submitted_claims' } }
+        end
       end
 
       context 'with management information report' do
         let(:report_type) { 'management_information' }
         let(:generator) { Stats::ManagementInformationGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type: 'management_information' }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'management_information' } }
+        end
       end
 
       context 'with AGFS management information report' do
         let(:report_type) { 'agfs_management_information' }
         let(:generator) { Stats::ManagementInformationGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type: 'agfs_management_information',
-                                                                  scheme: :agfs }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'agfs_management_information', scheme: :agfs } }
+        end
       end
 
       context 'with LGFS management information report' do
         let(:report_type) { 'lgfs_management_information' }
         let(:generator) { Stats::ManagementInformationGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type: 'lgfs_management_information',
-                                                                  scheme: :lgfs }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'lgfs_management_information', scheme: :lgfs } }
+        end
       end
 
       context 'with management information report v2' do
         let(:report_type) { 'management_information_v2' }
         let(:generator) { Stats::ManagementInformation::DailyReportGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type: 'management_information_v2' }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'management_information_v2' } }
+        end
       end
 
       context 'with AGFS management information report v2' do
         let(:report_type) { 'agfs_management_information_v2' }
         let(:generator) { Stats::ManagementInformation::DailyReportGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type: 'agfs_management_information_v2',
-                                                                  scheme: :agfs }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'agfs_management_information_v2', scheme: :agfs } }
+        end
       end
 
       context 'with LGFS management information report v2' do
         let(:report_type) { 'lgfs_management_information_v2' }
         let(:generator) { Stats::ManagementInformation::DailyReportGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type: 'lgfs_management_information_v2',
-                                                                  scheme: :lgfs }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'lgfs_management_information_v2', scheme: :lgfs } }
+        end
       end
 
       context 'with AGFS management information statistics report' do
@@ -110,10 +120,14 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
         let(:report_type) { 'agfs_management_information_statistics' }
         let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type: 'agfs_management_information_statistics',
-                                                                  scheme: :agfs,
-                                                                  start_at: Time.zone.today,
-                                                                  duration: 1.month }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) do
+            { report_type: 'agfs_management_information_statistics',
+              query_set: instance_of(Stats::ManagementInformation::AgfsQuerySet),
+              start_at: Time.zone.today,
+              duration: 1.month }
+          end
+        end
       end
 
       context 'with LGFS management information statistics report' do
@@ -122,10 +136,14 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
         let(:report_type) { 'lgfs_management_information_statistics' }
         let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }
 
-        it_behaves_like 'a successful report generator caller', { report_type: 'lgfs_management_information_statistics',
-                                                                  scheme: :lgfs,
-                                                                  start_at: Time.zone.today,
-                                                                  duration: 1.month }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) do
+            { report_type: 'lgfs_management_information_statistics',
+              query_set: instance_of(Stats::ManagementInformation::LgfsQuerySet),
+              start_at: Time.zone.today,
+              duration: 1.month }
+          end
+        end
       end
     end
 

@@ -25,7 +25,7 @@ module Stats
             )
             SELECT count(*)
             FROM journeys j
-            WHERE j.scheme = '#{@scheme}'
+            WHERE j.scheme = 'LGFS'
             AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
             AND trim(lower(j.bill_type)) = 'lgfs final'
             AND (

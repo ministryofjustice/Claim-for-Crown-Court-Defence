@@ -25,7 +25,7 @@ module Stats
             )
             SELECT count(*)
             FROM journeys j
-            WHERE j.scheme = '#{@scheme}'
+            WHERE j.scheme = 'AGFS'
             AND trim(lower(j.case_type_name)) in ('appeal against conviction', 'appeal against sentence', 'breach of crown court order', 'committal for sentence', 'contempt', 'elected cases not proceeded')
             AND j.journey -> 0 ->> 'to' = 'submitted'
             AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'

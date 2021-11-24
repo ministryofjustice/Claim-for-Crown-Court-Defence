@@ -33,7 +33,7 @@ module Stats
             )
             SELECT count(*)
             FROM journeys j
-            WHERE j.scheme = '#{@scheme}'
+            WHERE j.scheme = 'AGFS'
             AND (
                 trim(lower(j.case_type_name)) in ('cracked before retrial', 'cracked trial', 'discontinuance', 'guilty plea', 'retrial', 'trial')
                 OR j.case_type_name is NULL

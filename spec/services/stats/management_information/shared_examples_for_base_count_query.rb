@@ -4,7 +4,7 @@ RSpec.shared_examples 'a base count query' do
   describe '.call' do
     subject(:call) { described_class.call(kwargs) }
 
-    let(:kwargs) { { scheme: 'foo', day: Time.zone.today, date_column_filter: :bar } }
+    let(:kwargs) { { day: Time.zone.today, date_column_filter: :bar } }
 
     let(:instance) { instance_double(described_class) }
     let(:result) { instance_double(PG::Result) }
@@ -16,7 +16,7 @@ RSpec.shared_examples 'a base count query' do
 
     it 'sends \'new\' with arguments' do
       call
-      expect(described_class).to have_received(:new).with(hash_including(:scheme, :day))
+      expect(described_class).to have_received(:new).with(hash_including(:day, :date_column_filter))
     end
 
     it 'sends \'call\' to instance of class' do
@@ -31,7 +31,7 @@ RSpec.shared_examples 'a base count query' do
     let(:day) { Time.zone.today.iso8601 }
 
     context 'with valid scheme, day and date_column_filter' do
-      let(:kwargs) { { scheme: 'agfs', day: day, date_column_filter: :originally_submitted_at } }
+      let(:kwargs) { { day: day, date_column_filter: :originally_submitted_at } }
 
       it 'returned object behaves like array' do
         is_expected.to respond_to(:[])
@@ -50,40 +50,27 @@ RSpec.shared_examples 'a base count query' do
       end
     end
 
-    context 'without scheme' do
-      let(:kwargs) { { day: day, date_column_filter: :originally_submitted_at } }
-
-      it { expect { call }.to raise_error ArgumentError, /missing keyword/ }
-    end
-
-    context 'with invalid scheme' do
-      let(:kwargs) { { scheme: 'not_a_scheme', day: day, date_column_filter: :originally_submitted_at } }
-
-      it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
-    end
-
     context 'without day' do
-      let(:kwargs) { { scheme: 'agfs', date_column_filter: :originally_submitted_at } }
+      let(:kwargs) { { date_column_filter: :originally_submitted_at } }
 
       it { expect { call }.to raise_error ArgumentError, 'missing keyword: :day' }
     end
 
     context 'with day in unusable format' do
-      let(:kwargs) { { scheme: 'agfs', day: Time.zone.today, date_column_filter: :originally_submitted_at } }
+      let(:kwargs) { { day: Time.zone.today, date_column_filter: :originally_submitted_at } }
 
       it { expect { call }.to raise_error ActiveRecord::StatementInvalid, %r{date/time field value} }
     end
 
     context 'without date_column_filter' do
-      let(:kwargs) { { scheme: 'agfs', day: Time.zone.today.iso8601 } }
+      let(:kwargs) { { day: Time.zone.today.iso8601 } }
 
       it { expect { call }.to raise_error ArgumentError, /missing keyword/ }
     end
 
     context 'when trying to inject SQL' do
       let(:kwargs) do
-        { scheme: 'agfs',
-          day: "\'#{Time.zone.today.iso8601}\'; (select PG_SLEEP(15)",
+        { day: "\'#{Time.zone.today.iso8601}\'; (select PG_SLEEP(15)",
           date_column_filter: :originally_submitted_at }
       end
 
@@ -96,7 +83,7 @@ RSpec.shared_examples 'an originally_submitted_at filterable query' do
   describe '#call' do
     subject(:result) { described_class.new(kwargs).call }
 
-    let(:kwargs) { { scheme: scheme, day: day, date_column_filter: :originally_submitted_at } }
+    let(:kwargs) { { day: day, date_column_filter: :originally_submitted_at } }
 
     before { claim }
 
@@ -118,7 +105,7 @@ RSpec.shared_examples 'a completed_at filterable query' do
   describe '#call' do
     subject(:result) { described_class.new(kwargs).call }
 
-    let(:kwargs) { { scheme: scheme, day: day, date_column_filter: :completed_at } }
+    let(:kwargs) { { day: day, date_column_filter: :completed_at } }
 
     before { claim }
 

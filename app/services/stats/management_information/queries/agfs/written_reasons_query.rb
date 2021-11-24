@@ -21,7 +21,7 @@ module Stats
             )
             SELECT count(*)
             FROM journeys j
-            WHERE j.scheme = '#{@scheme}'
+            WHERE j.scheme = 'AGFS'
             AND j.journey -> 0 ->> 'to' = 'awaiting_written_reasons'
             AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
           SQL

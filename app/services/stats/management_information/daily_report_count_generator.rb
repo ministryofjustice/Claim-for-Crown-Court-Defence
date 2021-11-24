@@ -12,11 +12,10 @@ module Stats
       end
 
       def initialize(**kwargs)
-        @scheme = kwargs[:scheme]&.to_s&.upcase
+        @query_set = kwargs[:query_set]
         @start_at = kwargs[:start_at]
         @duration = kwargs[:duration] || 1.month
 
-        raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if %w[AGFS LGFS].exclude?(@scheme)
         raise ArgumentError, 'start_at must be provided' if @start_at.blank?
       end
 
@@ -47,7 +46,7 @@ module Stats
       end
 
       def aggregations
-        @aggregations ||= DailyReportCountQuery.call(scheme: @scheme, date_range: date_range)
+        @aggregations ||= DailyReportCountQuery.call(query_set: @query_set, date_range: date_range)
       end
 
       def headers_for(rec)

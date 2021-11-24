@@ -30,28 +30,22 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
 
     let(:month_range) { 1.month.ago.to_date..Time.zone.today }
 
-    context 'without scheme' do
+    context 'without query_set' do
       let(:kwargs) { { date_range: month_range } }
 
-      it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
-    end
-
-    context 'with invalid scheme' do
-      let(:kwargs) { { date_range: month_range, scheme: 'not_a_scheme' } }
-
-      it { expect { call }.to raise_error ArgumentError, 'scheme must be "agfs" or "lgfs"' }
+      it { expect { call }.to raise_error ArgumentError, 'query set must be provided' }
     end
 
     context 'without date range' do
-      let(:kwargs) { { scheme: 'agfs' } }
+      let(:kwargs) { { query_set: { foo: :bar } } }
 
       it { expect { call }.to raise_error ArgumentError, 'date range must be provided' }
     end
 
-    context 'with scheme and date range' do
+    context 'with query_set and date range' do
       subject(:result) { described_class.new(kwargs).call }
 
-      let(:kwargs) { { date_range: month_range, scheme: 'agfs' } }
+      let(:kwargs) { { query_set: Stats::ManagementInformation::AgfsQuerySet.new, date_range: month_range } }
 
       let(:expected_result_keys) do
         month_range.to_a.collect(&:iso8601).prepend(:name, :filter)
@@ -71,8 +65,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
         expect(result.map(&:values)).to all(contain_exactly(*expected_result_values_types))
       end
 
-      context 'when scheme is AGFS' do
-        let(:kwargs) { { date_range: month_range, scheme: 'agfs' } }
+      context 'with AGFS query_set' do
+        let(:kwargs) { { query_set: Stats::ManagementInformation::AgfsQuerySet.new, date_range: month_range } }
 
         let(:expected_result_names) do
           ['Intake fixed fee', 'Intake final fee',
@@ -86,8 +80,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
         end
       end
 
-      context 'when scheme is LGFS' do
-        let(:kwargs) { { date_range: month_range, scheme: 'lgfs' } }
+      context 'with LGFS query_set' do
+        let(:kwargs) { { query_set: Stats::ManagementInformation::LgfsQuerySet.new, date_range: month_range } }
 
         let(:expected_result_names) do
           ['Intake fixed fee', 'Intake final fee',

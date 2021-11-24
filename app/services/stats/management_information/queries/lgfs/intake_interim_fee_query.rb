@@ -24,7 +24,7 @@ module Stats
             )
             SELECT count(*)
             FROM journeys j
-            WHERE j.scheme = '#{@scheme}'
+            WHERE j.scheme = 'LGFS'
             AND trim(lower(j.bill_type)) = 'lgfs interim'
             AND j.journey -> 0 ->> 'to' = 'submitted'
             AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'

@@ -1495,7 +1495,6 @@ en:
           change_link_label: Change supporting evidence
       supporting_evidence_checklist:
         summary:
-          caption: 'Supporting evidence: This section contains a list of all the documents that you have told us have been uploaded.'
           header: Supporting evidence
         fields:
           supporting_evidence_checklist: Supporting evidence checklist

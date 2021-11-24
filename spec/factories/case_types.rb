@@ -156,6 +156,10 @@ FactoryBot.define do
       lgfs_roles
     end
 
+    trait :hearing_subsequent_to_sentence do
+      hsts
+    end
+
     trait :cbr do
       name { 'Breach of Crown Court order' }
       fee_type_code { 'FXCBR' }

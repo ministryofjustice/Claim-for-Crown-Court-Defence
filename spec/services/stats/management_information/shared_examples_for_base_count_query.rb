@@ -30,7 +30,7 @@ RSpec.shared_examples 'a base count query' do
 
     let(:day) { Time.zone.today.iso8601 }
 
-    context 'with valid scheme, day and date_column_filter' do
+    context 'with valid day and date_column_filter' do
       let(:kwargs) { { day: day, date_column_filter: :originally_submitted_at } }
 
       it 'returned object behaves like array' do

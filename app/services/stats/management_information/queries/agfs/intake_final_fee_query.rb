@@ -19,10 +19,12 @@ module Stats
 
         # NOTE: on time zone edge cases:
         # `completed_at` and `originally_submitted_at` have already been converted to
-        # be in 'Europe/London' time WITHOUT time zone information.
-        # Therefore we do not need to use AT TIME ZONE here to handle
-        # boundaries issues.
+        # be in 'Europe/London' time but as UTC (i.e. WITHOUT time zone information).
+        # Therefore we do not need to use AT TIME ZONE here to handle boundaries issues.
         # see https://www.enterprisedb.com/postgres-tutorials/postgres-time-zone-explained
+        #
+        # To check details being retrieved you can use this:
+        # puts ActiveRecord::Base.connection.execute("WITH journeys AS (#{journeys_query}) select scheme, case_type_name, journey -> 0 ->> 'to' as to_state, date_trunc('day', j.originally_submitted_at) as submitted_at, date_trunc('day', j.completed_at) as completed_at, j.disk_evidence, j.claim_total::float from journeys j").to_a
         #
         def query
           <<~SQL

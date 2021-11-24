@@ -40,7 +40,6 @@ module Stats
                          t.from,
                          t.to,
                          t.created_at at time zone 'utc' at time zone 'Europe/London' as created_at,
-
                          t.reason_code,
                          t.reason_text,
                          (authors.first_name || ' ' || authors.last_name) as author_name,
@@ -136,7 +135,7 @@ module Stats
               where id = c.id
             ) c2 ON TRUE
             LEFT JOIN LATERAL (
-              select (transitions ->> 'created_at')::timestamp at time zone 'Europe/London' as completed_at
+              select (transitions ->> 'created_at')::timestamptz at time zone 'Europe/London' as completed_at
                 from jsonb_array_elements(j.journey) transitions
                where transitions ->> 'to' in ('rejected', 'refused', 'authorised', 'part_authorised')
               fetch first row only

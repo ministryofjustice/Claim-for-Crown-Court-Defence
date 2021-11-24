@@ -448,7 +448,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
     end
 
     describe 'Search' do
-      let(:advocate) { create(:external_user, :advocate) }
+      let(:advocate) { create(:external_user, :advocate, user: build(:user, last_name: 'Rumpole')) }
 
       before do
         @archived_claim = create(:archived_pending_delete_claim, external_user: advocate)

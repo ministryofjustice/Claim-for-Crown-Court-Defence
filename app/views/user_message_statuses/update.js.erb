@@ -1,3 +1,0 @@
-$('#<%=j dom_id(@message) %>').replaceWith('<%=j render partial: "shared/message", locals: { message: @message } %>');
-
-$('#message_count').text('<%=j current_user_messages_count.to_s %>');

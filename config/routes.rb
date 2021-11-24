@@ -67,8 +67,6 @@ Rails.application.routes.draw do
   resources :case_types, only: [:show], format: :js
   resources :case_conclusions, only: [:index], format: :js
 
-  resources :user_message_statuses, only: [:index, :update]
-
   resources :users, only: [] do
     put :settings, on: :member, action: :update_settings, format: :js
   end

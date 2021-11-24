@@ -46,7 +46,7 @@ namespace :canary do
     # Create Token
     puts 'Creating token'
 
-    original_file = Rails.root.join('features', 'examples', 'shorter_lorem.docx')
+    original_file = Rails.root.join('features', 'examples', 'sample.docx')
 
     token = factory.create_token(
       kind: 'doc-msword',

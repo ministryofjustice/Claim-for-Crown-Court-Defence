@@ -14,7 +14,7 @@ module Stats
 
       def initialize(day:, date_column_filter:)
         @day = day
-        @date_column_filter = date_column_filter
+        @date_column_filter = sql_quote(date_column_filter)
         raise ArgumentError, 'day must be provided' if @day.blank?
       end
 
@@ -28,6 +28,10 @@ module Stats
       def prepare
         ActiveRecord::Base.connection.execute(drop_journeys_func)
         ActiveRecord::Base.connection.execute(create_journeys_func)
+      end
+
+      def sql_quote(column_name)
+        ActiveRecord::Base.connection.quote_column_name(column_name)
       end
 
       def query

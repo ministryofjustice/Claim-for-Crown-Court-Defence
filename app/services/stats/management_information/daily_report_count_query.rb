@@ -31,7 +31,7 @@ module Stats
 
       private
 
-      def queries(date_column_filter)
+      def filter_by(date_column_filter)
         @query_set.each_with_object([]) do |(name, query), results|
           result = { name: name.to_s.humanize, filter: date_column_filter.to_s.humanize }
           @date_range.each do |day|
@@ -43,11 +43,11 @@ module Stats
       end
 
       def submission_queries
-        queries(:originally_submitted_at)
+        filter_by(:originally_submitted_at)
       end
 
       def completion_queries
-        queries(:completed_at)
+        filter_by(:completed_at)
       end
     end
   end

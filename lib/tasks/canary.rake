@@ -30,7 +30,7 @@ namespace :canary do
   end
 
   desc 'Create a Canary report called reports_access_details.docx'
-  task :create_reports_access_details, [:file] => :environment do |_task, args|
+  task create_reports_access_details: :environment do |_task, args|
     require_relative 'rake_helpers/canary_configuration'
 
     ##################
@@ -46,7 +46,7 @@ namespace :canary do
     # Create Token
     puts 'Creating token'
 
-    original_file = Rails.root.join('features', 'examples', 'sample.docx')
+    original_file = Rails.root.join('docs', 'samples', 'canary_base.docx')
 
     token = factory.create_token(
       kind: 'doc-msword',

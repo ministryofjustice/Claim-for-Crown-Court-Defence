@@ -699,7 +699,6 @@ RSpec/ContextWording:
     - 'spec/controllers/external_users/advocates/claims_controller_spec.rb'
     - 'spec/controllers/external_users/advocates/interim_claims_controller_spec.rb'
     - 'spec/controllers/external_users/certifications_controller_spec.rb'
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/controllers/external_users/fees/prices_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/interim_claims_controller_spec.rb'
@@ -965,7 +964,6 @@ RSpec/EmptyExampleGroup:
 # Configuration parameters: AllowConsecutiveOneLiners.
 RSpec/EmptyLineAfterExample:
   Exclude:
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/lib/performance_platform/submission_spec.rb'
     - 'spec/models/doc_type_spec.rb'
     - 'spec/models/expense_spec.rb'
@@ -1075,7 +1073,6 @@ RSpec/EmptyLineAfterHook:
     - 'spec/controllers/application_controller_spec.rb'
     - 'spec/controllers/case_conclusions_controller_spec.rb'
     - 'spec/controllers/external_users/advocates/claims_controller_spec.rb'
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/controllers/external_users/fees/prices_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/interim_claims_controller_spec.rb'
@@ -1113,7 +1110,6 @@ RSpec/EmptyLineAfterSubject:
     - 'spec/api/v2/cclf_claim_spec.rb'
     - 'spec/api/v2/ccr_claim_spec.rb'
     - 'spec/api/v2/claim_spec.rb'
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/controllers/external_users/fees/prices_controller_spec.rb'
     - 'spec/controllers/super_admins/admin/super_admins_controller_spec.rb'
     - 'spec/helpers/claims_helper_spec.rb'
@@ -1208,7 +1204,6 @@ RSpec/ExampleLength:
     - 'spec/controllers/external_users/admin/external_users_controller_spec.rb'
     - 'spec/controllers/external_users/advocates/claims_controller_spec.rb'
     - 'spec/controllers/external_users/advocates/interim_claims_controller_spec.rb'
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/interim_claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/transfer_claims_controller_spec.rb'
@@ -1420,7 +1415,6 @@ RSpec/InstanceVariable:
     - 'spec/api/v2/root_spec.rb'
     - 'spec/controllers/case_workers/admin/allocations_controller_spec.rb'
     - 'spec/controllers/case_workers/claims_controller_spec.rb'
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/helpers/case_workers/claims_helper_spec.rb'
     - 'spec/models/case_worker_spec.rb'
     - 'spec/models/claim/advocate_claim_spec.rb'
@@ -1705,7 +1699,6 @@ RSpec/MultipleExpectations:
     - 'spec/controllers/external_users/advocates/claims_controller_spec.rb'
     - 'spec/controllers/external_users/advocates/interim_claims_controller_spec.rb'
     - 'spec/controllers/external_users/certifications_controller_spec.rb'
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/controllers/external_users/fees/prices_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/interim_claims_controller_spec.rb'
@@ -2049,7 +2042,6 @@ RSpec/NotToNot:
     - 'spec/controllers/claim_intentions_controller_spec.rb'
     - 'spec/controllers/external_users/admin/external_users_controller_spec.rb'
     - 'spec/controllers/external_users/advocates/claims_controller_spec.rb'
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/interim_claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/transfer_claims_controller_spec.rb'
@@ -3306,12 +3298,6 @@ Style/RedundantInterpolation:
     - 'spec/presenters/claim/base_claim_presenter_spec.rb'
     - 'spec/support/matchers/view_matchers.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/RedundantParentheses:
-  Exclude:
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
-
 # Offense count: 13
 # Cop supports --auto-correct.
 Style/RedundantPercentQ:
@@ -3432,7 +3418,6 @@ Style/SymbolArray:
 Style/SymbolProc:
   Exclude:
     - 'spec/controllers/external_users/advocates/interim_claims_controller_spec.rb'
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/controllers/provider_management/external_users_controller_spec.rb'
     - 'spec/factories/claim/litigator_claims.rb'
     - 'spec/factories/claim/transfer_claims.rb'
@@ -3526,7 +3511,6 @@ Layout/LineLength:
     - 'spec/controllers/external_users/advocates/claims_controller_spec.rb'
     - 'spec/controllers/external_users/advocates/interim_claims_controller_spec.rb'
     - 'spec/controllers/external_users/certifications_controller_spec.rb'
-    - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/interim_claims_controller_spec.rb'
     - 'spec/controllers/external_users/litigators/transfer_claims_controller_spec.rb'

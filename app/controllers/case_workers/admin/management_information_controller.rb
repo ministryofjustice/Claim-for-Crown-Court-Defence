@@ -11,7 +11,6 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
     @available_report_types = Stats::StatsReport::TYPES.index_with do |report_type|
       Stats::StatsReport.most_recent_by_type(report_type)
     end
-    @reports_access = Stats::StatsReport.most_recent_by_type('reports_access_details')
   end
 
   def download

@@ -75,7 +75,7 @@ RSpec.describe ThinkstCanary::Factory do
     it do
       expect(ThinkstCanary.configuration).to have_received(:query).with(
         :delete, '/api/v1/canarytoken/delete_factory',
-        params: { factory_auth: factory_options[:factory_auth] }
+        params: { factory_auth: 'factory_auth' }
       )
     end
   end

@@ -51,7 +51,9 @@ moj.Modules.Dropzone = {
   },
 
   toggleFileStatus: function () {
-    $('.files tbody tr').length >= 1 ? $('.files').removeClass('hidden') : $('.files').addClass('hidden')
+    setTimeout(function () {
+      $('#dropzone-files tbody .govuk-table__row').length >= 1 ? $('#dropzone-files').removeClass('hidden') : $('#dropzone-files').addClass('hidden')
+    }, 250)
   },
 
   onFileChange: function (e) {
@@ -126,8 +128,8 @@ moj.Modules.Dropzone = {
   uploadFiles: function (files) {
     for (let i = 0; i < files.length; i++) {
       if (files[i].size >= 20971520) {
-        const tableBody = $('.files tbody')
-        tableBody.append(this.notificationHTML(files[i].name, 'error', 'File is too big.'))
+        const tableBody = $('#dropzone-files tbody')
+        tableBody.prepend(this.notificationHTML(files[i].name, 'error', 'File is too big.'))
       } else {
         this.uploadFile(files[i])
       }
@@ -139,9 +141,9 @@ moj.Modules.Dropzone = {
     const formData = new FormData()
     formData.append('document[document]', file)
 
-    const tableBody = $('.files tbody')
+    const tableBody = $('#dropzone-files tbody')
     const tableRow = $('<tr class="govuk-table__row"><td data-label="File name" class="govuk-table__cell"><span class="file-name">' + file.name + '</span></td><td data-label="Upload Progress" class="govuk-table__cell"><progress value="0" max="100">0%</progress></td><td></td></tr>')
-    tableBody.append(tableRow)
+    tableBody.prepend(tableRow)
 
     const formId = $('#claim_form_id').val()
     formData.append('document[form_id]', formId)

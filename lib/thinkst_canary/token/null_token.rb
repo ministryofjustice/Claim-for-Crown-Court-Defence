@@ -1,8 +1,8 @@
 module ThinkstCanary
   module Token
     class NullToken < Base
-      def initialize(**options)
-        @canarytoken = "Unknown Canary kind '#{options[:kind]}'"
+      def initialize(**kwargs)
+        @canarytoken = "Unknown Canary kind '#{kwargs[:kind]}'"
 
         super
       end

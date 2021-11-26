@@ -1,10 +1,19 @@
 # frozen_string_literal: true
 
+require_relative 'shared_examples_for_journey_queryable'
+
 RSpec.shared_examples 'a base count query' do
+  it_behaves_like 'a claim journeys query' do
+    let(:instance) do
+      described_class.new(date_range: Time.zone.today..Time.zone.today,
+                          date_column_filter: :not_needed_for_test)
+    end
+  end
+
   describe '.call' do
     subject(:call) { described_class.call(kwargs) }
 
-    let(:kwargs) { { date_range: Time.zone.today..Time.zone.today, date_column_filter: :bar } }
+    let(:kwargs) { { date_range: 'foo', date_column_filter: 'bar' } }
 
     let(:instance) { instance_double(described_class) }
     let(:result) { instance_double(PG::Result) }
@@ -26,9 +35,31 @@ RSpec.shared_examples 'a base count query' do
   end
 
   describe '#call' do
-    subject(:call) { described_class.new(kwargs).call }
+    subject(:call) { instance.call }
 
+    let(:instance) { described_class.new(kwargs) }
+    let(:kwargs) { { date_range: date_range, date_column_filter: :originally_submitted_at } }
     let(:date_range) { Time.zone.today..Time.zone.today }
+
+    it 'calls #prepare' do
+      allow(instance).to receive(:prepare).and_call_original
+      call
+      expect(instance).to have_received(:prepare).once
+    end
+
+    it 'calls #query' do
+      allow(instance).to receive(:query).and_call_original
+      call
+      expect(instance).to have_received(:query).once
+    end
+
+    it 'executes #query' do
+      allow(instance).to receive(:prepare)
+      allow(instance).to receive(:query).and_return('select current_date')
+      allow(ActiveRecord::Base.connection).to receive(:execute)
+      call
+      expect(ActiveRecord::Base.connection).to have_received(:execute).with('select current_date').once
+    end
 
     context 'with valid date_range and date_column_filter' do
       let(:kwargs) { { date_range: date_range, date_column_filter: :originally_submitted_at } }
@@ -59,13 +90,13 @@ RSpec.shared_examples 'a base count query' do
       it { expect { call }.not_to raise_error }
     end
 
-    context 'with date_range string' do
+    context 'with invalid date_range range types' do
       let(:kwargs) do
-        { date_range: '2021-13-01'..Date.parse('2021-01-01'),
+        { date_range: 1..2,
           date_column_filter: :originally_submitted_at }
       end
 
-      it { expect { call }.to raise_error ArgumentError, /bad value for range/ }
+      it { expect { call }.to raise_error NoMethodError }
     end
 
     context 'without date_range key' do

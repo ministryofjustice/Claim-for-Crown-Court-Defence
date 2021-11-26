@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative '../shared_examples_for_journey_queryable'
 require_relative '../shared_examples_for_base_count_query'
 
 RSpec.describe Stats::ManagementInformation::Agfs::Af1DiskQuery do

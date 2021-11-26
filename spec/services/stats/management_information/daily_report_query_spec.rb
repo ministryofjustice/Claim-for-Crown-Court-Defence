@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
+require_relative 'shared_examples_for_journey_queryable'
+
 RSpec.describe Stats::ManagementInformation::DailyReportQuery do
+  it_behaves_like 'a claim journeys query' do
+    let(:instance) { described_class.new }
+  end
+
   describe '.call' do
     subject(:response) { described_class.call }
-
-    let(:scheme_class) { Stats::ManagementInformation::Scheme }
 
     it {
       create(:advocate_final_claim, :submitted)

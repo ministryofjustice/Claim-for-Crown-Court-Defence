@@ -3,7 +3,7 @@
 ## Canarytoken Factory
 
 To facilitate the automation of Canary token creation without requiring the
-use of the main auth token a factory auth token can be used, which is a limit
+use of the main auth token a factory auth token can be used, which is a limited
 use key that can only be used to create other tokens.
 
 An existing factory auth token can be used with;
@@ -75,3 +75,46 @@ end
 ```
 
 **TODO:** Should `token.download` return an `IO` instead of the contents of the file?
+
+## Rake tasks
+
+Three Rake tasks exist for working with Canary tokens. The following
+environment variables need to be set;
+
+* `CANARY_ACCOUNT_ID`
+* `CANARY_FACTORY_AUTH_TOKEN`
+* `CANARY_FLOCK_ID`
+
+### `canary:create_factory_auth`
+
+Create a new factory auth string.
+
+```bash
+rails 'canary:create_factory_auth[A new Canary factory,flock:abc123]'
+```
+
+* The first argument is the memo for the new factory auth string and this
+  argument is required.
+* The second argument is the flock id that the new factory auth string is to be
+  attached to. This is optional and the default value is the value of the
+  `CANARY_FLOCK_ID` environment variable.
+
+### `canary:delete_factory_auth`
+
+Delete a factory auth string.
+
+```bash
+rails 'canary:create_factory_auth[abc123]'
+```
+
+* The first argument is the factory auth string to be deleted and this argument
+  is required.
+
+### `canary:create_reports_access_details`
+
+Create a new Canary token and saves it as the latest `reports_access_details`
+stats report.
+
+```bash
+rails canary:create_reports_access_details
+```

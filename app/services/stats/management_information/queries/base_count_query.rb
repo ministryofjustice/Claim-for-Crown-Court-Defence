@@ -25,11 +25,6 @@ module Stats
 
       private
 
-      def prepare
-        ActiveRecord::Base.connection.execute(drop_journeys_func)
-        ActiveRecord::Base.connection.execute(create_journeys_func)
-      end
-
       def sql_quote(column_name)
         ActiveRecord::Base.connection.quote_column_name(column_name)
       end

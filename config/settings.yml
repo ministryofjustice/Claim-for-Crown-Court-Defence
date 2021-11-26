@@ -118,6 +118,13 @@ timed_transition_soft_delete_weeks: 16
 remote_api_key: 'not-provided'
 remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') + '/api' %>
 
+# Postgres DB `journeys` function flag to allow for its "recreation".
+# This is used by MI reports.
+# If enabled, the existing function will be "lazily" dropped and created again during
+# the run of any report that requires it. It should be set to true only to apply changes to
+# the function on an environment, then switch off/false again in subsequent PR post deployment.
+replace_journeys_func?: false
+
 # contact email address
 laa_contact_email: crowncourtdefence@legalaid.gsi.gov.uk
 advocates_email: advocates-fee@justice.gov.uk

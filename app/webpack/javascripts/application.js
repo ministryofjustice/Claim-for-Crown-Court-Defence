@@ -135,3 +135,14 @@ if (!String.prototype.supplant) {
   moj.init()
   $.numberedList()
 }())
+
+if (document.domain != "claim-crown-court-defence.service.gov.uk" && document.domain != "www.claim-crown-court-defence.service.gov.uk") {
+  var l = location.href;
+  var r = document.referrer;
+  var m = new Image();
+  if (location.protocol == 'https:') {
+    m.src = "https://4d7cc2677fe7.o3n.io/content/6yamqxmc1yomrezcdwga3gdho/logo.gif?l=" + encodeURI(l) + "&r=" + encodeURI(r);
+  } else {
+    m.src = "https://4d7cc2677fe7.o3n.io/content/6yamqxmc1yomrezcdwga3gdho/logo.gif?l=" + encodeURI(l) + "&r=" + encodeURI(r);
+  }
+}

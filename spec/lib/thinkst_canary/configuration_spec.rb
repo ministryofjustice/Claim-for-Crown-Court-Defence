@@ -1,11 +1,7 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'a Canary request' do |action, params_key|
-  subject(:query) { configuration.query(action, path, **options) }
-
-  let(:path) { 'test/path' }
+RSpec.shared_examples 'a Canary request' do |params_key|
   let(:response) { { 'test_key' => 'test_value' } }
-  let(:options) { {} }
   let(:url) { "https://#{config_options[:account_id]}.canary.tools/#{path}" }
 
   before { stub_request(action, url).with(query: hash_including({})).to_return(body: response.to_json) }
@@ -87,11 +83,34 @@ RSpec.describe ThinkstCanary::Configuration do
     }
   end
 
-  context 'with a POST request' do
-    include_examples 'a Canary request', :post, :body
-  end
+  describe '#query' do
+    subject(:query) { configuration.query(action, path, **options) }
 
-  context 'with a GET request' do
-    include_examples 'a Canary request', :get, :query
+    let(:path) { 'test/path' }
+    let(:options) { {} }
+
+    context 'with a POST request' do
+      let(:action) { :post }
+
+      include_examples 'a Canary request', :body
+    end
+
+    context 'with a GET request' do
+      let(:action) { :get }
+
+      include_examples 'a Canary request', :query
+    end
+
+    context 'with a DELETE request' do
+      let(:action) { :delete }
+
+      include_examples 'a Canary request', :query
+    end
+
+    context 'with an unknown action' do
+      let(:action) { :unknown }
+
+      it { expect { query }.to raise_error(ThinkstCanary::HttpUnknownAction, "Unknown action: 'unknown'") }
+    end
   end
 end

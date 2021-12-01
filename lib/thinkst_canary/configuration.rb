@@ -1,10 +1,11 @@
 module ThinkstCanary
   class HttpError < StandardError; end
+  class HttpUnknownAction < StandardError; end
 
   class Configuration
     attr_accessor :account_id, :auth_token
 
-    ALLOWED_ACTIONS = %i[post get].freeze
+    ALLOWED_ACTIONS = %i[post get delete].freeze
 
     def connection
       @connection ||= Faraday.new(root_url) do |f|
@@ -16,6 +17,8 @@ module ThinkstCanary
     end
 
     def query(action, url, params: {}, auth: true, json: true)
+      raise HttpUnknownAction, "Unknown action: '#{action}'" unless ALLOWED_ACTIONS.include?(action)
+
       response = raw_query(action, url, full_params(params, auth))
       raise HttpError, "HTTP status #{response.status}\nResponse body:\n#{response.body}" unless response.success?
       json ? JSON.parse(response.body) : response.body

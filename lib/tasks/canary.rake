@@ -1,13 +1,12 @@
 namespace :canary do
   desc 'Create a Canary report called reports_access_details.docx'
   task :create_reports_access_details, [:file] => :environment do |_task, args|
-    # original_file = Rails.root.join('docs', 'samples', 'test_file.docx')
-
     ThinkstCanary.configure do |config|
       config.account_id = ENV['CANARY_ACCOUNT_ID']
       config.auth_token = ENV['CANARY_AUTH_TOKEN']
     end
 
+    ##################
     # Create Factory
 
     # Create new factory:
@@ -23,10 +22,21 @@ namespace :canary do
       memo: 'Example factory'
     )
 
+    ##################
+    # Create Token
+
+    original_file = Rails.root.join('docs', 'samples', 'test_file.docx')
+
     token = factory.create_token(
-      memo: 'Example token',
-      kind: 'http'
+      kind: 'doc-msword',
+      memo: 'Another example Canary token',
+      doc: "@#{original_filename}; type=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
     )
+
+    ##################
+    # Fetch Token file
+
+
 
     binding.pry
 

@@ -1,5 +1,21 @@
 require 'rails_helper'
 
+RSpec.shared_examples 'Thinkst Canary create token' do
+  let(:token) { instance_double(klass) }
+
+  before { allow(klass).to receive(:new).and_return(token) }
+
+  it { is_expected.to eq(token) }
+
+  it do
+    create_token
+
+    expect(klass)
+      .to have_received(:new)
+      .with(token_options.except(:kind).merge(factory_options.slice(:factory_auth, :flock_id)))
+  end
+end
+
 RSpec.describe ThinkstCanary::Factory do
   subject(:factory) { described_class.new(**factory_options) }
 
@@ -15,21 +31,35 @@ RSpec.describe ThinkstCanary::Factory do
     subject(:create_token) { factory.create_token(**token_options) }
 
     let(:token_options) { { memo: 'Another example Canary token', kind: 'http' } }
-    let(:token_response) { { 'canarytoken' => { 'canarytoken' => 'canary_token' } } }
     let(:create_params) { token_options.merge(factory_options.slice(:flock_id, :factory_auth)) }
 
-    before { allow(ThinkstCanary.configuration).to receive(:post_query).and_return(token_response) }
+    context 'with an unknown token kind' do
+      let(:token_options) { { memo: 'An token of unknown kind', kind: 'unknown' } }
+      let(:token) { instance_double(ThinkstCanary::Token::NullToken) }
 
-    it { is_expected.to be_a ThinkstCanary::Token }
-    it { expect(create_token.memo).to eq(token_options[:memo]) }
-    it { expect(create_token.kind).to eq(token_options[:kind]) }
-    it { expect(create_token.canary_token).to eq(token_response['canarytoken']['canarytoken']) }
+      before { allow(ThinkstCanary::Token::NullToken).to receive(:new).and_return(token) }
 
-    it 'makes a POST request for a token' do
-      create_token
+      it { is_expected.to eq(token) }
 
-      expect(ThinkstCanary.configuration).to have_received(:post_query)
-        .with('/api/v1/canarytoken/factory/create', auth: false, params: create_params)
+      it do
+        create_token
+
+        expect(ThinkstCanary::Token::NullToken).to have_received(:new).with(token_options)
+      end
+    end
+
+    context 'with a doc-msword token kind' do
+      it_behaves_like 'Thinkst Canary create token' do
+        let(:klass) { ThinkstCanary::Token::DocMsword }
+
+        let(:token_options) do
+          {
+            memo: 'An MS doc example Canary token',
+            kind: 'doc-msword',
+            doc: 'file.docx; type=application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          }
+        end
+      end
     end
   end
 end

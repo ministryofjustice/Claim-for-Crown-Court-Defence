@@ -3,19 +3,21 @@ module ThinkstCanary
     class Base
       extend Forwardable
 
-      attr_reader :memo
+      attr_reader :memo, :canarytoken
 
-      def_delegator :configuration, :post_query
+      def_delegators :configuration, :query
 
-      def initialize(**options)
-        @options = options
-        @memo = options[:memo]
+      def initialize(**kwargs)
+        @memo = kwargs[:memo]
+        @flock_id = kwargs[:flock_id]
+        @factory_auth = kwargs[:factory_auth]
 
-        canary_token
+        @canarytoken ||= kwargs[:canarytoken] || fetch_token
       end
 
-      def canary_token
-        @canary_token ||= @options[:canary_token] || fetch_token
+      def download
+        params = { factory_auth: @factory_auth, canarytoken: canarytoken }
+        query(:get, '/api/v1/canarytoken/factory/download', auth: false, json: false, params: params)
       end
 
       private
@@ -25,9 +27,12 @@ module ThinkstCanary
       end
 
       def fetch_token
-        params = { type: @type, **@options }
-        response = post_query('/api/v1/canarytoken/factory/create', auth: false, params: params)
-        @canary_token = response['canarytoken']['canarytoken']
+        response = query(:post, '/api/v1/canarytoken/factory/create', auth: false, params: create_options)
+        @canarytoken = response['canarytoken']['canarytoken']
+      end
+
+      def create_options
+        { kind: @kind, memo: @memo, flock_id: @flock_id, factory_auth: @factory_auth }
       end
     end
   end

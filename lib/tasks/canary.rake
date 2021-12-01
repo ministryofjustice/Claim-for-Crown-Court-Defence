@@ -8,6 +8,7 @@ namespace :canary do
 
     ##################
     # Create Factory
+    puts 'Opening factory'
 
     # Create new factory:
     # factory = ThinkstCanary::FactoryGenerator.new.create_factory(
@@ -24,21 +25,24 @@ namespace :canary do
 
     ##################
     # Create Token
+    puts 'Creating token'
 
     original_file = Rails.root.join('docs', 'samples', 'test_file.docx')
+    # original_file = Rails.root.join('features', 'examples', 'shorter_lorem.docx')
 
     token = factory.create_token(
       kind: 'doc-msword',
       memo: 'Another example Canary token',
-      doc: "@#{original_filename}; type=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      file: File.open(original_file)
     )
 
     ##################
     # Fetch Token file
+    puts 'Fetching token and writing to file'
 
-
-
-    binding.pry
+    File.open('tmp/test_token.docx', 'wb') do |file|
+      file.puts token.download
+    end
 
     # Fetch Token
     # TODO

@@ -6,6 +6,7 @@ module ThinkstCanary
       attr_reader :memo, :canarytoken
 
       def initialize(**kwargs)
+        @kind = kwargs[:kind]
         @memo = kwargs[:memo]
         @flock_id = kwargs[:flock_id]
         @factory_auth = kwargs[:factory_auth]

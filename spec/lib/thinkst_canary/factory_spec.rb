@@ -12,7 +12,7 @@ RSpec.shared_examples 'Thinkst Canary create token' do
 
     expect(klass)
       .to have_received(:new)
-      .with(token_options.except(:kind).merge(factory_options.slice(:factory_auth, :flock_id)))
+      .with(token_options.merge(factory_options.slice(:factory_auth, :flock_id)))
   end
 end
 
@@ -44,7 +44,7 @@ RSpec.describe ThinkstCanary::Factory do
       it do
         create_token
 
-        expect(ThinkstCanary::Token::NullToken).to have_received(:new).with(token_options)
+        expect(ThinkstCanary::Token::NullToken).to have_received(:new).with(hash_including(token_options))
       end
     end
 

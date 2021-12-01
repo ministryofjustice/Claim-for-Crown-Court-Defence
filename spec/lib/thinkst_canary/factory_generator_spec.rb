@@ -10,7 +10,7 @@ RSpec.describe ThinkstCanary::FactoryGenerator do
     let(:factory_response) { { 'factory_auth' => 'factory_auth_token', 'result' => 'success' } }
 
     before do
-      allow(ThinkstCanary.configuration).to receive(:post_query).and_return(factory_response)
+      allow(ThinkstCanary.configuration).to receive(:query).and_return(factory_response)
     end
 
     it { is_expected.to be_a ThinkstCanary::Factory }
@@ -21,8 +21,8 @@ RSpec.describe ThinkstCanary::FactoryGenerator do
     it 'makes a POST request for a factory' do
       create_factory
 
-      expect(ThinkstCanary.configuration).to have_received(:post_query).with(
-        '/api/v1/canarytoken/create_factory',
+      expect(ThinkstCanary.configuration).to have_received(:query).with(
+        :post, '/api/v1/canarytoken/create_factory',
         params: { flock_id: factory_options[:flock_id], memo: factory_options[:memo] }
       )
     end

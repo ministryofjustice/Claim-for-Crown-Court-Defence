@@ -61,6 +61,7 @@ gem 'laa-fee-calculator-client', '~> 1.2'
 gem 'webpacker', '~> 5.4'
 gem 'active_storage_validations'
 gem 'faraday', '~> 1.3'
+gem 'faraday_middleware', '~> 1.2'
 
 group :production, :devunicorn do
   gem 'unicorn-rails', '2.2.1'

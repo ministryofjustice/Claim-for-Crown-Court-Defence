@@ -8,17 +8,17 @@ RSpec.describe ThinkstCanary::Token::NullToken do
   describe '.new' do
     before do
       allow(ThinkstCanary.configuration)
-        .to receive(:post_query)
-        .and_return({ 'canarytoken' => { 'canarytoken' => 'canary_token' } })
+        .to receive(:query)
+        .and_return({ 'canarytoken' => { 'canarytoken' => 'canarytoken' } })
 
       token
     end
 
-    it { expect(ThinkstCanary.configuration).not_to have_received(:post_query) }
+    it { expect(ThinkstCanary.configuration).not_to have_received(:query) }
   end
 
-  describe '#canary_token' do
-    subject { token.canary_token }
+  describe '#canarytoken' do
+    subject { token.canarytoken }
 
     it { is_expected.to eq("Unknown Canary kind 'unknown'") }
   end

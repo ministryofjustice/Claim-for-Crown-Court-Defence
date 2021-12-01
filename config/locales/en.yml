@@ -939,6 +939,7 @@ en:
           help_missing_advocates_summary_link_text: manage users
         case_concluded_date:
           case_concluded_at: 'Date case concluded'
+          date_hint: For example, 31 3 2017
         case_type_fields:
           case_type: Case type
           case_type_hint: For example Trial

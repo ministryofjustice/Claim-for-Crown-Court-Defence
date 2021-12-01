@@ -8,7 +8,8 @@ module Stats
                lgfs_management_information_v2
                provisional_assessment
                rejections_refusals
-               submitted_claims].freeze
+               submitted_claims
+               reports_access_details].freeze
 
     validates :status, inclusion: { in: %w[started completed error] }
 

@@ -16,7 +16,8 @@ RSpec.describe CaseWorkers::Admin::ManagementInformationController, type: :contr
            lgfs_management_information_v2
            provisional_assessment
            rejections_refusals
-           submitted_claims]
+           submitted_claims
+           reports_access_details]
       end
 
       before { get :index }

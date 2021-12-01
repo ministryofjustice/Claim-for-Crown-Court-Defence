@@ -25,6 +25,10 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   end
 
   def generate
+    if params[:report_type] == 'reports_access_details'
+      return redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_type')
+    end
+
     StatsReportGenerationJob.perform_later(params[:report_type])
     message = t('case_workers.admin.management_information.job_scheduled')
     redirect_to case_workers_admin_management_information_url, flash: { notification: message }
@@ -34,7 +38,6 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
 
   def validate_report_type
     return if Stats::StatsReport::TYPES.include?(params[:report_type])
-    return if params[:report_type] == 'reports_access_details'
 
     redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_type')
   end

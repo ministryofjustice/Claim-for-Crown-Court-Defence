@@ -139,7 +139,7 @@ When(/^I click "Continue" I should be on the 'Case details' page and see a "([^"
       @claim_form_page.continue_button.click
       wait_for_ajax
     end
-    within('div.error-summary') do
+    within('div.govuk-error-summary') do
       expect(page).to have_content(error_message)
     end
   end

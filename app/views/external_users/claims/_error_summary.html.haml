@@ -1,12 +1,16 @@
-- if ep && ep.size > 0
-  .error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
-    %h1#error-summary-heading.govuk-heading-m.error-summary-heading
-      = "#{t('.prohibited_save')} #{pluralize(ep.size, t('.error'))}"
+- if %w[case_details].include?(@claim.form_step.to_s)
+  = govuk_error_summary(@claim, :claim, presenter: @error_presenter)
 
-    %span.form-hint
-      = t('shared.errors.form_error_hint')
+- else
+  - if ep && ep.size > 0
+    .error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
+      %h1#error-summary-heading.govuk-heading-m.error-summary-heading
+        = "#{t('.prohibited_save')} #{pluralize(ep.size, t('.error'))}"
 
-    %ul.error-summary-list
-      - ep.summary_errors.each do |error_detail|
-        %li
-          = error_detail.long_message_link
+      %span.form-hint
+        = t('shared.errors.form_error_hint')
+
+      %ul.error-summary-list
+        - ep.summary_errors.each do |error_detail|
+          %li
+            = error_detail.long_message_link

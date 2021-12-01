@@ -2,11 +2,11 @@ require 'forwardable'
 
 module ThinkstCanary
   class Factory
-    extend Forwardable
-
     attr_reader :factory_auth, :flock_id, :memo
 
-    def_delegator :configuration, :post_query
+    TOKEN_CLASS = {
+      'doc-msword' => ThinkstCanary::Token::DocMsword
+    }.freeze
 
     def initialize(factory_auth:, flock_id:, memo:)
       @factory_auth = factory_auth
@@ -14,18 +14,10 @@ module ThinkstCanary
       @memo = memo
     end
 
-    def create_token(memo:, kind:)
-      params = { memo: memo, kind: kind, flock_id: @flock_id, factory_auth: @factory_auth }
-      response = post_query('/api/v1/canarytoken/factory/create', auth: false, params: params)
-      canary_token = response['canarytoken']['canarytoken']
+    def create_token(memo:, kind:, **options)
+      return ThinkstCanary::Token::NullToken.new(memo: memo, kind: kind) unless TOKEN_CLASS.key?(kind)
 
-      ThinkstCanary::Token.new(memo: memo, kind: kind, canary_token: canary_token)
-    end
-
-    private
-
-    def configuration
-      ThinkstCanary.configuration
+      TOKEN_CLASS[kind].new(memo: memo, flock_id: flock_id, factory_auth: factory_auth, **options)
     end
   end
 end

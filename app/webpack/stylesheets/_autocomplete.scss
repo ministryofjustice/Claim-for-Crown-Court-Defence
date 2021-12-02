@@ -1,6 +1,7 @@
 @include govuk-media-query($from: tablet) {
   // stylelint-disable selector-id-pattern
   #case_details,
+  .lgfs-supplier-numbers,
   #transfer-detail {
     .autocomplete__wrapper {
       width: $half;

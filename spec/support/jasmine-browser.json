@@ -1,5 +1,5 @@
 {
-  "srcDir": "public/assets",
+  "srcDir": ".",
   "srcFiles": [
     "public/packs/js/application.bundle.js",
     "public/packs-test/js/application.bundle.js"
@@ -9,7 +9,7 @@
     "**/*[sS]pec.?(m)js"
   ],
   "helpers": [
-    "helpers/**/*.js"
+    "helpers/**/*.?(m)js"
   ],
   "env": {
     "stopSpecOnExpectationFailure": false,

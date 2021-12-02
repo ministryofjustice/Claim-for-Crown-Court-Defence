@@ -3,18 +3,9 @@ moj.Modules.Allocation = {
     const allocationPage = document.querySelector('.js-allocation-page')
 
     if (allocationPage) {
-      this.caseWorkerAutoComplete()
       this.replaceDataTableInput()
       this.toggleDataTableSelectionText()
     }
-  },
-
-  caseWorkerAutoComplete: function () {
-    return moj.Helpers.Autocomplete.new('.fx-autocomplete-wrapper select', {
-      showAllValues: true,
-      autoselect: false,
-      displayMenu: 'overlay'
-    })
   },
 
   replaceDataTableInput: function () {

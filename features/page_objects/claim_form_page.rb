@@ -1,5 +1,6 @@
 require_relative 'sections/common_date_section'
 require_relative 'sections/common_autocomplete_section'
+require_relative 'sections/govuk_date_section'
 require_relative 'sections/supplier_numbers_section'
 require_relative 'sections/retrial_section'
 require_relative 'sections/cracked_trial_section'
@@ -22,20 +23,20 @@ class ClaimFormPage < BasePage
 
   set_url "/advocates/claims/new"
 
-  element :providers_ref, "#providers_ref"
+  element :providers_ref, "input[name='claim[providers_ref]']"
   section :auto_case_type, CommonAutocomplete, "#cc-case-type"
   section :auto_case_stage, CommonAutocomplete, "#cc-case-stage"
   section :auto_court, CommonAutocomplete, "#cc-court"
   section :auto_offence, CommonAutocomplete, "#cc-offence"
 
-  element :case_number, "#case_number"
+  element :case_number, "input[name='claim[case_number]']"
   element :case_type_dropdown, "#case_type"
 
   section :trial_details, "#trial-dates" do
-    section :first_day_of_trial, CommonDateSection, '#first_day_of_trial'
-    section :trial_concluded_on, CommonDateSection, '#trial_concluded_at'
-    element :actual_trial_length, "#actual_trial_length"
-    element :estimated_trial_length, '#estimated_trial_length'
+    section :first_day_of_trial, GovukDateSection, '#first_day_of_trial'
+    section :trial_concluded_on, GovukDateSection, '#trial_concluded_at'
+    element :actual_trial_length, "input[name='claim[actual_trial_length]']"
+    element :estimated_trial_length, "input[name='claim[estimated_trial_length]']"
   end
 
   section :retrial_details, RetrialSection, "#retrial-dates"
@@ -86,7 +87,7 @@ class ClaimFormPage < BasePage
   end
 
   section :lgfs_supplier_number_radios, SupplierNumberRadioSection, '.lgfs-supplier-numbers'
-  element :lgfs_supplier_number_select, 'select#claim_supplier_number'
+  section :auto_lgfs_supplier_number, CommonAutocomplete, ".lgfs-supplier-numbers"
 
   section :prosecution_evidence, YesNoSection, '.prosecution-evidence'
 

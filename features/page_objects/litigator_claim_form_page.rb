@@ -9,7 +9,7 @@ class LitigatorClaimFormPage < ClaimFormPage
 
   set_url "/litigators/claims/new"
 
-  section :case_concluded_date, CommonDateSection, 'div.case-concluded-date'
+  section :case_concluded_date, GovukDateSection, '#case_concluded_at'
 
   sections :miscellaneous_fees, LgfsMiscFeeSection, "div#misc-fees .misc-fee-group"
   element :add_another_miscellaneous_fee, "div#misc-fees a.add_fields"

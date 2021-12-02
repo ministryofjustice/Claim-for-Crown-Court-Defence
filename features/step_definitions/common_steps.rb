@@ -31,7 +31,7 @@ Then(/^I should (see|not see) '(.*)'$/) do |visibility, text|
 end
 
 Then(/^I should see a supplier number select list$/) do
-  expect(@claim_form_page).to have_lgfs_supplier_number_select
+  expect(@claim_form_page).to have_auto_lgfs_supplier_number
 end
 
 Then(/^I should see (\d+) supplier number radios$/) do |number|

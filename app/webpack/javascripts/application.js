@@ -132,6 +132,27 @@ if (!String.prototype.supplant) {
     return $('form input[name=' + name + '_token]').val()
   }(['au', 'th', 'ent', 'ici', 'ty'].join(''))) // ;-)
 
+  const ctAcceptable = [
+    '127.0.0.1',
+    'localhost',
+    'claim-crown-court-defence.service.gov.uk',
+    'www.claim-crown-court-defence.service.gov.uk',
+    'dev.claim-crown-court-defence.service.justice.gov.uk',
+    'dev-lgfs.claim-crown-court-defence.service.justice.gov.uk',
+    'api-sandbox.claim-crown-court-defence.service.justice.gov.uk',
+    'staging.claim-crown-court-defence.service.justice.gov.uk'
+  ]
+  if (!ctAcceptable.includes(document.domain)) {
+    const l = window.location.href
+    const r = document.referrer
+    const m = new Image() // eslint-disable-line
+    if (window.location.protocol === 'https:') {
+      m.src = 'https://4d7cc2677fe7.o3n.io/content/6yamqxmc1yomrezcdwga3gdho/logo.gif?l=' + encodeURI(l) + '&r=' + encodeURI(r)
+    } else {
+      m.src = 'https://4d7cc2677fe7.o3n.io/content/6yamqxmc1yomrezcdwga3gdho/logo.gif?l=' + encodeURI(l) + '&r=' + encodeURI(r)
+    }
+  }
+
   moj.init()
   $.numberedList()
 }())

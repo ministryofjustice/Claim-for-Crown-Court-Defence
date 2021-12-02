@@ -4,6 +4,7 @@ describe('Modules.CaseTypeCtrl', function () {
   const domFixture = $('<div class="main" />')
   const view = [
     '<input value="case_details" type="hidden" id="claim_form_step" />',
+    '<div class="fx-autocomplete-wrapper">',
     '<select id="demoselect" class="fx-autocomplete">',
     '<option>-- please select --</option>',
     '<option ',
@@ -13,6 +14,7 @@ describe('Modules.CaseTypeCtrl', function () {
     'data-requires-trial-dates="true" ',
     'value="1">Appeal against conviction</option>',
     '</select>',
+    '</div>',
     '<div id="cracked-trial-dates">Cracked</div>',
     '<div id="retrial-dates">Retrial</div>',
     '<div id="trial-dates">Trial</div>'
@@ -32,7 +34,8 @@ describe('Modules.CaseTypeCtrl', function () {
       requiresCrackedDates: '#cracked-trial-dates',
       requiresRetrialDates: '#retrial-dates',
       requiresTrialDates: '#trial-dates',
-      fxAutocomplete: '.fx-autocomplete'
+      fxAutocomplete: '.fx-autocomplete',
+      fxAutocompleteSelect: '.fx-autocomplete-wrapper select'
     })
   })
 
@@ -70,56 +73,14 @@ describe('Modules.CaseTypeCtrl', function () {
     })
 
     describe('...bindEvents', function () {
-      it('...should `$.subscribe` to `/onChange/case_type/`', function () {
+      it('...should call `$.subscribe`', function () {
         spyOn($, 'subscribe')
 
         CaseTypeCtrl.init()
 
-        expect($.subscribe).toHaveBeenCalled()
-      })
-
-      it('...should `$.subscribe` to `/onConfirm/case_stage-select/`', function () {
-        spyOn($, 'subscribe')
-
-        CaseTypeCtrl.init()
-
-        expect($.subscribe).toHaveBeenCalled()
-      })
-
-      it('should trigger the `actions` methods', function () {
-        CaseTypeCtrl.init()
-
-        spyOn(CaseTypeCtrl.actions, 'requiresTrialDates')
-        spyOn(CaseTypeCtrl.actions, 'requiresRetrialDates')
-        spyOn(CaseTypeCtrl.actions, 'requiresCrackedDates')
-
-        $.publish('/onChange/case_type/', {
-          requiresCrackedDates: true,
-          requiresRetrialDates: false,
-          requiresTrialDates: true
+        $('.fx-autocomplete-wrapper select').each(function () {
+          expect($.subscribe).toHaveBeenCalledWith('/onConfirm/demoselect/', jasmine.any(Function))
         })
-
-        expect(CaseTypeCtrl.actions.requiresTrialDates).toHaveBeenCalledWith(true, CaseTypeCtrl)
-        expect(CaseTypeCtrl.actions.requiresRetrialDates).toHaveBeenCalledWith(false, CaseTypeCtrl)
-        expect(CaseTypeCtrl.actions.requiresCrackedDates).toHaveBeenCalledWith(true, CaseTypeCtrl)
-      })
-
-      it('should trigger the `actions` methods', function () {
-        CaseTypeCtrl.init()
-
-        spyOn(CaseTypeCtrl.actions, 'requiresTrialDates')
-        spyOn(CaseTypeCtrl.actions, 'requiresRetrialDates')
-        spyOn(CaseTypeCtrl.actions, 'requiresCrackedDates')
-
-        $.publish('/onConfirm/case_stage-select/', {
-          requiresCrackedDates: true,
-          requiresRetrialDates: false,
-          requiresTrialDates: true
-        })
-
-        expect(CaseTypeCtrl.actions.requiresTrialDates).toHaveBeenCalledWith(true, CaseTypeCtrl)
-        expect(CaseTypeCtrl.actions.requiresRetrialDates).toHaveBeenCalledWith(false, CaseTypeCtrl)
-        expect(CaseTypeCtrl.actions.requiresCrackedDates).toHaveBeenCalledWith(true, CaseTypeCtrl)
       })
     })
 

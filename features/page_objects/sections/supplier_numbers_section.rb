@@ -3,5 +3,5 @@ class SupplierNumberSection < SitePrism::Section
 end
 
 class SupplierNumberRadioSection < SitePrism::Section
-  sections :supplier_numbers, SupplierNumberSection, '.multiple-choice'
+  sections :supplier_numbers, SupplierNumberSection, '.govuk-radios__item'
 end

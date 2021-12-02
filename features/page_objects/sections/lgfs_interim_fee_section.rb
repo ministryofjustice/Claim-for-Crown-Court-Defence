@@ -16,15 +16,15 @@ class LgfsInterimFeeSection < SitePrism::Section
 
   # interim trial start fee fields
   element :estimated_trial_length, 'input#estimated_trial_length'
-  section :first_day_of_trial, CommonDateSection, '.js-interim-trialDates .gov_uk_date'
+  section :first_day_of_trial, GovukDateSection, '#first_day_of_trial'
 
   # interim retrial start fee fields
   element :retrial_estimated_length, 'input#retrial_estimated_length'
-  section :retrial_started_at, CommonDateSection, '.js-interim-retrialDates .gov_uk_date'
+  section :retrial_started_at, GovukDateSection, '#retrial_started_at'
 
   # interim retrial (new solicitor) fee fields
   section :legal_aid_transfer_date, CommonDateSection, '.js-interim-legalAidTransfer .gov_uk_date:nth-of-type(1)'
-  section :trial_concluded_at, CommonDateSection, '.js-interim-legalAidTransfer .gov_uk_date:nth-of-type(2)'
+  section :trial_concluded_at, GovukDateSection, '#trial_concluded_at'
 
   # interim warrant fee fields
   section :warrant_issued_date, CommonDateSection, ".warrant-fee-issued-date-group .gov_uk_date"

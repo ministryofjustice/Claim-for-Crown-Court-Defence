@@ -6,7 +6,8 @@ moj.Modules.CaseTypeCtrl = {
     requiresCrackedDates: '#cracked-trial-dates',
     requiresRetrialDates: '#retrial-dates',
     requiresTrialDates: '#trial-dates',
-    fxAutocomplete: '.fx-autocomplete'
+    fxAutocomplete: '.fx-autocomplete',
+    fxAutocompleteSelect: '.fx-autocomplete-wrapper select'
   },
 
   actions: {
@@ -38,28 +39,12 @@ moj.Modules.CaseTypeCtrl = {
   bindEvents: function () {
     const self = this
 
-    $('#case_type').on('change', function () {
-      const selectElement = document.querySelector('#case_type')
-      const selectedOption = $(this).find('option:selected')
-      const selectedText = selectedOption.text()
-      const selectedData = selectedOption.data()
-
-      $.publish('/onChange/case_type/', $.extend({
-        query: selectedText,
-        selectElement: selectElement
-      }, selectedData))
-    })
-
-    $.subscribe('/onChange/case_type/', function (e, data) {
-      // Loop over the data object and fire the
-      // methods as required, passing in the param
-      self.eventCallback(e, data)
-    })
-
-    $.subscribe('/onConfirm/case_stage-select/', function (e, data) {
-      // Loop over the data object and fire the
-      // methods as required, passing in the param
-      self.eventCallback(e, data)
+    $('.fx-autocomplete-wrapper select').each(function () {
+      $.subscribe('/onConfirm/' + this.id + '/', function (e, data) {
+        // Loop over the data object and fire the
+        // methods as required, passing in the param
+        self.eventCallback(e, data)
+      })
     })
   },
 

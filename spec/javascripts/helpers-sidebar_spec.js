@@ -352,7 +352,7 @@ describe('Helpers.Blocks.js', function () {
 
         describe('...bindEvents', function () {
           it('should call `this.bindRecalculate`', function () {
-            spyOn(instance, 'bindRecalculate')
+            spyOn(instance, 'bindRecalculate1')
             instance.init()
             expect(instance.bindRecalculate).toHaveBeenCalled()
           })

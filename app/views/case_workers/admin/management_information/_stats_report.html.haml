@@ -1,17 +1,18 @@
 - i18n_scope = 'case_workers.admin.management_information.index'
 
 - if report_rec&.started_at
-  = t('report_generated_at_html',
-      scope: i18n_scope,
-      datetime: report_rec.started_at.iso8601,
-      time: report_rec.started_at.strftime(Settings.report_date_format))
+  %p
+    = t('report_generated_at_html',
+        scope: i18n_scope,
+        datetime: report_rec.started_at.iso8601,
+        time: report_rec.started_at.strftime(Settings.report_date_format))
 - else
-  = t('unavailable_report', scope: i18n_scope)
+  %p
+    = t('unavailable_report', scope: i18n_scope)
 
-%p
 - if report_rec&.started_at.present?
   = govuk_link_button(t('download', scope: i18n_scope),
-                      case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
+                    case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
 
 = govuk_link_button_secondary(t('update_report', scope: i18n_scope),
-                              case_workers_admin_management_information_generate_url(report_type: report_object.name))
+                            case_workers_admin_management_information_generate_url(report_type: report_object.name))

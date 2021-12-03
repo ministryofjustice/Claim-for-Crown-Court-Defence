@@ -34,9 +34,9 @@ module Stats
       def filter_by(date_column_filter)
         @query_set.each_with_object([]) do |(name, query), results|
           result = { name: name.to_s.humanize, filter: date_column_filter.to_s.humanize }
-          @date_range.each do |day|
-            result[day.iso8601] = query.call(day: day.iso8601,
-                                             date_column_filter: date_column_filter).first['count']
+          @date_range.map(&:iso8601).each do |day|
+            result[day] = query.call(day: day,
+                                     date_column_filter: date_column_filter).first['count']
           end
           results.append(result)
         end

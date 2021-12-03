@@ -52,9 +52,9 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   end
 
   def validate_and_set_date
-    @start_at ||= Date.iso8601([report_params['start_at(1i)'],
-                                report_params['start_at(2i)'],
-                                report_params['start_at(3i)']].join('-'))
+    @start_at ||= Date.new(report_params['start_at(1i)'].to_i,
+                           report_params['start_at(2i)'].to_i,
+                           report_params['start_at(3i)'].to_i)
   rescue Date::Error
     redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_date')
   end

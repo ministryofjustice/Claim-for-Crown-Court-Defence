@@ -40,7 +40,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   private
 
   def validate_report_type
-    return if Stats::StatsReport.names.include?(params[:report_type])
+    return if Stats::StatsReport.names.include?(params[:report_type]&.to_sym)
     redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_type')
   end
 

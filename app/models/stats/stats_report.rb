@@ -5,26 +5,24 @@ module Stats
         super
       end
 
+      delegate :to_s, to: :name
+
       def date_required?
         date_required
       end
-
-      def to_s
-        name.to_s
-      end
     end
 
-    REPORTS = [Report.new(name: 'management_information'),
-               Report.new(name: 'agfs_management_information'),
-               Report.new(name: 'lgfs_management_information'),
-               Report.new(name: 'management_information_v2'),
-               Report.new(name: 'agfs_management_information_v2'),
-               Report.new(name: 'lgfs_management_information_v2'),
-               Report.new(name: 'agfs_management_information_statistics', date_required: true),
-               Report.new(name: 'lgfs_management_information_statistics', date_required: true),
-               Report.new(name: 'provisional_assessment'),
-               Report.new(name: 'rejections_refusals'),
-               Report.new(name: 'submitted_claims')].freeze
+    REPORTS = [Report.new(name: :management_information),
+               Report.new(name: :agfs_management_information),
+               Report.new(name: :lgfs_management_information),
+               Report.new(name: :management_information_v2),
+               Report.new(name: :agfs_management_information_v2),
+               Report.new(name: :lgfs_management_information_v2),
+               Report.new(name: :agfs_management_information_statistics, date_required: true),
+               Report.new(name: :lgfs_management_information_statistics, date_required: true),
+               Report.new(name: :provisional_assessment),
+               Report.new(name: :rejections_refusals),
+               Report.new(name: :submitted_claims)].freeze
 
     validates :status, inclusion: { in: %w[started completed error] }
 

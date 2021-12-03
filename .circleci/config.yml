@@ -160,7 +160,7 @@ commands:
           name: Run jasmine
           command: |
             bundle exec rake webpacker:compile
-            bundle exec rake jasmine:ci
+            npx jasmine-browser-runner runSpecs
 
   run-rspec:
     description: >

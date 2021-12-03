@@ -5,7 +5,7 @@
 # And Where submission type = new
 # And Where originally submitted = DATE specified for this lookup *
 # And Where disk evidence = no
-# And Where claim total > 20,000
+# And Where claim total >= 20,000
 #
 
 Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dependency f }

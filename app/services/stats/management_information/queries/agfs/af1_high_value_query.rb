@@ -5,7 +5,7 @@
 # And Where submission type = new
 # And Where originally submitted = DATE specified for this lookup *
 # And Where disk evidence = no
-# And Where claim total > 20,000
+# And Where claim total >= 20,000
 # Then show sum of number of submissions meeting the above criteria
 #
 

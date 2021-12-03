@@ -13,9 +13,8 @@ module Stats
       end
 
       def initialize(day:, date_column_filter:)
-        @day = day
+        @day = day.to_date.iso8601
         @date_column_filter = sql_quote(date_column_filter)
-        raise ArgumentError, 'day must be provided' if @day.blank?
       end
 
       def call

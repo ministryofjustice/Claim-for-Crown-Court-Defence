@@ -50,16 +50,28 @@ RSpec.shared_examples 'a base count query' do
       end
     end
 
-    context 'without day' do
+    context 'with day as valid date string' do
+      let(:kwargs) { { day: '2021-01-01', date_column_filter: :originally_submitted_at } }
+
+      it { expect { call }.not_to raise_error }
+    end
+
+    context 'with day as Date object' do
+      let(:kwargs) { { day: Date.parse('2021-01-01'), date_column_filter: :originally_submitted_at } }
+
+      it { expect { call }.not_to raise_error }
+    end
+
+    context 'with day as invalid date string' do
+      let(:kwargs) { { day: '2021-13-01', date_column_filter: :originally_submitted_at } }
+
+      it { expect { call }.to raise_error Date::Error, /invalid date/ }
+    end
+
+    context 'without day key' do
       let(:kwargs) { { date_column_filter: :originally_submitted_at } }
 
       it { expect { call }.to raise_error ArgumentError, 'missing keyword: :day' }
-    end
-
-    context 'with day in unusable format' do
-      let(:kwargs) { { day: Time.zone.today, date_column_filter: :originally_submitted_at } }
-
-      it { expect { call }.to raise_error ActiveRecord::StatementInvalid, %r{date/time field value} }
     end
 
     context 'without date_column_filter' do
@@ -70,8 +82,8 @@ RSpec.shared_examples 'a base count query' do
 
     context 'when trying to inject SQL' do
       let(:kwargs) do
-        { day: "\'#{Time.zone.today.iso8601}\'; (select PG_SLEEP(15)",
-          date_column_filter: :originally_submitted_at }
+        { day: day,
+          date_column_filter: 'originally_submitted_at; (select PG_SLEEP(15))' }
       end
 
       it { expect { call }.to raise_error ActiveRecord::StatementInvalid }

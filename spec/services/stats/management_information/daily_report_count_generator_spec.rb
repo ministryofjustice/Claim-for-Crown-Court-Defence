@@ -46,9 +46,10 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       let(:kwargs) { { query_set: query_set, start_at: start_date } }
       let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
       let(:start_date) { 1.month.ago.to_date }
+      let(:duration) { 1.month - 1.day }
 
       let(:expected_headers) do
-        (start_date..(start_date + 1.month)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name', 'Filter')
+        (start_date..(start_date + duration)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name', 'Filter')
       end
 
       it 'returns a Stats::Result object' do
@@ -70,7 +71,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
 
       let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
       let(:start_date) { 1.week.ago.to_date }
-      let(:duration) { 1.month }
+      let(:duration) { 1.month - 1.day }
 
       let(:expected_headers) do
         (start_date..(start_date + duration)).to_a.map { |d| d.strftime("%d/%m/%Y\n%A") }.prepend('Name', 'Filter')
@@ -79,7 +80,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       context 'with no duration' do
         let(:kwargs) { { query_set: query_set, start_at: start_date } }
 
-        it 'generates expected CSV headers with default of 1 month duration' do
+        it 'generates expected CSV headers with default of 1 calendar month duration' do
           csv = CSV.parse(result.content, headers: true)
           expect(csv.headers).to match_array(expected_headers)
         end

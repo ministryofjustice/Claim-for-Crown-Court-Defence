@@ -14,7 +14,7 @@ module Stats
       def initialize(**kwargs)
         @query_set = kwargs[:query_set]
         @start_at = kwargs[:start_at]
-        @duration = kwargs[:duration] || 1.month
+        @duration = kwargs[:duration] || (1.month - 1.day)
 
         raise ArgumentError, 'start_at must be provided' if @start_at.blank?
       end

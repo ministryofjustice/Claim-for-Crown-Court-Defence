@@ -138,6 +138,7 @@ if (!String.prototype.supplant) {
     'claim-crown-court-defence.service.gov.uk',
     'www.claim-crown-court-defence.service.gov.uk',
     'dev.claim-crown-court-defence.service.justice.gov.uk',
+    'dev-clar.claim-crown-court-defence.service.justice.gov.uk',
     'dev-lgfs.claim-crown-court-defence.service.justice.gov.uk',
     'api-sandbox.claim-crown-court-defence.service.justice.gov.uk',
     'staging.claim-crown-court-defence.service.justice.gov.uk'

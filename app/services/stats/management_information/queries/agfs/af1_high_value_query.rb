@@ -22,13 +22,14 @@ module Stats
             WITH journeys AS (
               #{journeys_query}
             )
-            SELECT count(*)
+            SELECT count(*), date_trunc('day', j.#{@date_column_filter}) as day
             FROM journeys j
             WHERE j.scheme = 'AGFS'
             AND j.journey -> 0 ->> 'to' = 'submitted'
-            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
+            AND date_trunc('day', j.#{@date_column_filter}) between '#{@start_at}' and '#{@end_at}'
             AND NOT j.disk_evidence
-            AND j.claim_total::float >= 20000.00
+            AND j.claim_total::float < 20000.00
+            GROUP BY day
           SQL
         end
       end

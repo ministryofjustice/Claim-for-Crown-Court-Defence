@@ -17,15 +17,21 @@ module Stats
 
         def query
           <<~SQL
-            WITH journeys AS (
+            WITH days AS (
+              SELECT day::date
+              FROM generate_series('#{@start_at}', '#{@end_at}', '1 day'::interval) day
+            ),
+            journeys AS (
               #{journeys_query}
             )
-            SELECT count(*)
-            FROM journeys j
-            WHERE j.scheme = 'AGFS'
-            AND j.journey -> 0 ->> 'to' = 'redetermination'
-            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
-            AND j.disk_evidence
+            SELECT count(j.*), date_trunc('day', d.day) as day
+            FROM days d
+            LEFT OUTER JOIN journeys j
+              ON date_trunc('day', j.#{@date_column_filter}) = d.day
+              AND j.scheme = 'AGFS'
+              AND j.journey -> 0 ->> 'to' = 'redetermination'
+              AND j.disk_evidence
+            GROUP BY day
           SQL
         end
       end

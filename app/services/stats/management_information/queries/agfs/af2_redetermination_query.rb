@@ -29,6 +29,7 @@ module Stats
             FROM days d
             LEFT OUTER JOIN journeys j
               ON date_trunc('day', j.#{@date_column_filter}) = d.day
+              AND j.scheme = 'AGFS'
               AND j.journey -> 0 ->> 'to' = 'redetermination'
               AND NOT j.disk_evidence
               AND j.claim_total::float < 20000.00

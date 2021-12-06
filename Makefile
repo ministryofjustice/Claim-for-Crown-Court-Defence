@@ -12,7 +12,7 @@ pspec: #: run all specs in parallel
 cuke: #: run cucumber features tagged with @focus
 	${bx} cucumber --tag @focus
 jasmine: #: run jasmine specs
-	${bx} npx jasmine-browser-runner runSpecs
+	${bx} rake jasmine:run
 rlint: #: run rubocop
 	rubocop
 jslint: #: lint javascript

@@ -10,7 +10,7 @@ To execute unit tests
 
 ```
 bundle exec rspec
-bundle exec rake jasmine:ci
+bundle exec rake jasmine:run
 ```
 
 ### Javascript Unit Testing

@@ -5,7 +5,7 @@ namespace :ci do
     puts 'Info: Running Test Suite'.green
     Rake::Task['rubocop'].invoke
     Rake::Task['brakeman:run'].invoke
-    Rake::Task['jasmine:ci'].invoke
+    Rake::Task['jasmine:run'].invoke
     Rake::Task['spec'].invoke
     duration = 5
     puts "Info: Sleeping for #{duration} seconds to give CPU time to cool down and perhaps not fail on the cuke tasks because drop down lists aren't populated fast enough.".green

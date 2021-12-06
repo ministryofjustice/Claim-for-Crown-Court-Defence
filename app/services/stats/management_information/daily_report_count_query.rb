@@ -30,6 +30,14 @@ module Stats
 
       private
 
+      def submission_queries
+        filter_by(:originally_submitted_at)
+      end
+
+      def completion_queries
+        filter_by(:completed_at)
+      end
+
       def filter_by(date_column_filter)
         @query_set.each_with_object([]) do |(name, query), results|
           result = { name: name.to_s.humanize, filter: date_column_filter.to_s.humanize }
@@ -42,14 +50,6 @@ module Stats
           result.merge!(counts_by_day)
           results.append(result)
         end
-      end
-
-      def submission_queries
-        filter_by(:originally_submitted_at)
-      end
-
-      def completion_queries
-        filter_by(:completed_at)
       end
     end
   end

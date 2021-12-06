@@ -12,7 +12,7 @@ module Stats
         new(kwargs).call
       end
 
-      def initialize(start_at: , end_at:, date_column_filter:)
+      def initialize(start_at:, end_at:, date_column_filter:)
         @start_at = start_at.to_date.iso8601
         @end_at = end_at.to_date.iso8601
         @date_column_filter = sql_quote(date_column_filter)

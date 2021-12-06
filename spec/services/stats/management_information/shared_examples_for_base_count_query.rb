@@ -57,13 +57,21 @@ RSpec.shared_examples 'a base count query' do
     end
 
     context 'with start_at and end_at as Date objects' do
-      let(:kwargs) { { start_at: Date.parse('2021-01-01'), end_at: Date.parse('2021-01-01'), date_column_filter: :originally_submitted_at } }
+      let(:kwargs) do
+        { start_at: Date.parse('2021-01-01'),
+          end_at: Date.parse('2021-01-01'),
+          date_column_filter: :originally_submitted_at }
+      end
 
       it { expect { call }.not_to raise_error }
     end
 
     context 'with start_at or end_at as invalid date string' do
-      let(:kwargs) { { start_at: '2021-13-01', end_at: Date.parse('2021-01-01'), date_column_filter: :originally_submitted_at } }
+      let(:kwargs) do
+        { start_at: '2021-13-01',
+          end_at: Date.parse('2021-01-01'),
+          date_column_filter: :originally_submitted_at }
+      end
 
       it { expect { call }.to raise_error Date::Error, /invalid date/ }
     end

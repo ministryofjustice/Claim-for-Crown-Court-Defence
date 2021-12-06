@@ -37,13 +37,10 @@ module Stats
         @query_set.each_with_object([]) do |(name, query), results|
           result = { name: name.to_s.humanize, filter: date_column_filter.to_s.humanize }
 
-          query_results = query.call(start_at: @start_at,
-                                     end_at: @end_at,
+          query_results = query.call(start_at: @start_at, end_at: @end_at,
                                      date_column_filter: date_column_filter).to_a
 
-          counts_by_day = query_results.map do |tuple|
-            { tuple['day'].to_date.iso8601 => tuple['count'] }
-          end.reduce(:merge)
+          counts_by_day = query_results.map { |rec| { rec['day'].to_date.iso8601 => rec['count'] } }.reduce(:merge)
 
           result.merge!(counts_by_day)
           results.append(result)

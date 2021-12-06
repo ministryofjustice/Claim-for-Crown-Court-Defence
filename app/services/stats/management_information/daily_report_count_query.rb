@@ -20,10 +20,11 @@ module Stats
       def initialize(**kwargs)
         @query_set = kwargs[:query_set]
         @date_range = kwargs[:date_range]
+        raise ArgumentError, 'query set must be provided' if @query_set.blank?
+        raise ArgumentError, 'date range must be provided' if @date_range.blank?
+
         @start_at = @date_range.first.iso8601
         @end_at = @date_range.last.iso8601
-
-        raise ArgumentError, 'query set must be provided' if @query_set.blank?
       end
 
       def call

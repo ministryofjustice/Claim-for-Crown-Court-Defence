@@ -4,7 +4,7 @@ RSpec.shared_examples 'a base count query' do
   describe '.call' do
     subject(:call) { described_class.call(kwargs) }
 
-    let(:kwargs) { { day: Time.zone.today, date_column_filter: :bar } }
+    let(:kwargs) { { start_at: Time.zone.today, end_at: Time.zone.today, date_column_filter: :bar } }
 
     let(:instance) { instance_double(described_class) }
     let(:result) { instance_double(PG::Result) }
@@ -16,7 +16,7 @@ RSpec.shared_examples 'a base count query' do
 
     it 'sends \'new\' with arguments' do
       call
-      expect(described_class).to have_received(:new).with(hash_including(:day, :date_column_filter))
+      expect(described_class).to have_received(:new).with(hash_including(:start_at, :end_at, :date_column_filter))
     end
 
     it 'sends \'call\' to instance of class' do
@@ -28,10 +28,10 @@ RSpec.shared_examples 'a base count query' do
   describe '#call' do
     subject(:call) { described_class.new(kwargs).call }
 
-    let(:day) { Time.zone.today.iso8601 }
+    let(:day) { Time.zone.today }
 
     context 'with valid day and date_column_filter' do
-      let(:kwargs) { { day: day, date_column_filter: :originally_submitted_at } }
+      let(:kwargs) { { start_at: day, end_at: day, date_column_filter: :originally_submitted_at } }
 
       it 'returned object behaves like array' do
         is_expected.to respond_to(:[])
@@ -50,39 +50,40 @@ RSpec.shared_examples 'a base count query' do
       end
     end
 
-    context 'with day as valid date string' do
-      let(:kwargs) { { day: '2021-01-01', date_column_filter: :originally_submitted_at } }
+    context 'with start_at and end_at as valid date strings' do
+      let(:kwargs) { { start_at: '2021-01-01', end_at: '2021-01-01', date_column_filter: :originally_submitted_at } }
 
       it { expect { call }.not_to raise_error }
     end
 
-    context 'with day as Date object' do
-      let(:kwargs) { { day: Date.parse('2021-01-01'), date_column_filter: :originally_submitted_at } }
+    context 'with start_at and end_at as Date objects' do
+      let(:kwargs) { { start_at: Date.parse('2021-01-01'), end_at: Date.parse('2021-01-01'), date_column_filter: :originally_submitted_at } }
 
       it { expect { call }.not_to raise_error }
     end
 
-    context 'with day as invalid date string' do
-      let(:kwargs) { { day: '2021-13-01', date_column_filter: :originally_submitted_at } }
+    context 'with start_at or end_at as invalid date string' do
+      let(:kwargs) { { start_at: '2021-13-01', end_at: Date.parse('2021-01-01'), date_column_filter: :originally_submitted_at } }
 
       it { expect { call }.to raise_error Date::Error, /invalid date/ }
     end
 
-    context 'without day key' do
+    context 'without start_at or end_at key' do
       let(:kwargs) { { date_column_filter: :originally_submitted_at } }
 
-      it { expect { call }.to raise_error ArgumentError, 'missing keyword: :day' }
+      it { expect { call }.to raise_error ArgumentError, /missing keywords:.*start_at.*end_at/ }
     end
 
     context 'without date_column_filter' do
-      let(:kwargs) { { day: Time.zone.today.iso8601 } }
+      let(:kwargs) { { start_at: '2021-01-01', end_at: '2021-01-01' } }
 
-      it { expect { call }.to raise_error ArgumentError, /missing keyword/ }
+      it { expect { call }.to raise_error ArgumentError, /missing keyword:.*date_column_filter/ }
     end
 
     context 'when trying to inject SQL' do
       let(:kwargs) do
-        { day: day,
+        { start_at: day,
+          end_at: day,
           date_column_filter: 'originally_submitted_at; (select PG_SLEEP(15))' }
       end
 
@@ -95,18 +96,18 @@ RSpec.shared_examples 'an originally_submitted_at filterable query' do
   describe '#call' do
     subject(:result) { described_class.new(kwargs).call }
 
-    let(:kwargs) { { day: day, date_column_filter: :originally_submitted_at } }
+    let(:kwargs) { { start_at: day, end_at: day, date_column_filter: :originally_submitted_at } }
 
     before { claim }
 
     context 'with submissions on day' do
-      let(:day) { Time.zone.today.iso8601 }
+      let(:day) { Time.zone.today }
 
       it { expect(result.first['count']).to eq(1) }
     end
 
     context 'without submissions on day' do
-      let(:day) { 1.day.ago.iso8601 }
+      let(:day) { 1.day.ago }
 
       it { expect(result.first['count']).to eq(0) }
     end
@@ -117,18 +118,18 @@ RSpec.shared_examples 'a completed_at filterable query' do
   describe '#call' do
     subject(:result) { described_class.new(kwargs).call }
 
-    let(:kwargs) { { day: day, date_column_filter: :completed_at } }
+    let(:kwargs) { { start_at: day, end_at: day, date_column_filter: :completed_at } }
 
     before { claim }
 
     context 'with completions on day' do
-      let(:day) { Time.zone.today.iso8601 }
+      let(:day) { Time.zone.today }
 
       it { expect(result.first['count']).to eq(1) }
     end
 
     context 'without completions on day' do
-      let(:day) { 1.day.ago.iso8601 }
+      let(:day) { 1.day.ago }
 
       it { expect(result.first['count']).to eq(0) }
     end

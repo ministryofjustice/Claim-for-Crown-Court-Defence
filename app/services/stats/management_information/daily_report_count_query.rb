@@ -20,7 +20,6 @@ module Stats
       def initialize(**kwargs)
         @query_set = kwargs[:query_set]
         @date_range = kwargs[:date_range]
-
         raise ArgumentError, 'query set must be provided' if @query_set.blank?
         raise ArgumentError, 'date range must be provided' if @date_range.blank?
       end
@@ -31,23 +30,26 @@ module Stats
 
       private
 
-      def filter_by(date_column_filter)
-        @query_set.each_with_object([]) do |(name, query), results|
-          result = { name: name.to_s.humanize, filter: date_column_filter.to_s.humanize }
-          @date_range.map(&:iso8601).each do |day|
-            result[day] = query.call(day: day,
-                                     date_column_filter: date_column_filter).first['count']
-          end
-          results.append(result)
-        end
-      end
-
       def submission_queries
         filter_by(:originally_submitted_at)
       end
 
       def completion_queries
         filter_by(:completed_at)
+      end
+
+      def filter_by(date_column_filter)
+        @query_set.each_with_object([]) do |(name, query), results|
+          result = { name: name.to_s.humanize, filter: date_column_filter.to_s.humanize }
+
+          query_results = query.call(date_range: @date_range,
+                                     date_column_filter: date_column_filter).to_a
+
+          counts_by_day = query_results.map { |rec| { rec['day'].to_date.iso8601 => rec['count'] } }.reduce(:merge)
+
+          result.merge!(counts_by_day)
+          results.append(result)
+        end
       end
     end
   end

@@ -18,15 +18,21 @@ module Stats
         # OPTIMIZE: this is the sames as Af1DiskQuery
         def query
           <<~SQL
-            WITH journeys AS (
+            WITH days AS (
+              SELECT day::date
+              FROM generate_series('#{@start_at}', '#{@end_at}', '1 day'::interval) day
+            ),
+            journeys AS (
               #{journeys_query}
             )
-            SELECT count(*)
-            FROM journeys j
-            WHERE j.scheme = 'LGFS'
-            AND j.journey -> 0 ->> 'to' = 'submitted'
-            AND date_trunc('day', j.#{@date_column_filter}) = '#{@day}'
-            AND j.disk_evidence
+            SELECT count(j.*), date_trunc('day', d.day) as day
+            FROM days d
+            LEFT OUTER JOIN journeys j
+              ON date_trunc('day', j.#{@date_column_filter}) = d.day
+              AND j.scheme = 'LGFS'
+              AND j.journey -> 0 ->> 'to' = 'submitted'
+              AND j.disk_evidence
+            GROUP BY day
           SQL
         end
       end

@@ -9,6 +9,7 @@
 
 ## Other links:
 - [Cookie rotation](cookie_rotation.md)
+- [Thinkst Canaries](thinkst_canary.md)
 
 ## Setting up development environment
 

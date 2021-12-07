@@ -4,30 +4,43 @@ module Stats
 
     # rubocop:disable Metrics/MethodLength
     def self.for(report_type)
-      Hash.new({ class: ReportGenerator, default_args: [report_type] }).merge(
+      Hash.new({ class: SimpleReportGenerator, default_args: {} }).merge(
         management_information:
-          { class: ManagementInformationGenerator, default_args: [] },
+          { class: ManagementInformationGenerator,
+            default_args: {} },
         agfs_management_information:
-          { class: ManagementInformationGenerator, default_args: [{ scheme: :agfs }] },
+          { class: ManagementInformationGenerator,
+            default_args: { scheme: :agfs } },
         lgfs_management_information:
-          { class: ManagementInformationGenerator, default_args: [{ scheme: :lgfs }] },
+          { class: ManagementInformationGenerator,
+            default_args: { scheme: :lgfs } },
         management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [] },
+          { class: Stats::ManagementInformation::DailyReportGenerator,
+            default_args: {} },
         agfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [{ scheme: :agfs }] },
+          { class: Stats::ManagementInformation::DailyReportGenerator,
+            default_args: { scheme: :agfs } },
         lgfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator, default_args: [{ scheme: :lgfs }] }
+          { class: Stats::ManagementInformation::DailyReportGenerator,
+            default_args: { scheme: :lgfs } },
+        agfs_management_information_statistics:
+          { class: Stats::ManagementInformation::DailyReportCountGenerator,
+            default_args: { query_set: Stats::ManagementInformation::AgfsQuerySet.new, duration: (1.month - 1.day) } },
+        lgfs_management_information_statistics:
+          { class: Stats::ManagementInformation::DailyReportCountGenerator,
+            default_args: { query_set: Stats::ManagementInformation::LgfsQuerySet.new, duration: (1.month - 1.day) } }
       )[report_type.to_sym]
     end
     # rubocop:enable Metrics/MethodLength
 
-    def self.call(report_type, options = {})
-      new(report_type, options).call
+    def self.call(**kwargs)
+      new(kwargs).call
     end
 
-    def initialize(report_type, options = {})
-      @report_type = report_type
-      @options = options
+    def initialize(**kwargs)
+      @report_type = kwargs[:report_type]
+      @generator = self.class.for(report_type)
+      @options = kwargs
     end
 
     def call
@@ -45,15 +58,14 @@ module Stats
 
     private
 
-    attr_reader :report_type, :options
+    attr_reader :report_type, :generator, :options
 
     def validate_report_type
-      raise InvalidReportType unless StatsReport::TYPES.include?(report_type.to_s)
+      raise InvalidReportType unless StatsReport.names.include?(report_type.to_sym)
     end
 
     def generate_new_report
-      generator = self.class.for(report_type)
-      generator[:class].call(*generator[:default_args])
+      generator[:class].call(options.merge(generator[:default_args]))
     end
 
     def notify_error(report_record, error)

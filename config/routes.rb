@@ -182,6 +182,7 @@ Rails.application.routes.draw do
       get 'management_information', to: 'management_information#index', as: :management_information
       get 'management_information/download', to: 'management_information#download', as: :management_information_download
       get 'management_information/generate', to: 'management_information#generate', as: :management_information_generate
+      post 'management_information/create', to: 'management_information#create', as: :management_information_create
     end
 
   end

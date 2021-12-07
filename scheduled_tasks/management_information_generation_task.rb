@@ -6,7 +6,7 @@ class ManagementInformationGenerationTask < Scheduler::SchedulerTask
 
   def run
     LogStuff.info { 'Management Information Generation started' }
-    Stats::StatsReportGenerator.call('management_information')
+    Stats::StatsReportGenerator.call(report_type: 'management_information')
     LogStuff.info { 'Management Information Generation finished' }
   rescue StandardError => e
     LogStuff.error { 'Management Information Generation error: ' + e.message }

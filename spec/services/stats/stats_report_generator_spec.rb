@@ -1,8 +1,28 @@
 require 'rails_helper'
 
+RSpec.shared_examples 'a successful report generator caller' do
+  before { allow(generator).to receive(:call).with(args).and_return(mocked_result) }
+
+  it 'calls generator with expected args' do
+    call
+    expect(generator).to have_received(:call).with(args)
+  end
+
+  it 'marks report as completed' do
+    expect { call }.to change(Stats::StatsReport.where(report_name: report_type).completed, :count).by 1
+  end
+
+  it 'generates report content' do
+    call
+    record = Stats::StatsReport.where(report_name: report_type).completed.last
+    file_path = ActiveStorage::Blob.service.path_for(record.document.blob.key)
+    expect(File.open(file_path).read).to eq('some new content')
+  end
+end
+
 RSpec.describe Stats::StatsReportGenerator, type: :service do
   describe '.call' do
-    subject(:call) { described_class.call(report_type) }
+    subject(:call) { described_class.call(report_type: report_type) }
 
     context 'with an invalid report type' do
       let(:report_type) { 'some-report-type' }
@@ -31,69 +51,98 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
     context 'with a valid report type that is not already in progress' do
       let(:mocked_result) { Stats::Result.new('some new content', 'csv') }
 
-      context 'with generic report type' do
+      context 'with simple report type' do
         let(:report_type) { 'submitted_claims' }
+        let(:generator) { Stats::SimpleReportGenerator }
 
-        before { allow(Stats::ReportGenerator).to receive(:call).and_return(mocked_result) }
-
-        it 'calls report generator' do
-          call
-          expect(Stats::ReportGenerator).to have_received(:call)
-        end
-
-        it 'marks report as completed' do
-          expect { call }.to change(Stats::StatsReport.where(report_name: report_type).completed, :count).by 1
-        end
-
-        it 'generates report content' do
-          call
-          record = Stats::StatsReport.where(report_name: report_type).completed.last
-          file_path = ActiveStorage::Blob.service.path_for(record.document.blob.key)
-          expect(File.open(file_path).read).to eq('some new content')
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'submitted_claims' } }
         end
       end
 
       context 'with management information report' do
         let(:report_type) { 'management_information' }
+        let(:generator) { Stats::ManagementInformationGenerator }
 
-        before { allow(Stats::ManagementInformationGenerator).to receive(:call).and_return(mocked_result) }
-
-        it 'calls management information generator with no claim scope' do
-          call
-          expect(Stats::ManagementInformationGenerator).to have_received(:call).with(no_args)
-        end
-
-        it 'marks report as completed' do
-          expect { call }.to change(Stats::StatsReport.where(report_name: report_type).completed, :count).by 1
-        end
-
-        it 'generates report content' do
-          call
-          record = Stats::StatsReport.where(report_name: report_type).completed.last
-          file_path = ActiveStorage::Blob.service.path_for(record.document.blob.key)
-          expect(File.open(file_path).read).to eq('some new content')
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'management_information' } }
         end
       end
 
       context 'with AGFS management information report' do
         let(:report_type) { 'agfs_management_information' }
+        let(:generator) { Stats::ManagementInformationGenerator }
 
-        before { allow(Stats::ManagementInformationGenerator).to receive(:call).and_return(mocked_result) }
-
-        it 'calls management information generator with agfs scope' do
-          call
-          expect(Stats::ManagementInformationGenerator).to have_received(:call).with({ scheme: :agfs })
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'agfs_management_information', scheme: :agfs } }
         end
       end
 
       context 'with LGFS management information report' do
         let(:report_type) { 'lgfs_management_information' }
+        let(:generator) { Stats::ManagementInformationGenerator }
 
-        before { allow(Stats::ManagementInformationGenerator).to receive(:call).and_return(mocked_result) }
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'lgfs_management_information', scheme: :lgfs } }
+        end
+      end
 
-        it 'calls management information generator with lgfs scope' do
-          call
-          expect(Stats::ManagementInformationGenerator).to have_received(:call).with({ scheme: :lgfs })
+      context 'with management information report v2' do
+        let(:report_type) { 'management_information_v2' }
+        let(:generator) { Stats::ManagementInformation::DailyReportGenerator }
+
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'management_information_v2' } }
+        end
+      end
+
+      context 'with AGFS management information report v2' do
+        let(:report_type) { 'agfs_management_information_v2' }
+        let(:generator) { Stats::ManagementInformation::DailyReportGenerator }
+
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'agfs_management_information_v2', scheme: :agfs } }
+        end
+      end
+
+      context 'with LGFS management information report v2' do
+        let(:report_type) { 'lgfs_management_information_v2' }
+        let(:generator) { Stats::ManagementInformation::DailyReportGenerator }
+
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) { { report_type: 'lgfs_management_information_v2', scheme: :lgfs } }
+        end
+      end
+
+      context 'with AGFS management information statistics report' do
+        subject(:call) { described_class.call(report_type: report_type, start_at: Time.zone.today) }
+
+        let(:report_type) { 'agfs_management_information_statistics' }
+        let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }
+
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) do
+            { report_type: 'agfs_management_information_statistics',
+              query_set: instance_of(Stats::ManagementInformation::AgfsQuerySet),
+              start_at: Time.zone.today,
+              duration: 1.month - 1.day }
+          end
+        end
+      end
+
+      context 'with LGFS management information statistics report' do
+        subject(:call) { described_class.call(report_type: report_type, start_at: Time.zone.today) }
+
+        let(:report_type) { 'lgfs_management_information_statistics' }
+        let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }
+
+        it_behaves_like 'a successful report generator caller' do
+          let(:args) do
+            { report_type: 'lgfs_management_information_statistics',
+              query_set: instance_of(Stats::ManagementInformation::LgfsQuerySet),
+              start_at: Time.zone.today,
+              duration: 1.month - 1.day }
+          end
         end
       end
     end

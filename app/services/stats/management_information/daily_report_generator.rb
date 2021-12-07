@@ -5,6 +5,8 @@ require 'csv'
 module Stats
   module ManagementInformation
     class DailyReportGenerator
+      include StuffLogger
+
       def self.call(options = {})
         new(options).call
       end
@@ -26,7 +28,7 @@ module Stats
         log_info('Daily MI Report generation finished')
         content
       rescue StandardError => e
-        log_error(e)
+        log_error(e, 'Daily MI Report generation error')
         raise
       end
 
@@ -53,19 +55,6 @@ module Stats
         Settings
           .claim_csv_headers
           .map { |header| presenter.send(header) }
-      end
-
-      def log_error(error)
-        LogStuff.error(class: self.class.name,
-                       action: caller_locations(1, 1)[0].label,
-                       error_message: "#{error.class} - #{error.message}",
-                       error_backtrace: error.backtrace.inspect.to_s) do
-                         'MI Report generation error'
-                       end
-      end
-
-      def log_info(message)
-        LogStuff.info(class: self.class.name, action: caller_locations(1, 1)[0].label) { message }
       end
     end
   end

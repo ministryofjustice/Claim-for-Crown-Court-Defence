@@ -1,5 +1,4 @@
 - i18n_scope = 'case_workers.admin.management_information.index'
-- action_context = t("report_types.#{report_object}_html", scope: i18n_scope)
 
 - if report_rec&.started_at
   %p
@@ -12,8 +11,8 @@
     = t('unavailable_report', scope: i18n_scope)
 
 - if report_rec&.started_at.present?
-  = govuk_link_button(t('download', scope: i18n_scope, context: action_context),
+  = govuk_link_button(t('download_html', scope: i18n_scope, report_name: report_name_html),
                     case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
 
-= govuk_link_button_secondary(t('update_report', scope: i18n_scope, context: action_context),
+= govuk_link_button_secondary(t('update_report_html', scope: i18n_scope, report_name: report_name_html),
                             case_workers_admin_management_information_generate_url(report_type: report_object.name))

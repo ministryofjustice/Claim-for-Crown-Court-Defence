@@ -10,14 +10,15 @@
     - @available_reports.each do |report_object, report_rec|
       .form-section
         %h2.govuk-heading-l{ id: "heading-#{report_object}" }
-          = t(".report_types.#{report_object}_html")
+          - report_name_html = t(".report_types.#{report_object}_html")
+          = report_name_html
 
         %p{ role: 'group', 'aria-labelledby': "heading-#{report_object}" }
         - if report_object.date_required?
-          = render partial: 'stats_report_with_date_form', locals: { report_object: report_object, report_rec: report_rec}
+          = render partial: 'stats_report_with_date_form', locals: { report_object: report_object, report_rec: report_rec, report_name_html: report_name_html }
 
         - else
-          = render partial: 'stats_report', locals: { report_object: report_object, report_rec: report_rec}
+          = render partial: 'stats_report', locals: { report_object: report_object, report_rec: report_rec, report_name_html: report_name_html }
 
     #provisional-assessment-date.form-section.fx-dates-chooser
       %h2.govuk-heading-l
@@ -38,4 +39,4 @@
             legend: { text: t('.end_date') },
             hint: { text: t('.example_date') }
 
-      = govuk_link_button(t('.download_html', context: t('.provisional_assessments_by_date')), '', disabled: 'true', id: 'provisional_assessments_date_download')
+      = govuk_link_button(t('.download_html', report_name: t('.provisional_assessments_by_date')), '', disabled: 'true', id: 'provisional_assessments_date_download')

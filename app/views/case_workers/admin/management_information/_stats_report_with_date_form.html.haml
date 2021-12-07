@@ -1,5 +1,4 @@
 - i18n_scope = 'case_workers.admin.management_information.index'
-- action_context = t("report_types.#{report_object}_html", scope: i18n_scope)
 
 - if report_rec&.started_at
   %p
@@ -8,7 +7,7 @@
         datetime: report_rec.started_at.iso8601,
         time: report_rec.started_at.strftime(Settings.report_date_format))
 
-  = govuk_link_button(t('download', scope: i18n_scope, context: action_context),
+  = govuk_link_button(t('download_html', scope: i18n_scope, report_name: report_name_html),
                       case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
 - else
   %p
@@ -20,4 +19,4 @@
                        legend: { text: t('start_date', scope: i18n_scope) },
                        hint: { text: t('daily_report_count_hint', scope: i18n_scope) }
 
-  = f.govuk_submit(t('update_report_html', scope: i18n_scope, context: action_context), class: 'govuk-button--secondary')
+  = f.govuk_submit(t('update_report_html', scope: i18n_scope, report_name: report_name_html), class: 'govuk-button--secondary')

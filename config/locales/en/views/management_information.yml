@@ -23,7 +23,7 @@ en:
             Enter a start date to create a new report covering a month from that date. For example,
             18 10 2021 will create a report for 18 October 2021 to 17 November 2021.
           download_html: |
-            Download <span class="govuk-visually-hidden">%{context} report</span>
+            Download <span class="govuk-visually-hidden">%{report_name} report</span>
           end_date: End date
           example_date: "For example, 31 3 2020"
           example_day_in_week: "For example, 05 08 2021 will generate report for Saturday 03/08/2021 to Friday 09/08/2021"
@@ -57,6 +57,6 @@ en:
           start_date: Start date
           unavailable_report: "There is currently no report available"
           update_report_html: |
-            Update <span class="govuk-visually-hidden">%{context}</span> report
+            Update <span class="govuk-visually-hidden">%{report_name}</span> report
           year: Year
         job_scheduled: Refresh this page in a few minutes to download the new report.

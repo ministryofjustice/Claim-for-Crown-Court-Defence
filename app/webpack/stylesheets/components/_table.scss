@@ -49,7 +49,7 @@ tr {
 }
 
 .app-table--responsive {
-  @include govuk-media-query($until: desktop) {
+  @include govuk-media-query($until: desktop, $media-type: screen) {
     tr {
       display: block;
       margin-bottom: $gutter-one-third;

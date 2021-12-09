@@ -69,7 +69,8 @@ RSpec.describe 'Management information administration', type: :request do
          lgfs_management_information_statistics
          provisional_assessment
          rejections_refusals
-         submitted_claims]
+         submitted_claims
+         reports_access_details]
     end
 
     it_behaves_like 'case worker not authorized'

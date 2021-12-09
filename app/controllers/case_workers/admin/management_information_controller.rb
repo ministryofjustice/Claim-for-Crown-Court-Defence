@@ -6,6 +6,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   skip_load_and_authorize_resource only: %i[index download generate create]
   before_action -> { authorize! :view, :management_information }, only: %i[index download generate create]
   before_action :validate_report_type, only: %i[download generate create]
+  before_action :validate_report_type_is_updatable, only: %i[generate create]
   before_action :validate_and_set_date, only: %i[create]
 
   def index
@@ -40,8 +41,15 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   private
 
   def validate_report_type
-    return if Stats::StatsReport.names.include?(params[:report_type]&.to_sym)
+    return if Stats::StatsReport.reports[params[:report_type]]
+
     redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_type')
+  end
+
+  def validate_report_type_is_updatable
+    return if Stats::StatsReport.reports[params[:report_type]].updatable?
+
+    redirect_to case_workers_admin_management_information_url, alert: t('.report_cannot_be_updated')
   end
 
   def report_params

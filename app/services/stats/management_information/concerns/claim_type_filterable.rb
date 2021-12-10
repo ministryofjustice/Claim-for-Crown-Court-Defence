@@ -2,11 +2,31 @@
 
 module Stats
   module ManagementInformation
-    module ClaimTypeQueryable
+    module ClaimTypeFilterable
       extend ActiveSupport::Concern
 
+      class_methods do
+        def acts_as_scheme(scheme)
+          define_method(:scheme) do
+            scheme&.to_s&.upcase
+          end
+        end
+      end
+
       included do
-        delegate :claim_types, :agfs_claim_types, :lgfs_claim_types, to: :'::Claim::BaseClaim'
+        def scheme
+          @scheme&.to_s&.upcase
+        end
+
+        def scheme=(scheme)
+          @scheme = scheme&.to_s&.upcase
+        end
+
+        delegate :claim_types, :agfs_claim_types, :lgfs_claim_types, to: :base_claim_klass
+
+        def base_claim_klass
+          ::Claim::BaseClaim
+        end
 
         def claim_type_filter
           return in_statement_for(agfs_claim_types) if scheme.eql?('AGFS')

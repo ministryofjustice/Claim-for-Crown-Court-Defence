@@ -14,6 +14,8 @@ module Stats
   module ManagementInformation
     module Lgfs
       class Lf1HighValueQuery < BaseCountQuery
+        acts_as_scheme :lgfs
+
         private
 
         # OPTIMIZE: this is the sames as Af1HighValueQuery

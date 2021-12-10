@@ -15,6 +15,8 @@ module Stats
   module ManagementInformation
     module Agfs
       class Af1HighValueQuery < BaseCountQuery
+        acts_as_scheme :agfs
+
         private
 
         def query

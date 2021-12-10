@@ -13,6 +13,8 @@ module Stats
   module ManagementInformation
     module Lgfs
       class Lf2DiskQuery < BaseCountQuery
+        acts_as_scheme :lgfs
+
         private
 
         # OPTIMIZE: this is the sames as Af2DiskQuery

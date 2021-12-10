@@ -15,6 +15,8 @@ module Stats
   module ManagementInformation
     module Agfs
       class IntakeFinalFeeQuery < BaseCountQuery
+        acts_as_scheme :agfs
+
         private
 
         # NOTE: on time zone edge cases:

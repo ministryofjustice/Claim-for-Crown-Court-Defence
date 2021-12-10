@@ -7,16 +7,14 @@ module Stats
   module ManagementInformation
     class DailyReportQuery
       include JourneyQueryable
-      include ClaimTypeQueryable
-
-      attr_reader :scheme
+      include ClaimTypeFilterable
 
       def self.call(options = {})
         new(options).call
       end
 
       def initialize(options = {})
-        @scheme = options[:scheme]&.to_s&.upcase
+        self.scheme = options[:scheme]
         raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
       end
 

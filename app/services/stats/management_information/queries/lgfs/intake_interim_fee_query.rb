@@ -15,6 +15,8 @@ module Stats
   module ManagementInformation
     module Lgfs
       class IntakeInterimFeeQuery < BaseCountQuery
+        acts_as_scheme :lgfs
+
         private
 
         def query

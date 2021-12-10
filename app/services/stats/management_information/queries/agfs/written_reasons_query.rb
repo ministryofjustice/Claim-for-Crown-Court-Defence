@@ -12,6 +12,8 @@ module Stats
   module ManagementInformation
     module Agfs
       class WrittenReasonsQuery < BaseCountQuery
+        acts_as_scheme :agfs
+
         private
 
         def query

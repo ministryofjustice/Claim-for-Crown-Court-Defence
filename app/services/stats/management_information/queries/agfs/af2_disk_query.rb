@@ -13,6 +13,8 @@ module Stats
   module ManagementInformation
     module Agfs
       class Af2DiskQuery < BaseCountQuery
+        acts_as_scheme :agfs
+
         private
 
         def query

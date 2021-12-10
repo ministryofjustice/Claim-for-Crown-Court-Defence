@@ -12,16 +12,18 @@ To execute unit tests
 bundle exec rspec
 bundle exec rake jasmine:run
 ```
+
+### Javascript Unit Testing
+
+Run it using the `$ yarn run test:jasmine` command. Jasmine output available here: [http://localhost:8888](http://localhost:8888).
+You can run the test in CLI using `$ yarn run test:jasmine-headless`
+
 > **NOTE**:
 > If MacOS gatekeeper cannot verify the `chromedriver` use this command to exclude from the check
 > `xattr -d com.apple.quarantine /usr/local/bin/chromedriver`
 > Installed chromedriver might be older than the browser installed on the system.
 > Updating chromedriver will resolve the issue.
 > `brew update` and `brew upgrade chromedriver`
-
-### Javascript Unit Testing
-
-Run it using the `guard` command. Jasmine output available here: [http://localhost:8888](http://localhost:8888)
 
 ## Features tests
 

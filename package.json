@@ -15,7 +15,9 @@
   "homepage": "https://github.com/ministryofjustice/Claim-for-Crown-Court-Defence#readme",
   "scripts": {
     "validate:js": "standard",
-    "validate:scss": "stylelint **/*.scss"
+    "validate:scss": "stylelint **/*.scss",
+    "test:jasmine-headless": "npx jasmine-browser-runner runSpecs",
+    "test:jasmine": "npx jasmine-browser-runner"
   },
   "dependencies": {
     "@rails/webpacker": "5.4.3",

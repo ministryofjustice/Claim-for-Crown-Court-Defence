@@ -8,7 +8,7 @@
     = govuk_inset_text do
       = t('.report_instructions')
     - @available_reports.each do |report_object, report_rec|
-      .form-section
+      .form-section{class: ('hidden' if report_object.hidden?)}
         %h2.govuk-heading-l{ id: "heading-#{report_object}" }
           - report_name_html = t(".report_types.#{report_object}_html")
           = report_name_html

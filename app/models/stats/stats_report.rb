@@ -1,7 +1,7 @@
 module Stats
   class StatsReport < ApplicationRecord
-    Report = Struct.new(:name, :date_required, keyword_init: true) do
-      def initialize(name:, date_required: false)
+    Report = Struct.new(:name, :date_required, :hidden, :updatable, keyword_init: true) do
+      def initialize(name:, date_required: false, hidden: false, updatable: true)
         super
       end
 
@@ -9,6 +9,14 @@ module Stats
 
       def date_required?
         date_required
+      end
+
+      def hidden?
+        hidden
+      end
+
+      def updatable?
+        updatable
       end
     end
 
@@ -22,7 +30,8 @@ module Stats
                Report.new(name: :lgfs_management_information_statistics, date_required: true),
                Report.new(name: :provisional_assessment),
                Report.new(name: :rejections_refusals),
-               Report.new(name: :submitted_claims)].freeze
+               Report.new(name: :submitted_claims),
+               Report.new(name: :reports_access_details, hidden: true, updatable: false)].freeze
 
     validates :status, inclusion: { in: %w[started completed error] }
 
@@ -40,8 +49,8 @@ module Stats
     has_one_attached :document
 
     class << self
-      def names
-        REPORTS.map(&:name)
+      def reports
+        @reports ||= REPORTS.index_by(&:name).with_indifferent_access
       end
 
       def clean_up(report_name)

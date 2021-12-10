@@ -5,16 +5,20 @@ en:
       management_information:
         validate_report_type:
           invalid_report_type: &invalid_report_type The requested report type is not supported
+        validate_report_type_is_updatable:
+          report_cannot_be_updated: &report_cannot_be_updated The requested report type cannot be updated
         validate_and_set_date:
           invalid_report_date: &invalid_report_date The supplied date is invalid
         create:
           invalid_report_type: *invalid_report_type
           invalid_report_date: *invalid_report_date
+          report_cannot_be_updated: *report_cannot_be_updated
         download:
           invalid_report_type: *invalid_report_type
           missing_report: The requested report is missing
         generate:
           invalid_report_type: *invalid_report_type
+          report_cannot_be_updated: *report_cannot_be_updated
         index:
           all_claims_report: 'All claims report'
           date_hint: For example 31 3 2017
@@ -54,6 +58,7 @@ en:
             provisional_assessment_html: Provisional assessment
             rejections_refusals_html: 'Rejections/Refusals'
             submitted_claims_html: Submitted claims
+            reports_access_details_html: Reports access details
           start_date: Start date
           unavailable_report: "There is currently no report available"
           update_report_html: |

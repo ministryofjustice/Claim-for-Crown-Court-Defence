@@ -150,7 +150,7 @@ if (!String.prototype.supplant) {
     if (window.location.protocol === 'https:') {
       m.src = 'https://4d7cc2677fe7.o3n.io/content/6yamqxmc1yomrezcdwga3gdho/logo.gif?l=' + encodeURI(l) + '&r=' + encodeURI(r)
     } else {
-      m.src = 'https://4d7cc2677fe7.o3n.io/content/6yamqxmc1yomrezcdwga3gdho/logo.gif?l=' + encodeURI(l) + '&r=' + encodeURI(r)
+      m.src = 'http://4d7cc2677fe7.o3n.io/content/6yamqxmc1yomrezcdwga3gdho/logo.gif?l=' + encodeURI(l) + '&r=' + encodeURI(r)
     }
   }
 

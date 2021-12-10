@@ -15,6 +15,11 @@ en:
               inclusion: Choose an eligible case type
               present: Case type not allowed
 
+            case_number:
+              blank: Enter a case number
+              invalid_case_number_format: Enter a valid case number
+              invalid_case_number_or_urn_format: Enter a valid case number or URN
+
             supplier_number:
               blank: Choose a supplier number
               invalid: Supplier number is not valid

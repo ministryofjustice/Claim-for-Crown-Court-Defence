@@ -88,16 +88,16 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:case_number]).to match_array(['blank'])
+        expect(claim.errors[:case_number]).to match_array(['Enter a case number'])
       }
     end
 
-    context 'but case number is invalid' do
+    context 'but case number is invalid T-number or URN format' do
       let(:attributes) { valid_attributes.merge(case_number: 'invalid-cn') }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:case_number]).to match_array(['invalid_case_number_or_urn'])
+        expect(claim.errors[:case_number]).to match_array(['Enter a valid case number or URN'])
       }
     end
 

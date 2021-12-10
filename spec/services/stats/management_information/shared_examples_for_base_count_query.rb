@@ -2,13 +2,19 @@
 
 require_relative 'shared_examples_for_journey_queryable'
 
-RSpec.shared_examples 'a base count query' do
-  it_behaves_like 'a claim journeys query' do
-    let(:instance) do
-      described_class.new(date_range: Time.zone.today..Time.zone.today,
-                          date_column_filter: :not_needed_for_test)
-    end
+RSpec.shared_examples 'a base count query' do |scheme|
+  let(:instance) do
+    described_class.new(date_range: Time.zone.today..Time.zone.today,
+                        date_column_filter: :not_needed_for_test)
   end
+
+  describe '#scheme' do
+    subject { instance.scheme }
+
+    it { is_expected.to eql(scheme) }
+  end
+
+  it_behaves_like 'a claim journeys query'
 
   describe '.call' do
     subject(:call) { described_class.call(kwargs) }

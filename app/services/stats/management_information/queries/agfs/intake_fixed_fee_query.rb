@@ -16,6 +16,8 @@ module Stats
   module ManagementInformation
     module Agfs
       class IntakeFixedFeeQuery < BaseCountQuery
+        acts_as_scheme :agfs
+
         private
 
         def query

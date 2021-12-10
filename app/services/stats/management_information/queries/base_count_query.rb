@@ -4,9 +4,7 @@ module Stats
   module ManagementInformation
     class BaseCountQuery
       include JourneyQueryable
-      include ClaimTypeQueryable
-
-      attr_reader :scheme
+      include ClaimTypeFilterable
 
       def self.call(**kwargs)
         new(kwargs).call

@@ -6,7 +6,7 @@ class LgfsManagementInformationV2GenerationTask < Scheduler::SchedulerTask
 
   def run
     LogStuff.info { 'LGFS Management Information Generation V2 started' }
-    Stats::StatsReportGenerator.call('lgfs_management_information_v2')
+    Stats::StatsReportGenerator.call(report_type: 'lgfs_management_information_v2')
     LogStuff.info { 'LGFS Management Information Generation V2 finished' }
   rescue StandardError => e
     LogStuff.error { 'LGFS Management Information Generation V2 error: ' + e.message }

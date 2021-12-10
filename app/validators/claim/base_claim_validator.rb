@@ -73,11 +73,11 @@ class Claim::BaseClaimValidator < BaseValidator
   # must have a format of capital letter followed by 8 digits
   def validate_case_number
     @record.case_number&.upcase!
-    validate_presence(:case_number, 'blank')
-    validate_pattern(:case_number, CASE_URN_PATTERN, 'invalid_case_number_or_urn')
+    validate_presence(:case_number, :blank)
+    validate_pattern(:case_number, CASE_URN_PATTERN, :invalid_case_number_or_urn_format)
     return unless looks_like_a_case_number?(:case_number)
 
-    validate_pattern(:case_number, CASE_NUMBER_PATTERN, 'invalid')
+    validate_pattern(:case_number, CASE_NUMBER_PATTERN, :invalid_case_number_format)
   end
 
   def validate_case_transferred_from_another_court

@@ -168,17 +168,17 @@ court:
 
 case_number:
   _seq: 50
-  blank:
+  enter_a_case_number:
     long: Enter a case number
-    short: Enter a case number
+    short: _
     api: Enter a case number
-  invalid:
+  enter_a_valid_case_number:
     long: The case number must be in the format A20161234
-    short: Invalid case number
+    short: _
     api: The case number must be in the format A20161234
-  invalid_case_number_or_urn:
+  enter_a_valid_case_number_or_urn:
     long: The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
-    short: Invalid case number
+    short: _
     api: The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
 
 transfer_court:

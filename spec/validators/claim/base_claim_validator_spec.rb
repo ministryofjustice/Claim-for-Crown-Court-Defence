@@ -215,7 +215,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   context 'case_number' do
     it 'errors if not present' do
       claim.case_number = nil
-      should_error_with(claim, :case_number, 'blank')
+      should_error_with(claim, :case_number, 'Enter a case number')
     end
 
     context 'with URN format' do
@@ -224,16 +224,16 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         expect(claim).to be_valid
       end
 
-      it 'is invalid if contains non alphanumeric characters' do
+      it 'invalid if contains non alphanumeric characters' do
         %w(_ - * ? ,).each do |character|
           claim.case_number = 'KLMNOPQRST134456789' + character
-          should_error_with(claim, :case_number, 'invalid_case_number_or_urn')
+          should_error_with(claim, :case_number, 'Enter a valid case number or URN')
         end
       end
 
-      it 'is invalid if the URN is too long' do
+      it 'invalid if the URN is too long' do
         claim.case_number = '1234567890UVWXYZABCDE'
-        should_error_with(claim, :case_number, 'invalid_case_number_or_urn')
+        should_error_with(claim, :case_number, 'Enter a valid case number or URN')
       end
     end
 
@@ -245,17 +245,17 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'errors if too short' do
         claim.case_number = 'T2020432'
-        should_error_with(claim, :case_number, 'invalid')
+        should_error_with(claim, :case_number, 'Enter a valid case number')
       end
 
       it 'errors if too long' do
         claim.case_number = 'T202043298'
-        should_error_with(claim, :case_number, 'invalid')
+        should_error_with(claim, :case_number, 'Enter a valid case number')
       end
 
       it 'errors if it doesnt start with BAST or U' do
         claim.case_number = 'G20204321'
-        should_error_with(claim, :case_number, 'invalid')
+        should_error_with(claim, :case_number, 'Enter a valid case number')
       end
 
       it 'upcases the first letter and does not error' do

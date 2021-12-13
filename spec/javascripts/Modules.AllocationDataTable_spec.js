@@ -51,7 +51,7 @@ describe('Modules.AllocationDataTable.js', function () {
 
     it('...should have a `createdRow` callback defined', function () {
       expect(options.createdRow).toBeDefined()
-      const row = $('<tr><td></td></tr>')
+      const row = $('<tr class="govuk-table__row error injection-error"><td data-label="Select claim" class="govuk-table__cell"></td></tr>')
       const data = {
         injection_errors: 'I am an error',
         filter: {
@@ -64,7 +64,7 @@ describe('Modules.AllocationDataTable.js', function () {
 
     it('...should have a `createdRow` callback defined for CAV warnings', function () {
       expect(options.createdRow).toBeDefined()
-      const row = $('<tr><td></td></tr>')
+      const row = $('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"></td></tr>')
       const data = {
         filter: {
           cav_warning: 1
@@ -76,7 +76,7 @@ describe('Modules.AllocationDataTable.js', function () {
 
     it('...should have a `createdRow` callback defined for CLAR fee warnings', function () {
       expect(options.createdRow).toBeDefined()
-      const row = $('<tr><td></td></tr>')
+      const row = $('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"></td></tr>')
       const data = {
         filter: {
           clar_fees_warning: 1

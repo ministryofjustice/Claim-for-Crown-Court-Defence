@@ -1,0 +1,22 @@
+{
+  "srcDir": ".",
+  "srcFiles": [
+    "public/packs/js/application.bundle.js",
+    "public/packs-test/js/application.bundle.js"
+  ],
+  "specDir": "spec/javascripts",
+  "specFiles": [
+    "**/*[sS]pec.?(m)js"
+  ],
+  "helpers": [
+    "helpers/**/*.?(m)js"
+  ],
+  "env": {
+    "stopSpecOnExpectationFailure": false,
+    "stopOnSpecFailure": false,
+    "random": false
+  },
+  "browser": {
+    "name": "headlessChrome"
+  }
+}

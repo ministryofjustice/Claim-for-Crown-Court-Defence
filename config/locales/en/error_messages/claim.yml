@@ -88,17 +88,17 @@ base:
 
 supplier_number:
   _seq: 5
-  blank:
+  choose_a_supplier_number:
     long: Choose a supplier number
-    short: Choose a supplier number
+    short: _
     api: Choose a supplier number
-  invalid:
+  supplier_number_is_not_valid:
     long: Supplier number is not valid
-    short: Supplier number is not valid
+    short: _
     api: Supplier number is not valid
-  unknown:
+  supplier_number_is_unknown:
     long: Supplier number is unknown
-    short: Supplier number is unknown
+    short: _
     api: Supplier number is unknown
 
 external_user:

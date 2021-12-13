@@ -35,7 +35,7 @@ module ErrorMessage
       end
 
       # clean out unused message substitution keys
-      message.gsub(/#\{(\S+)\}/, '')
+      message&.gsub(/#\{(\S+)\}/, '')
     end
 
     def humanize_model_name(model_name)

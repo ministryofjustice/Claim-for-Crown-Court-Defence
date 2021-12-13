@@ -88,9 +88,9 @@ base:
 
 supplier_number:
   _seq: 5
-  blank:
+  choose_a_supplier_number:
     long: Choose a supplier number
-    short: Choose a supplier number
+    short: _
     api: Choose a supplier number
   invalid:
     long: Supplier number is not valid

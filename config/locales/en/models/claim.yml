@@ -1,0 +1,9 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        claim/base_claim:
+          attributes:
+            supplier_number:
+              blank: Choose a supplier number

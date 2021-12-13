@@ -1,7 +1,7 @@
 module Claim
   module ValidateLitigatorSupplierNumber
     def validate_supplier_number
-      validate_presence(:supplier_number, 'blank')
+      validate_presence(:supplier_number, :blank)
 
       return if @record.supplier_number.blank?
 

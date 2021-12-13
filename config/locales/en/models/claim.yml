@@ -1,0 +1,11 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        claim/base_claim:
+          attributes:
+            supplier_number:
+              blank: Choose a supplier number
+              invalid: Supplier number is not valid
+              unknown: Supplier number is unknown

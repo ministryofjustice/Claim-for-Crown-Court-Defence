@@ -4,7 +4,7 @@ class Claim::LitigatorClaimValidator < Claim::BaseClaimValidator
   def self.fields_for_steps
     {
       case_details: %i[
-        case_type
+        case_type_id
         court
         case_number
         case_transferred_from_another_court

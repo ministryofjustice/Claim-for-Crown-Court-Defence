@@ -175,9 +175,9 @@ module Fee
 
     describe '#calculate_amount' do
       context 'agfs claims' do
-        let(:claim) { build(:advocate_claim, misc_fees: [fee]) }
+        let(:claim) { create(:advocate_claim) }
         let(:misc_fee_type) { build(:misc_fee_type) }
-        let(:fee) { build(:misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255) }
+        let(:fee) { build(:misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim: claim) }
 
         it 'recalculates amount if fee type is calculated' do
           fee.claim.force_validation = true

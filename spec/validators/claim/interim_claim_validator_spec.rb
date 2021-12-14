@@ -14,7 +14,7 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
 
   include_examples 'common partial validations', {
     case_details: %i[
-      case_type
+      case_type_id
       court
       case_number
       case_transferred_from_another_court

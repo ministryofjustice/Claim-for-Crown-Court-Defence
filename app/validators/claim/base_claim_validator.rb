@@ -60,8 +60,8 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   # must be present
-  def validate_case_type
-    validate_presence(:case_type, 'blank')
+  def validate_case_type_id
+    validate_presence(:case_type_id, :blank)
   end
 
   # must be present

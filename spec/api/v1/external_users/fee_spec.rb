@@ -181,7 +181,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           let(:first_day_of_trial) { Settings.agfs_fee_reform_release_date }
           let(:actual_trial_length) { 5 }
           let(:trial_concluded_at) { first_day_of_trial + actual_trial_length.days }
-          let(:case_type) { build(:case_type, :trial) }
+          let(:case_type) { create(:case_type, :trial) }
           let(:basic_fees) {
             [
               build(:basic_fee, :baf_fee, quantity: 0, rate: 0.0, case_numbers: ''),

@@ -44,7 +44,15 @@ RSpec.shared_examples 'a Canary token' do |kind|
   end
 end
 
-RSpec.shared_examples 'a Canary token with a file' do
+RSpec.shared_examples 'a Canary token with a file' do |kind, file_key|
+  include_examples 'a Canary token', kind do
+    let(:file_upload) { instance_double(Faraday::UploadIO) }
+    let(:extra_token_options) { { file: StringIO.new } }
+    let(:extra_request_options) { { file_key => file_upload } }
+
+    before { allow(Faraday::UploadIO).to receive(:new).and_return(file_upload) }
+  end
+
   describe '.download' do
     subject(:token) { described_class.new(**token_options).download }
 

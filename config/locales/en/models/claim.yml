@@ -5,6 +5,11 @@ en:
       models:
         claim/base_claim:
           attributes:
+            case_type_id:
+              blank: Choose a case type
+              inclusion: Choose an eligible case type
+              present: Case type not allowed
+
             supplier_number:
               blank: Choose a supplier number
               invalid: Supplier number is not valid

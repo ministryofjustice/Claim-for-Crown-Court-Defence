@@ -231,7 +231,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
     # NOTE: this enables fees that were created and submitted prior to rate being re-introduced to be valid
     context 'for fees on agfs submitted claims' do
-      let(:claim) { build(:advocate_claim, :with_fixed_fee_case) }
+      let(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
 
       it 'does not validate presence of rate' do
         # TODO: there's some issues the factories related with the validity of its data

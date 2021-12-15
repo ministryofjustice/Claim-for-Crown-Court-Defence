@@ -4,7 +4,6 @@ RSpec.shared_examples 'a Canary token' do |kind|
   describe '.new' do
     subject(:token) { described_class.new(**token_options) }
 
-    let(:canarytoken) { 'canarytoken' }
     let(:token_options) { base_options.merge(extra_token_options) }
     let(:request_options) { base_options.merge(extra_request_options) }
 
@@ -17,26 +16,34 @@ RSpec.shared_examples 'a Canary token' do |kind|
       }
     end
 
-    before do
-      allow(ThinkstCanary.configuration).to receive(:query)
-        .and_return({ 'canarytoken' => { 'canarytoken' => canarytoken } })
-
-      token
-    end
-
     context 'when creating a new token' do
+      let(:new_canarytoken) { 'new_canarytoken' }
+
+      before do
+        allow(ThinkstCanary.configuration).to receive(:query)
+          .and_return({ 'canarytoken' => { 'canarytoken' => new_canarytoken } })
+
+        token
+      end
+
       it do
         expect(ThinkstCanary.configuration)
           .to have_received(:query)
           .with(:post, '/api/v1/canarytoken/factory/create', auth: false, params: request_options)
       end
 
-      it { expect(token.canarytoken).to eq(canarytoken) }
+      it { expect(token.canarytoken).to eq(new_canarytoken) }
     end
 
     context 'when using an existing Canary token' do
       let(:existing_canarytoken) { 'existing_canarytoken' }
       let(:token_options) { super().merge(canarytoken: existing_canarytoken) }
+
+      before do
+        allow(ThinkstCanary.configuration).to receive(:query)
+
+        token
+      end
 
       it { expect(ThinkstCanary.configuration).not_to have_received(:query) }
       it { expect(token.canarytoken).to eq(existing_canarytoken) }

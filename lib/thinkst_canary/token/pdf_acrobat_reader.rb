@@ -5,7 +5,7 @@ module ThinkstCanary
         @file_key = :pdf
         @mime = 'application/pdf'
 
-        super(**kwargs)
+        super
       end
     end
   end

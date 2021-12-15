@@ -7,7 +7,7 @@ module ThinkstCanary
         @kind = kwargs[:kind]
         @canarytoken = "Unknown Canary kind '#{kwargs[:kind]}'"
 
-        super(**kwargs)
+        super
       end
     end
   end

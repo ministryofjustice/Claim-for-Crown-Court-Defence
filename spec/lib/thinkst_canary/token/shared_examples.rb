@@ -17,15 +17,15 @@ RSpec.shared_examples 'a Canary token with a file' do |kind, file_key|
       }
     end
 
-    before do
-      allow(Faraday::UploadIO).to receive(:new).and_return(file_upload)
-      allow(ThinkstCanary.configuration).to receive(:query)
-        .and_return({ 'canarytoken' => { 'canarytoken' => 'new-canarytoken' } })
-
-      token
-    end
-
     context 'when creating a new token' do
+      before do
+        allow(Faraday::UploadIO).to receive(:new).and_return(file_upload)
+        allow(ThinkstCanary.configuration).to receive(:query)
+          .and_return({ 'canarytoken' => { 'canarytoken' => 'new-canarytoken' } })
+
+        token
+      end
+
       it do
         expect(ThinkstCanary.configuration)
           .to have_received(:query)
@@ -37,6 +37,12 @@ RSpec.shared_examples 'a Canary token with a file' do |kind, file_key|
 
     context 'when using an existing Canary token' do
       let(:token_options) { super().merge(canarytoken: 'existing-canarytoken') }
+
+      before do
+        allow(ThinkstCanary.configuration).to receive(:query)
+
+        token
+      end
 
       it { expect(ThinkstCanary.configuration).not_to have_received(:query) }
       it { expect(token.canarytoken).to eq('existing-canarytoken') }

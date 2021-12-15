@@ -4,7 +4,7 @@ module ThinkstCanary
       def initialize(**kwargs)
         @file = kwargs[:file]
 
-        super(**kwargs)
+        super
       end
 
       private

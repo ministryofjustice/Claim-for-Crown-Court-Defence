@@ -5,7 +5,7 @@ module ThinkstCanary
         @file_key = :doc
         @mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 
-        super(**kwargs)
+        super
       end
     end
   end

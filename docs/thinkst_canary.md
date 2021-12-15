@@ -15,7 +15,7 @@ Canarytokens are place in CCCD in the following places;
 |---|---|---|
 | Cloned website | Cloned website detector on claim-crown-court-defence.service.gov.uk | Triggered when CCCD is viewed from an invalid domain. |
 | MI Report | Fake reports access details file on '_environment_' - canary_base.docx | A report accessed via a hidden link on the MI report page. [See below.](#mi-report) |
-| Dummy files on S3 | _filename_ in the S3 bucket for the '_environment_' environment - canary_base.docx | `tmp/contents.pdf` and `admin-users.docx` are Canarytokens placed on the S3 buckets for each of the environments. [See below.](#dummy-files-on-s3) |
+| Dummy files on S3 | _filename_ in the S3 bucket for the '_environment_' environment - canary_base.docx | Two are Canarytokens placed on the S3 buckets for each of the environments. [See below.](#dummy-files-on-s3) |
 
 ### MI Report
 
@@ -27,8 +27,7 @@ rails canary:create_reports_access_details
 
 ### Dummy files on S3
 
-The dummy files `tmp/contents.pdf` and `admin-users.docx` for S3 are generated
-on each envionment using the Rake task;
+The dummy files for S3 are generated on each envionment using the Rake task;
 
 ```bash
 rails canary:create_s3_storage_canary
@@ -50,21 +49,16 @@ aws s3 ls s3://<bucket-name>
 # => 2021-11-02 09:08:04   12026747 9wihxtojnrxgweviwjdxjq6oeagx
 # => 2021-12-01 02:51:19   22471895 abk22g9ma15urhxgz9tho0i83do1
 # => 2021-12-05 03:30:27   21687367 ac7hsc7o578qb4062igv6ewene1u
-# => 2021-12-13 13:54:06      13302 admin-users.docx
+# => 2021-12-13 13:54:06      13302 <canary-file>
 # => 2021-12-10 11:26:52   20960626 ae0tvfjb5loiox04glx17ve1cmfn
 # => 2021-11-23 13:32:59       2321 ak5q69cwjl1y3409fl4sd28kaanx
 # => 2021-10-21 03:30:20       4416 amk1rhq61p9vlmcvqj0wregawo3c
 # => ...
 
-aws s3 ls s3://<bucket-name>/tmp/
-# => 2021-12-13 13:53:55      17678 contents.pdf
-```
-
 The files may be copied locally, if required, using;
 
 ```bash
-aws s3 cp s3://<bucket-name>/admin-users.docx local-copy-of-admin-users.docx
-aws s3 cp s3://<bucket-name>/tmp/contents.pdf local-copy-of-contents.pdf
+aws s3 cp s3://<bucket-name>/<canary-file> local-copy-of-canary.docx
 ```
 
 **Note:** Opening these files with MS Word or Adobe Acrobat Reader will trigger

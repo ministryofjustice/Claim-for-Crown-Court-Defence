@@ -43,7 +43,7 @@
     "webpack-concat-plugin": "^3.0.0"
   },
   "devDependencies": {
-    "jasmine-browser-runner": "^0.9.0",
+    "jasmine-browser-runner": "^0.10.0",
     "jasmine-core": "^3.10.1",
     "standard": "^16.0.4",
     "stylelint": "^13.13.1",

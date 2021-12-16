@@ -1,21 +1,11 @@
 module ThinkstCanary
   module Token
-    class DocMsword < Base
+    class DocMsword < FileBased
       def initialize(**kwargs)
-        @kind = 'doc-msword'
-        @file = kwargs[:file]
+        @file_key = :doc
+        @mime = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 
-        super(**kwargs)
-      end
-
-      private
-
-      def create_options
-        super.merge(doc: doc)
-      end
-
-      def doc
-        @doc ||= Faraday::UploadIO.new(@file, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        super
       end
     end
   end

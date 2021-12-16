@@ -1,11 +1,12 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'a Canary token' do |kind|
+RSpec.shared_examples 'a Canary token with a file' do |kind, file_key|
   describe '.new' do
     subject(:token) { described_class.new(**token_options) }
 
-    let(:token_options) { base_options.merge(extra_token_options) }
-    let(:request_options) { base_options.merge(extra_request_options) }
+    let(:token_options) { base_options.merge({ file: StringIO.new }) }
+    let(:request_options) { base_options.merge(file_key => file_upload) }
+    let(:file_upload) { instance_double(Faraday::UploadIO) }
 
     let(:base_options) do
       {
@@ -17,11 +18,10 @@ RSpec.shared_examples 'a Canary token' do |kind|
     end
 
     context 'when creating a new token' do
-      let(:new_canarytoken) { 'new_canarytoken' }
-
       before do
+        allow(Faraday::UploadIO).to receive(:new).and_return(file_upload)
         allow(ThinkstCanary.configuration).to receive(:query)
-          .and_return({ 'canarytoken' => { 'canarytoken' => new_canarytoken } })
+          .and_return({ 'canarytoken' => { 'canarytoken' => 'new-canarytoken' } })
 
         token
       end
@@ -32,12 +32,11 @@ RSpec.shared_examples 'a Canary token' do |kind|
           .with(:post, '/api/v1/canarytoken/factory/create', auth: false, params: request_options)
       end
 
-      it { expect(token.canarytoken).to eq(new_canarytoken) }
+      it { expect(token.canarytoken).to eq('new-canarytoken') }
     end
 
     context 'when using an existing Canary token' do
-      let(:existing_canarytoken) { 'existing_canarytoken' }
-      let(:token_options) { super().merge(canarytoken: existing_canarytoken) }
+      let(:token_options) { super().merge(canarytoken: 'existing-canarytoken') }
 
       before do
         allow(ThinkstCanary.configuration).to receive(:query)
@@ -46,18 +45,8 @@ RSpec.shared_examples 'a Canary token' do |kind|
       end
 
       it { expect(ThinkstCanary.configuration).not_to have_received(:query) }
-      it { expect(token.canarytoken).to eq(existing_canarytoken) }
+      it { expect(token.canarytoken).to eq('existing-canarytoken') }
     end
-  end
-end
-
-RSpec.shared_examples 'a Canary token with a file' do |kind, file_key|
-  include_examples 'a Canary token', kind do
-    let(:file_upload) { instance_double(Faraday::UploadIO) }
-    let(:extra_token_options) { { file: StringIO.new } }
-    let(:extra_request_options) { { file_key => file_upload } }
-
-    before { allow(Faraday::UploadIO).to receive(:new).and_return(file_upload) }
   end
 
   describe '.download' do

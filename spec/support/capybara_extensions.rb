@@ -19,8 +19,8 @@ module Capybara
 
   class Session
     CapybaraExtensions.extension_methods.each do |method|
-      define_method method do |*args, &block|
-        current_scope.send method, *args, &block
+      define_method method do |*args, **kwargs, &block|
+        current_scope.send method, *args, **kwargs, &block
       end
     end
   end

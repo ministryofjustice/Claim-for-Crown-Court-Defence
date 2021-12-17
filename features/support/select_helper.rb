@@ -4,7 +4,7 @@ module SelectHelper
   #
   def select(value, options)
     if options.delete(:autocomplete) == false
-      super value.to_s, {visible: false}.merge(options)
+      super value.to_s, visible: false, **options
     else
       fill_autocomplete(options[:from], with: value.to_s)
     end

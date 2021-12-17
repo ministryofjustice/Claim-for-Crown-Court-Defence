@@ -15,8 +15,8 @@ class SlackNotifier
     RestClient.post(@slack_url, @payload.to_json, content_type: :json)
   end
 
-  def build_payload(*args)
-    @payload[:attachments] = [@formatter.attachment(*args)]
+  def build_payload(**kwargs)
+    @payload[:attachments] = [@formatter.attachment(**kwargs)]
     @payload[:icon_emoji] = @formatter.message_icon
     @ready_to_send = true
   rescue StandardError

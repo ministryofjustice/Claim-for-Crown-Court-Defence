@@ -1,7 +1,7 @@
-= javascript_pack_tag 'vendor'
+= javascript_packs_with_chunks_tag 'vendor'
 = javascript_include_tag Rails.env.test? ? '/packs-test/js/app.bundle.js' : '/packs/js/app.bundle.js'
 
-= javascript_pack_tag "application-test" if Rails.env.test?
+= javascript_packs_with_chunks_tag "application-test" if Rails.env.test?
 
 - if GoogleAnalytics::DataTracking.analytics? && !@disable_analytics
   :javascript
@@ -10,4 +10,4 @@
       $('.ga-client-id').val(clientId);
     });
 
-= javascript_pack_tag 'govuk-frontend', defer: true
+= javascript_packs_with_chunks_tag 'govuk-frontend', defer: true

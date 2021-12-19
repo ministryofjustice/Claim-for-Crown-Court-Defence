@@ -1,5 +1,6 @@
 const { environment } = require('@rails/webpacker')
 const webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 // const ConcatPlugin = require('webpack-concat-plugin')
 const glob = require('glob')
@@ -30,7 +31,7 @@ const vendorFiles = [
   'jquery-datatables-checkboxes/js/dataTables.checkboxes.min.js'
 ]
 
-const concatFiles = vendorFiles.concat(localVendors, localFiles)
+// const concatFiles = vendorFiles.concat(localVendors, localFiles)
 // environment.plugins.append('ConcatPlugin', new ConcatPlugin({
 //   uglify: true,
 //   sourceMap: true,
@@ -58,6 +59,21 @@ environment.config.merge({
   ],
   optimization: {
     minimize: true,
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          warnings: false,
+          parse: {},
+          compress: {},
+          mangle: true,
+          output: null,
+          toplevel: false,
+          nameCache: null,
+          ie8: false,
+          keep_fnames: false
+        }
+      })
+    ],
     splitChunks: {
       chunks: 'all'
     }
@@ -70,7 +86,7 @@ environment.config.merge({
 })
 
 // console.log('WOOOHHOOO \n', getDirectories('./app/webpack/javascripts'))
-console.log('localFiles \n', localFiles)
-console.log('localVendors \n', localVendors)
-console.log('concatFiles \n', concatFiles)
+// console.log('localFiles \n', localFiles)
+// console.log('localVendors \n', localVendors)
+// console.log('concatFiles \n', concatFiles)
 module.exports = environment

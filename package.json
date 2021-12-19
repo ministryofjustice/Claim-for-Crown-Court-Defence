@@ -51,6 +51,7 @@
     "stylelint": "^13.13.1",
     "stylelint-config-gds": "^0.1.0",
     "stylelint-order": "^4.1.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-dev-server": "^4.6.0"
   },

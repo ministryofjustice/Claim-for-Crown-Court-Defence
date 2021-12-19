@@ -43,12 +43,15 @@
     "webpack-concat-plugin": "^3.0.0"
   },
   "devDependencies": {
+    "imports-loader": "^3.1.1",
     "jasmine-browser-runner": "^0.9.0",
     "jasmine-core": "^3.10.1",
+    "speed-measure-webpack-plugin": "^1.5.0",
     "standard": "^16.0.4",
     "stylelint": "^13.13.1",
     "stylelint-config-gds": "^0.1.0",
     "stylelint-order": "^4.1.0",
+    "webpack-bundle-analyzer": "^4.5.0",
     "webpack-dev-server": "^4.6.0"
   },
   "resolutions": {

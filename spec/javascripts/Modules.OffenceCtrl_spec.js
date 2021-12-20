@@ -1,11 +1,7 @@
 describe('Modules.OffenceCtrl.js', function () {
   const module = moj.Modules.OffenceCtrl
 
-  const view = function (data) {
-    data = $.extend({}, data, {
-      value: '',
-      fee_scheme: 'AGFS 10'
-    })
+  const view = function () {
     return $([
       '<div id="offence-view">',
       '<div id="cc-offence">',

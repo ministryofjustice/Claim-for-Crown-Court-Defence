@@ -1,10 +1,7 @@
 describe('Modules.DisbursementCtrl.js', function () {
   const module = moj.Modules.DisbursementsCtrl
 
-  const view = function (data) {
-    data = $.extend({}, data, {
-      value: ''
-    })
+  const view = function () {
     return $([
       '<div id="disbursements-view">',
       '<div id="disbursements">',

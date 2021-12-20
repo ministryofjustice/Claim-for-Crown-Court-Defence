@@ -245,8 +245,8 @@ moj.Modules.Autocomplete = {
         source: dataSource,
         templates: {
           empty: self.emptyTemplate(),
-          suggestion: function (data) {
-            return self.suggestionTemplate(data)
+          suggestion: function (result) {
+            return self.suggestionTemplate(result)
           }
         }
       })

@@ -321,8 +321,8 @@ moj.Modules.AllocationDataTable = {
     $.subscribe('/filter/filterValue/', function (e, data) {
       const valueSelected = data.data.split('|')
       self.searchConfig.valueBands = {}
-      valueSelected.forEach(function (data) {
-        self.searchConfig.valueBands[data.split(':')[0]] = data.split(':')[1]
+      valueSelected.forEach(function (value) {
+        self.searchConfig.valueBands[value.split(':')[0]] = value.split(':')[1]
       })
       self.clearCheckboxes()
       self.tableDraw()
@@ -376,21 +376,21 @@ moj.Modules.AllocationDataTable = {
           case_worker_id: allocationCaseWorkerId,
           claim_ids: data
         }
-      }).done(function (data) {
+      }).done(function (result) {
         self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--success')
-        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.allocated_claims.length + ' claims have been allocated to ' + $('#allocation-case-worker-id-field').val())
+        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(result.allocated_claims.length + ' claims have been allocated to ' + $('#allocation-case-worker-id-field').val())
 
         self.reloadScheme({
           scheme: self.searchConfig.scheme
         })
-      }).fail(function (data) {
+      }).fail(function (result) {
         self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--success')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--error')
-        if (data.status === 422) {
+        if (result.status === 422) {
           return self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html('Unable to allocate claim')
         }
-        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(data.responseJSON.errors.join(''))
+        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(result.responseJSON.errors.join(''))
       }).always(function () {
         self.ui.$submit.prop('disabled', false)
       })

@@ -46,8 +46,8 @@ describe('Modules.Autocomplete', function () {
     describe('...sourceWithDefaults', function () {
       it('should return all results with no `q` specified', function () {
         let output
-        const sync = function (data) {
-          output = data
+        const sync = function (result) {
+          output = result
         }
         const data = {
           local: [{

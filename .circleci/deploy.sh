@@ -19,6 +19,11 @@ function _circleci_deploy() {
       [[ -z "${AWS_DEFAULT_REGION}" ]] || \
       [[ -z "${GITHUB_TEAM_NAME_SLUG}" ]] || \
       [[ -z "${REPO_NAME}" ]] || \
+      [[ -z "${K8S_CLUSTER_CERT}" ]] || \
+      [[ -z "${K8S_CLUSTER_NAME}" ]] || \
+      [[ -z "${K8S_CLUSTER_URL}" ]] || \
+      [[ -z "${K8S_TOKEN}" ]] || \
+      [[ -z "${K8S_NAMESPACE}" ]] || \
       [[ -z "${CIRCLE_SHA1}" ]]
   then
     echo "Missing environment vars: only run this via circleCI with all relevant environment variables"
@@ -33,17 +38,8 @@ function _circleci_deploy() {
 
   # Cloud platforms circle ci solution does not handle hyphenated names
   case "$1" in
-    dev | staging | production)
+    dev | dev-lgfs | api-sandbox | staging | production)
       environment=$1
-      cp_context=$environment
-      ;;
-    api-sandbox)
-      environment=$1
-      cp_context=sandbox
-      ;;
-    dev-lgfs)
-      environment=$1
-      cp_context=$(echo $1 | tr -d '-')
       ;;
     *)
       echo "$usage"
@@ -51,11 +47,19 @@ function _circleci_deploy() {
       ;;
   esac
 
-  # Cloud platform required setup
+  # Login to ECR to pull docker image
   aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_ENDPOINT}
-  setup-kube-auth
-  kubectl config use-context ${cp_context}
 
+  # Authenticate with k8s cluster
+  # see cirlcleci shared contexts, https://circleci.com/docs/2.0/contexts/
+  echo -n ${K8S_CLUSTER_CERT} | base64 -d > ./ca.crt
+  kubectl config set-cluster ${K8S_CLUSTER_NAME} --certificate-authority=./ca.crt --server=${K8S_CLUSTER_URL}
+  kubectl config set-credentials circleci --token=$(echo -n ${K8S_TOKEN} | base64 -d)
+  kubectl config set-context ${K8S_CLUSTER_NAME} --cluster=${K8S_CLUSTER_NAME} --user=circleci --namespace=${K8S_NAMESPACE}
+  kubectl config use-context ${K8S_CLUSTER_NAME}
+  kubectl --namespace=${K8S_NAMESPACE} get pods
+
+  # Unlock git-crypted secrets
   echo "${GIT_CRYPT_KEY}" | base64 -d > git-crypt.key
   git-crypt unlock git-crypt.key
 

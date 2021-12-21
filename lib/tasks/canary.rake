@@ -106,4 +106,43 @@ namespace :canary do
     puts "  - uploading to #{key}"
     s3_bucket.put_object(key, canarytoken.download)
   end
+
+  desc 'Add a Canary document'
+  task create_document_canary: :environment do |_task, args|
+    puts 'Opening factory'
+    factory = ThinkstCanary::Factory.new(
+      factory_auth: ENV['CANARY_FACTORY_AUTH_TOKEN'],
+      flock_id: ENV['CANARY_FLOCK_ID']
+    )
+
+    puts 'Creating Canarytoken based on canary_base.docx'
+    original_file = Rails.root.join('docs', 'samples', 'canary_base.docx')
+    canarytoken_doc = factory.create_token(
+      kind: 'doc-msword',
+      memo: 'Document id ??? attachment',
+      file: File.open(original_file)
+    )
+    puts 'Creating Canarytoken based on canary_base.pdf'
+    original_file = Rails.root.join('docs', 'samples', 'canary_base.pdf')
+    canarytoken_pdf = factory.create_token(
+      kind: 'pdf-acrobat-reader',
+      memo: 'Document id ??? attachment preview',
+      file: File.open(original_file)
+    )
+
+    doc = Document.new
+    doc.document.attach(
+      io: StringIO.new(canarytoken_doc.download),
+      filename: 'indictment.docx'
+    )
+    doc.converted_preview_document.attach(
+      io: StringIO.new(canarytoken_pdf.download),
+      filename: 'indictment.docx.pdf'
+    )
+    doc.save
+    puts "Update Canarytoken canary_base.docx memo to; Document id #{doc.id} attachment on '#{ENV['ENV']}'"
+    canarytoken_doc.memo = "Document id #{doc.id} attachment on '#{ENV['ENV']}'"
+    puts "Update Canarytoken canary_base.pdf memo to; Document id #{doc.id} attachment preview on '#{ENV['ENV']}'"
+    canarytoken_pdf.memo = "Document id #{doc.id} attachment preview on '#{ENV['ENV']}'"
+  end
 end

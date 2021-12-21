@@ -59,9 +59,9 @@ class Claim::BaseClaimValidator < BaseValidator
     validate_presence(:creator, 'blank') unless @record.errors.key?(:creator)
   end
 
-  # must be present
+  # object must be present
   def validate_case_type_id
-    validate_presence(:case_type_id, :blank)
+    validates_belongs_to_attribute_presence(:case_type, :blank)
   end
 
   # must be present

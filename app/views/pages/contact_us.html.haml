@@ -3,5 +3,6 @@
 
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
-%section.contact-us
-  = render partial: 'contact_details'
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    = render partial: 'contact_details'

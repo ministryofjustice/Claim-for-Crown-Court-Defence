@@ -1,0 +1,19 @@
+.app-summary-list_sidebar {
+  @include govuk-media-query($from: tablet) {
+    .govuk-summary-list__row,
+    dt,
+    dd {
+      display: block;
+      width: 100%;
+    }
+
+    .govuk-summary-list__row {
+      margin-bottom: govuk-spacing(4);
+    }
+
+    dt,
+    dd {
+      padding: 0 !important; /* stylelint-disable-line declaration-no-important */
+    }
+  }
+}

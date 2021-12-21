@@ -57,10 +57,10 @@
 
         = link_to_add_association t('.add_date_attended'), f, :dates_attended, partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => '.cocoon-insert-wrapper', 'association-insertion-traversal' => 'prev'}
 
-    .cccd-summary-list
-      %dl.govuk-summary-list
-        .govuk-summary-list__row
-          %dt.govuk-summary-list__key
-            = t('.amount')
-          %dd.govuk-summary-list__value.fee-net-amount.total
-            = fee.amount || number_to_currency(0)
+    = govuk_summary_list do
+      = govuk_summary_list_row do
+        = govuk_summary_list_key do
+          = t('.amount')
+
+        = govuk_summary_list_value(class: 'fee-net-amount total') do
+          = fee.amount || number_to_currency(0)

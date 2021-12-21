@@ -98,19 +98,6 @@ p {
   }
 }
 
-.contact-us-details {
-  margin-bottom: $gutter;
-
-  dt {
-    margin-right: $gutter-one-sixth;
-    float: left;
-
-    &:after {
-      content: ":";
-    }
-  }
-}
-
 .json-schema {
   font-family: "Courier New", monospace;
   font-size: 80%;

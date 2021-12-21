@@ -1,36 +1,43 @@
-%dl
+= govuk_summary_list_no_border(class: 'app-summary-list_sidebar') do
   - if claim.fixed_fee_case?
-    %dt.fx-seed-fixedFees{ data: { seed: claim.raw_fixed_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-      = t('.fixed_fees')
-    %dd.total-fixedFees
-      = claim.fixed_fees_total
+    = govuk_summary_list_row do
+      = govuk_summary_list_key(class: 'fx-seed-fixedFees', data: { seed: claim.raw_fixed_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
+        = t('.fixed_fees')
+      = govuk_summary_list_value(class: 'total-fixedFees') do
+        = claim.fixed_fees_total
   - else
-    %dt.fx-seed-gradFees{ data: { seed: claim.raw_grad_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-      = t('.graduated_fees')
-    %dd.total-gradFees
-      = claim.grad_fees_total
+    = govuk_summary_list_row do
+      = govuk_summary_list_key(class: 'fx-seed-gradFees', data: { seed: claim.raw_grad_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
+        = t('.graduated_fees')
+      = govuk_summary_list_value(class: 'total-gradFees') do
+        = claim.grad_fees_total
 
-  %dt.fx-seed-miscFees{ data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-    = t('.miscellaneous_fees')
-  %dd.total-miscFees
-    = claim.misc_fees_total
+  = govuk_summary_list_row do
+    = govuk_summary_list_key(class: 'fx-seed-miscFees', data: { seed: claim.raw_misc_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
+      = t('.miscellaneous_fees')
+    = govuk_summary_list_value(class: 'total-miscFees') do
+      = claim.misc_fees_total
 
-  %dt.fx-seed-disbursements{ data: { seed: claim.raw_disbursements_total, autovat: 'false', 'seed-vat': claim.raw_disbursements_vat } }
-    = t('.disbursements')
-  %dd.total-disbursements
-    = claim.disbursements_total
+  = govuk_summary_list_row do
+    = govuk_summary_list_key(class: 'fx-seed-disbursements', data: { seed: claim.raw_disbursements_total, autovat: 'false', 'seed-vat': claim.raw_disbursements_vat }) do
+      = t('.disbursements')
+    = govuk_summary_list_value(class: 'total-disbursements') do
+      = claim.disbursements_total
 
-  %dt.fx-seed-expenses{ data: { seed: claim.raw_expenses_total, autovat: 'false', 'seed-vat': claim.raw_expenses_vat } }
-    = t('.travel_expenses')
-  %dd.total-expenses
-    = claim.expenses_total
+  = govuk_summary_list_row do
+    = govuk_summary_list_key(class: 'fx-seed-expenses', data: { seed: claim.raw_expenses_total, autovat: 'false', 'seed-vat': claim.raw_expenses_vat }) do
+      = t('.travel_expenses')
+    = govuk_summary_list_value(class: 'total-expenses') do
+      = claim.expenses_total
 
-  %dt.fx-seed{ 'data-vat-total': claim.raw_vat_amount }
-    = t('.vat')
-  %dd.total-vat
-    = claim.vat_amount
+  = govuk_summary_list_row do
+    = govuk_summary_list_key(class: 'fx-seed', 'data-vat-total': claim.raw_vat_amount) do
+      = t('.vat')
+    = govuk_summary_list_value(class: 'total-vat') do
+      = claim.vat_amount
 
-  %dt.fx-seed{ 'data-total-inc': claim.raw_total_inc }
-    = t('.total')
-  %dd.total-grandTotal
-    = claim.total_inc
+  = govuk_summary_list_row do
+    = govuk_summary_list_key(class: 'fx-seed', 'data-total-inc': claim.raw_total_inc) do
+      = t('.total')
+    = govuk_summary_list_value(class: 'total-grandTotal') do
+      = claim.total_inc

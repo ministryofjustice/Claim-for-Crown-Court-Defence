@@ -141,19 +141,19 @@ case_type_id:
     short: _
     api: Case type not allowed
 
-case_stage:
+case_stage_id:
   _seq: 31
-  blank:
+  choose_a_case_stage:
     long: Choose a case stage
-    short: Choose a case stage
+    short: _
     api: Choose a case stage
-  present:
+  case_stage_not_allowed:
     long: Case stage not allowed
-    short: Case stage not allowed
+    short: _
     api: Case stage not allowed
-  inclusion:
+  choose_an_eligible_case_stage:
     long: Choose an eligible case stage
-    short: Choose an eligible case stage
+    short: _
     api: Choose an eligible case stage
 
 court:

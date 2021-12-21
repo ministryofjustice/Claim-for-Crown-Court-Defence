@@ -7,7 +7,7 @@
   .govuk-grid-column-full
 
     = govuk_summary_list do
-      = govuk_summary_list_row(t('.roles')) { @case_worker.roles.map(&:humanize).join(', ') }
+      = govuk_summary_list_row_collection(t('.roles')) { @case_worker.roles.map(&:humanize).join(', ') }
 
     .govuk-button-group
       - if can? :edit, @case_worker

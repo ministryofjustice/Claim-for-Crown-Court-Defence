@@ -13,5 +13,5 @@
     - fee = present(claim.transfer_fee)
 
     = govuk_summary_list do
-      = govuk_summary_list_row( t('external_users.claims.interim_fee.fields.ppe_total') ) { fee.quantity }
-      = govuk_summary_list_row( t('shared.summary.amount') ) { fee.amount }
+      = govuk_summary_list_row_collection( t('external_users.claims.interim_fee.fields.ppe_total') ) { fee.quantity }
+      = govuk_summary_list_row_collection( t('shared.summary.amount') ) { fee.amount }

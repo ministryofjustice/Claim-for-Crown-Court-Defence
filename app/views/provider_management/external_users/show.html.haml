@@ -7,20 +7,20 @@
   .govuk-grid-column-two-thirds
 
     = govuk_summary_list do
-      = govuk_summary_list_row(t('.provider')) do
+      = govuk_summary_list_row_collection(t('.provider')) do
         = govuk_link_to @external_user.provider.name, provider_management_provider_path(@provider), 'aria-label': t('.edit_provider')
 
-      = govuk_summary_list_row(t('.email')) do
+      = govuk_summary_list_row_collection(t('.email')) do
         = govuk_mail_to @external_user.email, @external_user.email
 
-      = govuk_summary_list_row(t('.name')) { @external_user.name }
+      = govuk_summary_list_row_collection(t('.name')) { @external_user.name }
 
-      = govuk_summary_list_row(t('.supplier_number')) { @external_user.supplier_number }
+      = govuk_summary_list_row_collection(t('.supplier_number')) { @external_user.supplier_number }
 
-      = govuk_summary_list_row(t('.vat_registered')) do
+      = govuk_summary_list_row_collection(t('.vat_registered')) do
         = @external_user.vat_registered? ? t('.answer_yes') : t('.answer_no')
 
-      = govuk_summary_list_row(t('.role')) do
+      = govuk_summary_list_row_collection(t('.role')) do
         = @external_user.roles.map(&:humanize).join(', ')
 
     .govuk-button-group

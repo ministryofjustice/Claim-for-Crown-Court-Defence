@@ -7,13 +7,13 @@
   .govuk-grid-column-two-thirds
 
     = govuk_summary_list do
-      = govuk_summary_list_row(t('.provider_name')) { @provider.name }
-      = govuk_summary_list_row(t('.api_key')) { @provider.api_key }
+      = govuk_summary_list_row_collection(t('.provider_name')) { @provider.name }
+      = govuk_summary_list_row_collection(t('.api_key')) { @provider.api_key }
       - if @provider.firm?
-        = govuk_summary_list_row(t('.lgfs_supplier_numbers')) { @provider.lgfs_supplier_numbers.to_sentence }
+        = govuk_summary_list_row_collection(t('.lgfs_supplier_numbers')) { @provider.lgfs_supplier_numbers.to_sentence }
         - if @provider.agfs?
-          = govuk_summary_list_row(t('.firm_agfs_supplier_number')) { @provider.firm_agfs_supplier_number }
-      = govuk_summary_list_row(t('.vat_registered')) { @provider.vat_registered == true ? t('global_yes') : t('global_no') }
+          = govuk_summary_list_row_collection(t('.firm_agfs_supplier_number')) { @provider.firm_agfs_supplier_number }
+      = govuk_summary_list_row_collection(t('.vat_registered')) { @provider.vat_registered == true ? t('global_yes') : t('global_no') }
 
     .app-link-group
       = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation'), module: 'govuk-button' }, class: 'govuk-button', draggable: 'false'

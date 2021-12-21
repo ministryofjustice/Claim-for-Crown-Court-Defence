@@ -10,10 +10,10 @@
   - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
     = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :transfer_fee_details }
   = govuk_summary_list do
-    = govuk_summary_list_row(t("#{transfer_detail_translations}.litigator_type")) {claim.litigator_type_description}
-    = govuk_summary_list_row(t("#{transfer_detail_translations}.elected_case")) {claim.elected_case_description}
-    = govuk_summary_list_row(t("#{transfer_detail_translations}.transfer_stage_#{claim.litigator_type}")) {claim.transfer_stage_description}
-    = govuk_summary_list_row(t("#{transfer_detail_translations}.transfer_date_#{claim.litigator_type}")) {claim.transfer_date}
+    = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.litigator_type")) {claim.litigator_type_description}
+    = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.elected_case")) {claim.elected_case_description}
+    = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.transfer_stage_#{claim.litigator_type}")) {claim.transfer_stage_description}
+    = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.transfer_date_#{claim.litigator_type}")) {claim.transfer_date}
 
     - if claim.case_conclusion_id.present?
-      = govuk_summary_list_row(t("#{transfer_detail_translations}.case_conclusion")) {claim.case_conclusion_description}
+      = govuk_summary_list_row_collection(t("#{transfer_detail_translations}.case_conclusion")) {claim.case_conclusion_description}

@@ -5,5 +5,5 @@
       = t('common.warrant_fees')
 
     = govuk_summary_list do
-      = govuk_summary_list_row(t('shared.claims.interim_claim_info.fields.date_issued')) {info.warrant_issued_date}
-      = govuk_summary_list_row(t('shared.claims.interim_claim_info.fields.date_executed')){info.warrant_executed_date}
+      = govuk_summary_list_row_collection(t('shared.claims.interim_claim_info.fields.date_issued')) {info.warrant_issued_date}
+      = govuk_summary_list_row_collection(t('shared.claims.interim_claim_info.fields.date_executed')){info.warrant_executed_date}

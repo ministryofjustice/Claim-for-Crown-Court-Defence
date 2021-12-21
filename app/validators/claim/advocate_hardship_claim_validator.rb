@@ -39,7 +39,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
   # NOTE**: case_type is delegated to case_stage for hardship claims
   # and should not exist directly on the claim
   def validate_case_type_id
-    validate_absence(:case_type_id, 'present')
+    validates_belongs_to_attribute_absence(:case_type, :present)
   end
 
   def validate_case_stage_id

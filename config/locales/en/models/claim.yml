@@ -5,6 +5,11 @@ en:
       models:
         claim/base_claim:
           attributes:
+            case_stage_id:
+              blank: Choose a case stage
+              inclusion: Choose an eligible case stage
+              present: Case stage not allowed
+
             case_type_id:
               blank: Choose a case type
               inclusion: Choose an eligible case type

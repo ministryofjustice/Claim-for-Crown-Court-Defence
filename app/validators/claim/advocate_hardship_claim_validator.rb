@@ -6,7 +6,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
     {
       case_details: %i[
         case_type_id
-        case_stage
+        case_stage_id
         court
         case_number
         case_transferred_from_another_court
@@ -42,9 +42,9 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
     validate_absence(:case_type_id, 'present')
   end
 
-  def validate_case_stage
-    validate_presence(:case_stage, 'blank')
-    validate_inclusion(:case_stage, @record.eligible_case_stages, 'inclusion')
+  def validate_case_stage_id
+    validate_presence(:case_stage_id, :blank)
+    validate_inclusion(:case_stage_id, @record.eligible_case_stages, :inclusion)
   end
 
   def validate_offence

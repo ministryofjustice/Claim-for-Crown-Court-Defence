@@ -51,6 +51,16 @@ class BaseValidator < ActiveModel::Validator
     add_error(attribute, message) if attr_blank?(attribute)
   end
 
+  # error added to foreign key for govuk-formbuilder error handling
+  def validates_belongs_to_attribute_presence(attribute, message)
+    @record.errors.add("#{attribute}_id".to_sym, message) if attr_blank?(attribute)
+  end
+
+  # error added to foreign key for govuk-formbuilder error handling
+  def validates_belongs_to_attribute_absence(attribute, message)
+    @record.errors.add("#{attribute}_id".to_sym, message) unless attr_blank?(attribute)
+  end
+
   def validate_boolean_presence(attribute, message)
     add_error(attribute, message) if attr_nil?(attribute)
   end

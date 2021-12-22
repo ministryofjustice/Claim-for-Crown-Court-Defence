@@ -101,13 +101,13 @@ supplier_number:
     short: _
     api: Supplier number is unknown
 
-external_user:
+external_user_id:
   _seq: 10
-  blank_advocate:
+  choose_an_advocate:
     long: Choose an advocate
     short: Choose an advocate
     api: Choose an advocate
-  blank_litigator:
+  choose_a_litigator:
     long: Choose a litigator
     short: Choose a litigator
     api: Choose a litigator

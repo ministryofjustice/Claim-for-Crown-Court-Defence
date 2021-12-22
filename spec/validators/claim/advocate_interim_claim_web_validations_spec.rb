@@ -42,7 +42,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:external_user]).to match_array(['blank_advocate'])
+        expect(claim.errors[:external_user_id]).to match_array(['Choose an advocate'])
       }
     end
 
@@ -51,7 +51,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:external_user]).to match_array(['must have advocate role'])
+        expect(claim.errors[:external_user_id]).to match_array(['must have advocate role'])
       }
     end
 
@@ -70,7 +70,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:external_user]).to match_array(['Creator and advocate must belong to the same provider'])
+        expect(claim.errors[:external_user_id]).to match_array(['Creator and advocate must belong to the same provider'])
       }
     end
 

@@ -56,7 +56,7 @@ RSpec.shared_examples 'advocate claim external user role' do
   context 'external_user' do
     it 'errors when does not have advocate role' do
       claim.external_user = litigator
-      should_error_with(claim, :external_user, 'must have advocate role')
+      should_error_with(claim, :external_user_id, 'must have advocate role')
     end
   end
 end

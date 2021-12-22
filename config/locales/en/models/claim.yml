@@ -23,6 +23,10 @@ en:
             court_id:
               blank: Choose a court
 
+            external_user_id:
+              blank_advocate: Choose an advocate
+              blank_litigator: Choose a litigator
+
             supplier_number:
               blank: Choose a supplier number
               invalid: Supplier number is not valid

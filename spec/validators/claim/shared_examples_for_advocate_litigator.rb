@@ -1,14 +1,19 @@
 RSpec.shared_examples 'common advocate litigator validations' do |external_user_type, options|
   context 'when validating external_user' do
+    let(:expected_blank_message) do
+      { advocate: 'Choose an advocate',
+        litigator: 'Choose a litigator' }
+    end
+
     it 'errors if not present, regardless' do
       claim.external_user = nil
-      should_error_with(claim, :external_user, "blank_#{external_user_type}")
+      should_error_with(claim, :external_user_id, expected_blank_message[external_user_type])
     end
 
     it 'errors if does not belong to the same provider as the creator' do
       claim.creator = create(:external_user, external_user_type)
       claim.external_user = create(:external_user, external_user_type)
-      should_error_with(claim, :external_user, "Creator and #{external_user_type} must belong to the same provider")
+      should_error_with(claim, :external_user_id, "Creator and #{external_user_type} must belong to the same provider")
     end
   end
 
@@ -188,18 +193,18 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
   context 'when validating external_user' do
     it 'errors when does not have advocate role' do
       claim.external_user = advocate
-      should_error_with(claim, :external_user, 'must have litigator role')
+      should_error_with(claim, :external_user_id, 'must have litigator role')
     end
 
     it 'errors if not present, regardless' do
       claim.external_user = nil
-      should_error_with(claim, :external_user, 'blank_litigator')
+      should_error_with(claim, :external_user_id, 'Choose a litigator')
     end
 
     it 'errors if does not belong to the same provider as the creator' do
       claim.creator = create(:external_user, :litigator)
       claim.external_user = create(:external_user, :litigator)
-      should_error_with(claim, :external_user, 'Creator and litigator must belong to the same provider')
+      should_error_with(claim, :external_user_id, 'Creator and litigator must belong to the same provider')
     end
   end
 

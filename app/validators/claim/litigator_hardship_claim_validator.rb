@@ -24,12 +24,12 @@ class Claim::LitigatorHardshipClaimValidator < Claim::BaseClaimValidator
   # NOTE**: case_type is delegated to case_stage for hardship claims
   # and should not exist directly on the claim
   def validate_case_type_id
-    validates_absence(:case_type_id, :present)
+    validate_absence(:case_type_id, :present)
   end
 
   def validate_case_stage_id
-    validate_presence(:case_stage_id, :blank)
-    validate_inclusion(:case_stage_id, @record.eligible_case_stages, :inclusion)
+    validates_belongs_to_object_presence(:case_stage, :blank)
+    validate_inclusion(:case_stage_id, @record.eligible_case_stages.pluck(:id), :inclusion)
   end
 
   def validate_offence

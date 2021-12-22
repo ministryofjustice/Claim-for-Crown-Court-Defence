@@ -31,7 +31,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
   context 'court' do
     it 'errors if not present' do
       claim.court = nil
-      should_error_with(claim, :court, 'blank')
+      should_error_with(claim, :court_id, 'Choose a court')
     end
   end
 

@@ -40,9 +40,9 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
     end
   end
 
-  context 'when validating transfer_court_id' do
-    context 'with case_transferred_from_another_court not explictly set, but case number set' do
-      before { claim.transfer_case_number = 'A20161234' }
+
+  context 'when validating transfer_court' do
+    before { claim.transfer_case_number = 'A20161234' }
 
       it 'errors if blank' do
         claim.transfer_court = nil
@@ -55,7 +55,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
       end
     end
 
-    context 'with case transferred from another court set' do
+    context 'with case transferred from another court' do
       before do
         claim.case_transferred_from_another_court = true
       end
@@ -111,10 +111,14 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
       end
 
       context 'with transfer court not set' do
-        before { claim.transfer_court = nil }
+        before do
+          claim.transfer_court = nil
+        end
 
         context 'with transfer case number blank' do
-          before { claim.transfer_case_number = '' }
+          before do
+            claim.transfer_case_number = ''
+          end
 
           it 'does not contain errors on transfer case number' do
             should_not_error(claim, :transfer_case_number)
@@ -122,7 +126,9 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
         end
 
         context 'with transfer case number in invalid format' do
-          before { claim.transfer_case_number = 'ABC_' }
+          before do
+            claim.transfer_case_number = 'ABC_'
+          end
 
           it 'contains an invalid error on transfer case number' do
             should_error_with(claim, :transfer_case_number, 'Invalid transfer case number or urn')

@@ -28,7 +28,7 @@ class Claim::LitigatorHardshipClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_case_stage_id
-    validates_belongs_to_object_presence(:case_stage, :blank)
+    validate_belongs_to_object_presence(:case_stage, :blank)
     validate_inclusion(:case_stage_id, @record.eligible_case_stages.pluck(:id), :inclusion)
   end
 

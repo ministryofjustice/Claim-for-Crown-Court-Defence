@@ -170,7 +170,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
               it 'claim is invalid' do
                 claim.valid?
-                expect(claim.errors.messages[:external_user]).to eq ['Creator and advocate must belong to the same provider']
+                expect(claim.errors.messages[:external_user_id]).to eq ['Creator and advocate must belong to the same provider']
               end
 
               it 'still transitions to archived_pending_delete' do

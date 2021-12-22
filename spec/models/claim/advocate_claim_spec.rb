@@ -26,28 +26,28 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'raises error message if no external user is specified' do
       subject.external_user_id = nil
       expect(subject).not_to be_valid
-      expect(subject.errors[:external_user]).to eq(['blank_advocate'])
+      expect(subject.errors[:external_user_id]).to eq(['Choose an advocate'])
     end
 
     it 'is valid with the same external_user_id and creator_id' do
       subject.external_user_id = external_user.id
       subject.creator_id = external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).not_to be_present
+      expect(subject.reload.errors.messages[:external_user_id]).not_to be_present
     end
 
     it 'is valid with different external_user_id and creator_id but same provider' do
       subject.external_user_id = external_user.id
       subject.creator_id = same_provider_external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).not_to be_present
+      expect(subject.reload.errors.messages[:external_user_id]).not_to be_present
     end
 
     it 'is not valid when the external_user and creator are with different providers' do
       subject.external_user_id = external_user.id
       subject.creator_id = other_provider_external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).to eq(['Creator and advocate must belong to the same provider'])
+      expect(subject.reload.errors.messages[:external_user_id]).to eq(['Creator and advocate must belong to the same provider'])
     end
   end
 
@@ -62,7 +62,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'rejects external user without advocate role' do
       claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
       expect(claim).not_to be_valid
-      expect(claim.errors[:external_user]).to include('must have advocate role')
+      expect(claim.errors[:external_user_id]).to include('must have advocate role')
     end
   end
 

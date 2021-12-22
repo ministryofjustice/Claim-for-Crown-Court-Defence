@@ -27,23 +27,23 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_external_user_id
     return if @record.disable_for_state_transition.eql?(:only_amount_assessed)
-    validate_presence(:external_user, "blank_#{@record.external_user_type}")
+    validate_belongs_to_object_presence(:external_user, "blank_#{@record.external_user_type}".to_sym)
     validate_external_user_has_required_role unless @record.external_user.nil?
-    return if @record.errors.key?(:external_user)
+    return if @record.errors.key?(:external_user_id)
     validate_creator_and_external_user_have_same_provider
   end
 
   def validate_external_user_has_required_role
     validate_has_role(@record.external_user,
                       [@record.external_user_type, :admin],
-                      :external_user,
+                      :external_user_id,
                       "must have #{@record.external_user_type} role")
   end
 
   def validate_creator_and_external_user_have_same_provider
     return if @record.creator_id == @record.external_user_id ||
               @record.creator.try(:provider) == @record.external_user.try(:provider)
-    @record.errors.add(:external_user, "Creator and #{@record.external_user_type} must belong to the same provider")
+    @record.errors.add(:external_user_id, "Creator and #{@record.external_user_type} must belong to the same provider")
   end
 
   def validate_total

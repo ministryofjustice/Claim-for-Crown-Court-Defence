@@ -61,7 +61,7 @@ class Claim::BaseClaimValidator < BaseValidator
 
   # object must be present
   def validate_case_type_id
-    validates_belongs_to_object_presence(:case_type, :blank)
+    validate_belongs_to_object_presence(:case_type, :blank)
   end
 
   # must be present

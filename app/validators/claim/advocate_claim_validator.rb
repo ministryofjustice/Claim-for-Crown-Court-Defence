@@ -6,7 +6,7 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
     {
       case_details: %i[
         case_type_id
-        court
+        court_id
         case_number
         case_transferred_from_another_court
         transfer_court

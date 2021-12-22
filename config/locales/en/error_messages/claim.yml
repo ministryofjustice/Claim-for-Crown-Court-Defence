@@ -156,11 +156,11 @@ case_stage_id:
     short: _
     api: Choose an eligible case stage
 
-court:
+court_id:
   _seq: 40
-  blank:
+  choose_a_court:
     long: Choose a court
-    short: Choose a court
+    short: _
     api: Choose a court
 
 case_number:

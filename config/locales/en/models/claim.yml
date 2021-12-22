@@ -20,6 +20,9 @@ en:
               invalid_case_number_format: Enter a valid case number
               invalid_case_number_or_urn_format: Enter a valid case number or URN
 
+            court_id:
+              blank: Choose a court
+
             supplier_number:
               blank: Choose a supplier number
               invalid: Supplier number is not valid

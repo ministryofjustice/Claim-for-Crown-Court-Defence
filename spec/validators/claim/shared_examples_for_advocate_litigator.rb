@@ -1,5 +1,5 @@
 RSpec.shared_examples 'common advocate litigator validations' do |external_user_type, options|
-  context 'external_user' do
+  context 'when validating external_user' do
     it 'errors if not present, regardless' do
       claim.external_user = nil
       should_error_with(claim, :external_user, "blank_#{external_user_type}")
@@ -12,7 +12,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
     end
   end
 
-  context 'creator' do
+  context 'when validating creator' do
     it 'errors if not present, regardless' do
       claim.creator = nil
       should_error_with(claim, :creator, 'blank')
@@ -28,14 +28,14 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
     end
   end
 
-  context 'court' do
+  context 'when validating court' do
     it 'errors if not present' do
       claim.court = nil
       should_error_with(claim, :court_id, 'Choose a court')
     end
   end
 
-  context 'transfer_court' do
+  context 'when validating transfer_court' do
     before { claim.transfer_case_number = 'A20161234' }
 
     it 'errors if blank when a transfer case number is filled' do
@@ -47,7 +47,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
       should_error_with(claim, :transfer_court, 'same')
     end
 
-    context 'when case was transferred from another court' do
+    context 'with case transferred from another court' do
       before do
         claim.case_transferred_from_another_court = true
       end
@@ -72,7 +72,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
     end
   end
 
-  context 'transfer_case_number' do
+  context 'when validating transfer_case_number' do
     before { claim.transfer_court = build(:court) }
 
     it 'does not error if blank' do
@@ -95,17 +95,17 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
       should_error_with(claim, :transfer_case_number, 'invalid_case_number_or_urn')
     end
 
-    context 'when case was transferred from another court' do
+    context 'with case transferred from another court' do
       before do
         claim.case_transferred_from_another_court = true
       end
 
-      context 'and transfer court is not set' do
+      context 'with transfer court not set' do
         before do
           claim.transfer_court = nil
         end
 
-        context 'and transfer case number is blank' do
+        context 'with transfer case number blank' do
           before do
             claim.transfer_case_number = ''
           end
@@ -117,7 +117,7 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
           end
         end
 
-        context 'and transfer case number has an invalid format' do
+        context 'with transfer case number in invalid format' do
           before do
             claim.transfer_case_number = 'ABC_'
           end
@@ -137,7 +137,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
   let(:offence_class) { build(:offence_class, class_letter: 'X', description: 'Offences of dishonesty in Class F where the value in is in excess of £100,000') }
   let(:misc_offence)  { build(:offence, description: 'Miscellaneous/other', offence_class: offence_class) }
 
-  describe 'validate creator provider is in LGFS fee scheme' do
+  context 'when validating creator and provider are in LGFS fee scheme' do
     it 'rejects creators whose provider is only agfs' do
       claim.creator = build(:external_user, provider: build(:provider, :agfs))
       expect(claim).not_to be_valid
@@ -162,7 +162,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
   end
 
   unless ([:interim_claim, :hardship_claim] & flags).any?
-    context 'case concluded at date' do
+    context 'when validating case_concluded_at date' do
       before { claim.force_validation = true }
 
       it 'is invalid when absent' do
@@ -185,7 +185,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
     end
   end
 
-  context 'external_user' do
+  context 'when validating external_user' do
     it 'errors when does not have advocate role' do
       claim.external_user = advocate
       should_error_with(claim, :external_user, 'must have litigator role')
@@ -203,14 +203,14 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
     end
   end
 
-  context 'creator' do
+  context 'when validating creator' do
     it 'errors when their provider does not have LGFS role' do
       claim.creator = create(:external_user, :advocate)
       should_error_with(claim, :creator, 'must be from a provider with permission to submit LGFS claims')
     end
   end
 
-  context 'offence' do
+  context 'when validating offence' do
     before do
       claim.form_step = :offence_details
       claim.offence = nil

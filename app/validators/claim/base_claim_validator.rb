@@ -65,8 +65,8 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   # must be present
-  def validate_court
-    validate_presence(:court, 'blank')
+  def validate_court_id
+    validate_belongs_to_object_presence(:court, :blank)
   end
 
   # must be present

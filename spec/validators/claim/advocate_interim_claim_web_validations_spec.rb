@@ -79,7 +79,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:court]).to match_array(['blank'])
+        expect(claim.errors[:court_id]).to match_array(['Choose a court'])
       }
     end
 

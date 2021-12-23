@@ -772,10 +772,9 @@ RSpec.describe MockBaseClaim do
     subject(:registered) { claim.vat_registered? }
 
     let(:claim) { described_class.new }
-    let(:mock_provider_delegator) { provider_delegator }
 
     before do
-      allow(claim).to receive(:provider_delegator).and_return(mock_provider_delegator)
+      allow(claim).to receive(:provider_delegator).and_return(provider_delegator)
       allow(LogStuff).to receive(:error)
     end
 
@@ -788,17 +787,19 @@ RSpec.describe MockBaseClaim do
       end
     end
 
-    context 'when the provider is nil' do
-      # this should never happen but the logger is implemented to trace errors in live
+    # Can happen for a chambers provider with more than one external_user
+    # and creator does not select an external_user on case_details page
+    # for a "final" claim case_type (e.g. Trial)
+    context 'when the provider_delegator is nil' do
       let(:provider_delegator) { nil }
 
       it 'logs error' do
-        expect { registered }.to raise_error NoMethodError # spy on, call and swallow error
+        registered
         expect(LogStuff).to have_received(:error).once
       end
 
-      it 'raises error' do
-        expect { registered }.to raise_error NoMethodError
+      it 'does not raise error' do
+        expect { registered }.not_to raise_error
       end
     end
   end

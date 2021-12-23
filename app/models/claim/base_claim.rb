@@ -499,7 +499,7 @@ module Claim
           "calculating VAT for #{id}"
         end
       end
-      provider_delegator.vat_registered?
+      provider_delegator&.vat_registered?
     end
 
     def trial_length

@@ -31,3 +31,12 @@ en:
               blank: Choose a supplier number
               invalid: Supplier number is not valid
               unknown: Supplier number is unknown
+
+            transfer_case_number:
+              # blank: Enter a transfer case number # NOT CALLED ANYWHERE
+              invalid: Invalid transfer case number
+              invalid_case_number_or_urn: Invalid transfer case number or urn
+
+            transfer_court_id:
+              blank: Choose a transfer court
+              same: Choose a different transfer court

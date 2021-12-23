@@ -9,7 +9,7 @@ module Claim
             case_type
             court
             case_number
-            transfer_court
+            transfer_court_id
             transfer_case_number
             offence
             case_concluded_at

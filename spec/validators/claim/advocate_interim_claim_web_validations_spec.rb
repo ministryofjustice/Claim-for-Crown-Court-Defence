@@ -125,8 +125,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         let(:attributes) { valid_attributes.except(:transfer_court_id) }
 
         specify {
-          is_expected.to be_invalid
-          expect(claim.errors[:transfer_court]).to match_array(['blank'])
+          claim.valid?
+          expect(claim.errors[:transfer_court_id]).to include('Choose a transfer court')
         }
       end
 
@@ -134,8 +134,8 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         let(:attributes) { valid_attributes.merge(transfer_court_id: court.id) }
 
         specify {
-          is_expected.to be_invalid
-          expect(claim.errors[:transfer_court]).to match_array(['same'])
+          claim.valid?
+          expect(claim.errors[:transfer_court_id]).to include('Choose a different transfer court')
         }
       end
 
@@ -150,7 +150,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
         specify {
           is_expected.to be_invalid
-          expect(claim.errors[:transfer_case_number]).to match_array(['invalid_case_number_or_urn'])
+          expect(claim.errors[:transfer_case_number]).to include('Invalid transfer case number or urn')
         }
       end
     end

@@ -11,7 +11,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
         case_number
         case_transferred_from_another_court
         case_concluded_at
-        transfer_court
+        transfer_court_id
         transfer_case_number
         trial_details
         retrial_details

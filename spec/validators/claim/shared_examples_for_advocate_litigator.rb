@@ -40,39 +40,39 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
     end
   end
 
-  context 'when validating transfer_court' do
-    before { claim.transfer_case_number = 'A20161234' }
+  context 'when validating transfer_court_id' do
+    context 'with case_transferred_from_another_court not explictly set, but case number set' do
+      before { claim.transfer_case_number = 'A20161234' }
 
-    it 'errors if blank when a transfer case number is filled' do
-      should_error_with(claim, :transfer_court, 'blank')
+      it 'errors if blank' do
+        claim.transfer_court = nil
+        should_error_with(claim, :transfer_court_id, 'Choose a transfer court')
+      end
+
+      it 'errors when the same as the original court' do
+        claim.transfer_court = claim.court
+        should_error_with(claim, :transfer_court_id, 'Choose a different transfer court')
+      end
     end
 
-    it 'errors when the transfer court is the same as the original court' do
-      claim.transfer_court = claim.court
-      should_error_with(claim, :transfer_court, 'same')
-    end
-
-    context 'with case transferred from another court' do
+    context 'with case transferred from another court set' do
       before do
         claim.case_transferred_from_another_court = true
       end
 
-      context 'and transfer court is not set' do
-        before { claim.transfer_court = nil }
-
-        it 'errors' do
-          should_error_with(claim, :transfer_court, 'blank')
-        end
+      it 'errors if blank' do
+        claim.transfer_court = nil
+        should_error_with(claim, :transfer_court_id, 'Choose a transfer court')
       end
 
-      context 'and transfer court is set' do
-        before { claim.transfer_court = court }
+      it 'errors when the same as the original court' do
+        claim.transfer_court = claim.court
+        should_error_with(claim, :transfer_court_id, 'Choose a different transfer court')
+      end
 
-        let(:court) { build(:court) }
-
-        it 'does not error' do
-          should_not_error(claim, :transfer_court)
-        end
+      it 'valid when transfer court different to original court' do
+        claim.transfer_court = build(:court)
+        should_not_error(claim, :transfer_court_id)
       end
     end
   end
@@ -95,9 +95,14 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
       should_not_error(claim, :transfer_case_number)
     end
 
-    it 'errors if wrong format' do
+    it 'errors when format is similar to but invalid case number' do
+      claim.transfer_case_number = 'A201612345'
+      should_error_with(claim, :transfer_case_number, 'Invalid transfer case number')
+    end
+
+    it 'errors when format is invalid case number or urn' do
       claim.transfer_case_number = 'ABC_'
-      should_error_with(claim, :transfer_case_number, 'invalid_case_number_or_urn')
+      should_error_with(claim, :transfer_case_number, 'Invalid transfer case number or urn')
     end
 
     context 'with case transferred from another court' do
@@ -106,29 +111,21 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
       end
 
       context 'with transfer court not set' do
-        before do
-          claim.transfer_court = nil
-        end
+        before { claim.transfer_court = nil }
 
         context 'with transfer case number blank' do
-          before do
-            claim.transfer_case_number = ''
-          end
+          before { claim.transfer_case_number = '' }
 
           it 'does not contain errors on transfer case number' do
-            expect(claim.transfer_case_number).to be_blank
-            expect(claim).not_to be_valid
-            expect(claim.errors[:transfer_case_number]).to be_empty
+            should_not_error(claim, :transfer_case_number)
           end
         end
 
         context 'with transfer case number in invalid format' do
-          before do
-            claim.transfer_case_number = 'ABC_'
-          end
+          before { claim.transfer_case_number = 'ABC_' }
 
           it 'contains an invalid error on transfer case number' do
-            should_error_with(claim, :transfer_case_number, 'invalid_case_number_or_urn')
+            should_error_with(claim, :transfer_case_number, 'Invalid transfer case number or urn')
           end
         end
       end

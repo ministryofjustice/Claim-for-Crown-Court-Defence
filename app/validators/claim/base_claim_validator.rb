@@ -82,22 +82,22 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_case_transferred_from_another_court
     return unless @record.case_transferred_from_another_court
-    validate_transfer_court(force: true)
+    validate_transfer_court_id(force: true)
     validate_transfer_case_number
   end
 
-  def validate_transfer_court(force: false)
-    return if @record.errors[:transfer_court].present?
-    validate_presence(:transfer_court, 'blank') if @record.transfer_case_number.present? || force
-    validate_exclusion(:transfer_court, [@record.court], 'same')
+  def validate_transfer_court_id(force: false)
+    return if @record.errors[:transfer_court_id].present?
+    validate_belongs_to_object_presence(:transfer_court, :blank) if @record.transfer_case_number.present? || force
+    validate_exclusion(:transfer_court_id, [@record.court_id], :same)
   end
 
   def validate_transfer_case_number
     return if @record.errors[:transfer_case_number].present?
-    validate_pattern(:transfer_case_number, CASE_URN_PATTERN, 'invalid_case_number_or_urn')
+    validate_pattern(:transfer_case_number, CASE_URN_PATTERN, :invalid_case_number_or_urn)
     return unless looks_like_a_case_number?(:transfer_case_number)
 
-    validate_pattern(:transfer_case_number, CASE_NUMBER_PATTERN, 'invalid')
+    validate_pattern(:transfer_case_number, CASE_NUMBER_PATTERN, :invalid)
   end
 
   def validate_estimated_trial_length

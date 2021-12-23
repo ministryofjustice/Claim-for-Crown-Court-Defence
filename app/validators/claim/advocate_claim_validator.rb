@@ -9,7 +9,7 @@ class Claim::AdvocateClaimValidator < Claim::BaseClaimValidator
         court_id
         case_number
         case_transferred_from_another_court
-        transfer_court
+        transfer_court_id
         transfer_case_number
         estimated_trial_length
         actual_trial_length

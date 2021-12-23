@@ -115,35 +115,37 @@ namespace :canary do
       flock_id: ENV['CANARY_FLOCK_ID']
     )
 
-    puts 'Creating Canarytoken based on canary_base.docx'
+    filename = "#{Faker::Name.first_name} #{Faker::Name.last_name} #{rand(100000)}"
+
+    puts "Creating Canarytoken '#{filename}.docx' based on canary_base.docx"
     original_file = Rails.root.join('docs', 'samples', 'canary_base.docx')
     canarytoken_doc = factory.create_token(
       kind: 'doc-msword',
-      memo: 'Document id ??? attachment',
+      memo: "Document '#{filename}.docx' attachment",
       file: File.open(original_file)
     )
-    puts 'Creating Canarytoken based on canary_base.pdf'
+    puts "Creating Canarytoken '#{filename}.docx.pdf' based on canary_base.pdf"
     original_file = Rails.root.join('docs', 'samples', 'canary_base.pdf')
     canarytoken_pdf = factory.create_token(
       kind: 'pdf-acrobat-reader',
-      memo: 'Document id ??? attachment preview',
+      memo: "Document '#{filename}.docx.pdf' attachment preview",
       file: File.open(original_file)
     )
 
     doc = Document.new
     doc.document.attach(
       io: StringIO.new(canarytoken_doc.download),
-      filename: 'indictment.docx'
+      filename: "#{filename}.docx"
     )
     doc.converted_preview_document.attach(
       io: StringIO.new(canarytoken_pdf.download),
-      filename: 'indictment.docx.pdf'
+      filename: "#{filename}.docx.pdf"
     )
     doc.save
-    puts "Update Canarytoken canary_base.docx memo to; Document id #{doc.id} attachment on '#{ENV['ENV']}'"
-    canarytoken_doc.memo = "Document id #{doc.id} attachment on '#{ENV['ENV']}'"
-    puts "Update Canarytoken canary_base.pdf memo to; Document id #{doc.id} attachment preview on '#{ENV['ENV']}'"
-    canarytoken_pdf.memo = "Document id #{doc.id} attachment preview on '#{ENV['ENV']}'"
+    puts "Update Canarytoken memo to; Document '#{filename}.docx' [id: #{doc.id}] attachment on '#{ENV['ENV']}'"
+    canarytoken_doc.memo = "Document '#{filename}.docx' [id: #{doc.id}] attachment on '#{ENV['ENV']}'"
+    puts "Update Canarytoken memo to; Document '#{filename}.docx.pdf' [id: #{doc.id}] attachment preview on '#{ENV['ENV']}'"
+    canarytoken_pdf.memo = "Document '#{filename}.docx.pdf' [id: #{doc.id}] attachment preview on '#{ENV['ENV']}'"
   end
 
   desc 'List unattached documents and messages'

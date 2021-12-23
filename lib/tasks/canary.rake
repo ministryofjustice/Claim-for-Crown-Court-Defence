@@ -145,4 +145,11 @@ namespace :canary do
     puts "Update Canarytoken canary_base.pdf memo to; Document id #{doc.id} attachment preview on '#{ENV['ENV']}'"
     canarytoken_pdf.memo = "Document id #{doc.id} attachment preview on '#{ENV['ENV']}'"
   end
+
+  desc 'List unattached documents and messages'
+  task :find_unattached, [:type] => :environment do |_task, args|
+    require_relative './rake_helpers/canary_checker'
+
+    RakeHelpers::CanaryChecker.new(args[:type]).display
+  end
 end

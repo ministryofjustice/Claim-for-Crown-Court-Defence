@@ -178,30 +178,30 @@ case_number:
     short: _
     api: The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
 
-transfer_court:
+transfer_court_id:
   _seq: 55
-  blank:
+  choose_a_transfer_court:
     long: Choose a transfer court
-    short: Choose a transfer court
+    short: _
     api: Choose a transfer court
-  same:
+  choose_a_different_transfer_court:
     long: Transfer court cannot be the same as the original court
-    short: Choose a different transfer court
+    short: _
     api: Transfer court cannot be the same as the original court
 
 transfer_case_number:
   _seq: 60
-  blank:
+  enter_a_transfer_case_number:
     long: Enter a transfer case number for example A20161234
-    short: Enter a transfer case number
+    short: _
     api: Enter a transfer case number for example A20161234
-  invalid:
+  invalid_transfer_case_number:
     long: The transfer case number must be in the format A20161234
-    short: Invalid transfer case number
+    short: _
     api: The transfer case number must be in the format A20161234
-  invalid_case_number_or_urn:
+  invalid_transfer_case_number_or_urn:
     long: The transfer case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
-    short: Invalid transfer case number
+    short: _
     api: The transfer case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)
 
 first_day_of_trial:

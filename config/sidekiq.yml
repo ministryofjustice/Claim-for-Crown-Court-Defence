@@ -8,6 +8,10 @@
   - [stats_reports, 1]
   - [active_storage_analysis, 1]
   - [active_storage_purge, 1]
+:schedule:
+  documents_canary:
+    every: 120m
+    class: DocumentCanaryJob
 development:
   :verbose: true
   :concurrency: 5

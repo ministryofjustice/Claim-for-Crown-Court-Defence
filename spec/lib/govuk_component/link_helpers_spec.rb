@@ -110,7 +110,7 @@ RSpec.describe GovukComponent::LinkHelpers, type: :helper do
       let(:args) { ['GovUK', 'https://www.gov.uk'] }
 
       it 'adds link with govuk class' do
-        is_expected.to have_tag(:a, with: { class: 'govuk-skip-link', href: 'https://www.gov.uk' }, text: 'GovUK')
+        is_expected.to have_tag(:a, with: { class: 'govuk-skip-link', href: 'https://www.gov.uk', 'data-module': 'govuk-skip-link' }, text: 'GovUK')
       end
     end
 
@@ -118,7 +118,7 @@ RSpec.describe GovukComponent::LinkHelpers, type: :helper do
       let(:args) { ['GovUK', 'https://www.gov.uk', class: 'my-custom-class1 my-custom-class2'] }
 
       it 'adds link with custom classes, prepended by govuk class' do
-        is_expected.to have_tag(:a, with: { class: 'govuk-skip-link my-custom-class1 my-custom-class2' })
+        is_expected.to have_tag(:a, with: { class: 'govuk-skip-link my-custom-class1 my-custom-class2', 'data-module': 'govuk-skip-link' })
       end
     end
   end

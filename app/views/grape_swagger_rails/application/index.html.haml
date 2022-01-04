@@ -63,8 +63,7 @@
     :javascript
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 
-    %a.govuk-skip-link{ href: '#main-content' }
-      = t('layouts.skip_content')
+    = govuk_skip_link_to(t('layouts.skip_content'), '#main-content')
 
     - unless @omit_header
       %header.govuk-header.with-proposition{ role: 'banner', data: { module: 'govuk-header' } }

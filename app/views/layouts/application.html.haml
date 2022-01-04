@@ -32,8 +32,7 @@
 
     = render partial: 'layouts/cookie_banner'
 
-    %a.govuk-skip-link{ href: '#main-content' }
-      = t('layouts.skip_content')
+    = govuk_skip_link_to(t('layouts.skip_content'), '#main-content')
 
     - if GoogleAnalytics::DataTracking.tag_manager? && !@disable_analytics
       %noscript

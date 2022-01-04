@@ -201,12 +201,12 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#retrial' do
     it 'returns yes for case types like retrial' do
-      claim.case_type = FactoryBot.create :case_type, :retrial
+      claim.case_type = create :case_type, :retrial
       expect(subject.retrial).to eql 'Yes'
     end
 
     it 'returns no for case types NOT like retrial' do
-      claim.case_type = FactoryBot.create :case_type, :contempt
+      claim.case_type = create :case_type, :contempt
       expect(subject.retrial).to eql 'No'
     end
 

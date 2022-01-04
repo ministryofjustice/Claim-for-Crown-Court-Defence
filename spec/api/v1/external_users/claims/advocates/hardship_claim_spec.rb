@@ -19,7 +19,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
       api_key: provider.api_key,
       creator_email: vendor.user.email,
       user_email: advocate.user.email,
-      case_stage_unique_code: FactoryBot.create(:case_stage, :trial_not_concluded).unique_code,
+      case_stage_unique_code: create(:case_stage, :trial_not_concluded).unique_code,
       case_number: 'A20201234',
       first_day_of_trial: '2020-01-01',
       trial_concluded_at: '2020-01-09',

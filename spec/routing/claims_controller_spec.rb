@@ -11,12 +11,12 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :routing do
 
   describe 'Route helpers' do
     context 'unpersisted (post)' do
-      let(:claim) { FactoryBot.build(:advocate_claim) }
+      let(:claim) { build(:advocate_claim) }
       it { expect(polymorphic_path(claim)).to eq('/advocates/claims') }
     end
 
     context 'persisted (put or edit)' do
-      let(:claim) { FactoryBot.create(:advocate_claim) }
+      let(:claim) { create(:advocate_claim) }
       it { expect(polymorphic_path(claim)).to eq("/advocates/claims/#{claim.id}") }
       it { expect(edit_polymorphic_path(claim)).to eq("/advocates/claims/#{claim.id}/edit") }
     end
@@ -38,12 +38,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :routing do
 
   describe 'Route helpers' do
     context 'unpersisted (post)' do
-      let(:claim) { FactoryBot.build(:litigator_claim) }
+      let(:claim) { build(:litigator_claim) }
       it { expect(polymorphic_path(claim)).to eq('/litigators/claims') }
     end
 
     context 'persisted (put or edit)' do
-      let(:claim) { FactoryBot.create(:litigator_claim) }
+      let(:claim) { create(:litigator_claim) }
       it { expect(polymorphic_path(claim)).to eq("/litigators/claims/#{claim.id}") }
       it { expect(edit_polymorphic_path(claim)).to eq("/litigators/claims/#{claim.id}/edit") }
     end
@@ -58,12 +58,12 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :routin
 
   describe 'Route helpers' do
     context 'unpersisted (post)' do
-      let(:claim) { FactoryBot.build(:interim_claim) }
+      let(:claim) { build(:interim_claim) }
       it { expect(polymorphic_path(claim)).to eq('/litigators/interim_claims') }
     end
 
     context 'persisted (put or edit)' do
-      let(:claim) { FactoryBot.create(:interim_claim) }
+      let(:claim) { create(:interim_claim) }
       it { expect(polymorphic_path(claim)).to eq("/litigators/interim_claims/#{claim.id}") }
       it { expect(edit_polymorphic_path(claim)).to eq("/litigators/interim_claims/#{claim.id}/edit") }
     end
@@ -78,12 +78,12 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :routi
 
   describe 'Route helpers' do
     context 'unpersisted (post)' do
-      let(:claim) { FactoryBot.build(:transfer_claim) }
+      let(:claim) { build(:transfer_claim) }
       it { expect(polymorphic_path(claim)).to eq('/litigators/transfer_claims') }
     end
 
     context 'persisted (put or edit)' do
-      let(:claim) { FactoryBot.create(:transfer_claim) }
+      let(:claim) { create(:transfer_claim) }
       it { expect(polymorphic_path(claim)).to eq("/litigators/transfer_claims/#{claim.id}") }
       it { expect(edit_polymorphic_path(claim)).to eq("/litigators/transfer_claims/#{claim.id}/edit") }
     end

@@ -19,7 +19,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       api_key: provider.api_key,
       creator_email: vendor.user.email,
       user_email: advocate.user.email,
-      case_type_id: FactoryBot.create(:case_type, :retrial).id,
+      case_type_id: create(:case_type, :retrial).id,
       case_number: 'A20161234',
       first_day_of_trial: "2015-01-01",
       estimated_trial_length: 10,

@@ -3,7 +3,7 @@
 RSpec.describe ErrorMessage::Presenter do
   subject(:presenter) { described_class.new(claim, filename) }
 
-  let(:claim) { FactoryBot.build(:claim) }
+  let(:claim) { build(:claim) }
   let(:filename) { Rails.root.join('spec', 'fixtures', 'config', 'locales', 'en', 'error_messages', 'claim.yml') }
 
   it { is_expected.to delegate_method(:errors_for?).to(:error_detail_collection) }

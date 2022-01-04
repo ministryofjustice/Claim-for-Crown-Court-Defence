@@ -39,13 +39,13 @@ RSpec.describe Fee::BasicFee do
 
   describe '#calculated?' do
     it 'returns false for fees flagged as uncalculated' do
-      ppe = FactoryBot.create(:basic_fee_type, code: 'PPE', calculated: false)
-      fee = FactoryBot.create(:basic_fee, fee_type: ppe)
+      ppe = create(:basic_fee_type, code: 'PPE', calculated: false)
+      fee = create(:basic_fee, fee_type: ppe)
       expect(fee.calculated?).to be false
     end
     it 'returns true for any other fees' do
-      saf = FactoryBot.create(:basic_fee_type, code: 'SAF')
-      fee = FactoryBot.create(:basic_fee, fee_type: saf)
+      saf = create(:basic_fee_type, code: 'SAF')
+      fee = create(:basic_fee, fee_type: saf)
       expect(fee.calculated?).to be true
     end
   end

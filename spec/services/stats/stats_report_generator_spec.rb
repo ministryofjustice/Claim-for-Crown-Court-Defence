@@ -16,7 +16,7 @@ RSpec.shared_examples 'a successful report generator caller' do
     call
     record = Stats::StatsReport.where(report_name: report_type).completed.last
     file_path = ActiveStorage::Blob.service.path_for(record.document.blob.key)
-    expect(File.open(file_path).read).to eq('some new content')
+    expect(File.read(file_path)).to eq('some new content')
   end
 end
 

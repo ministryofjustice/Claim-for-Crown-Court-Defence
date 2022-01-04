@@ -1,8 +1,8 @@
-%button.govuk-header__menu-button.govuk-js-header-toggle{ aria: { controls: 'navigation', label: t('.show_hide_menu') }, type: 'button' }
-  = t('.menu')
+%nav.govuk-header__navigation(aria-label="Menu")
+  %button.govuk-header__menu-button.govuk-js-header-toggle{ aria: { controls: 'navigation', label: t('.show_hide_menu') }, type: 'button' }
+    = t('.menu')
 
-%nav
-  %ul#navigation.govuk-header__navigation{ aria: { label: t('.top_navigation') } }
+  %ul#navigation.govuk-header__navigation-list
     %li.govuk-header__navigation-item
       = govuk_header_link_to current_user.name, signed_in_user_profile_path
     %li.govuk-header__navigation-item

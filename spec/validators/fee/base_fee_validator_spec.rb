@@ -406,7 +406,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
 
         it 'validates based on retrial length for retrials' do
-          dah_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
+          dah_fee.claim.case_type = create(:case_type, :retrial)
           dah_fee.claim.actual_trial_length = 2
           dah_fee.claim.retrial_actual_length = 45
           should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
@@ -436,7 +436,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         end
 
         it 'validates based on retrial length for retrials' do
-          daj_fee.claim.case_type = FactoryBot.create(:case_type, :retrial)
+          daj_fee.claim.case_type = create(:case_type, :retrial)
           daj_fee.claim.actual_trial_length = 2
           daj_fee.claim.retrial_actual_length = 70
           should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
@@ -502,7 +502,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       context 'plea and case management hearing (PCM)' do
         context 'permitted case type' do
           before do
-            claim.case_type = FactoryBot.build :case_type, :allow_pcmh_fee_type
+            claim.case_type = build :case_type, :allow_pcmh_fee_type
           end
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'pcm_invalid') }
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'pcm_numericality') }
@@ -512,7 +512,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
         context 'unpermitted case type' do
           before do
-            claim.case_type = FactoryBot.build :case_type
+            claim.case_type = build :case_type
           end
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
           it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }

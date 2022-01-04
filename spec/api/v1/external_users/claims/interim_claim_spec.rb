@@ -18,7 +18,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
       creator_email: vendor.user.email,
       user_email: litigator.user.email,
       supplier_number: provider.lgfs_supplier_numbers.first.supplier_number,
-      case_type_id: FactoryBot.create(:case_type, :trial).id,
+      case_type_id: create(:case_type, :trial).id,
       case_number: 'A20161234',
       offence_id: offence.id,
       court_id: court.id,

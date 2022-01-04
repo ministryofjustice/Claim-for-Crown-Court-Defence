@@ -206,10 +206,10 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
       end
 
       context 'conditional fee logic' do
-        let!(:misc_fee_type_1)          { FactoryBot.create :misc_fee_type, description: 'Miscellaneous Fee Type 1' }
-        let!(:misc_fee_type_2)          { FactoryBot.create :misc_fee_type, description: 'Miscellaneous Fee Type 2' }
-        let!(:fixed_fee_type_1)         { FactoryBot.create :fixed_fee_type, description: 'Fixed Fee Type 1' }
-        let!(:graduated_fee_type_1)     { FactoryBot.create :graduated_fee_type, description: 'Graduated Fee Type 1' }
+        let!(:misc_fee_type_1)          { create :misc_fee_type, description: 'Miscellaneous Fee Type 1' }
+        let!(:misc_fee_type_2)          { create :misc_fee_type, description: 'Miscellaneous Fee Type 2' }
+        let!(:fixed_fee_type_1)         { create :fixed_fee_type, description: 'Fixed Fee Type 1' }
+        let!(:graduated_fee_type_1)     { create :graduated_fee_type, description: 'Graduated Fee Type 1' }
 
         let(:claim_params)              { valid_claim_fee_params }
         let(:invalid_claim_params)      { valid_claim_fee_params.reject { |k, _v| k == 'case_number' } }
@@ -272,7 +272,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
           context 'valid params' do
             let(:fixed_fee_claim_params) do
               params = claim_params.dup
-              params['case_type_id'] = FactoryBot.create(:case_type, :fixed_fee).id.to_s
+              params['case_type_id'] = create(:case_type, :fixed_fee).id.to_s
               params.delete(:graduated_fee_attributes)
               params.merge!(fixed_fee_attributes)
             end
@@ -457,7 +457,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   # -------------------------
 
   def valid_claim_fee_params
-    case_type = FactoryBot.create :case_type
+    case_type = create :case_type
 
     {
       'source' => 'web',

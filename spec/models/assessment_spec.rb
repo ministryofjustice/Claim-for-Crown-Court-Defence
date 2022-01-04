@@ -16,7 +16,7 @@
 require 'rails_helper'
 
 RSpec.describe Assessment do
-  let(:claim) { FactoryBot.create :claim }
+  let(:claim) { create :claim }
 
   context 'validations' do
     context 'fees' do

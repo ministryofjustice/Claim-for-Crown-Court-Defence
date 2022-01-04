@@ -382,8 +382,8 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
     eu = create(:external_user, :advocate, user: create(:user, first_name: 'Stepriponikas', last_name: 'Bonstart'))
     @claim = create(:allocated_claim, external_user: eu)
     @claim.certification.destroy unless @claim.certification.nil?
-    certification_type = FactoryBot.create(:certification_type, name: 'which ever reason i please')
-    FactoryBot.create(:certification, claim: @claim, certified_by: 'Bobby Legrand', certification_type: certification_type)
+    certification_type = create(:certification_type, name: 'which ever reason i please')
+    create(:certification, claim: @claim, certified_by: 'Bobby Legrand', certification_type: certification_type)
     @case_worker.claims << @claim
     @claim.reload
     @message = @claim.messages.build
@@ -391,7 +391,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
   end
 
   def trial_claim(trial_prefix = nil)
-    @claim = create(:submitted_claim, case_type: FactoryBot.create(:case_type, "#{trial_prefix}trial".to_sym), evidence_checklist_ids: [1, 9])
+    @claim = create(:submitted_claim, case_type: create(:case_type, "#{trial_prefix}trial".to_sym), evidence_checklist_ids: [1, 9])
     @case_worker.claims << @claim
     create(:document, claim_id: @claim.id, form_id: @claim.form_id)
     @message = @claim.messages.build

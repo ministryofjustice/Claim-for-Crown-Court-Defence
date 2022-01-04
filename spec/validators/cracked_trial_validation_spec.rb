@@ -4,9 +4,9 @@ RSpec.describe 'new validation rules around cracked trials', type: :validator do
   context 'cracked (re)trials' do
     subject { cracked_trial_claim.valid? }
 
-    let(:cracked_trial_type) { FactoryBot.build :case_type, :requires_cracked_dates, name: 'Cracked trial' }
+    let(:cracked_trial_type) { build :case_type, :requires_cracked_dates, name: 'Cracked trial' }
     let(:cracked_trial_claim) do
-      FactoryBot.create(
+      create(
         :claim,
         case_type: cracked_trial_type,
         trial_fixed_notice_at: trial_fixed_notice_at,

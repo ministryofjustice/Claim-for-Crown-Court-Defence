@@ -68,7 +68,7 @@ RSpec.describe Defendant, type: :model do
   end
 
   context 'representation orders' do
-    let(:defendant) { FactoryBot.create :defendant, claim: FactoryBot.create(:advocate_claim) }
+    let(:defendant) { create :defendant, claim: create(:advocate_claim) }
 
     it 'is valid if there is one representation order that isnt blank' do
       expect(defendant).to be_valid
@@ -76,7 +76,7 @@ RSpec.describe Defendant, type: :model do
 
     context 'draft claim' do
       it 'is valid if there is more than one representation order' do
-        defendant.representation_orders << FactoryBot.create(:representation_order)
+        defendant.representation_orders << create(:representation_order)
         expect(defendant).to be_valid
       end
     end

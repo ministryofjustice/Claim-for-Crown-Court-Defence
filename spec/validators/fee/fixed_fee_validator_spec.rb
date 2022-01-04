@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe Fee::FixedFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:fee) { FactoryBot.build :fixed_fee, claim: claim, date: Date.today }
+  let(:fee) { build :fixed_fee, claim: claim, date: Date.today }
   let(:fee_code) { fee.fee_type.code }
 
   # AGFS claims are validated as part of the base_fee_validator_spec
   #
   context 'LGFS claim' do
-    let(:claim) { FactoryBot.build :litigator_claim }
+    let(:claim) { build :litigator_claim }
 
     before do
       fee.clear   # reset some attributes set by the factory

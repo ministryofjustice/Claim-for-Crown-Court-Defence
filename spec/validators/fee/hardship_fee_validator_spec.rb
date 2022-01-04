@@ -6,7 +6,7 @@ RSpec.describe Fee::HardshipFeeValidator, type: :validator do
   let(:fee) { build :hardship_fee, claim: claim, date: Date.today }
 
   context 'LGFS claim' do
-    let(:claim) { FactoryBot.build :litigator_hardship_claim }
+    let(:claim) { build :litigator_hardship_claim }
 
     before do
       fee.clear   # reset some attributes set by the factory

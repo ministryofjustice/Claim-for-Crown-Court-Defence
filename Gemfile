@@ -11,7 +11,7 @@ gem 'awesome_print'
 gem 'bootsnap', require: false
 gem 'cancancan',              '~> 3.3'
 gem 'cocoon',                 '~> 1.2.15'
-gem 'devise',                 '~> 4.8.0'
+gem 'devise',                 '~> 4.8.1'
 gem 'dotenv-rails'
 gem 'factory_bot_rails',      '~> 6.2.0'
 gem 'faker',                  '~> 2.19.0'

@@ -83,7 +83,7 @@ module TransferBrainHelpers
     def transfer_fee_bill_scenarios
       data_item_collection_hash
         .all_values_for(:bill_scenario)
-        .reject(&:nil?)
+        .compact
     end
   end
 

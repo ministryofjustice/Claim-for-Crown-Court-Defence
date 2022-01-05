@@ -118,7 +118,8 @@ RSpec.describe Stats::StatsReport do
 
       it 'copies the document to the document storage' do
         write_report
-        expect(File.open(ActiveStorage::Blob.service.path_for(report.document.blob.key)).read).to eq document_content
+        file_name = ActiveStorage::Blob.service.path_for(report.document.blob.key)
+        expect(File.read(file_name)).to eq document_content
       end
 
       it 'names the document based on the report type and timestamp' do

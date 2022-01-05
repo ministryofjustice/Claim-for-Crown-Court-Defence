@@ -66,7 +66,7 @@ class FeedbackForm
     {
       id: section.id,
       format: section.format,
-      answers: section.answers.map { |answer| [answer.key, answer.formatted_id] }.to_h
+      answers: section.answers.to_h { |answer| [answer.key, answer.formatted_id] }
     }
   end
 end

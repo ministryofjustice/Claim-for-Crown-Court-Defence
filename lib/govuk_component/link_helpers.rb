@@ -29,6 +29,7 @@ module GovukComponent
 
     def govuk_skip_link_to(body = nil, url = nil, tag_options = {})
       tag_options = prepend_classes('govuk-skip-link', tag_options)
+      tag_options[:data] = { module: 'govuk-skip-link' }
       link_to body, url, **tag_options
     end
   end

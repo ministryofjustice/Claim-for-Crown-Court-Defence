@@ -257,8 +257,6 @@ moj.Helpers.Blocks = {
     }
 
     this.bindListners = function () {
-      const self = this
-
       /**
        * Listen for the `expense type` change event and
        * pass the event object to the statemanager
@@ -365,7 +363,6 @@ moj.Helpers.Blocks = {
     // id for the checked ra
     this.getDistance = function (ajaxConfig) {
       const def = $.Deferred()
-      const self = this
       moj.Helpers.API.Distance.query(ajaxConfig).then(function (result) {
         const number = self.$el.find('.fx-travel-mileage input[type=radio]:visible:checked').val()
 
@@ -414,7 +411,6 @@ moj.Helpers.Blocks = {
     }
 
     this.attachSelectWithOptions = function (locationType, selectedValue) {
-      const self = this
       let $detachedSelect
 
       if (!locationType) throw new Error('Missing param: locationType')
@@ -464,7 +460,6 @@ moj.Helpers.Blocks = {
      * @return this
      */
     this.statemanager = function ($el) {
-      const self = this
       const reasons = []
       const state = {
         config: $.extend({}, this.defaultstate, $el.find('option:selected').data()),

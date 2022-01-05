@@ -582,7 +582,6 @@ describe('Helpers.Blocks.js', function () {
     describe('ExpenseBlock', function () {
       describe('Defaults', function () {
         let fixtureDom
-        let instance
 
         beforeEach(function () {
           fixtureDom = [

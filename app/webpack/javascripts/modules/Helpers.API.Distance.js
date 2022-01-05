@@ -12,12 +12,12 @@
       if (!ajaxConfig.destination) throw Error('Missing param: `params.destination` is required')
 
       // Settings defaults
-      const settings = $.extend({ claimid: 0, destination: 'London' }, ajaxConfig)
+      const ajaxSettings = $.extend({ claimid: 0, destination: 'London' }, ajaxConfig)
       return {
-        url: '/external_users/claims/' + settings.claimid + '/expenses/calculate_distance',
+        url: '/external_users/claims/' + ajaxSettings.claimid + '/expenses/calculate_distance',
         type: 'POST',
         data: {
-          destination: settings.destination
+          destination: ajaxSettings.destination
         }
       }
     }

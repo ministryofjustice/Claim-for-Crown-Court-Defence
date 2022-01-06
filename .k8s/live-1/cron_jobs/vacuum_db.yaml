@@ -1,0 +1,40 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cccd-vacuum-db
+spec:
+  schedule: "5 1 * * 0"
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 120
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      ttlSecondsAfterFinished: 250000
+      template:
+        metadata:
+          labels:
+            tier: worker
+        spec:
+          restartPolicy: Never
+          containers:
+          - name: cronjob-worker
+            image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-latest
+            imagePullPolicy: Always
+            command:
+              - rails
+              - db:vacuum
+
+            envFrom:
+            - configMapRef:
+                name: cccd-app-config
+            - secretRef:
+                name: cccd-secrets
+
+            env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: cccd-rds
+                  key: url

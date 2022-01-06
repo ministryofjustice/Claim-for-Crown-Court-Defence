@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cccd-app-config
+  namespace: cccd-api-sandbox
+data:
+  ENV: 'api-sandbox'
+  RACK_ENV: 'production'
+  RAILS_ENV: 'production'
+  RAILS_SERVE_STATIC_FILES: only-presence-required-to-enable
+  GRAPE_SWAGGER_ROOT_URL: 'https://api-sandbox.claim-crown-court-defence.service.justice.gov.uk'
+  GA_TRACKER_ID: 'UA-37377084-48'
+  MAINTENANCE_MODE: 'false'
+  SETTINGS__SLACK__BOT_NAME: 'Injectotron'
+  SETTINGS__SLACK__FAIL_ICON: ':katyperry:'
+  SETTINGS__SLACK__SUCCESS_ICON: ':taytay:'
+  SETTINGS__AWS__POLL_MESSAGE_COUNT: '1'
+  SETTINGS__AWS__POLL_MESSAGE_WAIT_TIME: '10'
+  SETTINGS__AWS__S3__REGION: 'eu-west-2'
+  LAA_FEE_CALCULATOR_HOST: https://laa-fee-calculator.service.justice.gov.uk/api/v1

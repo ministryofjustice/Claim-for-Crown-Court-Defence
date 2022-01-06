@@ -1,7 +1,7 @@
 #!/bin/sh
 function _job() {
   usage="job -- run job in the specified environment
-  Usage: .k8s/live-1/bin/job task environment
+  Usage: .k8s/live/bin/job task environment
   Where:
     task [migrate|seed|dump]
     environment [dev|dev-lgfs|staging|api-sandbox|production]
@@ -42,7 +42,7 @@ function _job() {
     current_version=$3
   fi
 
-  context='live-1'
+  context='live'
   component=app
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}

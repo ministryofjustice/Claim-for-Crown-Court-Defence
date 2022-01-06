@@ -2,12 +2,16 @@
 
 function _circleci_deploy() {
   usage="deploy -- deploy image from current commit to an environment
-  Usage: $0 environment
+  Usage: $0 cluster_dir environment
   Where:
-    environment [dev|staging|api-sandbox|production]
+    cluster_dir [live|live-1]
+    environment [dev|dev-lgfs|staging|api-sandbox|production]
   Example:
-    # deploy image for current circleCI commit to dev
-    deploy.sh dev
+    # deploy image for current circleCI commit to live-1 clusters cccd-dev namespace
+    deploy.sh live-1 dev
+
+    # deploy image for current circleCI commit to live clusters cccd-dev namespace
+    deploy.sh live dev
     "
 
   # exit when any command fails
@@ -30,7 +34,7 @@ function _circleci_deploy() {
     return 1
   fi
 
-  if [[ $# -gt 1 ]]
+  if [[ $# -gt 2 ]]
   then
     echo "$usage"
     return 1
@@ -38,8 +42,19 @@ function _circleci_deploy() {
 
   # Cloud platforms circle ci solution does not handle hyphenated names
   case "$1" in
+    live | live-1)
+      cluster_dir=$1
+      ;;
+    *)
+      echo "$usage"
+      return 1
+      ;;
+  esac
+
+  # Cloud platforms circle ci solution does not handle hyphenated names
+  case "$2" in
     dev | dev-lgfs | api-sandbox | staging | production)
-      environment=$1
+      environment=$2
       ;;
     *)
       echo "$usage"
@@ -73,26 +88,26 @@ function _circleci_deploy() {
   docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
 
   # apply common config
-  kubectl apply -f kubernetes_deploy/${environment}/secrets.yaml
-  kubectl apply -f kubernetes_deploy/${environment}/app-config.yaml
+  kubectl apply -f .k8s/${cluster_dir}/${environment}/secrets.yaml
+  kubectl apply -f .k8s/${cluster_dir}/${environment}/app-config.yaml
 
   # apply new image
-  kubectl set image -f kubernetes_deploy/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
-  kubectl set image -f kubernetes_deploy/${environment}/deployment-worker.yaml cccd-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
+  kubectl set image -f .k8s/${cluster_dir}/${environment}/deployment.yaml cccd-app=${docker_image_tag} --local -o yaml | kubectl apply -f -
+  kubectl set image -f .k8s/${cluster_dir}/${environment}/deployment-worker.yaml cccd-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
 
   # apply changes that always use app-latest tagged images
   kubectl apply \
-  -f kubernetes_deploy/cron_jobs/archive_stale.yaml \
-  -f kubernetes_deploy/cron_jobs/vacuum_db.yaml
+  -f .k8s/${cluster_dir}/cron_jobs/archive_stale.yaml \
+  -f .k8s/${cluster_dir}/cron_jobs/vacuum_db.yaml
 
   # apply non-image specific config
   kubectl apply \
-  -f kubernetes_deploy/${environment}/service.yaml \
-  -f kubernetes_deploy/${environment}/ingress.yaml
+  -f .k8s/${cluster_dir}/${environment}/service.yaml \
+  -f .k8s/${cluster_dir}/${environment}/ingress.yaml
 
   # only needed in one environment and cccd-dev has credentials
   if [[ ${environment} == 'dev' ]]; then
-    kubectl apply -f kubernetes_deploy/cron_jobs/clean_ecr.yaml
+    kubectl apply -f .k8s/${cluster_dir}/cron_jobs/clean_ecr.yaml
   fi
 
   kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"

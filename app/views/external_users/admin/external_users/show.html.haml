@@ -6,16 +6,16 @@
 .govuk-grid-row
   .govuk-grid-column-two-thirds
     = govuk_summary_list do
-      = govuk_summary_list_row(t('.name')) do
+      = govuk_summary_list_row_collection(t('.name')) do
         = @external_user.name
 
-      = govuk_summary_list_row(t('.email')) do
+      = govuk_summary_list_row_collection(t('.email')) do
         = govuk_mail_to @external_user.email, @external_user.email
 
-      = govuk_summary_list_row(t('.roles')) do
+      = govuk_summary_list_row_collection(t('.roles')) do
         = @external_user.roles.map(&:humanize).join(', ')
 
-      = govuk_summary_list_row(t('.supplier_number')) do
+      = govuk_summary_list_row_collection(t('.supplier_number')) do
         = @external_user.supplier_number
 
     .govuk-button-group

@@ -1,16 +1,16 @@
 - retrial_i18n_scope = %i[external_users claims case_details retrial_detail_fields]
 
-= govuk_summary_list_row(t('retrial_started_at', scope: retrial_i18n_scope)) do
+= govuk_summary_list_row_collection(t('retrial_started_at', scope: retrial_i18n_scope)) do
   = claim&.retrial_started_at&.strftime(Settings.date_format)
 
-= govuk_summary_list_row(t('retrial_estimated_length', scope: retrial_i18n_scope)) do
+= govuk_summary_list_row_collection(t('retrial_estimated_length', scope: retrial_i18n_scope)) do
   = claim&.retrial_estimated_length
 
-= govuk_summary_list_row(t('retrial_actual_length', scope: retrial_i18n_scope)) do
+= govuk_summary_list_row_collection(t('retrial_actual_length', scope: retrial_i18n_scope)) do
   = claim&.retrial_actual_length
 
-= govuk_summary_list_row(t('retrial_concluded_at', scope: retrial_i18n_scope)) do
+= govuk_summary_list_row_collection(t('retrial_concluded_at', scope: retrial_i18n_scope)) do
   = claim&.retrial_concluded_at&.strftime(Settings.date_format)
 
-= govuk_summary_list_row(t('retrial_reduction', scope: retrial_i18n_scope)) do
+= govuk_summary_list_row_collection(t('retrial_reduction', scope: retrial_i18n_scope)) do
   = claim&.retrial_reduction? ? 'Yes' : 'No'

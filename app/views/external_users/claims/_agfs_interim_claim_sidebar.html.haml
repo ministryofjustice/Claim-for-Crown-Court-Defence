@@ -1,20 +1,24 @@
-%dl
-  %dt.fx-seed-interimFees{ data: { seed: claim.raw_warrant_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-    = t('.interim_fees')
-  %dd.total-interimFees
-    = claim.warrant_fees_total
+= govuk_summary_list_no_border(class: 'app-summary-list_sidebar') do
+  = govuk_summary_list_row do
+    = govuk_summary_list_key(class: 'fx-seed-interimFees', data: { seed: claim.raw_warrant_fees_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
+      = t('.interim_fees')
+    = govuk_summary_list_value(class: 'total-interimFees') do
+      = claim.warrant_fees_total
 
-  %dt.fx-seed-expenses{ data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' } }
-    = t('.travel_expenses')
-  %dd.total-expenses
-    = claim.expenses_total
+  = govuk_summary_list_row do
+    = govuk_summary_list_key(class: 'fx-seed-expenses', data: { seed: claim.raw_expenses_total, autovat: @claim.apply_vat? ? 'true' : 'false' }) do
+      = t('.travel_expenses')
+    = govuk_summary_list_value(class: 'total-expenses') do
+      = claim.expenses_total
 
-  %dt.fx-seed{ 'data-vat-total': claim.raw_vat_amount }
-    = t('.vat')
-  %dd.total-vat
-    = claim.vat_amount
+  = govuk_summary_list_row do
+    = govuk_summary_list_key(class: 'fx-seed', 'data-vat-total': claim.raw_vat_amount) do
+      = t('.vat')
+    = govuk_summary_list_value(class: 'total-vat') do
+      = claim.vat_amount
 
-  %dt.fx-seed{ 'data-total-inc': claim.raw_total_inc }
-    = t('.total')
-  %dd.total-grandTotal
-    = claim.total_inc
+  = govuk_summary_list_row do
+    = govuk_summary_list_key(class: 'fx-seed', 'data-total-inc': claim.raw_total_inc) do
+      = t('.total')
+    = govuk_summary_list_value(class: 'total-grandTotal') do
+      = claim.total_inc

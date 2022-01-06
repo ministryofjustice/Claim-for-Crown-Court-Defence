@@ -7,17 +7,17 @@
   .govuk-grid-column-two-thirds
 
     = govuk_summary_list do
-      = govuk_summary_list_row(t('.provider_type')) { @provider.provider_type.capitalize }
+      = govuk_summary_list_row_collection(t('.provider_type')) { @provider.provider_type.capitalize }
 
-      = govuk_summary_list_row(t('.fee_schemes')) { @provider.roles.map(&:upcase) * ', ' }
+      = govuk_summary_list_row_collection(t('.fee_schemes')) { @provider.roles.map(&:upcase) * ', ' }
 
       - if @provider.lgfs_supplier_numbers.any?
-        = govuk_summary_list_row(t('.lgfs_supplier_numbers')) { @provider.lgfs_supplier_numbers.to_sentence }
+        = govuk_summary_list_row_collection(t('.lgfs_supplier_numbers')) { @provider.lgfs_supplier_numbers.to_sentence }
 
       - if @provider.firm? && @provider.agfs?
-        = govuk_summary_list_row(t('.firm_agfs_supplier_number')) { @provider.firm_agfs_supplier_number }
+        = govuk_summary_list_row_collection(t('.firm_agfs_supplier_number')) { @provider.firm_agfs_supplier_number }
 
-      = govuk_summary_list_row(t('.vat_registered')) { @provider.vat_registered == true ? t('.answer_yes') : t('.answer_no') }
+      = govuk_summary_list_row_collection(t('.vat_registered')) { @provider.vat_registered == true ? t('.answer_yes') : t('.answer_no') }
 
     - if can? :edit, @provider
       = govuk_link_button(t('.edit'), edit_provider_management_provider_path(@provider))

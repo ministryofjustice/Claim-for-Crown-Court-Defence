@@ -7,10 +7,10 @@
 
   - if claim.mandatory_supporting_evidence?
     = govuk_summary_list do
-      = govuk_summary_list_row( t('shared.summary.disk_evidence') ) { claim.disk_evidence ? t('.answer_yes') : t('.answer_no') }
-      = govuk_summary_list_row( t('shared.summary.disk_evidence_reference') ) { claim.disk_evidence_reference }
+      = govuk_summary_list_row_collection( t('shared.summary.disk_evidence') ) { claim.disk_evidence ? t('.answer_yes') : t('.answer_no') }
+      = govuk_summary_list_row_collection( t('shared.summary.disk_evidence_reference') ) { claim.disk_evidence_reference }
 
-      = govuk_summary_list_row( t('shared.summary.supporting_evidence') ) do
+      = govuk_summary_list_row_collection( t('shared.summary.supporting_evidence') ) do
         %ul.govuk-list
           - claim.documents.each do |document|
             %li
@@ -19,14 +19,14 @@
                         class: 'download',
                         'aria-label': "Download document: #{document.document_file_name}"
 
-      = govuk_summary_list_row( t('shared.summary.supporting_evidence_checklist') ) do
+      = govuk_summary_list_row_collection( t('shared.summary.supporting_evidence_checklist') ) do
         %ul.govuk-list
           - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
             %li
               = dt.name
 
       - if claim.additional_information.present?
-        = govuk_summary_list_row( t('external_users.claims.additional_information.summary.header') ) { claim.additional_information }
+        = govuk_summary_list_row_collection( t('external_users.claims.additional_information.summary.header') ) { claim.additional_information }
 
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

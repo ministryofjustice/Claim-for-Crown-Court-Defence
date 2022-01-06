@@ -43,10 +43,10 @@
         = govuk_detail t('.help_how_we_calculate_rate_title') do
           = t('.help_how_we_calculate_rate_body')
 
-      .cccd-summary-list
-        %dl.govuk-summary-list
-          .govuk-summary-list__row
-            %dt.govuk-summary-list__key
-              = t('.amount')
-            %dd.govuk-summary-list__value.fee-net-amount.total
-              = fee.amount || number_to_currency(0)
+      = govuk_summary_list do
+        = govuk_summary_list_row do
+          = govuk_summary_list_key do
+            = t('.amount')
+
+          = govuk_summary_list_value(class: 'fee-net-amount total') do
+            = fee.amount || number_to_currency(0)

@@ -3,7 +3,10 @@ en:
   sidebar_common:
     - &sidebar_fixed_fees Fixed fees
     - &sidebar_graduated_fees Graduated fees
+    - &sidebar_hardship_fees Hardship fees
+    - &sidebar_interim_fees Interim fees
     - &sidebar_miscellaneous_fees Miscellaneous fees
+    - &sidebar_transfer_fees Transfer fees
     - &sidebar_travel_expenses Travel expenses
     - &sidebar_disbursements Disbursements
     - &sidebar_vat VAT
@@ -20,11 +23,11 @@ en:
         miscellaneous_fees: *sidebar_miscellaneous_fees
         <<: *sidebar_defaults
       agfs_hardship_claim_sidebar:
-        graduated_fees: Hardship fees
+        graduated_fees: *sidebar_hardship_fees
         miscellaneous_fees: *sidebar_miscellaneous_fees
         <<: *sidebar_defaults
       agfs_interim_claim_sidebar:
-        interim_fees: Interim fees
+        interim_fees: *sidebar_interim_fees
         miscellaneous_fees: *sidebar_miscellaneous_fees
         <<: *sidebar_defaults
       agfs_supplementary_claim_sidebar:
@@ -36,13 +39,17 @@ en:
         miscellaneous_fees: *sidebar_miscellaneous_fees
         disbursements: *sidebar_disbursements
         <<: *sidebar_defaults
+      lgfs_hardship_claim_sidebar:
+        hardship_fees: *sidebar_hardship_fees
+        miscellaneous_fees: *sidebar_miscellaneous_fees
+        <<: *sidebar_defaults
       lgfs_transfer_claim_sidebar:
-        transfer_fees: Transfer fees
+        transfer_fees: *sidebar_transfer_fees
         miscellaneous_fees: *sidebar_miscellaneous_fees
         disbursements: *sidebar_disbursements
         <<: *sidebar_defaults
       lgfs_interim_claim_sidebar:
-        interim_fees: Interim fees
+        interim_fees: *sidebar_interim_fees
         travel_expenses: *sidebar_travel_expenses
         disbursements: *sidebar_disbursements
         <<: *sidebar_defaults

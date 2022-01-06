@@ -17,24 +17,24 @@ The build and deploy scripts can be found in the root `.circleci` directory.
 
 ### Kubernetes
 
-CCCD's stack orchestration tool is kubernetes. Config for kubernetes can be found under the `kubernetes_deploy/` directory. Note, however, that the infrastructure is defined in the [Cloud platform environments repository](https://github.com/ministryofjustice/cloud-platform-environments)
+CCCD's stack orchestration tool is kubernetes. Config for kubernetes can be found under the `.k8s/` directory. Note, however, that the infrastructure is defined in the [Cloud platform environments repository](https://github.com/ministryofjustice/cloud-platform-environments)
 
-Build and deploy from your local machine can be achieved using scripts in `kubernetes_deploy/scripts` *and can be used once you have access to AWS*. These facilitate the most common tasks, namely build, deploy, apply a job, apply a cronjob.
+Build and deploy from your local machine can be achieved using scripts in `.k8s/<context>/scripts` *and can be used once you have access to AWS*. These facilitate the most common tasks, namely build, deploy, apply a job, apply a cronjob.
 
 
 ```
 # build and deploy master to dev
-kubernetes_deploy/scripts/build.sh
-kubernetes_deploy/scripts/deploy.sh dev latest
+.k8s/<context>/scripts/build.sh
+.k8s/<context>/scripts/deploy.sh dev latest
 ```
 
 #### Cronjobs
 
-There are three cronjobs, `clean_ecr`, `archive_stale` and `vacuum_db`. Their config can be found in the `kubernetes_deploy/cron_jobs` directory. Any change to the `archive_stale` and `vacuum_db` jobs config are applied as part of the deployment process because it relies on the app image, but any changes to the standalone `clean_ecr` job need to be applied from the commandline, as below.
+There are three cronjobs, `clean_ecr`, `archive_stale` and `vacuum_db`. Their config can be found in the `.k8s/<context>/cron_jobs` directory. Any change to the `archive_stale` and `vacuum_db` jobs config are applied as part of the deployment process because it relies on the app image, but any changes to the standalone `clean_ecr` job need to be applied from the commandline, as below.
 
 ```
-# apply changes to made to `kubernetes_deploy/cron_jobs/clean_ecr.yml`
-kubernetes_deploy/scripts/cronjob.sh clean_ecr
+# apply changes to made to `.k8s/<context>/cron_jobs/clean_ecr.yml`
+.k8s/<context>/scripts/cronjob.sh clean_ecr
 ```
 
 #### Container configuration and secrets
@@ -60,7 +60,7 @@ An environment variable will be created with the name and value defined in the c
 To add, remove or amend an environment variable you need to edit the ConfigMap file, `app-config.yaml`, and apply it.
 
 ```
-kubetcl -n cccd-dev apply -f kubernetes_deploy/dev/app-config.yaml
+kubetcl -n cccd-dev apply -f .k8s/<context>/dev/app-config.yaml
 ```
 
 You will also need to restart the pod to pickup the changes.
@@ -81,7 +81,7 @@ An environment variable will be created with the name and value defined in the s
 To add, remove or amend a secret you need to edit the secret file, `secrets.yaml`, and apply it. You will need to be added as a git-crypt collaborator for this.
 
 ```
-kubetcl -n cccd-dev apply -f kubernetes_deploy/dev/secrets.yaml
+kubetcl -n cccd-dev apply -f .k8s/<context>/dev/secrets.yaml
 ```
 
 You will also need to restart the pod to pickup the changes.

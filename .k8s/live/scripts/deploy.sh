@@ -1,7 +1,7 @@
 #!/bin/sh
 function _deploy() {
   usage="deploy -- deploy image from current commit to an environment
-  Usage: kubernetes_deploy/bin/deploy environment [image-tag]
+  Usage: .k8s/live/scripts/deploy.sh environment [image-tag]
   Where:
     environment [dev|staging|api-sandbox|production]
     [image_tag] any valid ECR image tag for app

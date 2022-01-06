@@ -23,7 +23,7 @@ namespace :db do
       build_tag = args.build_tag || 'latest'
       raise ArgumentError.new('invalid host') unless valid_hosts.include?(host)
 
-      script = Rails.root.join('kubernetes_deploy', 'scripts', 'job.sh')
+      script = Rails.root.join('.k8s', 'live-1', 'scripts', 'job.sh')
 
       cmd = "#{script} dump #{host} #{build_tag}"
       Open3.popen2e(cmd) do |stdin, stdout_and_stderr, wait_thr|

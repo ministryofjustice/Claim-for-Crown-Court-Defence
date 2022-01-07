@@ -551,33 +551,33 @@ workflows:
       - hold-deploy-notification:
           requires:
             - ui-smoke-test-dev
-      - hold-live-1-api-sandbox:
+      - hold-api-sandbox:
           type: approval
           requires:
             - ui-smoke-test-dev
       - deploy-live-1-api-sandbox:
           requires:
-            - hold-live-1-api-sandbox
+            - hold-api-sandbox
           context:
             - cccd-live-1-base
             - cccd-live-1-api-sandbox
-      - hold-live-1-staging:
+      - hold-staging:
           type: approval
           requires:
             - ui-smoke-test-dev
       - deploy-live-1-staging:
           requires:
-            - hold-live-1-staging
+            - hold-staging
           context:
             - cccd-live-1-base
             - cccd-live-1-staging
-      - hold-live-1-production:
+      - hold-production:
           type: approval
           requires:
             - ui-smoke-test-dev
       - deploy-live-1-production:
           requires:
-            - hold-live-1-production
+            - hold-production
           context:
             - cccd-live-1-base
             - cccd-live-1-production
@@ -620,7 +620,7 @@ workflows:
       - build-app-container:
           requires:
             - hold-branch-build
-      - hold-live-1-dev:
+      - hold-dev:
           type: approval
           requires:
             - build-app-container
@@ -628,17 +628,17 @@ workflows:
           type: approval
           requires:
             - build-app-container
-      - hold-live-1-staging:
+      - hold-staging:
           type: approval
           requires:
             - build-app-container
-      - hold-live-1-api-sandbox:
+      - hold-api-sandbox:
           type: approval
           requires:
             - build-app-container
       - deploy-live-1-dev:
           requires:
-            - hold-live-1-dev
+            - hold-dev
           context:
             - cccd-live-1-base
             - cccd-live-1-dev
@@ -656,13 +656,13 @@ workflows:
             - cccd-live-dev-lgfs
       - deploy-live-1-staging:
           requires:
-            - hold-live-1-staging
+            - hold-staging
           context:
             - cccd-live-1-base
             - cccd-live-1-staging
       - deploy-live-1-api-sandbox:
           requires:
-            - hold-live-1-api-sandbox
+            - hold-api-sandbox
           context:
             - cccd-live-1-base
             - cccd-live-1-api-sandbox

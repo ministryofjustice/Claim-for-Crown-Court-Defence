@@ -40,7 +40,6 @@ function _circleci_deploy() {
     return 1
   fi
 
-  # Cloud platforms circle ci solution does not handle hyphenated names
   case "$1" in
     live | live-1)
       cluster_dir=$1
@@ -51,7 +50,6 @@ function _circleci_deploy() {
       ;;
   esac
 
-  # Cloud platforms circle ci solution does not handle hyphenated names
   case "$2" in
     dev | dev-lgfs | api-sandbox | staging | production)
       environment=$2

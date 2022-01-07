@@ -466,6 +466,13 @@ jobs:
           cluster: live-1
           environment: dev-lgfs
 
+  deploy-live-dev-lgfs:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          cluster: live
+          environment: dev-lgfs
+
   deploy-live-1-staging:
     executor: cloud-platform-executor
     steps:
@@ -617,7 +624,7 @@ workflows:
           type: approval
           requires:
             - build-app-container
-      - hold-live-1-dev-lgfs:
+      - hold-dev-lgfs:
           type: approval
           requires:
             - build-app-container
@@ -637,10 +644,16 @@ workflows:
             - cccd-live-1-dev
       - deploy-live-1-dev-lgfs:
           requires:
-            - hold-live-1-dev-lgfs
+            - hold-dev-lgfs
           context:
             - cccd-live-1-base
             - cccd-live-1-dev-lgfs
+      - deploy-live-dev-lgfs:
+          requires:
+            - hold-dev-lgfs
+          context:
+            - cccd-live-base
+            - cccd-live-dev-lgfs
       - deploy-live-1-staging:
           requires:
             - hold-live-1-staging

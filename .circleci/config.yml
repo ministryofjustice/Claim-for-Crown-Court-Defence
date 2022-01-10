@@ -473,6 +473,13 @@ jobs:
           cluster: live-1
           environment: staging
 
+  deploy-live-staging:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          cluster: live
+          environment: staging
+
   deploy-live-1-api-sandbox:
     executor: cloud-platform-executor
     steps:
@@ -564,6 +571,12 @@ workflows:
           context:
             - cccd-live-1-base
             - cccd-live-1-staging
+      - deploy-live-staging:
+          requires:
+            - hold-staging
+          context:
+            - cccd-live-base
+            - cccd-live-staging
       - hold-production:
           type: approval
           requires:
@@ -647,6 +660,12 @@ workflows:
           context:
             - cccd-live-1-base
             - cccd-live-1-staging
+      - deploy-live-staging:
+          requires:
+            - hold-staging
+          context:
+            - cccd-live-base
+            - cccd-live-staging
       - deploy-live-1-api-sandbox:
           requires:
             - hold-api-sandbox

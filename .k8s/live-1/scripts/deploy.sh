@@ -72,9 +72,14 @@ function _deploy() {
   kubectl set image -f .k8s/${context}/${environment}/deployment-worker.yaml cccd-worker=${docker_image_tag} --local --output yaml | kubectl apply -f -
 
   # apply changes that always use app-latest tagged images
-  kubectl apply \
-  -f .k8s/${context}/cron_jobs/archive_stale.yaml \
-  -f .k8s/${context}/cron_jobs/vacuum_db.yaml
+  if [[ ${environment} -eq 'dev-lgfs' ]]
+  then
+    printf "\e[33mSkipping cronjobs application for: $context/$environment\e[0m\n"
+  else
+    kubectl apply \
+      -f .k8s/${context}/cron_jobs/archive_stale.yaml \
+      -f .k8s/${context}/cron_jobs/vacuum_db.yaml
+  fi
 
   # apply non-image specific config
   kubectl apply \

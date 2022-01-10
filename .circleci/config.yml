@@ -259,6 +259,9 @@ commands:
     description: >
       Deploy CCCD to the specified environment
     parameters:
+      cluster:
+        description: destination clusters (live or live-1 only)
+        type: string
       environment:
         description: destination environment
         type: string
@@ -267,9 +270,9 @@ commands:
       - setup_remote_docker:
           version: 19.03.14
       - run:
-          name: deploying to << parameters.environment >>
+          name: deploying to << parameters.cluster >> cluster, << parameters.environment >> namespace
           command: |
-            .circleci/deploy.sh << parameters.environment >>
+            .circleci/deploy.sh << parameters.cluster >> << parameters.environment >>
       - slack/status:
           success_message: ":tada: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> successful!"
           failure_message: ":red_circle: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> failed!"
@@ -449,40 +452,53 @@ jobs:
       - hold-notification:
           message: "Deployment of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> pending approval"
 
-  deploy-dev:
+  deploy-live-1-dev:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
+          cluster: live-1
           environment: dev
 
-  deploy-dev-lgfs:
+  deploy-live-1-dev-lgfs:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
+          cluster: live-1
           environment: dev-lgfs
 
-  deploy-staging:
+  deploy-live-dev-lgfs:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
+          cluster: live
+          environment: dev-lgfs
+
+  deploy-live-1-staging:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          cluster: live-1
           environment: staging
 
-  deploy-api-sandbox:
+  deploy-live-1-api-sandbox:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
+          cluster: live-1
           environment: api-sandbox
 
-  deploy-production:
+  deploy-live-1-production:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
+          cluster: live-1
           environment: production
 
-  auto-deploy-dev:
+  auto-deploy-live-1-dev:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
+          cluster: live-1
           environment: dev
 
   ui-smoke-test-dev:
@@ -523,7 +539,7 @@ workflows:
       - smoke-test:
           requires:
             - build-app-container
-      - auto-deploy-dev:
+      - auto-deploy-live-1-dev:
           requires:
             - smoke-test
           context:
@@ -531,7 +547,7 @@ workflows:
             - cccd-live-1-dev
       - ui-smoke-test-dev:
           requires:
-            - auto-deploy-dev
+            - auto-deploy-live-1-dev
       - hold-deploy-notification:
           requires:
             - ui-smoke-test-dev
@@ -539,7 +555,7 @@ workflows:
           type: approval
           requires:
             - ui-smoke-test-dev
-      - deploy-api-sandbox:
+      - deploy-live-1-api-sandbox:
           requires:
             - hold-api-sandbox
           context:
@@ -549,7 +565,7 @@ workflows:
           type: approval
           requires:
             - ui-smoke-test-dev
-      - deploy-staging:
+      - deploy-live-1-staging:
           requires:
             - hold-staging
           context:
@@ -559,7 +575,7 @@ workflows:
           type: approval
           requires:
             - ui-smoke-test-dev
-      - deploy-production:
+      - deploy-live-1-production:
           requires:
             - hold-production
           context:
@@ -620,25 +636,31 @@ workflows:
           type: approval
           requires:
             - build-app-container
-      - deploy-dev:
+      - deploy-live-1-dev:
           requires:
             - hold-dev
           context:
             - cccd-live-1-base
             - cccd-live-1-dev
-      - deploy-dev-lgfs:
+      - deploy-live-1-dev-lgfs:
           requires:
             - hold-dev-lgfs
           context:
             - cccd-live-1-base
             - cccd-live-1-dev-lgfs
-      - deploy-staging:
+      - deploy-live-dev-lgfs:
+          requires:
+            - hold-dev-lgfs
+          context:
+            - cccd-live-base
+            - cccd-live-dev-lgfs
+      - deploy-live-1-staging:
           requires:
             - hold-staging
           context:
             - cccd-live-1-base
             - cccd-live-1-staging
-      - deploy-api-sandbox:
+      - deploy-live-1-api-sandbox:
           requires:
             - hold-api-sandbox
           context:
@@ -646,7 +668,7 @@ workflows:
             - cccd-live-1-api-sandbox
       - ui-smoke-test-dev:
           requires:
-            - deploy-dev
+            - deploy-live-1-dev
 
   scheduled-smoke-test:
     triggers:

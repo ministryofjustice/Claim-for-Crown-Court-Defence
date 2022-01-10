@@ -4,7 +4,6 @@ function _build() {
   Usage: build"
 
   region='eu-west-2'
-  context='live-1'
   aws_profile='ecr-live1'
 
   team_name=laa-get-paid

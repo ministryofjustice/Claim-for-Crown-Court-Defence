@@ -69,6 +69,7 @@ vcr/cassettes/*.log
 
 # prevent kubernetes temp secrets being git add'ed
 kube*/**/temp*secret*.*
+*k8s*/**/temp*secret*.*
 
 /public/packs
 /public/packs-test

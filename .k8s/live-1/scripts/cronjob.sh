@@ -27,14 +27,17 @@ function _cronjob() {
     return 0
   fi
 
+  context='live-1'
+
   case "$1" in
     archive_stale | vacuum_db)
       job=$1
       ;;
     clean_ecr)
       echo "Setting namespace to dev as only this has the ECR secret..."
-      kubectl config set-context --current --namespace=cccd-dev
-      kubectl apply -f kubernetes_deploy/cron_jobs/$1.yaml
+      kubectl config set-context ${context} --namespace=cccd-dev
+      kubectl config use-context ${context}
+      kubectl apply -f .k8s/${context}/cron_jobs/$1.yaml
       return $?
       ;;
     *)
@@ -61,7 +64,6 @@ function _cronjob() {
     current_version=$3
   fi
 
-  context=$(kubectl config current-context)
   component=app
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
@@ -73,8 +75,9 @@ function _cronjob() {
   printf "\e[33mDocker image: $docker_image_tag\e[0m\n"
   printf "\e[33m--------------------------------------------------\e[0m\n"
 
-  kubectl config set-context --current --namespace=cccd-${environment}
-  kubectl set image -f kubernetes_deploy/cron_jobs/${job}.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
+  kubectl config set-context ${context} --namespace=cccd-${environment}
+  kubectl config use-context ${context}
+  kubectl set image -f .k8s/${context}/cron_jobs/${job}.yaml cronjob-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
 
 }
 

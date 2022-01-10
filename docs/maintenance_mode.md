@@ -32,5 +32,5 @@ To apply via local machine:
 
 ```bash
 # deploying to dev from local machine
-kubernetes_deploy/scripts/deploy.sh dev latest
+.k8s/live/scripts/deploy.sh dev latest
 ```

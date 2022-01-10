@@ -37,12 +37,12 @@ To rotate the `secret_key_base` without inconveniencing users you must:
    add the current secret to that and modify the existing
    SECRET_KEY_BASE to hold the new secret.
 
-   Note: secret env vars are kept in `kubernetes_deploy/<environment>/secrets.yaml`
+   Note: secret env vars are kept in `.k8s/<context>/<environment>/secrets.yaml`
    , where `environment` can be dev, staging, production or
    any other "namespace".
 
 4. Deploy the application, ensuring the new secrets
-   are applied first. The `kubernetes_deploy/scripts/deploy.sh`
+   are applied first. The `.k8s/<context>/scripts/deploy.sh`
    or `.circleci/deploy.sh` scripts will apply the secrets
    before the image, thereby ensuring this.
 

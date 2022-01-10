@@ -32,7 +32,7 @@ function _deploy() {
   fi
 
   case "$1" in
-    dev | dev-lgfs | staging | api-sandbox | production)
+    dev | staging | api-sandbox | production)
       environment=$1
       ;;
     *)
@@ -73,8 +73,8 @@ function _deploy() {
 
   # apply changes that always use app-latest tagged images
   kubectl apply \
-  -f .k8s/${context}/cron_jobs/archive_stale.yaml \
-  -f .k8s/${context}/cron_jobs/vacuum_db.yaml
+    -f .k8s/${context}/cron_jobs/archive_stale.yaml \
+    -f .k8s/${context}/cron_jobs/vacuum_db.yaml
 
   # apply non-image specific config
   kubectl apply \

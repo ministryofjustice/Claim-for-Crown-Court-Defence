@@ -3,7 +3,7 @@ function _deploy() {
   usage="deploy -- deploy image from current commit to an environment
   Usage: .k8s/live-1/scripts/deploy.sh environment [image-tag]
   Where:
-    environment [dev|staging|api-sandbox|production]
+    environment [staging|api-sandbox|production]
     [image_tag] any valid ECR image tag for app
   Example:
     # deploy image for current commit to dev
@@ -32,7 +32,7 @@ function _deploy() {
   fi
 
   case "$1" in
-    dev | staging | api-sandbox | production)
+    staging | api-sandbox | production)
       environment=$1
       ;;
     *)

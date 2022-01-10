@@ -94,14 +94,9 @@ function _circleci_deploy() {
   kubectl set image -f .k8s/${cluster_dir}/${environment}/deployment-worker.yaml cccd-worker=${docker_image_tag} --local -o yaml | kubectl apply -f -
 
   # apply changes that always use app-latest tagged images
-  if [[ ${cluster_dir} -eq 'live-1' ]] && [[ ${environment} -eq 'dev-lgfs' ]]
-  then
-    printf "\e[33mSkipping cronjobs application for: $cluster_dir/$environment\e[0m\n"
-  else
-    kubectl apply \
+  kubectl apply \
     -f .k8s/${cluster_dir}/cron_jobs/archive_stale.yaml \
     -f .k8s/${cluster_dir}/cron_jobs/vacuum_db.yaml
-  fi
 
   # apply non-image specific config
   kubectl apply \

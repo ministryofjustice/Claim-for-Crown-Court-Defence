@@ -368,13 +368,13 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'errors if NOT present' do
         claim.trial_cracked_at_third = nil
-        should_error_with(claim, :trial_cracked_at_third, 'blank')
+        should_error_with(claim, :trial_cracked_at_third, 'Choose which third Case cracked in')
       end
 
       it 'errors if NOT in expected value list' do
         # NOTE: stored value is snake case
         claim.trial_cracked_at_third = 'Final third'
-        should_error_with(claim, :trial_cracked_at_third, 'invalid')
+        should_error_with(claim, :trial_cracked_at_third, 'Choose a valid option for Case cracked in')
       end
 
       Settings.trial_cracked_at_third.each do |third|
@@ -391,18 +391,18 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'errors if NOT present' do
         claim.trial_cracked_at_third = nil
-        should_error_with(claim, :trial_cracked_at_third, 'blank')
+        should_error_with(claim, :trial_cracked_at_third, 'Choose which third Case cracked in')
       end
 
       it 'errors if NOT in expected value list' do
         # NOTE: stored value is snake case
         claim.trial_cracked_at_third = 'Final third'
-        should_error_with(claim, :trial_cracked_at_third, 'invalid')
+        should_error_with(claim, :trial_cracked_at_third, 'Choose a valid option for Case cracked in')
       end
 
       it 'errors if NOT final third' do
         claim.trial_cracked_at_third = 'first_third'
-        should_error_with(claim, :trial_cracked_at_third, 'invalid_case_type_third_combination')
+        should_error_with(claim, :trial_cracked_at_third, 'Case cracked in can only be Final Third for trials that cracked before retrial')
       end
     end
 
@@ -583,8 +583,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
           {
             field: :trial_fixed_notice_at,
             other_field: :trial_fixed_at,
-            message: 'check_before_trial_fixed_at',
-            translated_message: 'Must be 2+ days before the "1st fixed/warned trial" date'
+            message: 'Date must be 2+ days before the Notice of 1st fixed/warned issued'
           }
         end
 
@@ -602,8 +601,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
           {
             field: :trial_fixed_at,
             other_field: :trial_fixed_notice_at,
-            message: 'check_after_trial_fixed_notice_at',
-            translated_message: 'Must be 2+ days after "Notice of 1st fixed/warned issued" date'
+            message: 'Date must be 2+ days after Notice of 1st fixed/warned issued'
           }
         end
 
@@ -624,12 +622,12 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       context 'cracked_trial_claim' do
         subject { cracked_trial_claim }
 
-        it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'blank', translated_message: 'Enter a date') }
-        it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
-        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
-        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
-        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
-        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
+        it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_notice_at, 'Enter a date for Notice of 1st fixed/warned issued') }
+        it { should_error_if_in_future(cracked_trial_claim, :trial_fixed_notice_at, 'Notice of 1st fixed/warned issued cannot be in the future') }
+        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_notice_at, 'Notice of 1st fixed/warned issued cannot be too far in the past') }
+        it { should_error_if_after_specified_field(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'Date must be before Case cracked') }
+        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'Date must be before Case cracked') }
+        it { should_error_if_field_dates_match(cracked_trial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'Date must be 2+ days before the Notice of 1st fixed/warned issued') }
 
         include_examples 'validates trial_fixed_notice_at compared to trial_fixed_at'
       end
@@ -637,12 +635,12 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       context 'cracked_before_retrial claim' do
         subject { cracked_before_retrial_claim }
 
-        it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_notice_at, 'blank') }
-        it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
-        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
-        it { should_error_if_after_specified_field(cracked_before_retrial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
-        it { should_error_if_field_dates_match(cracked_before_retrial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'check_before_trial_cracked_at') }
-        it { should_error_if_field_dates_match(cracked_before_retrial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'check_before_trial_fixed_at') }
+        it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Enter a date for Notice of 1st fixed/warned issued') }
+        it { should_error_if_in_future(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Notice of 1st fixed/warned issued cannot be in the future') }
+        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_notice_at, 'Notice of 1st fixed/warned issued cannot be too far in the past') }
+        it { should_error_if_after_specified_field(cracked_before_retrial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'Date must be before Case cracked') }
+        it { should_error_if_field_dates_match(cracked_before_retrial_claim, :trial_fixed_notice_at, :trial_cracked_at, 'Date must be before Case cracked') }
+        it { should_error_if_field_dates_match(cracked_before_retrial_claim, :trial_fixed_notice_at, :trial_fixed_at, 'Date must be 2+ days before the Notice of 1st fixed/warned issued') }
 
         include_examples 'validates trial_fixed_notice_at compared to trial_fixed_at'
       end
@@ -652,8 +650,8 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       context 'cracked trial claim' do
         subject { cracked_trial_claim }
 
-        it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_at, 'blank', translated_message: 'Enter a date') }
-        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+        it { should_error_if_not_present(cracked_trial_claim, :trial_fixed_at, 'Enter a date for 1st fixed/warned trial') }
+        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_fixed_at, '1st fixed/warned trial cannot be too far in the past') }
 
         include_examples 'validates trial_fixed_at compared to trial_fixed_notice_at'
       end
@@ -661,8 +659,8 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       context 'cracked before retrial' do
         subject { cracked_before_retrial_claim }
 
-        it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_at, 'blank', translated_message: 'Enter a date') }
-        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+        it { should_error_if_not_present(cracked_before_retrial_claim, :trial_fixed_at, 'Enter a date for 1st fixed/warned trial') }
+        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_fixed_at, '1st fixed/warned trial cannot be too far in the past') }
 
         include_examples 'validates trial_fixed_at compared to trial_fixed_notice_at'
       end
@@ -670,17 +668,17 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'trial cracked at' do
       context 'cracked trial' do
-        it { should_error_if_not_present(cracked_trial_claim, :trial_cracked_at, 'blank', translated_message: 'Enter a date') }
-        it { should_error_if_in_future(cracked_trial_claim, :trial_cracked_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
-        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
-        it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_after_trial_fixed_notice_at', translated_message: 'Can\'t be before the "Notice of 1st fixed/warned issued"') }
+        it { should_error_if_not_present(cracked_trial_claim, :trial_cracked_at, 'Enter a date for Case cracked') }
+        it { should_error_if_in_future(cracked_trial_claim, :trial_cracked_at, 'Case cracked date cannot be in the future') }
+        it { should_error_if_too_far_in_the_past(cracked_trial_claim, :trial_cracked_at, 'Case cracked date cannot be too far in the past') }
+        it { should_error_if_earlier_than_other_date(cracked_trial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'Case cracked date cannot be before Notice of 1st fixed/warned issued') }
       end
 
       context 'cracked before retrial' do
-        it { should_error_if_not_present(cracked_before_retrial_claim, :trial_cracked_at, 'blank', translated_message: 'Enter a date') }
-        it { should_error_if_in_future(cracked_before_retrial_claim, :trial_cracked_at, 'check_not_in_future', translated_message: 'Can\'t be in the future') }
-        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
-        it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'check_after_trial_fixed_notice_at', translated_message: 'Can\'t be before the "Notice of 1st fixed/warned issued"') }
+        it { should_error_if_not_present(cracked_before_retrial_claim, :trial_cracked_at, 'Enter a date for Case cracked') }
+        it { should_error_if_in_future(cracked_before_retrial_claim, :trial_cracked_at, 'Case cracked date cannot be in the future') }
+        it { should_error_if_too_far_in_the_past(cracked_before_retrial_claim, :trial_cracked_at, 'Case cracked date cannot be too far in the past') }
+        it { should_error_if_earlier_than_other_date(cracked_before_retrial_claim, :trial_cracked_at, :trial_fixed_notice_at, 'Case cracked date cannot be before Notice of 1st fixed/warned issued') }
       end
     end
   end
@@ -691,10 +689,10 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       before { contempt_claim_with_nil_first_day.force_validation = true }
 
-      it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, 'blank', translated_message: 'Enter a date') }
-      it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, 'check_other_date', translated_message: 'Can\'t be after the date "Trial concluded"') }
-      it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_earlier_than_rep_order', translated_message: 'Check combination of representation order date and trial dates') }
-      it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+      it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, 'Enter a date for the first day of trial') }
+      it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, 'First day of trial cannot be after the trial has concluded') }
+      # it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_earlier_than_rep_order', translated_message: 'Check combination of representation order date and trial dates') }
+      it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_first_day, :first_day_of_trial, 'First day of trial cannot be too far in the past') }
     end
 
     context 'trial_concluded_at' do
@@ -702,10 +700,10 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       before { contempt_claim_with_nil_concluded_at.force_validation = true }
 
-      it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'blank', translated_message: 'Enter a date') }
-      it { should_error_if_earlier_than_other_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, :first_day_of_trial, 'check_other_date', translated_message: 'Can\'t be before the "First day of trial"') }
+      it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'Enter the date on which the trial concluded') }
+      it { should_error_if_earlier_than_other_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, :first_day_of_trial, 'Trial concluded cannot be before the First day of trial') }
       it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'check_not_earlier_than_rep_order', translated_message: 'Check combination of representation order date and trial dates') }
-      it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+      it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'Trial concluded date cannot be too far in the past') }
     end
   end
 
@@ -714,19 +712,19 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'retrial_started_at' do
       context 'when not present' do
-        it { should_error_if_not_present(claim, :retrial_started_at, 'blank', translated_message: 'Enter a date') }
+        it { should_error_if_not_present(claim, :retrial_started_at, 'Enter a date for the first day of retrial') }
       end
 
       context 'when later than retrial_concluded_at' do
-        it { should_errror_if_later_than_other_date(claim, :retrial_started_at, :retrial_concluded_at, 'check_other_date', translated_message: 'Can\'t be after the date "Retrial concluded"') }
+        it { should_errror_if_later_than_other_date(claim, :retrial_started_at, :retrial_concluded_at, 'Check the date for First day of retrial') }
       end
 
       context 'when earlier than earliest_representation_order_date' do
-        it { should_error_if_earlier_than_earliest_repo_date(claim, :retrial_started_at, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
+        it { should_error_if_earlier_than_earliest_repo_date(claim, :retrial_started_at, 'Check the date for First day of retrial') }
       end
 
       context 'when too far in past' do
-        it { should_error_if_too_far_in_the_past(claim, :retrial_started_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+        it { should_error_if_too_far_in_the_past(claim, :retrial_started_at, 'First day of retrial cannot be too far in the past') }
       end
 
       context 'when earlier than trial_concluded_at' do
@@ -734,8 +732,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
           is_expected.to include_field_error_when(
             field: :retrial_started_at, other_field: :trial_concluded_at,
             field_value: 7.days.ago.to_date, other_field_value: 6.days.ago.to_date,
-            message: 'check_not_earlier_than_trial_concluded',
-            translated_message: 'Can\'t be before the "Trial concluded on"'
+            message: 'First day of retrial cannot be before Trial concluded'
           )
         }
       end
@@ -750,19 +747,21 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'retrial_concluded_at' do
       context 'when not present' do
-        it { should_error_if_not_present(claim, :retrial_concluded_at, 'blank', translated_message: 'Enter a date') }
+        it { should_error_if_not_present(claim, :retrial_concluded_at, 'Enter the date on which the retrial concluded') }
       end
 
       context 'when earlier than retrial_started_at' do
-        it { should_error_if_earlier_than_other_date(claim, :retrial_concluded_at, :retrial_started_at, 'check_other_date', translated_message: 'Can\'t be before the "First day of retrial"') }
+        it { should_error_if_earlier_than_other_date(claim, :retrial_concluded_at, :retrial_started_at, 'Check the date for retrial concluded') }
       end
 
       context 'when earlier than earliest_representation_order_date' do
-        it { should_error_if_earlier_than_earliest_repo_date(claim, :retrial_concluded_at, 'check_not_earlier_than_rep_order', translated_message: 'Can\'t be before the earliest rep. order') }
+        it {
+          should_error_if_earlier_than_earliest_repo_date(claim, :retrial_concluded_at, 'Retrial conclusion cannot be before the rep order')
+        }
       end
 
       context 'when to far in past' do
-        it { should_error_if_too_far_in_the_past(claim, :retrial_concluded_at, 'check_not_too_far_in_past', translated_message: 'Can\'t be too far in the past') }
+        it { should_error_if_too_far_in_the_past(claim, :retrial_concluded_at, 'Retrial conclusion cannot be too far in the past') }
       end
 
       it 'shoud NOT error if first day of trial is before the claims earliest rep order' do

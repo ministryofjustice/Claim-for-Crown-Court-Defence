@@ -452,13 +452,6 @@ jobs:
       - hold-notification:
           message: "Deployment of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> pending approval"
 
-  deploy-live-1-dev:
-    executor: cloud-platform-executor
-    steps:
-      - deploy-to:
-          cluster: live-1
-          environment: dev
-
   deploy-live-dev:
     executor: cloud-platform-executor
     steps:
@@ -493,13 +486,6 @@ jobs:
       - deploy-to:
           cluster: live-1
           environment: production
-
-  auto-deploy-live-1-dev:
-    executor: cloud-platform-executor
-    steps:
-      - deploy-to:
-          cluster: live-1
-          environment: dev
 
   auto-deploy-live-dev:
     executor: cloud-platform-executor
@@ -546,12 +532,6 @@ workflows:
       - smoke-test:
           requires:
             - build-app-container
-      - auto-deploy-live-1-dev:
-          requires:
-            - smoke-test
-          context:
-            - cccd-live-1-base
-            - cccd-live-1-dev
       - auto-deploy-live-dev:
           requires:
             - smoke-test
@@ -560,7 +540,6 @@ workflows:
             - cccd-live-dev
       - ui-smoke-test-dev:
           requires:
-            - auto-deploy-live-1-dev
             - auto-deploy-live-dev
       - hold-deploy-notification:
           requires:
@@ -650,12 +629,6 @@ workflows:
           type: approval
           requires:
             - build-app-container
-      - deploy-live-1-dev:
-          requires:
-            - hold-dev
-          context:
-            - cccd-live-1-base
-            - cccd-live-1-dev
       - deploy-live-dev:
           requires:
             - hold-dev
@@ -682,7 +655,6 @@ workflows:
             - cccd-live-1-api-sandbox
       - ui-smoke-test-dev:
           requires:
-            - deploy-live-1-dev
             - deploy-live-dev
 
   scheduled-smoke-test:

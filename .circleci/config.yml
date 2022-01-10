@@ -459,6 +459,13 @@ jobs:
           cluster: live-1
           environment: dev
 
+  deploy-live-dev:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          cluster: live
+          environment: dev
+
   deploy-live-dev-lgfs:
     executor: cloud-platform-executor
     steps:
@@ -492,6 +499,13 @@ jobs:
     steps:
       - deploy-to:
           cluster: live-1
+          environment: dev
+
+  auto-deploy-live-dev:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          cluster: live
           environment: dev
 
   ui-smoke-test-dev:
@@ -538,9 +552,16 @@ workflows:
           context:
             - cccd-live-1-base
             - cccd-live-1-dev
+      - auto-deploy-live-dev:
+          requires:
+            - smoke-test
+          context:
+            - cccd-live-base
+            - cccd-live-dev
       - ui-smoke-test-dev:
           requires:
             - auto-deploy-live-1-dev
+            - auto-deploy-live-dev
       - hold-deploy-notification:
           requires:
             - ui-smoke-test-dev
@@ -635,6 +656,12 @@ workflows:
           context:
             - cccd-live-1-base
             - cccd-live-1-dev
+      - deploy-live-dev:
+          requires:
+            - hold-dev
+          context:
+            - cccd-live-base
+            - cccd-live-dev
       - deploy-live-dev-lgfs:
           requires:
             - hold-dev-lgfs
@@ -656,6 +683,7 @@ workflows:
       - ui-smoke-test-dev:
           requires:
             - deploy-live-1-dev
+            - deploy-live-dev
 
   scheduled-smoke-test:
     triggers:

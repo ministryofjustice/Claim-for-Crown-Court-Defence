@@ -206,267 +206,263 @@ transfer_case_number:
 
 first_day_of_trial:
   _seq: 70
-  blank:
+  enter_a_date_for_the_first_day_of_trial:
     long: Enter a date for the first day of trial
-    short: *enter_date
+    short: _
     api: Enter a date for the first day of trial
-  present:
+  date_for_trial_start_is_not_allowed:
     long: Date for trial start is not allowed
-    short: *date_not_allowed
+    short: _
     api: Date for trial start is not allowed
-  check_other_date:
-    long: 'Check the date for "First day of trial"'
-    short: Can't be after the date "Trial concluded"
-    api: 'Check the date for "First day of trial"'
-  check_not_in_future:
-    long: 'Check the date for "First day of trial"'
-    short: *in_future
-    api: 'Check the date for "First day of trial"'
-  check_not_too_far_in_past:
-    long: 'Check the date for "First day of trial"'
-    short: *too_far_in_past
-    api: 'Check the date for "First day of trial"'
-  check_not_earlier_than_rep_order:
-    long: 'Check the combination of the representation order date and the dates of trial'
-    short: 'Check combination of representation order date and trial dates'
-    api: 'Check combination of rep order date and trial dates'
-  invalid_date:
+  first_day_of_trial_cannot_be_after_the_trial_has_concluded:
+    long: First day of trial cannot be after the trial has concluded
+    short: _
+    api: First day of trial cannot be after the trial has concluded
+  first_day_of_trial_cannot_be_in_the_future:
+    long: First day of trial cannot be in the future
+    short: _
+    api: First day of trial cannot be in the future
+  first_day_of_trial_cannot_be_too_far_in_the_past:
+    long: First day of trial cannot be too far in the past
+    short: _
+    api: First day of trial cannot be too far in the past
+  check_combination_of_representation_order_date_and_trial_dates:
+    long: Check combination of representation order date and trial dates
+    short: _
+    api: Check combination of representation order date and trial dates
+  enter_a_valid_date_for_the_first_day_of_trial:
     long: Enter a valid date for the first day of trial
-    short: *enter_valid_date
+    short: _
     api: Enter a valid date for the first day of trial
 
 estimated_trial_length:
   _seq: 80
-  blank:
+  enter_an_estimated_trial_length:
     long: Enter an estimated trial length
-    short: Enter number of days
+    short: _
     api: Enter an estimated trial length
-  invalid:
+  enter_a_whole_number_of_days_for_the_estimated_trial_length:
     long: Enter a whole number of days for the estimated trial length
-    short: Enter a whole number of days
+    short: _
     api: Enter a whole number of days for the estimated trial length
-  interim_invalid:
+  enter_a_whole_number_of_days_minimum_of_10_for_the_estimated_trial_length:
     long: Enter a whole number of days (minimum of 10) for the estimated trial length
-    short: Enter a minimum of 10 days
+    short: _
     api: Enter a whole number of days (minimum of 10) for the estimated trial length
 
 actual_trial_length:
   _seq: 90
-  blank:
+  enter_an_actual_trial_length:
     long: Enter an actual trial length
-    short: Enter number of days
+    short: _
     api: Enter an actual trial length
-  invalid:
-    long: Enter a whole number of days for the actual trial length
-    short: Enter a whole number of days
-    api: Enter a whole number of days for the actual trial length
-  too_long:
-    long: The actual trial length must not exceed days since first day of trial
-    short: The actual trial length is too long
-    api: The actual trial length must not exceed days since first day of trial
+  enter_a_whole_number_of_days:
+    long: Enter a whole number of days
+    short: _
+    api: Enter a whole number of days
+  the_actual_trial_length_is_too_long:
+    long: The actual trial length is too long
+    short: _
+    api: The actual trial length is too long
 
 trial_concluded_at:
   _seq: 100
-  blank:
+  enter_the_date_on_which_the_trial_concluded:
     long: Enter the date on which the trial concluded
-    short: *enter_date
+    short: _
     api: Enter the date on which the trial concluded
-  present:
+  date_for_trial_concluded_at_is_not_allowed:
     long: Date for trial concluded at is not allowed
-    short: *date_not_allowed
+    short: _
     api: Date for trial concluded at is not allowed
-  check_other_date:
-    long: 'Check the date for "Trial concluded"'
-    short: Can't be before the "First day of trial"
-    api: 'Check the date for "Trial concluded"'
-  check_not_too_far_in_past:
-    long: 'Check the date for "Trial concluded"'
-    short: *too_far_in_past
-    api: 'Check the date for "Trial concluded"'
+  trial_concluded_cannot_be_before_the_first_day_of_trial:
+    long: Trial concluded cannot be before the First day of trial
+    short: _
+    api: Trial concluded cannot be before the First day of trial
+  trial_concluded_date_cannot_be_too_far_in_the_past:
+    long: Trial concluded date cannot be too far in the past
+    short: _
+    api: Trial concluded date cannot be too far in the past
   check_not_earlier_than_rep_order:
     long: 'Check the combination of the representation order date and the dates of trial'
     short: 'Check combination of representation order date and trial dates'
     api: 'Check combination of rep order date and trial dates'
-  invalid_date:
-    long: 'Enter a valid date for trial concluded'
+  enter_a_valid_date_for_trial_concluded:
+    long: Enter a valid date for Trial concluded
     short: *enter_valid_date
-    api: 'Enter a valid date for trial concluded'
-  check_not_in_future:
-    long: 'Trial concluded date cannot be in future'
-    short: *enter_valid_date
-    api: 'Trial concluded date cannot be in future'
+    api: Enter a valid date for Trial concluded
+  trial_concluded_date_cannot_be_in_the_future:
+    long: Trial concluded date cannot be in the future
+    short: _
+    api: Trial concluded date cannot be in the future
 
 retrial_started_at:
   _seq: 110
-  blank:
+  enter_a_date_for_the_first_day_of_retrial:
     long: Enter a date for the first day of retrial
-    short: *enter_date
+    short: _
     api: Enter a date for the first day of retrial
-  present:
-    long: Date for retrial start date at is not allowed
-    short: *date_not_allowed
-    api: Date for retrial concluded at is not allowed
-  check_other_date:
-    long: Check the date for "First day of retrial"
-    short: Can't be after the date "Retrial concluded"
-    api: Check the date for "First day of retrial"
-  check_not_too_far_in_past:
-    long: Check the date for "First day of retrial"
-    short: *too_far_in_past
-    api: Check the date for "First day of retrial"
-  check_not_earlier_than_rep_order:
-    long: Check the date for "First day of retrial"
-    short: *before_rep_order
-    api: Check the date for "First day of retrial"
-  invalid_date:
+  date_for_retrial_start_is_not_allowed:
+    long: Date for retrial start is not allowed
+    short: _
+    api: Date for retrial start is not allowed
+  check_the_date_for_first_day_of_retrial:
+    long: Check the date for First day of retrial
+    short: _
+    api: Check the date for First day of retrial
+  first_day_of_retrial_cannot_be_too_far_in_the_past:
+    long: First day of retrial cannot be too far in the past
+    short: _
+    api: First day of retrial cannot be too far in the past
+  enter_a_valid_date_for_the_first_day_of_retrial:
     long: Enter a valid date for the first day of retrial
-    short: *enter_valid_date
+    short: _
     api: Enter a valid date for the first day of retrial
-  check_not_in_future:
-    long: First day of retrial cannot be in future
-    short: *enter_valid_date
-    api: First day of retrial cannot be in future
-  check_not_earlier_than_trial_concluded:
-    long: Check the date for "First day of retrial"
-    short: Can't be before the "Trial concluded on"
-    api: Check the date for "First day of retrial"
+  first_day_of_retrial_cannot_be_too_far_in_the_future:
+    long: First day of retrial cannot be too far in the future
+    short: _
+    api: First day of retrial cannot be too far in the future
+  first_day_of_retrial_cannot_be_before_trial_concluded:
+    long: First day of retrial cannot be before Trial concluded
+    short: _
+    api: First day of retrial cannot be before Trial concluded
 
 retrial_estimated_length:
   _seq: 120
-  blank:
+  enter_an_estimated_retrial_length:
     long: Enter an estimated retrial length
-    short: Enter number of days
+    short: _
     api: Enter an estimated retrial length
-  invalid:
+  enter_a_whole_number_of_days_for_the_estimated_retrial_length:
     long: Enter a whole number of days for the estimated retrial length
-    short: Enter a whole number of days
+    short: _
     api: Enter a whole number of days for the estimated retrial length
-  interim_invalid:
+  enter_a_whole_number_of_days_minimum_of_10_for_the_estimated_retrial_length:
     long: Enter a whole number of days (minimum of 10) for the estimated retrial length
-    short: Enter a minimum of 10 days
+    short: _
     api: Enter a whole number of days (minimum of 10) for the estimated retrial length
 
 retrial_actual_length:
   _seq: 130
-  blank:
+  enter_an_actual_retrial_length:
     long: Enter an actual retrial length
-    short: Enter number of days
+    short: _
     api: Enter an actual retrial length
-  invalid:
+  enter_a_whole_number_of_days_for_the_actual_retrial_length:
     long: Enter a whole number of days for the actual retrial length
-    short: Enter a whole number of days
+    short: _
     api: Enter a whole number of days for the actual retrial length
-  too_long:
+  the_actual_retrial_length_must_not_exceed_days_since_first_day_of_retrial:
     long: The actual retrial length must not exceed days since first day of retrial
-    short: The actual retrial length is too long
+    short: _
     api: The actual retrial length must not exceed days since first day of retrial
 
 retrial_concluded_at:
   _seq: 140
-  blank:
+  enter_the_date_on_which_the_retrial_concluded:
     long: Enter the date on which the retrial concluded
-    short: *enter_date
+    short: _
     api: Enter the date on which the retrial concluded
-  check_other_date:
-    long: 'Check the date for "Retrial concluded"'
-    short: Can't be before the "First day of retrial"
-    api: 'Check the date for "Retrial concluded"'
-  check_not_too_far_in_past:
-    long: 'Check the date for Retrial concluded"'
-    short: *too_far_in_past
-    api: 'Check the date for "Retrial concluded"'
-  check_not_earlier_than_rep_order:
-    long: 'Check the date for "Retrial concluded"'
-    short: *before_rep_order
-    api: 'Check the date for "Retrial concluded"'
-  invalid_date:
-    long: 'Enter a valid date for retrial concluded'
-    short: *enter_valid_date
-    api: 'Enter a valid date for retrial concluded'
+  check_the_date_for_retrial_concluded:
+    long: Check the date for retrial concluded
+    short: _
+    api: Check the date for retrial concluded
+  retrial_conclusion_cannot_be_too_far_in_the_past:
+    long: Retrial conclusion cannot be too far in the past
+    short: _
+    api: Retrial conclusion cannot be too far in the past
+  retrial_conclusion_cannot_be_before_the_rep_order:
+    long: Retrial conclusion cannot be before the rep order
+    short: _
+    api: Retrial conclusion cannot be before the rep order
+  enter_a_valid_date_for_retrial_concluded:
+    long: Enter a valid date for retrial concluded
+    short: _
+    api: Enter a valid date for retrial concluded
 
 trial_fixed_notice_at:
   _seq: 150
-  blank:
-    long: 'Enter a date for "Notice of 1st fixed/warned issued"'
-    short: *enter_date
-    api: 'Enter a date for "Notice of 1st fixed/warned issued"'
-  check_not_in_future:
-    long: 'Check the date for "Notice of 1st fixed/warned issued"'
-    short: *in_future
-    api: 'Check the date for "Notice of 1st fixed/warned issued"'
-  check_not_too_far_in_past:
-    long: 'Check the date for "Notice of 1st fixed/warned issued"'
-    short: *too_far_in_past
-    api: 'Check the date for "Notice of 1st fixed/warned issued"'
-  check_before_trial_fixed_at:
-    long: 'Check the date for "Notice of 1st fixed/warned issued"'
-    short: 'Must be 2+ days before the "1st fixed/warned trial" date'
-    api: 'Must be 2+ days before the "1st fixed/warned trial" date'
-  check_before_trial_cracked_at:
-    long: 'Check the date for "Notice of 1st fixed/warned issued"'
-    short: 'Must be before the "Case cracked"'
-    api: '"Notice of 1st fixed/warned issued" must be before "Case cracked"'
-  invalid_date:
-    long: 'Enter a valid date for the "Notice of 1st fixed/warned issued"'
-    short: *enter_valid_date
-    api: 'Enter a valid date for the "Notice of 1st fixed/warned issued"'
+  enter_a_date_for_notice_of_1st_fixed/warned_issued:
+    long: Enter a date for Notice of 1st fixed/warned issued
+    short: _
+    api: Enter a date for Notice of 1st fixed/warned issued
+  notice_of_1st_fixed/warned_issued_cannot_be_in_the_future:
+    long: Notice of 1st fixed/warned issued cannot be in the future
+    short: _
+    api: Notice of 1st fixed/warned issued cannot be in the future
+  notice_of_1st_fixed_warned_issued_cannot_be_too_far_in_the_past:
+    long: Notice of 1st fixed/warned issued cannot be too far in the past
+    short: _
+    api: Notice of 1st fixed/warned issued cannot be too far in the past
+  date_must_be_2+_days_before_the_notice_of_1st_fixed/warned_issued:
+    long: Date must be 2+ days before the Notice of 1st fixed/warned issued
+    short: _
+    api: Date must be 2+ days before the Notice of 1st fixed/warned issued
+  date_must_be_before_case_cracked:
+    long: Date must be before Case cracked
+    short: _
+    api: Date must be before Case cracked
+  enter_a_valid_date_for_notice_of_1st_fixed/warned_issued:
+    long: Enter a valid date for Notice of 1st fixed/warned issued
+    short: _
+    api: Enter a valid date for Notice of 1st fixed/warned issued
 
 trial_fixed_at:
   _seq: 160
-  blank:
-    long: 'Enter a date for "1st fixed/warned trial"'
-    short: *enter_date
-    api: 'Enter a date for "1st fixed/warned trial"'
-  check_not_too_far_in_past:
-    long: 'Check the date for "1st fixed/warned trial"'
-    short: *too_far_in_past
-    api: 'Check the date for "1st fixed/warned trial"'
-  check_after_trial_fixed_notice_at:
-    long: 'Check the date for "1st fixed/warned trial"'
-    short: 'Must be 2+ days after "Notice of 1st fixed/warned issued" date'
-    api: 'Must be 2+ days after "Notice of 1st fixed/warned issued" date'
-  invalid_date:
-      long: 'Enter a valid date for the "1st fixed/warned trial"'
-      short: *enter_valid_date
-      api: 'Enter a valid date for the "1st fixed/warned trial"'
+  enter_a_date_for_1st_fixed/warned_trial:
+    long: Enter a date for 1st fixed/warned trial
+    short: _
+    api: Enter a date for 1st fixed/warned trial
+  1st_fixed/warned_trial_cannot_be_too_far_in_the_past:
+    long: 1st fixed/warned trial cannot be too far in the past
+    short: _
+    api: 1st fixed/warned trial cannot be too far in the past
+  date_must_be_2+_days_after_notice_of_1st_fixed/warned_issued:
+    long: Date must be 2+ days after Notice of 1st fixed/warned issued
+    short: _
+    api: Date must be 2+ days after Notice of 1st fixed/warned issued
+  enter_a_valid_date_for_1st_fixed/warned_trial:
+    long: Enter a valid date for 1st fixed/warned trial
+    short: _
+    api: Enter a valid date for 1st fixed/warned trial
 
 trial_cracked_at:
   _seq: 170
-  blank:
-    long: Enter a date for "Case cracked"
-    short: *enter_date
-    api: Enter a date for "Case cracked"
-  check_not_in_future:
-    long: 'Check the date for "Case cracked"'
-    short: *in_future
-    api: 'Check the date for "Case cracked"'
-  check_not_too_far_in_past:
-    long: 'Check the date for "Case cracked"'
-    short: *too_far_in_past
-    api: 'Check the date for "Case cracked"'
+  enter_a_date_for_case_cracked:
+    long: Enter a date for Case cracked
+    short: _
+    api: Enter a date for Case cracked
+  case_cracked_date_cannot_be_in_the_future:
+    long: Case cracked date cannot be in the future
+    short: _
+    api: Case cracked date cannot be in the future
+  case_cracked_date_cannot_be_too_far_in_the_past:
+    long: Case cracked date cannot be too far in the past
+    short: _
+    api: Case cracked date cannot be too far in the past
   check_after_trial_fixed_notice_at:
-    long: 'Check the date for "Case cracked"'
-    short: Can't be before the "Notice of 1st fixed/warned issued"
-    api: 'Check the date for "Case cracked"'
-  invalid_date:
-    long: 'Enter a valid date for "Case cracked"'
-    short: *enter_valid_date
-    api: 'Enter a valid date for "Case cracked"'
+    long: Case cracked date cannot be before Notice of 1st fixed/warned issued
+    short: _
+    api: Case cracked date cannot be before Notice of 1st fixed/warned issued
+  enter_a_valid_date_for_case_cracked:
+    long: Enter a valid date for Case cracked
+    short: _
+    api: Enter a valid date for Case cracked
 
 trial_cracked_at_third:
   _seq: 180
-  blank:
-    long: Choose an option for "Case cracked in"
-    short: Choose an option
-    api:  Choose an option for "Case cracked in"
-  invalid:
-    long: "Choose a valid option for \"Case cracked in\""
-    short: Choose a valid option
-    api:  "Choose a valid option for \"Case cracked in\""
-  invalid_case_type_third_combination:
-    long: "\"Case cracked in\" can only be Final Third for trials that cracked before retrial"
-    short: "Choose \"Final third\""
-    api:  "\"Case cracked in\" can only be Final Third for trials that cracked before retrial"
+  choose_which_third_case_cracked_in:
+    long: Choose which third Case cracked in
+    short: _
+    api:  Choose which third Case cracked in
+  choose_a_valid_option_for_case_cracked_in:
+    long: Choose a valid option for Case cracked in
+    short: _
+    api:  Choose a valid option for Case cracked in
+  case_cracked_in_can_only_be_final_third_for_trials_that_cracked_before_retrial:
+    long: Case cracked in can only be Final Third for trials that cracked before retrial
+    short: _
+    api:  Case cracked in can only be Final Third for trials that cracked before retrial
 
 offence:
   _seq: 190
@@ -493,22 +489,22 @@ offence:
 
 case_concluded_at:
   _seq: 195
-  blank:
+  enter_a_date_for_case_concluded:
     long: Enter a date for case concluded
-    short: *enter_date
+    short: _
     api: Enter a date for case concluded
-  present:
+  the_case_concluded_date_is_not_allowed:
     long: The case concluded date is not allowed
-    short: *date_not_allowed
+    short: _
     api: The case concluded date is not allowed
-  check_not_in_future:
-    long: Check the date case concluded
-    short: *in_future
-    api: Check the date case concluded
-  check_not_too_far_in_past:
-    long: Check the date case concluded
-    short: *too_far_in_past
-    api: Check the date case concluded
+  case_concluded_cannot_be_too_far_in_the_future:
+    long: Case concluded cannot be too far in the future
+    short: _
+    api: Case concluded cannot be too far in the future
+  case_concluded_cannot_be_too_far_in_the_past:
+    long: Case concluded cannot be too far in the past
+    short: _
+    api: Case concluded cannot be too far in the past
 
 effective_pcmh_date:
   _seq: 200

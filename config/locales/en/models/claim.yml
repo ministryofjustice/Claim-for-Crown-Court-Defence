@@ -36,6 +36,7 @@ en:
 
             estimated_trial_length:
               blank: Enter an estimated trial length
+              hardship_invalid: Enter a whole number of days for the estimated trial length
               invalid: Enter a whole number of days for the estimated trial length
               interim_invalid: Enter a whole number of days (minimum of 10) for the estimated trial length
               present: Enter an estimated trial length

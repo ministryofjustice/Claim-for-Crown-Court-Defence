@@ -67,31 +67,33 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
     context 'with estimated trial length not present' do
       before { claim.estimated_trial_length = nil }
 
-      it { should_error_with(claim, :estimated_trial_length, 'blank') }
+      it { should_error_with(claim, :estimated_trial_length, 'Enter an estimated trial length') }
     end
 
     context 'with estimated trial length less than 0' do
       before { claim.estimated_trial_length = -1 }
 
-      it { should_error_with(claim, :estimated_trial_length, 'hardship_invalid') }
+      it {
+        should_error_with(claim, :estimated_trial_length, 'Enter a whole number of days for the estimated trial length')
+      }
     end
 
     context 'with first day of trial not present' do
       before { claim.first_day_of_trial = nil }
 
-      it { should_error_with(claim, :first_day_of_trial, 'blank') }
+      it { should_error_with(claim, :first_day_of_trial, 'Enter a date for the first day of trial') }
     end
 
     context 'with first day of trial over 10 years ago' do
       before { claim.first_day_of_trial = Date.today - 10.years - 1.day }
 
-      it { should_error_with(claim, :first_day_of_trial, 'check_not_too_far_in_past') }
+      it { should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be too far in the past') }
     end
 
     context 'with first day of trial in the future' do
       before { claim.first_day_of_trial = Date.today + 1.day }
 
-      it { should_error_with(claim, :first_day_of_trial, 'check_not_in_future') }
+      it { should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be in the future') }
     end
 
     context 'with first day of trial after trial_concluded_at' do
@@ -100,14 +102,16 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
         claim.first_day_of_trial = claim.trial_concluded_at + 1.day
       end
 
-      it { should_error_with(claim, :first_day_of_trial, 'check_other_date') }
-      it { should_error_with(claim, :trial_concluded_at, 'check_other_date') }
+      it { should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be after the trial has concluded') }
+      it { should_error_with(claim, :trial_concluded_at, 'Trial concluded cannot be before the First day of trial') }
     end
 
     context 'with first day of trial before earliest rep order date' do
       before { claim.first_day_of_trial = claim.earliest_representation_order_date - 1.day }
 
-      it { should_error_with(claim, :first_day_of_trial, 'check_not_earlier_than_rep_order') }
+      it {
+        should_error_with(claim, :first_day_of_trial, 'Check combination of representation order date and trial dates')
+      }
     end
   end
 
@@ -123,25 +127,28 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
       context 'when estimated trial length not present' do
         before { claim.estimated_trial_length = nil }
 
-        it { should_error_with(claim, :estimated_trial_length, 'blank') }
+        it { should_error_with(claim, :estimated_trial_length, 'Enter an estimated trial length') }
       end
 
       context 'with estimated trial length less than zero' do
         before { claim.estimated_trial_length = -1 }
 
-        it { should_error_with(claim, :estimated_trial_length, 'invalid') }
+        it {
+          should_error_with(claim, :estimated_trial_length,
+                            'Enter a whole number of days for the estimated trial length')
+        }
       end
 
       context 'with actual trial length not present' do
         before { claim.actual_trial_length = nil }
 
-        it { should_error_with(claim, :actual_trial_length, 'blank') }
+        it { should_error_with(claim, :actual_trial_length, 'Enter an actual trial length') }
       end
 
       context 'with actual trial length less than zero' do
         before { claim.actual_trial_length = -1 }
 
-        it { should_error_with(claim, :actual_trial_length, 'invalid') }
+        it { should_error_with(claim, :actual_trial_length, 'Enter a whole number of days') }
       end
 
       context 'with actual trial length does not match dates' do
@@ -152,25 +159,25 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
           claim.actual_trial_length = 11
         end
 
-        it { should_error_with(claim, :actual_trial_length, 'too_long') }
+        it { should_error_with(claim, :actual_trial_length, 'The actual trial length is too long') }
       end
 
       context 'with first day of trial not present' do
         before { claim.first_day_of_trial = nil }
 
-        it { should_error_with(claim, :first_day_of_trial, 'blank') }
+        it { should_error_with(claim, :first_day_of_trial, 'Enter a date for the first day of trial') }
       end
 
       context 'with first day of trial over 10 years ago' do
         before { claim.first_day_of_trial = Date.today - 10.years - 1.day }
 
-        it { should_error_with(claim, :first_day_of_trial, 'check_not_too_far_in_past') }
+        it { should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be too far in the past') }
       end
 
       context 'with first day of trial in the future' do
         before { claim.first_day_of_trial = Date.today + 1.day }
 
-        it { should_error_with(claim, :first_day_of_trial, 'check_not_in_future') }
+        it { should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be in the future') }
       end
 
       context 'with first day of trial after trial_concluded_at' do
@@ -179,14 +186,17 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
           claim.trial_concluded_at = claim.first_day_of_trial - 1.day
         end
 
-        it { should_error_with(claim, :first_day_of_trial, 'check_other_date') }
-        it { should_error_with(claim, :trial_concluded_at, 'check_other_date') }
+        it {
+          should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be after the trial has concluded')
+        }
+
+        it { should_error_with(claim, :trial_concluded_at, 'Trial concluded cannot be before the First day of trial') }
       end
 
       context 'with trial concluded not present' do
         before { claim.trial_concluded_at = nil }
 
-        it { should_error_with(claim, :trial_concluded_at, 'blank') }
+        it { should_error_with(claim, :trial_concluded_at, 'Enter the date on which the trial concluded') }
       end
     end
 
@@ -194,13 +204,16 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
       context 'with estimated retrial length not present' do
         before { claim.retrial_estimated_length = nil }
 
-        it { should_error_with(claim, :retrial_estimated_length, 'blank') }
+        it { should_error_with(claim, :retrial_estimated_length, 'Enter an estimated retrial length') }
       end
 
       context 'with estimated retrial length less than zero' do
         before { claim.retrial_estimated_length = -1 }
 
-        it { should_error_with(claim, :retrial_estimated_length, 'invalid') }
+        it {
+          should_error_with(claim, :retrial_estimated_length,
+                            'Enter a whole number of days for the estimated retrial length')
+        }
       end
 
       context 'with actual retrial length not present' do
@@ -212,25 +225,27 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
       context 'with actual retrial length less than zero' do
         before { claim.retrial_actual_length = -1 }
 
-        it { should_error_with(claim, :retrial_actual_length, 'invalid') }
+        it {
+          should_error_with(claim, :retrial_actual_length, 'Enter a whole number of days for the actual retrial length')
+        }
       end
 
       context 'with retrial started at not present' do
         before { claim.first_day_of_trial = nil }
 
-        it { should_error_with(claim, :retrial_started_at, 'blank') }
+        it { should_error_with(claim, :retrial_started_at, 'Enter a date for the first day of retrial') }
       end
 
       context 'with retrial started at over 10 years ago' do
         before { claim.retrial_started_at = Date.today - 10.years - 1.day }
 
-        it { should_error_with(claim, :retrial_started_at, 'check_not_too_far_in_past') }
+        it { should_error_with(claim, :retrial_started_at, 'First day of retrial cannot be too far in the past') }
       end
 
       context 'with retrial started at in the future' do
         before { claim.retrial_started_at = Date.today + 1.day }
 
-        it { should_error_with(claim, :retrial_started_at, 'check_not_in_future') }
+        it { should_error_with(claim, :retrial_started_at, 'First day of retrial cannot be too far in the future') }
       end
 
       context 'with retrial started at after retrial_concluded_at' do
@@ -239,14 +254,14 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
           claim.retrial_started_at = claim.retrial_concluded_at + 1.day
         end
 
-        it { should_error_with(claim, :retrial_started_at, 'check_other_date') }
-        it { should_error_with(claim, :retrial_concluded_at, 'check_other_date') }
+        it { should_error_with(claim, :retrial_started_at, 'Check the date for First day of retrial') }
+        it { should_error_with(claim, :retrial_concluded_at, 'Check the date for retrial concluded') }
       end
 
       context 'with retrial started at trial before earliest rep order date' do
         before { claim.retrial_started_at = claim.earliest_representation_order_date - 1.day }
 
-        it { should_error_with(claim, :retrial_started_at, 'check_not_earlier_than_rep_order') }
+        it { should_error_with(claim, :retrial_started_at, 'Check the date for First day of retrial') }
       end
     end
   end

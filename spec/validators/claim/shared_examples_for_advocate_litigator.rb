@@ -168,15 +168,15 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
       before { claim.force_validation = true }
 
       it 'is invalid when absent' do
-        should_error_if_not_present(claim, :case_concluded_at, 'blank')
+        should_error_if_not_present(claim, :case_concluded_at, 'Enter a date for case concluded')
       end
 
       it 'is invalid when too far in past' do
-        should_error_if_too_far_in_the_past(claim, :case_concluded_at, 'check_not_too_far_in_past')
+        should_error_if_too_far_in_the_past(claim, :case_concluded_at, 'Case concluded cannot be too far in the past')
       end
 
       it 'is invalid when in future' do
-        should_error_if_in_future(claim, :case_concluded_at, 'check_not_in_future')
+        should_error_if_in_future(claim, :case_concluded_at, 'Case concluded cannot be too far in the future')
       end
 
       it 'is valid when present' do

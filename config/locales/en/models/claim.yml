@@ -5,6 +5,17 @@ en:
       models:
         claim/base_claim:
           attributes:
+            actual_trial_length:
+              blank: Enter an actual trial length
+              invalid: Enter a whole number of days
+              too_long: The actual trial length is too long
+
+            case_concluded_at:
+              blank: Enter a date for case concluded
+              present: The case concluded date is not allowed
+              check_not_in_future: Case concluded cannot be too far in the future
+              check_not_too_far_in_past: Case concluded cannot be too far in the past
+
             case_stage_id:
               blank: Choose a case stage
               inclusion: Choose an eligible case stage
@@ -23,9 +34,52 @@ en:
             court_id:
               blank: Choose a court
 
+            estimated_trial_length:
+              blank: Enter an estimated trial length
+              invalid: Enter a whole number of days for the estimated trial length
+              interim_invalid: Enter a whole number of days (minimum of 10) for the estimated trial length
+              present: Enter an estimated trial length
+
             external_user_id:
               blank_advocate: Choose an advocate
               blank_litigator: Choose a litigator
+
+            first_day_of_trial:
+              blank: Enter a date for the first day of trial
+              check_not_earlier_than_rep_order: Check combination of representation order date and trial dates
+              check_not_in_future: First day of trial cannot be in the future
+              check_not_too_far_in_past: First day of trial cannot be too far in the past
+              check_other_date: First day of trial cannot be after the trial has concluded
+              invalid_date: Enter a valid date for the first day of trial
+              present: Date for trial start is not allowed
+
+            retrial_actual_length:
+              blank: Enter an actual retrial length
+              invalid: Enter a whole number of days for the actual retrial length
+              too_long: The actual retrial length must not exceed days since first day of retrial
+
+            retrial_concluded_at:
+              blank: Enter the date on which the retrial concluded
+              check_other_date: Check the date for retrial concluded
+              check_not_too_far_in_past: Retrial conclusion cannot be too far in the past
+              check_not_earlier_than_rep_order: Retrial conclusion cannot be before the rep order
+              invalid_date: Enter a valid date for retrial concluded
+
+            retrial_estimated_length:
+              blank: Enter an estimated retrial length
+              invalid: Enter a whole number of days for the estimated retrial length
+              interim_invalid: Enter a whole number of days (minimum of 10) for the estimated retrial length
+              present: Enter an estimated retrial length
+
+            retrial_started_at:
+              blank: Enter a date for the first day of retrial
+              present: Date for retrial start is not allowed
+              check_other_date: Check the date for First day of retrial
+              check_not_too_far_in_past: First day of retrial cannot be too far in the past
+              check_not_earlier_than_rep_order: Check the date for First day of retrial
+              invalid_date: Enter a valid date for the first day of retrial
+              check_not_in_future: First day of retrial cannot be too far in the future
+              check_not_earlier_than_trial_concluded: First day of retrial cannot be before Trial concluded
 
             supplier_number:
               blank: Choose a supplier number
@@ -40,3 +94,37 @@ en:
             transfer_court_id:
               blank: Choose a transfer court
               same: Choose a different transfer court
+
+            trial_concluded_at:
+              blank: Enter the date on which the trial concluded
+              check_other_date: Trial concluded cannot be before the First day of trial
+              check_not_in_future: Trial concluded date cannot be in the future
+              check_not_too_far_in_past: Trial concluded date cannot be too far in the past
+              invalid_date: Enter a valid date for Trial concluded
+              present: Date for trial concluded at is not allowed
+
+            trial_cracked_at:
+              blank: Enter a date for Case cracked
+              check_after_trial_fixed_notice_at: Case cracked date cannot be before Notice of 1st fixed/warned issued
+              check_not_in_future: Case cracked date cannot be in the future
+              check_not_too_far_in_past: Case cracked date cannot be too far in the past
+              invalid: Enter a valid date for Case cracked
+
+            trial_cracked_at_third:
+              blank: Choose which third Case cracked in
+              invalid: Choose a valid option for Case cracked in
+              invalid_case_type_third_combination: Case cracked in can only be Final Third for trials that cracked before retrial
+
+            trial_fixed_at:
+              blank: Enter a date for 1st fixed/warned trial
+              check_after_trial_fixed_notice_at: Date must be 2+ days after Notice of 1st fixed/warned issued
+              check_not_too_far_in_past: 1st fixed/warned trial cannot be too far in the past
+              invalid_date: Enter a valid date for 1st fixed/warned trial
+
+            trial_fixed_notice_at:
+              blank: Enter a date for Notice of 1st fixed/warned issued
+              check_before_trial_cracked_at: Date must be before Case cracked
+              check_before_trial_fixed_at: Date must be 2+ days before the Notice of 1st fixed/warned issued
+              check_not_in_future: Notice of 1st fixed/warned issued cannot be in the future
+              check_not_too_far_in_past: Notice of 1st fixed/warned issued cannot be too far in the past
+              invalid_date: Enter a valid date for Notice of 1st fixed/warned issued

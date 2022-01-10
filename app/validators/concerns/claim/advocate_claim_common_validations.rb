@@ -24,7 +24,7 @@ module Claim
       end
 
       def validate_case_concluded_at
-        validate_absence(:case_concluded_at, 'present')
+        validate_absence(:case_concluded_at, :present)
       end
 
       def supplier_number_regex

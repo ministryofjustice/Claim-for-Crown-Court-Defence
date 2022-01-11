@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    external-dns.alpha.kubernetes.io/set-identifier: cccd-app-ingress-cccd-api-sandbox-blue
+    external-dns.alpha.kubernetes.io/aws-weight: "100"
+  name: cccd-app-ingress
+  namespace: cccd-api-sandbox
+spec:
+  rules:
+    - host: api-sandbox.claim-crown-court-defence.service.justice.gov.uk
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: cccd-app-service
+              servicePort: 80
+  tls:
+    - hosts:
+      - api-sandbox.claim-crown-court-defence.service.justice.gov.uk
+      secretName: cccd-api-sandbox-cert

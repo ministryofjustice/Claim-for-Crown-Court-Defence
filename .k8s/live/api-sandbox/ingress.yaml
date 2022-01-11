@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     external-dns.alpha.kubernetes.io/set-identifier: cccd-app-ingress-cccd-api-sandbox-green
-    external-dns.alpha.kubernetes.io/aws-weight: "0"
+    external-dns.alpha.kubernetes.io/aws-weight: "100"
   name: cccd-app-ingress
   namespace: cccd-api-sandbox
 spec:

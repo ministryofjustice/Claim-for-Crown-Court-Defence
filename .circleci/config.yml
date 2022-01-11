@@ -466,13 +466,6 @@ jobs:
           cluster: live
           environment: dev-lgfs
 
-  deploy-live-1-staging:
-    executor: cloud-platform-executor
-    steps:
-      - deploy-to:
-          cluster: live-1
-          environment: staging
-
   deploy-live-staging:
     executor: cloud-platform-executor
     steps:
@@ -565,12 +558,6 @@ workflows:
           type: approval
           requires:
             - ui-smoke-test-dev
-      - deploy-live-1-staging:
-          requires:
-            - hold-staging
-          context:
-            - cccd-live-1-base
-            - cccd-live-1-staging
       - deploy-live-staging:
           requires:
             - hold-staging
@@ -654,12 +641,6 @@ workflows:
           context:
             - cccd-live-base
             - cccd-live-dev-lgfs
-      - deploy-live-1-staging:
-          requires:
-            - hold-staging
-          context:
-            - cccd-live-1-base
-            - cccd-live-1-staging
       - deploy-live-staging:
           requires:
             - hold-staging

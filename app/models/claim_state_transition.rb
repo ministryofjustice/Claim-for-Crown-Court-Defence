@@ -32,7 +32,7 @@ class ClaimStateTransition < ApplicationRecord
   end
 
   def reasons
-    reasons = reason_code.reject(&:empty?)
+    reasons = reason_code.compact_blank
     result = []
     reasons.each do |reason_code|
       result << ClaimStateTransitionReason.get(reason_code)

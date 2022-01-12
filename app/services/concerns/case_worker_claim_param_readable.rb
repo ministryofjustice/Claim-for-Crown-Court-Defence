@@ -58,7 +58,7 @@ module CaseWorkerClaimParamReadable
     end
 
     def determination_with_defaults(attributes)
-      attributes.reject! { |_k, v| v.blank? }
+      attributes.compact_blank!
       {
         'fees' => '0.00',
         'expenses' => '0.00',

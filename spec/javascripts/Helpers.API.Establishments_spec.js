@@ -163,12 +163,11 @@ describe('Helpers.API.Establishments.js', function () {
       helper.init().then(function () {
         helper.getAsOptions('prison').then(function (el) {
           expect(el).toEqual(['<option value="">Please select</option>', '<option value="2" data-postcode="L9 7LH">HMP Two</option>'])
-          done()
         })
         helper.getAsOptions('crown_court').then(function (el) {
           expect(el).toEqual(['<option value="">Please select</option>', '<option value="3" data-postcode="L9 7LH">HMP Three</option>'])
-          done()
         })
+        done()
       })
     })
   })

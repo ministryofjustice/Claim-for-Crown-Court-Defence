@@ -11,6 +11,7 @@ updates:
   reviewers:
   - "naseberry"
   - "imtiazAhmd"
+  - "ministryofjustice/laa-claim-for-payment"
 - package-ecosystem: bundler
   directory: "/"
   schedule:
@@ -25,3 +26,4 @@ updates:
   reviewers:
   - "jsugarman"
   - "jrmhaig"
+  - "ministryofjustice/laa-claim-for-payment"

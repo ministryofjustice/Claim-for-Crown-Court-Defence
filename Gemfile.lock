@@ -289,7 +289,7 @@ GEM
     faraday-net_http (1.0.1)
     faraday_middleware (1.2.0)
       faraday (~> 1.0)
-    ffi (1.15.4)
+    ffi (1.15.5)
     formatador (0.3.0)
     geckoboard-ruby (0.4.0)
     get_process_mem (0.2.7)

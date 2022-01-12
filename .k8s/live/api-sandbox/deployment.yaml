@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: claim-for-crown-court-defence-worker
+  name: claim-for-crown-court-defence
   namespace: cccd-api-sandbox
 spec:
-  replicas: 0
+  replicas: 2
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -13,28 +13,39 @@ spec:
   selector:
     matchLabels:
       app: cccd
-      tier: worker
   template:
     metadata:
       labels:
         app: cccd
-        tier: worker
     spec:
       containers:
-        - name: cccd-worker
+        - name: cccd-app
           imagePullPolicy: Always
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
-          command: ['bundle', 'exec', 'sidekiq']
+          ports:
+            - containerPort: 3000
           readinessProbe:
-            exec:
-              command: ['bin/worker_healthcheck']
-            initialDelaySeconds: 20
-            periodSeconds: 30
+            httpGet:
+              path: /ping.json
+              port: 3000
+              httpHeaders:
+                - name: X-Forwarded-Proto
+                  value: https
+                - name: X-Forwarded-Ssl
+                  value: "on"
+            initialDelaySeconds: 15
+            periodSeconds: 10
           livenessProbe:
-            exec:
-              command: ['bin/worker_healthcheck']
+            httpGet:
+              path: /ping.json
+              port: 3000
+              httpHeaders:
+                - name: X-Forwarded-Proto
+                  value: https
+                - name: X-Forwarded-Ssl
+                  value: "on"
             initialDelaySeconds: 30
-            periodSeconds: 300
+            periodSeconds: 10
 
           # configMapRef: non-secret env vars defined in `app-config.yaml`
           # secretRef: secret env vars defined by app secrets
@@ -46,8 +57,6 @@ spec:
             - secretRef:
                 name: cccd-secrets
 
-          # secret env vars defined by infrastructure/terraform
-          # WHERE env var name does not match key name
           env:
             - name: DATABASE_URL
               valueFrom:

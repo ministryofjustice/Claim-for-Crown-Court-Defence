@@ -4,7 +4,7 @@ metadata:
   name: claim-for-crown-court-defence-worker
   namespace: cccd-api-sandbox
 spec:
-  replicas: 0
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:

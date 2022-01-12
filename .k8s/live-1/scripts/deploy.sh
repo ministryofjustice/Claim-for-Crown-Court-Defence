@@ -32,7 +32,7 @@ function _deploy() {
   fi
 
   case "$1" in
-    api-sandbox | production)
+    production)
       environment=$1
       ;;
     *)

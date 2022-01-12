@@ -473,11 +473,11 @@ jobs:
           cluster: live
           environment: staging
 
-  deploy-live-1-api-sandbox:
+  deploy-live-api-sandbox:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
-          cluster: live-1
+          cluster: live
           environment: api-sandbox
 
   deploy-live-1-production:
@@ -548,12 +548,12 @@ workflows:
           type: approval
           requires:
             - ui-smoke-test-dev
-      - deploy-live-1-api-sandbox:
+      - deploy-live-api-sandbox:
           requires:
             - hold-api-sandbox
           context:
-            - cccd-live-1-base
-            - cccd-live-1-api-sandbox
+            - cccd-live-base
+            - cccd-live-api-sandbox
       - hold-staging:
           type: approval
           requires:
@@ -647,12 +647,12 @@ workflows:
           context:
             - cccd-live-base
             - cccd-live-staging
-      - deploy-live-1-api-sandbox:
+      - deploy-live-api-sandbox:
           requires:
             - hold-api-sandbox
           context:
-            - cccd-live-1-base
-            - cccd-live-1-api-sandbox
+            - cccd-live-base
+            - cccd-live-api-sandbox
       - ui-smoke-test-dev:
           requires:
             - deploy-live-dev

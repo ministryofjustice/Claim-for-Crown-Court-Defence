@@ -42,7 +42,7 @@ module Roles
   private
 
   def strip_empty_role
-    self.roles = roles.compact_blank
+    self.roles = roles.reject(&:empty?)
   end
 
   def roles_valid

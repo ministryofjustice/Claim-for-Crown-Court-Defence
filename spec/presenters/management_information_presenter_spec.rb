@@ -357,7 +357,7 @@ RSpec.describe ManagementInformationPresenter do
     describe '#transitioned_at' do
       it 'set per transition' do
         presenter.present! do |claim_journeys|
-          expect(claim_journeys.first).to include((Time.zone.now - 3.days).strftime('%d/%m/%Y'))
+          expect(claim_journeys.first).to include((3.days.ago).strftime('%d/%m/%Y'))
           expect(claim_journeys.second).to include((Time.zone.now).strftime('%d/%m/%Y'))
         end
       end
@@ -401,14 +401,14 @@ RSpec.describe ManagementInformationPresenter do
 
       it 'date allocated_at' do
         presenter.present! do |claim_journeys|
-          expect(claim_journeys.first).to include((Time.zone.now - 2.days).strftime('%d/%m/%Y'))
+          expect(claim_journeys.first).to include((2.days.ago).strftime('%d/%m/%Y'))
           expect(claim_journeys.second).to include('n/a', 'n/a')
         end
       end
 
       it 'date last assessment completed_at' do
         presenter.present! do |claim_journeys|
-          expect(claim_journeys.first).to include((Time.zone.now - 1.day).strftime('%d/%m/%Y %H:%M'))
+          expect(claim_journeys.first).to include((1.day.ago).strftime('%d/%m/%Y %H:%M'))
           expect(claim_journeys.second).to include('n/a', 'n/a')
         end
       end

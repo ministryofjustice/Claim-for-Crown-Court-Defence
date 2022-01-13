@@ -1,4 +1,4 @@
-class StandardJsonFormat < Grape::Validations::Base
+class StandardJsonFormat < Grape::Validations::Validators::Base
   # ISO 8601 format
   #
   # Valid examples:

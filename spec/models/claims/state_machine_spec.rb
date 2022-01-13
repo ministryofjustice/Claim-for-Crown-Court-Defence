@@ -397,6 +397,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
   describe 'reject!' do
     before { claim.submit!; claim.allocate!; claim.reject!(reason_code: reason_codes) }
+
     let(:reason_codes) { ['no_indictment'] }
     let(:last_state_transition) { claim.last_state_transition }
 

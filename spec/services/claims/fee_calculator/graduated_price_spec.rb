@@ -150,6 +150,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
         #
         context 'warrant' do
           before { claim.retrial_estimated_length = 3 }
+
           let(:fee) { create(:interim_fee, :warrant, claim: claim) }
           let(:params) { { fee_type_id: fee.fee_type.id } }
 
@@ -187,6 +188,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
             context 'with Pages of Prosecution Evidence' do
               before { claim.update!(prosecution_evidence: true) }
+
               context 'the full fee applies' do
                 it_returns 'a successful fee calculator response', amount: 979.00
               end
@@ -194,6 +196,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
             context 'without Pages of Prosecution Evidence' do
               before { claim.update!(prosecution_evidence: false) }
+
               context 'a %50 reduction applies' do
                 it_returns 'a successful fee calculator response', amount: (979.00 / 2)
               end
@@ -272,16 +275,19 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
             context 'in first third' do
               before { allow(claim).to receive(:trial_cracked_at_third).and_return 'first_third' }
+
               it_returns 'a successful fee calculator response', amount: 979.00
             end
 
             context 'in second third' do
               before { allow(claim).to receive(:trial_cracked_at_third).and_return 'second_third' }
+
               it_returns 'a successful fee calculator response', amount: 1307.00
             end
 
             context 'in final third' do
               before { allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third' }
+
               it_returns 'a successful fee calculator response', amount: 1307.00
             end
           end
@@ -970,11 +976,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
             context 'in first third' do
               before { allow(claim).to receive(:trial_cracked_at_third).and_return 'first_third' }
+
               it_returns 'a successful fee calculator response', amount: 0.00
             end
 
             context 'in final third' do
               before { allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third' }
+
               it_returns 'a successful fee calculator response', amount: 0.00
             end
           end

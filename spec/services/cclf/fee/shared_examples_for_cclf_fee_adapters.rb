@@ -1,5 +1,6 @@
 RSpec.shared_examples 'returns CCLF Litigator Fee bill (sub)type' do |code|
   before { allow(fee_type).to receive(:unique_code).and_return code }
+
   it 'returns CCLF Litigator Fee bill (sub)type - LIT_FEE' do
     is_expected.to eql 'LIT_FEE'
   end

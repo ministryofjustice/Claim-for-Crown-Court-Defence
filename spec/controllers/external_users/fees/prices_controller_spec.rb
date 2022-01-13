@@ -38,6 +38,7 @@ end
 
 RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
   before(:all) { seed_fee_schemes }
+
   after(:all) { clean_database }
 
   let!(:advocate) { create(:external_user, :advocate) }

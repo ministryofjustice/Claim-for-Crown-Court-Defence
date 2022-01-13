@@ -36,6 +36,7 @@ RSpec.describe CaseConclusionsController, type: :controller do
         params[:litigator_type] = 'original'
         get :index, params: params, xhr: true
       end
+
       it 'assigns @transfer_stage_label_text to say stop' do
         expect(assigns(:transfer_stage_label_text)).to eql 'When did you stop acting?'
       end

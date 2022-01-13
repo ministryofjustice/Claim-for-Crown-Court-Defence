@@ -5,6 +5,7 @@ RSpec.describe API::V2::Claim do
   include ApiSpecHelper
 
   after(:all) { clean_database }
+
   let(:case_worker) { create :case_worker }
 
   before(:all) do

@@ -336,6 +336,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
                 }
               }
         }
+
         it 'reduces the number of associated rep orders by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
         end

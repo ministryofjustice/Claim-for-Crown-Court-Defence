@@ -93,6 +93,7 @@ RSpec.describe API::V2::MI::AGFSSchemeTenClaims do
 
     context 'when accessed by a ExternalUser' do
       before { do_request }
+
       let(:api_key) { external_user.user.api_key }
 
       it 'returns unauthorised' do

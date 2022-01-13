@@ -62,11 +62,13 @@ RSpec.shared_examples 'case upliftable' do
 
     context 'for orphan case uplift fees types' do
       before { allow(fee_type).to receive(:unique_code).and_return 'FXNOC' }
+
       it { is_expected.to be_nil }
     end
 
     context 'for non-case uplift fees types' do
       before { allow(fee_type).to receive(:unique_code).and_return 'FXNDR' }
+
       it { is_expected.to be_nil }
     end
   end
@@ -84,11 +86,13 @@ RSpec.shared_examples 'case upliftable' do
 
     context 'for orphan case uplift fees types' do
       before { allow(fee_type).to receive(:unique_code).and_return 'FXNOC' }
+
       it { is_expected.to be_nil }
     end
 
     context 'for non-case uplift fees types' do
       before { allow(fee_type).to receive(:unique_code).and_return 'FXNDR' }
+
       it { is_expected.to be_nil }
     end
   end

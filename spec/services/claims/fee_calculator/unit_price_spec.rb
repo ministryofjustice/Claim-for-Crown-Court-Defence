@@ -96,6 +96,7 @@ RSpec.shared_examples 'a successful standard appearance fee calculation' do
       let(:claim) { scheme_10_claim }
 
       before { params.merge!(advocate_category: 'Junior') }
+
       it_returns 'a successful fee calculator response', unit: 'day', amount: 90.00
     end
   end
@@ -116,6 +117,7 @@ RSpec.shared_examples 'a failed standard appearance fee calculation' do |options
       let(:claim) { scheme_10_claim }
 
       before { params.merge!(advocate_category: 'Junior') }
+
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
   end
@@ -136,6 +138,7 @@ RSpec.shared_examples 'a successful plea and trial preparation fee calculation' 
       let(:claim) { scheme_10_claim }
 
       before { params.merge!(advocate_category: 'Junior') }
+
       it_returns 'a successful fee calculator response', unit: 'case', amount: 125.00
     end
   end
@@ -156,6 +159,7 @@ RSpec.shared_examples 'a failed plea and trial preparation fee calculation' do |
       let(:claim) { scheme_10_claim }
 
       before { params.merge!(advocate_category: 'Junior') }
+
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
   end
@@ -176,6 +180,7 @@ RSpec.shared_examples 'a successful conferences and views fee calculation' do
       let(:claim) { scheme_10_claim }
 
       before { params.merge!(advocate_category: 'Junior') }
+
       it_returns 'a successful fee calculator response', unit: 'hour', amount: 40.00
     end
   end
@@ -196,6 +201,7 @@ RSpec.shared_examples 'a failed conferences and views fee calculation' do |optio
       let(:claim) { scheme_10_claim }
 
       before { params.merge!(advocate_category: 'Junior') }
+
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
   end
@@ -223,6 +229,7 @@ RSpec.shared_examples 'a successful basic uplift fee calculation' do |options = 
       let(:claim) { scheme_10_claim }
 
       before { params.merge!(advocate_category: 'Junior') }
+
       it_returns 'a successful fee calculator response', unit: options.fetch(:unit), amount: options.fetch(:scheme_10_amount, 110.00)
     end
   end
@@ -250,6 +257,7 @@ RSpec.shared_examples 'a failed basic uplift fee calculation' do |options = {}|
       let(:claim) { scheme_10_claim }
 
       before { params.merge!(advocate_category: 'Junior') }
+
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
   end
@@ -280,6 +288,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
   it { is_expected.to respond_to(:call) }
 
   before(:all) { seed_fee_schemes }
+
   after(:all) { clean_database }
 
   context 'AGFS claims' do
@@ -327,6 +336,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
             context 'with retrial reduction requested' do
               before { allow(claim).to receive(:retrial_reduction).and_return true }
+
               include_examples 'a failed daily attendance fee calculation'
               include_examples 'a failed basic uplift fee calculation', description: 'defendant', uplift_fee_type: :bandr
               include_examples 'a failed basic uplift fee calculation', description: 'case', uplift_fee_type: :banoc
@@ -548,6 +558,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
             before do
               allow(claim).to receive(:trial_cracked_at_third).and_return 'first_third'
             end
+
             include_examples 'a successful basic uplift fee calculation', uplift_fee_type: :bandr, unit: 'defendant', scheme_9_amount: 195.80, scheme_10_amount: 55.00
             include_examples 'a successful basic uplift fee calculation', uplift_fee_type: :banoc, unit: 'case', scheme_9_amount: 195.80, scheme_10_amount: 55.00
           end
@@ -556,6 +567,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
             before do
               allow(claim).to receive(:trial_cracked_at_third).and_return 'second_third'
             end
+
             include_examples 'a successful basic uplift fee calculation', uplift_fee_type: :bandr, unit: 'defendant', scheme_9_amount: 246.80, scheme_10_amount: 55.00
             include_examples 'a successful basic uplift fee calculation', uplift_fee_type: :banoc, unit: 'case', scheme_9_amount: 246.80, scheme_10_amount: 55.00
           end
@@ -564,6 +576,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
             before do
               allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
             end
+
             include_examples 'a successful basic uplift fee calculation', uplift_fee_type: :bandr, unit: 'defendant', scheme_9_amount: 246.80, scheme_10_amount: 94.0
             include_examples 'a successful basic uplift fee calculation', uplift_fee_type: :banoc, unit: 'case', scheme_9_amount: 246.80, scheme_10_amount: 94.0
           end
@@ -707,6 +720,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
       context 'for erroneous requests' do
         context 'when invalid values supplied' do
           before { params.merge!(advocate_category: 'Not an advocate category') }
+
           it_returns 'a failed fee calculator response'
         end
 
@@ -714,6 +728,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           before do
             allow_any_instance_of(described_class).to receive(:exclusions).and_raise(Claims::FeeCalculator::Exceptions::RetrialReductionExclusion)
           end
+
           it_returns 'a failed fee calculator response', message: /insufficient_data/i
         end
 
@@ -721,6 +736,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           before do
             allow_any_instance_of(described_class).to receive(:price).and_raise(Claims::FeeCalculator::Exceptions::PriceNotFound)
           end
+
           it_returns 'a failed fee calculator response', message: /price not found/i
         end
 
@@ -728,6 +744,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           before do
             allow_any_instance_of(described_class).to receive(:price).and_raise(Claims::FeeCalculator::Exceptions::TooManyPrices)
           end
+
           it_returns 'a failed fee calculator response', message: /too many prices/i
         end
       end

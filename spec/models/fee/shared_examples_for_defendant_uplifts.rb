@@ -103,11 +103,13 @@ shared_examples 'defendant upliftable' do
 
     context 'for orphan defendant uplift fees types' do
       before { allow(fee_type).to receive(:unique_code).and_return 'MIUPL' }
+
       it { is_expected.to be_nil }
     end
 
     context 'for non-defendant uplift fees types' do
       before { allow(fee_type).to receive(:unique_code).and_return 'MIAPH' }
+
       it { is_expected.to be_nil }
     end
   end

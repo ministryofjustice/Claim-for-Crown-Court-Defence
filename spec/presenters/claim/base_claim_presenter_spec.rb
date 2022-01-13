@@ -514,6 +514,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       context 'when claim supplier has no name or postcode' do
         before { supplier.update(name: nil, postcode: nil) }
+
         it { is_expected.to be_nil }
       end
     end
@@ -597,11 +598,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'when opened for redetermination' do
       before { allow(claim).to receive(:opened_for_redetermination?).and_return true }
+
       it { is_expected.to eql 'Redetermination' }
     end
 
     context 'when written reasons outstanding' do
       before { allow(claim).to receive(:written_reasons_outstanding?).and_return true }
+
       it { is_expected.to eql 'Awaiting written reasons' }
     end
 
@@ -610,6 +613,7 @@ RSpec.describe Claim::BaseClaimPresenter do
         allow(claim).to receive(:opened_for_redetermination?).and_return false
         allow(claim).to receive(:written_reasons_outstanding?).and_return false
       end
+
       it { is_expected.to be_blank }
     end
   end
@@ -627,6 +631,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'when no claim#trial_concluded_at' do
       before { allow(claim).to receive(:trial_concluded_at).and_return nil }
+
       it 'returns text' do
         is_expected.to eql 'not specified'
       end
@@ -634,6 +639,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'when claim#trial_concluded_at' do
       before { allow(claim).to receive(:trial_concluded_at).and_return DateTime.parse('2019-03-31 09:38:00.000000') }
+
       it 'returns app specific date string format' do
         is_expected.to eql '31/03/2019'
       end
@@ -755,11 +761,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       context 'when user is caseworker' do
         before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+
         it { is_expected.to be_falsey }
       end
 
       context 'when user is external_user' do
         before { allow(view).to receive(:current_user).and_return(external_user.user) }
+
         it { is_expected.to be_falsey }
       end
     end
@@ -773,11 +781,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       context 'when user is caseworker' do
         before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+
         it { is_expected.to be_truthy }
       end
 
       context 'when user is external_user' do
         before { allow(view).to receive(:current_user).and_return(external_user.user) }
+
         it { is_expected.to be_falsey }
       end
     end
@@ -787,11 +797,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       context 'when user is caseworker' do
         before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+
         it { is_expected.to be_truthy }
       end
 
       context 'when user is external_user' do
         before { allow(view).to receive(:current_user).and_return(external_user.user) }
+
         it { is_expected.to be_truthy }
       end
     end

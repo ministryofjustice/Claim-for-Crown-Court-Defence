@@ -16,6 +16,7 @@ RSpec.describe Claims::ExternalUserClaimUpdater do
 
   describe '#archive' do
     before { subject.archive }
+
     after do
       expect(claim.last_state_transition.author_id).to eq(current_user.id)
     end

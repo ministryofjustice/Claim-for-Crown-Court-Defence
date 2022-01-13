@@ -184,6 +184,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#external_user_dashboard_rejected?' do
       before { allow(claim).to receive(:state).and_return('rejected') }
+
       it 'responds true' do
         allow(claim).to receive(:state).and_return('rejected')
         expect(claim.external_user_dashboard_rejected?).to be true

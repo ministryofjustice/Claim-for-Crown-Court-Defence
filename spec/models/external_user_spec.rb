@@ -300,6 +300,7 @@ RSpec.describe ExternalUser, type: :model do
       let(:provider) { build(:provider) }
 
       before { user.provider = nil }
+
       it 'returns admin' do
         is_expected.to match_array %w[admin]
       end
@@ -329,6 +330,7 @@ RSpec.describe ExternalUser, type: :model do
       let(:provider) { build(:provider) }
 
       before { user.provider.roles = %w[invalid_role] }
+
       it 'raises an error' do
         expect { user.available_roles }.to raise_error(RuntimeError)
       end

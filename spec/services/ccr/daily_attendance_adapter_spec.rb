@@ -20,6 +20,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
           [0, 1, 3, nil].each do |trial_length|
             context "and claim has an actual trial length of #{trial_length || 'nil'}" do
               before { claim.update(actual_trial_length: trial_length) }
+
               it "returns #{[trial_length, attendances_incl_in_basic_fee].compact.min} - as least of actual trial length or #{attendances_incl_in_basic_fee} (included in basic fee)" do
                 is_expected.to eql [trial_length, attendances_incl_in_basic_fee].compact.min
               end
@@ -48,6 +49,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
           [0, 1, 3, nil].each do |trial_length|
             context "and claim has an actual retrial length of #{trial_length || 'nil'}" do
               before { claim.update(retrial_actual_length: trial_length) }
+
               it "returns #{[trial_length, attendances_incl_in_basic_fee].compact.min} - as least of actual retrial length or 2 (included in basic fee)" do
                 is_expected.to eql [trial_length, 2].compact.min
               end
@@ -69,6 +71,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
           [0, 1, 2, nil].each do |trial_length|
             context "and claim has an actual trial length of #{trial_length || 'nil'}" do
               before { claim.update(actual_trial_length: trial_length) }
+
               it "returns #{[trial_length, attendances_incl_in_basic_fee].compact.min} - as least of actual trial length or #{attendances_incl_in_basic_fee} (included in basic fee)" do
                 is_expected.to eql [trial_length, attendances_incl_in_basic_fee].compact.min
               end
@@ -95,6 +98,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
           [0, 1, 2, nil].each do |trial_length|
             context "and claim has an actual retrial length of #{trial_length || 'nil'}" do
               before { claim.update(retrial_actual_length: trial_length) }
+
               it "returns #{[trial_length, attendances_incl_in_basic_fee].compact.min} - as least of actual retrial length or #{attendances_incl_in_basic_fee} (included in basic fee)" do
                 is_expected.to eql [trial_length, attendances_incl_in_basic_fee].compact.min
               end

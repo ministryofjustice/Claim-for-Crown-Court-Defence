@@ -1,5 +1,5 @@
-#case_concluded_at
-  = f.govuk_date_field :case_concluded_at,
-    maxlength_enabled: true,
-    legend: { text: t('.case_concluded_at') },
-    hint: { text: t('.date_hint') }
+= f.govuk_date_field :case_concluded_at,
+  maxlength_enabled: true,
+  legend: { text: t('.case_concluded_at') },
+  hint: { text: t('.date_hint') },
+  form_group: { id: 'case_concluded_at' }

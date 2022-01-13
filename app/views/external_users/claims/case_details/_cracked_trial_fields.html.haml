@@ -2,24 +2,24 @@
   %h3.govuk-heading-m
     = t('.cracked_trial_details')
 
-  #trial_fixed_notice_at
-    = f.govuk_date_field :trial_fixed_notice_at,
-      maxlength_enabled: true,
-      legend: { text: t('.trial_fixed_notice_at') },
-      hint: { text: t('.date_hint') }
+  = f.govuk_date_field :trial_fixed_notice_at,
+    maxlength_enabled: true,
+    legend: { text: t('.trial_fixed_notice_at') },
+    hint: { text: t('.date_hint') },
+    form_group: { id: 'trial_fixed_notice_at' }
 
-  #trial_fixed_at
-    = f.govuk_date_field :trial_fixed_at,
-      maxlength_enabled: true,
-      legend: { text: t('.trial_fixed_at') },
-      hint: { text: t('.date_hint') }
+  = f.govuk_date_field :trial_fixed_at,
+    maxlength_enabled: true,
+    legend: { text: t('.trial_fixed_at') },
+    hint: { text: t('.date_hint') },
+    form_group: { id: 'trial_fixed_at' }
 
   - unless @claim.hardship?
-    #trial_cracked_at
-      = f.govuk_date_field :trial_cracked_at,
-        maxlength_enabled: true,
-        legend: { text: t('.trial_cracked_at') },
-        hint: { text: t('.date_hint') }
+    = f.govuk_date_field :trial_cracked_at,
+      maxlength_enabled: true,
+      legend: { text: t('.trial_cracked_at') },
+      hint: { text: t('.date_hint') },
+      form_group: { id: 'trial_cracked_at' }
 
   = f.govuk_collection_radio_buttons :trial_cracked_at_third,
     Settings.trial_cracked_at_third,

@@ -2,17 +2,17 @@
   %h3.govuk-heading-m
     = t('.retrial_detail')
 
-  #retrial_started_at
-    = f.govuk_date_field :retrial_started_at,
-      maxlength_enabled: true,
-      legend: { text: t('.retrial_started_at') },
-      hint: { text: t('.date_hint') }
+  = f.govuk_date_field :retrial_started_at,
+    maxlength_enabled: true,
+    legend: { text: t('.retrial_started_at') },
+    hint: { text: t('.date_hint') },
+    form_group: { id: 'retrial_started_at' }
 
-  #retrial_concluded_at
-    = f.govuk_date_field :retrial_concluded_at,
-      maxlength_enabled: true,
-      legend: { text: t('.retrial_concluded_at') },
-      hint: { text: t('.date_hint') }
+  = f.govuk_date_field :retrial_concluded_at,
+    maxlength_enabled: true,
+    legend: { text: t('.retrial_concluded_at') },
+    hint: { text: t('.date_hint') },
+    form_group: { id: 'retrial_concluded_at' }
 
   = f.govuk_text_field :retrial_estimated_length,
     label: { text: t('.retrial_estimated_length') },

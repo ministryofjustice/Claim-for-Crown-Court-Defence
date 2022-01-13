@@ -10,14 +10,14 @@
   - if @claim.requires_case_type?
     = render partial: 'external_users/claims/case_details/case_type_fields', locals: { f: f }
 
-  #cc-court.fx-autocomplete-wrapper
-    = f.govuk_collection_select :court_id,
-      Court.alphabetical,
-      :id,
-      :name,
-      options: { include_blank: '' },
-      label: { text: t('.court') },
-      hint: { text: t('.court_hint') }
+  = f.govuk_collection_select :court_id,
+    Court.alphabetical,
+    :id,
+    :name,
+    options: { include_blank: '' },
+    label: { text: t('.court') },
+    hint: { text: t('.court_hint') },
+    form_group: { classes: ['fx-autocomplete-wrapper'], id: 'cc-court' }
 
   = f.govuk_text_field :case_number,
     label: { text: t('.case_number_or_urn') },

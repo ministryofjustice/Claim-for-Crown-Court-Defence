@@ -1,14 +1,13 @@
-.govuk-form-group.fx-autocomplete-wrapper
-  = f.govuk_collection_select :transfer_court_id,
-    Court.alphabetical,
-    :id,
-    :name,
-    options: { include_blank: '' },
-    label: { text: t('.transfer_court') },
-    hint: { text: t('.transfer_court_hint') }
+= f.govuk_collection_select :transfer_court_id,
+  Court.alphabetical,
+  :id,
+  :name,
+  form_group: { classes: ['fx-autocomplete-wrapper'] },
+  hint: { text: t('.transfer_court_hint') },
+  label: { text: t('.transfer_court') },
+  options: { include_blank: '' }
 
-.govuk-form-group
-  = f.govuk_text_field :transfer_case_number,
-    label: { text: t('.transfer_case_number_or_urn') },
-    hint: { text: t('.transfer_case_number_or_urn_hint') },
-    width: 'one-half'
+= f.govuk_text_field :transfer_case_number,
+  hint: { text: t('.transfer_case_number_or_urn_hint') },
+  label: { text: t('.transfer_case_number_or_urn') },
+  width: 'one-half'

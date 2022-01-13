@@ -1,13 +1,13 @@
 - provider_advocates = @provider.advocates.sort_by(&:name_and_number)
 
 - if provider_advocates.length >= 6
-  .fx-autocomplete-wrapper
-    = f.govuk_collection_select :external_user_id,
-      provider_advocates,
-      :id,
-      :name_and_number,
-      options: { include_blank: '' },
-      label: { text: t('.advocate') }
+  = f.govuk_collection_select :external_user_id,
+    provider_advocates,
+    :id,
+    :name_and_number,
+    form_group: { classes: ['fx-autocomplete-wrapper'] },
+    label: { text: t('.advocate') },
+    options: { include_blank: '' }
 
 - else
   = f.govuk_collection_radio_buttons :external_user_id,

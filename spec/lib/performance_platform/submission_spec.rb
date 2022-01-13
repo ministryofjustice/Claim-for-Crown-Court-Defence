@@ -8,6 +8,7 @@ describe PerformancePlatform::Submission do
 
   it { is_expected.to respond_to :add_data_set }
   it { is_expected.to respond_to :send_data! }
+
   before do
     stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 200, body: '', headers: {})
   end

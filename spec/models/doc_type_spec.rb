@@ -26,10 +26,12 @@ RSpec.describe DocType do
       doctypes = DocType.find_by_ids(5, 9, 1, 44)
       expect(doctypes.map(&:id)).to eq([5, 1, 9])
     end
+
     it 'returns a list of matching ids in sequence order when ids given as an array' do
       doctypes = DocType.find_by_ids([5, 9, 1, 44])
       expect(doctypes.map(&:id)).to eq([5, 1, 9])
     end
+
     it 'returns an empty array if no matching ids' do
       doctypes = DocType.find_by_ids(99, 188)
       expect(doctypes).to be_empty

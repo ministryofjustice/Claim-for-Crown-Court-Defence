@@ -463,6 +463,7 @@ RSpec.describe ExternalUser, type: :model do
         expect(eu.settings).to eq({ 'setting1' => 'test1', 'setting2' => 'test2' })
         expect(eu.send_email_notification_of_message?).to be false
       end
+
       it 'sets the setting to true' do
         eu.email_notification_of_message = 'true'
         expect(eu.send_email_notification_of_message?).to be true

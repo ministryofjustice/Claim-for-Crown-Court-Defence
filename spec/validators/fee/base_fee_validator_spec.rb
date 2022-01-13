@@ -33,6 +33,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
           it { expect(fee).to be_invalid }
           it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+
           it {
             fee.valid?
             expect(fee.errors[:fee_type]).to include(options[:message])
@@ -44,6 +45,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
           it { expect(fee).to be_invalid }
           it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+
           it {
             fee.valid?
             expect(fee.errors[:fee_type]).to include(options[:message])
@@ -82,6 +84,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
+
         it {
           fee.valid?
           expect(fee.errors[:quantity]).to include('miumu_numericality')
@@ -107,6 +110,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
+
         it {
           fee.valid?
           expect(fee.errors[:quantity]).to include('invalid')

@@ -36,6 +36,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
 
             it { expect(fee).to be_invalid }
             it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+
             it {
               fee.valid?
               expect(fee.errors[:fee_type]).to include('fee_scheme_applicability')
@@ -67,6 +68,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
 
               it { expect(fee).to be_invalid }
               it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+
               it {
                 fee.valid?
                 expect(fee.errors[:fee_type]).to include('case_type_inclusion')
@@ -78,6 +80,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
 
               it { expect(fee).to be_invalid }
               it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+
               it {
                 fee.valid?
                 expect(fee.errors[:fee_type]).to include('case_type_inclusion')

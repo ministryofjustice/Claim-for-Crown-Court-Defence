@@ -955,26 +955,6 @@ RSpec/EmptyExampleGroup:
     - 'spec/services/claims/fee_calculator/unit_price_spec.rb'
     - 'spec/validators/claim/base_claim_sub_model_validator_spec.rb'
 
-# Offense count: 29
-# Cop supports --auto-correct.
-# Configuration parameters: AllowConsecutiveOneLiners.
-RSpec/EmptyLineAfterExample:
-  Exclude:
-    - 'spec/lib/performance_platform/submission_spec.rb'
-    - 'spec/models/doc_type_spec.rb'
-    - 'spec/models/expense_spec.rb'
-    - 'spec/models/external_user_spec.rb'
-    - 'spec/models/fee/base_fee_spec.rb'
-    - 'spec/models/fee/base_fee_type_spec.rb'
-    - 'spec/models/fee/basic_fee_spec.rb'
-    - 'spec/presenters/claim/base_claim_presenter_spec.rb'
-    - 'spec/presenters/interim_fee_presenter_spec.rb'
-    - 'spec/support/shared_examples_for_expenses.rb'
-    - 'spec/validators/claim/transfer_claim_validator_spec.rb'
-    - 'spec/validators/fee/base_fee_validator_spec.rb'
-    - 'spec/validators/fee/graduated_fee_validator_spec.rb'
-    - 'spec/validators/fee/misc_fee_validator_spec.rb'
-
 # Offense count: 6
 # Cop supports --auto-correct.
 RSpec/EmptyLineAfterExampleGroup:

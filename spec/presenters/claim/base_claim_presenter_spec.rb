@@ -873,6 +873,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     let!(:mispf_fee_type) { create(:misc_fee_type, :mispf) }
 
     it { is_expected.to be_a Array }
+
     it {
       is_expected.to include(
         [

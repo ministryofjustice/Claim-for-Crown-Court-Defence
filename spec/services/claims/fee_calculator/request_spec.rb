@@ -1,5 +1,6 @@
 RSpec.describe Claims::FeeCalculator::Request do
   subject { described_class.new(service) }
+
   let(:service) { instance_double(Claims::FeeCalculator::GraduatedPrice, amount: 130.00) }
 
   it { is_expected.to respond_to(:service) }

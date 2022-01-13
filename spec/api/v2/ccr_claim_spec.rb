@@ -280,6 +280,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
     context 'bills' do
       subject(:response) { do_request.body }
+
       let(:bills) { JSON.parse(response)['bills'] }
 
       let(:claim) { create_claim(:submitted_claim, :without_fees, case_type: case_type) }

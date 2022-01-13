@@ -293,6 +293,7 @@ RSpec.describe ExternalUser, type: :model do
 
   describe '#available_roles' do
     subject { user.available_roles }
+
     let(:user) { create(:external_user, :advocate, provider: provider) }
 
     # NOTE: there is provider cannot be blank validation - pointless test?

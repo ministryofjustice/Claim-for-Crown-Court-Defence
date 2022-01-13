@@ -776,6 +776,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
   context 'travel expense additional information' do
     subject { claim.valid? }
+
     context 'for car travel' do
       before do
         claim.expenses.delete_all

@@ -88,16 +88,19 @@ RSpec.describe Claim::TransferDetail do
   describe '#ppe_required?' do
     context 'when transfer details require PPE' do
       subject(:detail) { build(:transfer_detail, :with_ppe_required) }
+
       it { is_expected.to be_ppe_required }
     end
 
     context 'when transfer details do not require PPE' do
       subject(:detail) { build(:transfer_detail, :with_ppe_not_required) }
+
       it { is_expected.to_not be_ppe_required }
     end
 
     context 'when transfer details combination are invalid' do
       subject(:detail) { build(:transfer_detail, :with_invalid_combo) }
+
       it { is_expected.to_not be_ppe_required }
     end
   end
@@ -115,16 +118,19 @@ RSpec.describe Claim::TransferDetail do
   describe '#days_claimable?' do
     context 'when transfer details require days' do
       subject(:detail) { build(:transfer_detail, :with_days_claimable) }
+
       it { is_expected.to be_days_claimable }
     end
 
     context 'when transfer details do not require days' do
       subject(:detail) { build(:transfer_detail, :with_days_not_required) }
+
       it { is_expected.to_not be_days_claimable }
     end
 
     context 'when transfer details combination are invalid' do
       subject(:detail) { build(:transfer_detail, :with_invalid_combo) }
+
       it { is_expected.to_not be_days_claimable }
     end
   end
@@ -136,6 +142,7 @@ RSpec.describe Claim::TransferDetail do
 
     context 'for a specific transfer detail' do
       subject { detail.transfer_stage }
+
       let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil) }
 
       it 'returns a transfer stage struct' do

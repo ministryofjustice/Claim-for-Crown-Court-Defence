@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ClaimStateTransitionPresenter do
   subject(:presenter) { described_class.new(transition, view) }
+
   let(:claim) { create(:allocated_claim) }
   let(:transition) { claim.last_state_transition }
   let(:current_user) { create(:user, first_name: 'Brielle', last_name: 'Jenkins') }
@@ -21,6 +22,7 @@ RSpec.describe ClaimStateTransitionPresenter do
 
   describe '#audit_users' do
     subject { presenter.audit_users }
+
     let(:is_external_user) { false }
     let(:claim) { create(:submitted_claim) }
 
@@ -92,6 +94,7 @@ RSpec.describe ClaimStateTransitionPresenter do
 
   describe '#reason_header' do
     subject { presenter.reason_header }
+
     let(:claim) { create(:rejected_claim) }
 
     context '1 reason' do
@@ -117,6 +120,7 @@ RSpec.describe ClaimStateTransitionPresenter do
 
   describe '#reason_descriptions' do
     subject { presenter.reason_descriptions }
+
     let(:claim) { create(:rejected_claim) }
 
     context '2+ reasons (including other)' do

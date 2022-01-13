@@ -44,6 +44,7 @@ RSpec.shared_examples 'case upliftable' do
 
   describe '#case_uplift_parent' do
     subject { fee_type.case_uplift_parent }
+
     before { create(:fixed_fee_type, :fxacv) }
 
     context 'for non-orphan case uplift fees types' do

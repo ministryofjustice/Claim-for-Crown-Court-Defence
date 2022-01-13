@@ -54,6 +54,7 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
 
   describe '#call' do
     subject(:response) { instance.call }
+
     let(:instance) { described_class.new(claim, params) }
 
     it 'returns a response object' do
@@ -68,11 +69,13 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
 
   describe '#exclusions (private)' do
     subject(:exclusions) { described_class.new(claim, params).send(:exclusions) }
+
     it { expect { exclusions }.to raise_error('implement in subclass') }
   end
 
   describe '#amount (private)' do
     subject(:amount) { described_class.new(claim, params).send(:amount) }
+
     it { expect { amount }.to raise_error('implement in subclass') }
   end
 

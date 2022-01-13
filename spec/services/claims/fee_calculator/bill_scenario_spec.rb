@@ -43,6 +43,7 @@ RSpec.describe Claims::FeeCalculator::BillScenario do
 
   context 'LGFS' do
     subject(:bill_scenario) { described_class.new(claim, fee_type).call }
+
     let(:claim) { build(:litigator_claim) }
 
     context 'final graduated fee' do

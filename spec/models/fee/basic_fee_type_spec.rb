@@ -47,6 +47,7 @@ module Fee
 
     describe '#case_uplift?' do
       subject { fee_type.case_uplift? }
+
       context 'for basic fees related to case uplifts' do
         before { allow(fee_type).to receive(:unique_code).and_return 'BANOC' }
 

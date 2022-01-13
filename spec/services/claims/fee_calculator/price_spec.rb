@@ -27,6 +27,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
 
   describe '#price' do
     subject { described_class.new(price, unit_modifiers, parent_quantity).price }
+
     it 'returns supplied price object' do
       is_expected.to eql price
     end

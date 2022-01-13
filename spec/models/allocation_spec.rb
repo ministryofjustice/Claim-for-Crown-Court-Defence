@@ -50,6 +50,7 @@ RSpec.describe Allocation, type: :model do
 
       context 'when valid, but allocation bug occurs' do
         subject { allocator.save }
+
         let(:claims) { create_list(:submitted_claim, 1) }
         let(:case_worker_dbl) { double(Array, empty?: true, exists?: false) }
 

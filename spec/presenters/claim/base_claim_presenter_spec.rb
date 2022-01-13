@@ -405,6 +405,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#injection_error' do
     subject { presenter.injection_error }
+
     before { create(:injection_attempt, :with_errors, claim: claim) }
 
     it 'returns nil for inactive injection errors' do
@@ -424,6 +425,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#injection_errors' do
     subject { presenter.injection_errors }
+
     before do
       create(:injection_attempt, :with_errors, claim: claim)
     end
@@ -522,6 +524,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#has_conference_and_views?' do
     subject { presenter.has_conference_and_views? }
+
     let!(:fee) { create(:basic_fee, :cav_fee, claim: claim, quantity: quantity, rate: rate) }
 
     before { claim.reload }
@@ -543,6 +546,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#requires_interim_claim_info?' do
     subject { presenter.requires_interim_claim_info? }
+
     it { is_expected.to be_falsey }
   end
 
@@ -580,16 +584,19 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#reason_text' do
     subject { presenter.reason_text }
+
     include_examples 'last claim state transition reason_text'
   end
 
   describe '#reject_reason_text' do
     subject { presenter.reject_reason_text }
+
     include_examples 'last claim state transition reason_text'
   end
 
   describe '#refuse_reason_text' do
     subject { presenter.refuse_reason_text }
+
     include_examples 'last claim state transition reason_text'
   end
 
@@ -620,6 +627,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#submitted_at_short' do
     subject { presenter.submitted_at_short }
+
     it 'returns short date formatted string of #last_submitted_at' do
       expect(claim).to receive(:last_submitted_at).and_return DateTime.parse('2019-03-31 09:38:00.000000')
       is_expected.to eql '31/03/19'
@@ -861,6 +869,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#has_clar_fees?' do
     subject { presenter.has_clar_fees? }
+
     let!(:fee) { create(:misc_fee, :miphc_fee, claim: claim, quantity: quantity, rate: rate) }
 
     before { claim.reload }

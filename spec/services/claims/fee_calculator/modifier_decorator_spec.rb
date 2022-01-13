@@ -1,5 +1,6 @@
 RSpec.shared_examples 'equality' do |method|
   subject { described_class.new(modifier).send(method, other_modifier) }
+
   let(:decorated_modifier) { described_class.new(modifier) }
 
   context 'when called with arg that is not of the same class' do
@@ -44,6 +45,7 @@ end
 
 RSpec.describe Claims::FeeCalculator::ModifierDecorator do
   subject { described_class.new(modifier) }
+
   let(:modifier) { OpenStruct.new(fixed_percent: '-30.00', percent_per_unit: '0.00') }
 
   it { is_expected.to respond_to(:fixed_percent?) }

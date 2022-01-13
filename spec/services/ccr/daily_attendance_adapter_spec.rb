@@ -111,6 +111,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
 
   describe '.attendances_for' do
     subject { described_class.attendances_for(claim) }
+
     let(:claim) { build(:authorised_claim) }
     let(:adapter) { instance_double 'DailyAttendanceAdapter' }
 

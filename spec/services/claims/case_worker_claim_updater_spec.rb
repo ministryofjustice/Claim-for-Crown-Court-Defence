@@ -13,6 +13,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
   shared_examples 'non-authorised claim' do |state, state_reason, reason_text = nil|
     subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+
     let(:claim) { create :allocated_claim }
     let(:params) do
       {
@@ -48,6 +49,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
   shared_examples 'a successful assessment' do |state, fees = '128.33', expenses = '42.40'|
     subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+
     let(:claim) { create :allocated_claim }
     let(:params) do
       {
@@ -90,6 +92,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
   shared_examples 'an erroneous determination' do |state, expected_error, determination_type = 'redeterminations', state_reason = [], fees = '128.33', expenses = '42.40', error_field = :determinations|
     subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+
     let(:claim) { create :allocated_claim }
     let(:assessment_attributes) { { 'fees' => fees, 'expenses' => expenses } }
     let(:redeterminations_attributes) { { '0' => { 'fees' => fees, 'expenses' => expenses } } }
@@ -253,6 +256,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
       context 'transactional rollback' do
         subject(:updater) { described_class.new(claim.id, params).update! }
+
         let(:claim) { create :claim, :submitted }
         let(:params) { { 'state' => 'authorised', 'assessment_attributes' => { 'fees' => '200', 'expenses' => '0.00' } } }
 
@@ -280,6 +284,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
   context 'rejections' do
     subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+
     let(:claim) { create :allocated_claim }
 
     before do |example|
@@ -316,6 +321,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
   context 'refusals' do
     subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+
     let(:claim) { create :allocated_claim }
 
     before do |example|

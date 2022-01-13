@@ -46,6 +46,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
   context 'instance' do
     subject { described_class.new(fee_type, claim) }
+
     let(:claim) { instance_double(::Claim::BaseClaim) }
     let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: 'whatever') }
 

@@ -1,5 +1,6 @@
 RSpec.describe ZendeskSender do
   subject(:sender) { ZendeskSender.new(ticket_payload) }
+
   let(:ticket_payload) { double('ticket_payload', subject: 'Bug report', description: 'event - outcome - email address', referrer: '/claims', user_agent: 'chrome') }
 
   before do

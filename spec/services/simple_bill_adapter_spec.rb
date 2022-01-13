@@ -11,21 +11,25 @@ RSpec.describe SimpleBillAdapter do
 
       describe '.bill_type' do
         subject { described_class.bill_type }
+
         it { is_expected.to eql 'MY_BILL_TYPE' }
       end
 
       describe '.bill_subtype' do
         subject { described_class.bill_subtype }
+
         it { is_expected.to eql 'MY_BILL_SUBTYPE' }
       end
 
       describe '#bill_type' do
         subject { instance.bill_type }
+
         it { is_expected.to eql 'MY_BILL_TYPE' }
       end
 
       describe '#bill_subtype' do
         subject { instance.bill_subtype }
+
         it { is_expected.to eql 'MY_BILL_SUBTYPE' }
       end
     end

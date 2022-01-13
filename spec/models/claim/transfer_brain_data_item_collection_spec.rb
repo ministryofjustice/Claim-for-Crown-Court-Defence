@@ -50,6 +50,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
 
   describe '#to_h' do
     subject { collection.to_h }
+
     it { is_expected.to be_a Hash }
     it { is_expected.to match_hash(data_item_collection_hash) }
   end

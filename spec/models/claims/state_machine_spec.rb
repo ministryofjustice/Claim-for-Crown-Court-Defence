@@ -263,6 +263,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   context 'set triggers' do
     context 'make archive_pending_delete valid for 180 days' do
       subject(:claim) { create(:authorised_claim) }
+
       let(:frozen_time) { Time.now.change(usec: 0) }
 
       before do

@@ -8,6 +8,7 @@ RSpec.describe Fee::BaseFeePresenter, type: :presenter do
 
   describe '#display_amount?' do
     subject(:display_amount?) { presenter.display_amount? }
+
     it { is_expected.to be_truthy }
   end
 

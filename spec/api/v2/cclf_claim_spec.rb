@@ -20,6 +20,7 @@ end
 
 RSpec.shared_examples 'returns LGFS claim type' do |type|
   subject { last_response.status }
+
   let(:case_type_grtrl) { create(:case_type, :trial) }
 
   it "returns #{type.to_s.humanize}s" do

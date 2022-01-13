@@ -12,6 +12,7 @@ RSpec.describe CCLF::ExpenseAdapter, type: :adapter do
       final_claim_bill_scenarios.each_key do |fee_type_code|
         context "when an expense of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do
           subject(:instance) { described_class.new(expense) }
+
           let(:claim) { instance_double(::Claim::LitigatorClaim, case_type: case_type) }
           let(:case_type) { instance_double(::CaseType, fee_type_code: fee_type_code) }
           let(:expense_type) { instance_double(::ExpenseType, unique_code: unique_code) }

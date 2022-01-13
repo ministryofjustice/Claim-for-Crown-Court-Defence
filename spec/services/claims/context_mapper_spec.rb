@@ -6,6 +6,7 @@ RSpec.describe Claims::ContextMapper do
   #
   describe '#available_claim_types' do
     subject { context.available_claim_types.map(&:to_s) }
+
     let(:context) { Claims::ContextMapper.new(external_user) }
     let(:external_user) { create(:external_user, :advocate_litigator) }
 

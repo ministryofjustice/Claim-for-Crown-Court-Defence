@@ -100,6 +100,7 @@ describe Claim::TransferClaim, type: :model do
 
   describe '#eligible_misc_fee_types' do
     subject(:call) { claim.eligible_misc_fee_types }
+
     let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
 
     it 'calls eligible misc fee type fetch service' do

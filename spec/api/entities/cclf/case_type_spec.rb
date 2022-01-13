@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe API::Entities::CCLF::CaseType do
   subject(:response) { JSON.parse(described_class.represent(claim).to_json).deep_symbolize_keys }
+
   let(:case_type) { build(:case_type, :trial) }
 
   context 'delegation' do

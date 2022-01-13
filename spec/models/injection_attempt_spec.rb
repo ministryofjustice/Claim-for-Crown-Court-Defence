@@ -62,6 +62,7 @@ RSpec.describe InjectionAttempt, type: :model do
 
   describe '#real_error_messages' do
     subject { build(:injection_attempt, :with_errors).real_error_messages }
+
     let(:errors_json) { '{"errors":[ {"error":"injection error 1"},{"error":"injection error 2"}]}' }
     let(:error_messages) { JSON.parse(errors_json) }
 

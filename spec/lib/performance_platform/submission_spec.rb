@@ -15,6 +15,7 @@ describe PerformancePlatform::Submission do
 
   describe '#add_data_set' do
     subject(:add_data_set) { submission.add_data_set(date, fields) }
+
     let(:date) { Date.new(2018, 8, 13) }
     let(:fields) { { channel: 'Paper', count: 0 } }
 

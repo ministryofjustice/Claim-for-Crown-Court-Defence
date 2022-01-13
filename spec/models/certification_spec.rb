@@ -15,6 +15,7 @@ require 'rails_helper'
 
 RSpec.describe Certification, type: :model do
   subject(:certification) { build(:certification, certification_type: certification_type, claim: claim) }
+
   let!(:certification_type) { create(:certification_type) }
   let(:claim) { build(:claim) }
 

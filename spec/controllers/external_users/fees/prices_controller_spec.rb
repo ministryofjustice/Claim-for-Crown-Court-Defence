@@ -48,6 +48,7 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
   describe 'POST #calculate.json' do
     context 'message sending' do
       subject(:calculate) { post :calculate, params: params }
+
       let(:claim) { create(:draft_claim) }
 
       let(:strong_params) { ActionController::Parameters.new(params).permit! }

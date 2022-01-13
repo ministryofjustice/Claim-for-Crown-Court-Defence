@@ -1,5 +1,6 @@
 RSpec.shared_examples 'duplicable fee' do
   subject(:fee) { build(described_class.to_s.demodulize.underscore.to_sym) }
+
   let(:parent) { fee._parent_amoeba.instance_variable_get(:@klass) }
   let(:config) { fee._parent_amoeba.instance_variable_get(:@config) }
 

@@ -9,6 +9,7 @@ shared_examples '.defendant_uplift_sums' do
   context 'miscellaneous fees' do
     describe '.defendant_uplift_sums' do
       subject { described_class.defendant_uplift_sums }
+
       let(:claim) { create(:advocate_claim) }
       let(:miahu) { create(:misc_fee_type, :miahu) }
 
@@ -87,6 +88,7 @@ shared_examples 'defendant upliftable' do
 
       context 'when supplementary claim passed as an arg' do
         subject { fee_type.defendant_uplift_parent_unique_code(claim) }
+
         let(:claim) { instance_double(Claim::AdvocateSupplementaryClaim, supplementary?: true) }
 
         it 'returns parent miscellaneous fee type unique code' do

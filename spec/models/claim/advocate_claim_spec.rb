@@ -131,6 +131,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#eligible_misc_fee_types' do
       subject(:call) { claim.eligible_misc_fee_types }
+
       let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
 
       it 'calls eligible misc fee type fetch service' do
@@ -142,6 +143,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#eligible_fixed_fee_types' do
       subject(:call) { claim.eligible_fixed_fee_types }
+
       let(:service) { instance_double(Claims::FetchEligibleFixedFeeTypes) }
 
       it 'calls eligible fixed fee type fetch service' do
@@ -823,6 +825,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe 'allocate claim when assigning to case worker' do
     subject { create(:submitted_claim) }
+
     let(:case_worker) { create(:case_worker) }
 
     it 'moves to "allocated" state when assigned to case worker' do
@@ -833,6 +836,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe 'moves to "submitted" state when case worker removed' do
     subject { create(:submitted_claim) }
+
     let(:case_worker) { create(:case_worker) }
     let(:other_case_worker) { create(:case_worker) }
 

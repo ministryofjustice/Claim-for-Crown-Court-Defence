@@ -19,7 +19,7 @@ class Feedback
       instance_variable_set(:"@#{key}", value)
     end
 
-    @reason.reject!(&:blank?) if @reason.present?
+    @reason.compact_blank! if @reason.present?
   end
 
   def feedback?

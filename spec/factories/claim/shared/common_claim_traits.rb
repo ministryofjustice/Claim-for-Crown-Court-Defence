@@ -55,9 +55,9 @@ FactoryBot.define do
 
   trait :redetermination do
     after(:create) do |claim|
-      travel_to(Time.zone.now - 3.days) { claim.submit! }
-      travel_to(Time.zone.now - 2.days) { claim.allocate! }
-      travel_to(Time.zone.now - 1.day) do
+      travel_to(3.days.ago) { claim.submit! }
+      travel_to(2.days.ago) { claim.allocate! }
+      travel_to(1.day.ago) do
         assign_fees_and_expenses_for(claim)
         claim.authorise!
       end

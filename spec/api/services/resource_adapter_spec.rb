@@ -4,6 +4,7 @@ RSpec.describe API::Services::ResourceAdapter do
   subject { described_class.new(resource) }
 
   let(:resource) { {} }
+
   it { is_expected.to respond_to(:call) }
 
   describe '#call' do

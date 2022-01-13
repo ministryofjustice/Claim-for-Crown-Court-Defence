@@ -27,6 +27,7 @@ RSpec.shared_examples 'a successful daily attendance fee calculation' do
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
 
       context 'for a daily attendance (2+)' do
@@ -48,22 +49,26 @@ RSpec.shared_examples 'a failed daily attendance fee calculation' do |options = 
 
       context 'for a daily attendance (3 to 40)' do
         let(:fee_type) { create(:basic_fee_type, :daf) }
+
         it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
       end
 
       context 'for a daily attendance (41 to 50)' do
         let(:fee_type) { create(:basic_fee_type, :dah) }
+
         it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
       end
 
       context 'for a daily attendance (51+)' do
         let(:fee_type) { create(:basic_fee_type, :daj) }
+
         it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
       end
     end
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
 
       context 'for a daily attendance (2+)' do
@@ -83,11 +88,13 @@ RSpec.shared_examples 'a successful standard appearance fee calculation' do
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
+
       it_returns 'a successful fee calculator response', unit: 'day', amount: 87.00
     end
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
       it_returns 'a successful fee calculator response', unit: 'day', amount: 90.00
     end
@@ -101,11 +108,13 @@ RSpec.shared_examples 'a failed standard appearance fee calculation' do |options
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
+
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
@@ -119,11 +128,13 @@ RSpec.shared_examples 'a successful plea and trial preparation fee calculation' 
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
+
       it_returns 'a successful fee calculator response', unit: 'case', amount: 87.00
     end
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
       it_returns 'a successful fee calculator response', unit: 'case', amount: 125.00
     end
@@ -137,11 +148,13 @@ RSpec.shared_examples 'a failed plea and trial preparation fee calculation' do |
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
+
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
@@ -155,11 +168,13 @@ RSpec.shared_examples 'a successful conferences and views fee calculation' do
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
+
       it_returns 'a successful fee calculator response', unit: 'hour', amount: 39.00
     end
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
       it_returns 'a successful fee calculator response', unit: 'hour', amount: 40.00
     end
@@ -173,11 +188,13 @@ RSpec.shared_examples 'a failed conferences and views fee calculation' do |optio
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
+
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
@@ -198,11 +215,13 @@ RSpec.shared_examples 'a successful basic uplift fee calculation' do |options = 
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
+
       it_returns 'a successful fee calculator response', unit: options.fetch(:unit), amount: options.fetch(:scheme_9_amount, 326.40)
     end
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
       it_returns 'a successful fee calculator response', unit: options.fetch(:unit), amount: options.fetch(:scheme_10_amount, 110.00)
     end
@@ -223,11 +242,13 @@ RSpec.shared_examples 'a failed basic uplift fee calculation' do |options = {}|
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
+
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
 
     context 'scheme 10' do
       let(:claim) { scheme_10_claim }
+
       before { params.merge!(advocate_category: 'Junior') }
       it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
     end
@@ -255,6 +276,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
   let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
 
   let(:claim) { build(:draft_claim) }
+
   it { is_expected.to respond_to(:call) }
 
   before(:all) { seed_fee_schemes }
@@ -353,6 +375,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                 context 'scheme 10' do
                   let(:claim) { scheme_10_claim }
+
                   before { params.merge!(advocate_category: 'Junior') }
 
                   context 'for a daily attendance (2+)' do
@@ -387,6 +410,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                 context 'scheme 10' do
                   let(:claim) { scheme_10_claim }
+
                   before { params.merge!(advocate_category: 'Junior') }
 
                   context '30% reduction applies' do
@@ -430,6 +454,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                 context 'scheme 10' do
                   let(:claim) { scheme_10_claim }
+
                   before { params.merge!(advocate_category: 'Junior') }
 
                   context 'for a daily attendance (2+)' do
@@ -464,6 +489,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                 context 'scheme 10' do
                   let(:claim) { scheme_10_claim }
+
                   before { params.merge!(advocate_category: 'Junior') }
 
                   context '20% reduction applies' do

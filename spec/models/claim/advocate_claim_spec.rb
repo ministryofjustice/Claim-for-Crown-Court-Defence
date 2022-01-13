@@ -323,6 +323,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'when the case type is set and its for fixed fee' do
       let(:case_type) { create(:case_type, :fixed_fee) }
+
       subject(:claim) { described_class.new(case_type: case_type) }
 
       specify { expect(claim.basic_fees).to be_empty }
@@ -330,6 +331,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'when the case type is set and its for graduated fee' do
       let(:case_type) { create(:case_type, :graduated_fee) }
+
       subject(:claim) { described_class.new(case_type: case_type) }
 
       it 'returns a list of basic fees for each of the eligible basic fee types with all the fees with blank values' do
@@ -351,6 +353,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             'case_type_id' => case_type.id
           }
         }
+
         subject(:claim) { described_class.new(attributes) }
 
         it 'returns a list of basic fees for each of the eligible basic fee types with the ones provided by the user filled in' do

@@ -88,6 +88,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
 
     describe 'multiple supplier numbers' do
       let(:provider) { create(:provider, :lgfs) }
+
       subject { provider }
 
       before { subject.lgfs_supplier_numbers.delete_all }

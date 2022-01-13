@@ -13,6 +13,7 @@ RSpec.describe Claims::FetchEligibleFixedFeeTypes, type: :service do
 
     context 'nil claim' do
       let(:claim) { nil }
+
       it { is_expected.to eq(nil) }
     end
 
@@ -44,12 +45,14 @@ RSpec.describe Claims::FetchEligibleFixedFeeTypes, type: :service do
 
       context 'advocate final claim' do
         let(:claim) { create(:advocate_claim) }
+
         it { is_expected.to all(be_a(Fee::FixedFeeType)) }
 
         context 'fixed fee case types' do
           AGFS_FIXED_FEE_ELIGIBILITY.each do |fee_type_code, eligible_fee_type_unique_codes|
             context "case type #{fee_type_code}" do
               let(:case_type) { CaseType.find_by(fee_type_code: fee_type_code) }
+
               before { allow(claim).to receive(:case_type).and_return case_type }
 
               it "returns fee types with unique codes #{eligible_fee_type_unique_codes}" do
@@ -63,6 +66,7 @@ RSpec.describe Claims::FetchEligibleFixedFeeTypes, type: :service do
           AGFS_GRAD_FEE_ELIGIBILITY.each do |fee_type_code|
             context "case type #{fee_type_code}" do
               let(:case_type) { CaseType.find_by(fee_type_code: fee_type_code) }
+
               before { allow(claim).to receive(:case_type).and_return case_type }
 
               it { is_expected.to be_empty }

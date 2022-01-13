@@ -27,11 +27,13 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
 
     context 'when claim is pre agfs reform' do
       let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
+
       it { is_expected.to be_falsey }
     end
 
     context 'when claim is post agfs reform' do
       let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
+
       it { is_expected.to be_truthy }
     end
   end

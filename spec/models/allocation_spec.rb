@@ -52,6 +52,7 @@ RSpec.describe Allocation, type: :model do
         subject { allocator.save }
         let(:claims) { create_list(:submitted_claim, 1) }
         let(:case_worker_dbl) { double(Array, empty?: true, exists?: false) }
+
         before do
           allow(case_worker_dbl).to receive(:<<)
           allow(case_worker_dbl).to receive(:pluck).and_return(['1'])

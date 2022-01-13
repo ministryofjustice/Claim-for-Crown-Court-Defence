@@ -64,6 +64,7 @@ RSpec.describe Claim::InterimClaimPresenter, type: :presenter do
 
     context 'for interim case' do
       let(:claim) { build(:interim_claim, interim_fee: nil) }
+
       it { is_expected.to be false }
     end
   end

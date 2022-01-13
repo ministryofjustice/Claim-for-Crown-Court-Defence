@@ -17,6 +17,7 @@ RSpec.describe StageTransition do
 
     context 'when to_stage is a string' do
       let(:next_stage_name) { 'str_stage' }
+
       specify { expect(transition.to_stage).to eq(:str_stage) }
     end
   end

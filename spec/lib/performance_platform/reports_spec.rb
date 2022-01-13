@@ -14,6 +14,7 @@ RSpec.describe PerformancePlatform::Reports do
 
   context 'when the reports file cannot be processed' do
     let(:expected_yaml) { nil }
+
     it { expect { reports }.to raise_error('config/performance_platform.yml cannot be loaded') }
   end
 

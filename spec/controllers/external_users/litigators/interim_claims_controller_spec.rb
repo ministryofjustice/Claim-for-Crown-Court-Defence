@@ -196,6 +196,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
       context 'submit to LAA with incomplete/invalid params' do
         let(:invalid_claim_params) { { advocate_category: 'QC' } }
+
         it 'does not create a claim' do
           expect {
             post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }

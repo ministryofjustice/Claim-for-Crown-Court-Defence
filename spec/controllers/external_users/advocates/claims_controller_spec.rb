@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
   let!(:advocate) { create(:external_user, :advocate) }
+
   before { sign_in advocate.user }
 
   describe 'GET #new' do
@@ -196,6 +197,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
       context 'submit to LAA with incomplete/invalid params' do
         let(:invalid_claim_params) { { claim_class: 'Claim::AdvocateClaim' } }
+
         it 'does not create a claim' do
           expect {
             post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }

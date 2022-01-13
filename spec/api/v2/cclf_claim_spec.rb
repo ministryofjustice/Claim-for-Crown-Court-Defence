@@ -530,6 +530,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       context 'hardship claims' do
         context 'when hardship fee, alone, exists' do
           let(:claim) { create(:litigator_hardship_claim, :submitted, :with_hardship_fee) }
+
           it { valid_cclf_json?(response) }
 
           it 'returns array containing 1 bill' do

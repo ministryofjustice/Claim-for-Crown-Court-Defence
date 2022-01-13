@@ -25,6 +25,7 @@ RSpec.describe Claims::FeeCalculator::Request do
       context 'when amount is a Price' do
         let(:service) { instance_double(Claims::FeeCalculator::UnitPrice, amount: price) }
         let(:price) { Claims::FeeCalculator::Price.new({}, nil, 1) }
+
         before do
           allow(price).to receive(:per_unit).and_return(26.00)
           allow(price).to receive(:unit).and_return('day')

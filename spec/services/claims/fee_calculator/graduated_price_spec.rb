@@ -107,12 +107,14 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           TRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
             context "with an estimated length of #{length}" do
               let(:length) { length }
+
               it_returns 'a successful fee calculator response', amount: amount
             end
           end
 
           context 'when 2 defendants' do
             let(:length) { 10 }
+
             it_returns 'a successful fee calculator response',
                        number_of_defendants: 2,
                        scheme: 'lgfs',
@@ -129,6 +131,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           RETRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
             context "with an estimated length of #{length}" do
               let(:length) { length }
+
               it_returns 'a successful fee calculator response', amount: amount
             end
           end
@@ -169,11 +172,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
           context 'trial' do
             let(:case_type) { create(:case_type, :trial) }
+
             it_returns 'a successful fee calculator response', amount: 1632.00
           end
 
           context 'guilty plea' do
             let(:case_type) { create(:case_type, :guilty_plea) }
+
             it_returns 'a successful fee calculator response', amount: 979.00
           end
 
@@ -358,6 +363,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
           context 'trial' do
             let(:case_type) { create(:case_type, :trial) }
+
             it_returns 'a successful fee calculator response', amount: 8500.00
           end
         end
@@ -370,6 +376,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
           context 'trial' do
             let(:case_type) { create(:case_type, :trial) }
+
             it_returns 'a successful fee calculator response', amount: 8585.00
           end
         end
@@ -386,19 +393,23 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
           context 'trial' do
             let(:case_type) { create(:case_type, :trial) }
+
             context '1 to 50 pages' do
               let(:quantity) { 50 }
+
               it_returns 'a successful fee calculator response', amount: 0.00
             end
 
             context '51+ pages' do
               context 'per page' do
                 let(:quantity) { 51 }
+
                 it_returns 'a successful fee calculator response', amount: 0.98
               end
 
               context '1000 pages' do
                 let(:quantity) { 1000 }
+
                 it_returns 'a successful fee calculator response', amount: 931.00
               end
             end
@@ -410,6 +421,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             context '1 to 1000 pages' do
               context 'per page' do
                 let(:quantity) { 1 }
+
                 it_returns 'a successful fee calculator response', amount: 1.19
               end
             end
@@ -417,6 +429,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             context '1001 to 10000 pages' do
               context '1001 pages' do
                 let(:quantity) { 1001 }
+
                 it_returns 'a successful fee calculator response', amount: 1190.59
               end
             end
@@ -428,6 +441,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             context '1 to 1000 pages' do
               context 'per page' do
                 let(:quantity) { 1 }
+
                 it_returns 'a successful fee calculator response', amount: 1.19
               end
             end
@@ -435,6 +449,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             context '1001 to 10000 pages' do
               context '1001 pages' do
                 let(:quantity) { 1001 }
+
                 it_returns 'a successful fee calculator response', amount: 1190.59
               end
             end
@@ -456,12 +471,14 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                 context 'fee calculation excluded' do
                   let(:quantity) { 51 }
+
                   it_returns 'a failed fee calculator response', message: /insufficient_data/i
                 end
               end
 
               context 'without retrial reduction' do
                 let(:quantity) { 51 }
+
                 it_returns 'a successful fee calculator response', amount: 0.98
               end
             end
@@ -480,6 +497,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 context '51+ pages' do
                   context 'per page' do
                     let(:quantity) { 51 }
+
                     it_returns 'a successful fee calculator response', amount: 0.69
                   end
                 end
@@ -489,6 +507,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 context '51+ pages' do
                   context 'per page' do
                     let(:quantity) { 51 }
+
                     it_returns 'a successful fee calculator response', amount: 0.98
                   end
                 end
@@ -510,6 +529,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                   context '51+ pages' do
                     context 'per page' do
                       let(:quantity) { 51 }
+
                       it_returns 'a successful fee calculator response', amount: 0.78
                     end
                   end
@@ -520,6 +540,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 context '51+ pages' do
                   context 'per page' do
                     let(:quantity) { 51 }
+
                     it_returns 'a successful fee calculator response', amount: 0.98
                   end
                 end
@@ -536,11 +557,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               context '1 to 1000 pages increments by a specific amount per page' do
                 context '1 page' do
                   let(:quantity) { 1 }
+
                   it_returns 'a successful fee calculator response', amount: 1.19
                 end
 
                 context '1000 pages' do
                   let(:quantity) { 1000 }
+
                   it_returns 'a successful fee calculator response', amount: 1190.00
                 end
               end
@@ -548,11 +571,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               context '1001 to 10000 pages' do
                 context '1001 pages' do
                   let(:quantity) { 1001 }
+
                   it_returns 'a successful fee calculator response', amount: 1190.59
                 end
 
                 context '10000 pages' do
                   let(:quantity) { 10000 }
+
                   it_returns 'a successful fee calculator response', amount: 6500.0
                 end
               end
@@ -560,6 +585,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               context '10001+ pages does not increment per page' do
                 context '10001 pages' do
                   let(:quantity) { 10001 }
+
                   it_returns 'a successful fee calculator response', amount: 6500.0
                 end
               end
@@ -571,11 +597,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               context '1 to 250 pages increments by a specific amount per page' do
                 context '1 page' do
                   let(:quantity) { 1 }
+
                   it_returns 'a successful fee calculator response', amount: 4.52
                 end
 
                 context '250 pages' do
                   let(:quantity) { 250 }
+
                   it_returns 'a successful fee calculator response', amount: 1130.00
                 end
               end
@@ -583,11 +611,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               context '251 to 1000 pages increments by a specific amount per page' do
                 context '251 pages' do
                   let(:quantity) { 251 }
+
                   it_returns 'a successful fee calculator response', amount: 1132.1
                 end
 
                 context '1000 pages' do
                   let(:quantity) { 1000 }
+
                   it_returns 'a successful fee calculator response', amount: 2705.0
                 end
               end
@@ -595,11 +625,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               context '1001 to 10000 pages increments by a specific amount per page' do
                 context '1001 pages' do
                   let(:quantity) { 1001 }
+
                   it_returns 'a successful fee calculator response', amount: 2705.69
                 end
 
                 context '10000 pages' do
                   let(:quantity) { 10000 }
+
                   it_returns 'a successful fee calculator response', amount: 8915.0
                 end
               end
@@ -607,6 +639,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               context '10001+ pages does not increment per page' do
                 context '10001 pages' do
                   let(:quantity) { 10001 }
+
                   it_returns 'a successful fee calculator response', amount: 8915.0
                 end
               end
@@ -637,6 +670,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -648,6 +682,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -668,6 +703,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -679,6 +715,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -701,6 +738,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -712,6 +750,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -733,6 +772,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -744,6 +784,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -768,11 +809,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             context '1 to 10 prosecution witnesses has no fee' do
               context '1 witness' do
                 let(:quantity) { 1 }
+
                 it_returns 'a successful fee calculator response', amount: 0.00
               end
 
               context '10 witnesses' do
                 let(:quantity) { 10 }
+
                 it_returns 'a successful fee calculator response', amount: 0.00
               end
             end
@@ -780,6 +823,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             context '11+ proescution witness increments per witness' do
               context '11 witnesses' do
                 let(:quantity) { 11 }
+
                 it_returns 'a successful fee calculator response', amount: 4.90
               end
             end
@@ -817,12 +861,14 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                 context 'fee calculation excluded' do
                   let(:quantity) { 11 }
+
                   it_returns 'a failed fee calculator response', message: /insufficient_data/i
                 end
               end
 
               context 'without retrial reduction' do
                 let(:quantity) { 11 }
+
                 it_returns 'a successful fee calculator response', amount: 4.90
               end
             end
@@ -841,11 +887,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 context '1 to 10 prosecution witnesses has no fee' do
                   context '1 witness' do
                     let(:quantity) { 1 }
+
                     it_returns 'a successful fee calculator response', amount: 0.00
                   end
 
                   context '10 witnesses' do
                     let(:quantity) { 10 }
+
                     it_returns 'a successful fee calculator response', amount: 0.00
                   end
                 end
@@ -853,6 +901,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 context '11+ prosecution witnesses increments per witness with 30% reduction' do
                   context '11 witnesses' do
                     let(:quantity) { 11 }
+
                     it_returns 'a successful fee calculator response', amount: 3.43
                   end
                 end
@@ -863,6 +912,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                 context '11+ prosecution witnesses increments per witness with 0% reduction' do
                   let(:quantity) { 11 }
+
                   it_returns 'a successful fee calculator response', amount: 4.90
                 end
               end
@@ -882,11 +932,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 context '1 to 10 prosecution witnesses has no fee' do
                   context '1 witness' do
                     let(:quantity) { 1 }
+
                     it_returns 'a successful fee calculator response', amount: 0.00
                   end
 
                   context '10 witnesses' do
                     let(:quantity) { 10 }
+
                     it_returns 'a successful fee calculator response', amount: 0.00
                   end
                 end
@@ -894,6 +946,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 context '11+ prosecution witnesses increments per witness with 20% reduction' do
                   context '11 witnesses' do
                     let(:quantity) { 11 }
+
                     it_returns 'a successful fee calculator response', amount: 3.92
                   end
                 end
@@ -904,6 +957,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                 context '11+ prosecution witnesses increments per witness with 0% reduction' do
                   let(:quantity) { 11 }
+
                   it_returns 'a successful fee calculator response', amount: 4.90
                 end
               end
@@ -949,6 +1003,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -960,6 +1015,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -980,6 +1036,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -991,6 +1048,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -1013,6 +1071,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -1024,6 +1083,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -1045,6 +1105,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end
@@ -1056,6 +1117,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
                   context 'fee calculation excluded' do
                     let(:quantity) { 1 }
+
                     it_returns 'a failed fee calculator response', message: /insufficient_data/i
                   end
                 end

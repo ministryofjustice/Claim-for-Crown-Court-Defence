@@ -19,6 +19,7 @@ end
 
 RSpec.describe Claim::BaseClaimPresenter do
   let(:claim) { create(:advocate_claim) }
+
   subject(:presenter) { described_class.new(claim, view) }
 
   before do

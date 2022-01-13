@@ -195,6 +195,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
 
       context 'the new claim' do
         let(:claim) { claim_class.active.last }
+
         before { post_to_create_endpoint }
 
         it 'has attributes matching the params' do

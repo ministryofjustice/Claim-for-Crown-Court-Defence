@@ -104,6 +104,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
     context 'when disbursement params are invalid' do
       context 'invalid API key' do
         let(:valid_params) { params }
+
         include_examples 'invalid API key create endpoint', exclude: :other_provider
       end
 
@@ -184,6 +185,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
 
     context 'invalid API key' do
       let(:valid_params) { params }
+
       include_examples 'invalid API key validate endpoint', exclude: :other_provider
     end
 
@@ -207,6 +209,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
 
     context 'AGFS claims' do
       let(:claim) { create(:advocate_claim, source: 'api').reload }
+
       it 'returns 400 and JSON error array' do
         post_to_validate_endpoint
         expect(last_response.status).to eq 400

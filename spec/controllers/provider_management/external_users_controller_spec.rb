@@ -204,6 +204,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
   describe 'PUT #update_password' do
     let(:password) { 'password123' }
     let(:password_confirm) { password }
+
     subject(:password_update_request) do
       put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } }
     end

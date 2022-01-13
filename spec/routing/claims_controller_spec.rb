@@ -12,11 +12,13 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :routing do
   describe 'Route helpers' do
     context 'unpersisted (post)' do
       let(:claim) { build(:advocate_claim) }
+
       it { expect(polymorphic_path(claim)).to eq('/advocates/claims') }
     end
 
     context 'persisted (put or edit)' do
       let(:claim) { create(:advocate_claim) }
+
       it { expect(polymorphic_path(claim)).to eq("/advocates/claims/#{claim.id}") }
       it { expect(edit_polymorphic_path(claim)).to eq("/advocates/claims/#{claim.id}/edit") }
     end
@@ -39,11 +41,13 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :routing do
   describe 'Route helpers' do
     context 'unpersisted (post)' do
       let(:claim) { build(:litigator_claim) }
+
       it { expect(polymorphic_path(claim)).to eq('/litigators/claims') }
     end
 
     context 'persisted (put or edit)' do
       let(:claim) { create(:litigator_claim) }
+
       it { expect(polymorphic_path(claim)).to eq("/litigators/claims/#{claim.id}") }
       it { expect(edit_polymorphic_path(claim)).to eq("/litigators/claims/#{claim.id}/edit") }
     end
@@ -59,11 +63,13 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :routin
   describe 'Route helpers' do
     context 'unpersisted (post)' do
       let(:claim) { build(:interim_claim) }
+
       it { expect(polymorphic_path(claim)).to eq('/litigators/interim_claims') }
     end
 
     context 'persisted (put or edit)' do
       let(:claim) { create(:interim_claim) }
+
       it { expect(polymorphic_path(claim)).to eq("/litigators/interim_claims/#{claim.id}") }
       it { expect(edit_polymorphic_path(claim)).to eq("/litigators/interim_claims/#{claim.id}/edit") }
     end
@@ -79,11 +85,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :routi
   describe 'Route helpers' do
     context 'unpersisted (post)' do
       let(:claim) { build(:transfer_claim) }
+
       it { expect(polymorphic_path(claim)).to eq('/litigators/transfer_claims') }
     end
 
     context 'persisted (put or edit)' do
       let(:claim) { create(:transfer_claim) }
+
       it { expect(polymorphic_path(claim)).to eq("/litigators/transfer_claims/#{claim.id}") }
       it { expect(edit_polymorphic_path(claim)).to eq("/litigators/transfer_claims/#{claim.id}/edit") }
     end

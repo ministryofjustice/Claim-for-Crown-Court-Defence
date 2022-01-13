@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ClaimHistoryPresenter do
   let(:claim) { create :claim }
+
   subject { ClaimHistoryPresenter.new(claim, view) }
 
   describe '#history_items_by_date' do

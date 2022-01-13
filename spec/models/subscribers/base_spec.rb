@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Subscribers::Base, type: :subscriber do
   describe 'instance' do
     let(:args) { ['some_event.lib', 2.minutes.ago, 5.seconds.ago, SecureRandom.uuid, {}] }
+
     subject(:instance) { described_class.new(*args) }
 
     before do

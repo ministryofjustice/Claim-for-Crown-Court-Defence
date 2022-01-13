@@ -193,6 +193,7 @@ RSpec.describe ExpensePresenter do
 
     context 'when a location is NOT present' do
       let(:expense) { create(:expense, :parking, location: nil, claim: claim) }
+
       it { is_expected.to be_nil }
     end
   end
@@ -214,11 +215,13 @@ RSpec.describe ExpensePresenter do
 
     context 'when a location is NOT present' do
       let(:expense) { create(:expense, :parking, location: nil, claim: claim) }
+
       it { is_expected.to be_nil }
     end
 
     context 'when a locations establishment is NOT present' do
       let(:expense) { create(:expense, :parking, location: 'Timbuktu', claim: claim) }
+
       it { is_expected.to eql 'Timbuktu' }
     end
   end
@@ -286,6 +289,7 @@ RSpec.describe ExpensePresenter do
 
     context 'when the expense has private mileage rate' do
       let(:mileage_rate) { 2 }
+
       { unverified: { accepted: 27, decreased: 28, increased: 26, nil: nil } }.each do |expected, values|
         values.each do |type, value|
           context "it #{type.eql?('nil') ? 'has not' : 'has'} been calculated and the distance is #{type}" do

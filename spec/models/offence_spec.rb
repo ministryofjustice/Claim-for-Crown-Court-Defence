@@ -50,11 +50,13 @@ RSpec.describe Offence, type: :model do
 
     context 'when the offence has a offence_band' do
       let(:offence_class) { nil }
+
       it { is_expected.to be_valid }
     end
 
     context 'when the offence has an offence_class' do
       let(:offence_band) { nil }
+
       it { is_expected.to be_valid }
     end
 
@@ -65,6 +67,7 @@ RSpec.describe Offence, type: :model do
     context 'when the offence has neither a offence_band and an offence_class' do
       let(:offence_band) { nil }
       let(:offence_class) { nil }
+
       it { is_expected.to_not be_valid }
     end
   end

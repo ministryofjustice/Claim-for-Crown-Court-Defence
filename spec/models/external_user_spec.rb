@@ -266,11 +266,13 @@ RSpec.describe ExternalUser, type: :model do
 
     context 'for users with only an advocate role' do
       let(:user) { build(:external_user, :advocate) }
+
       it { is_expected.to match_array(agfs_claim_object_types) }
     end
 
     context 'for users with only a litigator role' do
       let(:user) { build(:external_user, :litigator) }
+
       it { is_expected.to match_array(lgfs_claim_object_types) }
     end
 
@@ -284,6 +286,7 @@ RSpec.describe ExternalUser, type: :model do
 
     context 'for users with both an advocate and litigator role in provider with both agfs and lgfs role' do
       let(:user) { build(:external_user, :advocate_litigator) }
+
       it { is_expected.to match_array(all_claim_object_types) }
     end
   end
@@ -295,6 +298,7 @@ RSpec.describe ExternalUser, type: :model do
     # NOTE: there is provider cannot be blank validation - pointless test?
     context 'when the user does not belong to a provider' do
       let(:provider) { build(:provider) }
+
       before { user.provider = nil }
       it 'returns admin' do
         is_expected.to match_array %w[admin]
@@ -304,22 +308,26 @@ RSpec.describe ExternalUser, type: :model do
     context 'when the user belongs to a provider that' do
       context 'handles both AGFS and LGFS claims' do
         let(:provider) { build(:provider, :agfs_lgfs) }
+
         it { is_expected.to match_array %w[admin advocate litigator] }
       end
 
       context 'handles only AGFS claims' do
         let(:provider) { build(:provider, :agfs) }
+
         it { is_expected.to match_array %w[admin advocate] }
       end
 
       context 'handles only LGFS claims' do
         let(:provider) { build(:provider, :lgfs) }
+
         it { is_expected.to match_array %w[admin litigator] }
       end
     end
 
     context 'when an invalid role supplied' do
       let(:provider) { build(:provider) }
+
       before { user.provider.roles = %w[invalid_role] }
       it 'raises an error' do
         expect { user.available_roles }.to raise_error(RuntimeError)

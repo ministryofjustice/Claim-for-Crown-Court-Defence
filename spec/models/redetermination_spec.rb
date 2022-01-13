@@ -42,16 +42,19 @@ RSpec.describe Redetermination do
     describe '#calculate_vat' do
       context 'advocate claims' do
         let(:claim) { create(:advocate_claim, apply_vat: true) }
+
         include_examples 'calculates redetermination VAT'
       end
 
       context 'advocate supplementary claims' do
         let(:claim) { create(:advocate_supplementary_claim, apply_vat: true) }
+
         include_examples 'calculates redetermination VAT'
       end
 
       context 'advocate interim claims' do
         let(:claim) { create(:advocate_interim_claim, apply_vat: true) }
+
         include_examples 'calculates redetermination VAT'
       end
 

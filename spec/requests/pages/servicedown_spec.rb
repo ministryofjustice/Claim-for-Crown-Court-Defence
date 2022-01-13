@@ -62,6 +62,7 @@ RSpec.describe 'Servicedown mode', type: :request do
       end
 
       let(:user) { create(:case_worker).user }
+
       context '/case_workers/claims' do
         before { get case_workers_home_path }
         it_behaves_like 'maintenance page', status: 200

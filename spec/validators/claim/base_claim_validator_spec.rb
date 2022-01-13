@@ -682,6 +682,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   context 'for claims requiring trial details' do
     context 'first day of trial' do
       let(:contempt_claim_with_nil_first_day) { nulify_fields_on_record(create(:claim, case_type: contempt), :first_day_of_trial) }
+
       before { contempt_claim_with_nil_first_day.force_validation = true }
       it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, 'blank', translated_message: 'Enter a date') }
       it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, 'check_other_date', translated_message: 'Can\'t be after the date "Trial concluded"') }
@@ -691,6 +692,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'trial_concluded_at' do
       let(:contempt_claim_with_nil_concluded_at) { nulify_fields_on_record(create(:claim, case_type: contempt), :trial_concluded_at) }
+
       before { contempt_claim_with_nil_concluded_at.force_validation = true }
       it { should_error_if_not_present(contempt_claim_with_nil_concluded_at, :trial_concluded_at, 'blank', translated_message: 'Enter a date') }
       it { should_error_if_earlier_than_other_date(contempt_claim_with_nil_concluded_at, :trial_concluded_at, :first_day_of_trial, 'check_other_date', translated_message: 'Can\'t be before the "First day of trial"') }

@@ -6,6 +6,7 @@ describe Claims::CreateClaim do
   end
 
   let(:claim) { build :advocate_claim, uuid: SecureRandom.uuid }
+
   subject { described_class.new(claim) }
 
   describe '#action' do

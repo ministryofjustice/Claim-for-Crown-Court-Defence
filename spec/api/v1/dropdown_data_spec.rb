@@ -348,6 +348,7 @@ RSpec.describe API::V1::DropdownData do
 
       context 'when unique_code exists' do
         let(:unique_code) { 'MIDTH' }
+
         it 'returns a specific fee type' do
           is_expected.to have_json_size 1
           is_expected.to be_json_eql('Confiscation hearings (half day)'.to_json).at_path('0/description')
@@ -356,6 +357,7 @@ RSpec.describe API::V1::DropdownData do
 
       context 'when unique_code does not exist' do
         let(:unique_code) { 'MODTH' }
+
         it 'returns nil' do
           is_expected.to have_json_size 0
         end
@@ -363,6 +365,7 @@ RSpec.describe API::V1::DropdownData do
 
       context 'when unique_code is nil' do
         let(:unique_code) { nil }
+
         it 'returns all' do
           expect(JSON.parse(response_body).size).to be > 1
         end
@@ -370,6 +373,7 @@ RSpec.describe API::V1::DropdownData do
 
       context 'when unique_code is empty string' do
         let(:unique_code) { '' }
+
         it 'returns all' do
           expect(JSON.parse(response_body).size).to be > 1
         end

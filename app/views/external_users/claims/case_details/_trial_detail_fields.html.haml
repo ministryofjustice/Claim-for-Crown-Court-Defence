@@ -2,28 +2,28 @@
   %h3.govuk-heading-m
     = t('.trial_detail')
 
-  #first_day_of_trial
-    = f.govuk_date_field :first_day_of_trial,
-      maxlength_enabled: true,
-      legend: { text: t('.first_day_of_trial') },
-      hint: { text: t('.date_hint') }
+  = f.govuk_date_field :first_day_of_trial,
+    form_group: { id: 'first_day_of_trial' },
+    hint: { text: t('.date_hint') },
+    legend: { text: t('.first_day_of_trial') },
+    maxlength_enabled: true
 
-  #trial_concluded_at
-    = f.govuk_date_field :trial_concluded_at,
-      maxlength_enabled: true,
-      legend: { text: t('.trial_concluded_at') },
-      hint: { text: t('.date_hint') }
+  = f.govuk_date_field :trial_concluded_at,
+    form_group: { id: 'trial_concluded_at' },
+    hint: { text: t('.date_hint') },
+    legend: { text: t('.trial_concluded_at') },
+    maxlength_enabled: true
 
   = f.govuk_text_field :estimated_trial_length,
-    label: { text: t('.estimated_trial_length') },
     hint: { text: t('.estimated_trial_length_hint') },
-    pattern: '[0-9]*',
     inputmode: 'numeric',
+    label: { text: t('.estimated_trial_length') },
+    pattern: '[0-9]*',
     width: 3
 
   = f.govuk_text_field :actual_trial_length,
-    label: { text: t('.actual_trial_length') },
     hint: { text: t('.actual_trial_length_hint') },
-    pattern: '[0-9]*',
     inputmode: 'numeric',
+    label: { text: t('.actual_trial_length') },
+    pattern: '[0-9]*',
     width: 3

@@ -3,25 +3,25 @@
     = render partial: 'external_users/claims/case_details/advocate_fields', locals: { f: f }
 
   = f.govuk_text_field :providers_ref,
-    label: { text: t('common.external_user.providers_ref') },
     hint: { text: t('common.external_user.providers_ref_hint') },
+    label: { text: t('common.external_user.providers_ref') },
     width: 'one-half'
 
   - if @claim.requires_case_type?
     = render partial: 'external_users/claims/case_details/case_type_fields', locals: { f: f }
 
-  #cc-court.fx-autocomplete-wrapper
-    = f.govuk_collection_select :court_id,
-      Court.alphabetical,
-      :id,
-      :name,
-      options: { include_blank: '' },
-      label: { text: t('.court') },
-      hint: { text: t('.court_hint') }
+  = f.govuk_collection_select :court_id,
+    Court.alphabetical,
+    :id,
+    :name,
+    form_group: { classes: ['fx-autocomplete-wrapper'], id: 'cc-court' },
+    hint: { text: t('.court_hint') },
+    label: { text: t('.court') },
+    options: { include_blank: '' }
 
   = f.govuk_text_field :case_number,
-    label: { text: t('.case_number_or_urn') },
     hint: { text: t('.case_number_or_urn_hint') },
+    label: { text: t('.case_number_or_urn') },
     width: 'one-half'
 
   = render partial: 'external_users/claims/case_details/transfer_court_question_fields', locals: { f: f }

@@ -1,5 +1,8 @@
-class DocumentCanaryJob < ApplicationJob
-  def perform
+# https://github.com/ssoroka/scheduler_daemon for help
+class DocumentCanaryTask < Scheduler::SchedulerTask
+  every '120m'
+
+  def run
     return skip_tasks if Rails.env.in? %w[development test]
 
     Rails.application.load_tasks

@@ -25,6 +25,7 @@ describe FeedbackHelper do
     context 'when user is not logged in' do
       let(:defined_user) { nil }
       let(:params) { { user_id: nil } }
+
       it { is_expected.to be_truthy }
     end
 

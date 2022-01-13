@@ -38,6 +38,7 @@ end
 
 RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
   before(:all) { seed_fee_schemes }
+
   after(:all) { clean_database }
 
   let!(:advocate) { create(:external_user, :advocate) }
@@ -47,6 +48,7 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
   describe 'POST #calculate.json' do
     context 'message sending' do
       subject(:calculate) { post :calculate, params: params }
+
       let(:claim) { create(:draft_claim) }
 
       let(:strong_params) { ActionController::Parameters.new(params).permit! }

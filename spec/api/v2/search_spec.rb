@@ -111,6 +111,7 @@ RSpec.describe API::V2::Search do
 
     context 'when accessed by a ExternalUser' do
       before { do_request }
+
       let(:api_key) { l33t_h4xx0r.user.api_key }
 
       it 'returns unauthorised' do

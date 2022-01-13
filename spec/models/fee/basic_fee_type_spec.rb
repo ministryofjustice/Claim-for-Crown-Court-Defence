@@ -21,6 +21,7 @@ require 'rails_helper'
 module Fee
   describe BasicFeeType do
     let(:fee_type) { build :basic_fee_type }
+
     DATES_ATTENDED_APPLICABLE_FEES = %w(BAF DAF DAH DAJ PCM SAF DAT)
     DATES_ATTENDED_NOT_APPLICABLE_FEES = %w(CAV NDR NOC PPE NPW)
 
@@ -46,6 +47,7 @@ module Fee
 
     describe '#case_uplift?' do
       subject { fee_type.case_uplift? }
+
       context 'for basic fees related to case uplifts' do
         before { allow(fee_type).to receive(:unique_code).and_return 'BANOC' }
 

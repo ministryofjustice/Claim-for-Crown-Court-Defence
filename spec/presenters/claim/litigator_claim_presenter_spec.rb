@@ -52,11 +52,13 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
 
     context 'for a fixed fee case' do
       let(:claim) { build(:litigator_claim, :with_fixed_fee_case) }
+
       it { is_expected.to be false }
     end
 
     context 'for non-fixed fee case' do
       let(:claim) { build(:litigator_claim, :with_graduated_fee_case) }
+
       it { is_expected.to be true }
     end
   end

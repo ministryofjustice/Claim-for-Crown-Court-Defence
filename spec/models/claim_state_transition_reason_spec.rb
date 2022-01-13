@@ -51,6 +51,7 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
 
   describe '.reject_reasons_for' do
     subject(:reject_reasons_for) { described_class.reject_reasons_for(claim) }
+
     let(:reasons) { %w[no_indictment no_rep_order time_elapsed no_amend_rep_order case_still_live wrong_case_no wrong_maat_ref other] }
     let(:disbursement_only_reasons) { %w[no_prior_authority no_invoice] }
     let(:all_reasons) { (reasons + disbursement_only_reasons) }

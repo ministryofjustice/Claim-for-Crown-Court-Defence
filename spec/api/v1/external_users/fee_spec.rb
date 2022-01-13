@@ -473,6 +473,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
 
     context 'basic fees' do
       let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_type.id, quantity: 1, rate: 210.00 } }
+
       include_examples 'fee validate endpoint'
     end
   end

@@ -61,6 +61,7 @@ RSpec.describe Fee::BaseFeeType, type: :model do
       ft = build :basic_fee_type
       expect(ft.quantity_is_decimal).to be false
     end
+
     it 'returns true' do
       ft = build :misc_fee_type, :spf
       expect(ft.quantity_is_decimal).to be true

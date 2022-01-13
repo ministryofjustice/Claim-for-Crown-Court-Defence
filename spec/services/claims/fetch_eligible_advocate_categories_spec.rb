@@ -14,11 +14,13 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
 
     context 'nil claim' do
       let(:claim) { nil }
+
       it { is_expected.to eq(nil) }
     end
 
     context 'LGFS claim' do
       let(:claim) { build(:litigator_claim) }
+
       it { is_expected.to eq(nil) }
     end
 

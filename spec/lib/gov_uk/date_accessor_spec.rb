@@ -25,6 +25,7 @@ RSpec.describe GovUk::DateAccessor do
 
     context 'when date set' do
       subject { example_class.new(date_field: date) }
+
       let(:date) { Date.current }
 
       it 'date parts are gettable strings' do

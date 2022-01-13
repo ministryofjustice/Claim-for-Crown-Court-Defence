@@ -46,6 +46,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
   context 'instance' do
     subject { described_class.new(fee_type, claim) }
+
     let(:claim) { instance_double(::Claim::BaseClaim) }
     let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: 'whatever') }
 
@@ -71,15 +72,18 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
       context 'scheme 10+' do
         let(:claim) { agfs_scheme_10_claim }
+
         SCHEME_10_PLUS_FEE_TYPE_LIMIT_MAPPINGS.each do |unique_code, limits|
           context "fee type unique code #{unique_code}" do
             let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: unique_code) }
+
             it { is_expected.to eql limits[:from] }
           end
         end
 
         context 'other fee types' do
           let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: 'NONSENSE') }
+
           it { is_expected.to eq 1 }
         end
       end
@@ -87,8 +91,10 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
     context 'LGFS claim' do
       let(:claim) { lgfs_claim }
+
       context 'all fee types' do
         let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: 'NONSENSE') }
+
         it { is_expected.to eq 0 }
       end
     end
@@ -116,12 +122,14 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
         SCHEME_10_PLUS_FEE_TYPE_LIMIT_MAPPINGS.each do |unique_code, limits|
           context "fee type unique code #{unique_code}" do
             let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: unique_code) }
+
             it { is_expected.to eql limits[:to] }
           end
         end
 
         context 'other fee types' do
           let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: 'NONSENSE') }
+
           it { is_expected.to be_nil }
         end
       end
@@ -132,6 +140,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
       context 'all fee types' do
         let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: 'NONSENSE') }
+
         it { is_expected.to be_nil }
       end
     end

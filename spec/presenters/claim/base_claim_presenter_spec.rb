@@ -19,6 +19,7 @@ end
 
 RSpec.describe Claim::BaseClaimPresenter do
   let(:claim) { create(:advocate_claim) }
+
   subject(:presenter) { described_class.new(claim, view) }
 
   before do
@@ -404,6 +405,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#injection_error' do
     subject { presenter.injection_error }
+
     before { create(:injection_attempt, :with_errors, claim: claim) }
 
     it 'returns nil for inactive injection errors' do
@@ -423,6 +425,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#injection_errors' do
     subject { presenter.injection_errors }
+
     before do
       create(:injection_attempt, :with_errors, claim: claim)
     end
@@ -513,6 +516,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       context 'when claim supplier has no name or postcode' do
         before { supplier.update(name: nil, postcode: nil) }
+
         it { is_expected.to be_nil }
       end
     end
@@ -520,6 +524,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#has_conference_and_views?' do
     subject { presenter.has_conference_and_views? }
+
     let!(:fee) { create(:basic_fee, :cav_fee, claim: claim, quantity: quantity, rate: rate) }
 
     before { claim.reload }
@@ -541,6 +546,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#requires_interim_claim_info?' do
     subject { presenter.requires_interim_claim_info? }
+
     it { is_expected.to be_falsey }
   end
 
@@ -578,16 +584,19 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#reason_text' do
     subject { presenter.reason_text }
+
     include_examples 'last claim state transition reason_text'
   end
 
   describe '#reject_reason_text' do
     subject { presenter.reject_reason_text }
+
     include_examples 'last claim state transition reason_text'
   end
 
   describe '#refuse_reason_text' do
     subject { presenter.refuse_reason_text }
+
     include_examples 'last claim state transition reason_text'
   end
 
@@ -596,11 +605,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'when opened for redetermination' do
       before { allow(claim).to receive(:opened_for_redetermination?).and_return true }
+
       it { is_expected.to eql 'Redetermination' }
     end
 
     context 'when written reasons outstanding' do
       before { allow(claim).to receive(:written_reasons_outstanding?).and_return true }
+
       it { is_expected.to eql 'Awaiting written reasons' }
     end
 
@@ -609,12 +620,14 @@ RSpec.describe Claim::BaseClaimPresenter do
         allow(claim).to receive(:opened_for_redetermination?).and_return false
         allow(claim).to receive(:written_reasons_outstanding?).and_return false
       end
+
       it { is_expected.to be_blank }
     end
   end
 
   describe '#submitted_at_short' do
     subject { presenter.submitted_at_short }
+
     it 'returns short date formatted string of #last_submitted_at' do
       expect(claim).to receive(:last_submitted_at).and_return DateTime.parse('2019-03-31 09:38:00.000000')
       is_expected.to eql '31/03/19'
@@ -626,6 +639,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'when no claim#trial_concluded_at' do
       before { allow(claim).to receive(:trial_concluded_at).and_return nil }
+
       it 'returns text' do
         is_expected.to eql 'not specified'
       end
@@ -633,6 +647,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'when claim#trial_concluded_at' do
       before { allow(claim).to receive(:trial_concluded_at).and_return DateTime.parse('2019-03-31 09:38:00.000000') }
+
       it 'returns app specific date string format' do
         is_expected.to eql '31/03/2019'
       end
@@ -754,11 +769,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       context 'when user is caseworker' do
         before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+
         it { is_expected.to be_falsey }
       end
 
       context 'when user is external_user' do
         before { allow(view).to receive(:current_user).and_return(external_user.user) }
+
         it { is_expected.to be_falsey }
       end
     end
@@ -772,11 +789,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       context 'when user is caseworker' do
         before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+
         it { is_expected.to be_truthy }
       end
 
       context 'when user is external_user' do
         before { allow(view).to receive(:current_user).and_return(external_user.user) }
+
         it { is_expected.to be_falsey }
       end
     end
@@ -786,11 +805,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       context 'when user is caseworker' do
         before { allow(view).to receive(:current_user).and_return(case_worker.user) }
+
         it { is_expected.to be_truthy }
       end
 
       context 'when user is external_user' do
         before { allow(view).to receive(:current_user).and_return(external_user.user) }
+
         it { is_expected.to be_truthy }
       end
     end
@@ -848,6 +869,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#has_clar_fees?' do
     subject { presenter.has_clar_fees? }
+
     let!(:fee) { create(:misc_fee, :miphc_fee, claim: claim, quantity: quantity, rate: rate) }
 
     before { claim.reload }
@@ -873,6 +895,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     let!(:mispf_fee_type) { create(:misc_fee_type, :mispf) }
 
     it { is_expected.to be_a Array }
+
     it {
       is_expected.to include(
         [

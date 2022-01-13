@@ -196,6 +196,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
       context 'submit to LAA with incomplete/invalid params' do
         let(:invalid_claim_params) { { advocate_category: 'QC' } }
+
         it 'does not create a claim' do
           expect {
             post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
@@ -265,6 +266,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
         before {
           put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } } }
         }
+
         it 'reduces the number of associated rep orders by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
         end
@@ -272,6 +274,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
       context 'and saving to draft' do
         before { put :update, params: { id: subject, claim: { additional_information: 'foo' } } }
+
         it 'updates a claim' do
           expect(subject.reload.additional_information).to eq('foo')
         end

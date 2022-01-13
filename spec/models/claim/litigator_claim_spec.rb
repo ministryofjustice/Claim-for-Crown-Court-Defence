@@ -129,6 +129,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
     describe '#eligible_misc_fee_types' do
       subject(:call) { claim.eligible_misc_fee_types }
+
       let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
 
       it 'calls eligible misc fee type fetch service' do
@@ -140,6 +141,7 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
     describe '#eligible_fixed_fee_types' do
       subject(:call) { claim.eligible_fixed_fee_types }
+
       let(:service) { instance_double(Claims::FetchEligibleFixedFeeTypes) }
 
       it 'calls eligible fixed fee type fetch service' do

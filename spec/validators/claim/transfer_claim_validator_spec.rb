@@ -122,6 +122,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
         expect(claim).to be_valid
       end
     end
+
     context 'case type: retrial' do
       let(:claim) { build(:transfer_claim, :with_transfer_detail) }
 
@@ -170,6 +171,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
         claim.transfer_stage_id = 30
         expect_invalid_attribute_with_message(claim, :case_conclusion_id, nil, 'blank')
       end
+
       it 'errors if present but not required' do
         claim.transfer_stage_id = 40
         expect_invalid_attribute_with_message(claim, :case_conclusion_id, 10, 'present')

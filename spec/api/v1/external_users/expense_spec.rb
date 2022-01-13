@@ -108,6 +108,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
       context 'when expense params are invalid' do
         context 'invalid API key' do
           let(:valid_params) { params }
+
           include_examples 'invalid API key create endpoint', exclude: :other_provider
         end
 
@@ -188,6 +189,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
 
       context 'invalid API key' do
         let(:valid_params) { params }
+
         include_examples 'invalid API key validate endpoint', exclude: :other_provider
       end
 

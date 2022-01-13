@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
   subject { described_class.new(claim).bill_scenario }
+
   let(:case_type) { instance_double(::CaseType) }
   let(:case_stage) { instance_double(::CaseStage) }
 

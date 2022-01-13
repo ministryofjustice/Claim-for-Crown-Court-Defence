@@ -133,10 +133,12 @@ RSpec.describe Stage do
 
   describe '#to_sym' do
     let(:stage_name) { :sym_stage }
+
     specify { expect(stage.to_sym).to eq(:sym_stage) }
 
     context 'when stage name is a string' do
       let(:stage_name) { 'str_stage' }
+
       specify { expect(stage.to_sym).to eq(:str_stage) }
     end
   end
@@ -176,11 +178,13 @@ RSpec.describe Stage do
 
       context 'and the other stage name is not the same' do
         let(:other_stage_name) { :different_stage }
+
         specify { expect(stage == other_stage).to be_falsey }
       end
 
       context 'and the other stage name is the same' do
         let(:other_stage_name) { :some_stage }
+
         specify { expect(stage == other_stage).to be_truthy }
       end
     end

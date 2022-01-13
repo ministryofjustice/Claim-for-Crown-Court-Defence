@@ -111,6 +111,7 @@ module Fee
         subject.amount = 0
         expect(subject.blank?).to be true
       end
+
       it 'returns false if any value fields are non zero' do
         subject.rate = 10
         expect(subject.blank?).to be false
@@ -124,6 +125,7 @@ module Fee
         subject.amount = 0
         expect(subject.present?).to be false
       end
+
       it 'returns true if any value fields are non zero' do
         subject.rate = 10
         expect(subject.present?).to be true
@@ -182,6 +184,7 @@ module Fee
           expect(fee).to be_valid
           expect(fee.amount).to eq 110
         end
+
         it 'does not recalculate amount if fee type is NOT calculated' do
           misc_fee_type.calculated = false
           fee.rate = nil
@@ -189,6 +192,7 @@ module Fee
           expect(fee).to be_valid
           expect(fee.amount).to eq 255
         end
+
         it 'only recalculates amount if claim is editable' do
           claim.submit!
           claim.force_validation = true

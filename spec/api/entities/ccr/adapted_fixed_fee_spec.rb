@@ -37,6 +37,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
 
     context '#case_numbers (and #number_of_cases)' do
       subject { response[:case_numbers].split(',') }
+
       let(:number_of_cases) { response[:number_of_cases] }
 
       context 'when no case uplifts exist', :skip_uplifts do

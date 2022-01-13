@@ -33,6 +33,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
           it { expect(fee).to be_invalid }
           it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+
           it {
             fee.valid?
             expect(fee.errors[:fee_type]).to include(options[:message])
@@ -44,6 +45,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
           it { expect(fee).to be_invalid }
           it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
+
           it {
             fee.valid?
             expect(fee.errors[:fee_type]).to include(options[:message])
@@ -82,6 +84,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
+
         it {
           fee.valid?
           expect(fee.errors[:quantity]).to include('miumu_numericality')
@@ -107,6 +110,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
+
         it {
           fee.valid?
           expect(fee.errors[:quantity]).to include('invalid')
@@ -155,6 +159,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         [1, 6, 9].each do |cat_number|
           context "with offence categeory #{cat_number}" do
             let(:offence_category_number) { cat_number }
+
             before { fee.valid? }
 
             it { expect(fee.errors[:fee_type]).to include('offence_category_exclusion') }
@@ -504,6 +509,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           before do
             claim.case_type = build :case_type, :allow_pcmh_fee_type
           end
+
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'pcm_invalid') }
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'pcm_numericality') }
           it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
@@ -514,6 +520,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           before do
             claim.case_type = build :case_type
           end
+
           it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'pcm_not_applicable') }
           it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'pcm_not_applicable') }
         end
@@ -523,6 +530,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         before do
           supplementary_claim.force_validation = true
         end
+
         it { should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 0, 'pcm_invalid') }
         it { should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 4, 'pcm_numericality') }
         it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 3) }
@@ -531,6 +539,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
       context 'number of cases uplift (BANOC)' do
         let(:noc_fee) { build :basic_fee, :noc_fee, claim: claim }
+
         include_examples 'common AGFS number of cases uplift validations'
       end
     end
@@ -538,6 +547,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     context 'Fixed fee types' do
       context 'number of cases uplift (FXNOC)' do
         let(:noc_fee) { build :fixed_fee, :fxnoc_fee, claim: claim }
+
         include_examples 'common AGFS number of cases uplift validations'
       end
     end

@@ -31,6 +31,7 @@ RSpec.describe Claims::StateMachine, type: :model do
     subject { Claims::StateMachine::NON_VALIDATION_STATES }
 
     let(:states) { Claim::BaseClaim.active.state_machine.states.map(&:name).sort }
+
     it { is_expected.to eql (states - [:draft, :submitted]).map(&:to_s) }
   end
 
@@ -262,6 +263,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   context 'set triggers' do
     context 'make archive_pending_delete valid for 180 days' do
       subject(:claim) { create(:authorised_claim) }
+
       let(:frozen_time) { Time.now.change(usec: 0) }
 
       before do
@@ -396,6 +398,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
   describe 'reject!' do
     before { claim.submit!; claim.allocate!; claim.reject!(reason_code: reason_codes) }
+
     let(:reason_codes) { ['no_indictment'] }
     let(:last_state_transition) { claim.last_state_transition }
 

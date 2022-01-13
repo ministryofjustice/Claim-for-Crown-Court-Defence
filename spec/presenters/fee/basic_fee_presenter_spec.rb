@@ -83,6 +83,7 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
       let(:discontinuance) { create(:case_type, :discontinuance) }
       let(:claim_9) { create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance) }
       let(:fee) { build(:basic_fee, :baf_fee, claim: claim_9) }
+
       specify { expect(presenter.display_extra_fees?).to be_falsey }
     end
   end
@@ -133,11 +134,13 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
 
     context 'when fee is pages of prosecution evidence (ppe)' do
       let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+
       it { is_expected.to eq('js-fee-calculator-ppe') }
     end
 
     context 'when fee is number of prosecution witnesses (npw)' do
       let(:fee) { build(:basic_fee, :npw_fee, claim: claim) }
+
       it { is_expected.to eq('js-fee-calculator-pw') }
     end
   end

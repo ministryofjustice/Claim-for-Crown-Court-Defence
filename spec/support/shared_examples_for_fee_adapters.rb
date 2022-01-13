@@ -35,6 +35,7 @@ RSpec.shared_examples_for 'a simple bill adapter' do |options|
 
   describe '#bill_type' do
     subject { described_class.new(fee).bill_type }
+
     it "returns expected bill type - #{options[:bill_type]}" do
       is_expected.to eql options[:bill_type]
     end
@@ -42,6 +43,7 @@ RSpec.shared_examples_for 'a simple bill adapter' do |options|
 
   describe '#bill_subtype' do
     subject { described_class.new(fee).bill_subtype }
+
     it "returns expected bill type - #{options[:bill_subtype]}" do
       is_expected.to eql options[:bill_subtype]
     end

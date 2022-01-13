@@ -4,6 +4,7 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController, type: :controller do
   let(:super_admin) { create(:super_admin) }
 
   subject { super_admin }
+
   before { sign_in subject.user }
 
   describe 'GET #show' do

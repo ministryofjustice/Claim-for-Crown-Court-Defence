@@ -186,6 +186,7 @@ RSpec.describe TimedTransitions::Transitioner do
             # representation order 1 maat reference invalid)"
             context 'when a claim submodel has been invalidated' do
               let(:record) { claim.defendants.first.representation_orders.first }
+
               before do
                 record.update_attribute(:maat_reference, '999')
               end

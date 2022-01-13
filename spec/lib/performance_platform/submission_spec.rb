@@ -8,12 +8,14 @@ describe PerformancePlatform::Submission do
 
   it { is_expected.to respond_to :add_data_set }
   it { is_expected.to respond_to :send_data! }
+
   before do
     stub_request(:post, %r{\Ahttps://www.performance.service.gov.uk/data/.*\z}).to_return(status: 200, body: '', headers: {})
   end
 
   describe '#add_data_set' do
     subject(:add_data_set) { submission.add_data_set(date, fields) }
+
     let(:date) { Date.new(2018, 8, 13) }
     let(:fields) { { channel: 'Paper', count: 0 } }
 

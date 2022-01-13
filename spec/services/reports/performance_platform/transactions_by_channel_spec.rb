@@ -43,6 +43,7 @@ describe Reports::PerformancePlatform::TransactionsByChannel do
 
   describe '#populate_data' do
     subject(:populate_data) { report.populate_data }
+
     let(:date) { Date.new(2018, 12, 17) }
 
     context 'when the data is fine' do
@@ -60,6 +61,7 @@ describe Reports::PerformancePlatform::TransactionsByChannel do
 
   describe '#publish!' do
     subject(:publish) { report.publish! }
+
     let(:date) { Date.new(2018, 12, 17) }
 
     before do

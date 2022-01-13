@@ -78,9 +78,11 @@ RSpec.describe Expense, type: :model do
       it 'returns false if no reason id' do
         expect(ex_nil.allow_reason_text?).to be false
       end
+
       it 'returns false for reason id 1' do
         expect(ex_1.allow_reason_text?).to be false
       end
+
       it 'returns true for reason id 5' do
         expect(ex_5.allow_reason_text?).to be true
       end

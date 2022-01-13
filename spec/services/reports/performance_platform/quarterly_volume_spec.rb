@@ -75,6 +75,7 @@ describe Reports::PerformancePlatform::QuarterlyVolume, :currency_vcr do
 
   describe '#populate_data' do
     subject(:populate_data) { report.populate_data }
+
     let(:total_cost) { 1234.45 }
     let(:claim_count) { 1235 }
 

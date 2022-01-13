@@ -131,6 +131,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#eligible_misc_fee_types' do
       subject(:call) { claim.eligible_misc_fee_types }
+
       let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
 
       it 'calls eligible misc fee type fetch service' do
@@ -142,6 +143,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#eligible_fixed_fee_types' do
       subject(:call) { claim.eligible_fixed_fee_types }
+
       let(:service) { instance_double(Claims::FetchEligibleFixedFeeTypes) }
 
       it 'calls eligible fixed fee type fetch service' do
@@ -184,6 +186,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#external_user_dashboard_rejected?' do
       before { allow(claim).to receive(:state).and_return('rejected') }
+
       it 'responds true' do
         allow(claim).to receive(:state).and_return('rejected')
         expect(claim.external_user_dashboard_rejected?).to be true
@@ -323,6 +326,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'when the case type is set and its for fixed fee' do
       let(:case_type) { create(:case_type, :fixed_fee) }
+
       subject(:claim) { described_class.new(case_type: case_type) }
 
       specify { expect(claim.basic_fees).to be_empty }
@@ -330,6 +334,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'when the case type is set and its for graduated fee' do
       let(:case_type) { create(:case_type, :graduated_fee) }
+
       subject(:claim) { described_class.new(case_type: case_type) }
 
       it 'returns a list of basic fees for each of the eligible basic fee types with all the fees with blank values' do
@@ -351,6 +356,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             'case_type_id' => case_type.id
           }
         }
+
         subject(:claim) { described_class.new(attributes) }
 
         it 'returns a list of basic fees for each of the eligible basic fee types with the ones provided by the user filled in' do
@@ -819,6 +825,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe 'allocate claim when assigning to case worker' do
     subject { create(:submitted_claim) }
+
     let(:case_worker) { create(:case_worker) }
 
     it 'moves to "allocated" state when assigned to case worker' do
@@ -829,6 +836,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe 'moves to "submitted" state when case worker removed' do
     subject { create(:submitted_claim) }
+
     let(:case_worker) { create(:case_worker) }
     let(:other_case_worker) { create(:case_worker) }
 

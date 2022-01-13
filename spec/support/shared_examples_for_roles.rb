@@ -5,6 +5,7 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
 
   describe 'validation' do
     let(:assigned_roles) { [] }
+
     subject { build(factory_name, roles: assigned_roles) }
 
     it 'is valid when a valid role is present' do

@@ -38,6 +38,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
 
   describe '#all' do
     subject { described_class.instance.all }
+
     let(:exclusions) { %i[BACAV MIPHC MIUMU MIUMO] }
 
     it 'returns all fee type mappings' do

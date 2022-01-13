@@ -12,6 +12,7 @@ describe PerformancePlatform::DataSet do
 
   describe 'initialized' do
     subject(:payload) { data_set.payload }
+
     describe 'with a channel' do
       let(:expected_result) do
         {

@@ -62,6 +62,7 @@ RSpec.describe InjectionResponseService, slack_bot: true do
 
     context 'when injection succeeded' do
       let(:json) { valid_json_on_success }
+
       include_examples 'creates injection attempts'
 
       it 'marks injection as succeeded' do
@@ -77,6 +78,7 @@ RSpec.describe InjectionResponseService, slack_bot: true do
 
     context 'when injection failed' do
       let(:json) { valid_json_on_failure }
+
       include_examples 'creates injection attempts'
 
       it 'marks injection as failed' do

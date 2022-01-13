@@ -4,6 +4,7 @@ module GoogleAnalytics
   describe DataTracking do
     describe '#enabled?' do
       subject { described_class.enabled? }
+
       before do
         allow(Rails).to receive(:env).and_return('production'.inquiry)
       end

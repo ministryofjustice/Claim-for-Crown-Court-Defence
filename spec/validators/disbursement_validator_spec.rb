@@ -9,6 +9,7 @@ RSpec.describe DisbursementValidator, type: :validator do
 
     context 'AGFS claims' do
       before { allow(claim).to receive(:agfs?).and_return true }
+
       it 'raises invalid fee scheme error' do
         expect(disbursement).to be_invalid
         expect(disbursement.errors[:claim]).to include 'invalid_fee_scheme'
@@ -17,6 +18,7 @@ RSpec.describe DisbursementValidator, type: :validator do
 
     context 'LGFS claims' do
       before { allow(claim).to receive(:agfs?).and_return false }
+
       it 'does not raise invalid fee scheme error' do
         expect(disbursement).to be_valid
       end

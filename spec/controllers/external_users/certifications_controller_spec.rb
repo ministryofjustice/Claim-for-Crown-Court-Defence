@@ -98,6 +98,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
 
         context 'logging' do
           let(:logger) { double(Rails.logger) }
+
           before { allow(Rails).to receive(:logger).and_return logger }
 
           context 'on success' do

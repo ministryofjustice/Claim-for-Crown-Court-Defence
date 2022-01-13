@@ -20,6 +20,7 @@ end
 
 RSpec.shared_examples 'returns LGFS claim type' do |type|
   subject { last_response.status }
+
   let(:case_type_grtrl) { create(:case_type, :trial) }
 
   it "returns #{type.to_s.humanize}s" do
@@ -171,11 +172,13 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
       context 'when claim does not apply VAT' do
         before { claim.update(apply_vat: false) }
+
         it { is_expected.to be_json_eql('false').at_path('apply_vat') }
       end
 
       context 'when claim does apply VAT' do
         before { claim.update(apply_vat: true) }
+
         it { is_expected.to be_json_eql('true').at_path('apply_vat') }
       end
     end
@@ -257,6 +260,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
             context 'with any type of grad fee' do
               before { allow_any_instance_of(::Fee::GraduatedFeeType).to receive(:unique_code).and_return 'XXXXX' }
+
               it_behaves_like 'litigator fee bill'
             end
 
@@ -530,6 +534,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       context 'hardship claims' do
         context 'when hardship fee, alone, exists' do
           let(:claim) { create(:litigator_hardship_claim, :submitted, :with_hardship_fee) }
+
           it { valid_cclf_json?(response) }
 
           it 'returns array containing 1 bill' do

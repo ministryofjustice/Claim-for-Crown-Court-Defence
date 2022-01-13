@@ -2,11 +2,13 @@ require 'rails_helper'
 
 RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
   let!(:advocate) { create(:external_user, :advocate) }
+
   before { sign_in advocate.user }
 
   describe 'GET #new' do
     context 'AGFS or LGFS provider members only' do
       before { get :new }
+
       it 'returns http success' do
         expect(response).to be_successful
       end
@@ -196,6 +198,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
       context 'submit to LAA with incomplete/invalid params' do
         let(:invalid_claim_params) { { claim_class: 'Claim::AdvocateClaim' } }
+
         it 'does not create a claim' do
           expect {
             post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
@@ -404,6 +407,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         before {
           put :update, params: { id: subject, claim: { defendants_attributes: { '1' => { id: subject.defendants.first, representation_orders_attributes: { '0' => { id: subject.defendants.first.representation_orders.first, _destroy: 1 } } } } } }
         }
+
         it 'reduces the number of associated rep order by 1' do
           expect(subject.reload.defendants.first.representation_orders.count).to eq 1
         end
@@ -416,6 +420,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
         context 'and saving to draft' do
           before { put :update, params: { id: subject, claim: { additional_information: 'foo' } } }
+
           it 'sets API created claims source to indicate it is from API but has been edited in web' do
             expect(subject.reload.source).to eql 'api_web_edited'
           end
@@ -423,6 +428,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
         context 'and submitted to LAA' do
           before { put :update, params: { id: subject, claim: { additional_information: 'foo' }, summary: true, commit_submit_claim: 'Submit to LAA' } }
+
           it 'sets API created claims source to indicate it is from API but has been edited in web' do
             expect(subject.reload.source).to eql 'api_web_edited'
           end

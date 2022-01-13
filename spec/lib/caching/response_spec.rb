@@ -2,6 +2,7 @@
 
 RSpec.describe Caching::Response do
   subject(:instance) { described_class.new(response) }
+
   let(:response) { instance_double('mock_response', body: 'body content', headers: {}) }
 
   describe '#validate!' do

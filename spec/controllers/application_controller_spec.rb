@@ -115,6 +115,7 @@ RSpec.describe ApplicationController, type: :controller do
   describe '#signed_in_user_profile_path' do
     context 'given a super admin' do
       before { sign_in super_admin.user }
+
       it 'returns super admins user_profile_path' do
         expect(subject.signed_in_user_profile_path).to eq("/super_admins/admin/super_admins/#{super_admin.id}")
       end
@@ -122,6 +123,7 @@ RSpec.describe ApplicationController, type: :controller do
 
     context 'given an advocate' do
       before { sign_in advocate.user }
+
       it 'returns advocate user profile path' do
         expect(subject.signed_in_user_profile_path).to eq("/external_users/admin/external_users/#{advocate.id}")
       end
@@ -129,6 +131,7 @@ RSpec.describe ApplicationController, type: :controller do
 
     context 'given a case_worker' do
       before { sign_in case_worker.user }
+
       it 'returns caseworker Profile path' do
         expect(subject.signed_in_user_profile_path).to eq("/case_workers/admin/case_workers/#{case_worker.id}")
       end

@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CCR::Fee::FixedFeeAdapter, type: :adapter do
   subject { described_class.new.call(claim) }
+
   let(:claim) { instance_double('claim') }
   let(:case_type) { instance_double('case_type', fee_type_code: 'FXACV') }
 

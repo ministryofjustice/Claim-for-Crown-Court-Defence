@@ -22,6 +22,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
   describe '#validate_vat_amount for LGFS claims' do
     let(:claim) { build :litigator_claim, force_validation: true }
+
     before { expense.amount = 100 }
 
     it { should_error_if_equal_to_value(expense, :vat_amount, 200_001, 'item_max_amount') }

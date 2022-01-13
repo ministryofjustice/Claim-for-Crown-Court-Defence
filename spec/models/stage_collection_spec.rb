@@ -59,6 +59,7 @@ RSpec.describe StageCollection do
   describe '#next_stage' do
     context 'when the given stage is not defined' do
       let(:given_stage) { :non_existent_stage }
+
       specify { expect(collection.next_stage(given_stage)).to be_nil }
     end
 
@@ -83,6 +84,7 @@ RSpec.describe StageCollection do
 
       context 'and there is no valid transition' do
         let(:given_stage) { :stage_2 }
+
         specify { expect(collection.next_stage(given_stage)).to be_nil }
       end
     end

@@ -282,26 +282,31 @@ describe ExternalUsers::ClaimsHelper do
 
       context 'and has a case type of Trial' do
         let(:case_type) { build(:case_type, :trial) }
+
         it { is_expected.to be false }
       end
 
       context 'and has a case type of Retrial' do
         let(:case_type) { build(:case_type, :retrial) }
+
         it { is_expected.to be false }
       end
 
       context 'and has a case type of Contempt' do
         let(:case_type) { build(:case_type, :contempt) }
+
         it { is_expected.to be false }
       end
 
       context 'and has a case type of Guilty plea' do
         let(:case_type) { build(:case_type, :guilty_plea) }
+
         it { is_expected.to be true }
       end
 
       context 'and has a case type of Discontinuance' do
         let(:case_type) { build(:case_type, :discontinuance) }
+
         it { is_expected.to be true }
       end
     end
@@ -311,26 +316,31 @@ describe ExternalUsers::ClaimsHelper do
 
       context 'and has a case type of Trial' do
         let(:case_type) { build(:case_type, :trial) }
+
         it { is_expected.to be false }
       end
 
       context 'and has a case type of Retrial' do
         let(:case_type) { build(:case_type, :retrial) }
+
         it { is_expected.to be false }
       end
 
       context 'and has a case type of Contempt' do
         let(:case_type) { build(:case_type, :contempt) }
+
         it { is_expected.to be false }
       end
 
       context 'and has a case type of Guilty plea' do
         let(:case_type) { build(:case_type, :guilty_plea) }
+
         it { is_expected.to be false }
       end
 
       context 'and has a case type of Discontinuance' do
         let(:case_type) { build(:case_type, :discontinuance) }
+
         it { is_expected.to be false }
       end
     end

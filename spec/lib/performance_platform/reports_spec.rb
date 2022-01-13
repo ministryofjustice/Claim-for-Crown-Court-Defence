@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe PerformancePlatform::Reports do
   subject(:reports) { described_class.new }
+
   let(:expected_yaml) { { 'reports' => { 'transactions_by_channel' => { 'type' => 'test-transactions-by-channel', 'period' => 'weekly', 'fields' => [:channel, :count], 'token' => nil } } } }
 
   before do
@@ -14,6 +15,7 @@ RSpec.describe PerformancePlatform::Reports do
 
   context 'when the reports file cannot be processed' do
     let(:expected_yaml) { nil }
+
     it { expect { reports }.to raise_error('config/performance_platform.yml cannot be loaded') }
   end
 

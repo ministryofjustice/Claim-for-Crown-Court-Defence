@@ -91,6 +91,7 @@ RSpec.describe CaseType, type: :model do
 
   context 'scopes' do
     before(:all) { seed_case_types }
+
     after(:all) { destroy_case_types }
 
     describe '.fixed_fee' do

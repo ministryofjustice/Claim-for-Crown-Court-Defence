@@ -89,21 +89,25 @@ RSpec.describe Assessment do
     describe '#calculate_vat' do
       context 'advocate claims' do
         let(:claim) { create(:advocate_claim, apply_vat: true) }
+
         include_examples 'calculates assessment VAT'
       end
 
       context 'advocate supplementary claims' do
         let(:claim) { create(:advocate_supplementary_claim, apply_vat: true) }
+
         include_examples 'calculates assessment VAT'
       end
 
       context 'advocate interim claims' do
         let(:claim) { create(:advocate_interim_claim, apply_vat: true) }
+
         include_examples 'calculates assessment VAT'
       end
 
       context 'litigator claims' do
         let(:assessment) { create(:litigator_claim, apply_vat: true).assessment }
+
         it 'does not update/calculate the VAT amount' do
           expect { assessment.update!(fees: 100.0, expenses: 250.0, disbursements: 150.0) }.not_to change(assessment, :vat_amount)
         end

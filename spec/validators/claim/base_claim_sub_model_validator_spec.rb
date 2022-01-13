@@ -60,6 +60,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       before do
         claim.force_validation = false
       end
+
       it 'transfers errors up to claim' do
         claim.defendants.first.update(date_of_birth: nil)
         claim.defendants.first.update(first_name: nil)

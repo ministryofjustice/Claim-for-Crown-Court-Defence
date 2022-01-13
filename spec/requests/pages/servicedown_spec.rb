@@ -24,6 +24,7 @@ RSpec.describe 'Servicedown mode', type: :request do
 
   context '/ping' do
     before { get '/ping' }
+
     it { expect(response).to be_ok }
     it { expect(response.body).to be_json }
   end
@@ -52,6 +53,7 @@ RSpec.describe 'Servicedown mode', type: :request do
     context 'web page requests (html)' do
       context 'sign in' do
         before { get '/users/sign_in' }
+
         it_behaves_like 'maintenance page', status: 200
       end
     end
@@ -62,23 +64,28 @@ RSpec.describe 'Servicedown mode', type: :request do
       end
 
       let(:user) { create(:case_worker).user }
+
       context '/case_workers/claims' do
         before { get case_workers_home_path }
+
         it_behaves_like 'maintenance page', status: 200
       end
     end
 
     context 'advocate' do
       before { sign_in user }
+
       let(:user) { create(:external_user, :advocate).user }
 
       context '/external_user/claims' do
         before { get external_users_claims_path }
+
         it_behaves_like 'maintenance page', status: 200
       end
 
       context '/advocates/claims/new' do
         before { get new_advocates_claim_path }
+
         it_behaves_like 'maintenance page', status: 200
       end
     end
@@ -89,6 +96,7 @@ RSpec.describe 'Servicedown mode', type: :request do
 
     context '/api/case_types' do
       before { get '/api/case_types', params: { api_key: user.persona.provider.api_key, format: :json } }
+
       it_behaves_like 'maintenance json'
     end
   end
@@ -96,21 +104,25 @@ RSpec.describe 'Servicedown mode', type: :request do
   context 'formatted responses' do
     context 'html' do
       before { get '/', params: { format: :html } }
+
       it_behaves_like 'maintenance page', status: 200
     end
 
     context 'json' do
       before { get '/', params: { format: :json } }
+
       it_behaves_like 'maintenance json'
     end
 
     context 'ajax' do
       before { get '/', xhr: true, params: { format: :js } }
+
       it_behaves_like 'maintenance json'
     end
 
     context 'all other' do
       before { get '/', params: { format: :axd } }
+
       it { expect(response).to have_http_status :service_unavailable }
       it { expect(response.body).to include('Service temporarily unavailable') }
     end

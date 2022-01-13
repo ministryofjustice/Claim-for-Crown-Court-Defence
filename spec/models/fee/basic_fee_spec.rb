@@ -43,6 +43,7 @@ RSpec.describe Fee::BasicFee do
       fee = create(:basic_fee, fee_type: ppe)
       expect(fee.calculated?).to be false
     end
+
     it 'returns true for any other fees' do
       saf = create(:basic_fee_type, code: 'SAF')
       fee = create(:basic_fee, fee_type: saf)

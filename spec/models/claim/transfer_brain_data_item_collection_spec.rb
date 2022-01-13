@@ -50,6 +50,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
 
   describe '#to_h' do
     subject { collection.to_h }
+
     it { is_expected.to be_a Hash }
     it { is_expected.to match_hash(data_item_collection_hash) }
   end
@@ -75,6 +76,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
 
     context 'when given and invalid combination of details' do
       let(:detail) { with_invalid_combo }
+
       it { is_expected.to be_nil }
     end
   end
@@ -184,16 +186,19 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
 
     context 'when given valid details with a mappable case conclusion id' do
       let(:detail) { with_specific_mapping }
+
       it { is_expected.to be true }
     end
 
     context 'when given valid details with a wildcard case conclusion id' do
       let(:detail) { with_wildcard_mapping }
+
       it { is_expected.to be true }
     end
 
     context 'when given and invalid combination of details' do
       let(:detail) { with_invalid_combo }
+
       it { is_expected.to be false }
     end
   end

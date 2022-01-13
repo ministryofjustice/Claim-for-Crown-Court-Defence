@@ -5,7 +5,9 @@ RSpec.describe API::V2::Claim do
   include ApiSpecHelper
 
   after(:all) { clean_database }
+
   let(:case_worker) { create :case_worker }
+
   before(:all) do
     @claim = create(:deterministic_claim, :redetermination)
   end
@@ -85,6 +87,7 @@ RSpec.describe API::V2::Claim do
 
       context 'case details' do
         subject { full_claim[:case_details] }
+
         it 'contains name and uuid', skip: 'flickers alot' do
           is_expected.to include(case_type: 'Fixed fee', case_type_uuid: @claim.case_type.uuid)
         end

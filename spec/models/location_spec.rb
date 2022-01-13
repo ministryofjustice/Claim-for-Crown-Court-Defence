@@ -18,6 +18,7 @@ RSpec.describe Location, type: :model do
 
   describe '#to_s' do
     subject { build(:location) }
+
     it 'returns the location name' do
       expect(subject.to_s).to eq(subject.name)
     end

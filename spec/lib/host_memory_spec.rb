@@ -25,6 +25,7 @@ describe HostMemory do
 
   describe '.free' do
     subject { described_class.free }
+
     it 'returns free memory using linux free command' do
       is_expected.to eq 780496
     end

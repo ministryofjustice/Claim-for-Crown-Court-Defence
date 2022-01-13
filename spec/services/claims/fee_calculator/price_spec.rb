@@ -27,6 +27,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
 
   describe '#price' do
     subject { described_class.new(price, unit_modifiers, parent_quantity).price }
+
     it 'returns supplied price object' do
       is_expected.to eql price
     end
@@ -111,6 +112,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
 
         context 'over 1 calendar month limit' do
           let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 1)] }
+
           it 'returns amount multiplied by inverse scale factor (-20%)' do
             is_expected.to eq 424.00
           end
@@ -126,6 +128,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
 
         context 'within 1 calendar month limit' do
           let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 0)] }
+
           it 'returns full amount' do
             is_expected.to eq 266.00
           end
@@ -220,6 +223,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
 
     context 'for prices with invalid modifiers specified' do
       let(:unit_modifiers) { [MockModifier.new(name: :invalid_modifier_name, limit_from: 2)] }
+
       it { is_expected.to be_empty }
     end
 
@@ -257,6 +261,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
 
           context 'within 1 calender month (limit_from 0)' do
             let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 0)] }
+
             it 'returns expected fixed_percent' do
               is_expected.to have_attributes(fixed_percent: '-30.00')
             end
@@ -264,6 +269,7 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
 
           context 'over 1 calender month limit_from 1' do
             let(:unit_modifiers) { [MockModifier.new(name: :retrial_interval, limit_from: 1)] }
+
             it 'returns expected fixed_percent' do
               is_expected.to have_attributes(fixed_percent: '-20.00')
             end

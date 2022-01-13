@@ -955,15 +955,6 @@ RSpec/EmptyExampleGroup:
     - 'spec/services/claims/fee_calculator/unit_price_spec.rb'
     - 'spec/validators/claim/base_claim_sub_model_validator_spec.rb'
 
-# Offense count: 6
-# Cop supports --auto-correct.
-RSpec/EmptyLineAfterExampleGroup:
-  Exclude:
-    - 'spec/controllers/messages_controller_spec.rb'
-    - 'spec/presenters/fee_presenter_spec.rb'
-    - 'spec/validators/claim/base_claim_validator_spec.rb'
-    - 'spec/validators/claim/transfer_claim_validator_spec.rb'
-
 # Offense count: 255
 # Cop supports --auto-correct.
 RSpec/EmptyLineAfterFinalLet:

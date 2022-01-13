@@ -150,6 +150,7 @@ RSpec.describe MessagesController, type: :controller do
           end
         end
       end
+
       context 'external_user_is_not_setup_to_recieve_emails' do
         it 'does not send an email' do
           claim.creator.email_notification_of_message = 'false'

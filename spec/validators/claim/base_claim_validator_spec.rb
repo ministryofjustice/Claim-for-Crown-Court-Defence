@@ -868,6 +868,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
                 it { is_expected.to be true }
               end
             end
+
             context 'and the location is a Magistrates court' do
               let(:establishment) { create(:establishment, :magistrates_court) }
               let(:location) { establishment.name }
@@ -899,6 +900,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             end
           end
         end
+
         context 'when the claim has additional travel information' do
           before { claim.travel_expense_additional_information = 'this is info' }
 

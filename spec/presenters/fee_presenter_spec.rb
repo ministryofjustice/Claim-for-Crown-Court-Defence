@@ -85,6 +85,7 @@ RSpec.describe Fee::BaseFeePresenter do
         expect(presenter.rate).to eq '£12.51'
       end
     end
+
     context 'for uncalculated fees' do
       it 'outputs placeholder html indicating rate is not applicable' do
         fee.rate = nil
@@ -100,6 +101,7 @@ RSpec.describe Fee::BaseFeePresenter do
         expect(presenter.section_header(nil)).to eq 'Basic fee type C'
       end
     end
+
     context 'PPE and NPW fees' do
       it 'outputs header' do
         allow(I18n).to receive(:t).and_return('header_text')

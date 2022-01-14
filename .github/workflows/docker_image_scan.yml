@@ -1,0 +1,50 @@
+name: Scan docker image
+on: push
+  # schedule:
+  #   - cron: '28 14 * * *'
+
+jobs:
+  scan-docker-image:
+    runs-on: ubuntu-latest
+    name: Scan docker image
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build docker image
+      run: |
+        docker build \
+          --tag cccd:scan \
+          --file docker/Dockerfile .
+    - name: Scan docker image using snyk
+      id: image-scan
+      continue-on-error: true
+      uses: snyk/actions/docker@master
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      with:
+        image: cccd:scan
+        args: --file=docker/Dockerfile
+    - name: Output outcome
+      run: |
+        echo ${{ steps.image-scan.outcome }}
+    - name: Slack notify failure
+      if: ${{ steps.image-scan.outcome == 'failure' }}
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_USERNAME: Snyk docker image scan
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_CHANNEL: laa-cccd-alerts
+        SLACK_ICON_EMOJI: ':snyk:'
+        SLACK_COLOR: '#fc0303'
+        SLACK_MESSAGE: docker scan detected vulnerabilites! @laa-claim-for-payment-devs
+        SLACK_LINK_NAMES: true
+    - name: Slack notify success
+      if: ${{ steps.image-scan.outcome == 'success' }}
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_USERNAME: Snyk docker image scan
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+        SLACK_CHANNEL: laa-cccd-alerts
+        SLACK_ICON_EMOJI: ':snyk:'
+        SLACK_COLOR: success
+        SLACK_MESSAGE: docker scan found no vulnerabilites!

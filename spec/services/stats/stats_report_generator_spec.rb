@@ -18,6 +18,12 @@ RSpec.shared_examples 'a successful report generator caller' do
     file_path = ActiveStorage::Blob.service.path_for(record.document.blob.key)
     expect(File.read(file_path)).to eq('some new content')
   end
+
+  context 'when the generator is called' do
+    before { allow(generator).to receive(:call).and_call_original }
+
+    it { expect { call }.not_to raise_error }
+  end
 end
 
 RSpec.describe Stats::StatsReportGenerator, type: :service do

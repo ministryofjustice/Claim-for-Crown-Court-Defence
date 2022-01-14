@@ -40,7 +40,7 @@ bin/setup
 
 ```
 rails db:drop db:create db:reload
-rails claims::demo_data
+rails claims:demo_data
 ```
 
 - Run the application server

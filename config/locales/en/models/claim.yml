@@ -129,3 +129,12 @@ en:
               check_not_in_future: Notice of 1st fixed/warned issued cannot be in the future
               check_not_too_far_in_past: Notice of 1st fixed/warned issued cannot be too far in the past
               invalid_date: Enter a valid date for Notice of 1st fixed/warned issued
+
+            transfer_date:
+              blank: Hello World
+
+            litigator_type:
+              invalid: World says hello
+
+            elected_case:
+              invalid:  New message

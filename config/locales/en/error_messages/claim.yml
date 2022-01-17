@@ -575,16 +575,16 @@ transfer_detail:
 
 litigator_type:
   _seq: 230
-  invalid:
-    long: Choose the litigator type
-    short: Choose a type
+  world_says_hello:
+    long: imtiaz sucks
+    short: _
     api: Choose the litigator type
 
 elected_case:
   _seq: 240
-  invalid:
-    long: Choose the elected case status
-    short: Choose an answer
+  new_message:
+    long: second set of radios
+    short: _
     api: Choose the elected case status
 
 transfer_stage_id:
@@ -596,9 +596,9 @@ transfer_stage_id:
 
 transfer_date:
   _seq: 260
-  blank:
-    long: Enter the transfer date
-    short: *enter_date
+  hello_world:
+    long: peter sucks
+    short: _
     api: Enter the transfer date
   check_not_in_future:
     long: 'Check the transfer date'

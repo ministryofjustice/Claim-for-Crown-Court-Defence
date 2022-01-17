@@ -259,9 +259,6 @@ commands:
     description: >
       Deploy CCCD to the specified environment
     parameters:
-      cluster:
-        description: destination clusters (live or live-1 only)
-        type: string
       environment:
         description: destination environment
         type: string
@@ -270,9 +267,9 @@ commands:
       - setup_remote_docker:
           version: 19.03.14
       - run:
-          name: deploying to << parameters.cluster >> cluster, << parameters.environment >> namespace
+          name: deploying to << parameters.environment >> namespace
           command: |
-            .circleci/deploy.sh << parameters.cluster >> << parameters.environment >>
+            .circleci/deploy.sh << parameters.environment >>
       - slack/status:
           success_message: ":tada: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> successful!"
           failure_message: ":red_circle: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> failed!"
@@ -452,46 +449,40 @@ jobs:
       - hold-notification:
           message: "Deployment of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> pending approval"
 
-  deploy-live-dev:
+  deploy-dev:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
-          cluster: live
           environment: dev
 
-  deploy-live-dev-lgfs:
+  deploy-dev-lgfs:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
-          cluster: live
           environment: dev-lgfs
 
-  deploy-live-staging:
+  deploy-staging:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
-          cluster: live
           environment: staging
 
-  deploy-live-api-sandbox:
+  deploy-api-sandbox:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
-          cluster: live
           environment: api-sandbox
 
-  deploy-live-production:
+  deploy-production:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
-          cluster: live
           environment: production
 
-  auto-deploy-live-dev:
+  auto-deploy-dev:
     executor: cloud-platform-executor
     steps:
       - deploy-to:
-          cluster: live
           environment: dev
 
   ui-smoke-test-dev:
@@ -532,7 +523,7 @@ workflows:
       - smoke-test:
           requires:
             - build-app-container
-      - auto-deploy-live-dev:
+      - auto-deploy-dev:
           requires:
             - smoke-test
           context:
@@ -540,7 +531,7 @@ workflows:
             - cccd-live-dev
       - ui-smoke-test-dev:
           requires:
-            - auto-deploy-live-dev
+            - auto-deploy-dev
       - hold-deploy-notification:
           requires:
             - ui-smoke-test-dev
@@ -548,7 +539,7 @@ workflows:
           type: approval
           requires:
             - ui-smoke-test-dev
-      - deploy-live-api-sandbox:
+      - deploy-api-sandbox:
           requires:
             - hold-api-sandbox
           context:
@@ -558,7 +549,7 @@ workflows:
           type: approval
           requires:
             - ui-smoke-test-dev
-      - deploy-live-staging:
+      - deploy-staging:
           requires:
             - hold-staging
           context:
@@ -568,7 +559,7 @@ workflows:
           type: approval
           requires:
             - ui-smoke-test-dev
-      - deploy-live-production:
+      - deploy-production:
           requires:
             - hold-production
           context:
@@ -629,25 +620,25 @@ workflows:
           type: approval
           requires:
             - build-app-container
-      - deploy-live-dev:
+      - deploy-dev:
           requires:
             - hold-dev
           context:
             - cccd-live-base
             - cccd-live-dev
-      - deploy-live-dev-lgfs:
+      - deploy-dev-lgfs:
           requires:
             - hold-dev-lgfs
           context:
             - cccd-live-base
             - cccd-live-dev-lgfs
-      - deploy-live-staging:
+      - deploy-staging:
           requires:
             - hold-staging
           context:
             - cccd-live-base
             - cccd-live-staging
-      - deploy-live-api-sandbox:
+      - deploy-api-sandbox:
           requires:
             - hold-api-sandbox
           context:
@@ -655,7 +646,7 @@ workflows:
             - cccd-live-api-sandbox
       - ui-smoke-test-dev:
           requires:
-            - deploy-live-dev
+            - deploy-dev
 
   scheduled-smoke-test:
     triggers:

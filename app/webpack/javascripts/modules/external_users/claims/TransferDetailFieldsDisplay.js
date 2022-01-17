@@ -1,12 +1,12 @@
 moj.Modules.TransferDetailFieldsDisplay = {
   tdWrapper: '.js-case-conclusion-effectors',
   $tdWrapper: null,
-  litigatorTypeRadio: '.js-litigator-type',
-  electedCaseRadio: '.js-elected-case',
+  litigatorTypeRadio: '.js-litigator-type input[type="radio"]',
+  electedCaseRadio: '.js-elected-case input[type="radio"]',
   transferStageSelect: 'select.js-transfer-stage-id',
   caseConclusionSelect: '.js-case-conclusions-select',
   transferStageLabel: '.js-transfer-stage-label',
-  transferDateLabel: '.js-transfer-date-label .form-label-bold',
+  transferDateLabel: '.js-transfer-date legend',
   params: {},
 
   init: function () {
@@ -74,9 +74,8 @@ moj.Modules.TransferDetailFieldsDisplay = {
     $.each(this.params, function (key) {
       params += self.getParamVal(key)
     })
-
     // remove initial &
-    return params.substr(1)
+    return params.substring(1)
   },
 
   callCaseConclusionController: function () {

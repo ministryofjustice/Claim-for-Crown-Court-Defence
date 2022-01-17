@@ -4,7 +4,7 @@ metadata:
   name: claim-for-crown-court-defence
   namespace: cccd-production
 spec:
-  replicas: 4
+  replicas: 0
   strategy:
     type: RollingUpdate
     rollingUpdate:

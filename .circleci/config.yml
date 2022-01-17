@@ -487,6 +487,13 @@ jobs:
           cluster: live-1
           environment: production
 
+  deploy-live-production:
+    executor: cloud-platform-executor
+    steps:
+      - deploy-to:
+          cluster: live
+          environment: production
+
   auto-deploy-live-dev:
     executor: cloud-platform-executor
     steps:
@@ -574,6 +581,12 @@ workflows:
           context:
             - cccd-live-1-base
             - cccd-live-1-production
+      - deploy-live-production:
+          requires:
+            - hold-production
+          context:
+            - cccd-live-base
+            - cccd-live-production
 
   test-branch:
     jobs:

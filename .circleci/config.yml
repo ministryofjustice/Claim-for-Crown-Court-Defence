@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  slack: circleci/slack@3.4.1
+  slack: circleci/slack@4.1
   snyk: snyk/snyk@1.1.2
   browser-tools: circleci/browser-tools@1.2.3
 
@@ -271,9 +271,14 @@ commands:
           name: deploying to << parameters.environment >> namespace
           command: |
             .circleci/deploy.sh << parameters.environment >>
-      - slack/status:
-          success_message: ":tada: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> successful!"
-          failure_message: ":red_circle: deploy of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> to << parameters.environment >> failed!"
+      - slack/notify:
+          channel: cccd_development
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          channel: cccd_development
+          event: pass
+          template: basic_success_1
 
   ui-smoke-test:
     description: >
@@ -291,10 +296,28 @@ commands:
               circleci-agent step halt
             fi
       - slack/notify:
-          title: ":smoke_it: UI Smoke test"
           channel: laa-cccd-alerts
-          message: ":no_smoking: UI smoke test << parameters.smoke-url >> failed!"
-          color: "#FF0000"
+          custom: |
+            {
+              "attachments": [
+                {
+                  "color": "#FF0000",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": ":no_smoking: UI smoke test << parameters.smoke-url >> failed!",
+                          "emoji": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+
       - run:
           name: UI smoke test failed
           command:
@@ -316,9 +339,28 @@ commands:
             else
               echo 'export CUSTOM_SLACK_COLOR="#3AA3E3"' >> $BASH_ENV
             fi
-      - slack/approval:
-          color: $CUSTOM_SLACK_COLOR
-          message: << parameters.message >>
+      - slack/notify:
+          channel: cccd_development
+          custom: |
+            {
+              "attachments": [
+                {
+                  "color": ${CUSTOM_SLACK_COLOR},
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": << parameters.message >>,
+                          "emoji": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
 
   smoke-test:
      steps:
@@ -356,10 +398,27 @@ commands:
               echo "Smoke test failed!";
             fi
       - slack/notify:
-          title: ":smoke_it: Smoke test"
           channel: laa-claim-for-payment-development
-          message: $CUSTOM_SLACK_MESSAGE
-          color: $CUSTOM_SLACK_COLOR
+          custom: |
+            {
+              "attachments": [
+                {
+                  "color": $CUSTOM_SLACK_COLOR,
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": $CUSTOM_SLACK_MESSAGE,
+                          "emoji": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
 
   build-docker-image:
     description: >
@@ -408,10 +467,51 @@ commands:
   scan-docker-image-notification:
     steps:
       - slack/notify:
-          title: ":snyk: Docker image scan"
           channel: laa-cccd-alerts
-          message: Docker image scan of <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH> complete
-          color: "#008000"
+          event: fail
+          custom: |
+            {
+              "attachments": [
+                {
+                  "color": "#FF0000",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "Docker image vulnerabillites found on <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH>",
+                          "emoji": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+      - slack/notify:
+          channel: laa-cccd-alerts
+          event: pass
+          custom: |
+            {
+              "attachments": [
+                {
+                  "color": "#008000",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "No docker image vulnerabillites found on <$CIRCLE_BUILD_URL|$CIRCLE_BRANCH>",
+                          "emoji": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
 
 # ------------------
 # JOBS
@@ -730,7 +830,7 @@ workflows:
   scheduled-docker-scan:
     triggers:
       - schedule:
-          cron: "24 9 * * *"
+          cron: "15 10 * * *"
           filters:
             branches:
               only:

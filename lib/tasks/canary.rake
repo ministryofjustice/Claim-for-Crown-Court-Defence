@@ -118,7 +118,7 @@ namespace :canary do
     filename = "#{Faker::Name.first_name} #{Faker::Name.last_name} #{rand(100000)}"
 
     puts "Creating Canarytoken '#{filename}.docx' based on canary_base.docx"
-    original_file = Rails.root.join('docs', 'samples', 'canary_base.docx')
+    original_file = Rails.root.join('docs', 'samples', 'canary_evidence_document_base.docx')
     canarytoken_doc = factory.create_token(
       kind: 'doc-msword',
       memo: "Document '#{filename}.docx' attachment",

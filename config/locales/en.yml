@@ -1254,6 +1254,7 @@ en:
           elected_case: Was the case elected?
           transfer_stage_default_label_text: When did you stop/start acting?
           transfer_date_default_label_text: Date stopped/started acting
+          date_hint: For example, 31 3 1980
           case_conclusions: How did the case conclude?
         summary:
           header: Transfer fees

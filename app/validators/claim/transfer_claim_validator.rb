@@ -51,12 +51,12 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
 
   def validate_litigator_type
     return if @record.litigator_type.in? %w[new original]
-    add_error(:litigator_type, 'invalid')
+    add_error(:litigator_type, :invalid)
   end
 
   def validate_elected_case
     return if @record.elected_case.in?([true, false])
-    add_error(:elected_case, 'invalid')
+    add_error(:elected_case, :invalid)
   end
 
   def validate_transfer_stage_id
@@ -65,7 +65,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_transfer_date
-    validate_presence(:transfer_date, 'blank')
+    validate_presence(:transfer_date, :blank)
     validate_on_or_before(Date.today, :transfer_date, 'check_not_in_future')
     validate_on_or_after(Settings.earliest_permitted_date, :transfer_date, 'check_not_too_far_in_past')
   end

@@ -1,6 +1,6 @@
 # https://github.com/ssoroka/scheduler_daemon for help
 class DocumentCanaryTask < Scheduler::SchedulerTask
-  every '120m'
+  every '1d', first_at: Chronic.parse('next 3:00 am')
 
   def run
     return skip_tasks if Rails.env.in? %w[development test]

@@ -137,7 +137,7 @@ This will create a `private` dump file in the host environments s3 bucket and li
 
 
 ```bash
-# requires live-1 kubeconfig secret access
+# requires kubeconfig secret access
 # list existing dump files for an environment
 bundle exec rake db:dump:list_s3_dumps['dev']
 ```
@@ -145,7 +145,7 @@ bundle exec rake db:dump:list_s3_dumps['dev']
 You can then download the s3 dump file locally using:
 
 ```bash
-# requires live-1 kubeconfig secret access
+# requires kubeconfig secret access
 # copy existing dump file from an environment and decompress
 bundle exec rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','dev']
 ```

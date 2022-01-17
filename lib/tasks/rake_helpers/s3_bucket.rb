@@ -73,7 +73,7 @@ class S3Bucket
   end
 
   def s3_secrets_cmd
-    "kubectl --context live-1 -n cccd-#{host} get secret cccd-s3-bucket -o yaml | grep -vE '#{grep_secret_excludes}'"
+    "kubectl --context live -n cccd-#{host} get secret cccd-s3-bucket -o yaml | grep -vE '#{grep_secret_excludes}'"
   end
 
   def grep_secret_excludes

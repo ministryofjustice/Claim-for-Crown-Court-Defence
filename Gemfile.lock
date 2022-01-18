@@ -828,6 +828,7 @@ DEPENDENCIES
   state_machine (~> 1.2.0)
   state_machines-activerecord
   state_machines-audit_trail
+  terminal-table (~> 3.0)
   timecop
   tzinfo-data
   unicorn-rails (= 2.2.1)

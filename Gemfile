@@ -48,6 +48,7 @@ gem 'sprockets-rails',        '~> 3.4.2'
 gem 'state_machine',          '~> 1.2.0'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
+gem 'terminal-table',         '~> 3.0', require: false
 gem 'tzinfo-data'
 gem 'zendesk_api'  ,           '1.34.0'
 gem 'sidekiq',                 '~> 6.3'

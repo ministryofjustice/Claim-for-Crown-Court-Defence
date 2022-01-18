@@ -121,8 +121,8 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_presence_and_length(attribute)
-    validate_presence(attribute, 'blank')
+    validate_presence(attribute, :blank)
     # an interim fee cannot be claimed unless the trial will last 10 days or more
-    validate_numericality(attribute, 'interim_invalid', 10, nil)
+    validate_numericality(attribute, :interim_invalid, 10, nil)
   end
 end

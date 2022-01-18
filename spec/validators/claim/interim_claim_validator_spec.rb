@@ -51,12 +51,13 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
 
       it 'errors if not present and interim fee type requires it' do
         claim.estimated_trial_length = nil
-        should_error_with(claim, :estimated_trial_length, 'blank')
+        should_error_with(claim, :estimated_trial_length, 'Enter an estimated trial length')
       end
 
       it 'errors if less than 10 days' do
         claim.estimated_trial_length = 5
-        should_error_with(claim, :estimated_trial_length, 'interim_invalid')
+        should_error_with(claim, :estimated_trial_length,
+                          'Enter a whole number of days (minimum of 10) for the estimated trial length')
       end
     end
 
@@ -66,12 +67,13 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
 
       it 'errors if not present and interim fee type requires it' do
         claim.retrial_estimated_length = nil
-        should_error_with(claim, :retrial_estimated_length, 'blank')
+        should_error_with(claim, :retrial_estimated_length, 'Enter an estimated retrial length')
       end
 
       it 'errors if less than 10 days' do
         claim.retrial_estimated_length = 5
-        should_error_with(claim, :retrial_estimated_length, 'interim_invalid')
+        should_error_with(claim, :retrial_estimated_length,
+                          'Enter a whole number of days (minimum of 10) for the estimated retrial length')
       end
     end
   end

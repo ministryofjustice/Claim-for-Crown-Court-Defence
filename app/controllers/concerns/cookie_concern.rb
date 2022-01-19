@@ -19,7 +19,7 @@ module CookieConcern
     cookies[type] = {
       value: value,
       domain: request.host,
-      expires: Time.zone.now + 1.year,
+      expires: 1.year.from_now,
       secure: !Rails.env.test?
     }
   end

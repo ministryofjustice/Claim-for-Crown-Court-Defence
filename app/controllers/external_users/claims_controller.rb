@@ -1,6 +1,7 @@
 class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   # This performs magic
   include PaginationHelpers
+  include MultiparameterAttributeCleaner
 
   class ResourceClassNotDefined < StandardError; end
 
@@ -10,6 +11,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   respond_to :html
 
+  prepend_before_action :clean_multiparameter_dates, only: [:create, :update]
   before_action :set_user_and_provider
   before_action :set_claims_context, only: %i[index archived outstanding authorised]
   before_action :set_financial_summary, only: %i[index outstanding authorised]

@@ -1,4 +1,5 @@
 class ExternalUsers::CertificationsController < ExternalUsers::ApplicationController
+  # prepend_before_action :validate_and_amend_multi_parameter_dates
   before_action :set_claim, only: %i[new create update]
   before_action :redirect_already_certified, only: %i[new create]
   before_action :redirect_if_not_valid, only: %i[new create]
@@ -53,6 +54,15 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
     @certification.certified_by = current_user.name
     @certification.certification_date = Date.today
   end
+
+  # def validate_and_amend_multi_parameter_dates
+  #   return unless params[:certification]
+
+  #   model_params = params[:certification]
+  #   model_params['certification_date(3i)'] = '' if model_params['certification_date(3i)'].to_i > 31
+  #   model_params['certification_date(2i)'] = '' if model_params['certification_date(2i)'].to_i > 12
+  #   model_params['certification_date(1i)'] = '' if model_params['certification_date(1i)'].to_i < 1900
+  # end
 
   def certification_params
     params.require(:certification).permit(

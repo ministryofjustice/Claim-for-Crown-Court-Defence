@@ -7,10 +7,19 @@ module Claim
 
   class BaseClaim < ApplicationRecord
     include SoftlyDeletable
+    include MultiparameterAttributeCleanable
 
     self.table_name = 'claims'
 
     auto_strip_attributes :case_number, :cms_number, :supplier_number, squish: true, nullify: true
+    clean_multiparameter_date_attributes :first_day_of_trial,
+                                         :trial_concluded_at,
+                                         :retrial_started_at,
+                                         :retrial_concluded_at,
+                                         :trial_fixed_notice_at,
+                                         :trial_fixed_at,
+                                         :trial_cracked_at,
+                                         :case_concluded_at
 
     serialize :evidence_checklist_ids, Array
 

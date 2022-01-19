@@ -12,7 +12,10 @@
 #
 
 class Certification < ApplicationRecord
+  include MultiparameterAttributeCleanable
+
   auto_strip_attributes :certified_by, squish: true, nullify: true
+  clean_multiparameter_date_attributes :certification_date
 
   belongs_to :claim, class_name: 'Claim::BaseClaim'
   belongs_to :certification_type

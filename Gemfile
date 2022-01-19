@@ -79,7 +79,7 @@ group :development, :devunicorn, :test do
   gem 'guard-rspec'
   gem 'guard-rubocop'
   gem 'guard-webpacker', '~> 0.2.1'
-  gem 'listen', '~> 3.7.0'
+  gem 'listen', '~> 3.7.1'
   gem 'meta_request'
   gem 'parallel_tests'
   gem 'pry-byebug'

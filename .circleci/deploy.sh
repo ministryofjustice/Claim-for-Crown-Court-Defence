@@ -2,16 +2,12 @@
 
 function _circleci_deploy() {
   usage="deploy -- deploy image from current commit to an environment
-  Usage: $0 cluster_dir environment
+  Usage: $0 environment
   Where:
-    cluster_dir [live|live-1]
     environment [dev|dev-lgfs|staging|api-sandbox|production]
   Example:
-    # deploy image for current circleCI commit to live-1 clusters cccd-dev namespace
-    deploy.sh live-1 dev
-
     # deploy image for current circleCI commit to live clusters cccd-dev namespace
-    deploy.sh live dev
+    deploy.sh dev
     "
 
   # exit when any command fails
@@ -34,25 +30,17 @@ function _circleci_deploy() {
     return 1
   fi
 
-  if [[ $# -ne 2 ]]
+  if [[ $# -ne 1 ]]
   then
     echo "$usage"
     return 1
   fi
 
-  case "$1" in
-    live | live-1)
-      cluster_dir=$1
-      ;;
-    *)
-      echo "$usage"
-      return 1
-      ;;
-  esac
+  cluster_dir='live'
 
-  case "$2" in
+  case "$1" in
     dev | dev-lgfs | api-sandbox | staging | production)
-      environment=$2
+      environment=$1
       ;;
     *)
       echo "$usage"

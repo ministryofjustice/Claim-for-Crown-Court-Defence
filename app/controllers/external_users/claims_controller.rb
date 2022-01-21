@@ -311,7 +311,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :litigator_type,
       :elected_case,
       :transfer_stage_id,
-      date_attributes_for(:transfer_date),
+      :transfer_date,
       :case_conclusion_id,
       :disk_evidence,
       :prosecution_evidence,

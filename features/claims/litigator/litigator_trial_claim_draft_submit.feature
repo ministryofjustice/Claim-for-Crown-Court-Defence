@@ -134,8 +134,16 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     When I click "Continue"
     Then I should be on the certification page
     And I should see a page title "Certify and submit the litigator final fees claim"
+    And certified by should be set to current user name
+    And certification date should be set to today
 
-    When I click Certify and submit claim
+    When I fill in '32' as the certification date day
+    And I click Certify and submit claim
+    Then I should be on the certification page
+    And I should see "Enter certifying date"
+
+    When I fill in todays date as the certification date
+    And I click Certify and submit claim
     Then I should be on the claim confirmation page
 
     When I click View your claims

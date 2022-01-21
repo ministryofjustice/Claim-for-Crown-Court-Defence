@@ -46,9 +46,9 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           'litigator_type' => 'original',
           'elected_case' => 'true',
           'transfer_stage_id' => '20',
-          'transfer_date_dd' => '2',
-          'transfer_date_mm' => '5',
-          'transfer_date_yyyy' => '2016',
+          'transfer_date(3i)' => '2',
+          'transfer_date(2i)' => '6',
+          'transfer_date(1i)' => '2016',
           'case_conclusion_id' => ''
         },
         'commit_continue' => 'Continue'
@@ -100,9 +100,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         end
 
         it 'claim contains errors' do
-          expect(assigns(:claim).errors[:litigator_type]).to include('invalid')
-          expect(assigns(:claim).errors[:transfer_detail]).to include('invalid_combo')
-          expect(assigns(:claim).errors[:case_conclusion_id]).to include('invalid_combo')
+          expect(assigns(:claim).errors[:litigator_type]).to include('Choose the litigator type')
         end
       end
     end
@@ -179,9 +177,9 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
             'litigator_type' => 'original',
             'elected_case' => 'true',
             'transfer_stage_id' => '10',
-            'transfer_date_dd' => '2',
-            'transfer_date_mm' => '6',
-            'transfer_date_yyyy' => '2016',
+            'transfer_date(3i)' => '2',
+            'transfer_date(2i)' => '6',
+            'transfer_date(1i)' => '2016',
             'case_conclusion_id' => ''
           },
           'commit_continue' => 'Continue',

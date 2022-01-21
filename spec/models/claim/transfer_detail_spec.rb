@@ -97,12 +97,6 @@ RSpec.describe Claim::TransferDetail do
 
       it { is_expected.to_not be_ppe_required }
     end
-
-    context 'when transfer details combination are invalid' do
-      subject(:detail) { build(:transfer_detail, :with_invalid_combo) }
-
-      it { is_expected.to_not be_ppe_required }
-    end
   end
 
   describe '#days_claimable' do
@@ -124,12 +118,6 @@ RSpec.describe Claim::TransferDetail do
 
     context 'when transfer details do not require days' do
       subject(:detail) { build(:transfer_detail, :with_days_not_required) }
-
-      it { is_expected.to_not be_days_claimable }
-    end
-
-    context 'when transfer details combination are invalid' do
-      subject(:detail) { build(:transfer_detail, :with_invalid_combo) }
 
       it { is_expected.to_not be_days_claimable }
     end

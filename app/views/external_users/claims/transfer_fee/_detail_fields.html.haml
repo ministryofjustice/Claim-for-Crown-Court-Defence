@@ -19,13 +19,13 @@
         Claim::TransferBrain::TRANSFER_STAGES.values,
         :id,
         :description,
-        class: 'fx-autocomplete js-transfer-stage-id',
-        form_group: { classes: [ 'js-typeahead' ], id: 'cc-transfer-stage' },
-        label: { text: t('.transfer_stage_default_label_text'+'Sec'), class:'js-transfer-stage-label govuk-!-font-weight-bold', for: 'claim_transfer_stage_id' },
+        class: 'js-transfer-stage-id',
+        form_group: { classes: 'fx-autocomplete-wrapper', id: 'cc-transfer-stage' },
+        label: { text: t('.transfer_stage_default_label_text'), class:'js-transfer-stage-label govuk-!-font-weight-bold', for: 'claim_transfer_stage_id' },
         options: { include_blank: '' }
 
       = f.govuk_date_field :transfer_date,
-        class: ['js-transfer-date'],
+        form_group: {classes: ['js-transfer-date'], id: 'cc-transfer_date' },
         hint: { text: t('.date_hint') },
         legend: { text: t('.transfer_date_default_label_text'), size: 's' }
 
@@ -35,7 +35,6 @@
       claim.case_conclusions,
       :first,
       :last,
-      class: ['fx-autocomplete'],
-      form_group: { classes: ['js-typeahead', 'js-case-conclusions-select', "#{state}" ], id: 'cc-case-conclusion' },
+      form_group: { classes: ['fx-autocomplete-wrapper', 'js-case-conclusions-select', "#{state}" ], id: 'cc-case-conclusion' },
       label: { text: t('.case_conclusions'), class: 'govuk-!-font-weight-bold' },
       options: { include_blank: '' }

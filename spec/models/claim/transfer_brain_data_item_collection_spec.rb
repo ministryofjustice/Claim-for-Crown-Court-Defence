@@ -7,10 +7,8 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
 
   # specific mapping: where there is a case conclusion id specific mapping (case conclusion is relevant)
   # wildcard mapping: where there is mapping for any case conclusion id, using "*" key (i.e. case conclusion is irrelevant)
-  # invalid: where the combination of details is not possible
   let(:with_wildcard_mapping) { build(:transfer_detail, :with_wildcard_mapping) }
   let(:with_specific_mapping) { build(:transfer_detail, :with_specific_mapping) }
-  let(:with_invalid_combo) { build(:transfer_detail, :with_invalid_combo) }
 
   describe '.new' do
     context '@data_items' do
@@ -72,12 +70,6 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       it 'returns a valid data item' do
         is_expected.to include({ :validity => true })
       end
-    end
-
-    context 'when given and invalid combination of details' do
-      let(:detail) { with_invalid_combo }
-
-      it { is_expected.to be_nil }
     end
   end
 
@@ -194,12 +186,6 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       let(:detail) { with_wildcard_mapping }
 
       it { is_expected.to be true }
-    end
-
-    context 'when given and invalid combination of details' do
-      let(:detail) { with_invalid_combo }
-
-      it { is_expected.to be false }
     end
   end
 

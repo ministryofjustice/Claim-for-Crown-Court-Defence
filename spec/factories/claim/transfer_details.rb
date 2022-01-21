@@ -19,13 +19,6 @@ FactoryBot.define do
       case_conclusion_id { 20 }
     end
 
-    trait :with_invalid_combo do
-      litigator_type { 'new' }
-      elected_case { false }
-      transfer_stage_id { 30 }
-      case_conclusion_id { 50 }
-    end
-
     trait :with_ppe_required do
       litigator_type { 'new' }
       elected_case { false }

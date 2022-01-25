@@ -520,6 +520,8 @@ workflows:
       - build-app-container:
           requires:
             - upload-coverage
+          context:
+            - cccd-live-base
       - smoke-test:
           requires:
             - build-app-container

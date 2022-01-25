@@ -525,6 +525,8 @@ workflows:
       - smoke-test:
           requires:
             - build-app-container
+          context:
+            - cccd-live-base
       - auto-deploy-dev:
           requires:
             - smoke-test
@@ -659,7 +661,9 @@ workflows:
               only:
                 - master
     jobs:
-      - smoke-test
+      - smoke-test:
+          context:
+            - cccd-live-base
       - smoke-test-notification:
           requires:
             - smoke-test

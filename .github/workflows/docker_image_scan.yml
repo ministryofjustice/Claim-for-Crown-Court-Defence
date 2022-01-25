@@ -1,7 +1,7 @@
 name: Scan docker image
-on: push
-  # schedule:
-  #   - cron: '28 14 * * *'
+on:
+  schedule:
+    - cron: '0 7 * * *'
 
 jobs:
   scan-docker-image:

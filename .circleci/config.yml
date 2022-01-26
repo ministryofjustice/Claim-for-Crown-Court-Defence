@@ -608,6 +608,8 @@ workflows:
       - build-app-container:
           requires:
             - hold-branch-build
+          context:
+            - cccd-live-base
       - hold-dev:
           type: approval
           requires:

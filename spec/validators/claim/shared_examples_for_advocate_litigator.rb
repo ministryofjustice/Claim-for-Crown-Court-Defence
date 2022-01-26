@@ -40,19 +40,17 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
     end
   end
 
-
   context 'when validating transfer_court' do
     before { claim.transfer_case_number = 'A20161234' }
 
-      it 'errors if blank' do
-        claim.transfer_court = nil
-        should_error_with(claim, :transfer_court_id, 'Choose a transfer court')
-      end
+    it 'errors if blank' do
+      claim.transfer_court = nil
+      should_error_with(claim, :transfer_court_id, 'Choose a transfer court')
+    end
 
-      it 'errors when the same as the original court' do
-        claim.transfer_court = claim.court
-        should_error_with(claim, :transfer_court_id, 'Choose a different transfer court')
-      end
+    it 'errors when the same as the original court' do
+      claim.transfer_court = claim.court
+      should_error_with(claim, :transfer_court_id, 'Choose a different transfer court')
     end
 
     context 'with case transferred from another court' do

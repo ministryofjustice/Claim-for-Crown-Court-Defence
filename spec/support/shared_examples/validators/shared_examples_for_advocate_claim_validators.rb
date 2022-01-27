@@ -258,7 +258,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
       it 'are ignored' do
         midwu_fee = claim.fees.joins(:fee_type).where(fee_types: { unique_code: 'MIDWU' }).first
         claim.update(
-          :misc_fees_attributes => {
+          misc_fees_attributes: {
             '0' => {
               'id' => midwu_fee.id,
               '_destroy' => '1'
@@ -284,7 +284,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
 
       it 'are ignored' do
         claim.update(
-          :defendants_attributes => {
+          defendants_attributes: {
             '0' => {
               'id' => claim.defendants.first.id,
               '_destroy' => '1'

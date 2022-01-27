@@ -178,7 +178,7 @@ RSpec.configure do |config|
 
   config.before do |example|
     if example.metadata[:delete]
-      DatabaseCleaner.strategy = :truncation, { :except => ['vat_rates'] }
+      DatabaseCleaner.strategy = :truncation, { except: ['vat_rates'] }
     else
       DatabaseCleaner.strategy = :transaction
     end

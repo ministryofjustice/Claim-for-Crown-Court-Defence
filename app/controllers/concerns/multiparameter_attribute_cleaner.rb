@@ -27,10 +27,18 @@ module MultiparameterAttributeCleaner
       if v.respond_to?(:each_pair)
         find_and_clean_dates(v)
       elsif k.to_s.include?('(3i)')
-        parameters[k] = '' unless (1..31).cover?(v.to_i)
+        parameters[k] = '' unless valid_day_param?(v)
       elsif k.to_s.include?('(2i)')
-        parameters[k] = '' unless (1..12).cover?(v.to_i)
+        parameters[k] = '' unless valid_month_param?(v)
       end
     end
+  end
+
+  def valid_day_param?(val)
+    val.blank? || (1..31).cover?(val.to_i)
+  end
+
+  def valid_month_param?(val)
+    val.blank? || (1..12).cover?(val.to_i)
   end
 end

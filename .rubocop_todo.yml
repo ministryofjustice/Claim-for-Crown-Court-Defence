@@ -3091,12 +3091,6 @@ Style/RedundantReturn:
 
 # Offense count: 2
 # Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'spec/support/claim_api_endpoints.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
 Style/RedundantSort:
   Exclude:
     - 'app/models/defendant.rb'

@@ -9,25 +9,34 @@
     = link_to_remove_association f, class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
       = t('common.remove_html', context: t('.defendant'))
 
-    .form-group.first-name
-      - @representation_order_count = 0
-      = f.adp_text_field :first_name, label: t('.first_name_html'), errors: @error_presenter
+    - @representation_order_count = 0
 
-    .form-group.last-name
-      = f.adp_text_field :last_name, label: t('.last_name_html'), errors: @error_presenter
+    = f.govuk_text_field :first_name,
+      form_group: { classes: ['first-name'] },
+      label: { text: t('.first_name_html') },
+      width: 'one-half'
+      
+    = f.govuk_text_field :last_name,
+      form_group: { classes: ['last-name'] },
+      label: { text: t('.last_name_html') },
+      width: 'one-half'
 
-    .form-group.dob
-      %a{ id: "defendant_#{@defendant_count+1}_date_of_birth_html" }
-      = f.gov_uk_date_field(:date_of_birth, legend_text: t('.date_of_birth_html'), legend_class: 'govuk-legend', id: "defendant_#{@defendant_count+1}_date_of_birth_group", error_messages: gov_uk_date_field_error_messages(@error_presenter, "defendant_#{@defendant_count+1}_date_of_birth"))
+    = f.govuk_date_field :date_of_birth,
+      date_of_birth: true,
+      form_group: { classes: ['dob'], id: "defendant_#{@defendant_count+1}_date_of_birth_group" },
+      hint: { text: t('.date_hint') },
+      legend: { text: t('.date_of_birth_html'), size: 's' },
+      maxlength_enabled: true
 
     - unless @claim.lgfs? && @claim.interim?
-      .form-group
-        .multiple-choice
-          = f.check_box :order_for_judicial_apportionment
-          = f.label :order_for_judicial_apportionment, t('.order_for_judicial_apportionment_html'), class: 'judicial-apportionment-notice'
-          = validation_error_message(@error_presenter, :order_for_judicial_apportionment)
+      = f.govuk_check_box :order_for_judicial_apportionment,
+        1,
+        0,
+        label: { text: t('.order_for_judicial_apportionment_html') },
+        link_errors: true,
+        multiple: false
 
-      .form-group
+      .govuk-form-group
         = govuk_detail 'Help with judicial apportionment' do
           = t('.order_for_judicial_apportionment_help')
 

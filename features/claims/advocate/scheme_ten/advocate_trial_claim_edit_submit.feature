@@ -115,20 +115,25 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
       | miscellaneous-fees-section | 2 | Net amount | 108.00 |
 
     And I should see 'Hotel accommodation'
-
     And I should see 'judicial_appointment_order.pdf'
     And I should see 'Order in respect of judicial apportionment'
     And I should see 'Bish bosh bash'
-
     And I should see a page title "View claim summary for advocate final fees claim"
+
     When I click "Continue"
     Then I should be on the certification page
+    And I should see a page title "Certify and submit the advocate final fees claim"
+    And certified by should be set to current user name
+    And certification date should be set to today
 
     When I check “I attended the main hearing”
-
-    And I should see a page title "Certify and submit the advocate final fees claim"
+    And I fill in '32' as the certification date day
     And I click Certify and submit claim
+    Then I should be on the certification page
+    And I should see "Enter certifying date"
 
+    When I fill in todays date as the certification date
+    And I click Certify and submit claim
     Then I should be on the claim confirmation page
     And I should see a page title "Thank you for submitting your claim"
 

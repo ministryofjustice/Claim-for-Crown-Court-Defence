@@ -34,7 +34,9 @@
         hint: { text: t('.certified_by_prompt_text') }
 
       = f.govuk_date_field :certification_date,
-        legend: { text: t('.date'), size: 's' }
+        maxlength_enabled: true,
+        legend: { text: t('.date'), size: 's' },
+        form_group: { id: 'certification_date' }
 
       = f.govuk_submit t('.submit')
       = govuk_link_button_secondary t('.return'), edit_polymorphic_path(@claim)

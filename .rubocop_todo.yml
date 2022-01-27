@@ -3035,14 +3035,6 @@ Style/RedundantAssignment:
   Exclude:
     - 'app/controllers/case_conclusions_controller.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/RedundantBegin:
-  Exclude:
-    - 'spec/factories/claim/base_claims.rb'
-    - 'spec/support/matchers/raise_error_matchers.rb'
-    - 'spec/support/view_spec_helpers.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Style/RedundantCapitalW:

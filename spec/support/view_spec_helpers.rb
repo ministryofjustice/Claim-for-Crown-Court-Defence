@@ -20,16 +20,14 @@ module ViewSpecHelper
   end
 
   def within(selector)
-    begin
-      if scopes.empty?
-        scopes << Capybara.string(rendered).find(selector)
-      else
-        scopes << rendered.find(selector)
-      end
-      yield rendered
-    ensure
-      scopes.pop
+    if scopes.empty?
+      scopes << Capybara.string(rendered).find(selector)
+    else
+      scopes << rendered.find(selector)
     end
+    yield rendered
+  ensure
+    scopes.pop
   end
 
   def rendered

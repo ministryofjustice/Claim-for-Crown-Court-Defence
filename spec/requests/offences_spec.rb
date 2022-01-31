@@ -1,28 +1,49 @@
 require 'rails_helper'
 
 RSpec.describe 'offences details', type: :request do
-  before do
-    # Scheme 9 offences
-    create(:offence, :with_fee_scheme, description: 'Offence 1')
-    create(:offence, :with_fee_scheme, description: 'Offence 3')
-    create(:offence, :with_fee_scheme, description: 'Offence 2')
-
-    # Scheme 10 offences
-    create(:offence, :with_fee_scheme_ten, description: 'Offence 10-1')
-    create(:offence, :with_fee_scheme_ten, description: 'Offence 10-3')
-    create(:offence, :with_fee_scheme_ten, description: 'Offence 10-2')
-  end
-
   describe 'GET index' do
     subject(:get_offences) { get offences_url, params: params, xhr: true }
 
+    before do
+      # Scheme 9 offences
+      create(
+        :offence,
+        :with_fee_scheme,
+        description: 'Offence 1',
+        offence_class: create(:offence_class, id: 2, description: 'Offence class 1')
+      )
+      create(
+        :offence,
+        :with_fee_scheme,
+        description: 'Offence 3',
+        offence_class: create(:offence_class, id: 4, description: 'Offence class 2')
+      )
+      create(
+        :offence,
+        :with_fee_scheme,
+        description: 'Offence 2',
+        offence_class: create(:offence_class, id: 8, description: 'Offence class 3')
+      )
+
+      # Scheme 10 offences
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-1')
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-3')
+      create(:offence, :with_fee_scheme_ten, description: 'Offence 10-2')
+    end
+
     context 'with no parameters' do
       let(:params) { nil }
+      let(:json) { JSON.parse(response.body) }
 
       before { get_offences }
 
-      it 'returns all offences if no description present' do
+      it 'returns all offences in the default scheme (scheme 9)' do
         expect(assigns(:offences).map(&:description)).to eq(['Offence 1', 'Offence 2', 'Offence 3'])
+      end
+
+      it 'returns the offence class' do
+        expect(json.map { |data| data['offence_class'] }.first)
+          .to include('id' => 2, 'description' => 'Offence class 1')
       end
     end
 

@@ -1,6 +1,6 @@
 = f.govuk_collection_select :offence_class,
-  offences,
-  :id,
-  :description,
-  label: { text: t('.offence_class')},
-  form_group: { classes: 'js-offence-class-select'}
+  offences.map { |offence| [offence.id, offence.offence_class.letter_and_description] },
+  :first,
+  :last,
+  form_group: { classes: 'js-offence-class-select' },
+  label: { text: t('.offence_class') }

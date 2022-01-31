@@ -17,53 +17,36 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   specify { expect(subject.supplementary?).to be_falsey }
 
   describe 'validates external user and creator with same provider' do
+    subject(:claim) { described_class.create(external_user: external_user, creator: creator) }
+
     let(:provider) { create(:provider) }
-    let(:other_provider) { create(:provider) }
     let(:external_user) { create(:external_user, provider: provider) }
-    let(:same_provider_external_user) { create(:external_user, provider: provider) }
-    let(:other_provider_external_user) { create(:external_user, provider: other_provider) }
+    let(:creator) { external_user }
 
     context 'with no external user' do
-      before do
-        subject.external_user_id = nil
-        subject.save
-      end
+      let(:external_user) { nil }
 
       it { is_expected.not_to be_valid }
-      it { expect(subject.errors[:external_user_id]).to eq(['Choose an advocate']) }
+      it { expect(claim.errors[:external_user_id]).to eq(['Choose an advocate']) }
     end
 
     context 'when the external_user_id and creator_id are the same' do
-      before do
-        subject.external_user_id = external_user.id
-        subject.creator_id = external_user.id
-        subject.save
-      end
-
       it { is_expected.to be_valid }
-      it { expect(subject.reload.errors.messages[:external_user_id]).not_to be_present }
+      it { expect(claim.reload.errors.messages[:external_user_id]).not_to be_present }
     end
 
     context 'when the external_user_id and creator_id are different but of the same provider' do
-      before do
-        subject.external_user_id = external_user.id
-        subject.creator_id = same_provider_external_user.id
-        subject.save
-      end
+      let(:creator) { create(:external_user, provider: provider) }
 
       it { is_expected.to be_valid }
-      it { expect(subject.reload.errors.messages[:external_user_id]).not_to be_present }
+      it { expect(claim.reload.errors.messages[:external_user_id]).not_to be_present }
     end
 
     context 'when the external_user and creator are with different providers' do
-      before do
-        subject.external_user_id = external_user.id
-        subject.creator_id = other_provider_external_user.id
-        subject.save
-      end
+      let(:creator) { create(:external_user, provider: create(:provider)) }
 
       it { is_expected.not_to be_valid }
-      it { expect(subject.reload.errors.messages[:external_user_id]).to eq(['Creator and advocate must belong to the same provider']) }
+      it { expect(claim.errors.messages[:external_user_id]).to eq(['Creator and advocate must belong to the same provider']) }
     end
   end
 

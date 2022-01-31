@@ -23,6 +23,8 @@ class OffencesController < ApplicationController
       end
     else
       @offences = Offence.in_scheme_nine.where(offence_filter)
+      @data = @offences.map { |offence| { offence_id: offence.id, id: offence.offence_class.id, description: offence.offence_class.description } }
+      render json: @data
     end
   end
 

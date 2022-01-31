@@ -4,6 +4,8 @@ RSpec.describe 'offences details', type: :request do
   describe 'GET index' do
     subject(:get_offences) { get offences_url, params: params, xhr: true }
 
+    let(:json) { JSON.parse(response.body) }
+
     before do
       # Scheme 9 offences
       create(
@@ -33,12 +35,11 @@ RSpec.describe 'offences details', type: :request do
 
     context 'with no parameters' do
       let(:params) { nil }
-      let(:json) { JSON.parse(response.body) }
 
       before { get_offences }
 
       it 'returns all offences in the default scheme (scheme 9)' do
-        expect(assigns(:offences).map(&:description)).to eq(['Offence 1', 'Offence 2', 'Offence 3'])
+        expect(json.map { |data| data['description'] }).to eq(['Offence 1', 'Offence 2', 'Offence 3'])
       end
 
       it 'returns the offence class' do
@@ -53,7 +54,7 @@ RSpec.describe 'offences details', type: :request do
       before { get_offences }
 
       it 'just gets the matching offence' do
-        expect(assigns(:offences).map(&:description)).to eq(['Offence 3'])
+        expect(json.map { |data| data['description'] }).to eq(['Offence 3'])
       end
     end
 
@@ -66,7 +67,7 @@ RSpec.describe 'offences details', type: :request do
       end
 
       it 'returns offences only for fee scheme 10' do
-        expect(assigns(:offences).map(&:description)).to match_array(['Offence 10-1', 'Offence 10-3', 'Offence 10-2'])
+        expect(json.map { |data| data['description'] }).to match_array(['Offence 10-1', 'Offence 10-3', 'Offence 10-2'])
       end
 
       it 'calls the fee reform search offences service with the provided filters' do

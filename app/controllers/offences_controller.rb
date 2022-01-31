@@ -13,18 +13,18 @@ class OffencesController < ApplicationController
   skip_load_and_authorize_resource only: [:index]
 
   def index
-    @offences = if permitted_params[:fee_scheme].present?
-                  FeeReform::SearchOffences.call(permitted_params)
-                else
-                  Offence.in_scheme_nine.where(offence_filter)
-                end
-
     respond_to do |format|
-      format.json { render json: @offences, each_serializer: FeeReform::OffenceSerializer }
+      format.json { render json: offences, each_serializer: FeeReform::OffenceSerializer }
     end
   end
 
   private
+
+  def offences
+    return FeeReform::SearchOffences.call(permitted_params) if permitted_params[:fee_scheme].present?
+
+    Offence.in_scheme_nine.where(offence_filter)
+  end
 
   def permitted_params
     params.permit(:fee_scheme, :description, :search_offence, :category_id, :band_id)

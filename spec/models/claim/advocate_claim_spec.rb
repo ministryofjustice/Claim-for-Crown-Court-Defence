@@ -26,28 +26,28 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'raises error message if no external user is specified' do
       subject.external_user_id = nil
       expect(subject).not_to be_valid
-      expect(subject.errors[:external_user]).to eq(['blank_advocate'])
+      expect(subject.errors[:external_user_id]).to eq(['Choose an advocate'])
     end
 
     it 'is valid with the same external_user_id and creator_id' do
       subject.external_user_id = external_user.id
       subject.creator_id = external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).not_to be_present
+      expect(subject.reload.errors.messages[:external_user_id]).not_to be_present
     end
 
     it 'is valid with different external_user_id and creator_id but same provider' do
       subject.external_user_id = external_user.id
       subject.creator_id = same_provider_external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).not_to be_present
+      expect(subject.reload.errors.messages[:external_user_id]).not_to be_present
     end
 
     it 'is not valid when the external_user and creator are with different providers' do
       subject.external_user_id = external_user.id
       subject.creator_id = other_provider_external_user.id
       subject.save
-      expect(subject.reload.errors.messages[:external_user]).to eq(['Creator and advocate must belong to the same provider'])
+      expect(subject.reload.errors.messages[:external_user_id]).to eq(['Creator and advocate must belong to the same provider'])
     end
   end
 
@@ -62,7 +62,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'rejects external user without advocate role' do
       claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
       expect(claim).not_to be_valid
-      expect(claim.errors[:external_user]).to include('must have advocate role')
+      expect(claim.errors[:external_user_id]).to include('must have advocate role')
     end
   end
 
@@ -1049,14 +1049,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   describe 'calculate_vat' do
     it 'calaculates vat on submission if vat is applied' do
       allow(VatRate).to receive(:vat_amount).and_return(10)
-      claim = build(:unpersisted_claim, :with_fixed_fee_case, total: 100)
+      claim = create(:unpersisted_claim, :with_fixed_fee_case, total: 100)
       claim.submit!
       expect(claim.vat_amount).to eq 10
     end
 
     it 'zeroises the vat amount if vat is not applied' do
-      claim = build(:unpersisted_claim, :with_fixed_fee_case, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100)
-      claim.external_user.vat_registered = false
+      external_user = build(:external_user, vat_registered: false)
+      claim = create(:unpersisted_claim, :with_fixed_fee_case, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100, external_user: external_user)
       claim.submit!
       expect(claim.vat_amount).to eq 0.0
     end
@@ -1243,29 +1243,29 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       params = {
         'claim' => {
           'case_type_id' => case_type.id,
-          'trial_fixed_notice_at_dd' => '',
-          'trial_fixed_notice_at_mm' => '',
-          'trial_fixed_notice_at_yyyy' => '',
-          'trial_fixed_at_dd' => '',
-          'trial_fixed_at_mm' => '',
-          'trial_fixed_at_yyyy' => '',
-          'trial_cracked_at_dd' => '',
-          'trial_cracked_at_mm' => '',
-          'trial_cracked_at_yyyy' => '',
+          'trial_fixed_notice_at(3i)' => '',
+          'trial_fixed_notice_at(2i)' => '',
+          'trial_fixed_notice_at(1i)' => '',
+          'trial_fixed_at(3i)' => '',
+          'trial_fixed_at(2i)' => '',
+          'trial_fixed_at(1i)' => '',
+          'trial_cracked_at(3i)' => '',
+          'trial_cracked_at(2i)' => '',
+          'trial_cracked_at(1i)' => '',
           'trial_cracked_at_third' => '',
           'court_id' => court.id,
           'case_number' => 'B20161234',
           'advocate_category' => 'QC',
           'external_user_id' => external_user.id,
           'offence_id' => offence.id,
-          'first_day_of_trial_dd' => '8',
-          'first_day_of_trial_mm' => '9',
-          'first_day_of_trial_yyyy' => '2015',
+          'first_day_of_trial(3i)' => '8',
+          'first_day_of_trial(2i)' => '9',
+          'first_day_of_trial(1i)' => '2015',
           'estimated_trial_length' => '0',
           'actual_trial_length' => '0',
-          'trial_concluded_at_dd' => '11',
-          'trial_concluded_at_mm' => '9',
-          'trial_concluded_at_yyyy' => '2015',
+          'trial_concluded_at(3i)' => '11',
+          'trial_concluded_at(2i)' => '9',
+          'trial_concluded_at(1i)' => '2015',
           'defendants_attributes' => {
             '0' => {
               'first_name' => 'Foo',

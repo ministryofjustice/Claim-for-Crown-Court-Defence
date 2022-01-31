@@ -27,23 +27,23 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_external_user_id
     return if @record.disable_for_state_transition.eql?(:only_amount_assessed)
-    validate_presence(:external_user, "blank_#{@record.external_user_type}")
+    validate_belongs_to_object_presence(:external_user, "blank_#{@record.external_user_type}".to_sym)
     validate_external_user_has_required_role unless @record.external_user.nil?
-    return if @record.errors.key?(:external_user)
+    return if @record.errors.key?(:external_user_id)
     validate_creator_and_external_user_have_same_provider
   end
 
   def validate_external_user_has_required_role
     validate_has_role(@record.external_user,
                       [@record.external_user_type, :admin],
-                      :external_user,
+                      :external_user_id,
                       "must have #{@record.external_user_type} role")
   end
 
   def validate_creator_and_external_user_have_same_provider
     return if @record.creator_id == @record.external_user_id ||
               @record.creator.try(:provider) == @record.external_user.try(:provider)
-    @record.errors.add(:external_user, "Creator and #{@record.external_user_type} must belong to the same provider")
+    @record.errors.add(:external_user_id, "Creator and #{@record.external_user_type} must belong to the same provider")
   end
 
   def validate_total
@@ -59,45 +59,45 @@ class Claim::BaseClaimValidator < BaseValidator
     validate_presence(:creator, 'blank') unless @record.errors.key?(:creator)
   end
 
-  # must be present
-  def validate_case_type
-    validate_presence(:case_type, 'blank')
+  # object must be present
+  def validate_case_type_id
+    validate_belongs_to_object_presence(:case_type, :blank)
   end
 
   # must be present
-  def validate_court
-    validate_presence(:court, 'blank')
+  def validate_court_id
+    validate_belongs_to_object_presence(:court, :blank)
   end
 
   # must be present
   # must have a format of capital letter followed by 8 digits
   def validate_case_number
     @record.case_number&.upcase!
-    validate_presence(:case_number, 'blank')
-    validate_pattern(:case_number, CASE_URN_PATTERN, 'invalid_case_number_or_urn')
+    validate_presence(:case_number, :blank)
+    validate_pattern(:case_number, CASE_URN_PATTERN, :invalid_case_number_or_urn_format)
     return unless looks_like_a_case_number?(:case_number)
 
-    validate_pattern(:case_number, CASE_NUMBER_PATTERN, 'invalid')
+    validate_pattern(:case_number, CASE_NUMBER_PATTERN, :invalid_case_number_format)
   end
 
   def validate_case_transferred_from_another_court
     return unless @record.case_transferred_from_another_court
-    validate_transfer_court(force: true)
+    validate_transfer_court_id(force: true)
     validate_transfer_case_number
   end
 
-  def validate_transfer_court(force: false)
-    return if @record.errors[:transfer_court].present?
-    validate_presence(:transfer_court, 'blank') if @record.transfer_case_number.present? || force
-    validate_exclusion(:transfer_court, [@record.court], 'same')
+  def validate_transfer_court_id(force: false)
+    return if @record.errors[:transfer_court_id].present?
+    validate_belongs_to_object_presence(:transfer_court, :blank) if @record.transfer_case_number.present? || force
+    validate_exclusion(:transfer_court_id, [@record.court_id], :same)
   end
 
   def validate_transfer_case_number
     return if @record.errors[:transfer_case_number].present?
-    validate_pattern(:transfer_case_number, CASE_URN_PATTERN, 'invalid_case_number_or_urn')
+    validate_pattern(:transfer_case_number, CASE_URN_PATTERN, :invalid_case_number_or_urn)
     return unless looks_like_a_case_number?(:transfer_case_number)
 
-    validate_pattern(:transfer_case_number, CASE_NUMBER_PATTERN, 'invalid')
+    validate_pattern(:transfer_case_number, CASE_NUMBER_PATTERN, :invalid)
   end
 
   def validate_estimated_trial_length
@@ -123,10 +123,10 @@ class Claim::BaseClaimValidator < BaseValidator
   # must be final third if case type is cracked before retrial (cannot be first or second third)
   def validate_trial_cracked_at_third
     return unless cracked_case?
-    validate_presence(:trial_cracked_at_third, 'blank')
-    validate_inclusion(:trial_cracked_at_third, Settings.trial_cracked_at_third, 'invalid')
+    validate_presence(:trial_cracked_at_third, :blank)
+    validate_inclusion(:trial_cracked_at_third, Settings.trial_cracked_at_third, :invalid)
     return unless @record&.case_type&.name == 'Cracked before retrial'
-    validate_pattern(:trial_cracked_at_third, /^final_third$/, 'invalid_case_type_third_combination')
+    validate_pattern(:trial_cracked_at_third, /^final_third$/, :invalid_case_type_third_combination)
   end
 
   def validate_amount_assessed
@@ -180,12 +180,12 @@ class Claim::BaseClaimValidator < BaseValidator
   # must be 2+ days before trial_fixed_notice_at
   def validate_trial_fixed_notice_at
     return unless @record.case_type && @record.requires_cracked_dates?
-    validate_presence(:trial_fixed_notice_at, 'blank')
-    validate_on_or_before(Date.today, :trial_fixed_notice_at, 'check_not_in_future')
-    validate_presence(:trial_fixed_notice_at, 'blank')
+    validate_presence(:trial_fixed_notice_at, :blank)
+    validate_on_or_before(Date.today, :trial_fixed_notice_at, :check_not_in_future)
+    validate_presence(:trial_fixed_notice_at, :blank)
     validate_too_far_in_past(:trial_fixed_notice_at)
-    validate_before(@record.trial_fixed_at&.ago(1.day), :trial_fixed_notice_at, 'check_before_trial_fixed_at')
-    validate_before(@record.trial_cracked_at, :trial_fixed_notice_at, 'check_before_trial_cracked_at')
+    validate_before(@record.trial_fixed_at&.ago(1.day), :trial_fixed_notice_at, :check_before_trial_fixed_at)
+    validate_before(@record.trial_cracked_at, :trial_fixed_notice_at, :check_before_trial_cracked_at)
   end
 
   # required when case type is cracked, cracked before retrieal
@@ -195,12 +195,12 @@ class Claim::BaseClaimValidator < BaseValidator
   # must be 2+ days after trial_fixed_at
   def validate_trial_fixed_at
     return if ignore_validation_for_cracked_trials?
-    validate_presence(:trial_fixed_at, 'blank')
+    validate_presence(:trial_fixed_at, :blank)
     validate_too_far_in_past(:trial_fixed_at)
     validate_on_or_after(
       @record.trial_fixed_notice_at&.in(2.days),
       :trial_fixed_at,
-      'check_after_trial_fixed_notice_at'
+      :check_after_trial_fixed_notice_at
     )
   end
 
@@ -211,10 +211,10 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be before the trial fixed/warned issued
   def validate_trial_cracked_at
     return if ignore_validation_for_cracked_trials?
-    validate_presence(:trial_cracked_at, 'blank')
-    validate_on_or_before(Date.today, :trial_cracked_at, 'check_not_in_future')
+    validate_presence(:trial_cracked_at, :blank)
+    validate_on_or_before(Date.today, :trial_cracked_at, :check_not_in_future)
     validate_too_far_in_past(:trial_cracked_at)
-    validate_on_or_after(@record.trial_fixed_notice_at, :trial_cracked_at, 'check_after_trial_fixed_notice_at')
+    validate_on_or_after(@record.trial_fixed_notice_at, :trial_cracked_at, :check_after_trial_fixed_notice_at)
   end
 
   def ignore_validation_for_cracked_trials?
@@ -240,7 +240,7 @@ class Claim::BaseClaimValidator < BaseValidator
   # cannot be before earliest rep order date
   # cannot be more than 5 years in the past
   def validate_retrial_started_at
-    validate_on_or_after(@record.trial_concluded_at, :retrial_started_at, 'check_not_earlier_than_trial_concluded')
+    validate_on_or_after(@record.trial_concluded_at, :retrial_started_at, :check_not_earlier_than_trial_concluded)
     validate_retrial_start_and_end(:retrial_started_at, :retrial_concluded_at, false)
   end
 
@@ -287,7 +287,7 @@ class Claim::BaseClaimValidator < BaseValidator
                                             @record.actual_trial_length,
                                             @record.first_day_of_trial,
                                             @record.trial_concluded_at)
-    add_error(:actual_trial_length, 'too_long')
+    add_error(:actual_trial_length, :too_long)
   end
 
   def validate_retrial_actual_length_consistency
@@ -295,7 +295,7 @@ class Claim::BaseClaimValidator < BaseValidator
                                             @record.retrial_actual_length,
                                             @record.retrial_started_at,
                                             @record.retrial_concluded_at)
-    add_error(:retrial_actual_length, 'too_long')
+    add_error(:retrial_actual_length, :too_long)
   end
 
   def validate_travel_expense_additional_information
@@ -341,9 +341,9 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_trial_start_and_end(start_attribute, end_attribute, inverse = false)
     start_attribute, end_attribute = end_attribute, start_attribute if inverse
-    validate_presence(start_attribute, 'blank')
+    validate_presence(start_attribute, :blank)
     method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
-      .call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
+      .call(@record.__send__(end_attribute), start_attribute, :check_other_date)
 
     validate_too_far_in_past(start_attribute)
   end
@@ -352,20 +352,20 @@ class Claim::BaseClaimValidator < BaseValidator
     return unless @record&.requires_retrial_dates?
     start_attribute, end_attribute = end_attribute, start_attribute if inverse
     # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
-    validate_presence(start_attribute, 'blank') if @record.editable?
+    validate_presence(start_attribute, :blank) if @record.editable?
     method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
-      .call(@record.__send__(end_attribute), start_attribute, 'check_other_date')
+      .call(@record.__send__(end_attribute), start_attribute, :check_other_date)
 
-    validate_on_or_after(earliest_rep_order, start_attribute, 'check_not_earlier_than_rep_order')
+    validate_on_or_after(earliest_rep_order, start_attribute, :check_not_earlier_than_rep_order)
     validate_too_far_in_past(start_attribute)
   end
 
   def validate_not_in_future(attribute)
-    validate_on_or_before(Date.today, attribute, 'check_not_in_future')
+    validate_on_or_before(Date.today, attribute, :check_not_in_future)
   end
 
   def validate_too_far_in_past(start_attribute)
-    validate_on_or_after(Settings.earliest_permitted_date, start_attribute, 'check_not_too_far_in_past')
+    validate_on_or_after(Settings.earliest_permitted_date, start_attribute, :check_not_too_far_in_past)
   end
 
   def has_higher_rate_mileage?

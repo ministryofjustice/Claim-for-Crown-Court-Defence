@@ -1,26 +1,38 @@
-#retrial-dates.form-section{ class: @claim&.case_type&.requires_retrial_dates? ? '' : 'hidden', 'aria-labelledby': 'retrial-dates-heading' }
-  %h3#retrial-dates-heading.govuk-heading-m
+#retrial-dates{ class: @claim&.case_type&.requires_retrial_dates? ? nil : 'hidden' }
+  %h3.govuk-heading-m
     = t('.retrial_detail')
 
-  = f.gov_uk_date_field(:retrial_started_at, legend_text: t('.retrial_started_at'), legend_class: 'govuk-legend', form_hint_text: t('.date_hint'), id: "retrial_started_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :retrial_started_at))
+  = f.govuk_date_field :retrial_started_at,
+    form_group: { id: 'retrial_started_at' },
+    hint: { text: t('.date_hint') },
+    legend: { text: t('.retrial_started_at') },
+    maxlength_enabled: true
 
-  = f.gov_uk_date_field(:retrial_concluded_at, legend_text: t('.retrial_concluded_at'), legend_class: 'govuk-legend', form_hint_text: t('.date_hint'), id: "retrial_concluded_at", error_messages: gov_uk_date_field_error_messages(@error_presenter, :retrial_concluded_at))
+  = f.govuk_date_field :retrial_concluded_at,
+    form_group: { id: 'retrial_concluded_at' },
+    hint: { text: t('.date_hint') },
+    legend: { text: t('.retrial_concluded_at') },
+    maxlength_enabled: true
 
-  = f.adp_text_field :retrial_estimated_length, label: t('.retrial_estimated_length'), hint_text: t('.retrial_estimated_length_hint'), input_classes:'form-control-1-8', input_type: 'number', errors: @error_presenter
+  = f.govuk_text_field :retrial_estimated_length,
+    hint: { text: t('.retrial_estimated_length_hint') },
+    inputmode: 'numeric',
+    label: { text: t('.retrial_estimated_length') },
+    pattern: '[0-9]*',
+    width: 3
 
-  = f.adp_text_field :retrial_actual_length, label: t('.retrial_actual_length'), hint_text: t('.retrial_actual_length_hint'), input_classes:'form-control-1-8', input_type: 'number', errors: @error_presenter
-  .form-group.inline
-    %fieldset{"aria-describedby": "radio-control-legend-retrial"}
-      %legend#radio-control-legend-retrial.form-label-bold
-        %h3.govuk-heading-m
-          = t('.retrial_reduction')
+  = f.govuk_text_field :retrial_actual_length,
+    hint: { text: t('.retrial_actual_length_hint') },
+    inputmode: 'numeric',
+    label: { text: t('.retrial_actual_length') },
+    pattern: '[0-9]*',
+    width: 3
 
-      = f.collection_radio_buttons(:retrial_reduction, [['Yes','true'],['No','false']], :last, :first ) do |b|
-        .multiple-choice
-          = b.radio_button("aria-labelledby": "radio-control-legend-retrial #{b.text.to_css_class}")
-          = b.label(id: b.text.to_css_class) { b.text }
-
-  = validation_error_message(@error_presenter, :retrial_reduction)
+  = f.govuk_collection_radio_buttons :retrial_reduction,
+    [['Yes','true'],['No','false']],
+    :last,
+    :first,
+    legend: { text: t('.retrial_reduction') }
 
   = govuk_detail t('.retrial_reduction_help_link') do
     = t('.retrial_reduction_help_html')

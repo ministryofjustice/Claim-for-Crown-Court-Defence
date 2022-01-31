@@ -1,6 +1,7 @@
 class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   # This performs magic
   include PaginationHelpers
+  include MultiparameterAttributeCleaner
 
   class ResourceClassNotDefined < StandardError; end
 
@@ -10,6 +11,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   respond_to :html
 
+  prepend_before_action :clean_multiparameter_dates, only: [:create, :update]
   before_action :set_user_and_provider
   before_action :set_claims_context, only: %i[index archived outstanding authorised]
   before_action :set_financial_summary, only: %i[index outstanding authorised]
@@ -289,19 +291,19 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :case_stage_id,
       :offence_id,
       :travel_expense_additional_information,
-      date_attributes_for(:first_day_of_trial),
+      :first_day_of_trial,
       :estimated_trial_length,
       :actual_trial_length,
-      date_attributes_for(:trial_concluded_at),
-      date_attributes_for(:retrial_started_at),
+      :trial_concluded_at,
+      :retrial_started_at,
       :retrial_estimated_length,
       :retrial_actual_length,
-      date_attributes_for(:retrial_concluded_at),
+      :retrial_concluded_at,
       :retrial_reduction,
-      date_attributes_for(:trial_fixed_notice_at),
-      date_attributes_for(:trial_fixed_at),
-      date_attributes_for(:trial_cracked_at),
-      date_attributes_for(:case_concluded_at),
+      :trial_fixed_notice_at,
+      :trial_fixed_at,
+      :trial_cracked_at,
+      :case_concluded_at,
       date_attributes_for(:effective_pcmh_date),
       date_attributes_for(:legal_aid_transfer_date),
       :trial_cracked_at_third,

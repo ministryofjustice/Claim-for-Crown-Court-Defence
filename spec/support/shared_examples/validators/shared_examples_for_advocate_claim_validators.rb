@@ -56,7 +56,7 @@ RSpec.shared_examples 'advocate claim external user role' do
   context 'external_user' do
     it 'errors when does not have advocate role' do
       claim.external_user = litigator
-      should_error_with(claim, :external_user, 'must have advocate role')
+      should_error_with(claim, :external_user_id, 'must have advocate role')
     end
   end
 end
@@ -72,7 +72,7 @@ RSpec.shared_examples 'advocate claim case concluded at' do
     it 'is invalid when present' do
       claim.case_concluded_at = 1.month.ago
       expect(claim).not_to be_valid
-      expect(claim.errors[:case_concluded_at]).to eq(['present'])
+      expect(claim.errors[:case_concluded_at]).to eq(['The case concluded date is not allowed'])
     end
   end
 end

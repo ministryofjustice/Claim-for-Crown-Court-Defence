@@ -18,10 +18,10 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       transfer_detail_combo
     ],
     case_details: %i[
-      court
+      court_id
       case_number
       case_transferred_from_another_court
-      transfer_court
+      transfer_court_id
       transfer_case_number
       case_concluded_at
       supplier_number

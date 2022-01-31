@@ -31,7 +31,7 @@ Then(/^I should (see|not see) '(.*)'$/) do |visibility, text|
 end
 
 Then(/^I should see a supplier number select list$/) do
-  expect(@claim_form_page).to have_lgfs_supplier_number_select
+  expect(@claim_form_page).to have_auto_lgfs_supplier_number
 end
 
 Then(/^I should see (\d+) supplier number radios$/) do |number|
@@ -81,22 +81,6 @@ end
 
 When(/I edit this claim/) do
   @external_user_claim_show_page.edit_this_claim.click
-end
-
-Then(/^I should be on the certification page$/) do
-  expect(@certification_page).to be_displayed
-end
-
-When(/^I check “I attended the main hearing”$/) do
-  @certification_page.attended_main_hearing.click
-end
-
-When(/^I click Certify and submit claim$/) do
-  allow(Aws::SNS::Client).to receive(:new).and_return Aws::SNS::Client.new(region: 'eu-west-1', stub_responses: true)
-  @certification_page.wait_until_certify_and_submit_claim_visible
-  patiently do
-    @certification_page.certify_and_submit_claim.click
-  end
 end
 
 Then(/^I should be on the claim confirmation page$/) do

@@ -5,11 +5,11 @@ class Claim::LitigatorHardshipClaimValidator < Claim::BaseClaimValidator
     {
       case_details: %i[
         case_type_id
-        case_stage
-        court
+        case_stage_id
+        court_id
         case_number
         case_transferred_from_another_court
-        transfer_court
+        transfer_court_id
         transfer_case_number
       ],
       defendants: [],
@@ -24,12 +24,12 @@ class Claim::LitigatorHardshipClaimValidator < Claim::BaseClaimValidator
   # NOTE**: case_type is delegated to case_stage for hardship claims
   # and should not exist directly on the claim
   def validate_case_type_id
-    validate_absence(:case_type_id, 'present')
+    validate_absence(:case_type_id, :present)
   end
 
-  def validate_case_stage
-    validate_presence(:case_stage, 'blank')
-    validate_inclusion(:case_stage, @record.eligible_case_stages, 'inclusion')
+  def validate_case_stage_id
+    validate_belongs_to_object_presence(:case_stage, :blank)
+    validate_inclusion(:case_stage_id, @record.eligible_case_stages.pluck(:id), :inclusion)
   end
 
   def validate_offence

@@ -23,6 +23,9 @@ class AccountSetter
   # Find active or inactve accounts with matching email and
   # report basic information.
   #
+  # rubocop:disable Rails/Output
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def report
     emails.each do |email|
       users = User.where(email: email)
@@ -40,6 +43,9 @@ class AccountSetter
       puts("No deleted users found for email \"#{email}.deleted.%\"".red) if users.empty?
     end
   end
+  # rubocop:enable Rails/Output
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/MethodLength
 
   # Deactivate an active account!
   #
@@ -48,6 +54,7 @@ class AccountSetter
   #   - mark the account as inactive
   #   - prevent future login of the account
   #
+  # rubocop:disable Rails/Output
   def soft_delete
     emails.each do |email|
       user = User.find_by(email: email)
@@ -60,12 +67,15 @@ class AccountSetter
       end
     end
   end
+  # rubocop:enable Rails/Output
 
   # Reactivate deactivated account
   #
   # This will allow the user to login
   # with existing password.
   #
+  # rubocop:disable Rails/Output
+  # rubocop:disable Metrics/MethodLength
   def un_soft_delete
     emails.each do |email|
       user = User.find_by('email LIKE ?', "#{email}.deleted.%")
@@ -80,6 +90,8 @@ class AccountSetter
       end
     end
   end
+  # rubocop:enable Rails/Output
+  # rubocop:enable Metrics/MethodLength
 
   # Resets password of users
   #
@@ -89,6 +101,7 @@ class AccountSetter
   #
   # TODO: could send a password reset autumatically
   #
+  # rubocop:disable Rails/Output
   def change_password
     emails.each do |email|
       user = User.find_by(email: email)
@@ -102,4 +115,5 @@ class AccountSetter
       end
     end
   end
+  # rubocop:enable Rails/Output
 end

@@ -1046,19 +1046,35 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  describe 'calculate_vat' do
-    it 'calaculates vat on submission if vat is applied' do
-      allow(VatRate).to receive(:vat_amount).and_return(10)
-      claim = create(:unpersisted_claim, :with_fixed_fee_case, total: 100)
-      claim.submit!
-      expect(claim.vat_amount).to eq 10
+  describe '#calculate_vat' do
+    subject { claim.vat_amount }
+
+    context 'when vat is applied' do
+      let(:claim) { create(:unpersisted_claim, :with_fixed_fee_case, total: 100) }
+
+      before do
+        allow(VatRate).to receive(:vat_amount).and_return(10)
+        claim.submit!
+      end
+
+      it { is_expected.to eq 10 }
     end
 
-    it 'zeroises the vat amount if vat is not applied' do
-      external_user = build(:external_user, vat_registered: false)
-      claim = create(:unpersisted_claim, :with_fixed_fee_case, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100, external_user: external_user)
-      claim.submit!
-      expect(claim.vat_amount).to eq 0.0
+    context 'when vat is not applied' do
+      let(:claim) do
+        create(
+          :unpersisted_claim, :with_fixed_fee_case,
+          fees_total: 1500.22,
+          expenses_total: 500.00,
+          vat_amount: 20,
+          total: 100,
+          external_user: build(:external_user, vat_registered: false)
+        )
+      end
+
+      before { claim.submit! }
+
+      it { is_expected.to eq 0.0 }
     end
   end
 

@@ -309,20 +309,19 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
     end
 
     context 'Date Parameter handling' do
-      # TODO: review with BE as helper returns an error
-      # err: assignment of multiparameter attributes [error on assignment [2015, 0, 4] to first_day_of_trial (mon out of range)]
-      # it 'transforms dates with named months into dates' do
-      #   put :update, params: {
-      #     id: subject,
-      #     claim: {
-      #       'first_day_of_trial(1i)' => '2015',
-      #       'first_day_of_trial(2i)' => 'jan',
-      #       'first_day_of_trial(3i)' => '4'
-      #     },
-      #     commit_submit_claim: 'Submit to LAA'
-      #   }
-      #   expect(assigns(:claim).first_day_of_trial).to eq Date.new(2015, 1, 4)
-      # end
+      it 'invalid dates are cleared' do
+        put :update, params: {
+          id: subject,
+          claim: {
+            'first_day_of_trial(1i)' => '2015',
+            'first_day_of_trial(2i)' => 'JAN',
+            'first_day_of_trial(3i)' => '4'
+          },
+          commit_submit_claim: 'Submit to LAA'
+        }
+
+        expect(assigns(:claim).first_day_of_trial).to be_nil
+      end
 
       it 'transforms dates with numbered months into dates' do
         put :update, params: {

@@ -1,25 +1,18 @@
 - locale_scope = 'external_users.claims.offence_details.fields'
-#cc-offence.form-group{ class: error_class?(@error_presenter, :offence_category) ? 'form-group-error' : '' }
-  %a#offence_category
-  %label.form-label-bold{ for: 'claim_offence_category_description' }
-    = t('offence_category', scope: locale_scope)
-    .form-hint
-      = t('offence_category_hint', scope: locale_scope)
-    = validation_error_message(@error_presenter, :offence_category)
-
+#cc-offence
   - if @claim.new_record?
     - selected_offence_category = params[:offence_category].present? ? params[:offence_category][:description] : nil
   - else
     - selected_offence_category = @claim.offence.description rescue nil
 
-  = collection_select :offence_category,
-                        :description,
-                        @offence_descriptions,
-                        :description, :description,
-                        { include_blank: ''.html_safe, selected: selected_offence_category },
-                        { class: 'form-control fx-autocomplete', id: 'claim_offence_category_description', 'aria-label': t('offence_category', scope: locale_scope) }
+  = f.govuk_collection_select :offence_category,
+    @offence_descriptions,
+    :description, :description,
+    form_group: { classes: 'fx-autocomplete-wrapper', id: 'cc-transfer-stage claim_offence_category_description' },
+    hint: { text: t('offence_category_hint', scope: locale_scope)},
+    label: { text: t('offence_category', scope: locale_scope)},
+    options: { include_blank: '', selected: selected_offence_category }
 
-.offence-class-select.form-group
-  = render partial: 'external_users/claims/offence_details/offence_select', locals: { offences: @offences }
-
+.js-offence-class-select-wrapper
+  = render partial: 'external_users/claims/offence_details/offence_select', locals: { offences: @offences, f: f }
 = f.hidden_field :offence_id

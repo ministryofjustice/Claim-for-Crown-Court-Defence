@@ -66,31 +66,29 @@ FactoryBot.define do
 end
 
 def publicise_errors(claim)
-  begin
-    yield
-  rescue => e
-    puts "***************** DEBUG validation errors #{__FILE__}::#{__LINE__} **********"
-    ap claim
-    puts claim.errors.full_messages
-    claim.defendants.each do |defendant|
-      ap defendant
-      puts defendant.errors.full_messages
-      defendant.representation_orders.each do |rep|
-        ap rep
-        puts '>>> rep order'
-        puts rep.errors.full_messages
-      end
+  yield
+rescue => e
+  puts "***************** DEBUG validation errors #{__FILE__}::#{__LINE__} **********"
+  ap claim
+  puts claim.errors.full_messages
+  claim.defendants.each do |defendant|
+    ap defendant
+    puts defendant.errors.full_messages
+    defendant.representation_orders.each do |rep|
+      ap rep
+      puts '>>> rep order'
+      puts rep.errors.full_messages
     end
-    claim.fees.each do |fee|
-      ap fee
-      puts fee.errors.full_messages
-    end
-    claim.expenses.each do |expense|
-      ap expense
-      puts expense.errors.full_messages
-    end
-    raise e
   end
+  claim.fees.each do |fee|
+    ap fee
+    puts fee.errors.full_messages
+  end
+  claim.expenses.each do |expense|
+    ap expense
+    puts expense.errors.full_messages
+  end
+  raise e
 end
 
 def populate_required_fields(claim)

@@ -125,7 +125,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
       it 'are ignored' do
         miupl_fee = claim.fees.joins(:fee_type).where(fee_types: { unique_code: 'MIUPL' }).first
         claim.update(
-          :misc_fees_attributes => {
+          misc_fees_attributes: {
             '0' => {
               'id' => miupl_fee.id,
               '_destroy' => '1'
@@ -150,7 +150,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
 
       it 'are ignored' do
         claim.update(
-          :defendants_attributes => {
+          defendants_attributes: {
             '0' => {
               'id' => claim.defendants.first.id,
               '_destroy' => '1'

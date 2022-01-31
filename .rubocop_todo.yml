@@ -2783,29 +2783,6 @@ Style/HashEachMethods:
   Exclude:
     - 'spec/services/cclf/fee/shared_examples_for_cclf_fee_adapters.rb'
 
-# Offense count: 47
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedShorthandSyntax, UseHashRocketsWithSymbolValues, PreferHashRocketsForNonAlnumEndingSymbols.
-# SupportedStyles: ruby19, hash_rockets, no_mixed_keys, ruby19_no_mixed_keys
-# SupportedShorthandSyntax: always, never, either
-Style/HashSyntax:
-  Exclude:
-    - 'spec/api/v1/external_users/claims/advocates/interim_claim_spec.rb'
-    - 'spec/api/v1/external_users/claims/advocates/supplementary_claim_spec.rb'
-    - 'spec/api/v2/case_workers/allocate_spec.rb'
-    - 'spec/lib/extensions/hash_extension_spec.rb'
-    - 'spec/models/claim/transfer_brain_data_item_collection_spec.rb'
-    - 'spec/models/claim/transfer_brain_data_item_spec.rb'
-    - 'spec/presenters/claim/base_claim_presenter_spec.rb'
-    - 'spec/presenters/fixed_fee_presenter_spec.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/services/claims/case_worker_claims_spec.rb'
-    - 'spec/services/message_queue/aws_client_spec.rb'
-    - 'spec/services/zendesk_sender_spec.rb'
-    - 'spec/support/shared_examples/validators/shared_examples_for_advocate_claim_validators.rb'
-    - 'spec/validators/claim/litigator_claim_validator_spec.rb'
-    - 'spec/vcr_helper.rb'
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/HashTransformValues:
@@ -3058,14 +3035,6 @@ Style/RedundantAssignment:
   Exclude:
     - 'app/controllers/case_conclusions_controller.rb'
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Style/RedundantBegin:
-  Exclude:
-    - 'spec/factories/claim/base_claims.rb'
-    - 'spec/support/matchers/raise_error_matchers.rb'
-    - 'spec/support/view_spec_helpers.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 Style/RedundantCapitalW:
@@ -3111,12 +3080,6 @@ Style/RedundantRegexpEscape:
 Style/RedundantReturn:
   Exclude:
     - 'app/models/claims/state_machine.rb'
-
-# Offense count: 2
-# Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'spec/support/claim_api_endpoints.rb'
 
 # Offense count: 2
 # Cop supports --auto-correct.
@@ -3206,14 +3169,6 @@ Style/SymbolProc:
     - 'spec/factories/claim/litigator_claims.rb'
     - 'spec/factories/claim/transfer_claims.rb'
     - 'spec/models/allocation_spec.rb'
-
-# Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInHashLiteral:
-  Exclude:
-    - 'spec/api/v1/external_users/claims/interim_claim_spec.rb'
 
 # Offense count: 1
 # Cop supports --auto-correct.

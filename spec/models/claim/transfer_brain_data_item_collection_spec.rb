@@ -62,7 +62,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       let(:detail) { with_specific_mapping }
 
       it 'returns a valid data item' do
-        is_expected.to include({ :validity => true })
+        is_expected.to include({ validity: true })
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
       let(:detail) { with_wildcard_mapping }
 
       it 'returns a valid data item' do
-        is_expected.to include({ :validity => true })
+        is_expected.to include({ validity: true })
       end
     end
 

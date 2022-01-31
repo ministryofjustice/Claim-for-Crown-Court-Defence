@@ -30,7 +30,7 @@ class ClaimApiEndpoints
     private
 
     def namespace
-      self.type.to_sym == :advocate ? '' : "/#{self.type}"
+      type.to_sym == :advocate ? '' : "/#{type}"
     end
   end
 end

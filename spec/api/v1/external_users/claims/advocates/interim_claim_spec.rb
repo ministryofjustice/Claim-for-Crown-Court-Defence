@@ -15,13 +15,13 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
   let!(:court) { create(:court) }
   let!(:valid_params) do
     {
-      :api_key => provider.api_key,
-      :creator_email => vendor.user.email,
-      :user_email => advocate.user.email,
-      :case_number => 'A20161234',
-      :advocate_category => 'Leading junior',
-      :offence_id => offence.id,
-      :court_id => court.id
+      api_key: provider.api_key,
+      creator_email: vendor.user.email,
+      user_email: advocate.user.email,
+      case_number: 'A20161234',
+      advocate_category: 'Leading junior',
+      offence_id: offence.id,
+      court_id: court.id
     }
   end
 

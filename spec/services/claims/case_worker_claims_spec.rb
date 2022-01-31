@@ -6,14 +6,14 @@ module Claims
 
     let(:criteria) do
       {
-        :sorting => 'last_submitted_at',
-        :direction => 'asc',
-        :scheme => 'agfs',
-        :filter => 'all',
-        :page => 0,
-        :limit => 25,
-        :search => nil,
-        :value_band_id => 0
+        sorting: 'last_submitted_at',
+        direction: 'asc',
+        scheme: 'agfs',
+        filter: 'all',
+        page: 0,
+        limit: 25,
+        search: nil,
+        value_band_id: 0
       }
     end
 

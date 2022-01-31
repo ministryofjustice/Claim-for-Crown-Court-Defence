@@ -72,7 +72,7 @@ end
 
 # Turn off vcr from the command line, for example:
 # `VCR_OFF=true cucumber|rspec`
-VCR.turn_off!(:ignore_cassettes => true) if ENV['VCR_OFF']
+VCR.turn_off!(ignore_cassettes: true) if ENV['VCR_OFF']
 
 # Create VCR cassettes for any specs with a :fee_calc_vcr tag
 # in the cassette library under a directory structure
@@ -81,7 +81,7 @@ RSpec.configure do |config|
   config.around(:each, [:fee_calc_vcr, :currency_vcr]) do |example|
     if VCR.turned_on?
       cassette = Pathname.new(example.metadata[:file_path]).cleanpath.sub_ext('').to_s
-      VCR.use_cassette(cassette, :record => :new_episodes, :match_requests_on => [:method, :path_query_matcher]) do
+      VCR.use_cassette(cassette, record: :new_episodes, match_requests_on: [:method, :path_query_matcher]) do
         example.run
       end
     else

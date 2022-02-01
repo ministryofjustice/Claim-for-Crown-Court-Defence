@@ -21,7 +21,7 @@
         :description,
         class: 'js-transfer-stage-id',
         form_group: { classes: 'fx-autocomplete-wrapper', id: 'cc-transfer-stage' },
-        label: { text: t('.transfer_stage_default_label_text'), class:'js-transfer-stage-label govuk-!-font-weight-bold' },
+        label: { text: t('.transfer_stage_default_label_text'), class:'js-transfer-stage-label' },
         options: { include_blank: '' }
 
       = f.govuk_date_field :transfer_date,
@@ -36,5 +36,5 @@
       :first,
       :last,
       form_group: { classes: ['fx-autocomplete-wrapper', 'js-case-conclusions-select', "#{state}" ], id: 'cc-case-conclusion' },
-      label: { text: t('.case_conclusions'), class: 'govuk-!-font-weight-bold' },
+      label: { text: t('.case_conclusions') },
       options: { include_blank: '' }

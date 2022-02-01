@@ -17,8 +17,13 @@ moj.Modules.TransferDetailsCtrl = {
     if (this.activate()) {
       // init the auto complete
       this.initAutocomplete()
-      $.subscribe('/onConfirm/claim_transfer_stage_id-select/', function () {
-        moj.Modules.TransferDetailFieldsDisplay.callCaseConclusionController()
+      $('.fx-autocomplete-wrapper select').each(function () {
+        $.subscribe(
+          '/onConfirm/' + this.id + '/',
+          function () {
+            moj.Modules.TransferDetailFieldsDisplay.callCaseConclusionController()
+          }
+        )
       })
     }
   }

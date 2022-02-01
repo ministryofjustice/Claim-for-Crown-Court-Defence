@@ -15,7 +15,6 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       transfer_stage_id
       transfer_date
       case_conclusion_id
-      transfer_detail_combo
     ],
     case_details: %i[
       court_id
@@ -47,7 +46,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     end
 
     it 'errors if not new or original' do
-      expect_invalid_attribute_with_message(claim, :litigator_type, 'xxx', 'invalid')
+      expect_invalid_attribute_with_message(claim, :litigator_type, nil, 'Choose the litigator type')
     end
 
     it 'is valid if new or original' do
@@ -63,7 +62,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     end
 
     it 'errors if nil' do
-      expect_invalid_attribute_with_message(claim, :elected_case, nil, 'invalid')
+      expect_invalid_attribute_with_message(claim, :elected_case, nil, 'Choose the elected case status')
     end
 
     it 'is valid if true or false' do
@@ -79,7 +78,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     end
 
     it 'errors if invalid id' do
-      expect_invalid_attribute_with_message(claim, :transfer_stage_id, 33, 'invalid')
+      expect_invalid_attribute_with_message(claim, :transfer_stage_id, 33, 'Check the stage at which the case was transfered')
     end
 
     it 'is valid if a valid value' do
@@ -94,15 +93,15 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     end
 
     it 'errors if blank' do
-      expect_invalid_attribute_with_message(claim, :transfer_date, nil, 'blank')
+      expect_invalid_attribute_with_message(claim, :transfer_date, nil, 'Enter the transfer date')
     end
 
     it 'errors if in future' do
-      expect_invalid_attribute_with_message(claim, :transfer_date, 2.days.from_now, 'check_not_in_future')
+      expect_invalid_attribute_with_message(claim, :transfer_date, 2.days.from_now, 'Transfer date cannot be in the future')
     end
 
     it 'errors if too far in the past' do
-      expect_invalid_attribute_with_message(claim, :transfer_date, 11.years.ago, 'check_not_too_far_in_past')
+      expect_invalid_attribute_with_message(claim, :transfer_date, 11.years.ago, 'Transfer date cannot be too far in the past')
     end
 
     it 'is valid if in the recent past' do
@@ -161,7 +160,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     end
 
     it 'errors if not a valid case conclusion id' do
-      expect_invalid_attribute_with_message(claim, :case_conclusion_id, 44, 'invalid')
+      expect_invalid_attribute_with_message(claim, :case_conclusion_id, 44, 'Check the case conclusion')
     end
 
     context 'presence and absence' do
@@ -169,38 +168,13 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
 
       it 'errors if absent but required' do
         claim.transfer_stage_id = 30
-        expect_invalid_attribute_with_message(claim, :case_conclusion_id, nil, 'blank')
+        expect_invalid_attribute_with_message(claim, :case_conclusion_id, nil, 'Enter a case conclusion')
       end
 
       it 'errors if present but not required' do
         claim.transfer_stage_id = 40
-        expect_invalid_attribute_with_message(claim, :case_conclusion_id, 10, 'present')
+        expect_invalid_attribute_with_message(claim, :case_conclusion_id, 10, 'Do not enter a case conclusion')
       end
-    end
-  end
-
-  context 'transfer_details combination' do
-    before do
-      claim.form_step = :transfer_fee_details
-      claim.force_validation = true
-    end
-
-    let(:claim) { build(:transfer_claim, litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10) }
-
-    it 'adds a transfer detail combination error for invalid combinations' do
-      expect(claim).not_to be_valid
-      expect(claim.errors[:transfer_detail]).to include('invalid_combo')
-    end
-
-    it 'adds a specifc error on case conclusion id for invalid combinations to help resolve them' do
-      expect(claim).not_to be_valid
-      expect(claim.errors[:case_conclusion_id]).to include('invalid_combo')
-    end
-
-    it 'does not error if details are a valid combo' do
-      claim.case_conclusion_id = 40
-      claim.valid?
-      expect(claim.errors[:transfer_detail]).not_to include('invalid_combo')
     end
   end
 end

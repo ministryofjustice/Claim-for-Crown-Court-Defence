@@ -17,7 +17,6 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         transfer_stage_id
         transfer_date
         case_conclusion_id
-        transfer_detail_combo
       ],
       case_details: %i[
         court_id
@@ -51,37 +50,31 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
 
   def validate_litigator_type
     return if @record.litigator_type.in? %w[new original]
-    add_error(:litigator_type, 'invalid')
+    add_error(:litigator_type, :invalid)
   end
 
   def validate_elected_case
     return if @record.elected_case.in?([true, false])
-    add_error(:elected_case, 'invalid')
+    add_error(:elected_case, :invalid)
   end
 
   def validate_transfer_stage_id
     return if @record.transfer_stage_id.in? Claim::TransferBrain.transfer_stage_ids
-    add_error(:transfer_stage_id, 'invalid')
+    add_error(:transfer_stage_id, :invalid)
   end
 
   def validate_transfer_date
-    validate_presence(:transfer_date, 'blank')
-    validate_on_or_before(Date.today, :transfer_date, 'check_not_in_future')
-    validate_on_or_after(Settings.earliest_permitted_date, :transfer_date, 'check_not_too_far_in_past')
+    validate_presence(:transfer_date, :blank)
+    validate_on_or_before(Date.today, :transfer_date, :check_not_in_future)
+    validate_on_or_after(Settings.earliest_permitted_date, :transfer_date, :check_not_too_far_in_past)
   end
 
   def validate_case_conclusion_id
     if Claim::TransferBrain.case_conclusion_required?(@record.transfer_detail)
-      validate_presence(:case_conclusion_id, 'blank')
-      validate_inclusion(:case_conclusion_id, Claim::TransferBrain.case_conclusion_ids, 'invalid')
+      validate_presence(:case_conclusion_id, :blank)
+      validate_inclusion(:case_conclusion_id, Claim::TransferBrain.case_conclusion_ids, :invalid)
     else
-      validate_absence(:case_conclusion_id, 'present')
+      validate_absence(:case_conclusion_id, :present)
     end
-  end
-
-  def validate_transfer_detail_combo
-    return if Claim::TransferBrain.details_combo_valid?(@record.transfer_detail)
-    add_error(:transfer_detail, 'invalid_combo') # section error
-    add_error(:case_conclusion_id, 'invalid_combo') # field helpful error
   end
 end

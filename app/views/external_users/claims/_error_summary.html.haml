@@ -1,4 +1,4 @@
-- if %w[case_details].include?(@claim.form_step.to_s)
+- if %w[case_details transfer_fee_details].include?(@claim.form_step.to_s)
   = govuk_error_summary(@claim, :claim, presenter: @error_presenter)
 
 - else

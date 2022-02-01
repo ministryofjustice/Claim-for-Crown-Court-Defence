@@ -1,0 +1,30 @@
+#################################################################################
+#                                                                               #
+#   TRANSFER DETAIL                                                             #
+#                                                                               #
+#################################################################################
+---
+en:
+  activerecord:
+    errors:
+      models:
+        claim/base_claim:
+          attributes:
+            litigator_type:
+              invalid: Choose the litigator type
+
+            elected_case:
+              invalid:  Choose the elected case status
+
+            transfer_stage_id:
+              invalid: Check the stage at which the case was transfered
+
+            transfer_date:
+              blank: Enter the transfer date
+              check_not_in_future: Transfer date cannot be in the future
+              check_not_too_far_in_past: Transfer date cannot be too far in the past
+
+            case_conclusion_id:
+              blank: Enter a case conclusion
+              invalid: Check the case conclusion
+              present: Do not enter a case conclusion

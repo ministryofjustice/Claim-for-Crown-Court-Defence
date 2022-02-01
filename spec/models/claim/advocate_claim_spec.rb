@@ -17,37 +17,36 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   specify { expect(subject.supplementary?).to be_falsey }
 
   describe 'validates external user and creator with same provider' do
+    subject(:claim) { described_class.create(external_user: external_user, creator: creator) }
+
     let(:provider) { create(:provider) }
-    let(:other_provider) { create(:provider) }
     let(:external_user) { create(:external_user, provider: provider) }
-    let(:same_provider_external_user) { create(:external_user, provider: provider) }
-    let(:other_provider_external_user) { create(:external_user, provider: other_provider) }
+    let(:creator) { external_user }
 
-    it 'raises error message if no external user is specified' do
-      subject.external_user_id = nil
-      expect(subject).not_to be_valid
-      expect(subject.errors[:external_user_id]).to eq(['Choose an advocate'])
+    context 'with no external user' do
+      let(:external_user) { nil }
+
+      it { is_expected.not_to be_valid }
+      it { expect(claim.errors[:external_user_id]).to eq(['Choose an advocate']) }
     end
 
-    it 'is valid with the same external_user_id and creator_id' do
-      subject.external_user_id = external_user.id
-      subject.creator_id = external_user.id
-      subject.save
-      expect(subject.reload.errors.messages[:external_user_id]).not_to be_present
+    context 'when the external_user_id and creator_id are the same' do
+      it { is_expected.to be_valid }
+      it { expect(claim.reload.errors.messages[:external_user_id]).not_to be_present }
     end
 
-    it 'is valid with different external_user_id and creator_id but same provider' do
-      subject.external_user_id = external_user.id
-      subject.creator_id = same_provider_external_user.id
-      subject.save
-      expect(subject.reload.errors.messages[:external_user_id]).not_to be_present
+    context 'when the external_user_id and creator_id are different but of the same provider' do
+      let(:creator) { create(:external_user, provider: provider) }
+
+      it { is_expected.to be_valid }
+      it { expect(claim.reload.errors.messages[:external_user_id]).not_to be_present }
     end
 
-    it 'is not valid when the external_user and creator are with different providers' do
-      subject.external_user_id = external_user.id
-      subject.creator_id = other_provider_external_user.id
-      subject.save
-      expect(subject.reload.errors.messages[:external_user_id]).to eq(['Creator and advocate must belong to the same provider'])
+    context 'when the external_user and creator are with different providers' do
+      let(:creator) { create(:external_user, provider: create(:provider)) }
+
+      it { is_expected.not_to be_valid }
+      it { expect(claim.errors.messages[:external_user_id]).to eq(['Creator and advocate must belong to the same provider']) }
     end
   end
 
@@ -1046,19 +1045,35 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  describe 'calculate_vat' do
-    it 'calaculates vat on submission if vat is applied' do
-      allow(VatRate).to receive(:vat_amount).and_return(10)
-      claim = create(:unpersisted_claim, :with_fixed_fee_case, total: 100)
-      claim.submit!
-      expect(claim.vat_amount).to eq 10
+  describe '#calculate_vat' do
+    subject { claim.vat_amount }
+
+    context 'when vat is applied' do
+      let(:claim) { create(:unpersisted_claim, :with_fixed_fee_case, total: 100) }
+
+      before do
+        allow(VatRate).to receive(:vat_amount).and_return(10)
+        claim.submit!
+      end
+
+      it { is_expected.to eq 10 }
     end
 
-    it 'zeroises the vat amount if vat is not applied' do
-      external_user = build(:external_user, vat_registered: false)
-      claim = create(:unpersisted_claim, :with_fixed_fee_case, fees_total: 1500.22, expenses_total: 500.00, vat_amount: 20, total: 100, external_user: external_user)
-      claim.submit!
-      expect(claim.vat_amount).to eq 0.0
+    context 'when vat is not applied' do
+      let(:claim) do
+        create(
+          :unpersisted_claim, :with_fixed_fee_case,
+          fees_total: 1500.22,
+          expenses_total: 500.00,
+          vat_amount: 20,
+          total: 100,
+          external_user: build(:external_user, vat_registered: false)
+        )
+      end
+
+      before { claim.submit! }
+
+      it { is_expected.to eq 0.0 }
     end
   end
 

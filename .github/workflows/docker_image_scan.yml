@@ -28,9 +28,6 @@ jobs:
       uses: github/codeql-action/upload-sarif@v1
       with:
         sarif_file: snyk.sarif
-    - name: Output outcome
-      run: |
-        echo ${{ steps.image-scan.outcome }}
     - name: Slack notify failure
       if: ${{ steps.image-scan.outcome == 'failure' }}
       uses: rtCamp/action-slack-notify@v2
@@ -48,7 +45,7 @@ jobs:
       env:
         SLACK_USERNAME: Snyk docker image scan
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-        SLACK_CHANNEL: laa-cccd-alerts
+        SLACK_CHANNEL: laa-claim-for-payment-development
         SLACK_ICON_EMOJI: ':snyk:'
         SLACK_COLOR: success
         SLACK_MESSAGE: docker scan found no vulnerabilites!

@@ -14,7 +14,7 @@ class OffencesController < ApplicationController
 
   def index
     respond_to do |format|
-      format.json { render json: offences, each_serializer: FeeReform::OffenceSerializer }
+      format.json { render json: offences, each_serializer: OffenceSerializer }
     end
   end
 

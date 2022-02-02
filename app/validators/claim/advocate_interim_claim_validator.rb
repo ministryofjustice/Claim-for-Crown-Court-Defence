@@ -26,6 +26,6 @@ class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_offence
-    validate_presence(:offence, 'new_blank')
+    validate_presence(:offence, :new_blank)
   end
 end

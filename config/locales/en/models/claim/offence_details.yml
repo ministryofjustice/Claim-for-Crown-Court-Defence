@@ -1,0 +1,22 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        claim/advocate_claim:
+          attributes:
+            offence:
+              blank: Choose an offence category
+              new_blank: Choose an offence
+
+        claim/advocate_hardship_claim:
+          attributes:
+            offence:
+              blank: Choose an offence category
+              new_blank: Choose an offence
+
+        claim/advocate_interim_claim:
+          attributes:
+            offence:
+              blank: Choose an offence category
+              new_blank: Choose an offence

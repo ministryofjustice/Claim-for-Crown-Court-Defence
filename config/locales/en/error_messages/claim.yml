@@ -470,9 +470,9 @@ offence:
     long: Choose an offence category
     short: Choose an offence category
     api: Choose an offence category
-  new_blank:
+  choose_an_offence:
     long: Choose an offence
-    short: Choose an offence
+    short: _
     api: Choose an offence
   invalid:
     long: Choose a valid offence category

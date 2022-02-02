@@ -466,25 +466,17 @@ trial_cracked_at_third:
 
 offence:
   _seq: 190
-  blank:
-    long: Choose an offence category
-    short: Choose an offence category
-    api: Choose an offence category
-  new_blank:
+  choose_an_offence:
     long: Choose an offence
-    short: Choose an offence
+    short: _
     api: Choose an offence
   invalid:
     long: Choose a valid offence category
-    short: Choose a valid offence category
+    short: _
     api: Choose a valid offence category
-  blank_class:
-    long: Choose an offence class
-    short: Choose an offence class
-    api: Choose an offence class
   invalid_class:
     long: Choose a valid offence class
-    short: Choose a valid offence class
+    short: _
     api: Choose a valid offence class
 
 case_concluded_at:

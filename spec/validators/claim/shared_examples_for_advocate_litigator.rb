@@ -225,7 +225,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
     unless ([:hardship_claim] & flags).any?
       it 'errors if NOT present for case type without fixed fees' do
         claim.case_type.is_fixed_fee = false
-        should_error_with(claim, :offence, 'blank_class')
+        should_error_with(claim, :offence, 'Choose an offence')
         claim.case_type.is_fixed_fee = true
         should_not_error(claim, :offence)
       end

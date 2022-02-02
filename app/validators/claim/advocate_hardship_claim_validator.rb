@@ -48,8 +48,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_offence
-    error_message = @record.agfs_reform? ? 'new_blank' : 'blank'
-    validate_presence(:offence, error_message)
+    validate_presence(:offence, :blank)
   end
 
   def validate_trial_details

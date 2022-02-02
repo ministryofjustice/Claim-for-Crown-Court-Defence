@@ -273,7 +273,7 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
     end
 
     it 'errors with offence not present' do
-      should_error_with(claim, :offence, 'blank')
+      should_error_with(claim, :offence, 'Choose an offence')
     end
 
     context 'with a claim that is associated with the new fee reform scheme' do

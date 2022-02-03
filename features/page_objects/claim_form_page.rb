@@ -58,7 +58,7 @@ class ClaimFormPage < BasePage
 
   element :add_another_defendant, ".defendants-actions a.add_fields"
 
-  element :offence_search, "input[name='offence-search-input']"
+  element :offence_search, "input[name='claim[offence]']"
   sections :offence_results, OffenceResultSection, '#offence-list div.fx-result-item'
 
   section :advocate_category_radios, AdvocateCategoryRadioSection, '.advocate-categories'
@@ -104,7 +104,7 @@ class ClaimFormPage < BasePage
   end
 
   def select_offence_class(name)
-    select name, from: "offence_class_description", autocomplete: false
+    select name, from: "claim-offence-class-field", autocomplete: false
   end
 
   def add_fixed_fee_if_required

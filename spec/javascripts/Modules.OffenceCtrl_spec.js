@@ -5,14 +5,14 @@ describe('Modules.OffenceCtrl.js', function () {
     return $([
       '<div id="offence-view">',
       '<div id="cc-offence">',
-      '  <select class="fx-autocomplete" id="claim_offence_category_description">',
+      '  <select class="fx-autocomplete" id="js-claim-offence-category-description">',
       '    <option value=""></option>',
       '    <option value="Abandonment of children under two">Abandonment of children under two</option>',
       '    <option value="Abduction of defective from parent">Abduction of defective from parent</option>',
       '    <option value="Abduction of unmarried girl under 16 from parent">Abduction of unmarried girl under 16 from parent</option>',
       '  </select>',
       '</div>',
-      '<div class="offence-class-select"></div>',
+      '<div class="js-offence-class-select-wrapper"></div>',
       '<input type="hidden" value="" id="claim_offence_id">',
       '</div>'
     ].join(''))
@@ -28,10 +28,10 @@ describe('Modules.OffenceCtrl.js', function () {
 
   describe('...defaults', function () {
     it('should behave `els` selectors defined', function () {
-      expect(module.els.offenceClassSelectWrapper).toEqual('.offence-class-select')
-      expect(module.els.offenceClassSelect).toEqual('#offence_class_description')
+      expect(module.els.offenceClassSelectWrapper).toEqual('.js-offence-class-select-wrapper')
+      expect(module.els.offenceClassSelect).toEqual('.js-offence-class-select select')
       expect(module.els.offenceID).toEqual('#claim_offence_id')
-      expect(module.els.offenceCategoryDesc).toEqual('#claim_offence_category_description')
+      expect(module.els.offenceCategoryDesc).toEqual('#js-claim-offence-category-description')
     })
   })
 

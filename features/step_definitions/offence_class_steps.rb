@@ -3,5 +3,5 @@ Then(/^the offence class list is set to '(.*?)'$/) do |text|
 end
 
 Then(/^the offence class list has (.*?) options$/) do |count|
-  expect(page).to have_xpath('//select[@id="offence_class_description"]/option', count: count)
+  expect(page).to have_xpath('//select[@id="claim-offence-class-field"]/option', count: count)
 end

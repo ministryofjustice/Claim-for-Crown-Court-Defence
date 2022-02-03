@@ -2,7 +2,7 @@ namespace :jasmine do
   desc 'Run node jasmine'
   task :run => :environment do
     puts 'Running Jasmine Specs...'
-    system('npx jasmine-browser-runner runSpecs')
+    system('npx jasmine-browser-runner runSpecs') or abort
   end
 end
 

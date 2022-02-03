@@ -19,9 +19,9 @@ class DefendantValidator < BaseValidator
   end
 
   def validate_date_of_birth
-    validate_presence(:date_of_birth, 'blank')
-    validate_on_or_before(10.years.ago, :date_of_birth, 'check')
-    validate_on_or_after(120.years.ago, :date_of_birth, 'check')
+    validate_presence(:date_of_birth, :blank)
+    validate_on_or_before(10.years.ago, :date_of_birth, :check)
+    validate_on_or_after(120.years.ago, :date_of_birth, :check)
   end
 
   def validate_representation_orders
@@ -32,12 +32,12 @@ class DefendantValidator < BaseValidator
   end
 
   def validate_first_name
-    validate_presence(:first_name, 'blank')
-    validate_max_length(:first_name, 40, 'max_length')
+    validate_presence(:first_name, :blank)
+    validate_max_length(:first_name, 40, :max_length)
   end
 
   def validate_last_name
-    validate_presence(:last_name, 'blank')
-    validate_max_length(:last_name, 40, 'max_length')
+    validate_presence(:last_name, :blank)
+    validate_max_length(:last_name, 40, :max_length)
   end
 end

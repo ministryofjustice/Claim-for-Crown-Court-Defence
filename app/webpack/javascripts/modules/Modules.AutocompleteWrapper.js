@@ -6,12 +6,13 @@ moj.Modules.AutocompleteWrapper = {
   },
 
   Autocomplete: function (nodeList) {
-    nodeList.forEach((node) => {
-      return moj.Helpers.Autocomplete.new('#' + node.id, {
+    for (let i = 0; i < nodeList.length; i++) {
+      const node = nodeList[i]
+      moj.Helpers.Autocomplete.new('#' + node.id, {
         showAllValues: true,
         autoselect: false,
         displayMenu: 'overlay'
       })
-    })
+    }
   }
 }

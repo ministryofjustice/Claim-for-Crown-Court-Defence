@@ -175,7 +175,7 @@ module ApplicationHelper
     request.GET[:tab] == tab
   end
 
-  def app_javascript_include_tag(path = nil)
+  def app_javascript_include_tag(path)
     # create an array of all the files
     files = Dir.glob(path)
 

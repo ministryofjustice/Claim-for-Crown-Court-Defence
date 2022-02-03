@@ -93,7 +93,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
         end
 
         it 'errors if not present' do
-          should_error_with(claim, :offence, 'new_blank')
+          should_error_with(claim, :offence, 'Choose an offence')
         end
       end
 

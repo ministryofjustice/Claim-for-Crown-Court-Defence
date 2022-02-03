@@ -16,8 +16,7 @@
         .form-group
           = govuk_button(t('buttons.continue'), name: 'commit_continue')
 
-          = govuk_link_button_secondary('#', class: 'fx-clear-selection') do
-            = t('clear_selection', scope: "#{locale_scope}.actions")
+          = govuk_link_button_secondary(t('clear_selection', scope: "#{locale_scope}.actions"), '#', class: 'fx-clear-selection')
 
 = f.govuk_text_field :offence,
   value: nil,

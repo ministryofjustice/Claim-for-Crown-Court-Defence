@@ -280,7 +280,7 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
       let(:claim) { create(:claim, :agfs_scheme_10) }
 
       it 'errors if not present' do
-        should_error_with(claim, :offence, 'new_blank')
+        should_error_with(claim, :offence, 'Choose an offence')
       end
     end
   end

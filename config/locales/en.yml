@@ -1036,6 +1036,7 @@ en:
         actions:
           clear_offence_details: Clear offence details
           clear_selection: Clear selection
+          clear_search: Clear search
         fields:
           offence_band: Band
           offence_class: Class

@@ -129,7 +129,7 @@ moj.Modules.OffenceSearchInput = {
   // clearSearch procedure
   clearSearch: function () {
     const self = this
-    this.$el.on('click', '.fx-clear-search', function (e) {
+    self.$clear.on('click', function (e) {
       e.preventDefault()
       self.$clear.addClass('hidden')
       self.$el.find('.fx-input').val('')

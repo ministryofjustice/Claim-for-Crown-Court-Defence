@@ -1,6 +1,11 @@
-= javascript_include_tag Rails.env.test? ? '/packs-test/js/application.bundle.js' : '/packs/js/application.bundle.js'
+- if Rails.env.test?
+  = app_javascript_include_tag 'public/packs-test/js/application-bundle-*.js'
+  = javascript_pack_tag 'application-test'
 
-= javascript_pack_tag "application-test" if Rails.env.test?
+- else
+  = app_javascript_include_tag 'public/packs/js/application-bundle-*.js'
+
+= javascript_pack_tag 'govuk-frontend', defer: true
 
 - if GoogleAnalytics::DataTracking.analytics? && !@disable_analytics
   :javascript
@@ -8,5 +13,3 @@
       var clientId = tracker.get('clientId');
       $('.ga-client-id').val(clientId);
     });
-
-= javascript_pack_tag 'govuk-frontend', defer: true

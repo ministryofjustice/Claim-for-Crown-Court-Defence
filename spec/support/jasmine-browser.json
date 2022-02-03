@@ -1,8 +1,7 @@
 {
   "srcDir": ".",
   "srcFiles": [
-    "public/packs/js/application.bundle.js",
-    "public/packs-test/js/application.bundle.js"
+    "public/packs-test/js/application-bundle-*.js"
   ],
   "specDir": "spec/javascripts",
   "specFiles": [

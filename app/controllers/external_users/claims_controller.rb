@@ -321,14 +321,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :claim_id,
         :first_name,
         :last_name,
-        date_attributes_for(:date_of_birth),
+        :date_of_birth,
         :order_for_judicial_apportionment,
         :_destroy,
         representation_orders_attributes: [
           :id,
           :document,
           :maat_reference,
-          date_attributes_for(:representation_order_date),
+          :representation_order_date,
           :_destroy
         ]
       ],

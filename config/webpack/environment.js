@@ -5,7 +5,7 @@ environment.plugins.append('ConcatPlugin', new ConcatPlugin({
   uglify: true,
   sourceMap: true,
   outputPath: 'js',
-  fileName: 'application.bundle.js',
+  fileName: 'application-bundle-[hash:20].js',
   filesToConcat: [
     'jquery',
     'jquery-ujs',

@@ -133,14 +133,14 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
                 {
                   first_name: 'John',
                   last_name: 'Smith',
-                  date_of_birth_dd: '4',
-                  date_of_birth_mm: '10',
-                  date_of_birth_yyyy: '1980',
+                  'date_of_birth(3i)': '4',
+                  'date_of_birth(2i)': '10',
+                  'date_of_birth(1i)': '1980',
                   representation_orders_attributes: [
                     {
-                      representation_order_date_dd: Time.now.day.to_s,
-                      representation_order_date_mm: Time.now.month.to_s,
-                      representation_order_date_yyyy: Time.now.year.to_s,
+                      'representation_order_date(3i)': Time.now.day.to_s,
+                      'representation_order_date(2i)': Time.now.month.to_s,
+                      'representation_order_date(1i)': Time.now.year.to_s,
                       maat_reference: '4561237'
                     }
                   ]

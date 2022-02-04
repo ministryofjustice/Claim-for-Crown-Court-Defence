@@ -18,25 +18,25 @@ RSpec.describe RepresentationOrder do
       it 'errors if blank' do
         representation_order.maat_reference = nil
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['Enter a valid MAAT reference'])
       end
 
       it 'errors if less than 7 numeric characters' do
         representation_order.maat_reference = '456213'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['Enter a valid MAAT reference'])
       end
 
       it 'errors if greater than 7 numeric characters' do
         representation_order.maat_reference = '4562131111111'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['Enter a valid MAAT reference'])
       end
 
       it 'errors if non-numeric characters present' do
         representation_order.maat_reference = '1111a1111'
         expect(representation_order).not_to be_valid
-        expect(representation_order.errors[:maat_reference]).to eq(['invalid'])
+        expect(representation_order.errors[:maat_reference]).to eq(['Enter a valid MAAT reference'])
       end
 
       it 'does not error if 7 numeric digits' do

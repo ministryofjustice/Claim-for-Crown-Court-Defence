@@ -13,19 +13,19 @@ RSpec.describe DefendantValidator, type: :validator do
   end
 
   describe '#first_name' do
-    it { should_error_if_not_present(defendant, :first_name, 'blank') }
-    it { should_error_if_exceeds_length(defendant, :first_name, 40, 'max_length') }
+    it { should_error_if_not_present(defendant, :first_name, 'Enter a first name') }
+    it { should_error_if_exceeds_length(defendant, :first_name, 40, 'First name is too long') }
   end
 
   describe '#last_name' do
-    it { should_error_if_not_present(defendant, :last_name, 'blank') }
-    it { should_error_if_exceeds_length(defendant, :last_name, 40, 'max_length') }
+    it { should_error_if_not_present(defendant, :last_name, 'Enter a last name') }
+    it { should_error_if_exceeds_length(defendant, :last_name, 40, 'Last name is too long') }
   end
 
   describe '#validate_date_of_birth' do
-    it { should_error_if_not_present(defendant, :date_of_birth, 'blank') }
-    it { should_error_if_before_specified_date(defendant, :date_of_birth, 120.years.ago, 'check') }
-    it { should_error_if_after_specified_date(defendant, :date_of_birth, 10.years.ago, 'check') }
+    it { should_error_if_not_present(defendant, :date_of_birth, 'Enter a date of birth') }
+    it { should_error_if_before_specified_date(defendant, :date_of_birth, 120.years.ago, 'Check the date of birth') }
+    it { should_error_if_after_specified_date(defendant, :date_of_birth, 10.years.ago, 'Check the date of birth') }
   end
 
   describe '#validate_representation_orders' do
@@ -46,8 +46,10 @@ RSpec.describe DefendantValidator, type: :validator do
 
       it 'validates for presence of a rep order' do
         expect(defendant).to_not be_valid
-        expect(defendant.errors[:representation_order_1_representation_order_date]).to eq ['blank']
-        expect(defendant.errors[:representation_order_1_maat_reference]).to eq ['invalid']
+        expect(
+          defendant.errors[:representation_order_1_representation_order_date]
+        ).to eq ['Enter a representation order date']
+        expect(defendant.errors[:representation_order_1_maat_reference]).to eq ['Enter a valid MAAT reference']
       end
     end
   end

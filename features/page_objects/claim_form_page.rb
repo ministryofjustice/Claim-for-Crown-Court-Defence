@@ -43,14 +43,14 @@ class ClaimFormPage < BasePage
   section :cracked_trial_details, CrackedTrialSection, "#cracked-trial-dates"
 
   sections :defendants, ".defendant-details" do
-    element :first_name, "div.first-name input"
-    element :last_name, "div.last-name input"
+    element :first_name, "div.cc-first-name input"
+    element :last_name, "div.cc-last-name input"
 
-    section :dob, CommonDateSection, 'div.dob'
+    section :dob, GovukDateSection, 'div.cc-dob'
 
-    sections :representation_orders, ".ro-details" do
-      section :date, CommonDateSection, 'div.ro-date'
-      element :maat_reference, "div.maat input"
+    sections :representation_orders, ".cc-ro-details" do
+      section :date, GovukDateSection, 'div.cc-ro-date'
+      element :maat_reference, "div.cc-maat input"
     end
 
     element :add_another_representation_order, "div.links > a"

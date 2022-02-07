@@ -99,10 +99,6 @@ class ClaimFormPage < BasePage
     select name, from: "claim_external_user_id"
   end
 
-  def select_offence_category(name)
-    select name, from: "claim_offence_category_description"
-  end
-
   def select_offence_class(name)
     select name, from: "claim-offence-class-field", autocomplete: false
   end

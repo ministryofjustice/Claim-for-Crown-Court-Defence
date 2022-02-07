@@ -72,7 +72,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
           ['Intake fixed fee', 'Intake final fee',
            'AF1 high value', 'AF1 disk',
            'AF2 redetermination', 'AF2 high value', 'AF2 disk',
-           'Written reasons'] * 2
+           'Written reasons'] * 3
         end
 
         it 'each element of array has expected :name value' do
@@ -87,7 +87,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
           ['Intake fixed fee', 'Intake final fee',
            'LF1 high value', 'LF1 disk',
            'LF2 redetermination', 'LF2 high value', 'LF2 disk',
-           'Written reasons', 'Intake interim fee'] * 2
+           'Written reasons', 'Intake interim fee'] * 3
         end
 
         it 'each element of array has expected :name value' do

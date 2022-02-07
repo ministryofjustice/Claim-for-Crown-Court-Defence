@@ -7,12 +7,12 @@ module Stats
     class DailyReportGenerator
       include StuffLogger
 
-      def self.call(options = {})
-        new(options).call
+      def self.call(...)
+        new(...).call
       end
 
-      def initialize(options = {})
-        @scheme = options[:scheme]
+      def initialize(**kwargs)
+        @scheme = kwargs[:scheme]
       end
 
       def call

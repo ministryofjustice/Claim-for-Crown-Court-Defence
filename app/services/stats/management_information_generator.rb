@@ -4,8 +4,8 @@ module Stats
   class ManagementInformationGenerator
     include StuffLogger
 
-    def self.call(**kwargs)
-      new(kwargs).call
+    def self.call(...)
+      new(...).call
     end
 
     def initialize(**kwargs)

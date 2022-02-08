@@ -7,8 +7,8 @@ module Stats
     class DailyReportCountGenerator
       include StuffLogger
 
-      def self.call(**kwargs)
-        new(kwargs).call
+      def self.call(...)
+        new(...).call
       end
 
       def initialize(**kwargs)

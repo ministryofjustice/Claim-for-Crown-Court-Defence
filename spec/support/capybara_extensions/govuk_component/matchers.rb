@@ -46,7 +46,7 @@ module CapybaraExtensions
         summary = find('.govuk-error-summary[role="alert"]')
         [
           summary.has_selector?('#error-summary-title', text: 'There is a problem'),
-          summary.has_link?(error_text, options)
+          summary.has_link?(error_text, **options)
         ].all?
       end
 

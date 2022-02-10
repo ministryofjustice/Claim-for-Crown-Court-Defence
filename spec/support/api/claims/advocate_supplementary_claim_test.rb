@@ -35,11 +35,11 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
   end
 
   def claim_data
-    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'agfs'), 'id', 11) # Trial
+    client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'agfs') # Trial
     advocate_category = json_value_at_index(client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
-    offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key), 'id')
+    client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key)
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
-    trial_cracked_at_third = json_value_at_index(client.get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT, api_key))
+    client.get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT, api_key)
 
     {
       api_key: api_key,

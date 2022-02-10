@@ -66,7 +66,7 @@ RSpec.describe Assessment do
 
   context 'automatic calculation of total' do
     it 'calculates the total on save' do
-      ass = create :assessment, expenses: 102.33, fees: 44.86
+      create :assessment, expenses: 102.33, fees: 44.86
       ass = claim.assessment
       expect(ass.total).to eq(ass.fees + ass.expenses + ass.disbursements)
     end

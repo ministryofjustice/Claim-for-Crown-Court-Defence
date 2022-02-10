@@ -42,7 +42,7 @@ FactoryBot.define do
 
     trait :trial do
       after(:build) do |claim|
-        fee_type = create(:graduated_fee_type, :grtrl)
+        create(:graduated_fee_type, :grtrl)
         case_type = create(:case_type, :graduated_fee, :trial)
         claim.case_type = case_type
       end

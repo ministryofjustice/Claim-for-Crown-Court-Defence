@@ -932,8 +932,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'only returns claims with fixed fee case types' do
       claim_1 = create :claim, case_type_id: ct_fixed_1.id
       claim_2 = create :claim, case_type_id: ct_fixed_2.id
-      claim_3 = create :claim, case_type_id: ct_basic_1.id
-      claim_4 = create :claim, case_type_id: ct_basic_2.id
+      create :claim, case_type_id: ct_basic_1.id
+      create :claim, case_type_id: ct_basic_2.id
       expect(Claim::AdvocateClaim.fixed_fee.count).to eq 2
       expect(Claim::AdvocateClaim.fixed_fee).to include claim_1
       expect(Claim::AdvocateClaim.fixed_fee).to include claim_2

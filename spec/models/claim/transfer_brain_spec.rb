@@ -226,15 +226,15 @@ RSpec.describe Claim::TransferBrain do
   describe '.case_conclusion_required?' do
     [10, 20, 30, 50, 60].each do |ts|
       it "is visible for new, unelected cases that were transfered at stage #{ts}" do
-        td = td = transfer_detail('new', false, ts)
+        td = transfer_detail('new', false, ts)
         expect(described_class.case_conclusion_required?(td)).to eq true
       end
     end
 
     it 'returns false for nil values' do
-      expect(described_class.case_conclusion_required?(td = transfer_detail(nil, true, 10))).to eq false
-      expect(described_class.case_conclusion_required?(td = transfer_detail('new', nil, 10))).to eq false
-      expect(described_class.case_conclusion_required?(td = transfer_detail('new', true, nil))).to eq false
+      expect(described_class.case_conclusion_required?(transfer_detail(nil, true, 10))).to eq false
+      expect(described_class.case_conclusion_required?(transfer_detail('new', nil, 10))).to eq false
+      expect(described_class.case_conclusion_required?(transfer_detail('new', true, nil))).to eq false
     end
   end
 

@@ -18,7 +18,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
       it 'assigns @eternal_users' do
         external_user = create(:external_user, provider: admin.provider)
-        other_provider_external_user = create(:external_user)
+        create(:external_user)
         get :index
         expect(assigns(:external_users)).to match_array([admin, external_user])
       end

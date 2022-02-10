@@ -8,7 +8,6 @@ RSpec.shared_examples 'advocate category validations' do |options|
   default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
   fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
   fee_reform_invalid_categories = default_valid_categories - fee_reform_valid_categories
-  all_valid_categories = (default_valid_categories + fee_reform_valid_categories).uniq
 
   it 'errors if not present' do
     claim.advocate_category = nil

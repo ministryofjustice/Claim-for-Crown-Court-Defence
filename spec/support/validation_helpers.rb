@@ -144,7 +144,6 @@ module ValidationHelpers
   end
 
   def stub_earliest_rep_order(claim, date)
-    repo = double RepresentationOrder
     allow(claim).to receive(:earliest_representation_order_date).and_return(date)
   end
 

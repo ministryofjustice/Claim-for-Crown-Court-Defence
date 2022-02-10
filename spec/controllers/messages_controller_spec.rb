@@ -100,7 +100,7 @@ RSpec.describe MessagesController, type: :controller do
 
   context 'email notifications' do
     let(:claim) { create :claim }
-    let(:message_params) { message_params = { claim_id: claim.id, sender_id: sender.user.id, body: 'lorem ipsum' } }
+    let(:message_params) { { claim_id: claim.id, sender_id: sender.user.id, body: 'lorem ipsum' } }
 
     context 'external_user_sending_messages' do
       let(:sender) { claim.creator }

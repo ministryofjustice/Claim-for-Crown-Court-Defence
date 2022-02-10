@@ -6,9 +6,9 @@ RSpec.describe AdpTextField do
   context 'top level text fields' do
     let(:helper) do
       TestHelper.new(
-        lookup_context = ActionView::LookupContext.new([]),
-        assigns = {},
-        controller = ActionController::Base.new()
+        ActionView::LookupContext.new([]), # lookup_context
+        {}, # assigns
+        ActionController::Base.new() # controller
       )
     end
     let(:resource) { create :claim, case_number: nil }

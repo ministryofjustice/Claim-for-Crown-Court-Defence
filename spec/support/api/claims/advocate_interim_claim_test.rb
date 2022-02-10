@@ -26,7 +26,7 @@ class AdvocateInterimClaimTest < BaseClaimTest
     client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
 
     # CREATE warrant fee
-    response = client.post_to_endpoint('fees', warrant_fee_data)
+    client.post_to_endpoint('fees', warrant_fee_data)
 
     # CREATE miscellaneous fee
     response = client.post_to_endpoint('fees', misc_fee_data)

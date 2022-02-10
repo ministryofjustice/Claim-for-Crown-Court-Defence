@@ -7,8 +7,8 @@ module Stats
 
       before do
         create_claim(:redetermination,  report_day)
-        create_claim(:redetermination,  report_day - 1.days)
-        create_claim(:redetermination,  report_day - 1.days)
+        create_claim(:redetermination,  report_day - 1.day)
+        create_claim(:redetermination,  report_day - 1.day)
         create_claim(:draft,            report_day - 2.days) # will be ignored (not a redetermination)
         create_claim(:redetermination,  report_day - 5.days)
         create_claim(:redetermination,  report_day - 8.days) # will be ignored (out of 7-days range)

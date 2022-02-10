@@ -9,7 +9,7 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     let!(:allocated_claim)  { create(:allocated_claim) }
 
     let!(:old_part_authorised_claim) do
-      travel_to(Time.now - 2.week)
+      travel_to(Time.now - 2.weeks)
       create(:part_authorised_claim).tap do |claim|
         travel_to(Time.now + 1.week)
         claim.determinations.first.update(fees: claim.fees_total / 2, expenses: claim.expenses_total)
@@ -18,9 +18,9 @@ RSpec.describe Claims::FinancialSummary, type: :model do
     end
 
     let!(:part_authorised_claim) do
-      travel_to(Time.now - 2.week)
+      travel_to(Time.now - 2.weeks)
       create(:part_authorised_claim).tap do |claim|
-        travel_to(Time.now + 2.week)
+        travel_to(Time.now + 2.weeks)
         claim.determinations.first.update(fees: claim.fees_total / 2, expenses: claim.expenses_total)
         travel_back
       end

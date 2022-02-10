@@ -2280,18 +2280,6 @@ Rails/Pluck:
   Exclude:
     - 'spec/api/v2/case_workers/claim_spec.rb'
 
-# Offense count: 44
-# Cop supports --auto-correct.
-Rails/PluralizationGrammar:
-  Exclude:
-    - 'spec/factories/claim/advocate_claims.rb'
-    - 'spec/factories/claim/base_claims.rb'
-    - 'spec/models/claims/financial_summary_spec.rb'
-    - 'spec/models/stats/collector/claim_redeterminations_collector_spec.rb'
-    - 'spec/models/subscribers/slack_spec.rb'
-    - 'spec/support/validation_helpers.rb'
-    - 'spec/validators/claim/advocate_interim_claim_web_validations_spec.rb'
-
 # Offense count: 10
 # Cop supports --auto-correct.
 Rails/Presence:

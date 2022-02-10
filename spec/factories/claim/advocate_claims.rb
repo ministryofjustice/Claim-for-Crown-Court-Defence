@@ -97,8 +97,8 @@ FactoryBot.define do
     # DEPRECATED see shared traits
     factory :redetermination_claim do
       after(:create) do |claim|
-        Timecop.freeze(Time.now - 3.day) { claim.submit! }
-        Timecop.freeze(Time.now - 2.day) { claim.allocate! }
+        Timecop.freeze(Time.now - 3.days) { claim.submit! }
+        Timecop.freeze(Time.now - 2.days) { claim.allocate! }
         Timecop.freeze(Time.now - 1.day) { assign_fees_and_expenses_for(claim); claim.authorise! }
         claim.redetermine!
       end

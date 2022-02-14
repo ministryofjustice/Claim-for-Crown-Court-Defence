@@ -1,10 +1,5 @@
-%h2#additional-information.govuk-heading-l{ class: 'govuk-!-margin-top-6' }
+%h3.govuk-heading-m{ class: 'govuk-!-margin-top-6' }
   = t('.additional_information')
 
-.form-group
-  = f.label :additional_information,
-            t('.additional_information_prompt_text'),
-            class: 'form-label'
-
-  = f.text_area :additional_information, rows: 5,
-                class: 'form-control form-control-full'
+= f.govuk_text_area :additional_information,
+  label: { text: t('.additional_information_prompt_text') }

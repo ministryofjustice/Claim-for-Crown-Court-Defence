@@ -1481,10 +1481,11 @@ en:
           status: 'Status'
           choose_file: 'Choose a file'
           file_name: "File name"
+          upload_file: 'Upload file'
           supporting_evidence_docs: 'Upload supporting evidence'
           supporting_evidence: Supporting evidence
           file_upload_message: Drag and drop files here
-          legend: Upload supporting evidence
+          upload_supporting_evidence: Upload supporting evidence
           or: or
           uploading_docs: 'Documents waiting to be saved'
       supporting_evidence:
@@ -1502,6 +1503,14 @@ en:
         fields:
           supporting_evidence_checklist: Supporting evidence checklist
           supporting_evidence_checklist_hint: Select all that apply
+          expenses_invoices_requirement_html:
+            <p class="govuk-body govuk-!-font-weight-bold">Please make sure invoices include:</p>
+            <ul class="govuk-list govuk-list--bullet">
+            <li>date</li>
+            <li>case number or case URN</li>
+            <li>defendant name</li>
+            <li>hourly rates and details of the work done</li>
+            </ul>
       warrant_fee:
         summary:
           caption: 'Warrant Fees: This section contains details of any warrant fees that have been claimed.'

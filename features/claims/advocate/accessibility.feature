@@ -67,7 +67,7 @@ Feature: Advocate submits a claim
     And I should see 10 evidence check boxes
     And I check the evidence boxes for 'A copy of the indictment'
     And I add some additional information
-    Then the page should be accessible
+    Then the page should be accessible skipping 'aria-allowed-attr'
     Then I click Submit to LAA
 
     And I should be on the check your claim page

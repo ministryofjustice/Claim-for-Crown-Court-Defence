@@ -15,7 +15,7 @@ moj.Modules.NewClaim = {
     // Tests in /spec/javascripts/supporting-evidence_spec.js
     //
     $('button[name="commit_submit_claim"]').on('click', function (e) {
-      if ($('#claim-evidence-checklist-ids-4-field').exists() && !$('#claim-evidence-checklist-ids-4-field').prop('checked')&& !$('[data-mute-indictment]').data('mute-indictment')) {
+      if ($('#claim-evidence-checklist-ids-4-field').exists() && !$('#claim-evidence-checklist-ids-4-field').prop('checked') && !$('[data-mute-indictment]').data('mute-indictment')) {
         return confirm(
           'The evidence checklist suggests that no indictment has been attached.\n' +
           'This can lead to your claim being rejected.\n\n' +

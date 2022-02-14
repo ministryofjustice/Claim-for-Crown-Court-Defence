@@ -1,5 +1,5 @@
 class EvidenceChecklistSection < SitePrism::Section
-  sections :items, ".multiple-choice" do
+  sections :items, ".cc-evidence-checklist .govuk-checkboxes__item" do
     element :input, "input"
     element :label, "label"
   end

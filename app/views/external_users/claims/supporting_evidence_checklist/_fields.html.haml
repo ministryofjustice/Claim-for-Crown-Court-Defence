@@ -1,8 +1,12 @@
-= f.govuk_check_boxes_fieldset :evidence_checklist_ids, form_group: { 'data-mute-indictment': @claim.allows_fixed_fees? ? 'true' : 'false' } , legend: { text: t('.supporting_evidence_checklist'), size: 's' } do
+= f.govuk_check_boxes_fieldset :evidence_checklist_ids,
+  form_group: { classes: 'cc-evidence-checklist', 'data-mute-indictment': @claim.allows_fixed_fees? ? 'true' : 'false' },
+  hint: { text: t('.supporting_evidence_checklist_hint') },
+  legend: { text: t('.supporting_evidence_checklist'), size: 's' } do
+
   - f.object.eligible_document_types.each do |eligible_document_type|
     = f.govuk_check_box :evidence_checklist_ids,
       eligible_document_type.id,
       label: { text: eligible_document_type.name } do
 
       - if eligible_document_type.name.eql?('Expenses invoices')
-        = render partial: 'external_users/claims/supporting_evidence_checklist/expenses_invoices_requirement', locals: { f: f }
+        = t('.expenses_invoices_requirement_html')

@@ -15,8 +15,11 @@ RSpec.describe 'Providers external users management', type: :request do
       expect(response).to be_successful
     end
 
-    it 'assigns @provider and @external_user' do
+    it 'assigns @provider' do
       expect(assigns(:provider)).to eq(provider)
+    end
+
+    it 'assigns @external_user' do
       expect(assigns(:external_user)).to eq(external_user)
     end
   end
@@ -53,7 +56,7 @@ RSpec.describe 'Providers external users management', type: :request do
     context 'when the email is for a provider' do
       let(:email) { external_user.email }
 
-      it { is_expected.to redirect_to(provider_management_provider_external_user_path(external_user.provider, external_user)) }
+      it { is_expected.to redirect_to(provider_management_provider_external_user_path(provider, external_user)) }
     end
 
     context 'when the email is for a non-provider' do
@@ -71,9 +74,7 @@ RSpec.describe 'Providers external users management', type: :request do
 
   describe 'GET /provider_management/providers/:provider_id/external_users/new' do
     let(:external_user) do
-      ExternalUser.new(provider: provider).tap do |eu|
-        eu.build_user
-      end
+      ExternalUser.new(provider: provider).tap(&:build_user)
     end
 
     before { get new_provider_management_provider_external_user_path(provider_id: provider) }
@@ -85,8 +86,11 @@ RSpec.describe 'Providers external users management', type: :request do
     # NOTE: use json comparison because we are not interested in
     #       whether the object is the same just that it creates a
     #       new one and builds its user
-    it 'assigns @provider and @external_user' do
+    it 'assigns @provider' do
       expect(assigns(:provider)).to eq(provider)
+    end
+
+    it 'assigns @external_user' do
       expect(assigns(:external_user).to_json).to eq(external_user.to_json)
     end
 
@@ -128,7 +132,7 @@ RSpec.describe 'Providers external users management', type: :request do
 
     context 'when invalid' do
       it 'does not create an external_user' do
-        expect { post_to_create_external_user_action(valid: false) }.to_not change(User, :count)
+        expect { post_to_create_external_user_action(valid: false) }.not_to change(User, :count)
       end
 
       it 'renders the new template' do
@@ -145,8 +149,11 @@ RSpec.describe 'Providers external users management', type: :request do
       expect(response).to be_successful
     end
 
-    it 'assigns @provider and @external_user' do
+    it 'assigns @provider' do
       expect(assigns(:provider)).to eq(provider)
+    end
+
+    it 'assigns @external_user' do
       expect(assigns(:external_user)).to eq(external_user)
     end
 
@@ -157,7 +164,12 @@ RSpec.describe 'Providers external users management', type: :request do
 
   describe 'PUT /provider_management/providers/:provider_id/external_users/:id' do
     context 'when valid' do
-      before { put provider_management_provider_external_user_path(provider_id: provider, id: external_user), params: { external_user: { supplier_number: 'XX100', roles: ['advocate'] } } }
+      before do
+        put(
+          provider_management_provider_external_user_path(provider_id: provider, id: external_user),
+          params: { external_user: { supplier_number: 'XX100', roles: ['advocate'] } }
+        )
+      end
 
       it 'updates an external_user' do
         external_user.reload
@@ -170,7 +182,12 @@ RSpec.describe 'Providers external users management', type: :request do
     end
 
     context 'when invalid' do
-      before { put provider_management_provider_external_user_path(provider_id: provider, id: external_user), params: { external_user: { roles: ['foo'] } } }
+      before do
+        put(
+          provider_management_provider_external_user_path(provider_id: provider, id: external_user),
+          params: { external_user: { roles: ['foo'] } }
+        )
+      end
 
       it 'does not update external_user' do
         external_user.reload
@@ -184,15 +201,20 @@ RSpec.describe 'Providers external users management', type: :request do
   end
 
   describe 'GET /provider_management/providers/:provider_id/external_users/:id/change_password' do
-    before { get change_password_provider_management_provider_external_user_path(provider_id: provider, id: external_user) }
+    before do
+      get change_password_provider_management_provider_external_user_path(provider_id: provider, id: external_user)
+    end
 
     it 'returns http success' do
       expect(response).to be_successful
     end
 
-    it 'assigns @provider and @external_user' do
-      expect(assigns(:external_user)).to eq(external_user)
+    it 'assigns @provider' do
       expect(assigns(:provider)).to eq(provider)
+    end
+
+    it 'assigns @external_user' do
+      expect(assigns(:external_user)).to eq(external_user)
     end
 
     it 'renders the change password template' do
@@ -201,12 +223,15 @@ RSpec.describe 'Providers external users management', type: :request do
   end
 
   describe 'PATCH /provider_management/providers/:provider_id/external_users/:id/update_password' do
+    subject(:password_update_request) do
+      patch(
+        update_password_provider_management_provider_external_user_path(provider_id: provider, id: external_user),
+        params: { external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } }
+      )
+    end
+
     let(:password) { 'password123' }
     let(:password_confirm) { password }
-
-    subject(:password_update_request) do
-      patch update_password_provider_management_provider_external_user_path(provider_id: provider, id: external_user), params: { external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } }
-    end
 
     before { travel_to(6.months.ago) { external_user } }
 

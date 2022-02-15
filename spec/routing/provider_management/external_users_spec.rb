@@ -56,4 +56,16 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :routing do
       .to route(:patch, '/provider_management/providers/1/external_users/2/update_password')
       .to(action: :update_password, provider_id: 1, id: 2)
   end
+
+  it 'routes PATCH /provider_management/providers/1/external_users/2/disable to #disable' do
+    is_expected
+      .to route(:patch, '/provider_management/providers/1/external_users/2/disable')
+      .to(action: :disable, provider_id: 1, id: 2)
+  end
+
+  it 'routes PATCH /provider_management/providers/1/external_users/2/enable to #enable' do
+    is_expected
+      .to route(:patch, '/provider_management/providers/1/external_users/2/enable')
+      .to(action: :enable, provider_id: 1, id: 2)
+  end
 end

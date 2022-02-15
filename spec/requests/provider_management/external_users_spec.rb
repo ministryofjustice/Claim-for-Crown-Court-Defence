@@ -104,13 +104,17 @@ RSpec.describe 'Providers external users management', type: :request do
   end
 
   describe 'POST /provider_management/providers/:provider_id/external_users' do
-    def post_to_create_external_user_action(options = {})
-      post provider_management_provider_external_users_path(provider_id: provider), params: {
+    subject(:post_to_create_external_user_action) do
+      post provider_management_provider_external_users_path(provider_id: provider), params: params
+    end
+
+    let(:params) do
+      {
         external_user: {
           user_attributes: {
             email: 'foo@foobar.com',
             email_confirmation: 'foo@foobar.com',
-            first_name: options[:valid] == false ? '' : 'john',
+            first_name: 'John',
             last_name: 'Smith'
           },
           roles: ['advocate'],
@@ -131,12 +135,27 @@ RSpec.describe 'Providers external users management', type: :request do
     end
 
     context 'when invalid' do
+      let(:params) do
+        {
+          external_user: {
+            user_attributes: {
+              email: 'foo@foobar.com',
+              email_confirmation: 'foo@foobar.com',
+              first_name: '',
+              last_name: 'Smith'
+            },
+            roles: ['advocate'],
+            supplier_number: 'AB124'
+          }
+        }
+      end
+
       it 'does not create an external_user' do
-        expect { post_to_create_external_user_action(valid: false) }.not_to change(User, :count)
+        expect { post_to_create_external_user_action }.not_to change(User, :count)
       end
 
       it 'renders the new template' do
-        post_to_create_external_user_action(valid: false)
+        post_to_create_external_user_action
         expect(response).to render_template(:new)
       end
     end

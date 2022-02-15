@@ -1,15 +1,15 @@
 require 'rails_helper'
 require 'json'
 
-RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
+RSpec.describe 'Providers external users management', type: :request do
   let(:case_worker_manager) { create(:case_worker, :provider_manager) }
   let(:provider) { create(:provider) }
-  let(:external_user) { create(:external_user, :admin, provider: provider) }
+  let!(:external_user) { create(:external_user, :admin, provider: provider) }
 
   before { sign_in case_worker_manager.user }
 
-  describe 'GET #show' do
-    before { get :show, params: { provider_id: provider, id: external_user } }
+  describe 'GET /provider_management/providers/:provider_id/external_users/:id' do
+    before { get provider_management_provider_external_user_path(provider_id: provider, id: external_user) }
 
     it 'returns http success' do
       expect(response).to be_successful
@@ -21,8 +21,8 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe 'GET #index' do
-    before { get :index, params: { provider_id: provider } }
+  describe 'GET /provider_management/providers/:provider_id/external_users' do
+    before { get provider_management_provider_external_users_path(provider_id: provider) }
 
     it 'returns http success' do
       expect(response).to be_successful
@@ -37,18 +37,18 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe 'GET #find' do
-    before { get :find }
+  describe 'GET /provider_management/external_users/find' do
+    before { get provider_management_external_users_find_path }
 
     it 'returns http success' do
       expect(response).to be_successful
     end
   end
 
-  describe 'POST #search' do
+  describe 'POST /provider_management/external_users/find' do
     subject { response }
 
-    before { post :search, params: { external_user: { email: email } } }
+    before { post provider_management_external_users_find_path, params: { external_user: { email: email } } }
 
     context 'when the email is for a provider' do
       let(:email) { external_user.email }
@@ -69,14 +69,14 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe 'GET #new' do
+  describe 'GET /provider_management/providers/:provider_id/external_users/new' do
     let(:external_user) do
       ExternalUser.new(provider: provider).tap do |eu|
         eu.build_user
       end
     end
 
-    before { get :new, params: { provider_id: provider } }
+    before { get new_provider_management_provider_external_user_path(provider_id: provider) }
 
     it 'returns http success' do
       expect(response).to be_successful
@@ -99,10 +99,9 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe 'POST #create' do
+  describe 'POST /provider_management/providers/:provider_id/external_users' do
     def post_to_create_external_user_action(options = {})
-      post :create, params: {
-        provider_id: provider,
+      post provider_management_provider_external_users_path(provider_id: provider), params: {
         external_user: {
           user_attributes: {
             email: 'foo@foobar.com',
@@ -139,8 +138,8 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    before { get :edit, params: { provider_id: provider, id: external_user } }
+  describe 'GET /provider_management/providers/:provider_id/external_users/:id/edit' do
+    before { get edit_provider_management_provider_external_user_path(provider_id: provider, id: external_user) }
 
     it 'returns http success' do
       expect(response).to be_successful
@@ -156,9 +155,9 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe 'PUT #update' do
+  describe 'PUT /provider_management/providers/:provider_id/external_users/:id' do
     context 'when valid' do
-      before { put :update, params: { provider_id: provider, id: external_user, external_user: { supplier_number: 'XX100', roles: ['advocate'] } } }
+      before { put provider_management_provider_external_user_path(provider_id: provider, id: external_user), params: { external_user: { supplier_number: 'XX100', roles: ['advocate'] } } }
 
       it 'updates an external_user' do
         external_user.reload
@@ -171,7 +170,7 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
 
     context 'when invalid' do
-      before { put :update, params: { provider_id: provider, id: external_user, external_user: { roles: ['foo'] } } }
+      before { put provider_management_provider_external_user_path(provider_id: provider, id: external_user), params: { external_user: { roles: ['foo'] } } }
 
       it 'does not update external_user' do
         external_user.reload
@@ -184,8 +183,8 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe 'GET #change_password' do
-    before { get :change_password, params: { provider_id: provider, id: external_user } }
+  describe 'GET /provider_management/providers/:provider_id/external_users/:id/change_password' do
+    before { get change_password_provider_management_provider_external_user_path(provider_id: provider, id: external_user) }
 
     it 'returns http success' do
       expect(response).to be_successful
@@ -201,12 +200,12 @@ RSpec.describe ProviderManagement::ExternalUsersController, type: :controller do
     end
   end
 
-  describe 'PUT #update_password' do
+  describe 'PATCH /provider_management/providers/:provider_id/external_users/:id/update_password' do
     let(:password) { 'password123' }
     let(:password_confirm) { password }
 
     subject(:password_update_request) do
-      put :update_password, params: { provider_id: provider, id: external_user, external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } }
+      patch update_password_provider_management_provider_external_user_path(provider_id: provider, id: external_user), params: { external_user: { user_attributes: { password: password, password_confirmation: password_confirm } } }
     end
 
     before { travel_to(6.months.ago) { external_user } }

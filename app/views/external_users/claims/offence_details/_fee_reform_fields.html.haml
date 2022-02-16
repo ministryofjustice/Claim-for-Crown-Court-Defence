@@ -16,22 +16,19 @@
         .form-group
           = govuk_button(t('buttons.continue'), name: 'commit_continue')
 
-          = govuk_link_button_secondary('#', class: 'fx-clear-selection') do
-            = t('clear_selection', scope: "#{locale_scope}.actions")
+          = govuk_link_button_secondary(t('clear_selection', scope: "#{locale_scope}.actions"), '#', class: 'fx-clear-selection')
 
-.form-group.mod-search-input
-  %label.form-label{ for: 'offence' }
-    = 'Search for the offence'
-    %span.form-hint
-      = 'For example class, band, offence or act name'
+= f.govuk_text_field :offence,
+  value: nil,
+  class: 'fx-input',
+  form_group: { classes: 'mod-search-input' },
+  hint: { text: t('search_offence_hint', scope: "#{locale_scope}.fields") },
+  label: { text: t('search_offence', scope: "#{locale_scope}.fields") }
 
-    %a.fx-clear-search.hidden{ href: '#noop' } Clear search
+= f.hidden_field :offence_id, value: valid_offence ? f.object.offence.id : nil, class: 'fx-model'
+= f.hidden_field :fee_scheme, value: [@claim.fee_scheme.name, @claim.fee_scheme.version], class: 'fx-fee-scheme'
 
-
-    %input#offence.form-control.fx-input{ name: 'offence-search-input', type: 'input', autocomplete: 'off' }
-
-  = f.hidden_field :offence_id, value: valid_offence ? f.object.offence.id : nil, class: 'fx-model'
-  = f.hidden_field :fee_scheme, value: [@claim.fee_scheme.name, @claim.fee_scheme.version], class: 'fx-fee-scheme'
+= govuk_link_button_secondary(t('clear_search', scope: "#{locale_scope}.actions"), '#noop', class: 'fx-clear-search hidden')
 
 .form-group
   = govuk_detail 'Help with the offence classification' do

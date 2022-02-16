@@ -1,3 +1,6 @@
-= label_tag 'offence_class_description', t('.offence_class'), { class: 'form-label' }
-- selected_offence = @claim.try(:offence) ? @claim.offence.id : (offences.count == 1 ? offences.first : nil)
-= collection_select :offence_class, :description, offences, :id, :offence_class, options = { selected: selected_offence }, html_options = { class: 'form-control', disabled: offences.count == 1 }
+= f.govuk_collection_select :offence_class,
+  offences.map { |offence| [offence.id, offence.offence_class.letter_and_description] },
+  :first,
+  :last,
+  form_group: { classes: 'js-offence-class-select' },
+  label: { text: t('.offence_class') }

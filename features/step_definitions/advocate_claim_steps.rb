@@ -76,21 +76,6 @@ When(/I choose (not )?to apply retrial reduction$/) do |negate|
   end
 end
 
-When(/^I search for the scheme 10 offence '(.*?)'$/) do |search_text|
-  @claim_form_page.offence_search.set search_text
-end
-
-When(/^I search for a post agfs reform offence '(.*?)'$/) do |search_text|
-  @claim_form_page.offence_search.set search_text
-end
-
-Then(/^I select the first search result$/) do
-  sleep Capybara.default_max_wait_time
-  find(:xpath, '//*[@id="offence-list"]/div[3]/div').hover
-  find(:xpath, '//*[@id="offence-list"]/div[3]/div/div[2]/a').click
-  wait_for_ajax
-end
-
 Then(/^the basic fee net amount should be populated with '(\d+\.\d+)'$/) do |total|
   patiently do
     expect(@claim_form_page.basic_fees.basic_fee).to have_total

@@ -76,7 +76,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
 
     it 'errors if not present for non-fixed fee case types' do
       allow(claim.case_type).to receive(:is_fixed_fee?).and_return(false)
-      should_error_with(claim, :offence, 'blank')
+      should_error_with(claim, :offence, 'Choose an offence')
     end
 
     it 'does not error if not present for fixed fee case types' do
@@ -93,7 +93,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
         end
 
         it 'errors if not present' do
-          should_error_with(claim, :offence, 'new_blank')
+          should_error_with(claim, :offence, 'Choose an offence')
         end
       end
 

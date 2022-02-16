@@ -33,6 +33,6 @@ class Claim::LitigatorHardshipClaimValidator < Claim::BaseClaimValidator
   end
 
   def validate_offence
-    validate_presence(:offence, 'blank_class') unless fixed_fee_case?
+    validate_presence(:offence, :blank) unless fixed_fee_case?
   end
 end

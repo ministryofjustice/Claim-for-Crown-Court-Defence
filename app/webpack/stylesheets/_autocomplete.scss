@@ -38,8 +38,7 @@
   }
 
   // scss-lint:disable IdSelector
-  .js-block,
-  #offence {
+  .js-block {
     .tt-menu {
       width: $full-width;
     }
@@ -72,18 +71,6 @@
 // scss-lint:disable IdSelector
 #offence-list .tt-highlight {
   background-color: $focus-colour;
-}
-
-.mod-search-input {
-  .fx-input {
-    float: left;
-  }
-
-  .fx-clear-search {
-    display: inline-block;
-    margin: $gutter-one-third;
-    font-weight: normal;
-  }
 }
 
 .govuk-form-group--error .autocomplete__input {

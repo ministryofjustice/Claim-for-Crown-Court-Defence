@@ -165,7 +165,7 @@ GEM
       descendants_tracker (~> 0.0.1)
     colorize (0.8.1)
     concurrent-ruby (1.1.9)
-    config (3.1.1)
+    config (4.0.0)
       deep_merge (~> 1.2, >= 1.2.1)
       dry-validation (~> 1.0, >= 1.0.0)
     connection_pool (2.2.5)
@@ -750,7 +750,7 @@ DEPENDENCIES
   cocoon (~> 1.2.15)
   codeclimate-test-reporter
   colorize
-  config (~> 3.1)
+  config (~> 4.0)
   cucumber-rails (~> 2.4.0)
   database_cleaner
   devise (~> 4.8.1)

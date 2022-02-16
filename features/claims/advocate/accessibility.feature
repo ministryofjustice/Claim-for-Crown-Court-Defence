@@ -41,7 +41,7 @@ Feature: Advocate submits a claim
     Then the summary total should equal '£528.00'
     Then I uncheck the fixed fee "Number of defendants uplift"
     Then the summary total should equal '£468.00'
-    Then the page should be accessible
+    Then the page should be accessible skipping 'aria-allowed-attr'
     Then I click "Continue" in the claim form
 
     And I should be in the 'Miscellaneous fees' form page

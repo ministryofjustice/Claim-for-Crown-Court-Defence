@@ -278,4 +278,10 @@ RSpec.describe 'Providers external users management', type: :request do
       end
     end
   end
+
+  describe 'PATCH /provider_management/providers/:provider_id/external_users/:id/disable' do
+  end
+
+  describe 'PATCH /provider_management/providers/:provider_id/external_users/:id/enable' do
+  end
 end

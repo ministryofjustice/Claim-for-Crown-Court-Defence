@@ -1,15 +1,4 @@
-.form-group{ class: error_class?(@error_presenter, :disk_evidence) }
-  %fieldset{ 'aria-describedby': 'radio-control-legend-evidence' }
-    %legend#radio-control-legend-evidence
-      %span.govuk-heading-m
-        = t('disk_evidence.question')
-
-    = f.collection_radio_buttons(:disk_evidence, [['Yes','true'],['No','false']], :last, :first ) do |b|
-      .multiple-choice{ data: { target: b.text == 'Yes' ? 'evidence-info' : nil } }
-        = b.radio_button('aria-labelledby': "radio-control-legend-evidence #{b.text.to_css_class}")
-        = b.label(id: b.text.to_css_class) { b.text }
-      - if (b.text == 'Yes')
-        #evidence-info.panel.panel-border-narrow.js-hidden
-          = render partial: 'shared/disk_evidence_info', locals: { f: f }
-
-  = validation_error_message(@error_presenter, :disk_evidence)
+= f.govuk_radio_buttons_fieldset :disk_evidence, legend: { size: 'm', text: t('disk_evidence.question') } do
+  = f.govuk_radio_button :disk_evidence, 'true', label: { text: t('global_yes') }, link_errors: true do
+    = render partial: 'shared/disk_evidence_info'
+  = f.govuk_radio_button :disk_evidence, 'false', label: { text: t('global_no') }

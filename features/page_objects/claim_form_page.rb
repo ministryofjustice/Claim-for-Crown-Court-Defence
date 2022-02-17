@@ -75,9 +75,9 @@ class ClaimFormPage < BasePage
   element :add_another_expense, "div#expense > a.add_fields"
   element :additional_information_expenses, ".fx-additional-info"
 
-  section :evidence_checklist, EvidenceChecklistSection, "fieldset.evidence-checklist"
+  section :evidence_checklist, EvidenceChecklistSection, ".cc-evidence-checklist fieldset"
 
-  element :additional_information, "textarea#claim_additional_information"
+  element :additional_information, "textarea#claim-additional-information-field"
   element :continue, "div.button-holder > input:nth-of-type(1)"
   element :submit_to_laa, "div.button-holder > button:nth-of-type(1)" # this maps to Save and continue too
   element :save_to_drafts, "div.button-holder > button:nth-of-type(2)"
@@ -121,7 +121,7 @@ class ClaimFormPage < BasePage
     available_docs[0...count].each do |path|
       # element needs to be visible in order to attach_file
       page.execute_script("$('.dropzone-enhanced [type=file]').css('position','unset')");
-      attach_file("claim_documents", path)
+      attach_file("claim-documents-field", path)
     end
   end
 

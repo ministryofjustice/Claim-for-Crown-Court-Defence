@@ -17,26 +17,26 @@ describe('supportingEvidence', function () {
   }
 
   $indictmentEvidence = function () {
-    return $('#claim_evidence_checklist_ids_4')
+    return $('#claim-evidence-checklist-ids-4-field')
   }
 
   const fixtureDom = $(`
   <div data-mute-indictment="false">
     <form method="post" action="" id="supporting-evidence-fixture-form">
         <fieldset class="checklist">
-            <h3>Supporting evidence checklist</h3>
+            <legend>Supporting evidence checklist</legend>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-one-half">
-                    <label class="block-label" for="claim_evidence_checklist_ids_5"><input type="checkbox" value="5" name="claim[evidence_checklist_ids][]" id="claim_evidence_checklist_ids_5">Order in respect of judicial apportionment</label>
-                    <label class="block-label" for="claim_evidence_checklist_ids_3"><input type="checkbox" value="3" name="claim[evidence_checklist_ids][]" id="claim_evidence_checklist_ids_3">Committal bundle front sheet(s)</label>
-                    <label class="block-label" for="claim_evidence_checklist_ids_4"><input type="checkbox" value="4" name="claim[evidence_checklist_ids][]" id="claim_evidence_checklist_ids_4">A copy of the indictment</label>
-                    <label class="block-label" for="claim_evidence_checklist_ids_1"><input type="checkbox" value="1" name="claim[evidence_checklist_ids][]" id="claim_evidence_checklist_ids_1">Representation order</label>
+                    <label class="block-label" for="claim-evidence-checklist-ids-5-field"><input type="checkbox" value="5" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-5-field">Order in respect of judicial apportionment</label>
+                    <label class="block-label" for="claim-evidence-checklist-ids-3-field"><input type="checkbox" value="3" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-3-field">Committal bundle front sheet(s)</label>
+                    <label class="block-label" for="claim-evidence-checklist-ids-4-field"><input type="checkbox" value="4" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-4-field">A copy of the indictment</label>
+                    <label class="block-label" for="claim-evidence-checklist-ids-1-field"><input type="checkbox" value="1" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-1-field">Representation order</label>
                 </div>
                 <div class="govuk-grid-column-one-half">
-                    <label class="block-label" for="claim_evidence_checklist_ids_8"><input type="checkbox" value="8" name="claim[evidence_checklist_ids][]" id="claim_evidence_checklist_ids_8">Details of previous fee advancements</label>
-                    <label class="block-label" for="claim_evidence_checklist_ids_7"><input type="checkbox" value="7" name="claim[evidence_checklist_ids][]" id="claim_evidence_checklist_ids_7">Hardship supporting evidence</label>
-                    <label class="block-label" for="claim_evidence_checklist_ids_6"><input type="checkbox" value="6" name="claim[evidence_checklist_ids][]" id="claim_evidence_checklist_ids_6">Expenses invoices</label>
-                    <label class="block-label" for="claim_evidence_checklist_ids_9"><input type="checkbox" value="9" name="claim[evidence_checklist_ids][]" id="claim_evidence_checklist_ids_9">Justification for out of time claim</label>
+                    <label class="block-label" for="claim-evidence-checklist-ids-8-field"><input type="checkbox" value="8" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-8-field">Details of previous fee advancements</label>
+                    <label class="block-label" for="claim-evidence-checklist-ids-7-field"><input type="checkbox" value="7" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-7-field">Hardship supporting evidence</label>
+                    <label class="block-label" for="claim-evidence-checklist-ids-6-field"><input type="checkbox" value="6" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-6-field">Expenses invoices</label>
+                    <label class="block-label" for="claim-evidence-checklist-ids-9-field"><input type="checkbox" value="9" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-9-field">Justification for out of time claim</label>
                 </div>
             </div>
         </fieldset>

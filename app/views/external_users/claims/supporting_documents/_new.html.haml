@@ -8,13 +8,13 @@
   - @claim.documents.each do |document|
     = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"
 
-.form-group
-  %fieldset
-    %legend
-      = t('.legend')
-    .dropzone
-      = f.label :documents, 'Upload file', class: 'form-group'
-      = f.file_field :documents, name: 'documents', multiple: true, class: 'form-control'
+%h3.govuk-heading-m
+  = t('.upload_supporting_evidence')
+
+= f.govuk_file_field :documents,
+  form_group: { classes: 'dropzone' },
+  label: { text: t('.upload_file') },
+  multiple: true
 
 = govuk_table(id: 'dropzone-files', class: 'files hidden') do
   = govuk_table_caption do

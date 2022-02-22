@@ -9,12 +9,12 @@ module Stats
       include JourneyQueryable
       include ClaimTypeFilterable
 
-      def self.call(options = {})
-        new(options).call
+      def self.call(...)
+        new(...).call
       end
 
-      def initialize(options = {})
-        self.scheme = options[:scheme]
+      def initialize(**kwargs)
+        self.scheme = kwargs[:scheme]
         raise ArgumentError, 'scheme must be "agfs" or "lgfs"' if @scheme.present? && %w[AGFS LGFS].exclude?(@scheme)
       end
 

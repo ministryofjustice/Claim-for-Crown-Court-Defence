@@ -6,8 +6,8 @@ module Stats
       include JourneyQueryable
       include ClaimTypeFilterable
 
-      def self.call(**kwargs)
-        new(kwargs).call
+      def self.call(...)
+        new(...).call
       end
 
       def initialize(date_range:, date_column_filter:)

@@ -13,8 +13,8 @@ Dir.glob(File.join(__dir__, 'queries', '**', '*.rb')).each { |f| require_depende
 module Stats
   module ManagementInformation
     class DailyReportCountQuery
-      def self.call(**kwargs)
-        new(kwargs).call
+      def self.call(...)
+        new(...).call
       end
 
       def initialize(**kwargs)

@@ -6,12 +6,24 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
   before { sign_in advocate.user }
 
   describe 'list views' do
-    let!(:advocate_admin) { create(:external_user, :admin, provider: advocate.provider) }
-    let!(:other_advocate) { create(:external_user, :advocate, provider: advocate.provider) }
+    let!(:advocate_admin) do
+      create(:external_user, :admin, provider: advocate.provider, user: build(:user, last_name: 'Advocate-Admin'))
+    end
+    let!(:other_advocate) do
+      create(:external_user, :advocate, provider: advocate.provider, user: build(:user, last_name: 'Other-Advocate'))
+    end
 
-    let!(:litigator)      { create(:external_user, :litigator) }
-    let!(:litigator_admin) { create(:external_user, :litigator_and_admin, provider: litigator.provider) }
-    let!(:other_litigator) { create(:external_user, :litigator, provider: litigator.provider) }
+    let!(:litigator) { create(:external_user, :litigator, user: build(:user, last_name: 'Litigator')) }
+    let!(:litigator_admin) do
+      create(
+        :external_user, :litigator_and_admin,
+        provider: litigator.provider,
+        user: build(:user, last_name: 'Litigator-Admin')
+      )
+    end
+    let!(:other_litigator) do
+      create(:external_user, :litigator, provider: litigator.provider, user: build(:user, last_name: 'Other-Litigator'))
+    end
 
     describe '#GET index' do
       it 'returns success' do

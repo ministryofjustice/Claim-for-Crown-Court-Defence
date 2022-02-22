@@ -2,7 +2,7 @@
 
 RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
   describe '.call' do
-    subject(:call) { described_class.call(kwargs) }
+    subject(:call) { described_class.call(**kwargs) }
 
     let(:kwargs) { { date_range: 1.month.ago.to_date..Time.zone.today, scheme: 'lgfs' } }
 
@@ -26,7 +26,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
   end
 
   describe '#call' do
-    subject(:call) { described_class.new(kwargs).call }
+    subject(:call) { described_class.new(**kwargs).call }
 
     let(:month_range) { 1.month.ago.to_date..Time.zone.today }
 
@@ -43,7 +43,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
     end
 
     context 'with query_set and date range' do
-      subject(:result) { described_class.new(kwargs).call }
+      subject(:result) { described_class.new(**kwargs).call }
 
       let(:kwargs) { { query_set: Stats::ManagementInformation::AgfsQuerySet.new, date_range: month_range } }
 

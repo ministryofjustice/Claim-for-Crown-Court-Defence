@@ -2953,10 +2953,10 @@ datatables.net-dt@>=1.11.3, datatables.net-dt@^1.11.4:
     datatables.net ">=1.11.3"
     jquery ">=1.7"
 
-datatables.net-fixedheader-dt@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/datatables.net-fixedheader-dt/-/datatables.net-fixedheader-dt-3.2.1.tgz#65ce5869da71020ebe4f8fa800bbecc9559648c0"
-  integrity sha512-/cM5+BjjkFgaD7CO5uiRIDQbvYrW83OifxfhxJGzQBGcxdgIkXpem4WmeEKvWQrDkZ6FwbX1f/AouT/Hr6F+nQ==
+datatables.net-fixedheader-dt@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/datatables.net-fixedheader-dt/-/datatables.net-fixedheader-dt-3.2.2.tgz#c4026b9c39f5ea0403c83dc95046663c4048db00"
+  integrity sha512-ty8FrKcYh1FtrMOBcbEulitNgFQTRAgKp/3smDsERdQt31fY6/jLAihpZUYYMNXLNnnxWMMVqggHpJkZDynyGQ==
   dependencies:
     datatables.net-dt ">=1.11.3"
     datatables.net-fixedheader ">=3.2.0"

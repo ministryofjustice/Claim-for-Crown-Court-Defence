@@ -484,46 +484,48 @@ RSpec.describe Ability do
     end
   end
 
-  context 'super admin' do
+  context 'with a super admin' do
     let(:super_admin)       { create(:super_admin) }
     let(:user)              { super_admin.user }
     let(:other_super_admin) { create(:super_admin) }
-    let(:provider)          { create(:provider) }
     let(:other_provider)    { create(:provider) }
     let(:external_user)          { create(:external_user, provider: provider) }
-    let(:other_external_user)    { create(:external_user, provider: other_provider) }
 
-    it { should be_able_to(:update_settings, user) }
-    it { should_not be_able_to(:update_settings, another_user) }
+    it { is_expected.to be_able_to(:update_settings, user) }
+    it { is_expected.not_to be_able_to(:update_settings, another_user) }
 
-    context 'cannot destroy providers' do
-      it_behaves_like 'user cannot', :provider, [:destroy]
+    [:show, :edit, :update, :change_password, :update_password].each do |action|
+      it { is_expected.to be_able_to(action, super_admin) }
     end
 
-    context 'cannot view, create and change any external_users details' do
-      actions = [:show, :edit, :update, :new, :create, :change_password, :update_password]
-      it_behaves_like 'user cannot', :external_user, actions
-      it_behaves_like 'user cannot', :other_external_user, actions
+    it_behaves_like 'user cannot', :other_super_admin, [:show, :edit, :update, :change_password, :update_password]
+
+    context 'with a provider' do
+      let(:target) { create(:provider) }
+
+      it { is_expected.not_to be_able_to(:new, target) }
+      it { is_expected.not_to be_able_to(:create, target) }
+      it { is_expected.not_to be_able_to(:edit, target) }
+      it { is_expected.not_to be_able_to(:update, target) }
+      it { is_expected.not_to be_able_to(:destroy, target) }
+
+      it { is_expected.to be_able_to(:show, target) }
+      it { is_expected.to be_able_to(:index, target) }
     end
 
-    context 'can view and change own details' do
-      [:show, :edit, :update, :change_password, :update_password].each do |action|
-        it { should be_able_to(action, super_admin) }
-      end
-    end
+    context 'with an external user' do
+      let(:target)     { create(:external_user) }
 
-    context 'cannot view or change other super admins details' do
-      actions = [:show, :edit, :update, :change_password, :update_password]
-      it_behaves_like 'user cannot', :other_super_admin, actions
-    end
+      it { is_expected.to be_able_to(:show, target) }
+      it { is_expected.to be_able_to(:index, target) }
 
-    context 'cannot destroy external_users' do
-      it_behaves_like 'user cannot', :external_user, [:destroy]
-    end
-
-    context 'cannot manage any provider' do
-      actions = [:show, :index, :new, :create, :edit, :update]
-      it_behaves_like 'user cannot', :provider, actions
+      it { is_expected.not_to be_able_to(:new, target) }
+      it { is_expected.not_to be_able_to(:create, target) }
+      it { is_expected.not_to be_able_to(:edit, target) }
+      it { is_expected.not_to be_able_to(:update, target) }
+      it { is_expected.not_to be_able_to(:change_password, target) }
+      it { is_expected.not_to be_able_to(:update_password, target) }
+      it { is_expected.not_to be_able_to(:destroy, target) }
     end
   end
 end

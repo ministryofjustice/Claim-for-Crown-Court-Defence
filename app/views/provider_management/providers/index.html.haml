@@ -6,7 +6,8 @@
 .govuk-grid-row
   .govuk-grid-column-full
     .govuk-button-group
-      = govuk_link_button(t('.add_a_provider'), new_provider_management_provider_path)
+      - if can? :new, Provider
+        = govuk_link_button(t('.add_a_provider'), new_provider_management_provider_path)
       = govuk_link_button_secondary(t('.find_provider_by_email'), provider_management_external_users_find_path)
 
 = render partial: 'providers', locals: { providers: @providers }

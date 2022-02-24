@@ -463,6 +463,9 @@ en:
         caption: User details
         page_title: View %{external_user}'s details
         provider: Provider
+        state: Account state
+        live: Live
+        inactive: Inactive
         email: *email
         name: Name
         supplier_number: *supplier_number
@@ -470,6 +473,8 @@ en:
         role: Role
         edit: Edit
         change_password: *change_password
+        disable_user: Disable account
+        enable_user: Enable account
         answer_yes: *global_yes
         answer_no:  *global_no
         manage_user: Manage user

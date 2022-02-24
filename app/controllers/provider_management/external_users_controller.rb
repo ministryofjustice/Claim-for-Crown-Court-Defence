@@ -67,6 +67,21 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     end
   end
 
+  def confirmation; end
+
+  def enable; end
+
+  def disable
+    if (@external_user.provider == @provider) && @external_user.active?
+      @external_user.soft_delete
+      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
+                  notice: 'User successfully disabled'
+    else
+      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
+                  alert: 'Unable to disable user'
+    end
+  end
+
   private
 
   def external_user_params
@@ -79,7 +94,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   end
 
   def set_external_user
-    @external_user = ExternalUser.active.find(params[:id])
+    @external_user = ExternalUser.find(params[:id])
   end
 
   def external_user_by_email

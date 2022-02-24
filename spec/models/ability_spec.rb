@@ -519,6 +519,9 @@ RSpec.describe Ability do
       it { is_expected.to be_able_to(:index, target) }
       it { is_expected.to be_able_to(:find, target) }
       it { is_expected.to be_able_to(:search, target) }
+      it { is_expected.to be_able_to(:confirmation, target) }
+      it { is_expected.to be_able_to(:enable, target) }
+      it { is_expected.to be_able_to(:disable, target) }
 
       it { is_expected.not_to be_able_to(:new, target) }
       it { is_expected.not_to be_able_to(:create, target) }

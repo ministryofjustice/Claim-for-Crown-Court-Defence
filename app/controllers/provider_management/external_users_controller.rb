@@ -67,6 +67,16 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     end
   end
 
+  def confirmation; end
+
+  def enable; end
+
+  def disable
+    @external_user.soft_delete
+    redirect_to provider_management_provider_external_user_path(@provider, @external_user),
+                notice: 'User password successfully updated'
+  end
+
   private
 
   def external_user_params

@@ -29,3 +29,5 @@
 
       - if can? :change_password, @external_user
         = govuk_link_button_secondary(t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user))
+
+      = govuk_link_button_warning(t('.disable_user'), confirmation_provider_management_provider_external_user_path(@provider, @external_user))

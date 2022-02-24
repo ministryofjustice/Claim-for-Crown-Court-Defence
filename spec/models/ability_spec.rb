@@ -485,11 +485,10 @@ RSpec.describe Ability do
   end
 
   context 'with a super admin' do
-    let(:super_admin)       { create(:super_admin) }
-    let(:user)              { super_admin.user }
+    let(:super_admin) { create(:super_admin) }
+    let(:user) { super_admin.user }
     let(:other_super_admin) { create(:super_admin) }
-    let(:other_provider)    { create(:provider) }
-    let(:external_user)          { create(:external_user, provider: provider) }
+    let(:external_user) { create(:external_user, provider: provider) }
 
     it { is_expected.to be_able_to(:update_settings, user) }
     it { is_expected.not_to be_able_to(:update_settings, another_user) }
@@ -514,10 +513,12 @@ RSpec.describe Ability do
     end
 
     context 'with an external user' do
-      let(:target)     { create(:external_user) }
+      let(:target) { create(:external_user) }
 
       it { is_expected.to be_able_to(:show, target) }
       it { is_expected.to be_able_to(:index, target) }
+      it { is_expected.to be_able_to(:find, target) }
+      it { is_expected.to be_able_to(:search, target) }
 
       it { is_expected.not_to be_able_to(:new, target) }
       it { is_expected.not_to be_able_to(:create, target) }

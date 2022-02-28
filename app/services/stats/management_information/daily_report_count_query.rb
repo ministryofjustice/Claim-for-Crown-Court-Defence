@@ -25,13 +25,17 @@ module Stats
       end
 
       def call
-        submission_queries + completion_queries
+        submission_queries + transition_queries + completion_queries
       end
 
       private
 
       def submission_queries
         filter_by(:originally_submitted_at)
+      end
+
+      def transition_queries
+        filter_by(:transitioned_at)
       end
 
       def completion_queries

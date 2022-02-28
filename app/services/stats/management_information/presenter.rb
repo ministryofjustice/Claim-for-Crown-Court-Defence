@@ -26,7 +26,7 @@ module Stats
       end
 
       def transitioned_at
-        submission.present? ? submission[:created_at].strftime('%d/%m/%Y') : 'n/a'
+        record[:transitioned_at]&.strftime('%d/%m/%Y') || 'n/a'
       end
 
       def last_submitted_at

@@ -1,5 +1,17 @@
 # frozen_string_literal: true
 
+module TransitionTestHelper
+  extend ActiveSupport::Testing::TimeHelpers
+
+  def self.prepare_transitions(*transitions)
+    claim = FactoryBot.create(:claim, :draft)
+    transitions.each do |transition|
+      claim.assessment.update(**transition[:assessment_update]) if transition[:assessment_update]
+      travel_to(transition[:at]) { claim.send(transition[:to], transition[:params]) }
+    end
+  end
+end
+
 RSpec.describe Stats::ManagementInformation::Presenter do
   subject(:presenter) { described_class.new(record) }
 
@@ -63,6 +75,128 @@ RSpec.describe Stats::ManagementInformation::Presenter do
       before { create(:litigator_final_claim, :allocated) }
 
       it { is_expected.to match(%r{\d{2}/\d{2}/\d{4}}) }
+    end
+
+    context 'with transition journeys' do
+      let(:first_submitted_date) { 3.months.ago }
+
+      before { TransitionTestHelper.prepare_transitions(*transitions) }
+
+      context 'with transitions; submit' do
+        let(:transitions) do
+          [
+            { to: :submit!, at: first_submitted_date }
+          ]
+        end
+
+        it 'has one journey' do
+          expect(query.count).to eq 1
+        end
+
+        it 'is the originally submitted date' do
+          is_expected.to eq first_submitted_date.strftime('%d/%m/%Y')
+        end
+      end
+
+      context 'with transitions; submit -> allocate' do
+        let(:transitions) do
+          [
+            { to: :submit!, at: first_submitted_date },
+            { to: :allocate!, at: first_submitted_date + 1.day }
+          ]
+        end
+
+        it 'has one journey' do
+          expect(query.count).to eq 1
+        end
+
+        it 'is the originally submitted date' do
+          is_expected.to eq first_submitted_date.strftime('%d/%m/%Y')
+        end
+      end
+
+      context 'with transitions; submit -> allocate -> reject' do
+        let(:transitions) do
+          [
+            { to: :submit!, at: first_submitted_date },
+            { to: :allocate!, at: first_submitted_date + 1.day },
+            { to: :reject!, at: first_submitted_date + 2.days }
+          ]
+        end
+
+        it 'has one journey' do
+          expect(query.count).to eq 1
+        end
+
+        it 'is the originally submitted date' do
+          is_expected.to eq first_submitted_date.strftime('%d/%m/%Y')
+        end
+      end
+
+      context 'with transitions; submit -> allocate -> authorise' do
+        let(:transitions) do
+          [
+            { to: :submit!, at: first_submitted_date },
+            { to: :allocate!, at: first_submitted_date + 1.day },
+            { to: :authorise!, at: first_submitted_date + 2.days, assessment_update: { fees: 100.0 } }
+          ]
+        end
+
+        it 'has one journey' do
+          expect(query.count).to eq 1
+        end
+
+        it 'is the originally submitted date' do
+          is_expected.to eq first_submitted_date.strftime('%d/%m/%Y')
+        end
+      end
+
+      context 'with transitions; submit -> allocate -> authorise -> await_written_reasons' do
+        let(:await_written_reasons_date) { first_submitted_date + 3.days }
+        let(:transitions) do
+          [
+            { to: :submit!, at: first_submitted_date },
+            { to: :allocate!, at: first_submitted_date + 1.day },
+            { to: :authorise!, at: first_submitted_date + 2.days, assessment_update: { fees: 100.0 } },
+            { to: :await_written_reasons!, at: await_written_reasons_date }
+          ]
+        end
+
+        it 'has two journeys' do
+          expect(query.count).to eq 2
+        end
+
+        context 'with the first journey' do
+          it 'is the originally submitted date' do
+            is_expected.to eq first_submitted_date.strftime('%d/%m/%Y')
+          end
+        end
+
+        context 'with the second journey' do
+          let(:record) { query.second }
+
+          it 'is the date of the await written reasons transition' do
+            is_expected.to eq await_written_reasons_date.strftime('%d/%m/%Y')
+          end
+        end
+      end
+
+      context 'with transitions; submit (> 6 months ago) -> allocate -> authorise' do
+        let(:first_submitted_date) { 7.months.ago }
+        let(:transitions) do
+          [
+            { to: :submit!, at: first_submitted_date },
+            { to: :allocate!, at: first_submitted_date + 2.months },
+            { to: :authorise!, at: first_submitted_date + 3.months, assessment_update: { fees: 100.0 } }
+          ]
+        end
+
+        it 'has one journey' do
+          expect(query.count).to eq 1
+        end
+
+        it { is_expected.to eq 'n/a' }
+      end
     end
   end
 

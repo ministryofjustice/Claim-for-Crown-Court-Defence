@@ -24,6 +24,7 @@ module Stats
               round(c.total + c.vat_amount, 4) as claim_total,
               c.last_submitted_at at time zone 'utc' at time zone 'Europe/London' as last_submitted_at,
               c.original_submission_date at time zone 'utc' at time zone 'Europe/London' as originally_submitted_at,
+              transition.transitioned_at as transitioned_at,
               completion.completed_at as completed_at,
               main_defendant.name as main_defendant,
               earliest_representation_order.maat_reference as maat_reference,
@@ -58,6 +59,11 @@ module Stats
               from claims
               where id = c.id
             ) c2 ON TRUE
+            LEFT JOIN LATERAL (
+              SELECT (transitions ->> 'created_at')::TIMESTAMPTZ AT TIME ZONE 'Europe/London' AS transitioned_at
+                FROM JSONB_ARRAY_ELEMENTS(j.journey) transitions
+                WHERE (transitions ->> 'to' IN ('submitted', 'redetermination', 'awaiting_written_reasons'))
+            ) transition ON TRUE
             LEFT JOIN LATERAL (
               select (transitions ->> 'created_at')::timestamptz at time zone 'Europe/London' as completed_at
                 from jsonb_array_elements(j.journey) transitions

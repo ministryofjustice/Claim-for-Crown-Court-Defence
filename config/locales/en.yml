@@ -646,11 +646,16 @@ en:
         page_title: Change %{external_user}'s password
         heading: Change password for %{external_user}
         page_heading: Manage users
-      confirmation:
+      disable_confirmation:
         cancel_button: Cancel
         disable_message: Are you sure you want to disable %{external_user}
         disable_user: Disable
         page_title: Disable user
+      enable_confirmation:
+        cancel_button: Cancel
+        enable_message: Are you sure you want to enable %{external_user}
+        enable_user: Enable
+        page_title: Enable user
 
 # en.external_users
   external_users:

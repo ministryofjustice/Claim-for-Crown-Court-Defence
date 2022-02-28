@@ -478,7 +478,7 @@ en:
         answer_yes: *global_yes
         answer_no:  *global_no
         manage_user: Manage user
-        page_heading: Manage user
+        page_heading: Manage user %{external_user}
         table_summary: A list of user details for %{external_user}
         edit_provider: edit the provider
       edit:
@@ -588,6 +588,9 @@ en:
         caption: User details
         page_title: View %{external_user}'s details
         provider: Provider
+        state: Account state
+        live: Live
+        inactive: Inactive
         email: *email
         name: Name
         supplier_number: *supplier_number
@@ -595,6 +598,8 @@ en:
         role: Role
         edit: Edit
         change_password: *change_password
+        disable_user: Disable account
+        enable_user: Enable account
         answer_yes: *global_yes
         answer_no:  *global_no
         manage_user: Manage user
@@ -641,6 +646,11 @@ en:
         page_title: Change %{external_user}'s password
         heading: Change password for %{external_user}
         page_heading: Manage users
+      confirmation:
+        cancel_button: Cancel
+        disable_message: Are you sure you want to disable %{external_user}
+        disable_user: Disable
+        page_title: Disable user
 
 # en.external_users
   external_users:

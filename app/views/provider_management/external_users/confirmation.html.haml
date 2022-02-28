@@ -1,7 +1,7 @@
 %h1.govuk-heading-xl
-  =t('.text')
+  =t('.page_title')
 %h2.govuk-heading-m
-  =t('.disable_message')
+  =t('.disable_message', external_user: @external_user.name)
 .govuk-button-group
   = govuk_link_button_warning(t('.disable_user'), disable_provider_management_provider_external_user_path(@provider, @external_user))
   = govuk_link_to(t('.cancel_button'), provider_management_provider_external_user_path(@provider, @external_user))

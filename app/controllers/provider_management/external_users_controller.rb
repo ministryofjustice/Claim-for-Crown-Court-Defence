@@ -80,7 +80,6 @@ class ProviderManagement::ExternalUsersController < ApplicationController
       redirect_to provider_management_provider_external_user_path(@provider, @external_user),
                   alert: 'Unable to disable user'
     end
-
   end
 
   private

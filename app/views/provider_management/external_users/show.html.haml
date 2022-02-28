@@ -23,6 +23,9 @@
       = govuk_summary_list_row_collection(t('.role')) do
         = @external_user.roles.map(&:humanize).join(', ')
 
+      = govuk_summary_list_row_collection(t('.state')) do
+        = @external_user.active? ? t('.live') : t('.inactive')
+
     .govuk-button-group
       - if can? :edit, @external_user
         = govuk_link_button(t('.edit'), edit_provider_management_provider_external_user_path(@provider, @external_user))

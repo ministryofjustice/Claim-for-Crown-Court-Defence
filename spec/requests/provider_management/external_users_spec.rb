@@ -25,8 +25,17 @@ RSpec.describe 'providers external users management', type: :request do
         let(:external_user) { create :external_user, user: create(:user, email: 'bubbletea@example.com') }
 
         it 'does not mark the users email as deleted' do
-          pending 'wip'
           expect{ disable_user }.not_to change{ external_user.reload.email }.from('bubbletea@example.com')
+        end
+      end
+
+      context 'when external user is already deleted' do
+        before do
+          external_user.soft_delete
+        end
+
+        it 'does not mark the users email as deleted a second time' do
+          expect{ disable_user }.not_to change{ external_user.reload.email }.from(/bubbletea@example\.com\.deleted\.\d+$/)
         end
       end
 

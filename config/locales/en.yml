@@ -463,6 +463,9 @@ en:
         caption: User details
         page_title: View %{external_user}'s details
         provider: Provider
+        state: Account state
+        live: Live
+        inactive: Inactive
         email: *email
         name: Name
         supplier_number: *supplier_number

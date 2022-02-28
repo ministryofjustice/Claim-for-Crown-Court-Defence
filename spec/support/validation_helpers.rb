@@ -124,8 +124,8 @@ module ValidationHelpers
   end
 
   def should_errror_if_later_than_other_date(record, field, other_date, message, options = {})
-    record.send("#{field}=", 5.day.ago)
-    record.send("#{other_date}=", 7.day.ago)
+    record.send("#{field}=", 5.days.ago)
+    record.send("#{other_date}=", 7.days.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
@@ -144,7 +144,6 @@ module ValidationHelpers
   end
 
   def stub_earliest_rep_order(claim, date)
-    repo = double RepresentationOrder
     allow(claim).to receive(:earliest_representation_order_date).and_return(date)
   end
 

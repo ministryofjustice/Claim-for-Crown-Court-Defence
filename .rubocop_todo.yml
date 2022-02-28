@@ -125,25 +125,6 @@ Lint/UnusedMethodArgument:
   Exclude:
     - 'spec/support/view_spec_helpers.rb'
 
-# Offense count: 23
-Lint/UselessAssignment:
-  Exclude:
-    - 'spec/api/v1/external_users/fee_spec.rb'
-    - 'spec/controllers/external_users/admin/external_users_controller_spec.rb'
-    - 'spec/controllers/messages_controller_spec.rb'
-    - 'spec/factories/claim/litigator_claims.rb'
-    - 'spec/form_builders/adp_text_field_spec.rb'
-    - 'spec/models/assessment_spec.rb'
-    - 'spec/models/claim/advocate_claim_spec.rb'
-    - 'spec/models/claim/litigator_claim_spec.rb'
-    - 'spec/models/claim/transfer_brain_spec.rb'
-    - 'spec/support/api/claims/advocate_interim_claim_test.rb'
-    - 'spec/support/api/claims/advocate_supplementary_claim_test.rb'
-    - 'spec/support/shared_examples/validators/shared_examples_for_advocate_claim_validators.rb'
-    - 'spec/support/shared_examples_for_api.rb'
-    - 'spec/support/validation_helpers.rb'
-    - 'spec/validators/claim/advocate_claim_validator_spec.rb'
-
 # Offense count: 2
 # Cop supports --auto-correct.
 # Configuration parameters: AllowComments.
@@ -2279,18 +2260,6 @@ Rails/OutputSafety:
 Rails/Pluck:
   Exclude:
     - 'spec/api/v2/case_workers/claim_spec.rb'
-
-# Offense count: 44
-# Cop supports --auto-correct.
-Rails/PluralizationGrammar:
-  Exclude:
-    - 'spec/factories/claim/advocate_claims.rb'
-    - 'spec/factories/claim/base_claims.rb'
-    - 'spec/models/claims/financial_summary_spec.rb'
-    - 'spec/models/stats/collector/claim_redeterminations_collector_spec.rb'
-    - 'spec/models/subscribers/slack_spec.rb'
-    - 'spec/support/validation_helpers.rb'
-    - 'spec/validators/claim/advocate_interim_claim_web_validations_spec.rb'
 
 # Offense count: 10
 # Cop supports --auto-correct.

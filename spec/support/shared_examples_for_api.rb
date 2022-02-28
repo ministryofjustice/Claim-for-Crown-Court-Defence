@@ -278,7 +278,6 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         it 'response 400 and JSON error array of error message' do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
-          json = JSON.parse(last_response.body)
           expect_error_response('my unexpected error')
         end
 

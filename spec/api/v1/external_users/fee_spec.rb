@@ -405,7 +405,6 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           valid_params.delete(:fee_type_id)
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          json = JSON.parse(last_response.body)
           expect(last_response.body).to eq json_error_response
         end
       end

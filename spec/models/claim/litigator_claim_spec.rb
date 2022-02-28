@@ -85,8 +85,8 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
       claim = build :litigator_claim
       CaseType.delete_all
       agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
-      agfs_case_type      = create :case_type, name: 'AGFS case type', roles: ['agfs']
-      lgfs_case_type      = create :case_type, name: 'LGFS case type', roles: ['lgfs']
+      create :case_type, name: 'AGFS case type', roles: ['agfs']
+      lgfs_case_type = create :case_type, name: 'LGFS case type', roles: ['lgfs']
 
       expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, lgfs_case_type])
     end

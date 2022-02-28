@@ -6,7 +6,7 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
 
     let(:event_name) { 'call_failed.stats_report' }
     let(:start) { 2.minutes.ago }
-    let(:ending) { 1.minutes.ago }
+    let(:ending) { 1.minute.ago }
     let(:transaction_id) { SecureRandom.uuid }
     let(:error) { StandardError.new('Test error') }
     let(:payload) { { id: 999, name: 'provisional_assessment', error: error } }

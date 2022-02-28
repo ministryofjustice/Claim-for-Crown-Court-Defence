@@ -23,6 +23,14 @@ module SoftlyDeletable
       end
     end
 
+    def un_soft_delete
+      transaction do
+        before_un_soft_delete if respond_to?(:before_un_soft_delete)
+        update(deleted_at: nil)
+        after_un_soft_delete if respond_to?(:after_un_soft_delete)
+      end
+    end
+
     def active?
       deleted_at.nil?
     end

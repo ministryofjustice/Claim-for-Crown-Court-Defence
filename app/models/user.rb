@@ -132,6 +132,10 @@ class User < ApplicationRecord
     self.email = "#{email}.deleted.#{id}"
   end
 
+  def before_un_soft_delete
+    self.email = email.gsub(/\.deleted.#{id}$/, '')
+  end
+
   # To enable Devise emails to be delivered in the background.
   # https://github.com/heartcombo/devise#activejob-integration
   #

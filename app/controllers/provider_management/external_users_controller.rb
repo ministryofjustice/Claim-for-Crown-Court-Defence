@@ -67,9 +67,24 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     end
   end
 
-  def confirmation; end
+  def confirmation
+    if @external_user.active?
+      render :disable_confirmation
+    else
+      render :enable_confirmation
+    end
+  end
 
-  def enable; end
+  def enable
+    if (@external_user.provider == @provider) && @external_user.softly_deleted?
+      @external_user.un_soft_delete
+      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
+                  notice: 'User successfully enabled'
+    else
+      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
+                  alert: 'Unable to enable user'
+    end
+  end
 
   def disable
     if (@external_user.provider == @provider) && @external_user.active?

@@ -93,6 +93,10 @@ class ExternalUser < ApplicationRecord
     user.soft_delete
   end
 
+  def before_un_soft_delete
+    user.un_soft_delete
+  end
+
   def supplier_number
     self[:supplier_number] || provider&.firm_agfs_supplier_number
   end

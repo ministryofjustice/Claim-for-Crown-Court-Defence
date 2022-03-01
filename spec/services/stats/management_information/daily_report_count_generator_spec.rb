@@ -2,7 +2,7 @@
 
 RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
   describe '.call' do
-    subject(:call) { described_class.call(kwargs) }
+    subject(:call) { described_class.call(**kwargs) }
 
     let(:kwargs) { { query_set: 'foo', start_at: 'bar' } }
     let(:instance) { instance_double(described_class) }
@@ -25,7 +25,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
   end
 
   describe '#call' do
-    subject(:call) { described_class.new(kwargs).call }
+    subject(:call) { described_class.new(**kwargs).call }
 
     context 'without query_set' do
       let(:kwargs) { { start_at: Date.current } }
@@ -41,7 +41,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     end
 
     context 'with query_set and start_at' do
-      subject(:result) { described_class.new(kwargs).call }
+      subject(:result) { described_class.new(**kwargs).call }
 
       let(:kwargs) { { query_set: query_set, start_at: start_date } }
       let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
@@ -67,7 +67,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     end
 
     context 'with valid scheme, start_at and duration' do
-      subject(:result) { described_class.new(kwargs).call }
+      subject(:result) { described_class.new(**kwargs).call }
 
       let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
       let(:start_date) { 1.week.ago.to_date }
@@ -114,7 +114,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     #   .to_a
     #
     context 'when AGFS final claims data exists' do
-      subject(:result) { described_class.new(kwargs).call }
+      subject(:result) { described_class.new(**kwargs).call }
 
       before do
         travel_to(start_date.beginning_of_day) do

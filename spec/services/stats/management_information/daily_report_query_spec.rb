@@ -55,7 +55,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     end
 
     context 'with invalid scheme scope' do
-      subject(:call) { described_class.call({ scheme: scheme }) }
+      subject(:call) { described_class.call(scheme: scheme) }
 
       let(:scheme) { :foobar }
 
@@ -63,7 +63,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     end
 
     context 'with AGFS scheme scope' do
-      subject(:response) { described_class.call({ scheme: scheme }) }
+      subject(:response) { described_class.call(scheme: scheme) }
 
       let(:scheme) { :agfs }
 
@@ -77,7 +77,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     end
 
     context 'with LGFS claim scope' do
-      subject(:response) { described_class.call({ scheme: scheme }) }
+      subject(:response) { described_class.call(scheme: scheme) }
 
       let(:scheme) { :lgfs }
 

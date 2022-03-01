@@ -17,7 +17,7 @@ RSpec.shared_examples 'a base count query' do |scheme|
   it_behaves_like 'a claim journeys query'
 
   describe '.call' do
-    subject(:call) { described_class.call(kwargs) }
+    subject(:call) { described_class.call(**kwargs) }
 
     let(:kwargs) { { date_range: 'foo', date_column_filter: 'bar' } }
 
@@ -43,7 +43,7 @@ RSpec.shared_examples 'a base count query' do |scheme|
   describe '#call' do
     subject(:call) { instance.call }
 
-    let(:instance) { described_class.new(kwargs) }
+    let(:instance) { described_class.new(**kwargs) }
     let(:kwargs) { { date_range: date_range, date_column_filter: :originally_submitted_at } }
     let(:date_range) { Time.zone.today..Time.zone.today }
 
@@ -130,7 +130,7 @@ end
 
 RSpec.shared_examples 'an originally_submitted_at filterable query' do
   describe '#call' do
-    subject(:result) { described_class.new(kwargs).call }
+    subject(:result) { described_class.new(**kwargs).call }
 
     let(:kwargs) { { date_range: date_range, date_column_filter: :originally_submitted_at } }
 
@@ -152,7 +152,7 @@ end
 
 RSpec.shared_examples 'a completed_at filterable query' do
   describe '#call' do
-    subject(:result) { described_class.new(kwargs).call }
+    subject(:result) { described_class.new(**kwargs).call }
 
     let(:kwargs) { { date_range: date_range, date_column_filter: :completed_at } }
 

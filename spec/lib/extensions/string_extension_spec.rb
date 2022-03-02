@@ -4,14 +4,14 @@ describe String do
   describe '#zero?' do
     context 'for blank values' do
       it 'is false' do
-        expect(''.zero?).to eq(false)
+        expect(''.zero?).to be(false)
       end
     end
 
     context 'for numeric non-zero values' do
       %w(1 0.1 0.01 1.0).each do |value|
         it "is false for #{value}" do
-          expect(value.zero?).to eq(false)
+          expect(value.zero?).to be(false)
         end
       end
     end
@@ -19,7 +19,7 @@ describe String do
     context 'for numeric zero values' do
       %w(0 0.0 0.00 000).each do |value|
         it "is true for #{value}" do
-          expect(value.zero?).to eq(true)
+          expect(value.zero?).to be(true)
         end
       end
     end
@@ -28,18 +28,18 @@ describe String do
   describe '#to_bool' do
     context 'for blank values' do
       it 'is false for empty string' do
-        expect(''.to_bool).to eq(false)
+        expect(''.to_bool).to be(false)
       end
 
       it 'is false for only spaces string' do
-        expect(' '.to_bool).to eq(false)
+        expect(' '.to_bool).to be(false)
       end
     end
 
     context 'for truthy values' do
       %w(true t yes y 1).each do |value|
         it "is true for '#{value}'" do
-          expect(value.to_bool).to eq(true)
+          expect(value.to_bool).to be(true)
         end
       end
     end
@@ -47,7 +47,7 @@ describe String do
     context 'for falsey values' do
       %W(false f no n 0).each do |value|
         it "is false for '#{value}'" do
-          expect(value.to_bool).to eq(false)
+          expect(value.to_bool).to be(false)
         end
       end
     end
@@ -56,18 +56,18 @@ describe String do
   describe '#alpha?' do
     context 'for blank values' do
       it 'is false for empty string' do
-        expect(''.alpha?).to eq(false)
+        expect(''.alpha?).to be(false)
       end
 
       it 'is false for only spaces string' do
-        expect(' '.alpha?).to eq(false)
+        expect(' '.alpha?).to be(false)
       end
     end
 
     context 'truthy values' do
       %w(abc ABC).each do |value|
         it "is true for '#{value}'" do
-          expect(value.alpha?).to eq(true)
+          expect(value.alpha?).to be(true)
         end
       end
     end
@@ -75,7 +75,7 @@ describe String do
     context 'falsey values' do
       %w(123 a1b z1 0).each do |value|
         it "is false for '#{value}'" do
-          expect(value.alpha?).to eq(false)
+          expect(value.alpha?).to be(false)
         end
       end
     end
@@ -84,18 +84,18 @@ describe String do
   describe '#digit?' do
     context 'for blank values' do
       it 'is false for empty string' do
-        expect(''.digit?).to eq(false)
+        expect(''.digit?).to be(false)
       end
 
       it 'is false for only spaces string' do
-        expect(' '.digit?).to eq(false)
+        expect(' '.digit?).to be(false)
       end
     end
 
     context 'truthy values' do
       %w(0 1 123).each do |value|
         it "is true for '#{value}'" do
-          expect(value.digit?).to eq(true)
+          expect(value.digit?).to be(true)
         end
       end
     end
@@ -103,7 +103,7 @@ describe String do
     context 'falsey values' do
       %w(a a1b z1 1z 1.5).each do |value|
         it "is false for '#{value}'" do
-          expect(value.digit?).to eq(false)
+          expect(value.digit?).to be(false)
         end
       end
     end

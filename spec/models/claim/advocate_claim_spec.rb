@@ -761,15 +761,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:allocated) { create(:allocated_claim) }
 
     it 'is editable when draft' do
-      expect(draft.editable?).to eq(true)
+      expect(draft.editable?).to be(true)
     end
 
     it 'is not editable when submitted' do
-      expect(submitted.editable?).to eq(false)
+      expect(submitted.editable?).to be(false)
     end
 
     it 'is not editable when allocated' do
-      expect(allocated.editable?).to eq(false)
+      expect(allocated.editable?).to be(false)
     end
   end
 
@@ -779,14 +779,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     it 'is not archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
       %w(allocated awaiting_written_reasons draft redetermination).each do |state|
         allow(claim).to receive(:state).and_return(state)
-        expect(claim.archivable?).to eq(false)
+        expect(claim.archivable?).to be(false)
       end
     end
 
     it 'is archivable from states: refused, rejected, part authorised, authorised' do
       %w(refused rejected part_authorised authorised).each do |state|
         allow(claim).to receive(:state).and_return(state)
-        expect(claim.archivable?).to eq(true)
+        expect(claim.archivable?).to be(true)
       end
     end
   end
@@ -796,19 +796,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'should return false for' do
       it 'draft claims submited by web app' do
-        expect(claim.validation_required?).to eq false
+        expect(claim.validation_required?).to be false
       end
 
       it 'archived_pending_delete claims' do
         claim = create(:archived_pending_delete_claim)
-        expect(claim.validation_required?).to eq false
+        expect(claim.validation_required?).to be false
       end
     end
 
     context 'should return true for' do
       it 'draft claims submitted by the API' do
         claim.source = 'api'
-        expect(claim.validation_required?).to eq true
+        expect(claim.validation_required?).to be true
       end
 
       it 'claims in any state other than draft or archived_pending_delete' do
@@ -816,7 +816,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         states = states.filter_map { |s| if not [:draft, :archived_pending_delete].include?(s) then s; end; }
         states.each do |state|
           claim.state = state
-          expect(claim.validation_required?).to eq true
+          expect(claim.validation_required?).to be true
         end
       end
     end
@@ -972,13 +972,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { build :claim }
 
     it 'sets the source to web by default if unset' do
-      expect(claim.save).to eq(true)
+      expect(claim.save).to be(true)
       expect(claim.source).to eq('web')
     end
 
     it 'does not change the source if set' do
       claim.source = 'api'
-      expect(claim.save).to eq(true)
+      expect(claim.save).to be(true)
       expect(claim.source).to eq('api')
     end
   end
@@ -1096,7 +1096,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'is open for redetermination' do
-        expect(claim.opened_for_redetermination?).to eq(true)
+        expect(claim.opened_for_redetermination?).to be(true)
       end
     end
 
@@ -1146,7 +1146,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'has been opened for redetermination before being allocated' do
-        expect(claim.opened_for_redetermination?).to eq(true)
+        expect(claim.opened_for_redetermination?).to be(true)
       end
     end
   end
@@ -1181,7 +1181,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'has written_reasons_outstanding before being allocated' do
-        expect(claim.written_reasons_outstanding?).to eq(true)
+        expect(claim.written_reasons_outstanding?).to be(true)
       end
     end
 

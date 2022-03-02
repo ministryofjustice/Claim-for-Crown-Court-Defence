@@ -44,11 +44,11 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
         subject { create(factory_name, roles: [role]) }
 
         it "returns true for #{role}" do
-          expect(subject.is?(role)).to eq(true)
+          expect(subject.is?(role)).to be(true)
         end
 
         it 'returns false for any other role' do
-          expect(subject.is?('foobar123xyz')).to eq(false)
+          expect(subject.is?('foobar123xyz')).to be(false)
         end
       end
     end
@@ -58,9 +58,9 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
     subject { create(factory_name, roles: roles) }
 
     it 'returns true if subject has exact specified roles' do
-      expect(subject.has_roles?(roles)).to eq(true)
-      expect(subject.has_roles?(*roles)).to eq(true)
-      expect(subject.has_roles?(roles.flatten)).to eq(true)
+      expect(subject.has_roles?(roles)).to be(true)
+      expect(subject.has_roles?(*roles)).to be(true)
+      expect(subject.has_roles?(roles.flatten)).to be(true)
     end
 
     it 'returns true if the subject has a subset of the roles' do
@@ -101,7 +101,7 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
         subject { create(factory_name, roles: [role]) }
 
         it 'returns true when role present' do
-          expect(subject.send("#{role}?")).to eq(true)
+          expect(subject.send("#{role}?")).to be(true)
         end
       end
     end

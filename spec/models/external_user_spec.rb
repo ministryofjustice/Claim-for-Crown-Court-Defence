@@ -204,13 +204,13 @@ RSpec.describe ExternalUser, type: :model do
       context 'given advocate' do
         context 'if advocate' do
           it 'returns true' do
-            expect(advocate.is? :advocate).to eq(true)
+            expect(advocate.is? :advocate).to be(true)
           end
         end
 
         context 'for an admin' do
           it 'returns false' do
-            expect(admin.is? :advocate).to eq(false)
+            expect(admin.is? :advocate).to be(false)
           end
         end
       end
@@ -218,13 +218,13 @@ RSpec.describe ExternalUser, type: :model do
       context 'given admin' do
         context 'for an admin' do
           it 'returns true' do
-            expect(admin.is? :admin).to eq(true)
+            expect(admin.is? :admin).to be(true)
           end
         end
 
         context 'for a advocate' do
           it 'returns false' do
-            expect(advocate.is? :admin).to eq(false)
+            expect(advocate.is? :admin).to be(false)
           end
         end
       end
@@ -233,13 +233,13 @@ RSpec.describe ExternalUser, type: :model do
     describe '#advocate?' do
       context 'for an advocate' do
         it 'returns true' do
-          expect(advocate.advocate?).to eq(true)
+          expect(advocate.advocate?).to be(true)
         end
       end
 
       context 'for an admin' do
         it 'returns false' do
-          expect(admin.advocate?).to eq(false)
+          expect(admin.advocate?).to be(false)
         end
       end
     end
@@ -247,13 +247,13 @@ RSpec.describe ExternalUser, type: :model do
     describe '#admin?' do
       context 'for an admin' do
         it 'returns true' do
-          expect(admin.admin?).to eq(true)
+          expect(admin.admin?).to be(true)
         end
       end
 
       context 'for a advocate' do
         it 'returns false' do
-          expect(advocate.admin?).to eq(false)
+          expect(advocate.admin?).to be(false)
         end
       end
     end

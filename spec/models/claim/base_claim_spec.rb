@@ -274,13 +274,13 @@ RSpec.describe Claim::BaseClaim do
       context 'and does not have a fixed fee' do
         let(:case_type) { build(:case_type, is_fixed_fee: false) }
 
-        specify { is_expected.to eq(false) }
+        specify { is_expected.to be(false) }
       end
 
       context 'and has a fixed fee' do
         let(:case_type) { build(:case_type, is_fixed_fee: true) }
 
-        specify { is_expected.to eq(true) }
+        specify { is_expected.to be(true) }
       end
     end
   end
@@ -306,7 +306,7 @@ RSpec.describe Claim::BaseClaim do
         claim.form_step = claim.next_step
         expect(claim.next_step).to eq(:step_3A)
         claim.form_step = claim.next_step
-        expect(claim.next_step).to eq(nil)
+        expect(claim.next_step).to be_nil
       end
     end
 
@@ -327,7 +327,7 @@ RSpec.describe Claim::BaseClaim do
         claim.form_step = claim.next_step
         expect(claim.next_step).to eq(:step_3B)
         claim.form_step = claim.next_step
-        expect(claim.next_step).to eq(nil)
+        expect(claim.next_step).to be_nil
       end
     end
   end
@@ -343,7 +343,7 @@ RSpec.describe Claim::BaseClaim do
       it 'follows the steps path 1 -> 2 -> 3A' do
         expect(claim.next_step!).to eq(:step_2)
         expect(claim.next_step!).to eq(:step_3A)
-        expect(claim.next_step!).to eq(nil)
+        expect(claim.next_step!).to be_nil
       end
     end
 
@@ -355,7 +355,7 @@ RSpec.describe Claim::BaseClaim do
       it 'follows the steps path 1 -> 2 -> 3B' do
         expect(claim.next_step!).to eq(:step_2)
         expect(claim.next_step!).to eq(:step_3B)
-        expect(claim.next_step!).to eq(nil)
+        expect(claim.next_step!).to be_nil
       end
     end
   end
@@ -406,7 +406,7 @@ RSpec.describe Claim::BaseClaim do
         claim.form_step = claim.previous_step
         expect(claim.previous_step).to eq(:step_1)
         claim.form_step = claim.previous_step
-        expect(claim.previous_step).to eq(nil)
+        expect(claim.previous_step).to be_nil
       end
     end
 
@@ -429,7 +429,7 @@ RSpec.describe Claim::BaseClaim do
         claim.form_step = claim.previous_step
         expect(claim.previous_step).to eq(:step_1)
         claim.form_step = claim.previous_step
-        expect(claim.previous_step).to eq(nil)
+        expect(claim.previous_step).to be_nil
       end
     end
   end

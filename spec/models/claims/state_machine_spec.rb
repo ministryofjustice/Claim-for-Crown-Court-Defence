@@ -224,7 +224,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       let(:claim) { create(:allocated_claim) }
 
       it 'has a blank assessment' do
-        expect(claim.assessment).not_to eq(nil)
+        expect(claim.assessment).not_to be_nil
         expect(claim.assessment.fees).to eq(0)
         expect(claim.assessment.expenses).to eq(0)
         expect(claim.assessment.disbursements).to eq(0)

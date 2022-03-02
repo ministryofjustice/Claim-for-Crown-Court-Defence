@@ -69,7 +69,7 @@ RSpec.describe User, type: :model do
   describe '#setting?' do
     context 'without settings' do
       it 'returns nil if no default value provided' do
-        expect(subject.setting?(:setting1)).to eq(nil)
+        expect(subject.setting?(:setting1)).to be_nil
       end
 
       it 'returns default value when provided' do
@@ -85,7 +85,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'returns nil if no default value provided and setting not found' do
-        expect(subject.setting?(:setting123)).to eq(nil)
+        expect(subject.setting?(:setting123)).to be_nil
       end
 
       it 'returns default value when provided and setting not found' do

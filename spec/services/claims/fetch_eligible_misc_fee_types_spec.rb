@@ -75,7 +75,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
     context 'with nil claim' do
       let(:claim) { nil }
 
-      it { is_expected.to eq(nil) }
+      it { is_expected.to be_nil }
     end
 
     context 'with LGFS claim' do

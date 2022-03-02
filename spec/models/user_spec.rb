@@ -1,4 +1,4 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
 RSpec.describe User, type: :model do
   subject(:user) { build(:user) }
@@ -42,6 +42,8 @@ RSpec.describe User, type: :model do
   it { should have_many(:user_message_statuses) }
 
   it { should delegate_method(:claims).to(:persona) }
+
+  it_behaves_like 'a disablable object'
 
   describe '#name' do
     it 'returns the first and last names' do

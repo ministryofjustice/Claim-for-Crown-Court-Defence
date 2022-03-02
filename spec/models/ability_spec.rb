@@ -447,7 +447,7 @@ RSpec.describe Ability do
     end
   end
 
-  context 'case worker admin' do
+  context 'with a case worker admin' do
     let(:case_worker) { create(:case_worker, :admin) }
     let(:user) { case_worker.user }
 
@@ -481,6 +481,45 @@ RSpec.describe Ability do
 
     context 'can dismiss injection attempt errors' do
       it { should be_able_to(:dismiss, InjectionAttempt.new) }
+    end
+  end
+
+  context 'with a case worker provider manager' do
+    let(:case_worker) { create(:case_worker, :provider_manager) }
+    let(:user) { case_worker.user }
+
+    context 'with a live external user' do
+      let(:target) { create(:external_user) }
+
+      it { is_expected.to be_able_to(:show, target) }
+      it { is_expected.to be_able_to(:index, target) }
+      it { is_expected.to be_able_to(:find, target) }
+      it { is_expected.to be_able_to(:search, target) }
+      it { is_expected.to be_able_to(:new, target) }
+      it { is_expected.to be_able_to(:create, target) }
+      it { is_expected.to be_able_to(:edit, target) }
+      it { is_expected.to be_able_to(:update, target) }
+      it { is_expected.to be_able_to(:change_password, target) }
+      it { is_expected.to be_able_to(:update_password, target) }
+
+      it { is_expected.not_to be_able_to(:destroy, target) }
+      it { is_expected.not_to be_able_to(:confirmation, target) }
+      it { is_expected.not_to be_able_to(:enable, target) }
+      it { is_expected.not_to be_able_to(:disable, target) }
+    end
+
+    context 'with a disabled external user' do
+      let(:target) { create(:external_user, :softly_deleted) }
+
+      it { is_expected.not_to be_able_to(:show, target) }
+      it { is_expected.not_to be_able_to(:edit, target) }
+      it { is_expected.not_to be_able_to(:update, target) }
+      it { is_expected.not_to be_able_to(:change_password, target) }
+      it { is_expected.not_to be_able_to(:update_password, target) }
+      it { is_expected.not_to be_able_to(:destroy, target) }
+      it { is_expected.not_to be_able_to(:confirmation, target) }
+      it { is_expected.not_to be_able_to(:enable, target) }
+      it { is_expected.not_to be_able_to(:disable, target) }
     end
   end
 

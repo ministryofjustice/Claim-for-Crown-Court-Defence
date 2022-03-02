@@ -65,7 +65,8 @@ class Ability
   end
 
   def provider_management
-    can %i[show index new create edit update change_password update_password find search], ExternalUser
+    can %i[index new create find search], ExternalUser
+    can %i[show edit update change_password update_password], ExternalUser, deleted_at: nil
     can %i[show index new create edit update], Provider
   end
 

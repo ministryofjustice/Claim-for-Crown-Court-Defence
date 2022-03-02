@@ -267,6 +267,62 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe '#active_for_authentication?' do
+    subject { user.active_for_authentication? }
+
+    context 'with an active enabled user' do
+      let(:user) { build(:user, deleted_at: nil, disabled_at: nil) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with an active disabled user' do
+      let(:user) { build(:user, deleted_at: nil, disabled_at: Time.zone.now) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with an inactive enabled user' do
+      let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: nil) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with an inactive disabled user' do
+      let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: Time.zone.now) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#inactive_message' do
+    subject { user.inactive_message }
+
+    context 'with active enabled user' do
+      let(:user) { build(:user, deleted_at: nil, disabled_at: nil) }
+
+      it { is_expected.to eq :inactive }
+    end
+
+    context 'with active disabled user' do
+      let(:user) { build(:user, deleted_at: nil, disabled_at: Time.zone.now) }
+
+      it { is_expected.to eq 'This account has been disabled.' }
+    end
+
+    context 'with inactive enabled user' do
+      let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: nil) }
+
+      it { is_expected.to eq 'This account has been deleted.' }
+    end
+
+    context 'with an inactive disabled user' do
+      let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: Time.zone.now) }
+
+      it { is_expected.to eq 'This account has been deleted.' }
+    end
+  end
+
   describe '#send_devise_notification' do
     let(:devise_mailer) { instance_double('devise_mailer') }
     let(:mailer) { instance_double('mailer') }

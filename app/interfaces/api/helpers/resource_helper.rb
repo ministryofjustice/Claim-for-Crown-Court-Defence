@@ -48,8 +48,11 @@ module API::Helpers
       @api_response ||= API::ApiResponse.new
     end
 
+    # NOTE: this would allow API to both create claims with an inactive creator and for an inactive owner/user
     def find_user_by_email(email:, relation:)
-      user = User.active.external_users.find_by(email: email)
+      user = User.external_users.find_by(email: email)
+      user ||= User.external_users.where('email ILIKE ?', "%#{User.sanitize_sql_like(email)}.deleted%").first
+
       raise ArgumentError, "#{relation} email is invalid" unless user
       user&.persona
     end

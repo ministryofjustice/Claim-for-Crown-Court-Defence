@@ -17,30 +17,30 @@ Feature: Super admin can enable and disable users
     Then I should be on the provider manager user show page
     And the page should be accessible
     And I should see 'Live'
-    And I should see link 'Disable'
+    And I should see link 'Disable account'
 
-    When I click the link 'Disable'
+    When I click the link 'Disable account'
     Then I should be on the provider manager user confirmation page
     And the page should be accessible
-    And I should see 'Are you sure you want to disable John Doe'
+    And I should see 'Are you sure you want to disable John Doe?'
 
     When I click the link 'Cancel'
     Then I should be on the provider manager user show page
     And the page should be accessible
     And I should see 'Live'
-    And I should see link 'Disable'
+    And I should see link 'Disable account'
 
-    When I click the link 'Disable'
+    When I click the link 'Disable account'
     Then I should be on the provider manager user confirmation page
     And the page should be accessible
-    And I should see 'Are you sure you want to disable John Doe'
-    And I should see link 'Disable'
+    And I should see 'Are you sure you want to disable John Doe?'
+    And I should see link 'Disable account'
 
-    When I click the link 'Disable'
+    When I click the link 'Disable account'
     Then I should be on the provider manager user show page
     And the page should be accessible
     And I should see 'Inactive'
-    And I should see link 'Enable'
+    And I should see link 'Enable account'
 
 Scenario: Super admin can enable user
 
@@ -58,30 +58,30 @@ Scenario: Super admin can enable user
     Then I should be on the provider manager user show page
     And the page should be accessible
     And I should see 'Inactive'
-    And I should see link 'Enable'
+    And I should see link 'Enable account'
 
-    When I click the link 'Enable'
+    When I click the link 'Enable account'
     Then I should be on the provider manager user confirmation page
     And the page should be accessible
-    And I should see 'Are you sure you want to enable John Doe'
+    And I should see 'Are you sure you want to enable John Doe?'
 
     When I click the link 'Cancel'
     Then I should be on the provider manager user show page
     And the page should be accessible
     And I should see 'Inactive'
-    And I should see link 'Enable'
+    And I should see link 'Enable account'
 
-    When I click the link 'Enable'
+    When I click the link 'Enable account'
     Then I should be on the provider manager user confirmation page
     And the page should be accessible
-    And I should see 'Are you sure you want to enable John Doe'
-    And I should see link 'Enable'
+    And I should see 'Are you sure you want to enable John Doe?'
+    And I should see link 'Enable account'
 
-    When I click the link 'Enable'
+    When I click the link 'Enable account'
     Then I should be on the provider manager user show page
     And the page should be accessible
     And I should see 'Live'
-    And I should see link 'Disable'
+    And I should see link 'Disable account'
 
 
 

@@ -648,13 +648,13 @@ en:
         page_heading: Manage users
       disable_confirmation:
         cancel_button: Cancel
-        disable_message: Are you sure you want to disable %{external_user}
-        disable_user: Disable
+        disable_message: Are you sure you want to disable %{external_user}?
+        disable_user: Disable account
         page_title: Disable %{external_user}
       enable_confirmation:
         cancel_button: Cancel
-        enable_message: Are you sure you want to enable %{external_user}
-        enable_user: Enable
+        enable_message: Are you sure you want to enable %{external_user}?
+        enable_user: Enable account
         page_title: Enable %{external_user}
 
 # en.external_users

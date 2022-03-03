@@ -650,12 +650,12 @@ en:
         cancel_button: Cancel
         disable_message: Are you sure you want to disable %{external_user}
         disable_user: Disable
-        page_title: Disable user
+        page_title: Disable %{external_user}
       enable_confirmation:
         cancel_button: Cancel
         enable_message: Are you sure you want to enable %{external_user}
         enable_user: Enable
-        page_title: Enable user
+        page_title: Enable %{external_user}
 
 # en.external_users
   external_users:

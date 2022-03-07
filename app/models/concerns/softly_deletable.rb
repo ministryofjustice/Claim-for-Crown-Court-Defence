@@ -26,8 +26,13 @@ module SoftlyDeletable
     def un_soft_delete
       transaction do
         before_un_soft_delete if respond_to?(:before_un_soft_delete)
-        update(deleted_at: nil)
+        result = if is_a?(Claim::BaseClaim)
+                   update_attribute(:deleted_at, nil)
+                 else
+                   update(deleted_at: nil)
+                 end
         after_un_soft_delete if respond_to?(:after_un_soft_delete)
+        result
       end
     end
 

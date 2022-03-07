@@ -8,7 +8,7 @@ Given('an external provider exists with first name {string} and last name {strin
   create(:external_user, :advocate_and_admin, user: user)
 end
 
-Given('a disable external provider exists with first name {string} and last name {string}') do |first_name, last_name|
+Given('a disabled external provider exists with first name {string} and last name {string}') do |first_name, last_name|
   user = create(:user, first_name: first_name, last_name: last_name)
   create(:external_user, :advocate_and_admin, user: user).soft_delete
 end

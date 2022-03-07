@@ -44,7 +44,7 @@ Feature: Super admin can enable and disable users
 
 Scenario: Super admin can enable user
 
-    Given a disable external provider exists with first name 'John' and last name 'Doe'
+    Given a disabled external provider exists with first name 'John' and last name 'Doe'
     And I am a signed in super admin
     When I click the link 'Providers'
     Then I should be on the provider index page

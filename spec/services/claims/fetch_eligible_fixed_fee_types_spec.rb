@@ -14,7 +14,7 @@ RSpec.describe Claims::FetchEligibleFixedFeeTypes, type: :service do
     context 'nil claim' do
       let(:claim) { nil }
 
-      it { is_expected.to eq(nil) }
+      it { is_expected.to be_nil }
     end
 
     # TODO: LGFS eligible fee types currently returns all LGFS fixed fee type

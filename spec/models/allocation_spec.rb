@@ -44,7 +44,7 @@ RSpec.describe Allocation, type: :model do
         end
 
         it 'returns true' do
-          expect(allocator.save).to eq(true)
+          expect(allocator.save).to be(true)
         end
       end
 
@@ -151,7 +151,7 @@ RSpec.describe Allocation, type: :model do
         end
 
         it 'returns true' do
-          expect(reallocator.save).to eq(true)
+          expect(reallocator.save).to be(true)
         end
       end
 
@@ -234,7 +234,7 @@ RSpec.describe Allocation, type: :model do
         end
 
         it 'returns true' do
-          expect(subject.save).to eq(true)
+          expect(subject.save).to be(true)
         end
 
         it 'saves audit attributes' do
@@ -290,7 +290,7 @@ RSpec.describe Allocation, type: :model do
         end
 
         it 'returns false' do
-          expect(subject.save).to eq(false)
+          expect(subject.save).to be(false)
         end
 
         it 'contains errors' do

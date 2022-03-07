@@ -38,7 +38,7 @@ RSpec.describe 'Cookies', type: :request do
       end
 
       it 'assigns the value of @cookies_preferences_set' do
-        expect(assigns(:cookies_preferences_set)).to eq true
+        expect(assigns(:cookies_preferences_set)).to be true
       end
 
       it 'redirects to cookies path' do

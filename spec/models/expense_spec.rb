@@ -184,14 +184,14 @@ RSpec.describe Expense, type: :model do
         let(:calculated_distance) { nil }
         let(:location) { 'HMP test prison' }
 
-        it { is_expected.to be nil }
+        it { is_expected.to be_nil }
       end
     end
 
     context 'when the expense is not car travel' do
       let(:expense) { build(:expense, :parking, date: 3.days.ago) }
 
-      it { is_expected.to be nil }
+      it { is_expected.to be_nil }
     end
   end
 

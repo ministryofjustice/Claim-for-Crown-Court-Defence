@@ -32,7 +32,7 @@ describe GoogleAnalytics::Api do
     describe 'when tracker_id is not set' do
       let(:tracker_id) { nil }
 
-      it { is_expected.to be nil }
+      it { is_expected.to be_nil }
     end
 
     describe 'and label' do
@@ -58,7 +58,7 @@ describe GoogleAnalytics::Api do
     describe 'when not set' do
       let(:endpoint) { nil }
 
-      it { is_expected.to be nil }
+      it { is_expected.to be_nil }
     end
   end
 
@@ -72,7 +72,7 @@ describe GoogleAnalytics::Api do
     describe 'when not set' do
       let(:tracker_id) { nil }
 
-      it { is_expected.to be nil }
+      it { is_expected.to be_nil }
     end
   end
 
@@ -86,7 +86,7 @@ describe GoogleAnalytics::Api do
     describe 'when not set' do
       let(:version) { nil }
 
-      it { is_expected.to be nil }
+      it { is_expected.to be_nil }
     end
   end
 

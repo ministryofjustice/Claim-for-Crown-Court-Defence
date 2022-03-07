@@ -120,13 +120,13 @@ RSpec.describe Provider, type: :model do
   describe '#firm?' do
     context 'when firm' do
       it 'returns true' do
-        expect(firm.firm?).to eq(true)
+        expect(firm.firm?).to be(true)
       end
     end
 
     context 'when chamber' do
       it 'returns false' do
-        expect(chamber.firm?).to eq(false)
+        expect(chamber.firm?).to be(false)
       end
     end
   end
@@ -134,13 +134,13 @@ RSpec.describe Provider, type: :model do
   describe '#chamber?' do
     context 'when firm' do
       it 'returns false' do
-        expect(firm.chamber?).to eq(false)
+        expect(firm.chamber?).to be(false)
       end
     end
 
     context 'when chamber' do
       it 'returns true' do
-        expect(chamber.chamber?).to eq(true)
+        expect(chamber.chamber?).to be(true)
       end
     end
   end

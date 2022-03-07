@@ -155,8 +155,8 @@ RSpec.describe Claims::Cloner, type: :model do
         expect(@original_claim.redeterminations.count).to eq(1)
         expect(@cloned_claim.redeterminations.count).to eq(0)
 
-        expect(@original_claim.assessment.nil?).to eq(false)
-        expect(@cloned_claim.assessment.zero?).to eq(true)
+        expect(@original_claim.assessment.nil?).to be(false)
+        expect(@cloned_claim.assessment.zero?).to be(true)
       end
 
       it 'does not clone certifications' do

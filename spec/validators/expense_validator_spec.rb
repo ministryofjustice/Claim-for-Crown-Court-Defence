@@ -323,7 +323,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
         it 'removes the reason text before validation' do
           expect(subject).to be true
-          expect(expense.reason_text).to be nil
+          expect(expense.reason_text).to be_nil
         end
       end
 

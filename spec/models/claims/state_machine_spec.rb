@@ -224,7 +224,7 @@ RSpec.describe Claims::StateMachine, type: :model do
       let(:claim) { create(:allocated_claim) }
 
       it 'has a blank assessment' do
-        expect(claim.assessment).not_to eq(nil)
+        expect(claim.assessment).not_to be_nil
         expect(claim.assessment.fees).to eq(0)
         expect(claim.assessment.expenses).to eq(0)
         expect(claim.assessment.disbursements).to eq(0)
@@ -390,7 +390,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   context 'before submit state transition' do
     it 'sets the allocation_type for trasfer_claims' do
       claim = build(:transfer_claim, transfer_fee: build(:transfer_fee))
-      expect(claim.allocation_type).to be nil
+      expect(claim.allocation_type).to be_nil
       claim.submit!
       expect(claim.allocation_type).to eq 'Grad'
     end

@@ -25,6 +25,6 @@ RSpec.describe Conversion::Currency, :currency_vcr do
       call
     end
 
-    it { is_expected.to be nil }
+    it { is_expected.to be_nil }
   end
 end

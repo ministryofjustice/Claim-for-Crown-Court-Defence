@@ -76,7 +76,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
             new_representation_order = RepresentationOrder.last
             expect(new_representation_order.defendant_id).to eq defendant.id
             expect(new_representation_order.representation_order_date).to eq valid_params[:representation_order_date].to_date
-            expect(new_representation_order.maat_reference).to eq nil
+            expect(new_representation_order.maat_reference).to be_nil
           end
         end
       end

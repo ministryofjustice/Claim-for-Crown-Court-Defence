@@ -610,10 +610,14 @@ en:
         page_title: Edit %{external_user}'s details
         heading: Edit user details
         page_heading: Manage users
+      update:
+        success_message: User successfully updated
       new:
         page_title: Add a user to %{provider_name}
         heading: New user details for %{provider_name}
         page_heading: Manage users
+      create:
+        success_message: User successfully created
       form:
         error: 'error'
         prohibited_save: 'This user has'
@@ -636,6 +640,8 @@ en:
         submit: 'Search'
         page_heading: Find provider by email
         page_title: Find provider by email
+      search:
+        failed_message: No provider found with that email
       change_password:
         error: 'error'
         prohibited_save: 'This user password change has'
@@ -646,6 +652,7 @@ en:
         page_title: Change %{external_user}'s password
         heading: Change password for %{external_user}
         page_heading: Manage users
+        success_message: User password successfully updated
       disable_confirmation:
         cancel_button: Cancel
         disable_message: Are you sure you want to disable %{external_user}?

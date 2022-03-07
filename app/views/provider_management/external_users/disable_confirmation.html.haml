@@ -1,10 +1,14 @@
 = content_for :page_title, flush: true do
   = t('.page_title', external_user: @external_user.name)
 
-%h1.govuk-heading-xl
-  = t('.page_title', external_user: @external_user.name)
-%h2.govuk-heading-m
-  = t('.disable_message', external_user: @external_user.name)
-.govuk-button-group
-  = govuk_link_button_warning(t('.disable_user'), disable_provider_management_provider_external_user_path(@provider, @external_user))
-  = govuk_link_to(t('.cancel_button'), provider_management_provider_external_user_path(@provider, @external_user))
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    %h1.govuk-heading-xl
+      = t('.page_title', external_user: @external_user.name)
+
+    %h2.govuk-heading-m
+      = t('.disable_message', external_user: @external_user.name)
+
+    .govuk-button-group
+      = govuk_link_button_warning(t('.disable_user'), disable_provider_management_provider_external_user_path(@provider, @external_user))
+      = govuk_link_to(t('.cancel_button'), provider_management_provider_external_user_path(@provider, @external_user))

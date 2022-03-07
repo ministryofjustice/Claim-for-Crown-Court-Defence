@@ -29,7 +29,7 @@ RSpec.describe 'providers external users management', type: :request do
         expect { disable_user }
           .to change { external_user.reload.email }
           .from('bubbletea@example.com')
-          .to(/bubbletea@example.com.deleted/)
+          .to("bubbletea@example.com.deleted.#{external_user.user.id}")
       end
 
       context 'when external user belongs to a different provider' do
@@ -48,7 +48,7 @@ RSpec.describe 'providers external users management', type: :request do
         it 'does not mark the users email as deleted a second time' do
           expect { disable_user }
             .not_to change { external_user.reload.email }
-            .from(/bubbletea@example\.com\.deleted\.\d+$/)
+            .from("bubbletea@example.com.deleted.#{external_user.user.id}")
         end
       end
     end
@@ -89,7 +89,9 @@ RSpec.describe 'providers external users management', type: :request do
       before { sign_out user }
 
       it 'does not mark the users email as deleted' do
-        expect { enable_user }.not_to change { external_user.reload.email }.from(/bubbletea@example.com.deleted/)
+        expect { enable_user }
+          .not_to change { external_user.reload.email }
+          .from("bubbletea@example.com.deleted.#{external_user.user.id}")
       end
     end
 
@@ -100,7 +102,7 @@ RSpec.describe 'providers external users management', type: :request do
       it 'marks the users email address as enabled' do
         expect { enable_user }
           .to change { external_user.reload.email }
-          .from(/bubbletea@example.com.deleted/)
+          .from("bubbletea@example.com.deleted.#{external_user.user.id}")
           .to('bubbletea@example.com')
       end
 
@@ -118,7 +120,9 @@ RSpec.describe 'providers external users management', type: :request do
         end
 
         it 'does not mark the users email as enabled' do
-          expect { enable_user }.not_to change { external_user.reload.email }.from(/bubbletea@example.com.deleted/)
+          expect { enable_user }
+            .not_to change { external_user.reload.email }
+            .from("bubbletea@example.com.deleted.#{external_user.user.id}")
         end
       end
 
@@ -140,7 +144,9 @@ RSpec.describe 'providers external users management', type: :request do
       let(:user) { other_external_user.user }
 
       it 'does not mark the users email as deleted' do
-        expect { enable_user }.not_to change { external_user.reload.email }.from(/bubbletea@example.com.deleted/)
+        expect { enable_user }
+          .not_to change { external_user.reload.email }
+          .from("bubbletea@example.com.deleted.#{external_user.user.id}")
       end
     end
 
@@ -149,7 +155,9 @@ RSpec.describe 'providers external users management', type: :request do
       let(:user) { case_worker.user }
 
       it 'does not mark the users email as deleted' do
-        expect { enable_user }.not_to change { external_user.reload.email }.from(/bubbletea@example.com.deleted/)
+        expect { enable_user }
+          .not_to change { external_user.reload.email }
+          .from("bubbletea@example.com.deleted.#{external_user.user.id}")
       end
     end
   end

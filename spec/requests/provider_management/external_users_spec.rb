@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'providers external users management', type: :request do
-  describe 'GET /providers_management/providers/:provider_id/external_users/:id/disable' do
+  describe 'GET /provider_management/providers/:provider_id/external_users/:id/disable' do
     subject(:disable_user) { get disable_provider_management_provider_external_user_path(provider, external_user) }
 
     let(:external_user) do
@@ -72,7 +72,7 @@ RSpec.describe 'providers external users management', type: :request do
     end
   end
 
-  describe 'GET /providers_management/providers/:provider_id/external_users/:id/enable' do
+  describe 'GET /provider_management/providers/:provider_id/external_users/:id/enable' do
     subject(:enable_user) { get enable_provider_management_provider_external_user_path(provider, external_user) }
 
     let(:external_user) do

@@ -73,8 +73,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   end
 
   def enable
-    if (@external_user.provider == @provider) && @external_user.softly_deleted?
-      @external_user.un_soft_delete
+    if (@external_user.provider == @provider) && @external_user.softly_deleted? && @external_user.un_soft_delete
       redirect_to_show_page(notice: I18n.t('provider_management.external_users.enable_confirmation.success_message'))
     else
       redirect_to_show_page(alert: I18n.t('provider_management.external_users.enable_confirmation.failed_message'))
@@ -82,8 +81,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   end
 
   def disable
-    if (@external_user.provider == @provider) && @external_user.active?
-      @external_user.soft_delete
+    if (@external_user.provider == @provider) && @external_user.active? && @external_user.soft_delete
       redirect_to_show_page(notice: I18n.t('provider_management.external_users.disable_confirmation.success_message'))
     else
       redirect_to_show_page(alert: I18n.t('provider_management.external_users.disable_confirmation.failed_message'))

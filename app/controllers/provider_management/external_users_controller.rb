@@ -58,8 +58,6 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     user = @external_user.user
 
     if user.update(password_params[:user_attributes])
-      # redirect_to provider_management_provider_external_user_path(@provider, @external_user),
-      #             notice: 'User password successfully updated'
       redirect_to_show_page(notice: 'User password successfully updated')
     else
       render :change_password
@@ -77,18 +75,18 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   def enable
     if (@external_user.provider == @provider) && @external_user.softly_deleted?
       @external_user.un_soft_delete
-      redirect_to_show_page(notice: 'User successfully enabled')
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.enable_confirmation.success_message'))
     else
-      redirect_to_show_page(alert: 'Unable to enable user')
+      redirect_to_show_page(alert: I18n.t('provider_management.external_users.enable_confirmation.failed_message'))
     end
   end
 
   def disable
     if (@external_user.provider == @provider) && @external_user.active?
       @external_user.soft_delete
-      redirect_to_show_page(notice: 'User successfully disabled')
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.disable_confirmation.success_message'))
     else
-      redirect_to_show_page(alert: 'Unable to disable user')
+      redirect_to_show_page(alert: I18n.t('provider_management.external_users.disable_confirmation.failed_message'))
     end
   end
 

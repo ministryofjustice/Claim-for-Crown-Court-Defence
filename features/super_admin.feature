@@ -82,6 +82,3 @@ Scenario: Super admin can enable user
     And the page should be accessible
     And I should see 'Live'
     And I should see link 'Disable account'
-
-
-

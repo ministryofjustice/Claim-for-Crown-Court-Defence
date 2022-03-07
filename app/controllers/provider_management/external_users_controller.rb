@@ -23,7 +23,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
 
     if @external_user.save
       deliver_reset_password_instructions(@external_user.user)
-      redirect_to_show_page(notice: 'User successfully created')
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.create.success_message'))
     else
       render :new
     end
@@ -37,13 +37,14 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     if @external_user&.is_a?(ExternalUser)
       redirect_to provider_management_provider_external_user_path(@external_user.provider, @external_user)
     else
-      redirect_to provider_management_external_users_find_path, alert: 'No provider found with that email'
+      redirect_to provider_management_external_users_find_path,
+                  alert: I18n.t('provider_management.external_users.search.failed_message')
     end
   end
 
   def update
     if @external_user.update(external_user_params)
-      redirect_to_show_page(notice: 'User successfully updated')
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.update.success_message'))
     else
       render :edit
     end
@@ -58,7 +59,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     user = @external_user.user
 
     if user.update(password_params[:user_attributes])
-      redirect_to_show_page(notice: 'User password successfully updated')
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.change_password.success_message'))
     else
       render :change_password
     end

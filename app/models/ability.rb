@@ -31,7 +31,7 @@ class Ability
 
   def external_user_admin(persona)
     can_administer_any_claim_in_provider(persona)
-    can_administer_provider(persona)
+    can_administer_own_provider(persona)
   end
 
   def external_user(persona)
@@ -50,7 +50,7 @@ class Ability
     can %i[new create], Allocation
     can :view, :management_information
     can %i[dismiss], InjectionAttempt
-    provider_management if persona.roles.include?('provider_management')
+    can_administer_any_provider if persona.roles.include?('provider_management')
   end
 
   def case_worker(persona)
@@ -58,16 +58,10 @@ class Ability
     can [:update], Claim::BaseClaim do |claim|
       claim.case_workers.include?(persona)
     end
-    provider_management if persona.roles.include?('provider_management')
+    can_administer_any_provider if persona.roles.include?('provider_management')
     can %i[show download], Document
     can_manage_own_password(persona)
     can %i[dismiss], InjectionAttempt
-  end
-
-  def provider_management
-    can %i[index new create find search], ExternalUser
-    can %i[show edit update change_password update_password], ExternalUser, deleted_at: nil
-    can %i[show index new create edit update], Provider
   end
 
   def persona_type(persona)
@@ -100,10 +94,16 @@ class Ability
     end
   end
 
-  def can_administer_provider(persona)
+  def can_administer_own_provider(persona)
     can %i[show edit update regenerate_api_key], Provider, id: persona.provider_id
     can %i[index new create], ExternalUser
-    can %i[show change_password update_password edit update destroy], ExternalUser, provider_id: persona.provider_id
+    can %i[show edit update change_password update_password destroy], ExternalUser, provider_id: persona.provider_id
+  end
+
+  def can_administer_any_provider
+    can %i[show index new create edit update], Provider
+    can %i[index new create find search], ExternalUser
+    can %i[show edit update change_password update_password], ExternalUser, deleted_at: nil
   end
 
   def can_manage_litigator_claims(persona)

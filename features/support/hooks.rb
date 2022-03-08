@@ -33,7 +33,7 @@ Before('not @no-site-prism') do
   @provider_users_show_page = ProviderUsersShowPage.new
   @provider_users_new_page = ProviderUsersNewPage.new
   @provider_users_edit_page = ProviderUsersEditPage.new
-  @provider_users_confirmation_page = ProviderUsersConfirmationPage.new
+  @provider_users_change_available_page = ProviderUsersChangeAvailablePage.new
 
   @cookie_page = CookiePage.new
 end

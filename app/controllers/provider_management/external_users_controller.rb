@@ -73,6 +73,10 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     end
   end
 
+  def update_available
+    ActiveRecord::Type::Boolean.new.cast(params[:available]) ? enable : disable
+  end
+
   def enable
     if (@external_user.provider == @provider) && @external_user.softly_deleted? && @external_user.un_soft_delete
       redirect_to_show_page(notice: I18n.t('provider_management.external_users.enable_confirmation.success_message'))

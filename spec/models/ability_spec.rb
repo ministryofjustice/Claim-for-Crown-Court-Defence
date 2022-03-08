@@ -504,8 +504,7 @@ RSpec.describe Ability do
 
       it { is_expected.not_to be_able_to(:destroy, target) }
       it { is_expected.not_to be_able_to(:confirmation, target) }
-      it { is_expected.not_to be_able_to(:enable, target) }
-      it { is_expected.not_to be_able_to(:disable, target) }
+      it { is_expected.not_to be_able_to(:update_available, target) }
     end
 
     context 'with a disabled external user' do
@@ -518,8 +517,7 @@ RSpec.describe Ability do
       it { is_expected.not_to be_able_to(:update_password, target) }
       it { is_expected.not_to be_able_to(:destroy, target) }
       it { is_expected.not_to be_able_to(:confirmation, target) }
-      it { is_expected.not_to be_able_to(:enable, target) }
-      it { is_expected.not_to be_able_to(:disable, target) }
+      it { is_expected.not_to be_able_to(:update_available, target) }
     end
   end
 
@@ -561,13 +559,12 @@ RSpec.describe Ability do
       it { is_expected.to be_able_to(:confirmation, target) }
       it { is_expected.to be_able_to(:enable, target) }
       it { is_expected.to be_able_to(:disable, target) }
+      it { is_expected.to be_able_to(:update_available, target) }
 
       it { is_expected.not_to be_able_to(:new, target) }
       it { is_expected.not_to be_able_to(:create, target) }
       it { is_expected.not_to be_able_to(:edit, target) }
       it { is_expected.not_to be_able_to(:update, target) }
-      it { is_expected.not_to be_able_to(:change_password, target) }
-      it { is_expected.not_to be_able_to(:update_password, target) }
       it { is_expected.not_to be_able_to(:destroy, target) }
     end
   end

@@ -93,8 +93,7 @@ Rails.application.routes.draw do
       resources :external_users, except: [:destroy] do
         get 'change_password', on: :member
         patch 'update_password', on: :member
-        get 'enable', on: :member
-        get 'disable', on: :member
+        patch 'update_available', on: :member
         get 'confirmation', on: :member
       end
     end

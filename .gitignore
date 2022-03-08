@@ -78,3 +78,6 @@ kube*/**/temp*secret*.*
 yarn-debug.log*
 .yarn-integrity
 /storage
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

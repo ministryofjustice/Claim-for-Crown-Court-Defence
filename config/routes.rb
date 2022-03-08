@@ -94,7 +94,7 @@ Rails.application.routes.draw do
         get 'change_password', on: :member
         patch 'update_password', on: :member
         patch 'update_available', on: :member
-        get 'confirmation', on: :member
+        get 'change_available', on: :member
       end
     end
   end

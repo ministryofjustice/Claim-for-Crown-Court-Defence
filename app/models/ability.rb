@@ -15,7 +15,7 @@ class Ability
       can %i[show edit update change_password update_password], SuperAdmin, id: persona.id
       can [:update_settings], User, id: user.id
       can %i[show index], Provider
-      can %i[show index find search confirmation update_available], ExternalUser
+      can %i[show index find search change_available update_available], ExternalUser
       return
     end
 

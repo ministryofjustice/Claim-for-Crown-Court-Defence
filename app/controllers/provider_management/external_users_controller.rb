@@ -65,7 +65,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     end
   end
 
-  def confirmation
+  def change_available
     if @external_user.active?
       render :disable_confirmation
     else

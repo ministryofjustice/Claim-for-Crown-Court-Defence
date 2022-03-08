@@ -35,6 +35,6 @@
 
       - if can? :update_available, @external_user
         - if @external_user.active?
-          = govuk_link_button_warning(t('.disable_user'), confirmation_provider_management_provider_external_user_path(@provider, @external_user))
+          = govuk_link_button_warning(t('.disable_user'), change_available_provider_management_provider_external_user_path(@provider, @external_user))
         - else
-          = govuk_link_button(t('.enable_user'), confirmation_provider_management_provider_external_user_path(@provider, @external_user))
+          = govuk_link_button(t('.enable_user'), change_available_provider_management_provider_external_user_path(@provider, @external_user))

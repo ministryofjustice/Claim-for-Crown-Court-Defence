@@ -50,6 +50,7 @@
     "sass-loader": "^12.6.0",
     "stickyfilljs": "^2.1.0",
     "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.1",
     "url-loader": "^4.1.1",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2",
@@ -64,19 +65,6 @@
     "stylelint": "^14.16.1",
     "stylelint-config-gds": "^0.2.0",
     "stylelint-order": "^6.0.2"
-  },
-  "resolutions": {
-    "async": "^3.2.2",
-    "css-what": "^5.0.1",
-    "glob-parent": "^6.0.2",
-    "hosted-git-info": "^3.0.8",
-    "is-svg": "^4.3.1",
-    "minimist": "^1.2.6",
-    "node-forge": "^1.2.1",
-    "normalize-url": "^4.5.1",
-    "nth-check": "^2.0.1",
-    "set-value": "^4.0.1",
-    "ssri": "^8.0.1"
   },
   "standard": {
     "env": [

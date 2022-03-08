@@ -3,11 +3,11 @@ const mode = process.env.NODE_ENV === 'development' ? 'development' : 'productio
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries')
+const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
-  // mode: 'development',
-  // devtool: 'source-map',
   mode,
+  // devtool: 'source-map',
   entry: {
     application: ['./app/webpack/packs/application.js']
   },
@@ -18,7 +18,28 @@ module.exports = {
     clean: true
   },
   optimization: {
-    moduleIds: 'hashed'
+    moduleIds: 'deterministic',
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          ecma: 5,
+          parse: {},
+          compress: {},
+          mangle: true,
+          module: false,
+          output: null,
+          format: null,
+          toplevel: false,
+          nameCache: null,
+          ie8: false,
+          keep_classnames: undefined,
+          keep_fnames: false,
+          safari10: false
+        }
+      })
+    ]
   },
   module: {
     rules: [
@@ -65,6 +86,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
+      jquery: 'jquery',
       'window.jQuery': 'jquery',
       'global.jQuery': 'jquery',
       accessibleAutocomplete: 'accessible-autocomplete',

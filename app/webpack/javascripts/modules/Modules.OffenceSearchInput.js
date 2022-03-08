@@ -3,6 +3,7 @@
  * A controller to handel search input,
  * state and provide results data
  */
+
 moj.Modules.OffenceSearchInput = {
   // component selector
   el: '.mod-search-input',
@@ -117,13 +118,14 @@ moj.Modules.OffenceSearchInput = {
 
   // Tracking the user inout and calling the API
   // when required. Uses $.debounce to limit calls
+
   trackUserInput: function () {
     const self = this
-    this.$input.on('keyup', $.debounce(290, function (e) {
+    this.$input.on('keyup', moj.Modules.Debounce.init(function (e) {
       if (self.$input.val().length >= 3) {
         self.runQuery()
       }
-    }))
+    }, 290))
   },
 
   // clearSearch procedure

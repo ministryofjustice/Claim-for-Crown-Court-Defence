@@ -174,8 +174,8 @@ describe('Modules.OffenceSearchInput.js', function () {
     })
 
     describe('...trackUserInput', function () {
-      it('should use `$.debounce`', function () {
-        spyOn($, 'debounce')
+      it('should use `moj.Modules.Debounce`', function () {
+        spyOn(moj.Modules.Debounce, 'init')
         module.$input.val('mudr')
 
         module.init()
@@ -185,7 +185,7 @@ describe('Modules.OffenceSearchInput.js', function () {
           keyCode: 65
         }))
 
-        expect($.debounce).toHaveBeenCalled()
+        expect(moj.Modules.Debounce.init).toHaveBeenCalled()
       })
     })
 

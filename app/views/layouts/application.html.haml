@@ -10,15 +10,14 @@
     %meta{ 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
     = csrf_meta_tags
 
-    %link{ rel: 'shortcut icon', sizes: '16x16 32x32 48x48', href: asset_pack_path('media/images/favicon.ico'), type: 'image/x-icon' }
-    %link{ rel: 'mask-icon', href: asset_pack_path('media/images/govuk-mask-icon.svg'), color: 'blue' }
-    %link{ rel: 'apple-touch-icon', sizes: '180x180', href: asset_pack_path('media/images/govuk-apple-touch-icon-180x180.png') }
-    %link{ rel: 'apple-touch-icon', sizes: '167x167', href: asset_pack_path('media/images/govuk-apple-touch-icon-167x167.png') }
-    %link{ rel: 'apple-touch-icon', sizes: '152x152', href: asset_pack_path('media/images/govuk-apple-touch-icon-152x152.png') }
-    %link{ rel: 'apple-touch-icon', href: asset_pack_path('media/images/govuk-apple-touch-icon.png') }
-    = stylesheet_pack_tag 'application', media: 'all'
-    = stylesheet_pack_tag 'govuk-frontend', media: 'all'
-    = tag :meta, property: 'og:image', content: request.base_url + asset_pack_path('media/images/govuk-opengraph-image.png')
+    = favicon_link_tag asset_path('favicon.ico')
+    %link{ rel: 'mask-icon', href: asset_path('govuk-mask-icon.svg'), color: 'blue' }
+    %link{ rel: 'apple-touch-icon', sizes: '180x180', href: asset_path('govuk-apple-touch-icon-180x180.png') }
+    %link{ rel: 'apple-touch-icon', sizes: '167x167', href: asset_path('govuk-apple-touch-icon-167x167.png') }
+    %link{ rel: 'apple-touch-icon', sizes: '152x152', href: asset_path('govuk-apple-touch-icon-152x152.png') }
+    %link{ rel: 'apple-touch-icon', href: asset_path('govuk-apple-touch-icon.png') }
+    = stylesheet_link_tag 'application', media: 'all'
+    = tag :meta, property: 'og:image', content: request.base_url + asset_path('govuk-opengraph-image.png')
 
     - if GoogleAnalytics::DataTracking.enabled? && !@disable_analytics
       = render partial: 'layouts/analytics', formats: :js, locals: { adapter: GoogleAnalytics::DataTracking.adapter_name }

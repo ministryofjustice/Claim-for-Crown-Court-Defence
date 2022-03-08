@@ -1,11 +1,4 @@
-- if Rails.env.test?
-  = app_javascript_include_tag 'public/packs-test/js/application-bundle-*.js'
-  = javascript_pack_tag 'application-test'
-
-- else
-  = app_javascript_include_tag 'public/packs/js/application-bundle-*.js'
-
-= javascript_pack_tag 'govuk-frontend', defer: true
+= javascript_include_tag 'application.js'
 
 - if GoogleAnalytics::DataTracking.analytics? && !@disable_analytics
   :javascript

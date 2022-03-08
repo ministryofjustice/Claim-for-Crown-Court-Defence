@@ -174,15 +174,4 @@ module ApplicationHelper
     tab = tab_present(path)
     request.GET[:tab] == tab
   end
-
-  def app_javascript_include_tag(path)
-    # create an array of all the files
-    files = Dir.glob(path)
-
-    # sort array by last modified
-    files = files.sort { |a, b| File.mtime(b) <=> File.mtime(a) }
-
-    # return the last modified file
-    javascript_include_tag files.first.gsub(/^public/, ''), defer: true
-  end
 end

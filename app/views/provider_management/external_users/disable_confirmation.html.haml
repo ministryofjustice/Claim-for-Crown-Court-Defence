@@ -11,5 +11,6 @@
 
     = form_with url: update_available_provider_management_provider_external_user_path(@provider, @external_user), method: :patch, builder: GdsAdpFormBuilder do |f|
       = f.hidden_field :available, value: false
-      = f.govuk_submit t('.disable_user'), class: 'govuk-button--warning'
-      = govuk_link_to(t('.cancel_button'), provider_management_provider_external_user_path(@provider, @external_user))
+      .govuk-button-group
+        = f.govuk_submit t('.disable_user'), class: 'govuk-button--warning'
+        = govuk_link_to(t('.cancel_button'), provider_management_provider_external_user_path(@provider, @external_user))

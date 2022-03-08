@@ -34,8 +34,8 @@
         = govuk_link_button_secondary(t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user))
 
       - if @external_user.active?
-        - if can? :disable, @external_user
-          = govuk_link_button_warning(t('.disable_user'), confirmation_provider_management_provider_external_user_path(@provider, @external_user))
+        - if can? :change_availability, @external_user
+          = govuk_link_button_warning(t('.disable_user'), change_availability_provider_management_provider_external_user_path(@provider, @external_user))
       - else
-        - if can? :enable, @external_user
-          = govuk_link_button(t('.enable_user'), confirmation_provider_management_provider_external_user_path(@provider, @external_user))
+        - if can? :change_availability, @external_user
+          = govuk_link_button(t('.enable_user'), change_availability_provider_management_provider_external_user_path(@provider, @external_user))

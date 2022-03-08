@@ -9,6 +9,9 @@
     %h2.govuk-heading-m
       = t('.enable_message', external_user: @external_user.name)
 
-    .govuk-button-group
-      = govuk_link_button(t('.enable_user'), enable_provider_management_provider_external_user_path(@provider, @external_user))
-      = govuk_link_to(t('.cancel_button'), provider_management_provider_external_user_path(@provider, @external_user))
+    = form_with model: [:provider_management, @external_user], url: update_availability_provider_management_provider_external_user_path(@provider, @external_user), builder: GdsAdpFormBuilder do |f|
+      = f.hidden_field :availability, value: true
+
+      .govuk-button-group
+        = f.govuk_submit(t('.enable_user'))
+        = govuk_link_to(t('.cancel_button'),provider_management_provider_external_user_path(@provider, @external_user))

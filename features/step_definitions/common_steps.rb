@@ -198,6 +198,10 @@ Then('I should see link {string}') do |string|
   expect(page).to have_link(string)
 end
 
+Then('I should see button {string}') do |string|
+  expect(page).to have_button(string)
+end
+
 When('I go back') do
   page.go_back
 end

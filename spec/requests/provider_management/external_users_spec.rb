@@ -83,7 +83,9 @@ RSpec.describe 'providers external users management', type: :request do
     end
 
     let(:external_user) do
-      create(:external_user, provider: provider, user: create(:user, email: 'bubbletea@example.com')).tap(&:soft_delete)
+      create(:external_user,
+             provider: provider,
+             user: create(:user, email: 'bubbletea@example.com')).tap(&:soft_delete)
     end
 
     let(:provider) { create :provider }

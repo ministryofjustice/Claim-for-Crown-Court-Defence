@@ -2,7 +2,8 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   include PasswordHelpers
 
   before_action :set_provider, except: %i[find search]
-  before_action :set_external_user, only: %i[show edit update change_password update_password change_availability update_availability]
+  before_action :set_external_user, only: %i[show edit update change_password update_password
+                                             change_availability update_availability]
   before_action :external_user_by_email, only: %i[search]
 
   def show; end
@@ -66,11 +67,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   end
 
   def change_availability
-    if @external_user.active?
-      render :disable_confirmation
-    else
-      render :enable_confirmation
-    end
+    render @external_user.active? ? :disable_confirmation : :enable_confirmation
   end
 
   def update_availability

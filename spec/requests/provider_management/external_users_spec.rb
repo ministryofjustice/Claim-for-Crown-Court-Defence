@@ -1,12 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe 'providers external users management', type: :request do
-  describe 'GET /provider_management/providers/:provider_id/external_users/:id/disable' do
-    subject(:disable_user) { get disable_provider_management_provider_external_user_path(provider, external_user) }
+  context 'when disabling the external_user' do
+    subject(:disable_user) do
+      patch update_availability_provider_management_provider_external_user_path(provider, external_user),
+            params: { external_user: { availability: 'false' } }
+    end
 
     let(:external_user) do
       create :external_user, provider: provider, user: create(:user, email: 'bubbletea@example.com')
     end
+
     let(:provider) { create :provider }
 
     before { sign_in user }
@@ -72,8 +76,11 @@ RSpec.describe 'providers external users management', type: :request do
     end
   end
 
-  describe 'GET /provider_management/providers/:provider_id/external_users/:id/enable' do
-    subject(:enable_user) { get enable_provider_management_provider_external_user_path(provider, external_user) }
+  context 'when enabling the external_user' do
+    subject(:enable_user) do
+      patch update_availability_provider_management_provider_external_user_path(provider, external_user),
+            params: { external_user: { availability: 'true' } }
+    end
 
     let(:external_user) do
       create(:external_user, provider: provider, user: create(:user, email: 'bubbletea@example.com')).tap(&:soft_delete)

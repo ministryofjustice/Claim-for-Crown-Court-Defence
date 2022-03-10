@@ -163,5 +163,5 @@ When(/^I should be on the Allocation page$/) do
 end
 
 Then(/^I should get a page telling me my account has been deleted$/) do
-  expect(page).to have_content('This account has been deleted.')
+  expect(page).to have_content('This account has been disabled.')
 end

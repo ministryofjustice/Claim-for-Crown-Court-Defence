@@ -23,7 +23,7 @@ Feature: Caseworker can log in while active, but not once inactive
     When the advocate is marked as deleted
     And I click the link 'Your claims'
     Then I should be on the sign in page
-    And I should see 'This account has been deleted'
+    And I should see 'This account has been disabled'
 
     When I attempt to sign in again as the advocate
     Then I should get a page telling me my account has been deleted

@@ -71,11 +71,8 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   end
 
   def update_availability
-    if external_user_params[:availability].eql?('true')
-      enable
-    else
-      disable
-    end
+    available = ActiveModel::Type::Boolean.new.cast(external_user_params[:availability])
+    available ? enable : disable
   end
 
   private

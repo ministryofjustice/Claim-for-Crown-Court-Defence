@@ -2,7 +2,8 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   include PasswordHelpers
 
   before_action :set_provider, except: %i[find search]
-  before_action :set_external_user, only: %i[show edit update change_password update_password]
+  before_action :set_external_user, only: %i[show edit update change_password update_password
+                                             change_availability update_availability]
   before_action :external_user_by_email, only: %i[search]
 
   def show; end
@@ -65,34 +66,20 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     end
   end
 
-  def confirmation
-    if @external_user.active?
-      render :disable_confirmation
-    else
-      render :enable_confirmation
-    end
+  def change_availability
+    render @external_user.active? ? :disable_confirmation : :enable_confirmation
   end
 
-  def enable
-    if (@external_user.provider == @provider) && @external_user.softly_deleted? && @external_user.un_soft_delete
-      redirect_to_show_page(notice: I18n.t('provider_management.external_users.enable_confirmation.success_message'))
-    else
-      redirect_to_show_page(alert: I18n.t('provider_management.external_users.enable_confirmation.failed_message'))
-    end
-  end
-
-  def disable
-    if (@external_user.provider == @provider) && @external_user.active? && @external_user.soft_delete
-      redirect_to_show_page(notice: I18n.t('provider_management.external_users.disable_confirmation.success_message'))
-    else
-      redirect_to_show_page(alert: I18n.t('provider_management.external_users.disable_confirmation.failed_message'))
-    end
+  def update_availability
+    available = ActiveModel::Type::Boolean.new.cast(external_user_params[:availability])
+    available ? enable : disable
   end
 
   private
 
   def external_user_params
     params.require(:external_user).permit(
+      :availability,
       :vat_registered,
       :supplier_number,
       roles: [],
@@ -114,5 +101,23 @@ class ProviderManagement::ExternalUsersController < ApplicationController
 
   def redirect_to_show_page(**kwargs)
     redirect_to provider_management_provider_external_user_path(@provider, @external_user), **kwargs
+  end
+
+  def enable
+    if (@external_user.provider == @provider) && @external_user.softly_deleted?
+      @external_user.un_soft_delete
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.enable_confirmation.success_message'))
+    else
+      redirect_to_show_page(alert: I18n.t('provider_management.external_users.enable_confirmation.failed_message'))
+    end
+  end
+
+  def disable
+    if (@external_user.provider == @provider) && @external_user.active?
+      @external_user.soft_delete
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.disable_confirmation.success_message'))
+    else
+      redirect_to_show_page(alert: I18n.t('provider_management.external_users.disable_confirmation.failed_message'))
+    end
   end
 end

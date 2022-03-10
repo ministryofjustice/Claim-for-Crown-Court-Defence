@@ -1,12 +1,61 @@
 require 'rails_helper'
 
 RSpec.describe 'providers external users management', type: :request do
-  describe 'GET /provider_management/providers/:provider_id/external_users/:id/disable' do
-    subject(:disable_user) { get disable_provider_management_provider_external_user_path(provider, external_user) }
+  context 'when viewing change_availability pages' do
+    subject(:change_availability) do
+      get change_availability_provider_management_provider_external_user_path(provider, external_user)
+    end
 
     let(:external_user) do
       create :external_user, provider: provider, user: create(:user, email: 'bubbletea@example.com')
     end
+
+    let(:provider) { create :provider }
+
+    before do
+      sign_in user
+      change_availability
+    end
+
+    context 'when logged in as advocate admin' do
+      let(:other_external_user) { create(:external_user, :advocate_and_admin) }
+      let(:user) { other_external_user.user }
+
+      it { expect(response).to redirect_to external_users_root_path }
+      it { expect(flash[:alert]).to eq('Unauthorised') }
+    end
+
+    context 'when logged in as super_admin with an enabled user' do
+      let(:super_admin) { create :super_admin }
+      let(:user) { super_admin.user }
+
+      it { expect(response).to render_template(:disable_confirmation) }
+    end
+
+    context 'when logged in as super_admin with a disabled user' do
+      let(:super_admin) { create :super_admin }
+      let(:user) { super_admin.user }
+
+      let(:external_user) do
+        create(:external_user,
+               provider: provider,
+               user: create(:user, email: 'bubbletea@example.com')).tap(&:soft_delete)
+      end
+
+      it { expect(response).to render_template(:enable_confirmation) }
+    end
+  end
+
+  context 'when disabling the external_user' do
+    subject(:disable_user) do
+      patch update_availability_provider_management_provider_external_user_path(provider, external_user),
+            params: { external_user: { availability: 'false' } }
+    end
+
+    let(:external_user) do
+      create :external_user, provider: provider, user: create(:user, email: 'bubbletea@example.com')
+    end
+
     let(:provider) { create :provider }
 
     before { sign_in user }
@@ -72,11 +121,16 @@ RSpec.describe 'providers external users management', type: :request do
     end
   end
 
-  describe 'GET /provider_management/providers/:provider_id/external_users/:id/enable' do
-    subject(:enable_user) { get enable_provider_management_provider_external_user_path(provider, external_user) }
+  context 'when enabling the external_user' do
+    subject(:enable_user) do
+      patch update_availability_provider_management_provider_external_user_path(provider, external_user),
+            params: { external_user: { availability: 'true' } }
+    end
 
     let(:external_user) do
-      create(:external_user, provider: provider, user: create(:user, email: 'bubbletea@example.com')).tap(&:soft_delete)
+      create(:external_user,
+             provider: provider,
+             user: create(:user, email: 'bubbletea@example.com')).tap(&:soft_delete)
     end
 
     let(:provider) { create :provider }

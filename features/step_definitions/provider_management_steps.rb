@@ -49,6 +49,6 @@ Then('I should be on the provider manager user edit page') do
   expect(@provider_users_edit_page).to be_displayed
 end
 
-Then('I should be on the provider manager user confirmation page') do
-  expect(@provider_users_confirmation_page).to be_displayed
+Then('I should be on the provider manager user change availability page') do
+  expect(@provider_users_change_availability_page).to be_displayed
 end

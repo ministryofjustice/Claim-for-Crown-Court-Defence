@@ -29,6 +29,7 @@ RUN apk --no-cache add --virtual build-dependencies \
                     postgresql-dev \
                     git \
                     yarn \
+                    gmp=6.2.1-r1 \
 && apk --no-cache add \
                   file \
                   nodejs \

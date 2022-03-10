@@ -113,7 +113,7 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    active? ? super : 'This account has been deleted.'
+    active? ? super : 'This account has been disabled.'
   end
 
   def email_notification_of_message

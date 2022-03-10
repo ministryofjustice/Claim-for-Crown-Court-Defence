@@ -253,7 +253,7 @@ RSpec.describe User, type: :model do
       end
 
       it 'returns specialised message for softly deleted users' do
-        expect(inactive_user.inactive_message).to eq 'This account has been deleted.'
+        expect(inactive_user.inactive_message).to eq 'This account has been disabled.'
       end
     end
 

@@ -5,8 +5,8 @@
 
 .govuk-grid-row
   .govuk-grid-column-full
-
-    = govuk_link_button(t('.add_provider'), new_provider_management_provider_external_user_path(@provider))
+    - if can? :new, ExternalUser
+      = govuk_link_button(t('.add_provider'), new_provider_management_provider_external_user_path(@provider))
 
     = govuk_table(class: 'govuk-!-margin-top-9') do
       = govuk_table_caption(class: 'govuk-visually-hidden') do
@@ -21,7 +21,7 @@
         - @external_users.each do |advocate|
           = govuk_table_row do
             = govuk_table_td('data-label': t('.name')) do
-              = advocate.active? ? govuk_link_to(advocate.name, provider_management_provider_external_user_path(@provider, advocate), 'aria-label': t('.view_details', text: advocate.name)) : advocate.name
+              = can?(:show, advocate) ? govuk_link_to(advocate.name, provider_management_provider_external_user_path(@provider, advocate), 'aria-label': t('.view_details', text: advocate.name)) : advocate.name
 
             = govuk_table_td('data-label': t('.supplier_number')) do
               = advocate.supplier_number

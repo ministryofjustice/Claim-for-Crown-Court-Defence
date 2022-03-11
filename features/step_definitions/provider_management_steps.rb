@@ -3,6 +3,16 @@ Given('an external provider exists') do
   create(:external_user, :advocate_and_admin, user: user)
 end
 
+Given('an external provider exists with first name {string} and last name {string}') do |first_name, last_name|
+  user = create(:user, first_name: first_name, last_name: last_name)
+  create(:external_user, :advocate_and_admin, user: user)
+end
+
+Given('a disabled external provider exists with first name {string} and last name {string}') do |first_name, last_name|
+  user = create(:user, first_name: first_name, last_name: last_name)
+  create(:external_user, :advocate_and_admin, user: user).soft_delete
+end
+
 When('I enter {string} in the email field') do |email|
   @provider_search_page.email.set email
 end
@@ -37,4 +47,8 @@ end
 
 Then('I should be on the provider manager user edit page') do
   expect(@provider_users_edit_page).to be_displayed
+end
+
+Then('I should be on the provider manager user change availability page') do
+  expect(@provider_users_change_availability_page).to be_displayed
 end

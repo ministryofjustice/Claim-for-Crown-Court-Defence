@@ -2,7 +2,8 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   include PasswordHelpers
 
   before_action :set_provider, except: %i[find search]
-  before_action :set_external_user, only: %i[show edit update change_password update_password]
+  before_action :set_external_user, only: %i[show edit update change_password update_password
+                                             change_availability update_availability]
   before_action :external_user_by_email, only: %i[search]
 
   def show; end
@@ -23,8 +24,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
 
     if @external_user.save
       deliver_reset_password_instructions(@external_user.user)
-      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
-                  notice: 'User successfully created'
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.create.success_message'))
     else
       render :new
     end
@@ -38,14 +38,14 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     if @external_user&.is_a?(ExternalUser)
       redirect_to provider_management_provider_external_user_path(@external_user.provider, @external_user)
     else
-      redirect_to provider_management_external_users_find_path, alert: 'No provider found with that email'
+      redirect_to provider_management_external_users_find_path,
+                  alert: I18n.t('provider_management.external_users.search.failed_message')
     end
   end
 
   def update
     if @external_user.update(external_user_params)
-      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
-                  notice: 'User successfully updated'
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.update.success_message'))
     else
       render :edit
     end
@@ -60,17 +60,26 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     user = @external_user.user
 
     if user.update(password_params[:user_attributes])
-      redirect_to provider_management_provider_external_user_path(@provider, @external_user),
-                  notice: 'User password successfully updated'
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.change_password.success_message'))
     else
       render :change_password
     end
+  end
+
+  def change_availability
+    render @external_user.active? ? :disable_confirmation : :enable_confirmation
+  end
+
+  def update_availability
+    available = ActiveModel::Type::Boolean.new.cast(external_user_params[:availability])
+    available ? enable : disable
   end
 
   private
 
   def external_user_params
     params.require(:external_user).permit(
+      :availability,
       :vat_registered,
       :supplier_number,
       roles: [],
@@ -79,7 +88,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   end
 
   def set_external_user
-    @external_user = ExternalUser.active.find(params[:id])
+    @external_user = ExternalUser.find(params[:id])
   end
 
   def external_user_by_email
@@ -88,5 +97,25 @@ class ProviderManagement::ExternalUsersController < ApplicationController
 
   def set_provider
     @provider = Provider.find(params[:provider_id])
+  end
+
+  def redirect_to_show_page(**kwargs)
+    redirect_to provider_management_provider_external_user_path(@provider, @external_user), **kwargs
+  end
+
+  def enable
+    if (@external_user.provider == @provider) && @external_user.softly_deleted? && @external_user.un_soft_delete
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.enable_confirmation.success_message'))
+    else
+      redirect_to_show_page(alert: I18n.t('provider_management.external_users.enable_confirmation.failed_message'))
+    end
+  end
+
+  def disable
+    if (@external_user.provider == @provider) && @external_user.active? && @external_user.soft_delete
+      redirect_to_show_page(notice: I18n.t('provider_management.external_users.disable_confirmation.success_message'))
+    else
+      redirect_to_show_page(alert: I18n.t('provider_management.external_users.disable_confirmation.failed_message'))
+    end
   end
 end

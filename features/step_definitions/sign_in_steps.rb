@@ -18,8 +18,16 @@ def make_accounts(role, number = 1)
   end
 end
 
-Given(/^The caseworker is marked as deleted$/) do
+Given('the caseworker is marked as deleted') do
   @case_worker.soft_delete
+end
+
+Given('the advocate is marked as deleted') do
+  @advocate.soft_delete
+end
+
+Given('the advocate is marked as undeleted') do
+  @advocate.un_soft_delete
 end
 
 Given(/an? "(.*?)" user account exists$/) do |role|
@@ -109,6 +117,10 @@ When(/^I attempt to sign in again as the deleted caseworker$/) do
   sign_in(@case_worker.user, 'password')
 end
 
+When(/^I attempt to sign in again as the advocate$/) do
+  sign_in(@advocate.user, 'password')
+end
+
 Given('a case worker admin user account exists') do
   @case_worker = create(:case_worker, :admin)
 end
@@ -151,5 +163,5 @@ When(/^I should be on the Allocation page$/) do
 end
 
 Then(/^I should get a page telling me my account has been deleted$/) do
-  expect(page).to have_content('This account has been deleted.')
+  expect(page).to have_content('This account has been disabled.')
 end

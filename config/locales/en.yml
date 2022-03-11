@@ -463,6 +463,9 @@ en:
         caption: User details
         page_title: View %{external_user}'s details
         provider: Provider
+        state: Account state
+        live: Live
+        inactive: Inactive
         email: *email
         name: Name
         supplier_number: *supplier_number
@@ -470,10 +473,12 @@ en:
         role: Role
         edit: Edit
         change_password: *change_password
+        disable_user: Disable account
+        enable_user: Enable account
         answer_yes: *global_yes
         answer_no:  *global_no
         manage_user: Manage user
-        page_heading: Manage user
+        page_heading: Manage user %{external_user}
         table_summary: A list of user details for %{external_user}
         edit_provider: edit the provider
       edit:
@@ -583,6 +588,9 @@ en:
         caption: User details
         page_title: View %{external_user}'s details
         provider: Provider
+        state: Account state
+        live: Live
+        inactive: Inactive
         email: *email
         name: Name
         supplier_number: *supplier_number
@@ -590,6 +598,8 @@ en:
         role: Role
         edit: Edit
         change_password: *change_password
+        disable_user: Disable account
+        enable_user: Enable account
         answer_yes: *global_yes
         answer_no:  *global_no
         manage_user: Manage user
@@ -600,10 +610,14 @@ en:
         page_title: Edit %{external_user}'s details
         heading: Edit user details
         page_heading: Manage users
+      update:
+        success_message: User successfully updated
       new:
         page_title: Add a user to %{provider_name}
         heading: New user details for %{provider_name}
         page_heading: Manage users
+      create:
+        success_message: User successfully created
       form:
         error: 'error'
         prohibited_save: 'This user has'
@@ -626,6 +640,8 @@ en:
         submit: 'Search'
         page_heading: Find provider by email
         page_title: Find provider by email
+      search:
+        failed_message: No provider found with that email
       change_password:
         error: 'error'
         prohibited_save: 'This user password change has'
@@ -636,6 +652,21 @@ en:
         page_title: Change %{external_user}'s password
         heading: Change password for %{external_user}
         page_heading: Manage users
+        success_message: User password successfully updated
+      disable_confirmation:
+        cancel_button: Cancel
+        disable_message: Are you sure you want to disable %{external_user}?
+        disable_user: Disable account
+        page_title: Disable %{external_user}
+        success_message: User successfully disabled
+        failed_message: Unable to disable user
+      enable_confirmation:
+        cancel_button: Cancel
+        enable_message: Are you sure you want to enable %{external_user}?
+        enable_user: Enable account
+        page_title: Enable %{external_user}
+        success_message: User successfully enabled
+        failed_message: Unable to enable user
 
 # en.external_users
   external_users:

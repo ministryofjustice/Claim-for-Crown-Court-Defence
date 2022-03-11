@@ -113,7 +113,7 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    active? ? super : 'This account has been deleted.'
+    active? ? super : 'This account has been disabled.'
   end
 
   def email_notification_of_message
@@ -130,6 +130,10 @@ class User < ApplicationRecord
 
   def before_soft_delete
     self.email = "#{email}.deleted.#{id}"
+  end
+
+  def before_un_soft_delete
+    self.email = email.gsub(/\.deleted.#{id}$/, '')
   end
 
   # To enable Devise emails to be delivered in the background.

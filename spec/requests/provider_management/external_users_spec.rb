@@ -52,11 +52,8 @@ RSpec.describe 'providers external users management', type: :request do
             params: { external_user: { availability: 'false' } }
     end
 
-    let(:external_user) do
-      create :external_user, provider: provider, user: create(:user, email: 'bubbletea@example.com')
-    end
-
-    let(:provider) { create :provider }
+    let(:external_user) { create(:external_user, provider: provider) }
+    let(:provider) { create(:provider) }
 
     before { sign_in user }
 
@@ -65,40 +62,28 @@ RSpec.describe 'providers external users management', type: :request do
 
       before { sign_out user }
 
-      it 'does not mark the users email as deleted' do
-        expect { disable_user }.not_to change { external_user.reload.email }.from('bubbletea@example.com')
-      end
+      it { expect { disable_user }.not_to change { external_user.reload.enabled? }.from(true) }
     end
 
     context 'when logged in as super admin' do
-      let(:super_admin) { create :super_admin }
+      let(:super_admin) { create(:super_admin) }
       let(:user) { super_admin.user }
 
-      it 'marks the users email address as deleted' do
-        expect { disable_user }
-          .to change { external_user.reload.email }
-          .from('bubbletea@example.com')
-          .to("bubbletea@example.com.deleted.#{external_user.user.id}")
-      end
+      it { expect { disable_user }.to change { external_user.reload.enabled? }.from(true).to(false) }
+      it { expect { disable_user }.to change { external_user.reload.disabled_at }.from(nil).to(be_kind_of(Time)) }
 
+      # TODO: check - is provider memdership matching relevant? how would a unique external user ever be in an unmatching provider?
       context 'when external user belongs to a different provider' do
-        let(:external_user) { create :external_user, user: create(:user, email: 'bubbletea@example.com') }
+        let(:external_user) { create(:external_user) }
 
-        it 'does not mark the users email as deleted' do
-          expect { disable_user }.not_to change { external_user.reload.email }.from('bubbletea@example.com')
-        end
+        it { expect { disable_user }.not_to change { external_user.reload.enabled? }.from(true) }
       end
 
-      context 'when external user is already deleted' do
-        before do
-          external_user.soft_delete
-        end
+      # is this needed? should we instead be testing that the disabled_at timestamp is not changed?
+      context 'when external user is already disabled' do
+        before { external_user.disable }
 
-        it 'does not mark the users email as deleted a second time' do
-          expect { disable_user }
-            .not_to change { external_user.reload.email }
-            .from("bubbletea@example.com.deleted.#{external_user.user.id}")
-        end
+        it { expect { disable_user }.not_to change { external_user.reload.enabled? }.from(false) }
       end
     end
 
@@ -106,18 +91,14 @@ RSpec.describe 'providers external users management', type: :request do
       let(:other_external_user) { create :external_user }
       let(:user) { other_external_user.user }
 
-      it 'does not mark the users email as deleted' do
-        expect { disable_user }.not_to change { external_user.reload.email }.from('bubbletea@example.com')
-      end
+      it { expect { disable_user }.not_to change { external_user.reload.enabled? }.from(true) }
     end
 
     context 'when logged in as a caseworker' do
       let(:case_worker) { create :case_worker }
       let(:user) { case_worker.user }
 
-      it 'does not mark the users email as deleted' do
-        expect { disable_user }.not_to change { external_user.reload.email }.from('bubbletea@example.com')
-      end
+      it { expect { disable_user }.not_to change { external_user.reload.enabled? }.from(true) }
     end
   end
 
@@ -127,13 +108,8 @@ RSpec.describe 'providers external users management', type: :request do
             params: { external_user: { availability: 'true' } }
     end
 
-    let(:external_user) do
-      create(:external_user,
-             provider: provider,
-             user: create(:user, email: 'bubbletea@example.com')).tap(&:soft_delete)
-    end
-
-    let(:provider) { create :provider }
+    let(:external_user) { create(:external_user, provider: provider).tap(&:disable) }
+    let(:provider) { create(:provider) }
 
     before { sign_in user }
 
@@ -142,54 +118,28 @@ RSpec.describe 'providers external users management', type: :request do
 
       before { sign_out user }
 
-      it 'does not mark the users email as deleted' do
-        expect { enable_user }
-          .not_to change { external_user.reload.email }
-          .from("bubbletea@example.com.deleted.#{external_user.user.id}")
-      end
+      it { expect { enable_user }.not_to change { external_user.reload.enabled? }.from(false) }
     end
 
     context 'when logged in as super admin' do
       let(:super_admin) { create :super_admin }
       let(:user) { super_admin.user }
 
-      it 'marks the users email address as enabled' do
-        expect { enable_user }
-          .to change { external_user.reload.email }
-          .from("bubbletea@example.com.deleted.#{external_user.user.id}")
-          .to('bubbletea@example.com')
-      end
+      it { expect { enable_user }.to change { external_user.reload.enabled? }.from(false).to(true) }
+      it { expect { enable_user }.to change { external_user.reload.disabled_at }.from(be_kind_of(Time)).to(nil) }
 
-      it 'sets the external_user.deleted_at time stamp to nil' do
-        expect { enable_user }.to change { external_user.reload.deleted_at }.to nil
-      end
-
-      it 'sets the external_user.user.deleted_at time stamp to nil' do
-        expect { enable_user }.to change { external_user.reload.user.deleted_at }.to nil
-      end
-
+      # TODO: check - is provider memdership matching relevant? how would a unique external user ever be in an unmatching provider?
       context 'when external user belongs to a different provider' do
-        let(:external_user) do
-          create(:external_user, user: create(:user, email: 'bubbletea@example.com')).tap(&:soft_delete)
-        end
+        let(:external_user) { create(:external_user).tap(&:disable) }
 
-        it 'does not mark the users email as enabled' do
-          expect { enable_user }
-            .not_to change { external_user.reload.email }
-            .from("bubbletea@example.com.deleted.#{external_user.user.id}")
-        end
+        it { expect { enable_user }.not_to change { external_user.reload.enabled? }.from(false) }
       end
 
-      context 'when external user is already deleted' do
-        let(:external_user) do
-          create(:external_user, provider: provider, user: create(:user, email: 'bubbletea@example.com'))
-        end
+      # is this needed? is it just to avoid unneccessary updates?
+      context 'when external user is already enabled' do
+        let(:external_user) { create(:external_user, provider: provider) }
 
-        it 'does not change the email' do
-          expect { enable_user }
-            .not_to change { external_user.reload.email }
-            .from('bubbletea@example.com')
-        end
+        it { expect { enable_user }.not_to change { external_user.reload.enabled? }.from(true) }
       end
     end
 
@@ -197,22 +147,14 @@ RSpec.describe 'providers external users management', type: :request do
       let(:other_external_user) { create :external_user }
       let(:user) { other_external_user.user }
 
-      it 'does not mark the users email as deleted' do
-        expect { enable_user }
-          .not_to change { external_user.reload.email }
-          .from("bubbletea@example.com.deleted.#{external_user.user.id}")
-      end
+      it { expect { enable_user }.not_to change { external_user.reload.enabled? }.from(false) }
     end
 
     context 'when logged in as a caseworker' do
       let(:case_worker) { create :case_worker }
       let(:user) { case_worker.user }
 
-      it 'does not mark the users email as deleted' do
-        expect { enable_user }
-          .not_to change { external_user.reload.email }
-          .from("bubbletea@example.com.deleted.#{external_user.user.id}")
-      end
+      it { expect { enable_user }.not_to change { external_user.reload.enabled? }.from(false) }
     end
   end
 end

@@ -1,0 +1,17 @@
+= content_for :page_title, flush: true do
+  = availability_page_title(@external_user)
+
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    %h1.govuk-heading-xl
+      = availability_page_title(@external_user)
+
+    %h2.govuk-heading-m
+      = availability_heading(@external_user)
+
+    = form_with model: [:provider_management, @external_user], url: update_availability_provider_management_provider_external_user_path(@provider, @external_user), builder: GdsAdpFormBuilder do |f|
+      = f.hidden_field :availability, value: @external_user.disabled?
+
+      .govuk-button-group
+        = availability_submit(@external_user, form: f)
+        = govuk_link_to(t('.cancel'), provider_management_provider_external_user_path(@provider, @external_user))

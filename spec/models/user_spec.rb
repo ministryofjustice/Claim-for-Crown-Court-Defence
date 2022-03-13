@@ -247,7 +247,8 @@ RSpec.describe User, type: :model do
 
   context 'devise messages' do
     let(:active_user) { build :user }
-    let(:inactive_user) { build :user, :softly_deleted }
+    let(:inactive_user) { build(:user, :softly_deleted) }
+    let(:disabled_user) { build(:user, :disabled) }
 
     describe '#inactive_message' do
       it 'returns :inactive for active user' do
@@ -255,7 +256,11 @@ RSpec.describe User, type: :model do
       end
 
       it 'returns specialised message for softly deleted users' do
-        expect(inactive_user.inactive_message).to eq 'This account has been disabled.'
+        expect(inactive_user.inactive_message).to eq 'This account has been deleted.'
+      end
+
+      it 'returns specialised message for disabled users' do
+        expect(disabled_user.inactive_message).to eq 'This account has been disabled.'
       end
     end
 

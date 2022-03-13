@@ -24,7 +24,7 @@
         = @external_user.roles.map(&:humanize).join(', ')
 
       = govuk_summary_list_row_collection(t('.state')) do
-        = @external_user.active? ? t('.live') : t('.inactive')
+        = account_status(@external_user)
 
     .govuk-button-group
       - if can? :edit, @external_user
@@ -33,7 +33,7 @@
       - if can? :change_password, @external_user
         = govuk_link_button_secondary(t('.change_password'), change_password_provider_management_provider_external_user_path(@provider, @external_user))
 
-      - if @external_user.active?
+      - if @external_user.enabled?
         - if can? :change_availability, @external_user
           = govuk_link_button_warning(t('.disable_user'), change_availability_provider_management_provider_external_user_path(@provider, @external_user))
       - else

@@ -43,5 +43,9 @@ FactoryBot.define do
     trait :softly_deleted do
       deleted_at { 10.minutes.ago }
     end
+
+    trait :disabled do
+      disabled_at { 10.minutes.ago }
+    end
   end
 end

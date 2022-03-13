@@ -1,0 +1,25 @@
+en:
+  provider_management:
+    external_users:
+      change_availability:
+        cancel: Cancel
+        disable:
+          failure_message: Unable to disable user
+          success_message: User successfully disabled
+        enable:
+          failure_message: Unable to enable user
+          success_message: User successfully enabled
+
+  provider_management_helper:
+    disabled: Disabled
+    enabled: Enabled
+    inactive: Inactive
+    live: Live
+    disable:
+      heading: Are you sure you want to disable %{external_user}?
+      page_title: Disable %{external_user}
+      submit: Disable account
+    enable:
+      heading: Are you sure you want to enable %{external_user}?
+      page_title: Enable %{external_user}
+      submit: Enable account

@@ -10,7 +10,7 @@ end
 
 Given('a disabled external provider exists with first name {string} and last name {string}') do |first_name, last_name|
   user = create(:user, first_name: first_name, last_name: last_name)
-  create(:external_user, :advocate_and_admin, user: user).soft_delete
+  create(:external_user, :advocate_and_admin, user: user).disable
 end
 
 When('I enter {string} in the email field') do |email|

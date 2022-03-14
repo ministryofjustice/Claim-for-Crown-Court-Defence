@@ -10,6 +10,9 @@ en:
               invalid: Enter a whole number of days
               too_long: The actual trial length is too long
 
+            advocate_category:
+              blank: Choose an advocate category
+
             case_concluded_at:
               blank: Enter a date for case concluded
               present: The case concluded date is not allowed

@@ -61,7 +61,7 @@ class ClaimFormPage < BasePage
   element :offence_search, "input[name='claim[offence]']"
   sections :offence_results, OffenceResultSection, '#offence-list div.fx-result-item'
 
-  section :advocate_category_radios, AdvocateCategoryRadioSection, '.advocate-categories'
+  section :advocate_category_radios, AdvocateCategoryRadioSection, '.js-fee-calculator-advocate-type'
 
   element :continue_button, '#save_continue'
 

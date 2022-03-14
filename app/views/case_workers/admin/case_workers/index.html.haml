@@ -37,3 +37,5 @@
                   = govuk_link_to(t('.delete_caseworker_html', case_worker: case_worker.name), case_workers_admin_case_worker_path(case_worker), method: :delete, data: { confirm: t('.confirmation') })
               - else
                 = t('.inactive')
+
+= paginate @case_workers

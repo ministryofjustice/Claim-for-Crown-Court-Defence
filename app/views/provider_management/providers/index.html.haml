@@ -11,3 +11,5 @@
       = govuk_link_button_secondary(t('.find_provider_by_email'), provider_management_external_users_find_path)
 
 = render partial: 'providers', locals: { providers: @providers }
+
+= paginate @providers

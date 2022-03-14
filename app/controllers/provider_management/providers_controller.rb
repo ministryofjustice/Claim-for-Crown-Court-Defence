@@ -1,8 +1,9 @@
 class ProviderManagement::ProvidersController < ApplicationController
   include ProviderAdminConcern
+  include PaginationHelpers
 
   def index
-    @providers = Provider.order(name: :asc)
+    @providers = Provider.order(name: :asc).page(current_page).per(page_size)
   end
 
   def new

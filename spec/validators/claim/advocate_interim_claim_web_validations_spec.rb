@@ -178,9 +178,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     let(:one_one_representation_order_attrs) { valid_one_one_representation_order_attrs }
     let(:valid_one_other_representation_order_attrs) {
       {
-        'representation_order_date(3i)': (release_date + 2.day).day.to_s,
-        'representation_order_date(2i)': (release_date + 2.day).month.to_s,
-        'representation_order_date(1i)': (release_date + 2.day).year.to_s
+        'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+        'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+        'representation_order_date(1i)': (release_date + 2.days).year.to_s
       }
     }
     let(:one_other_representation_order_attrs) { valid_one_other_representation_order_attrs }
@@ -431,9 +431,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
                 'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                'representation_order_date(3i)': (release_date + 2.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 2.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 2.day).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
@@ -446,9 +446,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                'representation_order_date(3i)': (release_date + 3.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 3.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 3.day).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }
@@ -511,9 +511,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
                 'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                'representation_order_date(3i)': (release_date + 2.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 2.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 2.day).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
@@ -526,9 +526,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                'representation_order_date(3i)': (release_date + 3.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 3.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 3.day).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }
@@ -710,9 +710,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
                 'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                'representation_order_date(3i)': (release_date + 2.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 2.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 2.day).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
@@ -725,9 +725,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                'representation_order_date(3i)': (release_date + 3.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 3.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 3.day).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }
@@ -921,9 +921,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
                 'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                'representation_order_date(3i)': (release_date + 2.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 2.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 2.day).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
@@ -936,9 +936,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                'representation_order_date(3i)': (release_date + 3.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 3.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 3.day).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }
@@ -1065,9 +1065,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
                 'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                'representation_order_date(3i)': (release_date + 2.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 2.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 2.day).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
@@ -1080,9 +1080,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                'representation_order_date(3i)': (release_date + 3.day).day.to_s,
-                'representation_order_date(2i)': (release_date + 3.day).month.to_s,
-                'representation_order_date(1i)': (release_date + 3.day).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }

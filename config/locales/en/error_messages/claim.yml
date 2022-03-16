@@ -933,9 +933,9 @@ basic_fee:
       long: Pages of prosecution evidence fees must not have a rate
       short: Remove the rate
       api: Pages of prosecution evidence fees must not have a rate
-    invalid:
+    enter_a_valid_rate_for_the_initial_fee:
       long: Enter a valid rate for the initial fee
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for the basic fee
 
   amount:

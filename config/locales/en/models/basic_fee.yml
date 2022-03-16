@@ -1,0 +1,9 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        fee/basic_fee:
+          attributes:
+            rate:
+              invalid: Enter a valid rate for the initial fee

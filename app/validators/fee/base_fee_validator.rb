@@ -127,7 +127,7 @@ module Fee
     # NOTE: we have specific error messages for basic fees
     def validate_fee_rate(code = nil)
       if @record.quantity.positive? && @record.rate <= 0
-        add_error(:rate, 'invalid')
+        add_error(:rate, :invalid)
       elsif @record.quantity <= 0 && @record.rate.positive?
         add_error(:quantity, code ? "#{code.downcase}_invalid" : 'invalid')
       end

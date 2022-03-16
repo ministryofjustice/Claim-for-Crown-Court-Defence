@@ -1,0 +1,9 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        fee/fixed_fee:
+          attributes:
+            rate:
+              invalid: Enter a valid rate for the fixed fee

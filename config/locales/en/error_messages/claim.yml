@@ -1012,9 +1012,9 @@ misc_fee:
 
   rate:
     _seq: 20
-    invalid:
+    enter_a_valid_rate_for_the_miscellaneous_fee:
       long: 'Enter a valid net amount for the #{misc_fee}'
-      short: *enter_valid_amount
+      short: _
       api: Enter a rate/net amount for the miscellaneous fee
 
   quantity:
@@ -1091,7 +1091,7 @@ fixed_fee:
 
   rate:
     _seq: 20
-    invalid:
+    enter_a_valid_rate_for_the_fixed_fee:
       long: 'Enter a valid rate for the #{fixed_fee}'
       short: *enter_valid_amount
       api: Enter a rate/net amount for the fixed fee

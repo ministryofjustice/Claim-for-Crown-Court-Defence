@@ -409,7 +409,7 @@ jobs:
 
   other-tests:
     executor: test-executor
-    resource_class: small
+    resource_class: medium
     steps:
       - checkout
       - build-base

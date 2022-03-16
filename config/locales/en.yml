@@ -36,6 +36,8 @@ en:
   TrueClass: *global_yes
   FalseClass: *global_no
 
+  date_hint: &date_hint For example, 31 3 1980
+
   pages:
     api_landing:
       page_heading: Claim for crown court defence API
@@ -1176,6 +1178,7 @@ en:
       date_attended_fields:
         date: 'Date'
         date_attended: Date attended
+        date_hint: *date_hint
         remove: 'Remove'
       date_attended_fields_condensed:
         date_from_full: 'Date attended (from)'

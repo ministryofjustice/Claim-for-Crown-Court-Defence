@@ -129,7 +129,7 @@ When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')
   wait_for_ajax
   if date.present?
     @claim_form_page.miscellaneous_fees.last.add_dates.click
-    @claim_form_page.miscellaneous_fees.last.dates.from.set_date(date)
+    @claim_form_page.miscellaneous_fees.last.dates.set_date(date)
   end
   wait_for_ajax
 end

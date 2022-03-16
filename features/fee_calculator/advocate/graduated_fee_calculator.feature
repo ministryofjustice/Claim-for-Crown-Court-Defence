@@ -261,7 +261,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
 
     And the basic fee net amount should be populated with '489.50'
 
-    When I answer 'Yes' to was prosecution evidence served on this case?
+    When I choose govuk radio 'Yes' for 'Was prosecution evidence served on this case?'
     And the basic fee net amount should be populated with '979.00'
 
     When I click "Continue" in the claim form

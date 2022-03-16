@@ -1,11 +1,6 @@
-.form-group.prosecution-evidence
-  %fieldset{ 'aria-describedby': 'radio-control-evidence' }
-    = f.anchored_without_label t('shared.claim.prosecution_evidence')
-    %legend{ for: 'prosecution_evidence' }
-      %h3#radio-control-evidence.govuk-heading-m
-        = t('common.prosecution_evidence')
-
-    = f.collection_radio_buttons(:prosecution_evidence, yes_no_options, :last, :first) do |b|
-      .multiple-choice.js-fee-calculator-prosecution-evidence
-        = b.radio_button('aria-labelledby': "checkbox-control-legend-prosection-evidence #{b.text.to_css_class}")
-        = b.label(id: b.text.to_css_class) { t((b.value.to_s == true.to_s).class) }
+= f.govuk_collection_radio_buttons :prosecution_evidence,
+  yes_no_options,
+  :last,
+  :first,
+  form_group: { classes: 'js-fee-calculator-prosecution-evidence cc-prosecution-evidence' },
+  legend: { text: t('common.prosecution_evidence') }

@@ -89,7 +89,7 @@ class ClaimFormPage < BasePage
   section :lgfs_supplier_number_radios, SupplierNumberRadioSection, '.lgfs-supplier-numbers'
   section :auto_lgfs_supplier_number, CommonAutocomplete, ".lgfs-supplier-numbers"
 
-  section :prosecution_evidence, YesNoSection, '.prosecution-evidence'
+  section :prosecution_evidence, YesNoSection, '.cc-prosecution-evidence'
 
   def claim_id
     find('#claim-form')['data-claim-id']

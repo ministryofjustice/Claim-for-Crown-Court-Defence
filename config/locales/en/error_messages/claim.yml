@@ -121,9 +121,9 @@ creator:
 
 advocate_category:
   _seq: 20
-  blank:
+  choose_an_advocate_category:
     long: Choose an advocate category
-    short: Choose an advocate category
+    short: _
     api: Choose an advocate category
 
 case_type_id:

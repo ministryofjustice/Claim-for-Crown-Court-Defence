@@ -570,7 +570,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:advocate_category]).to match_array(['blank'])
+        expect(claim.errors[:advocate_category]).to match_array(['Choose an advocate category'])
       }
     end
 

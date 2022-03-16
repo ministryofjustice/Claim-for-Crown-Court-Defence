@@ -11,7 +11,7 @@ RSpec.shared_examples 'advocate category validations' do |options|
 
   it 'errors if not present' do
     claim.advocate_category = nil
-    should_error_with(claim, :advocate_category, 'blank')
+    should_error_with(claim, :advocate_category, 'Choose an advocate category')
   end
 
   it 'errors if not in the available list' do

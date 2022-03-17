@@ -11,13 +11,16 @@
     = link_to_remove_association f, class: 'govuk-link' do
       = t('common.remove_html', context: t('.date_attended'))
 
-  .fee-date-from
+  .cc-date-from
     - if defined?(locale_scope)
       - locale_key = f.object.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore
-
       - date_text = t(locale_key, scope: locale_scope)
 
     - else
       - date_text = t('.date_attended')
 
-    = f.gov_uk_date_field :date, legend_text: date_text, id: "#{error_prefix}_date", error_messages: gov_uk_date_field_error_messages(@error_presenter, "#{error_prefix}_date")
+    = f.govuk_date_field :date,
+      form_group: { id:  "#{error_prefix}_date" },
+      hint: { text: t('.date_hint') },
+      legend: { text: date_text, size: 's' },
+      maxlength_enabled: true

@@ -1171,6 +1171,7 @@ en:
       date_attended_fields:
         date: 'Date'
         date_attended: Date attended
+        date_hint: *date_hint
         remove: 'Remove'
       date_attended_fields_condensed:
         date_from_full: 'Date attended (from)'

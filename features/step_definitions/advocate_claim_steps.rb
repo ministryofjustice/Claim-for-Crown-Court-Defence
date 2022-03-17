@@ -139,7 +139,7 @@ Then(/^I check the section heading to be "([^"]*)"$/) do |num|
 end
 
 Then(/^I select the '(.*?)' fixed fee( with case numbers)?$/) do |name, add_case_numbers|
-  @claim_form_page.fixed_fees.check(name)
+  @claim_form_page.fixed_fees_checkboxes.check(name)
   wait_for_ajax
   @claim_form_page.fixed_fees.fee_block_for(name).case_numbers.set "T20170001" if add_case_numbers
   @claim_form_page.fixed_fees.set_quantity(name)
@@ -222,7 +222,7 @@ end
 
 Then(/^the fixed fee checkboxes should consist of \s*'([^']*)'$/) do |fee_type_descriptions|
   fee_type_descriptions = CSV.parse(fee_type_descriptions).flatten
-  expect(@claim_form_page.fixed_fees.checklist_labels).to match_array(fee_type_descriptions)
+  expect(@claim_form_page.fixed_fees_checkboxes.checklist_labels).to match_array(fee_type_descriptions)
 end
 
 Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, description, rate, hint|

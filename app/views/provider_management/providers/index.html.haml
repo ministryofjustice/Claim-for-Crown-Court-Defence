@@ -10,6 +10,8 @@
         = govuk_link_button(t('.add_a_provider'), new_provider_management_provider_path)
       = govuk_link_button_secondary(t('.find_provider_by_email'), provider_management_external_users_find_path)
 
+= render partial: 'shared/search_form', locals: { search_path: provider_management_providers_path(anchor: 'search-button'), hint_text: t('hint.search_for_provider_name'), button_text: t('search.provider_name') }
+
 = render partial: 'providers', locals: { providers: @providers }
 
 = paginate @providers

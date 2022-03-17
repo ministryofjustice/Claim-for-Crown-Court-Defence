@@ -4,6 +4,11 @@ class ProviderManagement::ProvidersController < ApplicationController
 
   def index
     @providers = Provider.order(name: :asc).page(current_page).per(page_size)
+
+    if params[:search]
+      query = "lower(name) ILIKE :term"
+      @providers = @providers.where(query, term: "%#{params[:search]}%")
+    end
   end
 
   def new

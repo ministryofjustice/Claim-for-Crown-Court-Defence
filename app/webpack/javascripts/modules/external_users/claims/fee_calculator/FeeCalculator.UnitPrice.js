@@ -47,14 +47,16 @@
 
       $(elId).on('change', '.fx-checkbox-hook', function (e) {
         const $el = $(e.target)
-        const parentEl = '#' + $el.closest('.multiple-choice').data('target')
+        const parentEl = '#' + $el.closest('.multiple-choice, .app-checkboxes__item').data('target')
 
         if (!$el.is(':checked')) {
           // TODO: if we are going to destroy the fee do we need to clear it?
           self.clearFee(parentEl)
           self.markForDestruction(parentEl, true)
+          $($el).siblings('.destroy').val(true)
         } else {
           self.markForDestruction(parentEl, false)
+          $($el).siblings('.destroy').val(false)
         }
 
         // Always redo calculation because of fee calc interdependencies
@@ -146,7 +148,7 @@
 
     setHint: function (data, context) {
       const self = this
-      const $label = $(context).closest('.fx-fee-group').find('.form-group.quantity_wrapper').find('.form-hint')
+      const $label = $(context).closest('.fx-fee-group').find('.quantity_wrapper').find('.govuk-hint')
       const $newLabel = self.setHintLabel(data)
       $label.text($newLabel)
 

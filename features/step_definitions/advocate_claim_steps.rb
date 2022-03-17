@@ -154,6 +154,14 @@ Then(/^I select the '(.*?)' basic fee(?: with quantity of (\d+))?( with case num
   wait_for_ajax
 end
 
+Then(/^I select the govuk field '(.*?)' basic fee(?: with quantity of (\d+))?( with case numbers)?$/) do |name, quantity, add_case_numbers|
+  find('.govuk-checkboxes__item label', text: name).click
+  wait_for_ajax
+  @claim_form_page.basic_fees.fee_block_for(name).case_numbers.set "T20170001" if add_case_numbers
+  @claim_form_page.basic_fees.set_quantity(name, quantity || 1)
+  wait_for_ajax
+end
+
 When(/^I set the '(.*?)' fixed fee value to '(.*?)'$/) do |name, value|
   @claim_form_page.fixed_fees.fee_block_for(name).rate.set value
   wait_for_ajax
@@ -297,6 +305,11 @@ end
 Then('I should see the scheme {int} applicable basic fees') do |scheme_no|
   additional_fees = scheme_no.eql?(9) ? scheme_9_additional_fees : scheme_10_additional_fees
   expect(@claim_form_page.basic_fees.checklist_labels).to match_array(additional_fees)
+end
+
+Then('I should see the scheme {int} applicable basic fees based on the govuk checkbox group') do |scheme_no|
+  additional_fees = scheme_no.eql?(9) ? scheme_9_additional_fees : scheme_10_additional_fees
+  expect(@claim_form_page.basic_fees.basic_fees_checkboxes.checklist_labels).to match_array(additional_fees)
 end
 
 Then(/^the basic fee should have its price_calculated value set to true$/) do

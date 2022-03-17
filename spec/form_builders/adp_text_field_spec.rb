@@ -187,7 +187,7 @@ RSpec.describe AdpTextField do
           <div class="form-group case_number_wrapper">
             <label class="form-label-bold" for="case_number">
               Case number
-              <span class="form-hint" >Hint text here</span>
+              <span class="form-hint govuk-hint" >Hint text here</span>
             </label>
             <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="X22334455" />
           </div>
@@ -210,7 +210,7 @@ RSpec.describe AdpTextField do
           <div class="form-group case_number_wrapper field_with_errors form-group-error">
             <label class="form-label-bold" for="case_number">
               Case number
-              <span class="form-hint" >Hint text here</span>
+              <span class="form-hint govuk-hint" >Hint text here</span>
               <span class="error error-message">Validation error here</span>
             </label>
             <input class="form-control " type="text" name="claim[case_number]" id="case_number" value="" />
@@ -240,7 +240,7 @@ RSpec.describe AdpTextField do
           <div class="form-group case_number_wrapper">
             <label class="form-label-bold" for="case_number">
               Case number
-              <span class="form-hint" >Hint text here</span>
+              <span class="form-hint govuk-hint" >Hint text here</span>
             </label>
             <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
           </div>
@@ -253,7 +253,7 @@ RSpec.describe AdpTextField do
           <div class="form-group case_number_wrapper">
             <label class="form-label-bold" for="case_number">
               Case number
-              <span class="form-hint" style="display: none;">Hint text here</span>
+              <span class="form-hint govuk-hint" style="display: none;">Hint text here</span>
             </label>
             <input class="form-control " type="number" name="claim[case_number]" id="case_number" value="" min="0" max="99999" />
           </div>

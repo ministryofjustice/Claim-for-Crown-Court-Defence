@@ -42,12 +42,12 @@ Feature: Advocate admin submits a claim for a Trial case
     Then I click "Continue" in the claim form
 
     And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
-    And I should see the scheme 9 applicable basic fees
+    And I should see the scheme 9 applicable basic fees based on the govuk checkbox group
     And the basic fee net amount should be populated with '0.00'
 
     Then I select an advocate category of 'Junior alone'
     And the basic fee net amount should be populated with '1305.00'
-    And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
+    And I select the govuk field 'Number of cases uplift' basic fee with quantity of 1 with case numbers
 
     And I should see a page title "Enter graduated fees for advocate final fees claim"
     Then I click "Continue" in the claim form

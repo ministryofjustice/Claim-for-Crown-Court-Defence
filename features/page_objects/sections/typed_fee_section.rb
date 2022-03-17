@@ -2,7 +2,7 @@ class TypedFeeSection < SitePrism::Section
   sections :select_options, "select.js-fee-type > option" do end
   element :select_input, "input.tt-input", visible: true
   element :quantity, "input.quantity"
-  element :quantity_hint, ".quantity_wrapper span.form-hint"
+  element :quantity_hint, ".quantity_wrapper .govuk-hint"
   element :calc_help_text, ".fee-calc-help-wrapper"
   element :rate, "input.rate"
   element :amount, nil

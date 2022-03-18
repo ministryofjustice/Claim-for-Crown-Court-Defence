@@ -120,14 +120,14 @@ module Fee
     end
 
     def validate_uncalculated_fee(code)
-      add_error(:rate, "#{code.downcase}_must_be_blank") if @record.rate.positive?
+      add_error(:rate, "#{code.downcase}_must_be_blank".to_sym) if @record.rate.positive?
     end
 
     # if one has a value and the other doesn't then we add error to the one that does NOT have a value
     # NOTE: we have specific error messages for basic fees
     def validate_fee_rate(code = nil)
       if @record.quantity.positive? && @record.rate <= 0
-        add_error(:rate, :invalid)
+        add_error(:rate, code ? "#{code.downcase}_invalid".to_sym : :invalid)
       elsif @record.quantity <= 0 && @record.rate.positive?
         add_error(:quantity, code ? "#{code.downcase}_invalid" : 'invalid')
       end

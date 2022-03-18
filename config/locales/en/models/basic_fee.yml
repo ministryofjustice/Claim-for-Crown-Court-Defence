@@ -5,5 +5,20 @@ en:
       models:
         fee/basic_fee:
           attributes:
+
             rate:
+              baf_invalid: Enter a valid rate for the basic fee
+              daf_invalid: Enter a valid rate for daily attendance fees (3-40 days)
+              dah_invalid: Enter a valid rate for daily attendance fees (41-50 days)
+              daj_invalid: Enter a valid rate for daily attendance fees (51+ days)
+              dat_invalid: Enter a valid rate for daily attendance fees (2+ days)
+              saf_invalid: Enter a valid rate for standard appearance fees
+              pcm_invalid: Enter a valid rate for plea and case management hearing fees
+              cav_invalid: Enter a valid rate for conference and views fees
+              ndr_invalid: Enter a valid rate for number of defendants uplift fees
+              noc_invalid: Enter a valid rate for number of cases uplift fees
+              npw_invalid: Enter a valid rate for number of prosecution witnesses fees
+              ppe_invalid: Enter a valid rate for pages of prosecution evidence fees
+              npw_must_be_blank: Number of prosecution witnesses fees must not have a rate
+              ppe_must_be_blank: Pages of prosecution evidence fees must not have a rate
               invalid: Enter a valid rate for the initial fee

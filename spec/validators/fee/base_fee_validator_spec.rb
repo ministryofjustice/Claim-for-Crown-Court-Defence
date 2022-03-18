@@ -198,10 +198,10 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
     context 'with quantity greater than zero' do
       it { should_be_valid_if_equal_to_value(daf_fee, :rate, 450.00) }
-      it { should_error_if_equal_to_value(baf_fee, :rate, 0.00, 'Enter a valid rate for the initial fee') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, nil,  'Enter a valid rate for the initial fee') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, 0.00, 'Enter a valid rate for the initial fee') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, -320, 'Enter a valid rate for the initial fee') }
+      it { should_error_if_equal_to_value(baf_fee, :rate, 0.00, 'Enter a valid rate for the basic fee') }
+      it { should_error_if_equal_to_value(daf_fee, :rate, nil,  'Enter a valid rate for daily attendance fees (3-40 days)') }
+      it { should_error_if_equal_to_value(daf_fee, :rate, 0.00, 'Enter a valid rate for daily attendance fees (3-40 days)') }
+      it { should_error_if_equal_to_value(daf_fee, :rate, -320, 'Enter a valid rate for daily attendance fees (3-40 days)') }
     end
 
     context 'with quantity of zero and a rate greater than zero' do
@@ -262,7 +262,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         [ppe_fee, npw_fee].each do |f|
           f.rate = 25
           expect(f).to_not be_valid
-          expect(f.errors[:rate]).to include("#{f.fee_type.code.downcase}_must_be_blank")
+          expect(f.errors[:rate]).to include(match(/fees must not have a rate/))
         end
       end
 
@@ -343,7 +343,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           it 'raises invalid RATE error when quantity is one' do
             baf_fee.quantity = 1
             expect(baf_fee.valid?).to be false
-            expect(baf_fee.errors[:rate]).to include('Enter a valid rate for the initial fee')
+            expect(baf_fee.errors[:rate]).to include('Enter a valid rate for the basic fee')
           end
         end
       end

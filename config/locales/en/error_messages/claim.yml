@@ -877,61 +877,61 @@ basic_fee:
 
   rate:
     _seq: 20
-    baf_invalid:
+    enter_a_valid_rate_for_the_basic_fee:
       long: Enter a valid rate for the basic fee
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for the basic fee
-    daf_invalid:
+    enter_a_valid_rate_for_daily_attendance_fees_3_40_days:
       long: Enter a valid rate for daily attendance fees (3-40 days)
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for daily attendance fees (3-40 days)
-    dah_invalid:
+    enter_a_valid_rate_for_daily_attendance_fees_41_50_days:
       long: Enter a valid rate for daily attendance fees (41-50 days)
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for daily attendance fees (41-50 days)
-    daj_invalid:
+    enter_a_valid_rate_for_daily_attendance_fees_51_days:
       long: Enter a valid rate for daily attendance fees (51+ days)
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for daily attendance fees (51+ days)
-    dat_invalid:
+    enter_a_valid_rate_for_daily_attendance_fees_2_days:
       long: Enter a valid rate for daily attendance fees (2+ days)
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for daily attendance fees (2+ days)
-    saf_invalid:
+    enter_a_valid_rate_for_standard_appearance_fees:
       long: Enter a valid rate for standard appearance fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for standard appearance fees
-    pcm_invalid:
+    enter_a_valid_rate_for_plea_and_case_management_hearing_fees:
       long: Enter a valid rate for plea and case management hearing fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for plea and case management hearing fees
-    cav_invalid:
+    enter_a_valid_rate_for_conference_and_views_fees:
       long: Enter a valid rate for conference and views fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for conference and views fees
-    ndr_invalid:
+    enter_a_valid_rate_for_number_of_defendants_uplift_fees:
       long: Enter a valid rate for number of defendants uplift fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for number of defendants uplift fees
-    noc_invalid:
+    enter_a_valid_rate_for_number_of_cases_uplift_fees:
       long: Enter a valid rate for number of cases uplift fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for number of cases uplift fees
-    npw_invalid:
+    enter_a_valid_rate_for_number_of_prosecution_witnesses_fees:
       long: Enter a valid rate for number of prosecution witnesses fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for number of prosecution witnesses fees
-    ppe_invalid:
+    enter_a_valid_rate_for_pages_of_prosecution_evidence_fees:
       long: Enter a valid rate for pages of prosecution evidence fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for pages of prosecution evidence fees
-    npw_must_be_blank:
+    number_of_prosecution_witnesses_fees_must_not_have_a_rate:
       long: Number of prosecution witnesses fees must not have a rate
-      short:  Remove the rate
+      short:  _
       api: Number of prosecution witnesses fees must not have a rate
-    ppe_must_be_blank:
+    pages_of_prosecution_evidence_fees_must_not_have_a_rate:
       long: Pages of prosecution evidence fees must not have a rate
-      short: Remove the rate
+      short: _
       api: Pages of prosecution evidence fees must not have a rate
     enter_a_valid_rate_for_the_initial_fee:
       long: Enter a valid rate for the initial fee

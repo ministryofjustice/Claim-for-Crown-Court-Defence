@@ -24,7 +24,7 @@ class SurveyMonkeySender
       ratings: @feedback.rating,
       comments: @feedback.comment,
       reasons: reasons(@feedback.reason, @feedback.other_reason)
-    }.delete_if { |_, value| value.blank? }
+    }.compact_blank
   end
 
   def reasons(reason, other_reason)

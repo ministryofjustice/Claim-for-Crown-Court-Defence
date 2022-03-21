@@ -60,7 +60,7 @@ module ErrorMessage
         model.slice!('_attributes')
         model = model.singularize
         all_model_indices[model] = Regexp.last_match(3)
-        attribute = Regexp.last_match(4)
+        attribute = Key.new(Regexp.last_match(4))
       end
 
       { model: model, attribute: attribute, all_model_indices: all_model_indices }

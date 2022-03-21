@@ -24,6 +24,6 @@ updates:
   allow:
     - dependency-type: "all"
   reviewers:
-  - "jsugarman"
+  - "mpw5"
   - "jrmhaig"
   - "ministryofjustice/laa-claim-for-payment"

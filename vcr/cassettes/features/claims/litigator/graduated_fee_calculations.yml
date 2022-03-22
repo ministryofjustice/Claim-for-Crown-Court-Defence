@@ -19,26 +19,26 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 09 Feb 2021 18:22:17 GMT
+      - Mon, 21 Mar 2022 17:56:21 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       X-Frame-Options:
       - SAMEORIGIN
-      Vary:
-      - Accept, Cookie
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-  recorded_at: Tue, 09 Feb 2021 18:22:17 GMT
+  recorded_at: Mon, 21 Mar 2022 17:56:21 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -58,19 +58,19 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 09 Feb 2021 18:22:17 GMT
+      - Mon, 21 Mar 2022 17:56:21 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '4119'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       X-Frame-Options:
       - SAMEORIGIN
-      Vary:
-      - Accept, Cookie
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
@@ -119,7 +119,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Tue, 09 Feb 2021 18:22:17 GMT
+  recorded_at: Mon, 21 Mar 2022 17:56:21 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&scenario=4
@@ -139,25 +139,25 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 09 Feb 2021 18:22:17 GMT
+      - Mon, 21 Mar 2022 17:56:21 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '14'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
       Allow:
       - GET
       X-Frame-Options:
       - SAMEORIGIN
-      Vary:
-      - Accept, Cookie
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":0.0}'
-  recorded_at: Tue, 09 Feb 2021 18:22:17 GMT
+  recorded_at: Mon, 21 Mar 2022 17:56:21 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -177,7 +177,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 09 Feb 2021 18:22:18 GMT
+      - Mon, 21 Mar 2022 17:56:22 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -185,18 +185,18 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
+      - Accept, Origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
+      X-Frame-Options:
+      - SAMEORIGIN
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-  recorded_at: Tue, 09 Feb 2021 18:22:18 GMT
+  recorded_at: Mon, 21 Mar 2022 17:56:22 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -216,7 +216,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 09 Feb 2021 18:22:18 GMT
+      - Mon, 21 Mar 2022 17:56:22 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -224,7 +224,7 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Cookie
+      - Accept, Origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       X-Frame-Options:
@@ -277,7 +277,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Tue, 09 Feb 2021 18:22:18 GMT
+  recorded_at: Mon, 21 Mar 2022 17:56:22 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/calculate/?day=2&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&scenario=4
@@ -297,7 +297,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 09 Feb 2021 18:22:19 GMT
+      - Mon, 21 Mar 2022 17:56:22 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -305,17 +305,17 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Cookie
-      X-Frame-Options:
-      - SAMEORIGIN
+      - Accept, Origin, Cookie
       Allow:
       - GET
+      X-Frame-Options:
+      - SAMEORIGIN
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":429.12}'
-  recorded_at: Tue, 09 Feb 2021 18:22:19 GMT
+  recorded_at: Mon, 21 Mar 2022 17:56:22 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
@@ -335,26 +335,26 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 09 Feb 2021 18:22:20 GMT
+      - Mon, 21 Mar 2022 17:56:23 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '156'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       X-Frame-Options:
       - SAMEORIGIN
-      Vary:
-      - Accept, Cookie
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-  recorded_at: Tue, 09 Feb 2021 18:22:20 GMT
+  recorded_at: Mon, 21 Mar 2022 17:56:23 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -374,7 +374,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 09 Feb 2021 18:22:20 GMT
+      - Mon, 21 Mar 2022 17:56:24 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -382,7 +382,7 @@ http_interactions:
       Connection:
       - keep-alive
       Vary:
-      - Accept, Cookie
+      - Accept, Origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
       X-Frame-Options:
@@ -435,7 +435,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Tue, 09 Feb 2021 18:22:20 GMT
+  recorded_at: Mon, 21 Mar 2022 17:56:24 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/calculate/?day=2&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&ppe=51&scenario=4
@@ -455,23 +455,23 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Tue, 09 Feb 2021 18:22:20 GMT
+      - Mon, 21 Mar 2022 17:56:24 GMT
       Content-Type:
       - application/json
       Content-Length:
       - '17'
       Connection:
       - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
       Allow:
       - GET
       X-Frame-Options:
       - SAMEORIGIN
-      Vary:
-      - Accept, Cookie
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
       string: '{"amount":437.89}'
-  recorded_at: Tue, 09 Feb 2021 18:22:20 GMT
-recorded_with: VCR 6.0.0
+  recorded_at: Mon, 21 Mar 2022 17:56:24 GMT
+recorded_with: VCR 6.1.0

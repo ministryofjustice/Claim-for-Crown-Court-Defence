@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
-  subject(:generator) { described_class.new(options) }
+  subject(:generator) { described_class.new(**options) }
 
   let(:options) { {} }
   let(:expected_headers) do

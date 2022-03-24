@@ -47,7 +47,7 @@ module Remote
       private
 
       def all_by_status(status, user:, query:)
-        all(**query.merge(api_key: user.api_key, status: status))
+        all(api_key: user.api_key, status: status, **query)
       end
     end
 

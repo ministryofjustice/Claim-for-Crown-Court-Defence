@@ -17,42 +17,58 @@ module Claims
       }
     end
 
-    context 'Using remote' do
-      # before(:each) { allow(Settings).to receive(:case_workers_remote_allocations?).and_return(true) }
+    describe '#claims' do
+      subject(:claims) { described_class.new(current_user: user, action: action, criteria: criteria).claims }
 
-      context 'action current' do
+      let(:method) { action.to_sym }
+
+      before do
+        allow(Remote::Claim).to receive(method)
+      end
+
+      context 'with current action' do
+        let(:action) { 'current' }
+        let(:method) { :user_allocations }
+
         it 'calls user_allocations on Remote::Claim' do
-          expect(Remote::Claim).to receive(:user_allocations).with(user, **criteria)
-          CaseWorkerClaims.new(current_user: user, action: 'current', criteria: criteria).claims
+          claims
+          expect(Remote::Claim).to have_received(method).with(user, **criteria)
         end
       end
 
-      context 'archived' do
+      context 'with archived action' do
+        let(:action) { 'archived' }
+
         it 'calls archived on Remote::Claim' do
-          expect(Remote::Claim).to receive(:archived).with(user, **criteria)
-          CaseWorkerClaims.new(current_user: user, action: 'archived', criteria: criteria).claims
+          claims
+          expect(Remote::Claim).to have_received(method).with(user, **criteria)
         end
       end
 
-      context 'allocated' do
+      context 'with allocated action' do
+        let(:action) { 'allocated' }
+
         it 'calls allocated on Remote::Claim' do
-          expect(Remote::Claim).to receive(:allocated).with(user, **criteria)
-          CaseWorkerClaims.new(current_user: user, action: 'allocated', criteria: criteria).claims
+          claims
+          expect(Remote::Claim).to have_received(method).with(user, **criteria)
         end
       end
 
-      context 'unallocated' do
+      context 'with unallocated action' do
+        let(:action) { 'unallocated' }
+
         it 'calls unallocated on Remote::Claim' do
-          expect(Remote::Claim).to receive(:unallocated).with(user, **criteria)
-          CaseWorkerClaims.new(current_user: user, action: 'unallocated', criteria: criteria).claims
+          claims
+          expect(Remote::Claim).to have_received(method).with(user, **criteria)
         end
       end
 
-      context 'unrecognised action' do
+      context 'with unrecognised action' do
+        let(:action) { 'no-such-action' }
+        let(:method) { :user_allocations }
+
         it 'raises' do
-          expect {
-            CaseWorkerClaims.new(current_user: user, action: 'no-such-action', criteria: criteria).claims
-          }.to raise_error ArgumentError, 'Unknown action: no-such-action'
+          expect { claims }.to raise_error ArgumentError, 'Unknown action: no-such-action'
         end
       end
     end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Remote
   describe Claim do
-    let(:user) { double ::Remote::User }
+    let(:user) { instance_double ::Remote::User }
     let(:query) { { 'my_query_key' => 'my query value' } }
 
     describe '.resource_path' do
@@ -12,34 +12,42 @@ module Remote
     end
 
     describe '.user_allocations' do
+      before { allow(::Remote::Claim).to receive(:all_by_status).with('current', user: user, query: query) }
+
       it 'calls all by status' do
-        expect(::Remote::Claim).to receive(:all_by_status).with('current', user: user, query: query)
         ::Remote::Claim.user_allocations(user, **query)
+        expect(::Remote::Claim).to have_received(:all_by_status).with('current', user: user, query: query)
       end
     end
 
     describe '.allocated' do
+      before { allow(::Remote::Claim).to receive(:all_by_status).with('allocated', user: user, query: query) }
+
       it 'calls all by status' do
-        expect(::Remote::Claim).to receive(:all_by_status).with('allocated', user: user, query: query)
         ::Remote::Claim.allocated(user, **query)
+        expect(::Remote::Claim).to have_received(:all_by_status).with('allocated', user: user, query: query)
       end
     end
 
     describe '.unallocated' do
+      before { allow(::Remote::Claim).to receive(:all_by_status).with('unallocated', user: user, query: query) }
+
       it 'calls all by status' do
-        expect(::Remote::Claim).to receive(:all_by_status).with('unallocated', user: user, query: query)
         ::Remote::Claim.unallocated(user, **query)
+        expect(::Remote::Claim).to have_received(:all_by_status).with('unallocated', user: user, query: query)
       end
     end
 
     describe '.archived' do
+      before { allow(::Remote::Claim).to receive(:all_by_status).with('archived', user: user, query: query) }
+
       it 'calls all by status' do
-        expect(::Remote::Claim).to receive(:all_by_status).with('archived', user: user, query: query)
         ::Remote::Claim.archived(user, **query)
+        expect(::Remote::Claim).to have_received(:all_by_status).with('archived', user: user, query: query)
       end
     end
 
-    describe 'all_by_status' do
+    describe '.all_by_status' do
       let(:claim_collection) { double 'Claim Collection', map: 'mapped_collection' }
       let(:user) { double Remote::User, api_key: 'my_api_key' }
       let(:query_params) do
@@ -50,10 +58,13 @@ module Remote
         }
       end
 
-      it 'calls HttpClient to make the query' do
+      before do
         client = double Remote::HttpClient
-        expect(Remote::HttpClient).to receive(:current).and_return(client)
-        expect(client).to receive(:get).with('case_workers/claims', **query_params).and_return(claim_collection)
+        allow(Remote::HttpClient).to receive(:current).and_return(client)
+        allow(client).to receive(:get).with('case_workers/claims', **query_params).and_return(claim_collection)
+      end
+
+      it 'calls HttpClient to make the query' do
         expect(::Remote::Claim.__send__(:all_by_status, 'current', user: user, query: query)).to eq('mapped_collection')
       end
     end

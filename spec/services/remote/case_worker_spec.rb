@@ -14,10 +14,16 @@ module Remote
     let(:query) { { 'query_key' => 'query value' } }
     let(:case_worker_collection) { double 'CaseWorker Collection', map: 'mapped_collection' }
 
-    it 'calls HttpClient to make the query' do
+    before do
       client = double Remote::HttpClient
-      expect(Remote::HttpClient).to receive(:current).and_return(client)
-      expect(client).to receive(:get).with('case_workers', 'query_key' => 'query value', api_key: 'my_api_key').and_return(case_worker_collection)
+      allow(Remote::HttpClient).to receive(:current).and_return(client)
+      allow(client)
+        .to receive(:get)
+        .with('case_workers', 'query_key' => 'query value', api_key: 'my_api_key')
+        .and_return(case_worker_collection)
+    end
+
+    it 'calls HttpClient to make the query' do
       expect(::Remote::CaseWorker.all(user, **query)).to eq('mapped_collection')
     end
   end

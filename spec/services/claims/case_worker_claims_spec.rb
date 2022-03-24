@@ -22,28 +22,28 @@ module Claims
 
       context 'action current' do
         it 'calls user_allocations on Remote::Claim' do
-          expect(Remote::Claim).to receive(:user_allocations).with(user, criteria)
+          expect(Remote::Claim).to receive(:user_allocations).with(user, **criteria)
           CaseWorkerClaims.new(current_user: user, action: 'current', criteria: criteria).claims
         end
       end
 
       context 'archived' do
         it 'calls archived on Remote::Claim' do
-          expect(Remote::Claim).to receive(:archived).with(user, criteria)
+          expect(Remote::Claim).to receive(:archived).with(user, **criteria)
           CaseWorkerClaims.new(current_user: user, action: 'archived', criteria: criteria).claims
         end
       end
 
       context 'allocated' do
         it 'calls allocated on Remote::Claim' do
-          expect(Remote::Claim).to receive(:allocated).with(user, criteria)
+          expect(Remote::Claim).to receive(:allocated).with(user, **criteria)
           CaseWorkerClaims.new(current_user: user, action: 'allocated', criteria: criteria).claims
         end
       end
 
       context 'unallocated' do
         it 'calls unallocated on Remote::Claim' do
-          expect(Remote::Claim).to receive(:unallocated).with(user, criteria)
+          expect(Remote::Claim).to receive(:unallocated).with(user, **criteria)
           CaseWorkerClaims.new(current_user: user, action: 'unallocated', criteria: criteria).claims
         end
       end

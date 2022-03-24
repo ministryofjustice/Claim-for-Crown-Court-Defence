@@ -14,28 +14,28 @@ module Remote
     describe '.user_allocations' do
       it 'calls all by status' do
         expect(::Remote::Claim).to receive(:all_by_status).with('current', user: user, query: query)
-        ::Remote::Claim.user_allocations(user, query)
+        ::Remote::Claim.user_allocations(user, **query)
       end
     end
 
     describe '.allocated' do
       it 'calls all by status' do
         expect(::Remote::Claim).to receive(:all_by_status).with('allocated', user: user, query: query)
-        ::Remote::Claim.allocated(user, query)
+        ::Remote::Claim.allocated(user, **query)
       end
     end
 
     describe '.unallocated' do
       it 'calls all by status' do
         expect(::Remote::Claim).to receive(:all_by_status).with('unallocated', user: user, query: query)
-        ::Remote::Claim.unallocated(user, query)
+        ::Remote::Claim.unallocated(user, **query)
       end
     end
 
     describe '.archived' do
       it 'calls all by status' do
         expect(::Remote::Claim).to receive(:all_by_status).with('archived', user: user, query: query)
-        ::Remote::Claim.archived(user, query)
+        ::Remote::Claim.archived(user, **query)
       end
     end
 
@@ -53,7 +53,7 @@ module Remote
       it 'calls HttpClient to make the query' do
         client = double Remote::HttpClient
         expect(Remote::HttpClient).to receive(:current).and_return(client)
-        expect(client).to receive(:get).with('case_workers/claims', query_params).and_return(claim_collection)
+        expect(client).to receive(:get).with('case_workers/claims', **query_params).and_return(claim_collection)
         expect(::Remote::Claim.__send__(:all_by_status, 'current', user: user, query: query)).to eq('mapped_collection')
       end
     end

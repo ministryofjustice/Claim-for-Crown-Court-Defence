@@ -26,19 +26,19 @@ module Claims
     private
 
     def current_claims
-      Remote::Claim.user_allocations(current_user, criteria)
+      Remote::Claim.user_allocations(current_user, **criteria)
     end
 
     def archived_claims
-      Remote::Claim.archived(current_user, criteria)
+      Remote::Claim.archived(current_user, **criteria)
     end
 
     def allocated_claims
-      Remote::Claim.allocated(current_user, criteria)
+      Remote::Claim.allocated(current_user, **criteria)
     end
 
     def unallocated_claims
-      Remote::Claim.unallocated(current_user, criteria)
+      Remote::Claim.unallocated(current_user, **criteria)
     end
   end
 end

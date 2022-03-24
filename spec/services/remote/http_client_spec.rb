@@ -58,7 +58,7 @@ module Remote
         expect(JSON).to receive(:parse).with('body', symbolize_names: true).and_return({ key: 'value' })
         expect(RestClient::Request).to receive(:execute).with(method: :get, url: endpoint, timeout: 4, open_timeout: 2).and_return(response)
 
-        result = HttpClient.current.get(path, query)
+        result = HttpClient.current.get(path, **query)
 
         expect(result).to eq({ key: 'value' })
       end

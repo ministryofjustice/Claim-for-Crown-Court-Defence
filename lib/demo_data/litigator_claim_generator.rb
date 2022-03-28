@@ -3,7 +3,7 @@ require_relative 'fixed_fee_generator'
 require_relative 'fee_generator'
 
 module DemoData
-  class LitigatorClaimGenerator < LgfsSchemeClaimGenerator
+  class LitigatorClaimGenerator < LGFSSchemeClaimGenerator
 
     def generate_claim(litigator)
       super(Claim::LitigatorClaim, litigator)

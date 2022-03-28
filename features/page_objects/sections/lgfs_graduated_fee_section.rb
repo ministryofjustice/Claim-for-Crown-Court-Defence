@@ -1,4 +1,4 @@
-class LgfsGraduatedFeeSection < SitePrism::Section
+class LGFSGraduatedFeeSection < SitePrism::Section
   section :date, CommonDateSection, ".form-date"
   element :actual_trial_length, "input#actual_trial_length"
   element :quantity, "input.quantity"

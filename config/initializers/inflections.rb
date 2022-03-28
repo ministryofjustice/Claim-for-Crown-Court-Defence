@@ -20,6 +20,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'XML'
   inflect.acronym 'MI'
   inflect.acronym 'AGFS'
+  inflect.acronym 'LGFS'
 end
 
 # These inflection rules are supported but not enabled by default:

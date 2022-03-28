@@ -3,7 +3,7 @@ require_relative 'disbursement_generator'
 
 module DemoData
   # For claims: litigator, interim, transfer...
-  class LgfsSchemeClaimGenerator < BaseClaimGenerator
+  class LGFSSchemeClaimGenerator < BaseClaimGenerator
 
     def generate_claim(klass, litigator)
       claim = klass.new(

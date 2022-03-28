@@ -2,7 +2,7 @@ require_relative 'lgfs_scheme_claim_generator'
 require_relative 'interim_fee_generator'
 
 module DemoData
-  class InterimClaimGenerator < LgfsSchemeClaimGenerator
+  class InterimClaimGenerator < LGFSSchemeClaimGenerator
 
     def generate_claim(litigator)
       super(Claim::InterimClaim, litigator)

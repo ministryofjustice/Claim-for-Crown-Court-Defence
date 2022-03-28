@@ -10,7 +10,7 @@ Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dep
 
 module Stats
   module ManagementInformation
-    module Lgfs
+    module LGFS
       class WrittenReasonsQuery < BaseCountQuery
         acts_as_scheme :lgfs
 

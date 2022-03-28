@@ -145,7 +145,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
         it_behaves_like 'a successful report generator caller' do
           let(:args) do
             { report_type: 'lgfs_management_information_statistics',
-              query_set: instance_of(Stats::ManagementInformation::LgfsQuerySet),
+              query_set: instance_of(Stats::ManagementInformation::LGFSQuerySet),
               start_at: Time.zone.today,
               duration: 1.month - 1.day }
           end

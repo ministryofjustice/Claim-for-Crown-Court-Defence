@@ -6,8 +6,8 @@ require_relative 'sections/common_autocomplete_section'
 class LitigatorTransferClaimFormPage < LitigatorClaimFormPage
   set_url "/litigators/transfer_claims/new"
 
-  section :transfer_detail, LgfsTransferDetailSection, "#transfer-detail"
-  section :transfer_fee, LgfsTransferFeeSection, "#transfer-fee"
+  section :transfer_detail, LGFSTransferDetailSection, "#transfer-detail"
+  section :transfer_fee, LGFSTransferFeeSection, "#transfer-fee"
   section :transfer_stage, CommonAutocomplete, "#cc-transfer-stage"
   section :case_conclusion, CommonAutocomplete, "#cc-case-conclusion"
 end

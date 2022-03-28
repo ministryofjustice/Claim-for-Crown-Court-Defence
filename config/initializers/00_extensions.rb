@@ -30,8 +30,8 @@ module Rails
   extend RailsModuleExtension
 end
 
-module ActiveSupport::XmlMini
-  extend XmlMiniExtension
+module ActiveSupport::XMLMini
+  extend XMLMiniExtension
 end
 
 class TrueClass

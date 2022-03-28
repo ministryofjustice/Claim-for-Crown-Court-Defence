@@ -21,6 +21,8 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'MI'
   inflect.acronym 'AGFS'
   inflect.acronym 'LGFS'
+  inflect.acronym 'CCR'
+  inflect.acronym 'CCLF'
 end
 
 # These inflection rules are supported but not enabled by default:

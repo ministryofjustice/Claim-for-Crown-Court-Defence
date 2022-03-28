@@ -33,11 +33,11 @@ module API::Helpers
     end
 
     def create_resource(klass)
-      API::Helpers::ApiHelper.create_resource(klass, params, api_response, arguments_proc)
+      API::Helpers::APIHelper.create_resource(klass, params, api_response, arguments_proc)
     end
 
     def validate_resource(klass)
-      API::Helpers::ApiHelper.validate_resource(klass, api_response, arguments_proc)
+      API::Helpers::APIHelper.validate_resource(klass, api_response, arguments_proc)
     end
 
     def arguments_proc
@@ -45,7 +45,7 @@ module API::Helpers
     end
 
     def api_response
-      @api_response ||= API::ApiResponse.new
+      @api_response ||= API::APIResponse.new
     end
 
     def find_user_by_email(email:, relation:)

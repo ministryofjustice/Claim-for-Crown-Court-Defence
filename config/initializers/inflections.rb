@@ -16,6 +16,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'LF1'
   inflect.acronym 'LF2'
   inflect.human(/af1_lf1_processed_by/, "af1/lf1 processed by")
+  inflect.acronym 'API'
 end
 
 # These inflection rules are supported but not enabled by default:

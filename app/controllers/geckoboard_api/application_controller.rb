@@ -1,4 +1,4 @@
-class GeckoboardApi::ApplicationController < ActionController::Base
+class GeckoboardAPI::ApplicationController < ActionController::Base
   before_action :authenticate_token!
 
   private

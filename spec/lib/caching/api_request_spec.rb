@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'caching/api_request'
 
-RSpec.describe Caching::ApiRequest do
+RSpec.describe Caching::APIRequest do
   let(:url) { 'http://test.com/ping.json' }
 
   let(:headers) { {} }

@@ -43,7 +43,7 @@ describe Remote::HttpClient do
 
     it 'calls execute on RestClient::Request' do
       response = double('HTTPResponse', body: 'body', headers: {})
-      expect(Caching::ApiRequest).to receive(:cache).with(endpoint).and_call_original
+      expect(Caching::APIRequest).to receive(:cache).with(endpoint).and_call_original
       expect(JSON).to receive(:parse).with('body', symbolize_names: true).and_return({ key: 'value' })
       expect(RestClient::Request)
         .to receive(:execute)

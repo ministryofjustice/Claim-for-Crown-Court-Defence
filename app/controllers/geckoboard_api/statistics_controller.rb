@@ -1,4 +1,4 @@
-class GeckoboardApi::StatisticsController < ApplicationController
+class GeckoboardAPI::StatisticsController < ApplicationController
   include DisableViewOnlyActions
 
   skip_load_and_authorize_resource only: [:index]

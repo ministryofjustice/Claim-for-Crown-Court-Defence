@@ -2,8 +2,8 @@ require_relative 'api_helper'
 
 module API
   module Helpers
-    class GrapeApiHelper < Grape::API
-      include API::Helpers::ApiHelper
+    class GrapeAPIHelper < Grape::API
+      include API::Helpers::APIHelper
     end
   end
 end

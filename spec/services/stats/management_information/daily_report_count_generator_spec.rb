@@ -123,7 +123,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       end
 
       let(:kwargs) { { query_set:, start_at: start_date } }
-      let(:query_set) { Stats::ManagementInformation::AgfsQuerySet.new }
+      let(:query_set) { Stats::ManagementInformation::AGFSQuerySet.new }
       let(:start_date) { 1.month.ago.to_date }
       let(:rows) { CSV.parse(result.content, headers: true) }
 
@@ -145,7 +145,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       before { allow(LogStuff).to receive(:info) }
 
       let(:kwargs) { { query_set:, start_at: Date.current } }
-      let(:query_set) { Stats::ManagementInformation::AgfsQuerySet.new }
+      let(:query_set) { Stats::ManagementInformation::AGFSQuerySet.new }
 
       it 'logs start and end' do
         call
@@ -159,8 +159,13 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
         allow(LogStuff).to receive(:error)
       end
 
+<<<<<<< HEAD
       let(:kwargs) { { query_set:, start_at: Date.current } }
       let(:query_set) { Stats::ManagementInformation::AgfsQuerySet.new }
+=======
+      let(:kwargs) { { query_set: query_set, start_at: Date.current } }
+      let(:query_set) { Stats::ManagementInformation::AGFSQuerySet.new }
+>>>>>>> 5f2aebf8c (CFP-179 Zeitwerk: Inflect AGFS and update code)
 
       it 'uses LogStuff to log error' do
         call

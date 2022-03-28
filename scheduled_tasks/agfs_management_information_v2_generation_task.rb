@@ -1,7 +1,7 @@
 require 'chronic'
 
 # https://github.com/ssoroka/scheduler_daemon for help
-class AgfsManagementInformationV2GenerationTask < Scheduler::SchedulerTask
+class AGFSManagementInformationV2GenerationTask < Scheduler::SchedulerTask
   every '1d', first_at: Chronic.parse('next 1:50 am')
 
   def run

@@ -16,7 +16,7 @@ module Stats
 
         private
 
-        # OPTIMIZE: this is the sames as Agfs::WrittenReasonsQuery
+        # OPTIMIZE: this is the sames as AGFS::WrittenReasonsQuery
         def query
           <<~SQL
             WITH days AS (

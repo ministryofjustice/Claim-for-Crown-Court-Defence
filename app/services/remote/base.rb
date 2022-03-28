@@ -18,8 +18,8 @@ module Remote
         raise 'not implemented'
       end
 
-      def all(query = {})
-        result = client.get(resource_path, query)
+      def all(**query)
+        result = client.get(resource_path, **query)
         parse_result(result)
       end
 

@@ -5,8 +5,8 @@ module Remote
         'case_workers'
       end
 
-      def all(user, query = {})
-        super(query.merge(api_key: user.api_key))
+      def all(user, **query)
+        super(api_key: user.api_key, **query)
       end
     end
   end

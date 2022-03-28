@@ -7,6 +7,6 @@ class CaseWorkerService
   end
 
   def active
-    Remote::CaseWorker.all(current_user, criteria)
+    Remote::CaseWorker.all(current_user, **criteria)
   end
 end

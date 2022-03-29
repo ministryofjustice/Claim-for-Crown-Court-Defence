@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AccountSetter do
+RSpec.describe Utils::AccountSetter do
   subject(:instance) { described_class.new(emails) }
 
   let(:emails) { [email] }

@@ -1,6 +1,6 @@
 require Rails.root.join('db','seeds', 'schemas', 'add_agfs_fee_scheme_12')
 require_relative 'rake_helpers/rake_utils'
-include RakeUtils
+include Tasks::RakeHelpers::RakeUtils
 
 namespace :db do
   namespace :scheme_twelve do

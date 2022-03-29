@@ -1,6 +1,4 @@
 require Rails.root.join('db','seeds', 'schemas', 'add_lgfs_fee_scheme_10')
-require_relative 'rake_helpers/rake_utils'
-include RakeUtils
 
 namespace :db do
   namespace :lgfs_scheme_ten do

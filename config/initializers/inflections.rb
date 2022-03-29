@@ -25,6 +25,8 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'CCLF'
   inflect.acronym 'CLI'
   inflect.acronym 'GOVUK'
+  inflect.acronym 'GA'
+  inflect.acronym 'GTM'
 end
 
 # These inflection rules are supported but not enabled by default:

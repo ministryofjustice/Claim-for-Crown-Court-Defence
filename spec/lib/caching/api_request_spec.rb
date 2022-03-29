@@ -11,11 +11,11 @@ RSpec.describe Caching::APIRequest do
   let(:update_response) { double('Response2', headers:, body: updated_value) }
 
   before do
-    Caching.backend = Caching::MemoryStore
+    Caching::Caching.backend = Caching::MemoryStore
   end
 
   after do
-    Caching.clear
+    Caching::Caching.clear
   end
 
   describe 'options' do
@@ -69,7 +69,7 @@ RSpec.describe Caching::APIRequest do
       allow(current_store).to receive(:get).and_call_original
     end
 
-    let(:current_store) { Caching.backend.current }
+    let(:current_store) { Caching::Caching.backend.current }
     let(:max_age) { 3600 }
 
     context 'when ttl option supplied' do
@@ -77,7 +77,7 @@ RSpec.describe Caching::APIRequest do
       let(:options) { { ttl: 1800 } }
 
       context 'when cache is empty' do
-        before { Caching.clear }
+        before { Caching::Caching.clear }
 
         it 'writes to the cache' do
           described_class.cache(url) { initial_response }
@@ -133,7 +133,7 @@ RSpec.describe Caching::APIRequest do
       let(:headers) { { cache_control: "max-age=#{max_age}" } }
 
       context 'when cache is empty' do
-        before { Caching.clear }
+        before { Caching::Caching.clear }
 
         it 'writes to the cache' do
           described_class.cache(url) { initial_response }

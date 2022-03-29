@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe DeviseExtension do
-  let(:example_class) { Class.new { extend DeviseExtension } }
+describe Extensions::DeviseExtension do
+  let(:example_class) { Class.new { extend Extensions::DeviseExtension } }
 
   context '#override_paranoid_setting (original value being true)' do
     before { Devise.paranoid = true }

@@ -1,0 +1,42 @@
+en:
+  dictionary:
+    enter_valid_quantity: &enter_valid_quantity Enter a valid quantity
+
+  activerecord:
+    errors:
+      models:
+        fee/fixed_fee:
+          attributes:
+            base:
+              uneditable_state: You cannot edit a claim that is not in draft state
+            fee_type:
+              blank: 'Choose a type for the #{fixed_fee}'
+            quantity:
+              invalid: *enter_valid_quantity
+              saf_invalid: *enter_valid_quantity
+              noc_invalid: *enter_valid_quantity
+              ndr_invalid: *enter_valid_quantity
+              adj_invalid: *enter_valid_quantity
+              cse_invalid: *enter_valid_quantity
+              integer: You must specify a whole number for this type of fee
+              defendant_uplifts_fixed_fees_mismatch: The quantity of fixed fees defendant uplifts exceeds the number of additional defendants
+            rate:
+              invalid: Enter a valid rate for the fixed fee
+            amount:
+              numericality: Enter a valid amount for the fixed fee
+            sub_type:
+              blank: Choose a fee sub type
+              invalid: Choose a valid fee sub type
+              present: Do not choose a fee sub type
+            date:
+              blank: Enter the fixed fee date
+              invalid_date: Enter a valid fixed fee date
+              check_not_in_future: The fixed fee date must not be in future
+              check_not_too_far_in_past: The fixed fee date must not be too far in past
+              too_long_before_earliest_reporder: The fixed fee date must be no earlier than two years before the earliest representation order date
+            case_numbers:
+              blank: Enter case numbers for the Number of cases uplift
+              invalid: Enter valid case numbers for the Number of cases uplift
+              present: Case numbers for the fixed fee are not allowed
+              noc_qty_mismatch: The number of case uplifts does not match the additional case numbers
+              eqls_claim_case_number: The additional case number must be different to the main case number

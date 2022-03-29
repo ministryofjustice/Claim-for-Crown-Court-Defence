@@ -27,7 +27,6 @@ dictionary:
     expense_before_rep_order: &expense_before_rep_order "Date of expense must be on or after the date of the earliest representation order"
     eqls_claim_case_number: &eqls_claim_case_number 'The additional case number must be different to the main case number'
 
-
 # applies to defendant, fee, expense
 claim:
   _seq: 5
@@ -1076,53 +1075,31 @@ fixed_fee:
   _seq: 600
 
   base:
-    uneditable_state:
+    you_cannot_edit_a_claim_that_is_not_in_draft_state:
       long: You cannot edit a claim that is not in draft state
-      short: You cannot edit this claim
+      short: _
       api: You cannot edit a claim that is not in draft state
 
   fee_type:
     _seq: 10
-
     blank:
       long: 'Choose a type for the #{fixed_fee}'
-      short: Choose a fee type
+      short: _
       api: Choose a type for the fixed fee
 
   rate:
     _seq: 20
-    invalid:
+    enter_a_valid_rate_for_the_fixed_fee:
       long: 'Enter a valid rate for the #{fixed_fee}'
-      short: *enter_valid_amount
+      short: _
       api: Enter a rate/net amount for the fixed fee
 
   quantity:
     _seq: 30
-    invalid:
+    enter_a_valid_quantity:
       long: 'Enter a valid quantity for the #{fixed_fee}'
-      short: *enter_valid_quantity
-      api: Enter a valid quantity for the fixed fee
-    # TODO: saf_invalid only required since fixed fee checkboxes - could do with tidying up
-    saf_invalid:
-      long: 'Enter a valid quantity for the #{fixed_fee}'
-      short: *enter_valid_quantity
-      api: Enter a valid quantity for the fixed fee
-    noc_invalid:
-      long: 'Enter a valid quantity for the #{fixed_fee}'
-      short: *enter_valid_quantity
-      api: Enter a valid quantity for the fixed fee
-    ndr_invalid:
-      long: 'Enter a valid quantity for the #{fixed_fee}'
-      short: *enter_valid_quantity
-      api: Enter a valid quantity for the fixed fee
-    adj_invalid:
-      long: 'Enter a valid quantity for the #{fixed_fee}'
-      short: *enter_valid_quantity
-      api: Enter a valid quantity for the fixed fee
-    cse_invalid:
-      long: 'Enter a valid quantity for the #{fixed_fee}'
-      short: *enter_valid_quantity
-      api: Enter a valid quantity for the fixed fee
+      short: _
+      api: *enter_valid_quantity
     integer:
       long: You must specify a whole number for this type of fee
       short: Enter a whole number
@@ -1134,71 +1111,71 @@ fixed_fee:
 
   sub_type:
     _seq: 40
-    blank:
-      long: 'Choose a fee sub type for the fixed fee'
-      short: Choose a fee sub type
+    choose_a_fee_sub_type:
+      long: Choose a fee sub type
+      short: _
       api: Choose a fee sub type
-    invalid:
-      long: 'Choose a valid fee sub type for the fixed fee'
-      short: Choose a valid fee sub type
+    choose_a_valid_fee_sub_type:
+      long: Choose a valid fee sub type
+      short: _
       api: Choose a valid fee sub type
-    present:
-      long: 'Do not choose a fee sub type for the fixed fee'
-      short: Do not choose a fee sub type
+    do_not_choose_a_fee_sub_type:
+      long: Do not choose a fee sub type
+      short: _
       api: Do not choose a fee sub type
 
   amount:
     _seq: 50
-    numericality:
+    enter_a_valid_amount_for_the_fixed_fee:
       long: Enter a valid amount for the fixed fee
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid amount for the fixed fee
 
   date:
     _seq: 60
-    blank:
+    enter_the_fixed_fee_date:
       long: Enter the fixed fee date
-      short: *enter_date
+      short: _
       api: Enter the fixed fee date
-    invalid_date:
+    enter_a_valid_fixed_fee_date:
       long: Enter a valid fixed fee date
-      short: *enter_valid_date
+      short: _
       api: Enter a valid fixed fee date
-    check_not_in_future:
+    the_fixed_fee_date_must_not_be_in_future:
       long: Check the fixed fee date
       short: *in_future
       api: Check the fixed fee date
-    check_not_too_far_in_past:
+    the_fixed_fee_date_must_not_be_too_far_in_past:
       long: Check the fixed fee date
       short: *too_far_in_past
       api: Check the fixed fee date
-    too_long_before_earliest_reporder:
+    the_fixed_fee_date_must_be_no_earlier_than_two_years_before_the_earliest_representation_order_date:
       long: The fixed fee date must be no earlier than two years before the earliest representation order date
       short: *enter_valid_date
       api: The fixed fee date must be no earlier than two years before the earliest representation order date
 
   case_numbers:
       _seq: 70
-      blank:
+      enter_case_numbers_for_the_number_of_cases_uplift:
         long: Enter case numbers for the Number of cases uplift
-        short: Enter case numbers
+        short: _
         api: Enter case numbers for the Number of cases uplift
-      invalid:
+      enter_valid_case_numbers_for_the_number_of_cases_uplift:
         long: Enter valid case numbers for the Number of cases uplift
-        short: Enter valid case numbers
+        short: _
         api: Enter valid case numbers for the Number of cases uplift
-      present:
+      case_numbers_for_the_fixed_fee_are_not_allowed:
         long: Case numbers for the fixed fee are not allowed
-        short: Case numbers are not allowed
+        short: _
         api: Case numbers for the fixed fee are not allowed
-      noc_qty_mismatch:
+      the_number_of_case_uplifts_does_not_match_the_additional_case_numbers:
         long: The number of case uplifts does not match the additional case numbers
-        short: Enter case numbers for each uplift
+        short: _
         api: The number of case uplifts does not match the additional case numbers
-      eqls_claim_case_number:
-        long: *eqls_claim_case_number
-        short: Enter valid case numbers
-        api: Enter valid case numbers for the Number of cases uplift
+      the_additional_case_number_must_be_different_to_the_main_case_number:
+        long: The additional case number must be different to the main case number
+        short: _
+        api: The additional case number must be different to the main case number
 
 #################################################################################
 #                                                                               #

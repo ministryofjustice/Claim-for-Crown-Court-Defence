@@ -1,49 +1,48 @@
 - if @claim.allows_fixed_fees?
-  .form-section.fx-fee-group.fixed-fee-group.js-block.fx-do-init{ data: { 'type': 'fixedFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlockCalculator' } }
+  .fx-fee-group.fixed-fee-group.js-block.fx-do-init{ data: { 'type': 'fixedFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlockCalculator' } }
     = f.fields_for :fixed_fee do |ff|
       - fee = present(ff.object)
 
-      .form-group
-        %br
-        %label.form-label-bold
-          = t('.fee_type')
-        = ff.anchored_attribute 'fee_type'
-        = @claim.case_type.fixed_fee_type.description
-        = ff.hidden_field :fee_type_id, value: @claim.case_type.fixed_fee_type.id, class: 'js-fee-type'
-        = validation_error_message(@error_presenter, :fee_type)
+      = ff.govuk_text_field :fee_type_id,
+        class: 'js-fee-type',
+        label: { text: t('.fee_type'), tag: 'h3', size: 's' },
+        hint: { text: @claim.case_type.fixed_fee_type.description },
+        type: 'hidden',
+        value: @claim.case_type.fixed_fee_type.id
 
-      .form-group
-        = ff.anchored_attribute 'date'
-        = ff.gov_uk_date_field(:date, legend_text: t('.date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'fixed_fee.date'))
+      = ff.govuk_date_field :date,
+        hint: { text: t('.date_hint') },
+        legend: { text: t('.date'), size: 's' },
+        maxlength_enabled: true
 
-      = ff.adp_text_field :quantity,
-          label: t('.quantity'),
-          hint_text: t('.quantity_hint'),
-          hide_hint: true,
-          input_classes: 'quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity',
-          input_type: 'number',
-          value: fee.quantity,
-          errors: @error_presenter,
-          error_key: 'fixed_fee.quantity'
+      = ff.govuk_number_field :quantity,
+        class: 'quantity fee-quantity js-fee-quantity js-fee-calculator-quantity',
+        form_group: { classes: 'quantity_wrapper' },
+        label: { text: t('.quantity') },
+        hint: { text: t('.quantity_hint') },
+        min: 1,
+        value: fee.quantity,
+        width: 3
 
-      .js-unit-price-effectee
-        .calculated-unit-fee
-        = ff.adp_text_field :rate,
-            label: t('.rate'),
-            input_classes: 'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
-            input_type: 'currency',
-            errors: @error_presenter,
-            input_readonly: ff.object.price_calculated?,
-            value: number_with_precision(ff.object.rate, precision: 2)
+      = ff.govuk_number_field :rate,
+        class: 'rate fee-rate js-fee-calculator-rate',
+        form_group: { classes: 'js-unit-price-effectee calculated-unit-fee' },
+        label: { text: t('.rate') },
+        prefix_text: '£',
+        readonly: ff.object.price_calculated?,
+        value: number_with_precision(ff.object.rate, precision: 2),
+        width: 5
 
-      .js-fee-calculator-success
-        = ff.hidden_field :price_calculated, value: ff.object.price_calculated?
+      = ff.govuk_text_field :price_calculated,
+        form_group: { classes: 'js-fee-calculator-success' },
+        label: { hidden: true },
+        type: 'hidden',
+        value: ff.object.price_calculated?
 
-      .fee-calc-help-wrapper.form-group.hidden
-        = govuk_detail t('.help_how_we_calculate_rate_title') do
-          = t('.help_how_we_calculate_rate_body')
+      = govuk_detail t('.help_how_we_calculate_rate_title') do
+        = t('.help_how_we_calculate_rate_body')
 
-      = govuk_summary_list do
+      = govuk_summary_list_no_border do
         = govuk_summary_list_row do
           = govuk_summary_list_key do
             = t('.amount')

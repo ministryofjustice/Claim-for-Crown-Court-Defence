@@ -28,7 +28,7 @@ class ExternalUsers::ApplicationController < ApplicationController
       dates_attended_attributes: [
         :id,
         :fee_id,
-        date_attributes_for(:date),
+        :date,
         date_attributes_for(:date_to),
         :_destroy
       ]
@@ -48,7 +48,7 @@ class ExternalUsers::ApplicationController < ApplicationController
       :case_numbers,
       :price_calculated,
       :_destroy,
-      date_attributes_for(:date),
+      :date,
       common_dates_attended_attributes
     ]
   end

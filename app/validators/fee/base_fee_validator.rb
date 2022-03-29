@@ -89,7 +89,7 @@ module Fee
 
     def validate_any_quantity
       validate_integer_decimal
-      add_error(:quantity, 'invalid') if @record.quantity.negative? || @record.quantity > 99_999
+      add_error(:quantity, 'invalidXX') if @record.quantity.negative? || @record.quantity > 99_999
     end
 
     def validate_integer_decimal
@@ -120,16 +120,16 @@ module Fee
     end
 
     def validate_uncalculated_fee(code)
-      add_error(:rate, "#{code.downcase}_must_be_blank") if @record.rate.positive?
+      add_error(:rate, "#{code.downcase}_must_be_blank".to_sym) if @record.rate.positive?
     end
 
     # if one has a value and the other doesn't then we add error to the one that does NOT have a value
     # NOTE: we have specific error messages for basic fees
     def validate_fee_rate(code = nil)
       if @record.quantity.positive? && @record.rate <= 0
-        add_error(:rate, 'invalid')
+        add_error(:rate, code ? "#{code.downcase}_invalid".to_sym : :invalid)
       elsif @record.quantity <= 0 && @record.rate.positive?
-        add_error(:quantity, code ? "#{code.downcase}_invalid" : 'invalid')
+        add_error(:quantity, code ? "#{code.downcase}_invalid".to_sym : :invalid)
       end
     end
 
@@ -143,12 +143,12 @@ module Fee
     end
 
     def validate_single_attendance_date
-      validate_presence(:date, 'blank')
+      validate_presence(:date, :blank)
       validate_on_or_after(@record.claim.try(:earliest_representation_order_date),
                            :date,
-                           'too_long_before_earliest_reporder')
-      validate_on_or_after(Settings.earliest_permitted_date, :date, 'check_not_too_far_in_past')
-      validate_on_or_before(Date.today, :date, 'check_not_in_future')
+                           :too_long_before_earliest_reporder)
+      validate_on_or_after(Settings.earliest_permitted_date, :date, :check_not_too_far_in_past)
+      validate_on_or_before(Date.today, :date, :check_not_in_future)
     end
 
     # local helpers

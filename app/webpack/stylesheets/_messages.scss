@@ -154,7 +154,7 @@
     }
 
     .message-right {
-      @include normalize-bubble('right');
+      @include normalize-bubble("right");
 
       .message-body {
         position: relative;
@@ -175,7 +175,7 @@
         }
 
         p {
-          color: govuk-colour('white');
+          color: govuk-colour("white");
         }
 
         a {
@@ -196,7 +196,7 @@
     }
 
     .message-left {
-      @include normalize-bubble('left');
+      @include normalize-bubble("left");
 
       .message-body {
         position: relative;

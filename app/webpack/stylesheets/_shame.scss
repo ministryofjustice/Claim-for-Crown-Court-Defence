@@ -145,7 +145,7 @@ form {
 }
 
 .has-file {
-  border-color: govuk-colour('green');
+  border-color: govuk-colour("green");
   color: $ministry-of-justice;
   font-weight: 700;
 }
@@ -153,7 +153,7 @@ form {
 .warning {
   display: block;
   padding: $gutter-half;
-  color: govuk-colour('red');
+  color: govuk-colour("red");
 }
 
 .remove-expense:first-child a {
@@ -206,7 +206,7 @@ form {
   font-weight: 700;
 
   &.alert {
-    color: govuk-colour('red');
+    color: govuk-colour("red");
   }
 }
 
@@ -315,7 +315,7 @@ form {
     }
   }
 
-  [type=file] {
+  [type="file"] {
     position: absolute;
     left: -9999em;
   }
@@ -400,12 +400,12 @@ form {
   .moj-banner__icon {
     margin-right: 10px;
     float: left;
-    fill: currentColor;
+    fill: currentcolor;
   }
 
   .moj-banner__message {
     font-size: 1.1875rem;
-    line-height: 1.31579;
+    line-height: 1.3158;
   }
 
   .govuk-heading-m {

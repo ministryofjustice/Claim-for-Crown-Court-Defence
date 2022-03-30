@@ -22,12 +22,12 @@ Given('the caseworker is marked as deleted') do
   @case_worker.soft_delete
 end
 
-Given('the advocate is marked as deleted') do
-  @advocate.soft_delete
+Given('the advocate is disabled') do
+  @advocate.disable
 end
 
-Given('the advocate is marked as undeleted') do
-  @advocate.un_soft_delete
+Given('the advocate is enabled') do
+  @advocate.enable
 end
 
 Given(/an? "(.*?)" user account exists$/) do |role|
@@ -160,8 +160,4 @@ end
 
 When(/^I should be on the Allocation page$/) do
   expect(find('#page-h1')).to have_content('Allocation')
-end
-
-Then(/^I should get a page telling me my account has been deleted$/) do
-  expect(page).to have_content('This account has been disabled.')
 end

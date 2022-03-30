@@ -21,6 +21,8 @@ class ExternalUser < ApplicationRecord
   ROLES = %w[admin advocate litigator].freeze
   include Roles
   include SoftlyDeletable
+  extend DisablableDelegator
+  include delegate_disablable_to(:user)
 
   belongs_to :provider
 

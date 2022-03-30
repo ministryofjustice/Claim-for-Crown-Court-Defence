@@ -28,6 +28,7 @@
 #
 
 class User < ApplicationRecord
+  include Disablable
   include SoftlyDeletable
 
   auto_strip_attributes :first_name, :last_name, :email, squish: true, nullify: true
@@ -109,11 +110,17 @@ class User < ApplicationRecord
   end
 
   def active_for_authentication?
-    super && active?
+    super && active? && enabled?
   end
 
   def inactive_message
-    active? ? super : 'This account has been disabled.'
+    if active? && enabled?
+      super
+    elsif softly_deleted?
+      'This account has been deleted.'
+    elsif disabled?
+      'This account has been disabled.'
+    end
   end
 
   def email_notification_of_message

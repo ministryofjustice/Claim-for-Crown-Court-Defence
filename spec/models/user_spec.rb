@@ -1,4 +1,4 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
 RSpec.describe User, type: :model do
   subject(:user) { build(:user) }
@@ -42,6 +42,8 @@ RSpec.describe User, type: :model do
   it { should have_many(:user_message_statuses) }
 
   it { should delegate_method(:claims).to(:persona) }
+
+  it_behaves_like 'a disablable object'
 
   describe '#name' do
     it 'returns the first and last names' do
@@ -245,7 +247,8 @@ RSpec.describe User, type: :model do
 
   context 'devise messages' do
     let(:active_user) { build :user }
-    let(:inactive_user) { build :user, :softly_deleted }
+    let(:inactive_user) { build(:user, :softly_deleted) }
+    let(:disabled_user) { build(:user, :disabled) }
 
     describe '#inactive_message' do
       it 'returns :inactive for active user' do
@@ -253,7 +256,11 @@ RSpec.describe User, type: :model do
       end
 
       it 'returns specialised message for softly deleted users' do
-        expect(inactive_user.inactive_message).to eq 'This account has been disabled.'
+        expect(inactive_user.inactive_message).to eq 'This account has been deleted.'
+      end
+
+      it 'returns specialised message for disabled users' do
+        expect(disabled_user.inactive_message).to eq 'This account has been disabled.'
       end
     end
 
@@ -262,6 +269,62 @@ RSpec.describe User, type: :model do
         expect(active_user).to receive(:override_paranoid_setting).with(false)
         active_user.unauthenticated_message
       end
+    end
+  end
+
+  describe '#active_for_authentication?' do
+    subject { user.active_for_authentication? }
+
+    context 'with an active enabled user' do
+      let(:user) { build(:user, deleted_at: nil, disabled_at: nil) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with an active disabled user' do
+      let(:user) { build(:user, deleted_at: nil, disabled_at: Time.zone.now) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with an inactive enabled user' do
+      let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: nil) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with an inactive disabled user' do
+      let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: Time.zone.now) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#inactive_message' do
+    subject { user.inactive_message }
+
+    context 'with active enabled user' do
+      let(:user) { build(:user, deleted_at: nil, disabled_at: nil) }
+
+      it { is_expected.to eq :inactive }
+    end
+
+    context 'with active disabled user' do
+      let(:user) { build(:user, deleted_at: nil, disabled_at: Time.zone.now) }
+
+      it { is_expected.to eq 'This account has been disabled.' }
+    end
+
+    context 'with inactive enabled user' do
+      let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: nil) }
+
+      it { is_expected.to eq 'This account has been deleted.' }
+    end
+
+    context 'with an inactive disabled user' do
+      let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: Time.zone.now) }
+
+      it { is_expected.to eq 'This account has been deleted.' }
     end
   end
 

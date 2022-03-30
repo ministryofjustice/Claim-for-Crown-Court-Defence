@@ -66,9 +66,7 @@ class ProviderManagement::ExternalUsersController < ApplicationController
     end
   end
 
-  def change_availability
-    render @external_user.active? ? :disable_confirmation : :enable_confirmation
-  end
+  def change_availability; end
 
   def update_availability
     available = ActiveModel::Type::Boolean.new.cast(external_user_params[:availability])
@@ -104,18 +102,26 @@ class ProviderManagement::ExternalUsersController < ApplicationController
   end
 
   def enable
-    if (@external_user.provider == @provider) && @external_user.softly_deleted? && @external_user.un_soft_delete
-      redirect_to_show_page(notice: I18n.t('provider_management.external_users.enable_confirmation.success_message'))
+    if (@external_user.provider == @provider) && @external_user.disabled? && @external_user.enable
+      redirect_to_show_page(
+        notice: I18n.t('provider_management.external_users.change_availability.enable.success_message')
+      )
     else
-      redirect_to_show_page(alert: I18n.t('provider_management.external_users.enable_confirmation.failed_message'))
+      redirect_to_show_page(
+        alert: I18n.t('provider_management.external_users.change_availability.enable.failure_message')
+      )
     end
   end
 
   def disable
-    if (@external_user.provider == @provider) && @external_user.active? && @external_user.soft_delete
-      redirect_to_show_page(notice: I18n.t('provider_management.external_users.disable_confirmation.success_message'))
+    if (@external_user.provider == @provider) && @external_user.enabled? && @external_user.disable
+      redirect_to_show_page(
+        notice: I18n.t('provider_management.external_users.change_availability.disable.success_message')
+      )
     else
-      redirect_to_show_page(alert: I18n.t('provider_management.external_users.disable_confirmation.failed_message'))
+      redirect_to_show_page(
+        alert: I18n.t('provider_management.external_users.change_availability.disable.failure_message')
+      )
     end
   end
 end

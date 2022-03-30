@@ -16,30 +16,51 @@ RSpec.describe AccountSetter do
 
     before { create_list(:claim, 5, external_user: external_user) }
 
-    it 'reports on the user' do
-      expect { report }.to output(
-        /User test@example\.com with id 99 have 5 claims for their provider, "Test provider"/
-      ).to_stdout
+    context 'with an existing user' do
+      let(:expected_hash) do
+        { email: 'test@example.com', found: true,
+          id: 99, active: true, enabled: true,
+          provider: 'Test provider', claims: 5 }
+      end
+
+      it { expect(report).to include(expected_hash) }
     end
 
-    it { expect { report }.to output(/No deleted users found for email "test@example\.com\.deleted\..*"/).to_stdout }
+    context 'with csv format' do
+      subject(:report) { instance.report(format: 'csv') }
 
-    context 'with an unknown user' do
+      it { expect(report).to include('email,found,id,active,enabled,provider,claims') }
+      it { expect(report).to include('test@example.com,true,99,true,true,Test provider,5') }
+    end
+
+    context 'with a non-existant user' do
       let(:emails) { ['unknown@example.com'] }
 
-      it { expect { report }.to output(/No users found for email unknown@example\.com/).to_stdout }
+      it { expect(report).to include({ email: 'unknown@example.com', found: false }) }
     end
 
     context 'with a deleted user' do
       before { user.persona.soft_delete }
 
-      it 'reports on the deleted user' do
-        expect { report }.to output(
-          /User test@example\.com\.deleted\..* with id 99 have 5 claims for their provider, "Test provider"/
-        ).to_stdout
+      let(:expected_hash) do
+        { email: 'test@example.com.deleted.99', found: true,
+          id: 99, active: false, enabled: true,
+          provider: 'Test provider', claims: 5 }
       end
 
-      it { expect { report }.to output(/No users found for email test@example\.com/).to_stdout }
+      it { expect(report).to include(expected_hash) }
+    end
+
+    context 'with a disabled user' do
+      before { user.disable }
+
+      let(:expected_hash) do
+        { email: 'test@example.com', found: true,
+          id: 99, active: true, enabled: false,
+          provider: 'Test provider', claims: 5 }
+      end
+
+      it { expect(report).to include(expected_hash) }
     end
   end
 
@@ -59,14 +80,14 @@ RSpec.describe AccountSetter do
       expect { soft_delete }
         .to change { user.reload.deleted_at }
         .from(nil)
-        .to(an_instance_of(ActiveSupport::TimeWithZone))
+        .to(be_kind_of(Time))
     end
 
     it 'marks the persona of the user as deleted' do
       expect { soft_delete }
         .to change { user.reload.persona.deleted_at }
         .from(nil)
-        .to(an_instance_of(ActiveSupport::TimeWithZone))
+        .to(be_kind_of(Time))
     end
 
     context 'with an unknown user' do
@@ -94,14 +115,14 @@ RSpec.describe AccountSetter do
     it 'removes the deleted at timestamp of the user' do
       expect { un_soft_delete }
         .to change { user.reload.deleted_at }
-        .from(an_instance_of(ActiveSupport::TimeWithZone))
+        .from(be_kind_of(Time))
         .to(nil)
     end
 
     it 'removes the deleted at timestamp of the persona of the user' do
       expect { un_soft_delete }
         .to change { user.reload.persona.deleted_at }
-        .from(an_instance_of(ActiveSupport::TimeWithZone))
+        .from(be_kind_of(Time))
         .to(nil)
     end
 
@@ -109,6 +130,60 @@ RSpec.describe AccountSetter do
       let(:emails) { ['unknown@example.com'] }
 
       it { expect { un_soft_delete }.to output(/User email "unknown@example\.com\.delete\.%" not found/).to_stdout }
+    end
+  end
+
+  describe '#disable' do
+    subject(:disable) { instance.disable }
+
+    context 'with an enabled user' do
+      let!(:user) { create(:user, email: email, disabled_at: nil) }
+
+      it 'marks the user as disabled' do
+        expect { disable }.to change { user.reload.disabled_at }.from(nil).to(be_kind_of(Time))
+      end
+
+      it { expect { disable }.to output(/User with email "test@example.com" disabled!/).to_stdout }
+    end
+
+    context 'with a disabled user' do
+      let!(:user) { create(:user, email: email, disabled_at: 1.minute.ago) }
+
+      it { expect { disable }.not_to change { user.reload.disabled_at } }
+      it { expect { disable }.to output(/Enabled user with email "test@example\.com" not found/).to_stdout }
+    end
+
+    context 'with an unknown user' do
+      let(:emails) { ['unknown@example.com'] }
+
+      it { expect { disable }.to output(/Enabled user with email "unknown@example\.com" not found/).to_stdout }
+    end
+  end
+
+  describe '#enable' do
+    subject(:enable) { instance.enable }
+
+    context 'with a disabled user' do
+      let!(:user) { create(:user, email: email, disabled_at: 1.minute.ago) }
+
+      it 'marks the user as enabled' do
+        expect { enable }.to change { user.reload.disabled_at }.from(be_kind_of(Time)).to(nil)
+      end
+
+      it { expect { enable }.to output(/User with email "test@example.com" enabled!/).to_stdout }
+    end
+
+    context 'with an enabled user' do
+      let!(:user) { create(:user, email: email, disabled_at: nil) }
+
+      it { expect { enable }.not_to change { user.reload.disabled_at } }
+      it { expect { enable }.to output(/Disabled user with email "test@example\.com" not found/).to_stdout }
+    end
+
+    context 'with an unknown user' do
+      let(:emails) { ['unknown@example.com'] }
+
+      it { expect { enable }.to output(/Disabled user with email "unknown@example\.com" not found/).to_stdout }
     end
   end
 

@@ -13,6 +13,7 @@
 #  accounts.change_password
 #
 
+# rubocop:disable Rails/Output
 class AccountSetter
   attr_reader :emails
 
@@ -23,29 +24,23 @@ class AccountSetter
   # Find active or inactve accounts with matching email and
   # report basic information.
   #
-  # rubocop:disable Rails/Output
   # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
-  def report
+  def report(format: nil)
+    report = []
+
     emails.each do |email|
       users = User.where(email: email)
-
-      users.each do |user|
-        puts "User #{user.email} with id #{user.id} have #{user.persona.provider.claims.count} claims for their provider, \"#{user.persona.provider.name}\""
-      end
-      puts("No users found for email #{email}".red) if users.empty?
+      users.each { |user| report.append(found_user_template(user)) }
+      report.append({ email: email, found: false }) if users.empty?
 
       users = User.where('email LIKE ?', "#{email}.deleted.%")
-
-      users.each do |user|
-        puts "User #{user.email} with id #{user.id} have #{user.persona.provider.claims.count} claims for their provider, \"#{user.persona.provider.name}\""
-      end
-      puts("No deleted users found for email \"#{email}.deleted.%\"".red) if users.empty?
+      users.each { |user| report.append(found_user_template(user)) }
+      report.append({ email: "#{email}.deleted.%", found: false }) if users.empty?
     end
+
+    format.eql?('csv') ? csv(report) : report
   end
-  # rubocop:enable Rails/Output
   # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Metrics/MethodLength
 
   # Deactivate an active account!
   #
@@ -54,7 +49,6 @@ class AccountSetter
   #   - mark the account as inactive
   #   - prevent future login of the account
   #
-  # rubocop:disable Rails/Output
   def soft_delete
     emails.each do |email|
       user = User.find_by(email: email)
@@ -67,14 +61,12 @@ class AccountSetter
       end
     end
   end
-  # rubocop:enable Rails/Output
 
   # Reactivate deactivated account
   #
   # This will allow the user to login
   # with existing password.
   #
-  # rubocop:disable Rails/Output
   # rubocop:disable Metrics/MethodLength
   def un_soft_delete
     emails.each do |email|
@@ -90,8 +82,45 @@ class AccountSetter
       end
     end
   end
-  # rubocop:enable Rails/Output
   # rubocop:enable Metrics/MethodLength
+
+  # Disable account(s)
+  #
+  # WARNING: this will
+  #   - log out any currently logged in user with that email address
+  #   - mark the account as disabled
+  #   - prevent future login of the account
+  #
+  def disable
+    emails.each do |email|
+      user = User.find_by(email: email)
+
+      if user&.enabled?
+        user.disable
+        puts "User with email \"#{user.email}\" disabled!".green
+      else
+        puts "Enabled user with email \"#{email}\" not found!".red
+      end
+    end
+  end
+
+  # Enable disabled account(s)
+  #
+  # This will allow the user to login
+  # with existing password.
+  #
+  def enable
+    emails.each do |email|
+      user = User.find_by(email: email)
+
+      if user&.disabled?
+        user.enable
+        puts "User with email \"#{user.email}\" enabled!".green
+      else
+        puts "Disabled user with email \"#{email}\" not found!".red
+      end
+    end
+  end
 
   # Resets password of users
   #
@@ -99,9 +128,8 @@ class AccountSetter
   #  - log the user out
   #  - force them to request a password reset via the app
   #
-  # TODO: could send a password reset autumatically
+  # TODO: could send a password reset automatically
   #
-  # rubocop:disable Rails/Output
   def change_password
     emails.each do |email|
       user = User.find_by(email: email)
@@ -115,5 +143,23 @@ class AccountSetter
       end
     end
   end
-  # rubocop:enable Rails/Output
+
+  private
+
+  def found_user_template(user)
+    { email: user.email, found: true, id: user.id,
+      active: user.active?, enabled: user.enabled?,
+      provider: user.persona.provider.name,
+      claims: user.persona.provider.claims.count }
+  end
+
+  def csv(report)
+    CSV.generate do |csv|
+      csv << %i[email found id active enabled provider claims]
+      report.each do |item|
+        csv << item.values
+      end
+    end
+  end
 end
+# rubocop:enable Rails/Output

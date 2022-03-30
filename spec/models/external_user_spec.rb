@@ -19,23 +19,25 @@ require 'support/shared_examples_for_claim_types'
 RSpec.describe ExternalUser, type: :model do
   it_behaves_like 'roles', ExternalUser, ExternalUser::ROLES
 
-  it { should belong_to(:provider) }
-  it { should have_many(:claims) }
-  it { should have_many(:claims_created) }
-  it { should have_many(:documents) }
-  it { should have_one(:user) }
+  it { is_expected.to belong_to(:provider) }
+  it { is_expected.to have_many(:claims) }
+  it { is_expected.to have_many(:claims_created) }
+  it { is_expected.to have_many(:documents) }
+  it { is_expected.to have_one(:user) }
 
-  it { should validate_presence_of(:provider) }
-  it { should validate_presence_of(:user) }
+  it { is_expected.to validate_presence_of(:provider) }
+  it { is_expected.to validate_presence_of(:user) }
 
-  it { should accept_nested_attributes_for(:user) }
+  it { is_expected.to accept_nested_attributes_for(:user) }
 
-  it { should delegate_method(:email).to(:user) }
-  it { should delegate_method(:first_name).to(:user) }
-  it { should delegate_method(:last_name).to(:user) }
-  it { should delegate_method(:name).to(:user) }
-  it { should delegate_method(:agfs?).to(:provider) }
-  it { should delegate_method(:lgfs?).to(:provider) }
+  it { is_expected.to delegate_method(:email).to(:user) }
+  it { is_expected.to delegate_method(:first_name).to(:user) }
+  it { is_expected.to delegate_method(:last_name).to(:user) }
+  it { is_expected.to delegate_method(:name).to(:user) }
+  it { is_expected.to delegate_method(:agfs?).to(:provider) }
+  it { is_expected.to delegate_method(:lgfs?).to(:provider) }
+
+  it_behaves_like 'a disablable delegator', :user
 
   context 'supplier number validation' do
     context 'when no Provider present' do
@@ -65,7 +67,7 @@ RSpec.describe ExternalUser, type: :model do
         subject.provider = provider
       end
 
-      it { should_not validate_presence_of(:supplier_number) }
+      it { is_expected.not_to validate_presence_of(:supplier_number) }
 
       context 'for advocate' do
         before { subject.roles = ['advocate'] }
@@ -79,7 +81,7 @@ RSpec.describe ExternalUser, type: :model do
       context 'for admin' do
         before { subject.roles = ['admin'] }
 
-        it { should_not validate_presence_of(:supplier_number) }
+        it { is_expected.not_to validate_presence_of(:supplier_number) }
 
         it 'is valid without a supplier number' do
           a = build :external_user, :admin, provider: provider, supplier_number: nil
@@ -100,7 +102,7 @@ RSpec.describe ExternalUser, type: :model do
 
         let(:format_error) { ['Enter a valid supplier number'] }
 
-        it { should validate_presence_of(:supplier_number) }
+        it { is_expected.to validate_presence_of(:supplier_number) }
 
         it 'is not valid without a supplier number' do
           a = build :external_user, provider: provider, supplier_number: nil
@@ -134,7 +136,7 @@ RSpec.describe ExternalUser, type: :model do
       context 'for admin' do
         before { subject.roles = ['admin'] }
 
-        it { should_not validate_presence_of(:supplier_number) }
+        it { is_expected.not_to validate_presence_of(:supplier_number) }
 
         it 'is valid without a supplier number' do
           a = build :external_user, :admin, provider: provider, supplier_number: nil

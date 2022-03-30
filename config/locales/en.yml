@@ -591,6 +591,8 @@ en:
         state: Account state
         live: Live
         inactive: Inactive
+        enabled: Enabled
+        disabled: Disabled
         email: *email
         name: Name
         supplier_number: *supplier_number
@@ -653,20 +655,6 @@ en:
         heading: Change password for %{external_user}
         page_heading: Manage users
         success_message: User password successfully updated
-      disable_confirmation:
-        cancel_button: Cancel
-        disable_message: Are you sure you want to disable %{external_user}?
-        disable_user: Disable account
-        page_title: Disable %{external_user}
-        success_message: User successfully disabled
-        failed_message: Unable to disable user
-      enable_confirmation:
-        cancel_button: Cancel
-        enable_message: Are you sure you want to enable %{external_user}?
-        enable_user: Enable account
-        page_title: Enable %{external_user}
-        success_message: User successfully enabled
-        failed_message: Unable to enable user
 
 # en.external_users
   external_users:

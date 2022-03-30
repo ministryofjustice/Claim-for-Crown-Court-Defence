@@ -72,3 +72,12 @@ Scenario: Super admin can enable user
     Then I should be on the provider manager user show page
     And I should see 'Live, Enabled'
     And I should see link 'Disable account'
+
+Scenario: Provider admin can identify disabled users
+    Given I am a signed in advocate admin
+    And an "advocate" user account exists
+    And the advocate is disabled
+    And both users belong to the same firm
+    When I click the link 'Manage users'
+    Then I am on the manage users page
+    And I should see 'Inactive'

@@ -161,3 +161,8 @@ end
 When(/^I should be on the Allocation page$/) do
   expect(find('#page-h1')).to have_content('Allocation')
 end
+
+Given(/^both users belong to the same firm$/) do
+  provider = User.first.provider
+  User.last.persona.update!(provider: provider)
+end

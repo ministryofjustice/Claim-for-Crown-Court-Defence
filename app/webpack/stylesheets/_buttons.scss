@@ -2,10 +2,10 @@
 // stylelint-disable declaration-no-important
 
 // Blue button variables
-$app-blue-button-colour: govuk-colour('blue');
+$app-blue-button-colour: govuk-colour("blue");
 $app-blue-button-hover-colour: govuk-shade($app-blue-button-colour, 20%);
 $app-blue-button-shadow-colour: govuk-shade($app-blue-button-colour, 60%);
-$app-blue-button-text-colour: govuk-colour('white');
+$app-blue-button-text-colour: govuk-colour("white");
 
 $button-shadow-size: $govuk-border-width-form-element;
 

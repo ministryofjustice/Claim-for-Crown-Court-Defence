@@ -256,11 +256,11 @@ RSpec.describe User, type: :model do
       end
 
       it 'returns specialised message for softly deleted users' do
-        expect(inactive_user.inactive_message).to eq 'This account has been deleted.'
+        expect(inactive_user.inactive_message).to eq 'Invalid Email or password.'
       end
 
       it 'returns specialised message for disabled users' do
-        expect(disabled_user.inactive_message).to eq 'This account has been disabled.'
+        expect(disabled_user.inactive_message).to eq 'Invalid Email or password.'
       end
     end
 
@@ -312,19 +312,19 @@ RSpec.describe User, type: :model do
     context 'with active disabled user' do
       let(:user) { build(:user, deleted_at: nil, disabled_at: Time.zone.now) }
 
-      it { is_expected.to eq 'This account has been disabled.' }
+      it { is_expected.to eq 'Invalid Email or password.' }
     end
 
     context 'with inactive enabled user' do
       let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: nil) }
 
-      it { is_expected.to eq 'This account has been deleted.' }
+      it { is_expected.to eq 'Invalid Email or password.' }
     end
 
     context 'with an inactive disabled user' do
       let(:user) { build(:user, deleted_at: Time.zone.now, disabled_at: Time.zone.now) }
 
-      it { is_expected.to eq 'This account has been deleted.' }
+      it { is_expected.to eq 'Invalid Email or password.' }
     end
   end
 

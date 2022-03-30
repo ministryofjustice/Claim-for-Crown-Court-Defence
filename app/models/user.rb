@@ -114,13 +114,9 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    if active? && enabled?
-      super
-    elsif softly_deleted?
-      'This account has been deleted.'
-    elsif disabled?
-      'This account has been disabled.'
-    end
+    return 'Invalid Email or password.' unless active? && enabled?
+
+    super
   end
 
   def email_notification_of_message

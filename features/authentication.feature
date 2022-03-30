@@ -11,7 +11,7 @@ Feature: Caseworker can log in while active, but not once inactive
 
     Given the caseworker is marked as deleted
     When I attempt to sign in again as the deleted caseworker
-    Then I should see 'This account has been deleted'
+    Then I should see 'Invalid Email or password.'
     And the page should be accessible
 
     And I eject the VCR cassette
@@ -24,10 +24,10 @@ Feature: Caseworker can log in while active, but not once inactive
     Given the advocate is disabled
     When I click the link 'Your claims'
     Then I should be on the sign in page
-    And I should see 'This account has been disabled'
+    And I should see 'Invalid Email or password.'
 
     When I attempt to sign in again as the advocate
-    Then I should see 'This account has been disabled'
+    Then I should see 'Invalid Email or password.'
     And the page should be accessible
 
     Given the advocate is enabled

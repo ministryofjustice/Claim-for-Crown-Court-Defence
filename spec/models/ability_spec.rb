@@ -508,8 +508,22 @@ RSpec.describe Ability do
       it { is_expected.not_to be_able_to(:update_availability, target) }
     end
 
-    context 'with a disabled external user' do
+    context 'with a softly deleted external user' do
       let(:target) { create(:external_user, :softly_deleted) }
+
+      it { is_expected.not_to be_able_to(:show, target) }
+      it { is_expected.not_to be_able_to(:edit, target) }
+      it { is_expected.not_to be_able_to(:update, target) }
+      it { is_expected.not_to be_able_to(:change_password, target) }
+      it { is_expected.not_to be_able_to(:update_password, target) }
+      it { is_expected.not_to be_able_to(:destroy, target) }
+      it { is_expected.not_to be_able_to(:confirmation, target) }
+      it { is_expected.not_to be_able_to(:change_availability, target) }
+      it { is_expected.not_to be_able_to(:update_availability, target) }
+    end
+
+    context 'with a disabled external user' do
+      let(:target) { create(:external_user, :disabled) }
 
       it { is_expected.not_to be_able_to(:show, target) }
       it { is_expected.not_to be_able_to(:edit, target) }

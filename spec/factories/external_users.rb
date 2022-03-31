@@ -69,6 +69,12 @@ FactoryBot.define do
       deleted_at { 10.minutes.ago }
     end
 
+    trait :disabled do
+      after(:create) do |eu|
+        eu.user.update(disabled_at: 10.minutes.ago)
+      end
+    end
+
     trait :with_settings do
       after(:build) do |a|
         a.user = build(:user,

@@ -37,7 +37,7 @@ Feature: Super admin can enable and disable users
     And I should see 'Live, Disabled'
     And I should see link 'Enable account'
 
-Scenario: Super admin can enable user
+  Scenario: Super admin can enable user
 
     Given a disabled external provider exists with first name 'John' and last name 'Doe'
     And I am a signed in super admin
@@ -73,11 +73,20 @@ Scenario: Super admin can enable user
     And I should see 'Live, Enabled'
     And I should see link 'Disable account'
 
-Scenario: Provider admin can identify disabled users
+  Scenario: Provider admin can identify disabled users
     Given I am a signed in advocate admin
     And an "advocate" user account exists
     And the advocate is disabled
     And both users belong to the same firm
     When I click the link 'Manage users'
     Then I am on the manage users page
+    And I should see 'Inactive'
+
+  Scenario: Superadmin can identify disabled users
+    Given I am a signed in super admin
+    And an "advocate" user account exists
+    And the advocate is disabled
+    When I click the link 'Providers'
+    And I click the link 'Manage users in provider'
+    Then I should be on the provider manager user index page
     And I should see 'Inactive'

@@ -30,4 +30,4 @@
               = govuk_mail_to advocate.email, advocate.email, 'aria-label': t('.title', provider: advocate.name)
 
             = govuk_table_td('data-label': t('.state')) do
-              = advocate.active? ? t('.live') : t('.inactive')
+              = (advocate.active? && advocate.enabled?) ? t('.live') : t('.inactive')

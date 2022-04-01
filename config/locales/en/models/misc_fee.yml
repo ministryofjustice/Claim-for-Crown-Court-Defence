@@ -1,0 +1,11 @@
+en:
+  activerecord:
+    errors:
+      models:
+        fee/misc_fee:
+          attributes:
+            fee_type:
+              blank: Choose a type for the miscellaneous fee
+            amount:
+              numericality: Enter a valid amount for the miscellaneous fee
+              incorrect_epf: Evidence provision fee can only be £45 or £90

@@ -993,9 +993,9 @@ misc_fee:
 
   fee_type:
     _seq: 10
-    blank:
-      long: 'Choose a type for the #{misc_fee}'
-      short: Choose a fee type
+    choose_a_type_for_the_miscellaneous_fee:
+      long: Choose a type for the miscellaneous fee
+      short: _
       api: Choose a type for the miscellaneous fee
     case_type_inclusion:
       long: 'Choose an applicable type for the #{misc_fee}'
@@ -1057,14 +1057,14 @@ misc_fee:
 
   amount:
     _seq: 50
-    numericality:
-      long: 'Enter a valid amount for the #{misc_fee}'
-      short: *enter_valid_amount
+    enter_a_valid_amount_for_the_miscellaneous_fee:
+      long: Enter a valid amount for the miscellaneous fee
+      short: _
       api: Enter a valid amount for the miscellaneous fee
-    incorrect_epf:
-      long: 'Evidence provision fee can only be £45 or £90'
-      short: 'Enter £45 or £90'
-      api: 'Evidence provision fee can only be £45 or £90'
+    evidence_provision_fee_can_only_be_£45_or_£90:
+      long: Evidence provision fee can only be £45 or £90
+      short: _
+      api: Evidence provision fee can only be £45 or £90
 
 #################################################################################
 #                                                                               #

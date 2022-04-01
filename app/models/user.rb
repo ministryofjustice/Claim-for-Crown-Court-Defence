@@ -114,9 +114,11 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    return 'Invalid Email or password.' unless active? && enabled?
-
-    super
+    if active? && enabled?
+      super
+    else
+      I18n.t('activerecord.attributes.user.disabled_and_deleted_message')
+    end
   end
 
   def email_notification_of_message

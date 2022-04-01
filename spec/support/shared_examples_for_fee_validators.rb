@@ -45,6 +45,26 @@ RSpec.shared_examples 'common LGFS amount validations' do
   end
 end
 
+RSpec.shared_examples 'common LGFS amount validations with migrated govuk formbuilder' do
+  describe '#validate_amount' do
+    it 'adds error if amount is blank' do
+      should_error_if_equal_to_value(fee, :amount, '', 'Enter a valid amount for the miscellaneous fee')
+    end
+
+    it 'adds error if amount is equal to zero' do
+      should_error_if_equal_to_value(fee, :amount, 0.00, 'Enter a valid amount for the miscellaneous fee')
+    end
+
+    it 'adds error if amount is less than zero' do
+      should_error_if_equal_to_value(fee, :amount, -10.00, 'Enter a valid amount for the miscellaneous fee')
+    end
+
+    it 'adds error if amount is greater than the max limit' do
+      should_error_if_equal_to_value(fee, :amount, 200_001, 'item_max_amount')
+    end
+  end
+end
+
 RSpec.shared_examples 'common AGFS number of cases uplift validations' do
   context 'case numbers list valid' do
     it 'when case_numbers is blank and quantity is zero' do

@@ -189,6 +189,12 @@ class BaseValidator < ActiveModel::Validator
     validate_amount_less_than_item_max(field)
   end
 
+  def validate_presence_and_numericality_govuk_formbuilder(field, minimum: 0, allow_blank: false)
+    validate_presence(field, :blank) unless allow_blank
+    validate_float_numericality(field, :numericality, minimum, nil)
+    validate_amount_less_than_item_max(field)
+  end
+
   def validate_vat_less_than_max(vat_attribute, net_attribute)
     vat_amount = @record.send(vat_attribute) || 0
     net_amount = @record.send(net_attribute) || 0

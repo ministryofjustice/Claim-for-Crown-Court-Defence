@@ -1432,6 +1432,7 @@ en:
               and attach to the claim.
           misc_fee_fields:
             misc_fee: *miscellaneous_fee
+            misc_fee_html: 'Miscellaneous fees <span class="fx-numberedList-number"></span>'
             fee_type: *fee_type
             case_numbers: *case_numbers
             type_of_fee_html: '%{context} <span class="govuk-visually-hidden">for miscellaneous fee <span class="fx-numberedList-number"></span></span>'

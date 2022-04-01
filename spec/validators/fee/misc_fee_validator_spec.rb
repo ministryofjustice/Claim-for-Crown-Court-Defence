@@ -122,7 +122,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
         end
       end
 
-      it { should_error_if_not_present(fee, :fee_type, 'blank') }
+      it { should_error_if_not_present(fee, :fee_type, 'Choose a type for the miscellaneous fee') }
 
       context 'when validating Unused material (up to 3 hours)' do
         before { create(:misc_fee_type, :miumu) }
@@ -141,7 +141,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
       end
     end
 
-    include_examples 'common LGFS amount validations'
+    include_examples 'common LGFS amount validations with migrated govuk formbuilder'
 
     context 'override validation of fields from the superclass validator' do
       let(:superclass) { described_class.superclass }
@@ -174,11 +174,11 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
       end
 
       it 'will error if passed a decimal amount' do
-        should_error_if_equal_to_value(fee, :amount, '45.10', 'incorrect_epf')
+        should_error_if_equal_to_value(fee, :amount, '45.10', 'Evidence provision fee can only be £45 or £90')
       end
 
       it 'will error is passed a zero amount' do
-        should_error_if_equal_to_value(fee, :amount, '0', 'incorrect_epf')
+        should_error_if_equal_to_value(fee, :amount, '0', 'Evidence provision fee can only be £45 or £90')
       end
     end
 

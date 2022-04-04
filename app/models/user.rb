@@ -116,10 +116,8 @@ class User < ApplicationRecord
   def inactive_message
     if active? && enabled?
       super
-    elsif softly_deleted?
-      'This account has been deleted.'
-    elsif disabled?
-      'This account has been disabled.'
+    else
+      I18n.t('activerecord.attributes.user.disabled_and_deleted_message')
     end
   end
 

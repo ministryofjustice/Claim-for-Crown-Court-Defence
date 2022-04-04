@@ -186,6 +186,7 @@ en:
         first_name: *first_name
         last_name: *last_name
         email_confirmation: *email_confirmation
+        disabled_and_deleted_message: 'Invalid Email or password.'
       claim:
         external_user: *advocate
         offence: 'Offence'

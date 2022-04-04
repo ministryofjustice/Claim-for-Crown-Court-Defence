@@ -103,7 +103,7 @@ class Ability
   def can_administer_any_provider
     can %i[show index new create edit update], Provider
     can %i[index new create find search], ExternalUser
-    can %i[show edit update change_password update_password], ExternalUser, deleted_at: nil
+    can %i[show edit update change_password update_password], ExternalUser, deleted_at: nil, disabled_at: nil
   end
 
   def can_manage_litigator_claims(persona)

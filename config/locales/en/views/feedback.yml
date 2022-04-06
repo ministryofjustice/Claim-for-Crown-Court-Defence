@@ -17,6 +17,6 @@ en:
       rating: How satisfied have you been in your experience of Claim for crown court defence today?
       reason: What were you aiming to achieve on Claim for crown court defence today?
       reason_other: Enter your comment
-      report_fault_html: If you are reporting an issue or a bug, <a class='govuk-link' href="%{bug_report_link}">report a fault</a>
+      report_fault_html: If you have found an issue or a bug, <a class='govuk-link' href="%{bug_report_link}" rel='noreferrer noopener' target='_blank'>report a fault (opens in a new tab)</a>
       task_legend: Were you able to complete the tasks you aimed to on Claim for crown court defence today?
       send: Send

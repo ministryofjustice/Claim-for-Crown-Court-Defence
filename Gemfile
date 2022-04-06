@@ -34,7 +34,7 @@ gem 'libreconv',              '~> 0.9.5'
 gem 'logstasher',             '2.1.5'
 gem 'logstuff',               '0.0.2'
 gem 'paper_trail',            '~> 12.3.0'
-gem 'pg',                     '~> 1.3.4'
+gem 'pg',                     '~> 1.3.5'
 gem 'rails',                  '~> 6.1.5'
 gem 'redis',                  '~> 4.6.0'
 gem 'rubyzip'
@@ -103,7 +103,7 @@ group :test do
   gem 'capybara-selenium'
   gem 'capybara', '~> 3.36'
   gem 'codeclimate-test-reporter', require: false
-  gem 'cucumber-rails', '~> 2.5.0', require: false
+  gem 'cucumber-rails', '~> 2.5.1', require: false
   gem 'database_cleaner'
   gem 'i18n-tasks'
   gem 'json_spec'

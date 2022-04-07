@@ -15,6 +15,7 @@ moj.Modules.CocoonHelper = {
 
   addCocoonHooks: function () {
     const $elem = $(this.el)
+    let counter = 0
 
     $elem.on('cocoon:after-insert', function (e) {
       const $el = $(e.target)
@@ -28,6 +29,14 @@ moj.Modules.CocoonHelper = {
       }
 
       $el.trigger('recalculate')
+    })
+
+    $elem.on('cocoon:before-insert', function (e, insertedItem) {
+      insertedItem.find('.govuk-form-group').each(function () {
+        const newId = $(this).find(':input').attr('id').concat('-', counter++)
+        $(this).find(':input').attr('id', newId)
+        $(this).find('label').attr('for', newId)
+      })
     })
   }
 }

@@ -119,10 +119,10 @@ end
 When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')?(?: with dates attended\s*(.*))?$/) do |name, quantity, date|
   quantity = quantity.present? ? quantity : '1'
   patiently do
-    @claim_form_page.add_misc_fee_if_required
+    @claim_form_page.add_govuk_misc_fee_if_required
   end
-  @claim_form_page.miscellaneous_fees.last.select_fee_type name
-  @claim_form_page.miscellaneous_fees.last.select_input.send_keys(:tab)
+  @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete.choose_autocomplete_option(name)
+  @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.send_keys(:tab)
   wait_for_ajax
   @claim_form_page.miscellaneous_fees.last.quantity.set quantity
   @claim_form_page.miscellaneous_fees.last.quantity.send_keys(:tab)

@@ -1392,6 +1392,7 @@ en:
             add_misc_fee: Add another fee
           misc_fee_fields:
             misc_fee: *miscellaneous_fee
+            misc_fee_html: 'Miscellaneous fees <span class="fx-numberedList-number"></span>'
             rate: Rate
             rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
             net_amount: *net_amount

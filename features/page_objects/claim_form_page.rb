@@ -115,6 +115,12 @@ class ClaimFormPage < BasePage
     end
   end
 
+  def add_govuk_misc_fee_if_required
+    if miscellaneous_fees.last.govuk_element_populated?
+      add_another_miscellaneous_fee.click
+    end
+  end
+
   def attach_evidence(count: 1, document: '*')
     count ||= 1
     available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/#{document.gsub('.pdf','')}.pdf"

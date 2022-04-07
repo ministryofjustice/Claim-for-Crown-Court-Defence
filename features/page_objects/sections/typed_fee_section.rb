@@ -1,6 +1,9 @@
 class TypedFeeSection < SitePrism::Section
+
   sections :select_options, "select.js-fee-type > option" do end
   element :select_input, "input.tt-input", visible: true
+  section :govuk_fee_type_autocomplete, CommonAutocomplete, ".cc-fee-type"
+  element :govuk_fee_type_autocomplete_input, ".cc-fee-type input", visible: true
   element :quantity, "input.quantity"
   element :quantity_hint, ".quantity_wrapper span.form-hint"
   element :calc_help_text, ".fee-calc-help-wrapper"
@@ -24,5 +27,9 @@ class TypedFeeSection < SitePrism::Section
 
   def populated?
     select_input.value.present?
+  end
+
+  def govuk_element_populated?
+    govuk_fee_type_autocomplete_input.value.present?
   end
 end

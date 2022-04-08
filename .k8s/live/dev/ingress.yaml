@@ -8,6 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
+      SecRuleRemoveById 941100
       SecRuleRemoveById 941120
   name: cccd-app-ingress
   namespace: cccd-dev

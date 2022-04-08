@@ -35,7 +35,6 @@ RUN apk --no-cache add --virtual build-dependencies \
                   nodejs \
                   linux-headers \
                   runit \
-                  ttf-ubuntu-font-family \
                   libreoffice \
                   redis \
                   postgresql-client

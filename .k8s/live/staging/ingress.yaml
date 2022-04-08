@@ -4,6 +4,12 @@ metadata:
   annotations:
     external-dns.alpha.kubernetes.io/set-identifier: cccd-app-ingress-cccd-staging-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
+    kubernetes.io/ingress.class: "modsec01"
+    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    nginx.ingress.kubernetes.io/modsecurity-snippet: |
+      SecRuleEngine On
+      SecRuleRemoveById 941100
+      SecRuleRemoveById 941120
   name: cccd-app-ingress
   namespace: cccd-staging
 spec:

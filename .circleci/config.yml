@@ -97,7 +97,7 @@ executors:
   test-executor:
     working_directory: ~/repo
     docker:
-      - image: cimg/ruby:2.7.4-browsers
+      - image: cimg/ruby:2.7.5-browsers
         environment:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:circleci@127.0.0.1:5432/cccd_test
@@ -265,7 +265,7 @@ commands:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 19.03.14
+          version: 20.10.7
       - run:
           name: deploying to << parameters.environment >> namespace
           command: |
@@ -369,7 +369,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 19.03.14
+          version: 20.10.7
       - *create-tmp-dir
       - *install-codeclimate
       - *persist-codeclimate
@@ -434,7 +434,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
-          version: 19.03.14
+          version: 20.10.7
       - *script-build-app-container
 
   hold-build-notification:

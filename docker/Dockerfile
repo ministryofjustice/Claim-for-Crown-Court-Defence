@@ -18,7 +18,7 @@ RUN set -ex
 # - nodejs: for ExecJS and asset compilation
 # - runit for process management (because we have multiple services)
 # - libreoffice: for pdf conversion
-# - ttf-freefont
+# - ttf-freefont: needed for libreoffice
 # - redis: for backend key-value store
 # - postgresql-client - only needed for database dump
 #

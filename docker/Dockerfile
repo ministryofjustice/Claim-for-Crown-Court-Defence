@@ -1,4 +1,4 @@
-FROM ruby:2.7.4-alpine3.13
+FROM ruby:2.7.5-alpine3.15
 MAINTAINER Ministry of Justice, Claim for crown court defence <crowncourtdefence@digital.justice.gov.uk>
 
 # fail early and print all commands
@@ -18,7 +18,7 @@ RUN set -ex
 # - nodejs: for ExecJS and asset compilation
 # - runit for process management (because we have multiple services)
 # - libreoffice: for pdf conversion
-# - ttf-ubuntu-font-family: needed by libreoffice
+# - ttf-freefont
 # - redis: for backend key-value store
 # - postgresql-client - only needed for database dump
 #
@@ -35,7 +35,7 @@ RUN apk --no-cache add --virtual build-dependencies \
                   nodejs \
                   linux-headers \
                   runit \
-                  ttf-ubuntu-font-family \
+                  ttf-freefont \
                   libreoffice \
                   redis \
                   postgresql-client

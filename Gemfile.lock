@@ -551,7 +551,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     redis (4.6.0)
-    regexp_parser (2.2.1)
+    regexp_parser (2.3.0)
     remotipart (1.4.4)
     request_store (1.5.1)
       rack (>= 1.4)
@@ -632,7 +632,7 @@ GEM
     sentry-sidekiq (5.2.1)
       sentry-ruby-core (~> 5.2.1)
       sidekiq (>= 3.0)
-    sexp_processor (4.16.0)
+    sexp_processor (4.16.1)
     shell-spinner (1.0.4)
       colorize
     shellany (0.0.1)

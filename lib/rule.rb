@@ -1,1 +1,1 @@
-Dir[Rails.root.join('lib', 'rule', '**', '*.rb')].sort.each { |f| require f }
+Dir[Rails.root.join('lib', 'rule', '**', '*.rb')].each { |f| require f }

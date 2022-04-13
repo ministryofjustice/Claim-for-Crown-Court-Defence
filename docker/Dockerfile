@@ -1,4 +1,4 @@
-FROM ruby:2.7.5-alpine3.15
+FROM ruby:3.0.4-alpine3.15
 MAINTAINER Ministry of Justice, Claim for crown court defence <crowncourtdefence@digital.justice.gov.uk>
 
 # fail early and print all commands
@@ -18,7 +18,7 @@ RUN set -ex
 # - nodejs: for ExecJS and asset compilation
 # - runit for process management (because we have multiple services)
 # - libreoffice: for pdf conversion
-# - ttf-freefont
+# - ttf-freefont: needed for libreoffice
 # - redis: for backend key-value store
 # - postgresql-client - only needed for database dump
 #

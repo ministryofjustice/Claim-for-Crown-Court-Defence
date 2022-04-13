@@ -8,7 +8,7 @@
 #
 
 class SupplierNumber < ApplicationRecord
-  SUPPLIER_NUMBER_REGEX = /\A[0-9][A-Z][0-9]{3}[A-Z]\z/.freeze
+  SUPPLIER_NUMBER_REGEX = /\A[0-9][A-Z][0-9]{3}[A-Z]\z/
 
   auto_strip_attributes :supplier_number, :name, :postcode, squish: true, nullify: true
 

@@ -632,7 +632,7 @@ GEM
     sentry-sidekiq (5.2.1)
       sentry-ruby-core (~> 5.2.1)
       sidekiq (>= 3.0)
-    sexp_processor (4.16.0)
+    sexp_processor (4.16.1)
     shell-spinner (1.0.4)
       colorize
     shellany (0.0.1)

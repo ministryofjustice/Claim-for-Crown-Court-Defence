@@ -53,6 +53,7 @@
     "webpack-dev-server": "^4.8.1"
   },
   "resolutions": {
+    "async": "^3.2.2",
     "css-what": "^5.0.1",
     "glob-parent": "^6.0.2",
     "hosted-git-info": "^3.0.8",

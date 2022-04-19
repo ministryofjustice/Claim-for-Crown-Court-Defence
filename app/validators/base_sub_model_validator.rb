@@ -57,7 +57,17 @@ class BaseSubModelValidator < BaseValidator
   end
 
   def associated_error_attribute(association_name, record_num, error)
-    "#{association_name.to_s.singularize}_#{record_num + 1}_#{error.attribute}"
+    # It ensures the errors are named following the convention
+    # it uses and thereby enables functional links between
+    # govuk_error_summary and govuk_ "field" errors.
+    #
+    # NOTE: Once form migrations are complete, this conditional can be removed
+    #
+    if %i[defendants representation_orders].include? association_name
+      "#{association_name}_attributes_#{record_num}_#{error.attribute}"
+    else
+      "#{association_name.to_s.singularize}_#{record_num + 1}_#{error.attribute}"
+    end
   end
   public :associated_error_attribute
 

@@ -1,12 +1,20 @@
-.remove_fields {
-  @include govuk-responsive-margin(4, "bottom");
-  @include govuk-media-query($from: desktop) {
-    position: absolute;
-    top: 0;
-    right: 0;
+.fx-numberedList-item { /* stylelint-disable-line selector-class-pattern */
+  position: relative;
+
+  .remove_fields {
+    @include govuk-responsive-margin(7, "bottom");
+    display: block;
   }
 
-  display: block;
-  z-index: 1;
-  font-weight: 700;
+  @include govuk-media-query($from: desktop) {
+    fieldset legend {
+      width: $three-quarters;
+    }
+
+    .remove_fields {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
 }

@@ -256,7 +256,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_first_name]).to match_array(['Enter a first name'])
+        expect(claim.errors[:defendants_attributes_0_first_name]).to match_array(['Enter a first name'])
       }
     end
 
@@ -265,7 +265,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_first_name]).to match_array(['First name is too long'])
+        expect(claim.errors[:defendants_attributes_1_first_name]).to match_array(['First name is too long'])
       }
     end
 
@@ -274,7 +274,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_last_name]).to match_array(['Enter a last name'])
+        expect(claim.errors[:defendants_attributes_0_last_name]).to match_array(['Enter a last name'])
       }
     end
 
@@ -283,7 +283,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_last_name]).to match_array(['Last name is too long'])
+        expect(claim.errors[:defendants_attributes_1_last_name]).to match_array(['Last name is too long'])
       }
     end
 
@@ -294,7 +294,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_date_of_birth]).to match_array(['Enter a date of birth'])
+        expect(claim.errors[:defendants_attributes_0_date_of_birth]).to match_array(['Enter a date of birth'])
       }
     end
 
@@ -310,7 +310,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_date_of_birth]).to match_array(['Check the date of birth'])
+        expect(claim.errors[:defendants_attributes_1_date_of_birth]).to match_array(['Check the date of birth'])
       }
     end
 
@@ -326,7 +326,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_date_of_birth]).to match_array(['Check the date of birth'])
+        expect(claim.errors[:defendants_attributes_1_date_of_birth]).to match_array(['Check the date of birth'])
       }
     end
 
@@ -337,7 +337,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_representation_order_1_representation_order_date]).to match_array(['Enter a representation order date'])
+        expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_0_representation_order_date]).to match_array(['Enter a representation order date'])
       }
     end
 
@@ -348,7 +348,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_representation_order_1_representation_order_date]).to match_array(['Enter a representation order date'])
+        expect(claim.errors[:defendants_attributes_1_representation_orders_attributes_0_representation_order_date]).to match_array(['Enter a representation order date'])
       }
     end
 
@@ -364,7 +364,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_representation_order_2_representation_order_date]).to match_array(['Representation order date can not be too far in the future'])
+        expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]).to match_array(['Representation order date can not be too far in the future'])
       }
     end
 
@@ -380,7 +380,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_representation_order_2_representation_order_date]).to match_array(['Representation order date is too far in the past', 'Representation orders should be entered in chronological order'])
+        expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]).to match_array(['Representation order date is too far in the past', 'Representation orders should be entered in chronological order'])
       }
     end
 

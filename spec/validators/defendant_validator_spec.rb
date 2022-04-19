@@ -47,9 +47,9 @@ RSpec.describe DefendantValidator, type: :validator do
       it 'validates for presence of a rep order' do
         expect(defendant).to_not be_valid
         expect(
-          defendant.errors[:representation_order_1_representation_order_date]
+          defendant.errors[:representation_orders_attributes_0_representation_order_date]
         ).to eq ['Enter a representation order date']
-        expect(defendant.errors[:representation_order_1_maat_reference]).to eq ['Enter a valid MAAT reference']
+        expect(defendant.errors[:representation_orders_attributes_0_maat_reference]).to eq ['Enter a valid MAAT reference']
       end
     end
   end

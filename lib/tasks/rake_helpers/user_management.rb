@@ -1,11 +1,22 @@
 class UserManagement
-  def self.inactive_users
-    User.where(last_sign_in_at: ..6.months.ago).or(User.where(last_sign_in_at: nil,
-                                                              created_at: ..6.months.ago)).where(disabled_at: nil)
+  def self.inactive_provider_users
+    User.where(last_sign_in_at: ..6.months.ago).or(
+      User.where(last_sign_in_at: nil, created_at: ..6.months.ago)
+    ).where(disabled_at: nil, persona_type: 'ExternalUser')
   end
 
-  def self.disabled_users
-    User.where.not(disabled_at: nil)
+  def self.disabled_provider_users
+    User.where.not(disabled_at: nil).where(persona_type: 'ExternalUser')
+  end
+
+  def self.inactive_caseworker_users
+    User.where(last_sign_in_at: ..6.months.ago).or(
+      User.where(last_sign_in_at: nil, created_at: ..6.months.ago)
+    ).where(disabled_at: nil, persona_type: 'CaseWorker')
+  end
+
+  def self.disabled_caseworker_users
+    User.where.not(disabled_at: nil).where(persona_type: 'CaseWorker')
   end
 
   def self.create_csv_for(users, filename)
@@ -33,5 +44,15 @@ class UserManagement
         ]
       end
     end
+  end
+
+  def self.disable(users)
+    error_count = 0
+    users.each do |user|
+      user.update!(disabled_at: DateTime.now)
+    rescue ActiveRecord::RecordInvalid
+      error_count += 1
+    end
+    return error_count
   end
 end

@@ -1,10 +1,6 @@
 .nested-fields.resource-details.defendant-details.fx-numberedList-item
 
-  %fieldset
-    %legend
-      %span.govuk-heading-m
-        = t('.defendant')
-        %span.fx-numberedList-number
+  = f.govuk_fieldset legend: { text: t('.defendant_html') } do
 
     = link_to_remove_association f, class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
       = t('common.remove_html', context: t('.defendant'))
@@ -12,18 +8,18 @@
     - @representation_order_count = 0
 
     = f.govuk_text_field :first_name,
-      form_group: { classes: ['cc-first-name'] },
+      form_group: { classes: 'cc-first-name' },
       label: { text: t('.first_name_html') },
       width: 'one-half'
-      
+
     = f.govuk_text_field :last_name,
-      form_group: { classes: ['cc-last-name'] },
+      form_group: { classes: 'cc-last-name' },
       label: { text: t('.last_name_html') },
       width: 'one-half'
 
     = f.govuk_date_field :date_of_birth,
       date_of_birth: true,
-      form_group: { classes: ['cc-dob'], id: "defendant_#{@defendant_count+1}_date_of_birth_group" },
+      form_group: { classes: 'cc-dob', id: "defendant_#{@defendant_count+1}_date_of_birth_group" },
       hint: { text: t('.date_hint') },
       legend: { text: t('.date_of_birth_html'), size: 's' },
       maxlength_enabled: true
@@ -36,9 +32,8 @@
         link_errors: true,
         multiple: false
 
-      .govuk-form-group
-        = govuk_detail 'Help with judicial apportionment' do
-          = t('.order_for_judicial_apportionment_help')
+      = govuk_detail 'Help with judicial apportionment' do
+        = t('.order_for_judicial_apportionment_help')
 
     - unless f.object.representation_orders.any?
       - f.object.representation_orders << RepresentationOrder.new

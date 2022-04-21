@@ -9,7 +9,7 @@ module SurveyMonkey
 
     def connection
       @connection ||= Faraday.new(root_url) do |conn|
-        conn.authorization :Bearer, bearer
+        conn.request :authorization, 'Bearer', bearer
         if logger && verbose_logging
           conn.response(:logger, logger, { headers: true, bodies: true }) do |log|
             log.filter(/(Authorization: )(.*)/, '\1[REMOVED]')

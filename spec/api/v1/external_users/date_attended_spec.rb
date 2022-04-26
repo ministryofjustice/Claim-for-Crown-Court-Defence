@@ -63,7 +63,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
     end
 
     context 'when date_attended params are invalid' do
-      include_examples 'invalid API key create endpoint', exclude: :other_provider
+      include_examples 'invalid API key', exclude: :other_provider, action: :create
 
       context 'missing expected params' do
         it 'returns a JSON error array with required model attributes' do
@@ -106,7 +106,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
       post endpoint(:dates_attended, :validate), valid_params, format: :json
     end
 
-    include_examples 'invalid API key validate endpoint', exclude: :other_provider
+    include_examples 'invalid API key', exclude: :other_provider, action: :validate
 
     it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint

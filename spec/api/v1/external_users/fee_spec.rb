@@ -398,7 +398,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
     end
 
     context 'when fee params are invalid' do
-      include_examples 'invalid API key create endpoint', exclude: :other_provider
+      include_examples 'invalid API key', exclude: :other_provider, action: :create
 
       context 'missing expected params' do
         it 'returns a JSON error array with required model attributes' do
@@ -464,7 +464,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       post endpoint(:fees, :validate), valid_params, format: :json
     end
 
-    include_examples 'invalid API key validate endpoint', exclude: :other_provider
+    include_examples 'invalid API key', exclude: :other_provider, action: :validate
 
     context 'non-basic fees' do
       include_examples 'fee validate endpoint'

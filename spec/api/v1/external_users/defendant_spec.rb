@@ -72,7 +72,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
 
     context 'when defendant params are invalid' do
       context 'invalid API key' do
-        include_examples 'invalid API key create endpoint', exclude: :other_provider
+        include_examples 'invalid API key', exclude: :other_provider, action: :create
       end
 
       context 'missing expected params' do
@@ -99,7 +99,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
       post endpoint(:defendants, :validate), valid_params, format: :json
     end
 
-    include_examples 'invalid API key validate endpoint', exclude: :other_provider
+    include_examples 'invalid API key', exclude: :other_provider, action: :validate
 
     it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint

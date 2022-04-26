@@ -109,7 +109,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
         context 'invalid API key' do
           let(:valid_params) { params }
 
-          include_examples 'invalid API key create endpoint', exclude: :other_provider
+          include_examples 'invalid API key', exclude: :other_provider, action: :create
         end
 
         context 'missing expected params' do
@@ -190,7 +190,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
       context 'invalid API key' do
         let(:valid_params) { params }
 
-        include_examples 'invalid API key validate endpoint', exclude: :other_provider
+        include_examples 'invalid API key', exclude: :other_provider, action: :validate
       end
 
       context 'missing expected params' do

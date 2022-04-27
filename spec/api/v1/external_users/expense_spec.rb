@@ -54,9 +54,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
     }
 
     describe "POST #{endpoint(:expenses)}" do
-      def post_to_create_endpoint
-        post endpoint(:expenses), params, format: :json
-      end
+      let(:post_to_create_endpoint) { post endpoint(:expenses), params, format: :json }
 
       include_examples 'should NOT be able to amend a non-draft claim'
 
@@ -176,9 +174,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
     end
 
     describe "POST #{endpoint(:expenses, :validate)}" do
-      def post_to_validate_endpoint
-        post endpoint(:expenses, :validate), params, format: :json
-      end
+      let(:post_to_validate_endpoint) { post endpoint(:expenses, :validate), params, format: :json }
 
       it 'valid requests should return 200 and String true' do
         post_to_validate_endpoint

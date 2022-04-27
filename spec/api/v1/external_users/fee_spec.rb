@@ -46,9 +46,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
   end
 
   describe "POST #{endpoint(:fees)}" do
-    def post_to_create_endpoint
-      post endpoint(:fees), valid_params, format: :json
-    end
+    let(:post_to_create_endpoint) { post endpoint(:fees), valid_params, format: :json }
 
     include_examples 'should NOT be able to amend a non-draft claim'
 
@@ -460,9 +458,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
   end
 
   describe "POST #{endpoint(:fees, :validate)}" do
-    def post_to_validate_endpoint
-      post endpoint(:fees, :validate), valid_params, format: :json
-    end
+    let(:post_to_validate_endpoint) { post endpoint(:fees, :validate), valid_params, format: :json }
 
     include_examples 'invalid API key', exclude: :other_provider, action: :validate
 

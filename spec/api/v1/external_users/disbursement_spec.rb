@@ -56,9 +56,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
   }
 
   describe "POST #{endpoint(:disbursements)}" do
-    def post_to_create_endpoint
-      post endpoint(:disbursements), params, format: :json
-    end
+    let(:post_to_create_endpoint) { post endpoint(:disbursements), params, format: :json }
 
     include_examples 'should NOT be able to amend a non-draft claim'
 
@@ -172,9 +170,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
   end
 
   describe "POST #{endpoint(:disbursements, :validate)}" do
-    def post_to_validate_endpoint
-      post endpoint(:disbursements, :validate), params, format: :json
-    end
+    let(:post_to_validate_endpoint) { post endpoint(:disbursements, :validate), params, format: :json }
 
     it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint

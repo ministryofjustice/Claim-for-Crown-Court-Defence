@@ -28,9 +28,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
   end
 
   describe "POST #{endpoint(:dates_attended)}" do
-    def post_to_create_endpoint
-      post endpoint(:dates_attended), valid_params, format: :json
-    end
+    let(:post_to_create_endpoint) { post endpoint(:dates_attended), valid_params, format: :json }
 
     include_examples 'should NOT be able to amend a non-draft claim'
 
@@ -102,9 +100,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
   end
 
   describe "POST #{endpoint(:dates_attended, :validate)}" do
-    def post_to_validate_endpoint
-      post endpoint(:dates_attended, :validate), valid_params, format: :json
-    end
+    let(:post_to_validate_endpoint) { post endpoint(:dates_attended, :validate), valid_params, format: :json }
 
     include_examples 'invalid API key', exclude: :other_provider, action: :validate
 

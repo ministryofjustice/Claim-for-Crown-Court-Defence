@@ -34,9 +34,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
   end
 
   describe "POST #{endpoint(:defendants)}" do
-    def post_to_create_endpoint
-      post endpoint(:defendants), valid_params, format: :json
-    end
+    let(:post_to_create_endpoint) { post endpoint(:defendants), valid_params, format: :json }
 
     include_examples 'should NOT be able to amend a non-draft claim'
 
@@ -95,9 +93,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
   end
 
   describe "POST #{endpoint(:defendants, :validate)}" do
-    def post_to_validate_endpoint
-      post endpoint(:defendants, :validate), valid_params, format: :json
-    end
+    let(:post_to_validate_endpoint) { post endpoint(:defendants, :validate), valid_params, format: :json }
 
     include_examples 'invalid API key', exclude: :other_provider, action: :validate
 

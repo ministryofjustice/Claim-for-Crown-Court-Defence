@@ -34,11 +34,11 @@ moj.Modules.SideBar = {
       const $el = $(el)
       const fn = $el.data('block-type') ? $el.data('block-type') : 'FeeBlock'
       const options = {
-        fn: fn,
+        fn,
         type: $el.data('type'),
         autoVAT: $el.data('autovat'),
-        el: el,
-        $el: $el
+        el,
+        $el
       }
       const block = new moj.Helpers.Blocks[options.fn](options)
       self.blocks.push(block.init())

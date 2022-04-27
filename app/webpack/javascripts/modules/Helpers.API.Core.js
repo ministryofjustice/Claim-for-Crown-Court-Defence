@@ -36,7 +36,7 @@
   }
 
   Module._CORE = {
-    query: query
+    query
   }
 
   exports.Helpers.API = Module

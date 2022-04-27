@@ -50,7 +50,7 @@
         const filter = $(e.target).attr('name')
         $.publish('/general/change/', filter)
         $.publish('/filter/' + filter + '/', {
-          e: e,
+          e,
           data: $(e.target).val()
         })
       })

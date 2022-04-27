@@ -30,7 +30,7 @@
   }
 
   Module.Distance = {
-    query: query
+    query
   }
 
   exports.Helpers.API = Module

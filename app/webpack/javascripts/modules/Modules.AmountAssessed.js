@@ -71,21 +71,21 @@ moj.Modules.AmountAssessedBlock = function (selector) {
     this.$actions.on('change', function (e) {
       const state = $(e.target).val()
       $.publish('claim.status.change', {
-        state: state
+        state
       })
     })
 
     this.$reasons.on('change', function (e) {
       const reason = self.$otherCheckbox.is(':checked')
       $.publish('claim.reasons.change', {
-        reason: reason
+        reason
       })
     })
 
     this.$refuseReasons.on('change', function (e) {
       const reason = self.$otherRefuseCheckbox.is(':checked')
       $.publish('claim.refuseReasons.change', {
-        reason: reason
+        reason
       })
     })
 

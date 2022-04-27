@@ -16,7 +16,7 @@
 
     // Merge options and defaults
     const config = $.extend({}, {
-      selectElement: selectElement,
+      selectElement,
 
       // This setting will auto select the top result
       autoselect: true,
@@ -36,8 +36,8 @@
         // Publish the onConfirm event when a `query` is present
         if (query) {
           $.publish('/onConfirm/' + selectElement.id + '/', $.extend({
-            query: query,
-            selectElement: selectElement
+            query,
+            selectElement
           }, $(requestedOption).data()))
         }
       }

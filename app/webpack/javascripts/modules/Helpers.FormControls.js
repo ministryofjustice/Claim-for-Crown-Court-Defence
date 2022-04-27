@@ -10,7 +10,7 @@
   }
 
   Module.select = {
-    getSelect: getSelect
+    getSelect
   }
 
   exports.Helpers.FormControls = Module
@@ -32,7 +32,7 @@
   }
 
   Module.input = {
-    getInput: getInput
+    getInput
   }
 
   exports.Helpers.FormControls = Module
@@ -69,7 +69,7 @@
   }
 
   Module.selectOptions = {
-    getOptions: getOptions
+    getOptions
   }
 
   exports.Helpers.FormControls = Module
@@ -89,7 +89,7 @@
   }
 
   Module.govUkDate = {
-    getGovUkDate: getGovUkDate
+    getGovUkDate
   }
 
   exports.Helpers.FormControls = Module

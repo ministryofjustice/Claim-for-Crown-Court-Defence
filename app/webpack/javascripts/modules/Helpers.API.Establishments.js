@@ -57,8 +57,8 @@
       // Load the error status and response
       // in the the internal cache
       internalCache = {
-        error: error,
-        status: status
+        error,
+        status
       }
 
       // Publish the success settings.events.cacheLoadError
@@ -118,11 +118,11 @@
   }
 
   Module.Establishments = {
-    init: init,
-    loadData: loadData,
-    getLocationByCategory: getLocationByCategory,
-    getAsOptions: getAsOptions,
-    getAsSelectWithOptions: getAsSelectWithOptions
+    init,
+    loadData,
+    getLocationByCategory,
+    getAsOptions,
+    getAsSelectWithOptions
   }
 
   $(init)

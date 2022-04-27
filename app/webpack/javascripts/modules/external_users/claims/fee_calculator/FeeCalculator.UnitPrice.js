@@ -195,7 +195,7 @@
       const dataobject = {
         type: 'POST',
         url: '/external_users/claims/' + data.claim_id + '/fees/calculate_price.json',
-        data: data,
+        data,
         dataType: 'json'
       }
 

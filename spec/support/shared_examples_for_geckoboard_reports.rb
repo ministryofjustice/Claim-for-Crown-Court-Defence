@@ -17,9 +17,8 @@ RSpec.shared_examples 'geckoboard publishable report' do
   it { is_expected.to respond_to :published? }
 
   def mock_expectations(exit_without_ping = nil)
-    allow(ENV).to receive(:[]).and_call_original
-    allow(ENV).to receive(:[]).with('ENV').and_return 'staging'
-    expect(ENV).to receive(:[]).with('GECKOBOARD_API_KEY').and_return 'fake-API-key'
+    allow(ENV).to receive(:fetch).with('ENV', nil).and_return 'staging'
+    allow(ENV).to receive(:fetch).with('GECKOBOARD_API_KEY', nil).and_return 'fake-API-key'
     expect(Geckoboard).to receive(:client).with('fake-API-key').and_return client
     return client if exit_without_ping
     expect(client).to receive(:ping).and_return true

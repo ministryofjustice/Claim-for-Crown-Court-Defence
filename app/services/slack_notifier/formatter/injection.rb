@@ -34,7 +34,7 @@ class SlackNotifier
       def fields(errors: [])
         [
           { title: 'Claim number', value: @claim&.case_number, short: true },
-          { title: 'environment', value: ENV['ENV'], short: true }
+          { title: 'environment', value: ENV.fetch('ENV', nil), short: true }
         ] + error_fields(errors)
       end
 

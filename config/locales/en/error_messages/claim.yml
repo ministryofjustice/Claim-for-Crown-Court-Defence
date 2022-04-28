@@ -633,39 +633,39 @@ defendant:
 
   first_name:
     _seq: 10
-    blank:
+    enter_a_first_name:
       long: "Enter a first name for the #{defendant}"
-      short: Enter a first name
+      short: _
       api: "Enter a first name for the defendant"
-    max_length:
+    first_name_is_too_long:
       long: "First name for the #{defendant} is too long"
-      short: *max_length
+      short: _
       api: "First name for the defendant is too long"
 
   last_name:
     _seq: 20
-    blank:
+    enter_a_last_name:
       long: "Enter a last name for the #{defendant}"
-      short: Enter a last name
+      short: _
       api: "Enter a last name for the defendant"
-    max_length:
+    last_name_is_too_long:
       long: "Last name for the #{defendant} is too long"
-      short: *max_length
+      short: _
       api: "Last name for the defendant is too long"
 
   date_of_birth:
     _seq: 30
-    blank:
+    enter_a_date_of_birth:
       long: "Enter a date of birth for the #{defendant}"
-      short: Enter a date of birth
+      short: _
       api: "Enter a date of birth for the defendant"
-    check:
+    check_the_date_of_birth:
       long: "Check the date of birth for of the #{defendant}"
-      short: Check the date of birth
+      short: _
       api: "Check the date of birth for the defendant"
     invalid_date:
       long: "Enter a valid date of birth for the #{defendant}"
-      short: *enter_valid_date
+      short: _
       api: "Enter a valid date of birth for the defendant"
 
   #################################################################################
@@ -685,60 +685,60 @@ representation_order:
 
   representation_order_date:
     _seq: 20
-    blank:
+    enter_a_representation_order_date:
       long: 'Enter a representation order date for the #{representation_order} of the #{defendant}'
-      short: *enter_date
+      short: _
       api: 'Enter a representation order date for the representation order of the defendant'
-    check:
+    representation_orders_should_be_entered_in_chronological_order:
       long: 'Representation orders should be entered in chronological order. Please check representation order dates of the #{defendant}'
-      short: *check_date
+      short: _
       api: 'Representation orders should be entered in chronological order. Please check representation order dates of the defendant'
-    invalid_date:
+    enter_a_valid_date_for_the_representation_order_date:
       long: 'Enter a valid date for the representation order date of the #{representation_order} of the #{defendant}'
-      short: *enter_valid_date
+      short: _
       api: 'Enter a valid date for the representation order date of the representation order of the defendant'
-    in_future:
+    representation_order_date_can_not_be_too_far_in_the_future:
       long: 'Check the representation order date for the #{representation_order} of the #{defendant}'
-      short: *in_future
+      short: _
       api: 'Check the representation order date for the representation order of the defendant'
-    not_before_earliest_permitted_date:
+    representation_order_date_is_too_far_in_the_past:
       long: 'Representation order date of the #{defendant} is too far in the past. Please check this date'
-      short: *check_date
+      short: _
       api: 'Representation order date of the defendant is too far in the past. Please check this date'
-    not_before_interim_earliest_permitted_date:
+    representation_order_date_cannot_be_prior_to_02/10/14:
       long: 'Representation order date of the #{defendant} cannot be prior to 02/10/14. Please check this date'
-      short: *check_date
+      short: _
       api: 'Representation order date of the defendant cannot be prior to 02/10/14. Please check this date'
-    not_on_or_before_case_concluded_date:
+    check_combination_of_representation_order_date_and_case_concluded_date:
       long: 'Check the combination of the representation order date and the case concluded date'
-      short: 'Check combination of representation order date and case concluded date'
+      short: _
       api: 'Check combination of rep order date and case concluded date'
-    not_on_or_before_first_day_of_retrial:
+    check_combination_of_representation_order_date_and_trial_dates:
       long: 'Check the combination of the representation order date and the dates of trial'
-      short: 'Check combination of representation order date and trial dates'
+      short: _
       api: 'Check combination of rep order date and trial dates'
-    not_on_or_before_first_day_of_trial:
+    check_combination_of_representation_order_date_and_trial_dates:
       long: 'Check the combination of the representation order date and the dates of trial'
-      short: 'Check combination of representation order date and trial dates'
+      short: _
       api: 'Check combination of rep order date and trial dates'
-    not_on_or_before_trial_cracked_date:
+    check_combination_of_representation_order_date_and_case_cracked_date:
       long: 'Check the combination of the representation order date and the case cracked date'
-      short: 'Check combination of representation order date and case cracked date'
+      short: _
       api: 'Check combination of rep order date and case cracked date'
-    agfs_reform_offence:
+    check_combination_of_representation_order_date_and_offence:
       long: Check the combination of the representation order date and offence
-      short: *check_date
+      short: _
       api: Check the combination of the representation order date and offence
 
   maat_reference:
     _seq: 30
-    invalid:
+    enter_a_valid_maat_reference:
       long: "Enter a valid MAAT reference for the #{representation_order} of the #{defendant}"
-      short: Enter a valid MAAT reference
+      short: _
       api: "Enter a valid MAAT reference for the representation order of the defendant"
-    unique:
+    enter_a_unique_maat_reference:
       long: "Each defendant must have a unique MAAT reference"
-      short: "Enter a unique MAAT reference"
+      short: _
       api: "Each defendant must have a unique MAAT reference"
 
 #################################################################################

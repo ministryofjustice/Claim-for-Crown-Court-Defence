@@ -1,32 +1,3 @@
-// Form Settings
-fieldset {
-  position: relative;
-
-  &.error { // stylelint-disable-line selector-no-qualifying-type
-    border-left-width: 3px;
-
-    .form-control { // stylelint-disable-line selector-no-qualifying-type
-      border-width: 2px;
-      border-color: $error-colour;
-    }
-  }
-
-  legend {
-    @include govuk-media-query($from: desktop) {
-      float: left;
-    }
-    width: $full-width;
-  }
-
-  label {
-    margin-top: 0;
-  }
-
-  &.spacer { // stylelint-disable-line selector-no-qualifying-type
-    margin: $gutter-two-thirds 0;
-  }
-}
-
 // ie error state fix
 input[type="radio"] {
   border: none;

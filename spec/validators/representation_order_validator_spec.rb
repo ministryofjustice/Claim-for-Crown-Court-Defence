@@ -10,9 +10,9 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
   end
 
   context 'representation_order_date' do
-    it { should_error_if_not_present(reporder, :representation_order_date, 'blank') }
-    it { should_error_if_in_future(reporder, :representation_order_date, 'in_future') }
-    it { should_error_if_too_far_in_the_past(reporder, :representation_order_date, 'not_before_earliest_permitted_date') }
+    it { should_error_if_not_present(reporder, :representation_order_date, 'Enter a representation order date') }
+    it { should_error_if_in_future(reporder, :representation_order_date, 'Representation order date can not be too far in the future') }
+    it { should_error_if_too_far_in_the_past(reporder, :representation_order_date, 'Representation orders should be entered in chronological order') }
 
     context 'for advocate final claims' do
       let(:case_type) { build(:case_type, :fixed_fee) }
@@ -43,7 +43,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
-            expect(reporder.errors[:representation_order_date]).to include('not_on_or_before_first_day_of_trial')
+            expect(reporder.errors[:representation_order_date]).to include('Check combination of representation order date and trial dates')
           end
         end
       end
@@ -73,7 +73,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
-            expect(reporder.errors[:representation_order_date]).to include('not_on_or_before_first_day_of_retrial')
+            expect(reporder.errors[:representation_order_date]).to include('Check combination of representation order date and trial dates')
           end
         end
       end
@@ -103,7 +103,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
-            expect(reporder.errors[:representation_order_date]).to include('not_on_or_before_trial_cracked_date')
+            expect(reporder.errors[:representation_order_date]).to include('Check combination of representation order date and case cracked date')
           end
         end
       end
@@ -133,7 +133,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
-            expect(reporder.errors[:representation_order_date]).to include('not_on_or_before_trial_cracked_date')
+            expect(reporder.errors[:representation_order_date]).to include('Check combination of representation order date and case cracked date')
           end
         end
       end
@@ -171,7 +171,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
-            expect(reporder.errors[:representation_order_date]).to include('not_on_or_before_case_concluded_date')
+            expect(reporder.errors[:representation_order_date]).to include('Check combination of representation order date and case concluded date')
           end
         end
       end
@@ -184,7 +184,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
     context 'representation_order_date' do
       let(:earliest_permitted_date) { Date.new(2014, 10, 2) }
 
-      it { should_error_if_before_specified_date(reporder, :representation_order_date, earliest_permitted_date, 'not_before_interim_earliest_permitted_date') }
+      it { should_error_if_before_specified_date(reporder, :representation_order_date, earliest_permitted_date, 'Representation orders should be entered in chronological order') }
     end
   end
 
@@ -211,7 +211,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
       ro2.representation_order_date = ro1.representation_order_date - 1.day
       claim.force_validation = true
       expect(ro2).not_to be_valid
-      expect(ro2.errors[:representation_order_date]).to include('check')
+      expect(ro2.errors[:representation_order_date]).to include('Representation orders should be entered in chronological order')
     end
   end
 end

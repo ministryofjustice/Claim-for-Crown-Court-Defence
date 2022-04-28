@@ -193,7 +193,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
               it 'submodel is invalid' do
                 record.valid?
-                expect(record.errors.messages[:maat_reference]).to eq ['invalid']
+                expect(record.errors.messages[:maat_reference]).to eq ['Enter a valid MAAT reference']
               end
 
               it 'still transitions to archived_pending_delete' do

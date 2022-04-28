@@ -1,0 +1,37 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        defendant:
+          attributes:
+            first_name:
+              blank: Enter a first name
+              max_length: First name is too long
+
+            last_name:
+              blank: Enter a last name
+              max_length: Last name is too long
+
+            date_of_birth:
+              blank: Enter a date of birth
+              check: Check the date of birth
+
+        representation_order:
+          attributes:
+            representation_order_date:
+              blank: Enter a representation order date
+              check: Representation orders should be entered in chronological order
+              invalid_date: Enter a valid date for the representation order date
+              in_future: Representation order date can not be too far in the future
+              not_before_earliest_permitted_date: Representation order date is too far in the past
+              not_before_interim_earliest_permitted_date: Representation order date cannot be prior to 02/10/14
+              not_on_or_before_case_concluded_date: Check combination of representation order date and case concluded date
+              not_on_or_before_first_day_of_retrial: Check combination of representation order date and trial dates
+              not_on_or_before_first_day_of_trial: Check combination of representation order date and trial dates
+              not_on_or_before_trial_cracked_date: Check combination of representation order date and case cracked date
+              agfs_reform_offence: Check the combination of the representation order date and offence
+           
+            maat_reference:
+              invalid: Enter a valid MAAT reference
+              unique: Enter a unique MAAT reference

@@ -36,6 +36,8 @@ en:
   TrueClass: *global_yes
   FalseClass: *global_no
 
+  date_hint: &date_hint For example, 31 3 1980
+
   pages:
     api_landing:
       page_heading: Claim for crown court defence API
@@ -1092,6 +1094,7 @@ en:
           full_name: Full name
           date_of_birth: Date of birth
           date_of_birth_html: Date of birth <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
+          date_hint: *date_hint
           judical_apportionment: Judicial apportionment
           order_for_judicial_apportionment:  Order for judicial apportionment
           order_for_judicial_apportionment_html: Order for judicial apportionment <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
@@ -1099,6 +1102,7 @@ en:
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
           defendant: Defendant
+          defendant_html: Defendant <span class="fx-numberedList-number"></span>
           remove: Remove
         fields:
           defendants: 'Defendants'
@@ -1106,8 +1110,10 @@ en:
           page_heading: Defendant details
         representation_order_fields:
           date: Representation order date
+          date_hint: *date_hint
           date_html: Representation order date <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           representation_order: Representation order details
+          representation_order_html: Representation order details <span class="fx-numberedList-number"></span>
           maat_reference_number: MAAT reference
           maat_reference_number_html: MAAT reference <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           maat_reference_number_eg: 'this should be 7 digits long, starting with at least a 4'

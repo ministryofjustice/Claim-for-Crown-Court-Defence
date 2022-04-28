@@ -67,22 +67,24 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
         claim.force_validation = true
         claim.reload.valid?
 
-        expect(claim.errors[:defendant_1_date_of_birth]).to eq(['blank'])
-        expect(claim.errors[:defendant_1_first_name]).to eq(['blank'])
+        expect(claim.errors[:defendants_attributes_0_date_of_birth]).to eq(['Enter a date of birth'])
+        expect(claim.errors[:defendants_attributes_0_first_name]).to eq(['Enter a first name'])
       end
     end
 
     context 'bubbling up errors two levels to the claim' do
       let(:expected_results) do
         {
-          defendant_1_representation_order_1_representation_order_date: 'not_before_earliest_permitted_date',
-          defendant_1_date_of_birth: 'blank'
+          defendants_attributes_0_representation_orders_attributes_0_representation_order_date:
+            'Representation order date is too far in the past',
+          defendants_attributes_0_date_of_birth: 'Enter a date of birth'
         }
       end
 
       context 'when claim has case type requiring MAAT reference' do
         before do
-          expected_results[:defendant_1_representation_order_1_maat_reference] = 'invalid'
+          expected_results[:defendants_attributes_0_representation_orders_attributes_0_maat_reference] =
+            'Enter a valid MAAT reference'
 
           claim.case_type.update_column(:requires_maat_reference, true)
 

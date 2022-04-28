@@ -116,7 +116,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
 
         before { travel_to(Date.new(2018, 5, 1)) { post_to_create_endpoint } }
 
-        specify { expect_error_response('Check the combination of the representation order date and offence') }
+        specify { expect_error_response('Representation order 1 representation order date check the combination of the representation order date and offence') }
       end
 
       describe 'and the rep_order_date post-dates the start of the scheme' do

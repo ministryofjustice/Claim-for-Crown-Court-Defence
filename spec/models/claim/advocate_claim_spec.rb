@@ -1285,15 +1285,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             '0' => {
               'first_name' => 'Foo',
               'last_name' => 'Bar',
-              'date_of_birth_dd' => '04',
-              'date_of_birth_mm' => '10',
-              'date_of_birth_yyyy' => '1980',
+              'date_of_birth(3i)' => '04',
+              'date_of_birth(2i)' => '10',
+              'date_of_birth(1i)' => '1980',
               'order_for_judicial_apportionment' => '0',
               'representation_orders_attributes' => {
                 '0' => {
-                  'representation_order_date_dd' => '30',
-                  'representation_order_date_mm' => '08',
-                  'representation_order_date_yyyy' => '2015',
+                  'representation_order_date(3i)' => '30',
+                  'representation_order_date(2i)' => '08',
+                  'representation_order_date(1i)' => '2015',
                   'maat_reference' => '1234567890',
                   '_destroy' => 'false'
                 }

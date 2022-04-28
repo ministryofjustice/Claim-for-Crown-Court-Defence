@@ -3362,6 +3362,7 @@ Layout/LineLength:
     - 'spec/validators/claim/shared_examples_for_step_validators.rb'
     - 'spec/validators/claim/transfer_claim_validator_spec.rb'
     - 'spec/validators/date_attended_validator_spec.rb'
+    - 'spec/validators/defendant_validator_spec.rb'
     - 'spec/validators/expense_validator_spec.rb'
     - 'spec/validators/fee/base_fee_validator_spec.rb'
     - 'spec/validators/representation_order_validator_spec.rb'

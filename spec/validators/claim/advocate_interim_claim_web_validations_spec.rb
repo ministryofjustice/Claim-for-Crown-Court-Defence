@@ -170,17 +170,17 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     let(:release_date) { Date.parse(Settings.agfs_fee_reform_release_date.to_s) }
     let(:valid_one_one_representation_order_attrs) {
       {
-        representation_order_date_dd: release_date.day.to_s,
-        representation_order_date_mm: release_date.month.to_s,
-        representation_order_date_yyyy: release_date.year.to_s
+        'representation_order_date(3i)': release_date.day.to_s,
+        'representation_order_date(2i)': release_date.month.to_s,
+        'representation_order_date(1i)': release_date.year.to_s
       }
     }
     let(:one_one_representation_order_attrs) { valid_one_one_representation_order_attrs }
     let(:valid_one_other_representation_order_attrs) {
       {
-        representation_order_date_dd: (release_date + 2.days).day.to_s,
-        representation_order_date_mm: (release_date + 2.days).month.to_s,
-        representation_order_date_yyyy: (release_date + 2.days).year.to_s
+        'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+        'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+        'representation_order_date(1i)': (release_date + 2.days).year.to_s
       }
     }
     let(:one_other_representation_order_attrs) { valid_one_other_representation_order_attrs }
@@ -188,9 +188,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       {
         first_name: 'John',
         last_name: 'Doe',
-        date_of_birth_dd: '03',
-        date_of_birth_mm: '11',
-        date_of_birth_yyyy: '1967',
+        'date_of_birth(3i)': '03',
+        'date_of_birth(2i)': '11',
+        'date_of_birth(1i)': '1967',
         order_for_judicial_apportionment: '0',
         representation_orders_attributes: {
           '0' => one_one_representation_order_attrs,
@@ -201,9 +201,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     let(:one_defendant_attrs) { valid_one_defendant_attrs }
     let(:valid_other_one_representation_order_attrs) {
       {
-        representation_order_date_dd: (release_date + 1.day).day.to_s,
-        representation_order_date_mm: (release_date + 1.day).month.to_s,
-        representation_order_date_yyyy: (release_date + 1.day).year.to_s
+        'representation_order_date(3i)': (release_date + 1.day).day.to_s,
+        'representation_order_date(2i)': (release_date + 1.day).month.to_s,
+        'representation_order_date(1i)': (release_date + 1.day).year.to_s
       }
     }
     let(:other_one_representation_order_attrs) { valid_other_one_representation_order_attrs }
@@ -211,9 +211,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       {
         first_name: 'Jane',
         last_name: 'Doe',
-        date_of_birth_dd: '26',
-        date_of_birth_mm: '07',
-        date_of_birth_yyyy: '1959',
+        'date_of_birth(3i)': '26',
+        'date_of_birth(2i)': '07',
+        'date_of_birth(1i)': '1959',
         order_for_judicial_apportionment: '0',
         representation_orders_attributes: {
           '0' => other_one_representation_order_attrs
@@ -256,7 +256,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_first_name]).to match_array(['blank'])
+        expect(claim.errors[:defendants_attributes_0_first_name]).to match_array(['Enter a first name'])
       }
     end
 
@@ -265,7 +265,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_first_name]).to match_array(['max_length'])
+        expect(claim.errors[:defendants_attributes_1_first_name]).to match_array(['First name is too long'])
       }
     end
 
@@ -274,7 +274,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_last_name]).to match_array(['blank'])
+        expect(claim.errors[:defendants_attributes_0_last_name]).to match_array(['Enter a last name'])
       }
     end
 
@@ -283,18 +283,18 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_last_name]).to match_array(['max_length'])
+        expect(claim.errors[:defendants_attributes_1_last_name]).to match_array(['Last name is too long'])
       }
     end
 
     context 'when one of the defendants has no date of birth set' do
       let(:one_defendant_attrs) {
-        valid_one_defendant_attrs.except(:date_of_birth_dd, :date_of_birth_mm, :date_of_birth_yyyy)
+        valid_one_defendant_attrs.except(:'date_of_birth(3i)', :'date_of_birth(2i)', :'date_of_birth(1i)')
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_date_of_birth]).to match_array(['blank'])
+        expect(claim.errors[:defendants_attributes_0_date_of_birth]).to match_array(['Enter a date of birth'])
       }
     end
 
@@ -302,15 +302,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:recent_date_of_birth) { 5.years.ago.to_date }
       let(:other_defendant_attrs) {
         valid_other_defendant_attrs.merge(
-          date_of_birth_dd: recent_date_of_birth.day.to_s,
-          date_of_birth_mm: recent_date_of_birth.month.to_s,
-          date_of_birth_yyyy: recent_date_of_birth.year.to_s
+          'date_of_birth(3i)': recent_date_of_birth.day.to_s,
+          'date_of_birth(2i)': recent_date_of_birth.month.to_s,
+          'date_of_birth(1i)': recent_date_of_birth.year.to_s
         )
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_date_of_birth]).to match_array(['check'])
+        expect(claim.errors[:defendants_attributes_1_date_of_birth]).to match_array(['Check the date of birth'])
       }
     end
 
@@ -318,15 +318,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:recent_date_of_birth) { 140.years.ago.to_date }
       let(:other_defendant_attrs) {
         valid_other_defendant_attrs.merge(
-          date_of_birth_dd: recent_date_of_birth.day.to_s,
-          date_of_birth_mm: recent_date_of_birth.month.to_s,
-          date_of_birth_yyyy: recent_date_of_birth.year.to_s
+          'date_of_birth(3i)': recent_date_of_birth.day.to_s,
+          'date_of_birth(2i)': recent_date_of_birth.month.to_s,
+          'date_of_birth(1i)': recent_date_of_birth.year.to_s
         )
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_date_of_birth]).to match_array(['check'])
+        expect(claim.errors[:defendants_attributes_1_date_of_birth]).to match_array(['Check the date of birth'])
       }
     end
 
@@ -337,18 +337,18 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_representation_order_1_representation_order_date]).to match_array(['blank'])
+        expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_0_representation_order_date]).to match_array(['Enter a representation order date'])
       }
     end
 
     context 'when one of the defendants has a representation order with no date set' do
       let(:other_one_representation_order_attrs) {
-        valid_other_one_representation_order_attrs.except(:representation_order_date_dd, :representation_order_date_mm, :representation_order_date_yyyy)
+        valid_other_one_representation_order_attrs.except(:'representation_order_date(3i)', :'representation_order_date(2i)', :'representation_order_date(1i)')
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_2_representation_order_1_representation_order_date]).to match_array(['blank'])
+        expect(claim.errors[:defendants_attributes_1_representation_orders_attributes_0_representation_order_date]).to match_array(['Enter a representation order date'])
       }
     end
 
@@ -356,15 +356,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:future_date) { 2.days.from_now.to_date }
       let(:one_other_representation_order_attrs) {
         valid_one_other_representation_order_attrs.merge(
-          representation_order_date_dd: future_date.day.to_s,
-          representation_order_date_mm: future_date.month.to_s,
-          representation_order_date_yyyy: future_date.year.to_s
+          'representation_order_date(3i)': future_date.day.to_s,
+          'representation_order_date(2i)': future_date.month.to_s,
+          'representation_order_date(1i)': future_date.year.to_s
         )
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_representation_order_2_representation_order_date]).to match_array(['in_future'])
+        expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]).to match_array(['Representation order date can not be too far in the future'])
       }
     end
 
@@ -372,15 +372,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:earliest_permitted_date) { Date.parse(Settings.earliest_permitted_date.to_s) }
       let(:one_other_representation_order_attrs) do
         valid_one_other_representation_order_attrs.merge(
-          representation_order_date_dd: (earliest_permitted_date - 1.day).day.to_s,
-          representation_order_date_mm: (earliest_permitted_date - 1.day).month.to_s,
-          representation_order_date_yyyy: (earliest_permitted_date - 1.day).year.to_s
+          'representation_order_date(3i)': (earliest_permitted_date - 1.day).day.to_s,
+          'representation_order_date(2i)': (earliest_permitted_date - 1.day).month.to_s,
+          'representation_order_date(1i)': (earliest_permitted_date - 1.day).year.to_s
         )
       end
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:defendant_1_representation_order_2_representation_order_date]).to match_array(['check', 'not_before_earliest_permitted_date'])
+        expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]).to match_array(['Representation order date is too far in the past', 'Representation orders should be entered in chronological order'])
       }
     end
 
@@ -388,9 +388,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:release_date) { Date.parse(Settings.agfs_fee_reform_release_date.to_s) }
       let(:one_other_representation_order_attrs) do
         valid_one_other_representation_order_attrs.merge(
-          representation_order_date_dd: (release_date - 1.day).day.to_s,
-          representation_order_date_mm: (release_date - 1.day).month.to_s,
-          representation_order_date_yyyy: (release_date - 1.day).year.to_s
+          'representation_order_date(3i)': (release_date - 1.day).day.to_s,
+          'representation_order_date(2i)': (release_date - 1.day).month.to_s,
+          'representation_order_date(1i)': (release_date - 1.day).year.to_s
         )
       end
 
@@ -420,35 +420,35 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           '0' => {
             first_name: 'John',
             last_name: 'Doe',
-            date_of_birth_dd: '03',
-            date_of_birth_mm: '11',
-            date_of_birth_yyyy: '1967',
+            'date_of_birth(3i)': '03',
+            'date_of_birth(2i)': '11',
+            'date_of_birth(1i)': '1967',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: earliest_representation_order_date.day.to_s,
-                representation_order_date_mm: earliest_representation_order_date.month.to_s,
-                representation_order_date_yyyy: earliest_representation_order_date.year.to_s
+                'representation_order_date(3i)': earliest_representation_order_date.day.to_s,
+                'representation_order_date(2i)': earliest_representation_order_date.month.to_s,
+                'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                representation_order_date_dd: (release_date + 2.days).day.to_s,
-                representation_order_date_mm: (release_date + 2.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 2.days).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
           '1' => {
             first_name: 'Jane',
             last_name: 'Doe',
-            date_of_birth_dd: '26',
-            date_of_birth_mm: '07',
-            date_of_birth_yyyy: '1959',
+            'date_of_birth(3i)': '26',
+            'date_of_birth(2i)': '07',
+            'date_of_birth(1i)': '1959',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: (release_date + 3.days).day.to_s,
-                representation_order_date_mm: (release_date + 3.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 3.days).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }
@@ -500,35 +500,35 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           '0' => {
             first_name: 'John',
             last_name: 'Doe',
-            date_of_birth_dd: '03',
-            date_of_birth_mm: '11',
-            date_of_birth_yyyy: '1967',
+            'date_of_birth(3i)': '03',
+            'date_of_birth(2i)': '11',
+            'date_of_birth(1i)': '1967',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: earliest_representation_order_date.day.to_s,
-                representation_order_date_mm: earliest_representation_order_date.month.to_s,
-                representation_order_date_yyyy: earliest_representation_order_date.year.to_s
+                'representation_order_date(3i)': earliest_representation_order_date.day.to_s,
+                'representation_order_date(2i)': earliest_representation_order_date.month.to_s,
+                'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                representation_order_date_dd: (release_date + 2.days).day.to_s,
-                representation_order_date_mm: (release_date + 2.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 2.days).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
           '1' => {
             first_name: 'Jane',
             last_name: 'Doe',
-            date_of_birth_dd: '26',
-            date_of_birth_mm: '07',
-            date_of_birth_yyyy: '1959',
+            'date_of_birth(3i)': '26',
+            'date_of_birth(2i)': '07',
+            'date_of_birth(1i)': '1959',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: (release_date + 3.days).day.to_s,
-                representation_order_date_mm: (release_date + 3.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 3.days).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }
@@ -699,35 +699,35 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           '0' => {
             first_name: 'John',
             last_name: 'Doe',
-            date_of_birth_dd: '03',
-            date_of_birth_mm: '11',
-            date_of_birth_yyyy: '1967',
+            'date_of_birth(3i)': '03',
+            'date_of_birth(2i)': '11',
+            'date_of_birth(1i)': '1967',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: earliest_representation_order_date.day.to_s,
-                representation_order_date_mm: earliest_representation_order_date.month.to_s,
-                representation_order_date_yyyy: earliest_representation_order_date.year.to_s
+                'representation_order_date(3i)': earliest_representation_order_date.day.to_s,
+                'representation_order_date(2i)': earliest_representation_order_date.month.to_s,
+                'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                representation_order_date_dd: (release_date + 2.days).day.to_s,
-                representation_order_date_mm: (release_date + 2.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 2.days).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
           '1' => {
             first_name: 'Jane',
             last_name: 'Doe',
-            date_of_birth_dd: '26',
-            date_of_birth_mm: '07',
-            date_of_birth_yyyy: '1959',
+            'date_of_birth(3i)': '26',
+            'date_of_birth(2i)': '07',
+            'date_of_birth(1i)': '1959',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: (release_date + 3.days).day.to_s,
-                representation_order_date_mm: (release_date + 3.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 3.days).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }
@@ -910,35 +910,35 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           '0' => {
             first_name: 'John',
             last_name: 'Doe',
-            date_of_birth_dd: '03',
-            date_of_birth_mm: '11',
-            date_of_birth_yyyy: '1967',
+            'date_of_birth(3i)': '03',
+            'date_of_birth(2i)': '11',
+            'date_of_birth(1i)': '1967',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: earliest_representation_order_date.day.to_s,
-                representation_order_date_mm: earliest_representation_order_date.month.to_s,
-                representation_order_date_yyyy: earliest_representation_order_date.year.to_s
+                'representation_order_date(3i)': earliest_representation_order_date.day.to_s,
+                'representation_order_date(2i)': earliest_representation_order_date.month.to_s,
+                'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                representation_order_date_dd: (release_date + 2.days).day.to_s,
-                representation_order_date_mm: (release_date + 2.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 2.days).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
           '1' => {
             first_name: 'Jane',
             last_name: 'Doe',
-            date_of_birth_dd: '26',
-            date_of_birth_mm: '07',
-            date_of_birth_yyyy: '1959',
+            'date_of_birth(3i)': '26',
+            'date_of_birth(2i)': '07',
+            'date_of_birth(1i)': '1959',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: (release_date + 3.days).day.to_s,
-                representation_order_date_mm: (release_date + 3.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 3.days).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }
@@ -1054,35 +1054,35 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           '0' => {
             first_name: 'John',
             last_name: 'Doe',
-            date_of_birth_dd: '03',
-            date_of_birth_mm: '11',
-            date_of_birth_yyyy: '1967',
+            'date_of_birth(3i)': '03',
+            'date_of_birth(2i)': '11',
+            'date_of_birth(1i)': '1967',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: earliest_representation_order_date.day.to_s,
-                representation_order_date_mm: earliest_representation_order_date.month.to_s,
-                representation_order_date_yyyy: earliest_representation_order_date.year.to_s
+                'representation_order_date(3i)': earliest_representation_order_date.day.to_s,
+                'representation_order_date(2i)': earliest_representation_order_date.month.to_s,
+                'representation_order_date(1i)': earliest_representation_order_date.year.to_s
               },
               '1' => {
-                representation_order_date_dd: (release_date + 2.days).day.to_s,
-                representation_order_date_mm: (release_date + 2.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 2.days).year.to_s
+                'representation_order_date(3i)': (release_date + 2.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 2.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 2.days).year.to_s
               }
             }
           },
           '1' => {
             first_name: 'Jane',
             last_name: 'Doe',
-            date_of_birth_dd: '26',
-            date_of_birth_mm: '07',
-            date_of_birth_yyyy: '1959',
+            'date_of_birth(3i)': '26',
+            'date_of_birth(2i)': '07',
+            'date_of_birth(1i)': '1959',
             order_for_judicial_apportionment: '0',
             representation_orders_attributes: {
               '0' => {
-                representation_order_date_dd: (release_date + 3.days).day.to_s,
-                representation_order_date_mm: (release_date + 3.days).month.to_s,
-                representation_order_date_yyyy: (release_date + 3.days).year.to_s
+                'representation_order_date(3i)': (release_date + 3.days).day.to_s,
+                'representation_order_date(2i)': (release_date + 3.days).month.to_s,
+                'representation_order_date(1i)': (release_date + 3.days).year.to_s
               }
             }
           }

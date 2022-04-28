@@ -1,53 +1,22 @@
-RSpec.shared_examples 'invalid API key validate endpoint' do |options|
+RSpec.shared_examples 'invalid API key' do |options|
+  let(:post_to_endpoint) { options[:action] == :create ? post_to_create_endpoint : post_to_validate_endpoint }
+
   context 'with invalid API key' do
     it 'response 401 and JSON error array when it is not provided' do
       valid_params[:api_key] = nil
-      post_to_validate_endpoint
+      post_to_endpoint
       expect_unauthorised_error
     end
 
     it 'response 401 and JSON error array when it does not match an existing provider API key' do
       valid_params[:api_key] = SecureRandom.uuid
-      post_to_validate_endpoint
+      post_to_endpoint
       expect_unauthorised_error
     end
 
     it 'response 401 and JSON error array when it is malformed' do
       valid_params[:api_key] = 'any-old-rubbish'
-      post_to_validate_endpoint
-      expect_unauthorised_error
-    end
-
-    # TODO: it appears as though nested objects can be created on a claim by a
-    # provider other than that which created the claim
-    # - excluding for now
-    unless [:other_provider].include? options&.fetch(:exclude)
-      it "response 401 and JSON error array when it is an API key from another provider's admin" do
-        valid_params[:api_key] = other_provider.api_key
-        post_to_validate_endpoint
-        expect_unauthorised_error('Creator and advocate/litigator must belong to the provider')
-      end
-    end
-  end
-end
-
-RSpec.shared_examples 'invalid API key create endpoint' do |options|
-  context 'with invalid API key' do
-    it 'response 401 and JSON error array when it is not provided' do
-      valid_params[:api_key] = nil
-      post_to_create_endpoint
-      expect_unauthorised_error
-    end
-
-    it 'response 401 and JSON error array when it does not match an existing provider API key' do
-      valid_params[:api_key] = SecureRandom.uuid
-      post_to_create_endpoint
-      expect_unauthorised_error
-    end
-
-    it 'response 401 and JSON error array when it is malformed' do
-      valid_params[:api_key] = 'any-old-rubbish'
-      post_to_create_endpoint
+      post_to_endpoint
       expect_unauthorised_error
     end
 
@@ -57,7 +26,7 @@ RSpec.shared_examples 'invalid API key create endpoint' do |options|
     unless [:other_provider].include? options&.fetch(:exclude)
       it 'response 401 and JSON error array when it is an API key from another provider' do
         valid_params[:api_key] = other_provider.api_key
-        post_to_create_endpoint
+        post_to_endpoint
         expect_unauthorised_error('Creator and advocate/litigator must belong to the provider')
       end
     end
@@ -128,7 +97,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer|hardship)}) ? 'Litigator' : 'Advocate'
     end
 
-    include_examples 'invalid API key validate endpoint'
+    include_examples 'invalid API key', exclude: nil, action: :validate
 
     it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint
@@ -215,7 +184,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
     end
 
     context 'when claim params are invalid' do
-      include_examples 'invalid API key create endpoint'
+      include_examples 'invalid API key', exclude: nil, action: :create
 
       let(:email) { 'non_existent_user@bigblackhole.com' }
 

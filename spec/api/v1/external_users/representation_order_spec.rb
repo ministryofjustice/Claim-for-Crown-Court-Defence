@@ -83,7 +83,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
     end
 
     context 'when params are invalid' do
-      include_examples 'invalid API key create endpoint', exclude: :other_provider
+      include_examples 'invalid API key', exclude: :other_provider, action: :create
 
       context 'missing defendant id' do
         it 'returns 400 and a JSON error array' do
@@ -134,7 +134,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
       post endpoint(:representation_orders, :validate), valid_params, format: :json
     end
 
-    include_examples 'invalid API key validate endpoint', exclude: :other_provider
+    include_examples 'invalid API key', exclude: :other_provider, action: :validate
 
     it 'valid requests should return 200 and String true' do
       post_to_validate_endpoint

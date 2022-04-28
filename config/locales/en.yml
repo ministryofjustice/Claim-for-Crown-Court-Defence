@@ -1457,6 +1457,8 @@ en:
           page_hint: *fees_vat_prompt
           actual_trial_length: *actual_trial_length
           actual_trial_length_hint: Number of days
+          first_day_of_trial: First day of hearing
+          date_hint: *date_hint
           rate: *rate
           quantity: *ppe_quantity
           amount: *net_amount

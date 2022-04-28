@@ -17,7 +17,7 @@ module GeckoboardPublisher
     def initialize(*)
       @published = false
       @force = false
-      @client = Geckoboard.client(ENV['GECKOBOARD_API_KEY'])
+      @client = Geckoboard.client(ENV.fetch('GECKOBOARD_API_KEY', nil))
       test_client
     end
 
@@ -46,7 +46,7 @@ module GeckoboardPublisher
     def id
       Rails.application.class.module_parent_name.underscore +
         '-' +
-        (ENV['ENV'] || Rails.env).downcase +
+        (ENV.fetch('ENV', nil) || Rails.env).downcase +
         '.' +
         self.class.name.demodulize.underscore
     end

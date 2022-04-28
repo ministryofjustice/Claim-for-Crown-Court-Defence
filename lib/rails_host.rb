@@ -2,7 +2,7 @@ class RailsHost
   VALID_ENVS = %w[dev staging api-sandbox production].freeze
 
   def self.env
-    ENV['ENV']
+    ENV.fetch('ENV', nil)
   end
 
   def self.method_missing(method)

@@ -76,8 +76,8 @@ Before('@vat-seeds') do
 end
 
 Before('@on-api-sandbox') do
-  allow(ENV).to receive(:[]).and_call_original
-  allow(ENV).to receive(:[]).with('ENV').and_return 'api-sandbox'
+  allow(ENV).to receive(:fetch).and_call_original
+  allow(ENV).to receive(:fetch).with('ENV', nil).and_return 'api-sandbox'
 
   @api_landing_page = ApiLandingPage.new
   @new_user_sign_up_page = NewUserSignUpPage.new
@@ -86,7 +86,7 @@ Before('@on-api-sandbox') do
 end
 
 After('@on-api-sandbox') do
-  allow(ENV).to receive(:[]).with('ENV').and_call_original
+  allow(ENV).to receive(:fetch).with('ENV', nil).and_call_original
 end
 
 BeforeAll do

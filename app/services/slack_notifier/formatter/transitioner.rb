@@ -27,9 +27,9 @@ class SlackNotifier
       private
 
       def message_title(failed)
-        return "[#{ENV['ENV']}] Stale claim archiver completed" if failed.zero?
+        return "[#{ENV.fetch('ENV', nil)}] Stale claim archiver completed" if failed.zero?
 
-        "[#{ENV['ENV']}] Stale claim archiver completed with failures"
+        "[#{ENV.fetch('ENV', nil)}] Stale claim archiver completed with failures"
       end
 
       def message_text(processed, failed)

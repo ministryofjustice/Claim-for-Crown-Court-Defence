@@ -7,11 +7,11 @@ class HeartbeatController < ApplicationController
 
   def ping
     json = {
-      'version_number' => ENV['VERSION_NUMBER'] || 'Not Available',
-      'build_date' => ENV['BUILD_DATE'] || 'Not Available',
-      'commit_id' => ENV['COMMIT_ID'] || 'Not Available',
-      'build_tag' => ENV['BUILD_TAG'] || 'Not Available',
-      'app_branch' => ENV['APP_BRANCH'] || 'Not Available'
+      'version_number' => ENV.fetch('VERSION_NUMBER', 'Not Available'),
+      'build_date' => ENV.fetch('BUILD_DATE', 'Not Available'),
+      'commit_id' => ENV.fetch('COMMIT_ID', 'Not Available'),
+      'build_tag' => ENV.fetch('BUILD_TAG', 'Not Available'),
+      'app_branch' => ENV.fetch('APP_BRANCH', 'Not Available')
     }.to_json
 
     render json: json

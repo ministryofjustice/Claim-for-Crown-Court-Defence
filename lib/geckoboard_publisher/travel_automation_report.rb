@@ -89,7 +89,7 @@ module GeckoboardPublisher
 
     def payload(item)
       {
-        api_key: ENV['GECKOBOARD_API_KEY'],
+        api_key: ENV.fetch('GECKOBOARD_API_KEY', nil),
         data:
           {
             item: [

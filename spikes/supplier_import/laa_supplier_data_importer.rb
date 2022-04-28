@@ -5,7 +5,7 @@ end
 
 class LaaSupplierDataImporter
   def initialize
-    file_path = File.join(ENV['HOME'], 'Downloads', 'DtSuppData1.xml')
+    file_path = File.join(ENV.fetch('HOME', nil), 'Downloads', 'DtSuppData1.xml')
     @doc = XmlSimple.xml_in(file_path)
   end
 

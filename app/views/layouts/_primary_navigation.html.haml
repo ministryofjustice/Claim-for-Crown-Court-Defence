@@ -18,7 +18,8 @@
                 = govuk_link_to t('.sidekiq_console'), sidekiq_web_path, class: cp(sidekiq_web_path)
               %li
                 = govuk_link_to t('.manage_providers'), provider_management_providers_path, class: cp(provider_management_providers_path)
-
+              %li
+                = govuk_link_to t('.users'), users_path, class: cp(users_path)
 
             - elsif current_user.persona.is_a?(ExternalUser)
               %li

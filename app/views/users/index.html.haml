@@ -1,0 +1,32 @@
+= content_for :page_title, flush: true do
+  = t('.heading')
+
+= render partial: 'layouts/header', locals: { page_heading: t('.heading') }
+
+.govuk-grid-row
+  .govuk-grid-column-full
+    = govuk_table(class: 'govuk-!-margin-top-9') do
+      = govuk_table_caption(class: 'govuk-visually-hidden') do
+        = t('.heading')
+
+      = govuk_table_thead_collection [ t('.name'),
+         t('.email'),
+         t('.persona'),
+         t('.created')]
+
+      = govuk_table_tbody do
+        - @users.each do |user|
+          = govuk_table_row do
+            = govuk_table_td('data-label': t('.name')) do
+              = user.name
+
+            = govuk_table_td('data-label': t('.email')) do
+              = user.email
+
+            = govuk_table_td('data-label': t('.persona')) do
+              = user.persona.class
+
+            = govuk_table_td('data-label': t('.created')) do
+              = user.created_at
+
+= paginate @users

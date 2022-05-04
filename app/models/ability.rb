@@ -16,6 +16,7 @@ class Ability
       can [:update_settings], User, id: user.id
       can %i[show index], Provider
       can %i[show index find search change_availability update_availability], ExternalUser
+      can %i[index], User
       return
     end
 

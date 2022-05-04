@@ -47,6 +47,7 @@ en:
       sidekiq_console: Sidekiq console
       all_claims: Your claims
       sub_navigation: Sub navigation
+      users: Users
 
     skip_content: Skip to main content
 

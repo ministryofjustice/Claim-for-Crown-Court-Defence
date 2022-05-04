@@ -28,6 +28,12 @@
 #
 
 class UsersController < ApplicationController
+  include PaginationHelpers
+
+  def index
+    @users = User.order(created_at: :desc).page(current_page).per(page_size)
+  end
+
   def update_settings
     @settings = settings_params
     @result = current_user.save_settings!(@settings)

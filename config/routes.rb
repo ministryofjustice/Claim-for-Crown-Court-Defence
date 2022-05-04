@@ -24,6 +24,8 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { sessions: 'sessions', passwords: 'passwords', unlocks: 'unlocks', registrations: 'external_users/registrations' }
 
+  resources :users, only: :index
+
   authenticated :user, -> (u) { u.persona.is_a?(ExternalUser) } do
     root to: 'external_users/claims#index', as: :external_users_home
   end

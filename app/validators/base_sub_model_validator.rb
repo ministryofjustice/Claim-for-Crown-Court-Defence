@@ -47,7 +47,7 @@ class BaseSubModelValidator < BaseValidator
     associated_record = record.__send__(association_name)
     return if associated_record_has_no_errors?(associated_record)
     @result = false
-    copy_errors_to_base_record(record, association_name, associated_record, nil) if %i[fixed_fee].include? association_name # add the name of the association being migrated to this array, eg %i[graduated_fee]. remove this guard when govuk migration is complete
+    copy_errors_to_base_record(record, association_name, associated_record, nil) if %i[fixed_fee graduated_fee].include? association_name # add the name of the association being migrated to this array, eg %i[graduated_fee]. remove this guard when govuk migration is complete
   end
 
   def associated_record_has_no_errors?(associated_record)
@@ -71,7 +71,11 @@ class BaseSubModelValidator < BaseValidator
     #
     # NOTE: Once form migrations are complete, this conditional can be removed
     #
-    if %i[dates_attended defendants expenses fixed_fees fixed_fee representation_orders].include? association_name
+    if %i[dates_attended defendants
+          expenses
+          fixed_fees fixed_fee
+          graduated_fee
+          representation_orders].include? association_name
       [association_name.to_s, 'attributes', record_num.to_s, error.attribute.to_s].compact_blank.join('_')
     else
       "#{association_name.to_s.singularize}_#{record_num + 1}_#{error.attribute}"

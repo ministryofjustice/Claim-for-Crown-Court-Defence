@@ -271,8 +271,8 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def validate_trial_length(field)
     return unless requires_trial_dates?
-    validate_presence(field, 'blank')
-    validate_numericality(field, 'invalid', 0, nil) unless @record.__send__(field).nil?
+    validate_presence(field, :blank)
+    validate_numericality(field, :invalid, 0, nil) unless @record.__send__(field).nil?
   end
 
   def validate_retrial_length(field)

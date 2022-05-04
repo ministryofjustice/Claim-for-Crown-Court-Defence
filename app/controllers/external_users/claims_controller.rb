@@ -363,7 +363,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :quantity,
         :amount,
         :price_calculated,
-        date_attributes_for(:date)
+        :date
       ],
       interim_fee_attributes: [
         :id,

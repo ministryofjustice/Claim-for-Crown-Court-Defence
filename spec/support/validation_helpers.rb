@@ -134,7 +134,7 @@ module ValidationHelpers
   def should_error_if_equal_to_value(record, field, value, message)
     record.send("#{field}=", value)
     expect(record.send(:valid?)).to be false
-    expect(record.errors[field]).to include(message)
+    expect(record.errors[field]).to include(match(/#{message}/))
   end
 
   def should_be_valid_if_equal_to_value(record, field, value)

@@ -286,7 +286,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'errors if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.estimated_trial_length = nil
-      should_error_with(claim, :estimated_trial_length, 'blank')
+      should_error_with(claim, :estimated_trial_length, 'Enter an estimated trial length')
     end
 
     it 'does not error if not present and case type does NOT require trial dates' do
@@ -298,7 +298,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'errors if less than zero' do
       claim.case_type = contempt
       claim.estimated_trial_length = -1
-      should_error_with(claim, :estimated_trial_length, 'invalid')
+      should_error_with(claim, :estimated_trial_length, 'Enter a whole number of days for the estimated trial length')
     end
   end
 
@@ -306,7 +306,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'errors if not present and case type requires trial dates' do
       claim.case_type = contempt
       claim.actual_trial_length = nil
-      should_error_with(claim, :actual_trial_length, 'blank')
+      should_error_with(claim, :actual_trial_length, 'Enter an actual trial length')
     end
 
     it 'does not error if not present and case type does NOT require trial dates' do
@@ -318,7 +318,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     it 'errors if less than zero' do
       claim.case_type = contempt
       claim.actual_trial_length = -1
-      should_error_with(claim, :actual_trial_length, 'invalid')
+      should_error_with(claim, :actual_trial_length, 'Enter a whole number of days')
     end
   end
 

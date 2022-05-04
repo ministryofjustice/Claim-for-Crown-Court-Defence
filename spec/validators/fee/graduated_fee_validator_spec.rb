@@ -70,11 +70,11 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
 
       fee.quantity = 100000
       expect(fee).to_not be_valid
-      expect(fee.errors[:quantity]).to eq ['numericality']
+      expect(fee.errors[:quantity]).to eq ['Enter a valid quantity for the graduated fee']
 
       fee.quantity = -10
       expect(fee).not_to be_valid
-      expect(fee.errors[:quantity]).to eq ['numericality']
+      expect(fee.errors[:quantity]).to eq ['Enter a valid quantity for the graduated fee']
     end
   end
 
@@ -100,6 +100,6 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
     end
   end
 
-  include_examples 'common LGFS amount validations'
+  include_examples 'common LGFS amount govuk validations'
   include_examples 'common LGFS fee date govuk validations'
 end

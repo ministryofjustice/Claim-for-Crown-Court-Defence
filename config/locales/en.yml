@@ -1900,6 +1900,15 @@ en:
         supporting_evidence_form_step:
           page_title: Upload supporting evidence for litigator hardship fees claim
 
+# en.users
+  users:
+    index:
+      created: Created at
+      email: Email
+      name: Name
+      persona: User type
+      heading: All users
+
   shared:
     not_available: 'not available'
     claim_header:

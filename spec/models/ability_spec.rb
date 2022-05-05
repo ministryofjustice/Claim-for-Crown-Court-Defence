@@ -23,6 +23,10 @@ RSpec.describe Ability do
     it { should_not be_able_to(:update, UserMessageStatus.new) }
     it { should_not be_able_to(:create, Document.new) }
     it { should_not be_able_to(:update_settings, User.new) }
+
+    context 'with user management' do
+      it { is_expected.not_to be_able_to(:index, User) }
+    end
   end
 
   context 'when a signed in user' do
@@ -35,6 +39,10 @@ RSpec.describe Ability do
 
     it { should be_able_to(:update_settings, user) }
     it { should_not be_able_to(:update_settings, another_user) }
+
+    context 'with user management' do
+      it { is_expected.not_to be_able_to(:index, User) }
+    end
   end
 
   context 'external_user advocate' do
@@ -120,6 +128,10 @@ RSpec.describe Ability do
       [:show, :edit, :update, :regenerate_api_key].each do |action|
         it { should_not be_able_to(action, other_provider) }
       end
+    end
+
+    context 'with user management' do
+      it { is_expected.not_to be_able_to(:index, User) }
     end
   end
 
@@ -229,6 +241,10 @@ RSpec.describe Ability do
         it { should_not be_able_to(action, ExternalUser.new(provider: other_provider)) }
       end
     end
+
+    context 'with user management' do
+      it { is_expected.not_to be_able_to(:index, User) }
+    end
   end
 
   context 'external_user litigator' do
@@ -304,6 +320,10 @@ RSpec.describe Ability do
           it { should_not be_able_to(action, model.new(external_user: other_external_user)) }
         end
       end
+    end
+
+    context 'with user management' do
+      it { is_expected.not_to be_able_to(:index, User) }
     end
   end
 
@@ -383,6 +403,10 @@ RSpec.describe Ability do
         it { should be_able_to(action, ExternalUser.new(provider: provider)) }
       end
     end
+
+    context 'with user management' do
+      it { is_expected.not_to be_able_to(:index, User) }
+    end
   end
 
   context 'case worker' do
@@ -445,6 +469,10 @@ RSpec.describe Ability do
     context 'can dismiss injection attempt errors' do
       it { should be_able_to(:dismiss, InjectionAttempt.new) }
     end
+
+    context 'with user management' do
+      it { is_expected.not_to be_able_to(:index, User) }
+    end
   end
 
   context 'with a case worker admin' do
@@ -481,6 +509,10 @@ RSpec.describe Ability do
 
     context 'can dismiss injection attempt errors' do
       it { should be_able_to(:dismiss, InjectionAttempt.new) }
+    end
+
+    context 'with user management' do
+      it { is_expected.not_to be_able_to(:index, User) }
     end
   end
 
@@ -535,6 +567,10 @@ RSpec.describe Ability do
       it { is_expected.not_to be_able_to(:change_availability, target) }
       it { is_expected.not_to be_able_to(:update_availability, target) }
     end
+
+    context 'with user management' do
+      it { is_expected.not_to be_able_to(:index, User) }
+    end
   end
 
   context 'with a super admin' do
@@ -582,6 +618,10 @@ RSpec.describe Ability do
       it { is_expected.not_to be_able_to(:change_password, target) }
       it { is_expected.not_to be_able_to(:update_password, target) }
       it { is_expected.not_to be_able_to(:destroy, target) }
+    end
+
+    context 'with user management' do
+      it { is_expected.to be_able_to(:index, User) }
     end
   end
 end

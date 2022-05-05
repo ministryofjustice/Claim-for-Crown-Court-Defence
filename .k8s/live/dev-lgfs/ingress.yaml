@@ -15,6 +15,9 @@ metadata:
     nginx.ingress.kubernetes.io/server-snippet: |
       deny 116.204.211.188;
       deny 94.154.188.130;
+      if ($http_spider_name ~* "crawlergo") {
+        return 403;
+      }
   name: cccd-app-ingress
   namespace: cccd-dev-lgfs
 spec:

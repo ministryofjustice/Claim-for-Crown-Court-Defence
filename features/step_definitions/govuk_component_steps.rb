@@ -4,6 +4,10 @@ When('I click govuk checkbox {string}') do |label|
   find('.govuk-checkboxes__item label', text: label).click
 end
 
+When('I uncheck the govuk checkbox {string}') do |label|
+  find('.govuk-checkboxes__item label', text: label).click
+end
+
 When('I choose govuk radio {string} for {string}') do |label, legend|
   find('.govuk-fieldset__legend', text: legend)
     .find(:xpath, '..')

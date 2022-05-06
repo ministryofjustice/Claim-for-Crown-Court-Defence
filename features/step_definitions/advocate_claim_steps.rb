@@ -129,7 +129,7 @@ When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')
   wait_for_ajax
   if date.present?
     @claim_form_page.miscellaneous_fees.last.add_dates.click
-    @claim_form_page.miscellaneous_fees.last.dates.from.set_date(date)
+    @claim_form_page.miscellaneous_fees.last.dates.set_date(date)
   end
   wait_for_ajax
 end
@@ -139,7 +139,7 @@ Then(/^I check the section heading to be "([^"]*)"$/) do |num|
 end
 
 Then(/^I select the '(.*?)' fixed fee( with case numbers)?$/) do |name, add_case_numbers|
-  @claim_form_page.fixed_fees_checkboxes.check(name)
+  @claim_form_page.fixed_fees.check(name)
   wait_for_ajax
   @claim_form_page.fixed_fees.fee_block_for(name).case_numbers.set "T20170001" if add_case_numbers
   @claim_form_page.fixed_fees.set_quantity(name)
@@ -222,7 +222,7 @@ end
 
 Then(/^the fixed fee checkboxes should consist of \s*'([^']*)'$/) do |fee_type_descriptions|
   fee_type_descriptions = CSV.parse(fee_type_descriptions).flatten
-  expect(@claim_form_page.fixed_fees_checkboxes.checklist_labels).to match_array(fee_type_descriptions)
+  expect(@claim_form_page.fixed_fees.checklist_labels).to match_array(fee_type_descriptions)
 end
 
 Then(/^the '(.*?)' fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee_type, description, rate, hint|
@@ -246,6 +246,7 @@ end
 
 Then(/^the fixed fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee, rate, hint|
   fee_block = @claim_form_page.fixed_fees.fee_block_for(fee)
+  wait_for_ajax
   expect(fee_block.rate.value).to eql rate
   expect(fee_block.quantity_hint.text).to eql hint if hint.present?
 end

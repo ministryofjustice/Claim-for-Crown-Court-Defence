@@ -56,7 +56,7 @@ module Fee
     end
 
     def validate_baf_quantity
-      validate_numericality(:quantity, 'baf_qty_numericality', 0, 1)
+      validate_numericality(:quantity, :baf_qty_numericality, 0, 1)
     end
 
     def validate_daily_attendance(code)
@@ -76,25 +76,26 @@ module Fee
     end
 
     def check_for_daily_attendance_error(code, min:, mod:, max:)
-      add_error(:quantity, "#{code.downcase}_qty_mismatch") if daf_trial_length_combination_invalid(min, mod, max)
+      add_error(:quantity, "#{code.downcase}_qty_mismatch".to_sym) if daf_trial_length_combination_invalid(min, mod,
+                                                                                                           max)
     end
 
     def validate_pcm_quantity
       if @record.claim.supplementary? || @record.claim.case_type.try(:allow_pcmh_fee_type?)
-        add_error(:quantity, 'pcm_numericality') if @record.quantity > 3
+        add_error(:quantity, :pcm_numericality) if @record.quantity > 3
       else
-        add_error(:quantity, 'pcm_not_applicable') unless @record.quantity.zero? || @record.quantity.blank?
+        add_error(:quantity, :pcm_not_applicable) unless @record.quantity.zero? || @record.quantity.blank?
       end
     end
 
     def validate_any_quantity
       validate_integer_decimal
-      add_error(:quantity, 'invalidXX') if @record.quantity.negative? || @record.quantity > 99_999
+      add_error(:quantity, :invalid) if @record.quantity.negative? || @record.quantity > 99_999
     end
 
     def validate_integer_decimal
       return if @record.fee_type.nil? || @record.quantity.nil? || @record.quantity_is_decimal?
-      add_error(:quantity, 'integer') unless @record.quantity.frac == 0.0
+      add_error(:quantity, :integer) unless @record.quantity.frac == 0.0
     end
 
     def validate_rate
@@ -139,7 +140,7 @@ module Fee
       add_error(:amount, "#{fee_code.downcase}_invalid") if amount_outside_allowed_range?
 
       return unless @record.quantity <= 0 && @record.amount.positive?
-      add_error(:quantity, "#{fee_code.downcase}_invalid")
+      add_error(:quantity, "#{fee_code.downcase}_invalid".to_sym)
     end
 
     def validate_single_attendance_date

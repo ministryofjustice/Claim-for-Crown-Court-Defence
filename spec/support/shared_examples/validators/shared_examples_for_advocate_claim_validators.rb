@@ -16,7 +16,7 @@ RSpec.shared_examples 'advocate category validations' do |options|
 
   it 'errors if not in the available list' do
     claim.advocate_category = 'not-a-QC'
-    should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
+    should_error_with(claim, :advocate_category, 'Choose an eligible advocate category')
   end
 
   context 'when on a pre fee reform scheme' do
@@ -43,7 +43,7 @@ RSpec.shared_examples 'advocate category validations' do |options|
     fee_reform_invalid_categories.each do |category|
       it "errors if '#{category}' specified" do
         claim.advocate_category = category
-        should_error_with(claim, :advocate_category, 'Advocate category must be one of those in the provided list')
+        should_error_with(claim, :advocate_category, 'Choose an eligible advocate category')
       end
     end
   end

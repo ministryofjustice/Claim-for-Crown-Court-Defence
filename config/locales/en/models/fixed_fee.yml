@@ -9,10 +9,13 @@ en:
           attributes:
             base:
               uneditable_state: You cannot edit a claim that is not in draft state
+            case_numbers:
+              noc_qty_mismatch: something
             fee_type:
               blank: 'Choose a type for the #{fixed_fee}'
             quantity:
               invalid: *enter_valid_quantity
+              baf_invalid: *enter_valid_quantity
               saf_invalid: *enter_valid_quantity
               noc_invalid: *enter_valid_quantity
               ndr_invalid: *enter_valid_quantity

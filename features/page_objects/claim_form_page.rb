@@ -18,8 +18,6 @@ require_relative 'sections/advocate_category_section'
 require_relative 'sections/evidence_checklist_section'
 require_relative 'sections/yes_no_section'
 
-require_relative 'sections/govuk_checklist_section'
-
 class ClaimFormPage < BasePage
   include SelectHelper
 
@@ -69,8 +67,6 @@ class ClaimFormPage < BasePage
 
   section :basic_fees, BasicFeeSection, "div#basic-fees"
   section :fixed_fees, FixedFeeSection, "div#fixed-fees"
-
-  section :fixed_fees_checkboxes, GovukChecklistSection, "#fixed-fees"
 
   sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees .misc-fee-group"
   element :add_another_miscellaneous_fee, "div#misc-fees > .form-group > a.add_fields"

@@ -37,7 +37,7 @@ module Fee
 
       def validate_case_numbers_quantity_mismatch
         return if case_numbers.blank?
-        add_error(:case_numbers, 'noc_qty_mismatch') if case_numbers.split(',').size != quantity
+        add_error(:case_numbers, :noc_qty_mismatch) if case_numbers.split(',').size != quantity
       end
 
       def validate_each_case_number

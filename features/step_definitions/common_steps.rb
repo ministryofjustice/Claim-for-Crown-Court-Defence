@@ -114,7 +114,7 @@ Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'(?: and a claimed 
 end
 
 Then(/^I should see the error '(.*?)'$/) do |error_message|
-  within('div.govuk-error-summary') do
+  within('div.error-summary') do
     expect(page).to have_content(error_message)
   end
 end

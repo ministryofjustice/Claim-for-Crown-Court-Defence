@@ -19,7 +19,7 @@ module Claim
         validate_inclusion(
           :advocate_category,
           @record.eligible_advocate_categories,
-          I18n.t('validators.advocate.category')
+          :inclusion
         )
       end
 

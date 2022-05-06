@@ -194,7 +194,8 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
         end
 
         it 'errors if case_numbers is present' do
-          should_error_if_equal_to_value(fee, :case_numbers, '123', 'present')
+          should_error_if_equal_to_value(fee, :case_numbers, '123',
+                                         'Case numbers for the miscellaneous fee are not allowed')
         end
       end
     end

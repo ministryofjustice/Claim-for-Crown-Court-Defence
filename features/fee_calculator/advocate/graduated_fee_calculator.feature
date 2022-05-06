@@ -93,6 +93,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
 
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
+    # And pause for 60 seconds
     And the following fees should have their price_calculated set to true: 'BABAF,BADAF,BADAH,BADAJ,BASAF,BAPCM,BACAV,BANDR,BANOC,BANPW,BAPPE'
 
   @fee_calc_vcr

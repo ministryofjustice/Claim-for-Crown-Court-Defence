@@ -19,7 +19,7 @@ class DateAttended < ApplicationRecord
 
   validates_with DateAttendedValidator
 
-  acts_as_gov_uk_date :date, :date_to,
+  acts_as_gov_uk_date :date_to,
                       validate_if: :perform_validation?,
                       error_clash_behaviour: :override_with_gov_uk_date_field_error
 

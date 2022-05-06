@@ -124,6 +124,10 @@ advocate_category:
     long: Choose an advocate category
     short: _
     api: Choose an advocate category
+  choose_an_eligible_advocate_category:
+    long: Choose an eligible advocate category
+    short: _
+    api: Choose an eligible advocate category
 
 case_type_id:
   _seq: 30
@@ -791,150 +795,154 @@ basic_fee:
 
   quantity:
     _seq: 10
-    baf_qty_numericality:
+    enter_a_quantity_of_0_to_1_for_basic_fee:
       long: Enter a quantity of 0 to 1 for basic fee
-      short: Enter 0 to 1
+      short: _
       api: Enter a quantity of 0 to 1 for basic fee
-    daf_qty_mismatch:
+    the_number_of_daily_attendance_fees_3_40_days_does_not_fit_the_actual_re_trial_length:
       long: The number of daily attendance fees (3-40 days) does not fit the actual (re)trial length
-      short: Enter a number that fits the actual (re)trial length
+      short: _
       api: The number of daily attendance fees (3-40 days) does not fit the actual (re)trial length
-    dah_qty_mismatch:
+    the_number_of_daily_attendance_fees_41_50_days_does_not_fit_the_actual_re_trial_length:
       long: The number of daily attendance fees (41-50 days) does not fit the actual (re)trial length
-      short: Enter a number that fits the actual (re)trial length
+      short: _
       api: The number of daily attendance fees (41-50 days) does not fit the actual (re)trial length
-    daj_qty_mismatch:
+    the_number_of_daily_attendance_fees_51_days_does_not_fit_the_actual_re_trial_length:
       long: The number of daily attendance fees (51+ days) does not fit the actual (re)trial length
-      short: Enter a number that fits the actual (re)trial length
+      short: _
       api: The number of daily attendance fees (51+ days) does not fit the actual (re)trial length
-    dat_qty_mismatch:
+    the_number_of_daily_attendance_fees_2_days_does_not_fit_the_actual_re_trial_length:
       long: The number of daily attendance fees (2+ days) does not fit the actual (re)trial length
-      short: Enter a number that fits the actual (re)trial length
+      short: _
       api: The number of daily attendance fees (2+ days) does not fit the actual (re)trial length
-    pcm_not_applicable:
+    plea_and_case_management_hearing_fee_not_applicable_to_case_type:
       long: Plea and case management hearing fee not applicable to case type
-      short: Remove quantity as not applicable
+      short: _
       api: Plea and case management hearing fee not applicable to case type
-    pcm_numericality:
+    enter_a_valid_quantity_1_to_3_for_plea_and_case_management_hearing_fees:
       long: Enter a valid quantity (1 to 3) for plea and case management hearing fees
-      short: Enter a valid quantity (1 to 3)
+      short: _
       api: Enter a valid quantity (1 to 3) for plea and case management hearing fees
 
     # standard quantity validations (when a rate exists but quantity not specified)
-    baf_invalid:
+    enter_a_valid_quantity_for_the_basic_fee:
       long: Enter a valid quantity for the basic fee
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for the basic fee
-    daf_invalid:
+    enter_a_valid_quantity_for_daily_attendance_fees_3_40_days:
       long: Enter a valid quantity for daily attendance fees (3-40 days)
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for daily attendance fees (3-40 days)
-    dah_invalid:
+    enter_a_valid_quantity_for_daily_attendance_fees_41_50_days:
       long: Enter a valid quantity for daily attendance fees (41-50 days)
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for daily attendance fees (41-50 days)
-    daj_invalid:
+    enter_a_valid_quantity_for_daily_attendance_fees_51_days:
       long: Enter a valid quantity for daily attendance fees (51+ days)
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for daily attendance fees (51+ days)
-    dat_invalid:
+    enter_a_valid_quantity_for_daily_attendance_fees_2_days:
       long: Enter a valid quantity for daily attendance fees (2+ days)
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for daily attendance fees (2+ days)
-    saf_invalid:
+    enter_a_valid_quantity_for_standard_appearance_fees:
       long: Enter a valid quantity for standard appearance fees
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for standard appearance fees
-    pcm_invalid:
+    enter_a_valid_quantity_for_plea_and_trial_preparation_hearing:
       long: Enter a valid quantity for plea and trial preparation hearing
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for plea and trial preparation hearing
-    cav_invalid:
+    enter_a_valid_quantity_for_conference_and_views_fees:
       long: Enter a valid quantity for conference and views fees
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for conference and views fees
-    ndr_invalid:
+    enter_a_valid_quantity_for_number_of_defendants_uplift_fees:
       long: Enter a valid quantity for number of defendants uplift fees
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for number of defendants uplift fees
-    noc_invalid:
+    enter_a_valid_quantity_for_number_of_cases_uplift_fees:
       long: Enter a valid quantity for number of cases uplift fees
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for number of cases uplift fees
-    npw_invalid:
+    enter_a_valid_quantity_for_number_of_prosecution_witnesses_fees:
       long: Enter a valid quantity for number of prosecution witnesses fees
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for number of prosecution witnesses fees
-    ppe_invalid:
+    enter_a_valid_quantity_for_pages_of_prosecution_evidence_fees:
       long: Enter a valid quantity for pages of prosecution evidence fees
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for pages of prosecution evidence fees
-    invalid:
+    enter_a_valid_quantity_for_the_initial_fee:
       long: Enter a valid quantity for the initial fee
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for the initial fee
+    you_must_specify_a_whole_number_for_this_type_of_fee:
+      long: You must specify a whole number for this type of fee
+      short: _
+      api: You must specify a whole number for this type of fee
 
   rate:
     _seq: 20
-    baf_invalid:
+    enter_a_valid_rate_for_the_basic_fee:
       long: Enter a valid rate for the basic fee
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for the basic fee
-    daf_invalid:
+    enter_a_valid_rate_for_daily_attendance_fees_3_40_days:
       long: Enter a valid rate for daily attendance fees (3-40 days)
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for daily attendance fees (3-40 days)
-    dah_invalid:
+    enter_a_valid_rate_for_daily_attendance_fees_41_50_days:
       long: Enter a valid rate for daily attendance fees (41-50 days)
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for daily attendance fees (41-50 days)
-    daj_invalid:
+    enter_a_valid_rate_for_daily_attendance_fees_51_days:
       long: Enter a valid rate for daily attendance fees (51+ days)
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for daily attendance fees (51+ days)
-    dat_invalid:
+    enter_a_valid_rate_for_daily_attendance_fees_2_days:
       long: Enter a valid rate for daily attendance fees (2+ days)
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for daily attendance fees (2+ days)
-    saf_invalid:
+    enter_a_valid_rate_for_standard_appearance_fees:
       long: Enter a valid rate for standard appearance fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for standard appearance fees
-    pcm_invalid:
+    enter_a_valid_rate_for_plea_and_trial_preparation_hearing:
       long: Enter a valid rate for plea and case management hearing fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for plea and case management hearing fees
-    cav_invalid:
+    enter_a_valid_rate_for_conference_and_views_fees:
       long: Enter a valid rate for conference and views fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for conference and views fees
-    ndr_invalid:
+    enter_a_valid_rate_for_number_of_defendants_uplift_fees:
       long: Enter a valid rate for number of defendants uplift fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for number of defendants uplift fees
-    noc_invalid:
+    enter_a_valid_rate_for_number_of_cases_uplift_fees:
       long: Enter a valid rate for number of cases uplift fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for number of cases uplift fees
-    npw_invalid:
+    enter_a_valid_rate_for_number_of_prosecution_witnesses_fees:
       long: Enter a valid rate for number of prosecution witnesses fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for number of prosecution witnesses fees
-    ppe_invalid:
+    enter_a_valid_rate_for_pages_of_prosecution_evidence_fees:
       long: Enter a valid rate for pages of prosecution evidence fees
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for pages of prosecution evidence fees
-    npw_must_be_blank:
+    number_of_prosecution_witnesses_fees_must_not_have_a_rate:
       long: Number of prosecution witnesses fees must not have a rate
-      short:  Remove the rate
+      short: _
       api: Number of prosecution witnesses fees must not have a rate
-    ppe_must_be_blank:
+    pages_of_prosecution_evidence_fees_must_not_have_a_rate:
       long: Pages of prosecution evidence fees must not have a rate
-      short: Remove the rate
+      short: _
       api: Pages of prosecution evidence fees must not have a rate
-    invalid:
+    enter_a_valid_rate_for_the_initial_fee:
       long: Enter a valid rate for the initial fee
-      short: *enter_valid_rate
+      short: _
       api: Enter a valid rate for the basic fee
 
   amount:
@@ -958,22 +966,23 @@ basic_fee:
 
   case_numbers:
     _seq: 40
-    blank:
+    enter_case_numbers_for_the_number_of_cases_uplift:
       long: Enter case numbers for the Number of cases uplift
-      short: Enter case numbers
+      short: _
       api: Enter case numbers for the Number of cases uplift
-    invalid:
+    enter_valid_case_numbers_for_the_number_of_cases_uplift:
       long: Enter valid case numbers for the Number of cases uplift
       short: Enter valid case numbers
       api: Enter valid case numbers for the Number of cases uplift
-    noc_qty_mismatch:
+    the_number_of_case_uplifts_does_not_match_the_additional_case_numbers:
       long: The number of case uplifts does not match the additional case numbers
-      short: Enter case numbers for each uplift
+      short: _
       api: The number of case uplifts does not match the additional case numbers
-    eqls_claim_case_number:
-      long: *eqls_claim_case_number
-      short: Enter valid case numbers
-      api: Enter valid case numbers for the Number of cases uplift
+    the_additional_case_number_must_be_different_to_the_main_case_number:
+      long: The additional case number must be different to the main case number
+      short: _
+      api: The additional case number must be different to the main case number
+
 
 #################################################################################
 #                                                                               #

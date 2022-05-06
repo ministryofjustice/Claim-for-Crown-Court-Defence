@@ -71,8 +71,8 @@ class BaseSubModelValidator < BaseValidator
     #
     # NOTE: Once form migrations are complete, this conditional can be removed
     #
-    if %i[defendants representation_orders].include? association_name
-      [association_name.to_s, 'attributes', record_num.to_s, error.attribute.to_s].compact_blank.join('_')
+    if %i[defendants representation_orders dates_attended fixed_fees].include? association_name
+      "#{association_name}_attributes_#{record_num}_#{error.attribute}"
     else
       "#{association_name.to_s.singularize}_#{record_num + 1}_#{error.attribute}"
     end

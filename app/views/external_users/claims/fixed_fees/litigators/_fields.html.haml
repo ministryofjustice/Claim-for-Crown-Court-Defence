@@ -39,8 +39,9 @@
         type: 'hidden',
         value: ff.object.price_calculated?
 
-      = govuk_detail t('.help_how_we_calculate_rate_title') do
-        = t('.help_how_we_calculate_rate_body')
+      .fee-calc-help-wrapper.hidden
+        = govuk_detail t('.help_how_we_calculate_rate_title') do
+          = t('.help_how_we_calculate_rate_body')
 
       = govuk_summary_list_no_border do
         = govuk_summary_list_row do

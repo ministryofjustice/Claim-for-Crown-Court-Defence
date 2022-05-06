@@ -7,19 +7,23 @@
     label: { text: f.object.description } do
 
     .fixed-fee-group.fx-fee-group.js-block.fx-do-init{ data:{type:"fixedFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
-      = f.hidden_field :fee_type_id, class: 'js-fee-type'
+      = f.govuk_text_field :fee_type_id,
+        class: 'js-fee-type',
+        label: { hidden: true },
+        type: 'hidden'
+
       - if f.object.fee_type.case_uplift?
         = f.govuk_text_field :case_numbers,
           class: 'cc-fixed-fee-case-numbers',
-          label: { text: t('.case_numbers_html', context: f.object.description) },
           hint: { text: 'Separate by commas' },
+          label: { text: t('.case_numbers_html', context: f.object.description) },
           width: 'one-half'
 
       = f.govuk_number_field :quantity,
         class: 'quantity fee-quantity js-fee-quantity js-fee-calculator-quantity',
         form_group: { classes: 'quantity_wrapper' },
-        label: { text: t('.quantity_html', context: f.object.description) },
         hint: { text: t('.quantity_hint') },
+        label: { text: t('.quantity_html', context: f.object.description) },
         min: 1,
         value: fee.quantity,
         width: 3
@@ -39,8 +43,9 @@
         type: 'hidden',
         value: f.object.price_calculated?
 
-      = govuk_detail t('.help_how_we_calculate_rate_title') do
-        = t('.help_how_we_calculate_rate_body')
+      .fee-calc-help-wrapper.hidden
+        = govuk_detail t('.help_how_we_calculate_rate_title') do
+          = t('.help_how_we_calculate_rate_body')
 
       .dates-wrapper
         .cocoon-insert-wrapper

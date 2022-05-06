@@ -29,7 +29,7 @@
 
     // clear the fixed fee
     clearFee: function (el) {
-      const $el = $(el)
+      const $el = $('[data-target=' + el + ']')
       $el.find('.quantity').val('')
       $el.find('.rate').val('')
       $el.find('.total').html('£0.00')
@@ -47,7 +47,7 @@
 
       $(elId).on('change', '.fx-checkbox-hook', function (e) {
         const $el = $(e.target)
-        const parentEl = $el.closest("div[class^='fx-hook-']").data('target')
+        const parentEl = $el.closest("div[class*='fx-hook-']").data('target')
 
         if (!$el.is(':checked')) {
           // TODO: if we are going to destroy the fee do we need to clear it?
@@ -117,7 +117,7 @@
 
     setRate: function (data, context) {
       const $input = $(context).find('input.fee-rate')
-      const $priceCalculated = $(context).find('.js-fee-calculator-success > input')
+      const $priceCalculated = $(context).siblings('.js-fee-calculator-success').find('input')
 
       $input.val(data.toFixed(2))
       $input.trigger('change')

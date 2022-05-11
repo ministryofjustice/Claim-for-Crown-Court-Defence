@@ -35,7 +35,7 @@ gem 'logstasher',             '2.1.5'
 gem 'logstuff',               '0.0.2'
 gem 'paper_trail',            '~> 12.3.0'
 gem 'pg',                     '~> 1.3.5'
-gem 'rails',                  '~> 6.1.5'
+gem 'rails',                  '~> 6.1.6'
 gem 'redis',                  '~> 4.6.0'
 gem 'rubyzip'
 gem 'config',                 '~> 4.0' # this gem provides our Settings.xxx mechanism

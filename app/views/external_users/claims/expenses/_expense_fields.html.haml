@@ -3,7 +3,7 @@
   .form-section-compound
     = f.govuk_text_field :location_type,
       class: 'fx-location-type',
-      form_group: { classes: 'govuk-visually-hidden' },
+      form_group: { classes: 'hidden' },
       label: { hidden: true },
       type: 'hidden'
 
@@ -64,7 +64,7 @@
               width: 'one-quarter'
 
           = f.govuk_number_field :distance,
-              form_group: { classes: 'fx-travel-distance', style: 'display: none'},
+              form_group: { classes: 'fx-travel-distance', style: 'display: none' },
               hint: { text: t('.distance_hint_html') },
               label: { text: t('.distance_html') },
               value: number_with_precision(f.object.distance, precision: 0),
@@ -90,7 +90,6 @@
 
           = f.govuk_date_field :date,
             form_group: { classes: 'fx-travel-date', style: 'display: none' },
-            id: "expense_#{@expense_count}_date",
             legend: { text: t('.date_html') },
             hint: { text: t('.date_hint') }
 
@@ -108,7 +107,7 @@
               form_group: {classes: 'fx-travel-vat-amount', style: 'display: none' },
               label: { text: t('.vat_amount_html') },
               prefix_text: '£',
-              value: number_with_precision(f.object.amount || 0, precision: 2),
+              value: number_with_precision(f.object.vat_amount || 0, precision: 2),
               width: 'one-half'
 
     %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible

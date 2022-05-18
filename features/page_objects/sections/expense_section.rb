@@ -5,11 +5,11 @@ class ExpenseSection < SitePrism::Section
   # it will always populate the first expense, because the way we are referencing
   # the elements by ID pointing to the first (zero-index) one.
   #
-  element :expense_type_dropdown, "#claim_expenses_attributes_0_expense_type_id"
+  element :expense_type_dropdown, ".fx-travel-expense-type select"
   element :destination_label, ".fx-establishment-select label"
   element :destination, "#expense_1_location"
   element :distance, "#expense_1_distance"
-  element :reason_for_travel_dropdown, "#claim_expenses_attributes_0_reason_id"
+  element :reason_for_travel_dropdown, ".fx-travel-reason select"
   element :other_reason_input, "#expense_1_reason_text"
   element :amount, "#expense_1_amount"
   element :vat_amount, "#expense_1_vat_amount"

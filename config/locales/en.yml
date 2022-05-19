@@ -1379,6 +1379,7 @@ en:
             prompt_text_html: *graduated_fee_calculators_help
             select_sub_type: "Please select the relevant option"
             date: "Date"
+            date_hint: *date_hint
             help_how_we_calculate_rate_title: *how_is_this_calculated_help
             help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme and fee type.
         summary:

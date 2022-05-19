@@ -25,6 +25,33 @@ RSpec.shared_examples 'common LGFS fee date validations' do
   end
 end
 
+RSpec.shared_examples 'common LGFS fee date govuk validations' do
+  describe '#validate_date' do
+    it { should_error_if_not_present(fee, :date, 'Enter the (.*?)(fixed|graduated) fee date') }
+
+    it 'adds error if too far in the past' do
+      fee.date = 11.years.ago
+      expect(fee).to_not be_valid
+      expect(fee.errors[:date]).to include(match(/(.*?)(Fixed|Graduated) fee date cannot be too far in the past/))
+    end
+
+    it 'adds error if in the future' do
+      fee.date = 3.days.from_now
+      expect(fee).not_to be_valid
+      expect(fee.errors[:date]).to include(match(/(.*?)(Fixed|Graduated) fee date cannot be too far in the future/))
+    end
+
+    it 'adds error if before the first repo order date' do
+      allow(claim).to receive(:earliest_representation_order_date).and_return(Date.today)
+      allow(fee).to receive(:claim).and_return(claim)
+
+      fee.date = Date.today - 3.days
+      expect(fee).not_to be_valid
+      expect(fee.errors[:date]).to include(match(/.* date cannot be no earlier than two years before .*/))
+    end
+  end
+end
+
 RSpec.shared_examples 'common LGFS amount validations' do
   describe '#validate_amount' do
     it 'adds error if amount is blank' do
@@ -86,41 +113,43 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
     it 'when case_numbers is blank and quantity is not zero' do
       noc_fee.quantity = 1
       noc_fee.case_numbers = ''
-      should_error_with(noc_fee, :case_numbers, 'blank')
+      should_error_with(noc_fee, :case_numbers, 'Enter case numbers for the Number of cases uplift')
     end
 
     it 'when case_numbers is not blank and quantity is 0' do
       noc_fee.quantity = 0
       noc_fee.case_numbers = 'A20161234'
-      should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
+      should_error_with(noc_fee, :case_numbers, 'The number of case uplifts does not match the additional case numbers')
     end
 
     it 'when quantity and number of additional cases do not match' do
       noc_fee.case_numbers = 'A20161234 , A20158888'
-      should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
+      should_error_with(noc_fee, :case_numbers, 'The number of case uplifts does not match the additional case numbers')
     end
 
     it 'when case number is equal to main case number' do
       noc_fee.case_numbers = claim.case_number
-      should_error_with(noc_fee, :case_numbers, 'eqls_claim_case_number')
+      should_error_with(noc_fee, :case_numbers, 'The additional case number must be different to the main case number')
     end
 
     it 'when a single invalid format of case number entered' do
-      should_error_if_equal_to_value(noc_fee, :case_numbers, 'G20208765', 'invalid')
+      should_error_if_equal_to_value(noc_fee, :case_numbers, 'G20208765',
+                                     'Enter valid case numbers for the Number of cases uplift')
     end
 
     it 'when a single invalid format of URN entered' do
-      should_error_if_equal_to_value(noc_fee, :case_numbers, '12 3', 'invalid')
+      should_error_if_equal_to_value(noc_fee, :case_numbers, '12 3',
+                                     'Enter valid case numbers for the Number of cases uplift')
     end
 
     it 'when any case number is of invalid format' do
       noc_fee.case_numbers = 'A20161234,Z123*,A20158888'
-      should_error_with(noc_fee, :case_numbers, 'invalid')
+      should_error_with(noc_fee, :case_numbers, 'Enter valid case numbers for the Number of cases uplift')
     end
 
     it 'when any URN is of invalid format' do
       noc_fee.case_numbers = 'ABCDEFGHIJ,Z123*,1234567890'
-      should_error_with(noc_fee, :case_numbers, 'invalid')
+      should_error_with(noc_fee, :case_numbers, 'Enter valid case numbers for the Number of cases uplift')
     end
   end
 
@@ -145,14 +174,14 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
       context 'invalid' do
         it 'when other delimiters used' do
           noc_fee.case_numbers = 'A20161234;A20158888'
-          should_error_with(noc_fee, :case_numbers, 'invalid')
+          should_error_with(noc_fee, :case_numbers, 'Enter valid case numbers for the Number of cases uplift')
         end
       end
     end
 
     it 'adds error if number of cases provided does not match the quantity claimed' do
       noc_fee.case_numbers = 'A20161234'
-      should_error_with(noc_fee, :case_numbers, 'noc_qty_mismatch')
+      should_error_with(noc_fee, :case_numbers, 'The number of case uplifts does not match the additional case numbers')
     end
   end
 end

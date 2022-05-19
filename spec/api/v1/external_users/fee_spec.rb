@@ -320,7 +320,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
           valid_params[:quantity] = 9.5
           post_to_create_endpoint
           expect(last_response.status).to eq 400
-          expect_error_response('Misc fee 1 quantity you must specify a whole number for this type of fee')
+          expect_error_response('You must specify a whole number for this type of fee')
         end
 
         it 'decimal quantity should NOT raise error if fee type accepts decimals quantities' do
@@ -349,7 +349,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
             valid_params[:fee_type_id] = misc_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response('Misc fee 1 rate enter a valid rate for the miscellaneous fee')
+            expect_error_response('Enter a rate/net amount for the miscellaneous fee')
           end
 
           it 'fixed fees should raise fixed fee errors from translations' do
@@ -378,7 +378,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
             valid_params[:fee_type_id] = graduated_fee_type.id
             post_to_create_endpoint
             expect(last_response.status).to eq 400
-            expect_error_response("Graduated fee 1 date can't be blank")
+            expect_error_response('Enter the graduated fee date')
           end
         end
 

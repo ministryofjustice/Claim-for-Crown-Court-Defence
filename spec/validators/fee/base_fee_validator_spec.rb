@@ -199,9 +199,18 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     context 'with quantity greater than zero' do
       it { should_be_valid_if_equal_to_value(daf_fee, :rate, 450.00) }
       it { should_error_if_equal_to_value(baf_fee, :rate, 0.00, 'Enter a valid rate for the basic fee') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, nil,  'Enter a valid rate for daily attendance fees (3-40 days)') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, 0.00, 'Enter a valid rate for daily attendance fees (3-40 days)') }
-      it { should_error_if_equal_to_value(daf_fee, :rate, -320, 'Enter a valid rate for daily attendance fees (3-40 days)') }
+
+      it {
+        should_error_if_equal_to_value(daf_fee, :rate, nil,  'Enter a valid rate for daily attendance fees (3-40 days)')
+      }
+
+      it {
+        should_error_if_equal_to_value(daf_fee, :rate, 0.00, 'Enter a valid rate for daily attendance fees (3-40 days)')
+      }
+
+      it {
+        should_error_if_equal_to_value(daf_fee, :rate, -320, 'Enter a valid rate for daily attendance fees (3-40 days)')
+      }
     end
 
     context 'with quantity of zero and a rate greater than zero' do
@@ -313,6 +322,18 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     context 'Basic fee types' do
       let(:case_type) { build(:case_type, :trial) }
       let(:claim) { build(:advocate_claim, case_type:) }
+      let(:daf_fee_error_message) do
+        'The number of daily attendance fees (3-40 days) does not fit the actual (re)trial length'
+      end
+      let(:dah_fee_error_message) do
+        'The number of daily attendance fees (41-50 days) does not fit the actual (re)trial length'
+      end
+      let(:daj_fee_error_message) do
+        'The number of daily attendance fees (51+ days) does not fit the actual (re)trial length'
+      end
+      let(:dat_fee_error_message) do
+        'The number of daily attendance fees (2+ days) does not fit the actual (re)trial length'
+      end
 
       context 'basic fee (BAF)' do
         context 'when rate present' do
@@ -352,19 +373,19 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         context 'trial length less than three days' do
           it 'errors if trial length is less than three days' do
             daf_fee.claim.actual_trial_length = 2
-            should_error_if_equal_to_value(daf_fee, :quantity, 1, 'The number of daily attendance fees (3-40 days) does not fit the actual (re)trial length')
+            should_error_if_equal_to_value(daf_fee, :quantity, 1, daf_fee_error_message)
           end
         end
 
         context 'trial length greater than three days' do
           it 'errors if quantity greater than 38 regardless of actual trial length' do
             daf_fee.claim.actual_trial_length = 45
-            should_error_if_equal_to_value(daf_fee, :quantity, 39, 'The number of daily attendance fees (3-40 days) does not fit the actual (re)trial length')
+            should_error_if_equal_to_value(daf_fee, :quantity, 39, daf_fee_error_message)
           end
 
           it 'errors if quantity greater than actual trial length less 2 days' do
             daf_fee.claim.actual_trial_length = 20
-            should_error_if_equal_to_value(daf_fee, :quantity, 19, 'The number of daily attendance fees (3-40 days) does not fit the actual (re)trial length')
+            should_error_if_equal_to_value(daf_fee, :quantity, 19, daf_fee_error_message)
           end
 
           it 'does not error if quantity is valid' do
@@ -381,7 +402,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
             daf_fee.claim.actual_trial_length = 2
             daf_fee.claim.retrial_actual_length = 20
             should_be_valid_if_equal_to_value(daf_fee, :quantity, 18)
-            should_error_if_equal_to_value(daf_fee, :quantity, 19, 'The number of daily attendance fees (3-40 days) does not fit the actual (re)trial length')
+            should_error_if_equal_to_value(daf_fee, :quantity, 19, daf_fee_error_message)
           end
         end
       end
@@ -389,18 +410,18 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       context 'daily_attendance_41_50 (DAH)' do
         it 'errors if trial length is less than 40 days' do
           dah_fee.claim.actual_trial_length = 35
-          should_error_if_equal_to_value(dah_fee, :quantity, 2, 'The number of daily attendance fees (41-50 days) does not fit the actual (re)trial length')
+          should_error_if_equal_to_value(dah_fee, :quantity, 2, dah_fee_error_message)
         end
 
         context 'trial length greater than 40 days' do
           it 'errors if greater than trial length less 40 days' do
             dah_fee.claim.actual_trial_length = 45
-            should_error_if_equal_to_value(dah_fee, :quantity, 6, 'The number of daily attendance fees (41-50 days) does not fit the actual (re)trial length')
+            should_error_if_equal_to_value(dah_fee, :quantity, 6, dah_fee_error_message)
           end
 
           it 'errors if greater than 10 days regardless of actual trial length' do
             dah_fee.claim.actual_trial_length = 70
-            should_error_if_equal_to_value(dah_fee, :quantity, 12, 'The number of daily attendance fees (41-50 days) does not fit the actual (re)trial length')
+            should_error_if_equal_to_value(dah_fee, :quantity, 12, dah_fee_error_message)
           end
 
           it 'does not error if valid' do
@@ -415,7 +436,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           dah_fee.claim.actual_trial_length = 2
           dah_fee.claim.retrial_actual_length = 45
           should_be_valid_if_equal_to_value(dah_fee, :quantity, 5)
-          should_error_if_equal_to_value(dah_fee, :quantity, 6, 'The number of daily attendance fees (41-50 days) does not fit the actual (re)trial length')
+          should_error_if_equal_to_value(dah_fee, :quantity, 6, dah_fee_error_message)
         end
       end
 
@@ -423,14 +444,14 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         context 'trial length less than 51 days' do
           it 'errors if trial length is less than 51 days' do
             daj_fee.claim.actual_trial_length = 50
-            should_error_if_equal_to_value(daj_fee, :quantity, 2, 'The number of daily attendance fees (51+ days) does not fit the actual (re)trial length')
+            should_error_if_equal_to_value(daj_fee, :quantity, 2, daj_fee_error_message)
           end
         end
 
         context 'trial length greater than 50 days' do
           it 'errors if greater than trial length less 50 days' do
             daj_fee.claim.actual_trial_length = 55
-            should_error_if_equal_to_value(daj_fee, :quantity, 6, 'The number of daily attendance fees (51+ days) does not fit the actual (re)trial length')
+            should_error_if_equal_to_value(daj_fee, :quantity, 6, daj_fee_error_message)
           end
 
           it 'does not error if valid' do
@@ -445,7 +466,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           daj_fee.claim.actual_trial_length = 2
           daj_fee.claim.retrial_actual_length = 70
           should_be_valid_if_equal_to_value(daj_fee, :quantity, 20)
-          should_error_if_equal_to_value(daj_fee, :quantity, 21, 'The number of daily attendance fees (51+ days) does not fit the actual (re)trial length')
+          should_error_if_equal_to_value(daj_fee, :quantity, 21, daj_fee_error_message)
         end
       end
 
@@ -455,7 +476,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
           it 'is not valid and cannot be claimed' do
             dat_fee.claim.actual_trial_length = 1
-            should_error_if_equal_to_value(dat_fee, :quantity, 2, 'The number of daily attendance fees (2+ days) does not fit the actual (re)trial length')
+            should_error_if_equal_to_value(dat_fee, :quantity, 2, dat_fee_error_message)
           end
         end
 
@@ -472,7 +493,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           context 'when the extra days claims are NOT within the actual trial length' do
             it 'is not valid and cannot be claimed' do
               dat_fee.claim.actual_trial_length = actual_trial_length
-              should_error_if_equal_to_value(dat_fee, :quantity, 2, 'The number of daily attendance fees (2+ days) does not fit the actual (re)trial length')
+              should_error_if_equal_to_value(dat_fee, :quantity, 2, dat_fee_error_message)
             end
           end
         end
@@ -490,7 +511,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           context 'when the extra days claims are NOT within the actual trial length' do
             it 'is not valid and cannot be claimed' do
               dat_fee.claim.actual_trial_length = actual_trial_length
-              should_error_if_equal_to_value(dat_fee, :quantity, 11, 'The number of daily attendance fees (2+ days) does not fit the actual (re)trial length')
+              should_error_if_equal_to_value(dat_fee, :quantity, 11, dat_fee_error_message)
             end
           end
         end
@@ -500,7 +521,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           dat_fee.claim.actual_trial_length = 2
           dat_fee.claim.retrial_actual_length = 10
           should_be_valid_if_equal_to_value(dat_fee, :quantity, 9)
-          should_error_if_equal_to_value(dat_fee, :quantity, 10, 'The number of daily attendance fees (2+ days) does not fit the actual (re)trial length')
+          should_error_if_equal_to_value(dat_fee, :quantity, 10, dat_fee_error_message)
         end
       end
 
@@ -510,8 +531,16 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
             claim.case_type = build :case_type, :allow_pcmh_fee_type
           end
 
-          it { should_error_if_equal_to_value(pcm_fee, :quantity, 0, 'Enter a valid quantity for plea and trial preparation hearing') }
-          it { should_error_if_equal_to_value(pcm_fee, :quantity, 4, 'Enter a valid quantity (1 to 3) for plea and case management hearing fees') }
+          it {
+            should_error_if_equal_to_value(pcm_fee, :quantity, 0,
+                                           'Enter a valid quantity for plea and trial preparation hearing')
+          }
+
+          it {
+            should_error_if_equal_to_value(pcm_fee, :quantity, 4,
+                                           'Enter a valid quantity (1 to 3) for plea and case management hearing fees')
+          }
+
           it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 3) }
           it { should_be_valid_if_equal_to_value(pcm_fee, :quantity, 1) }
         end
@@ -521,8 +550,15 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
             claim.case_type = build :case_type
           end
 
-          it { should_error_if_equal_to_value(pcm_fee, :quantity, 1, 'Plea and case management hearing fee not applicable to case type') }
-          it { should_error_if_equal_to_value(pcm_fee, :quantity, -1, 'Plea and case management hearing fee not applicable to case type') }
+          it {
+            should_error_if_equal_to_value(pcm_fee, :quantity, 1,
+                                           'Plea and case management hearing fee not applicable to case type')
+          }
+
+          it {
+            should_error_if_equal_to_value(pcm_fee, :quantity, -1,
+                                           'Plea and case management hearing fee not applicable to case type')
+          }
         end
       end
 
@@ -531,8 +567,16 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
           supplementary_claim.force_validation = true
         end
 
-        it { should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 0, 'Enter a valid quantity for plea and trial preparation hearing') }
-        it { should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 4, 'Enter a valid quantity (1 to 3) for plea and case management hearing fees') }
+        it {
+          should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 0,
+                                         'Enter a valid quantity for plea and trial preparation hearing')
+        }
+
+        it {
+          should_error_if_equal_to_value(supplementary_pcm_fee, :quantity, 4,
+                                         'Enter a valid quantity (1 to 3) for plea and case management hearing fees')
+        }
+
         it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 3) }
         it { should_be_valid_if_equal_to_value(supplementary_pcm_fee, :quantity, 1) }
       end
@@ -555,12 +599,12 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     context 'any other fee' do
       before { fee.rate = 1 }
 
-      it { should_error_if_equal_to_value(fee, :quantity, -1, 'Enter a valid quantity for the fixed fee') }
+      it { should_error_if_equal_to_value(fee, :quantity, -1, 'Enter a valid quantity') }
       it { should_be_valid_if_equal_to_value(fee, :quantity, 99999) }
-      it { should_error_if_equal_to_value(fee, :quantity, 100000, 'Enter a valid quantity for the fixed fee') }
+      it { should_error_if_equal_to_value(fee, :quantity, 100000, 'Enter a valid quantity') }
 
       it 'does not allow zero if amount is not zero' do
-        should_error_if_equal_to_value(fee, :quantity, 0, 'Enter a valid quantity for the fixed fee')
+        should_error_if_equal_to_value(fee, :quantity, 0, 'Enter a valid quantity')
       end
 
       it 'errors if resulting amount (rate * quantity) is greater than the max limit' do
@@ -593,12 +637,18 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       it 'errors if amount greater than zero and quantity is nil, zero or less than zero' do
-        should_error_if_equal_to_value(ppe_fee, :quantity, 0, 'Enter a valid quantity for pages of prosecution evidence fees')
-        should_error_if_equal_to_value(ppe_fee, :quantity, nil, 'Enter a valid quantity for pages of prosecution evidence fees')
-        should_error_if_equal_to_value(ppe_fee, :quantity, -2, 'Enter a valid quantity for pages of prosecution evidence fees')
-        should_error_if_equal_to_value(npw_fee, :quantity, 0, 'Enter a valid quantity for number of prosecution witnesses fees')
-        should_error_if_equal_to_value(npw_fee, :quantity, nil, 'Enter a valid quantity for number of prosecution witnesses fees')
-        should_error_if_equal_to_value(npw_fee, :quantity, -2, 'Enter a valid quantity for number of prosecution witnesses fees')
+        should_error_if_equal_to_value(ppe_fee, :quantity, 0,
+                                       'Enter a valid quantity for pages of prosecution evidence fees')
+        should_error_if_equal_to_value(ppe_fee, :quantity, nil,
+                                       'Enter a valid quantity for pages of prosecution evidence fees')
+        should_error_if_equal_to_value(ppe_fee, :quantity, -2,
+                                       'Enter a valid quantity for pages of prosecution evidence fees')
+        should_error_if_equal_to_value(npw_fee, :quantity, 0,
+                                       'Enter a valid quantity for number of prosecution witnesses fees')
+        should_error_if_equal_to_value(npw_fee, :quantity, nil,
+                                       'Enter a valid quantity for number of prosecution witnesses fees')
+        should_error_if_equal_to_value(npw_fee, :quantity, -2,
+                                       'Enter a valid quantity for number of prosecution witnesses fees')
       end
     end
 

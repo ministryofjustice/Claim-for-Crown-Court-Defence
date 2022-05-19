@@ -1150,18 +1150,18 @@ fixed_fee:
       long: Enter a valid fixed fee date
       short: _
       api: Enter a valid fixed fee date
-    the_fixed_fee_date_must_not_be_in_future:
+    fixed_fee_date_cannot_be_too_far_in_the_future:
       long: Check the fixed fee date
-      short: *in_future
+      short: _
       api: Check the fixed fee date
-    the_fixed_fee_date_must_not_be_too_far_in_past:
+    the_fixed_fee_date_cannot_be_too_far_in_the_past:
       long: Check the fixed fee date
-      short: *too_far_in_past
+      short: _
       api: Check the fixed fee date
-    the_fixed_fee_date_must_be_no_earlier_than_two_years_before_the_earliest_representation_order_date:
-      long: The fixed fee date must be no earlier than two years before the earliest representation order date
-      short: *enter_valid_date
-      api: The fixed fee date must be no earlier than two years before the earliest representation order date
+    the_fixed_fee_date_cannot_be_no_earlier_than_two_years_before_the_earliest_representation_order_date:
+      long: The fixed fee date cannot be no earlier than two years before the earliest representation order date
+      short: _
+      api: The fixed fee date cannot be no earlier than two years before the earliest representation order date
 
   case_numbers:
       _seq: 70
@@ -1504,21 +1504,21 @@ date_attended:
 
   date:
     _seq: 10
-    blank:
+    enter_the_date_attended:
       long: 'Enter the #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense}'
-      short: *enter_date
+      short: _
       api: 'Enter the date attended (from)'
-    too_long_before_earliest_reporder:
-      long: The fixed fee date must not be more than two years before the earliest representation order date
-      short: *enter_valid_date
-      api: The fixed fee date must not be more than two years before the earliest representation order date
-    not_after_today:
+    the_fixed_fee_date_cannot_be_more_than_two_years_before_the_earliest_representation_order_date:
+      long: The fixed fee date cannot be more than two years before the earliest representation order date
+      short: _
+      api: The fixed fee date cannot be more than two years before the earliest representation order date
+    enter_a_date_that_is_not_in_the_future:
       long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
-      short: Enter a date that is not in the future
+      short: _
       api: The date attended (from) cannot be in the future
-    not_before_earliest_permitted_date:
+    enter_a_date_later_than_two_years_before_the_earliest_representation_order_date:
       long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
-      short: Enter a date later than two years before the earliest representation order date
+      short: _
       api: The date attended (from) must be later than two years before the earliest representation order date
     invalid_date:
       long: 'Enter a valid date for the #{date_attended} (from) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense}'
@@ -1652,25 +1652,25 @@ graduated_fee:
 
   date:
     _seq: 30
-    blank:
+    enter_the_graduated_fee_date:
       long: Enter the graduated fee date
-      short: *enter_date
+      short: _
       api: Enter the graduated fee date
-    invalid_date:
+    enter_a_valid_graduated_fee_date:
       long: Enter a valid graduated fee date
-      short: *enter_valid_date
+      short: _
       api: Enter a valid graduated fee date
-    check_not_in_future:
+    graduated_fee_date_cannot_be_too_far_in_the_future:
       long: Check the graduated fee date
-      short: *in_future
+      short: _
       api: Check the graduated fee date
-    check_not_too_far_in_past:
+    graduated_fee_date_cannot_be_too_far_in_the_past:
       long: Check the graduated fee date
-      short: *too_far_in_past
+      short: _
       api: Check the graduated fee date
-    too_long_before_earliest_reporder:
+    the_graduated_fee_date_cannot_be_no_earlier_than_two_years_before_the_earliest_representation_order_date:
       long: The fixed fee date must be no earlier than two years before the earliest representation order date
-      short: *enter_valid_date
+      short: _
       api: The fixed fee date must be no earlier than two years before the earliest representation order date
 
 #################################################################################

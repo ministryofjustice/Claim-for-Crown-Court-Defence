@@ -10,7 +10,11 @@ en:
             base:
               uneditable_state: You cannot edit a claim that is not in draft state
             case_numbers:
-              noc_qty_mismatch: something
+              blank: Enter case numbers for the Number of cases uplift
+              invalid: Enter valid case numbers for the Number of cases uplift
+              present: Case numbers for the fixed fee are not allowed
+              noc_qty_mismatch: The number of case uplifts does not match the additional case numbers
+              eqls_claim_case_number: The additional case number must be different to the main case number
             fee_type:
               blank: 'Choose a type for the #{fixed_fee}'
             quantity:

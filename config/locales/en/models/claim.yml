@@ -159,17 +159,6 @@ en:
               ppe_invalid: Enter a valid rate for pages of prosecution evidence fees
               ppe_must_be_blank: Pages of prosecution evidence fees must not have a rate
               saf_invalid: Enter a valid rate for standard appearance fees
-        fee/fixed_fee:
-          attributes:
-            case_numbers:
-              blank: Enter case numbers for the Number of cases uplift
-              eqls_claim_case_number: The additional case number must be different to the main case number
-              invalid: Enter valid case numbers for the Number of cases uplift
-              noc_qty_mismatch: The number of case uplifts does not match the additional case numbers
-            quantity:
-              invalid: Enter a valid quantity for the fixed fee
-            rate:
-              invalid: Enter a valid rate for the fixed fee
         fee/misc_fee:
           attributes:
             case_numbers:

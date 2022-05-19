@@ -1020,20 +1020,20 @@ misc_fee:
 
   rate:
     _seq: 20
-    invalid:
+    enter_a_valid_rate_for_the_miscellaneous_fee:
       long: 'Enter a valid net amount for the #{misc_fee}'
-      short: *enter_valid_amount
+      short: _
       api: Enter a rate/net amount for the miscellaneous fee
 
   quantity:
     _seq: 30
-    invalid:
+    enter_a_valid_quantity_for_the_miscellaneous_fee:
       long: 'Enter a valid quantity for the #{misc_fee}'
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for the miscellaneous fee
-    integer:
+    you_must_specify_a_whole_number_for_this_type_of_fee:
       long: You must specify a whole number for this type of fee
-      short: Whole number
+      short: _
       api: You must specify a whole number for this type of fee
     pcm_invalid:
       long: Enter a valid quantity for plea and trial preparation hearing
@@ -1054,9 +1054,9 @@ misc_fee:
       long: 'Enter at least one case number for the #{misc_fee}'
       short: Enter at least one case number
       api: Enter at least one case number for the miscellaneous fee
-    present:
+    case_numbers_for_the_miscellaneous_fee_are_not_allowed:
       long: 'Case numbers for the #{misc_fee} are not allowed'
-      short: Case numbers are not allowed
+      short: _
       api: Case numbers for the miscellaneous fee are not allowed
     invalid:
       long: 'Enter valid case numbers for the #{misc_fee}'
@@ -1109,11 +1109,11 @@ fixed_fee:
       long: 'Enter a valid quantity for the #{fixed_fee}'
       short: _
       api: *enter_valid_quantity
-    integer:
+    you_must_specify_a_whole_number_for_this_type_of_fee:
       long: You must specify a whole number for this type of fee
       short: Enter a whole number
       api: You must specify a whole number for this type of fee
-    defendant_uplifts_fixed_fees_mismatch:
+    the_quantity_of_fixed_fees_defendant_uplifts_exceeds_the_number_of_additional_defendants:
       long: The quantity of fixed fees defendant uplifts exceeds the number of additional defendants
       short: Too many defendant uplifts
       api: Defendant uplift sums must match number of additional defendants

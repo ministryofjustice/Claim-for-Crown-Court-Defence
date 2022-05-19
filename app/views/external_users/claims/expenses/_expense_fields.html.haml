@@ -74,19 +74,31 @@
             = govuk_detail t('.summary_heading') do
               = t('.summary_content')
 
-          = f.govuk_collection_radio_buttons :mileage_rate_id,
-            Expense::BIKE_MILEAGE_RATES.values,
-            :id,
-            :description,
-            form_group: { classes: 'fx-travel-mileage fx-travel-mileage-bike', style: 'display: none' },
-            legend: { text: t('.cost_html') }
+          -# = f.govuk_collection_radio_buttons :mileage_rate_id,
+          -#   Expense::BIKE_MILEAGE_RATES.values,
+          -#   :id,
+          -#   :description,
+          -#   form_group: { classes: 'fx-travel-mileage fx-travel-mileage-bike', style: 'display: none' },
+          -#   legend: { text: t('.cost_html') }
 
-          = f.govuk_collection_radio_buttons :mileage_rate_id,
-            Expense::CAR_MILEAGE_RATES.values,
-            :id,
-            :description,
+          -# = f.govuk_collection_radio_buttons :mileage_rate_id,
+          -#   Expense::CAR_MILEAGE_RATES.values,
+          -#   :id,
+          -#   :description,
+          -#   form_group: { classes: 'fx-travel-mileage fx-travel-mileage-car', style: 'display: none' },
+          -#   legend: { text: t('.cost_html') }
+
+          = f.govuk_radio_buttons_fieldset :mileage_rate_id,
+            form_group: { classes: 'fx-travel-mileage fx-travel-mileage-bike', style: 'display: none' },
+            legend: { text: t('.cost_html') } do
+            - Expense::BIKE_MILEAGE_RATES.values.map do | bike_mileage_rate |
+              = f.govuk_radio_button :mileage_rate_id, bike_mileage_rate.id, label: { text: bike_mileage_rate.description }
+
+          = f.govuk_radio_buttons_fieldset :mileage_rate_id,
             form_group: { classes: 'fx-travel-mileage fx-travel-mileage-car', style: 'display: none' },
-            legend: { text: t('.cost_html') }
+            legend: { text: t('.cost_html') } do
+            - Expense::CAR_MILEAGE_RATES.values.map do | car_mileage_rate |
+              = f.govuk_radio_button :mileage_rate_id, car_mileage_rate.id, label: { text: car_mileage_rate.description }
 
           = f.govuk_date_field :date,
             form_group: { classes: 'fx-travel-date', style: 'display: none' },

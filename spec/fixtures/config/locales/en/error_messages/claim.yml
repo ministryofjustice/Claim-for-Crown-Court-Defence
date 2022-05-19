@@ -31,3 +31,10 @@ defendant:
       long: "Enter a first name for the #{defendant}"
       short: Enter a first name
       api: "The first name for the #{defendant} must not be blank"
+
+graduated_fee_attributes_date:
+  _seq: 50
+  graduated_fee_date_cannot_be_too_far_in_the_future:
+    long: Graduated fee date cannot be too far in the future
+    short: _
+    api: Graduated fee date cannot be too far in the future

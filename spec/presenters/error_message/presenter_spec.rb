@@ -14,20 +14,6 @@ RSpec.describe ErrorMessage::Presenter do
   it { expect(presenter.method(:key?)).to eq(presenter.method(:errors_for?)) }
   it { expect(presenter.method(:field_errors_for)).to eq(presenter.method(:short_messages_for)) }
 
-  describe '#generate_sequence' do
-    context 'when attribute present' do
-      it 'returns the value from the error messages file' do
-        expect(presenter.send(:generate_sequence, 'name')).to eq 60
-      end
-    end
-
-    context 'when attribute not present' do
-      it 'returns 99999' do
-        expect(presenter.send(:generate_sequence, 'nokey')).to eq 99_999
-      end
-    end
-  end
-
   describe '#summary_errors' do
     subject(:summary_errors) { presenter.summary_errors }
 

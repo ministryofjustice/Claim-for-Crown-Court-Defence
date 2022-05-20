@@ -1,11 +1,11 @@
 class SlackNotifier
-  def initialize(channel, formatter:)
+  def initialize(channel, formatter:, slack_bot_name: Settings.slack.bot_name)
     @formatter = formatter
     @slack_url = Settings.slack.bot_url
     @ready_to_send = false
     @payload = {
       channel: channel,
-      username: Settings.slack.bot_name
+      username: slack_bot_name
     }
   end
 

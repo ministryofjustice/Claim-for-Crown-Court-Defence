@@ -1,4 +1,4 @@
-FROM ruby:3.0.4-alpine3.15
+FROM ruby:3.1.2-alpine3.15
 LABEL "maintainer"="Ministry of Justice, Claim for crown court defence <crowncourtdefence@digital.justice.gov.uk>"
 
 LABEL "com.github.actions.name"="Delete ECR image"

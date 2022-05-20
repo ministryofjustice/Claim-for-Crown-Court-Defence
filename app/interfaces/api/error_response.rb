@@ -75,7 +75,7 @@ module API
     end
 
     def translations
-      @translations ||= YAML.load_file(translations_file)
+      @translations ||= YAML.load_file(translations_file, aliases: true)
     end
 
     def translations_file

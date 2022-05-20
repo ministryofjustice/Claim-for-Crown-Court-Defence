@@ -29,7 +29,7 @@ RSpec::Matchers.define :include_field_error_when do |options|
   end
 
   def translations
-    @translations ||= YAML.load_file(translations_file) # lazy load translations
+    @translations ||= YAML.load_file(translations_file, aliases: true) # lazy load translations
   end
 
   def translations_file

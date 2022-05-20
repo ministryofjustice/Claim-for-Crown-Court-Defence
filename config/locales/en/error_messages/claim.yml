@@ -1444,9 +1444,9 @@ expense:
   expense_type:
     _seq: 10
     choose_an_expense_type:
-      long: 'Choose a type for the #{expense}'
+      long: 'Choose an expense type for the #{expense}'
       short: _
-      api: Choose a type for the expense
+      api: Choose an expense type
 
   amount:
     _seq: 20
@@ -1553,10 +1553,14 @@ expense:
 
   reason_id:
     _seq: 55
-    enter_a_reason:
+    enter_a_reason_for_the_expense:
       long: 'Enter a reason for the #{expense}'
       short: _
       api: Enter a reason for the expense
+    enter_a_valid_reason_for_the_expense:
+      long: 'Enter a valid reason for the #{expense}'
+      short: _
+      api: Enter a valid reason for the expense
 
   mileage_rate_id:
     _seq: 60

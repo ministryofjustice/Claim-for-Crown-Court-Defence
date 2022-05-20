@@ -18,7 +18,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
     claim.force_validation = true
   end
 
-  it { should_error_if_equal_to_value(expense, :amount, 200_001, 'item_max_amount') }
+  it { should_error_if_equal_to_value(expense, :amount, 200_001, 'The amount for the expense exceeds the limit') }
 
   describe '#validate_vat_amount for LGFS claims' do
     let(:claim) { build :litigator_claim, force_validation: true }
@@ -94,17 +94,17 @@ RSpec.describe 'ExpenseValidator', type: :validator do
     end
 
     it 'is invalid if before earliest rep order date' do
-      should_error_if_earlier_than_earliest_reporder_date(claim, expense, :date, 'check_not_earlier_than_rep_order')
+      should_error_if_earlier_than_earliest_reporder_date(claim, expense, :date, 'Check the date for the expense')
     end
 
     it 'is invalid for dates in the future' do
-      should_error_if_in_future(expense, :date, 'future')
+      should_error_if_in_future(expense, :date, 'Date for the expense cannot be in the future')
     end
 
     it 'is invalid if absent' do
       expense.date = nil
       expect(expense).not_to be_valid
-      expect(expense.errors[:date]).to include('blank')
+      expect(expense.errors[:date]).to include('Enter a date for the expense')
     end
   end
 
@@ -113,17 +113,17 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       it 'is invalid if absent' do
         travel_time_expense.hours = nil
         expect(travel_time_expense).not_to be_valid
-        expect(travel_time_expense.errors[:hours]).to include('blank')
+        expect(travel_time_expense.errors[:hours]).to include('Enter the hours')
       end
 
       it 'is invalid if zero' do
         travel_time_expense.hours = 0
         expect(travel_time_expense).not_to be_valid
-        expect(travel_time_expense.errors[:hours]).to include('numericality')
+        expect(travel_time_expense.errors[:hours]).to include('Enter valid hours for the expense')
       end
 
       it 'is invalid if before earliest rep order date' do
-        should_error_if_earlier_than_earliest_reporder_date(claim, expense, :date, 'check_not_earlier_than_rep_order')
+        should_error_if_earlier_than_earliest_reporder_date(claim, expense, :date, 'Check the date for the expense')
       end
 
       it 'is invalid if more than two places of decimals' do
@@ -155,7 +155,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         expenses_to_test.each do |ex|
           ex.hours = 5
           expect(ex).not_to be_valid
-          expect(ex.errors[:hours]).to include('invalid')
+          expect(ex.errors[:hours]).to include('Enter valid hours')
         end
       end
 
@@ -178,7 +178,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       it 'is invalid if absent' do
         other_reason_type_expense.reason_text = nil
         expect(other_reason_type_expense).not_to be_valid
-        expect(other_reason_type_expense.errors[:reason_text]).to include('blank_for_other')
+        expect(other_reason_type_expense.errors[:reason_text]).to include('Enter a reason')
       end
     end
   end
@@ -188,7 +188,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
   end
 
   describe '#validate_expense_type' do
-    it { should_error_if_not_present(expense, :expense_type, 'blank') }
+    it { should_error_if_not_present(expense, :expense_type, 'Choose an expense type') }
   end
 
   describe '#validate_location' do
@@ -198,7 +198,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       expenses_to_test.each do |ex|
         ex.location = nil
         expect(ex.valid?).to be false
-        expect(ex.errors[:location]).to include('blank')
+        expect(ex.errors[:location]).to include('Enter a location')
       end
     end
 
@@ -212,7 +212,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
     it 'enforces absence for parking' do
       parking_expense.location = 'Somewhere'
       expect(parking_expense.valid?).to be false
-      expect(parking_expense.errors[:location]).to include 'invalid'
+      expect(parking_expense.errors[:location]).to include 'Enter a valid location'
     end
 
     it 'is valid when empty for parking' do
@@ -230,11 +230,11 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
     context 'when the location type is set' do
       context 'but does not match a valid type' do
-        subject(:expense) { build(:expense, :train, claim:, location_type: 'invalid_type') }
+        subject(:expense) { build(:expense, :train, claim:, location_type: 'Enter a valid location') }
 
         it {
           is_expected.not_to be_valid
-          expect(expense.errors[:location_type]).to include('invalid')
+          expect(expense.errors[:location_type]).to include('Enter a valid location')
         }
       end
     end
@@ -261,7 +261,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       expense.expense_type.reason_set = 'A'
       expense.reason_id = 5
       expect(expense).not_to be_valid
-      expect(expense.errors[:reason_text]).to include('blank_for_other')
+      expect(expense.errors[:reason_text]).to include('Enter a reason')
     end
 
     it 'is invalid with values 6 and above for reason set A' do
@@ -269,7 +269,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         expense.expense_type.reason_set = 'B'
         expense.reason_id = i
         expect(expense.valid?).to be false
-        expect(expense.errors[:reason_id]).to include('invalid')
+        expect(expense.errors[:reason_id]).to include('Enter a valid reason for the expense')
       end
     end
 
@@ -286,7 +286,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         expense.expense_type.reason_set = 'B'
         expense.reason_id = i
         expect(expense.valid?).to be false
-        expect(expense.errors[:reason_id]).to include('invalid')
+        expect(expense.errors[:reason_id]).to include('Enter a valid reason for the expense')
       end
     end
   end
@@ -307,7 +307,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       it 'reason text is not present' do
         expense.valid?
         expect(expense).not_to be_valid
-        expect(expense.errors[:reason_text]).to include('blank_for_other')
+        expect(expense.errors[:reason_text]).to include('Enter a reason')
       end
     end
 
@@ -370,7 +370,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       it 'is invalid when absent for car travel' do
         car_travel_expense.distance = nil
         expect(car_travel_expense).not_to be_valid
-        expect(car_travel_expense.errors[:distance]).to include('blank')
+        expect(car_travel_expense.errors[:distance]).to include('Enter the distance for the expense')
       end
     end
   end
@@ -437,7 +437,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
           it 'is invalid' do
             expect(expense).to be_invalid
-            expect(expense.errors[:calculated_distance]).to include('numericality')
+            expect(expense.errors[:calculated_distance]).to include('Enter a valid distance for the expense')
           end
         end
       end
@@ -451,37 +451,37 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       it 'is invalid when zero for car travel' do
         car_travel_expense.distance = 0
         expect(car_travel_expense).not_to be_valid
-        expect(car_travel_expense.errors[:distance]).to include('numericality')
+        expect(car_travel_expense.errors[:distance]).to include('Enter a valid distance for the expense')
       end
 
       it 'is invalid when negative for car travel' do
         car_travel_expense.distance = -5
         expect(car_travel_expense).not_to be_valid
-        expect(car_travel_expense.errors[:distance]).to include('numericality')
+        expect(car_travel_expense.errors[:distance]).to include('Enter a valid distance for the expense')
       end
 
       it 'is invalid when present for train' do
         train_expense.distance = 33
         expect(train_expense).not_to be_valid
-        expect(train_expense.errors[:distance]).to include('invalid')
+        expect(train_expense.errors[:distance]).to include('Enter a valid distance')
       end
 
       it 'is invalid when zero for train' do
         train_expense.distance = 0
         expect(train_expense).not_to be_valid
-        expect(train_expense.errors[:distance]).to include('invalid')
+        expect(train_expense.errors[:distance]).to include('Enter a valid distance')
       end
 
       it 'is invalid when present for parking' do
         parking_expense.distance = 34
         expect(parking_expense).not_to be_valid
-        expect(parking_expense.errors[:distance]).to include('invalid')
+        expect(parking_expense.errors[:distance]).to include('Enter a valid distance')
       end
 
       it 'is invalid when present for hotel' do
         hotel_accommodation_expense.distance = 44
         expect(hotel_accommodation_expense).not_to be_valid
-        expect(hotel_accommodation_expense.errors[:distance]).to include('invalid')
+        expect(hotel_accommodation_expense.errors[:distance]).to include('Enter a valid distance')
       end
     end
   end
@@ -494,7 +494,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         expenses_to_test.each do |ex|
           ex.mileage_rate_id = 2
           expect(ex).not_to be_valid
-          expect(ex.errors[:mileage_rate_id]).to include('invalid')
+          expect(ex.errors[:mileage_rate_id]).to include('Select a valid mileage rate')
         end
       end
 
@@ -510,13 +510,13 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       it 'is invalid if not a value in the settings' do
         car_travel_expense.mileage_rate_id = 4
         expect(car_travel_expense).not_to be_valid
-        expect(car_travel_expense.errors[:mileage_rate_id]).to include('invalid')
+        expect(car_travel_expense.errors[:mileage_rate_id]).to include('Select a valid mileage rate')
       end
 
       it 'is invalid if bike travel rate' do
         car_travel_expense.mileage_rate_id = 3
         expect(car_travel_expense).not_to be_valid
-        expect(car_travel_expense.errors[:mileage_rate_id]).to include('invalid')
+        expect(car_travel_expense.errors[:mileage_rate_id]).to include('Select a valid mileage rate')
       end
 
       it 'is valid if present for car travel' do
@@ -529,7 +529,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       it 'is invalid if absent' do
         car_travel_expense.mileage_rate_id = nil
         expect(car_travel_expense).not_to be_valid
-        expect(car_travel_expense.errors[:mileage_rate_id]).to include('blank')
+        expect(car_travel_expense.errors[:mileage_rate_id]).to include('Select a mileage rate')
       end
     end
 
@@ -537,7 +537,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
       it 'is invalid if not a value in the settings' do
         bike_travel_expense.mileage_rate_id = 4
         expect(bike_travel_expense).not_to be_valid
-        expect(bike_travel_expense.errors[:mileage_rate_id]).to include('invalid')
+        expect(bike_travel_expense.errors[:mileage_rate_id]).to include('Select a valid mileage rate')
       end
 
       it 'is invalid if car travel rate' do
@@ -556,7 +556,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
         it 'is invalid if absent' do
           bike_travel_expense.mileage_rate_id = nil
           expect(bike_travel_expense).not_to be_valid
-          expect(bike_travel_expense.errors[:mileage_rate_id]).to include('blank')
+          expect(bike_travel_expense.errors[:mileage_rate_id]).to include('Select a mileage rate')
         end
       end
     end

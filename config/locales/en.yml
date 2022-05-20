@@ -260,8 +260,6 @@ en:
               accepted: You must accept the terms and conditions
         expense:
           attributes:
-            expense_type:
-              blank: Expense type cannot be blank
             quantity:
               blank: Quantity cannot be blank
               numericality: Quantity must be greater than or equal to 0

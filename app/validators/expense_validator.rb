@@ -40,7 +40,13 @@ class ExpenseValidator < BaseValidator
   end
 
   def validate_reason_id
-    add_error(:reason_id, :blank) if @record.reason_id.eql?(0)
+    if @record.reason_id.nil?
+      add_error(:reason_id, :blank)
+    else
+      unless @record.expense_type.nil? || @record.reason_id.in?(@record.expense_reasons.map(&:id))
+        add_error(:reason_id, :invalid)
+      end
+    end
   end
 
   def validate_reason_text

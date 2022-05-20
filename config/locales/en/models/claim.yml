@@ -232,6 +232,10 @@ en:
               blank: Enter an amount for the expense
               numericality: Enter a valid amount for the expense
               item_max_amount: The amount for the expense exceeds the limit
+            calculated_distance:
+              blank: Enter the distance for the expense
+              numericality: Enter a valid distance for the expense
+              item_max_amount: Distance for the expense exceeds the limit
             date:
               blank: Enter a date for the expense
               future: Date for the expense cannot be in the future
@@ -256,7 +260,8 @@ en:
               blank: Select a mileage rate
               invalid: Select a valid mileage rate
             reason_id:
-              blank: Enter a reason
+              blank: Enter a reason for the expense
+              invalid: Enter a valid reason for the expense
             reason_text:
               blank_for_other: Enter a reason
               invalid: Enter a valid reason

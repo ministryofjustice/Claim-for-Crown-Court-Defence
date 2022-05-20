@@ -10,7 +10,7 @@ module ErrorMessage
 
     def []=(fieldname, error_detail)
       @detail_collection[fieldname] ||= []
-      return if @detail_collection[fieldname][0]&.long_message.eql?(error_detail.long_message)
+      return if @detail_collection[fieldname].map(&:long_message).include?(error_detail.long_message)
 
       @detail_collection[fieldname] << error_detail
     end

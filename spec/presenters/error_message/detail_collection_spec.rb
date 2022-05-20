@@ -43,7 +43,10 @@ RSpec.describe ErrorMessage::DetailCollection do
     end
 
     context 'with a duplicate message' do
-      before { instance[:key1] = ed1 }
+      before do
+        instance[:key1] = ed3
+        instance[:key1] = ed1
+      end
 
       it { expect { setter }.not_to change { instance[:key1] } }
     end
@@ -55,7 +58,7 @@ RSpec.describe ErrorMessage::DetailCollection do
     context 'when fieldname key exists in collection' do
       let(:fieldname) { :foo }
 
-      before { instance[:foo] = 'bar' }
+      before { instance[:foo] = ed1 }
 
       it { is_expected.to be_truthy }
     end

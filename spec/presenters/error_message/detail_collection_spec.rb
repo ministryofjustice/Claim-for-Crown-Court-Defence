@@ -29,21 +29,21 @@ RSpec.describe ErrorMessage::DetailCollection do
 
   describe '#[]=' do
     context 'when assigning a single value to a key' do
-      before { instance[:key1] = 'value for key 1' }
+      before { instance[:key1] = ed1 }
 
       it 'makes an array containing the single element' do
-        expect(instance[:key1]).to eq(['value for key 1'])
+        expect(instance[:key1]).to eq([ed1])
       end
     end
 
     context 'when assigning multiple values to a key' do
       before do
-        instance[:key1] = 'value 1'
-        instance[:key1] = 'value 2'
+        instance[:key1] = ed1
+        instance[:key1] = ed3
       end
 
       it 'makes an array of all the elements assigned' do
-        expect(instance[:key1]).to match_array(['value 1', 'value 2'])
+        expect(instance[:key1]).to match_array([ed1, ed3])
       end
     end
   end

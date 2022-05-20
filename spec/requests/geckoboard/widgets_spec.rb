@@ -28,7 +28,7 @@ end
 
 RSpec.describe 'Widgets', type: :request, allow_forgery_protection: true do
   def self.widgets
-    @widgets ||= YAML.load_file('spec/fixtures/geckoboard_api_widgets.yaml')
+    @widgets ||= YAML.unsafe_load_file('spec/fixtures/geckoboard_api_widgets.yaml')
   end
 
   # needed? has no template!

@@ -5,7 +5,7 @@ module ErrorMessage
     def initialize(object, message_file = nil)
       @errors = object.errors
       message_file ||= default_file
-      @translations = YAML.load_file(message_file)
+      @translations = YAML.load_file(message_file, aliases: true)
       @error_detail_collection = DetailCollection.new
       generate_messages
     end

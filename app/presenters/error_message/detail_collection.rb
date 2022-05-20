@@ -9,11 +9,10 @@ module ErrorMessage
     end
 
     def []=(fieldname, error_detail)
-      if @detail_collection.key?(fieldname)
-        @detail_collection[fieldname] << error_detail
-      else
-        @detail_collection[fieldname] = [error_detail]
-      end
+      @detail_collection[fieldname] ||= []
+      return if @detail_collection[fieldname][0]&.long_message.eql?(error_detail.long_message)
+
+      @detail_collection[fieldname] << error_detail
     end
 
     def errors_for?(fieldname)

@@ -28,23 +28,24 @@ RSpec.describe ErrorMessage::DetailCollection do
   end
 
   describe '#[]=' do
-    context 'when assigning a single value to a key' do
-      before { instance[:key1] = ed1 }
+    subject(:setter) { instance[:key1] = new_detail }
 
-      it 'makes an array containing the single element' do
-        expect(instance[:key1]).to eq([ed1])
-      end
+    let(:new_detail) { ed1 }
+
+    context 'when assigning a single value to a key' do
+      it { expect { setter }.to change { instance[:key1] }.from(nil).to([ed1]) }
     end
 
     context 'when assigning multiple values to a key' do
-      before do
-        instance[:key1] = ed1
-        instance[:key1] = ed3
-      end
+      before { instance[:key1] = ed3 }
 
-      it 'makes an array of all the elements assigned' do
-        expect(instance[:key1]).to match_array([ed1, ed3])
-      end
+      it { expect { setter }.to change { instance[:key1] }.from([ed3]).to([ed3, ed1]) }
+    end
+
+    context 'with a duplicate message' do
+      before { instance[:key1] = ed1 }
+
+      it { expect { setter }.not_to change { instance[:key1] } }
     end
   end
 

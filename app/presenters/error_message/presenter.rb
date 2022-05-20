@@ -27,14 +27,8 @@ module ErrorMessage
         attribute = error.attribute
         message = translator.message(error.attribute, error.message)
 
-        next if error_detail_item?(attribute, message)
         add_error_detail(attribute, message)
       end
-    end
-
-    def error_detail_item?(attribute, message)
-      @error_detail_collection[attribute] &&
-        @error_detail_collection[attribute][0].long_message.eql?(message.long)
     end
 
     def add_error_detail(attribute, message)

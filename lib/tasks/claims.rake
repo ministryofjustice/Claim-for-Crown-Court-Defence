@@ -124,7 +124,11 @@ namespace :claims do
       raise ArgumentError.new "Only valid parameter is 'dummy'"
     end
 
-    slack_notifier = SlackNotifier.new('laa-cccd-alerts', formatter: SlackNotifier::Formatter::Transitioner.new)
+    slack_notifier = SlackNotifier.new(
+      'laa-cccd-alerts',
+      formatter: SlackNotifier::Formatter::Transitioner.new,
+      slack_bot_name: 'Stale Claim Archiver'
+    )
 
     TimedTransitions::BatchTransitioner.new(limit: 10000, dummy: @dummy, notifier: slack_notifier).run
   end

@@ -32,13 +32,7 @@ module ErrorMessage
     end
 
     def add_error_detail(attribute, message)
-      @error_detail_collection[attribute] = Detail.new(
-        attribute,
-        message.long,
-        message.short,
-        message.api,
-        sequencer.generate(attribute)
-      )
+      @error_detail_collection[attribute] = detail_factory.build(attribute, message)
     end
 
     def translator
@@ -47,6 +41,10 @@ module ErrorMessage
 
     def sequencer
       @sequencer ||= ErrorMessage::Sequencer.new(translations: @translations)
+    end
+
+    def detail_factory
+      @detail_factory ||= ErrorMessage::DetailFactory.new(sequencer: sequencer)
     end
 
     def default_file

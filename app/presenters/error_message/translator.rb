@@ -23,9 +23,9 @@ module ErrorMessage
       @api_message = nil
     end
 
-    def message(key, error)
-      key = ErrorMessage::Key.new(key)
-      error = format_error(error)
+    def message(error)
+      key = ErrorMessage::Key.new(error.attribute)
+      error = format_error(error.message)
       set = translations_for(key)
       message_set = message_set(set, key, error)
       ErrorMessage::Message.new(*message_set, key)

@@ -80,12 +80,11 @@ RSpec.describe ErrorMessage::Translator do
   include_context 'with custom error messages'
 
   describe '#message' do
-    subject(:message) { translator.message(key, error) }
+    subject(:message) { translator.message(error) }
 
     context 'with unnested translations' do
       context 'when key and error exists' do
-        let(:key) { :name }
-        let(:error) { 'cannot_be_blank' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: :name, message: 'cannot_be_blank') }
 
         it_behaves_like 'message found',
                         long: 'The claimant name must not be blank, please enter a name',
@@ -94,8 +93,7 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key does not exist' do
-        let(:key) { :stepmother }
-        let(:error) { 'too_long' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: :stepmother, message: 'too_long') }
 
         it_behaves_like 'message found',
                         long: 'Stepmother too long',
@@ -104,8 +102,7 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key exists but error does not exist' do
-        let(:key) { :name }
-        let(:error) { 'rubbish' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: :name, message: 'rubbish') }
 
         it_behaves_like 'message found',
                         long: 'Name rubbish',
@@ -116,8 +113,7 @@ RSpec.describe ErrorMessage::Translator do
 
     context 'with custom single nested errors' do
       context 'when key and error exist' do
-        let(:key) { :defendant_2_first_name }
-        let(:error) { 'blank' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: :defendant_2_first_name, message: 'blank') }
 
         it_behaves_like 'message found',
                         long: 'Enter a first name for the second defendant',
@@ -126,8 +122,7 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for submodel does not exist in base model' do
-        let(:key) { :person_2_first_name }
-        let(:error) { 'blank' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: :person_2_first_name, message: 'blank') }
 
         it_behaves_like 'message found',
                         long: 'Person 2 first name blank',
@@ -136,8 +131,7 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for submodel exists but key for field in submodel does not' do
-        let(:key) { :defendant_2_age }
-        let(:error) { 'blank' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: :defendant_2_age, message: 'blank') }
 
         it_behaves_like 'message found',
                         long: 'Defendant 2 age blank',
@@ -146,8 +140,7 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for submodel and field on submodel exists but error does not' do
-        let(:key) { :defendant_2_first_name }
-        let(:error) { 'foo' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: :defendant_2_first_name, message: 'foo') }
 
         it_behaves_like 'message found',
                         long: 'Defendant 2 first name foo',
@@ -158,8 +151,7 @@ RSpec.describe ErrorMessage::Translator do
 
     context 'with custom sinlge nested error with .format' do
       context 'when nested key and error exists' do
-        let(:key) { 'fixed_fee.quantity' }
-        let(:error) { 'invalid' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: 'fixed_fee.quantity', message: 'invalid') }
 
         it_behaves_like 'message found',
                         long: 'Enter a valid quantity for the first fixed fee',
@@ -170,8 +162,13 @@ RSpec.describe ErrorMessage::Translator do
 
     context 'with custom double level nested errors' do
       context 'when nested keys and errors exist' do
-        let(:key) { :defendant_5_representation_order_2_maat_reference }
-        let(:error) { 'blank' }
+        let(:error) do
+          instance_double(
+            ActiveModel::Error,
+            attribute: :defendant_5_representation_order_2_maat_reference,
+            message: 'blank'
+          )
+        end
 
         it_behaves_like 'message found',
                         long: 'Enter a valid MAAT reference for the second representation order of the fifth defendant',
@@ -180,8 +177,9 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for sub-sub-model does not exist' do
-        let(:key) { :defendant_5_court_order_2_maat_reference }
-        let(:error) { 'blank' }
+        let(:error) do
+          instance_double(ActiveModel::Error, attribute: :defendant_5_court_order_2_maat_reference, message: 'blank')
+        end
 
         it_behaves_like 'message found',
                         long: 'Defendant 5 court order 2 maat reference blank',
@@ -190,8 +188,9 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for field on sub sub model does not exist' do
-        let(:key) { :defendant_5_representation_order_2_court }
-        let(:error) { 'blank' }
+        let(:error) do
+          instance_double(ActiveModel::Error, attribute: :defendant_5_representation_order_2_court, message: 'blank')
+        end
 
         it_behaves_like 'message found',
                         long: 'Defendant 5 representation order 2 court blank',
@@ -200,8 +199,13 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for error on sub sub model does not exist' do
-        let(:key) { :defendant_5_representation_order_2_maat_reference }
-        let(:error) { 'no_such_error' }
+        let(:error) do
+          instance_double(
+            ActiveModel::Error,
+            attribute: :defendant_5_representation_order_2_maat_reference,
+            message: 'no_such_error'
+          )
+        end
 
         it_behaves_like 'message found',
                         long: 'Defendant 5 representation order 2 maat reference no such error',
@@ -212,8 +216,9 @@ RSpec.describe ErrorMessage::Translator do
 
     context 'with rails single level nested errors' do
       context 'when key and error exist' do
-        let(:key) { 'defendants_attributes_0_first_name' }
-        let(:error) { 'blank' }
+        let(:error) do
+          instance_double(ActiveModel::Error, attribute: 'defendants_attributes_0_first_name', message: 'blank')
+        end
 
         it_behaves_like 'message found',
                         long: 'Enter a first name for the first defendant',
@@ -222,8 +227,7 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for submodel does not exist in base model' do
-        let(:key) { 'foos_attributes_0_age' }
-        let(:error) { 'blank' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: 'foos_attributes_0_age', message: 'blank') }
 
         it_behaves_like 'message found',
                         long: 'Foo 1 age blank',
@@ -232,8 +236,7 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for submodel exists but key for attribute on submodel does not' do
-        let(:key) { 'defendants_attributes_0_age' }
-        let(:error) { 'blank' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: 'defendants_attributes_0_age', message: 'blank') }
 
         it_behaves_like 'message found',
                         long: 'Defendant 1 age blank',
@@ -242,8 +245,9 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for submodel and attribute on submodel exists but error does not' do
-        let(:key) { 'defendants_attributes_0_first_name' }
-        let(:error) { 'bar' }
+        let(:error) do
+          instance_double(ActiveModel::Error, attribute: 'defendants_attributes_0_first_name', message: 'bar')
+        end
 
         it_behaves_like 'message found',
                         long: 'Defendant 1 first name bar',
@@ -254,8 +258,13 @@ RSpec.describe ErrorMessage::Translator do
 
     context 'with rails double level nested errors' do
       context 'when nested keys and errors exist' do
-        let(:key) { :defendants_attributes_4_representation_orders_attributes_1_maat_reference }
-        let(:error) { 'blank' }
+        let(:error) do
+          instance_double(
+            ActiveModel::Error,
+            attribute: :defendants_attributes_4_representation_orders_attributes_1_maat_reference,
+            message: 'blank'
+          )
+        end
 
         it_behaves_like 'message found',
                         long: 'Enter a valid MAAT reference for the second representation order of the fifth defendant',
@@ -264,8 +273,13 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for sub-sub-model does not exist' do
-        let(:key) { :defendants_attributes_4_foobars_attributes_1_maat_reference }
-        let(:error) { 'blank' }
+        let(:error) do
+          instance_double(
+            ActiveModel::Error,
+            attribute: :defendants_attributes_4_foobars_attributes_1_maat_reference,
+            message: 'blank'
+          )
+        end
 
         it_behaves_like 'message found',
                         long: 'Defendant 4 foobar 1 maat reference blank',
@@ -274,8 +288,13 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for attribute on sub-sub-model does not exist' do
-        let(:key) { :defendants_attributes_4_representation_orders_attributes_1_foobar }
-        let(:error) { 'blank' }
+        let(:error) do
+          instance_double(
+            ActiveModel::Error,
+            attribute: :defendants_attributes_4_representation_orders_attributes_1_foobar,
+            message: 'blank'
+          )
+        end
 
         it_behaves_like 'message found',
                         long: 'Defendant 4 representation order 1 foobar blank',
@@ -284,8 +303,13 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key for error on sub-sub-model does not exist' do
-        let(:key) { :defendants_attributes_4_representation_orders_attributes_1_maat_reference }
-        let(:error) { 'foobar' }
+        let(:error) do
+          instance_double(
+            ActiveModel::Error,
+            attribute: :defendants_attributes_4_representation_orders_attributes_1_maat_reference,
+            message: 'foobar'
+          )
+        end
 
         it_behaves_like 'message found',
                         long: 'Defendant 4 representation order 1 maat reference foobar',
@@ -296,8 +320,7 @@ RSpec.describe ErrorMessage::Translator do
 
     context 'with nested attribute single level errors with .format' do
       context 'when key and error exists' do
-        let(:key) { 'fixed_fee.quantity' }
-        let(:error) { 'invalid' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: 'fixed_fee.quantity', message: 'invalid') }
 
         it_behaves_like 'message found',
                         long: 'Enter a valid quantity for the first fixed fee',
@@ -306,8 +329,7 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key does not exist' do
-        let(:key) { 'foo.bar' }
-        let(:error) { 'invalid' }
+        let(:error) { instance_double(ActiveModel::Error, attribute: 'foo.bar', message: 'invalid') }
 
         it_behaves_like 'message found',
                         long: 'Foo 1 bar invalid',
@@ -318,8 +340,13 @@ RSpec.describe ErrorMessage::Translator do
 
     context 'with nested attribute double level errors with . format' do
       context 'when key and error exists' do
-        let(:key) { 'defendant.representation_order.maat_reference' }
-        let(:error) { 'blank' }
+        let(:error) do
+          instance_double(
+            ActiveModel::Error,
+            attribute: 'defendant.representation_order.maat_reference',
+            message: 'blank'
+          )
+        end
 
         it_behaves_like 'message found',
                         long: 'Enter a valid MAAT reference for the first representation order of the first defendant',
@@ -328,8 +355,9 @@ RSpec.describe ErrorMessage::Translator do
       end
 
       context 'when key does not exist' do
-        let(:key) { 'defendant.court_order.maat_reference' }
-        let(:error) { 'invalid' }
+        let(:error) do
+          instance_double(ActiveModel::Error, attribute: 'defendant.court_order.maat_reference', message: 'invalid')
+        end
 
         it_behaves_like 'message found',
                         long: 'Defendant 1 court order 1 maat reference invalid',
@@ -339,8 +367,13 @@ RSpec.describe ErrorMessage::Translator do
     end
 
     context 'with nested attribute double level errors with . plus numbered format' do
-      let(:key) { 'defendant.representation_order_1_maat_reference' }
-      let(:error) { 'blank' }
+      let(:error) do
+        instance_double(
+          ActiveModel::Error,
+          attribute: 'defendant.representation_order_1_maat_reference',
+          message: 'blank'
+        )
+      end
 
       it_behaves_like 'message found',
                       long: 'Enter a valid MAAT reference for the first representation order of the first defendant',

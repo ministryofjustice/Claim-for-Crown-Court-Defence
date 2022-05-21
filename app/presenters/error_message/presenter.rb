@@ -25,7 +25,7 @@ module ErrorMessage
     def generate_messages
       @errors.each do |error|
         attribute = error.attribute
-        message = translator.message(error.attribute, error.message)
+        message = translator.message(error)
 
         add_error_detail(attribute, message)
       end

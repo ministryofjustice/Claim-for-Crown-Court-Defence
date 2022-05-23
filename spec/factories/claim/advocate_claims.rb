@@ -50,7 +50,7 @@ FactoryBot.define do
       offence       { FactoryBot.build :offence, offence_class: FactoryBot.build(:offence_class) }
       after(:build) do |claim|
         certify_claim(claim)
-        claim.defendants << build(:defendant, claim: claim)
+        claim.defendants << build(:defendant, claim:)
         add_fee(:fixed_fee, claim)
       end
     end
@@ -129,13 +129,13 @@ FactoryBot.define do
 
       trait :with_injection do
         after(:create) do |claim|
-          create(:injection_attempt, claim: claim)
+          create(:injection_attempt, claim:)
         end
       end
 
       trait :with_injection_error do
         after(:create) do |claim|
-          create(:injection_attempt, :with_errors, claim: claim)
+          create(:injection_attempt, :with_errors, claim:)
         end
       end
     end

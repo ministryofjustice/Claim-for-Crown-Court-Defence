@@ -5,12 +5,12 @@ RSpec.describe DistanceCalculatorService, type: :service do
 
   let(:supplier_number) { '9A999I' }
   let(:supplier_postcode) { 'MK40 3TN' }
-  let(:claim) { create(:litigator_claim, supplier_number: supplier_number) }
+  let(:claim) { create(:litigator_claim, supplier_number:) }
   let(:destination) { 'MK40 1HG' }
-  let(:params) { { destination: destination } }
+  let(:params) { { destination: } }
 
   before do
-    create(:supplier_number, supplier_number: supplier_number, postcode: supplier_postcode)
+    create(:supplier_number, supplier_number:, postcode: supplier_postcode)
     allow(DistanceCalculatorService::Directions)
       .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: 847))
   end

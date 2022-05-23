@@ -9,8 +9,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
   let(:claim_class) { Claim::AdvocateHardshipClaim }
   let!(:provider)       { create(:provider) }
   let!(:other_provider) { create(:provider) }
-  let!(:vendor)         { create(:external_user, :admin, provider: provider) }
-  let!(:advocate)       { create(:external_user, :advocate, provider: provider) }
+  let!(:vendor)         { create(:external_user, :admin, provider:) }
+  let!(:advocate)       { create(:external_user, :advocate, provider:) }
   let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence) }
   let!(:court)          { create(:court) }

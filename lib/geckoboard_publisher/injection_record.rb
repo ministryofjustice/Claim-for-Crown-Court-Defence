@@ -20,16 +20,16 @@ module GeckoboardPublisher
 
     def ccr_fields
       {
-        total_ccr_succeeded: total_ccr_succeeded,
-        total_ccr: total_ccr,
+        total_ccr_succeeded:,
+        total_ccr:,
         percentage_ccr_succeeded: percentage(total_ccr_succeeded, total_ccr)
       }
     end
 
     def cclf_fields
       {
-        total_cclf_succeeded: total_cclf_succeeded,
-        total_cclf: total_cclf,
+        total_cclf_succeeded:,
+        total_cclf:,
         percentage_cclf_succeeded: percentage(total_cclf_succeeded, total_cclf)
       }
     end
@@ -37,7 +37,7 @@ module GeckoboardPublisher
     def totals_fields
       {
         total_succeeded: total_ccr_succeeded + total_cclf_succeeded,
-        total: total
+        total:
       }
     end
 

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Fee::MiscFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:fee) { build(:misc_fee, claim: claim) }
+  let(:fee) { build(:misc_fee, claim:) }
   let(:fee_code) { fee.fee_type.code }
 
   # AGFS claims are validated as part of the base_fee_validator_spec
@@ -22,8 +22,8 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
 
     describe '#validate_fee_type' do
       shared_examples 'post CLAR release validator' do |fee_type_trait|
-        let(:fee) { build(:misc_fee, fee_type_trait, claim: claim, quantity: 0) }
-        let(:claim) { build(:litigator_claim, case_type: case_type) }
+        let(:fee) { build(:misc_fee, fee_type_trait, claim:, quantity: 0) }
+        let(:claim) { build(:litigator_claim, case_type:) }
         let(:case_type) { create(:case_type, :trial) }
 
         before do
@@ -58,8 +58,8 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
       end
 
       shared_examples 'trial-fee-case-type validator' do |fee_type_trait|
-        let(:fee) { build(:misc_fee, fee_type_trait, claim: claim, quantity: 0) }
-        let(:claim) { build(:litigator_claim, case_type: case_type) }
+        let(:fee) { build(:misc_fee, fee_type_trait, claim:, quantity: 0) }
+        let(:claim) { build(:litigator_claim, case_type:) }
 
         context "for #{fee_type_trait}" do
           context 'with non trial fee case type' do
@@ -104,7 +104,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
 
       shared_examples 'zero quantity permitter' do |fee_type_trait|
         context "for #{fee_type_trait}" do
-          let(:fee) { build(:misc_fee, fee_type_trait, claim: claim) }
+          let(:fee) { build(:misc_fee, fee_type_trait, claim:) }
 
           context 'with nil quantity' do
             before { fee.quantity = nil }

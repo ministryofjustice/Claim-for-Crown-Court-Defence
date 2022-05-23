@@ -54,6 +54,6 @@ class ExternalUsers::ApplicationController < ApplicationController
   end
 
   def claim_updater
-    Claims::ExternalUserClaimUpdater.new(@claim, current_user: current_user)
+    Claims::ExternalUserClaimUpdater.new(@claim, current_user:)
   end
 end

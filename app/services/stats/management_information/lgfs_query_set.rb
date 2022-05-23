@@ -3,8 +3,8 @@ module Stats
     class LgfsQuerySet
       include Enumerable
 
-      def each(&block)
-        set.each(&block)
+      def each(&)
+        set.each(&)
       end
 
       private

@@ -10,7 +10,7 @@ RSpec.describe Cleaners::TransferClaimCleaner do
     subject(:call_cleaner) { cleaner.call }
 
     context 'when a graduated fee is added to the claim' do
-      before { create(:graduated_fee, claim: claim) }
+      before { create(:graduated_fee, claim:) }
 
       it { expect { call_cleaner }.to change(claim.fees, :count).from(2).to 1 }
 
@@ -21,7 +21,7 @@ RSpec.describe Cleaners::TransferClaimCleaner do
     end
 
     context 'when a non-graduated fee is added to the claim' do
-      before { create(:misc_fee, claim: claim) }
+      before { create(:misc_fee, claim:) }
 
       it { expect { call_cleaner }.not_to change(claim.fees, :count).from 2 }
 

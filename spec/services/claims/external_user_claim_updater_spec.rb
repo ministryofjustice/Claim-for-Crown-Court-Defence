@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Claims::ExternalUserClaimUpdater do
   let(:current_user) { double(User, id: 12345) }
 
-  subject { described_class.new(claim, current_user: current_user) }
+  subject { described_class.new(claim, current_user:) }
 
   describe '#delete' do
     let(:claim) { create :advocate_claim }

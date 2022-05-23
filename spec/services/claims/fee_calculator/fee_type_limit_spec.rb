@@ -63,7 +63,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
         SCHEME_9_FEE_TYPE_LIMIT_MAPPINGS.each do |unique_code, limits|
           context "fee type unique code #{unique_code}" do
-            let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: unique_code) }
+            let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code:) }
 
             it { is_expected.to eql limits[:from] }
           end
@@ -75,7 +75,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
         SCHEME_10_PLUS_FEE_TYPE_LIMIT_MAPPINGS.each do |unique_code, limits|
           context "fee type unique code #{unique_code}" do
-            let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: unique_code) }
+            let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code:) }
 
             it { is_expected.to eql limits[:from] }
           end
@@ -109,7 +109,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
         SCHEME_9_FEE_TYPE_LIMIT_MAPPINGS.each do |unique_code, limits|
           context "fee type unique code #{unique_code}" do
-            let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: unique_code) }
+            let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code:) }
 
             it { is_expected.to eql limits[:to] }
           end
@@ -121,7 +121,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
 
         SCHEME_10_PLUS_FEE_TYPE_LIMIT_MAPPINGS.each do |unique_code, limits|
           context "fee type unique code #{unique_code}" do
-            let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code: unique_code) }
+            let(:fee_type) { instance_double(::Fee::BaseFeeType, unique_code:) }
 
             it { is_expected.to eql limits[:to] }
           end

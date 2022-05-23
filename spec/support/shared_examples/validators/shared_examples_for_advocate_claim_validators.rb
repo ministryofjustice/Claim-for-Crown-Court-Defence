@@ -123,7 +123,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
 
   before do
     claim.misc_fees.delete_all
-    create(:misc_fee, fee_type: midtw, claim: claim, quantity: 1, rate: 25.1)
+    create(:misc_fee, fee_type: midtw, claim:, quantity: 1, rate: 25.1)
     claim.reload
     claim.form_step = :miscellaneous_fees
   end
@@ -148,7 +148,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
 
     context 'when there is 1 miscellanoues fee uplift' do
       before do
-        create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
+        create(:misc_fee, fee_type: midwu, claim:, quantity: 1, amount: 21.01)
       end
 
       it 'test setup' do
@@ -177,8 +177,8 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
       before do
         fxsaf = create(:fixed_fee_type, :fxsaf, id: 10000)
         fxndr = create(:fixed_fee_type, :fxndr, id: 10001)
-        create(:fixed_fee, fee_type: fxsaf, claim: claim, quantity: 1, rate: 21.01)
-        create(:fixed_fee, fee_type: fxndr, claim: claim, quantity: 1, rate: 21.01)
+        create(:fixed_fee, fee_type: fxsaf, claim:, quantity: 1, rate: 21.01)
+        create(:fixed_fee, fee_type: fxndr, claim:, quantity: 1, rate: 21.01)
       end
 
       it 'test setup' do
@@ -204,15 +204,15 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
 
     context 'with 2 defendants' do
       before do
-        create(:defendant, claim: claim)
-        create(:misc_fee, fee_type: midse, claim: claim, quantity: 1, amount: 21.01)
+        create(:defendant, claim:)
+        create(:misc_fee, fee_type: midse, claim:, quantity: 1, amount: 21.01)
         claim.reload
       end
 
       context 'when there are multiple uplifts of 1 per fee type' do
         before do
-          create(:misc_fee, fee_type: midsu, claim: claim, quantity: 1, amount: 21.01)
-          create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midsu, claim:, quantity: 1, amount: 21.01)
+          create(:misc_fee, fee_type: midwu, claim:, quantity: 1, amount: 21.01)
         end
 
         it 'test setup' do
@@ -227,8 +227,8 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
 
       context 'when there are multiple uplifts of 2 (or more) per fee type' do
         before do
-          create(:misc_fee, fee_type: midsu, claim: claim, quantity: 2, amount: 21.01)
-          create(:misc_fee, fee_type: midwu, claim: claim, quantity: 2, amount: 21.01)
+          create(:misc_fee, fee_type: midsu, claim:, quantity: 2, amount: 21.01)
+          create(:misc_fee, fee_type: midwu, claim:, quantity: 2, amount: 21.01)
         end
 
         it 'test setup' do
@@ -245,7 +245,7 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
 
     context 'defendant uplifts fee marked for destruction' do
       before do
-        create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
+        create(:misc_fee, fee_type: midwu, claim:, quantity: 1, amount: 21.01)
       end
 
       it 'test setup' do
@@ -270,8 +270,8 @@ RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
 
     context 'defendants marked for destruction' do
       before do
-        create(:defendant, claim: claim)
-        create(:misc_fee, fee_type: midwu, claim: claim, quantity: 1, amount: 21.01)
+        create(:defendant, claim:)
+        create(:misc_fee, fee_type: midwu, claim:, quantity: 1, amount: 21.01)
         claim.reload
       end
 
@@ -299,7 +299,7 @@ end
 RSpec.shared_examples 'common defendant basic fees aggregation validation' do
   context 'when there is 1 basic fee uplift' do
     before do
-      create(:basic_fee, :ndr_fee, claim: claim, quantity: 1, amount: 21.01)
+      create(:basic_fee, :ndr_fee, claim:, quantity: 1, amount: 21.01)
     end
 
     it 'test setup' do

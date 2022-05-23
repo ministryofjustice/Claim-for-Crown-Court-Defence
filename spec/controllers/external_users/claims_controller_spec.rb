@@ -869,7 +869,7 @@ def build_sortable_claims_sample(advocate)
       # cannot stub/mock here so temporarily change state to draft to enable amount calculation of fees
       old_state = claim.state
       claim.state = 'draft'
-      create(:misc_fee, claim: claim, quantity: n * 1, rate: n * 1)
+      create(:misc_fee, claim:, quantity: n * 1, rate: n * 1)
       claim.state = old_state
       claim.assessment.update!(fees: claim.fees_total, expenses: 0, disbursements: 0) if claim.authorised?
     end

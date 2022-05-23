@@ -41,15 +41,15 @@ class LitigatorFinalClaimTest < BaseClaimTest
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
 
     {
-      api_key: api_key,
+      api_key:,
       creator_email: 'litigatoradmin@example.com',
       user_email: 'litigator@example.com',
       case_number: 'A20161234',
       providers_ref: SecureRandom.uuid[3..15].upcase,
-      supplier_number: supplier_number,
-      case_type_id: case_type_id,
-      offence_id: offence_id,
-      court_id: court_id,
+      supplier_number:,
+      case_type_id:,
+      offence_id:,
+      court_id:,
       cms_number: '12345678',
       additional_information: 'string',
       case_concluded_at: 1.month.ago.as_json,
@@ -61,9 +61,9 @@ class LitigatorFinalClaimTest < BaseClaimTest
     fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'graduated', role: 'lgfs'), 'id', 5) # Trial
 
     {
-      api_key: api_key,
+      api_key:,
       claim_id: claim_uuid,
-      fee_type_id: fee_type_id,
+      fee_type_id:,
       quantity: 5,
       amount: 100.25,
       date: 1.month.ago.as_json
@@ -74,9 +74,9 @@ class LitigatorFinalClaimTest < BaseClaimTest
     fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'lgfs'), 'id') # Costs judge application
 
     {
-      api_key: api_key,
+      api_key:,
       claim_id: claim_uuid,
-      fee_type_id: fee_type_id,
+      fee_type_id:,
       amount: 200.45
     }
   end

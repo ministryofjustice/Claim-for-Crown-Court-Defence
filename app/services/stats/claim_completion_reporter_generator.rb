@@ -7,7 +7,7 @@ module Stats
     end
 
     def to_hash
-      { item: item, min: min, max: max }
+      { item:, min:, max: }
     end
 
     private

@@ -14,7 +14,7 @@ describe API::Entities::CCR::Defendant do
       last_name: 'Casper',
       date_of_birth: Date.new(1995, 6, 20),
       representation_orders: rep_orders,
-      claim: claim,
+      claim:,
       created_at: @created_at
     )
   end

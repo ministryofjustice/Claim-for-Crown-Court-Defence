@@ -216,7 +216,7 @@ RSpec.describe Claims::Cloner, type: :model do
   def create_rejected_claim
     claim = create(:interim_claim, :interim_effective_pcmh_fee, :submitted)
 
-    create(:certification, claim: claim)
+    create(:certification, claim:)
 
     claim.fees.each do |fee|
       fee.dates_attended << create(:date_attended)
@@ -227,8 +227,8 @@ RSpec.describe Claims::Cloner, type: :model do
       expense.dates_attended << create(:date_attended)
     end
 
-    create(:disbursement, claim: claim)
-    create(:redetermination, claim: claim)
+    create(:disbursement, claim:)
+    create(:redetermination, claim:)
 
     claim.injection_attempts << create(:injection_attempt)
     claim.documents << create(:document, :verified)

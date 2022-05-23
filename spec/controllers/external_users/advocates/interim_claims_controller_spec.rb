@@ -70,7 +70,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
     }
     let(:params) { { claim: claim_params }.merge(form_action) }
 
-    subject(:create_request) { post :create, params: params }
+    subject(:create_request) { post :create, params: }
 
     context 'when the user in NOT authenticated' do
       it 'redirects the user to the login page' do
@@ -309,13 +309,13 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :control
       {
         form_step: 'case_details',
         court_id: court.id,
-        case_number: case_number,
+        case_number:,
         case_transferred_from_another_court: 'false'
       }
     }
     let(:params) { { id: claim.id, claim: claim_params }.merge(form_action) }
 
-    subject(:update_request) { put :update, params: params }
+    subject(:update_request) { put :update, params: }
 
     context 'when the user in NOT authenticated' do
       it 'redirects the user to the login page' do

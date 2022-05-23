@@ -4,7 +4,7 @@ class SlackNotifier
     @slack_url = Settings.slack.bot_url
     @ready_to_send = false
     @payload = {
-      channel: channel,
+      channel:,
       username: slack_bot_name
     }
   end

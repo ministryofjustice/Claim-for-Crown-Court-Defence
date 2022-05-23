@@ -55,7 +55,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     end
 
     context 'with invalid scheme scope' do
-      subject(:call) { described_class.call(scheme: scheme) }
+      subject(:call) { described_class.call(scheme:) }
 
       let(:scheme) { :foobar }
 
@@ -63,7 +63,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     end
 
     context 'with AGFS scheme scope' do
-      subject(:response) { described_class.call(scheme: scheme) }
+      subject(:response) { described_class.call(scheme:) }
 
       let(:scheme) { :agfs }
 
@@ -77,7 +77,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
     end
 
     context 'with LGFS claim scope' do
-      subject(:response) { described_class.call(scheme: scheme) }
+      subject(:response) { described_class.call(scheme:) }
 
       let(:scheme) { :lgfs }
 
@@ -317,10 +317,10 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       before do
         create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
-          create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger')
+          create(:defendant, claim:, first_name: 'Jammy', last_name: 'Dodger')
 
           travel_to(2.seconds.ago) do
-            create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant')
+            create(:defendant, claim:, first_name: 'Main', last_name: 'Defendant')
           end
 
           claim.deallocate!
@@ -348,15 +348,15 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       context 'with multiple defendants with rep orders with different representation_order_dates' do
         before do
           create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
-            create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
+            create(:defendant, claim:, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
               defendant.representation_orders = [create(:representation_order,
-                                                        defendant: defendant,
+                                                        defendant:,
                                                         representation_order_date: 30.days.ago,
                                                         maat_reference: '4444441')]
             end
-            create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
+            create(:defendant, claim:, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
               defendant.representation_orders = [create(:representation_order,
-                                                        defendant: defendant,
+                                                        defendant:,
                                                         representation_order_date: 31.days.ago,
                                                         maat_reference: '4444440')]
             end
@@ -371,15 +371,15 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       context 'with multiple defendants with rep orders with the same representation_order_date' do
         before do
           create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
-            create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
+            create(:defendant, claim:, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
               defendant.representation_orders = [create(:representation_order,
-                                                        defendant: defendant,
+                                                        defendant:,
                                                         representation_order_date: 31.days.ago,
                                                         maat_reference: '4444440')]
             end
-            create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
+            create(:defendant, claim:, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
               defendant.representation_orders = [create(:representation_order,
-                                                        defendant: defendant,
+                                                        defendant:,
                                                         representation_order_date: 31.days.ago,
                                                         maat_reference: '4444441')]
             end
@@ -397,20 +397,20 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       before do
         create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
-          create(:defendant, claim: claim, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
+          create(:defendant, claim:, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
             defendant.representation_orders = [create(:representation_order,
-                                                      defendant: defendant,
+                                                      defendant:,
                                                       representation_order_date: 30.days.ago),
                                                create(:representation_order,
-                                                      defendant: defendant,
+                                                      defendant:,
                                                       representation_order_date: 29.days.ago)]
           end
-          create(:defendant, claim: claim, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
+          create(:defendant, claim:, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
             defendant.representation_orders = [create(:representation_order,
-                                                      defendant: defendant,
+                                                      defendant:,
                                                       representation_order_date: 31.days.ago),
                                                create(:representation_order,
-                                                      defendant: defendant,
+                                                      defendant:,
                                                       representation_order_date: 29.days.ago)]
           end
         end
@@ -456,8 +456,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       before do
         create(:advocate_final_claim, :allocated).tap do |claim|
           claim.fees.clear
-          claim.fees << create(:misc_fee, :miaph_fee, claim: claim)
-          claim.fees << create(:misc_fee, :miahu_fee, claim: claim)
+          claim.fees << create(:misc_fee, :miaph_fee, claim:)
+          claim.fees << create(:misc_fee, :miahu_fee, claim:)
         end
       end
 

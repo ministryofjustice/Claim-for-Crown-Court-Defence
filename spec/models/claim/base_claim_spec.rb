@@ -269,7 +269,7 @@ RSpec.describe Claim::BaseClaim do
 
     context 'when the case type is set' do
       let(:case_type) { build(:case_type) }
-      let(:claim) { MockBaseClaim.new(case_type: case_type) }
+      let(:claim) { MockBaseClaim.new(case_type:) }
 
       context 'and does not have a fixed fee' do
         let(:case_type) { build(:case_type, is_fixed_fee: false) }
@@ -459,7 +459,7 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#step_validation_required?' do
-    let(:claim) { MockSteppableClaim.new(source: source) }
+    let(:claim) { MockSteppableClaim.new(source:) }
 
     context 'when the claim is from an API submission' do
       let(:source) { 'api' }
@@ -499,7 +499,7 @@ RSpec.describe Claim::BaseClaim do
 
     let(:actual_trial_length) { 3 }
     let(:retrial_actual_length) { 5 }
-    let(:claim) { MockSteppableClaim.new(actual_trial_length: actual_trial_length, retrial_actual_length: retrial_actual_length) }
+    let(:claim) { MockSteppableClaim.new(actual_trial_length:, retrial_actual_length:) }
 
     context 'when the claim requires re-trial dates' do
       before do
@@ -541,28 +541,28 @@ RSpec.describe Claim::BaseClaim do
     end
 
     context 'with a single message' do
-      let!(:message) { create(:message, claim: claim) }
+      let!(:message) { create(:message, claim:) }
 
       it 'returns the message before it is read' do
         is_expected.to include message
       end
 
       it 'does not return a message after it is read' do
-        message.user_message_statuses.where(user: user).update(read: true)
+        message.user_message_statuses.where(user:).update(read: true)
 
         is_expected.not_to include message
       end
     end
 
     context 'with multiple messages' do
-      let!(:message1) { create(:message, claim: claim) }
-      let!(:message2) { create(:message, claim: claim) }
-      let!(:message3) { create(:message, claim: claim) }
-      let!(:message4) { create(:message, claim: claim) }
+      let!(:message1) { create(:message, claim:) }
+      let!(:message2) { create(:message, claim:) }
+      let!(:message3) { create(:message, claim:) }
+      let!(:message4) { create(:message, claim:) }
 
       before do
-        message2.user_message_statuses.where(user: user).update(read: true)
-        message3.user_message_statuses.where(user: user).update(read: true)
+        message2.user_message_statuses.where(user:).update(read: true)
+        message3.user_message_statuses.where(user:).update(read: true)
       end
 
       it 'only shows messages not read by the user' do
@@ -665,7 +665,7 @@ RSpec.describe MockBaseClaim do
   describe '#discontinuance?' do
     subject { claim.discontinuance? }
 
-    let(:claim) { described_class.new(case_type: case_type) }
+    let(:claim) { described_class.new(case_type:) }
 
     context 'when case type nil' do
       let(:case_type) { nil }

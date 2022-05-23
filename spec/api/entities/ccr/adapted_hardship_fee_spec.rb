@@ -23,16 +23,16 @@ describe API::Entities::CCR::AdaptedHardshipFee, type: :adapter do
     context 'scheme 9' do
       before do
         claim.basic_fees.find_by(fee_type: Fee::BaseFeeType.find_by(unique_code: 'BABAF')).update(quantity: 1, rate: 10)
-        claim.fees << build(:basic_fee, :daf_fee, quantity: 1, rate: 1, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :daj_fee, quantity: 1, rate: 1, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :dah_fee, quantity: 1, rate: 1, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :noc_fee, quantity: 1, rate: 2, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :ndr_fee, quantity: 1, rate: 3, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :npw_fee, quantity: 20, amount: 50, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :ppe_fee, quantity: 1000, amount: 1000, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :cav_fee, quantity: 1, rate: 100, claim: claim) # not added to hardship - a CCR misc fee that is NOT injected
-        claim.fees << build(:basic_fee, :saf_fee, quantity: 1, rate: 100, claim: claim) # not added to hardship - a CCR misc fee that IS injected
-        claim.fees << build(:basic_fee, :pcm_fee, quantity: 1, rate: 100, claim: claim) # not added to hardship - a CCR misc fee that IS injected
+        claim.fees << build(:basic_fee, :daf_fee, quantity: 1, rate: 1, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :daj_fee, quantity: 1, rate: 1, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :dah_fee, quantity: 1, rate: 1, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :noc_fee, quantity: 1, rate: 2, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :ndr_fee, quantity: 1, rate: 3, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :npw_fee, quantity: 20, amount: 50, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :ppe_fee, quantity: 1000, amount: 1000, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :cav_fee, quantity: 1, rate: 100, claim:) # not added to hardship - a CCR misc fee that is NOT injected
+        claim.fees << build(:basic_fee, :saf_fee, quantity: 1, rate: 100, claim:) # not added to hardship - a CCR misc fee that IS injected
+        claim.fees << build(:basic_fee, :pcm_fee, quantity: 1, rate: 100, claim:) # not added to hardship - a CCR misc fee that IS injected
       end
 
       it 'sums amounts of BABAF, BADAF, BADAJ, BADAH, BANOC, BANDR, BANPW, BAPPE fees' do
@@ -45,12 +45,12 @@ describe API::Entities::CCR::AdaptedHardshipFee, type: :adapter do
 
       before do
         claim.basic_fees.find_by(fee_type: Fee::BaseFeeType.find_by(unique_code: 'BABAF')).update(quantity: 1, rate: 10)
-        claim.fees << build(:basic_fee, :dat_fee, quantity: 1, rate: 1, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :noc_fee, quantity: 1, rate: 2, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :ndr_fee, quantity: 1, rate: 3, claim: claim) # add to hardship
-        claim.fees << build(:basic_fee, :cav_fee, quantity: 1, rate: 100, claim: claim) # not added to hardship - a CCR misc fee that is NOT injected
-        claim.fees << build(:basic_fee, :saf_fee, quantity: 1, rate: 100, claim: claim) # not added to hardship - a CCR misc fee that IS injected
-        claim.fees << build(:basic_fee, :pcm_fee, quantity: 1, rate: 100, claim: claim) # not added to hardship - a CCR misc fee that IS injected
+        claim.fees << build(:basic_fee, :dat_fee, quantity: 1, rate: 1, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :noc_fee, quantity: 1, rate: 2, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :ndr_fee, quantity: 1, rate: 3, claim:) # add to hardship
+        claim.fees << build(:basic_fee, :cav_fee, quantity: 1, rate: 100, claim:) # not added to hardship - a CCR misc fee that is NOT injected
+        claim.fees << build(:basic_fee, :saf_fee, quantity: 1, rate: 100, claim:) # not added to hardship - a CCR misc fee that IS injected
+        claim.fees << build(:basic_fee, :pcm_fee, quantity: 1, rate: 100, claim:) # not added to hardship - a CCR misc fee that IS injected
       end
 
       it 'sums amounts of BABAF, BADAT, BANOC, BANDR fees' do

@@ -40,10 +40,10 @@ module DataMigrator
 
     def attributes
       {
-        description: description,
-        offence_band: offence_band,
-        contrary: contrary,
-        year_chapter: year_chapter
+        description:,
+        offence_band:,
+        contrary:,
+        year_chapter:
       }
     end
 
@@ -52,7 +52,7 @@ module DataMigrator
       attrs[:unique_code] = SecureRandom.uuid
 
       offence = Offence.create!(attrs)
-      OffenceFeeScheme.find_or_create_by(offence: offence, fee_scheme: fee_scheme)
+      OffenceFeeScheme.find_or_create_by(offence:, fee_scheme:)
       update_unique_code(offence)
       offence
     end

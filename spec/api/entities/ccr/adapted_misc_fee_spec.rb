@@ -8,7 +8,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
   let(:misc_fee) do
     create(
       :misc_fee, :mispf_fee, :with_date_attended,
-      claim: claim,
+      claim:,
       quantity: 1.1,
       rate: 25
     )
@@ -29,7 +29,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
   it 'exposes dates attended in JSON compatible format' do
     from = misc_fee.dates_attended.first.date&.iso8601
     to = misc_fee.dates_attended.first.date_to&.iso8601
-    expect(response[:dates_attended].first).to include(from: from, to: to)
+    expect(response[:dates_attended].first).to include(from:, to:)
   end
 
   context '#number_of_defendants' do
@@ -41,7 +41,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
     let(:adapted_misc_fee) { ::CCR::Fee::MiscFeeAdapter.new.call(misc_fee) }
 
     before do
-      create(:misc_fee, :with_date_attended, fee_type: miaph, claim: claim, quantity: 1, rate: 25)
+      create(:misc_fee, :with_date_attended, fee_type: miaph, claim:, quantity: 1, rate: 25)
     end
 
     context 'when matching misc fee (defendant) uplift NOT claimed' do
@@ -52,7 +52,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
 
     context 'when 1 matching misc fee (defendant) uplift claimed' do
       before do
-        create(:misc_fee, fee_type: miahu, claim: claim, quantity: 2, amount: 21.01)
+        create(:misc_fee, fee_type: miahu, claim:, quantity: 2, amount: 21.01)
       end
 
       it 'returns sum of (defendant) uplift quantity plus one for the main defendant' do
@@ -62,7 +62,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
 
     context 'when more than 1 matching misc fee (defendant) uplift claimed' do
       before do
-        create_list(:misc_fee, 2, fee_type: miahu, claim: claim, quantity: 2, amount: 21.01)
+        create_list(:misc_fee, 2, fee_type: miahu, claim:, quantity: 2, amount: 21.01)
       end
 
       it 'returns sum of all (defendant) uplift quantities plus one for the main defendant' do
@@ -72,7 +72,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
   end
 
   context 'when fee type type is excluded' do
-    let(:misc_fee) { create(:misc_fee, :miphc_fee, claim: claim) }
+    let(:misc_fee) { create(:misc_fee, :miphc_fee, claim:) }
 
     it 'exposes bill_type as nil' do
       expect(response).to include(bill_type: nil)

@@ -5,8 +5,8 @@ RSpec.describe API::Entities::CCLF::AdaptedWarrantFee, type: :adapter do
 
   let(:fee_type) { instance_double(Fee::WarrantFeeType, unique_code: 'WARR') }
   let(:case_type) { instance_double(CaseType, fee_type_code: 'FXCBR') }
-  let(:claim) { instance_double(Claim::LitigatorClaim, case_type: case_type) }
-  let(:warrant_fee) { instance_double(Fee::WarrantFee, claim: claim, fee_type: fee_type, amount: 111.01, warrant_issued_date: '01-Jun-2017'.to_date, warrant_executed_date: '01-Aug-2017'.to_date) }
+  let(:claim) { instance_double(Claim::LitigatorClaim, case_type:) }
+  let(:warrant_fee) { instance_double(Fee::WarrantFee, claim:, fee_type:, amount: 111.01, warrant_issued_date: '01-Jun-2017'.to_date, warrant_executed_date: '01-Aug-2017'.to_date) }
 
   it_behaves_like 'a bill types delegator', ::CCLF::Fee::WarrantFeeAdapter do
     let(:bill) { warrant_fee }

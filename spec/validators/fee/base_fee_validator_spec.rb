@@ -2,16 +2,16 @@ require 'rails_helper'
 
 RSpec.describe Fee::BaseFeeValidator, type: :validator do
   let(:claim) { build :advocate_claim, :with_fixed_fee_case }
-  let(:fee) { build :fixed_fee, claim: claim }
-  let(:baf_fee) { build :basic_fee, :baf_fee, claim: claim }
-  let(:daf_fee) { build :basic_fee, :daf_fee, claim: claim }
-  let(:dah_fee) { build :basic_fee, :dah_fee, claim: claim }
-  let(:daj_fee) { build :basic_fee, :daj_fee, claim: claim }
-  let(:dat_fee) { build :basic_fee, :dat_fee, claim: claim }
-  let(:pcm_fee) { build :basic_fee, :pcm_fee, claim: claim }
-  let(:ppe_fee) { build :basic_fee, :ppe_fee, claim: claim }
-  let(:npw_fee) { build :basic_fee, :npw_fee, claim: claim }
-  let(:spf_fee) { build :misc_fee, :spf_fee, claim: claim }
+  let(:fee) { build :fixed_fee, claim: }
+  let(:baf_fee) { build :basic_fee, :baf_fee, claim: }
+  let(:daf_fee) { build :basic_fee, :daf_fee, claim: }
+  let(:dah_fee) { build :basic_fee, :dah_fee, claim: }
+  let(:daj_fee) { build :basic_fee, :daj_fee, claim: }
+  let(:dat_fee) { build :basic_fee, :dat_fee, claim: }
+  let(:pcm_fee) { build :basic_fee, :pcm_fee, claim: }
+  let(:ppe_fee) { build :basic_fee, :ppe_fee, claim: }
+  let(:npw_fee) { build :basic_fee, :npw_fee, claim: }
+  let(:spf_fee) { build :misc_fee, :spf_fee, claim: }
   let(:supplementary_claim) { build(:advocate_supplementary_claim) }
   let(:supplementary_pcm_fee) { build :basic_fee, :pcm_fee, claim: supplementary_claim }
 
@@ -25,7 +25,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
   describe '#validate_fee_type' do
     shared_examples 'trial-fee-case-type validator' do |options|
-      let(:claim) { build :advocate_claim, case_type: case_type }
+      let(:claim) { build :advocate_claim, case_type: }
 
       context 'with non trial case type' do
         context 'with guilty plea' do
@@ -74,13 +74,13 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       before { create(:misc_fee_type, :miumu) }
 
       context 'with valid quantity' do
-        let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 1) }
+        let(:fee) { build(:misc_fee, :miumu_fee, claim:, quantity: 1) }
 
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
       end
 
       context 'with invalid quantity' do
-        let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 1.01) }
+        let(:fee) { build(:misc_fee, :miumu_fee, claim:, quantity: 1.01) }
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
@@ -92,7 +92,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       it_behaves_like 'trial-fee-case-type validator', message: 'case_type_inclusion' do
-        let(:fee) { build(:misc_fee, :miumu_fee, claim: claim, quantity: 1) }
+        let(:fee) { build(:misc_fee, :miumu_fee, claim:, quantity: 1) }
       end
     end
 
@@ -100,13 +100,13 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       before { create(:misc_fee_type, :miumo) }
 
       context 'with valid quantity' do
-        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 0.01) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim:, quantity: 0.01) }
 
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
       end
 
       context 'with invalid quantity' do
-        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 0) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim:, quantity: 0) }
 
         it { expect(fee).to be_invalid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
@@ -118,17 +118,17 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       it_behaves_like 'trial-fee-case-type validator', message: 'case_type_inclusion' do
-        let(:fee) { build(:misc_fee, :miumo_fee, claim: claim, quantity: 0.01) }
+        let(:fee) { build(:misc_fee, :miumo_fee, claim:, quantity: 0.01) }
       end
     end
 
     context 'when validating Paper heavy case' do
       before { create(:misc_fee_type, :miphc) }
 
-      let(:fee) { build(:misc_fee, :miphc_fee, claim: claim, quantity: 1.0) }
-      let(:claim) { build(:advocate_claim, offence: offence) }
-      let(:offence) { create(:offence, offence_band: offence_band, offence_class: nil) }
-      let(:offence_band) { create(:offence_band, offence_category: offence_category) }
+      let(:fee) { build(:misc_fee, :miphc_fee, claim:, quantity: 1.0) }
+      let(:claim) { build(:advocate_claim, offence:) }
+      let(:offence) { create(:offence, offence_band:, offence_class: nil) }
+      let(:offence_band) { create(:offence_band, offence_category:) }
       let(:offence_category) { create(:offence_category, number: offence_category_number) }
 
       context 'with a nil offence band' do
@@ -194,7 +194,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
     let(:actual_trial_length) { 10 }
     let(:trial_concluded_at) { first_day_of_trial + actual_trial_length.days }
     let(:case_type) { build(:case_type, :trial) }
-    let(:claim) { build(:advocate_claim, case_type: case_type, actual_trial_length: actual_trial_length, first_day_of_trial: first_day_of_trial, trial_concluded_at: trial_concluded_at) }
+    let(:claim) { build(:advocate_claim, case_type:, actual_trial_length:, first_day_of_trial:, trial_concluded_at:) }
 
     context 'with quantity greater than zero' do
       it { should_be_valid_if_equal_to_value(daf_fee, :rate, 450.00) }
@@ -312,7 +312,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
     context 'Basic fee types' do
       let(:case_type) { build(:case_type, :trial) }
-      let(:claim) { build(:advocate_claim, case_type: case_type) }
+      let(:claim) { build(:advocate_claim, case_type:) }
 
       context 'basic fee (BAF)' do
         context 'when rate present' do
@@ -538,7 +538,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       context 'number of cases uplift (BANOC)' do
-        let(:noc_fee) { build :basic_fee, :noc_fee, claim: claim }
+        let(:noc_fee) { build :basic_fee, :noc_fee, claim: }
 
         include_examples 'common AGFS number of cases uplift validations'
       end
@@ -546,7 +546,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
     context 'Fixed fee types' do
       context 'number of cases uplift (FXNOC)' do
-        let(:noc_fee) { build :fixed_fee, :fxnoc_fee, claim: claim }
+        let(:noc_fee) { build :fixed_fee, :fxnoc_fee, claim: }
 
         include_examples 'common AGFS number of cases uplift validations'
       end

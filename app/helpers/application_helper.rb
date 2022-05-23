@@ -75,7 +75,7 @@ module ApplicationHelper
     # TODO: Only permit valid params!!!
     # Right now not sure what they are so using permit! is known to be a BAD workaround
     # non-sanitized request parameters
-    query_params = params.except(:page).merge(sort: column, direction: direction, anchor: column).permit!
+    query_params = params.except(:page).merge(sort: column, direction:, anchor: column).permit!
     html_options = options.merge(class: css_class)
 
     link_to [title].join(' ').html_safe, query_params, html_options

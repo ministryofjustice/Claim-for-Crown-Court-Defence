@@ -8,19 +8,19 @@ RSpec.describe ClaimHistoryPresenter do
   describe '#history_items_by_date' do
     let(:first_message) do
       travel_to(Time.zone.local(2015, 9, 21, 13, 0, 0)) do
-        create(:message, claim: claim, body: 'Hello world')
+        create(:message, claim:, body: 'Hello world')
       end
     end
 
     let(:second_message) do
       travel_to(Time.zone.local(2015, 9, 21, 14, 0, 0)) do
-        create(:message, claim: claim, body: 'Lorem ipsum')
+        create(:message, claim:, body: 'Lorem ipsum')
       end
     end
 
     let(:third_message) do
       travel_to(Time.zone.local(2015, 9, 23, 14, 0, 0)) do
-        create(:message, claim: claim, body: 'Lorem ipsum')
+        create(:message, claim:, body: 'Lorem ipsum')
       end
     end
 

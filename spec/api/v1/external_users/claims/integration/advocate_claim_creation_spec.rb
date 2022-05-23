@@ -88,7 +88,7 @@ RSpec.shared_examples 'final fee claims' do
       post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
       expect(last_response.status).to eq 201
 
-      expect(claim).to be_valid_api_agfs_claim(fee_scheme: fee_scheme, offence: offence, total: claim_total)
+      expect(claim).to be_valid_api_agfs_claim(fee_scheme:, offence:, total: claim_total)
       expect(claim.basic_fees.where(amount: 1..Float::INFINITY).size).to eq 2
       expect(claim.basic_fees.find_by(fee_type_id: daily_attendance_fee_id).dates_attended.size).to eq 1
       expect(claim.misc_fees.size).to eq miscellaneous_fee_ids.count
@@ -136,7 +136,7 @@ RSpec.shared_examples 'final fee claims' do
       post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
       expect(last_response.status).to eq 201
 
-      expect(claim).to be_valid_api_agfs_claim(fee_scheme: fee_scheme, offence: nil, total: claim_total)
+      expect(claim).to be_valid_api_agfs_claim(fee_scheme:, offence: nil, total: claim_total)
       expect(claim).to be_instance_of Claim::AdvocateClaim
       expect(claim.fixed_fees.size).to eq 2
       expect(claim.fixed_fees.find_by(fee_type_id: fixed_uplift.id).dates_attended.size).to eq 1
@@ -160,8 +160,8 @@ RSpec.describe 'API claim creation for AGFS' do
 
   let!(:provider) { create(:provider) }
   let!(:other_provider) { create(:provider) }
-  let!(:vendor) { create(:external_user, :admin, provider: provider) }
-  let!(:advocate) { create(:external_user, :advocate, provider: provider) }
+  let!(:vendor) { create(:external_user, :admin, provider:) }
+  let!(:advocate) { create(:external_user, :advocate, provider:) }
   let!(:court) { create(:court) }
 
   let(:basic_fee) { Fee::BaseFeeType.find_by(unique_code: 'BABAF') }
@@ -187,7 +187,7 @@ RSpec.describe 'API claim creation for AGFS' do
       estimated_trial_length: 10,
       actual_trial_length: 9,
       trial_concluded_at: (representation_order_date + 9.days).as_json,
-      advocate_category: advocate_category,
+      advocate_category:,
       offence_id: nil,
       court_id: court.id,
       additional_information: 'Bish bosh bash',
@@ -314,7 +314,7 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eq 201
 
-        expect(claim).to be_valid_api_agfs_claim(fee_scheme: ['AGFS', 10], offence: offence, total: 1210.2)
+        expect(claim).to be_valid_api_agfs_claim(fee_scheme: ['AGFS', 10], offence:, total: 1210.2)
         expect(claim).to be_instance_of Claim::AdvocateInterimClaim
         expect(claim.warrant_fee).to be_present
         expect(claim.expenses.size).to eq 2
@@ -404,7 +404,7 @@ RSpec.describe 'API claim creation for AGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eq 201
 
-        expect(claim).to be_valid_api_agfs_claim(fee_scheme: ['AGFS', 10], offence: offence, total: 1420.2)
+        expect(claim).to be_valid_api_agfs_claim(fee_scheme: ['AGFS', 10], offence:, total: 1420.2)
         expect(claim).to be_instance_of Claim::AdvocateHardshipClaim
       end
     end
@@ -415,8 +415,8 @@ RSpec.describe 'API claim creation for AGFS' do
     let(:advocate_category) { 'Junior' }
 
     it_behaves_like 'final fee claims' do
-      let(:offence) { create(:offence, :with_fee_scheme_twelve, offence_band: offence_band, offence_class: nil) }
-      let(:offence_band) { create(:offence_band, offence_category: offence_category) }
+      let(:offence) { create(:offence, :with_fee_scheme_twelve, offence_band:, offence_class: nil) }
+      let(:offence_band) { create(:offence_band, offence_category:) }
       let(:offence_category) { create(:offence_category, number: 2) }
       let(:miscellaneous_fee_codes) { ['MIPHC'] }
       let(:miscellaneous_fee) { Fee::BaseFeeType.find_by(unique_code: miscellaneous_fee_codes.first) }

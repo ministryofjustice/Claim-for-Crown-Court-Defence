@@ -33,6 +33,6 @@ class SupplierNumber < ApplicationRecord
     #   be fixed, but opens up a whole other can of worms. So for now we'll have this ugly
     #   hack.
 
-    Claim::BaseClaim.non_archived_pending_delete.where(supplier_number: supplier_number).any?
+    Claim::BaseClaim.non_archived_pending_delete.where(supplier_number:).any?
   end
 end

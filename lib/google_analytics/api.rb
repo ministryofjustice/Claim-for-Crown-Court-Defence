@@ -7,7 +7,7 @@ module GoogleAnalytics
       params = { v: version, tid: tracker_id, cid: client_id, t: 'event', ec: category, ea: action }
       params[:el] = label if label.present?
       begin
-        RestClient.get(endpoint, params: params, timeout: 4, open_timeout: 4)
+        RestClient.get(endpoint, params:, timeout: 4, open_timeout: 4)
         true
       rescue RestClient::Exception
         false

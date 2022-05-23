@@ -8,7 +8,7 @@ RSpec.describe API::V2::MI::InjectionErrors do
 
   let(:case_worker_admin) { create(:case_worker, :admin) }
   let(:external_user) { create(:external_user) }
-  let(:default_params) { { api_key: api_key } }
+  let(:default_params) { { api_key: } }
   let(:params) { default_params }
 
   describe 'GET injection_errors' do

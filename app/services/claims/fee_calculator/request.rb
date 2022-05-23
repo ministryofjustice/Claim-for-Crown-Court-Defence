@@ -23,7 +23,7 @@ module Claims
       private
 
       def response(success, data = nil, errors = nil, message = nil)
-        Response.new(success?: success, data: data, errors: errors, message: message)
+        Response.new(success?: success, data:, errors:, message:)
       end
 
       def amount
@@ -35,7 +35,7 @@ module Claims
                   when Price
                     Data.new(amount: amount.per_unit, unit: amount.unit)
                   else
-                    Data.new(amount: amount)
+                    Data.new(amount:)
                   end
       end
     end

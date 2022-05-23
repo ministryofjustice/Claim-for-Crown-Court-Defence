@@ -7,7 +7,7 @@ RSpec.describe API::V2::Search do
 
   before(:all) do
     create(:deterministic_claim, :redetermination) do |claim|
-      create(:injection_attempt, :with_errors, claim: claim)
+      create(:injection_attempt, :with_errors, claim:)
     end
   end
 
@@ -17,7 +17,7 @@ RSpec.describe API::V2::Search do
   let(:case_worker_admin) { create(:case_worker, :admin) }
   let(:l33t_h4xx0r) { create(:external_user) }
   let(:api_key) { case_worker_admin.user.api_key }
-  let(:params) { { api_key: api_key, scheme: 'agfs' } }
+  let(:params) { { api_key:, scheme: 'agfs' } }
   let(:search_keys) {
     %i[
       id
@@ -100,7 +100,7 @@ RSpec.describe API::V2::Search do
       end
 
       context 'filtered by LGFS' do
-        let(:params) { { api_key: api_key, scheme: 'lgfs' } }
+        let(:params) { { api_key:, scheme: 'lgfs' } }
 
         it 'returns no claims' do
           search_result = JSON.parse(last_response.body, symbolize_names: true).count

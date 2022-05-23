@@ -11,7 +11,7 @@ RSpec.describe Claims::UpdateDraft do
     let(:claim_params) { { case_number: 'A20165555' } }
     let(:validate) { true }
 
-    subject(:update_draft) { described_class.new(claim, params: claim_params, validate: validate) }
+    subject(:update_draft) { described_class.new(claim, params: claim_params, validate:) }
 
     it 'defines the action' do
       expect(subject.action).to eq(:edit)

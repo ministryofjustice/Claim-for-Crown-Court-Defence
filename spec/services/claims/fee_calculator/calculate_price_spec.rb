@@ -9,14 +9,14 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
     create(
       :draft_claim,
       create_defendant_and_rep_order_for_scheme_9: true,
-      case_type: case_type, offence: offence
+      case_type:, offence:
     )
   end
   let(:case_type) { create(:case_type, :appeal_against_conviction) }
   let(:offence_class) { create(:offence_class, class_letter: 'K') }
-  let(:offence) { create(:offence, offence_class: offence_class) }
+  let(:offence) { create(:offence, offence_class:) }
   let(:fee_type) { create(:fixed_fee_type, :fxacv) }
-  let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+  let(:fee) { create(:fixed_fee, fee_type:, claim:, quantity: 1) }
 
   let(:params) do
     {

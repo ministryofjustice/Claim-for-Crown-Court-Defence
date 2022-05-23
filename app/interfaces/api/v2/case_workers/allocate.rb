@@ -15,7 +15,7 @@ module API
           resource :allocate, desc: 'Allocate claims' do
             helpers do
               def allocation_params
-                params.except(:api_key).merge(current_user: current_user, allocating: true)
+                params.except(:api_key).merge(current_user:, allocating: true)
               end
             end
             desc 'Allocate claims to case workers'
@@ -26,7 +26,7 @@ module API
               status 422 if result.eql?(false)
 
               {
-                result: result,
+                result:,
                 allocated_claims: @allocation.successful_claims.map(&:id),
                 errors: @allocation.errors[:base]
               }

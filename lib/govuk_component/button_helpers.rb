@@ -29,16 +29,16 @@ module GovukComponent
       end
     end
 
-    def govuk_button_secondary(content = nil, tag_options = {}, &block)
+    def govuk_button_secondary(content = nil, tag_options = {}, &)
       tag_options = prepend_classes('govuk-button--secondary', tag_options)
 
-      govuk_button(content, tag_options, &block)
+      govuk_button(content, tag_options, &)
     end
 
-    def govuk_button_warning(content = nil, tag_options = {}, &block)
+    def govuk_button_warning(content = nil, tag_options = {}, &)
       tag_options = prepend_classes('govuk-button--warning', tag_options)
 
-      govuk_button(content, tag_options, &block)
+      govuk_button(content, tag_options, &)
     end
 
     # Following the Rails link_to helper
@@ -68,16 +68,16 @@ module GovukComponent
       tag.a(content, **tag_options, &block)
     end
 
-    def govuk_link_button_secondary(name = nil, options = nil, tag_options = {}, &block)
+    def govuk_link_button_secondary(name = nil, options = nil, tag_options = {}, &)
       tag_options = prepend_classes('govuk-button--secondary', tag_options)
 
-      govuk_link_button(name, options, tag_options, &block)
+      govuk_link_button(name, options, tag_options, &)
     end
 
-    def govuk_link_button_warning(name = nil, options = nil, tag_options = {}, &block)
+    def govuk_link_button_warning(name = nil, options = nil, tag_options = {}, &)
       tag_options = prepend_classes('govuk-button--warning', tag_options)
 
-      govuk_link_button(name, options, tag_options, &block)
+      govuk_link_button(name, options, tag_options, &)
     end
 
     private

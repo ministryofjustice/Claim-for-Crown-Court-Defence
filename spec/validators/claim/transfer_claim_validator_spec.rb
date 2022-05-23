@@ -6,7 +6,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   include_context 'force-validation'
 
   let(:claim) { build :transfer_claim }
-  let(:transfer_detail) { build :transfer_detail, claim: claim }
+  let(:transfer_detail) { build :transfer_detail, claim: }
 
   include_examples 'common partial validations', {
     transfer_fee_details: %i[

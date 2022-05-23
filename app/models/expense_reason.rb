@@ -18,7 +18,7 @@ class ExpenseReason
   end
 
   def to_hash
-    { id: id, reason: reason, reason_text: allow_explanatory_text? }
+    { id:, reason:, reason_text: allow_explanatory_text? }
   end
 
   private

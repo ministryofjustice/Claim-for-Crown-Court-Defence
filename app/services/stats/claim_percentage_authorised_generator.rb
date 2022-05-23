@@ -24,7 +24,7 @@ module Stats
     def geckoize_percentages(percentages)
       result_array = []
       percentages.each do |state, value|
-        result_array << { value: value, text: state.to_s.humanize }
+        result_array << { value:, text: state.to_s.humanize }
       end
       { item: result_array }
     end

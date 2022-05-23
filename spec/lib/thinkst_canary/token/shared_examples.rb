@@ -10,7 +10,7 @@ RSpec.shared_examples 'a Canary token with a file' do |kind, file_key|
 
     let(:base_options) do
       {
-        kind: kind,
+        kind:,
         memo: 'An test Canary token',
         factory_auth: 'factory_auth',
         flock_id: 'flock_id'

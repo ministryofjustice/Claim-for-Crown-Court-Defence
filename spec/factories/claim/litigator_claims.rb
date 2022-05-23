@@ -3,7 +3,7 @@ FactoryBot.define do
     litigator_base_setup
 
     after(:build) do |claim|
-      claim.fees << build(:misc_fee, :lgfs, claim: claim) # fees required for valid claims
+      claim.fees << build(:misc_fee, :lgfs, claim:) # fees required for valid claims
     end
 
     trait(:without_defendants) do
@@ -16,7 +16,7 @@ FactoryBot.define do
     trait :risk_based_bill do
       offence { create(:offence, :miscellaneous, offence_class: create(:offence_class, :risk_based_bill_class)) }
       after(:build) do |claim|
-        claim.fees << build(:graduated_fee, :guilty_plea_fee, quantity: 49, claim: claim)
+        claim.fees << build(:graduated_fee, :guilty_plea_fee, quantity: 49, claim:)
       end
 
       after(:create) { |c| c.submit! }

@@ -51,7 +51,7 @@ RSpec.describe ClaimsHelper do
     subject(:subj_show_message_controls?) { show_message_controls?(claim) }
 
     require 'application_helper'
-    let(:claim) { build :claim, state: state }
+    let(:claim) { build :claim, state: }
 
     RSpec.configure do |c|
       c.include ApplicationHelper
@@ -59,7 +59,7 @@ RSpec.describe ClaimsHelper do
 
     helper do
       def current_user
-        instance_double(User, persona: persona)
+        instance_double(User, persona:)
       end
     end
 
@@ -114,13 +114,13 @@ RSpec.describe ClaimsHelper do
   describe '#messaging_permitted?' do
     subject { messaging_permitted?(message) }
 
-    let(:claim) { build :claim, state: state }
-    let(:message) { build(:message, claim: claim, claim_action: claim_action) }
+    let(:claim) { build :claim, state: }
+    let(:message) { build(:message, claim:, claim_action:) }
     let(:claim_action) { nil }
 
     helper do
       def current_user
-        instance_double(User, persona: persona)
+        instance_double(User, persona:)
       end
     end
 
@@ -154,7 +154,7 @@ RSpec.describe ClaimsHelper do
       end
 
       context 'for non redeterminable claim states' do
-        let(:claim) { build :claim, state: state }
+        let(:claim) { build :claim, state: }
 
         %w[submitted allocated redetermination awaiting_written_reasons].each do |state|
           context "when claim state is #{state}" do
@@ -166,7 +166,7 @@ RSpec.describe ClaimsHelper do
       end
 
       context 'for redeterminable claim states' do
-        let(:claim) { build :claim, state: state }
+        let(:claim) { build :claim, state: }
 
         %w[authorised part_authorised rejected refused].each do |state|
           context "when claim state is #{state}" do
@@ -195,7 +195,7 @@ RSpec.describe ClaimsHelper do
       it { expect(headings[:page_notice]).to eq 'This claim should be eligible for unused materials fees (up to 3 hours)' }
 
       context 'when unused material fees have already been claimed' do
-        before { create(:misc_fee, fee_type: unused_materials_fee, claim: claim, quantity: 1) }
+        before { create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1) }
 
         it { expect(headings.keys).not_to include(:page_notice) }
       end
@@ -232,7 +232,7 @@ RSpec.describe ClaimsHelper do
       it { expect(locals[:unclaimed_fees_notice]).to eq "This claim should be eligible for unused materials fees (up to 3 hours) but they haven't been claimed" }
 
       context 'when unused material fees have already been claimed' do
-        before { create(:misc_fee, fee_type: unused_materials_fee, claim: claim, quantity: 1) }
+        before { create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1) }
 
         it { expect(locals.keys).not_to include(:unclaimed_fees_notice) }
       end
@@ -259,7 +259,7 @@ RSpec.describe ClaimsHelper do
       it { is_expected.to be_truthy }
 
       context 'when unused material fees have already been claimed' do
-        before { create(:misc_fee, fee_type: unused_materials_fee, claim: claim, quantity: 1) }
+        before { create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1) }
 
         it { is_expected.to be_falsey }
       end

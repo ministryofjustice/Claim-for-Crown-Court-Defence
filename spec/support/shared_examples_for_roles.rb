@@ -55,7 +55,7 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
   end
 
   describe '#has_roles?' do
-    subject { create(factory_name, roles: roles) }
+    subject { create(factory_name, roles:) }
 
     it 'returns true if subject has exact specified roles' do
       expect(subject.has_roles?(roles)).to be(true)

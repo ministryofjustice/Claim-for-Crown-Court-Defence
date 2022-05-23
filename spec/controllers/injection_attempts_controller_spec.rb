@@ -4,7 +4,7 @@ RSpec.describe InjectionAttemptsController, type: :controller do
   describe 'PATCH #dismiss' do
     let(:case_worker) { create(:case_worker) }
     let(:claim) { create(:submitted_claim) }
-    let(:injection_attempt) { create(:injection_attempt, :with_errors, claim: claim) }
+    let(:injection_attempt) { create(:injection_attempt, :with_errors, claim:) }
 
     def do_put
       put :dismiss, params: { id: injection_attempt.id }, format: :js

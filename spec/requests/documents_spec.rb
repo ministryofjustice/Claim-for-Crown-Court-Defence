@@ -55,7 +55,7 @@ RSpec.describe 'Document management', type: :request do
   before { sign_in user }
 
   describe 'GET /documents' do
-    subject(:index_documents) { get documents_path, params: params }
+    subject(:index_documents) { get documents_path, params: }
 
     let(:params) { {} }
 
@@ -68,9 +68,9 @@ RSpec.describe 'Document management', type: :request do
     end
 
     context 'when form_id present' do
-      let(:params) { { form_id: form_id } }
+      let(:params) { { form_id: } }
       let(:form_id) { SecureRandom.uuid }
-      let!(:matching_documents) { create_list(:document, 2, form_id: form_id) }
+      let!(:matching_documents) { create_list(:document, 2, form_id:) }
 
       before do
         create_list(:document, 1, form_id: SecureRandom.uuid)
@@ -108,7 +108,7 @@ RSpec.describe 'Document management', type: :request do
   end
 
   describe 'POST /documents' do
-    subject(:create_document) { post documents_path, params: params }
+    subject(:create_document) { post documents_path, params: }
 
     let(:params) do
       {

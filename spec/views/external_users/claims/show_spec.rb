@@ -105,7 +105,7 @@ RSpec.describe 'external_users/claims/show.html.haml', type: :view do
 
     describe 'Fees, expenses and more information' do
       context 'when travel expenses have been calculated' do
-        let!(:expense) { create(:expense, :with_calculated_distance_increased, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim: claim) }
+        let!(:expense) { create(:expense, :with_calculated_distance_increased, mileage_rate_id: 2, location: 'Basildon', date: 3.days.ago, claim:) }
 
         it 'does not render state labels' do
           claim.reload

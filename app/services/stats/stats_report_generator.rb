@@ -71,7 +71,7 @@ module Stats
     def notify_error(report_record, error)
       return unless Settings.notify_report_errors
       ActiveSupport::Notifications.instrument('call_failed.stats_report',
-                                              id: report_record&.id, name: report_type, error: error)
+                                              id: report_record&.id, name: report_type, error:)
     end
   end
 end

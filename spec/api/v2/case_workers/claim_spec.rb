@@ -112,7 +112,7 @@ RSpec.describe API::V2::CaseWorkers::Claim do
 
       def create_lgfs_submitted_fixed_fee_vb20
         claim = create_lgfs_submitted_fixed_fee
-        create(:fixed_fee, :lgfs, claim: claim, amount: 25_000.0)
+        create(:fixed_fee, :lgfs, claim:, amount: 25_000.0)
         claim.save!
         claim
       end
@@ -123,7 +123,7 @@ RSpec.describe API::V2::CaseWorkers::Claim do
 
       def create_lgfs_submitted_grad_fee_vb30
         claim = create_lgfs_submitted_grad_fee
-        create(:graduated_fee, claim: claim, amount: 125_000.0)
+        create(:graduated_fee, claim:, amount: 125_000.0)
         claim.save!
         claim
       end

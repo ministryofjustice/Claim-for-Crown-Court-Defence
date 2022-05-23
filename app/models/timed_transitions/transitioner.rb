@@ -104,14 +104,14 @@ module TimedTransitions
       LogStuff.send(
         level.to_sym,
         'TimedTransitions::Transitioner',
-        action: action,
+        action:,
         claim_id: @claim.id,
         claim_state: @claim.state,
         softly_deleted_on: @claim.deleted_at,
         valid_until: @claim.valid_until,
         dummy_run: @dummy,
-        error: error,
-        succeeded: succeeded
+        error:,
+        succeeded:
       ) do
         message
       end

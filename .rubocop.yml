@@ -6,7 +6,7 @@ require:
 AllCops:
   DisplayCopNames: true
   NewCops: enable
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.1
   Exclude:
     - './*'
     - 'db/**/*'
@@ -34,7 +34,7 @@ Layout/EmptyLineAfterGuardClause:
 
 Layout/LineLength:
   Max: 120
-  IgnoredPatterns: ['(\A|\s)#','.*\s+ # .*']
+  AllowedPatterns: ['(\A|\s)#','.*\s+ # .*']
   AllowHeredoc: true
 
 Lint/AmbiguousBlockAssociation:

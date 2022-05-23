@@ -16,11 +16,11 @@ module ThinkstCanary
     end
 
     def create_token(**kwargs)
-      klass(kwargs[:kind]).new(flock_id: flock_id, factory_auth: factory_auth, **kwargs)
+      klass(kwargs[:kind]).new(flock_id:, factory_auth:, **kwargs)
     end
 
     def delete
-      query(:delete, '/api/v1/canarytoken/delete_factory', params: { factory_auth: factory_auth })
+      query(:delete, '/api/v1/canarytoken/delete_factory', params: { factory_auth: })
     end
 
     def klass(kind)

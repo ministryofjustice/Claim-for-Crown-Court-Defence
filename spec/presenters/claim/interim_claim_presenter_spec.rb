@@ -18,7 +18,7 @@ RSpec.describe Claim::InterimClaimPresenter, type: :presenter do
     end
 
     context 'when the interim fee is set' do
-      let(:claim) { build(:interim_claim, interim_fee: interim_fee) }
+      let(:claim) { build(:interim_claim, interim_fee:) }
 
       context 'but is not a disbursement fee' do
         let(:interim_fee) { build(:interim_fee, :effective_pcmh) }
@@ -43,7 +43,7 @@ RSpec.describe Claim::InterimClaimPresenter, type: :presenter do
     end
 
     context 'when the interim fee is set' do
-      let(:claim) { build(:interim_claim, interim_fee: interim_fee) }
+      let(:claim) { build(:interim_claim, interim_fee:) }
 
       context 'but amount is not set' do
         let(:interim_fee) { build(:interim_fee, amount: nil) }

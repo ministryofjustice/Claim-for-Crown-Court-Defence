@@ -57,12 +57,12 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
     context 'continue button pressed' do
       context 'valid params' do
-        before { post :create, params: params }
+        before { post :create, params: }
 
         it 'creates a claim' do
           expect {
             params['claim']['form_id'] = SecureRandom.uuid
-            post :create, params: params
+            post :create, params:
           }.to change(Claim::TransferClaim, :count).by(1)
         end
 
@@ -80,13 +80,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       context 'invalid params' do
         before do
           params['claim'].delete('litigator_type')
-          post :create, params: params
+          post :create, params:
         end
 
         it 'does not create a claim' do
           expect {
             params['claim']['form_id'] = SecureRandom.uuid
-            post :create, params: params
+            post :create, params:
           }.not_to change(Claim::TransferClaim, :count)
         end
 
@@ -110,13 +110,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         before do
           params.delete('commit_continue')
           params['commit'] = 'Continue'
-          post :create, params: params
+          post :create, params:
         end
 
         it 'creates a claim' do
           expect {
             params['claim']['form_id'] = SecureRandom.uuid
-            post :create, params: params
+            post :create, params:
           }.to change(Claim::TransferClaim, :count).by(1)
         end
 
@@ -138,13 +138,13 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
           params.delete('commit_continue')
           params['claim'].delete('litigator_type')
           params['commit'] = 'Continue'
-          post :create, params: params
+          post :create, params:
         end
 
         it 'creates a claim' do
           expect {
             params['claim']['form_id'] = SecureRandom.uuid
-            post :create, params: params
+            post :create, params:
           }.to change(Claim::TransferClaim, :count).by(1)
         end
 
@@ -279,7 +279,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
       context 'when a step is provided' do
         let(:step) { :defendants }
-        let(:edit_request) { -> { get :edit, params: { id: claim, step: step } } }
+        let(:edit_request) { -> { get :edit, params: { id: claim, step: } } }
 
         it 'claim is submitted submission step' do
           expect(assigns(:claim).form_step).to eq(:defendants)
@@ -298,7 +298,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     context 'uneditable claim' do
       let(:claim) do
         claim = create(:transfer_claim, creator: litigator)
-        create(:transfer_detail, claim: claim)
+        create(:transfer_detail, claim:)
         claim.submit!
         claim.allocate!
         claim

@@ -50,7 +50,7 @@ RSpec.describe Document, type: :model do
   describe '#save' do
     subject(:document_save) { document.save }
 
-    let(:document) { build :document, :pdf, claim: claim, form_id: claim.form_id }
+    let(:document) { build :document, :pdf, claim:, form_id: claim.form_id }
     let(:claim) { create :claim }
 
     before { ActiveJob::Base.queue_adapter = :test }
@@ -63,7 +63,7 @@ RSpec.describe Document, type: :model do
     context 'when the maximum document limit is reached' do
       before do
         allow(Settings).to receive(:max_document_upload_count).and_return 2
-        create_list :document, 2, claim: claim, form_id: claim.form_id
+        create_list :document, 2, claim:, form_id: claim.form_id
       end
 
       it { expect(document).not_to be_valid }
@@ -136,7 +136,7 @@ RSpec.describe Document, type: :model do
     subject(:document_file_name) { document.document_file_name }
 
     let(:filename) { 'testfile.pdf' }
-    let(:document) { create :document, filename: filename }
+    let(:document) { create :document, filename: }
 
     it { is_expected.to eq filename }
 

@@ -40,7 +40,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def update
-    updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params.merge(current_user: current_user)).update!
+    updater = Claims::CaseWorkerClaimUpdater.new(params[:id], claim_params.merge(current_user:)).update!
     @claim = updater.claim
     if updater.result == :ok
       redirect_to case_workers_claim_path(permitted_params)
@@ -95,7 +95,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def set_claims
-    @claims = Claims::CaseWorkerClaims.new(current_user: current_user, action: tab, criteria: criteria_params).claims
+    @claims = Claims::CaseWorkerClaims.new(current_user:, action: tab, criteria: criteria_params).claims
   end
 
   # Only these 2 actions are handle in this controller. Rest of actions in the admin-namespaced controller.

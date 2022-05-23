@@ -87,7 +87,7 @@ module API
       # https://tools.ietf.org/html/draft-wilde-sunset-header-03
       def sunset(datetime:, link: nil)
         header 'Sunset', datetime.httpdate
-        header 'Link', format('<%{link}>; rel="sunset";', link: link) if link.present?
+        header 'Link', format('<%{link}>; rel="sunset";', link:) if link.present?
         ActiveSupport::Deprecation.warn("deprecated endpoint #{namespace} (sunset date #{datetime.iso8601}) has been called by #{request.headers['User-Agent']}")
       end
       alias deprecate sunset

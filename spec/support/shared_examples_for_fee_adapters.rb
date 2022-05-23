@@ -84,18 +84,18 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
     subject(:filtered_fees) { described_class.new(claim).filtered_fees }
 
     before do
-      claim.fees << build(:basic_fee, :baf_fee, claim: claim) unless claim.fees.map { |f| f.fee_type.unique_code }.include? 'BABAF'
-      claim.fees << build(:basic_fee, :daf_fee, claim: claim)
-      claim.fees << build(:basic_fee, :daj_fee, claim: claim)
-      claim.fees << build(:basic_fee, :dah_fee, claim: claim)
-      claim.fees << build(:basic_fee, :dat_fee, claim: claim)
-      claim.fees << build(:basic_fee, :noc_fee, claim: claim)
-      claim.fees << build(:basic_fee, :ndr_fee, claim: claim)
-      claim.fees << build(:basic_fee, :npw_fee, claim: claim)
-      claim.fees << build(:basic_fee, :ppe_fee, claim: claim)
-      claim.fees << build(:basic_fee, :cav_fee, claim: claim) # not adaptable
-      claim.fees << build(:basic_fee, :saf_fee, claim: claim) # not adaptable
-      claim.fees << build(:basic_fee, :pcm_fee, claim: claim) # not adaptable
+      claim.fees << build(:basic_fee, :baf_fee, claim:) unless claim.fees.map { |f| f.fee_type.unique_code }.include? 'BABAF'
+      claim.fees << build(:basic_fee, :daf_fee, claim:)
+      claim.fees << build(:basic_fee, :daj_fee, claim:)
+      claim.fees << build(:basic_fee, :dah_fee, claim:)
+      claim.fees << build(:basic_fee, :dat_fee, claim:)
+      claim.fees << build(:basic_fee, :noc_fee, claim:)
+      claim.fees << build(:basic_fee, :ndr_fee, claim:)
+      claim.fees << build(:basic_fee, :npw_fee, claim:)
+      claim.fees << build(:basic_fee, :ppe_fee, claim:)
+      claim.fees << build(:basic_fee, :cav_fee, claim:) # not adaptable
+      claim.fees << build(:basic_fee, :saf_fee, claim:) # not adaptable
+      claim.fees << build(:basic_fee, :pcm_fee, claim:) # not adaptable
     end
 
     it 'returns array of basic fee objects' do

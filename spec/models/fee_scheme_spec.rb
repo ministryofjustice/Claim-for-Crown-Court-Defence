@@ -186,7 +186,7 @@ RSpec.describe FeeScheme, type: :model do
       end
 
       context 'with offence but no representation order' do
-        let(:claim) { create(:advocate_claim, offence: offence) }
+        let(:claim) { create(:advocate_claim, offence:) }
 
         before do
           allow(claim).to receive(:earliest_representation_order).and_return(nil)

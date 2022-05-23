@@ -118,8 +118,8 @@ RSpec.describe Expense, type: :model do
 
     let(:attrs) {
       {
-        distance: distance,
-        calculated_distance: calculated_distance
+        distance:,
+        calculated_distance:
       }
     }
     let(:expense) { described_class.new(attrs) }
@@ -167,7 +167,7 @@ RSpec.describe Expense, type: :model do
 
     context 'when the expense is car travel' do
       let(:expense) do
-        build(:expense, :car_travel, calculated_distance: calculated_distance, location: location, date: 3.days.ago)
+        build(:expense, :car_travel, calculated_distance:, location:, date: 3.days.ago)
       end
 
       context 'when the expense has calculated_distance' do

@@ -93,10 +93,10 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
   let(:case_worker) { create(:case_worker, :admin) }
   let(:case_type) { create(:case_type, :trial) }
-  let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type) }
+  let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type:) }
 
   def do_request(claim_uuid: claim.uuid, api_key: case_worker.user.api_key)
-    get "/api/cclf/claims/#{claim_uuid}", { api_key: api_key }, { format: :json }
+    get "/api/cclf/claims/#{claim_uuid}", { api_key: }, { format: :json }
   end
 
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
@@ -197,7 +197,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
     context 'defendants' do
       let(:defendants) { create_list(:defendant, 2) }
-      let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type, defendants: defendants) }
+      let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type:, defendants:) }
 
       subject(:response) { do_request.body }
 
@@ -243,7 +243,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       it 'returns no bill for bills without a bill type' do
         claim.update!(case_type: case_type_grtrl)
         fee_type = create(:misc_fee_type, unique_code: 'XXXXX')
-        create(:misc_fee, claim: claim, fee_type: fee_type, amount: 51.01)
+        create(:misc_fee, claim:, fee_type:, amount: 51.01)
         expect(bills).to be_empty
       end
 
@@ -252,7 +252,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           context 'when graduated fee exists' do
             let(:grtrl) { create(:graduated_fee_type, :grtrl) }
             let(:graduated_fee) { create(:graduated_fee, fee_type: grtrl, quantity: 1000) }
-            let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_grtrl, graduated_fee: graduated_fee) }
+            let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_grtrl, graduated_fee:) }
 
             it { valid_cclf_json?(response) }
 
@@ -273,7 +273,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             let(:fxcbr) { create(:fixed_fee_type, :fxcbr) }
             let(:case_type_fxcbr) { create(:case_type, :cbr) }
             let(:fixed_fee) { create(:fixed_fee, :lgfs, fee_type: fxcbr) }
-            let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, fixed_fee: fixed_fee) }
+            let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, fixed_fee:) }
 
             it { valid_cclf_json?(response) }
 
@@ -281,9 +281,9 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           end
 
           context 'when miscellaneous fees exists' do
-            let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, case_type: case_type, misc_fees: [misc_fee]) }
+            let(:claim) { create_claim(:litigator_claim, :submitted, :without_fees, case_type:, misc_fees: [misc_fee]) }
             let(:case_type) { build(:case_type, :trial) }
-            let(:misc_fee) { build(:misc_fee, :lgfs, fee_type: fee_type) }
+            let(:misc_fee) { build(:misc_fee, :lgfs, fee_type:) }
 
             before do
               allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
@@ -319,7 +319,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             let(:warr) { create(:warrant_fee_type, :warr) }
             let(:case_type_fxcbr) { create(:case_type, :cbr) }
             let(:warrant_fee) { create(:warrant_fee, fee_type: warr) }
-            let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, warrant_fee: warrant_fee) }
+            let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, warrant_fee:) }
 
             it { valid_cclf_json?(response) }
 
@@ -397,7 +397,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
           let(:forensic) { create(:disbursement_type, :forensic) }
           let(:disbursement) { build(:disbursement, disbursement_type: forensic) }
-          let(:claim) { create_claim(:interim_claim, :disbursement_only_fee, :submitted, case_type: case_type, disbursements: [disbursement]) }
+          let(:claim) { create_claim(:interim_claim, :disbursement_only_fee, :submitted, case_type:, disbursements: [disbursement]) }
 
           it { valid_cclf_json?(response) }
 
@@ -410,7 +410,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         end
 
         context 'when interim warrant fee exists' do
-          let(:claim) { create(:interim_claim, :interim_warrant_fee, :submitted, case_type: case_type) }
+          let(:claim) { create(:interim_claim, :interim_warrant_fee, :submitted, case_type:) }
 
           it { valid_cclf_json?(response) }
 
@@ -427,7 +427,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
           context 'with expense' do
             before do
-              create(:expense, :bike_travel, claim: claim, amount: 9.99, vat_amount: 1.99)
+              create(:expense, :bike_travel, claim:, amount: 9.99, vat_amount: 1.99)
             end
 
             it { valid_cclf_json?(response) }
@@ -461,7 +461,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           let(:claim) do
             create(:transfer_claim, :with_transfer_detail, :submitted).tap do |claim|
               claim.disbursements.delete_all
-              create(:disbursement, disbursement_type: forensic, claim: claim)
+              create(:disbursement, disbursement_type: forensic, claim:)
             end
           end
 
@@ -481,7 +481,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         context 'when expenses exist' do
           let(:claim) do
             create(:transfer_claim, :with_transfer_detail, :submitted).tap do |claim|
-              create(:expense, :bike_travel, claim: claim, amount: 9.98, vat_amount: 1.98)
+              create(:expense, :bike_travel, claim:, amount: 9.98, vat_amount: 1.98)
             end
           end
 
@@ -498,7 +498,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           let(:mispf) { create(:misc_fee_type, :lgfs, :mispf) }
           let(:claim) do
             create(:transfer_claim, :with_transfer_detail, :submitted).tap do |claim|
-              create(:misc_fee, :lgfs, fee_type: mispf, claim: claim)
+              create(:misc_fee, :lgfs, fee_type: mispf, claim:)
             end
           end
 
@@ -518,7 +518,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           let(:miupl) { create(:misc_fee_type, :lgfs, :miupl) }
           let(:claim) do
             create(:transfer_claim, :with_transfer_detail, :submitted).tap do |claim|
-              create(:misc_fee, :lgfs, fee_type: miupl, claim: claim)
+              create(:misc_fee, :lgfs, fee_type: miupl, claim:)
             end
           end
 
@@ -554,7 +554,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         context 'when an additional misc fee exists' do
           let(:claim) do
             create(:litigator_hardship_claim, :submitted, :with_hardship_fee).tap do |claim|
-              create(:misc_fee, :lgfs, claim: claim, amount: '45', fee_type: fee_type)
+              create(:misc_fee, :lgfs, claim:, amount: '45', fee_type:)
             end
           end
           let(:fee_type) { build(:misc_fee_type, :lgfs, :mievi) }

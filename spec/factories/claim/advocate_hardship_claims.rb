@@ -5,7 +5,7 @@ FactoryBot.define do
     case_stage
 
     after(:build) do |claim|
-      claim.fees << build(:basic_fee, :baf_fee, claim: claim)
+      claim.fees << build(:basic_fee, :baf_fee, claim:)
       assign_external_user_as_creator(claim)
     end
 

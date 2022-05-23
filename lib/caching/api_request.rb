@@ -19,8 +19,8 @@ class Caching
       self.url = processed_url(url)
     end
 
-    def self.cache(url, options = {}, &block)
-      new(url, options).cache(&block)
+    def self.cache(url, options = {}, &)
+      new(url, options).cache(&)
     end
 
     def cache

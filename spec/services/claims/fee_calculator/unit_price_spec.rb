@@ -5,21 +5,21 @@ RSpec.shared_examples 'a successful daily attendance fee calculation' do
 
       context 'for a daily attendance (3 to 40)' do
         let(:fee_type) { create(:basic_fee_type, :daf) }
-        let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+        let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
         it_returns 'a successful fee calculator response', unit: 'day', amount: 530.00
       end
 
       context 'for a daily attendance (41 to 50)' do
         let(:fee_type) { create(:basic_fee_type, :dah) }
-        let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+        let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
         it_returns 'a successful fee calculator response', unit: 'day', amount: 266.00
       end
 
       context 'for a daily attendance (51+)' do
         let(:fee_type) { create(:basic_fee_type, :daj) }
-        let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+        let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
         it_returns 'a successful fee calculator response', unit: 'day', amount: 285.00
       end
@@ -32,7 +32,7 @@ RSpec.shared_examples 'a successful daily attendance fee calculation' do
 
       context 'for a daily attendance (2+)' do
         let(:fee_type) { create(:basic_fee_type, :dat) }
-        let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+        let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
         it_returns 'a successful fee calculator response', unit: 'day', amount: 300.00
       end
@@ -42,7 +42,7 @@ end
 
 RSpec.shared_examples 'a failed daily attendance fee calculation' do |options = {}|
   context 'daily attendance fees' do
-    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
@@ -73,7 +73,7 @@ RSpec.shared_examples 'a failed daily attendance fee calculation' do |options = 
 
       context 'for a daily attendance (2+)' do
         let(:fee_type) { create(:basic_fee_type, :dat) }
-        let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+        let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
         it_returns 'a failed fee calculator response', message: options.fetch(:message, /insufficient_data/i)
       end
@@ -84,7 +84,7 @@ end
 RSpec.shared_examples 'a successful standard appearance fee calculation' do
   context 'for a standard appearance fee' do
     let(:fee_type) { create(:basic_fee_type, :basaf) }
-    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
@@ -105,7 +105,7 @@ end
 RSpec.shared_examples 'a failed standard appearance fee calculation' do |options = {}|
   context 'for a standard appearance fee' do
     let(:fee_type) { create(:basic_fee_type, :basaf) }
-    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
@@ -126,7 +126,7 @@ end
 RSpec.shared_examples 'a successful plea and trial preparation fee calculation' do
   context 'for a plea and trial preparation fee' do
     let(:fee_type) { create(:basic_fee_type, :bapcm) }
-    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
@@ -147,7 +147,7 @@ end
 RSpec.shared_examples 'a failed plea and trial preparation fee calculation' do |options = {}|
   context 'for a plea and trial preparation fee' do
     let(:fee_type) { create(:basic_fee_type, :bapcm) }
-    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
@@ -168,7 +168,7 @@ end
 RSpec.shared_examples 'a successful conferences and views fee calculation' do
   context 'for a conferences and views fee' do
     let(:fee_type) { create(:basic_fee_type, :bacav) }
-    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
@@ -189,7 +189,7 @@ end
 RSpec.shared_examples 'a failed conferences and views fee calculation' do |options = {}|
   context 'for a conferences and views fee' do
     let(:fee_type) { create(:basic_fee_type, :bacav) }
-    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
     context 'scheme 9' do
       let(:claim) { scheme_9_claim }
@@ -210,7 +210,7 @@ end
 RSpec.shared_examples 'a successful basic uplift fee calculation' do |options = {}|
   context "for a #{options[:unit]} uplift fee" do
     let(:fee_type) { create(:basic_fee_type, :babaf) }
-    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
     let(:uplift_fee_type) { create(:basic_fee_type, options.fetch(:uplift_fee_type)) }
     let(:uplift_fee) { create(:basic_fee, fee_type: uplift_fee_type, quantity: 1) }
 
@@ -238,7 +238,7 @@ end
 RSpec.shared_examples 'a failed basic uplift fee calculation' do |options = {}|
   context "for a #{options[:description]} uplift fee" do
     let(:fee_type) { create(:basic_fee_type, :babaf) }
-    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
     let(:uplift_fee_type) { create(:basic_fee_type, options.fetch(:uplift_fee_type)) }
     let(:uplift_fee) { create(:basic_fee, fee_type: uplift_fee_type, quantity: 1) }
 
@@ -273,15 +273,15 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
   let(:case_type) { create(:case_type, :appeal_against_conviction) }
 
   let(:offence_class) { create(:offence_class, class_letter: 'K') }
-  let(:scheme_9_offence) { create(:offence, :with_fee_scheme_nine, offence_class: offence_class) }
-  let(:scheme_9_claim) { create(:draft_claim, case_type: case_type, offence: scheme_9_offence, create_defendant_and_rep_order_for_scheme_9: true) }
+  let(:scheme_9_offence) { create(:offence, :with_fee_scheme_nine, offence_class:) }
+  let(:scheme_9_claim) { create(:draft_claim, case_type:, offence: scheme_9_offence, create_defendant_and_rep_order_for_scheme_9: true) }
 
   let(:offence_band) { create(:offence_band, :for_standard) }
-  let(:scheme_10_offence) { create(:offence, :with_fee_scheme_ten, offence_band: offence_band) }
-  let(:scheme_10_claim) { create(:draft_claim, case_type: case_type, offence: scheme_10_offence, create_defendant_and_rep_order_for_scheme_10: true) }
+  let(:scheme_10_offence) { create(:offence, :with_fee_scheme_ten, offence_band:) }
+  let(:scheme_10_claim) { create(:draft_claim, case_type:, offence: scheme_10_offence, create_defendant_and_rep_order_for_scheme_10: true) }
 
   let(:fee_type) { create(:fixed_fee_type, :fxacv) }
-  let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+  let(:fee) { create(:fixed_fee, fee_type:, claim:, quantity: 1) }
 
   let(:claim) { build(:draft_claim) }
 
@@ -366,7 +366,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                   context 'for a daily attendance (3 to 40)' do
                     let(:fee_type) { create(:basic_fee_type, :daf) }
-                    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+                    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
                     context '30% reduction applies' do
                       it_returns 'a successful fee calculator response', unit: 'day', amount: 371.00
@@ -375,7 +375,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                   context 'for a daily attendance (41 to 50)' do
                     let(:fee_type) { create(:basic_fee_type, :dah) }
-                    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+                    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
                     context 'reduction does not apply (could be a bug in the API???)' do
                       it_returns 'a successful fee calculator response', unit: 'day', amount: 266.00
@@ -390,7 +390,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                   context 'for a daily attendance (2+)' do
                     let(:fee_type) { create(:basic_fee_type, :dat) }
-                    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+                    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
                     context '30% reduction applies' do
                       it_returns 'a successful fee calculator response', unit: 'day', amount: 210.00
@@ -401,7 +401,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
               context 'for a basic defendant uplift fee' do
                 let(:fee_type) { create(:basic_fee_type, :babaf) }
-                let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+                let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
                 let(:uplift_fee_type) { create(:basic_fee_type, :bandr) }
                 let(:uplift_fee) { create(:basic_fee, fee_type: uplift_fee_type, quantity: 1) }
 
@@ -454,7 +454,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                   context 'for a daily attendance (3 to 40)' do
                     let(:fee_type) { create(:basic_fee_type, :daf) }
-                    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+                    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
                     context '20% reduction applies' do
                       it_returns 'a successful fee calculator response', unit: 'day', amount: 424.00
@@ -469,7 +469,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
                   context 'for a daily attendance (2+)' do
                     let(:fee_type) { create(:basic_fee_type, :dat) }
-                    let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+                    let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
 
                     context '20% reduction applies' do
                       it_returns 'a successful fee calculator response', unit: 'day', amount: 240.00
@@ -480,7 +480,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
               context 'for a basic defendant uplift fee' do
                 let(:fee_type) { create(:basic_fee_type, :babaf) }
-                let(:fee) { create(:basic_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+                let(:fee) { create(:basic_fee, fee_type:, claim:, quantity: 1) }
                 let(:uplift_fee_type) { create(:basic_fee_type, :bandr) }
                 let(:uplift_fee) { create(:basic_fee, fee_type: uplift_fee_type, quantity: 1) }
 
@@ -598,7 +598,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
       context 'fixed fees' do
         let(:claim) { scheme_9_claim }
         let(:fee_type) { create(:fixed_fee_type, :fxacv) }
-        let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+        let(:fee) { create(:fixed_fee, fee_type:, claim:, quantity: 1) }
 
         context 'for a case-type-specific fixed fee' do
           it_returns 'a successful fee calculator response', unit: 'day', amount: 130.0
@@ -607,13 +607,13 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
         context 'for a case-type-specific fixed fee with fixed amount (elected case not proceeded)' do
           let(:case_type) { create(:case_type, :elected_cases_not_proceeded) }
           let(:fee_type) { create(:fixed_fee_type, :fxenp) }
-          let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+          let(:fee) { create(:fixed_fee, fee_type:, claim:, quantity: 1) }
 
           it_returns 'a successful fee calculator response', unit: 'day', amount: 194.0
         end
 
         context 'for a non-case-type-specific fixed fee (standard appearance fee/adjournments)' do
-          let(:saf_fee) { create(:fixed_fee, :fxsaf_fee, claim: claim, quantity: 1) }
+          let(:saf_fee) { create(:fixed_fee, :fxsaf_fee, claim:, quantity: 1) }
 
           before do
             params[:fee_type_id] = saf_fee.fee_type.id
@@ -626,7 +626,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
         # TODO: deprecated fee type - to be removed
         context 'for a case-type-specific fixed fee case uplift' do
           let(:uplift_fee_type) { create(:fixed_fee_type, :fxacu) }
-          let(:uplift_fee) { create(:fixed_fee, fee_type: uplift_fee_type, claim: claim, quantity: 1) }
+          let(:uplift_fee) { create(:fixed_fee, fee_type: uplift_fee_type, claim:, quantity: 1) }
 
           before do
             params[:fee_type_id] = uplift_fee.fee_type.id
@@ -638,7 +638,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
         context 'for a fixed fee number of cases uplift' do
           let(:uplift_fee_type) { create(:fixed_fee_type, :fxnoc) }
-          let(:uplift_fee) { create(:fixed_fee, fee_type: uplift_fee_type, claim: claim, quantity: 1) }
+          let(:uplift_fee) { create(:fixed_fee, fee_type: uplift_fee_type, claim:, quantity: 1) }
 
           before do
             params[:fee_type_id] = uplift_fee.fee_type.id
@@ -650,7 +650,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
         context 'for a fixed fee number of defendants uplift' do
           let(:uplift_fee_type) { create(:fixed_fee_type, :fxndr) }
-          let(:uplift_fee) { create(:fixed_fee, fee_type: uplift_fee_type, claim: claim, quantity: 1) }
+          let(:uplift_fee) { create(:fixed_fee, fee_type: uplift_fee_type, claim:, quantity: 1) }
 
           before do
             params[:fee_type_id] = uplift_fee.fee_type.id
@@ -663,7 +663,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
 
       context 'miscellaneous fees' do
         context 'for non-(defendant)-uplift misc fees' do
-          let(:fee) { create(:misc_fee, :miaph_fee, claim: claim, quantity: 1) }
+          let(:fee) { create(:misc_fee, :miaph_fee, claim:, quantity: 1) }
 
           context 'on claims with a case type' do
             it_returns 'a successful fee calculator response', unit: 'halfday', amount: 130.0
@@ -680,8 +680,8 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
         end
 
         context 'for a (defendant) uplift fee with one parent' do
-          let(:fee) { create(:misc_fee, :miaph_fee, claim: claim, quantity: 1) }
-          let(:uplift_fee) { create(:misc_fee, :miahu_fee, claim: claim, quantity: 2) }
+          let(:fee) { create(:misc_fee, :miaph_fee, claim:, quantity: 1) }
+          let(:uplift_fee) { create(:misc_fee, :miahu_fee, claim:, quantity: 2) }
 
           before do
             params[:fee_type_id] = uplift_fee.fee_type.id
@@ -692,7 +692,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
         end
 
         context 'for a (defendant) uplift with two possible parents (standard appearances)' do
-          let(:fee) { create(:misc_fee, :misaf_fee, claim: claim, quantity: 1) }
+          let(:fee) { create(:misc_fee, :misaf_fee, claim:, quantity: 1) }
 
           before do
             claim.case_type = nil
@@ -704,8 +704,8 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
           end
 
           context 'for a standard appearance fee (defendant) uplift on supplementary claim' do
-            let(:fee) { create(:misc_fee, :misaf_fee, claim: claim, quantity: 1) }
-            let(:uplift_fee) { create(:misc_fee, :misau_fee, claim: claim, quantity: 2) }
+            let(:fee) { create(:misc_fee, :misaf_fee, claim:, quantity: 1) }
+            let(:uplift_fee) { create(:misc_fee, :misau_fee, claim:, quantity: 2) }
 
             before do
               params[:fee_type_id] = uplift_fee.fee_type.id
@@ -759,7 +759,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
       # and reporder date in order to reduce and afix VCR cassettes required (that have to match
       # on query values), prevent flickering specs (from random offence classes,
       # rep order dates) and to allow testing actual amounts "calculated".
-      let(:claim) { create(:litigator_claim, case_type: case_type, offence: nil, create_defendant_and_rep_order_for_scheme_8: true) }
+      let(:claim) { create(:litigator_claim, case_type:, offence: nil, create_defendant_and_rep_order_for_scheme_8: true) }
 
       let(:params) do
         {
@@ -777,7 +777,7 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
       context 'for a case-type-specific fixed fee with fixed amount (elected case not proceeded)' do
         let(:case_type) { create(:case_type, :elected_cases_not_proceeded) }
         let(:fee_type) { create(:fixed_fee_type, :fxenp) }
-        let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+        let(:fee) { create(:fixed_fee, fee_type:, claim:, quantity: 1) }
 
         it_returns 'a successful fee calculator response', unit: 'day', amount: 330.33
       end

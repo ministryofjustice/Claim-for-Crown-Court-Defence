@@ -29,25 +29,25 @@ module Remote
       end
 
       def user_allocations(user, **query)
-        all_by_status('current', user: user, query: query)
+        all_by_status('current', user:, query:)
       end
 
       def allocated(user, **query)
-        all_by_status('allocated', user: user, query: query)
+        all_by_status('allocated', user:, query:)
       end
 
       def unallocated(user, **query)
-        all_by_status('unallocated', user: user, query: query)
+        all_by_status('unallocated', user:, query:)
       end
 
       def archived(user, **query)
-        all_by_status('archived', user: user, query: query)
+        all_by_status('archived', user:, query:)
       end
 
       private
 
       def all_by_status(status, user:, query:)
-        all(api_key: user.api_key, status: status, **query)
+        all(api_key: user.api_key, status:, **query)
       end
     end
 

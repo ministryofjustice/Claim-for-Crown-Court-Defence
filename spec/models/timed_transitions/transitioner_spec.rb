@@ -271,11 +271,11 @@ RSpec.describe TimedTransitions::Transitioner do
             before do
               claim.defendants.first.representation_orders << RepresentationOrder.new
               2.times { claim.expenses << Expense.new }
-              2.times { claim.disbursements << create(:disbursement, claim: claim) }
-              2.times { claim.messages << create(:message, claim: claim) }
-              claim.injection_attempts << create(:injection_attempt, claim: claim)
+              2.times { claim.disbursements << create(:disbursement, claim:) }
+              2.times { claim.messages << create(:message, claim:) }
+              claim.injection_attempts << create(:injection_attempt, claim:)
               claim.expenses.first.dates_attended << DateAttended.new
-              claim.certification = create(:certification, claim: claim)
+              claim.certification = create(:certification, claim:)
               claim.save!
               claim.reload
 
@@ -443,11 +443,11 @@ RSpec.describe TimedTransitions::Transitioner do
             before do
               claim.defendants.first.representation_orders << RepresentationOrder.new
               2.times { claim.expenses << Expense.new }
-              2.times { claim.disbursements << create(:disbursement, claim: claim) }
-              2.times { claim.messages << create(:message, claim: claim) }
+              2.times { claim.disbursements << create(:disbursement, claim:) }
+              2.times { claim.messages << create(:message, claim:) }
               claim.expenses.first.dates_attended << DateAttended.new
-              claim.documents << create(:document, claim: claim, verified: true)
-              claim.certification = create(:certification, claim: claim)
+              claim.documents << create(:document, claim:, verified: true)
+              claim.certification = create(:certification, claim:)
               claim.save!
               claim.reload
 

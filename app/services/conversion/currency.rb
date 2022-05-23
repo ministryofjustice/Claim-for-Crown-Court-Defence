@@ -11,7 +11,7 @@ module Conversion
 
     def call
       params = query_options
-      result = JSON.parse(RestClient.get('http://apilayer.net/api/historical', params: params)).deep_symbolize_keys
+      result = JSON.parse(RestClient.get('http://apilayer.net/api/historical', params:)).deep_symbolize_keys
       rate = result[:quotes][:USDGBP]
       (rate * @value.to_f).round(2)
     rescue StandardError => e

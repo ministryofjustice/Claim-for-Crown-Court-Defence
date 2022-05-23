@@ -296,7 +296,7 @@ RSpec.describe ExternalUser, type: :model do
   describe '#available_roles' do
     subject { user.available_roles }
 
-    let(:user) { create(:external_user, :advocate, provider: provider) }
+    let(:user) { create(:external_user, :advocate, provider:) }
 
     # NOTE: there is provider cannot be blank validation - pointless test?
     context 'when the user does not belong to a provider' do
@@ -438,7 +438,7 @@ RSpec.describe ExternalUser, type: :model do
 
     context 'supplier number not present but provider is a firm' do
       let(:provider) { create :provider, :agfs_lgfs, firm_agfs_supplier_number: '999XX' }
-      let(:external_user) { create :external_user, :advocate, supplier_number: nil, provider: provider }
+      let(:external_user) { create :external_user, :advocate, supplier_number: nil, provider: }
 
       it 'returns the firm_agfs_supplier_number from the provider' do
         expect(external_user.supplier_number).to eq '999XX'
@@ -517,9 +517,9 @@ RSpec.describe ExternalUser, type: :model do
 end
 
 def create_admin(provider, first_name, last_name)
-  create :external_user, :admin, provider: provider, user: create(:user, first_name: first_name, last_name: last_name)
+  create :external_user, :admin, provider:, user: create(:user, first_name:, last_name:)
 end
 
 def create_external_user(provider, first_name, last_name)
-  create :external_user, provider: provider, user: create(:user, first_name: first_name, last_name: last_name)
+  create :external_user, provider:, user: create(:user, first_name:, last_name:)
 end

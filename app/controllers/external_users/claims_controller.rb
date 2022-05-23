@@ -214,7 +214,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   end
 
   def set_claims_context
-    context = Claims::ContextMapper.new(@external_user, scheme: scheme)
+    context = Claims::ContextMapper.new(@external_user, scheme:)
     @claims_context = context.available_claims
     @available_schemes = context.available_schemes
   end
@@ -466,7 +466,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
                   title: '%{action_t} %{type} claim page %{step}'
                 }, claim_tracking_substitutions)
 
-    render action: action
+    render action:
   end
 
   def redirect_to_next_step

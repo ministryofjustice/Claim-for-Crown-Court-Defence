@@ -27,7 +27,7 @@ RSpec.describe Redetermination do
 
   context 'automatic calculation of VAT' do
     RSpec.shared_examples 'calculates redetermination VAT' do
-      let(:redetermination) { build(:redetermination, fees: 100, expenses: 100, disbursements: 200, claim: claim) }
+      let(:redetermination) { build(:redetermination, fees: 100, expenses: 100, disbursements: 200, claim:) }
 
       it 'determines rate using VatRate model' do
         expect(VatRate).to receive(:vat_amount).at_least(:once).and_call_original
@@ -60,7 +60,7 @@ RSpec.describe Redetermination do
 
       context 'litigator claims' do
         let(:claim) { create(:litigator_claim, apply_vat: true) }
-        let(:redetermination) { build(:redetermination, fees: 100.0, expenses: 0, disbursements: 0, claim: claim) }
+        let(:redetermination) { build(:redetermination, fees: 100.0, expenses: 0, disbursements: 0, claim:) }
 
         it 'does not update/calculate the VAT amount' do
           expect { redetermination.save }.not_to change(redetermination, :vat_amount)
@@ -78,7 +78,7 @@ RSpec.describe Redetermination do
       # Given a number of redeterminations written at various times
       [date_3, date_1, date_2].each do |date|
         travel_to(date) do
-          create(:redetermination, claim: claim)
+          create(:redetermination, claim:)
         end
       end
       # when I call claim.redeterminations

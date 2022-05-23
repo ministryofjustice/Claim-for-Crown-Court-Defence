@@ -16,7 +16,7 @@ RSpec.shared_examples 'fee_type_rules_creator' do
   end
 
   describe '.where' do
-    subject { described_class.where(unique_code: unique_code) }
+    subject { described_class.where(unique_code:) }
 
     context 'with unique code matching existing set' do
       let(:unique_code) { 'MIUMU' }

@@ -36,7 +36,7 @@ module ThinkstCanary
     end
 
     def full_params(params, auth)
-      return params.merge(auth_token: auth_token) if auth
+      return params.merge(auth_token:) if auth
 
       params
     end

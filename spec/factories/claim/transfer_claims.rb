@@ -12,7 +12,7 @@ FactoryBot.define do
 
     # add (only) one transfer_fee
     after(:build) do |claim|
-      claim.fees << build(:transfer_fee, claim: claim)
+      claim.fees << build(:transfer_fee, claim:)
     end
 
     trait :with_transfer_detail do

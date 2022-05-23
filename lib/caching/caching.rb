@@ -2,9 +2,9 @@ class Caching
   cattr_accessor :backend
 
   class << self
-    def method_missing(method, *args, &block)
+    def method_missing(method, *args, &)
       if backend.current.respond_to?(method, false)
-        backend.current.send(method, *args, &block)
+        backend.current.send(method, *args, &)
       else
         super
       end

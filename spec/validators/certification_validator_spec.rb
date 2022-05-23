@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe CertificationValidator, type: :validator do
-  subject(:certification) { build(:certification, certification_type: certification_type, claim: claim) }
+  subject(:certification) { build(:certification, certification_type:, claim:) }
 
   let(:certification_type) { create(:certification_type) }
   let(:claim) { build(:claim) }

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Fee::BaseFeePresenter, type: :presenter do
   let(:claim) { instance_double(Claim::BaseClaim) }
-  let(:fee) { instance_double(Fee::BaseFee, claim: claim) }
+  let(:fee) { instance_double(Fee::BaseFee, claim:) }
 
   subject(:presenter) { described_class.new(fee, view) }
 

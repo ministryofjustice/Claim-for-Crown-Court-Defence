@@ -38,7 +38,7 @@ class InjectionResponseService
   def create_injection_attempt
     InjectionAttempt.create(claim: @claim,
                             succeeded: injected?,
-                            error_messages: error_messages)
+                            error_messages:)
   end
 
   def injection_attempt

@@ -8,7 +8,7 @@ RSpec.describe API::V2::MI::AGFSSchemeTenClaims do
 
   let(:case_worker_admin) { create(:case_worker, :admin) }
   let(:external_user) { create(:external_user) }
-  let(:params) { { api_key: api_key } }
+  let(:params) { { api_key: } }
   let(:transitory_params) { {} }
   let(:expected_json_keys) { %i[id type defendant case_number claim_submitted case_type court offence offence_band provider_name user_name created_at representation_order_date] }
 

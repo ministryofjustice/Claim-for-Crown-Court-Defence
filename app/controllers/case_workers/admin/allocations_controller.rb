@@ -11,7 +11,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def create
-    @allocation = Allocation.new(allocation_params.merge(current_user: current_user))
+    @allocation = Allocation.new(allocation_params.merge(current_user:))
     if @allocation.save
       redirect_with_feedback(@allocation)
     else
@@ -23,7 +23,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def redirect_with_feedback(allocation)
     flash[:notice] = notification(allocation)
-    redirect_to case_workers_admin_allocations_path(tab: tab, scheme: scheme)
+    redirect_to case_workers_admin_allocations_path(tab:, scheme:)
   end
 
   def summary_from_previous_request?
@@ -52,11 +52,11 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
   end
 
   def set_case_workers
-    @case_workers = CaseWorkerService.new(current_user: current_user).active
+    @case_workers = CaseWorkerService.new(current_user:).active
   end
 
   def set_claims
-    @claims = Claims::CaseWorkerClaims.new(current_user: current_user, action: tab, criteria: criteria_params).claims
+    @claims = Claims::CaseWorkerClaims.new(current_user:, action: tab, criteria: criteria_params).claims
     add_claim_carousel_info
   end
 
@@ -124,7 +124,7 @@ class CaseWorkers::Admin::AllocationsController < CaseWorkers::Admin::Applicatio
 
   def criteria_params
     limit = quantity_allocation? ? quantity_to_allocate : page_size
-    { sorting: sort_column, direction: sort_direction, scheme: scheme, filter: filter,
-      page: current_page, limit: limit, search: search_terms, value_band_id: value_band_id }
+    { sorting: sort_column, direction: sort_direction, scheme:, filter:,
+      page: current_page, limit:, search: search_terms, value_band_id: }
   end
 end

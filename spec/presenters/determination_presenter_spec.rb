@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DeterminationPresenter do
   let(:changeset) { {} }
-  let(:pt_version) { instance_double(PaperTrail::Version, item_type: 'Determination', changeset: changeset, event: 'my_event', created_at: DateTime.parse('2019-03-31 09:38:00.000000')) }
+  let(:pt_version) { instance_double(PaperTrail::Version, item_type: 'Determination', changeset:, event: 'my_event', created_at: DateTime.parse('2019-03-31 09:38:00.000000')) }
   let(:presenter) { DeterminationPresenter.new(pt_version, view) }
 
   describe '#event' do

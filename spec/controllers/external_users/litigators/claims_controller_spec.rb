@@ -65,7 +65,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
             case_type_id: case_type.id,
             offence_id: offence,
             case_number: 'A20161234',
-            supplier_number: supplier_number,
+            supplier_number:,
             'case_concluded_at(3i)': 5.days.ago.day.to_s,
             'case_concluded_at(2i)': 5.days.ago.month.to_s,
             'case_concluded_at(1i)': 5.days.ago.year.to_s,
@@ -142,10 +142,10 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
           let(:claim_params_step1) do
             {
               external_user_id: litigator.id,
-              supplier_number: supplier_number,
+              supplier_number:,
               court_id: court,
               case_type_id: case_type.id,
-              case_number: case_number,
+              case_number:,
               'case_concluded_at(3i)': case_concluded_at.day.to_s,
               'case_concluded_at(2i)': case_concluded_at.month.to_s,
               'case_concluded_at(1i)': case_concluded_at.year.to_s
@@ -175,7 +175,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
             }
           end
 
-          let(:subject_claim) { Claim::LitigatorClaim.where(case_number: case_number).first }
+          let(:subject_claim) { Claim::LitigatorClaim.where(case_number:).first }
 
           it 'validates step fields and move to next steps' do
             post :create, params: { commit_continue: 'Continue', claim: claim_params_step1 }
@@ -349,7 +349,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
 
       context 'when a step is provided' do
         let(:step) { :defendants }
-        let(:edit_request) { -> { get :edit, params: { id: claim, step: step } } }
+        let(:edit_request) { -> { get :edit, params: { id: claim, step: } } }
 
         it 'claim is submitted submission step' do
           expect(assigns(:claim).form_step).to eq(:defendants)

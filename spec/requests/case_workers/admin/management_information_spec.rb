@@ -93,7 +93,7 @@ RSpec.describe 'Management information administration', type: :request do
 
   describe '#GET /case_workers/admin/management_information/download' do
     subject(:request) do
-      get case_workers_admin_management_information_download_path(params: { report_type: report_type })
+      get case_workers_admin_management_information_download_path(params: { report_type: })
     end
 
     it_behaves_like 'case worker not authorized'
@@ -136,7 +136,7 @@ RSpec.describe 'Management information administration', type: :request do
 
   describe '#GET /case_workers/admin/management_information/generate' do
     subject(:request) do
-      get case_workers_admin_management_information_generate_path(params: { report_type: report_type })
+      get case_workers_admin_management_information_generate_path(params: { report_type: })
     end
 
     it_behaves_like 'case worker not authorized'
@@ -150,7 +150,7 @@ RSpec.describe 'Management information administration', type: :request do
       it 'enqueues a StatsReportGenerationJob for specified report' do
         request
         expect(StatsReportGenerationJob)
-          .to have_been_enqueued.with(report_type: report_type)
+          .to have_been_enqueued.with(report_type:)
                                 .on_queue('stats_reports')
                                 .at(:no_wait)
       end
@@ -172,13 +172,13 @@ RSpec.describe 'Management information administration', type: :request do
   end
 
   describe '#POST /case_workers/admin/management_information/create' do
-    subject(:request) { post case_workers_admin_management_information_create_path(params: params) }
+    subject(:request) { post case_workers_admin_management_information_create_path(params:) }
 
     before { ActiveJob::Base.queue_adapter = :test }
 
     context 'with a valid report type and valid date' do
       let(:params) do
-        { report_type: report_type,
+        { report_type:,
           'start_at(3i)' => '25',
           'start_at(2i)' => '12',
           'start_at(1i)' => '2020' }
@@ -189,7 +189,7 @@ RSpec.describe 'Management information administration', type: :request do
       it 'enqueues a StatsReportGenerationJob for specified report with date' do
         request
         expect(StatsReportGenerationJob)
-          .to have_been_enqueued.with(report_type: report_type, start_at: Date.parse('2020-12-25'))
+          .to have_been_enqueued.with(report_type:, start_at: Date.parse('2020-12-25'))
                                 .on_queue('stats_reports')
                                 .at(:no_wait)
       end

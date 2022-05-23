@@ -15,24 +15,24 @@ module Stats
     self.table_name = 'statistics'
 
     def self.find_by_date_and_report_name(date, report_name)
-      Statistic.where(date: date, report_name: report_name).order(:claim_type)
+      Statistic.where(date:, report_name:).order(:claim_type)
     end
 
     def self.report(report_name, claim_type, start_date, end_date)
-      Statistic.where(report_name: report_name, claim_type: claim_type.to_s)
+      Statistic.where(report_name:, claim_type: claim_type.to_s)
                .where('date between ? and ?', start_date.to_date, end_date.to_date)
                .order(:date)
     end
 
     def self.create_or_update(date, report_name, claim_type, value1, value2 = 0)
-      stat = Statistic.find_by(date: date, report_name: report_name, claim_type: claim_type.to_s)
+      stat = Statistic.find_by(date:, report_name:, claim_type: claim_type.to_s)
       if stat
         stat.update(value_1: value1, value_2: value2)
         retval = 0
       else
         Statistic.create(
-          date: date,
-          report_name: report_name,
+          date:,
+          report_name:,
           claim_type: claim_type.to_s,
           value_1: value1,
           value_2: value2

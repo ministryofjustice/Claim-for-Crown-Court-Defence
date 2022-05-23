@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DisbursementValidator, type: :validator do
   let(:claim) { build(:litigator_claim, force_validation: true) }
-  let(:disbursement) { build(:disbursement, claim: claim, net_amount: 100, vat_amount: 20) }
+  let(:disbursement) { build(:disbursement, claim:, net_amount: 100, vat_amount: 20) }
 
   describe '#validate_claim' do
     it { should_error_if_not_present(disbursement, :claim, 'blank') }

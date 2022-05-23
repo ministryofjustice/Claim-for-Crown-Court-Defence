@@ -11,7 +11,7 @@ describe API::V2::CaseWorker do
   let(:sorting) { {} }
   let(:params) do
     {
-      api_key: api_key
+      api_key:
     }.merge(sorting)
   end
   let(:api_key) { case_workers.first.user.api_key }

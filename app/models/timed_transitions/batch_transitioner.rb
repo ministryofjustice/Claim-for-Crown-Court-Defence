@@ -61,7 +61,7 @@ module TimedTransitions
     def log_start
       log(:info,
           'Starting processing of stale claims',
-          started_at: started_at)
+          started_at:)
     end
 
     def log_end
@@ -72,8 +72,8 @@ module TimedTransitions
 
       log(:info,
           'Finished processing of stale claims',
-          started_at: started_at,
-          finished_at: finished_at,
+          started_at:,
+          finished_at:,
           claims_processed: transitions_counter,
           seconds_taken: finished_at.to_i - started_at.to_i)
     end
@@ -83,7 +83,7 @@ module TimedTransitions
         level.to_sym,
         'TimedTransitions::BatchTransitioner',
         environment: ENV.fetch('ENV', nil),
-        limit: limit,
+        limit:,
         started_at: options[:started_at],
         claims_processed: options[:claims_processed],
         finished_at: options[:finished_at],

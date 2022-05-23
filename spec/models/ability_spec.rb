@@ -69,13 +69,13 @@ RSpec.describe Ability do
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy].each do |action|
         agfs_claim_type_objects.each do |model|
-          it { should be_able_to(action, model.new(external_user: external_user)) }
+          it { should be_able_to(action, model.new(external_user:)) }
         end
       end
     end
 
     context 'cannot manage claims by another external_user in the same provider' do
-      let(:other_external_user) { create(:external_user, :advocate, provider: provider) }
+      let(:other_external_user) { create(:external_user, :advocate, provider:) }
 
       [:show, :show_message_controls, :edit, :update, :summary, :unarchive, :confirmation, :clone_rejected, :destroy].each do |action|
         agfs_claim_type_objects.each do |model|
@@ -86,13 +86,13 @@ RSpec.describe Ability do
 
     context 'can index and create documents' do
       [:index, :create].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
+        it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
 
     context 'can view/download/destroy their own documents' do
       [:show, :download, :destroy].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
+        it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
 
@@ -137,7 +137,7 @@ RSpec.describe Ability do
 
   context 'external_user admin' do
     let(:provider) { create(:provider) }
-    let(:external_user) { create(:external_user, :admin, provider: provider) }
+    let(:external_user) { create(:external_user, :admin, provider:) }
     let(:user) { external_user.user }
 
     [:create].each do |action|
@@ -153,13 +153,13 @@ RSpec.describe Ability do
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :summary, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         all_claim_type_objects.each do |model|
-          it { should be_able_to(action, model.new(external_user: external_user, creator: external_user)) }
+          it { should be_able_to(action, model.new(external_user:, creator: external_user)) }
         end
       end
     end
 
     context 'can manage claims by another external_user in the same provider' do
-      let(:other_external_user) { create(:external_user, provider: provider) }
+      let(:other_external_user) { create(:external_user, provider:) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         all_claim_type_objects.each do |model|
@@ -202,18 +202,18 @@ RSpec.describe Ability do
 
     context 'can index and create documents' do
       [:index, :create].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
+        it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
 
     context 'can view/download/destroy their own documents' do
       [:show, :download, :destroy].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
+        it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
 
     context 'can view/download/destroy documents by an external_user in the same provider' do
-      let(:other_external_user) { create(:external_user, provider: provider) }
+      let(:other_external_user) { create(:external_user, provider:) }
 
       [:show, :download, :destroy].each do |action|
         it { should be_able_to(action, Document.new(external_user: other_external_user)) }
@@ -230,7 +230,7 @@ RSpec.describe Ability do
 
     context 'can manage external_users in their provider' do
       [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
-        it { should be_able_to(action, ExternalUser.new(provider: provider)) }
+        it { should be_able_to(action, ExternalUser.new(provider:)) }
       end
     end
 
@@ -271,7 +271,7 @@ RSpec.describe Ability do
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         lgfs_claim_type_objects.each do |model|
-          it { should be_able_to(action, model.new(external_user: external_user)) }
+          it { should be_able_to(action, model.new(external_user:)) }
         end
       end
     end
@@ -288,13 +288,13 @@ RSpec.describe Ability do
 
     context 'can view/download/destroy their own documents' do
       [:show, :download, :destroy].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
+        it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
 
     context 'can index and create documents' do
       [:index, :create].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
+        it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
 
@@ -308,7 +308,7 @@ RSpec.describe Ability do
 
     context 'cannot manage external_users in their provider' do
       [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
-        it { should_not be_able_to(action, ExternalUser.new(provider: provider)) }
+        it { should_not be_able_to(action, ExternalUser.new(provider:)) }
       end
     end
 
@@ -345,13 +345,13 @@ RSpec.describe Ability do
     context 'can manage their own claims' do
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         [Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim].each do |model|
-          it { should be_able_to(action, model.new(external_user: external_user, creator: external_user)) }
+          it { should be_able_to(action, model.new(external_user:, creator: external_user)) }
         end
       end
     end
 
     context 'can manage claims by another external_user in the same provider' do
-      let(:other_external_user) { create(:external_user, provider: provider) }
+      let(:other_external_user) { create(:external_user, provider:) }
 
       [:show, :show_message_controls, :edit, :update, :confirmation, :unarchive, :clone_rejected, :destroy].each do |action|
         lgfs_claim_type_objects.each do |model|
@@ -372,13 +372,13 @@ RSpec.describe Ability do
 
     context 'can view/download/destroy their own documents' do
       [:show, :download, :destroy].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
+        it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
 
     context 'can index and create documents' do
       [:index, :create].each do |action|
-        it { should be_able_to(action, Document.new(external_user: external_user)) }
+        it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
 
@@ -391,7 +391,7 @@ RSpec.describe Ability do
     end
 
     context 'can view/download/destroy documents by an external_user in the same provider' do
-      let(:other_external_user) { create(:external_user, provider: provider) }
+      let(:other_external_user) { create(:external_user, provider:) }
 
       [:show, :download, :destroy].each do |action|
         it { should be_able_to(action, Document.new(external_user: other_external_user)) }
@@ -400,7 +400,7 @@ RSpec.describe Ability do
 
     context 'can manage external_users in their provider' do
       [:show, :edit, :update, :destroy, :change_password, :update_password].each do |action|
-        it { should be_able_to(action, ExternalUser.new(provider: provider)) }
+        it { should be_able_to(action, ExternalUser.new(provider:)) }
       end
     end
 
@@ -577,7 +577,7 @@ RSpec.describe Ability do
     let(:super_admin) { create(:super_admin) }
     let(:user) { super_admin.user }
     let(:other_super_admin) { create(:super_admin) }
-    let(:external_user) { create(:external_user, provider: provider) }
+    let(:external_user) { create(:external_user, provider:) }
 
     it { is_expected.to be_able_to(:update_settings, user) }
     it { is_expected.not_to be_able_to(:update_settings, another_user) }

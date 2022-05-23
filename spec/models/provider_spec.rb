@@ -61,7 +61,7 @@ RSpec.describe Provider, type: :model do
     context 'with LGFS role only' do
       let(:lgfs_supplier_numbers) { build_list(:supplier_number, 2) }
       let(:roles) { %w[lgfs] }
-      let(:provider) { create(:provider, :firm, roles: roles, lgfs_supplier_numbers: lgfs_supplier_numbers) }
+      let(:provider) { create(:provider, :firm, roles:, lgfs_supplier_numbers:) }
 
       it 'removes LGFS role' do
         expect { change_to_chamber }.to change { provider.reload.roles }.from(roles).to(%w[agfs])
@@ -76,7 +76,7 @@ RSpec.describe Provider, type: :model do
       let(:firm_agfs_supplier_number) { '123AH' }
       let(:lgfs_supplier_numbers) { build_list(:supplier_number, 2) }
       let(:roles) { %w[agfs lgfs] }
-      let(:provider) { create(:provider, :firm, roles: roles, firm_agfs_supplier_number: firm_agfs_supplier_number, lgfs_supplier_numbers: lgfs_supplier_numbers) }
+      let(:provider) { create(:provider, :firm, roles:, firm_agfs_supplier_number:, lgfs_supplier_numbers:) }
 
       it 'removes LGFS role' do
         expect { change_to_chamber }.to change { provider.reload.roles }.from(roles).to(%w[agfs])

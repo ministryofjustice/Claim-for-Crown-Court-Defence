@@ -126,7 +126,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
       context 'when a claim exists with a, legacy, now non-valid evidence provision fee' do
         let(:claim) { create(:litigator_claim) }
-        let(:fee) { build :misc_fee, claim: claim, amount: '123', fee_type: fee_type }
+        let(:fee) { build :misc_fee, claim:, amount: '123', fee_type: }
         let(:fee_type) { build :misc_fee_type, :mievi }
 
         describe 'de-allocation' do
@@ -213,7 +213,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
       context 'when a claim exists with a, legacy, now non-valid evidence provision fee' do
         let(:claim) { create :litigator_claim }
-        let(:fee) { build :misc_fee, claim: claim, amount: '123', fee_type: fee_type }
+        let(:fee) { build :misc_fee, claim:, amount: '123', fee_type: }
         let(:fee_type) { build :misc_fee_type, :mievi }
 
         it { expect { claim.allocate! }.not_to raise_error }

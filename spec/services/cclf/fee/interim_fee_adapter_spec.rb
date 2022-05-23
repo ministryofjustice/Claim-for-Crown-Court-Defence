@@ -15,8 +15,8 @@ RSpec.describe CCLF::Fee::InterimFeeAdapter, type: :adapter do
         subject(:instance) { described_class.new(fee) }
 
         let(:claim) { instance_double(::Claim::InterimClaim) }
-        let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: unique_code) }
-        let(:fee) { instance_double(::Fee::InterimFee, fee_type: fee_type, claim: claim) }
+        let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code:) }
+        let(:fee) { instance_double(::Fee::InterimFee, fee_type:, claim:) }
 
         describe '#bill_type' do
           subject { instance.bill_type }

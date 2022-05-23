@@ -21,19 +21,19 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
     context 'LGFS' do
       let(:case_type) { create(:case_type, :trial) }
       let(:offence_class) { create(:offence_class, class_letter: 'J') }
-      let(:offence) { create(:offence, offence_class: offence_class) }
+      let(:offence) { create(:offence, offence_class:) }
 
       context 'final claim' do
         let(:claim) do
           create(
             :litigator_claim,
             create_defendant_and_rep_order_for_scheme_8: true,
-            case_type: case_type,
-            offence: offence
+            case_type:,
+            offence:
           )
         end
 
-        let(:fee) { create(:graduated_fee, :trial_fee, claim: claim, date: scheme_date_for('lgfs'), quantity: 1) }
+        let(:fee) { create(:graduated_fee, :trial_fee, claim:, date: scheme_date_for('lgfs'), quantity: 1) }
         let(:params) { { fee_type_id: fee.fee_type.id, days: 10, ppe: 1 } }
 
         it_returns 'a successful fee calculator response', amount: 5142.87
@@ -61,7 +61,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           create(
             :transfer_claim,
             create_defendant_and_rep_order_for_scheme_8: true,
-            offence: offence,
+            offence:,
             litigator_type: 'new',
             elected_case: false,
             transfer_stage_id: 20, # Before trial transfer
@@ -87,19 +87,19 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
           create(
             :interim_claim,
             create_defendant_and_rep_order_for_scheme_8: true,
-            offence: offence
+            offence:
           )
         }
 
         context 'effective PCMH' do
-          let(:fee) { create(:interim_fee, :effective_pcmh, claim: claim, quantity: 100) }
+          let(:fee) { create(:interim_fee, :effective_pcmh, claim:, quantity: 100) }
           let(:params) { { fee_type_id: fee.fee_type.id, days: nil, ppe: fee.quantity } }
 
           it_returns 'a successful fee calculator response', amount: 838.94
         end
 
         context 'trial start' do
-          let(:fee) { create(:interim_fee, :trial_start, claim: claim) }
+          let(:fee) { create(:interim_fee, :trial_start, claim:) }
           let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
 
           TRIAL_LENGTH_BOUNDARIES = { 9 => 0.00, 10 => 1467.58, 11 => 1467.58 }
@@ -108,7 +108,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             context "with an estimated length of #{length}" do
               let(:length) { length }
 
-              it_returns 'a successful fee calculator response', amount: amount
+              it_returns 'a successful fee calculator response', amount:
             end
           end
 
@@ -123,7 +123,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
         end
 
         context 'retrial start' do
-          let(:fee) { create(:interim_fee, :retrial_start, claim: claim) }
+          let(:fee) { create(:interim_fee, :retrial_start, claim:) }
           let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
 
           RETRIAL_LENGTH_BOUNDARIES = { 9 => 0.00, 10 => 1467.58, 11 => 1467.58 }
@@ -132,13 +132,13 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             context "with an estimated length of #{length}" do
               let(:length) { length }
 
-              it_returns 'a successful fee calculator response', amount: amount
+              it_returns 'a successful fee calculator response', amount:
             end
           end
         end
 
         context 'retrial (new solicitor)' do
-          let(:fee) { create(:interim_fee, :retrial_new_solicitor, claim: claim, quantity: 81) }
+          let(:fee) { create(:interim_fee, :retrial_new_solicitor, claim:, quantity: 81) }
           let(:params) { { fee_type_id: fee.fee_type.id, days: nil, ppe: fee.quantity } }
 
           it_returns 'a successful fee calculator response', amount: 457.64
@@ -151,7 +151,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
         context 'warrant' do
           before { claim.retrial_estimated_length = 3 }
 
-          let(:fee) { create(:interim_fee, :warrant, claim: claim) }
+          let(:fee) { create(:interim_fee, :warrant, claim:) }
           let(:params) { { fee_type_id: fee.fee_type.id } }
 
           context 'fee calculation excluded' do
@@ -167,8 +167,8 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
         context 'scheme 9' do
           let(:offence_class) { create(:offence_class, class_letter: 'A') }
-          let(:offence) { create(:offence, offence_class: offence_class) }
-          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_9: true, case_type: case_type, offence: offence) }
+          let(:offence) { create(:offence, offence_class:) }
+          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_9: true, case_type:, offence:) }
           let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior alone', days: 1 } }
 
           context 'trial' do
@@ -363,8 +363,8 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
         context 'scheme 10' do
           let(:offence_band) { create(:offence_band, description: '1.1') }
-          let(:offence) { create(:offence, :with_fee_scheme_ten, offence_band: offence_band) }
-          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_10: true, case_type: case_type, offence: offence) }
+          let(:offence) { create(:offence, :with_fee_scheme_ten, offence_band:) }
+          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_10: true, case_type:, offence:) }
           let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior', days: 1 } }
 
           context 'trial' do
@@ -376,8 +376,8 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
         context 'scheme 11' do
           let(:offence_band) { create(:offence_band, description: '1.1') }
-          let(:offence) { create(:offence, :with_fee_scheme_eleven, offence_band: offence_band) }
-          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_11: true, case_type: case_type, offence: offence) }
+          let(:offence) { create(:offence, :with_fee_scheme_eleven, offence_band:) }
+          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_11: true, case_type:, offence:) }
           let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior', days: 1 } }
 
           context 'trial' do
@@ -393,8 +393,8 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
         context 'scheme 9' do
           let(:offence_class) { create(:offence_class, class_letter: 'A') }
-          let(:offence) { create(:offence, offence_class: offence_class) }
-          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_9: true, case_type: case_type, offence: offence) }
+          let(:offence) { create(:offence, offence_class:) }
+          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_9: true, case_type:, offence:) }
           let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior alone', ppe: quantity } }
 
           context 'trial' do
@@ -805,8 +805,8 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
         context 'scheme 9' do
           let(:offence_class) { create(:offence_class, class_letter: 'A') }
-          let(:offence) { create(:offence, offence_class: offence_class) }
-          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_9: true, case_type: case_type, offence: offence) }
+          let(:offence) { create(:offence, offence_class:) }
+          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_9: true, case_type:, offence:) }
           let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior alone', pw: quantity } }
 
           context 'trial' do

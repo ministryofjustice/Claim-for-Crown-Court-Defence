@@ -8,8 +8,8 @@ RSpec.describe API::Entities::CCLF::AdaptedTransferFee, type: :adapter do
   let(:transfer_fee) do
     instance_double(
       ::Fee::TransferFee,
-      claim: claim,
-      fee_type: fee_type,
+      claim:,
+      fee_type:,
       quantity: 888.0,
       amount: 303.03
     )

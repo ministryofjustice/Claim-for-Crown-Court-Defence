@@ -4,19 +4,19 @@ RSpec.describe 'Distance calculation for travel expenses', type: :request do
   subject(:calculate_distance) do
     post(
       "/external_users/claims/#{claim_id}/expenses/calculate_distance.json",
-      params: { destination: destination }.to_json,
+      params: { destination: }.to_json,
       headers: { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
     )
   end
 
   let(:supplier_number) { '9A999I' }
   let(:supplier_postcode) { 'MK40 3TN' }
-  let(:claim) { create(:litigator_claim, supplier_number: supplier_number) }
+  let(:claim) { create(:litigator_claim, supplier_number:) }
   let(:claim_id) { claim.id }
   let(:destination) { 'MK40 1HG' }
 
   before do
-    create(:supplier_number, supplier_number: supplier_number, postcode: supplier_postcode)
+    create(:supplier_number, supplier_number:, postcode: supplier_postcode)
     allow(DistanceCalculatorService::Directions)
       .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: 847))
   end

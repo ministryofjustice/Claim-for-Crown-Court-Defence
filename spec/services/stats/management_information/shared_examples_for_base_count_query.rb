@@ -44,7 +44,7 @@ RSpec.shared_examples 'a base count query' do |scheme|
     subject(:call) { instance.call }
 
     let(:instance) { described_class.new(**kwargs) }
-    let(:kwargs) { { date_range: date_range, date_column_filter: :originally_submitted_at } }
+    let(:kwargs) { { date_range:, date_column_filter: :originally_submitted_at } }
     let(:date_range) { Time.zone.today..Time.zone.today }
 
     it 'calls #prepare' do
@@ -68,7 +68,7 @@ RSpec.shared_examples 'a base count query' do |scheme|
     end
 
     context 'with valid date_range and date_column_filter' do
-      let(:kwargs) { { date_range: date_range, date_column_filter: :originally_submitted_at } }
+      let(:kwargs) { { date_range:, date_column_filter: :originally_submitted_at } }
 
       it 'returned object behaves like array' do
         is_expected.to respond_to(:[])
@@ -132,7 +132,7 @@ RSpec.shared_examples 'an originally_submitted_at filterable query' do
   describe '#call' do
     subject(:result) { described_class.new(**kwargs).call }
 
-    let(:kwargs) { { date_range: date_range, date_column_filter: :originally_submitted_at } }
+    let(:kwargs) { { date_range:, date_column_filter: :originally_submitted_at } }
 
     before { claim }
 
@@ -154,7 +154,7 @@ RSpec.shared_examples 'a completed_at filterable query' do
   describe '#call' do
     subject(:result) { described_class.new(**kwargs).call }
 
-    let(:kwargs) { { date_range: date_range, date_column_filter: :completed_at } }
+    let(:kwargs) { { date_range:, date_column_filter: :completed_at } }
 
     before { claim }
 

@@ -19,7 +19,7 @@ RSpec.describe EstablishmentsController, type: :controller do
       let(:category) { 'crown_court' }
 
       it 'returns only the list of crown court establishments' do
-        get :index, params: { category: category, format: :json }
+        get :index, params: { category:, format: :json }
         expect(response).to be_successful
         json_body = JSON.parse(response.body)
         expect(json_body.size).to eq(crown_courts.size)
@@ -33,7 +33,7 @@ RSpec.describe EstablishmentsController, type: :controller do
       let(:category) { 'magistrates_court' }
 
       it 'returns only the list of magistrates court establishments' do
-        get :index, params: { category: category, format: :json }
+        get :index, params: { category:, format: :json }
         expect(response).to be_successful
         json_body = JSON.parse(response.body)
         expect(json_body.size).to eq(magistrates_courts.size)
@@ -47,7 +47,7 @@ RSpec.describe EstablishmentsController, type: :controller do
       let(:category) { 'prison' }
 
       it 'returns only the list of prison establishments' do
-        get :index, params: { category: category, format: :json }
+        get :index, params: { category:, format: :json }
         expect(response).to be_successful
         json_body = JSON.parse(response.body)
         expect(json_body.size).to eq(prisons.size)
@@ -61,7 +61,7 @@ RSpec.describe EstablishmentsController, type: :controller do
       let(:category) { 'hospital' }
 
       it 'returns only the list of hospital establishments' do
-        get :index, params: { category: category, format: :json }
+        get :index, params: { category:, format: :json }
         expect(response).to be_successful
         json_body = JSON.parse(response.body)
         expect(json_body.size).to eq(hospitals.size)
@@ -75,7 +75,7 @@ RSpec.describe EstablishmentsController, type: :controller do
       let(:category) { 'invalid_category' }
 
       it 'returns an empty list of establishments' do
-        get :index, params: { category: category, format: :json }
+        get :index, params: { category:, format: :json }
         expect(response).to be_successful
         json_body = JSON.parse(response.body)
         expect(json_body).to be_empty

@@ -12,7 +12,7 @@ FactoryBot.define do
       claim.creator = claim.external_user || build(:external_user, :advocate)
       if evaluator.with_misc_fee
         fee_type = Fee::MiscFeeType.find_by(unique_code: 'MISPF') || create(:misc_fee_type, :mispf) # persitence needed to prevent ineligible misc fee type deletion
-        claim.misc_fees << build(:misc_fee, fee_type: fee_type, claim: claim)
+        claim.misc_fees << build(:misc_fee, fee_type:, claim:)
       end
     end
   end

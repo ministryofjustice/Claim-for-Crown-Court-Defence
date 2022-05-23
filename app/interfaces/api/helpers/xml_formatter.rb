@@ -11,7 +11,7 @@ module API::Helpers
       def xml_format(object)
         if object.is_a?(Hash)
           root = object.keys.first
-          object[root].to_xml(default_options.merge(root: root))
+          object[root].to_xml(default_options.merge(root:))
         else
           object.to_xml(default_options)
         end

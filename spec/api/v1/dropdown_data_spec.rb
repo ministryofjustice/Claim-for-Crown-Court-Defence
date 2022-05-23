@@ -168,7 +168,7 @@ RSpec.describe API::V1::DropdownData do
           let(:rep_order_date) { scheme_date_for('scheme 9') }
 
           it 'returns matching offence' do
-            params.merge!(rep_order_date: rep_order_date, unique_code: scheme_9_offence.unique_code)
+            params.merge!(rep_order_date:, unique_code: scheme_9_offence.unique_code)
             is_expected.to match_array([exposed_offence[scheme_9_offence]])
           end
         end
@@ -177,7 +177,7 @@ RSpec.describe API::V1::DropdownData do
           let(:rep_order_date) { scheme_date_for('scheme 10') }
 
           it 'returns matching offence' do
-            params.merge!(rep_order_date: rep_order_date, unique_code: scheme_10_offence.unique_code)
+            params.merge!(rep_order_date:, unique_code: scheme_10_offence.unique_code)
             is_expected.to match_array([exposed_offence[scheme_10_offence]])
           end
         end
@@ -186,7 +186,7 @@ RSpec.describe API::V1::DropdownData do
           let(:rep_order_date) { scheme_date_for('scheme 11') }
 
           it 'returns matching offence' do
-            params.merge!(rep_order_date: rep_order_date, unique_code: scheme_11_offence.unique_code)
+            params.merge!(rep_order_date:, unique_code: scheme_11_offence.unique_code)
             is_expected.to match_array([exposed_offence[scheme_11_offence]])
           end
         end
@@ -224,7 +224,7 @@ RSpec.describe API::V1::DropdownData do
     end
 
     context 'with category filter' do
-      before { get FEE_TYPE_ENDPOINT, params.merge(category: category), format: :json }
+      before { get FEE_TYPE_ENDPOINT, params.merge(category:), format: :json }
 
       let(:parsed_body) { JSON.parse(last_response.body) }
 
@@ -286,7 +286,7 @@ RSpec.describe API::V1::DropdownData do
       end
 
       context 'when fixed category specified' do
-        before { get FEE_TYPE_ENDPOINT, params.merge(category: 'fixed', role: role), format: :json }
+        before { get FEE_TYPE_ENDPOINT, params.merge(category: 'fixed', role:), format: :json }
 
         context 'with agfs role' do
           let(:role) { 'agfs' }
@@ -340,7 +340,7 @@ RSpec.describe API::V1::DropdownData do
 
     context 'with unique code filter' do
       subject(:response_body) do
-        response = get FEE_TYPE_ENDPOINT, params.merge(unique_code: unique_code), format: :json
+        response = get FEE_TYPE_ENDPOINT, params.merge(unique_code:), format: :json
         response.body
       end
 

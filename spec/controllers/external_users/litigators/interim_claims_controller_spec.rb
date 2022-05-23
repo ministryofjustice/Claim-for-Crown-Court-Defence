@@ -46,7 +46,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             case_type_id: case_type.id,
             offence_id: offence,
             case_number: 'A20161234',
-            supplier_number: supplier_number,
+            supplier_number:,
             defendants_attributes: [
               {
                 first_name: 'John',
@@ -124,11 +124,11 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
           let(:claim_params_step1) do
             {
               external_user_id: litigator.id,
-              supplier_number: supplier_number,
+              supplier_number:,
               court_id: court,
               case_type_id: case_type.id,
               offence_id: offence,
-              case_number: case_number,
+              case_number:,
               defendants_attributes: [
                 {
                   first_name: 'John',
@@ -156,7 +156,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
             }.merge(interim_fee_params)
           end
 
-          let(:subject_claim) { Claim::InterimClaim.where(case_number: case_number).first }
+          let(:subject_claim) { Claim::InterimClaim.where(case_number:).first }
 
           context 'step 1 continue' do
             render_views
@@ -233,7 +233,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController, type: :contro
 
       context 'when a step is provided' do
         let(:step) { :defendants }
-        let(:edit_request) { -> { get :edit, params: { id: claim, step: step } } }
+        let(:edit_request) { -> { get :edit, params: { id: claim, step: } } }
 
         it 'claim is submitted submission step' do
           expect(assigns(:claim).form_step).to eq(:defendants)

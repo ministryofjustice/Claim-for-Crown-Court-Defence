@@ -47,9 +47,9 @@ RSpec.describe CCLF::DisbursementAdapter, type: :adapter do
         context "when a disbursement of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do
           subject(:instance) { described_class.new(disbursement) }
 
-          let(:claim) { instance_double(::Claim::LitigatorClaim, case_type: case_type) }
-          let(:case_type) { instance_double(::CaseType, fee_type_code: fee_type_code) }
-          let(:disbursement_type) { instance_double(::DisbursementType, unique_code: unique_code) }
+          let(:claim) { instance_double(::Claim::LitigatorClaim, case_type:) }
+          let(:case_type) { instance_double(::CaseType, fee_type_code:) }
+          let(:disbursement_type) { instance_double(::DisbursementType, unique_code:) }
 
           before do
             allow(disbursement).to receive(:claim).and_return claim

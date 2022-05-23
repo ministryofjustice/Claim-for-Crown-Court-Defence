@@ -3,7 +3,7 @@ require 'rails_helper'
 describe PerformancePlatform::DataSet do
   subject(:data_set) { described_class.new(params) }
 
-  let(:params) { { _timestamp: time_stamp, service: service, period: period, channel: channel, count: count } }
+  let(:params) { { _timestamp: time_stamp, service:, period:, channel:, count: } }
   let(:time_stamp) { '2018-01-01T00:00:00+00:00' }
   let(:channel) { 'Digital' }
   let(:count) { 1234 }
@@ -29,7 +29,7 @@ describe PerformancePlatform::DataSet do
     end
 
     describe 'without a channel' do
-      let(:params) { { _timestamp: time_stamp, service: service, period: period, count: count } }
+      let(:params) { { _timestamp: time_stamp, service:, period:, count: } }
 
       let(:expected_result) do
         {

@@ -71,22 +71,22 @@ module Stats
       end
 
       def record_start(report_name)
-        create!(report_name: report_name, status: 'started', started_at: Time.now)
+        create!(report_name:, status: 'started', started_at: Time.now)
       end
 
       def destroy_reports_older_than(report_name, timestamp)
-        where(report_name: report_name, started_at: Time.at(0)..timestamp).destroy_all
+        where(report_name:, started_at: Time.at(0)..timestamp).destroy_all
       end
 
       def destroy_unfinished_reports_older_than(report_name, timestamp)
-        where(report_name: report_name, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
+        where(report_name:, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
       end
     end
 
     def write_report(report_result)
       filename = "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}"
       log(:info, :write_report, "Writing report #{report_name} to #{filename}")
-      document.attach(io: report_result.io, filename: filename, content_type: report_result.content_type)
+      document.attach(io: report_result.io, filename:, content_type: report_result.content_type)
       update(status: 'completed', completed_at: Time.zone.now)
     rescue StandardError => e
       log(:error, :write_report, "error writing report #{report_name}...", e)
@@ -103,7 +103,7 @@ module Stats
       LogStuff.send(
         level.to_sym,
         class: self.class.name,
-        action: action,
+        action:,
         error: error ? "#{error.class} - #{error.message}" : 'false'
       ) do
         message

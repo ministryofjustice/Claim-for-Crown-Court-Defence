@@ -46,7 +46,7 @@ module Stats
       end
 
       def aggregations
-        @aggregations ||= DailyReportCountQuery.call(query_set: @query_set, date_range: date_range)
+        @aggregations ||= DailyReportCountQuery.call(query_set: @query_set, date_range:)
       end
 
       def headers_for(rec)

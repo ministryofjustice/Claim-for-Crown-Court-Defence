@@ -26,7 +26,7 @@ RSpec.describe Stage do
       let(:options) {
         {
           name: stage_name,
-          transitions: transitions,
+          transitions:,
           object: stagable_object
         }
       }
@@ -51,7 +51,7 @@ RSpec.describe Stage do
       let(:options) {
         {
           name: stage_name,
-          transitions: transitions,
+          transitions:,
           object: stagable_object
         }
       }
@@ -80,7 +80,7 @@ RSpec.describe Stage do
       let(:options) {
         {
           name: stage_name,
-          transitions: transitions,
+          transitions:,
           object: stagable_object
         }
       }

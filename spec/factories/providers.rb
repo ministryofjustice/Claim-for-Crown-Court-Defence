@@ -28,7 +28,7 @@ FactoryBot.define do
 
     before(:create) do |provider, evaluator|
       unless evaluator.__override_names__.include?(:lgfs_supplier_numbers)
-        provider.lgfs_supplier_numbers << build(:supplier_number, provider: provider) if provider.lgfs?
+        provider.lgfs_supplier_numbers << build(:supplier_number, provider:) if provider.lgfs?
       end
     end
 
@@ -67,7 +67,7 @@ FactoryBot.define do
     trait :with_lgfs_supplier_numbers do
       after(:build) do |provider|
         3.times do
-          provider.lgfs_supplier_numbers << build(:supplier_number, provider: provider)
+          provider.lgfs_supplier_numbers << build(:supplier_number, provider:)
         end
       end
     end

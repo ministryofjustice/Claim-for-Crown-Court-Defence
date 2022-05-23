@@ -15,8 +15,8 @@ module ThinkstCanary
       end
 
       def download
-        params = { factory_auth: @factory_auth, canarytoken: canarytoken }
-        query(:get, '/api/v1/canarytoken/factory/download', auth: false, json: false, params: params)
+        params = { factory_auth: @factory_auth, canarytoken: }
+        query(:get, '/api/v1/canarytoken/factory/download', auth: false, json: false, params:)
       end
 
       private

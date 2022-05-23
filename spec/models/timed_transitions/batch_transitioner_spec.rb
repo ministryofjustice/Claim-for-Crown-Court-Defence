@@ -58,7 +58,7 @@ RSpec.shared_examples 'run all transitioners' do
   end
 
   context 'with a limit' do
-    let(:options) { { dummy: dummy, limit: 1 } }
+    let(:options) { { dummy:, limit: 1 } }
 
     it 'creates a transitioner for the first claim' do
       batch_transitioner_run
@@ -92,7 +92,7 @@ end
 RSpec.describe TimedTransitions::BatchTransitioner do
   subject(:batch_transitioner) { described_class.new(**options) }
 
-  let(:options) { { dummy: dummy } }
+  let(:options) { { dummy: } }
 
   describe '#run' do
     subject(:batch_transitioner_run) { batch_transitioner.run }
@@ -105,7 +105,7 @@ RSpec.describe TimedTransitions::BatchTransitioner do
       let(:claim) { instance_double 'Claim' }
       let(:transitioner) { instance_double('Transitioner') }
       let(:notifier) { instance_double('Notifier', send_message: nil) }
-      let(:options) { { dummy: dummy, notifier: notifier } }
+      let(:options) { { dummy:, notifier: } }
 
       before do
         allow(TimedTransitions::Transitioner).to receive(:candidate_claims_ids).and_return([1, 2, 3, 4, 5])

@@ -29,9 +29,9 @@ class AccountSetter
     report = []
 
     emails.each do |email|
-      users = User.where(email: email)
+      users = User.where(email:)
       users.each { |user| report.append(found_user_template(user)) }
-      report.append({ email: email, found: false }) if users.empty?
+      report.append({ email:, found: false }) if users.empty?
 
       users = User.where('email LIKE ?', "#{email}.deleted.%")
       users.each { |user| report.append(found_user_template(user)) }
@@ -51,7 +51,7 @@ class AccountSetter
   #
   def soft_delete
     emails.each do |email|
-      user = User.find_by(email: email)
+      user = User.find_by(email:)
 
       if user
         user.persona.soft_delete
@@ -75,7 +75,7 @@ class AccountSetter
       if user
         user.persona.update(deleted_at: nil)
         user.update!(deleted_at: nil)
-        user.update!(email: email)
+        user.update!(email:)
         puts "Undid soft delete for #{user.email}!".green
       else
         puts "User email \"#{email}.delete.%\" not found!".red
@@ -93,7 +93,7 @@ class AccountSetter
   #
   def disable
     emails.each do |email|
-      user = User.find_by(email: email)
+      user = User.find_by(email:)
 
       if user&.enabled?
         user.disable
@@ -111,7 +111,7 @@ class AccountSetter
   #
   def enable
     emails.each do |email|
-      user = User.find_by(email: email)
+      user = User.find_by(email:)
 
       if user&.disabled?
         user.enable
@@ -132,7 +132,7 @@ class AccountSetter
   #
   def change_password
     emails.each do |email|
-      user = User.find_by(email: email)
+      user = User.find_by(email:)
 
       if user
         pwd = SecureRandom.base64(15)

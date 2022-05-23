@@ -270,7 +270,7 @@ module Claim
            'interim_fees', 'warrants', 'interim_disbursements', 'risk_based_bills'
         where.not(state: %w[redetermination awaiting_written_reasons]).send(filter)
       else
-        raise format('unknown filter: %{filter}', filter: filter)
+        raise format('unknown filter: %{filter}', filter:)
       end
     end
 
@@ -278,7 +278,7 @@ module Claim
       if value_band_id == '0' # this means no selection on value bands
         where.not(value_band_id: nil)
       else
-        where(value_band_id: value_band_id)
+        where(value_band_id:)
       end
     end
 
@@ -592,7 +592,7 @@ module Claim
     end
 
     def unread_messages_for(user)
-      messages.joins(:user_message_statuses).where(user_message_statuses: { read: false, user: user })
+      messages.joins(:user_message_statuses).where(user_message_statuses: { read: false, user: })
     end
 
     private
@@ -612,7 +612,7 @@ module Claim
     def find_and_associate_documents
       return if form_id.nil?
 
-      Document.where(form_id: form_id).find_each do |document|
+      Document.where(form_id:).find_each do |document|
         document.update_column(:claim_id, id)
         document.update_column(:external_user_id, external_user_id)
       end

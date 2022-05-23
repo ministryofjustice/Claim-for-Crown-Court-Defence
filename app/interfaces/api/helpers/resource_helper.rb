@@ -49,7 +49,7 @@ module API::Helpers
     end
 
     def find_user_by_email(email:, relation:)
-      user = User.active.external_users.find_by(email: email)
+      user = User.active.external_users.find_by(email:)
       raise ArgumentError, "#{relation} email is invalid" unless user
       user&.persona
     end

@@ -17,7 +17,7 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
 
     context 'when the fixed fee is set' do
       let(:fixed_fee) { build(:fixed_fee) }
-      let(:claim) { build(:litigator_claim, fixed_fee: fixed_fee) }
+      let(:claim) { build(:litigator_claim, fixed_fee:) }
 
       specify { expect(presenter.fixed_fees).to eq([fixed_fee]) }
     end
@@ -31,7 +31,7 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
     end
 
     context 'when the fixed fee is set' do
-      let(:claim) { build(:litigator_claim, fixed_fee: fixed_fee) }
+      let(:claim) { build(:litigator_claim, fixed_fee:) }
 
       context 'but amount is not set' do
         let(:fixed_fee) { build(:fixed_fee, amount: nil) }
@@ -71,7 +71,7 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
     end
 
     context 'when the graduated fee is set' do
-      let(:claim) { build(:litigator_claim, graduated_fee: graduated_fee) }
+      let(:claim) { build(:litigator_claim, graduated_fee:) }
 
       context 'but amount is not set' do
         let(:graduated_fee) { build(:graduated_fee, amount: nil) }
@@ -96,7 +96,7 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
     end
 
     context 'when the warrant fee is set' do
-      let(:claim) { build(:litigator_claim, warrant_fee: warrant_fee) }
+      let(:claim) { build(:litigator_claim, warrant_fee:) }
 
       context 'but amount is not set' do
         let(:warrant_fee) { build(:warrant_fee, amount: nil) }

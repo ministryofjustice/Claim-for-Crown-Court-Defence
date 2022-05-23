@@ -44,12 +44,12 @@ class AdvocateHardshipClaimTest < BaseClaimTest
     court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
 
     {
-      api_key: api_key,
+      api_key:,
       creator_email: 'advocateadmin@example.com',
       advocate_email: 'advocate@example.com',
       case_number: 'B20161234',
       providers_ref: SecureRandom.uuid[3..15].upcase,
-      case_stage_unique_code: case_stage_unique_code,
+      case_stage_unique_code:,
       first_day_of_trial: '2020-04-01',
       estimated_trial_length: 1,
       actual_trial_length: 1,
@@ -58,9 +58,9 @@ class AdvocateHardshipClaimTest < BaseClaimTest
       trial_fixed_at: '2020-04-04',
       trial_cracked_at: '2020-04-06',
       trial_cracked_at_third: 'first_third',
-      advocate_category: advocate_category,
-      offence_id: offence_id,
-      court_id: court_id,
+      advocate_category:,
+      offence_id:,
+      court_id:,
       cms_number: '12345678',
       additional_information: 'string',
       apply_vat: true
@@ -71,9 +71,9 @@ class AdvocateHardshipClaimTest < BaseClaimTest
     fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'basic', role: 'agfs'), 'id')
 
     {
-      api_key: api_key,
+      api_key:,
       claim_id: claim_uuid,
-      fee_type_id: fee_type_id,
+      fee_type_id:,
       quantity: 1,
       rate: 255.50
     }
@@ -83,9 +83,9 @@ class AdvocateHardshipClaimTest < BaseClaimTest
     fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs'), 'id')
 
     {
-      api_key: api_key,
+      api_key:,
       claim_id: claim_uuid,
-      fee_type_id: fee_type_id,
+      fee_type_id:,
       quantity: 2,
       rate: 1.55
     }

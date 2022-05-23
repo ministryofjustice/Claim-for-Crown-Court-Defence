@@ -42,9 +42,9 @@ module CCR
       end
 
       # delegate missing methods to object if it can respond
-      def method_missing(method, *args, &block)
+      def method_missing(method, *args, &)
         if object.respond_to?(method)
-          object.send(method, *args, &block)
+          object.send(method, *args, &)
         else
           super
         end

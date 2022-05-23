@@ -11,7 +11,7 @@ describe Claims::CreateDraft do
     let(:claim) { build(:advocate_claim, form_step: :case_details) }
     let(:validate) { true }
 
-    subject { described_class.new(claim, validate: validate) }
+    subject { described_class.new(claim, validate:) }
 
     it 'defines the action' do
       expect(subject.action).to eq(:new)

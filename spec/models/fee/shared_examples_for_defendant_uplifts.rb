@@ -14,7 +14,7 @@ shared_examples '.defendant_uplift_sums' do
       let(:miahu) { create(:misc_fee_type, :miahu) }
 
       before do
-        create(:misc_fee, fee_type: miahu, claim: claim, quantity: 3, amount: 21.01)
+        create(:misc_fee, fee_type: miahu, claim:, quantity: 3, amount: 21.01)
       end
 
       it 'returns hash of sums grouped by fee\'s unique_code' do

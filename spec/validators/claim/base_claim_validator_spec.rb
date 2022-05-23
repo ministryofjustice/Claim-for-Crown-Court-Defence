@@ -779,7 +779,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'for car travel' do
       before do
         claim.expenses.delete_all
-        create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: location, date: 3.days.ago, claim: claim)
+        create(:expense, :car_travel, calculated_distance:, mileage_rate_id: mileage_rate, location:, date: 3.days.ago, claim:)
         claim.reload
         claim.form_step = :travel_expenses
       end
@@ -1023,7 +1023,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'with simulation of duplicated car_travel > parking' do
       before do
         claim.expenses.delete_all
-        create(:expense, :parking, calculated_distance: 27, distance: nil, date: 3.days.ago, claim: claim)
+        create(:expense, :parking, calculated_distance: 27, distance: nil, date: 3.days.ago, claim:)
         claim.reload
         claim.form_step = :travel_expenses
       end

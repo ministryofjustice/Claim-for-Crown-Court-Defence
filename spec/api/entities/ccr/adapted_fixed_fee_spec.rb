@@ -13,11 +13,11 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
 
   context 'when an applicable fixed fee is claimed' do
     let(:case_type) { build(:case_type, :fixed_fee, fee_type_code: 'FXCBR', requires_maat_reference: false) }
-    let(:claim) { create(:authorised_claim, case_number: 'T20160001', case_type: case_type) }
+    let(:claim) { create(:authorised_claim, case_number: 'T20160001', case_type:) }
 
     before do |example|
-      create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 13) unless example.metadata[:skip_fee]
-      create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170002') unless example.metadata[:skip_uplifts]
+      create(:fixed_fee, fee_type: fxcbr, claim:, quantity: 13) unless example.metadata[:skip_fee]
+      create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: 'T20170001,T20170002') unless example.metadata[:skip_uplifts]
     end
 
     it 'exposes expected json key-value pairs' do
@@ -49,25 +49,25 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
 
       context 'when one or more case uplifts exist' do
         it 'includes additional case numbers for all uplift versions of the fixed fee type' do
-          create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170003,T20170004')
+          create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: 'T20170003,T20170004')
           is_expected.to match_array %w(T20170001 T20170002 T20170003 T20170004)
           expect(number_of_cases).to eq '5'
         end
 
         it 'includes additional case numbers for Number of cases uplift fixed fees' do
-          create(:fixed_fee, fee_type: fxnoc, claim: claim, quantity: 2, case_numbers: 'T20170005,T20170006')
+          create(:fixed_fee, fee_type: fxnoc, claim:, quantity: 2, case_numbers: 'T20170005,T20170006')
           is_expected.to match_array %w(T20170001 T20170002 T20170005 T20170006)
           expect(number_of_cases).to eq '5'
         end
 
         it 'strips whitespace' do
-          create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: ' T20170003, T20170004 ')
+          create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: ' T20170003, T20170004 ')
           is_expected.to match_array %w(T20170001 T20170002 T20170003 T20170004)
           expect(number_of_cases).to eq '5'
         end
 
         it 'excludes repeated additional case numbers' do
-          create(:fixed_fee, fee_type: fxcbu, claim: claim, quantity: 2, case_numbers: 'T20170001,T20170003')
+          create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: 'T20170001,T20170003')
           is_expected.to contain_exactly('T20170001', 'T20170002', 'T20170003')
           expect(number_of_cases).to eq '4'
         end
@@ -91,7 +91,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
 
       context 'when more than one fixed fee matching the case type exists' do
         it 'returns sum of fee quantities' do
-          create(:fixed_fee, fee_type: fxcbr, claim: claim, quantity: 12)
+          create(:fixed_fee, fee_type: fxcbr, claim:, quantity: 12)
           is_expected.to eql '25'
         end
       end
@@ -108,7 +108,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
 
       context 'when "Number of defendant uplifts" claimed' do
         before do
-          create_list(:fixed_fee, 2, fee_type: fxndr, claim: claim, quantity: 2)
+          create_list(:fixed_fee, 2, fee_type: fxndr, claim:, quantity: 2)
         end
 
         it 'returns sum of all Number of defendants uplift quantities plus one for the main defendant' do

@@ -2,12 +2,12 @@
 
 module GovukComponent
   module NotificationBannerHelpers
-    def govuk_notification_banner(header = nil, content = nil, tag_options = {}, &block)
+    def govuk_notification_banner(header = nil, content = nil, tag_options = {}, &)
       govuk_notification_banner_options(tag_options)
 
       header_element = tag.h2(header, class: 'govuk-notification-banner__title', id: 'govuk-notification-banner-title')
 
-      content_element = capture_or_tag(content, &block)
+      content_element = capture_or_tag(content, &)
 
       tag.div(**tag_options) do
         concat tag.div(header_element, class: 'govuk-notification-banner__header')

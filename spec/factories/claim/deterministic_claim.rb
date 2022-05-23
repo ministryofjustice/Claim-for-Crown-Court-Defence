@@ -5,7 +5,7 @@ FactoryBot.define do
     end
 
     after(:create) do |claim, _evaluator|
-      create_list(:message, 1, :with_attachment, body: 'This is the message body.', claim: claim, sender: claim.external_user.user)
+      create_list(:message, 1, :with_attachment, body: 'This is the message body.', claim:, sender: claim.external_user.user)
       Timecop.return
     end
 
@@ -95,9 +95,9 @@ def build_or_reuse_offence_class
   class_letter = 'C'
   description = 'Lesser offences involving violence or damage and less serious drug offences'
 
-  if (oc = OffenceClass.find_by(class_letter: class_letter))
+  if (oc = OffenceClass.find_by(class_letter:))
     oc.update_column(:description, description)
   else
-    build(:offence_class, class_letter: class_letter, description: description)
+    build(:offence_class, class_letter:, description:)
   end
 end

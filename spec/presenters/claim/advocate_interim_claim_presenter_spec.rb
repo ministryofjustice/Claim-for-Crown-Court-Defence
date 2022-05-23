@@ -39,7 +39,7 @@ RSpec.describe Claim::AdvocateInterimClaimPresenter, type: :presenter do
 
   describe '#warrant_fees_total' do
     let(:warrant_fee) { build(:warrant_fee, amount: 32.5) }
-    let(:claim) { build(:advocate_interim_claim, warrant_fee: warrant_fee) }
+    let(:claim) { build(:advocate_interim_claim, warrant_fee:) }
 
     it 'returns the warrant fee total with the associated currency' do
       expect(presenter.warrant_fees_total).to eq('£32.50')

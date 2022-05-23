@@ -39,7 +39,7 @@ RSpec.describe StageTransition do
       let(:options) {
         {
           to_stage: next_stage_name,
-          condition: condition,
+          condition:,
           object: stagable_object
         }
       }

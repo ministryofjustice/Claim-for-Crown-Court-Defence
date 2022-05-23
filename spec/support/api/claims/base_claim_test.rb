@@ -53,7 +53,7 @@ class BaseClaimTest
   def external_user
     @external_user ||= begin
       email = agfs_schema? ? ADVOCATE_TEST_EMAIL : LITIGATOR_TEST_EMAIL
-      User.external_users.find_by(email: email)
+      User.external_users.find_by(email:)
     end
   end
 
@@ -97,7 +97,7 @@ class BaseClaimTest
 
   def defendant_data
     {
-      api_key: api_key,
+      api_key:,
       claim_id: claim_uuid,
       first_name: 'case',
       last_name: 'management',
@@ -108,7 +108,7 @@ class BaseClaimTest
 
   def representation_order_data(defendant_uuid)
     {
-      api_key: api_key,
+      api_key:,
       defendant_id: defendant_uuid,
       maat_reference: '4546963',
       representation_order_date: '2015-05-21'
@@ -117,9 +117,9 @@ class BaseClaimTest
 
   def date_attended_data(attended_item_uuid, attended_item_type)
     {
-      api_key: api_key,
+      api_key:,
       attended_item_id: attended_item_uuid,
-      attended_item_type: attended_item_type,
+      attended_item_type:,
       date: '2015-06-01',
       date_to: '2015-06-01'
     }
@@ -129,9 +129,9 @@ class BaseClaimTest
     disbursement_type_id = json_value_at_index(client.get_dropdown_endpoint(DISBURSEMENT_TYPE_ENDPOINT, api_key), 'id')
 
     {
-      api_key: api_key,
+      api_key:,
       claim_id: claim_uuid,
-      disbursement_type_id: disbursement_type_id,
+      disbursement_type_id:,
       net_amount: 100.25,
       vat_amount: 20.05
     }
@@ -141,7 +141,7 @@ class BaseClaimTest
     warrant_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant'), 'id')
 
     {
-      api_key: api_key,
+      api_key:,
       claim_id: claim_uuid,
       fee_type_id: warrant_type_id,
       warrant_issued_date: 3.months.ago.as_json,
@@ -151,12 +151,12 @@ class BaseClaimTest
   end
 
   def expense_data(role:)
-    expense_type_id = json_value_at_index(client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role: role), 'id')
+    expense_type_id = json_value_at_index(client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role:), 'id')
 
     {
-      api_key: api_key,
+      api_key:,
       claim_id: claim_uuid,
-      expense_type_id: expense_type_id,
+      expense_type_id:,
       amount: 500.15,
       location: 'London',
       reason_id: 5,

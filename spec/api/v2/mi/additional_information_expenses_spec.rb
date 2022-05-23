@@ -8,9 +8,9 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
 
   let(:case_worker_admin) { create(:case_worker, :admin) }
   let(:external_user) { create(:external_user) }
-  let(:default_params) { { api_key: api_key, start_date: start_date, end_date: end_date } }
-  let(:invalid_params) { { api_key: api_key, start_date: '--', end_date: '31 Jan 2018' } }
-  let(:missing_params) { { api_key: api_key } }
+  let(:default_params) { { api_key:, start_date:, end_date: } }
+  let(:invalid_params) { { api_key:, start_date: '--', end_date: '31 Jan 2018' } }
+  let(:missing_params) { { api_key: } }
   let(:params) { default_params }
   let(:start_date) { Date.new(2018, 01, 01).to_s(:db) }
   let(:end_date) { Date.new(2018, 01, 31).to_s(:db) }

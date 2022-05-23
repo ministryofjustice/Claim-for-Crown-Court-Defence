@@ -25,7 +25,7 @@ describe GoogleAnalytics::Api do
 
     it 'submits a get request via RestClient' do
       params = { v: '1', tid: 'GA123456', cid: '555', t: 'event', ec: 'satisfaction', ea: '5' }
-      expect(RestClient).to receive(:get).with('http://example.com', params: params, timeout: 4, open_timeout: 4)
+      expect(RestClient).to receive(:get).with('http://example.com', params:, timeout: 4, open_timeout: 4)
       subject
     end
 
@@ -41,7 +41,7 @@ describe GoogleAnalytics::Api do
 
         it 'is added to the params' do
           params = { v: '1', tid: 'GA123456', cid: '555', t: 'event', ec: 'satisfaction', ea: '5', el: label }
-          expect(RestClient).to receive(:get).with('http://example.com', params: params, timeout: 4, open_timeout: 4)
+          expect(RestClient).to receive(:get).with('http://example.com', params:, timeout: 4, open_timeout: 4)
           subject
         end
       end

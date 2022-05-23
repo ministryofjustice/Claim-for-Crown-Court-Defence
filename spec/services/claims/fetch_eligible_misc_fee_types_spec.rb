@@ -82,7 +82,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       subject(:unique_codes) { call.map(&:unique_code) }
 
       context 'with final claim' do
-        let(:claim) { create(:litigator_claim, :without_fees, case_type: case_type) }
+        let(:claim) { create(:litigator_claim, :without_fees, case_type:) }
 
         context 'with any case type' do
           let(:case_type) { create(:case_type) }
@@ -139,7 +139,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
       end
 
       context 'with hardship fee claim' do
-        let(:claim) { create(:litigator_hardship_claim, case_stage: case_stage) }
+        let(:claim) { create(:litigator_hardship_claim, case_stage:) }
 
         context 'when rep order is post CLAR' do
           include_context 'with a post CLAR rep order date'
@@ -226,7 +226,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         include_examples 'with AGFS scheme 9 and 10+ fetch excludes supplementary-only', :advocate_claim
 
         context 'with a scheme 12 claim' do
-          let(:claim) { create(:advocate_claim, :agfs_scheme_12, case_type: case_type) }
+          let(:claim) { create(:advocate_claim, :agfs_scheme_12, case_type:) }
 
           context 'with "trial" case type' do
             let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
@@ -258,7 +258,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         include_examples 'with AGFS scheme 9 and 10+ fetch excludes supplementary-only', :advocate_hardship_claim
 
         context 'with scheme 12 claim' do
-          let(:claim) { create(:advocate_hardship_claim, :agfs_scheme_12, case_stage: case_stage) }
+          let(:claim) { create(:advocate_hardship_claim, :agfs_scheme_12, case_stage:) }
 
           context 'with "trial" case stage' do
             let(:case_stage) { create(:case_stage, :trial_not_sentenced) }

@@ -151,7 +151,7 @@ describe ExternalUsers::ClaimsHelper do
     subject { helper.claim_requires_dates_attended?(claim) }
 
     context 'when claim fee_scheme is nine' do
-      let(:claim) { build(:advocate_claim, case_type: case_type) }
+      let(:claim) { build(:advocate_claim, case_type:) }
 
       context 'and has a case type of Trial' do
         let(:case_type) { build(:case_type, :trial) }
@@ -180,7 +180,7 @@ describe ExternalUsers::ClaimsHelper do
 
     context 'when claim fee_scheme is ten' do
       let!(:scheme_10) { create(:fee_scheme, :agfs_ten) }
-      let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
+      let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type:) }
 
       context 'and has a case type of Trial' do
         let(:case_type) { build(:case_type, :trial) }
@@ -212,8 +212,8 @@ describe ExternalUsers::ClaimsHelper do
     subject { helper.show_add_date_link?(fee) }
 
     context 'when claim fee_scheme is nine' do
-      let(:claim) { build(:advocate_claim, case_type: case_type) }
-      let(:fee) { build :basic_fee, :baf_fee, claim: claim }
+      let(:claim) { build(:advocate_claim, case_type:) }
+      let(:fee) { build :basic_fee, :baf_fee, claim: }
 
       context 'and has a case type of Trial' do
         let(:case_type) { build(:case_type, :trial) }
@@ -242,8 +242,8 @@ describe ExternalUsers::ClaimsHelper do
 
     context 'when claim fee_scheme is ten' do
       let!(:scheme_10) { create(:fee_scheme, :agfs_ten) }
-      let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type: case_type) }
-      let(:fee) { build :basic_fee, :baf_fee, claim: claim }
+      let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type:) }
+      let(:fee) { build :basic_fee, :baf_fee, claim: }
 
       context 'and has a case type of Trial' do
         let(:case_type) { build(:case_type, :trial) }
@@ -274,8 +274,8 @@ describe ExternalUsers::ClaimsHelper do
   describe '#build_dates_attended?' do
     subject { helper.build_dates_attended?(fee) }
 
-    let(:claim) { create(:claim, case_type: case_type) }
-    let(:fee) { build :basic_fee, :baf_fee, claim: claim }
+    let(:claim) { create(:claim, case_type:) }
+    let(:fee) { build :basic_fee, :baf_fee, claim: }
 
     context 'when claim is not hardship' do
       before { allow(claim).to receive(:hardship?).and_return false }

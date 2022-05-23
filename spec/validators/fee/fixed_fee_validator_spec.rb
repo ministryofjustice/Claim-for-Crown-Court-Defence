@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Fee::FixedFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:fee) { build :fixed_fee, claim: claim, date: Date.today }
+  let(:fee) { build :fixed_fee, claim:, date: Date.today }
   let(:fee_code) { fee.fee_type.code }
 
   # AGFS claims are validated as part of the base_fee_validator_spec
@@ -81,7 +81,7 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
       let(:fixed_fee_claim) { build :claim, case_type: build(:case_type, :fixed_fee) }
       let!(:non_parent) { create :fixed_fee_type }
       let!(:parent) { create :fixed_fee_type }
-      let!(:child) { create :child_fee_type, :asbo, parent: parent }
+      let!(:child) { create :child_fee_type, :asbo, parent: }
       let!(:unrelated_child) { create :child_fee_type, :s74 }
       let!(:fee) { build :fixed_fee, :lgfs, fee_type: parent, sub_type: child, claim: fixed_fee_claim, date: nil }
 

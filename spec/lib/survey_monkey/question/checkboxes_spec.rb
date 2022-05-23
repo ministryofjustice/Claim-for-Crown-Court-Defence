@@ -1,5 +1,5 @@
 RSpec.describe SurveyMonkey::Question::Checkboxes do
-  subject(:question) { described_class.new(id, answers: answers) }
+  subject(:question) { described_class.new(id, answers:) }
 
   let(:id) { 999 }
 

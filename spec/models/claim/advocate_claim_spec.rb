@@ -17,10 +17,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   specify { expect(subject.supplementary?).to be_falsey }
 
   describe 'validates external user and creator with same provider' do
-    subject(:claim) { described_class.create(external_user: external_user, creator: creator) }
+    subject(:claim) { described_class.create(external_user:, creator:) }
 
     let(:provider) { create(:provider) }
-    let(:external_user) { create(:external_user, provider: provider) }
+    let(:external_user) { create(:external_user, provider:) }
     let(:creator) { external_user }
 
     context 'with no external user' do
@@ -36,7 +36,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'when the external_user_id and creator_id are different but of the same provider' do
-      let(:creator) { create(:external_user, provider: provider) }
+      let(:creator) { create(:external_user, provider:) }
 
       it { is_expected.to be_valid }
       it { expect(claim.reload.errors.messages[:external_user_id]).not_to be_present }
@@ -120,7 +120,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       context 'when claim has a scheme 10 offence (from API)' do
         let(:offence) { create(:offence, :with_fee_scheme_ten) }
-        let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: offence) }
+        let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence:) }
 
         it 'returns only basic fee types for AGFS scheme 10' do
           expect(claim.eligible_basic_fee_types).to match_array([@bft1, @bft5])
@@ -264,7 +264,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     before do
       # add a second defendant
-      claim.defendants << create(:defendant, claim: claim)
+      claim.defendants << create(:defendant, claim:)
 
       # add a second rep order to the first defendant
       claim.defendants.first.representation_orders << create(:representation_order, representation_order_date: early_date)
@@ -326,7 +326,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'when the case type is set and its for fixed fee' do
       let(:case_type) { create(:case_type, :fixed_fee) }
 
-      subject(:claim) { described_class.new(case_type: case_type) }
+      subject(:claim) { described_class.new(case_type:) }
 
       specify { expect(claim.basic_fees).to be_empty }
     end
@@ -334,7 +334,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'when the case type is set and its for graduated fee' do
       let(:case_type) { create(:case_type, :graduated_fee) }
 
-      subject(:claim) { described_class.new(case_type: case_type) }
+      subject(:claim) { described_class.new(case_type:) }
 
       it 'returns a list of basic fees for each of the eligible basic fee types with all the fees with blank values' do
         expect(claim.basic_fees.length).to eq(3)
@@ -593,7 +593,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       context 'for a fixed case type' do
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
 
-        subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
+        subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees:, misc_fees:) }
 
         it 'calculates the fees total' do
           expect(subject.calculate_fees_total).to eq(1.0)
@@ -615,7 +615,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         }
 
         subject(:claim) {
-          create(:advocate_claim, :with_graduated_fee_case, misc_fees: misc_fees).tap do |c|
+          create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
             c.basic_fees = basic_fees
           end
         }
@@ -636,7 +636,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       context 'for a fixed case type' do
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
 
-        subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees: fixed_fees, misc_fees: misc_fees) }
+        subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees:, misc_fees:) }
 
         it 'stores the fees total' do
           expect(claim.fees_total).to eq(1.0)
@@ -663,7 +663,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         }
 
         subject(:claim) {
-          create(:advocate_claim, :with_graduated_fee_case, misc_fees: misc_fees).tap do |c|
+          create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
             c.basic_fees = basic_fees
           end
         }
@@ -956,7 +956,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       [400, 10_000, 566, 1_000].each do |value|
         claim = create(:draft_claim)
-        claim.fees << create(:misc_fee, rate: value, claim: claim)
+        claim.fees << create(:misc_fee, rate: value, claim:)
         claims << claim
       end
 
@@ -1213,7 +1213,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe '#amount_assessed' do
     let(:external_user) { build(:external_user, vat_registered: false) }
-    let!(:claim) { create(:claim, state: 'draft', external_user: external_user) }
+    let!(:claim) { create(:claim, state: 'draft', external_user:) }
 
     context 'when VAT applied' do
       # VAT rate 20.0%

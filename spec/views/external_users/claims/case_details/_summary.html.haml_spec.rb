@@ -32,7 +32,7 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml', type: :vi
     let(:claim) { present(create(:advocate_final_claim, :draft)) }
 
     before do
-      render summary, claim: claim, editable: true
+      render summary, claim:, editable: true
     end
 
     it {
@@ -49,13 +49,13 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml', type: :vi
     before { allow(claim).to receive(:mandatory_case_details?).and_return(false) }
 
     context 'with editable claims' do
-      before { render summary, claim: claim, editable: true }
+      before { render summary, claim:, editable: true }
 
       it { expect(page).to have_content('There are no case details for this claim') }
     end
 
     context 'with uneditable claims' do
-      before { render summary, claim: claim, editable: false, section: :case_details }
+      before { render summary, claim:, editable: false, section: :case_details }
 
       it { expect(view).to render_template(partial: 'external_users/claims/summary/_section_status') }
     end
@@ -65,7 +65,7 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml', type: :vi
   context 'with AGFS final claim' do
     let(:claim) { present(build(:advocate_final_claim, :draft)) }
 
-    before { render summary, claim: claim }
+    before { render summary, claim: }
 
     it { expect(page).to have_govuk_section_title(text: 'Case details') }
 
@@ -121,7 +121,7 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml', type: :vi
   context 'with claims that are lgfs?' do
     let(:claim) { present(build(:litigator_final_claim, :draft)) }
 
-    before { render summary, claim: claim }
+    before { render summary, claim: }
 
     it { expect(page).to have_govuk_summary_row('Claim creator', claim.creator.name) }
   end
@@ -129,7 +129,7 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml', type: :vi
   context 'with claims that requires_case_concluded_date?' do
     let(:claim) { present(build(:litigator_final_claim, :draft)) }
 
-    before { render summary, claim: claim }
+    before { render summary, claim: }
 
     it { expect(page).to have_govuk_summary_row('Date case concluded', claim.case_concluded_at.strftime(date_format)) }
   end
@@ -140,7 +140,7 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml', type: :vi
     before do
       allow(claim).to receive(:case_stage).and_return(build(:case_stage, description: 'Case stage 101'))
       allow(claim).to receive(:display_case_type?).and_return(false) # TODO: mock current user instead
-      render summary, claim: claim
+      render summary, claim:
     end
 
     it { expect(page).to have_govuk_summary_row('Case stage', 'Case stage 101') }
@@ -160,7 +160,7 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml', type: :vi
 
     before do
       allow(claim).to receive(:display_case_type?).and_return(false) # TODO: mock current user instead
-      render summary, claim: claim
+      render summary, claim:
     end
 
     it { expect(page).to have_govuk_summary_row('Case stage', 'After PTPH before trial') }

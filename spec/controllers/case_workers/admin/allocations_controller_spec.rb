@@ -121,7 +121,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
       expect(Claims::CaseWorkerClaims).to receive(:new).with(current_user: @admin.user, action: 'unallocated', criteria: standard_allocation_params).and_return(claims_service)
       expect(claims_service).to receive(:claims).and_return(claims_collection)
 
-      get :new, params: { tab: tab }
+      get :new, params: { tab: }
 
       expect(assigns(:case_workers)).to eq active_case_workers
       expect(assigns(:claims)).to eq claims_collection

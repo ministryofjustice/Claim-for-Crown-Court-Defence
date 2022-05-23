@@ -2,17 +2,17 @@ require 'rails_helper'
 
 RSpec.describe 'ExpenseValidator', type: :validator do
   let(:claim)                       { build :claim }
-  let(:expense)                     { build :expense, :train, claim: claim }
-  let(:car_travel_expense)          { build(:expense, :car_travel, claim: claim) }
-  let(:bike_travel_expense)         { build(:expense, :bike_travel, claim: claim) }
-  let(:parking_expense)             { build(:expense, :parking, claim: claim) }
-  let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation, claim: claim) }
-  let(:train_expense)               { build(:expense, :train, claim: claim) }
-  let(:road_tolls_expense)          { build(:expense, :road_tolls, claim: claim) }
-  let(:cab_fares_expense)           { build(:expense, :cab_fares, claim: claim) }
-  let(:subsistence_expense)         { build(:expense, :subsistence, claim: claim) }
-  let(:travel_time_expense)         { build(:expense, :travel_time, claim: claim) }
-  let(:other_reason_type_expense)   { build(:expense, :train, claim: claim, reason_id: 5) }
+  let(:expense)                     { build :expense, :train, claim: }
+  let(:car_travel_expense)          { build(:expense, :car_travel, claim:) }
+  let(:bike_travel_expense)         { build(:expense, :bike_travel, claim:) }
+  let(:parking_expense)             { build(:expense, :parking, claim:) }
+  let(:hotel_accommodation_expense) { build(:expense, :hotel_accommodation, claim:) }
+  let(:train_expense)               { build(:expense, :train, claim:) }
+  let(:road_tolls_expense)          { build(:expense, :road_tolls, claim:) }
+  let(:cab_fares_expense)           { build(:expense, :cab_fares, claim:) }
+  let(:subsistence_expense)         { build(:expense, :subsistence, claim:) }
+  let(:travel_time_expense)         { build(:expense, :travel_time, claim:) }
+  let(:other_reason_type_expense)   { build(:expense, :train, claim:, reason_id: 5) }
 
   before do
     claim.force_validation = true
@@ -223,14 +223,14 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
   describe 'location type validations' do
     context 'when the location type is not set' do
-      subject(:expense) { build(:expense, :train, claim: claim, location_type: '') }
+      subject(:expense) { build(:expense, :train, claim:, location_type: '') }
 
       it { is_expected.to be_valid }
     end
 
     context 'when the location type is set' do
       context 'but does not match a valid type' do
-        subject(:expense) { build(:expense, :train, claim: claim, location_type: 'invalid_type') }
+        subject(:expense) { build(:expense, :train, claim:, location_type: 'invalid_type') }
 
         it {
           is_expected.not_to be_valid
@@ -549,7 +549,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
       context 'schema_version 1' do
         let(:claim)   { build(:claim, force_validation: true) }
-        let(:expense) { build(:expense, claim: claim, expense_type: build(:expense_type)) }
+        let(:expense) { build(:expense, claim:, expense_type: build(:expense_type)) }
 
         before { allow(Settings).to receive(:expense_schema_version).and_return(1) }
 

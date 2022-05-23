@@ -14,7 +14,7 @@ class HeartbeatController < ApplicationController
       'app_branch' => ENV.fetch('APP_BRANCH', 'Not Available')
     }.to_json
 
-    render json: json
+    render json:
   end
 
   def healthcheck
@@ -27,7 +27,7 @@ class HeartbeatController < ApplicationController
     }
 
     status = :bad_gateway unless checks.except(:sidekiq_queue).values.all?
-    render status: status, json: { checks: checks }
+    render status:, json: { checks: }
   end
 
   private

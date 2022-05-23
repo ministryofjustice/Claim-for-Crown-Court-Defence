@@ -15,8 +15,8 @@ module Rule
       @rules << rule
     end
 
-    def each(&block)
-      @rules.each(&block)
+    def each(&)
+      @rules.each(&)
     end
   end
 end

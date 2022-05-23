@@ -10,7 +10,7 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
   let(:case_worker_user) { create :user, email: 'caseworker@example.com' }
   let(:case_worker) { create(:case_worker, :admin, user: case_worker_user) }
   let(:external_user) { create(:external_user) }
-  let(:valid_base_params) { { api_key: api_key, case_worker_id: case_worker.id } }
+  let(:valid_base_params) { { api_key:, case_worker_id: case_worker.id } }
   let(:api_key) { case_worker.user.api_key }
 
   before { case_worker.user = case_worker_user }
@@ -39,7 +39,7 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
 
     let(:claims) { create_list(:submitted_claim, 3) }
     let(:claim_ids) { claims.map(&:id).join(', ') }
-    let(:params) { valid_base_params.merge(claim_ids: claim_ids) }
+    let(:params) { valid_base_params.merge(claim_ids:) }
 
     context 'with claim_ids as comma-separated string' do
       it 'returns http status 201' do

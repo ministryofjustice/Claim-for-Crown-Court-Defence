@@ -2,7 +2,7 @@ class FeedbackForm
   Section = Struct.new(:id, :format, :answers)
   Answer = Struct.new(:key, :label, :id, :other) do
     def formatted_id
-      return { id: id, other: true } if other
+      return { id:, other: true } if other
 
       id
     end

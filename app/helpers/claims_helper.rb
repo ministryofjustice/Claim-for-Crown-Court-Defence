@@ -43,19 +43,17 @@ module ClaimsHelper
 
   def fee_shared_headings(claim, scope, fees_calculator_html = nil)
     {
-      page_header: t('page_header', scope: scope),
-      page_hint: t('page_hint', scope: scope)
+      page_header: t('page_header', scope:),
+      page_hint: t('page_hint', scope:)
     }.tap do |headings|
-      if display_unused_materials_notice?(claim)
-        headings[:page_notice] = t('unused_materials_fee.notice.short', scope: scope)
-      end
+      headings[:page_notice] = t('unused_materials_fee.notice.short', scope:) if display_unused_materials_notice?(claim)
       headings[:fees_calculator_html] = fees_calculator_html unless fees_calculator_html.nil?
     end
   end
 
   def misc_fees_summary_locals(claim, args = {})
     {
-      claim: claim, header: t('external_users.claims.misc_fees.summary.header'),
+      claim:, header: t('external_users.claims.misc_fees.summary.header'),
       collection: claim.misc_fees, step: :miscellaneous_fees,
       **args
     }.tap do |locals|

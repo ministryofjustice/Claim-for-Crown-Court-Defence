@@ -9,7 +9,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
     subject { described_class.new(claim).attendances }
 
     context 'scheme 9 claim' do
-      let(:claim) { create(:authorised_claim, case_type: case_type) }
+      let(:claim) { create(:authorised_claim, case_type:) }
 
       attendances_incl_in_basic_fee = 2
 
@@ -31,9 +31,9 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
         context 'when daily attendance uplift fees applied' do
           before do
             claim.actual_trial_length = 51
-            create(:basic_fee, :daf_fee, claim: claim, quantity: 38, rate: 1.0)
-            create(:basic_fee, :dah_fee, claim: claim, quantity: 10, rate: 1.0)
-            create(:basic_fee, :daj_fee, claim: claim, quantity: 1, rate: 1.0)
+            create(:basic_fee, :daf_fee, claim:, quantity: 38, rate: 1.0)
+            create(:basic_fee, :dah_fee, claim:, quantity: 10, rate: 1.0)
+            create(:basic_fee, :daj_fee, claim:, quantity: 1, rate: 1.0)
           end
 
           it "returns sum of daily attendance fee types plus #{attendances_incl_in_basic_fee} (included in basic fee)" do
@@ -60,7 +60,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
     end
 
     context 'scheme 10 claim' do
-      let(:claim) { create(:authorised_claim, :agfs_scheme_10, case_type: case_type, form_step: :case_details, offence: create(:offence, :with_fee_scheme_ten)) }
+      let(:claim) { create(:authorised_claim, :agfs_scheme_10, case_type:, form_step: :case_details, offence: create(:offence, :with_fee_scheme_ten)) }
 
       attendances_incl_in_basic_fee = 1
 
@@ -82,7 +82,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
         context 'when daily attendance uplift fees applied' do
           before do
             claim.actual_trial_length = 10
-            create(:basic_fee, :dat_fee, claim: claim, quantity: 9, rate: 1.0)
+            create(:basic_fee, :dat_fee, claim:, quantity: 9, rate: 1.0)
           end
 
           it "returns sum of daily attendance fee types plus #{attendances_incl_in_basic_fee} (included in basic fee)" do

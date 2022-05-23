@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe ErrorMessage::Sequencer do
-  subject(:sequencer) { described_class.new(translations: translations) }
+  subject(:sequencer) { described_class.new(translations:) }
 
   let(:translations) do
     {

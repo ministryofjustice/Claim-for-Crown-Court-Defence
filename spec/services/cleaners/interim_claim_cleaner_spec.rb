@@ -9,7 +9,7 @@ RSpec.describe Cleaners::InterimClaimCleaner do
 
     let(:claim) { create(:interim_claim, disbursements: build_list(:disbursement, 1)) }
 
-    before { claim.fees << build(:interim_fee, fee_type, claim: claim) }
+    before { claim.fees << build(:interim_fee, fee_type, claim:) }
 
     context 'without a warrant fee' do
       let(:fee_type) { :disbursement }

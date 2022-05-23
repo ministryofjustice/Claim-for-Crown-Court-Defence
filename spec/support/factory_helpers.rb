@@ -3,13 +3,13 @@
 module FactoryHelpers
   def add_defendant_and_reporder(claim, representation_order_date = nil)
     defendant = if representation_order_date
-                  create(:defendant, :without_reporder, claim: claim)
+                  create(:defendant, :without_reporder, claim:)
                 else
-                  create(:defendant, claim: claim)
+                  create(:defendant, claim:)
                 end
     create(
       :representation_order,
-      defendant: defendant,
+      defendant:,
       representation_order_date: representation_order_date&.to_date || 380.days.ago
     )
     claim.reload
@@ -73,7 +73,7 @@ module FactoryHelpers
   end
 
   def certify_claim(claim)
-    build(:certification, claim: claim)
+    build(:certification, claim:)
   end
 
   # usage:
@@ -81,7 +81,7 @@ module FactoryHelpers
   # * add_fee(:fixed_fee, claim)
   #
   def add_fee(factory, claim)
-    claim.fees << build(factory, claim: claim)
+    claim.fees << build(factory, claim:)
   end
 
   def assign_external_user_as_creator(claim)

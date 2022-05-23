@@ -196,7 +196,7 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_vat_numericality(attribute, lower_than_field:, allow_blank: true)
-    validate_presence_and_numericality(attribute, minimum: 0, allow_blank: allow_blank)
+    validate_presence_and_numericality(attribute, minimum: 0, allow_blank:)
     validate_amount_greater_than(attribute, lower_than_field, 'greater_than')
     validate_vat_less_than_max(attribute, lower_than_field)
   end

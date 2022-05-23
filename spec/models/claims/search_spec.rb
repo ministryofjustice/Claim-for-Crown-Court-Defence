@@ -10,13 +10,13 @@ RSpec.describe Claims::Search do
     let(:authorised_claim) { create(:litigator_claim, :authorised) }
     let(:part_authorised_claim) {
       create(:litigator_claim, :part_authorised).tap do |claim|
-        create_list(:defendant, 3, claim: claim)
+        create_list(:defendant, 3, claim:)
       end
     }
     let(:rejected_claim) { create(:litigator_claim, :rejected) }
     let(:refused_claim) {
       create(:litigator_claim, :refused).tap do |claim|
-        create_list(:defendant, 2, claim: claim)
+        create_list(:defendant, 2, claim:)
       end
     }
     let(:archived_pending_delete_claim) { create(:litigator_claim, :archived_pending_delete) }

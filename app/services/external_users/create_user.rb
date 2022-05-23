@@ -31,7 +31,7 @@ module ExternalUsers
 
     def create_external_user!(provider)
       external_user = ExternalUser.new(
-        provider: provider,
+        provider:,
         roles: ['admin'],
         supplier_number: generate_unique_supplier_number
       )

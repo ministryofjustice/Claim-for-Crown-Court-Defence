@@ -11,7 +11,7 @@ module ArrayExtension
     any? ? sum.to_f / total : 0
   end
 
-  def flat_select(&block)
-    flatten.compact.select(&block)
+  def flat_select(&)
+    flatten.compact.select(&)
   end
 end

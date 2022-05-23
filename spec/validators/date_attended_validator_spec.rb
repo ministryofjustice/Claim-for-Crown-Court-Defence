@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe DateAttendedValidator, type: :validator do
   let(:claim) do
     create(:claim, :without_fees, total: 10, first_day_of_trial: 5.weeks.ago).tap do |claim|
-      create(:basic_fee, claim: claim).tap do |fee|
+      create(:basic_fee, claim:).tap do |fee|
         create(:date_attended, attended_item: fee)
       end
     end

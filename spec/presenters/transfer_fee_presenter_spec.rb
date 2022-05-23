@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Fee::TransferFeePresenter do
   let(:claim) { instance_double(Claim::BaseClaim) }
-  let(:transfer_fee) { instance_double(Fee::TransferFee, claim: claim) }
+  let(:transfer_fee) { instance_double(Fee::TransferFee, claim:) }
   let(:presenter) { described_class.new(transfer_fee, view) }
 
   describe '#rate' do

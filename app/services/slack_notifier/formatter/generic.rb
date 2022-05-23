@@ -15,7 +15,7 @@ class SlackNotifier
         {
           fallback: message,
           color: message_colour,
-          title: title,
+          title:,
           text: message
         }.compact
       end

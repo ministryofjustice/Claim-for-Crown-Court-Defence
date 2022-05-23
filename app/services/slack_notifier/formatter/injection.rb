@@ -3,7 +3,7 @@ class SlackNotifier
     class Injection < Formatter
       def attachment(uuid:, from: 'indeterminable system', errors: [], **_args)
         @errors = errors
-        @claim = Claim::BaseClaim.find_by(uuid: uuid)
+        @claim = Claim::BaseClaim.find_by(uuid:)
 
         @message_icon = injected? ? Settings.slack.success_icon : Settings.slack.fail_icon
         {
@@ -11,7 +11,7 @@ class SlackNotifier
           color: message_colour,
           title: "Injection into #{from} #{injected? ? 'succeeded' : 'failed'}",
           text: uuid,
-          fields: fields(errors: errors)
+          fields: fields(errors:)
         }
       end
 

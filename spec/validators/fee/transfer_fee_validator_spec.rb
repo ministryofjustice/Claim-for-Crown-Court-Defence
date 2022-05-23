@@ -4,7 +4,7 @@ RSpec.describe Fee::TransferFeeValidator, type: :validator do
   include_context 'force-validation'
 
   let(:claim) { build(:transfer_claim, :not_requiring_ppe) }
-  let(:fee) { build(:transfer_fee, claim: claim) }
+  let(:fee) { build(:transfer_fee, claim:) }
 
   before do
     allow(fee).to receive(:perform_validation?).and_return(true)
@@ -49,7 +49,7 @@ RSpec.describe Fee::TransferFeeValidator, type: :validator do
   end
 
   describe '#validate_quantity' do
-    let(:fee) { build(:transfer_fee, claim: claim) }
+    let(:fee) { build(:transfer_fee, claim:) }
 
     context 'when transfer details require PPE to be supplied' do
       let(:claim) { build(:transfer_claim, :requiring_ppe) }

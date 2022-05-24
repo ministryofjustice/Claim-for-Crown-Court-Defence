@@ -61,7 +61,7 @@ COPY Gemfile* ./
 # note: installs bundler version used in Gemfile.lock
 #
 RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
-&& bundle config --global without test development devunicorn \
+&& bundle config without test development devunicorn \
 && bundle config build.nokogiri --use-system-libraries \
 && bundle install
 

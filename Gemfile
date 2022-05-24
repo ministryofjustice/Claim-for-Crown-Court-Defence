@@ -121,7 +121,3 @@ group :test do
   gem 'webdrivers', '~> 5.0', require: false
   gem 'webmock'
 end
-
-# Temporary fix for Ruby 3.0
-# Remove when moving to Ruby 3.1 so that the built in version of bigdecimal is used
-gem 'bigdecimal', '> 3.0.0'

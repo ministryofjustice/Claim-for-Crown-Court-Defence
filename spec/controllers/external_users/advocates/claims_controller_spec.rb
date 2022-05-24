@@ -163,7 +163,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
               form_step: 'case_details',
               court_id: court,
               case_type_id: case_type.id,
-              case_number: case_number
+              case_number:
             }
           end
 
@@ -173,7 +173,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
             }
           end
 
-          let(:claim) { Claim::AdvocateClaim.active.where(case_number: case_number).first }
+          let(:claim) { Claim::AdvocateClaim.active.where(case_number:).first }
 
           context 'when creating a claim' do
             before { post :create, params: { commit_continue: 'Continue', claim: claim_params_mock_first_step } }
@@ -358,7 +358,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
 
       context 'when a step is provided' do
         let(:step) { :defendants }
-        let(:edit_request) { -> { get :edit, params: { id: claim, step: step } } }
+        let(:edit_request) { -> { get :edit, params: { id: claim, step: } } }
 
         it 'claim is submitted submission step' do
           expect(assigns(:claim).form_step).to eq(:defendants)

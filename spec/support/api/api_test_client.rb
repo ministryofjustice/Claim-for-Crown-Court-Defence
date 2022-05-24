@@ -73,7 +73,7 @@ class ApiTestClient
   # response for analysis.
   #
   def get_dropdown_endpoint(resource, api_key, params = {})
-    query_params = '?' + params.merge(api_key: api_key).to_query
+    query_params = '?' + params.merge(api_key:).to_query
     endpoint = RestClient::Resource.new([api_root_url, 'api', resource].join('/') + query_params)
 
     Caching::ApiRequest.cache(endpoint.url) do

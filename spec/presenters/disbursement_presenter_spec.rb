@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe DisbursementPresenter do
   let(:claim) { instance_double(Claim::LitigatorClaim) }
   let(:disbursement_type) { instance_double(DisbursementType, name: 'name') }
-  let(:disbursement) { instance_double(Disbursement, disbursement_type: disbursement_type, claim: claim, net_amount: 1.456, vat_amount: 2.343) }
+  let(:disbursement) { instance_double(Disbursement, disbursement_type:, claim:, net_amount: 1.456, vat_amount: 2.343) }
 
   subject { described_class.new(disbursement, view) }
 

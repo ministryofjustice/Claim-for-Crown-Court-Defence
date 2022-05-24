@@ -9,7 +9,7 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
     let(:ending) { 1.minute.ago }
     let(:transaction_id) { SecureRandom.uuid }
     let(:error) { StandardError.new('Test error') }
-    let(:payload) { { id: 999, name: 'provisional_assessment', error: error } }
+    let(:payload) { { id: 999, name: 'provisional_assessment', error: } }
     let(:notifier) { instance_double(SlackNotifier) }
     let(:send_result) { double(:send_result) }
 

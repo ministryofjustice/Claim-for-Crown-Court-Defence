@@ -7,7 +7,7 @@ RSpec.shared_examples 'a stats report CSV exporter' do
 
   before do
     allow(reporter).to receive(:call).and_return(mocked_data)
-    allow(Stats::CsvExporter).to receive(:call).with(mocked_data, headers: headers).and_return(csv_exporter_output)
+    allow(Stats::CsvExporter).to receive(:call).with(mocked_data, headers:).and_return(csv_exporter_output)
   end
 
   it 'uses the correct reporter' do
@@ -24,7 +24,7 @@ RSpec.describe Stats::SimpleReportGenerator, type: :service do
   describe '.call' do
     subject(:call) { described_class.call(**options) }
 
-    let(:options) { { report_type: report_type } }
+    let(:options) { { report_type: } }
 
     context 'with a provisional assessment report' do
       let(:report_type) { 'provisional_assessment' }

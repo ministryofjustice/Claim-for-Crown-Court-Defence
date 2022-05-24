@@ -106,7 +106,7 @@ module Claims::Cloner
   def clone_rejected_to_new_draft(author_id:)
     raise 'Can only clone claims in state "rejected"' unless rejected?
     draft = duplicate
-    draft.transition_clone_to_draft!(author_id: author_id)
+    draft.transition_clone_to_draft!(author_id:)
     draft
   end
 
@@ -117,7 +117,7 @@ module Claims::Cloner
   def clone_details_to_draft(other_claim)
     raise ArgumentError, 'Can only clone details to claims in state "draft"' unless other_claim.draft?
 
-    other_claim.attributes = { court_id: court_id, defendants: defendants.map(&:duplicate) }
+    other_claim.attributes = { court_id:, defendants: defendants.map(&:duplicate) }
 
     other_claim.save(validate: false)
     other_claim

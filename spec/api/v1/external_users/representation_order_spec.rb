@@ -11,7 +11,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
 
   let!(:provider) { create(:provider) }
   let!(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: create(:offence, :with_fee_scheme)) }
-  let!(:defendant) { create(:defendant, :without_reporder, claim: claim).reload }
+  let!(:defendant) { create(:defendant, :without_reporder, claim:).reload }
   let!(:valid_params) do
     {
       api_key: provider.api_key,
@@ -104,7 +104,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
 
     context 'when a claim has been submitted with an AGFS scheme 10 offence' do
       let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence: create(:offence, :with_fee_scheme_ten)) }
-      let(:defendant) { create(:defendant, :without_reporder, claim: claim).reload }
+      let(:defendant) { create(:defendant, :without_reporder, claim:).reload }
 
       before do
         allow(Settings).to receive(:agfs_fee_reform_release_date).and_return(Date.new(2018, 4, 1))

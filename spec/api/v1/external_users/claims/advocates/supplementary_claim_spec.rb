@@ -9,8 +9,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
   let(:claim_class) { Claim::AdvocateSupplementaryClaim }
   let!(:provider) { create(:provider) }
   let!(:other_provider) { create(:provider) }
-  let!(:vendor) { create(:external_user, :admin, provider: provider) }
-  let!(:advocate) { create(:external_user, :advocate, provider: provider) }
+  let!(:vendor) { create(:external_user, :admin, provider:) }
+  let!(:advocate) { create(:external_user, :advocate, provider:) }
   let!(:court) { create(:court) }
   let!(:valid_params) do
     {

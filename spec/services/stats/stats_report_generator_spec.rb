@@ -28,7 +28,7 @@ end
 
 RSpec.describe Stats::StatsReportGenerator, type: :service do
   describe '.call' do
-    subject(:call) { described_class.call(report_type: report_type) }
+    subject(:call) { described_class.call(report_type:) }
 
     context 'with an invalid report type' do
       let(:report_type) { 'some-report-type' }
@@ -121,7 +121,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
       end
 
       context 'with AGFS management information statistics report' do
-        subject(:call) { described_class.call(report_type: report_type, start_at: Time.zone.today) }
+        subject(:call) { described_class.call(report_type:, start_at: Time.zone.today) }
 
         let(:report_type) { 'agfs_management_information_statistics' }
         let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }
@@ -137,7 +137,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
       end
 
       context 'with LGFS management information statistics report' do
-        subject(:call) { described_class.call(report_type: report_type, start_at: Time.zone.today) }
+        subject(:call) { described_class.call(report_type:, start_at: Time.zone.today) }
 
         let(:report_type) { 'lgfs_management_information_statistics' }
         let(:generator) { Stats::ManagementInformation::DailyReportCountGenerator }

@@ -96,8 +96,8 @@ module API
             description = params[:offence_description]
             unique_code = params[:unique_code]
             offences = scheme_date.present? ? FeeScheme.agfs.for(scheme_date).last.offences : Offence.all
-            offences = offences.where(description: description) if description.present?
-            offences = offences.where(unique_code: unique_code) if unique_code.present?
+            offences = offences.where(description:) if description.present?
+            offences = offences.where(unique_code:) if unique_code.present?
 
             present offences, with: API::Entities::Offence
           end
@@ -122,7 +122,7 @@ module API
             fee_types = Fee::BaseFeeType
             fee_types = fee_types.send(category) unless category.blank? || category.eql?('all')
             fee_types = fee_types.send(role)
-            fee_types = fee_types.where(unique_code: unique_code) if unique_code.present?
+            fee_types = fee_types.where(unique_code:) if unique_code.present?
             present fee_types, with: API::Entities::BaseFeeType
           end
         end

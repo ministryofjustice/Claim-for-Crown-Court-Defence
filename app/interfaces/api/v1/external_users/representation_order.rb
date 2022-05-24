@@ -21,7 +21,7 @@ module API
             end
 
             def build_arguments
-              declared_params.merge(defendant_id: defendant_id)
+              declared_params.merge(defendant_id:)
             end
           end
 

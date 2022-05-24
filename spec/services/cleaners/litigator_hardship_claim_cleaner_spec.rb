@@ -17,7 +17,7 @@ RSpec.describe Cleaners::LitigatorHardshipClaimCleaner do
     let(:hardship_fee) do
       create(
         :hardship_fee,
-        claim: claim,
+        claim:,
         date: Time.zone.today,
         quantity: 51,
         amount: 97.9

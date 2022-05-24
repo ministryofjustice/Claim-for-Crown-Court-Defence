@@ -9,9 +9,9 @@ RSpec.describe 'new validation rules around cracked trials', type: :validator do
       create(
         :claim,
         case_type: cracked_trial_type,
-        trial_fixed_notice_at: trial_fixed_notice_at,
-        trial_fixed_at: trial_fixed_at,
-        trial_cracked_at: trial_cracked_at
+        trial_fixed_notice_at:,
+        trial_fixed_at:,
+        trial_cracked_at:
       )
     end
     let(:trial_fixed_notice_at) { 84.days.ago }

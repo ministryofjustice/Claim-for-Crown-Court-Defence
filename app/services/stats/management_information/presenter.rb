@@ -77,7 +77,7 @@ module Stats
         record[:rep_order_issued_date]&.strftime('%d/%m/%Y')
       end
 
-      def method_missing(method_name, *args, &block)
+      def method_missing(method_name, *args, &)
         if record.key?(method_name)
           record[method_name]
         else

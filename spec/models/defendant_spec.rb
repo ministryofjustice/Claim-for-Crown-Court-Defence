@@ -150,7 +150,7 @@ RSpec.describe Defendant, type: :model do
         ]
       }
 
-      subject(:defendant) { build(:defendant, representation_orders: representation_orders) }
+      subject(:defendant) { build(:defendant, representation_orders:) }
 
       it 'returns the earliest representation order' do
         expect(defendant.earliest_representation_order).to eq(expected_representation_order)

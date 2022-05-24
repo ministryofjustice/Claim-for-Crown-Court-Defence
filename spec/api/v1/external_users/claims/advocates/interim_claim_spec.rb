@@ -9,8 +9,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
   let(:claim_class) { Claim::AdvocateInterimClaim }
   let!(:provider) { create(:provider) }
   let!(:other_provider) { create(:provider) }
-  let!(:vendor) { create(:external_user, :admin, provider: provider) }
-  let!(:advocate) { create(:external_user, :advocate, provider: provider) }
+  let!(:vendor) { create(:external_user, :admin, provider:) }
+  let!(:advocate) { create(:external_user, :advocate, provider:) }
   let!(:offence) { create(:offence, :with_fee_scheme_ten) }
   let!(:court) { create(:court) }
   let!(:valid_params) do

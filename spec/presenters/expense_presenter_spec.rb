@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe ExpensePresenter do
   let(:claim) { create(:advocate_claim) }
   let(:expense_type) { create(:expense_type) }
-  let(:expense) { create(:expense, quantity: 4, claim: claim, expense_type: expense_type) }
+  let(:expense) { create(:expense, quantity: 4, claim:, expense_type:) }
 
   subject(:presenter) { described_class.new(expense, view) }
 
@@ -59,7 +59,7 @@ RSpec.describe ExpensePresenter do
 
   describe '#calculated_distance' do
     let(:calculated_distance) { 234 }
-    let(:expense) { create(:expense, quantity: 4, claim: claim, expense_type: expense_type, calculated_distance: calculated_distance) }
+    let(:expense) { create(:expense, quantity: 4, claim:, expense_type:, calculated_distance:) }
 
     it 'formats as decimal number, 2 decimals precision, with rounding' do
       expense.calculated_distance = 324.479
@@ -80,7 +80,7 @@ RSpec.describe ExpensePresenter do
 
   describe '#pretty_calculated_distance' do
     let(:calculated_distance) { 234 }
-    let(:expense) { create(:expense, quantity: 4, claim: claim, expense_type: expense_type, calculated_distance: calculated_distance) }
+    let(:expense) { create(:expense, quantity: 4, claim:, expense_type:, calculated_distance:) }
 
     it 'returns the value with the locale unit' do
       expense.calculated_distance = 324.479
@@ -184,7 +184,7 @@ RSpec.describe ExpensePresenter do
     end
 
     context 'when a location exists' do
-      let(:expense) { create(:expense, :car_travel, location: 'Basildon', claim: claim) }
+      let(:expense) { create(:expense, :car_travel, location: 'Basildon', claim:) }
 
       it 'returns the establishments postcode' do
         is_expected.to eql 'SS14 2EW'
@@ -192,7 +192,7 @@ RSpec.describe ExpensePresenter do
     end
 
     context 'when a location is NOT present' do
-      let(:expense) { create(:expense, :parking, location: nil, claim: claim) }
+      let(:expense) { create(:expense, :parking, location: nil, claim:) }
 
       it { is_expected.to be_nil }
     end
@@ -206,7 +206,7 @@ RSpec.describe ExpensePresenter do
     end
 
     context 'when a location exists' do
-      let(:expense) { create(:expense, :car_travel, location: 'HMP Buckley Hall', claim: claim) }
+      let(:expense) { create(:expense, :car_travel, location: 'HMP Buckley Hall', claim:) }
 
       it 'returns the establishment with postcode' do
         is_expected.to eql 'HMP Buckley Hall (OL12 9DP)'
@@ -214,13 +214,13 @@ RSpec.describe ExpensePresenter do
     end
 
     context 'when a location is NOT present' do
-      let(:expense) { create(:expense, :parking, location: nil, claim: claim) }
+      let(:expense) { create(:expense, :parking, location: nil, claim:) }
 
       it { is_expected.to be_nil }
     end
 
     context 'when a locations establishment is NOT present' do
-      let(:expense) { create(:expense, :parking, location: 'Timbuktu', claim: claim) }
+      let(:expense) { create(:expense, :parking, location: 'Timbuktu', claim:) }
 
       it { is_expected.to eql 'Timbuktu' }
     end
@@ -230,7 +230,7 @@ RSpec.describe ExpensePresenter do
     subject { presenter.show_map_link? }
 
     let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
-    let(:expense) { create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim) }
+    let(:expense) { create(:expense, :car_travel, calculated_distance:, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim:) }
     let(:mileage_rate) { 1 }
 
     context 'when the mileage rate is 45p' do
@@ -272,7 +272,7 @@ RSpec.describe ExpensePresenter do
     subject { presenter.state }
 
     let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
-    let(:expense) { create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim) }
+    let(:expense) { create(:expense, :car_travel, calculated_distance:, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim:) }
     let(:mileage_rate) { 1 }
 
     context 'when the expense has public standard mileage rate' do
@@ -306,7 +306,7 @@ RSpec.describe ExpensePresenter do
     subject { presenter.distance_label }
 
     let(:claim) { create(:litigator_claim, :with_fixed_fee_case, :submitted, travel_expense_additional_information: Faker::Lorem.paragraph(sentence_count: 1)) }
-    let(:expense) { create(:expense, :car_travel, calculated_distance: calculated_distance, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim: claim) }
+    let(:expense) { create(:expense, :car_travel, calculated_distance:, mileage_rate_id: mileage_rate, location: 'Basildon', date: 3.days.ago, claim:) }
     let(:mileage_rate) { 1 }
 
     context 'when the expense has public standard mileage rate' do

@@ -42,13 +42,13 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
     client.get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT, api_key)
 
     {
-      api_key: api_key,
+      api_key:,
       creator_email: 'advocateadmin@example.com',
       advocate_email: 'advocate@example.com',
       case_number: 'B20161234',
       providers_ref: SecureRandom.uuid[3..15].upcase,
-      advocate_category: advocate_category,
-      court_id: court_id,
+      advocate_category:,
+      court_id:,
       cms_number: '12345678',
       additional_information: 'string',
       apply_vat: true
@@ -60,9 +60,9 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
     fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs', unique_code: 'MIDTH'), 'id')
 
     {
-      api_key: api_key,
+      api_key:,
       claim_id: claim_uuid,
-      fee_type_id: fee_type_id,
+      fee_type_id:,
       quantity: 2,
       rate: 1.55
     }

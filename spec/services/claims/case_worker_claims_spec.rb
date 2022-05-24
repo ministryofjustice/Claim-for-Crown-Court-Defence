@@ -18,7 +18,7 @@ module Claims
     end
 
     describe '#claims' do
-      subject(:claims) { described_class.new(current_user: user, action: action, criteria: criteria).claims }
+      subject(:claims) { described_class.new(current_user: user, action:, criteria:).claims }
 
       let(:method) { action.to_sym }
 

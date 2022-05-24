@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Fee::BasicFeePresenter, type: :presenter do
   let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
   let(:claim_9) { create(:advocate_claim, :agfs_scheme_9) }
-  let(:fee) { build(:basic_fee, claim: claim) }
+  let(:fee) { build(:basic_fee, claim:) }
 
   before { seed_fee_schemes }
 
@@ -18,13 +18,13 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
 
     context 'when the associated claim is under the new fee reform' do
       context 'but the fee type code is not included in the blacklist' do
-        let(:fee) { build(:basic_fee, :baf_fee, claim: claim) }
+        let(:fee) { build(:basic_fee, :baf_fee, claim:) }
 
         specify { expect(presenter.display_amount?).to be_truthy }
       end
 
       context 'but the fee type code is blacklisted' do
-        let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+        let(:fee) { build(:basic_fee, :ppe_fee, claim:) }
 
         specify { expect(presenter.display_amount?).to be_falsey }
       end
@@ -40,20 +40,20 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
 
     context 'when claim is under the reformed fee scheme' do
       context 'but fee type does not have any restrictions to be displayed' do
-        let(:fee) { build(:basic_fee, :baf_fee, claim: claim) }
+        let(:fee) { build(:basic_fee, :baf_fee, claim:) }
 
         specify { expect(presenter.should_be_displayed?).to be_truthy }
       end
 
       context 'and fee type has restrictions to be displayed' do
-        let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+        let(:fee) { build(:basic_fee, :ppe_fee, claim:) }
         let(:offence) do
           create(
             :offence, :with_fee_scheme_ten,
-            offence_band: create(:offence_band, offence_category: offence_category)
+            offence_band: create(:offence_band, offence_category:)
           )
         end
-        let(:claim) { build(:advocate_claim, offence: offence) }
+        let(:claim) { build(:advocate_claim, offence:) }
 
         context 'and the offence category number is neither 6 or 9' do
           let(:offence_category) { build :offence_category, number: 2 }
@@ -99,14 +99,14 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
       let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
 
       context 'and fee type has restrictions to be displayed' do
-        let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+        let(:fee) { build(:basic_fee, :ppe_fee, claim:) }
         let(:offence) do
           create(
             :offence, :with_fee_scheme_ten,
-            offence_band: create(:offence_band, offence_category: offence_category)
+            offence_band: create(:offence_band, offence_category:)
           )
         end
-        let(:claim) { build(:advocate_claim, offence: offence) }
+        let(:claim) { build(:advocate_claim, offence:) }
 
         context 'and the offence category number is neither 6 or 9' do
           let(:offence_category) { build :offence_category, number: 2 }
@@ -133,13 +133,13 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
     subject { presenter.fee_calc_class }
 
     context 'when fee is pages of prosecution evidence (ppe)' do
-      let(:fee) { build(:basic_fee, :ppe_fee, claim: claim) }
+      let(:fee) { build(:basic_fee, :ppe_fee, claim:) }
 
       it { is_expected.to eq('js-fee-calculator-ppe') }
     end
 
     context 'when fee is number of prosecution witnesses (npw)' do
-      let(:fee) { build(:basic_fee, :npw_fee, claim: claim) }
+      let(:fee) { build(:basic_fee, :npw_fee, claim:) }
 
       it { is_expected.to eq('js-fee-calculator-pw') }
     end

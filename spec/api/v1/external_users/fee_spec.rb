@@ -187,7 +187,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
             ]
           }
           let(:defendants) { [build(:defendant, representation_orders: [build(:representation_order, representation_order_date: first_day_of_trial)])] }
-          let!(:claim) { create_claim(:advocate_claim, source: 'api', first_day_of_trial: first_day_of_trial, trial_concluded_at: trial_concluded_at, actual_trial_length: actual_trial_length, case_type: case_type, defendants: defendants, basic_fees: basic_fees) }
+          let!(:claim) { create_claim(:advocate_claim, source: 'api', first_day_of_trial:, trial_concluded_at:, actual_trial_length:, case_type:, defendants:, basic_fees:) }
           let(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: basic_fee_dat_type.id, quantity: 2, rate: 600.00 } }
 
           it 'returns 200 and fee JSON output including UUID' do
@@ -210,7 +210,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
       end
 
       context 'basic fees of type case uplift' do
-        let!(:fee) { create(:basic_fee, :noc_fee, claim: claim, quantity: 0, rate: 0.0, case_numbers: '') }
+        let!(:fee) { create(:basic_fee, :noc_fee, claim:, quantity: 0, rate: 0.0, case_numbers: '') }
         let!(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: fee.fee_type_id, quantity: 2, rate: 201.01, case_numbers: 'T20170001,T20170002' } }
 
         context 'when valid' do

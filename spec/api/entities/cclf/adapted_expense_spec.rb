@@ -5,8 +5,8 @@ RSpec.describe API::Entities::CCLF::AdaptedExpense, type: :adapter do
 
   let(:expense_type) { instance_double(::ExpenseType, unique_code: 'CAR') }
   let(:case_type) { instance_double(::CaseType, fee_type_code: 'FXACV') }
-  let(:claim) { instance_double(::Claim::BaseClaim, case_type: case_type) }
-  let(:expense) { instance_double(::Expense, claim: claim, expense_type: expense_type, amount: 9.99, vat_amount: 1.99) }
+  let(:claim) { instance_double(::Claim::BaseClaim, case_type:) }
+  let(:expense) { instance_double(::Expense, claim:, expense_type:, amount: 9.99, vat_amount: 1.99) }
 
   it_behaves_like 'a bill types delegator', ::CCLF::ExpenseAdapter do
     let(:bill) { expense }

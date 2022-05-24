@@ -63,7 +63,7 @@ module ErrorMessage
         attribute = Key.new(Regexp.last_match(4))
       end
 
-      { model: model, attribute: attribute, all_model_indices: all_model_indices }
+      { model:, attribute:, all_model_indices: }
     end
 
     def numbered_model_regex

@@ -7,13 +7,13 @@ class ExpenseTypePresenter < BasePresenter
       distance: distance_field?,
       hours: hours_field?,
       location: location_field?,
-      location_label: location_label,
+      location_label:,
       mileage: mileage_field?,
-      mileage_type: mileage_type,
+      mileage_type:,
       net_amount: true,
-      net_amount_label: net_amount_label,
+      net_amount_label:,
       reason: true,
-      reason_set: reason_set,
+      reason_set:,
       vat_amount: true
     }
   end

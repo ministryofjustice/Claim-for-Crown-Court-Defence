@@ -12,7 +12,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
   end
 
   shared_examples 'non-authorised claim' do |state, state_reason, reason_text = nil|
-    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+    subject(:updater) { described_class.new(claim.id, params.merge(current_user:)) }
 
     let(:claim) { create :allocated_claim }
     let(:params) do
@@ -48,7 +48,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
   end
 
   shared_examples 'a successful assessment' do |state, fees = '128.33', expenses = '42.40'|
-    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+    subject(:updater) { described_class.new(claim.id, params.merge(current_user:)) }
 
     let(:claim) { create :allocated_claim }
     let(:params) do
@@ -91,7 +91,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
   end
 
   shared_examples 'an erroneous determination' do |state, expected_error, determination_type = 'redeterminations', state_reason = [], fees = '128.33', expenses = '42.40', error_field = :determinations|
-    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+    subject(:updater) { described_class.new(claim.id, params.merge(current_user:)) }
 
     let(:claim) { create :allocated_claim }
     let(:assessment_attributes) { { 'fees' => fees, 'expenses' => expenses } }
@@ -156,7 +156,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
       # Not sure what this is testing beyond that covered by above. remove?
       it 'advances the claim to refused when no values are supplied' do
-        params = { current_user: current_user, 'state' => 'refused', 'state_reason' => %w[wrong_ia duplicate_claim], 'assessment_attributes' => { 'expenses' => '' } }
+        params = { current_user:, 'state' => 'refused', 'state_reason' => %w[wrong_ia duplicate_claim], 'assessment_attributes' => { 'expenses' => '' } }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :ok
         expect(updater.claim.state).to eq 'refused'
@@ -283,7 +283,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
   end
 
   context 'rejections' do
-    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+    subject(:updater) { described_class.new(claim.id, params.merge(current_user:)) }
 
     let(:claim) { create :allocated_claim }
 
@@ -320,7 +320,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
   end
 
   context 'refusals' do
-    subject(:updater) { described_class.new(claim.id, params.merge(current_user: current_user)) }
+    subject(:updater) { described_class.new(claim.id, params.merge(current_user:)) }
 
     let(:claim) { create :allocated_claim }
 
@@ -385,7 +385,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       end
 
       it 'advances the claim to refused when no values are supplied' do
-        params = { current_user: current_user, 'state' => 'refused', 'state_reason' => ['wrong_ia'] }
+        params = { current_user:, 'state' => 'refused', 'state_reason' => ['wrong_ia'] }
         updater = described_class.new(claim.id, params).update!
         expect(updater.result).to eq :ok
         expect(updater.claim.state).to eq 'refused'

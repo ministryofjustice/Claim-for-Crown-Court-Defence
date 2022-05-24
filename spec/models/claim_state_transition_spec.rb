@@ -12,8 +12,8 @@ RSpec.describe ClaimStateTransition, type: :model do
       let(:claim) { create(:advocate_claim) }
 
       before do
-        create(:claim_state_transition, claim: claim, to: 'foo')
-        create(:claim_state_transition, claim: claim, to: 'bar')
+        create(:claim_state_transition, claim:, to: 'foo')
+        create(:claim_state_transition, claim:, to: 'bar')
       end
 
       it 'returns 0' do
@@ -26,8 +26,8 @@ RSpec.describe ClaimStateTransition, type: :model do
 
       before do
         travel_to(3.months.ago) do
-          create(:claim_state_transition, claim: claim, to: 'rejected')
-          create(:claim_state_transition, claim: claim, to: 'bar')
+          create(:claim_state_transition, claim:, to: 'rejected')
+          create(:claim_state_transition, claim:, to: 'bar')
         end
       end
 
@@ -42,13 +42,13 @@ RSpec.describe ClaimStateTransition, type: :model do
 
       before do
         travel_to(3.months.ago) do
-          create(:claim_state_transition, claim: claim, to: 'rejected')
-          create(:claim_state_transition, claim: claim, to: 'bar')
+          create(:claim_state_transition, claim:, to: 'rejected')
+          create(:claim_state_transition, claim:, to: 'bar')
         end
-        create(:claim_state_transition, claim: claim, to: 'foo')
-        create(:claim_state_transition, claim: claim, to: 'rejected')
-        create(:claim_state_transition, claim: claim, to: 'zzz')
-        create(:claim_state_transition, claim: claim, to: 'rejected')
+        create(:claim_state_transition, claim:, to: 'foo')
+        create(:claim_state_transition, claim:, to: 'rejected')
+        create(:claim_state_transition, claim:, to: 'zzz')
+        create(:claim_state_transition, claim:, to: 'rejected')
         create(:claim_state_transition, claim: other_claim, to: 'rejected')
       end
 

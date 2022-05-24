@@ -12,9 +12,9 @@ RSpec.describe AccountSetter do
   describe '#report' do
     subject(:report) { instance.report }
 
-    let(:external_user) { create(:external_user, user: user, provider: create(:provider, name: 'Test provider')) }
+    let(:external_user) { create(:external_user, user:, provider: create(:provider, name: 'Test provider')) }
 
-    before { create_list(:claim, 5, external_user: external_user) }
+    before { create_list(:claim, 5, external_user:) }
 
     context 'with an existing user' do
       let(:expected_hash) do
@@ -67,7 +67,7 @@ RSpec.describe AccountSetter do
   describe '#soft_delete' do
     subject(:soft_delete) { instance.soft_delete }
 
-    before { create(:external_user, user: user) }
+    before { create(:external_user, user:) }
 
     it 'appends deleted to the email of the user' do
       expect { soft_delete }
@@ -101,7 +101,7 @@ RSpec.describe AccountSetter do
     subject(:un_soft_delete) { instance.un_soft_delete }
 
     before do
-      external_user = create(:external_user, user: user)
+      external_user = create(:external_user, user:)
       external_user.soft_delete
     end
 
@@ -137,7 +137,7 @@ RSpec.describe AccountSetter do
     subject(:disable) { instance.disable }
 
     context 'with an enabled user' do
-      let!(:user) { create(:user, email: email, disabled_at: nil) }
+      let!(:user) { create(:user, email:, disabled_at: nil) }
 
       it 'marks the user as disabled' do
         expect { disable }.to change { user.reload.disabled_at }.from(nil).to(be_kind_of(Time))
@@ -147,7 +147,7 @@ RSpec.describe AccountSetter do
     end
 
     context 'with a disabled user' do
-      let!(:user) { create(:user, email: email, disabled_at: 1.minute.ago) }
+      let!(:user) { create(:user, email:, disabled_at: 1.minute.ago) }
 
       it { expect { disable }.not_to change { user.reload.disabled_at } }
       it { expect { disable }.to output(/Enabled user with email "test@example\.com" not found/).to_stdout }
@@ -164,7 +164,7 @@ RSpec.describe AccountSetter do
     subject(:enable) { instance.enable }
 
     context 'with a disabled user' do
-      let!(:user) { create(:user, email: email, disabled_at: 1.minute.ago) }
+      let!(:user) { create(:user, email:, disabled_at: 1.minute.ago) }
 
       it 'marks the user as enabled' do
         expect { enable }.to change { user.reload.disabled_at }.from(be_kind_of(Time)).to(nil)
@@ -174,7 +174,7 @@ RSpec.describe AccountSetter do
     end
 
     context 'with an enabled user' do
-      let!(:user) { create(:user, email: email, disabled_at: nil) }
+      let!(:user) { create(:user, email:, disabled_at: nil) }
 
       it { expect { enable }.not_to change { user.reload.disabled_at } }
       it { expect { enable }.to output(/Disabled user with email "test@example\.com" not found/).to_stdout }

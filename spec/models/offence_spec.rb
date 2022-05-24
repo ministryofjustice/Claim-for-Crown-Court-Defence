@@ -44,7 +44,7 @@ RSpec.describe Offence, type: :model do
   end
 
   describe 'validations' do
-    subject(:offence) { build :offence, offence_band: offence_band, offence_class: offence_class }
+    subject(:offence) { build :offence, offence_band:, offence_class: }
 
     let(:offence_band) { create :offence_band }
     let(:offence_class) { create :offence_class, class_letter: 'A', description: 'My offence class' }

@@ -4,7 +4,7 @@ RSpec.describe 'send feedback', type: :request do
   describe 'GET /feedback/new' do
     let(:params) { {} }
 
-    before { get new_feedback_url, params: params }
+    before { get new_feedback_url, params: }
 
     it 'assigns a new @feedback' do
       expect(assigns(:feedback)).not_to be_nil

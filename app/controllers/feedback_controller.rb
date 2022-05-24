@@ -6,7 +6,7 @@ class FeedbackController < ApplicationController
   before_action :setup_page
 
   def new
-    @feedback = Feedback.new(type: type, referrer: referrer_path)
+    @feedback = Feedback.new(type:, referrer: referrer_path)
     render "feedback/#{@feedback.type}"
   end
 

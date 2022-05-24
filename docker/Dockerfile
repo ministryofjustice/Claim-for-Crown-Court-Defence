@@ -1,4 +1,4 @@
-FROM ruby:3.0.4-alpine3.15
+FROM ruby:3.1.2-alpine3.15
 MAINTAINER Ministry of Justice, Claim for crown court defence <crowncourtdefence@digital.justice.gov.uk>
 
 # fail early and print all commands
@@ -61,7 +61,7 @@ COPY Gemfile* ./
 # note: installs bundler version used in Gemfile.lock
 #
 RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
-&& bundle config --global without test development devunicorn \
+&& bundle config without test development devunicorn \
 && bundle config build.nokogiri --use-system-libraries \
 && bundle install
 

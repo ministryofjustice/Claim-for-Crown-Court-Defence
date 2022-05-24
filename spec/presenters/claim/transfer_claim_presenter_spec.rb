@@ -19,7 +19,7 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
     end
 
     context 'when the transfer fee is set' do
-      let(:claim) { build(:transfer_claim, transfer_fee: transfer_fee) }
+      let(:claim) { build(:transfer_claim, transfer_fee:) }
 
       context 'when amount is not set' do
         let(:transfer_fee) { build(:transfer_fee, amount: nil) }

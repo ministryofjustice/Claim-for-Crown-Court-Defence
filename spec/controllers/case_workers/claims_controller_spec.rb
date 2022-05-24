@@ -30,7 +30,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
 
     context 'no search terms present' do
       it 'calls case worker claims service with appropriate params' do
-        expect(Claims::CaseWorkerClaims).to receive(:new).with(current_user: @case_worker.user, action: 'current', criteria: criteria).and_return(claims_service)
+        expect(Claims::CaseWorkerClaims).to receive(:new).with(current_user: @case_worker.user, action: 'current', criteria:).and_return(claims_service)
         expect(claims_service).to receive(:claims).and_return(claims_collection)
 
         get 'index', params: params
@@ -171,7 +171,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
       claims = create_list(factory_name, qty, external_user: advocate)
       claims.each do |claim|
         claim.case_workers << @case_worker
-        create(:defendant, claim: claim, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
+        create(:defendant, claim:, first_name: defendant_name.split.first, last_name: defendant_name.split.last)
       end
     end
   end

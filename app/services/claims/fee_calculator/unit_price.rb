@@ -110,7 +110,7 @@ module Claims
       end
 
       def unit_modifier(name, limit_from)
-        UnitModifier.new(name: name, limit_from: limit_from)
+        UnitModifier.new(name:, limit_from:)
       end
 
       def modifiers

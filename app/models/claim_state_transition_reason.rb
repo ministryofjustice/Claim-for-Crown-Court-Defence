@@ -37,7 +37,7 @@ class ClaimStateTransitionReason
 
     def transition_reasons
       return @transition_reasons unless @transition_reasons.nil?
-      translations = YAML.load_file(translations_file)
+      translations = YAML.load_file(translations_file, aliases: true)
       @transition_reasons = translations.dig(I18n.locale.to_s, 'claim_state_transition_reason').with_indifferent_access
       @transition_reasons
     end

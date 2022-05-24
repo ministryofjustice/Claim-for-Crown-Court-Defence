@@ -32,12 +32,12 @@ class DocumentsController < ApplicationController
   def destroy
     if document.destroy
       respond_to do |format|
-        format.json { render json: { message: 'Document removed', document: document } }
+        format.json { render json: { message: 'Document removed', document: } }
         format.js
       end
     else
       respond_to do |format|
-        format.json { render json: { message: document.errors.full_messages.join(', '), document: document } }
+        format.json { render json: { message: document.errors.full_messages.join(', '), document: } }
         format.js
       end
     end

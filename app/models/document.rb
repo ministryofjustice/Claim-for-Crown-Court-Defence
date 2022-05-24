@@ -69,7 +69,7 @@ class Document < ApplicationRecord
 
   def documents_count
     return true if form_id.nil?
-    count = Document.where(form_id: form_id).count
+    count = Document.where(form_id:).count
     max_doc_count = Settings.max_document_upload_count
     return unless count >= max_doc_count
     errors.add(:document, "Total documents exceed maximum of #{max_doc_count}. This document has not been uploaded.")

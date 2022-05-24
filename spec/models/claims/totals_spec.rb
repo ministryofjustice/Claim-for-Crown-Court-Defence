@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Claim, type: :model do
   subject(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
 
-  let(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: claim.id, amount: amount) } }
+  let(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: claim.id, amount:) } }
   let(:fee_type) { create(:fixed_fee_type) }
 
   context 'fees total' do
@@ -19,13 +19,13 @@ RSpec.describe Claim, type: :model do
       end
 
       it 'updates the fees total' do
-        create(:fixed_fee, fee_type: fee_type, claim_id: claim.id, rate: 2.00)
+        create(:fixed_fee, fee_type:, claim_id: claim.id, rate: 2.00)
         claim.reload
         expect(claim.fees_total).to eq(27.0)
       end
 
       it 'updates total when claim fee destroyed' do
-        create(:fixed_fee, fee_type: fee_type, claim_id: claim.id, rate: 2.00)
+        create(:fixed_fee, fee_type:, claim_id: claim.id, rate: 2.00)
         claim.fees.first.destroy
         claim.reload
         expect(claim.fees_total).to eq(2.0)
@@ -60,7 +60,7 @@ RSpec.describe Claim, type: :model do
       VatRate.delete_all
       create(:vat_rate, :for_2011_onward)
       [3.5, 1.0, 142.0].each do |amount|
-        create(:expense, claim_id: claim.id, amount: amount, vat_amount: 2)
+        create(:expense, claim_id: claim.id, amount:, vat_amount: 2)
       end
       claim.reload
     end
@@ -96,7 +96,7 @@ RSpec.describe Claim, type: :model do
     describe '#update_total' do
       it 'updates the total' do
         create(:expense, claim_id: claim.id, amount: 3)
-        create(:fixed_fee, fee_type: fee_type, claim_id: claim.id, rate: 4.00)
+        create(:fixed_fee, fee_type:, claim_id: claim.id, rate: 4.00)
         claim.reload
         expect(claim.total).to eq(178.5)
       end
@@ -131,8 +131,8 @@ RSpec.describe Claim, type: :model do
           is_expected.to have_totals(fees_total: 37.75, fees_vat: 7.55, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 9.99, expenses_vat: 2.0)
 
           # add disbursements for 55.33 & 100
-          claim.disbursements << create(:disbursement, claim: claim, net_amount: 55.33, vat_amount: 9.68)
-          claim.disbursements << create(:disbursement, claim: claim, net_amount: 100.0, vat_amount: 10.0)
+          claim.disbursements << create(:disbursement, claim:, net_amount: 55.33, vat_amount: 9.68)
+          claim.disbursements << create(:disbursement, claim:, net_amount: 100.0, vat_amount: 10.0)
           is_expected.to have_totals(fees_total: 37.75, fees_vat: 7.55, disbursements_total: 155.33, disbursements_vat: 19.68, expenses_total: 9.99, expenses_vat: 2.0)
 
           # remove the fee for 31.5
@@ -161,12 +161,12 @@ RSpec.describe Claim, type: :model do
           is_expected.to have_totals(fees_total: 37.75, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 0.0, expenses_vat: 0.0)
 
           # add expenses for 9.99 with specific vat amount
-          claim.expenses << create(:expense, claim: claim, amount: 9.99, vat_amount: 0.45)
+          claim.expenses << create(:expense, claim:, amount: 9.99, vat_amount: 0.45)
           is_expected.to have_totals(fees_total: 37.75, fees_vat: 0.0, disbursements_total: 0.0, disbursements_vat: 0.0, expenses_total: 9.99, expenses_vat: 0.45)
 
           # add disbursements for 55.33 & 100 with specific VAT amounts
-          claim.disbursements << create(:disbursement, claim: claim, net_amount: 55.33, vat_amount: 2.35)
-          claim.disbursements << create(:disbursement, claim: claim, net_amount: 100.0, vat_amount: 4.00)
+          claim.disbursements << create(:disbursement, claim:, net_amount: 55.33, vat_amount: 2.35)
+          claim.disbursements << create(:disbursement, claim:, net_amount: 100.0, vat_amount: 4.00)
           is_expected.to have_totals(fees_total: 37.75, fees_vat: 0.0, disbursements_total: 155.33, disbursements_vat: 6.35, expenses_total: 9.99, expenses_vat: 0.45)
         end
       end
@@ -178,8 +178,8 @@ RSpec.describe Claim, type: :model do
       context 'with VAT' do
         before do
           allow(claim).to receive_messages(vat_registered?: true, apply_vat?: true)
-          create(:basic_fee, claim: claim, quantity: 1, rate: 200)
-          create(:expense, claim: claim, amount: 9.99)
+          create(:basic_fee, claim:, quantity: 1, rate: 200)
+          create(:expense, claim:, amount: 9.99)
         end
 
         it 'automatically applies VAT' do
@@ -200,9 +200,9 @@ RSpec.describe Claim, type: :model do
 
         context 'with fees and expenses' do
           before do
-            create(:basic_fee, claim: claim, quantity: 1, rate: 200)
-            create(:misc_fee, claim: claim, quantity: 2, rate: 50)
-            create(:expense, claim: claim, amount: 9.99)
+            create(:basic_fee, claim:, quantity: 1, rate: 200)
+            create(:misc_fee, claim:, quantity: 2, rate: 50)
+            create(:expense, claim:, amount: 9.99)
           end
 
           it 'applies no VAT' do
@@ -221,9 +221,9 @@ RSpec.describe Claim, type: :model do
 
         context 'with fees and expenses' do
           before do
-            create(:basic_fee, claim: claim, quantity: 1, rate: 200)
-            create(:misc_fee, claim: claim, quantity: 2, rate: 50)
-            create(:expense, claim: claim, amount: 9.99)
+            create(:basic_fee, claim:, quantity: 1, rate: 200)
+            create(:misc_fee, claim:, quantity: 2, rate: 50)
+            create(:expense, claim:, amount: 9.99)
           end
 
           it 'automatically adds VAT' do
@@ -269,7 +269,7 @@ RSpec.describe Claim, type: :model do
 
         # NOTE: the special prep fee, mispf, is used here as it is
         # as an edge case because it is calculated for agfs but not for lgfs
-        create(:misc_fee, :mispf_fee, claim: claim, amount: 25_002.20)
+        create(:misc_fee, :mispf_fee, claim:, amount: 25_002.20)
 
         claim.reload
         expect(claim.total).to eq 25_027.2

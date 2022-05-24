@@ -34,7 +34,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
     let(:miupl) { create(:misc_fee_type, :miupl) }
 
     before do
-      create(:misc_fee, fee_type: miupl, claim: claim, quantity: 0, amount: 250.01)
+      create(:misc_fee, fee_type: miupl, claim:, quantity: 0, amount: 250.01)
       claim.reload
       claim.form_step = :miscellaneous_fees
     end
@@ -83,7 +83,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
 
     context 'with 2 defendants' do
       before do
-        create(:defendant, claim: claim)
+        create(:defendant, claim:)
         claim.reload
       end
 
@@ -100,7 +100,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
 
       context 'when there are multiple defendant uplifts (2 or more), per fee type' do
         before do
-          create_list(:misc_fee, 2, fee_type: miupl, claim: claim, quantity: 0, amount: 21.01)
+          create_list(:misc_fee, 2, fee_type: miupl, claim:, quantity: 0, amount: 21.01)
         end
 
         it 'test setup' do
@@ -138,7 +138,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
 
     context 'defendants marked for destruction' do
       before do
-        create(:defendant, claim: claim)
+        create(:defendant, claim:)
         claim.reload
       end
 

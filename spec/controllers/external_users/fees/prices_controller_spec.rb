@@ -47,7 +47,7 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
 
   describe 'POST #calculate.json' do
     context 'message sending' do
-      subject(:calculate) { post :calculate, params: params }
+      subject(:calculate) { post :calculate, params: }
 
       let(:claim) { create(:draft_claim) }
 
@@ -99,14 +99,14 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
         create(
           :draft_claim,
           create_defendant_and_rep_order_for_scheme_9: true,
-          case_type: case_type, offence: offence
+          case_type:, offence:
         )
       end
       let(:case_type) { create(:case_type, :appeal_against_conviction) }
       let(:offence_class) { create(:offence_class, class_letter: 'K') }
-      let(:offence) { create(:offence, offence_class: offence_class) }
+      let(:offence) { create(:offence, offence_class:) }
       let(:fee_type) { create(:fixed_fee_type, :fxacv) }
-      let(:fee) { create(:fixed_fee, fee_type: fee_type, claim: claim, quantity: 1) }
+      let(:fee) { create(:fixed_fee, fee_type:, claim:, quantity: 1) }
 
       let(:calculator_params) do
         {
@@ -148,20 +148,20 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
         create(
           :litigator_claim,
           create_defendant_and_rep_order_for_scheme_8: true,
-          case_type: case_type,
-          offence: offence,
+          case_type:,
+          offence:,
           actual_trial_length: 10
         )
       end
       let(:case_type) { create(:case_type, :trial) }
       let(:offence_class) { create(:offence_class, class_letter: 'J') }
-      let(:offence) { create(:offence, offence_class: offence_class) }
+      let(:offence) { create(:offence, offence_class:) }
       let(:fee_type) { create(:graduated_fee_type, :grtrl) }
       let(:fee) do
         create(
           :graduated_fee,
-          claim: claim,
-          fee_type: fee_type,
+          claim:,
+          fee_type:,
           date: DateTime.parse('2018-03-31'),
           quantity: 1
         )

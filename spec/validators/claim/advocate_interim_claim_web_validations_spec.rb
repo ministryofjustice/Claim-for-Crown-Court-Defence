@@ -10,7 +10,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
   let(:external_user) { create(:external_user, :advocate) }
   let(:court) { create(:court, name: 'Court Name') }
   let(:attributes) { valid_attributes }
-  let(:params) { attributes.merge(form_step: form_step) }
+  let(:params) { attributes.merge(form_step:) }
 
   subject(:claim) { Claim::AdvocateInterimClaim.new(params) }
 
@@ -549,7 +549,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     let(:valid_attributes) {
       {
         advocate_category: 'QC',
-        warrant_fee_attributes: warrant_fee_attributes
+        warrant_fee_attributes:
       }
     }
 
@@ -776,7 +776,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     let(:expenses_attributes) { valid_expenses_attributes }
     let(:valid_attributes) {
       {
-        expenses_attributes: expenses_attributes
+        expenses_attributes:
       }
     }
 

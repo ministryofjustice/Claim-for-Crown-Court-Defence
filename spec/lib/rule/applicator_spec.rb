@@ -85,8 +85,8 @@ RSpec.describe Rule::Applicator, type: :rule do
                            [1, 2],
                            message: 'nested relation id must be included in...')
         end
-        let(:object) { test_class.new(relation: relation) }
-        let(:relation) { double('Relation', nested_relation: nested_relation) }
+        let(:object) { test_class.new(relation:) }
+        let(:relation) { double('Relation', nested_relation:) }
         let(:nested_relation) { double('NestedRelation', id: 990) }
 
         context 'when rule is met' do

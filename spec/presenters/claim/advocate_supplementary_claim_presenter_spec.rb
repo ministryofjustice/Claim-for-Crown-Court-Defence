@@ -20,7 +20,7 @@ RSpec.describe Claim::AdvocateSupplementaryClaimPresenter, type: :presenter do
   describe '#misc_fees_total' do
     let(:claim) do
       create(:advocate_supplementary_claim).tap do |claim|
-        claim.fees << create(:misc_fee, :mispf_fee, claim: claim, rate: 131.00, quantity: 2)
+        claim.fees << create(:misc_fee, :mispf_fee, claim:, rate: 131.00, quantity: 2)
       end
     end
 

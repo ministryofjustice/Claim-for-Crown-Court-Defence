@@ -177,7 +177,7 @@ module Fee
       context 'agfs claims' do
         let(:claim) { create(:advocate_claim) }
         let(:misc_fee_type) { build(:misc_fee_type) }
-        let(:fee) { build(:misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim: claim) }
+        let(:fee) { build(:misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim:) }
 
         it 'recalculates amount if fee type is calculated' do
           fee.claim.force_validation = true
@@ -205,7 +205,7 @@ module Fee
       context 'lgfs claims' do
         let(:claim) { build :litigator_claim }
         let(:misc_fee_type) { build :misc_fee_type, :lgfs }
-        let(:fee) { build :misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim: claim }
+        let(:fee) { build :misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim: }
 
         it 'does not recalculate amount' do
           fee.rate = 0

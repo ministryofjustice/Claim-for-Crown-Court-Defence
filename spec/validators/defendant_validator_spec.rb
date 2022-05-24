@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DefendantValidator, type: :validator do
   let(:claim)     { build(:claim) }
-  let(:defendant) { build(:defendant, claim: claim) }
+  let(:defendant) { build(:defendant, claim:) }
 
   before do
     claim.force_validation = true

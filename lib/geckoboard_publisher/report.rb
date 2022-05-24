@@ -73,7 +73,7 @@ module GeckoboardPublisher
     private
 
     def create_dataset!
-      @dataset = client.datasets.find_or_create(id, fields: fields, unique_by: unique_by)
+      @dataset = client.datasets.find_or_create(id, fields:, unique_by:)
     end
 
     def add_to_dataset!

@@ -64,11 +64,11 @@ RSpec.describe 'API claim creation for LGFS' do
 
   let!(:provider) { create(:provider, :lgfs, vat_registered: true) }
   let!(:other_provider) { create(:provider) }
-  let!(:vendor) { create(:external_user, :admin, provider: provider) }
-  let!(:litigator) { create(:external_user, :litigator, provider: provider) }
+  let!(:vendor) { create(:external_user, :admin, provider:) }
+  let!(:litigator) { create(:external_user, :litigator, provider:) }
   let!(:court) { create(:court) }
   let(:offence_class) { create(:offence_class, class_letter: 'A') }
-  let(:offence) { create(:offence, :with_fee_scheme, lgfs_fee_scheme: true, offence_class: offence_class) }
+  let(:offence) { create(:offence, :with_fee_scheme, lgfs_fee_scheme: true, offence_class:) }
 
   let(:graduated_fee_type) { Fee::BaseFeeType.find_by(unique_code: 'GRTRL') }
   let(:fixed_fee_type) { Fee::BaseFeeType.find_by(unique_code: 'FXACV') }
@@ -112,7 +112,7 @@ RSpec.describe 'API claim creation for LGFS' do
     {
       api_key: provider.api_key,
       defendant_id: nil,
-      representation_order_date: representation_order_date,
+      representation_order_date:,
       maat_reference: '2320006'
     }
   end
@@ -250,19 +250,19 @@ RSpec.describe 'API claim creation for LGFS' do
         expect(last_response.status).to eq 201
 
         expect(claim.graduated_fee).to be_present
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 5142.87, vat_amount: 1028.57)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 5142.87, vat_amount: 1028.57)
 
         post endpoint(:fees), misc_fee_params.merge(claim_id: claim.uuid, fee_type_id: miscellaneous_fee_type.id), format: :json
         expect(last_response.status).to eq 201
 
         expect(claim.misc_fees.size).to eq 1
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 5187.87, vat_amount: 1037.57)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 5187.87, vat_amount: 1037.57)
 
         post endpoint(:disbursements), disbursement_params.merge(claim_id: claim.uuid, disbursement_type_id: disbursement_type.id), format: :json
         expect(last_response.status).to eq 201
 
         expect(claim.disbursements.size).to eq 1
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 5288.12, vat_amount: 1057.62)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 5288.12, vat_amount: 1057.62)
 
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
         expect(last_response.status).to eq 201
@@ -271,7 +271,7 @@ RSpec.describe 'API claim creation for LGFS' do
         expect(last_response.status).to eq 201
 
         expect(claim.expenses.size).to eq 2
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 6288.12, vat_amount: 1257.62)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 6288.12, vat_amount: 1257.62)
       end
     end
 
@@ -338,7 +338,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:fees), interim_fee_params.merge(claim_id: claim.uuid, fee_type_id: interim_fee_type.id), format: :json
         expect(last_response.status).to eq 201
         expect(claim.interim_fee).to be_present
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 200.00, vat_amount: 40.00)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 200.00, vat_amount: 40.00)
 
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
         expect(last_response.status).to eq 201
@@ -346,7 +346,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
         expect(last_response.status).to eq 201
         expect(claim.expenses.size).to eq 2
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 1200.00, vat_amount: 240.00)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 1200.00, vat_amount: 240.00)
       end
     end
 
@@ -371,18 +371,18 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:fees), transfer_fee_params.merge(claim_id: claim.uuid), format: :json
         expect(last_response.status).to eq 201
         expect(claim.transfer_fee).to be_present
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 200.00, vat_amount: 40.00)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 200.00, vat_amount: 40.00)
 
         post endpoint(:fees), misc_fee_params.merge(claim_id: claim.uuid, fee_type_id: miscellaneous_fee_type.id), format: :json
         expect(last_response.status).to eq 201
 
         expect(claim.misc_fees.size).to eq 1
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 245.00, vat_amount: 49.00)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 245.00, vat_amount: 49.00)
 
         post endpoint(:disbursements), disbursement_params.merge(claim_id: claim.uuid, disbursement_type_id: disbursement_type.id), format: :json
         expect(last_response.status).to eq 201
         expect(claim.disbursements.size).to eq 1
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 345.25, vat_amount: 69.05)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 345.25, vat_amount: 69.05)
 
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
         expect(last_response.status).to eq 201
@@ -390,7 +390,7 @@ RSpec.describe 'API claim creation for LGFS' do
         expect(last_response.status).to eq 201
         expect(claim.expenses.size).to eq 2
         expect(claim.actual_trial_length).to eq 11
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 1345.25, vat_amount: 269.05)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 1345.25, vat_amount: 269.05)
       end
     end
 
@@ -447,7 +447,7 @@ RSpec.describe 'API claim creation for LGFS' do
         post endpoint(:fees), graduated_fee_params.merge(claim_id: claim.uuid, fee_type_id: graduated_fee_type.id, date: representation_order_date), format: :json
         expect(last_response.status).to eq 201
 
-        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence: offence, total: 5142.87, vat_amount: 1028.57)
+        expect(claim).to be_valid_api_lgfs_claim(fee_scheme: ['LGFS', 9], offence:, total: 5142.87, vat_amount: 1028.57)
       end
     end
   end

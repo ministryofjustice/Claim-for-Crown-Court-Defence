@@ -4,9 +4,9 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
   let(:provider) { create(:provider) }
 
   context 'admin user' do
-    let(:admin) { create(:external_user, :admin, provider: provider) }
+    let(:admin) { create(:external_user, :admin, provider:) }
 
-    subject { create(:external_user, provider: provider) }
+    subject { create(:external_user, provider:) }
 
     before { sign_in admin.user }
 
@@ -114,7 +114,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
 
         it 'creates a external_user' do
           expect {
-            post :create, params: params
+            post :create, params:
           }.to change(User, :count).by(1)
           user = User.find_by_email('foo@foobar.com')
           expect(user.settings).to eq({ 'email_notification_of_message' => true })
@@ -230,8 +230,8 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
   ######################## NON ADMIN USER #################
 
   context 'non-admin user' do
-    let(:external_user)         { create(:external_user, provider: provider) }
-    let(:other_external_user)   { create(:external_user, provider: provider) }
+    let(:external_user)         { create(:external_user, provider:) }
+    let(:other_external_user)   { create(:external_user, provider:) }
 
     before do
       sign_in external_user.user

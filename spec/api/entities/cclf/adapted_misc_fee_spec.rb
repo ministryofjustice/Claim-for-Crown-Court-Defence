@@ -5,8 +5,8 @@ RSpec.describe API::Entities::CCLF::AdaptedMiscFee, type: :adapter do
 
   let(:fee_type) { instance_double('fee_type', unique_code: 'MISPF') }
   let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL') }
-  let(:claim) { instance_double('claim', case_type: case_type) }
-  let(:misc_fee) { instance_double('misc_fee', claim: claim, fee_type: fee_type, amount: 199.50) }
+  let(:claim) { instance_double('claim', case_type:) }
+  let(:misc_fee) { instance_double('misc_fee', claim:, fee_type:, amount: 199.50) }
 
   it_behaves_like 'a bill types delegator', ::CCLF::Fee::MiscFeeAdapter do
     let(:bill) { misc_fee }

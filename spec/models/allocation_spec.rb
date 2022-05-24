@@ -21,7 +21,7 @@ RSpec.describe Allocation, type: :model do
   describe '#save' do
     context 'allocating' do
       let(:case_worker) { create(:case_worker) }
-      let(:allocator) { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true, current_user: current_user) }
+      let(:allocator) { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true, current_user:) }
 
       context 'when valid' do
         let(:claims) { create_list(:submitted_claim, 3) }
@@ -86,7 +86,7 @@ RSpec.describe Allocation, type: :model do
 
       context 'when creator is a litigator' do
         let!(:claim) { create :submitted_claim }
-        let(:allocator) { Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user: current_user) }
+        let(:allocator) { Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user:) }
 
         describe 'and then changes role to advocate' do
           before do
@@ -124,7 +124,7 @@ RSpec.describe Allocation, type: :model do
 
     context 'reallocating' do
       let(:case_worker) { create(:case_worker) }
-      let(:reallocator) { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, current_user: current_user) }
+      let(:reallocator) { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, current_user:) }
 
       context 'when valid' do
         let(:claims) { create_list(:allocated_claim, 3) }
@@ -226,7 +226,7 @@ RSpec.describe Allocation, type: :model do
           end
         end
 
-        subject { Allocation.new(claim_ids: claims.map(&:id), deallocate: true, current_user: current_user) }
+        subject { Allocation.new(claim_ids: claims.map(&:id), deallocate: true, current_user:) }
 
         it 'deletes case worker claim join records' do
           subject.save

@@ -7,7 +7,7 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
 
   let(:litigator) { build(:external_user, :litigator) }
   let(:interim_fee) { build(:interim_fee) }
-  let(:claim) { create(:interim_claim, interim_fee: interim_fee) }
+  let(:claim) { create(:interim_claim, interim_fee:) }
 
   include_examples 'common advocate litigator validations', :litigator
   include_examples 'common litigator validations', :interim_claim
@@ -38,7 +38,7 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
   }
 
   describe 'estimated trial length and estimated retrial length fields should not accept values of less than 10 days' do
-    let(:claim) { create(:interim_claim, interim_fee: interim_fee) }
+    let(:claim) { create(:interim_claim, interim_fee:) }
 
     before do
       claim.source = 'web'

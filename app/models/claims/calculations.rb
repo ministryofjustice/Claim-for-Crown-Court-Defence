@@ -22,8 +22,8 @@ module Claims::Calculations
     end
     fees_vat = calculate_fees_vat(fees_total)
     assign_attributes(
-      fees_total: fees_total,
-      fees_vat: fees_vat,
+      fees_total:,
+      fees_vat:,
       value_band_id: Claims::ValueBands.band_id_for_value(fees_vat + fees_total)
     )
   end
@@ -31,8 +31,8 @@ module Claims::Calculations
   def update_fees_total
     fees_total = calculate_fees_total
     fees_vat = calculate_fees_vat(fees_total)
-    update_columns(fees_vat: fees_vat,
-                   fees_total: fees_total,
+    update_columns(fees_vat:,
+                   fees_total:,
                    value_band_id: Claims::ValueBands.band_id_for_value(fees_vat + fees_total))
   end
 
@@ -102,7 +102,7 @@ module Claims::Calculations
   # * vat_attribute: the name of the attribute holding the vat amount to be summed
   def totalize_for_claim(klass, claim_id, net_attribute, vat_attribute)
     values = klass
-             .where(claim_id: claim_id)
+             .where(claim_id:)
              .where(attribute_is_null_to_s(net_attribute))
              .pluck(vat_attribute, net_attribute)
     { vat: values.map { |v| v.first || BigDecimal('0.0', 8) }.sum, net: values.map(&:last).sum }

@@ -23,7 +23,7 @@ module Stats
       date = Date.yesterday - dataset.size.days
       claim_type = "Claim::#{abbreviated_claim_type}Claim"
       dataset.each do |data_value|
-        Statistic.create(report_name: 'claim_submissions', claim_type: claim_type, date: date, value_1: data_value)
+        Statistic.create(report_name: 'claim_submissions', claim_type:, date:, value_1: data_value)
         date += 1.day
       end
     end

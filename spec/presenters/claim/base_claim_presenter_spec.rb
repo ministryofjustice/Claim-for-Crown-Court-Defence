@@ -28,8 +28,8 @@ RSpec.describe Claim::BaseClaimPresenter do
     @first_defendant.first_name = 'Mark'
     @first_defendant.last_name = "O'Reilly"
     @first_defendant.save!
-    create(:defendant, first_name: 'Robert', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
-    create(:defendant, first_name: 'Adam', last_name: 'Smith', claim: claim, order_for_judicial_apportionment: false)
+    create(:defendant, first_name: 'Robert', last_name: 'Smith', claim:, order_for_judicial_apportionment: false)
+    create(:defendant, first_name: 'Adam', last_name: 'Smith', claim:, order_for_judicial_apportionment: false)
   end
 
   describe '#show_sidebar?' do
@@ -407,7 +407,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#injection_error' do
     subject { presenter.injection_error }
 
-    before { create(:injection_attempt, :with_errors, claim: claim) }
+    before { create(:injection_attempt, :with_errors, claim:) }
 
     it 'returns nil for inactive injection errors' do
       claim.injection_attempts.last.soft_delete
@@ -428,7 +428,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     subject { presenter.injection_errors }
 
     before do
-      create(:injection_attempt, :with_errors, claim: claim)
+      create(:injection_attempt, :with_errors, claim:)
     end
 
     it 'calls last error messages attribute of model' do
@@ -526,7 +526,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#has_conference_and_views?' do
     subject { presenter.has_conference_and_views? }
 
-    let!(:fee) { create(:basic_fee, :cav_fee, claim: claim, quantity: quantity, rate: rate) }
+    let!(:fee) { create(:basic_fee, :cav_fee, claim:, quantity:, rate:) }
 
     before { claim.reload }
 
@@ -871,7 +871,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#has_clar_fees?' do
     subject { presenter.has_clar_fees? }
 
-    let!(:fee) { create(:misc_fee, :miphc_fee, claim: claim, quantity: quantity, rate: rate) }
+    let!(:fee) { create(:misc_fee, :miphc_fee, claim:, quantity:, rate:) }
 
     before { claim.reload }
 

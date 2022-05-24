@@ -112,7 +112,7 @@ RSpec.describe Claim::TransferBrain do
   describe '.case_conclusion' do
     subject { described_class.case_conclusion(detail) }
 
-    let(:detail) { build(:transfer_detail, case_conclusion_id: case_conclusion_id) }
+    let(:detail) { build(:transfer_detail, case_conclusion_id:) }
 
     context 'with a "Trial" case conclusion' do
       let(:case_conclusion_id) { 10 }
@@ -239,6 +239,6 @@ RSpec.describe Claim::TransferBrain do
   end
 
   def transfer_detail(litigator_type, elected_case, transfer_stage_id, case_conclusion_id = 10)
-    build :transfer_detail, litigator_type: litigator_type, elected_case: elected_case, transfer_stage_id: transfer_stage_id, case_conclusion_id: case_conclusion_id
+    build :transfer_detail, litigator_type:, elected_case:, transfer_stage_id:, case_conclusion_id:
   end
 end

@@ -24,7 +24,7 @@ module API
             end
 
             def build_arguments
-              declared_params.merge(attended_item_id: attended_item_id, attended_item_type: 'Fee::BaseFee')
+              declared_params.merge(attended_item_id:, attended_item_type: 'Fee::BaseFee')
             end
           end
 

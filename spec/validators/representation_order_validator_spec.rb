@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe RepresentationOrderValidator, type: :validator do
   let(:claim)     { build :claim }
-  let(:defendant) { build :defendant, claim: claim }
-  let(:reporder)  { build :representation_order, defendant: defendant }
+  let(:defendant) { build :defendant, claim: }
+  let(:reporder)  { build :representation_order, defendant: }
 
   before do
     claim.force_validation = true
@@ -16,30 +16,30 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
 
     context 'for advocate final claims' do
       let(:case_type) { build(:case_type, :fixed_fee) }
-      let(:claim) { build(:advocate_claim, case_type: case_type) }
+      let(:claim) { build(:advocate_claim, case_type:) }
 
       context 'with a trial case type' do
         let(:first_day_of_trial) { 5.days.ago }
         let(:case_type) { build(:case_type, :trial) }
-        let(:claim) { build(:advocate_claim, case_type: case_type, first_day_of_trial: first_day_of_trial) }
+        let(:claim) { build(:advocate_claim, case_type:, first_day_of_trial:) }
 
         context 'and the representation order date is before the first day of trial' do
           let(:rep_order_date) { first_day_of_trial - 2.days }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date matches the first day of trial' do
           let(:rep_order_date) { first_day_of_trial }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date is later than the first day of trial' do
           let(:rep_order_date) { first_day_of_trial + 1.day }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
@@ -51,25 +51,25 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
       context 'with a retrial case type' do
         let(:retrial_started_at) { 5.days.ago }
         let(:case_type) { build(:case_type, :retrial) }
-        let(:claim) { build(:advocate_claim, case_type: case_type, retrial_started_at: retrial_started_at) }
+        let(:claim) { build(:advocate_claim, case_type:, retrial_started_at:) }
 
         context 'and the representation order date is before the first day of retrial' do
           let(:rep_order_date) { retrial_started_at - 3.days }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date matches the first day of retrial' do
           let(:rep_order_date) { retrial_started_at }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date is later than the first day of retrial' do
           let(:rep_order_date) { retrial_started_at + 1.day }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
@@ -81,25 +81,25 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
       context 'with a cracked trial case type' do
         let(:trial_cracked_at) { 5.days.ago }
         let(:case_type) { build(:case_type, :cracked_trial) }
-        let(:claim) { build(:advocate_claim, case_type: case_type, trial_cracked_at: trial_cracked_at) }
+        let(:claim) { build(:advocate_claim, case_type:, trial_cracked_at:) }
 
         context 'and the representation order date is before the trial cracked date' do
           let(:rep_order_date) { trial_cracked_at - 2.days }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date matches the trial cracked date' do
           let(:rep_order_date) { trial_cracked_at }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date is later than the first day of trial' do
           let(:rep_order_date) { trial_cracked_at + 1.day }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
@@ -111,25 +111,25 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
       context 'with a cracked before retrial case type' do
         let(:trial_cracked_at) { 5.days.ago }
         let(:case_type) { build(:case_type, :cracked_before_retrial) }
-        let(:claim) { build(:advocate_claim, case_type: case_type, trial_cracked_at: trial_cracked_at) }
+        let(:claim) { build(:advocate_claim, case_type:, trial_cracked_at:) }
 
         context 'and the representation order date is before the fixed notice date' do
           let(:rep_order_date) { trial_cracked_at - 2.days }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date matches the first day of trial' do
           let(:rep_order_date) { trial_cracked_at }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date is later than the first day of trial' do
           let(:rep_order_date) { trial_cracked_at + 1.day }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           it 'is invalid' do
             expect(reporder).not_to be_valid
@@ -142,32 +142,32 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
     context 'for litigator final claims' do
       context 'when claim does not require case concluded date' do
         let(:case_concluded_at) { 5.days.ago }
-        let(:claim) { build(:interim_claim, case_concluded_at: case_concluded_at) }
+        let(:claim) { build(:interim_claim, case_concluded_at:) }
 
         specify { expect(reporder).to be_valid }
       end
 
       context 'when claim requires case concluded date' do
         let(:case_concluded_at) { 5.days.ago }
-        let(:claim) { build(:litigator_claim, case_concluded_at: case_concluded_at) }
+        let(:claim) { build(:litigator_claim, case_concluded_at:) }
 
         context 'and the representation order date is before the case concluded date' do
           let(:rep_order_date) { case_concluded_at - 3.days }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date matches the case concluded date' do
           let(:rep_order_date) { case_concluded_at }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           specify { expect(reporder).to be_valid }
         end
 
         context 'and the representation order date is later than the case concluded date' do
           let(:rep_order_date) { case_concluded_at + 1.day }
-          let(:reporder) { build(:representation_order, defendant: defendant, representation_order_date: rep_order_date) }
+          let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
 
           it 'is invalid' do
             expect(reporder).not_to be_valid

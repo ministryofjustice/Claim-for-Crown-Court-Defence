@@ -1,7 +1,7 @@
 RSpec.shared_examples 'trial_cracked_at assigner' do
   subject { claim.trial_cracked_at }
 
-  let(:claim) { build(:advocate_hardship_claim, case_stage: case_stage, **cracked_details, assessment: assessment) }
+  let(:claim) { build(:advocate_hardship_claim, case_stage:, **cracked_details, assessment:) }
   let(:assessment) { build(:assessment) }
 
   let(:cracked_details) do

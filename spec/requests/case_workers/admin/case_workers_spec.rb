@@ -50,14 +50,14 @@ RSpec.describe 'Caseworker admin', type: :request do
         let(:mailer) { instance_double DeviseMailer }
 
         before do
-          allow(DeviseMailer).to receive(:reset_password_instructions).and_raise(NoMethodError)
+          allow(DeviseMailer).to receive(:reset_password_instructions).and_raise(ArgumentError)
         end
 
         it 'raises an error' do
           allow(Rails.logger).to receive(:error)
           create_case_workers_request
           expect(Rails.logger).to have_received(:error)
-            .with(/DEVISE MAILER ERROR: 'NoMethodError' while sending reset password mail/)
+            .with(/DEVISE MAILER ERROR: 'ArgumentError' while sending reset password mail/)
         end
       end
     end

@@ -11,11 +11,11 @@ class API::Logger < Grape::Middleware::Base
   private
 
   def log_api_request(method, path, data)
-    log_api('api-request', method: method, path: path, data: data)
+    log_api('api-request', method:, path:, data:)
   end
 
   def log_api_response(status)
-    log_api('api-response', status: status, response_body: response_body)
+    log_api('api-response', status:, response_body:)
   end
 
   def response_body

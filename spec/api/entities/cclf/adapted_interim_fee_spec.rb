@@ -8,8 +8,8 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
   let(:interim_fee) do
     instance_double(
       ::Fee::InterimFee,
-      claim: claim,
-      fee_type: fee_type,
+      claim:,
+      fee_type:,
       quantity: 0.0,
       amount: 0.0,
       warrant_issued_date: nil,

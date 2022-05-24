@@ -12,7 +12,7 @@ module Fee
 
         def with_set_for_fee_type(unique_code)
           @sets ||= []
-          fee_type = Fee::BaseFeeType.find_by(unique_code: unique_code)
+          fee_type = Fee::BaseFeeType.find_by(unique_code:)
           set = Rule::Set.new(fee_type)
           yield set
           @sets << set

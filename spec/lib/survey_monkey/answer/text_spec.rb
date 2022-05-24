@@ -7,6 +7,6 @@ RSpec.describe SurveyMonkey::Answer::Text do
     let(:question_id) { 123 }
     let(:text) { 'It is a far, far better thing that I do, than I have ever done;' }
 
-    it { is_expected.to eq({ id: '123', answers: [{ text: text }] }) }
+    it { is_expected.to eq({ id: '123', answers: [{ text: }] }) }
   end
 end

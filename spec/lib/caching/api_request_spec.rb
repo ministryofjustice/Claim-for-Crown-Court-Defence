@@ -6,9 +6,9 @@ RSpec.describe Caching::ApiRequest do
 
   let(:headers) { {} }
   let(:value1) { 'test value 1' }
-  let(:response1) { double('Response1', headers: headers, body: value1) }
+  let(:response1) { double('Response1', headers:, body: value1) }
   let(:value2) { 'test value 2' }
-  let(:response2) { double('Response2', headers: headers, body: value2) }
+  let(:response2) { double('Response2', headers:, body: value2) }
 
   before do
     Caching.backend = Caching::MemoryStore

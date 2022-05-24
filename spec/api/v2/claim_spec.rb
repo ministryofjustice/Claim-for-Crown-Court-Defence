@@ -13,7 +13,7 @@ RSpec.describe API::V2::Claim do
   end
 
   def do_request(claim_uuid: @claim.uuid, api_key: case_worker.user.api_key)
-    get "/api/claims/#{claim_uuid}", { api_key: api_key }, { format: :json }
+    get "/api/claims/#{claim_uuid}", { api_key: }, { format: :json }
   end
 
   def full_claim

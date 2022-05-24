@@ -7,7 +7,7 @@ module CapybaraExtensions
       def has_govuk_link?(options)
         href = options.delete(:href)
         has_selector?('a.govuk-link', **options) &&
-          has_link?(options[:text], href: href)
+          has_link?(options[:text], href:)
       end
 
       def has_govuk_summary_row?(key, value)
@@ -36,7 +36,7 @@ module CapybaraExtensions
 
       def has_govuk_warning?(text = nil)
         [
-          has_selector?('.govuk-warning-text strong.govuk-warning-text__text', text: text),
+          has_selector?('.govuk-warning-text strong.govuk-warning-text__text', text:),
           has_selector?('.govuk-warning-text span.govuk-warning-text__icon', text: '!'),
           has_selector?('.govuk-warning-text span.govuk-warning-text__assistive', text: 'Warning')
         ].all?
@@ -69,15 +69,15 @@ module CapybaraExtensions
       end
 
       def has_govuk_detail_summary?(text, options = {})
-        has_selector?(detail_summary_selector, **options.merge(text: text))
+        has_selector?(detail_summary_selector, **options.merge(text:))
       end
 
       def has_no_govuk_detail_summary?(text, options = {})
-        has_no_selector?(detail_summary_selector, **options.merge(text: text))
+        has_no_selector?(detail_summary_selector, **options.merge(text:))
       end
 
       def click_govuk_detail_summary(text, options = {})
-        detail_summary = find(detail_summary_selector, **options.merge(text: text))
+        detail_summary = find(detail_summary_selector, **options.merge(text:))
         detail_summary.click
       end
 

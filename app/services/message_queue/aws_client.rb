@@ -49,7 +49,7 @@ module MessageQueue
     end
 
     def delete_message(receipt_handle)
-      @sqs.delete_message(queue_url: @queue_url, receipt_handle: receipt_handle)
+      @sqs.delete_message(queue_url: @queue_url, receipt_handle:)
     end
   end
 end

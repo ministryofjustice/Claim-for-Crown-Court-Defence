@@ -43,7 +43,7 @@ module Stats
           result = { name: name.to_s.humanize, filter: date_column_filter.to_s.humanize }
 
           query_results = query.call(date_range: @date_range,
-                                     date_column_filter: date_column_filter).to_a
+                                     date_column_filter:).to_a
 
           counts_by_day = query_results.map { |rec| { rec['day'].to_date.iso8601 => rec['count'] } }.reduce(:merge)
 

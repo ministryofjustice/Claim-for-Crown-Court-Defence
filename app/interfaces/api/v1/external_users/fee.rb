@@ -32,7 +32,7 @@ module API
         resource :fees, desc: 'Create or Validate' do
           helpers do
             def build_arguments
-              declared_params.merge(claim_id: claim_id)
+              declared_params.merge(claim_id:)
             end
           end
 

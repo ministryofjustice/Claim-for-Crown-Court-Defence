@@ -140,7 +140,7 @@ RSpec.describe User, type: :model do
   end
 
   describe '#case_worker?' do
-    let(:user) { build(:user, persona_type: persona_type) }
+    let(:user) { build(:user, persona_type:) }
 
     subject { user.case_worker? }
 
@@ -158,7 +158,7 @@ RSpec.describe User, type: :model do
   end
 
   describe '#external_user?' do
-    let(:user) { build(:user, persona_type: persona_type) }
+    let(:user) { build(:user, persona_type:) }
 
     subject { user.external_user? }
 

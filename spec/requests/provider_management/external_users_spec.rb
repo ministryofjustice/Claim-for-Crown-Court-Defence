@@ -5,7 +5,7 @@ RSpec.describe 'providers external users management', type: :request do
 
   describe 'viewing an external user' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:external_user) { create :external_user, provider: provider }
+    let(:external_user) { create :external_user, provider: }
     let(:provider) { create :provider }
 
     before do
@@ -28,7 +28,7 @@ RSpec.describe 'providers external users management', type: :request do
 
   describe 'viewing index of external users for a provider' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let!(:external_user) { create :external_user, provider: provider }
+    let!(:external_user) { create :external_user, provider: }
     let(:provider) { create :provider }
 
     before do
@@ -70,7 +70,7 @@ RSpec.describe 'providers external users management', type: :request do
 
     before do
       sign_in user
-      post provider_management_external_users_find_path, params: { external_user: { email: email } }
+      post provider_management_external_users_find_path, params: { external_user: { email: } }
     end
 
     context 'when the email is for a provider' do
@@ -96,7 +96,7 @@ RSpec.describe 'providers external users management', type: :request do
   end
 
   describe 'viewing the new external user page' do
-    let(:external_user) { ExternalUser.new(provider: provider).tap(&:build_user) }
+    let(:external_user) { ExternalUser.new(provider:).tap(&:build_user) }
 
     let(:user) { create(:case_worker, :provider_manager).user }
     let(:provider) { create :provider }
@@ -176,7 +176,7 @@ RSpec.describe 'providers external users management', type: :request do
 
   describe 'viewing the edit page for an external user' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:external_user) { create :external_user, provider: provider }
+    let(:external_user) { create :external_user, provider: }
     let(:provider) { create :provider }
 
     before do
@@ -203,7 +203,7 @@ RSpec.describe 'providers external users management', type: :request do
 
   describe 'updating an external user' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:external_user) { create :external_user, :admin, provider: provider }
+    let(:external_user) { create :external_user, :admin, provider: }
     let(:provider) { create :provider }
 
     before { sign_in user }
@@ -211,7 +211,7 @@ RSpec.describe 'providers external users management', type: :request do
     context 'when valid' do
       let(:params) { { external_user: { supplier_number: 'XX100', roles: ['advocate'] } } }
 
-      before { put provider_management_provider_external_user_path(provider, external_user), params: params }
+      before { put provider_management_provider_external_user_path(provider, external_user), params: }
 
       it 'updates an external_user' do
         external_user.reload
@@ -226,7 +226,7 @@ RSpec.describe 'providers external users management', type: :request do
     context 'when invalid' do
       let(:params) { { external_user: { roles: ['foo'] } } }
 
-      before { put provider_management_provider_external_user_path(provider, external_user), params: params }
+      before { put provider_management_provider_external_user_path(provider, external_user), params: }
 
       it 'does not update external_user' do
         external_user.reload
@@ -241,7 +241,7 @@ RSpec.describe 'providers external users management', type: :request do
 
   describe 'viewing the change password page for an external user' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:external_user) { create :external_user, provider: provider }
+    let(:external_user) { create :external_user, provider: }
     let(:provider) { create :provider }
 
     before do
@@ -270,7 +270,7 @@ RSpec.describe 'providers external users management', type: :request do
     subject(:password_update_request) do
       patch(
         update_password_provider_management_provider_external_user_path(external_user.provider, external_user),
-        params: params
+        params:
       )
     end
 
@@ -278,7 +278,7 @@ RSpec.describe 'providers external users management', type: :request do
       {
         external_user: {
           user_attributes: {
-            password: password,
+            password:,
             password_confirmation: password_confirm
           }
         }
@@ -327,7 +327,7 @@ RSpec.describe 'providers external users management', type: :request do
       get change_availability_provider_management_provider_external_user_path(provider, external_user)
     end
 
-    let(:external_user) { create(:external_user, provider: provider) }
+    let(:external_user) { create(:external_user, provider:) }
     let(:provider) { create(:provider) }
 
     before do
@@ -355,7 +355,7 @@ RSpec.describe 'providers external users management', type: :request do
     context 'when logged in as super_admin with a disabled user' do
       let(:super_admin) { create :super_admin }
       let(:user) { super_admin.user }
-      let(:external_user) { create(:external_user, provider: provider).tap(&:disable) }
+      let(:external_user) { create(:external_user, provider:).tap(&:disable) }
 
       it { expect(response).to render_template(:change_availability) }
       it { expect(response.body).to have_content('Are you sure you want to enable') }
@@ -369,7 +369,7 @@ RSpec.describe 'providers external users management', type: :request do
             params: { external_user: { availability: 'false' } }
     end
 
-    let(:external_user) { create(:external_user, provider: provider) }
+    let(:external_user) { create(:external_user, provider:) }
     let(:provider) { create(:provider) }
 
     before { sign_in user }
@@ -454,7 +454,7 @@ RSpec.describe 'providers external users management', type: :request do
             params: { external_user: { availability: 'true' } }
     end
 
-    let(:external_user) { create(:external_user, provider: provider).tap(&:disable) }
+    let(:external_user) { create(:external_user, provider:).tap(&:disable) }
     let(:provider) { create(:provider) }
 
     before { sign_in user }

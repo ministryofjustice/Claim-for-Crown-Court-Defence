@@ -93,7 +93,7 @@ GEM
       activerecord (>= 4.0)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.587.0)
+    aws-partitions (1.591.0)
     aws-sdk-core (3.131.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
@@ -706,7 +706,7 @@ GEM
       state_machines-activemodel (>= 0.8.0)
     state_machines-audit_trail (2.0.2)
       state_machines
-    strscan (3.0.1)
+    strscan (3.0.3)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     temple (0.8.2)

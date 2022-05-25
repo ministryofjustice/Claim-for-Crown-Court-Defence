@@ -643,7 +643,7 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.7.0, < 2.0)
-    rubocop-rspec (2.10.0)
+    rubocop-rspec (2.11.1)
       rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
     ruby2_keywords (0.0.5)
@@ -706,7 +706,7 @@ GEM
       state_machines-activemodel (>= 0.8.0)
     state_machines-audit_trail (2.0.2)
       state_machines
-    strscan (3.0.1)
+    strscan (3.0.3)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     temple (0.8.2)

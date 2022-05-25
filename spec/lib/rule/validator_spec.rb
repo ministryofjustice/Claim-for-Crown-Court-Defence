@@ -34,7 +34,7 @@ RSpec.describe Rule::Validator, type: :rule do
         let(:object) { test_class.new(quantity: 1, amount: 1000) }
 
         it { expect(validate).to be_truthy }
-        it { expect { validate }.to change { object.errors.count }.by(0) }
+        it { expect { validate }.not_to change { object.errors.count } }
       end
 
       context 'when one rule violated' do
@@ -59,7 +59,7 @@ RSpec.describe Rule::Validator, type: :rule do
         let(:object) { test_class.new(quantity: 1, amount: 1000) }
 
         it { expect(validate).to be_truthy }
-        it { expect { validate }.to change { object.errors.count }.by(0) }
+        it { expect { validate }.not_to change { object.errors.count } }
       end
 
       context 'when second rule sets rule violated' do

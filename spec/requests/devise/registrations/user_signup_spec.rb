@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'external user not created' do
-  it { expect { request }.to change(User, :count).by(0) }
-  it { expect { request }.to change(ExternalUser, :count).by(0) }
-  it { expect { request }.to change(Provider, :count).by(0) }
+  it { expect { request }.not_to change(User, :count) }
+  it { expect { request }.not_to change(ExternalUser, :count) }
+  it { expect { request }.not_to change(Provider, :count) }
 end
 
 RSpec.shared_examples 'external user created' do

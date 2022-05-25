@@ -156,7 +156,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         end
 
         it 'updates, not creates, one basic fee' do
-          expect { post_to_create_endpoint }.to change { Fee::BaseFee.count }.by(0)
+          expect { post_to_create_endpoint }.not_to change { Fee::BaseFee.count }
         end
 
         it 'raises error if basic fee does not exist on claim' do

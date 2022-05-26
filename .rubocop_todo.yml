@@ -48,14 +48,6 @@ Lint/ConstantDefinitionInBlock:
     - 'spec/services/claims/fetch_eligible_fixed_fee_types_spec.rb'
     - 'spec/services/simple_bill_adapter_spec.rb'
 
-# Offense count: 3
-# Configuration parameters: IgnoreLiteralBranches, IgnoreConstantBranches.
-Lint/DuplicateBranch:
-  Exclude:
-    - 'app/helpers/external_users/claim_types_helper.rb'
-    - 'app/interfaces/api/helpers/api_helper.rb'
-    - 'spec/support/scheme_date_helpers.rb'
-
 # Offense count: 12
 # Configuration parameters: AllowComments, AllowEmptyLambdas.
 Lint/EmptyBlock:

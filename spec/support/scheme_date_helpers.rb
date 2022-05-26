@@ -7,11 +7,9 @@ module SchemeDateHelpers
       Settings.agfs_scheme_11_release_date.strftime
     when 'scheme 10' || 'post agfs reform'
       Settings.agfs_fee_reform_release_date.strftime
-    when 'scheme 9' || 'pre agfs reform'
-      '2016-01-01'
     when 'lgfs'
       '2016-04-01'
-    else
+    else # 'scheme 9' or 'pre agfs reform'
       '2016-01-01'
     end
   end

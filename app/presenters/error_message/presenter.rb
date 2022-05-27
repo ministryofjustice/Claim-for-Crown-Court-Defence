@@ -26,10 +26,17 @@ module ErrorMessage
       @errors.each do |error|
         attribute = error.attribute
         message = translator.message(error.attribute, error.message)
-
-        next if error_detail_item?(attribute, message)
+        next if error_detail_item?(attribute, message) || error_is_for_govuk_has_one_association?(attribute)
         add_error_detail(attribute, message)
       end
+    end
+
+    def error_is_for_govuk_has_one_association?(attribute)
+      govuk_has_one_associations.any? { |association| attribute.to_s.include?(association) }
+    end
+
+    def govuk_has_one_associations
+      @govuk_has_one_associations ||= %w[] # add associations to the array as they are migrated - eg %w[graduated_fee. fixed_fee.]
     end
 
     def error_detail_item?(attribute, message)

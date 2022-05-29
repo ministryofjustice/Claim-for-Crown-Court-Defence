@@ -847,7 +847,7 @@ DEPENDENCIES
   pry-byebug
   pry-rails
   puma
-  rack-livereload (~> 0.3.16)
+  rack-livereload (~> 0.3.17)
   rails (~> 6.1.6)
   rails-controller-testing
   redis (~> 4.6.0)

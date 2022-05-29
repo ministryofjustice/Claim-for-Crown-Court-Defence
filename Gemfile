@@ -88,7 +88,7 @@ group :development, :devunicorn, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'puma'
-  gem 'rack-livereload', '~> 0.3.16'
+  gem 'rack-livereload', '~> 0.3.17'
   gem 'rspec-rails', '~> 5.1.2'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'

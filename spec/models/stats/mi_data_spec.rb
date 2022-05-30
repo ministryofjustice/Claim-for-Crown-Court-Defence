@@ -16,7 +16,7 @@ module Stats
       let(:claim) { create :archived_pending_delete_claim }
 
       it { is_expected.to be true }
-      it { expect { import }.to change { Stats::MIData.count }.by 1 }
+      it { expect { import }.to change(Stats::MIData, :count).by 1 }
     end
   end
 end

@@ -56,13 +56,13 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       context 'with trial fee case type' do
         let(:case_type) { create(:case_type, :trial) }
 
-        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+        it { expect { fee.valid? }.not_to change { fee.errors[:fee_type].count } }
       end
 
       context 'with nil case type' do
         let(:case_type) { nil }
 
-        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+        it { expect { fee.valid? }.not_to change { fee.errors[:fee_type].count } }
       end
     end
 
@@ -76,7 +76,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       context 'with valid quantity' do
         let(:fee) { build(:misc_fee, :miumu_fee, claim:, quantity: 1) }
 
-        it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
+        it { expect { fee.valid? }.not_to change { fee.errors[:quantity].count } }
       end
 
       context 'with invalid quantity' do
@@ -102,7 +102,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       context 'with valid quantity' do
         let(:fee) { build(:misc_fee, :miumo_fee, claim:, quantity: 0.01) }
 
-        it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
+        it { expect { fee.valid? }.not_to change { fee.errors[:quantity].count } }
       end
 
       context 'with invalid quantity' do
@@ -135,19 +135,19 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         let(:offence_category_number) { nil }
         let(:offence) { create(:offence, offence_band: nil) }
 
-        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+        it { expect { fee.valid? }.not_to change { fee.errors[:fee_type].count } }
       end
 
       context 'with a nil offence category number' do
         let(:offence_category_number) { nil }
 
-        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+        it { expect { fee.valid? }.not_to change { fee.errors[:fee_type].count } }
       end
 
       context 'with a non-excluded offence category number' do
         let(:offence_category_number) { 2 }
 
-        it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+        it { expect { fee.valid? }.not_to change { fee.errors[:fee_type].count } }
       end
 
       context 'with an excluded offence category number' do

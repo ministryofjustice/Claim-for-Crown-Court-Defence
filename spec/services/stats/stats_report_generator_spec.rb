@@ -40,7 +40,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
       end
 
       it 'does not create a new report' do
-        expect { call rescue nil }.not_to change { Stats::StatsReport.count }.from(0)
+        expect { call rescue nil }.not_to change(Stats::StatsReport, :count).from(0)
       end
     end
 
@@ -50,7 +50,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
       before { Stats::StatsReport.create(report_name: report_type, status: 'started') }
 
       it 'does not create a new report' do
-        expect { call }.not_to change { Stats::StatsReport.count }.from(1)
+        expect { call }.not_to change(Stats::StatsReport, :count).from(1)
       end
     end
 

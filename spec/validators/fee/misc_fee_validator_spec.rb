@@ -46,13 +46,13 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
           context 'when earliest representation order is on CLAR release' do
             let(:earliest_rep_order_date) { Settings.clar_release_date.beginning_of_day }
 
-            it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+            it { expect { fee.valid? }.not_to change { fee.errors[:fee_type].count } }
           end
 
           context 'when earliest representation order is nil' do
             let(:earliest_rep_order_date) { nil }
 
-            it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+            it { expect { fee.valid? }.not_to change { fee.errors[:fee_type].count } }
           end
         end
       end
@@ -91,13 +91,13 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
           context 'with trial fee case type' do
             let(:case_type) { create(:case_type, :trial) }
 
-            it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+            it { expect { fee.valid? }.not_to change { fee.errors[:fee_type].count } }
           end
 
           context 'with nil case type' do
             let(:case_type) { nil }
 
-            it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(0) }
+            it { expect { fee.valid? }.not_to change { fee.errors[:fee_type].count } }
           end
         end
       end
@@ -110,14 +110,14 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
             before { fee.quantity = nil }
 
             it { expect(fee.quantity).to be_nil }
-            it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
+            it { expect { fee.valid? }.not_to change { fee.errors[:quantity].count } }
           end
 
           context 'with zero quantity' do
             before { fee.quantity = 0 }
 
             it { expect(fee.quantity).to be_zero }
-            it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(0) }
+            it { expect { fee.valid? }.not_to change { fee.errors[:quantity].count } }
           end
         end
       end

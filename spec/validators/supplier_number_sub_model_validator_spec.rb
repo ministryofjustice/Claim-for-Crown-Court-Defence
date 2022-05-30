@@ -19,7 +19,7 @@ RSpec.describe SupplierNumberSubModelValidator, type: :validator do
     context 'with an LGFS supplier number' do
       before { record.lgfs_supplier_numbers << build(:supplier_number) }
 
-      specify { expect { validate }.to change(record.errors, :count).by(0) }
+      specify { expect { validate }.not_to change(record.errors, :count) }
     end
 
     context 'without an LGFS supplier number' do

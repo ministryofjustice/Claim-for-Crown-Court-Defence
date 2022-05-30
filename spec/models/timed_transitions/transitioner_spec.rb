@@ -219,7 +219,7 @@ RSpec.describe TimedTransitions::Transitioner do
           it 'creates an MI version of the record' do
             expect(claim).to receive(:softly_deleted?).and_return(true)
             expect(claim).to receive(:destroy)
-            expect { described_class.new(claim).run }.to change { Stats::MIData.count }.by 1
+            expect { described_class.new(claim).run }.to change(Stats::MIData, :count).by 1
           end
 
           context 'with hardship claims' do
@@ -230,7 +230,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
               it 'deletes the application' do
                 expect(claim).to receive(:destroy)
-                expect { described_class.new(claim).run }.to change { Stats::MIData.count }.by 1
+                expect { described_class.new(claim).run }.to change(Stats::MIData, :count).by 1
               end
             end
           end

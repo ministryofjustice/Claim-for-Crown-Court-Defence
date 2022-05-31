@@ -797,7 +797,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_expense_type]).to match_array(['Choose an expense type'])
+        expect(claim.errors[:expenses_attributes_0_expense_type]).to match_array(['Choose an expense type'])
       }
     end
 
@@ -806,7 +806,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_2_expense_type]).to match_array(['Choose an expense type'])
+        expect(claim.errors[:expenses_attributes_1_expense_type]).to match_array(['Choose an expense type'])
       }
     end
 
@@ -815,7 +815,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_reason_id]).to match_array(['Enter a reason for the expense'])
+        expect(claim.errors[:expenses_attributes_0_reason_id]).to match_array(['Enter a reason for the expense'])
       }
     end
 
@@ -824,7 +824,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_reason_id]).to match_array(['Enter a valid reason for the expense'])
+        expect(claim.errors[:expenses_attributes_0_reason_id]).to match_array(['Enter a valid reason for the expense'])
       }
     end
 
@@ -833,7 +833,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_2_date]).to match_array(['Enter a date for the expense'])
+        expect(claim.errors[:expenses_attributes_1_date]).to match_array(['Enter a date for the expense'])
       }
     end
 
@@ -849,7 +849,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_date]).to match_array(['Date for the expense cannot be in the future'])
+        expect(claim.errors[:expenses_attributes_0_date]).to match_array(['Date for the expense cannot be in the future'])
       }
     end
 
@@ -865,7 +865,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_date]).to match_array(['Check the date for the expense'])
+        expect(claim.errors[:expenses_attributes_0_date]).to match_array(['Check the date for the expense'])
       }
     end
 
@@ -874,7 +874,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_2_amount]).to match_array(['Enter an amount for the expense'])
+        expect(claim.errors[:expenses_attributes_1_amount]).to match_array(['Enter an amount for the expense'])
       }
     end
 
@@ -883,7 +883,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_2_amount]).to match_array(['Enter a valid amount for the expense'])
+        expect(claim.errors[:expenses_attributes_1_amount]).to match_array(['Enter a valid amount for the expense'])
       }
     end
   end

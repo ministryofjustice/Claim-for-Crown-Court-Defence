@@ -400,7 +400,7 @@ GEM
       ruby_parser (~> 3.5)
     html_tokenizer (0.0.7)
     http-accept (1.7.0)
-    http-cookie (1.0.4)
+    http-cookie (1.0.5)
       domain_name (~> 0.5)
     http_parser.rb (0.8.0)
     i18n (1.10.0)
@@ -726,7 +726,7 @@ GEM
       tzinfo (>= 1.0.0)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.8.1)
+    unf_ext (0.0.8.2)
     unicode-display_width (2.1.0)
     unicorn (6.1.0)
       kgio (~> 2.6)

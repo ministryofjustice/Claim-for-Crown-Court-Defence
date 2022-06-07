@@ -57,7 +57,6 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I add an expense date for scheme 9
 
     Then I click "Continue" in the claim form
-    And pause for 30 seconds
 
     And I upload 3 documents
     And I check the boxes for the uploaded documents

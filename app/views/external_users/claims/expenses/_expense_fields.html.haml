@@ -61,33 +61,20 @@
           = f.govuk_number_field :hours,
               form_group: { classes: 'fx-travel-hours', style: 'display: none' },
               label: { text: t('.hours_html') },
+              min: 0,
               width: 'one-quarter'
 
           = f.govuk_number_field :distance,
               form_group: { classes: 'fx-travel-distance', style: 'display: none' },
               hint: { text: t('.distance_hint_html') },
               label: { text: t('.distance_html') },
+              min: 0,
               value: number_with_precision(f.object.distance, precision: 0),
               width: 'one-quarter'
 
           - if @claim.lgfs?
             = govuk_detail t('.summary_heading') do
               = t('.summary_content')
-
-          -# = f.govuk_collection_radio_buttons :mileage_rate_id,
-          -#   Expense::BIKE_MILEAGE_RATES.values,
-          -#   :id,
-          -#   :description,
-          -#   form_group: { classes: 'fx-travel-mileage fx-travel-mileage-bike', style: 'display: none' },
-          -#   legend: { text: t('.cost_html') }
-
-          -# = f.govuk_collection_radio_buttons :mileage_rate_id,
-          -#   Expense::CAR_MILEAGE_RATES.values,
-          -#   :id,
-          -#   :description,
-          -#   form_group: { classes: 'fx-travel-mileage fx-travel-mileage-car', style: 'display: none' },
-          -#   legend: { text: t('.cost_html') }
-
           = f.govuk_radio_buttons_fieldset :mileage_rate_id,
             form_group: { classes: 'fx-travel-mileage fx-travel-mileage-bike', style: 'display: none' },
             legend: { text: t('.cost_html') } do
@@ -109,6 +96,7 @@
             class: 'rate',
             form_group: { classes: 'fx-travel-net-amount', style: 'display: none' },
             label: { text: t('.net_amount_html') },
+            min: 0,
             prefix_text: '£',
             value: number_with_precision(f.object.amount || 0, precision: 2),
             width: 'one-half'
@@ -118,6 +106,7 @@
               class: 'vat',
               form_group: {classes: 'fx-travel-vat-amount', style: 'display: none' },
               label: { text: t('.vat_amount_html') },
+              min: 0,
               prefix_text: '£',
               value: number_with_precision(f.object.vat_amount || 0, precision: 2),
               width: 'one-half'

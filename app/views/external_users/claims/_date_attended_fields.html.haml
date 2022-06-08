@@ -2,11 +2,6 @@
   - hide_remove = false
 
 .extra-data.nested-fields.fee-dates.fee-dates-from.form-group
-  - if defined?(parent_model_prefix) && defined?(submodel_count)
-    - error_prefix = "#{parent_model_prefix}_date_attended_#{submodel_count}"
-  - else
-    - error_prefix = "date_attended_0"
-
   - unless hide_remove
     = link_to_remove_association f, class: 'govuk-link' do
       = t('common.remove_html', context: t('.date_attended'))
@@ -20,7 +15,6 @@
       - date_text = t('.date_attended')
 
     = f.govuk_date_field :date,
-      form_group: { id:  "#{error_prefix}_date" },
       hint: { text: t('.date_hint') },
       legend: { text: date_text, size: 's' },
       maxlength_enabled: true

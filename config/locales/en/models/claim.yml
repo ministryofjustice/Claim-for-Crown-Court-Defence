@@ -197,6 +197,9 @@ en:
               saf_invalid: Enter a valid quantity
             rate:
               invalid: Enter a valid rate for the fixed fee
+              ndr_invalid: Enter a valid rate for number of defendants uplift fees
+              noc_invalid: Enter a valid rate for number of cases uplift fees
+              saf_invalid: Enter a valid rate for standard appearance fees
             sub_type:
               blank: Choose a fee sub type
               invalid: Choose a valid fee sub type

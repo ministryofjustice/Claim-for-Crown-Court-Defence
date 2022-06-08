@@ -5,7 +5,7 @@
 
       = ff.govuk_text_field :fee_type_id,
         class: 'js-fee-type',
-        label: { text: t('.fee_type'), tag: 'h3', size: 's' },
+        label: { text: t('.fee_type'), size: 's' },
         hint: { text: @claim.case_type.fixed_fee_type.description },
         type: 'hidden',
         value: @claim.case_type.fixed_fee_type.id

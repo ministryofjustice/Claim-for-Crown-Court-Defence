@@ -1102,6 +1102,18 @@ fixed_fee:
       long: 'Enter a valid rate for the #{fixed_fee}'
       short: _
       api: Enter a rate/net amount for the fixed fee
+    enter_a_valid_rate_for_number_of_defendants_uplift_fees:
+      long: 'Enter a valid rate for number of defendants uplift fees'
+      short: _
+      api: 'Enter a valid rate for number of defendants uplift fees'
+    enter_a_valid_rate_for_number_of_cases_uplift_fees:
+      long: 'Enter a valid rate for number of cases uplift fees'
+      short: _
+      api: 'Enter a valid rate for number of cases uplift fees'
+    enter_a_valid_rate_for_standard_appearance_fees:
+      long: 'Enter a valid rate for standard appearance fees'
+      short: _
+      api: 'Enter a valid rate for standard appearance fees'
 
   quantity:
     _seq: 30

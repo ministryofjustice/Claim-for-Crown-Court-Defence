@@ -271,7 +271,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         [ppe_fee, npw_fee].each do |f|
           f.rate = 25
           expect(f).to_not be_valid
-          expect(f.errors[:rate]).to include(match(/fees must not have a rate/))
+          expect(f.errors[:rate]).to include(match(/.* fees must not have a rate/))
         end
       end
 

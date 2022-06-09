@@ -1103,17 +1103,17 @@ fixed_fee:
       short: _
       api: Enter a rate/net amount for the fixed fee
     enter_a_valid_rate_for_number_of_defendants_uplift_fees:
-      long: 'Enter a valid rate for number of defendants uplift fees'
+      long: 'Enter a valid rate for Number of defendants uplift fees'
       short: _
-      api: 'Enter a valid rate for number of defendants uplift fees'
+      api: 'Enter a valid rate for Number of defendants uplift fees'
     enter_a_valid_rate_for_number_of_cases_uplift_fees:
-      long: 'Enter a valid rate for number of cases uplift fees'
+      long: 'Enter a valid rate for Number of cases uplift fees'
       short: _
-      api: 'Enter a valid rate for number of cases uplift fees'
+      api: 'Enter a valid rate for Number of cases uplift fees'
     enter_a_valid_rate_for_standard_appearance_fees:
-      long: 'Enter a valid rate for standard appearance fees'
+      long: 'Enter a valid rate for Standard appearance fees'
       short: _
-      api: 'Enter a valid rate for standard appearance fees'
+      api: 'Enter a valid rate for Standard appearance fees'
 
   quantity:
     _seq: 30
@@ -1121,6 +1121,30 @@ fixed_fee:
       long: 'Enter a valid quantity for the #{fixed_fee}'
       short: _
       api: *enter_valid_quantity
+    enter_a_valid_quantity_for_adjourned_appeals_committals_and_breaches:
+      long: 'Enter a valid quantity for Adjourned appeals, committals and breaches'
+      short: _
+      api: 'Enter a valid quantity for Adjourned appeals, committals and breaches'
+    enter_a_valid_quantity_for_basic_fee:
+      long: 'Enter a valid quantity for Basic fee'
+      short: _
+      api: 'Enter a valid quantity for Basic fee'
+    enter_a_valid_quantity_for_committal_for_sentence_hearings:
+      long: 'Enter a valid quantity for Committal for sentence hearings'
+      short: _
+      api: 'Enter a valid quantity for Committal for sentence hearings'
+    enter_a_valid_quantity_for_number_of_defendants_uplift:
+      long: 'Enter a valid quantity for Number of defendants uplift'
+      short: _
+      api: 'Enter a valid quantity for Number of defendants uplift'
+    enter_a_valid_quantity_for_number_of_cases_uplift:
+      long: 'Enter a valid quantity for Number of cases uplift'
+      short: _
+      api: 'Enter a valid quantity for Number of cases uplift'
+    enter_a_valid_quantity_for_standard_appearance_fee:
+      long: 'Enter a valid quantity for Standard appearance fee'
+      short: _
+      api: 'Enter a valid quantity for Standard appearance fee'
     you_must_specify_a_whole_number_for_this_type_of_fee:
       long: You must specify a whole number for this type of fee
       short: Enter a whole number

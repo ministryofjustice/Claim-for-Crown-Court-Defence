@@ -24,7 +24,12 @@ spec:
         - name: cccd-worker
           imagePullPolicy: Always
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
-          command: ['bundle', 'exec', 'sidekiq']
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "IRB.conf[:USE_AUTOCOMPLETE] = false" >> ~/.irbrc
+              bundle exec sidekiq
           readinessProbe:
             exec:
               command: ['bin/worker_healthcheck']

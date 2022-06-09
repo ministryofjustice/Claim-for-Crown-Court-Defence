@@ -85,6 +85,8 @@ RUN apk update && apk del build-dependencies
 # non-root/appuser should own only what they need to
 RUN chown -R appuser:appgroup log tmp db
 
+RUN echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc
+
 # expect ping environment variables
 ARG VERSION_NUMBER
 ARG COMMIT_ID

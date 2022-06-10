@@ -73,6 +73,12 @@ RSpec.shared_examples 'common LGFS amount validations' do
 end
 
 RSpec.shared_examples 'common AGFS number of cases uplift validations' do
+  let(:noc_case_number_mismatch_error_message) do
+    'The number of case uplifts does not match the additional case numbers'
+  end
+  let(:noc_case_number_invalid_error_message) do
+    'Enter valid case numbers for the Number of cases uplift'
+  end
   context 'case numbers list valid' do
     it 'when case_numbers is blank and quantity is zero' do
       noc_fee.quantity = 0
@@ -119,12 +125,12 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
     it 'when case_numbers is not blank and quantity is 0' do
       noc_fee.quantity = 0
       noc_fee.case_numbers = 'A20161234'
-      should_error_with(noc_fee, :case_numbers, 'The number of case uplifts does not match the additional case numbers')
+      should_error_with(noc_fee, :case_numbers, noc_case_number_mismatch_error_message)
     end
 
     it 'when quantity and number of additional cases do not match' do
       noc_fee.case_numbers = 'A20161234 , A20158888'
-      should_error_with(noc_fee, :case_numbers, 'The number of case uplifts does not match the additional case numbers')
+      should_error_with(noc_fee, :case_numbers, noc_case_number_mismatch_error_message)
     end
 
     it 'when case number is equal to main case number' do
@@ -133,23 +139,21 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
     end
 
     it 'when a single invalid format of case number entered' do
-      should_error_if_equal_to_value(noc_fee, :case_numbers, 'G20208765',
-                                     'Enter valid case numbers for the Number of cases uplift')
+      should_error_if_equal_to_value(noc_fee, :case_numbers, 'G20208765', noc_case_number_invalid_error_message)
     end
 
     it 'when a single invalid format of URN entered' do
-      should_error_if_equal_to_value(noc_fee, :case_numbers, '12 3',
-                                     'Enter valid case numbers for the Number of cases uplift')
+      should_error_if_equal_to_value(noc_fee, :case_numbers, '12 3', noc_case_number_invalid_error_message)
     end
 
     it 'when any case number is of invalid format' do
       noc_fee.case_numbers = 'A20161234,Z123*,A20158888'
-      should_error_with(noc_fee, :case_numbers, 'Enter valid case numbers for the Number of cases uplift')
+      should_error_with(noc_fee, :case_numbers, noc_case_number_invalid_error_message)
     end
 
     it 'when any URN is of invalid format' do
       noc_fee.case_numbers = 'ABCDEFGHIJ,Z123*,1234567890'
-      should_error_with(noc_fee, :case_numbers, 'Enter valid case numbers for the Number of cases uplift')
+      should_error_with(noc_fee, :case_numbers, noc_case_number_invalid_error_message)
     end
   end
 
@@ -174,14 +178,14 @@ RSpec.shared_examples 'common AGFS number of cases uplift validations' do
       context 'invalid' do
         it 'when other delimiters used' do
           noc_fee.case_numbers = 'A20161234;A20158888'
-          should_error_with(noc_fee, :case_numbers, 'Enter valid case numbers for the Number of cases uplift')
+          should_error_with(noc_fee, :case_numbers, noc_case_number_invalid_error_message)
         end
       end
     end
 
     it 'adds error if number of cases provided does not match the quantity claimed' do
       noc_fee.case_numbers = 'A20161234'
-      should_error_with(noc_fee, :case_numbers, 'The number of case uplifts does not match the additional case numbers')
+      should_error_with(noc_fee, :case_numbers, noc_case_number_mismatch_error_message)
     end
   end
 end

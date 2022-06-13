@@ -7,7 +7,8 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
 
   let(:litigator) { build(:external_user, :litigator) }
   let(:interim_fee) { build(:interim_fee) }
-  let(:claim) { create(:interim_claim, interim_fee:) }
+  let(:claim) { create(:interim_claim, interim_fee:, **options) }
+  let(:options) { {} }
 
   include_examples 'common advocate litigator validations', :litigator
   include_examples 'common litigator validations', :interim_claim
@@ -36,6 +37,20 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
     travel_expenses: %i[travel_expense_additional_information],
     supporting_evidence: []
   }
+
+  describe '#validate_case_type_id' do
+    context 'when the case type has the interim role' do
+      let(:options) { { case_type: create(:case_type, roles: %w[lgfs interim]) } }
+
+      it { expect(claim).to be_valid }
+    end
+
+    context 'when the case type does not have the interim role' do
+      let(:options) { { case_type: create(:case_type, roles: %w[lgfs]) } }
+
+      it { should_error_with(claim, :case_type_id, 'Choose an eligible case type') }
+    end
+  end
 
   describe 'estimated trial length and estimated retrial length fields should not accept values of less than 10 days' do
     let(:claim) { create(:interim_claim, interim_fee:) }

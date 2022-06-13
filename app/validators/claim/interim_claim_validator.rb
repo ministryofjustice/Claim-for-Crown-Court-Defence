@@ -30,6 +30,11 @@ class Claim::InterimClaimValidator < Claim::BaseClaimValidator
 
   private
 
+  def validate_case_type_id
+    super
+    validate_inclusion(:case_type_id, @record.eligible_case_types.pluck(:id), :inclusion)
+  end
+
   def interim_fee_absent?
     @record.interim_fee.nil?
   end

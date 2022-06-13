@@ -57,7 +57,8 @@ class Fee::BaseFeePresenter < BasePresenter
     # if the error is that the user has typed a decimal when it should be an integer,
     # we want to preserve the decimal value and display on the error page
     #
-    if fee.quantity_is_decimal? || fee.errors[:quantity].include?('integer')
+    if fee.quantity_is_decimal? ||
+       fee.errors[:quantity].include?('You must specify a whole number for this type of fee')
       h.number_with_precision(fee.quantity, precision: 2)
     else
       h.number_with_precision(fee.quantity, precision: 0)

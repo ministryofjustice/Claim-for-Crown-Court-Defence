@@ -45,8 +45,8 @@ Feature: Advocate tries to submit a claim for a Fixed fee (Appeal against convic
     Then I click the link 'Back'
     And I should be in the 'Fixed fees' form page
 
-    When I uncheck the fixed fee "Appeals to the crown court against conviction"
+    When I uncheck the govuk checkbox "Appeals to the crown court against conviction"
     Then I click "Continue" in the claim form
     And I should be in the 'Fixed fees' form page
-    And I should see the error 'Total value claimed must be greater than £0.00'
+    And I should see govuk error summary with 'Total value claimed must be greater than £0.00'
     And I eject the VCR cassette

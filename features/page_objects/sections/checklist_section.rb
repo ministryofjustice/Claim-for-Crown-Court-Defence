@@ -1,5 +1,5 @@
 class ChecklistSection < SitePrism::Section
-  sections :checklist, '.multiple-choice' do
+  sections :checklist, '.multiple-choice, .govuk-checkboxes__item' do
     element :label, 'label'
     element :checkbox, 'input[type="checkbox"]', visible: false
   end

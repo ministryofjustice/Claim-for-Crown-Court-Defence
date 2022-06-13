@@ -56,7 +56,7 @@ module Fee
     end
 
     def validate_baf_quantity
-      validate_numericality(:quantity, 'baf_qty_numericality', 0, 1)
+      validate_numericality(:quantity, :baf_qty_numericality, 0, 1)
     end
 
     def validate_daily_attendance(code)
@@ -76,25 +76,26 @@ module Fee
     end
 
     def check_for_daily_attendance_error(code, min:, mod:, max:)
-      add_error(:quantity, "#{code.downcase}_qty_mismatch") if daf_trial_length_combination_invalid(min, mod, max)
+      add_error(:quantity, "#{code.downcase}_qty_mismatch".to_sym) if daf_trial_length_combination_invalid(min, mod,
+                                                                                                           max)
     end
 
     def validate_pcm_quantity
       if @record.claim.supplementary? || @record.claim.case_type.try(:allow_pcmh_fee_type?)
-        add_error(:quantity, 'pcm_numericality') if @record.quantity > 3
+        add_error(:quantity, :pcm_numericality) if @record.quantity > 3
       else
-        add_error(:quantity, 'pcm_not_applicable') unless @record.quantity.zero? || @record.quantity.blank?
+        add_error(:quantity, :pcm_not_applicable) unless @record.quantity.zero? || @record.quantity.blank?
       end
     end
 
     def validate_any_quantity
       validate_integer_decimal
-      add_error(:quantity, 'invalid') if @record.quantity.negative? || @record.quantity > 99_999
+      add_error(:quantity, :invalid) if @record.quantity.negative? || @record.quantity > 99_999
     end
 
     def validate_integer_decimal
       return if @record.fee_type.nil? || @record.quantity.nil? || @record.quantity_is_decimal?
-      add_error(:quantity, 'integer') unless @record.quantity.frac == 0.0
+      add_error(:quantity, :integer) unless @record.quantity.frac == 0.0
     end
 
     def validate_rate
@@ -120,16 +121,16 @@ module Fee
     end
 
     def validate_uncalculated_fee(code)
-      add_error(:rate, "#{code.downcase}_must_be_blank") if @record.rate.positive?
+      add_error(:rate, "#{code.downcase}_must_be_blank".to_sym) if @record.rate.positive?
     end
 
     # if one has a value and the other doesn't then we add error to the one that does NOT have a value
     # NOTE: we have specific error messages for basic fees
     def validate_fee_rate(code = nil)
       if @record.quantity.positive? && @record.rate <= 0
-        add_error(:rate, 'invalid')
+        add_error(:rate, code ? "#{code.downcase}_invalid".to_sym : :invalid)
       elsif @record.quantity <= 0 && @record.rate.positive?
-        add_error(:quantity, code ? "#{code.downcase}_invalid" : 'invalid')
+        add_error(:quantity, code ? "#{code.downcase}_invalid".to_sym : :invalid)
       end
     end
 
@@ -139,16 +140,16 @@ module Fee
       add_error(:amount, "#{fee_code.downcase}_invalid") if amount_outside_allowed_range?
 
       return unless @record.quantity <= 0 && @record.amount.positive?
-      add_error(:quantity, "#{fee_code.downcase}_invalid")
+      add_error(:quantity, "#{fee_code.downcase}_invalid".to_sym)
     end
 
     def validate_single_attendance_date
-      validate_presence(:date, 'blank')
+      validate_presence(:date, :blank)
       validate_on_or_after(@record.claim.try(:earliest_representation_order_date),
                            :date,
-                           'too_long_before_earliest_reporder')
-      validate_on_or_after(Settings.earliest_permitted_date, :date, 'check_not_too_far_in_past')
-      validate_on_or_before(Date.today, :date, 'check_not_in_future')
+                           :too_long_before_earliest_reporder)
+      validate_on_or_after(Settings.earliest_permitted_date, :date, :check_not_too_far_in_past)
+      validate_on_or_before(Date.today, :date, :check_not_in_future)
     end
 
     # local helpers

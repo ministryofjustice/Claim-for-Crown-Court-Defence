@@ -849,6 +849,7 @@ en:
         dates_attended:
           add_dates: Add another date
         empty_input: &empty_input ''
+        fees_quantity_hint: &fees_quantity_hint 'Enter a quantity'
         number_of_days: &number_of_days Number of days
         date_attended_heading: &date_attended_heading Date attended
         first_date_display:
@@ -856,6 +857,7 @@ en:
           retrial_started_at: Retrial started at
         basic_fee_fields_primary:
           add_dates: Add another date
+          fee_calculator_days: Fee calculator days
           net_amount: *net_amount
           net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context}</span>
           date_label:
@@ -903,8 +905,9 @@ en:
         additional_fee_fields:
           case_numbers: Additional case numbers
           case_numbers_or_urns: Additional case numbers or URNs
+          case_numbers_or_urns_hint: Separate by commas
           quantity: *quantity
-          quantity_hint: *empty_input
+          quantity_hint: *fees_quantity_hint
           add_date_attended: Add another date
           no_dates: 'No dates currently selected.'
           amount: *net_amount
@@ -914,19 +917,19 @@ en:
           help_how_we_calculate_rate_title: *how_is_this_calculated_help
           help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme, case type, offence, advocate category and fee type.
           daf:
-            quantity_hint: *empty_input
+            quantity_hint: *fees_quantity_hint
           dah:
-            quantity_hint: *empty_input
+            quantity_hint: *fees_quantity_hint
           daj:
-            quantity_hint: *empty_input
+            quantity_hint: *fees_quantity_hint
           dat:
-            quantity_hint: *empty_input
+            quantity_hint: *fees_quantity_hint
           saf:
-            quantity_hint: *empty_input
+            quantity_hint: *fees_quantity_hint
           pcm:
-            quantity_hint: *empty_input
+            quantity_hint: *fees_quantity_hint
           cav:
-            quantity_hint: *empty_input
+            quantity_hint: *fees_quantity_hint
           ndr:
             quantity_hint: Number of additional defendants
           noc:
@@ -941,6 +944,7 @@ en:
             You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" class="govuk-link" rel="noreferrer noopener" target="_blank">graduated fees calculators <span class="govuk-visually-hidden">(opens in new tab)</span></a>
             for help.
           fee_type: *fee_type
+          fee_type_hint: Please choose all relevant options
           quantity: *quantity
           rate: 'Rate'
           additional_fees: Additional fees
@@ -1171,6 +1175,7 @@ en:
       date_attended_fields:
         date: 'Date'
         date_attended: Date attended
+        date_hint: *date_hint
         remove: 'Remove'
       date_attended_fields_condensed:
         date_from_full: 'Date attended (from)'
@@ -1374,6 +1379,7 @@ en:
             prompt_text_html: *graduated_fee_calculators_help
             select_sub_type: "Please select the relevant option"
             date: "Date"
+            date_hint: *date_hint
             help_how_we_calculate_rate_title: *how_is_this_calculated_help
             help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme and fee type.
         summary:
@@ -2578,9 +2584,6 @@ en:
         current_claims_count: Allocated claims (%{current_claims_count})
         unallocated_claims_count: Allocated claims (%{unallocated_claims_count})
 
-  validators:
-    advocate:
-      category: 'Advocate category must be one of those in the provided list'
   api:
     v1:
       common_params:

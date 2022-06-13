@@ -172,7 +172,7 @@ class AdpTextField
   def hint
     if @options[:hint_text]
       @style = 'style="display: none;"' if @hide_hint
-      %(<span class="form-hint" #{@style}>#{@options[:hint_text]}</span>)
+      %(<span class="form-hint govuk-hint" #{@style}>#{@options[:hint_text]}</span>)
     else
       ''
     end

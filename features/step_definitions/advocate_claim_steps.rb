@@ -129,7 +129,7 @@ When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')
   wait_for_ajax
   if date.present?
     @claim_form_page.miscellaneous_fees.last.add_dates.click
-    @claim_form_page.miscellaneous_fees.last.dates.from.set_date(date)
+    @claim_form_page.miscellaneous_fees.last.dates.set_date(date)
   end
   wait_for_ajax
 end
@@ -246,6 +246,7 @@ end
 
 Then(/^the fixed fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee, rate, hint|
   fee_block = @claim_form_page.fixed_fees.fee_block_for(fee)
+  wait_for_ajax
   expect(fee_block.rate.value).to eql rate
   expect(fee_block.quantity_hint.text).to eql hint if hint.present?
 end

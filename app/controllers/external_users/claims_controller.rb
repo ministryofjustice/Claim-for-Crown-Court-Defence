@@ -353,8 +353,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         vat_amount
         _destroy
       ],
-      fixed_fees_attributes: common_fees_attributes,  # agfs has_many
-      fixed_fee_attributes: common_fees_attributes,   # lgfs has_one
+      fixed_fees_attributes: common_fees_attributes, # agfs has_many
+      fixed_fee_attributes: common_fees_attributes, # lgfs has_one
       misc_fees_attributes: common_fees_attributes,
       graduated_fee_attributes: [
         :id,

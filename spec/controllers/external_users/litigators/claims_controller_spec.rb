@@ -518,7 +518,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   def fixed_fee_attributes
     {
       fixed_fee_attributes: {
-        fee_type_id: fixed_fee_type_1.id.to_s, quantity: 5, rate: 77.66, amount: nil, date_dd: '15', date_mm: '05', date_yyyy: '2015', _destroy: 'false'
+        fee_type_id: fixed_fee_type_1.id.to_s, quantity: 5, rate: 77.66, amount: nil, 'date(3i)': '15', 'date(2i)': '05', 'date(1i)': '2015', _destroy: 'false'
       }
     }.with_indifferent_access
   end

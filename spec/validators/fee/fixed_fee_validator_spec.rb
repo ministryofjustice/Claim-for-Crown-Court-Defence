@@ -110,6 +110,6 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
       end
     end
 
-    include_examples 'common LGFS fee date validations'
+    include_examples 'common LGFS fee date govuk validations'
   end
 end

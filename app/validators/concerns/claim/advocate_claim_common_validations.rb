@@ -14,12 +14,12 @@ module Claim
       end
 
       def validate_advocate_category
-        validate_presence(:advocate_category, 'blank')
+        validate_presence(:advocate_category, :blank)
         return if @record.advocate_category.blank?
         validate_inclusion(
           :advocate_category,
           @record.eligible_advocate_categories,
-          I18n.t('validators.advocate.category')
+          :inclusion
         )
       end
 

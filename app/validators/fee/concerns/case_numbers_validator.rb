@@ -25,19 +25,19 @@ module Fee
           validate_case_numbers_quantity_mismatch if claim.agfs?
           validate_each_case_number
         else
-          validate_absence(:case_numbers, 'present')
+          validate_absence(:case_numbers, :present)
         end
       end
 
       # TODO: on or after 1st April 2018 the API should also enforce presence
       def validate_case_numbers_presence
-        validate_presence(:case_numbers, 'blank') if claim.lgfs?
-        validate_presence(:case_numbers, 'blank') if [claim.agfs?, quantity.to_i.positive?, !claim&.api_draft?].all?
+        validate_presence(:case_numbers, :blank) if claim.lgfs?
+        validate_presence(:case_numbers, :blank) if [claim.agfs?, quantity.to_i.positive?, !claim&.api_draft?].all?
       end
 
       def validate_case_numbers_quantity_mismatch
         return if case_numbers.blank?
-        add_error(:case_numbers, 'noc_qty_mismatch') if case_numbers.split(',').size != quantity
+        add_error(:case_numbers, :noc_qty_mismatch) if case_numbers.split(',').size != quantity
       end
 
       def validate_each_case_number
@@ -51,16 +51,16 @@ module Fee
 
       def validate_case_number(case_number)
         validate_case_number_or_urn_pattern(case_number)
-        add_error(:case_numbers, 'eqls_claim_case_number') if case_number.casecmp?(claim.case_number)
+        add_error(:case_numbers, :eqls_claim_case_number) if case_number.casecmp?(claim.case_number)
       end
 
       def validate_case_number_or_urn_pattern(case_number)
-        add_error(:case_numbers, 'invalid') unless case_number.match?(BaseValidator::CASE_URN_PATTERN)
+        add_error(:case_numbers, :invalid) unless case_number.match?(BaseValidator::CASE_URN_PATTERN)
         validate_case_number_pattern(case_number) if case_number.match?(BaseValidator::CASE_NUMBER_OR_URN_PATTERN)
       end
 
       def validate_case_number_pattern(case_number)
-        add_error(:case_numbers, 'invalid') unless case_number.match?(BaseValidator::CASE_NUMBER_PATTERN)
+        add_error(:case_numbers, :invalid) unless case_number.match?(BaseValidator::CASE_NUMBER_PATTERN)
       end
     end
   end

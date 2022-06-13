@@ -29,7 +29,7 @@
 
     // clear the fixed fee
     clearFee: function (el) {
-      const $el = $(el)
+      const $el = $('[data-target=' + el + ']')
       $el.find('.quantity').val('')
       $el.find('.rate').val('')
       $el.find('.total').html('£0.00')
@@ -39,7 +39,7 @@
     // It should be a part of the checkbox logic and located in a module
     // related to that.
     markForDestruction: function (context, bool) {
-      $(context + '-input').siblings('.destroy').val(bool)
+      $('[data-target=' + context + ']').children('.destroy').val(bool)
     },
 
     feeTypeCheckboxChange: function (elId) {
@@ -47,7 +47,7 @@
 
       $(elId).on('change', '.fx-checkbox-hook', function (e) {
         const $el = $(e.target)
-        const parentEl = '#' + $el.closest('.multiple-choice').data('target')
+        const parentEl = $el.closest("div[class*='fx-hook-']").data('target')
 
         if (!$el.is(':checked')) {
           // TODO: if we are going to destroy the fee do we need to clear it?
@@ -146,7 +146,7 @@
 
     setHint: function (data, context) {
       const self = this
-      const $label = $(context).closest('.fx-fee-group').find('.form-group.quantity_wrapper').find('.form-hint')
+      const $label = $(context).closest('.fx-fee-group').find('.quantity_wrapper').find('.govuk-hint')
       const $newLabel = self.setHintLabel(data)
       $label.text($newLabel)
 

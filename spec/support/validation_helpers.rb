@@ -33,7 +33,7 @@ module ValidationHelpers
   def should_error_if_not_present(record, field, message, options = {})
     record.send("#{field}=", nil)
     expect(record.send(:valid?)).to be false
-    expect(record.errors[field]).to include(message)
+    expect(record.errors[field]).to include(match(/#{message}/))
     with_expected_error_translation(field, message, options) if options[:translated_message]
   end
 

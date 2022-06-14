@@ -60,7 +60,7 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       claim.form_step = :interim_fees
     end
 
-    context 'estimated_trial_length' do
+    describe '#validate_estimated_trial_length' do
       let(:interim_fee_type) { build :interim_fee_type, :trial_start }
       let(:interim_fee) { build(:interim_fee, fee_type: interim_fee_type) }
 
@@ -76,7 +76,7 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       end
     end
 
-    context 'retrial_estimated_length' do
+    describe '#validate_retrial_estimated_length' do
       let(:interim_fee_type) { build :interim_fee_type, :retrial_start }
       let(:interim_fee) { build(:interim_fee, fee_type: interim_fee_type) }
 

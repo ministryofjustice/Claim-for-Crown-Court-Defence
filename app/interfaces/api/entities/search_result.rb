@@ -62,7 +62,7 @@ module API
 
       # for display purposes we only want to use the injection error header
       def injection_errors
-        I18n.t(:error, scope: %i[shared injection_errors]) if injection_errors_present
+        I18n.t('shared.injection_errors.error') if injection_errors_present
       end
 
       def injection_errors_present

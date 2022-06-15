@@ -20,17 +20,17 @@ module InjectionAttemptErrorable
     alias_method :injection_error_summary, :injection_error
 
     def injection_error_hint
-      suffix = I18n.t(:form_error_hint, scope: %i[shared injection_errors])
+      suffix = I18n.t('shared.injection_errors.form_error_hint')
       count = injection_errors.count
       "#{count} #{suffix.pluralize(count)}"
     end
 
     def injection_error_dismiss_text
-      I18n.t(:dismiss, scope: %i[shared injection_errors])
+      I18n.t('shared.injection_errors.dismiss')
     end
 
     def injection_error_header
-      I18n.t(:error, scope: %i[shared injection_errors])
+      I18n.t('shared.injection_errors.error')
     end
     private :injection_error_header
   end

@@ -120,6 +120,51 @@ en:
               not_after_today: Enter a date that is not in the future
               not_before_earliest_permitted_date: Enter a date later than two years before the earliest representation order date
               too_long_before_earliest_reporder: The fixed fee date cannot not be more than two years before the earliest representation order date
+        expense:
+          attributes:
+            amount:
+              blank: Enter an amount for the expense
+              item_max_amount: The amount for the expense exceeds the limit
+              numericality: Enter a valid amount for the expense
+            calculated_distance:
+              blank: Enter the distance for the expense
+              item_max_amount: Distance for the expense exceeds the limit
+              numericality: Enter a valid distance for the expense
+            date:
+              blank: Enter a date for the expense
+              check_not_earlier_than_rep_order: Check the date for the expense
+              future: Date for the expense cannot be in the future
+            distance:
+              blank: Enter the distance for the expense
+              invalid: Enter a valid distance
+              numericality: Enter a valid distance for the expense
+            expense_type:
+              blank: Choose an expense type
+            hours:
+              blank: Enter the hours
+              decimal: Max 2 decimals
+              invalid: Enter valid hours
+              numericality: Enter valid hours for the expense
+            location:
+              blank: Enter a location
+              invalid: Enter a valid location
+            location_type:
+              invalid: Enter a valid location
+            mileage_rate_id:
+              blank: Select a mileage rate
+              invalid: Select a valid mileage rate
+            reason_id:
+              blank: Enter a reason for the expense
+              invalid: Enter a valid reason for the expense
+            reason_text:
+              blank_for_other: Enter a reason
+              invalid: Enter a valid reason
+            vat_amount:
+              greater_than: Check VAT amount is less than the net amount for the expense
+              invalid: VAT amount doesn't apply
+              item_max_amount: VAT amount for the expense exceeds the limit
+              max_vat_amount: VAT amount for the expense exceeds current VAT rate
+              numericality: Enter a valid VAT amount for the expense
         fee/basic_fee:
           attributes:
             case_numbers:

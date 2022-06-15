@@ -747,9 +747,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       {
         expense_type_id: parking_expense_type.id.to_s,
         reason_id: court_hearing_reason.id.to_s,
-        date_dd: earliest_representation_order_date.day.to_s,
-        date_mm: earliest_representation_order_date.month.to_s,
-        date_yyyy: earliest_representation_order_date.year.to_s,
+        'date(3i)': earliest_representation_order_date.day.to_s,
+        'date(2i)': earliest_representation_order_date.month.to_s,
+        'date(1i)': earliest_representation_order_date.year.to_s,
         amount: 50
       }
     }
@@ -760,9 +760,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         expense_type_id: subsistence_expense_type.id.to_s,
         reason_id: pre_trial_conference_defendant_reason.id.to_s,
         location: 'Luton',
-        date_dd: (earliest_representation_order_date + 1.day).day.to_s,
-        date_mm: (earliest_representation_order_date + 1.day).month.to_s,
-        date_yyyy: (earliest_representation_order_date + 1.day).year.to_s,
+        'date(3i)': (earliest_representation_order_date + 1.day).day.to_s,
+        'date(2i)': (earliest_representation_order_date + 1.day).month.to_s,
+        'date(1i)': (earliest_representation_order_date + 1.day).year.to_s,
         amount: 32.5
       }
     }
@@ -797,7 +797,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_expense_type]).to match_array(['blank'])
+        expect(claim.errors[:expenses_attributes_0_expense_type]).to match_array(['Choose an expense type'])
       }
     end
 
@@ -806,7 +806,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_2_expense_type]).to match_array(['blank'])
+        expect(claim.errors[:expenses_attributes_1_expense_type]).to match_array(['Choose an expense type'])
       }
     end
 
@@ -815,7 +815,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_reason_id]).to match_array(['blank'])
+        expect(claim.errors[:expenses_attributes_0_reason_id]).to match_array(['Enter a reason for the expense'])
       }
     end
 
@@ -824,16 +824,16 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_reason_id]).to match_array(['invalid'])
+        expect(claim.errors[:expenses_attributes_0_reason_id]).to match_array(['Enter a valid reason for the expense'])
       }
     end
 
     context 'when one of the expenses requires a date but its not given' do
-      let(:other_expense_attributes) { valid_other_expense_attributes.except(:date_dd, :date_mm, :date_yyyy) }
+      let(:other_expense_attributes) { valid_other_expense_attributes.except(:'date(3i)', :'date(2i)', :'date(1i)') }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_2_date]).to match_array(['blank'])
+        expect(claim.errors[:expenses_attributes_1_date]).to match_array(['Enter a date for the expense'])
       }
     end
 
@@ -841,15 +841,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:date_in_future) { 5.days.from_now.to_date }
       let(:one_expense_attributes) do
         valid_one_expense_attributes.merge(
-          date_dd: date_in_future.day.to_s,
-          date_mm: date_in_future.month.to_s,
-          date_yyyy: date_in_future.year.to_s
+          'date(3i)': date_in_future.day.to_s,
+          'date(2i)': date_in_future.month.to_s,
+          'date(1i)': date_in_future.year.to_s
         )
       end
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_date]).to match_array(['future'])
+        expect(claim.errors[:expenses_attributes_0_date]).to match_array(['Date for the expense cannot be in the future'])
       }
     end
 
@@ -857,15 +857,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:date_too_old) { Date.parse(Settings.earliest_permitted_date.to_s) - 2.days }
       let(:one_expense_attributes) do
         valid_one_expense_attributes.merge(
-          date_dd: date_too_old.day.to_s,
-          date_mm: date_too_old.month.to_s,
-          date_yyyy: date_too_old.year.to_s
+          'date(3i)': date_too_old.day.to_s,
+          'date(2i)': date_too_old.month.to_s,
+          'date(1i)': date_too_old.year.to_s
         )
       end
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_1_date]).to match_array(['check_not_earlier_than_rep_order'])
+        expect(claim.errors[:expenses_attributes_0_date]).to match_array(['Check the date for the expense'])
       }
     end
 
@@ -874,7 +874,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_2_amount]).to match_array(['blank'])
+        expect(claim.errors[:expenses_attributes_1_amount]).to match_array(['Enter an amount for the expense'])
       }
     end
 
@@ -883,7 +883,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:expense_2_amount]).to match_array(['numericality'])
+        expect(claim.errors[:expenses_attributes_1_amount]).to match_array(['Enter a valid amount for the expense'])
       }
     end
   end
@@ -955,18 +955,18 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           '0' => {
             expense_type_id: parking_expense_type.id.to_s,
             reason_id: court_hearing_reason.id.to_s,
-            date_dd: earliest_representation_order_date.day.to_s,
-            date_mm: earliest_representation_order_date.month.to_s,
-            date_yyyy: earliest_representation_order_date.year.to_s,
+            'date(3i)': earliest_representation_order_date.day.to_s,
+            'date(2i)': earliest_representation_order_date.month.to_s,
+            'date(1i)': earliest_representation_order_date.year.to_s,
             amount: 50
           },
           '1' => {
             expense_type_id: subsistence_expense_type.id.to_s,
             reason_id: pre_trial_conference_defendant_reason.id.to_s,
             location: 'Luton',
-            date_dd: (earliest_representation_order_date + 1.day).day.to_s,
-            date_mm: (earliest_representation_order_date + 1.day).month.to_s,
-            date_yyyy: (earliest_representation_order_date + 1.day).year.to_s,
+            'date(3i)': (earliest_representation_order_date + 1.day).day.to_s,
+            'date(2i)': (earliest_representation_order_date + 1.day).month.to_s,
+            'date(1i)': (earliest_representation_order_date + 1.day).year.to_s,
             amount: 32.5
           }
         }
@@ -1099,18 +1099,18 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           '0' => {
             expense_type_id: parking_expense_type.id.to_s,
             reason_id: court_hearing_reason.id.to_s,
-            date_dd: earliest_representation_order_date.day.to_s,
-            date_mm: earliest_representation_order_date.month.to_s,
-            date_yyyy: earliest_representation_order_date.year.to_s,
+            'date(3i)': earliest_representation_order_date.day.to_s,
+            'date(2i)': earliest_representation_order_date.month.to_s,
+            'date(1i)': earliest_representation_order_date.year.to_s,
             amount: 50
           },
           '1' => {
             expense_type_id: subsistence_expense_type.id.to_s,
             reason_id: pre_trial_conference_defendant_reason.id.to_s,
             location: 'Luton',
-            date_dd: (earliest_representation_order_date + 1.day).day.to_s,
-            date_mm: (earliest_representation_order_date + 1.day).month.to_s,
-            date_yyyy: (earliest_representation_order_date + 1.day).year.to_s,
+            'date(3i)': (earliest_representation_order_date + 1.day).day.to_s,
+            'date(2i)': (earliest_representation_order_date + 1.day).month.to_s,
+            'date(1i)': (earliest_representation_order_date + 1.day).year.to_s,
             amount: 32.5
           }
         },

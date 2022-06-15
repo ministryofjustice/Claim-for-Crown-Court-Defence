@@ -258,16 +258,6 @@ en:
               too_long: Last name must be 40 characters or less
             terms_and_conditions:
               accepted: You must accept the terms and conditions
-        expense:
-          attributes:
-            expense_type:
-              blank: Expense type cannot be blank
-            quantity:
-              blank: Quantity cannot be blank
-              numericality: Quantity must be greater than or equal to 0
-            rate:
-              blank: Rate cannot be blank
-              numericality: Rate must be greater than or equal to 0
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'
@@ -1216,7 +1206,7 @@ en:
           lgfs_additional_info_label: |
             Provide any information that will help in the assessment of your expenses.
             For example, if you claim the private mileage rate or increase the mileage
-            on travel expenses, we need to know why.'
+            on travel expenses, we need to know why.
         expense_fields:
           summary_heading: "How we calculate the distance"
           summary_content: |
@@ -1227,6 +1217,7 @@ en:
           type_of_expense: Type of expense
           type_of_expense_html: Type of expense <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           expense: Expense
+          expense_html: Expense <span class="fx-numberedList-number"></span>
           cost: Cost per mile
           cost_html: Cost per mile <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           location: Location
@@ -1241,6 +1232,7 @@ en:
           distance: Distance
           distance_html: Distance <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           distance_hint: Total mileage for the return journey
+          distance_hint_html:  <span class="form-hint">Total mileage for the return journey</span>
           distance_summary_heading: How we calculate the distance
           distance_summary_text: |
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison.

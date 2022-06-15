@@ -416,7 +416,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :calculated_distance,
         :mileage_rate_id,
         :hours,
-        date_attributes_for(:date),
+        :date,
         :_destroy,
         common_dates_attended_attributes
       ],

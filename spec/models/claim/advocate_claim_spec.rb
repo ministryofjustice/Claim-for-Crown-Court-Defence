@@ -1314,9 +1314,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
               'reason_id' => '3',
               'distance' => '48',
               'amount' => '40.00',
-              'date_mm' => 10.days.ago.month.to_s,
-              'date_dd' => 10.days.ago.day.to_s,
-              'date_yyyy' => 10.days.ago.year.to_s
+              'date(3i)' => 10.days.ago.day.to_s,
+              'date(2i)' => 10.days.ago.month.to_s,
+              'date(1i)' => 10.days.ago.year.to_s
             }
           },
           'apply_vat' => '0',

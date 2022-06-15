@@ -54,7 +54,7 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
 
     Then I click "Continue" in the claim form
 
-    Then I should see the error 'Expense 1 date invalid date'
+    Then I should see govuk error summary with 'Enter a date for the first expense'
     Then I should see in the sidebar total '£347.73'
     Then I should see in the sidebar vat total '£15.50'
 

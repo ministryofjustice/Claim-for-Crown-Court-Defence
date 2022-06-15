@@ -48,7 +48,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
       amount: 'Enter an amount for the expense',
       claim_id: 'Claim cannot be blank',
       date: 'Enter a date for the expense',
-      expense_type_id: 'Choose a type for the expense',
+      expense_type_id: 'Choose an expense type',
       reason_id: 'Enter a reason for the expense',
       distance: 'Enter the distance for the expense'
     }

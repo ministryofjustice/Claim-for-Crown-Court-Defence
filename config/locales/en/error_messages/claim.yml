@@ -1428,138 +1428,150 @@ expense:
 
   date:
     _seq: 5
-    blank:
+    enter_a_date_for_the_expense:
       long: 'Enter a date for the #{expense}'
-      short: *enter_date
+      short: _
       api: Enter a date for the expense
-    future:
+    date_for_the_expense_cannot_be_in_the_future:
+      long: 'Date for #{expense} cannot be in the future'
+      short: _
+      api: Date for the expense cannot be in the future
+    check_the_date_for_the_expense:
       long: 'Check the date for the #{expense}'
-      short: *in_future
-      api: Check the date for the expense
-    check_not_earlier_than_rep_order:
-      long: 'Check the date for the #{expense}'
-      short: *expense_before_rep_order
+      short: _
       api: Check the date for the expense
 
   expense_type:
     _seq: 10
-    blank:
-      long: 'Choose a type for the #{expense}'
-      short: Choose an expense type
-      api: Choose a type for the expense
+    choose_an_expense_type:
+      long: 'Choose an expense type for the #{expense}'
+      short: _
+      api: Choose an expense type
 
   amount:
     _seq: 20
-    blank:
+    enter_an_amount_for_the_expense:
       long: 'Enter an amount for the #{expense}'
-      short: *enter_amount
+      short: _
       api: Enter an amount for the expense
-    numericality:
+    enter_a_valid_amount_for_the_expense:
       long: 'Enter a valid amount for the #{expense}'
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid amount for the expense
-    item_max_amount:
+    the_amount_for_the_expense_exceeds_the_limit:
       long: 'The amount for the #{expense} exceeds the limit'
-      short: *item_max_amount
+      short: _
       api: The amount for the expense exceeds the limit
 
   vat_amount:
     _seq: 25
-    numericality:
+    enter_a_valid_vat_amount_for_the_expense:
       long: 'Enter a valid VAT amount for the #{expense}'
-      short: *check_amount
+      short: _
       api: Enter a valid VAT amount for the expense
-    greater_than:
+    check_vat_amount_is_less_than_the_net_amount_for_the_expense:
       long: 'Check VAT amount is less than the net amount for the #{expense}'
-      short: *check_amount
+      short: _
       api: Check VAT amount is less than the net amount for the expense
-    invalid:
+    vat_amount_doesn_t_apply:
       long: "VAT amount doesn't apply for the #{expense}"
-      short: "VAT amount doesn't apply"
+      short: _
       api: "VAT amount doesn't apply for the expense"
-    item_max_amount:
+    vat_amount_for_the_expense_exceeds_the_limit:
       long: 'VAT amount for the #{expense} exceeds the limit'
-      short: *item_max_amount
+      short: _
       api: VAT amount for the expense exceeds the limit
-    max_vat_amount:
+    vat_amount_for_the_expense_exceeds_current_vat_rate:
       long: 'VAT amount for the #{expense} exceeds current VAT rate'
-      short: *max_vat_amount
+      short: _
       api: VAT amount for the expense exceeds current VAT rate
 
 
   location:
     _seq: 30
-    blank:
+    enter_a_location:
       long: 'Enter a location for the #{expense}'
-      short: Enter a location
+      short: _
       api: Enter a location for the expenses
-    invalid:
+    enter_a_valid_location:
       long: 'Enter a valid location for the #{expense}'
-      short: Enter a valid location
+      short: _
       api: Enter a valid location for the expense
 
   location_type:
     _seq: 30
-    invalid:
+    enter_a_valid_location:
       long: 'Enter a valid location for the #{expense}'
-      short: Enter a valid location
+      short: _
       api: Enter a valid location for the expense
 
   distance:
     _seq: 40
-    blank:
+    enter_the_distance_for_the_expense:
       long: 'Enter the distance for the #{expense}'
-      short: 'Enter the distance'
+      short: _
       api: Enter the distance for the expense
-    invalid:
+    enter_a_valid_distance:
       long: 'Enter a valid distance for the #{expense}'
-      short: Enter a valid distance
+      short: _
       api: Enter a valid distance for the expense
-    numericality:
+    enter_a_valid_distance_for_the_expense:
       long: 'Enter a valid distance for the #{expense}'
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid distance for the expense
 
   hours:
     _seq: 45
-    blank:
+    enter_the_hours:
       long: 'Enter the hours for the #{expense}'
-      short: 'Enter the hours'
+      short: _
       api: Enter the hours for the expense
-    invalid:
+    enter_valid_hours:
       long: 'Enter valid hours for the #{expense}'
-      short: Enter valid hours
+      short: _
       api: Enter valid hours for the expense
-    numericality:
+    enter_valid_hours_for_the_expense:
       long: 'Enter valid hours for the #{expense}'
-      short: *enter_valid_amount
+      short: _
       api: Enter valid hours for the expense
-    decimal:
+    max_2_decimals:
       long: 'Travel time for #{expense} can be maximum 2 decimal places'
-      short: 'Max 2 decimals'
+      short: _
       api: 'Travel time for #{expense} can be maximum 2 decimal places'
 
 
   reason_text:
     _seq: 50
-    blank_for_other:
+    enter_a_reason:
       long: 'Enter a reason for the #{expense}'
-      short: 'Enter a reason'
+      short: _
       api: Enter a reason for the expense
+    enter_a_valid_reason:
+      long: 'Enter a valid reason for the #{expense}'
+      short: _
+      api: Enter a valid reason for the expense
 
   reason_id:
     _seq: 55
-    blank:
+    enter_a_reason_for_the_expense:
       long: 'Enter a reason for the #{expense}'
-      short: 'Enter a reason'
+      short: _
       api: Enter a reason for the expense
+    enter_a_valid_reason_for_the_expense:
+      long: 'Enter a valid reason for the #{expense}'
+      short: _
+      api: Enter a valid reason for the expense
 
   mileage_rate_id:
     _seq: 60
-    blank:
+    select_a_mileage_rate:
       long: 'Select a mileage rate for the #{expense}'
-      short: Select a mileage rate
+      short: _
       api: Select a mileage rate
+    select_a_valid_mileage_rate:
+      long: 'Select a valid mileage rate for the #{expense}'
+      short: _
+      api: Select a valid mileage rate
 
 #################################################################################
 #                                                                               #

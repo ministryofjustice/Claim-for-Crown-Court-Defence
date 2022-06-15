@@ -1,19 +1,16 @@
 #expenses.mod-expenses.fx-numberedList-hook{ data: { 'feature-distance': @claim.lgfs?.to_s } }
-  .form-section
-    .js-cocoon-expenses
-      %h2.govuk-heading-l
-        = t('.travel_expenses')
+  .js-cocoon-expenses
+    %h2.govuk-heading-l
+      = t('.travel_expenses')
+    %p.govuk-body
+      = t('.expenses_prompt_text')
 
-      %p
-        = t('.expenses_prompt_text')
+    = f.fields_for :expenses do |expense|
+      = render 'external_users/claims/expenses/expense_fields', f: expense
 
-      = f.fields_for :expenses do |expense|
-        = render 'external_users/claims/expenses/expense_fields', f: expense
+  = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class: 'govuk-button app-button--blue', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.js-cocoon-expenses', module: 'govuk-button' }, role: 'button', draggable: 'false'
 
-  .form-section
-    = link_to_add_association t('.add_another_expense'), f, :expenses, partial: 'external_users/claims/expenses/expense_fields', class: 'govuk-button app-button--blue', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.js-cocoon-expenses', module: 'govuk-button' }, role: 'button', draggable: 'false'
+  = govuk_link_button_secondary(t('.duplicate'), nil, class: 'fx-duplicate-expense')
 
-    = govuk_link_button_secondary(t('.duplicate'), nil, class: 'fx-duplicate-expense')
-
-  .form-section.fx-additional-info
+  .fx-additional-info
     = render 'external_users/claims/expenses/textarea_additional_info', f: f

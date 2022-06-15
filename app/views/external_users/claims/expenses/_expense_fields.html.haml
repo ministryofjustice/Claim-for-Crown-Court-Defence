@@ -1,134 +1,114 @@
 - @expense_count += 1
 .expense-group.nested-fields.js-block.fx-do-init.fx-numberedList-item{ data: { 'type': 'expenses', autovat: @claim.agfs? && @claim.apply_vat? ? 'true' : 'false', 'block-type': 'ExpenseBlock' } }
   .form-section-compound
+    = f.govuk_text_field :location_type,
+      class: 'fx-location-type',
+      form_group: { classes: 'hidden' },
+      label: { hidden: true },
+      type: 'hidden'
 
-    = f.hidden_field :location_type, { class: 'fx-location-type' }
-    = f.hidden_field :calculated_distance, { class: 'fx-travel-calculated-distance' }
+    = f.govuk_text_field :calculated_distance,
+      class: 'fx-travel-calculated-distance',
+      form_group: { classes: 'govuk-visually-hidden' },
+      label: { hidden: true },
+      type: 'hidden'
 
-    %fieldset
-      %legend
-        %span.govuk-heading-m
-          = t('.expense')
-          %span.fx-numberedList-number
-
+    = f.govuk_fieldset legend: { text: t('.expense_html')} do
       = link_to_remove_association f, wrapper_class: 'expense-group', class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
         = t('common.remove_html', context: t('.expense'))
 
-      %p.fx-general-errors{ style: 'display: none;' }
-        %span
-
       .govuk-grid-row
         .govuk-grid-column-full
-          -# SELECT: Expense types
-          .form-group.fx-travel-expense-type
-            = f.label :expense_type_id,
-              t('.type_of_expense_html'),
-              { class: 'form-label-bold' }
+          - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
+          = f.govuk_collection_select :expense_type_id,
+            expense_types_collection.map { |et| [et.name, et.id, { data: et.data_attributes }] },
+            :second,
+            :first,
+            form_group: { classes: 'fx-travel-expense-type' },
+            label: { text: t('.type_of_expense_html') },
+            options: { include_blank: t('.select_option') }
 
-            - expense_types_collection = present_collection(ExpenseType.for_claim_type(@claim))
-            = f.select :expense_type_id, expense_types_collection.map { |et| [et.name, et.id, { data: et.data_attributes }] }, { include_blank: t('.select_option') }, { class: 'form-control form-control-3-4' }
-            = validation_error_message(@error_presenter, "expense_#{@expense_count}_expense_type")
+          - reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
+          = f.govuk_collection_select :reason_id,
+            reasons_collection.map { |et| [et.reason, et.id, { data: et.data_attributes }] },
+            :second,
+            :first,
+            form_group: { classes: 'fx-travel-reason', style: 'display: none' },
+            label: { text: t('.travel_reason_html') },
+            options: { include_blank: t('.select_option') }
 
-        .govuk-grid-column-full
-          -# SELECT: Travel reasons
-          - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_reason_id")
-          - error_classes += ' form-group-error' if error_classes.present?
-          %a{ id: "expense_#{@expense_count}_reason_id" }
-          .form-group.fx-travel-reason{ style: 'display: none;', class: error_classes }
-            = f.label :reason_id, class: 'form-label-bold' do
-              = t('.travel_reason_html')
-              = validation_error_message(@error_presenter, "expense_#{@expense_count}_reason_id")
+          - present(f.object) do |expense|
+            = f.govuk_text_field :reason_text,
+              form_group: { classes: 'fx-travel-reason-other', style: f.object.reason_id.eql?(5) ? 'display: block' : 'display: none' },
+              label: { text: t('.reason_text_html') },
+              width: 'one-half'
 
-            - reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
-            = f.select :reason_id, reasons_collection.map { |et| [et.reason, et.id, { data: et.data_attributes }] }, { include_blank: t('.select_option') }, { class: 'form-control form-control-3-4' }
-
-          -# INPUT: Other travel reason input
-          .form-group.fx-travel-reason-other{ style: f.object.reason_id.eql?(5) ? 'display: block;' : 'display: none;' }
-            - present(f.object) do |expense|
-              = f.adp_text_field :reason_text, label: t('.reason_text_html'), input_classes: '', errors: @error_presenter
-
-      .govuk-grid-row
-        .govuk-grid-column-full
-          -# INPUT: Location
-          .fx-travel-location{ style: 'display: none;' }
-
+          .fx-travel-location{ style: 'display: none' }
             - if @claim.lgfs?
-              - error_classes = error_class?(@error_presenter, "expense_#{@expense_count}_location")
-              - error_classes += ' form-group-error' if error_classes.present?
-              .form-group.fx-establishment-select.has-select{ style: 'display: none;', class: error_classes }
-                = f.label :location, nil, class: 'form-label-bold'
-                = validation_error_message(@error_presenter, "expense_#{@expense_count}_location")
-                = f.select :location, {}, {}, { class: 'form-control form-control-3-4', autocomplete: 'off' }
+              = f.govuk_collection_select :location,
+                {},
+                {},
+                {},
+                form_group: { classes: 'fx-establishment-select has-select', style: 'display: none' },
+                label: { text: nil }
 
-            = f.adp_text_field :location, label: t('.location_html'), input_classes: 'form-control form-control-3-4 fx-location-model', errors: @error_presenter
+            = f.govuk_text_field :location,
+                class: 'fx-location-model',
+                form_group: { classes: 'location_wrapper' },
+                label: { text: t('.location_html') },
+                width: 'one-half'
 
-        .govuk-grid-column-full
-          -# INPUT: Travel hours
-          .form-group.fx-travel-hours{ style: 'display: none;' }
-            = f.adp_text_field :hours, label: t('.hours_html'), input_classes: 'form-control-1-8', input_type: 'number', errors: @error_presenter
+          = f.govuk_number_field :hours,
+              form_group: { classes: 'fx-travel-hours', style: 'display: none' },
+              label: { text: t('.hours_html') },
+              min: 0,
+              width: 'one-quarter'
 
+          = f.govuk_number_field :distance,
+              form_group: { classes: 'fx-travel-distance', style: 'display: none' },
+              hint: { text: t('.distance_hint_html') },
+              label: { text: t('.distance_html') },
+              min: 0,
+              value: number_with_precision(f.object.distance, precision: 0),
+              width: 'one-quarter'
 
-          -# INPUT: Travel Distance
-          .form-group-compound.fx-travel-distance{ style: 'display: none;' }
-            = f.adp_text_field :distance, label: t('.distance_html'), hint_text: t('.distance_hint'), input_type: 'number', input_classes: 'form-control-1-4', value: number_with_precision(f.object.distance, precision: 0), errors: @error_presenter
-            - if @claim.lgfs?
-              = govuk_detail t('.summary_heading') do
-                = t('.summary_content')
-
-      .govuk-grid-row
-        .govuk-grid-column-full
-          -# RADIOS: Cost per mile
-          .form-group.fx-travel-mileage{ style: 'display: none;' }
-            %fieldset
-              %legend.form-label-bold
-                = t('.cost_html')
-
-              -# Bike before Car.. due to hidden inputs
-              .fx-travel-mileage-bike
-                = f.collection_radio_buttons(:mileage_rate_id, Expense::BIKE_MILEAGE_RATES.values, :id, :description) do |b|
-                  .multiple-choice
-                    = b.radio_button
-                    = b.label { b.object.description }
-                = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
-
-              .fx-travel-mileage-car
-                = f.collection_radio_buttons(:mileage_rate_id, Expense::CAR_MILEAGE_RATES.values, :id, :description) do |b|
-                  .multiple-choice
-                    = b.radio_button
-                    = b.label { b.object.description }
-                = validation_error_message(@error_presenter, "expense_#{@expense_count}_mileage_rate_id")
-
-
-        .govuk-grid-column-full
-          -# DATES: Expense date
-          .form-group.fx-travel-date{ style: 'display: none;' }
-            = f.gov_uk_date_field :date,
-              legend_text: t('.date_html'),
-              form_hint_text: t('.date_hint'),
-              legend_class: 'govuk-legend',
-              id: "expense_#{@expense_count}_date",
-              error_messages: gov_uk_date_field_error_messages(@error_presenter, "expense_#{@expense_count}_date")
-
-      .govuk-grid-row
-        .govuk-grid-column-full
-          -# INPUT: Net amount
-          .form-group.fx-travel-net-amount{ style: 'display: none;' }
-            = f.adp_text_field :amount,
-                              label: t('.net_amount_html'),
-                              input_classes: 'form-input-denote__input rate',
-                              input_type: 'currency',
-                              errors: @error_presenter,
-                              value: number_with_precision(f.object.amount || 0, precision: 2)
-
-        .govuk-grid-column-full
-          -# INPUT: VAT amount
           - if @claim.lgfs?
-            .form-group.fx-travel-vat-amount{ style: 'display: none;' }
-              = f.adp_text_field :vat_amount,
-                              label: t('.vat_amount_html'),
-                              input_classes: 'form-input-denote__input vat',
-                              input_type: 'currency',
-                              errors: @error_presenter,
-                              value: number_with_precision(f.object.vat_amount, precision: 2)
+            = govuk_detail t('.summary_heading') do
+              = t('.summary_content')
+          = f.govuk_radio_buttons_fieldset :mileage_rate_id,
+            form_group: { classes: 'fx-travel-mileage fx-travel-mileage-bike', style: 'display: none' },
+            legend: { text: t('.cost_html') } do
+            - Expense::BIKE_MILEAGE_RATES.values.map do | bike_mileage_rate |
+              = f.govuk_radio_button :mileage_rate_id, bike_mileage_rate.id, label: { text: bike_mileage_rate.description }
+
+          = f.govuk_radio_buttons_fieldset :mileage_rate_id,
+            form_group: { classes: 'fx-travel-mileage fx-travel-mileage-car', style: 'display: none' },
+            legend: { text: t('.cost_html') } do
+            - Expense::CAR_MILEAGE_RATES.values.map do | car_mileage_rate |
+              = f.govuk_radio_button :mileage_rate_id, car_mileage_rate.id, label: { text: car_mileage_rate.description }
+
+          = f.govuk_date_field :date,
+            form_group: { classes: 'fx-travel-date', style: 'display: none' },
+            legend: { text: t('.date_html') },
+            hint: { text: t('.date_hint') }
+
+          = f.govuk_number_field :amount,
+            class: 'rate',
+            form_group: { classes: 'fx-travel-net-amount', style: 'display: none' },
+            label: { text: t('.net_amount_html') },
+            min: 0,
+            prefix_text: '£',
+            value: number_with_precision(f.object.amount || 0, precision: 2),
+            width: 'one-half'
+
+          - if @claim.lgfs?
+            = f.govuk_number_field :vat_amount,
+              class: 'vat',
+              form_group: {classes: 'fx-travel-vat-amount', style: 'display: none' },
+              label: { text: t('.vat_amount_html') },
+              min: 0,
+              prefix_text: '£',
+              value: number_with_precision(f.object.vat_amount || 0, precision: 2),
+              width: 'one-half'
 
     %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible

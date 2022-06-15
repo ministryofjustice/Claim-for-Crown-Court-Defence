@@ -169,7 +169,7 @@ RSpec.configure do |config|
 
   config.after(:suite) do
     # to delete files from filesystem that were generated during rspec tests
-    FileUtils.rm_rf(Rails.root.join('public', 'assets', 'test', 'images'))
+    FileUtils.rm_rf(Rails.public_path.join('assets', 'test', 'images'))
     # Deletes report files created during the test suite run
     FileUtils.rm_rf(Rails.root.join('tmp', 'test', 'reports'))
     FileUtils.rm_rf(Dir[Rails.root.join('tmp', '[^.]*documents.zip')])

@@ -1153,7 +1153,7 @@ describe('Helpers.Blocks.js', function () {
           })
 
           it('should call the Establishments API with the correct params ', function () {
-            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(Promise.resolve())
+            spyOn(moj.Helpers.API.Establishments, 'getAsSelectWithOptions').and.returnValue(Promise.resolve([]))
             instance.attachSelectWithOptions('crown_court', 'SomeThing')
             expect(moj.Helpers.API.Establishments.getAsSelectWithOptions).toHaveBeenCalledWith('crown_court', {
               prop: 'name',

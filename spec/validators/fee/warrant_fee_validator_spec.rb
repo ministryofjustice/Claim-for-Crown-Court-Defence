@@ -7,7 +7,7 @@ RSpec.describe Fee::WarrantFeeValidator, type: :validator do
     allow(fee).to receive(:perform_validation?).and_return(true)
   end
 
-  include_examples 'common LGFS amount validations'
+  include_examples 'common LGFS amount govuk validations'
   include_examples 'common warrant fee validations'
 
   describe '#validate_warrant_issued_date' do
@@ -21,7 +21,7 @@ RSpec.describe Fee::WarrantFeeValidator, type: :validator do
     it 'is invalid if present and too far in the past' do
       fee.warrant_executed_date = 11.years.ago
       expect(fee).to_not be_valid
-      expect(fee.errors[:warrant_executed_date]).to include 'check_not_too_far_in_past'
+      expect(fee.errors[:warrant_executed_date]).to include 'Warrant executed date cannot be too far in the past'
     end
   end
 end

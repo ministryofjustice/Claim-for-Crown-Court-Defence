@@ -80,7 +80,11 @@ end
 RSpec.shared_examples 'common LGFS amount govuk validations' do
   describe '#validate_amount' do
     let(:amount_error_message) do
-      'Enter a valid amount for the (.*?)(graduated|hardship|transfer) fee'
+      'Enter a valid amount for the (.*?)(graduated|hardship|interim|transfer|warrant) fee'
+    end
+
+    let(:amount_max_limit_error_message) do
+      'The amount for the (.*?)(graduated|hardship|interim|transfer|warrant) fee exceeds the limit'
     end
 
     it 'adds error if amount is blank' do
@@ -96,8 +100,7 @@ RSpec.shared_examples 'common LGFS amount govuk validations' do
     end
 
     it 'adds error if amount is greater than the max limit' do
-      should_error_if_equal_to_value(fee, :amount, 200_001,
-                                     'The amount for the (.*?)(graduated|hardship|transfer) fee exceeds the limit')
+      should_error_if_equal_to_value(fee, :amount, 200_001, amount_max_limit_error_message)
     end
   end
 end
@@ -225,19 +228,19 @@ RSpec.shared_examples 'common warrant fee validations' do
     it 'is invalid if present and too far in the past' do
       fee.warrant_issued_date = 11.years.ago
       expect(fee).to be_invalid
-      expect(fee.errors[:warrant_issued_date]).to include 'check_not_too_far_in_past'
+      expect(fee.errors[:warrant_issued_date]).to include 'Warrant issued date cannot be too far in the past'
     end
 
     it 'is invalid if present and in the future' do
       fee.warrant_issued_date = 3.days.from_now
       expect(fee).to be_invalid
-      expect(fee.errors[:warrant_issued_date]).to include 'check_not_in_future'
+      expect(fee.errors[:warrant_issued_date]).to include 'Warrant issued date cannot be too far in the future'
     end
 
     it 'is invalid if not present' do
       fee.warrant_issued_date = nil
       expect(fee).to be_invalid
-      expect(fee.errors[:warrant_issued_date]).to eq(['blank'])
+      expect(fee.errors[:warrant_issued_date]).to eq(['Enter a warrant issued date'])
     end
   end
 
@@ -245,13 +248,13 @@ RSpec.shared_examples 'common warrant fee validations' do
     it 'raises error if before warrant_issued_date' do
       fee.warrant_executed_date = fee.warrant_issued_date - 1.day
       expect(fee).to be_invalid
-      expect(fee.errors[:warrant_executed_date]).to eq(['warrant_executed_before_issued'])
+      expect(fee.errors[:warrant_executed_date]).to eq(['The warrant executed date is before the issued date'])
     end
 
     it 'raises error if in future' do
       fee.warrant_executed_date = 3.days.from_now
       expect(fee).to be_invalid
-      expect(fee.errors[:warrant_executed_date]).to include 'check_not_in_future'
+      expect(fee.errors[:warrant_executed_date]).to include 'Warrant executed date cannot be too far in the future'
     end
 
     it 'does not raise error if absent' do

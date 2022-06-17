@@ -26,25 +26,47 @@ RSpec.describe DisbursementValidator, type: :validator do
   end
 
   describe '#validate_disbursement_type' do
-    it { should_error_if_not_present(disbursement, :disbursement_type, 'blank') }
+    before { disbursement.disbursement_type = nil }
+
+    it { should_error_if_not_present(disbursement, :disbursement_type_id, 'Choose a type for the disbursement') }
   end
 
   describe '#validate_net_amount' do
-    it { should_error_if_equal_to_value(disbursement, :net_amount, 0, 'numericality') }
-    it { should_error_if_equal_to_value(disbursement, :net_amount, -1, 'numericality') }
-    it { should_error_if_equal_to_value(disbursement, :net_amount, nil, 'blank') }
-    it { should_error_if_equal_to_value(disbursement, :net_amount, 200_001, 'item_max_amount') }
+    it { should_error_if_equal_to_value(disbursement, :net_amount, 0, 'Enter a valid net amount for the disbursement') }
+
+    it {
+      should_error_if_equal_to_value(disbursement, :net_amount, -1, 'Enter a valid net amount for the disbursement')
+    }
+
+    it { should_error_if_equal_to_value(disbursement, :net_amount, nil, 'Enter a net amount for the disbursement') }
+
+    it {
+      should_error_if_equal_to_value(disbursement, :net_amount, 200_001,
+                                     'The net amount exceeds the limit for the disbursement')
+    }
   end
 
   describe '#validate_vat_amount' do
+    let(:max_vat_amount_error_message) do
+      'VAT amount for the expense exceeds current VAT rate'
+    end
+
     it { should_be_valid_if_equal_to_value(disbursement, :vat_amount, 0) }
-    it { should_error_if_equal_to_value(disbursement, :vat_amount, -1, 'numericality') }
-    it { should_error_if_equal_to_value(disbursement, :vat_amount, nil, 'blank') }
-    it { should_error_if_equal_to_value(disbursement, :vat_amount, 200_001, 'item_max_amount') }
+
+    it {
+      should_error_if_equal_to_value(disbursement, :vat_amount, -1, 'Enter a valid VAT amount for the disbursement')
+    }
+
+    it { should_error_if_equal_to_value(disbursement, :vat_amount, nil, 'Enter a VAT amount for the disbursement') }
+
+    it {
+      should_error_if_equal_to_value(disbursement, :vat_amount, 200_001,
+                                     'VAT amount exceeds the limit for the disbursement')
+    }
 
     it 'invalid when vat greater than net amount' do
       disbursement.net_amount = 5
-      should_error_if_equal_to_value(disbursement, :vat_amount, 10, 'greater_than')
+      should_error_if_equal_to_value(disbursement, :vat_amount, 10, max_vat_amount_error_message)
     end
 
     context 'vat greater than VAT% of net amount' do
@@ -63,11 +85,11 @@ RSpec.describe DisbursementValidator, type: :validator do
       end
 
       it 'invalid when VAT amount greater than VAT% of NET' do
-        should_error_if_equal_to_value(disbursement, :vat_amount, 20.01, 'max_vat_amount')
+        should_error_if_equal_to_value(disbursement, :vat_amount, 20.01, max_vat_amount_error_message)
       end
 
       it 'invalid when rounded VAT amount greater than VAT% of NET' do
-        should_error_if_equal_to_value(disbursement, :vat_amount, 20.009, 'max_vat_amount')
+        should_error_if_equal_to_value(disbursement, :vat_amount, 20.009, max_vat_amount_error_message)
       end
     end
   end

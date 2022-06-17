@@ -539,9 +539,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     let(:warrant_issued_date) { 3.months.ago }
     let(:valid_warrant_fee_attributes) {
       {
-        warrant_issued_date_dd: warrant_issued_date.day.to_s,
-        warrant_issued_date_mm: warrant_issued_date.month.to_s,
-        warrant_issued_date_yyyy: warrant_issued_date.year.to_s,
+        'warrant_issued_date(3i)': warrant_issued_date.day.to_s,
+        'warrant_issued_date(2i)': warrant_issued_date.month.to_s,
+        'warrant_issued_date(1i)': warrant_issued_date.year.to_s,
         amount: 20
       }
     }
@@ -585,14 +585,14 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
     context 'when a warrant fee issued date is not set' do
       let(:warrant_fee_attributes) {
-        valid_warrant_fee_attributes.except(:warrant_issued_date_dd,
-                                            :warrant_issued_date_mm,
-                                            :warrant_issued_date_yyyy)
+        valid_warrant_fee_attributes.except(:'warrant_issued_date(3i)',
+                                            :'warrant_issued_date(2i)',
+                                            :'warrant_issued_date(1i)')
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['blank'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['Enter a warrant issued date'])
       }
     end
 
@@ -600,15 +600,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:old_warrant_issued_date) { 15.years.ago }
       let(:warrant_fee_attributes) {
         valid_warrant_fee_attributes.merge(
-          warrant_issued_date_dd: old_warrant_issued_date.day.to_s,
-          warrant_issued_date_mm: old_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: old_warrant_issued_date.year.to_s
+          'warrant_issued_date(3i)': old_warrant_issued_date.day.to_s,
+          'warrant_issued_date(2i)': old_warrant_issued_date.month.to_s,
+          'warrant_issued_date(1i)': old_warrant_issued_date.year.to_s
         )
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['check_not_too_far_in_past', 'check_on_or_after_earliest_representation_order'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['Warrant issued date cannot be too far in the past', 'Warrant issued date needs to be on or after the earliest representation order date'])
       }
     end
 
@@ -616,15 +616,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:future_warrant_issued_date) { 6.days.from_now }
       let(:warrant_fee_attributes) {
         valid_warrant_fee_attributes.merge(
-          warrant_issued_date_dd: future_warrant_issued_date.day.to_s,
-          warrant_issued_date_mm: future_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: future_warrant_issued_date.year.to_s
+          'warrant_issued_date(3i)': future_warrant_issued_date.day.to_s,
+          'warrant_issued_date(2i)': future_warrant_issued_date.month.to_s,
+          'warrant_issued_date(1i)': future_warrant_issued_date.year.to_s
         )
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['check_not_in_future', 'on_or_before'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['Warrant issued date cannot be too far in the future', 'Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued'])
       }
     end
 
@@ -632,15 +632,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:new_warrant_issued_date) { 2.months.ago }
       let(:warrant_fee_attributes) {
         valid_warrant_fee_attributes.merge(
-          warrant_issued_date_dd: new_warrant_issued_date.day.to_s,
-          warrant_issued_date_mm: new_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s
+          'warrant_issued_date(3i)': new_warrant_issued_date.day.to_s,
+          'warrant_issued_date(2i)': new_warrant_issued_date.month.to_s,
+          'warrant_issued_date(1i)': new_warrant_issued_date.year.to_s
         )
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['on_or_before'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued'])
       }
     end
 
@@ -648,15 +648,15 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:new_warrant_issued_date) { earliest_representation_order_date - 1.day }
       let(:warrant_fee_attributes) {
         valid_warrant_fee_attributes.merge(
-          warrant_issued_date_dd: new_warrant_issued_date.day.to_s,
-          warrant_issued_date_mm: new_warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: new_warrant_issued_date.year.to_s
+          'warrant_issued_date(3i)': new_warrant_issued_date.day.to_s,
+          'warrant_issued_date(2i)': new_warrant_issued_date.month.to_s,
+          'warrant_issued_date(1i)': new_warrant_issued_date.year.to_s
         )
       }
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['check_on_or_after_earliest_representation_order'])
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to match_array(['Warrant issued date needs to be on or after the earliest representation order date'])
       }
     end
 
@@ -665,7 +665,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:'warrant_fee.amount']).to match_array(['numericality'])
+        expect(claim.errors[:'warrant_fee.amount']).to match_array(['Enter a valid amount for the warrant fee'])
       }
     end
 
@@ -674,7 +674,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.to be_invalid
-        expect(claim.errors[:'warrant_fee.amount']).to match_array(['numericality'])
+        expect(claim.errors[:'warrant_fee.amount']).to match_array(['Enter a valid amount for the warrant fee'])
       }
     end
   end
@@ -735,9 +735,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         offence_id: offence.id,
         advocate_category: 'QC',
         warrant_fee_attributes: {
-          warrant_issued_date_dd: warrant_issued_date.day.to_s,
-          warrant_issued_date_mm: warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: warrant_issued_date.year.to_s,
+          'warrant_issued_date(3i)': warrant_issued_date.day.to_s,
+          'warrant_issued_date(2i)': warrant_issued_date.month.to_s,
+          'warrant_issued_date(1i)': warrant_issued_date.year.to_s,
           amount: 20
         }
       }
@@ -946,9 +946,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         offence_id: offence.id,
         advocate_category: 'QC',
         warrant_fee_attributes: {
-          warrant_issued_date_dd: warrant_issued_date.day.to_s,
-          warrant_issued_date_mm: warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: warrant_issued_date.year.to_s,
+          'warrant_issued_date(3i)': warrant_issued_date.day.to_s,
+          'warrant_issued_date(2i)': warrant_issued_date.month.to_s,
+          'warrant_issued_date(1i)': warrant_issued_date.year.to_s,
           amount: 20
         },
         expenses_attributes: {
@@ -1090,9 +1090,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         offence_id: offence.id,
         advocate_category: 'QC',
         warrant_fee_attributes: {
-          warrant_issued_date_dd: warrant_issued_date.day.to_s,
-          warrant_issued_date_mm: warrant_issued_date.month.to_s,
-          warrant_issued_date_yyyy: warrant_issued_date.year.to_s,
+          'warrant_issued_date(3i)': warrant_issued_date.day.to_s,
+          'warrant_issued_date(2i)': warrant_issued_date.month.to_s,
+          'warrant_issued_date(1i)': warrant_issued_date.year.to_s,
           amount: 20
         },
         expenses_attributes: {

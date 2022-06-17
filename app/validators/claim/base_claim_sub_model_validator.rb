@@ -40,7 +40,13 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
   end
 
   def validate_presence_of_association(association_name, options = {})
-    validate_presence(association_name, 'blank') if options && options[:presence]
+    return unless options && options[:presence]
+
+    if %i[warrant_fee].include? association_name
+      validate_presence(association_name, :blank)
+    else
+      validate_presence(association_name, 'blank')
+    end
   end
 
   def associations_for_has_one_validations(record)

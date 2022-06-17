@@ -201,10 +201,22 @@ class BaseValidator < ActiveModel::Validator
     add_error(vat_attribute, 'max_vat_amount') if vat_exceeds_max?(vat: vat_amount, net: net_amount)
   end
 
+  def validate_vat_less_than_max_govuk_formbuilder(vat_attribute, net_attribute)
+    vat_amount = @record.send(vat_attribute) || 0
+    net_amount = @record.send(net_attribute) || 0
+    add_error(vat_attribute, :max_vat_amount) if vat_exceeds_max?(vat: vat_amount, net: net_amount)
+  end
+
   def validate_vat_numericality(attribute, lower_than_field:, allow_blank: true)
     validate_presence_and_numericality(attribute, minimum: 0, allow_blank:)
     validate_amount_greater_than(attribute, lower_than_field, 'greater_than')
     validate_vat_less_than_max(attribute, lower_than_field)
+  end
+
+  def validate_vat_numericality_govuk_formbuilder(attribute, lower_than_field:, allow_blank: true)
+    validate_presence_and_numericality_govuk_formbuilder(attribute, minimum: 0, allow_blank:)
+    validate_amount_greater_than(attribute, lower_than_field, :greater_than)
+    validate_vat_less_than_max_govuk_formbuilder(attribute, lower_than_field)
   end
 
   def validate_two_decimals(field)

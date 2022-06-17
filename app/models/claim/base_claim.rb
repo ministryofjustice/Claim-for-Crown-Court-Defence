@@ -111,11 +111,6 @@ module Claim
     accepts_nested_attributes_for :assessment
     accepts_nested_attributes_for :redeterminations, reject_if: :all_blank
 
-    acts_as_gov_uk_date :effective_pcmh_date,
-                        :legal_aid_transfer_date,
-                        validate_if: :perform_validation?,
-                        error_clash_behaviour: :override_with_gov_uk_date_field_error
-
     before_validation do
       errors.clear
       cleaner&.call

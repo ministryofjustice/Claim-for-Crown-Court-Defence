@@ -47,7 +47,7 @@ class BaseSubModelValidator < BaseValidator
     associated_record = record.__send__(association_name)
     return if associated_record_has_no_errors?(associated_record)
     @result = false
-    copy_errors_to_base_record(record, association_name, associated_record, nil) if %i[fixed_fee graduated_fee hardship_fee transfer_fee].include? association_name # add the name of the association being migrated to this array, eg %i[graduated_fee]. remove this guard when govuk migration is complete
+    copy_errors_to_base_record(record, association_name, associated_record, nil) if %i[fixed_fee graduated_fee hardship_fee interim_fee transfer_fee warrant_fee].include? association_name # add the name of the association being migrated to this array, eg %i[graduated_fee]. remove this guard when govuk migration is complete
   end
 
   def associated_record_has_no_errors?(associated_record)
@@ -71,12 +71,14 @@ class BaseSubModelValidator < BaseValidator
     #
     # NOTE: Once form migrations are complete, this conditional can be removed
     #
-    if %i[basic_fees dates_attended defendants expenses fixed_fees fixed_fee
-          graduated_fee hardship_fee representation_orders transfer_fee].include? association_name
+    # rubocop:disable Layout/LineLength
+    if %i[basic_fees dates_attended defendants disbursements expenses fixed_fees fixed_fee
+          graduated_fee hardship_fee interim_fee representation_orders transfer_fee warrant_fee].include? association_name
       [association_name.to_s, 'attributes', record_num.to_s, error.attribute.to_s].compact_blank.join('_')
     else
       "#{association_name.to_s.singularize}_#{record_num + 1}_#{error.attribute}"
     end
+    # rubocop:enable Layout/LineLength
   end
   public :associated_error_attribute
 

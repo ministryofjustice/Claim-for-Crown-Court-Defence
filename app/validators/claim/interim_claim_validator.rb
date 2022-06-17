@@ -105,7 +105,7 @@ module Claim
       if @record.interim_fee.is_effective_pcmh?
         validate_presence_and_not_in_future(:effective_pcmh_date)
       else
-        validate_absence(:effective_pcmh_date, 'present')
+        validate_absence(:effective_pcmh_date, :present)
       end
     end
 
@@ -115,15 +115,15 @@ module Claim
       if @record.interim_fee.is_retrial_new_solicitor?
         validate_presence_and_not_in_future(:legal_aid_transfer_date)
       else
-        validate_absence(:legal_aid_transfer_date, 'present')
+        validate_absence(:legal_aid_transfer_date, :present)
       end
     end
 
     # helpers for common validation combos
     #
     def validate_presence_and_not_in_future(attribute)
-      validate_presence(attribute, 'blank')
-      validate_on_or_before(Time.zone.today, attribute, 'check_not_in_future')
+      validate_presence(attribute, :blank)
+      validate_on_or_before(Time.zone.today, attribute, :check_not_in_future)
     end
 
     def validate_presence_and_length(attribute)

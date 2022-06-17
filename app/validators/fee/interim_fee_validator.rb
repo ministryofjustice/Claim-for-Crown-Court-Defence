@@ -9,11 +9,11 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
 
   def validate_quantity
     if quantity_must_be_zero?
-      validate_absence_or_zero(:quantity, 'present')
+      validate_absence_or_zero(:quantity, :present)
     elsif quantity_required?
-      validate_numericality(:quantity, 'numericality', 1, 99_999)
+      validate_numericality(:quantity, :numericality, 1, 99_999)
     elsif quantity_optional?
-      validate_numericality(:quantity, 'numericality', 0, 99_999)
+      validate_numericality(:quantity, :numericality, 0, 99_999)
     end
   end
 
@@ -21,8 +21,12 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
     if @record.is_disbursement?
       validate_absence_or_zero(:amount, 'present')
     else
-      validate_presence_and_numericality(:amount, minimum: 0.1)
+      validate_presence_and_numericality_govuk_formbuilder(:amount, minimum: 0.1)
     end
+  end
+
+  def validate_fee_type
+    validate_belongs_to_object_presence(:fee_type, :blank)
   end
 
   def validate_rate
@@ -39,15 +43,15 @@ class Fee::InterimFeeValidator < Fee::BaseFeeValidator
 
   def validate_warrant_issued_date
     return unless @record.is_interim_warrant?
-    validate_presence(:warrant_issued_date, 'blank')
-    validate_on_or_after(Settings.earliest_permitted_date, :warrant_issued_date, 'check_not_too_far_in_past')
-    validate_on_or_before(Date.today, :warrant_issued_date, 'check_not_in_future')
+    validate_presence(:warrant_issued_date, :blank)
+    validate_on_or_after(Settings.earliest_permitted_date, :warrant_issued_date, :check_not_too_far_in_past)
+    validate_on_or_before(Date.today, :warrant_issued_date, :check_not_in_future)
   end
 
   def validate_warrant_executed_date
     return unless @record.is_interim_warrant?
-    validate_on_or_after(@record.warrant_issued_date, :warrant_executed_date, 'warrant_executed_before_issued')
-    validate_on_or_before(Date.today, :warrant_executed_date, 'check_not_in_future')
+    validate_on_or_after(@record.warrant_issued_date, :warrant_executed_date, :warrant_executed_before_issued)
+    validate_on_or_before(Date.today, :warrant_executed_date, :check_not_in_future)
   end
 
   private

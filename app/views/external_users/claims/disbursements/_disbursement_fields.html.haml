@@ -1,39 +1,38 @@
-.form-section.disbursement-group.nested-fields.fx-fee-group.fx-numberedList-item.js-block.fx-do-init{ data: { type:'disbursements', autovat: 'false', 'block-type': 'FeeBlockManualAmounts' } }
+.disbursement-group.nested-fields.fx-fee-group.fx-numberedList-item.js-block.fx-do-init{ data: { type:'disbursements', autovat: 'false', 'block-type': 'FeeBlockManualAmounts' } }
 
-  %fieldset
-    %legend
-      %span.govuk-heading-m
-        = t('.disbursement')
-        %span.fx-numberedList-number
+  = f.govuk_fieldset legend: { text: t('.disbursement_legend_html') } do
 
     = link_to_remove_association f, wrapper_class: 'disbursement-group', class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
       = t('common.remove_html', context: t('.disbursement'))
 
-    .form-group.disbursement-type.js-typeahead{ class: error_class?(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type") ? 'form-group-error dropdown_field_with_errors' : ''  }
-      %a{ id: "disbursement_#{@disbursement_count}_disbursement_type" }
-      = f.label :disbursement_type_id, t('.disbursement_type_html', context: t('.disbursement')), class: 'form-label-bold'
-      = validation_error_message(@error_presenter, "disbursement_#{@disbursement_count}_disbursement_type")
-      = f.select :disbursement_type_id,
-        DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id] },
-        { include_blank: ''.html_safe },
-        { class: 'form-control form-control-full fx-autocomplete', 'aria-label': t('.disbursement_type') }
+    = f.govuk_collection_select :disbursement_type_id,
+      DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id] },
+      :second,
+      :first,
+      form_group: { classes: 'disbursement-type fx-autocomplete-wrapper' },
+      label: { text: t('.disbursement_type_html', context: t('.disbursement')) },
+      options: { include_blank: '' }
 
-    .form-group
-      = f.adp_text_field :net_amount,
-        label: t('.net_amount_html', context: t('.disbursement')),
-        input_classes:'amount fee-amount form-input-denote__input form-control-1-4',
-        input_type: 'currency',
-        value: number_with_precision(f.object.net_amount, precision: 2),
-        errors: @error_presenter
+    = f.govuk_number_field :net_amount,
+      class: 'amount fee-amount',
+      label: { text: t('.net_amount_html', context: t('.disbursement')) },
+      min: 0,
+      prefix_text: '£',
+      value: number_with_precision(f.object.net_amount, precision: 2),
+      width: 'one-quarter'
 
-      = f.adp_text_field :vat_amount,
-        label: t('.vat_amount_html', context: t('.disbursement')),
-        input_classes:'vat fee-vat form-input-denote__input form-control-1-4',
-        input_type: 'currency',
-        value: number_with_precision(f.object.vat_amount, precision: 2),
-        errors: @error_presenter
+    = f.govuk_number_field :vat_amount,
+      class: 'vat fee-vat',
+      label: { text: t('.vat_amount_html', context: t('.disbursement')) },
+      min: 0,
+      prefix_text: '£',
+      value: number_with_precision(f.object.vat_amount, precision: 2),
+      width: 'one-quarter'
 
-      %label.form-label-bold
-        = t('.total')
-      .total{ data: { total: number_to_currency(f.object.total) } }
-        = number_to_currency(f.object.total)
+    = govuk_summary_list_no_border do
+      = govuk_summary_list_row do
+        = govuk_summary_list_key do
+          = t('.total')
+
+        = govuk_summary_list_value(class: 'total', data: {total: number_to_currency(f.object.total)}) do
+          = number_to_currency(f.object.total)

@@ -1,96 +1,104 @@
 #interim-fee
   = f.fields_for :interim_fee do |inf|
     - fee = present(inf.object)
-    .interim-fee-group.fx-fee-group.js-block.fx-do-init{data:{"type": "interimFees", autovat: @claim.apply_vat? ? "true" : "false"}}
+    .interim-fee-group.fx-fee-group.js-block.fx-do-init{ data: { 'type': 'interimFees', autovat: @claim.apply_vat? ? 'true' : 'false' } }
+      - interim_fee_types_collection = present_collection(@claim.eligible_interim_fee_types)
 
-      .form-group{ class: error_class?(@error_presenter, "interim_fee.fee_type") ? 'form-group-error' : '' }
-        .fee-type
-          = inf.label :fee_type_id, t('.fee_type'), class: 'form-label-bold'
-          = inf.anchored_attribute 'fee_type'
-          = validation_error_message(@error_presenter, 'interim_fee.fee_type')
+      = inf.govuk_collection_select :fee_type_id,
+        interim_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]},
+        :second,
+        :first,
+        class: 'js-fee-type js-interim-fee-type js-fee-calculator-fee-type',
+        form_group: { classes: 'fee-type' },
+        label: { text: t('.fee_type') },
+        options: { include_blank: '' }
 
-          - interim_fee_types_collection = present_collection(@claim.eligible_interim_fee_types)
+      = inf.govuk_number_field :quantity,
+        class: 'quantity fee-quantity js-fee-calculator-ppe js-fee-quantity',
+        form_group: { classes: 'js-interim-ppe js-fee-calculator-effector js-hidden' },
+        hint: { text: t('.ppe_total_hint') },
+        label: { text: t('.ppe_total') },
+        min: 0,
+        value: fee.quantity,
+        width: 'one-quarter'
 
-          = inf.select :fee_type_id, interim_fee_types_collection.map {|fee| [fee.description, fee.id, { data: fee.data_attributes }]}, {include_blank: ''.html_safe}, {class: 'form-control js-fee-type js-interim-fee-type js-fee-calculator-fee-type '}
+      = f.govuk_date_field :effective_pcmh_date,
+        form_group: { classes: 'js-interim-effectivePcmh js-hidden', id: 'effective-pcmh-date' },
+        hint: { text: t('.date_hint') },
+        legend: { text: t('.effective_pcmh_date'), size: 's' },
+        maxlength_enabled: true
 
+      = f.govuk_date_field :retrial_started_at,
+        form_group: { classes: 'js-interim-retrialDates js-hidden', id: 'retrial_started_at' },
+        hint: { text: t('.date_hint') },
+        legend: { text: t('.retrial_started_at'), size: 's' },
+        maxlength_enabled: true
 
-      / TODO: rename js-interim-classes after interim fee descriptions for clarity
-      /
-      .form-group
-        .js-interim-ppe.js-fee-calculator-effector.js-hidden
-          = inf.adp_text_field :quantity,
-            label: t('.ppe_total'),
-            hint_text: t('.ppe_total_hint'),
-            input_type: 'number',
-            input_classes:'quantity fee-quantity js-fee-calculator-ppe js-fee-quantity form-control-1-4',
-            value: fee.quantity, errors: @error_presenter,
-            error_key:'interim_fee.quantity'
+      = f.govuk_number_field :retrial_estimated_length,
+        class: 'js-fee-calculator-days',
+        form_group: { classes: 'js-interim-retrialDates js-hidden', id: 'retrial_estimated_length' },
+        hint: { text: t('.number_days_hint') },
+        label: { text: t('.retrial_estimated_length') },
+        min: 0,
+        width: 'one-quarter'
 
-        .js-interim-effectivePcmh.js-hidden
-          = f.anchored_without_label 'effective_pcmh_date'
-          = f.gov_uk_date_field(:effective_pcmh_date, legend_text: t('.effective_pcmh_date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :effective_pcmh_date))
+      = f.govuk_date_field :first_day_of_trial,
+        form_group: { classes: 'js-interim-trialDates js-hidden', id: 'first_day_of_trial' },
+        hint: { text: t('.date_hint') },
+        legend: { text: t('.first_day_of_trial'), size: 's' },
+        maxlength_enabled: true
 
-        .js-interim-retrialDates.js-hidden
-          #retrial_started_at
-            = f.govuk_date_field :retrial_started_at,
-              maxlength_enabled: true,
-              legend: { text: t('.retrial_started_at') }
+      = f.govuk_number_field :estimated_trial_length,
+        class: 'js-fee-calculator-days',
+        form_group: { classes: 'js-interim-trialDates js-hidden', id: 'estimated_trial_length' },
+        hint: { text: t('.number_days_hint') },
+        label: { text: t('.estimated_trial_length') },
+        min: 0,
+        width: 'one-quarter'
 
-          = f.adp_text_field :retrial_estimated_length,
-            label: t('.retrial_estimated_length'),
-            input_classes:'form-control form-control-1-4 js-fee-calculator-days',
-            input_type: 'number',
-            hint_text: t('.number_days_hint'),
-            errors: @error_presenter
+      = f.govuk_date_field :legal_aid_transfer_date,
+        form_group: { classes: 'js-interim-legalAidTransfer js-hidden', id: 'legal_aid_transfer_date' },
+        hint: { text: t('.date_hint') },
+        legend: { text: t('.legal_aid_transfer_date'), size: 's' },
+        maxlength_enabled: true
 
-        .js-interim-trialDates.js-hidden
-          #first_day_of_trial
-            = f.govuk_date_field :first_day_of_trial,
-              maxlength_enabled: true,
-              legend: { text: t('.first_day_of_trial') }
+      = f.govuk_date_field :trial_concluded_at,
+        form_group: { classes: 'js-interim-legalAidTransfer js-hidden', id: 'trial_concluded_at' },
+        hint: { text: t('.date_hint') },
+        legend: { text: t('.trial_concluded_at'), size: 's' },
+        maxlength_enabled: true
 
-          = f.adp_text_field :estimated_trial_length,
-            label: t('.estimated_trial_length'),
-            input_classes:'form-control form-control-1-4 js-fee-calculator-days',
-            input_type: 'number',
-            hint_text: t('.number_days_hint'),
-            errors: @error_presenter
+      = inf.govuk_date_field :warrant_issued_date,
+        form_group: { classes: 'warrant-fee-issued-date-group js-interim-warrant js-hidden' },
+        hint: { text: t('.date_hint') },
+        legend: { text: t('.warrant_issued'), size: 's' },
+        maxlength_enabled: true
 
-        .js-interim-legalAidTransfer.js-hidden
-          = f.anchored_without_label 'legal_aid_transfer_date'
-          = f.gov_uk_date_field(:legal_aid_transfer_date, legend_text: t('.legal_aid_transfer_date'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, :legal_aid_transfer_date))
+      = inf.govuk_date_field :warrant_executed_date,
+        form_group: { classes: 'warrant-fee-executed-date-group js-interim-warrant js-hidden' },
+        hint: { text: t('.date_hint') },
+        legend: { text: t('.warrant_executed'), size: 's' },
+        maxlength_enabled: true
 
-          #trial_concluded_at
-            = f.govuk_date_field :trial_concluded_at,
-              maxlength_enabled: true,
-              legend: { text: t('.trial_concluded_at') }
+      = inf.govuk_number_field :amount,
+        class: 'total fee-amount',
+        form_group: { classes: 'calculated-grad-fee js-interim-feeTotal js-graduated-price-effectee js-hidden' },
+        label: { text: t('.amount') },
+        min: 0,
+        prefix_text: '£',
+        value: number_with_precision(inf.object.amount, precision: 2),
+        width: 'one-quarter'
 
-        .js-interim-warrant.js-hidden
-          .warrant-fee-issued-date-group
-            = inf.anchored_attribute 'warrant_issued_date'
-            = inf.gov_uk_date_field :warrant_issued_date, legend_text: t('.warrant_issued'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_issued_date')
-
-          .warrant-fee-executed-date-group
-            = inf.anchored_attribute 'warrant_executed_date'
-            = inf.gov_uk_date_field :warrant_executed_date, legend_text: t('.warrant_executed'), legend_class: 'govuk-legend', error_messages: gov_uk_date_field_error_messages(@error_presenter, 'interim_fee.warrant_executed_date')
-
-      .js-interim-feeTotal.js-graduated-price-effectee.js-hidden
-        .calculated-grad-fee
-        = inf.adp_text_field :amount,
-          label: t('.amount'),
-          input_classes:'total fee-amount form-input-denote__input form-control-1-4',
-          input_type: 'currency',
-          error_key: 'interim_fee.amount',
-          value: number_with_precision(inf.object.amount, precision: 2),
-          errors: @error_presenter
-
-      .js-fee-calculator-success
-        = inf.hidden_field :price_calculated, value: inf.object.price_calculated?
+      = inf.govuk_number_field :price_calculated,
+        form_group: { classes: 'govuk-visually-hidden js-fee-calculator-success' },
+        label: { hidden: true },
+        type: 'hidden',
+        value: inf.object.price_calculated?
 
       = render partial: 'external_users/claims/interim_fee/calculator_help'
 
     %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
 
-    #disbursements.form-group
+    #disbursements
       .js-interim-disbursements.js-hidden
         = render partial: 'external_users/claims/disbursements/fields', locals: { f: f }

@@ -1196,6 +1196,7 @@ en:
           disbursement_type: Type of disbursement
           disbursement_type_html: Type of disbursement <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
           disbursement: Disbursement
+          disbursement_legend_html: Disbursement <span class="fx-numberedList-number"></span>
           remove: Remove
       expenses:
         textarea_additional_info:
@@ -1546,6 +1547,7 @@ en:
           change_link_label: Change warrant fees
         fields:
           warrant_fee: "Warrant fee"
+          date_hint: *date_hint
           date_issued: "Warrant issued"
           date_executed: "Warrant executed (if applicable)"
           total: *net_amount
@@ -1569,6 +1571,7 @@ en:
           header: Hardship fees
       interim_fee:
         fields:
+          date_hint: *date_hint
           page_header: Interim fee
           page_hint: *fees_vat_prompt
           interim_fees: Interim fees

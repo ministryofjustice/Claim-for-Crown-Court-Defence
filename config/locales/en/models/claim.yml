@@ -31,6 +31,10 @@ en:
               present: Case type not allowed
             court_id:
               blank: Choose a court
+            effective_pcmh_date:
+              blank: Enter the date of the PCMH
+              check_not_in_future: Effective PCMH date cannot be in the future
+              present: Date of the PCMH is not allowed
             estimated_trial_length:
               blank: Enter an estimated trial length
               hardship_invalid: Enter a whole number of days for the estimated trial length
@@ -48,6 +52,11 @@ en:
               check_other_date: First day of trial cannot be after the trial has concluded
               invalid_date: Enter a valid date for the first day of trial
               present: Date for trial start is not allowed
+            legal_aid_transfer_date:
+              blank: Enter the date legal aid was transferred to you
+              invalid: Enter a valid legal aid transfer date
+              invalid_date: Enter a valid legal aid transfer date
+              present: The date legal aid was transferred is not allowed
             offence:
               blank: Choose an offence
             retrial_actual_length:
@@ -120,6 +129,21 @@ en:
               not_after_today: Enter a date that is not in the future
               not_before_earliest_permitted_date: Enter a date later than two years before the earliest representation order date
               too_long_before_earliest_reporder: The fixed fee date cannot not be more than two years before the earliest representation order date
+        disbursement:
+          attributes:
+            disbursement_type_id:
+              blank: Choose a type for the disbursement
+            net_amount:
+              blank: Enter a net amount for the disbursement
+              item_max_amount: The net amount exceeds the limit for the disbursement
+              numericality: Enter a valid net amount for the disbursement
+            vat_amount:
+              blank: Enter a VAT amount for the disbursement
+              greater_than: Check the VAT amount is less than the net amount for the disbursement
+              invalid: VAT amount does not apply for the disbursement
+              item_max_amount: VAT amount exceeds the limit for the disbursement
+              max_vat_amount: VAT amount for the expense exceeds current VAT rate
+              numericality: Enter a valid VAT amount for the disbursement
         expense:
           attributes:
             amount:
@@ -269,19 +293,40 @@ en:
               numericality: Enter a valid quantity for the graduated fee
         fee/hardship_fee:
           attributes:
-            blank: Add a hardship fee
+            amount:
+              item_max_amount: The amount for the hardship fee exceeds the limit
+              numericality: Enter a valid amount for the hardship fee
+              present: Do not enter an amount for the hardship fee
             base:
               uneditable_state: You cannot edit a claim that is not in draft state
+            blank: Add a hardship fee
             fee_type:
               blank: Choose a type for the hardship fee
             quantity:
               blank: Enter a PPE quantity for the hardship fee
-              numericality: Enter a valid PPE quantity for the hardship fee
               item_max_amount: The quantity for the hardship fee exceeds the limit
+              numericality: Enter a valid PPE quantity for the hardship fee
+        fee/interim_fee:
+          attributes:
             amount:
-              numericality: Enter a valid amount for the hardship fee
-              present: Do not enter an amount for the hardship fee
-              item_max_amount: The amount for the hardship fee exceeds the limit
+              blank: Enter an amount for the interim fee
+              item_max_amount: The amount for the interim fee exceeds the limit
+              numericality: Enter a valid amount for the interim fee
+              present: Do not enter an amount for the interim fee
+            fee_type_id:
+              blank: Choose a type for the interim fee
+            quantity:
+              blank: Enter a PPE quantity for the interim fee
+              item_max_amount: The amount for PPE quantity exceeds the limit
+              numericality: Enter a valid PPE quantity for the interim fee
+              present: Do not enter a PPE quantity for the interim fee
+            warrant_executed_date:
+              check_not_in_future: Warrant executed date cannot be too far in the future
+              warrant_executed_before_issued: The warrant executed date is before the issued date
+            warrant_issued_date:
+              blank: Enter a warrant issued date
+              check_not_in_future: Warrant issued date cannot be too far in the future
+              check_not_too_far_in_past: Warrant issued date cannot be too far in the past
         fee/misc_fee:
           attributes:
             case_numbers:
@@ -305,5 +350,22 @@ en:
               blank: Enter a PPE quantity for the transfer fee
               item_max_amount: The PPE quantity for the transfer fee exceeds the limit
               numericality: Enter a valid PPE quantity for the transfer fee
+        fee/warrant_fee:
+          attributes:
+            amount:
+              blank: Enter an amount for the warrant fee
+              item_max_amount: The amount for the warrant fee exceeds the limit
+              numericality: Enter a valid amount for the warrant fee
+              present: Do not enter an amount for the warrant fee
+            warrant_executed_date:
+              check_not_in_future: Warrant executed date cannot be too far in the future
+              check_not_too_far_in_past: Warrant executed date cannot be too far in the past
+              warrant_executed_before_issued: The warrant executed date is before the issued date
+            warrant_issued_date:
+              blank: Enter a warrant issued date
+              check_not_in_future: Warrant issued date cannot be too far in the future
+              check_not_too_far_in_past: Warrant issued date cannot be too far in the past
+              check_on_or_after_earliest_representation_order: Warrant issued date needs to be on or after the earliest representation order date
+              on_or_before: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
   dictionary:
     enter_valid_quantity: Enter a valid quantity

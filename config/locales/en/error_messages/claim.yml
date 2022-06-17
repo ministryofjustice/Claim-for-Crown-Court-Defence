@@ -503,46 +503,33 @@ case_concluded_at:
 
 effective_pcmh_date:
   _seq: 200
-  blank:
+  enter_the_date_of_the_pcmh:
     long: Enter the date of the PCMH
-    short: *enter_date
+    short: _
     api: Enter the date of the PCMH
-  present:
+  date_of_the_pcmh_is_not_allowed:
     long: Date of the PCMH is not allowed
-    short: *date_not_allowed
+    short: _
     api: Date of the PCMH is not allowed
-  invalid:
-    long: Enter a valid date of the PCMH
-    short: *enter_valid_date
-    api: Enter a valid date of the PCMH
-  invalid_date:
-    long: Enter a valid date of the PCMH
-    short: *enter_valid_date
-    api: Enter a valid date of the PCMH
-  check_not_in_future:
+  effective_pcmh_date_cannot_be_in_the_future:
     long: Effective PCMH date cannot be in the future
-    short: *enter_valid_date
-    api: Enter a valid effective PCMH date
-
+    short: _
+    api: Effective PCMH date cannot be in the future
 
 legal_aid_transfer_date:
   _seq: 210
-  blank:
-    long: Enter the date Legal Aid was transferred to you
-    short: *enter_date
-    api: Enter the date Legal Aid was transferred to you
-  invalid:
-    long: Enter a valid Legal Aid transfer date
-    short: *enter_valid_date
-    api: Enter a valid Legal Aid transfer date
-  invalid_date:
-    long: Enter a valid Legal Aid transfer date
-    short: *enter_valid_date
-    api: Enter a valid Legal Aid transfer date
-  present:
-    long: The date Legal Aid was transferred is not allowed
-    short: Date not allowed
-    api: The date Legal Aid was transferred is not allowed
+  enter_the_date_legal_aid_was_transferred_to_you:
+    long: Enter the date legal aid was transferred to you
+    short: _
+    api: Enter the date legal aid was transferred to you
+  enter_a_valid_legal_aid_transfer_date:
+    long: Enter a valid legal aid transfer date
+    short: _
+    api: Enter a valid legal aid transfer date
+  the_date_legal_aid_was_transferred_is_not_allowed:
+    long: The date legal aid was transferred is not allowed
+    short: _
+    api: The date legal aid was transferred is not allowed
 
 travel_expense_additional_information:
   _seq: 215
@@ -1291,78 +1278,119 @@ warrant_fee: &warrant_fee_errors
 
   warrant_issued_date:
     _seq: 20
-    blank:
+    enter_a_warrant_issued_date:
       long: Enter a warrant issued date
-      short: *enter_date
+      short: _
       api: Enter a warrant issued date
-    invalid:
-      long: Enter a valid warrant issued date
-      short: *enter_valid_date
-      api: Enter a valid warrant issued date
-    invalid_date:
-      long: Enter a valid warrant issued date
-      short: *enter_valid_date
-      api: Enter a valid warrant issued date
-    check_on_or_after_earliest_representation_order:
+    warrant_issued_date_needs_to_be_on_or_after_the_earliest_representation_order_date:
       long: Warrant issued date needs to be on or after the earliest representation order date
-      short: needs to be on or after earliest representation order date
-      api: needs to be on or after earliest representation order date
-    check_not_in_future:
-      long: Check the warrant issued date
-      short: *in_future
-      api: Check the warrant issued date
-    check_not_too_far_in_past:
-      long: Check the warrant issued date
-      short: *too_far_in_past
-      api: Check the warrant issued date
-    on_or_before:
+      short: _
+      api: Warrant issued date needs to be on or after the earliest representation order date
+    warrant_issued_date_cannot_be_too_far_in_the_future:
+      long: Warrant issued date cannot be too far in the future
+      short: _
+      api: Warrant issued date cannot be too far in the future
+    warrant_issued_date_cannot_be_too_far_in_the_past:
+      long: Warrant issued date cannot be too far in the past
+      short: _
+      api: Warrant issued date cannot be too far in the past
+    warrant_fee_cannot_be_claimed_until_at_least_3_months_have_passed_since_warrant_was_issued:
       long: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
-      short: "needs to have been issued at least 3 months prior to today's date"
-      api: "needs to have been issued at least 3 months prior to today's date"
+      short: _
+      api: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
 
   warrant_executed_date:
     _seq: 30
-    blank:
-      long: Enter a warrant executed date
-      short: *enter_date
-      api: Enter a warrant executed date
-    invalid:
-      long: Enter a valid warrant executed date
-      short: *enter_valid_date
-      api: Enter a valid warrant executed date
-    invalid_date:
-      long: Enter a valid warrant executed date
-      short: *enter_valid_date
-      api: Enter a valid warrant executed date
-    check_not_in_future:
-      long: Check the warrant executed date
-      short: *in_future
-      api: Check the warrant executed date
-    check_not_too_far_in_past:
-      long: Check the warrant executed date
-      short: *too_far_in_past
-      api: Check the warrant executed date
-    warrant_executed_before_issued:
+    warrant_executed_date_cannot_be_too_far_in_the_future:
+      long: Warrant executed date cannot be too far in the future
+      short: _
+      api: Warrant executed date cannot be too far in the future
+    warrant_executed_date_cannot_be_too_far_in_the_past:
+      long: Warrant executed date cannot be too far in the past
+      short: _
+      api: Warrant executed date cannot be too far in the past
+    the_warrant_executed_date_is_before_the_issued_date:
       long: The warrant executed date is before the issued date
-      short: *enter_valid_date
+      short: _
       api: The warrant executed date is before the issued date
 
   amount:
     _seq: 40
-    blank:
-      long: Enter an amount for the warrant
-      short: *enter_amount
-      api: Enter an amount for the warrant
-    present:
-      long: Do not enter an amount for the warrant
-      short: Do not enter an amount
-      api: Do not enter an amount for the warrant
-    numericality:
-      long: Enter a valid amount for the warrant
-      short: *enter_valid_amount
-      api: Enter a valid amount for the warrant
+    enter_an_amount_for_the_warrant_fee:
+      long: Enter an amount for the warrant fee
+      short: _
+      api: Enter an amount for the warrant fee
+    do_not_enter_an_amount_for_the_warrant_fee:
+      long: Do not enter an amount for the warrant fee
+      short: _
+      api: Do not enter an amount for the warrant fee
+    enter_a_valid_amount_for_the_warrant_fee:
+      long: Enter a valid amount for the warrant fee
+      short: _
+      api: Enter a valid amount for the warrant fee
+    the_amount_for_the_warrant_fee_exceeds_the_limit:
+      long: The amount for the warrant fee exceeds the limit
+      short: _
+      api: The amount for the warrant fee exceeds the limit
 
 interim_claim_info: *warrant_fee_errors
+
+warrant_fee_attributes_warrant_issued_date:
+  _seq: 650.20
+  enter_a_warrant_issued_date:
+    long: Enter a warrant issued date
+    short: _
+    api: Enter a warrant issued date
+  warrant_issued_date_needs_to_be_on_or_after_the_earliest_representation_order_date:
+    long: Warrant issued date needs to be on or after the earliest representation order date
+    short: _
+    api: Warrant issued date needs to be on or after the earliest representation order date
+  warrant_issued_date_cannot_be_too_far_in_the_future:
+    long: Warrant issued date cannot be too far in the future
+    short: _
+    api: Warrant issued date cannot be too far in the future
+  warrant_issued_date_cannot_be_too_far_in_the_past:
+    long: Warrant issued date cannot be too far in the past
+    short: _
+    api: Warrant issued date cannot be too far in the past
+  warrant_fee_cannot_be_claimed_until_at_least_3_months_have_passed_since_warrant_was_issued:
+    long: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
+    short: _
+    api: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
+
+warrant_fee_attributes_warrant_executed_date:
+  _seq: 650.30
+  warrant_executed_date_cannot_be_too_far_in_the_future:
+    long: Warrant executed date cannot be too far in the future
+    short: _
+    api: Warrant executed date cannot be too far in the future
+  warrant_executed_date_cannot_be_too_far_in_the_past:
+    long: Warrant executed date cannot be too far in the past
+    short: _
+    api: Warrant executed date cannot be too far in the past
+  the_warrant_executed_date_is_before_the_issued_date:
+    long: The warrant executed date is before the issued date
+    short: _
+    api: The warrant executed date is before the issued date
+
+warrant_fee_attributes_amount:
+  _seq: 650.40
+  enter_an_amount_for_the_warrant_fee:
+    long: Enter an amount for the warrant fee
+    short: _
+    api: Enter an amount for the warrant fee
+  do_not_enter_an_amount_for_the_warrant_fee:
+    long: Do not enter an amount for the warrant fee
+    short: _
+    api: Do not enter an amount for the warrant fee
+  enter_a_valid_amount_for_the_warrant_fee:
+    long: Enter a valid amount for the warrant fee
+    short: _
+    api: Enter a valid amount for the warrant fee
+  the_amount_for_the_warrant_fee_exceeds_the_limit:
+    long: The amount for the warrant fee exceeds the limit
+    short: _
+    api: The amount for the warrant fee exceeds the limit
 
 #################################################################################
 #                                                                               #
@@ -1686,53 +1714,53 @@ disbursement:
       short: Inappropriate fee scheme
       api: Claim is of an inappropriate fee scheme type for the disbursement
 
-  disbursement_type:
+  disbursement_type_id:
     _seq: 10
-    blank:
+    choose_a_type_for_the_disbursement:
       long: 'Choose a type for the #{disbursement}'
-      short: Choose a disbursement type
+      short: _
       api: Choose a type for the disbursement
 
   net_amount:
     _seq: 20
-    blank:
+    enter_a_net_amount_for_the_disbursement:
       long: 'Enter a net amount for the #{disbursement}'
-      short: Enter a net amount
+      short: _
       api: Enter a net amount for the disbursement
-    numericality:
+    enter_a_valid_net_amount_for_the_disbursement:
       long: 'Enter a valid net amount for the #{disbursement}'
-      short: Enter a valid net amount
+      short: _
       api: Enter a valid net amount for the disbursement
-    item_max_amount:
+    the_net_amount_exceeds_the_limit_for_the_disbursement:
       long: 'The net amount for the #{disbursement} exceeds the limit'
-      short: *item_max_amount
+      short: _
       api: The net amount for the disbursement exceeds the limit
 
   vat_amount:
     _seq: 30
-    blank:
+    enter_a_vat_amount_for_the_disbursement:
       long: 'Enter a VAT amount for the #{disbursement}'
-      short: *enter_amount
+      short: _
       api: Enter a VAT amount for the disbursement
-    numericality:
+    enter_a_valid_vat_amount_for_the_disbursement:
       long: 'Enter a valid VAT amount for the #{disbursement}'
-      short: *check_amount
+      short: _
       api: Enter a valid VAT amount for the disbursement
-    greater_than:
+    check_the_vat_amount_is_less_than_the_net_amount_for_the_disbursement:
       long: 'Check VAT amount is less than the net amount for the #{disbursement}'
-      short: *check_amount
+      short: _
       api: Check VAT amount is less than the net amount for the disbursement
-    invalid:
+    vat_amount_does_not_apply_for_the_disbursement:
       long: "VAT amount doesn't apply for the #{disbursement}"
-      short: "VAT amount doesn't apply"
+      short: _
       api: "VAT amount doesn't apply for the disbursement"
-    item_max_amount:
+    vat_amount_exceeds_the_limit_for_the_disbursement:
       long: 'VAT amount for the #{disbursement} exceeds the limit'
-      short: *item_max_amount
+      short: _
       api: VAT amount for the disbursement exceeds the limit
-    max_vat_amount:
+    vat_amount_for_the_expense_exceeds_current_vat_rate:
       long: 'VAT amount for the #{disbursement} exceeds current VAT rate'
-      short: *max_vat_amount
+      short: _
       api: VAT amount for the expense exceeds current VAT rate
 
 #################################################################################
@@ -1861,84 +1889,76 @@ interim_fee:
       short: You cannot edit this claim
       api: You cannot edit a claim that is not in draft state
 
-  fee_type:
+  fee_type_id:
     _seq: 10
-    blank:
+    choose_a_type_for_the_interim_fee:
       long: Choose a type for the interim fee
-      short: Choose a fee type
+      short: _
       api: Choose a type for the interim fee
 
   quantity:
     _seq: 20
-    blank:
-      long: Enter a PPE quantity for the interim fee
-      short: *enter_quantity
-      api: Enter a PPE quantity for the interim fee
-    numericality:
-      long: Enter a valid PPE quantity for the interim fee
-      short: *enter_valid_quantity
-      api: Enter a valid PPE quantity for the interim fee
-    present:
+    do_not_enter_a_ppe_quantity_for_the_interim_fee:
       long: Do not enter a PPE quantity for the interim fee
-      short: Do not enter a PPE quantity
+      short: _
       api: Do not enter a PPE quantity for the interim fee
+    enter_a_ppe_quantity_for_the_interim_fee:
+      long: Enter a PPE quantity for the interim fee
+      short: _
+      api: Enter a PPE quantity for the interim fee
+    enter_a_valid_ppe_quantity_for_the_interim_fee:
+      long: Enter a valid PPE quantity for the interim fee
+      short: _
+      api: Enter a valid PPE quantity for the interim fee
+    the_amount_for_ppe_quantity_exceeds_the_limit:
+      long: The amount for PPE quantity exceeds the limit
+      short: _
+      api: The amount for PPE quantity exceeds the limit
 
   amount:
     _seq: 30
-    numericality:
-      long: Enter a valid amount for the interim fee
-      short: *enter_valid_amount
-      api: Enter a valid amount for the interim fee
-    present:
+    do_not_enter_an_amount_for_the_interim_fee:
       long: Do not enter an amount for the interim fee
-      short: Do not enter an amount
+      short: _
       api: Do not enter an amount for the interim fee
+    enter_a_valid_amount_for_the_interim_fee:
+      long: Enter a valid amount for the interim fee
+      short: _
+      api: Enter a valid amount for the interim fee
+    enter_an_amount_for_the_interim_fee:
+      long: Enter an amount for the interim fee
+      short: _
+      api: Enter an amount for the interim fee
+    the_amount_for_the_interim_fee_exceeds_the_limit:
+      long: The amount for the interim fee exceeds the limit
+      short: _
+      api: The amount for the interim fee exceeds the limit
 
   warrant_issued_date:
     _seq: 40
-    blank:
+    enter_a_warrant_issued_date:
       long: Enter a warrant issued date
-      short: *enter_date
+      short: _
       api: Enter a warrant issued date
-    invalid:
-      long: Enter a valid warrant issued date
-      short: *enter_valid_date
-      api: Enter a valid warrant issued date
-    invalid_date:
-      long: Enter a valid warrant issued date
-      short: *enter_valid_date
-      api: Enter a valid warrant issued date
-    check_not_in_future:
-      long: Check the warrant issued date
-      short: *in_future
-      api: Check the warrant issued date
-    check_not_too_far_in_past:
-      long: Check the warrant issued date
-      short: *too_far_in_past
-      api: Check the warrant issued date
+    warrant_issued_date_cannot_be_too_far_in_the_future:
+      long: Warrant issued date cannot be too far in the future
+      short: _
+      api: Warrant issued date cannot be too far in the future
+    warrant_issued_date_cannot_be_too_far_in_the_past:
+      long: Warrant issued date cannot be too far in the past
+      short: _
+      api: Warrant issued date cannot be too far in the past
 
   warrant_executed_date:
     _seq: 50
-    blank:
-      long: Enter a warrant executed date
-      short: *enter_date
-      api: Enter a warrant executed date
-    invalid:
-      long: Enter a valid warrant executed date
-      short: *enter_valid_date
-      api: Enter a valid warrant executed date
-    invalid_date:
-      long: Enter a valid warrant executed date
-      short: *enter_valid_date
-      api: Enter a valid warrant executed date
-    check_not_in_future:
-      long: Check the warrant issued date
-      short: *in_future
-      api: Check the warrant issued date
-    warrant_executed_before_issued:
+    the_warrant_executed_date_is_before_the_issued_date:
       long: The warrant executed date is before the issued date
-      short: *enter_valid_date
+      short: _
       api: The warrant executed date is before the issued date
+    warrant_executed_date_cannot_be_too_far_in_the_future:
+      long: Warrant executed date cannot be too far in the future
+      short: _
+      api: Warrant executed date cannot be too far in the future
 
   disbursements:
     _seq: 70
@@ -1961,6 +1981,77 @@ interim_fee:
       long: Adding a warrant to this claim is not allowed
       short: Do not add a warrant
       api: Adding a warrant to this claim is not allowed
+
+interim_fee_attributes_amount:
+  _seq: 1100.30
+  do_not_enter_an_amount_for_the_interim_fee:
+    long: Do not enter an amount for the interim fee
+    short: _
+    api: Do not enter an amount for the interim fee
+  enter_a_valid_amount_for_the_interim_fee:
+    long: Enter a valid amount for the interim fee
+    short: _
+    api: Enter a valid amount for the interim fee
+  enter_an_amount_for_the_interim_fee:
+    long: Enter an amount for the interim fee
+    short: _
+    api: Enter an amount for the interim fee
+  the_amount_for_the_interim_fee_exceeds_the_limit:
+    long: The amount for the interim fee exceeds the limit
+    short: _
+    api: The amount for the interim fee exceeds the limit
+
+interim_fee_attributes_fee_type_id:
+  _seq: 1100.10
+  choose_a_type_for_the_interim_fee:
+    long: Choose a type for the interim fee
+    short: _
+    api: Choose a type for the interim fee
+
+interim_fee_attributes_quantity:
+  _seq: 1100.20
+  do_not_enter_a_ppe_quantity_for_the_interim_fee:
+    long: Do not enter a PPE quantity for the interim fee
+    short: _
+    api: Do not enter a PPE quantity for the interim fee
+  enter_a_ppe_quantity_for_the_interim_fee:
+    long: Enter a PPE quantity for the interim fee
+    short: _
+    api: Enter a PPE quantity for the interim fee
+  enter_a_valid_ppe_quantity_for_the_interim_fee:
+    long: Enter a valid PPE quantity for the interim fee
+    short: _
+    api: Enter a valid PPE quantity for the interim fee
+  the_amount_for_ppe_quantity_exceeds_the_limit:
+    long: The amount for PPE quantity exceeds the limit
+    short: _
+    api: The amount for PPE quantity exceeds the limit
+
+interim_fee_attributes_warrant_executed_date:
+  _seq: 1100.50
+  the_warrant_executed_date_is_before_the_issued_date:
+    long: The warrant executed date is before the issued date
+    short: _
+    api: The warrant executed date is before the issued date
+  warrant_executed_date_cannot_be_too_far_in_the_future:
+    long: Warrant executed date cannot be too far in the future
+    short: _
+    api: Warrant executed date cannot be too far in the future
+
+interim_fee_attributes_warrant_issued_date:
+  _seq: 1100.40
+  enter_a_warrant_issued_date:
+    long: Enter a warrant issued date
+    short: _
+    api: Enter a warrant issued date
+  warrant_issued_date_cannot_be_too_far_in_the_future:
+    long: Warrant issued date cannot be too far in the future
+    short: _
+    api: Warrant issued date cannot be too far in the future
+  warrant_issued_date_cannot_be_too_far_in_the_past:
+    long: Warrant issued date cannot be too far in the past
+    short: _
+    api: Warrant issued date cannot be too far in the past
 
 #################################################################################
 #                                                                               #

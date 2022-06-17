@@ -36,7 +36,7 @@ module ErrorMessage
     end
 
     def govuk_has_one_associations
-      @govuk_has_one_associations ||= %w[fixed_fee.] # add associations to the array as they are migrated - eg %w[graduated_fee. fixed_fee.]
+      @govuk_has_one_associations ||= %w[fixed_fee. graduated_fee.] # add associations to the array as they are migrated - eg %w[graduated_fee. fixed_fee.]
     end
 
     def error_detail_item?(attribute, message)

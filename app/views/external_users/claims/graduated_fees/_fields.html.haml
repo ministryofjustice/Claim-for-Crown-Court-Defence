@@ -2,43 +2,50 @@
   #graduated-fees
     = f.fields_for :graduated_fee do |ff|
       - fee = present(ff.object)
-      .form-section.fx-fee-group.graduated-fee-group.js-block.fx-do-init{data:{"type": "gradFees", autovat: @claim.apply_vat? ? "true" : "false"}}
-        = ff.hidden_field :fee_type_id, value: @claim.case_type.graduated_fee_type.id, class: 'js-fee-type'
+      .fx-fee-group.graduated-fee-group.js-block.fx-do-init{ data: { 'type': 'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false' } }
 
-        .form-section
-          %a{:id => "graduated_fee.date"}
-          = ff.gov_uk_date_field(:date, legend_text: "First day of hearing", legend_class: "govuk-legend", error_messages: gov_uk_date_field_error_messages(@error_presenter, "graduated_fee.date"))
+        = ff.govuk_text_field :fee_type_id,
+          class: 'js-fee-type',
+          form_group: { classes: 'govuk-visually-hidden' },
+          label: { hidden: true },
+          type: 'hidden',
+          value: @claim.case_type.graduated_fee_type.id
 
-        .js-fee-calculator-effector
-          = f.adp_text_field :actual_trial_length,
-            label: t('.actual_trial_length'),
-            hint_text: t('.actual_trial_length_hint'),
-            input_classes:'form-control form-control-1-4 js-fee-calculator-days',
-            input_type: 'number',
-            errors: @error_presenter
+        = ff.govuk_date_field :date,
+          legend: { text: t('.first_day_of_trial'), size: 's' },
+          hint: { text: t('.date_hint') }
 
-        .js-fee-calculator-effector
-          = ff.adp_text_field :quantity,
-            label: t('.quantity'),
-            input_classes:'quantity fee-quantity js-fee-calculator-ppe form-control-1-4',
-            input_type: 'number',
-            value: fee.quantity,
-            errors: @error_presenter,
-            error_key: "graduated_fee.quantity"
+        = f.govuk_number_field :actual_trial_length,
+          class: 'js-fee-calculator-days',
+          label: { text: t('.actual_trial_length') },
+          hint: { text: t('.actual_trial_length_hint') },
+          form_group: { classes: 'js-fee-calculator-effector' },
+          min: 0,
+          width: 'one-quarter'
 
-        .js-graduated-price-effectee
-          .calculated-grad-fee
-          = ff.adp_text_field :amount,
-            label: t('.amount'),
-            input_classes:"total fee-amount form-input-denote__input form-control-1-4",
-            input_type: "currency",
-            value: number_with_precision(ff.object.amount, precision: 2),
-            error_key: "graduated_fee.amount",
-            errors: @error_presenter
+        = ff.govuk_number_field :quantity,
+          class: 'quantity fee-quantity js-fee-calculator-ppe',
+          form_group: { classes: 'js-fee-calculator-effector' },
+          label: { text: t('.quantity') },
+          min: 0,
+          value: fee.quantity,
+          width: 'one-quarter'
 
-        .js-fee-calculator-success
-          = ff.hidden_field :price_calculated, value: ff.object.price_calculated?
+        = ff.govuk_number_field :amount,
+          class: 'total fee-amount',
+          form_group: { classes: 'calculated-grad-fee js-graduated-price-effectee' },
+          label: { text: t('.amount') },
+          min: 0,
+          prefix_text: '£',
+          value: number_with_precision(ff.object.amount, precision: 2),
+          width: 'one-quarter'
 
-        .fee-calc-help-wrapper.form-group.hidden
+        = ff.govuk_text_field :price_calculated,
+          form_group: { classes: 'js-fee-calculator-success govuk-visually-hidden' },
+          label: { hidden: true },
+          type: 'hidden',
+          value: ff.object.price_calculated?
+
+        .fee-calc-help-wrapper.hidden
           = govuk_detail t('.help_how_we_calculate_amount_title') do
             = t('.help_how_we_calculate_amount_body')

@@ -502,7 +502,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
       },
       'additional_information' => '',
       'graduated_fee_attributes' => {
-        'fee_type_id' => graduated_fee_type_1.id.to_s, 'quantity' => '12', 'amount' => '2000', 'date_dd' => '15', 'date_mm' => '05', 'date_yyyy' => '2015', '_destroy' => 'false'
+        'fee_type_id' => graduated_fee_type_1.id.to_s, 'quantity' => '12', 'amount' => '2000', 'date(3i)' => '15', 'date(2i)' => '05', 'date(1i)' => '2015', '_destroy' => 'false'
       },
       'misc_fees_attributes' => {
         '0' => { 'fee_type_id' => misc_fee_type_1.id.to_s, 'amount' => '125', '_destroy' => 'false' },

@@ -1,3 +1,8 @@
+# TODO: to be reviewied after migrations are complete
+# and remove examples using "snake cased" error messages
+# as the govuk formbuilder expects the user friendly error messages
+#
+
 RSpec.shared_examples 'common LGFS fee date validations' do
   describe '#validate_date' do
     it { should_error_if_not_present(fee, :date, 'blank') }
@@ -68,6 +73,30 @@ RSpec.shared_examples 'common LGFS amount validations' do
 
     it 'adds error if amount is greater than the max limit' do
       should_error_if_equal_to_value(fee, :amount, 200_001, 'item_max_amount')
+    end
+  end
+end
+
+RSpec.shared_examples 'common LGFS amount govuk validations' do
+  describe '#validate_amount' do
+    let(:amount_error_message) do
+      'Enter a valid amount for the (.*?)(graduated) fee'
+    end
+
+    it 'adds error if amount is blank' do
+      should_error_if_equal_to_value(fee, :amount, '', amount_error_message)
+    end
+
+    it 'adds error if amount is equal to zero' do
+      should_error_if_equal_to_value(fee, :amount, 0.00, amount_error_message)
+    end
+
+    it 'adds error if amount is less than zero' do
+      should_error_if_equal_to_value(fee, :amount, -10.00, amount_error_message)
+    end
+
+    it 'adds error if amount is greater than the max limit' do
+      should_error_if_equal_to_value(fee, :amount, 200_001, 'The amount for the (.*?)(graduated) fee exceeds the limit')
     end
   end
 end

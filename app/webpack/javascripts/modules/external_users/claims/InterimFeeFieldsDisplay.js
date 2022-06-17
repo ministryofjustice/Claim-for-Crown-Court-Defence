@@ -16,11 +16,8 @@ moj.Modules.InterimFeeFieldsDisplay = {
   },
   bindEvents: function () {
     $('#disbursements').on('cocoon:after-insert', function (e, element) {
-      const elId = $(element).find('.fx-autocomplete').attr('id')
-      moj.Helpers.Autocomplete.new('#' + elId, {
-        showAllValues: true,
-        autoselect: false
-      })
+      const elId = $(element).find('.fx-autocomplete-wrapper select').attr('id')
+      moj.Modules.AutocompleteWrapper.Autocomplete(elId)
     })
   },
   addInterimFeeChangeEvent: function () {

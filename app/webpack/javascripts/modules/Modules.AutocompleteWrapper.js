@@ -2,17 +2,20 @@ moj.Modules.AutocompleteWrapper = {
   init: function () {
     const list = document.querySelectorAll('.fx-autocomplete-wrapper select')
     if (!list.length) return
-    this.Autocomplete(list)
+    this.initAutocomplete(list)
   },
 
-  Autocomplete: function (nodeList) {
+  initAutocomplete: function (nodeList) {
     for (let i = 0; i < nodeList.length; i++) {
-      const node = nodeList[i]
-      moj.Helpers.Autocomplete.new('#' + node.id, {
-        showAllValues: true,
-        autoselect: false,
-        displayMenu: 'overlay'
-      })
+      this.Autocomplete(nodeList[i].id)
     }
+  },
+
+  Autocomplete: function (elementId) {
+    moj.Helpers.Autocomplete.new('#' + elementId, {
+      autoselect: false,
+      displayMenu: 'overlay',
+      showAllValues: true
+    })
   }
 }

@@ -2969,14 +2969,6 @@ Style/PercentQLiterals:
   Exclude:
     - 'spec/form_builders/adp_form_builder_spec.rb'
 
-# Offense count: 2
-# This cop supports unsafe auto-correction (--auto-correct-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: short, verbose
-Style/PreferredHashMethods:
-  Exclude:
-    - 'spec/support/matchers/validation_matchers.rb'
-
 # Offense count: 4
 # This cop supports unsafe auto-correction (--auto-correct-all).
 # Configuration parameters: Methods.

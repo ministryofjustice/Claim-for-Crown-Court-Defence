@@ -132,7 +132,7 @@ RSpec.configure do |config|
         headers: {
           'Accept' => '*/*',
           'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent' => %r{Geckoboard-Ruby/0\.[\d]+(\.[\d])*}
+          'User-Agent' => %r{Geckoboard-Ruby/0\.\d+(\.\d)*}
         }
       ).to_return(status: 200, body: '', headers: {})
     stub_request(:post, %r{\Ahttps://push.geckoboard.com/v1/send/.*\z})

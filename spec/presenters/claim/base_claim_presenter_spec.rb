@@ -511,7 +511,7 @@ RSpec.describe Claim::BaseClaimPresenter do
         before { supplier.update(postcode: nil) }
 
         it 'returns name' do
-          is_expected.to eql "#{supplier.name}"
+          is_expected.to eql supplier.name
         end
       end
 

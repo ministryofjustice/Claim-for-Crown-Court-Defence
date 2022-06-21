@@ -69,5 +69,5 @@ RSpec.describe AdpFormBuilder do
 end
 
 def squash(html)
-  html.gsub(/\s+\</, '<').chomp
+  html.gsub(/\s+</, '<').chomp
 end

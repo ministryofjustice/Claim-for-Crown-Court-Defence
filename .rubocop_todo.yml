@@ -2978,15 +2978,6 @@ Style/RedundantArgument:
     - 'lib/govuk_component/shared_helpers.rb'
     - 'lib/host_memory.rb'
 
-# Offense count: 7
-# This cop supports safe auto-correction (--auto-correct).
-Style/RedundantRegexpEscape:
-  Exclude:
-    - 'spec/form_builders/adp_form_builder_spec.rb'
-    - 'spec/form_builders/adp_text_field_spec.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/support/matchers/raise_error_matchers.rb'
-
 # Offense count: 1
 # This cop supports safe auto-correction (--auto-correct).
 # Configuration parameters: AllowMultipleReturnValues.

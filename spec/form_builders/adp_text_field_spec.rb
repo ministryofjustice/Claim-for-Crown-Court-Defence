@@ -264,6 +264,6 @@ RSpec.describe AdpTextField do
   end
 
   def squash(html)
-    html.delete("\n").gsub(/\>\s+/, '>').gsub(/\s+\</, '<').chomp
+    html.delete("\n").gsub(/>\s+/, '>').gsub(/\s+</, '<').chomp
   end
 end

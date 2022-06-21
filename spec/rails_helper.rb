@@ -22,9 +22,9 @@ SimpleCov.configure do
   add_filter 'db/seed_helper.rb'
 
   # exclude patterns from test coverage results
-  add_filter %r{^/lib\/rack/} # only used to prevent feature test flickering
-  add_filter %r{^/lib\/demo_data/} # only used for generation of demo data
-  add_filter %r{^/lib\/tasks/} # not currently specing tasks or their helpers but probably should be
+  add_filter %r{^/lib/rack/} # only used to prevent feature test flickering
+  add_filter %r{^/lib/demo_data/} # only used for generation of demo data
+  add_filter %r{^/lib/tasks/} # not currently specing tasks or their helpers but probably should be
   add_filter %r{^/factories/}
 
   # group functionality for test coverage report

@@ -2978,13 +2978,6 @@ Style/RedundantArgument:
     - 'lib/govuk_component/shared_helpers.rb'
     - 'lib/host_memory.rb'
 
-# Offense count: 2
-# This cop supports safe auto-correction (--auto-correct).
-Style/RedundantCapitalW:
-  Exclude:
-    - 'spec/lib/extensions/string_extension_spec.rb'
-    - 'spec/support/database_housekeeping.rb'
-
 # Offense count: 5
 # This cop supports safe auto-correction (--auto-correct).
 Style/RedundantInterpolation:

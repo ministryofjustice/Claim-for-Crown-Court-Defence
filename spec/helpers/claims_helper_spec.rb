@@ -12,13 +12,13 @@ RSpec.describe ClaimsHelper do
 
     it 'produces the html for a checked checkbox if the claim is allocated to the case worker' do
       expect(claim).to receive(:is_allocated_to_case_worker?).with(case_worker).and_return(true)
-      expected_html = %q{<input checked="checked" id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">}
+      expected_html = '<input checked="checked" id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">'
       expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
     end
 
     it 'produces the html for a un-checked checkbox if the claim is not allocated to the case worker' do
       expect(claim).to receive(:is_allocated_to_case_worker?).with(case_worker).and_return(false)
-      expected_html = %q{<input  id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">}
+      expected_html = '<input  id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">'
       expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
     end
   end

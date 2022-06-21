@@ -2978,14 +2978,6 @@ Style/RedundantArgument:
     - 'lib/govuk_component/shared_helpers.rb'
     - 'lib/host_memory.rb'
 
-# Offense count: 13
-# This cop supports safe auto-correction (--auto-correct).
-Style/RedundantPercentQ:
-  Exclude:
-    - 'spec/form_builders/adp_form_builder_spec.rb'
-    - 'spec/helpers/claims_helper_spec.rb'
-    - 'spec/models/google_analytics/gtm_data_adapter_spec.rb'
-
 # Offense count: 2
 # This cop supports safe auto-correction (--auto-correct).
 Style/RedundantRegexpCharacterClass:

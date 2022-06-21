@@ -1,4 +1,4 @@
-
+<?xml version="1.0" encoding="UTF-8"?>
 <!--The <errors> section is only present if <success> is false.-->
 
 <!--Error codes are numbered according to the following schema:-->
@@ -14,9 +14,6 @@
     <!--500-599     Server error, service unavailable, transport error, upstream service unavailable.  Codes in this range indicate that-->
                 <!--the claim was not processed by the CCR/CCLF system, probably due to an exceptional failure, or the upstream service-->
                 <!--not being contactable.-->
-
-
-<?xml version="1.0" encoding="UTF-8"?>
 <claim>
     <ack_id>6c80319d-3e9e-4c78-add6-8c896c56be04</ack_id>
     <claim_details>

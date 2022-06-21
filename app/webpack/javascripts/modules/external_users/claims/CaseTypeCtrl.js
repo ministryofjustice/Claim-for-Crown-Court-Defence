@@ -48,7 +48,7 @@ moj.Modules.CaseTypeCtrl = {
     })
   },
 
-  eventCallback: function (e, data) {
+  eventCallback: function (_e, data) {
     const self = this
 
     Object.keys(data).map(function (objectKey) {
@@ -57,7 +57,7 @@ moj.Modules.CaseTypeCtrl = {
   },
 
   initAutocomplete: function () {
-    $(this.els.fxAutocomplete).is(function (idx, el) {
+    $(this.els.fxAutocomplete).is(function (_idx, el) {
       moj.Helpers.Autocomplete.new('#' + el.id, {
         showAllValues: true,
         autoselect: true

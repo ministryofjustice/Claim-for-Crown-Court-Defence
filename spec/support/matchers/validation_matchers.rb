@@ -18,8 +18,8 @@ RSpec::Matchers.define :include_field_error_when do |options|
 
   def translation_match?
     [
-      translations.has_key?(field),
-      translations[field].has_key?(message),
+      translations.key?(field),
+      translations[field].key?(message),
       actual_translated_message.eql?(translated_message)
     ].all?
   end

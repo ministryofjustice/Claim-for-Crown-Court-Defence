@@ -6,7 +6,7 @@ RSpec::Matchers.define :raise_only_amount_assessed_error do
     false
   rescue StateMachines::InvalidTransition => e
     @error_message = e.message
-    e.message.match?(/\(Reason\(s\)\: Amount assessed Amount assessed cannot be zero for claims in state .*\)/)
+    e.message.match?(/\(Reason\(s\): Amount assessed Amount assessed cannot be zero for claims in state .*\)/)
   end
 
   def supports_block_expectations?

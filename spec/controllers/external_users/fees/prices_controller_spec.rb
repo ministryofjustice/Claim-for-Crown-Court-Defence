@@ -57,7 +57,7 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
       context 'when UnitPrice price type specified' do
         let(:calculate_price_service) { class_double(Claims::FeeCalculator::UnitPrice).as_stubbed_const }
         let(:calculate_price) { instance_double(calculate_price_service) }
-        let(:params) { { format: 'json', claim_id: "#{claim.id}", price_type: 'UnitPrice' } }
+        let(:params) { { format: 'json', claim_id: claim.id.to_s, price_type: 'UnitPrice' } }
 
         it 'sends message to UnitPrice service' do
           expect(calculate_price_service).to receive(:new).with(claim, strong_params).and_return(calculate_price)
@@ -73,7 +73,7 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
           {
             format: 'json',
             price_type: 'GraduatedPrice',
-            claim_id: "#{claim.id}",
+            claim_id: claim.id.to_s,
             fee_type_id: '1',
             advocate_category: 'QC',
             ppe: '',

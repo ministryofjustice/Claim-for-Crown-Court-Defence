@@ -22,9 +22,9 @@ SimpleCov.configure do
   add_filter 'db/seed_helper.rb'
 
   # exclude patterns from test coverage results
-  add_filter %r{^/lib\/rack/} # only used to prevent feature test flickering
-  add_filter %r{^/lib\/demo_data/} # only used for generation of demo data
-  add_filter %r{^/lib\/tasks/} # not currently specing tasks or their helpers but probably should be
+  add_filter %r{^/lib/rack/} # only used to prevent feature test flickering
+  add_filter %r{^/lib/demo_data/} # only used for generation of demo data
+  add_filter %r{^/lib/tasks/} # not currently specing tasks or their helpers but probably should be
   add_filter %r{^/factories/}
 
   # group functionality for test coverage report
@@ -132,7 +132,7 @@ RSpec.configure do |config|
         headers: {
           'Accept' => '*/*',
           'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent' => %r{Geckoboard-Ruby/0\.[\d]+(\.[\d])*}
+          'User-Agent' => %r{Geckoboard-Ruby/0\.\d+(\.\d)*}
         }
       ).to_return(status: 200, body: '', headers: {})
     stub_request(:post, %r{\Ahttps://push.geckoboard.com/v1/send/.*\z})

@@ -21,12 +21,12 @@ module GoogleAnalytics
       context 'for virtual_page' do
         it 'returns the expected javascript string for this template' do
           expect(described_class.new(:virtual_page, url: '/test', title: 'Test').to_s).to \
-            eq %q{dataLayer.push({"event":"VirtualPageview","virtualPageURL":"/test","virtualPageTitle":"Test"});}
+            eq 'dataLayer.push({"event":"VirtualPageview","virtualPageURL":"/test","virtualPageTitle":"Test"});'
         end
 
         it 'returns the expected javascript string for this template with the data for interpolation provided' do
           expect(described_class.new(:virtual_page, { url: '/test/%{id}/%{action}', title: 'Test %{id} %{action}' }, { id: 123, action: 'new' }).to_s).to \
-            eq %q{dataLayer.push({"event":"VirtualPageview","virtualPageURL":"/test/123/new","virtualPageTitle":"Test 123 new"});}
+            eq 'dataLayer.push({"event":"VirtualPageview","virtualPageURL":"/test/123/new","virtualPageTitle":"Test 123 new"});'
         end
       end
     end

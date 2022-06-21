@@ -605,7 +605,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
             it 'consolidated list of UNIQUE additional case numbers for all uplift fees of the applicable variety' do
               %w{S20170001 S20170002 S20170003}.each do |case_number|
-                is_expected.to include_json("#{case_number}".to_json).at_path 'bills/0/case_numbers'
+                is_expected.to include_json(case_number.to_json).at_path 'bills/0/case_numbers'
               end
             end
           end

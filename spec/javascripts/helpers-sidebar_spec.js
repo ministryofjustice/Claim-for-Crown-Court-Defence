@@ -31,7 +31,6 @@ describe('Helpers.Blocks.js', function () {
 
   describe('Instances', function () {
     let instance
-    beforeEach(function () {})
 
     describe('Base', function () {
       it('should have defaults set', function () {

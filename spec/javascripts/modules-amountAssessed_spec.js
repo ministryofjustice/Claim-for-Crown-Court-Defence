@@ -103,8 +103,6 @@ describe('Modules.AmountAssessed.js', function () {
     moj.Modules.AmountAssessed.init()
   })
 
-  afterEach(function () {})
-
   describe('Defaults', function () {
     it('should have a `blocks` array defined', function () {
       expect(moj.Modules.AmountAssessed.blocks).toEqual(jasmine.any(Array))

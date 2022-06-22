@@ -346,7 +346,6 @@ moj.Modules.AllocationDataTable = {
       const allocationCaseWorkerId = $('#allocation-case-worker-id-field-select').val()
 
       if (!allocationCaseWorkerId) {
-        // console.log('No Caseworker selected');
         $.publish('/allocation/error/', {
           msg: 'Please select a case worker.'
         })

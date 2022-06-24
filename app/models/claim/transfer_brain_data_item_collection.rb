@@ -73,10 +73,12 @@ module Claim
       )
     end
 
-    def read_csv
-      file = Rails.root.join('config', 'transfer_brain_data_items.csv')
-      csv_content = File.read(file)
-      CSV.parse(csv_content, headers: true)
+    def csv
+      @csv ||= begin
+        file = Rails.root.join('config', 'transfer_brain_data_items.csv')
+        csv_content = File.read(file)
+        CSV.parse(csv_content, headers: true)
+      end
     end
 
     def parse_data_items(items)
@@ -87,7 +89,6 @@ module Claim
 
     def data_items
       @data_items ||= begin
-        csv = read_csv
         attributes = csv.headers.map(&:to_sym)
         klass = Struct.new('DataItem', *attributes)
 

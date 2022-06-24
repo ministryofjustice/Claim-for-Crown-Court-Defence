@@ -82,9 +82,7 @@ module Claim
     end
 
     def parse_data_items(items)
-      items.each_with_object([]) do |data_item, arr|
-        arr << TransferBrainDataItem.new(data_item)
-      end
+      items.map { |item| TransferBrainDataItem.new(item) }
     end
 
     def data_items
@@ -92,9 +90,7 @@ module Claim
         attributes = csv.headers.map(&:to_sym)
         klass = Struct.new('DataItem', *attributes)
 
-        data_items = csv.each_with_object([]) do |row, arr|
-          arr << klass.new(*row.to_hash.values)
-        end
+        data_items = csv.map { |row| klass.new(*row.to_hash.values) }
 
         parse_data_items(data_items)
       end

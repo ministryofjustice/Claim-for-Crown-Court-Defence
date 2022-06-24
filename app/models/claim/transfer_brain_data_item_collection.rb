@@ -81,19 +81,8 @@ module Claim
       end
     end
 
-    def parse_data_items(items)
-      items.map { |item| TransferBrainDataItem.new(item) }
-    end
-
     def data_items
-      @data_items ||= begin
-        attributes = csv.headers.map(&:to_sym)
-        klass = Struct.new('DataItem', *attributes)
-
-        data_items = csv.map { |row| klass.new(*row.to_hash.values) }
-
-        parse_data_items(data_items)
-      end
+      @data_items ||= csv.map { |row| TransferBrain::DataItem.new(**row) }
     end
 
     def collection_hash

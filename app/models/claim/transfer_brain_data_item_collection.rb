@@ -15,10 +15,6 @@ module Claim
     include Singleton
     include TransferDataItemDelegatable
 
-    def initialize
-      load_data_items
-    end
-
     data_item_delegate :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable
 
     def to_h
@@ -83,26 +79,28 @@ module Claim
       CSV.parse(csv_content, headers: true)
     end
 
-    def parse_data_items(data_items)
-      data_items.each_with_object([]) do |data_item, arr|
+    def parse_data_items(items)
+      items.each_with_object([]) do |data_item, arr|
         arr << TransferBrainDataItem.new(data_item)
       end
     end
 
-    def load_data_items
-      csv = read_csv
-      attributes = csv.headers.map(&:to_sym)
-      klass = Struct.new('DataItem', *attributes)
+    def data_items
+      @data_items ||= begin
+        csv = read_csv
+        attributes = csv.headers.map(&:to_sym)
+        klass = Struct.new('DataItem', *attributes)
 
-      data_items = csv.each_with_object([]) do |row, arr|
-        arr << klass.new(*row.to_hash.values)
+        data_items = csv.each_with_object([]) do |row, arr|
+          arr << klass.new(*row.to_hash.values)
+        end
+
+        parse_data_items(data_items)
       end
-
-      @data_items = parse_data_items(data_items)
     end
 
     def collection_hash
-      @collection_hash ||= @data_items.each_with_object({}) do |item, collection_hash|
+      @collection_hash ||= data_items.each_with_object({}) do |item, collection_hash|
         collection_hash.deep_merge!(item.to_h)
       end
     end

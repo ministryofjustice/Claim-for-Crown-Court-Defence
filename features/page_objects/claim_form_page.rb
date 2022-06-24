@@ -58,7 +58,7 @@ class ClaimFormPage < BasePage
 
   element :add_another_defendant, ".defendants-actions a.add_fields"
 
-  element :offence_search, "input[name='claim[offence]']"
+  element :offence_search, "input[name='claim[offence_search]']"
   sections :offence_results, OffenceResultSection, '#offence-list div.fx-result-item'
 
   section :advocate_category_radios, AdvocateCategoryRadioSection, '.cc-advocate-categories'

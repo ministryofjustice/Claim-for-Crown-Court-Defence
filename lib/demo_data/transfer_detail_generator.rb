@@ -26,17 +26,16 @@ module DemoData
     end
 
     def valid_transfer_stage_id
-      Claim::TransferBrainDataItemCollection.instance.valid_transfer_stage_ids(@claim.litigator_type, @claim.elected_case).sample
+      Claim::TransferBrain::DataItemCollection.instance.valid_transfer_stage_ids(@claim.litigator_type, @claim.elected_case).sample
     end
 
     def valid_case_conclusion_id
       transfer_stage = ::Claim::TransferBrain::TRANSFER_STAGES[@claim.transfer_stage_id]
       if @claim.litigator_type == 'new' && @claim.elected_case == false && transfer_stage.requires_case_conclusion == true
-        Claim::TransferBrainDataItemCollection.instance.valid_case_conclusion_ids(@claim.litigator_type, @claim.elected_case, @claim.transfer_stage_id).sample
+        Claim::TransferBrain::DataItemCollection.instance.valid_case_conclusion_ids(@claim.litigator_type, @claim.elected_case, @claim.transfer_stage_id).sample
       else
         nil
       end
-
     end
   end
 end

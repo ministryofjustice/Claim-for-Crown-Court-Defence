@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claim::TransferBrainDataItemCollection do
+RSpec.describe Claim::TransferBrain::DataItemCollection do
   include TransferBrainHelpers
 
   subject(:collection) { described_class.instance }

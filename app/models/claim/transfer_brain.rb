@@ -5,7 +5,7 @@
 
 module Claim
   class TransferBrain
-    include TransferBrainDataItemCollectionDelegatable
+    include DataItemCollectionDelegatable
 
     Struct.new('TransferStage', :id, :description, :requires_case_conclusion)
 

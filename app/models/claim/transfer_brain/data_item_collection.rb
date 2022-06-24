@@ -14,7 +14,7 @@ module Claim
   class TransferBrain
     class DataItemCollection
       include Singleton
-      include TransferDataItemDelegatable
+      include DataItemDelegatable
 
       data_item_delegate :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable
 

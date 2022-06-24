@@ -107,7 +107,7 @@
 
     setAmount: function (data, context) {
       const $amount = $(context).find('input.fee-amount')
-      const $priceCalculated = $(context).find('.js-fee-calculator-success > input')
+      const $priceCalculated = $(context).find('.js-fee-calculator-success input')
 
       $amount.val(data.toFixed(2))
       $amount.trigger('change')
@@ -122,7 +122,7 @@
     displayError: function (context, message) {
       this.clearErrors(context)
       const $label = $(context).find('.js-graduated-price-effectee > label')
-      const $priceCalculated = $(context).find('.js-fee-calculator-success > input')
+      const $priceCalculated = $(context).find('.js-fee-calculator-success input')
       const errorHtml = '<div class="js-calculate-grad-error form-hint">' + message + '<div>'
       const newLabel = $label.text() + ' ' + errorHtml
       const $input = $(context).find('input.fee-amount')

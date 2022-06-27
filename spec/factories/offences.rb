@@ -62,5 +62,13 @@ FactoryBot.define do
         offence.fee_schemes << (FeeScheme.agfs.where(version: 12).first || build(:fee_scheme, :agfs_twelve))
       end
     end
+
+    trait :with_lgfs_fee_scheme_thirteen do
+      offence_class { nil }
+      offence_band
+      after(:build) do |offence|
+        offence.fee_schemes << (FeeScheme.lgfs.where(version: 13).first || build(:fee_scheme, :lgfs_thirteen))
+      end
+    end
   end
 end

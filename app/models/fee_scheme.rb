@@ -3,6 +3,7 @@ class FeeScheme < ApplicationRecord
   TEN = 10
   ELEVEN = 11
   TWELVE = 12
+  THIRTEEN = 13
 
   validates :start_date, :version, :name, presence: true
 
@@ -15,6 +16,7 @@ class FeeScheme < ApplicationRecord
   scope :ten, -> { where(version: FeeScheme::TEN) }
   scope :eleven, -> { where(version: FeeScheme::ELEVEN) }
   scope :twelve, -> { where(version: FeeScheme::TWELVE) }
+  scope :thirteen, -> { where(version: FeeScheme::THIRTEEN) }
   scope :current, lambda {
     where('(:now BETWEEN start_date AND end_date) OR (start_date <= :now AND end_date IS NULL)', now: Time.zone.now)
   }

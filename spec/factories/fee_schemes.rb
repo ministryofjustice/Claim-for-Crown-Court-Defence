@@ -40,10 +40,18 @@ FactoryBot.define do
     # calculation (inline with other LGFS misc fees) and validating
     # its presence using the CLAR release date compared to rep order
     # date.
-    trait :lgfs do
+    trait :lgfs_nine do
       name { 'LGFS' }
       start_date { Date.new(2014, 03, 20).beginning_of_day }
+      end_date { Settings.clair_release_date.end_of_day - 1.day }
       version { 9 }
+    end
+
+    trait :lgfs_thirteen do
+      name { 'LGFS' }
+      start_date { Settings.clair_release_date.end_of_day }
+      end_date { nil }
+      version { 13 }
     end
   end
 end

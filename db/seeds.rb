@@ -27,6 +27,7 @@ SEED_FILES = %w[
   scheme_10
   scheme_11
   scheme_12
+  scheme_13_lgfs
   super_admins
   supplier_numbers
   vat_rates

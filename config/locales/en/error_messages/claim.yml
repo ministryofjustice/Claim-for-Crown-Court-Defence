@@ -1387,27 +1387,27 @@ transfer_fee:
 
   quantity:
     _seq: 10
-    blank:
+    enter_a_ppe_quantity_for_the_transfer_fee:
       long: Enter a PPE quantity for the transfer fee
-      short: *enter_quantity
+      short: _
       api: Enter a PPE quantity for the transfer fee
-    numericality:
+    enter_a_valid_ppe_quantity_for_the_transfer_fee:
       long: Enter a valid PPE quantity for the transfer fee
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid PPE quantity for the transfer fee
-    item_max_amount:
+    enter_a_valid_ppe_quantity_for_the_transfer_fee:
       long: Enter a valid PPE quantity for the transfer fee
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid PPE quantity for the transfer fee
   amount:
     _seq: 20
-    blank:
+    enter_an_amount_for_the_transfer:
       long: Enter an amount for the transfer
-      short: *enter_amount
+      short: _
       api: Enter an amount for the transfer
-    numericality:
+    enter_a_valid_amount_for_the_transfer_fee:
       long: Enter a valid amount for the transfer fee
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid amount for the transfer fee
 
 

@@ -271,5 +271,19 @@ en:
               invalid: Enter a valid quantity for the miscellaneous fee
             rate:
               invalid: Enter a valid rate for the miscellaneous fee
+        fee/transfer_fee:
+          attributes:
+            amount:
+              blank: Enter an amount for the transfer
+              item_max_amount: The amount for the transfer fee exceeds the limit
+              numericality: Enter a valid amount for the transfer fee
+            claim:
+              blank: Enter claim
+            fee_type:
+              blank: Choose a type for the fee
+            quantity:
+              blank: Enter a PPE quantity for the transfer fee
+              item_max_amount: Enter a valid PPE quantity for the transfer fee
+              numericality: Enter a valid PPE quantity for the transfer fee
   dictionary:
     enter_valid_quantity: Enter a valid quantity

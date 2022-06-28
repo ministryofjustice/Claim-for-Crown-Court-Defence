@@ -24,7 +24,7 @@ RSpec.describe Fee::TransferFeeValidator, type: :validator do
     end
   end
 
-  include_examples 'common LGFS amount validations'
+  include_examples 'common LGFS amount govuk validations'
 
   describe 'absence of unnecessary attributes' do
     it 'validates absence of warrant issued date' do
@@ -55,7 +55,7 @@ RSpec.describe Fee::TransferFeeValidator, type: :validator do
       let(:claim) { build(:transfer_claim, :requiring_ppe) }
 
       it { should_be_valid_if_equal_to_value(fee, :quantity, 1) }
-      it { should_error_if_equal_to_value(fee, :quantity, 0, 'numericality') }
+      it { should_error_if_equal_to_value(fee, :quantity, 0, 'Enter a valid PPE quantity for the transfer fee') }
     end
 
     context 'when transfer details does not require PPE to be supplied' do

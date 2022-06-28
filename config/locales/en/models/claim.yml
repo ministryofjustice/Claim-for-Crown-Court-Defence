@@ -262,6 +262,20 @@ en:
               too_long_before_earliest_reporder: The graduated fee date cannot be no earlier than two years before the earliest representation order date
             quantity:
               numericality: Enter a valid quantity for the graduated fee
+        fee/hardship_fee:
+          attributes:
+            blank: Add a hardship fee
+            base:
+              uneditable_state: You cannot edit a claim that is not in draft state
+            fee_type:
+              blank: Choose a type for the hardship fee
+            quantity:
+              blank: Enter a PPE quantity for the hardship fee
+              numericality: Enter a valid PPE quantity for the hardship fee
+            amount:
+              numericality: Enter a valid amount for the hardship fee
+              present: Do not enter an amount for the hardship fee
+
         fee/misc_fee:
           attributes:
             case_numbers:

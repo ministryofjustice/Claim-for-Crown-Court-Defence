@@ -1968,6 +1968,10 @@ hardship_fee:
       long: Enter a valid PPE quantity for the hardship fee
       short: _
       api: Enter a valid PPE quantity for the hardship fee
+    the_quantity_for_the_hardship_fee_exceeds_the_limit:
+      long: The quantity for the hardship fee exceeds the limit
+      short: _
+      api: The quantity for the hardship fee exceeds the limit
 
   amount:
     _seq: 30

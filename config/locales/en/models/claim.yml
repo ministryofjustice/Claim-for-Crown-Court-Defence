@@ -275,6 +275,7 @@ en:
             amount:
               numericality: Enter a valid amount for the hardship fee
               present: Do not enter an amount for the hardship fee
+              item_max_amount: The amount for the hardship fee exceeds the limit
 
         fee/misc_fee:
           attributes:

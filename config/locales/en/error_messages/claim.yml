@@ -1979,6 +1979,10 @@ hardship_fee:
       long: Do not enter an amount for the hardship fee
       short: _
       api: Do not enter an amount for the hardship fee
+    the_amount_for_the_hardship_fee_exceeds_the_limit:
+      long: The amount for the hardship fee exceeds the limit
+      short: _
+      api: The amount for the hardship fee exceeds the limit
 
 total:
   _seq: 9999

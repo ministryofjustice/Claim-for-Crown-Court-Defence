@@ -9,7 +9,7 @@
         type: 'hidden',
         value: @claim.transfer_fee.fee_type.id
 
-      - unless @claim.transfer_detail.elected_case?
+      - if @claim.can_have_ppe?
 
         - if @claim.transfer_detail.days_claimable?
           = f.govuk_number_field :actual_trial_length,

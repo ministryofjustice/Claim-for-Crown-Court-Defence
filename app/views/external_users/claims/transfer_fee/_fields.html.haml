@@ -12,32 +12,32 @@
       - unless @claim.transfer_detail.elected_case?
 
         - if @claim.transfer_detail.days_claimable?
-          .js-fee-calculator-effector
-            = f.govuk_number_field :actual_trial_length,
+          = f.govuk_number_field :actual_trial_length,
               class: 'js-fee-calculator-days',
+              form_group: { classes: 'js-fee-calculator-effector' },
               label: { text: t('.actual_trial_length') },
               min: 0,
               width: 'one-quarter'
 
-        .js-fee-calculator-effector
-          = tf.govuk_number_field :quantity,
+        = tf.govuk_number_field :quantity,
             class: 'quantity fee-quantity js-fee-calculator-ppe',
+            form_group: { classes: 'js-fee-calculator-effector' },
             label: { text: t('.quantity') },
+            min: 0,
             value: number_with_precision(tf.object.quantity, precision: 0),
             width: 'one-quarter'
 
-      .js-graduated-price-effectee
-        .calculated-grad-fee
-        = tf.govuk_number_field :amount,
+      = tf.govuk_number_field :amount,
           class: 'total fee-amount',
+          form_group: { classes: 'calculated-grad-fee js-graduated-price-effectee' },
           label: { text: t('.amount') },
           min: 0,
           prefix_text: '£',
           value: number_with_precision(tf.object.amount, precision: 2),
           width: 'one-quarter'
 
-      .js-fee-calculator-success
-        = tf.govuk_text_field :price_calculated,
+      = tf.govuk_text_field :price_calculated,
+          form_group: { classes: 'js-fee-calculator-success' },
           label: { hidden: true },
           type: 'hidden',
           value: tf.object.price_calculated?

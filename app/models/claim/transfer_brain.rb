@@ -5,7 +5,7 @@
 
 module Claim
   class TransferBrain
-    include TransferBrainDataItemCollectionDelegatable
+    include DataItemCollectionDelegatable
 
     Struct.new('TransferStage', :id, :description, :requires_case_conclusion)
 
@@ -30,7 +30,7 @@ module Claim
     data_item_collection_delegate :allocation_type, :bill_scenario, :ppe_required, :days_claimable
 
     def self.transfer_detail_summary(detail)
-      TransferBrainDataItemCollection.instance.transfer_fee_full_name(detail)
+      TransferBrain::DataItemCollection.instance.transfer_fee_full_name(detail)
     end
 
     def self.transfer_stage_by_id(id)
@@ -74,11 +74,11 @@ module Claim
     end
 
     def self.details_combo_valid?(detail)
-      TransferBrainDataItemCollection.instance.detail_valid?(detail) unless detail.errors?
+      TransferBrain::DataItemCollection.instance.detail_valid?(detail) unless detail.errors?
     end
 
     def self.data_attributes
-      TransferBrainDataItemCollection.instance.to_json.chomp
+      TransferBrain::DataItemCollection.instance.to_json.chomp
     end
 
     #

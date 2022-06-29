@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claim::TransferBrainDataItemCollection do
+RSpec.describe Claim::TransferBrain::DataItemCollection do
   include TransferBrainHelpers
 
   subject(:collection) { described_class.instance }
@@ -23,8 +23,8 @@ RSpec.describe Claim::TransferBrainDataItemCollection do
         expect(data_items.size).to eq 33
       end
 
-      it 'each data_item is a TransferBrainDataItem' do
-        expect(data_items.first).to be_a Claim::TransferBrainDataItem
+      it 'each data_item is a TransferBrain::DataItem' do
+        expect(data_items.first).to be_a Claim::TransferBrain::DataItem
       end
     end
 

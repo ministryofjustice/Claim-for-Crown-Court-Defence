@@ -13,7 +13,7 @@
 
 module Claim
   class TransferDetail < ApplicationRecord
-    include TransferBrainDelegatable
+    include Claim::TransferBrain::Delegatable
 
     belongs_to :claim, class_name: 'Claim::TransferClaim', inverse_of: :transfer_detail
     transfer_brain_delegate :allocation_type, :bill_scenario, :transfer_stage, :case_conclusion, :ppe_required,

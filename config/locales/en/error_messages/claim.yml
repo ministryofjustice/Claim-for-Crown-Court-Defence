@@ -1384,17 +1384,16 @@ transfer_fee:
     long: Add a transfer fee
     short: *enter_amount
     api: Add a transfer fee
-
   quantity:
     _seq: 10
     enter_a_ppe_quantity_for_the_transfer_fee:
       long: Enter a PPE quantity for the transfer fee
       short: _
       api: Enter a PPE quantity for the transfer fee
-    enter_a_valid_ppe_quantity_for_the_transfer_fee:
-      long: Enter a valid PPE quantity for the transfer fee
+    the_ppe_quantity_for_the_transfer_fee_exceeds_the_limit:
+      long: The PPE quantity for the transfer fee exceeds the limit
       short: _
-      api: Enter a valid PPE quantity for the transfer fee
+      api: The PPE quantity for the transfer fee exceeds the limit
     enter_a_valid_ppe_quantity_for_the_transfer_fee:
       long: Enter a valid PPE quantity for the transfer fee
       short: _
@@ -1405,10 +1404,43 @@ transfer_fee:
       long: Enter an amount for the transfer
       short: _
       api: Enter an amount for the transfer
+    the_amount_for_the_transfer_fee_exceeds_the_limit:
+      long: The amount for the transfer fee exceeds the limit
+      short: _
+      api: The amount for the transfer fee exceeds the limit
     enter_a_valid_amount_for_the_transfer_fee:
       long: Enter a valid amount for the transfer fee
       short: _
       api: Enter a valid amount for the transfer fee
+
+transfer_fee_attributes_quantity:
+  _seq: 10
+  enter_a_ppe_quantity_for_the_transfer_fee:
+    long: Enter a PPE quantity for the transfer fee
+    short: _
+    api: Enter a PPE quantity for the transfer fee
+  the_ppe_quantity_for_the_transfer_fee_exceeds_the_limit:
+    long: The PPE quantity for the transfer fee exceeds the limit
+    short: _
+    api: The PPE quantity for the transfer fee exceeds the limit
+  enter_a_valid_ppe_quantity_for_the_transfer_fee:
+    long: Enter a valid PPE quantity for the transfer fee
+    short: _
+    api: Enter a valid PPE quantity for the transfer fee
+transfer_fee_attributes_amount:
+  _seq: 20
+  enter_an_amount_for_the_transfer:
+    long: Enter an amount for the transfer
+    short: _
+    api: Enter an amount for the transfer
+  the_amount_for_the_transfer_fee_exceeds_the_limit:
+    long: The amount for the transfer fee exceeds the limit
+    short: _
+    api: The amount for the transfer fee exceeds the limit
+  enter_a_valid_amount_for_the_transfer_fee:
+    long: Enter a valid amount for the transfer fee
+    short: _
+    api: Enter a valid amount for the transfer fee
 
 
 #################################################################################

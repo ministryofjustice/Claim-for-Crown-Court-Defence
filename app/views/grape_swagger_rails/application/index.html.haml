@@ -29,34 +29,34 @@
 
     :javascript
       $(function () {
-        var options = $("html").data('swagger-options');
-        var headers = {};
-        window.swaggerUi = new SwaggerUi({
-          url: options.app_url + options.url,
-          dom_id: "swagger-ui-container",
-          supportHeaderParams: true,
-          supportedSubmitMethods: options.supported_submit_methods || [],
-          authorizations: headers,
-          onComplete: function(swaggerApi, swaggerUi){
-            if('console' in window) {
-              console.log("Loaded SwaggerUI")
-              console.log(swaggerApi);
-              console.log(swaggerUi);
-            }
-            $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-          },
-          onFailure: function(data) {
-            if('console' in window) {
-              console.log("Unable to Load SwaggerUI");
-              console.log(data);
-            }
-          },
-          docExpansion: options.doc_expansion,
-          validatorUrl: options.validator_url,
-          apisSorter: "alpha"
-        });
+      var options = $("html").data('swagger-options');
+      var headers = {};
+      window.swaggerUi = new SwaggerUi({
+      url: options.app_url + options.url,
+      dom_id: "swagger-ui-container",
+      supportHeaderParams: true,
+      supportedSubmitMethods: options.supported_submit_methods || [],
+      authorizations: headers,
+      onComplete: function(swaggerApi, swaggerUi){
+      if('console' in window) {
+      console.log("Loaded SwaggerUI")
+      console.log(swaggerApi);
+      console.log(swaggerUi);
+      }
+      $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+      },
+      onFailure: function(data) {
+      if('console' in window) {
+      console.log("Unable to Load SwaggerUI");
+      console.log(data);
+      }
+      },
+      docExpansion: options.doc_expansion,
+      validatorUrl: options.validator_url,
+      apisSorter: "alpha"
+      });
 
-        window.swaggerUi.load();
+      window.swaggerUi.load();
       });
 
   %body.govuk-template__body.swagger-section
@@ -72,7 +72,7 @@
             = render 'layouts/govuk_logo'
 
           .govuk-header__content
-            = link_to 'Claim for crown court defence', '/', class: 'govuk-header__link govuk-header__link--service-name'
+            = link_to 'Claim for crown court defence', '/', class: 'govuk-header__link govuk-header__service-name'
 
             -# = render 'layouts/user' if user_signed_in?
             -# renderd partial err: undefined local variable or method `signed_in_user_profile_path'
@@ -85,7 +85,6 @@
                     = govuk_header_link_to current_user.name, "/external_users/admin/external_users/#{current_user.persona.id}"
                   %li.govuk-header__navigation-item
                     = govuk_header_link_to t('layouts.user.sign_out'), '/users/sign_out', method: :delete
-
 
     .govuk-width-container
       %main#main-content.govuk-main-wrapper{ role: 'main' }

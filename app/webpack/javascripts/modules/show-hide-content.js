@@ -16,8 +16,7 @@
 
     // Escape name attribute for use in DOM selector
     function escapeElementName (str) {
-      const result = str.replace(/\[/g, '\\[').replace(/\]/g, '\\]')
-      return result
+      return str.replace(/\[/g, '\\[').replace(/\]/g, '\\]')
     }
 
     // Adds ARIA attributes to control + associated content

@@ -1,22 +1,20 @@
-/* global $form:writable, $indictmentEvidence:writable, $submitButton:writable, $saveDraftButton:writable */
-
 describe('supportingEvidence', function () {
   const submitCallback = jasmine.createSpy('submit').and.returnValue(false)
   let confirmAlert
 
-  $form = function () {
+  const $form = function () {
     return $('#supporting-evidence-fixture-form')
   }
 
-  $submitButton = function () {
+  const $submitButton = function () {
     return $('button[name="commit_submit_claim"]')
   }
 
-  $saveDraftButton = function () {
+  const $saveDraftButton = function () {
     return $('button[name="commit_save_draft"]')
   }
 
-  $indictmentEvidence = function () {
+  const $indictmentEvidence = function () {
     return $('#claim-evidence-checklist-ids-4-field')
   }
 

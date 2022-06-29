@@ -1939,46 +1939,54 @@ interim_fee:
 
 hardship_fee:
   _seq: 1200
-  blank:
+  add_a_hardship_fee:
     _seq: 5
     long: Add a hardship fee
-    short: *enter_amount
+    short: _
     api: Add a hardship fee
 
   base:
-    uneditable_state:
+    you_cannot_edit_a_claim_that_is_not_in_draft_state:
       long: You cannot edit a claim that is not in draft state
-      short: You cannot edit this claim
+      short: _
       api: You cannot edit a claim that is not in draft state
 
   fee_type:
     _seq: 10
-    blank:
+    choose_a_type_for_the_hardship_fee:
       long: Choose a type for the hardship fee
-      short: Choose a fee type
+      short: _
       api: Choose a type for the hardship fee
 
   quantity:
     _seq: 20
-    blank:
+    enter_a_ppe_quantity_for_the_hardship_fee:
       long: Enter a PPE quantity for the hardship fee
-      short: *enter_quantity
+      short: _
       api: Enter a PPE quantity for the hardship fee
-    numericality:
+    enter_a_valid_ppe_quantity_for_the_hardship_fee:
       long: Enter a valid PPE quantity for the hardship fee
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid PPE quantity for the hardship fee
+    the_quantity_for_the_hardship_fee_exceeds_the_limit:
+      long: The quantity for the hardship fee exceeds the limit
+      short: _
+      api: The quantity for the hardship fee exceeds the limit
 
   amount:
     _seq: 30
-    numericality:
+    enter_a_valid_amount_for_the_hardship_fee:
       long: Enter a valid amount for the hardship fee
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid amount for the hardship fee
-    present:
+    do_not_enter_an_amount_for_the_hardship_fee:
       long: Do not enter an amount for the hardship fee
-      short: Do not enter an amount
+      short: _
       api: Do not enter an amount for the hardship fee
+    the_amount_for_the_hardship_fee_exceeds_the_limit:
+      long: The amount for the hardship fee exceeds the limit
+      short: _
+      api: The amount for the hardship fee exceeds the limit
 
 total:
   _seq: 9999

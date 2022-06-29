@@ -27,10 +27,10 @@ RSpec.describe Fee::HardshipFeeValidator, type: :validator do
       end
 
       it 'adds error if quantity is less than zero' do
-        should_error_if_equal_to_value(fee, :quantity, -10.00, 'numericality')
+        should_error_if_equal_to_value(fee, :quantity, -10.00, 'Enter a valid PPE quantity for the hardship fee')
       end
     end
 
-    include_examples 'common LGFS amount validations'
+    include_examples 'common LGFS amount govuk validations'
   end
 end

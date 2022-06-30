@@ -187,6 +187,87 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
 
       it { is_expected.to be true }
     end
+
+    context 'with new litigator on an elected case' do
+      let(:detail) do
+        build(
+          :transfer_detail,
+          litigator_type: 'new',
+          elected_case: true,
+          case_conclusion_id: 10,
+          transfer_stage_id:
+        )
+      end
+
+      context 'when "Up to and including PCMH transfer"' do
+        let(:transfer_stage_id) { 10 }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when "During trial transfer"' do
+        let(:transfer_stage_id) { 20 }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when "During trial transfer"' do
+        let(:transfer_stage_id) { 30 }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when "Transfer after trial and before sentence hearing"' do
+        let(:transfer_stage_id) { 40 }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when "Transfer during retrial"' do
+        let(:transfer_stage_id) { 60 }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when "Transfer after retrial and before sentence hearing"' do
+        let(:transfer_stage_id) { 70 }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'with new litigator on a non elected case' do
+      let(:detail) do
+        build(
+          :transfer_detail,
+          litigator_type: 'new',
+          elected_case: false,
+          case_conclusion_id:,
+          transfer_stage_id:
+        )
+      end
+
+      context 'with cracked trial "Before trial transfer"' do
+        let(:case_conclusion_id) { 30 }
+        let(:transfer_stage_id) { 20 }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'with retrial "During trial transfer"' do
+        let(:case_conclusion_id) { 20 }
+        let(:transfer_stage_id) { 30 }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'with cracked before retrial "Transfer before reretrial"' do
+        let(:case_conclusion_id) { 40 }
+        let(:transfer_stage_id) { 50 }
+
+        it { is_expected.to be_truthy }
+      end
+    end
   end
 
   describe '#valid_transfer_stage_ids' do

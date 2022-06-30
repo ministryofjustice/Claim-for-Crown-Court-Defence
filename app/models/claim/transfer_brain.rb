@@ -73,10 +73,6 @@ module Claim
       CASE_CONCLUSIONS[detail.case_conclusion_id]
     end
 
-    def self.details_combo_valid?(detail)
-      TransferBrain::DataItemCollection.instance.detail_valid?(detail) unless detail.errors?
-    end
-
     def self.data_attributes
       TransferBrain::DataItemCollection.instance.to_json.chomp
     end

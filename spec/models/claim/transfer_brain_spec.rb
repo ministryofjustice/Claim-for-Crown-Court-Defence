@@ -157,27 +157,6 @@ RSpec.describe Claim::TransferBrain do
     end
   end
 
-  describe '.details_combo_valid?' do
-    it 'returns false for invalid combos' do
-      [30, 40, 60, 70].each do |transfer_stage_id|
-        detail = transfer_detail('new', true, transfer_stage_id)
-        expect(described_class.details_combo_valid?(detail)).to be false
-      end
-    end
-
-    it 'returns true for visible combos' do
-      [transfer_detail('new', false, 20, 30), transfer_detail('new', false, 30, 20), transfer_detail('new', false, 50, 40)].each do |detail|
-        expect(described_class.details_combo_valid?(detail)).to be true
-      end
-    end
-
-    it 'returns true for hidden combos' do
-      [transfer_detail('original', false, 70), transfer_detail('original', true, 50), transfer_detail('original', false, 10)].each do |detail|
-        expect(described_class.details_combo_valid?(detail)).to be true
-      end
-    end
-  end
-
   describe '.data_attributes' do
     subject { described_class.data_attributes }
 

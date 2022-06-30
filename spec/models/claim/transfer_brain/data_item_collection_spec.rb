@@ -54,13 +54,13 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
   end
 
   describe '#data_item_for' do
-    subject { collection.data_item_for(detail) }
+    subject(:data_item) { collection.data_item_for(detail) }
 
     context 'when given valid details with a mappable case conclusion id' do
       let(:detail) { with_specific_mapping }
 
       it 'returns a valid data item' do
-        is_expected.to include({ validity: true })
+        expect(data_item.validity).to be_truthy
       end
     end
 
@@ -68,7 +68,7 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
       let(:detail) { with_wildcard_mapping }
 
       it 'returns a valid data item' do
-        is_expected.to include({ validity: true })
+        expect(data_item.validity).to be_truthy
       end
     end
   end

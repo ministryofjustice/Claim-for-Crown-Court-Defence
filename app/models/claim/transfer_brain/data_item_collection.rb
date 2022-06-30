@@ -30,7 +30,7 @@ module Claim
         return false if detail.unpopulated?
         data_item = data_item_for(detail)
         return false if data_item.nil?
-        data_item[:validity]
+        data_item.validity
       end
 
       def valid_transfer_stage_ids(litigator_type, elected_case)
@@ -51,28 +51,11 @@ module Claim
       end
 
       def data_item_for(detail)
-        specific_mapping_for(detail) || wildcard_mapping_for(detail)
+        seek = DataItem.new(detail.slice(:litigator_type, :elected_case, :transfer_stage_id, :case_conclusion))
+        data_items.find { |item| item == seek }
       end
 
       private
-
-      def specific_mapping_for(detail)
-        collection_hash.dig(
-          detail.litigator_type,
-          detail.elected_case,
-          detail.transfer_stage_id,
-          detail.case_conclusion_id
-        )
-      end
-
-      def wildcard_mapping_for(detail)
-        collection_hash.dig(
-          detail.litigator_type,
-          detail.elected_case,
-          detail.transfer_stage_id,
-          '*'
-        )
-      end
 
       def csv
         @csv ||= begin

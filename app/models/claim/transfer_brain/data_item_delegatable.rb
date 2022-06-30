@@ -8,7 +8,7 @@ module Claim
           method_names.each do |method_name|
             define_method(method_name) do |detail|
               return unless detail_valid?(detail)
-              data_item_for(detail)[method_name.to_sym]
+              data_item_for(detail).send(method_name.to_sym)
             end
           end
         end

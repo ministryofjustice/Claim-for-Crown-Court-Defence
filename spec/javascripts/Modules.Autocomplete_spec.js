@@ -1,8 +1,5 @@
 describe('Modules.Autocomplete', function () {
   const module = moj.Modules.Autocomplete
-  beforeEach(function () {})
-
-  afterEach(function () {})
 
   describe('Methods', function () {
     describe('...init', function () {

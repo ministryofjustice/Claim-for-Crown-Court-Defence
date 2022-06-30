@@ -25,10 +25,6 @@ describe('Modules.OffenceSearchInput.js', function () {
     $('body').append(view())
   })
 
-  afterEach(function () {
-
-  })
-
   describe('...defaults', function () {
     it('`this.el`', function () {
       expect(module.el).toEqual('.mod-search-input')

@@ -1,5 +1,3 @@
-/* global show:writable, readOnly:writable */
-
 moj.Modules.FeeTypeCtrl = {
   activate: function () {
     return $('#claim_form_step').val() === 'miscellaneous_fees'
@@ -55,13 +53,13 @@ moj.Modules.FeeTypeCtrl = {
   },
 
   showHideUnusedMaterialWarning: function (context, uniqueCode) {
-    show = (uniqueCode === 'MIUMO')
+    const show = (uniqueCode === 'MIUMO')
     const $warning = $(context).closest('.fx-fee-group').find('.fx-unused-materials-warning')
     show ? $warning.removeClass('js-hidden') : $warning.addClass('js-hidden')
   },
 
   readOnlyQuantity: function (context, uniqueCode) {
-    readOnly = (uniqueCode === 'MIUMU')
+    const readOnly = (uniqueCode === 'MIUMU')
     const defaultQuantity = 1
     const $quantity = $(context).closest('.fx-fee-group').find('input.fee-quantity')
     if (readOnly) {

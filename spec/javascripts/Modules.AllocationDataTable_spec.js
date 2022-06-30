@@ -240,17 +240,5 @@ describe('Modules.AllocationDataTable.js', function () {
         expect(typeof module.setAjaxURL()).toBe('string')
       })
     })
-
-    xdescribe('...itemsSelected', function () {
-
-    })
-
-    xdescribe('...registerCustomSearch', function () {
-
-    })
-
-    xdescribe('...bindEvents', function () {
-
-    })
   })
 })

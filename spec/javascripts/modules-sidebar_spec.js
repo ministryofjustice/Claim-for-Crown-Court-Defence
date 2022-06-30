@@ -209,12 +209,6 @@ describe('Modules.SideBar.js', function () {
       })
     })
 
-    // describe('...loadStaticBlocks', function() {
-    //   it('should test something', function() {
-    //     console.log('no test');
-    //   });
-    // });
-
     describe('...render', function () {
       it('should update the view correctly', function () {
         const $el = $(moj.Modules.SideBar.el)

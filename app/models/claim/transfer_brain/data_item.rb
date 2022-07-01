@@ -27,7 +27,7 @@ module Claim
       end
 
       def litigator_type=(value)
-        @litigator_type = value.downcase
+        @litigator_type = value&.downcase
       end
 
       def elected_case=(value)

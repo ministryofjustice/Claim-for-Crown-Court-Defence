@@ -63,6 +63,18 @@ RSpec.describe Claim::TransferBrain::DataItem do
 
       it { is_expected.to eq 'new' }
     end
+
+    context 'with litigator type missing' do
+      let(:data) { {} }
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with litigator type explicitly set to nil' do
+      let(:data) { { litigator_type: nil } }
+
+      it { is_expected.to be_nil }
+    end
   end
 
   describe '#elected_case' do

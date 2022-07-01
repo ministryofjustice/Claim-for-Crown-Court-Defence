@@ -131,6 +131,44 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
         is_expected.to eq 'ST4TS0T3'
       end
     end
+
+    context 'with a scheme 9 claim' do
+      context 'with an "elected case - up to and including PCMH transfer (new)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T3' }
+      end
+
+      context 'with an "elected case - up to and including PCMH transfer (org)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T2' }
+      end
+
+      context 'with an "elected case - before trial transfer (new)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 20, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T5' }
+      end
+
+      context 'with an "elected case - before trial transfer (org)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 20, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T4' }
+      end
+
+      context 'with an "elected case - transfer before retrial (new)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 50, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T7' }
+      end
+
+      context 'with an "elected case - transfer before retrial (org)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 50, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T6' }
+      end
+    end
   end
 
   describe '#ppe_required' do

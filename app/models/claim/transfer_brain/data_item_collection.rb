@@ -34,18 +34,21 @@ module Claim
       end
 
       def valid_transfer_stage_ids(litigator_type, elected_case)
-        transfer_stages = collection_hash.fetch(litigator_type).fetch(elected_case)
-        ids = []
-        transfer_stages.each do |transfer_stage_id, result_hash|
-          result_hash.each_value do |result|
-            ids << transfer_stage_id if result[:validity] == true
-          end
+        valid_data_items = data_items.select do |item|
+          item.litigator_type == litigator_type &&
+            item.elected_case == elected_case &&
+            item.validity
         end
+        ids = valid_data_items.map(&:transfer_stage_id)
         ids.uniq.sort
       end
 
       def valid_case_conclusion_ids(litigator_type, elected_case, transfer_stage_id)
-        result = collection_hash.fetch(litigator_type).fetch(elected_case).fetch(transfer_stage_id).keys
+        result = data_items.select do |item|
+          item.litigator_type == litigator_type &&
+            item.elected_case == elected_case &&
+            item.transfer_stage_id == transfer_stage_id
+        end.map(&:case_conclusion_id)
         result = TransferBrain.case_conclusion_ids if result == ['*']
         result.sort
       end

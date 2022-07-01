@@ -28,8 +28,8 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
       end
     end
 
-    context '@collection_hash' do
-      subject(:collection_hash) { collection.instance_variable_get(:@collection_hash) }
+    context 'collection_hash' do
+      subject(:collection_hash) { collection.send(:collection_hash) }
 
       it 'assigns a hash' do
         is_expected.to be_a Hash

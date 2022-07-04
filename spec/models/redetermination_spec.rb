@@ -88,19 +88,4 @@ RSpec.describe Redetermination do
       expect(rds.map(&:created_at).map(&:to_i)).to eq([date_1.to_i, date_2.to_i, date_3.to_i])
     end
   end
-
-  describe '#to_s' do
-    it 'outputs the totals' do
-      rd = create :redetermination, fees: 123.22, expenses: 301.55, disbursements: 44.33
-      expected = "  id:            #{rd.id}\n" +
-                 "  type           Redetermination\n" +
-                 "  claim_id:      #{rd.claim.id}\n" +
-                 "  expenses:      301.55\n" +
-                 "  fees:          123.22\n" +
-                 "  disbursements: 44.33\n" +
-                 "  vat_amount:    93.82\n" +
-                 "  total:         469.1\n\n"
-      expect(rd.to_s).to eq expected
-    end
-  end
 end

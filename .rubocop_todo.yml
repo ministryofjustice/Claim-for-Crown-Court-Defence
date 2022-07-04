@@ -6,12 +6,6 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 7
-# Configuration parameters: AutoCorrect.
-Layout/LineContinuationLeadingSpace:
-  Exclude:
-    - 'app/models/determination.rb'
-
 # Offense count: 70
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: enums

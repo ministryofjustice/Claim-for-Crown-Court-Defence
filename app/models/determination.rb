@@ -56,17 +56,6 @@ class Determination < ApplicationRecord
     !blank?
   end
 
-  def to_s
-    "  id:            #{id}\n" \
-      "  type           #{type}\n" \
-      "  claim_id:      #{claim_id}\n" \
-      "  expenses:      #{expenses}\n" \
-      "  fees:          #{fees}\n" \
-      "  disbursements: #{disbursements}\n" \
-      "  vat_amount:    #{vat_amount}\n" \
-      "  total:         #{total}\n\n"
-  end
-
   private
 
   def fees_valid

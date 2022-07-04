@@ -5,7 +5,7 @@ module Claim
 
       attr_reader :litigator_type, :elected_case, :transfer_stage, :conclusion, :valid
       attr_accessor :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable,
-                    :transfer_stage_id, :case_conclusion_id, :validity
+                    :transfer_stage_id, :case_conclusion_id, :validity, :fee_scheme
 
       def to_h
         {
@@ -52,9 +52,19 @@ module Claim
 
       def ==(other)
         return false unless litigator_type == other.litigator_type
-        return false unless elected_case == other.elected_case
+        if other.fee_scheme == 10
+          return false if elected_case
+
+          if other.elected_case
+            return false unless (litigator_type == 'new' && conclusion&.include?('Cracked')) || litigator_type == 'original'
+          else
+            return false unless conclusion == other.conclusion
+          end
+        else
+          return false unless elected_case == other.elected_case
+          return false unless elected_case || conclusion == other.conclusion
+        end
         return false unless transfer_stage_id == other.transfer_stage_id
-        return false unless elected_case || conclusion == other.conclusion
 
         true
       end

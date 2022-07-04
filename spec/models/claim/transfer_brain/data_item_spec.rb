@@ -134,4 +134,202 @@ RSpec.describe Claim::TransferBrain::DataItem do
       it { is_expected.to be false }
     end
   end
+
+  describe '#==' do
+    let(:elected_item) do
+      described_class.new(
+        litigator_type:,
+        elected_case: 'TRUE',
+        transfer_stage:,
+        conclusion: 'Guilty plea',
+        valid: 'TRUE',
+        transfer_fee_full_name: 'elected case - up to and including PCMH transfer (new)',
+        allocation_type: 'Fixed',
+        bill_scenario: 'ST4TS0T3',
+        ppe_required: 'FALSE',
+        days_claimable: 'FALSE'
+      )
+    end
+    let(:non_elected_item) do
+      described_class.new(
+        litigator_type:,
+        elected_case: 'FALSE',
+        transfer_stage:,
+        conclusion: 'Cracked',
+        valid: 'TRUE',
+        transfer_fee_full_name: 'up to and including PCMH transfer (new)',
+        allocation_type: 'Grad',
+        bill_scenario: 'ST3TS1T3',
+        ppe_required: 'FALSE',
+        days_claimable: 'FALSE'
+      )
+    end
+    let(:test_item) do
+      described_class.new(
+        litigator_type:,
+        elected_case:,
+        transfer_stage:,
+        conclusion:,
+        valid: 'TRUE',
+        transfer_fee_full_name: 'elected case - up to and including PCMH transfer (new)',
+        allocation_type:,
+        bill_scenario: 'ST4TS0T3',
+        ppe_required: 'FALSE',
+        days_claimable: 'FALSE',
+        fee_scheme:
+      )
+    end
+
+    context 'with an ECNP Before trial transfer (new) claim' do
+      let(:litigator_type) { 'NEW' }
+      let(:transfer_stage) { 'Before trial transfer' }
+      let(:elected_case) { 'TRUE' }
+      let(:allocation_type) { 'FIXED' }
+      let(:conclusion) { nil }
+
+      context 'with scheme 9 elected case claims' do
+        let(:fee_scheme) { 9 }
+
+        it { expect(elected_item).to eq test_item }
+        it { expect(non_elected_item).not_to eq test_item }
+      end
+
+      context 'with scheme 10 elected case claims' do
+        let(:fee_scheme) { 10 }
+
+        it { expect(elected_item).not_to eq test_item }
+        it { expect(non_elected_item).to eq test_item }
+      end
+    end
+
+    context 'with an ECNP Before trial transfer (org) claim' do
+      let(:litigator_type) { 'ORIGINAL' }
+      let(:transfer_stage) { 'Before trial transfer' }
+      let(:elected_case) { 'TRUE' }
+      let(:allocation_type) { 'FIXED' }
+      let(:conclusion) { nil }
+
+      context 'with scheme 9 elected case claims' do
+        let(:fee_scheme) { 9 }
+
+        it { expect(elected_item).to eq test_item }
+        it { expect(non_elected_item).not_to eq test_item }
+      end
+
+      context 'with scheme 10 elected case claims' do
+        let(:fee_scheme) { 10 }
+
+        it { expect(elected_item).not_to eq test_item }
+        it { expect(non_elected_item).to eq test_item }
+      end
+    end
+
+    context 'with an ECNP transfer before retrial transfer (new) claim' do
+      let(:litigator_type) { 'NEW' }
+      let(:transfer_stage) { 'Transfer before retrial' }
+      let(:elected_case) { 'TRUE' }
+      let(:allocation_type) { 'FIXED' }
+      let(:conclusion) { nil }
+
+      context 'with scheme 9 elected case claims' do
+        let(:fee_scheme) { 9 }
+
+        it { expect(elected_item).to eq test_item }
+        it { expect(non_elected_item).not_to eq test_item }
+      end
+
+      context 'with scheme 10 elected case claims' do
+        let(:fee_scheme) { 10 }
+
+        it { expect(elected_item).not_to eq test_item }
+        it { expect(non_elected_item).to eq test_item }
+      end
+    end
+
+    context 'with an ECNP transfer before retrial transfer (org) claim' do
+      let(:litigator_type) { 'ORIGINAL' }
+      let(:transfer_stage) { 'Transfer before retrial' }
+      let(:elected_case) { 'TRUE' }
+      let(:allocation_type) { 'FIXED' }
+      let(:conclusion) { nil }
+
+      context 'with scheme 9 elected case claims' do
+        let(:fee_scheme) { 9 }
+
+        it { expect(elected_item).to eq test_item }
+        it { expect(non_elected_item).not_to eq test_item }
+      end
+
+      context 'with scheme 10 elected case claims' do
+        let(:fee_scheme) { 10 }
+
+        it { expect(elected_item).not_to eq test_item }
+        it { expect(non_elected_item).to eq test_item }
+      end
+    end
+
+    context 'with an ECNP up to and including PCMH transfer (new) claim' do
+      let(:litigator_type) { 'NEW' }
+      let(:transfer_stage) { 'Up to and including PCMH transfer' }
+      let(:elected_case) { 'TRUE' }
+      let(:allocation_type) { 'FIXED' }
+      let(:conclusion) { nil }
+
+      context 'with scheme 9 elected case claims' do
+        let(:fee_scheme) { 9 }
+
+        it { expect(elected_item).to eq test_item }
+        it { expect(non_elected_item).not_to eq test_item }
+      end
+
+      context 'with scheme 10 elected case claims' do
+        let(:fee_scheme) { 10 }
+
+        it { expect(elected_item).not_to eq test_item }
+        it { expect(non_elected_item).to eq test_item }
+      end
+    end
+
+    context 'with an ECNP up to and including PCMH transfer (org) claim' do
+      let(:litigator_type) { 'ORIGINAL' }
+      let(:transfer_stage) { 'Up to and including PCMH transfer' }
+      let(:elected_case) { 'TRUE' }
+      let(:allocation_type) { 'FIXED' }
+      let(:conclusion) { nil }
+
+      context 'with scheme 9 elected case claims' do
+        let(:fee_scheme) { 9 }
+
+        it { expect(elected_item).to eq test_item }
+        it { expect(non_elected_item).not_to eq test_item }
+      end
+
+      context 'with scheme 10 elected case claims' do
+        let(:fee_scheme) { 10 }
+
+        it { expect(elected_item).not_to eq test_item }
+        it { expect(non_elected_item).to eq test_item }
+      end
+    end
+
+    context 'with an up to and including PCMH transfer (org) claim' do
+      let(:litigator_type) { 'ORIGINAL' }
+      let(:transfer_stage) { 'Up to and including PCMH transfer' }
+      let(:elected_case) { 'FALSE' }
+      let(:allocation_type) { 'GRAD' }
+      let(:conclusion) { 'Cracked' }
+
+      context 'with scheme 9 elected case claims' do
+        let(:fee_scheme) { 9 }
+
+        it { expect(non_elected_item).to eq test_item }
+      end
+
+      context 'with scheme 10 elected case claims' do
+        let(:fee_scheme) { 10 }
+
+        it { expect(non_elected_item).to eq test_item }
+      end
+    end
+  end
 end

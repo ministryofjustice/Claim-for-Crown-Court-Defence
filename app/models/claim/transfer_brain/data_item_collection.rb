@@ -55,6 +55,10 @@ module Claim
 
       def data_item_for(detail)
         seek = DataItem.new(detail.slice(:litigator_type, :elected_case, :transfer_stage_id, :case_conclusion))
+        seek.fee_scheme = detail.claim && detail.claim.earliest_representation_order_date >= Settings.lgfs_scheme_10_clair_release_date ? 10 : 9
+        # seek.fee_scheme = detail.claim.fee_scheme.version
+        # TODO: Log this (or remove completely) instead of raising an error
+        raise 'Too many' if data_items.count { |item| item == seek } > 1
         data_items.find { |item| item == seek }
       end
 

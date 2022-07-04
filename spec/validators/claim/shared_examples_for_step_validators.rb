@@ -86,12 +86,16 @@ RSpec.shared_examples 'common partial association validations' do |steps|
           end
 
           association_name = association_data[:name]
+          association_misc_fees = :misc_fees
           it "validates has_many association #{association_name} just for the #{step_name} step" do
             claim.form_step = step_name
             expect_any_instance_of(described_class).to receive(:validate_collection_for).with(claim, association_name)
-
             if association_data[:options] && association_data[:options][:presence]
-              expect_any_instance_of(described_class).to receive(:validate_presence).with(association_name, 'blank')
+              if association_name == association_misc_fees
+                expect_any_instance_of(described_class).to receive(:validate_presence).with(association_name, :blank)
+              else
+                expect_any_instance_of(described_class).to receive(:validate_presence).with(association_name, 'blank')
+              end
             end
 
             claim.valid?

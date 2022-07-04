@@ -16,7 +16,7 @@ module Fee
       if run_base_fee_validators?
         super
       else
-        validate_presence(:fee_type, 'blank')
+        validate_presence(:fee_type, :blank)
         validate_lgfs_fee_type_rules
       end
     end
@@ -40,7 +40,7 @@ module Fee
       elsif @record.fee_type.unique_code.eql?('MIEVI')
         validate_evidence_provision_fee
       else
-        validate_presence_and_numericality(:amount, minimum: 0.1)
+        validate_presence_and_numericality_govuk_formbuilder(:amount, minimum: 0.1)
       end
     end
 
@@ -51,7 +51,7 @@ module Fee
     def validate_evidence_provision_fee
       valid_values = [45, 90]
       return if valid_values.include?(@record.amount.to_d)
-      add_error(:amount, 'incorrect_epf')
+      add_error(:amount, :incorrect_epf)
     end
   end
 end

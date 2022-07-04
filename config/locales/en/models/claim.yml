@@ -58,6 +58,8 @@ en:
               invalid: Enter a valid legal aid transfer date
               invalid_date: Enter a valid legal aid transfer date
               present: The date legal aid was transferred is not allowed
+            misc_fees:
+              blank: You must select at least one miscellaneous fee
             offence:
               blank: Choose an offence
             retrial_actual_length:
@@ -134,7 +136,7 @@ en:
               blank: Enter the date attended
               not_after_today: Enter a date that is not in the future
               not_before_earliest_permitted_date: Enter a date later than two years before the earliest representation order date
-              too_long_before_earliest_reporder: The fixed fee date cannot not be more than two years before the earliest representation order date
+              too_long_before_earliest_reporder: The fee date cannot not be more than two years before the earliest representation order date
         disbursement:
           attributes:
             disbursement_type_id:
@@ -335,13 +337,30 @@ en:
               check_not_too_far_in_past: Warrant issued date cannot be too far in the past
         fee/misc_fee:
           attributes:
+            amount:
+              incorrect_epf: Evidence provision fee can only be £45 or £90
+              item_max_amount: The amount for the miscellaneous fee exceeds the limit
+              numericality: Enter a valid amount for the miscellaneous fee
             case_numbers:
+              blank: Enter at least one case number for the miscellaneous fee
+              invalid: Enter valid case numbers for the miscellaneous fee
               present: Case numbers for the miscellaneous fee are not allowed
+            fee_type:
+              blank: Choose a type for the miscellaneous fee
+              case_type_inclusion: Fee type is not applicable to this case type
+              fee_scheme_applicability: Fee type is not applicable to the fee scheme
+              offence_category_exclusion: Fee type is not applicable to this offence category
             quantity:
               integer: You must specify a whole number for this type of fee
               invalid: Enter a valid quantity for the miscellaneous fee
+              item_max_amount: The amount for the miscellaneous fee exceeds the limit
+              miumu_numericality: Enter a valid quantity for unused material (up to 3 hours)
+              pcm_invalid: Enter a valid quantity for plea and trial preparation hearing
+              pcm_numericality: Enter a valid quantity (1 to 3) for plea and case management hearing fees
             rate:
               invalid: Enter a valid rate for the miscellaneous fee
+              pcm_invalid: Enter a valid rate for the Plea and trial preparation hearing
+              saf_invalid: Enter a valid rate for the Standard appearance fee
         fee/transfer_fee:
           attributes:
             amount:
@@ -356,7 +375,7 @@ en:
               blank: Enter a PPE quantity for the transfer fee
               item_max_amount: The PPE quantity for the transfer fee exceeds the limit
               numericality: Enter a valid PPE quantity for the transfer fee
-        fee/warrant_fee:
+        fee/warrant_fee: &warrant_fee_errors
           attributes:
             amount:
               blank: Enter an amount for the warrant fee
@@ -364,6 +383,7 @@ en:
               numericality: Enter a valid amount for the warrant fee
               present: Do not enter an amount for the warrant fee
             warrant_executed_date:
+              blank: Enter a warrant executed date
               check_not_in_future: Warrant executed date cannot be too far in the future
               check_not_too_far_in_past: Warrant executed date cannot be too far in the past
               warrant_executed_before_issued: The warrant executed date is before the issued date
@@ -373,5 +393,6 @@ en:
               check_not_too_far_in_past: Warrant issued date cannot be too far in the past
               check_on_or_after_earliest_representation_order: Warrant issued date needs to be on or after the earliest representation order date
               on_or_before: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
+        interim_claim_info: *warrant_fee_errors
   dictionary:
     enter_valid_quantity: Enter a valid quantity

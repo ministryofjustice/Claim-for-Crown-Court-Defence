@@ -28,8 +28,8 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
       end
     end
 
-    context '@collection_hash' do
-      subject(:collection_hash) { collection.instance_variable_get(:@collection_hash) }
+    context 'collection_hash' do
+      subject(:collection_hash) { collection.send(:collection_hash) }
 
       it 'assigns a hash' do
         is_expected.to be_a Hash
@@ -54,13 +54,13 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
   end
 
   describe '#data_item_for' do
-    subject { collection.data_item_for(detail) }
+    subject(:data_item) { collection.data_item_for(detail) }
 
     context 'when given valid details with a mappable case conclusion id' do
       let(:detail) { with_specific_mapping }
 
       it 'returns a valid data item' do
-        is_expected.to include({ validity: true })
+        expect(data_item.validity).to be_truthy
       end
     end
 
@@ -68,7 +68,7 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
       let(:detail) { with_wildcard_mapping }
 
       it 'returns a valid data item' do
-        is_expected.to include({ validity: true })
+        expect(data_item.validity).to be_truthy
       end
     end
   end
@@ -131,6 +131,44 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
         is_expected.to eq 'ST4TS0T3'
       end
     end
+
+    context 'with a scheme 9 claim' do
+      context 'with an "elected case - up to and including PCMH transfer (new)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T3' }
+      end
+
+      context 'with an "elected case - up to and including PCMH transfer (org)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T2' }
+      end
+
+      context 'with an "elected case - before trial transfer (new)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 20, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T5' }
+      end
+
+      context 'with an "elected case - before trial transfer (org)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 20, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T4' }
+      end
+
+      context 'with an "elected case - transfer before retrial (new)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 50, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T7' }
+      end
+
+      context 'with an "elected case - transfer before retrial (org)" case' do
+        let(:detail) { build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 50, case_conclusion_id: nil) }
+
+        it { is_expected.to eq 'ST4TS0T6' }
+      end
+    end
   end
 
   describe '#ppe_required' do
@@ -186,6 +224,87 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
       let(:detail) { with_wildcard_mapping }
 
       it { is_expected.to be true }
+    end
+
+    context 'with new litigator on an elected case' do
+      let(:detail) do
+        build(
+          :transfer_detail,
+          litigator_type: 'new',
+          elected_case: true,
+          case_conclusion_id: 10,
+          transfer_stage_id:
+        )
+      end
+
+      context 'when "Up to and including PCMH transfer"' do
+        let(:transfer_stage_id) { 10 }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when "During trial transfer"' do
+        let(:transfer_stage_id) { 20 }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when "During trial transfer"' do
+        let(:transfer_stage_id) { 30 }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when "Transfer after trial and before sentence hearing"' do
+        let(:transfer_stage_id) { 40 }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when "Transfer during retrial"' do
+        let(:transfer_stage_id) { 60 }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when "Transfer after retrial and before sentence hearing"' do
+        let(:transfer_stage_id) { 70 }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'with new litigator on a non elected case' do
+      let(:detail) do
+        build(
+          :transfer_detail,
+          litigator_type: 'new',
+          elected_case: false,
+          case_conclusion_id:,
+          transfer_stage_id:
+        )
+      end
+
+      context 'with cracked trial "Before trial transfer"' do
+        let(:case_conclusion_id) { 30 }
+        let(:transfer_stage_id) { 20 }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'with retrial "During trial transfer"' do
+        let(:case_conclusion_id) { 20 }
+        let(:transfer_stage_id) { 30 }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'with cracked before retrial "Transfer before reretrial"' do
+        let(:case_conclusion_id) { 40 }
+        let(:transfer_stage_id) { 50 }
+
+        it { is_expected.to be_truthy }
+      end
     end
   end
 

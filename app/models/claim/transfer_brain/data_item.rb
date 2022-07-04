@@ -27,7 +27,7 @@ module Claim
       end
 
       def litigator_type=(value)
-        @litigator_type = value.downcase
+        @litigator_type = value&.downcase
       end
 
       def elected_case=(value)
@@ -43,10 +43,20 @@ module Claim
         @case_conclusion_id = value.blank? ? '*' : TransferBrain.case_conclusion_id(value)
         @conclusion = value
       end
+      alias case_conclusion= conclusion=
 
       def valid=(value)
         @validity = ActiveModel::Type::Boolean.new.cast(value)
         @valid = value
+      end
+
+      def ==(other)
+        return false unless litigator_type == other.litigator_type
+        return false unless elected_case == other.elected_case
+        return false unless transfer_stage_id == other.transfer_stage_id
+        return false unless elected_case || conclusion == other.conclusion
+
+        true
       end
     end
   end

@@ -51,8 +51,8 @@ moj.Modules.TransferDetailFieldsDisplay = {
     if (toggle) {
       $(this.caseConclusionSelect).removeClass('hidden')
     } else {
-      $(this.caseConclusionSelect + 'select').prop('selectedIndex', 0) // reset actual select list value
-      $('#claim_case_conclusion_id_input').val('') // reset awesomplete displayed value
+      $(this.caseConclusionSelect + ' select').prop('selectedIndex', 0) // reset actual select list value
+      $(this.caseConclusionSelect + ' .autocomplete__input').val('') // reset autocomplete displayed value
       $(this.caseConclusionSelect).addClass('hidden')
     }
   },

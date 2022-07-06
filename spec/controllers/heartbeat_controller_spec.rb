@@ -7,7 +7,7 @@ RSpec.describe HeartbeatController, type: :controller do
     end
 
     after do
-      expect(response.status).not_to eq(301)
+      expect(response).not_to have_http_status(:moved_permanently)
     end
 
     it 'ping endpoint' do
@@ -156,7 +156,7 @@ RSpec.describe HeartbeatController, type: :controller do
 
       it 'returns HTTP success' do
         get :healthcheck
-        expect(response.status).to eq(200)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'returns the expected response report' do

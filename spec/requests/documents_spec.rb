@@ -39,7 +39,7 @@ RSpec.shared_examples 'failed document upload' do
 
   it 'returns status unprocessable entity' do
     create_document
-    expect(response.status).to eq(422)
+    expect(response).to have_http_status(:unprocessable_entity)
   end
 
   it 'returns errors in response' do
@@ -125,7 +125,7 @@ RSpec.describe 'Document management', type: :request do
 
       it 'returns status created' do
         create_document
-        expect(response.status).to eq(201)
+        expect(response).to have_http_status(:created)
       end
 
       it 'returns the id of the created document' do

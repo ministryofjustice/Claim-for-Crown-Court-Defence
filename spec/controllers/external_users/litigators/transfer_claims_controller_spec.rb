@@ -72,7 +72,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
 
         it 'redirects user to the next step' do
           claim = Claim::TransferClaim.last
-          expect(response.status).to eq 302
+          expect(response).to have_http_status :found
           expect(response).to redirect_to edit_litigators_transfer_claim_path(claim, step: :case_details)
         end
       end
@@ -91,7 +91,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         end
 
         it 'returns success status' do
-          expect(response.status).to eq 200
+          expect(response).to have_http_status :ok
         end
 
         it 're-displays page 1 of form' do
@@ -125,7 +125,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         end
 
         it 'returns redirect status' do
-          expect(response.status).to eq 302
+          expect(response).to have_http_status :found
         end
 
         it 'redirects to all claims page' do
@@ -153,7 +153,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
         end
 
         it 'returns success status' do
-          expect(response.status).to eq 302
+          expect(response).to have_http_status :found
         end
 
         it 'redirects to all claims page' do
@@ -190,7 +190,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
       it 'redirects user to next step' do
         put :update, params: page_1_params
         claim = Claim::TransferClaim.last
-        expect(response.status).to eq 302
+        expect(response).to have_http_status :found
         expect(response).to redirect_to edit_litigators_transfer_claim_path(claim, step: :case_details)
       end
 

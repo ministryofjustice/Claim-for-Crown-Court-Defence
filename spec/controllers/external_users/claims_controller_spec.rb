@@ -853,7 +853,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
       )
     end
 
-    it { expect(response.status).to eq 200 }
+    it { expect(response).to have_http_status :ok }
     it { is_expected.to render_template('shared/show_message_controls') }
   end
 end

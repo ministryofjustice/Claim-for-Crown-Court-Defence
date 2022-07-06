@@ -8,6 +8,6 @@ describe 'POSTING to root' do
   before { post '/', params: payload.merge(format: :json) }
 
   it 'returns an error' do
-    expect(response.status).to eq(403)
+    expect(response).to have_http_status(:forbidden)
   end
 end

@@ -15,7 +15,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
       end
 
       it 'returns success' do
-        expect(response.status).to eq 200
+        expect(response).to have_http_status :ok
       end
 
       it 'renders new' do

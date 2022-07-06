@@ -256,7 +256,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
             render_views
             it 'redisplays the page with error messages and all the entered data in basic, miscellaneous and fixed fees' do
               post :create, params: { claim: invalid_claim_params, commit_submit_claim: 'Submit to LAA' }
-              expect(response.status).to eq 200
+              expect(response).to have_http_status :ok
               expect(response).to render_template(:new)
               expect(response.body).to have_content('Case details')
               claim = assigns(:claim)

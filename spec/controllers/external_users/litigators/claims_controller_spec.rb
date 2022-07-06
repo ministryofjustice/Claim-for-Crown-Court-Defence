@@ -222,7 +222,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
             end
 
             it 'is a redirect' do
-              expect(response.status).to eq 302
+              expect(response).to have_http_status :found
               # expect(response).to redirect_to summary_external_users_claim_url(assigns(:claim))
             end
 
@@ -253,7 +253,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
             end
 
             it 'redisplays the page' do
-              expect(response.status).to eq 200
+              expect(response).to have_http_status :ok
               expect(response).to render_template(:new)
             end
 
@@ -283,7 +283,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
             end
 
             it 'is a redirect' do
-              expect(response.status).to eq 302
+              expect(response).to have_http_status :found
             end
 
             it 'creates the fixed fee' do

@@ -5,7 +5,7 @@ RSpec.describe ErrorsController, type: :controller do
     before { get :not_endpoint }
 
     it 'has a status of 403' do
-      expect(response.status).to eq(403)
+      expect(response).to have_http_status(:forbidden)
     end
 
     it 'renders the appropriate json' do
@@ -18,7 +18,7 @@ RSpec.describe ErrorsController, type: :controller do
     before { get :not_found }
 
     it 'has a status of 404' do
-      expect(response.status).to eq(404)
+      expect(response).to have_http_status(:not_found)
     end
 
     it 'renders the 404/not_found template' do
@@ -30,7 +30,7 @@ RSpec.describe ErrorsController, type: :controller do
     before { get :internal_server_error }
 
     it 'has a status of 500' do
-      expect(response.status).to eq(500)
+      expect(response).to have_http_status(:internal_server_error)
     end
 
     it 'renders the 500/internal_server_error template' do

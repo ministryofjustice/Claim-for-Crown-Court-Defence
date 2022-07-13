@@ -5,29 +5,28 @@
       .form-section
         %h3.govuk-heading-m
           = t('.heading')
+
       = f.fields_for :basic_fees, basic_fees.primary_fee do |basic_fee_fields|
         - @basic_fee_count += 1
         - if present(basic_fee_fields.object).should_be_displayed?
-          = render 'external_users/claims/basic_fees/basic_fee_fields_primary', f: basic_fee_fields
+          = render partial: 'external_users/claims/basic_fees/basic_fee_fields_primary', locals: { f: basic_fee_fields }
 
-      .form-section
+      .basic-fees-checklist
         %h3.govuk-heading-m
           = t('.additional_fees')
 
-        .form-group
-          %fieldset
-            %legend.govuk-heading-s
-              = t('.fee_type')
-              %span.form-hint
-                Please choose all relevant options
+        = f.govuk_check_boxes_fieldset :basic_fees,
+          hint: { text: t('.fee_type_hint') },
+          legend: { text: t('.fee_type'), size: 's' } do
+
           = f.fields_for :basic_fees, basic_fees.additional_fees.sort_by(&:position) do |basic_fee_fields|
             - @basic_fee_count += 1
 
             - if present(basic_fee_fields.object).should_be_displayed?
-              = render 'external_users/claims/basic_fees/additional_fee_fields', f: basic_fee_fields
+              = render partial: 'external_users/claims/basic_fees/additional_fee_fields', locals: { f: basic_fee_fields }
 
       = f.fields_for :basic_fees, basic_fees.extra_fees.sort_by(&:position) do |extra_fee_fields|
         - @basic_fee_count += 1
         - if present(extra_fee_fields.object).display_extra_fees?
           .form-section
-            = render 'external_users/claims/basic_fees/extra_fee_fields', f: extra_fee_fields
+            = render partial: 'external_users/claims/basic_fees/extra_fee_fields', locals: { f: extra_fee_fields }

@@ -10,7 +10,6 @@
     - if defined?(locale_scope)
       - locale_key = f.object.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore
       - date_text = t(locale_key, scope: locale_scope)
-
     - else
       - date_text = t('.date_attended')
 

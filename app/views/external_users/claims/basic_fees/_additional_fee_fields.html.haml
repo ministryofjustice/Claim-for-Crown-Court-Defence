@@ -1,66 +1,73 @@
 - fee = present(f.object)
--# Check box input
-.multiple-choice{"data-target" => to_slug(f.object.description), "class" => "fx-hook-#{fee.fee_type_code.downcase}"}
 
-  = f.check_box(:toggle, checked: !f.object.blank?, class: 'fx-checkbox-hook', id: "#{to_slug(f.object.description)}-input", "aria-controls" => to_slug(f.object.description), :name => "graduated_fees_checklist_#{f.object.fee_type_code.downcase}")
+.app-checkboxes__item{ class: "fx-hook-#{fee.fee_type_code.downcase}", 'data-target': to_slug(f.object.description) }
+  = f.govuk_check_box :toggle,
+    1,
+    0,
+    checked: !f.object.blank?,
+    class: 'fx-checkbox-hook',
+    label: { text: f.object.description },
+    link_errors: true do
 
-  %label{:for => "#{to_slug(f.object.description)}-input"}
-    = f.object.description
+    .basic-fee-group.fx-fee-group.fee-details.js-block.fx-do-init{ class: to_slug(f.object.description), data: { type: 'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlockCalculator' }, id: to_slug(f.object.description) }
 
--# Panel content
-.panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}
-  .basic-fee-group.fx-fee-group.fee-details.js-block.fx-do-init{class: to_slug(f.object.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
-    = f.hidden_field :fee_type_id, class: 'js-fee-type'
+      = f.govuk_text_field :fee_type_id,
+        class: 'js-fee-type',
+        form_group: { classes: 'govuk-visually-hidden' },
+        label: { hidden: true },
+        type: 'hidden'
 
-    - if f.object.fee_type.case_uplift?
-      .form-group
-        = f.adp_text_field :case_numbers,
-          label: t('.case_numbers_or_urns'),
-          input_classes: 'js-basic-fee-case-numbers fx-fee-case-numbers',
-          hint_text: 'Separate by commas',
-          errors: @error_presenter
+      - if f.object.fee_type.case_uplift?
+        = f.govuk_text_field :case_numbers,
+          class: 'js-basic-fee-case-numbers fx-fee-case-numbers',
+          hint: { text: t('.case_numbers_or_urns_hint') },
+          label: { text: t('.case_numbers_or_urns') },
+          width: 'one-half'
 
-    .form-group
       - fee_type_scope = fee.fee_type_code.downcase
-      = f.adp_text_field :quantity,
-        label: t('.quantity'),
-        hint_text: t(".#{fee_type_scope}.quantity_hint"),
-        input_classes: 'quantity js-fee-quantity js-fee-calculator-quantity form-control-1-4',
-        input_type: 'number',
+      = f.govuk_number_field :quantity,
+        class: 'quantity js-fee-quantity js-fee-calculator-quantity',
+        form_group: { classes: 'quantity_wrapper' },
+        hint: { text: t(".#{fee_type_scope}.quantity_hint") },
+        label: { text: t('.quantity') },
+        min: 0,
         value: fee.quantity,
-        errors: @error_presenter
+        width: 'one-quarter'
 
-    .form-group.js-unit-price-effectee
-      .calculated-unit-fee
-      = f.adp_text_field :rate,
-        label: t('.rate_html', context: f.object.description),
-        input_classes: 'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
-        input_type: 'currency',
+      = f.govuk_number_field :rate,
+        class: 'rate fee-rate js-fee-calculator-rate',
+        form_group: { classes: 'calculated-unit-fee js-unit-price-effectee' },
+        label: { text: t('.rate_html', context: f.object.description) },
+        min: 0,
+        prefix_text: '£',
+        readonly: f.object.price_calculated?,
         value: number_with_precision(f.object.rate, precision: 2),
-        errors: @error_presenter,
-        input_readonly: f.object.price_calculated?
+        width: 'one-quarter'
 
-    .js-fee-calculator-success
-      = f.hidden_field :price_calculated, value: f.object.price_calculated?
+      = f.govuk_number_field :price_calculated,
+        form_group: { classes: 'js-fee-calculator-success govuk-visually-hidden' },
+        label: { hidden: true },
+        type: 'hidden',
+        value: f.object.price_calculated?
 
-    .fee-calc-help-wrapper.form-group.hidden
-      = govuk_detail t('.help_how_we_calculate_rate_title') do
-        = t('.help_how_we_calculate_rate_body')
+      .fee-calc-help-wrapper.hidden
+        = govuk_detail t('.help_how_we_calculate_rate_title') do
+          = t('.help_how_we_calculate_rate_body')
 
-    - if f.object.fee_type.requires_dates_attended?
-      .dates-wrapper.form-group
-        .cocoon-insert-wrapper
-          - f.object.dates_attended.build unless f.object.dates_attended.any?
-          = f.fields_for :dates_attended do |date_attended|
-            -# TODO: Numbering, the implementation used on fees will not work here.
-            = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}" }
+      - if f.object.fee_type.requires_dates_attended?
+        .dates-wrapper.form-group
+          .cocoon-insert-wrapper
+            - f.object.dates_attended.build unless f.object.dates_attended.any?
+            = f.fields_for :dates_attended do |date_attended|
+              -# TODO: Numbering, the implementation used on fees will not work here.
+              = render partial: 'date_attended_fields', locals: { f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "basic_fee_#{@basic_fee_count}" }
 
-        = link_to_add_association t('.add_date_attended'), f, :dates_attended, partial: 'date_attended_fields', data: {'association-insertion-method' => 'append', 'association-insertion-node' => '.cocoon-insert-wrapper', 'association-insertion-traversal' => 'prev'}
+          = link_to_add_association t('.add_date_attended'), f, :dates_attended, partial: 'date_attended_fields', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.cocoon-insert-wrapper', 'association-insertion-traversal': 'prev' }, class: 'govuk-link'
 
-    = govuk_summary_list do
-      = govuk_summary_list_row do
-        = govuk_summary_list_key do
-          = t('.amount')
+      = govuk_summary_list_no_border do
+        = govuk_summary_list_row do
+          = govuk_summary_list_key do
+            = t('.amount')
 
-        = govuk_summary_list_value(class: 'fee-net-amount total') do
-          = fee.amount || number_to_currency(0)
+          = govuk_summary_list_value(class: 'fee-net-amount total') do
+            = fee.amount || number_to_currency(0)

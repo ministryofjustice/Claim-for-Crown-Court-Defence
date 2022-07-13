@@ -1,5 +1,5 @@
 class LgfsTransferFeeSection < SitePrism::Section
-  element :days_total, "input#actual_trial_length"
-  element :ppe_total, "input.quantity"
+  element :days_total, "input.js-fee-calculator-days"
+  element :ppe_total, "input.js-fee-calculator-ppe"
   element :amount, "input.fee-amount"
 end

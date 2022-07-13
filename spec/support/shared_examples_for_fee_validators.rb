@@ -80,7 +80,7 @@ end
 RSpec.shared_examples 'common LGFS amount govuk validations' do
   describe '#validate_amount' do
     let(:amount_error_message) do
-      'Enter a valid amount for the (.*?)(graduated|hardship) fee'
+      'Enter a valid amount for the (.*?)(graduated|hardship|transfer) fee'
     end
 
     it 'adds error if amount is blank' do
@@ -97,7 +97,7 @@ RSpec.shared_examples 'common LGFS amount govuk validations' do
 
     it 'adds error if amount is greater than the max limit' do
       should_error_if_equal_to_value(fee, :amount, 200_001,
-                                     'The amount for the (.*?)(graduated|hardship) fee exceeds the limit')
+                                     'The amount for the (.*?)(graduated|hardship|transfer) fee exceeds the limit')
     end
   end
 end

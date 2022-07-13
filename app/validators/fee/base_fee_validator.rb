@@ -137,7 +137,7 @@ module Fee
     def validate_amount
       return if fee_code.nil?
       return if @record.calculated?
-      add_error(:amount, "#{fee_code.downcase}_invalid") if amount_outside_allowed_range?
+      add_error(:amount, "#{fee_code.downcase}_invalid".to_sym) if amount_outside_allowed_range?
 
       return unless @record.quantity <= 0 && @record.amount.positive?
       add_error(:quantity, "#{fee_code.downcase}_invalid".to_sym)

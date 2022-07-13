@@ -13,6 +13,7 @@ class RepresentationOrderValidator < BaseValidator
   # must not be in the future
   # must not be earlier than the first rep order date
   # must not be earlier than the earliest permitted date
+  # must not be on or after CLAIR start date if case type is Elected Case Not Proceeded
   def validate_representation_order_date
     validate_presence(:representation_order_date, :blank)
     validate_on_or_before(Date.today, :representation_order_date, :in_future)
@@ -24,6 +25,7 @@ class RepresentationOrderValidator < BaseValidator
     validate_against_cracked_trial_dates
     validate_against_case_concluded_date
     validate_against_first_rep_order_date
+    validate_against_elected_case_not_proceeded_case_type
   end
 
   def validate_against_agfs_fee_reform_release_date
@@ -68,6 +70,14 @@ class RepresentationOrderValidator < BaseValidator
     validate_presence(:maat_reference, :invalid)
     validate_pattern(:maat_reference, Settings.maat_regexp, :invalid)
     validate_matt_reference_uniqueness(:maat_reference, :unique)
+  end
+
+  def validate_against_elected_case_not_proceeded_case_type
+    case_type = claim.try(:case_type)
+    return unless case_type&.name == 'Elected cases not proceeded' # could also check case_type.id == 9 here
+
+    validate_before(Settings.clair_release_date, :representation_order_date,
+                    :not_on_or_after_clair_start_date_for_ecnp_claim)
   end
 
   # helper methods

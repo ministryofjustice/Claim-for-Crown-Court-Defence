@@ -31,6 +31,7 @@ en:
               not_on_or_before_first_day_of_trial: Check combination of representation order date and trial dates
               not_on_or_before_trial_cracked_date: Check combination of representation order date and case cracked date
               agfs_reform_offence: Check the combination of the representation order date and offence
+              not_on_or_after_clair_start_date_for_ecnp_claim: You cannot claim for an Elected Case Not Proceeded on or after 01/06/2022 # wording to be confirmed
            
             maat_reference:
               invalid: Enter a valid MAAT reference

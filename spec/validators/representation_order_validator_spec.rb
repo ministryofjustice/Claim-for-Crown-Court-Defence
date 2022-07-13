@@ -175,6 +175,27 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
           end
         end
       end
+
+      context 'when the claim is for an elected case not proceeded' do
+        let(:case_type) { build(:case_type, :elected_cases_not_proceeded) }
+        let(:claim) { build(:litigator_claim, case_type:) }
+        let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
+
+        context 'and the claim is in LGFS fee scheme 9' do
+          let(:rep_order_date) { Settings.clair_release_date - 1.day }
+
+          it { expect(reporder).to be_valid }
+        end
+
+        context 'and the claim is in the CLAIR LGFS fee scheme (name subject to change)' do
+          let(:rep_order_date) { Settings.clair_release_date }
+
+          it 'is invalid' do
+            expect(reporder).not_to be_valid
+            expect(reporder.errors[:representation_order_date]).to include('You cannot claim for an Elected Case Not Proceeded on or after 01/06/2022')
+          end
+        end
+      end
     end
   end
 

@@ -127,7 +127,29 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
         specify { expect { post_to_create_endpoint }.to change(RepresentationOrder, :count).by(1) }
       end
     end
+
+    # rubocop:disable RSpec/MultipleMemoizedHelpers
+    context 'when an elected case not proceeded LGFS claim has been submitted' do
+      let(:case_type) { create(:case_type, :elected_cases_not_proceeded) }
+      let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', case_type:) }
+      let(:defendant) { create(:defendant, :without_reporder, claim:).reload }
+
+      describe 'and the rep_order_date pre-dates the start of the CLAIR fee scheme' do
+        let(:representation_order_date) { Settings.clair_release_date - 1.day }
+
+        specify { expect { post_to_create_endpoint }.to change(RepresentationOrder, :count).by(1) }
+      end
+
+      describe 'and the rep_order_date post-dates the start of the CLAIR fee scheme' do
+        let(:representation_order_date) { Settings.clair_release_date }
+
+        before { post_to_create_endpoint }
+
+        specify { expect_error_response('You cannot claim for an Elected Case Not Proceeded on or after 01/06/2022') }
+      end
+    end
   end
+  # rubocop:enable RSpec/MultipleMemoizedHelpers
 
   describe "POST #{endpoint(:representation_orders, :validate)}" do
     def post_to_validate_endpoint

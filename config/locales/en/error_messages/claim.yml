@@ -732,6 +732,10 @@ representation_order:
       long: Check the combination of the representation order date and offence
       short: _
       api: Check the combination of the representation order date and offence
+    you_cannot_claim_for_an_elected_case_not_proceeded_on_or_after_01/06/2022:
+      long: You cannot claim for an Elected Case Not Proceeded on or after 01/06/2022 # wording to be confirmed
+      short: _
+      api: You cannot claim for an Elected Case Not Proceeded on or after 01/06/2022 # wording to be confirmed
 
   maat_reference:
     _seq: 30

@@ -167,6 +167,11 @@ en:
               numericality: Enter a valid VAT amount for the expense
         fee/basic_fee:
           attributes:
+            amount:
+              baf_invalid: Enter a valid amount for the basic fee
+              daf_invalid: Enter a valid amount for daily attendance fees (3-40 days)
+              npw_invalid: Enter a valid amount for number of prosecution witnesses fees
+              ppe_invalid: Enter a valid amount for pages of prosecution evidence fees
             case_numbers:
               blank: Enter case numbers for the Number of cases uplift
               eqls_claim_case_number: The additional case number must be different to the main case number

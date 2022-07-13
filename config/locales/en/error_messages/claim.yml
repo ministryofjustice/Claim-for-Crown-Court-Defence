@@ -947,21 +947,21 @@ basic_fee:
 
   amount:
     _seq: 30
-    npw_invalid:
+    enter_a_valid_amount_for_number_of_prosecution_witnesses_fees:
       long: Enter a valid amount for number of prosecution witnesses fees
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid amount for number of prosecution witnesses fees
-    ppe_invalid:
+    enter_a_valid_amount_for_pages_of_prosecution_evidence_fees:
       long: Enter a valid amount for pages of prosecution evidence fees
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid amount for pages of prosecution evidence fees
-    baf_invalid:
+    enter_a_valid_amount_for_the_basic_fee:
       long: Enter a valid amount for the basic fee
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid amount for the basic fee
-    daf_invalid:
+    enter_a_valid_amount_for_daily_attendance_fees_3_40_days:
       long: Enter a valid amount for daily attendance fees (3-40 days)
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid amount for daily attendance fees (3-40 days)
 
   case_numbers:
@@ -982,7 +982,6 @@ basic_fee:
       long: The additional case number must be different to the main case number
       short: _
       api: The additional case number must be different to the main case number
-
 
 #################################################################################
 #                                                                               #

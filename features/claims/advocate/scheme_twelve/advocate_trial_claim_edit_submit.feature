@@ -26,13 +26,13 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     Then I should be in the 'Graduated fees' form page
     And I should see a page title "Enter graduated fees for advocate final fees claim"
     And I should see the advocate categories 'Junior,Leading junior,QC'
-    And I should see the scheme 12 applicable basic fees
+    And I should see the scheme 12 applicable basic fees based on the govuk checkbox group
     And the basic fee net amount should be populated with '0.00'
 
     When I select an advocate category of 'Junior'
     Then the basic fee net amount should be populated with '1210.00'
 
-    When I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
+    When I select the govuk field 'Number of cases uplift' basic fee with quantity of 1 with case numbers
     And I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
     And I should see 'This claim should be eligible for unused materials fees (up to 3 hours)'

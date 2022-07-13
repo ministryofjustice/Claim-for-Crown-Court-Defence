@@ -623,6 +623,22 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
   end
 
   describe '#validate_amount' do
+    let(:amount_ppe_invalid_error_message) do
+      'Enter a valid amount for pages of prosecution evidence fees'
+    end
+
+    let(:amount_npw_invalid_error_message) do
+      'Enter a valid amount for number of prosecution witnesses fees'
+    end
+
+    let(:quantity_ppe_invalid_error_message) do
+      'Enter a valid quantity for pages of prosecution evidence fees'
+    end
+
+    let(:quantity_npw_invalid_error_message) do
+      'Enter a valid quantity for number of prosecution witnesses fees'
+    end
+
     context 'uncalculated fee validate amount against quantity' do
       it 'is valid if quantity greater than zero and amount is nil, zero or greater than zero' do
         should_be_valid_if_equal_to_value(ppe_fee, :amount, nil)
@@ -631,28 +647,22 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       end
 
       it 'errors if amount less than zero' do
-        should_error_if_equal_to_value(ppe_fee, :amount, -200, 'ppe_invalid')
-        should_error_if_equal_to_value(npw_fee, :amount, -200, 'npw_invalid')
+        should_error_if_equal_to_value(ppe_fee, :amount, -200, amount_ppe_invalid_error_message)
+        should_error_if_equal_to_value(npw_fee, :amount, -200, amount_npw_invalid_error_message)
       end
 
       it 'errors if amount is greater than the max limit' do
-        should_error_if_equal_to_value(ppe_fee, :amount, 200_001, 'ppe_invalid')
-        should_error_if_equal_to_value(npw_fee, :amount, 200_001, 'npw_invalid')
+        should_error_if_equal_to_value(ppe_fee, :amount, 200_001, amount_ppe_invalid_error_message)
+        should_error_if_equal_to_value(npw_fee, :amount, 200_001, amount_npw_invalid_error_message)
       end
 
       it 'errors if amount greater than zero and quantity is nil, zero or less than zero' do
-        should_error_if_equal_to_value(ppe_fee, :quantity, 0,
-                                       'Enter a valid quantity for pages of prosecution evidence fees')
-        should_error_if_equal_to_value(ppe_fee, :quantity, nil,
-                                       'Enter a valid quantity for pages of prosecution evidence fees')
-        should_error_if_equal_to_value(ppe_fee, :quantity, -2,
-                                       'Enter a valid quantity for pages of prosecution evidence fees')
-        should_error_if_equal_to_value(npw_fee, :quantity, 0,
-                                       'Enter a valid quantity for number of prosecution witnesses fees')
-        should_error_if_equal_to_value(npw_fee, :quantity, nil,
-                                       'Enter a valid quantity for number of prosecution witnesses fees')
-        should_error_if_equal_to_value(npw_fee, :quantity, -2,
-                                       'Enter a valid quantity for number of prosecution witnesses fees')
+        should_error_if_equal_to_value(ppe_fee, :quantity, 0, quantity_ppe_invalid_error_message)
+        should_error_if_equal_to_value(ppe_fee, :quantity, nil, quantity_ppe_invalid_error_message)
+        should_error_if_equal_to_value(ppe_fee, :quantity, -2, quantity_ppe_invalid_error_message)
+        should_error_if_equal_to_value(npw_fee, :quantity, 0, quantity_npw_invalid_error_message)
+        should_error_if_equal_to_value(npw_fee, :quantity, nil, quantity_npw_invalid_error_message)
+        should_error_if_equal_to_value(npw_fee, :quantity, -2, quantity_npw_invalid_error_message)
       end
     end
 

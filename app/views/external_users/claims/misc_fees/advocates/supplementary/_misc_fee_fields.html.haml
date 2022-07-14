@@ -1,57 +1,64 @@
 - fee = present(f.object)
-.multiple-choice{"data-target" => to_slug(f.object.description), "class" => "fx-hook-#{fee.fee_type_code.downcase}"}
+.app-checkboxes__item{ 'data-target': to_slug(f.object.description), class: "fx-hook-#{fee.fee_type_code.downcase}" }
+  = f.govuk_check_box :toggle,
+    1,
+    checked: !f.object.blank?,
+    class: 'fx-checkbox-hook',
+    label: { text: f.object.description },
+    'data-unique-code': f.object.fee_type.unique_code do
 
-  = f.check_box(:toggle, checked: !f.object.blank?, class: "fx-checkbox-hook", id: "#{to_slug(f.object.description)}-input", "aria-controls" => to_slug(f.object.description), :name => "misc_fees_checklist_#{f.object.fee_type_code.downcase}", data: { unique_code: f.object.fee_type.unique_code})
+    .misc-fee-group.fx-fee-group.js-block.fx-do-init{ data:{type:"miscFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"} }
+      = f.govuk_text_field :fee_type_id,
+        class: 'js-fee-calculator-fee-type js-fee-type',
+        form_group: { classes: 'govuk-visually-hidden' },
+        label: { hidden: true },
+        type: 'hidden'
 
-  %label{:for => "#{to_slug(f.object.description)}-input"}
-    = f.object.description
+      - if f.object.fee_type.unique_code.eql?('MIUMO')
+        = render 'warnings/unused_material_over_3_hours'
+
+      = f.govuk_number_field :quantity,
+        class: 'quantity fee-quantity js-fee-quantity js-fee-calculator-quantity',
+        form_group: { classes: 'quantity_wrapper' },
+        hint: { text: t('.quantity_hint') },
+        label: { text: t('.quantity_html', context: f.object.description) },
+        min: 1,
+        value: fee.quantity,
+        width: 3
+
+      = f.govuk_number_field :rate,
+        class:'rate fee-rate js-fee-calculator-rate',
+        form_group: { classes: 'js-unit-price-effectee calculated-unit-fee' },
+        label: { text: t('.rate_html', context: f.object.description) },
+        prefix_text: '£',
+        readonly: f.object.price_calculated?,
+        value: number_with_precision(f.object.rate, precision: 2),
+        width: 5
+
+      = f.govuk_text_field :price_calculated,
+        form_group: { classes: 'js-fee-calculator-success' },
+        label: { hidden: true },
+        type: 'hidden',
+        value: f.object.price_calculated?
+
+      .fee-calc-help-wrapper.hidden
+        = govuk_detail t('.help_how_we_calculate_rate_title') do
+          = t('.help_how_we_calculate_rate_body')
+
+      .dates-wrapper.form-group
+        .cocoon-insert-wrapper
+          - f.object.dates_attended.build unless f.object.dates_attended.any?
+          = f.fields_for :dates_attended do |date_attended|
+            = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
+
+        = link_to_add_association t('.add_date_attended'), f, :dates_attended, 'partial' => 'date_attended_fields', data: { 'association-insertion-method' => 'append', 'association-insertion-node' => '.cocoon-insert-wrapper', 'association-insertion-traversal' => 'prev'}, class: 'govuk-link'
+
+      = govuk_summary_list_no_border do
+        = govuk_summary_list_row do
+          = govuk_summary_list_key do
+            = t('.net_amount')
+
+          = govuk_summary_list_value(class: 'fee-net-amount total') do
+            = fee.amount || number_to_currency(0)
 
   = f.hidden_field :_destroy, class: 'destroy', value: f.object.blank?
-
-.panel.panel-border-narrow.js-hidden{:id => to_slug(f.object.description)}
-  .misc-fee-group.fx-fee-group.js-block.fx-do-init{data:{type:"miscFees", autovat: @claim.apply_vat? ? "true" : "false", "block-type": "FeeBlockCalculator"}}
-    = f.hidden_field :fee_type_id, class: 'js-fee-calculator-fee-type js-fee-type'
-
-    = render 'warnings/unused_material_over_3_hours' if f.object.fee_type.unique_code.eql?('MIUMO')
-
-    .form-group
-      = f.adp_text_field :quantity,
-        label: t('.quantity_html', context: f.object.description),
-        hint_text: t('.quantity_hint'),
-        hide_hint: true,
-        input_classes:"quantity fee-quantity form-control-1-8 js-fee-quantity js-fee-calculator-quantity",
-        input_type: 'number',
-        value: fee.quantity,
-        errors: @error_presenter
-
-    .form-group.js-unit-price-effectee
-      .calculated-unit-fee
-      = f.adp_text_field :rate,
-          label: t('.rate_html', context: f.object.description),
-          input_classes:'rate fee-rate js-fee-calculator-rate form-input-denote__input form-control-1-4',
-          input_type: 'currency',
-          errors: @error_presenter,
-          input_readonly: f.object.price_calculated?,
-          value: number_with_precision(f.object.rate, precision: 2)
-
-    .js-fee-calculator-success
-      = f.hidden_field :price_calculated, value: f.object.price_calculated?
-
-    .fee-calc-help-wrapper.form-group.hidden
-      = govuk_detail t('.help_how_we_calculate_rate_title') do
-        = t('.help_how_we_calculate_rate_body')
-
-    .dates-wrapper.form-group
-      .cocoon-insert-wrapper
-        - f.object.dates_attended.build unless f.object.dates_attended.any?
-        = f.fields_for :dates_attended do |date_attended|
-          = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
-
-      = link_to_add_association t('.add_date_attended'), f, :dates_attended, 'partial' => 'date_attended_fields', data: { 'association-insertion-method' => 'append', 'association-insertion-node' => '.cocoon-insert-wrapper', 'association-insertion-traversal' => 'prev'}
-
-    = govuk_summary_list do
-      = govuk_summary_list_row do
-        = govuk_summary_list_key do
-          = t('.net_amount')
-        = govuk_summary_list_value(class: 'fee-net-amount total') do
-          = fee.amount || number_to_currency(0)

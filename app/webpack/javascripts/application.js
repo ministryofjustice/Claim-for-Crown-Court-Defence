@@ -62,12 +62,9 @@ if (!String.prototype.supplant) {
    */
   $('#fixed-fees, #misc-fees, #documents').on('cocoon:after-insert', function (e, insertedItem) {
     const $insertedItem = $(insertedItem)
-    const insertedSelect = $insertedItem.find('select.typeahead')
-    const typeaheadWrapper = $insertedItem.find('.js-typeahead')
-
-    moj.Modules.Autocomplete.typeaheadKickoff(insertedSelect)
-    moj.Modules.Autocomplete.typeaheadBindEvents(typeaheadWrapper)
+    const insertedGovUkSelect = $insertedItem.find('.fx-autocomplete-wrapper select').attr('id')
     moj.Modules.FeeFieldsDisplay.addFeeChangeEvent(insertedItem)
+    moj.Modules.AutocompleteWrapper.Autocomplete(insertedGovUkSelect)
 
     $insertedItem.find('.remove_fields:first').trigger('focus')
   })

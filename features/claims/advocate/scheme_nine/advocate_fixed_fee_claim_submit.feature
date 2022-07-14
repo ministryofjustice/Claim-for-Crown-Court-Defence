@@ -44,7 +44,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
     And I should see a page title "Enter fixed fees for advocate final fees claim"
     Then I click "Continue" in the claim form
 
-    And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
+    And I add a govuk calculated miscellaneous fee 'Special preparation fee' with dates attended
     Then the last 'miscellaneous' fee rate should be populated with '39.00'
 
     And I eject the VCR cassette

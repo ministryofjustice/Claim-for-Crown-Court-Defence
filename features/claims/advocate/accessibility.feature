@@ -46,7 +46,7 @@ Feature: Advocate submits a claim
 
     And I should be in the 'Miscellaneous fees' form page
     And I should see a page title "Enter miscellaneous fees for advocate final fees claim"
-    And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
+    And I add a govuk calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
     Then the last 'miscellaneous' fee rate should be populated with '108.00'
     Then the page should be accessible skipping 'aria-allowed-attr'
     And I eject the VCR cassette

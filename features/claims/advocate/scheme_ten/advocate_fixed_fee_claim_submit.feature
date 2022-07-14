@@ -45,7 +45,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
 
-    And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
+    And I add a govuk calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
     Then the last 'miscellaneous' fee rate should be populated with '108.00'
 
     And I eject the VCR cassette

@@ -1,4 +1,5 @@
 require_relative 'checkbox_fee_section'
+require_relative 'govuk_checklist_section'
 
 class BasicFeeSection < CheckboxFeeSection
   element :number_of_case_uplift_input, ".fx-hook-noc"
@@ -18,4 +19,6 @@ class BasicFeeSection < CheckboxFeeSection
 
   section :prosecution_witnesses, FeeSection, ".basic-fee-group.number-of-prosecution-witnesses"
   section :pages_of_prosecution_evidence, FeeSection, ".basic-fee-group.pages-of-prosecution-evidence"
+
+  section :basic_fees_checkboxes, GovukChecklistSection, '.basic-fees-checklist'
 end

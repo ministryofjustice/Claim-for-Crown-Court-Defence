@@ -839,7 +839,7 @@ en:
         dates_attended:
           add_dates: Add another date
         empty_input: &empty_input ''
-        fees_quantity_hint: &fees_quantity_hint 'Enter a quantity'
+        fees_quantity_hint: &fees_quantity_hint Enter a quantity
         number_of_days: &number_of_days Number of days
         date_attended_heading: &date_attended_heading Date attended
         first_date_display:

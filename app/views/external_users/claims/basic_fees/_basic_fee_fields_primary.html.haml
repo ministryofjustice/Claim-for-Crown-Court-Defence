@@ -1,38 +1,50 @@
 - fee = present(f.object)
 
-.form-section.basic-fee-group.fx-fee-group.fee-details.js-block.fx-do-init{class: to_slug(fee.description), data:{type:'gradFees', autovat: @claim.apply_vat? ? "true" : "false", "block-type": fee.calculated? ? "FeeBlock" : "FeeBlock"}}
-  %fieldset
-    .form-group
-      = render partial: 'external_users/claims/basic_fees/case_type_display', locals: { claim: @claim }
-    .form-group
-      = render partial: 'external_users/claims/basic_fees/offence_display', locals: { claim: @claim }
+.basic-fee-group.fx-fee-group.fee-details.js-block.fx-do-init{ class: to_slug(fee.description), data: { type: 'gradFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlock' } }
+  = render partial: 'external_users/claims/basic_fees/case_type_display', locals: { claim: @claim }
 
-    .form-group.govuk-visually-hidden{ 'aria-hidden': 'true' }
-      = f.hidden_field :fee_type_id, value: f.object.fee_type_id, class: 'js-fee-type'
-      = f.label :quantity, 'Fee calculator days', class: 'form-label-bold'
-      = f.text_field :quantity, value: 1, class: 'form-control js-fee-calculator-days', readonly: true, tabindex: -1
+  = render partial: 'external_users/claims/basic_fees/offence_display', locals: { claim: @claim }
 
-    .js-graduated-price-effectee
-      .calculated-grad-fee
-      = f.adp_text_field :rate,
-        label: t('.net_amount_html', context: f.object.description),
-        input_classes:'total fee-amount form-control-1-4 form-input-denote__input',
-        input_type: 'currency',
-        value: number_with_precision(f.object.rate, precision: 2),
-        errors: @error_presenter
+  = f.govuk_text_field :fee_type_id,
+    class: 'js-fee-type',
+    label: { hidden: true },
+    type: 'hidden',
+    value: f.object.fee_type_id
 
-    .js-fee-calculator-success
-      = f.hidden_field :price_calculated, value: f.object.price_calculated?
+  = f.govuk_number_field :quantity,
+    class: 'js-fee-calculator-days',
+    form_group: { classes: 'govuk-visually-hidden' },
+    label: { text: t('.fee_calculator_days') },
+    min: 0,
+    readonly: true,
+    tabindex: -1,
+    value: 1,
+    width: 'one-quarter'
 
-    .help-wrapper.form-group
-      = govuk_detail t('.help_with_basic_fees.title') do
-        - if fee.claim.agfs_reform?
-          = t('.help_with_basic_fees.post_agfs_reform_html')
-        - else
-          = t('.help_with_basic_fees.pre_agfs_reform_html')
-        .fee-calc-help-wrapper.form-group.hidden
-          = t('.help_with_basic_fees.how_is_this_rate_calculated_html')
+  = f.govuk_number_field :rate,
+    class: 'total fee-amount',
+    form_group: { classes: 'js-graduated-price-effectee calculated-grad-fee' },
+    label: { text: t('.net_amount_html', context: f.object.description) },
+    min: 0,
+    prefix_text: '£',
+    value: number_with_precision(f.object.rate, precision: 2),
+    width: 'one-quarter'
 
-    = render partial: 'external_users/claims/basic_fees/first_date_display', locals: { fee: fee }
+  = f.govuk_number_field :price_calculated,
+    form_group: { classes: 'js-fee-calculator-success' },
+    label: { hidden: true },
+    type: 'hidden',
+    value: f.object.price_calculated?
 
-    = render partial: 'external_users/claims/basic_fees/dates_attended', locals: { f: f, fee: fee }
+  .help-wrapper.form-group
+    = govuk_detail t('.help_with_basic_fees.title') do
+      - if fee.claim.agfs_reform?
+        = t('.help_with_basic_fees.post_agfs_reform_html')
+      - else
+        = t('.help_with_basic_fees.pre_agfs_reform_html')
+      .fee-calc-help-wrapper.form-group.hidden
+        = t('.help_with_basic_fees.how_is_this_rate_calculated_html')
+
+  = render partial: 'external_users/claims/basic_fees/first_date_display', locals: { fee: fee }
+
+  = render partial: 'external_users/claims/basic_fees/dates_attended', locals: { f: f, fee: fee }

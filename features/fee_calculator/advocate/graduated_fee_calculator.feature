@@ -38,14 +38,14 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I select an advocate category of 'QC'
     Then the basic fee net amount should be populated with '2856.00'
 
-    When I select the 'Daily attendance fee (3 to 40)' basic fee with quantity of 38
-    And I select the 'Daily attendance fee (41 to 50)' basic fee with quantity of 10
-    And I select the 'Daily attendance fee (51+)' basic fee with quantity of 2
-    And I select the 'Standard appearance fee' basic fee with quantity of 1
-    And I select the 'Plea and trial preparation hearing' basic fee with quantity of 1
-    And I select the 'Conferences and views' basic fee with quantity of 1
-    And I select the 'Number of defendants uplift' basic fee with quantity of 1
-    And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
+    When I select the govuk field 'Daily attendance fee (3 to 40)' basic fee with quantity of 38
+    And I select the govuk field 'Daily attendance fee (41 to 50)' basic fee with quantity of 10
+    And I select the govuk field 'Daily attendance fee (51+)' basic fee with quantity of 2
+    And I select the govuk field 'Standard appearance fee' basic fee with quantity of 1
+    And I select the govuk field 'Plea and trial preparation hearing' basic fee with quantity of 1
+    And I select the govuk field 'Conferences and views' basic fee with quantity of 1
+    And I select the govuk field 'Number of defendants uplift' basic fee with quantity of 1
+    And I select the govuk field 'Number of cases uplift' basic fee with quantity of 1 with case numbers
 
     Then the following fee details should exist:
       | section | fee_description | rate | hint | help |
@@ -141,14 +141,14 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I click "Continue" in the claim form
     Then the basic fee net amount should be populated with '1770.30'
 
-    When I select the 'Daily attendance fee (3 to 40)' basic fee with quantity of 38
-    And I select the 'Daily attendance fee (41 to 50)' basic fee with quantity of 10
-    And I select the 'Daily attendance fee (51+)' basic fee with quantity of 2
-    And I select the 'Standard appearance fee' basic fee with quantity of 1
-    And I select the 'Plea and trial preparation hearing' basic fee with quantity of 1
-    And I select the 'Conferences and views' basic fee with quantity of 1
-    And I select the 'Number of defendants uplift' basic fee with quantity of 1
-    And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
+    When I select the govuk field 'Daily attendance fee (3 to 40)' basic fee with quantity of 38
+    And I select the govuk field 'Daily attendance fee (41 to 50)' basic fee with quantity of 10
+    And I select the govuk field 'Daily attendance fee (51+)' basic fee with quantity of 2
+    And I select the govuk field 'Standard appearance fee' basic fee with quantity of 1
+    And I select the govuk field 'Plea and trial preparation hearing' basic fee with quantity of 1
+    And I select the govuk field 'Conferences and views' basic fee with quantity of 1
+    And I select the govuk field 'Number of defendants uplift' basic fee with quantity of 1
+    And I select the govuk field 'Number of cases uplift' basic fee with quantity of 1 with case numbers
 
     # retrial interval impact on "basic" fee (retrial interval <= a month, 30% reduction)
     Then the following fee details should exist:
@@ -261,7 +261,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
 
     And the basic fee net amount should be populated with '489.50'
 
-    When I answer 'Yes' to was prosecution evidence served on this case?
+    When I choose govuk radio 'Yes' for 'Was prosecution evidence served on this case?'
     And the basic fee net amount should be populated with '979.00'
 
     When I click "Continue" in the claim form

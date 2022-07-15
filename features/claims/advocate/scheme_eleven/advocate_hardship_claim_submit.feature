@@ -47,11 +47,11 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     And I should see the advocate categories 'Junior,Leading junior,QC'
     And I should see the case stage 'Trial started but not concluded'
     And I should see the offence details 'Class : Offences Against the Public Interest, Band : 8.1, Category : Harbouring escaped prisoner'
-    And I should see the scheme 11 applicable basic fees
+    And I should see the scheme 11 applicable basic fees based on the govuk checkbox group
 
     When I select an advocate category of 'Junior'
     Then the basic fee net amount should be populated with '1210.00'
-    And I select the 'Number of cases uplift' basic fee with quantity of 1 with case numbers
+    And I select the govuk field 'Number of cases uplift' basic fee with quantity of 1 with case numbers
 
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page

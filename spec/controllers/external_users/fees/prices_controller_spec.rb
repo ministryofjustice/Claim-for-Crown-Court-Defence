@@ -147,7 +147,7 @@ RSpec.describe ExternalUsers::Fees::PricesController, type: :controller do
       let(:claim) do
         create(
           :litigator_claim,
-          create_defendant_and_rep_order_for_scheme_8: true,
+          create_defendant_and_rep_order_for_scheme_9: true,
           case_type:,
           offence:,
           actual_trial_length: 10

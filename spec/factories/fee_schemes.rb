@@ -29,21 +29,17 @@ FactoryBot.define do
       version { 12 }
     end
 
-    # scheme 8 (default)
-    # NOTE: current seeds for LGFS fee schemes represent scheme 8 as 9
-    # but there are no functional changes that are impacted.
-    #
-    # Following CLAR release on the 17/09/2020 the LGFS fee scheme is
-    # technically scheme 9, according to the business. However, no new
-    # lgfs fee scheme has been added - it probably should be - instead
-    # simply adding the new "Unused material" fee type(s) without fee
-    # calculation (inline with other LGFS misc fees) and validating
-    # its presence using the CLAR release date compared to rep order
-    # date.
-    trait :lgfs do
+    trait :lgfs_nine do
       name { 'LGFS' }
       start_date { Date.new(2014, 03, 20).beginning_of_day }
+      end_date { Settings.lgfs_scheme_10_clair_release_date.end_of_day - 1.day }
       version { 9 }
+    end
+
+    trait :lgfs_ten do
+      name { 'LGFS' }
+      start_date { Settings.lgfs_scheme_10_clair_release_date.end_of_day }
+      version { 10 }
     end
   end
 end

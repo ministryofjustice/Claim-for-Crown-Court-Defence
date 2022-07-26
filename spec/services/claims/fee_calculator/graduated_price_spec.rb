@@ -24,138 +24,279 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       let(:offence) { create(:offence, offence_class:) }
 
       context 'final claim' do
-        let(:claim) do
-          create(
-            :litigator_claim,
-            create_defendant_and_rep_order_for_scheme_8: true,
-            case_type:,
-            offence:
-          )
-        end
-
-        let(:fee) { create(:graduated_fee, :trial_fee, claim:, date: scheme_date_for('lgfs'), quantity: 1) }
-        let(:params) { { fee_type_id: fee.fee_type.id, days: 10, ppe: 1 } }
-
-        it_returns 'a successful fee calculator response', amount: 5142.87
-
-        context 'when 2 defendants' do
-          before do
-            claim.defendants << create(:defendant, scheme: 'lgfs')
+        context 'for LGFS scheme 9' do
+          let(:claim) do
+            create(
+              :litigator_claim,
+              create_defendant_and_rep_order_for_scheme_9: true,
+              case_type:,
+              offence:
+            )
           end
 
-          context 'price is uplifted' do
-            it_returns 'a successful fee calculator response', amount: 6171.44
-          end
-        end
+          let(:fee) { create(:graduated_fee, :trial_fee, claim:, date: scheme_date_for('lgfs'), quantity: 1) }
+          let(:params) { { fee_type_id: fee.fee_type.id, days: 10, ppe: 1 } }
 
-        context 'when 2 defendants' do
-          it_returns 'a successful fee calculator response',
-                     number_of_defendants: 2,
-                     scheme: 'lgfs',
-                     amount: 6171.44
-        end
-      end
+          it_returns 'a successful fee calculator response', amount: 5142.87
 
-      context 'transfer claim' do
-        let(:claim) {
-          create(
-            :transfer_claim,
-            create_defendant_and_rep_order_for_scheme_8: true,
-            offence:,
-            litigator_type: 'new',
-            elected_case: false,
-            transfer_stage_id: 20, # Before trial transfer
-            transfer_date: 3.months.ago,
-            case_conclusion_id: 30 # Cracked
-          )
-        }
-        let(:fee) { claim.transfer_fee }
-        let(:params) { { fee_type_id: fee.fee_type.id } }
+          context 'when 2 defendants' do
+            before do
+              claim.defendants << create(:defendant, scheme: 'lgfs')
+            end
 
-        it_returns 'a successful fee calculator response', amount: 904.58
-
-        context 'when 2 defendants' do
-          it_returns 'a successful fee calculator response',
-                     number_of_defendants: 2,
-                     scheme: 'lgfs',
-                     amount: 1085.50
-        end
-      end
-
-      context 'interim claims' do
-        let(:claim) {
-          create(
-            :interim_claim,
-            create_defendant_and_rep_order_for_scheme_8: true,
-            offence:
-          )
-        }
-
-        context 'effective PCMH' do
-          let(:fee) { create(:interim_fee, :effective_pcmh, claim:, quantity: 100) }
-          let(:params) { { fee_type_id: fee.fee_type.id, days: nil, ppe: fee.quantity } }
-
-          it_returns 'a successful fee calculator response', amount: 838.94
-        end
-
-        context 'trial start' do
-          let(:fee) { create(:interim_fee, :trial_start, claim:) }
-          let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
-
-          TRIAL_LENGTH_BOUNDARIES = { 9 => 0.00, 10 => 1467.58, 11 => 1467.58 }
-
-          TRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
-            context "with an estimated length of #{length}" do
-              let(:length) { length }
-
-              it_returns 'a successful fee calculator response', amount:
+            context 'price is uplifted' do
+              it_returns 'a successful fee calculator response', amount: 6171.44
             end
           end
 
           context 'when 2 defendants' do
-            let(:length) { 10 }
-
             it_returns 'a successful fee calculator response',
                        number_of_defendants: 2,
                        scheme: 'lgfs',
-                       amount: 1761.10
+                       amount: 6171.44
           end
         end
 
-        context 'retrial start' do
-          let(:fee) { create(:interim_fee, :retrial_start, claim:) }
-          let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
+        context 'for LGFS scheme 10' do
+          let(:claim) do
+            create(
+              :litigator_claim,
+              create_defendant_and_rep_order_for_scheme_10: true,
+              case_type:,
+              offence:
+            )
+          end
 
-          RETRIAL_LENGTH_BOUNDARIES = { 9 => 0.00, 10 => 1467.58, 11 => 1467.58 }
+          let(:fee) { create(:graduated_fee, :trial_fee, claim:, date: scheme_date_for('lgfs scheme 10'), quantity: 1) }
+          let(:params) { { fee_type_id: fee.fee_type.id, days: 10, ppe: 1 } }
 
-          RETRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
-            context "with an estimated length of #{length}" do
-              let(:length) { length }
+          it_returns 'a successful fee calculator response', amount: 5363.01
 
-              it_returns 'a successful fee calculator response', amount:
+          context 'when 2 defendants' do
+            before do
+              claim.defendants << create(:defendant, scheme: 'lgfs scheme 10')
+            end
+
+            context 'price is uplifted' do
+              it_returns 'a successful fee calculator response', amount: 6435.61
+            end
+          end
+
+          context 'when 2 defendants' do
+            it_returns 'a successful fee calculator response',
+                       number_of_defendants: 2,
+                       scheme: 'lgfs scheme 10',
+                       amount: 6435.61
+          end
+        end
+      end
+
+      context 'transfer claim' do
+        context 'for LGFS scheme 9' do
+          let(:claim) {
+            create(
+              :transfer_claim,
+              create_defendant_and_rep_order_for_scheme_9: true,
+              offence:,
+              litigator_type: 'new',
+              elected_case: false,
+              transfer_stage_id: 20, # Before trial transfer
+              transfer_date: 3.months.ago,
+              case_conclusion_id: 30 # Cracked
+            )
+          }
+          let(:fee) { claim.transfer_fee }
+          let(:params) { { fee_type_id: fee.fee_type.id } }
+
+          it_returns 'a successful fee calculator response', amount: 904.58
+
+          context 'when 2 defendants' do
+            it_returns 'a successful fee calculator response',
+                       number_of_defendants: 2,
+                       scheme: 'lgfs',
+                       amount: 1085.50
+          end
+        end
+
+        context 'for LGFS scheme 10' do
+          let(:claim) {
+            create(
+              :transfer_claim,
+              create_defendant_and_rep_order_for_scheme_10: true,
+              offence:,
+              litigator_type: 'new',
+              elected_case: false,
+              transfer_stage_id: 20, # Before trial transfer
+              transfer_date: 3.months.ago,
+              case_conclusion_id: 30 # Cracked
+            )
+          }
+          let(:fee) { claim.transfer_fee }
+          let(:params) { { fee_type_id: fee.fee_type.id } }
+
+          it_returns 'a successful fee calculator response', amount: 1040.27
+
+          context 'when 2 defendants' do
+            it_returns 'a successful fee calculator response',
+                       number_of_defendants: 2,
+                       scheme: 'lgfs scheme 10',
+                       amount: 1248.32
+          end
+        end
+      end
+
+      context 'interim claims' do
+        context 'for LGFS scheme 9' do
+          let(:claim) {
+            create(
+              :interim_claim,
+              create_defendant_and_rep_order_for_scheme_9: true,
+              offence:
+            )
+          }
+
+          SCHEME_9_TRIAL_AND_RETRIAL_LENGTH_BOUNDARIES = { 9 => 0.00, 10 => 1467.58, 11 => 1467.58 }
+
+          context 'effective PCMH' do
+            let(:fee) { create(:interim_fee, :effective_pcmh, claim:, quantity: 100) }
+            let(:params) { { fee_type_id: fee.fee_type.id, days: nil, ppe: fee.quantity } }
+
+            it_returns 'a successful fee calculator response', amount: 838.94
+          end
+
+          context 'trial start' do
+            let(:fee) { create(:interim_fee, :trial_start, claim:) }
+            let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
+
+            SCHEME_9_TRIAL_AND_RETRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
+              context "with an estimated length of #{length}" do
+                let(:length) { length }
+
+                it_returns 'a successful fee calculator response', amount:
+              end
+            end
+
+            context 'when 2 defendants' do
+              let(:length) { 10 }
+
+              it_returns 'a successful fee calculator response',
+                         number_of_defendants: 2,
+                         scheme: 'lgfs',
+                         amount: 1761.10
+            end
+          end
+
+          context 'retrial start' do
+            let(:fee) { create(:interim_fee, :retrial_start, claim:) }
+            let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
+
+            SCHEME_9_RETRIAL_LENGTH_BOUNDARIES = { 9 => 0.00, 10 => 1467.58, 11 => 1467.58 }
+
+            SCHEME_9_RETRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
+              context "with an estimated length of #{length}" do
+                let(:length) { length }
+
+                it_returns 'a successful fee calculator response', amount:
+              end
+            end
+          end
+
+          context 'retrial (new solicitor)' do
+            let(:fee) { create(:interim_fee, :retrial_new_solicitor, claim:, quantity: 81) }
+            let(:params) { { fee_type_id: fee.fee_type.id, days: nil, ppe: fee.quantity } }
+
+            it_returns 'a successful fee calculator response', amount: 457.64
+          end
+
+          # TODO: this should return a failed response until
+          # - fee calculator amended to have codes for warrant fee scenarios
+          # - CCCD is able to apply the sub category of warrant fee scenario logic
+          #
+          context 'warrant' do
+            before { claim.retrial_estimated_length = 3 }
+
+            let(:fee) { create(:interim_fee, :warrant, claim:) }
+            let(:params) { { fee_type_id: fee.fee_type.id } }
+
+            context 'fee calculation excluded' do
+              it_returns 'a failed fee calculator response', message: /insufficient_data/i
             end
           end
         end
 
-        context 'retrial (new solicitor)' do
-          let(:fee) { create(:interim_fee, :retrial_new_solicitor, claim:, quantity: 81) }
-          let(:params) { { fee_type_id: fee.fee_type.id, days: nil, ppe: fee.quantity } }
+        context 'for LGFS scheme 10' do
+          let(:claim) {
+            create(
+              :interim_claim,
+              create_defendant_and_rep_order_for_scheme_10: true,
+              offence:
+            )
+          }
 
-          it_returns 'a successful fee calculator response', amount: 457.64
-        end
+          SCHEME_10_TRIAL_AND_RETRIAL_LENGTH_BOUNDARIES = { 9 => 0.00, 10 => 1687.72, 11 => 1687.72 }
 
-        # TODO: this should return a failed response until
-        # - fee calculator amended to have codes for warrant fee scenarios
-        # - CCCD is able to apply the sub category of warrant fee scenario logic
-        #
-        context 'warrant' do
-          before { claim.retrial_estimated_length = 3 }
+          context 'effective PCMH' do
+            let(:fee) { create(:interim_fee, :effective_pcmh, claim:, quantity: 100) }
+            let(:params) { { fee_type_id: fee.fee_type.id, days: nil, ppe: fee.quantity } }
 
-          let(:fee) { create(:interim_fee, :warrant, claim:) }
-          let(:params) { { fee_type_id: fee.fee_type.id } }
+            it_returns 'a successful fee calculator response', amount: 940.70
+          end
 
-          context 'fee calculation excluded' do
-            it_returns 'a failed fee calculator response', message: /insufficient_data/i
+          context 'trial start' do
+            let(:fee) { create(:interim_fee, :trial_start, claim:) }
+            let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
+
+            SCHEME_10_TRIAL_AND_RETRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
+              context "with an estimated length of #{length}" do
+                let(:length) { length }
+
+                it_returns 'a successful fee calculator response', amount:
+              end
+            end
+
+            context 'when 2 defendants' do
+              let(:length) { 10 }
+
+              it_returns 'a successful fee calculator response',
+                         number_of_defendants: 2,
+                         scheme: 'lgfs scheme 10',
+                         amount: 2025.26
+            end
+          end
+
+          context 'retrial start' do
+            let(:fee) { create(:interim_fee, :retrial_start, claim:) }
+            let(:params) { { fee_type_id: fee.fee_type.id, days: length, ppe: 80 } }
+
+            SCHEME_10_TRIAL_AND_RETRIAL_LENGTH_BOUNDARIES.each_pair do |length, amount|
+              context "with an estimated length of #{length}" do
+                let(:length) { length }
+
+                it_returns 'a successful fee calculator response', amount:
+              end
+            end
+          end
+
+          context 'retrial (new solicitor)' do
+            let(:fee) { create(:interim_fee, :retrial_new_solicitor, claim:, quantity: 81) }
+            let(:params) { { fee_type_id: fee.fee_type.id, days: nil, ppe: fee.quantity } }
+
+            it_returns 'a successful fee calculator response', amount: 525.48
+          end
+
+          # TODO: this should return a failed response until
+          # - fee calculator amended to have codes for warrant fee scenarios
+          # - CCCD is able to apply the sub category of warrant fee scenario logic
+          #
+          context 'warrant' do
+            before { claim.retrial_estimated_length = 3 }
+
+            let(:fee) { create(:interim_fee, :warrant, claim:) }
+            let(:params) { { fee_type_id: fee.fee_type.id } }
+
+            context 'fee calculation excluded' do
+              it_returns 'a failed fee calculator response', message: /insufficient_data/i
+            end
           end
         end
       end

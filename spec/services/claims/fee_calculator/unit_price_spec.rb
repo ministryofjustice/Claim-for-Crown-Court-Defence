@@ -755,12 +755,6 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
     describe '#call' do
       subject(:response) { described_class.new(claim, params).call }
 
-      # IMPORTANT: use specific case type, offence (incl. explicit nil), fee types
-      # and reporder date in order to reduce and afix VCR cassettes required (that have to match
-      # on query values), prevent flickering specs (from random offence classes,
-      # rep order dates) and to allow testing actual amounts "calculated".
-      let(:claim) { create(:litigator_claim, case_type:, offence: nil, create_defendant_and_rep_order_for_scheme_8: true) }
-
       let(:params) do
         {
           fee_type_id: fee.fee_type.id,
@@ -770,22 +764,52 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
         }
       end
 
-      context 'for a case-type-specific fixed fee' do
-        it_returns 'a successful fee calculator response', unit: 'day', amount: 349.47
+      # IMPORTANT: use specific case type, offence (incl. explicit nil), fee types
+      # and reporder date in order to reduce and afix VCR cassettes required (that have to match
+      # on query values), prevent flickering specs (from random offence classes,
+      # rep order dates) and to allow testing actual amounts "calculated".
+      context 'LGFS scheme 9' do
+        let(:claim) { create(:litigator_claim, case_type:, offence: nil, create_defendant_and_rep_order_for_scheme_9: true) }
+
+        context 'for a case-type-specific fixed fee' do
+          it_returns 'a successful fee calculator response', unit: 'day', amount: 349.47
+        end
+
+        context 'for a case-type-specific fixed fee with fixed amount (elected case not proceeded)' do
+          let(:case_type) { create(:case_type, :elected_cases_not_proceeded) }
+          let(:fee_type) { create(:fixed_fee_type, :fxenp) }
+          let(:fee) { create(:fixed_fee, fee_type:, claim:, quantity: 1) }
+
+          it_returns 'a successful fee calculator response', unit: 'day', amount: 330.33
+        end
+
+        context 'for erroneous request' do
+          before { params.merge!(fee_type_id: nil) }
+
+          it_returns 'a failed fee calculator response'
+        end
       end
 
-      context 'for a case-type-specific fixed fee with fixed amount (elected case not proceeded)' do
-        let(:case_type) { create(:case_type, :elected_cases_not_proceeded) }
-        let(:fee_type) { create(:fixed_fee_type, :fxenp) }
-        let(:fee) { create(:fixed_fee, fee_type:, claim:, quantity: 1) }
+      context 'LGFS scheme 10' do
+        let(:claim) { create(:litigator_claim, case_type:, offence: nil, create_defendant_and_rep_order_for_scheme_10: true) }
 
-        it_returns 'a successful fee calculator response', unit: 'day', amount: 330.33
-      end
+        context 'for a case-type-specific fixed fee' do
+          it_returns 'a successful fee calculator response', unit: 'day', amount: 401.89
+        end
 
-      context 'for erroneous request' do
-        before { params.merge!(fee_type_id: nil) }
+        context 'for a case-type-specific fixed fee with fixed amount (elected case not proceeded)' do
+          let(:case_type) { create(:case_type, :elected_cases_not_proceeded) }
+          let(:fee_type) { create(:fixed_fee_type, :fxenp) }
+          let(:fee) { create(:fixed_fee, fee_type:, claim:, quantity: 1) }
 
-        it_returns 'a failed fee calculator response'
+          it_returns 'a failed fee calculator response'
+        end
+
+        context 'for erroneous request' do
+          before { params.merge!(fee_type_id: nil) }
+
+          it_returns 'a failed fee calculator response'
+        end
       end
     end
   end

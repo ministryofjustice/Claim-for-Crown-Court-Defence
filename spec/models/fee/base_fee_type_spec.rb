@@ -34,8 +34,8 @@ RSpec.describe Fee::BaseFeeType, type: :model do
     end
   end
 
-  it { is_expected.to respond_to(*%i[lgfs? agfs? agfs_scheme_9? agfs_scheme_10? agfs_scheme_12?]) }
-  it { expect(described_class).to respond_to(*%i[lgfs agfs agfs_scheme_9s agfs_scheme_10s agfs_scheme_12s]) }
+  it { is_expected.to respond_to(*%i[lgfs? lgfs_scheme_9? lgfs_scheme_10? agfs? agfs_scheme_9? agfs_scheme_10? agfs_scheme_12?]) }
+  it { expect(described_class).to respond_to(*%i[lgfs lgfs_scheme_9s lgfs_scheme_10s agfs agfs_scheme_9s agfs_scheme_10s agfs_scheme_12s]) }
 
   it_behaves_like 'roles', Fee::MiscFeeType, Fee::MiscFeeType::ROLES # using MiscFeeType because the shared examples use a factory, which rules out the use of a class double
   it_behaves_like 'defendant upliftable'
@@ -163,34 +163,43 @@ RSpec.describe Fee::BaseFeeType, type: :model do
 
   context 'when calling scheme role scope' do
     before do
-      create(:basic_fee_type, description: 'Scheme 9, 10 and 12 roles', roles: %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12])
-      create(:fixed_fee_type, description: 'Scheme 10 and 12 roles', roles: %w[agfs agfs_scheme_10 agfs_scheme_12])
-      create(:misc_fee_type, description: 'Scheme 12 role only', roles: %w[agfs agfs_scheme_12])
-      create(:misc_fee_type, description: 'Scheme 9 role only', roles: %w[agfs agfs_scheme_9])
+      create(:basic_fee_type, description: 'AGFS Scheme 9, 10 and 12 roles', roles: %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12])
+      create(:fixed_fee_type, description: 'AGFS Scheme 10 and 12 roles', roles: %w[agfs agfs_scheme_10 agfs_scheme_12])
+      create(:misc_fee_type, description: 'AGFS Scheme 12 role only', roles: %w[agfs agfs_scheme_12])
+      create(:misc_fee_type, description: 'AGFS Scheme 9 role only', roles: %w[agfs agfs_scheme_9])
+      create(:basic_fee_type, description: 'LGFS Scheme 9 and 10 roles', roles: %w[lgfs lgfs_scheme_9 lgfs_scheme_10])
+      create(:fixed_fee_type, description: 'LGFS Scheme 9 role only', roles: %w[lgfs lgfs_scheme_9])
+      create(:misc_fee_type, description: 'LGFS Scheme 10 role only', roles: %w[lgfs lgfs_scheme_10])
     end
 
     describe '.agfs_scheme_9s' do
       subject { described_class.agfs_scheme_9s.map(&:description) }
 
-      it {
-        is_expected.to match_array(['Scheme 9, 10 and 12 roles', 'Scheme 9 role only'])
-      }
+      it { is_expected.to match_array(['AGFS Scheme 9, 10 and 12 roles', 'AGFS Scheme 9 role only']) }
     end
 
     describe '.agfs_scheme_10s' do
       subject { described_class.agfs_scheme_10s.map(&:description) }
 
-      it {
-        is_expected.to match_array(['Scheme 9, 10 and 12 roles', 'Scheme 10 and 12 roles'])
-      }
+      it { is_expected.to match_array(['AGFS Scheme 9, 10 and 12 roles', 'AGFS Scheme 10 and 12 roles']) }
     end
 
     describe '.agfs_scheme_12s' do
       subject { described_class.agfs_scheme_12s.map(&:description) }
 
-      it {
-        is_expected.to match_array(['Scheme 9, 10 and 12 roles', 'Scheme 10 and 12 roles', 'Scheme 12 role only'])
-      }
+      it { is_expected.to match_array(['AGFS Scheme 9, 10 and 12 roles', 'AGFS Scheme 10 and 12 roles', 'AGFS Scheme 12 role only']) }
+    end
+
+    describe '.lgfs_scheme_9s' do
+      subject { described_class.lgfs_scheme_9s.map(&:description) }
+
+      it { is_expected.to match_array(['LGFS Scheme 9 and 10 roles', 'LGFS Scheme 9 role only']) }
+    end
+
+    describe '.lgfs_scheme_10s' do
+      subject { described_class.lgfs_scheme_10s.map(&:description) }
+
+      it { is_expected.to match_array(['LGFS Scheme 9 and 10 roles', 'LGFS Scheme 10 role only']) }
     end
   end
 end

@@ -6,6 +6,7 @@ RSpec.describe FeeScheme, type: :model do
   end
 
   let(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) }
+  let(:lgfs_scheme_ten) { FeeScheme.find_by(name: 'LGFS', version: 10) }
   let(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) }
   let(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) }
   let(:agfs_scheme_eleven) { FeeScheme.find_by(name: 'AGFS', version: 11) }
@@ -145,10 +146,16 @@ RSpec.describe FeeScheme, type: :model do
       it { is_expected.to eq lgfs_scheme_nine }
     end
 
-    context 'when date is after cut over date' do
+    context 'when date is after cut over date but before the start date of scheme 10' do
       let(:the_date) { Date.new(2018, 4, 10) }
 
       it { is_expected.to eq lgfs_scheme_nine }
+    end
+
+    context 'when date is on or after the start date for scheme 10' do
+      let(:the_date) { Settings.lgfs_scheme_10_clair_release_date }
+
+      it { is_expected.to eq lgfs_scheme_ten }
     end
   end
 
@@ -158,8 +165,79 @@ RSpec.describe FeeScheme, type: :model do
     context 'with an LGFS claim' do
       let(:claim) { create :litigator_claim }
 
-      it 'returns the default scheme' do
-        expect(fee_scheme).to eq(lgfs_scheme_nine)
+      context 'without representation order' do
+        before do
+          expect(claim).to receive(:earliest_representation_order).and_return(nil)
+        end
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'with representation order but no date' do
+        let(:representation_order) { instance_double(RepresentationOrder) }
+
+        before do
+          expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
+          expect(representation_order).to receive(:representation_order_date).and_return(nil)
+        end
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'with offence but no representation order' do
+        let(:claim) { create(:litigator_claim, offence:) }
+
+        before do
+          allow(claim).to receive(:earliest_representation_order).and_return(nil)
+        end
+
+        context 'with fee scheme 9 offence' do
+          let(:offence) { create(:offence, :with_lgfs_fee_scheme_nine) }
+
+          it { is_expected.to eq lgfs_scheme_nine }
+        end
+
+        context 'with fee scheme 10 offence' do
+          let(:offence) { create(:offence, :with_lgfs_fee_scheme_ten) }
+
+          it { is_expected.to eq lgfs_scheme_ten }
+        end
+      end
+
+      context 'when the earliest representation order date is before the start date of scheme 9' do
+        let(:representation_order) { instance_double(RepresentationOrder) }
+        let(:representation_order_date) { Date.new(2018, 3, 10) }
+
+        before do
+          allow(claim).to receive(:earliest_representation_order).and_return(representation_order)
+          allow(representation_order).to receive(:representation_order_date).and_return(representation_order_date)
+        end
+
+        it { is_expected.to eq lgfs_scheme_nine }
+      end
+
+      context 'when the earliest rep order date is between the start date of scheme 9 but before scheme 10' do
+        let(:representation_order) { instance_double(RepresentationOrder) }
+        let(:representation_order_date) { Date.new(2018, 4, 1) }
+
+        before do
+          allow(claim).to receive(:earliest_representation_order).and_return(representation_order)
+          allow(representation_order).to receive(:representation_order_date).and_return(representation_order_date)
+        end
+
+        it { is_expected.to eq lgfs_scheme_nine }
+      end
+
+      context 'when the earliest representation order date is on or after the start date of scheme 10' do
+        let(:representation_order) { instance_double(RepresentationOrder) }
+        let(:representation_order_date) { Settings.lgfs_scheme_10_clair_release_date }
+
+        before do
+          allow(claim).to receive(:earliest_representation_order).and_return(representation_order)
+          allow(representation_order).to receive(:representation_order_date).and_return(representation_order_date)
+        end
+
+        it { is_expected.to eq lgfs_scheme_ten }
       end
     end
 

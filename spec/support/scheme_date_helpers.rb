@@ -9,7 +9,9 @@ module SchemeDateHelpers
       Settings.agfs_fee_reform_release_date.strftime
     when 'scheme 9' || 'pre agfs reform'
       '2016-01-01'
-    when 'lgfs'
+    when 'lgfs scheme 10'
+      Settings.lgfs_scheme_10_clair_release_date.strftime
+    when 'lgfs' || 'lgfs scheme 9'
       '2016-04-01'
     else
       '2016-01-01'

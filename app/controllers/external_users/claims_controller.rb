@@ -304,8 +304,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :trial_fixed_at,
       :trial_cracked_at,
       :case_concluded_at,
-      date_attributes_for(:effective_pcmh_date),
-      date_attributes_for(:legal_aid_transfer_date),
+      :effective_pcmh_date,
+      :legal_aid_transfer_date,
       :trial_cracked_at_third,
       :additional_information,
       :litigator_type,
@@ -372,8 +372,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :quantity,
         :amount,
         :price_calculated,
-        date_attributes_for(:warrant_issued_date),
-        date_attributes_for(:warrant_executed_date)
+        :warrant_issued_date,
+        :warrant_executed_date
       ],
       transfer_fee_attributes: %i[
         id
@@ -389,8 +389,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :fee_type_id,
         :amount,
         :price_calculated,
-        date_attributes_for(:warrant_issued_date),
-        date_attributes_for(:warrant_executed_date)
+        :warrant_issued_date,
+        :warrant_executed_date
       ],
       hardship_fee_attributes: %i[
         id

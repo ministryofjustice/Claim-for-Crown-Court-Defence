@@ -9,11 +9,11 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
     end
 
     it "invalid when greater than #{max}" do
-      should_error_if_equal_to_value(fee, :quantity, max + 1, 'numericality')
+      should_error_if_equal_to_value(fee, :quantity, max + 1, 'Enter a valid PPE quantity for the interim fee')
     end
 
     it "invalid when less than #{min}" do
-      should_error_if_equal_to_value(fee, :quantity, min - 1, 'numericality')
+      should_error_if_equal_to_value(fee, :quantity, min - 1, 'Enter a valid PPE quantity for the interim fee')
     end
   end
 
@@ -66,6 +66,10 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   end
 
   describe '#validate_quantity' do
+    let(:quantity_present_error_message) do
+      'Do not enter a PPE quantity for the interim fee'
+    end
+
     context 'disbursement fee' do
       it 'valid if nil/zero' do
         should_be_valid_if_equal_to_value(disbursement_fee, :quantity, nil)
@@ -73,7 +77,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
       end
 
       it 'invalid if present/non-zero' do
-        should_error_if_equal_to_value(disbursement_fee, :quantity, 1, 'present')
+        should_error_if_equal_to_value(disbursement_fee, :quantity, 1, quantity_present_error_message)
       end
     end
 
@@ -84,7 +88,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
       end
 
       it 'invalid if present/non-zero' do
-        should_error_if_equal_to_value(interim_warrant_fee, :quantity, 1, 'present')
+        should_error_if_equal_to_value(interim_warrant_fee, :quantity, 1, quantity_present_error_message)
       end
     end
 
@@ -114,7 +118,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   end
 
   describe '#validate_amount' do
-    include_examples 'common LGFS amount validations'
+    include_examples 'common LGFS amount govuk validations'
 
     context 'disbursement fee' do
       it 'is invalid if present' do
@@ -125,10 +129,14 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
     end
 
     context 'warrant fee' do
+      let(:fee_amount_error_message) do
+        'Enter an amount for the (.*?)(interim|warrant) fee'
+      end
+
       it 'is invalid if absent' do
         allow(interim_warrant_fee).to receive(:amount).and_return nil
         expect(interim_warrant_fee).to be_invalid
-        expect(interim_warrant_fee.errors[:amount]).to eq ['blank']
+        expect(interim_warrant_fee.errors[:amount]).to include(match(fee_amount_error_message))
       end
     end
   end

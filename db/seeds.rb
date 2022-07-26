@@ -30,6 +30,7 @@ SEED_FILES = %w[
   super_admins
   supplier_numbers
   vat_rates
+  lgfs_scheme_10
 ]
 
 SEED_FILES.each do |file|

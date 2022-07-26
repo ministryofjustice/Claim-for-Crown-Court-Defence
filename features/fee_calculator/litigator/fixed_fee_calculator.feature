@@ -1,8 +1,8 @@
 @javascript
+@fee_calc_vcr
 Feature: litigator completes fixed fee page using calculator
 
-  @fee_calc_vcr
-  Scenario: I create a fixed fee claim using calculated value
+  Scenario: I create a fee scheme 9 fixed fee claim using calculated value
 
     Given I am a signed in litigator
     And My provider has supplier numbers
@@ -53,6 +53,58 @@ Feature: litigator completes fixed fee page using calculator
     And I goto claim form step 'fixed fees'
     Then the fixed fee rate should be populated with '330.33'
     Then I should see fixed fee total '£660.66'
+
+    And I eject the VCR cassette
+
+    Then I click "Continue" in the claim form
+    And I should be in the 'Miscellaneous fees' form page
+
+    And the fixed fee should have its price_calculated value set to true
+
+  Scenario: I create a fee scheme 10 fixed fee claim using calculated value
+
+    Given I am a signed in litigator
+    And the current date is '2022-10-30'
+    And My provider has supplier numbers
+    And I am on the 'Your claims' page
+    And I click 'Start a claim'
+    And I select the fee scheme 'Litigator final fee'
+    Then I should be on the litigator new claim page
+
+    When I choose the supplier number '1A222Z'
+    And I enter a providers reference of 'LGFS test fixed fee calculation'
+    And I select a case type of 'Appeal against conviction'
+    And I select the court 'Blackfriars'
+    And I enter a case number of 'A20161234'
+    And I enter the case concluded date '2022-10-29'
+
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
+
+    And I enter defendant, LGFS Scheme 10 representation order and MAAT reference
+    And I add another defendant, LGFS Scheme 10 representation order and MAAT reference
+
+    Given I insert the VCR cassette 'features/fee_calculator/litigator/fixed_fee_calculator'
+
+    Then I click "Continue" in the claim form
+    And I should be in the 'Fixed fees' form page
+
+    And the fixed fee rate should be populated with '401.89'
+    And I fill '2022-10-01' as the fixed fee date
+    And I fill '1' as the fixed fee quantity
+    Then I should see fixed fee total '£401.89'
+    And I fill '2' as the fixed fee quantity
+    Then I should see fixed fee total '£803.78'
+
+    Then I click "Continue" in the claim form
+    And I should be in the 'Miscellaneous fees' form page
+
+    And I goto claim form step 'case details'
+    And I select a case type of 'Hearing subsequent to sentence'
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
+
+    And I goto claim form step 'fixed fees'
+    Then the fixed fee rate should be populated with '178.62'
+    Then I should see fixed fee total '£357.24'
 
     And I eject the VCR cassette
 

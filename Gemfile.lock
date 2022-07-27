@@ -664,10 +664,12 @@ GEM
     sentry-rails (5.3.1)
       railties (>= 5.0)
       sentry-ruby-core (~> 5.3.1)
+    sentry-ruby (5.4.1)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     sentry-ruby-core (5.3.1)
       concurrent-ruby
-    sentry-sidekiq (5.3.1)
-      sentry-ruby-core (~> 5.3.1)
+    sentry-sidekiq (5.4.1)
+      sentry-ruby (~> 5.4.1)
       sidekiq (>= 3.0)
     sexp_processor (4.16.1)
     shell-spinner (1.0.4)
@@ -869,7 +871,7 @@ DEPENDENCIES
   rubyzip
   scheduler_daemon!
   sentry-rails (~> 5.3)
-  sentry-sidekiq (~> 5.3)
+  sentry-sidekiq (~> 5.4)
   shell-spinner (~> 1.0, >= 1.0.4)
   shoulda-matchers (>= 4.0.0.rc1)
   sidekiq (~> 6.5)

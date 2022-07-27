@@ -710,7 +710,7 @@ GEM
       state_machines-activemodel (>= 0.8.0)
     state_machines-audit_trail (2.0.2)
       state_machines
-    strscan (3.0.3)
+    strscan (3.0.4)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     temple (0.8.2)

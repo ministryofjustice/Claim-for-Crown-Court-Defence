@@ -323,7 +323,7 @@ GEM
       activesupport (>= 5.0)
     gov_uk_date_fields (3.2.0)
       rails (>= 5.2)
-    govuk_design_system_formbuilder (3.1.0)
+    govuk_design_system_formbuilder (3.1.1)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -481,7 +481,7 @@ GEM
     multi_json (1.15.0)
     multi_test (0.1.2)
     multipart-post (2.2.3)
-    mustermann (2.0.1)
+    mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.0.2)
       mustermann (>= 1.0.0)
@@ -522,7 +522,7 @@ GEM
       parallel
     parser (3.1.2.0)
       ast (~> 2.4.1)
-    pg (1.4.1)
+    pg (1.4.2)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -846,7 +846,7 @@ DEPENDENCIES
   nokogiri (~> 1.13)
   paper_trail (~> 12.3.0)
   parallel_tests
-  pg (~> 1.4.1)
+  pg (~> 1.4.2)
   pry-byebug
   pry-rails
   puma

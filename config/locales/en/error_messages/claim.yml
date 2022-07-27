@@ -535,16 +535,6 @@ legal_aid_transfer_date:
     short: _
     api: The date legal aid was transferred is not allowed
 
-travel_expense_additional_information:
-  _seq: 215
-  higher_rate_travel_claimed:
-    long: 'You should provide details of why you have claimed private mileage rate travel'
-    short: 'Provide details for private mileage rate'
-    api: 'Provide details for private mileage rate'
-  calculated_travel_increased:
-    long: 'You should provide details of why you have increased some of your travel distances'
-    short: 'Provide details for increased travel distance'
-    api: 'Provide details for increased travel distance'
 
 #################################################################################
 #                                                                               #
@@ -1554,7 +1544,6 @@ expense:
       short: _
       api: VAT amount for the expense exceeds current VAT rate
 
-
   location:
     _seq: 30
     enter_a_location:
@@ -1607,7 +1596,6 @@ expense:
       short: _
       api: 'Travel time for #{expense} can be maximum 2 decimal places'
 
-
   reason_text:
     _seq: 50
     enter_a_reason:
@@ -1640,6 +1628,17 @@ expense:
       long: 'Select a valid mileage rate for the #{expense}'
       short: _
       api: Select a valid mileage rate
+
+travel_expense_additional_information:
+  _seq: 215
+  provide_details_for_private_mileage_rate:
+    long: Provide details for private mileage rate
+    short: _
+    api: Provide details for private mileage rate
+  provide_details_for_increased_travel_distance:
+    long: Provide details for increased travel distance
+    short: _
+    api: Provide details for increased travel distance
 
 #################################################################################
 #                                                                               #

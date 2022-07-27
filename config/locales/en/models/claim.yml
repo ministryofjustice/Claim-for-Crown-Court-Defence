@@ -82,7 +82,7 @@ en:
               check_not_in_future: First day of retrial cannot be too far in the future
               check_not_too_far_in_past: First day of retrial cannot be too far in the past
               check_other_date: Check the date for First day of retrial
-              invalid_date: Enter a valid date for the first day of retrial
+              invalid_date: Enter a valid date for the first day of retrialrspecspec
               present: Date for retrial start is not allowed
             supplier_number:
               blank: Choose a supplier number
@@ -94,6 +94,9 @@ en:
             transfer_court_id:
               blank: Choose a transfer court
               same: Choose a different transfer court
+            travel_expense_additional_information:
+              calculated_travel_increased: Provide details for increased travel distance
+              higher_rate_travel_claimed: Provide details for private mileage rate
             trial_concluded_at:
               blank: Enter the date on which the trial concluded
               check_not_in_future: Trial concluded date cannot be in the future

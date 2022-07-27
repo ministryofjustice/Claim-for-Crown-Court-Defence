@@ -301,8 +301,8 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_travel_expense_additional_information
     return if @record.from_api?
     return unless @record.expenses.any?
-    validate_presence(:travel_expense_additional_information, 'higher_rate_travel_claimed') if has_higher_rate_mileage?
-    validate_presence(:travel_expense_additional_information, 'calculated_travel_increased') if increased_travel?
+    validate_presence(:travel_expense_additional_information, :higher_rate_travel_claimed) if has_higher_rate_mileage?
+    validate_presence(:travel_expense_additional_information, :calculated_travel_increased) if increased_travel?
   end
 
   def actual_length_consistent?(requires_dates, actual_length, start_date, end_date)

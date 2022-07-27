@@ -481,7 +481,7 @@ GEM
     multi_json (1.15.0)
     multi_test (0.1.2)
     multipart-post (2.2.3)
-    mustermann (2.0.1)
+    mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.0.2)
       mustermann (>= 1.0.0)

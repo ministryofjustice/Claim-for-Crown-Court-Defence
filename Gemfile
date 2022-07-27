@@ -111,7 +111,7 @@ group :test do
   gem 'json_spec'
   gem 'launchy', '~> 2.5.0'
   gem 'rails-controller-testing'
-  gem 'rspec-html-matchers', '~> 0.9.4'
+  gem 'rspec-html-matchers', '~> 0.10.0'
   gem 'rspec-mocks'
   gem 'shoulda-matchers', '>= 4.0.0.rc1'
   gem 'simplecov', require: false

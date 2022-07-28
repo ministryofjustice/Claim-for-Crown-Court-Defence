@@ -1,11 +1,8 @@
-#misc-fees.mod-fees.form-section
+#misc-fees.mod-fees
   #misc_fees.misc-fee-group-wrapper
     %h3.govuk-heading-m
       = t('.misc_fee')
-    .form-group
-      %fieldset
-        %legend.form-label-bold
-          = t('.fee_type')
-        = f.fields_for :misc_fees do |misc_fee_fields|
-          - @misc_fee_count += 1
-          = render 'external_users/claims/misc_fees/advocates/supplementary/misc_fee_fields', f: misc_fee_fields
+    = f.govuk_check_boxes_fieldset :misc_fees, legend: { text: t('.fee_type') }, form_group: { id: 'claim-misc-fees-field-error' } do
+      = f.fields_for :misc_fees do |misc_fee_fields|
+        - @misc_fee_count += 1
+        = render partial: 'external_users/claims/misc_fees/advocates/supplementary/misc_fee_fields', locals: { f: misc_fee_fields }

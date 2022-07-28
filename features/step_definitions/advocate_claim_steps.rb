@@ -134,6 +134,27 @@ When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')
   wait_for_ajax
 end
 
+When(/^I add a govuk calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')?(?: with dates attended\s*(.*))?$/) do |name, quantity, date|
+  quantity = quantity.present? ? quantity : '1'
+  patiently do
+    @claim_form_page.add_govuk_misc_fee_if_required
+  end
+  @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete.choose_autocomplete_option(name)
+  @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.send_keys(:tab)
+  wait_for_debounce
+  wait_for_ajax
+  @claim_form_page.miscellaneous_fees.last.quantity.set quantity
+  @claim_form_page.miscellaneous_fees.last.quantity.send_keys(:tab)
+  wait_for_debounce
+  wait_for_ajax
+  if date.present?
+    @claim_form_page.miscellaneous_fees.last.add_dates.click
+    @claim_form_page.miscellaneous_fees.last.dates.set_date(date)
+  end
+  wait_for_debounce
+  wait_for_ajax
+end
+
 Then(/^I check the section heading to be "([^"]*)"$/) do |num|
   expect(@claim_form_page.miscellaneous_fees.last.numbered.text).to have_content(num)
 end
@@ -252,6 +273,17 @@ Then(/^the following fee details should exist:$/) do |table|
   end
 end
 
+Then(/^the following govuk fee details should exist:$/) do |table|
+  table.hashes.each do |row|
+    fee_block = @claim_form_page.govuk_fee_block_for("#{row['section']}_fees", row['fee_description'])
+
+    expect(fee_block.rate.value).to eql row['rate']
+    expect(fee_block.quantity_hint).to have_text(row['hint']) if row.keys.include?('hint')
+    expect(fee_block).to have_calc_help_text if row.keys.include?('help') && row['help'].eql?('true')
+    expect(fee_block).to_not have_calc_help_text if row.keys.include?('help') && !row['help'].eql?('true')
+  end
+end
+
 Then(/^the fixed fee '(.*?)' should have a rate of '(\d+\.\d+)'(?: and a hint of '(.*?)')?$/) do |fee, rate, hint|
   fee_block = @claim_form_page.fixed_fees.fee_block_for(fee)
   wait_for_ajax
@@ -291,6 +323,14 @@ end
 
 Then("I amend the miscellaneous fee {string} to have a quantity of {string}") do |fee_type, quantity|
   misc_fee = @claim_form_page.fee_block_for(:miscellaneous_fees, fee_type)
+  misc_fee.quantity.set(quantity)
+  misc_fee.quantity.send_keys(:tab)
+  wait_for_debounce
+  wait_for_ajax
+end
+
+Then("I amend the govuk miscellaneous fee {string} to have a quantity of {string}") do |fee_type, quantity|
+  misc_fee = @claim_form_page.govuk_fee_block_for(:miscellaneous_fees, fee_type)
   misc_fee.quantity.set(quantity)
   misc_fee.quantity.send_keys(:tab)
   wait_for_debounce

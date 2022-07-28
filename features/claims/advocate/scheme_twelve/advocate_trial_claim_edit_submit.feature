@@ -37,12 +37,12 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     Then I should be in the 'Miscellaneous fees' form page
     And I should see 'This claim should be eligible for unused materials fees (up to 3 hours)'
 
-    When I add a calculated miscellaneous fee 'Unused materials (up to 3 hours)'
-    And I add a calculated miscellaneous fee 'Unused materials (over 3 hours)' with quantity of '5'
+    When I add a govuk calculated miscellaneous fee 'Unused materials (up to 3 hours)'
+    And I add a govuk calculated miscellaneous fee 'Unused materials (over 3 hours)' with quantity of '5'
     And I should see 'You need to add a separate "Unused material (up to 3 hours)" fee for the first 3 hours'
-    And I add a calculated miscellaneous fee 'Paper heavy case'
-    And I add a calculated miscellaneous fee 'Deferred sentence hearings'
-    Then the following fee details should exist:
+    And I add a govuk calculated miscellaneous fee 'Paper heavy case'
+    And I add a govuk calculated miscellaneous fee 'Deferred sentence hearings'
+    Then the following govuk fee details should exist:
       | section | fee_description | rate | hint | help |
       | miscellaneous | Unused materials (up to 3 hours) | 59.09 | Number of hours | true |
       | miscellaneous | Unused materials (over 3 hours) | 39.39 | Number of hours | true |

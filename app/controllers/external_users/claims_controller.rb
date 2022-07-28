@@ -422,8 +422,8 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       ],
       interim_claim_info_attributes: [
         :warrant_fee_paid,
-        date_attributes_for(:warrant_issued_date),
-        date_attributes_for(:warrant_executed_date)
+        :warrant_issued_date,
+        :warrant_executed_date
       ]
     )
   end

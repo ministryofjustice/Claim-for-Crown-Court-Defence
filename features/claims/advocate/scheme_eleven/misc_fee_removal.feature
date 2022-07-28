@@ -40,8 +40,8 @@ Feature: Advocate can add and remove miscelleaneous fees
 
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
-    And I add a calculated miscellaneous fee 'Abuse of process hearings (half day)' with quantity of '1'
-    And I add a calculated miscellaneous fee 'Hearings relating to disclosure (whole day)' with quantity of '1'
+    And I add a govuk calculated miscellaneous fee 'Abuse of process hearings (half day)' with quantity of '1'
+    And I add a govuk calculated miscellaneous fee 'Hearings relating to disclosure (whole day)' with quantity of '1'
     And I click "Continue" in the claim form
     Then I should be in the 'Travel expenses' form page
 

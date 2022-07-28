@@ -56,10 +56,10 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
     And I should see a page title "Enter miscellaneous fees for advocate hardship fees claim"
-    And I add a calculated miscellaneous fee 'Special preparation fee' with quantity of '2'
-    And I add a calculated miscellaneous fee 'Ground rules hearing (whole day)' with quantity of '2'
+    And I add a govuk calculated miscellaneous fee 'Special preparation fee' with quantity of '2'
+    And I add a govuk calculated miscellaneous fee 'Ground rules hearing (whole day)' with quantity of '2'
 
-    Then the following fee details should exist:
+    Then the following govuk fee details should exist:
       | section | fee_description | rate | hint | help |
       | miscellaneous | Special preparation fee | 39.39 | Number of hours | true |
       | miscellaneous | Ground rules hearing (whole day) | 240.00 | Number of days | true |

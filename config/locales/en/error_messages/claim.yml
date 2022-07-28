@@ -981,21 +981,21 @@ misc_fee:
 
   fee_type:
     _seq: 10
-    blank:
+    choose_a_type_for_the_miscellaneous_fee:
       long: 'Choose a type for the #{misc_fee}'
-      short: Choose a fee type
+      short: _
       api: Choose a type for the miscellaneous fee
-    case_type_inclusion:
+    fee_type_is_not_applicable_to_this_case_type:
       long: 'Choose an applicable type for the #{misc_fee}'
-      short: Not applicable to case type
+      short: _
       api: Fee type is not applicable to this case type
-    offence_category_exclusion:
+    fee_type_is_not_applicable_to_this_offence_category:
       long: 'Choose an applicable type for the #{misc_fee}'
-      short: Not applicable to offence category
+      short: _
       api: Fee type is not applicable to this offence category
-    fee_scheme_applicability:
+    fee_type_is_not_applicable_to_the_fee_scheme:
       long: 'Choose an applicable type for the #{misc_fee}'
-      short: Not applicable to fee scheme
+      short: _
       api: Fee type is not applicable to the fee scheme, based on representation order date
 
   rate:
@@ -1004,6 +1004,14 @@ misc_fee:
       long: 'Enter a valid net amount for the #{misc_fee}'
       short: _
       api: Enter a rate/net amount for the miscellaneous fee
+    enter_a_valid_rate_for_the_plea_and_trial_preparation_hearing:
+      long: Enter a valid rate for the Plea and trial preparation hearing
+      short: _
+      api: Enter a valid rate for the Plea and trial preparation hearing
+    enter_a_valid_rate_for_the_standard_appearance_fee:
+      long: Enter a valid rate for the Standard appearance fee
+      short: _
+      api: Enter a valid rate for the Standard appearance fee
 
   quantity:
     _seq: 30
@@ -1015,44 +1023,60 @@ misc_fee:
       long: You must specify a whole number for this type of fee
       short: _
       api: You must specify a whole number for this type of fee
-    pcm_invalid:
+    enter_a_valid_quantity_for_plea_and_trial_preparation_hearing:
       long: Enter a valid quantity for plea and trial preparation hearing
-      short: *enter_valid_quantity
+      short: _
       api: Enter a valid quantity for plea and trial preparation hearing
-    pcm_numericality:
+    enter_a_valid_quantity_1_to_3_for_plea_and_case_management_hearing_fees:
       long: Enter a valid quantity (1 to 3) for plea and case management hearing fees
-      short: Must be 1 to 3
+      short: _
       api: Enter a valid quantity (1 to 3) for plea and case management hearing fees
-    miumu_numericality:
+    enter_a_valid_quantity_for_unused_material_up_to_3_hours:
       long: 'Enter a valid quantity for the #{misc_fee}'
-      short: Must be exactly 1
+      short: _
       api: Enter a valid quantity (1) for unused material (up to 3 hours)
+    the_amount_for_the_miscellaneous_fee_exceeds_the_limit:
+      long: The amount for the miscellaneous fee exceeds the limit
+      short: _
+      api: The amount for the miscellaneous fee exceeds the limit
 
   case_numbers:
     _seq: 40
-    blank:
+    enter_at_least_one_case_number_for_the_miscellaneous_fee:
       long: 'Enter at least one case number for the #{misc_fee}'
-      short: Enter at least one case number
+      short: _
       api: Enter at least one case number for the miscellaneous fee
     case_numbers_for_the_miscellaneous_fee_are_not_allowed:
       long: 'Case numbers for the #{misc_fee} are not allowed'
       short: _
       api: Case numbers for the miscellaneous fee are not allowed
-    invalid:
+    enter_valid_case_numbers_for_the_miscellaneous_fee:
       long: 'Enter valid case numbers for the #{misc_fee}'
-      short: Enter valid case numbers
+      short: _
       api: Enter valid case numbers for the miscellaneous fee
 
   amount:
     _seq: 50
-    numericality:
+    enter_a_valid_amount_for_the_miscellaneous_fee:
       long: 'Enter a valid amount for the #{misc_fee}'
-      short: *enter_valid_amount
+      short: _
       api: Enter a valid amount for the miscellaneous fee
-    incorrect_epf:
-      long: 'Evidence provision fee can only be £45 or £90'
-      short: 'Enter £45 or £90'
-      api: 'Evidence provision fee can only be £45 or £90'
+    evidence_provision_fee_can_only_be_45_or_90:
+      long: Evidence provision fee can only be £45 or £90
+      short: _
+      api: Evidence provision fee can only be £45 or £90
+    the_amount_for_the_miscellaneous_fee_exceeds_the_limit:
+      long: The amount for the miscellaneous fee exceeds the limit
+      short: _
+      api: The amount for the miscellaneous fee exceeds the limit
+
+misc_fees:
+  _seq: 505
+
+  you_must_select_at_least_one_miscellaneous_fee:
+    long: You must select at least one miscellaneous fee
+    short: _
+    api: You must select at least one miscellaneous fee
 
 #################################################################################
 #                                                                               #
@@ -1333,6 +1357,47 @@ warrant_fee: &warrant_fee_errors
       api: The amount for the warrant fee exceeds the limit
 
 interim_claim_info: *warrant_fee_errors
+interim_claim_info_attributes_warrant_issued_date:
+    _seq: 20
+    enter_a_warrant_issued_date:
+      long: Enter a warrant issued date
+      short: _
+      api: Enter a warrant issued date
+    warrant_issued_date_needs_to_be_on_or_after_the_earliest_representation_order_date:
+      long: Warrant issued date needs to be on or after the earliest representation order date
+      short: _
+      api: Warrant issued date needs to be on or after the earliest representation order date
+    warrant_issued_date_cannot_be_too_far_in_the_future:
+      long: Warrant issued date cannot be too far in the future
+      short: _
+      api: Warrant issued date cannot be too far in the future
+    warrant_issued_date_cannot_be_too_far_in_the_past:
+      long: Warrant issued date cannot be too far in the past
+      short: _
+      api: Warrant issued date cannot be too far in the past
+    warrant_fee_cannot_be_claimed_until_at_least_3_months_have_passed_since_warrant_was_issued:
+      long: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
+      short: _
+      api: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
+
+interim_claim_info_attributes_warrant_executed_date:
+  _seq: 30
+  enter_a_warrant_executed_date:
+    long: Enter a warrant executed date
+    short: _
+    api: Enter a warrant executed date
+  warrant_executed_date_cannot_be_too_far_in_the_future:
+    long: Warrant executed date cannot be too far in the future
+    short: _
+    api: Warrant executed date cannot be too far in the future
+  warrant_executed_date_cannot_be_too_far_in_the_past:
+    long: Warrant executed date cannot be too far in the past
+    short: _
+    api: Warrant executed date cannot be too far in the past
+  the_warrant_executed_date_is_before_the_issued_date:
+    long: The warrant executed date is before the issued date
+    short: _
+    api: The warrant executed date is before the issued date
 
 warrant_fee_attributes_warrant_issued_date:
   _seq: 650.20
@@ -1669,10 +1734,10 @@ date_attended:
       long: 'Enter the #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense}'
       short: _
       api: 'Enter the date attended (from)'
-    the_fixed_fee_date_cannot_be_more_than_two_years_before_the_earliest_representation_order_date:
-      long: The fixed fee date cannot be more than two years before the earliest representation order date
+    the_fee_date_cannot_be_more_than_two_years_before_the_earliest_representation_order_date:
+      long: 'The #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} date cannot be more than two years before the earliest representation order date'
       short: _
-      api: The fixed fee date cannot be more than two years before the earliest representation order date
+      api: 'The #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} date cannot be more than two years before the earliest representation order date'
     enter_a_date_that_is_not_in_the_future:
       long: 'The #{date_attended} (from) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
       short: _

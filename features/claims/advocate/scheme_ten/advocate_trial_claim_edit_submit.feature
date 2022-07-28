@@ -50,8 +50,8 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I should see a page title "Enter graduated fees for advocate final fees claim"
     Then I click "Continue" in the claim form
 
-    And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended '2018-04-01'
-    And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
+    And I add a govuk calculated miscellaneous fee 'Special preparation fee' with dates attended '2018-04-01'
+    And I add a govuk calculated miscellaneous fee 'Noting brief fee' with dates attended '2018-04-01'
     And I check the section heading to be "2"
 
     And I eject the VCR cassette

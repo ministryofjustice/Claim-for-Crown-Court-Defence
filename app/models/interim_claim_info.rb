@@ -7,8 +7,6 @@ class InterimClaimInfo < ApplicationRecord
 
   validates_with InterimClaimInfoValidator
 
-  acts_as_gov_uk_date :warrant_issued_date, :warrant_executed_date
-
   def perform_validation?
     claim&.perform_validation?
   end

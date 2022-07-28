@@ -44,8 +44,8 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I select the govuk field 'Daily attendance fee (3 to 40)' basic fee with quantity of 4
 
     Then I click "Continue" in the claim form
-    And I add a calculated miscellaneous fee 'Special preparation fee' with dates attended
-    And I add a calculated miscellaneous fee 'Noting brief fee' with dates attended
+    And I add a govuk calculated miscellaneous fee 'Special preparation fee' with dates attended
+    And I add a govuk calculated miscellaneous fee 'Noting brief fee' with dates attended
 
     And I eject the VCR cassette
 

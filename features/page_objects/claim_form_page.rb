@@ -69,7 +69,7 @@ class ClaimFormPage < BasePage
   section :fixed_fees, FixedFeeSection, "div#fixed-fees"
 
   sections :miscellaneous_fees, TypedFeeSection, "div#misc-fees .misc-fee-group"
-  element :add_another_miscellaneous_fee, "div#misc-fees > .form-group > a.add_fields"
+  element :add_another_miscellaneous_fee, "div#misc-fees > a.add_fields"
 
   sections :expenses, ExpenseSection, "div#expenses div.expense-group"
   element :add_another_expense, "div#expense > a.add_fields"
@@ -115,6 +115,12 @@ class ClaimFormPage < BasePage
     end
   end
 
+  def add_govuk_misc_fee_if_required
+    if miscellaneous_fees.last.govuk_element_populated?
+      add_another_miscellaneous_fee.click
+    end
+  end
+
   def attach_evidence(count: 1, document: '*')
     count ||= 1
     available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/#{document.gsub('.pdf','')}.pdf"
@@ -136,6 +142,18 @@ class ClaimFormPage < BasePage
       section.fee_block_for(description)
     elsif section.map { |section| section.is_a?(TypedFeeSection) }.all?
       section.find { |section| section.select_input.value.eql?(description) }
+    else
+      raise ArgumentError, 'section(s) specified cannot identify specific fee sub-sections'
+    end
+  end
+
+  def govuk_fee_block_for(section_or_sections, description)
+    section = send(section_or_sections.to_sym)
+
+    if section.respond_to?(:fee_block_for)
+      section.fee_block_for(description)
+    elsif section.map { |section| section.is_a?(TypedFeeSection) }.all?
+      section.find { |section| section.govuk_fee_type_autocomplete_input.value.eql?(description) }
     else
       raise ArgumentError, 'section(s) specified cannot identify specific fee sub-sections'
     end

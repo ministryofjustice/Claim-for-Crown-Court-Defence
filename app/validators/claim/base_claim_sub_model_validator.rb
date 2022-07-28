@@ -42,7 +42,7 @@ class Claim::BaseClaimSubModelValidator < BaseSubModelValidator
   def validate_presence_of_association(association_name, options = {})
     return unless options && options[:presence]
 
-    if %i[warrant_fee].include? association_name
+    if %i[misc_fees warrant_fee].include? association_name
       validate_presence(association_name, :blank)
     else
       validate_presence(association_name, 'blank')

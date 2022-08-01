@@ -56,7 +56,7 @@ module API
           params { use :scheme_role_filter }
           get do
             case scheme_role
-            when :lgfs
+            when :lgfs, :lgfs_scheme_9s, :lgfs_scheme_10s
               []
             when :agfs_scheme_10s, :agfs_scheme_12s
               Settings.agfs_reform_advocate_categories

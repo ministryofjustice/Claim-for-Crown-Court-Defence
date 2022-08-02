@@ -15,22 +15,14 @@ class ExternalUsers::ApplicationController < ApplicationController
     end
   end
 
-  def date_attributes_for(date_param)
-    date_params = []
-    %w[dd mm yyyy].each do |part|
-      date_params.push("#{date_param}_#{part}".to_sym)
-    end
-    date_params
-  end
-
   def common_dates_attended_attributes
     {
-      dates_attended_attributes: [
-        :id,
-        :fee_id,
-        :date,
-        date_attributes_for(:date_to),
-        :_destroy
+      dates_attended_attributes: %i[
+        id
+        fee_id
+        date
+        date_to
+        _destroy
       ]
     }
   end

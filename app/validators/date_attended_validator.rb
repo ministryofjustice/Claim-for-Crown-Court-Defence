@@ -2,7 +2,6 @@ class DateAttendedValidator < BaseValidator
   def self.fields
     %i[
       date
-      date_to
     ]
   end
 
@@ -20,12 +19,5 @@ class DateAttendedValidator < BaseValidator
     end
     validate_on_or_after(Settings.earliest_permitted_date, :date, :not_before_earliest_permitted_date)
     validate_on_or_before(Date.today, :date, :not_after_today)
-  end
-
-  # must not be before DateAttended#date
-  # must not be in the future
-  def validate_date_to
-    validate_on_or_after(@record.date, :date_to, 'not_before_date_from')
-    validate_on_or_before(Date.today, :date_to, 'not_after_today')
   end
 end

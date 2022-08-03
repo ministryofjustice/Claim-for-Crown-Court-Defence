@@ -8,7 +8,6 @@ class BasicFeeSection < CheckboxFeeSection
   section :basic_fee, FeeSection, ".basic-fee.fee-details"
   section :daily_attendance_fee_2_plus, FeeSection, ".basic-fee-group.daily-attendance-fee-2"
   section :daily_attendance_fee_3_to_40, FeeSection, ".basic-fee-group.daily-attendance-fee-3-to-40"
-  section :daily_attendance_fee_3_to_40_dates, FeeDatesSectionCondensed, ".basic-fee-group.daily-attendance-fee-3-to-40 .dates-wrapper"
   section :daily_attendance_fee_41_to_50, FeeSection, ".basic-fee-group.daily-attendance-fee-41-to-50"
   section :daily_attendance_fee_51_plus, FeeSection, ".basic-fee-group.daily-attendance-fee-51"
   section :standard_appearance_fee, FeeSection, ".basic-fee-group.standard-appearance-fee"

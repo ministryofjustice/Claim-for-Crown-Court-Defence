@@ -277,7 +277,7 @@ GEM
     em-websocket (0.5.3)
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
-    erubi (1.10.0)
+    erubi (1.11.0)
     erubis (2.7.0)
     eventmachine (1.2.7)
     factory_bot (6.2.1)

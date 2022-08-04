@@ -141,7 +141,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
       end
     end
 
-    include_examples 'common LGFS amount govuk validations'
+    include_examples 'common LGFS amount validations'
 
     context 'override validation of fields from the superclass validator' do
       let(:superclass) { described_class.superclass }

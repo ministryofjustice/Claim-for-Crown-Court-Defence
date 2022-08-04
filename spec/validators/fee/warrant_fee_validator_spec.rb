@@ -7,7 +7,7 @@ RSpec.describe Fee::WarrantFeeValidator, type: :validator do
     allow(fee).to receive(:perform_validation?).and_return(true)
   end
 
-  include_examples 'common LGFS amount govuk validations'
+  include_examples 'common LGFS amount validations'
   include_examples 'common warrant fee validations'
 
   describe '#validate_warrant_issued_date' do

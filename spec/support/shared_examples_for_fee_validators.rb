@@ -5,33 +5,6 @@
 
 RSpec.shared_examples 'common LGFS fee date validations' do
   describe '#validate_date' do
-    it { should_error_if_not_present(fee, :date, 'blank') }
-
-    it 'adds error if too far in the past' do
-      fee.date = 11.years.ago
-      expect(fee).to_not be_valid
-      expect(fee.errors[:date]).to include 'check_not_too_far_in_past'
-    end
-
-    it 'adds error if in the future' do
-      fee.date = 3.days.from_now
-      expect(fee).not_to be_valid
-      expect(fee.errors[:date]).to include 'check_not_in_future'
-    end
-
-    it 'adds error if before the first repo order date' do
-      allow(claim).to receive(:earliest_representation_order_date).and_return(Date.today)
-      allow(fee).to receive(:claim).and_return(claim)
-
-      fee.date = Date.today - 3.days
-      expect(fee).not_to be_valid
-      expect(fee.errors[:date]).to include 'too_long_before_earliest_reporder'
-    end
-  end
-end
-
-RSpec.shared_examples 'common LGFS fee date govuk validations' do
-  describe '#validate_date' do
     it { should_error_if_not_present(fee, :date, 'Enter the (.*?)(fixed|graduated) fee date') }
 
     it 'adds error if too far in the past' do
@@ -58,26 +31,6 @@ RSpec.shared_examples 'common LGFS fee date govuk validations' do
 end
 
 RSpec.shared_examples 'common LGFS amount validations' do
-  describe '#validate_amount' do
-    it 'adds error if amount is blank' do
-      should_error_if_equal_to_value(fee, :amount, '', 'numericality')
-    end
-
-    it 'adds error if amount is equal to zero' do
-      should_error_if_equal_to_value(fee, :amount, 0.00, 'numericality')
-    end
-
-    it 'adds error if amount is less than zero' do
-      should_error_if_equal_to_value(fee, :amount, -10.00, 'numericality')
-    end
-
-    it 'adds error if amount is greater than the max limit' do
-      should_error_if_equal_to_value(fee, :amount, 200_001, 'item_max_amount')
-    end
-  end
-end
-
-RSpec.shared_examples 'common LGFS amount govuk validations' do
   describe '#validate_amount' do
     let(:amount_error_message) do
       'Enter a valid amount for the (.*?)(graduated|hardship|interim|miscellaneous|transfer|warrant) fee'

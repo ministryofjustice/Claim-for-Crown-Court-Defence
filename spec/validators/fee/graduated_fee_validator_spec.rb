@@ -100,6 +100,6 @@ RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
     end
   end
 
-  include_examples 'common LGFS amount govuk validations'
-  include_examples 'common LGFS fee date govuk validations'
+  include_examples 'common LGFS amount validations'
+  include_examples 'common LGFS fee date validations'
 end

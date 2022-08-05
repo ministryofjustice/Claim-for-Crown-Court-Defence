@@ -31,6 +31,6 @@ RSpec.describe Fee::HardshipFeeValidator, type: :validator do
       end
     end
 
-    include_examples 'common LGFS amount govuk validations'
+    include_examples 'common LGFS amount validations'
   end
 end

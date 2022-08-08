@@ -80,7 +80,7 @@ RAILS_ENV=production \
 bundle exec rails assets:precompile 2> /dev/null
 
 # tidy up installation
-RUN apk update && apk del build-dependencies
+RUN apk --update-cache upgrade && apk del build-dependencies
 
 # non-root/appuser should own only what they need to
 RUN chown -R appuser:appgroup log tmp db

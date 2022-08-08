@@ -8,7 +8,7 @@ LABEL "com.github.actions.color"="red"
 
 # install dependencies
 
-RUN apk update \
+RUN apk --update-cache upgrade \
     && apk add --no-cache git python3 py3-pip
 
 RUN pip3 install --upgrade pip \

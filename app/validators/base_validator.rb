@@ -158,7 +158,7 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def validate_not_in_future(attribute)
-    validate_on_or_before(Time.zone.today, attribute, :check_not_in_future)
+    validate_on_or_before(Time.zone.today, attribute, :check_not_in_future) unless allow_future_dates
   end
 
   def validate_has_role(object, role_or_roles, error_message_key, error_message)
@@ -237,5 +237,11 @@ class BaseValidator < ActiveModel::Validator
   def looks_like_a_case_number?(attribute)
     return if attr_blank?(attribute)
     @record.__send__(attribute).match?(CASE_NUMBER_OR_URN_PATTERN)
+  end
+
+  def allow_future_dates
+    return false if ENV.fetch('ENV', nil).eql?('production')
+
+    ActiveRecord::Type::Boolean.new.cast(ENV.fetch('ALLOW_FUTURE_DATES', nil))
   end
 end

@@ -129,7 +129,7 @@ module Claim
     #
     def validate_presence_and_not_in_future(attribute)
       validate_presence(attribute, :blank)
-      validate_on_or_before(Time.zone.today, attribute, :check_not_in_future)
+      validate_not_in_future(attribute)
     end
 
     def validate_presence_and_length(attribute)

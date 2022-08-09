@@ -83,7 +83,7 @@ class ExpenseValidator < BaseValidator
 
   def validate_date
     validate_presence(:date, :blank)
-    validate_on_or_before(Date.today, :date, :future)
+    validate_not_in_future(:date)
     validate_on_or_after(@record.claim.try(:earliest_representation_order_date),
                          :date, :check_not_earlier_than_rep_order)
   end

@@ -157,6 +157,10 @@ class BaseValidator < ActiveModel::Validator
     compare_date_with_attribute(date, attribute, message, :>=)
   end
 
+  def validate_not_in_future(attribute)
+    validate_on_or_before(Time.zone.today, attribute, :check_not_in_future)
+  end
+
   def validate_has_role(object, role_or_roles, error_message_key, error_message)
     return if object.nil?
 

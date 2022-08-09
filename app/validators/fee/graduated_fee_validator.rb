@@ -24,7 +24,7 @@ class Fee::GraduatedFeeValidator < Fee::BaseFeeValidator
                          :date,
                          :too_long_before_earliest_reporder)
     validate_on_or_after(Settings.earliest_permitted_date, :date, :check_not_too_far_in_past)
-    validate_on_or_before(Time.zone.today, :date, :check_not_in_future)
+    validate_not_in_future(:date)
   end
 
   def validate_quantity

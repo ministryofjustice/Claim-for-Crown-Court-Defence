@@ -19,6 +19,6 @@ class CertificationValidator < BaseValidator
   def validate_certification_date
     validate_presence(:certification_date, :blank)
     validate_on_or_after(@record.claim&.created_at, :certification_date, :after_claim_creation)
-    validate_on_or_before(Date.today, :certification_date, :not_in_the_future)
+    validate_not_in_future(:certification_date)
   end
 end

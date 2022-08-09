@@ -51,11 +51,6 @@ module ExternalUsers::ClaimsHelper
     validation_message_from_errors_hash(resource.errors, attribute)
   end
 
-  def gov_uk_date_field_error_messages(presenter, attribute)
-    return if presenter.nil? || !presenter.is_a?(ErrorMessage::Presenter)
-    presenter.field_errors_for(attribute.to_sym).split(',').each(&:strip!)
-  end
-
   def error_class?(presenter, *attributes)
     return if presenter.nil?
     options = { name: 'dropdown_field_with_errors' }.merge(attributes.extract_options!)

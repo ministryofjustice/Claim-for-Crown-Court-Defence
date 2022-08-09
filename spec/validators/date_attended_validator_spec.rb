@@ -38,14 +38,4 @@ RSpec.describe DateAttendedValidator, type: :validator do
       expect(date_attended).to be_valid
     end
   end
-
-  context 'date to' do
-    it { should_error_if_earlier_than_other_date(date_attended, :date_to, :date, 'not_before_date_from') }
-    it { should_error_if_in_future(date_attended, :date_to, 'not_after_today') }
-
-    it 'does not error if nil' do
-      date_attended.date_to = nil
-      expect(date_attended).to be_valid
-    end
-  end
 end

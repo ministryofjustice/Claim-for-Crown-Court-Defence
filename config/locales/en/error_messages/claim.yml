@@ -1751,21 +1751,6 @@ date_attended:
       short: *enter_valid_date
       api: 'Enter a valid date for the date attended (from)'
 
-  date_to:
-    _seq: 20
-    not_before_date_from:
-      long: 'The #{date_attended} (to) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
-      short: Enter a date after the date attended (from)
-      api: 'The date attended (to) must be after the date attended (from)'
-    not_after_today:
-      long: 'The #{date_attended} (to) for the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense} is invalid'
-      short: Enter a date that is not in the future
-      api: The date attended (to) cannot be in the future
-    invalid_date:
-      long: 'Enter a valid date for the #{date_attended} (to) of the #{basic_fee}#{fixed_fee}#{misc_fee}#{graduated_fee}#{expense}'
-      short: *enter_valid_date
-      api: 'Enter a valid date for the date attended (to)'
-
 #################################################################################
 #                                                                               #
 #   DISBURSEMENT                                                                #

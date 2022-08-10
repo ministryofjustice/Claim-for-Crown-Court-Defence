@@ -62,7 +62,7 @@ gem 'geckoboard-ruby'
 gem 'laa-fee-calculator-client', '~> 1.4'
 gem 'webpacker', '~> 5.4'
 gem 'active_storage_validations'
-gem 'faraday', '~> 1.3'
+gem 'faraday', '~> 1.10'
 gem 'faraday_middleware', '~> 1.2'
 
 group :production, :devunicorn do

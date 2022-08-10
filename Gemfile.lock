@@ -93,8 +93,8 @@ GEM
       activerecord (>= 4.0)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.614.0)
-    aws-sdk-core (3.131.5)
+    aws-partitions (1.616.0)
+    aws-sdk-core (3.132.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.525.0)
       aws-sigv4 (~> 1.1)
@@ -287,7 +287,7 @@ GEM
       railties (>= 5.0.0)
     faker (2.22.0)
       i18n (>= 1.8.11, < 2)
-    faraday (1.10.0)
+    faraday (1.10.1)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
       faraday-excon (~> 1.1)
@@ -302,7 +302,7 @@ GEM
     faraday-em_http (1.0.0)
     faraday-em_synchrony (1.0.0)
     faraday-excon (1.1.0)
-    faraday-http-cache (2.4.0)
+    faraday-http-cache (2.4.1)
       faraday (>= 0.8)
     faraday-httpclient (1.0.1)
     faraday-multipart (1.0.4)
@@ -520,7 +520,7 @@ GEM
       parallel
     parser (3.1.2.1)
       ast (~> 2.4.1)
-    pg (1.4.2)
+    pg (1.4.3)
     pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -805,7 +805,7 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails (~> 6.2.0)
   faker (~> 2.22.0)
-  faraday (~> 1.3)
+  faraday (~> 1.10)
   faraday_middleware (~> 1.2)
   geckoboard-ruby
   govuk_design_system_formbuilder (~> 3.1)
@@ -843,7 +843,7 @@ DEPENDENCIES
   nokogiri (~> 1.13)
   paper_trail (~> 12.3.0)
   parallel_tests
-  pg (~> 1.4.2)
+  pg (~> 1.4.3)
   pry-byebug
   pry-rails
   puma

@@ -41,7 +41,7 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
   end
 
   let(:lgfs_claim) do
-    create(:litigator_claim, create_defendant_and_rep_order_for_scheme_8: true)
+    create(:litigator_claim, create_defendant_and_rep_order_for_scheme_9: true)
   end
 
   context 'instance' do

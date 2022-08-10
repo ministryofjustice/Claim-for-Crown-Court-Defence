@@ -27,7 +27,7 @@ FactoryBot.define do
     trait :with_fee_scheme do
       after(:build) do |offence, evaluator|
         fee_scheme = if evaluator.lgfs_fee_scheme
-                       FeeScheme.find_by(name: 'LGFS', version: 9) || build(:fee_scheme, :lgfs)
+                       FeeScheme.find_by(name: 'LGFS', version: 9) || build(:fee_scheme, :lgfs_nine)
                      else
                        FeeScheme.find_by(name: 'AGFS', version: 9) || build(:fee_scheme, :agfs_nine)
                      end
@@ -60,6 +60,22 @@ FactoryBot.define do
       offence_band
       after(:build) do |offence|
         offence.fee_schemes << (FeeScheme.agfs.where(version: 12).first || build(:fee_scheme, :agfs_twelve))
+      end
+    end
+
+    trait :with_lgfs_fee_scheme_nine do
+      offence_class { nil }
+      offence_band
+      after(:build) do |offence|
+        offence.fee_schemes << (FeeScheme.lgfs.where(version: 9).first || build(:fee_scheme, :lgfs_nine))
+      end
+    end
+
+    trait :with_lgfs_fee_scheme_ten do
+      offence_class { nil }
+      offence_band
+      after(:build) do |offence|
+        offence.fee_schemes << (FeeScheme.lgfs.where(version: 10).first || build(:fee_scheme, :lgfs_ten))
       end
     end
   end

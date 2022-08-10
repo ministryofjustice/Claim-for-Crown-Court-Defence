@@ -47,13 +47,17 @@ FactoryBot.define do
     disable_for_state_transition { nil }
 
     transient do
-      create_defendant_and_rep_order_for_scheme_8 { false }
+      create_defendant_and_rep_order_for_scheme_9 { false }
+      create_defendant_and_rep_order_for_scheme_10 { false }
     end
 
     after(:create) do |claim, evaluator|
-      if evaluator.create_defendant_and_rep_order_for_scheme_8
+      if evaluator.create_defendant_and_rep_order_for_scheme_9
         claim.defendants.clear
         add_defendant_and_reporder(claim, DateTime.parse('2016-04-01'))
+      elsif evaluator.create_defendant_and_rep_order_for_scheme_10
+        claim.defendants.clear
+        add_defendant_and_reporder(claim, Settings.lgfs_scheme_10_clair_release_date)
       end
 
       unless claim.defendants.present?

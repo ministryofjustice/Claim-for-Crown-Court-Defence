@@ -285,6 +285,16 @@ RSpec.describe API::V1::DropdownData do
         expect(parsed_body.pluck('roles')).to all(include('lgfs'))
       end
 
+      it 'only includes LGFS scheme 9 fee types' do
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'lgfs_scheme_9'), format: :json
+        expect(parsed_body.pluck('roles')).to all(include('lgfs_scheme_9'))
+      end
+
+      it 'only includes LGFS scheme 10 fee types' do
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'lgfs_scheme_10'), format: :json
+        expect(parsed_body.pluck('roles')).to all(include('lgfs_scheme_10'))
+      end
+
       context 'when fixed category specified' do
         before { get FEE_TYPE_ENDPOINT, params.merge(category: 'fixed', role:), format: :json }
 
@@ -449,6 +459,22 @@ RSpec.describe API::V1::DropdownData do
 
     context 'when role is lgfs' do
       let(:role) { 'lgfs' }
+
+      it 'returns no advocate categories' do
+        expect(parsed_response).to be_empty
+      end
+    end
+
+    context 'when role is lgfs_scheme_9' do
+      let(:role) { 'lgfs_scheme_9' }
+
+      it 'returns no advocate categories' do
+        expect(parsed_response).to be_empty
+      end
+    end
+
+    context 'when role is lgfs_scheme_10' do
+      let(:role) { 'lgfs_scheme_10' }
 
       it 'returns no advocate categories' do
         expect(parsed_response).to be_empty

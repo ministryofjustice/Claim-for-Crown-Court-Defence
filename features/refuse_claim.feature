@@ -12,10 +12,10 @@ Feature: Case worker rejects a claim, providing a reason
     When I am signed in as the case worker
     And the reject refuse messaging feature is released
     And I select the claim
-    And I click the refused radio button
-    And I select the refusal reason 'Duplicate claim'
-    And I select the refusal reason 'Other'
-    And I enter refusal reason text 'Whatever will be will be'
+    And I choose govuk radio 'Refused' for 'Update the claim status'
+    And I click govuk checkbox 'Duplicate claim'
+    And I click govuk checkbox 'Other'
+    And I fill in 'Reason text' with 'Whatever will be will be'
     And I click update
     Then the status at top of page should be Refused
     Then message 3 contains 'Claim refused'
@@ -38,10 +38,10 @@ Feature: Case worker rejects a claim, providing a reason
 
     When I am signed in as the case worker
     And I select the claim
-    And I click the refused radio button
-    And I select the refusal reason 'Wrong Instructed Advocate'
-    And I select the refusal reason 'Other'
-    And I enter refusal reason text 'Whatever I like'
+    And I choose govuk radio 'Refused' for 'Update the claim status'
+    And I click govuk checkbox 'Wrong Instructed Advocate'
+    And I click govuk checkbox 'Other'
+    And I fill in 'Reason text' with 'Whatever I like'
     And I click update
     Then the status at top of page should be Refused
     Then the messages should not contain 'Total (inc VAT): £0.00'

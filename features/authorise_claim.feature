@@ -12,9 +12,9 @@ Feature: Case worker fully authorises claim
     When I am signed in as the case worker
     And I select the claim
     Then I should see a page title "View the claim details"
-    And fill out the Fees Total authorised by Laa with the amount of fees claimed
-    And do the same with expenses
-    And I click the authorised radio button
+    And I fill in 'Fees' with '1.23'
+    And I fill in 'Expenses' with '2.34'
+    And I choose govuk radio 'Authorised' for 'Update the claim status'
     And I click update
     Then the status at top of page should be Authorised
     Then the page should be accessible

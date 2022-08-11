@@ -12,11 +12,11 @@ Feature: Case worker rejects a claim, providing a reason
     When I am signed in as the case worker
     And the reject refuse messaging feature is released
     And I select the claim
-    And I click the rejected radio button
-    And I select the rejection reason 'No indictment attached'
-    And I select the rejection reason 'Other'
-    And I enter rejection reason text 'Whatever will be will be'
-    Then the page should be accessible
+    And I choose govuk radio 'Rejected' for 'Update the claim status'
+    And I click govuk checkbox 'No indictment attached'
+    And I click govuk checkbox 'Other'
+    And I fill in 'Reason text' with 'Whatever will be will be'
+    Then the page should be accessible skipping 'aria-allowed-attr'
     And I click update
     Then the status at top of page should be Rejected
     Then message 3 contains 'Claim rejected'

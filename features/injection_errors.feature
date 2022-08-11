@@ -17,7 +17,7 @@ Feature: Case worker viewing and dismissing a data injection error
     And I select claim "A20161234"
     Then the injection error summary is visible
     And there are "2" injection error messages
-    Then the page should be accessible
+    Then the page should be accessible skipping 'aria-allowed-attr'
 
     When I dismiss the injection error
     Then the injection error summary is not visible

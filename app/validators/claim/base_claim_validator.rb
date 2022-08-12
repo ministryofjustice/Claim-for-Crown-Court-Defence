@@ -181,7 +181,7 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_trial_fixed_notice_at
     return unless @record.case_type && @record.requires_cracked_dates?
     validate_presence(:trial_fixed_notice_at, :blank)
-    validate_on_or_before(Date.today, :trial_fixed_notice_at, :check_not_in_future)
+    validate_not_in_future(:trial_fixed_notice_at)
     validate_presence(:trial_fixed_notice_at, :blank)
     validate_too_far_in_past(:trial_fixed_notice_at)
     validate_before(@record.trial_fixed_at&.ago(1.day), :trial_fixed_notice_at, :check_before_trial_fixed_at)
@@ -212,7 +212,7 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_trial_cracked_at
     return if ignore_validation_for_cracked_trials?
     validate_presence(:trial_cracked_at, :blank)
-    validate_on_or_before(Date.today, :trial_cracked_at, :check_not_in_future)
+    validate_not_in_future(:trial_cracked_at)
     validate_too_far_in_past(:trial_cracked_at)
     validate_on_or_after(@record.trial_fixed_notice_at, :trial_cracked_at, :check_after_trial_fixed_notice_at)
   end
@@ -358,10 +358,6 @@ class Claim::BaseClaimValidator < BaseValidator
 
     validate_on_or_after(earliest_rep_order, start_attribute, :check_not_earlier_than_rep_order)
     validate_too_far_in_past(start_attribute)
-  end
-
-  def validate_not_in_future(attribute)
-    validate_on_or_before(Date.today, attribute, :check_not_in_future)
   end
 
   def validate_too_far_in_past(start_attribute)

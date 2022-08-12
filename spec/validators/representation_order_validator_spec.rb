@@ -176,6 +176,47 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
         end
       end
     end
+
+    context 'when future dates are allowed' do
+      let(:reporder) { build(:representation_order, defendant:, representation_order_date: rep_order_date) }
+
+      before do
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('ALLOW_FUTURE_DATES', nil).and_return('true')
+        allow(ENV).to receive(:fetch).with('ENV', nil).and_return('dev')
+      end
+
+      context 'when a future date is entered' do
+        let(:rep_order_date) { 2.days.from_now }
+
+        it { expect(reporder).to be_valid }
+      end
+
+      context 'when a past date is entered' do
+        let(:rep_order_date) { 2.days.ago }
+
+        it { expect(reporder).to be_valid }
+      end
+
+      context 'when on the the production environment' do
+        before do
+          allow(ENV).to receive(:fetch).and_call_original
+          allow(ENV).to receive(:fetch).with('ENV', nil).and_return('production')
+        end
+
+        context 'when a future date is entered' do
+          let(:rep_order_date) { 2.days.from_now }
+
+          it { expect(reporder).not_to be_valid }
+        end
+
+        context 'when a past date is entered' do
+          let(:rep_order_date) { 2.days.ago }
+
+          it { expect(reporder).to be_valid }
+        end
+      end
+    end
   end
 
   context 'for a litigator interim claim' do

@@ -20,3 +20,4 @@ data:
   SETTINGS__AWS__S3__REGION: 'eu-west-2'
   # SURVEY_MONKEY_COLLECTOR_ID: '330142588'
   LAA_FEE_CALCULATOR_HOST: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1
+  ALLOW_FUTURE_DATES: 'false'

@@ -3,6 +3,10 @@ en:
   activerecord:
     errors:
       models:
+        certification:
+          attributes:
+            certification_date:
+              check_not_in_future: Certification date cannot be in the future
         claim/base_claim:
           attributes:
             actual_trial_length:
@@ -134,7 +138,7 @@ en:
           attributes:
             date:
               blank: Enter the date attended
-              not_after_today: Enter a date that is not in the future
+              check_not_in_future: Enter a date that is not in the future
               not_before_earliest_permitted_date: Enter a date later than two years before the earliest representation order date
               too_long_before_earliest_reporder: The fee date cannot not be more than two years before the earliest representation order date
         disbursement:
@@ -165,7 +169,7 @@ en:
             date:
               blank: Enter a date for the expense
               check_not_earlier_than_rep_order: Check the date for the expense
-              future: Date for the expense cannot be in the future
+              check_not_in_future: Date for the expense cannot be in the future
             distance:
               blank: Enter the distance for the expense
               invalid: Enter a valid distance
@@ -394,5 +398,9 @@ en:
               check_on_or_after_earliest_representation_order: Warrant issued date needs to be on or after the earliest representation order date
               on_or_before: Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued
         interim_claim_info: *warrant_fee_errors
+        representation_order:
+          attributes:
+            representation_order_date:
+              check_not_in_future: Representation order date can not be too far in the future
   dictionary:
     enter_valid_quantity: Enter a valid quantity

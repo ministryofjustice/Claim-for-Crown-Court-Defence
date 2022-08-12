@@ -83,7 +83,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
     validate_numericality(:retrial_actual_length, :invalid, 0, nil)
     validate_presence(:retrial_started_at, :blank)
     validate_too_far_in_past(:retrial_started_at)
-    validate_on_or_before(Date.today, :retrial_started_at, :check_not_in_future)
+    validate_not_in_future(:retrial_started_at)
     validate_on_or_after(@record.trial_concluded_at, :retrial_started_at, :check_not_earlier_than_trial_concluded)
     validate_on_or_after(@record.retrial_started_at, :retrial_concluded_at, :check_other_date)
     validate_on_or_before(@record.retrial_concluded_at, :retrial_started_at, :check_other_date)

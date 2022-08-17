@@ -512,7 +512,7 @@ GEM
     notifications-ruby-client (5.3.0)
       jwt (>= 1.5, < 3)
     orm_adapter (0.5.0)
-    paper_trail (12.3.0)
+    paper_trail (13.0.0)
       activerecord (>= 5.2)
       request_store (~> 1.1)
     parallel (1.22.1)
@@ -841,7 +841,7 @@ DEPENDENCIES
   net-smtp
   net-ssh
   nokogiri (~> 1.13)
-  paper_trail (~> 12.3.0)
+  paper_trail (~> 13.0.0)
   parallel_tests
   pg (~> 1.4.3)
   pry-byebug

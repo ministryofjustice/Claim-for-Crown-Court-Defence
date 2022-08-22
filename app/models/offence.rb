@@ -37,6 +37,7 @@ class Offence < ApplicationRecord
   scope :unique_name, -> { unscoped.in_scheme_nine.select(:description).distinct.order(:description) }
   scope :miscellaneous, -> { where(description: 'Miscellaneous/other') }
 
+  # These `in_scheme_*` scopes are used by FeeReform::SearchOffences#fee_scheme_offences
   scope :in_scheme_nine, -> { joins(:fee_schemes).merge(FeeScheme.nine).distinct }
   singleton_class.send(:alias_method, :in_scheme_9, :in_scheme_nine)
 
@@ -48,6 +49,9 @@ class Offence < ApplicationRecord
 
   scope :in_scheme_twelve, -> { joins(:fee_schemes).merge(FeeScheme.twelve).distinct }
   singleton_class.send(:alias_method, :in_scheme_12, :in_scheme_twelve)
+
+  scope :in_scheme_thirteen, -> { joins(:fee_schemes).merge(FeeScheme.thirteen).distinct }
+  singleton_class.send(:alias_method, :in_scheme_13, :in_scheme_thirteen)
 
   scope :in_lgfs_scheme_ten, -> { joins(:fee_schemes).merge(FeeScheme.lgfs).merge(FeeScheme.ten).distinct }
   singleton_class.send(:alias_method, :in_lgfs_scheme_10, :in_lgfs_scheme_ten)
@@ -75,6 +79,10 @@ class Offence < ApplicationRecord
 
   def scheme_twelve?
     fee_schemes.map(&:version).any?(FeeScheme::TWELVE)
+  end
+
+  def scheme_thirteen?
+    fee_schemes.map(&:version).any?(FeeScheme::THIRTEEN)
   end
 
   def lgfs_scheme_ten?

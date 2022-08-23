@@ -36,6 +36,10 @@ class FeeScheme < ApplicationRecord
     agfs? && version.eql?(12)
   end
 
+  def agfs_scheme_13?
+    agfs? && version.eql?(13)
+  end
+
   def self.current_agfs
     agfs.current.order(end_date: :desc).first
   end

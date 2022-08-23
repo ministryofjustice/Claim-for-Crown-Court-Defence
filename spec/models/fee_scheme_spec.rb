@@ -11,6 +11,7 @@ RSpec.describe FeeScheme, type: :model do
   let(:agfs_scheme_ten) { FeeScheme.find_by(name: 'AGFS', version: 10) }
   let(:agfs_scheme_eleven) { FeeScheme.find_by(name: 'AGFS', version: 11) }
   let(:agfs_scheme_twelve) { FeeScheme.find_by(name: 'AGFS', version: 12) }
+  let(:agfs_scheme_thirteen) { FeeScheme.find_by(name: 'AGFS', version: 13) }
   let(:fee_scheme) { described_class.for_claim(claim) }
 
   it { should validate_presence_of(:start_date) }
@@ -60,10 +61,50 @@ RSpec.describe FeeScheme, type: :model do
   describe '#agfs_scheme_12?' do
     subject { fee_scheme.agfs_scheme_12? }
 
+    context 'with an agfs scheme 13 claim' do
+      let(:claim) { create(:advocate_claim, :agfs_scheme_13) }
+
+      it { is_expected.to be_falsey }
+    end
+
     context 'with an agfs scheme 12 claim' do
       let(:claim) { create(:advocate_claim, :agfs_scheme_12) }
 
       it { is_expected.to be_truthy }
+    end
+
+    context 'with an agfs scheme 10 claim' do
+      let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with an agfs scheme 9 claim' do
+      let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with an lgfs claim' do
+      let(:claim) { create(:litigator_claim) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#agfs_scheme_13?' do
+    subject { fee_scheme.agfs_scheme_13? }
+
+    context 'with an agfs scheme 13 claim' do
+      let(:claim) { create(:advocate_claim, :agfs_scheme_13) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with an agfs scheme 12 claim' do
+      let(:claim) { create(:advocate_claim, :agfs_scheme_12) }
+
+      it { is_expected.to be_falsey }
     end
 
     context 'with an agfs scheme 10 claim' do
@@ -128,6 +169,18 @@ RSpec.describe FeeScheme, type: :model do
       let(:the_date) { Date.new(2020, 9, 17) }
 
       it { is_expected.to eq agfs_scheme_twelve }
+    end
+
+    context 'when date is just before scheme 13 cut over date' do
+      let(:the_date) { Date.new(2022, 9, 29) }
+
+      it { is_expected.to eq agfs_scheme_twelve }
+    end
+
+    context 'when date is on/after scheme 13 cut over date' do
+      let(:the_date) { Date.new(2022, 9, 30) }
+
+      it { is_expected.to eq agfs_scheme_thirteen }
     end
   end
 
@@ -293,6 +346,12 @@ RSpec.describe FeeScheme, type: :model do
 
           specify { expect(fee_scheme).to eql agfs_scheme_twelve }
         end
+
+        context 'with fee scheme 13 offence' do
+          let(:offence) { create(:offence, :with_fee_scheme_thirteen) }
+
+          specify { expect(fee_scheme).to eql agfs_scheme_thirteen }
+        end
       end
 
       context 'when the earliest representation order date is before the AGFS fee reform release date' do
@@ -341,6 +400,18 @@ RSpec.describe FeeScheme, type: :model do
         end
 
         specify { expect(fee_scheme).to eq agfs_scheme_twelve }
+      end
+
+      context 'when the earliest representation order date is on/after the CLAIR (AGFS scheme 13) release date' do
+        let(:representation_order) { instance_double(RepresentationOrder) }
+        let(:release_date) { Settings.agfs_scheme_13_clair_release_date.beginning_of_day }
+
+        before do
+          expect(claim).to receive(:earliest_representation_order).and_return(representation_order)
+          expect(representation_order).to receive(:representation_order_date).and_return(release_date)
+        end
+
+        specify { expect(fee_scheme).to eq agfs_scheme_thirteen }
       end
     end
   end

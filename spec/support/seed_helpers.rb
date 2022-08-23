@@ -8,7 +8,8 @@ module SeedHelpers
     FeeScheme.find_or_create_by(name: 'AGFS', version: 9, start_date: Date.new(2012, 04, 01).beginning_of_day, end_date: Date.new(2018, 03, 31).end_of_day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 10, start_date: Settings.agfs_fee_reform_release_date.beginning_of_day, end_date: Settings.agfs_scheme_11_release_date - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 11, start_date: Settings.agfs_scheme_11_release_date.beginning_of_day, end_date: Settings.clar_release_date.end_of_day - 1.day)
-    FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.clar_release_date.beginning_of_day)
+    FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.clar_release_date.beginning_of_day, end_date: Settings.agfs_scheme_13_clair_release_date.end_of_day - 1.day)
+    FeeScheme.find_or_create_by(name: 'AGFS', version: 13, start_date: Settings.agfs_scheme_13_clair_release_date.beginning_of_day)
   end
 
   def seed_case_types

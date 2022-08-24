@@ -25,8 +25,14 @@ FactoryBot.define do
 
     trait :agfs_twelve do
       start_date { Settings.clar_release_date.beginning_of_day }
-      end_date { nil }
+      end_date { Settings.agfs_scheme_13_clair_release_date.beginning_of_day - 1.day }
       version { 12 }
+    end
+
+    trait :agfs_thirteen do
+      start_date { Settings.agfs_scheme_13_clair_release_date.beginning_of_day }
+      end_date { nil }
+      version { 13 }
     end
 
     trait :lgfs_nine do

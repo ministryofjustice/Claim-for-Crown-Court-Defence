@@ -4,7 +4,7 @@ input[type="radio"] {
 }
 
 .form-control:disabled,
-input.form-control:read-only {  // stylelint-disable-line selector-no-qualifying-type
+.form-control:read-only {
   border-color: $grey-3;
   cursor: not-allowed;
 }

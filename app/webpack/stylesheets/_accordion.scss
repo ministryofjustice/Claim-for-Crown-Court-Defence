@@ -20,8 +20,8 @@
   }
 
   #claim-status {
-    label.container {
-      margin-top: $gutter-two-thirds; // stylelint-disable-line selector-no-qualifying-type
+    .container {
+      margin-top: $gutter-two-thirds;
       border: 1px solid $black;
       line-height: 4;
       text-align: center;

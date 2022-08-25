@@ -1,6 +1,6 @@
 class Claim::BaseClaimValidator < BaseValidator
   def self.mandatory_fields
-    %i[external_user_id creator amount_assessed evidence_checklist_ids]
+    %i[external_user_id creator amount_assessed evidence_checklist_ids earliest_representation_order_date]
   end
 
   private
@@ -371,5 +371,14 @@ class Claim::BaseClaimValidator < BaseValidator
 
   def increased_travel?
     @record.expenses.find { |x| x.calculated_distance && x.distance && (x.distance > x.calculated_distance) }
+  end
+
+  def validate_earliest_representation_order_date
+    return unless @record.case_type&.name == 'Elected cases not proceeded'
+    return unless @record.earliest_representation_order_date
+    # This applies to both agfs fee scheme 13 and lgfs fee scheme 10 but the dates are the same
+    return if @record.earliest_representation_order_date < Settings.agfs_scheme_13_clair_release_date
+
+    @record.errors.add(:earliest_representation_order_date, 'invalid for elected case not proceeded')
   end
 end

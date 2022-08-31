@@ -112,3 +112,27 @@ Feature: litigator completes fixed fee page using calculator
     And I should be in the 'Miscellaneous fees' form page
 
     And the fixed fee should have its price_calculated value set to true
+
+  Scenario: I create attempt to create a post-CLAIR elected cases not proceeded claim
+
+    Given I am a signed in litigator
+    And the current date is '2022-10-30'
+    And My provider has supplier numbers
+    And I am on the 'Your claims' page
+    And I click 'Start a claim'
+    And I select the fee scheme 'Litigator final fee'
+    Then I should be on the litigator new claim page
+
+    When I choose the supplier number '1A222Z'
+    And I enter a providers reference of 'LGFS test fixed fee calculation'
+    And I select a case type of 'Elected cases not proceeded'
+    And I select the court 'Blackfriars'
+    And I enter a case number of 'A20161234'
+    And I enter the case concluded date '2022-10-29'
+
+    Then I click "Continue" in the claim form and move to the 'Defendant details' form page
+
+    And I enter defendant, lgfs scheme 10 representation order and MAAT reference
+
+    Then I click "Continue" in the claim form
+    And I should see govuk error summary with 'Check combination of representation order date and case type, on the previous page'

@@ -104,14 +104,17 @@ Feature: Advocate completes fixed fee page using calculator
 
     And all the fixed fees should have their price_calculated values set to true
 
-  Scenario: I create attempt to create a post-CLAIR elected cases not proceeded claim
+  Scenario: I attempt to create a post-CLAIR elected cases not proceeded claim
 
     Given I am a signed in advocate
+    And the current date is '2022-09-30'
     And I am on the 'Your claims' page
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'
     Then I should be on the new claim page
 
+    And I should see 'You should only select elected cases not proceeded if the representation order is before 30 September 2022.'
+    And I should see 'For rep order claims dated on or after 30 September 2022, select guilty plea or cracked trial.'
     And I select the court 'Blackfriars'
     And I select a case type of 'Elected cases not proceeded'
     And I enter a case number of 'A20161234'

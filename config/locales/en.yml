@@ -959,6 +959,10 @@ en:
         case_type_fields:
           case_type: Case type
           case_type_hint: For example Trial
+          enp_signpost_html:
+            <p class="govuk-body">ENP should only be selected where the Rep Order date is before 30 September 2022</p>
+            <p class="govuk-body">For cases with Rep order dated on or after 30 September 2022, select Guilty Plea or Cracked Trial</p>
+            <p class="govuk-body"><a class="govuk-link" href="%{link}">New fee scheme GOV.UK</a></p>
           select_option: Choose a case type
           stage_type: What stage has the case reached?
           agfs_stage_type_hint: For example Trial started but not concluded

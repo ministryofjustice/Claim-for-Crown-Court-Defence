@@ -67,4 +67,8 @@ module ClaimsHelper
     claim.eligible_misc_fee_types.map(&:unique_code).include?('MIUMU') &&
       claim.fees.select { |f| f.fee_type.unique_code == 'MIUMU' }.empty?
   end
+
+  def display_elected_not_proceeded_signpost?(claim)
+    claim.final? && Time.zone.now > Settings.lgfs_scheme_10_clair_release_date
+  end
 end

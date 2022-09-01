@@ -6,7 +6,10 @@ class Fee::WarrantFeeValidator < Fee::BaseFeeValidator
     validate_on_or_after(Settings.earliest_permitted_date, :warrant_issued_date, :check_not_too_far_in_past)
     return if @record.warrant_issued_date.nil?
     validate_not_in_future(:warrant_issued_date)
-    validate_on_or_before(MINIMUM_PERIOD_SINCE_ISSUED.ago, :warrant_issued_date, :on_or_before)
+    unless allow_future_dates
+      validate_on_or_before(MINIMUM_PERIOD_SINCE_ISSUED.ago, :warrant_issued_date,
+                            :on_or_before)
+    end
     check_date = @record.claim&.earliest_representation_order&.representation_order_date
     validate_on_or_after(check_date, :warrant_issued_date, :check_on_or_after_earliest_representation_order)
   end

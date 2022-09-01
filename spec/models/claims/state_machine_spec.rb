@@ -389,7 +389,7 @@ RSpec.describe Claims::StateMachine, type: :model do
 
   context 'before submit state transition' do
     it 'sets the allocation_type for trasfer_claims' do
-      claim = build(:transfer_claim, transfer_fee: build(:transfer_fee))
+      claim = build(:transfer_claim, transfer_fee: build(:transfer_fee), defendants: [build(:defendant)])
       expect(claim.allocation_type).to be_nil
       claim.submit!
       expect(claim.allocation_type).to eq 'Grad'
@@ -460,13 +460,6 @@ RSpec.describe Claims::StateMachine, type: :model do
           .not_to change { claim.assessment.fees.to_f }
           .from(123.0)
       end
-    end
-  end
-
-  describe '.set_allocation_type' do
-    it 'calls the class method' do
-      claim = build :transfer_claim
-      claim.__send__(:set_allocation_type)
     end
   end
 end

@@ -3,8 +3,9 @@ require 'rails_helper'
 RSpec.describe Fee::TransferFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:claim) { build(:transfer_claim, :not_requiring_ppe) }
+  let(:claim) { build(:transfer_claim, claim_trait, defendants: [create(:defendant)]) }
   let(:fee) { build(:transfer_fee, claim:) }
+  let(:claim_trait) { :not_requiring_ppe }
 
   before do
     allow(fee).to receive(:perform_validation?).and_return(true)
@@ -52,15 +53,13 @@ RSpec.describe Fee::TransferFeeValidator, type: :validator do
     let(:fee) { build(:transfer_fee, claim:) }
 
     context 'when transfer details require PPE to be supplied' do
-      let(:claim) { build(:transfer_claim, :requiring_ppe) }
+      let(:claim_trait) { :requiring_ppe }
 
       it { should_be_valid_if_equal_to_value(fee, :quantity, 1) }
       it { should_error_if_equal_to_value(fee, :quantity, 0, 'Enter a valid PPE quantity for the transfer fee') }
     end
 
     context 'when transfer details does not require PPE to be supplied' do
-      let(:claim) { build(:transfer_claim, :not_requiring_ppe) }
-
       it { should_be_valid_if_equal_to_value(fee, :quantity, 0) }
       it { should_be_valid_if_equal_to_value(fee, :quantity, 1) }
     end

@@ -5,7 +5,7 @@ require_relative 'shared_examples_for_step_validators'
 RSpec.describe Claim::TransferClaimValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:claim) { build :transfer_claim }
+  let(:claim) { build :transfer_claim, defendants: [build(:defendant)] }
   let(:transfer_detail) { build :transfer_detail, claim: }
 
   include_examples 'common partial validations', {
@@ -111,7 +111,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
 
   context 'trial dates validation' do
     context 'case type: trial' do
-      let(:claim) { build(:transfer_claim, :with_transfer_detail) }
+      let(:claim) { build(:transfer_claim, :with_transfer_detail, defendants: [build(:defendant)]) }
 
       it 'factory builds claim without trial dates' do
         expect(claim.first_day_of_trial).to be_nil
@@ -123,7 +123,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     end
 
     context 'case type: retrial' do
-      let(:claim) { build(:transfer_claim, :with_transfer_detail) }
+      let(:claim) { build(:transfer_claim, :with_transfer_detail, defendants: [build(:defendant)]) }
 
       it 'factory builds claim without trial dates' do
         expect(claim.retrial_started_at).to be_nil
@@ -136,7 +136,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   end
 
   context 'case type validation' do
-    let(:claim) { build(:transfer_claim, :with_transfer_detail) }
+    let(:claim) { build(:transfer_claim, :with_transfer_detail, defendants: [build(:defendant)]) }
 
     it 'factory builds claim without case type' do
       expect(claim.case_type).to be_nil
@@ -153,7 +153,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       claim.force_validation = true
     end
 
-    let(:claim) { build(:transfer_claim, litigator_type: 'new', elected_case: false, transfer_stage_id: 30, case_conclusion_id: 10) }
+    let(:claim) { build(:transfer_claim, litigator_type: 'new', elected_case: false, transfer_stage_id: 30, case_conclusion_id: 10, defendants: [build(:defendant)]) }
 
     it 'is valid if a valid case conclusion id' do
       expect_valid_attribute claim, :case_conclusion_id, 20
@@ -164,7 +164,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     end
 
     context 'presence and absence' do
-      let(:claim) { build(:transfer_claim, litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10) }
+      let(:claim) { build(:transfer_claim, litigator_type: 'new', elected_case: false, transfer_stage_id: 50, case_conclusion_id: 10, defendants: [build(:defendant)]) }
 
       it 'errors if absent but required' do
         claim.transfer_stage_id = 30

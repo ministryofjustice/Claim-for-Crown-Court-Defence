@@ -432,4 +432,23 @@ RSpec.describe 'API claim creation for AGFS' do
       end
     end
   end
+
+  context 'scheme 13' do
+    let(:representation_order_date) { Settings.agfs_scheme_13_clair_release_date.beginning_of_day }
+    let(:advocate_category) { 'Junior' }
+
+    it_behaves_like 'final fee claims' do
+      let(:offence) { create(:offence, :with_fee_scheme_thirteen, offence_band:, offence_class: nil) }
+      let(:offence_band) { create(:offence_band, offence_category:) }
+      let(:offence_category) { create(:offence_category, number: 2) }
+      let(:miscellaneous_fee_codes) { ['MIPHC'] }
+      let(:miscellaneous_fee) { Fee::BaseFeeType.find_by(unique_code: miscellaneous_fee_codes.first) }
+      let(:daily_attendance_fee_id) { daily_attendance_2.id }
+      let(:fee_scheme) { ['AGFS', 13] }
+      let(:miscellaneous_fee_ids) { [miscellaneous_fee.id] }
+      let(:claim_total) { 1630.2 }
+
+      before { travel_to(Settings.agfs_scheme_13_clair_release_date.beginning_of_day + 5.hours) }
+    end
+  end
 end

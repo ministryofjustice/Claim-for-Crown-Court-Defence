@@ -36,12 +36,15 @@ Feature: Advocate tries to submit a fee scheme 13 supplementary claim for miscel
       | miscellaneous | Confiscation hearings (whole day uplift) |
       | miscellaneous | Deferred sentence hearings               |
       | miscellaneous | Deferred sentence hearings uplift        |
+      | miscellaneous | Paper heavy case                         |
       | miscellaneous | Plea and trial preparation hearing       |
       | miscellaneous | Sentence hearings                        |
       | miscellaneous | Sentence hearings uplift                 |
       | miscellaneous | Special preparation fee                  |
       | miscellaneous | Standard appearance fee                  |
       | miscellaneous | Standard appearance fee uplift           |
+      | miscellaneous | Unused materials (over 3 hours)          |
+      | miscellaneous | Unused materials (up to 3 hours)         |
       | miscellaneous | Wasted preparation fee                   |
 
     When I select an advocate category of 'Junior'

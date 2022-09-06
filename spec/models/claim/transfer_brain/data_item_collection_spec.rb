@@ -10,39 +10,33 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
   let(:with_wildcard_mapping) { build(:transfer_detail, :with_wildcard_mapping) }
   let(:with_specific_mapping) { build(:transfer_detail, :with_specific_mapping) }
 
-  describe '.new' do
-    context '@data_items' do
-      subject(:data_items) { collection.instance_variable_get(:@data_items) }
+  describe '#data_items' do
+    subject(:data_items) { collection.send(:data_items) }
 
-      it 'assigns an array of data items' do
-        is_expected.to be_a Array
-        is_expected.to_not be_empty
-      end
+    it { is_expected.to be_an Array }
+    it { is_expected.not_to be_empty }
 
-      it 'adds one data item for each record in csv file' do
-        expect(data_items.size).to eq 33
-      end
-
-      it 'each data_item is a TransferBrain::DataItem' do
-        expect(data_items.first).to be_a Claim::TransferBrain::DataItem
-      end
+    it 'adds one data item for each record in csv file' do
+      expect(data_items.size).to eq 33
     end
 
-    context 'collection_hash' do
-      subject(:collection_hash) { collection.send(:collection_hash) }
+    it 'each data_item is a TransferBrain::DataItem' do
+      expect(data_items.first).to be_a Claim::TransferBrain::DataItem
+    end
+  end
 
-      it 'assigns a hash' do
-        is_expected.to be_a Hash
-        is_expected.to_not be_empty
-      end
+  describe '#collection_hash' do
+    subject(:collection_hash) { collection.send(:collection_hash) }
 
-      it 'assigns deep nested hash with expected keys' do
-        expect(collection_hash.dig('new', true, 10, '*').keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable)
-      end
+    it { is_expected.to be_a Hash }
+    it { is_expected.not_to be_empty }
 
-      it 'adds one nested hash for each data item' do
-        expect(collection_hash.all_values_for(:validity).size).to eq 33
-      end
+    it 'assigns deep nested hash with expected keys' do
+      expect(collection_hash.dig('new', true, 10, '*').keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable)
+    end
+
+    it 'adds one nested hash for each data item' do
+      expect(collection_hash.all_values_for(:validity).size).to eq 33
     end
   end
 

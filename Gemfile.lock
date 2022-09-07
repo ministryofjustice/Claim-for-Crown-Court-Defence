@@ -677,7 +677,7 @@ GEM
       connection_pool (>= 2.2.5)
       rack (~> 2.0)
       redis (>= 4.5.0, < 5)
-    sidekiq-failures (1.0.3)
+    sidekiq-failures (1.0.4)
       sidekiq (>= 4.0.0)
     simplecov (0.21.2)
       docile (~> 1.1)

@@ -176,7 +176,7 @@ RSpec.describe Claim::TransferBrain::DataItem do
         bill_scenario: 'ST4TS0T3',
         ppe_required: 'FALSE',
         days_claimable: 'FALSE',
-        fee_scheme:
+        claim:
       )
     end
 
@@ -188,14 +188,14 @@ RSpec.describe Claim::TransferBrain::DataItem do
       let(:conclusion) { nil }
 
       context 'with scheme 9 elected case claims' do
-        let(:fee_scheme) { 9 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9: true) }
 
         it { expect(elected_item).to eq test_item }
         it { expect(non_elected_item).not_to eq test_item }
       end
 
       context 'with scheme 10 elected case claims' do
-        let(:fee_scheme) { 10 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_10: true) }
 
         it { expect(elected_item).not_to eq test_item }
         it { expect(non_elected_item).to eq test_item }
@@ -210,14 +210,14 @@ RSpec.describe Claim::TransferBrain::DataItem do
       let(:conclusion) { nil }
 
       context 'with scheme 9 elected case claims' do
-        let(:fee_scheme) { 9 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9: true) }
 
         it { expect(elected_item).to eq test_item }
         it { expect(non_elected_item).not_to eq test_item }
       end
 
       context 'with scheme 10 elected case claims' do
-        let(:fee_scheme) { 10 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_10: true) }
 
         it { expect(elected_item).not_to eq test_item }
         it { expect(non_elected_item).to eq test_item }
@@ -232,14 +232,14 @@ RSpec.describe Claim::TransferBrain::DataItem do
       let(:conclusion) { nil }
 
       context 'with scheme 9 elected case claims' do
-        let(:fee_scheme) { 9 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9: true) }
 
         it { expect(elected_item).to eq test_item }
         it { expect(non_elected_item).not_to eq test_item }
       end
 
       context 'with scheme 10 elected case claims' do
-        let(:fee_scheme) { 10 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_10: true) }
 
         it { expect(elected_item).not_to eq test_item }
         it { expect(non_elected_item).to eq test_item }
@@ -254,14 +254,14 @@ RSpec.describe Claim::TransferBrain::DataItem do
       let(:conclusion) { nil }
 
       context 'with scheme 9 elected case claims' do
-        let(:fee_scheme) { 9 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9: true) }
 
         it { expect(elected_item).to eq test_item }
         it { expect(non_elected_item).not_to eq test_item }
       end
 
       context 'with scheme 10 elected case claims' do
-        let(:fee_scheme) { 10 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_10: true) }
 
         it { expect(elected_item).not_to eq test_item }
         it { expect(non_elected_item).to eq test_item }
@@ -276,14 +276,14 @@ RSpec.describe Claim::TransferBrain::DataItem do
       let(:conclusion) { nil }
 
       context 'with scheme 9 elected case claims' do
-        let(:fee_scheme) { 9 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9: true) }
 
         it { expect(elected_item).to eq test_item }
         it { expect(non_elected_item).not_to eq test_item }
       end
 
       context 'with scheme 10 elected case claims' do
-        let(:fee_scheme) { 10 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_10: true) }
 
         it { expect(elected_item).not_to eq test_item }
         it { expect(non_elected_item).to eq test_item }
@@ -298,14 +298,14 @@ RSpec.describe Claim::TransferBrain::DataItem do
       let(:conclusion) { nil }
 
       context 'with scheme 9 elected case claims' do
-        let(:fee_scheme) { 9 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9: true) }
 
         it { expect(elected_item).to eq test_item }
         it { expect(non_elected_item).not_to eq test_item }
       end
 
       context 'with scheme 10 elected case claims' do
-        let(:fee_scheme) { 10 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_10: true) }
 
         it { expect(elected_item).not_to eq test_item }
         it { expect(non_elected_item).to eq test_item }
@@ -320,13 +320,13 @@ RSpec.describe Claim::TransferBrain::DataItem do
       let(:conclusion) { 'Cracked' }
 
       context 'with scheme 9 elected case claims' do
-        let(:fee_scheme) { 9 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9: true) }
 
         it { expect(non_elected_item).to eq test_item }
       end
 
       context 'with scheme 10 elected case claims' do
-        let(:fee_scheme) { 10 }
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_10: true) }
 
         it { expect(non_elected_item).to eq test_item }
       end

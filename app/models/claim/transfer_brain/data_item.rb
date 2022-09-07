@@ -5,7 +5,7 @@ module Claim
 
       attr_reader :litigator_type, :elected_case, :transfer_stage, :conclusion, :valid
       attr_accessor :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable,
-                    :transfer_stage_id, :case_conclusion_id, :validity, :fee_scheme
+                    :transfer_stage_id, :case_conclusion_id, :validity, :claim
 
       def to_h
         {
@@ -52,21 +52,43 @@ module Claim
 
       def ==(other)
         return false unless litigator_type == other.litigator_type
-        if other.fee_scheme == 10
-          return false if elected_case
-
-          if other.elected_case
-            return false unless (litigator_type == 'new' && conclusion&.include?('Cracked')) || litigator_type == 'original'
-          else
-            return false unless conclusion == other.conclusion
-          end
-        else
-          return false unless elected_case == other.elected_case
-          return false unless elected_case || conclusion == other.conclusion
-        end
+        return false unless equal_for_scheme_nine(other)
+        return false unless equal_for_scheme_ten(other)
         return false unless transfer_stage_id == other.transfer_stage_id
 
         true
+      end
+
+      def fee_scheme
+        @fee_scheme ||=
+          claim && claim.earliest_representation_order_date >= Settings.lgfs_scheme_10_clair_release_date ? 10 : 9
+      end
+
+      private
+
+      def equal_for_scheme_nine(other)
+        return true unless other.fee_scheme == 9
+        return false unless elected_case == other.elected_case
+        return false unless elected_case || conclusion == other.conclusion
+
+        true
+      end
+
+      def equal_for_scheme_ten(other)
+        return true unless other.fee_scheme == 10
+        return false if elected_case
+
+        if other.elected_case
+          return false unless scheme_ten_elected_case_equivalent
+        else
+          return false unless conclusion == other.conclusion
+        end
+
+        true
+      end
+
+      def scheme_ten_elected_case_equivalent
+        (litigator_type == 'new' && conclusion&.include?('Cracked')) || litigator_type == 'original'
       end
     end
   end

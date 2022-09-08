@@ -14,7 +14,9 @@ module API
           optional :role,
                    type: String,
                    desc: I18n.t('api.v1.dropdown_data.params.role_filter'),
-                   values: %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12 lgfs lgfs_scheme_9 lgfs_scheme_10]
+                   values: %w[
+                     agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12 agfs_scheme_13 lgfs lgfs_scheme_9 lgfs_scheme_10
+                   ]
         end
 
         def role
@@ -58,7 +60,7 @@ module API
             case scheme_role
             when :lgfs, :lgfs_scheme_9s, :lgfs_scheme_10s
               []
-            when :agfs_scheme_10s, :agfs_scheme_12s
+            when :agfs_scheme_10s, :agfs_scheme_12s, :agfs_scheme_13s
               Settings.agfs_reform_advocate_categories
             else
               Settings.advocate_categories

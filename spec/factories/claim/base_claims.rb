@@ -17,10 +17,16 @@ FactoryBot.define do
       create_defendant_and_rep_order_for_scheme_9 { false }
       create_defendant_and_rep_order_for_scheme_10 { false }
       create_defendant_and_rep_order_for_scheme_11 { false }
+      create_defendant_and_rep_order_for_scheme_12 { false }
+      create_defendant_and_rep_order_for_scheme_13 { false }
     end
 
     after(:create) do |claim, evaluator|
-      if evaluator.create_defendant_and_rep_order_for_scheme_11
+      if evaluator.create_defendant_and_rep_order_for_scheme_13
+        add_defendant_and_reporder(claim, scheme_date_for('scheme 13'))
+      elsif evaluator.create_defendant_and_rep_order_for_scheme_12
+        add_defendant_and_reporder(claim, scheme_date_for('scheme 12'))
+      elsif evaluator.create_defendant_and_rep_order_for_scheme_11
         add_defendant_and_reporder(claim, scheme_date_for('scheme 11'))
       elsif evaluator.create_defendant_and_rep_order_for_scheme_10
         add_defendant_and_reporder(claim, scheme_date_for('scheme 10'))

@@ -683,6 +683,68 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
   end
 
+  context 'with elected cases not proceeded' do
+    subject(:claim) { create :claim, case_type:, create_defendant_and_rep_order: false }
+
+    let(:case_type) { build :case_type, :elected_cases_not_proceeded }
+
+    context 'with no defendants' do
+      it { should_not_error(claim, :earliest_representation_order_date) }
+    end
+
+    context 'with no selected case type' do
+      let(:case_type) { nil }
+
+      it { should_not_error(claim, :earliest_representation_order_date) }
+    end
+
+    context 'when defendant has a rep order before fee scheme 13' do
+      before { claim.defendants = [create(:defendant, scheme: 'scheme 12')] }
+
+      it { should_not_error(claim, :earliest_representation_order_date) }
+    end
+
+    context 'when defendant has a rep order in fee scheme 13' do
+      before do
+        # Stubbing of the ALLOW_FUTURE_DATES environment variable can be
+        # removed after the CLAIR release date
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('ALLOW_FUTURE_DATES', anything).and_return 'true'
+        claim.defendants = [create(:defendant, scheme: 'scheme 13')]
+      end
+
+      it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded') }
+    end
+
+    context 'when one defendant of two has a rep order in fee scheme 13' do
+      before do
+        # Stubbing of the ALLOW_FUTURE_DATES environment variable can be
+        # removed after the CLAIR release date
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('ALLOW_FUTURE_DATES', anything).and_return 'true'
+        claim.defendants = [
+          create(:defendant, scheme: 'scheme 12'), create(:defendant, scheme: 'scheme 13')
+        ]
+      end
+
+      it { should_not_error(claim, :earliest_representation_order_date) }
+    end
+
+    context 'when two defendants both have rep orders in fee scheme 13' do
+      before do
+        # Stubbing of the ALLOW_FUTURE_DATES environment variable can be
+        # removed after the CLAIR release date
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('ALLOW_FUTURE_DATES', anything).and_return 'true'
+        claim.defendants = [
+          create(:defendant, scheme: 'scheme 13'), create(:defendant, scheme: 'scheme 13')
+        ]
+      end
+
+      it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded') }
+    end
+  end
+
   context 'for claims requiring trial details' do
     context 'first day of trial' do
       let(:contempt_claim_with_nil_first_day) { nulify_fields_on_record(create(:claim, case_type: contempt), :first_day_of_trial) }

@@ -280,6 +280,11 @@ RSpec.describe API::V1::DropdownData do
         expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_12'))
       end
 
+      it 'only includes AGFS scheme 13 fee types' do
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_13'), format: :json
+        expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_13'))
+      end
+
       it 'only includes LGFS fee types' do
         get FEE_TYPE_ENDPOINT, params.merge(role: 'lgfs'), format: :json
         expect(parsed_body.pluck('roles')).to all(include('lgfs'))
@@ -453,6 +458,12 @@ RSpec.describe API::V1::DropdownData do
 
     context 'when role is agfs_scheme_12' do
       let(:role) { 'agfs_scheme_12' }
+
+      include_examples 'returns agfs scheme 10+ advocate categories'
+    end
+
+    context 'when role is agfs_scheme_13' do
+      let(:role) { 'agfs_scheme_13' }
 
       include_examples 'returns agfs scheme 10+ advocate categories'
     end

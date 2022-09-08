@@ -252,6 +252,34 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             end
           end
         end
+
+        context 'with a scheme 13 claim' do
+          let(:claim) { create(:advocate_claim, :agfs_scheme_13, case_type:) }
+
+          context 'with "trial" case type' do
+            let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
+
+            it { is_expected.not_to include(*supplementary_only_types) }
+            it { is_expected.to include(*trial_only_types) }
+
+            it 'returns misc fee types for AGFS scheme 13 without supplementary-only fee types' do
+              is_expected.to match_array Fee::MiscFeeType.agfs_scheme_13s.without_supplementary_only.map(&:unique_code)
+            end
+          end
+
+          context 'with "non-trial" case type' do
+            let(:case_type) { CaseType.find_by(fee_type_code: 'GRGLT') }
+
+            it { is_expected.not_to include(*supplementary_only_types) }
+            it { is_expected.not_to include(*trial_only_types) }
+
+            it 'returns misc fee types for AGFS scheme 13 without supplementary-only or trial-only fee types' do
+              is_expected.to match_array(
+                Fee::MiscFeeType.agfs_scheme_13s.without_supplementary_only.without_trial_fee_only.map(&:unique_code)
+              )
+            end
+          end
+        end
       end
 
       context 'with hardship claim' do
@@ -280,6 +308,34 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it 'returns misc fee types for AGFS scheme 12 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(
                 Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.without_trial_fee_only.map(&:unique_code)
+              )
+            end
+          end
+        end
+
+        context 'with scheme 13 claim' do
+          let(:claim) { create(:advocate_hardship_claim, :agfs_scheme_13, case_stage:) }
+
+          context 'with "trial" case stage' do
+            let(:case_stage) { create(:case_stage, :trial_not_sentenced) }
+
+            it { is_expected.not_to include(*supplementary_only_types) }
+            it { is_expected.to include(*trial_only_types) }
+
+            it 'returns misc fee types for AGFS scheme 13 without supplementary-only fee types' do
+              is_expected.to match_array Fee::MiscFeeType.agfs_scheme_13s.without_supplementary_only.map(&:unique_code)
+            end
+          end
+
+          context 'with "non-trial" case stage' do
+            let(:case_stage) { create(:case_stage, :guilty_plea_not_sentenced) }
+
+            it { is_expected.not_to include(*supplementary_only_types) }
+            it { is_expected.not_to include(*trial_only_types) }
+
+            it 'returns misc fee types for AGFS scheme 13 without supplementary-only or trial-only fee types' do
+              is_expected.to match_array(
+                Fee::MiscFeeType.agfs_scheme_13s.without_supplementary_only.without_trial_fee_only.map(&:unique_code)
               )
             end
           end
@@ -315,6 +371,14 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_12, with_misc_fee: false, case_type: nil) }
 
           it 'returns misc fee types for AGFS scheme 12 supplementary claims' do
+            is_expected.to match_array(supplementary_fee_types + clar_fee_types)
+          end
+        end
+
+        context 'when CLAIR scheme 13 claim' do
+          let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_13, with_misc_fee: false, case_type: nil) }
+
+          it 'returns misc fee types for AGFS scheme 13 supplementary claims' do
             is_expected.to match_array(supplementary_fee_types + clar_fee_types)
           end
         end

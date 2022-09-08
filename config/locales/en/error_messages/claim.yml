@@ -536,6 +536,15 @@ legal_aid_transfer_date:
     api: The date legal aid was transferred is not allowed
 
 
+earliest_representation_order_date:
+  _seq:  220
+  invalid_for_elected_case_not_proceeded:
+    long: Check combination of representation order date and case type, on the previous page
+    short: _
+    api: Check combination of representation order date and case type
+
+
+
 #################################################################################
 #                                                                               #
 #   TRANSFER DETAIL                                                             #

@@ -527,6 +527,32 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             it_returns 'a successful fee calculator response', amount: 8585.00
           end
         end
+
+        context 'scheme 12' do
+          let(:offence_band) { create(:offence_band, description: '1.1') }
+          let(:offence) { create(:offence, :with_fee_scheme_twelve, offence_band:) }
+          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_12: true, case_type:, offence:) }
+          let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior', days: 1 } }
+
+          context 'trial' do
+            let(:case_type) { create(:case_type, :trial) }
+
+            it_returns 'a successful fee calculator response', amount: 8585.00
+          end
+        end
+
+        context 'scheme 13' do
+          let(:offence_band) { create(:offence_band, description: '1.1') }
+          let(:offence) { create(:offence, :with_fee_scheme_thirteen, offence_band:) }
+          let(:claim) { create(:draft_claim, create_defendant_and_rep_order_for_scheme_13: true, case_type:, offence:) }
+          let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior', days: 1 } }
+
+          context 'trial' do
+            let(:case_type) { create(:case_type, :trial) }
+
+            it_returns 'a successful fee calculator response', amount: 9873.00
+          end
+        end
       end
 
       context 'Pages of prosecuting evidence (PPE) fee' do

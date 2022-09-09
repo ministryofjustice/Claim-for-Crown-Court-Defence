@@ -27,11 +27,11 @@ SEED_FILES = %w[
   scheme_10
   scheme_11
   scheme_12
-  scheme_13
   super_admins
   supplier_numbers
   vat_rates
   lgfs_scheme_10
+  scheme_13
 ]
 
 SEED_FILES.each do |file|

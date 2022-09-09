@@ -136,7 +136,7 @@ module Seeds
 
       def copy_scheme_12_offences
         set_offence_pk_sequence(10000)
-        puts 'Adding scheme 12 offences'.yellow
+        puts 'Adding scheme 13 offences'.yellow
 
         Offence.transaction do
           agfs_scheme_twelve_offences.each do |offence|

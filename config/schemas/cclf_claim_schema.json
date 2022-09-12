@@ -78,6 +78,10 @@
       "additionalProperties": false,
       "id": "/properties/offence",
       "properties": {
+        "unique_code": {
+          "id": "/properties/offence/properties/unique_code",
+          "type": "string"
+        },
         "offence_class": {
           "additionalProperties": false,
           "id": "/properties/offence/properties/offence_class",

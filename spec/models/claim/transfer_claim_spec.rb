@@ -2,7 +2,9 @@ require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
 describe Claim::TransferClaim, type: :model do
-  let(:claim) { build :transfer_claim }
+  subject(:claim) { build :transfer_claim, **options }
+
+  let(:options) { {} }
 
   it_behaves_like 'uses claim cleaner', Cleaners::TransferClaimCleaner
 
@@ -125,6 +127,40 @@ describe Claim::TransferClaim, type: :model do
   describe 'requires_case_type?' do
     it 'returns false' do
       expect(claim.requires_case_type?).to be false
+    end
+  end
+
+  describe '#can_have_ppe?' do
+    subject { claim.can_have_ppe? }
+
+    let(:scheme) { 'lgfs' }
+
+    before do
+      claim.defendants.clear
+      create(:defendant, claim:, scheme:)
+      claim.reload
+
+      FeeScheme.find_or_create_by(name: 'LGFS', version: 9, start_date: Date.parse('1 Jan 1970'), end_date: Settings.lgfs_scheme_10_clair_release_date.end_of_day - 1.day)
+      FeeScheme.find_or_create_by(name: 'LGFS', version: 10, start_date: Settings.lgfs_scheme_10_clair_release_date.beginning_of_day)
+    end
+
+    context 'when case is not elected' do
+      let(:options) { { elected_case: false } }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when fee scheme is 9 and case is elected' do
+      let(:options) { { elected_case: true } }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'when fee scheme is 10 and case is elected' do
+      let(:options) { { elected_case: true } }
+      let(:scheme) { 'lgfs scheme 10' }
+
+      it { is_expected.to be_truthy }
     end
   end
 

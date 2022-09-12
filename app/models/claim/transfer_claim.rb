@@ -204,6 +204,10 @@ module Claim
       false
     end
 
+    def can_have_ppe?
+      !transfer_detail.elected_case? || fee_scheme.lgfs_scheme_10?
+    end
+
     private
 
     # called from state_machine before_submit

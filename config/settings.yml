@@ -102,7 +102,7 @@ reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).ch
 agfs_fee_reform_release_date: <%= Date.new(2018, 4, 1) %>
 agfs_scheme_11_release_date: <%= Date.new(2018, 12, 31) %>
 clar_release_date: <%= Date.new(2020, 9, 17) %>
-lgfs_scheme_10_clair_release_date: <%= Date.new(2022, 9, 30) %>
+lgfs_scheme_10_clair_release_date: 2022-09-30
 agfs_scheme_13_clair_release_date: 2022-09-30
 
 # number of weeks in one state before automatic transition to archived pending delete

@@ -24,7 +24,7 @@ RSpec.shared_examples 'returns LGFS claim type' do |type|
   let(:case_type_grtrl) { create(:case_type, :trial) }
 
   it "returns #{type.to_s.humanize}s" do
-    claim = create_claim(type, :submitted, case_type: case_type_grtrl)
+    claim = create_claim(type, :submitted, case_type: case_type_grtrl, defendants: [create(:defendant)])
     do_request(claim_uuid: claim.uuid)
     is_expected.to eq 200
   end

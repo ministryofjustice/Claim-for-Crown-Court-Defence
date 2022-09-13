@@ -38,10 +38,10 @@ Layout/LineLength:
   AllowHeredoc: true
 
 Lint/AmbiguousBlockAssociation:
-  IgnoredMethods: [change]
+  AllowedMethods: [change]
 
 Metrics/BlockLength:
-  IgnoredMethods:
+  AllowedMethods:
     - included
     - class_methods
     - namespace

@@ -37,7 +37,7 @@ Feature: Advocate completes fixed fee page using calculator
       | fixed   | Number of defendants uplift                   | 26.00  | Number of additional defendants | true |
       | fixed   | Standard appearance fee                       | 87.00  | Number of days                  | true |
 
-    When I select an advocate category of 'QC'
+    When I select an advocate category of 'KC'
     Then the following fee details should exist:
       | section | fee_description                               | rate   |
       | fixed   | Appeals to the crown court against conviction | 260.00 |
@@ -92,7 +92,7 @@ Feature: Advocate completes fixed fee page using calculator
       | fixed   | Number of cases uplift      | 38.80  | Number of additional cases      | true |
       | fixed   | Number of defendants uplift | 38.80  | Number of additional defendants | true |
 
-    When I select an advocate category of 'QC'
+    When I select an advocate category of 'KC'
     Then the following fee details should exist:
       | section | fee_description             | rate   | hint                            | help |
       | fixed   | Elected case not proceeded  | 194.00 | Number of days                  | true |

@@ -36,7 +36,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     # advocate category impacts "basic" fee
     When I select an advocate category of 'Junior alone'
     And the basic fee net amount should be populated with '1632.00'
-    And I select an advocate category of 'QC'
+    And I select an advocate category of 'KC'
     Then the basic fee net amount should be populated with '2856.00'
 
     When I select the govuk field 'Daily attendance fee (3 to 40)' basic fee with quantity of 38
@@ -131,7 +131,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     # advocate category impacts "basic" fee (retrial interval within a month, 30% reduction)
     When I select an advocate category of 'Junior alone'
     Then the basic fee net amount should be populated with '1142.40'
-    When I select an advocate category of 'QC'
+    When I select an advocate category of 'KC'
     Then the basic fee net amount should be populated with '1999.20'
 
     When I click "Continue" in the claim form

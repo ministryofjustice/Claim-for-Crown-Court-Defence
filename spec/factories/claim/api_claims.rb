@@ -9,7 +9,7 @@ FactoryBot.define do
     case_type
     offence
     case_number { random_case_number }
-    advocate_category { 'QC' }
+    advocate_category { 'KC' }
     source { 'api' }
 
     trait :with_scheme_nine_offence do

@@ -9,7 +9,7 @@ FactoryBot.define do
     providers_ref { random_providers_ref }
     case_type
     offence
-    advocate_category { 'QC' }
+    advocate_category { 'KC' }
     sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
 
     transient do

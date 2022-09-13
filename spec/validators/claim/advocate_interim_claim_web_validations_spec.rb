@@ -548,7 +548,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     let(:warrant_fee_attributes) { valid_warrant_fee_attributes }
     let(:valid_attributes) {
       {
-        advocate_category: 'QC',
+        advocate_category: 'KC',
         warrant_fee_attributes:
       }
     }
@@ -733,7 +733,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           }
         },
         offence_id: offence.id,
-        advocate_category: 'QC',
+        advocate_category: 'KC',
         warrant_fee_attributes: {
           'warrant_issued_date(3i)': warrant_issued_date.day.to_s,
           'warrant_issued_date(2i)': warrant_issued_date.month.to_s,
@@ -944,7 +944,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           }
         },
         offence_id: offence.id,
-        advocate_category: 'QC',
+        advocate_category: 'KC',
         warrant_fee_attributes: {
           'warrant_issued_date(3i)': warrant_issued_date.day.to_s,
           'warrant_issued_date(2i)': warrant_issued_date.month.to_s,
@@ -1088,7 +1088,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
           }
         },
         offence_id: offence.id,
-        advocate_category: 'QC',
+        advocate_category: 'KC',
         warrant_fee_attributes: {
           'warrant_issued_date(3i)': warrant_issued_date.day.to_s,
           'warrant_issued_date(2i)': warrant_issued_date.month.to_s,

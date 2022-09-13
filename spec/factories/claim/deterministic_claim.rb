@@ -31,7 +31,7 @@ FactoryBot.define do
 
     uuid { SecureRandom.uuid }
     providers_ref { 'reference-123' }
-    advocate_category { 'QC' }
+    advocate_category { 'KC' }
     cms_number { 'CMS-12345' }
     additional_information { 'This is some important additional information.' }
     evidence_checklist_ids { [1, 3] }

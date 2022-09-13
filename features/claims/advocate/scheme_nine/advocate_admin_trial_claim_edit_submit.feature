@@ -42,7 +42,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I should see a page title "Enter offence details for advocate final fees claim"
     Then I click "Continue" in the claim form
 
-    And I should see the advocate categories 'Junior alone,Led junior,Leading junior,QC'
+    And I should see the advocate categories 'Junior alone,Led junior,Leading junior,KC'
     And I should see the scheme 9 applicable basic fees based on the govuk checkbox group
     And the basic fee net amount should be populated with '0.00'
 

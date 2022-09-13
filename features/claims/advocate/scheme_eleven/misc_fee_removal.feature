@@ -32,7 +32,7 @@ Feature: Advocate can add and remove miscelleaneous fees
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_eleven/misc_fee_removal'
 
-    And I should see the advocate categories 'Junior,Leading junior,QC'
+    And I should see the advocate categories 'Junior,Leading junior,KC'
     And I select an advocate category of 'Junior'
 
     And I select the 'Appeals to the crown court against conviction' fixed fee

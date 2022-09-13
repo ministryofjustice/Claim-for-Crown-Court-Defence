@@ -25,7 +25,7 @@ Feature: Advocate completes misc fee page using calculator
 
     Given I insert the VCR cassette 'features/fee_calculator/advocate/misc_fee_calculator'
 
-    And I select an advocate category of 'QC'
+    And I select an advocate category of 'KC'
     And I select the 'Appeals to the crown court against conviction' fixed fee
 
     Then I click "Continue" in the claim form

@@ -45,7 +45,7 @@ Feature: Advocate tries to submit a fee scheme 13 hardship claim for a trial wit
     When I select the first search result
     Then I should be in the 'Hardship fees' form page
     And I should see a page title "Enter graduated fees for advocate hardship fees claim"
-    And I should see the advocate categories 'Junior,Leading junior,QC'
+    And I should see the advocate categories 'Junior,Leading junior,KC'
     And I should see the case stage 'Trial started but not concluded'
     And I should see the offence details 'Class : Offences Against the Public Interest, Band : 8.1, Category : Harbouring escaped prisoner'
     And I should see the scheme 13 applicable basic fees based on the govuk checkbox group

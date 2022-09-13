@@ -26,7 +26,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     Given I insert the VCR cassette 'features/claims/advocate/scheme_ten/fixed_fee_calculations'
 
-    And I should see the advocate categories 'Junior,Leading junior,QC'
+    And I should see the advocate categories 'Junior,Leading junior,KC'
     And I select an advocate category of 'Junior'
     Then the fixed fee checkboxes should consist of 'Appeals to the crown court against conviction,Number of cases uplift,Number of defendants uplift,Standard appearance fee,"Adjourned appeals, committals and breaches"'
 

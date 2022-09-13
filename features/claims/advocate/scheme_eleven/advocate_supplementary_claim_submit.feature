@@ -27,7 +27,7 @@ Feature: Advocate tries to submit a supplementary claim for miscellaneous fees (
     And I should see a page title "Enter defendant details for advocate supplementary fee claim"
     When I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
-    And I should see the advocate categories 'Junior,Leading junior,QC'
+    And I should see the advocate categories 'Junior,Leading junior,KC'
     And the following miscellaneous fee checkboxes should exist:
       | section       | fee_description                          |
       | miscellaneous | Confiscation hearings (half day)         |

@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
-  let(:scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone'] }
-  let(:scheme_10_advocate_categories) { ['QC', 'Leading junior', 'Junior'] }
+  let(:scheme_9_advocate_categories) { ['KC', 'Led junior', 'Leading junior', 'Junior alone'] }
+  let(:scheme_10_advocate_categories) { ['KC', 'Leading junior', 'Junior'] }
   let(:all_advocate_categories) { (scheme_9_advocate_categories + scheme_10_advocate_categories).uniq }
 
   describe '.for' do

@@ -185,7 +185,7 @@ RSpec.describe ExternalUsers::Litigators::InterimClaimsController do
       end
 
       context 'when submitting to LAA with incomplete/invalid params' do
-        let(:invalid_claim_params) { { advocate_category: 'QC' } }
+        let(:invalid_claim_params) { { advocate_category: 'KC' } }
 
         it 'does not create a claim' do
           expect do

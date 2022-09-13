@@ -5,8 +5,8 @@ RSpec.shared_examples 'advocate category validations' do |options|
     claim.form_step = options[:form_step]
   end
 
-  default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
-  fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
+  default_valid_categories = ['KC', 'Led junior', 'Leading junior', 'Junior alone']
+  fee_reform_valid_categories = ['KC', 'Leading junior', 'Junior']
   fee_reform_invalid_categories = default_valid_categories - fee_reform_valid_categories
 
   it 'errors if not present' do
@@ -15,7 +15,7 @@ RSpec.shared_examples 'advocate category validations' do |options|
   end
 
   it 'errors if not in the available list' do
-    claim.advocate_category = 'not-a-QC'
+    claim.advocate_category = 'not-a-KC'
     should_error_with(claim, :advocate_category, 'Choose an eligible advocate category')
   end
 

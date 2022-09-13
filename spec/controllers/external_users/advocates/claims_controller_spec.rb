@@ -61,7 +61,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
             case_type_id: case_type.id,
             offence_id: offence,
             case_number: 'A20161234',
-            advocate_category: 'QC',
+            advocate_category: 'KC',
             expenses_attributes: [expense_params],
             defendants_attributes: [
               {
@@ -318,7 +318,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
             case_type_id: case_type.id,
             offence_id: offence,
             case_number: '12345',
-            advocate_category: 'QC',
+            advocate_category: 'KC',
             evidence_checklist_ids: ['2', '3', '']
           }
         end
@@ -512,7 +512,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
       'case_type_id' => case_type.id.to_s,
       'court_id' => court.id.to_s,
       'case_number' => 'CASE98989-',
-      'advocate_category' => 'QC',
+      'advocate_category' => 'KC',
       'offence_class_id' => '2',
       'offence_id' => offence.id.to_s,
       'first_day_of_trial(3i)' => '13',

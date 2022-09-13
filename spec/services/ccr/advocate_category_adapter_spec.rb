@@ -5,7 +5,7 @@ RSpec.describe CCR::AdvocateCategoryAdapter, type: :adapter do
     subject { described_class.code_for(advocate_category) }
 
     ADVOCATE_CATEGORY_MAPPINGS = {
-      QC: 'QC',
+      KC: 'QC',
       'Led junior': 'LEDJR',
       'Leading junior': 'LEADJR',
       'Junior alone': 'JRALONE',

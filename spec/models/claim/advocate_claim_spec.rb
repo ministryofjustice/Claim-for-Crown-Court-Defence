@@ -1269,7 +1269,7 @@ RSpec.describe Claim::AdvocateClaim do
           'trial_cracked_at_third' => '',
           'court_id' => court.id,
           'case_number' => 'B20161234',
-          'advocate_category' => 'QC',
+          'advocate_category' => 'KC',
           'external_user_id' => external_user.id,
           'offence_id' => offence.id,
           'first_day_of_trial(3i)' => '8',

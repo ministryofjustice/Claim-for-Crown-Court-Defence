@@ -453,7 +453,7 @@ RSpec.describe API::V1::DropdownData do
     let(:parsed_response) { JSON.parse(last_response.body) }
 
     shared_examples 'returns agfs scheme 9 advocate categories' do
-      let(:agfs_scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone'] }
+      let(:agfs_scheme_9_advocate_categories) { ['KC', 'Led junior', 'Leading junior', 'Junior alone'] }
 
       it 'returns agfs scheme 9 advocate categories' do
         expect(parsed_response).to match_array(agfs_scheme_9_advocate_categories)
@@ -461,7 +461,7 @@ RSpec.describe API::V1::DropdownData do
     end
 
     shared_examples 'returns agfs scheme 10+ advocate categories' do
-      let(:agfs_scheme_10_plus_advocate_categories) { ['QC', 'Leading junior', 'Junior'] }
+      let(:agfs_scheme_10_plus_advocate_categories) { ['KC', 'Leading junior', 'Junior'] }
 
       it 'returns agfs scheme 10+ advocate categories' do
         expect(parsed_response).to match_array(agfs_scheme_10_plus_advocate_categories)

@@ -73,7 +73,7 @@ RSpec.describe ExternalUsers::Fees::PricesController do
             price_type: 'GraduatedPrice',
             claim_id: claim.id.to_s,
             fee_type_id: '1',
-            advocate_category: 'QC',
+            advocate_category: 'KC',
             ppe: '',
             pw: '',
             days: '1'

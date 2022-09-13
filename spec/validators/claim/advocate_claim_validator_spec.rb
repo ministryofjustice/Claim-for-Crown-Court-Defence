@@ -14,8 +14,8 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
   include_examples 'advocate claim supplier number'
 
   context 'advocate_category' do
-    default_valid_categories = ['QC', 'Led junior', 'Leading junior', 'Junior alone']
-    fee_reform_valid_categories = ['QC', 'Leading junior', 'Junior']
+    default_valid_categories = ['KC', 'Led junior', 'Leading junior', 'Junior alone']
+    fee_reform_valid_categories = ['KC', 'Leading junior', 'Junior']
     all_valid_categories = (default_valid_categories + fee_reform_valid_categories).uniq
 
     # API behaviour is different because fixed fees

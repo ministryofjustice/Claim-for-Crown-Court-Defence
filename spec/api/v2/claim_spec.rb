@@ -82,7 +82,7 @@ RSpec.describe API::V2::Claim do
     context 'should return the expected details' do
       # it 'claim details' do
       #   details = full_claim[:claim_details]
-      #   expect(details.to_json).to eq '{"uuid":"uuid","type":"Claim::AdvocateClaim","provider_code":"XY666","advocate_category":"QC","additional_information":"This is some important additional information.","apply_vat":true,"state":"redetermination","submitted_at":"2016-03-10T11:44:55Z","originally_submitted_at":"2016-03-10T11:44:55Z","authorised_at":"2016-03-10T11:44:55Z","created_by":{"id":1,"uuid":"uuid","first_name":"John","last_name":"Smith","email":"john.smith@example.com"},"external_user":{"id":1,"uuid":"uuid","first_name":"John","last_name":"Smith","email":"john.smith@example.com"}}'
+      #   expect(details.to_json).to eq '{"uuid":"uuid","type":"Claim::AdvocateClaim","provider_code":"XY666","advocate_category":"KC","additional_information":"This is some important additional information.","apply_vat":true,"state":"redetermination","submitted_at":"2016-03-10T11:44:55Z","originally_submitted_at":"2016-03-10T11:44:55Z","authorised_at":"2016-03-10T11:44:55Z","created_by":{"id":1,"uuid":"uuid","first_name":"John","last_name":"Smith","email":"john.smith@example.com"},"external_user":{"id":1,"uuid":"uuid","first_name":"John","last_name":"Smith","email":"john.smith@example.com"}}'
       # end
 
       context 'case details' do

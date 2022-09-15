@@ -6,16 +6,14 @@ RSpec.describe HeartbeatController, type: :controller do
       allow(Rails).to receive(:env).and_return('production'.inquiry)
     end
 
-    after do
-      expect(response).not_to have_http_status(:moved_permanently)
-    end
-
     it 'ping endpoint' do
       get :ping
+      expect(response).not_to have_http_status(:moved_permanently)
     end
 
     it 'healthcheck endpoint' do
       get :healthcheck
+      expect(response).not_to have_http_status(:moved_permanently)
     end
   end
 

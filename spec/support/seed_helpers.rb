@@ -1,5 +1,5 @@
 require 'rails_helper'
-require File.expand_path(Rails.root.join('db', 'seeds', 'fee_types', 'csv_seeder'))
+require Rails.root.join('db', 'seeds', 'fee_types', 'csv_seeder').expand_path
 
 module SeedHelpers
   def seed_fee_schemes

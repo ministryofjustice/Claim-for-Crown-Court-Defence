@@ -752,7 +752,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       before { contempt_claim_with_nil_first_day.force_validation = true }
 
       it { should_error_if_not_present(contempt_claim_with_nil_first_day, :first_day_of_trial, 'Enter a date for the first day of trial') }
-      it { should_errror_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, 'First day of trial cannot be after the trial has concluded') }
+      it { should_error_if_later_than_other_date(contempt_claim_with_nil_first_day, :first_day_of_trial, :trial_concluded_at, 'First day of trial cannot be after the trial has concluded') }
       # it { should_error_if_earlier_than_earliest_repo_date(contempt_claim_with_nil_first_day, :first_day_of_trial, 'check_not_earlier_than_rep_order', translated_message: 'Check combination of representation order date and trial dates') }
       it { should_error_if_too_far_in_the_past(contempt_claim_with_nil_first_day, :first_day_of_trial, 'First day of trial cannot be too far in the past') }
     end
@@ -778,7 +778,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       end
 
       context 'when later than retrial_concluded_at' do
-        it { should_errror_if_later_than_other_date(claim, :retrial_started_at, :retrial_concluded_at, 'Check the date for First day of retrial') }
+        it { should_error_if_later_than_other_date(claim, :retrial_started_at, :retrial_concluded_at, 'Check the date for First day of retrial') }
       end
 
       context 'when earlier than earliest_representation_order_date' do

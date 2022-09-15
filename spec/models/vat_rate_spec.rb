@@ -71,10 +71,4 @@ RSpec.describe VatRate do
       end
     end
   end
-
-  describe '.rate_for_date' do
-    it 'is private' do
-      VatRate.for_date(Date.today)
-    end
-  end
 end

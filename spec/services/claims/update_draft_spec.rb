@@ -14,11 +14,11 @@ RSpec.describe Claims::UpdateDraft do
     subject(:update_draft) { described_class.new(claim, params: claim_params, validate:) }
 
     it 'defines the action' do
-      expect(subject.action).to eq(:edit)
+      expect(update_draft.action).to eq(:edit)
     end
 
     it 'is a draft' do
-      expect(subject.draft?).to be_truthy
+      expect(update_draft.draft?).to be_truthy
     end
 
     context 'successful draft updates' do
@@ -26,8 +26,8 @@ RSpec.describe Claims::UpdateDraft do
         let(:validate) { true }
 
         it 'forces validation if indicated' do
-          allow(subject.claim).to receive(:force_validation=).with(true)
-          subject.call
+          allow(update_draft.claim).to receive(:force_validation=).with(true)
+          expect { update_draft.call }.not_to raise_error
         end
       end
 
@@ -35,25 +35,25 @@ RSpec.describe Claims::UpdateDraft do
         let(:validate) { false }
 
         it 'forces validation if indicated' do
-          allow(subject.claim).to receive(:force_validation=).with(false)
-          subject.call
+          allow(update_draft.claim).to receive(:force_validation=).with(false)
+          expect { update_draft.call }.not_to raise_error
         end
       end
 
       it 'updates the source when editing an API submitted claim' do
-        allow(subject.claim).to receive(:from_api?).and_return(true)
-        subject.call
-        expect(subject.claim.source).to eq('api_web_edited')
+        allow(update_draft.claim).to receive(:from_api?).and_return(true)
+        update_draft.call
+        expect(update_draft.claim.source).to eq('api_web_edited')
       end
 
       it 'is successful' do
-        expect(subject.claim.case_number).to eq('A20161234')
+        expect(update_draft.claim.case_number).to eq('A20161234')
 
-        subject.call
+        update_draft.call
 
-        expect(subject.result.success?).to be_truthy
-        expect(subject.result.error_code).to be_nil
-        expect(subject.claim.case_number).to eq('A20165555')
+        expect(update_draft.result.success?).to be_truthy
+        expect(update_draft.result.error_code).to be_nil
+        expect(update_draft.claim.case_number).to eq('A20165555')
       end
     end
 
@@ -61,10 +61,10 @@ RSpec.describe Claims::UpdateDraft do
       let(:claim_params) { { case_number: '123/' } }
 
       it 'is unsuccessful' do
-        subject.call
+        update_draft.call
 
-        expect(subject.result.success?).to be_falsey
-        expect(subject.result.error_code).to eq(:rollback)
+        expect(update_draft.result.success?).to be_falsey
+        expect(update_draft.result.error_code).to eq(:rollback)
       end
     end
 

@@ -11,14 +11,14 @@ describe Claims::CreateDraft do
     let(:claim) { build(:advocate_claim, form_step: :case_details) }
     let(:validate) { true }
 
-    subject { described_class.new(claim, validate:) }
+    subject(:create_draft) { described_class.new(claim, validate:) }
 
     it 'defines the action' do
-      expect(subject.action).to eq(:new)
+      expect(create_draft.action).to eq(:new)
     end
 
     it 'is a draft' do
-      expect(subject.draft?).to be_truthy
+      expect(create_draft.draft?).to be_truthy
     end
 
     context 'successful draft creations' do
@@ -26,8 +26,8 @@ describe Claims::CreateDraft do
         let(:validate) { true }
 
         it 'forces validation if indicated' do
-          allow(subject.claim).to receive(:force_validation=).with(true)
-          subject.call
+          allow(create_draft.claim).to receive(:force_validation=).with(true)
+          expect { create_draft.call }.not_to raise_error
         end
       end
 
@@ -35,19 +35,19 @@ describe Claims::CreateDraft do
         let(:validate) { false }
 
         it 'forces validation if indicated' do
-          allow(subject.claim).to receive(:force_validation=).with(false)
-          subject.call
+          allow(create_draft.claim).to receive(:force_validation=).with(false)
+          expect { create_draft.call }.not_to raise_error
         end
       end
 
       it 'is successful' do
-        expect(subject.claim.persisted?).to be_falsey
+        expect(create_draft.claim.persisted?).to be_falsey
 
-        subject.call
+        create_draft.call
 
-        expect(subject.result.success?).to be_truthy
-        expect(subject.result.error_code).to be_nil
-        expect(subject.claim.persisted?).to be_truthy
+        expect(create_draft.result.success?).to be_truthy
+        expect(create_draft.result.error_code).to be_nil
+        expect(create_draft.claim.persisted?).to be_truthy
       end
     end
 
@@ -55,24 +55,24 @@ describe Claims::CreateDraft do
       it 'is unsuccessful' do
         claim.case_number = nil
 
-        expect(subject.claim.persisted?).to be_falsey
+        expect(create_draft.claim.persisted?).to be_falsey
 
-        subject.call
+        create_draft.call
 
-        expect(subject.result.success?).to be_falsey
-        expect(subject.result.error_code).to eq(:rollback)
-        expect(subject.claim.persisted?).to be_falsey
+        expect(create_draft.result.success?).to be_falsey
+        expect(create_draft.result.error_code).to eq(:rollback)
+        expect(create_draft.claim.persisted?).to be_falsey
       end
 
       it 'is unsuccessful for an already submitted claim' do
-        expect(subject.claim.persisted?).to be_falsey
-        allow(subject).to receive(:already_saved?).and_return(true)
+        expect(create_draft.claim.persisted?).to be_falsey
+        allow(create_draft).to receive(:already_saved?).and_return(true)
 
-        subject.call
+        create_draft.call
 
-        expect(subject.result.success?).to be_falsey
-        expect(subject.result.error_code).to eq(:already_saved)
-        expect(subject.claim.persisted?).to be_falsey
+        expect(create_draft.result.success?).to be_falsey
+        expect(create_draft.result.error_code).to eq(:already_saved)
+        expect(create_draft.claim.persisted?).to be_falsey
       end
     end
   end

@@ -80,14 +80,14 @@ RSpec.describe AccountSetter do
       expect { soft_delete }
         .to change { user.reload.deleted_at }
         .from(nil)
-        .to(be_kind_of(Time))
+        .to(be_a(Time))
     end
 
     it 'marks the persona of the user as deleted' do
       expect { soft_delete }
         .to change { user.reload.persona.deleted_at }
         .from(nil)
-        .to(be_kind_of(Time))
+        .to(be_a(Time))
     end
 
     context 'with an unknown user' do
@@ -115,14 +115,14 @@ RSpec.describe AccountSetter do
     it 'removes the deleted at timestamp of the user' do
       expect { un_soft_delete }
         .to change { user.reload.deleted_at }
-        .from(be_kind_of(Time))
+        .from(be_a(Time))
         .to(nil)
     end
 
     it 'removes the deleted at timestamp of the persona of the user' do
       expect { un_soft_delete }
         .to change { user.reload.persona.deleted_at }
-        .from(be_kind_of(Time))
+        .from(be_a(Time))
         .to(nil)
     end
 
@@ -140,7 +140,7 @@ RSpec.describe AccountSetter do
       let!(:user) { create(:user, email:, disabled_at: nil) }
 
       it 'marks the user as disabled' do
-        expect { disable }.to change { user.reload.disabled_at }.from(nil).to(be_kind_of(Time))
+        expect { disable }.to change { user.reload.disabled_at }.from(nil).to(be_a(Time))
       end
 
       it { expect { disable }.to output(/User with email "test@example.com" disabled!/).to_stdout }
@@ -167,7 +167,7 @@ RSpec.describe AccountSetter do
       let!(:user) { create(:user, email:, disabled_at: 1.minute.ago) }
 
       it 'marks the user as enabled' do
-        expect { enable }.to change { user.reload.disabled_at }.from(be_kind_of(Time)).to(nil)
+        expect { enable }.to change { user.reload.disabled_at }.from(be_a(Time)).to(nil)
       end
 
       it { expect { enable }.to output(/User with email "test@example.com" enabled!/).to_stdout }

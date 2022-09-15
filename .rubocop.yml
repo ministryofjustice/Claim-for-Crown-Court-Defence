@@ -73,6 +73,36 @@ Rails/FilePath:
 Rails/SquishedSQLHeredocs:
   Enabled: false
 
+RSpec:
+  Language:
+    Expectations:
+      - expect_claim_and_all_associations_to_be_gone
+      - expect_claim_and_all_associations_to_be_present
+      - expect_error_response
+      - expect_invalid_attribute_with_message
+      - expect_unauthorised_error
+      - expect_valid_attribute
+      - expect_validate_success_response
+      - expect_working_days
+      - should_be_valid_if_equal_to_value
+      - should_error_if_after_specified_date
+      - should_error_if_after_specified_field
+      - should_error_if_before_specified_date
+      - should_error_if_earlier_than_earliest_repo_date
+      - should_error_if_earlier_than_earliest_reporder_date
+      - should_error_if_earlier_than_other_date
+      - should_error_if_equal_to_value
+      - should_error_if_exceeds_length
+      - should_error_if_field_dates_match
+      - should_error_if_in_future
+      - should_error_if_later_than_other_date
+      - should_error_if_not_present
+      - should_error_if_present
+      - should_error_if_too_far_in_the_past
+      - should_error_with
+      - should_not_error
+      - valid_cclf_json?
+
 RSpec/ImplicitSubject:
   EnforcedStyle: single_statement_only
 

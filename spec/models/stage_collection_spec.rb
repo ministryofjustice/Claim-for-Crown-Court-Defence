@@ -16,7 +16,7 @@ RSpec.describe StageCollection do
 
   describe '#stages' do
     it 'is an array of Stages' do
-      expect(collection.stages).to be_kind_of(Array)
+      expect(collection.stages).to be_a(Array)
       expect(collection.stages.size).to eq(stages.size)
       expect(collection.stages).to all(be_a(Stage))
     end

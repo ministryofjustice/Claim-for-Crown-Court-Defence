@@ -9,37 +9,37 @@ describe Claims::UpdateClaim do
     let(:claim) { create :advocate_claim, case_number: 'A20161234' }
     let(:claim_params) { { case_number: 'A20165555' } }
 
-    subject { described_class.new(claim, params: claim_params) }
+    subject(:update_claim) { described_class.new(claim, params: claim_params) }
 
     it 'defines the action' do
-      expect(subject.action).to eq(:edit)
+      expect(update_claim.action).to eq(:edit)
     end
 
     it 'is not a draft' do
-      expect(subject.draft?).to be_falsey
+      expect(update_claim.draft?).to be_falsey
     end
 
     context 'successful updates' do
       it 'forces validation' do
-        allow(subject.claim).to receive(:force_validation=).with(true)
-        subject.call
+        allow(update_claim.claim).to receive(:force_validation=).with(true)
+        expect { update_claim.call }.not_to raise_error
       end
 
       it 'updates the source when editing an API submitted claim' do
-        allow(subject.claim).to receive(:from_api?).and_return(true)
-        subject.call
-        expect(subject.claim.source).to eq('api_web_edited')
+        allow(update_claim.claim).to receive(:from_api?).and_return(true)
+        update_claim.call
+        expect(update_claim.claim.source).to eq('api_web_edited')
       end
 
       it 'is successful' do
-        expect(subject.claim.case_number).to eq('A20161234')
-        expect(subject.claim).to receive(:update_claim_document_owners)
+        expect(update_claim.claim.case_number).to eq('A20161234')
+        expect(update_claim.claim).to receive(:update_claim_document_owners)
 
-        subject.call
+        update_claim.call
 
-        expect(subject.result.success?).to be_truthy
-        expect(subject.result.error_code).to be_nil
-        expect(subject.claim.case_number).to eq('A20165555')
+        expect(update_claim.result.success?).to be_truthy
+        expect(update_claim.result.error_code).to be_nil
+        expect(update_claim.claim.case_number).to eq('A20165555')
       end
 
       context 'when submitting persisted agfs fixed fees marked for destruction' do
@@ -53,7 +53,7 @@ describe Claims::UpdateClaim do
         end
 
         it 'deletes the required fees' do
-          expect { subject.call }.to change { claim.fixed_fees.count }.from(2).to(1)
+          expect { update_claim.call }.to change { claim.fixed_fees.count }.from(2).to(1)
         end
       end
     end
@@ -62,22 +62,22 @@ describe Claims::UpdateClaim do
       let(:claim_params) { { case_number: '123456789012345678901' } }
 
       it 'is unsuccessful' do
-        expect(subject.claim).not_to receive(:update_claim_document_owners)
+        expect(update_claim.claim).not_to receive(:update_claim_document_owners)
 
-        subject.call
+        update_claim.call
 
-        expect(subject.result.success?).to be_falsey
-        expect(subject.result.error_code).to eq(:rollback)
+        expect(update_claim.result.success?).to be_falsey
+        expect(update_claim.result.error_code).to eq(:rollback)
       end
 
       it 'is unsuccessful for an already submitted claim' do
-        allow(subject).to receive(:already_submitted?).and_return(true)
-        expect(subject.claim).not_to receive(:update_claim_document_owners)
+        allow(update_claim).to receive(:already_submitted?).and_return(true)
+        expect(update_claim.claim).not_to receive(:update_claim_document_owners)
 
-        subject.call
+        update_claim.call
 
-        expect(subject.result.success?).to be_falsey
-        expect(subject.result.error_code).to eq(:already_submitted)
+        expect(update_claim.result.success?).to be_falsey
+        expect(update_claim.result.error_code).to eq(:already_submitted)
       end
     end
   end

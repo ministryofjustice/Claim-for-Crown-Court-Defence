@@ -49,8 +49,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       expect_invalid_attribute_with_message(claim, :litigator_type, nil, 'Choose the litigator type')
     end
 
-    it 'is valid if new or original' do
+    it 'is valid if new' do
       expect_valid_attribute(claim, :litigator_type, 'new')
+    end
+
+    it 'is valid if original' do
       expect_valid_attribute(claim, :litigator_type, 'original')
     end
   end
@@ -65,8 +68,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       expect_invalid_attribute_with_message(claim, :elected_case, nil, 'Choose the elected case status')
     end
 
-    it 'is valid if true or false' do
+    it 'is valid if true' do
       expect_valid_attribute(claim, :elected_case, true)
+    end
+
+    it 'is valid if false' do
       expect_valid_attribute(claim, :elected_case, false)
     end
   end

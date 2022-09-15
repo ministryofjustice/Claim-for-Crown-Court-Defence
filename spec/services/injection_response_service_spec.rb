@@ -47,7 +47,7 @@ RSpec.describe InjectionResponseService, slack_bot: true do
     describe 'valid json' do
       let(:json) { valid_json_on_success }
 
-      it { is_expected.to be_a_kind_of(described_class) }
+      it { is_expected.to be_a(described_class) }
     end
 
     describe 'invalid json' do

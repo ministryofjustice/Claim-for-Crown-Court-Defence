@@ -21,7 +21,7 @@ RSpec.describe Subscribers::Slack, type: :subscriber do
       process
     end
 
-    it { is_expected.to be_kind_of(Subscribers::Base) }
+    it { is_expected.to be_a(Subscribers::Base) }
 
     it 'creates a new SlackNotifier' do
       expect(SlackNotifier)

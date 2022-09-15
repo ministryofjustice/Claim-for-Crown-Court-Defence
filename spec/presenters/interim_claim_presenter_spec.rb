@@ -5,7 +5,7 @@ RSpec.describe Claim::InterimClaimPresenter do
 
   subject { described_class.new(claim, view) }
 
-  it { expect(subject).to be_kind_of(Claim::BaseClaimPresenter) }
+  it { expect(subject).to be_a(Claim::BaseClaimPresenter) }
 
   it 'has disbursements' do
     expect(subject.can_have_disbursements?).to be(true)

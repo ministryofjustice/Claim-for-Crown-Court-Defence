@@ -6,7 +6,7 @@ RSpec.describe Claim::LitigatorHardshipClaimPresenter, type: :presenter do
 
   let(:claim) { create(:litigator_hardship_claim) }
 
-  it { is_expected.to be_kind_of(Claim::BaseClaimPresenter) }
+  it { is_expected.to be_a(Claim::BaseClaimPresenter) }
 
   describe '#pretty_type' do
     specify { expect(presenter.pretty_type).to eq('LGFS Hardship') }

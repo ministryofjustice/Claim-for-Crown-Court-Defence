@@ -32,7 +32,7 @@ RSpec.describe ClaimStateTransitionReason, type: :model do
       let(:state) { :example_state }
 
       it 'returns a collection of reason objects for the given state' do
-        expect(reasons).to be_kind_of(Array)
+        expect(reasons).to be_a(Array)
         expect(reasons.size).to eq(1)
         expect(reasons.first.code).to eq(:test)
         expect(reasons.first.description).to eq('short description')

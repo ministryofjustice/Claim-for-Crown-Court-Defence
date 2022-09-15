@@ -6,7 +6,7 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
   let(:claim) { build(:transfer_claim) }
 
   it { expect(presenter).to be_instance_of(described_class) }
-  it { expect(presenter).to be_kind_of(Claim::BaseClaimPresenter) }
+  it { expect(presenter).to be_a(Claim::BaseClaimPresenter) }
 
   specify { expect(presenter.pretty_type).to eq('LGFS Transfer') }
   specify { expect(presenter.type_identifier).to eq('lgfs_transfer') }

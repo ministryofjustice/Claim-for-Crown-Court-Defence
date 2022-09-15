@@ -392,7 +392,7 @@ RSpec.describe 'providers external users management', type: :request do
       let(:user) { super_admin.user }
 
       it { expect { disable_user }.to change { external_user.reload.enabled? }.from(true).to(false) }
-      it { expect { disable_user }.to change { external_user.reload.disabled_at }.from(nil).to(be_kind_of(Time)) }
+      it { expect { disable_user }.to change { external_user.reload.disabled_at }.from(nil).to(be_a(Time)) }
 
       context 'when successfull response' do
         before { disable_user }
@@ -477,7 +477,7 @@ RSpec.describe 'providers external users management', type: :request do
       let(:user) { super_admin.user }
 
       it { expect { enable_user }.to change { external_user.reload.enabled? }.from(false).to(true) }
-      it { expect { enable_user }.to change { external_user.reload.disabled_at }.from(be_kind_of(Time)).to(nil) }
+      it { expect { enable_user }.to change { external_user.reload.disabled_at }.from(be_a(Time)).to(nil) }
 
       context 'when successfull response' do
         before { enable_user }

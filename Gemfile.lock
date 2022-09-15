@@ -457,7 +457,7 @@ GEM
     logstuff (0.0.2)
       logstash-event (~> 1.1.0)
       request_store
-    loofah (2.18.0)
+    loofah (2.19.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
     lumberjack (1.2.8)

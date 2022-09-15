@@ -7,7 +7,7 @@ RSpec.describe SupplierNumberCollectionPresenter do
 
   describe '#each' do
     it 'iterates over presented supplier numbers' do
-      expect(presenter).to all(be_kind_of(SupplierNumberPresenter))
+      expect(presenter).to all(be_a(SupplierNumberPresenter))
     end
   end
 end

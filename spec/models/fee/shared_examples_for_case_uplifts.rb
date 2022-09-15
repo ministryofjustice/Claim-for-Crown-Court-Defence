@@ -53,7 +53,7 @@ RSpec.shared_examples 'case upliftable' do
       end
 
       it 'returns a fee type' do
-        is_expected.to be_kind_of Fee::BaseFeeType
+        is_expected.to be_a Fee::BaseFeeType
       end
 
       it 'returns parent fee type' do

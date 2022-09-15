@@ -62,7 +62,7 @@ RSpec.describe User, type: :model do
       subject { build(:user, :with_settings) }
 
       it 'returns a hash with the settings' do
-        expect(subject.settings).to be_kind_of(Hash)
+        expect(subject.settings).to be_a(Hash)
         expect(subject.settings.keys).not_to be_empty
       end
     end

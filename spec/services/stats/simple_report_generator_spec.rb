@@ -15,7 +15,7 @@ RSpec.shared_examples 'a stats report CSV exporter' do
     expect(reporter).to have_received(:call)
   end
 
-  it { is_expected.to be_kind_of(Stats::Result) }
+  it { is_expected.to be_a(Stats::Result) }
   it { expect(call.content).to eq(csv_exporter_output) }
   it { expect(call.format).to eq('csv') }
 end

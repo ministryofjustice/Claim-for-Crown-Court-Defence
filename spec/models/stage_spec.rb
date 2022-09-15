@@ -57,9 +57,9 @@ RSpec.describe Stage do
       }
 
       it 'returns a list of stage transitions' do
-        expect(stage.transitions).to be_kind_of(Array)
+        expect(stage.transitions).to be_a(Array)
         expect(stage.transitions.size).to eq(transitions.size)
-        expect(stage.transitions).to all(be_kind_of(StageTransition))
+        expect(stage.transitions).to all(be_a(StageTransition))
       end
     end
   end

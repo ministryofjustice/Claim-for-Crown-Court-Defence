@@ -21,7 +21,7 @@ RSpec.shared_examples 'a successful fee calculator response' do |options|
   it 'includes unit' do
     unit = options&.fetch(:unit, nil)
     if unit
-      expect(response.data.unit).to be_kind_of String
+      expect(response.data.unit).to be_a String
       expect(response.data.unit).to match(unit.upcase)
     else
       expect(response.data.unit).to be_nil
@@ -29,7 +29,7 @@ RSpec.shared_examples 'a successful fee calculator response' do |options|
   end
 
   it 'includes amount' do
-    expect(response.data.amount).to be_kind_of Float
+    expect(response.data.amount).to be_a Float
   end
 
   if options&.fetch(:amount, nil)

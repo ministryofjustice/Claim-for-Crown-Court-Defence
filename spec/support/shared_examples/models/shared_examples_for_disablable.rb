@@ -31,7 +31,7 @@ RSpec.shared_examples 'a disablable object' do
     let(:object) { create(described_class.name.demodulize.underscore.to_sym, disabled_at: nil) }
 
     it 'sets disabled_at to a time' do
-      expect { object.disable }.to change(object, :disabled_at).from(nil).to(be_kind_of(Time))
+      expect { object.disable }.to change(object, :disabled_at).from(nil).to(be_a(Time))
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.shared_examples 'a disablable object' do
     let(:object) { create(factory_name, disabled_at: Time.zone.now) }
 
     it 'sets disabled_at to nil' do
-      expect { object.enable }.to change(object, :disabled_at).from(be_kind_of(Time)).to(nil)
+      expect { object.enable }.to change(object, :disabled_at).from(be_a(Time)).to(nil)
     end
   end
 
@@ -84,8 +84,8 @@ RSpec.shared_examples 'a disablable delegator' do |delegatee|
   describe '#disabled_at=' do
     subject(:assignment) { object.disabled_at = Time.zone.now }
 
-    it { expect { assignment }.to change(object, :disabled_at).from(nil).to(be_kind_of(Time)) }
-    it { expect { assignment }.to change(object.send(delegatee), :disabled_at).from(nil).to(be_kind_of(Time)) }
+    it { expect { assignment }.to change(object, :disabled_at).from(nil).to(be_a(Time)) }
+    it { expect { assignment }.to change(object.send(delegatee), :disabled_at).from(nil).to(be_a(Time)) }
   end
 
   describe '#disable' do
@@ -93,8 +93,8 @@ RSpec.shared_examples 'a disablable delegator' do |delegatee|
 
     it { expect { call }.to change(object, :disabled?).from(false).to(true) }
     it { expect { call }.to change(object.send(delegatee), :disabled?).from(false).to(true) }
-    it { expect { call }.to change(object, :disabled_at).from(nil).to(be_kind_of(Time)) }
-    it { expect { call }.to change(object.send(delegatee), :disabled_at).from(nil).to(be_kind_of(Time)) }
+    it { expect { call }.to change(object, :disabled_at).from(nil).to(be_a(Time)) }
+    it { expect { call }.to change(object.send(delegatee), :disabled_at).from(nil).to(be_a(Time)) }
   end
 
   describe '#enable' do
@@ -104,8 +104,8 @@ RSpec.shared_examples 'a disablable delegator' do |delegatee|
 
     it { expect { call }.to change(object, :enabled?).from(false).to(true) }
     it { expect { call }.to change(object.send(delegatee), :enabled?).from(false).to(true) }
-    it { expect { call }.to change(object, :disabled_at).from(be_kind_of(Time)).to(nil) }
-    it { expect { call }.to change(object.send(delegatee), :disabled_at).from(be_kind_of(Time)).to(nil) }
+    it { expect { call }.to change(object, :disabled_at).from(be_a(Time)).to(nil) }
+    it { expect { call }.to change(object.send(delegatee), :disabled_at).from(be_a(Time)).to(nil) }
   end
 
   describe '#disabled?' do
@@ -141,7 +141,7 @@ RSpec.shared_examples 'a disablable delegator' do |delegatee|
     end
 
     it 'returns records with disabled_at present' do
-      is_expected.to all(have_attributes(disabled_at: be_kind_of(Time)))
+      is_expected.to all(have_attributes(disabled_at: be_a(Time)))
     end
   end
 

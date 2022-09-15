@@ -6,7 +6,7 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
 
   let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
 
-  it { is_expected.to be_kind_of(Claim::BaseClaimPresenter) }
+  it { is_expected.to be_a(Claim::BaseClaimPresenter) }
 
   describe '#pretty_type' do
     specify { expect(presenter.pretty_type).to eq('AGFS Final') }
@@ -47,7 +47,7 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
 
   describe '#raw_fixed_fees_combined_total' do
     it 'sends messages to self' do
-      expect(presenter.raw_fixed_fees_combined_total).to be_kind_of(BigDecimal)
+      expect(presenter.raw_fixed_fees_combined_total).to be_a(BigDecimal)
     end
   end
 

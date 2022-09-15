@@ -6,7 +6,7 @@ RSpec.describe Claim::LitigatorClaimPresenter do
   subject { Claim::LitigatorClaimPresenter.new(claim, view) }
 
   it { expect(subject).to be_instance_of(Claim::LitigatorClaimPresenter) }
-  it { expect(subject).to be_kind_of(Claim::BaseClaimPresenter) }
+  it { expect(subject).to be_a(Claim::BaseClaimPresenter) }
 
   describe '#disbursements_total' do
     it 'returns the disbursements total rounded and formatted' do

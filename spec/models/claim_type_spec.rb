@@ -21,7 +21,7 @@ RSpec.describe ClaimType, type: :model do
   end
 
   describe '#id' do
-    it { expect(instance.id).to be_kind_of(String) }
+    it { expect(instance.id).to be_a(String) }
     it { is_expected.to validate_presence_of(:id).with_message('Choose a bill type') }
     it { is_expected.to validate_inclusion_of(:id).in_array(valid_ids).with_message('Choose a valid bill type') }
   end

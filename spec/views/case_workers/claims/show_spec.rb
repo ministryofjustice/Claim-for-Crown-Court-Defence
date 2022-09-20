@@ -294,9 +294,7 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
         let(:reason_code) { %w[no_amend_rep_order other] }
 
         before do
-          travel_to(Settings.reject_refuse_messaging_released_at + 1) do
-            claim.reject!(reason_code:, reason_text: 'rejecting because...')
-          end
+          claim.reject!(reason_code:, reason_text: 'rejecting because...')
           @messages = claim.messages.most_recent_last
           @message = claim.messages.build
           assign(:claim, claim.reload)

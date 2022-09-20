@@ -45,7 +45,6 @@ module Claims
     end
 
     def add_message
-      return unless Release.reject_refuse_messaging_released?
       claim.messages.create(sender_id: current_user.id, body: transition_message)
     end
 

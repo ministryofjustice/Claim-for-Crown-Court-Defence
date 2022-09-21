@@ -87,7 +87,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
         it {
           fee.valid?
-          expect(fee.errors[:quantity]).to include('miumu_numericality')
+          expect(fee.errors[:quantity]).to include('Enter a valid quantity (1) for unused material (up to 3 hours)')
         }
       end
 
@@ -162,7 +162,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
             before { fee.valid? }
 
-            it { expect(fee.errors[:fee_type]).to include('offence_category_exclusion') }
+            it { expect(fee.errors[:fee_type]).to include('Fee type is not applicable to this offence category') }
           end
         end
       end

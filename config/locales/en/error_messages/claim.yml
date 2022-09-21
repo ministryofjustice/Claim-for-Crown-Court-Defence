@@ -1040,8 +1040,8 @@ misc_fee:
       long: Enter a valid quantity (1 to 3) for plea and case management hearing fees
       short: _
       api: Enter a valid quantity (1 to 3) for plea and case management hearing fees
-    enter_a_valid_quantity_for_unused_material_up_to_3_hours:
-      long: 'Enter a valid quantity for the #{misc_fee}'
+    enter_a_valid_quantity_(1)_for_unused_material_(up_to_3_hours):
+      long: 'Enter a valid quantity (1) for unused material (up to 3 hours)'
       short: _
       api: Enter a valid quantity (1) for unused material (up to 3 hours)
     the_amount_for_the_miscellaneous_fee_exceeds_the_limit:

@@ -7,7 +7,7 @@ module Fee
 
       def initialize
         with_set_for_fee_type('MIUMU') do |set|
-          set << add_rule(:quantity, :equal, 1, message: 'miumu_numericality')
+          set << add_rule(:quantity, :equal, 1, message: :miumu_numericality)
           set << add_rule(*graduated_fee_type_only_rule)
         end
 
@@ -19,7 +19,7 @@ module Fee
           set << add_rule('claim.offence.offence_band.offence_category.number',
                           :exclusion,
                           [1, 6, 9],
-                          message: 'offence_category_exclusion',
+                          message: :offence_category_exclusion,
                           attribute_for_error: :fee_type)
         end
       end

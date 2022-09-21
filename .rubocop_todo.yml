@@ -359,7 +359,6 @@ Naming/MemoizedInstanceVariableName:
     - 'app/services/claims/state_transition_message_builder.rb'
     - 'app/services/concerns/case_worker_claim_param_readable.rb'
     - 'lib/geckoboard_publisher/report.rb'
-    - 'spec/support/matchers/validation_matchers.rb'
 
 # Offense count: 75
 # Configuration parameters: NamePrefix, ForbiddenPrefixes, AllowedMethods, MethodDefinitionMacros.
@@ -2209,7 +2208,6 @@ Rails/LexicallyScopedActionFilter:
 Rails/NegateInclude:
   Exclude:
     - 'spec/models/claim/advocate_claim_spec.rb'
-    - 'spec/support/matchers/validation_matchers.rb'
 
 # Offense count: 19
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -3065,14 +3063,6 @@ Style/SymbolProc:
     - 'spec/factories/claim/transfer_claims.rb'
     - 'spec/models/allocation_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: ExactNameMatch, AllowPredicates, AllowDSLWriters, IgnoreClassMethods, AllowedMethods.
-# AllowedMethods: to_ary, to_a, to_c, to_enum, to_h, to_hash, to_i, to_int, to_io, to_open, to_path, to_proc, to_r, to_regexp, to_str, to_s, to_sym
-Style/TrivialAccessors:
-  Exclude:
-    - 'spec/support/matchers/validation_matchers.rb'
-
 # Offense count: 58
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, MinSize, WordRegex.
@@ -3251,7 +3241,6 @@ Layout/LineLength:
     - 'spec/support/api/claims/litigator_hardship_claim.rb'
     - 'spec/support/api/claims/litigator_interim_claim_test.rb'
     - 'spec/support/api/claims/litigator_transfer_claim_test.rb'
-    - 'spec/support/matchers/validation_matchers.rb'
     - 'spec/support/seed_helpers.rb'
     - 'spec/support/shared_examples_for_api.rb'
     - 'spec/support/shared_examples_for_claim_types.rb'

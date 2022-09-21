@@ -1,19 +1,17 @@
 require 'rspec/expectations'
 
 RSpec::Matchers.define :include_field_error_when do |options|
-  options.assert_valid_keys :field, :other_field, :field_value, :other_field_value, :message, :translated_message, :translated_message_type
+  options.assert_valid_keys :field, :other_field, :field_value, :other_field_value, :message, :translated_message,
+                            :translated_message_type
+
   match do |record|
     @options = options
-    record.send("#{field}=", options[:field_value])
-    record.send("#{other_field}=", options[:other_field_value])
+    record.send("#{field}=", @options[:field_value])
+    record.send("#{other_field}=", @options[:other_field_value])
     record.valid?
     result = record.errors[field].include?(message) if message.present?
     result = translation_match? if result && translated_message.present?
     result
-  end
-
-  def options
-    @options
   end
 
   def translation_match?
@@ -37,23 +35,23 @@ RSpec::Matchers.define :include_field_error_when do |options|
   end
 
   def translated_message_type
-    @message_type ||= options[:translated_message_type] || 'short'
+    @translated_message_type ||= @options[:translated_message_type] || 'short'
   end
 
   def field
-    @field ||= options[:field].to_s
+    @field ||= @options[:field].to_s
   end
 
   def other_field
-    @other_field ||= options[:other_field].to_s
+    @other_field ||= @options[:other_field].to_s
   end
 
   def message
-    @message ||= options.fetch(:message, nil)
+    @message ||= @options.fetch(:message, nil)
   end
 
   def translated_message
-    @translated_message ||= options.fetch(:translated_message, nil)
+    @translated_message ||= @options.fetch(:translated_message, nil)
   end
 
   description do
@@ -63,7 +61,7 @@ RSpec::Matchers.define :include_field_error_when do |options|
   failure_message do |record|
     msg = ''
     msg += "expected valid: false\n got: true\n " if record.valid?
-    if message.present? && !record.errors[field].include?(message)
+    if message.present? && record.errors[field].exclude?(message)
       msg += "expected error: #{message} on #{field}\n got: #{record.errors[field]}\n"
     end
     if translated_message.present? && !actual_translated_message.eql?(translated_message)
@@ -73,6 +71,6 @@ RSpec::Matchers.define :include_field_error_when do |options|
   end
 
   failure_message_when_negated do |record|
-    "expected #{record.errors.messages}} NOT to include errors for #{options[:field]}"
+    "expected #{record.errors.messages}} NOT to include errors for #{@options[:field]}"
   end
 end

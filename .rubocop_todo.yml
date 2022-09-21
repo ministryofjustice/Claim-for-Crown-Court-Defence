@@ -483,7 +483,6 @@ Naming/VariableNumber:
 # Configuration parameters: MinSize.
 Performance/CollectionLiteralInLoop:
   Exclude:
-    - 'spec/models/claim/advocate_claim_spec.rb'
     - 'spec/presenters/claim/base_claim_presenter_spec.rb'
     - 'spec/services/stats/claim_creation_source_data_generator_spec.rb'
     - 'spec/validators/claim/base_claim_validator_spec.rb'
@@ -2203,12 +2202,6 @@ Rails/LexicallyScopedActionFilter:
     - 'app/controllers/sessions_controller.rb'
     - 'app/controllers/super_admins/admin/super_admins_controller.rb'
 
-# Offense count: 2
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Rails/NegateInclude:
-  Exclude:
-    - 'spec/models/claim/advocate_claim_spec.rb'
-
 # Offense count: 19
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: Include.
@@ -2430,7 +2423,6 @@ Style/BlockDelimiters:
     - 'spec/lib/rails_host_spec.rb'
     - 'spec/models/assessment_spec.rb'
     - 'spec/models/case_worker_spec.rb'
-    - 'spec/models/claim/advocate_claim_spec.rb'
     - 'spec/models/claim/advocate_hardship_claim_spec.rb'
     - 'spec/models/claim/advocate_interim_claim_spec.rb'
     - 'spec/models/claim/base_claim_spec.rb'
@@ -2727,7 +2719,6 @@ Style/HashTransformValues:
 Style/IfUnlessModifier:
   Exclude:
     - 'spec/api/entities/ccr/adapted_fixed_fee_spec.rb'
-    - 'spec/models/claim/advocate_claim_spec.rb'
     - 'spec/support/shared_examples/services/shared_examples_for_fee_calculators.rb'
     - 'spec/support/shared_examples_for_fee_adapters.rb'
     - 'spec/views/case_workers/claims/show_spec.rb'
@@ -2791,7 +2782,6 @@ Style/MutableConstant:
 # SupportedStyles: both, prefix, postfix
 Style/NegatedIf:
   Exclude:
-    - 'spec/models/claim/advocate_claim_spec.rb'
     - 'spec/support/matchers/custom_matchers.rb'
 
 # Offense count: 2
@@ -2817,12 +2807,6 @@ Style/NilComparison:
   Exclude:
     - 'spec/models/stage_spec.rb'
 
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Style/Not:
-  Exclude:
-    - 'spec/models/claim/advocate_claim_spec.rb'
-
 # Offense count: 40
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedOctalStyle.
@@ -2847,7 +2831,6 @@ Style/NumericLiterals:
   Exclude:
     - 'spec/helpers/case_workers/claims_helper_spec.rb'
     - 'spec/lib/host_memory_spec.rb'
-    - 'spec/models/claim/advocate_claim_spec.rb'
     - 'spec/models/expense_spec.rb'
     - 'spec/models/fee/base_fee_spec.rb'
     - 'spec/presenters/error_message/detail_spec.rb'
@@ -2912,7 +2895,6 @@ Style/PercentLiteralDelimiters:
     - 'spec/lib/caching/api_request_spec.rb'
     - 'spec/lib/extensions/string_extension_spec.rb'
     - 'spec/models/case_worker_spec.rb'
-    - 'spec/models/claim/advocate_claim_spec.rb'
     - 'spec/models/claim/transfer_claim_spec.rb'
     - 'spec/models/court_spec.rb'
     - 'spec/models/expense_type_spec.rb'
@@ -3041,7 +3023,6 @@ Style/SymbolArray:
     - 'spec/lib/survey_monkey/question/checkboxes_spec.rb'
     - 'spec/mailers/devise_mailer_spec.rb'
     - 'spec/models/ability_spec.rb'
-    - 'spec/models/claim/advocate_claim_spec.rb'
     - 'spec/models/claims/state_machine_spec.rb'
     - 'spec/models/disbursement_spec.rb'
     - 'spec/models/expense_spec.rb'
@@ -3071,7 +3052,6 @@ Style/WordArray:
   Exclude:
     - 'spec/api/entities/ccr/adapted_expense_spec.rb'
     - 'spec/controllers/provider_management/providers_controller_spec.rb'
-    - 'spec/models/claim/advocate_claim_spec.rb'
     - 'spec/models/claim/litigator_claim_spec.rb'
     - 'spec/models/disbursement_type_spec.rb'
     - 'spec/models/external_user_spec.rb'

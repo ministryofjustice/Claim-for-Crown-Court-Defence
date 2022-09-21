@@ -66,17 +66,17 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#eligible_case_types' do
-    let!(:agfs_case_types) {
+    subject(:claim) { described_class.new }
+
+    let!(:agfs_case_types) do
       [
         create(:case_type, name: 'AGFS and LGFS case type', roles: %w[agfs lgfs]),
         create(:case_type, name: 'AGFS case type', roles: %w[agfs])
       ]
-    }
-    let!(:lgfs_case_type) {
+    end
+    let!(:lgfs_case_type) do
       create(:case_type, name: 'LGFS case type', roles: %w[lgfs])
-    }
-
-    subject(:claim) { described_class.new }
+    end
 
     it 'returns only AGFS case types' do
       expect(claim.eligible_case_types).to match_array(agfs_case_types)
@@ -157,15 +157,17 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:categories) { double(:mocked_categories_result) }
     let(:claim) { build(:advocate_claim) }
 
-    specify {
+    specify do
       expect(Claims::FetchEligibleAdvocateCategories).to receive(:for).with(claim).and_return(categories)
       expect(claim.eligible_advocate_categories).to eq(categories)
-    }
+    end
   end
 
   describe 'State Machine meta states magic methods' do
-    let(:claim)       { build :claim }
-    let(:all_states)  { %w[allocated archived_pending_delete draft authorised part_authorised refused rejected submitted] }
+    let(:claim) { build :claim }
+    let(:all_states) do
+      %w[allocated archived_pending_delete draft authorised part_authorised refused rejected submitted]
+    end
 
     describe '#external_user_dashboard_draft?' do
       before { allow(claim).to receive(:state).and_return('draft') }
@@ -201,14 +203,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#external_user_dashboard_submitted?' do
       it 'responds true' do
-        ['allocated', 'submitted'].each do |claim_state|
+        %w[allocated submitted].each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be true
         end
       end
 
       it 'responds false to anything else' do
-        (all_states - ['allocated', 'submitted']).each do |claim_state|
+        (all_states - %w[allocated submitted]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_submitted?).to be false
         end
@@ -233,14 +235,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#external_user_dashboard_completed_states?' do
       it 'responds true' do
-        ['refused', 'authorised'].each do |state|
+        %w[refused authorised].each do |state|
           allow(claim).to receive(:state).and_return(state)
           expect(claim.external_user_dashboard_completed?).to be true
         end
       end
 
       it 'responds false to anything else' do
-        (all_states - ['refused', 'authorised']).each do |claim_state|
+        (all_states - %w[refused authorised]).each do |claim_state|
           allow(claim).to receive(:state).and_return(claim_state)
           expect(claim.external_user_dashboard_completed?).to be false
         end
@@ -249,9 +251,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'unrecognised state' do
       it 'raises NoMethodError' do
-        expect {
-          claim.other_unknown_state?
-        }.to raise_error NoMethodError, /undefined method `other_unknown_state\?'/
+        expect { claim.other_unknown_state? }.to raise_error NoMethodError, /undefined method `other_unknown_state\?'/
       end
     end
   end
@@ -300,22 +300,20 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'basic fees' do
-    let!(:fixed_fee_type) {
-      create(:fixed_fee_type, description: 'DDDD')
-    }
-    let!(:misc_fee_types) {
+    let!(:fixed_fee_type) { create(:fixed_fee_type, description: 'DDDD') }
+    let!(:misc_fee_types) do
       [
         create(:misc_fee_type, description: 'CCCC'),
         create(:misc_fee_type, description: 'EEEE')
       ]
-    }
-    let!(:basic_fee_types) {
+    end
+    let!(:basic_fee_types) do
       [
         create(:basic_fee_type, description: 'ZZZZ'),
         create(:basic_fee_type, description: 'AAAA'),
         create(:basic_fee_type, description: 'BBBB')
       ]
-    }
+    end
 
     context 'when the case type is not yet set' do
       subject(:claim) { described_class.new(case_type: nil) }
@@ -343,7 +341,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       context 'when some basic fees are provided' do
-        let(:attributes) {
+        let(:attributes) do
           {
             'basic_fees_attributes' => {
               '0' => {
@@ -354,7 +352,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             },
             'case_type_id' => case_type.id
           }
-        }
+        end
 
         subject(:claim) { described_class.new(attributes) }
 
@@ -379,9 +377,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'invalid search options' do
       it 'raises' do
-        expect {
-          Claim::AdvocateClaim.search('My search term', [], 'caseworker-name')
-        }.to raise_error RuntimeError, 'Invalid search option'
+        expect { Claim::AdvocateClaim.search('My search term', [], 'caseworker-name') }
+          .to raise_error RuntimeError, 'Invalid search option'
       end
     end
 
@@ -389,9 +386,21 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:search_options) { :maat_reference }
 
       before do
-        create :defendant, claim: subject, representation_orders: [create(:representation_order, maat_reference: '111111')]
-        create :defendant, claim: subject, representation_orders: [create(:representation_order, maat_reference: '222222')]
-        create :defendant, claim: other_claim, representation_orders: [create(:representation_order, maat_reference: '333333')]
+        create(
+          :defendant,
+          claim: subject,
+          representation_orders: [create(:representation_order, maat_reference: '111111')]
+        )
+        create(
+          :defendant,
+          claim: subject,
+          representation_orders: [create(:representation_order, maat_reference: '222222')]
+        )
+        create(
+          :defendant,
+          claim: other_claim,
+          representation_orders: [create(:representation_order, maat_reference: '333333')]
+        )
         subject.reload
         other_claim.reload
       end
@@ -497,7 +506,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds only claims of the multiple states specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins', [:archived_pending_delete, :authorised], search_options).count).to eq 4
+        expect(
+          Claim::AdvocateClaim.search('Bob Hoskins', %i[archived_pending_delete authorised], search_options).count
+        ).to eq 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
@@ -508,7 +519,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     context 'find by advocate and defendant' do
       let!(:current_external_user) { create(:external_user) }
       let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
-      let(:search_options)         { [:advocate_name, :defendant_name] }
+      let(:search_options)         { %i[advocate_name defendant_name] }
 
       before do
         subject.external_user = current_external_user
@@ -566,17 +577,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     context 'with invalid option' do
       it 'raises error for invalid option' do
-        expect {
-          Claim::AdvocateClaim.search('foo', states, :case_worker_name_or_email, :foo)
-        }.to raise_error(/Invalid search option/)
+        expect { Claim::AdvocateClaim.search('foo', states, :case_worker_name_or_email, :foo) }
+          .to raise_error(/Invalid search option/)
       end
     end
 
     context 'with invalid state' do
       it 'raises error for invalid option' do
-        expect {
-          Claim::AdvocateClaim.search('foo', :rubbish_state, :case_worker_name_or_email)
-        }.to raise_error(/Invalid state, rubbish_state, specified/)
+        expect { Claim::AdvocateClaim.search('foo', :rubbish_state, :case_worker_name_or_email) }
+          .to raise_error(/Invalid state, rubbish_state, specified/)
       end
     end
   end
@@ -607,18 +616,18 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       context 'for a graduated case type' do
-        let(:basic_fees) {
+        subject(:claim) do
+          create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
+            c.basic_fees = basic_fees
+          end
+        end
+
+        let(:basic_fees) do
           [
             build(:basic_fee, :baf_fee, rate: 4.00),
             build(:basic_fee, :baf_fee, rate: 3.00)
           ]
-        }
-
-        subject(:claim) {
-          create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
-            c.basic_fees = basic_fees
-          end
-        }
+        end
 
         it 'calculates the fees total' do
           expect(subject.calculate_fees_total).to eq(7.5)
@@ -648,40 +657,36 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         end
 
         it 'updates total when claim fee destroyed' do
-          expect {
-            claim.fixed_fees.first.destroy
-          }.to change(claim, :fees_total).from(1.0).to(0.5)
+          expect { claim.fixed_fees.first.destroy }.to change(claim, :fees_total).from(1.0).to(0.5)
         end
       end
 
       context 'for a graduated case type' do
-        let(:basic_fees) {
+        subject(:claim) do
+          create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
+            c.basic_fees = basic_fees
+          end
+        end
+
+        let(:basic_fees) do
           [
             build(:basic_fee, :baf_fee, rate: 4.00),
             build(:basic_fee, :baf_fee, rate: 3.00)
           ]
-        }
-
-        subject(:claim) {
-          create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
-            c.basic_fees = basic_fees
-          end
-        }
+        end
 
         it 'stores the fees total' do
-          expect(subject.fees_total).to eq(7.5)
+          expect(claim.fees_total).to eq(7.5)
         end
 
         it 'updates the fees total' do
-          expect {
-            claim.basic_fees.create attributes_for(:basic_fee, :baf_fee, rate: 2.00)
-          }.to change(claim, :fees_total).from(7.5).to(9.5)
+          expect { claim.basic_fees.create attributes_for(:basic_fee, :baf_fee, rate: 2.00) }
+            .to change(claim, :fees_total).from(7.5).to(9.5)
         end
 
         it 'updates total when claim fee destroyed' do
-          expect {
-            claim.basic_fees.where(rate: 3.00).first.destroy
-          }.to change(claim, :fees_total).from(7.5).to(4.5)
+          expect { claim.basic_fees.where(rate: 3.00).first.destroy }
+            .to change(claim, :fees_total).from(7.5).to(4.5)
         end
       end
     end
@@ -777,14 +782,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { create(:advocate_claim) }
 
     it 'is not archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
-      %w(allocated awaiting_written_reasons draft redetermination).each do |state|
+      %w[allocated awaiting_written_reasons draft redetermination].each do |state|
         allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to be(false)
       end
     end
 
     it 'is archivable from states: refused, rejected, part authorised, authorised' do
-      %w(refused rejected part_authorised authorised).each do |state|
+      %w[refused rejected part_authorised authorised].each do |state|
         allow(claim).to receive(:state).and_return(state)
         expect(claim.archivable?).to be(true)
       end
@@ -812,8 +817,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'claims in any state other than draft or archived_pending_delete' do
-        states = Claim::AdvocateClaim.state_machine.states.map(&:name)
-        states = states.filter_map { |s| if not [:draft, :archived_pending_delete].include?(s) then s; end; }
+        states = Claim::AdvocateClaim.state_machine.states.map(&:name) - %i[draft archived_pending_delete]
         states.each do |state|
           claim.state = state
           expect(claim.validation_required?).to be true
@@ -1152,11 +1156,11 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'comma formatted inputs' do
-    [:fees_total, :expenses_total, :total, :vat_amount].each do |attribute|
+    %i[fees_total expenses_total total vat_amount].each do |attribute|
       it "converts input for #{attribute} by stripping commas out" do
         claim = build(:claim)
         claim.send("#{attribute}=", '12,321,111')
-        expect(claim.send(attribute)).to eq(12321111)
+        expect(claim.send(attribute)).to eq(12_321_111)
       end
     end
   end
@@ -1302,9 +1306,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             }
           },
           'additional_information' => '',
-          'basic_fees_attributes' => { '0' => { 'quantity' => '1', 'rate' => '150', 'fee_type_id' => fee_type.id } },
-          'misc_fees_attributes' => { '0' => { 'fee_type_id' => '', 'quantity' => '', 'rate' => '', '_destroy' => 'false' } },
-          'fixed_fees_attributes' => { '0' => { 'fee_type_id' => '', 'quantity' => '', 'rate' => '', '_destroy' => 'false' } },
+          'basic_fees_attributes' => {
+            '0' => { 'quantity' => '1', 'rate' => '150', 'fee_type_id' => fee_type.id }
+          },
+          'misc_fees_attributes' => {
+            '0' => { 'fee_type_id' => '', 'quantity' => '', 'rate' => '', '_destroy' => 'false' }
+          },
+          'fixed_fees_attributes' => {
+            '0' => { 'fee_type_id' => '', 'quantity' => '', 'rate' => '', '_destroy' => 'false' }
+          },
           'expenses_attributes' => {
             '0' => {
               'expense_type_id' => expense_type.id,
@@ -1339,10 +1349,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     describe '#discontinuance?' do
       let(:discontinuance) { create(:case_type, :discontinuance) }
 
-      let(:claim_discontinuance_9) { create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true) }
+      let(:claim_discontinuance_9) do
+        create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true)
+      end
       let(:claim_9) { create(:advocate_claim, :agfs_scheme_9) }
 
-      let(:claim_discontinuance_10) { create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true) }
+      let(:claim_discontinuance_10) do
+        create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true)
+      end
       let(:claim_10) { create(:advocate_claim, :agfs_scheme_10) }
 
       context 'when claim is scheme 9' do

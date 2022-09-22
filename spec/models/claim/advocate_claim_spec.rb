@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
+  subject { create(:advocate_claim) }
+
   it_behaves_like 'a base claim'
   it_behaves_like 'uses claim cleaner', Cleaners::AdvocateClaimCleaner
 
@@ -74,9 +76,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         create(:case_type, name: 'AGFS case type', roles: %w[agfs])
       ]
     end
-    let!(:lgfs_case_type) do
-      create(:case_type, name: 'LGFS case type', roles: %w[lgfs])
-    end
+
+    before { create(:case_type, name: 'LGFS case type', roles: %w[lgfs]) }
 
     it 'returns only AGFS case types' do
       expect(claim.eligible_case_types).to match_array(agfs_case_types)
@@ -134,9 +135,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
 
       it 'calls eligible misc fee type fetch service' do
-        expect(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
-        expect(service).to receive(:call)
+        allow(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
+        allow(service).to receive(:call)
         call
+        expect(service).to have_received(:call)
       end
     end
 
@@ -146,9 +148,10 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:service) { instance_double(Claims::FetchEligibleFixedFeeTypes) }
 
       it 'calls eligible fixed fee type fetch service' do
-        expect(Claims::FetchEligibleFixedFeeTypes).to receive(:new).and_return service
-        expect(service).to receive(:call)
+        allow(Claims::FetchEligibleFixedFeeTypes).to receive(:new).and_return service
+        allow(service).to receive(:call)
         call
+        expect(service).to have_received(:call)
       end
     end
   end
@@ -158,7 +161,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:claim) { build(:advocate_claim) }
 
     specify do
-      expect(Claims::FetchEligibleAdvocateCategories).to receive(:for).with(claim).and_return(categories)
+      allow(Claims::FetchEligibleAdvocateCategories).to receive(:for).with(claim).and_return(categories)
       expect(claim.eligible_advocate_categories).to eq(categories)
     end
   end
@@ -256,8 +259,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
   end
 
-  subject { create(:advocate_claim) }
-
   describe '.earliest_representation_order' do
     let(:claim) { build :unpersisted_claim }
     let(:early_date) { scheme_date_for(nil).to_date - 10.days }
@@ -300,19 +301,18 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'basic fees' do
-    let!(:fixed_fee_type) { create(:fixed_fee_type, description: 'DDDD') }
-    let!(:misc_fee_types) do
-      [
-        create(:misc_fee_type, description: 'CCCC'),
-        create(:misc_fee_type, description: 'EEEE')
-      ]
-    end
     let!(:basic_fee_types) do
       [
         create(:basic_fee_type, description: 'ZZZZ'),
         create(:basic_fee_type, description: 'AAAA'),
         create(:basic_fee_type, description: 'BBBB')
       ]
+    end
+
+    before do
+      create(:fixed_fee_type, description: 'DDDD')
+      create(:misc_fee_type, description: 'CCCC')
+      create(:misc_fee_type, description: 'EEEE')
     end
 
     context 'when the case type is not yet set' do
@@ -322,17 +322,17 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     context 'when the case type is set and its for fixed fee' do
-      let(:case_type) { create(:case_type, :fixed_fee) }
-
       subject(:claim) { described_class.new(case_type:) }
+
+      let(:case_type) { create(:case_type, :fixed_fee) }
 
       specify { expect(claim.basic_fees).to be_empty }
     end
 
     context 'when the case type is set and its for graduated fee' do
-      let(:case_type) { create(:case_type, :graduated_fee) }
-
       subject(:claim) { described_class.new(case_type:) }
+
+      let(:case_type) { create(:case_type, :graduated_fee) }
 
       it 'returns a list of basic fees for each of the eligible basic fee types with all the fees with blank values' do
         expect(claim.basic_fees.length).to eq(3)
@@ -341,6 +341,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       context 'when some basic fees are provided' do
+        subject(:claim) { described_class.new(attributes) }
+
         let(:attributes) do
           {
             'basic_fees_attributes' => {
@@ -353,8 +355,6 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
             'case_type_id' => case_type.id
           }
         end
-
-        subject(:claim) { described_class.new(attributes) }
 
         it 'returns a list of basic fees for each of the eligible basic fee types with the ones provided by the user filled in' do
           expect(claim.basic_fees.length).to eq(3)
@@ -370,14 +370,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:states) { nil }
 
     it 'finds only claims with states that match dashboard displayable states' do
-      sql = Claim::AdvocateClaim.search('%', states, :advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
+      sql = described_class.search('%', states, :advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
       state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "\'#{s}\'" }.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 
     context 'invalid search options' do
       it 'raises' do
-        expect { Claim::AdvocateClaim.search('My search term', [], 'caseworker-name') }
+        expect { described_class.search('My search term', [], 'caseworker-name') }
           .to raise_error RuntimeError, 'Invalid search option'
       end
     end
@@ -406,19 +406,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds the claim by MAAT reference "111111"' do
-        expect(Claim::AdvocateClaim.search('111111', states, search_options)).to eq([subject])
+        expect(described_class.search('111111', states, search_options)).to eq([subject])
       end
 
       it 'finds the claim by MAAT reference "222222"' do
-        expect(Claim::AdvocateClaim.search('222222', states, search_options)).to eq([subject])
+        expect(described_class.search('222222', states, search_options)).to eq([subject])
       end
 
       it 'finds the claim by MAAT reference "333333"' do
-        expect(Claim::AdvocateClaim.search('333333', states, search_options)).to eq([other_claim])
+        expect(described_class.search('333333', states, search_options)).to eq([other_claim])
       end
 
       it 'does not find a claim with MAAT reference "444444"' do
-        expect(Claim::AdvocateClaim.search('444444', states, search_options)).to be_empty
+        expect(described_class.search('444444', states, search_options)).to be_empty
       end
     end
 
@@ -442,15 +442,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds all claims involving specified defendant' do
-        expect(Claim::AdvocateClaim.search('Joe Bloggs', states, search_options).count).to eq(2)
+        expect(described_class.search('Joe Bloggs', states, search_options).count).to eq(2)
       end
 
       it 'finds claim involving other specified defendant' do
-        expect(Claim::AdvocateClaim.search('Hart', states, search_options)).to eq([other_claim])
+        expect(described_class.search('Hart', states, search_options)).to eq([other_claim])
       end
 
       it 'does not find claims involving non-existent defendant"' do
-        expect(Claim::AdvocateClaim.search('Foo Bar', states, search_options)).to be_empty
+        expect(described_class.search('Foo Bar', states, search_options)).to be_empty
       end
     end
 
@@ -476,15 +476,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds the claim by advocate name "John Smith"' do
-        expect(Claim::AdvocateClaim.search('John Smith', states, search_options)).to eq([subject])
+        expect(described_class.search('John Smith', states, search_options)).to eq([subject])
       end
 
       it 'finds the claim by advocate name "Bob Hoskins"' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins', states, search_options)).to eq([other_claim])
+        expect(described_class.search('Bob Hoskins', states, search_options)).to eq([other_claim])
       end
 
       it 'does not find a claim with advocate name "Foo Bar"' do
-        expect(Claim::AdvocateClaim.search('Foo Bar', states, search_options)).to be_empty
+        expect(described_class.search('Foo Bar', states, search_options)).to be_empty
       end
     end
 
@@ -502,17 +502,17 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds only claims of the single state specified' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eq 2
+        expect(described_class.search('Bob Hoskins', :archived_pending_delete, search_options).count).to eq 2
       end
 
       it 'finds only claims of the multiple states specified' do
         expect(
-          Claim::AdvocateClaim.search('Bob Hoskins', %i[archived_pending_delete authorised], search_options).count
+          described_class.search('Bob Hoskins', %i[archived_pending_delete authorised], search_options).count
         ).to eq 4
       end
 
       it 'defaults to finding claims of dashboard_displayable_states' do
-        expect(Claim::AdvocateClaim.search('Bob Hoskins', nil, search_options).count).to eq 3
+        expect(described_class.search('Bob Hoskins', nil, search_options).count).to eq 3
       end
     end
 
@@ -540,15 +540,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds claims with either advocate or defendant matching names' do
-        expect(Claim::AdvocateClaim.search('Bloggs', states, *search_options)).to eq([subject])
-        expect(Claim::AdvocateClaim.search('Hoskins', states, *search_options)).to eq([other_claim])
-        expect(Claim::AdvocateClaim.search('Fred', states, *search_options).count).to eq(2) # advocate and defendant of name
-        expect(Claim::AdvocateClaim.search('Johncz', states, *search_options).count).to eq(1) # advocate only search
-        expect(Claim::AdvocateClaim.search('Joexx', states, *search_options).count).to eq(1) # defendant only search
+        expect(described_class.search('Bloggs', states, *search_options)).to eq([subject])
+        expect(described_class.search('Hoskins', states, *search_options)).to eq([other_claim])
+        expect(described_class.search('Fred', states, *search_options).count).to eq(2) # advocate and defendant of name
+        expect(described_class.search('Johncz', states, *search_options).count).to eq(1) # advocate only search
+        expect(described_class.search('Joexx', states, *search_options).count).to eq(1) # defendant only search
       end
 
       it 'does not find claims that do not match the name' do
-        expect(Claim::AdvocateClaim.search('Xavierxxxx', states, :advocate_name, :defendant_name).count).to eq(0)
+        expect(described_class.search('Xavierxxxx', states, :advocate_name, :defendant_name).count).to eq(0)
       end
     end
 
@@ -563,28 +563,28 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds the claim by case_worker name' do
-        expect(Claim::AdvocateClaim.search(case_worker.name, states, search_options)).to eq([subject])
+        expect(described_class.search(case_worker.name, states, search_options)).to eq([subject])
       end
 
       it 'finds the other claim by case worker name' do
-        expect(Claim::AdvocateClaim.search(other_case_worker.name, states, search_options)).to eq([other_claim])
+        expect(described_class.search(other_case_worker.name, states, search_options)).to eq([other_claim])
       end
 
       it 'does not find a claim with a non existent case worker' do
-        expect(Claim::AdvocateClaim.search('Foo Bar', states, search_options)).to be_empty
+        expect(described_class.search('Foo Bar', states, search_options)).to be_empty
       end
     end
 
     context 'with invalid option' do
       it 'raises error for invalid option' do
-        expect { Claim::AdvocateClaim.search('foo', states, :case_worker_name_or_email, :foo) }
+        expect { described_class.search('foo', states, :case_worker_name_or_email, :foo) }
           .to raise_error(/Invalid search option/)
       end
     end
 
     context 'with invalid state' do
       it 'raises error for invalid option' do
-        expect { Claim::AdvocateClaim.search('foo', :rubbish_state, :case_worker_name_or_email) }
+        expect { described_class.search('foo', :rubbish_state, :case_worker_name_or_email) }
           .to raise_error(/Invalid state, rubbish_state, specified/)
       end
     end
@@ -600,9 +600,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#calculate_fees_total' do
       context 'for a fixed case type' do
-        let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
-
         subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees:, misc_fees:) }
+
+        let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
 
         it 'calculates the fees total' do
           expect(subject.calculate_fees_total).to eq(1.0)
@@ -643,9 +643,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '#update_fees_total' do
       context 'for a fixed case type' do
-        let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
-
         subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees:, misc_fees:) }
+
+        let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
 
         it 'stores the fees total' do
           expect(claim.fees_total).to eq(1.0)
@@ -817,7 +817,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'claims in any state other than draft or archived_pending_delete' do
-        states = Claim::AdvocateClaim.state_machine.states.map(&:name) - %i[draft archived_pending_delete]
+        states = described_class.state_machine.states.map(&:name) - %i[draft archived_pending_delete]
         states.each do |state|
           claim.state = state
           expect(claim.validation_required?).to be true
@@ -910,19 +910,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     describe '.trial' do
       it 'returns trials and retrials' do
-        expect(Claim::AdvocateClaim.trial).to match_array(@trials + @retrials)
+        expect(described_class.trial).to match_array(@trials + @retrials)
       end
     end
 
     describe '.cracked' do
       it 'returns cracked trials and retrials' do
-        expect(Claim::AdvocateClaim.cracked).to match_array(@cracked_trials + @cracked_retrials)
+        expect(described_class.cracked).to match_array(@cracked_trials + @cracked_retrials)
       end
     end
 
     describe '.guilty_plea' do
       it 'returns guilty pleas and discontinuances' do
-        expect(Claim::AdvocateClaim.guilty_plea).to match_array(@guilty_pleas + @discontinuances)
+        expect(described_class.guilty_plea).to match_array(@guilty_pleas + @discontinuances)
       end
     end
   end
@@ -938,9 +938,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       claim_2 = create :claim, case_type_id: ct_fixed_2.id
       create :claim, case_type_id: ct_basic_1.id
       create :claim, case_type_id: ct_basic_2.id
-      expect(Claim::AdvocateClaim.fixed_fee.count).to eq 2
-      expect(Claim::AdvocateClaim.fixed_fee).to include claim_1
-      expect(Claim::AdvocateClaim.fixed_fee).to include claim_2
+      expect(described_class.fixed_fee.count).to eq 2
+      expect(described_class.fixed_fee).to include claim_1
+      expect(described_class.fixed_fee).to include claim_2
     end
   end
 
@@ -968,7 +968,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     end
 
     it 'only returns claims with total value greater than the specified value' do
-      expect(Claim::AdvocateClaim.total_greater_than_or_equal_to(400)).to match_array(greater_than_400)
+      expect(described_class.total_greater_than_or_equal_to(400)).to match_array(greater_than_400)
     end
   end
 
@@ -1017,8 +1017,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       context '#vat_registered?' do
         it 'returns the value from the external user' do
-          expect(claim.external_user).to receive(:vat_registered?)
+          allow(claim.external_user).to receive(:vat_registered?)
           claim.vat_registered?
+          expect(claim.external_user).to have_received(:vat_registered?)
         end
       end
     end
@@ -1030,8 +1031,9 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
       context '#vat_registered?' do
         it 'returns the value from the provider' do
-          expect(claim.provider).to receive(:vat_registered?)
+          allow(claim.provider).to receive(:vat_registered?)
           claim.vat_registered?
+          expect(claim.provider).to have_received(:vat_registered?)
         end
       end
     end
@@ -1337,7 +1339,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         'offence_class' => { 'description' => '64' },
         'commit_submit_claim' => 'Submit to LAA'
       }
-      claim = Claim::AdvocateClaim.new(params['claim'])
+      claim = described_class.new(params['claim'])
       claim.creator = external_user
       expect(claim.save).to be true
       claim.force_validation = true

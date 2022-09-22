@@ -10,7 +10,6 @@ Feature: Case worker rejects a claim, providing a reason
     And I insert the VCR cassette 'features/case_workers/claims/refuse'
 
     When I am signed in as the case worker
-    And the reject refuse messaging feature is released
     And I select the claim
     And I click the refused radio button
     And I select the refusal reason 'Duplicate claim'

@@ -291,13 +291,6 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
       updater.update! unless example.metadata[:wait]
     end
 
-    # TODO to be removed post release
-    around do |example|
-      travel_to(Settings.reject_refuse_messaging_released_at + 1) do
-        example.run
-      end
-    end
-
     context 'with reasons' do
       let(:params) do
         {
@@ -326,13 +319,6 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
 
     before do |example|
       updater.update! unless example.metadata[:wait]
-    end
-
-    # TODO to be removed post release
-    around do |example|
-      travel_to(Settings.reject_refuse_messaging_released_at + 1) do
-        example.run
-      end
     end
 
     context 'with reasons' do

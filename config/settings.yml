@@ -33,7 +33,7 @@ high_value_claim_threshold: 20000
 earliest_permitted_date: <%= 10.years.ago.to_date %>
 earliest_permitted_date_in_words: 10 years ago
 
-interim_earliest_permitted_repo_date: <%= Date.new(2014,10,2) %>
+interim_earliest_permitted_repo_date: 2014-10-02
 
 google_analytics:
   endpoint: "http://www.google-analytics.com/collect"
@@ -83,7 +83,7 @@ hardship_claims_banner_enabled?: true
 # Feature flag to enable or disable the downtime warning
 # If enabled, all users will see it up until "downtime_warning_date"
 downtime_warning_enabled?: false
-downtime_warning_date: <%= Date.new(2021, 05, 26) %>
+downtime_warning_date: 2021-05-26
 
 # Feature flag to enable or disable the scheme filters in the claims list page
 # If enabled, users with proper roles will see scheme radio buttons to filter the list
@@ -97,11 +97,11 @@ maintenance_mode_enabled?: <%= ENV.fetch('MAINTENANCE_MODE', nil)&.downcase&.eql
 feature_flags_enabled?: true
 active_features: []
 
-reject_refuse_messaging_released_at: <%= DateTime.new(2018, 4, 24, 23, 05, 0).change(offset: '+1:00') %>
+reject_refuse_messaging_released_at: 2018-04-24T23:05:00+01:00
 
-agfs_fee_reform_release_date: <%= Date.new(2018, 4, 1) %>
-agfs_scheme_11_release_date: <%= Date.new(2018, 12, 31) %>
-clar_release_date: <%= Date.new(2020, 9, 17) %>
+agfs_fee_reform_release_date: 2018-04-01
+agfs_scheme_11_release_date: 2018-12-31
+clar_release_date: 2020-09-17
 lgfs_scheme_10_clair_release_date: 2022-09-30
 agfs_scheme_13_clair_release_date: 2022-09-30
 

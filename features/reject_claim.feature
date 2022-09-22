@@ -10,7 +10,6 @@ Feature: Case worker rejects a claim, providing a reason
     And I insert the VCR cassette 'features/case_workers/claims/reject'
 
     When I am signed in as the case worker
-    And the reject refuse messaging feature is released
     And I select the claim
     And I click the rejected radio button
     And I select the rejection reason 'No indictment attached'

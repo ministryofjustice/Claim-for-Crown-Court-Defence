@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Claim::AdvocateClaim, type: :model do
-  subject { create(:advocate_claim) }
+  subject(:claim) { create(:advocate_claim) }
 
   it_behaves_like 'a base claim'
   it_behaves_like 'uses claim cleaner', Cleaners::AdvocateClaimCleaner
@@ -11,12 +11,12 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   it { is_expected.to accept_nested_attributes_for(:basic_fees) }
   it { is_expected.to accept_nested_attributes_for(:fixed_fees) }
 
-  specify { expect(subject.external_user_type).to eq(:advocate) }
-  specify { expect(subject.requires_case_type?).to be_truthy }
-  specify { expect(subject.agfs?).to be_truthy }
-  specify { expect(subject.final?).to be_truthy }
-  specify { expect(subject.interim?).to be_falsey }
-  specify { expect(subject.supplementary?).to be_falsey }
+  specify { expect(claim.external_user_type).to eq(:advocate) }
+  specify { expect(claim.requires_case_type?).to be_truthy }
+  specify { expect(claim.agfs?).to be_truthy }
+  specify { expect(claim.final?).to be_truthy }
+  specify { expect(claim.interim?).to be_falsey }
+  specify { expect(claim.supplementary?).to be_falsey }
 
   describe 'validates external user and creator with same provider' do
     subject(:claim) { described_class.create(external_user:, creator:) }
@@ -85,7 +85,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'eligible fee types' do
-    let(:claim) { build :unpersisted_claim }
+    subject(:claim) { build :unpersisted_claim }
 
     before(:all) do
       @bft1 = create :basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10], description: 'bft1'
@@ -260,7 +260,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '.earliest_representation_order' do
-    let(:claim) { build :unpersisted_claim }
+    subject(:claim) { build :unpersisted_claim }
+
     let(:early_date) { scheme_date_for(nil).to_date - 10.days }
 
     before do
@@ -289,14 +290,14 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:case_worker_2) { create :case_worker }
 
     it 'returns true if allocated to the specified case_worker' do
-      subject.case_workers << case_worker_1
-      subject.case_workers << case_worker_2
-      expect(subject.is_allocated_to_case_worker?(case_worker_1)).to be true
+      claim.case_workers << case_worker_1
+      claim.case_workers << case_worker_2
+      expect(claim.is_allocated_to_case_worker?(case_worker_1)).to be true
     end
 
     it 'returns false if not allocated to the specified case_worker' do
-      subject.case_workers << case_worker_1
-      expect(subject.is_allocated_to_case_worker?(case_worker_2)).to be false
+      claim.case_workers << case_worker_1
+      expect(claim.is_allocated_to_case_worker?(case_worker_2)).to be false
     end
   end
 
@@ -386,31 +387,23 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:search_options) { :maat_reference }
 
       before do
-        create(
-          :defendant,
-          claim: subject,
-          representation_orders: [create(:representation_order, maat_reference: '111111')]
-        )
-        create(
-          :defendant,
-          claim: subject,
-          representation_orders: [create(:representation_order, maat_reference: '222222')]
-        )
+        create(:defendant, claim:, representation_orders: [create(:representation_order, maat_reference: '111111')])
+        create(:defendant, claim:, representation_orders: [create(:representation_order, maat_reference: '222222')])
         create(
           :defendant,
           claim: other_claim,
           representation_orders: [create(:representation_order, maat_reference: '333333')]
         )
-        subject.reload
+        claim.reload
         other_claim.reload
       end
 
       it 'finds the claim by MAAT reference "111111"' do
-        expect(described_class.search('111111', states, search_options)).to eq([subject])
+        expect(described_class.search('111111', states, search_options)).to eq([claim])
       end
 
       it 'finds the claim by MAAT reference "222222"' do
-        expect(described_class.search('222222', states, search_options)).to eq([subject])
+        expect(described_class.search('222222', states, search_options)).to eq([claim])
       end
 
       it 'finds the claim by MAAT reference "333333"' do
@@ -428,16 +421,16 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:search_options)         { :defendant_name }
 
       before do
-        subject.external_user = current_external_user
-        subject.creator = current_external_user
+        claim.external_user = current_external_user
+        claim.creator = current_external_user
         other_claim.external_user = other_external_user
         other_claim.creator = other_external_user
-        subject.save!
+        claim.save!
         other_claim.save!
-        create(:defendant, first_name: 'Joe', last_name: 'Bloggs', claim: subject)
+        create(:defendant, first_name: 'Joe', last_name: 'Bloggs', claim:)
         create(:defendant, first_name: 'Joe', last_name: 'Bloggs', claim: other_claim)
         create(:defendant, first_name: 'Herbie', last_name: 'Hart', claim: other_claim)
-        subject.reload
+        claim.reload
         other_claim.reload
       end
 
@@ -458,15 +451,15 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:search_options) { :advocate_name }
 
       before do
-        subject.external_user = create(:external_user)
-        subject.creator = subject.external_user
+        claim.external_user = create(:external_user)
+        claim.creator = claim.external_user
         other_claim.external_user = create(:external_user)
         other_claim.creator = other_claim.external_user
-        subject.external_user.user.first_name = 'John'
-        subject.external_user.user.last_name = 'Smith'
-        subject.external_user.user.save!
+        claim.external_user.user.first_name = 'John'
+        claim.external_user.user.last_name = 'Smith'
+        claim.external_user.user.save!
 
-        subject.save!
+        claim.save!
 
         other_claim.external_user.user.first_name = 'Bob'
         other_claim.external_user.user.last_name = 'Hoskins'
@@ -476,7 +469,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds the claim by advocate name "John Smith"' do
-        expect(described_class.search('John Smith', states, search_options)).to eq([subject])
+        expect(described_class.search('John Smith', states, search_options)).to eq([claim])
       end
 
       it 'finds the claim by advocate name "Bob Hoskins"' do
@@ -522,13 +515,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:search_options)         { %i[advocate_name defendant_name] }
 
       before do
-        subject.external_user = current_external_user
-        subject.creator = current_external_user
-        subject.external_user.user.first_name = 'Fred'
-        subject.external_user.user.last_name = 'Bloggs'
-        subject.external_user.user.save!
-        create(:defendant, first_name: 'Joexx', last_name: 'Bloggs', claim: subject)
-        subject.save!
+        claim.external_user = current_external_user
+        claim.creator = current_external_user
+        claim.external_user.user.first_name = 'Fred'
+        claim.external_user.user.last_name = 'Bloggs'
+        claim.external_user.user.save!
+        create(:defendant, first_name: 'Joexx', last_name: 'Bloggs', claim:)
+        claim.save!
 
         other_claim.external_user = other_external_user
         other_claim.creator = other_external_user
@@ -540,7 +533,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       it 'finds claims with either advocate or defendant matching names' do
-        expect(described_class.search('Bloggs', states, *search_options)).to eq([subject])
+        expect(described_class.search('Bloggs', states, *search_options)).to eq([claim])
         expect(described_class.search('Hoskins', states, *search_options)).to eq([other_claim])
         expect(described_class.search('Fred', states, *search_options).count).to eq(2) # advocate and defendant of name
         expect(described_class.search('Johncz', states, *search_options).count).to eq(1) # advocate only search
@@ -558,12 +551,12 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       let(:search_options) { :case_worker_name_or_email }
 
       before do
-        subject.case_workers << case_worker
+        claim.case_workers << case_worker
         other_claim.case_workers << other_case_worker
       end
 
       it 'finds the claim by case_worker name' do
-        expect(described_class.search(case_worker.name, states, search_options)).to eq([subject])
+        expect(described_class.search(case_worker.name, states, search_options)).to eq([claim])
       end
 
       it 'finds the other claim by case worker name' do
@@ -605,13 +598,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
 
         it 'calculates the fees total' do
-          expect(subject.calculate_fees_total).to eq(1.0)
+          expect(claim.calculate_fees_total).to eq(1.0)
         end
 
         it 'calculates fee totals by category too' do
-          expect(subject.calculate_fees_total(:basic_fees)).to eq(0.0)
-          expect(subject.calculate_fees_total(:misc_fees)).to eq(0.5)
-          expect(subject.calculate_fees_total(:fixed_fees)).to eq(0.5)
+          expect(claim.calculate_fees_total(:basic_fees)).to eq(0.0)
+          expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5)
+          expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.5)
         end
       end
 
@@ -630,13 +623,13 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
         end
 
         it 'calculates the fees total' do
-          expect(subject.calculate_fees_total).to eq(7.5)
+          expect(claim.calculate_fees_total).to eq(7.5)
         end
 
         it 'calculates fee totals by category too' do
-          expect(subject.calculate_fees_total(:basic_fees)).to eq(7.0)
-          expect(subject.calculate_fees_total(:misc_fees)).to eq(0.5)
-          expect(subject.calculate_fees_total(:fixed_fees)).to eq(0.0)
+          expect(claim.calculate_fees_total(:basic_fees)).to eq(7.0)
+          expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5)
+          expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.0)
         end
       end
     end
@@ -694,28 +687,28 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   context 'expenses total' do
     before do
-      create(:expense, claim_id: subject.id, amount: 3.5)
-      create(:expense, claim_id: subject.id, amount: 1.0)
-      create(:expense, claim_id: subject.id, amount: 142.0)
-      subject.reload
+      create(:expense, claim_id: claim.id, amount: 3.5)
+      create(:expense, claim_id: claim.id, amount: 1.0)
+      create(:expense, claim_id: claim.id, amount: 142.0)
+      claim.reload
     end
 
     describe '#update_expenses_total' do
       it 'stores the expenses total' do
-        expect(subject.expenses_total).to eq(146.5)
+        expect(claim.expenses_total).to eq(146.5)
       end
 
       it 'updates the expenses total' do
-        create(:expense, claim_id: subject.id, amount: 3.0)
-        subject.reload
-        expect(subject.expenses_total).to eq(149.5)
+        create(:expense, claim_id: claim.id, amount: 3.0)
+        claim.reload
+        expect(claim.expenses_total).to eq(149.5)
       end
 
       it 'updates expenses total when expense destroyed' do
-        expense = subject.expenses.first
+        expense = claim.expenses.first
         expense.destroy
-        subject.reload
-        expect(subject.expenses_total).to eq(143.0)
+        claim.reload
+        expect(claim.expenses_total).to eq(143.0)
       end
     end
   end
@@ -724,38 +717,38 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
     let(:fee_type) { create(:misc_fee_type) }
 
     before do
-      subject.fees.destroy_all
-      create(:misc_fee, claim_id: subject.id, rate: 3.00)
-      create(:misc_fee, claim_id: subject.id, rate: 2.00)
-      create(:misc_fee, claim_id: subject.id, rate: 1.00)
+      claim.fees.destroy_all
+      create(:misc_fee, claim_id: claim.id, rate: 3.00)
+      create(:misc_fee, claim_id: claim.id, rate: 2.00)
+      create(:misc_fee, claim_id: claim.id, rate: 1.00)
 
-      create(:expense, claim_id: subject.id, amount: 3.5)
-      create(:expense, claim_id: subject.id, amount: 1.0)
-      create(:expense, claim_id: subject.id, amount: 142.0)
-      subject.reload
+      create(:expense, claim_id: claim.id, amount: 3.5)
+      create(:expense, claim_id: claim.id, amount: 1.0)
+      create(:expense, claim_id: claim.id, amount: 142.0)
+      claim.reload
     end
 
     describe '#calculate_total' do
       it 'calculates the fees and expenses total' do
-        expect(subject.calculate_total).to eq(152.5)
+        expect(claim.calculate_total).to eq(152.5)
       end
     end
 
     describe '#update_total' do
       it 'updates the total' do
-        create(:expense, claim_id: subject.id, amount: 3.0)
-        create(:misc_fee, claim_id: subject.id, rate: 0.5)
-        subject.reload
-        expect(subject.total).to eq(156.00)
+        create(:expense, claim_id: claim.id, amount: 3.0)
+        create(:misc_fee, claim_id: claim.id, rate: 0.5)
+        claim.reload
+        expect(claim.total).to eq(156.00)
       end
 
       it 'updates total when expense/fee destroyed' do
-        expense = subject.expenses.first
-        fee = subject.fees.first
+        expense = claim.expenses.first
+        fee = claim.fees.first
         expense.destroy
         fee.destroy
-        subject.reload
-        expect(subject.total).to eq(146.00)
+        claim.reload
+        expect(claim.total).to eq(146.00)
       end
     end
   end
@@ -827,44 +820,44 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'allocate claim when assigning to case worker' do
-    subject { create(:submitted_claim) }
+    subject(:claim) { create(:submitted_claim) }
 
     let(:case_worker) { create(:case_worker) }
 
     it 'moves to "allocated" state when assigned to case worker' do
-      subject.case_workers << case_worker
-      expect(subject.reload).to be_allocated
+      claim.case_workers << case_worker
+      expect(claim.reload).to be_allocated
     end
   end
 
   describe 'moves to "submitted" state when case worker removed' do
-    subject { create(:submitted_claim) }
+    subject(:claim) { create(:submitted_claim) }
 
     let(:case_worker) { create(:case_worker) }
     let(:other_case_worker) { create(:case_worker) }
 
     before do
-      case_worker.claims << subject
-      other_case_worker.claims << subject
-      subject.reload
+      case_worker.claims << claim
+      other_case_worker.claims << claim
+      claim.reload
     end
 
     it 'is "allocated"' do
-      expect(subject).to be_allocated
+      expect(claim).to be_allocated
     end
 
     context 'when case worker unassigned and other case workers remain' do
       it 'is "allocated"' do
-        case_worker.claims.destroy(subject)
-        expect(subject.reload).to be_allocated
+        case_worker.claims.destroy(claim)
+        expect(claim.reload).to be_allocated
       end
     end
 
     context 'when all case workers unassigned' do
       it 'is "submitted"' do
-        case_worker.claims.destroy(subject)
-        other_case_worker.claims.destroy(subject)
-        expect(subject.reload).to be_submitted
+        case_worker.claims.destroy(claim)
+        other_case_worker.claims.destroy(claim)
+        expect(claim.reload).to be_submitted
       end
     end
   end

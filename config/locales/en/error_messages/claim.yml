@@ -539,9 +539,9 @@ legal_aid_transfer_date:
 earliest_representation_order_date:
   _seq:  220
   invalid_for_elected_case_not_proceeded:
-    long: Check combination of representation order date and case type, on the previous page
+    long: The representation order date and case type cannot be combined
     short: _
-    api: Check combination of representation order date and case type
+    api: The representation order date and case type cannot be combined
 
 
 

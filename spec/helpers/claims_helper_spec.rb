@@ -269,4 +269,42 @@ RSpec.describe ClaimsHelper do
       it { is_expected.to be_falsey }
     end
   end
+
+  describe '#display_elected_not_proceeded_signpost?' do
+    subject { display_elected_not_proceeded_signpost?(claim) }
+
+    let(:claim) { build(:claim) }
+
+    context 'with a final claim' do
+      before { allow(claim).to receive(:final?).and_return true }
+
+      context 'when the date is on or after the start of the CLAIR fee scheme' do
+        before { travel_to(Settings.lgfs_scheme_10_clair_release_date.end_of_day) }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when the date is before the start of the CLAIR fee scheme' do
+        before { travel_to(Settings.lgfs_scheme_10_clair_release_date - 1) }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'with a non-final claim' do
+      before { allow(claim).to receive(:final?).and_return false }
+
+      context 'when the date is on or after the start of the CLAIR fee scheme' do
+        before { travel_to(Settings.lgfs_scheme_10_clair_release_date.end_of_day) }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when the date is before the start of the CLAIR fee scheme' do
+        before { travel_to(Settings.lgfs_scheme_10_clair_release_date - 1) }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+  end
 end

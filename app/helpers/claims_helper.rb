@@ -67,4 +67,9 @@ module ClaimsHelper
     claim.eligible_misc_fee_types.map(&:unique_code).include?('MIUMU') &&
       claim.fees.select { |f| f.fee_type.unique_code == 'MIUMU' }.empty?
   end
+
+  def display_elected_not_proceeded_signpost?(claim)
+    # This applies to both AGFS fee scheme 13 and LGFS fee scheme 10 but the dates are the same
+    claim.final? && Time.zone.today >= Settings.agfs_scheme_13_clair_release_date.beginning_of_day
+  end
 end

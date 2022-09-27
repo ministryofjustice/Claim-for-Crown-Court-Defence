@@ -105,6 +105,8 @@ clar_release_date: 2020-09-17
 lgfs_scheme_10_clair_release_date: 2022-09-30
 agfs_scheme_13_clair_release_date: 2022-09-30
 
+new_monarch_feature_enabled?: <%= ENV.fetch('NEW_MONARCH_FEATURE_ENABLED', nil)&.downcase&.eql?('true') %>
+
 # number of weeks in one state before automatic transition to archived pending delete
 timed_transition_stale_weeks: 16
 

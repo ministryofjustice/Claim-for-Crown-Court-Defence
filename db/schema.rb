@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_02_141802) do
+ActiveRecord::Schema.define(version: 2022_09_27_161417) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -344,6 +344,12 @@ ActiveRecord::Schema.define(version: 2022_03_02_141802) do
     t.datetime "deleted_at"
     t.index ["provider_id"], name: "index_external_users_on_provider_id"
     t.index ["supplier_number"], name: "index_external_users_on_supplier_number"
+  end
+
+  create_table "feature_flags", force: :cascade do |t|
+    t.boolean "enable_new_monarch", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "fee_schemes", id: :serial, force: :cascade do |t|

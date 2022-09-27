@@ -60,6 +60,11 @@
             = render partial: 'layouts/flashes' unless flash.empty? || @disable_flashes
             = content_for :page_heading
 
+            - if FeatureFlag.active?(:change_of_monarch)
+              = 'feature flag enabled'
+            - else
+              = 'feature flag disabled'
+
         = yield
 
         = render partial: 'layouts/contact_us_link'

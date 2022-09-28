@@ -12,20 +12,20 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
     response = client.post_to_endpoint('claims/advocates/supplementary', claim_data)
     return if client.failure
 
-    self.claim_uuid = id_from_json(response)
+    self.claim_uuid = response['id']
 
     # add a defendant
     response = client.post_to_endpoint('defendants', defendant_data)
 
     # add representation order
-    defendant_id = id_from_json(response)
+    defendant_id = response['id']
     client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
 
     # CREATE miscellaneous fee
     response = client.post_to_endpoint('fees', misc_fee_data)
 
     # add date attended to miscellaneous fee
-    attended_item_id = id_from_json(response)
+    attended_item_id = response['id']
     client.post_to_endpoint('dates_attended', date_attended_data(attended_item_id, 'fee'))
 
     # add expense

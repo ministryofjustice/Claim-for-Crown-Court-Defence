@@ -60,26 +60,7 @@ class BaseClaimTest
   end
 
   def json_value_at_index(json, key = nil, index = 0)
-    # ignore errors as handled elsewhere
-    if key
-      begin
-        JSON.parse(json).map { |e| e[key] }[index]
-      rescue
-        0
-      end
-    else
-      begin
-        JSON.parse(json)[index]
-      rescue
-        0
-      end
-    end
-  end
-
-  def id_from_json(json, key = 'id')
-    JSON.parse(json)[key]
-  rescue
-    0
+    key ? json.pluck(key)[index] : json[index]
   end
 
   def clean_up

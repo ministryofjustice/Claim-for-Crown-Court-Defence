@@ -60,7 +60,7 @@ class ApiTestClient
       debug("Code: #{response.code}")
       debug("Body:\n#{response.body}\n")
       handle_response(response, resource)
-      response
+      response.body
     end
   end
 

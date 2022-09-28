@@ -51,21 +51,17 @@ class ApiTestClient
     !@success
   end
 
-  def post_to_endpoint(resource, payload, debug = false)
+  def post_to_endpoint(resource, payload)
     endpoint = RestClient::Resource.new([api_root_url, EXTERNAL_USER_PREFIX, resource].join('/'))
-    debug("POSTING TO #{endpoint}") if debug
-    debug("Payload:\n#{payload}\n") if debug
+    debug("POSTING TO #{endpoint}")
+    debug("Payload:\n#{payload}\n")
 
     endpoint.post(payload.to_json, content_type: :json, accept: :json) do |response, _request, _result|
-      debug("Code: #{response.code}") if debug
-      debug("Body:\n#{response.body}\n") if debug
+      debug("Code: #{response.code}")
+      debug("Body:\n#{response.body}\n")
       handle_response(response, resource)
       response
     end
-  end
-
-  def post_to_endpoint_with_debug(resource, payload)
-    post_to_endpoint(resource, payload, true)
   end
 
   #
@@ -87,7 +83,7 @@ class ApiTestClient
   private
 
   def handle_response(response, resource)
-    return if response.code.to_s =~ /^2/
+    return if /^2/.match?(response.code.to_s)
     @success = false
     @full_error_messages << "#{resource} Endpoint raised error - #{response}"
   end

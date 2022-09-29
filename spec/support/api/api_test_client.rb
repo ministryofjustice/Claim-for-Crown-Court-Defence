@@ -52,12 +52,10 @@ class ApiTestClient
   end
 
   def post_to_endpoint(resource, payload)
-    endpoint = fetch_endpoint(resource:, prefix: EXTERNAL_USER_PREFIX)
     debug("Payload:\n#{payload}\n")
 
-    endpoint.post(payload.to_json, content_type: :json, accept: :json) do |response, _request, _result|
-      debug("Code: #{response.code}")
-      debug("Body:\n#{response.body}\n")
+    endpoint(resource:, prefix: EXTERNAL_USER_PREFIX) do |e|
+      response = e.post(payload.to_json, content_type: :json, accept: :json)
       handle_response(response, resource)
       JSON.parse(response.body)
     end
@@ -70,29 +68,31 @@ class ApiTestClient
   # response for analysis.
   #
   def get_dropdown_endpoint(resource, api_key, **params)
-    endpoint = fetch_endpoint(resource:, prefix: 'api', api_key:, **params)
-
-    JSON.parse(Caching::ApiRequest.cache(endpoint.url) do
-      endpoint.get do |response, _request, _result|
-        handle_response(response, resource)
-        response
+    endpoint(resource:, prefix: 'api', api_key:, **params) do |e|
+      body = Caching::ApiRequest.cache(e.url) do
+        e.get.tap { |response| handle_response(response, resource) }
       end
-    end)
+      JSON.parse(body)
+    end
   rescue JSON::ParserError
     {}
   end
 
   private
 
-  def fetch_endpoint(resource:, prefix:, **params)
+  def endpoint(resource:, prefix:, **params, &)
     query_params = '?' + params.to_query
-    RestClient::Resource.new([api_root_url, prefix, resource].join('/') + query_params).tap do |endpoint|
-      debug("POSTING TO #{endpoint}")
-    end
+    url = [api_root_url, prefix, resource].join('/') + query_params
+    debug("POSTING TO #{url}")
+
+    yield RestClient::Resource.new(url)
   end
 
   def handle_response(response, resource)
+    debug("Code: #{response.code}")
+    debug("Body:\n#{response.body}\n")
     return if /^2/.match?(response.code.to_s)
+
     @success = false
     @full_error_messages << "#{resource} Endpoint raised error - #{response}"
   end

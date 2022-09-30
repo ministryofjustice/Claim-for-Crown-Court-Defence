@@ -4,6 +4,7 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
   def initialize(...)
     @claim_create_endpoint = 'claims/advocates/supplementary'
     @email = ADVOCATE_TEST_EMAIL
+    @role = 'agfs'
 
     super
   end
@@ -15,11 +16,11 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
     response = @client.post_to_endpoint('fees', misc_fee_data)
 
     # add date attended to miscellaneous fee
-    attended_item_id = response['id']
-    @client.post_to_endpoint('dates_attended', date_attended_data(attended_item_id, 'fee'))
+    @attended_item_id = response['id']
+    @client.post_to_endpoint('dates_attended', date_attended_data)
 
     # add expense
-    @client.post_to_endpoint('expenses', expense_data(role: 'agfs'))
+    @client.post_to_endpoint('expenses', expense_data)
   ensure
     clean_up
   end

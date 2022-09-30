@@ -41,8 +41,8 @@ class BaseClaimTest
     response = @client.post_to_endpoint('defendants', defendant_data)
 
     # add representation order
-    defendant_id = response['id']
-    @client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
+    @defendant_id = response['id']
+    @client.post_to_endpoint('representation_orders', representation_order_data)
   end
 
   def claim_data
@@ -89,20 +89,20 @@ class BaseClaimTest
     }
   end
 
-  def representation_order_data(defendant_uuid)
+  def representation_order_data
     {
       api_key:,
-      defendant_id: defendant_uuid,
+      defendant_id: @defendant_id,
       maat_reference: '4546963',
       representation_order_date: '2015-05-21'
     }
   end
 
-  def date_attended_data(attended_item_uuid, attended_item_type)
+  def date_attended_data
     {
       api_key:,
-      attended_item_id: attended_item_uuid,
-      attended_item_type:,
+      attended_item_id: @attended_item_id,
+      attended_item_type: 'fee',
       date: '2015-06-01',
       date_to: '2015-06-01'
     }
@@ -120,21 +120,8 @@ class BaseClaimTest
     }
   end
 
-  def warrant_fee_data
-    warrant_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant'), 'id')
-
-    {
-      api_key:,
-      claim_id: @claim_uuid,
-      fee_type_id: warrant_type_id,
-      warrant_issued_date: 3.months.ago.as_json,
-      warrant_executed_date: 1.week.ago.as_json,
-      amount: 100.25
-    }
-  end
-
-  def expense_data(role:)
-    expense_type_id = json_value_at_index(@client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role:), 'id')
+  def expense_data
+    expense_type_id = json_value_at_index(@client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role: @role), 'id')
 
     {
       api_key:,

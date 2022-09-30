@@ -4,6 +4,7 @@ class LitigatorTransferClaimTest < BaseClaimTest
   def initialize(...)
     @claim_create_endpoint = 'claims/transfer'
     @email = LITIGATOR_TEST_EMAIL
+    @role = 'lgfs'
 
     super
   end

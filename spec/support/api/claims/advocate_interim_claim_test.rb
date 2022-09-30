@@ -4,6 +4,7 @@ class AdvocateInterimClaimTest < BaseClaimTest
   def initialize(...)
     @claim_create_endpoint = 'claims/advocates/interim'
     @email = ADVOCATE_TEST_EMAIL
+    @role = 'agfs'
 
     super
   end
@@ -22,11 +23,11 @@ class AdvocateInterimClaimTest < BaseClaimTest
     response = @client.post_to_endpoint('fees', misc_fee_data)
 
     # add date attended to miscellaneous fee
-    attended_item_id = response['id']
-    @client.post_to_endpoint('dates_attended', date_attended_data(attended_item_id, 'fee'))
+    @attended_item_id = response['id']
+    @client.post_to_endpoint('dates_attended', date_attended_data)
 
     # add expense
-    @client.post_to_endpoint('expenses', expense_data(role: 'agfs'))
+    @client.post_to_endpoint('expenses', expense_data)
   ensure
     clean_up
   end
@@ -51,13 +52,8 @@ class AdvocateInterimClaimTest < BaseClaimTest
     }
   end
 
-  def representation_order_data(defendant_uuid)
-    {
-      api_key:,
-      defendant_id: defendant_uuid,
-      maat_reference: '4546963',
-      representation_order_date: scheme_10_date
-    }
+  def representation_order_data
+    super.merge(representation_order_date: scheme_10_date)
   end
 
   def warrant_fee_data
@@ -84,30 +80,11 @@ class AdvocateInterimClaimTest < BaseClaimTest
     }
   end
 
-  def date_attended_data(attended_item_uuid, attended_item_type)
-    {
-      api_key:,
-      attended_item_id: attended_item_uuid,
-      attended_item_type:,
-      date: scheme_10_date,
-      date_to: scheme_10_date
-    }
+  def date_attended_data
+    super.merge(date: scheme_10_date, date_to: scheme_10_date)
   end
 
-  def expense_data(role:)
-    expense_type_id = json_value_at_index(@client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role:), 'id')
-
-    {
-      api_key:,
-      claim_id: @claim_uuid,
-      expense_type_id:,
-      amount: 500.15,
-      location: 'London',
-      reason_id: 5,
-      reason_text: 'Foo',
-      date: scheme_10_date,
-      distance: 100.58,
-      mileage_rate_id: 1
-    }
+  def expense_data
+    super.merge(date: scheme_10_date)
   end
 end

@@ -4,6 +4,7 @@ class LitigatorFinalClaimTest < BaseClaimTest
   def initialize(...)
     @claim_create_endpoint = 'claims/final'
     @email = LITIGATOR_TEST_EMAIL
+    @role = 'lgfs'
 
     super
   end
@@ -21,7 +22,7 @@ class LitigatorFinalClaimTest < BaseClaimTest
     @client.post_to_endpoint('fees', warrant_fee_data)
 
     # add expense
-    @client.post_to_endpoint('expenses', expense_data(role: 'lgfs'))
+    @client.post_to_endpoint('expenses', expense_data)
 
     # CREATE a disbursement
     @client.post_to_endpoint('disbursements', disbursement_data)
@@ -72,6 +73,19 @@ class LitigatorFinalClaimTest < BaseClaimTest
       claim_id: @claim_uuid,
       fee_type_id:,
       amount: 200.45
+    }
+  end
+
+  def warrant_fee_data
+    warrant_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant'), 'id')
+
+    {
+      api_key:,
+      claim_id: @claim_uuid,
+      fee_type_id: warrant_type_id,
+      warrant_issued_date: 3.months.ago.as_json,
+      warrant_executed_date: 1.week.ago.as_json,
+      amount: 100.25
     }
   end
 end

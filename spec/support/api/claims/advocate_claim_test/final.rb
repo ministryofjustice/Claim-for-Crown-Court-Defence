@@ -28,34 +28,20 @@ module AdvocateClaimTest
     end
 
     def claim_data
-      case_type_id = fetch_id(CASE_TYPE_ENDPOINT, index: 11, role: 'agfs') # Trial
-      advocate_category = fetch_value(ADVOCATE_CATEGORY_ENDPOINT)
-      offence_id = fetch_id(OFFENCE_ENDPOINT)
-      court_id = fetch_id(COURT_ENDPOINT)
-      trial_cracked_at_third = fetch_value(CRACKED_THIRD_ENDPOINT)
+      trial_start = '2015-06-01'
 
-      {
-        api_key:,
-        creator_email: 'advocateadmin@example.com',
-        advocate_email: 'advocate@example.com',
-        case_number: 'B20161234',
-        providers_ref: SecureRandom.uuid[3..15].upcase,
-        case_type_id:,
-        first_day_of_trial: '2015-06-01',
+      super.merge(
+        case_type_id: fetch_id(CASE_TYPE_ENDPOINT, index: 11, role: 'agfs'), # Trial
+        first_day_of_trial: trial_start,
         estimated_trial_length: 1,
         actual_trial_length: 1,
         trial_concluded_at: '2015-06-02',
-        advocate_category:,
-        offence_id:,
-        court_id:,
-        cms_number: '12345678',
-        additional_information: 'string',
-        apply_vat: true,
-        trial_fixed_notice_at: '2015-06-01',
-        trial_fixed_at: '2015-06-01',
-        trial_cracked_at: '2015-06-01',
-        trial_cracked_at_third:
-      }
+        offence_id: fetch_id(OFFENCE_ENDPOINT),
+        trial_fixed_notice_at: trial_start,
+        trial_fixed_at: trial_start,
+        trial_cracked_at: trial_start,
+        trial_cracked_at_third: fetch_value(CRACKED_THIRD_ENDPOINT)
+      )
     end
   end
 end

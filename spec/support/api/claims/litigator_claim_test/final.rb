@@ -30,25 +30,11 @@ module LitigatorClaimTest
     end
 
     def claim_data
-      case_type_id = fetch_id(CASE_TYPE_ENDPOINT, index: 12, role: 'lgfs') # Trial
-      offence_id = fetch_id(OFFENCE_ENDPOINT, offence_description: 'Miscellaneous/other')
-      court_id = fetch_id(COURT_ENDPOINT)
-
-      {
-        api_key:,
-        creator_email: 'litigatoradmin@example.com',
-        user_email: 'litigator@example.com',
-        case_number: 'A20161234',
+      super.merge(
         providers_ref: SecureRandom.uuid[3..15].upcase,
-        supplier_number:,
-        case_type_id:,
-        offence_id:,
-        court_id:,
-        cms_number: '12345678',
-        additional_information: 'string',
-        case_concluded_at: 1.month.ago.as_json,
+        case_type_id: fetch_id(CASE_TYPE_ENDPOINT, index: 12, role: 'lgfs'), # Trial
         actual_trial_length: 10
-      }
+      )
     end
 
     def misc_fee_data

@@ -32,23 +32,10 @@ module AdvocateClaimTest
     end
 
     def claim_data
-      advocate_category = fetch_value(ADVOCATE_CATEGORY_ENDPOINT, role: 'agfs_scheme_10')
-      offence_id = fetch_id(OFFENCE_ENDPOINT, rep_order_date: scheme_10_date)
-      court_id = fetch_id(COURT_ENDPOINT)
-
-      {
-        api_key:,
-        creator_email: 'advocateadmin@example.com',
-        advocate_email: 'advocate@example.com',
-        case_number: 'S20161234',
-        providers_ref: SecureRandom.uuid[3..15].upcase,
-        advocate_category:,
-        offence_id:,
-        court_id:,
-        cms_number: '12345678',
-        additional_information: 'string',
-        apply_vat: true
-      }
+      super.merge(
+        case_number: 'S20161234', # Is it important to change this?
+        offence_id: fetch_id(OFFENCE_ENDPOINT, rep_order_date: scheme_10_date)
+      )
     end
 
     def representation_order_data

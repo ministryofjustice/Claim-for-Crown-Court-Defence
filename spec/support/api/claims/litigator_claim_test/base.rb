@@ -11,6 +11,17 @@ module LitigatorClaimTest
 
     private
 
+    def claim_data
+      super.merge(
+        creator_email: 'litigatoradmin@example.com',
+        user_email: 'litigator@example.com',
+        case_number: 'A20161234',
+        supplier_number:,
+        offence_id: fetch_id(OFFENCE_ENDPOINT, offence_description: 'Miscellaneous/other'),
+        case_concluded_at: 1.month.ago.as_json
+      )
+    end
+
     def graduated_fee_data
       fee_type_id = fetch_id(FEE_TYPE_ENDPOINT, index: 5, category: 'graduated', role: 'lgfs') # Trial
 

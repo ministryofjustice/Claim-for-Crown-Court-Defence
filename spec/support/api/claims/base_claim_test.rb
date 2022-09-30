@@ -45,11 +45,18 @@ class BaseClaimTest
     @client.post_to_endpoint('representation_orders', representation_order_data)
   end
 
-  def claim_data
-    raise 'implement in the subclasses'
-  end
+  private
 
-  protected
+  def claim_data
+    court_id = fetch_id(COURT_ENDPOINT)
+
+    {
+      api_key:,
+      court_id:,
+      cms_number: '12345678',
+      additional_information: 'string'
+    }
+  end
 
   def puts(message)
     super("[#{self.class}] #{message}")

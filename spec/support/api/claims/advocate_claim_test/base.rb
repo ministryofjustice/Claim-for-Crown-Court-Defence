@@ -11,6 +11,17 @@ module AdvocateClaimTest
 
     private
 
+    def claim_data
+      super.merge(
+        creator_email: 'advocateadmin@example.com',
+        advocate_email: 'advocate@example.com',
+        case_number: 'B20161234',
+        providers_ref: SecureRandom.uuid[3..15].upcase,
+        advocate_category: fetch_value(ADVOCATE_CATEGORY_ENDPOINT),
+        apply_vat: true
+      )
+    end
+
     def fee_type_options
       { role: 'agfs' }
     end

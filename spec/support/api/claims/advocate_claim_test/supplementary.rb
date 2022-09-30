@@ -24,24 +24,6 @@ module AdvocateClaimTest
       clean_up
     end
 
-    def claim_data
-      advocate_category = fetch_value(ADVOCATE_CATEGORY_ENDPOINT)
-      court_id = fetch_id(COURT_ENDPOINT)
-
-      {
-        api_key:,
-        creator_email: 'advocateadmin@example.com',
-        advocate_email: 'advocate@example.com',
-        case_number: 'B20161234',
-        providers_ref: SecureRandom.uuid[3..15].upcase,
-        advocate_category:,
-        court_id:,
-        cms_number: '12345678',
-        additional_information: 'string',
-        apply_vat: true
-      }
-    end
-
     def fee_type_options
       # Only certain misc fees are eligible e.g. Confiscation hearings (half day) - MIDTH
       super.merge(unique_code: 'MIDTH')

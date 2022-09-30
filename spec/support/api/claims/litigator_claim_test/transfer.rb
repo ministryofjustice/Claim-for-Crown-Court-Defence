@@ -21,31 +21,14 @@ module LitigatorClaimTest
     end
 
     def claim_data
-      case_type_id = fetch_id(CASE_TYPE_ENDPOINT, index: 12, role: 'lgfs') # Trial
-      offence_id = fetch_id(OFFENCE_ENDPOINT, offence_description: 'Miscellaneous/other')
-      court_id = fetch_id(COURT_ENDPOINT)
-
-      transfer_stage_id = fetch_id(TRANSFER_STAGES_ENDPOINT) # 10 - Up to and including PCMH transfer
-      case_conclusion_id = fetch_id(TRANSFER_CASE_CONCLUSIONS_ENDPOINT, index: 4) # 50 - Guilty plea
-
-      {
-        api_key:,
-        creator_email: 'litigatoradmin@example.com',
-        user_email: 'litigator@example.com',
-        case_number: 'A20161234',
-        supplier_number:,
-        case_type_id:,
-        offence_id:,
-        court_id:,
-        cms_number: '12345678',
-        additional_information: 'string',
-        case_concluded_at: 1.month.ago.as_json,
+      super.merge(
+        case_type_id: fetch_id(CASE_TYPE_ENDPOINT, index: 12, role: 'lgfs'), # Trial
         'litigator_type' => 'new',
         'elected_case' => false,
-        'transfer_stage_id' => transfer_stage_id,
+        'transfer_stage_id' => fetch_id(TRANSFER_STAGES_ENDPOINT), # 10 - Up to and including PCMH transfer
         'transfer_date' => 1.month.ago.as_json,
-        'case_conclusion_id' => case_conclusion_id
-      }
+        'case_conclusion_id' => fetch_id(TRANSFER_CASE_CONCLUSIONS_ENDPOINT, index: 4) # 50 - Guilty plea
+      )
     end
 
     def transfer_fee_data

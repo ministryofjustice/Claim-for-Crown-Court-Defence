@@ -9,7 +9,7 @@ class FeatureFlag
     end
 
     def active_features
-      Settings.active_features || []
+      Settings.active_features&.split(',')&.map(&:to_sym) || []
     end
   end
 end

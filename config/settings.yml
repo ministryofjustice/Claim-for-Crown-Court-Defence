@@ -95,8 +95,7 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 maintenance_mode_enabled?: <%= ENV.fetch('MAINTENANCE_MODE', nil)&.downcase&.eql?('true') %>
 
 feature_flags_enabled?: true
-active_features:
-  - :change_of_monarch
+active_features: <%= ENV.fetch('ACTIVE_FEATURES', nil) %>
 
 reject_refuse_messaging_released_at: 2018-04-24T23:05:00+01:00
 

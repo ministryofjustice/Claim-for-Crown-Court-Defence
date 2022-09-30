@@ -36,6 +36,7 @@ en:
       api_documentation: API Documentation
       archive: Your archive
       error: There was an error
+      feature_flags: Feature flags
       manage_provider: Manage provider
       manage_providers: Providers
       manage_users: Manage users

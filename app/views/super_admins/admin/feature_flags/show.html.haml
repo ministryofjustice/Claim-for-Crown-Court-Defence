@@ -1,0 +1,14 @@
+= content_for :page_title, flush: true do
+  = t('.page_heading')
+
+= render partial: 'layouts/header', locals: {page_heading: t('.page_heading')}
+
+= form_with model: @feature_flag, url: super_admins_admin_feature_flags_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+  = f.govuk_radio_buttons_fieldset :enable_new_monarch,
+  legend: { text: t('.enable_new_monarch'), size: 's' },
+  hint: { text: t('.enable_new_monarch_hint') },
+  inline: true do
+    = f.govuk_radio_button :enable_new_monarch, 'true', label: { text: t('.yes') }
+    = f.govuk_radio_button :enable_new_monarch, 'false', label: { text: t('.no') }
+
+  = f.govuk_submit t('.save')

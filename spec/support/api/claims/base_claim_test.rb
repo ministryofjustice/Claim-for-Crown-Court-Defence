@@ -3,8 +3,6 @@ require_relative '../../scheme_date_helpers'
 class BaseClaimTest
   include SchemeDateHelpers
 
-  attr_accessor :client
-
   # dropdown endpoints
   CASE_TYPE_ENDPOINT                 = 'case_types'.freeze
   COURT_ENDPOINT                     = 'courts'.freeze
@@ -23,7 +21,7 @@ class BaseClaimTest
   LITIGATOR_TEST_EMAIL = 'litigatoradmin@example.com'.freeze
 
   def initialize(client:)
-    self.client = client
+    @client = client
   end
 
   def api_key
@@ -34,17 +32,17 @@ class BaseClaimTest
     puts 'starting'
 
     # create a claim
-    response = client.post_to_endpoint(@claim_create_endpoint, claim_data)
-    return if client.failure
+    response = @client.post_to_endpoint(@claim_create_endpoint, claim_data)
+    return if @client.failure
 
     @claim_uuid = response['id']
 
     # add a defendant
-    response = client.post_to_endpoint('defendants', defendant_data)
+    response = @client.post_to_endpoint('defendants', defendant_data)
 
     # add representation order
     defendant_id = response['id']
-    client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
+    @client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
   end
 
   def claim_data
@@ -111,7 +109,7 @@ class BaseClaimTest
   end
 
   def disbursement_data
-    disbursement_type_id = json_value_at_index(client.get_dropdown_endpoint(DISBURSEMENT_TYPE_ENDPOINT, api_key), 'id')
+    disbursement_type_id = json_value_at_index(@client.get_dropdown_endpoint(DISBURSEMENT_TYPE_ENDPOINT, api_key), 'id')
 
     {
       api_key:,
@@ -123,7 +121,7 @@ class BaseClaimTest
   end
 
   def warrant_fee_data
-    warrant_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant'), 'id')
+    warrant_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant'), 'id')
 
     {
       api_key:,
@@ -136,7 +134,7 @@ class BaseClaimTest
   end
 
   def expense_data(role:)
-    expense_type_id = json_value_at_index(client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role:), 'id')
+    expense_type_id = json_value_at_index(@client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role:), 'id')
 
     {
       api_key:,

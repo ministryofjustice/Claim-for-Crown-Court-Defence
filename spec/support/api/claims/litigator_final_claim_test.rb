@@ -12,27 +12,27 @@ class LitigatorFinalClaimTest < BaseClaimTest
     super
 
     # CREATE graduated fee
-    client.post_to_endpoint('fees', graduated_fee_data)
+    @client.post_to_endpoint('fees', graduated_fee_data)
 
     # CREATE miscellaneous fee
-    client.post_to_endpoint('fees', misc_fee_data)
+    @client.post_to_endpoint('fees', misc_fee_data)
 
     # CREATE a warrant fee
-    client.post_to_endpoint('fees', warrant_fee_data)
+    @client.post_to_endpoint('fees', warrant_fee_data)
 
     # add expense
-    client.post_to_endpoint('expenses', expense_data(role: 'lgfs'))
+    @client.post_to_endpoint('expenses', expense_data(role: 'lgfs'))
 
     # CREATE a disbursement
-    client.post_to_endpoint('disbursements', disbursement_data)
+    @client.post_to_endpoint('disbursements', disbursement_data)
   ensure
     clean_up
   end
 
   def claim_data
-    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'lgfs'), 'id', 12) # Trial
-    offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, offence_description: 'Miscellaneous/other'), 'id')
-    court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
+    case_type_id = json_value_at_index(@client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'lgfs'), 'id', 12) # Trial
+    offence_id = json_value_at_index(@client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, offence_description: 'Miscellaneous/other'), 'id')
+    court_id = json_value_at_index(@client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
 
     {
       api_key:,
@@ -52,7 +52,7 @@ class LitigatorFinalClaimTest < BaseClaimTest
   end
 
   def graduated_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'graduated', role: 'lgfs'), 'id', 5) # Trial
+    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'graduated', role: 'lgfs'), 'id', 5) # Trial
 
     {
       api_key:,
@@ -65,7 +65,7 @@ class LitigatorFinalClaimTest < BaseClaimTest
   end
 
   def misc_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'lgfs'), 'id') # Costs judge application
+    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'lgfs'), 'id') # Costs judge application
 
     {
       api_key:,

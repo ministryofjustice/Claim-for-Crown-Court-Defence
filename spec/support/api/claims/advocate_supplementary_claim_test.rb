@@ -12,24 +12,24 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
     super
 
     # CREATE miscellaneous fee
-    response = client.post_to_endpoint('fees', misc_fee_data)
+    response = @client.post_to_endpoint('fees', misc_fee_data)
 
     # add date attended to miscellaneous fee
     attended_item_id = response['id']
-    client.post_to_endpoint('dates_attended', date_attended_data(attended_item_id, 'fee'))
+    @client.post_to_endpoint('dates_attended', date_attended_data(attended_item_id, 'fee'))
 
     # add expense
-    client.post_to_endpoint('expenses', expense_data(role: 'agfs'))
+    @client.post_to_endpoint('expenses', expense_data(role: 'agfs'))
   ensure
     clean_up
   end
 
   def claim_data
-    client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'agfs') # Trial
-    advocate_category = json_value_at_index(client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
-    client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key)
-    court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
-    client.get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT, api_key)
+    @client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'agfs') # Trial
+    advocate_category = json_value_at_index(@client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
+    @client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key)
+    court_id = json_value_at_index(@client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
+    @client.get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT, api_key)
 
     {
       api_key:,
@@ -47,7 +47,7 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
 
   def misc_fee_data
     # Only certain misc fees are eligible e.g. Confiscation hearings (half day) - MIDTH
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs', unique_code: 'MIDTH'), 'id')
+    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs', unique_code: 'MIDTH'), 'id')
 
     {
       api_key:,

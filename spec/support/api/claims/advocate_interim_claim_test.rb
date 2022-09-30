@@ -16,25 +16,25 @@ class AdvocateInterimClaimTest < BaseClaimTest
     super
 
     # CREATE warrant fee
-    client.post_to_endpoint('fees', warrant_fee_data)
+    @client.post_to_endpoint('fees', warrant_fee_data)
 
     # CREATE miscellaneous fee
-    response = client.post_to_endpoint('fees', misc_fee_data)
+    response = @client.post_to_endpoint('fees', misc_fee_data)
 
     # add date attended to miscellaneous fee
     attended_item_id = response['id']
-    client.post_to_endpoint('dates_attended', date_attended_data(attended_item_id, 'fee'))
+    @client.post_to_endpoint('dates_attended', date_attended_data(attended_item_id, 'fee'))
 
     # add expense
-    client.post_to_endpoint('expenses', expense_data(role: 'agfs'))
+    @client.post_to_endpoint('expenses', expense_data(role: 'agfs'))
   ensure
     clean_up
   end
 
   def claim_data
-    advocate_category = json_value_at_index(client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key, role: 'agfs_scheme_10'))
-    offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, rep_order_date: scheme_10_date), 'id')
-    court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
+    advocate_category = json_value_at_index(@client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key, role: 'agfs_scheme_10'))
+    offence_id = json_value_at_index(@client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, rep_order_date: scheme_10_date), 'id')
+    court_id = json_value_at_index(@client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
 
     {
       api_key:,
@@ -61,7 +61,7 @@ class AdvocateInterimClaimTest < BaseClaimTest
   end
 
   def warrant_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant', role: 'agfs_scheme_10'), 'id')
+    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant', role: 'agfs_scheme_10'), 'id')
 
     {
       api_key:,
@@ -73,7 +73,7 @@ class AdvocateInterimClaimTest < BaseClaimTest
   end
 
   def misc_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs_scheme_10'), 'id')
+    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs_scheme_10'), 'id')
 
     {
       api_key:,
@@ -95,7 +95,7 @@ class AdvocateInterimClaimTest < BaseClaimTest
   end
 
   def expense_data(role:)
-    expense_type_id = json_value_at_index(client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role:), 'id')
+    expense_type_id = json_value_at_index(@client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role:), 'id')
 
     {
       api_key:,

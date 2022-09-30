@@ -12,27 +12,27 @@ class AdvocateClaimTest < BaseClaimTest
     super
 
     # UPDATE basic fee
-    client.post_to_endpoint('fees', basic_fee_data)
+    @client.post_to_endpoint('fees', basic_fee_data)
 
     # CREATE miscellaneous fee
-    response = client.post_to_endpoint('fees', misc_fee_data)
+    response = @client.post_to_endpoint('fees', misc_fee_data)
 
     # add date attended to miscellaneous fee
     attended_item_id = response['id']
-    client.post_to_endpoint('dates_attended', date_attended_data(attended_item_id, 'fee'))
+    @client.post_to_endpoint('dates_attended', date_attended_data(attended_item_id, 'fee'))
 
     # add expense
-    client.post_to_endpoint('expenses', expense_data(role: 'agfs'))
+    @client.post_to_endpoint('expenses', expense_data(role: 'agfs'))
   ensure
     clean_up
   end
 
   def claim_data
-    case_type_id = json_value_at_index(client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'agfs'), 'id', 11) # Trial
-    advocate_category = json_value_at_index(client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
-    offence_id = json_value_at_index(client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key), 'id')
-    court_id = json_value_at_index(client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
-    trial_cracked_at_third = json_value_at_index(client.get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT, api_key))
+    case_type_id = json_value_at_index(@client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'agfs'), 'id', 11) # Trial
+    advocate_category = json_value_at_index(@client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
+    offence_id = json_value_at_index(@client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key), 'id')
+    court_id = json_value_at_index(@client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
+    trial_cracked_at_third = json_value_at_index(@client.get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT, api_key))
 
     {
       api_key:,
@@ -59,7 +59,7 @@ class AdvocateClaimTest < BaseClaimTest
   end
 
   def basic_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'basic', role: 'agfs'), 'id')
+    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'basic', role: 'agfs'), 'id')
 
     {
       api_key:,
@@ -71,7 +71,7 @@ class AdvocateClaimTest < BaseClaimTest
   end
 
   def misc_fee_data
-    fee_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs'), 'id')
+    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs'), 'id')
 
     {
       api_key:,

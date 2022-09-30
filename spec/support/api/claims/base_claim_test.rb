@@ -63,8 +63,12 @@ class BaseClaimTest
     @supplier_number ||= external_user.persona.provider.lgfs_supplier_numbers.first.supplier_number
   end
 
-  def json_value_at_index(json, key = nil, index = 0)
-    key ? json.pluck(key)[index] : json[index]
+  def fetch_id(endpoint, index: 0, key: 'id', **kwargs)
+    @client.get_dropdown_endpoint(endpoint, api_key, **kwargs).pluck(key)[index]
+  end
+
+  def fetch_value(endpoint, index: 0, **kwargs)
+    @client.get_dropdown_endpoint(endpoint, api_key, **kwargs)[index]
   end
 
   def clean_up
@@ -109,7 +113,7 @@ class BaseClaimTest
   end
 
   def disbursement_data
-    disbursement_type_id = json_value_at_index(@client.get_dropdown_endpoint(DISBURSEMENT_TYPE_ENDPOINT, api_key), 'id')
+    disbursement_type_id = fetch_id(DISBURSEMENT_TYPE_ENDPOINT)
 
     {
       api_key:,
@@ -121,7 +125,7 @@ class BaseClaimTest
   end
 
   def expense_data
-    expense_type_id = json_value_at_index(@client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role: @role), 'id')
+    expense_type_id = fetch_id(EXPENSE_TYPE_ENDPOINT, role: @role)
 
     {
       api_key:,

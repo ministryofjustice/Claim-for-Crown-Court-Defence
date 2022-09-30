@@ -26,11 +26,8 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
   end
 
   def claim_data
-    @client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'agfs') # Trial
-    advocate_category = json_value_at_index(@client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
-    @client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key)
-    court_id = json_value_at_index(@client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
-    @client.get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT, api_key)
+    advocate_category = fetch_value(ADVOCATE_CATEGORY_ENDPOINT)
+    court_id = fetch_id(COURT_ENDPOINT)
 
     {
       api_key:,
@@ -48,7 +45,7 @@ class AdvocateSupplementaryClaimTest < BaseClaimTest
 
   def misc_fee_data
     # Only certain misc fees are eligible e.g. Confiscation hearings (half day) - MIDTH
-    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs', unique_code: 'MIDTH'), 'id')
+    fee_type_id = fetch_id(FEE_TYPE_ENDPOINT, category: 'misc', role: 'agfs', unique_code: 'MIDTH')
 
     {
       api_key:,

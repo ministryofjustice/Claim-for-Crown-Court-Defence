@@ -29,10 +29,10 @@ class AdvocateHardshipClaimTest < BaseClaimTest
   end
 
   def claim_data
-    case_stage_unique_code = json_value_at_index(@client.get_dropdown_endpoint(CASE_STAGE_ENDPOINT, api_key, role: 'agfs'), 'unique_code')
-    advocate_category = json_value_at_index(@client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
-    offence_id = json_value_at_index(@client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key), 'id')
-    court_id = json_value_at_index(@client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
+    case_stage_unique_code = fetch_id(CASE_STAGE_ENDPOINT, key: 'unique_code', role: 'agfs')
+    advocate_category = fetch_value(ADVOCATE_CATEGORY_ENDPOINT)
+    offence_id = fetch_id(OFFENCE_ENDPOINT)
+    court_id = fetch_id(COURT_ENDPOINT)
 
     {
       api_key:,
@@ -59,7 +59,7 @@ class AdvocateHardshipClaimTest < BaseClaimTest
   end
 
   def basic_fee_data
-    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'basic', role: 'agfs'), 'id')
+    fee_type_id = fetch_id(FEE_TYPE_ENDPOINT, category: 'basic', role: 'agfs')
 
     {
       api_key:,
@@ -71,7 +71,7 @@ class AdvocateHardshipClaimTest < BaseClaimTest
   end
 
   def misc_fee_data
-    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs'), 'id')
+    fee_type_id = fetch_id(FEE_TYPE_ENDPOINT, category: 'misc', role: 'agfs')
 
     {
       api_key:,

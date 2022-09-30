@@ -22,9 +22,9 @@ class LitigatorInterimClaimTest < BaseClaimTest
   end
 
   def claim_data
-    case_type_id = json_value_at_index(@client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'lgfs'), 'id', 12) # Trial
-    offence_id = json_value_at_index(@client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key, offence_description: 'Miscellaneous/other'), 'id')
-    court_id = json_value_at_index(@client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
+    case_type_id = fetch_id(CASE_TYPE_ENDPOINT, index: 12, role: 'lgfs') # Trial
+    offence_id = fetch_id(OFFENCE_ENDPOINT, offence_description: 'Miscellaneous/other')
+    court_id = fetch_id(COURT_ENDPOINT)
 
     {
       api_key:,
@@ -42,7 +42,7 @@ class LitigatorInterimClaimTest < BaseClaimTest
   end
 
   def interim_fee_data
-    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'interim'), 'id', 1) # Effective PCMH
+    fee_type_id = fetch_id(FEE_TYPE_ENDPOINT, index: 1, category: 'interim') # Effective PCMH
 
     {
       api_key:,

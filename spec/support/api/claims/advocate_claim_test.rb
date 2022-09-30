@@ -29,11 +29,11 @@ class AdvocateClaimTest < BaseClaimTest
   end
 
   def claim_data
-    case_type_id = json_value_at_index(@client.get_dropdown_endpoint(CASE_TYPE_ENDPOINT, api_key, role: 'agfs'), 'id', 11) # Trial
-    advocate_category = json_value_at_index(@client.get_dropdown_endpoint(ADVOCATE_CATEGORY_ENDPOINT, api_key))
-    offence_id = json_value_at_index(@client.get_dropdown_endpoint(OFFENCE_ENDPOINT, api_key), 'id')
-    court_id = json_value_at_index(@client.get_dropdown_endpoint(COURT_ENDPOINT, api_key), 'id')
-    trial_cracked_at_third = json_value_at_index(@client.get_dropdown_endpoint(CRACKED_THIRD_ENDPOINT, api_key))
+    case_type_id = fetch_id(CASE_TYPE_ENDPOINT, index: 11, role: 'agfs') # Trial
+    advocate_category = fetch_value(ADVOCATE_CATEGORY_ENDPOINT)
+    offence_id = fetch_id(OFFENCE_ENDPOINT)
+    court_id = fetch_id(COURT_ENDPOINT)
+    trial_cracked_at_third = fetch_value(CRACKED_THIRD_ENDPOINT)
 
     {
       api_key:,
@@ -60,7 +60,7 @@ class AdvocateClaimTest < BaseClaimTest
   end
 
   def basic_fee_data
-    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'basic', role: 'agfs'), 'id')
+    fee_type_id = fetch_id(FEE_TYPE_ENDPOINT, category: 'basic', role: 'agfs')
 
     {
       api_key:,
@@ -72,7 +72,7 @@ class AdvocateClaimTest < BaseClaimTest
   end
 
   def misc_fee_data
-    fee_type_id = json_value_at_index(@client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'misc', role: 'agfs'), 'id')
+    fee_type_id = fetch_id(FEE_TYPE_ENDPOINT, category: 'misc', role: 'agfs')
 
     {
       api_key:,

@@ -4,8 +4,8 @@ Feature: Advocate tries to submit a fee scheme 13 supplementary claim for miscel
   @fee_calc_vcr
   Scenario: I create a supplementary claim but skip adding only applicable misc fees
 
-    Given I am a signed in advocate
-    And the current date is '2022-10-30'
+    Given the current date is '2022-10-30'
+    And I am a signed in advocate
     And I am on the 'Your claims' page
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate supplementary fee'

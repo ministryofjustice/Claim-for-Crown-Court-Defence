@@ -4,8 +4,8 @@ Feature: Litigator completes hardship claims
   @fee_calc_vcr
   Scenario: I create a litigator hardship claim where evidence was served
 
-    Given I am a signed in litigator
-    And the current date is '2022-10-30'
+    Given the current date is '2022-10-30'
+    And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -44,7 +44,7 @@ Feature: Litigator completes hardship claims
     Then I should see 'Evidence provision fee'
     And I should see 'Special preparation fee'
     And I should not see 'Costs judge application'
-    And I should not see 'Costs judge preparation' 
+    And I should not see 'Costs judge preparation'
     Then I click "Continue" in the claim form and move to the 'Supporting evidence' form page
 
     And I should see a page title "Upload supporting evidence for litigator hardship fees claim"

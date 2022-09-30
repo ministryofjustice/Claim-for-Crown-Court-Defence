@@ -89,8 +89,8 @@ Feature: litigator completes graduated fee page using calculator
 
   Scenario: I create a fee scheme 10 graduated fee claim using calculated value
 
-    Given I am a signed in litigator
-    And the current date is '2022-10-30'    
+    Given the current date is '2022-10-30'
+    And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'

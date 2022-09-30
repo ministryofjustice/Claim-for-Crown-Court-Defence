@@ -63,8 +63,8 @@ Feature: litigator completes fixed fee page using calculator
 
   Scenario: I create a fee scheme 10 fixed fee claim using calculated value
 
-    Given I am a signed in litigator
-    And the current date is '2022-10-30'
+    Given  the current date is '2022-10-30'
+    And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -115,8 +115,8 @@ Feature: litigator completes fixed fee page using calculator
 
   Scenario: I attempt to create a post-CLAIR elected cases not proceeded claim
 
-    Given I am a signed in litigator
-    And the current date is '2022-10-30'
+    Given the current date is '2022-10-30'
+    And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'

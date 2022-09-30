@@ -4,8 +4,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
   @fee_calc_vcr
   Scenario: I create a transfer claim, save it to draft and later complete it
 
-    Given I am a signed in litigator
-    And the current date is '2022-10-30'
+    Given the current date is '2022-10-30'
+    And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -114,8 +114,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
   @fee_calc_vcr
   Scenario: I create a transfer claim for an Elected Case Not Proceeded
 
-    Given I am a signed in litigator
-    And the current date is '2022-10-30'
+    Given the current date is '2022-10-30'
+    And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'

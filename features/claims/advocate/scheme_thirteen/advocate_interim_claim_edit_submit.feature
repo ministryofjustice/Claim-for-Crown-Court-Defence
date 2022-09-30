@@ -3,8 +3,8 @@ Feature: Advocate partially fills out a draft AGFS scheme 13 interim claim for a
 
   Scenario: I create an AGFS interim claim, save it to draft and later complete it
 
-    Given I am a signed in advocate
-    And the current date is '2022-12-30'
+    Given the current date is '2022-12-30'
+    And I am a signed in advocate
     And I am on the 'Your claims' page
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate warrant fee'

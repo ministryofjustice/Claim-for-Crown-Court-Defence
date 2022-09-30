@@ -3,8 +3,8 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
   @fee_calc_vcr
   Scenario: Successful submission
-    Given I am a signed in advocate
-    And the current date is '2022-10-30'
+    Given the current date is '2022-10-30'
+    And I am a signed in advocate
     And I am on the 'Your claims' page
     And I click 'Start a claim'
     And I select the fee scheme 'Advocate final fee'

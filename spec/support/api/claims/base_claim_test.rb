@@ -102,28 +102,6 @@ class BaseClaimTest
     }
   end
 
-  def date_attended_data
-    {
-      api_key:,
-      attended_item_id: @attended_item_id,
-      attended_item_type: 'fee',
-      date: '2015-06-01',
-      date_to: '2015-06-01'
-    }
-  end
-
-  def disbursement_data
-    disbursement_type_id = fetch_id(DISBURSEMENT_TYPE_ENDPOINT)
-
-    {
-      api_key:,
-      claim_id: @claim_uuid,
-      disbursement_type_id:,
-      net_amount: 100.25,
-      vat_amount: 20.05
-    }
-  end
-
   def expense_data
     expense_type_id = fetch_id(EXPENSE_TYPE_ENDPOINT, role: @role)
 

@@ -21,7 +21,16 @@
 
 require 'caching/api_request'
 require 'rest-client'
-Dir[Rails.root.join('spec', 'support', 'api', 'claims', '*.rb')].each { |file| require file }
+$LOAD_PATH << Rails.root.join('spec', 'support', 'api', 'claims')
+require 'debuggable'
+require 'advocate_claim_test/final'
+require 'advocate_claim_test/hardship'
+require 'advocate_claim_test/interim'
+require 'advocate_claim_test/supplementary'
+require 'litigator_claim_test/final'
+require 'litigator_claim_test/hardship'
+require 'litigator_claim_test/interim'
+require 'litigator_claim_test/transfer'
 
 class ApiTestClient
   include Debuggable
@@ -37,14 +46,14 @@ class ApiTestClient
   end
 
   def run
-    AdvocateClaimTest.new(client: self).test_creation!
-    AdvocateInterimClaimTest.new(client: self).test_creation!
-    AdvocateSupplementaryClaimTest.new(client: self).test_creation!
-    AdvocateHardshipClaimTest.new(client: self).test_creation!
-    LitigatorFinalClaimTest.new(client: self).test_creation!
-    LitigatorInterimClaimTest.new(client: self).test_creation!
-    LitigatorTransferClaimTest.new(client: self).test_creation!
-    LitigatorHardshipClaimTest.new(client: self).test_creation!
+    AdvocateClaimTest::Final.new(client: self).test_creation!
+    AdvocateClaimTest::Interim.new(client: self).test_creation!
+    AdvocateClaimTest::Supplementary.new(client: self).test_creation!
+    AdvocateClaimTest::Hardship.new(client: self).test_creation!
+    LitigatorClaimTest::Final.new(client: self).test_creation!
+    LitigatorClaimTest::Interim.new(client: self).test_creation!
+    LitigatorClaimTest::Transfer.new(client: self).test_creation!
+    LitigatorClaimTest::Hardship.new(client: self).test_creation!
   end
 
   def failure

@@ -3,7 +3,7 @@ require_relative '../../scheme_date_helpers'
 class BaseClaimTest
   include SchemeDateHelpers
 
-  attr_accessor :client, :claim_uuid
+  attr_accessor :client
 
   # dropdown endpoints
   CASE_TYPE_ENDPOINT                 = 'case_types'.freeze
@@ -31,7 +31,20 @@ class BaseClaimTest
   end
 
   def test_creation!
-    raise 'implement in the subclasses'
+    puts 'starting'
+
+    # create a claim
+    response = client.post_to_endpoint(@claim_create_endpoint, claim_data)
+    return if client.failure
+
+    @claim_uuid = response['id']
+
+    # add a defendant
+    response = client.post_to_endpoint('defendants', defendant_data)
+
+    # add representation order
+    defendant_id = response['id']
+    client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
   end
 
   def claim_data
@@ -66,7 +79,7 @@ class BaseClaimTest
   def clean_up
     puts 'cleaning up'
 
-    return unless (claim = Claim::BaseClaim.active.find_by(uuid: claim_uuid))
+    return unless (claim = Claim::BaseClaim.active.find_by(uuid: @claim_uuid))
     if claim.destroy
       puts 'claim destroyed'
     else
@@ -77,7 +90,7 @@ class BaseClaimTest
   def defendant_data
     {
       api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       first_name: 'case',
       last_name: 'management',
       date_of_birth: '1979-12-10',
@@ -109,7 +122,7 @@ class BaseClaimTest
 
     {
       api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       disbursement_type_id:,
       net_amount: 100.25,
       vat_amount: 20.05
@@ -121,7 +134,7 @@ class BaseClaimTest
 
     {
       api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       fee_type_id: warrant_type_id,
       warrant_issued_date: 3.months.ago.as_json,
       warrant_executed_date: 1.week.ago.as_json,
@@ -134,7 +147,7 @@ class BaseClaimTest
 
     {
       api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       expense_type_id:,
       amount: 500.15,
       location: 'London',

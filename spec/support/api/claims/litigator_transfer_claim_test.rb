@@ -1,21 +1,14 @@
 require_relative 'base_claim_test'
 
 class LitigatorTransferClaimTest < BaseClaimTest
+  def initialize(...)
+    @claim_create_endpoint = 'claims/transfer'
+
+    super
+  end
+
   def test_creation!
-    puts 'starting'
-
-    # create a claim
-    response = client.post_to_endpoint('claims/transfer', claim_data)
-    return if client.failure
-
-    self.claim_uuid = response['id']
-
-    # add a defendant
-    response = client.post_to_endpoint('defendants', defendant_data)
-
-    # add representation order
-    defendant_id = response['id']
-    client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
+    super
 
     # CREATE transfer fee
     client.post_to_endpoint('fees', transfer_fee_data)
@@ -59,7 +52,7 @@ class LitigatorTransferClaimTest < BaseClaimTest
 
     {
       api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       fee_type_id:, # Transfer
       amount: 150.25
     }

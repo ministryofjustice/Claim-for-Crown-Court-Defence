@@ -1,6 +1,12 @@
 require_relative 'base_claim_test'
 
 class AdvocateInterimClaimTest < BaseClaimTest
+  def initialize(...)
+    @claim_create_endpoint = 'claims/advocates/interim'
+
+    super
+  end
+
   def agfs_schema?
     true
   end
@@ -10,20 +16,7 @@ class AdvocateInterimClaimTest < BaseClaimTest
   end
 
   def test_creation!
-    puts 'starting'
-
-    # create a claim
-    response = client.post_to_endpoint('claims/advocates/interim', claim_data)
-    return if client.failure
-
-    self.claim_uuid = response['id']
-
-    # add a defendant
-    response = client.post_to_endpoint('defendants', defendant_data)
-
-    # add representation order
-    defendant_id = response['id']
-    client.post_to_endpoint('representation_orders', representation_order_data(defendant_id))
+    super
 
     # CREATE warrant fee
     client.post_to_endpoint('fees', warrant_fee_data)
@@ -75,7 +68,7 @@ class AdvocateInterimClaimTest < BaseClaimTest
 
     {
       api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       fee_type_id:,
       warrant_issued_date: scheme_10_date,
       amount: 255.50
@@ -87,7 +80,7 @@ class AdvocateInterimClaimTest < BaseClaimTest
 
     {
       api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       fee_type_id:,
       quantity: 2,
       rate: 1.55
@@ -109,7 +102,7 @@ class AdvocateInterimClaimTest < BaseClaimTest
 
     {
       api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       expense_type_id:,
       amount: 500.15,
       location: 'London',

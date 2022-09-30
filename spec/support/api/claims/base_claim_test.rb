@@ -51,10 +51,6 @@ class BaseClaimTest
     raise 'implement in the subclasses'
   end
 
-  def agfs_schema?
-    false
-  end
-
   protected
 
   def puts(message)
@@ -62,10 +58,7 @@ class BaseClaimTest
   end
 
   def external_user
-    @external_user ||= begin
-      email = agfs_schema? ? ADVOCATE_TEST_EMAIL : LITIGATOR_TEST_EMAIL
-      User.external_users.find_by(email:)
-    end
+    @external_user ||= User.external_users.find_by(email: @email)
   end
 
   def supplier_number

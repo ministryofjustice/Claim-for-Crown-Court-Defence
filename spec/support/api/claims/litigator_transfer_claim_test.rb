@@ -3,6 +3,7 @@ require_relative 'base_claim_test'
 class LitigatorTransferClaimTest < BaseClaimTest
   def initialize(...)
     @claim_create_endpoint = 'claims/transfer'
+    @email = LITIGATOR_TEST_EMAIL
 
     super
   end

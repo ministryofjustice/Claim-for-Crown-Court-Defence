@@ -3,12 +3,9 @@ require_relative 'base_claim_test'
 class AdvocateClaimTest < BaseClaimTest
   def initialize(...)
     @claim_create_endpoint = 'claims/advocates/final'
+    @email = ADVOCATE_TEST_EMAIL
 
     super
-  end
-
-  def agfs_schema?
-    true
   end
 
   def test_creation!

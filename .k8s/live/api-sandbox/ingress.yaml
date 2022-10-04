@@ -1,9 +1,10 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   annotations:
-    external-dns.alpha.kubernetes.io/set-identifier: cccd-app-ingress-v1-cccd-api-sandbox-green
+    external-dns.alpha.kubernetes.io/set-identifier: cccd-app-ingress-cccd-api-sandbox-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
+    kubernetes.io/ingress.class: "modsec01"
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
@@ -17,21 +18,17 @@ metadata:
       if ($http_spider_name ~* "crawlergo") {
         return 403;
       }
-  name: cccd-app-ingress-v1
+  name: cccd-app-ingress
   namespace: cccd-api-sandbox
 spec:
-  ingressClassName: modsec
   rules:
     - host: api-sandbox.claim-crown-court-defence.service.justice.gov.uk
       http:
         paths:
           - path: /
-            pathType: ImplementationSpecific
             backend:
-              service:
-                name: cccd-app-service
-                port:
-                  number: 80
+              serviceName: cccd-app-service
+              servicePort: 80
   tls:
     - hosts:
       - api-sandbox.claim-crown-court-defence.service.justice.gov.uk

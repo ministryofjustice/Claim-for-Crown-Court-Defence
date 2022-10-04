@@ -8,7 +8,7 @@ The CI lints SASS and JavaScript using npm and yarn.
 
 To execute unit tests
 
-```
+```bash
 bundle exec rspec
 bundle exec rake jasmine:run
 ```
@@ -29,8 +29,34 @@ You can run the test in CLI using `$ yarn run test:jasmine-headless`
 
 To execute cucumber feature tests
 
-```
+```bash
 bundle exec cucumber
+```
+
+## API Smoke tests
+
+API smoke tests can be executed with
+
+```bash
+bundle exec rails api:smoke_test
+```
+
+or, to run database migration and seeding before the tests,
+
+```bash
+./runtest.sh
+```
+
+The API smoke tests can be found in `spec/support/api/claims`. Debugging can be
+enabled in these tests using the `debug` attribute to the `ApiTestClient`
+instance;
+
+```ruby
+client = ApiTestClient.new
+client.debug = true
+... # Some stuff to be debugged
+client.debug = false
+... # Some stuff not to be debugged
 ```
 
 ## Parallel spec running
@@ -39,7 +65,7 @@ There are over 10k of rspec examples. This can take in excess of an hour to run 
 approximately 15 minutes on an 8 core machine.
 
 - One time setup
-  ```
+  ```bash
   rake parallel:create
   rake parallel:prepare
   rake parallel:migrate # needed after each migration
@@ -48,7 +74,7 @@ approximately 15 minutes on an 8 core machine.
 
 
 - Then to execute...
-  ```
+  ```bash
   rake parallel:spec
   ```
   *see [parallel_test running](https://github.com/grosser/parallel_tests#run) for more*

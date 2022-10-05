@@ -1,11 +1,7 @@
-require_relative 'debuggable'
 require_relative '../../scheme_date_helpers'
 
 class BaseClaimTest
-  include Debuggable
   include SchemeDateHelpers
-
-  attr_accessor :client, :claim_uuid
 
   # dropdown endpoints
   CASE_TYPE_ENDPOINT                 = 'case_types'.freeze
@@ -25,7 +21,7 @@ class BaseClaimTest
   LITIGATOR_TEST_EMAIL = 'litigatoradmin@example.com'.freeze
 
   def initialize(client:)
-    self.client = client
+    @client = client
   end
 
   def api_key
@@ -33,61 +29,59 @@ class BaseClaimTest
   end
 
   def test_creation!
-    raise 'implement in the subclasses'
+    puts 'starting'
+
+    # create a claim
+    response = @client.post_to_endpoint(@claim_create_endpoint, claim_data)
+    return if @client.failure
+
+    @claim_uuid = response['id']
+
+    # add a defendant
+    response = @client.post_to_endpoint('defendants', defendant_data)
+
+    # add representation order
+    @defendant_id = response['id']
+    @client.post_to_endpoint('representation_orders', representation_order_data)
   end
+
+  private
 
   def claim_data
-    raise 'implement in the subclasses'
-  end
+    court_id = fetch_id(COURT_ENDPOINT)
 
-  def agfs_schema?
-    false
+    {
+      api_key:,
+      court_id:,
+      cms_number: '12345678',
+      additional_information: 'string'
+    }
   end
-
-  protected
 
   def puts(message)
     super("[#{self.class}] #{message}")
   end
 
   def external_user
-    @external_user ||= begin
-      email = agfs_schema? ? ADVOCATE_TEST_EMAIL : LITIGATOR_TEST_EMAIL
-      User.external_users.find_by(email:)
-    end
+    @external_user ||= User.external_users.find_by(email: @email)
   end
 
   def supplier_number
     @supplier_number ||= external_user.persona.provider.lgfs_supplier_numbers.first.supplier_number
   end
 
-  def json_value_at_index(json, key = nil, index = 0)
-    # ignore errors as handled elsewhere
-    if key
-      begin
-        JSON.parse(json).map { |e| e[key] }[index]
-      rescue
-        0
-      end
-    else
-      begin
-        JSON.parse(json)[index]
-      rescue
-        0
-      end
-    end
+  def fetch_id(endpoint, index: 0, key: 'id', **kwargs)
+    @client.get_dropdown_endpoint(endpoint, api_key, **kwargs).pluck(key)[index]
   end
 
-  def id_from_json(json, key = 'id')
-    JSON.parse(json)[key]
-  rescue
-    0
+  def fetch_value(endpoint, index: 0, **kwargs)
+    @client.get_dropdown_endpoint(endpoint, api_key, **kwargs)[index]
   end
 
   def clean_up
     puts 'cleaning up'
 
-    return unless (claim = Claim::BaseClaim.active.find_by(uuid: claim_uuid))
+    return unless (claim = Claim::BaseClaim.active.find_by(uuid: @claim_uuid))
     if claim.destroy
       puts 'claim destroyed'
     else
@@ -98,7 +92,7 @@ class BaseClaimTest
   def defendant_data
     {
       api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       first_name: 'case',
       last_name: 'management',
       date_of_birth: '1979-12-10',
@@ -106,56 +100,21 @@ class BaseClaimTest
     }
   end
 
-  def representation_order_data(defendant_uuid)
+  def representation_order_data
     {
       api_key:,
-      defendant_id: defendant_uuid,
+      defendant_id: @defendant_id,
       maat_reference: '4546963',
       representation_order_date: '2015-05-21'
     }
   end
 
-  def date_attended_data(attended_item_uuid, attended_item_type)
-    {
-      api_key:,
-      attended_item_id: attended_item_uuid,
-      attended_item_type:,
-      date: '2015-06-01',
-      date_to: '2015-06-01'
-    }
-  end
-
-  def disbursement_data
-    disbursement_type_id = json_value_at_index(client.get_dropdown_endpoint(DISBURSEMENT_TYPE_ENDPOINT, api_key), 'id')
+  def expense_data
+    expense_type_id = fetch_id(EXPENSE_TYPE_ENDPOINT, role: @role)
 
     {
       api_key:,
-      claim_id: claim_uuid,
-      disbursement_type_id:,
-      net_amount: 100.25,
-      vat_amount: 20.05
-    }
-  end
-
-  def warrant_fee_data
-    warrant_type_id = json_value_at_index(client.get_dropdown_endpoint(FEE_TYPE_ENDPOINT, api_key, category: 'warrant'), 'id')
-
-    {
-      api_key:,
-      claim_id: claim_uuid,
-      fee_type_id: warrant_type_id,
-      warrant_issued_date: 3.months.ago.as_json,
-      warrant_executed_date: 1.week.ago.as_json,
-      amount: 100.25
-    }
-  end
-
-  def expense_data(role:)
-    expense_type_id = json_value_at_index(client.get_dropdown_endpoint(EXPENSE_TYPE_ENDPOINT, api_key, role:), 'id')
-
-    {
-      api_key:,
-      claim_id: claim_uuid,
+      claim_id: @claim_uuid,
       expense_type_id:,
       amount: 500.15,
       location: 'London',

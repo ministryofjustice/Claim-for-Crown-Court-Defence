@@ -171,14 +171,6 @@ Metrics/AbcSize:
     - 'spec/models/claims/cloner_spec.rb'
     - 'spec/models/timed_transitions/transitioner_spec.rb'
     - 'spec/presenters/management_information_presenter_spec.rb'
-    - 'spec/support/api/claims/advocate_claim_test.rb'
-    - 'spec/support/api/claims/advocate_hardship_claim_test.rb'
-    - 'spec/support/api/claims/advocate_interim_claim_test.rb'
-    - 'spec/support/api/claims/advocate_supplementary_claim_test.rb'
-    - 'spec/support/api/claims/litigator_final_claim_test.rb'
-    - 'spec/support/api/claims/litigator_hardship_claim.rb'
-    - 'spec/support/api/claims/litigator_interim_claim_test.rb'
-    - 'spec/support/api/claims/litigator_transfer_claim_test.rb'
     - 'spec/support/seed_helpers.rb'
     - 'spec/support/shared_examples_for_geckoboard_reports.rb'
     - 'spec/support/validation_helpers.rb'
@@ -209,7 +201,6 @@ Metrics/ClassLength:
     - 'app/validators/claim/interim_claim_validator.rb'
     - 'app/validators/fee/base_fee_validator.rb'
     - 'lib/geckoboard_publisher/travel_automation_report.rb'
-    - 'spec/support/api/claims/base_claim_test.rb'
 
 # Offense count: 14
 # Configuration parameters: AllowedMethods, AllowedPatterns, IgnoredMethods, Max.
@@ -299,15 +290,9 @@ Metrics/MethodLength:
     - 'spec/presenters/interim_fee_type_presenter_spec.rb'
     - 'spec/services/stats/claim_creation_source_data_generator_spec.rb'
     - 'spec/services/stats/claim_submissions_data_generator_spec.rb'
-    - 'spec/support/api/claims/advocate_claim_test.rb'
-    - 'spec/support/api/claims/advocate_hardship_claim_test.rb'
-    - 'spec/support/api/claims/advocate_interim_claim_test.rb'
-    - 'spec/support/api/claims/advocate_supplementary_claim_test.rb'
+    - 'spec/support/api/claims/advocate_claim_test/final.rb'
+    - 'spec/support/api/claims/advocate_claim_test/hardship.rb'
     - 'spec/support/api/claims/base_claim_test.rb'
-    - 'spec/support/api/claims/litigator_final_claim_test.rb'
-    - 'spec/support/api/claims/litigator_hardship_claim.rb'
-    - 'spec/support/api/claims/litigator_interim_claim_test.rb'
-    - 'spec/support/api/claims/litigator_transfer_claim_test.rb'
     - 'spec/support/factory_helpers.rb'
     - 'spec/support/matchers/hash_matchers.rb'
     - 'spec/support/scheme_date_helpers.rb'
@@ -507,12 +492,6 @@ Performance/Detect:
 Performance/RedundantEqualityComparisonBlock:
   Exclude:
     - 'app/services/claims/fee_calculator/price.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-Performance/RegexpMatch:
-  Exclude:
-    - 'spec/support/api/api_test_client.rb'
 
 # Offense count: 1
 # This cop supports safe autocorrection (--autocorrect).
@@ -2869,7 +2848,6 @@ Style/OptionalBooleanParameter:
     - 'app/services/concerns/case_worker_claim_param_readable.rb'
     - 'app/validators/claim/base_claim_validator.rb'
     - 'lib/geckoboard_publisher/report.rb'
-    - 'spec/support/api/api_test_client.rb'
 
 # Offense count: 81
 # This cop supports safe autocorrection (--autocorrect).
@@ -2942,7 +2920,6 @@ Style/RescueModifier:
 Style/RescueStandardError:
   Exclude:
     - 'spec/factories/claim/base_claims.rb'
-    - 'spec/support/api/claims/base_claim_test.rb'
 
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -3206,15 +3183,6 @@ Layout/LineLength:
     - 'spec/services/remote/injection_attempt_spec.rb'
     - 'spec/services/reports/performance_platform/quarterly_volume_spec.rb'
     - 'spec/services/reports/performance_platform/transactions_by_channel_spec.rb'
-    - 'spec/support/api/claims/advocate_claim_test.rb'
-    - 'spec/support/api/claims/advocate_hardship_claim_test.rb'
-    - 'spec/support/api/claims/advocate_interim_claim_test.rb'
-    - 'spec/support/api/claims/advocate_supplementary_claim_test.rb'
-    - 'spec/support/api/claims/base_claim_test.rb'
-    - 'spec/support/api/claims/litigator_final_claim_test.rb'
-    - 'spec/support/api/claims/litigator_hardship_claim.rb'
-    - 'spec/support/api/claims/litigator_interim_claim_test.rb'
-    - 'spec/support/api/claims/litigator_transfer_claim_test.rb'
     - 'spec/support/seed_helpers.rb'
     - 'spec/support/shared_examples_for_api.rb'
     - 'spec/support/shared_examples_for_claim_types.rb'

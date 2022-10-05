@@ -21,7 +21,16 @@
 
 require 'caching/api_request'
 require 'rest-client'
-Dir[Rails.root.join('spec', 'support', 'api', 'claims', '*.rb')].each { |file| require file }
+$LOAD_PATH << Rails.root.join('spec', 'support', 'api', 'claims')
+require 'debuggable'
+require 'advocate_claim_test/final'
+require 'advocate_claim_test/hardship'
+require 'advocate_claim_test/interim'
+require 'advocate_claim_test/supplementary'
+require 'litigator_claim_test/final'
+require 'litigator_claim_test/hardship'
+require 'litigator_claim_test/interim'
+require 'litigator_claim_test/transfer'
 
 class ApiTestClient
   include Debuggable
@@ -37,57 +46,62 @@ class ApiTestClient
   end
 
   def run
-    AdvocateClaimTest.new(client: self).test_creation!
-    AdvocateInterimClaimTest.new(client: self).test_creation!
-    AdvocateSupplementaryClaimTest.new(client: self).test_creation!
-    AdvocateHardshipClaimTest.new(client: self).test_creation!
-    LitigatorFinalClaimTest.new(client: self).test_creation!
-    LitigatorInterimClaimTest.new(client: self).test_creation!
-    LitigatorTransferClaimTest.new(client: self).test_creation!
-    LitigatorHardshipClaimTest.new(client: self).test_creation!
+    AdvocateClaimTest::Final.new(client: self).test_creation!
+    AdvocateClaimTest::Interim.new(client: self).test_creation!
+    AdvocateClaimTest::Supplementary.new(client: self).test_creation!
+    AdvocateClaimTest::Hardship.new(client: self).test_creation!
+    LitigatorClaimTest::Final.new(client: self).test_creation!
+    LitigatorClaimTest::Interim.new(client: self).test_creation!
+    LitigatorClaimTest::Transfer.new(client: self).test_creation!
+    LitigatorClaimTest::Hardship.new(client: self).test_creation!
   end
 
   def failure
     !@success
   end
 
-  def post_to_endpoint(resource, payload, debug = false)
-    endpoint = RestClient::Resource.new([api_root_url, EXTERNAL_USER_PREFIX, resource].join('/'))
-    debug("POSTING TO #{endpoint}") if debug
-    debug("Payload:\n#{payload}\n") if debug
+  def post_to_endpoint(resource, payload)
+    debug("Payload:\n#{payload}\n")
 
-    endpoint.post(payload.to_json, content_type: :json, accept: :json) do |response, _request, _result|
-      debug("Code: #{response.code}") if debug
-      debug("Body:\n#{response.body}\n") if debug
+    endpoint(resource:, prefix: EXTERNAL_USER_PREFIX) do |e|
+      response = e.post(payload.to_json, content_type: :json, accept: :json)
       handle_response(response, resource)
-      response
+      JSON.parse(response.body)
     end
-  end
-
-  def post_to_endpoint_with_debug(resource, payload)
-    post_to_endpoint(resource, payload, true)
+  rescue JSON::ParserError
+    {}
   end
 
   #
   # don't raise exceptions but, instead, return the
   # response for analysis.
   #
-  def get_dropdown_endpoint(resource, api_key, params = {})
-    query_params = '?' + params.merge(api_key:).to_query
-    endpoint = RestClient::Resource.new([api_root_url, 'api', resource].join('/') + query_params)
-
-    Caching::ApiRequest.cache(endpoint.url) do
-      endpoint.get do |response, _request, _result|
-        handle_response(response, resource)
-        response
+  def get_dropdown_endpoint(resource, api_key, **params)
+    endpoint(resource:, prefix: 'api', api_key:, **params) do |e|
+      body = Caching::ApiRequest.cache(e.url) do
+        e.get.tap { |response| handle_response(response, resource) }
       end
+      JSON.parse(body)
     end
+  rescue JSON::ParserError
+    {}
   end
 
   private
 
+  def endpoint(resource:, prefix:, **params, &)
+    query_params = '?' + params.to_query
+    url = [api_root_url, prefix, resource].join('/') + query_params
+    debug("POSTING TO #{url}")
+
+    yield RestClient::Resource.new(url)
+  end
+
   def handle_response(response, resource)
-    return if response.code.to_s =~ /^2/
+    debug("Code: #{response.code}")
+    debug("Body:\n#{response.body}\n")
+    return if /^2/.match?(response.code.to_s)
+
     @success = false
     @full_error_messages << "#{resource} Endpoint raised error - #{response}"
   end

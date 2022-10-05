@@ -70,8 +70,13 @@ executors:
   smoke-test-executor:
     resource_class: medium
     working_directory: /usr/src/app
+    parameters:
+      tag:
+        description: Image tag to use for test
+        default: app-latest
+        type: string
     docker:
-      - image: ${ECR_ENDPOINT}/laa-get-paid/cccd:app-latest
+      - image: ${ECR_ENDPOINT}/laa-get-paid/cccd:<<parameters.tag>>
         entrypoint: |
           docker/docker-entrypoint.sh
         environment:
@@ -380,6 +385,13 @@ jobs:
     steps:
       - smoke-test
 
+  smoke-test-dev:
+    executor:
+      name: smoke-test-executor
+      tag: app-${CIRCLE_SHA1}
+    steps:
+      - smoke-test
+
   smoke-test-notification:
     executor: basic-executor
     steps:
@@ -608,6 +620,11 @@ workflows:
       - build-app-container:
           requires:
             - hold-branch-build
+          context:
+            - cccd-live-base
+      - smoke-test-dev:
+          requires:
+            - build-app-container
           context:
             - cccd-live-base
       - hold-dev:

@@ -476,10 +476,8 @@ GEM
     mustermann-grape (1.0.2)
       mustermann (>= 1.0.0)
     nenv (0.3.0)
-    net-imap (0.2.3)
-      digest
+    net-imap (0.3.1)
       net-protocol
-      strscan
     net-pop (0.1.1)
       digest
       net-protocol
@@ -695,7 +693,6 @@ GEM
       state_machines-activemodel (>= 0.8.0)
     state_machines-audit_trail (2.0.2)
       state_machines
-    strscan (3.0.4)
     sys-uname (1.2.2)
       ffi (~> 1.1)
     temple (0.8.2)

@@ -117,7 +117,7 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.5.1)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-core-api (4.4.1)
+    axe-core-api (4.4.2)
       dumb_delegator
       virtus
     axe-core-cucumber (4.4.1)
@@ -372,7 +372,7 @@ GEM
     guard-webpacker (0.2.1)
       guard (>= 2)
       guard-compat (~> 1.0)
-    haml (6.0.3)
+    haml (6.0.5)
       temple (>= 0.8.2)
       thor
       tilt

@@ -26,7 +26,7 @@ module API::V1::ExternalUsers
           optional :advocate_category,
                    type: String,
                    desc: local_t(:advocate_category),
-                   values: Settings.agfs_reform_advocate_categories
+                   values: Settings.agfs_reform_advocate_categories + ['KC']
         end
 
         namespace :advocates do

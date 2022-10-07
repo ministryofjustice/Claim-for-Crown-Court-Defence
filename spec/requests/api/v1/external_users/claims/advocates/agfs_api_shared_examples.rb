@@ -6,7 +6,7 @@ RSpec.shared_context 'with AGFS API users' do
   let(:advocate) { create(:external_user, :advocate, provider: vendor.provider) }
 end
 
-RSpec.shared_examples 'creates claim correctly' do
+RSpec.shared_examples 'API creation successful' do
   it { expect(response).to be_successful }
 
   it 'sets advocate category correctly in the claim' do
@@ -14,7 +14,12 @@ RSpec.shared_examples 'creates claim correctly' do
   end
 end
 
-RSpec.shared_examples 'fail to create claim with ineligible advocate category' do
+RSpec.shared_examples 'API validation successful' do
+  it { expect(response).to be_successful }
+  it { expect(JSON.parse(response.body)['valid']).to be_truthy }
+end
+
+RSpec.shared_examples 'API request fails with ineligible advocate category' do
   it { expect(response).to have_http_status(:bad_request) }
   it { expect(JSON.parse(response.body).first['error']).to eq('Choose an eligible advocate category') }
 end
@@ -22,60 +27,124 @@ end
 RSpec.shared_examples 'claim with AGFS reform advocate categories' do
   before do
     seed_fee_schemes
-    create_claim
+    submit_request
   end
 
-  context 'with a Junior advocate category' do
-    let(:advocate_category) { 'Junior' }
+  context 'when creating' do
+    subject(:submit_request) { post(endpoint.create, params:) }
 
-    include_examples 'creates claim correctly'
-  end
+    context 'with a Junior advocate category' do
+      let(:advocate_category) { 'Junior' }
 
-  context 'with a Leading junior advocate category' do
-    let(:advocate_category) { 'Leading junior' }
+      include_examples 'API creation successful'
+    end
 
-    include_examples 'creates claim correctly'
-  end
+    context 'with a Leading junior advocate category' do
+      let(:advocate_category) { 'Leading junior' }
 
-  context 'with a QC advocate category' do
-    let(:advocate_category) { 'QC' }
+      include_examples 'API creation successful'
+    end
 
-    include_examples 'creates claim correctly'
-  end
+    context 'with a QC advocate category' do
+      let(:advocate_category) { 'QC' }
 
-  context 'with a KC advocate category' do
-    let(:advocate_category) { 'KC' }
+      include_examples 'API creation successful'
+    end
 
-    it { expect(response).to be_successful }
+    context 'with a KC advocate category' do
+      let(:advocate_category) { 'KC' }
 
-    it 'translates advocate category KC to QC before creating claim' do
-      expect(Claim::BaseClaim.last.advocate_category).to eq 'QC'
+      it { expect(response).to be_successful }
+
+      it 'translates advocate category KC to QC before creating claim' do
+        expect(Claim::BaseClaim.last.advocate_category).to eq 'QC'
+      end
+    end
+
+    context 'with an unknown advocate category' do
+      let(:advocate_category) { 'Unknown' }
+
+      it { expect(response).to have_http_status(:bad_request) }
+      it { expect(JSON.parse(response.body).first['error']).to eq('advocate_category does not have a valid value') }
     end
   end
 
-  context 'with an unknown advocate category' do
-    let(:advocate_category) { 'Unknown' }
+  context 'when validating' do
+    subject(:submit_request) { post(endpoint.validate, params:) }
 
-    it { expect(response).to have_http_status(:bad_request) }
-    it { expect(JSON.parse(response.body).first['error']).to eq('advocate_category does not have a valid value') }
+    context 'with a Junior advocate category' do
+      let(:advocate_category) { 'Junior' }
+
+      include_examples 'API validation successful'
+    end
+
+    context 'with a Leading junior advocate category' do
+      let(:advocate_category) { 'Leading junior' }
+
+      include_examples 'API validation successful'
+    end
+
+    context 'with a QC advocate category' do
+      let(:advocate_category) { 'QC' }
+
+      include_examples 'API validation successful'
+    end
+
+    context 'with a KC advocate category' do
+      let(:advocate_category) { 'KC' }
+
+      include_examples 'API validation successful'
+    end
+
+    context 'with an unknown advocate category' do
+      let(:advocate_category) { 'Unknown' }
+
+      it { expect(response).to have_http_status(:bad_request) }
+      it { expect(JSON.parse(response.body).first['error']).to eq('advocate_category does not have a valid value') }
+    end
   end
 end
 
 RSpec.shared_examples 'claim with pre-AGFS reform advocate categories' do
   before do
     seed_fee_schemes
-    create_claim
+    submit_request
   end
 
-  context 'with a Led junior advocate category' do
-    let(:advocate_category) { 'Led junior' }
+  context 'when creating' do
+    subject(:submit_request) { post(endpoint.create, params:) }
 
-    include_examples 'fail to create claim with ineligible advocate category'
+    context 'with a Led junior advocate category' do
+      let(:advocate_category) { 'Led junior' }
+
+      include_examples 'API request fails with ineligible advocate category'
+    end
+
+    context 'with a Junior alone advocate category' do
+      let(:advocate_category) { 'Junior alone' }
+
+      include_examples 'API request fails with ineligible advocate category'
+    end
   end
 
-  context 'with a Junior alone advocate category' do
-    let(:advocate_category) { 'Junior alone' }
+  context 'when validating' do
+    subject(:submit_request) { post(endpoint.validate, params:) }
 
-    include_examples 'fail to create claim with ineligible advocate category'
+    before do
+      seed_fee_schemes
+      submit_request
+    end
+
+    context 'with a Led junior advocate category' do
+      let(:advocate_category) { 'Led junior' }
+
+      include_examples 'API request fails with ineligible advocate category'
+    end
+
+    context 'with a Junior alone advocate category' do
+      let(:advocate_category) { 'Junior alone' }
+
+      include_examples 'API request fails with ineligible advocate category'
+    end
   end
 end

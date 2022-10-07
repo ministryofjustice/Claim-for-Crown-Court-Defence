@@ -8,7 +8,7 @@ RSpec.describe 'creating hardship AGFS claim for fee scheme 13', type: :request 
   let(:first_date) { Settings.agfs_scheme_13_clair_release_date.beginning_of_day }
 
   describe 'create new claim' do
-    subject(:create_claim) { post(ClaimApiEndpoints.for('advocates/hardship').create, params:) }
+    let(:endpoint) { ClaimApiEndpoints.for('advocates/hardship') }
 
     let(:params) do
       default_params.merge(

@@ -8,7 +8,7 @@ RSpec.describe 'creating final AGFS claim for fee scheme 13', type: :request do
   let(:first_date) { Settings.agfs_scheme_13_clair_release_date.beginning_of_day }
 
   describe 'create new claim' do
-    subject(:create_claim) { post(ClaimApiEndpoints.for('advocates/final').create, params:) }
+    let(:endpoint) { ClaimApiEndpoints.for('advocates/final') }
 
     let(:params) do
       default_params.merge(

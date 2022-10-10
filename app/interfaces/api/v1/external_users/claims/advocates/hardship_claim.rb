@@ -17,7 +17,7 @@ module API::V1::ExternalUsers
           optional :advocate_category,
                    type: String,
                    desc: local_t(:advocate_category),
-                   values: (Settings.advocate_categories + Settings.agfs_reform_advocate_categories).uniq
+                   values: (Settings.advocate_categories + Settings.agfs_reform_advocate_categories + ['KC']).uniq
 
           use :agfs_hardship_trial_params
           use :common_agfs_params

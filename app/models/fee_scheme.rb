@@ -17,12 +17,8 @@ class FeeScheme < ApplicationRecord
   scope :eleven, -> { where(version: FeeScheme::ELEVEN) }
   scope :twelve, -> { where(version: FeeScheme::TWELVE) }
   scope :thirteen, -> { where(version: FeeScheme::THIRTEEN) }
-  scope :current, lambda {
-    where('(:now BETWEEN start_date AND end_date) OR (start_date <= :now AND end_date IS NULL)', now: Time.zone.now)
-  }
-  scope :for, lambda { |check_date|
-    where('(:date BETWEEN start_date AND end_date) OR (start_date <= :date AND end_date IS NULL)', date: check_date)
-  }
+  scope :current, -> { self.for(Time.zone.now) }
+  scope :for, ->(check_date) { where(start_date: ..check_date, end_date: [nil, check_date..]) }
 
   def agfs?
     name.eql?('AGFS')

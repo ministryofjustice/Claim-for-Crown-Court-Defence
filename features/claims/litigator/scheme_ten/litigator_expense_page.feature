@@ -3,8 +3,8 @@ Feature: Litigator expense specific page features
 
   Scenario: I create a final fee claim, save it to draft and later do expenses
 
-    Given I am a signed in litigator
-    And the current date is '2022-10-30' 
+    Given the current date is '2022-10-30'
+    And I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'

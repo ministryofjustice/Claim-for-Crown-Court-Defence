@@ -22,10 +22,12 @@ Feature: A downtime warning banner appears on home pages only until downtime dat
     And I am on the 'Your claims' page
 
     When the current date is '2021-05-26'
+    And I am a signed in advocate admin
     And I refresh the page
     Then the downtime banner is displayed
 
     When the current date is '2021-05-27'
+    And I am a signed in advocate admin
     And I refresh the page
     Then the downtime banner is not displayed
 
@@ -51,9 +53,11 @@ Feature: A downtime warning banner appears on home pages only until downtime dat
     And the page should be accessible
 
     When the current date is '2021-05-26'
+    And I am a signed in case worker admin
     And I refresh the page
     Then the downtime banner is displayed
 
     When the current date is '2021-05-27'
+    And I am a signed in case worker admin
     And I refresh the page
     Then the downtime banner is not displayed

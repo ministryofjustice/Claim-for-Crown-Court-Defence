@@ -7,7 +7,7 @@ jobs:
     name: A job to delete ECR image for deleted branch
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: delete-ecr-image
       id: ecr-deletion
       uses: ./.github/actions/delete-ecr-images

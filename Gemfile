@@ -88,7 +88,7 @@ group :development, :devunicorn, :test do
   gem 'pry-rails'
   gem 'puma'
   gem 'rack-livereload', '~> 0.3.17'
-  gem 'rspec-rails', '~> 5.1.2'
+  gem 'rspec-rails', '~> 6.0.0'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
   gem 'net-ssh', '~> 7.0'

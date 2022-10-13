@@ -3,7 +3,7 @@ require_relative 'abstract_store'
 class Caching
   class RedisStore < AbstractStore
     def initialize
-      self.store = Redis.current
+      self.store = Redis.new(url: ENV.fetch('REDIS_URL'))
     end
 
     def self.current

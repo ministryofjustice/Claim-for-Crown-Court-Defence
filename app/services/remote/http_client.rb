@@ -33,7 +33,9 @@ module Remote
 
     def execute_request(method, path, **query)
       endpoint = build_endpoint(path, **query)
-      response = RestClient::Request.execute(method:, url: endpoint, timeout:, open_timeout:)
+      response = Rails.cache.fetch(endpoint) do
+        RestClient::Request.execute(method:, url: endpoint, timeout:, open_timeout:)
+      end
       JSON.parse(response, symbolize_names: true)
     end
   end

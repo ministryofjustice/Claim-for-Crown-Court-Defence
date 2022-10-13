@@ -40,6 +40,8 @@ module Remote
     end
 
     describe '.get' do
+      subject(:result) { described_class.current.get(path, **query) }
+
       let(:api_url)  { 'my_api_url' }
       let(:api_key)  { 'my_key' }
       let(:path)     { 'my_path' }
@@ -57,12 +59,10 @@ module Remote
       end
 
       it 'calls execute on RestClient::Request' do
-        response = double('HTTPResponse', body: 'body', headers: {})
-        expect(Caching::ApiRequest).to receive(:cache).with(endpoint).and_call_original
-        expect(JSON).to receive(:parse).with('body', symbolize_names: true).and_return({ key: 'value' })
-        expect(RestClient::Request).to receive(:execute).with(method: :get, url: endpoint, timeout: 4, open_timeout: 2).and_return(response)
-
-        result = HttpClient.current.get(path, **query)
+        response = instance_double(Net::HTTPResponse, body: 'body', header: {})
+        allow(JSON).to receive(:parse).with('body', symbolize_names: true).and_return({ key: 'value' })
+        allow(RestClient::Request).to receive(:execute).with(method: :get, url: endpoint, timeout: 4,
+                                                             open_timeout: 2).and_return(response.body)
 
         expect(result).to eq({ key: 'value' })
       end

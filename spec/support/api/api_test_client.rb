@@ -19,7 +19,6 @@
 # debug('my debug statement', :red)
 #
 
-require 'caching/api_request'
 require 'rest-client'
 $LOAD_PATH << Rails.root.join('spec', 'support', 'api', 'claims')
 require 'debuggable'
@@ -78,9 +77,7 @@ class ApiTestClient
   #
   def get_dropdown_endpoint(resource, api_key, **params)
     endpoint(resource:, prefix: 'api', api_key:, **params) do |e|
-      body = Caching::ApiRequest.cache(e.url) do
-        e.get.tap { |response| handle_response(response, resource) }
-      end
+      body = e.get.tap { |response| handle_response(response, resource) }
       JSON.parse(body)
     end
   rescue JSON::ParserError

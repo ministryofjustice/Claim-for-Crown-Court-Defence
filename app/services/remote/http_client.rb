@@ -33,9 +33,7 @@ module Remote
 
     def execute_request(method, path, **query)
       endpoint = build_endpoint(path, **query)
-      response = Caching::ApiRequest.cache(endpoint) do
-        RestClient::Request.execute(method:, url: endpoint, timeout:, open_timeout:)
-      end
+      response = RestClient::Request.execute(method:, url: endpoint, timeout:, open_timeout:)
       JSON.parse(response, symbolize_names: true)
     end
   end

@@ -60,7 +60,7 @@ module Remote
 
       before do
         client = double Remote::HttpClient
-        allow(Remote::HttpClient).to receive(:current).and_return(client)
+        allow(Remote::HttpClient).to receive(:instance).and_return(client)
         allow(client).to receive(:get).with('case_workers/claims', **query_params).and_return(claim_collection)
       end
 

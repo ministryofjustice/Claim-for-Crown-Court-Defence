@@ -30,7 +30,7 @@ module Remote
       private
 
       def client
-        Remote::HttpClient.current
+        Remote::HttpClient.instance
       end
 
       def parse_result(result)

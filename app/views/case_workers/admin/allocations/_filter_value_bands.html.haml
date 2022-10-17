@@ -1,7 +1,7 @@
 #filter-value-bands.dtFilter
   = f.govuk_select :filterValue, label: { text: t('.value') } do
     = options_for_select [[t('.all'), '']]
-    = options_for_select [[t('.tier1'), 'max:25000']]
-    = options_for_select [[t('.tier2'), 'min:25000.01|max:100000']]
-    = options_for_select [[t('.tier3'), 'min:100000.01|max:150000']]
-    = options_for_select [[t('.tier4'), 'min:150000.01|max:999999.99']]
+    = options_for_select [[t('.tier1'), 'max:30000']]
+    = options_for_select [[t('.tier2'), 'min:30000.01|max:115000']]
+    = options_for_select [[t('.tier3'), 'min:115000.01|max:175000']]
+    = options_for_select [[t('.tier4'), 'min:175000.01|max:999999.99']]

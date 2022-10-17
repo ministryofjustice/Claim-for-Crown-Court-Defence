@@ -2425,10 +2425,10 @@ en:
         filter_value_bands:
           all: All
           value: 'Value'
-          tier1: less than £25,000
-          tier2: £25,000 - £100,000
-          tier3: £100,000 - £150,000
-          tier4: more than £150,000
+          tier1: less than £30,000
+          tier2: £30,000 - £115,000
+          tier3: £115,000 - £175,000
+          tier4: more than £175,000
         new:
           page_title_allocation: View the allocation queue
           page_title_reallocation: View the re-allocation queue

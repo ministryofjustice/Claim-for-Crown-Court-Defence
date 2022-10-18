@@ -1,24 +1,21 @@
 module Remote
   class HttpClient
-    cattr_accessor :instance, :logger, :base_url, :api_key, :timeout, :open_timeout
-    private_class_method :new
+    include Singleton
 
-    class << self
-      def configure
-        yield(self)
-      end
+    attr_accessor :api_key, :timeout, :open_timeout
+    attr_reader :logger
+    attr_writer :base_url
 
-      def current
-        self.instance ||= new
-      end
+    def self.configure
+      yield(instance)
+    end
 
-      def logger=(log)
-        @@logger = RestClient.log = log
-      end
+    def logger=(log)
+      @logger = RestClient.log = log
+    end
 
-      def base_url
-        @@base_url ||= Settings.remote_api_url
-      end
+    def base_url
+      @base_url ||= Settings.remote_api_url
     end
 
     def get(path, **query)
@@ -28,7 +25,7 @@ module Remote
     private
 
     def build_endpoint(path, **query)
-      [self.class.base_url, path].join('/') + '?' + { api_key: }.merge(**query).to_query
+      [base_url, path].join('/') + '?' + { api_key: }.merge(**query).to_query
     end
 
     def execute_request(method, path, **query)

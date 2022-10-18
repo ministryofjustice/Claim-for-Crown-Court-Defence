@@ -16,7 +16,7 @@ module Remote
 
     before do
       client = double Remote::HttpClient
-      allow(Remote::HttpClient).to receive(:current).and_return(client)
+      allow(Remote::HttpClient).to receive(:instance).and_return(client)
       allow(client)
         .to receive(:get)
         .with('case_workers', 'query_key' => 'query value', api_key: 'my_api_key')

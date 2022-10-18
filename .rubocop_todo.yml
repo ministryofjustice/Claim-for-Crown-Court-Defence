@@ -874,7 +874,6 @@ RSpec/DescribedClass:
     - 'spec/services/claims/value_bands_spec.rb'
     - 'spec/services/document_cleaner_spec.rb'
     - 'spec/services/message_queue/aws_client_spec.rb'
-    - 'spec/services/remote/http_client_spec.rb'
     - 'spec/services/simple_bill_adapter_spec.rb'
     - 'spec/services/stats/claim_creation_source_data_generator_spec.rb'
     - 'spec/services/stats/claim_percentage_authorised_generator_spec.rb'
@@ -2585,7 +2584,6 @@ Style/ClassEqualityComparison:
 Style/ClassVars:
   Exclude:
     - 'app/models/google_analytics/data_tracking.rb'
-    - 'app/services/remote/http_client.rb'
 
 # Offense count: 2
 Style/CombinableLoops:
@@ -3179,7 +3177,6 @@ Layout/LineLength:
     - 'spec/services/fee_reform/search_offences_spec.rb'
     - 'spec/services/injection_response_service_spec.rb'
     - 'spec/services/message_queue/aws_client_spec.rb'
-    - 'spec/services/remote/http_client_spec.rb'
     - 'spec/services/remote/injection_attempt_spec.rb'
     - 'spec/services/reports/performance_platform/quarterly_volume_spec.rb'
     - 'spec/services/reports/performance_platform/transactions_by_channel_spec.rb'

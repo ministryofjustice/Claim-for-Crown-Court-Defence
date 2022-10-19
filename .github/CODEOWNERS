@@ -1,2 +1,5 @@
-* @ministryofjustice/laa-claim-for-payment
-* @ministryofjustice/laa-clair-taskforce
+* @ministryofjustice/laa-claim-for-payment @ministryofjustice/laa-clair-taskforce
+
+# Temporarily ensure that this file can be changed in the event of a broken
+# configuration above
+.github/CODEOWNERS @ministryofjustice/laa-claim-for-payment

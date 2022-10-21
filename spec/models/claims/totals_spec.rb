@@ -236,45 +236,30 @@ RSpec.describe Claim, type: :model do
     describe 'updating value bands and totals' do
       let(:claim) { create :litigator_claim }
 
-      it 'updates the value band id when an added disbursement takes it to the next band' do
-        expect(claim.total).to eq 25.0
-        expect(claim.vat_amount).to eq 0.0
-        expect(claim.value_band_id).to eq 10
+      context 'with a disbursment' do
+        let(:new_fee) { create :disbursement, claim:, net_amount: 30_000.0, vat_amount: 5_000.0 }
 
-        create :disbursement, claim: claim, net_amount: 25_000.0, vat_amount: 5_000.0
-
-        claim.reload
-        expect(claim.total).to eq 25_025.0
-        expect(claim.vat_amount).to eq 5_000.0
-        expect(claim.value_band_id).to eq 20
+        it { expect { new_fee }.to change(claim, :total).by(30_000) }
+        it { expect { new_fee }.to change(claim, :vat_amount).by(5_000) }
+        it { expect { new_fee }.to change { claim.reload.value_band_id }.from(10).to(20) }
       end
 
-      it 'updates the value band id when added expenses takes it to the next band' do
-        expect(claim.total).to eq 25.0
-        expect(claim.vat_amount).to eq 0.0
-        expect(claim.value_band_id).to eq 10
+      context 'with an expense' do
+        let(:new_fee) { create :expense, claim:, amount: 25_002.2, vat_amount: 5_000.2 }
 
-        create :expense, claim: claim, amount: 25_002.20, vat_amount: 5_000.20
-
-        claim.reload
-        expect(claim.total).to eq 25_027.2
-        expect(claim.vat_amount).to eq 5_000.20
-        expect(claim.value_band_id).to eq 20
+        it { expect { new_fee }.to change(claim, :total).by(25_002.2) }
+        it { expect { new_fee }.to change(claim, :vat_amount).by(5_000.2) }
+        it { expect { new_fee }.to change { claim.reload.value_band_id }.from(10).to(20) }
       end
 
-      it 'updates the value band id when added fees takes it to the next band' do
-        expect(claim.total).to eq 25.0
-        expect(claim.vat_amount).to eq 0.0
-        expect(claim.value_band_id).to eq 10
-
+      context 'with a misc fee' do
         # NOTE: the special prep fee, mispf, is used here as it is
         # as an edge case because it is calculated for agfs but not for lgfs
-        create(:misc_fee, :mispf_fee, claim:, amount: 25_002.20)
+        let(:new_fee) { create(:misc_fee, :mispf_fee, claim:, amount: 30_002.2) }
 
-        claim.reload
-        expect(claim.total).to eq 25_027.2
-        expect(claim.vat_amount).to eq 0.0
-        expect(claim.value_band_id).to eq 20
+        it { expect { new_fee }.to change(claim, :total).by(30_002.2) }
+        it { expect { new_fee }.not_to change(claim, :vat_amount) }
+        it { expect { new_fee }.to change { claim.reload.value_band_id }.from(10).to(20) }
       end
     end
   end

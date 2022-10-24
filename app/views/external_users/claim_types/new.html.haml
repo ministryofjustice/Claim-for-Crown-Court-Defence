@@ -3,6 +3,8 @@
 
 = render partial: 'external_users/shared/hardship_claims_banner'
 
+= render partial: 'external_users/shared/clair_contingency_banner'
+
 = form_with model: @claim_type, url: external_users_claim_types_path, method: 'post', builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
   = f.govuk_error_summary
 

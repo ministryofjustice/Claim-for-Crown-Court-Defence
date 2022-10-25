@@ -50,6 +50,8 @@ describe ExternalUsers::ClaimsHelper do
   end
 
   describe '#show_timed_retention_banner_to_user?' do
+    subject { helper.show_timed_retention_banner_to_user? }
+
     let(:current_user) { create(:external_user, :advocate).user }
     let(:user_settings) { {} }
 
@@ -61,27 +63,23 @@ describe ExternalUsers::ClaimsHelper do
     context 'when the user is not an external user' do
       let(:current_user) { create(:case_worker).user }
 
-      it 'returns false' do
-        expect(helper.show_timed_retention_banner_to_user?).to be_falsey
-      end
+      it { is_expected.to be_falsey }
     end
 
     context 'when the user has not seen yet the promo' do
-      it 'returns true' do
-        expect(helper.show_timed_retention_banner_to_user?).to be_truthy
-      end
+      it { is_expected.to be_truthy }
     end
 
     context 'when the user has seen the promo' do
       let(:user_settings) { { timed_retention_banner_seen: '1' } }
 
-      it 'returns false' do
-        expect(helper.show_timed_retention_banner_to_user?).to be_falsey
-      end
+      it { is_expected.to be_falsey }
     end
   end
 
   describe '#show_hardship_claims_banner_to_user?' do
+    subject { helper.show_hardship_claims_banner_to_user? }
+
     let(:current_user) { create(:external_user, :advocate).user }
     let(:user_settings) { {} }
 
@@ -97,32 +95,37 @@ describe ExternalUsers::ClaimsHelper do
       context 'when the user is not an external user' do
         let(:current_user) { create(:case_worker).user }
 
-        it 'returns false' do
-          expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
-        end
+        it { is_expected.to be_falsey }
       end
 
       context 'when the user has not seen yet the promo' do
-        it 'returns true' do
-          expect(helper.show_hardship_claims_banner_to_user?).to be_truthy
-        end
+        it { is_expected.to be_truthy }
       end
 
       context 'when the user has seen/dismissed the banner' do
         let(:user_settings) { { hardship_claims_banner_seen: '1' } }
 
-        it 'returns false' do
-          expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
-        end
+        it { is_expected.to be_falsey }
       end
     end
 
     context 'when the feature flag is disabled' do
       let(:hardship_claims_banner_enabled) { false }
 
-      it 'returns false regardless of the user setting' do
-        expect(helper).not_to receive(:current_user)
-        expect(helper.show_hardship_claims_banner_to_user?).to be_falsey
+      context 'when the user is not an external user' do
+        let(:current_user) { create(:case_worker).user }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when the user has not seen yet the promo' do
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when the user has seen/dismissed the banner' do
+        let(:user_settings) { { hardship_claims_banner_seen: '1' } }
+
+        it { is_expected.to be_falsey }
       end
     end
   end

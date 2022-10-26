@@ -36,7 +36,7 @@ module DataMigrator
       offences.update_all('unique_code = id')
       out '-- updating offences.unique_code data'
       offence_set.each do |code, offence|
-        sql = "UPDATE offences SET unique_code = \'#{code}\' WHERE id = #{offence[:id]}"
+        sql = "UPDATE offences SET unique_code = '#{code}' WHERE id = #{offence[:id]}"
         @offences.connection.execute sql
       end
       out "codes generated: #{offence_set.count}".green

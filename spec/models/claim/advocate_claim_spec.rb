@@ -372,7 +372,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
     it 'finds only claims with states that match dashboard displayable states' do
       sql = described_class.search('%', states, :advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
-      state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "\'#{s}\'" }.join(', ')
+      state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "'#{s}'" }.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 

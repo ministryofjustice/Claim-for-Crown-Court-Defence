@@ -287,12 +287,20 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     , handlers:    []
   }
 
+  var argsToArray = function(args) {	
+    const arrayOfArgs = [];	
+    for (let i = 0; i < args.length; i++) {	
+      arrayOfArgs.push(args[i]);	
+    }	
+    return arrayOfArgs;	
+  }
+
   jasmine.jQuery.events = {
     spyOn: function (selector, eventName) {
       var handler = function (e) {
         var calls = (typeof data.spiedEvents[jasmine.spiedEventsKey(selector, eventName)] !== 'undefined') ? data.spiedEvents[jasmine.spiedEventsKey(selector, eventName)].calls : 0
         data.spiedEvents[jasmine.spiedEventsKey(selector, eventName)] = {
-          args: jasmine.util.argsToArray(arguments),
+          args: argsToArray(arguments),
           calls: ++calls
         }
       }

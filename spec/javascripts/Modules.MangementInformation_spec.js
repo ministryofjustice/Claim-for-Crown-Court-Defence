@@ -219,7 +219,7 @@ describe('Modules.ManagementInformation.js', function () {
     })
 
     xdescribe('...disableDownloadButton', function () {
-      // TODO
+      xit('TODO')
     })
 
     describe('...enableDownloadButton', function () {
@@ -250,15 +250,15 @@ describe('Modules.ManagementInformation.js', function () {
     })
 
     xdescribe('...activateDownload', function () {
-      // TODO
+      xit('TODO')
     })
 
     xdescribe('...dateInputEvent', function () {
-      // TODO
+      xit('TODO')
     })
 
     xdescribe('...blockDisabledLinkClick', function () {
-      // TODO
+      xit('TODO')
     })
   })
 })

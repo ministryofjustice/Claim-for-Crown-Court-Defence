@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_02_141802) do
+ActiveRecord::Schema.define(version: 2022_11_10_132804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -188,6 +188,7 @@ ActiveRecord::Schema.define(version: 2022_03_02_141802) do
     t.string "travel_expense_additional_information"
     t.boolean "prosecution_evidence"
     t.bigint "case_stage_id"
+    t.date "main_hearing_date"
     t.index ["case_number"], name: "index_claims_on_case_number"
     t.index ["case_stage_id"], name: "index_claims_on_case_stage_id"
     t.index ["cms_number"], name: "index_claims_on_cms_number"

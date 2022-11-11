@@ -103,7 +103,6 @@ Lint/RedundantSafeNavigation:
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - 'spec/lib/geckoboard_publisher/injections_report_spec.rb'
-    - 'spec/support/matchers/view_matchers.rb'
 
 # Offense count: 2
 Lint/StructNewOverride:
@@ -2668,7 +2667,6 @@ Style/InverseMethods:
   Exclude:
     - 'spec/api/v1/external_users/claims/integration/advocate_claim_creation_spec.rb'
     - 'spec/api/v1/external_users/claims/integration/litigator_claim_creation_spec.rb'
-    - 'spec/support/matchers/view_matchers.rb'
 
 # Offense count: 3
 # This cop supports safe autocorrection (--autocorrect).

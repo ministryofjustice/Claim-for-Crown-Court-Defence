@@ -103,7 +103,6 @@ Lint/RedundantSafeNavigation:
 Lint/ShadowingOuterLocalVariable:
   Exclude:
     - 'spec/lib/geckoboard_publisher/injections_report_spec.rb'
-    - 'spec/rails_helper.rb'
     - 'spec/support/matchers/view_matchers.rb'
 
 # Offense count: 2
@@ -2587,14 +2586,6 @@ Style/CommentAnnotation:
     - 'spec/services/claims/case_worker_claim_updater_spec.rb'
 
 # Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
-# SupportedStyles: assign_to_condition, assign_inside_condition
-Style/ConditionalAssignment:
-  Exclude:
-    - 'spec/rails_helper.rb'
-
-# Offense count: 2
 Style/DocumentDynamicEvalDefinition:
   Exclude:
     - 'app/models/claim/base_claim.rb'
@@ -2611,7 +2602,6 @@ Style/EmptyLiteral:
 # This cop supports safe autocorrection (--autocorrect).
 Style/ExpandPathArguments:
   Exclude:
-    - 'spec/rails_helper.rb'
     - 'spec/spec_helper.rb'
 
 # Offense count: 2

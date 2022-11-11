@@ -129,6 +129,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.to expose :retrial_started_at }
       it { is_expected.to expose :trial_cracked_at_third }
       it { is_expected.to expose :last_submitted_at }
+      it { is_expected.to expose :main_hearing_date }
 
       it { is_expected.to expose :advocate_category }
       it { is_expected.to expose :case_type }
@@ -163,6 +164,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.not_to expose :retrial_started_at }
       it { is_expected.not_to expose :trial_cracked_at_third }
       it { is_expected.to expose :last_submitted_at }
+      it { is_expected.to expose :main_hearing_date }
 
       it { is_expected.to expose :advocate_category }
       it { is_expected.to expose :case_type }
@@ -195,6 +197,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.not_to expose :retrial_started_at }
       it { is_expected.not_to expose :trial_cracked_at_third }
       it { is_expected.to expose :last_submitted_at }
+      it { is_expected.to expose :main_hearing_date }
 
       it { is_expected.to expose :advocate_category }
       it { is_expected.to expose :case_type }
@@ -227,6 +230,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.to expose :retrial_started_at }
       it { is_expected.to expose :trial_cracked_at_third }
       it { is_expected.to expose :last_submitted_at }
+      it { is_expected.to expose :main_hearing_date }
 
       it { is_expected.to expose :advocate_category }
       it { is_expected.to expose :case_type }

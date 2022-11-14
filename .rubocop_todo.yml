@@ -2700,14 +2700,6 @@ Style/MutableConstant:
     - 'spec/services/claims/fee_calculator/graduated_price_spec.rb'
     - 'spec/services/claims/fetch_eligible_fixed_fee_types_spec.rb'
 
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: both, prefix, postfix
-Style/NegatedIf:
-  Exclude:
-    - 'spec/support/matchers/custom_matchers.rb'
-
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
 Style/NegatedIfElseCondition:

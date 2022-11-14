@@ -8,12 +8,12 @@ require 'rspec/expectations'
 RSpec::Matchers.define :have_totals do |expected|
   match do |actual|
     @errors = expected.keys.each_with_object({}) do |key, errors|
-      errors[key] = [expected[key], actual.send(key)] if !actual.send(key).to_d.eql?(expected[key].to_d)
+      errors[key] = [expected[key], actual.send(key)] unless actual.send(key).to_d.eql?(expected[key].to_d)
     end
     expected_total = BigDecimal(expected[:fees_total] + expected[:disbursements_total] + expected[:expenses_total], 8)
     expected_vat_amount = BigDecimal(expected[:fees_vat] + expected[:disbursements_vat] + expected[:expenses_vat], 8)
-    @errors[:total] = [expected_total, actual.total] if !actual.total.eql?(expected_total)
-    @errors[:vat_amount] = [expected_vat_amount, actual.vat_amount] if !actual.vat_amount.eql?(expected_vat_amount)
+    @errors[:total] = [expected_total, actual.total] unless actual.total.eql?(expected_total)
+    @errors[:vat_amount] = [expected_vat_amount, actual.vat_amount] unless actual.vat_amount.eql?(expected_vat_amount)
     @errors.empty?
   end
 

@@ -2579,7 +2579,6 @@ Style/CommentAnnotation:
   Exclude:
     - 'app/models/claims/sort.rb'
     - 'app/models/fee/base_fee.rb'
-    - 'spec/i18n_spec.rb'
     - 'spec/models/claims/financial_summary_spec.rb'
     - 'spec/services/claims/case_worker_claim_updater_spec.rb'
 

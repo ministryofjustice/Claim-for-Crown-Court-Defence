@@ -1,7 +1,7 @@
 class ClaimApiEndpoints
-  CREATE_URL_PATTERN = '/api/external_users/claims%{type}'
-  VALIDATE_URL_PATTERN = '/api/external_users/claims%{type}/validate'
-  FORBIDDEN_CLAIM_VERBS = [:get, :put, :patch, :delete]
+  CREATE_URL_PATTERN = '/api/external_users/claims%{type}'.freeze
+  VALIDATE_URL_PATTERN = '/api/external_users/claims%{type}/validate'.freeze
+  FORBIDDEN_CLAIM_VERBS = %i[get put patch delete].freeze
 
   cattr_accessor :type
 
@@ -16,11 +16,11 @@ class ClaimApiEndpoints
     end
 
     def create
-      CREATE_URL_PATTERN % { type: namespace }
+      format(CREATE_URL_PATTERN, type: namespace)
     end
 
     def validate
-      VALIDATE_URL_PATTERN % { type: namespace }
+      format(VALIDATE_URL_PATTERN, type: namespace)
     end
 
     def all

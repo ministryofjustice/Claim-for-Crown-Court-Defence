@@ -99,11 +99,6 @@ Lint/RedundantSafeNavigation:
     - 'app/controllers/provider_management/external_users_controller.rb'
     - 'app/presenters/expense_presenter.rb'
 
-# Offense count: 3
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - 'spec/lib/geckoboard_publisher/injections_report_spec.rb'
-
 # Offense count: 2
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Lint/UselessMethodDefinition:
@@ -910,7 +905,6 @@ RSpec/ExampleLength:
     - 'spec/controllers/vat_rates_controller_spec.rb'
     - 'spec/helpers/case_workers/claims_helper_spec.rb'
     - 'spec/lib/caching/api_request_spec.rb'
-    - 'spec/lib/geckoboard_publisher/injections_report_spec.rb'
     - 'spec/lib/geckoboard_publisher/travel_automation_report_spec.rb'
     - 'spec/lib/gov_uk/date_accessor_spec.rb'
     - 'spec/lib/working_day_calculator_spec.rb'
@@ -1591,7 +1585,6 @@ RSpec/NamedSubject:
     - 'spec/controllers/provider_management/providers_controller_spec.rb'
     - 'spec/controllers/super_admins/admin/super_admins_controller_spec.rb'
     - 'spec/lib/caching/api_request_spec.rb'
-    - 'spec/lib/geckoboard_publisher/injections_report_spec.rb'
     - 'spec/lib/geckoboard_publisher/providers_report_spec.rb'
     - 'spec/lib/geckoboard_publisher/travel_automation_report_spec.rb'
     - 'spec/lib/google_analytics/api_spec.rb'

@@ -77,6 +77,8 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
   include Rack::Test::Methods
   include ApiSpecHelper
 
+  after(:all) { clean_database }
+
   def valid_cclf_json?(response)
     expect(response).to be_valid_cclf_claim_json
   end
@@ -88,8 +90,6 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     claim.save!
     claim.reload
   end
-
-  after(:all) { clean_database }
 
   let(:case_worker) { create(:case_worker, :admin) }
   let(:case_type) { create(:case_type, :trial) }
@@ -197,10 +197,10 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     end
 
     context 'defendants' do
+      subject(:response) { do_request.body }
+
       let(:defendants) { create_list(:defendant, 2) }
       let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type:, defendants:) }
-
-      subject(:response) { do_request.body }
 
       it 'returns multiple defendants' do
         is_expected.to have_json_size(2).at_path('defendants')
@@ -211,12 +211,12 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       end
 
       context 'representation orders' do
-        let(:defendants) {
+        let(:defendants) do
           [
             create(:defendant, representation_orders: create_list(:representation_order, 2, representation_order_date: 5.days.ago)),
             create(:defendant, representation_orders: [create(:representation_order, representation_order_date: 2.days.ago)])
           ]
-        }
+        end
 
         it 'returns the earliest of the representation orders' do
           is_expected.to have_json_size(1).at_path('defendants/0/representation_orders')

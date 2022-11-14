@@ -63,10 +63,10 @@ VCR.configure do |c|
   # path and query but not host because laa-fee-calculator
   # host could change and responses are path and query specific
   #
-  c.register_request_matcher :path_query_matcher do |request_1, request_2|
-    uri_1 = URI(request_1.uri)
-    uri_2 = URI(request_2.uri)
-    [uri_1.path == uri_2.path, uri_1.query == uri_2.query].all?
+  c.register_request_matcher :path_query_matcher do |request1, request2|
+    uri1 = URI(request1.uri)
+    uri2 = URI(request2.uri)
+    [uri1.path == uri2.path, uri1.query == uri2.query].all?
   end
 end
 
@@ -78,10 +78,10 @@ VCR.turn_off!(ignore_cassettes: true) if ENV['VCR_OFF']
 # in the cassette library under a directory structure
 # mirroring the specs'.
 RSpec.configure do |config|
-  config.around(:each, [:fee_calc_vcr, :currency_vcr]) do |example|
+  config.around(:each, %i[fee_calc_vcr currency_vcr]) do |example|
     if VCR.turned_on?
       cassette = Pathname.new(example.metadata[:file_path]).cleanpath.sub_ext('').to_s
-      VCR.use_cassette(cassette, record: :new_episodes, match_requests_on: [:method, :path_query_matcher]) do
+      VCR.use_cassette(cassette, record: :new_episodes, match_requests_on: %i[method path_query_matcher]) do
         example.run
       end
     else

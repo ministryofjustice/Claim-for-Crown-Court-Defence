@@ -11,10 +11,10 @@ RSpec::Matchers.define :include_table_headers do |*expected|
   end
 
   failure_message do |actual|
-    failures = @results.select { |_k, v| !v }
-    msg = failures.each_with_object('Column headers not found:') do |(text, _value), msg|
+    failures = @results.reject { |_k, v| v }
+    message = failures.each_with_object('Column headers not found:') do |(text, _value), msg|
       msg << "\n- #{text}"
     end
-    msg << "\n\nIn HTML:\n\n#{actual.native.to_html}"
+    message << "\n\nIn HTML:\n\n#{actual.native.to_html}"
   end
 end

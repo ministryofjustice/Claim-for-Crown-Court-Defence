@@ -99,25 +99,6 @@ Lint/RedundantSafeNavigation:
     - 'app/controllers/provider_management/external_users_controller.rb'
     - 'app/presenters/expense_presenter.rb'
 
-# Offense count: 3
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - 'spec/lib/geckoboard_publisher/injections_report_spec.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/support/matchers/view_matchers.rb'
-
-# Offense count: 2
-Lint/StructNewOverride:
-  Exclude:
-    - 'app/services/claims/value_bands.rb'
-
-# Offense count: 1
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods, IgnoreNotImplementedMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'spec/support/view_spec_helpers.rb'
-
 # Offense count: 2
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Lint/UselessMethodDefinition:
@@ -462,7 +443,6 @@ Naming/VariableNumber:
     - 'spec/support/shared_examples/validators/shared_examples_for_advocate_claim_validators.rb'
     - 'spec/validators/claim/advocate_claim_validator_spec.rb'
     - 'spec/validators/claim/advocate_hardship_claim_validator_spec.rb'
-    - 'spec/vcr_helper.rb'
 
 # Offense count: 4
 # Configuration parameters: MinSize.
@@ -925,7 +905,6 @@ RSpec/ExampleLength:
     - 'spec/controllers/vat_rates_controller_spec.rb'
     - 'spec/helpers/case_workers/claims_helper_spec.rb'
     - 'spec/lib/caching/api_request_spec.rb'
-    - 'spec/lib/geckoboard_publisher/injections_report_spec.rb'
     - 'spec/lib/geckoboard_publisher/travel_automation_report_spec.rb'
     - 'spec/lib/gov_uk/date_accessor_spec.rb'
     - 'spec/lib/working_day_calculator_spec.rb'
@@ -1606,7 +1585,6 @@ RSpec/NamedSubject:
     - 'spec/controllers/provider_management/providers_controller_spec.rb'
     - 'spec/controllers/super_admins/admin/super_admins_controller_spec.rb'
     - 'spec/lib/caching/api_request_spec.rb'
-    - 'spec/lib/geckoboard_publisher/injections_report_spec.rb'
     - 'spec/lib/geckoboard_publisher/providers_report_spec.rb'
     - 'spec/lib/geckoboard_publisher/travel_automation_report_spec.rb'
     - 'spec/lib/google_analytics/api_spec.rb'
@@ -2589,18 +2567,8 @@ Style/CommentAnnotation:
   Exclude:
     - 'app/models/claims/sort.rb'
     - 'app/models/fee/base_fee.rb'
-    - 'spec/i18n_spec.rb'
     - 'spec/models/claims/financial_summary_spec.rb'
     - 'spec/services/claims/case_worker_claim_updater_spec.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, SingleLineConditionsOnly, IncludeTernaryExpressions.
-# SupportedStyles: assign_to_condition, assign_inside_condition
-Style/ConditionalAssignment:
-  Exclude:
-    - 'spec/rails_helper.rb'
-    - 'spec/support/view_spec_helpers.rb'
 
 # Offense count: 2
 Style/DocumentDynamicEvalDefinition:
@@ -2615,27 +2583,12 @@ Style/EmptyLiteral:
     - 'spec/lib/caching/response_spec.rb'
     - 'spec/models/external_user_spec.rb'
 
-# Offense count: 3
-# This cop supports safe autocorrection (--autocorrect).
-Style/ExpandPathArguments:
-  Exclude:
-    - 'spec/rails_helper.rb'
-    - 'spec/spec_helper.rb'
-
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
 Style/ExplicitBlockArgument:
   Exclude:
     - 'app/presenters/determination_presenter.rb'
     - 'spec/factories/claim/base_claims.rb'
-
-# Offense count: 2
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: format, sprintf, percent
-Style/FormatString:
-  Exclude:
-    - 'spec/support/claim_api_endpoints.rb'
 
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -2692,7 +2645,6 @@ Style/InverseMethods:
   Exclude:
     - 'spec/api/v1/external_users/claims/integration/advocate_claim_creation_spec.rb'
     - 'spec/api/v1/external_users/claims/integration/litigator_claim_creation_spec.rb'
-    - 'spec/support/matchers/view_matchers.rb'
 
 # Offense count: 3
 # This cop supports safe autocorrection (--autocorrect).
@@ -2709,7 +2661,6 @@ Style/MethodCallWithoutArgsParentheses:
     - 'spec/form_builders/adp_text_field_spec.rb'
     - 'spec/lib/rule/validator_spec.rb'
     - 'spec/models/google_analytics/data_tracking_spec.rb'
-    - 'spec/support/view_spec_helpers.rb'
 
 # Offense count: 1
 Style/MixinUsage:
@@ -2736,15 +2687,6 @@ Style/MutableConstant:
     - 'spec/services/claims/fee_calculator/fee_type_limit_spec.rb'
     - 'spec/services/claims/fee_calculator/graduated_price_spec.rb'
     - 'spec/services/claims/fetch_eligible_fixed_fee_types_spec.rb'
-    - 'spec/support/claim_api_endpoints.rb'
-
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: both, prefix, postfix
-Style/NegatedIf:
-  Exclude:
-    - 'spec/support/matchers/custom_matchers.rb'
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
@@ -2989,9 +2931,7 @@ Style/SymbolArray:
     - 'spec/models/fee/base_fee_spec.rb'
     - 'spec/presenters/interim_fee_presenter_spec.rb'
     - 'spec/services/claims/context_mapper_spec.rb'
-    - 'spec/support/claim_api_endpoints.rb'
     - 'spec/validators/claim/shared_examples_for_advocate_litigator.rb'
-    - 'spec/vcr_helper.rb'
 
 # Offense count: 6
 # This cop supports unsafe autocorrection (--autocorrect-all).

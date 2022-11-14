@@ -6,7 +6,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
   # NOTE: calls to api.geckoboard.com are stubbed in rails_helper in case future reports are generated
 
   describe '#fields' do
-    subject { described_class.new.fields.map { |field| [field.class, field.id, field.name] } }
+    subject(:fields) { described_class.new.fields.map { |field| [field.class, field.id, field.name] } }
 
     let(:expected_fields) do
       [
@@ -26,7 +26,7 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
   end
 
   describe '#items' do
-    subject { described_class.new.items }
+    subject(:items) { described_class.new.items }
 
     let(:expected_items) do
       [
@@ -99,35 +99,35 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
     include_examples 'returns valid items structure'
 
     it 'returns dates to day precision in ISO 8601 format - YYYY-MM-DD' do
-      expect(subject.first[:date]).to match(/^(\d{4}-(0[1-9]|1[0-2])-((0[1-9]|[12]\d)|3[01]))$/)
+      expect(items.first[:date]).to match(/^(\d{4}-(0[1-9]|1[0-2])-((0[1-9]|[12]\d)|3[01]))$/)
     end
 
     context 'when run without parameters' do
-      it 'returns expected data item count' do
-        expect(subject.size).to eq 1
+      let(:expected_items) do
+        [
+          {
+            date: Date.yesterday.to_s(:db),
+            total_ccr_succeeded: 0,
+            total_ccr: 0,
+            percentage_ccr_succeeded: 0.0,
+            total_cclf_succeeded: 0,
+            total_cclf: 0,
+            percentage_cclf_succeeded: 0.0,
+            total_succeeded: 0,
+            total: 0
+          }
+        ]
       end
 
-      it do
-        is_expected.to match_array(
-          [
-            {
-              date: Date.yesterday.to_s(:db),
-              total_ccr_succeeded: 0,
-              total_ccr: 0,
-              percentage_ccr_succeeded: 0.0,
-              total_cclf_succeeded: 0,
-              total_cclf: 0,
-              percentage_cclf_succeeded: 0.0,
-              total_succeeded: 0,
-              total: 0
-            }
-          ]
-        )
+      it 'returns expected data item count' do
+        expect(items.size).to eq 1
       end
+
+      it { is_expected.to match_array(expected_items) }
     end
 
     context 'when run with parameters' do
-      subject { described_class.new(start_date, end_date).items }
+      subject(:items) { described_class.new(start_date, end_date).items }
 
       let(:start_date) { Date.new(2017, 3, 19) }
       let(:end_date) { Date.new(2017, 3, 21) }
@@ -140,12 +140,12 @@ RSpec.describe GeckoboardPublisher::InjectionsReport, geckoboard: true do
       end
 
       it 'excludes errors that are considered warnings' do
-        item = expected_items.find { |item| item[:date].eql?(start_date.to_s(:db)) }
-        expect(item[:total]).to eql(total_excluding_error)
+        expected_item = expected_items.find { |item| item[:date].eql?(start_date.to_s(:db)) }
+        expect(expected_item[:total]).to eql(total_excluding_error)
       end
 
       it 'returns expected data item count' do
-        expect(subject.size).to eq 3
+        expect(items.size).to eq 3
       end
 
       it 'returns the expected items' do

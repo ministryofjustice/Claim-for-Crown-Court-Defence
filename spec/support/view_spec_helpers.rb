@@ -10,7 +10,7 @@
 
 module ViewSpecHelper
   module ControllerViewHelpers
-    def current_user_persona_is?(klass)
+    def current_user_persona_is?(_klass)
       raise 'Stub current_user if you want to test the behavior.'
     end
   end
@@ -20,18 +20,18 @@ module ViewSpecHelper
   end
 
   def within(selector)
-    if scopes.empty?
-      scopes << Capybara.string(rendered).find(selector)
-    else
-      scopes << rendered.find(selector)
-    end
+    scopes << if scopes.empty?
+                Capybara.string(rendered).find(selector)
+              else
+                rendered.find(selector)
+              end
     yield rendered
   ensure
     scopes.pop
   end
 
   def rendered
-    scopes.last() || @rendered
+    scopes.last || @rendered
   end
 
   def scopes

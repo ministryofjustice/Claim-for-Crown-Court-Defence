@@ -53,7 +53,7 @@ ENV['RAILS_ENV'] ||= 'test'
 ENV['ADP_API_USER'] = 'api_user'
 ENV['ADP_API_PASS'] = 'api_password'
 require 'spec_helper'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -107,8 +107,8 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = false
 
-  Shoulda::Matchers.configure do |config|
-    config.integrate do |with|
+  Shoulda::Matchers.configure do |shoulda_matchers_config|
+    shoulda_matchers_config.integrate do |with|
       with.test_framework :rspec
       with.library :rails
     end
@@ -177,11 +177,11 @@ RSpec.configure do |config|
   end
 
   config.before do |example|
-    if example.metadata[:delete]
-      DatabaseCleaner.strategy = :truncation, { except: ['vat_rates'] }
-    else
-      DatabaseCleaner.strategy = :transaction
-    end
+    DatabaseCleaner.strategy = if example.metadata[:delete]
+                                 [:truncation, { except: ['vat_rates'] }]
+                               else
+                                 :transaction
+                               end
     DatabaseCleaner.start unless example.metadata[:no_database_cleaner]
   end
 

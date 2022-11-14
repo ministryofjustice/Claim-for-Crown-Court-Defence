@@ -1,6 +1,6 @@
 module Claims
   class ValueBands
-    Struct.new('ValueBandDefinition', :id, :name, :min, :max)
+    Struct.new('ValueBandDefinition', :id, :name, :minimum, :maximum)
 
     VALUE_BANDS = {
       10 => Struct::ValueBandDefinition.new(10, '£30,000 or less', 0.0, 30_000.0),
@@ -15,7 +15,7 @@ module Claims
 
     def self.band_id_for_value(value)
       VALUE_BANDS.each do |band_id, band|
-        next if value > band.max
+        next if value > band.maximum
         return band_id
       end
       raise 'Maximum band value exceeded'

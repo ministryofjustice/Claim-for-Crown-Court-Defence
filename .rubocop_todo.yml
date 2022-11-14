@@ -453,7 +453,6 @@ Naming/VariableNumber:
     - 'spec/support/shared_examples/validators/shared_examples_for_advocate_claim_validators.rb'
     - 'spec/validators/claim/advocate_claim_validator_spec.rb'
     - 'spec/validators/claim/advocate_hardship_claim_validator_spec.rb'
-    - 'spec/vcr_helper.rb'
 
 # Offense count: 4
 # Configuration parameters: MinSize.
@@ -2964,7 +2963,6 @@ Style/SymbolArray:
     - 'spec/services/claims/context_mapper_spec.rb'
     - 'spec/support/claim_api_endpoints.rb'
     - 'spec/validators/claim/shared_examples_for_advocate_litigator.rb'
-    - 'spec/vcr_helper.rb'
 
 # Offense count: 6
 # This cop supports unsafe autocorrection (--autocorrect-all).

@@ -157,6 +157,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       it { is_expected.to expose :retrial_started_at }
       it { is_expected.to expose :case_concluded_at }
       it { is_expected.to expose :last_submitted_at }
+      it { is_expected.to expose :main_hearing_date }
       it { is_expected.to expose :actual_trial_Length }
       it { is_expected.to expose :case_type }
       it { is_expected.to expose :offence }

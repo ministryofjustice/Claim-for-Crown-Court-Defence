@@ -79,10 +79,6 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
   after(:all) { clean_database }
 
-  def valid_cclf_json?(response)
-    expect(response).to be_valid_cclf_claim_json
-  end
-
   def create_claim(*args)
     # TODO: this should not require build + save + reload
     # understand what the factory is doing to solve this
@@ -103,13 +99,6 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     include_examples 'returns LGFS claim type', :litigator_claim
     include_examples 'returns LGFS claim type', :interim_claim
     include_examples 'returns LGFS claim type', :transfer_claim
-
-    it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
-      header 'Accept-Version', 'v1'
-      do_request
-      expect(last_response.status).to eq 406
-      expect(last_response.body).to include('The requested version is not supported.')
-    end
 
     it 'requires an API key' do
       do_request(api_key: nil)
@@ -141,10 +130,17 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       end
     end
 
+    it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
+      header 'Accept-Version', 'v1'
+      do_request
+      expect(last_response.status).to eq 406
+      expect(last_response.body).to include('The requested version is not supported.')
+    end
+
     context 'JSON response' do
       subject(:response) { do_request }
 
-      it { valid_cclf_json?(response) }
+      it { expect(response).to be_valid_cclf_claim_json }
     end
 
     context 'claim' do
@@ -196,35 +192,15 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
       end
     end
 
-    context 'defendants' do
-      subject(:response) { do_request.body }
-
-      let(:defendants) { create_list(:defendant, 2) }
-      let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type:, defendants:) }
-
-      it 'returns multiple defendants' do
-        is_expected.to have_json_size(2).at_path('defendants')
-      end
-
-      it 'returns defendants in order created marking earliest created as the "main" defendant' do
-        is_expected.to be_json_eql('true').at_path('defendants/0/main_defendant')
-      end
-
-      context 'representation orders' do
-        let(:defendants) do
-          [
-            create(:defendant, representation_orders: create_list(:representation_order, 2, representation_order_date: 5.days.ago)),
-            create(:defendant, representation_orders: [create(:representation_order, representation_order_date: 2.days.ago)])
-          ]
-        end
-
-        it 'returns the earliest of the representation orders' do
-          is_expected.to have_json_size(1).at_path('defendants/0/representation_orders')
-        end
-
-        it 'returns earliest rep order first (per defendant)' do
-          is_expected.to be_json_eql(claim.earliest_representation_order_date.to_json).at_path('defendants/0/representation_orders/0/representation_order_date')
-        end
+    it_behaves_like 'injection data with defendants' do
+      let(:claim) do
+        create_claim(
+          :litigator_claim,
+          :without_fees,
+          :submitted,
+          case_type:,
+          defendants:
+        )
       end
     end
 
@@ -255,7 +231,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             let(:graduated_fee) { create(:graduated_fee, fee_type: grtrl, quantity: 1000) }
             let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_grtrl, graduated_fee:) }
 
-            it { valid_cclf_json?(response) }
+            it { expect(response).to be_valid_cclf_claim_json }
 
             it_behaves_like 'litigator fee bill'
 
@@ -276,7 +252,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             let(:fixed_fee) { create(:fixed_fee, :lgfs, fee_type: fxcbr) }
             let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, fixed_fee:) }
 
-            it { valid_cclf_json?(response) }
+            it { expect(response).to be_valid_cclf_claim_json }
 
             it_behaves_like 'litigator fee bill'
           end
@@ -293,7 +269,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             context 'with a mappable fee type - Special preparation' do
               let(:fee_type) { create(:misc_fee_type, :lgfs, :mispf) }
 
-              it { valid_cclf_json?(response) }
+              it { expect(response).to be_valid_cclf_claim_json }
 
               it 'returns array containing fee bill' do
                 is_expected.to have_json_size(1).at_path('bills')
@@ -322,7 +298,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             let(:warrant_fee) { create(:warrant_fee, fee_type: warr) }
             let(:claim) { create_claim(:litigator_claim, :without_fees, :submitted, case_type: case_type_fxcbr, warrant_fee:) }
 
-            it { valid_cclf_json?(response) }
+            it { expect(response).to be_valid_cclf_claim_json }
 
             it 'returns array containing the bill' do
               is_expected.to have_json_size(1).at_path('bills')
@@ -343,7 +319,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
               allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXACV'
             end
 
-            it { valid_cclf_json?(response) }
+            it { expect(response).to be_valid_cclf_claim_json }
 
             it 'returns array containing fee bill' do
               is_expected.to have_json_size(1).at_path('bills')
@@ -360,7 +336,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
               allow_any_instance_of(CaseType).to receive(:fee_type_code).and_return 'FXCBR'
             end
 
-            it { valid_cclf_json?(response) }
+            it { expect(response).to be_valid_cclf_claim_json }
 
             it 'returns array containing fee bill' do
               is_expected.to have_json_size(1).at_path('bills')
@@ -384,7 +360,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         context 'when interim fee exists, other than interim warrant or disbursement only' do
           let(:claim) { create(:interim_claim, :interim_effective_pcmh_fee, :submitted) }
 
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it_behaves_like 'litigator fee bill'
 
@@ -400,7 +376,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           let(:disbursement) { build(:disbursement, disbursement_type: forensic) }
           let(:claim) { create_claim(:interim_claim, :disbursement_only_fee, :submitted, case_type:, disbursements: [disbursement]) }
 
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it 'returns array containing fee bill' do
             is_expected.to have_json_size(1).at_path('bills')
@@ -413,7 +389,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         context 'when interim warrant fee exists' do
           let(:claim) { create(:interim_claim, :interim_warrant_fee, :submitted, case_type:) }
 
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it 'returns array containing the bill' do
             is_expected.to have_json_size(1).at_path('bills')
@@ -431,7 +407,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
               create(:expense, :bike_travel, claim:, amount: 9.99, vat_amount: 1.99)
             end
 
-            it { valid_cclf_json?(response) }
+            it { expect(response).to be_valid_cclf_claim_json }
 
             it 'returns array containing 2 bills' do
               is_expected.to have_json_size(2).at_path('bills')
@@ -446,7 +422,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         let(:claim) { create(:transfer_claim, :with_transfer_detail, :submitted) }
 
         context 'when transfer fee, alone, exists' do
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it_behaves_like 'litigator fee bill'
 
@@ -466,7 +442,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             end
           end
 
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it 'returns array containing 2 bill' do
             is_expected.to have_json_size(2).at_path('bills')
@@ -486,7 +462,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             end
           end
 
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it 'returns array containing 2 bills' do
             is_expected.to have_json_size(2).at_path('bills')
@@ -503,7 +479,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             end
           end
 
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it 'returns array containing 2 bills' do
             is_expected.to have_json_size(2).at_path('bills')
@@ -523,7 +499,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             end
           end
 
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it 'returns array NOT containing misc fee bills' do
             is_expected.to have_json_size(1).at_path('bills')
@@ -536,7 +512,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
         context 'when hardship fee, alone, exists' do
           let(:claim) { create(:litigator_hardship_claim, :submitted, :with_hardship_fee) }
 
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it 'returns array containing 1 bill' do
             is_expected.to have_json_size(1).at_path('bills')
@@ -560,7 +536,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
           end
           let(:fee_type) { build(:misc_fee_type, :lgfs, :mievi) }
 
-          it { valid_cclf_json?(response) }
+          it { expect(response).to be_valid_cclf_claim_json }
 
           it 'returns array containing 2 bills' do
             is_expected.to have_json_size(2).at_path('bills')

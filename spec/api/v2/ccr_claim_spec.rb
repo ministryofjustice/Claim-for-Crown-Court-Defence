@@ -62,37 +62,13 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
     let(:dsl) { Grape::DSL::InsideRoute }
 
-    context 'response statuses' do
-      it 'returns 200, success, and JSON response when existing claim exists and api key authorised' do
-        do_request
-        expect(last_response.status).to eq 200
-        expect(last_response).to be_valid_ccr_claim_json
-      end
+    it_behaves_like 'injection response statuses' do
+      let(:invalid_claim) { create(:litigator_claim, :submitted) }
+    end
 
-      it 'returns 401 when API key not provided' do
-        do_request(api_key: nil)
-        expect(last_response.status).to eq 401
-        expect(last_response.body).to include('Unauthorised')
-      end
-
-      it 'returns 401, Unauthorised when api key is for an external user' do
-        do_request(api_key: claim.external_user.user.api_key)
-        expect(last_response.status).to eq 401
-        expect(last_response.body).to include('Unauthorised')
-      end
-
-      it 'returns 404, Claim not found when claim does not exist' do
-        do_request(claim_uuid: '123-456-789')
-        expect(last_response.status).to eq 404
-        expect(last_response.body).to include('Claim not found')
-      end
-
-      it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
-        header 'Accept-Version', 'v1'
-        do_request
-        expect(last_response.status).to eq 406
-        expect(last_response.body).to include('The requested version is not supported.')
-      end
+    it 'returns valid JSON' do
+      do_request
+      expect(last_response).to be_valid_ccr_claim_json
     end
 
     context 'entities' do

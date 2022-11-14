@@ -100,47 +100,13 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
     include_examples 'returns LGFS claim type', :interim_claim
     include_examples 'returns LGFS claim type', :transfer_claim
 
-    it 'requires an API key' do
-      do_request(api_key: nil)
-      expect(last_response.status).to eq 401
-      expect(last_response.body).to include('Unauthorised')
+    it_behaves_like 'injection response statuses' do
+      let(:invalid_claim) { create(:advocate_claim, :submitted) }
     end
 
-    context 'when accessed by an ExternalUser' do
-      before { do_request(api_key: claim.external_user.user.api_key) }
-
-      it 'returns unauthorised' do
-        expect(last_response.status).to eq 401
-        expect(last_response.body).to include('Unauthorised')
-      end
-    end
-
-    context 'claim not found' do
-      it 'returns not found response when claim uuid does not exist' do
-        do_request(claim_uuid: '123-456-789')
-        expect(last_response.status).to eq 404
-        expect(last_response.body).to include('Claim not found')
-      end
-
-      it 'returns not found response when claim is not an LGFS claim' do
-        claim = create(:advocate_claim, :submitted)
-        do_request(claim_uuid: claim.uuid)
-        is_expected.to eq 404
-        expect(last_response.body).to include('Claim not found')
-      end
-    end
-
-    it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
-      header 'Accept-Version', 'v1'
+    it 'returns valid JSON' do
       do_request
-      expect(last_response.status).to eq 406
-      expect(last_response.body).to include('The requested version is not supported.')
-    end
-
-    context 'JSON response' do
-      subject(:response) { do_request }
-
-      it { expect(response).to be_valid_cclf_claim_json }
+      expect(last_response).to be_valid_cclf_claim_json
     end
 
     context 'claim' do

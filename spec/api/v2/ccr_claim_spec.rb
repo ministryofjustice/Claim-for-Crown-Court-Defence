@@ -18,23 +18,6 @@ RSpec::Matchers.define :be_valid_ccr_claim_json do
   end
 end
 
-RSpec.shared_examples 'base CCR exposed attributes' do
-  it { is_expected.to expose :uuid }
-  it { is_expected.to expose :supplier_number }
-  it { is_expected.to expose :case_number }
-  it { is_expected.to expose :last_submitted_at }
-  it { is_expected.to expose :main_hearing_date }
-  it { is_expected.to expose :advocate_category }
-  it { is_expected.to expose :court }
-  it { is_expected.to expose :defendants }
-  it { is_expected.to expose :actual_trial_Length }
-  it { is_expected.to expose :estimated_trial_length }
-  it { is_expected.to expose :retrial_actual_length }
-  it { is_expected.to expose :retrial_estimated_length }
-  it { is_expected.to expose :additional_information }
-  it { is_expected.to expose :bills }
-end
-
 RSpec.describe API::V2::CCRClaim, feature: :injection do
   include Rack::Test::Methods
   include ApiSpecHelper
@@ -136,18 +119,31 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
     context 'advocate "final" claims' do
       subject(:response) { do_request.body }
 
-      include_examples 'base CCR exposed attributes'
-
+      it { is_expected.to expose :uuid }
+      it { is_expected.to expose :supplier_number }
+      it { is_expected.to expose :case_number }
       it { is_expected.to expose :first_day_of_trial }
       it { is_expected.to expose :trial_fixed_notice_at }
       it { is_expected.to expose :trial_fixed_at }
       it { is_expected.to expose :trial_cracked_at }
       it { is_expected.to expose :retrial_started_at }
       it { is_expected.to expose :trial_cracked_at_third }
+      it { is_expected.to expose :last_submitted_at }
 
+      it { is_expected.to expose :advocate_category }
       it { is_expected.to expose :case_type }
+      it { is_expected.to expose :court }
       it { is_expected.to expose :offence }
+      it { is_expected.to expose :defendants }
       it { is_expected.to expose :retrial_reduction }
+
+      it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :estimated_trial_length }
+      it { is_expected.to expose :retrial_actual_length }
+      it { is_expected.to expose :retrial_estimated_length }
+
+      it { is_expected.to expose :additional_information }
+      it { is_expected.to expose :bills }
     end
 
     context 'advocate interim claim' do
@@ -157,18 +153,31 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       let(:offence) { create(:offence, :with_fee_scheme_ten) }
       let(:claim) { create_claim(:advocate_interim_claim, :without_fees, :submitted, offence:, warrant_fee:) }
 
-      include_examples 'base CCR exposed attributes'
-
+      it { is_expected.to expose :uuid }
+      it { is_expected.to expose :supplier_number }
+      it { is_expected.to expose :case_number }
       it { is_expected.not_to expose :first_day_of_trial }
       it { is_expected.not_to expose :trial_fixed_notice_at }
       it { is_expected.not_to expose :trial_fixed_at }
       it { is_expected.not_to expose :trial_cracked_at }
       it { is_expected.not_to expose :retrial_started_at }
       it { is_expected.not_to expose :trial_cracked_at_third }
+      it { is_expected.to expose :last_submitted_at }
 
+      it { is_expected.to expose :advocate_category }
       it { is_expected.to expose :case_type }
+      it { is_expected.to expose :court }
       it { is_expected.to expose :offence }
+      it { is_expected.to expose :defendants }
       it { is_expected.not_to expose :retrial_reduction }
+
+      it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :estimated_trial_length }
+      it { is_expected.to expose :retrial_actual_length }
+      it { is_expected.to expose :retrial_estimated_length }
+
+      it { is_expected.to expose :additional_information }
+      it { is_expected.to expose :bills }
     end
 
     context 'advocate supplementary claim' do
@@ -176,18 +185,31 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
       let(:claim) { create_claim(:advocate_supplementary_claim, :submitted) }
 
-      include_examples 'base CCR exposed attributes'
-
+      it { is_expected.to expose :uuid }
+      it { is_expected.to expose :supplier_number }
+      it { is_expected.to expose :case_number }
       it { is_expected.not_to expose :first_day_of_trial }
       it { is_expected.not_to expose :trial_fixed_notice_at }
       it { is_expected.not_to expose :trial_fixed_at }
       it { is_expected.not_to expose :trial_cracked_at }
       it { is_expected.not_to expose :retrial_started_at }
       it { is_expected.not_to expose :trial_cracked_at_third }
+      it { is_expected.to expose :last_submitted_at }
 
+      it { is_expected.to expose :advocate_category }
       it { is_expected.to expose :case_type }
+      it { is_expected.to expose :court }
       it { is_expected.not_to expose :offence }
+      it { is_expected.to expose :defendants }
       it { is_expected.not_to expose :retrial_reduction }
+
+      it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :estimated_trial_length }
+      it { is_expected.to expose :retrial_actual_length }
+      it { is_expected.to expose :retrial_estimated_length }
+
+      it { is_expected.to expose :additional_information }
+      it { is_expected.to expose :bills }
     end
 
     context 'advocate hardship claims' do
@@ -195,17 +217,32 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
       let(:claim) { create(:advocate_hardship_claim, case_stage: build(:case_stage, :trial_not_concluded)) }
 
-      include_examples 'base CCR exposed attributes'
-
+      it { is_expected.to expose :uuid }
+      it { is_expected.to expose :supplier_number }
+      it { is_expected.to expose :case_number }
       it { is_expected.to expose :first_day_of_trial }
       it { is_expected.to expose :trial_fixed_notice_at }
       it { is_expected.to expose :trial_fixed_at }
       it { is_expected.to expose :trial_cracked_at }
       it { is_expected.to expose :retrial_started_at }
       it { is_expected.to expose :trial_cracked_at_third }
+      it { is_expected.to expose :last_submitted_at }
+
+      it { is_expected.to expose :advocate_category }
       it { is_expected.to expose :case_type }
+      it { is_expected.to expose :court }
       it { is_expected.to expose :offence }
+      it { is_expected.to expose :defendants }
       it { is_expected.to expose :retrial_reduction }
+
+      it { is_expected.to expose :actual_trial_Length }
+      it { is_expected.to expose :estimated_trial_length }
+      it { is_expected.to expose :retrial_actual_length }
+      it { is_expected.to expose :retrial_estimated_length }
+
+      it { is_expected.to expose :additional_information }
+
+      it { is_expected.to expose :bills }
       it { is_expected.to have_json_size(1).at_path('bills') }
     end
 
@@ -224,12 +261,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       context 'representation orders' do
-        let(:defendants) do
+        let(:defendants) {
           [
             create(:defendant, representation_orders: create_list(:representation_order, 2, representation_order_date: 5.days.ago)),
             create(:defendant, representation_orders: [create(:representation_order, representation_order_date: 2.days.ago)])
           ]
-        end
+        }
 
         it 'returns the earliest of the representation orders' do
           is_expected.to have_json_size(1).at_path('defendants/0/representation_orders')
@@ -283,7 +320,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           let(:basic_fee) { build(:basic_fee, :pcm_fee, quantity: 2, amount: 2, rate: 1) }
 
           it 'not added to bills array' do
-            expect(response).not_to include('"bill_type":"AGFS_FEE"')
+            expect(response).to_not include('"bill_type":"AGFS_FEE"')
           end
         end
 
@@ -384,12 +421,12 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           end
 
           context 'when there is some defendant uplifts' do
-            let(:basic_fees) do
+            let(:basic_fees) {
               [
                 build(:basic_fee, :baf_fee, quantity: 1),
                 build(:basic_fee, :ndr_fee, quantity: 2)
               ]
-            end
+            }
 
             it 'calculated from sum of Number of defendant uplift fee quantities plus one for main defendant' do
               expect(response).to be_json_eql('3'.to_json).at_path 'bills/0/number_of_defendants'
@@ -423,14 +460,14 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           end
 
           context 'upper bound value' do
-            let(:basic_fees) do
+            let(:basic_fees) {
               [
                 build(:basic_fee, :baf_fee, quantity: 1),
                 build(:basic_fee, :daf_fee, quantity: 38, rate: 1.0),
                 build(:basic_fee, :dah_fee, quantity: 10, rate: 1.0),
                 build(:basic_fee, :daj_fee, quantity: 1, rate: 1.0)
               ]
-            end
+            }
             let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, basic_fees:, misc_fees: [misc_fee], actual_trial_length: 53) }
 
             it 'calculated from Daily Attendanance Fee quantities if they exist' do
@@ -505,7 +542,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
 
           it 'fee does not impact the bill' do
             is_expected.to have_json_size(1).at_path('bills')
-            is_expected.not_to be_json_eql('13'.to_json).at_path 'bills/0/daily_attendances'
+            is_expected.to_not be_json_eql('13'.to_json).at_path 'bills/0/daily_attendances'
           end
         end
 
@@ -567,7 +604,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
             end
 
             it 'consolidated list of UNIQUE additional case numbers for all uplift fees of the applicable variety' do
-              %w[S20170001 S20170002 S20170003].each do |case_number|
+              %w{S20170001 S20170002 S20170003}.each do |case_number|
                 is_expected.to include_json(case_number.to_json).at_path 'bills/0/case_numbers'
               end
             end
@@ -791,7 +828,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           end
 
           it 'does not add CCR advocate fee to bills array' do
-            expect(response).not_to include('"bill_subtype":"AGFS_FEE"')
+            expect(response).to_not include('"bill_subtype":"AGFS_FEE"')
           end
 
           it 'converts CCCD BASAF to CCR misc fee AGFS_STD_APPRNC to bills array' do
@@ -803,7 +840,7 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
           end
 
           it 'ignores CCCD BACAV fee' do
-            expect(response).not_to include('"bill_subtype":"AGFS_CONFERENCE"')
+            expect(response).to_not include('"bill_subtype":"AGFS_CONFERENCE"')
           end
         end
       end

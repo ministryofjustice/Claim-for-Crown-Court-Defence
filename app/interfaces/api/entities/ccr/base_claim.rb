@@ -6,6 +6,7 @@ module API
         expose :supplier_number
         expose :case_number
         expose :last_submitted_at, format_with: :utc
+        expose :main_hearing_date, format_with: :utc
         expose :adapted_advocate_category, as: :advocate_category
         expose :court, using: API::Entities::CCR::Court
         expose :defendants_with_main_first, using: API::Entities::CCR::Defendant, as: :defendants

@@ -2902,10 +2902,10 @@ cyclist@^1.0.1:
   resolved "https://registry.yarnpkg.com/cyclist/-/cyclist-1.0.1.tgz#596e9698fd0c80e12038c2b82d6eb1b35b6224d9"
   integrity sha1-WW6WmP0MgOEgOMK4LW6xs1tiJNk=
 
-datatables.net-buttons-dt@^2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/datatables.net-buttons-dt/-/datatables.net-buttons-dt-2.3.2.tgz#f7c4f9c9e87afaeffd0403d29d339667913eab47"
-  integrity sha512-6GCW3GwiqGxDzVxjz4apgnrQlF9cH6CLyf5csIZ6VqfsFwNhveuetT8J4ccNCda2oRrZoTQtTyR1YnAkCR6NFA==
+datatables.net-buttons-dt@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/datatables.net-buttons-dt/-/datatables.net-buttons-dt-2.3.3.tgz#036c81e4bb4d172f9e51e1790c32db40f82ea135"
+  integrity sha512-1FS1sA5bfJ2JRHeCnwXNIDxmPuTGVj4O3nUkpskJrw5UlMUqDIqDntIOEvyPgvT4p15c7pp23hAv2xR6rfCK1w==
   dependencies:
     datatables.net-buttons ">=2.2.3"
     datatables.net-dt ">=1.12.1"

@@ -62,37 +62,13 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
   describe 'GET /ccr/claim/:uuid?api_key=:api_key' do
     let(:dsl) { Grape::DSL::InsideRoute }
 
-    context 'response statuses' do
-      it 'returns 200, success, and JSON response when existing claim exists and api key authorised' do
-        do_request
-        expect(last_response.status).to eq 200
-        expect(last_response).to be_valid_ccr_claim_json
-      end
+    it_behaves_like 'injection response statuses' do
+      let(:invalid_claim) { create(:litigator_claim, :submitted) }
+    end
 
-      it 'returns 401 when API key not provided' do
-        do_request(api_key: nil)
-        expect(last_response.status).to eq 401
-        expect(last_response.body).to include('Unauthorised')
-      end
-
-      it 'returns 401, Unauthorised when api key is for an external user' do
-        do_request(api_key: claim.external_user.user.api_key)
-        expect(last_response.status).to eq 401
-        expect(last_response.body).to include('Unauthorised')
-      end
-
-      it 'returns 404, Claim not found when claim does not exist' do
-        do_request(claim_uuid: '123-456-789')
-        expect(last_response.status).to eq 404
-        expect(last_response.body).to include('Claim not found')
-      end
-
-      it 'returns 406, Not Acceptable, if requested API version (via header) is not supported' do
-        header 'Accept-Version', 'v1'
-        do_request
-        expect(last_response.status).to eq 406
-        expect(last_response.body).to include('The requested version is not supported.')
-      end
+    it 'returns valid JSON' do
+      do_request
+      expect(last_response).to be_valid_ccr_claim_json
     end
 
     context 'entities' do
@@ -209,35 +185,16 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       it { is_expected.to have_json_size(1).at_path('bills') }
     end
 
-    context 'defendants' do
-      subject(:response) { do_request.body }
-
-      let(:defendants) { create_list(:defendant, 2) }
-      let(:claim) { create_claim(:submitted_claim, :without_fees, case_type:, basic_fees: [basic_fee], misc_fees: [misc_fee], defendants:) }
-
-      it 'returns multiple defendants' do
-        is_expected.to have_json_size(2).at_path('defendants')
-      end
-
-      it 'returns defendants in order created marking earliest created as the "main" defendant' do
-        is_expected.to be_json_eql('true').at_path('defendants/0/main_defendant')
-      end
-
-      context 'representation orders' do
-        let(:defendants) do
-          [
-            create(:defendant, representation_orders: create_list(:representation_order, 2, representation_order_date: 5.days.ago)),
-            create(:defendant, representation_orders: [create(:representation_order, representation_order_date: 2.days.ago)])
-          ]
-        end
-
-        it 'returns the earliest of the representation orders' do
-          is_expected.to have_json_size(1).at_path('defendants/0/representation_orders')
-        end
-
-        it 'returns earliest rep order first (per defendant)' do
-          is_expected.to be_json_eql(claim.earliest_representation_order_date.to_json).at_path('defendants/0/representation_orders/0/representation_order_date')
-        end
+    it_behaves_like 'injection data with defendants' do
+      let(:claim) do
+        create_claim(
+          :submitted_claim,
+          :without_fees,
+          case_type:,
+          basic_fees: [basic_fee],
+          misc_fees: [misc_fee],
+          defendants:
+        )
       end
     end
 

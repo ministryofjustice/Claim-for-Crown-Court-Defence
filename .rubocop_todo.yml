@@ -1131,7 +1131,6 @@ RSpec/IteratedExpectation:
 RSpec/LeadingSubject:
   Exclude:
     - 'spec/api/v1/external_users/claims/advocates/final_claim_spec.rb'
-    - 'spec/api/v2/cclf_claim_spec.rb'
     - 'spec/controllers/case_workers/admin/case_workers_controller_spec.rb'
     - 'spec/controllers/external_users/admin/external_users_controller_spec.rb'
     - 'spec/controllers/external_users/admin/providers_controller_spec.rb'
@@ -2345,7 +2344,6 @@ Style/BlockDelimiters:
     - 'spec/api/entities/offence_spec.rb'
     - 'spec/api/v1/dropdown_data_spec.rb'
     - 'spec/api/v1/external_users/fee_spec.rb'
-    - 'spec/api/v2/cclf_claim_spec.rb'
     - 'spec/api/v2/mi/injection_errors_spec.rb'
     - 'spec/api/v2/search_spec.rb'
     - 'spec/controllers/case_workers/admin/case_workers_controller_spec.rb'

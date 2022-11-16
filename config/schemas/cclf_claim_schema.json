@@ -44,6 +44,10 @@
       "id": "/properties/last_submitted_at",
       "type": ["string","null"]
     },
+    "main_hearing_date": {
+      "id": "/properties/main_hearing_date",
+      "type": ["string","null"]
+    },
     "additional_information": {
       "id": "/properties/additional_information",
       "type": ["string","null"]

@@ -1306,6 +1306,10 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
     context 'when api call fails' do
       let(:claim) { instance_double(::Claim::BaseClaim) }
 
+      before do
+        allow(claim).to receive(:main_hearing_date).and_return(Date.parse('22 November 2022'))
+      end
+
       context 'because of incomplete parameters' do
         let(:params) { { fee_type_id: nil } }
 

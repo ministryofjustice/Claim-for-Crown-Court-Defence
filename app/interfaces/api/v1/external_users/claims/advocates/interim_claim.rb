@@ -27,6 +27,10 @@ module API::V1::ExternalUsers
                    type: String,
                    desc: local_t(:advocate_category),
                    values: Settings.agfs_reform_advocate_categories + ['KC']
+          optional :main_hearing_date,
+                   type: String,
+                   desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',
+                   standard_json_format: true
         end
 
         namespace :advocates do

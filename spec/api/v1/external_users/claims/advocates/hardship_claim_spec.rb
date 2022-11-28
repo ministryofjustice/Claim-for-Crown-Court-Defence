@@ -27,7 +27,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
       actual_trial_length: 9,
       advocate_category: 'Led junior',
       offence_id: offence.id,
-      court_id: court.id
+      court_id: court.id,
+      main_hearing_date: '2020-01-09'
     }
   end
 
@@ -44,9 +45,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
     end
 
     it 'returns 200 when parameters that are optional for hardship claims are empty' do
-      valid_params.delete(:last_day_of_trial)
-      valid_params.delete(:estimated_trial_length)
-      valid_params.delete(:actual_trial_length)
+      valid_params.except!(:last_day_of_trial, :estimated_trial_length, :actual_trial_length, :main_hearing_date)
       post_to_validate_endpoint
       expect(last_response.status).to eq(200)
     end

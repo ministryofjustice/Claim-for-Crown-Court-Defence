@@ -19,7 +19,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
       user_email: advocate.user.email,
       case_number: 'T20191234',
       advocate_category: 'Leading junior',
-      court_id: court.id
+      court_id: court.id,
+      main_hearing_date: '2015-01-01'
     }
   end
 

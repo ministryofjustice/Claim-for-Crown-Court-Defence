@@ -6,12 +6,14 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
 
   FINAL_CLAIM_ENDPOINT = 'advocates/final'.freeze
 
-  let(:claim_class) { Claim::AdvocateClaim }
+  subject(:post_to_validate_endpoint) do
+    post ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate, valid_params, format: :json
+  end
+
+  let(:claim_class)     { Claim::AdvocateClaim }
   let!(:provider)       { create(:provider) }
-  let!(:other_provider) { create(:provider) }
   let!(:vendor)         { create(:external_user, :admin, provider:) }
   let!(:advocate)       { create(:external_user, :advocate, provider:) }
-  let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence) }
   let!(:court)          { create(:court) }
   let!(:valid_params) do
@@ -21,15 +23,15 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       user_email: advocate.user.email,
       case_type_id: create(:case_type, :retrial).id,
       case_number: 'A20161234',
-      first_day_of_trial: "2015-01-01",
+      first_day_of_trial: '2015-01-01',
       estimated_trial_length: 10,
       actual_trial_length: 9,
-      trial_concluded_at: "2015-01-09",
-      retrial_started_at: "2015-02-01",
-      retrial_concluded_at: "2015-02-05",
-      retrial_actual_length: "4",
-      retrial_estimated_length: "5",
-      retrial_reduction: "true",
+      trial_concluded_at: '2015-01-09',
+      retrial_started_at: '2015-02-01',
+      retrial_concluded_at: '2015-02-05',
+      retrial_actual_length: '4',
+      retrial_estimated_length: '5',
+      retrial_reduction: 'true',
       advocate_category: 'Led junior',
       offence_id: offence.id,
       court_id: court.id,
@@ -37,9 +39,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
     }
   end
 
-  subject(:post_to_validate_endpoint) { post ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate, valid_params, format: :json }
-
-  after(:all) { clean_database }
+  after { clean_database }
 
   include_examples 'advocate claim test setup'
   it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
@@ -58,8 +58,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       valid_params[:retrial_concluded_at] = '01-01-2015'
       valid_params[:main_hearing_date] = '01-01-2015'
       post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
       [
         'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
         'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
@@ -70,74 +68,75 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
         'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
         'main_hearing_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
       ].each do |error|
-        expect(body).to include(error)
+        expect(last_response.status).to eq(400)
+        expect(last_response.body).to include(error)
       end
     end
   end
 
   context 'when validating case_number' do
-    it 'returns 400 and JSON error when URN is too long' do
-      valid_params[:case_number] = 'ABCDEFGHIJABCDEFGHIJA'
+    let(:case_number_error) { 'The case number must be a case number (e.g. A20161234) or unique reference number' }
+    let(:case_number_format_error) { 'The case number must be in the format A20161234' }
+
+    before do
+      valid_params[:case_number] = case_number
       post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)')
     end
 
-    it 'returns 400 and JSON error when URN contains a special character' do
-      valid_params[:case_number] = 'ABCDEFGHIJABCDEFGHI_'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)')
+    context 'when URN is too long' do
+      let(:case_number) { 'ABCDEFGHIJABCDEFGHIJA' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_error) }
     end
 
-    it 'returns 400 and JSON error when the case number does not start with a BAST or U' do
-      valid_params[:case_number] = 'G20209876'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be in the format A20161234')
+    context 'when URN contains a special character' do
+      let(:case_number) { 'ABCDEFGHIJABCDEFGHI_' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_error) }
     end
 
-    it 'returns 400 and JSON error when the case number is too long' do
-      valid_params[:case_number] = 'T202098761'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be in the format A20161234')
+    context 'when the case number does not start with a BAST or U' do
+      let(:case_number) { 'G20209876' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_format_error) }
     end
 
-    it 'returns 400 and JSON error when the case number is too short' do
-      valid_params[:case_number] = 'T2020987'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be in the format A20161234')
+    context 'when the case number is too long' do
+      let(:case_number) { 'T202098761' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_format_error) }
     end
 
-    it 'returns 200 and valid when case_number is a valid common platform URN' do
-      valid_params[:case_number] = 'ABCDEFGHIJ1234567890'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(200)
-      body = last_response.body
-      expect(body).to include('valid')
+    context 'when the case number is too short' do
+      let(:case_number) { 'T2020987' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_format_error) }
     end
 
-    it 'returns 200 and valid when the URN is a valid URN containing a year' do
-      valid_params[:case_number] = '120207575'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(200)
-      body = last_response.body
-      expect(body).to include('valid')
+    context 'when case_number is a valid common platform URN' do
+      let(:case_number) { 'ABCDEFGHIJ1234567890' }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response.body).to include('valid') }
     end
 
-    it 'returns 200 and valid when case_number is a valid case number' do
-      valid_params[:case_number] = 'T20202601'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(200)
-      body = last_response.body
-      expect(body).to include('valid')
+    context 'when case_number is a valid URN containing a year' do
+      let(:case_number) { '120207575' }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response.body).to include('valid') }
+    end
+
+    context 'when case_number is a valid case number' do
+      let(:case_number) { 'T20202601' }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response.body).to include('valid') }
     end
   end
 end

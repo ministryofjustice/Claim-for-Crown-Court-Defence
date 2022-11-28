@@ -8,10 +8,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
 
   let(:claim_class) { Claim::AdvocateHardshipClaim }
   let!(:provider)       { create(:provider) }
-  let!(:other_provider) { create(:provider) }
   let!(:vendor)         { create(:external_user, :admin, provider:) }
   let!(:advocate)       { create(:external_user, :advocate, provider:) }
-  let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence) }
   let!(:court)          { create(:court) }
   let!(:valid_params) do
@@ -32,7 +30,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
     }
   end
 
-  after(:all) { clean_database }
+  after { clean_database }
 
   include_examples 'advocate claim test setup'
   it_behaves_like 'a claim endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
@@ -41,7 +39,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
 
   describe "POST #{ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate}" do
     subject(:post_to_validate_endpoint) do
-      post ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate, valid_params, format: :json
+      post ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate, params: valid_params,
+                                                                             session: { format: :json }
     end
 
     it 'returns 200 when parameters that are optional for hardship claims are empty' do

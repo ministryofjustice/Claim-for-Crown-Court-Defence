@@ -8,11 +8,10 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
 
   let(:claim_class) { Claim::AdvocateSupplementaryClaim }
   let!(:provider) { create(:provider) }
-  let!(:other_provider) { create(:provider) }
   let!(:vendor) { create(:external_user, :admin, provider:) }
   let!(:advocate) { create(:external_user, :advocate, provider:) }
   let!(:court) { create(:court) }
-  let!(:valid_params) do
+  let(:valid_params) do
     {
       api_key: provider.api_key,
       creator_email: vendor.user.email,
@@ -24,7 +23,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
     }
   end
 
-  after(:all) { clean_database }
+  after { clean_database }
 
   include_examples 'advocate claim test setup'
   it_behaves_like 'a claim endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT

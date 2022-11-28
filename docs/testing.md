@@ -33,6 +33,13 @@ To execute cucumber feature tests
 bundle exec cucumber
 ```
 
+By default these tests run with a headless browser. To see the tests in a single
+feature file run in a browser use
+
+```bash
+BROWSER=chrome bundle exec cucumber <feature file>
+```
+
 ## API Smoke tests
 
 API smoke tests can be executed with

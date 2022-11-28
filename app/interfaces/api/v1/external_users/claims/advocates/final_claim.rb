@@ -13,14 +13,17 @@ module API::V1::ExternalUsers
             I18n.t(attribute.to_s, scope: i18n_scope)
           end
           use :common_params
+          use :common_trial_params
+          use :common_agfs_params
           use :legacy_agfs_params
           optional :advocate_category,
                    type: String,
                    desc: local_t(:advocate_category),
                    values: (Settings.advocate_categories + Settings.agfs_reform_advocate_categories + ['KC']).uniq
-
-          use :common_trial_params
-          use :common_agfs_params
+          optional :main_hearing_date,
+                   type: String,
+                   desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',
+                   standard_json_format: true
         end
 
         namespace :advocates do

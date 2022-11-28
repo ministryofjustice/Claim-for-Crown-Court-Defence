@@ -32,7 +32,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       retrial_reduction: "true",
       advocate_category: 'Led junior',
       offence_id: offence.id,
-      court_id: court.id
+      court_id: court.id,
+      main_hearing_date: '2015-02-05'
     }
   end
 
@@ -55,6 +56,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       valid_params[:trial_cracked_at] = '01-01-2015'
       valid_params[:retrial_started_at] = '01-01-2015'
       valid_params[:retrial_concluded_at] = '01-01-2015'
+      valid_params[:main_hearing_date] = '01-01-2015'
       post_to_validate_endpoint
       expect(last_response.status).to eq(400)
       body = last_response.body
@@ -65,7 +67,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
         'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
         'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
         'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
+        'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+        'main_hearing_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
       ].each do |error|
         expect(body).to include(error)
       end

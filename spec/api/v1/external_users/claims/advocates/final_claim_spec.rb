@@ -41,35 +41,73 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
 
   after { clean_database }
 
-  include_examples 'advocate claim test setup'
-  it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-  it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-  it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+  context 'when CLAIR contingency functionality is disabled' do
+    before { valid_params.except!(:main_hearing_date) }
 
-  # TODO: write a generic date error handling spec and share
-  describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
-    it 'returns 400 and JSON error when dates are not in acceptable format' do
-      valid_params[:first_day_of_trial] = '01-01-2015'
-      valid_params[:trial_concluded_at] = '09-01-2015'
-      valid_params[:trial_fixed_notice_at] = '01-01-2015'
-      valid_params[:trial_fixed_at] = '01-01-2015'
-      valid_params[:trial_cracked_at] = '01-01-2015'
-      valid_params[:retrial_started_at] = '01-01-2015'
-      valid_params[:retrial_concluded_at] = '01-01-2015'
-      valid_params[:main_hearing_date] = '01-01-2015'
-      post_to_validate_endpoint
-      [
-        'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'main_hearing_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
-      ].each do |error|
-        expect(last_response.status).to eq(400)
-        expect(last_response.body).to include(error)
+    include_examples 'advocate claim test setup'
+    it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+    it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+
+    # TODO: write a generic date error handling spec and share
+    describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
+      it 'returns 400 and JSON error when dates are not in acceptable format' do
+        valid_params[:first_day_of_trial] = '01-01-2015'
+        valid_params[:trial_concluded_at] = '09-01-2015'
+        valid_params[:trial_fixed_notice_at] = '01-01-2015'
+        valid_params[:trial_fixed_at] = '01-01-2015'
+        valid_params[:trial_cracked_at] = '01-01-2015'
+        valid_params[:retrial_started_at] = '01-01-2015'
+        valid_params[:retrial_concluded_at] = '01-01-2015'
+        post_to_validate_endpoint
+        [
+          'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
+        ].each do |error|
+          expect(last_response.status).to eq(400)
+          expect(last_response.body).to include(error)
+        end
+      end
+    end
+  end
+
+  context 'when CLAIR contingency functionality is enabled',
+          skip: 'Skipped pending removal of the main_hearing_date feature flag' do
+    include_examples 'advocate claim test setup'
+    it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+    it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+
+    # TODO: write a generic date error handling spec and share
+    describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
+      it 'returns 400 and JSON error when dates are not in acceptable format' do
+        valid_params[:first_day_of_trial] = '01-01-2015'
+        valid_params[:trial_concluded_at] = '09-01-2015'
+        valid_params[:trial_fixed_notice_at] = '01-01-2015'
+        valid_params[:trial_fixed_at] = '01-01-2015'
+        valid_params[:trial_cracked_at] = '01-01-2015'
+        valid_params[:retrial_started_at] = '01-01-2015'
+        valid_params[:retrial_concluded_at] = '01-01-2015'
+        valid_params[:main_hearing_date] = '01-01-2015'
+        post_to_validate_endpoint
+        [
+          'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
+          'main_hearing_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
+        ].each do |error|
+          expect(last_response.status).to eq(400)
+          expect(last_response.body).to include(error)
+        end
       end
     end
   end

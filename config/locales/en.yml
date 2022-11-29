@@ -988,6 +988,7 @@ en:
           court: 'Court'
           court_hint: For example Cardiff
           cracked_trial_detail: 'Cracked trial detail'
+          date_hint: For example, 31 9 2022
           litigator: *litigator
           main_hearing_date: 'Main hearing date'
           offence_class: 'Offence class'

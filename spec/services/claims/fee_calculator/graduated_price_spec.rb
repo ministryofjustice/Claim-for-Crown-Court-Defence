@@ -553,6 +553,26 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             it_returns 'a successful fee calculator response', amount: 9873.00
           end
         end
+
+        context 'scheme CLAIR contingency' do
+          let(:offence_band) { create(:offence_band, description: '1.1') }
+          let(:offence) { create(:offence, :with_fee_scheme_thirteen, offence_band:) }
+          let(:claim) do
+            create(
+              :draft_claim,
+              create_defendant_and_rep_order_for_scheme_12: true,
+              main_hearing_date: Date.parse('31 October 2022'),
+              case_type:, offence:
+            )
+          end
+          let(:params) { { fee_type_id: fee_type.id, advocate_category: 'Junior', days: 1 } }
+
+          context 'trial' do
+            let(:case_type) { create(:case_type, :trial) }
+
+            it_returns 'a successful fee calculator response', amount: 9873.00
+          end
+        end
       end
 
       context 'Pages of prosecuting evidence (PPE) fee' do
@@ -1305,6 +1325,10 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
 
     context 'when api call fails' do
       let(:claim) { instance_double(::Claim::BaseClaim) }
+
+      before do
+        allow(claim).to receive(:main_hearing_date).and_return(Date.parse('22 November 2022'))
+      end
 
       context 'because of incomplete parameters' do
         let(:params) { { fee_type_id: nil } }

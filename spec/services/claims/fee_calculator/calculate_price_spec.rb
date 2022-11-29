@@ -32,6 +32,7 @@ RSpec.describe Claims::FeeCalculator::CalculatePrice do
 
   it { is_expected.to respond_to(:call) }
   it { is_expected.to delegate_method(:earliest_representation_order_date).to(:claim) }
+  it { is_expected.to delegate_method(:main_hearing_date).to(:claim) }
   it { is_expected.to delegate_method(:agfs?).to(:claim) }
   it { is_expected.to delegate_method(:lgfs?).to(:claim) }
   it { is_expected.to delegate_method(:interim?).to(:claim) }

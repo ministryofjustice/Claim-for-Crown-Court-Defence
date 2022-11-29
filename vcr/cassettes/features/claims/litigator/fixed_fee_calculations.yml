@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2016-04-01&type=LGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2016-04-01&main_hearing_date&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -10,7 +10,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.2.0
+      - laa-fee-calculator-client/1.4.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -19,26 +19,32 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 21 Mar 2022 17:55:13 GMT
+      - Mon, 28 Nov 2022 11:22:55 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '156'
+      - '198'
       Connection:
       - keep-alive
       Vary:
       - Accept, Origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
       X-Frame-Options:
-      - SAMEORIGIN
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":null,"type":"LGFS","description":"LGFS
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-  recorded_at: Mon, 21 Mar 2022 17:55:13 GMT
+  recorded_at: Mon, 28 Nov 2022 11:22:55 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -49,7 +55,7 @@ http_interactions:
       Accept:
       - application/json
       User-Agent:
-      - laa-fee-calculator-client/1.2.0
+      - laa-fee-calculator-client/1.4.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
   response:
@@ -58,7 +64,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 21 Mar 2022 17:55:13 GMT
+      - Mon, 28 Nov 2022 11:22:55 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -69,8 +75,14 @@ http_interactions:
       - Accept, Origin, Cookie
       Allow:
       - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
       X-Frame-Options:
-      - SAMEORIGIN
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
       Strict-Transport-Security:
       - max-age=15724800; includeSubDomains
     body:
@@ -119,48 +131,10 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Mon, 21 Mar 2022 17:55:13 GMT
+  recorded_at: Mon, 28 Nov 2022 11:22:55 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/prices/?fee_type_code=LIT_FEE&limit_from=0&offence_class=H&scenario=8
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.2.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 21 Mar 2022 17:55:13 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '272'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      X-Frame-Options:
-      - SAMEORIGIN
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":60505,"scenario":8,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"116.49000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 21 Mar 2022 17:55:13 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&type=LGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -177,11 +151,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 25 Jul 2022 17:33:21 GMT
+      - Mon, 28 Nov 2022 11:22:55 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '169'
+      - '272'
       Connection:
       - keep-alive
       Vary:
@@ -200,7 +174,51 @@ http_interactions:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":6,"start_date":"2022-09-30","end_date":null,"type":"LGFS","description":"LGFS
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":60505,"scenario":8,"advocate_type":null,"fee_type":54,"offence_class":"H","scheme":2,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"116.49000","limit_from":0,"limit_to":null,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Mon, 28 Nov 2022 11:22:55 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&main_hearing_date&type=LGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 28 Nov 2022 11:29:22 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '203'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":6,"start_date":"2022-09-30","end_date":null,"earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 10 (2022-09 - CLAIR)"}]}'
   recorded_at: Sat, 29 Oct 2022 23:00:00 GMT
 - request:
@@ -222,7 +240,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 25 Jul 2022 17:33:21 GMT
+      - Mon, 28 Nov 2022 11:29:22 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -309,7 +327,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 25 Jul 2022 17:33:22 GMT
+      - Mon, 28 Nov 2022 11:29:22 GMT
       Content-Type:
       - application/json
       Content-Length:

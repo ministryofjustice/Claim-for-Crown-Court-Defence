@@ -139,7 +139,7 @@ RSpec.shared_examples 'a successful plea and trial preparation fee calculation' 
 
       before { params.merge!(advocate_category: 'Junior') }
 
-      it_returns 'a successful fee calculator response', unit: 'case', amount: 125.00
+      it_returns 'a successful fee calculator response', unit: 'hearing', amount: 125.00
     end
   end
 end

@@ -86,6 +86,10 @@
 
           = govuk_summary_list_row_collection( t('retrial_reduction', scope: retrial_detail_fields) ) { claim&.retrial_reduction? ? t('.answer_yes') : t('.answer_no') }
 
+      = govuk_summary_list_row_collection( t('main_hearing_date',scope: claim_fields) ) do
+        %time{ 'aria-label': claim&.main_hearing_date&.strftime(Settings.date_format_label), datetime: claim&.main_hearing_date&.strftime(Settings.datetime_attribute) }
+          = claim&.main_hearing_date&.strftime(Settings.date_format)
+
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]
       = render partial: 'external_users/claims/summary/section_status', locals: { claim: claim, section: section, step: :case_details }

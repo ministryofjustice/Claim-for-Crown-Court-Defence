@@ -24,11 +24,12 @@
     label: { text: t('.case_number_or_urn') },
     width: 'one-half'
 
-  = f.govuk_date_field :main_hearing_date,
-    form_group: { id: 'main_hearing_date' },
-    hint: { text: t('.date_hint') },
-    legend: { text: t('.main_hearing_date'), size: 's' },
-    maxlength_enabled: true
+  - if Settings.main_hearing_date_enabled?
+    = f.govuk_date_field :main_hearing_date,
+      form_group: { id: 'main_hearing_date' },
+      hint: { text: t('.date_hint') },
+      legend: { text: t('.main_hearing_date'), size: 's' },
+      maxlength_enabled: true
 
   = render partial: 'external_users/claims/case_details/transfer_court_question_fields', locals: { f: f }
 

@@ -76,7 +76,7 @@
     = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
 
   - if Settings.main_hearing_date_enabled?
-    = govuk_summary_list_row_collection('Main hearing date') do
+    = govuk_summary_list_row_collection(t('common.main_hearing_date')) do
       = claim.main_hearing_date&.strftime(Settings.date_format)
 
 - if claim.defendants.any?

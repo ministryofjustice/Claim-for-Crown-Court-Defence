@@ -37,6 +37,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
   context 'when CLAIR contingency functionality is enabled',
           skip: 'Skipped pending removal of the main_hearing_date feature flag' do
     include_examples 'advocate claim test setup'
+    include_examples 'malformed or not iso8601 compliant dates', action: :validate, attributes: %i[main_hearing_date]
+    include_examples 'optional parameter validation', optional_parameters: %i[main_hearing_date]
     it_behaves_like 'a claim endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
     it_behaves_like 'a claim validate endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT
     it_behaves_like 'a claim create endpoint', relative_endpoint: SUPPLEMENTARY_CLAIM_ENDPOINT

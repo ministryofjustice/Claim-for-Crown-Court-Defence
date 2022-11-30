@@ -45,136 +45,44 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
     before { valid_params.except!(:main_hearing_date) }
 
     include_examples 'advocate claim test setup'
+    include_examples 'malformed or not iso8601 compliant dates',
+                     action: :validate, attributes: %i[first_day_of_trial
+                                                       trial_concluded_at
+                                                       trial_fixed_notice_at
+                                                       trial_fixed_at
+                                                       trial_cracked_at
+                                                       retrial_started_at
+                                                       retrial_concluded_at]
+    include_examples 'optional parameter validation',
+                     optional_parameters: %i[estimated_trial_length
+                                             actual_trial_length
+                                             retrial_estimated_length
+                                             retrial_actual_length]
     it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
     it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
     it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-
-    # TODO: write a generic date error handling spec and share
-    describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
-      it 'returns 400 and JSON error when dates are not in acceptable format' do
-        valid_params[:first_day_of_trial] = '01-01-2015'
-        valid_params[:trial_concluded_at] = '09-01-2015'
-        valid_params[:trial_fixed_notice_at] = '01-01-2015'
-        valid_params[:trial_fixed_at] = '01-01-2015'
-        valid_params[:trial_cracked_at] = '01-01-2015'
-        valid_params[:retrial_started_at] = '01-01-2015'
-        valid_params[:retrial_concluded_at] = '01-01-2015'
-        post_to_validate_endpoint
-        [
-          'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
-        ].each do |error|
-          expect(last_response.status).to eq(400)
-          expect(last_response.body).to include(error)
-        end
-      end
-    end
   end
 
   context 'when CLAIR contingency functionality is enabled',
           skip: 'Skipped pending removal of the main_hearing_date feature flag' do
     include_examples 'advocate claim test setup'
+    include_examples 'malformed or not iso8601 compliant dates',
+                     action: :validate, attributes: %i[first_day_of_trial
+                                                       trial_concluded_at
+                                                       trial_fixed_notice_at
+                                                       trial_fixed_at
+                                                       trial_cracked_at
+                                                       retrial_started_at
+                                                       retrial_concluded_at
+                                                       main_hearing_date]
+    include_examples 'optional parameter validation',
+                     optional_parameters: %i[estimated_trial_length
+                                             actual_trial_length
+                                             retrial_estimated_length
+                                             retrial_actual_length
+                                             main_hearing_date]
     it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
     it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
     it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-
-    # TODO: write a generic date error handling spec and share
-    describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
-      it 'returns 400 and JSON error when dates are not in acceptable format' do
-        valid_params[:first_day_of_trial] = '01-01-2015'
-        valid_params[:trial_concluded_at] = '09-01-2015'
-        valid_params[:trial_fixed_notice_at] = '01-01-2015'
-        valid_params[:trial_fixed_at] = '01-01-2015'
-        valid_params[:trial_cracked_at] = '01-01-2015'
-        valid_params[:retrial_started_at] = '01-01-2015'
-        valid_params[:retrial_concluded_at] = '01-01-2015'
-        valid_params[:main_hearing_date] = '01-01-2015'
-        post_to_validate_endpoint
-        [
-          'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-          'main_hearing_date is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
-        ].each do |error|
-          expect(last_response.status).to eq(400)
-          expect(last_response.body).to include(error)
-        end
-      end
-    end
-  end
-
-  context 'when validating case_number' do
-    let(:case_number_error) { 'The case number must be a case number (e.g. A20161234) or unique reference number' }
-    let(:case_number_format_error) { 'The case number must be in the format A20161234' }
-
-    before do
-      valid_params[:case_number] = case_number
-      post_to_validate_endpoint
-    end
-
-    context 'when URN is too long' do
-      let(:case_number) { 'ABCDEFGHIJABCDEFGHIJA' }
-
-      it { expect(last_response.status).to eq(400) }
-      it { expect(last_response.body).to include(case_number_error) }
-    end
-
-    context 'when URN contains a special character' do
-      let(:case_number) { 'ABCDEFGHIJABCDEFGHI_' }
-
-      it { expect(last_response.status).to eq(400) }
-      it { expect(last_response.body).to include(case_number_error) }
-    end
-
-    context 'when the case number does not start with a BAST or U' do
-      let(:case_number) { 'G20209876' }
-
-      it { expect(last_response.status).to eq(400) }
-      it { expect(last_response.body).to include(case_number_format_error) }
-    end
-
-    context 'when the case number is too long' do
-      let(:case_number) { 'T202098761' }
-
-      it { expect(last_response.status).to eq(400) }
-      it { expect(last_response.body).to include(case_number_format_error) }
-    end
-
-    context 'when the case number is too short' do
-      let(:case_number) { 'T2020987' }
-
-      it { expect(last_response.status).to eq(400) }
-      it { expect(last_response.body).to include(case_number_format_error) }
-    end
-
-    context 'when case_number is a valid common platform URN' do
-      let(:case_number) { 'ABCDEFGHIJ1234567890' }
-
-      it { expect(last_response.status).to eq(200) }
-      it { expect(last_response.body).to include('valid') }
-    end
-
-    context 'when case_number is a valid URN containing a year' do
-      let(:case_number) { '120207575' }
-
-      it { expect(last_response.status).to eq(200) }
-      it { expect(last_response.body).to include('valid') }
-    end
-
-    context 'when case_number is a valid case number' do
-      let(:case_number) { 'T20202601' }
-
-      it { expect(last_response.status).to eq(200) }
-      it { expect(last_response.body).to include('valid') }
-    end
   end
 end

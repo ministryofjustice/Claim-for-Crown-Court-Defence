@@ -57,6 +57,82 @@ RSpec.shared_examples 'malformed or not iso8601 compliant dates' do |options|
   end
 end
 
+RSpec.shared_examples 'case_number validation' do
+  context 'when validating case_number' do
+    let(:case_number_error) { 'The case number must be a case number (e.g. A20161234) or unique reference number' }
+    let(:case_number_format_error) { 'The case number must be in the format A20161234' }
+
+    before do
+      valid_params[:case_number] = case_number
+      post_to_validate_endpoint
+    end
+
+    context 'when URN is too long' do
+      let(:case_number) { 'ABCDEFGHIJABCDEFGHIJA' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_error) }
+    end
+
+    context 'when URN contains a special character' do
+      let(:case_number) { 'ABCDEFGHIJABCDEFGHI_' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_error) }
+    end
+
+    context 'when the case number does not start with a BAST or U' do
+      let(:case_number) { 'G20209876' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_format_error) }
+    end
+
+    context 'when the case number is too long' do
+      let(:case_number) { 'T202098761' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_format_error) }
+    end
+
+    context 'when the case number is too short' do
+      let(:case_number) { 'T2020987' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_format_error) }
+    end
+
+    context 'when case_number is a valid common platform URN' do
+      let(:case_number) { 'ABCDEFGHIJ1234567890' }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response.body).to include('valid') }
+    end
+
+    context 'when case_number is a valid URN containing a year' do
+      let(:case_number) { '120207575' }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response.body).to include('valid') }
+    end
+
+    context 'when case_number is a valid case number' do
+      let(:case_number) { 'T20202601' }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response.body).to include('valid') }
+    end
+  end
+end
+
+RSpec.shared_examples 'optional parameter validation' do |options|
+  it 'returns 200 when parameters that are optional are empty' do
+    valid_params.except!(*options[:optional_parameters])
+    post_to_validate_endpoint
+    expect(last_response.status).to eq(200)
+  end
+end
+
 RSpec.shared_examples 'advocate claim test setup' do
   describe 'test setup' do
     it 'vendor should belong to same provider as advocate' do
@@ -104,6 +180,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
     end
 
     include_examples 'invalid API key', exclude: nil, action: :validate
+    include_examples 'case_number validation'
 
     context 'when request is valid' do
       before { post_to_validate_endpoint }

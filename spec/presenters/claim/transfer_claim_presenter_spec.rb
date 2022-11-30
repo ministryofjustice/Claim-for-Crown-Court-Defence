@@ -182,7 +182,7 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
 
     context 'with incomplete transfer details' do
       let(:claim) do
-        create :transfer_claim, litigator_type: nil, elected_case: nil, transfer_stage_id: nil, case_conclusion_id: nil
+        create(:transfer_claim, litigator_type: nil, elected_case: nil, transfer_stage_id: nil, case_conclusion_id: nil)
       end
 
       it 'returns blank string' do

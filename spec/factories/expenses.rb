@@ -32,7 +32,7 @@ FactoryBot.define do
     date { 3.days.ago }
 
     trait :car_travel do
-      expense_type { build :expense_type, :car_travel }
+      expense_type { build(:expense_type, :car_travel) }
       distance { 27 }
       mileage_rate_id { 1 }
       amount { '6.75' }
@@ -54,39 +54,39 @@ FactoryBot.define do
     end
 
     trait :bike_travel do
-      expense_type { build :expense_type, :bike_travel }
+      expense_type { build(:expense_type, :bike_travel) }
       distance { 27 }
       mileage_rate_id { 3 }
     end
 
     trait :parking do
-      expense_type { build :expense_type, :parking }
+      expense_type { build(:expense_type, :parking) }
       location { nil }
     end
 
     trait :hotel_accommodation do
-      expense_type { build :expense_type, :hotel_accommodation }
+      expense_type { build(:expense_type, :hotel_accommodation) }
     end
 
     trait :train do
-      expense_type { build :expense_type, :train }
+      expense_type { build(:expense_type, :train) }
     end
 
     trait :travel_time do
-      expense_type { build :expense_type, :travel_time }
+      expense_type { build(:expense_type, :travel_time) }
       hours { 4 }
     end
 
     trait :road_tolls do
-      expense_type { build :expense_type, :road_tolls }
+      expense_type { build(:expense_type, :road_tolls) }
     end
 
     trait :cab_fares do
-      expense_type { build :expense_type, :cab_fares }
+      expense_type { build(:expense_type, :cab_fares) }
     end
 
     trait :subsistence do
-      expense_type { build :expense_type, :subsistence }
+      expense_type { build(:expense_type, :subsistence) }
     end
 
     trait :with_date_attended do

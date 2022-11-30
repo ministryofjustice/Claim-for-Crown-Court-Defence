@@ -234,10 +234,10 @@ RSpec.describe Claim, type: :model do
     end
 
     describe 'updating value bands and totals' do
-      let(:claim) { create :litigator_claim }
+      let(:claim) { create(:litigator_claim) }
 
       context 'with a disbursment' do
-        let(:new_fee) { create :disbursement, claim:, net_amount: 30_000.0, vat_amount: 5_000.0 }
+        let(:new_fee) { create(:disbursement, claim:, net_amount: 30_000.0, vat_amount: 5_000.0) }
 
         it { expect { new_fee }.to change(claim, :total).by(30_000) }
         it { expect { new_fee }.to change(claim, :vat_amount).by(5_000) }
@@ -245,7 +245,7 @@ RSpec.describe Claim, type: :model do
       end
 
       context 'with an expense' do
-        let(:new_fee) { create :expense, claim:, amount: 25_002.2, vat_amount: 5_000.2 }
+        let(:new_fee) { create(:expense, claim:, amount: 25_002.2, vat_amount: 5_000.2) }
 
         it { expect { new_fee }.to change(claim, :total).by(25_002.2) }
         it { expect { new_fee }.to change(claim, :vat_amount).by(5_000.2) }

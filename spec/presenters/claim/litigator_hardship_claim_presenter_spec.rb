@@ -77,7 +77,7 @@ RSpec.describe Claim::LitigatorHardshipClaimPresenter, type: :presenter do
     subject(:raw_hardship_fees_total) { presenter.raw_hardship_fees_total }
 
     context 'when hardship fee is set' do
-      before { create :hardship_fee, claim: }
+      before { create(:hardship_fee, claim:) }
 
       it { is_expected.to eq 25 }
     end

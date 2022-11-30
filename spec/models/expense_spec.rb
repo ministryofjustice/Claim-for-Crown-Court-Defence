@@ -34,7 +34,7 @@ RSpec.describe Expense, type: :model do
   describe 'delegated methods' do
     let(:expense_type) { subject.expense_type }
 
-    subject { build :expense, :car_travel }
+    subject { build(:expense, :car_travel) }
 
     [:car_travel?, :bike_travel?, :parking?, :hotel_accommodation?, :train?, :travel_time?, :road_tolls?, :cab_fares?, :subsistence?].each do |method|
       it "delegates #{method} to expense_type" do
@@ -46,22 +46,22 @@ RSpec.describe Expense, type: :model do
 
   context 'zeroising nulls on save' do
     it 'zerosise nulls on save' do
-      expense = create :expense, amount: nil, vat_amount: nil
+      expense = create(:expense, amount: nil, vat_amount: nil)
       expect(expense.amount).to eq 0.0
       expect(expense.vat_amount).to eq 0.0
     end
 
     it 'does not zeroise the amount if not null' do
-      expense = create :expense, amount: 100.0, vat_amount: nil
+      expense = create(:expense, amount: 100.0, vat_amount: nil)
       expect(expense.amount).to eq 100.0
       expect(expense.vat_amount).to eq 20.0
     end
   end
 
   context 'expense_reasons and expense reason text' do
-    let(:ex_1) { build :expense, reason_id: 1 }
-    let(:ex_nil) { build :expense, reason_id: nil }
-    let(:ex_5) { build :expense, reason_id: 5, reason_text: 'My unique reason' }
+    let(:ex_1) { build(:expense, reason_id: 1) }
+    let(:ex_nil) { build(:expense, reason_id: nil) }
+    let(:ex_5) { build(:expense, reason_id: 5, reason_text: 'My unique reason') }
 
     describe '#expense reason' do
       it 'returns the reason object with id 1' do
@@ -198,7 +198,7 @@ RSpec.describe Expense, type: :model do
   describe '#remove_reason_text_unless_other' do
     subject(:remove_reason_text_unless_other) { expense.remove_reason_text_unless_other }
 
-    let(:expense) { build :expense, reason_id: 4, reason_text: 'My unique reason' }
+    let(:expense) { build(:expense, reason_id: 4, reason_text: 'My unique reason') }
 
     it { expect { remove_reason_text_unless_other }.to change(expense, :reason_text).to nil }
   end

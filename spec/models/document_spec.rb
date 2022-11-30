@@ -50,8 +50,8 @@ RSpec.describe Document, type: :model do
   describe '#save' do
     subject(:document_save) { document.save }
 
-    let(:document) { build :document, :pdf, claim:, form_id: claim.form_id }
-    let(:claim) { create :claim }
+    let(:document) { build(:document, :pdf, claim:, form_id: claim.form_id) }
+    let(:claim) { create(:claim) }
 
     before { ActiveJob::Base.queue_adapter = :test }
 
@@ -63,7 +63,7 @@ RSpec.describe Document, type: :model do
     context 'when the maximum document limit is reached' do
       before do
         allow(Settings).to receive(:max_document_upload_count).and_return 2
-        create_list :document, 2, claim:, form_id: claim.form_id
+        create_list(:document, 2, claim:, form_id: claim.form_id)
       end
 
       it { expect(document).not_to be_valid }
@@ -82,7 +82,7 @@ RSpec.describe Document, type: :model do
   describe '#save_and_verify' do
     subject(:save_and_verify) { document.save_and_verify }
 
-    let(:document) { build :document }
+    let(:document) { build(:document) }
 
     it { expect { save_and_verify }.to change(document, :verified).to true }
   end
@@ -90,8 +90,8 @@ RSpec.describe Document, type: :model do
   describe '#copy_from' do
     subject(:copy_from) { new_document.copy_from(old_document) }
 
-    let(:old_document) { create :document, :with_preview, verified: true }
-    let(:new_document) { build :document, :empty }
+    let(:old_document) { create(:document, :with_preview, verified: true) }
+    let(:new_document) { build(:document, :empty) }
 
     it do
       expect { copy_from }
@@ -107,13 +107,13 @@ RSpec.describe Document, type: :model do
     it { expect { copy_from }.to change(new_document, :verified).to true }
 
     context 'when the old document is not verified' do
-      let(:old_document) { create :document, :with_preview, verified: false }
+      let(:old_document) { create(:document, :with_preview, verified: false) }
 
       it { expect { copy_from }.not_to change(new_document, :verified).from false }
     end
 
     context 'when the old document does not have a preview' do
-      let(:old_document) { create :document, :docx, verified: true }
+      let(:old_document) { create(:document, :docx, verified: true) }
 
       before { ActiveJob::Base.queue_adapter = :test }
 
@@ -136,7 +136,7 @@ RSpec.describe Document, type: :model do
     subject(:document_file_name) { document.document_file_name }
 
     let(:filename) { 'testfile.pdf' }
-    let(:document) { create :document, filename: }
+    let(:document) { create(:document, filename:) }
 
     it { is_expected.to eq filename }
 
@@ -151,7 +151,7 @@ RSpec.describe Document, type: :model do
     subject(:document_file_size) { document.document_file_size }
 
     let(:file_size) { document.document.byte_size }
-    let(:document) { create :document }
+    let(:document) { create(:document) }
 
     it { is_expected.to eq file_size }
 

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Fee::WarrantFeeValidator, type: :validator do
-  let(:fee) { build :warrant_fee }
+  let(:fee) { build(:warrant_fee) }
 
   before do
     allow(fee).to receive(:perform_validation?).and_return(true)

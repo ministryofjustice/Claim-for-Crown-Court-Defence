@@ -6,7 +6,7 @@ describe Claims::UpdateClaim do
   end
 
   context 'claim updating' do
-    let(:claim) { create :advocate_claim, case_number: 'A20161234' }
+    let(:claim) { create(:advocate_claim, case_number: 'A20161234') }
     let(:claim_params) { { case_number: 'A20165555' } }
 
     subject(:update_claim) { described_class.new(claim, params: claim_params) }
@@ -43,7 +43,7 @@ describe Claims::UpdateClaim do
       end
 
       context 'when submitting persisted agfs fixed fees marked for destruction' do
-        let(:claim) { create :advocate_claim, :with_fixed_fee_case, fixed_fees: }
+        let(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees:) }
         let(:claim_params) { { 'form_step' => 'fixed_fees', fixed_fees_attributes: { '0': { 'id' => fixed_fees.first.id.to_s, 'fee_type_id' => '12', 'quantity' => '', 'rate' => '', 'price_calculated' => 'true', '_destroy' => 'true' } } } }
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50), build(:fixed_fee, :fxsaf_fee, quantity: 1)] }
 

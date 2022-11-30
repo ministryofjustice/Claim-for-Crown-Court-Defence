@@ -85,8 +85,8 @@ RSpec.describe Message, type: :model do
   end
 
   context 'automatic state change of claim on message creation' do
-    let(:claim)     { create :part_authorised_claim }
-    let(:user)      { create :user }
+    let(:claim)     { create(:part_authorised_claim) }
+    let(:user)      { create(:user) }
 
     it 'changes claim state from allocated to redetermination if claim_action set to apply for redetermination' do
       claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Apply for redetermination')
@@ -108,8 +108,8 @@ RSpec.describe Message, type: :model do
   end
 
   describe 'process written reasons' do
-    let(:claim)     { create :part_authorised_claim }
-    let(:user)      { create :user }
+    let(:claim)     { create(:part_authorised_claim) }
+    let(:user)      { create(:user) }
 
     it 'changes claim state back to what it was before, if written reasons submitted' do
       claim.messages.build(sender: user, body: 'xxxxx', claim_action: 'Request written reasons')
@@ -124,7 +124,7 @@ RSpec.describe Message, type: :model do
   end
 
   describe 'after_create :send_email_if_required' do
-    let(:claim) { create :allocated_claim }
+    let(:claim) { create(:allocated_claim) }
     let(:creator) { claim.creator }
     let(:case_worker) { claim.case_workers.first }
 

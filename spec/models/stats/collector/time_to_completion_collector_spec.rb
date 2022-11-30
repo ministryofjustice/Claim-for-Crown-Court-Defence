@@ -16,14 +16,14 @@ module Stats
         }
       end
 
-      let(:case_worker_user) { create :user, email: 'caseworker@example.com' }
-      let(:case_worker) { create :case_worker }
-      let(:advocate_user) { create :user, email: 'advocate@example.com' }
-      let(:advocate) { create :external_user, user: advocate_user }
+      let(:case_worker_user) { create(:user, email: 'caseworker@example.com') }
+      let(:case_worker) { create(:case_worker) }
+      let(:advocate_user) { create(:user, email: 'advocate@example.com') }
+      let(:advocate) { create(:external_user, user: advocate_user) }
 
       before do
         case_worker.user = case_worker_user
-        @claim_a = create :draft_claim, external_user: advocate, creator: advocate
+        @claim_a = create(:draft_claim, external_user: advocate, creator: advocate)
         @claim_b = create_submitted_claim(base_time + 3.days)
         @claim_c = create_decided_claim('authorised', base_time + 10.days, decision_time)
         @claim_d = create_decided_claim('rejected', base_time + 13.days, decision_time)
@@ -49,7 +49,7 @@ module Stats
       def create_submitted_claim(time_submitted)
         claim = nil
         travel_to base_time do
-          claim = create :draft_claim, external_user: advocate, creator: advocate
+          claim = create(:draft_claim, external_user: advocate, creator: advocate)
           travel_to time_submitted
           claim.submit!
         end

@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Fee::GraduatedFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:claim) { build :litigator_claim }
-  let(:fee) { build :graduated_fee }
+  let(:claim) { build(:litigator_claim) }
+  let(:fee) { build(:graduated_fee) }
 
   before do
     allow(fee).to receive(:perform_validation?).and_return(true)

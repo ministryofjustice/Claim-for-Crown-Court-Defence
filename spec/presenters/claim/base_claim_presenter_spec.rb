@@ -163,7 +163,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'one assessment, no redeterminations' do
       it 'returns the updated date of the assessment' do
-        travel_to(creation_date) { @claim = create :submitted_claim }
+        travel_to(creation_date) { @claim = create(:submitted_claim) }
         travel_to(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
         expect(presenter.assessment_date).to eq '01/09/2015'
       end
@@ -171,7 +171,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'multiple redeterminations' do
       it 'returns creation date of last redetermination' do
-        travel_to(creation_date) { @claim = create :submitted_claim }
+        travel_to(creation_date) { @claim = create(:submitted_claim) }
         travel_to(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
         travel_to(first_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 110.0, expenses: 205.88) }
         travel_to(second_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 113.0, expenses: 208.88) }

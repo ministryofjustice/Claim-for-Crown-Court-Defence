@@ -66,7 +66,7 @@ require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
 RSpec.describe Claim::LitigatorClaim, type: :model do
-  let(:claim) { build :litigator_claim }
+  let(:claim) { build(:litigator_claim) }
 
   it_behaves_like 'uses claim cleaner', Cleaners::LitigatorClaimCleaner
 
@@ -82,11 +82,11 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
 
   describe '#eligible_case_types' do
     it 'returns only LGFS case types' do
-      claim = build :litigator_claim
+      claim = build(:litigator_claim)
       CaseType.delete_all
-      agfs_lgfs_case_type = create :case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs']
-      create :case_type, name: 'AGFS case type', roles: ['agfs']
-      lgfs_case_type = create :case_type, name: 'LGFS case type', roles: ['lgfs']
+      agfs_lgfs_case_type = create(:case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs'])
+      create(:case_type, name: 'AGFS case type', roles: ['agfs'])
+      lgfs_case_type = create(:case_type, name: 'LGFS case type', roles: ['lgfs'])
 
       expect(claim.eligible_case_types).to eq([agfs_lgfs_case_type, lgfs_case_type])
     end
@@ -101,15 +101,15 @@ RSpec.describe Claim::LitigatorClaim, type: :model do
   describe 'fixed_fees' do
     context 'no fixed fee exists' do
       it 'returns and empty array' do
-        claim = build :litigator_claim
+        claim = build(:litigator_claim)
         expect(claim.fixed_fees).to eq([])
       end
     end
 
     context 'a fixed fee exists' do
       it 'returns the fixed fee in an array' do
-        claim = create :litigator_claim, :fixed_fee
-        fee = create :fixed_fee, claim: claim
+        claim = create(:litigator_claim, :fixed_fee)
+        fee = create(:fixed_fee, claim:)
         expect(claim.fixed_fees).to eq([fee])
       end
     end

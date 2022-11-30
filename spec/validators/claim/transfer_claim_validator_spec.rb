@@ -5,8 +5,8 @@ require_relative 'shared_examples_for_step_validators'
 RSpec.describe Claim::TransferClaimValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:claim) { build :transfer_claim, defendants: [build(:defendant)] }
-  let(:transfer_detail) { build :transfer_detail, claim: }
+  let(:claim) { build(:transfer_claim, defendants: [build(:defendant)]) }
+  let(:transfer_detail) { build(:transfer_detail, claim:) }
 
   include_examples 'common partial validations', {
     transfer_fee_details: %i[

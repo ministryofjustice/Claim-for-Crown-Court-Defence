@@ -126,8 +126,8 @@ RSpec.describe Claims::StateMachine, type: :model do
 
       context 'when a claim exists with a, legacy, now non-valid evidence provision fee' do
         let(:claim) { create(:litigator_claim) }
-        let(:fee) { build :misc_fee, claim:, amount: '123', fee_type: }
-        let(:fee_type) { build :misc_fee_type, :mievi }
+        let(:fee) { build(:misc_fee, claim:, amount: '123', fee_type:) }
+        let(:fee_type) { build(:misc_fee_type, :mievi) }
 
         describe 'de-allocation' do
           it { expect { claim.deallocate! }.not_to raise_error }
@@ -212,9 +212,9 @@ RSpec.describe Claims::StateMachine, type: :model do
       it { expect { claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
 
       context 'when a claim exists with a, legacy, now non-valid evidence provision fee' do
-        let(:claim) { create :litigator_claim }
-        let(:fee) { build :misc_fee, claim:, amount: '123', fee_type: }
-        let(:fee_type) { build :misc_fee_type, :mievi }
+        let(:claim) { create(:litigator_claim) }
+        let(:fee) { build(:misc_fee, claim:, amount: '123', fee_type:) }
+        let(:fee_type) { build(:misc_fee_type, :mievi) }
 
         it { expect { claim.allocate! }.not_to raise_error }
       end
@@ -345,7 +345,7 @@ RSpec.describe Claims::StateMachine, type: :model do
   end
 
   describe '.is_in_state?' do
-    let(:claim) { build :unpersisted_claim }
+    let(:claim) { build(:unpersisted_claim) }
 
     it 'is true if state is in EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('allocated')

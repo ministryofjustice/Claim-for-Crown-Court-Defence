@@ -11,7 +11,7 @@ RSpec.describe AdpTextField do
         ActionController::Base.new() # controller
       )
     end
-    let(:resource) { create :claim, case_number: nil }
+    let(:resource) { create(:claim, case_number: nil) }
     let(:error_presenter) { ErrorMessage::Presenter.new(resource) }
     let(:builder)   { AdpFormBuilder.new(:claim, resource, helper, {}) }
 

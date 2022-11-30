@@ -2,7 +2,7 @@ require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
 describe Claim::TransferClaim, type: :model do
-  subject(:claim) { build :transfer_claim, **options }
+  subject(:claim) { build(:transfer_claim, **options) }
 
   let(:options) { {} }
 
@@ -24,7 +24,7 @@ describe Claim::TransferClaim, type: :model do
 
   context 'transfer fee' do
     it 'creates a transfer fee when created in a factory' do
-      claim = create :transfer_claim
+      claim = create(:transfer_claim)
       expect(claim.transfer_fee).to be_instance_of(Fee::TransferFee)
     end
   end
@@ -82,10 +82,10 @@ describe Claim::TransferClaim, type: :model do
     it 'returns only Interim case types' do
       CaseType.delete_all
 
-      c1 = create :case_type, name: 'AGFS case type', roles: ['agfs']
-      c2 = create :case_type, name: 'LGFS case type', roles: ['lgfs']
-      c3 = create :case_type, name: 'LGFS and Interim case type', roles: %w(lgfs interim)
-      c4 = create :case_type, name: 'AGFS, LGFS and Interim case type', roles: %w(agfs lgfs interim)
+      c1 = create(:case_type, name: 'AGFS case type', roles: ['agfs'])
+      c2 = create(:case_type, name: 'LGFS case type', roles: ['lgfs'])
+      c3 = create(:case_type, name: 'LGFS and Interim case type', roles: %w(lgfs interim))
+      c4 = create(:case_type, name: 'AGFS, LGFS and Interim case type', roles: %w(agfs lgfs interim))
 
       expect(claim.eligible_case_types).not_to include(c1)
       expect(claim.eligible_case_types).to include(c2)

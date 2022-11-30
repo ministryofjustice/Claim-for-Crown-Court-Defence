@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Claim::BaseClaimValidator, type: :validator do
-  let(:claim)                       { create :claim }
-  let(:guilty_plea)                 { build :case_type, :fixed_fee, name: 'Guilty plea' }
-  let(:contempt)                    { build :case_type, :requires_trial_dates, name: 'Contempt' }
-  let(:retrial)                     { build :case_type, :retrial }
-  let(:breach_of_crown_court_order) { build :case_type, name: 'Breach of Crown Court order' }
-  let(:cracked_trial)               { build :case_type, :requires_cracked_dates, name: 'Cracked trial' }
-  let(:cracked_before_retrial)      { build :case_type, :requires_cracked_dates, name: 'Cracked before retrial' }
+  let(:claim)                       { create(:claim) }
+  let(:guilty_plea)                 { build(:case_type, :fixed_fee, name: 'Guilty plea') }
+  let(:contempt)                    { build(:case_type, :requires_trial_dates, name: 'Contempt') }
+  let(:retrial)                     { build(:case_type, :retrial) }
+  let(:breach_of_crown_court_order) { build(:case_type, name: 'Breach of Crown Court order') }
+  let(:cracked_trial)               { build(:case_type, :requires_cracked_dates, name: 'Cracked trial') }
+  let(:cracked_before_retrial)      { build(:case_type, :requires_cracked_dates, name: 'Cracked before retrial') }
 
   before do
     claim.force_validation = true
@@ -451,7 +451,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       %w{draft allocated refused rejected submitted}.each do |state|
         it "for claims in state #{state}" do
           factory_name = "#{state}_claim".to_sym
-          claim = create factory_name
+          claim = create(factory_name)
           expect(claim.assessment.total).to eq 0
           expect(claim).to be_valid
         end
@@ -462,7 +462,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       %w{draft refused rejected submitted}.each do |state|
         it "errors if amount assessed is not zero for #{state}" do
           factory_name = "#{state}_claim".to_sym
-          claim = create factory_name
+          claim = create(factory_name)
           claim.assessment.fees = 35.22
           expect(claim).to_not be_valid
           expect(claim.errors[:amount_assessed]).to eq(["Amount assessed must be zero for claims in state #{state.humanize}"])
@@ -568,12 +568,12 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
   context 'cracked (re)trials' do
     let(:cracked_trial_claim) do
-      claim = create :claim, case_type: cracked_trial
+      claim = create(:claim, case_type: cracked_trial)
       nulify_fields_on_record(claim, :trial_fixed_notice_at, :trial_fixed_at, :trial_cracked_at)
     end
 
     let(:cracked_before_retrial_claim) do
-      claim = create :claim, case_type: cracked_before_retrial
+      claim = create(:claim, case_type: cracked_before_retrial)
       nulify_fields_on_record(claim, :trial_fixed_notice_at, :trial_fixed_at, :trial_cracked_at)
     end
 
@@ -684,9 +684,9 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'with elected cases not proceeded' do
-    subject(:claim) { create :claim, case_type:, create_defendant_and_rep_order: false }
+    subject(:claim) { create(:claim, case_type:, create_defendant_and_rep_order: false) }
 
-    let(:case_type) { build :case_type, :elected_cases_not_proceeded }
+    let(:case_type) { build(:case_type, :elected_cases_not_proceeded) }
 
     context 'with no defendants' do
       it { should_not_error(claim, :earliest_representation_order_date) }

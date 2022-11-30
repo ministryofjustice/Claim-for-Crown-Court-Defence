@@ -41,7 +41,7 @@ FactoryBot.define do
   trait :litigator_base_setup do
     court
     case_number         { random_case_number }
-    creator             { build :external_user, :litigator }
+    creator             { build(:external_user, :litigator) }
     external_user       { creator }
     source              { 'web' }
     apply_vat           { false }

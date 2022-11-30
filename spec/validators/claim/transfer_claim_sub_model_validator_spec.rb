@@ -2,7 +2,7 @@ require 'rails_helper'
 require_relative 'shared_examples_for_step_validators'
 
 RSpec.describe Claim::TransferClaimSubModelValidator, type: :validator do
-  let(:claim) { create :transfer_claim }
+  let(:claim) { create(:transfer_claim) }
 
   include_examples 'common partial association validations', {
     has_one: {

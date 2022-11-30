@@ -45,9 +45,9 @@ FactoryBot.define do
     end
 
     factory :unpersisted_claim do
-      court         { FactoryBot.build :court }
-      external_user { FactoryBot.build :external_user, provider: FactoryBot.build(:provider) }
-      offence       { FactoryBot.build :offence, offence_class: FactoryBot.build(:offence_class) }
+      court         { FactoryBot.build(:court) }
+      external_user { FactoryBot.build(:external_user, provider: FactoryBot.build(:provider)) }
+      offence       { FactoryBot.build(:offence, offence_class: FactoryBot.build(:offence_class)) }
       after(:build) do |claim|
         certify_claim(claim)
         claim.defendants << build(:defendant, claim:)
@@ -90,7 +90,7 @@ FactoryBot.define do
 
     # DEPRECATED see shared traits
     factory :authorised_claim do
-      offence { create :offence, :with_fee_scheme, offence_class: create(:offence_class) }
+      offence { create(:offence, :with_fee_scheme, offence_class: create(:offence_class)) }
       after(:create) { |claim| authorise_claim(claim) }
     end
 

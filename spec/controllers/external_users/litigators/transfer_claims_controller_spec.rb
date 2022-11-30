@@ -167,7 +167,7 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     render_views
 
     context 'update page 1' do
-      let(:claim) { create :bare_bones_transfer_claim, creator: litigator }
+      let(:claim) { create(:bare_bones_transfer_claim, creator: litigator) }
 
       let(:page_1_params) do
         {
@@ -205,9 +205,9 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController, type: :contr
     end
 
     context 'update page 2' do
-      let(:claim) { create :transfer_claim, creator: litigator }
-      let(:court) { create :court }
-      let(:offence) { create :offence }
+      let(:claim) { create(:transfer_claim, creator: litigator) }
+      let(:court) { create(:court) }
+      let(:offence) { create(:offence) }
 
       let(:page_2_params) do
         {

@@ -4,7 +4,7 @@ FactoryBot.define do
     elected_case { false }
     transfer_stage_id { 10 }
     transfer_date { 2.months.ago }
-    claim { create :transfer_claim }
+    claim { create(:transfer_claim) }
 
     trait :with_specific_mapping do
       litigator_type { 'new' }

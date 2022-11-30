@@ -780,7 +780,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
       # rubocop:disable RSpec/ExampleLength
       it 'sets the vat totals to zero' do
         # given a claim with nils in vat totals before archiving
-        claim = create :authorised_claim, external_user: advocate
+        claim = create(:authorised_claim, external_user: advocate)
         claim.fees_vat = nil
         claim.expenses_vat = nil
         claim.disbursements_vat = nil
@@ -842,7 +842,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
   end
 
   describe 'GET #show_message_controls' do
-    let(:claim) { create :refused_claim, external_user: advocate }
+    let(:claim) { create(:refused_claim, external_user: advocate) }
 
     before do
       get(

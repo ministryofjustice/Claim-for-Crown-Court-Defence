@@ -25,20 +25,20 @@ RSpec.describe TimedTransitions::Transitioner do
       draft_claim = authorised_claim = archived_claim = part_authorised_claim = refused_claim = rejected_claim = agfs_hardship_claim = nil
 
       travel_to(18.weeks.ago) do
-        draft_claim = create :advocate_claim
-        create :submitted_claim
-        create :allocated_claim
-        authorised_claim = create :authorised_claim
-        archived_claim = create :archived_pending_delete_claim
-        create :redetermination_claim
-        part_authorised_claim = create :part_authorised_claim
-        refused_claim = create :refused_claim
-        rejected_claim = create :rejected_claim
-        agfs_hardship_claim = create :advocate_hardship_claim
+        draft_claim = create(:advocate_claim)
+        create(:submitted_claim)
+        create(:allocated_claim)
+        authorised_claim = create(:authorised_claim)
+        archived_claim = create(:archived_pending_delete_claim)
+        create(:redetermination_claim)
+        part_authorised_claim = create(:part_authorised_claim)
+        refused_claim = create(:refused_claim)
+        rejected_claim = create(:rejected_claim)
+        agfs_hardship_claim = create(:advocate_hardship_claim)
       end
 
       # This claim will not meet the time scope
-      create :advocate_claim
+      create(:advocate_claim)
 
       expected_ids = [draft_claim.id, authorised_claim.id, archived_claim.id, part_authorised_claim.id, refused_claim.id, rejected_claim.id, agfs_hardship_claim.id].sort
       is_expected.to match_array(expected_ids)
@@ -52,7 +52,7 @@ RSpec.describe TimedTransitions::Transitioner do
       claim_a = claim_b = claim_c = claim_hs = nil
       travel_to(18.weeks.ago) do
         claim_a, claim_b, claim_c = create_list(:advocate_claim, 3)
-        claim_hs = create :advocate_hardship_claim
+        claim_hs = create(:advocate_hardship_claim)
       end
       travel_to(17.weeks.ago) { claim_a.soft_delete }
       travel_to(17.weeks.ago) { claim_hs.soft_delete }
@@ -208,7 +208,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
       context 'when destroying' do
         context 'when claim softly-deleted more than 16 weeks ago' do
-          let(:claim) { create :archived_pending_delete_claim }
+          let(:claim) { create(:archived_pending_delete_claim) }
 
           it 'destroys the claim' do
             expect(claim).to receive(:softly_deleted?).and_return(true)
@@ -223,7 +223,7 @@ RSpec.describe TimedTransitions::Transitioner do
           end
 
           context 'with hardship claims' do
-            let(:claim) { create :advocate_hardship_claim }
+            let(:claim) { create(:advocate_hardship_claim) }
 
             context 'when claim softly-deleted 17 weeks ago' do
               before { travel_to(17.weeks.ago) { claim.soft_delete } }
@@ -254,7 +254,7 @@ RSpec.describe TimedTransitions::Transitioner do
         context 'when last state transition more than 16 weeks ago' do
           let(:claim) do
             travel_to(17.weeks.ago) do
-              create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'
+              create(:litigator_claim, :archived_pending_delete, case_number: 'A20164444')
             end
           end
 
@@ -292,7 +292,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
           context 'with an associated document' do
             let(:file) do
-              let(:document) { create :document, verified: true }
+              let(:document) { create(:document, verified: true) }
 
               before { claim.update(documents: [document]) }
 
@@ -378,7 +378,7 @@ RSpec.describe TimedTransitions::Transitioner do
         end
 
         context 'when last state transition more than 16 weeks ago' do
-          let(:claim) { travel_to(17.weeks.ago) { create :authorised_claim, case_number: 'A20164444' } }
+          let(:claim) { travel_to(17.weeks.ago) { create(:authorised_claim, case_number: 'A20164444') } }
 
           it 'leaves the claim in authorised state' do
             described_class.new(claim, true).run
@@ -428,7 +428,7 @@ RSpec.describe TimedTransitions::Transitioner do
         context 'when last state transition more than 16 weeks ago' do
           let(:claim) do
             travel_to(17.weeks.ago) do
-              create :litigator_claim, :archived_pending_delete, case_number: 'A20164444'
+              create(:litigator_claim, :archived_pending_delete, case_number: 'A20164444')
             end
           end
 
@@ -463,7 +463,7 @@ RSpec.describe TimedTransitions::Transitioner do
           end
 
           context 'with an associated document' do
-            let(:document) { create :document, verified: true }
+            let(:document) { create(:document, verified: true) }
 
             before { claim.update(documents: [document]) }
 

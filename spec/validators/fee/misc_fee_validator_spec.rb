@@ -9,7 +9,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
   # AGFS claims are validated as part of the base_fee_validator_spec
   #
   context 'LGFS claim' do
-    let(:claim) { build :litigator_claim }
+    let(:claim) { build(:litigator_claim) }
 
     before do
       fee.clear # reset some attributes set by the factory
@@ -163,7 +163,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
     end
 
     describe '#validate_evidence_provision_fee' do
-      let(:fee_type) { build :misc_fee_type, :mievi }
+      let(:fee_type) { build(:misc_fee_type, :mievi) }
 
       before { allow(fee).to receive(:fee_type).and_return(fee_type) }
 

@@ -286,7 +286,7 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController, type: :controller do
         context 'fixed fee case types' do
           context 'valid params' do
             it 'creates a claim with fixed fees ONLY' do
-              ct = create :case_type, :fixed_fee
+              ct = create(:case_type, :fixed_fee)
               claim_params['case_type_id'] = ct.id
               post :create, params: { claim: claim_params }
               claim = assigns(:claim)

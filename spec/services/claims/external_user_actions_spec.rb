@@ -11,13 +11,13 @@ RSpec.describe Claims::ExternalUserActions do
     subject { described_class.available_for(claim) }
 
     context 'when the claim has not been redetermined yet' do
-      let(:claim) { create :advocate_claim }
+      let(:claim) { create(:advocate_claim) }
 
       it { is_expected.to eq ['Apply for redetermination'] }
     end
 
     context 'when the claim has already been redetermined' do
-      let(:claim) { create :deterministic_claim, :redetermination }
+      let(:claim) { create(:deterministic_claim, :redetermination) }
 
       it { is_expected.to eq ['Apply for redetermination', 'Request written reasons'] }
     end

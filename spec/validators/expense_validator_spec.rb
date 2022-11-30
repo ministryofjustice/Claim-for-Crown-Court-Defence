@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'ExpenseValidator', type: :validator do
-  let(:claim)                       { build :claim }
-  let(:expense)                     { build :expense, :train, claim: }
+  let(:claim)                       { build(:claim) }
+  let(:expense)                     { build(:expense, :train, claim:) }
   let(:car_travel_expense)          { build(:expense, :car_travel, claim:) }
   let(:bike_travel_expense)         { build(:expense, :bike_travel, claim:) }
   let(:parking_expense)             { build(:expense, :parking, claim:) }
@@ -21,7 +21,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
   it { should_error_if_equal_to_value(expense, :amount, 200_001, 'The amount for the expense exceeds the limit') }
 
   describe '#validate_vat_amount for LGFS claims' do
-    let(:claim) { build :litigator_claim, force_validation: true }
+    let(:claim) { build(:litigator_claim, force_validation: true) }
 
     before { expense.amount = 100 }
 

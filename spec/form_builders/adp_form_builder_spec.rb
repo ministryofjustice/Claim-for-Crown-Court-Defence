@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe AdpFormBuilder do
-  let(:resource)  { create :claim }
+  let(:resource)  { create(:claim) }
   let(:builder)   { AdpFormBuilder.new(:claim, resource, self, {}) }
 
   describe 'anchored_label' do

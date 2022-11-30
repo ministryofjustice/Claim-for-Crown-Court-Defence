@@ -85,7 +85,7 @@ RSpec.describe Allocation, type: :model do
       end
 
       context 'when creator is a litigator' do
-        let!(:claim) { create :submitted_claim }
+        let!(:claim) { create(:submitted_claim) }
         let(:allocator) { Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user:) }
 
         describe 'and then changes role to advocate' do

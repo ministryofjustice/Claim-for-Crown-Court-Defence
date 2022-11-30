@@ -2,7 +2,7 @@ require 'rails_helper'
 
 # TODO: no misc fees are case uplifts any longer, remove whole class and spec
 RSpec.describe Fee::MiscFeeTypePresenter do
-  let(:fee_type)  { build :misc_fee_type }
+  let(:fee_type)  { build(:misc_fee_type) }
   let(:presenter) { described_class.new(fee_type, view) }
 
   describe '#data_attributes' do

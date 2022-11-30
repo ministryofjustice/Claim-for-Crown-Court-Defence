@@ -40,17 +40,17 @@ RSpec.describe Offence, type: :model do
 
   describe '#offence_class_description' do
     it 'returns class letter and description' do
-      offence_class = create :offence_class, class_letter: 'A', description: 'My offence class'
-      offence = create :offence, offence_class: offence_class
+      offence_class = create(:offence_class, class_letter: 'A', description: 'My offence class')
+      offence = create(:offence, offence_class:)
       expect(offence.offence_class_description).to eq 'A: My offence class'
     end
   end
 
   describe 'validations' do
-    subject(:offence) { build :offence, offence_band:, offence_class: }
+    subject(:offence) { build(:offence, offence_band:, offence_class:) }
 
-    let(:offence_band) { create :offence_band }
-    let(:offence_class) { create :offence_class, class_letter: 'A', description: 'My offence class' }
+    let(:offence_band) { create(:offence_band) }
+    let(:offence_class) { create(:offence_class, class_letter: 'A', description: 'My offence class') }
 
     context 'when the offence has a offence_band' do
       let(:offence_class) { nil }

@@ -68,7 +68,7 @@ RSpec.describe Defendant, type: :model do
   end
 
   context 'representation orders' do
-    let(:defendant) { create :defendant, claim: create(:advocate_claim) }
+    let(:defendant) { create(:defendant, claim: create(:advocate_claim)) }
 
     it 'is valid if there is one representation order that isnt blank' do
       expect(defendant).to be_valid

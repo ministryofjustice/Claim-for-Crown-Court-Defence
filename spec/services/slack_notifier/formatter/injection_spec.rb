@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe SlackNotifier::Formatter::Injection do
   subject(:formatter) { described_class.new }
 
-  let(:claim) { create :claim }
+  let(:claim) { create(:claim) }
   let(:valid_build_parameters) do
     {
       uuid: claim.uuid,

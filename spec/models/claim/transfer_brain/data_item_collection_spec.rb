@@ -165,7 +165,7 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
     end
 
     context 'with a scheme 9 claim' do
-      let(:claim) { create :transfer_claim, create_defendant_and_rep_order_for_scheme_9: true }
+      let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9: true) }
 
       it_behaves_like 'transfer claim elected case bill scenario mapping' do
         let(:bill_scenario_mapping) do
@@ -182,7 +182,7 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
     end
 
     context 'with a scheme 10 claim' do
-      let(:claim) { create :transfer_claim, create_defendant_and_rep_order_for_scheme_10: true }
+      let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_10: true) }
 
       include_examples 'transfer claim elected case bill scenario mapping' do
         let(:bill_scenario_mapping) do

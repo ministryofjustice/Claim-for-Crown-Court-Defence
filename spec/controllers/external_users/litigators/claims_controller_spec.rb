@@ -207,10 +207,10 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
       end
 
       context 'conditional fee logic' do
-        let!(:misc_fee_type_1)          { create :misc_fee_type, description: 'Miscellaneous Fee Type 1' }
-        let!(:misc_fee_type_2)          { create :misc_fee_type, description: 'Miscellaneous Fee Type 2' }
-        let!(:fixed_fee_type_1)         { create :fixed_fee_type, description: 'Fixed Fee Type 1' }
-        let!(:graduated_fee_type_1)     { create :graduated_fee_type, description: 'Graduated Fee Type 1' }
+        let!(:misc_fee_type_1)          { create(:misc_fee_type, description: 'Miscellaneous Fee Type 1') }
+        let!(:misc_fee_type_2)          { create(:misc_fee_type, description: 'Miscellaneous Fee Type 2') }
+        let!(:fixed_fee_type_1)         { create(:fixed_fee_type, description: 'Fixed Fee Type 1') }
+        let!(:graduated_fee_type_1)     { create(:graduated_fee_type, description: 'Graduated Fee Type 1') }
 
         let(:claim_params)              { valid_claim_fee_params }
         let(:invalid_claim_params)      { valid_claim_fee_params.except('case_number') }
@@ -460,7 +460,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController, type: :controller do
   # -------------------------
 
   def valid_claim_fee_params
-    case_type = create :case_type
+    case_type = create(:case_type)
 
     {
       'source' => 'web',

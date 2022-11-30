@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Claim::InterimClaimPresenter do
-  let(:claim) { create :interim_claim }
+  let(:claim) { create(:interim_claim) }
 
   subject { described_class.new(claim, view) }
 

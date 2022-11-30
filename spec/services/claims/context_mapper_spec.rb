@@ -94,9 +94,9 @@ RSpec.describe Claims::ContextMapper do
 
   describe '#available_claims' do
     before(:all) do
-      @agfs_provider    = create :provider, :agfs
-      @lgfs_provider    = create :provider, :lgfs
-      @both_provider    = create :provider, :agfs_lgfs
+      @agfs_provider    = create(:provider, :agfs)
+      @lgfs_provider    = create(:provider, :lgfs)
+      @both_provider    = create(:provider, :agfs_lgfs)
       @advocate         = create(:external_user, :advocate, provider: @agfs_provider)
       @advocate_admin   = create(:external_user, :advocate_and_admin, provider: @agfs_provider)
       @litigator        = create(:external_user, :litigator, provider: @lgfs_provider)
@@ -153,15 +153,15 @@ RSpec.describe Claims::ContextMapper do
 
   context 'AGFS/LGFS' do
     before(:all) do
-      @provider    = create :provider, :agfs_lgfs
-      @litigator_1 = create :external_user, :litigator, provider: @provider
-      @litigator_2 = create :external_user, :litigator, provider: @provider
-      @advocate_1  = create :external_user, :advocate, provider: @provider
-      @advocate_2  = create :external_user, :advocate, provider: @provider
-      @claim_l1    = create :litigator_claim, external_user: @litigator_1, creator: @litigator_1
-      @claim_l2    = create :litigator_claim, external_user: @litigator_2, creator: @litigator_2
-      @claim_a1    = create :advocate_claim, external_user: @advocate_1, creator: @advocate_1
-      @claim_a2    = create :advocate_claim, external_user: @advocate_2, creator: @advocate_2
+      @provider    = create(:provider, :agfs_lgfs)
+      @litigator_1 = create(:external_user, :litigator, provider: @provider)
+      @litigator_2 = create(:external_user, :litigator, provider: @provider)
+      @advocate_1  = create(:external_user, :advocate, provider: @provider)
+      @advocate_2  = create(:external_user, :advocate, provider: @provider)
+      @claim_l1    = create(:litigator_claim, external_user: @litigator_1, creator: @litigator_1)
+      @claim_l2    = create(:litigator_claim, external_user: @litigator_2, creator: @litigator_2)
+      @claim_a1    = create(:advocate_claim, external_user: @advocate_1, creator: @advocate_1)
+      @claim_a2    = create(:advocate_claim, external_user: @advocate_2, creator: @advocate_2)
       @admin       = create(:external_user, :agfs_lgfs_admin, provider: @provider)
     end
 

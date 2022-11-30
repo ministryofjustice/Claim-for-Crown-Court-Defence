@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Transform::Claim do
-  let(:claim) { create :archived_pending_delete_claim }
+  let(:claim) { create(:archived_pending_delete_claim) }
 
   describe 'call' do
     subject(:call) { described_class.call(claim) }
@@ -47,14 +47,14 @@ RSpec.describe Transform::Claim do
 
       context 'when the claim is agfs' do
         let(:basic_fee) { create(:basic_fee, :ppe_fee, quantity: 1024, rate: 25) }
-        let(:claim) { create :archived_pending_delete_claim, basic_fees: [basic_fee] }
+        let(:claim) { create(:archived_pending_delete_claim, basic_fees: [basic_fee]) }
 
         it { is_expected.to eq 1024 }
       end
 
       context 'when the claim is lgfs' do
-        let(:grad_fee) { create :graduated_fee, quantity: 2048 }
-        let(:claim) { create :litigator_claim, :archived_pending_delete, fees: [grad_fee] }
+        let(:grad_fee) { create(:graduated_fee, quantity: 2048) }
+        let(:claim) { create(:litigator_claim, :archived_pending_delete, fees: [grad_fee]) }
 
         it { is_expected.to eq 2048 }
       end

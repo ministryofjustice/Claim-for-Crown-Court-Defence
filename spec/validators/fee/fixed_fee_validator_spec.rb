@@ -3,13 +3,13 @@ require 'rails_helper'
 RSpec.describe Fee::FixedFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:fee) { build :fixed_fee, claim:, date: Date.today }
+  let(:fee) { build(:fixed_fee, claim:, date: Date.today) }
   let(:fee_code) { fee.fee_type.code }
 
   # AGFS claims are validated as part of the base_fee_validator_spec
   #
   context 'LGFS claim' do
-    let(:claim) { build :litigator_claim }
+    let(:claim) { build(:litigator_claim) }
 
     before do
       fee.clear   # reset some attributes set by the factory
@@ -25,8 +25,8 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
     end
 
     context 'validation of case_type on claim' do
-      let(:fixed_fee) { build :fixed_fee, :lgfs }
-      let(:grad_fee) { build :graduated_fee }
+      let(:fixed_fee) { build(:fixed_fee, :lgfs) }
+      let(:grad_fee) { build(:graduated_fee) }
 
       context 'claim has a fixed fee case type' do
         let(:claim) { build(:litigator_claim, case_type: build(:case_type, :fixed_fee)) }
@@ -78,12 +78,12 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
     end
 
     describe '#validate_sub_type' do
-      let(:fixed_fee_claim) { build :claim, case_type: build(:case_type, :fixed_fee) }
-      let!(:non_parent) { create :fixed_fee_type }
-      let!(:parent) { create :fixed_fee_type }
-      let!(:child) { create :child_fee_type, :asbo, parent: }
-      let!(:unrelated_child) { create :child_fee_type, :s74 }
-      let!(:fee) { build :fixed_fee, :lgfs, fee_type: parent, sub_type: child, claim: fixed_fee_claim, date: nil }
+      let(:fixed_fee_claim) { build(:claim, case_type: build(:case_type, :fixed_fee)) }
+      let!(:non_parent) { create(:fixed_fee_type) }
+      let!(:parent) { create(:fixed_fee_type) }
+      let!(:child) { create(:child_fee_type, :asbo, parent:) }
+      let!(:unrelated_child) { create(:child_fee_type, :s74) }
+      let!(:fee) { build(:fixed_fee, :lgfs, fee_type: parent, sub_type: child, claim: fixed_fee_claim, date: nil) }
 
       before { fee.claim.force_validation = true }
 

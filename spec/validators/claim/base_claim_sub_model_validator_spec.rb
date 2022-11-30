@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
   subject(:validator) { described_class.new }
 
-  let(:claim) { create :claim }
+  let(:claim) { create(:claim) }
   let(:defendant) { claim.defendants.first }
 
   before do
@@ -27,9 +27,9 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
 
   context 'fees' do
     before do
-      @basic_fee = create :basic_fee, :with_date_attended, claim: claim
-      @misc_fee = create :misc_fee, :with_date_attended, claim: claim
-      create :date_attended, attended_item: @misc_fee
+      @basic_fee = create(:basic_fee, :with_date_attended, claim:)
+      @misc_fee = create(:misc_fee, :with_date_attended, claim:)
+      create(:date_attended, attended_item: @misc_fee)
       claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
       claim.form_step = :basic_fees
     end
@@ -43,8 +43,8 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
 
   context 'expenses' do
     before do
-      @expense = create :expense, :with_date_attended, claim: claim
-      create :date_attended, attended_item: @expense
+      @expense = create(:expense, :with_date_attended, claim:)
+      create(:date_attended, attended_item: @expense)
       claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
       claim.force_validation = true
       claim.form_step = :offence_details

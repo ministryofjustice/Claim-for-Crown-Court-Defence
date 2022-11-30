@@ -107,7 +107,7 @@ RSpec.describe API::V2::CaseWorkers::Claim do
       end
 
       def create_lgfs_submitted_fixed_fee
-        create :litigator_claim, :submitted, :fixed_fee
+        create(:litigator_claim, :submitted, :fixed_fee)
       end
 
       def create_lgfs_submitted_fixed_fee_vb20
@@ -118,7 +118,7 @@ RSpec.describe API::V2::CaseWorkers::Claim do
       end
 
       def create_lgfs_submitted_grad_fee
-        create :litigator_claim, :submitted, :graduated_fee
+        create(:litigator_claim, :submitted, :graduated_fee)
       end
 
       def create_lgfs_submitted_grad_fee_vb30

@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe RepresentationOrderValidator, type: :validator do
-  let(:claim)     { build :claim }
-  let(:defendant) { build :defendant, claim: }
-  let(:reporder)  { build :representation_order, defendant: }
+  let(:claim)     { build(:claim) }
+  let(:defendant) { build(:defendant, claim:) }
+  let(:reporder)  { build(:representation_order, defendant:) }
 
   before do
     claim.force_validation = true
@@ -220,7 +220,7 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
   end
 
   context 'for a litigator interim claim' do
-    let(:claim) { build :interim_claim }
+    let(:claim) { build(:interim_claim) }
 
     context 'representation_order_date' do
       let(:earliest_permitted_date) { Date.new(2014, 10, 2) }
@@ -231,13 +231,13 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
 
   context 'stand-alone rep order' do
     it 'is always valid if not attached to a defendant or claim' do
-      reporder = build :representation_order, defendant: nil, representation_order_date: nil
+      reporder = build(:representation_order, defendant: nil, representation_order_date: nil)
       expect(reporder).to be_valid
     end
   end
 
   context 'multiple representation orders' do
-    let(:claim) { create :claim }
+    let(:claim) { create(:claim) }
     let(:ro1)   { claim.defendants.first.representation_orders.first }
     let(:ro2)   { claim.defendants.first.representation_orders.last }
 

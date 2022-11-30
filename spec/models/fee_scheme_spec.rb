@@ -130,7 +130,7 @@ RSpec.describe FeeScheme, type: :model do
     subject(:fee_scheme) { described_class.for_claim(claim) }
 
     context 'with an LGFS claim' do
-      let(:claim) { create :litigator_claim }
+      let(:claim) { create(:litigator_claim) }
 
       context 'without representation order' do
         before do

@@ -17,11 +17,11 @@ end
 RSpec.describe Stats::StatsReport do
   context 'management information reports' do
     before(:all) do
-      @mi_old = create :stats_report, started_at: 10.days.ago
-      @mi_complete = create :stats_report
-      @mi_incomplete = create :stats_report, :incomplete
-      @other_report = create :stats_report, :other_report
-      @error_report = create :stats_report, :error
+      @mi_old = create(:stats_report, started_at: 10.days.ago)
+      @mi_complete = create(:stats_report)
+      @mi_incomplete = create(:stats_report, :incomplete)
+      @other_report = create(:stats_report, :other_report)
+      @error_report = create(:stats_report, :error)
     end
 
     after(:all) do
@@ -79,7 +79,7 @@ RSpec.describe Stats::StatsReport do
 
     describe '#download_filename' do
       it 'generates a filename incorportating the report name and started at time' do
-        report = build :stats_report, report_name: :my_new_report, started_at: Time.zone.local(2016, 2, 3, 4, 55, 12)
+        report = build(:stats_report, report_name: :my_new_report, started_at: Time.zone.local(2016, 2, 3, 4, 55, 12))
         expect(report.download_filename).to eq 'my_new_report_20160203045512.csv'
       end
     end
@@ -155,10 +155,10 @@ RSpec.describe Stats::StatsReport do
   describe 'housekeeping' do
     describe '.destroy_reports_older_than' do
       it 'destroys all reports for named report older than specified time' do
-        _my_report_old = create :stats_report, started_at: 63.days.ago
-        my_report_new = create :stats_report, started_at: 53.days.ago
-        other_report_old = create :stats_report, :other_report, started_at: 63.days.ago
-        other_report_new = create :stats_report, :other_report, started_at: 53.days.ago
+        _my_report_old = create(:stats_report, started_at: 63.days.ago)
+        my_report_new = create(:stats_report, started_at: 53.days.ago)
+        other_report_old = create(:stats_report, :other_report, started_at: 63.days.ago)
+        other_report_new = create(:stats_report, :other_report, started_at: 53.days.ago)
 
         described_class.destroy_reports_older_than(:management_information, 62.days.ago)
         expect(described_class.all).to match_array [my_report_new, other_report_old, other_report_new]
@@ -167,10 +167,10 @@ RSpec.describe Stats::StatsReport do
 
     describe '.destroy_unfinished_reports_older_than' do
       it 'destroys incomplete reports started before the timestamp' do
-        _my_report_old = create :stats_report, :incomplete, started_at: 121.minutes.ago
-        my_report_new = create :stats_report, :incomplete, started_at: 119.minutes.ago
-        other_report_old = create :stats_report, :other_report, :incomplete, started_at: 121.minutes.ago
-        other_report_new = create :stats_report, :other_report, :incomplete, started_at: 119.minutes.ago
+        _my_report_old = create(:stats_report, :incomplete, started_at: 121.minutes.ago)
+        my_report_new = create(:stats_report, :incomplete, started_at: 119.minutes.ago)
+        other_report_old = create(:stats_report, :other_report, :incomplete, started_at: 121.minutes.ago)
+        other_report_new = create(:stats_report, :other_report, :incomplete, started_at: 119.minutes.ago)
 
         described_class.destroy_unfinished_reports_older_than(:management_information, 2.hours.ago)
         expect(described_class.all).to match_array [my_report_new, other_report_old, other_report_new]

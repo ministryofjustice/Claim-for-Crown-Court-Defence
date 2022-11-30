@@ -13,7 +13,7 @@ module Stats
     describe '.import' do
       subject(:import) { described_class.import(claim) }
 
-      let(:claim) { create :archived_pending_delete_claim }
+      let(:claim) { create(:archived_pending_delete_claim) }
 
       it { is_expected.to be true }
       it { expect { import }.to change(Stats::MIData, :count).by 1 }

@@ -218,6 +218,6 @@ RSpec.describe Claim::TransferBrain do
   end
 
   def transfer_detail(litigator_type, elected_case, transfer_stage_id, case_conclusion_id = 10)
-    build :transfer_detail, litigator_type:, elected_case:, transfer_stage_id:, case_conclusion_id:
+    build(:transfer_detail, litigator_type:, elected_case:, transfer_stage_id:, case_conclusion_id:)
   end
 end

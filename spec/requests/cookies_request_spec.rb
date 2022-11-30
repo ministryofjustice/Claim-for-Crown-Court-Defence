@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Cookies', type: :request do
+RSpec.describe 'Cookies' do
   describe 'GET /help/cookies' do
     before { get '/help/cookies' }
 

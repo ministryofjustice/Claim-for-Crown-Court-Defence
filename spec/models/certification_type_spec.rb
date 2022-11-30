@@ -12,7 +12,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CertificationType, type: :model do
+RSpec.describe CertificationType do
   it_behaves_like 'roles', CertificationType, CertificationType::ROLES
 
   it { should have_many(:certifications) }

@@ -12,7 +12,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DisbursementType, type: :model do
+RSpec.describe DisbursementType do
   it { should have_many(:disbursements) }
 
   it { should validate_presence_of(:name) }

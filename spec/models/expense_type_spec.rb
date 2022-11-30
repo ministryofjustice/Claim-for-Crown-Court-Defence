@@ -13,7 +13,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ExpenseType, type: :model do
+RSpec.describe ExpenseType do
   it_behaves_like 'roles', ExpenseType, ExpenseType::ROLES
 
   it { should have_many(:expenses) }

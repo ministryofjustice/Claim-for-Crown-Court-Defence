@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claim::AdvocateClaim, type: :model do
+RSpec.describe Claim::AdvocateClaim do
   subject(:claim) { create(:advocate_claim) }
 
   it_behaves_like 'a base claim'

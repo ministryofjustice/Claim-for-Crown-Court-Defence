@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Allocation, type: :model do
+RSpec.describe Allocation do
   let(:current_user) { create(:case_worker, :admin) }
 
   it { should validate_presence_of(:case_worker_id) }

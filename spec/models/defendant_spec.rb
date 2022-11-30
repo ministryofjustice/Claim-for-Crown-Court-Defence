@@ -15,7 +15,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Defendant, type: :model do
+RSpec.describe Defendant do
   it { should belong_to(:claim) }
 
   describe 'validations' do

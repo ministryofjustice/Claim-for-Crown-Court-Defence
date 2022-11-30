@@ -65,7 +65,7 @@
 require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
-RSpec.describe Claim::LitigatorClaim, type: :model do
+RSpec.describe Claim::LitigatorClaim do
   let(:claim) { build(:litigator_claim) }
 
   it_behaves_like 'uses claim cleaner', Cleaners::LitigatorClaimCleaner

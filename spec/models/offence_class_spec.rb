@@ -11,7 +11,7 @@
 
 require 'rails_helper'
 
-RSpec.describe OffenceClass, type: :model do
+RSpec.describe OffenceClass do
   it { should have_many(:offences) }
 
   it { should validate_presence_of(:class_letter) }

@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
-RSpec.describe Claim::InterimClaim, type: :model do
+RSpec.describe Claim::InterimClaim do
   let(:claim) { build(:interim_claim, **options) }
   let(:options) { {} }
 

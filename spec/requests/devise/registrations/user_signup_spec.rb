@@ -12,7 +12,7 @@ RSpec.shared_examples 'external user created' do
   it { expect { request }.to change(Provider, :count).by(1) }
 end
 
-RSpec.describe 'User sign up', type: :request do
+RSpec.describe 'User sign up' do
   include Capybara::RSpecMatchers
 
   describe 'GET #new' do

@@ -1,6 +1,6 @@
 require 'support/shared_examples_for_claim_types'
 
-RSpec.describe Provider, type: :model do
+RSpec.describe Provider do
   let(:firm) { create(:provider, :firm) }
   let(:chamber) { create(:provider, :chamber) }
   let(:agfs_lgfs) { create(:provider, :agfs_lgfs) }

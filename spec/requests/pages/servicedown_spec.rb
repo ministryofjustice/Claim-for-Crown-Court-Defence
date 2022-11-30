@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Servicedown mode', type: :request do
+RSpec.describe 'Servicedown mode' do
   before do
     allow(Settings).to receive(:maintenance_mode_enabled?).and_return(true)
     Rails.application.reload_routes!

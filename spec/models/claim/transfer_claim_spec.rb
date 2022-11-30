@@ -1,7 +1,7 @@
 require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
-describe Claim::TransferClaim, type: :model do
+describe Claim::TransferClaim do
   subject(:claim) { build(:transfer_claim, **options) }
 
   let(:options) { {} }

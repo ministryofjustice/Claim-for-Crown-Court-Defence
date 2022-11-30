@@ -13,7 +13,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CaseWorker, type: :model do
+RSpec.describe CaseWorker do
   include DatabaseHousekeeping
   it_behaves_like 'roles', CaseWorker, CaseWorker::ROLES
 

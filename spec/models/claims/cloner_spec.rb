@@ -25,7 +25,7 @@ RSpec.shared_examples 'common defendants cloning tests' do
   end
 end
 
-RSpec.describe Claims::Cloner, type: :model do
+RSpec.describe Claims::Cloner do
   context 'ensure we are excluding fee associations' do
     let(:claim_types) { [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] }
     let(:excluded_associations) { Claims::Cloner::EXCLUDED_FEE_ASSOCIATIONS }

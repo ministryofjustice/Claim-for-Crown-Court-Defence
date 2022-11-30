@@ -12,7 +12,7 @@
 
 require 'rails_helper'
 
-RSpec.describe UserMessageStatus, type: :model do
+RSpec.describe UserMessageStatus do
   it { should belong_to(:user) }
   it { should belong_to(:message) }
 

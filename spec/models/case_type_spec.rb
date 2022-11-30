@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CaseType, type: :model do
+RSpec.describe CaseType do
   it_behaves_like 'roles', CaseType, CaseType::ROLES
 
   after(:all) do

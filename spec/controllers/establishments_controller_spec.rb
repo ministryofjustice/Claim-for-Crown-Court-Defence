@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe EstablishmentsController, type: :controller do
+RSpec.describe EstablishmentsController do
   describe 'GET index' do
     let(:crown_courts) { create_list(:establishment, 2, :crown_court) }
     let(:magistrates_courts) { create_list(:establishment, 5, :magistrates_court) }

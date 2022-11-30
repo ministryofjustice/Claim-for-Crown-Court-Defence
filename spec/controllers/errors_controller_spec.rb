@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ErrorsController, type: :controller do
+RSpec.describe ErrorsController do
   describe 'GET #not_endpoint' do
     before { get :not_endpoint }
 

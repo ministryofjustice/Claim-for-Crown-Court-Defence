@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'User management', type: :request do
+RSpec.describe 'User management' do
   describe 'index view' do
     subject do
       get users_path

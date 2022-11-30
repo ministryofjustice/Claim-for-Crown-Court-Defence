@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claims::FinancialSummary, type: :model do
+RSpec.describe Claims::FinancialSummary do
   # Uses default VAT rate factory (implicitly) with VAT rate of 17.5%
 
   context 'by advocate' do

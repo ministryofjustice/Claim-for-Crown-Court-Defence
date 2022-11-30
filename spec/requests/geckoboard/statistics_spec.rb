@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Geckoboard statistics', allow_forgery_protection: true, type: :request do
+RSpec.describe 'Geckoboard statistics', allow_forgery_protection: true do
   describe 'GET #index' do
     before { get statistics_path }
 

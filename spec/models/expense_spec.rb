@@ -24,7 +24,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Expense, type: :model do
+RSpec.describe Expense do
   it { should belong_to(:expense_type) }
   it { should belong_to(:claim) }
   it { should have_many(:dates_attended) }

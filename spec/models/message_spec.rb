@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Message, type: :model do
+RSpec.describe Message do
   it { is_expected.to belong_to(:claim) }
   it { is_expected.to belong_to(:sender).class_name('User').inverse_of(:messages_sent) }
   it { is_expected.to have_many(:user_message_statuses) }

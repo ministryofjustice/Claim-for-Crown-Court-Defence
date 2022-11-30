@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   subject(:user) { build(:user) }
 
   it { is_expected.to validate_presence_of(:first_name).with_message('Enter a first name') }

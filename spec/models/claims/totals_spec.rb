@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claim, type: :model do
+RSpec.describe Claim do
   subject(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
 
   let(:expenses) { [3.5, 1.0, 142.0].each { |amount| create(:expense, claim_id: claim.id, amount:) } }

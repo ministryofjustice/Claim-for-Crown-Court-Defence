@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'providers external users management', type: :request do
+RSpec.describe 'providers external users management' do
   include Capybara::RSpecMatchers
 
   describe 'viewing an external user' do

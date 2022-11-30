@@ -19,7 +19,7 @@
 require 'rails_helper'
 require_relative 'shared_examples_for_defendant_uplifts'
 
-RSpec.describe Fee::BaseFeeType, type: :model do
+RSpec.describe Fee::BaseFeeType do
   include DatabaseHousekeeping
 
   class FeeTypeDouble < described_class; end

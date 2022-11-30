@@ -16,7 +16,7 @@
 require 'rails_helper'
 require 'support/shared_examples_for_claim_types'
 
-RSpec.describe ExternalUser, type: :model do
+RSpec.describe ExternalUser do
   it_behaves_like 'roles', ExternalUser, ExternalUser::ROLES
 
   it { is_expected.to belong_to(:provider) }

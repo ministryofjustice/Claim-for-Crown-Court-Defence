@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::Advocates::InterimClaimsController, type: :controller do
+RSpec.describe ExternalUsers::Advocates::InterimClaimsController do
   let(:resource_klass) { Claim::AdvocateInterimClaim }
   let(:unauthorized_user) { create(:external_user, :litigator) }
   let(:authorized_user) { create(:external_user, :advocate) }

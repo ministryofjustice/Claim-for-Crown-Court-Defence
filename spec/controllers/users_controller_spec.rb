@@ -29,7 +29,7 @@
 
 require 'rails_helper'
 
-RSpec.describe UsersController, type: :controller do
+RSpec.describe UsersController do
   describe 'PUT #update_settings' do
     let(:external_user) { create(:external_user) }
     let(:user) { external_user.user }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::CertificationsController, type: :controller do
+RSpec.describe ExternalUsers::CertificationsController do
   let(:certification_type) { create(:certification_type) }
   let!(:advocate) { create(:external_user) }
 

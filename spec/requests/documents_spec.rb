@@ -48,7 +48,7 @@ RSpec.shared_examples 'failed document upload' do
   end
 end
 
-RSpec.describe 'Document management', type: :request do
+RSpec.describe 'Document management' do
   let(:external_user) { create(:external_user) }
   let(:user) { external_user.user }
 

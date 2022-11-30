@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe StatsReportGenerationJob, type: :job do
+RSpec.describe StatsReportGenerationJob do
   subject(:job) { described_class.new }
 
   describe '#perform' do

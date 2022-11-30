@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderManagement::ProvidersController, type: :controller do
+RSpec.describe ProviderManagement::ProvidersController do
   let(:case_worker_manager) { create(:case_worker, :provider_manager) }
   let(:providers) { create_list(:provider, 5) }
   let(:provider) { create(:provider, :lgfs, name: 'test 123') }

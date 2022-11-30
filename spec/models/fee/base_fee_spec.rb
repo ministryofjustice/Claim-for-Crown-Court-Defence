@@ -28,7 +28,7 @@ module Fee
   class FeeTypeDouble < Fee::BaseFeeType
   end
 
-  RSpec.describe Fee::FeeDouble, type: :model do
+  RSpec.describe Fee::FeeDouble do
     subject { FeeDouble.new }
 
     it { should belong_to(:claim) }
@@ -166,7 +166,7 @@ module Fee
     end
   end
 
-  RSpec.describe Fee::BaseFee, type: :model do
+  RSpec.describe Fee::BaseFee do
     context '#new' do
       it 'raises BaseFeeAbstractClassError' do
         expect { BaseFee.new }.to raise_error(Fee::BaseFeeAbstractClassError)

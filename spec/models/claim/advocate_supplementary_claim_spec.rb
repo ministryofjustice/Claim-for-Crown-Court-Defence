@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claim::AdvocateSupplementaryClaim, type: :model do
+RSpec.describe Claim::AdvocateSupplementaryClaim do
   let(:claim) { build(:advocate_supplementary_claim) }
 
   it_behaves_like 'a base claim'

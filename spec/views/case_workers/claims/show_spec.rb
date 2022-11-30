@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
+RSpec.describe 'case_workers/claims/show.html.haml' do
   before do
     @case_worker = create(:case_worker)
     initialize_view_helpers(view)

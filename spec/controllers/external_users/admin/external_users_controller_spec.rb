@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller do
+RSpec.describe ExternalUsers::Admin::ExternalUsersController do
   let(:provider) { create(:provider) }
 
   context 'admin user' do

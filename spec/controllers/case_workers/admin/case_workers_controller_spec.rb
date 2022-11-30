@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CaseWorkers::Admin::CaseWorkersController, type: :controller do
+RSpec.describe CaseWorkers::Admin::CaseWorkersController do
   let(:admin) { create(:case_worker, :admin) }
 
   subject { create(:case_worker) }

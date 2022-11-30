@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DeviseMailer, type: :mailer do
+RSpec.describe DeviseMailer do
   before do
     allow(Settings.govuk_notify.templates).to receive(:new_user).and_return('11111111-0000-0000-0000-111111111111')
     allow(Settings.govuk_notify.templates).to receive(:new_external_admin).and_return('22222222-0000-0000-0000-222222222222')

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::ClaimsController, type: :controller do
+RSpec.describe ExternalUsers::ClaimsController do
   let!(:advocate) { create(:external_user, :advocate) }
 
   before { sign_in advocate.user }

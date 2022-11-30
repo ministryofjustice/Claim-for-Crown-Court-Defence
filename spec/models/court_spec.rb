@@ -12,7 +12,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Court, type: :model do
+RSpec.describe Court do
   it { should have_many(:claims) }
 
   it { should validate_presence_of(:code) }

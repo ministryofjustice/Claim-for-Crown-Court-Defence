@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claims::StateMachine, type: :model do
+RSpec.describe Claims::StateMachine do
   subject(:claim) { create(:advocate_claim) }
 
   context 'state machine' do

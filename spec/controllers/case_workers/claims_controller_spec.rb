@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CaseWorkers::ClaimsController, type: :controller do
+RSpec.describe CaseWorkers::ClaimsController do
   before do
     @case_worker = create(:case_worker)
     sign_in @case_worker.user

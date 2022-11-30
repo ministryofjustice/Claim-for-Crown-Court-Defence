@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'send feedback', type: :request do
+RSpec.describe 'send feedback' do
   describe 'GET /feedback/new' do
     let(:params) { {} }
 

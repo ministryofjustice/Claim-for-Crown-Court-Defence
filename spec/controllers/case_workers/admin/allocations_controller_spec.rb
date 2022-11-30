@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CaseWorkers::Admin::AllocationsController, type: :controller do
+RSpec.describe CaseWorkers::Admin::AllocationsController do
   before(:all) do
     # create(:graduated_fee_type, code: 'GTRL') #use seeded case types 'real' fee type codes
     # load '#{Rails.root}/db/seeds/case_types.rb'

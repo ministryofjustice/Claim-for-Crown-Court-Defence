@@ -15,7 +15,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Disbursement, type: :model do
+RSpec.describe Disbursement do
   it { should belong_to(:disbursement_type) }
   it { should belong_to(:claim) }
 

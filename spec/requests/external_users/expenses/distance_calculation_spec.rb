@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Distance calculation for travel expenses', type: :request do
+RSpec.describe 'Distance calculation for travel expenses' do
   subject(:calculate_distance) do
     post(
       "/external_users/claims/#{claim_id}/expenses/calculate_distance.json",

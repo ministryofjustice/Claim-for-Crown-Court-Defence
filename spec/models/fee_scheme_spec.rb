@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FeeScheme, type: :model do
+RSpec.describe FeeScheme do
   before do
     seed_fee_schemes
   end

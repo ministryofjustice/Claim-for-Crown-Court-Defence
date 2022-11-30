@@ -26,7 +26,7 @@
 require 'rails_helper'
 require 'fileutils'
 
-RSpec.describe Document, type: :model do
+RSpec.describe Document do
   it { is_expected.to belong_to(:external_user) }
   it { is_expected.to belong_to(:creator).class_name('ExternalUser') }
   it { is_expected.to belong_to(:claim) }

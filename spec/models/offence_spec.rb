@@ -12,7 +12,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Offence, type: :model do
+RSpec.describe Offence do
   it { should have_many(:claims) }
 
   it { should validate_presence_of(:offence_class) }

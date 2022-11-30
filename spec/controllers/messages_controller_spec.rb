@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-RSpec.describe MessagesController, type: :controller do
+RSpec.describe MessagesController do
   context 'standard sign in' do
     let(:sender) { create(:external_user) }
 

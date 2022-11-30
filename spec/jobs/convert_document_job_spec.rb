@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ConvertDocumentJob, type: :job do
+RSpec.describe ConvertDocumentJob do
   let(:job) { described_class.new }
 
   describe '#perform' do

@@ -2,7 +2,7 @@
 
 require 'requests/api/v1/external_users/claims/advocates/agfs_api_shared_examples'
 
-RSpec.describe 'creating supplementary AGFS claim for fee scheme 13', type: :request do
+RSpec.describe 'creating supplementary AGFS claim for fee scheme 13' do
   include_context 'with AGFS API users'
 
   let(:first_date) { Settings.agfs_scheme_13_clair_release_date.beginning_of_day }

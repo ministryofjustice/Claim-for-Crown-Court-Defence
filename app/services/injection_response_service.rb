@@ -22,7 +22,7 @@ class InjectionResponseService
   end
 
   def failure(options = {})
-    LogStuff.info('InjectionResponseService::NonExistentClaim', options) { 'Failed to inject because no claim found' }
+    LogStuff.info('InjectionResponseService::NonExistentClaim', **options) { 'Failed to inject because no claim found' }
     slack_notifier.send_message
     false
   end

@@ -107,6 +107,7 @@ agfs_scheme_11_release_date: 2018-12-31
 clar_release_date: 2020-09-17
 lgfs_scheme_10_clair_release_date: 2022-09-30
 agfs_scheme_13_clair_release_date: 2022-09-30
+clair_contingency_date: 2022-10-31
 
 # number of weeks in one state before automatic transition to archived pending delete
 timed_transition_stale_weeks: 16

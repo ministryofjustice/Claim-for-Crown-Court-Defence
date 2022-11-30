@@ -13,6 +13,7 @@ Feature: Advocate completes fixed fee page using calculator
     And I select the court 'Blackfriars'
     And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20161234'
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -69,6 +70,7 @@ Feature: Advocate completes fixed fee page using calculator
     And I select the court 'Blackfriars'
     And I select a case type of 'Elected cases not proceeded'
     And I enter a case number of 'A20161234'
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -118,6 +120,7 @@ Feature: Advocate completes fixed fee page using calculator
     And I select the court 'Blackfriars'
     And I select a case type of 'Elected cases not proceeded'
     And I enter a case number of 'A20161234'
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 

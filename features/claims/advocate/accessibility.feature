@@ -17,6 +17,7 @@ Feature: Advocate submits a claim
     And I select a case type of 'Appeal against conviction'
     And I select the court 'Caernarfon'
     And I enter a case number of 'A20181234'
+    And I enter scheme 10 main hearing date
     Then the page should be accessible skipping 'aria-allowed-attr'
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 

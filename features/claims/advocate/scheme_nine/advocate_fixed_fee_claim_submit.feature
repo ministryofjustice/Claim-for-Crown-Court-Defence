@@ -13,6 +13,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against sentence)
     And I select the court 'Blackfriars'
     And I select a case type of 'Appeal against sentence'
     And I enter a case number of 'A20161234'
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 

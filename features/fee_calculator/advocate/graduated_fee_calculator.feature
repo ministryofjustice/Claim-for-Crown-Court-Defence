@@ -15,6 +15,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter scheme 9 trial long start and end dates
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -48,15 +49,15 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I select the govuk field 'Number of cases uplift' basic fee with quantity of 1 with case numbers
 
     Then the following fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | basic | Daily attendance fee (3 to 40) | 979.00 | Number of days | true |
-      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
-      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
-      | basic | Standard appearance fee | 173.00 | Number of days | true |
-      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
-      | basic | Conferences and views | 74.00 | Number of hours | true |
-      | basic | Number of defendants uplift | 571.20 | Number of additional defendants | true |
-      | basic | Number of cases uplift | 571.20 | Number of additional cases | true |
+      | section | fee_description                    | rate   | hint                            | help |
+      | basic   | Daily attendance fee (3 to 40)     | 979.00 | Number of days                  | true |
+      | basic   | Daily attendance fee (41 to 50)    | 387.00 | Number of days                  | true |
+      | basic   | Daily attendance fee (51+)         | 414.00 | Number of days                  | true |
+      | basic   | Standard appearance fee            | 173.00 | Number of days                  | true |
+      | basic   | Plea and trial preparation hearing | 173.00 | Number of additional cases      | true |
+      | basic   | Conferences and views              | 74.00  | Number of hours                 | true |
+      | basic   | Number of defendants uplift        | 571.20 | Number of additional defendants | true |
+      | basic   | Number of cases uplift             | 571.20 | Number of additional cases      | true |
 
     When I enter '10' prosecution witnesses
     Then the prosecution witnesses net amount should be populated with '0.00'
@@ -77,15 +78,15 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I click "Continue" in the claim form
     Then the basic fee net amount should be populated with '2529.00'
     Then the following fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | basic | Daily attendance fee (3 to 40) | 857.00 | Number of days | true |
-      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
-      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
-      | basic | Standard appearance fee | 173.00 | Number of days | true |
-      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
-      | basic | Conferences and views | 74.00 | Number of hours | true |
-      | basic | Number of defendants uplift | 505.80 | Number of additional defendants | true |
-      | basic | Number of cases uplift | 505.80 | Number of additional cases | true |
+      | section | fee_description                    | rate   | hint                            | help |
+      | basic   | Daily attendance fee (3 to 40)     | 857.00 | Number of days                  | true |
+      | basic   | Daily attendance fee (41 to 50)    | 387.00 | Number of days                  | true |
+      | basic   | Daily attendance fee (51+)         | 414.00 | Number of days                  | true |
+      | basic   | Standard appearance fee            | 173.00 | Number of days                  | true |
+      | basic   | Plea and trial preparation hearing | 173.00 | Number of additional cases      | true |
+      | basic   | Conferences and views              | 74.00  | Number of hours                 | true |
+      | basic   | Number of defendants uplift        | 505.80 | Number of additional defendants | true |
+      | basic   | Number of cases uplift             | 505.80 | Number of additional cases      | true |
     And the prosecution witnesses net amount should be populated with '6.53'
     And the pages of prosecution evidence net amount should be populated with '1.63'
 
@@ -110,6 +111,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I enter a case number of 'A20161234'
     And I enter scheme 9 retrial long start and end dates
     And I choose to apply retrial reduction
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -152,15 +154,15 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
 
     # retrial interval impact on "basic" fee (retrial interval <= a month, 30% reduction)
     Then the following fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | basic | Daily attendance fee (3 to 40) | 599.90 | Number of days | true |
-      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
-      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
-      | basic | Standard appearance fee | 173.00 | Number of days | true |
-      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
-      | basic | Conferences and views | 74.00 | Number of hours | true |
-      | basic | Number of defendants uplift | 354.06 | Number of additional defendants | true |
-      | basic | Number of cases uplift | 354.06 | Number of additional cases | true |
+      | section | fee_description                    | rate   | hint                            | help |
+      | basic   | Daily attendance fee (3 to 40)     | 599.90 | Number of days                  | true |
+      | basic   | Daily attendance fee (41 to 50)    | 387.00 | Number of days                  | true |
+      | basic   | Daily attendance fee (51+)         | 414.00 | Number of days                  | true |
+      | basic   | Standard appearance fee            | 173.00 | Number of days                  | true |
+      | basic   | Plea and trial preparation hearing | 173.00 | Number of additional cases      | true |
+      | basic   | Conferences and views              | 74.00  | Number of hours                 | true |
+      | basic   | Number of defendants uplift        | 354.06 | Number of additional defendants | true |
+      | basic   | Number of cases uplift             | 354.06 | Number of additional cases      | true |
 
     When I enter '10' prosecution witnesses
     Then the prosecution witnesses net amount should be populated with '0.00'
@@ -180,15 +182,15 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I goto claim form step 'basic fees'
     Then the basic fee net amount should be populated with '2023.20'
     And the following fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | basic | Daily attendance fee (3 to 40) | 685.60 | Number of days | true |
-      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
-      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
-      | basic | Standard appearance fee | 173.00 | Number of days | true |
-      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
-      | basic | Conferences and views | 74.00 | Number of hours | true |
-      | basic | Number of defendants uplift | 404.64 | Number of additional defendants | true |
-      | basic | Number of cases uplift | 404.64 | Number of additional cases | true |
+      | section | fee_description                    | rate   | hint                            | help |
+      | basic   | Daily attendance fee (3 to 40)     | 685.60 | Number of days                  | true |
+      | basic   | Daily attendance fee (41 to 50)    | 387.00 | Number of days                  | true |
+      | basic   | Daily attendance fee (51+)         | 414.00 | Number of days                  | true |
+      | basic   | Standard appearance fee            | 173.00 | Number of days                  | true |
+      | basic   | Plea and trial preparation hearing | 173.00 | Number of additional cases      | true |
+      | basic   | Conferences and views              | 74.00  | Number of hours                 | true |
+      | basic   | Number of defendants uplift        | 404.64 | Number of additional defendants | true |
+      | basic   | Number of cases uplift             | 404.64 | Number of additional cases      | true |
 
     When I enter '10' prosecution witnesses
     Then the prosecution witnesses net amount should be populated with '0.00'
@@ -207,15 +209,15 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I goto claim form step 'basic fees'
     Then the basic fee net amount should be populated with '2529.00'
     And the following fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | basic | Daily attendance fee (3 to 40) | 857.00 | Number of days | true |
-      | basic | Daily attendance fee (41 to 50) | 387.00 | Number of days | true |
-      | basic | Daily attendance fee (51+) | 414.00 | Number of days | true |
-      | basic | Standard appearance fee | 173.00 | Number of days | true |
-      | basic | Plea and trial preparation hearing | 173.00 | Number of additional cases | true |
-      | basic | Conferences and views | 74.00 | Number of hours | true |
-      | basic | Number of defendants uplift | 505.80 | Number of additional defendants | true |
-      | basic | Number of cases uplift | 505.80 | Number of additional cases | true |
+      | section | fee_description                    | rate   | hint                            | help |
+      | basic   | Daily attendance fee (3 to 40)     | 857.00 | Number of days                  | true |
+      | basic   | Daily attendance fee (41 to 50)    | 387.00 | Number of days                  | true |
+      | basic   | Daily attendance fee (51+)         | 414.00 | Number of days                  | true |
+      | basic   | Standard appearance fee            | 173.00 | Number of days                  | true |
+      | basic   | Plea and trial preparation hearing | 173.00 | Number of additional cases      | true |
+      | basic   | Conferences and views              | 74.00  | Number of hours                 | true |
+      | basic   | Number of defendants uplift        | 505.80 | Number of additional defendants | true |
+      | basic   | Number of cases uplift             | 505.80 | Number of additional cases      | true |
     And the prosecution witnesses net amount should be populated with '6.53'
     And the pages of prosecution evidence net amount should be populated with '1.63'
 
@@ -238,6 +240,7 @@ Feature: Advocate completes graduated (a.k.a basic) fee page using calculator
     And I select a case type of 'Discontinuance'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 

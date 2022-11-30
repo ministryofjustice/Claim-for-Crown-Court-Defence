@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:45 GMT
+      - Wed, 30 Nov 2022 17:41:20 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -44,7 +44,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:45 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:20 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -64,7 +64,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:45 GMT
+      - Wed, 30 Nov 2022 17:41:20 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -97,7 +97,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:45 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:20 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/calculate/?day=1&fee_type_code=AGFS_FEE&offence_class=8.1&pages_of_prosecuting_evidence=0&scenario=4
@@ -117,7 +117,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:45 GMT
+      - Wed, 30 Nov 2022 17:41:20 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -141,10 +141,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"amount":0.0}'
-  recorded_at: Mon, 28 Nov 2022 11:19:45 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:21 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -161,7 +161,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:46 GMT
+      - Wed, 30 Nov 2022 17:41:24 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -186,7 +186,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:46 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:24 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -206,7 +206,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:46 GMT
+      - Wed, 30 Nov 2022 17:41:24 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -239,7 +239,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:46 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:24 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/calculate/?advocate_type=JUNIOR&day=1&fee_type_code=AGFS_FEE&offence_class=8.1&pages_of_prosecuting_evidence=0&scenario=4
@@ -259,7 +259,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:46 GMT
+      - Wed, 30 Nov 2022 17:41:24 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -283,10 +283,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"amount":1210.0}'
-  recorded_at: Mon, 28 Nov 2022 11:19:46 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:24 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -303,7 +303,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:47 GMT
+      - Wed, 30 Nov 2022 17:41:25 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -328,7 +328,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:47 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:25 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -348,7 +348,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:47 GMT
+      - Wed, 30 Nov 2022 17:41:25 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -381,7 +381,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:47 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:25 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_FEE&limit_from=1&offence_class=8.1&scenario=4&unit=DAY
@@ -401,7 +401,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:47 GMT
+      - Wed, 30 Nov 2022 17:41:25 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -427,10 +427,10 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":123017,"scenario":4,"advocate_type":"JUNIOR","fee_type":34,"offence_class":"8.1","scheme":5,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"1210.00000","limit_from":1,"limit_to":1,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:47 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:25 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -447,7 +447,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:48 GMT
+      - Wed, 30 Nov 2022 17:41:26 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -472,7 +472,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:48 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -492,7 +492,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:48 GMT
+      - Wed, 30 Nov 2022 17:41:26 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -525,7 +525,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:48 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:26 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_FEE&limit_from=1&offence_class=8.1&scenario=4&unit=DAY
@@ -545,7 +545,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:48 GMT
+      - Wed, 30 Nov 2022 17:41:26 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -571,10 +571,10 @@ http_interactions:
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":123017,"scenario":4,"advocate_type":"JUNIOR","fee_type":34,"offence_class":"8.1","scheme":5,"unit":"DAY","fee_per_unit":"0.00000","fixed_fee":"1210.00000","limit_from":1,"limit_to":1,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":1,"name":"NUMBER_OF_CASES","description":"Number
         of cases","unit":"CASE"},"required":false,"priority":0,"strict_range":false},{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:48 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:26 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -591,7 +591,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:50 GMT
+      - Wed, 30 Nov 2022 17:41:31 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -616,7 +616,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:50 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:30 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -636,7 +636,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:51 GMT
+      - Wed, 30 Nov 2022 17:41:31 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -669,7 +669,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:50 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:31 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
@@ -689,7 +689,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:51 GMT
+      - Wed, 30 Nov 2022 17:41:31 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -713,10 +713,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:51 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:31 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -733,7 +733,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:51 GMT
+      - Wed, 30 Nov 2022 17:41:32 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -758,7 +758,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:51 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:32 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -778,7 +778,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:52 GMT
+      - Wed, 30 Nov 2022 17:41:32 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -811,7 +811,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:51 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:32 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
@@ -831,7 +831,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:52 GMT
+      - Wed, 30 Nov 2022 17:41:32 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -855,10 +855,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:52 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:32 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -875,7 +875,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:53 GMT
+      - Wed, 30 Nov 2022 17:41:33 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -900,10 +900,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:53 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:33 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -920,7 +920,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:53 GMT
+      - Wed, 30 Nov 2022 17:41:33 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -945,7 +945,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:53 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:33 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -965,7 +965,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:54 GMT
+      - Wed, 30 Nov 2022 17:41:33 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -998,7 +998,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:53 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:33 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -1018,7 +1018,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:54 GMT
+      - Wed, 30 Nov 2022 17:41:33 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1051,7 +1051,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:53 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:33 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
@@ -1071,7 +1071,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:54 GMT
+      - Wed, 30 Nov 2022 17:41:33 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1095,7 +1095,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:54 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:33 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
@@ -1115,7 +1115,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:54 GMT
+      - Wed, 30 Nov 2022 17:41:33 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1139,10 +1139,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:54 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:33 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -1159,7 +1159,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:55 GMT
+      - Wed, 30 Nov 2022 17:41:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1184,10 +1184,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:54 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:35 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -1204,7 +1204,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:55 GMT
+      - Wed, 30 Nov 2022 17:41:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1229,7 +1229,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:54 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:35 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -1249,7 +1249,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:55 GMT
+      - Wed, 30 Nov 2022 17:41:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1282,7 +1282,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:55 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:35 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -1302,7 +1302,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:55 GMT
+      - Wed, 30 Nov 2022 17:41:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1335,7 +1335,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:55 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:35 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
@@ -1355,7 +1355,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:55 GMT
+      - Wed, 30 Nov 2022 17:41:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1379,7 +1379,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:55 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:35 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
@@ -1399,7 +1399,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:55 GMT
+      - Wed, 30 Nov 2022 17:41:35 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1423,10 +1423,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:55 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:35 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -1443,7 +1443,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:57 GMT
+      - Wed, 30 Nov 2022 17:41:39 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1468,10 +1468,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:57 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:39 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -1488,7 +1488,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:57 GMT
+      - Wed, 30 Nov 2022 17:41:39 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1513,52 +1513,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:57 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:19:57 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:57 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:39 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -1578,7 +1533,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:57 GMT
+      - Wed, 30 Nov 2022 17:41:39 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1611,7 +1566,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:57 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:39 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -1631,7 +1586,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:57 GMT
+      - Wed, 30 Nov 2022 17:41:39 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1664,60 +1619,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:57 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:19:57 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1049'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
-        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
-        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
-        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
-        of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:57 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:39 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
@@ -1737,7 +1639,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:57 GMT
+      - Wed, 30 Nov 2022 17:41:39 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1761,7 +1663,149 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:57 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:39 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:40 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '276'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:40 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:42 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:42 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:42 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:43 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_PAP_HEAVY&limit_from=1&offence_class=8.1&scenario=4
@@ -1781,7 +1825,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:57 GMT
+      - Wed, 30 Nov 2022 17:41:44 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1805,10 +1849,10 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124376,"scenario":4,"advocate_type":"JUNIOR","fee_type":229,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:57 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:45 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -1825,51 +1869,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:57 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '276'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:57 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:19:58 GMT
+      - Wed, 30 Nov 2022 17:41:48 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1894,10 +1894,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:58 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:48 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -1914,7 +1914,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:58 GMT
+      - Wed, 30 Nov 2022 17:41:49 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -1939,52 +1939,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:58 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:19:58 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:58 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:49 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -2004,7 +1959,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:58 GMT
+      - Wed, 30 Nov 2022 17:41:49 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2037,7 +1992,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:58 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:49 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -2057,7 +2012,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:58 GMT
+      - Wed, 30 Nov 2022 17:41:49 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2090,10 +2045,10 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:58 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:50 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2110,11 +2065,11 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:58 GMT
+      - Wed, 30 Nov 2022 17:41:50 GMT
       Content-Type:
       - application/json
       Content-Length:
-      - '1049'
+      - '221'
       Connection:
       - keep-alive
       Vary:
@@ -2133,17 +2088,53 @@ http_interactions:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
-        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
-        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
-        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
-        of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:58 GMT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:50 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_PAP_HEAVY&limit_from=1&offence_class=8.1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:50 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '278'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124376,"scenario":4,"advocate_type":"JUNIOR","fee_type":229,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:50 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
@@ -2163,7 +2154,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:58 GMT
+      - Wed, 30 Nov 2022 17:41:50 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2187,7 +2178,105 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:58 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:50 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:50 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:50 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:51 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:51 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
@@ -2207,7 +2296,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:19:58 GMT
+      - Wed, 30 Nov 2022 17:41:51 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2231,231 +2320,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:58 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_PAP_HEAVY&limit_from=1&offence_class=8.1&scenario=4
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:19:58 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '278'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124376,"scenario":4,"advocate_type":"JUNIOR","fee_type":229,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:19:58 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:51 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -2475,7 +2340,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
+      - Wed, 30 Nov 2022 17:41:51 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2508,166 +2373,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1049'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
-        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
-        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
-        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
-        of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1049'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
-        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
-        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
-        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
-        of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1049'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
-        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
-        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
-        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
-        of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:51 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
@@ -2687,7 +2393,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
+      - Wed, 30 Nov 2022 17:41:52 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2711,7 +2417,247 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:52 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:52 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:52 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:52 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:52 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:52 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:52 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:52 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:52 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:52 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '278'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:52 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_PAP_HEAVY&limit_from=1&offence_class=8.1&scenario=4
@@ -2731,7 +2677,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
+      - Wed, 30 Nov 2022 17:41:52 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2755,7 +2701,487 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124376,"scenario":4,"advocate_type":"JUNIOR","fee_type":229,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:52 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '276'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:57 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '278'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_DEF_SEN_HR&limit_from=1&offence_class=8.1&scenario=4
@@ -2775,7 +3201,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
+      - Wed, 30 Nov 2022 17:41:57 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2800,10 +3226,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":123672,"scenario":4,"advocate_type":"JUNIOR","fee_type":16,"offence_class":null,"scheme":5,"unit":"DAY","fee_per_unit":"175.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_PAP_HEAVY&limit_from=1&offence_class=8.1&scenario=4
     body:
       encoding: US-ASCII
       string: ''
@@ -2820,7 +3246,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:00 GMT
+      - Wed, 30 Nov 2022 17:41:57 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2843,11 +3269,11 @@ http_interactions:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:00 GMT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124376,"scenario":4,"advocate_type":"JUNIOR","fee_type":229,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:57 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2864,7 +3290,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2889,10 +3315,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2909,7 +3335,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2934,10 +3360,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2954,7 +3380,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -2979,10 +3405,10 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -2999,7 +3425,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3024,7 +3450,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -3044,7 +3470,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3077,7 +3503,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -3097,7 +3523,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3130,7 +3556,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -3150,7 +3576,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3183,7 +3609,7 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
@@ -3203,7 +3629,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3236,10 +3662,10 @@ http_interactions:
         issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
         - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
         of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_PAP_HEAVY&limit_from=1&offence_class=8.1&scenario=4
     body:
       encoding: US-ASCII
       string: ''
@@ -3256,7 +3682,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3279,8 +3705,52 @@ http_interactions:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124376,"scenario":4,"advocate_type":"JUNIOR","fee_type":229,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:41:59 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '276'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_DEF_SEN_HR&limit_from=1&offence_class=8.1&scenario=4
@@ -3300,7 +3770,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3325,531 +3795,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":123672,"scenario":4,"advocate_type":"JUNIOR","fee_type":16,"offence_class":null,"scheme":5,"unit":"DAY","fee_per_unit":"175.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '276'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_PAP_HEAVY&limit_from=1&offence_class=8.1&scenario=4
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:02 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '278'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124376,"scenario":4,"advocate_type":"JUNIOR","fee_type":229,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:02 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date&type=AGFS
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '221'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
-        Fee Scheme 12 - CLAR accelerated measures"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1049'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
-        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
-        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
-        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
-        of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1049'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
-        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
-        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
-        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
-        of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1049'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
-        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
-        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
-        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
-        of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '1049'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
-        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
-        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
-        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
-        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
-        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
-        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
-        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
-        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
-        of crown court order","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
-- request:
-    method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_PAP_HEAVY&limit_from=1&offence_class=8.1&scenario=4
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept:
-      - application/json
-      User-Agent:
-      - laa-fee-calculator-client/1.4.0
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
-      Content-Type:
-      - application/json
-      Content-Length:
-      - '278'
-      Connection:
-      - keep-alive
-      Vary:
-      - Accept, Origin, Cookie
-      Allow:
-      - GET, HEAD, OPTIONS
-      Cache-Control:
-      - public, max-age=7200
-      X-Frame-Options:
-      - DENY
-      X-Content-Type-Options:
-      - nosniff
-      Referrer-Policy:
-      - same-origin
-      Strict-Transport-Security:
-      - max-age=15724800; includeSubDomains
-    body:
-      encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124376,"scenario":4,"advocate_type":"JUNIOR","fee_type":229,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
@@ -3869,7 +3815,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
+      - Wed, 30 Nov 2022 17:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3893,7 +3839,487 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
+  recorded_at: Wed, 30 Nov 2022 17:41:59 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:06 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:06 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:06 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2020-09-17&main_hearing_date=2020-09-17&type=AGFS
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:06 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '221'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":5,"start_date":"2020-09-17","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+        Fee Scheme 12 - CLAR accelerated measures"}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:06 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:06 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:06 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/scenarios/
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:06 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '1049'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":17,"next":null,"previous":null,"results":[{"id":1,"name":"Discontinuance","code":"AS000001"},{"id":2,"name":"Guilty
+        plea","code":"AS000002"},{"id":3,"name":"Cracked trial","code":"AS000003"},{"id":4,"name":"Trial","code":"AS000004"},{"id":5,"name":"Appeal
+        against conviction","code":"AS000005"},{"id":6,"name":"Appeal against sentence","code":"AS000006"},{"id":7,"name":"Committal
+        for sentence","code":"AS000007"},{"id":8,"name":"Contempt","code":"AS000008"},{"id":9,"name":"Breach
+        of crown court order","code":"AS000009"},{"id":10,"name":"Cracked before retrial","code":"AS000010"},{"id":11,"name":"Retrial","code":"AS000011"},{"id":12,"name":"Elected
+        case not proceeded","code":"AS000014"},{"id":47,"name":"Warrant issued - trial","code":null},{"id":51,"name":"Warrant
+        issued - appeal against conviction","code":null},{"id":52,"name":"Warrant
+        issued - appeal against sentence","code":null},{"id":53,"name":"Warrant issued
+        - committal for sentence","code":null},{"id":54,"name":"Warrant issued - breach
+        of crown court order","code":null}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_PAP_HEAVY&limit_from=1&offence_class=8.1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:06 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '278'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124376,"scenario":4,"advocate_type":"JUNIOR","fee_type":229,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:06 GMT
+- request:
+    method: get
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_OV3&limit_from=1&offence_class=8.1&scenario=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept:
+      - application/json
+      User-Agent:
+      - laa-fee-calculator-client/1.4.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 30 Nov 2022 17:42:07 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '278'
+      Connection:
+      - keep-alive
+      Vary:
+      - Accept, Origin, Cookie
+      Allow:
+      - GET, HEAD, OPTIONS
+      Cache-Control:
+      - public, max-age=7200
+      X-Frame-Options:
+      - DENY
+      X-Content-Type-Options:
+      - nosniff
+      Referrer-Policy:
+      - same-origin
+      Strict-Transport-Security:
+      - max-age=15724800; includeSubDomains
+    body:
+      encoding: UTF-8
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":124442,"scenario":4,"advocate_type":"JUNIOR","fee_type":231,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"39.39000","fixed_fee":"0.00000","limit_from":1,"limit_to":240,"modifiers":[],"strict_range":false}]}'
+  recorded_at: Wed, 30 Nov 2022 17:42:07 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_DEF_SEN_HR&limit_from=1&offence_class=8.1&scenario=4
@@ -3913,7 +4339,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
+      - Wed, 30 Nov 2022 17:42:07 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3938,7 +4364,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":123672,"scenario":4,"advocate_type":"JUNIOR","fee_type":16,"offence_class":null,"scheme":5,"unit":"DAY","fee_per_unit":"175.00000","fixed_fee":"0.00000","limit_from":1,"limit_to":30,"modifiers":[{"limit_from":2,"limit_to":null,"fixed_percent":"0.00","percent_per_unit":"20.00","modifier_type":{"id":2,"name":"NUMBER_OF_DEFENDANTS","description":"Number
         of defendants","unit":"DEFENDANT"},"required":false,"priority":0,"strict_range":false}],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
+  recorded_at: Wed, 30 Nov 2022 17:42:07 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/5/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_UNUSED_UP3&limit_from=1&offence_class=8.1&scenario=4
@@ -3958,7 +4384,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:20:07 GMT
+      - Wed, 30 Nov 2022 17:42:07 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -3982,5 +4408,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":124409,"scenario":4,"advocate_type":"JUNIOR","fee_type":230,"offence_class":null,"scheme":5,"unit":"HOUR","fee_per_unit":"59.09000","fixed_fee":"0.00000","limit_from":1,"limit_to":1,"modifiers":[],"strict_range":false}]}'
-  recorded_at: Mon, 28 Nov 2022 11:20:07 GMT
+  recorded_at: Wed, 30 Nov 2022 17:42:07 GMT
 recorded_with: VCR 6.1.0

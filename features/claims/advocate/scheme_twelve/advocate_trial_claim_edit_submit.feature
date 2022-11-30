@@ -14,6 +14,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter scheme 12 trial start and end dates
+    And I enter scheme 12 main hearing date
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I should see a page title "Enter defendant details for advocate final fees claim"
 
@@ -43,11 +44,11 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I add a govuk calculated miscellaneous fee 'Paper heavy case'
     And I add a govuk calculated miscellaneous fee 'Deferred sentence hearings'
     Then the following govuk fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | miscellaneous | Unused materials (up to 3 hours) | 59.09 | Number of hours | true |
-      | miscellaneous | Unused materials (over 3 hours) | 39.39 | Number of hours | true |
-      | miscellaneous | Paper heavy case | 39.39 | Number of hours | true |
-      | miscellaneous | Deferred sentence hearings | 175.00 | Number of days | true |
+      | section       | fee_description                  | rate   | hint            | help |
+      | miscellaneous | Unused materials (up to 3 hours) | 59.09  | Number of hours | true |
+      | miscellaneous | Unused materials (over 3 hours)  | 39.39  | Number of hours | true |
+      | miscellaneous | Paper heavy case                 | 39.39  | Number of hours | true |
+      | miscellaneous | Deferred sentence hearings       | 175.00 | Number of days  | true |
 
     When I click "Continue" in the claim form
     And I click the link 'Back'

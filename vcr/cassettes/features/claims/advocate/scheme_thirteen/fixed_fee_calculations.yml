@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&main_hearing_date=2022-09-30&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:14:28 GMT
+      - Wed, 30 Nov 2022 17:33:00 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -64,7 +64,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:14:28 GMT
+      - Wed, 30 Nov 2022 17:33:00 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -116,7 +116,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:14:29 GMT
+      - Wed, 30 Nov 2022 17:33:00 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -145,7 +145,7 @@ http_interactions:
   recorded_at: Sat, 29 Oct 2022 23:00:00 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&main_hearing_date=2022-09-30&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -162,7 +162,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:14:29 GMT
+      - Wed, 30 Nov 2022 17:33:01 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -207,7 +207,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:14:29 GMT
+      - Wed, 30 Nov 2022 17:33:01 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -259,7 +259,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:14:29 GMT
+      - Wed, 30 Nov 2022 17:33:01 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -288,7 +288,7 @@ http_interactions:
   recorded_at: Sat, 29 Oct 2022 23:00:00 GMT
 - request:
     method: get
-    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&main_hearing_date&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&main_hearing_date=2022-09-30&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -305,7 +305,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:14:31 GMT
+      - Wed, 30 Nov 2022 17:33:06 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -350,7 +350,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:14:32 GMT
+      - Wed, 30 Nov 2022 17:33:06 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -402,7 +402,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:14:32 GMT
+      - Wed, 30 Nov 2022 17:33:07 GMT
       Content-Type:
       - application/json
       Content-Length:

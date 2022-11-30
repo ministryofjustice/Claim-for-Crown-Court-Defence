@@ -3,6 +3,8 @@ module SchemeDateHelpers
     case text&.downcase&.strip
     when 'scheme 13'
       Settings.agfs_scheme_13_clair_release_date.strftime
+    when 'scheme 12a'
+      Settings.clair_contingency_date.strftime
     when 'scheme 12'
       Settings.clar_release_date.strftime
     when 'scheme 11'

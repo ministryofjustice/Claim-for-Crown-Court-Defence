@@ -15,6 +15,7 @@ Feature: Advocate tries to submit a fee scheme 13 hardship claim for a trial wit
     When I enter a providers reference of 'AGFS hardship claim test'
     And I select the court 'Caernarfon'
     And I enter a case number of 'A20201234'
+    And I enter scheme 13 main hearing date
 
     When I select a case stage of 'After PTPH before trial'
     Then I should see hardship cracked trial fields

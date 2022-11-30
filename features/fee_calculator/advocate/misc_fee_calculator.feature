@@ -13,6 +13,7 @@ Feature: Advocate completes misc fee page using calculator
     And I select the court 'Blackfriars'
     And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20174321'
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -34,16 +35,16 @@ Feature: Advocate completes misc fee page using calculator
     And I add a govuk calculated miscellaneous fee 'Hearings relating to disclosure (whole day uplift)' with quantity of '2'
 
     Then the following govuk fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | miscellaneous | Wasted preparation fee | 74.00 | Number of hours | true |
-      | miscellaneous | Hearings relating to disclosure (whole day) | 497.00 | Number of days | true |
+      | section       | fee_description                                    | rate   | hint                            | help |
+      | miscellaneous | Wasted preparation fee                             | 74.00  | Number of hours                 | true |
+      | miscellaneous | Hearings relating to disclosure (whole day)        | 497.00 | Number of days                  | true |
       | miscellaneous | Hearings relating to disclosure (whole day uplift) | 198.80 | Number of additional defendants | true |
 
     When I amend the govuk miscellaneous fee 'Hearings relating to disclosure (whole day)' to have a quantity of '3'
     Then the following govuk fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | miscellaneous | Wasted preparation fee | 74.00 | Number of hours | true |
-      | miscellaneous | Hearings relating to disclosure (whole day) | 497.00 | Number of days | true |
+      | section       | fee_description                                    | rate   | hint                            | help |
+      | miscellaneous | Wasted preparation fee                             | 74.00  | Number of hours                 | true |
+      | miscellaneous | Hearings relating to disclosure (whole day)        | 497.00 | Number of days                  | true |
       | miscellaneous | Hearings relating to disclosure (whole day uplift) | 298.20 | Number of additional defendants | true |
 
     And I eject the VCR cassette

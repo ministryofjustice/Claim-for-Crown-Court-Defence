@@ -43,7 +43,7 @@ Feature: Litigator completes hardship claims
     Then I should see 'Evidence provision fee'
     And I should see 'Special preparation fee'
     And I should not see 'Costs judge application'
-    And I should not see 'Costs judge preparation' 
+    And I should not see 'Costs judge preparation'
     Then I click "Continue" in the claim form and move to the 'Supporting evidence' form page
 
     And I should see a page title "Upload supporting evidence for litigator hardship fees claim"

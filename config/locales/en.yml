@@ -321,6 +321,7 @@ en:
     interim_fees: "Interim fees"
     transfer_fees: Transfer fees
     hardship_fees: Hardship fees
+    main_hearing_date: Main hearing date
     prosecution_evidence: Was prosecution evidence served on this case?
     search:
       label: Search
@@ -988,6 +989,7 @@ en:
           court_hint: For example Cardiff
           cracked_trial_detail: 'Cracked trial detail'
           litigator: *litigator
+          main_hearing_date: 'Main hearing date'
           offence_class: 'Offence class'
           offence_category: 'Offence category'
           select_category: 'Please select'

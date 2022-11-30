@@ -298,6 +298,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       :retrial_started_at,
       :retrial_estimated_length,
       :retrial_actual_length,
+      :main_hearing_date,
       :retrial_concluded_at,
       :retrial_reduction,
       :trial_fixed_notice_at,

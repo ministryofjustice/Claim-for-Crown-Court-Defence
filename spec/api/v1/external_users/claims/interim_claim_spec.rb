@@ -21,7 +21,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
       case_type_id: create(:case_type, :trial).id,
       case_number: 'A20161234',
       offence_id: offence.id,
-      court_id: court.id
+      court_id: court.id,
+      main_hearing_date: '2015-02-05'
     }
   end
 

@@ -15,6 +15,10 @@ module API::V1::ExternalUsers
                  type: String,
                  desc: 'REQUIRED/UNREQUIRED: YYYY-MM-DD',
                  standard_json_format: true
+        optional :main_hearing_date,
+                 type: String,
+                 desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',
+                 standard_json_format: true
       end
 
       namespace :interim do

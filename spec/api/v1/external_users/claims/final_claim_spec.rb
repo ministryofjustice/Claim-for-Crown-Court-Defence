@@ -23,7 +23,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
       offence_id: offence.id,
       court_id: court.id,
       case_concluded_at: 1.month.ago.as_json,
-      actual_trial_length: 10
+      actual_trial_length: 10,
+      main_hearing_date: '2020-09-17'
     }
   end
 

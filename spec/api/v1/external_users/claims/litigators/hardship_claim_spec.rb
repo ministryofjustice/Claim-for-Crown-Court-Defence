@@ -23,7 +23,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
       case_stage_unique_code: create(:case_stage, :pre_ptph_or_ptph_adjourned).unique_code,
       case_number: 'A20201234',
       offence_id: offence.id,
-      court_id: court.id
+      court_id: court.id,
+      main_hearing_date: '2020-01-09'
     }
   end
 

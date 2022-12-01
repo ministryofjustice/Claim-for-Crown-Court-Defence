@@ -27,7 +27,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
       elected_case: false,
       transfer_stage_id: 10,
       transfer_date: 1.month.ago.as_json,
-      case_conclusion_id: 50
+      case_conclusion_id: 50,
+      main_hearing_date: '2015-02-05'
     }
   end
 

@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:25:21 GMT
+      - Mon, 05 Dec 2022 16:36:10 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -44,7 +44,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:25:20 GMT
+  recorded_at: Mon, 05 Dec 2022 16:36:10 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -64,7 +64,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:25:29 GMT
+      - Mon, 05 Dec 2022 16:36:10 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -131,7 +131,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:25:29 GMT
+  recorded_at: Mon, 05 Dec 2022 16:36:10 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&scenario=22
@@ -151,7 +151,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:25:29 GMT
+      - Mon, 05 Dec 2022 16:36:10 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -175,7 +175,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"amount":269.08}'
-  recorded_at: Mon, 28 Nov 2022 11:25:29 GMT
+  recorded_at: Mon, 05 Dec 2022 16:36:10 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2016-04-01&main_hearing_date&type=LGFS
@@ -195,7 +195,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:25:31 GMT
+      - Mon, 05 Dec 2022 16:36:11 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -220,7 +220,7 @@ http_interactions:
       encoding: UTF-8
       string: '{"count":1,"next":null,"previous":null,"results":[{"id":2,"start_date":"2016-04-01","end_date":"2022-09-29","earliest_main_hearing_date":null,"type":"LGFS","description":"LGFS
         Fee Scheme 2016-04"}]}'
-  recorded_at: Mon, 28 Nov 2022 11:25:30 GMT
+  recorded_at: Mon, 05 Dec 2022 16:36:11 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/scenarios/
@@ -240,7 +240,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:25:41 GMT
+      - Mon, 05 Dec 2022 16:36:11 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -307,7 +307,7 @@ http_interactions:
         issued - breach of crown court order","code":null},{"id":55,"name":"Warrant
         issued - retrial (after plea hearing)","code":null},{"id":56,"name":"Warrant
         issued - retrial (after trial start)","code":null}]}'
-  recorded_at: Mon, 28 Nov 2022 11:25:41 GMT
+  recorded_at: Mon, 05 Dec 2022 16:36:11 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=2&offence_class=G&pages_of_prosecuting_evidence=0&ppe=51&scenario=22
@@ -327,7 +327,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:25:41 GMT
+      - Mon, 05 Dec 2022 16:36:17 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -351,7 +351,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"amount":274.37}'
-  recorded_at: Mon, 28 Nov 2022 11:25:41 GMT
+  recorded_at: Mon, 05 Dec 2022 16:36:17 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/2/calculate/?day=0&fee_type_code=LIT_FEE&number_of_defendants=1&offence_class=G&pages_of_prosecuting_evidence=0&scenario=40
@@ -371,7 +371,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:26:22 GMT
+      - Mon, 05 Dec 2022 16:36:53 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -395,7 +395,7 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"amount":330.33}'
-  recorded_at: Mon, 28 Nov 2022 11:26:22 GMT
+  recorded_at: Mon, 05 Dec 2022 16:36:53 GMT
 - request:
     method: get
     uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2022-09-30&main_hearing_date&type=LGFS
@@ -415,7 +415,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:32:37 GMT
+      - Mon, 05 Dec 2022 16:41:22 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -460,7 +460,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:32:37 GMT
+      - Mon, 05 Dec 2022 16:41:22 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -547,7 +547,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:32:37 GMT
+      - Mon, 05 Dec 2022 16:41:23 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -591,7 +591,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:32:39 GMT
+      - Mon, 05 Dec 2022 16:41:24 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -636,7 +636,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:32:39 GMT
+      - Mon, 05 Dec 2022 16:41:24 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -723,7 +723,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:32:39 GMT
+      - Mon, 05 Dec 2022 16:41:24 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -767,7 +767,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:33:21 GMT
+      - Mon, 05 Dec 2022 16:41:59 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -811,7 +811,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Mon, 28 Nov 2022 11:33:23 GMT
+      - Mon, 05 Dec 2022 16:42:00 GMT
       Content-Type:
       - application/json
       Content-Length:

@@ -8,12 +8,11 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
 
   let(:claim_class) { Claim::AdvocateInterimClaim }
   let!(:provider) { create(:provider) }
-  let!(:other_provider) { create(:provider) }
   let!(:vendor) { create(:external_user, :admin, provider:) }
   let!(:advocate) { create(:external_user, :advocate, provider:) }
   let!(:offence) { create(:offence, :with_fee_scheme_ten) }
   let!(:court) { create(:court) }
-  let!(:valid_params) do
+  let(:valid_params) do
     {
       api_key: provider.api_key,
       creator_email: vendor.user.email,
@@ -21,14 +20,29 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
       case_number: 'A20161234',
       advocate_category: 'Leading junior',
       offence_id: offence.id,
-      court_id: court.id
+      court_id: court.id,
+      main_hearing_date: '2015-02-05'
     }
   end
 
-  after(:all) { clean_database }
+  after { clean_database }
 
-  include_examples 'advocate claim test setup'
-  it_behaves_like 'a claim endpoint', relative_endpoint: INTERIM_CLAIM_ENDPOINT
-  it_behaves_like 'a claim validate endpoint', relative_endpoint: INTERIM_CLAIM_ENDPOINT
-  it_behaves_like 'a claim create endpoint', relative_endpoint: INTERIM_CLAIM_ENDPOINT
+  context 'when CLAIR contingency functionality is disabled' do
+    before { valid_params.except!(:main_hearing_date) }
+
+    include_examples 'advocate claim test setup'
+    it_behaves_like 'a claim endpoint', relative_endpoint: INTERIM_CLAIM_ENDPOINT
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: INTERIM_CLAIM_ENDPOINT
+    it_behaves_like 'a claim create endpoint', relative_endpoint: INTERIM_CLAIM_ENDPOINT
+  end
+
+  context 'when CLAIR contingency functionality is enabled',
+          skip: 'Skipped pending removal of the main_hearing_date feature flag' do
+    include_examples 'advocate claim test setup'
+    include_examples 'malformed or not iso8601 compliant dates', action: :validate, attributes: %i[main_hearing_date]
+    include_examples 'optional parameter validation', optional_parameters: %i[main_hearing_date]
+    it_behaves_like 'a claim endpoint', relative_endpoint: INTERIM_CLAIM_ENDPOINT
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: INTERIM_CLAIM_ENDPOINT
+    it_behaves_like 'a claim create endpoint', relative_endpoint: INTERIM_CLAIM_ENDPOINT
+  end
 end

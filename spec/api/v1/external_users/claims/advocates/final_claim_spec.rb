@@ -6,12 +6,14 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
 
   FINAL_CLAIM_ENDPOINT = 'advocates/final'.freeze
 
-  let(:claim_class) { Claim::AdvocateClaim }
+  subject(:post_to_validate_endpoint) do
+    post ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate, valid_params, format: :json
+  end
+
+  let(:claim_class)     { Claim::AdvocateClaim }
   let!(:provider)       { create(:provider) }
-  let!(:other_provider) { create(:provider) }
   let!(:vendor)         { create(:external_user, :admin, provider:) }
   let!(:advocate)       { create(:external_user, :advocate, provider:) }
-  let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence) }
   let!(:court)          { create(:court) }
   let!(:valid_params) do
@@ -21,120 +23,66 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       user_email: advocate.user.email,
       case_type_id: create(:case_type, :retrial).id,
       case_number: 'A20161234',
-      first_day_of_trial: "2015-01-01",
+      first_day_of_trial: '2015-01-01',
       estimated_trial_length: 10,
       actual_trial_length: 9,
-      trial_concluded_at: "2015-01-09",
-      retrial_started_at: "2015-02-01",
-      retrial_concluded_at: "2015-02-05",
-      retrial_actual_length: "4",
-      retrial_estimated_length: "5",
-      retrial_reduction: "true",
+      trial_concluded_at: '2015-01-09',
+      retrial_started_at: '2015-02-01',
+      retrial_concluded_at: '2015-02-05',
+      retrial_actual_length: '4',
+      retrial_estimated_length: '5',
+      retrial_reduction: 'true',
       advocate_category: 'Led junior',
       offence_id: offence.id,
-      court_id: court.id
+      court_id: court.id,
+      main_hearing_date: '2015-02-05'
     }
   end
 
-  subject(:post_to_validate_endpoint) { post ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate, valid_params, format: :json }
+  after { clean_database }
 
-  after(:all) { clean_database }
+  context 'when CLAIR contingency functionality is disabled' do
+    before { valid_params.except!(:main_hearing_date) }
 
-  include_examples 'advocate claim test setup'
-  it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-  it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-  it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-
-  # TODO: write a generic date error handling spec and share
-  describe "POST #{ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate}" do
-    it 'returns 400 and JSON error when dates are not in acceptable format' do
-      valid_params[:first_day_of_trial] = '01-01-2015'
-      valid_params[:trial_concluded_at] = '09-01-2015'
-      valid_params[:trial_fixed_notice_at] = '01-01-2015'
-      valid_params[:trial_fixed_at] = '01-01-2015'
-      valid_params[:trial_cracked_at] = '01-01-2015'
-      valid_params[:retrial_started_at] = '01-01-2015'
-      valid_params[:retrial_concluded_at] = '01-01-2015'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      [
-        'first_day_of_trial is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'trial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'trial_fixed_notice_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'trial_fixed_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'trial_cracked_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'retrial_started_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])',
-        'retrial_concluded_at is not in an acceptable date format (YYYY-MM-DD[T00:00:00])'
-      ].each do |error|
-        expect(body).to include(error)
-      end
-    end
+    include_examples 'advocate claim test setup'
+    include_examples 'malformed or not iso8601 compliant dates',
+                     action: :validate, attributes: %i[first_day_of_trial
+                                                       trial_concluded_at
+                                                       trial_fixed_notice_at
+                                                       trial_fixed_at
+                                                       trial_cracked_at
+                                                       retrial_started_at
+                                                       retrial_concluded_at]
+    include_examples 'optional parameter validation',
+                     optional_parameters: %i[estimated_trial_length
+                                             actual_trial_length
+                                             retrial_estimated_length
+                                             retrial_actual_length]
+    it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+    it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
   end
 
-  context 'when validating case_number' do
-    it 'returns 400 and JSON error when URN is too long' do
-      valid_params[:case_number] = 'ABCDEFGHIJABCDEFGHIJA'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)')
-    end
-
-    it 'returns 400 and JSON error when URN contains a special character' do
-      valid_params[:case_number] = 'ABCDEFGHIJABCDEFGHI_'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)')
-    end
-
-    it 'returns 400 and JSON error when the case number does not start with a BAST or U' do
-      valid_params[:case_number] = 'G20209876'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be in the format A20161234')
-    end
-
-    it 'returns 400 and JSON error when the case number is too long' do
-      valid_params[:case_number] = 'T202098761'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be in the format A20161234')
-    end
-
-    it 'returns 400 and JSON error when the case number is too short' do
-      valid_params[:case_number] = 'T2020987'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(400)
-      body = last_response.body
-      expect(body).to include('The case number must be in the format A20161234')
-    end
-
-    it 'returns 200 and valid when case_number is a valid common platform URN' do
-      valid_params[:case_number] = 'ABCDEFGHIJ1234567890'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(200)
-      body = last_response.body
-      expect(body).to include('valid')
-    end
-
-    it 'returns 200 and valid when the URN is a valid URN containing a year' do
-      valid_params[:case_number] = '120207575'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(200)
-      body = last_response.body
-      expect(body).to include('valid')
-    end
-
-    it 'returns 200 and valid when case_number is a valid case number' do
-      valid_params[:case_number] = 'T20202601'
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(200)
-      body = last_response.body
-      expect(body).to include('valid')
-    end
+  context 'when CLAIR contingency functionality is enabled',
+          skip: 'Skipped pending removal of the main_hearing_date feature flag' do
+    include_examples 'advocate claim test setup'
+    include_examples 'malformed or not iso8601 compliant dates',
+                     action: :validate, attributes: %i[first_day_of_trial
+                                                       trial_concluded_at
+                                                       trial_fixed_notice_at
+                                                       trial_fixed_at
+                                                       trial_cracked_at
+                                                       retrial_started_at
+                                                       retrial_concluded_at
+                                                       main_hearing_date]
+    include_examples 'optional parameter validation',
+                     optional_parameters: %i[estimated_trial_length
+                                             actual_trial_length
+                                             retrial_estimated_length
+                                             retrial_actual_length
+                                             main_hearing_date]
+    it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+    it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
   end
 end

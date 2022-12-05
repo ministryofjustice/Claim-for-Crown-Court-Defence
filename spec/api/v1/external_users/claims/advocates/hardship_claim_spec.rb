@@ -6,12 +6,14 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
 
   ADVOCATE_HARDSHIP_CLAIM_ENDPOINT = 'advocates/hardship'.freeze
 
+  subject(:post_to_validate_endpoint) do
+    post ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate, valid_params, format: :json
+  end
+
   let(:claim_class) { Claim::AdvocateHardshipClaim }
   let!(:provider)       { create(:provider) }
-  let!(:other_provider) { create(:provider) }
   let!(:vendor)         { create(:external_user, :admin, provider:) }
   let!(:advocate)       { create(:external_user, :advocate, provider:) }
-  let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence) }
   let!(:court)          { create(:court) }
   let!(:valid_params) do
@@ -27,28 +29,38 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
       actual_trial_length: 9,
       advocate_category: 'Led junior',
       offence_id: offence.id,
-      court_id: court.id
+      court_id: court.id,
+      main_hearing_date: '2020-01-09'
     }
   end
 
-  after(:all) { clean_database }
+  after { clean_database }
 
-  include_examples 'advocate claim test setup'
-  it_behaves_like 'a claim endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
-  it_behaves_like 'a claim validate endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
-  it_behaves_like 'a claim create endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
+  context 'when CLAIR contingency functionality is disabled' do
+    before { valid_params.except!(:main_hearing_date) }
 
-  describe "POST #{ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate}" do
-    subject(:post_to_validate_endpoint) do
-      post ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate, valid_params, format: :json
-    end
+    include_examples 'advocate claim test setup'
+    include_examples 'malformed or not iso8601 compliant dates',
+                     action: :validate, attributes: %i[first_day_of_trial trial_concluded_at]
+    include_examples 'optional parameter validation',
+                     optional_parameters: %i[trial_concluded_at estimated_trial_length actual_trial_length]
+    it_behaves_like 'a claim endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
+    it_behaves_like 'a claim create endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
+  end
 
-    it 'returns 200 when parameters that are optional for hardship claims are empty' do
-      valid_params.delete(:last_day_of_trial)
-      valid_params.delete(:estimated_trial_length)
-      valid_params.delete(:actual_trial_length)
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(200)
-    end
+  context 'when CLAIR contingency functionality is enabled',
+          skip: 'Skipped pending removal of the main_hearing_date feature flag' do
+    include_examples 'advocate claim test setup'
+    include_examples 'malformed or not iso8601 compliant dates',
+                     action: :validate, attributes: %i[first_day_of_trial trial_concluded_at main_hearing_date]
+    include_examples 'optional parameter validation',
+                     optional_parameters: %i[trial_concluded_at
+                                             estimated_trial_length
+                                             actual_trial_length
+                                             main_hearing_date]
+    it_behaves_like 'a claim endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
+    it_behaves_like 'a claim create endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
   end
 end

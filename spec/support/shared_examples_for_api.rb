@@ -1,5 +1,6 @@
 RSpec.shared_examples 'invalid API key' do |options|
   let(:post_to_endpoint) { options[:action] == :create ? post_to_create_endpoint : post_to_validate_endpoint }
+  let(:other_provider) { create(:provider) }
 
   context 'with invalid API key' do
     it 'response 401 and JSON error array when it is not provided' do
@@ -35,13 +36,13 @@ end
 
 RSpec.shared_examples 'should NOT be able to amend a non-draft claim' do
   context 'when claim is not a draft' do
-    before { claim.submit! }
-
-    it "is not able to create #{described_class.to_s.split('::').last}" do
+    before do
+      claim.submit!
       post_to_create_endpoint
-      expect(last_response.status).to eq 400
-      expect_error_response('You cannot edit a claim that is not in draft state')
     end
+
+    it { expect(last_response.status).to eq 400 }
+    it { expect_error_response('You cannot edit a claim that is not in draft state') }
   end
 end
 
@@ -53,6 +54,82 @@ RSpec.shared_examples 'malformed or not iso8601 compliant dates' do |options|
       action == :create ? post_to_create_endpoint : post_to_validate_endpoint
       expect_error_response("#{attribute} is not in an acceptable date format (YYYY-MM-DD[T00:00:00])")
     end
+  end
+end
+
+RSpec.shared_examples 'case_number validation' do
+  context 'when validating case_number' do
+    let(:case_number_error) { 'The case number must be a case number (e.g. A20161234) or unique reference number' }
+    let(:case_number_format_error) { 'The case number must be in the format A20161234' }
+
+    before do
+      valid_params[:case_number] = case_number
+      post_to_validate_endpoint
+    end
+
+    context 'when URN is too long' do
+      let(:case_number) { 'ABCDEFGHIJABCDEFGHIJA' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_error) }
+    end
+
+    context 'when URN contains a special character' do
+      let(:case_number) { 'ABCDEFGHIJABCDEFGHI_' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_error) }
+    end
+
+    context 'when the case number does not start with a BAST or U' do
+      let(:case_number) { 'G20209876' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_format_error) }
+    end
+
+    context 'when the case number is too long' do
+      let(:case_number) { 'T202098761' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_format_error) }
+    end
+
+    context 'when the case number is too short' do
+      let(:case_number) { 'T2020987' }
+
+      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response.body).to include(case_number_format_error) }
+    end
+
+    context 'when case_number is a valid common platform URN' do
+      let(:case_number) { 'ABCDEFGHIJ1234567890' }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response.body).to include('valid') }
+    end
+
+    context 'when case_number is a valid URN containing a year' do
+      let(:case_number) { '120207575' }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response.body).to include('valid') }
+    end
+
+    context 'when case_number is a valid case number' do
+      let(:case_number) { 'T20202601' }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response.body).to include('valid') }
+    end
+  end
+end
+
+RSpec.shared_examples 'optional parameter validation' do |options|
+  it 'returns 200 when parameters that are optional are empty' do
+    valid_params.except!(*options[:optional_parameters])
+    post_to_validate_endpoint
+    expect(last_response.status).to eq(200)
   end
 end
 
@@ -94,34 +171,49 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
     end
 
     let(:claim_user_type) do
-      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer|hardship)}) ? 'Litigator' : 'Advocate'
+      if ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate
+                          .match?(%r{/claims/(final|interim|transfer|hardship)})
+        'Litigator'
+      else
+        'Advocate'
+      end
     end
 
     include_examples 'invalid API key', exclude: nil, action: :validate
+    include_examples 'case_number validation'
 
-    it 'valid requests should return 200 and String true' do
-      post_to_validate_endpoint
-      expect(last_response.status).to eq(200)
-      json = JSON.parse(last_response.body)
-      expect(json).to eq({ 'valid' => true })
+    context 'when request is valid' do
+      before { post_to_validate_endpoint }
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(JSON.parse(last_response.body)['valid']).to be_truthy }
     end
 
-    it 'response 400 and JSON error array when creator email is invalid' do
-      valid_params[:creator_email] = 'non_existent_admin@bigblackhole.com'
-      post_to_validate_endpoint
-      expect_error_response('Creator email is invalid')
+    context 'when creator email is invalid' do
+      before do
+        valid_params[:creator_email] = 'non_existent_admin@bigblackhole.com'
+        post_to_validate_endpoint
+      end
+
+      it { expect_error_response('Creator email is invalid') }
     end
 
-    it 'response 400 and JSON error array when user email is invalid' do
-      valid_params[:user_email] = 'non_existent_user@bigblackhole.com'
-      post_to_validate_endpoint
-      expect_error_response("#{claim_user_type} email is invalid")
+    context 'when user email is invalid' do
+      before do
+        valid_params[:user_email] = 'non_existent_user@bigblackhole.com'
+        post_to_validate_endpoint
+      end
+
+      it { expect_error_response("#{claim_user_type} email is invalid") }
     end
 
-    it 'response 400 and a JSON error array when missing required params' do
-      valid_params.delete(:case_number)
-      post_to_validate_endpoint
-      expect_error_response('Enter a case number')
+    context 'when required params are missing' do
+      before do
+        valid_params.delete(:case_number)
+        post_to_validate_endpoint
+      end
+
+      it { expect_error_response('Enter a case number') }
     end
   end
 end
@@ -133,7 +225,12 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
     end
 
     let(:claim_user_type) do
-      ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate.match?(%r{/claims/(final|interim|transfer|hardship)}) ? 'Litigator' : 'Advocate'
+      if ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate
+                          .match?(%r{/claims/(final|interim|transfer|hardship)})
+        'Litigator'
+      else
+        'Advocate'
+      end
     end
 
     context 'when claim params are valid' do
@@ -141,28 +238,33 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         expect { post_to_create_endpoint }.to change { claim_class.active.count }.by(1)
       end
 
-      it 'response status 201' do
+      it 'returns response status 201' do
         post_to_create_endpoint
         expect(last_response.status).to eq(201)
       end
 
-      it 'response body JSON includes UUID of created claim' do
+      it 'returns the UUID of created claim' do
         post_to_create_endpoint
         json = JSON.parse(last_response.body)
-        expect(json['id']).not_to be_nil
         expect(claim_class.active.find_by(uuid: json['id']).uuid).to eq(json['id'])
       end
 
-      it 'response body JSON excludes API key, creator email and user email from response' do
+      it 'does not return the API key, creator email and user email from response' do
         post_to_create_endpoint
-        expect(last_response.status).to eq(201)
-        json = JSON.parse(last_response.body)
-        expect(json['api_key']).to be_nil
-        expect(json['creator_email']).to be_nil
-        expect(json['user_email']).to be_nil
+        expect(JSON.parse(last_response.body)['api_key']).to be_nil
       end
 
-      context 'the new claim' do
+      it 'does not return the creator email' do
+        post_to_create_endpoint
+        expect(JSON.parse(last_response.body)['creator_email']).to be_nil
+      end
+
+      it 'does not return the user email' do
+        post_to_create_endpoint
+        expect(JSON.parse(last_response.body)['user_email']).to be_nil
+      end
+
+      context 'with the new claim' do
         let(:claim) { claim_class.active.last }
 
         before { post_to_create_endpoint }
@@ -172,7 +274,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           # Attribute only used internally for adding case stage to hardship claims: :case_stage_unique_code
           valid_params.except(:api_key, :creator_email, :user_email, :case_stage_unique_code).each do |attribute, value|
             # The saved claim record has Date objects but the param has date strings
-            valid_params[attribute] = value.to_date if claim.send(attribute).class.eql?(Date)
+            valid_params[attribute] = value.to_date if claim.send(attribute).instance_of?(Date)
             expect(claim.send(attribute).to_s).to eq valid_params[attribute].to_s # some strings are converted to ints on save
           end
         end
@@ -185,11 +287,11 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
     end
 
     context 'when claim params are invalid' do
-      include_examples 'invalid API key', exclude: nil, action: :create
-
       let(:email) { 'non_existent_user@bigblackhole.com' }
 
-      context 'invalid email input' do
+      include_examples 'invalid API key', exclude: nil, action: :create
+
+      context 'when email input is invalid' do
         it 'response 400 and a JSON error array when user email is invalid' do
           valid_params[:user_email] = 'non_existent_user@bigblackhole.com'
           post_to_create_endpoint
@@ -203,7 +305,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         end
       end
 
-      context 'missing expected params' do
+      context 'when expected params are missing' do
         before { valid_params.delete(:case_number) }
 
         it 'response 400 and body JSON error array when required model attributes are missing' do
@@ -216,39 +318,37 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         end
       end
 
-      context 'existing but invalid value' do
-        it 'response 400 and JSON error array of model validation BLANK errors' do
+      context 'when parameter is invalid' do
+        before do
           valid_params[:court_id] = -1
           post_to_create_endpoint
-          expect_error_response('Choose a court')
         end
 
-        it 'response 400 and JSON error array of model validation INVALID errors' do
+        it { expect_error_response('Choose a court') }
+      end
+
+      context 'when parameter is missing' do
+        before do
           valid_params[:court_id] = nil
-          valid_params[:case_number] = nil
           post_to_create_endpoint
-          expect_error_response('Choose a court')
-          expect_error_response('Enter a case number')
         end
+
+        it { expect_error_response('Choose a court') }
       end
 
-      context 'invalid case number input' do
-        it 'response 400 and JSON error array of model validation BLANK errors' do
-          valid_params[:case_number] = -1
-          post_to_create_endpoint
-          expect_error_response('The case number must be a case number (e.g. A20161234) or unique reference number (less than 21 letters and numbers)')
-        end
-      end
-
-      context 'unexpected error' do
+      context 'with an unexpected error' do
         before do
           allow_any_instance_of(Claim::BaseClaim).to receive(:save!).and_raise(StandardError, 'my unexpected error')
         end
 
-        it 'response 400 and JSON error array of error message' do
+        it 'returns the correct error message' do
+          post_to_create_endpoint
+          expect_error_response('my unexpected error')
+        end
+
+        it 'returns a 400 error' do
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
-          expect_error_response('my unexpected error')
         end
 
         it 'does not create a new claim' do
@@ -260,24 +360,30 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
 end
 
 RSpec.shared_examples 'fee validate endpoint' do
-  it 'valid request response 200 and String true' do
-    post_to_validate_endpoint
-    expect(last_response.status).to eq 200
-    json = JSON.parse(last_response.body)
-    expect(json).to eq({ 'valid' => true })
+  context 'when the request is valid' do
+    before { post_to_validate_endpoint }
+
+    it { expect(last_response.status).to eq 200 }
+    it { expect(JSON.parse(last_response.body)['valid']).to be_truthy }
   end
 
-  it 'missing required params response 400 and a JSON error array' do
-    valid_params.delete(:fee_type_id)
-    post_to_validate_endpoint
-    expect(last_response.status).to eq 400
-    expect(last_response.body).to eq(json_error_response)
+  context 'when required params are missing' do
+    before do
+      valid_params.delete(:fee_type_id)
+      post_to_validate_endpoint
+    end
+
+    it { expect(last_response.status).to eq 400 }
+    it { expect(last_response.body).to eq(json_error_response) }
   end
 
-  it 'invalid claim id response 400 and a JSON error array' do
-    valid_params[:claim_id] = SecureRandom.uuid
-    post_to_validate_endpoint
-    expect(last_response.status).to eq 400
-    expect(last_response.body).to eq '[{"error":"Claim cannot be blank"}]'
+  context 'with an invalid claim_id' do
+    before do
+      valid_params[:claim_id] = SecureRandom.uuid
+      post_to_validate_endpoint
+    end
+
+    it { expect(last_response.status).to eq 400 }
+    it { expect(last_response.body).to eq '[{"error":"Claim cannot be blank"}]' }
   end
 end

@@ -18,7 +18,8 @@ module AdvocateClaimTest
         case_number: 'B20161234',
         providers_ref: SecureRandom.uuid[3..15].upcase,
         advocate_category: fetch_value(ADVOCATE_CATEGORY_ENDPOINT),
-        apply_vat: true
+        apply_vat: true,
+        main_hearing_date: '2015-06-02'
       )
     end
 

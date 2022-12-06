@@ -14,6 +14,7 @@ Feature: Litigator expense specific page features
     And I select a case type of 'Trial'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
+    And I enter lgfs scheme 9 main hearing date
     And I enter the case concluded date '2018-04-01'
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page

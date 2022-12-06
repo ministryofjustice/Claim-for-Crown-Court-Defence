@@ -15,7 +15,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Then I choose the litigator type option 'New'
     And I choose the elected case option 'No'
     And I select the transfer stage 'Before trial transfer'
-    And I enter the transfer date '2015-05-21'
+    And I enter the transfer date '2022-10-21'
     And I select a case conclusion of 'Cracked'
 
     And I click "Continue" in the claim form
@@ -23,8 +23,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     When I choose the supplier number '1A222Z'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date
-    And I enter lgfs scheme 9 main hearing date
+    And I enter the case concluded date '2022-10-21'
+    And I enter lgfs scheme 9a main hearing date
 
     And I should see a page title "Enter case details for litigator transfer fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
@@ -39,8 +39,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     When I click the claim 'A20161234'
     And I edit the claim's defendants
 
-    And I enter defendant, LGFS representation order and MAAT reference
-    And I add another defendant, LGFS representation order and MAAT reference
+    And I enter defendant, LGFS Scheme 9a representation order and MAAT reference
+    And I add another defendant, LGFS Scheme 9a representation order and MAAT reference
 
     And I should see a page title "Enter defendant details for litigator transfer fees claim"
     And I click "Continue" in the claim form
@@ -53,13 +53,13 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I should see a page title "Enter offence details for litigator transfer fees claim"
     And I click "Continue" in the claim form
 
-    Then the transfer fee amount should be populated with '269.08'
+    Then the transfer fee amount should be populated with '309.42'
     And I should not see the days claimed field
     And I should see the ppe field
     And I enter '50' in the PPE total graduated fee field
-    Then the transfer fee amount should be populated with '269.08'
+    Then the transfer fee amount should be populated with '309.42'
     And I enter '51' in the PPE total graduated fee field
-    Then the transfer fee amount should be populated with '274.37'
+    Then the transfer fee amount should be populated with '314.72'
 
     And I should see a page title "Enter fees for litigator transfer fees claim"
     Then I click "Continue" in the claim form
@@ -67,7 +67,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I eject the VCR cassette
 
     And I should be in the 'Miscellaneous fees' form page
-    And the first miscellaneous fee should have fee types 'Costs judge application,Costs judge preparation,Evidence provision fee,Special preparation fee'
+    And the first miscellaneous fee should have fee types 'Costs judge application,Costs judge preparation,Evidence provision fee,Special preparation fee,Unused materials (over 3 hours),Unused materials (up to 3 hours)'
     And I add a litigator miscellaneous fee 'Costs judge application'
 
     And I should see a page title "Enter miscellaneous fees for litigator transfer fees claim"
@@ -83,7 +83,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date for LGFS
+    And I add an expense date for LGFS Scheme 9a
 
     When I click "Continue" in the claim form
     Then I should be in the 'Supporting evidence' form page
@@ -109,7 +109,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£660.32'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£700.67'
 
   @fee_calc_vcr
   Scenario: I create a transfer claim for an Elected Case Not Proceeded
@@ -125,15 +125,14 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Then I choose the litigator type option 'New'
     And I choose the elected case option 'Yes'
     And I select the transfer stage 'Before trial transfer'
-    And I enter the transfer date '2015-05-21'
+    And I enter the transfer date '2022-10-21'
 
     When I click "Continue" in the claim form
     Then I should see a page title "Enter case details for litigator transfer fees claim"
-    And I choose the supplier number '1A222Z'
+    When I choose the supplier number '1A222Z'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date
-    And I enter lgfs scheme 9 main hearing date
+    And I enter the case concluded date '2022-10-29'
 
     When I click "Continue" in the claim form and move to the 'Defendant details' form page
     Then I should see a page title "Enter defendant details for litigator transfer fees claim"
@@ -146,8 +145,8 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click the claim 'A20161234'
     And I edit the claim's defendants
-    Then I should see a page title "Enter defendant details for litigator transfer fees claim"
-    And I enter defendant, LGFS representation order and MAAT reference
+    And I should see a page title "Enter defendant details for litigator transfer fees claim"
+    And I enter defendant, LGFS Scheme 9a representation order and MAAT reference
 
     When I click "Continue" in the claim form
     Then I should see a page title "Enter offence details for litigator transfer fees claim"
@@ -157,9 +156,13 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     Given I insert the VCR cassette 'features/claims/litigator/transfer_fee_calculations'
     When I click "Continue" in the claim form
     Then I should see a page title "Enter fees for litigator transfer fees claim"
-    And the transfer fee amount should be populated with '330.33'
+    And the transfer fee amount should be populated with '257.85'
     And I should not see the days claimed field
-    And I should not see the ppe field
+    And I should see the ppe field
+    When I enter '50' in the PPE total graduated fee field
+    Then the transfer fee amount should be populated with '257.85'
+    When I enter '51' in the PPE total graduated fee field
+    Then the transfer fee amount should be populated with '262.27'
 
     Given I eject the VCR cassette
     When I click "Continue" in the claim form
@@ -187,4 +190,4 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£330.33'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£262.27'

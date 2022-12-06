@@ -3,8 +3,7 @@ Feature: Litigator expense specific page features
 
   Scenario: I create a final fee claim, save it to draft and later do expenses
 
-    Given the current date is '2022-10-30'
-    And I am a signed in litigator
+    Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -16,7 +15,7 @@ Feature: Litigator expense specific page features
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2022-10-01'
-    And I enter lgfs scheme 10 main hearing date
+    And I enter lgfs scheme 9a main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -31,7 +30,7 @@ Feature: Litigator expense specific page features
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date for LGFS Scheme 10
+    And I add an expense date for LGFS Scheme 9a
 
     Then I should see 'Expense'
     Then I should not see 'Location'

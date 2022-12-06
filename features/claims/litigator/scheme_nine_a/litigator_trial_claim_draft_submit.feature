@@ -4,8 +4,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
   @fee_calc_vcr
   Scenario: I create a final fee claim, save it to draft and later complete it
 
-    Given the current date is '2022-10-30'
-    And I am a signed in litigator
+    Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -18,7 +17,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2022-10-01'
-    And I enter lgfs scheme 10 main hearing date
+    And I enter lgfs scheme 9a main hearing date
     Then I click "Continue" I should be on the 'Case details' page and see a "Choose a supplier number" error
 
     When I choose the supplier number '1A222Z'
@@ -40,8 +39,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     Then I click "Continue" in the claim form
     And I should be in the 'Defendant details' form page
-    And I enter defendant, LGFS Scheme 10 representation order and MAAT reference
-    And I add another defendant, LGFS Scheme 10 representation order and MAAT reference
+    And I enter defendant, LGFS Scheme 9a representation order and MAAT reference
+    And I add another defendant, LGFS Scheme 9a representation order and MAAT reference
 
     Then I click "Continue" in the claim form
     And I should be in the 'Offence details' form page
@@ -95,7 +94,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date for LGFS Scheme 10
+    And I add an expense date for LGFS Scheme 9a
 
     When I click "Continue" in the claim form
     Then I should be in the 'Supporting evidence' form page

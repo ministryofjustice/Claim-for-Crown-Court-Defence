@@ -15,14 +15,14 @@ Feature: Litigator completes hardship claims
     And I enter a providers reference of 'LGFS test hardship fee for covid-19'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20201234'
-    And I enter lgfs scheme 9 main hearing date
+    And I enter lgfs scheme 9a main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I should see a page title "Enter defendant details for litigator hardship fees claim"
 
-    And I enter defendant, LGFS representation order and MAAT reference
-    And I add another defendant, LGFS representation order and MAAT reference
+    And I enter defendant, LGFS Scheme 9a representation order and MAAT reference
+    And I add another defendant, LGFS Scheme 9a representation order and MAAT reference
 
     And I should see a page title "Enter defendant details for litigator hardship fees claim"
     Then I click "Continue" in the claim form
@@ -37,7 +37,7 @@ Feature: Litigator completes hardship claims
 
     And I should be in the 'Hardship fee' form page
     When I enter '400' in the PPE total hardship fee field
-    Then the hardship fee amount should be populated with '412.81'
+    Then the hardship fee amount should be populated with '422.90'
     And I eject the VCR cassette
 
     When I click "Continue" in the claim form and move to the 'Miscellaneous fees' form page
@@ -63,7 +63,7 @@ Feature: Litigator completes hardship claims
 
     And I should see 'Hardship fees'
     And I should see 'PPE total at the time 400'
-    And I should see 'Net amount £412.81'
+    And I should see 'Net amount £422.90'
 
 
     And I should see 'hardship.pdf'
@@ -79,4 +79,4 @@ Feature: Litigator completes hardship claims
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20201234' should be listed with a status of 'Submitted' and a claimed amount of '£412.81'
+    And Claim 'A20201234' should be listed with a status of 'Submitted' and a claimed amount of '£422.90'

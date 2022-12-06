@@ -17,6 +17,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2016-04-01'
+    And I enter lgfs scheme 9 main hearing date
     Then I click "Continue" I should be on the 'Case details' page and see a "Choose a supplier number" error
 
     When I choose the supplier number '1A222Z'
@@ -119,17 +120,17 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should not see 'Trial concluded on'
 
     And the following check your claim fee details should exist:
-      | section | row | prompt | value |
-      | miscellaneous-fees-section | 1 | Type of fee | Costs judge application |
-      | miscellaneous-fees-section | 1 | Net amount | 135.78 |
-      | miscellaneous-fees-section | 1 | VAT amount | 135.78 |
-      | miscellaneous-fees-section | 1 | Total amount | 135.78 |
+      | section                    | row | prompt       | value                   |
+      | miscellaneous-fees-section | 1   | Type of fee  | Costs judge application |
+      | miscellaneous-fees-section | 1   | Net amount   | 135.78                  |
+      | miscellaneous-fees-section | 1   | VAT amount   | 135.78                  |
+      | miscellaneous-fees-section | 1   | Total amount | 135.78                  |
 
     And the following check your claim fee details should not exist:
-      | section | row | prompt |
-      | miscellaneous-fees-section | 1 | Quantity |
-      | miscellaneous-fees-section | 1 | Rate |
-      | miscellaneous-fees-section | 1 | Dates |
+      | section                    | row | prompt   |
+      | miscellaneous-fees-section | 1   | Quantity |
+      | miscellaneous-fees-section | 1   | Rate     |
+      | miscellaneous-fees-section | 1   | Dates    |
 
     When I click "Continue"
     Then I should be on the certification page

@@ -4,8 +4,7 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
   @fee_calc_vcr
   Scenario: I create a final fee claim with an error, fixing it
 
-    Given the current date is '2022-10-30'
-    And I am a signed in litigator
+    Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -17,12 +16,12 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2022-10-01'
-    And I enter lgfs scheme 10 main hearing date
+    And I enter lgfs scheme 9a main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
-    And I enter defendant, LGFS Scheme 10 representation order and MAAT reference
-    And I add another defendant, LGFS Scheme 10 representation order and MAAT reference
+    And I enter defendant, LGFS Scheme 9a representation order and MAAT reference
+    And I add another defendant, LGFS Scheme 9a representation order and MAAT reference
 
     Given I insert the VCR cassette 'features/claims/litigator/fixed_fee_calculations'
     Then I click "Continue" in the claim form

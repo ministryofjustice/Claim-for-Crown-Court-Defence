@@ -25,6 +25,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2022-10-21'
+    And I enter lgfs scheme 10 main hearing date
 
     And I should see a page title "Enter case details for litigator transfer fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page

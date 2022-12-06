@@ -17,6 +17,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
+    And I enter lgfs scheme 10 main hearing date
 
     And I should see a page title "Enter case details for litigator interim fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page

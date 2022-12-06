@@ -27,14 +27,27 @@ RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
       elected_case: false,
       transfer_stage_id: 10,
       transfer_date: 1.month.ago.as_json,
-      case_conclusion_id: 50
+      case_conclusion_id: 50,
+      main_hearing_date: '2015-02-05'
     }
   end
 
   after(:all) { clean_database }
 
-  include_examples 'litigator claim test setup'
-  it_behaves_like 'a claim endpoint', relative_endpoint: :transfer
-  it_behaves_like 'a claim validate endpoint', relative_endpoint: :transfer
-  it_behaves_like 'a claim create endpoint', relative_endpoint: :transfer
+  context 'when CLAIR contingency functionality is disabled' do
+    before { valid_params.except!(:main_hearing_date) }
+
+    include_examples 'litigator claim test setup'
+    it_behaves_like 'a claim endpoint', relative_endpoint: :transfer
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: :transfer
+    it_behaves_like 'a claim create endpoint', relative_endpoint: :transfer
+  end
+
+  context 'when CLAIR contingency functionality is enabled',
+          skip: 'Skipped pending removal of the main_hearing_date feature flag' do
+    include_examples 'litigator claim test setup'
+    it_behaves_like 'a claim endpoint', relative_endpoint: :transfer
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: :transfer
+    it_behaves_like 'a claim create endpoint', relative_endpoint: :transfer
+  end
 end

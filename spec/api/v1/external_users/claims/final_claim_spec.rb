@@ -23,14 +23,27 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
       offence_id: offence.id,
       court_id: court.id,
       case_concluded_at: 1.month.ago.as_json,
-      actual_trial_length: 10
+      actual_trial_length: 10,
+      main_hearing_date: '2020-09-17'
     }
   end
 
   after(:all) { clean_database }
 
-  include_examples 'litigator claim test setup'
-  it_behaves_like 'a claim endpoint', relative_endpoint: :final
-  it_behaves_like 'a claim validate endpoint', relative_endpoint: :final
-  it_behaves_like 'a claim create endpoint', relative_endpoint: :final
+  context 'when CLAIR contingency functionality is disabled' do
+    before { valid_params.except!(:main_hearing_date) }
+
+    include_examples 'litigator claim test setup'
+    it_behaves_like 'a claim endpoint', relative_endpoint: :final
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: :final
+    it_behaves_like 'a claim create endpoint', relative_endpoint: :final
+  end
+
+  context 'when CLAIR contingency functionality is enabled',
+          skip: 'Skipped pending removal of the main_hearing_date feature flag' do
+    include_examples 'litigator claim test setup'
+    it_behaves_like 'a claim endpoint', relative_endpoint: :final
+    it_behaves_like 'a claim validate endpoint', relative_endpoint: :final
+    it_behaves_like 'a claim create endpoint', relative_endpoint: :final
+  end
 end

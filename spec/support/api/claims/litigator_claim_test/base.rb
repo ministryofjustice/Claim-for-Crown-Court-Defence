@@ -18,7 +18,8 @@ module LitigatorClaimTest
         case_number: 'A20161234',
         supplier_number:,
         offence_id: fetch_id(OFFENCE_ENDPOINT, offence_description: 'Miscellaneous/other'),
-        case_concluded_at: 1.month.ago.as_json
+        case_concluded_at: 1.month.ago.as_json,
+        main_hearing_date: '2015-05-02'
       )
     end
 

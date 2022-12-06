@@ -7,6 +7,12 @@ module API::V1::ExternalUsers
         params do
           use :lgfs_hardship_params
           use :common_lgfs_params
+          if Settings.main_hearing_date_enabled?
+            optional :main_hearing_date,
+                     type: String,
+                     desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',
+                     standard_json_format: true
+          end
         end
 
         namespace :litigators do

@@ -23,6 +23,12 @@ module API::V1::ExternalUsers
         optional :actual_trial_length,
                  type: Integer,
                  desc: I18n.t('api.v1.external_users.claims.transfer_claim.params.actual_trial_length')
+        if Settings.main_hearing_date_enabled?
+          optional :main_hearing_date,
+                   type: String,
+                   desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',
+                   standard_json_format: true
+        end
       end
 
       namespace :transfer do

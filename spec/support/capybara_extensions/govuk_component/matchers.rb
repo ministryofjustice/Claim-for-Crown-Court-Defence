@@ -43,9 +43,9 @@ module CapybaraExtensions
       end
 
       def has_govuk_error_summary?(error_text = nil, options = {})
-        summary = find('.govuk-error-summary[role="alert"]')
+        summary = find('.govuk-error-summary').find('div[role="alert"]')
         [
-          summary.has_selector?('#error-summary-title', text: 'There is a problem'),
+          summary.has_selector?('.govuk-error-summary__title', text: 'There is a problem'),
           summary.has_link?(error_text, **options)
         ].all?
       end

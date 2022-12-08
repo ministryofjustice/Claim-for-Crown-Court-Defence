@@ -68,6 +68,12 @@ module ExternalUsers::ClaimsHelper
       current_user.setting?(:hardship_claims_banner_seen).nil?
   end
 
+  def show_clair_contingency_banner_to_user?
+    Settings.clair_contingency_banner_enabled? &&
+      current_user_is_external_user? &&
+      current_user.setting?(:clair_contingency_banner_seen).nil?
+  end
+
   def supplier_number_hint
     if current_user.persona.admin?
       path = edit_external_users_admin_provider_path(current_user.provider)

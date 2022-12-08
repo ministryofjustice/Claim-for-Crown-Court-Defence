@@ -1,3 +1,8 @@
-.js-callout-banner{'data-setting': 'clair_contingency_banner_seen'}
-  = govuk_warning_text t('callout_banner.clair_contingency_text_one') do
-    = t('callout_banner.clair_contingency_text_two')
+- if show_clair_contingency_banner_to_user?
+  .js-callout-banner{'data-setting': 'clair_contingency_banner_seen'}
+    = govuk_warning_text t('callout_banner.clair_contingency_text_one') do
+      = t('callout_banner.clair_contingency_text_two')
+
+    %ul.govuk-list
+      %li.hide-link
+        = govuk_link_to t('callout_banner.clair_contingency_hide_banner'), settings_user_path(current_user.id, clair_contingency_banner_seen: 1), method: :put, remote: true

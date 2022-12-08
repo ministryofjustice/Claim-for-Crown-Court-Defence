@@ -43,6 +43,7 @@ class UsersController < ApplicationController
   private
 
   def settings_params
-    params.except(:id).permit(:api_promo_seen, :timed_retention_banner_seen, :hardship_claims_banner_seen)
+    params.except(:id).permit(:api_promo_seen, :timed_retention_banner_seen, :hardship_claims_banner_seen,
+                              :clair_contingency_banner_seen)
   end
 end

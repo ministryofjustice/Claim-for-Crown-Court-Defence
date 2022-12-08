@@ -13,6 +13,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter scheme 10 trial start and end dates
+    And I enter scheme 10 main hearing date
 
     And I should see a page title "Enter case details for advocate final fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
@@ -89,30 +90,30 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I should see 'Junior'
 
     And the following check your claim fee details should exist:
-      | section | row | prompt | value |
-      | basic-fees-section | 1 | Type of fee | Basic fee |
-      | basic-fees-section | 1 | Quantity | 1 |
-      | basic-fees-section | 1 | Rate | £550.00 |
-      | basic-fees-section | 1 | Net amount | £550.00 |
-      | basic-fees-section | 1 | VAT amount | £110.00 |
-      | basic-fees-section | 1 | Total amount | £660.00 |
-      | basic-fees-section | 2 | Type of fee | Number of cases uplift T20170001 |
-      | basic-fees-section | 2 | Quantity | 1 |
-      | basic-fees-section | 2 | Rate | £110.00|
-      | basic-fees-section | 2 | Net amount | £110.00 |
-      | basic-fees-section | 2 | VAT amount | £22.00 |
-      | basic-fees-section | 2 | Total amount | £132.00 |
+      | section            | row | prompt       | value                            |
+      | basic-fees-section | 1   | Type of fee  | Basic fee                        |
+      | basic-fees-section | 1   | Quantity     | 1                                |
+      | basic-fees-section | 1   | Rate         | £550.00                          |
+      | basic-fees-section | 1   | Net amount   | £550.00                          |
+      | basic-fees-section | 1   | VAT amount   | £110.00                          |
+      | basic-fees-section | 1   | Total amount | £660.00                          |
+      | basic-fees-section | 2   | Type of fee  | Number of cases uplift T20170001 |
+      | basic-fees-section | 2   | Quantity     | 1                                |
+      | basic-fees-section | 2   | Rate         | £110.00                          |
+      | basic-fees-section | 2   | Net amount   | £110.00                          |
+      | basic-fees-section | 2   | VAT amount   | £22.00                           |
+      | basic-fees-section | 2   | Total amount | £132.00                          |
 
     And the following check your claim fee details should exist:
-      | section | row | prompt | value |
-      | miscellaneous-fees-section | 1 | Type of fee | Special preparation fee |
-      | miscellaneous-fees-section | 1 | Quantity | 1 |
-      | miscellaneous-fees-section | 1 | Rate | 39.00 |
-      | miscellaneous-fees-section | 1 | Net amount | 39.00 |
-      | miscellaneous-fees-section | 2 | Type of fee | Noting brief fee |
-      | miscellaneous-fees-section | 2 | Quantity | 1 |
-      | miscellaneous-fees-section | 2 | Rate | 108.00 |
-      | miscellaneous-fees-section | 2 | Net amount | 108.00 |
+      | section                    | row | prompt      | value                   |
+      | miscellaneous-fees-section | 1   | Type of fee | Special preparation fee |
+      | miscellaneous-fees-section | 1   | Quantity    | 1                       |
+      | miscellaneous-fees-section | 1   | Rate        | 39.00                   |
+      | miscellaneous-fees-section | 1   | Net amount  | 39.00                   |
+      | miscellaneous-fees-section | 2   | Type of fee | Noting brief fee        |
+      | miscellaneous-fees-section | 2   | Quantity    | 1                       |
+      | miscellaneous-fees-section | 2   | Rate        | 108.00                  |
+      | miscellaneous-fees-section | 2   | Net amount  | 108.00                  |
 
     And I should see 'Hotel accommodation'
     And I should see 'judicial_appointment_order.pdf'

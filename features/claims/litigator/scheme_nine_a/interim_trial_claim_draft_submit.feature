@@ -16,7 +16,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
-    And I enter lgfs scheme 9 main hearing date
+    And I enter lgfs scheme 9a main hearing date
 
     And I should see a page title "Enter case details for litigator interim fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
@@ -31,8 +31,8 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     When I click the claim 'A20161234'
     And I edit the claim's defendants
 
-    And I enter defendant, LGFS representation order and MAAT reference
-    And I add another defendant, LGFS representation order and MAAT reference
+    And I enter defendant, LGFS Scheme 9a representation order and MAAT reference
+    And I add another defendant, LGFS Scheme 9a representation order and MAAT reference
 
     And I should see a page title "Enter defendant details for litigator interim fees claim"
     Then I click "Continue" in the claim form
@@ -49,11 +49,11 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should see interim fee types applicable to a 'Trial'
 
     When I select an interim fee type of 'Effective PCMH'
-    Then the interim fee amount should be populated with '201.81'
+    Then the interim fee amount should be populated with '232.06'
     When I enter '51' in the PPE total interim fee field
-    Then the interim fee amount should be populated with '205.78'
+    Then the interim fee amount should be populated with '236.04'
 
-    And I enter the effective PCMH date '2018-04-01'
+    And I enter the effective PCMH date '2022-10-01'
 
     And I add a disbursement 'Computer experts' with net amount '125.40' and vat amount '25.08'
     And I add another disbursement 'Meteorologist' with net amount '58.22' and vat amount '0'
@@ -81,8 +81,8 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should see 'PPE total at the time'
     And I should see '51'
     And I should see 'Effective PCMH'
-    And I should see '01/04/2018'
-    And I should see '£205.78'
+    And I should see '01/10/2022'
+    And I should see '£236.04'
 
     And I should see 'Disbursements'
     And I should see 'Computer experts'
@@ -106,4 +106,4 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£414.48'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£444.74'

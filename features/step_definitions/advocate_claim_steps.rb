@@ -47,6 +47,10 @@ When(/I enter (.*?)(retrial|trial) start and end dates(?: with (\d+) day interva
   end
 end
 
+When(/I enter (.*?) main hearing date$/i) do |scheme_text|
+  @claim_form_page.main_hearing_date.set_date Date.parse(main_hearing_date_for(scheme_text)).strftime
+end
+
 When(/I enter (.*?)(retrial|trial) long start and end dates(?: with (\d+) day interval)?$/i) do |scheme_text, trial_type, interval|
   trial_start = Date.parse(scheme_date_for(scheme_text))
   trial_end = trial_start.next_day(52)

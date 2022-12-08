@@ -13,6 +13,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I select the court 'Caernarfon'
     And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20181234'
+    And I enter scheme 10 main hearing date
 
     And I should see a page title "Enter case details for advocate final fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page

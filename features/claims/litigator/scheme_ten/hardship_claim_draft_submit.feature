@@ -16,6 +16,7 @@ Feature: Litigator completes hardship claims
     And I enter a providers reference of 'LGFS test hardship fee for covid-19'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20201234'
+    And I enter lgfs scheme 10 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 

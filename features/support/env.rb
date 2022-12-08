@@ -5,6 +5,7 @@
 # files.
 
 ENV["ENV"] ||= 'test'
+ENV['MAIN_HEARING_DATE_ENABLED'] = 'true'
 
 require 'capybara'
 require 'capybara/cucumber'

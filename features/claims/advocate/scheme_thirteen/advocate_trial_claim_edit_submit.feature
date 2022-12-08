@@ -15,6 +15,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter scheme 13 trial start and end dates
+    And I enter scheme 13 main hearing date
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I should see a page title "Enter defendant details for advocate final fees claim"
 

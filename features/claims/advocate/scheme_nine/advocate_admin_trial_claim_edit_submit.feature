@@ -17,6 +17,7 @@ Feature: Advocate admin submits a claim for a Trial case
     Then I should see retrial fields
     And I select a case type of 'Trial'
     And I enter scheme 9 trial start and end dates
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 

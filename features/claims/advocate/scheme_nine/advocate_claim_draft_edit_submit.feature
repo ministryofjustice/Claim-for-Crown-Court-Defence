@@ -14,6 +14,7 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
     And I enter scheme 9 trial start and end dates
+    And I enter scheme 9 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
     And I save as draft
@@ -66,30 +67,30 @@ Feature: Advocate partially fills out a draft claim for a trial, then later edit
     Then I should be on the check your claim page
 
     And the following check your claim fee details should exist:
-      | section | row | prompt | value |
-      | basic-fees-section | 1 | Type of fee | Basic fee |
-      | basic-fees-section | 1 | Quantity | 1 |
-      | basic-fees-section | 1 | Rate | £694.00 |
-      | basic-fees-section | 1 | Net amount | £694.00 |
-      | basic-fees-section | 1 | VAT amount | £138.80 |
-      | basic-fees-section | 1 | Total amount | £832.80 |
-      | basic-fees-section | 2 | Type of fee | Daily attendance fee (3 to 40) |
-      | basic-fees-section | 2 | Quantity | 4 |
-      | basic-fees-section | 2 | Rate | £326.00|
-      | basic-fees-section | 2 | Net amount | £1,304.00 |
-      | basic-fees-section | 2 | VAT amount | £260.80 |
-      | basic-fees-section | 2 | Total amount | £1,564.80 |
+      | section            | row | prompt       | value                          |
+      | basic-fees-section | 1   | Type of fee  | Basic fee                      |
+      | basic-fees-section | 1   | Quantity     | 1                              |
+      | basic-fees-section | 1   | Rate         | £694.00                        |
+      | basic-fees-section | 1   | Net amount   | £694.00                        |
+      | basic-fees-section | 1   | VAT amount   | £138.80                        |
+      | basic-fees-section | 1   | Total amount | £832.80                        |
+      | basic-fees-section | 2   | Type of fee  | Daily attendance fee (3 to 40) |
+      | basic-fees-section | 2   | Quantity     | 4                              |
+      | basic-fees-section | 2   | Rate         | £326.00                        |
+      | basic-fees-section | 2   | Net amount   | £1,304.00                      |
+      | basic-fees-section | 2   | VAT amount   | £260.80                        |
+      | basic-fees-section | 2   | Total amount | £1,564.80                      |
 
     And the following check your claim fee details should exist:
-      | section | row | prompt | value |
-      | miscellaneous-fees-section | 1 | Type of fee | Special preparation fee |
-      | miscellaneous-fees-section | 1 | Quantity | 1 |
-      | miscellaneous-fees-section | 1 | Rate | 39.00 |
-      | miscellaneous-fees-section | 1 | Net amount | 39.00 |
-      | miscellaneous-fees-section | 2 | Type of fee | Noting brief fee |
-      | miscellaneous-fees-section | 2 | Quantity | 1 |
-      | miscellaneous-fees-section | 2 | Rate | 108.00 |
-      | miscellaneous-fees-section | 2 | Net amount | 108.00 |
+      | section                    | row | prompt      | value                   |
+      | miscellaneous-fees-section | 1   | Type of fee | Special preparation fee |
+      | miscellaneous-fees-section | 1   | Quantity    | 1                       |
+      | miscellaneous-fees-section | 1   | Rate        | 39.00                   |
+      | miscellaneous-fees-section | 1   | Net amount  | 39.00                   |
+      | miscellaneous-fees-section | 2   | Type of fee | Noting brief fee        |
+      | miscellaneous-fees-section | 2   | Quantity    | 1                       |
+      | miscellaneous-fees-section | 2   | Rate        | 108.00                  |
+      | miscellaneous-fees-section | 2   | Net amount  | 108.00                  |
 
     When I click "Continue"
     Then I should be on the certification page

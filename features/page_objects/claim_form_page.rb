@@ -27,6 +27,7 @@ class ClaimFormPage < BasePage
   section :auto_case_stage, CommonAutocomplete, "#cc-case-stage"
   section :auto_court, CommonAutocomplete, "#cc-court"
   section :auto_offence, CommonAutocomplete, "#cc-offence"
+  section :main_hearing_date, GovukDateSection, '#main_hearing_date'
 
   element :case_number, "input[name='claim[case_number]']"
   element :case_type_dropdown, "#case_type"

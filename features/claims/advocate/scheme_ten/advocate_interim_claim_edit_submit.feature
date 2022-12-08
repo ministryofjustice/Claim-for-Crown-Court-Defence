@@ -11,6 +11,7 @@ Feature: Advocate partially fills out a draft AGFS scheme 10 interim claim for a
 
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20181234'
+    And I enter scheme 10 main hearing date
 
     And I should see a page title "Enter case details for advocate warrant fees claim"
 

@@ -13,6 +13,7 @@ Feature: Advocate chooses fee scheme 13 offences and clears them
     And I select a case type of 'Trial'
     And I select the court 'Blackfriars'
     And I enter scheme 13 trial start and end dates
+    And I enter scheme 13 main hearing date
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     Given I enter defendant, scheme 13 representation order and MAAT reference

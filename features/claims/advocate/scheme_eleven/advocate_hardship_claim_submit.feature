@@ -15,6 +15,7 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     When I enter a providers reference of 'AGFS hardship claim test'
     And I select the court 'Caernarfon'
     And I enter a case number of 'A20201234'
+    And I enter scheme 11 main hearing date
 
     When I select a case stage of 'After PTPH before trial'
     Then I should see hardship cracked trial fields
@@ -60,9 +61,9 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
     And I add a govuk calculated miscellaneous fee 'Ground rules hearing (whole day)' with quantity of '2'
 
     Then the following govuk fee details should exist:
-      | section | fee_description | rate | hint | help |
-      | miscellaneous | Special preparation fee | 39.39 | Number of hours | true |
-      | miscellaneous | Ground rules hearing (whole day) | 240.00 | Number of days | true |
+      | section       | fee_description                  | rate   | hint            | help |
+      | miscellaneous | Special preparation fee          | 39.39  | Number of hours | true |
+      | miscellaneous | Ground rules hearing (whole day) | 240.00 | Number of days  | true |
 
     And I eject the VCR cassette
 
@@ -87,45 +88,45 @@ Feature: Advocate tries to submit a hardship claim for a trial with miscellaneou
 
     Then I should see a page title "View claim summary for advocate hardship fees claim"
     And the following check your claim details should exist:
-      | section | prompt | value |
-      | case-details-section | Crown court | Caernarfon |
-      | case-details-section | Case number | A20201234 |
-      | case-details-section | Case stage | Trial started but not concluded |
-      | offence-details-section | Class | Offences Against the Public Interest |
-      | offence-details-section | Band | 8.1 |
-      | offence-details-section | Category | Harbouring escaped prisoner |
+      | section                 | prompt      | value                                |
+      | case-details-section    | Crown court | Caernarfon                           |
+      | case-details-section    | Case number | A20201234                            |
+      | case-details-section    | Case stage  | Trial started but not concluded      |
+      | offence-details-section | Class       | Offences Against the Public Interest |
+      | offence-details-section | Band        | 8.1                                  |
+      | offence-details-section | Category    | Harbouring escaped prisoner          |
 
     And I should not see 'Case type'
 
     And the following check your claim fee details should exist:
-      | section | row | prompt | value |
-      | basic-fees-section | 1 | Type of fee | Basic fee |
-      | basic-fees-section | 1 | Quantity | 1 |
-      | basic-fees-section | 1 | Rate | £1,210.00 |
-      | basic-fees-section | 1 | Net amount | £1,210.00 |
-      | basic-fees-section | 1 | VAT amount | £242.00 |
-      | basic-fees-section | 1 | Total amount | £1,452.00 |
-      | basic-fees-section | 2 | Type of fee | Number of cases uplift T20170001 |
-      | basic-fees-section | 2 | Quantity | 1 |
-      | basic-fees-section | 2 | Rate | £242.00|
-      | basic-fees-section | 2 | Net amount | £242.00 |
-      | basic-fees-section | 2 | VAT amount | £48.40 |
-      | basic-fees-section | 2 | Total amount | £290.40 |
+      | section            | row | prompt       | value                            |
+      | basic-fees-section | 1   | Type of fee  | Basic fee                        |
+      | basic-fees-section | 1   | Quantity     | 1                                |
+      | basic-fees-section | 1   | Rate         | £1,210.00                        |
+      | basic-fees-section | 1   | Net amount   | £1,210.00                        |
+      | basic-fees-section | 1   | VAT amount   | £242.00                          |
+      | basic-fees-section | 1   | Total amount | £1,452.00                        |
+      | basic-fees-section | 2   | Type of fee  | Number of cases uplift T20170001 |
+      | basic-fees-section | 2   | Quantity     | 1                                |
+      | basic-fees-section | 2   | Rate         | £242.00                          |
+      | basic-fees-section | 2   | Net amount   | £242.00                          |
+      | basic-fees-section | 2   | VAT amount   | £48.40                           |
+      | basic-fees-section | 2   | Total amount | £290.40                          |
 
     And the following check your claim fee details should exist:
-      | section | row | prompt | value |
-      | miscellaneous-fees-section | 1 | Type of fee | Special preparation fee |
-      | miscellaneous-fees-section | 1 | Quantity | 2 |
-      | miscellaneous-fees-section | 1 | Rate | 39.39 |
-      | miscellaneous-fees-section | 1 | Net amount | 78.78 |
-      | miscellaneous-fees-section | 2 | Type of fee | Ground rules hearing (whole day) |
-      | miscellaneous-fees-section | 2 | Quantity | 2 |
-      | miscellaneous-fees-section | 2 | Rate | 240.00 |
-      | miscellaneous-fees-section | 2 | Net amount | 480.00 |
+      | section                    | row | prompt      | value                            |
+      | miscellaneous-fees-section | 1   | Type of fee | Special preparation fee          |
+      | miscellaneous-fees-section | 1   | Quantity    | 2                                |
+      | miscellaneous-fees-section | 1   | Rate        | 39.39                            |
+      | miscellaneous-fees-section | 1   | Net amount  | 78.78                            |
+      | miscellaneous-fees-section | 2   | Type of fee | Ground rules hearing (whole day) |
+      | miscellaneous-fees-section | 2   | Quantity    | 2                                |
+      | miscellaneous-fees-section | 2   | Rate        | 240.00                           |
+      | miscellaneous-fees-section | 2   | Net amount  | 480.00                           |
 
     Then the following check your claim details should exist:
-      | section | prompt | value |
-      | supporting-evidence-section | Supporting evidence | hardship.pdf |
+      | section                     | prompt                        | value                        |
+      | supporting-evidence-section | Supporting evidence           | hardship.pdf                 |
       | supporting-evidence-section | Supporting evidence checklist | Hardship supporting evidence |
 
     When I click "Continue"

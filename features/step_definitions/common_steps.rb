@@ -209,4 +209,3 @@ end
 Given('popups are enabled') do
   overwrite_constant :ENABLED, false, Rack::NoPopups
 end
-

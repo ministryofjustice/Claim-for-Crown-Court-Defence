@@ -3,8 +3,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
   Scenario: I create an interim claim, save it to draft and later complete it
 
-    Given the current date is '2022-10-30'
-    And I am a signed in litigator
+    Given I am a signed in litigator
     And My provider has supplier numbers
     And I am on the 'Your claims' page
     And I click 'Start a claim'
@@ -15,7 +14,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
     And I enter a case number of 'A20161234'
-    And I enter lgfs scheme 10 main hearing date
+    And I enter lgfs scheme 9a main hearing date
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
@@ -27,8 +26,8 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     When I click the claim 'A20161234'
     And I edit the claim's defendants
 
-    And I enter defendant, LGFS Fee Scheme 10 representation order and MAAT reference
-    And I add another defendant, LGFS Fee Scheme 10 representation order and MAAT reference
+    And I enter defendant, LGFS Fee Scheme 9a representation order and MAAT reference
+    And I add another defendant, LGFS Fee Scheme 9a representation order and MAAT reference
 
     Then I click "Continue" in the claim form
 
@@ -53,7 +52,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date for LGFS Scheme 10
+    And I add an expense date for LGFS Scheme 9a
 
     Then I click "Continue" in the claim form
 

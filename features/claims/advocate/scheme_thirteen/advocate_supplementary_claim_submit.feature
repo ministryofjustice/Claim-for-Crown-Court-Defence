@@ -15,6 +15,7 @@ Feature: Advocate tries to submit a fee scheme 13 supplementary claim for miscel
     When I enter a providers reference of 'AGFS supplementary fee test'
     And I select the court 'Caernarfon'
     And I enter a case number of 'A20191234'
+    And I enter scheme 13 main hearing date
 
     And I should see a page title "Enter case details for advocate supplementary fee claim"
     Then I click "Continue" in the claim form

@@ -14,6 +14,7 @@ Feature: Advocate can add and remove fee scheme 13 miscelleaneous fees
     And I select the court 'Caernarfon'
     And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20181234'
+    And I enter scheme 13 main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant' form page
 

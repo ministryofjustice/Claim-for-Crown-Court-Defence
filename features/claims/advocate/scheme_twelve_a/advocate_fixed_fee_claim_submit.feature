@@ -1,11 +1,10 @@
 @javascript
-Feature: Advocate tries to submit a fee scheme 13 claim for a Fixed fee (Appeal against conviction)
+Feature: Advocate tries to submit a fee scheme 12a claim for a Fixed fee (Appeal against conviction)
 
   @fee_calc_vcr
   Scenario: I create an Appeal against conviction claim, and use the back button to invalidate it
 
-    Given the current date is '2022-10-30'
-    And I am a signed in advocate
+    Given I am a signed in advocate
     And I am on the 'Your claims' page
 
     And I click 'Start a claim'
@@ -15,12 +14,12 @@ Feature: Advocate tries to submit a fee scheme 13 claim for a Fixed fee (Appeal 
     And I select the court 'Caernarfon'
     And I select a case type of 'Appeal against conviction'
     And I enter a case number of 'A20181234'
-    And I enter scheme 13 main hearing date
+    And I enter scheme 12a main hearing date
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
-    And I enter defendant, scheme 13 representation order and MAAT reference
-    And I add another defendant, scheme 13 representation order and MAAT reference
+    And I enter defendant, scheme 12 representation order and MAAT reference
+    And I add another defendant, scheme 12 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
     Then I click the link 'Back'

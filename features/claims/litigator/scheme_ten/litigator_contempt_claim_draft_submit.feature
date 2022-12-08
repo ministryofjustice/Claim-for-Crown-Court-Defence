@@ -19,6 +19,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2022-10-01'
+    And I enter lgfs scheme 10 main hearing date
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft

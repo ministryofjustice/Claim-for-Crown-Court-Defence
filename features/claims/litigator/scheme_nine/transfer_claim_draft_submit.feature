@@ -24,6 +24,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date
+    And I enter lgfs scheme 9 main hearing date
 
     And I should see a page title "Enter case details for litigator transfer fees claim"
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
@@ -132,6 +133,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date
+    And I enter lgfs scheme 9 main hearing date
 
     When I click "Continue" in the claim form and move to the 'Defendant details' form page
     Then I should see a page title "Enter defendant details for litigator transfer fees claim"
@@ -175,7 +177,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
     And I add some additional information
     And I click Submit to LAA
     Then I should be on the check your claim page
-    And I should see a page title "View claim summary for litigator transfer fees claim"    
+    And I should see a page title "View claim summary for litigator transfer fees claim"
     And I should see 'G: Other offences of dishonesty between £30,001 and £100,000'
 
     When I click "Continue"

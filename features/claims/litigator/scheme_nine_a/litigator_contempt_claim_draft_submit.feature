@@ -17,8 +17,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select a case type of 'Contempt'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'
-    And I enter the case concluded date '2016-04-01'
-    And I enter lgfs scheme 9 main hearing date
+    And I enter the case concluded date '2022-10-01'
+    And I enter lgfs scheme 9a main hearing date
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
     And I save as draft
@@ -34,17 +34,17 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I should see a supplier number select list
     Then I click "Continue" in the claim form
 
-    And I enter defendant, LGFS representation order and MAAT reference
-    And I add another defendant, LGFS representation order and MAAT reference
+    And I enter defendant, LGFS Scheme 9a representation order and MAAT reference
+    And I add another defendant, LGFS Scheme 9a representation order and MAAT reference
 
     Given I insert the VCR cassette 'features/claims/litigator/fixed_fee_calculations'
     Then I click "Continue" in the claim form
 
     And I should see fixed fee type 'Contempt'
-    And the fixed fee rate should be populated with '116.49'
-    And I fill '2018-11-01' as the fixed fee date
+    And the fixed fee rate should be populated with '133.96'
+    And I fill '2022-10-01' as the fixed fee date
     And I fill '2' as the fixed fee quantity
-    Then I should see fixed fee total '£232.98'
+    Then I should see fixed fee total '267.92'
 
     And I eject the VCR cassette
 
@@ -68,7 +68,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I select an expense type "Parking"
     And I select a travel reason "View of crime scene"
     And I add an expense net amount for "34.56"
-    And I add an expense date for LGFS
+    And I add an expense date for LGFS Scheme 9a
 
     And I should see a page title "Enter travel expenses for litigator final fees claim"
     Then I click "Continue" in the claim form
@@ -81,7 +81,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I should be on the check your claim page
     And I should see the field 'Crown court' with value 'Blackfriars' in 'Case details'
     And I should see the field 'Case type' with value 'Contempt' in 'Case details'
-    And I should see the field 'Date case concluded' with value '01/04/2016' in 'Case details'
+    And I should see the field 'Date case concluded' with value '01/10/2022' in 'Case details'
     And I should not see 'First day of trial'
     And I should not see 'Estimated trial length'
     And I should not see 'Actual trial length'
@@ -97,4 +97,4 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
 
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£754.71'
+    And Claim 'A20161234' should be listed with a status of 'Submitted' and a claimed amount of '£789.65'

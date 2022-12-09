@@ -2716,7 +2716,6 @@ en:
     time_retention_information: More information on time-limited retention
     time_retention_warning_text: Time-limited retention of claims is being introduced from 19th September 2016.
 
-    clair_contingency_text_one: Claims with a rep order date no earlier than 17 September 2020 and a main hearing date
-                                on or after 31 October 2022 may qualify for uplifted fees.
-    clair_contingency_text_two: Any increase due will be calculated
-                                and added during assessment.
+    clair_contingency_hide_banner: Do not show main hearing date information again
+    clair_contingency_text_one: Claims with a main hearing date on or after 31 October 2022 may qualify for uplifted fees.
+    clair_contingency_text_two: Any increase due will be calculated and added during assessment.

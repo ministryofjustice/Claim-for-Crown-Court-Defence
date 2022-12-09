@@ -61,5 +61,11 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:settings).to_h).to eq({ 'hardship_claims_banner_seen' => 'test' })
       expect(user.settings).to eq({ 'hardship_claims_banner_seen' => 'test' })
     end
+
+    it 'can update the clair_contingency_banner_seen setting' do
+      do_put(clair_contingency_banner_seen: 'test')
+      expect(assigns(:settings).to_h).to eq({ 'clair_contingency_banner_seen' => 'test' })
+      expect(user.settings).to eq({ 'clair_contingency_banner_seen' => 'test' })
+    end
   end
 end

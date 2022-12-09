@@ -130,6 +130,59 @@ describe ExternalUsers::ClaimsHelper do
     end
   end
 
+  describe '#show_clair_contingency_banner_to_user?' do
+    subject { helper.show_clair_contingency_banner_to_user? }
+
+    let(:current_user) { create(:external_user, :advocate).user }
+    let(:user_settings) { {} }
+
+    before do
+      allow(Settings).to receive(:clair_contingency_banner_enabled?).and_return(clair_contingency_banner_enabled)
+      allow(current_user).to receive(:settings).and_return(user_settings)
+      allow(helper).to receive(:current_user).and_return(current_user)
+    end
+
+    context 'when the feature flag is enabled' do
+      let(:clair_contingency_banner_enabled) { true }
+
+      context 'when the user is not an external user' do
+        let(:current_user) { create(:case_worker).user }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when the user has not seen yet the banner' do
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when the user has seen/dismissed the banner' do
+        let(:user_settings) { { clair_contingency_banner_seen: '1' } }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'when the feature flag is disabled' do
+      let(:clair_contingency_banner_enabled) { false }
+
+      context 'when the user is not an external user' do
+        let(:current_user) { create(:case_worker).user }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when the user has not seen yet the banner' do
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when the user has seen/dismissed the banner' do
+        let(:user_settings) { { clair_contingency_banner_seen: '1' } }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+  end
+
   describe 'url_for_referrer' do
     let(:claim) { create(:advocate_claim) }
 

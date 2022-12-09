@@ -207,6 +207,16 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       it { expect_error_response("#{claim_user_type} email is invalid") }
     end
 
+    context 'when user email is valid but contains upper case characters' do
+      before do
+        valid_params[:user_email].upcase!
+        post_to_validate_endpoint
+      end
+
+      it { expect(last_response.status).to eq(200) }
+      it { expect(JSON.parse(last_response.body)['valid']).to be_truthy }
+    end
+
     context 'when required params are missing' do
       before do
         valid_params.delete(:case_number)

@@ -17,7 +17,6 @@ class FeeScheme < ApplicationRecord
   scope :eleven, -> { where(version: FeeScheme::ELEVEN) }
   scope :twelve, -> { where(version: FeeScheme::TWELVE) }
   scope :thirteen, -> { where(version: FeeScheme::THIRTEEN) }
-  scope :current, -> { self.for(Time.zone.now) }
   scope :for, ->(check_date) { where(start_date: ..check_date, end_date: [nil, check_date..]) }
 
   def agfs?
@@ -42,14 +41,6 @@ class FeeScheme < ApplicationRecord
 
   def agfs_scheme_13?
     agfs? && version.eql?(13)
-  end
-
-  def self.current_agfs
-    agfs.current.order(end_date: :desc).first
-  end
-
-  def self.current_lgfs
-    lgfs.current.order(end_date: :desc).first
   end
 
   def self.for_claim(claim)

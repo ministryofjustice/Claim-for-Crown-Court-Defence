@@ -172,5 +172,9 @@ module Claim
     def cleaner
       Cleaners::AdvocateHardshipClaimCleaner.new(self)
     end
+
+    def fee_scheme_factory
+      FeeSchemeFactory::AGFS
+    end
   end
 end

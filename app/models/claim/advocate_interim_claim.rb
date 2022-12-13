@@ -81,5 +81,9 @@ module Claim
     def eligible_advocate_categories
       Claims::FetchEligibleAdvocateCategories.for(self)
     end
+
+    def fee_scheme_factory
+      FeeSchemeFactory::AGFS
+    end
   end
 end

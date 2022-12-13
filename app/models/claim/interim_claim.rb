@@ -181,5 +181,9 @@ module Claim
     def disbursements_changed?
       disbursements.any?(&:changed?)
     end
+
+    def fee_scheme_factory
+      FeeSchemeFactory::LGFS
+    end
   end
 end

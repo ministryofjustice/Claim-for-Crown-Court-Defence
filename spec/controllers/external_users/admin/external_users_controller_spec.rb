@@ -130,7 +130,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
               supplier_number: 'XY123'
             }
           }
-          post :create, params: params
+          post(:create, params:)
           expect(response).to redirect_to(external_users_admin_external_users_url)
         end
       end

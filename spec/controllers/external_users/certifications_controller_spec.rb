@@ -158,7 +158,7 @@ RSpec.describe ExternalUsers::CertificationsController do
       it 'redirects to new' do
         params = valid_certification_params(claim, certification_type)
         params['certification']['certification_type_id'] = nil
-        post :create, params: params
+        post(:create, params:)
         expect(response).to render_template(:new)
       end
     end

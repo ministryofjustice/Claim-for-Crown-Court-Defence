@@ -504,7 +504,7 @@ RSpec.describe ExternalUsers::ClaimsController do
           let(:params) { { search: advocate.user.last_name } }
 
           it 'returns no claims by default' do
-            get :index, params: params
+            get(:index, params:)
             expect(assigns(:claims).sort_by(&:state)).to be_empty
           end
 
@@ -512,7 +512,7 @@ RSpec.describe ExternalUsers::ClaimsController do
             let(:advocate) { create(:external_user, :advocate, :admin) }
 
             it 'finds the claims' do
-              get :index, params: params
+              get(:index, params:)
               expect(assigns(:claims).sort_by(&:state)).to eq([allocated_claim, draft_claim])
             end
           end
@@ -531,7 +531,7 @@ RSpec.describe ExternalUsers::ClaimsController do
           let(:params) { { search: advocate.user.last_name } }
 
           it 'returns no claims by default' do
-            get :archived, params: params
+            get(:archived, params:)
             expect(assigns(:claims).sort_by(&:state)).to be_empty
           end
 
@@ -539,7 +539,7 @@ RSpec.describe ExternalUsers::ClaimsController do
             let(:advocate) { create(:external_user, :advocate, :admin) }
 
             it 'finds the claims' do
-              get :archived, params: params
+              get(:archived, params:)
               expect(assigns(:claims)).to eq([archived_claim])
             end
           end

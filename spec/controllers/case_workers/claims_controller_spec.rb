@@ -33,7 +33,7 @@ RSpec.describe CaseWorkers::ClaimsController do
         expect(Claims::CaseWorkerClaims).to receive(:new).with(current_user: @case_worker.user, action: 'current', criteria:).and_return(claims_service)
         expect(claims_service).to receive(:claims).and_return(claims_collection)
 
-        get 'index', params: params
+        get('index', params:)
         expect(assigns(:claims)).to eq claims_collection
       end
     end

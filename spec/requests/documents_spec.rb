@@ -78,7 +78,7 @@ RSpec.describe 'Document management', type: :request do
       end
 
       it 'returns documents matching the form_id' do
-        ids = JSON.parse(response.body).map { |h| h['id'] }
+        ids = JSON.parse(response.body).pluck('id')
         expect(ids).to match_array(matching_documents.map(&:id))
       end
     end

@@ -235,7 +235,7 @@ RSpec.describe ManagementInformationPresenter do
 
         it 'returns name of the caseworker that made the decision' do
           presenter.present! do |claim_journeys|
-            case_worker_names = claim_journeys.map { |journey| journey[case_worker_name_idx] }
+            case_worker_names = claim_journeys.pluck(case_worker_name_idx)
             is_expected.to eq(case_worker_names.last)
           end
         end
@@ -260,7 +260,7 @@ RSpec.describe ManagementInformationPresenter do
 
         it 'returns name of the caseworker that made each decision' do
           presenter.present! do |claim_journeys|
-            case_worker_names = claim_journeys.map { |journey| journey[case_worker_name_idx] }
+            case_worker_names = claim_journeys.pluck(case_worker_name_idx)
             expect(case_worker_names).to match_array([case_worker1.name, case_worker2.name])
           end
         end
@@ -299,7 +299,7 @@ RSpec.describe ManagementInformationPresenter do
 
         it 'returns name of the caseworker that made each decision' do
           presenter.present! do |claim_journeys|
-            case_worker_names = claim_journeys.map { |journey| journey[case_worker_name_idx] }
+            case_worker_names = claim_journeys.pluck(case_worker_name_idx)
             expect(case_worker_names).to match_array([case_worker1.name, case_worker2.name, case_worker3.name])
           end
         end

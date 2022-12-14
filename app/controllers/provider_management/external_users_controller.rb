@@ -6,16 +6,18 @@ class ProviderManagement::ExternalUsersController < ApplicationController
                                              change_availability update_availability]
   before_action :external_user_by_email, only: %i[search]
 
-  def show; end
-
   def index
     @external_users = ExternalUser.where(provider: @provider)
   end
+
+  def show; end
 
   def new
     @external_user = ExternalUser.new(provider: @provider)
     @external_user.build_user
   end
+
+  def edit; end
 
   def create
     # downcase email_confirmation - devise will downcase the email
@@ -29,8 +31,6 @@ class ProviderManagement::ExternalUsersController < ApplicationController
       render :new
     end
   end
-
-  def edit; end
 
   def find; end
 

@@ -14,15 +14,6 @@ class ProviderManagement::ProvidersController < ApplicationController
     render 'shared/providers/edit'
   end
 
-  def update
-    if @provider.update(provider_params.except(*filtered_params))
-      redirect_to provider_management_provider_path(@provider), notice: 'Provider successfully updated'
-    else
-      @error_presenter = error_presenter
-      render 'shared/providers/edit'
-    end
-  end
-
   def create
     @provider = Provider.new(provider_params)
     if @provider.save
@@ -30,6 +21,15 @@ class ProviderManagement::ProvidersController < ApplicationController
     else
       @error_presenter = error_presenter
       render 'shared/providers/new'
+    end
+  end
+
+  def update
+    if @provider.update(provider_params.except(*filtered_params))
+      redirect_to provider_management_provider_path(@provider), notice: 'Provider successfully updated'
+    else
+      @error_presenter = error_presenter
+      render 'shared/providers/edit'
     end
   end
 

@@ -54,7 +54,7 @@ module Claims
 
       UPLIFT_MODIFIERS = %i[number_of_defendants number_of_cases].freeze
       def uplift_modifier?
-        (unit_modifiers.map(&:name) & UPLIFT_MODIFIERS).present?
+        unit_modifiers.map(&:name).intersect?(UPLIFT_MODIFIERS)
       end
 
       def uplift_modifier_name

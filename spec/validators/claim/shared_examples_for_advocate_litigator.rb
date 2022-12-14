@@ -167,7 +167,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
     end
   end
 
-  unless ([:interim_claim, :hardship_claim] & flags).any?
+  unless [:interim_claim, :hardship_claim].intersect?(flags)
     context 'when validating case_concluded_at date' do
       before { claim.force_validation = true }
 
@@ -222,7 +222,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
       claim.offence = nil
     end
 
-    unless ([:hardship_claim] & flags).any?
+    unless [:hardship_claim].intersect?(flags)
       it 'errors if NOT present for case type without fixed fees' do
         claim.case_type.is_fixed_fee = false
         should_error_with(claim, :offence, 'Choose an offence')

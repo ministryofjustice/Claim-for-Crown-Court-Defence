@@ -71,7 +71,7 @@ FactoryBot.define do
   end
 
   factory :bare_bones_transfer_claim, class: 'Claim::TransferClaim' do
-    creator { build :external_user, :litigator }
+    creator { build(:external_user, :litigator) }
     external_user { creator }
   end
 end

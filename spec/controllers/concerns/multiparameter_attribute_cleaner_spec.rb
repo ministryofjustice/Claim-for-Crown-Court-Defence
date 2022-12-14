@@ -1,4 +1,4 @@
-RSpec.describe MultiparameterAttributeCleaner, type: :controller do
+RSpec.describe MultiparameterAttributeCleaner do
   let(:person_params) do
     {
       person: {

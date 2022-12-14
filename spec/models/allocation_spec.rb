@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Allocation, type: :model do
+RSpec.describe Allocation do
   let(:current_user) { create(:case_worker, :admin) }
 
   it { should validate_presence_of(:case_worker_id) }
@@ -85,7 +85,7 @@ RSpec.describe Allocation, type: :model do
       end
 
       context 'when creator is a litigator' do
-        let!(:claim) { create :submitted_claim }
+        let!(:claim) { create(:submitted_claim) }
         let(:allocator) { Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user:) }
 
         describe 'and then changes role to advocate' do

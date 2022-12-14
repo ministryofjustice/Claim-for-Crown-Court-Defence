@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ClaimStateTransitionReason, type: :model do
+RSpec.describe ClaimStateTransitionReason do
   describe '.new' do
     let(:reason) { described_class.new('code', 'short description', 'long description') }
 

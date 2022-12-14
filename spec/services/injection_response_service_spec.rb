@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe InjectionResponseService, slack_bot: true do
   subject(:irs) { described_class.new(json) }
 
-  let(:claim) { create :claim }
+  let(:claim) { create(:claim) }
   let(:injection_attempt) { claim.injection_attempts.last }
 
   let(:invalid_json) { { errors: [], claim_id: '1234567', messages: [] } }

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe 'external_users/claim_types/new.html.haml', type: :view do
+RSpec.describe 'external_users/claim_types/new.html.haml' do
   let(:external_user) { create(:external_user) }
   let(:claim_type) { ClaimType.new }
 

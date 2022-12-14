@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ConvertDocumentJob, type: :job do
+RSpec.describe ConvertDocumentJob do
   let(:job) { described_class.new }
 
   describe '#perform' do
@@ -19,14 +19,14 @@ RSpec.describe ConvertDocumentJob, type: :job do
     end
 
     context 'with an existing converted preview document' do
-      let(:document) { create :document, :with_preview }
+      let(:document) { create(:document, :with_preview) }
 
       it { expect { perform }.not_to(change { document.reload.converted_preview_document }) }
       it { expect { perform }.not_to raise_error }
     end
 
     context 'with a pdf document' do
-      let(:document) { create :document, :pdf }
+      let(:document) { create(:document, :pdf) }
 
       it do
         expect { perform }
@@ -37,7 +37,7 @@ RSpec.describe ConvertDocumentJob, type: :job do
     end
 
     context 'with a docx document' do
-      let(:document) { create :document, :docx }
+      let(:document) { create(:document, :docx) }
 
       it do
         expect { perform }
@@ -48,7 +48,7 @@ RSpec.describe ConvertDocumentJob, type: :job do
     end
 
     context 'when Libreconv fails' do
-      let(:document) { create :document, :docx }
+      let(:document) { create(:document, :docx) }
 
       before { allow(Libreconv).to receive(:convert).and_raise(IOError) }
 

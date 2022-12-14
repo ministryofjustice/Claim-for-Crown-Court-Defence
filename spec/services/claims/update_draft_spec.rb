@@ -7,7 +7,7 @@ RSpec.describe Claims::UpdateDraft do
 
   context 'draft claim updates' do
     let(:original_case_number) { 'A20161234' }
-    let(:claim) { create :advocate_claim, case_number: original_case_number }
+    let(:claim) { create(:advocate_claim, case_number: original_case_number) }
     let(:claim_params) { { case_number: 'A20165555' } }
     let(:validate) { true }
 
@@ -70,7 +70,7 @@ RSpec.describe Claims::UpdateDraft do
 
     context 'updating a previously submitted claim that was saved as a draft with an invalid associated record' do
       let(:fee_type) { create(:interim_fee_type, :warrant) }
-      let(:claim) { create :interim_claim, case_number: 'A20161234' }
+      let(:claim) { create(:interim_claim, case_number: 'A20161234') }
       let(:draft_claim_params) {
         {
           'form_step' => 'fees',

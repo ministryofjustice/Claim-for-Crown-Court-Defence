@@ -137,7 +137,7 @@ module Claim
     end
 
     def form_step=(step)
-      @form_step = step.nil? ? nil : step.to_sym
+      @form_step = step&.to_sym
     end
 
     def step_in_steps_range?(step)

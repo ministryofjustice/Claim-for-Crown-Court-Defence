@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.shared_examples 'download evidence document' do
-  let(:document) { create :document, :with_preview, external_user: document_owner }
+  let(:document) { create(:document, :with_preview, external_user: document_owner) }
   let(:document_owner) { external_user }
   let(:test_url) { 'https://example.com/document.doc#123abc' }
 
@@ -20,7 +20,7 @@ RSpec.shared_examples 'download evidence document' do
   end
 
   context 'when the document is owned by another user' do
-    let(:document_owner) { create :external_user }
+    let(:document_owner) { create(:external_user) }
 
     it { is_expected.to redirect_to external_users_root_url }
   end
@@ -48,8 +48,8 @@ RSpec.shared_examples 'failed document upload' do
   end
 end
 
-RSpec.describe 'Document management', type: :request do
-  let(:external_user) { create :external_user }
+RSpec.describe 'Document management' do
+  let(:external_user) { create(:external_user) }
   let(:user) { external_user.user }
 
   before { sign_in user }
@@ -92,7 +92,7 @@ RSpec.describe 'Document management', type: :request do
     end
 
     context 'when the preview does not exist' do
-      let(:document) { create :document, external_user: document_owner }
+      let(:document) { create(:document, external_user: document_owner) }
       let(:document_owner) { external_user }
 
       it { expect { show_document }.to raise_error(ActiveRecord::RecordNotFound) }
@@ -165,7 +165,7 @@ RSpec.describe 'Document management', type: :request do
 
     context 'when the ActiveStorage::Blobs are attached to another document' do
       before do
-        other = build :document, :empty
+        other = build(:document, :empty)
         other.document.attach(document.document.blob)
         other.converted_preview_document.attach(document.converted_preview_document.blob)
         other.save

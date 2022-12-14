@@ -4,7 +4,7 @@ RSpec.describe MessagePresenter, type: :helper do
   subject(:presenter) { described_class.new message, helper }
 
   let(:attachment) { nil }
-  let(:message) { build :message, attachment: }
+  let(:message) { build(:message, attachment:) }
 
   describe '#body' do
     context 'without an attachment' do

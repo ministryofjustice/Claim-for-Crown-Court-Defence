@@ -270,7 +270,7 @@ describe ExternalUsers::ClaimsHelper do
 
     context 'when claim fee_scheme is nine' do
       let(:claim) { build(:advocate_claim, case_type:) }
-      let(:fee) { build :basic_fee, :baf_fee, claim: }
+      let(:fee) { build(:basic_fee, :baf_fee, claim:) }
 
       context 'when the case type is Trial' do
         let(:case_type) { build(:case_type, :trial) }
@@ -299,7 +299,7 @@ describe ExternalUsers::ClaimsHelper do
 
     context 'when claim fee_scheme is ten' do
       let(:claim) { create(:advocate_claim, :agfs_scheme_10, case_type:) }
-      let(:fee) { build :basic_fee, :baf_fee, claim: }
+      let(:fee) { build(:basic_fee, :baf_fee, claim:) }
 
       before { create(:fee_scheme, :agfs_ten) }
 
@@ -333,7 +333,7 @@ describe ExternalUsers::ClaimsHelper do
     subject { helper.build_dates_attended?(fee) }
 
     let(:claim) { create(:claim, case_type:) }
-    let(:fee) { build :basic_fee, :baf_fee, claim: }
+    let(:fee) { build(:basic_fee, :baf_fee, claim:) }
 
     context 'when claim is not hardship' do
       before { allow(claim).to receive(:hardship?).and_return false }

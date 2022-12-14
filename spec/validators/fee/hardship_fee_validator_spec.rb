@@ -3,10 +3,10 @@ require 'rails_helper'
 RSpec.describe Fee::HardshipFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:fee) { build :hardship_fee, claim:, date: Date.today }
+  let(:fee) { build(:hardship_fee, claim:, date: Date.today) }
 
   context 'LGFS claim' do
-    let(:claim) { build :litigator_hardship_claim }
+    let(:claim) { build(:litigator_hardship_claim) }
 
     before do
       fee.clear   # reset some attributes set by the factory

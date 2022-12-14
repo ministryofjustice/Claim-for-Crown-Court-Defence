@@ -6,7 +6,7 @@ RSpec.describe API::V2::Claim do
 
   after(:all) { clean_database }
 
-  let(:case_worker) { create :case_worker }
+  let(:case_worker) { create(:case_worker) }
 
   before(:all) do
     @claim = create(:deterministic_claim, :redetermination)

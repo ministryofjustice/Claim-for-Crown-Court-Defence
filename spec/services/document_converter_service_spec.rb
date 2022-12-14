@@ -20,7 +20,7 @@ RSpec.describe DocumentConverterService do
   end
 
   context 'when the source attachment is a PDF' do
-    let(:document) { build :document, :pdf }
+    let(:document) { build(:document, :pdf) }
 
     before { convert_document }
 
@@ -28,7 +28,7 @@ RSpec.describe DocumentConverterService do
   end
 
   context 'when the source attachment has been saved' do
-    let(:document) { create :document, :docx }
+    let(:document) { create(:document, :docx) }
 
     before { convert_document }
 
@@ -37,7 +37,7 @@ RSpec.describe DocumentConverterService do
   end
 
   context 'when the source attachment is new (i.e., not saved)' do
-    let(:document) { build :document, :docx }
+    let(:document) { build(:document, :docx) }
 
     before { convert_document }
 

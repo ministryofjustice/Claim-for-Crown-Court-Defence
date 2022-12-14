@@ -12,7 +12,7 @@
 
 require 'rails_helper'
 
-RSpec.describe DisbursementType, type: :model do
+RSpec.describe DisbursementType do
   it { should have_many(:disbursements) }
 
   it { should validate_presence_of(:name) }
@@ -22,9 +22,9 @@ RSpec.describe DisbursementType, type: :model do
 
   context 'scopes' do
     before(:all) do
-      create :disbursement_type, name: 'Zebras'
-      create :disbursement_type, name: 'Travel Costs', deleted_at: 3.minutes.ago
-      create :disbursement_type, name: 'Aardvarks'
+      create(:disbursement_type, name: 'Zebras')
+      create(:disbursement_type, name: 'Travel Costs', deleted_at: 3.minutes.ago)
+      create(:disbursement_type, name: 'Aardvarks')
     end
 
     after(:all) { DisbursementType.delete_all }

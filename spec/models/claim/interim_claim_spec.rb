@@ -1,8 +1,8 @@
 require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
-RSpec.describe Claim::InterimClaim, type: :model do
-  let(:claim) { build :interim_claim, **options }
+RSpec.describe Claim::InterimClaim do
+  let(:claim) { build(:interim_claim, **options) }
   let(:options) { {} }
 
   it_behaves_like 'uses claim cleaner', Cleaners::InterimClaimCleaner
@@ -17,15 +17,15 @@ RSpec.describe Claim::InterimClaim, type: :model do
   end
 
   describe '#eligible_case_types' do
-    let(:ct1) { create :case_type, name: 'LGFS and Interim case type', roles: %w[lgfs interim] }
-    let(:ct2) { create :case_type, name: 'AGFS, LGFS and Interim case type', roles: %w[agfs lgfs interim] }
+    let(:ct1) { create(:case_type, name: 'LGFS and Interim case type', roles: %w[lgfs interim]) }
+    let(:ct2) { create(:case_type, name: 'AGFS, LGFS and Interim case type', roles: %w[agfs lgfs interim]) }
     let(:options) { { case_type: ct1 } }
 
     before do
       CaseType.delete_all
 
-      create :case_type, name: 'AGFS case type', roles: ['agfs']
-      create :case_type, name: 'LGFS case type', roles: ['lgfs']
+      create(:case_type, name: 'AGFS case type', roles: ['agfs'])
+      create(:case_type, name: 'LGFS case type', roles: ['lgfs'])
       ct1
       ct2
     end

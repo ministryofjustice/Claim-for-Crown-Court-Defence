@@ -13,7 +13,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CaseWorker, type: :model do
+RSpec.describe CaseWorker do
   include DatabaseHousekeeping
   it_behaves_like 'roles', CaseWorker, CaseWorker::ROLES
 
@@ -40,12 +40,12 @@ RSpec.describe CaseWorker, type: :model do
 
   context 'soft deletion scopes' do
     before(:all) do
-      @location_1 = create :location
-      @location_2 = create :location
-      @live_cw1 = create :case_worker, location: @location_1
-      @live_cw2 = create :case_worker, location: @location_2
-      @dead_cw1 = create :case_worker, :softly_deleted, location: @location_1
-      @dead_cw2 = create :case_worker, :softly_deleted, location: @location_2
+      @location_1 = create(:location)
+      @location_2 = create(:location)
+      @live_cw1 = create(:case_worker, location: @location_1)
+      @live_cw2 = create(:case_worker, location: @location_2)
+      @dead_cw1 = create(:case_worker, :softly_deleted, location: @location_1)
+      @dead_cw2 = create(:case_worker, :softly_deleted, location: @location_2)
     end
 
     after(:all) { clean_database }
@@ -100,7 +100,7 @@ RSpec.describe CaseWorker, type: :model do
 
   describe 'soft_delete' do
     it 'sets deleted at on the caseworker and user records' do
-      cw = create :case_worker
+      cw = create(:case_worker)
       user = cw.user
       cw.soft_delete
       expect(cw.reload.deleted_at).not_to be_nil
@@ -110,12 +110,12 @@ RSpec.describe CaseWorker, type: :model do
 
   describe '#active?' do
     it 'returns false for deleted records' do
-      cw = build :case_worker, :softly_deleted
+      cw = build(:case_worker, :softly_deleted)
       expect(cw.active?).to be false
     end
 
     it 'returns true for active records' do
-      cw = build :case_worker
+      cw = build(:case_worker)
       expect(cw.active?).to be true
     end
   end

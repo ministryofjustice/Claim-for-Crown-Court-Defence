@@ -13,7 +13,7 @@
 
 require 'rails_helper'
 
-RSpec.describe InjectionAttempt, type: :model do
+RSpec.describe InjectionAttempt do
   subject(:injection_attempt) { create(:injection_attempt) }
 
   context 'validations' do

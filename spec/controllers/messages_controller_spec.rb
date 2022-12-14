@@ -16,7 +16,7 @@
 
 require 'rails_helper'
 
-RSpec.describe MessagesController, type: :controller do
+RSpec.describe MessagesController do
   context 'standard sign in' do
     let(:sender) { create(:external_user) }
 
@@ -99,7 +99,7 @@ RSpec.describe MessagesController, type: :controller do
   end
 
   context 'email notifications' do
-    let(:claim) { create :claim }
+    let(:claim) { create(:claim) }
     let(:message_params) { { claim_id: claim.id, sender_id: sender.user.id, body: 'lorem ipsum' } }
 
     context 'external_user_sending_messages' do
@@ -125,7 +125,7 @@ RSpec.describe MessagesController, type: :controller do
     end
 
     context 'case_worker_sending_messages' do
-      let(:sender) { create :case_worker }
+      let(:sender) { create(:case_worker) }
 
       context 'claim creator is set up to receive mails' do
         it 'sends an email' do

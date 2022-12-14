@@ -13,7 +13,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ExpenseType, type: :model do
+RSpec.describe ExpenseType do
   it_behaves_like 'roles', ExpenseType, ExpenseType::ROLES
 
   it { should have_many(:expenses) }
@@ -69,8 +69,8 @@ RSpec.describe ExpenseType, type: :model do
   end
 
   context 'expense reasons' do
-    let(:expense_type_set_a) { create :expense_type }
-    let(:expense_type_set_b) { create :expense_type, :reason_set_b }
+    let(:expense_type_set_a) { create(:expense_type) }
+    let(:expense_type_set_b) { create(:expense_type, :reason_set_b) }
 
     describe '#expense_reasons_hash' do
       it 'returns reason set a hash' do

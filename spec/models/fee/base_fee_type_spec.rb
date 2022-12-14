@@ -19,7 +19,7 @@
 require 'rails_helper'
 require_relative 'shared_examples_for_defendant_uplifts'
 
-RSpec.describe Fee::BaseFeeType, type: :model do
+RSpec.describe Fee::BaseFeeType do
   include DatabaseHousekeeping
 
   class FeeTypeDouble < described_class; end
@@ -58,12 +58,12 @@ RSpec.describe Fee::BaseFeeType, type: :model do
 
   describe '#quanity_is_decimal?' do
     it 'returns false' do
-      ft = build :basic_fee_type
+      ft = build(:basic_fee_type)
       expect(ft.quantity_is_decimal).to be false
     end
 
     it 'returns true' do
-      ft = build :misc_fee_type, :spf
+      ft = build(:misc_fee_type, :spf)
       expect(ft.quantity_is_decimal).to be true
     end
   end
@@ -89,19 +89,19 @@ RSpec.describe Fee::BaseFeeType, type: :model do
 
   context 'when calling specialized fee type scopes' do
     before(:all) do
-      @bf1 = create :basic_fee_type, description: 'basic fee type 1'
-      @bf2 = create :basic_fee_type, description: 'basic fee type 2'
-      @mf1 = create :misc_fee_type, description: 'misc fee type 1'
-      @mf2 = create :misc_fee_type, description: 'misc fee type 2'
-      @ff1 = create :fixed_fee_type, description: 'fixed fee type 1'
-      @ff2 = create :fixed_fee_type, description: 'fixed fee type 2'
-      @wf1 = create :warrant_fee_type, description: 'warrant fee type 1'
-      @wf2 = create :warrant_fee_type, description: 'warrant fee type 2'
-      @gf1 = create :graduated_fee_type, description: 'grad fee type 1'
-      @gf2 = create :graduated_fee_type, description: 'grad fee type 2'
-      @if1 = create :interim_fee_type, description: 'interim fee type 1'
-      @if2 = create :interim_fee_type, description: 'interim fee type 2'
-      @tf1 = create :transfer_fee_type, description: 'transfer fee type 1'
+      @bf1 = create(:basic_fee_type, description: 'basic fee type 1')
+      @bf2 = create(:basic_fee_type, description: 'basic fee type 2')
+      @mf1 = create(:misc_fee_type, description: 'misc fee type 1')
+      @mf2 = create(:misc_fee_type, description: 'misc fee type 2')
+      @ff1 = create(:fixed_fee_type, description: 'fixed fee type 1')
+      @ff2 = create(:fixed_fee_type, description: 'fixed fee type 2')
+      @wf1 = create(:warrant_fee_type, description: 'warrant fee type 1')
+      @wf2 = create(:warrant_fee_type, description: 'warrant fee type 2')
+      @gf1 = create(:graduated_fee_type, description: 'grad fee type 1')
+      @gf2 = create(:graduated_fee_type, description: 'grad fee type 2')
+      @if1 = create(:interim_fee_type, description: 'interim fee type 1')
+      @if2 = create(:interim_fee_type, description: 'interim fee type 2')
+      @tf1 = create(:transfer_fee_type, description: 'transfer fee type 1')
     end
 
     after(:all) { clean_database }

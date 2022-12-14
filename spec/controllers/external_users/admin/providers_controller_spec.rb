@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::Admin::ProvidersController, type: :controller do
+RSpec.describe ExternalUsers::Admin::ProvidersController do
   let(:admin)     { create(:external_user, :admin, provider:) }
   let(:provider)  { create(:provider, :lgfs, name: 'test 123') }
 

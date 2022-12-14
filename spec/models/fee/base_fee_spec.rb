@@ -28,7 +28,7 @@ module Fee
   class FeeTypeDouble < Fee::BaseFeeType
   end
 
-  RSpec.describe Fee::FeeDouble, type: :model do
+  RSpec.describe Fee::FeeDouble do
     subject { FeeDouble.new }
 
     it { should belong_to(:claim) }
@@ -48,13 +48,13 @@ module Fee
 
     context 'zeroise nulls on save' do
       it 'zeroises the amount if null' do
-        fee = create :fixed_fee, :lgfs, amount: nil, rate: nil, quantity: nil
+        fee = create(:fixed_fee, :lgfs, amount: nil, rate: nil, quantity: nil)
         fee.save!
         expect(fee.amount).to eq 0.0
       end
 
       it 'does not zeroise the amount if not null' do
-        fee = create :fixed_fee, amount: nil, rate: 2, quantity: 150
+        fee = create(:fixed_fee, amount: nil, rate: 2, quantity: 150)
         fee.save!
         expect(fee.amount).to eq 300.0
       end
@@ -166,7 +166,7 @@ module Fee
     end
   end
 
-  RSpec.describe Fee::BaseFee, type: :model do
+  RSpec.describe Fee::BaseFee do
     context '#new' do
       it 'raises BaseFeeAbstractClassError' do
         expect { BaseFee.new }.to raise_error(Fee::BaseFeeAbstractClassError)
@@ -203,9 +203,9 @@ module Fee
       end
 
       context 'lgfs claims' do
-        let(:claim) { build :litigator_claim }
-        let(:misc_fee_type) { build :misc_fee_type, :lgfs }
-        let(:fee) { build :misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim: }
+        let(:claim) { build(:litigator_claim) }
+        let(:misc_fee_type) { build(:misc_fee_type, :lgfs) }
+        let(:fee) { build(:misc_fee, fee_type: misc_fee_type, quantity: 10, rate: 11, amount: 255, claim:) }
 
         it 'does not recalculate amount' do
           fee.rate = 0

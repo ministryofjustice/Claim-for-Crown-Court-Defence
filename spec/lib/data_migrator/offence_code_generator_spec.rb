@@ -4,8 +4,8 @@ require 'data_migrator/offence_code_generator'
 RSpec.describe OffenceCodeGenerator do
   subject(:code_generator) { described_class.new(offence) }
 
-  let(:offence_category) { create :offence_category, description: 'Murder/Manslaughter' }
-  let(:offence_band) { create :offence_band, description: '1.1', offence_category: }
+  let(:offence_category) { create(:offence_category, description: 'Murder/Manslaughter') }
+  let(:offence_band) { create(:offence_band, description: '1.1', offence_category:) }
 
   describe '.code' do
     subject { code_generator.code }

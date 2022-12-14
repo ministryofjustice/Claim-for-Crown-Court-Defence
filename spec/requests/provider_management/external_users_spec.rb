@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe 'providers external users management', type: :request do
+RSpec.describe 'providers external users management' do
   include Capybara::RSpecMatchers
 
   describe 'viewing an external user' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:external_user) { create :external_user, provider: }
-    let(:provider) { create :provider }
+    let(:external_user) { create(:external_user, provider:) }
+    let(:provider) { create(:provider) }
 
     before do
       sign_in user
@@ -28,8 +28,8 @@ RSpec.describe 'providers external users management', type: :request do
 
   describe 'viewing index of external users for a provider' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let!(:external_user) { create :external_user, provider: }
-    let(:provider) { create :provider }
+    let!(:external_user) { create(:external_user, provider:) }
+    let(:provider) { create(:provider) }
 
     before do
       sign_in user
@@ -99,7 +99,7 @@ RSpec.describe 'providers external users management', type: :request do
     let(:external_user) { ExternalUser.new(provider:).tap(&:build_user) }
 
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:provider) { create :provider }
+    let(:provider) { create(:provider) }
 
     before do
       sign_in user
@@ -144,7 +144,7 @@ RSpec.describe 'providers external users management', type: :request do
     end
 
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:provider) { create :provider }
+    let(:provider) { create(:provider) }
 
     before do
       sign_in user
@@ -176,8 +176,8 @@ RSpec.describe 'providers external users management', type: :request do
 
   describe 'viewing the edit page for an external user' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:external_user) { create :external_user, provider: }
-    let(:provider) { create :provider }
+    let(:external_user) { create(:external_user, provider:) }
+    let(:provider) { create(:provider) }
 
     before do
       sign_in user
@@ -203,8 +203,8 @@ RSpec.describe 'providers external users management', type: :request do
 
   describe 'updating an external user' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:external_user) { create :external_user, :admin, provider: }
-    let(:provider) { create :provider }
+    let(:external_user) { create(:external_user, :admin, provider:) }
+    let(:provider) { create(:provider) }
 
     before { sign_in user }
 
@@ -241,8 +241,8 @@ RSpec.describe 'providers external users management', type: :request do
 
   describe 'viewing the change password page for an external user' do
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:external_user) { create :external_user, provider: }
-    let(:provider) { create :provider }
+    let(:external_user) { create(:external_user, provider:) }
+    let(:provider) { create(:provider) }
 
     before do
       sign_in user
@@ -286,7 +286,7 @@ RSpec.describe 'providers external users management', type: :request do
     end
 
     let(:user) { create(:case_worker, :provider_manager).user }
-    let(:external_user) { create :external_user }
+    let(:external_user) { create(:external_user) }
 
     let(:password) { 'password123' }
     let(:password_confirm) { password }
@@ -344,7 +344,7 @@ RSpec.describe 'providers external users management', type: :request do
     end
 
     context 'when logged in as super_admin with an enabled user' do
-      let(:super_admin) { create :super_admin }
+      let(:super_admin) { create(:super_admin) }
       let(:user) { super_admin.user }
 
       it { expect(response).to render_template(:change_availability) }
@@ -353,7 +353,7 @@ RSpec.describe 'providers external users management', type: :request do
     end
 
     context 'when logged in as super_admin with a disabled user' do
-      let(:super_admin) { create :super_admin }
+      let(:super_admin) { create(:super_admin) }
       let(:user) { super_admin.user }
       let(:external_user) { create(:external_user, provider:).tap(&:disable) }
 
@@ -426,7 +426,7 @@ RSpec.describe 'providers external users management', type: :request do
     end
 
     context 'when logged in as external user' do
-      let(:other_external_user) { create :external_user }
+      let(:other_external_user) { create(:external_user) }
       let(:user) { other_external_user.user }
 
       before { disable_user }
@@ -473,7 +473,7 @@ RSpec.describe 'providers external users management', type: :request do
     end
 
     context 'when logged in as super admin' do
-      let(:super_admin) { create :super_admin }
+      let(:super_admin) { create(:super_admin) }
       let(:user) { super_admin.user }
 
       it { expect { enable_user }.to change { external_user.reload.enabled? }.from(false).to(true) }

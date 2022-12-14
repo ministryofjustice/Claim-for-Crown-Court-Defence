@@ -12,7 +12,7 @@ RSpec.shared_examples 'delegates missing methods to case type' do |*delegated_me
   end
 end
 
-RSpec.describe CaseStage, type: :model do
+RSpec.describe CaseStage do
   subject(:case_stage) { create(:case_stage) }
 
   it { is_expected.to belong_to(:case_type) }

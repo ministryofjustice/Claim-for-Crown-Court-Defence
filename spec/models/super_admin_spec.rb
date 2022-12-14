@@ -9,7 +9,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SuperAdmin, type: :model do
+RSpec.describe SuperAdmin do
   it { should have_one(:user) }
 
   it { should validate_presence_of(:user) }

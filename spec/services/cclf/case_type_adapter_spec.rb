@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
   subject { described_class.new(claim).bill_scenario }
 
-  let(:case_type) { instance_double(::CaseType) }
-  let(:case_stage) { instance_double(::CaseStage) }
+  let(:case_type) { instance_double(CaseType) }
+  let(:case_stage) { instance_double(CaseStage) }
 
   include TransferBrainHelpers
 
@@ -16,7 +16,7 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
 
   describe '#bill_scenario' do
     context 'final claim' do
-      let(:claim) { instance_double(::Claim::LitigatorClaim, case_type:) }
+      let(:claim) { instance_double(Claim::LitigatorClaim, case_type:) }
 
       final_claim_bill_scenarios.each do |code, scenario|
         context "maps #{code} to #{scenario}" do
@@ -32,13 +32,13 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
     end
 
     context 'interim claim' do
-      let(:claim) { instance_double(::Claim::InterimClaim, interim?: true, case_type:) }
+      let(:claim) { instance_double(Claim::InterimClaim, interim?: true, case_type:) }
 
       context 'with interim fee types other than warrants' do
         interim_fee_bill_scenarios.each do |code, scenario|
           context "maps #{code} to #{scenario}" do
-            let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: code) }
-            let(:fee) { instance_double(::Fee::InterimFee, fee_type:, is_interim_warrant?: false) }
+            let(:fee_type) { instance_double(Fee::InterimFeeType, unique_code: code) }
+            let(:fee) { instance_double(Fee::InterimFee, fee_type:, is_interim_warrant?: false) }
 
             before do
               allow(claim).to receive(:interim_fee).and_return fee
@@ -55,8 +55,8 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
       context 'with an interim warrant fee type' do
         final_claim_bill_scenarios.each do |code, scenario|
           context "maps #{code} to #{scenario}" do
-            let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: 'INWAR') }
-            let(:fee) { instance_double(::Fee::InterimFee, fee_type:, is_interim_warrant?: true) }
+            let(:fee_type) { instance_double(Fee::InterimFeeType, unique_code: 'INWAR') }
+            let(:fee) { instance_double(Fee::InterimFee, fee_type:, is_interim_warrant?: true) }
 
             before do
               allow(claim).to receive(:interim?).and_return true
@@ -73,8 +73,8 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
     end
 
     context 'transfer claim' do
-      let(:claim) { instance_double(::Claim::TransferClaim) }
-      let(:transfer_detail) { instance_double(::Claim::TransferDetail, bill_scenario:) }
+      let(:claim) { instance_double(Claim::TransferClaim) }
+      let(:transfer_detail) { instance_double(Claim::TransferDetail, bill_scenario:) }
 
       transfer_fee_bill_scenarios.each do |scenario|
         context "having transfer detail with scenario #{scenario}" do
@@ -93,7 +93,7 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
     end
 
     context 'hardship claim' do
-      let(:claim) { instance_double(::Claim::LitigatorHardshipClaim) }
+      let(:claim) { instance_double(Claim::LitigatorHardshipClaim) }
 
       before do
         allow(claim).to receive(:hardship?).and_return true

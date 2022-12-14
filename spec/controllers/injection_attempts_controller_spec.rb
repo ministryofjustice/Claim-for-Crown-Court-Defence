@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe InjectionAttemptsController, type: :controller do
+RSpec.describe InjectionAttemptsController do
   describe 'PATCH #dismiss' do
     let(:case_worker) { create(:case_worker) }
     let(:claim) { create(:submitted_claim) }

@@ -50,7 +50,7 @@ RSpec.shared_examples 'date validator' do
   end
 end
 
-RSpec.describe 'Management information administration', type: :request do
+RSpec.describe 'Management information administration' do
   before { sign_in persona.user }
 
   let(:persona) { create(:case_worker, :admin) }

@@ -16,7 +16,7 @@
 require 'rails_helper'
 require 'support/shared_examples_for_claim_types'
 
-RSpec.describe ExternalUser, type: :model do
+RSpec.describe ExternalUser do
   it_behaves_like 'roles', ExternalUser, ExternalUser::ROLES
 
   it { is_expected.to belong_to(:provider) }
@@ -45,7 +45,7 @@ RSpec.describe ExternalUser, type: :model do
         before { subject.roles = ['advocate'] }
 
         it 'is valid' do
-          a = build :external_user, :advocate
+          a = build(:external_user, :advocate)
           expect(a).to be_valid
         end
       end
@@ -54,7 +54,7 @@ RSpec.describe ExternalUser, type: :model do
         before { subject.roles = ['admin'] }
 
         it 'is valid' do
-          a = build :external_user, :admin
+          a = build(:external_user, :admin)
           expect(a).to be_valid
         end
       end
@@ -73,7 +73,7 @@ RSpec.describe ExternalUser, type: :model do
         before { subject.roles = ['advocate'] }
 
         it 'is valid without a supplier number' do
-          a = build :external_user, :advocate, provider: provider, supplier_number: nil
+          a = build(:external_user, :advocate, provider:, supplier_number: nil)
           expect(a).to be_valid
         end
       end
@@ -84,7 +84,7 @@ RSpec.describe ExternalUser, type: :model do
         it { is_expected.not_to validate_presence_of(:supplier_number) }
 
         it 'is valid without a supplier number' do
-          a = build :external_user, :admin, provider: provider, supplier_number: nil
+          a = build(:external_user, :admin, provider:, supplier_number: nil)
           expect(a).to be_valid
         end
       end
@@ -105,30 +105,30 @@ RSpec.describe ExternalUser, type: :model do
         it { is_expected.to validate_presence_of(:supplier_number) }
 
         it 'is not valid without a supplier number' do
-          a = build :external_user, provider: provider, supplier_number: nil
+          a = build(:external_user, provider:, supplier_number: nil)
           expect(a).not_to be_valid
         end
 
         it 'fails validation if too long' do
-          a = build :external_user, supplier_number: 'ACC123', provider: provider
+          a = build(:external_user, supplier_number: 'ACC123', provider:)
           expect(a).not_to be_valid
           expect(a.errors[:supplier_number]).to eq(format_error)
         end
 
         it 'fails validation if too short' do
-          a = build :external_user, supplier_number: 'AC12', provider: provider
+          a = build(:external_user, supplier_number: 'AC12', provider:)
           expect(a).not_to be_valid
           expect(a.errors[:supplier_number]).to eq(format_error)
         end
 
         it 'fails validation if not alpha-numeric' do
-          a = build :external_user, supplier_number: 'AC-12', provider: provider
+          a = build(:external_user, supplier_number: 'AC-12', provider:)
           expect(a).not_to be_valid
           expect(a.errors[:supplier_number]).to eq(format_error)
         end
 
         it 'passes validation if 5 alpha-numeric' do
-          a = build :external_user, supplier_number: 'AC123', provider: provider
+          a = build(:external_user, supplier_number: 'AC123', provider:)
           expect(a).to be_valid
         end
       end
@@ -139,7 +139,7 @@ RSpec.describe ExternalUser, type: :model do
         it { is_expected.not_to validate_presence_of(:supplier_number) }
 
         it 'is valid without a supplier number' do
-          a = build :external_user, :admin, provider: provider, supplier_number: nil
+          a = build(:external_user, :admin, provider:, supplier_number: nil)
           expect(a).to be_valid
         end
       end
@@ -349,10 +349,10 @@ RSpec.describe ExternalUser, type: :model do
 
   context 'soft deletions' do
     before(:all) do
-      @live_user_1 = create :external_user
-      @live_user_2 = create :external_user
-      @dead_user_1 = create :external_user, :softly_deleted
-      @dead_user_2 = create :external_user, :softly_deleted
+      @live_user_1 = create(:external_user)
+      @live_user_2 = create(:external_user)
+      @dead_user_1 = create(:external_user, :softly_deleted)
+      @dead_user_2 = create(:external_user, :softly_deleted)
     end
 
     after(:all) { clean_database }
@@ -407,7 +407,7 @@ RSpec.describe ExternalUser, type: :model do
 
   describe 'soft_delete' do
     it 'sets deleted at on the caseworker and user records' do
-      eu = create :external_user
+      eu = create(:external_user)
       user = eu.user
       eu.soft_delete
       expect(eu.reload.deleted_at).not_to be_nil
@@ -417,19 +417,19 @@ RSpec.describe ExternalUser, type: :model do
 
   describe '#active?' do
     it 'returns false for deleted records' do
-      eu = build :external_user, :softly_deleted
+      eu = build(:external_user, :softly_deleted)
       expect(eu.active?).to be false
     end
 
     it 'returns true for active records' do
-      eu = build :external_user
+      eu = build(:external_user)
       expect(eu.active?).to be true
     end
   end
 
   describe 'supplier_number' do
     context 'supplier number present' do
-      let(:external_user) { create :external_user, :advocate, supplier_number: 'ZZ114' }
+      let(:external_user) { create(:external_user, :advocate, supplier_number: 'ZZ114') }
 
       it 'returns the supplier number from the external user record' do
         expect(external_user.supplier_number).to eq 'ZZ114'
@@ -437,8 +437,8 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'supplier number not present but provider is a firm' do
-      let(:provider) { create :provider, :agfs_lgfs, firm_agfs_supplier_number: '999XX' }
-      let(:external_user) { create :external_user, :advocate, supplier_number: nil, provider: }
+      let(:provider) { create(:provider, :agfs_lgfs, firm_agfs_supplier_number: '999XX') }
+      let(:external_user) { create(:external_user, :advocate, supplier_number: nil, provider:) }
 
       it 'returns the firm_agfs_supplier_number from the provider' do
         expect(external_user.supplier_number).to eq '999XX'
@@ -448,7 +448,7 @@ RSpec.describe ExternalUser, type: :model do
 
   context 'email notification of messages preferences' do
     context 'settings on user record are nil' do
-      let(:eu) { build :external_user }
+      let(:eu) { build(:external_user) }
 
       it 'has an underlying user setting of nil' do
         expect(eu.user.settings).to eq Hash.new
@@ -470,7 +470,7 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'no setttings for email notifications present' do
-      let(:eu)  { build :external_user, :with_settings }
+      let(:eu)  { build(:external_user, :with_settings) }
 
       it 'returns false' do
         expect(eu.settings).to eq({ 'setting1' => 'test1', 'setting2' => 'test2' })
@@ -489,7 +489,7 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'settings for email notification are true' do
-      let(:eu) { build :external_user, :with_email_notification_of_messages }
+      let(:eu) { build(:external_user, :with_email_notification_of_messages) }
 
       it 'returns true' do
         expect(eu.send_email_notification_of_message?).to be true
@@ -502,7 +502,7 @@ RSpec.describe ExternalUser, type: :model do
     end
 
     context 'settings for email notification are false' do
-      let(:eu) { build :external_user, :without_email_notification_of_messages }
+      let(:eu) { build(:external_user, :without_email_notification_of_messages) }
 
       it 'returns false' do
         expect(eu.send_email_notification_of_message?).to be false
@@ -517,9 +517,9 @@ RSpec.describe ExternalUser, type: :model do
 end
 
 def create_admin(provider, first_name, last_name)
-  create :external_user, :admin, provider:, user: create(:user, first_name:, last_name:)
+  create(:external_user, :admin, provider:, user: create(:user, first_name:, last_name:))
 end
 
 def create_external_user(provider, first_name, last_name)
-  create :external_user, provider:, user: create(:user, first_name:, last_name:)
+  create(:external_user, provider:, user: create(:user, first_name:, last_name:))
 end

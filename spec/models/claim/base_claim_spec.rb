@@ -54,7 +54,7 @@ end
 RSpec.describe Claim::BaseClaim do
   include DatabaseHousekeeping
 
-  let(:advocate) { create :external_user, :advocate }
+  let(:advocate) { create(:external_user, :advocate) }
   let(:agfs_claim) { create(:advocate_claim) }
   let(:lgfs_claim) { create(:litigator_claim) }
 
@@ -63,7 +63,7 @@ RSpec.describe Claim::BaseClaim do
   it 'raises BaseClaimAbstractClassError when instantiated' do
     expect {
       described_class.new(external_user: advocate, creator: advocate)
-    }.to raise_error ::Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
+    }.to raise_error Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
   end
 
   context 'scheme scopes' do
@@ -132,11 +132,11 @@ RSpec.describe Claim::BaseClaim do
 
   describe 'has_many documents association' do
     it 'returns a collection of verified documents only' do
-      claim = create :claim
-      verified_doc_1 = create :document, :verified, claim: claim
-      _unverified_doc_1 = create :document, :unverified, claim: claim
-      _unverified_doc_2 = create :document, :unverified, claim: claim
-      verified_doc_2 = create :document, :verified, claim: claim
+      claim = create(:claim)
+      verified_doc_1 = create(:document, :verified, claim:)
+      _unverified_doc_1 = create(:document, :unverified, claim:)
+      _unverified_doc_2 = create(:document, :unverified, claim:)
+      verified_doc_2 = create(:document, :verified, claim:)
       claim.reload
       expect(claim.documents.map(&:id)).to match_array([verified_doc_1.id, verified_doc_2.id])
     end
@@ -144,11 +144,11 @@ RSpec.describe Claim::BaseClaim do
 
   context 'expenses' do
     before(:all) do
-      @claim = create :litigator_claim
-      @ex1 = create :expense, claim: @claim, amount: 100.0, vat_amount: 20
-      @ex2 = create :expense, claim: @claim, amount: 100.0, vat_amount: 0.0
-      @ex3 = create :expense, claim: @claim, amount: 50.50, vat_amount: 10.10
-      @ex4 = create :expense, claim: @claim, amount: 25.0, vat_amount: 0.0
+      @claim = create(:litigator_claim)
+      @ex1 = create(:expense, claim: @claim, amount: 100.0, vat_amount: 20)
+      @ex2 = create(:expense, claim: @claim, amount: 100.0, vat_amount: 0.0)
+      @ex3 = create(:expense, claim: @claim, amount: 50.50, vat_amount: 10.10)
+      @ex4 = create(:expense, claim: @claim, amount: 25.0, vat_amount: 0.0)
       @claim.reload
     end
 
@@ -183,13 +183,13 @@ RSpec.describe Claim::BaseClaim do
     subject(:applicable_for_written_reasons?) { claim.applicable_for_written_reasons? }
 
     context 'when the claim is a Hardship claim' do
-      let(:claim) { create :litigator_hardship_claim, :redetermination }
+      let(:claim) { create(:litigator_hardship_claim, :redetermination) }
 
       it { is_expected.to be false }
     end
 
     context 'when the claim is not a Hardship claim' do
-      let(:claim) { create :deterministic_claim, :redetermination }
+      let(:claim) { create(:deterministic_claim, :redetermination) }
 
       it { is_expected.to be true }
     end
@@ -197,11 +197,11 @@ RSpec.describe Claim::BaseClaim do
 
   context 'disbursements' do
     before(:all) do
-      @claim = create :litigator_claim
-      @db1 = create :disbursement, claim: @claim, net_amount: 100.0, vat_amount: 20
-      @db2 = create :disbursement, claim: @claim, net_amount: 100.0, vat_amount: 0.0
-      @db3 = create :disbursement, claim: @claim, net_amount: 50.50, vat_amount: 10.10
-      @db4 = create :disbursement, claim: @claim, net_amount: 25.0, vat_amount: 0.0
+      @claim = create(:litigator_claim)
+      @db1 = create(:disbursement, claim: @claim, net_amount: 100.0, vat_amount: 20)
+      @db2 = create(:disbursement, claim: @claim, net_amount: 100.0, vat_amount: 0.0)
+      @db3 = create(:disbursement, claim: @claim, net_amount: 50.50, vat_amount: 10.10)
+      @db4 = create(:disbursement, claim: @claim, net_amount: 25.0, vat_amount: 0.0)
       @claim.reload
     end
 
@@ -810,7 +810,7 @@ describe '#earliest_representation_order_date' do
   let(:april_1) { Date.new(2016, 4, 1) }
   let(:march_10) { Date.new(2016, 3, 10) }
   let(:jun_30) { Date.new(2016, 6, 30) }
-  let(:claim) { create :claim }
+  let(:claim) { create(:claim) }
 
   before do
     claim.defendants.clear
@@ -823,8 +823,8 @@ describe '#earliest_representation_order_date' do
   end
 
   it 'returns the date of the only rep order' do
-    defendant = create :defendant, :without_reporder, claim: claim
-    create :representation_order, defendant: defendant, representation_order_date: april_1
+    defendant = create(:defendant, :without_reporder, claim:)
+    create(:representation_order, defendant:, representation_order_date: april_1)
 
     claim.reload
     expect(claim.representation_orders.size).to eq 1
@@ -832,11 +832,11 @@ describe '#earliest_representation_order_date' do
   end
 
   it 'returns the date of the earliest reporder across multiple defendants' do
-    defendant_1 = create :defendant, :without_reporder, claim: claim
-    create :representation_order, defendant: defendant_1, representation_order_date: april_1
-    create :representation_order, defendant: defendant_1, representation_order_date: jun_30
-    defendant_2 = create :defendant, :without_reporder, claim: claim
-    create :representation_order, defendant: defendant_2, representation_order_date: march_10
+    defendant_1 = create(:defendant, :without_reporder, claim:)
+    create(:representation_order, defendant: defendant_1, representation_order_date: april_1)
+    create(:representation_order, defendant: defendant_1, representation_order_date: jun_30)
+    defendant_2 = create(:defendant, :without_reporder, claim:)
+    create(:representation_order, defendant: defendant_2, representation_order_date: march_10)
 
     claim.reload
     expect(claim.representation_orders.size).to eq 3

@@ -26,8 +26,8 @@ FactoryBot.define do
 
   factory :unpersisted_message, class: 'Message' do
     body            { Faker::Lorem.paragraph }
-    claim           { FactoryBot.build :unpersisted_claim }
-    sender          { FactoryBot.build :user }
+    claim           { FactoryBot.build(:unpersisted_claim) }
+    sender          { FactoryBot.build(:user) }
   end
 
   trait :with_attachment do

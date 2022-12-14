@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   subject(:user) { build(:user) }
 
   it { is_expected.to validate_presence_of(:first_name).with_message('Enter a first name') }
@@ -177,10 +177,10 @@ RSpec.describe User, type: :model do
 
   context 'soft deletions' do
     before(:all) do
-      @live_user_1 = create :user, email: 'john.smith@example.com'
-      @live_user_2 = create :user
-      @dead_user_1 = create :user, :softly_deleted
-      @dead_user_2 = create :user, :softly_deleted
+      @live_user_1 = create(:user, email: 'john.smith@example.com')
+      @live_user_2 = create(:user)
+      @dead_user_1 = create(:user, :softly_deleted)
+      @dead_user_2 = create(:user, :softly_deleted)
     end
 
     after(:all) { clean_database }
@@ -246,7 +246,7 @@ RSpec.describe User, type: :model do
   end
 
   context 'devise messages' do
-    let(:active_user) { build :user }
+    let(:active_user) { build(:user) }
     let(:inactive_user) { build(:user, :softly_deleted) }
     let(:disabled_user) { build(:user, :disabled) }
 

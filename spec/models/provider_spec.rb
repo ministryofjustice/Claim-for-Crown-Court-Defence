@@ -1,6 +1,6 @@
 require 'support/shared_examples_for_claim_types'
 
-RSpec.describe Provider, type: :model do
+RSpec.describe Provider do
   let(:firm) { create(:provider, :firm) }
   let(:chamber) { create(:provider, :chamber) }
   let(:agfs_lgfs) { create(:provider, :agfs_lgfs) }
@@ -161,7 +161,7 @@ RSpec.describe Provider, type: :model do
     include_context 'claim-types object helpers'
 
     context 'with an AGFS provider' do
-      let(:provider) { build :provider, :agfs }
+      let(:provider) { build(:provider, :agfs) }
 
       it 'returns the list of available claim types' do
         expect(provider.available_claim_types.map(&:to_s))
@@ -170,7 +170,7 @@ RSpec.describe Provider, type: :model do
     end
 
     context 'with a LGFS provider' do
-      let(:provider) { build :provider, :lgfs }
+      let(:provider) { build(:provider, :lgfs) }
 
       it 'returns the list of available claim types for LGFS' do
         expect(provider.available_claim_types.map(&:to_s))

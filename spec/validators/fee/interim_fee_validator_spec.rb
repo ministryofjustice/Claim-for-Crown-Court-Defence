@@ -17,13 +17,13 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
     end
   end
 
-  let(:fee) { build :interim_fee }
-  let(:trial_start) { build :interim_fee, :retrial_start }
-  let(:retrial_start) { build :interim_fee, :retrial_start }
-  let(:retrial_new_solicitor) { build :interim_fee, :retrial_new_solicitor }
-  let(:effective_pcmh) { build :interim_fee, :effective_pcmh }
-  let(:disbursement_fee) { build :interim_fee, :disbursement }
-  let(:interim_warrant_fee) { build :interim_fee, :warrant }
+  let(:fee) { build(:interim_fee) }
+  let(:trial_start) { build(:interim_fee, :retrial_start) }
+  let(:retrial_start) { build(:interim_fee, :retrial_start) }
+  let(:retrial_new_solicitor) { build(:interim_fee, :retrial_new_solicitor) }
+  let(:effective_pcmh) { build(:interim_fee, :effective_pcmh) }
+  let(:disbursement_fee) { build(:interim_fee, :disbursement) }
+  let(:interim_warrant_fee) { build(:interim_fee, :warrant) }
 
   before do
     allow(fee).to receive(:perform_validation?).and_return(true)

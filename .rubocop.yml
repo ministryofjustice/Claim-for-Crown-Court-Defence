@@ -128,4 +128,18 @@ Style/StringConcatenation:
 Lint/RedundantCopDisableDirective:
   Enabled: false
 
+RSpec/Rails/InferredSpecType:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Exclude:
+    - spec/views/**/*
+    - spec/requests/**/*
+    - spec/api/v1/external_users/claims/integration/*
+    # TODO: To fix
+    - spec/validators/claim/advocate_interim_claim_web_validations_spec.rb
+    - spec/validators/cracked_trial_validation_spec.rb
+    - spec/api/posting_to_root_spec.rb
+    - spec/models/claim/base_claim_spec.rb
+
 inherit_from: .rubocop_todo.yml

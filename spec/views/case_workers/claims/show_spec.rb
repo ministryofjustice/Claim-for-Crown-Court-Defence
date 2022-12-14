@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
+RSpec.describe 'case_workers/claims/show.html.haml' do
   before do
     @case_worker = create(:case_worker)
     initialize_view_helpers(view)
@@ -122,8 +122,8 @@ RSpec.describe 'case_workers/claims/show.html.haml', type: :view do
   end
 
   context 'document checklist' do
-    let!(:claim_with_doc) { create :claim }
-    let!(:document) { create :document, :verified, claim: claim_with_doc }
+    let!(:claim_with_doc) { create(:claim) }
+    let!(:document) { create(:document, :verified, claim: claim_with_doc) }
 
     before do
       allow(view).to receive(:current_user_persona_is?).with(CaseWorker).and_return(true)

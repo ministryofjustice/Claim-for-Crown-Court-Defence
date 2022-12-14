@@ -20,7 +20,7 @@ require_relative 'shared_examples_for_case_uplifts'
 
 module Fee
   describe FixedFeeType do
-    let(:fee_type) { build :fixed_fee_type }
+    let(:fee_type) { build(:fixed_fee_type) }
 
     it_behaves_like 'case upliftable'
 

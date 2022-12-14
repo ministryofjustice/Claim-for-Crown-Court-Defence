@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Hardship claims', type: :request do
+RSpec.describe 'Hardship claims' do
   let(:advocate) { create(:external_user, :advocate) }
   let(:litigator) { create(:external_user, :litigator) }
 

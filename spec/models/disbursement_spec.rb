@@ -15,7 +15,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Disbursement, type: :model do
+RSpec.describe Disbursement do
   it { should belong_to(:disbursement_type) }
   it { should belong_to(:claim) }
 
@@ -23,8 +23,8 @@ RSpec.describe Disbursement, type: :model do
 
   context 'zeroise null totals' do
     it 'zeroises fields if null' do
-      claim = build :litigator_claim
-      d = build :disbursement, claim: claim, net_amount: nil, vat_amount: nil, total: nil
+      claim = build(:litigator_claim)
+      d = build(:disbursement, claim:, net_amount: nil, vat_amount: nil, total: nil)
       d.save!
       expect(d.net_amount).to eq 0.0
       expect(d.vat_amount).to eq 0.0
@@ -32,8 +32,8 @@ RSpec.describe Disbursement, type: :model do
     end
 
     it 'does not zeroise the values if not null' do
-      claim = build :litigator_claim
-      d = build :disbursement, claim: claim, net_amount: 120, vat_amount: 25, total: 145
+      claim = build(:litigator_claim)
+      d = build(:disbursement, claim:, net_amount: 120, vat_amount: 25, total: 145)
       d.save!
       expect(d.net_amount).to eq 120.0
       expect(d.vat_amount).to eq 25.0

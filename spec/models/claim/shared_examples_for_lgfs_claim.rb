@@ -20,7 +20,7 @@ shared_examples 'common litigator claim attributes' do |*flags|
     end
   end
 
-  unless ([:hardship_claim] & flags).any?
+  unless [:hardship_claim].intersect?(flags)
     describe '#requires_trial_dates?' do
       it 'always returns false' do
         expect(claim.requires_trial_dates?).to be false

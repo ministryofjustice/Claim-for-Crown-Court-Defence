@@ -8,7 +8,7 @@ RSpec.describe API::Entities::CCLF::AdaptedGraduatedFee, type: :adapter do
   let(:claim) { instance_double('claim', case_type:) }
   let(:graduated_fee) { instance_double('graduated_fee', claim:, fee_type:, quantity: 999.0) }
 
-  it_behaves_like 'a bill types delegator', ::CCLF::Fee::GraduatedFeeAdapter do
+  it_behaves_like 'a bill types delegator', CCLF::Fee::GraduatedFeeAdapter do
     let(:bill) { graduated_fee }
   end
 

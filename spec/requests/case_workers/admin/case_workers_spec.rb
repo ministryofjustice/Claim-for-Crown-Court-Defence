@@ -1,4 +1,4 @@
-RSpec.describe 'Caseworker admin', type: :request do
+RSpec.describe 'Caseworker admin' do
   let(:admin) { create(:case_worker, :admin) }
 
   before do

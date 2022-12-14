@@ -7,7 +7,7 @@ RSpec.describe API::Entities::CCLF::AdaptedHardshipFee, type: :adapter do
   let(:claim) { instance_double(Claim::LitigatorHardshipClaim) }
   let(:hardship_fee) { instance_double(Fee::HardshipFee, claim:, fee_type:, amount: 111.01, quantity: 300) }
 
-  it_behaves_like 'a bill types delegator', ::CCLF::Fee::HardshipFeeAdapter do
+  it_behaves_like 'a bill types delegator', CCLF::Fee::HardshipFeeAdapter do
     let(:bill) { hardship_fee }
   end
 

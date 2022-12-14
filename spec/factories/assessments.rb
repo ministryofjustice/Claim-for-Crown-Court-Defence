@@ -5,7 +5,7 @@ FactoryBot.define do
     skip_create
 
     initialize_with do
-      claim = create :submitted_claim
+      claim = create(:submitted_claim)
       claim.assessment
     end
 

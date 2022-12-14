@@ -21,8 +21,8 @@ FactoryBot.define do
     end
 
     trait :unpersisted do
-      user            { FactoryBot.build :user }
-      message         { FactoryBot.build :unpersisted_message }
+      user            { FactoryBot.build(:user) }
+      message         { FactoryBot.build(:unpersisted_message) }
     end
   end
 end

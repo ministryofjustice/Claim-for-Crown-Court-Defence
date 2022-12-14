@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
   subject(:response) { JSON.parse(described_class.represent(interim_fee).to_json, symbolize_names: true) }
 
-  let(:claim) { instance_double(::Claim::InterimClaim) }
-  let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: 'INTDT') }
+  let(:claim) { instance_double(Claim::InterimClaim) }
+  let(:fee_type) { instance_double(Fee::InterimFeeType, unique_code: 'INTDT') }
   let(:interim_fee) do
     instance_double(
-      ::Fee::InterimFee,
+      Fee::InterimFee,
       claim:,
       fee_type:,
       quantity: 0.0,
@@ -18,7 +18,7 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
     )
   end
 
-  it_behaves_like 'a bill types delegator', ::CCLF::Fee::InterimFeeAdapter do
+  it_behaves_like 'a bill types delegator', CCLF::Fee::InterimFeeAdapter do
     let(:bill) { interim_fee }
   end
 
@@ -31,7 +31,7 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
   end
 
   context 'interim warrants' do
-    let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: 'INWAR') }
+    let(:fee_type) { instance_double(Fee::InterimFeeType, unique_code: 'INWAR') }
 
     before do
       allow(interim_fee).to receive_messages(
@@ -55,7 +55,7 @@ RSpec.describe API::Entities::CCLF::AdaptedInterimFee, type: :adapter do
   end
 
   context 'effective pcmh' do
-    let(:fee_type) { instance_double(::Fee::InterimFeeType, unique_code: 'INPCM') }
+    let(:fee_type) { instance_double(Fee::InterimFeeType, unique_code: 'INPCM') }
 
     before do
       allow(interim_fee).to receive_messages(quantity: 999.0, amount: 202.02)

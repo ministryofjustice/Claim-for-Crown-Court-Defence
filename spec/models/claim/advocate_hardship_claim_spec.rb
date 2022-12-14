@@ -74,7 +74,7 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
   end
 end
 
-RSpec.describe Claim::AdvocateHardshipClaim, type: :model do
+RSpec.describe Claim::AdvocateHardshipClaim do
   let(:claim) { build(:advocate_hardship_claim) }
 
   it_behaves_like 'a base claim'

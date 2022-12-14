@@ -2,7 +2,7 @@ require 'rails_helper'
 
 module Claims
   describe CaseWorkerClaims do
-    let(:user) { create :user }
+    let(:user) { create(:user) }
 
     let(:criteria) do
       {

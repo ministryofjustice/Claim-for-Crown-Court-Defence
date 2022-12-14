@@ -11,7 +11,7 @@
 
 require 'rails_helper'
 
-RSpec.describe CaseWorkerClaim, type: :model do
+RSpec.describe CaseWorkerClaim do
   it { should belong_to(:claim) }
   it { should belong_to(:case_worker) }
 end

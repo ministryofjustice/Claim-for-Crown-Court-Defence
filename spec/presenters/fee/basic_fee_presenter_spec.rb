@@ -56,19 +56,19 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
         let(:claim) { build(:advocate_claim, offence:) }
 
         context 'and the offence category number is neither 6 or 9' do
-          let(:offence_category) { build :offence_category, number: 2 }
+          let(:offence_category) { build(:offence_category, number: 2) }
 
           specify { expect(presenter.should_be_displayed?).to be_falsey }
         end
 
         context 'and the offence category number is 6' do
-          let(:offence_category) { build :offence_category, number: 6 }
+          let(:offence_category) { build(:offence_category, number: 6) }
 
           specify { expect(presenter.should_be_displayed?).to be_truthy }
         end
 
         context 'and the offence category number is 9' do
-          let(:offence_category) { build :offence_category, number: 9 }
+          let(:offence_category) { build(:offence_category, number: 9) }
 
           specify { expect(presenter.should_be_displayed?).to be_truthy }
         end
@@ -109,19 +109,19 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
         let(:claim) { build(:advocate_claim, offence:) }
 
         context 'and the offence category number is neither 6 or 9' do
-          let(:offence_category) { build :offence_category, number: 2 }
+          let(:offence_category) { build(:offence_category, number: 2) }
 
           specify { expect(presenter.display_help_text?).to be_falsey }
         end
 
         context 'and the offence category number is 6' do
-          let(:offence_category) { build :offence_category, number: 6 }
+          let(:offence_category) { build(:offence_category, number: 6) }
 
           specify { expect(presenter.display_help_text?).to be_truthy }
         end
 
         context 'and the offence category number is 9' do
-          let(:offence_category) { build :offence_category, number: 9 }
+          let(:offence_category) { build(:offence_category, number: 9) }
 
           specify { expect(presenter.display_help_text?).to be_truthy }
         end

@@ -22,7 +22,7 @@ RSpec::Matchers.define :have_govuk_summary_row do |key, value|
   end
 end
 
-RSpec.describe 'external_users/claims/case_details/summary.html.haml', type: :view do
+RSpec.describe 'external_users/claims/case_details/summary.html.haml' do
   subject(:summary) { 'external_users/claims/case_details/summary' }
 
   let(:page) { Capybara::Node::Simple.new(rendered) }

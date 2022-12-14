@@ -2,7 +2,7 @@ require 'rails_helper'
 require_relative 'shared_examples_for_step_validators'
 
 RSpec.describe Claim::LitigatorClaimSubModelValidator, type: :validator do
-  let(:claim) { create :litigator_claim }
+  let(:claim) { create(:litigator_claim) }
 
   include_examples 'common partial association validations', {
     has_one: {

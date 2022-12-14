@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claims::StateMachine, type: :model do
+RSpec.describe Claims::StateMachine do
   describe 'all available states are scoped' do
     subject { create(:advocate_claim) }
 

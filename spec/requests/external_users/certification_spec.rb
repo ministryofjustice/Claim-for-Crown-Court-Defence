@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Certification', type: :request do
+RSpec.describe 'Certification' do
   let(:advocate) { create(:external_user, :advocate) }
   let(:claim) { create(:advocate_final_claim) }
   let(:today_parts) { %i[dd mm yyyy].zip(Time.current.strftime('%-d-%-m-%Y').split('-')).to_h }

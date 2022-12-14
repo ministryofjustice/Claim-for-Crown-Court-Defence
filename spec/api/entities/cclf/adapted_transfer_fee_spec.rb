@@ -3,11 +3,11 @@ require 'rails_helper'
 RSpec.describe API::Entities::CCLF::AdaptedTransferFee, type: :adapter do
   subject(:response) { JSON.parse(described_class.represent(transfer_fee).to_json, symbolize_names: true) }
 
-  let(:claim) { instance_double(::Claim::TransferClaim) }
-  let(:fee_type) { instance_double(::Fee::TransferFeeType, unique_code: 'TRANS') }
+  let(:claim) { instance_double(Claim::TransferClaim) }
+  let(:fee_type) { instance_double(Fee::TransferFeeType, unique_code: 'TRANS') }
   let(:transfer_fee) do
     instance_double(
-      ::Fee::TransferFee,
+      Fee::TransferFee,
       claim:,
       fee_type:,
       quantity: 888.0,
@@ -15,7 +15,7 @@ RSpec.describe API::Entities::CCLF::AdaptedTransferFee, type: :adapter do
     )
   end
 
-  it_behaves_like 'a bill types delegator', ::CCLF::Fee::TransferFeeAdapter do
+  it_behaves_like 'a bill types delegator', CCLF::Fee::TransferFeeAdapter do
     let(:bill) { transfer_fee }
   end
 

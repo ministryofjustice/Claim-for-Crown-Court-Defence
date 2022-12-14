@@ -1,4 +1,4 @@
-RSpec.describe SupplierNumber, type: :model do
+RSpec.describe SupplierNumber do
   subject(:supplier) { build(:supplier_number) }
 
   it { is_expected.to belong_to(:provider) }

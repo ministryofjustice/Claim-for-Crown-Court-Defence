@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::ClaimTypesController, type: :controller do
+RSpec.describe ExternalUsers::ClaimTypesController do
   let(:external_user) { create(:external_user, :agfs_lgfs_admin) }
 
   before do

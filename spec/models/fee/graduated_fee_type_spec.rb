@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Fee::GraduatedFeeType, type: :model do
+RSpec.describe Fee::GraduatedFeeType do
   describe '.by_unique_code' do
     subject { described_class.by_unique_code(fee_type.unique_code) }
 

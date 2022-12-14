@@ -11,7 +11,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ClaimIntentionsController, type: :controller do
+RSpec.describe ClaimIntentionsController do
   let!(:external_user) { create(:external_user) }
 
   before { sign_in external_user.user }

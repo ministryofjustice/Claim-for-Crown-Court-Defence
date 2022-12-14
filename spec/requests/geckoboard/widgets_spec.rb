@@ -26,7 +26,7 @@ RSpec.shared_examples 'an html stats table' do |options|
   end
 end
 
-RSpec.describe 'Widgets', type: :request, allow_forgery_protection: true do
+RSpec.describe 'Widgets', allow_forgery_protection: true do
   def self.widgets
     @widgets ||= YAML.unsafe_load_file('spec/fixtures/geckoboard_api_widgets.yaml')
   end

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Advocate final claims', type: :request do
+RSpec.describe 'Advocate final claims' do
   let(:advocate) { create(:external_user, :advocate) }
   let!(:case_type) { create(:case_type, :trial) }
   let!(:court) { create(:court) }

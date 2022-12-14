@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProviderManagement::ProvidersController, type: :controller do
+RSpec.describe ProviderManagement::ProvidersController do
   let(:case_worker_manager) { create(:case_worker, :provider_manager) }
   let(:providers) { create_list(:provider, 5) }
   let(:provider) { create(:provider, :lgfs, name: 'test 123') }
@@ -50,7 +50,7 @@ RSpec.describe ProviderManagement::ProvidersController, type: :controller do
   describe 'PUT #update' do
     context 'when changing from firm to chamber' do
       it 'changes from chamber to firm and removes LGFS supplier numbers' do
-        firm = create :provider, :firm, :with_lgfs_supplier_numbers
+        firm = create(:provider, :firm, :with_lgfs_supplier_numbers)
         expect(firm.lgfs_supplier_numbers).to have(4).items
 
         patch :update, params: { id: firm, provider: { name: firm.name, provider_type: 'chamber', roles: ['agfs', ''], firm_agfs_supplier_number: '', vat_registered: 'true' } }

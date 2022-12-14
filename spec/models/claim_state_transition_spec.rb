@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ClaimStateTransition, type: :model do
+RSpec.describe ClaimStateTransition do
   it { should belong_to(:claim).class_name('::Claim::BaseClaim') }
   it { should belong_to(:author).class_name('User') }
   it { should belong_to(:subject).class_name('User') }

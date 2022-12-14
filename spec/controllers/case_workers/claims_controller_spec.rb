@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe CaseWorkers::ClaimsController, type: :controller do
+RSpec.describe CaseWorkers::ClaimsController do
   before do
     @case_worker = create(:case_worker)
     sign_in @case_worker.user
@@ -33,7 +33,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
         expect(Claims::CaseWorkerClaims).to receive(:new).with(current_user: @case_worker.user, action: 'current', criteria:).and_return(claims_service)
         expect(claims_service).to receive(:claims).and_return(claims_collection)
 
-        get 'index', params: params
+        get('index', params:)
         expect(assigns(:claims)).to eq claims_collection
       end
     end
@@ -50,7 +50,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   end
 
   describe 'GET download_zip' do
-    let(:claim) { create :claim }
+    let(:claim) { create(:claim) }
 
     before { get :download_zip, params: { id: claim } }
 
@@ -68,7 +68,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   end
 
   describe 'GET show' do
-    let(:claim) { create :claim }
+    let(:claim) { create(:claim) }
 
     before { get :show, params: { id: claim } }
 
@@ -88,7 +88,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   end
 
   describe 'GET messages' do
-    let(:claim) { create :claim }
+    let(:claim) { create(:claim) }
 
     it 'renders the messages partial' do
       get :messages, params: { id: claim.id }
@@ -97,7 +97,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let(:claim) { create :allocated_claim }
+    let(:claim) { create(:allocated_claim) }
     let(:updater) { double Claims::CaseWorkerClaimUpdater }
     let(:params) { strong_params('additional_information' => 'foo bar', 'current_user' => @case_worker.user) }
 
@@ -128,7 +128,7 @@ RSpec.describe CaseWorkers::ClaimsController, type: :controller do
   context 'GET #archived' do
     before(:all) do
       @case_worker = create(:case_worker)
-      advocate = create :external_user, :advocate
+      advocate = create(:external_user, :advocate)
       create_claims(3, :allocated, 'Joex Bloggs', advocate)
       create_claims(1, :allocated, 'Fred Bloggs', advocate)
       create_claims(2, :authorised, 'Joex Bloggs', advocate)

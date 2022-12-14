@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller do
+RSpec.describe ExternalUsers::Admin::ExternalUsersController do
   let(:provider) { create(:provider) }
 
   context 'admin user' do
@@ -130,7 +130,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController, type: :controller 
               supplier_number: 'XY123'
             }
           }
-          post :create, params: params
+          post(:create, params:)
           expect(response).to redirect_to(external_users_admin_external_users_url)
         end
       end

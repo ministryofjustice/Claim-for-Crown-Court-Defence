@@ -8,7 +8,7 @@ RSpec.shared_context 'raise invalid_authenticity_token' do
   end
 end
 
-RSpec.describe ApplicationController, type: :controller do
+RSpec.describe ApplicationController do
   let(:super_admin) { create(:super_admin) }
   let(:advocate) { create(:external_user, :advocate) }
   let(:advocate_admin) { create(:external_user, :admin) }

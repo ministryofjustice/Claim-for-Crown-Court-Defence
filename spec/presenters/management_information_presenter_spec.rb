@@ -119,13 +119,13 @@ RSpec.describe ManagementInformationPresenter do
       subject { presenter.disk_evidence_case }
 
       context 'when the applicant has checked disc_evidence' do
-        let(:claim) { create :advocate_claim, disk_evidence: true }
+        let(:claim) { create(:advocate_claim, disk_evidence: true) }
 
         it { is_expected.to eq 'Yes' }
       end
 
       context 'when the applicant has not checked disc_evidence' do
-        let(:claim) { create :advocate_claim }
+        let(:claim) { create(:advocate_claim) }
 
         it { is_expected.to eq 'No' }
       end
@@ -310,7 +310,7 @@ RSpec.describe ManagementInformationPresenter do
       let(:presenter) { described_class.new(claim, view) }
 
       context 'with an allocated claim' do
-        let(:claim) { create :authorised_claim }
+        let(:claim) { create(:authorised_claim) }
 
         it 'returns nil' do
           presenter.present! { expect(presenter.af1_lf1_processed_by).to be_nil }
@@ -318,7 +318,7 @@ RSpec.describe ManagementInformationPresenter do
       end
 
       context 'with a redetermined claim' do
-        let(:claim) { create :authorised_claim }
+        let(:claim) { create(:authorised_claim) }
 
         before do
           transition = claim.last_decision_transition
@@ -332,7 +332,7 @@ RSpec.describe ManagementInformationPresenter do
       end
 
       context 'with a claim that is redetermined twice' do
-        let(:claim) { create :redetermination_claim }
+        let(:claim) { create(:redetermination_claim) }
 
         before do
           claim.allocate!

@@ -5,7 +5,7 @@ describe Fee::InterimFeeTypePresenter do
     let(:presenter) { Fee::InterimFeeTypePresenter.new(fee_type, view) }
 
     context 'disbursement only' do
-      let(:fee_type) { build :interim_fee_type, :disbursement_only }
+      let(:fee_type) { build(:interim_fee_type, :disbursement_only) }
 
       it 'produces expected data attributes' do
         expect(presenter.data_attributes).to eq expected_data(false, false, false, false, false, false, false, false, true)
@@ -13,7 +13,7 @@ describe Fee::InterimFeeTypePresenter do
     end
 
     context 'effective_pcmh' do
-      let(:fee_type) { build :interim_fee_type, :effective_pcmh }
+      let(:fee_type) { build(:interim_fee_type, :effective_pcmh) }
 
       it 'produces expected data attributes' do
         expect(presenter.data_attributes).to eq expected_data(true, false, false, false, false, true, true, false, true)
@@ -21,7 +21,7 @@ describe Fee::InterimFeeTypePresenter do
     end
 
     context 'retrial new solicitor' do
-      let(:fee_type) { build :interim_fee_type, :retrial_new_solicitor }
+      let(:fee_type) { build(:interim_fee_type, :retrial_new_solicitor) }
 
       it 'produces expected data attributes' do
         expect(presenter.data_attributes).to eq expected_data(false, false, true, true, false, true, true, false, true)
@@ -29,7 +29,7 @@ describe Fee::InterimFeeTypePresenter do
     end
 
     context 'retrial start' do
-      let(:fee_type) { build :interim_fee_type, :retrial_start }
+      let(:fee_type) { build(:interim_fee_type, :retrial_start) }
 
       it 'produces expected data attributes' do
         expect(presenter.data_attributes).to eq expected_data(false, false, false, false, true, true, true, false, true)
@@ -37,7 +37,7 @@ describe Fee::InterimFeeTypePresenter do
     end
 
     context 'trial start' do
-      let(:fee_type) { build :interim_fee_type, :trial_start }
+      let(:fee_type) { build(:interim_fee_type, :trial_start) }
 
       it 'produces expected data attributes' do
         expect(presenter.data_attributes).to eq expected_data(false, true, false, false, false, true, true, false, true)
@@ -45,7 +45,7 @@ describe Fee::InterimFeeTypePresenter do
     end
 
     context 'warrant' do
-      let(:fee_type) { build :interim_fee_type, :warrant }
+      let(:fee_type) { build(:interim_fee_type, :warrant) }
 
       it 'produces expected data attributes' do
         expect(presenter.data_attributes).to eq expected_data(false, false, false, false, false, false, true, true, false)

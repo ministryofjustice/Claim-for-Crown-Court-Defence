@@ -25,7 +25,7 @@ RSpec.shared_examples 'common defendants cloning tests' do
   end
 end
 
-RSpec.describe Claims::Cloner, type: :model do
+RSpec.describe Claims::Cloner do
   context 'ensure we are excluding fee associations' do
     let(:claim_types) { [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] }
     let(:excluded_associations) { Claims::Cloner::EXCLUDED_FEE_ASSOCIATIONS }
@@ -42,7 +42,7 @@ RSpec.describe Claims::Cloner, type: :model do
   describe '#clone_rejected_to_new_draft' do
     context 'non-rejected_claims' do
       it 'tests the functionality in the new way' do
-        non_rejected_claim = build :claim
+        non_rejected_claim = build(:claim)
         allow(non_rejected_claim).to receive(:rejected?).and_return(false)
         expect {
           non_rejected_claim.clone_rejected_to_new_draft

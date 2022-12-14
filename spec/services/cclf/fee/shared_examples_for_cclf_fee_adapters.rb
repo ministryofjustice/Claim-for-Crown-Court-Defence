@@ -9,7 +9,7 @@ end
 RSpec.shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
   let(:fee) { instance_double('fee') }
   let(:claim) { instance_double('claim', case_type:) }
-  let(:case_type) { instance_double(::CaseType) }
+  let(:case_type) { instance_double(CaseType) }
   let(:fee_type) { instance_double('fee_type') }
 
   before do

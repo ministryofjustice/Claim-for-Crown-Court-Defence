@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Claim::AdvocateClaim, type: :model do
+RSpec.describe Claim::AdvocateClaim do
   subject(:claim) { create(:advocate_claim) }
 
   it_behaves_like 'a base claim'
@@ -85,19 +85,19 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   context 'eligible fee types' do
-    subject(:claim) { build :unpersisted_claim }
+    subject(:claim) { build(:unpersisted_claim) }
 
     before(:all) do
-      @bft1 = create :basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10], description: 'bft1'
-      @bft2 = create :basic_fee_type, :lgfs, description: 'bft2'
-      @bft3 = create :basic_fee_type, description: 'bft3'
-      @bft4 = create :basic_fee_type, roles: %w[agfs agfs_scheme_9], description: 'bft4'
-      @bft5 = create :basic_fee_type, roles: %w[agfs agfs_scheme_10], description: 'bft5'
-      @mft1 = create :misc_fee_type, :agfs_scheme_9
-      @mft2 = create :misc_fee_type, :lgfs
-      @mft3 = create :misc_fee_type, :agfs_scheme_10
-      @fft1 = create :fixed_fee_type
-      @fft2 = create :fixed_fee_type, :lgfs
+      @bft1 = create(:basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10], description: 'bft1')
+      @bft2 = create(:basic_fee_type, :lgfs, description: 'bft2')
+      @bft3 = create(:basic_fee_type, description: 'bft3')
+      @bft4 = create(:basic_fee_type, roles: %w[agfs agfs_scheme_9], description: 'bft4')
+      @bft5 = create(:basic_fee_type, roles: %w[agfs agfs_scheme_10], description: 'bft5')
+      @mft1 = create(:misc_fee_type, :agfs_scheme_9)
+      @mft2 = create(:misc_fee_type, :lgfs)
+      @mft3 = create(:misc_fee_type, :agfs_scheme_10)
+      @fft1 = create(:fixed_fee_type)
+      @fft2 = create(:fixed_fee_type, :lgfs)
     end
 
     after(:all) do
@@ -167,7 +167,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'State Machine meta states magic methods' do
-    let(:claim) { build :claim }
+    let(:claim) { build(:claim) }
     let(:all_states) do
       %w[allocated archived_pending_delete draft authorised part_authorised refused rejected submitted]
     end
@@ -260,7 +260,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '.earliest_representation_order' do
-    subject(:claim) { build :unpersisted_claim }
+    subject(:claim) { build(:unpersisted_claim) }
 
     let(:early_date) { scheme_date_for(nil).to_date - 10.days }
 
@@ -286,8 +286,8 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#is_allocated_to_case_worker?' do
-    let(:case_worker_1) { create :case_worker }
-    let(:case_worker_2) { create :case_worker }
+    let(:case_worker_1) { create(:case_worker) }
+    let(:case_worker_2) { create(:case_worker) }
 
     it 'returns true if allocated to the specified case_worker' do
       claim.case_workers << case_worker_1
@@ -921,16 +921,16 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe '#fixed_fees' do
-    let(:ct_fixed_1)          { create :case_type, :fixed_fee }
-    let(:ct_fixed_2)          { create :case_type, :fixed_fee }
-    let(:ct_basic_1)          { create :case_type }
-    let(:ct_basic_2)          { create :case_type }
+    let(:ct_fixed_1)          { create(:case_type, :fixed_fee) }
+    let(:ct_fixed_2)          { create(:case_type, :fixed_fee) }
+    let(:ct_basic_1)          { create(:case_type) }
+    let(:ct_basic_2)          { create(:case_type) }
 
     it 'only returns claims with fixed fee case types' do
-      claim_1 = create :claim, case_type_id: ct_fixed_1.id
-      claim_2 = create :claim, case_type_id: ct_fixed_2.id
-      create :claim, case_type_id: ct_basic_1.id
-      create :claim, case_type_id: ct_basic_2.id
+      claim_1 = create(:claim, case_type_id: ct_fixed_1.id)
+      claim_2 = create(:claim, case_type_id: ct_fixed_2.id)
+      create(:claim, case_type_id: ct_basic_1.id)
+      create(:claim, case_type_id: ct_basic_2.id)
       expect(described_class.fixed_fee.count).to eq 2
       expect(described_class.fixed_fee).to include claim_1
       expect(described_class.fixed_fee).to include claim_2
@@ -966,7 +966,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'sets the source field before saving a claim' do
-    let(:claim) { build :claim }
+    let(:claim) { build(:claim) }
 
     it 'sets the source to web by default if unset' do
       expect(claim.save).to be(true)
@@ -1001,7 +1001,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
   end
 
   describe 'provider type dependant methods' do
-    let(:claim) { build :unpersisted_claim }
+    let(:claim) { build(:unpersisted_claim) }
 
     describe 'for a chamber provider' do
       before do
@@ -1247,12 +1247,12 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
 
   describe 'not saving the expenses model' do
     it 'saves the expenses model' do
-      external_user = create :external_user
-      expense_type = create :expense_type, :car_travel
-      fee_type = create :basic_fee_type
-      case_type = create :case_type
-      court = create :court
-      offence = create :offence
+      external_user = create(:external_user)
+      expense_type = create(:expense_type, :car_travel)
+      fee_type = create(:basic_fee_type)
+      case_type = create(:case_type)
+      court = create(:court)
+      offence = create(:offence)
 
       params = {
         'claim' => {
@@ -1383,7 +1383,7 @@ RSpec.describe Claim::AdvocateClaim, type: :model do
       end
 
       context 'when the claim has been saved as draft before the case type is set' do
-        let(:claim) { build :advocate_claim, case_type: nil }
+        let(:claim) { build(:advocate_claim, case_type: nil) }
 
         it { expect(claim.discontinuance?).to be false }
       end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::CertificationsController, type: :controller do
+RSpec.describe ExternalUsers::CertificationsController do
   let(:certification_type) { create(:certification_type) }
   let!(:advocate) { create(:external_user) }
 
@@ -158,7 +158,7 @@ RSpec.describe ExternalUsers::CertificationsController, type: :controller do
       it 'redirects to new' do
         params = valid_certification_params(claim, certification_type)
         params['certification']['certification_type_id'] = nil
-        post :create, params: params
+        post(:create, params:)
         expect(response).to render_template(:new)
       end
     end

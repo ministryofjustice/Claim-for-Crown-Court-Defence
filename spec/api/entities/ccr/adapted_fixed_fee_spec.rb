@@ -9,7 +9,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
   let(:fxndr) { create(:fixed_fee_type, :fxndr) }
   let(:fxnoc) { create(:fixed_fee_type, :fxnoc) }
 
-  let(:adapted_fixed_fees) { ::CCR::Fee::FixedFeeAdapter.new.call(claim) }
+  let(:adapted_fixed_fees) { CCR::Fee::FixedFeeAdapter.new.call(claim) }
 
   context 'when an applicable fixed fee is claimed' do
     let(:case_type) { build(:case_type, :fixed_fee, fee_type_code: 'FXCBR', requires_maat_reference: false) }

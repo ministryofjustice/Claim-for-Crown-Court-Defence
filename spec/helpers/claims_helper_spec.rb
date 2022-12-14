@@ -51,7 +51,7 @@ RSpec.describe ClaimsHelper do
     subject(:subj_show_message_controls?) { show_message_controls?(claim) }
 
     require 'application_helper'
-    let(:claim) { build :claim, state: }
+    let(:claim) { build(:claim, state:) }
 
     RSpec.configure do |c|
       c.include ApplicationHelper
@@ -64,7 +64,7 @@ RSpec.describe ClaimsHelper do
     end
 
     context 'for case_worker' do
-      let(:persona) { create :case_worker }
+      let(:persona) { create(:case_worker) }
 
       %w[submitted allocated authorised part_authorised rejected refused redetermination awaiting_written_reasons].each do |state|
         context "when claim state is #{state}" do
@@ -84,7 +84,7 @@ RSpec.describe ClaimsHelper do
     end
 
     context 'for external_user' do
-      let(:persona) { create :external_user }
+      let(:persona) { create(:external_user) }
 
       %w[submitted allocated part_authorised refused authorised redetermination awaiting_written_reasons].each do |state|
         context "when claim state is #{state}" do
@@ -114,7 +114,7 @@ RSpec.describe ClaimsHelper do
   describe '#messaging_permitted?' do
     subject { messaging_permitted?(message) }
 
-    let(:claim) { build :claim, state: }
+    let(:claim) { build(:claim, state:) }
     let(:message) { build(:message, claim:, claim_action:) }
     let(:claim_action) { nil }
 
@@ -125,7 +125,7 @@ RSpec.describe ClaimsHelper do
     end
 
     context 'for case_worker' do
-      let(:persona) { create :case_worker }
+      let(:persona) { create(:case_worker) }
 
       context 'for a claim with claim actions' do
         let(:state) { 'rejected' }
@@ -144,7 +144,7 @@ RSpec.describe ClaimsHelper do
     end
 
     context 'for external_user' do
-      let(:persona) { create :external_user }
+      let(:persona) { create(:external_user) }
 
       context 'for a claim with claim actions' do
         let(:state) { 'rejected' }
@@ -154,7 +154,7 @@ RSpec.describe ClaimsHelper do
       end
 
       context 'for non redeterminable claim states' do
-        let(:claim) { build :claim, state: }
+        let(:claim) { build(:claim, state:) }
 
         %w[submitted allocated redetermination awaiting_written_reasons].each do |state|
           context "when claim state is #{state}" do
@@ -166,7 +166,7 @@ RSpec.describe ClaimsHelper do
       end
 
       context 'for redeterminable claim states' do
-        let(:claim) { build :claim, state: }
+        let(:claim) { build(:claim, state:) }
 
         %w[authorised part_authorised rejected refused].each do |state|
           context "when claim state is #{state}" do

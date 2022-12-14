@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ExternalUsers::ClaimsController, type: :controller do
+RSpec.describe ExternalUsers::ClaimsController do
   let!(:advocate) { create(:external_user, :advocate) }
 
   before { sign_in advocate.user }
@@ -504,7 +504,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           let(:params) { { search: advocate.user.last_name } }
 
           it 'returns no claims by default' do
-            get :index, params: params
+            get(:index, params:)
             expect(assigns(:claims).sort_by(&:state)).to be_empty
           end
 
@@ -512,7 +512,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
             let(:advocate) { create(:external_user, :advocate, :admin) }
 
             it 'finds the claims' do
-              get :index, params: params
+              get(:index, params:)
               expect(assigns(:claims).sort_by(&:state)).to eq([allocated_claim, draft_claim])
             end
           end
@@ -531,7 +531,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
           let(:params) { { search: advocate.user.last_name } }
 
           it 'returns no claims by default' do
-            get :archived, params: params
+            get(:archived, params:)
             expect(assigns(:claims).sort_by(&:state)).to be_empty
           end
 
@@ -539,7 +539,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
             let(:advocate) { create(:external_user, :advocate, :admin) }
 
             it 'finds the claims' do
-              get :archived, params: params
+              get(:archived, params:)
               expect(assigns(:claims)).to eq([archived_claim])
             end
           end
@@ -780,7 +780,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
       # rubocop:disable RSpec/ExampleLength
       it 'sets the vat totals to zero' do
         # given a claim with nils in vat totals before archiving
-        claim = create :authorised_claim, external_user: advocate
+        claim = create(:authorised_claim, external_user: advocate)
         claim.fees_vat = nil
         claim.expenses_vat = nil
         claim.disbursements_vat = nil
@@ -842,7 +842,7 @@ RSpec.describe ExternalUsers::ClaimsController, type: :controller do
   end
 
   describe 'GET #show_message_controls' do
-    let(:claim) { create :refused_claim, external_user: advocate }
+    let(:claim) { create(:refused_claim, external_user: advocate) }
 
     before do
       get(

@@ -71,13 +71,13 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
         end
 
         context 'with a scheme 9 offence' do
-          let(:claim) { create :api_advocate_claim, :with_scheme_nine_offence }
+          let(:claim) { create(:api_advocate_claim, :with_scheme_nine_offence) }
 
           it { is_expected.to match_array(scheme_9_advocate_categories) }
         end
 
         context 'with no offence (fixed fee case type)' do
-          let(:claim) { create :api_advocate_claim, :with_no_offence }
+          let(:claim) { create(:api_advocate_claim, :with_no_offence) }
 
           it { is_expected.to match_array(all_advocate_categories) }
         end

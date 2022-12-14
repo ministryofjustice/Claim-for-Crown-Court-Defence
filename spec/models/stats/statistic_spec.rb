@@ -16,9 +16,9 @@ module Stats
   describe Statistic do
     context 'uniqueness' do
       it 'does not allow two records for same date, report type and claim type to be created' do
-        create :statistic
+        create(:statistic)
         expect {
-          create :statistic
+          create(:statistic)
         }.to raise_error ActiveRecord::RecordNotUnique, /duplicate key value violates unique constraint "index_statistics_on_date_and_report_name_and_claim_type"/
       end
     end

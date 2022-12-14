@@ -18,7 +18,7 @@
 require 'rails_helper'
 
 RSpec.describe Fee::MiscFeeType do
-  let(:fee_type) { build :misc_fee_type }
+  let(:fee_type) { build(:misc_fee_type) }
 
   context 'when querying using scopes' do
     it { expect(described_class).to respond_to(:supplementary, :without_supplementary_only, :agfs_scheme_12s) }

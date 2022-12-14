@@ -7,7 +7,7 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
   ALLOCATION_ENDPOINT = '/api/case_workers/allocate'
   FORBIDDEN_ALLOCATION_VERBS = [:get, :put, :patch, :delete]
 
-  let(:case_worker_user) { create :user, email: 'caseworker@example.com' }
+  let(:case_worker_user) { create(:user, email: 'caseworker@example.com') }
   let(:case_worker) { create(:case_worker, :admin, user: case_worker_user) }
   let(:external_user) { create(:external_user) }
   let(:valid_base_params) { { api_key:, case_worker_id: case_worker.id } }

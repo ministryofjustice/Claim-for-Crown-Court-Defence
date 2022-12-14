@@ -123,9 +123,9 @@ RSpec.describe RepresentationOrder do
     end
 
     it 'returns an aray of all reporders including this for the same defendant' do
-      defendant = create :defendant, claim: Claim::AdvocateClaim.new
-      create :representation_order, defendant: defendant
-      reporder_2 = create :representation_order, defendant: defendant
+      defendant = create(:defendant, claim: Claim::AdvocateClaim.new)
+      create(:representation_order, defendant:)
+      reporder_2 = create(:representation_order, defendant:)
       defendant.reload
       expect(reporder_2.reporders_for_same_defendant).to match_array(defendant.representation_orders)
     end

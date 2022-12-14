@@ -14,14 +14,14 @@ class ExternalUsers::Admin::ExternalUsersController < ExternalUsers::Admin::Appl
 
   def show; end
 
-  def edit; end
-
-  def change_password; end
-
   def new
     @external_user = ExternalUser.new(provider_id: current_provider.id)
     @external_user.build_user
   end
+
+  def edit; end
+
+  def change_password; end
 
   def create
     @external_user = ExternalUser.new(params_with_temporary_password.merge(provider_id: current_provider.id))

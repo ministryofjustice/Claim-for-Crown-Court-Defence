@@ -39,11 +39,11 @@ RSpec.describe 'offences details', type: :request do
       before { get_offences }
 
       it 'returns all offences in the default scheme (scheme 9)' do
-        expect(json.map { |data| data['description'] }).to eq(['Offence 1', 'Offence 2', 'Offence 3'])
+        expect(json.pluck('description')).to eq(['Offence 1', 'Offence 2', 'Offence 3'])
       end
 
       it 'returns the offence class' do
-        expect(json.map { |data| data['offence_class'] }.first)
+        expect(json.pick('offence_class'))
           .to include('id' => 2, 'description' => 'Offence class 1')
       end
     end
@@ -54,7 +54,7 @@ RSpec.describe 'offences details', type: :request do
       before { get_offences }
 
       it 'just gets the matching offence' do
-        expect(json.map { |data| data['description'] }).to eq(['Offence 3'])
+        expect(json.pluck('description')).to eq(['Offence 3'])
       end
     end
 
@@ -67,7 +67,7 @@ RSpec.describe 'offences details', type: :request do
       end
 
       it 'returns offences only for fee scheme 10' do
-        expect(json.map { |data| data['description'] }).to match_array(['Offence 10-1', 'Offence 10-3', 'Offence 10-2'])
+        expect(json.pluck('description')).to match_array(['Offence 10-1', 'Offence 10-3', 'Offence 10-2'])
       end
 
       it 'calls the fee reform search offences service with the provided filters' do

@@ -252,7 +252,7 @@ RSpec.describe 'API claim creation for AGFS' do
     result = example.run
     if result.is_a?(RSpec::Expectations::ExpectationNotMetError)
       begin
-        puts JSON.parse(last_response.body).map { |hash| hash['error'] }.join("\n").red
+        puts JSON.parse(last_response.body).pluck('error').join("\n").red
       rescue StandardError
         nil
       end

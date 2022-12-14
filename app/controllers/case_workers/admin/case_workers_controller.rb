@@ -12,14 +12,14 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
 
   def show; end
 
-  def edit; end
-
-  def change_password; end
-
   def new
     @case_worker = CaseWorker.new
     @case_worker.build_user
   end
+
+  def edit; end
+
+  def change_password; end
 
   def create
     @case_worker = CaseWorker.new(params_with_temporary_password)

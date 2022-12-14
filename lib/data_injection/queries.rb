@@ -21,7 +21,7 @@ module DataInjection
       end
 
       def claims_with_error(error_regex)
-        ::Claim::BaseClaim.where(uuid: with_error(error_regex).map { |err| err['uuid'] })
+        ::Claim::BaseClaim.where(uuid: with_error(error_regex).pluck('uuid'))
       end
 
       private

@@ -33,7 +33,7 @@ module ApiSpecHelper
   def expect_error_response(message)
     expect(last_response.status).to eq(400)
     json = JSON.parse(last_response.body)
-    expect(json.map { |row| row['error'] }).to include(message)
+    expect(json.pluck('error')).to include(message)
   end
 
   def expect_unauthorised_error(message = 'Unauthorised')

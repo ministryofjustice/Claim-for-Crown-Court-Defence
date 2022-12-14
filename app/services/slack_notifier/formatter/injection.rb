@@ -41,7 +41,7 @@ class SlackNotifier
       def error_fields(errors)
         return [] if errors.empty?
 
-        [{ title: 'Errors', value: errors.map { |x| x['error'] }.join('\n') }]
+        [{ title: 'Errors', value: errors.pluck('error').join('\n') }]
       end
 
       def injected?

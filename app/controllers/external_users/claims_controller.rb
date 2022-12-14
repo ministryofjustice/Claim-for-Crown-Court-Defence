@@ -99,29 +99,6 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
     redirect_to external_users_claims_url, alert: t('external_users.claims.redraft.error_html').html_safe
   end
 
-  def destroy
-    message = if @claim.draft?
-                flash_message_for :delete, claim_updater.delete
-              elsif @claim.can_archive_pending_delete? || @claim.can_archive_pending_review?
-                flash_message_for :archive, claim_updater.archive
-              else
-                { alert: 'This claim cannot be deleted' }
-              end
-    flash[message.keys.first.to_sym] = message.values.first
-    respond_with @claim, location: external_users_claims_url
-  end
-
-  def unarchive
-    claim_url = external_users_claim_url(@claim)
-    return redirect_to claim_url, alert: t('.not_archived') unless unarchive_allowed?
-    @claim = PreviousVersionOfClaim.new(@claim).call
-    @claim.zeroise_nil_totals!
-    @claim.save!(validate: false)
-    redirect_to external_users_claims_url, notice: 'Claim unarchived'
-  rescue StandardError
-    redirect_to claim_url, alert: t('.unarchivable')
-  end
-
   def new
     @claim = resource_klass.new
     @claim.form_step = params[:step] || @claim.submission_stages.first
@@ -164,6 +141,29 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
              end
 
     render_or_redirect(result)
+  end
+
+  def destroy
+    message = if @claim.draft?
+                flash_message_for :delete, claim_updater.delete
+              elsif @claim.can_archive_pending_delete? || @claim.can_archive_pending_review?
+                flash_message_for :archive, claim_updater.archive
+              else
+                { alert: 'This claim cannot be deleted' }
+              end
+    flash[message.keys.first.to_sym] = message.values.first
+    respond_with @claim, location: external_users_claims_url
+  end
+
+  def unarchive
+    claim_url = external_users_claim_url(@claim)
+    return redirect_to claim_url, alert: t('.not_archived') unless unarchive_allowed?
+    @claim = PreviousVersionOfClaim.new(@claim).call
+    @claim.zeroise_nil_totals!
+    @claim.save!(validate: false)
+    redirect_to external_users_claims_url, notice: 'Claim unarchived'
+  rescue StandardError
+    redirect_to claim_url, alert: t('.unarchivable')
   end
 
   class << self

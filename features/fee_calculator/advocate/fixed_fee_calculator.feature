@@ -115,8 +115,10 @@ Feature: Advocate completes fixed fee page using calculator
     And I select the fee scheme 'Advocate final fee'
     Then I should be on the new claim page
 
-    And I should see 'You should only select elected cases not proceeded if the representation order is before 30 September 2022.'
-    And I should see 'For rep order claims dated on or after 30 September 2022, select guilty plea or cracked trial.'
+    Then I should see 'You should not select elected cases not proceeded if'
+    And I should see 'The representation order is dated on or after 30 September 2022'
+    And I should see 'The representation order is dated on or after 17 September 2020 with a main hearing date on or after 31 October 2022.'
+    And I should see 'For these claims, select guilty plea or cracked trial.'
     And I select the court 'Blackfriars'
     And I select a case type of 'Elected cases not proceeded'
     And I enter a case number of 'A20161234'

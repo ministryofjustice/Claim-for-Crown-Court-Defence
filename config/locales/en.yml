@@ -963,6 +963,15 @@ en:
           enp_signpost_html:
             <p class="govuk-body">You should only select <span class="govuk-!-font-weight-bold">elected cases not proceeded</span> if the representation order is before 30 September 2022.</p>
             <p class="govuk-body">For rep order claims dated on or after 30 September 2022, select <span class="govuk-!-font-weight-bold">guilty plea</span> or <span class="govuk-!-font-weight-bold">cracked trial.</span></p>
+
+          enp_signpost_contingency_html:
+            <p class="govuk-body">You should <span class="govuk-!-font-weight-bold">not</span> select <span class="govuk-!-font-weight-bold">elected cases not proceeded</span> if:</p>
+            <ul class="govuk-list govuk-list--bullet">
+            <li>The representation order is dated on or after 30 September 2022 <span class="govuk-!-font-weight-bold">or</span></li>
+            <li>The representation order is dated on or after 17 September 2020 with a main hearing date on or after 31 October 2022.</li>
+            </ul>
+            <p class="govuk-body"> For these claims, select <span class="govuk-!-font-weight-bold">guilty plea</span> or <span class="govuk-!-font-weight-bold">cracked trial.</span></p>
+
           select_option: Choose a case type
           stage_type: What stage has the case reached?
           agfs_stage_type_hint: For example Trial started but not concluded

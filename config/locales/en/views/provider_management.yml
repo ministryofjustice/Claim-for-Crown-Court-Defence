@@ -1,5 +1,8 @@
 en:
   provider_management:
+    providers:
+      created_successfully: Provider successfully created
+      updated_successfully: Provider successfully updated
     external_users:
       change_availability:
         cancel: Cancel

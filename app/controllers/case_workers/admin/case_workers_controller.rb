@@ -1,5 +1,6 @@
 class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::ApplicationController
   include PasswordHelpers
+  include PaginationHelpers
 
   before_action :set_case_worker, only: %i[show edit update destroy change_password update_password]
 
@@ -7,7 +8,7 @@ class CaseWorkers::Admin::CaseWorkersController < CaseWorkers::Admin::Applicatio
     @case_workers = CaseWorker.includes(:location).joins(:user)
     query = "lower(users.first_name || ' ' || users.last_name) ILIKE :term"
     @case_workers = @case_workers.where(query, term: "%#{params[:search]}%") if params[:search].present?
-    @case_workers = @case_workers.order('users.last_name', 'users.first_name')
+    @case_workers = @case_workers.order('users.last_name', 'users.first_name').page(current_page).per(page_size)
   end
 
   def show; end

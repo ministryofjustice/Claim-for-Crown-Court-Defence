@@ -1,8 +1,12 @@
 class ProviderManagement::ProvidersController < ApplicationController
   include ProviderAdminConcern
+  include PaginationHelpers
 
   def index
-    @providers = Provider.order(name: :asc)
+    @providers = Provider.order(name: :asc).page(current_page).per(page_size)
+    return unless params[:search]
+    query = 'lower(name) ILIKE :term'
+    @providers = @providers.where(query, term: "%#{params[:search]}%")
   end
 
   def new

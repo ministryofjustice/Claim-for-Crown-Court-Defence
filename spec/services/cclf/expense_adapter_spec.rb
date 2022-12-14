@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe CCLF::ExpenseAdapter, type: :adapter do
-  let(:expense) { instance_double(::Expense) }
+  let(:expense) { instance_double(Expense) }
 
   # All expenses map to the TRAVEL COSTS disbursement bill sub-type in CCLF
   EXPENSE_BILL_TYPES = ['DISBURSEMENT', 'TRAVEL COSTS'].freeze
@@ -13,9 +13,9 @@ RSpec.describe CCLF::ExpenseAdapter, type: :adapter do
         context "when an expense of type #{unique_code} is attached to a claim with case of type #{fee_type_code}" do
           subject(:instance) { described_class.new(expense) }
 
-          let(:claim) { instance_double(::Claim::LitigatorClaim, case_type:) }
-          let(:case_type) { instance_double(::CaseType, fee_type_code:) }
-          let(:expense_type) { instance_double(::ExpenseType, unique_code:) }
+          let(:claim) { instance_double(Claim::LitigatorClaim, case_type:) }
+          let(:case_type) { instance_double(CaseType, fee_type_code:) }
+          let(:expense_type) { instance_double(ExpenseType, unique_code:) }
 
           before do
             allow(expense).to receive(:claim).and_return claim

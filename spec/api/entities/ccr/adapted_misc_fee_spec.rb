@@ -13,7 +13,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
       rate: 25
     )
   end
-  let(:adapted_misc_fee) { ::CCR::Fee::MiscFeeAdapter.new.call(misc_fee) }
+  let(:adapted_misc_fee) { CCR::Fee::MiscFeeAdapter.new.call(misc_fee) }
 
   it 'exposes expected json key-value pairs' do
     expect(response).to include(
@@ -38,7 +38,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
     let(:miaph) { create(:misc_fee_type, :miaph) }
     let(:miahu) { create(:misc_fee_type, :miahu) }
     let(:misc_fee) { claim.misc_fees.find_by(fee_type_id: miaph.id) }
-    let(:adapted_misc_fee) { ::CCR::Fee::MiscFeeAdapter.new.call(misc_fee) }
+    let(:adapted_misc_fee) { CCR::Fee::MiscFeeAdapter.new.call(misc_fee) }
 
     before do
       create(:misc_fee, :with_date_attended, fee_type: miaph, claim:, quantity: 1, rate: 25)

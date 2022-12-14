@@ -673,7 +673,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
 
     context 'remote claims' do
-      let(:claim) { double(::Remote::Claim, remote?: true) }
+      let(:claim) { double(Remote::Claim, remote?: true) }
 
       it 'returns true for positive message count' do
         allow(claim).to receive(:messages_count).and_return 2

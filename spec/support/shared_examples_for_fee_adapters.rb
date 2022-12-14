@@ -122,11 +122,11 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
       let(:instance) { described_class.new(claim) }
       let(:claim) { instance_double('claim') }
 
-      let(:basic_fee_type) { instance_double(::Fee::BasicFeeType, unique_code: 'BABAF') }
+      let(:basic_fee_type) { instance_double(Fee::BasicFeeType, unique_code: 'BABAF') }
       let(:basic_fees) { [basic_fee] }
       let(:basic_fee) do
         instance_double(
-          ::Fee::BasicFee,
+          Fee::BasicFee,
           fee_type: basic_fee_type,
           quantity: 0,
           rate: 0,

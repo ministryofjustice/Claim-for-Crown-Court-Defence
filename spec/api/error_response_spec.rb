@@ -63,7 +63,7 @@ end
 RSpec.describe API::ErrorResponse do
   subject(:error_response) { described_class.new(claim) }
 
-  NESTED_MODEL_KLASSES = [::Expense, ::Disbursement, ::Defendant, ::DateAttended, ::RepresentationOrder,
+  NESTED_MODEL_KLASSES = [Expense, Disbursement, Defendant, DateAttended, RepresentationOrder,
                           Fee::GraduatedFee, Fee::InterimFee, Fee::TransferFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee]
   CLAIM_MODEL_KLASSES =  [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::AdvocateSupplementaryClaim,
                           Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim, Claim::AdvocateHardshipClaim,

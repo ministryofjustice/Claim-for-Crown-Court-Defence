@@ -7,7 +7,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
   subject { described_class.new(claim, params) }
 
   context 'dummy' do
-    let(:claim) { instance_double(::Claim::BaseClaim, agfs?: false, advocate_category: nil, earliest_representation_order_date: nil) }
+    let(:claim) { instance_double(Claim::BaseClaim, agfs?: false, advocate_category: nil, earliest_representation_order_date: nil) }
     let(:params) { { fee_type_id: create(:graduated_fee_type, :grtrl).id } }
 
     it { is_expected.to respond_to(:call) }
@@ -1324,7 +1324,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
     end
 
     context 'when api call fails' do
-      let(:claim) { instance_double(::Claim::BaseClaim) }
+      let(:claim) { instance_double(Claim::BaseClaim) }
 
       before do
         allow(claim).to receive(:main_hearing_date).and_return(Date.parse('22 November 2022'))
@@ -1342,7 +1342,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
             .to_return(status: 404, body: { error: '"detail": "Not found."' }.to_json, headers: {})
         end
 
-        let(:claim) { instance_double(::Claim::BaseClaim, agfs?: true, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }
+        let(:claim) { instance_double(Claim::BaseClaim, agfs?: true, advocate_category: 'QC', prosecution_evidence?: false, earliest_representation_order_date: Date.today, case_type: nil, retrial_reduction: false) }
         let(:params) { { fee_type_id: create(:graduated_fee_type, :grtrl).id } }
 
         it_returns 'a failed fee calculator response', message: /not found/i

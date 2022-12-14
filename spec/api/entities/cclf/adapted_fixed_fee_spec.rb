@@ -6,9 +6,9 @@ RSpec.describe API::Entities::CCLF::AdaptedFixedFee, type: :adapter do
   let(:fee_type) { instance_double('fee_type', unique_code: 'FXCBR') }
   let(:case_type) { instance_double('case_type', fee_type_code: 'FXCBR') }
   let(:claim) { instance_double('claim', case_type:) }
-  let(:fixed_fee) { instance_double(::Fee::FixedFee, claim:, fee_type:, quantity: 10.0) }
+  let(:fixed_fee) { instance_double(Fee::FixedFee, claim:, fee_type:, quantity: 10.0) }
 
-  it_behaves_like 'a bill types delegator', ::CCLF::Fee::FixedFeeAdapter do
+  it_behaves_like 'a bill types delegator', CCLF::Fee::FixedFeeAdapter do
     let(:bill) { fixed_fee }
   end
 

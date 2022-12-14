@@ -202,7 +202,7 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
             it_behaves_like 'litigator fee bill'
 
             context 'with any type of grad fee' do
-              before { allow_any_instance_of(::Fee::GraduatedFeeType).to receive(:unique_code).and_return 'XXXXX' }
+              before { allow_any_instance_of(Fee::GraduatedFeeType).to receive(:unique_code).and_return 'XXXXX' }
 
               it_behaves_like 'litigator fee bill'
             end

@@ -63,7 +63,7 @@ RSpec.describe Claim::BaseClaim do
   it 'raises BaseClaimAbstractClassError when instantiated' do
     expect {
       described_class.new(external_user: advocate, creator: advocate)
-    }.to raise_error ::Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
+    }.to raise_error Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
   end
 
   context 'scheme scopes' do

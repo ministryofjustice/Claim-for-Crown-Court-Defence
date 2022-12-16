@@ -89,15 +89,6 @@ Lint/MissingSuper:
     - 'lib/caching/memory_store.rb'
     - 'lib/caching/redis_store.rb'
 
-# Offense count: 3
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: instance_of?, kind_of?, is_a?, eql?, respond_to?, equal?
-Lint/RedundantSafeNavigation:
-  Exclude:
-    - 'app/controllers/provider_management/external_users_controller.rb'
-    - 'app/presenters/expense_presenter.rb'
-
 # Offense count: 2
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Lint/UselessMethodDefinition:
@@ -2063,7 +2054,6 @@ Rails/I18nLocaleTexts:
     - 'app/controllers/external_users/admin/external_users_controller.rb'
     - 'app/controllers/external_users/admin/providers_controller.rb'
     - 'app/controllers/external_users/claims_controller.rb'
-    - 'app/controllers/provider_management/providers_controller.rb'
     - 'app/controllers/sessions_controller.rb'
     - 'app/controllers/super_admins/admin/super_admins_controller.rb'
     - 'app/models/assessment.rb'
@@ -2411,8 +2401,6 @@ Style/ClassAndModuleChildren:
     - 'app/controllers/geckoboard_api/application_controller.rb'
     - 'app/controllers/geckoboard_api/statistics_controller.rb'
     - 'app/controllers/geckoboard_api/widgets_controller.rb'
-    - 'app/controllers/provider_management/external_users_controller.rb'
-    - 'app/controllers/provider_management/providers_controller.rb'
     - 'app/controllers/super_admins/admin/super_admins_controller.rb'
     - 'app/controllers/super_admins/application_controller.rb'
     - 'app/controllers/super_admins/super_admins_controller.rb'

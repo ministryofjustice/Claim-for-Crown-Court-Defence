@@ -5,6 +5,9 @@ RSpec.describe Claim::InterimClaim do
   let(:claim) { build(:interim_claim, **options) }
   let(:options) { {} }
 
+  it_behaves_like 'a base claim'
+  it_behaves_like 'a claim delegating to case type'
+  it_behaves_like 'an LGFS claim'
   it_behaves_like 'uses claim cleaner', Cleaners::InterimClaimCleaner
 
   it { is_expected.to delegate_method(:requires_trial_dates?).to(:case_type) }

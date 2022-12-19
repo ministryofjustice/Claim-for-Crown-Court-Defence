@@ -32,8 +32,6 @@ RSpec.shared_examples 'a base claim' do
 
   describe 'delegates' do
     it { is_expected.to delegate_method(:provider_id).to(:creator) }
-    it { is_expected.to delegate_method(:requires_trial_dates?).to(:case_type) }
-    it { is_expected.to delegate_method(:requires_retrial_dates?).to(:case_type) }
   end
 
   describe 'accepts nested attributes for' do
@@ -43,6 +41,57 @@ RSpec.shared_examples 'a base claim' do
     it { is_expected.to accept_nested_attributes_for(:disbursements) }
     it { is_expected.to accept_nested_attributes_for(:assessment) }
     it { is_expected.to accept_nested_attributes_for(:redeterminations) }
+  end
+end
+
+RSpec.shared_examples 'a claim delegating to case type' do
+  it { is_expected.to delegate_method(:requires_trial_dates?).to(:case_type) }
+  it { is_expected.to delegate_method(:requires_retrial_dates?).to(:case_type) }
+end
+
+RSpec.shared_examples 'an AGFS claim' do
+  let(:main_hearing_date) { Date.parse('31 October 2022') }
+  let(:representation_order_date) { Date.parse('1 Jan 2016') }
+
+  describe '#fee_scheme' do
+    before do
+      subject.main_hearing_date = main_hearing_date
+      subject.defendants = [
+        create(:defendant, representation_orders: [create(:representation_order, representation_order_date:)])
+      ]
+      allow(FeeSchemeFactory::AGFS).to receive(:call)
+    end
+
+    it do
+      subject.fee_scheme
+      expect(FeeSchemeFactory::AGFS).to have_received(:call).with(
+        main_hearing_date:,
+        representation_order_date:
+      )
+    end
+  end
+end
+
+RSpec.shared_examples 'an LGFS claim' do
+  let(:main_hearing_date) { Date.parse('31 October 2022') }
+  let(:representation_order_date) { Date.parse('1 Apr 2016') }
+
+  describe '#fee_scheme' do
+    before do
+      subject.main_hearing_date = main_hearing_date
+      subject.defendants = [
+        create(:defendant, representation_orders: [create(:representation_order, representation_order_date:)])
+      ]
+      allow(FeeSchemeFactory::LGFS).to receive(:call)
+    end
+
+    it do
+      claim.fee_scheme
+      expect(FeeSchemeFactory::LGFS).to have_received(:call).with(
+        main_hearing_date:,
+        representation_order_date:
+      )
+    end
   end
 end
 

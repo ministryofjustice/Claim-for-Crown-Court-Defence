@@ -6,6 +6,8 @@ describe Claim::TransferClaim do
 
   let(:options) { {} }
 
+  it_behaves_like 'a base claim'
+  it_behaves_like 'an LGFS claim'
   it_behaves_like 'uses claim cleaner', Cleaners::TransferClaimCleaner
 
   it { is_expected.not_to delegate_method(:requires_trial_dates?).to(:case_type) }

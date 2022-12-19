@@ -22,4 +22,4 @@ data:
   LAA_FEE_CALCULATOR_HOST: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1
   ALLOW_FUTURE_DATES: 'false'
   MAIN_HEARING_DATE_ENABLED_FOR_AGFS: 'true'
-  MAIN_HEARING_DATE_ENABLED_FOR_LGFS: 'true'
+  MAIN_HEARING_DATE_ENABLED_FOR_LGFS: 'false'

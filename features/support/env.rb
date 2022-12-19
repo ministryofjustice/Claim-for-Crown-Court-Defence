@@ -5,7 +5,8 @@
 # files.
 
 ENV["ENV"] ||= 'test'
-ENV['MAIN_HEARING_DATE_ENABLED'] = 'true'
+ENV['MAIN_HEARING_DATE_ENABLED_FOR_AGFS'] = 'true'
+ENV['MAIN_HEARING_DATE_ENABLED_FOR_LGFS'] = 'true'
 
 require 'capybara'
 require 'capybara/cucumber'

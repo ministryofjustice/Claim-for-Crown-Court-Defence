@@ -2,7 +2,8 @@ require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
 RSpec.describe Claim::InterimClaim do
-  let(:claim) { build(:interim_claim, **options) }
+  subject(:claim) { build(:interim_claim, **options) }
+
   let(:options) { {} }
 
   it_behaves_like 'a base claim'

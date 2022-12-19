@@ -12,7 +12,7 @@ module API::V1::ExternalUsers
         optional :actual_trial_length,
                  type: Integer,
                  desc: 'REQUIRED/UNREQUIRED: The actual trial length in days, required for graduated fees.'
-        if Settings.main_hearing_date_enabled?
+        if Settings.main_hearing_date_enabled_for_lgfs?
           optional :main_hearing_date,
                    type: String,
                    desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',

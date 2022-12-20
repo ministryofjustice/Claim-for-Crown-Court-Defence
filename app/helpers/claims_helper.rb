@@ -72,4 +72,9 @@ module ClaimsHelper
     # This applies to both AGFS fee scheme 13 and LGFS fee scheme 10 but the dates are the same
     claim.final? && Time.zone.today >= Settings.agfs_scheme_13_clair_release_date.beginning_of_day
   end
+
+  def display_main_hearing_date_flag?(claim)
+    (Settings.main_hearing_date_enabled_for_agfs? && claim.agfs?) ||
+      (Settings.main_hearing_date_enabled_for_lgfs? && claim.lgfs?)
+  end
 end

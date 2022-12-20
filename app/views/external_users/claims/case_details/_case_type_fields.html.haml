@@ -14,7 +14,7 @@
 
 - else
   - if display_elected_not_proceeded_signpost?(@claim)
-    - if Settings.main_hearing_date_enabled_for_agfs? && @claim.agfs? || Settings.main_hearing_date_enabled_for_lgfs? && @claim.lgfs?
+    - if display_main_hearing_date_flag?(@claim)
       = govuk_warning_text( t('.enp_signpost_contingency_html'))
     - else
       = govuk_warning_text( t('.enp_signpost_html'))

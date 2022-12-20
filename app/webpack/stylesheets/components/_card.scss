@@ -1,4 +1,7 @@
 .app-card--defendant {
+  .govuk-summary-list__key {
+    width: 35%;
+  }
   margin-top: $gutter-half;
   margin-bottom: $gutter-half;
   padding: $gutter-half $gutter-one-third $gutter-half $gutter-half;

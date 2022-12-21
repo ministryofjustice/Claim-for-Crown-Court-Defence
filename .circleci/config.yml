@@ -408,8 +408,8 @@ jobs:
 
   cucumber-tests:
     executor: test-executor
-    resource_class: medium
-    parallelism: 4
+    resource_class: small
+    parallelism: 6
     steps:
       - checkout
       - build-base

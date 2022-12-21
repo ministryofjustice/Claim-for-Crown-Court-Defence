@@ -1,5 +1,25 @@
 require 'rails_helper'
 
+RSpec.shared_examples 'find LGFS fee schemes' do
+  context 'with a rep order before cutoff date' do
+    let(:representation_order_date) { rep_order_cutoff_date - 1.day }
+
+    it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 9) }
+  end
+
+  context 'with a rep order on cutoff date' do
+    let(:representation_order_date) { rep_order_cutoff_date }
+
+    it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 10) }
+  end
+
+  context 'with a rep order after cutoff date' do
+    let(:representation_order_date) { rep_order_cutoff_date + 1.day }
+
+    it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 10) }
+  end
+end
+
 RSpec.describe FeeSchemeFactory::LGFS do
   subject(:factory) { described_class.new(representation_order_date:, main_hearing_date:) }
 
@@ -11,66 +31,24 @@ RSpec.describe FeeSchemeFactory::LGFS do
     context 'without a main hearing date' do
       let(:main_hearing_date) { nil }
 
-      context 'with a rep order before 30 September 2022' do
-        let(:representation_order_date) { Date.parse('29 September 2022') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 9) }
-      end
-
-      context 'with a rep order on 30 September 2022' do
-        let(:representation_order_date) { Date.parse('30 September 2022') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 10) }
-      end
-
-      context 'with a rep order after 30 September 2022' do
-        let(:representation_order_date) { Date.parse('1 October 2022') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 10) }
+      include_examples 'find LGFS fee schemes' do
+        let(:rep_order_cutoff_date) { Date.parse('30 September 2022') }
       end
     end
 
     context 'with a main hearing date before 31 October 2022' do
       let(:main_hearing_date) { Date.parse('30 October 2022') }
 
-      context 'with a rep order before 30 September 2022' do
-        let(:representation_order_date) { Date.parse('29 September 2022') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 9) }
-      end
-
-      context 'with a rep order on 30 September 2022' do
-        let(:representation_order_date) { Date.parse('30 September 2022') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 10) }
-      end
-
-      context 'with a rep order after 30 September 2022' do
-        let(:representation_order_date) { Date.parse('1 October 2022') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 10) }
+      include_examples 'find LGFS fee schemes' do
+        let(:rep_order_cutoff_date) { Date.parse('30 September 2022') }
       end
     end
 
     context 'with a main hearing date on 31 October 2022' do
       let(:main_hearing_date) { Date.parse('31 October 2022') }
 
-      context 'with a rep order before 17 September 2020' do
-        let(:representation_order_date) { Date.parse('16 September 2020') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 9) }
-      end
-
-      context 'with a rep order on 17 September 2020' do
-        let(:representation_order_date) { Date.parse('17 September 2020') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 10) }
-      end
-
-      context 'with a rep order after 17 September 2020' do
-        let(:representation_order_date) { Date.parse('18 October 2020') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'LGFS', version: 10) }
+      include_examples 'find LGFS fee schemes' do
+        let(:rep_order_cutoff_date) { Date.parse('17 September 2020') }
       end
     end
   end

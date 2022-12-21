@@ -542,6 +542,10 @@ earliest_representation_order_date:
     long: The representation order date and case type cannot be combined
     short: _
     api: The representation order date and case type cannot be combined
+  invalid_for_elected_case_not_proceeded_and_main_hearing_date:
+    long: The representation order date, main hearing date and case type cannot be combined
+    short: _
+    api: The representation order date, main hearing date and case type cannot be combined
 
 
 

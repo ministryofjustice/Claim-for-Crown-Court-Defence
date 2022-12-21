@@ -4,22 +4,20 @@ module FeeSchemeFactory
 
     def name = 'LGFS'
 
-    def version
-      case @representation_order_date
-      when lgfs_scheme_nine_range
-        9
-      when lgfs_scheme_ten_range
-        10
-      end
+    def filters
+      @filters ||= [
+        { scheme: 9, range: scheme_nine_range },
+        { scheme: 10, range: scheme_ten_range }
+      ]
     end
 
-    def lgfs_scheme_nine_range
+    def scheme_nine_range
       return Date.parse('1 April 2012')..(Settings.clar_release_date - 1.day) if clair_contingency
 
       Date.parse('1 April 2012')..(Settings.lgfs_scheme_10_clair_release_date - 1.day)
     end
 
-    def lgfs_scheme_ten_range
+    def scheme_ten_range
       return (Settings.clar_release_date..) if clair_contingency
 
       Settings.lgfs_scheme_10_clair_release_date..

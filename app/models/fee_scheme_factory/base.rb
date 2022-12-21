@@ -13,6 +13,12 @@ module FeeSchemeFactory
 
     private
 
+    def version
+      filters.each do |filter|
+        return filter[:scheme] if filter[:range].include?(@representation_order_date)
+      end
+    end
+
     def clair_contingency
       @main_hearing_date && @main_hearing_date >= Settings.clair_contingency_date
     end

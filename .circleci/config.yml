@@ -209,8 +209,8 @@ commands:
 
             RUBYOPT='-W0' bundle exec cucumber \
             --format pretty \
-            --format json \
-            --out /tmp/test-results/cucumber/tests.cucumber \
+            --format junit,fileattribute=true \
+            --out /tmp/test-results/cucumber \
             -- ${TESTFILES}
       - store_artifacts:
           path: tmp/capybara
@@ -408,8 +408,8 @@ jobs:
 
   cucumber-tests:
     executor: test-executor
-    resource_class: medium
-    parallelism: 4
+    resource_class: small
+    parallelism: 6
     steps:
       - checkout
       - build-base

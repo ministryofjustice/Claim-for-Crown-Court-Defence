@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'models/fee_scheme_factory/shared_examples'
 
 RSpec.shared_examples 'find AGFS fee schemes 9 to 11' do
   context 'with a rep order before 1 April 2018' do
@@ -59,6 +60,8 @@ RSpec.describe FeeSchemeFactory::AGFS do
     subject { factory.call }
 
     before { seed_fee_schemes }
+
+    include_examples 'a fee scheme factory'
 
     context 'without a main hearing date' do
       let(:options) { { representation_order_date: } }

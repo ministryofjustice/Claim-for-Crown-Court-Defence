@@ -3,8 +3,8 @@ module FeeSchemeFactory
     def self.call(...) = new(...).call
 
     def initialize(representation_order_date:, main_hearing_date: nil)
-      @representation_order_date = representation_order_date
-      @main_hearing_date = main_hearing_date
+      @representation_order_date = representation_order_date&.to_date
+      @main_hearing_date = main_hearing_date&.to_date
     end
 
     def call

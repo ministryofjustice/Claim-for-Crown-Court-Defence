@@ -376,9 +376,26 @@ class Claim::BaseClaimValidator < BaseValidator
   def validate_earliest_representation_order_date
     return unless @record.case_type&.name == 'Elected cases not proceeded'
     return unless @record.earliest_representation_order_date
-    # This applies to both agfs fee scheme 13 and lgfs fee scheme 10 but the dates are the same
-    return if @record.earliest_representation_order_date < Settings.agfs_scheme_13_clair_release_date
+    return if allow_elected_case_not_proceeded?
 
-    @record.errors.add(:earliest_representation_order_date, 'invalid for elected case not proceeded')
+    if main_hearing_date_enabled?
+      @record.errors.add(:earliest_representation_order_date,
+                         'invalid for elected case not proceeded and main hearing date')
+    else
+      @record.errors.add(:earliest_representation_order_date, 'invalid for elected case not proceeded')
+    end
+  end
+
+  def allow_elected_case_not_proceeded?
+    # This applies to both agfs fee scheme 13 and lgfs fee scheme 10 but the dates are the same
+    pre_clair_rep_order = @record.earliest_representation_order_date.before? Settings.agfs_scheme_13_clair_release_date
+    return pre_clair_rep_order unless @record.main_hearing_date
+
+    pre_clair_rep_order && @record.main_hearing_date.before?(Settings.clair_contingency_date)
+  end
+
+  def main_hearing_date_enabled?
+    (Settings.main_hearing_date_enabled_for_agfs? && @record.agfs?) ||
+      (Settings.main_hearing_date_enabled_for_lgfs? && @record.lgfs?)
   end
 end

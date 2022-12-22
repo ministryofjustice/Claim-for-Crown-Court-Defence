@@ -705,43 +705,39 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'when defendant has a rep order in fee scheme 13' do
-      before do
-        # Stubbing of the ALLOW_FUTURE_DATES environment variable can be
-        # removed after the CLAIR release date
-        allow(ENV).to receive(:fetch).and_call_original
-        allow(ENV).to receive(:fetch).with('ALLOW_FUTURE_DATES', anything).and_return 'true'
-        claim.defendants = [create(:defendant, scheme: 'scheme 13')]
-      end
+      before { claim.defendants = [create(:defendant, scheme: 'scheme 13')] }
 
       it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded') }
     end
 
     context 'when one defendant of two has a rep order in fee scheme 13' do
-      before do
-        # Stubbing of the ALLOW_FUTURE_DATES environment variable can be
-        # removed after the CLAIR release date
-        allow(ENV).to receive(:fetch).and_call_original
-        allow(ENV).to receive(:fetch).with('ALLOW_FUTURE_DATES', anything).and_return 'true'
-        claim.defendants = [
-          create(:defendant, scheme: 'scheme 12'), create(:defendant, scheme: 'scheme 13')
-        ]
-      end
+      before { claim.defendants = [create(:defendant, scheme: 'scheme 12'), create(:defendant, scheme: 'scheme 13')] }
 
       it { should_not_error(claim, :earliest_representation_order_date) }
     end
 
     context 'when two defendants both have rep orders in fee scheme 13' do
+      before { claim.defendants = [create(:defendant, scheme: 'scheme 13'), create(:defendant, scheme: 'scheme 13')] }
+
+      it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded') }
+    end
+
+    context 'when defendant has a rep order in fee scheme 12 and a CLAIR contingency main hearing date' do
       before do
-        # Stubbing of the ALLOW_FUTURE_DATES environment variable can be
-        # removed after the CLAIR release date
-        allow(ENV).to receive(:fetch).and_call_original
-        allow(ENV).to receive(:fetch).with('ALLOW_FUTURE_DATES', anything).and_return 'true'
-        claim.defendants = [
-          create(:defendant, scheme: 'scheme 13'), create(:defendant, scheme: 'scheme 13')
-        ]
+        claim.defendants = [create(:defendant, scheme: 'scheme 12')]
+        claim.main_hearing_date = Settings.clair_contingency_date
       end
 
       it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded') }
+    end
+
+    context 'when defendant has a rep order in fee scheme 12 and a pre-CLAIR contingency main hearing date' do
+      before do
+        claim.defendants = [create(:defendant, scheme: 'scheme 12')]
+        claim.main_hearing_date = Settings.clair_contingency_date - 1
+      end
+
+      it { should_not_error(claim, :earliest_representation_order_date) }
     end
   end
 

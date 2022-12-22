@@ -139,4 +139,4 @@ Feature: litigator completes fixed fee page using calculator
     And I enter defendant, lgfs scheme 10 representation order and MAAT reference
 
     Then I click "Continue" in the claim form
-    And I should see govuk error summary with 'The representation order date and case type cannot be combined'
+    And I should see govuk error summary with 'The representation order date, main hearing date and case type cannot be combined'

@@ -21,7 +21,7 @@ RSpec.shared_examples 'find LGFS fee schemes' do
 end
 
 RSpec.describe FeeSchemeFactory::LGFS do
-  subject(:factory) { described_class.new(representation_order_date:, main_hearing_date:) }
+  subject(:factory) { described_class.new(**options) }
 
   describe '#call' do
     subject { factory.call }
@@ -29,7 +29,7 @@ RSpec.describe FeeSchemeFactory::LGFS do
     before { seed_fee_schemes }
 
     context 'without a main hearing date' do
-      let(:main_hearing_date) { nil }
+      let(:options) { { representation_order_date: } }
 
       include_examples 'find LGFS fee schemes' do
         let(:rep_order_cutoff_date) { Date.parse('30 September 2022') }
@@ -37,7 +37,7 @@ RSpec.describe FeeSchemeFactory::LGFS do
     end
 
     context 'with a main hearing date before 31 October 2022' do
-      let(:main_hearing_date) { Date.parse('30 October 2022') }
+      let(:options) { { representation_order_date:, main_hearing_date: Date.parse('30 October 2022') } }
 
       include_examples 'find LGFS fee schemes' do
         let(:rep_order_cutoff_date) { Date.parse('30 September 2022') }
@@ -45,7 +45,7 @@ RSpec.describe FeeSchemeFactory::LGFS do
     end
 
     context 'with a main hearing date on 31 October 2022' do
-      let(:main_hearing_date) { Date.parse('31 October 2022') }
+      let(:options) { { representation_order_date:, main_hearing_date: Date.parse('31 October 2022') } }
 
       include_examples 'find LGFS fee schemes' do
         let(:rep_order_cutoff_date) { Date.parse('17 September 2020') }

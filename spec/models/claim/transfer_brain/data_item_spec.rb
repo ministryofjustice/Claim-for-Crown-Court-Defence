@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Claim::TransferBrain::DataItem do
   subject(:data_item) { described_class.new(**data) }
 
+  before { seed_fee_schemes }
+
   describe '#to_h' do
     subject { data_item.to_h }
 
@@ -179,6 +181,12 @@ RSpec.describe Claim::TransferBrain::DataItem do
         it { expect(non_elected_item).to eq test_item }
       end
 
+      context 'with scheme 9a elected case claims' do
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9a: true) }
+
+        it { expect(non_elected_item).to eq test_item }
+      end
+
       context 'with scheme 10 elected case claims' do
         let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_10: true) }
 
@@ -196,6 +204,13 @@ RSpec.describe Claim::TransferBrain::DataItem do
 
         it { expect(elected_item).to eq test_item }
         it { expect(non_elected_item).not_to eq test_item }
+      end
+
+      context 'with scheme 9a elected case claims' do
+        let(:claim) { create(:transfer_claim, create_defendant_and_rep_order_for_scheme_9a: true) }
+
+        it { expect(elected_item).not_to eq test_item }
+        it { expect(non_elected_item).to eq test_item }
       end
 
       context 'with scheme 10 elected case claims' do

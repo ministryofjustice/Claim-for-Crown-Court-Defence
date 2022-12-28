@@ -1,4 +1,4 @@
-FROM ruby:3.1.3-alpine3.17
+FROM ruby:3.2.1-alpine3.17
 MAINTAINER Ministry of Justice, Claim for crown court defence <crowncourtdefence@digital.justice.gov.uk>
 
 # fail early and print all commands

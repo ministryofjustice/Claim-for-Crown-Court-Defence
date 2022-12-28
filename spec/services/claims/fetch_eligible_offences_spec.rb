@@ -3,10 +3,6 @@ require 'rails_helper'
 RSpec.describe Claims::FetchEligibleOffences, type: :service do
   subject(:offences) { described_class.for(claim) }
 
-  before do
-    seed_fee_schemes
-  end
-
   shared_examples_for 'a claim with default offences' do
     context 'when the claim has no associated offence' do
       before do

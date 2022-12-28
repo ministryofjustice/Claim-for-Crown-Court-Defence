@@ -30,8 +30,6 @@ RSpec.describe Claims::FeeCalculator::FeeTypeLimit do
     MIPCM: { from: 1, to: 6 }
   }
 
-  before { seed_fee_schemes }
-
   let(:agfs_scheme_9_claim) do
     create(:draft_claim, create_defendant_and_rep_order_for_scheme_9: true)
   end

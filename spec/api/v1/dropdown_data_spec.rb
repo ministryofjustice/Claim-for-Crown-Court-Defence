@@ -71,7 +71,6 @@ RSpec.describe API::V1::DropdownData do
     end
 
     before do
-      seed_fee_schemes
       seed_case_types
       seed_case_stages
       create_list(:court, 2)
@@ -115,10 +114,6 @@ RSpec.describe API::V1::DropdownData do
     subject(:returned_offences) do
       response = get OFFENCE_ENDPOINT, params
       JSON.parse(response.body, symbolize_names: true)
-    end
-
-    before do
-      seed_fee_schemes
     end
 
     let!(:scheme_9_offence) { create(:offence, :with_fee_scheme_nine) }

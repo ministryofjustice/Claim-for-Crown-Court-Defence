@@ -30,7 +30,6 @@ RSpec.describe Cleaners::AdvocateClaimCleaner do
   before do
     seed_case_types
     seed_fee_types
-    seed_fee_schemes
   end
 
   describe '#call' do

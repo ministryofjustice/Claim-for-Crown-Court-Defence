@@ -165,6 +165,7 @@ RSpec.configure do |config|
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
     FactoryBot.create(:vat_rate, :for_2011_onward)
+    SeedHelpers.seed_fee_schemes
   end
 
   config.after(:suite) do
@@ -178,7 +179,7 @@ RSpec.configure do |config|
 
   config.before do |example|
     DatabaseCleaner.strategy = if example.metadata[:delete]
-                                 [:truncation, { except: ['vat_rates'] }]
+                                 [:truncation, { except: %w[vat_rates fee_schemes] }]
                                else
                                  :transaction
                                end

@@ -37,8 +37,6 @@ RSpec.shared_examples 'a failed price calculation response' do
 end
 
 RSpec.describe ExternalUsers::Fees::PricesController do
-  before(:all) { seed_fee_schemes }
-
   after(:all) { clean_database }
 
   let!(:advocate) { create(:external_user, :advocate) }

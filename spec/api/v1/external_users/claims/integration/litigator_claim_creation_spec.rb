@@ -269,7 +269,6 @@ RSpec.describe 'API claim creation for LGFS' do
   include ApiSpecHelper
 
   before do
-    seed_fee_schemes
     seed_case_types
     seed_fee_types
     seed_expense_types

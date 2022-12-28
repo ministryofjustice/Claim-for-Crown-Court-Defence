@@ -112,8 +112,6 @@ RSpec.describe Claim::AdvocateClaim do
       end
 
       context 'when claim has fee reform scheme' do
-        before { seed_fee_schemes }
-
         let(:claim) { create(:claim, :agfs_scheme_10) }
 
         it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do

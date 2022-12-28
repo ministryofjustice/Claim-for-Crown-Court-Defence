@@ -26,7 +26,6 @@ end
 
 RSpec.shared_examples 'claim with AGFS reform advocate categories' do
   before do
-    seed_fee_schemes
     submit_request
   end
 
@@ -107,7 +106,6 @@ end
 
 RSpec.shared_examples 'claim with pre-AGFS reform advocate categories' do
   before do
-    seed_fee_schemes
     submit_request
   end
 
@@ -131,7 +129,6 @@ RSpec.shared_examples 'claim with pre-AGFS reform advocate categories' do
     subject(:submit_request) { post(endpoint.validate, params:) }
 
     before do
-      seed_fee_schemes
       submit_request
     end
 

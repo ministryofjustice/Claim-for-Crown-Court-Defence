@@ -4,7 +4,6 @@ require_relative 'shared_examples_for_step_validators'
 
 RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
   include_context 'force-validation'
-  include_context 'seed-fee-schemes'
 
   let(:claim) { create(:advocate_hardship_claim) }
 

@@ -7,8 +7,6 @@ RSpec.describe Claim::LitigatorHardshipClaimValidator, type: :validator do
 
   let(:claim) { create(:litigator_hardship_claim, case_type: create(:case_type, :all_roles, is_fixed_fee: false)) }
 
-  before { seed_fee_schemes }
-
   include_examples 'common advocate litigator validations', :litigator, case_type: false
   include_examples 'common litigator validations', :hardship_claim
 

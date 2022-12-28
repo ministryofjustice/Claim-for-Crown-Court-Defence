@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe FeeReform::SearchOffences, type: :service do
-  before do
-    seed_fee_schemes
-  end
-
   let!(:scheme_9_offences) {
     [
       create(:offence, :with_fee_scheme, description: 'Offence 1'),

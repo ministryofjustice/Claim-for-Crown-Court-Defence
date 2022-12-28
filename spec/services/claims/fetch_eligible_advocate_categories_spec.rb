@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
-  before do
-    seed_fee_schemes
-  end
-
   let(:scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone'] }
   let(:scheme_10_advocate_categories) { ['QC', 'Leading junior', 'Junior'] }
   let(:all_advocate_categories) { (scheme_9_advocate_categories + scheme_10_advocate_categories).uniq }

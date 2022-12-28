@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe FeeScheme do
-  before do
-    seed_fee_schemes
-  end
-
   let(:lgfs_scheme_nine) { FeeScheme.find_by(name: 'LGFS', version: 9) }
   let(:lgfs_scheme_ten) { FeeScheme.find_by(name: 'LGFS', version: 10) }
   let(:agfs_scheme_nine) { FeeScheme.find_by(name: 'AGFS', version: 9) }

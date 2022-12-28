@@ -26,8 +26,6 @@ RSpec.describe API::V1::ExternalUsers::Fee do
   let!(:graduated_fee_type) { create(:graduated_fee_type) }
   let!(:transfer_fee_type) { create(:transfer_fee_type) }
 
-  before { seed_fee_schemes }
-
   let!(:claim) { create(:claim, source: 'api').reload }
   let(:valid_params) { { api_key: provider.api_key, claim_id: claim.uuid, fee_type_id: misc_fee_type.id, quantity: 3, rate: 50.00 } }
   let(:json_error_response) { [{ 'error' => 'Type of fee not found by ID or Unique Code' }].to_json }

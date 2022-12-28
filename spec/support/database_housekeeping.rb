@@ -7,7 +7,7 @@ module DatabaseHousekeeping
   # This excludes non application tables (schema_migrations, ar_internal_metadata)
   # we also exclude vat_rates as they are created/destroyed in a before/after(:suite) hook
   def application_tables
-    exclusions = %w[schema_migrations ar_internal_metadata vat_rates]
+    exclusions = %w[schema_migrations ar_internal_metadata vat_rates fee_schemes]
     ActiveRecord::Base.connection.tables.uniq.sort - exclusions
   end
 

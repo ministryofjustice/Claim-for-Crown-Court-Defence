@@ -27,8 +27,6 @@ RSpec.describe FeeSchemeFactory::LGFS do
   describe '#call' do
     subject { factory.call }
 
-    before { seed_fee_schemes }
-
     include_examples 'a fee scheme factory'
 
     context 'without a main hearing date' do

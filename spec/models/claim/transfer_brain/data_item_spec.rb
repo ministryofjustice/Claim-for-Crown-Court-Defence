@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe Claim::TransferBrain::DataItem do
   subject(:data_item) { described_class.new(**data) }
 
-  before { seed_fee_schemes }
-
   describe '#to_h' do
     subject { data_item.to_h }
 

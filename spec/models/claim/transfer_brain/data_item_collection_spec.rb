@@ -63,28 +63,6 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
     end
   end
 
-  describe '#collection_hash' do
-    subject(:collection_hash) { collection.send(:collection_hash) }
-
-    it { is_expected.to be_a Hash }
-    it { is_expected.not_to be_empty }
-
-    it 'assigns deep nested hash with expected keys' do
-      expect(collection_hash.dig('new', true, 10, '*').keys).to include(:validity, :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable)
-    end
-
-    it 'adds one nested hash for each data item' do
-      expect(collection_hash.all_values_for(:validity).size).to eq 33
-    end
-  end
-
-  describe '#to_h' do
-    subject { collection.to_h }
-
-    it { is_expected.to be_a Hash }
-    it { is_expected.to match_hash(data_item_collection_hash) }
-  end
-
   describe '#data_item_for' do
     subject(:data_item) { collection.data_item_for(detail) }
 

@@ -73,10 +73,6 @@ module Claim
       CASE_CONCLUSIONS[detail.case_conclusion_id]
     end
 
-    def self.data_attributes
-      TransferBrain::DataItemCollection.instance.to_json.chomp
-    end
-
     #
     # only new litigators that transfered onto unelected cases at specific stages
     # are required to specify case conclusions.

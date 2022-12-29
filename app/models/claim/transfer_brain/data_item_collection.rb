@@ -18,14 +18,6 @@ module Claim
 
       data_item_delegate :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable
 
-      def to_h
-        collection_hash
-      end
-
-      def to_json(opts = nil)
-        collection_hash.to_json(opts)
-      end
-
       def detail_valid?(detail)
         return false if detail.unpopulated?
         data_item = data_item_for(detail)
@@ -72,12 +64,6 @@ module Claim
 
       def data_items
         @data_items ||= csv.map { |row| TransferBrain::DataItem.new(**row) }
-      end
-
-      def collection_hash
-        @collection_hash ||= data_items.each_with_object({}) do |item, collection_hash|
-          collection_hash.deep_merge!(item.to_h)
-        end
       end
     end
   end

@@ -157,14 +157,6 @@ RSpec.describe Claim::TransferBrain do
     end
   end
 
-  describe '.data_attributes' do
-    subject { described_class.data_attributes }
-
-    it 'returns a JSON representation of the data items collection hash' do
-      is_expected.to be_json_eql(data_item_collection_hash.to_json)
-    end
-  end
-
   describe '.allocation_type' do
     it 'returns a string describing an allocation filtering type' do
       td = transfer_detail('new', true, 10)

@@ -4,8 +4,8 @@ RSpec.describe Claim::AdvocateSupplementaryClaim do
   subject(:claim) { create(:advocate_supplementary_claim) }
 
   it_behaves_like 'a base claim'
+  it_behaves_like 'a claim with a fee scheme factory', FeeSchemeFactory::AGFS
   it_behaves_like 'a claim delegating to case type'
-  it_behaves_like 'an AGFS claim'
   it_behaves_like 'uses claim cleaner', Cleaners::AdvocateSupplementaryClaimCleaner
 
   specify { expect(subject.external_user_type).to eq(:advocate) }

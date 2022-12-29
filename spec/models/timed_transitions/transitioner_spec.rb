@@ -283,7 +283,7 @@ RSpec.describe TimedTransitions::Transitioner do
               @first_defendant_id = claim.defendants.first.id
             end
 
-            it 'destroys all associated records', delete: true do
+            it 'destroys all associated records' do
               check_associations
               described_class.new(claim).run
               expect_claim_and_all_associations_to_be_gone

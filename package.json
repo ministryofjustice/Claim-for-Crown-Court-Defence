@@ -47,7 +47,7 @@
     "jasmine-browser-runner": "^1.2.0",
     "jasmine-core": "^4.5.0",
     "standard": "^17.0.0",
-    "stylelint": "^14.16.0",
+    "stylelint": "^14.16.1",
     "stylelint-config-gds": "^0.2.0",
     "stylelint-order": "^5.0.0",
     "webpack-dev-server": "^4.11.1"

@@ -247,5 +247,9 @@ module Claim
     def graduated_fee_changed?
       graduated_fee&.changed?
     end
+
+    def fee_scheme_factory
+      FeeSchemeFactory::LGFS
+    end
   end
 end

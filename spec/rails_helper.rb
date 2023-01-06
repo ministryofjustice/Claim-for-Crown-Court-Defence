@@ -105,7 +105,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
 
   Shoulda::Matchers.configure do |shoulda_matchers_config|
     shoulda_matchers_config.integrate do |with|
@@ -163,8 +163,10 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
 
   config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
     FactoryBot.create(:vat_rate, :for_2011_onward)
+    SeedHelpers.seed_fee_schemes
   end
 
   config.after(:suite) do
@@ -176,16 +178,7 @@ RSpec.configure do |config|
     VatRate.delete_all
   end
 
-  config.before do |example|
-    DatabaseCleaner.strategy = if example.metadata[:delete]
-                                 [:truncation, { except: ['vat_rates'] }]
-                               else
-                                 :transaction
-                               end
-    DatabaseCleaner.start unless example.metadata[:no_database_cleaner]
-  end
-
-  config.after do |example|
-    DatabaseCleaner.clean unless example.metadata[:no_database_cleaner]
+  config.around do |example|
+    example.metadata[:no_database_cleaner] ? example.run : (DatabaseCleaner.cleaning { example.run })
   end
 end

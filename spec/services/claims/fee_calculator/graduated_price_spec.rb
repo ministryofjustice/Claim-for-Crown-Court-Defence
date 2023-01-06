@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 # IMPORTANT: use specific case type, offence class, fee types and reporder
 # date in order to reduce and afix VCR cassettes required (that have to match
 # on query values), prevent flickering specs (from random offence classes,

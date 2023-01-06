@@ -54,6 +54,7 @@ FactoryBot.define do
 
     transient do
       create_defendant_and_rep_order_for_scheme_9 { false }
+      create_defendant_and_rep_order_for_scheme_9a { false }
       create_defendant_and_rep_order_for_scheme_10 { false }
     end
 
@@ -61,6 +62,10 @@ FactoryBot.define do
       if evaluator.create_defendant_and_rep_order_for_scheme_9
         claim.defendants.clear
         add_defendant_and_reporder(claim, DateTime.parse('2016-04-01'))
+      elsif evaluator.create_defendant_and_rep_order_for_scheme_9a
+        claim.defendants.clear
+        add_defendant_and_reporder(claim, DateTime.parse('2020-09-17'))
+        claim.main_hearing_date = Date.parse('2022-10-31')
       elsif evaluator.create_defendant_and_rep_order_for_scheme_10
         claim.defendants.clear
         add_defendant_and_reporder(claim, Settings.lgfs_scheme_10_clair_release_date)

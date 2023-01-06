@@ -246,5 +246,9 @@ module Claim
     def transfer_fee_changed?
       transfer_fee&.changed?
     end
+
+    def fee_scheme_factory
+      FeeSchemeFactory::LGFS
+    end
   end
 end

@@ -725,8 +725,6 @@ RSpec.describe API::V2::CCRClaim, feature: :injection do
       end
 
       context 'hardship fees' do
-        before { seed_fee_schemes }
-
         let(:claim) { create(:advocate_hardship_claim, :agfs_scheme_9, case_stage: build(:case_stage, :trial_not_concluded)) }
 
         it { is_expected.to be_valid_ccr_claim_json }

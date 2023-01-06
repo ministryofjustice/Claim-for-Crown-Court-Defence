@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 RSpec.shared_examples 'a successful daily attendance fee calculation' do
   context 'daily attendance fees' do
     context 'scheme 9' do
@@ -286,10 +288,6 @@ RSpec.describe Claims::FeeCalculator::UnitPrice, :fee_calc_vcr do
   let(:claim) { build(:draft_claim) }
 
   it { is_expected.to respond_to(:call) }
-
-  before(:all) { seed_fee_schemes }
-
-  after(:all) { clean_database }
 
   context 'AGFS claims' do
     describe '#call' do

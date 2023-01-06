@@ -119,5 +119,9 @@ module Claim
     def cleaner
       Cleaners::LitigatorHardshipClaimCleaner.new(self)
     end
+
+    def fee_scheme_factory
+      FeeSchemeFactory::LGFS
+    end
   end
 end

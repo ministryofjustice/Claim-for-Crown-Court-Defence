@@ -106,14 +106,6 @@ RSpec.shared_examples 'advocate claim supplier number' do
   end
 end
 
-# rubocop:disable RSpec/BeforeAfterAll
-RSpec.shared_context 'seed-fee-schemes' do
-  before(:all) { seed_fee_schemes }
-
-  after(:all) { clean_database }
-end
-# rubocop:enable RSpec/BeforeAfterAll
-
 RSpec.shared_examples 'common defendant uplift fees aggregation validation' do
   let(:midtw) { create(:misc_fee_type, :midtw) }
   let(:midse) { create(:misc_fee_type, :midse) }

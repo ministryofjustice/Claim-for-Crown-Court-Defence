@@ -17,7 +17,6 @@ class FeeScheme < ApplicationRecord
   scope :eleven, -> { where(version: FeeScheme::ELEVEN) }
   scope :twelve, -> { where(version: FeeScheme::TWELVE) }
   scope :thirteen, -> { where(version: FeeScheme::THIRTEEN) }
-  scope :for, ->(check_date) { where(start_date: ..check_date, end_date: [nil, check_date..]) }
 
   def agfs?
     name.eql?('AGFS')
@@ -41,15 +40,5 @@ class FeeScheme < ApplicationRecord
 
   def agfs_scheme_13?
     agfs? && version.eql?(13)
-  end
-
-  def self.for_claim(claim)
-    date = claim.earliest_representation_order&.representation_order_date
-    scheme = claim.agfs? ? 'AGFS' : 'LGFS'
-    if date.present?
-      FeeScheme.for(date).find_by(name: scheme)
-    elsif claim.offence.present?
-      claim.offence.fee_schemes.find_by(name: scheme)
-    end
   end
 end

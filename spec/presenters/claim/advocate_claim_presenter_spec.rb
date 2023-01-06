@@ -23,8 +23,6 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
   describe '#requires_interim_claim_info?' do
     subject { presenter.requires_interim_claim_info? }
 
-    before { seed_fee_schemes }
-
     context 'when claim is pre agfs reform' do
       let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
 

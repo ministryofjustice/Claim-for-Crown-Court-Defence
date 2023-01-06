@@ -75,9 +75,11 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
 end
 
 RSpec.describe Claim::AdvocateHardshipClaim do
-  let(:claim) { build(:advocate_hardship_claim) }
+  subject(:claim) { build(:advocate_hardship_claim) }
 
   it_behaves_like 'a base claim'
+  it_behaves_like 'a claim with a fee scheme factory', FeeSchemeFactory::AGFS
+  it_behaves_like 'a claim delegating to case type'
   it_behaves_like 'uses claim cleaner', Cleaners::AdvocateHardshipClaimCleaner
 
   specify { expect(subject.agfs?).to be_truthy }

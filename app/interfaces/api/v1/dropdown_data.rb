@@ -94,10 +94,10 @@ module API
                      desc: I18n.t('api.v1.dropdown_data.offences.params.unique_code')
           end
           get do
-            scheme_date = params[:rep_order_date] || '2016-04-01'
+            scheme_date = Date.parse(params[:rep_order_date])
             description = params[:offence_description]
             unique_code = params[:unique_code]
-            offences = scheme_date.present? ? FeeScheme.agfs.for(scheme_date).last.offences : Offence.all
+            offences = FeeSchemeFactory::AGFS.call(representation_order_date: scheme_date).offences
             offences = offences.where(description:) if description.present?
             offences = offences.where(unique_code:) if unique_code.present?
 

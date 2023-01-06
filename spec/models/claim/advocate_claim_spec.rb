@@ -4,6 +4,8 @@ RSpec.describe Claim::AdvocateClaim do
   subject(:claim) { create(:advocate_claim) }
 
   it_behaves_like 'a base claim'
+  it_behaves_like 'a claim with a fee scheme factory', FeeSchemeFactory::AGFS
+  it_behaves_like 'a claim delegating to case type'
   it_behaves_like 'uses claim cleaner', Cleaners::AdvocateClaimCleaner
 
   it { is_expected.to delegate_method(:requires_cracked_dates?).to(:case_type) }
@@ -110,8 +112,6 @@ RSpec.describe Claim::AdvocateClaim do
       end
 
       context 'when claim has fee reform scheme' do
-        before { seed_fee_schemes }
-
         let(:claim) { create(:claim, :agfs_scheme_10) }
 
         it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do

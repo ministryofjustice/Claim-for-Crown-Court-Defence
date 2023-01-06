@@ -571,7 +571,12 @@ module Claim
     end
 
     def fee_scheme
-      @fee_scheme ||= FeeScheme.for_claim(self)
+      return offence&.fee_schemes&.find_by(name: agfs? ? 'AGFS' : 'LGFS') if earliest_representation_order_date.nil?
+
+      @fee_scheme ||= fee_scheme_factory.call(
+        representation_order_date: earliest_representation_order_date,
+        main_hearing_date:
+      )
     end
 
     def eligible_document_types

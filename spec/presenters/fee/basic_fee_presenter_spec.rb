@@ -5,8 +5,6 @@ RSpec.describe Fee::BasicFeePresenter, type: :presenter do
   let(:claim_9) { create(:advocate_claim, :agfs_scheme_9) }
   let(:fee) { build(:basic_fee, claim:) }
 
-  before { seed_fee_schemes }
-
   subject(:presenter) { described_class.new(fee, view) }
 
   describe '#display_amount?' do

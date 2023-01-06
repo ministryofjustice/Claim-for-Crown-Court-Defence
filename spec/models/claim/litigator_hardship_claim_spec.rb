@@ -2,9 +2,11 @@ require 'rails_helper'
 require_relative 'shared_examples_for_lgfs_claim'
 
 RSpec.describe Claim::LitigatorHardshipClaim do
-  let(:claim) { build(:litigator_hardship_claim) }
+  subject(:claim) { build(:litigator_hardship_claim) }
 
   it_behaves_like 'a base claim'
+  it_behaves_like 'a claim with a fee scheme factory', FeeSchemeFactory::LGFS
+  it_behaves_like 'a claim delegating to case type'
   it_behaves_like 'uses claim cleaner', Cleaners::LitigatorHardshipClaimCleaner
 
   specify { expect(subject.lgfs?).to be_truthy }

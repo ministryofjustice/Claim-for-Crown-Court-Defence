@@ -59,15 +59,14 @@ module Claim
         true
       end
 
-      def fee_scheme
-        @fee_scheme ||=
-          claim && claim.earliest_representation_order_date >= Settings.lgfs_scheme_10_clair_release_date ? 10 : 9
+      def fee_scheme_version
+        @fee_scheme_version ||= claim&.fee_scheme&.version
       end
 
       private
 
       def equal_for_scheme_nine(other)
-        return true unless other.fee_scheme == 9
+        return true unless other.fee_scheme_version == 9
         return false unless elected_case == other.elected_case
         return false unless elected_case || conclusion == other.conclusion
 
@@ -75,7 +74,7 @@ module Claim
       end
 
       def equal_for_scheme_ten(other)
-        return true unless other.fee_scheme == 10
+        return true unless other.fee_scheme_version == 10
         return false if elected_case
 
         if other.elected_case

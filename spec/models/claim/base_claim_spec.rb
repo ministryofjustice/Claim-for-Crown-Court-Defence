@@ -686,16 +686,6 @@ RSpec.describe MockBaseClaim do
     end
   end
 
-  describe '#fee_scheme' do
-    let(:claim) { described_class.new }
-    let(:mock_fee_scheme) { instance_double(FeeScheme) }
-
-    specify {
-      expect(FeeScheme).to receive(:for_claim).with(claim).and_return(mock_fee_scheme)
-      expect(claim.fee_scheme).to eq(mock_fee_scheme)
-    }
-  end
-
   describe '#agfs_reform?' do
     let(:claim) { described_class.new }
 

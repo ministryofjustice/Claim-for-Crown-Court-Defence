@@ -27,7 +27,7 @@
   - if display_main_hearing_date_flag?(@claim)
     = f.govuk_date_field :main_hearing_date,
       form_group: { id: 'main_hearing_date' },
-      hint: { text: t('.main_hearing_date_hint') },
+      hint: { text: t('.main_hearing_date_hint_html') },
       legend: { text: t('.main_hearing_date'), size: 's' },
       maxlength_enabled: true
 

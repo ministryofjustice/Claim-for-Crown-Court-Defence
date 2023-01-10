@@ -30,6 +30,9 @@ class Message < ApplicationRecord
               application/msword
               application/vnd.openxmlformats-officedocument.wordprocessingml.document
               application/vnd.oasis.opendocument.text
+              application/vnd.ms-excel
+              application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+              application/vnd.oasis.opendocument.spreadsheet
               text/rtf
               application/rtf
               image/jpeg

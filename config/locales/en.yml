@@ -2042,7 +2042,7 @@ en:
       upload: "+ Upload"
       message_placeholder: Enter a message
       send: *send
-      accepted_files_help_text: "Files accepted: pdf, doc, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
+      accepted_files_help_text: "Files accepted: pdf, doc, docx, xls, xlsx, rtf, jpeg, png, tiff, bmp: (Max file upload 20MB)"
       remove_file_html: Remove <span class="govuk-visually-hidden filename"></span>
       remove: Remove
       written_reasons_heading: Written reasons

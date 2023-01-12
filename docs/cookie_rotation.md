@@ -37,14 +37,10 @@ To rotate the `secret_key_base` without inconveniencing users you must:
    add the current secret to that and modify the existing
    SECRET_KEY_BASE to hold the new secret.
 
-   Note: secret env vars are kept in `.k8s/<context>/<environment>/secrets.yaml`
-   , where `environment` can be dev, staging, production or
-   any other "namespace".
+   Note: secret env vars are kept in Kubernetes Secrets on the cluster
+   They can be viewed by running `kubectl -n <namespace> get secrets cccd-secrets -o json`.
 
-4. Deploy the application, ensuring the new secrets
-   are applied first. The `.k8s/<context>/scripts/deploy.sh`
-   or `.circleci/deploy.sh` scripts will apply the secrets
-   before the image, thereby ensuring this.
+4. Deploy the application, manually [updating](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/deploying-an-app/add-secrets-to-deployment.html#adding-a-secret-to-an-application) the Secrets in the cluster first. 
 
 5. Leave the rotation in place for x, where x is however
    long (days?!) we think it will take the majority of

@@ -131,7 +131,7 @@ $ bundle exec rake db:dump:run_job['dev']
 $ bundle exec rake db:dump:run_job['dev','my-branch-latest']
 ```
 
-This task requires you have kubectl installed locally and access to git-crypted secrets.
+This task requires you have kubectl installed locally.
 
 This will create a `private` dump file in the host environments s3 bucket and list all such dumps at the end. If the log tailing times out (it will on production currently) then you will need to list the dump files using:
 

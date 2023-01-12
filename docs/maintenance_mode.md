@@ -26,7 +26,7 @@ To apply via circleCI:
 
 To apply via local machine:
 
-- you will need all relevant aws credentials and git-crypted secrets access
+- you will need all relevant aws credentials
 - amend `deployment.yaml`, as above, and run the deploy script, as below.
 - to take site out of maintenance amend `MAINTENANCE_MODE` to `'false'` and run the deploy script again.
 

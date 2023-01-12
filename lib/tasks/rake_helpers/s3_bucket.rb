@@ -45,7 +45,7 @@ class S3Bucket
   private
 
   # For remote we can just use Settings file, for local we need to use specified host
-  # secrets, which requires kubectl and git-crypt access.
+  # secrets, which requires kubectl.
   def credentials
     return @credentials if @credentials
 

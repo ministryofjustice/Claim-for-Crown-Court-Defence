@@ -63,7 +63,6 @@ function _job() {
   kubectl delete job $job_name
 
   # apply common config
-  kubectl apply -f .k8s/${context}/${environment}/secrets.yaml
   kubectl apply -f .k8s/${context}/${environment}/app-config.yaml
 
   # apply image

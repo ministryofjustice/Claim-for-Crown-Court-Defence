@@ -46,6 +46,12 @@ spec:
                   value: "on"
             initialDelaySeconds: 30
             periodSeconds: 60
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
 
           # configMapRef: non-secret env vars defined in `app-config.yaml`
           # secretRef: secret env vars defined by app secrets

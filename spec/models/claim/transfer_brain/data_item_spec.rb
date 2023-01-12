@@ -3,52 +3,6 @@ require 'rails_helper'
 RSpec.describe Claim::TransferBrain::DataItem do
   subject(:data_item) { described_class.new(**data) }
 
-  describe '#to_h' do
-    subject { data_item.to_h }
-
-    let(:data) do
-      {
-        litigator_type: 'NEW',
-        elected_case: 'FALSE',
-        transfer_stage: 'Up to and including PCMH transfer',
-        conclusion: 'Guilty plea',
-        valid: 'TRUE',
-        transfer_fee_full_name: 'up to and including PCMH transfer (new) - guilty plea',
-        allocation_type: 'Grad',
-        bill_scenario: 'ST3TS1T2',
-        ppe_required: 'FALSE',
-        days_claimable: 'FALSE'
-      }
-    end
-
-    let(:expected_hash) do
-      {
-        'new' => {
-          false => {
-            10 => {
-              50 => {
-                validity: true,
-                transfer_fee_full_name: 'up to and including PCMH transfer (new) - guilty plea',
-                allocation_type: 'Grad',
-                bill_scenario: 'ST3TS1T2',
-                ppe_required: 'FALSE',
-                days_claimable: 'FALSE'
-              }
-            }
-          }
-        }
-      }
-    end
-
-    it 'returns a hash' do
-      is_expected.to be_a(Hash)
-    end
-
-    it 'returns expected nested key value pairs' do
-      is_expected.to eql expected_hash
-    end
-  end
-
   describe '#litigator_type' do
     subject { data_item.litigator_type }
 

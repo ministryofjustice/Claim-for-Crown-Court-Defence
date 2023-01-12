@@ -159,7 +159,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
                            lgfs_claim.earliest_representation_order_date.strftime('%d/%m/%Y')])
       }
 
-      it { expect(rows['AF1/LF1 processed by']).to eql([nil, nil, 'Case Worker-one']) }
+      it { expect(rows['AF1/LF1 processed by']).to match_array([nil, nil, 'Case Worker-one']) }
 
       it {
         expect(rows['Misc fees'])

@@ -7,25 +7,6 @@ module Claim
       attr_accessor :transfer_fee_full_name, :allocation_type, :bill_scenario, :ppe_required, :days_claimable,
                     :transfer_stage_id, :case_conclusion_id, :validity, :claim
 
-      def to_h
-        {
-          litigator_type => {
-            elected_case => {
-              transfer_stage_id => {
-                case_conclusion_id => {
-                  validity:,
-                  transfer_fee_full_name:,
-                  allocation_type:,
-                  bill_scenario:,
-                  ppe_required:,
-                  days_claimable:
-                }
-              }
-            }
-          }
-        }
-      end
-
       def litigator_type=(value)
         @litigator_type = value&.downcase
       end

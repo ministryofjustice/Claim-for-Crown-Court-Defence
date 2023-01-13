@@ -15,7 +15,6 @@ function _circleci_deploy() {
   trap 'echo command at lineno $LINENO completed with exit code $?.' EXIT
 
   if [[ -z "${ECR_ENDPOINT}" ]] || \
-      [[ -z "${GIT_CRYPT_KEY}" ]] || \
       [[ -z "${AWS_DEFAULT_REGION}" ]] || \
       [[ -z "${GITHUB_TEAM_NAME_SLUG}" ]] || \
       [[ -z "${REPO_NAME}" ]] || \
@@ -60,10 +59,6 @@ function _circleci_deploy() {
   kubectl config use-context ${K8S_CLUSTER_NAME}
   kubectl --namespace=${K8S_NAMESPACE} get pods
 
-  # Unlock git-crypted secrets
-  echo "${GIT_CRYPT_KEY}" | base64 -d > git-crypt.key
-  git-crypt unlock git-crypt.key
-
   # apply
   printf "\e[33m--------------------------------------------------\e[0m\n"
   printf "\e[33mEnvironment: $environment\e[0m\n"
@@ -74,7 +69,6 @@ function _circleci_deploy() {
   docker_image_tag=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}
 
   # apply common config
-  kubectl apply -f .k8s/${cluster_dir}/${environment}/secrets.yaml
   kubectl apply -f .k8s/${cluster_dir}/${environment}/app-config.yaml
 
   # apply new image

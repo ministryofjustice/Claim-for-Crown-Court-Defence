@@ -10,7 +10,7 @@ namespace :db do
   namespace :dump do
     desc <<~ldesc
     Run dump file job from local machine
-      * requires kubectl and access to git-crypted secrets
+      * requires kubectl
       Usage:
       # runs dump job against staging using latest master branch build
       rake db:dump:run_job['staging']

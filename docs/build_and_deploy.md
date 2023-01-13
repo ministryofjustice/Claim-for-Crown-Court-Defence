@@ -45,6 +45,32 @@ Environment specific configuration and secrets are handled by environment variab
 - Secret app configuration
 - Secret infrastructure configuration
 
+
+##### Secret management
+
+Secrets should not be kept in this repository. In the past `git-crypt` has been used to encrypt secrets within the repo however due to the difficulty of rotating the symmetric key used for encryption following a security breach, this approach has now been deprecated.
+
+Secrets are held as Kubernetes Secret objects in the cluster. These can be accessed by executing
+
+```bash
+kubectl -n cccd-<env> get secrets
+```
+
+when authenticated to the cluster to view a list of all secrets.
+
+To view the contents of a Secret, execute:
+
+```bash
+kubectl -n cccd-<env> get secrets <secret-name> -o json
+```
+
+For more details on how to add or update Kubernetes Secrets, see the [Cloud Platform documentation](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/deploying-an-app/add-secrets-to-deployment.html#adding-a-secret-to-an-application).
+
+Secrets are also held securely in a password management service. This provides redundancy in the event that a Kubernetes Secret is deleted from the cluster; it can be recreated using the data held in the backup.
+
+There is no automatic syncing of secrets between these backups and Kubernetes. If secret data is added or changed in one, it must be manually reflected in the other. Please refer to this [Confluence document](https://dsdmoj.atlassian.net/wiki/spaces/CFP/pages/4273504650/Secrets+Strategy+Post+Git-Crypt#Where-We-Are-Storing-Secrets-Now) document for more information.
+
+
 ##### Non-secret app configuration
 These are handled via sharable k8s [ConfigMaps](https://kubernetes.io/docs/concepts/configuration/configmap/) and then shared between relevant deployment files (app and worker) using the `envFrom` field with `configMapRef`.
 
@@ -67,8 +93,7 @@ You will also need to restart the pod to pickup the changes.
 
 
 ##### Secret app configuration
-Siimilar to ConfigMaps, these are handled via sharable k8s [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) and then shared between relevant deployment files (app and worker) using the `envFrom` field with `secretRef`.
-
+Similar to ConfigMaps, these are handled via sharable k8s [Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) and then shared between relevant deployment files (app and worker) using the `envFrom` field with `secretRef`.
 
 ```
 # deployment.yaml - example reference for a secret
@@ -78,10 +103,10 @@ envFrom:
 ```
 An environment variable will be created with the name and value defined in the secrets file.
 
-To add, remove or amend a secret you need to edit the secret file, `secrets.yaml`, and apply it. You will need to be added as a git-crypt collaborator for this.
+To add, remove or amend a secret you need to create a secret file and apply it.
 
 ```
-kubetcl -n cccd-dev apply -f .k8s/<context>/dev/secrets.yaml
+kubetcl -n cccd-dev apply -f <secret_file>
 ```
 
 You will also need to restart the pod to pickup the changes.

@@ -64,7 +64,6 @@ function _deploy() {
   kubectl config use-context ${context}
 
   # apply common config
-  kubectl apply -f .k8s/${context}/${environment}/secrets.yaml
   kubectl apply -f .k8s/${context}/${environment}/app-config.yaml
 
   # apply new image

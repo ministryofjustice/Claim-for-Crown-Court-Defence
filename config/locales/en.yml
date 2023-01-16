@@ -2606,6 +2606,7 @@ en:
           params:
             description: 'OPTIONAL: Filter by offence description'
             rep_order_date: 'OPTIONAL: Filter by scheme date based on representation order - format YYYY-MM-DD. Default: date suitable for oldest available AGFS and LGFS fee schemes'
+            main_hearing_date: 'OPTIONAL: Filter by main hearing date - format YYYY-MM-DD.'
             unique_code: 'OPTIONAL: Filter by offence unique code'
         params:
           role_filter: 'OPTIONAL: The role to filter the results. If not provided, all results are returned.'

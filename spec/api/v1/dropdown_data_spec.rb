@@ -170,6 +170,36 @@ RSpec.describe API::V1::DropdownData do
             is_expected.to match_array([exposed_offence[scheme_13_offence]])
           end
         end
+
+        context 'with a rep order between 17/09/22 and 20/09/22; no main hearing date' do
+          before { params[:rep_order_date] = '2022-09-29' }
+
+          it 'returns scheme 12 offences' do
+            is_expected.to match_array([exposed_offence[scheme_12_offence]])
+          end
+        end
+
+        context 'with a rep order between 17/09/20 and 20/09/22; main hearing date before 31/10/22' do
+          before do
+            params[:rep_order_date] = '2022-09-29'
+            params[:main_hearing_date] = '2022-10-30'
+          end
+
+          it 'returns scheme 12 offences' do
+            is_expected.to match_array([exposed_offence[scheme_12_offence]])
+          end
+        end
+
+        context 'with a rep order between 17/09/20 and 20/09/22; main hearing date on or after 31/10/22' do
+          before do
+            params[:rep_order_date] = '2022-09-29'
+            params[:main_hearing_date] = '2022-10-31'
+          end
+
+          it 'returns scheme 12 offences' do
+            is_expected.to match_array([exposed_offence[scheme_13_offence]])
+          end
+        end
       end
 
       context 'by description' do

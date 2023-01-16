@@ -119,32 +119,55 @@ RSpec.describe API::V1::DropdownData do
     let!(:scheme_9_offence) { create(:offence, :with_fee_scheme_nine) }
     let!(:scheme_10_offence) { create(:offence, :with_fee_scheme_ten) }
     let!(:scheme_11_offence) { create(:offence, :with_fee_scheme_eleven) }
+    let!(:scheme_12_offence) { create(:offence, :with_fee_scheme_twelve) }
+    let!(:scheme_13_offence) { create(:offence, :with_fee_scheme_thirteen) }
     let(:exposed_offence) { ->(offence) { API::Entities::Offence.represent(offence).as_json } }
 
-    context 'filtering' do
-      context 'by rep order date' do
-        context 'using a scheme 9 date' do
+    context 'when filtering' do
+      context 'with rep order and main hearing dates' do
+        context 'with no dates' do
           it 'defaults to scheme 9 offences' do
-            is_expected.to match_array([exposed_offence[scheme_9_offence]])
-          end
-
-          it 'returns scheme 9 offences' do
-            params[:rep_order_date] = '2016-03-01'
             is_expected.to match_array([exposed_offence[scheme_9_offence]])
           end
         end
 
-        context 'using a scheme 10 date' do
+        context 'with a scheme 9 rep order data and no main hearing date' do
+          before { params[:rep_order_date] = '2016-03-01' }
+
+          it 'returns scheme 9 offences' do
+            is_expected.to match_array([exposed_offence[scheme_9_offence]])
+          end
+        end
+
+        context 'with a scheme 10 rep order data and no main hearing date' do
+          before { params[:rep_order_date] = '2018-04-01' }
+
           it 'returns scheme 10 offences' do
-            params[:rep_order_date] = '2018-04-01'
             is_expected.to match_array([exposed_offence[scheme_10_offence]])
           end
         end
 
-        context 'using a scheme 11 date' do
+        context 'with a scheme 11 rep order data and no main hearing date' do
+          before { params[:rep_order_date] = '2018-12-31' }
+
           it 'returns scheme 11 offences' do
-            params[:rep_order_date] = '2018-12-31'
             is_expected.to match_array([exposed_offence[scheme_11_offence]])
+          end
+        end
+
+        context 'with a scheme 12 rep order data and no main hearing date' do
+          before { params[:rep_order_date] = '2020-09-17' }
+
+          it 'returns scheme 12 offences' do
+            is_expected.to match_array([exposed_offence[scheme_12_offence]])
+          end
+        end
+
+        context 'with a scheme 13 rep order data and no main hearing date' do
+          before { params[:rep_order_date] = '2022-09-30' }
+
+          it 'returns scheme 13 offences' do
+            is_expected.to match_array([exposed_offence[scheme_13_offence]])
           end
         end
       end

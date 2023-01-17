@@ -89,6 +89,10 @@ module API
                      default: '2016-04-01',
                      desc: I18n.t('api.v1.dropdown_data.offences.params.rep_order_date'),
                      standard_json_format: true
+            optional :main_hearing_date,
+                     type: String,
+                     desc: I18n.t('api.v1.dropdown_data.offences.params.main_hearing_date'),
+                     standard_json_format: true
             optional :unique_code,
                      type: String,
                      desc: I18n.t('api.v1.dropdown_data.offences.params.unique_code')
@@ -97,7 +101,10 @@ module API
             scheme_date = Date.parse(params[:rep_order_date])
             description = params[:offence_description]
             unique_code = params[:unique_code]
-            offences = FeeSchemeFactory::AGFS.call(representation_order_date: scheme_date).offences
+            offences = FeeSchemeFactory::AGFS.call(
+              representation_order_date: scheme_date,
+              main_hearing_date: params[:main_hearing_date]
+            ).offences
             offences = offences.where(description:) if description.present?
             offences = offences.where(unique_code:) if unique_code.present?
 

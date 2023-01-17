@@ -104,7 +104,7 @@ module API
             offences = FeeSchemeFactory::AGFS.call(
               representation_order_date: scheme_date,
               main_hearing_date: params[:main_hearing_date]
-            ).offences.includes(:fee_schemes)
+            ).offences.includes(:fee_schemes, :offence_band, :offence_class)
             offences = offences.where(description:) if description.present?
             offences = offences.where(unique_code:) if unique_code.present?
 

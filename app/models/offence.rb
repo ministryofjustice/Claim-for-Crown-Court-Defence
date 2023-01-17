@@ -90,6 +90,6 @@ class Offence < ApplicationRecord
   end
 
   def post_agfs_reform?
-    fee_schemes.agfs.map(&:version).any? { |s| s > FeeScheme::NINE }
+    fee_schemes.any? { |fs| fs.name == 'AGFS' && fs.version > FeeScheme::NINE }
   end
 end

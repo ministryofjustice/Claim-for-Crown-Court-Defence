@@ -43,6 +43,15 @@ module AdvocateDefencePayments
     config.autoloader = :classic
     config.action_mailer.deliver_later_queue_name = :mailers
     config.active_record.belongs_to_required_by_default = false
+    config.active_record.yaml_column_permitted_classes = [
+      ::ActiveRecord::Type::Time::Value,
+      ::ActiveSupport::TimeWithZone,
+      ::ActiveSupport::TimeZone,
+      ::BigDecimal,
+      ::Date,
+      ::Symbol,
+      ::Time
+    ]
     config.active_storage.queues.analysis = :active_storage_analysis
     config.active_storage.queues.purge = :active_storage_purge
 

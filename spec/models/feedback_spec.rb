@@ -123,7 +123,8 @@ RSpec.describe Feedback do
         end
       end
 
-      context 'when a notification is sent to slack' do
+      context 'when slack notifications are enabled' do
+        let(:ticket) { instance_double(ZendeskAPI::Ticket) }
         let(:notifier) { instance_double(SlackNotifier) }
         let(:notifier_args) do
           {
@@ -134,9 +135,13 @@ RSpec.describe Feedback do
         end
 
         before do
+          allow(Settings).to receive(:slack_bug_reports_enabled?).and_return true
+          allow(ZendeskAPI::Ticket).to receive(:create!).and_return(ticket)
+          allow(ZendeskSender).to receive(:send!)
           allow(SlackNotifier).to receive(:new).and_return(notifier)
           allow(notifier).to receive(:build_payload)
           allow(notifier).to receive(:send_message)
+
           bug_report.save
         end
 

@@ -38,7 +38,7 @@ class Feedback
     return unless valid?
     return save_feedback if feedback?
     save_bug_report
-    send_bug_report_to_slack
+    send_bug_report_to_slack if Settings.slack_bug_reports_enabled?
   end
 
   def subject

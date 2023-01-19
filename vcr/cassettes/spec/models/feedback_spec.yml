@@ -1,0 +1,68 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://ministryofjustice.zendesk.com/api/v2/tickets
+    body:
+      encoding: UTF-8
+      string: '{"ticket":{"subject":"Bug report (test)","description":"case_number:
+        XXX - event: lorem - outcome: ipsum - email: example@example.com","custom_fields":[{"id":"26047167","value":"/index"},{"id":"23757677","value":"advocate_defence_payments"},{"id":"23791776","value":"Firefox"},{"id":"32342378","value":"test"}],"comment":null}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - ZendeskAPI Ruby 1.37.0
+      Authorization:
+      - Basic Og==
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Thu, 19 Jan 2023 23:42:37 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '37'
+      Connection:
+      - keep-alive
+      Www-Authenticate:
+      - Basic realm="Web Password"
+      Strict-Transport-Security:
+      - max-age=31536000;
+      Cache-Control:
+      - no-cache
+      X-Zendesk-Origin-Server:
+      - classic-app-server-c4cf47859-8ndct
+      Set-Cookie:
+      - __cfruid=5861e1b4b8b6837520d0fe326eeb57a48320932c-1674171757; path=/; domain=.ministryofjustice.zendesk.com;
+        HttpOnly; Secure; SameSite=None
+      - _zendesk_cookie=BAhJIhl7ImRldmljZV90b2tlbnMiOnt9fQY6BkVU--459ed01949a36415c1716b5711271c3d08918307;
+        path=/; expires=Fri, 19 Jan 2024 21:35:54 GMT; secure; HttpOnly; SameSite=None
+      X-Request-Id:
+      - 78c36d8b9c1176bf-LHR
+      - 78c36d8b9c1176bf-LHR
+      X-Runtime:
+      - '0.039791'
+      X-Zendesk-Zorg:
+      - 'yes'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=nL4Mb5zavuhF6AorZ4gZSdx%2BPiRlaXt3PU9deWAYVqqa%2BEobKWyi6ci0sDtREtoSyOPosLK2KWRZSBfGdLNOfgi3k9rK3joAWD0mmXInKYabu3U%2FrasheYpHhB%2BIL4nJttd%2FyrGwYA%2Fss4xOwvkW"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 78c36d8b9c1176bf-LHR
+    body:
+      encoding: UTF-8
+      string: '{"error":"Couldn''t authenticate you"}'
+  recorded_at: Thu, 19 Jan 2023 23:42:37 GMT
+recorded_with: VCR 6.1.0

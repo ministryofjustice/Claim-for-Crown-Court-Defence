@@ -38,6 +38,7 @@ class Feedback
     return unless valid?
     return save_feedback if feedback?
     save_bug_report
+    send_bug_report_to_slack
   end
 
   def subject
@@ -73,5 +74,13 @@ class Feedback
 
   def feedback_type_attributes
     FEEDBACK_TYPES[type.to_sym]
+  end
+
+  def send_bug_report_to_slack
+    slack_notifier = SlackNotifier.new('laa-cccd-alerts',
+                                       formatter: SlackNotifier::Formatter::Generic.new,
+                                       slack_bot_name: 'Zendesk Notifier')
+    slack_notifier.build_payload(icon: ':zen:', title: subject, message: description)
+    slack_notifier.send_message
   end
 end

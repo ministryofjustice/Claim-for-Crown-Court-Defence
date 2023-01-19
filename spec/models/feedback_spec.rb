@@ -122,6 +122,36 @@ RSpec.describe Feedback do
           expect(LogStuff).to have_received(:error).with(class: described_class.to_s, action: 'save', error_class: 'ZendeskAPI::Error::ClientError', error: 'oops, something went wrong')
         end
       end
+
+      context 'when a notification is sent to slack' do
+        let(:notifier) { instance_double(SlackNotifier) }
+        let(:notifier_args) do
+          {
+            icon: ':zen:',
+            title: 'Bug report (test)',
+            message: 'case_number: XXX - event: lorem - outcome: ipsum - email: example@example.com'
+          }
+        end
+
+        before do
+          allow(SlackNotifier).to receive(:new).and_return(notifier)
+          allow(notifier).to receive(:build_payload)
+          allow(notifier).to receive(:send_message)
+          bug_report.save
+        end
+
+        it 'creates a new SlackNotifier' do
+          expect(SlackNotifier).to have_received(:new)
+        end
+
+        it 'builds the payload with the notifier arguments' do
+          expect(notifier).to have_received(:build_payload).with(**notifier_args)
+        end
+
+        it 'sends the message with the notifier' do
+          expect(notifier).to have_received(:send_message)
+        end
+      end
     end
 
     describe '#subject' do

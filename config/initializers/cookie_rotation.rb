@@ -17,11 +17,16 @@ Rails.application.configure do
   # but it is to line up with the config below.
   config.action_dispatch.use_authenticated_cookie_encryption = true
 
-  # From:
+  # Originally from:
   # https://www.gitmemory.com/issue/rails/rails/39964/668147345
+  # This page has disappeared but it may have been a reference to:
+  # https://github.com/rails/rails/issues/39964
+  # The official documentation for rotating the cookies, with respect to
+  # upgrading to Rails 7:
+  # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html#key-generator-digest-class-changing-to-use-sha256
   # --------------------------------------------------------------------------------
   config.action_dispatch.cookies_rotations.tap do |cookies|
-    salt = config.action_dispatch.encrypted_cookie_salt
+    salt = config.action_dispatch.authenticated_encrypted_cookie_salt
     signed_salt = config.action_dispatch.encrypted_signed_cookie_salt
     cipher = config.action_dispatch.encrypted_cookie_cipher || 'aes-256-gcm'
 

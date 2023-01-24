@@ -21,6 +21,12 @@ spec:
           - name: cronjob-worker
             image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:app-latest
             imagePullPolicy: Always
+            securityContext:
+              capabilities:
+                drop:
+                - ALL
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false           
             command:
               - rails
               - db:vacuum

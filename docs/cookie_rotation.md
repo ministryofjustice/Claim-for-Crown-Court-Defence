@@ -28,7 +28,7 @@ To rotate the `secret_key_base` without inconveniencing users you must:
      secret_key_base: my-new-local-secret-key-base-secret
    ....
    production:
-     old_secret_key_base: ENV["OLD_SECRET_KEY_BASE"]
+     old_secret_key_base: <%= ENV["OLD_SECRET_KEY_BASE"] %>
      secret_key_base: <%= ENV["SECRET_KEY_BASE"] %>
    ```
 

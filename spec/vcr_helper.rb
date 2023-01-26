@@ -56,7 +56,6 @@ VCR.configure do |c|
 
   # replace sensitive data in cassettes with placeholder and apply secrets on the fly
   c.filter_sensitive_data('<GOOGLE_API_KEY>') { Rails.application.secrets.google_api_key }
-  c.filter_sensitive_data('<CURRENCY_API_KEY>') { Rails.application.secrets.currency_api_key }
   c.filter_sensitive_data('<SURVEY_MONKEY_BEARER_TOKEN>') { Rails.application.secrets.survey_monkey_bearer_token }
 
   # custom VCR request matcher to match request based on

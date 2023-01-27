@@ -74,7 +74,6 @@ RUN yarn install --frozen-lockfile --production --silent
 COPY . .
 
 # precompile assets, silently (as verbose)
-# note: webpacker:compile appended to the assets:precompile task
 RUN SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here \
 RAILS_ENV=production \
 bundle exec rails assets:precompile 2> /dev/null

@@ -1,2 +1,3 @@
 web: bin/rails server -p 3000
+api: bin/rails server -p 3001 -P tmp/rails3001.pid
 js: yarn build --watch

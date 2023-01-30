@@ -52,6 +52,10 @@ spec:
               - ALL
             runAsNonRoot: true
             allowPrivilegeEscalation: false
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sleep","30"]
 
           # configMapRef: non-secret env vars defined in `app-config.yaml`
           # secretRef: secret env vars defined by app secrets

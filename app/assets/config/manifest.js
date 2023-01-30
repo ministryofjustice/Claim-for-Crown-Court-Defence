@@ -11,3 +11,4 @@
 //= link govuk-apple-touch-icon.png
 //= link govuk-opengraph-image.png
 //= link application.js
+//= link application.css

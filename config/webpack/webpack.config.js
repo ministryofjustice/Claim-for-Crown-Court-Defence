@@ -2,14 +2,17 @@ const path = require('path')
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production'
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries')
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   mode,
   // devtool: 'source-map',
   entry: {
-    application: ['./app/webpack/packs/application.js']
+    application: [
+      './app/webpack/packs/application.js',
+      './app/webpack/stylesheets/application.scss',
+    ]
   },
   output: {
     filename: '[name].js',
@@ -49,7 +52,7 @@ module.exports = {
         use: ['babel-loader']
       },
       {
-        test: /\.scss$/i,
+        test: /\.(?:sa|sc|c)ss$/i,
         use: [
           MiniCssExtractPlugin.loader,
           'css-loader',
@@ -81,8 +84,8 @@ module.exports = {
     // new webpack.optimize.LimitChunkCountPlugin({
     //   maxChunks: 1
     // }),
-    new FixStyleOnlyEntriesPlugin(),
     new MiniCssExtractPlugin(),
+    new RemoveEmptyScriptsPlugin(),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',

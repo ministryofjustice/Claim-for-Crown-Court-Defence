@@ -24,6 +24,12 @@ spec:
           - name: aws-cli
             image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/cloud-platform/tools:awscli
             imagePullPolicy: IfNotPresent
+            securityContext:
+              capabilities:
+                drop:
+                - ALL
+              runAsNonRoot: true
+              allowPrivilegeEscalation: false
             command:
             - /bin/sh
             - -c

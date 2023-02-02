@@ -13,6 +13,12 @@ spec:
         - name: cccd-job
           imagePullPolicy: Always
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
           command:
             - bundle
             - exec

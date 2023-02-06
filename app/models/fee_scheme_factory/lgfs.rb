@@ -18,9 +18,9 @@ module FeeSchemeFactory
     end
 
     def scheme_ten_range
-      return (Settings.clar_release_date..) if clair_contingency
+      return (Settings.clar_release_date..Time.zone.today) if clair_contingency
 
-      Settings.lgfs_scheme_10_clair_release_date..
+      Settings.lgfs_scheme_10_clair_release_date..Time.zone.today
     end
   end
 end

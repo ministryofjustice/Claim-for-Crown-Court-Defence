@@ -3,6 +3,11 @@ class ExternalUsers::Litigators::InterimClaimsController < ExternalUsers::Claims
 
   resource_klass Claim::InterimClaim
 
+  def new
+    super
+    @claim.main_hearing_date ||= Time.zone.today
+  end
+
   private
 
   def build_nested_resources

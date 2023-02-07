@@ -9,10 +9,6 @@
 #
 # https://github.com/mperham/sidekiq/wiki/Using-Redis
 
-url = ENV.fetch('REDIS_URL', '').gsub(%r{(://).*:(.*@.*:.*)}, '\1\2')
-Sidekiq.configure_client { |config| config.redis = { url: } if url.present? }
-Sidekiq.configure_server { |config| config.redis = { url: } if url.present? }
-
 Sidekiq.default_job_options = { retry: 5 }
 
 # Perform Sidekiq jobs immediately in development,

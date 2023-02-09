@@ -20,6 +20,7 @@ class Claim::AdvocateHardshipClaimValidator < Claim::BaseClaimValidator
         trial_fixed_at
         trial_cracked_at
         supplier_number
+        main_hearing_date
       ],
       defendants: [],
       offence_details: %i[offence],

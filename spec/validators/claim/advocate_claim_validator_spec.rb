@@ -133,6 +133,7 @@ RSpec.describe Claim::AdvocateClaimValidator, type: :validator do
       retrial_concluded_at
       case_concluded_at
       supplier_number
+      main_hearing_date
     ],
     defendants: [],
     offence_details: %i[offence],

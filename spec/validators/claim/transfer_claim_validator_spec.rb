@@ -26,6 +26,7 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
       supplier_number
       amount_assessed
       evidence_checklist_ids
+      main_hearing_date
     ],
     defendants: [],
     offence_details: %i[offence],

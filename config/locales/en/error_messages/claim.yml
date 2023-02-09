@@ -547,6 +547,12 @@ earliest_representation_order_date:
     short: _
     api: The representation order date, main hearing date and case type cannot be combined
 
+main_hearing_date:
+  _seq: 225
+  main_hearing_date_cannot_be_too_far_in_the_past:
+    long: Main hearing date cannot be too far in the past
+    short: _
+    api: Main hearing date cannot be too far in the past
 
 
 #################################################################################

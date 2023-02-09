@@ -11,6 +11,7 @@ class Claim::LitigatorHardshipClaimValidator < Claim::BaseClaimValidator
         case_transferred_from_another_court
         transfer_court_id
         transfer_case_number
+        main_hearing_date
       ],
       defendants: [],
       offence_details: %i[offence],

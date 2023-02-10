@@ -251,6 +251,10 @@ class Claim::BaseClaimValidator < BaseValidator
     validate_retrial_start_and_end(:retrial_started_at, :retrial_concluded_at, true)
   end
 
+  def validate_main_hearing_date
+    validate_too_far_in_past(:main_hearing_date)
+  end
+
   # local helpers
   # ---------------------------
   def method_missing(method, *args)

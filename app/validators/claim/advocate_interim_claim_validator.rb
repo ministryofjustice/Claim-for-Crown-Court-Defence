@@ -10,6 +10,7 @@ class Claim::AdvocateInterimClaimValidator < Claim::BaseClaimValidator
         transfer_court_id
         transfer_case_number
         supplier_number
+        main_hearing_date
       ],
       defendants: %i[earliest_representation_order],
       offence_details: %i[offence],

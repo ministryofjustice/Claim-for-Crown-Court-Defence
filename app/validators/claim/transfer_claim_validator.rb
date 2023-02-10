@@ -28,6 +28,7 @@ class Claim::TransferClaimValidator < Claim::BaseClaimValidator
         supplier_number
         amount_assessed
         evidence_checklist_ids
+        main_hearing_date
       ],
       defendants: [],
       offence_details: %i[offence],

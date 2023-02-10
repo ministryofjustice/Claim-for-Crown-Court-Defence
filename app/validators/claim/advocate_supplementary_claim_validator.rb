@@ -12,6 +12,7 @@ class Claim::AdvocateSupplementaryClaimValidator < Claim::BaseClaimValidator
         transfer_case_number
         case_concluded_at
         supplier_number
+        main_hearing_date
       ],
       defendants: [],
       miscellaneous_fees: %i[advocate_category defendant_uplifts_misc_fees total],

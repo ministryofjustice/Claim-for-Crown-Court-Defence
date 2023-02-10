@@ -306,6 +306,7 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
       trial_fixed_at
       trial_cracked_at
       supplier_number
+      main_hearing_date
     ],
     defendants: [],
     offence_details: %i[offence],

@@ -135,6 +135,16 @@ RSpec.shared_examples 'common advocate litigator validations' do |external_user_
       end
     end
   end
+
+  context 'when main hearing date is too far in past' do
+    it { should_error_if_too_far_in_the_past(claim, :main_hearing_date, 'Main hearing date cannot be too far in the past') }
+  end
+
+  context 'when main hearing date is blank' do
+    before { claim.main_hearing_date = nil }
+
+    it { should_not_error(claim, :main_hearing_date) }
+  end
 end
 
 RSpec.shared_examples 'common litigator validations' do |*flags|

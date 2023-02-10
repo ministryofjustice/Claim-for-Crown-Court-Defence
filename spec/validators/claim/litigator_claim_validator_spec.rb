@@ -20,6 +20,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
       transfer_court_id
       transfer_case_number
       case_concluded_at
+      main_hearing_date
     ],
     defendants: [],
     offence_details: %i[offence],

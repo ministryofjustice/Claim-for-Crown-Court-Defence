@@ -3,8 +3,7 @@ require_relative 'abstract_store'
 class Caching
   class RedisStore < AbstractStore
     def initialize
-      url = ENV.fetch('REDIS_URL').gsub(%r{(://).*:(.*@.*:.*)}, '\1:\2')
-      self.store = Redis.new(url:)
+      self.store = Redis.new(url: ENV.fetch('REDIS_URL'))
     end
 
     def self.current

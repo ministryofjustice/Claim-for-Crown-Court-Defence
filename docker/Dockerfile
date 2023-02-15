@@ -30,6 +30,8 @@ RUN apk --no-cache add --virtual build-dependencies \
                     git \
                     yarn \
                     gmp=6.2.1-r2 \
+                    openssl1.1-compat \
+                    libffi-devel \
 && apk --no-cache add \
                   file \
                   nodejs \

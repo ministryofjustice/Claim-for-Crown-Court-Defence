@@ -118,3 +118,5 @@ group :test do
   gem 'webdrivers', '~> 5.2', require: false
   gem 'webmock'
 end
+
+gem "eventmachine", git: "https://github.com/eventmachine/eventmachine.git"

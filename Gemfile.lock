@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/eventmachine/eventmachine.git
+  revision: df4ab0068e5e9f504096584093a74510d0dac6c8
+  specs:
+    eventmachine (1.3.0.dev.1)
+
+GIT
   remote: https://github.com/jalkoby/scheduler_daemon.git
   revision: 3ed40449777383cf38b7c814075c992974add3df
   specs:
@@ -268,7 +274,6 @@ GEM
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0)
     erubi (1.12.0)
-    eventmachine (1.2.7)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -782,6 +787,7 @@ DEPENDENCIES
   database_cleaner
   devise (~> 4.8.1)
   dotenv-rails
+  eventmachine!
   factory_bot_rails (~> 6.2.0)
   faker (~> 3.0.0)
   faraday (~> 1.10)

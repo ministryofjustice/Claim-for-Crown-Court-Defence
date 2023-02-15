@@ -53,5 +53,4 @@ dump.rdb
 *_dump.psql.gz
 
 Brewfile
-Guardfile
 README.md

@@ -1,4 +1,4 @@
-FROM ruby:3.1.2-alpine3.15
+FROM ruby:3.1.3-alpine3.17
 MAINTAINER Ministry of Justice, Claim for crown court defence <crowncourtdefence@digital.justice.gov.uk>
 
 # fail early and print all commands
@@ -29,7 +29,7 @@ RUN apk --no-cache add --virtual build-dependencies \
                     postgresql-dev \
                     git \
                     yarn \
-                    gmp=6.2.1-r1 \
+                    gmp=6.2.1-r2 \
 && apk --no-cache add \
                   file \
                   nodejs \

@@ -121,7 +121,7 @@ moj.Modules.OffenceSearchView = {
       category.setAttribute('data-category', data.category.id);
 
       const band = result.getElementsByClassName('band')[0];
-      band.innerHTML = data.band.description;
+      band.innerHTML = `Band: ${data.band.description}`;
       band.setAttribute('data-category', data.category.id);
       band.setAttribute('data-band', data.band.id);
 

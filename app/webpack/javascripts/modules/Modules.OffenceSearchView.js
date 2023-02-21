@@ -110,27 +110,27 @@ moj.Modules.OffenceSearchView = {
    * @param  {object} options results data
    */
   render: function (options) {
-    const results = this.$view.find('.fx-results');
-    results.empty();
-    const card = document.getElementById('fx-results-template');
+    const results = this.$view.find('.fx-results')
+    results.empty()
+    const card = document.getElementById('fx-results-template')
     options.results.forEach((data) => {
-      const result = card.content.cloneNode(true).querySelector('div');
+      const result = card.content.cloneNode(true).querySelector('div')
 
-      const category = result.getElementsByClassName('category')[0];
-      category.innerHTML = data.category.description;
-      category.setAttribute('data-category', data.category.id);
+      const category = result.getElementsByClassName('category')[0]
+      category.innerHTML = data.category.description
+      category.setAttribute('data-category', data.category.id)
 
-      const band = result.getElementsByClassName('band')[0];
-      band.innerHTML = `Band: ${data.band.description}`;
-      band.setAttribute('data-category', data.category.id);
-      band.setAttribute('data-band', data.band.id);
+      const band = result.getElementsByClassName('band')[0]
+      band.innerHTML = `Band: ${data.band.description}`
+      band.setAttribute('data-category', data.category.id)
+      band.setAttribute('data-band', data.band.id)
 
-      result.getElementsByClassName('description')[0].innerHTML = data.description;
-      result.getElementsByClassName('contrary')[0].innerHTML = data.contrary;
-      result.getElementsByClassName('button')[0].setAttribute('data-value', data.id);
+      result.getElementsByClassName('description')[0].innerHTML = data.description
+      result.getElementsByClassName('contrary')[0].innerHTML = data.contrary
+      result.getElementsByClassName('button')[0].setAttribute('data-value', data.id)
 
-      results.append(result);
-    });
+      results.append(result)
+    })
 
     this.$view.find('.fx-filters-display p').empty()
     this.$view.find('.fx-filters-display p').append(this.filterResults(options))

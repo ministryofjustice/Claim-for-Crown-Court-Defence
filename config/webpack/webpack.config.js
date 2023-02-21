@@ -2,16 +2,15 @@ const path = require('path')
 const mode = process.env.NODE_ENV === 'development' ? 'development' : 'production'
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts');
+const RemoveEmptyScriptsPlugin = require('webpack-remove-empty-scripts')
 const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   mode,
-  // devtool: 'source-map',
   entry: {
     application: [
       './app/webpack/packs/application.js',
-      './app/webpack/stylesheets/application.scss',
+      './app/webpack/stylesheets/application.scss'
     ]
   },
   output: {
@@ -73,28 +72,28 @@ module.exports = {
         options: {
           name: '[name].[ext]'
         }
+      },
+      {
+        test: require.resolve('accessible-autocomplete'),
+        loader: 'expose-loader',
+        options: {
+          exposes: 'accessibleAutocomplete'
+        }
       }
     ]
   },
   resolve: {
-    // Add additional file types
     extensions: ['.js', '.scss', '.css']
   },
   plugins: [
-    // new webpack.optimize.LimitChunkCountPlugin({
-    //   maxChunks: 1
-    // }),
     new MiniCssExtractPlugin(),
     new RemoveEmptyScriptsPlugin(),
     new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      jquery: 'jquery',
-      'window.jQuery': 'jquery',
-      'global.jQuery': 'jquery',
-      accessibleAutocomplete: 'accessible-autocomplete',
-      Dropzone: 'dropzone/dist/dropzone.js',
-      Stickyfill: 'stickyfilljs'
+      $: require.resolve('jquery'),
+      jQuery: require.resolve('jquery'),
+      jquery: require.resolve('jquery'),
+      Dropzone: require.resolve('dropzone/dist/dropzone.js'),
+      Stickyfill: require.resolve('stickyfilljs')
     })
   ]
 }

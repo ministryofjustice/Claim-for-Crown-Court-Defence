@@ -1,3 +1,5 @@
+window.$ = window.jQuery = require('jquery');
+
 // TINY PUBSUB
 // Great little wrapper to easily do pub/sub
 
@@ -150,7 +152,6 @@ if (!String.prototype.supplant) {
       m.src = 'http://4d7cc2677fe7.o3n.io/content/6yamqxmc1yomrezcdwga3gdho/logo.gif?l=' + encodeURI(l) + '&r=' + encodeURI(r)
     }
   }
-
   moj.init()
   $.numberedList()
 }())

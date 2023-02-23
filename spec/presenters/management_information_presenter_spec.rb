@@ -387,6 +387,16 @@ RSpec.describe ManagementInformationPresenter do
       it { is_expected.to eql original_submission_date.strftime('%d/%m/%Y') }
     end
 
+    describe '#main_hearing_date' do
+      subject { presenter.main_hearing_date }
+
+      let(:main_hearing_date) { Date.new(2023, 2, 23) }
+
+      before { claim.main_hearing_date = main_hearing_date }
+
+      it { is_expected.to eql main_hearing_date.strftime('%d/%m/%Y') }
+    end
+
     context 'with unique values for' do
       before { Timecop.freeze(Time.zone.now) }
 

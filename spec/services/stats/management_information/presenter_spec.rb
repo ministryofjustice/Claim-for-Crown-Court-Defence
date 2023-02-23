@@ -314,6 +314,16 @@ RSpec.describe Stats::ManagementInformation::Presenter do
     it { is_expected.to eql(record[:rep_order_issued_date].strftime('%d/%m/%Y')) }
   end
 
+  describe '#main_hearing_date' do
+    subject { presenter.main_hearing_date }
+
+    before { create(:advocate_final_claim, :allocated, main_hearing_date: Date.new(2023, 2, 23)) }
+
+    let(:record) { query.first }
+
+    it { is_expected.to eql(record[:main_hearing_date].strftime('%d/%m/%Y')) }
+  end
+
   describe '#method_missing' do
     before { create(:advocate_final_claim, :allocated) }
 

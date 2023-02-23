@@ -73,6 +73,8 @@ claim_csv_headers:
   - :rep_order_issued_date
   - :af1_lf1_processed_by
   - :misc_fees
+  - :main_hearing_date
+  - :source
 
 expense_schema_version: 2
 

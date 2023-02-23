@@ -114,6 +114,10 @@ module ManagementInformationReportable
       misc_fees.presence
     end
 
+    def main_hearing_date
+      claim.main_hearing_date&.strftime('%d/%m/%Y')
+    end
+
     def redetermination_steps
       @journey.select { |step| step.to == 'redetermination' }
     end

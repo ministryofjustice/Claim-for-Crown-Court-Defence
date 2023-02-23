@@ -26,7 +26,9 @@ RSpec.describe Stats::ManagementInformationGenerator do
       'Maat reference',
       'Rep order issued date',
       'AF1/LF1 processed by',
-      'Misc fees'
+      'Misc fees',
+      'Main hearing date',
+      'Source'
     ]
   end
 

@@ -29,7 +29,9 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
       'Maat reference',
       'Rep order issued date',
       'AF1/LF1 processed by',
-      'Misc fees'
+      'Misc fees',
+      'Main hearing date',
+      'Source'
     ]
   end
 
@@ -50,10 +52,10 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
     end
 
     context 'with some data' do
-      let!(:agfs_claim) { create(:advocate_final_claim, :submitted) }
+      let!(:agfs_claim) { create(:advocate_final_claim, :submitted, main_hearing_date: Date.new(2023, 2, 23)) }
 
       let!(:lgfs_claim) do
-        create(:litigator_final_claim, :allocated, disk_evidence: true).tap do |claim|
+        create(:litigator_final_claim, :allocated, disk_evidence: true, source: :api).tap do |claim|
           claim.tap do |c|
             assign_fees_and_expenses_for(c)
             c.authorise_part!({ author_id: create(:case_worker,
@@ -167,6 +169,9 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
                            lgfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' '),
                            lgfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' ')])
       }
+
+      it { expect(rows['Main hearing date']).to match_array(['23/02/2023', nil, nil]) }
+      it { expect(rows['Source']).to match_array(%w[web api api]) }
     end
 
     context 'when filtering by scheme' do

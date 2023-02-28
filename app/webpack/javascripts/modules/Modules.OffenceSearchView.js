@@ -11,30 +11,6 @@ moj.Modules.OffenceSearchView = {
   // page controls selector
   pageControls: '.button-holder',
 
-  // template for each result
-  template: function () {
-    return ['<div class="govuk-grid-row offence-item fx-result-item">',
-      '<div class="govuk-grid-column-two-thirds">',
-      '<span class="govuk-body-s link-grey">',
-      '<a href="#noop" class="fx-filter" data-category="{{:category.id}}">',
-      '{{:category.description}}',
-      '</a>&nbsp;&gt;&nbsp;',
-      '<a href="#noop" class="fx-filter" data-category="{{:category.id}}" data-band="{{:band.id}}">',
-      'Band:&nbsp;',
-      '{{:band.description}}',
-      '</a>',
-      '</span></br>',
-      '{{:description}}',
-      '</br>',
-      '<span class="govuk-body-s link-grey">{{:contrary}}</a>',
-      '</div>',
-      '<div class="govuk-grid-column-one-third align-right">',
-      '</br>',
-      '<a href="#" class="button offence-item-button set-selection" data-field="#claim_offence_id" data-value="{{:id}}">Select and continue</a>',
-      '</div></div>'
-    ].join('')
-  },
-
   /**
    * init called my moj.init()
    */
@@ -134,13 +110,27 @@ moj.Modules.OffenceSearchView = {
    * @param  {object} options results data
    */
   render: function (options) {
-    const tmpl = $.templates(this.template()) // Get compiled template
-    const html = tmpl.render(options.results) // Render template using data - as HTML string
+    const results = this.$view.find('.fx-results')
+    results.empty()
+    const card = document.getElementById('fx-results-template')
+    options.results.forEach((data) => {
+      const result = card.content.cloneNode(true).querySelector('div')
 
-    // Gives a number of the results found
-    // this.$view.find('.fx-results-count span').html(data.length)
-    this.$view.find('.fx-results').empty()
-    this.$view.find('.fx-results').append(html)
+      const category = result.getElementsByClassName('category')[0]
+      category.innerHTML = data.category.description
+      category.setAttribute('data-category', data.category.id)
+
+      const band = result.getElementsByClassName('band')[0]
+      band.innerHTML = `Band: ${data.band.description}`
+      band.setAttribute('data-category', data.category.id)
+      band.setAttribute('data-band', data.band.id)
+
+      result.getElementsByClassName('description')[0].innerHTML = data.description
+      result.getElementsByClassName('contrary')[0].innerHTML = data.contrary
+      result.getElementsByClassName('button')[0].setAttribute('data-value', data.id)
+
+      results.append(result)
+    })
 
     this.$view.find('.fx-filters-display p').empty()
     this.$view.find('.fx-filters-display p').append(this.filterResults(options))

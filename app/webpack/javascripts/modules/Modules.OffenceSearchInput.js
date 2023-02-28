@@ -75,16 +75,16 @@ moj.Modules.OffenceSearchInput = {
 
     // dataOptions for the api request
     // defaults, search input and filters
-    const dataOptions = $.extend({}, {
+    const dataOptions = {
       // default value
       fee_scheme: this.$feeScheme.val(),
 
       // Search query text
-      search_offence: this.$input.val()
-    },
+      search_offence: this.$input.val(),
 
-    // filters are applied
-    options)
+      // filters are applied
+      ...options
+    }
 
     this.query(dataOptions).then(function (data) {
       // showing the clear search button

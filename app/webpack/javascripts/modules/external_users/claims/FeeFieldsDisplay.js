@@ -13,11 +13,6 @@ moj.Modules.FeeFieldsDisplay = {
       const element = $(this).closest('.fx-fee-group')
       self.showHideFeeFields(element)
     })
-
-    $el.find('.js-typeahead').on('typeahead:change', function () {
-      const element = $(this).closest('.fx-fee-group')
-      self.showHideFeeFields(element)
-    })
   },
   showHideFeeFields: function (el) {
     const currentElement = $(el)

@@ -1,4 +1,5 @@
 @include govuk-media-query($from: tablet) {
+
   // stylelint-disable selector-id-pattern
   #case_details,
   .lgfs-supplier-numbers,
@@ -12,15 +13,6 @@
 .fx-result {
   margin: $gutter 0;
   padding: 0 $gutter;
-}
-
-// scss-lint:disable QualifyingElement, ImportantRule
-.js-enabled select.typeahead { // stylelint-disable-line selector-no-qualifying-type
-  display: none;
-}
-
-.typeahead.fixedwidth {
-  width: 330px;
 }
 
 // autocomplete styling
@@ -58,10 +50,6 @@
     color: $page-colour;
     background-color: $link-colour;
   }
-}
-
-.twitter-typeahead {
-  width: $full-width;
 }
 
 .empty-message {

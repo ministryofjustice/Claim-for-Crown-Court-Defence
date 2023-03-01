@@ -39,6 +39,8 @@ class HeartbeatController < ApplicationController
     false
   end
 
+  # Sidekik does not support `#empty?`
+  # rubocop:disable Style/ZeroLengthPredicate
   def sidekiq_alive?
     ps = Sidekiq::ProcessSet.new
     !ps.size.zero?
@@ -53,6 +55,7 @@ class HeartbeatController < ApplicationController
   rescue StandardError
     false
   end
+  # rubocop:enable Style/ZeroLengthPredicate
 
   def database_alive?
     ActiveRecord::Base.connection.active?

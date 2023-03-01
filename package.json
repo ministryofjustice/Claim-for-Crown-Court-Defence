@@ -23,7 +23,7 @@
     "@rails/webpacker": "5.4.4",
     "accessible-autocomplete": "^2.0.4",
     "datatables.net-buttons-dt": "^2.3.5",
-    "datatables.net-dt": "^1.13.2",
+    "datatables.net-dt": "^1.13.3",
     "datatables.net-fixedheader-dt": "^3.3.1",
     "datatables.net-select": "1.6.0",
     "dropzone": "^5.9.3",

@@ -2944,10 +2944,10 @@ datatables.net-fixedheader@>=3.2.4:
     datatables.net ">=1.12.1"
     jquery ">=1.7"
 
-datatables.net-select@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-1.6.0.tgz#e2d93943e374917e0192899bf67416effadbe449"
-  integrity sha512-1kj32GOXs/dSpjBL5iDV3pwRwHU0hhJLPnTW/NOUH8Vhv1rGR3/X3PMSCc/T+Fy7J1jCJFbk8hQDsruXQKfSzw==
+datatables.net-select@1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-1.6.1.tgz#dc322112802cb36007e5f6429cdbd586a368e558"
+  integrity sha512-0Ghr0fPFwUYFVcQRU7njnms0e12iIkhuC8cv6nDjsoby2w/JK+xgBlmW+7fEcqF8pxwZzFZb8bHdK9f4p4s9ag==
   dependencies:
     datatables.net ">=1.12.1"
     jquery ">=1.7"

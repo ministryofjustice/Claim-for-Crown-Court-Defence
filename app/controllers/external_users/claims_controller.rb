@@ -186,9 +186,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def log(message, error: nil, level: :info)
     log_data = {
-      action: 'clone',
-      claim_id: @claim.id,
-      documents: @claim.documents.count,
+      action: 'clone', claim_id: @claim.id, documents: @claim.documents.count,
       total_size: helpers.number_to_human_size(@claim.documents.sum { |doc| doc.document.byte_size })
     }
     if error

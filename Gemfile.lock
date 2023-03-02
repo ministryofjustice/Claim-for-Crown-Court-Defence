@@ -451,7 +451,7 @@ GEM
     net-ssh (7.0.1)
     netrc (0.11.0)
     nio4r (2.5.8)
-    nokogiri (1.13.10)
+    nokogiri (1.14.2)
       mini_portile2 (~> 2.8.0)
       racc (~> 1.4)
     notifications-ruby-client (5.4.0)
@@ -770,7 +770,7 @@ DEPENDENCIES
   net-scp (>= 4.0.0.rc1)
   net-smtp
   net-ssh (~> 7.0)
-  nokogiri (~> 1.13)
+  nokogiri (~> 1.14)
   paper_trail (~> 14.0.0)
   parallel_tests
   pg (~> 1.4.4)

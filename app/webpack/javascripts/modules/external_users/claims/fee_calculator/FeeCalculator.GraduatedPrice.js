@@ -60,9 +60,9 @@
 
     bindCalculateEvents: function (els, self, eventType) {
       if ($('.calculated-grad-fee').exists()) {
-        els.on(eventType, $.debounce(290, function (e) {
+        els.on(eventType, moj.Modules.Debounce.init(function (e) {
           self.calculateGraduatedPrice(e.currentTarget)
-        }))
+        }, 290))
       }
     },
 

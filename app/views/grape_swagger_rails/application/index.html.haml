@@ -10,20 +10,20 @@
     %meta{ 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
     = csrf_meta_tags
 
-    %link{ rel: 'shortcut icon', sizes: '16x16 32x32 48x48', href: asset_pack_path('media/images/favicon.ico'), type: 'image/x-icon' }
-    %link{ rel: 'mask-icon', href: asset_pack_path('media/images/govuk-mask-icon.svg'), color: 'blue' }
-    %link{ rel: 'apple-touch-icon', sizes: '180x180', href: asset_pack_path('media/images/govuk-apple-touch-icon-180x180.png') }
-    %link{ rel: 'apple-touch-icon', sizes: '167x167', href: asset_pack_path('media/images/govuk-apple-touch-icon-167x167.png') }
-    %link{ rel: 'apple-touch-icon', sizes: '152x152', href: asset_pack_path('media/images/govuk-apple-touch-icon-152x152.png') }
-    %link{ rel: 'apple-touch-icon', href: asset_pack_path('media/images/govuk-apple-touch-icon.png') }
+    %link{ rel: 'shortcut icon', sizes: '16x16 32x32 48x48', href: image_tag('favicon.ico'), type: 'image/x-icon' }
+    %link{ rel: 'mask-icon', href: image_tag('govuk-mask-icon.svg'), color: 'blue' }
+    %link{ rel: 'apple-touch-icon', sizes: '180x180', href:image_tag('govuk-apple-touch-icon-180x180.png') }
+    %link{ rel: 'apple-touch-icon', sizes: '167x167', href: image_tag('govuk-apple-touch-icon-167x167.png') }
+    %link{ rel: 'apple-touch-icon', sizes: '152x152', href: image_tag('govuk-apple-touch-icon-152x152.png') }
+    %link{ rel: 'apple-touch-icon', href: image_tag('govuk-apple-touch-icon.png') }
     %link{ rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Droid+Sans:400,700', type: 'text/css' }
     = stylesheet_link_tag 'grape_swagger_rails/application.css'
     = javascript_include_tag 'grape_swagger_rails/application.js'
 
-    = stylesheet_pack_tag 'application', media: 'all'
-    = stylesheet_pack_tag 'govuk-frontend', media: 'all'
+    = stylesheet_link_tag 'application', media: 'all'
+    = stylesheet_link_tag 'govuk-frontend', media: 'all'
 
-    = tag :meta, property: 'og:image', content: request.base_url + asset_pack_path('media/images/govuk-opengraph-image.png')
+    = tag :meta, property: 'og:image', content: request.base_url + image_tag('govuk-opengraph-image.png')
     :javascript
       (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
 
@@ -134,4 +134,4 @@
             %a.govuk-footer__link.govuk-footer__copyright-logo{ href: 'https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/' }
               = t('layouts.footer.copyright_html')
 
-    = javascript_pack_tag 'adp_swagger_application', defer: true
+    = javascript_include_tag 'adp_swagger_application', defer: true

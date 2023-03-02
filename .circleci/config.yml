@@ -124,6 +124,14 @@ commands:
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
 
+  precompile-assets:
+    description: >
+      Precompile assets
+    steps:
+      - run:
+          name: Precompile assets
+          command: bundle exec rails assets:precompile
+
   run-rubocop:
     description: >
       Run rubocop
@@ -161,17 +169,18 @@ commands:
       Run jasmine tests
     steps:
       - install-chrome
+      - precompile-assets
       - run:
           name: Run jasmine
           command: |
-            bundle exec rake webpacker:compile
-            bundle exec rake jasmine:run
+            bundle exec rails jasmine:run
 
   run-rspec:
     description: >
       Run rspec tests and store results
     steps:
       - *attach-tmp-workspace
+      - precompile-assets
       - run:
           name: Run rspec tests
           command: |
@@ -198,6 +207,7 @@ commands:
       Run cucumber tests and store results
     steps:
       - install-chrome
+      - precompile-assets
       - run:
           name: Make cucumber test storage dir
           command: |

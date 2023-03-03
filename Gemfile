@@ -47,7 +47,6 @@ gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.
 gem 'sentry-rails', '~> 5.5', '>= 5.5.0'
 gem 'sentry-sidekiq', '~> 5.8'
 gem 'sprockets-rails', '~> 3.4.2'
-gem 'state_machine',          '~> 1.2.0'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
 gem 'tzinfo-data'

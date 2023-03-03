@@ -12,3 +12,4 @@
 //= link govuk-opengraph-image.png
 //= link application.js
 //= link application.css
+//= link adp_swagger_application.js

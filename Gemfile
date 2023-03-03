@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '3.1.2'
+ruby '3.1.3'
 gem 'active_model_serializers', '~> 0.10.13'
 gem 'amoeba',                 '~> 3.2.0'
 gem 'auto_strip_attributes',  '~> 2.6.0'
@@ -43,7 +43,7 @@ gem 'rubyzip'
 gem 'config',                 '~> 4.1' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
-gem 'scheduler_daemon',       git: 'https://github.com/jalkoby/scheduler_daemon.git'
+gem 'scheduler_daemon'
 gem 'sentry-rails', '~> 5.5', '>= 5.5.0'
 gem 'sentry-sidekiq', '~> 5.8'
 gem 'sprockets-rails', '~> 3.4.2'

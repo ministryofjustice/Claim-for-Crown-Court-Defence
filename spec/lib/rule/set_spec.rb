@@ -51,7 +51,7 @@ RSpec.describe Rule::Set, type: :rule do
       it { is_expected.to all(be_a(described_class)) }
 
       it 'returns appicable sets' do
-        expect(subsets.flat_map(&:to_a)).to match_array(['rule 1a', 'rule 1b'])
+        expect(subsets.flat_map(&:to_a)).to contain_exactly('rule 1a', 'rule 1b')
       end
     end
   end

@@ -8,7 +8,7 @@ RSpec.describe SupplierNumberSubModelValidator, type: :validator do
   describe '#has_many_association_names' do
     subject { validator.has_many_association_names }
 
-    it { is_expected.to match_array([:lgfs_supplier_numbers]) }
+    it { is_expected.to contain_exactly(:lgfs_supplier_numbers) }
   end
 
   describe '#validate' do

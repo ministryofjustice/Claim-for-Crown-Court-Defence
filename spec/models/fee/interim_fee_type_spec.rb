@@ -41,7 +41,7 @@ module Fee
         let(:case_type) { build(:case_type, :trial) }
 
         it 'returns trial applicable interim fees' do
-          is_expected.to match_array [disbursement_only, trial_start]
+          is_expected.to contain_exactly(disbursement_only, trial_start)
         end
       end
 
@@ -49,7 +49,7 @@ module Fee
         let(:case_type) { build(:case_type, :retrial) }
 
         it 'returns retrial applicable interim fees' do
-          is_expected.to match_array [disbursement_only, retrial_start]
+          is_expected.to contain_exactly(disbursement_only, retrial_start)
         end
       end
     end

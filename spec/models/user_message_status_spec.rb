@@ -24,7 +24,7 @@ RSpec.describe UserMessageStatus do
     let!(:unread_statuses) { create_list(:user_message_status, 5, :unpersisted) }
 
     it 'only returns read statuses' do
-      expect(UserMessageStatus.marked_as_read.pluck(:read).uniq).to match_array([true])
+      expect(UserMessageStatus.marked_as_read.pluck(:read).uniq).to contain_exactly(true)
     end
   end
 
@@ -33,7 +33,7 @@ RSpec.describe UserMessageStatus do
     let!(:unread_statuses) { create_list(:user_message_status, 5, :unpersisted) }
 
     it 'only returns unread statuses' do
-      expect(UserMessageStatus.not_marked_as_read.pluck(:read).uniq).to match_array([false])
+      expect(UserMessageStatus.not_marked_as_read.pluck(:read).uniq).to contain_exactly(false)
     end
   end
 
@@ -45,7 +45,7 @@ RSpec.describe UserMessageStatus do
     end
 
     it 'only returns the statuses for the given user' do
-      expect(UserMessageStatus.for(user).pluck(:user_id).uniq).to match_array([user.id])
+      expect(UserMessageStatus.for(user).pluck(:user_id).uniq).to contain_exactly(user.id)
     end
   end
 end

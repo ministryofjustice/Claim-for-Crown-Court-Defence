@@ -11,7 +11,7 @@ RSpec.shared_examples 'a disablable object' do
     before { create(factory_name, disabled_at: nil) }
 
     it 'returns records with disabled_at present' do
-      is_expected.to match_array([disabled_object])
+      is_expected.to contain_exactly(disabled_object)
     end
   end
 
@@ -23,7 +23,7 @@ RSpec.shared_examples 'a disablable object' do
     before { create(factory_name, disabled_at: Time.zone.now) }
 
     it 'returns records with disabled_at absent' do
-      is_expected.to match_array([enabled_object])
+      is_expected.to contain_exactly(enabled_object)
     end
   end
 

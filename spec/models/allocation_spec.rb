@@ -14,7 +14,7 @@ RSpec.describe Allocation do
     end
 
     it 'sets the claim ids' do
-      expect(subject.claim_ids).to match_array([1, 2, 3])
+      expect(subject.claim_ids).to contain_exactly(1, 2, 3)
     end
   end
 

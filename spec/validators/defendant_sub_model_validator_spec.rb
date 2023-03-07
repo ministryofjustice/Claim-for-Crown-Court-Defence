@@ -8,6 +8,6 @@ RSpec.describe DefendantSubModelValidator, type: :validator do
   describe '#has_many_association_names' do
     subject { validator.has_many_association_names }
 
-    it { is_expected.to match_array([:representation_orders]) }
+    it { is_expected.to contain_exactly(:representation_orders) }
   end
 end

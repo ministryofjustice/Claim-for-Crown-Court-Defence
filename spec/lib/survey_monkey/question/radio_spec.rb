@@ -13,7 +13,7 @@ RSpec.describe SurveyMonkey::Question::Radio do
 
       it { is_expected.to be_a SurveyMonkey::Answer::Radio }
       it { expect(parse.to_h[:id]).to eq '999' }
-      it { expect(parse.to_h[:answers]).to match_array([{ choice_id: '2' }]) }
+      it { expect(parse.to_h[:answers]).to contain_exactly({ choice_id: '2' }) }
     end
 
     context 'with an invalid response' do

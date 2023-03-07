@@ -4,7 +4,7 @@ RSpec.describe DocType do
   describe '.for_fee_reform' do
     subject(:doc_types) { described_class.for_fee_reform }
 
-    specify { expect(doc_types.map(&:id)).to match_array([1, 3, 4, 6]) }
+    specify { expect(doc_types.map(&:id)).to contain_exactly(1, 3, 4, 6) }
   end
 
   describe '.find' do

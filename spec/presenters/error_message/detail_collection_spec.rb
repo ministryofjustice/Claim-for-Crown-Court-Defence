@@ -43,7 +43,7 @@ RSpec.describe ErrorMessage::DetailCollection do
       end
 
       it 'makes an array of all the elements assigned' do
-        expect(instance[:key1]).to match_array(['value 1', 'value 2'])
+        expect(instance[:key1]).to contain_exactly('value 1', 'value 2')
       end
     end
   end

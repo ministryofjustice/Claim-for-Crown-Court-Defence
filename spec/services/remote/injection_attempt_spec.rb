@@ -30,7 +30,7 @@ module Remote
       subject { injection_attempt.error_messages }
 
       it 'returns array of injection error messages' do
-        is_expected.to match_array(['injection error 1', 'injection error 2'])
+        is_expected.to contain_exactly('injection error 1', 'injection error 2')
       end
     end
   end

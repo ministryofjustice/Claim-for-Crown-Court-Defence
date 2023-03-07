@@ -161,7 +161,7 @@ RSpec.describe Stats::StatsReport do
         other_report_new = create(:stats_report, :other_report, started_at: 53.days.ago)
 
         described_class.destroy_reports_older_than(:management_information, 62.days.ago)
-        expect(described_class.all).to match_array [my_report_new, other_report_old, other_report_new]
+        expect(described_class.all).to contain_exactly(my_report_new, other_report_old, other_report_new)
       end
     end
 
@@ -173,7 +173,7 @@ RSpec.describe Stats::StatsReport do
         other_report_new = create(:stats_report, :other_report, :incomplete, started_at: 119.minutes.ago)
 
         described_class.destroy_unfinished_reports_older_than(:management_information, 2.hours.ago)
-        expect(described_class.all).to match_array [my_report_new, other_report_old, other_report_new]
+        expect(described_class.all).to contain_exactly(my_report_new, other_report_old, other_report_new)
       end
     end
   end

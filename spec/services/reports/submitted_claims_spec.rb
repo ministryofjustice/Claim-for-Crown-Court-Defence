@@ -14,7 +14,7 @@ RSpec.describe Reports::SubmittedClaims do
       create(:claim, original_submission_date: Time.zone.parse('21 June 2021 01:01'))
       create(:claim, original_submission_date: Time.zone.parse('19 June 2021 12:00'))
 
-      expect(response.last).to match_array(['21/06/2021', 2])
+      expect(response.last).to contain_exactly('21/06/2021', 2)
     end
 
     it 'has results for the correct 12 weeks' do

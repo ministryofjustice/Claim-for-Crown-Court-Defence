@@ -134,7 +134,7 @@ RSpec.describe ClaimStateTransitionPresenter do
       end
 
       it 'returns array containing the human readable reasons' do
-        is_expected.to match_array(['Wrong MAAT reference', 'Other (rejecting because...)'])
+        is_expected.to contain_exactly('Wrong MAAT reference', 'Other (rejecting because...)')
       end
     end
   end

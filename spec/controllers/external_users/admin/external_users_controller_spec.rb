@@ -20,7 +20,7 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
         external_user = create(:external_user, provider: admin.provider)
         create(:external_user)
         get :index
-        expect(assigns(:external_users)).to match_array([admin, external_user])
+        expect(assigns(:external_users)).to contain_exactly(admin, external_user)
       end
 
       it 'renders the template' do

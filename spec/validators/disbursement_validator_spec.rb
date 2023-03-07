@@ -70,11 +70,7 @@ RSpec.describe DisbursementValidator, type: :validator do
     end
 
     context 'vat greater than VAT% of net amount' do
-      around do |example|
-        travel_to(Time.zone.local(2018, 01, 01)) do
-          example.run
-        end
-      end
+      before { travel_to(Time.zone.local(2018, 01, 01)) }
 
       it 'valid when VAT amount is less than or equal to VAT% of NET' do
         should_be_valid_if_equal_to_value(disbursement, :vat_amount, 20.00)

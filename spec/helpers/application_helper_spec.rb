@@ -96,11 +96,7 @@ RSpec.describe ApplicationHelper do
     context 'feature flag enabled' do
       let(:downtime_warning_enabled) { true }
 
-      around do |example|
-        travel_to(curr_date) do
-          example.run
-        end
-      end
+      before { travel_to(curr_date) }
 
       context 'when current date is on or before downtime_warning_date' do
         let(:curr_date) { Date.parse('2021-05-26') }

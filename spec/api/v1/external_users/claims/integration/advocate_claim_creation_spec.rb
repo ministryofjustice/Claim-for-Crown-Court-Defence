@@ -424,11 +424,7 @@ RSpec.describe 'API claim creation for AGFS' do
       let(:miscellaneous_fee_ids) { [miscellaneous_fee.id] }
       let(:claim_total) { 1630.2 }
 
-      around do |example|
-        travel_to(Settings.clar_release_date.beginning_of_day + 5.hours) do
-          example.run
-        end
-      end
+      before { travel_to(Settings.clar_release_date.beginning_of_day + 5.hours) }
     end
   end
 

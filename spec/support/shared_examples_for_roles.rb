@@ -40,7 +40,7 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
 
   describe '#is?' do
     roles.each do |role|
-      context "for #{role}" do
+      context "with #{role}" do
         subject { create(factory_name, roles: [role]) }
 
         it "returns true for #{role}" do

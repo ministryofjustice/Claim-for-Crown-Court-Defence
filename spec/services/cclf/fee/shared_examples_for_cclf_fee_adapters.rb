@@ -19,7 +19,7 @@ RSpec.shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
 
   describe '#bill_type' do
     bill_scenario_mappings.keys.each do |code|
-      context "for #{code} fee type" do
+      context "with #{code} fee type" do
         subject { described_class.new(fee).bill_type }
 
         include_examples 'returns CCLF Litigator Fee bill (sub)type', code
@@ -29,7 +29,7 @@ RSpec.shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
 
   describe '#bill_subtype' do
     bill_scenario_mappings.keys.each do |code|
-      context "for #{code} fee type" do
+      context "with #{code} fee type" do
         subject { described_class.new(fee).bill_subtype }
 
         include_examples 'returns CCLF Litigator Fee bill (sub)type', code

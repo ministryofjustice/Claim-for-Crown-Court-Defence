@@ -152,7 +152,7 @@ end
 RSpec.shared_examples 'a claim endpoint' do |options|
   context 'when sending non-permitted verbs' do
     ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).all.each do |endpoint|
-      context "to endpoint #{endpoint}" do
+      context "with endpoint #{endpoint}" do
         ClaimApiEndpoints.forbidden_verbs.each do |api_verb|
           it "#{api_verb.upcase} response status of 405" do
             response = send api_verb, endpoint, format: :json

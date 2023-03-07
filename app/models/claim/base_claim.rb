@@ -631,7 +631,7 @@ module Claim
     end
 
     def default_case_transferred_from_another_court
-      transfer_court.present? || !transfer_case_number.blank?
+      transfer_court.present? || transfer_case_number.present?
     end
 
     def transfer_court_details_changed?

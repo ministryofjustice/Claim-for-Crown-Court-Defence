@@ -44,7 +44,7 @@ RSpec.shared_examples 'failed document upload' do
 
   it 'returns errors in response' do
     create_document
-    expect(JSON.parse(response.body)).to have_key('error')
+    expect(response.parsed_body).to have_key('error')
   end
 end
 
@@ -78,7 +78,7 @@ RSpec.describe 'Document management' do
       end
 
       it 'returns documents matching the form_id' do
-        ids = JSON.parse(response.body).pluck('id')
+        ids = response.parsed_body.pluck('id')
         expect(ids).to match_array(matching_documents.map(&:id))
       end
     end
@@ -130,12 +130,12 @@ RSpec.describe 'Document management' do
 
       it 'returns the id of the created document' do
         create_document
-        expect(JSON.parse(response.body)['document']['id']).to eq Document.last.id
+        expect(response.parsed_body['document']['id']).to eq Document.last.id
       end
 
       it 'returns the file name of the document' do
         create_document
-        expect(JSON.parse(response.body)['document']['filename']).to eq 'longer_lorem.pdf'
+        expect(response.parsed_body['document']['filename']).to eq 'longer_lorem.pdf'
       end
     end
 

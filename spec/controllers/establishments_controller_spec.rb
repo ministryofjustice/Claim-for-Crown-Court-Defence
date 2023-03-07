@@ -11,7 +11,7 @@ RSpec.describe EstablishmentsController do
     it 'returns the list of all available establishments' do
       get :index, params: { format: :json }
       expect(response).to be_successful
-      json_body = JSON.parse(response.body)
+      json_body = response.parsed_body
       expect(json_body.size).to eq(establishments.size)
     end
 
@@ -21,7 +21,7 @@ RSpec.describe EstablishmentsController do
       it 'returns only the list of crown court establishments' do
         get :index, params: { category:, format: :json }
         expect(response).to be_successful
-        json_body = JSON.parse(response.body)
+        json_body = response.parsed_body
         expect(json_body.size).to eq(crown_courts.size)
         json_body.each do |item|
           expect(item['category']).to eq(category)
@@ -35,7 +35,7 @@ RSpec.describe EstablishmentsController do
       it 'returns only the list of magistrates court establishments' do
         get :index, params: { category:, format: :json }
         expect(response).to be_successful
-        json_body = JSON.parse(response.body)
+        json_body = response.parsed_body
         expect(json_body.size).to eq(magistrates_courts.size)
         json_body.each do |item|
           expect(item['category']).to eq(category)
@@ -49,7 +49,7 @@ RSpec.describe EstablishmentsController do
       it 'returns only the list of prison establishments' do
         get :index, params: { category:, format: :json }
         expect(response).to be_successful
-        json_body = JSON.parse(response.body)
+        json_body = response.parsed_body
         expect(json_body.size).to eq(prisons.size)
         json_body.each do |item|
           expect(item['category']).to eq(category)
@@ -63,7 +63,7 @@ RSpec.describe EstablishmentsController do
       it 'returns only the list of hospital establishments' do
         get :index, params: { category:, format: :json }
         expect(response).to be_successful
-        json_body = JSON.parse(response.body)
+        json_body = response.parsed_body
         expect(json_body.size).to eq(hospitals.size)
         json_body.each do |item|
           expect(item['category']).to eq(category)
@@ -77,7 +77,7 @@ RSpec.describe EstablishmentsController do
       it 'returns an empty list of establishments' do
         get :index, params: { category:, format: :json }
         expect(response).to be_successful
-        json_body = JSON.parse(response.body)
+        json_body = response.parsed_body
         expect(json_body).to be_empty
       end
     end

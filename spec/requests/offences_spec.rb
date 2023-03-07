@@ -4,7 +4,7 @@ RSpec.describe 'offences details' do
   describe 'GET index' do
     subject(:get_offences) { get offences_url, params:, xhr: true }
 
-    let(:json) { JSON.parse(response.body) }
+    let(:json) { response.parsed_body }
 
     before do
       # Scheme 9 offences

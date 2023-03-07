@@ -442,7 +442,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
 
     it 'returns the last error messages array' do
-      is_expected.to match_array(['injection error 1', 'injection error 2'])
+      is_expected.to contain_exactly('injection error 1', 'injection error 2')
     end
   end
 

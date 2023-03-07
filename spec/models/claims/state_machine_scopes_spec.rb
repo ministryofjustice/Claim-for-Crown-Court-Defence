@@ -24,19 +24,19 @@ RSpec.describe Claims::StateMachine do
 
     describe '.non_draft' do
       it 'only returns non-draft claims' do
-        expect(Claim::BaseClaim.active.non_draft).to match_array([allocated_claim, submitted_claim, redetermination_claim, awaiting_written_reasons_claim, deleted_claim])
+        expect(Claim::BaseClaim.active.non_draft).to contain_exactly(allocated_claim, submitted_claim, redetermination_claim, awaiting_written_reasons_claim, deleted_claim)
       end
     end
 
     describe '.submitted_or_redetermination_or_awaiting_written_reasons' do
       it 'only returns submitted or redetermination or awaiting_written_reasons claims' do
-        expect(Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons).to match_array([submitted_claim, redetermination_claim, awaiting_written_reasons_claim])
+        expect(Claim::BaseClaim.active.submitted_or_redetermination_or_awaiting_written_reasons).to contain_exactly(submitted_claim, redetermination_claim, awaiting_written_reasons_claim)
       end
     end
 
     describe '.non_archived_pending_delete' do
       it 'returns everything but archived_pending_delete cases' do
-        expect(Claim::BaseClaim.active.non_archived_pending_delete).to match_array([draft_claim, submitted_claim, allocated_claim, redetermination_claim, awaiting_written_reasons_claim])
+        expect(Claim::BaseClaim.active.non_archived_pending_delete).to contain_exactly(draft_claim, submitted_claim, allocated_claim, redetermination_claim, awaiting_written_reasons_claim)
       end
     end
   end

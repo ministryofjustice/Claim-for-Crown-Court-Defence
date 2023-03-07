@@ -49,7 +49,7 @@ RSpec.describe Claim::InterimClaim do
       let(:options) { { case_type: build(:case_type, fee_type_code: 'GRTRL') } }
 
       it 'returns only fee types applicable for trials' do
-        is_expected.to match_array [trial_start_fee_type]
+        is_expected.to contain_exactly(trial_start_fee_type)
       end
     end
 
@@ -57,7 +57,7 @@ RSpec.describe Claim::InterimClaim do
       let(:options) { { case_type: build(:case_type, fee_type_code: 'GRRTR') } }
 
       it 'returns only fee type applicable for retrials' do
-        is_expected.to match_array [retrial_start_fee_type]
+        is_expected.to contain_exactly(retrial_start_fee_type)
       end
     end
 
@@ -65,7 +65,7 @@ RSpec.describe Claim::InterimClaim do
       let(:case_type) { nil }
 
       it 'returns all interim fee type' do
-        is_expected.to match_array [trial_start_fee_type, retrial_start_fee_type]
+        is_expected.to contain_exactly(trial_start_fee_type, retrial_start_fee_type)
       end
     end
   end

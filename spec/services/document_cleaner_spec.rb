@@ -10,7 +10,7 @@ RSpec.describe DocumentCleaner do
     before { subject.clean! }
 
     it 'removes documents with no claims' do
-      expect(Document.all).to match_array([document_with_claim])
+      expect(Document.all).to contain_exactly(document_with_claim)
     end
   end
 end

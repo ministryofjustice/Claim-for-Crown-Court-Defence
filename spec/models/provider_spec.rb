@@ -147,13 +147,13 @@ RSpec.describe Provider do
 
   describe '.firms' do
     it 'returns only firms' do
-      expect(Provider.firms).to match_array([firm])
+      expect(Provider.firms).to contain_exactly(firm)
     end
   end
 
   describe '.chambers' do
     it 'returns only chambers' do
-      expect(Provider.chambers).to match_array([chamber])
+      expect(Provider.chambers).to contain_exactly(chamber)
     end
   end
 
@@ -202,13 +202,13 @@ RSpec.describe Provider do
 
     describe '#admins' do
       it 'only returns admins in the provider' do
-        expect(provider.admins).to match_array([admin_1, admin_2])
+        expect(provider.admins).to contain_exactly(admin_1, admin_2)
       end
     end
 
     describe '#advocates' do
       it 'only returns advocates in the provider' do
-        expect(provider.advocates).to match_array([advocate])
+        expect(provider.advocates).to contain_exactly(advocate)
       end
     end
   end

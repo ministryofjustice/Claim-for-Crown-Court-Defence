@@ -101,22 +101,18 @@ RSpec.describe GeckoboardPublisher::TravelAutomationReport, geckoboard: true do
       end
 
       it do
-        is_expected.to match_array(
-          [
-            {
-              date: Date.yesterday.to_s(:db),
-              accepted: 0,
-              cost_increased: 0,
-              cost_reduction: 0,
-              increased: 0,
-              percent_accepted: 0,
-              percent_increased: 0,
-              percent_reduced: 0,
-              reduced: 0,
-              total_calculated: 0
-            }
-          ]
-        )
+        is_expected.to contain_exactly({
+                                         date: Date.yesterday.to_s(:db),
+                                         accepted: 0,
+                                         cost_increased: 0,
+                                         cost_reduction: 0,
+                                         increased: 0,
+                                         percent_accepted: 0,
+                                         percent_increased: 0,
+                                         percent_reduced: 0,
+                                         reduced: 0,
+                                         total_calculated: 0
+                                       })
       end
     end
 

@@ -16,7 +16,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController do
 
     it 'assigns @case_workers' do
       case_worker = create(:case_worker)
-      expect(assigns(:case_workers)).to match_array([admin, case_worker])
+      expect(assigns(:case_workers)).to contain_exactly(admin, case_worker)
     end
 
     it 'renders the template' do
@@ -27,7 +27,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController do
       before { get :index, params: { search: subject.user.last_name } }
 
       it 'finds the case workers with specified search criteria' do
-        expect(assigns(:case_workers)).to match_array([subject])
+        expect(assigns(:case_workers)).to contain_exactly(subject)
       end
     end
   end
@@ -137,7 +137,7 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController do
       it 'allocates claims to case worker' do
         put :update, params: { id: subject, case_worker: { claim_ids: [claims.first.id, claims.second.id] } }
         subject.reload
-        expect(subject.claims).to match_array([claims.first, claims.second])
+        expect(subject.claims).to contain_exactly(claims.first, claims.second)
       end
     end
   end

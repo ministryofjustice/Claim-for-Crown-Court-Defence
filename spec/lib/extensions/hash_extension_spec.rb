@@ -28,7 +28,7 @@ RSpec.describe Hash do
     subject { h.all_values_for(:key_id) }
 
     it 'returns an array of all values for the specified key' do
-      is_expected.to match_array ['1', '2', '3', '4', '5', '6', { key_id: '7' }, '7', [:key_id, :key_id]]
+      is_expected.to contain_exactly('1', '2', '3', '4', '5', '6', { key_id: '7' }, '7', [:key_id, :key_id])
     end
   end
 
@@ -36,7 +36,7 @@ RSpec.describe Hash do
     subject(:result) { h.all_keys }
 
     it 'returns an array of all keys' do
-      is_expected.to match_array [:array1, :array2, :array3, :array4, :hash1, :hash2, :hash3, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id]
+      is_expected.to contain_exactly(:array1, :array2, :array3, :array4, :hash1, :hash2, :hash3, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id, :key_id)
     end
 
     it 'returns duplicate keys' do

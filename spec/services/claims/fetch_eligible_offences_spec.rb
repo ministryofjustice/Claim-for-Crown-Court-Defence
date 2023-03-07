@@ -22,7 +22,7 @@ RSpec.describe Claims::FetchEligibleOffences, type: :service do
       end
 
       it 'returns a list containing only the associated offence' do
-        expect(offences).to match_array([offence])
+        expect(offences).to contain_exactly(offence)
       end
     end
   end

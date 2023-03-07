@@ -66,12 +66,12 @@ RSpec.describe Claims::ContextMapper do
 
     it 'for users in AGFS only provider' do
       context = Claims::ContextMapper.new(advocate)
-      expect(context.available_schemes).to match_array([:agfs])
+      expect(context.available_schemes).to contain_exactly(:agfs)
     end
 
     it 'for users in LGFS only provider' do
       context = Claims::ContextMapper.new(litigator)
-      expect(context.available_schemes).to match_array([:lgfs])
+      expect(context.available_schemes).to contain_exactly(:lgfs)
     end
 
     context 'AGFS and LGFS providers' do

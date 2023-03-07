@@ -67,7 +67,7 @@ RSpec.describe 'offences details' do
       end
 
       it 'returns offences only for fee scheme 10' do
-        expect(json.pluck('description')).to match_array(['Offence 10-1', 'Offence 10-3', 'Offence 10-2'])
+        expect(json.pluck('description')).to contain_exactly('Offence 10-1', 'Offence 10-3', 'Offence 10-2')
       end
 
       it 'calls the fee reform search offences service with the provided filters' do

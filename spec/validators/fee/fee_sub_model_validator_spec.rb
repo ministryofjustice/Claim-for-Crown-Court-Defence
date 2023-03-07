@@ -8,6 +8,6 @@ RSpec.describe FeeSubModelValidator, type: :validator do
   describe '#has_many_association_names' do
     subject { validator.has_many_association_names }
 
-    it { is_expected.to match_array([:dates_attended]) }
+    it { is_expected.to contain_exactly(:dates_attended) }
   end
 end

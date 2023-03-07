@@ -108,14 +108,14 @@ RSpec.describe Claim::AdvocateClaim do
 
     describe '#eligible_basic_fee_types' do
       it 'returns only basic fee types for AGFS' do
-        expect(claim.eligible_basic_fee_types).to match_array([@bft1, @bft3, @bft4])
+        expect(claim.eligible_basic_fee_types).to contain_exactly(@bft1, @bft3, @bft4)
       end
 
       context 'when claim has fee reform scheme' do
         let(:claim) { create(:claim, :agfs_scheme_10) }
 
         it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do
-          expect(claim.eligible_basic_fee_types).to match_array([@bft1, @bft5])
+          expect(claim.eligible_basic_fee_types).to contain_exactly(@bft1, @bft5)
         end
       end
 
@@ -124,7 +124,7 @@ RSpec.describe Claim::AdvocateClaim do
         let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence:) }
 
         it 'returns only basic fee types for AGFS scheme 10' do
-          expect(claim.eligible_basic_fee_types).to match_array([@bft1, @bft5])
+          expect(claim.eligible_basic_fee_types).to contain_exactly(@bft1, @bft5)
         end
       end
     end
@@ -360,7 +360,7 @@ RSpec.describe Claim::AdvocateClaim do
         it 'returns a list of basic fees for each of the eligible basic fee types with the ones provided by the user filled in' do
           expect(claim.basic_fees.length).to eq(3)
           expect(claim.basic_fees.map(&:fee_type_id).sort).to eq(claim.eligible_basic_fee_types.map(&:id).sort)
-          expect(claim.basic_fees.map(&:rate)).to match_array([450, nil, nil])
+          expect(claim.basic_fees.map(&:rate)).to contain_exactly(450, nil, nil)
         end
       end
     end

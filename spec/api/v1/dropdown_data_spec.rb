@@ -127,7 +127,7 @@ RSpec.describe API::V1::DropdownData do
       context 'with rep order and main hearing dates' do
         context 'with no dates' do
           it 'defaults to scheme 9 offences' do
-            is_expected.to match_array([exposed_offence[scheme_9_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_9_offence])
           end
         end
 
@@ -135,7 +135,7 @@ RSpec.describe API::V1::DropdownData do
           before { params[:rep_order_date] = '2016-03-01' }
 
           it 'returns scheme 9 offences' do
-            is_expected.to match_array([exposed_offence[scheme_9_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_9_offence])
           end
         end
 
@@ -143,7 +143,7 @@ RSpec.describe API::V1::DropdownData do
           before { params[:rep_order_date] = '2018-04-01' }
 
           it 'returns scheme 10 offences' do
-            is_expected.to match_array([exposed_offence[scheme_10_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_10_offence])
           end
         end
 
@@ -151,7 +151,7 @@ RSpec.describe API::V1::DropdownData do
           before { params[:rep_order_date] = '2018-12-31' }
 
           it 'returns scheme 11 offences' do
-            is_expected.to match_array([exposed_offence[scheme_11_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_11_offence])
           end
         end
 
@@ -159,7 +159,7 @@ RSpec.describe API::V1::DropdownData do
           before { params[:rep_order_date] = '2020-09-17' }
 
           it 'returns scheme 12 offences' do
-            is_expected.to match_array([exposed_offence[scheme_12_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_12_offence])
           end
         end
 
@@ -167,7 +167,7 @@ RSpec.describe API::V1::DropdownData do
           before { params[:rep_order_date] = '2022-09-30' }
 
           it 'returns scheme 13 offences' do
-            is_expected.to match_array([exposed_offence[scheme_13_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_13_offence])
           end
         end
 
@@ -175,7 +175,7 @@ RSpec.describe API::V1::DropdownData do
           before { params[:rep_order_date] = '2022-09-29' }
 
           it 'returns scheme 12 offences' do
-            is_expected.to match_array([exposed_offence[scheme_12_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_12_offence])
           end
         end
 
@@ -186,7 +186,7 @@ RSpec.describe API::V1::DropdownData do
           end
 
           it 'returns scheme 12 offences' do
-            is_expected.to match_array([exposed_offence[scheme_12_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_12_offence])
           end
         end
 
@@ -197,7 +197,7 @@ RSpec.describe API::V1::DropdownData do
           end
 
           it 'returns scheme 12 offences' do
-            is_expected.to match_array([exposed_offence[scheme_13_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_13_offence])
           end
         end
       end
@@ -207,7 +207,7 @@ RSpec.describe API::V1::DropdownData do
 
         it 'returns offences matching description' do
           params[:offence_description] = scheme_9_offence.description
-          is_expected.to match_array([exposed_offence[scheme_9_offence], exposed_offence[offence_with_same_description]])
+          is_expected.to contain_exactly(exposed_offence[scheme_9_offence], exposed_offence[offence_with_same_description])
         end
       end
 
@@ -217,7 +217,7 @@ RSpec.describe API::V1::DropdownData do
 
           it 'returns matching offence' do
             params.merge!(rep_order_date:, unique_code: scheme_9_offence.unique_code)
-            is_expected.to match_array([exposed_offence[scheme_9_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_9_offence])
           end
         end
 
@@ -226,7 +226,7 @@ RSpec.describe API::V1::DropdownData do
 
           it 'returns matching offence' do
             params.merge!(rep_order_date:, unique_code: scheme_10_offence.unique_code)
-            is_expected.to match_array([exposed_offence[scheme_10_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_10_offence])
           end
         end
 
@@ -235,7 +235,7 @@ RSpec.describe API::V1::DropdownData do
 
           it 'returns matching offence' do
             params.merge!(rep_order_date:, unique_code: scheme_11_offence.unique_code)
-            is_expected.to match_array([exposed_offence[scheme_11_offence]])
+            is_expected.to contain_exactly(exposed_offence[scheme_11_offence])
           end
         end
       end
@@ -281,7 +281,7 @@ RSpec.describe API::V1::DropdownData do
 
         it 'returns all fee types' do
           expect(parsed_body.pluck('type').uniq).to \
-            match_array(['Fee::BasicFeeType', 'Fee::FixedFeeType', 'Fee::MiscFeeType', 'Fee::GraduatedFeeType'])
+            contain_exactly('Fee::BasicFeeType', 'Fee::FixedFeeType', 'Fee::MiscFeeType', 'Fee::GraduatedFeeType')
         end
       end
 

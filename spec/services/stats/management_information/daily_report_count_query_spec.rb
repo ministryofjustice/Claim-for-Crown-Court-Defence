@@ -58,11 +58,11 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
       it { is_expected.to be_a(Array) }
 
       it 'each element of array returns hash with expected keys' do
-        expect(result.map(&:keys)).to all(contain_exactly(*expected_result_keys))
+        expect(result.map(&:keys)).to all(match_array(expected_result_keys))
       end
 
       it 'each element of array returns hash with expected value types' do
-        expect(result.map(&:values)).to all(contain_exactly(*expected_result_values_types))
+        expect(result.map(&:values)).to all(match_array(expected_result_values_types))
       end
 
       context 'with AGFS query_set' do
@@ -76,7 +76,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
         end
 
         it 'each element of array has expected :name value' do
-          expect(result.pluck(:name)).to contain_exactly(*expected_result_names)
+          expect(result.pluck(:name)).to match_array(expected_result_names)
         end
       end
 
@@ -91,7 +91,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
         end
 
         it 'each element of array has expected :name value' do
-          expect(result.pluck(:name)).to contain_exactly(*expected_result_names)
+          expect(result.pluck(:name)).to match_array(expected_result_names)
         end
       end
     end

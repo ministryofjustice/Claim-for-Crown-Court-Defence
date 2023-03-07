@@ -120,43 +120,43 @@ RSpec.describe Fee::BaseFeeType do
 
     describe '.basic' do
       it 'returns all basic fee types' do
-        expect(described_class.basic).to match_array([@bf1, @bf2])
+        expect(described_class.basic).to contain_exactly(@bf1, @bf2)
       end
     end
 
     describe '.misc' do
       it 'returns all misc fee types' do
-        expect(described_class.misc).to match_array([@mf1, @mf2])
+        expect(described_class.misc).to contain_exactly(@mf1, @mf2)
       end
     end
 
     describe '.fixed' do
       it 'returns all fixed fee types' do
-        expect(described_class.fixed).to match_array([@ff1, @ff2])
+        expect(described_class.fixed).to contain_exactly(@ff1, @ff2)
       end
     end
 
     describe '.warrant' do
       it 'returns all warrant fee types' do
-        expect(described_class.warrant).to match_array([@wf1, @wf2])
+        expect(described_class.warrant).to contain_exactly(@wf1, @wf2)
       end
     end
 
     describe '.graduated' do
       it 'returns all graduated fee types' do
-        expect(described_class.graduated).to match_array([@gf1, @gf2])
+        expect(described_class.graduated).to contain_exactly(@gf1, @gf2)
       end
     end
 
     describe '.interim' do
       it 'returns all interim fee types' do
-        expect(described_class.interim).to match_array([@if1, @if2])
+        expect(described_class.interim).to contain_exactly(@if1, @if2)
       end
     end
 
     describe '.transfer' do
       it 'returns all transfer fee types' do
-        expect(described_class.transfer).to match_array([@tf1])
+        expect(described_class.transfer).to contain_exactly(@tf1)
       end
     end
   end
@@ -178,39 +178,39 @@ RSpec.describe Fee::BaseFeeType do
     describe '.agfs_scheme_9s' do
       subject { described_class.agfs_scheme_9s.map(&:description) }
 
-      it { is_expected.to match_array(['AGFS Scheme 9, 10, 12 and 13 roles', 'AGFS Scheme 9, 10 and 12 roles', 'AGFS Scheme 9 role only']) }
+      it { is_expected.to contain_exactly('AGFS Scheme 9, 10, 12 and 13 roles', 'AGFS Scheme 9, 10 and 12 roles', 'AGFS Scheme 9 role only') }
     end
 
     describe '.agfs_scheme_10s' do
       subject { described_class.agfs_scheme_10s.map(&:description) }
 
-      it { is_expected.to match_array(['AGFS Scheme 9, 10, 12 and 13 roles', 'AGFS Scheme 9, 10 and 12 roles', 'AGFS Scheme 10, 12 and 13 roles', 'AGFS Scheme 10 and 12 roles']) }
+      it { is_expected.to contain_exactly('AGFS Scheme 9, 10, 12 and 13 roles', 'AGFS Scheme 9, 10 and 12 roles', 'AGFS Scheme 10, 12 and 13 roles', 'AGFS Scheme 10 and 12 roles') }
     end
 
     describe '.agfs_scheme_12s' do
       subject { described_class.agfs_scheme_12s.map(&:description) }
 
-      it { is_expected.to match_array(['AGFS Scheme 9, 10, 12 and 13 roles', 'AGFS Scheme 9, 10 and 12 roles', 'AGFS Scheme 10, 12 and 13 roles', 'AGFS Scheme 12 and 13 roles', 'AGFS Scheme 10 and 12 roles', 'AGFS Scheme 12 role only']) }
+      it { is_expected.to contain_exactly('AGFS Scheme 9, 10, 12 and 13 roles', 'AGFS Scheme 9, 10 and 12 roles', 'AGFS Scheme 10, 12 and 13 roles', 'AGFS Scheme 12 and 13 roles', 'AGFS Scheme 10 and 12 roles', 'AGFS Scheme 12 role only') }
     end
 
     describe '.agfs_scheme_13s' do
       subject { described_class.agfs_scheme_13s.map(&:description) }
 
       it do
-        is_expected.to match_array(['AGFS Scheme 9, 10, 12 and 13 roles', 'AGFS Scheme 10, 12 and 13 roles', 'AGFS Scheme 12 and 13 roles'])
+        is_expected.to contain_exactly('AGFS Scheme 9, 10, 12 and 13 roles', 'AGFS Scheme 10, 12 and 13 roles', 'AGFS Scheme 12 and 13 roles')
       end
     end
 
     describe '.lgfs_scheme_9s' do
       subject { described_class.lgfs_scheme_9s.map(&:description) }
 
-      it { is_expected.to match_array(['LGFS Scheme 9 and 10 roles', 'LGFS Scheme 9 role only']) }
+      it { is_expected.to contain_exactly('LGFS Scheme 9 and 10 roles', 'LGFS Scheme 9 role only') }
     end
 
     describe '.lgfs_scheme_10s' do
       subject { described_class.lgfs_scheme_10s.map(&:description) }
 
-      it { is_expected.to match_array(['LGFS Scheme 9 and 10 roles', 'LGFS Scheme 10 role only']) }
+      it { is_expected.to contain_exactly('LGFS Scheme 9 and 10 roles', 'LGFS Scheme 10 role only') }
     end
   end
 end

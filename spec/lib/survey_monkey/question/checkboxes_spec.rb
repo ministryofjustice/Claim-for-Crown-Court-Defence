@@ -13,7 +13,7 @@ RSpec.describe SurveyMonkey::Question::Checkboxes do
 
       it { is_expected.to be_a SurveyMonkey::Answer::Checkboxes }
       it { expect(parse.to_h[:id]).to eq '999' }
-      it { expect(parse.to_h[:answers]).to match_array([{ choice_id: '2' }, { choice_id: '6' }]) }
+      it { expect(parse.to_h[:answers]).to contain_exactly({ choice_id: '2' }, { choice_id: '6' }) }
     end
 
     context 'with an invalid response' do

@@ -79,7 +79,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
 
       it {
         expect(rows['Id'])
-          .to match_array([agfs_claim.id.to_s, lgfs_claim.id.to_s, lgfs_claim.id.to_s])
+          .to contain_exactly(agfs_claim.id.to_s, lgfs_claim.id.to_s, lgfs_claim.id.to_s)
       }
 
       it {
@@ -89,36 +89,35 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
 
       it {
         expect(rows['Case number'])
-          .to match_array([agfs_claim.case_number, lgfs_claim.case_number, lgfs_claim.case_number])
+          .to contain_exactly(agfs_claim.case_number, lgfs_claim.case_number, lgfs_claim.case_number)
       }
 
       it {
         expect(rows['Supplier number'])
-          .to match_array([agfs_claim.supplier_number, lgfs_claim.supplier_number, lgfs_claim.supplier_number])
+          .to contain_exactly(agfs_claim.supplier_number, lgfs_claim.supplier_number, lgfs_claim.supplier_number)
       }
 
       it {
         expect(rows['Organisation'])
-          .to match_array([agfs_claim.creator.provider.name,
-                           lgfs_claim.creator.provider.name,
-                           lgfs_claim.creator.provider.name])
+          .to contain_exactly(agfs_claim.creator.provider.name, lgfs_claim.creator.provider.name,
+                              lgfs_claim.creator.provider.name)
       }
 
       it {
         expect(rows['Case type name'])
-          .to match_array([agfs_claim.case_type.name, lgfs_claim.case_type.name, lgfs_claim.case_type.name])
+          .to contain_exactly(agfs_claim.case_type.name, lgfs_claim.case_type.name, lgfs_claim.case_type.name)
       }
 
       it {
         expect(rows['Bill type'])
-          .to match_array(['AGFS Final', 'LGFS Final', 'LGFS Final'])
+          .to contain_exactly('AGFS Final', 'LGFS Final', 'LGFS Final')
       }
 
       it {
         expect(rows['Claim total'])
-          .to match_array([format('%.2f', agfs_claim.total + agfs_claim.vat_amount),
-                           format('%.2f', lgfs_claim.total + lgfs_claim.vat_amount),
-                           format('%.2f', lgfs_claim.total + lgfs_claim.vat_amount)])
+          .to contain_exactly(format('%.2f', agfs_claim.total + agfs_claim.vat_amount),
+                              format('%.2f', lgfs_claim.total + lgfs_claim.vat_amount),
+                              format('%.2f', lgfs_claim.total + lgfs_claim.vat_amount))
       }
 
       it { expect(rows['Submission type']).to match_array(%w[new new redetermination]) }
@@ -128,49 +127,46 @@ RSpec.describe Stats::ManagementInformation::DailyReportGenerator do
       it { expect(rows['Allocated at']).to all(match(%r{(\d{2}/\d{2}/\d{4}|n/a)})) }
       it { expect(rows['Completed at']).to all(match(%r{(\d{2}/\d{2}/\d{4} \d{2}:\d{2}|n/a)})) }
       it { expect(rows['Current or end state']).to match_array(%w[submitted part_authorised refused]) }
-      it { expect(rows['State reason code']).to match_array([nil, nil, 'reason']) }
-      it { expect(rows['Rejection reason']).to match_array([nil, nil, 'reason text from caseworker']) }
+      it { expect(rows['State reason code']).to contain_exactly(nil, nil, 'reason') }
+      it { expect(rows['Rejection reason']).to contain_exactly(nil, nil, 'reason text from caseworker') }
 
       it {
         expect(rows['Case worker'])
-          .to match_array(['n/a',
-                           'Case Worker-one',
-                           'Case Worker-two'])
+          .to contain_exactly('n/a', 'Case Worker-one', 'Case Worker-two')
       }
 
       it { expect(rows['Disk evidence case']).to match_array(%w[No Yes Yes]) }
 
       it {
         expect(rows['Main defendant'])
-          .to match_array([agfs_claim.defendants.first.name,
-                           lgfs_claim.defendants.first.name,
-                           lgfs_claim.defendants.first.name])
+          .to contain_exactly(agfs_claim.defendants.first.name, lgfs_claim.defendants.first.name,
+                              lgfs_claim.defendants.first.name)
       }
 
       it {
         expect(rows['Maat reference'])
-          .to match_array([agfs_claim.earliest_representation_order.maat_reference,
-                           lgfs_claim.earliest_representation_order.maat_reference,
-                           lgfs_claim.earliest_representation_order.maat_reference])
+          .to contain_exactly(agfs_claim.earliest_representation_order.maat_reference,
+                              lgfs_claim.earliest_representation_order.maat_reference,
+                              lgfs_claim.earliest_representation_order.maat_reference)
       }
 
       it {
         expect(rows['Rep order issued date'])
-          .to match_array([agfs_claim.earliest_representation_order_date.strftime('%d/%m/%Y'),
-                           lgfs_claim.earliest_representation_order_date.strftime('%d/%m/%Y'),
-                           lgfs_claim.earliest_representation_order_date.strftime('%d/%m/%Y')])
+          .to contain_exactly(agfs_claim.earliest_representation_order_date.strftime('%d/%m/%Y'),
+                              lgfs_claim.earliest_representation_order_date.strftime('%d/%m/%Y'),
+                              lgfs_claim.earliest_representation_order_date.strftime('%d/%m/%Y'))
       }
 
-      it { expect(rows['AF1/LF1 processed by']).to match_array([nil, nil, 'Case Worker-one']) }
+      it { expect(rows['AF1/LF1 processed by']).to contain_exactly(nil, nil, 'Case Worker-one') }
 
       it {
         expect(rows['Misc fees'])
-          .to match_array([agfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' '),
-                           lgfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' '),
-                           lgfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' ')])
+          .to contain_exactly(agfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' '),
+                              lgfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' '),
+                              lgfs_claim.misc_fees.map { |f| f.fee_type.description }.join(' '))
       }
 
-      it { expect(rows['Main hearing date']).to match_array(['23/02/2023', nil, nil]) }
+      it { expect(rows['Main hearing date']).to contain_exactly('23/02/2023', nil, nil) }
       it { expect(rows['Source']).to match_array(%w[web api api]) }
     end
 

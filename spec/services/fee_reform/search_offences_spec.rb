@@ -46,7 +46,7 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
         let(:filters) { { fee_scheme: scheme_filter } }
 
         it 'returns all offences for the fee scheme' do
-          expect(results.map(&:description)).to match_array(['Offence 10-1', 'Offence 10-2 paTTern', 'Offence 10-3', 'Offence 10-4', 'Offence 10-5'])
+          expect(results.map(&:description)).to contain_exactly('Offence 10-1', 'Offence 10-2 paTTern', 'Offence 10-3', 'Offence 10-4', 'Offence 10-5')
         end
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe FeeReform::SearchOffences, type: :service do
         let(:filters) { { fee_scheme: scheme_filter, search_offence: 'pattern' } }
 
         it 'returns offences for the fee scheme that match the search pattern (including band description and category description)' do
-          expect(results.map(&:description)).to match_array(['Offence 11-2 paTTern', 'Offence 11-3', 'Offence 11-4', 'Offence 11-5'])
+          expect(results.map(&:description)).to contain_exactly('Offence 11-2 paTTern', 'Offence 11-3', 'Offence 11-4', 'Offence 11-5')
         end
       end
     end

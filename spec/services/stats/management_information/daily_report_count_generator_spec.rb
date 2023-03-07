@@ -130,7 +130,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       it 'has expected counts in the date column' do
         all_counts_for_start_date = rows[start_date.strftime("%d/%m/%Y\n%A")].map(&:to_i)
         expected_counts = [3, 0, 0, 0, 0, 0, 0, 0] * 2
-        expect(all_counts_for_start_date).to contain_exactly(*expected_counts)
+        expect(all_counts_for_start_date).to match_array(expected_counts)
       end
 
       it 'has expected count at expected row (intake_final_fee) and column (date)' do

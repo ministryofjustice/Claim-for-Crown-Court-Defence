@@ -29,7 +29,7 @@ RSpec.describe SlackNotifier::Formatter::Injection do
       it { expect(attachment[:title]).to eq 'Injection into external application succeeded' }
       it { expect(attachment[:text]).to eq claim.uuid }
       it { expect(attachment[:color]).to eq '#36a64f' }
-      it { expect(attachment[:fields].pluck(:title)).to match_array(['Claim number', 'environment']) }
+      it { expect(attachment[:fields].pluck(:title)).to contain_exactly('Claim number', 'environment') }
       it { expect { attachment }.to change(formatter, :message_icon).to ':tada:' }
     end
 
@@ -44,14 +44,14 @@ RSpec.describe SlackNotifier::Formatter::Injection do
       it { expect(attachment[:color]).to eq '#c41f1f' }
 
       it {
-        expect(attachment[:fields].pluck(:title)).to match_array(['Claim number', 'environment', 'Errors'])
+        expect(attachment[:fields].pluck(:title)).to contain_exactly('Claim number', 'environment', 'Errors')
       }
     end
 
     context 'without an errors parameter' do
       let(:build_parameters) { valid_build_parameters.except(:errors) }
 
-      it { expect(attachment[:fields].pluck(:title)).to match_array(['Claim number', 'environment']) }
+      it { expect(attachment[:fields].pluck(:title)).to contain_exactly('Claim number', 'environment') }
     end
 
     context 'with an unknown claim' do

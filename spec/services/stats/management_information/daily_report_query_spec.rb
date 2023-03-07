@@ -111,7 +111,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       let!(:claim) { create(:advocate_final_claim, :submitted) }
 
-      it { is_expected.to match_array([claim.provider.name]) }
+      it { is_expected.to contain_exactly(claim.provider.name) }
     end
 
     describe ':case_type_name' do
@@ -333,7 +333,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       end
 
       it 'returns the defendant that was created first for each journey' do
-        is_expected.to match_array(['Main Defendant', 'Main Defendant'])
+        is_expected.to contain_exactly('Main Defendant', 'Main Defendant')
       end
     end
 
@@ -359,7 +359,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         end
 
         it 'returns maat_reference of rep order with earliest representation_order_date' do
-          is_expected.to match_array(['4444440'])
+          is_expected.to contain_exactly('4444440')
         end
       end
 
@@ -382,7 +382,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         end
 
         it 'returns maat_reference of first created rep order' do
-          is_expected.to match_array(['4444440'])
+          is_expected.to contain_exactly('4444440')
         end
       end
     end
@@ -411,7 +411,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         end
       end
 
-      it { is_expected.to match_array([31.days.ago.strftime('%F')]) }
+      it { is_expected.to contain_exactly(31.days.ago.strftime('%F')) }
     end
 
     # authors full name for the "previous decision" that was redetermined or nil if previous decision was not redetermined
@@ -456,9 +456,11 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         end
       end
 
-      it {
-        is_expected.to match_array(['Abuse of process hearings (half day) Abuse of process hearings (half day uplift)'])
-      }
+      it do
+        is_expected.to contain_exactly(
+          'Abuse of process hearings (half day) Abuse of process hearings (half day uplift)'
+        )
+      end
     end
 
     describe ':journey' do
@@ -468,17 +470,17 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       it 'excludes state transitions to draft' do
         create(:advocate_final_claim, :allocated)
-        expect(journey_tos).to match_array([%w[submitted allocated]])
+        expect(journey_tos).to contain_exactly(%w[submitted allocated])
       end
 
       it 'excludes state transitions to archived_pending_delete' do
         create(:litigator_final_claim, :archived_pending_delete)
-        expect(journey_tos).to match_array([%w[submitted allocated authorised]])
+        expect(journey_tos).to contain_exactly(%w[submitted allocated authorised])
       end
 
       it 'excludes state transitions to archived_pending_review' do
         create(:litigator_hardship_claim, :archived_pending_review)
-        expect(journey_tos).to match_array([%w[submitted allocated authorised]])
+        expect(journey_tos).to contain_exactly(%w[submitted allocated authorised])
       end
 
       # rubocop:disable RSpec/ExampleLength

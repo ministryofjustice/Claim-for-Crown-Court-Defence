@@ -16,7 +16,7 @@ RSpec.describe Cleaners::TransferClaimCleaner do
 
       it do
         call_cleaner
-        expect(claim.fees.map(&:class)).to match_array([Fee::TransferFee])
+        expect(claim.fees.map(&:class)).to contain_exactly(Fee::TransferFee)
       end
     end
 
@@ -27,7 +27,7 @@ RSpec.describe Cleaners::TransferClaimCleaner do
 
       it do
         call_cleaner
-        expect(claim.fees.map(&:class)).to match_array([Fee::TransferFee, Fee::MiscFee])
+        expect(claim.fees.map(&:class)).to contain_exactly(Fee::TransferFee, Fee::MiscFee)
       end
     end
   end

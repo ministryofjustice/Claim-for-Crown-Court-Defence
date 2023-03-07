@@ -16,12 +16,12 @@ end
 
 RSpec.shared_examples 'API validation successful' do
   it { expect(response).to be_successful }
-  it { expect(JSON.parse(response.body)['valid']).to be_truthy }
+  it { expect(response.parsed_body['valid']).to be_truthy }
 end
 
 RSpec.shared_examples 'API request fails with ineligible advocate category' do
   it { expect(response).to have_http_status(:bad_request) }
-  it { expect(JSON.parse(response.body).first['error']).to eq('Choose an eligible advocate category') }
+  it { expect(response.parsed_body.first['error']).to eq('Choose an eligible advocate category') }
 end
 
 RSpec.shared_examples 'claim with AGFS reform advocate categories' do
@@ -64,7 +64,7 @@ RSpec.shared_examples 'claim with AGFS reform advocate categories' do
       let(:advocate_category) { 'Unknown' }
 
       it { expect(response).to have_http_status(:bad_request) }
-      it { expect(JSON.parse(response.body).first['error']).to eq('advocate_category does not have a valid value') }
+      it { expect(response.parsed_body.first['error']).to eq('advocate_category does not have a valid value') }
     end
   end
 
@@ -99,7 +99,7 @@ RSpec.shared_examples 'claim with AGFS reform advocate categories' do
       let(:advocate_category) { 'Unknown' }
 
       it { expect(response).to have_http_status(:bad_request) }
-      it { expect(JSON.parse(response.body).first['error']).to eq('advocate_category does not have a valid value') }
+      it { expect(response.parsed_body.first['error']).to eq('advocate_category does not have a valid value') }
     end
   end
 end

@@ -10,7 +10,7 @@ RSpec.shared_examples 'a successful price calculation response' do
   end
 
   it 'returns success? true' do
-    expect(JSON.parse(response.body)['success?']).to be true
+    expect(response.parsed_body['success?']).to be true
   end
 end
 
@@ -24,15 +24,15 @@ RSpec.shared_examples 'a failed price calculation response' do
   end
 
   it 'returns success? false' do
-    expect(JSON.parse(response.body)['success?']).to be false
+    expect(response.parsed_body['success?']).to be false
   end
 
   it 'returns JSON errors array' do
-    expect(JSON.parse(response.body)['errors']).to be_an Array
+    expect(response.parsed_body['errors']).to be_an Array
   end
 
   it 'returns JSON error message string' do
-    expect(JSON.parse(response.body)['message']).to be_a String
+    expect(response.parsed_body['message']).to be_a String
   end
 end
 

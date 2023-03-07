@@ -41,7 +41,7 @@ RSpec.describe MultiparameterAttributeCleaner do
     context 'with valid date parts' do
       it 'does not change parameters' do
         post :create, params: person_params
-        expect(JSON.parse(response.body))
+        expect(response.parsed_body)
           .to include({ 'date_of_birth(3i)' => '31', 'date_of_birth(2i)' => '12' })
       end
     end
@@ -52,7 +52,7 @@ RSpec.describe MultiparameterAttributeCleaner do
 
       it 'does not change parameters' do
         post :create, params: person_params
-        expect(JSON.parse(response.body))
+        expect(response.parsed_body)
           .to include({ 'date_of_birth(3i)' => '32', 'date_of_birth(2i)' => '13' })
       end
     end
@@ -94,7 +94,7 @@ RSpec.describe MultiparameterAttributeCleaner do
 
       it 'does not change params' do
         post :create, params: person_params
-        expect(JSON.parse(response.body))
+        expect(response.parsed_body)
           .to include({ 'date_of_birth(3i)' => '31', 'date_of_birth(2i)' => '12' })
       end
     end
@@ -105,7 +105,7 @@ RSpec.describe MultiparameterAttributeCleaner do
 
       it 'clears invalid day and month values' do
         post :create, params: person_params
-        expect(JSON.parse(response.body))
+        expect(response.parsed_body)
           .to include({ 'date_of_birth(3i)' => '', 'date_of_birth(2i)' => '' })
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe MultiparameterAttributeCleaner do
 
       it 'does not change params' do
         post :create, params: person_params
-        expect(JSON.parse(response.body)).to eql(expected_response)
+        expect(response.parsed_body).to eql(expected_response)
       end
     end
 
@@ -194,7 +194,7 @@ RSpec.describe MultiparameterAttributeCleaner do
 
       it 'clears deeply nested invalid day and month values' do
         post :create, params: person_params
-        expect(JSON.parse(response.body)).to eql(expected_response)
+        expect(response.parsed_body).to eql(expected_response)
       end
     end
   end

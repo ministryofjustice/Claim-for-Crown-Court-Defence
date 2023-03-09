@@ -74,7 +74,6 @@ module ClaimsHelper
   end
 
   def display_main_hearing_date_flag?(claim)
-    (Settings.main_hearing_date_enabled_for_agfs? && claim.agfs?) ||
-      (Settings.main_hearing_date_enabled_for_lgfs? && claim.lgfs?)
+    Settings.main_hearing_date_enabled_for_lgfs? && claim.lgfs?
   end
 end

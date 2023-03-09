@@ -99,9 +99,6 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 #
 maintenance_mode_enabled?: <%= ENV.fetch('MAINTENANCE_MODE', nil)&.downcase&.eql?('true') %>
 
-# Feature flag to enable AGFS main hearing for clair contigency
-main_hearing_date_enabled_for_agfs?: <%= ENV.fetch('MAIN_HEARING_DATE_ENABLED_FOR_AGFS', nil)&.downcase&.eql?('true') %>
-
 # Feature flag to enable LGFS main hearing for clair contigency
 main_hearing_date_enabled_for_lgfs?: <%= ENV.fetch('MAIN_HEARING_DATE_ENABLED_FOR_LGFS', nil)&.downcase&.eql?('true') %>
 

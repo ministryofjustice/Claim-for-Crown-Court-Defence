@@ -399,7 +399,6 @@ class Claim::BaseClaimValidator < BaseValidator
   end
 
   def main_hearing_date_enabled?
-    (Settings.main_hearing_date_enabled_for_agfs? && @record.agfs?) ||
-      (Settings.main_hearing_date_enabled_for_lgfs? && @record.lgfs?)
+    Settings.main_hearing_date_enabled_for_lgfs? && @record.lgfs?
   end
 end

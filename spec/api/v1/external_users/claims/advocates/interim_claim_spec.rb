@@ -25,7 +25,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
       advocate_category: 'Leading junior',
       offence_id: offence.id,
       court_id: court.id,
-      main_hearing_date: '2015-02-05'
+      main_hearing_date: Time.zone.today.strftime
     }
   end
 

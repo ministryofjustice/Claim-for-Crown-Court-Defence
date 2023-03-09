@@ -382,12 +382,8 @@ class Claim::BaseClaimValidator < BaseValidator
     return unless @record.earliest_representation_order_date
     return if allow_elected_case_not_proceeded?
 
-    if main_hearing_date_enabled?
-      @record.errors.add(:earliest_representation_order_date,
-                         'invalid for elected case not proceeded and main hearing date')
-    else
-      @record.errors.add(:earliest_representation_order_date, 'invalid for elected case not proceeded')
-    end
+    @record.errors.add(:earliest_representation_order_date,
+                       'invalid for elected case not proceeded and main hearing date')
   end
 
   def allow_elected_case_not_proceeded?
@@ -396,9 +392,5 @@ class Claim::BaseClaimValidator < BaseValidator
     return pre_clair_rep_order unless @record.main_hearing_date
 
     pre_clair_rep_order && @record.main_hearing_date.before?(Settings.clair_contingency_date)
-  end
-
-  def main_hearing_date_enabled?
-    Settings.main_hearing_date_enabled_for_lgfs? && @record.lgfs?
   end
 end

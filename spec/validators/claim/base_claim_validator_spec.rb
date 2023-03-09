@@ -707,7 +707,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'when defendant has a rep order in fee scheme 13' do
       before { claim.defendants = [create(:defendant, scheme: 'scheme 13')] }
 
-      it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded') }
+      it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded and main hearing date') }
     end
 
     context 'when one defendant of two has a rep order in fee scheme 13' do
@@ -719,7 +719,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'when two defendants both have rep orders in fee scheme 13' do
       before { claim.defendants = [create(:defendant, scheme: 'scheme 13'), create(:defendant, scheme: 'scheme 13')] }
 
-      it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded') }
+      it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded and main hearing date') }
     end
 
     context 'when defendant has a rep order in fee scheme 12 and a CLAIR contingency main hearing date' do
@@ -728,7 +728,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
         claim.main_hearing_date = Settings.clair_contingency_date
       end
 
-      it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded') }
+      it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded and main hearing date') }
     end
 
     context 'when defendant has a rep order in fee scheme 12 and a pre-CLAIR contingency main hearing date' do

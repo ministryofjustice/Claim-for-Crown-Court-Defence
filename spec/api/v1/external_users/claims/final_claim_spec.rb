@@ -30,20 +30,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
 
   after(:all) { clean_database }
 
-  context 'when CLAIR contingency functionality is disabled' do
-    before { valid_params.except!(:main_hearing_date) }
-
-    include_examples 'litigator claim test setup'
-    it_behaves_like 'a claim endpoint', relative_endpoint: :final
-    it_behaves_like 'a claim validate endpoint', relative_endpoint: :final
-    it_behaves_like 'a claim create endpoint', relative_endpoint: :final
-  end
-
-  context 'when CLAIR contingency functionality is enabled',
-          skip: 'Skipped pending removal of the main_hearing_date feature flag' do
-    include_examples 'litigator claim test setup'
-    it_behaves_like 'a claim endpoint', relative_endpoint: :final
-    it_behaves_like 'a claim validate endpoint', relative_endpoint: :final
-    it_behaves_like 'a claim create endpoint', relative_endpoint: :final
-  end
+  include_examples 'litigator claim test setup'
+  it_behaves_like 'a claim endpoint', relative_endpoint: :final
+  it_behaves_like 'a claim validate endpoint', relative_endpoint: :final
+  it_behaves_like 'a claim create endpoint', relative_endpoint: :final
 end

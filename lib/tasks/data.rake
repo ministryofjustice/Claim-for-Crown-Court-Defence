@@ -184,6 +184,69 @@ namespace :data do
       Rake::Task["data:migrate:add_agfs_reform_other_offences"].invoke(*args.to_h.values)
     end
 
+    desc 'Fix incorrectly banded offences'
+    task fix_incorrectly_banded_offences: :environment do
+      descriptions163 = [
+        'Engaging in a commercial practice contravening requirements of professional diligence etc',
+        'Engaging in a commercial practice which is a misleading action',
+        'Engaging in a commercial practice which is a misleading omission',
+        'Engaging in a commercial practice which is aggressive',
+        'Engage in commercial practice set out in any of paragraphs 1 to 10, 12 to 27 and 29 to 31 of Schedule 1'
+      ]
+      description34 = 'Failure to comply with prohibition, restriction or condition in violent offender order or interim violent offender order'
+
+      fee_schemes_offences = [
+        FeeScheme.agfs.eleven.first.offences,
+        FeeScheme.agfs.twelve.first.offences,
+        FeeScheme.agfs.thirteen.first.offences
+      ]
+
+      offences163 = fee_schemes_offences.map { |search| search.where(description: descriptions163) }.flatten
+      offences34 = fee_schemes_offences.map { |search| search.where(description: description34) }.flatten
+
+      offence_band_163 = OffenceBand.find_by(description: '16.3')
+      offence_band_34 = OffenceBand.find_by(description: '3.4')
+
+      puts "Found #{offences163.count} offence(s) to be changed to band 16.3"
+      offences163.each do |offence|
+        puts "  #{offence.unique_code} #{offence.description}"
+      end
+      abort('Incorrect number of offences found - expected 15') if offences163.count != 15
+      puts "Found #{offences34.count} offence(s) to be changed to band 3.4"
+      offences34.each do |offence|
+        puts "  #{offence.unique_code} #{offence.description}"
+      end
+      abort('Incorrect number of offences found - expected 3') if offences34.count != 3
+      puts
+
+      puts 'Updating to Offence Band 16.3'
+      offences163.each do |offence|
+        offence.offence_band = offence_band_163
+        offence.save
+      end
+      puts 'Updating to Offence Band 3.4'
+      offences34.each do |offence|
+        offence.offence_band = offence_band_34
+        offence.save
+      end
+
+      puts 'Recreate unique codes'
+      Rake::Task['data:migrate:offence_unique_code_scheme_10'].invoke
+
+      puts
+
+      puts 'New unique codes'
+      offences163.each do |offence|
+        offence.reload
+        puts "  #{offence.unique_code} #{offence.description}"
+      end
+      puts "Found #{offences34.count} offence(s) to be changed to band 3.4"
+      offences34.each do |offence|
+        offence.reload
+        puts "  #{offence.unique_code} #{offence.description}"
+      end
+    end
+
     namespace :providers do
       desc 'Seed LGFS supplier data (prefix with SEEDS_DRY_MODE=false to disable DRY mode)'
       task lgfs_suppliers: :environment do

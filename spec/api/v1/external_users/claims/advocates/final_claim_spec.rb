@@ -4,11 +4,8 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  FINAL_CLAIM_ENDPOINT = 'advocates/final'.freeze
-
-  subject(:post_to_validate_endpoint) do
-    post ClaimApiEndpoints.for(FINAL_CLAIM_ENDPOINT).validate, valid_params, format: :json
-  end
+  ADVOCATE_FINAL_CLAIM_ENDPOINT = 'advocates/final'.freeze
+  ADVOCATE_FINAL_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_FINAL_CLAIM_ENDPOINT).validate
 
   let(:claim_class)     { Claim::AdvocateClaim }
   let!(:provider)       { create(:provider) }
@@ -16,7 +13,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
   let!(:advocate)       { create(:external_user, :advocate, provider:) }
   let!(:offence)        { create(:offence) }
   let!(:court)          { create(:court) }
-  let!(:valid_params) do
+  let(:valid_params) do
     {
       api_key: provider.api_key,
       creator_email: vendor.user.email,
@@ -50,14 +47,16 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
                                                      trial_cracked_at
                                                      retrial_started_at
                                                      retrial_concluded_at
-                                                     main_hearing_date]
+                                                     main_hearing_date],
+                   relative_endpoint: ADVOCATE_FINAL_VALIDATE_ENDPOINT
   include_examples 'optional parameter validation',
                    optional_parameters: %i[estimated_trial_length
                                            actual_trial_length
                                            retrial_estimated_length
                                            retrial_actual_length
-                                           main_hearing_date]
-  it_behaves_like 'a claim endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-  it_behaves_like 'a claim validate endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
-  it_behaves_like 'a claim create endpoint', relative_endpoint: FINAL_CLAIM_ENDPOINT
+                                           main_hearing_date],
+                   relative_endpoint: ADVOCATE_FINAL_VALIDATE_ENDPOINT
+  it_behaves_like 'a claim endpoint', relative_endpoint: ADVOCATE_FINAL_CLAIM_ENDPOINT
+  it_behaves_like 'a claim validate endpoint', relative_endpoint: ADVOCATE_FINAL_CLAIM_ENDPOINT
+  it_behaves_like 'a claim create endpoint', relative_endpoint: ADVOCATE_FINAL_CLAIM_ENDPOINT
 end

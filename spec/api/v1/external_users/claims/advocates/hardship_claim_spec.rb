@@ -5,10 +5,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
   include ApiSpecHelper
 
   ADVOCATE_HARDSHIP_CLAIM_ENDPOINT = 'advocates/hardship'.freeze
-
-  subject(:post_to_validate_endpoint) do
-    post ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate, valid_params, format: :json
-  end
+  ADVOCATE_HARDSHIP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate
 
   let(:claim_class) { Claim::AdvocateHardshipClaim }
   let!(:provider)       { create(:provider) }
@@ -16,7 +13,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
   let!(:advocate)       { create(:external_user, :advocate, provider:) }
   let!(:offence)        { create(:offence) }
   let!(:court)          { create(:court) }
-  let!(:valid_params) do
+  let(:valid_params) do
     {
       api_key: provider.api_key,
       creator_email: vendor.user.email,
@@ -38,12 +35,15 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
 
   include_examples 'advocate claim test setup'
   include_examples 'malformed or not iso8601 compliant dates',
-                   action: :validate, attributes: %i[first_day_of_trial trial_concluded_at main_hearing_date]
+                   action: :validate,
+                   attributes: %i[first_day_of_trial trial_concluded_at main_hearing_date],
+                   relative_endpoint: ADVOCATE_HARDSHIP_VALIDATE_ENDPOINT
   include_examples 'optional parameter validation',
                    optional_parameters: %i[trial_concluded_at
                                            estimated_trial_length
                                            actual_trial_length
-                                           main_hearing_date]
+                                           main_hearing_date],
+                   relative_endpoint: ADVOCATE_HARDSHIP_VALIDATE_ENDPOINT
   it_behaves_like 'a claim endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
   it_behaves_like 'a claim validate endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT
   it_behaves_like 'a claim create endpoint', relative_endpoint: ADVOCATE_HARDSHIP_CLAIM_ENDPOINT

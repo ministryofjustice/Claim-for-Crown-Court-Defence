@@ -47,6 +47,10 @@ RSpec.shared_examples 'should NOT be able to amend a non-draft claim' do
 end
 
 RSpec.shared_examples 'malformed or not iso8601 compliant dates' do |options|
+  subject(:post_to_validate_endpoint) do
+    post options.fetch(:relative_endpoint), valid_params, format: :json
+  end
+
   action = options[:action]
   options[:attributes].each do |attribute|
     it "response 400 and JSON error when '#{attribute}' field is not in acceptable format" do
@@ -126,6 +130,10 @@ RSpec.shared_examples 'case_number validation' do
 end
 
 RSpec.shared_examples 'optional parameter validation' do |options|
+  subject(:post_to_validate_endpoint) do
+    post options.fetch(:relative_endpoint), valid_params, format: :json
+  end
+
   it 'returns 200 when parameters that are optional are empty' do
     valid_params.except!(*options[:optional_parameters])
     post_to_validate_endpoint

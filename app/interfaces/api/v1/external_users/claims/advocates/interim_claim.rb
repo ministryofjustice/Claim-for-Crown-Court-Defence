@@ -29,11 +29,9 @@ module API
                        type: String,
                        desc: local_t(:advocate_category),
                        values: Settings.agfs_reform_advocate_categories + ['KC']
-              if Settings.main_hearing_date_enabled_for_agfs?
-                optional :main_hearing_date,
-                         type: String, desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',
-                         standard_json_format: true
-              end
+              optional :main_hearing_date,
+                       type: String, desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',
+                       standard_json_format: true
             end
 
             namespace :advocates do

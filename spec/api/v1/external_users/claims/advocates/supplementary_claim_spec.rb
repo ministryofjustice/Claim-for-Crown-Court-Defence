@@ -1,11 +1,11 @@
 require 'rails_helper'
 
+ADVOCATE_SUPP_CLAIM_ENDPOINT = 'advocates/supplementary'.freeze
+ADVOCATE_SUPP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_SUPP_CLAIM_ENDPOINT).validate
+
 RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
-
-  ADVOCATE_SUPP_CLAIM_ENDPOINT = 'advocates/supplementary'.freeze
-  ADVOCATE_SUPP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_SUPP_CLAIM_ENDPOINT).validate
 
   let(:claim_class) { Claim::AdvocateSupplementaryClaim }
   let!(:provider)   { create(:provider) }
@@ -24,7 +24,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
     }
   end
 
-  after { clean_database }
+  after(:all) { clean_database }
 
   include_examples 'advocate claim test setup'
   include_examples 'malformed or not iso8601 compliant dates', action: :validate,

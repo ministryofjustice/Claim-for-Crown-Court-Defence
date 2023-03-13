@@ -1,18 +1,16 @@
 require 'rails_helper'
 
+LITIGATOR_HARDSHIP_CLAIM_ENDPOINT = 'litigators/hardship'.freeze
+LITIGATOR_HARDSHIP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(LITIGATOR_HARDSHIP_CLAIM_ENDPOINT).validate
+
 RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  LITIGATOR_HARDSHIP_CLAIM_ENDPOINT = 'litigators/hardship'.freeze
-  LITIGATOR_HARDSHIP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(LITIGATOR_HARDSHIP_CLAIM_ENDPOINT).validate
-
   let(:claim_class)     { Claim::LitigatorHardshipClaim }
   let!(:provider)       { create(:provider, :lgfs) }
-  let!(:other_provider) { create(:provider, :lgfs) }
   let!(:vendor)         { create(:external_user, :admin, provider:) }
   let!(:litigator)      { create(:external_user, :litigator, provider:) }
-  let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
   let!(:offence)        { create(:offence, :miscellaneous) }
   let!(:court)          { create(:court) }
   let(:valid_params) do

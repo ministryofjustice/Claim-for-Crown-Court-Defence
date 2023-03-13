@@ -1,11 +1,11 @@
 require 'rails_helper'
 
+ADVOCATE_HARDSHIP_CLAIM_ENDPOINT = 'advocates/hardship'.freeze
+ADVOCATE_HARDSHIP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate
+
 RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
-
-  ADVOCATE_HARDSHIP_CLAIM_ENDPOINT = 'advocates/hardship'.freeze
-  ADVOCATE_HARDSHIP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_HARDSHIP_CLAIM_ENDPOINT).validate
 
   let(:claim_class)      { Claim::AdvocateHardshipClaim }
   let!(:provider)        { create(:provider) }
@@ -32,7 +32,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::HardshipClaim do
     }
   end
 
-  after { clean_database }
+  after(:all) { clean_database }
 
   include_examples 'advocate claim test setup'
   include_examples 'malformed or not iso8601 compliant dates',

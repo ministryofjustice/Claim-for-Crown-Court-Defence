@@ -1,11 +1,11 @@
 require 'rails_helper'
 
+ADVOCATE_INTERIM_CLAIM_ENDPOINT = 'advocates/interim'.freeze
+ADVOCATE_INTERIM_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_INTERIM_CLAIM_ENDPOINT).validate
+
 RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
-
-  ADVOCATE_INTERIM_CLAIM_ENDPOINT = 'advocates/interim'.freeze
-  ADVOCATE_INTERIM_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_INTERIM_CLAIM_ENDPOINT).validate  
 
   let(:claim_class) { Claim::AdvocateInterimClaim }
   let!(:provider)   { create(:provider) }
@@ -26,7 +26,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::InterimClaim do
     }
   end
 
-  after { clean_database }
+  after(:all) { clean_database }
 
   include_examples 'advocate claim test setup'
   include_examples 'malformed or not iso8601 compliant dates', action: :validate, attributes: %i[main_hearing_date],

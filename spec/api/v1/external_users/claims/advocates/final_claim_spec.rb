@@ -1,11 +1,11 @@
 require 'rails_helper'
 
+ADVOCATE_FINAL_CLAIM_ENDPOINT = 'advocates/final'.freeze
+ADVOCATE_FINAL_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_FINAL_CLAIM_ENDPOINT).validate
+
 RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
-
-  ADVOCATE_FINAL_CLAIM_ENDPOINT = 'advocates/final'.freeze
-  ADVOCATE_FINAL_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_FINAL_CLAIM_ENDPOINT).validate
 
   let(:claim_class)        { Claim::AdvocateClaim }
   let!(:provider)          { create(:provider) }
@@ -38,7 +38,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
     }
   end
 
-  after { clean_database }
+  after(:all) { clean_database }
 
   include_examples 'advocate claim test setup'
   include_examples 'malformed or not iso8601 compliant dates',

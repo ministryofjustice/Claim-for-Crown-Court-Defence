@@ -437,7 +437,7 @@ GEM
       net-ssh (>= 2.6.5, < 8.0.0)
     net-smtp (0.3.3)
       net-protocol
-    net-ssh (7.0.1)
+    net-ssh (7.1.0)
     netrc (0.11.0)
     nio4r (2.5.8)
     nokogiri (1.14.2)
@@ -766,7 +766,7 @@ DEPENDENCIES
   net-pop
   net-scp (>= 4.0.0.rc1)
   net-smtp
-  net-ssh (~> 7.0)
+  net-ssh (~> 7.1)
   nokogiri (~> 1.14)
   paper_trail (~> 14.0.0)
   parallel_tests

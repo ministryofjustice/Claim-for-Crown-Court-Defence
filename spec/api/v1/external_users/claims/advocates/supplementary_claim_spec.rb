@@ -8,10 +8,10 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
   ADVOCATE_SUPP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_SUPP_CLAIM_ENDPOINT).validate
 
   let(:claim_class) { Claim::AdvocateSupplementaryClaim }
-  let!(:provider) { create(:provider) }
-  let!(:vendor) { create(:external_user, :admin, provider:) }
-  let!(:advocate) { create(:external_user, :advocate, provider:) }
-  let!(:court) { create(:court) }
+  let!(:provider)   { create(:provider) }
+  let!(:vendor)     { create(:external_user, :admin, provider:) }
+  let!(:advocate)   { create(:external_user, :advocate, provider:) }
+  let!(:court)      { create(:court) }
   let(:valid_params) do
     {
       api_key: provider.api_key,
@@ -20,7 +20,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::SupplementaryClaim do
       case_number: 'T20191234',
       advocate_category: 'Leading junior',
       court_id: court.id,
-      main_hearing_date: Time.zone.today.strftime
+      main_hearing_date: Time.zone.today.as_json
     }
   end
 

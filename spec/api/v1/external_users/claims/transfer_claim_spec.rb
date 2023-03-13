@@ -6,7 +6,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  let(:claim_class) { Claim::TransferClaim }
+  let(:claim_class)     { Claim::TransferClaim }
   let!(:provider)       { create(:provider, :lgfs) }
   let!(:other_provider) { create(:provider, :lgfs) }
   let!(:vendor)         { create(:external_user, :admin, provider:) }
@@ -30,7 +30,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
       transfer_stage_id: 10,
       transfer_date: 1.month.ago.as_json,
       case_conclusion_id: 50,
-      main_hearing_date: '2015-02-05'
+      main_hearing_date: Time.zone.today.as_json
     }
   end
 

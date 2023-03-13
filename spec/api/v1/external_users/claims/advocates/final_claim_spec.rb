@@ -7,12 +7,14 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
   ADVOCATE_FINAL_CLAIM_ENDPOINT = 'advocates/final'.freeze
   ADVOCATE_FINAL_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(ADVOCATE_FINAL_CLAIM_ENDPOINT).validate
 
-  let(:claim_class)     { Claim::AdvocateClaim }
-  let!(:provider)       { create(:provider) }
-  let!(:vendor)         { create(:external_user, :admin, provider:) }
-  let!(:advocate)       { create(:external_user, :advocate, provider:) }
-  let!(:offence)        { create(:offence) }
-  let!(:court)          { create(:court) }
+  let(:claim_class)        { Claim::AdvocateClaim }
+  let!(:provider)          { create(:provider) }
+  let!(:vendor)            { create(:external_user, :admin, provider:) }
+  let!(:advocate)          { create(:external_user, :advocate, provider:) }
+  let!(:offence)           { create(:offence) }
+  let!(:court)             { create(:court) }
+  let(:trial_start_date)   { 1.year.ago }
+  let(:retrial_start_date) { 6.months.ago }
   let(:valid_params) do
     {
       api_key: provider.api_key,
@@ -20,19 +22,19 @@ RSpec.describe API::V1::ExternalUsers::Claims::Advocates::FinalClaim do
       user_email: advocate.user.email,
       case_type_id: create(:case_type, :retrial).id,
       case_number: 'A20161234',
-      first_day_of_trial: '2015-01-01',
+      first_day_of_trial: trial_start_date.as_json,
       estimated_trial_length: 10,
       actual_trial_length: 9,
-      trial_concluded_at: '2015-01-09',
-      retrial_started_at: '2015-02-01',
-      retrial_concluded_at: '2015-02-05',
+      trial_concluded_at: (trial_start_date + 9.days).as_json,
+      retrial_started_at: retrial_start_date.as_json,
+      retrial_concluded_at: (retrial_start_date + 4.days).as_json,
       retrial_actual_length: '4',
       retrial_estimated_length: '5',
       retrial_reduction: 'true',
       advocate_category: 'Led junior',
       offence_id: offence.id,
       court_id: court.id,
-      main_hearing_date: '2015-02-05'
+      main_hearing_date: retrial_start_date.as_json
     }
   end
 

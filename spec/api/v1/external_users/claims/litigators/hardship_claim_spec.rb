@@ -6,15 +6,15 @@ RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
 
   LITIGATOR_HARDSHIP_CLAIM_ENDPOINT = 'litigators/hardship'.freeze
   LITIGATOR_HARDSHIP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(LITIGATOR_HARDSHIP_CLAIM_ENDPOINT).validate
-  
-  let(:claim_class) { Claim::LitigatorHardshipClaim }
-  let!(:provider) { create(:provider, :lgfs) }
+
+  let(:claim_class)     { Claim::LitigatorHardshipClaim }
+  let!(:provider)       { create(:provider, :lgfs) }
   let!(:other_provider) { create(:provider, :lgfs) }
-  let!(:vendor) { create(:external_user, :admin, provider:) }
-  let!(:litigator) { create(:external_user, :litigator, provider:) }
-  let!(:other_vendor) { create(:external_user, :admin, provider: other_provider) }
-  let!(:offence) { create(:offence, :miscellaneous) }
-  let!(:court) { create(:court) }
+  let!(:vendor)         { create(:external_user, :admin, provider:) }
+  let!(:litigator)      { create(:external_user, :litigator, provider:) }
+  let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
+  let!(:offence)        { create(:offence, :miscellaneous) }
+  let!(:court)          { create(:court) }
   let(:valid_params) do
     {
       api_key: provider.api_key,
@@ -25,7 +25,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
       case_number: 'A20201234',
       offence_id: offence.id,
       court_id: court.id,
-      main_hearing_date: '2020-01-09'
+      main_hearing_date: Time.zone.today.as_json
     }
   end
 

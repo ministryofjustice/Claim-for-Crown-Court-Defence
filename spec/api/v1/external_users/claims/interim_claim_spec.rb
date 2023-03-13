@@ -6,7 +6,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  let(:claim_class) { Claim::InterimClaim }
+  let(:claim_class)     { Claim::InterimClaim }
   let!(:provider)       { create(:provider, :lgfs) }
   let!(:other_provider) { create(:provider, :lgfs) }
   let!(:vendor)         { create(:external_user, :admin, provider:) }
@@ -24,7 +24,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
       case_number: 'A20161234',
       offence_id: offence.id,
       court_id: court.id,
-      main_hearing_date: '2015-02-05'
+      main_hearing_date: Time.zone.today.as_json
     }
   end
 

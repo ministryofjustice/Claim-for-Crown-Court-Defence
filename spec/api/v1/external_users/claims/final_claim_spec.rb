@@ -6,14 +6,14 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  let(:claim_class) { Claim::LitigatorClaim }
-  let!(:provider) { create(:provider, :lgfs) }
+  let(:claim_class)     { Claim::LitigatorClaim }
+  let!(:provider)       { create(:provider, :lgfs) }
   let!(:other_provider) { create(:provider, :lgfs) }
-  let!(:vendor) { create(:external_user, :admin, provider:) }
-  let!(:litigator) { create(:external_user, :litigator, provider:) }
-  let!(:other_vendor) { create(:external_user, :admin, provider: other_provider) }
-  let!(:offence) { create(:offence, :miscellaneous) }
-  let!(:court) { create(:court) }
+  let!(:vendor)         { create(:external_user, :admin, provider:) }
+  let!(:litigator)      { create(:external_user, :litigator, provider:) }
+  let!(:other_vendor)   { create(:external_user, :admin, provider: other_provider) }
+  let!(:offence)        { create(:offence, :miscellaneous) }
+  let!(:court)          { create(:court) }
   let(:valid_params) do
     {
       api_key: provider.api_key,
@@ -26,7 +26,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
       court_id: court.id,
       case_concluded_at: 1.month.ago.as_json,
       actual_trial_length: 10,
-      main_hearing_date: '2020-09-17'
+      main_hearing_date: Time.zone.today.as_json
     }
   end
 

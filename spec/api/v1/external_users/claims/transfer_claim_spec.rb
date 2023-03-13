@@ -4,6 +4,10 @@ RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
+  subject(:post_to_validate_endpoint) do
+    post ClaimApiEndpoints.for(:transfer).validate, valid_params, format: :json
+  end
+
   let(:claim_class) { Claim::TransferClaim }
   let!(:provider)       { create(:provider, :lgfs) }
   let!(:other_provider) { create(:provider, :lgfs) }
@@ -35,6 +39,11 @@ RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
   after(:all) { clean_database }
 
   include_examples 'litigator claim test setup'
+  include_examples 'malformed or not iso8601 compliant dates', action: :validate,
+                                                               attributes: %i[case_concluded_at
+                                                                              main_hearing_date
+                                                                              transfer_date]
+  include_examples 'optional parameter validation', optional_parameters: %i[main_hearing_date]
   it_behaves_like 'a claim endpoint', relative_endpoint: :transfer
   it_behaves_like 'a claim validate endpoint', relative_endpoint: :transfer
   it_behaves_like 'a claim create endpoint', relative_endpoint: :transfer

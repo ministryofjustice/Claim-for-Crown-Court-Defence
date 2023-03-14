@@ -1803,10 +1803,10 @@ datatables.net-fixedheader@>=3.2.4:
     datatables.net ">=1.12.1"
     jquery ">=1.7"
 
-datatables.net-select@1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-1.6.1.tgz#dc322112802cb36007e5f6429cdbd586a368e558"
-  integrity sha512-0Ghr0fPFwUYFVcQRU7njnms0e12iIkhuC8cv6nDjsoby2w/JK+xgBlmW+7fEcqF8pxwZzFZb8bHdK9f4p4s9ag==
+datatables.net-select@1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-1.6.2.tgz#f782a63369a75dfd5d416fa7192d473cce71cc9d"
+  integrity sha512-mGkWFGEN8vLJGp9POHA+CHDBIcWGOpos6mtuZ/S3hKF+niTZivqRuXybd79iDG8OHw3yRbafBIsHtcXcZxoG/g==
   dependencies:
     datatables.net ">=1.12.1"
     jquery ">=1.7"

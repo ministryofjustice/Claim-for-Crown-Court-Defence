@@ -1,20 +1,19 @@
 require 'rails_helper'
 
+LITIGATOR_HARDSHIP_CLAIM_ENDPOINT = 'litigators/hardship'.freeze
+LITIGATOR_HARDSHIP_VALIDATE_ENDPOINT = ClaimApiEndpoints.for(LITIGATOR_HARDSHIP_CLAIM_ENDPOINT).validate
+
 RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
   include Rack::Test::Methods
   include ApiSpecHelper
 
-  LITIGATOR_HARDSHIP_CLAIM_ENDPOINT = 'litigators/hardship'.freeze
-
-  let(:claim_class) { Claim::LitigatorHardshipClaim }
-  let!(:provider) { create(:provider, :lgfs) }
-  let!(:other_provider) { create(:provider, :lgfs) }
-  let!(:vendor) { create(:external_user, :admin, provider:) }
-  let!(:litigator) { create(:external_user, :litigator, provider:) }
-  let!(:other_vendor) { create(:external_user, :admin, provider: other_provider) }
-  let!(:offence) { create(:offence, :miscellaneous) }
-  let!(:court) { create(:court) }
-  let!(:valid_params) do
+  let(:claim_class)     { Claim::LitigatorHardshipClaim }
+  let!(:provider)       { create(:provider, :lgfs) }
+  let!(:vendor)         { create(:external_user, :admin, provider:) }
+  let!(:litigator)      { create(:external_user, :litigator, provider:) }
+  let!(:offence)        { create(:offence, :miscellaneous) }
+  let!(:court)          { create(:court) }
+  let(:valid_params) do
     {
       api_key: provider.api_key,
       creator_email: vendor.user.email,
@@ -24,13 +23,18 @@ RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
       case_number: 'A20201234',
       offence_id: offence.id,
       court_id: court.id,
-      main_hearing_date: '2020-01-09'
+      main_hearing_date: Time.zone.today.as_json
     }
   end
 
   after(:all) { clean_database }
 
   include_examples 'litigator claim test setup'
+  include_examples 'malformed or not iso8601 compliant dates', action: :validate,
+                                                               attributes: %i[main_hearing_date],
+                                                               relative_endpoint: LITIGATOR_HARDSHIP_VALIDATE_ENDPOINT
+  include_examples 'optional parameter validation', optional_parameters: %i[main_hearing_date],
+                                                    relative_endpoint: LITIGATOR_HARDSHIP_VALIDATE_ENDPOINT
   it_behaves_like 'a claim endpoint', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
   it_behaves_like 'a claim validate endpoint', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
   it_behaves_like 'a claim create endpoint', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT

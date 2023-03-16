@@ -47,6 +47,10 @@ RSpec.shared_examples 'should NOT be able to amend a non-draft claim' do
 end
 
 RSpec.shared_examples 'malformed or not iso8601 compliant dates' do |options|
+  subject(:post_to_validate_endpoint) do
+    post options[:relative_endpoint], valid_params, format: :json
+  end
+
   action = options[:action]
   options[:attributes].each do |attribute|
     it "response 400 and JSON error when '#{attribute}' field is not in acceptable format" do
@@ -126,6 +130,10 @@ RSpec.shared_examples 'case_number validation' do
 end
 
 RSpec.shared_examples 'optional parameter validation' do |options|
+  subject(:post_to_validate_endpoint) do
+    post options[:relative_endpoint], valid_params, format: :json
+  end
+
   it 'returns 200 when parameters that are optional are empty' do
     valid_params.except!(*options[:optional_parameters])
     post_to_validate_endpoint
@@ -151,7 +159,7 @@ end
 
 RSpec.shared_examples 'a claim endpoint' do |options|
   context 'when sending non-permitted verbs' do
-    ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).all.each do |endpoint|
+    ClaimApiEndpoints.for(options[:relative_endpoint]).all.each do |endpoint|
       context "with endpoint #{endpoint}" do
         ClaimApiEndpoints.forbidden_verbs.each do |api_verb|
           it "#{api_verb.upcase} response status of 405" do
@@ -165,13 +173,13 @@ RSpec.shared_examples 'a claim endpoint' do |options|
 end
 
 RSpec.shared_examples 'a claim validate endpoint' do |options|
-  describe "POST #{ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate}" do
+  describe "POST #{ClaimApiEndpoints.for(options[:relative_endpoint]).validate}" do
     subject(:post_to_validate_endpoint) do
-      post ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate, valid_params, format: :json
+      post ClaimApiEndpoints.for(options[:relative_endpoint]).validate, valid_params, format: :json
     end
 
     let(:claim_user_type) do
-      if ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate
+      if ClaimApiEndpoints.for(options[:relative_endpoint]).validate
                           .match?(%r{/claims/(final|interim|transfer|hardship)})
         'Litigator'
       else
@@ -229,13 +237,13 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
 end
 
 RSpec.shared_examples 'a claim create endpoint' do |options|
-  describe "POST #{ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).create}" do
+  describe "POST #{ClaimApiEndpoints.for(options[:relative_endpoint]).create}" do
     subject(:post_to_create_endpoint) do
-      post ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).create, valid_params, format: :json
+      post ClaimApiEndpoints.for(options[:relative_endpoint]).create, valid_params, format: :json
     end
 
     let(:claim_user_type) do
-      if ClaimApiEndpoints.for(options.fetch(:relative_endpoint)).validate
+      if ClaimApiEndpoints.for(options[:relative_endpoint]).validate
                           .match?(%r{/claims/(final|interim|transfer|hardship)})
         'Litigator'
       else

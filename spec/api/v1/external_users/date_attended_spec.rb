@@ -6,13 +6,16 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
 
   ALL_DATES_ATTENDED_ENDPOINTS = [endpoint(:dates_attended, :validate), endpoint(:dates_attended)]
   FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
+  DATE_ATTENDED_VALIDATE_ENDPOINT = '/api/external_users/dates_attended/validate'.freeze
 
   let!(:provider) { create(:provider) }
   let!(:claim) { create(:claim, source: 'api') }
   let!(:fee) { create(:misc_fee, claim:) }
   let!(:from_date) { claim.earliest_representation_order_date }
   let!(:to_date) { from_date + 2.days }
-  let!(:valid_params) { { api_key: provider.api_key, attended_item_id: fee.reload.uuid, date: from_date.as_json, date_to: to_date.as_json } }
+  let!(:valid_params) do
+    { api_key: provider.api_key, attended_item_id: fee.reload.uuid, date: from_date.as_json, date_to: to_date.as_json }
+  end
 
   context 'when sending non-permitted verbs' do
     ALL_DATES_ATTENDED_ENDPOINTS.each do |endpoint| # for each endpoint
@@ -95,13 +98,12 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
         end
       end
 
-      include_examples 'malformed or not iso8601 compliant dates', action: :create, attributes: [:date, :date_to]
+      include_examples 'malformed or not iso8601 compliant dates', action: :create, attributes: [:date, :date_to],
+                                                                   relative_endpoint: DATE_ATTENDED_VALIDATE_ENDPOINT
     end
   end
 
   describe "POST #{endpoint(:dates_attended, :validate)}" do
-    let(:post_to_validate_endpoint) { post endpoint(:dates_attended, :validate), valid_params, format: :json }
-
     include_examples 'invalid API key', exclude: :other_provider, action: :validate
 
     it 'valid requests should return 200 and String true' do
@@ -121,6 +123,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
       expect_error_response('Attended item cannot be blank')
     end
 
-    include_examples 'malformed or not iso8601 compliant dates', action: :validate, attributes: [:date, :date_to]
+    include_examples 'malformed or not iso8601 compliant dates', action: :validate, attributes: [:date, :date_to],
+                                                                 relative_endpoint: DATE_ATTENDED_VALIDATE_ENDPOINT
   end
 end

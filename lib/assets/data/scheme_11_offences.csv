@@ -105,6 +105,7 @@ category,band,description,contrary_to,year_chapter
 3,3.4,Controlling or coercive behaviour,"Serious Crime Act 2015, s.76(1)",2015 c. 9
 3,3.4,Intentionally doing an act capable of encouraging or assisting the suicide or attempted suicide of another ,"Suicide Act 1961, s.2(1)",1961 c. 60
 3,3.4,"Inflicting bodily injury, with or without a weapon","Offences against the Person Act 1861, s.20",1861 c. 100
+3,3.4,"Failure to comply with prohibition, restriction or condition in violent offender order or interim violent offender order","Criminal Justice and Immigration Act 2008, s.113(1)",2008 c. 4 
 3,3.5,Racially or Religiously Aggravated assault occasioning actual bodily harm,"Crime and Disorder Act 1998, s.29(1)(b)",1998 c. 37
 3,3.5,Threats to Kill,"Offences against the Person Act 1861, s.16",1861 c. 100
 3,3.5,Assault occasioning actual bodily harm,"Offences against the Person Act 1861, s.47",1861 c. 100
@@ -810,6 +811,11 @@ category,band,description,contrary_to,year_chapter
 16,16.3,"Unauthorised acts with intent to impair, or recklessness as to impairing, operation of computer, etc","Computer Misuse Act 1990, s.3",1990 c. 18
 16,16.3,"Making, supplying or obtaining articles for use in offence under sections 1 or 3","Computer Misuse Act 1990, s.3A (as added by Police and Justice Act 2006)",1990 c. 18
 16,16.3,Unauthorised access to computer material,"Computer Misuse Act 1990, s.1 (as amended by Police and Justice Act 2006)",1990 c. 18
+16,16.3,Engaging in a commercial practice contravening requirements of professional diligence etc,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 8 (1) and 13",2008 No. 1277
+16,16.3,Engaging in a commercial practice which is a misleading action,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 9 and 13",2008 No. 1277
+16,16.3,Engaging in a commercial practice which is a misleading omission,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 10 and 13",2008 No. 1277
+16,16.3,Engaging in a commercial practice which is aggressive,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 11 and 13",2008 No. 1277
+16,16.3,"Engage in commercial practice set out in any of paragraphs 1 to 10, 12 to 27 and 29 to 31 of Schedule 1","Consumer Protection from Unfair Trading Regulations 2008, Regulation 12 and 13",2008 No. 1277
 17,17.1,Failing to conduct risk assessments or comply with notification requirements in connection with genetically modified organisms ,"Environmental Protection Act 1990, s.118(1)(a)(b)",1990 c. 43
 17,17.1,Failing to comply with consent requirements in connection with genetically modified organisms,"Environmental Protection Act 1990, s.118(1)(c)",1990 c. 43
 17,17.1, Contravening byelaws or orders under the Act,"Marine and Coastal Access Act 2009, s.139, s.163, s.190",2009 c. 23
@@ -887,11 +893,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,"Undischarged bankrupt acting as a director or taking part in the promotion, formation or management of a company","Company Directors Disqualification Act 1986, s.11(1)",1986 c. 46
 17,17.1,"Providing regulated claims management services otherwise than in accordance with s.4, pretending to be authorised etc.","Compensation Act 2006, s.7, s.11",2006 c. 29
 17,17.1,"Furnishing false information in response to notice, or to enforcement officer","Consumer Protection Act 1987, s.18(3)(b) and s.32(2)",1987 c. 43
-17,17.1,Engaging in a commercial practice contravening requirements of professional diligence etc,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 8 (1) and 13",2008 No. 1277
-17,17.1,Engaging in a commercial practice which is a misleading action,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 9 and 13",2008 No. 1277
-17,17.1,Engaging in a commercial practice which is a misleading omission,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 10 and 13",2008 No. 1277
-17,17.1,Engaging in a commercial practice which is aggressive,"Consumer Protection from Unfair Trading Regulations 2008, Regulation 11 and 13",2008 No. 1277
-17,17.1,"Engage in commercial practice set out in any of paragraphs 1 to 10, 12 to 27 and 29 to 31 of Schedule 1","Consumer Protection from Unfair Trading Regulations 2008, Regulation 12 and 13",2008 No. 1277
 17,17.1,"Offences by person with custody or control of oil where there is a contravention of requirements in Regulations 3 to 5, or, a notice under Regulation 7","Control of Pollution (Oil Storage) (England) Regulations 2001, Regulations 3, 4, 5, 7 and 9",2001 No. 2954
 17,17.1,Failing to comply with a notice or making a false statement,"Control of Pollution Act 1974, s.93",1974 c. 40
 17,17.1,Offences relating to the purchase and sale of specimans listed in Annex A to Council Regulations (EC) No 338/97,Control of Trade in Endangered Species (Enforcement) Regulations 1997,1997 No. 1372
@@ -915,7 +916,6 @@ category,band,description,contrary_to,year_chapter
 17,17.1,Resisting or wilfully obstructing court security officer,"Criminal Justice Act 1991, s.78(2)",1991 c. 53
 17,17.1,Assault on prisoner custody officer,"Criminal Justice Act 1991, s.90(1)",1991 c. 53
 17,17.1,Resisting or wilfully obstructing a prisoner custody officer ,"Criminal Justice Act 1991, s.90(3)",1991 c. 53
-17,17.1,"Failure to comply with prohibition, restriction or condition in violent offender order or interim violent offender order","Criminal Justice and Immigration Act 2008, s.113(1)",2008 c. 4 
 17,17.1,"Fail to comply with notification requirements of s.108(1), 109(1), s.110(1) and 112(4)","Criminal Justice and Immigration Act 2008, s.113(2)",2008 c. 4 
 17,17.1,"Notify false information to police in purported compliance with s.108(1), 109(1), 110(1) or regulations under s.111(1)","Criminal Justice and Immigration Act 2008, s.113(3)",2008 c. 4 
 17,17.1,Leaving UK when prohibited to do so by travel restriction order,"Criminal Justice and Police Act 2001, s.36(1)",2001 c. 16

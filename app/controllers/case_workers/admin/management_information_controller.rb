@@ -17,7 +17,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
 
   def download
     log_download_start
-    record = Stats::StatsReport.most_recent_by_type(params[:report_type])
+    record = Stats::StatsReport.most_recent_by_type(report_params[:report_type])
 
     if record.document.attached?
       redirect_to record.document.blob.url(disposition: 'attachment')
@@ -27,7 +27,7 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   end
 
   def generate
-    StatsReportGenerationJob.perform_later(report_type: params[:report_type])
+    StatsReportGenerationJob.perform_later(report_type: report_params[:report_type])
     message = t('case_workers.admin.management_information.job_scheduled')
     redirect_to case_workers_admin_management_information_url, flash: { notification: message }
   end
@@ -41,13 +41,13 @@ class CaseWorkers::Admin::ManagementInformationController < CaseWorkers::Admin::
   private
 
   def validate_report_type
-    return if Stats::StatsReport.reports[params[:report_type]]
+    return if Stats::StatsReport.reports[report_params[:report_type]]
 
     redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_type')
   end
 
   def validate_report_type_is_updatable
-    return if Stats::StatsReport.reports[params[:report_type]].updatable?
+    return if Stats::StatsReport.reports[report_params[:report_type]].updatable?
 
     redirect_to case_workers_admin_management_information_url, alert: t('.report_cannot_be_updated')
   end

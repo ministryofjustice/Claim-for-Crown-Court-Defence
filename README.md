@@ -28,6 +28,7 @@ Service for the remunerating of advocates and litigators by the Legal Aid Agency
 * [Note on VAT](docs/vat_note.md)
 * [Account setter utility](docs/account_setter.md)
 * [Working with fee types](docs/fee_types.md)
+* [Working with fee schemes](docs/fee_schemes.md)
 
 ## Contributing
 

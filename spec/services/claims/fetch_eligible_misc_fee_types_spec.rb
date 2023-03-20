@@ -52,7 +52,8 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
     clean_database
   end
 
-  let(:trial_only_types) { %w[MIUMU MIUMO] }
+  let(:unused_materials_types) { %w[MIUMU MIUMO] }
+  let(:section_twenty_eight_types) { %w[MISTE] }
   let(:supplementary_only_types) { %w[MISAF MIPCM] }
 
   context 'with delegations' do
@@ -231,7 +232,8 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.to include(*trial_only_types) }
+            it { is_expected.to include(*unused_materials_types) }
+            it { is_expected.not_to include(*section_twenty_eight_types) }
 
             it 'returns misc fee types for AGFS scheme 12 without supplementary-only fee types' do
               is_expected.to match_array Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.map(&:unique_code)
@@ -242,7 +244,8 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_type) { CaseType.find_by(fee_type_code: 'GRGLT') }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.not_to include(*trial_only_types) }
+            it { is_expected.not_to include(*unused_materials_types) }
+            it { is_expected.not_to include(*section_twenty_eight_types) }
 
             it 'returns misc fee types for AGFS scheme 12 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(
@@ -259,7 +262,8 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.to include(*trial_only_types) }
+            it { is_expected.to include(*unused_materials_types) }
+            it { is_expected.not_to include(*section_twenty_eight_types) }
 
             it 'returns misc fee types for AGFS scheme 13 without supplementary-only fee types' do
               is_expected.to match_array Fee::MiscFeeType.agfs_scheme_13s.without_supplementary_only.map(&:unique_code)
@@ -270,7 +274,8 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_type) { CaseType.find_by(fee_type_code: 'GRGLT') }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.not_to include(*trial_only_types) }
+            it { is_expected.not_to include(*unused_materials_types) }
+            it { is_expected.not_to include(*section_twenty_eight_types) }
 
             it 'returns misc fee types for AGFS scheme 13 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(
@@ -287,7 +292,8 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.to include(*trial_only_types) }
+            it { is_expected.to include(*unused_materials_types) }
+            it { is_expected.to include(*section_twenty_eight_types) }
 
             it 'returns misc fee types for AGFS scheme 14 without supplementary-only fee types' do
               is_expected.to match_array Fee::MiscFeeType.agfs_scheme_14s.without_supplementary_only.map(&:unique_code)
@@ -298,7 +304,8 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_type) { CaseType.find_by(fee_type_code: 'GRGLT') }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.not_to include(*trial_only_types) }
+            it { is_expected.not_to include(*unused_materials_types) }
+            it { is_expected.not_to include(*section_twenty_eight_types) }
 
             it 'returns misc fee types for AGFS scheme 14 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(
@@ -321,7 +328,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_stage) { create(:case_stage, :trial_not_sentenced) }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.to include(*trial_only_types) }
+            it { is_expected.to include(*unused_materials_types) }
 
             it 'returns misc fee types for AGFS scheme 12 without supplementary-only fee types' do
               is_expected.to match_array Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.map(&:unique_code)
@@ -332,7 +339,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_stage) { create(:case_stage, :guilty_plea_not_sentenced) }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.not_to include(*trial_only_types) }
+            it { is_expected.not_to include(*unused_materials_types) }
 
             it 'returns misc fee types for AGFS scheme 12 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(
@@ -349,7 +356,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_stage) { create(:case_stage, :trial_not_sentenced) }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.to include(*trial_only_types) }
+            it { is_expected.to include(*unused_materials_types) }
 
             it 'returns misc fee types for AGFS scheme 13 without supplementary-only fee types' do
               is_expected.to match_array Fee::MiscFeeType.agfs_scheme_13s.without_supplementary_only.map(&:unique_code)
@@ -360,7 +367,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             let(:case_stage) { create(:case_stage, :guilty_plea_not_sentenced) }
 
             it { is_expected.not_to include(*supplementary_only_types) }
-            it { is_expected.not_to include(*trial_only_types) }
+            it { is_expected.not_to include(*unused_materials_types) }
 
             it 'returns misc fee types for AGFS scheme 13 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(

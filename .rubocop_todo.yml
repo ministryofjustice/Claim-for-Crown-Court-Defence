@@ -91,7 +91,7 @@ Lint/UselessMethodDefinition:
     - 'app/presenters/fee/misc_fee_presenter.rb'
     - 'app/validators/claim/transfer_claim_validator.rb'
 
-# Offense count: 54
+# Offense count: 55
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes, Max.
 Metrics/AbcSize:
   Exclude:
@@ -123,6 +123,7 @@ Metrics/AbcSize:
     - 'app/services/vat_auditor.rb'
     - 'app/validators/claim/advocate_hardship_claim_validator.rb'
     - 'app/validators/claim/base_claim_validator.rb'
+    - 'app/validators/fee/agfs/fee_type_rules.rb'
     - 'lib/data_migrator/offence_unique_code_migrator.rb'
     - 'lib/geckoboard_publisher/providers_report.rb'
     - 'lib/geckoboard_publisher/travel_automation_report.rb'
@@ -350,7 +351,7 @@ Naming/PredicateName:
     - 'app/validators/fee_sub_model_validator.rb'
     - 'app/validators/supplier_number_sub_model_validator.rb'
 
-# Offense count: 290
+# Offense count: 294
 # Configuration parameters: EnforcedStyle, CheckMethodNames, CheckSymbols, AllowedIdentifiers, AllowedPatterns.
 # SupportedStyles: snake_case, normalcase, non_integer
 # AllowedIdentifiers: capture3, iso8601, rfc1123_date, rfc822, rfc2822, rfc3339, x86_64
@@ -1413,7 +1414,7 @@ RSpec/MultipleExpectations:
     - 'spec/views/case_workers/claims/show_spec.rb'
     - 'spec/views/external_users/claims/show_spec.rb'
 
-# Offense count: 1307
+# Offense count: 1312
 # Configuration parameters: AllowSubject, Max.
 RSpec/MultipleMemoizedHelpers:
   Exclude:
@@ -1484,6 +1485,7 @@ RSpec/MultipleMemoizedHelpers:
     - 'spec/services/claims/fee_calculator/graduated_price_spec.rb'
     - 'spec/services/claims/fee_calculator/price_spec.rb'
     - 'spec/services/claims/fee_calculator/unit_price_spec.rb'
+    - 'spec/services/claims/fetch_eligible_misc_fee_types_spec.rb'
     - 'spec/services/claims/update_draft_spec.rb'
     - 'spec/services/fee_reform/search_offences_spec.rb'
     - 'spec/services/injection_response_service_spec.rb'
@@ -1551,7 +1553,7 @@ RSpec/NamedSubject:
     - 'spec/services/injection_response_service_spec.rb'
     - 'spec/validators/expense_validator_spec.rb'
 
-# Offense count: 765
+# Offense count: 768
 # Configuration parameters: Max, AllowedGroups.
 RSpec/NestedGroups:
   Exclude:
@@ -2139,7 +2141,7 @@ Rails/RequestReferer:
   Exclude:
     - 'app/controllers/feedback_controller.rb'
 
-# Offense count: 47
+# Offense count: 48
 # Configuration parameters: ForbiddenMethods, AllowedMethods.
 # ForbiddenMethods: decrement!, decrement_counter, increment!, increment_counter, insert, insert!, insert_all, insert_all!, toggle!, touch, touch_all, update_all, update_attribute, update_column, update_columns, update_counters, upsert, upsert_all
 Rails/SkipsModelValidations:
@@ -2842,7 +2844,7 @@ Style/WordArray:
     - 'spec/services/cclf/fee/misc_fee_adapter_spec.rb'
     - 'spec/services/claims/context_mapper_spec.rb'
 
-# Offense count: 760
+# Offense count: 761
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: Max, AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, AllowedPatterns.
 # URISchemes: http, https

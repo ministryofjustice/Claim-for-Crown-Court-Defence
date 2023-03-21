@@ -52,9 +52,10 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     MIUAV2: %w[AGFS_MISC_FEES AGFS_UN_VAC_WL], # Unsuccessful application to vacate a guilty plea (whole day)
     MIWPF: %w[AGFS_MISC_FEES AGFS_WSTD_PREP], # Wasted preparation fee
     MIWOA: %w[AGFS_MISC_FEES AGFS_WRTN_ORAL], # Written / oral advice
-    MIPHC: %w[AGFS_MISC_FEES AGFS_PAP_HEAVY], # Paper heavy case - AGFS 12 only
-    MIUMU: %w[AGFS_MISC_FEES AGFS_UNUSED_UP3], # Unused material (up to 3 hours) - AGFS 12 only
-    MIUMO: %w[AGFS_MISC_FEES AGFS_UNUSED_OV3] # Unused material (over 3 hours) - AGFS 12 only
+    MIPHC: %w[AGFS_MISC_FEES AGFS_PAP_HEAVY], # Paper heavy case - AGFS 12+ only
+    MIUMU: %w[AGFS_MISC_FEES AGFS_UNUSED_UP3], # Unused material (up to 3 hours) - AGFS 12+ only
+    MIUMO: %w[AGFS_MISC_FEES AGFS_UNUSED_OV3], # Unused material (over 3 hours) - AGFS 12+ only
+    MISTE: %w[AGFS_MISC_FEES AGFS_SECTION_28] # Section 28 hearing - AGFS 14+ only
   }.freeze
 
   def self.mappings(exclusions: true)

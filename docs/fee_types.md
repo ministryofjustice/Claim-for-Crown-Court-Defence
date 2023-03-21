@@ -25,3 +25,10 @@ After amending the list of fees the database is updated with the task
 ```bash
 bundle exec rails 'data:migrate:fee_types:reseed[false]'
 ```
+
+### Interface with other services
+
+The unique code of a fee type, defined above, needs to be mapped for the
+injection into CCR and CCLF, and for lookups with Fee Calculator. This is set
+in `app/services/ccr/fee/misc_fee_adapter.rb`. Also see
+`spec/services/ccr/fee/misc_fee_adapter_spec.rb` for tests.

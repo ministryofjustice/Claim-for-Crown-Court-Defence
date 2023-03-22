@@ -589,12 +589,13 @@ GEM
     rubyzip (2.3.2)
     rufus-scheduler (2.0.24)
       tzinfo (>= 0.3.22)
-    scheduler_daemon (1.1.5)
+    scheduler_daemon (1.1.6)
       activesupport
       chronic (>= 0.2.0)
       daemons (>= 1.0.10)
       eventmachine (>= 0.12.8)
       rufus-scheduler (~> 2.0.24)
+      scheduler_daemon
     selenium-webdriver (4.8.1)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)

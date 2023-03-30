@@ -92,7 +92,7 @@ RSpec.describe Feedback do
 
         it 'stores success message on object' do
           bug_report.save
-          expect(bug_report.response_message).to eq('Fault reported')
+          expect(bug_report.response_message).to eq('Fault submitted')
         end
       end
 
@@ -118,7 +118,7 @@ RSpec.describe Feedback do
 
         it 'stores failure message on object' do
           bug_report.save
-          expect(bug_report.response_message).to eq('Unable to submit fault report')
+          expect(bug_report.response_message).to eq('Unable to submit fault')
         end
 
         it 'logs error details' do
@@ -136,7 +136,7 @@ RSpec.describe Feedback do
 
     describe '#description' do
       it 'returns the description' do
-        expect(bug_report.description).to eq('case_number: XXX - event: lorem - outcome: ipsum - email: example@example.com')
+        expect(bug_report.description).to eq("case_number: XXX\nevent: lorem\noutcome: ipsum\nemail: example@example.com")
       end
     end
 

@@ -52,14 +52,14 @@ class Feedback
 
   def save_feedback
     if Settings.zendesk_feedback_enabled?
-      send_to_zendesk('Feedback submitted', 'Unable to submit feedback', 'Feedback submisson failed!')
+      send_to_zendesk('Feedback')
     else
       send_to_survey_monkey
     end
   end
 
   def save_bug_report
-    send_to_zendesk('Fault reported', 'Unable to submit fault report', 'Bug report submisson failed!')
+    send_to_zendesk('Fault')
   end
 
   def send_to_survey_monkey
@@ -72,13 +72,13 @@ class Feedback
     response[:success]
   end
 
-  def send_to_zendesk(success, failure, log_message)
+  def send_to_zendesk(feedback_type)
     ZendeskSender.send!(self)
-    @response_message = success
+    @response_message = "#{feedback_type} submitted"
   rescue ZendeskAPI::Error::ClientError => e
-    @response_message = failure
+    @response_message = "Unable to submit #{feedback_type.downcase}"
     LogStuff.error(class: self.class.name, action: 'save', error_class: e.class.name, error: e.to_s) do
-      log_message
+      "#{feedback_type} submisson failed!"
     end
     false
   end

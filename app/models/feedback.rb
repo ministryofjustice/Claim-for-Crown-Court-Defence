@@ -45,12 +45,26 @@ class Feedback
   end
 
   def description
-    feedback_type_attributes.map { |t| "#{t}: #{send(t)}" }.join(' - ')
+    join_value = feedback? ? "\n" : ' - '
+
+    feedback_type_attributes.map { |t| "#{t}: #{send(t)}" }.join(join_value)
   end
 
   private
 
   def save_feedback
+    if Settings.zendesk_feedback_enabled?
+      send_to_zendesk('Feedback submitted', 'Unable to submit feedback', 'Feedback submisson failed!')
+    else
+      send_to_survey_monkey
+    end
+  end
+
+  def save_bug_report
+    send_to_zendesk('Fault reported', 'Unable to submit fault report', 'Bug report submisson failed!')
+  end
+
+  def send_to_survey_monkey
     response = SurveyMonkeySender.call(self)
     @response_message = if response[:success]
                           'Feedback submitted'
@@ -60,13 +74,13 @@ class Feedback
     response[:success]
   end
 
-  def save_bug_report
+  def send_to_zendesk(success, failure, log_message)
     ZendeskSender.send!(self)
-    @response_message = 'Fault reported'
+    @response_message = success
   rescue ZendeskAPI::Error::ClientError => e
-    @response_message = 'Unable to submit fault report'
+    @response_message = failure
     LogStuff.error(class: self.class.name, action: 'save', error_class: e.class.name, error: e.to_s) do
-      'Bug report submisson failed!'
+      log_message
     end
     false
   end

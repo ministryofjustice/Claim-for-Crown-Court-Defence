@@ -1,6 +1,6 @@
 @javascript @no-seed
 Feature: A user can provide feedback
-  @stub_survey_monkey_success
+  @stub_feedback_success
   Scenario: A user can successfully submit feedback
     Given I visit "/"
     When I click the link 'Provide feedback'
@@ -17,7 +17,7 @@ Feature: A user can provide feedback
     Then I see confirmation that my 'feedback' was received
     And I should be on the sign in page
 
-  @stub_survey_monkey_failure
+  @stub_feedback_failure
   Scenario: A user receives notification of a failure to submit feedback
     Given I visit "/"
     When I click the link 'Provide feedback'

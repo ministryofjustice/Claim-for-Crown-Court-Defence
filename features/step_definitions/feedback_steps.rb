@@ -7,7 +7,7 @@ Then(/^I see confirmation that my '(.*?)' was received$/) do |feedback_type|
   when 'feedback'
     expect(page).to have_govuk_notification_banner(key: :notice, text: 'Feedback submitted')
   when 'bug report'
-    expect(page).to have_govuk_notification_banner(key: :notice, text: 'Fault reported')
+    expect(page).to have_govuk_notification_banner(key: :notice, text: 'Fault submitted')
   end
 end
 
@@ -16,7 +16,7 @@ Then('I see a warning that my feedback was not submitted successfully') do
 end
 
 Then('I see a warning that my bug report was not submitted successfully') do
-  expect(page).to have_govuk_notification_banner(key: :error, text: /Unable to submit fault report/)
+  expect(page).to have_govuk_notification_banner(key: :error, text: /Unable to submit fault/)
 end
 
 Then(/^I should be informed that I have signed out$/) do

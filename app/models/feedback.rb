@@ -45,9 +45,7 @@ class Feedback
   end
 
   def description
-    join_value = feedback? ? "\n" : ' - '
-
-    feedback_type_attributes.map { |t| "#{t}: #{send(t)}" }.join(join_value)
+    feedback_type_attributes.map { |t| "#{t}: #{send(t)}" }.join("\n")
   end
 
   private

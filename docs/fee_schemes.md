@@ -28,6 +28,7 @@ Before creating a new fee scheme;
 
 * The start date of the new fee scheme needs to be added to `config/settings.yml`.
 * A new 'role' needs to be added to `lib/assets/data/fee_types.csv`.
+* Update the list of roles seen in the API in `app/interfaces/api/v1/dropdown_data.rb`.
 * Update the fee scheme factory to include the date range of the new scheme.
 * Update `Claims::FetchEligibileMiscFeeTypes#agfs_scheme_scope`.
 

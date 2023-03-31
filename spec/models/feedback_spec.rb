@@ -92,7 +92,7 @@ RSpec.describe Feedback do
 
         it 'stores success message on object' do
           bug_report.save
-          expect(bug_report.response_message).to eq('Fault submitted')
+          expect(bug_report.response_message).to eq('Bug Report submitted')
         end
       end
 
@@ -118,7 +118,7 @@ RSpec.describe Feedback do
 
         it 'stores failure message on object' do
           bug_report.save
-          expect(bug_report.response_message).to eq('Unable to submit fault')
+          expect(bug_report.response_message).to eq('Unable to submit bug report')
         end
 
         it 'logs error details' do

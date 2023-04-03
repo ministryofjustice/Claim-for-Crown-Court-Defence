@@ -2377,7 +2377,6 @@ Style/ClassAndModuleChildren:
     - 'app/models/fee/interim_fee.rb'
     - 'app/models/fee/interim_fee_type.rb'
     - 'app/models/fee/misc_fee.rb'
-    - 'app/models/fee/misc_fee_type.rb'
     - 'app/models/fee/transfer_fee.rb'
     - 'app/models/fee/transfer_fee_type.rb'
     - 'app/models/fee/warrant_fee.rb'

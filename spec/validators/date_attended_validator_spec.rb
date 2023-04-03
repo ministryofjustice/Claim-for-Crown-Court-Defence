@@ -18,7 +18,7 @@ RSpec.describe DateAttendedValidator, type: :validator do
 
   context 'date' do
     it { should_error_if_not_present(date_attended, :date, 'Enter the date attended') }
-    it { should_error_if_before_specified_date(date_attended, :date, earliest_reporder_date - 2.years - 1.day, 'The fee date cannot not be more than two years before the earliest representation order date') }
+    it { should_error_if_before_specified_date(date_attended, :date, earliest_reporder_date - 2.years - 1.day, 'The fee date cannot be more than two years before the earliest representation order date') }
     it { should_error_if_too_far_in_the_past(date_attended, :date, 'Enter a date later than two years before the earliest representation order date') }
     it { should_error_if_in_future(date_attended, :date, 'Enter a date that is not in the future') }
 

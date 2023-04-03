@@ -142,7 +142,7 @@ en:
               blank: Enter the date attended
               check_not_in_future: Enter a date that is not in the future
               not_before_earliest_permitted_date: Enter a date later than two years before the earliest representation order date
-              too_long_before_earliest_reporder: The fee date cannot not be more than two years before the earliest representation order date
+              too_long_before_earliest_reporder: The fee date cannot be more than two years before the earliest representation order date
         disbursement:
           attributes:
             disbursement_type_id:

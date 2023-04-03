@@ -96,7 +96,7 @@ end
 group :test do
   gem 'axe-core-cucumber', '~> 4.6'
   gem 'capybara-selenium'
-  gem 'capybara', '~> 3.38'
+  gem 'capybara', '~> 3.39'
   gem 'cucumber-rails', '~> 2.6.1', require: false
   gem 'database_cleaner'
   gem 'i18n-tasks'

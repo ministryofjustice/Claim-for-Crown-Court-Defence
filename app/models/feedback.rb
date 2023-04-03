@@ -36,8 +36,8 @@ class Feedback
 
   def save
     return unless valid?
-    return save_feedback if feedback?
-    save_bug_report
+    return send_to_survey_monkey if feedback? && !Settings.zendesk_feedback_enabled?
+    send_to_zendesk
   end
 
   def subject
@@ -49,18 +49,6 @@ class Feedback
   end
 
   private
-
-  def save_feedback
-    if Settings.zendesk_feedback_enabled?
-      send_to_zendesk
-    else
-      send_to_survey_monkey
-    end
-  end
-
-  def save_bug_report
-    send_to_zendesk
-  end
 
   def send_to_survey_monkey
     response = SurveyMonkeySender.call(self)

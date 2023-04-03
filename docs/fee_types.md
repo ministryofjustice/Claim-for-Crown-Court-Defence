@@ -32,3 +32,10 @@ The unique code of a fee type, defined above, needs to be mapped for the
 injection into CCR and CCLF, and for lookups with Fee Calculator. This is set
 in `app/services/ccr/fee/misc_fee_adapter.rb`. Also see
 `spec/services/ccr/fee/misc_fee_adapter_spec.rb` for tests.
+
+### Miscellaneous
+
+Any new fees added as miscellaneous fees will appear automatically in the
+drop-down list on the relevant page for final and hardship claims. For
+supplementary fee claims, however, the fee will only be available if it listed
+in `AGFS_SUPPLEMENTARY_SHARED_TYPES` in `app/models/fee/misc_fee_type.rb`.

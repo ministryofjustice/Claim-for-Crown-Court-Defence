@@ -30,7 +30,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       @basic_fee = create(:basic_fee, :with_date_attended, claim:)
       @misc_fee = create(:misc_fee, :with_date_attended, claim:)
       create(:date_attended, attended_item: @misc_fee)
-      claim.fees.map(&:dates_attended).flatten      # iterate through the fees and dates attended so that the examples below know they have been created
+      claim.fees.map(&:dates_attended).flatten # iterate through the fees and dates attended so that the examples below know they have been created
       claim.form_step = :basic_fees
     end
 
@@ -45,7 +45,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
     before do
       @expense = create(:expense, :with_date_attended, claim:)
       create(:date_attended, attended_item: @expense)
-      claim.expenses.map(&:dates_attended).flatten       # iterate through the expenses and dates attended so that the examples below know they have been created
+      claim.expenses.map(&:dates_attended).flatten # iterate through the expenses and dates attended so that the examples below know they have been created
       claim.force_validation = true
       claim.form_step = :offence_details
     end

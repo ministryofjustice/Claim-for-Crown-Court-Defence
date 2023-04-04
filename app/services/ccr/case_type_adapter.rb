@@ -29,7 +29,6 @@ module CCR
     end
 
     def bill_scenario
-      # binding.pry
       BILL_SCENARIOS[case_type.fee_type_code.to_sym]
     end
   end

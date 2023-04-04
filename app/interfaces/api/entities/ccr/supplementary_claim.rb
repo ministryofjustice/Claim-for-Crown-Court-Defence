@@ -3,6 +3,7 @@ module API
     module CCR
       class SupplementaryClaim < BaseClaim
         expose :dummy_case_type, as: :case_type, using: API::Entities::CCR::CaseType
+        expose :dummy_first_day_of_trial, as: :first_day_of_trial
 
         private
 

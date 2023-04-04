@@ -28,14 +28,15 @@ module API
         # In addition, many miscelleneous fees are similary unaffected by case type
         #
         def dummy_case_type
-          # binding.pry
-          # ::CaseType.find_by(name: 'Guilty plea')
-
           if bills.pluck(:bill_subtype).include?('AGFS_SECTION_28')
             ::CaseType.find_by(name: 'Trial')
           else
             ::CaseType.find_by(name: 'Guilty plea')
           end
+        end
+
+        def dummy_first_day_of_trial
+          Time.zone.today if bills.pluck(:bill_subtype).include?('AGFS_SECTION_28')
         end
 
         def defendants_with_main_first

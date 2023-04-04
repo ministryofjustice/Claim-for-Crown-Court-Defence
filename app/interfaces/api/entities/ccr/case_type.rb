@@ -10,6 +10,7 @@ module API
         private
 
         def adapted_case_type
+          # binding.pry
           ::CCR::CaseTypeAdapter.new(object).bill_scenario
         end
       end

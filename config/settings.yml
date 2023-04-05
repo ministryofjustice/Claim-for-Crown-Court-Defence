@@ -99,6 +99,10 @@ scheme_filters_enabled?: <%= ENV['ENV'] == 'demo' %>
 #
 maintenance_mode_enabled?: <%= ENV.fetch('MAINTENANCE_MODE', nil)&.downcase&.eql?('true') %>
 
+# Feature flag to enable sending feedback to zendesk
+#
+zendesk_feedback_enabled?: <%= ENV.fetch('ZENDESK_FEEDBACK', nil)&.downcase&.eql?('true') %>
+
 feature_flags_enabled?: true
 active_features: []
 

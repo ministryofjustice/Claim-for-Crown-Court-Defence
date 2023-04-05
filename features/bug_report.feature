@@ -1,7 +1,7 @@
 @javascript @no-seed
 Feature: A user can provide a bug report
 
-  @stub_successful_zendesk_request
+  @stub_bug_report_success
   Scenario: A logged in user can successfully submit a bug report
     Given I am a signed in advocate admin
     And I am on the 'Your claims' page
@@ -17,7 +17,7 @@ Feature: A user can provide a bug report
     Then I see confirmation that my 'bug report' was received
     And I should be on the your claims page
 
-  @stub_successful_zendesk_request
+  @stub_bug_report_success
   Scenario: A logged out user can successfully submit a bug report
     Given I visit "/"
     When I click the link 'report a fault'
@@ -32,7 +32,7 @@ Feature: A user can provide a bug report
     Then I see confirmation that my 'bug report' was received
     And I should be on the sign in page
 
-  @stub_failed_zendesk_request
+  @stub_bug_report_failure
   Scenario: A user unsuccessfully submits a bug report
     Given I visit "/"
     When I click the link 'report a fault'

@@ -10,8 +10,12 @@ RSpec.describe Feedback do
 
   it { is_expected.to validate_inclusion_of(:type).in_array(%w(feedback bug_report)) }
 
-  context 'feedback' do
+  context 'survey monkey feedback' do
     subject(:feedback) { described_class.new(feedback_params) }
+
+    before do
+      allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(false)
+    end
 
     let(:feedback_params) do
       params.merge(type: 'feedback', task: '1', rating: '4', comment: 'lorem ipsum', reason: ['', '1', '2'], other_reason: 'dolor sit')
@@ -88,7 +92,7 @@ RSpec.describe Feedback do
 
         it 'stores success message on object' do
           bug_report.save
-          expect(bug_report.response_message).to eq('Fault reported')
+          expect(bug_report.response_message).to eq('Bug Report submitted')
         end
       end
 
@@ -114,7 +118,7 @@ RSpec.describe Feedback do
 
         it 'stores failure message on object' do
           bug_report.save
-          expect(bug_report.response_message).to eq('Unable to submit fault report')
+          expect(bug_report.response_message).to eq('Unable to submit bug report')
         end
 
         it 'logs error details' do
@@ -132,7 +136,7 @@ RSpec.describe Feedback do
 
     describe '#description' do
       it 'returns the description' do
-        expect(bug_report.description).to eq('case_number: XXX - event: lorem - outcome: ipsum - email: example@example.com')
+        expect(bug_report.description).to eq("case_number: XXX\nevent: lorem\noutcome: ipsum\nemail: example@example.com")
       end
     end
 
@@ -143,6 +147,93 @@ RSpec.describe Feedback do
 
       context 'with bug report type' do
         it { expect(bug_report.is?(:bug_report)).to be true }
+      end
+    end
+  end
+
+  context 'zendesk feedback' do
+    subject(:feedback) { described_class.new(feedback_params) }
+
+    before do
+      allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(true)
+    end
+
+    let(:feedback_params) do
+      params.merge(type: 'feedback', task: 'XYZ', rating: 1, comment: 'ipsum', reason: ['Other'], other_reason: 'loren ipsum')
+    end
+
+    it { expect(feedback.task).to eq('XYZ') }
+    it { expect(feedback.rating).to eq(1) }
+    it { expect(feedback.comment).to eq('ipsum') }
+    it { expect(feedback.reason).to eq(['Other']) }
+    it { expect(feedback.other_reason).to eq('loren ipsum') }
+    it { expect(feedback.user_agent).to eq('Firefox') }
+    it { expect(feedback.referrer).to eq('/index') }
+
+    it { is_expected.to be_feedback }
+    it { is_expected.not_to be_bug_report }
+
+    describe '#save' do
+      context 'when valid and successful' do
+        let(:ticket) { instance_double(ZendeskAPI::Ticket) }
+
+        before do
+          allow(ZendeskAPI::Ticket).to receive(:create!).and_return(ticket)
+          allow(ZendeskSender).to receive(:send!)
+        end
+
+        it 'calls zendesk sender' do
+          feedback.save
+          expect(ZendeskSender).to have_received(:send!)
+        end
+
+        it { expect(feedback.save).to be_truthy }
+
+        it 'stores success message on object' do
+          feedback.save
+          expect(feedback.response_message).to eq('Feedback submitted')
+        end
+      end
+
+      context 'when zendesk submission fails' do
+        before do
+          allow(ZendeskAPI::Ticket).to receive(:create!).and_raise ZendeskAPI::Error::ClientError, 'oops, something went wrong'
+          allow(LogStuff).to receive(:error)
+        end
+
+        it { expect(feedback.save).to be_falsey }
+
+        it 'stores failure message on object' do
+          feedback.save
+          expect(feedback.response_message).to eq('Unable to submit feedback')
+        end
+
+        it 'logs error details' do
+          feedback.save
+          expect(LogStuff).to have_received(:error).with(class: described_class.to_s, action: 'save', error_class: 'ZendeskAPI::Error::ClientError', error: 'oops, something went wrong')
+        end
+      end
+    end
+
+    describe '#subject' do
+      it 'returns the subject heading' do
+        expect(feedback.subject).to eq('Feedback (test)')
+      end
+    end
+
+    describe '#description' do
+      it 'returns the description' do
+        expect(feedback.description).to eq("task: XYZ\nrating: 1\ncomment: ipsum\nreason: [\"Other\"]\nother_reason: loren ipsum")
+      end
+    end
+
+    describe '#is?' do
+      context 'with feedback type' do
+        it { expect(feedback.is?(:feedback)).to be true }
+      end
+
+      context 'with bug_report type' do
+        it { expect(feedback.is?(:bug_report)).to be false }
       end
     end
   end

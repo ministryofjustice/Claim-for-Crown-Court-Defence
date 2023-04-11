@@ -5,7 +5,7 @@ module API
     end
 
     def after
-      log_api_response(JSON.parse(env['api.request.input'].to_s))
+      log_api_response
       @app_response # this must return @app_response or nil
     end
 
@@ -15,8 +15,14 @@ module API
       log_api('api-request', method:, path:, data:)
     end
 
-    def log_api_response(inputs)
-      log_api('api-response', inputs:, status: response_status, response_body:)
+    def log_api_response
+      log_api('api-response', inputs: input_params, status: response_status, response_body:)
+    end
+
+    def input_params
+      JSON.parse(env['api.request.input'].to_s)
+    rescue JSON::ParserError
+      {}
     end
 
     def response_status

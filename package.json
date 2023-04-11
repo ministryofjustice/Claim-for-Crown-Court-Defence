@@ -48,7 +48,7 @@
     "jsrender": "^1.0.13",
     "mini-css-extract-plugin": "^2.7.5",
     "postcss": "^8.4.21",
-    "sass": "^1.60.0",
+    "sass": "^1.61.0",
     "sass-loader": "^13.2.2",
     "stickyfilljs": "^2.1.0",
     "style-loader": "^3.3.2",

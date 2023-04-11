@@ -34,8 +34,8 @@ RSpec.describe Fee::BaseFeeType do
     end
   end
 
-  it { is_expected.to respond_to(:lgfs?, :lgfs_scheme_9?, :lgfs_scheme_10?, :agfs?, :agfs_scheme_9?, :agfs_scheme_10?, :agfs_scheme_12?, :agfs_scheme_13?, :agfs_scheme_14?) }
-  it { expect(described_class).to respond_to(:lgfs, :lgfs_scheme_9s, :lgfs_scheme_10s, :agfs, :agfs_scheme_9s, :agfs_scheme_10s, :agfs_scheme_12s, :agfs_scheme_13s, :agfs_scheme_14s) }
+  it { is_expected.to respond_to(*%i[lgfs? lgfs_scheme_9? lgfs_scheme_10? agfs? agfs_scheme_9? agfs_scheme_10? agfs_scheme_12? agfs_scheme_13?]) }
+  it { expect(described_class).to respond_to(*%i[lgfs lgfs_scheme_9s lgfs_scheme_10s agfs agfs_scheme_9s agfs_scheme_10s agfs_scheme_12s agfs_scheme_13s]) }
 
   it_behaves_like 'roles', Fee::MiscFeeType, Fee::MiscFeeType::ROLES # using MiscFeeType because the shared examples use a factory, which rules out the use of a class double
   it_behaves_like 'defendant upliftable'

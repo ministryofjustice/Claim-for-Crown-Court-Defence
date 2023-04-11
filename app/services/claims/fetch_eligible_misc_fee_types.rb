@@ -18,8 +18,7 @@ module Claims
     LGFS_HARDSHIP_CLAIM_ELIGIBILITY = (LGFS_TRIAL_CLAIM_ELIGIBILITY - %w[MICJA MICJP]).freeze
 
     attr_reader :claim
-    delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :agfs_scheme_12?, :agfs_scheme_13?, :agfs_scheme_14?,
-             :hardship?,
+    delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :agfs_scheme_12?, :agfs_scheme_13?, :hardship?,
              to: :claim, allow_nil: true
 
     def eligible_fee_types
@@ -37,7 +36,6 @@ module Claims
     end
 
     def agfs_scheme_scope
-      return Fee::MiscFeeType.agfs_scheme_14s if agfs_scheme_14?
       return Fee::MiscFeeType.agfs_scheme_13s if agfs_scheme_13?
       return Fee::MiscFeeType.agfs_scheme_12s if agfs_scheme_12?
       return Fee::MiscFeeType.agfs_scheme_10s if agfs_reform?

@@ -51,18 +51,6 @@ RSpec.shared_examples 'find AGFS fee schemes 12 and 13' do
 
     it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 13) }
   end
-
-  context 'with a rep order before 1 Febraury 2023' do
-    let(:representation_order_date) { Date.parse('31 January 2023') }
-
-    it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 13) }
-  end
-
-  context 'with a rep order on 1 February 2023' do
-    let(:representation_order_date) { Date.parse('1 February 2023') }
-
-    it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 14) }
-  end
 end
 
 RSpec.describe FeeSchemeFactory::AGFS do
@@ -96,24 +84,6 @@ RSpec.describe FeeSchemeFactory::AGFS do
         let(:representation_order_date) { Date.parse('17 September 2020') }
 
         it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 13) }
-      end
-    end
-
-    context 'with a main hearing date on 1 February 2023' do
-      let(:options) { { representation_order_date:, main_hearing_date: Date.parse('1 February 2023') } }
-
-      include_examples 'find AGFS fee schemes 9 to 11'
-
-      context 'with a rep order before 1 February 2023' do
-        let(:representation_order_date) { Date.parse('31 January 2023') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 13) }
-      end
-
-      context 'with a rep order on 1 February 2023' do
-        let(:representation_order_date) { Date.parse('1 February 2023') }
-
-        it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 14) }
       end
     end
   end

@@ -2173,7 +2173,6 @@ Rails/SkipsModelValidations:
 # SupportedStyles: strict, flexible
 Rails/TimeZone:
   Exclude:
-    - 'app/interfaces/api/logger.rb'
     - 'app/models/claim_state_transition.rb'
     - 'app/models/claims/financial_summary.rb'
     - 'app/models/claims/state_machine.rb'
@@ -2356,7 +2355,6 @@ Style/ClassAndModuleChildren:
     - 'app/interfaces/api/helpers/json_error_formatter.rb'
     - 'app/interfaces/api/helpers/resource_helper.rb'
     - 'app/interfaces/api/helpers/xml_formatter.rb'
-    - 'app/interfaces/api/logger.rb'
     - 'app/interfaces/api/v2/criteria_helper.rb'
     - 'app/interfaces/api/v2/query_helper.rb'
     - 'app/models/claims/allocation_filters.rb'

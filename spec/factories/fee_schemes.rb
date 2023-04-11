@@ -35,6 +35,12 @@ FactoryBot.define do
       version { 13 }
     end
 
+    trait :agfs_fourteen do
+      start_date { Settings.agfs_scheme_14_section_twenty_eight.beginning_of_day }
+      end_date { nil }
+      version { 14 }
+    end
+
     trait :lgfs_nine do
       name { 'LGFS' }
       start_date { Date.new(2014, 03, 20).beginning_of_day }

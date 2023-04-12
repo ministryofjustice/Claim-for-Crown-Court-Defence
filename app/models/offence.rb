@@ -53,6 +53,9 @@ class Offence < ApplicationRecord
   scope :in_scheme_thirteen, -> { joins(:fee_schemes).merge(FeeScheme.thirteen).distinct }
   singleton_class.send(:alias_method, :in_scheme_13, :in_scheme_thirteen)
 
+  scope :in_scheme_fourteen, -> { joins(:fee_schemes).merge(FeeScheme.version(14)).distinct }
+  singleton_class.send(:alias_method, :in_scheme_14, :in_scheme_fourteen)
+
   scope :in_lgfs_scheme_ten, -> { joins(:fee_schemes).merge(FeeScheme.lgfs).merge(FeeScheme.ten).distinct }
   singleton_class.send(:alias_method, :in_lgfs_scheme_10, :in_lgfs_scheme_ten)
 
@@ -83,6 +86,10 @@ class Offence < ApplicationRecord
 
   def scheme_thirteen?
     fee_schemes.map(&:version).any?(FeeScheme::THIRTEEN)
+  end
+
+  def scheme_fourteen?
+    fee_schemes.map(&:version).any?(14)
   end
 
   def lgfs_scheme_ten?

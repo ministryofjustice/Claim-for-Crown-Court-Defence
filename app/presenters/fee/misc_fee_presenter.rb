@@ -1,25 +1,23 @@
-class Fee::MiscFeePresenter < Fee::BaseFeePresenter
-  def quantity
-    return not_applicable_html unless agfs?
-    return not_applicable_html if fee_type.unique_code == 'MISTE'
+module Fee
+  class MiscFeePresenter < Fee::BaseFeePresenter
+    def quantity
+      return not_applicable_html unless agfs?
+      return not_applicable_html if fee_type.unique_code == 'MISTE'
 
-    super
-  end
+      super
+    end
 
-  def rate
-    return not_applicable_html unless agfs?
-    return not_applicable_html if fee_type.unique_code == 'MISTE'
+    def rate
+      return not_applicable_html unless agfs?
+      return not_applicable_html if fee_type.unique_code == 'MISTE'
 
-    super
-  end
+      super
+    end
 
-  def days_claimed
-    super
-  end
+    private
 
-  private
-
-  def agfs?
-    fee&.claim&.agfs? ? true : false
+    def agfs?
+      fee&.claim&.agfs? ? true : false
+    end
   end
 end

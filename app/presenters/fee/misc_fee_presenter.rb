@@ -1,6 +1,9 @@
 class Fee::MiscFeePresenter < Fee::BaseFeePresenter
   def quantity
-    agfs? ? super : not_applicable_html
+    return not_applicable_html unless agfs?
+    return not_applicable_html if fee_type.unique_code == 'MISTE'
+
+    super
   end
 
   def rate

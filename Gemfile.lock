@@ -106,7 +106,7 @@ GEM
     axe-core-api (4.6.1)
       dumb_delegator
       virtus
-    axe-core-cucumber (4.6.0)
+    axe-core-cucumber (4.6.1)
       axe-core-api
       dumb_delegator
       virtus

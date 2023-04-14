@@ -646,7 +646,7 @@ GEM
       state_machines-activemodel (>= 0.8.0)
     state_machines-audit_trail (2.0.2)
       state_machines
-    sys-uname (1.2.2)
+    sys-uname (1.2.3)
       ffi (~> 1.1)
     temple (0.10.0)
     terminal-table (3.0.2)

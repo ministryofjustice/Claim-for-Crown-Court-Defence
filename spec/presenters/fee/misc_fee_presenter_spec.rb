@@ -37,6 +37,14 @@ describe Fee::MiscFeePresenter do
 
       it { is_expected.to match(%r{n/a}) }
     end
+
+    context 'without a fee type' do
+      let(:misc_fee) { build(:misc_fee, rate: 12.01, fee_type: nil) }
+
+      before { allow(misc_fee).to receive(:calculated?).and_return(true) }
+
+      it { is_expected.to eq('£12.01') }
+    end
   end
 
   describe '#quantity' do
@@ -60,6 +68,14 @@ describe Fee::MiscFeePresenter do
       let(:misc_fee) { create(:misc_fee, quantity: 77, claim: build(:litigator_claim)) }
 
       it { is_expected.to match(%r{n/a}) }
+    end
+
+    context 'without a fee type' do
+      let(:misc_fee) { build(:misc_fee, quantity: 77, fee_type: nil) }
+
+      before { allow(misc_fee).to receive(:calculated?).and_return(true) }
+
+      it { is_expected.to eq('77') }
     end
   end
 end

@@ -63,10 +63,12 @@ moj.Modules.FeeTypeCtrl = {
     const defaultQuantity = 1
     const $quantity = $(context).closest('.fx-fee-group').find('input.fee-quantity')
     if (readOnly) {
-      $quantity.val(defaultQuantity)
+      if (`${$quantity.val()}` !== `${defaultQuantity}`) {
+        $quantity.val(defaultQuantity)
+        $quantity.trigger('keyup')
+      }
       $quantity.attr('readonly', true)
     } else {
-      $quantity.val()
       $quantity.removeAttr('readonly')
     }
   },

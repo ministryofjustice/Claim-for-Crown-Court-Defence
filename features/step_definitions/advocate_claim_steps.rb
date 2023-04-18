@@ -146,11 +146,11 @@ When(/^I add a govuk calculated miscellaneous fee '(.*?)'(?: with quantity of '(
   @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete.choose_autocomplete_option(name)
   @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.send_keys(:tab)
   wait_for_debounce
-  wait_for_ajax
+  wait_for_ajax(wait_time: 60)
   @claim_form_page.miscellaneous_fees.last.quantity.set quantity
   @claim_form_page.miscellaneous_fees.last.quantity.send_keys(:tab)
   wait_for_debounce
-  wait_for_ajax
+  wait_for_ajax(wait_time: 60)
   if date.present?
     @claim_form_page.miscellaneous_fees.last.add_dates.click
     @claim_form_page.miscellaneous_fees.last.dates.set_date(date)

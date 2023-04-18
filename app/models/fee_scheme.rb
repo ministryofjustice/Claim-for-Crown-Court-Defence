@@ -17,6 +17,7 @@ class FeeScheme < ApplicationRecord
   scope :eleven, -> { where(version: FeeScheme::ELEVEN) }
   scope :twelve, -> { where(version: FeeScheme::TWELVE) }
   scope :thirteen, -> { where(version: FeeScheme::THIRTEEN) }
+  scope :version, ->(version) { where(version:) }
 
   def agfs?
     name.eql?('AGFS')
@@ -40,5 +41,9 @@ class FeeScheme < ApplicationRecord
 
   def agfs_scheme_13?
     agfs? && version.eql?(13)
+  end
+
+  def agfs_scheme_14?
+    agfs? && version.eql?(14)
   end
 end

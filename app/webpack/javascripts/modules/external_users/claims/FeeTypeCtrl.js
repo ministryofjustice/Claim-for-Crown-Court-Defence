@@ -59,7 +59,7 @@ moj.Modules.FeeTypeCtrl = {
   },
 
   readOnlyQuantity: function (context, uniqueCode) {
-    const readOnly = (uniqueCode === 'MIUMU')
+    const readOnly = (uniqueCode === 'MIUMU' || uniqueCode === 'MISTE')
     const defaultQuantity = 1
     const $quantity = $(context).closest('.fx-fee-group').find('input.fee-quantity')
     if (readOnly) {

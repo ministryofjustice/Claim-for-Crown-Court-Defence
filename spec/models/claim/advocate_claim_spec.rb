@@ -1347,12 +1347,12 @@ RSpec.describe Claim::AdvocateClaim do
       let(:claim_discontinuance_9) do
         create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true)
       end
-      let(:claim_9) { create(:advocate_claim, :agfs_scheme_9) }
+      let(:agfs_scheme_9_claim) { create(:advocate_claim, :agfs_scheme_9) }
 
-      let(:claim_discontinuance_10) do
+      let(:agfs_scheme_10_discontinuance_claim) do
         create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true)
       end
-      let(:claim_10) { create(:advocate_claim, :agfs_scheme_10) }
+      let(:agfs_scheme_10_claim) { create(:advocate_claim, :agfs_scheme_10) }
 
       context 'when claim is scheme 9' do
         context 'when claim is a discontinuance' do
@@ -1363,7 +1363,7 @@ RSpec.describe Claim::AdvocateClaim do
 
         context 'when claim is not a discontinuance' do
           it 'returns false' do
-            expect(claim_9.discontinuance?).to be false
+            expect(agfs_scheme_9_claim.discontinuance?).to be false
           end
         end
       end
@@ -1371,13 +1371,13 @@ RSpec.describe Claim::AdvocateClaim do
       context 'when claim is scheme 10' do
         context 'when claim is a discontinuance' do
           it 'returns true' do
-            expect(claim_discontinuance_10.discontinuance?).to be true
+            expect(agfs_scheme_10_discontinuance_claim.discontinuance?).to be true
           end
         end
 
         context 'when claim is not a discontinuance' do
           it 'returns true' do
-            expect(claim_10.discontinuance?).to be false
+            expect(agfs_scheme_10_claim.discontinuance?).to be false
           end
         end
       end

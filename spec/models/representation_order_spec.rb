@@ -88,12 +88,12 @@ RSpec.describe RepresentationOrder do
 
   context 'reporders for same defendant methods' do
     let(:claim) { create(:claim) }
-    let(:ro1) { claim.defendants.first.representation_orders.first }
-    let(:ro2) { claim.defendants.first.representation_orders.last }
+    let(:first_rep_order) { claim.defendants.first.representation_orders.first }
+    let(:other_rep_order) { claim.defendants.first.representation_orders.last }
 
     describe '#reporders_for_same_defendant' do
       it 'returns an array of representation orders' do
-        rep_orders = ro1.reporders_for_same_defendant
+        rep_orders = first_rep_order.reporders_for_same_defendant
         expect(rep_orders.size).to eq 2
         expect(rep_orders.map(&:class).uniq).to eq([RepresentationOrder])
         expect(rep_orders.map(&:defendant_id).uniq).to eq([claim.defendants.first.id])
@@ -102,17 +102,17 @@ RSpec.describe RepresentationOrder do
 
     describe '#first_reporder_for_same_defendant' do
       it 'returns the first reporder for the same defendant' do
-        expect(ro1.first_reporder_for_same_defendant).to eq ro1
+        expect(first_rep_order.first_reporder_for_same_defendant).to eq first_rep_order
       end
     end
 
     describe '#is_first_reporder_for_same_defendant?' do
       it 'is true for the first reporder' do
-        expect(ro1.is_first_reporder_for_same_defendant?).to be true
+        expect(first_rep_order.is_first_reporder_for_same_defendant?).to be true
       end
 
       it 'is false for other reporders' do
-        expect(ro2.is_first_reporder_for_same_defendant?).to be false
+        expect(other_rep_order.is_first_reporder_for_same_defendant?).to be false
       end
     end
   end

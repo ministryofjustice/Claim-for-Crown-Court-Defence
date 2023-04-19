@@ -139,7 +139,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
           let(:case_concluded_at) { 5.days.ago }
           let(:representation_order_date) { case_concluded_at }
 
-          let(:claim_params_step1) do
+          let(:claim_params_for_case_details) do
             {
               external_user_id: litigator.id,
               supplier_number:,
@@ -152,7 +152,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
             }
           end
 
-          let(:claim_params_step2) do
+          let(:claim_params_for_defendants) do
             {
               form_step: :defendants,
               defendants_attributes: [
@@ -178,12 +178,12 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
           let(:subject_claim) { Claim::LitigatorClaim.where(case_number:).first }
 
           it 'validates step fields and move to next steps' do
-            post :create, params: { commit_continue: 'Continue', claim: claim_params_step1 }
+            post :create, params: { commit_continue: 'Continue', claim: claim_params_for_case_details }
             expect(subject_claim.draft?).to be_truthy
             expect(subject_claim.valid?).to be_truthy
             expect(response).to redirect_to edit_litigators_claim_path(subject_claim, step: :defendants)
 
-            put :update, params: { id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_step2 }
+            put :update, params: { id: subject_claim, commit_submit_claim: 'Submit to LAA', claim: claim_params_for_defendants }
             expect(subject_claim.draft?).to be_truthy
             expect(subject_claim.valid?).to be_truthy
             expect(response).to redirect_to(summary_external_users_claim_path(subject_claim))

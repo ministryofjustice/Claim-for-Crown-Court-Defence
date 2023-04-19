@@ -5,10 +5,10 @@ RSpec.describe Caching::ApiRequest do
   let(:url) { 'http://test.com/ping.json' }
 
   let(:headers) { {} }
-  let(:value1) { 'test value 1' }
-  let(:response1) { double('Response1', headers:, body: value1) }
-  let(:value2) { 'test value 2' }
-  let(:response2) { double('Response2', headers:, body: value2) }
+  let(:initial_value) { 'test value 1' }
+  let(:initial_response) { double('Response1', headers:, body: initial_value) }
+  let(:updated_value) { 'test value 2' }
+  let(:update_response) { double('Response2', headers:, body: updated_value) }
 
   before do
     Caching.backend = Caching::MemoryStore
@@ -80,13 +80,13 @@ RSpec.describe Caching::ApiRequest do
         before { Caching.clear }
 
         it 'writes to the cache' do
-          described_class.cache(url) { response1 }
+          described_class.cache(url) { initial_response }
           expect(current_store).to have_received(:set).with(/api:/, /test value 1/).once
         end
 
         it 'returns content' do
-          returned = described_class.cache(url) { response1 }
-          expect(returned).to eq(value1)
+          returned = described_class.cache(url) { initial_response }
+          expect(returned).to eq(initial_value)
         end
       end
 
@@ -94,18 +94,18 @@ RSpec.describe Caching::ApiRequest do
         before do
           over_ttl = (options[:ttl] + 1).seconds.ago
           travel_to(over_ttl) do
-            described_class.cache(url) { response1 }
+            described_class.cache(url) { initial_response }
           end
         end
 
         it 'writes to the cache' do
-          described_class.cache(url) { response2 }
+          described_class.cache(url) { update_response }
           expect(current_store).to have_received(:set).with(/api:/, /test value 2/).once
         end
 
         it 'returns new content' do
-          returned = described_class.cache(url) { response2 }
-          expect(returned).to eq(value2)
+          returned = described_class.cache(url) { update_response }
+          expect(returned).to eq(updated_value)
         end
       end
 
@@ -113,18 +113,18 @@ RSpec.describe Caching::ApiRequest do
         before do
           under_ttl = (options[:ttl] - 10).seconds.ago
           travel_to(under_ttl) do
-            described_class.cache(url) { response1 }
+            described_class.cache(url) { initial_response }
           end
         end
 
         it 'reads from the cache' do
-          described_class.cache(url) { response1 }
+          described_class.cache(url) { initial_response }
           expect(current_store).to have_received(:get).with(/api:/).twice
         end
 
         it 'returns content from cache' do
-          returned = described_class.cache(url) { response1 }
-          expect(returned).to eq(value1)
+          returned = described_class.cache(url) { initial_response }
+          expect(returned).to eq(initial_value)
         end
       end
     end
@@ -136,13 +136,13 @@ RSpec.describe Caching::ApiRequest do
         before { Caching.clear }
 
         it 'writes to the cache' do
-          described_class.cache(url) { response1 }
+          described_class.cache(url) { initial_response }
           expect(current_store).to have_received(:set).with(/api:/, /test value 1/).once
         end
 
         it 'returns content' do
-          returned = described_class.cache(url) { response1 }
-          expect(returned).to eq(value1)
+          returned = described_class.cache(url) { initial_response }
+          expect(returned).to eq(initial_value)
         end
       end
 
@@ -150,18 +150,18 @@ RSpec.describe Caching::ApiRequest do
         before do
           under_max_age = (max_age - 10).seconds.ago
           travel_to(under_max_age) do
-            described_class.cache(url) { response1 }
+            described_class.cache(url) { initial_response }
           end
         end
 
         it 'reads from the cache' do
-          described_class.cache(url) { response1 }
+          described_class.cache(url) { initial_response }
           expect(current_store).to have_received(:get).with(/api:/).twice
         end
 
         it 'returns content from cache' do
-          returned = described_class.cache(url) { response1 }
-          expect(returned).to eq(value1)
+          returned = described_class.cache(url) { initial_response }
+          expect(returned).to eq(initial_value)
         end
       end
 
@@ -169,18 +169,18 @@ RSpec.describe Caching::ApiRequest do
         before do
           over_max_age = (max_age + 1).seconds.ago
           travel_to(over_max_age) do
-            described_class.cache(url) { response1 }
+            described_class.cache(url) { initial_response }
           end
         end
 
         it 'writes to the cache' do
-          described_class.cache(url) { response2 }
+          described_class.cache(url) { update_response }
           expect(current_store).to have_received(:set).with(/api:/, /test value 2/).once
         end
 
         it 'returns new content' do
-          returned = described_class.cache(url) { response2 }
-          expect(returned).to eq(value2)
+          returned = described_class.cache(url) { update_response }
+          expect(returned).to eq(updated_value)
         end
       end
     end
@@ -193,8 +193,8 @@ RSpec.describe Caching::ApiRequest do
         expect(current_store).not_to receive(:set).with(/api:/, /test value 2/)
         expect(current_store).to receive(:get).with(/api:/).twice.and_call_original
 
-        returned_1 = described_class.cache(url) { response1 }
-        returned_2 = described_class.cache(url) { response2 }
+        returned_1 = described_class.cache(url) { initial_response }
+        returned_2 = described_class.cache(url) { update_response }
 
         expect(returned_1).to eq(returned_2)
       end

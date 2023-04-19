@@ -238,21 +238,22 @@ RSpec.describe RepresentationOrderValidator, type: :validator do
 
   context 'multiple representation orders' do
     let(:claim) { create(:claim) }
-    let(:ro1)   { claim.defendants.first.representation_orders.first }
-    let(:ro2)   { claim.defendants.first.representation_orders.last }
+    let(:first_rep_order) { claim.defendants.first.representation_orders.first }
+    let(:last_rep_order) { claim.defendants.first.representation_orders.last }
 
     it 'is valid if the second reporder is dated after the first' do
-      ro1.update(representation_order_date: 2.weeks.ago)
-      ro2.update(representation_order_date: 1.day.ago)
+      first_rep_order.update(representation_order_date: 2.weeks.ago)
+      last_rep_order.update(representation_order_date: 1.day.ago)
       claim.force_validation = true
-      expect(ro2).to be_valid
+      expect(last_rep_order).to be_valid
     end
 
     it 'is invalid if second reporder dated before first' do
-      ro2.representation_order_date = ro1.representation_order_date - 1.day
+      last_rep_order.representation_order_date = first_rep_order.representation_order_date - 1.day
       claim.force_validation = true
-      expect(ro2).not_to be_valid
-      expect(ro2.errors[:representation_order_date]).to include('Representation orders should be entered in chronological order')
+      expect(last_rep_order).not_to be_valid
+      expect(last_rep_order.errors[:representation_order_date])
+        .to include('Representation orders should be entered in chronological order')
     end
   end
 end

@@ -164,8 +164,8 @@ RSpec.describe 'API claim creation for AGFS' do
   let!(:court) { create(:court) }
 
   let(:basic_fee) { Fee::BaseFeeType.find_by(unique_code: 'BABAF') }
-  let(:daily_attendance_3) { Fee::BaseFeeType.find_by(unique_code: 'BADAF') }
-  let(:daily_attendance_2) { Fee::BaseFeeType.find_by(unique_code: 'BADAT') }
+  let(:scheme_9_daily_attendance_fee) { Fee::BaseFeeType.find_by(unique_code: 'BADAF') }
+  let(:scheme_10_daily_attendance_fee) { Fee::BaseFeeType.find_by(unique_code: 'BADAT') }
   let(:fixed_fee) { Fee::BaseFeeType.find_by(unique_code: 'FXACV') }
   let(:fixed_uplift) { Fee::BaseFeeType.find_by(unique_code: 'FXNOC') }
   let(:miscellaneous_fee) { Fee::BaseFeeType.find_by(unique_code: 'MIAPH') }
@@ -264,7 +264,7 @@ RSpec.describe 'API claim creation for AGFS' do
 
     it_behaves_like 'final fee claims' do
       let(:offence) { create(:offence, :with_fee_scheme_nine) }
-      let(:daily_attendance_fee_id) { daily_attendance_3.id }
+      let(:daily_attendance_fee_id) { scheme_9_daily_attendance_fee.id }
       let(:fee_scheme) { ['AGFS', 9] }
       let(:miscellaneous_fee_ids) { [miscellaneous_fee.id, miscellaneous_uplift.id] }
       let(:claim_total) { 1840.2 }
@@ -278,7 +278,7 @@ RSpec.describe 'API claim creation for AGFS' do
 
     it_behaves_like 'final fee claims' do
       let(:offence) { create(:offence, :with_fee_scheme_ten) }
-      let(:daily_attendance_fee_id) { daily_attendance_2.id }
+      let(:daily_attendance_fee_id) { scheme_10_daily_attendance_fee.id }
       let(:fee_scheme) { ['AGFS', 10] }
       let(:miscellaneous_fee_ids) { [miscellaneous_fee.id, miscellaneous_uplift.id] }
       let(:claim_total) { 1840.2 }
@@ -419,7 +419,7 @@ RSpec.describe 'API claim creation for AGFS' do
       let(:offence_category) { create(:offence_category, number: 2) }
       let(:miscellaneous_fee_codes) { ['MIPHC'] }
       let(:miscellaneous_fee) { Fee::BaseFeeType.find_by(unique_code: miscellaneous_fee_codes.first) }
-      let(:daily_attendance_fee_id) { daily_attendance_2.id }
+      let(:daily_attendance_fee_id) { scheme_10_daily_attendance_fee.id }
       let(:fee_scheme) { ['AGFS', 12] }
       let(:miscellaneous_fee_ids) { [miscellaneous_fee.id] }
       let(:claim_total) { 1630.2 }
@@ -438,7 +438,7 @@ RSpec.describe 'API claim creation for AGFS' do
       let(:offence_category) { create(:offence_category, number: 2) }
       let(:miscellaneous_fee_codes) { ['MIPHC'] }
       let(:miscellaneous_fee) { Fee::BaseFeeType.find_by(unique_code: miscellaneous_fee_codes.first) }
-      let(:daily_attendance_fee_id) { daily_attendance_2.id }
+      let(:daily_attendance_fee_id) { scheme_10_daily_attendance_fee.id }
       let(:fee_scheme) { ['AGFS', 13] }
       let(:miscellaneous_fee_ids) { [miscellaneous_fee.id] }
       let(:claim_total) { 1630.2 }

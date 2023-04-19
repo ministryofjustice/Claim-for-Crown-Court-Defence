@@ -23,12 +23,12 @@ RSpec.describe Court do
   it { should validate_inclusion_of(:court_type).in_array(%w(crown magistrate)) }
 
   describe '.alphabetical' do
-    let(:court_1) { create(:court, name: 'Oxford') }
-    let(:court_2) { create(:court, name: 'Reading') }
-    let(:court_3) { create(:court, name: 'Cambridge') }
+    let(:oxford_court) { create(:court, name: 'Oxford') }
+    let(:reading_court) { create(:court, name: 'Reading') }
+    let(:cambridge_court) { create(:court, name: 'Cambridge') }
 
     it 'returns the courts in alphabetical order' do
-      expect(Court.alphabetical).to eq([court_3, court_1, court_2])
+      expect(Court.alphabetical).to eq([cambridge_court, oxford_court, reading_court])
     end
   end
 end

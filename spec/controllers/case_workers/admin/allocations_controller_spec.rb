@@ -14,10 +14,13 @@ RSpec.describe CaseWorkers::Admin::AllocationsController do
 
   let(:tab) { nil } # default tab is 'unallocated' when tab not provided
 
-  let(:mock_claim_1) { double('MockClaim', id: 1) }
-  let(:mock_claim_2) { double('MockClaim', id: 2) }
-
-  let(:claims_collection) { double('claims collection', remote?: true, first: [mock_claim_1, mock_claim_2]) }
+  let(:claims_collection) do
+    double(
+      'claims collection',
+      remote?: true,
+      first: [double('MockClaim', id: 1), double('MockClaim', id: 2)]
+    )
+  end
 
   let(:paginated_collection) { double(Remote::Collections::PaginatedCollection, claims: claims_collection) }
 

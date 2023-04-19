@@ -22,12 +22,12 @@ RSpec.describe ErrorMessage::Detail do
   end
 
   describe '#<=>' do
-    let(:detail1) { described_class.new(:attribute_one, 'long', 'short', 'api', 10) }
-    let(:detail2) { described_class.new(:attribute_two, 'long', 'short', 'api', 11) }
-    let(:detail3) { described_class.new(:attribute_one, 'long', 'short', 'api', 9) }
+    let(:first_detail) { described_class.new(:attribute_one, 'long', 'short', 'api', 9) }
+    let(:middle_detail) { described_class.new(:attribute_one, 'long', 'short', 'api', 10) }
+    let(:last_detail) { described_class.new(:attribute_two, 'long', 'short', 'api', 11) }
 
     it 'sorts by sequence ascending' do
-      expect([detail1, detail2, detail3].sort!).to eql([detail3, detail1, detail2])
+      expect([middle_detail, last_detail, first_detail].sort!).to eql([first_detail, middle_detail, last_detail])
     end
   end
 

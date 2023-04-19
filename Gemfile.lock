@@ -449,7 +449,7 @@ GEM
     paper_trail (14.0.0)
       activerecord (>= 6.0)
       request_store (~> 1.4)
-    parallel (1.22.1)
+    parallel (1.23.0)
     parallel_tests (4.2.0)
       parallel
     parser (3.2.2.0)
@@ -581,7 +581,7 @@ GEM
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-    rubocop-rspec (2.19.0)
+    rubocop-rspec (2.20.0)
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
     ruby-progressbar (1.13.0)

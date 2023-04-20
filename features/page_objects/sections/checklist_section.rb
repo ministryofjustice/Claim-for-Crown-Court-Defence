@@ -15,10 +15,10 @@ class ChecklistSection < SitePrism::Section
   end
 
   def check(label)
-    page.check checklist_item_for(label).checkbox['id'], visible: false
+    parent_page.check checklist_item_for(label).checkbox['id'], visible: false
   end
 
   def uncheck(label)
-    page.uncheck checklist_item_for(label).checkbox['id'], visible: false
+    parent_page.uncheck checklist_item_for(label).checkbox['id'], visible: false
   end
 end

@@ -555,18 +555,13 @@ RSpec.describe Claim::BaseClaim do
     end
 
     context 'with multiple messages' do
-      let!(:message1) { create(:message, claim:) }
-      let!(:message2) { create(:message, claim:) }
-      let!(:message3) { create(:message, claim:) }
-      let!(:message4) { create(:message, claim:) }
+      let!(:unread_messages) { [create(:message, claim:), create(:message, claim:)] }
+      let(:read_messages) { [create(:message, claim:), create(:message, claim:)] }
 
-      before do
-        message2.user_message_statuses.where(user:).update(read: true)
-        message3.user_message_statuses.where(user:).update(read: true)
-      end
+      before { read_messages.each { |message| message.user_message_statuses.where(user:).update(read: true) } }
 
       it 'only shows messages not read by the user' do
-        is_expected.to contain_exactly(message1, message4)
+        is_expected.to match_array(unread_messages)
       end
     end
   end

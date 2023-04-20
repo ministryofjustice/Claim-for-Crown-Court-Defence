@@ -189,20 +189,18 @@ RSpec.describe Provider do
   end
 
   context 'delegated external_user scopes/methods' do
-    let!(:provider) { create(:provider) }
-    let!(:advocate) { create(:external_user, :advocate) }
-    let!(:admin_1) { create(:external_user, :admin) }
-    let!(:admin_2) { create(:external_user, :admin) }
+    let(:provider) { create(:provider) }
+    let(:advocate) { create(:external_user, :advocate) }
+    let(:admins) { [create(:external_user, :admin), create(:external_user, :admin)] }
 
     before do
       provider.external_users << advocate
-      provider.external_users << admin_1
-      provider.external_users << admin_2
+      provider.external_users += admins
     end
 
     describe '#admins' do
       it 'only returns admins in the provider' do
-        expect(provider.admins).to contain_exactly(admin_1, admin_2)
+        expect(provider.admins).to match_array(admins)
       end
     end
 

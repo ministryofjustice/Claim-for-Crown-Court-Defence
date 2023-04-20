@@ -12,10 +12,14 @@ RSpec.describe API::V2::MI::AGFSSchemeTenClaims do
   let(:transitory_params) { {} }
   let(:expected_json_keys) { %i[id type defendant case_number claim_submitted case_type court offence offence_band provider_name user_name created_at representation_order_date] }
 
-  let!(:not_included_claim1) { travel_to(DateTime.parse('31-MAR-2018 12:00')) { create(:submitted_claim) } }
-  let!(:not_included_claim2) { travel_to(DateTime.parse('1-APR-2018 11:30')) { create(:submitted_claim) } }
-  let!(:included_claim1) { travel_to(DateTime.parse('1-APR-2018 11:00')) { create(:submitted_claim, :agfs_scheme_10) } }
-  let!(:included_claim2) { travel_to(DateTime.parse('5-APR-2018 10:30')) { create(:submitted_claim, :agfs_scheme_10) } }
+  before do
+    # Not included claims
+    travel_to(DateTime.parse('31-MAR-2018 12:00')) { create(:submitted_claim) }
+    travel_to(DateTime.parse('1-APR-2018 11:30')) { create(:submitted_claim) }
+    # Included claims
+    travel_to(DateTime.parse('1-APR-2018 11:00')) { create(:submitted_claim, :agfs_scheme_10) }
+    travel_to(DateTime.parse('5-APR-2018 10:30')) { create(:submitted_claim, :agfs_scheme_10) }
+  end
 
   def do_request
     get '/api/mi/scheme_10_claims', params.merge!(transitory_params), format: :json

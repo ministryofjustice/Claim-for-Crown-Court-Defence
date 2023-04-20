@@ -217,13 +217,13 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
           seed_fee_types
         end
 
-        let!(:basic_fee_type_1)         { Fee::BasicFeeType.find_by(unique_code: 'BABAF') }
-        let!(:basic_fee_type_2)         { Fee::BasicFeeType.find_by(unique_code: 'BADAF') }
-        let!(:basic_fee_type_3)         { Fee::BasicFeeType.find_by(unique_code: 'BANPW') }
-        let!(:basic_fee_type_4)         { Fee::BasicFeeType.find_by(unique_code: 'BAPCM') }
-        let!(:misc_fee_type_1)          { Fee::MiscFeeType.find_by(unique_code: 'MISPF') }
-        let!(:misc_fee_type_2)          { Fee::MiscFeeType.find_by(unique_code: 'MIAPH') }
-        let!(:fixed_fee_type_1)         { Fee::FixedFeeType.find_by(unique_code: 'FXASE') }
+        let!(:basic_fee_babaf)         { Fee::BasicFeeType.find_by(unique_code: 'BABAF') }
+        let!(:basic_fee_badaf)         { Fee::BasicFeeType.find_by(unique_code: 'BADAF') }
+        let!(:basic_fee_banpw)         { Fee::BasicFeeType.find_by(unique_code: 'BANPW') }
+        let!(:basic_fee_bapcm)         { Fee::BasicFeeType.find_by(unique_code: 'BAPCM') }
+        let!(:misc_fee_mispf)          { Fee::MiscFeeType.find_by(unique_code: 'MISPF') }
+        let!(:misc_fee_miaph)          { Fee::MiscFeeType.find_by(unique_code: 'MIAPH') }
+        let!(:fixed_fee_fxase)         { Fee::FixedFeeType.find_by(unique_code: 'FXASE') }
 
         let(:court)                     { create(:court) }
         let(:offence)                   { create(:offence) }
@@ -237,16 +237,16 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
               claim = assigns(:claim)
               # one record for every basic fee regardless of whether blank or not
               expect(claim.basic_fees.size).to eq 11
-              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_1.id }.amount.to_f).to eq 1000
-              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_3.id }.amount.to_f).to eq 9000.45
-              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_4.id }.amount.to_f).to eq 125.0
-              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_type_2.id }).to be_blank
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_babaf.id }.amount.to_f).to eq 1000
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_banpw.id }.amount.to_f).to eq 9000.45
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_bapcm.id }.amount.to_f).to eq 125.0
+              expect(claim.basic_fees.detect { |f| f.fee_type_id == basic_fee_badaf.id }).to be_blank
 
               # fixed fees are deleted implicitly by claim model for non-fixed-fee case types
               expect(claim.fixed_fees.size).to eq 0
 
               expect(claim.misc_fees.size).to eq 1
-              expect(claim.misc_fees.detect { |f| f.fee_type_id == misc_fee_type_2.id }.amount.to_f).to eq 250.0
+              expect(claim.misc_fees.detect { |f| f.fee_type_id == misc_fee_miaph.id }.amount.to_f).to eq 250.0
 
               expect(claim.reload.fees_total).to eq 10_375.45
             end
@@ -264,19 +264,19 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
               expect(claim.fixed_fees.size).to eq 0
               expect(claim.misc_fees.size).to eq 1
 
-              bf1 = claim.basic_fees.detect { |f| f.description == basic_fee_type_1.description }
+              bf1 = claim.basic_fees.detect { |f| f.description == basic_fee_babaf.description }
               expect(bf1.quantity).to eq 10
               expect(bf1.amount).to eq 1000
 
-              bf2 = claim.basic_fees.detect { |f| f.description == basic_fee_type_2.description }
+              bf2 = claim.basic_fees.detect { |f| f.description == basic_fee_badaf.description }
               expect(bf2.quantity).to eq 0
               expect(bf2.amount).to eq 0
 
-              bf3 = claim.basic_fees.detect { |f| f.description == basic_fee_type_3.description }
+              bf3 = claim.basic_fees.detect { |f| f.description == basic_fee_banpw.description }
               expect(bf3.quantity).to eq 1
               expect(bf3.amount.to_f).to eq 9000.45
 
-              bf4 = claim.basic_fees.detect { |f| f.description == basic_fee_type_4.description }
+              bf4 = claim.basic_fees.detect { |f| f.description == basic_fee_bapcm.description }
               expect(bf4.quantity).to eq 5
               expect(bf4.amount).to eq 125
             end
@@ -544,16 +544,16 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
       },
       'additional_information' => '',
       'basic_fees_attributes' => {
-        '0' => { 'quantity' => '10', 'rate' => '100', 'fee_type_id' => basic_fee_type_1.id.to_s },
-        '1' => { 'quantity' => '0', 'amount' => '0.00', 'fee_type_id' => basic_fee_type_2.id.to_s },
-        '2' => { 'quantity' => '1', 'amount' => '9000.45', 'fee_type_id' => basic_fee_type_3.id.to_s },
-        '3' => { 'quantity' => '5', 'rate' => '25', 'fee_type_id' => basic_fee_type_4.id.to_s }
+        '0' => { 'quantity' => '10', 'rate' => '100', 'fee_type_id' => basic_fee_babaf.id.to_s },
+        '1' => { 'quantity' => '0', 'amount' => '0.00', 'fee_type_id' => basic_fee_badaf.id.to_s },
+        '2' => { 'quantity' => '1', 'amount' => '9000.45', 'fee_type_id' => basic_fee_banpw.id.to_s },
+        '3' => { 'quantity' => '5', 'rate' => '25', 'fee_type_id' => basic_fee_bapcm.id.to_s }
       },
       'fixed_fees_attributes' => {
-        '0' => { 'fee_type_id' => fixed_fee_type_1.id.to_s, 'quantity' => '25', 'rate' => '10', '_destroy' => 'false' }
+        '0' => { 'fee_type_id' => fixed_fee_fxase.id.to_s, 'quantity' => '25', 'rate' => '10', '_destroy' => 'false' }
       },
       'misc_fees_attributes' => {
-        '1' => { 'fee_type_id' => misc_fee_type_2.id.to_s, 'quantity' => '2', 'rate' => '125', '_destroy' => 'false' }
+        '1' => { 'fee_type_id' => misc_fee_miaph.id.to_s, 'quantity' => '2', 'rate' => '125', '_destroy' => 'false' }
       },
       'expenses_attributes' => {
         '0' => { 'expense_type_id' => '', 'location' => '', 'quantity' => '', 'rate' => '', 'amount' => '', '_destroy' => 'false' }

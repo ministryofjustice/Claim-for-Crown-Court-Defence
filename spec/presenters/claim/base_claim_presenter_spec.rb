@@ -303,29 +303,29 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#representation_order_details' do
     let(:claim) do
-      claim = build(:claim)
-      claim.defendants << defendant_1
-      claim.defendants << defendant_2
-      claim
+      build(:claim).tap do |claim|
+        claim.defendants << defendant_added_first
+        claim.defendants << defendant_added_second
+      end
     end
 
-    let(:defendant_1) do
-      defendant = build(:defendant)
-      travel_to 5.days.ago do
-        defendant.representation_orders = [
-          build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '222222'),
-          build(:representation_order, representation_order_date: Date.new(2015, 8, 13), maat_reference: '333333')
-        ]
+    let(:defendant_added_first) do
+      build(:defendant).tap do |defendant|
+        travel_to 5.days.ago do
+          defendant.representation_orders = [
+            build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '222222'),
+            build(:representation_order, representation_order_date: Date.new(2015, 8, 13), maat_reference: '333333')
+          ]
+        end
       end
-      defendant
     end
 
-    let(:defendant_2) do
-      defendant = build(:defendant)
-      travel_to 2.days.ago do
-        defendant.representation_orders = [build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '444444')]
+    let(:defendant_added_second) do
+      build(:defendant).tap do |defendant|
+        travel_to 2.days.ago do
+          defendant.representation_orders = [build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '444444')]
+        end
       end
-      defendant
     end
 
     it 'returns a string of all the dates' do

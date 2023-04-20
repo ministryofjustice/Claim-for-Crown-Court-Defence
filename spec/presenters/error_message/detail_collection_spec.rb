@@ -3,7 +3,7 @@
 RSpec.describe ErrorMessage::DetailCollection do
   let(:instance) { described_class.new }
 
-  let(:ed2) do
+  let(:first_name_error_detail) do
     ErrorMessage::Detail.new(:first_name,
                              'You must specify a first name',
                              'Cannot be blank',
@@ -11,7 +11,7 @@ RSpec.describe ErrorMessage::DetailCollection do
                              20)
   end
 
-  let(:ed1) do
+  let(:invalid_dob_error_detail) do
     ErrorMessage::Detail.new(:dob,
                              'Enter a valid date of birth',
                              'Invalid date',
@@ -19,7 +19,7 @@ RSpec.describe ErrorMessage::DetailCollection do
                              10)
   end
 
-  let(:ed3) do
+  let(:too_old_dob_error_detail) do
     ErrorMessage::Detail.new(:dob,
                              'Check the date of birth',
                              'Too old',
@@ -81,8 +81,8 @@ RSpec.describe ErrorMessage::DetailCollection do
 
     context 'with multiple fieldnames with one error each' do
       before do
-        instance[:first_name] = ed1
-        instance[:dob] = ed2
+        instance[:first_name] = invalid_dob_error_detail
+        instance[:dob] = first_name_error_detail
       end
 
       it { is_expected.to eq 2 }
@@ -90,8 +90,8 @@ RSpec.describe ErrorMessage::DetailCollection do
 
     context 'with multiple errors on one fieldname' do
       before do
-        instance[:dob] = ed1
-        instance[:dob] = ed3
+        instance[:dob] = invalid_dob_error_detail
+        instance[:dob] = too_old_dob_error_detail
       end
 
       it { expect(instance.size).to eq 2 }

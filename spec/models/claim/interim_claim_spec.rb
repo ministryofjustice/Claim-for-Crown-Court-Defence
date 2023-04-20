@@ -21,21 +21,21 @@ RSpec.describe Claim::InterimClaim do
   end
 
   describe '#eligible_case_types' do
-    let(:ct1) { create(:case_type, name: 'LGFS and Interim case type', roles: %w[lgfs interim]) }
-    let(:ct2) { create(:case_type, name: 'AGFS, LGFS and Interim case type', roles: %w[agfs lgfs interim]) }
-    let(:options) { { case_type: ct1 } }
+    let(:lgfs_interim_case_type) { create(:case_type, roles: %w[lgfs interim]) }
+    let(:agfs_lgfs_interim_case_type) { create(:case_type, roles: %w[agfs lgfs interim]) }
+    let(:options) { { case_type: lgfs_interim_case_type } }
 
     before do
       CaseType.delete_all
 
       create(:case_type, name: 'AGFS case type', roles: ['agfs'])
       create(:case_type, name: 'LGFS case type', roles: ['lgfs'])
-      ct1
-      ct2
+      lgfs_interim_case_type
+      agfs_lgfs_interim_case_type
     end
 
     it 'returns only Interim case types' do
-      expect(claim.eligible_case_types).to contain_exactly(ct1, ct2)
+      expect(claim.eligible_case_types).to contain_exactly(lgfs_interim_case_type, agfs_lgfs_interim_case_type)
     end
   end
 

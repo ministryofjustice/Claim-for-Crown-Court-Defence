@@ -49,6 +49,10 @@ FactoryBot.define do
       roles { %w[lgfs agfs agfs_scheme_12] }
     end
 
+    trait :lgfs_agfs_scheme_14 do
+      roles { %w[lgfs agfs agfs_scheme_14] }
+    end
+
     trait :agfs_all_schemes do
       roles { %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12] }
     end
@@ -314,6 +318,15 @@ FactoryBot.define do
         calculated { true }
         quantity_is_decimal { true }
         lgfs_agfs_scheme_12
+      end
+
+      trait :miste do
+        description { 'Section 28 hearing' }
+        code { 'STE' }
+        unique_code { 'MISTE' }
+        calculated { true }
+        quantity_is_decimal { true }
+        lgfs_agfs_scheme_14
       end
 
       trait :miupl do

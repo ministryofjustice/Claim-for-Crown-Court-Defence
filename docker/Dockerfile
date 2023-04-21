@@ -41,7 +41,10 @@ COPY Gemfile Gemfile.lock $APP_HOME/
 RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
 && bundle config without test development devunicorn \
 && bundle config build.nokogiri --use-system-libraries \
-&& bundle install
+&& bundle install \
+&& rm -rf /usr/local/bundle/cache/*.gem \
+&& find /usr/local/bundle/gems/ -name "*.c" -delete \
+&& find /usr/local/bundle/gems/ -name "*.o" -delete
 
 COPY package.json yarn.lock $APP_HOME/
 RUN yarn install --frozen-lockfile --production --silent
@@ -55,6 +58,7 @@ bundle exec rails assets:precompile 2> /dev/null
 
 # tidy up installation
 RUN apk --update-cache upgrade
+RUN rm -rf node_modules
 
 ####################
 # DEPENDENCIES END #

@@ -85,7 +85,7 @@ group :development, :devunicorn, :test do
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
   gem 'net-ssh', '~> 7.1'
-  gem 'net-scp', '>= 4.0.0.rc1'
+  gem 'net-scp', '~> 4.0'
   gem 'rubocop', '~> 1.50'
   gem 'rubocop-rspec'
   gem 'rubocop-rails'
@@ -105,7 +105,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'rspec-html-matchers', '~> 0.10.0'
   gem 'rspec-mocks'
-  gem 'shoulda-matchers', '>= 4.0.0.rc1'
+  gem 'shoulda-matchers', '~> 5.3'
   gem 'simplecov', require: false
   gem 'timecop'
   gem 'vcr'

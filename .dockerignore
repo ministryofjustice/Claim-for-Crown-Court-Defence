@@ -43,9 +43,13 @@ vcr
 .git
 .github
 .rspec
+.rspec_parallel
 .bundle
 .circleci
 .codeclimate.yml
+.editorconfig
+.stylelintrc.yml
+.k8s
 
 # dump files
 dump.rdb
@@ -54,3 +58,6 @@ dump.rdb
 
 Brewfile
 README.md
+docs
+spikes
+ux

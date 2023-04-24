@@ -26,7 +26,7 @@
               = dt.name
 
       - if claim.additional_information.present?
-        = govuk_summary_list_row_collection( t('external_users.claims.additional_information.summary.header') ) { claim.additional_information }
+        = govuk_summary_list_row_collection( t('external_users.claims.additional_information.summary.header') ) { simple_format(claim.additional_information) }
 
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

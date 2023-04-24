@@ -11,20 +11,21 @@ WORKDIR $APP_HOME
 # build dependencies:
 # -virtual: create virtual package for later deletion
 # - build-base for alpine fundamentals
+# - git for installing gems referred to use as git:// uri
 # - ruby-dev/libc-dev for compiling raindrops, at least
 # - libxml2-dev/libxslt-dev for nokogiri, at least
 # - postgres-dev for pg/activerecord gems
-# - git for installing gems referred to use as git:// uri
 # - yarn for js dependency management
 #
-RUN apk --no-cache add \
+RUN apk --update-cache upgrade \
+ && apk --no-cache add \
                    build-base \
+                   git \
+                   gmp=6.2.1-r2 \
                    libxml2-dev \
                    libxslt-dev \
                    postgresql-dev \
-                   git \
-                   yarn \
-                   gmp=6.2.1-r2
+                   yarn
 
 ######################
 # DEPENDENCIES START #
@@ -56,8 +57,6 @@ RUN SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here \
 RAILS_ENV=production \
 bundle exec rails assets:precompile 2> /dev/null
 
-# tidy up installation
-RUN apk --update-cache upgrade
 RUN rm -rf node_modules
 
 ####################
@@ -78,22 +77,23 @@ WORKDIR $APP_HOME
 
 # runtime dependencies:
 # - file: for paperclip file type spoofing check
-# - nodejs: for ExecJS and asset compilation
-# - runit for process management (because we have multiple services)
 # - libreoffice: for pdf conversion
-# - ttf-freefont: needed for libreoffice
-# - redis: for backend key-value store
+# - nodejs: for ExecJS and asset compilation
 # - postgresql-client - only needed for database dump
+# - redis: for backend key-value store
+# - runit for process management (because we have multiple services)
+# - ttf-freefont: needed for libreoffice
 #
-RUN apk --no-cache add \
+RUN apk --update-cache upgrade \
+ && apk --no-cache add \
                    file \
-                   nodejs \
-                   linux-headers \
-                   runit \
-                   ttf-freefont \
                    libreoffice \
+                   linux-headers \
+                   nodejs \
+                   postgresql-client \
                    redis \
-                   postgresql-client
+                   runit \
+                   ttf-freefont
 
 # add non-root user and group with alpine first available uid, 1000
 RUN addgroup -g 1000 -S appgroup \
@@ -101,9 +101,6 @@ RUN addgroup -g 1000 -S appgroup \
 
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder --chown=appuser:appgroup $APP_HOME $APP_HOME
-
-# tidy up installation
-RUN apk --update-cache upgrade
 
 # expect ping environment variables
 ARG VERSION_NUMBER

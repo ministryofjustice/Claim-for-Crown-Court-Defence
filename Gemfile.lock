@@ -786,9 +786,10 @@ DEPENDENCIES
   rspec-rails (~> 6.0.1)
   rspec_junit_formatter
   rubocop (~> 1.50)
-  rubocop-performance
-  rubocop-rails
-  rubocop-rspec
+  rubocop-capybara (~> 2.18)
+  rubocop-performance (~> 1.17)
+  rubocop-rails (~> 2.19)
+  rubocop-rspec (~> 2.20)
   ruby-progressbar
   rubyzip
   scheduler_daemon

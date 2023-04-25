@@ -82,7 +82,7 @@ GEM
       activerecord (>= 4.0)
     awesome_print (1.9.2)
     aws-eventstream (1.2.0)
-    aws-partitions (1.752.0)
+    aws-partitions (1.753.0)
     aws-sdk-core (3.171.0)
       aws-eventstream (~> 1, >= 1.0.2)
       aws-partitions (~> 1, >= 1.651.0)
@@ -764,7 +764,7 @@ DEPENDENCIES
   meta_request
   net-imap
   net-pop
-  net-scp (>= 4.0.0)
+  net-scp (~> 4.0)
   net-smtp
   net-ssh (~> 7.1)
   nokogiri (~> 1.14)

@@ -144,7 +144,7 @@ module ApplicationHelper
   end
 
   def format_multiline(html_string)
-    simple_format(html_string, {}, sanitize: false )
+    simple_format(html_string, {}, sanitize: false)
   end
 
   private

@@ -94,7 +94,7 @@ Then(/^I should see (\d+)\s*evidence check boxes$/) do |count|
 end
 
 When(/^I add some additional information$/) do
-  @claim_form_page.additional_information.set "Bish bosh bash"
+  @claim_form_page.additional_information.set "Bish \n bosh \n bash"
 end
 
 When(/^I click Submit to LAA$/) do

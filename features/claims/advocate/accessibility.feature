@@ -84,7 +84,7 @@ Feature: Advocate submits a claim
     And I should see 'Parking'
     And I should see 'indictment.pdf'
     And I should see 'A copy of the indictment'
-    And I should see 'Bish \n bosh \n bash'
+    And I should see 'Bish \\n bosh \\n bash'
     Then the page should be accessible
     When I click "Continue"
 

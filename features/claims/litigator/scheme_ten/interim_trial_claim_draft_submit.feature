@@ -95,7 +95,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     And I should see 'indictment.pdf'
     And I should see 'A copy of the indictment'
-    And I should see 'Bish \n bosh \n bash'
+    And I should see 'Bish \\n bosh \\n bash'
 
     And I should see a page title "View claim summary for litigator interim fees claim"
     When I click "Continue"

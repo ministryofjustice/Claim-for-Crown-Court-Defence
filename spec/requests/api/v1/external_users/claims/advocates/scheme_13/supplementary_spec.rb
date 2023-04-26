@@ -19,7 +19,7 @@ RSpec.describe 'creating supplementary AGFS claim for fee scheme 13' do
         cms_number: 'Meridian',
         advocate_category:,
         court_id: create(:court).id,
-        additional_information: 'Bish bosh bash',
+        additional_information: 'Bish \n bosh \n bash',
         prosecution_evidence: true
       )
     end

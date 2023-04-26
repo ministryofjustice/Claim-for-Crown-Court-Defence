@@ -95,7 +95,7 @@ Feature: Advocate admin submits a claim for a Trial case
 
     And I should see 'judicial_appointment_order.pdf'
     And I should see 'Order in respect of judicial apportionment'
-    And I should see 'Bish bosh bash'
+    And I should see 'Bish \n bosh \n bash'
 
     And I should see a page title "View claim summary for advocate final fees claim"
     When I click "Continue"

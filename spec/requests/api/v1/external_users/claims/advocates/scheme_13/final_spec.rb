@@ -25,7 +25,7 @@ RSpec.describe 'creating final AGFS claim for fee scheme 13' do
         advocate_category:,
         offence_id: create(:offence, :with_fee_scheme_thirteen).id,
         court_id: create(:court).id,
-        additional_information: 'Bish bosh bash',
+        additional_information: 'Bish \n bosh \n bash',
         prosecution_evidence: true
       )
     end

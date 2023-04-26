@@ -87,8 +87,12 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
 
     And I should see 'indictment.pdf'
     And I should see 'A copy of the indictment'
-    And I should see 'Bish \\n bosh \\n bash'
-
+    And I should see
+      ""
+      Bish
+      bosh
+      bash
+      ""
     And I should see a page title "View claim summary for advocate final fees claim"
     When I click "Continue"
     Then I should be on the certification page

@@ -119,11 +119,11 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     And I should see 'judicial_appointment_order.pdf'
     And I should see 'Order in respect of judicial apportionment'
     And I should see
-      ""
+      """
       Bish
       bosh
       bash
-      ""
+      """
     And I should see a page title "View claim summary for advocate final fees claim"
 
     When I click "Continue"

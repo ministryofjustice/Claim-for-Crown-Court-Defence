@@ -4,7 +4,7 @@
       @case_stages.map { |cs| [cs.description, cs.id, { data: { 'is-fixed-fee': cs.is_fixed_fee?, 'requires-cracked-dates': cs&.requires_cracked_dates?, 'requires-retrial-dates': cs&.requires_retrial_dates?, 'requires-trial-dates': cs&.requires_trial_dates? } }] },
       :second,
       :first,
-      form_group: { classes: ['fx-autocomplete-wrapper'], id: 'cc-case-stage' },
+      form_group: { class: ['fx-autocomplete-wrapper'], id: 'cc-case-stage' },
       hint: { text:t('.agfs_stage_type_hint') },
       label: { text: t('.stage_type') },
       options: { include_blank: '' }
@@ -20,7 +20,7 @@
     @case_types.map{ |ct| [ct.name, ct.id, { data: { 'is-fixed-fee': ct.is_fixed_fee?, 'requires-cracked-dates': ct&.requires_cracked_dates?, 'requires-retrial-dates': ct&.requires_retrial_dates?, 'requires-trial-dates': ct&.requires_trial_dates? } }] },
     :second,
     :first,
-    form_group: { classes: ['fx-autocomplete-wrapper'], id: 'cc-case-type' },
+    form_group: { class: ['fx-autocomplete-wrapper'], id: 'cc-case-type' },
     hint: { text:t('.case_type_hint') },
     label: { text: t('.case_type') },
     options: { include_blank: '' }

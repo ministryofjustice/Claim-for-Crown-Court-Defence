@@ -4,7 +4,7 @@
 
       = tf.govuk_text_field :fee_type_id,
         class: 'js-fee-type',
-        form_group: { classes: 'js-fee-calculator-effector' },
+        form_group: { class: 'js-fee-calculator-effector' },
         label: { hidden: true },
         type: 'hidden',
         value: @claim.transfer_fee.fee_type.id
@@ -14,14 +14,14 @@
         - if @claim.transfer_detail.days_claimable?
           = f.govuk_number_field :actual_trial_length,
             class: 'js-fee-calculator-days',
-            form_group: { classes: 'js-fee-calculator-effector' },
+            form_group: { class: 'js-fee-calculator-effector' },
             label: { text: t('.actual_trial_length') },
             min: 0,
             width: 'one-quarter'
 
         = tf.govuk_number_field :quantity,
           class: 'quantity fee-quantity js-fee-calculator-ppe',
-          form_group: { classes: 'js-fee-calculator-effector' },
+          form_group: { class: 'js-fee-calculator-effector' },
           label: { text: t('.quantity') },
           min: 0,
           value: number_with_precision(tf.object.quantity, precision: 0),
@@ -29,7 +29,7 @@
 
       = tf.govuk_number_field :amount,
         class: 'total fee-amount',
-        form_group: { classes: 'calculated-grad-fee js-graduated-price-effectee' },
+        form_group: { class: 'calculated-grad-fee js-graduated-price-effectee' },
         label: { text: t('.amount') },
         min: 0,
         prefix_text: '£',
@@ -37,7 +37,7 @@
         width: 'one-quarter'
 
       = tf.govuk_text_field :price_calculated,
-        form_group: { classes: 'js-fee-calculator-success' },
+        form_group: { class: 'js-fee-calculator-success' },
         label: { hidden: true },
         type: 'hidden',
         value: tf.object.price_calculated?

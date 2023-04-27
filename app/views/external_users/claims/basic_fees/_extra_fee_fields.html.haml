@@ -13,14 +13,14 @@
 
   = f.govuk_text_field :fee_type_id,
     class: 'js-fee-type',
-    form_group: { classes: 'govuk-visually-hidden' },
+    form_group: { class: 'govuk-visually-hidden' },
     label: { hidden: true },
     type: 'hidden',
     value: f.object.fee_type_id
 
   = f.govuk_number_field :quantity,
     class: "quantity #{fee.fee_calc_class}",
-    form_group: { classes: 'quantity_wrapper' },
+    form_group: { class: 'quantity_wrapper' },
     hint: { text: t('quantity_hint', scope: locale_scope) },
     label: { text: t('quantity', scope: locale_scope) },
     min: 0,
@@ -30,7 +30,7 @@
   - if fee.display_amount?
     = f.govuk_number_field :amount,
       class: 'total fee-amount',
-      form_group: { classes: 'calculated-grad-fee js-graduated-price-effectee' },
+      form_group: { class: 'calculated-grad-fee js-graduated-price-effectee' },
       label: { text: t('.net_amount_html', context: f.object.description) },
       min: 0,
       prefix_text: '£',
@@ -39,7 +39,7 @@
       width: 'one-quarter'
 
   = f.govuk_number_field :price_calculated,
-    form_group: { classes: 'js-fee-calculator-success' },
+    form_group: { class: 'js-fee-calculator-success' },
     label: { hidden: true },
     type: 'hidden',
     value: f.object.price_calculated?

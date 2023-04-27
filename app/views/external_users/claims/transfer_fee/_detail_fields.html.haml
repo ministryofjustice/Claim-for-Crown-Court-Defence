@@ -5,14 +5,14 @@
         ['original','new'],
         :to_s,
         :humanize,
-        classes: ['js-litigator-type'],
+        class: ['js-litigator-type'],
         legend: { text: t('.litigator_type'), size: 's' }
 
       = f.govuk_collection_radio_buttons :elected_case,
         [['Yes','true'],['No','false']],
         :last,
         :first,
-        classes: ['js-elected-case'],
+        class: ['js-elected-case'],
         legend: { text: t('.elected_case'), size: 's' }
 
       = f.govuk_collection_select :transfer_stage_id,
@@ -20,12 +20,12 @@
         :id,
         :description,
         class: 'js-transfer-stage-id',
-        form_group: { classes: 'fx-autocomplete-wrapper', id: 'cc-transfer-stage' },
+        form_group: { class: 'fx-autocomplete-wrapper', id: 'cc-transfer-stage' },
         label: { text: t('.transfer_stage_default_label_text'), class:'js-transfer-stage-label' },
         options: { include_blank: '' }
 
       = f.govuk_date_field :transfer_date,
-        form_group: { classes: ['js-transfer-date'], id: 'cc-transfer_date' },
+        form_group: { class: ['js-transfer-date'], id: 'cc-transfer_date' },
         hint: { text: t('.date_hint') },
         legend: { text: t('.transfer_date_default_label_text'), size: 's' }
 
@@ -35,6 +35,6 @@
       claim.case_conclusions,
       :first,
       :last,
-      form_group: { classes: ['fx-autocomplete-wrapper', 'js-case-conclusions-select', "#{state}" ], id: 'cc-case-conclusion' },
+      form_group: { class: ['fx-autocomplete-wrapper', 'js-case-conclusions-select', "#{state}" ], id: 'cc-case-conclusion' },
       label: { text: t('.case_conclusions') },
       options: { include_blank: '' }

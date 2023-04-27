@@ -7,13 +7,13 @@
       = t('common.remove_html', context: t('.representation_order'))
 
     = f.govuk_date_field :representation_order_date,
-      form_group: { classes: 'cc-ro-date', id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date" },
+      form_group: { class: 'cc-ro-date', id: "defendant_#{@defendant_count+1}_representation_order_#{@representation_order_count+1}_representation_order_date" },
       hint: { text: t('.date_hint') },
       legend: { text: t('.date_html'), size: 's' },
       maxlength_enabled: true
 
     = f.govuk_text_field :maat_reference,
-      form_group: { classes: 'cc-maat' },
+      form_group: { class: 'cc-maat' },
       hint: { text: t('.maat_reference_number_eg') },
       label: { text: t('.maat_reference_number_html') },
       width: 'one-half'

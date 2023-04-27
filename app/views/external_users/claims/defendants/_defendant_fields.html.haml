@@ -8,18 +8,18 @@
     - @representation_order_count = 0
 
     = f.govuk_text_field :first_name,
-      form_group: { classes: 'cc-first-name' },
+      form_group: { class: 'cc-first-name' },
       label: { text: t('.first_name_html') },
       width: 'one-half'
 
     = f.govuk_text_field :last_name,
-      form_group: { classes: 'cc-last-name' },
+      form_group: { class: 'cc-last-name' },
       label: { text: t('.last_name_html') },
       width: 'one-half'
 
     = f.govuk_date_field :date_of_birth,
       date_of_birth: true,
-      form_group: { classes: 'cc-dob', id: "defendant_#{@defendant_count+1}_date_of_birth_group" },
+      form_group: { class: 'cc-dob', id: "defendant_#{@defendant_count+1}_date_of_birth_group" },
       hint: { text: t('.date_hint') },
       legend: { text: t('.date_of_birth_html'), size: 's' },
       maxlength_enabled: true

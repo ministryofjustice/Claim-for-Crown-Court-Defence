@@ -5,7 +5,7 @@
     = link_to_remove_association f, wrapper_class: 'misc-fee-group', class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
       = t('common.remove_html', context: t('.misc_fee'))
 
-    = f.govuk_radio_buttons_fieldset(:fee_type_id, form_group: {classes: 'fee-type'}, legend: { size: 's', text: t('.fee_type') }) do
+    = f.govuk_radio_buttons_fieldset(:fee_type_id, form_group: {class: 'fee-type'}, legend: { size: 's', text: t('.fee_type') }) do
       - present_collection(@claim.eligible_misc_fee_types).each do |misc_fee_type|
         = f.govuk_radio_button :fee_type_id,
           misc_fee_type.id,

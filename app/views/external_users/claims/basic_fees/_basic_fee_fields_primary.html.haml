@@ -13,7 +13,7 @@
 
   = f.govuk_number_field :quantity,
     class: 'js-fee-calculator-days',
-    form_group: { classes: 'govuk-visually-hidden' },
+    form_group: { class: 'govuk-visually-hidden' },
     label: { text: t('.fee_calculator_days') },
     min: 0,
     readonly: true,
@@ -23,7 +23,7 @@
 
   = f.govuk_number_field :rate,
     class: 'total fee-amount',
-    form_group: { classes: 'js-graduated-price-effectee calculated-grad-fee' },
+    form_group: { class: 'js-graduated-price-effectee calculated-grad-fee' },
     label: { text: t('.net_amount_html', context: f.object.description) },
     min: 0,
     prefix_text: '£',
@@ -31,7 +31,7 @@
     width: 'one-quarter'
 
   = f.govuk_number_field :price_calculated,
-    form_group: { classes: 'js-fee-calculator-success' },
+    form_group: { class: 'js-fee-calculator-success' },
     label: { hidden: true },
     type: 'hidden',
     value: f.object.price_calculated?

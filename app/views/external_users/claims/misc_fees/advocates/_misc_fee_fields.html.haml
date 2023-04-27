@@ -13,7 +13,7 @@
       :second,
       :first,
       class: 'js-misc-fee-type js-fee-type js-fee-calculator-fee-type fx-misc-fee-calculation',
-      form_group: { classes: 'fee-type fx-autocomplete-wrapper cc-fee-type' },
+      form_group: { class: 'fee-type fx-autocomplete-wrapper cc-fee-type' },
       label: { text: t('.fee_type_html', context: t('.misc_fee')), size: 's' },
       options: { include_blank: '' }
 
@@ -22,7 +22,7 @@
 
     = f.govuk_number_field :quantity,
       class: 'quantity fee-quantity js-fee-quantity js-fee-calculator-quantity',
-      form_group: { classes: 'quantity_wrapper' },
+      form_group: { class: 'quantity_wrapper' },
       hint: { text: t('.quantity_hint'), hidden: true },
       label: { text: t('.quantity_html', context: t('.misc_fee')), size: 's' },
       value: fee.quantity,
@@ -30,7 +30,7 @@
 
     = f.govuk_number_field :rate,
       class: 'rate fee-rate js-fee-calculator-rate',
-      form_group: { classes: 'js-unit-price-effectee calculated-unit-fee' },
+      form_group: { class: 'js-unit-price-effectee calculated-unit-fee' },
       label: { text: t('.rate_html', context: t('.misc_fee')), size: 's' },
       prefix_text: '£',
       readonly: f.object.price_calculated?,
@@ -38,7 +38,7 @@
       width: 5
 
     = f.govuk_text_field :price_calculated,
-      form_group: { classes: 'js-fee-calculator-success' },
+      form_group: { class: 'js-fee-calculator-success' },
       label: { hidden: true },
       type: 'hidden',
       value: f.object.price_calculated?

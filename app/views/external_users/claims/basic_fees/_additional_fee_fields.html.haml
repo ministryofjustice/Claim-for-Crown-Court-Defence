@@ -13,7 +13,7 @@
 
       = f.govuk_text_field :fee_type_id,
         class: 'js-fee-type',
-        form_group: { classes: 'govuk-visually-hidden' },
+        form_group: { class: 'govuk-visually-hidden' },
         label: { hidden: true },
         type: 'hidden'
 
@@ -27,7 +27,7 @@
       - fee_type_scope = fee.fee_type_code.downcase
       = f.govuk_number_field :quantity,
         class: 'quantity js-fee-quantity js-fee-calculator-quantity',
-        form_group: { classes: 'quantity_wrapper' },
+        form_group: { class: 'quantity_wrapper' },
         hint: { text: t(".#{fee_type_scope}.quantity_hint") },
         label: { text: t('.quantity') },
         min: 0,
@@ -36,7 +36,7 @@
 
       = f.govuk_number_field :rate,
         class: 'rate fee-rate js-fee-calculator-rate',
-        form_group: { classes: 'calculated-unit-fee js-unit-price-effectee' },
+        form_group: { class: 'calculated-unit-fee js-unit-price-effectee' },
         label: { text: t('.rate_html', context: f.object.description) },
         min: 0,
         prefix_text: '£',
@@ -45,7 +45,7 @@
         width: 'one-quarter'
 
       = f.govuk_number_field :price_calculated,
-        form_group: { classes: 'js-fee-calculator-success govuk-visually-hidden' },
+        form_group: { class: 'js-fee-calculator-success govuk-visually-hidden' },
         label: { hidden: true },
         type: 'hidden',
         value: f.object.price_calculated?

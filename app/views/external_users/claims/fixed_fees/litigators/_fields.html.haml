@@ -17,7 +17,7 @@
 
       = ff.govuk_number_field :quantity,
         class: 'quantity fee-quantity js-fee-quantity js-fee-calculator-quantity',
-        form_group: { classes: 'quantity_wrapper' },
+        form_group: { class: 'quantity_wrapper' },
         label: { text: t('.quantity') },
         hint: { text: t('.quantity_hint') },
         min: 1,
@@ -26,7 +26,7 @@
 
       = ff.govuk_number_field :rate,
         class: 'rate fee-rate js-fee-calculator-rate',
-        form_group: { classes: 'js-unit-price-effectee calculated-unit-fee' },
+        form_group: { class: 'js-unit-price-effectee calculated-unit-fee' },
         label: { text: t('.rate') },
         prefix_text: '£',
         readonly: ff.object.price_calculated?,
@@ -34,7 +34,7 @@
         width: 5
 
       = ff.govuk_text_field :price_calculated,
-        form_group: { classes: 'js-fee-calculator-success' },
+        form_group: { class: 'js-fee-calculator-success' },
         label: { hidden: true },
         type: 'hidden',
         value: ff.object.price_calculated?

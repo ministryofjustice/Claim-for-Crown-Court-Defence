@@ -9,13 +9,13 @@
           = ici.govuk_radio_button :warrant_fee_paid, value.to_bool, label: { text: text } do
             - if value.to_bool
               = ici.govuk_date_field :warrant_issued_date,
-                form_group: { classes: 'warrant-fee-issued-date-group' },
+                form_group: { class: 'warrant-fee-issued-date-group' },
                 hint: { text: t('.date_hint') },
                 legend: { text: t('.date_issued'), size: 's' },
                 maxlength_enabled: true
 
               = ici.govuk_date_field :warrant_executed_date,
-                form_group: { classes: 'warrant-fee-executed-date-group' },
+                form_group: { class: 'warrant-fee-executed-date-group' },
                 hint: { text: t('.date_hint') },
                 legend: { text: t('.date_executed'), size: 's' },
                 maxlength_enabled: true

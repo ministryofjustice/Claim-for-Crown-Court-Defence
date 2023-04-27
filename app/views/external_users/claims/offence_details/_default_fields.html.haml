@@ -8,7 +8,7 @@
   = f.govuk_collection_select :offence_category,
     @offence_descriptions,
     :description, :description,
-    form_group: { classes: 'fx-autocomplete-wrapper', id: 'cc-transfer-stage js-claim-offence-category-description' },
+    form_group: { class: 'fx-autocomplete-wrapper', id: 'cc-transfer-stage js-claim-offence-category-description' },
     hint: { text: t('offence_category_hint', scope: locale_scope)},
     label: { text: t('offence_category', scope: locale_scope)},
     options: { include_blank: '', selected: selected_offence_category }

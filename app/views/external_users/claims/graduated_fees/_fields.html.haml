@@ -6,7 +6,7 @@
 
         = ff.govuk_text_field :fee_type_id,
           class: 'js-fee-type',
-          form_group: { classes: 'govuk-visually-hidden' },
+          form_group: { class: 'govuk-visually-hidden' },
           label: { hidden: true },
           type: 'hidden',
           value: @claim.case_type.graduated_fee_type.id
@@ -19,13 +19,13 @@
           class: 'js-fee-calculator-days',
           label: { text: t('.actual_trial_length') },
           hint: { text: t('.actual_trial_length_hint') },
-          form_group: { classes: 'js-fee-calculator-effector' },
+          form_group: { class: 'js-fee-calculator-effector' },
           min: 0,
           width: 'one-quarter'
 
         = ff.govuk_number_field :quantity,
           class: 'quantity fee-quantity js-fee-calculator-ppe',
-          form_group: { classes: 'js-fee-calculator-effector' },
+          form_group: { class: 'js-fee-calculator-effector' },
           label: { text: t('.quantity') },
           min: 0,
           value: fee.quantity,
@@ -33,7 +33,7 @@
 
         = ff.govuk_number_field :amount,
           class: 'total fee-amount',
-          form_group: { classes: 'calculated-grad-fee js-graduated-price-effectee' },
+          form_group: { class: 'calculated-grad-fee js-graduated-price-effectee' },
           label: { text: t('.amount') },
           min: 0,
           prefix_text: '£',
@@ -41,7 +41,7 @@
           width: 'one-quarter'
 
         = ff.govuk_text_field :price_calculated,
-          form_group: { classes: 'js-fee-calculator-success govuk-visually-hidden' },
+          form_group: { class: 'js-fee-calculator-success govuk-visually-hidden' },
           label: { hidden: true },
           type: 'hidden',
           value: ff.object.price_calculated?

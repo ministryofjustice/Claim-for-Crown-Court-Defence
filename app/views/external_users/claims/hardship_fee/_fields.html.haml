@@ -5,14 +5,14 @@
 
       = hf.govuk_text_field :fee_type_id,
         class: 'js-fee-type',
-        form_group: { classes: 'govuk-visually-hidden' },
+        form_group: { class: 'govuk-visually-hidden' },
         label: { hidden: true },
         type: 'hidden',
         value: fee.fee_type.id
 
       = hf.govuk_number_field :quantity,
         class:'quantity fee-quantity js-fee-calculator-ppe',
-        form_group: { classes: 'js-fee-calculator-effector' },
+        form_group: { class: 'js-fee-calculator-effector' },
         hint: { text: t('.quantity_hint') },
         label: { text: t('.quantity') },
         min: 0,
@@ -21,7 +21,7 @@
 
       = hf.govuk_number_field :amount,
         class: 'fee-amount total',
-        form_group: { classes: 'calculated-grad-fee js-graduated-price-effectee' },
+        form_group: { class: 'calculated-grad-fee js-graduated-price-effectee' },
         label: { text: t('.amount') },
         min: 0,
         prefix_text: '£',
@@ -29,7 +29,7 @@
         width: 'one-quarter'
 
       = hf.govuk_text_field :price_calculated,
-        form_group: { classes: 'js-fee-calculator-success govuk-visually-hidden' },
+        form_group: { class: 'js-fee-calculator-success govuk-visually-hidden' },
         label: { hidden: true },
         type: 'hidden',
         value: hf.object.price_calculated?

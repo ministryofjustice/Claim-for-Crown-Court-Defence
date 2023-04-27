@@ -1,14 +1,14 @@
 #warrant_fee
   = f.fields_for :warrant_fee do |wf|
     = wf.govuk_date_field :warrant_issued_date,
-      form_group: { classes: 'warrant-fee-issued-date-group' },
+      form_group: { class: 'warrant-fee-issued-date-group' },
       hint: { text: t('.date_hint') },
       legend: { text: t('.date_issued'), size: 's' },
       maxlength_enabled: true
 
     - if f.object.warrant_fee.requires_executed_date?
       = wf.govuk_date_field :warrant_executed_date,
-        form_group: { classes: 'warrant-fee-executed-date-group' },
+        form_group: { class: 'warrant-fee-executed-date-group' },
         hint: { text: t('.date_hint') },
         legend: { text: t('.date_executed'), size: 's' },
         maxlength_enabled: true
@@ -16,7 +16,7 @@
     .nested-fields.js-block.fx-do-init{ data: { type: 'interimFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlock' } }
       = wf.govuk_number_field :amount,
         class: 'total warrant_fee_attributes_amount',
-        form_group: { classes: 'js-graduated-price-effectee calculated-grad-fee', id: 'claim-warrant-fee-field-error' },
+        form_group: { class: 'js-graduated-price-effectee calculated-grad-fee', id: 'claim-warrant-fee-field-error' },
         label: { text: t('.total') },
         min: 0,
         prefix_text: '£',

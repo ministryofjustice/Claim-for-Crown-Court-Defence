@@ -9,7 +9,7 @@
       DisbursementType.active.map{ |disbursement| [disbursement.name, disbursement.id] },
       :second,
       :first,
-      form_group: { classes: 'disbursement-type fx-autocomplete-wrapper' },
+      form_group: { class: 'disbursement-type fx-autocomplete-wrapper' },
       label: { text: t('.disbursement_type_html', context: t('.disbursement')) },
       options: { include_blank: '' }
 

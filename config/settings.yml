@@ -116,6 +116,7 @@ lgfs_scheme_10_clair_release_date: 2022-09-30
 agfs_scheme_13_clair_release_date: 2022-09-30
 clair_contingency_date: 2022-10-31
 agfs_scheme_14_section_twenty_eight: 2023-02-01
+agfs_scheme_15_additional_prep_fee_and_kc: 2023-04-17
 
 # number of weeks in one state before automatic transition to archived pending delete
 timed_transition_stale_weeks: 16

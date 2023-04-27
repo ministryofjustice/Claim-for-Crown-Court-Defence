@@ -58,4 +58,14 @@ FactoryBot.define do
       end
     end
   end
+
+  trait :agfs_scheme_15 do
+    after(:create) do |claim|
+      claim.defendants.each do |defendant|
+        defendant
+          .representation_orders
+          .update_all(representation_order_date: Settings.agfs_scheme_15_additional_prep_fee_and_kc)
+      end
+    end
+  end
 end

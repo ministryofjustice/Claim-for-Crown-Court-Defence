@@ -314,6 +314,36 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             end
           end
         end
+
+        context 'with a scheme 15 claim' do
+          let(:claim) { create(:advocate_claim, :agfs_scheme_15, case_type:) }
+
+          context 'with "trial" case type' do
+            let(:case_type) { CaseType.find_by(fee_type_code: 'GRTRL') }
+
+            it { is_expected.not_to include(*supplementary_only_types) }
+            it { is_expected.to include(*unused_materials_types) }
+            it { is_expected.to include(*section_twenty_eight_types) }
+
+            it 'returns misc fee types for AGFS scheme 15 without supplementary-only fee types' do
+              is_expected.to match_array Fee::MiscFeeType.agfs_scheme_15s.without_supplementary_only.map(&:unique_code)
+            end
+          end
+
+          context 'with "non-trial" case type' do
+            let(:case_type) { CaseType.find_by(fee_type_code: 'GRGLT') }
+
+            it { is_expected.not_to include(*supplementary_only_types) }
+            it { is_expected.not_to include(*unused_materials_types) }
+            it { is_expected.not_to include(*section_twenty_eight_types) }
+
+            it 'returns misc fee types for AGFS scheme 15 without supplementary-only or trial-only fee types' do
+              is_expected.to match_array(
+                Fee::MiscFeeType.agfs_scheme_15s.without_supplementary_only.without_trial_fee_only.map(&:unique_code)
+              )
+            end
+          end
+        end
       end
 
       context 'with hardship claim' do

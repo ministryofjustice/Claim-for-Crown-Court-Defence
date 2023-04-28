@@ -77,6 +77,8 @@ group :development, :devunicorn, :test do
   gem 'listen', '~> 3.8.0'
   gem 'meta_request'
   gem 'parallel_tests'
+  gem 'pg_query'
+  gem 'prosopite'
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'puma'

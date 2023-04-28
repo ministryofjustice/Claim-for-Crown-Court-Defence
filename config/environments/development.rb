@@ -116,4 +116,8 @@ Rails.application.configure do
   #   authentication:       :login,
   #   enable_starttls_auto: true
   # }
+
+  config.after_initialize do
+    Prosopite.prosopite_logger = true
+  end
 end

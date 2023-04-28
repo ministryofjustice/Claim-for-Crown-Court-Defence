@@ -98,4 +98,9 @@ Rails.application.configure do
   require 'rack/no_popups'
   config.middleware.use Rack::NoAnimations
   config.middleware.insert_after(Rack::NoAnimations, Rack::NoPopups)
+
+  config.after_initialize do
+    Prosopite.prosopite_logger = true
+    Prosopite.raise = false
+  end
 end

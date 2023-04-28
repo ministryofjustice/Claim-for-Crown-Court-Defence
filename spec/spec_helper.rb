@@ -93,4 +93,12 @@ RSpec.configure do |config|
 
   config.include TestHelpers
   config.include SeedHelpers
+
+  config.before do
+    Prosopite.scan
+  end
+
+  config.after do
+    Prosopite.finish
+  end
 end

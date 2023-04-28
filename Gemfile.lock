@@ -106,7 +106,7 @@ GEM
     axe-core-api (4.7.0)
       dumb_delegator
       virtus
-    axe-core-cucumber (4.6.1)
+    axe-core-cucumber (4.7.0)
       axe-core-api
       dumb_delegator
       virtus
@@ -718,7 +718,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1)
   aws-sdk-sns (~> 1)
   aws-sdk-sqs (~> 1)
-  axe-core-cucumber (~> 4.6)
+  axe-core-cucumber (~> 4.7)
   better_errors
   binding_of_caller
   bootsnap

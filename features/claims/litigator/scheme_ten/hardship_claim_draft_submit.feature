@@ -69,12 +69,7 @@ Feature: Litigator completes hardship claims
 
     And I should see 'hardship.pdf'
     And I should see 'Hardship supporting evidence'
-    And I should see
-      """
-      Bish
-      bosh
-      bash
-      """
+    And I should see 'Bish bosh bash'
     And I should see a page title "View claim summary for litigator hardship fees claim"
     When I click "Continue"
     Then I should be on the certification page

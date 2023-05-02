@@ -189,7 +189,7 @@ RSpec.describe 'API claim creation for AGFS' do
       advocate_category:,
       offence_id: nil,
       court_id: court.id,
-      additional_information: 'Bish \n bosh \n bash',
+      additional_information: 'Bish bosh bash',
       prosecution_evidence: true
     }
   end

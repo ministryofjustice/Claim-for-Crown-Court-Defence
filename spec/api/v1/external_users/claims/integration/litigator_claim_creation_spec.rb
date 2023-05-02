@@ -308,7 +308,7 @@ RSpec.describe 'API claim creation for LGFS' do
       actual_trial_length: nil,
       court_id: court.id,
       travel_expense_additional_information: 'Rail works required private car',
-      additional_information: 'Bish \n bosh \n bash'
+      additional_information: 'Bish bosh bash'
     }
   end
 

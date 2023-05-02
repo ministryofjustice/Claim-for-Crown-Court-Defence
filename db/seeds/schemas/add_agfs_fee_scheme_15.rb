@@ -84,17 +84,21 @@ module Seeds
 
       def set_agfs_scheme_fifteen_offences
         puts 'Setting scheme 11 offences to include scheme 15'.yellow
+        puts "Scheme 15 offence count before: #{scheme_15_offence_count}".yellow
         Offence.transaction do
           agfs_scheme_eleven_offences.each do |offence|
             if pretending?
               puts "[WOULD-ADD] Fee Scheme 15 to #{offence.unique_code}".yellow
             else
+              next if offence.fee_schemes.include? agfs_fee_scheme_15
+
               offence.fee_schemes << agfs_fee_scheme_15
               print '.'.green
             end
           end
         end
         print "\n"
+        puts "Scheme 15 offence count after: #{scheme_15_offence_count}".yellow
       end
 
       def unset_agfs_scheme_fifteen_offences
@@ -109,6 +113,7 @@ module Seeds
           end
         end
         print "\n"
+        puts "Scheme 15 offence count after: #{scheme_15_offence_count}".yellow
       end
 
       def agfs_scheme_eleven_offences

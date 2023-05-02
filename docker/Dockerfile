@@ -13,8 +13,6 @@ RUN apk --update-cache upgrade \
                    build-base \
                    git \
                    gmp=6.2.1-r2 \
-                   libxml2-dev \
-                   libxslt-dev \
                    postgresql-dev \
                    yarn
 
@@ -24,7 +22,6 @@ COPY Gemfile Gemfile.lock $APP_HOME/
 
 RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
 && bundle config without test development devunicorn \
-&& bundle config build.nokogiri --use-system-libraries \
 && bundle install --jobs 4 --retry 3 \
 && rm -rf /usr/local/bundle/cache/*.gem \
 && find /usr/local/bundle/gems/ -name "*.c" -delete \

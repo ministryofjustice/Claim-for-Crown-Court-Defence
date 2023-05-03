@@ -31,14 +31,20 @@ FactoryBot.define do
 
     trait :agfs_thirteen do
       start_date { Settings.agfs_scheme_13_clair_release_date.beginning_of_day }
-      end_date { nil }
+      end_date { Settings.agfs_scheme_14_section_twenty_eight.beginning_of_day - 1.day }
       version { 13 }
     end
 
     trait :agfs_fourteen do
       start_date { Settings.agfs_scheme_14_section_twenty_eight.beginning_of_day }
-      end_date { nil }
+      end_date { Settings.agfs_scheme_15_additional_prep_fee_and_kc.beginning_of_day - 1.day }
       version { 14 }
+    end
+
+    trait :agfs_fifteen do
+      start_date { Settings.agfs_scheme_15_additional_prep_fee_and_kc.beginning_of_day }
+      end_date { nil }
+      version { 15 }
     end
 
     trait :lgfs_nine do

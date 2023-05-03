@@ -121,6 +121,9 @@ RSpec.describe API::V1::DropdownData do
     let!(:scheme_11_offence) { create(:offence, :with_fee_scheme_eleven) }
     let!(:scheme_12_offence) { create(:offence, :with_fee_scheme_twelve) }
     let!(:scheme_13_offence) { create(:offence, :with_fee_scheme_thirteen) }
+    let!(:scheme_14_offence) { create(:offence, :with_fee_scheme_fourteen) }
+    let!(:scheme_15_offence) { create(:offence, :with_fee_scheme_fifteen) }
+
     let(:exposed_offence) { ->(offence) { API::Entities::Offence.represent(offence).as_json } }
 
     context 'when filtering' do
@@ -198,6 +201,55 @@ RSpec.describe API::V1::DropdownData do
 
           it 'returns scheme 12 offences' do
             is_expected.to contain_exactly(exposed_offence[scheme_13_offence])
+          end
+        end
+
+        context 'with a rep order between 01/02/2023 and 16/04/2023; main hearing date before 17/04/2023' do
+          before do
+            params[:rep_order_date] = '2023-02-01'
+            params[:main_hearing_date] = '2023-02-01'
+          end
+
+          it 'returns scheme 14 offences' do
+            is_expected.to contain_exactly(exposed_offence[scheme_14_offence])
+          end
+        end
+
+        context 'with a rep order between 01/02/2023 and 16/04/2023; main hearing date on or after 17/04/2023' do
+          before do
+            params[:rep_order_date] = '2023-02-01'
+            params[:main_hearing_date] = '2023-04-17'
+          end
+
+          it 'returns scheme 14 offences' do
+            is_expected.to contain_exactly(exposed_offence[scheme_14_offence])
+          end
+        end
+
+        context 'with a rep order between 01/02/2023 and 16/04/2023; no main hearing date' do
+          before { params[:rep_order_date] = '2023-02-01' }
+
+          it 'returns scheme 14 offences' do
+            is_expected.to contain_exactly(exposed_offence[scheme_14_offence])
+          end
+        end
+
+        context 'with a rep order on or after 17/04/2023; main hearing date on or after 17/04/2023' do
+          before do
+            params[:rep_order_date] = '2023-04-17'
+            params[:main_hearing_date] = '2023-02-01'
+          end
+
+          it 'returns scheme 15 offences' do
+            is_expected.to contain_exactly(exposed_offence[scheme_15_offence])
+          end
+        end
+
+        context 'with a rep order on or after 17/04/2023; no main hearing date' do
+          before { params[:rep_order_date] = '2023-04-17' }
+
+          it 'returns scheme 15 offences' do
+            is_expected.to contain_exactly(exposed_offence[scheme_15_offence])
           end
         end
       end
@@ -331,6 +383,16 @@ RSpec.describe API::V1::DropdownData do
       it 'only includes AGFS scheme 13 fee types' do
         get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_13'), format: :json
         expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_13'))
+      end
+
+      it 'only includes AGFS scheme 14 fee types' do
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_14'), format: :json
+        expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_14'))
+      end
+
+      it 'only includes AGFS scheme 15 fee types' do
+        get FEE_TYPE_ENDPOINT, params.merge(role: 'agfs_scheme_15'), format: :json
+        expect(parsed_body.pluck('roles')).to all(include('agfs_scheme_15'))
       end
 
       it 'only includes LGFS fee types' do
@@ -512,6 +574,18 @@ RSpec.describe API::V1::DropdownData do
 
     context 'when role is agfs_scheme_13' do
       let(:role) { 'agfs_scheme_13' }
+
+      include_examples 'returns agfs scheme 10+ advocate categories'
+    end
+
+    context 'when role is agfs_scheme_14' do
+      let(:role) { 'agfs_scheme_14' }
+
+      include_examples 'returns agfs scheme 10+ advocate categories'
+    end
+
+    context 'when role is agfs_scheme_15' do
+      let(:role) { 'agfs_scheme_15' }
 
       include_examples 'returns agfs scheme 10+ advocate categories'
     end

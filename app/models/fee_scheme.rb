@@ -46,4 +46,8 @@ class FeeScheme < ApplicationRecord
   def agfs_scheme_14?
     agfs? && version.eql?(14)
   end
+
+  def agfs_scheme_15?
+    agfs? && version.eql?(15)
+  end
 end

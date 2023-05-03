@@ -11,6 +11,7 @@ module SeedHelpers
     FeeScheme.find_or_create_by(name: 'AGFS', version: 12, start_date: Settings.clar_release_date.beginning_of_day, end_date: Settings.agfs_scheme_13_clair_release_date.end_of_day - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 13, start_date: Settings.agfs_scheme_13_clair_release_date.beginning_of_day, end_date: Settings.agfs_scheme_14_section_twenty_eight.end_of_day - 1.day)
     FeeScheme.find_or_create_by(name: 'AGFS', version: 14, start_date: Settings.agfs_scheme_14_section_twenty_eight.beginning_of_day)
+    FeeScheme.find_or_create_by(name: 'AGFS', version: 15, start_date: Settings.agfs_scheme_15_additional_prep_fee_and_kc.beginning_of_day)
   end
 
   def seed_case_types

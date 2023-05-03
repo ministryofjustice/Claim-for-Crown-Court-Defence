@@ -143,6 +143,10 @@ module ApplicationHelper
      on_home_page?].all?
   end
 
+  def format_multiline(html_string)
+    simple_format(html_string, {}, sanitize: false)
+  end
+
   private
 
   def on_home_page?

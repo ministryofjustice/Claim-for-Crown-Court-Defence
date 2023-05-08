@@ -88,7 +88,7 @@ group :development, :devunicorn, :test do
   gem 'net-scp', '~> 4.0'
   gem 'rubocop', '~> 1.50'
   gem 'rubocop-capybara', '~> 2.18'
-  gem 'rubocop-rspec', '~> 2.20'
+  gem 'rubocop-rspec', '~> 2.22'
   gem 'rubocop-rails', '~> 2.19'
   gem 'rubocop-performance', '~> 1.17'
   gem 'site_prism', '~> 4.0'

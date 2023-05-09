@@ -790,6 +790,7 @@ DEPENDENCIES
   rspec_junit_formatter
   rubocop (~> 1.50)
   rubocop-capybara (~> 2.18)
+  rubocop-factory_bot (~> 2.22)
   rubocop-performance (~> 1.17)
   rubocop-rails (~> 2.19)
   rubocop-rspec (~> 2.22)

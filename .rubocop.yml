@@ -3,6 +3,7 @@ require:
   - rubocop-rails
   - rubocop-rspec
   - rubocop-capybara
+  - rubocop-factory_bot
 
 AllCops:
   DisplayCopNames: true

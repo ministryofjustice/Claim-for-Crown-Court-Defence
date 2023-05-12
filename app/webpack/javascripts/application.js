@@ -132,7 +132,7 @@ if (!String.prototype.supplant) {
   }(['au', 'th', 'ent', 'ici', 'ty'].join(''))) // ;-)
 
   const ctAcceptable = [
-    '::1',
+    '[::1]',
     '127.0.0.1',
     'localhost',
     'claim-crown-court-defence.service.gov.uk',

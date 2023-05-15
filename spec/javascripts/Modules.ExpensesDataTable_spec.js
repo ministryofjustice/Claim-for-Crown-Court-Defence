@@ -71,7 +71,7 @@ describe('Modules.ExpensesDataTable.js', function () {
           width: '1%',
           type: 'date',
           render: jasmine.any(Function)
-        }));
+        }))
         expect(getColsDefsByTarget(3).render.toString()).toEqual(module.options.columnDefs[3].render.toString())
         expect(getColsDefsByTarget(4)).toEqual({
           targets: 4,

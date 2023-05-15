@@ -41,7 +41,7 @@ moj.Modules.ExpensesDataTable = {
           }
 
           // Convert the valid date string to a sortable format (e.g., '2023-04-29')
-          return formatDate(parseDate(data, 'dd/mm/yyyy'), 'yyyy-mm-dd');
+          return parseDate(data, 'dd/mm/yyyy');
         }
 
         return data;
@@ -100,19 +100,4 @@ function parseDate(dateString, _format) {
   // Create a new JavaScript Date object using the extracted values
   // Note: Months in JavaScript Date objects are zero-based, so we subtract 1 from the month value
   return new Date(year, month - 1, day);
-}
-
-function formatDate(date, format) {
-  // Extract the year, month, and day from the Date object
-  var year = date.getFullYear();
-  var month = (date.getMonth() + 1).toString().padStart(2, '0');
-  var day = date.getDate().toString().padStart(2, '0');
-
-  // Replace the format placeholders with the actual date values
-  format = format.replace('yyyy', year);
-  format = format.replace('mm', month);
-  format = format.replace('dd', day);
-
-  // Return the formatted date string
-  return format;
 }

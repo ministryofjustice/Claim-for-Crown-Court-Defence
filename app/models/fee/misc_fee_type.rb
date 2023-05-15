@@ -2,9 +2,9 @@ module Fee
   class MiscFeeType < Fee::BaseFeeType
     AGFS_SUPPLEMENTARY_ONLY_TYPES = %w[MISAF MIPCM].freeze
     AGFS_SUPPLEMENTARY_SHARED_TYPES = %w[MISAU MISPF MIWPF MIDTH MIDTW MIDHU MIDWU
-                                         MIDSE MIDSU MIPHC MISHR MISHU MIUMU MIUMO MISTE].freeze
+                                         MIDSE MIDSU MIPHC MISHR MISHU MIUMU MIUMO MISTE MIAPF].freeze
     AGFS_SUPPLEMENTARY_TYPES = (AGFS_SUPPLEMENTARY_ONLY_TYPES + AGFS_SUPPLEMENTARY_SHARED_TYPES).freeze
-    TRIAL_ONLY_TYPES = %w[MIUMU MIUMO MISTE].freeze
+    TRIAL_ONLY_TYPES = %w[MIUMU MIUMO MISTE MIAPF].freeze
 
     default_scope { order(Arel.sql("regexp_replace(\"fee_types\".\"description\", '[()]', '', 'g')")) }
 

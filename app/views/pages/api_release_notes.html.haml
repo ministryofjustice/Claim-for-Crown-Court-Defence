@@ -9,6 +9,50 @@
 
 %section.api-documentation
   %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+  %h2.govuk-heading-m 15th May 2023
+  %ul.govuk-list.govuk-list--bullet
+    %li
+      Add new Additional preparation fee
+      %br/
+      %br/
+      In line with the
+      %a{ href: 'https://www.legislation.gov.uk/uksi/2023/542/pdfs/uksi_20230542_en.pdf', target: '_blank' } Criminal Legal Aid (Remuneration) (Amendment) Regulations 2023
+      a new fee type has been added to use on AGFS claims. The fee will be eligible on AGFS final, supplementary and hardship claims for trial, retrial,
+      cracked and cracked on retrial case types where the earliest representation order date is on or after 17th April 2023.
+
+      %br
+      %br
+      = govuk_table do
+        = govuk_table_caption do
+          New fee type
+        = govuk_table_thead do
+          = govuk_table_row do
+            = govuk_table_th do
+              = 'Unique code'
+            = govuk_table_th do
+              = 'Description'
+            = govuk_table_th do
+              = 'Scheme'
+            = govuk_table_th do
+              = 'Claim types'
+            = govuk_table_th do
+              = 'Validations'
+        = govuk_table_tbody do
+          = govuk_table_row do
+            = govuk_table_td('data-label': 'Unique code') do
+              MIAPF
+            = govuk_table_td('data-label': 'Description') do
+              Additional preparation fee
+            = govuk_table_td('data-label': 'Scheme') do
+              AGFS
+            = govuk_table_td('data-label': 'Claim types') do
+              Final, supplementary and hardship
+            = govuk_table_td('data-label': 'Validations') do
+              %code
+                quantity
+              of one only
+
+  %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
   %h2.govuk-heading-m 5th April 2023
   %ul.govuk-list.govuk-list--bullet
     %li

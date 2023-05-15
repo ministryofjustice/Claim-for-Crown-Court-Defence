@@ -71,20 +71,21 @@ moj.Modules.ExpensesDataTable = {
   },
 
   setOrder: function () {
-    const order = this.dataTable.order()
-    const columnIndex = order[0][0]
-    const direction = order[0][1]
+    const order = this.dataTable.order();
+    const columnIndex = order[0][0];
+    const direction = order[0][1];
+
     // this check is to ensure only type of expense (index 0)
     // and reason for travel (index 1) have secondary order column
     // set to date of expense (index 3) as the current configuration
     // for columnDefs does not support setting sorting direction
     if (columnIndex === 0 || columnIndex === 1) {
-      this.dataTable.order([columnIndex, direction], [3, 'asc'])
+      this.dataTable.order([columnIndex, direction], [3, 'desc']);
+    } else if (columnIndex === 3) {
+      // Sort the date column as a date object
+      this.dataTable.order([columnIndex, direction]);
     }
-    if (columnIndex === 3) {
-      this.dataTable.order([columnIndex, direction], [0, 'asc'], [1, 'asc'])
-    }
-  }
+  },
 }
 
 function parseDate(dateString, _format) {

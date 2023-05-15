@@ -14,7 +14,7 @@ moj.Modules.ExpensesDataTable = {
     searching: false,
 
     // by default orders by
-    //date of expense (index 3) desc
+    // date of expense (index 3) desc
     order: [
       [3, 'desc']
     ],
@@ -37,14 +37,14 @@ moj.Modules.ExpensesDataTable = {
         if (type === 'sort') {
           // Check for invalid dates before conversion
           if (!data || isNaN(parseDate(data, 'dd/mm/yyyy'))) {
-            return '';
+            return ''
           }
 
           // Convert the valid date string to a sortable format (e.g., '2023-04-29')
-          return parseDate(data, 'dd/mm/yyyy');
+          return parseDate(data, 'dd/mm/yyyy')
         }
 
-        return data;
+        return data
       }
     }, {
       targets: 4,
@@ -71,33 +71,33 @@ moj.Modules.ExpensesDataTable = {
   },
 
   setOrder: function () {
-    const order = this.dataTable.order();
-    const columnIndex = order[0][0];
-    const direction = order[0][1];
+    const order = this.dataTable.order()
+    const columnIndex = order[0][0]
+    const direction = order[0][1]
 
     // this check is to ensure only type of expense (index 0)
     // and reason for travel (index 1) have secondary order column
     // set to date of expense (index 3) as the current configuration
     // for columnDefs does not support setting sorting direction
     if (columnIndex === 0 || columnIndex === 1) {
-      this.dataTable.order([columnIndex, direction], [3, 'desc']);
+      this.dataTable.order([columnIndex, direction], [3, 'desc'])
     } else if (columnIndex === 3) {
       // Sort the date column as a date object
-      this.dataTable.order([columnIndex, direction]);
+      this.dataTable.order([columnIndex, direction])
     }
-  },
+  }
 }
 
-function parseDate(dateString, _format) {
+function parseDate (dateString, _format) {
   // Split the date string into day, month, and year parts
-  var parts = dateString.split('/');
+  const parts = dateString.split('/')
 
   // Extract the numeric values for day, month, and year
-  var day = parseInt(parts[0], 10);
-  var month = parseInt(parts[1], 10);
-  var year = parseInt(parts[2], 10);
+  const day = parseInt(parts[0], 10)
+  const month = parseInt(parts[1], 10)
+  const year = parseInt(parts[2], 10)
 
   // Create a new JavaScript Date object using the extracted values
   // Note: Months in JavaScript Date objects are zero-based, so we subtract 1 from the month value
-  return new Date(year, month - 1, day);
+  return new Date(year, month - 1, day)
 }

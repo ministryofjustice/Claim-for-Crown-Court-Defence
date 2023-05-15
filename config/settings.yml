@@ -4,20 +4,20 @@ trial_cracked_at_third:
   - final_third
 
 advocate_categories:
-  - QC
-  - Led junior
-  - Leading junior
   - Junior alone
+  - Leading junior
+  - Led junior
+  - QC
 
 agfs_reform_advocate_categories:
-  - QC
-  - Leading junior
   - Junior
+  - Leading junior
+  - QC
 
 new_monarch_advocate_categories:
-  - KC
-  - Leading junior
   - Junior
+  - Leading junior
+  - KC
 
 court_types:
    - Magistrates' Court

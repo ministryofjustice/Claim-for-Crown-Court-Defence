@@ -5,7 +5,7 @@ RSpec.shared_examples 'list of advocate categories for' do |claim_type|
     let(:claim) { create(claim_type, :agfs_scheme_9) }
 
     it 'returns the list for AGFS scheme 9 advocate categories' do
-      is_expected.to contain_exactly('QC', 'Led junior', 'Leading junior', 'Junior alone')
+      is_expected.to eq(['Junior alone', 'Leading junior', 'Led junior', 'QC'])
     end
   end
 
@@ -13,7 +13,7 @@ RSpec.shared_examples 'list of advocate categories for' do |claim_type|
     let(:claim) { create(claim_type, :agfs_scheme_10) }
 
     it 'returns the list for AGFS scheme 10 advocate categories' do
-      is_expected.to contain_exactly('QC', 'Leading junior', 'Junior')
+      is_expected.to eq(['Junior', 'Leading junior', 'QC'])
     end
   end
 
@@ -21,19 +21,12 @@ RSpec.shared_examples 'list of advocate categories for' do |claim_type|
     let(:claim) { create(claim_type, :agfs_scheme_15) }
 
     it 'returns the list for AGFS scheme 15 advocate categories' do
-      is_expected.to contain_exactly('KC', 'Leading junior', 'Junior')
+      is_expected.to eq(['Junior', 'Leading junior', 'KC'])
     end
   end
 end
 
 RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
-  let(:scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone'] }
-  let(:scheme_10_advocate_categories) { ['QC', 'Leading junior', 'Junior'] }
-  let(:scheme_15_advocate_categories) { ['KC', 'Leading junior', 'Junior'] }
-  let(:all_advocate_categories) do
-    (scheme_9_advocate_categories + scheme_10_advocate_categories + scheme_15_advocate_categories).uniq
-  end
-
   describe '.for' do
     subject { described_class.for(claim) }
 
@@ -59,25 +52,25 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
       context 'with a scheme 9 offence' do
         let(:claim) { create(:api_advocate_claim, :with_scheme_nine_offence) }
 
-        it { is_expected.to match_array(scheme_9_advocate_categories) }
+        it { is_expected.to eq(['Junior alone', 'Leading junior', 'Led junior', 'QC']) }
       end
 
       context 'with a scheme 10 offence' do
         let(:claim) { create(:api_advocate_claim, :with_scheme_ten_offence) }
 
-        it { is_expected.to match_array(scheme_10_advocate_categories) }
+        it { is_expected.to eq(['Junior', 'Leading junior', 'QC']) }
       end
 
       context 'with a scheme 15 offence' do
         let(:claim) { create(:api_advocate_claim, :with_scheme_fifteen_offence) }
 
-        it { is_expected.to match_array(scheme_15_advocate_categories) }
+        it { is_expected.to eq(['Junior', 'Leading junior', 'KC']) }
       end
 
       context 'with no offence (fixed fee case type)' do
         let(:claim) { create(:api_advocate_claim, :with_no_offence) }
 
-        it { is_expected.to match_array(all_advocate_categories) }
+        it { is_expected.to eq(['Junior', 'Junior alone', 'Leading junior', 'Led junior', 'QC', 'KC']) }
       end
     end
   end

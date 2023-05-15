@@ -4,24 +4,40 @@ RSpec.describe CCR::AdvocateCategoryAdapter, type: :adapter do
   describe '.code_for' do
     subject { described_class.code_for(advocate_category) }
 
-    ADVOCATE_CATEGORY_MAPPINGS = {
-      QC: 'QC',
-      'Led junior': 'LEDJR',
-      'Leading junior': 'LEADJR',
-      'Junior alone': 'JRALONE',
-      Junior: 'JUNIOR'
-    }.stringify_keys.freeze
+    context 'with KC' do
+      let(:advocate_category) { 'KC' }
 
-    context 'mappings' do
-      ADVOCATE_CATEGORY_MAPPINGS.each do |description, code|
-        context "maps #{description}" do
-          let(:advocate_category) { description }
+      it { is_expected.to eq 'KC' }
+    end
 
-          it "returns #{code}" do
-            is_expected.to eql code
-          end
-        end
-      end
+    context 'with QC' do
+      let(:advocate_category) { 'QC' }
+
+      it { is_expected.to eq 'QC' }
+    end
+
+    context 'with Led junior' do
+      let(:advocate_category) { 'Led junior' }
+
+      it { is_expected.to eq 'LEDJR' }
+    end
+
+    context 'with Leading junior' do
+      let(:advocate_category) { 'Leading junior' }
+
+      it { is_expected.to eq 'LEADJR' }
+    end
+
+    context 'with Junior alone' do
+      let(:advocate_category) { 'Junior alone' }
+
+      it { is_expected.to eq 'JRALONE' }
+    end
+
+    context 'with Junior' do
+      let(:advocate_category) { 'Junior' }
+
+      it { is_expected.to eq 'JUNIOR' }
     end
   end
 end

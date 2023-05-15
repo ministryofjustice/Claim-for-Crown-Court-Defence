@@ -1,6 +1,7 @@
 module CCR
   class AdvocateCategoryAdapter
     TRANSLATION_TABLE = {
+      KC: 'KC',
       QC: 'QC',
       'Led junior': 'LEDJR',
       'Leading junior': 'LEADJR',

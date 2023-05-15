@@ -425,57 +425,44 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         end
 
         let(:clar_fee_types) { %w[MIPHC MIUMU MIUMO] }
-        let(:section_28_fee_types) { ['MISTE'] }
-        let(:additional_prep_fee_types) { ['MIAPF'] }
+        let(:scheme_12_fee_types) { supplementary_fee_types + clar_fee_types }
+        let(:scheme_14_fee_types) { scheme_12_fee_types + section_twenty_eight_types }
+        let(:scheme_15_fee_types) { scheme_14_fee_types + additional_prep_fee_types }
 
         context 'when scheme 9 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_9, with_misc_fee: false) }
 
-          it 'returns only misc fee types for AGFS scheme 9 supplementary claims' do
-            is_expected.to match_array supplementary_fee_types
-          end
+          it { is_expected.to match_array supplementary_fee_types }
         end
 
         context 'when scheme 10+ claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_10, with_misc_fee: false) }
 
-          it 'returns only misc fee types for AGFS scheme 10+ supplementary claims' do
-            is_expected.to match_array supplementary_fee_types
-          end
+          it { is_expected.to match_array supplementary_fee_types }
         end
 
         context 'when CLAR scheme 12 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_12, with_misc_fee: false, case_type: nil) }
 
-          it 'returns misc fee types for AGFS scheme 12 supplementary claims' do
-            is_expected.to match_array(supplementary_fee_types + clar_fee_types)
-          end
+          it { is_expected.to match_array(scheme_12_fee_types) }
         end
 
         context 'when CLAIR scheme 13 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_13, with_misc_fee: false, case_type: nil) }
 
-          it 'returns misc fee types for AGFS scheme 13 supplementary claims' do
-            is_expected.to match_array(supplementary_fee_types + clar_fee_types)
-          end
+          it { is_expected.to match_array(scheme_12_fee_types) }
         end
 
         context 'when scheme 14 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_14, with_misc_fee: false, case_type: nil) }
 
-          it 'returns misc fee types for AGFS scheme 14 supplementary claims' do
-            is_expected.to match_array(supplementary_fee_types + clar_fee_types + section_28_fee_types)
-          end
+          it { is_expected.to match_array(scheme_14_fee_types) }
         end
 
-        context 'when CLAIR scheme 15 claim' do
+        context 'when scheme 15 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_15, with_misc_fee: false, case_type: nil) }
 
-          it 'returns misc fee types for AGFS scheme 15 supplementary claims' do
-            is_expected.to match_array(
-              supplementary_fee_types + clar_fee_types + section_28_fee_types + additional_prep_fee_types
-            )
-          end
+          it { is_expected.to match_array(scheme_15_fee_types) }
         end
       end
     end

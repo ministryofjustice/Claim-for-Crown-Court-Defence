@@ -14,11 +14,9 @@ moj.Modules.ExpensesDataTable = {
     searching: false,
 
     // by default orders by
-    // type of expense (index 0) asc
-    // and date of expense (index 3) asc
+    //date of expense (index 3) desc
     order: [
-      [0, 'asc'],
-      [3, 'asc']
+      [3, 'desc']
     ],
     columnDefs: [{
       targets: 0,
@@ -73,4 +71,33 @@ moj.Modules.ExpensesDataTable = {
       this.dataTable.order([columnIndex, direction], [0, 'asc'], [1, 'asc'])
     }
   }
+}
+
+function parseDate(dateString, _format) {
+  // Split the date string into day, month, and year parts
+  var parts = dateString.split('/');
+
+  // Extract the numeric values for day, month, and year
+  var day = parseInt(parts[0], 10);
+  var month = parseInt(parts[1], 10);
+  var year = parseInt(parts[2], 10);
+
+  // Create a new JavaScript Date object using the extracted values
+  // Note: Months in JavaScript Date objects are zero-based, so we subtract 1 from the month value
+  return new Date(year, month - 1, day);
+}
+
+function formatDate(date, format) {
+  // Extract the year, month, and day from the Date object
+  var year = date.getFullYear();
+  var month = (date.getMonth() + 1).toString().padStart(2, '0');
+  var day = date.getDate().toString().padStart(2, '0');
+
+  // Replace the format placeholders with the actual date values
+  format = format.replace('yyyy', year);
+  format = format.replace('mm', month);
+  format = format.replace('dd', day);
+
+  // Return the formatted date string
+  return format;
 }

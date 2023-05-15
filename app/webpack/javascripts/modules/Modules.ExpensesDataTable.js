@@ -31,7 +31,21 @@ moj.Modules.ExpensesDataTable = {
       width: '20%'
     }, {
       targets: 3,
-      width: '1%'
+      width: '1%',
+      type: 'date',
+      render: function (data, type, row) {
+        if (type === 'sort') {
+          // Check for invalid dates before conversion
+          if (!data || isNaN(parseDate(data, 'dd/mm/yyyy'))) {
+            return '';
+          }
+
+          // Convert the valid date string to a sortable format (e.g., '2023-04-29')
+          return formatDate(parseDate(data, 'dd/mm/yyyy'), 'yyyy-mm-dd');
+        }
+
+        return data;
+      }
     }, {
       targets: 4,
       width: '1%'

@@ -22,3 +22,4 @@ data:
   LAA_FEE_CALCULATOR_HOST: https://laa-fee-calculator.service.justice.gov.uk/api/v1
   ALLOW_FUTURE_DATES: 'false'
   ZENDESK_FEEDBACK: 'true'
+  CAN_INJECT_KC: 'false'

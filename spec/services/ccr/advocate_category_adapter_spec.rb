@@ -7,7 +7,23 @@ RSpec.describe CCR::AdvocateCategoryAdapter, type: :adapter do
     context 'with KC' do
       let(:advocate_category) { 'KC' }
 
-      it { is_expected.to eq 'KC' }
+      context 'when can_inject_kc is true' do
+        before do
+          allow(Settings).to receive(:can_inject_kc).and_return(true)
+          load Rails.root.join('app', 'services', 'ccr', 'advocate_category_adapter.rb')
+        end
+
+        it { is_expected.to eq 'KC' }
+      end
+
+      context 'when can_inject_kc is false' do
+        before do
+          allow(Settings).to receive(:can_inject_kc).and_return(false)
+          load Rails.root.join('app', 'services', 'ccr', 'advocate_category_adapter.rb')
+        end
+
+        it { is_expected.to eq 'QC' }
+      end
     end
 
     context 'with QC' do

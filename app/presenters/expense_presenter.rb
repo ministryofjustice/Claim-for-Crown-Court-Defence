@@ -54,7 +54,7 @@ class ExpensePresenter < BasePresenter
   end
 
   def pretty_date
-    expense.date.nil? ? 'Date not set' : expense.date.strftime(Settings.date_format)
+     expense.date.strftime(Settings.date_format)
   end
 
   def display_reason_text_css

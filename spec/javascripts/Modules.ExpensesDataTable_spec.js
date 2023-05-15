@@ -21,8 +21,7 @@ describe('Modules.ExpensesDataTable.js', function () {
 
     it('...should have `order`', function () {
       expect(options.order).toEqual([
-        [0, 'asc'],
-        [3, 'asc']
+        [3, 'desc']
       ])
     })
 
@@ -67,10 +66,13 @@ describe('Modules.ExpensesDataTable.js', function () {
           orderable: false,
           width: '20%'
         })
-        expect(getColsDefsByTarget(3)).toEqual({
+        expect(getColsDefsByTarget(3)).toEqual(jasmine.objectContaining({
           targets: 3,
-          width: '1%'
-        })
+          width: '1%',
+          type: 'date',
+          render: jasmine.any(Function)
+        }));
+        expect(getColsDefsByTarget(3).render.toString()).toEqual(module.options.columnDefs[3].render.toString())
         expect(getColsDefsByTarget(4)).toEqual({
           targets: 4,
           width: '1%'

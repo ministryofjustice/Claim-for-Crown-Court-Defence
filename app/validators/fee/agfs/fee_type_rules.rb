@@ -27,6 +27,11 @@ module Fee
           set << add_rule(:quantity, :equal, 1, message: :miste_numericality)
           set << add_rule(*graduated_fee_type_only_rule)
         end
+
+        with_set_for_fee_type('MIAPF') do |set|
+          set << add_rule(:quantity, :equal, 1, message: :miapf_numericality)
+          set << add_rule(*graduated_fee_type_only_rule)
+        end
       end
     end
   end

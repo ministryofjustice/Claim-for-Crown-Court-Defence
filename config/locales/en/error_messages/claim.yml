@@ -1058,6 +1058,10 @@ misc_fee:
       long: 'Enter a valid quantity (1) for section 28 hearing'
       short: _
       api: Enter a valid quantity (1) for section 28 hearing
+    enter_a_valid_quantity_(1)_for_additional_preparation_hearing:
+      long: 'Enter a valid quantity (1) for additional preparation hearing'
+      short: _
+      api: Enter a valid quantity (1) for additional preparation hearing      
     the_amount_for_the_miscellaneous_fee_exceeds_the_limit:
       long: The amount for the miscellaneous fee exceeds the limit
       short: _

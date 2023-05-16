@@ -33,19 +33,7 @@ moj.Modules.ExpensesDataTable = {
       targets: 3,
       width: '1%',
       type: 'date',
-      render: function (data, type, row) {
-        if (type === 'sort') {
-          // Check for invalid dates before conversion
-          if (!data || isNaN(parseDate(data, 'dd/mm/yyyy'))) {
-            return ''
-          }
-
-          // Convert the valid date string to a sortable format (e.g., '2023-04-29')
-          return parseDate(data, 'dd/mm/yyyy')
-        }
-
-        return data
-      }
+      render: renderDate
     }, {
       targets: 4,
       width: '1%'
@@ -86,6 +74,21 @@ moj.Modules.ExpensesDataTable = {
       this.dataTable.order([columnIndex, direction])
     }
   }
+}
+
+// Define the named render function
+function renderDate(data, type, row) {
+  if (type === 'sort') {
+    // Check for invalid dates before conversion
+    if (!data || isNaN(parseDate(data, 'dd/mm/yyyy'))) {
+      return ''
+    }
+
+    // Convert the valid date string to a sortable format
+    return parseDate(data, 'dd/mm/yyyy')
+  }
+
+  return data
 }
 
 function parseDate (dateString, _format) {

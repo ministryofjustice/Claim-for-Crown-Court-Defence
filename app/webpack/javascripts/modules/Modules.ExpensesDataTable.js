@@ -77,7 +77,7 @@ moj.Modules.ExpensesDataTable = {
 }
 
 // Define the named render function
-function renderDate(data, type, row) {
+function renderDate (data, type, row) {
   if (type === 'sort') {
     // Check for invalid dates before conversion
     if (!data || isNaN(parseDate(data, 'dd/mm/yyyy'))) {

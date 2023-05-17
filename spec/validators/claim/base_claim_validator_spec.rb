@@ -797,6 +797,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'shoud NOT error if first day of trial is before the claims earliest rep order' do
         stub_earliest_rep_order(claim, 1.month.ago)
+        claim.advocate_category = 'KC'
         claim.first_day_of_trial = 2.months.ago
         expect(claim.valid?).to be true
         expect(claim.errors[:retrial_started_at]).to be_empty
@@ -824,6 +825,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
       it 'shoud NOT error if first day of trial is before the claims earliest rep order' do
         stub_earliest_rep_order(claim, 1.month.ago)
+        claim.advocate_category = 'KC'
         claim.first_day_of_trial = 2.months.ago
         expect(claim.valid?).to be true
         expect(claim.errors[:retrial_concluded_at]).to be_empty

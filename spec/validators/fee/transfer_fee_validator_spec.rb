@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Fee::TransferFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:claim) { build(:transfer_claim, claim_trait, defendants: [create(:defendant)]) }
+  let(:claim) { build(:transfer_claim, claim_trait, defendants: create_list(:defendant, 1)) }
   let(:fee) { build(:transfer_fee, claim:) }
   let(:claim_trait) { :not_requiring_ppe }
 

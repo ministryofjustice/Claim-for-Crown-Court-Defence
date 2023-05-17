@@ -69,13 +69,12 @@ RSpec.describe Claims::Search do
           create(
             :litigator_claim, :authorised,
             case_number: 'T20158665',
-            defendants: [
-              create(
-                :defendant,
-                first_name: 'Rupert', last_name: 'Doe',
-                representation_orders: [create(:representation_order, maat_reference: '4444444444')]
-              )
-            ]
+            defendants: create_list(
+              :defendant,
+              1,
+              first_name: 'Rupert', last_name: 'Doe',
+              representation_orders: create_list(:representation_order, 1, maat_reference: '4444444444')
+            )
           )
         }
         let(:part_authorised_claim) {
@@ -85,11 +84,11 @@ RSpec.describe Claims::Search do
             defendants: [
               create(
                 :defendant,
-                first_name: 'First 158', representation_orders: [create(:representation_order, maat_reference: '4444444111')]
+                first_name: 'First 158', representation_orders: create_list(:representation_order, 1, maat_reference: '4444444111')
               ),
               create(
                 :defendant,
-                last_name: '158 Last', representation_orders: [create(:representation_order, maat_reference: '4444444222')]
+                last_name: '158 Last', representation_orders: create_list(:representation_order, 1, maat_reference: '4444444222')
               ),
               create(
                 :defendant,
@@ -106,15 +105,12 @@ RSpec.describe Claims::Search do
           create(
             :litigator_claim, :rejected,
             case_number: 'T20999665',
-            defendants: [
-              create(
-                :defendant,
-                first_name: 'Olivia', last_name: 'Doe',
-                representation_orders: [
-                  create(:representation_order, maat_reference: '5555555555')
-                ]
-              )
-            ]
+            defendants: create_list(
+              :defendant,
+              1,
+              first_name: 'Olivia', last_name: 'Doe',
+              representation_orders: create_list(:representation_order, 1, maat_reference: '5555555555')
+            )
           )
         }
         let(:refused_claim) {
@@ -125,16 +121,12 @@ RSpec.describe Claims::Search do
               create(
                 :defendant,
                 first_name: 'Peter', last_name: 'Doe',
-                representation_orders: [
-                  create(:representation_order, maat_reference: '7777777777')
-                ]
+                representation_orders: create_list(:representation_order, 1, maat_reference: '7777777777')
               ),
               create(
                 :defendant,
                 first_name: 'Silvia', last_name: 'Doe',
-                representation_orders: [
-                  create(:representation_order, maat_reference: '9999999999')
-                ]
+                representation_orders: create_list(:representation_order, 1, maat_reference: '9999999999')
               )
             ]
           )
@@ -143,30 +135,24 @@ RSpec.describe Claims::Search do
           create(
             :litigator_claim, :archived_pending_delete,
             case_number: 'T20111665',
-            defendants: [
-              create(
-                :defendant,
-                first_name: 'Jane', last_name: 'Doe',
-                representation_orders: [
-                  create(:representation_order, maat_reference: '1111158')
-                ]
-              )
-            ]
+            defendants: create_list(
+              :defendant,
+              1,
+              first_name: 'Jane', last_name: 'Doe',
+              representation_orders: create_list(:representation_order, 1, maat_reference: '1111158')
+            )
           )
         }
         let(:archived_pending_review_claim) {
           create(
             :hardship_archived_pending_review_claim,
             case_number: 'T20751665',
-            defendants: [
-              create(
-                :defendant,
-                first_name: 'Mary', last_name: 'Doe',
-                representation_orders: [
-                  create(:representation_order, maat_reference: '1111158')
-                ]
-              )
-            ]
+            defendants: create_list(
+              :defendant,
+              1,
+              first_name: 'Mary', last_name: 'Doe',
+              representation_orders: create_list(:representation_order, 1, maat_reference: '1111158')
+            )
           )
         }
 

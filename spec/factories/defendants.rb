@@ -25,7 +25,7 @@ FactoryBot.define do
       scheme { nil }
     end
 
-    representation_orders { [FactoryBot.create(:representation_order, representation_order_date: scheme_date_for(scheme))] }
+    representation_orders { FactoryBot.create_list(:representation_order, 1, representation_order_date: scheme_date_for(scheme)) }
 
     trait :without_reporder do
       representation_orders { [] }

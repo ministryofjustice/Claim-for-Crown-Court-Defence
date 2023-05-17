@@ -349,16 +349,18 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         before do
           create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
             create(:defendant, claim:, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
-              defendant.representation_orders = [create(:representation_order,
-                                                        defendant:,
-                                                        representation_order_date: 30.days.ago,
-                                                        maat_reference: '4444441')]
+              defendant.representation_orders = create_list(:representation_order,
+                                                            1,
+                                                            defendant:,
+                                                            representation_order_date: 30.days.ago,
+                                                            maat_reference: '4444441')
             end
             create(:defendant, claim:, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
-              defendant.representation_orders = [create(:representation_order,
-                                                        defendant:,
-                                                        representation_order_date: 31.days.ago,
-                                                        maat_reference: '4444440')]
+              defendant.representation_orders = create_list(:representation_order,
+                                                            1,
+                                                            defendant:,
+                                                            representation_order_date: 31.days.ago,
+                                                            maat_reference: '4444440')
             end
           end
         end
@@ -372,16 +374,18 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
         before do
           create(:advocate_final_claim, :allocated, create_defendant_and_rep_order: false).tap do |claim|
             create(:defendant, claim:, first_name: 'Main', last_name: 'Defendant').tap do |defendant|
-              defendant.representation_orders = [create(:representation_order,
-                                                        defendant:,
-                                                        representation_order_date: 31.days.ago,
-                                                        maat_reference: '4444440')]
+              defendant.representation_orders = create_list(:representation_order,
+                                                            1,
+                                                            defendant:,
+                                                            representation_order_date: 31.days.ago,
+                                                            maat_reference: '4444440')
             end
             create(:defendant, claim:, first_name: 'Jammy', last_name: 'Dodger').tap do |defendant|
-              defendant.representation_orders = [create(:representation_order,
-                                                        defendant:,
-                                                        representation_order_date: 31.days.ago,
-                                                        maat_reference: '4444441')]
+              defendant.representation_orders = create_list(:representation_order,
+                                                            1,
+                                                            defendant:,
+                                                            representation_order_date: 31.days.ago,
+                                                            maat_reference: '4444441')
             end
           end
         end

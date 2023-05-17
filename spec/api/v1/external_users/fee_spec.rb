@@ -381,7 +381,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
         end
 
         context 'litigator (transfer) claim' do
-          let!(:claim) { create(:transfer_claim, source: 'api', defendants: [create(:defendant)]).reload }
+          let!(:claim) { create(:transfer_claim, source: 'api', defendants: create_list(:defendant, 1)).reload }
 
           it 'transfer fees should raise transfer fee errors from translations' do
             valid_params[:fee_type_id] = transfer_fee_type.id

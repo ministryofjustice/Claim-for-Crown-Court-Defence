@@ -555,8 +555,8 @@ RSpec.describe Claim::BaseClaim do
     end
 
     context 'with multiple messages' do
-      let!(:unread_messages) { [create(:message, claim:), create(:message, claim:)] }
-      let(:read_messages) { [create(:message, claim:), create(:message, claim:)] }
+      let!(:unread_messages) { create_list(:message, 2, claim:) }
+      let(:read_messages) { create_list(:message, 2, claim:) }
 
       before { read_messages.each { |message| message.user_message_statuses.where(user:).update(read: true) } }
 

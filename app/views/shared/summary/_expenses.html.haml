@@ -10,7 +10,7 @@
       = t('.travel_expense_additional_information')
 
     %p.govuk-body
-      = claim.travel_expense_additional_information
+      = format_multiline(claim.travel_expense_additional_information)
 
 - if claim.expenses.with_vat.any?
   = render template: 'shared/summary/expenses/index', locals: { claim: claim, vat: true }

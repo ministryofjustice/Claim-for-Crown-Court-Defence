@@ -1,8 +1,10 @@
 module Cleaners
   class AdvocateClaimCleaner < BaseClaimCleaner
     include CrackedDetailCleanable
+    include AdvocateCategoryCleanable
 
     def call
+      fix_advocate_categories
       destroy_invalid_fees
       clear_inapplicable_fields
     end

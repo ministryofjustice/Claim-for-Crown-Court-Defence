@@ -18,6 +18,8 @@ RSpec.describe Cleaners::AdvocateHardshipClaimCleaner do
       }
     end
 
+    let(:case_stage) { create(:case_stage, :cracked_trial) }
+
     before do
       claim.trial_fixed_notice_at = cracked[:trial_fixed_notice_at]
       claim.trial_fixed_at = cracked[:trial_fixed_at]
@@ -43,5 +45,7 @@ RSpec.describe Cleaners::AdvocateHardshipClaimCleaner do
 
       include_examples 'does not clear cracked details'
     end
+
+    include_examples 'fix advocate category'
   end
 end

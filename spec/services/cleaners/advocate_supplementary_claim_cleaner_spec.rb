@@ -8,6 +8,7 @@ RSpec.describe Cleaners::AdvocateSupplementaryClaimCleaner do
     subject(:call_cleaner) { cleaner.call }
 
     let(:claim) { create(:advocate_supplementary_claim, with_misc_fee: false) }
+    let(:misc_fee) { build(:misc_fee, :mispf_fee) }
 
     before do
       seed_fee_types
@@ -26,5 +27,7 @@ RSpec.describe Cleaners::AdvocateSupplementaryClaimCleaner do
 
       it { expect { call_cleaner }.to change { claim.misc_fees.size }.by(-1) }
     end
+
+    include_examples 'fix advocate category'
   end
 end

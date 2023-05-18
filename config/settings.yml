@@ -4,15 +4,20 @@ trial_cracked_at_third:
   - final_third
 
 advocate_categories:
-  - QC
-  - Led junior
-  - Leading junior
   - Junior alone
+  - Leading junior
+  - Led junior
+  - QC
 
 agfs_reform_advocate_categories:
-  - QC
-  - Leading junior
   - Junior
+  - Leading junior
+  - QC
+
+new_monarch_advocate_categories:
+  - Junior
+  - Leading junior
+  - KC
 
 court_types:
    - Magistrates' Court
@@ -200,3 +205,5 @@ notify_report_errors: <%= ENV["ENV"].in?(%w[api-sandbox production]) %>
 postcode_regexp: !ruby/regexp '/\A([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))) [0-9][A-Za-z]{2})\z/'
 
 maat_regexp: !ruby/regexp <%= ENV['MAAT_REGEXP'] || '/^[2-9][0-9]{6}$/' %>
+
+can_inject_kc: <%= ENV['CAN_INJECT_KC'] %>

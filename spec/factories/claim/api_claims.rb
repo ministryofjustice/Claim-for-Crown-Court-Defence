@@ -24,6 +24,11 @@ FactoryBot.define do
       offence { association(:offence, :with_fee_scheme_eleven) }
     end
 
+    trait :with_scheme_fifteen_offence do
+      advocate_category { 'KC' }
+      offence { association(:offence, :with_fee_scheme_fifteen) }
+    end
+
     trait :with_no_offence do
       case_type { association(:case_type, :fixed_fee) }
       offence { nil }

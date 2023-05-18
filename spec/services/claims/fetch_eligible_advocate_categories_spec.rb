@@ -1,82 +1,78 @@
 require 'rails_helper'
 
-RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
-  let(:scheme_9_advocate_categories) { ['QC', 'Led junior', 'Leading junior', 'Junior alone'] }
-  let(:scheme_10_advocate_categories) { ['QC', 'Leading junior', 'Junior'] }
-  let(:all_advocate_categories) { (scheme_9_advocate_categories + scheme_10_advocate_categories).uniq }
+RSpec.shared_examples 'list of advocate categories for' do |claim_type|
+  context 'with scheme 9' do
+    let(:claim) { create(claim_type, :agfs_scheme_9) }
 
+    it 'returns the list for AGFS scheme 9 advocate categories' do
+      is_expected.to eq(['Junior alone', 'Leading junior', 'Led junior', 'QC'])
+    end
+  end
+
+  context 'with scheme 10' do
+    let(:claim) { create(claim_type, :agfs_scheme_10) }
+
+    it 'returns the list for AGFS scheme 10 advocate categories' do
+      is_expected.to eq(['Junior', 'Leading junior', 'QC'])
+    end
+  end
+
+  context 'with scheme 15' do
+    let(:claim) { create(claim_type, :agfs_scheme_15) }
+
+    it 'returns the list for AGFS scheme 15 advocate categories' do
+      is_expected.to eq(['Junior', 'Leading junior', 'KC'])
+    end
+  end
+end
+
+RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
   describe '.for' do
     subject { described_class.for(claim) }
 
-    context 'nil claim' do
+    context 'with a nil claim' do
       let(:claim) { nil }
 
       it { is_expected.to be_nil }
     end
 
-    context 'LGFS claim' do
+    context 'with an LGFS claim' do
       let(:claim) { build(:litigator_claim) }
 
       it { is_expected.to be_nil }
     end
 
-    context 'AGFS claim' do
-      context 'when the claim is final' do
-        context 'scheme 9' do
-          let(:claim) { create(:advocate_claim, :agfs_scheme_9) }
+    it_behaves_like 'list of advocate categories for', :advocate_claim
 
-          it 'returns the list for AGFS scheme 9 advocate categories' do
-            is_expected.to match_array(scheme_9_advocate_categories)
-          end
-        end
+    # FIXME: this kind of claim should be invalid for scheme 9 at any point
+    it_behaves_like 'list of advocate categories for', :advocate_interim_claim
 
-        context 'scheme 10' do
-          let(:claim) { create(:advocate_claim, :agfs_scheme_10) }
+    context 'when the claim has been submitted via the API' do
+      # This will mean the offence will determine the fee_scheme, not the rep_order date
+      context 'with a scheme 9 offence' do
+        let(:claim) { create(:api_advocate_claim, :with_scheme_nine_offence) }
 
-          it 'returns the list for AGFS scheme 10 advocate categories' do
-            is_expected.to match_array(scheme_10_advocate_categories)
-          end
-        end
+        it { is_expected.to eq(['Junior alone', 'Leading junior', 'Led junior', 'QC']) }
       end
 
-      context 'when the claim is interim' do
-        # FIXME: this kind of claim should be invalid for scheme 9 at any point
-        context 'scheme 9' do
-          let(:claim) { create(:advocate_interim_claim, :agfs_scheme_9) }
+      context 'with a scheme 10 offence' do
+        let(:claim) { create(:api_advocate_claim, :with_scheme_ten_offence) }
 
-          it 'returns the list for AGFS scheme 9 advocate categories' do
-            is_expected.to match_array(scheme_9_advocate_categories)
-          end
-        end
-
-        context 'scheme 10' do
-          let(:claim) { create(:advocate_interim_claim, :agfs_scheme_10) }
-
-          it 'returns the list for AGFS scheme 10 advocate categories' do
-            is_expected.to match_array(scheme_10_advocate_categories)
-          end
-        end
+        it { is_expected.to eq(['Junior', 'Leading junior', 'QC']) }
       end
 
-      context 'when the claim has been submitted via the API' do
-        # This will mean the offence will determine the fee_scheme, not the rep_order date
-        context 'with a scheme 10 offence' do
-          let(:claim) { create(:api_advocate_claim, :with_scheme_ten_offence) }
+      context 'with a scheme 15 offence' do
+        let(:claim) { create(:api_advocate_claim, :with_scheme_fifteen_offence) }
 
-          it { is_expected.to match_array(scheme_10_advocate_categories) }
-        end
+        it { is_expected.to eq(['Junior', 'Leading junior', 'KC']) }
+      end
 
-        context 'with a scheme 9 offence' do
-          let(:claim) { create(:api_advocate_claim, :with_scheme_nine_offence) }
+      context 'with no offence (fixed fee case type)' do
+        let(:claim) { create(:api_advocate_claim, :with_no_offence) }
 
-          it { is_expected.to match_array(scheme_9_advocate_categories) }
-        end
-
-        context 'with no offence (fixed fee case type)' do
-          let(:claim) { create(:api_advocate_claim, :with_no_offence) }
-
-          it { is_expected.to match_array(all_advocate_categories) }
-        end
+        # Really, this should test that the list is ordered correclty, like the other tests, but it is only a catch-all
+        # in the event that the correct list cannot be correctly found so it is not worth over-engineering.
+        it { is_expected.to contain_exactly('Junior', 'Junior alone', 'Leading junior', 'Led junior', 'QC', 'KC') }
       end
     end
   end

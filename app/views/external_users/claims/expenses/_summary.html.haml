@@ -57,7 +57,7 @@
     %h3.govuk-heading-m
       = t('.additional_information')
     %p
-      = @claim.travel_expense_additional_information
+      = format_multiline(@claim.travel_expense_additional_information)
 
   - if claim.expenses.empty?.eql?(false)
     %h3.govuk-heading-m

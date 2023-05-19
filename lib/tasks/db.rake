@@ -30,7 +30,7 @@ namespace :db do
         exit(1)
       end
 
-      unless File.exist?(dump_file)
+      unless File.exists?(dump_file)
         puts 'File %s not found.' % dump_file
         exit(1)
       end
@@ -99,7 +99,7 @@ namespace :db do
       exit(1)
     end
 
-    unless File.exist?(dump_file)
+    unless File.exists?(dump_file)
       puts 'File %s not found.' % dump_file
       exit(1)
     end

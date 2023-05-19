@@ -44,12 +44,12 @@ RSpec.shared_examples 'a base claim' do
   end
 end
 
-RSpec.shared_examples 'a claim with a fee scheme factory' do |fee_scheme_factory|
+RSpec.shared_examples 'a claim with an AGFS fee scheme factory' do |fee_scheme_factory|
   describe '#fee_scheme' do
     subject(:fee_scheme) { claim.fee_scheme }
 
-    let(:main_hearing_date) { Date.parse('31 October 2022') }
-    let(:representation_order_date) { Date.parse('1 Apr 2016') }
+    let(:main_hearing_date) { Date.parse('20 April 2023') }
+    let(:representation_order_date) { Date.parse('17 April 2023') }
 
     before do
       claim.main_hearing_date = main_hearing_date
@@ -67,33 +67,63 @@ RSpec.shared_examples 'a claim with a fee scheme factory' do |fee_scheme_factory
       )
     end
 
-    context 'with a fee scheme 15 representation order date' do
-      let(:main_hearing_date) { Date.parse('20 April 2023') }
-      let(:representation_order_date) { Date.parse('17 April 2023') }
+    it { is_expected.to eq(FeeScheme.find_by(name: 'AGFS', version: 15)) }
 
-      before do
-        claim.main_hearing_date = main_hearing_date
-        claim.defendants = [
-          create(:defendant, representation_orders: [create(:representation_order, representation_order_date:)])
-        ]
+    context 'when a fee scheme 13 representation order date is added' do
+      subject do
+        claim.fee_scheme
+        claim.defendants << create(
+          :defendant,
+          representation_orders: [
+            create(:representation_order, representation_order_date: Date.parse('5 January 2023'))
+          ]
+        )
+        claim.fee_scheme
       end
 
-      it { is_expected.to eq(FeeScheme.find_by(name: 'AGFS', version: 15)) }
+      it { is_expected.to eq(FeeScheme.find_by(name: 'AGFS', version: 13)) }
+    end
+  end
+end
 
-      context 'when a fee scheme 13 representation order date is added' do
-        subject do
-          claim.fee_scheme
-          claim.defendants << create(
-            :defendant,
-            representation_orders: [
-              create(:representation_order, representation_order_date: Date.parse('5 January 2023'))
-            ]
-          )
-          claim.fee_scheme
-        end
+RSpec.shared_examples 'a claim with an LGFS fee scheme factory' do |fee_scheme_factory|
+  describe '#fee_scheme' do
+    subject(:fee_scheme) { claim.fee_scheme }
 
-        it { is_expected.to eq(FeeScheme.find_by(name: 'AGFS', version: 13)) }
+    let(:main_hearing_date) { Date.parse('31 January 2023') }
+    let(:representation_order_date) { Date.parse('1 January 2023') }
+
+    before do
+      claim.main_hearing_date = main_hearing_date
+      claim.defendants = [
+        create(:defendant, representation_orders: [create(:representation_order, representation_order_date:)])
+      ]
+      allow(fee_scheme_factory).to receive(:call).and_call_original
+    end
+
+    it do
+      fee_scheme
+      expect(fee_scheme_factory).to have_received(:call).with(
+        main_hearing_date:,
+        representation_order_date:
+      )
+    end
+
+    it { is_expected.to eq(FeeScheme.find_by(name: 'LGFS', version: 10)) }
+
+    context 'when a fee scheme 9 representation order date is added' do
+      subject do
+        claim.fee_scheme
+        claim.defendants << create(
+          :defendant,
+          representation_orders: [
+            create(:representation_order, representation_order_date: Date.parse('5 January 2019'))
+          ]
+        )
+        claim.fee_scheme
       end
+
+      it { is_expected.to eq(FeeScheme.find_by(name: 'LGFS', version: 9)) }
     end
   end
 end

@@ -7,7 +7,7 @@ RSpec.describe Claim::InterimClaim do
   let(:options) { {} }
 
   it_behaves_like 'a base claim'
-  it_behaves_like 'a claim with a fee scheme factory', FeeSchemeFactory::LGFS
+  it_behaves_like 'a claim with an LGFS fee scheme factory', FeeSchemeFactory::LGFS
   it_behaves_like 'a claim delegating to case type'
   it_behaves_like 'uses claim cleaner', Cleaners::InterimClaimCleaner
 

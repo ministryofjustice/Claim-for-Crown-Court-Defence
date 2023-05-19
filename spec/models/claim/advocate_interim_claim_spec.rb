@@ -1,10 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Claim::AdvocateInterimClaim do
+  subject(:claim) { build(:advocate_interim_claim) }
+
   it_behaves_like 'a base claim'
-  it_behaves_like 'a claim with a fee scheme factory', FeeSchemeFactory::AGFS
+  it_behaves_like 'a claim with an AGFS fee scheme factory', FeeSchemeFactory::AGFS
   it_behaves_like 'a claim delegating to case type'
-  it_behaves_like 'uses claim cleaner', Cleaners::NullClaimCleaner
+  it_behaves_like 'uses claim cleaner', Cleaners::AdvocateInterimClaimCleaner
 
   it { is_expected.to have_one(:warrant_fee) }
 

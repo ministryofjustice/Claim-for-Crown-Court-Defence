@@ -85,5 +85,11 @@ module Claim
     def fee_scheme_factory
       FeeSchemeFactory::AGFS
     end
+
+    private
+
+    def cleaner
+      Cleaners::AdvocateInterimClaimCleaner.new(self)
+    end
   end
 end

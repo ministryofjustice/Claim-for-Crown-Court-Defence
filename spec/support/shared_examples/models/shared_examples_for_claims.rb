@@ -44,25 +44,66 @@ RSpec.shared_examples 'a base claim' do
   end
 end
 
+RSpec.shared_examples 'a claim with an AGFS fee scheme factory' do |fee_scheme_factory|
+  include_examples 'a claim with a fee scheme factory', fee_scheme_factory do
+    let(:initial_representation_order_date) { Date.parse('17 April 2023') }
+    let(:initial_expected_fee_scheme) { FeeScheme.find_by(name: 'AGFS', version: 15) }
+    let(:updated_representation_order_date) { Date.parse('5 January 2023') }
+    let(:updated_expected_fee_scheme) { FeeScheme.find_by(name: 'AGFS', version: 13) }
+  end
+end
+
+RSpec.shared_examples 'a claim with an LGFS fee scheme factory' do |fee_scheme_factory|
+  include_examples 'a claim with a fee scheme factory', fee_scheme_factory do
+    let(:initial_representation_order_date) { Date.parse('1 January 2023') }
+    let(:initial_expected_fee_scheme) { FeeScheme.find_by(name: 'LGFS', version: 10) }
+    let(:updated_representation_order_date) { Date.parse('5 January 2019') }
+    let(:updated_expected_fee_scheme) { FeeScheme.find_by(name: 'LGFS', version: 9) }
+  end
+end
+
 RSpec.shared_examples 'a claim with a fee scheme factory' do |fee_scheme_factory|
   describe '#fee_scheme' do
-    let(:main_hearing_date) { Date.parse('31 October 2022') }
-    let(:representation_order_date) { Date.parse('1 Apr 2016') }
+    subject(:fee_scheme) { claim.fee_scheme }
+
+    let(:main_hearing_date) { Date.parse('20 April 2023') }
 
     before do
-      subject.main_hearing_date = main_hearing_date
-      subject.defendants = [
-        create(:defendant, representation_orders: [create(:representation_order, representation_order_date:)])
+      claim.main_hearing_date = main_hearing_date
+      claim.defendants = [
+        create(
+          :defendant,
+          representation_orders: [
+            create(:representation_order, representation_order_date: initial_representation_order_date)
+          ]
+        )
       ]
-      allow(fee_scheme_factory).to receive(:call)
+      allow(fee_scheme_factory).to receive(:call).and_call_original
     end
 
     it do
-      subject.fee_scheme
+      fee_scheme
       expect(fee_scheme_factory).to have_received(:call).with(
         main_hearing_date:,
-        representation_order_date:
+        representation_order_date: initial_representation_order_date
       )
+    end
+
+    it { is_expected.to eq(initial_expected_fee_scheme) }
+
+    context 'when another representation order date is added' do
+      subject do
+        claim.fee_scheme
+        claim.defendants << create(
+          :defendant,
+          representation_orders: [
+            create(:representation_order, representation_order_date: updated_representation_order_date)
+          ]
+        )
+        claim.fee_scheme
+      end
+
+      it { is_expected.to eq(updated_expected_fee_scheme) }
     end
   end
 end

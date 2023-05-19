@@ -1,6 +1,9 @@
 module Cleaners
   class AdvocateSupplementaryClaimCleaner < BaseClaimCleaner
+    include AdvocateCategoryCleanable
+
     def call
+      fix_advocate_categories
       destroy_invalid_fees
     end
 

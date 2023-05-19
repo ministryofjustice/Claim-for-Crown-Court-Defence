@@ -53,6 +53,7 @@ RSpec.describe Cleaners::AdvocateClaimCleaner do
     end
 
     let(:basic_fee_rate) { 99.99 }
+    let(:case_type) { build(:case_type, :trial) }
 
     before do
       claim.misc_fees = [create(:misc_fee, :miaph_fee, rate: 9.99)]
@@ -117,5 +118,7 @@ RSpec.describe Cleaners::AdvocateClaimCleaner do
       include_examples 'does not clear basic fees'
       include_examples 'does not clear cracked details'
     end
+
+    include_examples 'fix advocate category'
   end
 end

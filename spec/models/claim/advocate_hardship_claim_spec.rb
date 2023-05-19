@@ -78,7 +78,7 @@ RSpec.describe Claim::AdvocateHardshipClaim do
   subject(:claim) { build(:advocate_hardship_claim) }
 
   it_behaves_like 'a base claim'
-  it_behaves_like 'a claim with a fee scheme factory', FeeSchemeFactory::AGFS
+  it_behaves_like 'a claim with an AGFS fee scheme factory', FeeSchemeFactory::AGFS
   it_behaves_like 'a claim delegating to case type'
   it_behaves_like 'uses claim cleaner', Cleaners::AdvocateHardshipClaimCleaner
 

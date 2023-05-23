@@ -41,14 +41,14 @@ FactoryBot.define do
     transfer_case_number { 'A20161234' }
 
     court do
-      build(:court, code: 'ABC', name: 'Acme Court', court_type: 'crown')
+      association :court, code: 'ABC', name: 'Acme Court', court_type: 'crown'
     end
     transfer_court do
-      build(:court, code: 'ZZZ', name: 'Northern Court', court_type: 'crown')
+      association :court, code: 'ZZZ', name: 'Northern Court', court_type: 'crown'
     end
 
     external_user do
-      build(:external_user, supplier_number: 'XY666', user: build(:user, first_name: 'John', last_name: 'Smith', email: 'john.smith@example.com'))
+      association :external_user, supplier_number: 'XY666', user: association(:user, first_name: 'John', last_name: 'Smith', email: 'john.smith@example.com')
     end
 
     creator do
@@ -56,11 +56,11 @@ FactoryBot.define do
     end
 
     offence do
-      build(:offence, description: 'Miscellaneous/other', offence_class: build_or_reuse_offence_class)
+      association :offence, description: 'Miscellaneous/other', offence_class: build_or_reuse_offence_class
     end
 
     case_type do
-      build(:case_type, :fixed_fee)
+      association :case_type, :fixed_fee
     end
 
     defendants do |env|
@@ -98,6 +98,6 @@ def build_or_reuse_offence_class
   if (oc = OffenceClass.find_by(class_letter:))
     oc.update_column(:description, description)
   else
-    build(:offence_class, class_letter:, description:)
+    association :offence_class, class_letter:, description:
   end
 end

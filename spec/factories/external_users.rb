@@ -31,18 +31,18 @@ FactoryBot.define do
 
     trait :advocate do
       roles { ['advocate'] }
-      provider { create(:provider, :agfs) }
+      provider { association :provider, :agfs }
     end
 
     trait :litigator do
       roles { ['litigator'] }
       supplier_number { nil }
-      provider { create(:provider, :lgfs) }
+      provider { association :provider, :lgfs }
     end
 
     trait :advocate_litigator do
       roles { %w[advocate litigator] }
-      provider { create(:provider, :agfs_lgfs) }
+      provider { association :provider, :agfs_lgfs }
     end
 
     trait :admin do
@@ -57,12 +57,12 @@ FactoryBot.define do
     trait :litigator_and_admin do
       supplier_number { nil }
       roles { %w[litigator admin] }
-      provider { create(:provider, :lgfs) }
+      provider { association :provider, :lgfs }
     end
 
     trait :agfs_lgfs_admin do
       roles { ['admin'] }
-      provider { create(:provider, :agfs_lgfs) }
+      provider { association :provider, :agfs_lgfs }
     end
 
     trait :softly_deleted do

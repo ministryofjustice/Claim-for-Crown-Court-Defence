@@ -144,7 +144,7 @@ class Expense < ApplicationRecord
   end
 
   def establishment
-    return unless expense_type.car_travel?
+    return unless expense_type&.car_travel?
     Establishment.find_by(name: location)
   end
 

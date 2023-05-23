@@ -193,6 +193,12 @@ RSpec.describe Expense do
 
       it { is_expected.to be_nil }
     end
+
+    context 'when there is no expense type' do
+      let(:expense) { build(:expense, expense_type: nil) }
+
+      it { is_expected.to be_nil }
+    end
   end
 
   describe '#remove_reason_text_unless_other' do

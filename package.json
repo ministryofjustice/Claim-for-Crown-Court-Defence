@@ -46,7 +46,7 @@
     "jquery-xpath": "^0.3.1",
     "jquery.iframe-transport": "^1.0.0",
     "jsrender": "^1.0.13",
-    "mini-css-extract-plugin": "^2.7.5",
+    "mini-css-extract-plugin": "^2.7.6",
     "postcss": "^8.4.23",
     "sass": "^1.62.1",
     "sass-loader": "^13.2.2",

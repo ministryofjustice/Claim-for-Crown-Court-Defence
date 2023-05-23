@@ -10,7 +10,7 @@ RSpec.shared_examples 'API creation successful' do
   it { expect(response).to be_successful }
 
   it 'sets advocate category correctly in the claim' do
-    expect(Claim::BaseClaim.last.advocate_category).to eq advocate_category
+    expect(Claim::BaseClaim.last.advocate_category).to eq expected_advocate_category
   end
 end
 
@@ -24,13 +24,15 @@ RSpec.shared_examples 'API request fails with ineligible advocate category' do
   it { expect(response.parsed_body.first['error']).to eq('Choose an eligible advocate category') }
 end
 
-RSpec.shared_examples 'claim with AGFS reform advocate categories' do
+RSpec.shared_examples 'AGFS reform advocate categories permitted' do
   before do
     submit_request
   end
 
   context 'when creating' do
     subject(:submit_request) { post(endpoint.create, params:) }
+
+    let(:expected_advocate_category) { advocate_category }
 
     context 'with a Junior advocate category' do
       let(:advocate_category) { 'Junior' }
@@ -52,12 +54,9 @@ RSpec.shared_examples 'claim with AGFS reform advocate categories' do
 
     context 'with a KC advocate category' do
       let(:advocate_category) { 'KC' }
+      let(:expected_advocate_category) { 'QC' }
 
-      it { expect(response).to be_successful }
-
-      it 'translates advocate category KC to QC before creating claim' do
-        expect(Claim::BaseClaim.last.advocate_category).to eq 'QC'
-      end
+      include_examples 'API creation successful'
     end
 
     context 'with an unknown advocate category' do
@@ -104,7 +103,7 @@ RSpec.shared_examples 'claim with AGFS reform advocate categories' do
   end
 end
 
-RSpec.shared_examples 'claim with pre-AGFS reform advocate categories' do
+RSpec.shared_examples 'pre-AGFS reform advocate categories not permitted' do
   before do
     submit_request
   end

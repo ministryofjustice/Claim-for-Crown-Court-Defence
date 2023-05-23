@@ -33,12 +33,10 @@ module API::Helpers
     end
 
     def create_resource(klass)
-      params['advocate_category'] = 'QC' if params['advocate_category'] == 'KC'
       API::Helpers::ApiHelper.create_resource(klass, params, api_response, arguments_proc)
     end
 
     def validate_resource(klass)
-      params['advocate_category'] = 'QC' if params['advocate_category'] == 'KC'
       API::Helpers::ApiHelper.validate_resource(klass, api_response, arguments_proc)
     end
 

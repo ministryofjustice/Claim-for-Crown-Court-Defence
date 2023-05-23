@@ -17,7 +17,7 @@ module AdvocateClaimTest
         advocate_email: 'advocate@example.com',
         case_number: 'B20161234',
         providers_ref: SecureRandom.uuid[3..15].upcase,
-        advocate_category: fetch_value(ADVOCATE_CATEGORY_ENDPOINT),
+        advocate_category: fetch_value(ADVOCATE_CATEGORY_ENDPOINT, index: 3), # QC
         apply_vat: true,
         main_hearing_date: '2015-06-02'
       )

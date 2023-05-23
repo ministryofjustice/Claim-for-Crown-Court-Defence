@@ -24,10 +24,7 @@ module API
               optional :additional_information, type: String, desc: 'OPTIONAL: Any additional information'
               optional :apply_vat, type: Boolean, desc: 'OPTIONAL: Include VAT (JSON Boolean data type: true or false)'
               use :user_email
-              optional :advocate_category,
-                       type: String,
-                       desc: local_t(:advocate_category),
-                       values: (Settings.advocate_categories + Settings.agfs_reform_advocate_categories + ['KC']).uniq
+              use :advocate_category_all
               optional :main_hearing_date,
                        type: String,
                        desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',

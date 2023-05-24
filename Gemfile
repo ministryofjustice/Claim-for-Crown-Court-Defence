@@ -91,7 +91,7 @@ group :development, :devunicorn, :test do
   gem 'rubocop-factory_bot', '~> 2.22'
   gem 'rubocop-rspec', '~> 2.22'
   gem 'rubocop-rails', '~> 2.19'
-  gem 'rubocop-performance', '~> 1.17'
+  gem 'rubocop-performance', '~> 1.18'
   gem 'site_prism', '~> 4.0'
 end
 

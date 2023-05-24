@@ -5,7 +5,9 @@ FactoryBot.define do
     end
 
     after(:create) do |claim, _evaluator|
-      create_list(:message, 1, :with_attachment, body: 'This is the message body.', claim:, sender: claim.external_user.user)
+      create_list(
+        :message, 1, :with_attachment, body: 'This is the message body.', claim:, sender: claim.external_user.user
+      )
       Timecop.return
     end
 
@@ -48,7 +50,10 @@ FactoryBot.define do
     end
 
     external_user do
-      association :external_user, supplier_number: 'XY666', user: association(:user, first_name: 'John', last_name: 'Smith', email: 'john.smith@example.com')
+      association :external_user, supplier_number: 'XY666',
+                                  user: association(:user, first_name: 'John',
+                                                           last_name: 'Smith',
+                                                           email: 'john.smith@example.com')
     end
 
     creator do
@@ -65,9 +70,12 @@ FactoryBot.define do
 
     defendants do |env|
       build_list(
-        :defendant, 1, first_name: 'Kaia', last_name: 'Casper', date_of_birth: Date.new(1995, 6, 20),
-                       representation_orders: build_list(:representation_order, 1, maat_reference: '4567890',
-                                                                                   representation_order_date: env.rep_order_date)
+        :defendant, 1, first_name: 'Kaia',
+                       last_name: 'Casper',
+                       date_of_birth: Date.new(1995, 6, 20),
+                       representation_orders:
+                         build_list(:representation_order, 1, maat_reference: '4567890',
+                                                              representation_order_date: env.rep_order_date)
       )
     end
 
@@ -96,7 +104,7 @@ def build_or_reuse_offence_class
   description = 'Lesser offences involving violence or damage and less serious drug offences'
 
   if (oc = OffenceClass.find_by(class_letter:))
-    oc.update_column(:description, description)
+    oc.update!(description:)
   else
     association :offence_class, class_letter:, description:
   end

@@ -18,10 +18,7 @@ module API
               use :common_trial_params
               use :common_agfs_params
               use :legacy_agfs_params
-              optional :advocate_category,
-                       type: String,
-                       desc: local_t(:advocate_category),
-                       values: (Settings.advocate_categories + Settings.agfs_reform_advocate_categories + ['KC']).uniq
+              use :advocate_category_all
               optional :main_hearing_date,
                        type: String,
                        desc: 'OPTIONAL: The date of the main hearing of the case (YYYY-MM-DD)',

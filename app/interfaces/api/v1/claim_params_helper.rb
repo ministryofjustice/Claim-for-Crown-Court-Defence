@@ -79,6 +79,21 @@ module API
         optional :user_email, type: String, desc: I18n.t('api.v1.common_params.user_email')
       end
 
+      params :advocate_category_all do
+        optional :advocate_category,
+                 type: String,
+                 desc: local_t(:advocate_category),
+                 values: Settings.advocate_categories | Settings.agfs_reform_advocate_categories |
+                         Settings.new_monarch_advocate_categories
+      end
+
+      params :advocate_category_agfs_reform do
+        optional :advocate_category,
+                 type: String,
+                 desc: local_t(:advocate_category),
+                 values: Settings.agfs_reform_advocate_categories | Settings.new_monarch_advocate_categories
+      end
+
       def build_arguments
         declared_params.merge(source: claim_source, creator_id: claim_creator.id, external_user_id: claim_user.id)
       end

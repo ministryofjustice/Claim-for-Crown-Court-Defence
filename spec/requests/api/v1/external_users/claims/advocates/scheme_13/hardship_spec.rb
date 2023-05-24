@@ -26,7 +26,7 @@ RSpec.describe 'creating hardship AGFS claim for fee scheme 13' do
       )
     end
 
-    include_examples 'claim with AGFS reform advocate categories'
-    include_examples 'claim with pre-AGFS reform advocate categories'
+    include_examples 'AGFS reform advocate categories permitted'
+    include_examples 'pre-AGFS reform advocate categories not permitted'
   end
 end

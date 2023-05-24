@@ -25,6 +25,6 @@ RSpec.describe 'creating final AGFS claim for fee scheme 13' do
       )
     end
 
-    include_examples 'claim with AGFS reform advocate categories'
+    include_examples 'AGFS reform advocate categories permitted'
   end
 end

@@ -13,10 +13,6 @@ module Claims
       result
     end
 
-    def draft?
-      true
-    end
-
     def action
       :edit
     end

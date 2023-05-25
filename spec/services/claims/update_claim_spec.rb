@@ -15,10 +15,6 @@ describe Claims::UpdateClaim do
       expect(update_claim.action).to eq(:edit)
     end
 
-    it 'is not a draft' do
-      expect(update_claim.draft?).to be_falsey
-    end
-
     context 'successful updates' do
       it 'forces validation' do
         allow(update_claim.claim).to receive(:force_validation=).with(true)

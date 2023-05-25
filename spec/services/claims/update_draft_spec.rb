@@ -17,10 +17,6 @@ RSpec.describe Claims::UpdateDraft do
       expect(update_draft.action).to eq(:edit)
     end
 
-    it 'is a draft' do
-      expect(update_draft.draft?).to be_truthy
-    end
-
     context 'successful draft updates' do
       context 'validation enabled' do
         let(:validate) { true }

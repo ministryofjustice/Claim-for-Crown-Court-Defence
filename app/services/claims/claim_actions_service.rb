@@ -13,10 +13,6 @@ module Claims
       new(claim, **kwargs).call
     end
 
-    def draft?
-      false
-    end
-
     def action; end
 
     def result

@@ -17,10 +17,6 @@ describe Claims::CreateDraft do
       expect(create_draft.action).to eq(:new)
     end
 
-    it 'is a draft' do
-      expect(create_draft.draft?).to be_truthy
-    end
-
     context 'successful draft creations' do
       context 'validation enabled' do
         let(:validate) { true }

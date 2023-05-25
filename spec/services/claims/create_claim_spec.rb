@@ -15,12 +15,6 @@ describe Claims::CreateClaim do
     end
   end
 
-  describe '#draft?' do
-    it 'returns false' do
-      expect(subject.draft?).to be_falsey
-    end
-  end
-
   describe '#call' do
     before { expect(subject.claim.persisted?).to be_falsey }
 

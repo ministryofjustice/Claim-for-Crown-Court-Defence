@@ -15,10 +15,6 @@ module Claims
       result
     end
 
-    def draft?
-      true
-    end
-
     def action
       :new
     end

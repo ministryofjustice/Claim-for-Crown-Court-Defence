@@ -1,9 +1,7 @@
 module Claims
   class UpdateDraft < ClaimActionsService
     def initialize(claim, params:, validate:)
-      self.claim = claim
-      self.params = params
-      self.validate = validate
+      super(claim, params:, validate:)
     end
 
     def call

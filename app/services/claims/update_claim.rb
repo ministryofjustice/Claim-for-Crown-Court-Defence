@@ -1,9 +1,7 @@
 module Claims
   class UpdateClaim < ClaimActionsService
     def initialize(claim, params:)
-      self.claim = claim
-      self.params = params
-      self.validate = true
+      super(claim, params:, validate: true)
     end
 
     def call

@@ -1,8 +1,7 @@
 module Claims
   class CreateClaim < ClaimActionsService
     def initialize(claim)
-      self.claim = claim
-      self.validate = true
+      super(claim, params: nil, validate: true)
     end
 
     def call

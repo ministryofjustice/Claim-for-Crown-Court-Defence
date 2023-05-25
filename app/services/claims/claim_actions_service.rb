@@ -2,6 +2,12 @@ module Claims
   class ClaimActionsService
     attr_accessor :claim, :params, :validate
 
+    def initialize(claim, validate:, params:)
+      @claim = claim
+      @validate = validate
+      @params = params
+    end
+
     def self.call(claim, **kwargs)
       new(claim, **kwargs).call
     end

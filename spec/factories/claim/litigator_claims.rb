@@ -14,7 +14,9 @@ FactoryBot.define do
 
     # Risk based bills are litigator claims of case type guilty plea, with offences of class E,F,H,I and a graduated fee PPE/quantity of 50 or less
     trait :risk_based_bill do
-      offence { create(:offence, :miscellaneous, offence_class: create(:offence_class, :risk_based_bill_class)) }
+      offence do
+        association :offence, :miscellaneous, offence_class: association(:offence_class, :risk_based_bill_class)
+      end
       after(:build) do |claim|
         claim.fees << build(:graduated_fee, :guilty_plea_fee, quantity: 49, claim:)
       end

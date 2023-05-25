@@ -699,13 +699,13 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'when defendant has a rep order before fee scheme 13' do
-      before { claim.defendants = [create(:defendant, scheme: 'scheme 12')] }
+      before { claim.defendants = create_list(:defendant, 1, scheme: 'scheme 12') }
 
       it { should_not_error(claim, :earliest_representation_order_date) }
     end
 
     context 'when defendant has a rep order in fee scheme 13' do
-      before { claim.defendants = [create(:defendant, scheme: 'scheme 13')] }
+      before { claim.defendants = create_list(:defendant, 1, scheme: 'scheme 13') }
 
       it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded and main hearing date') }
     end
@@ -717,14 +717,14 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     end
 
     context 'when two defendants both have rep orders in fee scheme 13' do
-      before { claim.defendants = [create(:defendant, scheme: 'scheme 13'), create(:defendant, scheme: 'scheme 13')] }
+      before { claim.defendants = create_list(:defendant, 2, scheme: 'scheme 13') }
 
       it { should_error_with(claim, :earliest_representation_order_date, 'invalid for elected case not proceeded and main hearing date') }
     end
 
     context 'when defendant has a rep order in fee scheme 12 and a CLAIR contingency main hearing date' do
       before do
-        claim.defendants = [create(:defendant, scheme: 'scheme 12')]
+        claim.defendants = create_list(:defendant, 1, scheme: 'scheme 12')
         claim.main_hearing_date = Settings.clair_contingency_date
       end
 
@@ -733,7 +733,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
 
     context 'when defendant has a rep order in fee scheme 12 and a pre-CLAIR contingency main hearing date' do
       before do
-        claim.defendants = [create(:defendant, scheme: 'scheme 12')]
+        claim.defendants = create_list(:defendant, 1, scheme: 'scheme 12')
         claim.main_hearing_date = Settings.clair_contingency_date - 1
       end
 

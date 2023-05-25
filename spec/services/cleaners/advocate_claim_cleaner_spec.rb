@@ -39,7 +39,7 @@ RSpec.describe Cleaners::AdvocateClaimCleaner do
       create(
         :advocate_final_claim, :draft,
         case_type: build(:case_type, :fixed_fee),
-        fixed_fees: [create(:fixed_fee, :fxase_fee, :with_date_attended, rate: 9.99)]
+        fixed_fees: create_list(:fixed_fee, 1, :fxase_fee, :with_date_attended, rate: 9.99)
       )
     end
 
@@ -56,8 +56,8 @@ RSpec.describe Cleaners::AdvocateClaimCleaner do
     let(:case_type) { build(:case_type, :trial) }
 
     before do
-      claim.misc_fees = [create(:misc_fee, :miaph_fee, rate: 9.99)]
-      claim.basic_fees = [create(:basic_fee, :baf_fee, :with_date_attended, rate: basic_fee_rate)]
+      claim.misc_fees = create_list(:misc_fee, 1, :miaph_fee, rate: 9.99)
+      claim.basic_fees = create_list(:basic_fee, 1, :baf_fee, :with_date_attended, rate: basic_fee_rate)
       claim.trial_fixed_notice_at = cracked[:trial_fixed_notice_at]
       claim.trial_fixed_at = cracked[:trial_fixed_at]
       claim.trial_cracked_at = cracked[:trial_cracked_at]

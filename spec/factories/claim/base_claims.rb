@@ -41,12 +41,12 @@ FactoryBot.define do
   trait :litigator_base_setup do
     court
     case_number         { random_case_number }
-    creator             { build(:external_user, :litigator) }
+    creator             { create(:external_user, :litigator) }
     external_user       { creator }
     source              { 'web' }
     apply_vat           { false }
-    offence             { create(:offence, :miscellaneous) } # only miscellaneous offences valid for LGFS
-    case_type           { create(:case_type) }
+    offence             { association :offence, :miscellaneous } # only miscellaneous offences valid for LGFS
+    case_type           { association :case_type }
     case_concluded_at   { 5.days.ago }
     supplier_number     { provider.lgfs_supplier_numbers.first.supplier_number }
     providers_ref       { random_providers_ref }

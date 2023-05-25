@@ -191,7 +191,7 @@ RSpec.describe Provider do
   context 'delegated external_user scopes/methods' do
     let(:provider) { create(:provider) }
     let(:advocate) { create(:external_user, :advocate) }
-    let(:admins) { [create(:external_user, :admin), create(:external_user, :admin)] }
+    let(:admins) { create_list(:external_user, 2, :admin) }
 
     before do
       provider.external_users << advocate

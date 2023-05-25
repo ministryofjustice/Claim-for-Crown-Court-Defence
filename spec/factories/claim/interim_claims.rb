@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :interim_claim, aliases: [:litigator_interim_claim], class: 'Claim::InterimClaim' do
     litigator_base_setup
-    case_type { create(:case_type, roles: %w[lgfs interim]) }
+    case_type { association :case_type, roles: %w[lgfs interim] }
     case_concluded_at { nil }
 
     transient { estimated_trial_length { 2 } }

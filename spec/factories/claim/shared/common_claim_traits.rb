@@ -18,12 +18,12 @@ FactoryBot.define do
   end
 
   trait :authorised do
-    offence { create(:offence, :with_fee_scheme, offence_class: create(:offence_class)) }
+    offence { association :offence, :with_fee_scheme, offence_class: association(:offence_class) }
     after(:create) { |claim| authorise_claim(claim) }
   end
 
   trait :part_authorised do
-    offence { create(:offence, :with_fee_scheme, offence_class: create(:offence_class)) }
+    offence { association :offence, :with_fee_scheme, offence_class: create(:offence_class) }
     after(:create) do |claim|
       allocate_claim(claim)
       claim.reload

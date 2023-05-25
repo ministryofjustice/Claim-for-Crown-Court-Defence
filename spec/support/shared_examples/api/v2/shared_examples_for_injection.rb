@@ -69,7 +69,7 @@ RSpec.shared_examples 'injection data with defendants' do
         ),
         create(
           :defendant,
-          representation_orders: [create(:representation_order, representation_order_date: 2.days.ago)]
+          representation_orders: create_list(:representation_order, 1, representation_order_date: 2.days.ago)
         )
       ]
     end

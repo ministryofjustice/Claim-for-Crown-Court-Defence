@@ -70,14 +70,12 @@ RSpec.shared_examples 'a claim with a fee scheme factory' do |fee_scheme_factory
 
     before do
       claim.main_hearing_date = main_hearing_date
-      claim.defendants = [
-        create(
-          :defendant,
-          representation_orders: [
-            create(:representation_order, representation_order_date: initial_representation_order_date)
-          ]
-        )
-      ]
+      claim.defendants = create_list(:defendant, 1,
+                                     representation_orders: create_list(
+                                       :representation_order,
+                                       1,
+                                       representation_order_date: initial_representation_order_date
+                                     ))
       allow(fee_scheme_factory).to receive(:call).and_call_original
     end
 
@@ -94,12 +92,12 @@ RSpec.shared_examples 'a claim with a fee scheme factory' do |fee_scheme_factory
     context 'when another representation order date is added' do
       subject do
         claim.fee_scheme
-        claim.defendants << create(
-          :defendant,
-          representation_orders: [
-            create(:representation_order, representation_order_date: updated_representation_order_date)
-          ]
-        )
+        claim.defendants = create_list(:defendant, 1,
+                                       representation_orders: create_list(
+                                         :representation_order,
+                                         1,
+                                         representation_order_date: updated_representation_order_date
+                                       ))
         claim.fee_scheme
       end
 

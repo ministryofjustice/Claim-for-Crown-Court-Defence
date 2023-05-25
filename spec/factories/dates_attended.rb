@@ -14,7 +14,7 @@
 
 FactoryBot.define do
   factory :date_attended do
-    attended_item { create(:basic_fee) }
+    attended_item { association :basic_fee }
     date    { 12.days.ago }
     date_to { rand(2) == 1 ? 10.days.ago : nil }
 

@@ -387,12 +387,12 @@ RSpec.describe Claim::AdvocateClaim do
       let(:search_options) { :maat_reference }
 
       before do
-        create(:defendant, claim:, representation_orders: [create(:representation_order, maat_reference: '111111')])
-        create(:defendant, claim:, representation_orders: [create(:representation_order, maat_reference: '222222')])
+        create(:defendant, claim:, representation_orders: create_list(:representation_order, 1, maat_reference: '111111'))
+        create(:defendant, claim:, representation_orders: create_list(:representation_order, 1, maat_reference: '222222'))
         create(
           :defendant,
           claim: other_claim,
-          representation_orders: [create(:representation_order, maat_reference: '333333')]
+          representation_orders: create_list(:representation_order, 1, maat_reference: '333333')
         )
         claim.reload
         other_claim.reload

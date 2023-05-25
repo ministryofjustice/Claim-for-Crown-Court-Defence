@@ -3,10 +3,10 @@ module Claims
     attr_accessor :service, :success, :error_code
     delegate :action, :draft?, to: :service
 
-    def initialize(service, success: true, error_code: nil)
-      self.service = service
-      self.success = success
-      self.error_code = error_code
+    def initialize(service, error_code: nil)
+      @service = service
+      @success = error_code.nil?
+      @error_code = error_code
     end
 
     def success?

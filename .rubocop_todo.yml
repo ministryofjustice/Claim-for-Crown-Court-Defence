@@ -294,7 +294,6 @@ Metrics/PerceivedComplexity:
 Naming/AccessorMethodName:
   Exclude:
     - 'app/models/claims/state_machine.rb'
-    - 'app/services/claims/claim_actions_service.rb'
 
 # Offense count: 4
 # This cop supports unsafe autocorrection (--autocorrect-all).

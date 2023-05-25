@@ -6,6 +6,7 @@ module Claims
       @claim = claim
       @validate = validate
       @params = params
+      @error_code = nil
     end
 
     def self.call(claim, **kwargs)
@@ -19,7 +20,7 @@ module Claims
     def action; end
 
     def result
-      @result ||= ClaimActionsResult.new(self)
+      @result = ClaimActionsResult.new(self, error_code: @error_code)
     end
 
     def validate?
@@ -54,7 +55,7 @@ module Claims
     end
 
     def rollback!
-      set_error_code(:rollback)
+      @error_code = :rollback
       raise ActiveRecord::Rollback
     end
 
@@ -64,10 +65,6 @@ module Claims
 
     def already_saved?
       claim.class.where(form_id: claim.form_id).any?
-    end
-
-    def set_error_code(code)
-      @result = ClaimActionsResult.new(self, success: false, error_code: code)
     end
   end
 end

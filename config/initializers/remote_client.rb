@@ -10,4 +10,5 @@ Remote::HttpClient.configure do |client|
   client.logger = Rails.logger
   client.open_timeout = 10
   client.timeout = 15
+  client.headers = { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' }
 end

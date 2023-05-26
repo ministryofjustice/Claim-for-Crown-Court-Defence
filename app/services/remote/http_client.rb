@@ -2,7 +2,7 @@ module Remote
   class HttpClient
     include Singleton
 
-    attr_accessor :api_key, :timeout, :open_timeout
+    attr_accessor :api_key, :timeout, :open_timeout, :headers
     attr_reader :logger
     attr_writer :base_url
 
@@ -31,7 +31,7 @@ module Remote
     def execute_request(method, path, **query)
       endpoint = build_endpoint(path, **query)
       response = Caching::ApiRequest.cache(endpoint) do
-        RestClient::Request.execute(method:, url: endpoint, timeout:, open_timeout:)
+        RestClient::Request.execute(method:, url: endpoint, timeout:, open_timeout:, headers:)
       end
       JSON.parse(response, symbolize_names: true)
     end

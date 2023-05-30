@@ -31,6 +31,7 @@ Feature: Advocate tries to submit a fee scheme 15 supplementary claim for miscel
     And I should see the advocate categories 'Junior,Leading junior,KC'
     And the following miscellaneous fee checkboxes should exist:
       | section       | fee_description                          |
+      | miscellaneous | Additional preparation fee               |
       | miscellaneous | Confiscation hearings (half day)         |
       | miscellaneous | Confiscation hearings (half day uplift)  |
       | miscellaneous | Confiscation hearings (whole day)        |
@@ -50,6 +51,7 @@ Feature: Advocate tries to submit a fee scheme 15 supplementary claim for miscel
       | miscellaneous | Wasted preparation fee                   |
 
     When I select an advocate category of 'Junior'
+    And I choose the 'Additional preparation fee' miscellaneous fee with quantity of '1'
     And I choose the 'Confiscation hearings (half day)' miscellaneous fee with quantity of '2'
     And I choose the 'Confiscation hearings (half day uplift)' miscellaneous fee with quantity of '1'
     And I choose the 'Standard appearance fee' miscellaneous fee with quantity of '2'
@@ -58,6 +60,7 @@ Feature: Advocate tries to submit a fee scheme 15 supplementary claim for miscel
 
     Then the following supplementary fee details should exist:
       | section       | fee_description                         | rate   | hint                            | help |
+      | miscellaneous | Additional preparation fee              | 62.00  | Number of fees                  | true |
       | miscellaneous | Confiscation hearings (half day)        | 151.00 | Number of half days             | true |
       | miscellaneous | Confiscation hearings (half day uplift) | 60.40  | Number of additional defendants | true |
       | miscellaneous | Standard appearance fee                 | 105.00 | Number of days                  | true |
@@ -97,6 +100,10 @@ Feature: Advocate tries to submit a fee scheme 15 supplementary claim for miscel
 
     And the following check your claim fee details should exist:
       | section                    | row | prompt      | value                                   |
+      | miscellaneous-fees-section | 1   | Type of fee | Additional preparation fee              |
+      | miscellaneous-fees-section | 1   | Quantity    | 1                                       |
+      | miscellaneous-fees-section | 1   | Rate        | 62.00                                   |
+      | miscellaneous-fees-section | 1   | Net amount  | 62.00                                   |
       | miscellaneous-fees-section | 1   | Type of fee | Confiscation hearings (half day)        |
       | miscellaneous-fees-section | 1   | Quantity    | 2                                       |
       | miscellaneous-fees-section | 1   | Rate        | 151.00                                  |
@@ -137,4 +144,4 @@ Feature: Advocate tries to submit a fee scheme 15 supplementary claim for miscel
     And I should see a page title "Thank you for submitting your claim"
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20191234' should be listed with a status of 'Submitted' and a claimed amount of '£833.11'
+    And Claim 'A20191234' should be listed with a status of 'Submitted' and a claimed amount of '£907.51'

@@ -55,6 +55,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
   let(:unused_materials_types) { %w[MIUMU MIUMO] }
   let(:section_twenty_eight_types) { %w[MISTE] }
   let(:supplementary_only_types) { %w[MISAF MIPCM] }
+  let(:additional_prep_fee_types) { %w[MIAPF] }
 
   context 'with delegations' do
     subject { described_class.new(nil) }
@@ -234,6 +235,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*supplementary_only_types) }
             it { is_expected.to include(*unused_materials_types) }
             it { is_expected.not_to include(*section_twenty_eight_types) }
+            it { is_expected.not_to include(*additional_prep_fee_types) }
 
             it 'returns misc fee types for AGFS scheme 12 without supplementary-only fee types' do
               is_expected.to match_array Fee::MiscFeeType.agfs_scheme_12s.without_supplementary_only.map(&:unique_code)
@@ -246,6 +248,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*supplementary_only_types) }
             it { is_expected.not_to include(*unused_materials_types) }
             it { is_expected.not_to include(*section_twenty_eight_types) }
+            it { is_expected.not_to include(*additional_prep_fee_types) }
 
             it 'returns misc fee types for AGFS scheme 12 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(
@@ -264,6 +267,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*supplementary_only_types) }
             it { is_expected.to include(*unused_materials_types) }
             it { is_expected.not_to include(*section_twenty_eight_types) }
+            it { is_expected.not_to include(*additional_prep_fee_types) }
 
             it 'returns misc fee types for AGFS scheme 13 without supplementary-only fee types' do
               is_expected.to match_array Fee::MiscFeeType.agfs_scheme_13s.without_supplementary_only.map(&:unique_code)
@@ -276,6 +280,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*supplementary_only_types) }
             it { is_expected.not_to include(*unused_materials_types) }
             it { is_expected.not_to include(*section_twenty_eight_types) }
+            it { is_expected.not_to include(*additional_prep_fee_types) }
 
             it 'returns misc fee types for AGFS scheme 13 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(
@@ -294,6 +299,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*supplementary_only_types) }
             it { is_expected.to include(*unused_materials_types) }
             it { is_expected.to include(*section_twenty_eight_types) }
+            it { is_expected.not_to include(*additional_prep_fee_types) }
 
             it 'returns misc fee types for AGFS scheme 14 without supplementary-only fee types' do
               is_expected.to match_array Fee::MiscFeeType.agfs_scheme_14s.without_supplementary_only.map(&:unique_code)
@@ -306,6 +312,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*supplementary_only_types) }
             it { is_expected.not_to include(*unused_materials_types) }
             it { is_expected.not_to include(*section_twenty_eight_types) }
+            it { is_expected.not_to include(*additional_prep_fee_types) }
 
             it 'returns misc fee types for AGFS scheme 14 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(
@@ -324,6 +331,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*supplementary_only_types) }
             it { is_expected.to include(*unused_materials_types) }
             it { is_expected.to include(*section_twenty_eight_types) }
+            it { is_expected.to include(*additional_prep_fee_types) }
 
             it 'returns misc fee types for AGFS scheme 15 without supplementary-only fee types' do
               is_expected.to match_array Fee::MiscFeeType.agfs_scheme_15s.without_supplementary_only.map(&:unique_code)
@@ -336,6 +344,7 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
             it { is_expected.not_to include(*supplementary_only_types) }
             it { is_expected.not_to include(*unused_materials_types) }
             it { is_expected.not_to include(*section_twenty_eight_types) }
+            it { is_expected.not_to include(*additional_prep_fee_types) }
 
             it 'returns misc fee types for AGFS scheme 15 without supplementary-only or trial-only fee types' do
               is_expected.to match_array(
@@ -416,37 +425,44 @@ RSpec.describe Claims::FetchEligibleMiscFeeTypes, type: :service do
         end
 
         let(:clar_fee_types) { %w[MIPHC MIUMU MIUMO] }
+        let(:scheme_12_fee_types) { supplementary_fee_types + clar_fee_types }
+        let(:scheme_14_fee_types) { scheme_12_fee_types + section_twenty_eight_types }
+        let(:scheme_15_fee_types) { scheme_14_fee_types + additional_prep_fee_types }
 
         context 'when scheme 9 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_9, with_misc_fee: false) }
 
-          it 'returns only misc fee types for AGFS scheme 9 supplementary claims' do
-            is_expected.to match_array supplementary_fee_types
-          end
+          it { is_expected.to match_array supplementary_fee_types }
         end
 
         context 'when scheme 10+ claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_10, with_misc_fee: false) }
 
-          it 'returns only misc fee types for AGFS scheme 10+ supplementary claims' do
-            is_expected.to match_array supplementary_fee_types
-          end
+          it { is_expected.to match_array supplementary_fee_types }
         end
 
         context 'when CLAR scheme 12 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_12, with_misc_fee: false, case_type: nil) }
 
-          it 'returns misc fee types for AGFS scheme 12 supplementary claims' do
-            is_expected.to match_array(supplementary_fee_types + clar_fee_types)
-          end
+          it { is_expected.to match_array(scheme_12_fee_types) }
         end
 
         context 'when CLAIR scheme 13 claim' do
           let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_13, with_misc_fee: false, case_type: nil) }
 
-          it 'returns misc fee types for AGFS scheme 13 supplementary claims' do
-            is_expected.to match_array(supplementary_fee_types + clar_fee_types)
-          end
+          it { is_expected.to match_array(scheme_12_fee_types) }
+        end
+
+        context 'when scheme 14 claim' do
+          let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_14, with_misc_fee: false, case_type: nil) }
+
+          it { is_expected.to match_array(scheme_14_fee_types) }
+        end
+
+        context 'when scheme 15 claim' do
+          let(:claim) { create(:advocate_supplementary_claim, :agfs_scheme_15, with_misc_fee: false, case_type: nil) }
+
+          it { is_expected.to match_array(scheme_15_fee_types) }
         end
       end
     end

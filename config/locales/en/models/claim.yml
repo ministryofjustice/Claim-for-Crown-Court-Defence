@@ -360,8 +360,9 @@ en:
               integer: You must specify a whole number for this type of fee
               invalid: Enter a valid quantity for the miscellaneous fee
               item_max_amount: The amount for the miscellaneous fee exceeds the limit
-              miumu_numericality: Enter a valid quantity (1) for unused material (up to 3 hours)
+              miapf_numericality: Enter a valid quantity (1) for additional preparation fee
               miste_numericality: Enter a valid quantity (1) for section 28 hearing
+              miumu_numericality: Enter a valid quantity (1) for unused material (up to 3 hours)
               pcm_invalid: Enter a valid quantity for plea and trial preparation hearing
               pcm_numericality: Enter a valid quantity (1 to 3) for plea and case management hearing fees
             rate:

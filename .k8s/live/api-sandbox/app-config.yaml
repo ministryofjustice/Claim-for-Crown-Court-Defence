@@ -19,4 +19,4 @@ data:
   SETTINGS__AWS__S3__REGION: 'eu-west-2'
   LAA_FEE_CALCULATOR_HOST: https://laa-fee-calculator.service.justice.gov.uk/api/v1
   ALLOW_FUTURE_DATES: 'true'
-  CAN_INJECT_KC: 'false'
+  CAN_INJECT_KC: 'true'

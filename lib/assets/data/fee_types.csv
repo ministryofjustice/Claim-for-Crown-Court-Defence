@@ -107,3 +107,4 @@ ID,DESCRIPTION,CODE,UNIQUE_CODE,MAX_AMOUNT,CALCULATED,CLASS,ROLES,PARENT_ID,QUAN
 108,Unused materials (up to 3 hours),UMU,MIUMU,,TRUE,Fee::MiscFeeType,lgfs;lgfs_scheme_9;lgfs_scheme_10;agfs;agfs_scheme_12;agfs_scheme_13;agfs_scheme_14;agfs_scheme_15,,FALSE,
 109,Unused materials (over 3 hours),UMO,MIUMO,,TRUE,Fee::MiscFeeType,lgfs;lgfs_scheme_9;lgfs_scheme_10;agfs;agfs_scheme_12;agfs_scheme_13;agfs_scheme_14;agfs_scheme_15,,TRUE,
 110,Section 28 hearing,STE,MISTE,,TRUE,Fee::MiscFeeType,agfs_scheme_14;agfs_scheme_15,,FALSE,
+111,Additional preparation fee,APF,MIAPF,,TRUE,Fee::MiscFeeType,agfs_scheme_15,,FALSE,

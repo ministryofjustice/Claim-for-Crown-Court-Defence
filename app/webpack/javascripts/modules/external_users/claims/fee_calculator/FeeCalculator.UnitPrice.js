@@ -137,6 +137,9 @@
         case 'CASE':
           $result = 'additional ' + data
           break
+        case 'FIXED':
+          $result = 'fee'
+          break
         default:
           $result = data
       }

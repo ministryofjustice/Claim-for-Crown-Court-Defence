@@ -55,7 +55,8 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
     MIPHC: %w[AGFS_MISC_FEES AGFS_PAP_HEAVY], # Paper heavy case - AGFS 12+ only
     MIUMU: %w[AGFS_MISC_FEES AGFS_UNUSED_UP3], # Unused material (up to 3 hours) - AGFS 12+ only
     MIUMO: %w[AGFS_MISC_FEES AGFS_UNUSED_OV3], # Unused material (over 3 hours) - AGFS 12+ only
-    MISTE: %w[AGFS_MISC_FEES AGFS_SECTION_28] # Section 28 hearing - AGFS 14+ only
+    MISTE: %w[AGFS_MISC_FEES AGFS_SECTION_28], # Section 28 hearing - AGFS 14+ only
+    MIAPF: %w[AGFS_MISC_FEES AGFS_PREP_FEE] # Additional preparation fee - AGFS 15+ only
   }.freeze
 
   def self.mappings(exclusions: true)

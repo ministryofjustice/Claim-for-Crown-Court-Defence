@@ -1,6 +1,7 @@
 require_relative 'checkbox_fee_section'
 
 class MiscellaneousFeeSection < CheckboxFeeSection
+  section :additional_preparation_fee, FeeSection, "[data-target = 'additional-preparation-fee'] .misc-fee-group"
   section :confiscation_hearings_half_day_uplift, FixedFeeCaseNumbersSection, "[data-target = 'confiscation-hearings-half-day-uplift'] .misc-fee-group"
   section :confiscation_hearings_half_day, FeeSection, "[data-target = 'confiscation-hearings-half-day'] .misc-fee-group"
   section :confiscation_hearings_whole_day_uplift, FeeSection, "[data-target = 'confiscation-hearings-whole-day-uplift'] .misc-fee-group"

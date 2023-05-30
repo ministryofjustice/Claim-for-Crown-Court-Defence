@@ -14,13 +14,13 @@ RSpec.describe Claims::StateTransitionMessageBuilder do
       end
 
       it 'contains short description of reason' do
-        is_expected.to match(/Not Trial Advocate:/)
+        is_expected.to match(/Not trial advocate:/)
         is_expected.to match(/Duplicate claim:/)
         is_expected.to match(/Other:/)
       end
 
       it 'contains long description of reason' do
-        is_expected.to match(/.* refused your claim .* different advocate was the Trial Advocate/)
+        is_expected.to match(/.* refused your claim .* different advocate was the trial advocate/)
         is_expected.to match(/.* refused your claim .* bill has already been paid/)
       end
 

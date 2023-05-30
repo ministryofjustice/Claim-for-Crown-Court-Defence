@@ -47,7 +47,8 @@ describe Remote::HttpClient do
       expect(JSON).to receive(:parse).with('body', symbolize_names: true).and_return({ key: 'value' })
       expect(RestClient::Request)
         .to receive(:execute)
-        .with(method: :get, url: endpoint, timeout: 4, open_timeout: 2)
+        .with(method: :get, url: endpoint, timeout: 4, open_timeout: 2,
+              headers: { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' })
         .and_return(response)
 
       result = client.get(path, **query)

@@ -10,7 +10,7 @@ Feature: Advocate admin submits a claim for a Trial case
     And I select the fee scheme 'Advocate final fee'
     Then I should be on the new claim page
 
-    When I choose 'Doe, John (AC135)' as the instructed advocate
+    When I choose 'Doe, John (AC135)' as the trial advocate
     And I enter a case number of 'A20161234'
     And I select the court 'Blackfriars'
     And I select a case type of 'Retrial'

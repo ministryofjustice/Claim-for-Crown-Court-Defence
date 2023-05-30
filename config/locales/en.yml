@@ -949,10 +949,10 @@ en:
           section_help_text: 'You must enter the following before adding %{section}:'
       case_details:
         advocate_fields:
-          advocate: Instructed advocate
-          advocate_hint: The instructed advocate for the case
+          advocate: Trial Advocate
+          advocate_hint: The trial advocate for the case
           help_missing_advocates_summary_body_html: You can add more advocates in settings under the <a class="govuk-link" href="%{link}">%{link_text}</a> section
-          help_missing_advocates_summary_heading: Help with missing instructed advocates
+          help_missing_advocates_summary_heading: Help with missing trial advocates
           help_missing_advocates_summary_link_text: manage users
         case_concluded_date:
           case_concluded_at: 'Date case concluded'

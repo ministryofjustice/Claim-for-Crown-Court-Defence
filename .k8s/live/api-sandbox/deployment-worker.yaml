@@ -12,12 +12,12 @@ spec:
       maxSurge: 100%
   selector:
     matchLabels:
-      app: cccd
+      app: cccd-worker
       tier: worker
   template:
     metadata:
       labels:
-        app: cccd
+        app: cccd-worker
         tier: worker
     spec:
       containers:

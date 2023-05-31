@@ -52,7 +52,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
-  config.action_mailer.default_url_options = { host: ENV["GRAPE_SWAGGER_ROOT_URL"] || 'http://localhost:3000' }
+  config.action_mailer.default_url_options = { host: ENV["CASEWORKER_API_URL"] || 'http://localhost:3000' }
   config.action_mailer.asset_host = config.action_mailer.default_url_options[:host]
 
   # Print deprecation notices to the Rails logger.

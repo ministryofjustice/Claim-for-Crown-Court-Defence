@@ -68,7 +68,7 @@ Rails.application.configure do
   # config.active_job.queue_adapter     = :resque
   # config.active_job.queue_name_prefix = "advocate_defence_payments_production"
 
-  config.action_mailer.default_url_options = { host: ENV['GRAPE_SWAGGER_ROOT_URL'] }
+  config.action_mailer.default_url_options = { host: ENV['CASEWORKER_API_URL'] }
   config.action_mailer.asset_host = config.action_mailer.default_url_options[:host]
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp

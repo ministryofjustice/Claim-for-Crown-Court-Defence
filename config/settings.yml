@@ -136,7 +136,7 @@ timed_transition_soft_delete_weeks: 16
 # Override them in your settings.local.yml if needed, but DO NOT change these here
 #
 remote_api_key: 'not-provided'
-remote_api_url: <%= (ENV['GRAPE_SWAGGER_ROOT_URL'] || 'http://localhost:3001') + '/api' %>
+remote_api_url: <%= (ENV['CASEWORKER_API_URL'] || 'http://localhost:3001') + '/api' %>
 
 # Postgres DB `journeys` function flag to allow for its "recreation".
 # This is used by MI reports.

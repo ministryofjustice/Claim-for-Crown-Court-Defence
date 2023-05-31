@@ -57,7 +57,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  config.action_mailer.default_url_options = { host: ENV["GRAPE_SWAGGER_ROOT_URL"] || 'localhost:3000' }
+  config.action_mailer.default_url_options = { host: ENV["CASEWORKER_API_URL"] || 'localhost:3000' }
   config.action_mailer.asset_host = config.action_mailer.default_url_options[:host]
 
   # enable the ability to preview devise emails

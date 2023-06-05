@@ -7,7 +7,7 @@ module API
             optional :api_key, type: String, desc: I18n.t('api.v2.generic.params.api_key')
             requires :case_worker_id, type: Integer, desc: I18n.t('api.v2.allocate.params.case_worker_id')
             optional :claim_ids,
-                     type: Array[Integer],
+                     type: [Integer],
                      desc: I18n.t('api.v2.allocate.params.claim_ids'),
                      coerce_with: ->(val) { val.split(',').map(&:to_i) }
           end

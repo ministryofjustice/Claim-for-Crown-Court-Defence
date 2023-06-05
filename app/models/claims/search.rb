@@ -32,7 +32,7 @@ module Claims::Search
     end
 
     states ||= Claims::StateMachine.dashboard_displayable_states
-    states = Array[states] unless states.is_a?(Array)
+    states = [states] unless states.is_a?(Array)
     states.each do |state|
       next if Claim::BaseClaim.state_machine.states.map(&:name).include?(state.to_sym)
       raise "Invalid state, #{state}, specified"

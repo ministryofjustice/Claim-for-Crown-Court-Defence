@@ -103,9 +103,9 @@ module Claims
       def filter_third_cracked_prices
         return unless third_cracked_required?
         @prices.keep_if do |price|
-          price.modifiers.select do |m|
+          price.modifiers.any? do |m|
             m.modifier_type.name.eql?('THIRD_CRACKED') && third_cracked.in?(m.limit_from..m.limit_to)
-          end.any?
+          end
         end
       end
 

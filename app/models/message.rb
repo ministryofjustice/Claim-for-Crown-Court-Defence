@@ -81,7 +81,7 @@ class Message < ApplicationRecord
 
   def generate_statuses
     users_for_statuses.each do |user|
-      UserMessageStatus.create!(user_id: user.id, message_id: id, read: user == sender)
+      UserMessageStatus.create!(user:, message: self, read: user == sender)
     end
   end
 

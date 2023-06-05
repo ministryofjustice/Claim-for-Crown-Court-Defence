@@ -38,7 +38,7 @@ Feature: Case worker rejects a claim, providing a reason
     When I am signed in as the case worker
     And I select the claim
     And I click the refused radio button
-    And I select the refusal reason 'Wrong Instructed Advocate'
+    And I select the refusal reason 'Incorrect trial advocate'
     And I select the refusal reason 'Other'
     And I enter refusal reason text 'Whatever I like'
     And I click update
@@ -46,7 +46,7 @@ Feature: Case worker rejects a claim, providing a reason
     Then the messages should not contain 'Total (inc VAT): £0.00'
     Then message 7 contains 'Claim refused'
     Then the last message contains 'Your claim has been refused'
-    Then the last message contains 'Wrong Instructed Advocate'
+    Then the last message contains 'Incorrect trial advocate'
     Then the last message contains 'Whatever I like'
 
     When I click your claims

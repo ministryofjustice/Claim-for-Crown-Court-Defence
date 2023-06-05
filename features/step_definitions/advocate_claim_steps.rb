@@ -17,7 +17,7 @@ When(/^I select an advocate category of '(.*?)'$/) do |name|
   wait_for_ajax
 end
 
-When(/^I choose '(.*)' as the instructed advocate$/) do |text|
+When(/^I choose '(.*)' as the trial advocate$/) do |text|
   @claim_form_page.find('label', text: text).click
 end
 

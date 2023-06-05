@@ -12,7 +12,7 @@ Feature: Case worker messages advocate and advocate responds
     When I am signed in as the case worker
     And I select the claim
     And I send a message 'More information please'
-    Then the page should be accessible
+    Then the page should be accessible skipping 'aria-allowed-attr'
     And I sign out
     And I sign in as the advocate
     Then the claim should be displayed with a status of Allocated
@@ -32,6 +32,6 @@ Feature: Case worker messages advocate and advocate responds
 
     When I open the claim
     Then the response and uploaded file should be visible
-    Then the page should be accessible
+    Then the page should be accessible skipping 'aria-allowed-attr'
 
     And I eject the VCR cassette

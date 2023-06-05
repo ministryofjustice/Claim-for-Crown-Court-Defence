@@ -1,4 +1,4 @@
-// stylelint-disable max-nesting-depth, selector-class-pattern, selector-no-qualifying-type
+// stylelint-disable max-nesting-depth, selector-class-pattern, selector-no-qualifying-type, declaration-no-important
 
 tr {
   &.error.injection-error {
@@ -168,5 +168,16 @@ table.dataTable {
 .app-jq-datatable {
   thead th {
     vertical-align: middle;
+  }
+}
+
+.app-form-datatable {
+  .govuk-table__body td,
+  .govuk-table__body th {
+    vertical-align: middle !important;
+
+    .govuk-input__wrapper {
+      justify-content: flex-end;
+    }
   }
 }

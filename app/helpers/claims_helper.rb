@@ -65,7 +65,7 @@ module ClaimsHelper
 
   def display_unused_materials_notice?(claim)
     claim.eligible_misc_fee_types.map(&:unique_code).include?('MIUMU') &&
-      claim.fees.select { |f| f.fee_type.unique_code == 'MIUMU' }.empty?
+      claim.fees.none? { |f| f.fee_type.unique_code == 'MIUMU' }
   end
 
   def display_elected_not_proceeded_signpost?(claim)

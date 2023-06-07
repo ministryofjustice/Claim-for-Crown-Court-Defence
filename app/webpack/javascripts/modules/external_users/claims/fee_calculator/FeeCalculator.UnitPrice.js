@@ -13,6 +13,7 @@
       this.fixedFeeTypeChange()
       this.miscFeeTypeChange()
       this.feeQuantityChange()
+      this.miscFeeFormRefresh()
       this.feeRateChange()
       this.pageLoad()
     },
@@ -97,20 +98,30 @@
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
     feeQuantityChange: function ($el) {
       const self = this
-      const $miscEls = $el || $('#misc-fees')
-      const $fixedEls = $el || $('.js-fee-quantity')
+      const $els = $el || $('.js-fee-quantity')
 
       if ($('.calculated-unit-fee').exists()) {
-        $miscEls.on('click keyup', moj.Modules.Debounce.init(function (e) {
-          self.calculateUnitPrice()
-        }, 290))
-
-        $fixedEls.on('change keyup', moj.Modules.Debounce.init(function (e) {
+        $els.on('change keyup', moj.Modules.Debounce.init(function (e) {
           self.calculateUnitPrice()
           self.populateNetAmount(this)
         }, 290))
       }
     },
+
+    miscFeeFormRefresh: function ($el) {
+      const self = this
+      const $els = $el || $('#misc-fees')
+
+      if ($('.calculated-unit-fee').exists()) {
+        $els.on('click keyup', moj.Modules.Debounce.init(function (e) {
+          self.calculateUnitPrice()
+          console.log("test")
+          self.populateNetAmount(this)
+        }, 290))
+      }
+    },
+
+
 
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
     feeRateChange: function ($el) {

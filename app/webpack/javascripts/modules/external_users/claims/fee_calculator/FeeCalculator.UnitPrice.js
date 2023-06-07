@@ -115,13 +115,10 @@
       if ($('.calculated-unit-fee').exists()) {
         $els.on('click keyup', moj.Modules.Debounce.init(function (e) {
           self.calculateUnitPrice()
-          console.log("test")
           self.populateNetAmount(this)
         }, 290))
       }
     },
-
-
 
     // needs to be usable by cocoon:after-insert so can bind to one or many elements
     feeRateChange: function ($el) {

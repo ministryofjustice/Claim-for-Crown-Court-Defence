@@ -39,6 +39,11 @@ describe('Modules.FeeCalculator.js', function () {
         module.bindEvents()
         expect(module.feeQuantityChange).toHaveBeenCalled()
       })
+      it('...should call `this.miscFeeFormRefresh`', function () {
+        spyOn(module, 'miscFeeFormRefresh')
+        module.bindEvents()
+        expect(module.miscFeeFormRefresh).toHaveBeenCalled()
+      })
       it('...should call `this.pageLoad`', function () {
         spyOn(module, 'pageLoad')
         module.bindEvents()

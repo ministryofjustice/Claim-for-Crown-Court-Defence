@@ -74,4 +74,8 @@ module ClaimsHelper
     # This applies to both AGFS fee scheme 13 and LGFS fee scheme 10 but the dates are the same
     claim.final? && Time.zone.today >= Settings.agfs_scheme_13_clair_release_date.beginning_of_day
   end
+
+  def unclaimed_fees(claim)
+    (claim.eligible_misc_fee_types & Fee::MiscFeeType.where(unique_code: %w[MIUMU MIAPF])) - claim.fees.map(&:fee_type)
+  end
 end

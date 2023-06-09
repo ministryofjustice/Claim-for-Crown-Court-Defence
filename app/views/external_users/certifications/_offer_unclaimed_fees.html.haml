@@ -1,0 +1,7 @@
+- if fees_to_offer.present?
+  .js-callout-banner
+    = f.govuk_collection_check_boxes :additional_fees,
+      fees_to_offer,
+      :id,
+      :description,
+      legend: { text: 'You may be eligible for these additional fees' }

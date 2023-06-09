@@ -17,6 +17,8 @@ class Certification < ApplicationRecord
   belongs_to :claim, class_name: 'Claim::BaseClaim'
   belongs_to :certification_type
 
+  attr_accessor :additional_fees
+
   validates_with CertificationValidator
 
   def perform_validation?

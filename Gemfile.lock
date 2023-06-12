@@ -521,7 +521,7 @@ GEM
       redis-client (>= 0.9.0)
     redis-client (0.14.1)
       connection_pool
-    regexp_parser (2.8.0)
+    regexp_parser (2.8.1)
     remotipart (1.4.4)
     request_store (1.5.1)
       rack (>= 1.4)

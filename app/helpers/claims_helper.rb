@@ -9,6 +9,8 @@ module ClaimsHelper
     awaiting_written_reasons
   ].freeze
 
+  SIGNPOST_FEES = %w[MIUMU MIAPF].freeze
+
   def claim_allocation_checkbox_helper(claim, case_worker)
     checked = claim.is_allocated_to_case_worker?(case_worker) ? 'checked="checked"' : nil
     element_id = "id=\"case_worker_claim_ids_#{claim.id}\""
@@ -69,7 +71,8 @@ module ClaimsHelper
   end
 
   def unclaimed_fees_for(claim)
-    display_unused_materials_notice?(claim) ? [Fee::MiscFeeType.find_by(unique_code: 'MIUMU')] : []
+    (claim.eligible_misc_fee_types - claim.misc_fees.map(&:fee_type))
+      .select { |ft| SIGNPOST_FEES.include?(ft.unique_code) }
   end
 
   def display_elected_not_proceeded_signpost?(claim)

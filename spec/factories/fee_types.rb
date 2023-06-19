@@ -53,6 +53,10 @@ FactoryBot.define do
       roles { %w[lgfs agfs agfs_scheme_14] }
     end
 
+    trait :agfs_scheme_15 do
+      roles { %w[agfs agfs_scheme_15] }
+    end
+
     trait :agfs_all_schemes do
       roles { %w[agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12] }
     end
@@ -359,6 +363,15 @@ FactoryBot.define do
         unique_code { 'MIDSU' }
         calculated { true }
         quantity_is_decimal { false }
+      end
+
+      trait :miapf do
+        description { 'Additional preparation fee' }
+        code { 'APF' }
+        unique_code { 'MIAPF' }
+        calculated { true }
+        quantity_is_decimal { false }
+        agfs_scheme_15
       end
     end
 

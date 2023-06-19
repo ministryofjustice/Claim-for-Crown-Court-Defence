@@ -221,15 +221,16 @@ RSpec.describe ClaimsHelper do
 
     let(:claim) { build(:claim) }
     let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
+    let(:additional_preparation_fee) { create(:misc_fee_type, :miapf) }
     let(:another_fee) { create(:misc_fee_type, :miphc) }
     let(:eligible_fees) { [another_fee] }
 
     before { allow(claim).to receive(:eligible_misc_fee_types).and_return Array(eligible_fees) }
 
     context 'with a claim eligible for unused materials fees' do
-      let(:eligible_fees) { [unused_materials_fee, another_fee] }
+      let(:eligible_fees) { [unused_materials_fee, additional_preparation_fee, another_fee] }
 
-      it { expect(locals[:unclaimed_fees_notice]).to eq "This claim should be eligible for unused materials fees (up to 3 hours) but they haven't been claimed" }
+      it { expect(locals[:unclaimed_fees]).to contain_exactly(unused_materials_fee, additional_preparation_fee) }
 
       context 'when unused material fees have already been claimed' do
         before { create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1) }
@@ -274,25 +275,44 @@ RSpec.describe ClaimsHelper do
     subject { unclaimed_fees_for(claim) }
 
     let(:claim) { build(:claim) }
-    let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
     let(:another_fee) { create(:misc_fee_type, :miphc) }
     let(:eligible_fees) { [another_fee] }
 
     before { allow(claim).to receive(:eligible_misc_fee_types).and_return Array(eligible_fees) }
 
     context 'with a claim eligible for unused materials fees' do
+      let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
       let(:eligible_fees) { [unused_materials_fee, another_fee] }
 
       it { is_expected.to contain_exactly(unused_materials_fee) }
 
       context 'when unused material fees have already been claimed' do
-        before { create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1) }
+        before do
+          create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
+          claim.reload
+        end
 
         it { is_expected.to be_empty }
       end
     end
 
-    context 'with a claim ineligible for unused materials fees' do
+    context 'with a claim eligible for additional preparation fees' do
+      let(:additional_preparation_fee) { create(:misc_fee_type, :miapf) }
+      let(:eligible_fees) { [additional_preparation_fee, another_fee] }
+
+      it { is_expected.to contain_exactly(additional_preparation_fee) }
+
+      context 'when unused material fees have already been claimed' do
+        before do
+          create(:misc_fee, fee_type: additional_preparation_fee, claim:, quantity: 1)
+          claim.reload
+        end
+
+        it { is_expected.to be_empty }
+      end
+    end
+
+    context 'with a claim ineligible for any of the specific fees' do
       it { is_expected.to be_empty }
     end
   end

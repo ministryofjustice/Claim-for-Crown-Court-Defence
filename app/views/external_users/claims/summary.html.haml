@@ -6,12 +6,7 @@
 
 - present(@claim) do |claim|
 
-  - if display_unused_materials_notice?(claim)
-    = govuk_warning_text(t('external_users.claims.misc_fees.unused_materials_fee.heading')) do
-      = t('external_users.claims.misc_fees.unused_materials_fee.notice.short')
-      %br
-      - misc_fee_link = govuk_link_to t('external_users.claims.misc_fees.unused_materials_fee.hint_link'), edit_polymorphic_path(claim, step: :miscellaneous_fees, referrer: :summary)
-      = t('external_users.claims.misc_fees.unused_materials_fee.hint_html', link: misc_fee_link)
+  = render partial: 'unclaimed_fees_notice', locals: { unclaimed_fees: unclaimed_fees_for(claim), link: edit_polymorphic_path(claim, step: :miscellaneous_fees, referrer: :summary) }
 
   %p
     = t('external_users.claims.check_your_claim.help_text')

@@ -46,7 +46,7 @@ module ClaimsHelper
       page_header: t('page_header', scope:),
       page_hint: t('page_hint', scope:)
     }.tap do |headings|
-      headings[:page_notice] = t('unused_materials_fee.notice.short', scope:) if display_unused_materials_notice?(claim)
+      headings[:page_notice] = t('unclaimed_fees.notice.short', scope:) if display_unused_materials_notice?(claim)
       headings[:fees_calculator_html] = fees_calculator_html unless fees_calculator_html.nil?
     end
   end
@@ -58,7 +58,7 @@ module ClaimsHelper
       **args
     }.tap do |locals|
       if display_unused_materials_notice?(claim)
-        locals[:unclaimed_fees_notice] = t('external_users.claims.misc_fees.unused_materials_fee.notice.long')
+        locals[:unclaimed_fees_notice] = t('external_users.claims.misc_fees.unclaimed_fees.notice.long')
       end
     end
   end
@@ -66,6 +66,10 @@ module ClaimsHelper
   def display_unused_materials_notice?(claim)
     claim.eligible_misc_fee_types.map(&:unique_code).include?('MIUMU') &&
       claim.fees.none? { |f| f.fee_type.unique_code == 'MIUMU' }
+  end
+
+  def unclaimed_fees_for(claim)
+    display_unused_materials_notice?(claim) ? [Fee::MiscFeeType.find_by(unique_code: 'MIUMU')] : []
   end
 
   def display_elected_not_proceeded_signpost?(claim)

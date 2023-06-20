@@ -31,7 +31,7 @@
             = t('.actions')
 
       = govuk_table_tbody do
-        - @claim.documents.each do |document|
+        - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
           = govuk_table_row do
             = govuk_table_td('data-label': t('.name_of_file')) do
               = document.document_file_name

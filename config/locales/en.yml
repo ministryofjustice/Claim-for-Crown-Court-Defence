@@ -1395,7 +1395,8 @@ en:
         unclaimed_fees:
           heading: Possible unclaimed fees
           new_notice:
-            short: 'This claim does not include the following fees for which it may be eligible:'
+            short: This claim may be eligible for %{fee_list}
+            long: This claim may be eligible for %{fee_list}, but they have not been claimed
           notice:
             short: This claim should be eligible for unused materials fees (up to 3 hours)
             long: This claim should be eligible for unused materials fees (up to 3 hours) but they haven't been claimed

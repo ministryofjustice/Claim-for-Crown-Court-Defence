@@ -57,12 +57,9 @@ module ClaimsHelper
     {
       claim:, header: t('external_users.claims.misc_fees.summary.header'),
       collection: claim.misc_fees, step: :miscellaneous_fees,
+      unclaimed_fees: unclaimed_fees_for(claim),
       **args
-    }.tap do |locals|
-      if display_unused_materials_notice?(claim)
-        locals[:unclaimed_fees_notice] = t('external_users.claims.misc_fees.unclaimed_fees.notice.long')
-      end
-    end
+    }
   end
 
   def display_unused_materials_notice?(claim)

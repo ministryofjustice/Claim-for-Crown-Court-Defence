@@ -6,7 +6,7 @@
 
 - present(@claim) do |claim|
 
-  = render partial: 'unclaimed_fees_notice', locals: { unclaimed_fees: unclaimed_fees_for(claim), link: edit_polymorphic_path(claim, step: :miscellaneous_fees, referrer: :summary) }
+  = render partial: 'unclaimed_fees_notice', locals: { unclaimed_fees: unclaimed_fees_list(claim), link: edit_polymorphic_path(claim, step: :miscellaneous_fees, referrer: :summary) }
 
   %p
     = t('external_users.claims.check_your_claim.help_text')

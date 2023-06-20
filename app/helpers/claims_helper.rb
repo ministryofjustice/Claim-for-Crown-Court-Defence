@@ -57,7 +57,7 @@ module ClaimsHelper
     {
       claim:, header: t('external_users.claims.misc_fees.summary.header'),
       collection: claim.misc_fees, step: :miscellaneous_fees,
-      unclaimed_fees: unclaimed_fees_for(claim),
+      unclaimed_fees: unclaimed_fees_list(claim),
       **args
     }
   end
@@ -67,9 +67,12 @@ module ClaimsHelper
       claim.fees.none? { |f| f.fee_type.unique_code == 'MIUMU' }
   end
 
-  def unclaimed_fees_for(claim)
-    (claim.eligible_misc_fee_types - claim.misc_fees.map(&:fee_type))
-      .select { |ft| SIGNPOST_FEES.include?(ft.unique_code) }
+  def unclaimed_fees_list(claim)
+    unclaimed_fees = (claim.eligible_misc_fee_types - claim.misc_fees.map(&:fee_type))
+                     .select { |ft| SIGNPOST_FEES.include?(ft.unique_code) }
+    return if unclaimed_fees.blank?
+
+    unclaimed_fees.map { |fee_type| "'#{fee_type.description}'" }.to_sentence
   end
 
   def display_elected_not_proceeded_signpost?(claim)

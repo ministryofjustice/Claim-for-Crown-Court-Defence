@@ -1,6 +1,6 @@
 - if unclaimed_fees.present?
   = govuk_warning_text(t('external_users.claims.misc_fees.unclaimed_fees.heading')) do
-    = t('external_users.claims.misc_fees.unclaimed_fees.new_notice.short', fee_list: unclaimed_fees.map(&:description).to_sentence)
+    = t('external_users.claims.misc_fees.unclaimed_fees.new_notice.short', fee_list: unclaimed_fees)
     %br
     - misc_fee_link = govuk_link_to t('external_users.claims.misc_fees.unclaimed_fees.hint_link'), link
     = t('external_users.claims.misc_fees.unclaimed_fees.hint_html', link: misc_fee_link)

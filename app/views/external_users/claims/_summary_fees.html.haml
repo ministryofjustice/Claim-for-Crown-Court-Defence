@@ -1,8 +1,9 @@
 %h2.govuk-heading-l
   = local_assigns.has_key?(:header) ? header : t('common.fees')
 
-- if local_assigns.has_key?(:unclaimed_fees_notice)
-  = govuk_warning_text(unclaimed_fees_notice)
+- if local_assigns.has_key?(:unclaimed_fees)
+  = render partial: 'unclaimed_fees_notice_brief', locals: { unclaimed_fees: }
+
 
 - if local_assigns[:editable]
   = govuk_link_to t('common.change_html', context: t('common.fees')), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change'

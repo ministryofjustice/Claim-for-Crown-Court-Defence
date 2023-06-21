@@ -1,4 +1,4 @@
-FROM ruby:3.1.3-alpine3.17 AS base
+FROM ruby:3.1-alpine3.17 AS base
 
 # Stage 1: installs gems and npm packages
 FROM base AS builder

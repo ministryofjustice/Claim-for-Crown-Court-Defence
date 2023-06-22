@@ -62,6 +62,7 @@
     "webpack-remove-empty-scripts": "^1.0.3"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "expose-loader": "^4.1.0",
     "jasmine-browser-runner": "^1.4.0",
     "jasmine-core": "^4.6.0",

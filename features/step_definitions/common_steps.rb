@@ -22,7 +22,7 @@ Given(/^I click 'Your claims' link$/) do
   @external_user_home_page.your_claims_link.click
 end
 
-Then(/^I should (see|not see) '(.*)'$/) do |visibility, text|
+Then(/^I should (see|not see) ['"](.*)['"]$/) do |visibility, text|
   if (visibility == 'see')
     expect(page).to have_content(text)
   else
@@ -140,10 +140,6 @@ And(/^I should be in the '(.*?)' form page$/) do |page_heading|
     expect(page.first('h2')).to have_content(page_heading)
   end
   wait_for_ajax
-end
-
-Then(/^I should see "([^"]*)"$/) do |string|
-  expect(page).to have_content(string)
 end
 
 And(/^I should see the field '(.*?)' with value '(.*?)' in '(.*?)'$/) do |field, value, section|

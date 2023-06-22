@@ -57,7 +57,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     And I eject the VCR cassette
 
-    And I should not see 'This claim should be eligible for unused materials fees (up to 3 hours)'
+    And I should not see 'This claim may be eligible for'
 
     And I should see a page title "Enter miscellaneous fees for advocate final fees claim"
     Then I click "Continue" in the claim form

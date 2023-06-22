@@ -46,9 +46,9 @@ module ClaimsHelper
   def fee_shared_headings(claim, scope, fees_calculator_html = nil)
     {
       page_header: t('page_header', scope:),
-      page_hint: t('page_hint', scope:)
+      page_hint: t('page_hint', scope:),
+      unclaimed_fees: unclaimed_fees_list(claim)
     }.tap do |headings|
-      headings[:page_notice] = t('unclaimed_fees.notice.short', scope:) if display_unused_materials_notice?(claim)
       headings[:fees_calculator_html] = fees_calculator_html unless fees_calculator_html.nil?
     end
   end

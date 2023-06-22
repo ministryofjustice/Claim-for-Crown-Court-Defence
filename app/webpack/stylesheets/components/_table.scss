@@ -163,6 +163,15 @@ table.dataTable {
   &.no-footer {
     border-bottom: none;
   }
+
+  &.expenses-data-table {
+    margin-bottom: govuk-spacing(6);
+
+    .govuk-table__header--numeric,
+    .govuk-table__cell--numeric {
+      text-align: right;
+    }
+  }
 }
 
 .app-jq-datatable {

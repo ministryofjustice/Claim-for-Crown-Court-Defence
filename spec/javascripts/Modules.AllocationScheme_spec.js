@@ -2,11 +2,17 @@ describe('Modules.AllocationScheme.js', function () {
   const mod = moj.Modules.AllocationScheme
   const filtersFixtureDOM = $('<div id="allocation-filters"/>')
 
+  function resetFilter () {
+    $(filtersFixtureDOM).append($('<input name="myname" value="agfs" type="radio" />'))
+    $('#allocation-filters input').trigger('change')
+  }
+
   beforeEach(function () {
     $('body').append(filtersFixtureDOM)
   })
 
   afterEach(function () {
+    resetFilter()
     filtersFixtureDOM.remove()
   })
 

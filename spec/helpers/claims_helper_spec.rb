@@ -182,7 +182,7 @@ RSpec.describe ClaimsHelper do
   describe '#fee_shared_headings' do
     subject(:headings) { fee_shared_headings(claim, 'external_users.claims.misc_fees') }
 
-    let(:claim) { build(:claim) }
+    let(:claim) { build(:claim, :with_graduated_fee_case) }
     let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
     let(:additional_preparation_fee) { create(:misc_fee_type, :miapf) }
     let(:another_fee) { create(:misc_fee_type, :miphc) }
@@ -197,8 +197,8 @@ RSpec.describe ClaimsHelper do
 
       context 'when unused material fees and additional preparation fee have already been claimed' do
         before do
-          a = build(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
-          b = build(:misc_fee, fee_type: additional_preparation_fee, claim:, quantity: 1)
+          create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
+          create(:misc_fee, fee_type: additional_preparation_fee, claim:, quantity: 1)
           claim.reload
         end
 
@@ -224,7 +224,7 @@ RSpec.describe ClaimsHelper do
   describe '#misc_fees_summary_locals' do
     subject(:locals) { misc_fees_summary_locals(claim) }
 
-    let(:claim) { build(:claim) }
+    let(:claim) { build(:claim, :with_graduated_fee_case) }
     let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
     let(:additional_preparation_fee) { create(:misc_fee_type, :miapf) }
     let(:another_fee) { create(:misc_fee_type, :miphc) }

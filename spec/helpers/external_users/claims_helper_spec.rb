@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe ExternalUsers::ClaimsHelper do
-  describe '#error_class?' do
+  describe '#error_class' do
     let(:presenter) { instance_double(ErrorMessage::Presenter) }
 
     context 'with errors' do
@@ -10,12 +10,12 @@ describe ExternalUsers::ClaimsHelper do
       end
 
       it 'returns the default error class if there are any errors in the provided field' do
-        returned_class = error_class?(presenter, :test_field)
+        returned_class = error_class(presenter, :test_field)
         expect(returned_class).to eq('dropdown_field_with_errors')
       end
 
       it 'returns the specified class if provided' do
-        returned_class = error_class?(presenter, :test_field, name: 'custom-error')
+        returned_class = error_class(presenter, :test_field, name: 'custom-error')
         expect(returned_class).to eq('custom-error')
       end
     end
@@ -27,12 +27,12 @@ describe ExternalUsers::ClaimsHelper do
       end
 
       it 'returns the error class if there are errors in any of the provided field' do
-        returned_class = error_class?(presenter, :test_field_1, :test_field_2)
+        returned_class = error_class(presenter, :test_field_1, :test_field_2)
         expect(returned_class).to eq('dropdown_field_with_errors')
       end
 
       it 'returns the specified class if provided' do
-        returned_class = error_class?(presenter, :test_field_1, :test_field_2, name: 'custom-error')
+        returned_class = error_class(presenter, :test_field_1, :test_field_2, name: 'custom-error')
         expect(returned_class).to eq('custom-error')
       end
     end
@@ -43,7 +43,7 @@ describe ExternalUsers::ClaimsHelper do
       end
 
       it 'returns nil if there are no errors in the provided field' do
-        returned_class = error_class?(presenter, :test_field)
+        returned_class = error_class(presenter, :test_field)
         expect(returned_class).to be_nil
       end
     end

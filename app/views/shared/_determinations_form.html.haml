@@ -8,7 +8,7 @@
 
       - if current_user_is_caseworker?
         .js-cw-claim-action
-          %fieldset.form-group.inline.spacer{ class: error_class?(@error_presenter, :determinations), 'aria-describedby': 'radio-control-legend' }
+          %fieldset.form-group.inline.spacer{ class: error_class(@error_presenter, :determinations), 'aria-describedby': 'radio-control-legend' }
             %legend#radio-control-legend.bold-normal.form-label
               = t('.update_the_claim_status')
             = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last) do |b|
@@ -58,7 +58,7 @@
 
     // CASE WORKER ACTIONS
     - if current_user_is_caseworker?
-      .js-cw-claim-rejection-reasons.hidden{ class: error_class?(@error_presenter, :rejected_reason) }
+      .js-cw-claim-rejection-reasons.hidden{ class: error_class(@error_presenter, :rejected_reason) }
         %fieldset.form-group.nested-fields.indent-fieldset.spacer{ 'aria-describedby': 'checkbox-control-legend-1' }
           %div
             = validation_error_message(@error_presenter, :rejected_reason)
@@ -70,7 +70,7 @@
               = b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value), 'aria-labelledby': "checkbox-control-legend-1 #{b.text.to_css_class}")
               = b.label { b.text }
 
-          .form-group.panel.nested-fields.fieldset.spacer.js-reject-reason-text.hidden{ class: error_class?(@error_presenter, :rejected_reason_other) }
+          .form-group.panel.nested-fields.fieldset.spacer.js-reject-reason-text.hidden{ class: error_class(@error_presenter, :rejected_reason_other) }
             %div
               %a#rejected_reason_other
               = f.label :reject_reason_text, class: 'form-label' do
@@ -81,7 +81,7 @@
               %div
                 = validation_error_message(@error_presenter, :rejected_reason_other)
 
-      .js-cw-claim-refuse-reasons.hidden{ class: error_class?(@error_presenter, :refused_reason) }
+      .js-cw-claim-refuse-reasons.hidden{ class: error_class(@error_presenter, :refused_reason) }
         %div
           = validation_error_message(@error_presenter, :refused_reason)
 
@@ -95,7 +95,7 @@
               = b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value), 'aria-labelledby': "checkbox-control-legend-2 #{b.text.to_css_class}")
               = b.label { b.text }
 
-          .form-group.panel.nested-fields.fieldset.spacer.js-refuse-reason-text.hidden{ class: error_class?(@error_presenter, :refused_reason_other) }
+          .form-group.panel.nested-fields.fieldset.spacer.js-refuse-reason-text.hidden{ class: error_class(@error_presenter, :refused_reason_other) }
             %div
               %a#refused_reason_other
               = f.label :refuse_reason_text, class: 'form-label' do

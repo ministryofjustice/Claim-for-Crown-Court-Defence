@@ -59,7 +59,7 @@ module Claims
 
       def uplift_modifier_name
         uplift_modifier = unit_modifiers.find { |um| UPLIFT_MODIFIERS.include?(um.name) }
-        uplift_modifier.name.upcase.to_s.singularize.sub(/NUMBER_OF_/, '')
+        uplift_modifier.name.upcase.to_s.singularize.sub('NUMBER_OF_', '')
       end
     end
   end

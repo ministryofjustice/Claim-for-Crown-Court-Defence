@@ -39,7 +39,7 @@ module ErrorMessage
     end
 
     def humanize_model_name(model_name)
-      model_name.humanize.downcase.gsub(/misc fee/, 'miscellaneous fee')
+      model_name.humanize.downcase.gsub('misc fee', 'miscellaneous fee')
     end
 
     def to_ordinal(number)

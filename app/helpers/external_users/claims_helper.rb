@@ -51,7 +51,7 @@ module ExternalUsers::ClaimsHelper
     validation_message_from_errors_hash(resource.errors, attribute)
   end
 
-  def error_class?(presenter, *attributes)
+  def error_class(presenter, *attributes)
     return if presenter.nil?
     options = { name: 'dropdown_field_with_errors' }.merge(attributes.extract_options!)
     options[:name] if attributes.detect { |att| presenter.field_errors_for(att.to_sym).present? }

@@ -10,7 +10,7 @@ module DataInjection
 
     class << self
       def unallocated
-        sql = unallocated_sql.gsub(/CLAIM_TYPES_FOR_SCHEME/, claim_types_for_scheme('agfs'))
+        sql = unallocated_sql.gsub('CLAIM_TYPES_FOR_SCHEME', claim_types_for_scheme('agfs'))
         ActiveRecord::Base.connection.execute(sql)
       end
 

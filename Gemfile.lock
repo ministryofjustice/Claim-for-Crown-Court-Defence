@@ -385,6 +385,7 @@ GEM
     laa-fee-calculator-client (1.4.0)
       faraday (~> 1.0)
       faraday-http-cache (~> 2.2)
+    language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
     libreconv (0.9.5)
@@ -563,8 +564,9 @@ GEM
     rspec-support (3.12.0)
     rspec_junit_formatter (0.6.0)
       rspec-core (>= 2, < 4, != 2.12.0)
-    rubocop (1.52.1)
+    rubocop (1.53.0)
       json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
       parser (>= 3.2.2.3)
       rainbow (>= 2.2.2, < 4.0)
@@ -791,7 +793,7 @@ DEPENDENCIES
   rspec-mocks
   rspec-rails (~> 6.0.3)
   rspec_junit_formatter
-  rubocop (~> 1.52)
+  rubocop (~> 1.53)
   rubocop-capybara (~> 2.18)
   rubocop-factory_bot (~> 2.23)
   rubocop-performance (~> 1.18)

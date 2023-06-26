@@ -85,11 +85,6 @@ function _circleci_deploy() {
   -f .k8s/${cluster_dir}/${environment}/service.yaml \
   -f .k8s/${cluster_dir}/${environment}/ingress.yaml
 
-  # only needed in one environment and cccd-dev has credentials
-  if [[ ${environment} == 'dev' ]]; then
-    kubectl apply -f .k8s/${cluster_dir}/cron_jobs/clean_ecr.yaml
-  fi
-
   kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"
   kubectl annotate deployments/claim-for-crown-court-defence-worker kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"
 

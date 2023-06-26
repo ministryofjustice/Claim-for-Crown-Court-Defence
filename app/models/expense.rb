@@ -139,7 +139,7 @@ class Expense < ApplicationRecord
   end
 
   def distance_gt_calculated?
-    return unless distance.present? && calculated_distance.present?
+    return false unless distance.present? && calculated_distance.present?
     distance > calculated_distance
   end
 

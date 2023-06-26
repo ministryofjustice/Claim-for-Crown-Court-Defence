@@ -52,7 +52,7 @@ module ExternalUsers::ClaimsHelper
   end
 
   def error_class?(presenter, *attributes)
-    return if presenter.nil?
+    return nil if presenter.nil?
     options = { name: 'dropdown_field_with_errors' }.merge(attributes.extract_options!)
     options[:name] if attributes.detect { |att| presenter.field_errors_for(att.to_sym).present? }
   end

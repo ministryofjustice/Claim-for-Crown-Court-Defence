@@ -235,7 +235,7 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def looks_like_a_case_number?(attribute)
-    return if attr_blank?(attribute)
+    return false if attr_blank?(attribute)
     @record.__send__(attribute).match?(CASE_NUMBER_OR_URN_PATTERN)
   end
 

@@ -1,5 +1,58 @@
 require 'rails_helper'
 
+RSpec.shared_examples 'include unclaimed_fees message' do
+  let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
+  let(:another_fee) { create(:misc_fee_type, :miphc) }
+  let(:eligible_fees) { [another_fee] }
+
+  before { allow(claim).to receive(:eligible_misc_fee_types).and_return Array(eligible_fees) }
+
+  context 'with one fee to be signposted' do
+    let(:eligible_fees) { [unused_materials_fee, another_fee] }
+
+    it { is_expected.to eq("'Unused materials (up to 3 hours)'") }
+
+    context 'when unused material fees have already been claimed' do
+      before do
+        create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
+        claim.reload
+      end
+
+      it { is_expected.to be_nil }
+    end
+  end
+
+  context 'with a claim eligible for unused materials and additional preparation fees' do
+    let(:additional_preparation_fee) { create(:misc_fee_type, :miapf) }
+    let(:eligible_fees) { [unused_materials_fee, additional_preparation_fee, another_fee] }
+
+    it { is_expected.to eq("'Unused materials (up to 3 hours)' and 'Additional preparation fee'") }
+
+    context 'when unused material fees have already been claimed' do
+      before do
+        create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
+        claim.reload
+      end
+
+      it { is_expected.to eq("'Additional preparation fee'") }
+    end
+
+    context 'when unused material fees and additional preparation fee have already been claimed' do
+      before do
+        create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
+        create(:misc_fee, fee_type: additional_preparation_fee, claim:, quantity: 1)
+        claim.reload
+      end
+
+      it { is_expected.to be_blank }
+    end
+  end
+
+  context 'with a claim ineligible for unused materials and additional preparation fees' do
+    it { is_expected.to be_blank }
+  end
+end
+
 RSpec.describe ClaimsHelper do
   describe '#claim_allocation_checkbox_helper' do
     let(:case_worker) { double CaseWorker }
@@ -183,31 +236,9 @@ RSpec.describe ClaimsHelper do
     subject(:headings) { fee_shared_headings(claim, 'external_users.claims.misc_fees') }
 
     let(:claim) { build(:claim, :with_graduated_fee_case) }
-    let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
-    let(:additional_preparation_fee) { create(:misc_fee_type, :miapf) }
-    let(:another_fee) { create(:misc_fee_type, :miphc) }
-    let(:eligible_fees) { [another_fee] }
 
-    before { allow(claim).to receive(:eligible_misc_fee_types).and_return Array(eligible_fees) }
-
-    context 'with a claim eligible for unused materials and additional preparation fees' do
-      let(:eligible_fees) { [unused_materials_fee, additional_preparation_fee, another_fee] }
-
-      it { expect(headings[:unclaimed_fees]).to eq("'Unused materials (up to 3 hours)' and 'Additional preparation fee'") }
-
-      context 'when unused material fees and additional preparation fee have already been claimed' do
-        before do
-          create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
-          create(:misc_fee, fee_type: additional_preparation_fee, claim:, quantity: 1)
-          claim.reload
-        end
-
-        it { expect(headings[:unclaimed_fees]).to be_blank }
-      end
-    end
-
-    context 'with a claim ineligible for unused materials and additional preparation fees' do
-      it { expect(headings[:unclaimed_fees]).to be_blank }
+    include_examples 'include unclaimed_fees message' do
+      subject { headings[:unclaimed_fees] }
     end
 
     context 'when fees_calculator_html is provided' do
@@ -225,79 +256,18 @@ RSpec.describe ClaimsHelper do
     subject(:locals) { misc_fees_summary_locals(claim) }
 
     let(:claim) { build(:claim, :with_graduated_fee_case) }
-    let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
-    let(:additional_preparation_fee) { create(:misc_fee_type, :miapf) }
-    let(:another_fee) { create(:misc_fee_type, :miphc) }
-    let(:eligible_fees) { [another_fee] }
 
-    before { allow(claim).to receive(:eligible_misc_fee_types).and_return Array(eligible_fees) }
-
-    context 'with a claim eligible for unused materials and additional preparation fees' do
-      let(:eligible_fees) { [unused_materials_fee, additional_preparation_fee, another_fee] }
-
-      it { expect(locals[:unclaimed_fees]).to eq("'Unused materials (up to 3 hours)' and 'Additional preparation fee'") }
-
-      context 'when unused material fees and additional preparation fee have already been claimed' do
-        before do
-          create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
-          create(:misc_fee, fee_type: additional_preparation_fee, claim:, quantity: 1)
-          claim.reload
-        end
-
-        it { expect(locals[:unclaimed_fees]).to be_blank }
-      end
-    end
-
-    context 'with a claim ineligible for unused materials and additional preparation fees' do
-      it { expect(locals[:unclaimed_fees]).to be_blank }
+    include_examples 'include unclaimed_fees message' do
+      subject { locals[:unclaimed_fees] }
     end
   end
 
   describe '#unclaimed_fees_list' do
     subject { unclaimed_fees_list(claim) }
 
-    let(:claim) { build(:claim) }
-    let(:another_fee) { create(:misc_fee_type, :miphc) }
-    let(:eligible_fees) { [another_fee] }
+    let(:claim) { build(:claim, :with_graduated_fee_case) }
 
-    before { allow(claim).to receive(:eligible_misc_fee_types).and_return Array(eligible_fees) }
-
-    context 'with one fee to be signposted' do
-      let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
-      let(:eligible_fees) { [unused_materials_fee, another_fee] }
-
-      it { is_expected.to eq("'Unused materials (up to 3 hours)'") }
-
-      context 'when unused material fees have already been claimed' do
-        before do
-          create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
-          claim.reload
-        end
-
-        it { is_expected.to be_nil }
-      end
-    end
-
-    context 'with two fees to be signposted' do
-      let(:unused_materials_fee) { create(:misc_fee_type, :miumu) }
-      let(:additional_preparation_fee) { create(:misc_fee_type, :miapf) }
-      let(:eligible_fees) { [unused_materials_fee, additional_preparation_fee, another_fee] }
-
-      it { is_expected.to eq("'Unused materials (up to 3 hours)' and 'Additional preparation fee'") }
-
-      context 'when unused material fees have already been claimed' do
-        before do
-          create(:misc_fee, fee_type: unused_materials_fee, claim:, quantity: 1)
-          claim.reload
-        end
-
-        it { is_expected.to eq("'Additional preparation fee'") }
-      end
-    end
-
-    context 'with a claim ineligible for any of the specific fees' do
-      it { is_expected.to be_nil }
-    end
+    include_examples 'include unclaimed_fees message'
   end
 
   describe '#display_elected_not_proceeded_signpost?' do

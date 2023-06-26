@@ -25,7 +25,7 @@ module API
           end
 
           def claims
-            built_sql = unallocated_sql.gsub(/CLAIM_TYPES_FOR_SCHEME/, claim_types_for_scheme)
+            built_sql = unallocated_sql.gsub('CLAIM_TYPES_FOR_SCHEME', claim_types_for_scheme)
             result = ActiveRecord::Base.connection.execute(built_sql).to_a
             JSON.parse(result.to_json, object_class: OpenStruct)
           end

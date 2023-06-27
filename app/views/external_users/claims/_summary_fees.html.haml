@@ -2,8 +2,7 @@
   = local_assigns.has_key?(:header) ? header : t('common.fees')
 
 - if local_assigns.has_key?(:unclaimed_fees)
-  = render partial: 'unclaimed_fees_notice_brief', locals: { unclaimed_fees: }
-
+  = render partial: 'unclaimed_fees_notice_brief', locals: { unclaimed_fees:, notice_form: :long }
 
 - if local_assigns[:editable]
   = govuk_link_to t('common.change_html', context: t('common.fees')), edit_polymorphic_path(claim, step: step, referrer: :summary), class: 'link-change'

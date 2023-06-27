@@ -31,7 +31,7 @@ FactoryBot.define do
     trait :graduated_fee do
       name { 'Graduated fee' }
       is_fixed_fee { false }
-      fee_type_code { build(:graduated_fee_type).code }
+      fee_type_code { 'GRTRL' }
     end
 
     trait :requires_cracked_dates do

@@ -37,7 +37,8 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     When I select the govuk field 'Number of cases uplift' basic fee with quantity of 1 with case numbers
     And I click "Continue" in the claim form
     Then I should be in the 'Miscellaneous fees' form page
-    And I should see 'This claim should be eligible for unused materials fees (up to 3 hours)'
+    And I should see "This claim may be eligible for 'Unused materials (up to 3 hours)'"
+
 
     When I add a govuk calculated miscellaneous fee 'Unused materials (up to 3 hours)'
     And I add a govuk calculated miscellaneous fee 'Unused materials (over 3 hours)' with quantity of '5'
@@ -54,6 +55,6 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
     When I click "Continue" in the claim form
     And I click the link 'Back'
     Then I should be in the 'Miscellaneous fees' form page
-    And I should not see 'This claim should be eligible for unused materials fees (up to 3 hours)'
+    And I should not see 'This claim may be eligible'
 
     And I eject the VCR cassette

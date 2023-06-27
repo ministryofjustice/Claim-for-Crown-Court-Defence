@@ -24,7 +24,7 @@
         = t('.gross_amount')
 
   = govuk_table_tbody do
-    - expenses = vat ? claim.expenses.with_vat : claim.expenses.without_vat
+    - expenses = vat ? claim.expenses.includes(:expense_type).with_vat : claim.expenses.includes(:expense_type).without_vat
     - present_collection(expenses).each do |expense|
       = render template: 'shared/summary/expenses/show', locals: { claim: claim, expense: expense }
 

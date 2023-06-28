@@ -428,14 +428,6 @@ Performance/CollectionLiteralInLoop:
     - 'spec/services/stats/claim_creation_source_data_generator_spec.rb'
     - 'spec/validators/claim/base_claim_validator_spec.rb'
 
-# Offense count: 3
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Performance/Count:
-  Exclude:
-    - 'app/validators/claim/litigator_claim_validator.rb'
-    - 'app/validators/concerns/claim/defendant_uplift_validations.rb'
-    - 'spec/lib/extensions/hash_extension_spec.rb'
-
 # Offense count: 2
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Performance/Detect:
@@ -2381,7 +2373,6 @@ Style/ClassAndModuleChildren:
     - 'app/validators/claim/base_claim_validator.rb'
     - 'app/validators/claim/interim_claim_sub_model_validator.rb'
     - 'app/validators/claim/litigator_claim_sub_model_validator.rb'
-    - 'app/validators/claim/litigator_claim_validator.rb'
     - 'app/validators/claim/litigator_hardship_claim_sub_model_validator.rb'
     - 'app/validators/claim/litigator_hardship_claim_validator.rb'
     - 'app/validators/claim/litigator_supplier_number_validator.rb'
@@ -2768,7 +2759,6 @@ Style/SymbolArray:
     - 'spec/controllers/concerns/multiparameter_attribute_cleaner_spec.rb'
     - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/factories/claim/advocate_claims.rb'
-    - 'spec/lib/extensions/hash_extension_spec.rb'
     - 'spec/lib/rule/applicator_spec.rb'
     - 'spec/lib/survey_monkey/question/checkboxes_spec.rb'
     - 'spec/mailers/devise_mailer_spec.rb'
@@ -2878,7 +2868,6 @@ Layout/LineLength:
     - 'spec/helpers/case_workers/travel_helper_spec.rb'
     - 'spec/helpers/claims_helper_spec.rb'
     - 'spec/lib/data_migrator/offence_code_generator_spec.rb'
-    - 'spec/lib/extensions/hash_extension_spec.rb'
     - 'spec/lib/extensions/xml_mini_extension_spec.rb'
     - 'spec/lib/govuk_component/button_helpers_spec.rb'
     - 'spec/lib/govuk_component/link_helpers_spec.rb'

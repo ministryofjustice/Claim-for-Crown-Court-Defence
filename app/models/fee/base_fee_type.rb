@@ -51,7 +51,7 @@ module Fee
     after_initialize :ensure_not_abstract_class
 
     def ensure_not_abstract_class
-      raise BaseFeeTypeAbstractClassError, DEFAULT_MSG if self.class == BaseFeeType
+      raise BaseFeeTypeAbstractClassError, DEFAULT_MSG if instance_of?(BaseFeeType)
     end
 
     def requires_dates_attended?

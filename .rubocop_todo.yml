@@ -1855,7 +1855,6 @@ Rails/Date:
     - 'app/controllers/external_users/certifications_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/models/claim/advocate_hardship_claim.rb'
-    - 'app/models/claim/base_claim.rb'
     - 'app/models/stats/collector/base_collector.rb'
     - 'app/models/stats/collector/claim_redeterminations_collector.rb'
     - 'app/models/stats/collector/money_claimed_per_month_collector.rb'
@@ -2353,16 +2352,6 @@ Style/ClassAndModuleChildren:
     - 'app/presenters/fee/transfer_fee_presenter.rb'
     - 'app/presenters/fee/warrant_fee_presenter.rb'
 
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowedMethods, AllowedPatterns.
-# AllowedMethods: ==, equal?, eql?
-Style/ClassEqualityComparison:
-  Exclude:
-    - 'app/models/claim/base_claim.rb'
-    - 'app/models/fee/base_fee.rb'
-    - 'app/models/fee/base_fee_type.rb'
-
 # Offense count: 2
 Style/ClassVars:
   Exclude:
@@ -2381,7 +2370,6 @@ Style/CombinableLoops:
 Style/CommentAnnotation:
   Exclude:
     - 'app/models/claims/sort.rb'
-    - 'app/models/fee/base_fee.rb'
     - 'spec/models/claims/financial_summary_spec.rb'
 
 # Offense count: 2

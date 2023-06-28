@@ -11,8 +11,8 @@ RSpec.shared_examples 'run all transitioners' do
     allow(TimedTransitions::Transitioner).to receive(:candidate_claims_ids).and_return(claim_ids)
     allow(Claim::BaseClaim).to receive(:find).with(22).and_return(claim22)
     allow(Claim::BaseClaim).to receive(:find).with(878).and_return(claim878)
-    allow(TimedTransitions::Transitioner).to receive(:new).with(claim22, dummy).and_return transitioner22
-    allow(TimedTransitions::Transitioner).to receive(:new).with(claim878, dummy).and_return transitioner878
+    allow(TimedTransitions::Transitioner).to receive(:new).with(claim22, dummy:).and_return transitioner22
+    allow(TimedTransitions::Transitioner).to receive(:new).with(claim878, dummy:).and_return transitioner878
     allow(transitioner22).to receive(:run)
     allow(transitioner878).to receive(:run)
     allow(LogStuff).to receive(:info)
@@ -20,7 +20,7 @@ RSpec.shared_examples 'run all transitioners' do
 
   it 'creates a transitioner for the first claim' do
     batch_transitioner_run
-    expect(TimedTransitions::Transitioner).to have_received(:new).with(claim22, dummy)
+    expect(TimedTransitions::Transitioner).to have_received(:new).with(claim22, dummy:)
   end
 
   it 'runs the transitioner for the first claim' do
@@ -30,7 +30,7 @@ RSpec.shared_examples 'run all transitioners' do
 
   it 'creates a transitioner for the second claim' do
     batch_transitioner_run
-    expect(TimedTransitions::Transitioner).to have_received(:new).with(claim878, dummy)
+    expect(TimedTransitions::Transitioner).to have_received(:new).with(claim878, dummy:)
   end
 
   it 'runs the transitioner for the second claim' do
@@ -62,7 +62,7 @@ RSpec.shared_examples 'run all transitioners' do
 
     it 'creates a transitioner for the first claim' do
       batch_transitioner_run
-      expect(TimedTransitions::Transitioner).to have_received(:new).with(claim22, dummy)
+      expect(TimedTransitions::Transitioner).to have_received(:new).with(claim22, dummy:)
     end
 
     it 'runs the transitioner for the first claim' do
@@ -110,7 +110,7 @@ RSpec.describe TimedTransitions::BatchTransitioner do
       before do
         allow(TimedTransitions::Transitioner).to receive(:candidate_claims_ids).and_return([1, 2, 3, 4, 5])
         allow(Claim::BaseClaim).to receive(:find).and_return(claim)
-        allow(TimedTransitions::Transitioner).to receive(:new).with(claim, dummy).and_return transitioner
+        allow(TimedTransitions::Transitioner).to receive(:new).with(claim, dummy:).and_return transitioner
         allow(transitioner).to receive(:run)
         allow(notifier).to receive(:build_payload)
       end

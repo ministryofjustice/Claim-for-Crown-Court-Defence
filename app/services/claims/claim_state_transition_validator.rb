@@ -53,7 +53,7 @@ module Claims
 
     def common_undetermined_validations
       add_error("must not have values when #{state_verb} a claim") if determination_present?
-      add_error('requires a reason', state_symbol(false)) if transition_reasons.blank?
+      add_error('requires a reason', state_symbol(other_suffix: false)) if transition_reasons.blank?
       add_error('needs a description', state_symbol) if transition_reason_text_missing?
     end
   end

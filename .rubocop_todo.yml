@@ -158,7 +158,6 @@ Metrics/ClassLength:
     - 'app/models/claim/transfer_claim.rb'
     - 'app/models/expense.rb'
     - 'app/models/fee/base_fee.rb'
-    - 'app/models/timed_transitions/transitioner.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
     - 'app/services/claims/fee_calculator/calculate_price.rb'
     - 'app/validators/base_validator.rb'
@@ -206,7 +205,6 @@ Metrics/MethodLength:
     - 'app/models/stats/collector/info_request_count_collector.rb'
     - 'app/models/stats/statistic.rb'
     - 'app/models/timed_transitions/batch_transitioner.rb'
-    - 'app/models/timed_transitions/transitioner.rb'
     - 'app/presenters/claim_state_transition_presenter.rb'
     - 'app/presenters/expense_type_presenter.rb'
     - 'app/presenters/fee/interim_fee_type_presenter.rb'
@@ -303,7 +301,6 @@ Naming/MemoizedInstanceVariableName:
     - 'app/services/ccr/daily_attendance_adapter.rb'
     - 'app/services/claims/state_transition_message_builder.rb'
     - 'app/services/concerns/case_worker_claim_param_readable.rb'
-    - 'lib/geckoboard_publisher/report.rb'
 
 # Offense count: 75
 # Configuration parameters: NamePrefix, ForbiddenPrefixes, AllowedMethods, MethodDefinitionMacros.
@@ -2365,7 +2362,6 @@ Style/ClassEqualityComparison:
     - 'app/models/claim/base_claim.rb'
     - 'app/models/fee/base_fee.rb'
     - 'app/models/fee/base_fee_type.rb'
-    - 'lib/geckoboard_publisher/report.rb'
 
 # Offense count: 2
 Style/ClassVars:
@@ -2407,12 +2403,6 @@ Style/ExplicitBlockArgument:
   Exclude:
     - 'app/presenters/determination_presenter.rb'
     - 'spec/factories/claim/base_claims.rb'
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Style/GlobalStdStream:
-  Exclude:
-    - 'lib/geckoboard_publisher/report.rb'
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
@@ -2586,15 +2576,6 @@ Style/OpenStructUse:
 Style/OptionalArguments:
   Exclude:
     - 'app/interfaces/api/helpers/json_error_formatter.rb'
-
-# Offense count: 5
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: respond_to_missing?
-Style/OptionalBooleanParameter:
-  Exclude:
-    - 'app/models/timed_transitions/transitioner.rb'
-    - 'app/services/concerns/case_worker_claim_param_readable.rb'
-    - 'lib/geckoboard_publisher/report.rb'
 
 # Offense count: 78
 # This cop supports safe autocorrection (--autocorrect).

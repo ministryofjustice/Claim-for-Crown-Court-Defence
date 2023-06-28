@@ -24,7 +24,7 @@ module TimedTransitions
       TIMED_TRANSITION_SPECIFICATIONS.keys
     end
 
-    def initialize(claim, dummy = false)
+    def initialize(claim, dummy: false)
       @claim = claim
       @dummy = dummy
     end
@@ -54,17 +54,13 @@ module TimedTransitions
       values = @claim.hardship? ? hardship_archive_checks : archive_checks
       @claim.send(values[:event], reason_code: ['timed_transition']) unless @dummy
       @claim.reload # not sure if needed
-      log(log_level,
-          action: 'archive',
-          message: values[:message],
-          succeeded: @claim.send(values[:check]))
+      log(log_level, action: 'archive', message: values[:message], succeeded: @claim.send(values[:check]))
       self.success = @claim.send(values[:check])
     rescue StandardError => e
-      log(:error,
-          action: 'archive',
-          message: values[:error_message],
-          succeeded: @claim.reload.send(values[:check]),
-          error: e.message)
+      log(
+        :error, action: 'archive', message: values[:error_message],
+                succeeded: @claim.reload.send(values[:check]), error: e.message
+      )
     end
 
     def hardship_archive_checks
@@ -87,31 +83,23 @@ module TimedTransitions
 
     def destroy_claim
       Stats::MIData.import(@claim) && @claim.destroy unless @dummy
-      log(log_level,
-          action: 'destroy',
-          message: 'Destroying soft-deleted claim',
-          succeeded: @claim.destroyed?)
+      log(log_level, action: 'destroy', message: 'Destroying soft-deleted claim', succeeded: @claim.destroyed?)
       self.success = @claim.destroyed?
     rescue StandardError => e
-      log(:error,
-          action: 'destroy',
-          message: 'Destroying soft-deleted claim failed!',
-          succeeded: @claim.destroyed?,
-          error: e.message)
+      log(
+        :error, action: 'destroy', message: 'Destroying soft-deleted claim failed!',
+                succeeded: @claim.destroyed?, error: e.message
+      )
     end
 
     def log(level = :info, action:, message:, succeeded:, error: nil)
       LogStuff.send(
         level.to_sym,
         'TimedTransitions::Transitioner',
-        action:,
-        claim_id: @claim.id,
-        claim_state: @claim.state,
-        softly_deleted_on: @claim.deleted_at,
-        valid_until: @claim.valid_until,
-        dummy_run: @dummy,
-        error:,
-        succeeded:
+        action:, claim_id: @claim.id,
+        claim_state: @claim.state, softly_deleted_on: @claim.deleted_at,
+        valid_until: @claim.valid_until, dummy_run: @dummy,
+        error:, succeeded:
       ) do
         message
       end

@@ -48,7 +48,7 @@ module CaseWorkerClaimParamReadable
       @state_verb ||= state.chomp('ed').concat('ing')
     end
 
-    def state_symbol(other_suffix = true)
+    def state_symbol(other_suffix: true)
       @state_noun ||= "#{state}_reason#{'_other' if other_suffix}".to_sym
     end
 

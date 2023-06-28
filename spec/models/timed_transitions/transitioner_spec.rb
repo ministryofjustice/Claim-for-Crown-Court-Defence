@@ -358,7 +358,7 @@ RSpec.describe TimedTransitions::Transitioner do
     end
 
     context 'with dummy run' do
-      let(:transitioner) { described_class.new(claim, true) }
+      let(:transitioner) { described_class.new(claim, dummy: true) }
 
       context 'when transitioning to archived pending delete' do
         context 'when last state transition less than 16 weeks ago' do
@@ -381,7 +381,7 @@ RSpec.describe TimedTransitions::Transitioner do
           let(:claim) { travel_to(17.weeks.ago) { create(:authorised_claim, case_number: 'A20164444') } }
 
           it 'leaves the claim in authorised state' do
-            described_class.new(claim, true).run
+            described_class.new(claim, dummy: true).run
             expect(claim.reload.state).to eq 'authorised'
           end
 
@@ -398,11 +398,11 @@ RSpec.describe TimedTransitions::Transitioner do
                 error: nil,
                 succeeded: false
               )
-            described_class.new(claim, true).run
+            described_class.new(claim, dummy: true).run
           end
 
           it 'does not record a timed_transition in claim state transitions' do
-            described_class.new(claim, true).run
+            described_class.new(claim, dummy: true).run
             expect(claim.claim_state_transitions.map(&:reason_code)).not_to include('timed_transition')
           end
         end
@@ -433,7 +433,7 @@ RSpec.describe TimedTransitions::Transitioner do
           end
 
           it 'does not destroy the claim' do
-            described_class.new(claim, true).run
+            described_class.new(claim, dummy: true).run
             expect(Claim::BaseClaim.where(id: claim.id)).not_to be_empty
           end
 
@@ -491,7 +491,7 @@ RSpec.describe TimedTransitions::Transitioner do
                 error: nil,
                 succeeded: false
               )
-            described_class.new(claim, true).run
+            described_class.new(claim, dummy: true).run
           end
 
           def check_associations

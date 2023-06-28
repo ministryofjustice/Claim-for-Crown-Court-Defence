@@ -27,7 +27,7 @@ module TimedTransitions
 
     def transition(claim_id)
       claim = Claim::BaseClaim.find(claim_id)
-      transitioner = Transitioner.new(claim, dummy)
+      transitioner = Transitioner.new(claim, dummy:)
       transitioner.run
       update_state(transitioner)
     end

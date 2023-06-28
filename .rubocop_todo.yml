@@ -90,12 +90,6 @@ Lint/MissingSuper:
     - 'lib/caching/memory_store.rb'
     - 'lib/caching/redis_store.rb'
 
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Lint/UselessMethodDefinition:
-  Exclude:
-    - 'app/validators/claim/transfer_claim_validator.rb'
-
 # Offense count: 56
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes, Max.
 Metrics/AbcSize:
@@ -2361,28 +2355,6 @@ Style/ClassAndModuleChildren:
     - 'app/presenters/fee/misc_fee_type_presenter.rb'
     - 'app/presenters/fee/transfer_fee_presenter.rb'
     - 'app/presenters/fee/warrant_fee_presenter.rb'
-    - 'app/validators/claim/advocate_claim_sub_model_validator.rb'
-    - 'app/validators/claim/advocate_claim_validator.rb'
-    - 'app/validators/claim/advocate_hardship_claim_sub_model_validator.rb'
-    - 'app/validators/claim/advocate_hardship_claim_validator.rb'
-    - 'app/validators/claim/advocate_interim_claim_sub_model_validator.rb'
-    - 'app/validators/claim/advocate_interim_claim_validator.rb'
-    - 'app/validators/claim/advocate_supplementary_claim_sub_model_validator.rb'
-    - 'app/validators/claim/advocate_supplementary_claim_validator.rb'
-    - 'app/validators/claim/base_claim_sub_model_validator.rb'
-    - 'app/validators/claim/base_claim_validator.rb'
-    - 'app/validators/claim/interim_claim_sub_model_validator.rb'
-    - 'app/validators/claim/litigator_claim_sub_model_validator.rb'
-    - 'app/validators/claim/litigator_hardship_claim_sub_model_validator.rb'
-    - 'app/validators/claim/litigator_hardship_claim_validator.rb'
-    - 'app/validators/claim/litigator_supplier_number_validator.rb'
-    - 'app/validators/claim/transfer_claim_sub_model_validator.rb'
-    - 'app/validators/claim/transfer_claim_validator.rb'
-    - 'app/validators/fee/graduated_fee_validator.rb'
-    - 'app/validators/fee/hardship_fee_validator.rb'
-    - 'app/validators/fee/interim_fee_validator.rb'
-    - 'app/validators/fee/transfer_fee_validator.rb'
-    - 'app/validators/fee/warrant_fee_validator.rb'
 
 # Offense count: 4
 # This cop supports safe autocorrection (--autocorrect).
@@ -2622,7 +2594,6 @@ Style/OptionalBooleanParameter:
   Exclude:
     - 'app/models/timed_transitions/transitioner.rb'
     - 'app/services/concerns/case_worker_claim_param_readable.rb'
-    - 'app/validators/claim/base_claim_validator.rb'
     - 'lib/geckoboard_publisher/report.rb'
 
 # Offense count: 78

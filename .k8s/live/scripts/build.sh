@@ -45,7 +45,14 @@ function _build() {
   # tag as latest for branch too
   case $current_branch in
     master)
-      latest_tag=${docker_registry}:${component}-latest
+      # Tag the master image twice - once as 'app-latest' and once as 'app-latest-${current_version}'
+      # This will ensure that old production images are persisted in ECR when new images are pushed
+      docker_registry_current_production_tag=${docker_registry}:${component}-latest
+      docker tag $docker_registry_tag $docker_registry_current_production_tag
+      docker push $docker_registry_current_production_tag
+      printf "\e[33mAlso tagged as ${docker_registry_current_production_tag}...\e[0m\n"
+
+      latest_tag=${docker_registry}:${component}-latest-$(date +"%Y%m%d%H%M%S")
       ;;
     *)
       branch_name=$(echo $current_branch | tr '/\' '-')

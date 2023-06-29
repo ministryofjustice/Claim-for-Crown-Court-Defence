@@ -16,7 +16,8 @@ function _circleci_build() {
   fi
 
   # build
-  docker_registry_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${CIRCLE_SHA1}"
+  docker_registry=${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}
+  docker_registry_tag=$docker_registry:app-${CIRCLE_SHA1}
 
   printf "\e[33m------------------------------------------------------------------------\e[0m\n"
   printf "\e[33mBranch: $CIRCLE_BRANCH\e[0m\n"
@@ -39,10 +40,16 @@ function _circleci_build() {
   docker push $docker_registry_tag
 
   if [ "${CIRCLE_BRANCH}" == "master" ]; then
-    docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-latest"
+    # Tag the master image twice - once as 'app-latest' and once as 'app-latest-<timestamp>'
+    # This will ensure that old production images are persisted in ECR when new images are pushed
+    docker_registry_current_production_tag=$docker_registry:app-latest
+    docker tag $docker_registry_tag $docker_registry_current_production_tag
+    docker push $docker_registry_current_production_tag
+
+    docker_registry_latest_tag=$docker_registry:app-latest-$(date +"%Y%m%d%H%M%S")
   else
     branch_name=$(echo $CIRCLE_BRANCH | tr '/\' '-')
-    docker_registry_latest_tag="${ECR_ENDPOINT}/${GITHUB_TEAM_NAME_SLUG}/${REPO_NAME}:app-${branch_name}-latest"
+    docker_registry_latest_tag=$docker_registry:app-${branch_name}-latest
   fi
 
   docker tag $docker_registry_tag $docker_registry_latest_tag

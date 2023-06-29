@@ -80,11 +80,6 @@ function _deploy() {
     -f .k8s/${context}/${environment}/service.yaml \
     -f .k8s/${context}/${environment}/ingress.yaml
 
-  # ECR only exists in one environment and cccd-dev has credentials
-  if [[ ${environment} == 'dev' ]]; then
-    kubectl apply -f .k8s/${context}/cron_jobs/clean_ecr.yaml
-  fi
-
   kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine to ${context}/cccd-${environment}"
   kubectl annotate deployments/claim-for-crown-court-defence-worker kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine to ${context}/cccd-${environment}"
 

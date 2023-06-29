@@ -3,13 +3,11 @@ function _cronjob() {
   usage="cronjob -- apply job in the specified environment
   Usage: cronjob job environment [branch]
   Where:
-    job [archive_stale|clean_ecr|vacuum_db]
+    job [archive_stale|vacuum_db]
     environment [dev|dev-lgfs|staging|api-sandbox|production]
     branch [<branchname>-latest|commit-sha]
 
   Example:
-    # apply changes to clean_ecr cronjob
-    cronjob.sh clean_ecr
 
     # apply changes to archive_stale job in dev AND use pod based on latest master
     cronjob.sh archive_stale dev latest
@@ -32,13 +30,6 @@ function _cronjob() {
   case "$1" in
     archive_stale | vacuum_db)
       job=$1
-      ;;
-    clean_ecr)
-      echo "Setting namespace to dev as only this has the ECR secret..."
-      kubectl config set-context ${context} --namespace=cccd-dev
-      kubectl config use-context ${context}
-      kubectl apply -f .k8s/${context}/cron_jobs/$1.yaml
-      return $?
       ;;
     *)
       echo "$usage"

@@ -134,7 +134,7 @@ module Claim
     after_save :find_and_associate_documents, :update_vat
 
     def ensure_not_abstract_class
-      raise BaseClaimAbstractClassError if self.class == BaseClaim
+      raise BaseClaimAbstractClassError if instance_of?(BaseClaim)
     end
 
     def form_step=(step)
@@ -436,7 +436,7 @@ module Claim
     end
 
     def vat_date
-      (original_submission_date || Date.today).to_date
+      (original_submission_date || Time.zone.today).to_date
     end
 
     def pretty_vat_rate

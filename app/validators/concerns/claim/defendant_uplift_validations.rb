@@ -39,7 +39,7 @@ module Claim
       end
 
       def number_of_defendants
-        @record.defendants.reject(&:marked_for_destruction?).size
+        @record.defendants.count { |defendant| !defendant.marked_for_destruction? }
       end
 
       # we add one because uplift quantities reflect the number of "additional" defendants

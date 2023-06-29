@@ -62,7 +62,7 @@ RSpec.shared_examples 'geckoboard publishable report' do
 
       it 'by overwriting existing dataset when force specified' do
         expect(report).to receive(:overwrite!)
-        report.publish! true
+        report.publish! force: true
       end
 
       it 'by raising errors when force not specified' do

@@ -90,12 +90,6 @@ Lint/MissingSuper:
     - 'lib/caching/memory_store.rb'
     - 'lib/caching/redis_store.rb'
 
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Lint/UselessMethodDefinition:
-  Exclude:
-    - 'app/validators/claim/transfer_claim_validator.rb'
-
 # Offense count: 56
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes, Max.
 Metrics/AbcSize:
@@ -164,7 +158,6 @@ Metrics/ClassLength:
     - 'app/models/claim/transfer_claim.rb'
     - 'app/models/expense.rb'
     - 'app/models/fee/base_fee.rb'
-    - 'app/models/timed_transitions/transitioner.rb'
     - 'app/presenters/claim/base_claim_presenter.rb'
     - 'app/services/claims/fee_calculator/calculate_price.rb'
     - 'app/validators/base_validator.rb'
@@ -212,7 +205,6 @@ Metrics/MethodLength:
     - 'app/models/stats/collector/info_request_count_collector.rb'
     - 'app/models/stats/statistic.rb'
     - 'app/models/timed_transitions/batch_transitioner.rb'
-    - 'app/models/timed_transitions/transitioner.rb'
     - 'app/presenters/claim_state_transition_presenter.rb'
     - 'app/presenters/expense_type_presenter.rb'
     - 'app/presenters/fee/interim_fee_type_presenter.rb'
@@ -309,7 +301,6 @@ Naming/MemoizedInstanceVariableName:
     - 'app/services/ccr/daily_attendance_adapter.rb'
     - 'app/services/claims/state_transition_message_builder.rb'
     - 'app/services/concerns/case_worker_claim_param_readable.rb'
-    - 'lib/geckoboard_publisher/report.rb'
 
 # Offense count: 75
 # Configuration parameters: NamePrefix, ForbiddenPrefixes, AllowedMethods, MethodDefinitionMacros.
@@ -427,14 +418,6 @@ Performance/CollectionLiteralInLoop:
     - 'spec/presenters/claim/base_claim_presenter_spec.rb'
     - 'spec/services/stats/claim_creation_source_data_generator_spec.rb'
     - 'spec/validators/claim/base_claim_validator_spec.rb'
-
-# Offense count: 3
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Performance/Count:
-  Exclude:
-    - 'app/validators/claim/litigator_claim_validator.rb'
-    - 'app/validators/concerns/claim/defendant_uplift_validations.rb'
-    - 'spec/lib/extensions/hash_extension_spec.rb'
 
 # Offense count: 2
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -1872,7 +1855,6 @@ Rails/Date:
     - 'app/controllers/external_users/certifications_controller.rb'
     - 'app/helpers/application_helper.rb'
     - 'app/models/claim/advocate_hardship_claim.rb'
-    - 'app/models/claim/base_claim.rb'
     - 'app/models/stats/collector/base_collector.rb'
     - 'app/models/stats/collector/claim_redeterminations_collector.rb'
     - 'app/models/stats/collector/money_claimed_per_month_collector.rb'
@@ -2369,40 +2351,6 @@ Style/ClassAndModuleChildren:
     - 'app/presenters/fee/misc_fee_type_presenter.rb'
     - 'app/presenters/fee/transfer_fee_presenter.rb'
     - 'app/presenters/fee/warrant_fee_presenter.rb'
-    - 'app/validators/claim/advocate_claim_sub_model_validator.rb'
-    - 'app/validators/claim/advocate_claim_validator.rb'
-    - 'app/validators/claim/advocate_hardship_claim_sub_model_validator.rb'
-    - 'app/validators/claim/advocate_hardship_claim_validator.rb'
-    - 'app/validators/claim/advocate_interim_claim_sub_model_validator.rb'
-    - 'app/validators/claim/advocate_interim_claim_validator.rb'
-    - 'app/validators/claim/advocate_supplementary_claim_sub_model_validator.rb'
-    - 'app/validators/claim/advocate_supplementary_claim_validator.rb'
-    - 'app/validators/claim/base_claim_sub_model_validator.rb'
-    - 'app/validators/claim/base_claim_validator.rb'
-    - 'app/validators/claim/interim_claim_sub_model_validator.rb'
-    - 'app/validators/claim/litigator_claim_sub_model_validator.rb'
-    - 'app/validators/claim/litigator_claim_validator.rb'
-    - 'app/validators/claim/litigator_hardship_claim_sub_model_validator.rb'
-    - 'app/validators/claim/litigator_hardship_claim_validator.rb'
-    - 'app/validators/claim/litigator_supplier_number_validator.rb'
-    - 'app/validators/claim/transfer_claim_sub_model_validator.rb'
-    - 'app/validators/claim/transfer_claim_validator.rb'
-    - 'app/validators/fee/graduated_fee_validator.rb'
-    - 'app/validators/fee/hardship_fee_validator.rb'
-    - 'app/validators/fee/interim_fee_validator.rb'
-    - 'app/validators/fee/transfer_fee_validator.rb'
-    - 'app/validators/fee/warrant_fee_validator.rb'
-
-# Offense count: 4
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowedMethods, AllowedPatterns.
-# AllowedMethods: ==, equal?, eql?
-Style/ClassEqualityComparison:
-  Exclude:
-    - 'app/models/claim/base_claim.rb'
-    - 'app/models/fee/base_fee.rb'
-    - 'app/models/fee/base_fee_type.rb'
-    - 'lib/geckoboard_publisher/report.rb'
 
 # Offense count: 2
 Style/ClassVars:
@@ -2422,7 +2370,6 @@ Style/CombinableLoops:
 Style/CommentAnnotation:
   Exclude:
     - 'app/models/claims/sort.rb'
-    - 'app/models/fee/base_fee.rb'
     - 'spec/models/claims/financial_summary_spec.rb'
 
 # Offense count: 2
@@ -2444,12 +2391,6 @@ Style/ExplicitBlockArgument:
   Exclude:
     - 'app/presenters/determination_presenter.rb'
     - 'spec/factories/claim/base_claims.rb'
-
-# Offense count: 1
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Style/GlobalStdStream:
-  Exclude:
-    - 'lib/geckoboard_publisher/report.rb'
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).
@@ -2624,16 +2565,6 @@ Style/OptionalArguments:
   Exclude:
     - 'app/interfaces/api/helpers/json_error_formatter.rb'
 
-# Offense count: 5
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: respond_to_missing?
-Style/OptionalBooleanParameter:
-  Exclude:
-    - 'app/models/timed_transitions/transitioner.rb'
-    - 'app/services/concerns/case_worker_claim_param_readable.rb'
-    - 'app/validators/claim/base_claim_validator.rb'
-    - 'lib/geckoboard_publisher/report.rb'
-
 # Offense count: 78
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: PreferredDelimiters.
@@ -2768,7 +2699,6 @@ Style/SymbolArray:
     - 'spec/controllers/concerns/multiparameter_attribute_cleaner_spec.rb'
     - 'spec/controllers/external_users/claims_controller_spec.rb'
     - 'spec/factories/claim/advocate_claims.rb'
-    - 'spec/lib/extensions/hash_extension_spec.rb'
     - 'spec/lib/rule/applicator_spec.rb'
     - 'spec/lib/survey_monkey/question/checkboxes_spec.rb'
     - 'spec/mailers/devise_mailer_spec.rb'
@@ -2878,7 +2808,6 @@ Layout/LineLength:
     - 'spec/helpers/case_workers/travel_helper_spec.rb'
     - 'spec/helpers/claims_helper_spec.rb'
     - 'spec/lib/data_migrator/offence_code_generator_spec.rb'
-    - 'spec/lib/extensions/hash_extension_spec.rb'
     - 'spec/lib/extensions/xml_mini_extension_spec.rb'
     - 'spec/lib/govuk_component/button_helpers_spec.rb'
     - 'spec/lib/govuk_component/link_helpers_spec.rb'

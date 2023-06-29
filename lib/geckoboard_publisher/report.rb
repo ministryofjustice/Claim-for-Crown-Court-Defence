@@ -21,7 +21,7 @@ module GeckoboardPublisher
       test_client
     end
 
-    def publish!(force = false)
+    def publish!(force: false)
       @force = force
       create_dataset!
       add_to_dataset!.tap do |result|
@@ -86,7 +86,7 @@ module GeckoboardPublisher
 
     def overwrite!
       unpublish!
-      publish! false
+      publish! force: false
     end
 
     def test_client
@@ -97,7 +97,7 @@ module GeckoboardPublisher
     end
 
     def cron_logger
-      @logger ||= Logger.new(STDOUT).tap do |log|
+      @cron_logger ||= Logger.new($stdout).tap do |log|
         log.progname = 'Worker cron job'
         log.level = Rails.env.test? ? Logger::UNKNOWN : Logger::DEBUG
       end
@@ -108,7 +108,7 @@ end
 class Object
   def to_string_boolean
     return 'failed' if [FalseClass, NilClass].include?(self.class)
-    return 'succeeded' if self.class == TrueClass
+    return 'succeeded' if instance_of?(TrueClass)
     self
   end
 end

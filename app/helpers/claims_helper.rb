@@ -12,7 +12,7 @@ module ClaimsHelper
   SIGNPOST_FEES = %w[MIUMU MIAPF].freeze
 
   def claim_allocation_checkbox_helper(claim, case_worker)
-    checked = claim.is_allocated_to_case_worker?(case_worker) ? 'checked="checked"' : nil
+    checked = claim.allocated_to_case_worker?(case_worker) ? 'checked="checked"' : nil
     element_id = "id=\"case_worker_claim_ids_#{claim.id}\""
     %(<input #{checked} #{element_id} name="case_worker[claim_ids][]" type="checkbox" value="#{claim.id}">).html_safe
   end

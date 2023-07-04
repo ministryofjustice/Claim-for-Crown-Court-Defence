@@ -339,11 +339,11 @@ module Claim
       Claims::StateMachine.has_state?(method) || super
     end
 
-    def is_allocated_to_case_worker?(case_worker)
+    def allocated_to_case_worker?(case_worker)
       case_workers.include?(case_worker)
     end
 
-    def has_authorised_state?
+    def authorised_state?
       Claims::StateMachine::AUTHORISED_STATES.include?(state)
     end
 

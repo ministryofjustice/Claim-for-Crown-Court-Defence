@@ -1,5 +1,5 @@
 - if fees_to_offer.present?
-  = form_with url: 'testing', builder: GdsAdpFormBuilder do |f|
+  = form_with url: external_users_claim_fees_add_unclaimed_path(@claim.id), builder: GdsAdpFormBuilder do |f|
     .js-callout-banner#mod-unclaimed-fees
       = f.govuk_collection_check_boxes :additional_fees,
         fees_to_offer,

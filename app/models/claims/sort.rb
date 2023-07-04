@@ -64,7 +64,7 @@ module Claims::Sort
   # NOTE: amount assessed is the most recent determinations' total including vat
   def sort_amount_assessed(direction)
     select('claims.*, (determinations.total + determinations.vat_amount) AS total_inc_vat')
-      .joins(:determinations)
+      .left_outer_joins(:determinations)
       .where('determinations.created_at = (SELECT MAX(d.created_at) FROM ' \
              '"determinations" d WHERE d."claim_id" = "claims"."id")')
       .order(sort_field_by('total_inc_vat', direction))

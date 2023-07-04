@@ -34,7 +34,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
     @claims = @claims_context
               .dashboard_displayable_states
-              .includes(:defendants, :case_type, :external_user, :assessment, :messages)
+              .includes(:defendants, :case_type, :external_user, :assessment, :messages, :determinations)
     search if params[:search].present?
     sort_and_paginate(column: 'last_submitted_at', direction: 'asc')
   end
@@ -48,7 +48,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
   def outstanding
     @claims = @financial_summary
               .outstanding_claims
-              .includes(:defendants, :case_type, :external_user, :assessment, :messages)
+              .includes(:defendants, :case_type, :external_user, :assessment, :messages, :determinations)
     sort_and_paginate(column: 'last_submitted_at', direction: 'asc')
     @total_value = @financial_summary.total_outstanding_claim_value
   end

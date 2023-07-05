@@ -22,7 +22,7 @@ class CaseWorkerClaim < ApplicationRecord
     messages = claim.messages
     user = case_worker.user
     messages.each do |message|
-      UserMessageStatus.create!(user_id: user.id, message_id: message.id)
+      UserMessageStatus.create!(user:, message:)
     end
   end
 

@@ -28,7 +28,7 @@ RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
 && find /usr/local/bundle/gems/ -name "*.o" -delete
 
 COPY package.json yarn.lock $APP_HOME/
-RUN yarn install --frozen-lockfile --production --silent
+RUN yarn workspaces focus --all --production --immutable --silent
 
 COPY . $APP_HOME/
 
@@ -36,7 +36,8 @@ RUN SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here \
 RAILS_ENV=production \
 bundle exec rails assets:precompile 2> /dev/null
 
-RUN rm -rf node_modules
+RUN rm -rf node_modules \
+&& yarn cache clean
 
 # Stage 2: copies dependencies from the build stage and creates final image for running the application
 FROM base

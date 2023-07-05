@@ -22,11 +22,6 @@
   resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.22.6.tgz#15606a20341de59ba02cd2fcc5086fcbe73bf544"
   integrity sha512-29tfsWTq2Ftu7MXmimyC0C5FDZv5DYxOZkh3XD3+QW4V/BYuv/LyEsjj3c0hqedEaDt6DBfDvexMKU8YevdqFg==
 
-"@babel/compat-data@^7.22.6":
-  version "7.22.6"
-  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.22.6.tgz#15606a20341de59ba02cd2fcc5086fcbe73bf544"
-  integrity sha512-29tfsWTq2Ftu7MXmimyC0C5FDZv5DYxOZkh3XD3+QW4V/BYuv/LyEsjj3c0hqedEaDt6DBfDvexMKU8YevdqFg==
-
 "@babel/core@^7.22.6":
   version "7.22.6"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.22.6.tgz#aafafbe86e9a1679d876b99dc46382964ef72494"
@@ -1938,22 +1933,15 @@ datatables.net-fixedheader@>=3.2.4:
     datatables.net ">=1.12.1"
     jquery ">=1.7"
 
-datatables.net-select@1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-1.6.2.tgz#f782a63369a75dfd5d416fa7192d473cce71cc9d"
-  integrity sha512-mGkWFGEN8vLJGp9POHA+CHDBIcWGOpos6mtuZ/S3hKF+niTZivqRuXybd79iDG8OHw3yRbafBIsHtcXcZxoG/g==
+datatables.net-select@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-1.7.0.tgz#a108752ee6109a49392d19fec7406c953be11665"
+  integrity sha512-ps8eL8S2gUV7EdzMraw8mfQlHXpfuc8TC2onBxdk0snP8eizPe85VhpI3r4ULvPRTTI7vcViz8E7JV8aayA2lw==
   dependencies:
-    datatables.net ">=1.12.1"
+    datatables.net ">=1.13.4"
     jquery ">=1.7"
 
-datatables.net@>=1.10.8, datatables.net@>=1.12.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.13.1.tgz#199f7cb63f4536c135e161f95254212835a1c130"
-  integrity sha512-cX5dDHsbVdLLYKsWOSE0MvuGUcV88zU5dZ/taK2puJV6F9Fw0CFsP3+U/kr+qpDSFOBLWISRyM4Q9wWWovPTNg==
-  dependencies:
-    jquery ">=1.7"
-
-datatables.net@>=1.13.4:
+datatables.net@>=1.10.8, datatables.net@>=1.12.1, datatables.net@>=1.13.4:
   version "1.13.5"
   resolved "https://registry.yarnpkg.com/datatables.net/-/datatables.net-1.13.5.tgz#790a3d70d5e103f5465ed8c52a50eb242e1e2dc4"
   integrity sha512-XoCQHkUM5MwbC3Wx7WpVvt4i880J8pIFDA9HIKD4GhvtalryBfmdd+bZvrc/rEbraZS7U4eR2k8/wFY0NeHVqQ==

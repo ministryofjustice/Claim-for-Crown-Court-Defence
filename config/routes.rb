@@ -142,6 +142,7 @@ Rails.application.routes.draw do
 
       namespace :fees do
         post 'calculate_price', to: 'prices#calculate'
+        resource :add_unclaimed, only: :create
       end
     end
 

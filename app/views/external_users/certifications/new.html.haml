@@ -1,3 +1,5 @@
+= render partial: 'offer_unclaimed_fees', locals: { fees_to_offer: unclaimed_fees(@claim) }
+
 = content_for :page_title, flush: true do
   = t(".page_title.#{present(@claim).type_identifier}")
 

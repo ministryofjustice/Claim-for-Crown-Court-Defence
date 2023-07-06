@@ -608,13 +608,13 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sentry-rails (5.9.0)
+    sentry-rails (5.10.0)
       railties (>= 5.0)
-      sentry-ruby (~> 5.9.0)
-    sentry-ruby (5.9.0)
+      sentry-ruby (~> 5.10.0)
+    sentry-ruby (5.10.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.9.0)
-      sentry-ruby (~> 5.9.0)
+    sentry-sidekiq (5.10.0)
+      sentry-ruby (~> 5.10.0)
       sidekiq (>= 3.0)
     shell-spinner (1.0.4)
       colorize
@@ -804,7 +804,7 @@ DEPENDENCIES
   rubyzip
   scheduler_daemon
   sentry-rails (~> 5.9)
-  sentry-sidekiq (~> 5.8, >= 5.8.0)
+  sentry-sidekiq (~> 5.10)
   shell-spinner (~> 1.0, >= 1.0.4)
   shoulda-matchers (~> 5.3)
   sidekiq (~> 7.1)

@@ -339,11 +339,11 @@ module Claim
       Claims::StateMachine.has_state?(method) || super
     end
 
-    def is_allocated_to_case_worker?(case_worker)
+    def allocated_to_case_worker?(case_worker)
       case_workers.include?(case_worker)
     end
 
-    def has_authorised_state?
+    def authorised_state?
       Claims::StateMachine::AUTHORISED_STATES.include?(state)
     end
 
@@ -613,10 +613,7 @@ module Claim
     def find_and_associate_documents
       return if form_id.nil?
 
-      Document.where(form_id:).find_each do |document|
-        document.update_column(:claim_id, id)
-        document.update_column(:external_user_id, external_user_id)
-      end
+      Document.where(form_id:).update_all(claim_id: id, external_user_id:)
     end
 
     def last_state_transition_later_than_redetermination?(last_state_transition)

@@ -285,19 +285,19 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  describe '#is_allocated_to_case_worker?' do
+  describe '#allocated_to_case_worker?' do
     let(:case_worker_1) { create(:case_worker) }
     let(:case_worker_2) { create(:case_worker) }
 
     it 'returns true if allocated to the specified case_worker' do
       claim.case_workers << case_worker_1
       claim.case_workers << case_worker_2
-      expect(claim.is_allocated_to_case_worker?(case_worker_1)).to be true
+      expect(claim.allocated_to_case_worker?(case_worker_1)).to be true
     end
 
     it 'returns false if not allocated to the specified case_worker' do
       claim.case_workers << case_worker_1
-      expect(claim.is_allocated_to_case_worker?(case_worker_2)).to be false
+      expect(claim.allocated_to_case_worker?(case_worker_2)).to be false
     end
   end
 
@@ -862,17 +862,17 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  describe '#has_authorised_state?' do
+  describe '#authorised_state?' do
     let(:claim) { create(:draft_claim) }
 
     it 'returns false for draft, submitted, allocated, and rejected claims' do
-      expect(claim.has_authorised_state?).to be_falsey
+      expect(claim.authorised_state?).to be_falsey
       claim.submit
-      expect(claim.has_authorised_state?).to be_falsey
+      expect(claim.authorised_state?).to be_falsey
       claim.allocate
-      expect(claim.has_authorised_state?).to be_falsey
+      expect(claim.authorised_state?).to be_falsey
       claim.reject
-      expect(claim.has_authorised_state?).to be_falsey
+      expect(claim.authorised_state?).to be_falsey
     end
 
     it 'returns true for part_authorised, authorised claims' do
@@ -880,9 +880,9 @@ RSpec.describe Claim::AdvocateClaim do
       claim.allocate
       claim.assessment.update(fees: 30.01, expenses: 70.00)
       claim.authorise_part
-      expect(claim.has_authorised_state?).to be_truthy
+      expect(claim.authorised_state?).to be_truthy
       claim.authorise
-      expect(claim.has_authorised_state?).to be_truthy
+      expect(claim.authorised_state?).to be_truthy
     end
   end
 

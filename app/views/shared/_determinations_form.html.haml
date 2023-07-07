@@ -18,7 +18,7 @@
             %div
               = validation_error_message(@error_presenter, :determinations)
 
-      = govuk_table( id: 'determinations', class: 'js-cw-claim-assessment', data: { apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }) do
+      = govuk_table( id: 'determinations', class: 'js-cw-claim-assessment', data: { module: 'govuk-determination', apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }) do
         = govuk_table_caption(class: 'govuk-visually-hidden') do
           %h3.govuk-heading-m
             = t('.assessment_summary')

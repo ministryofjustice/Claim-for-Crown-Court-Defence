@@ -1,10 +1,8 @@
 require 'rails_helper'
 require File.expand_path('shared_examples_for_reports.rb', __dir__)
 
-RSpec.describe Reports::ProvisionalAssessmentsNew do
+RSpec.describe Reports::ProvisionalAssessmentsSummary do
   subject(:report) { described_class.new }
-
-  it_behaves_like 'data for an MI report'
 
   describe '::COLUMNS' do
     subject { described_class::COLUMNS }
@@ -15,14 +13,11 @@ RSpec.describe Reports::ProvisionalAssessmentsNew do
         total
         assessed
         disallowed
-        bill_type
-        case_type
-        earliest_representation_order_date
-        case_worker
-        maat_number
       ]
     )}
   end
+
+  it_behaves_like 'data for an MI report'
 
   describe '#call' do
     subject(:call) { described_class.call }
@@ -73,16 +68,11 @@ RSpec.describe Reports::ProvisionalAssessmentsNew do
       let(:external_user) { build(:external_user, provider: build(:provider, name: 'Test provider')) }
 
       it { expect(call.length).to eq(1) }
-      it { expect(call.first.length).to eq(9) }
+      it { expect(call.first.length).to eq(4) }
       it { expect(call.first[0]).to eq('Test provider') }
       it { expect(call.first[1]).to eq(claim.total_including_vat) }
       it { expect(call.first[2]).to eq(claim.amount_assessed) }
       it { expect(call.first[3]).to eq(claim.total_including_vat - claim.amount_assessed) }
-      it { expect(call.first[4]).to eq('AdvocateClaim') }
-      it { expect(call.first[5]).to eq(claim.case_type.name) }
-      it { expect(call.first[6]).to eq(claim.earliest_representation_order_date) }
-      it { expect(call.first[7]).to eq(claim.case_workers.last.name) }
-      it { expect(call.first[8]).to eq(claim.defendants.last.representation_orders.last.maat_reference) }
     end
   end
 end

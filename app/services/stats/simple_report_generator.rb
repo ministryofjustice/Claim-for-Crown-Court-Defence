@@ -22,7 +22,8 @@ module Stats
         provisional_assessment: Reports::ProvisionalAssessments,
         rejections_refusals: Reports::RejectionsRefusals,
         submitted_claims: Reports::SubmittedClaims,
-        provisional_assessment_new: Reports::ProvisionalAssessmentsNew
+        provisional_assessment_new: Reports::ProvisionalAssessmentsNew,
+        provisional_assessment_new: Reports::ProvisionalAssessmentsSummary,
       }[@report.to_sym]
     end
   end

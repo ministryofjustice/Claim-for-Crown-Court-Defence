@@ -29,6 +29,7 @@ module Stats
                Report.new(name: :agfs_management_information_statistics, date_required: true),
                Report.new(name: :lgfs_management_information_statistics, date_required: true),
                Report.new(name: :provisional_assessment),
+               Report.new(name: :provisional_assessment_new),
                Report.new(name: :rejections_refusals),
                Report.new(name: :submitted_claims),
                Report.new(name: :reports_access_details, hidden: true, updatable: false)].freeze

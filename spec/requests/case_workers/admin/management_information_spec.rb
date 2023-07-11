@@ -68,6 +68,7 @@ RSpec.describe 'Management information administration' do
          agfs_management_information_statistics
          lgfs_management_information_statistics
          provisional_assessment
+         provisional_assessment_new
          rejections_refusals
          submitted_claims
          reports_access_details]

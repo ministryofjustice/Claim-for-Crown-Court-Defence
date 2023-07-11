@@ -64,7 +64,7 @@ RSpec.describe Reports::ProvisionalAssessmentsNew do
       it { expect(call.first[1]).to eq(claim.total_including_vat) }
       it { expect(call.first[2]).to eq(claim.amount_assessed) }
       it { expect(call.first[3]).to eq(claim.total_including_vat - claim.amount_assessed) }
-      # it { expect(call.first[4]).to eq(Bill type) }
+      it { expect(call.first[4]).to eq('AdvocateClaim') }
       it { expect(call.first[5]).to eq(claim.case_type.name) }
       it { expect(call.first[6]).to eq(claim.earliest_representation_order_date) }
       it { expect(call.first[7]).to eq(claim.case_workers.last.name) }

@@ -21,7 +21,7 @@ module Reports
       }
     ].freeze
 
-    def self.call = new.call
+    def self.call(...) = new(...).call
 
     def call
       Claim::BaseClaim.includes(INCLUDES)
@@ -31,12 +31,20 @@ module Reports
 
     private
 
-    def format_row(claim)
-      total = claim.total_including_vat
-      assessed = claim.amount_assessed
+    def format_row(claim) = summary_fields(claim) + extended_fields(claim)
+
+    def summary_fields(claim)
       [
-        claim.provider.name, total, assessed, total - assessed,
-        'TBD - Bill type',
+        claim.provider.name,
+        claim.total_including_vat,
+        claim.amount_assessed,
+        claim.total_including_vat - claim.amount_assessed
+      ]
+    end
+
+    def extended_fields(claim)
+      [
+        claim.type.gsub('Claim::', ''),
         claim.case_type.name,
         claim.earliest_representation_order_date,
         claim.case_workers.last.name,

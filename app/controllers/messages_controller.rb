@@ -16,11 +16,10 @@
 
 class MessagesController < ApplicationController
   include ActiveStorage::SetCurrent
-
   respond_to :html
 
   def create
-    @message = Message.new(message_params.merge(sender_id: current_user.id))
+    @message = Message.new(message_params.merge(sender_id: current_user.id, body: encode_message_body))
 
     @notification = if @message.save
                       { notice: 'Message successfully sent' }
@@ -49,6 +48,10 @@ class MessagesController < ApplicationController
   def redirect_to_url
     method = "#{current_user.persona.class.to_s.pluralize.underscore}_claim_path"
     __send__(method, @message.claim, messages: true) + '#claim-accordion'
+  end
+
+  def encode_message_body
+    Base64.encode64(message_params[:body])
   end
 
   def refresh_required?

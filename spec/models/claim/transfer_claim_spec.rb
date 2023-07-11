@@ -12,6 +12,7 @@ describe Claim::TransferClaim do
 
   it { is_expected.not_to delegate_method(:requires_trial_dates?).to(:case_type) }
   it { is_expected.not_to delegate_method(:requires_retrial_dates?).to(:case_type) }
+  it { is_expected.to respond_to :disable_for_state_transition }
 
   context 'should delegate transfer detail attributes to transfer detail object' do
     it { is_expected.to delegate_method(:litigator_type).to(:transfer_detail) }

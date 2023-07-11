@@ -15,6 +15,7 @@ RSpec.describe Claim::LitigatorHardshipClaim do
   specify { expect(subject.supplementary?).to be_falsey }
 
   it { is_expected.to accept_nested_attributes_for(:hardship_fee) }
+  it { is_expected.to respond_to :disable_for_state_transition }
 
   describe '#eligible_case_types' do
     subject { claim.eligible_case_types }

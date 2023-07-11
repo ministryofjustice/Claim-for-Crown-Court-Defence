@@ -13,6 +13,7 @@ RSpec.describe Claim::InterimClaim do
 
   it { is_expected.to delegate_method(:requires_trial_dates?).to(:case_type) }
   it { is_expected.to delegate_method(:requires_retrial_dates?).to(:case_type) }
+  it { is_expected.to respond_to :disable_for_state_transition }
 
   describe '#interim?' do
     it 'returns true' do

@@ -82,7 +82,7 @@ module Claim
     accepts_nested_attributes_for :transfer_detail, reject_if: :all_blank, allow_destroy: false
     accepts_nested_attributes_for :transfer_fee, reject_if: :all_blank, allow_destroy: false
 
-    validates_with ::Claim::TransferClaimValidator
+    validates_with ::Claim::TransferClaimValidator, unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
     validates_with ::Claim::TransferClaimSubModelValidator
 
     before_validation do

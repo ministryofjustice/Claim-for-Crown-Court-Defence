@@ -14,18 +14,16 @@ describe Claim::TransferClaim do
   it { is_expected.not_to delegate_method(:requires_retrial_dates?).to(:case_type) }
   it { is_expected.to respond_to :disable_for_state_transition }
 
-  context 'should delegate transfer detail attributes to transfer detail object' do
-    it { is_expected.to delegate_method(:litigator_type).to(:transfer_detail) }
-    it { is_expected.to delegate_method(:elected_case).to(:transfer_detail) }
-    it { is_expected.to delegate_method(:transfer_stage_id).to(:transfer_detail) }
-    it { is_expected.to delegate_method(:transfer_date).to(:transfer_detail) }
-    it { is_expected.to delegate_method(:transfer_date_dd).to(:transfer_detail) }
-    it { is_expected.to delegate_method(:transfer_date_mm).to(:transfer_detail) }
-    it { is_expected.to delegate_method(:transfer_date_yyyy).to(:transfer_detail) }
-    it { is_expected.to delegate_method(:case_conclusion_id).to(:transfer_detail) }
-  end
+  it { is_expected.to delegate_method(:litigator_type).to(:transfer_detail) }
+  it { is_expected.to delegate_method(:elected_case).to(:transfer_detail) }
+  it { is_expected.to delegate_method(:transfer_stage_id).to(:transfer_detail) }
+  it { is_expected.to delegate_method(:transfer_date).to(:transfer_detail) }
+  it { is_expected.to delegate_method(:transfer_date_dd).to(:transfer_detail) }
+  it { is_expected.to delegate_method(:transfer_date_mm).to(:transfer_detail) }
+  it { is_expected.to delegate_method(:transfer_date_yyyy).to(:transfer_detail) }
+  it { is_expected.to delegate_method(:case_conclusion_id).to(:transfer_detail) }
 
-  context 'transfer fee' do
+  context 'when a transfer fee' do
     it 'creates a transfer fee when created in a factory' do
       claim = create(:transfer_claim)
       expect(claim.transfer_fee).to be_instance_of(Fee::TransferFee)
@@ -33,21 +31,20 @@ describe Claim::TransferClaim do
   end
 
   describe '.new' do
-    let(:today) { Date.today }
+    let(:today) { Time.zone.today }
 
     it 'does not create a transfer detail if no params are passed to new' do
-      claim = Claim::TransferClaim.new
+      claim = described_class.new
       expect(claim.transfer_detail).to be_nil
     end
 
     it 'builds a transfer detail if one of the transfer detail attributes is mentioned in a .new' do
-      claim = Claim::TransferClaim.new(elected_case: true)
+      claim = described_class.new(elected_case: true)
       expect(claim.transfer_detail).not_to be_nil
-      expect(claim.elected_case)
     end
 
     it 'builds a transfer detail on an existing claim when detail getter first used' do
-      claim = Claim::TransferClaim.new
+      claim = described_class.new
       expect(claim.transfer_detail).to be_nil
       claim.litigator_type
       expect(claim.transfer_detail).not_to be_nil
@@ -55,7 +52,7 @@ describe Claim::TransferClaim do
     end
 
     it 'builds a transfer detail on an existing claim when detail setter first used' do
-      claim = Claim::TransferClaim.new
+      claim = described_class.new
       expect(claim.transfer_detail).to be_nil
       claim.litigator_type = 'original'
       expect(claim.transfer_detail).not_to be_nil
@@ -64,7 +61,8 @@ describe Claim::TransferClaim do
     end
 
     it 'populates transfer detail with transfer detail attributes' do
-      claim = Claim::TransferClaim.new(case_number: 'A20161234', litigator_type: 'new', elected_case: false, transfer_stage_id: 10, transfer_date: today, case_conclusion_id: 30)
+      claim = described_class.new(case_number: 'A20161234', litigator_type: 'new', elected_case: false,
+                                  transfer_stage_id: 10, transfer_date: today, case_conclusion_id: 30)
       expect(claim.case_number).to eq 'A20161234'
       expect(claim.litigator_type).to eq 'new'
       expect(claim.elected_case).to be false
@@ -87,8 +85,8 @@ describe Claim::TransferClaim do
 
       c1 = create(:case_type, name: 'AGFS case type', roles: ['agfs'])
       c2 = create(:case_type, name: 'LGFS case type', roles: ['lgfs'])
-      c3 = create(:case_type, name: 'LGFS and Interim case type', roles: %w(lgfs interim))
-      c4 = create(:case_type, name: 'AGFS, LGFS and Interim case type', roles: %w(agfs lgfs interim))
+      c3 = create(:case_type, name: 'LGFS and Interim case type', roles: %w[lgfs interim])
+      c4 = create(:case_type, name: 'AGFS, LGFS and Interim case type', roles: %w[agfs lgfs interim])
 
       expect(claim.eligible_case_types).not_to include(c1)
       expect(claim.eligible_case_types).to include(c2)
@@ -143,8 +141,10 @@ describe Claim::TransferClaim do
       create(:defendant, claim:, scheme:)
       claim.reload
 
-      FeeScheme.find_or_create_by(name: 'LGFS', version: 9, start_date: Date.parse('1 Jan 1970'), end_date: Settings.lgfs_scheme_10_clair_release_date.end_of_day - 1.day)
-      FeeScheme.find_or_create_by(name: 'LGFS', version: 10, start_date: Settings.lgfs_scheme_10_clair_release_date.beginning_of_day)
+      FeeScheme.find_or_create_by(name: 'LGFS', version: 9, start_date: Date.parse('1 Jan 1970'),
+                                  end_date: Settings.lgfs_scheme_10_clair_release_date.end_of_day - 1.day)
+      FeeScheme.find_or_create_by(name: 'LGFS', version: 10,
+                                  start_date: Settings.lgfs_scheme_10_clair_release_date.beginning_of_day)
     end
 
     context 'when case is not elected' do

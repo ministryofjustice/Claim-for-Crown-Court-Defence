@@ -1,0 +1,68 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://ministryofjustice.zendesk.com/api/v2/tickets
+    body:
+      encoding: UTF-8
+      string: '{"ticket":{"subject":"Feedback (test)","description":"task: 1\nrating:
+        4\ncomment: lorem ipsum\nreason: [\"1\", \"2\"]\nother_reason: dolor sit","custom_fields":[{"id":"26047167","value":null},{"id":"23757677","value":"advocate_defence_payments"},{"id":"23791776","value":null},{"id":"32342378","value":"test"}],"comment":null}}'
+    headers:
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      User-Agent:
+      - ZendeskAPI Ruby 1.37.0
+      Authorization:
+      - Basic Og==
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 401
+      message: Unauthorized
+    headers:
+      Date:
+      - Tue, 11 Jul 2023 12:34:05 GMT
+      Content-Type:
+      - application/json; charset=utf-8
+      Content-Length:
+      - '37'
+      Connection:
+      - keep-alive
+      Www-Authenticate:
+      - Basic realm="Web Password"
+      Strict-Transport-Security:
+      - max-age=31536000;
+      Cache-Control:
+      - no-cache
+      X-Zendesk-Origin-Server:
+      - classic-app-server-79d6c5f89d-tgldp
+      Set-Cookie:
+      - __cfruid=91580d7c80468c0657e833928428b7334ed3166d-1689078845; path=/; domain=.ministryofjustice.zendesk.com;
+        HttpOnly; Secure; SameSite=None
+      - _zendesk_cookie=BAhJIhl7ImRldmljZV90b2tlbnMiOnt9fQY6BkVU--0bf2100788cb010d0183feca16aaf88ccaf719ca;
+        path=/; expires=Thu, 11 Jul 2024 06:49:54 GMT; secure; HttpOnly; SameSite=None
+      X-Request-Id:
+      - 7e511421cd787695-LHR
+      - 7e511421cd787695-LHR
+      X-Runtime:
+      - '0.053085'
+      X-Zendesk-Zorg:
+      - 'yes'
+      Cf-Cache-Status:
+      - DYNAMIC
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v3?s=Bz1WEdfljdG6mRZ0%2FaeO8whpYNFkGxU85NNI6k%2BPpGgUNgl%2FPSkc27I32rVHTwpFQN5wEjxukq8bqn7M8Jl02oIER47rlFL9L2f8p1AZ4olmKQ46VqMRrLbsHPSWHNeH6gX264ubwTk6Lal1kjrb"}],"group":"cf-nel","max_age":604800}'
+      Nel:
+      - '{"success_fraction":0.01,"report_to":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 7e511421cd787695-LHR
+    body:
+      encoding: UTF-8
+      string: '{"error":"Couldn''t authenticate you"}'
+  recorded_at: Tue, 11 Jul 2023 12:34:05 GMT
+recorded_with: VCR 6.2.0

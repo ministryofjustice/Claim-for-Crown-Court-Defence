@@ -5,7 +5,7 @@
   = render partial: 'external_users/claims/supporting_documents/disk_evidence', locals: { f: f }
 
 .document-ids
-  - @claim.documents.each do |document|
+  - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
     = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"
 
 %h3.govuk-heading-m

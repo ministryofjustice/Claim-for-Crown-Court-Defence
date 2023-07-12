@@ -14,6 +14,7 @@ class S3ZipDownloader
   private
 
   def build_zip_file(documents, bundle)
+    documents.includes(:document_blob, :converted_preview_document_attachment) # Eager load associations
     Dir.mktmpdir("#{@claim.case_number}-") do |tmp_dir|
       Zip::File.open(bundle, Zip::File::CREATE) do |zip_file|
         documents.map(&:document).each_with_index do |document, i|

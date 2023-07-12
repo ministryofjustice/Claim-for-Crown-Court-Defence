@@ -66,8 +66,8 @@ module Claim
   class InterimClaim < BaseClaim
     route_key_name 'litigators_interim_claim'
 
-    validates_with ::Claim::InterimClaimValidator
-    validates_with ::Claim::LitigatorSupplierNumberValidator
+    validates_with ::Claim::InterimClaimValidator, unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
+    validates_with ::Claim::LitigatorSupplierNumberValidator, if: proc { |c| c.draft? }
     validates_with ::Claim::InterimClaimSubModelValidator
 
     has_one :interim_fee,

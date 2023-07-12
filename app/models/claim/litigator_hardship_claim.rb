@@ -2,8 +2,9 @@ module Claim
   class LitigatorHardshipClaim < BaseClaim
     route_key_name 'litigators_hardship_claim'
 
-    validates_with ::Claim::LitigatorHardshipClaimValidator
-    validates_with ::Claim::LitigatorSupplierNumberValidator
+    validates_with ::Claim::LitigatorHardshipClaimValidator,
+                   unless: proc { |c| c.disable_for_state_transition.eql?(:all) }
+    validates_with ::Claim::LitigatorSupplierNumberValidator, if: proc { |c| c.draft? }
     validates_with ::Claim::LitigatorHardshipClaimSubModelValidator
 
     has_one :hardship_fee,

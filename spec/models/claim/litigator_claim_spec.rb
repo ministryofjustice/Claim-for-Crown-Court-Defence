@@ -73,8 +73,8 @@ RSpec.describe Claim::LitigatorClaim do
   it_behaves_like 'a claim delegating to case type'
   it_behaves_like 'uses claim cleaner', Cleaners::LitigatorClaimCleaner
 
-  it { should delegate_method(:requires_trial_dates?).to(:case_type) }
-  it { should delegate_method(:requires_retrial_dates?).to(:case_type) }
+  it { is_expected.to delegate_method(:requires_trial_dates?).to(:case_type) }
+  it { is_expected.to delegate_method(:requires_retrial_dates?).to(:case_type) }
   it { is_expected.to respond_to :disable_for_state_transition }
 
   describe '#final?' do
@@ -87,7 +87,7 @@ RSpec.describe Claim::LitigatorClaim do
     it 'returns only LGFS case types' do
       claim = build(:litigator_claim)
       CaseType.delete_all
-      agfs_lgfs_case_type = create(:case_type, name: 'AGFS and LGFS case type', roles: ['agfs', 'lgfs'])
+      agfs_lgfs_case_type = create(:case_type, name: 'AGFS and LGFS case type', roles: %w[agfs lgfs])
       create(:case_type, name: 'AGFS case type', roles: ['agfs'])
       lgfs_case_type = create(:case_type, name: 'LGFS case type', roles: ['lgfs'])
 
@@ -102,14 +102,14 @@ RSpec.describe Claim::LitigatorClaim do
   end
 
   describe 'fixed_fees' do
-    context 'no fixed fee exists' do
+    context 'when no fixed fee exists' do
       it 'returns and empty array' do
         claim = build(:litigator_claim)
         expect(claim.fixed_fees).to eq([])
       end
     end
 
-    context 'a fixed fee exists' do
+    context 'when a fixed fee exists' do
       it 'returns the fixed fee in an array' do
         claim = create(:litigator_claim, :fixed_fee)
         fee = create(:fixed_fee, claim:)
@@ -118,7 +118,7 @@ RSpec.describe Claim::LitigatorClaim do
     end
   end
 
-  context 'eligible basic, misc and fixed fee types' do
+  context 'with eligible basic, misc and fixed fee types' do
     let(:claim) { build(:litigator_claim) }
 
     describe '#eligible_basic_fee_types' do
@@ -170,7 +170,10 @@ RSpec.describe Claim::LitigatorClaim do
 
     describe 'on edit' do
       describe 'the claim is not in draft' do
-        let(:claim) { create(:litigator_claim, :fixed_fee, :forced_validation, fixed_fee: create(:fixed_fee, :lgfs), state: 'submitted') }
+        let(:claim) do
+          create(:litigator_claim, :fixed_fee, :forced_validation, fixed_fee: create(:fixed_fee, :lgfs),
+                                                                   state: 'submitted')
+        end
 
         it { is_expected.to be true }
       end

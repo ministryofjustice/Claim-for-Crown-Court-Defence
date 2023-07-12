@@ -9,12 +9,13 @@ RSpec.describe Claim::LitigatorHardshipClaim do
   it_behaves_like 'a claim delegating to case type'
   it_behaves_like 'uses claim cleaner', Cleaners::LitigatorHardshipClaimCleaner
 
-  specify { expect(subject.lgfs?).to be_truthy }
-  specify { expect(subject.final?).to be_falsey }
-  specify { expect(subject.interim?).to be_falsey }
-  specify { expect(subject.supplementary?).to be_falsey }
+  specify { expect(claim).to be_lgfs }
+  specify { expect(claim).not_to be_final }
+  specify { expect(claim).not_to be_interim }
+  specify { expect(claim).not_to be_supplementary }
 
   it { is_expected.to accept_nested_attributes_for(:hardship_fee) }
+  it { is_expected.to respond_to :disable_for_state_transition }
 
   describe '#eligible_case_types' do
     subject { claim.eligible_case_types }
@@ -27,7 +28,7 @@ RSpec.describe Claim::LitigatorHardshipClaim do
     it { is_expected.to all(have_attributes(is_fixed_fee: false)) }
   end
 
-  context 'eligible misc fee types' do
+  context 'with eligible misc fee types' do
     let(:claim) { build(:litigator_hardship_claim) }
 
     describe '#eligible_misc_fee_types' do

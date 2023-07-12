@@ -12,7 +12,7 @@
 
       = govuk_summary_list_row_collection( t('shared.summary.supporting_evidence') ) do
         %ul.govuk-list
-          - claim.documents.each do |document|
+          - claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
             %li
               = govuk_link_to document.document_file_name,
                         download_document_path(document),

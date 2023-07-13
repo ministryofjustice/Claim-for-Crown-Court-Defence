@@ -13,7 +13,7 @@ metadata:
       SecRuleRemoveById 200002
       SecRuleRemoveById 200003
       SecRule REQUEST_URI "@contains /messages" "id:1000,phase:2,pass,nolog,ctl:ruleRemoveById=921110,ctl:ruleRemoveById=933210"
-      SecRule ARGS "message[body]" "id:1001,phase:2,log,t:base64Encode"
+        SecRule ARGS "message[body]" "id:1001,phase:2,log,t:base64Encode"
 
     nginx.ingress.kubernetes.io/server-snippet: |
       deny 116.204.211.188;

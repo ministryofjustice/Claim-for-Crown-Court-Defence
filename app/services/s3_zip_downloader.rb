@@ -7,7 +7,7 @@ class S3ZipDownloader
 
   def generate!
     "./tmp/#{@claim.case_number}-#{SecureRandom.uuid}-documents.zip".tap do |bundle|
-      build_zip_file @@claim.documents.includes(:document_blob, :converted_preview_document_attachment), bundle
+      build_zip_file @claim.documents.includes(:document_blob, :converted_preview_document_attachment), bundle
     end
   end
 

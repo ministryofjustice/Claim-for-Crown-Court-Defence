@@ -7,14 +7,13 @@ class S3ZipDownloader
 
   def generate!
     "./tmp/#{@claim.case_number}-#{SecureRandom.uuid}-documents.zip".tap do |bundle|
-      build_zip_file @claim.documents, bundle
+      build_zip_file @@claim.documents.includes(:document_blob, :converted_preview_document_attachment), bundle
     end
   end
 
   private
 
   def build_zip_file(documents, bundle)
-    documents.includes(:document_blob, :converted_preview_document_attachment) # Eager load associations
     Dir.mktmpdir("#{@claim.case_number}-") do |tmp_dir|
       Zip::File.open(bundle, Zip::File::CREATE) do |zip_file|
         documents.map(&:document).each_with_index do |document, i|

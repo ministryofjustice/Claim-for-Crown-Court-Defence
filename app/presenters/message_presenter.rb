@@ -7,7 +7,7 @@ class MessagePresenter < BasePresenter
 
   def body
     h.tag.div do
-      h.concat(simple_format(decoded_message_body))
+      h.concat(simple_format(message.body))
       attachment_field if message.attachment.present?
     end
   end
@@ -23,9 +23,9 @@ class MessagePresenter < BasePresenter
 
   private
 
-  def decoded_message_body
-    base64?(message.body) ? Base64.decode64(message.body) : message.body
-  end
+  # def decoded_message_body
+  #   base64?(message.body) ? Base64.decode64(message.body) : message.body
+  # end
 
   def base64?(value)
     value.is_a?(String) && Base64.strict_encode64(Base64.decode64(value)) == value.strip

@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
   respond_to :html
 
   def create
-    @message = Message.new(message_params.merge(sender_id: current_user.id, body: encode_message_body))
+    @message = Message.new(message_params.merge(sender_id: current_user.id))
 
     @notification = if @message.save
                       { notice: 'Message successfully sent' }
@@ -50,9 +50,9 @@ class MessagesController < ApplicationController
     __send__(method, @message.claim, messages: true) + '#claim-accordion'
   end
 
-  def encode_message_body
-    Base64.encode64(message_params[:body])
-  end
+  # def encode_message_body
+  #   Base64.encode64(message_params[:body])
+  # end
 
   def refresh_required?
     Settings.claim_actions.include?(message_params[:claim_action])

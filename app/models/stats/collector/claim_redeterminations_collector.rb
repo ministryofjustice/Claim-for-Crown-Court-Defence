@@ -1,7 +1,7 @@
 module Stats
   module Collector
     class ClaimRedeterminationsCollector < BaseCollector
-      def initialize(date = Date.today)
+      def initialize(date = Time.zone.today)
         super
         @rolling_period = 7
         @rolling_period_start = (@date - @rolling_period.days).beginning_of_day

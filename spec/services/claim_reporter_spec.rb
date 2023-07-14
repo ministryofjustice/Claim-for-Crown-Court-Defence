@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe ClaimReporter do
   before(:all) do
     @draft_claim_1 = create(:draft_claim, form_id: SecureRandom.uuid)
-    @authorised_claim_1 = create(:authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid)
+    @authorised_claim_1 = create(:authorised_claim, authorised_at: Time.zone.now, form_id: SecureRandom.uuid)
     @submitted_claim_1 = create(:submitted_claim, form_id: SecureRandom.uuid)
     @allocated_claim_1 = create(:allocated_claim, form_id: SecureRandom.uuid)
     @allocated_claim_2 = create(:allocated_claim, form_id: SecureRandom.uuid)
-    @part_authorised_claim_1 = create(:part_authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid)
-    @part_authorised_claim_2 = create(:part_authorised_claim, authorised_at: Time.now, form_id: SecureRandom.uuid)
+    @part_authorised_claim_1 = create(:part_authorised_claim, authorised_at: Time.zone.now, form_id: SecureRandom.uuid)
+    @part_authorised_claim_2 = create(:part_authorised_claim, authorised_at: Time.zone.now, form_id: SecureRandom.uuid)
     @rejected_claim_1 = create(:rejected_claim, form_id: SecureRandom.uuid)
     @rejected_claim_2 = create(:rejected_claim, form_id: SecureRandom.uuid)
 

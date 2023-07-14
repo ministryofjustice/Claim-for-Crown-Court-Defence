@@ -264,7 +264,7 @@ RSpec.describe Claims::StateMachine do
     context 'make archive_pending_delete valid for 180 days' do
       subject(:claim) { create(:authorised_claim) }
 
-      let(:frozen_time) { Time.now.change(usec: 0) }
+      let(:frozen_time) { Time.zone.now.change(usec: 0) }
 
       before do
         travel_to(frozen_time) { claim.archive_pending_delete! }
@@ -279,13 +279,13 @@ RSpec.describe Claims::StateMachine do
       before { freeze_time }
 
       it 'sets the last_submitted_at to the current time' do
-        current_time = Time.now
+        current_time = Time.zone.now
         claim.submit!
         expect(claim.last_submitted_at).to eq(current_time)
       end
 
       it 'sets the original_submission_date to the current time' do
-        current_time = Time.now
+        current_time = Time.zone.now
         claim.submit!
         expect(claim.original_submission_date).to eq(current_time)
       end
@@ -293,7 +293,7 @@ RSpec.describe Claims::StateMachine do
 
     context 'update last_submitted_at on redetermination or await_written_reasons' do
       it 'set the last_submitted_at to the current time for redetermination' do
-        current_time = Time.now.change(usec: 0)
+        current_time = Time.zone.now.change(usec: 0)
         claim.submit!
         claim.allocate!
         claim.refuse!
@@ -305,7 +305,7 @@ RSpec.describe Claims::StateMachine do
       end
 
       it 'set the last_submitted_at to the current time for awaiting_written_reasons' do
-        current_time = Time.now.change(usec: 0)
+        current_time = Time.zone.now.change(usec: 0)
         claim.submit!
         claim.allocate!
         claim.refuse!
@@ -323,7 +323,7 @@ RSpec.describe Claims::StateMachine do
       it {
         claim.assessment.update(fees: 100.00, expenses: 23.45)
 
-        frozen_time = Time.now.change(usec: 0) + 1.month
+        frozen_time = Time.zone.now.change(usec: 0) + 1.month
         travel_to(frozen_time) { claim.authorise! }
 
         expect(claim.authorised_at).to eq(frozen_time)
@@ -336,7 +336,7 @@ RSpec.describe Claims::StateMachine do
       it {
         claim.assessment.update(fees: 100.00, expenses: 23.45)
 
-        frozen_time = Time.now.change(usec: 0) + 1.month
+        frozen_time = Time.zone.now.change(usec: 0) + 1.month
         travel_to(frozen_time) { claim.authorise_part! }
 
         expect(claim.authorised_at).to eq(frozen_time)

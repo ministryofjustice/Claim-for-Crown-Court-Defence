@@ -50,7 +50,7 @@ module Stats
 
       def label_column(int)
         if @x_axis_labels.nil?
-          (Date.today - (@dataset_size - int).days).strftime('%a %d %b %Y')
+          (Time.zone.today - (@dataset_size - int).days).strftime('%a %d %b %Y')
         else
           @x_axis_labels[int]
         end

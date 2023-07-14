@@ -155,10 +155,10 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
     end
 
-    let(:creation_date) { Time.new(2015, 8, 13, 14, 55, 23) }
-    let(:assessment_date) { Time.new(2015, 9, 1, 12, 34, 55) }
-    let(:first_redetermination_date)  { Time.new(2015, 9, 4, 7, 33, 22) }
-    let(:second_redetermination_date) { Time.new(2015, 9, 9, 13, 33, 55) }
+    let(:creation_date) { Time.zone.local(2015, 8, 13, 14, 55, 23) }
+    let(:assessment_date) { Time.zone.local(2015, 9, 1, 12, 34, 55) }
+    let(:first_redetermination_date)  { Time.zone.local(2015, 9, 4, 7, 33, 22) }
+    let(:second_redetermination_date) { Time.zone.local(2015, 9, 9, 13, 33, 55) }
     let(:presenter) { Claim::BaseClaimPresenter.new(@claim, view) }
 
     context 'one assessment, no redeterminations' do

@@ -111,7 +111,7 @@ RSpec.describe TimedTransitions::Transitioner do
                       claim_id: claim.id,
                       claim_state: 'archived_pending_delete',
                       softly_deleted_on: claim.deleted_at,
-                      valid_until: Time.now + 180.days,
+                      valid_until: 180.days.from_now,
                       dummy_run: false,
                       error: nil,
                       succeeded: true)

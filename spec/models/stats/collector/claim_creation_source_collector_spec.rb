@@ -38,7 +38,7 @@ module Stats
       end
 
       def report_day
-        Time.new(2018, 3, 5, 11, 44, 55)
+        Time.zone.local(2018, 3, 5, 11, 44, 55)
       end
     end
   end

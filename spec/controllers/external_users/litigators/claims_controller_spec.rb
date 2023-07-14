@@ -81,9 +81,9 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
                 date_of_birth_yyyy: '1980',
                 representation_orders_attributes: [
                   {
-                    representation_order_date_dd: Time.now.day.to_s,
-                    representation_order_date_mm: Time.now.month.to_s,
-                    representation_order_date_yyyy: Time.now.year.to_s,
+                    representation_order_date_dd: Time.zone.now.day.to_s,
+                    representation_order_date_mm: Time.zone.now.month.to_s,
+                    representation_order_date_yyyy: Time.zone.now.year.to_s,
                     maat_reference: '4561237'
                   }
                 ]

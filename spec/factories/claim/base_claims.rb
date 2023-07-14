@@ -10,7 +10,7 @@ FactoryBot.define do
     case_type
     offence
     advocate_category { 'QC' }
-    sequence(:cms_number) { |n| "CMS-#{Time.now.year}-#{rand(100..199)}-#{n}" }
+    sequence(:cms_number) { |n| "CMS-#{Time.zone.now.year}-#{rand(100..199)}-#{n}" }
 
     transient do
       create_defendant_and_rep_order { true }

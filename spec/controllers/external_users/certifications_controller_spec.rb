@@ -71,7 +71,7 @@ RSpec.describe ExternalUsers::CertificationsController do
       end
 
       context 'valid certification params for submission' do
-        let(:frozen_time) { Time.new(2018, 8, 20, 13, 54, 22) }
+        let(:frozen_time) { Time.zone.local(2018, 8, 20, 13, 54, 22) }
 
         it 'is a redirect to confirmation' do
           post :create, params: valid_certification_params(claim, certification_type)

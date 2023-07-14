@@ -4,7 +4,7 @@ require Rails.root.join('lib', 'demo_data', 'claim_state_advancer')
 module Stats
   module Collector
     describe TimeToCompletionCollector do
-      let(:base_time) { Time.new(2016, 1, 1, 12, 0, 0) }
+      let(:base_time) { Time.zone.local(2016, 1, 1, 12, 0, 0) }
       let(:decision_time) { base_time + 14.days }
 
       let(:decision_methods) do

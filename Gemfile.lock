@@ -295,7 +295,7 @@ GEM
       ffi (~> 1.0)
     globalid (1.1.0)
       activesupport (>= 5.0)
-    govuk_design_system_formbuilder (4.0.0)
+    govuk_design_system_formbuilder (4.1.0)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)
@@ -748,7 +748,7 @@ DEPENDENCIES
   faraday (~> 1.10)
   faraday_middleware (~> 1.2)
   geckoboard-ruby
-  govuk_design_system_formbuilder (~> 4.0)
+  govuk_design_system_formbuilder (~> 4.1)
   govuk_notify_rails (~> 2.2.0)
   grape (~> 1.7.1)
   grape-entity (~> 1.0.0)

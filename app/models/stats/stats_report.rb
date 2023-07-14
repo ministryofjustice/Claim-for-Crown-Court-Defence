@@ -71,15 +71,15 @@ module Stats
       end
 
       def record_start(report_name)
-        create!(report_name:, status: 'started', started_at: Time.now)
+        create!(report_name:, status: 'started', started_at: Time.zone.now)
       end
 
       def destroy_reports_older_than(report_name, timestamp)
-        where(report_name:, started_at: Time.at(0)..timestamp).destroy_all
+        where(report_name:, started_at: Time.zone.at(0)..timestamp).destroy_all
       end
 
       def destroy_unfinished_reports_older_than(report_name, timestamp)
-        where(report_name:, status: 'started', started_at: Time.at(0)..timestamp).destroy_all
+        where(report_name:, status: 'started', started_at: Time.zone.at(0)..timestamp).destroy_all
       end
     end
 

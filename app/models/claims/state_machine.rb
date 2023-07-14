@@ -228,20 +228,20 @@ module Claims
     end
 
     def set_original_submission_date!
-      update_column(:original_submission_date, Time.now)
+      update_column(:original_submission_date, Time.zone.now)
     end
 
     def set_last_submission_date!
-      update_column(:last_submitted_at, Time.now)
+      update_column(:last_submitted_at, Time.zone.now)
     end
 
     def set_authorised_date!
-      update_column(:authorised_at, Time.now)
+      update_column(:authorised_at, Time.zone.now)
     end
 
     def set_valid_until!(transition)
       validity = transition.to == 'archived_pending_delete' ? ARCHIVE_VALIDITY : STANDARD_VALIDITY
-      update_column(:valid_until, Time.now + validity)
+      update_column(:valid_until, Time.zone.now + validity)
     end
 
     def set_amount_assessed_zero!

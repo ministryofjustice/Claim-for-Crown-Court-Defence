@@ -7,7 +7,7 @@ module Stats
       STRFTIME_MASK = '%Y-%m-%d %H:%M:%S.%6N'.freeze
       SECONDS_IN_DAY = 60 * 60 * 24
 
-      def initialize(date = Date.today)
+      def initialize(date = Time.zone.today)
         @date = date
         @beginning_of_day = @date.beginning_of_day.utc.strftime(STRFTIME_MASK)
         @end_of_day = @date.end_of_day.utc.strftime(STRFTIME_MASK)

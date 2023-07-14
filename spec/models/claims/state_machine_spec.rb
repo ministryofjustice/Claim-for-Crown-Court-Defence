@@ -10,7 +10,6 @@ RSpec.describe Claims::StateMachine do
         :archived_pending_delete,
         :archived_pending_review,
         :awaiting_written_reasons,
-        :deleted,
         :draft,
         :authorised,
         :part_authorised,

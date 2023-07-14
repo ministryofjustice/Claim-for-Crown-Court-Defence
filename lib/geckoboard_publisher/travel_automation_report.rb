@@ -3,7 +3,7 @@ module GeckoboardPublisher
     def initialize(start_date = Date.yesterday, end_date = nil)
       super
       @start_date = start_date
-      @end_date = end_date.present? ? end_date : start_date
+      @end_date = (end_date.presence || start_date)
     end
 
     def push!
@@ -47,7 +47,7 @@ module GeckoboardPublisher
           record[:accepted] = expenses.where('calculated_distance = distance').count
           record[:increased] = expenses.where('calculated_distance < distance').count
           record[:reduced] = expenses.where('calculated_distance > distance').count
-          record[:percent_accepted] =  record[:accepted].fdiv(record[:total_calculated]).round(2)
+          record[:percent_accepted] = record[:accepted].fdiv(record[:total_calculated]).round(2)
           record[:percent_increased] = record[:increased].fdiv(record[:total_calculated].to_f).round(2)
           record[:percent_reduced] = record[:reduced].fdiv(record[:total_calculated].to_f).round(2)
           record[:cost_increased] = calculate_cost(expenses.where('calculated_distance < distance'), :increase)

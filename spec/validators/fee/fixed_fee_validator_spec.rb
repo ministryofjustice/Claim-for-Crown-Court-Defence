@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Fee::FixedFeeValidator, type: :validator do
   include_context 'force-validation'
 
-  let(:fee) { build(:fixed_fee, claim:, date: Date.today) }
+  let(:fee) { build(:fixed_fee, claim:, date: Time.zone.today) }
   let(:fee_code) { fee.fee_type.code }
 
   # AGFS claims are validated as part of the base_fee_validator_spec

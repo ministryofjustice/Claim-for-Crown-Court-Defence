@@ -15,6 +15,6 @@ FactoryBot.define do
   factory :certification do
     certification_type
     certified_by        { 'Stepriponikas Bonstart' }
-    certification_date  { Date.today }
+    certification_date  { Time.zone.today }
   end
 end

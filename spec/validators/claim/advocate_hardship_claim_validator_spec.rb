@@ -84,20 +84,20 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
     end
 
     context 'with first day of trial over 10 years ago' do
-      before { claim.first_day_of_trial = Date.today - 10.years - 1.day }
+      before { claim.first_day_of_trial = Time.zone.today - 10.years - 1.day }
 
       it { should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be too far in the past') }
     end
 
     context 'with first day of trial in the future' do
-      before { claim.first_day_of_trial = Date.today + 1.day }
+      before { claim.first_day_of_trial = Time.zone.today + 1.day }
 
       it { should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be in the future') }
     end
 
     context 'with first day of trial after trial_concluded_at' do
       before do
-        claim.trial_concluded_at = Date.today - 1.day
+        claim.trial_concluded_at = Time.zone.today - 1.day
         claim.first_day_of_trial = claim.trial_concluded_at + 1.day
       end
 
@@ -153,7 +153,7 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
       context 'with actual trial length does not match dates' do
         before do
           claim.estimated_trial_length = 10
-          claim.first_day_of_trial = Date.today - 1.month
+          claim.first_day_of_trial = Time.zone.today - 1.month
           claim.trial_concluded_at = claim.first_day_of_trial + 9.days
           claim.actual_trial_length = 11
         end
@@ -168,20 +168,20 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
       end
 
       context 'with first day of trial over 10 years ago' do
-        before { claim.first_day_of_trial = Date.today - 10.years - 1.day }
+        before { claim.first_day_of_trial = Time.zone.today - 10.years - 1.day }
 
         it { should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be too far in the past') }
       end
 
       context 'with first day of trial in the future' do
-        before { claim.first_day_of_trial = Date.today + 1.day }
+        before { claim.first_day_of_trial = Time.zone.today + 1.day }
 
         it { should_error_with(claim, :first_day_of_trial, 'First day of trial cannot be in the future') }
       end
 
       context 'with first day of trial after trial_concluded_at' do
         before do
-          claim.first_day_of_trial = Date.today
+          claim.first_day_of_trial = Time.zone.today
           claim.trial_concluded_at = claim.first_day_of_trial - 1.day
         end
 
@@ -236,20 +236,20 @@ RSpec.describe Claim::AdvocateHardshipClaimValidator, type: :validator do
       end
 
       context 'with retrial started at over 10 years ago' do
-        before { claim.retrial_started_at = Date.today - 10.years - 1.day }
+        before { claim.retrial_started_at = Time.zone.today - 10.years - 1.day }
 
         it { should_error_with(claim, :retrial_started_at, 'First day of retrial cannot be too far in the past') }
       end
 
       context 'with retrial started at in the future' do
-        before { claim.retrial_started_at = Date.today + 1.day }
+        before { claim.retrial_started_at = Time.zone.today + 1.day }
 
         it { should_error_with(claim, :retrial_started_at, 'First day of retrial cannot be too far in the future') }
       end
 
       context 'with retrial started at after retrial_concluded_at' do
         before do
-          claim.retrial_concluded_at = Date.today - 1.day
+          claim.retrial_concluded_at = Time.zone.today - 1.day
           claim.retrial_started_at = claim.retrial_concluded_at + 1.day
         end
 

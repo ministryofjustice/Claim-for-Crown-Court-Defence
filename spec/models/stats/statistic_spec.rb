@@ -28,9 +28,9 @@ module Stats
         context 'with no value specified for value 2' do
           it 'creates a new record when no record exists' do
             expect(Statistic.count).to eq 0
-            Statistic.create_or_update(Date.today, 'my_report', Claim::AdvocateClaim, 566)
+            Statistic.create_or_update(Time.zone.today, 'my_report', Claim::AdvocateClaim, 566)
             record = Statistic.first
-            expect(record.date).to eq Date.today
+            expect(record.date).to eq Time.zone.today
             expect(record.report_name).to eq 'my_report'
             expect(record.claim_type).to eq 'Claim::AdvocateClaim'
             expect(record.value_1).to eq 566
@@ -38,7 +38,7 @@ module Stats
           end
 
           it 'returns 1 if a record has been added' do
-            retval = Statistic.create_or_update(Date.today, 'my_report', Claim::AdvocateClaim, 566)
+            retval = Statistic.create_or_update(Time.zone.today, 'my_report', Claim::AdvocateClaim, 566)
             expect(retval).to eq 1
           end
         end
@@ -46,9 +46,9 @@ module Stats
         context 'with a value specified for value 2' do
           it 'creates a new record when no record exists' do
             expect(Statistic.count).to eq 0
-            Statistic.create_or_update(Date.today, 'my_report', Claim::AdvocateClaim, 566, 36)
+            Statistic.create_or_update(Time.zone.today, 'my_report', Claim::AdvocateClaim, 566, 36)
             record = Statistic.first
-            expect(record.date).to eq Date.today
+            expect(record.date).to eq Time.zone.today
             expect(record.report_name).to eq 'my_report'
             expect(record.claim_type).to eq 'Claim::AdvocateClaim'
             expect(record.value_1).to eq 566
@@ -58,21 +58,21 @@ module Stats
       end
 
       context 'record with that key already exists' do
-        before { Statistic.create_or_update(Date.today, 'my_report', Claim::AdvocateClaim, 566) }
+        before { Statistic.create_or_update(Time.zone.today, 'my_report', Claim::AdvocateClaim, 566) }
 
         context 'with no value specified for value 2' do
           it 'updates the existing recofrd with the new value' do
             expect(Statistic.count).to eq 1
-            Statistic.create_or_update(Date.today, 'my_report', Claim::AdvocateClaim, 955)
+            Statistic.create_or_update(Time.zone.today, 'my_report', Claim::AdvocateClaim, 955)
             record = Statistic.first
-            expect(record.date).to eq Date.today
+            expect(record.date).to eq Time.zone.today
             expect(record.report_name).to eq 'my_report'
             expect(record.claim_type).to eq 'Claim::AdvocateClaim'
             expect(record.value_1).to eq 955
           end
 
           it 'returns 0 if an existing record has been updated' do
-            retval = Statistic.create_or_update(Date.today, 'my_report', Claim::AdvocateClaim, 955)
+            retval = Statistic.create_or_update(Time.zone.today, 'my_report', Claim::AdvocateClaim, 955)
             expect(retval).to eq 0
           end
         end
@@ -80,9 +80,9 @@ module Stats
         context 'with a value specified for value 2' do
           it 'updates the existing recofrd with the new value' do
             expect(Statistic.count).to eq 1
-            Statistic.create_or_update(Date.today, 'my_report', Claim::AdvocateClaim, 955, 27)
+            Statistic.create_or_update(Time.zone.today, 'my_report', Claim::AdvocateClaim, 955, 27)
             record = Statistic.first
-            expect(record.date).to eq Date.today
+            expect(record.date).to eq Time.zone.today
             expect(record.report_name).to eq 'my_report'
             expect(record.claim_type).to eq 'Claim::AdvocateClaim'
             expect(record.value_1).to eq 955

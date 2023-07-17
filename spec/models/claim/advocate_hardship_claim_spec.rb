@@ -37,7 +37,7 @@ RSpec.shared_examples 'trial_cracked_at assigner' do
     end
 
     it 'assigns trial_cracked_at to current date' do
-      expect { claim.submit! }.to change(claim, :trial_cracked_at).from(1.week.ago.to_date).to(Date.today)
+      expect { claim.submit! }.to change(claim, :trial_cracked_at).from(1.week.ago.to_date).to(Time.zone.today)
     end
   end
 

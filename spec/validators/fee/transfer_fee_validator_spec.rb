@@ -29,12 +29,12 @@ RSpec.describe Fee::TransferFeeValidator, type: :validator do
 
   describe 'absence of unnecessary attributes' do
     it 'validates absence of warrant issued date' do
-      fee.warrant_issued_date = Date.today
+      fee.warrant_issued_date = Time.zone.today
       expect(fee).to be_invalid
     end
 
     it 'validates absence of warrant executed date' do
-      fee.warrant_executed_date = Date.today
+      fee.warrant_executed_date = Time.zone.today
       expect(fee).to be_invalid
     end
 

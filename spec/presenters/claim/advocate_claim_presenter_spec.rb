@@ -52,7 +52,7 @@ RSpec.describe Claim::AdvocateClaimPresenter, type: :presenter do
   describe 'calculate #fixed_fees' do
     before do
       allow(presenter).to receive(:raw_fixed_fees_total).and_return 10.0
-      allow(claim).to receive(:created_at).and_return Date.today
+      allow(claim).to receive(:created_at).and_return Time.zone.today
       allow(claim).to receive(:apply_vat?).and_return true
     end
 

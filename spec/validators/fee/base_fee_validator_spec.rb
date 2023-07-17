@@ -175,7 +175,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
   describe '#validate_warrant_issued_date' do
     it 'raises error if date present' do
-      fee.warrant_issued_date = Date.today
+      fee.warrant_issued_date = Time.zone.today
       expect(fee).not_to be_valid
       expect(fee.errors[:warrant_issued_date]).to eq(['present'])
     end
@@ -183,7 +183,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
 
   describe '#validate_warrant_executed_date' do
     it 'raises error if date present' do
-      fee.warrant_executed_date = Date.today
+      fee.warrant_executed_date = Time.zone.today
       expect(fee).not_to be_valid
       expect(fee.errors[:warrant_executed_date]).to eq(['present'])
     end

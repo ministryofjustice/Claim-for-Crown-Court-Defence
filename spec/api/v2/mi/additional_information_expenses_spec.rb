@@ -15,7 +15,7 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
   let(:start_date) { Date.new(2018, 01, 01).to_s(:db) }
   let(:end_date) { Date.new(2018, 01, 31).to_s(:db) }
   let(:create_data?) { false }
-  let(:run_date) { Date.today }
+  let(:run_date) { Time.zone.today }
 
   describe 'GET additional_travel_expense_information' do
     def populate_expense_data

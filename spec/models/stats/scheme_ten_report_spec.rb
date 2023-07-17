@@ -18,7 +18,7 @@ module Stats
       end
 
       context 'when the date is today' do
-        let(:new_date) { Date.today }
+        let(:new_date) { Time.zone.today }
 
         it { is_expected.to be false }
       end

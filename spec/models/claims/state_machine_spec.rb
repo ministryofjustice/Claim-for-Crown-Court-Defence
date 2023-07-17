@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Claims::StateMachine do
   subject(:claim) { create(:advocate_claim) }
 
-  context 'state machine' do
+  describe 'state machine' do
     let(:states) do
       %i[
         allocated
@@ -39,7 +39,7 @@ RSpec.describe Claims::StateMachine do
     let(:assessment) { create(:assessment) }
     let(:case_type) { create(:case_type, :cbr) }
 
-    context 'sets flag to disable all validations' do
+    context 'when all validations are disabled for transitions' do
       transition_event_chains = {
         allocate: %i[allocate!],
         archive_pending_delete: %i[allocate! refuse! archive_pending_delete!],
@@ -66,7 +66,7 @@ RSpec.describe Claims::StateMachine do
       end
     end
 
-    context 'sets flag to enable only assessment validations' do
+    context 'when only assessment validations are enabled for transitions' do
       before do
         claim.allocate!
         claim.assessment.update!(fees: 100.00)
@@ -83,7 +83,7 @@ RSpec.describe Claims::StateMachine do
   end
 
   describe 'valid transitions' do
-    context 'from redetermination' do
+    context 'when current state is redetermination' do
       before do
         claim.submit!
         claim.allocate!
@@ -94,7 +94,7 @@ RSpec.describe Claims::StateMachine do
       it { expect { claim.allocate! }.to change(claim, :state).to('allocated') }
     end
 
-    context 'from awaiting_written_reasons' do
+    context 'when current state is awaiting_written_reasons' do
       before do
         claim.submit!
         claim.allocate!
@@ -105,7 +105,7 @@ RSpec.describe Claims::StateMachine do
       it { expect { claim.allocate! }.to change(claim, :state).to('allocated') }
     end
 
-    context 'from allocated' do
+    context 'when current state is allocated' do
       before do
         claim.submit!
         claim.allocate!
@@ -153,12 +153,12 @@ RSpec.describe Claims::StateMachine do
       end
     end
 
-    context 'from draft' do
+    context 'when current state is draft' do
       it { expect { claim.submit! }.to change(claim, :state).to('submitted') }
       it { expect { claim.archive_pending_delete! }.to raise_error(StateMachines::InvalidTransition) }
     end
 
-    context 'from authorised' do
+    context 'when current state is authorised' do
       before do
         claim.submit!
         claim.allocate!
@@ -187,7 +187,7 @@ RSpec.describe Claims::StateMachine do
       end
     end
 
-    context 'from part_authorised' do
+    context 'when current state is part_authorised' do
       before do
         claim.submit!
         claim.allocate!
@@ -200,7 +200,7 @@ RSpec.describe Claims::StateMachine do
       it { expect { claim.archive_pending_delete! }.to change(claim, :state).to('archived_pending_delete') }
     end
 
-    context 'from refused' do
+    context 'when current state is refused' do
       before do
         claim.submit!
         claim.allocate!
@@ -212,7 +212,7 @@ RSpec.describe Claims::StateMachine do
       it { expect { claim.archive_pending_delete! }.to change(claim, :state).to('archived_pending_delete') }
     end
 
-    context 'from rejected' do
+    context 'when current state is rejected' do
       before do
         claim.submit!
         claim.allocate!
@@ -222,7 +222,7 @@ RSpec.describe Claims::StateMachine do
       it { expect { claim.archive_pending_delete! }.to change(claim, :state).to('archived_pending_delete') }
     end
 
-    context 'from submitted' do
+    context 'when current state is submitted' do
       before { claim.submit! }
 
       it { expect { claim.allocate! }.to change(claim, :state).to('allocated') }
@@ -296,7 +296,7 @@ RSpec.describe Claims::StateMachine do
       }
     end
 
-    context 'make last_submitted_at attribute equal now' do
+    context 'when submitting a claim' do
       before { freeze_time }
 
       it 'sets the last_submitted_at to the current time' do
@@ -354,7 +354,7 @@ RSpec.describe Claims::StateMachine do
       }
     end
 
-    describe 'authorise_part! makes authorised_at attribute equal now' do
+    context 'when part-authorising a claim' do
       before do
         claim.submit!
         claim.allocate!

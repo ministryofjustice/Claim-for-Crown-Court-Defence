@@ -371,22 +371,22 @@ RSpec.describe Claims::StateMachine do
     end
   end
 
-  describe '.is_in_state?' do
+  describe '.in_state?' do
     let(:claim) { build(:unpersisted_claim) }
 
     it 'is true if state is in EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('allocated')
-      expect(described_class.is_in_state?(:external_user_dashboard_submitted?, claim)).to be true
+      expect(described_class.in_state?(:external_user_dashboard_submitted?, claim)).to be true
     end
 
     it 'returns false if the state is not one of the EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('draft')
-      expect(described_class.is_in_state?(:external_user_dashboard_submitted?, claim)).to be false
+      expect(described_class.in_state?(:external_user_dashboard_submitted?, claim)).to be false
     end
 
     it 'returns false if the method name is not recognised' do
       allow(claim).to receive(:state).and_return('draft')
-      expect(described_class.is_in_state?(:external_user_rubbish_submitted?, claim)).to be false
+      expect(described_class.in_state?(:external_user_rubbish_submitted?, claim)).to be false
     end
   end
 

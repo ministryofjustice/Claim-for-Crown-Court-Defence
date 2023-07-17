@@ -328,15 +328,15 @@ module Claim
     # responds to methods like claim.external_user_dashboard_submitted? which correspond to the
     # constant EXTERNAL_USER_DASHBOARD_REJECTED_STATES in Claims::StateMachine
     def method_missing(method, *args)
-      if Claims::StateMachine.has_state?(method)
-        Claims::StateMachine.is_in_state?(method, self)
+      if Claims::StateMachine.can_be_in_state?(method)
+        Claims::StateMachine.in_state?(method, self)
       else
         super
       end
     end
 
     def respond_to_missing?(method, include_private = false)
-      Claims::StateMachine.has_state?(method) || super
+      Claims::StateMachine.can_be_in_state?(method) || super
     end
 
     def allocated_to_case_worker?(case_worker)

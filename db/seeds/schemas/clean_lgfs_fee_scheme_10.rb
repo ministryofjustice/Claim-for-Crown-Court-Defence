@@ -91,28 +91,28 @@ module Seeds
           new_offence.id = 7999 + offence.id # lib/tasks/lgfs_scheme_ten.rake starts adding ids at 8000
           new_offence.unique_code = new_offence.unique_code + '~10'
           new_offence.fee_schemes = [fee_scheme_ten]
-          claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_ten }
+          # claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_ten }
           raise SchemeTenOffenceExists unless new_offence.valid?
           if pretending?
             puts "    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".yellow
             puts "    [WOULD-REMOVE] Fee scheme 10 from offence #{offence.unique_code}".yellow
-            puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".yellow
+            # puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".yellow
           else
             puts "    [CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".green
             new_offence.save!
             puts "      [SUCCESS]".green
             puts "    [REMOVE] Fee scheme 10 from offence #{offence.unique_code}".green
             offence.fee_schemes.delete(fee_scheme_ten)
-            puts "    [UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".green
-            # It should be possible to do update_claims(claims, new_offence) but claims is an array instead of an ActiveRecord collection
-            offence.claims.each do |claim|
-              if claim.offence == offence
-                claim.offence = new_offence
-                claim.save
-              else
-                puts "    [ERROR] Claim #{claim.id} does not have offence #{offence.unique_code}".red
-              end
-            end
+            # puts "    [UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".green
+            # # It should be possible to do update_claims(claims, new_offence) but claims is an array instead of an ActiveRecord collection
+            # offence.claims.each do |claim|
+            #   if claim.offence == offence
+            #     claim.offence = new_offence
+            #     claim.save
+            #   else
+            #     puts "    [ERROR] Claim #{claim.id} does not have offence #{offence.unique_code}".red
+            #   end
+            # end
           end
         rescue SchemeTenOffenceExists, ActiveRecord::RecordNotUnique
           puts "      [FAILED]".red

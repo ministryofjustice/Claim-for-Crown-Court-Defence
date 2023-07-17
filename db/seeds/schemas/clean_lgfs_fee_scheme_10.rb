@@ -5,6 +5,7 @@ module Seeds
       alias_method :pretending?, :pretend
 
       class MissingSchemeNineOffence < StandardError; end
+      class SchemeTenOffenceExists < StandardError; end
 
       def initialize(pretend: false)
         @pretend = pretend
@@ -41,7 +42,7 @@ module Seeds
           puts "  #{offence.offence_class.description[0, 60]}"
           Offence.transaction do
             new_offence = scheme_nine_offence_for(offence)
-            update_claims_for(offence, new_offence)
+            update_claims(offence.claims, new_offence)
             add_scheme_ten_to(new_offence)
             remove_redundant(offence)
           end
@@ -49,8 +50,17 @@ module Seeds
         end
       end
 
-    #   def down
-    #   end
+      def down
+        all_lgfs_offences.each do |offence|
+          puts "Offence: #{offence.unique_code}"
+          puts "  #{offence.description[0, 60]}"
+          puts "  #{offence.offence_class.description[0, 60]}"
+          Offence.transaction do
+            create_scheme_ten_offence_for(offence)
+          end
+          puts "-----"
+        end
+      end
 
       private
 
@@ -71,22 +81,56 @@ module Seeds
         end
       end
 
+      def create_scheme_ten_offence_for(offence)
+        if offence.unique_code.match(/~10/)
+          puts "    [NOT-DUPLICATING] Offence #{offence.unique_code}".yellow
+          return
+        end
+        begin
+          new_offence = offence.dup
+          new_offence.id = 7999 + offence.id # lib/tasks/lgfs_scheme_ten.rake starts adding ids at 8000
+          new_offence.unique_code = new_offence.unique_code + '~10'
+          new_offence.fee_schemes = [fee_scheme_ten]
+          claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_ten }
+          raise SchemeTenOffenceExists unless new_offence.valid?
+          if pretending?
+            puts "    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".yellow
+            puts "    [WOULD-REMOVE] Fee scheme 10 from offence #{offence.unique_code}".yellow
+            puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".yellow
+          else
+            puts "    [CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".green
+            new_offence.save!
+            puts "      [SUCCESS]".green
+            puts "    [REMOVE] Fee scheme 10 from offence #{offence.unique_code}".green
+            offence.fee_schemes.delete(fee_scheme_ten)
+            puts "    [UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".green
+            # It should be possible to do update_claims(claims, new_offence) but claims is an array instead of an ActiveRecord collection
+            offence.claims.each do |claim|
+              if claim.offence == offence
+                claim.offence = new_offence
+                claim.save
+              else
+                puts "    [ERROR] Claim #{claim.id} does not have offence #{offence.unique_code}".red
+              end
+            end
+          end
+        rescue SchemeTenOffenceExists, ActiveRecord::RecordNotUnique
+          puts "      [FAILED]".red
+        end
+      end
+
       def offences_match?(first, second)
         return false if first.nil? || second.nil?
 
         (first.description == second.description) && (first.offence_class_id == second.offence_class_id)
       end
 
-      def update_claims_for(offence, new_offence)
-        puts "  Claims to update: #{offence.claims.count}"
-        offence.claims.each do |claim|
-          if pretending?
-            puts "    [WOULD-UPDATE] Claim id #{claim.id}".yellow
-          else
-            puts "    [UPDATE] Claim id #{claim.id}".green
-            claim.offence = new_offence
-            claim.save!
-          end
+      def update_claims(claims, new_offence)
+        if pretending?
+          puts "    [WOULD-UPDATE] #{claims.count} claims".yellow
+        else
+          puts "    [UPDATE] #{claims.count} claims".green
+          claims.update_all(offence_id: new_offence.id)
         end
       end
 

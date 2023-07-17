@@ -27,18 +27,22 @@ namespace :db do
     end
 
 
-    # desc 'Revert LGFS fee scheme 10 offences'
-    # task :rollback, [:not_pretend] => :environment do |_task, args|
+    desc 'Revert LGFS fee scheme 10 offences'
+    task :rollback, [:not_pretend] => :environment do |_task, args|
 
-    #   # rollback['true'] should rollback, otherwise pretend
-    #   args.with_defaults(not_pretend: 'false')
-    #   not_pretend = !args.not_pretend.to_s.downcase.eql?('false')
-    #   pretend = !not_pretend
+      # rollback['true'] should rollback, otherwise pretend
+      args.with_defaults(not_pretend: 'false')
+      not_pretend = !args.not_pretend.to_s.downcase.eql?('false')
+      pretend = !not_pretend
 
-    #   continue?('This will destroy LGFS Fee Scheme 10 (CLAIR - September 2022), offences and fee types. Are you sure?') if not_pretend
-    #   puts "#{pretend ? 'pretending' : 'working'}...".yellow
+      continue?('This will recreate spearate offences for LGFS fee scheme 10. Are you sure?') if not_pretend
+      puts "#{pretend ? 'pretending' : 'working'}...".yellow
 
-    #   TODO
-    # end
+      log_level = ActiveRecord::Base.logger.level
+      ActiveRecord::Base.logger.level = 1
+      cleaner = Seeds::Schemas::CleanLgfsFeeScheme10.new(pretend: pretend)
+      cleaner.down
+      ActiveRecord::Base.logger.level = log_level
+    end
   end
 end

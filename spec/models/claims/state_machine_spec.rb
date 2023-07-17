@@ -84,13 +84,23 @@ RSpec.describe Claims::StateMachine do
 
   describe 'valid transitions' do
     context 'from redetermination' do
-      before { claim.submit! }
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.refuse!
+        claim.redetermine!
+      end
 
       it { expect { claim.allocate! }.to change(claim, :state).to('allocated') }
     end
 
     context 'from awaiting_written_reasons' do
-      before { claim.submit! }
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.refuse!
+        claim.await_written_reasons!
+      end
 
       it { expect { claim.allocate! }.to change(claim, :state).to('allocated') }
     end

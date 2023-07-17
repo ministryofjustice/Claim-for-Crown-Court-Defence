@@ -5,19 +5,19 @@ RSpec.describe Claims::StateMachine do
 
   context 'state machine' do
     let(:states) do
-      [
-        :allocated,
-        :archived_pending_delete,
-        :archived_pending_review,
-        :awaiting_written_reasons,
-        :draft,
-        :authorised,
-        :part_authorised,
-        :refused,
-        :rejected,
-        :redetermination,
-        :submitted,
-        :deallocated
+      %i[
+        allocated
+        archived_pending_delete
+        archived_pending_review
+        awaiting_written_reasons
+        draft
+        authorised
+        part_authorised
+        refused
+        rejected
+        redetermination
+        submitted
+        deallocated
       ]
     end
 
@@ -31,7 +31,7 @@ RSpec.describe Claims::StateMachine do
 
     let(:states) { Claim::BaseClaim.active.state_machine.states.map(&:name).sort }
 
-    it { is_expected.to eql (states - [:draft, :submitted]).map(&:to_s) }
+    it { is_expected.to eql (states - %i[draft submitted]).map(&:to_s) }
   end
 
   describe '#around_transition' do
@@ -40,7 +40,7 @@ RSpec.describe Claims::StateMachine do
     let(:case_type) { create(:case_type, :cbr) }
 
     context 'sets flag to disable all validations' do
-      TRANSITION_EVENT_CHAINS = {
+      transition_event_chains = {
         allocate: %i[allocate!],
         archive_pending_delete: %i[allocate! refuse! archive_pending_delete!],
         await_written_reasons: %i[allocate! refuse! await_written_reasons!],
@@ -50,7 +50,7 @@ RSpec.describe Claims::StateMachine do
         reject: %i[allocate! reject!]
       }
 
-      TRANSITION_EVENT_CHAINS.each_value do |events|
+      transition_event_chains.each_value do |events|
         context "when transitioning via event chain #{events}" do
           before do
             *precursor_events, _event = events
@@ -58,8 +58,8 @@ RSpec.describe Claims::StateMachine do
           end
 
           it "##{events.last}" do
-            expect(claim).to receive(:disable_for_state_transition=).with(:all).exactly(1).times
-            expect(claim).to receive(:disable_for_state_transition=).with(nil).exactly(1).times
+            expect(claim).to receive(:disable_for_state_transition=).with(:all).once
+            expect(claim).to receive(:disable_for_state_transition=).with(nil).once
             claim.send(events.last)
           end
         end
@@ -74,8 +74,8 @@ RSpec.describe Claims::StateMachine do
 
       %i[authorise! authorise_part!].each do |transition|
         it "when transitioning via ##{transition}" do
-          expect(claim).to receive(:disable_for_state_transition=).with(:only_amount_assessed).exactly(1).times
-          expect(claim).to receive(:disable_for_state_transition=).with(nil).exactly(1).times
+          expect(claim).to receive(:disable_for_state_transition=).with(:only_amount_assessed).once
+          expect(claim).to receive(:disable_for_state_transition=).with(nil).once
           claim.send(transition)
         end
       end
@@ -134,10 +134,10 @@ RSpec.describe Claims::StateMachine do
 
         describe 'part-authorising' do
           it {
-            expect {
+            expect do
               claim.assessment.update(fees: 100.00, expenses: 23.45)
               claim.authorise_part!
-            }.to change(claim, :state).to('part_authorised')
+            end.to change(claim, :state).to('part_authorised')
           }
         end
       end
@@ -149,12 +149,12 @@ RSpec.describe Claims::StateMachine do
     end
 
     context 'from authorised' do
-      before {
+      before do
         claim.submit!
         claim.allocate!
         claim.assessment.update(fees: 100.00, expenses: 23.45)
         claim.authorise!
-      }
+      end
 
       it { expect { claim.redetermine! }.to change(claim, :state).to('redetermination') }
       it { expect { claim.archive_pending_delete! }.to change(claim, :state).to('archived_pending_delete') }
@@ -178,12 +178,12 @@ RSpec.describe Claims::StateMachine do
     end
 
     context 'from part_authorised' do
-      before {
+      before do
         claim.submit!
         claim.allocate!
         claim.assessment.update(fees: 100.00, expenses: 23.45)
         claim.authorise_part!
-      }
+      end
 
       it { expect { claim.redetermine! }.to change(claim, :state).to('redetermination') }
       it { expect { claim.await_written_reasons! }.to change(claim, :state).to('awaiting_written_reasons') }
@@ -191,7 +191,11 @@ RSpec.describe Claims::StateMachine do
     end
 
     context 'from refused' do
-      before { claim.submit!; claim.allocate!; claim.refuse! }
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.refuse!
+      end
 
       it { expect { claim.redetermine! }.to change(claim, :state).to('redetermination') }
       it { expect { claim.await_written_reasons! }.to change(claim, :state).to('awaiting_written_reasons') }
@@ -199,7 +203,11 @@ RSpec.describe Claims::StateMachine do
     end
 
     context 'from rejected' do
-      before { claim.submit!; claim.allocate!; claim.reject! }
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.reject!
+      end
 
       it { expect { claim.archive_pending_delete! }.to change(claim, :state).to('archived_pending_delete') }
     end
@@ -243,7 +251,11 @@ RSpec.describe Claims::StateMachine do
           end
 
           it 'does not update the assessment' do
-            claim.update_model_and_transition_state(params) rescue nil
+            begin
+              claim.update_model_and_transition_state(params)
+            rescue StandardError
+              nil
+            end
             expect(claim.reload.assessment.fees).to eq(0)
           end
         end
@@ -317,7 +329,10 @@ RSpec.describe Claims::StateMachine do
     end
 
     describe 'authorise! makes authorised_at attribute equal now' do
-      before { claim.submit!; claim.allocate! }
+      before do
+        claim.submit!
+        claim.allocate!
+      end
 
       it {
         claim.assessment.update(fees: 100.00, expenses: 23.45)
@@ -330,7 +345,10 @@ RSpec.describe Claims::StateMachine do
     end
 
     describe 'authorise_part! makes authorised_at attribute equal now' do
-      before { claim.submit!; claim.allocate! }
+      before do
+        claim.submit!
+        claim.allocate!
+      end
 
       it {
         claim.assessment.update(fees: 100.00, expenses: 23.45)
@@ -348,17 +366,17 @@ RSpec.describe Claims::StateMachine do
 
     it 'is true if state is in EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('allocated')
-      expect(Claims::StateMachine.is_in_state?(:external_user_dashboard_submitted?, claim)).to be true
+      expect(described_class.is_in_state?(:external_user_dashboard_submitted?, claim)).to be true
     end
 
     it 'returns false if the state is not one of the EXTERNAL_USER_DASHBOARD_SUBMITTED_STATES' do
       allow(claim).to receive(:state).and_return('draft')
-      expect(Claims::StateMachine.is_in_state?(:external_user_dashboard_submitted?, claim)).to be false
+      expect(described_class.is_in_state?(:external_user_dashboard_submitted?, claim)).to be false
     end
 
     it 'returns false if the method name is not recognised' do
       allow(claim).to receive(:state).and_return('draft')
-      expect(Claims::StateMachine.is_in_state?(:external_user_rubbish_submitted?, claim)).to be false
+      expect(described_class.is_in_state?(:external_user_rubbish_submitted?, claim)).to be false
     end
   end
 
@@ -396,7 +414,11 @@ RSpec.describe Claims::StateMachine do
   end
 
   describe 'reject!' do
-    before { claim.submit!; claim.allocate!; claim.reject!(reason_code: reason_codes) }
+    before do
+      claim.submit!
+      claim.allocate!
+      claim.reject!(reason_code: reason_codes)
+    end
 
     let(:reason_codes) { ['no_indictment'] }
     let(:last_state_transition) { claim.last_state_transition }

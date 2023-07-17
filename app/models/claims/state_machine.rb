@@ -18,12 +18,12 @@ module Claims
     VALID_STATES_FOR_ARCHIVAL                       = %w[authorised part_authorised refused rejected].freeze
     VALID_STATES_FOR_ALLOCATION                     = %w[submitted redetermination awaiting_written_reasons].freeze
     VALID_STATES_FOR_DEALLOCATION                   = %w[allocated].freeze
-    NON_DRAFT_STATES                                = %w[ allocated authorised part_authorised refused rejected
-                                                          submitted awaiting_written_reasons redetermination
-                                                          archived_pending_delete archived_pending_review].freeze
-    NON_VALIDATION_STATES                           = %w[ allocated archived_pending_delete archived_pending_review
-                                                          authorised awaiting_written_reasons deallocated
-                                                          part_authorised redetermination refused rejected ].freeze
+    NON_DRAFT_STATES                                = %w[allocated authorised part_authorised refused rejected
+                                                         submitted awaiting_written_reasons redetermination
+                                                         archived_pending_delete archived_pending_review].freeze
+    NON_VALIDATION_STATES                           = %w[allocated archived_pending_delete archived_pending_review
+                                                         authorised awaiting_written_reasons deallocated
+                                                         part_authorised redetermination refused rejected].freeze
     AUTHORISED_STATES                               = EXTERNAL_USER_DASHBOARD_PART_AUTHORISED_STATES +
                                                       EXTERNAL_USER_DASHBOARD_COMPLETED_STATES
     PREVIOUSLY_AUTHORISED_STATES                    = %w[authorised part_authorised].freeze
@@ -50,10 +50,9 @@ module Claims
       konstant_name = "Claims::StateMachine::#{method.to_s.chop.upcase}_STATES".constantize
       konstant_name.include?(claim.state)
     rescue NameError
-      return false
+      false
     end
 
-    # rubocop:disable Metrics/MethodLength
     def self.included(klass)
       klass.state_machine :state, initial: :draft do
         audit_trail class: ClaimStateTransition, context: %i[reason_code reason_text author_id subject_id]
@@ -164,7 +163,6 @@ module Claims
       }
       klass.scope :caseworker_dashboard_archived, -> { where(state: CASEWORKER_DASHBOARD_ARCHIVED_STATES) }
     end
-    # rubocop:enable Metrics/MethodLength
 
     def last_decision_transition
       claim_state_transitions.detect { |t| t.to.in?(CASEWORKER_DASHBOARD_COMPLETED_STATES) }
@@ -183,7 +181,7 @@ module Claims
     end
 
     def last_redetermination
-      redeterminations.select(&:valid?).last
+      redeterminations.reverse.find(&:valid?)
     end
 
     def filtered_state_transitions
@@ -218,7 +216,7 @@ module Claims
     end
 
     def reset_state
-      update_column(:state, state_at_last_submission)
+      update(state: state_at_last_submission)
     end
 
     def state_at_last_submission
@@ -226,20 +224,20 @@ module Claims
     end
 
     def set_original_submission_date!
-      update_column(:original_submission_date, Time.zone.now)
+      update(original_submission_date: Time.zone.now)
     end
 
     def set_last_submission_date!
-      update_column(:last_submitted_at, Time.zone.now)
+      update(last_submitted_at: Time.zone.now)
     end
 
     def set_authorised_date!
-      update_column(:authorised_at, Time.zone.now)
+      update(authorised_at: Time.zone.now)
     end
 
     def set_valid_until!(transition)
       validity = transition.to == 'archived_pending_delete' ? ARCHIVE_VALIDITY : STANDARD_VALIDITY
-      update_column(:valid_until, Time.zone.now + validity)
+      update(valid_until: Time.zone.now + validity)
     end
 
     def set_amount_assessed_zero!

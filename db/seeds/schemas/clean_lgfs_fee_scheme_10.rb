@@ -7,8 +7,9 @@ module Seeds
       class MissingSchemeNineOffence < StandardError; end
       class SchemeTenOffenceExists < StandardError; end
 
-      def initialize(pretend: false)
+      def initialize(pretend: false, quiet: false)
         @pretend = pretend
+        @quiet = quiet
       end
 
       def status
@@ -37,28 +38,28 @@ module Seeds
 
       def up
         lgfs_scheme_ten_only.each do |offence|
-          puts "Offence: #{offence.unique_code}"
-          puts "  #{offence.description[0, 60]}"
-          puts "  #{offence.offence_class.description[0, 60]}"
+          puts "Offence: #{offence.unique_code}" unless @quiet
+          puts "  #{offence.description[0, 60]}" unless @quiet
+          puts "  #{offence.offence_class.description[0, 60]}" unless @quiet
           Offence.transaction do
             new_offence = scheme_nine_offence_for(offence)
             update_claims(offence.claims, new_offence)
             add_scheme_ten_to(new_offence)
             remove_redundant(offence)
           end
-          puts "-----"
+          puts "-----" unless @quiet
         end
       end
 
       def down
         all_lgfs_offences.each do |offence|
-          puts "Offence: #{offence.unique_code}"
-          puts "  #{offence.description[0, 60]}"
-          puts "  #{offence.offence_class.description[0, 60]}"
+          puts "Offence: #{offence.unique_code}" unless @quiet
+          puts "  #{offence.description[0, 60]}" unless @quiet
+          puts "  #{offence.offence_class.description[0, 60]}" unless @quiet
           Offence.transaction do
             create_scheme_ten_offence_for(offence)
           end
-          puts "-----"
+          puts "-----" unless @quiet
         end
       end
 
@@ -94,28 +95,28 @@ module Seeds
           # claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_ten }
           raise SchemeTenOffenceExists unless new_offence.valid?
           if pretending?
-            puts "    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".yellow
-            puts "    [WOULD-REMOVE] Fee scheme 10 from offence #{offence.unique_code}".yellow
-            # puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".yellow
+            puts "    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".yellow unless @quiet
+            puts "    [WOULD-REMOVE] Fee scheme 10 from offence #{offence.unique_code}".yellow unless @quiet
+            # puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".yellow unless @quiet
           else
-            puts "    [CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".green
+            puts "    [CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".green unless @quiet
             new_offence.save!
-            puts "      [SUCCESS]".green
-            puts "    [REMOVE] Fee scheme 10 from offence #{offence.unique_code}".green
+            puts "      [SUCCESS]".green unless @quiet
+            puts "    [REMOVE] Fee scheme 10 from offence #{offence.unique_code}".green unless @quiet
             offence.fee_schemes.delete(fee_scheme_ten)
-            # puts "    [UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".green
+            # puts "    [UPDATE] Move #{claims.count} fee scheme 10 claims (out of #{offence.claims.count}) to new offence".green unless @quiet
             # # It should be possible to do update_claims(claims, new_offence) but claims is an array instead of an ActiveRecord collection
             # offence.claims.each do |claim|
             #   if claim.offence == offence
             #     claim.offence = new_offence
             #     claim.save
             #   else
-            #     puts "    [ERROR] Claim #{claim.id} does not have offence #{offence.unique_code}".red
+            #     puts "    [ERROR] Claim #{claim.id} does not have offence #{offence.unique_code}".red unless @quiet
             #   end
             # end
           end
         rescue SchemeTenOffenceExists, ActiveRecord::RecordNotUnique
-          puts "      [FAILED]".red
+          puts "      [FAILED]".red unless @quiet
         end
       end
 
@@ -127,22 +128,22 @@ module Seeds
 
       def update_claims(claims, new_offence)
         if pretending?
-          puts "    [WOULD-UPDATE] #{claims.count} claims".yellow
+          puts "    [WOULD-UPDATE] #{claims.count} claims".yellow unless @quiet
         else
-          puts "    [UPDATE] #{claims.count} claims".green
+          puts "    [UPDATE] #{claims.count} claims".green unless @quiet
           claims.update_all(offence_id: new_offence.id)
         end
       end
 
       def add_scheme_ten_to(offence)
         if pretending?
-          puts "    [WOULD-UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_ten)}' to offence #{offence.unique_code}".yellow
+          puts "    [WOULD-UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_ten)}' to offence #{offence.unique_code}".yellow unless @quiet
         else
-          puts "    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_ten)}' to offence #{offence.unique_code}".green
-          puts "      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}".green
+          puts "    [UPDATE] Add fee scheme '#{display_fee_schemes(fee_scheme_ten)}' to offence #{offence.unique_code}".green unless @quiet
+          puts "      [UPDATE] Before: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
           offence.fee_schemes << fee_scheme_ten
           offence.reload
-          puts "      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}".green
+          puts "      [UPDATE] After: #{display_fee_schemes(*offence.fee_schemes)}".green unless @quiet
         end
       end
 
@@ -152,9 +153,9 @@ module Seeds
 
       def remove_redundant(offence)
         if pretending?
-          puts "    [WOULD-REMOVE] Offence #{offence.unique_code}".yellow
+          puts "    [WOULD-REMOVE] Offence #{offence.unique_code}".yellow unless @quiet
         else
-          puts "    [REMOVE] Offence #{offence.unique_code}".green
+          puts "    [REMOVE] Offence #{offence.unique_code}".green unless @quiet
           offence.destroy
         end
       end

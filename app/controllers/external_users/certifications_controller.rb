@@ -54,7 +54,7 @@ class ExternalUsers::CertificationsController < ExternalUsers::ApplicationContro
   def build_certification
     @certification = Certification.new(claim: @claim)
     @certification.certified_by = current_user.name
-    @certification.certification_date = Date.today
+    @certification.certification_date = Time.zone.today
   end
 
   def certification_params

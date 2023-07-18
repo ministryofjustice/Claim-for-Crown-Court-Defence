@@ -94,7 +94,7 @@ RSpec.describe Rule::Method, type: :rule do
     end
 
     include_examples 'maximum with bound of', 100
-    include_examples 'maximum with bound of', Date.today
+    include_examples 'maximum with bound of', Time.zone.today
   end
 
   describe '#minimum' do
@@ -144,7 +144,7 @@ RSpec.describe Rule::Method, type: :rule do
     end
 
     include_examples 'minimum with bound of', 100
-    include_examples 'minimum with bound of', Date.today
+    include_examples 'minimum with bound of', Time.zone.today
   end
 
   describe '#equal' do
@@ -194,7 +194,7 @@ RSpec.describe Rule::Method, type: :rule do
     end
 
     include_examples 'equal with bound of', 100
-    include_examples 'equal with bound of', Date.today
+    include_examples 'equal with bound of', Time.zone.today
   end
 
   describe '#inclusion' do

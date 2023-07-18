@@ -48,7 +48,7 @@ module ApplicationHelper
   end
 
   def casual_date(date)
-    if Date.parse(date) == Date.today
+    if Date.parse(date) == Time.zone.today
       'Today'
     elsif Date.parse(date) == Date.yesterday
       'Yesterday'

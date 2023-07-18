@@ -162,7 +162,7 @@ module Claim
     def assign_trial_cracked_at
       return unless requires_cracked_dates?
       return unless editable? || being_submitted?
-      self.trial_cracked_at = Date.today
+      self.trial_cracked_at = Time.zone.today
     end
 
     def being_submitted?

@@ -3,7 +3,7 @@ namespace :stats do
   desc 'run all collectors for the past 21 days'
   task :collect => :environment do
     (1..21).each do |offset|
-      date = Date.today - offset.days
+      date = Time.zone.today - offset.days
       Stats::Collector::ClaimCreationSourceCollector.new(date).collect
       Stats::Collector::ClaimSubmissionsCollector.new(date).collect
       Stats::Collector::MultiSessionSubmissionCollector.new(date).collect
@@ -14,11 +14,11 @@ namespace :stats do
     end
 
     # and this one just has to be run the once
-    Stats::Collector::MoneyToDateCollector.new(Date.today).collect
+    Stats::Collector::MoneyToDateCollector.new(Time.zone.today).collect
 
     # and this one we run just once per month for the last day of each month.
     date = Date.new(2015, 11, 1)
-    while date < Date.today do
+    while date < Time.zone.today do
       Stats::Collector::MoneyClaimedPerMonthCollector.new(date).collect
       date += 1.month
     end

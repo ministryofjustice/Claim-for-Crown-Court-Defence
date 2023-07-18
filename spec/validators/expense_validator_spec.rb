@@ -84,7 +84,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
   describe '#validate_date' do
     it 'is valid for todays date' do
-      expense.date = Date.today
+      expense.date = Time.zone.today
       expect(expense).to be_valid
     end
 

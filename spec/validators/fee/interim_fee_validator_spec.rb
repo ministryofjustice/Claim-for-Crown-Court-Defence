@@ -179,7 +179,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
 
     describe '#validate_warrant_issued_date' do
       it 'is valid if present and in the past' do
-        fee.warrant_issued_date = Date.today
+        fee.warrant_issued_date = Time.zone.today
         expect(fee).to be_valid
       end
     end

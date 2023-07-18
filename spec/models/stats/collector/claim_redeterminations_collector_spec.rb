@@ -3,7 +3,7 @@ require 'rails_helper'
 module Stats
   module Collector
     describe ClaimRedeterminationsCollector do
-      let(:report_day) { Date.today }
+      let(:report_day) { Time.zone.today }
 
       before do
         create_claim(:redetermination,  report_day)

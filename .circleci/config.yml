@@ -191,12 +191,14 @@ commands:
           name: Run rspec tests
           command: |
             tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=filename)
 
-            bundle exec rspec --format progress \
-            --format RspecJunitFormatter \
-            -o /tmp/test-results/rspec/rspec.xml \
-            -- ${TESTFILES}
+            circleci tests glob "spec/**/*_spec.rb" \
+              | circleci tests run --command="xargs bundle exec rspec \
+                                                      --format progress \
+                                                      --format RspecJunitFormatter \
+                                                      -o /tmp/test-results/rspec/rspec.xml" \
+                                   --split-by=timings \
+                                   --timings-type=filename
 
             tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
       - persist_to_workspace:
@@ -463,7 +465,7 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            tmp/cc-test-reporter sum-coverage --output - --parts 6 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
+            tmp/cc-test-reporter sum-coverage --output - --parts 6 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --debug --input -
 
   build-app-container:
     executor: cloud-platform-executor

@@ -4,7 +4,10 @@ class ExternalUsers::Fees::PricesController < ExternalUsers::ApplicationControll
 
   attr_reader :claim
 
-  ALLOWABLE_PRICER_TYPES = %w[UnitPrice GraduatedPrice].freeze
+  ALLOWABLE_PRICER_TYPES = {
+    'UnitPrice' => Claims::FeeCalculator::UnitPrice,
+    'GraduatedPrice' => Claims::FeeCalculator::GraduatedPrice
+  }.freeze
 
   def calculate
     calculator = pricer.new(claim, calculator_params.except(:id))
@@ -12,7 +15,7 @@ class ExternalUsers::Fees::PricesController < ExternalUsers::ApplicationControll
     respond_to do |format|
       format.html
       format.json do
-        render json: response, status: response.success? ? 200 : 422
+        render json: response, status: response.success? ? :ok : :unprocessable_entity
       end
     end
   end
@@ -20,8 +23,7 @@ class ExternalUsers::Fees::PricesController < ExternalUsers::ApplicationControll
   private
 
   def pricer
-    return unless calculator_params[:price_type].in?(ALLOWABLE_PRICER_TYPES)
-    "Claims::FeeCalculator::#{calculator_params[:price_type]}".constantize
+    ALLOWABLE_PRICER_TYPES.fetch(calculator_params[:price_type], Claims::FeeCalculator::NullPrice)
   end
 
   def set_claim

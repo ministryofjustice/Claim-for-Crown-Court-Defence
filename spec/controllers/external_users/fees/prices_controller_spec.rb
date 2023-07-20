@@ -53,7 +53,7 @@ RSpec.describe ExternalUsers::Fees::PricesController do
       let(:calc_response) { instance_double(Claims::FeeCalculator::Response, success?: true) }
 
       context 'when UnitPrice price type specified' do
-        let(:calculate_price_service) { class_double(Claims::FeeCalculator::UnitPrice).as_stubbed_const }
+        let(:calculate_price_service) { Claims::FeeCalculator::UnitPrice }
         let(:calculate_price) { instance_double(calculate_price_service) }
         let(:params) { { format: 'json', claim_id: claim.id.to_s, price_type: 'UnitPrice' } }
 
@@ -64,8 +64,19 @@ RSpec.describe ExternalUsers::Fees::PricesController do
         end
       end
 
+      context 'Incorrect price type specified', :fee_calc_vcr do
+        let(:params) { { format: 'json', claim_id: claim.id.to_s, price_type: 'BillScenario' } }
+
+        before do
+          calculate
+        end
+
+        it_returns 'a failed price calculation response'
+      end
+
+
       context 'when GraduatedPrice price type specified' do
-        let(:calculate_price_service) { class_double(Claims::FeeCalculator::GraduatedPrice).as_stubbed_const }
+        let(:calculate_price_service) { Claims::FeeCalculator::GraduatedPrice }
         let(:calculate_price) { instance_double(calculate_price_service) }
         let(:params) do
           {

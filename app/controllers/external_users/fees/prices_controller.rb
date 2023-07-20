@@ -4,6 +4,8 @@ class ExternalUsers::Fees::PricesController < ExternalUsers::ApplicationControll
 
   attr_reader :claim
 
+  ALLOWABLE_PRICER_TYPES = %w[UnitPrice GraduatedPrice].freeze
+
   def calculate
     calculator = pricer.new(claim, calculator_params.except(:id))
     response = calculator.call
@@ -18,6 +20,7 @@ class ExternalUsers::Fees::PricesController < ExternalUsers::ApplicationControll
   private
 
   def pricer
+    return unless calculator_params[:price_type].in?(ALLOWABLE_PRICER_TYPES)
     "Claims::FeeCalculator::#{calculator_params[:price_type]}".constantize
   end
 

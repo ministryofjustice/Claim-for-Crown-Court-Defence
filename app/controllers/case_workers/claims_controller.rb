@@ -74,20 +74,8 @@ module CaseWorkers
         :refuse_reason_text,
         :reject_reason_text,
         :additional_information,
-        assessment_attributes: %i[
-          id
-          fees
-          expenses
-          disbursements
-          vat_amount
-        ],
-        redeterminations_attributes: %i[
-          id
-          fees
-          expenses
-          disbursements
-          vat_amount
-        ]
+        assessment_attributes: %i[id fees expenses disbursements vat_amount],
+        redeterminations_attributes: %i[id fees expenses disbursements vat_amount]
       ).merge(params.permit(state_reason: []))
       # the state_reason needs to be merged because the collection_check_boxes control on the view requires
       # a claim object to render.  Because state_reason does not belong to claim, it refuses to render and

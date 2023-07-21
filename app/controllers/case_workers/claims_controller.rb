@@ -116,7 +116,7 @@ class CaseWorkers::ClaimsController < CaseWorkers::ApplicationController
   end
 
   def sort_column
-    params[:sort].blank? ? 'last_submitted_at' : params[:sort]
+    (params[:sort].presence || 'last_submitted_at')
   end
 
   def sort_direction

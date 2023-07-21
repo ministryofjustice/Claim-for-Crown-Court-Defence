@@ -27,7 +27,7 @@ module CaseWorkers
         @case_worker = CaseWorker.new(params_with_temporary_password)
         if @case_worker.save
           deliver_reset_password_instructions(@case_worker.user)
-          redirect_to case_workers_admin_case_workers_url, notice: 'Case worker successfully created'
+          redirect_to case_workers_admin_case_workers_url, notice: t('.notice')
         else
           render :new
         end
@@ -35,7 +35,7 @@ module CaseWorkers
 
       def update
         if @case_worker.update(case_worker_params)
-          redirect_to case_workers_admin_case_workers_url, notice: 'Case worker successfully updated'
+          redirect_to case_workers_admin_case_workers_url, notice: t('.notice')
         else
           render :edit
         end
@@ -45,7 +45,7 @@ module CaseWorkers
 
       def destroy
         @case_worker.soft_delete
-        redirect_to case_workers_admin_case_workers_url, notice: 'Case worker deleted'
+        redirect_to case_workers_admin_case_workers_url, notice: t('.notice')
       end
 
       private

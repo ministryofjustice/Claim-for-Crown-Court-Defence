@@ -44,7 +44,7 @@ RSpec.describe ExternalUsers::Fees::PricesController do
   before { sign_in advocate.user }
 
   describe 'POST #calculate.json' do
-    context 'message sending' do
+    context 'when sending message' do
       subject(:calculate) { post :calculate, params: }
 
       let(:claim) { create(:draft_claim) }
@@ -53,19 +53,36 @@ RSpec.describe ExternalUsers::Fees::PricesController do
       let(:calc_response) { instance_double(Claims::FeeCalculator::Response, success?: true) }
 
       context 'when UnitPrice price type specified' do
-        let(:calculate_price_service) { class_double(Claims::FeeCalculator::UnitPrice).as_stubbed_const }
+        let(:calculate_price_service) { Claims::FeeCalculator::UnitPrice }
         let(:calculate_price) { instance_double(calculate_price_service) }
         let(:params) { { format: 'json', claim_id: claim.id.to_s, price_type: 'UnitPrice' } }
 
-        it 'sends message to UnitPrice service' do
-          expect(calculate_price_service).to receive(:new).with(claim, strong_params).and_return(calculate_price)
-          expect(calculate_price).to receive(:call).and_return(calc_response)
+        before do
+          allow(calculate_price_service).to receive(:new).with(claim, strong_params).and_return(calculate_price)
+          allow(calculate_price).to receive(:call).and_return(calc_response)
+
           calculate
+        end
+
+        it 'sends message to UnitPrice service' do
+          expect(calculate_price_service).to have_received(:new).with(claim, strong_params)
+        end
+
+        it 'calls the UnitPrice service' do
+          expect(calculate_price).to have_received(:call)
         end
       end
 
+      context 'with Incorrect price type specified', :fee_calc_vcr do
+        let(:params) { { format: 'json', claim_id: claim.id.to_s, price_type: 'BillScenario' } }
+
+        before { calculate }
+
+        it_returns 'a failed price calculation response'
+      end
+
       context 'when GraduatedPrice price type specified' do
-        let(:calculate_price_service) { class_double(Claims::FeeCalculator::GraduatedPrice).as_stubbed_const }
+        let(:calculate_price_service) { Claims::FeeCalculator::GraduatedPrice }
         let(:calculate_price) { instance_double(calculate_price_service) }
         let(:params) do
           {
@@ -80,15 +97,24 @@ RSpec.describe ExternalUsers::Fees::PricesController do
           }
         end
 
-        it 'sends message to GraduatedPrice service' do
-          expect(calculate_price_service).to receive(:new).with(claim, strong_params).and_return(calculate_price)
-          expect(calculate_price).to receive(:call).and_return(calc_response)
+        before do
+          allow(calculate_price_service).to receive(:new).with(claim, strong_params).and_return(calculate_price)
+          allow(calculate_price).to receive(:call).and_return(calc_response)
+
           calculate
+        end
+
+        it 'sends message to GraduatedPrice service' do
+          expect(calculate_price_service).to have_received(:new).with(claim, strong_params)
+        end
+
+        it 'calls the GraduatedPrice service' do
+          expect(calculate_price).to have_received(:call)
         end
       end
     end
 
-    context 'AGFS' do
+    context 'with AGFS' do
       # IMPORTANT: use specific case type, offence class, fee types and reporder
       # date in order to reduce and afix VCR cassettes required (that have to match
       # on query values), prevent flickering specs (from random offence classes,
@@ -119,7 +145,7 @@ RSpec.describe ExternalUsers::Fees::PricesController do
         }
       end
 
-      context 'success', :fee_calc_vcr do
+      context 'with success', :fee_calc_vcr do
         before do
           post :calculate, params: calculator_params
         end
@@ -127,7 +153,7 @@ RSpec.describe ExternalUsers::Fees::PricesController do
         it_returns 'a successful price calculation response'
       end
 
-      context 'failure', :fee_calc_vcr do
+      context 'with failure', :fee_calc_vcr do
         before do
           calculator_params['advocate_category'] = 'Rubbish'
           post :calculate, params: calculator_params
@@ -137,7 +163,7 @@ RSpec.describe ExternalUsers::Fees::PricesController do
       end
     end
 
-    context 'LGFS' do
+    context 'with LGFS' do
       # IMPORTANT: use specific case type, offence class, fee types and reporder
       # date in order to reduce and afix VCR cassettes required (that have to match
       # on query values), prevent flickering specs (from random offence classes,
@@ -176,7 +202,7 @@ RSpec.describe ExternalUsers::Fees::PricesController do
         }
       end
 
-      context 'success', :fee_calc_vcr do
+      context 'with success', :fee_calc_vcr do
         before do
           post :calculate, params: calculator_params
         end
@@ -184,7 +210,7 @@ RSpec.describe ExternalUsers::Fees::PricesController do
         it_returns 'a successful price calculation response'
       end
 
-      context 'failure', :fee_calc_vcr do
+      context 'with failure', :fee_calc_vcr do
         before do
           calculator_params['fee_type_id'] = 'Rubbish'
           post :calculate, params: calculator_params

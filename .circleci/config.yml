@@ -422,6 +422,13 @@ jobs:
     parallelism: 6
     steps:
       - checkout
+      - run:
+          name: Halt if no tests to run
+          command: |
+            mkdir -p ./tmp && \
+            >./tmp/tests.txt && \
+            circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command ">./tmp/tests.txt xargs echo" --split-by=timings
+            [ -s tmp/tests.txt ] || circleci-agent step halt
       - build-base
       - *wait-for-db
       - *load-db

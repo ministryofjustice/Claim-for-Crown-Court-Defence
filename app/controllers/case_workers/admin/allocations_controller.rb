@@ -93,7 +93,7 @@ module CaseWorkers
 
       def allocation_params
         allocator_params = params.require(:allocation).permit(:case_worker_id, :deallocate, claim_ids: [])
-        allocator_params.merge(allocating: is_allocating?)
+        allocator_params.merge(allocating: allocating?)
       end
 
       def notification(allocation)
@@ -108,7 +108,7 @@ module CaseWorkers
         end
       end
 
-      def is_allocating?
+      def allocating?
         params[:commit] == 'Allocate'
       end
 

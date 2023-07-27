@@ -224,13 +224,13 @@ commands:
       - run:
           name: Run cucumber tests
           command: |
-            TESTFILES=$(circleci tests glob "features/**/*.feature" | circleci tests split --split-by=timings --timings-type=filename)
-
-            RUBYOPT='-W0' bundle exec cucumber \
-            --format pretty \
-            --format junit,fileattribute=true \
-            --out /tmp/test-results/cucumber \
-            -- ${TESTFILES}
+            circleci tests glob "features/**/*.feature" \
+              | circleci tests run --command="xargs bundle exec cucumber \
+                                                      --format pretty \
+                                                      --format junit,fileattribute=true \
+                                                      --out /tmp/test-results/cucumber" \
+                                   --split-by=timings \
+                                   --timings-type=filename
       - store_artifacts:
           path: tmp/capybara
       - store_test_results:
@@ -432,6 +432,13 @@ jobs:
     parallelism: 6
     steps:
       - checkout
+      - run:
+          name: Halt if no cucumber tests to run
+          command: |
+            mkdir -p ./tmp && \
+            >./tmp/tests.txt && \
+            circleci tests glob "features/**/*.feature" | circleci tests run --command ">./tmp/tests.txt xargs echo" --split-by=timings
+            [ -s tmp/tests.txt ] || circleci-agent step halt
       - build-base
       - *wait-for-db
       - *load-db

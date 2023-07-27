@@ -199,7 +199,21 @@ commands:
 
             circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command="xargs bundle exec rspec --format progress --format RspecJunitFormatter -o /tmp/test-results/rspec/rspec.xml" --split-by=timings --timings-type=filename
 
-            tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      # For a rerun that succeeds, restore the coverage files from the failed run
+      - restore_cache:
+          key: coverage-{{.Revision}}-{{.Environment.CIRCLE_NODE_INDEX}}
+
+      - run:
+          name: Code Climate test coverage
+          command: |
+            tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.*.json"
+
+      # Save the coverage for rerunning failed tests. CircleCI will skip saving if this revision key has already been saved.
+      - save_cache:
+          key: coverage-{{.Revision}}-{{.Environment.CIRCLE_NODE_INDEX}}
+          paths:
+            - tmp/coverage/coverage.*.json
+          when: always
       - persist_to_workspace:
           root: tmp
           paths:
@@ -415,13 +429,13 @@ jobs:
     parallelism: 6
     steps:
       - checkout
-      - run:
-          name: Halt if no tests to run
-          command: |
-            mkdir -p ./tmp && \
-            >./tmp/tests.txt && \
-            circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command ">./tmp/tests.txt xargs echo" --split-by=timings
-            [ -s tmp/tests.txt ] || circleci-agent step halt
+      # - run:
+      #     name: Halt if no tests to run
+      #     command: |
+      #       mkdir -p ./tmp && \
+      #       >./tmp/tests.txt && \
+      #       circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command ">./tmp/tests.txt xargs echo" --split-by=timings
+      #       [ -s tmp/tests.txt ] || circleci-agent step halt
       - build-base
       - *wait-for-db
       - *load-db
@@ -465,7 +479,7 @@ jobs:
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            tmp/cc-test-reporter sum-coverage --output - --parts 6 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
+            tmp/cc-test-reporter sum-coverage --output - --parts 6 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --debug --input -
 
   build-app-container:
     executor: cloud-platform-executor

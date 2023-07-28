@@ -114,18 +114,6 @@ RSpec.configure do |config|
     end
   end
 
-  # The `webdriver` gem's requests to download drivers is being blocked by Webmock
-  # without this.
-  # see https://github.com/titusfortner/webdrivers/wiki/Using-with-VCR-or-WebMock
-  # for details
-  allowed_sites = [
-    'https://chromedriver.storage.googleapis.com',
-    'https://github.com/mozilla/geckodriver/releases',
-    'https://selenium-release.storage.googleapis.com',
-    'https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver'
-  ]
-  WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
-
   config.before :each, geckoboard: true do
     stub_request(:get, 'https://api.geckoboard.com/')
       .with(

@@ -9,7 +9,6 @@ ENV["ENV"] ||= 'test'
 require 'capybara'
 require 'capybara/cucumber'
 require 'selenium/webdriver'
-require 'webdrivers'
 require 'cucumber/rails'
 require 'cucumber/rspec/doubles'
 require 'site_prism'
@@ -21,26 +20,6 @@ require 'axe-cucumber-steps'
 # enable forgery protection in feature tests so as not to obscure
 # loss of signed in user
 ActionController::Base.allow_forgery_protection = true
-
-# Activate to view chromedriver detailed output
-# Webdrivers.logger.level = :DEBUG
-
-# version Pinning
-# remove specific version
-#  and explicitly trigger the update for latest (stable) driver
-Webdrivers::Chromedriver.update
-
-# The `webdriver` gem's requests to download drivers is being blocked by Webmock
-# without this.
-# see https://github.com/titusfortner/webdrivers/wiki/Using-with-VCR-or-WebMock
-# for details
-allowed_sites = [
-  "https://chromedriver.storage.googleapis.com",
-  "https://github.com/mozilla/geckodriver/releases",
-  "https://selenium-release.storage.googleapis.com",
-  "https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver",
-]
-WebMock.disable_net_connect!(allow_localhost: true, allow: allowed_sites)
 
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how

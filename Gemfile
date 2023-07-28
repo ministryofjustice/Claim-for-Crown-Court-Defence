@@ -111,6 +111,5 @@ group :test do
   gem 'simplecov', require: false
   gem 'timecop'
   gem 'vcr'
-  gem 'webdrivers', '~> 5.2', require: false
   gem 'webmock'
 end

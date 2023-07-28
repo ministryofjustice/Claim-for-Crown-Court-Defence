@@ -62,18 +62,18 @@
   display: block;
 }
 
-.minimalist-accordion__header[aria-expanded="true"]:before {
+.minimalist-accordion__header[aria-expanded="true"]::before {
   content: "- ";
 }
 
-.minimalist-accordion__header[aria-expanded="false"]:before {
+.minimalist-accordion__header[aria-expanded="false"]::before {
   content: "+ ";
 }
 
-.minimalist-accordion__header[aria-selected="true"]:after {
+.minimalist-accordion__header[aria-selected="true"]::after {
   content: " (selected)";
 }
 
-.minimalist-accordion__header[aria-selected="false"]:after {
+.minimalist-accordion__header[aria-selected="false"]::after {
   content: " (unselected)";
 }

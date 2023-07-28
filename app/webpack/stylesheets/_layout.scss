@@ -62,8 +62,8 @@ body {
   position: sticky;
   top: 0;
 
-  &:before, // clearfix
-  &:after {
+  &::before, 
+  &::after {
     content: "";
     display: table;
   }

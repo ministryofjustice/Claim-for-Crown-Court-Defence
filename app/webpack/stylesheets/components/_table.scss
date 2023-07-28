@@ -106,8 +106,8 @@ tr {
       background-color: none;
     }
 
-    th:before,
-    td:before {
+    th::before,
+    td::before {
       content: attr(data-label);
       float: left;
       font-weight: 700;

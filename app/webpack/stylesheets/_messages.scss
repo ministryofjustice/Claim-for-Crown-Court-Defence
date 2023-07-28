@@ -36,7 +36,7 @@
         color: $text-colour;
       }
 
-      &:after {
+      &::after {
         border: none;
       }
     }
@@ -84,7 +84,7 @@
           background: none;
           text-align: right;
 
-          &:after {
+          &::after {
             border-left: 0;
           }
 
@@ -163,7 +163,7 @@
         background-color: $link-colour;
         text-align: left;
 
-        &:after {
+        &::after {
           content: "";
           position: absolute;
           right: -1.5em;
@@ -204,7 +204,7 @@
         background-color: $panel-colour;
         text-align: left;
 
-        &:after {
+        &::after {
           content: "";
           position: absolute;
           bottom: 0;

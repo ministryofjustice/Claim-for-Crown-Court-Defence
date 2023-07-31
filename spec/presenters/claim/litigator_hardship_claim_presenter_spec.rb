@@ -25,10 +25,12 @@ RSpec.describe Claim::LitigatorHardshipClaimPresenter, type: :presenter do
 
     context 'when case_type, court, case number and provider details present' do
       before do
-        allow(claim).to receive(:case_type).and_return 'a case type'
-        allow(claim).to receive(:court).and_return 'a court'
-        allow(claim).to receive(:case_number).and_return 'a case number'
-        allow(claim).to receive(:external_user).and_return instance_double(ExternalUser)
+        allow(claim).to receive_messages(
+          case_type: 'a case type',
+          court: 'a court',
+          case_number: 'a case number',
+          external_user: instance_double(ExternalUser)
+        )
       end
 
       it { is_expected.to be_truthy }
@@ -36,10 +38,12 @@ RSpec.describe Claim::LitigatorHardshipClaimPresenter, type: :presenter do
 
     context 'when one of case_type, court, case number and provider details present' do
       before do
-        allow(claim).to receive(:case_type).and_return nil
-        allow(claim).to receive(:court).and_return 'a court'
-        allow(claim).to receive(:case_number).and_return 'a case number'
-        allow(claim).to receive(:external_user).and_return instance_double(ExternalUser)
+        allow(claim).to receive_messages(
+          case_type: nil,
+          court: 'a court',
+          case_number: 'a case number',
+          external_user: instance_double(ExternalUser)
+        )
       end
 
       it { is_expected.to be_falsey }
@@ -97,8 +101,7 @@ RSpec.describe Claim::LitigatorHardshipClaimPresenter, type: :presenter do
 
   describe '#raw_hardship_fees_gross' do
     it 'sends message to VatRate' do
-      allow(presenter).to receive(:raw_hardship_fees_total).and_return(101.00)
-      allow(presenter).to receive(:raw_hardship_fees_vat).and_return(20.20)
+      allow(presenter).to receive_messages(raw_hardship_fees_total: 101.00, raw_hardship_fees_vat: 20.20)
       expect(presenter.raw_hardship_fees_gross).to eq 121.20
     end
   end

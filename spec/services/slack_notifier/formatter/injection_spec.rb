@@ -16,8 +16,7 @@ RSpec.describe SlackNotifier::Formatter::Injection do
     subject(:attachment) { formatter.attachment(**build_parameters) }
 
     before do
-      allow(Settings.slack).to receive(:success_icon).and_return ':tada:'
-      allow(Settings.slack).to receive(:fail_icon).and_return ':sad:'
+      allow(Settings.slack).to receive_messages(success_icon: ':tada:', fail_icon: ':sad:')
       allow(ENV).to receive(:[]).and_call_original
       allow(ENV).to receive(:[]).with('ENV').and_return 'test_environment'
     end

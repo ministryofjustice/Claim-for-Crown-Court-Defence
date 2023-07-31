@@ -87,8 +87,7 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
   describe 'calculate #transfer_fees' do
     before do
       allow(presenter).to receive(:raw_transfer_fees_total).and_return 10.0
-      allow(claim).to receive(:created_at).and_return Time.zone.today
-      allow(claim).to receive(:apply_vat?).and_return true
+      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true)
     end
 
     it '#raw_transfer_fees_vat' do

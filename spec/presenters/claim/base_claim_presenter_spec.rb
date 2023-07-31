@@ -618,8 +618,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'when not opened for redetermination nor written reasons outstanding' do
       before do
-        allow(claim).to receive(:opened_for_redetermination?).and_return false
-        allow(claim).to receive(:written_reasons_outstanding?).and_return false
+        allow(claim).to receive_messages(opened_for_redetermination?: false, written_reasons_outstanding?: false)
       end
 
       it { is_expected.to be_blank }
@@ -821,8 +820,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe 'calculate #misc_fees' do
     before do
       allow(presenter).to receive(:raw_misc_fees_total).and_return 10.0
-      allow(claim).to receive(:created_at).and_return Time.zone.today
-      allow(claim).to receive(:apply_vat?).and_return true
+      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true)
     end
 
     it '#raw_misc_fees_vat' do
@@ -846,8 +844,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe 'calculate #fixed_fees' do
     before do
       allow(presenter).to receive(:raw_fixed_fees_total).and_return 10.0
-      allow(claim).to receive(:created_at).and_return Time.zone.today
-      allow(claim).to receive(:apply_vat?).and_return true
+      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true)
     end
 
     it '#raw_fixed_fees_vat' do

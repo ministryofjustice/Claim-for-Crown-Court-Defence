@@ -10,10 +10,12 @@ describe GoogleAnalytics::Api do
   let(:fallback_client_id) { '555' }
 
   before do
-    allow(Settings.google_analytics).to receive(:endpoint).and_return(endpoint)
-    allow(Settings.google_analytics).to receive(:tracker_id).and_return(tracker_id)
-    allow(Settings.google_analytics).to receive(:version).and_return(version)
-    allow(Settings.google_analytics).to receive(:fallback_client_id).and_return(fallback_client_id)
+    allow(Settings.google_analytics).to receive_messages(
+      endpoint:,
+      tracker_id:,
+      version:,
+      fallback_client_id:
+    )
   end
 
   describe '.event' do

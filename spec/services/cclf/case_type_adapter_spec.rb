@@ -9,9 +9,7 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
   include TransferBrainHelpers
 
   before do
-    allow(claim).to receive(:interim?).and_return false
-    allow(claim).to receive(:transfer?).and_return false
-    allow(claim).to receive(:hardship?).and_return false
+    allow(claim).to receive_messages(interim?: false, transfer?: false, hardship?: false)
   end
 
   describe '#bill_scenario' do
@@ -41,8 +39,7 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
             let(:fee) { instance_double(Fee::InterimFee, fee_type:, is_interim_warrant?: false) }
 
             before do
-              allow(claim).to receive(:interim_fee).and_return fee
-              allow(claim).to receive(:interim?).and_return true
+              allow(claim).to receive_messages(interim_fee: fee, interim?: true)
             end
 
             it "returns #{scenario}" do
@@ -59,8 +56,7 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
             let(:fee) { instance_double(Fee::InterimFee, fee_type:, is_interim_warrant?: true) }
 
             before do
-              allow(claim).to receive(:interim?).and_return true
-              allow(claim).to receive(:interim_fee).and_return fee
+              allow(claim).to receive_messages(interim?: true, interim_fee: fee)
               allow(case_type).to receive(:fee_type_code).and_return code
             end
 
@@ -81,8 +77,7 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
           let(:bill_scenario) { scenario }
 
           before do
-            allow(claim).to receive(:transfer?).and_return true
-            allow(claim).to receive(:transfer_detail).and_return transfer_detail
+            allow(claim).to receive_messages(transfer?: true, transfer_detail:)
           end
 
           it "returns #{scenario}" do
@@ -96,8 +91,7 @@ RSpec.describe CCLF::CaseTypeAdapter, type: :adapter do
       let(:claim) { instance_double(Claim::LitigatorHardshipClaim) }
 
       before do
-        allow(claim).to receive(:hardship?).and_return true
-        allow(claim).to receive(:lgfs?).and_return true
+        allow(claim).to receive_messages(hardship?: true, lgfs?: true)
       end
 
       it { is_expected.to eql 'ST2TS1T0' }

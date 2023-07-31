@@ -2,12 +2,14 @@ require 'rails_helper'
 
 RSpec.describe DeviseMailer do
   before do
-    allow(Settings.govuk_notify.templates).to receive(:new_user).and_return('11111111-0000-0000-0000-111111111111')
-    allow(Settings.govuk_notify.templates).to receive(:new_external_admin).and_return('22222222-0000-0000-0000-222222222222')
-    allow(Settings.govuk_notify.templates).to receive(:new_external_advocate_admin).and_return('33333333-0000-0000-0000-333333333333')
-    allow(Settings.govuk_notify.templates).to receive(:new_external_litigator_admin).and_return('44444444-0000-0000-0000-444444444444')
-    allow(Settings.govuk_notify.templates).to receive(:password_reset).and_return('55555555-0000-0000-0000-555555555555')
-    allow(Settings.govuk_notify.templates).to receive(:unlock_instructions).and_return('66666666-0000-0000-0000-666666666666')
+    allow(Settings.govuk_notify.templates).to receive_messages(
+      new_user: '11111111-0000-0000-0000-111111111111',
+      new_external_admin: '22222222-0000-0000-0000-222222222222',
+      new_external_advocate_admin: '33333333-0000-0000-0000-333333333333',
+      new_external_litigator_admin: '44444444-0000-0000-0000-444444444444',
+      password_reset: '55555555-0000-0000-0000-555555555555',
+      unlock_instructions: '66666666-0000-0000-0000-666666666666'
+    )
   end
 
   describe 'reset_password_instructions' do

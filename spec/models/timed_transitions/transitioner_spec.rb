@@ -241,8 +241,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
           before do
             allow(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
-            allow(claim).to receive(:state).and_return('archived_pending_delete')
-            allow(claim).to receive(:softly_deleted?).and_return(false)
+            allow(claim).to receive_messages(state: 'archived_pending_delete', softly_deleted?: false)
           end
 
           it 'does not call destroy' do
@@ -366,8 +365,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
           before do
             allow(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
-            allow(claim).to receive(:state).and_return('authorised')
-            allow(claim).to receive(:softly_deleted?).and_return(false)
+            allow(claim).to receive_messages(state: 'authorised', softly_deleted?: false)
           end
 
           it 'does not call archive on claim' do
@@ -414,8 +412,7 @@ RSpec.describe TimedTransitions::Transitioner do
 
           before do
             allow(claim).to receive(:last_state_transition_time).at_least(:once).and_return(15.weeks.ago)
-            allow(claim).to receive(:state).and_return('archived_pending_delete')
-            allow(claim).to receive(:softly_deleted?).and_return(false)
+            allow(claim).to receive_messages(state: 'archived_pending_delete', softly_deleted?: false)
           end
 
           it 'does not call archive on claim' do

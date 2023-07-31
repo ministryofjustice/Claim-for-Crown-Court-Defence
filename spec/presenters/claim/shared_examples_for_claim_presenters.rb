@@ -26,8 +26,7 @@ RSpec.shared_examples 'common basic fees presenters' do
 
   describe '#raw_basic_fees_gross' do
     it 'sends message to VatRate' do
-      allow(presenter).to receive(:raw_basic_fees_total).and_return(101.00)
-      allow(presenter).to receive(:raw_basic_fees_vat).and_return(20.20)
+      allow(presenter).to receive_messages(raw_basic_fees_total: 101.00, raw_basic_fees_vat: 20.20)
       expect(presenter.raw_basic_fees_gross).to eq 121.20
     end
   end

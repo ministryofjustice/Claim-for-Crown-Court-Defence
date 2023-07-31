@@ -138,8 +138,8 @@ RSpec.describe 'external_users/claims/case_details/summary.html.haml' do
     let(:claim) { present(build(:advocate_hardship_claim, :draft)) }
 
     before do
-      allow(claim).to receive(:case_stage).and_return(build(:case_stage, description: 'Case stage 101'))
-      allow(claim).to receive(:display_case_type?).and_return(false) # TODO: mock current user instead
+      # TODO: mock current user instead
+      allow(claim).to receive_messages(case_stage: build(:case_stage, description: 'Case stage 101'), display_case_type?: false)
       render summary, claim:
     end
 

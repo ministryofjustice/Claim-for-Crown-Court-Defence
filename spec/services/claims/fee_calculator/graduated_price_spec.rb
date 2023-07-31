@@ -353,8 +353,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_start = trial_end - 6.months
-                allow(claim).to receive(:trial_concluded_at).and_return trial_end
-                allow(claim).to receive(:retrial_started_at).and_return retrial_start
+                allow(claim).to receive_messages(trial_concluded_at: trial_end, retrial_started_at: retrial_start)
               end
 
               context 'with retrial reduction requested' do
@@ -374,8 +373,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_start = trial_end + 1.month
-                allow(claim).to receive(:trial_concluded_at).and_return trial_end
-                allow(claim).to receive(:retrial_started_at).and_return retrial_start
+                allow(claim).to receive_messages(trial_concluded_at: trial_end, retrial_started_at: retrial_start)
               end
 
               context 'with retrial reduction requested' do
@@ -395,8 +393,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_start = trial_end + 1.month + 1.day
-                allow(claim).to receive(:trial_concluded_at).and_return trial_end
-                allow(claim).to receive(:retrial_started_at).and_return retrial_start
+                allow(claim).to receive_messages(trial_concluded_at: trial_end, retrial_started_at: retrial_start)
               end
 
               context 'with retrial reduction requested' do
@@ -447,8 +444,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_cracked = trial_end + 1.month
-                allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
               end
 
               context 'with retrial reduction requested' do
@@ -477,8 +473,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_cracked = trial_end + 1.month + 1.day
-                allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
               end
 
               context 'with retrial reduction requested' do
@@ -657,8 +652,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_start = trial_end - 6.months
-                allow(claim).to receive(:trial_concluded_at).and_return trial_end
-                allow(claim).to receive(:retrial_started_at).and_return retrial_start
+                allow(claim).to receive_messages(trial_concluded_at: trial_end, retrial_started_at: retrial_start)
               end
 
               context 'with retrial reduction requested' do
@@ -682,8 +676,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_start = trial_end + 1.month
-                allow(claim).to receive(:trial_concluded_at).and_return trial_end
-                allow(claim).to receive(:retrial_started_at).and_return retrial_start
+                allow(claim).to receive_messages(trial_concluded_at: trial_end, retrial_started_at: retrial_start)
               end
 
               context 'with retrial reduction requested' do
@@ -713,8 +706,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_start = trial_end + 1.month + 1.day
-                allow(claim).to receive(:trial_concluded_at).and_return trial_end
-                allow(claim).to receive(:retrial_started_at).and_return retrial_start
+                allow(claim).to receive_messages(trial_concluded_at: trial_end, retrial_started_at: retrial_start)
               end
 
               context 'with retrial reduction requested' do
@@ -854,8 +846,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 before do
                   trial_end = 3.months.ago.to_date
                   retrial_cracked = trial_end + 1.month
-                  allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                  allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                  allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
                 end
 
                 context 'with retrial reduction requested' do
@@ -887,8 +878,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 before do
                   trial_end = 3.months.ago.to_date
                   retrial_cracked = trial_end + 1.month + 1.day
-                  allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                  allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                  allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
                 end
 
                 context 'with retrial reduction requested' do
@@ -922,8 +912,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 before do
                   trial_end = 3.months.ago.to_date
                   retrial_cracked = trial_end + 1.month
-                  allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                  allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                  allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
                 end
 
                 context 'with retrial reduction requested' do
@@ -956,8 +945,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 before do
                   trial_end = 3.months.ago.to_date
                   retrial_cracked = trial_end + 1.month + 1.day
-                  allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                  allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                  allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
                 end
 
                 context 'with retrial reduction requested' do
@@ -1047,8 +1035,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_start = trial_end - 6.months
-                allow(claim).to receive(:trial_concluded_at).and_return trial_end
-                allow(claim).to receive(:retrial_started_at).and_return retrial_start
+                allow(claim).to receive_messages(trial_concluded_at: trial_end, retrial_started_at: retrial_start)
               end
 
               context 'with retrial reduction requested' do
@@ -1072,8 +1059,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_start = trial_end + 1.month
-                allow(claim).to receive(:trial_concluded_at).and_return trial_end
-                allow(claim).to receive(:retrial_started_at).and_return retrial_start
+                allow(claim).to receive_messages(trial_concluded_at: trial_end, retrial_started_at: retrial_start)
               end
 
               context 'with retrial reduction requested' do
@@ -1117,8 +1103,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
               before do
                 trial_end = 3.months.ago.to_date
                 retrial_start = trial_end + 1.month + 1.day
-                allow(claim).to receive(:trial_concluded_at).and_return trial_end
-                allow(claim).to receive(:retrial_started_at).and_return retrial_start
+                allow(claim).to receive_messages(trial_concluded_at: trial_end, retrial_started_at: retrial_start)
               end
 
               context 'with retrial reduction requested' do
@@ -1189,8 +1174,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 before do
                   trial_end = 3.months.ago.to_date
                   retrial_cracked = trial_end + 1.month
-                  allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                  allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                  allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
                 end
 
                 context 'with retrial reduction requested' do
@@ -1222,8 +1206,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 before do
                   trial_end = 3.months.ago.to_date
                   retrial_cracked = trial_end + 1.month + 1.day
-                  allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                  allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                  allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
                 end
 
                 context 'with retrial reduction requested' do
@@ -1257,8 +1240,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 before do
                   trial_end = 3.months.ago.to_date
                   retrial_cracked = trial_end + 1.month
-                  allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                  allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                  allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
                 end
 
                 context 'with retrial reduction requested' do
@@ -1291,8 +1273,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
                 before do
                   trial_end = 3.months.ago.to_date
                   retrial_cracked = trial_end + 1.month + 1.day
-                  allow(claim).to receive(:trial_cracked_at_third).and_return 'final_third'
-                  allow(claim).to receive(:trial_cracked_at).and_return retrial_cracked
+                  allow(claim).to receive_messages(trial_cracked_at_third: 'final_third', trial_cracked_at: retrial_cracked)
                 end
 
                 context 'with retrial reduction requested' do

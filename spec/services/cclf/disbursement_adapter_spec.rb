@@ -52,8 +52,7 @@ RSpec.describe CCLF::DisbursementAdapter, type: :adapter do
           let(:disbursement_type) { instance_double(DisbursementType, unique_code:) }
 
           before do
-            allow(disbursement).to receive(:claim).and_return claim
-            allow(disbursement).to receive(:disbursement_type).and_return disbursement_type
+            allow(disbursement).to receive_messages(claim:, disbursement_type:)
           end
 
           describe '#bill_type' do

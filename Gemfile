@@ -84,7 +84,7 @@ group :development, :devunicorn, :test do
   gem 'rspec-rails', '~> 6.0.3'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
-  gem 'net-ssh', '~> 7.1'
+  gem 'net-ssh', '~> 7.2'
   gem 'net-scp', '~> 4.0'
   gem 'rubocop', '~> 1.55'
   gem 'rubocop-capybara', '~> 2.18'

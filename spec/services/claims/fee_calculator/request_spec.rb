@@ -28,8 +28,7 @@ RSpec.describe Claims::FeeCalculator::Request do
         let(:price) { Claims::FeeCalculator::Price.new({}, nil, 1) }
 
         before do
-          allow(price).to receive(:per_unit).and_return(26.00)
-          allow(price).to receive(:unit).and_return('day')
+          allow(price).to receive_messages(per_unit: 26.00, unit: 'day')
         end
 
         it { is_expected.to be_a Claims::FeeCalculator::Response }

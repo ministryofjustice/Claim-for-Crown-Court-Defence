@@ -76,8 +76,7 @@ describe CaseWorkers::ClaimsHelper do
     let(:claim_ids) { [1244, 36364, 3774, 2773, 73773] }
 
     before do
-      allow(helper).to receive(:claim_ids).and_return(claim_ids)
-      allow(helper).to receive(:claim_count).and_return(claim_ids.size)
+      allow(helper).to receive_messages(claim_ids:, claim_count: claim_ids.size)
     end
 
     describe '#claim_position_and_count' do

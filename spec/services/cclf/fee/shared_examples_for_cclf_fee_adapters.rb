@@ -13,8 +13,7 @@ RSpec.shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
   let(:fee_type) { instance_double('fee_type') }
 
   before do
-    allow(fee).to receive(:fee_type).and_return fee_type
-    allow(fee).to receive(:claim).and_return claim
+    allow(fee).to receive_messages(fee_type:, claim:)
   end
 
   describe '#bill_type' do

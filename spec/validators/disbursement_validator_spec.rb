@@ -11,7 +11,7 @@ RSpec.describe DisbursementValidator, type: :validator do
       before { allow(claim).to receive(:agfs?).and_return true }
 
       it 'raises invalid fee scheme error' do
-        expect(disbursement).to be_invalid
+        expect(disbursement).not_to be_valid
         expect(disbursement.errors[:claim]).to include 'invalid_fee_scheme'
       end
     end

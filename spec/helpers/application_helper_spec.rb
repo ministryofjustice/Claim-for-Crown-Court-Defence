@@ -87,10 +87,8 @@ RSpec.describe ApplicationHelper do
     subject { helper.display_downtime_warning? }
 
     before do
-      allow(Settings).to receive(:downtime_warning_enabled?).and_return(downtime_warning_enabled)
-      allow(Settings).to receive(:downtime_warning_date).and_return(downtime_warning_date)
-      allow(helper).to receive(:current_user).and_return(current_user)
-      allow(helper).to receive(:on_home_page?).and_return(true)
+      allow(Settings).to receive_messages(downtime_warning_enabled?: downtime_warning_enabled, downtime_warning_date:)
+      allow(helper).to receive_messages(current_user:, on_home_page?: true)
     end
 
     context 'feature flag enabled' do

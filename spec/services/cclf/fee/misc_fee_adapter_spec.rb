@@ -27,8 +27,7 @@ RSpec.describe CCLF::Fee::MiscFeeAdapter, type: :adapter do
           let(:fee_type) { instance_double(Fee::MiscFeeType, unique_code:) }
 
           before do
-            allow(fee).to receive(:claim).and_return claim
-            allow(fee).to receive(:fee_type).and_return fee_type
+            allow(fee).to receive_messages(claim:, fee_type:)
           end
 
           describe '#bill_type' do

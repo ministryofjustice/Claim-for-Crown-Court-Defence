@@ -49,7 +49,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
     it 'is invalid if greater than the total amount' do
       expense.vat_amount = 100.01
-      expect(expense).to be_invalid
+      expect(expense).not_to be_valid
       expect(expense.errors[:vat_amount]).to include('greater_than')
     end
 
@@ -65,13 +65,13 @@ RSpec.describe 'ExpenseValidator', type: :validator do
 
     it 'is invalid if greater than current VAT% of the total amount' do
       expense.vat_amount = 20.01
-      expect(expense).to be_invalid
+      expect(expense).not_to be_valid
       expect(expense.errors[:vat_amount]).to include('max_vat_amount')
     end
 
     it 'is invalid if rounded value greater than current VAT% of the total amount' do
       expense.vat_amount = 20.009
-      expect(expense).to be_invalid
+      expect(expense).not_to be_valid
       expect(expense.errors[:vat_amount]).to include('max_vat_amount')
     end
 
@@ -436,7 +436,7 @@ RSpec.describe 'ExpenseValidator', type: :validator do
           let(:calculated_distance) { -0.0001 }
 
           it 'is invalid' do
-            expect(expense).to be_invalid
+            expect(expense).not_to be_valid
             expect(expense.errors[:calculated_distance]).to include('Enter a valid distance for the expense')
           end
         end

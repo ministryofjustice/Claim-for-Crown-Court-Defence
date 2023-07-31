@@ -18,8 +18,7 @@ RSpec.describe CCLF::ExpenseAdapter, type: :adapter do
           let(:expense_type) { instance_double(ExpenseType, unique_code:) }
 
           before do
-            allow(expense).to receive(:claim).and_return claim
-            allow(expense).to receive(:expense_type).and_return expense_type
+            allow(expense).to receive_messages(claim:, expense_type:)
           end
 
           describe '#bill_type' do

@@ -26,7 +26,7 @@ RSpec.describe InjectionAttempt do
     context 'when claim is missing' do
       before { injection_attempt.claim_id = nil }
 
-      it { is_expected.to be_invalid }
+      it { is_expected.not_to be_valid }
     end
   end
 

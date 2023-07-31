@@ -46,7 +46,7 @@ RSpec.describe OffenceClass do
     context 'letters other than A to K' do
       it 'fails for letter L' do
         subject.class_letter = 'L'
-        expect(subject).to be_invalid
+        expect(subject).not_to be_valid
       end
     end
   end

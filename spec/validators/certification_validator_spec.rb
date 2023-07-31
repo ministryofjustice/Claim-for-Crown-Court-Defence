@@ -19,7 +19,7 @@ RSpec.describe CertificationValidator, type: :validator do
       context 'with no certification type' do
         before { certification.certification_type_id = nil }
 
-        it { expect(certification).to be_invalid }
+        it { expect(certification).not_to be_valid }
 
         it {
           certification.valid?
@@ -52,7 +52,7 @@ RSpec.describe CertificationValidator, type: :validator do
   describe '#validate_certified_by' do
     before { certification.certified_by = nil }
 
-    it { expect(certification).to be_invalid }
+    it { expect(certification).not_to be_valid }
 
     it {
       certification.valid?
@@ -69,7 +69,7 @@ RSpec.describe CertificationValidator, type: :validator do
         certification.certification_date = 3.days.ago
       end
 
-      it { expect(certification).to be_invalid }
+      it { expect(certification).not_to be_valid }
 
       it {
         certification.valid?
@@ -83,7 +83,7 @@ RSpec.describe CertificationValidator, type: :validator do
         certification.certification_date = 10.days.from_now
       end
 
-      it { expect(certification).to be_invalid }
+      it { expect(certification).not_to be_valid }
 
       it {
         certification.valid?

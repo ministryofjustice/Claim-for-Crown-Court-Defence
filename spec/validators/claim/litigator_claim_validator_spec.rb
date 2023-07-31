@@ -120,7 +120,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
       it 'test setup' do
         expect(claim.defendants.size).to eq 1
         expect(claim.misc_fees.map { |f| f.fee_type.unique_code }.sort).to eql(%w[MIUPL])
-        expect(claim).to be_invalid
+        expect(claim).not_to be_valid
       end
 
       it 'are ignored' do
@@ -158,7 +158,7 @@ RSpec.describe Claim::LitigatorClaimValidator, type: :validator do
             }
           }
         )
-        expect(claim).to be_invalid
+        expect(claim).not_to be_valid
       end
     end
   end

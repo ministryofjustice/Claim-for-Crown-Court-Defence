@@ -226,7 +226,7 @@ RSpec.describe Provider do
       before { agfs_lgfs.firm_agfs_supplier_number = '' }
 
       it 'returns errors' do
-        expect(agfs_lgfs).to be_invalid
+        expect(agfs_lgfs).not_to be_valid
       end
     end
 

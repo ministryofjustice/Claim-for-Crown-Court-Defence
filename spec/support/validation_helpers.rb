@@ -14,7 +14,7 @@ module ValidationHelpers
   end
 
   def should_error_with(record, field, message)
-    expect(record).to be_invalid
+    expect(record).not_to be_valid
     expect(record.errors[field]).to include(message), "expected #{field} to have the error \"#{message}\", but had errors #{record.errors[field] || 'none'}"
   end
 

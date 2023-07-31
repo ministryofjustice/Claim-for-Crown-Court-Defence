@@ -41,7 +41,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.except(:external_user_id) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:external_user_id]).to contain_exactly('Choose an advocate')
       }
     end
@@ -50,7 +50,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:external_user) { create(:external_user, :litigator) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:external_user_id]).to contain_exactly('must have advocate role')
       }
     end
@@ -59,7 +59,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.except(:creator_id) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:creator]).to contain_exactly('blank')
       }
     end
@@ -69,7 +69,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.merge(creator_id: other_external_user.id) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:external_user_id]).to contain_exactly('Creator and advocate must belong to the same provider')
       }
     end
@@ -78,7 +78,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.except(:court_id) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:court_id]).to contain_exactly('Choose a court')
       }
     end
@@ -87,7 +87,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.except(:case_number) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:case_number]).to contain_exactly('Enter a case number')
       }
     end
@@ -96,7 +96,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.merge(case_number: 'invalid-cn') }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:case_number]).to contain_exactly('Enter a valid case number or URN')
       }
     end
@@ -149,7 +149,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
         let(:attributes) { valid_attributes.merge(transfer_case_number: 'invalid-tcn') }
 
         specify {
-          is_expected.to be_invalid
+          is_expected.not_to be_valid
           expect(claim.errors[:transfer_case_number]).to include('Invalid transfer case number or urn')
         }
       end
@@ -246,7 +246,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.except(:defendants_attributes) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants]).to contain_exactly('blank')
       }
     end
@@ -255,7 +255,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:one_defendant_attrs) { valid_one_defendant_attrs.except(:first_name) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_0_first_name]).to contain_exactly('Enter a first name')
       }
     end
@@ -264,7 +264,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:other_defendant_attrs) { valid_other_defendant_attrs.merge(first_name: 'A' * 41) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_1_first_name]).to contain_exactly('First name is too long')
       }
     end
@@ -273,7 +273,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:one_defendant_attrs) { valid_one_defendant_attrs.except(:last_name) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_0_last_name]).to contain_exactly('Enter a last name')
       }
     end
@@ -282,7 +282,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:other_defendant_attrs) { valid_other_defendant_attrs.merge(last_name: 'A' * 41) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_1_last_name]).to contain_exactly('Last name is too long')
       }
     end
@@ -293,7 +293,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_0_date_of_birth]).to contain_exactly('Enter a date of birth')
       }
     end
@@ -309,7 +309,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_1_date_of_birth]).to contain_exactly('Check the date of birth')
       }
     end
@@ -325,7 +325,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_1_date_of_birth]).to contain_exactly('Check the date of birth')
       }
     end
@@ -336,7 +336,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_0_representation_order_date]).to contain_exactly('Enter a representation order date')
       }
     end
@@ -347,7 +347,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_1_representation_orders_attributes_0_representation_order_date]).to contain_exactly('Enter a representation order date')
       }
     end
@@ -363,7 +363,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]).to contain_exactly('Representation order date can not be too far in the future')
       }
     end
@@ -379,7 +379,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       end
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]).to contain_exactly('Representation order date is too far in the past', 'Representation orders should be entered in chronological order')
       }
     end
@@ -395,7 +395,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       end
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:base]).to contain_exactly('unclaimable')
       }
     end
@@ -475,7 +475,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.except(:offence_id) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:offence]).to contain_exactly('Choose an offence')
       }
     end
@@ -569,7 +569,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.except(:advocate_category) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:advocate_category]).to contain_exactly('Choose an advocate category')
       }
     end
@@ -578,7 +578,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.merge(advocate_category: 'invalid-ac') }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:advocate_category]).to contain_exactly('Choose an eligible advocate category')
       }
     end
@@ -591,7 +591,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly('Enter a warrant issued date')
       }
     end
@@ -607,7 +607,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly('Warrant issued date cannot be too far in the past', 'Warrant issued date needs to be on or after the earliest representation order date')
       }
     end
@@ -623,7 +623,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly('Warrant issued date cannot be too far in the future', 'Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued')
       }
     end
@@ -639,7 +639,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly('Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued')
       }
     end
@@ -655,7 +655,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly('Warrant issued date needs to be on or after the earliest representation order date')
       }
     end
@@ -664,7 +664,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:warrant_fee_attributes) { valid_warrant_fee_attributes.except(:amount) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:'warrant_fee.amount']).to contain_exactly('Enter a valid amount for the warrant fee')
       }
     end
@@ -673,7 +673,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:warrant_fee_attributes) { valid_warrant_fee_attributes.merge(amount: '0.00') }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:'warrant_fee.amount']).to contain_exactly('Enter a valid amount for the warrant fee')
       }
     end
@@ -796,7 +796,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:one_expense_attributes) { valid_one_expense_attributes.except(:expense_type_id) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:expenses_attributes_0_expense_type]).to contain_exactly('Choose an expense type')
       }
     end
@@ -805,7 +805,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:other_expense_attributes) { valid_other_expense_attributes.merge(expense_type_id: 99999) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:expenses_attributes_1_expense_type]).to contain_exactly('Choose an expense type')
       }
     end
@@ -814,7 +814,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:one_expense_attributes) { valid_one_expense_attributes.except(:reason_id) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:expenses_attributes_0_reason_id]).to contain_exactly('Enter a reason for the expense')
       }
     end
@@ -823,7 +823,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:one_expense_attributes) { valid_one_expense_attributes.merge(reason_id: 9999999) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:expenses_attributes_0_reason_id]).to contain_exactly('Enter a valid reason for the expense')
       }
     end
@@ -832,7 +832,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:other_expense_attributes) { valid_other_expense_attributes.except(:'date(3i)', :'date(2i)', :'date(1i)') }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:expenses_attributes_1_date]).to contain_exactly('Enter a date for the expense')
       }
     end
@@ -848,7 +848,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       end
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:expenses_attributes_0_date]).to contain_exactly('Date for the expense cannot be in the future')
       }
     end
@@ -864,7 +864,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       end
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:expenses_attributes_0_date]).to contain_exactly('Check the date for the expense')
       }
     end
@@ -873,7 +873,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:other_expense_attributes) { valid_other_expense_attributes.except(:amount) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:expenses_attributes_1_amount]).to contain_exactly('Enter an amount for the expense')
       }
     end
@@ -882,7 +882,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:other_expense_attributes) { valid_other_expense_attributes.merge(amount: 0) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:expenses_attributes_1_amount]).to contain_exactly('Enter a valid amount for the expense')
       }
     end
@@ -1023,7 +1023,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:attributes) { valid_attributes.merge(evidence_checklist_ids: invalid_checklist_ids) }
 
       specify {
-        is_expected.to be_invalid
+        is_expected.not_to be_valid
         expect(claim.errors[:evidence_checklist_ids].length).to eq(invalid_checklist_ids.length)
         claim.errors[:evidence_checklist_ids].each do |error_message|
           expect(error_message).to match(/is invalid/)

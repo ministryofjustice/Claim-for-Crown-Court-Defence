@@ -31,7 +31,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         context 'with guilty plea' do
           let(:case_type) { create(:case_type, :guilty_plea) }
 
-          it { expect(fee).to be_invalid }
+          it { expect(fee).not_to be_valid }
           it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
 
           it {
@@ -43,7 +43,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
         context 'with appeal against sentence' do
           let(:case_type) { create(:case_type, :appeal_against_sentence) }
 
-          it { expect(fee).to be_invalid }
+          it { expect(fee).not_to be_valid }
           it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
 
           it {
@@ -82,7 +82,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       context 'with invalid quantity' do
         let(:fee) { build(:misc_fee, :miumu_fee, claim:, quantity: 1.01) }
 
-        it { expect(fee).to be_invalid }
+        it { expect(fee).not_to be_valid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
 
         it {
@@ -108,7 +108,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       context 'with invalid quantity' do
         let(:fee) { build(:misc_fee, :miumo_fee, claim:, quantity: 0) }
 
-        it { expect(fee).to be_invalid }
+        it { expect(fee).not_to be_valid }
         it { expect { fee.valid? }.to change { fee.errors[:quantity].count }.by(1) }
 
         it {
@@ -153,7 +153,7 @@ RSpec.describe Fee::BaseFeeValidator, type: :validator do
       context 'with an excluded offence category number' do
         let(:offence_category_number) { 1 }
 
-        it { expect(fee).to be_invalid }
+        it { expect(fee).not_to be_valid }
         it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
 
         [1, 6, 9].each do |cat_number|

@@ -34,7 +34,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
           context 'when earliest representation order is before CLAR release' do
             let(:earliest_rep_order_date) { Settings.clar_release_date.end_of_day - 1.day }
 
-            it { expect(fee).to be_invalid }
+            it { expect(fee).not_to be_valid }
             it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
 
             it {
@@ -66,7 +66,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
             context 'with guilty plea' do
               let(:case_type) { create(:case_type, :guilty_plea) }
 
-              it { expect(fee).to be_invalid }
+              it { expect(fee).not_to be_valid }
               it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
 
               it {
@@ -78,7 +78,7 @@ RSpec.describe Fee::MiscFeeValidator, type: :validator do
             context 'with appeal against sentence' do
               let(:case_type) { create(:case_type, :appeal_against_sentence) }
 
-              it { expect(fee).to be_invalid }
+              it { expect(fee).not_to be_valid }
               it { expect { fee.valid? }.to change { fee.errors[:fee_type].count }.by(1) }
 
               it {

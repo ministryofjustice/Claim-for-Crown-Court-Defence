@@ -123,7 +123,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
     context 'disbursement fee' do
       it 'is invalid if present' do
         disbursement_fee.amount = 3
-        expect(disbursement_fee).to be_invalid
+        expect(disbursement_fee).not_to be_valid
         expect(disbursement_fee.errors[:amount]).to eq ['present']
       end
     end
@@ -135,7 +135,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
 
       it 'is invalid if absent' do
         allow(interim_warrant_fee).to receive(:amount).and_return nil
-        expect(interim_warrant_fee).to be_invalid
+        expect(interim_warrant_fee).not_to be_valid
         expect(interim_warrant_fee.errors[:amount]).to include(match(fee_amount_error_message))
       end
     end
@@ -152,7 +152,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   describe 'interim warrant fee' do
     it 'validates there are no disbursements in the claim' do
       allow(interim_warrant_fee.claim).to receive(:disbursements).and_return([instance_double(Disbursement)])
-      expect(interim_warrant_fee).to be_invalid
+      expect(interim_warrant_fee).not_to be_valid
       expect(interim_warrant_fee.errors[:disbursements]).to eq ['present']
     end
   end
@@ -160,7 +160,7 @@ RSpec.describe Fee::InterimFeeValidator, type: :validator do
   describe 'disbursement only interim fee' do
     it 'validates existence of disbursements in the claim' do
       allow(disbursement_fee.claim).to receive(:disbursements).and_return([])
-      expect(disbursement_fee).to be_invalid
+      expect(disbursement_fee).not_to be_valid
       expect(disbursement_fee.errors[:disbursements]).to eq ['blank']
     end
   end

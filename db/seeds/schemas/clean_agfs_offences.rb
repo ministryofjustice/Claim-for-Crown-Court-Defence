@@ -47,9 +47,6 @@ module Seeds
           puts "  #{offence.offence_band.description} " unless @quiet
           puts "  #{offence.offence_band.offence_category.description[0, 60]}" unless @quiet
 
-          unique_code = offence.unique_code
-          other_unique_code = unique_code.gsub('~12', '')
-          other_offence = Offence.find_by(unique_code: other_unique_code)
           Offence.transaction do
             new_offence = scheme_eleven_offence_for(offence)
             update_claims(offence.claims, new_offence)
@@ -67,9 +64,6 @@ module Seeds
           puts "  #{offence.offence_band.description} " unless @quiet
           puts "  #{offence.offence_band.offence_category.description[0, 60]}" unless @quiet
 
-          unique_code = offence.unique_code
-          other_unique_code = unique_code.gsub('~13', '')
-          other_offence = Offence.find_by(unique_code: other_unique_code)
           Offence.transaction do
             new_offence = scheme_eleven_offence_for(offence)
             update_claims(offence.claims, new_offence)
@@ -87,9 +81,13 @@ module Seeds
           puts "  #{offence.offence_band.description[0, 60]}" unless @quiet
           puts "  #{offence.offence_band.offence_category.description[0, 60]}" unless @quiet
 
+          # Filter list of claims outside of the transaction to avoid locking the database
+          scheme_twelve_claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_twelve }
+          scheme_thirteen_claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_thirteen }
+
           Offence.transaction do
-            create_scheme_twelve_offence_for(offence)
-            create_scheme_thirteen_offence_for(offence)
+            create_scheme_twelve_offence_for(offence, scheme_twelve_claims)
+            create_scheme_thirteen_offence_for(offence, scheme_thirteen_claims)
           end
           puts "-----" unless @quiet
         end
@@ -164,7 +162,7 @@ module Seeds
         end
       end
 
-      def create_scheme_thirteen_offence_for(offence)
+      def create_scheme_thirteen_offence_for(offence, claims)
         if !offence.unique_code.match(/~11/)
           puts "    [NOT-DUPLICATING] Offence #{offence.unique_code}".yellow
           return
@@ -176,7 +174,6 @@ module Seeds
           new_offence.id = 10000 + offence.id - 3000
           new_offence.unique_code = new_offence.unique_code.gsub('~11', '~13')
           new_offence.fee_schemes = [fee_scheme_thirteen]
-          claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_thirteen }
           raise SchemeThirteenOffenceExists unless new_offence.valid?
           if pretending?
             puts "    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".yellow unless @quiet
@@ -196,7 +193,7 @@ module Seeds
         end
       end
 
-      def create_scheme_twelve_offence_for(offence)
+      def create_scheme_twelve_offence_for(offence, claims)
         if !offence.unique_code.match(/~11/)
           puts "    [NOT-DUPLICATING] Offence #{offence.unique_code}".yellow
           return
@@ -208,7 +205,6 @@ module Seeds
           new_offence.id = 5000 + offence.id - 3000
           new_offence.unique_code = new_offence.unique_code.gsub('~11', '~12')
           new_offence.fee_schemes = [fee_scheme_twelve]
-          claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_twelve }
           raise SchemeTwelveOffenceExists unless new_offence.valid?
           if pretending?
             puts "    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".yellow unless @quiet

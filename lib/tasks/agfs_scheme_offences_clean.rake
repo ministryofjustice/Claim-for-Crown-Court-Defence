@@ -24,6 +24,7 @@ namespace :db do
       cleaner = Seeds::Schemas::CleanAgfsOffences.new(pretend: pretend)
       cleaner.merge_12
       cleaner.merge_13
+      cleaner.merge_11
       ActiveRecord::Base.logger.level = log_level
     end
 

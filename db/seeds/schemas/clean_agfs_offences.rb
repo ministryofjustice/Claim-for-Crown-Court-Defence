@@ -114,6 +114,7 @@ module Seeds
           puts "  #{offence.offence_band.offence_category.description[0, 60]}" unless @quiet
 
           # Filter list of claims outside of the transaction to avoid locking the database
+          scheme_eleven_claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_eleven }
           scheme_twelve_claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_twelve }
           scheme_thirteen_claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_thirteen }
 
@@ -217,35 +218,45 @@ module Seeds
           return
         end
         begin
-          new_offence = offence.dup
-          new_offence.unique_code = "#{new_offence.unique_code}'~11"
-          new_offence.fee_schemes = [fee_scheme_eleven, fee_scheme_fourteen, fee_scheme_fifteen]
-          raise SchemeElevenOffenceExists unless new_offence.valid?
-          if pretending?
-            puts "    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".yellow unless @quiet
-            puts "    [WOULD-REMOVE] Fee scheme 12 from offence #{offence.unique_code}".yellow unless @quiet
-            puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 12 claims (out of #{offence.claims.count}) to new offence".yellow unless @quiet
+          if offence.fee_schemes.include?(fee_scheme_ten)
+            # New offence needs to be created to distinguish from the fee scheme 10 version
+            new_offence = offence.dup
+            new_offence.unique_code = "#{new_offence.unique_code}~11"
+            new_offence.fee_schemes = [fee_scheme_eleven, fee_scheme_fourteen, fee_scheme_fifteen]
+            raise SchemeElevenOffenceExists unless new_offence.valid?
+            if pretending?
+              puts "    [WOULD-CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".yellow unless @quiet
+              puts "    [WOULD-REMOVE] Fee schemes 11, 14 and 15 from offence #{offence.unique_code}".yellow unless @quiet
+              puts "    [WOULD-UPDATE] Move #{claims.count} fee scheme 12 claims (out of #{offence.claims.count}) to new offence".yellow unless @quiet
+            else
+              puts "    [CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".green unless @quiet
+              new_offence.save!
+              puts "      [SUCCESS]".green unless @quiet
+              puts "    [REMOVE] Fee scheme 11, 14, 15 from offence #{offence.unique_code}".green unless @quiet
+              offence.fee_schemes.delete(fee_scheme_eleven)
+              offence.fee_schemes.delete(fee_scheme_fourteen)
+              offence.fee_schemes.delete(fee_scheme_fifteen)
+              puts "    [UPDATE] Move #{claims.count} fee scheme 12 claims (out of #{offence.claims.count}) to new offence".green unless @quiet
+              update_claims_with_ids(claims, new_offence)
+            end
           else
-            puts "    [CREATE] Offence #{new_offence.id}/#{new_offence.unique_code}".green unless @quiet
-            new_offence.save!
-            puts "      [SUCCESS]".green unless @quiet
-            puts "    [REMOVE] Fee scheme 12 from offence #{offence.unique_code}".green unless @quiet
-            offence.fee_schemes.delete(fee_scheme_twelve)
-            puts "    [UPDATE] Move #{claims.count} fee scheme 12 claims (out of #{offence.claims.count}) to new offence".green unless @quiet
-            update_claims_with_ids(claims, new_offence)
+            # Offence is updated as it does not apply to fee scheme 10
+            if pretending?
+              puts "    [WOULD-UPDATE] Offence unique code from #{offence.unique_code} to #{offence.unique_code}~11".yellow unless @quiet
+            else
+              puts "    [UPDATE] Offence unique code from #{offence.unique_code} to #{offence.unique_code}~11".green unless @quiet
+              offence.unique_code = "#{offence.unique_code}~11"
+              offence.save!
+              puts "      [SUCCESS]".green unless @quiet
+            end
           end
         rescue SchemeTwelveOffenceExists, ActiveRecord::RecordNotUnique
           puts "      [FAILED]".red unless @quiet
         end
       end
 
-
-
-
-
-
       def create_scheme_twelve_offence_for(offence, claims)
-        if offence.unique_code.match(/~/)
+        if offence.unique_code.match(/~/) && !offence.unique_code.match(/~11/)
           puts "    [NOT-DUPLICATING] Offence #{offence.unique_code}".yellow
           return
         end
@@ -254,7 +265,7 @@ module Seeds
           # # AGFS scheme 11 offences start at 3001
           # # lib/tasks/agfs_scheme_thirteen.rake starts adding ids at 5000
           # new_offence.id = 5000 + offence.id - 3000
-          new_offence.unique_code = new_offence.unique_code.gsub('~11', '~12')
+          new_offence.unique_code = "#{new_offence.unique_code.gsub('~11', '')}~12"
           new_offence.fee_schemes = [fee_scheme_twelve]
           raise SchemeTwelveOffenceExists unless new_offence.valid?
           if pretending?
@@ -276,7 +287,7 @@ module Seeds
       end
 
       def create_scheme_thirteen_offence_for(offence, claims)
-        if offence.unique_code.match(/~/)
+        if offence.unique_code.match(/~/) && !offence.unique_code.match(/~11/)
           puts "    [NOT-DUPLICATING] Offence #{offence.unique_code}".yellow
           return
         end
@@ -285,7 +296,7 @@ module Seeds
           # # AGFS scheme 11 offences start at 3001
           # # lib/tasks/agfs_scheme_thirteen.rake starts adding ids at 10000
           # new_offence.id = 10000 + offence.id - 3000
-          new_offence.unique_code = new_offence.unique_code.gsub('~11', '~13')
+          new_offence.unique_code = "#{new_offence.unique_code.gsub('~11', '')}~13"
           new_offence.fee_schemes = [fee_scheme_thirteen]
           raise SchemeThirteenOffenceExists unless new_offence.valid?
           if pretending?

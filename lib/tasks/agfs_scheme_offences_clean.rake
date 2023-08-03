@@ -45,5 +45,23 @@ namespace :db do
       cleaner.rollback
       ActiveRecord::Base.logger.level = log_level
     end
+
+    desc 'Remove all offences that are not linked to a fee scheme'
+      task :remove_redundant, [:not_pretend] => :environment do |_task, args|
+
+      # rollback['true'] should remove redundant offences, otherwise pretend
+      args.with_defaults(not_pretend: 'false')
+      not_pretend = !args.not_pretend.to_s.downcase.eql?('false')
+      pretend = !not_pretend
+
+      continue?('This will all offences that are not linked to a fee scheme. Are you sure?') if not_pretend
+      puts "#{pretend ? 'pretending' : 'working'}...".yellow
+
+      log_level = ActiveRecord::Base.logger.level
+      ActiveRecord::Base.logger.level = 1
+      cleaner = Seeds::Schemas::CleanAgfsOffences.new(pretend: pretend)
+      cleaner.remove_redundant
+      ActiveRecord::Base.logger.level = log_level
+    end
   end
 end

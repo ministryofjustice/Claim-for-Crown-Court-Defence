@@ -114,7 +114,7 @@ module Seeds
           puts "  #{offence.offence_band.offence_category.description[0, 60]}" unless @quiet
 
           # Filter list of claims outside of the transaction to avoid locking the database
-          scheme_eleven_claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_eleven }
+          scheme_eleven_claims = offence.claims.select { |claim| [fee_scheme_eleven, fee_scheme_fourteen, fee_scheme_fifteen].include?(claim.fee_scheme) }
           scheme_twelve_claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_twelve }
           scheme_thirteen_claims = offence.claims.select { |claim| claim.fee_scheme == fee_scheme_thirteen }
 
@@ -124,6 +124,32 @@ module Seeds
             restore_scheme_thirteen_offence_for(offence, scheme_thirteen_claims)
           end
           puts "-----" unless @quiet
+        end
+      end
+
+      def remove_redundant
+        offences = Offence.all
+        offences.each do |offence|
+          if pretending?
+            if offence.fee_schemes.empty?
+              puts "    [WOULD-REMOVE] #{offence.unique_code}".yellow unless @quiet
+            else
+              puts "    [WOULD-NOT-REMOVE] #{offence.unique_code}".yellow unless @quiet
+            end
+            puts "      Fee schemes: #{offence.description}" unless @quiet
+            puts "      Fee schemes: #{display_fee_schemes(*offence.fee_schemes)}" unless @quiet
+          else
+            if offence.fee_schemes.empty?
+              puts "    [REMOVE] #{offence.unique_code}".green unless @quiet
+              puts "      Fee schemes: #{offence.description}" unless @quiet
+              puts "      Fee schemes: #{display_fee_schemes(*offence.fee_schemes)}" unless @quiet
+              offence.destroy
+            else
+              puts "    [NOT-REMOVING] #{offence.unique_code}".yellow unless @quiet
+              puts "      Fee schemes: #{offence.description}" unless @quiet
+              puts "      Fee schemes: #{display_fee_schemes(*offence.fee_schemes)}" unless @quiet
+            end
+          end
         end
       end
 

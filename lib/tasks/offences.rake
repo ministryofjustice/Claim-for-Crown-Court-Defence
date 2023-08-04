@@ -1,25 +1,24 @@
-require Rails.root.join('lib', 'tasks', 'rake_helpers', 'offences_summary.rb')
 require 'terminal-table'
 
 namespace :offences do
   desc 'Summary of offences'
   task summary: :environment do
-    summary = OffencesSummary.new
+    summary = OffencesSummaryService.call
 
     headings = [
       'label',
       'unique code',
       'description',
-      *summary.fee_scheme_names
+      *summary.fee_scheme_headings
     ]
 
     table = Terminal::Table.new(headings:) do |t|
-      summary.rows.each do |row|
+      summary.each do |row|
         t.add_row [
           row.label,
           row.unique_code(width: 20),
           row.description(width: 50),
-          *row.fee_scheme_flags
+          *row.fee_scheme_flags.map { |flag| flag ? '*******' : '' }
         ]
       end
     end

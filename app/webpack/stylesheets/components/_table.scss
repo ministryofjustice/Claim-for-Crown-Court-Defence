@@ -179,3 +179,8 @@ table.dataTable {
     vertical-align: middle;
   }
 }
+
+td.active {
+  background: $grey-3;
+  text-align: center;
+}

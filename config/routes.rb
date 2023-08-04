@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
   authenticated :user, -> (u) { u.persona.is_a?(SuperAdmin) } do
     root to: 'super_admins/super_admins#show', as: :super_admins_home
+    get 'super_admins/offences', to: 'super_admins/offences#index'
 
     require 'sidekiq/web'
     mount Sidekiq::Web => '/sidekiq'

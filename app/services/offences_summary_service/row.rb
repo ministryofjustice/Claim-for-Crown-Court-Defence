@@ -1,4 +1,4 @@
-class OffencesSummary
+class OffencesSummaryService
   class Row
     def initialize(offence, fee_schemes: [])
       @offence = offence
@@ -32,9 +32,7 @@ class OffencesSummary
     end
 
     def fee_scheme_flags
-      @fee_scheme_flags ||= @fee_schemes.map do |fs|
-        @offence.fee_schemes.include?(fs) ? '****' : ''
-      end
+      @fee_scheme_flags ||= @fee_schemes.map { |fs| @offence.fee_schemes.include?(fs) }
     end
   end
 end

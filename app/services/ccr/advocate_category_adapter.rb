@@ -1,7 +1,7 @@
 module CCR
   class AdvocateCategoryAdapter
     TRANSLATION_TABLE = {
-      KC: Settings.can_inject_kc ? 'KC' : 'QC',
+      KC: 'KC',
       QC: 'QC',
       'Led junior': 'LEDJR',
       'Leading junior': 'LEADJR',

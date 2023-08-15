@@ -29,7 +29,7 @@ module ExternalUsers
         @external_user = ExternalUser.new(params_with_temporary_password.merge(provider_id: current_provider.id))
         if @external_user.save
           deliver_reset_password_instructions(@external_user.user)
-          redirect_to external_users_admin_external_users_url, notice: 'User successfully created'
+          redirect_to external_users_admin_external_users_url, notice: t('.notice')
         else
           render :new
         end
@@ -38,7 +38,7 @@ module ExternalUsers
       def update
         if @external_user.update(external_user_params)
           redirect_path = @external_user.admin? ? external_users_admin_external_users_url : external_users_claims_path
-          redirect_to redirect_path, notice: 'User successfully updated'
+          redirect_to redirect_path, notice: t('.notice')
         else
           render :edit
         end
@@ -48,7 +48,7 @@ module ExternalUsers
 
       def destroy
         @external_user.soft_delete
-        redirect_to external_users_admin_external_users_url, notice: 'User deleted'
+        redirect_to external_users_admin_external_users_url, notice: t('.notice')
       end
 
       private

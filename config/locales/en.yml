@@ -735,8 +735,12 @@ en:
           edit: Edit
           change_password: *change_password
           page_heading: Your account
-
-
+        create:
+          notice: User successfully created
+        update:
+          notice: User successfully updated
+        destroy:
+          notice: User deleted
 
       providers:
         provider_type: &provider_type 'Provider type'

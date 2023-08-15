@@ -323,13 +323,13 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :date_of_birth,
         :order_for_judicial_apportionment,
         :_destroy,
-        representation_orders_attributes: %i[
+        { representation_orders_attributes: %i[
           id
           document
           maat_reference
           representation_order_date
           _destroy
-        ]
+        ] }
       ],
       basic_fees_attributes: [
         :id,

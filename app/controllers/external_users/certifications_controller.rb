@@ -1,7 +1,7 @@
 class ExternalUsers::CertificationsController < ExternalUsers::ApplicationController
   include MultiparameterAttributeCleaner
 
-  prepend_before_action :clean_multiparameter_dates, only: [:create, :update]
+  prepend_before_action :clean_multiparameter_dates, only: %i[create update]
   before_action :set_claim, only: %i[new create update]
   before_action :redirect_already_certified, only: %i[new create]
   before_action :redirect_if_not_valid, only: %i[new create]

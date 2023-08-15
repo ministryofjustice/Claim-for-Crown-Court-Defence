@@ -11,7 +11,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   respond_to :html
 
-  prepend_before_action :clean_multiparameter_dates, only: [:create, :update]
+  prepend_before_action :clean_multiparameter_dates, only: %i[create update]
   before_action :set_user_and_provider
   before_action :set_claims_context, only: %i[index archived outstanding authorised]
   before_action :set_financial_summary, only: %i[index outstanding authorised]
@@ -323,12 +323,12 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :date_of_birth,
         :order_for_judicial_apportionment,
         :_destroy,
-        representation_orders_attributes: [
-          :id,
-          :document,
-          :maat_reference,
-          :representation_order_date,
-          :_destroy
+        representation_orders_attributes: %i[
+          id
+          document
+          maat_reference
+          representation_order_date
+          _destroy
         ]
       ],
       basic_fees_attributes: [
@@ -355,24 +355,24 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
       fixed_fees_attributes: common_fees_attributes, # agfs has_many
       fixed_fee_attributes: common_fees_attributes, # lgfs has_one
       misc_fees_attributes: common_fees_attributes,
-      graduated_fee_attributes: [
-        :id,
-        :claim_id,
-        :fee_type_id,
-        :quantity,
-        :amount,
-        :price_calculated,
-        :date
+      graduated_fee_attributes: %i[
+        id
+        claim_id
+        fee_type_id
+        quantity
+        amount
+        price_calculated
+        date
       ],
-      interim_fee_attributes: [
-        :id,
-        :claim_id,
-        :fee_type_id,
-        :quantity,
-        :amount,
-        :price_calculated,
-        :warrant_issued_date,
-        :warrant_executed_date
+      interim_fee_attributes: %i[
+        id
+        claim_id
+        fee_type_id
+        quantity
+        amount
+        price_calculated
+        warrant_issued_date
+        warrant_executed_date
       ],
       transfer_fee_attributes: %i[
         id
@@ -382,14 +382,14 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         price_calculated
         quantity
       ],
-      warrant_fee_attributes: [
-        :id,
-        :claim_id,
-        :fee_type_id,
-        :amount,
-        :price_calculated,
-        :warrant_issued_date,
-        :warrant_executed_date
+      warrant_fee_attributes: %i[
+        id
+        claim_id
+        fee_type_id
+        amount
+        price_calculated
+        warrant_issued_date
+        warrant_executed_date
       ],
       hardship_fee_attributes: %i[
         id
@@ -419,10 +419,10 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
         :_destroy,
         common_dates_attended_attributes
       ],
-      interim_claim_info_attributes: [
-        :warrant_fee_paid,
-        :warrant_issued_date,
-        :warrant_executed_date
+      interim_claim_info_attributes: %i[
+        warrant_fee_paid
+        warrant_issued_date
+        warrant_executed_date
       ]
     )
   end

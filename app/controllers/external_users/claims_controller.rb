@@ -529,7 +529,7 @@ class ExternalUsers::ClaimsController < ExternalUsers::ApplicationController
 
   def redirect_unless_editable
     return if @claim.current_step_editable?
-    error_code = !@claim.editable? ? :not_editable : :dependencies_missing
+    error_code = @claim.editable? ? :dependencies_missing : :not_editable
     options = redirect_options_for(error_code)
     redirect_to options[:url], alert: options[:message]
   end

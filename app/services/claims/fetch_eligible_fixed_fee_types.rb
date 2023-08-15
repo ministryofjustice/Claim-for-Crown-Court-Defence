@@ -26,7 +26,7 @@ module Claims
 
     def eligible_fee_types
       return eligible_agfs_fixed_fee_types if agfs?
-      return eligible_lgfs_fixed_fee_types if lgfs?
+      eligible_lgfs_fixed_fee_types if lgfs?
     end
 
     def eligible_agfs_fixed_fee_types

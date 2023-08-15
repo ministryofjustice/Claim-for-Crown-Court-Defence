@@ -46,6 +46,11 @@ RSpec.describe 'Caseworker admin' do
         expect(ActionMailer::MailDeliveryJob).to have_been_enqueued
       end
 
+      it 'displays a success notification' do
+        create_case_workers_request
+        expect(flash[:notice]).to eq('Case worker successfully created')
+      end
+
       describe 'if there is an issue with delivering the email' do
         let(:mailer) { instance_double DeviseMailer }
 

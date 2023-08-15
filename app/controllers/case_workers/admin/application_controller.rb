@@ -1,2 +1,6 @@
-class CaseWorkers::Admin::ApplicationController < CaseWorkers::ApplicationController
+module CaseWorkers
+  module Admin
+    class ApplicationController < CaseWorkers::ApplicationController
+    end
+  end
 end

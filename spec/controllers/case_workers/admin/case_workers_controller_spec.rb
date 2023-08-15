@@ -115,6 +115,8 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController do
       it 'redirects to case workers index' do
         expect(response).to redirect_to(case_workers_admin_case_workers_url)
       end
+
+      it { expect(flash[:notice]).to eq('Case worker successfully updated') }
     end
 
     context 'when invalid' do

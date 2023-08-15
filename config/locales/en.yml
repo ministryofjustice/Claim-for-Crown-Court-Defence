@@ -2429,6 +2429,12 @@ en:
           edit_html: Edit <span class="govuk-visually-hidden">your account</span>
           page_heading: Your account
           roles: Roles
+        create:
+          notice: Case worker successfully created
+        update:
+          notice: Case worker successfully updated
+        destroy:
+          notice: Case worker deleted
       allocations:
         filter_value_bands:
           all: All

@@ -473,6 +473,16 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
       end
     end
 
+    context 'when the claim has already been submitted' do
+      before do
+        subject.update!(last_submitted_at: Time.zone.now)
+        put :update, params: { id: subject, claim: { additional_information: 'foo', court_id: nil }, commit_submit_claim: 'Submit to LAA' }
+      end
+
+      it { expect(response).to redirect_to(external_users_claims_path) }
+      it { expect(flash[:alert]).to eq 'Claim already submitted' }
+    end
+
     context 'Date Parameter handling' do
       it 'invalid dates are cleared' do
         put :update, params: {

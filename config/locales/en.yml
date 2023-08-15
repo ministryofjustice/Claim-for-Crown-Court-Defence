@@ -815,11 +815,14 @@ en:
         lgfs_hardship_rb: Litigator hardship fee
     claims:
       errors:
-        not_editable: 'Can only edit "draft" claims'
+        already_saved: Claim already saved - please edit existing claim
+        already_submitted: Claim already submitted
         dependencies_missing: Claim section cannot be edited. Please fill its dependencies
+        not_editable: 'Can only edit "draft" claims'
       unarchive:
         not_archived: 'This claim is not in the archive'
         unarchivable: 'This claim cannot be unarchived'
+        unarchived: 'Claim unarchived'
       hints:
         fees_header_prompt_text_html: &fees_vat_prompt All fees should be entered exclusive of VAT.
       redraft:
@@ -827,6 +830,7 @@ en:
           An error is preventing this claim from being redrafted.
           The problem has been logged and is being investigated.
           To continue please start a new claim.
+        success: Draft created
       additional_information:
         fields:
           additional_information: 'Additional information'
@@ -1313,7 +1317,6 @@ en:
         prohibited_save: This claim has
         error: 'error'
         form_error_hint: 'Check below for more detail'
-
       summary:
         button_label: *continue_to_certification_button
         page_heading: Cost summary
@@ -1649,6 +1652,8 @@ en:
         no_disbursements: 'No disbursements for this claim'
       show:
         page_title: Case details
+      update:
+        success: Draft claim saved
     expenses:
       distances:
         create:

@@ -131,6 +131,10 @@ RSpec.describe ExternalUsers::Litigators::TransferClaimsController do
         it 'redirects to all claims page' do
           expect(response).to redirect_to(external_users_claims_path)
         end
+
+        it 'displays a success message' do
+          expect(flash[:notice]).to eq 'Draft claim saved'
+        end
       end
 
       context 'invalid params' do

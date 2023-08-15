@@ -94,7 +94,7 @@ module ExternalUsers
         draft = claim_updater.clone_rejected
       end
       log('Redraft succeeded')
-      redirect_to edit_polymorphic_path(draft), notice: 'Draft created'
+      redirect_to edit_polymorphic_path(draft), notice: t('external_users.claims.redraft.success')
     rescue StandardError => e
       log('Redraft failed', level: :error, error: e)
       redirect_to external_users_claims_url, alert: t('external_users.claims.redraft.error_html').html_safe
@@ -162,7 +162,7 @@ module ExternalUsers
       @claim = PreviousVersionOfClaim.new(@claim).call
       @claim.zeroise_nil_totals!
       @claim.save!(validate: false)
-      redirect_to external_users_claims_url, notice: 'Claim unarchived'
+      redirect_to external_users_claims_url, notice: t('.unarchived')
     rescue StandardError
       redirect_to claim_url, alert: t('.unarchivable')
     end
@@ -487,7 +487,7 @@ module ExternalUsers
       if continue_claim?
         redirect_to_next_step
       elsif result.draft?
-        redirect_to external_users_claims_path, notice: 'Draft claim saved'
+        redirect_to external_users_claims_path, notice: t('external_users.claims.update.success')
       else
         redirect_to summary_external_users_claim_url(@claim)
       end
@@ -496,9 +496,9 @@ module ExternalUsers
     def render_or_redirect_error(result)
       case result.error_code
       when :already_submitted
-        redirect_to external_users_claims_path, alert: 'Claim already submitted'
+        redirect_to external_users_claims_path, alert: t('errors.already_submitted', scope: default_scope)
       when :already_saved
-        redirect_to external_users_claims_path, alert: 'Claim already saved - please edit existing claim'
+        redirect_to external_users_claims_path, alert: t('errors.already_saved', scope: default_scope)
       else # rollback done, show errors
         render_action_with_resources(result.action)
       end

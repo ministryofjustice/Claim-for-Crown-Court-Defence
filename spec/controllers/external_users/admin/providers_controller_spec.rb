@@ -41,13 +41,9 @@ RSpec.describe ExternalUsers::Admin::ProvidersController do
     context 'when valid' do
       before { put :update, params: { id: subject, provider: { name: 'test firm' } } }
 
-      it 'updates successfully' do
-        expect(subject.reload.name).to eq('test firm')
-      end
-
-      it 'redirects to providers show page' do
-        expect(response).to redirect_to(external_users_admin_provider_path(subject))
-      end
+      it { expect(subject.reload.name).to eq('test firm') }
+      it { expect(response).to redirect_to(external_users_admin_provider_path(subject)) }
+      it { expect(flash[:notice]).to eq('Provider successfully updated') }
     end
 
     context 'when invalid' do
@@ -107,5 +103,11 @@ RSpec.describe ExternalUsers::Admin::ProvidersController do
         end
       end
     end
+  end
+
+  describe 'PUT #regenerate_api_key' do
+    before { put :regenerate_api_key, params: { id: subject } }
+
+    it { expect(flash[:notice]).to eq('API key successfully updated') }
   end
 end

@@ -5,7 +5,7 @@ module ExternalUsers
 
       def regenerate_api_key
         @provider.regenerate_api_key!
-        redirect_to external_users_admin_provider_path(@provider), notice: 'API key successfully updated'
+        redirect_to external_users_admin_provider_path(@provider), notice: t('.notice')
       end
 
       def edit
@@ -14,7 +14,7 @@ module ExternalUsers
 
       def update
         if @provider.update(provider_params.except(*filtered_params))
-          redirect_to external_users_admin_provider_path, notice: 'Provider successfully updated'
+          redirect_to external_users_admin_provider_path, notice: t('.notice')
         else
           @error_presenter = error_presenter
           render 'shared/providers/edit'

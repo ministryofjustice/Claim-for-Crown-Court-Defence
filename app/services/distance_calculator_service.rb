@@ -35,16 +35,16 @@ class DistanceCalculatorService
 
   def validate_claim
     return :claim_not_found unless claim
-    return :invalid_claim_type unless claim.lgfs?
+    :invalid_claim_type unless claim.lgfs?
   end
 
   def validate_origin
-    return :missing_origin unless origin
+    :missing_origin unless origin
   end
 
   def validate_destination
     return :missing_destination unless destination
-    return :invalid_destination unless destination.match?(Settings.postcode_regexp)
+    :invalid_destination unless destination.match?(Settings.postcode_regexp)
   end
 
   def origin

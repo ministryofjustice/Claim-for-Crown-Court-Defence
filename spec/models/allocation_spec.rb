@@ -33,7 +33,7 @@ RSpec.describe Allocation do
 
         it 'sets the claims to allocated' do
           allocator.save
-          expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
+          expect(claims.map { |claim| claim.reload.state }.uniq).to eq(['allocated'])
         end
 
         it 'saves audit attributes' do
@@ -140,7 +140,7 @@ RSpec.describe Allocation do
 
         it 'sets the claims to allocated' do
           reallocator.save
-          expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
+          expect(claims.map { |claim| claim.reload.state }.uniq).to eq(['allocated'])
         end
 
         it 'saves audit attributes' do
@@ -251,7 +251,7 @@ RSpec.describe Allocation do
             let(:claims) { create_list(:submitted_claim, 2) }
 
             it 'sets the claims to the state to "submitted"' do
-              expect(claims.map(&:reload).map(&:state).uniq).to eq(['submitted'])
+              expect(claims.map { |claim| claim.reload.state }.uniq).to eq(['submitted'])
             end
           end
 
@@ -259,7 +259,7 @@ RSpec.describe Allocation do
             let(:claims) { create_list(:redetermination_claim, 2) }
 
             it 'sets the claims state to "redetermination"' do
-              expect(claims.map(&:reload).map(&:state).uniq).to eq(['redetermination'])
+              expect(claims.map { |claim| claim.reload.state }.uniq).to eq(['redetermination'])
             end
           end
         end
@@ -286,7 +286,7 @@ RSpec.describe Allocation do
 
         it 'leaves the claims as "allocated"' do
           subject.save
-          expect(claims.map(&:reload).map(&:state).uniq).to eq(['allocated'])
+          expect(claims.map { |claim| claim.reload.state }.uniq).to eq(['allocated'])
         end
 
         it 'returns false' do

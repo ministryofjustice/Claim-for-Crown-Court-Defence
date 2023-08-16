@@ -301,11 +301,11 @@ RSpec.describe Claims::FeeCalculator::Price, :fee_calc_vcr do
         it { is_expected.to all(be_instance_of(Claims::FeeCalculator::ModifierDecorator)) }
 
         it 'returns valid matching modifier objects that exist on the price object' do
-          expect(modifiers.map(&:modifier_type).map(&:name)).to match_array(%w[RETRIAL_INTERVAL NUMBER_OF_DEFENDANTS NUMBER_OF_CASES])
+          expect(modifiers.map { |modifier| modifier.modifier_type.name }).to match_array(%w[RETRIAL_INTERVAL NUMBER_OF_DEFENDANTS NUMBER_OF_CASES])
         end
 
         it 'does not return valid modifier objects that do NOT exist on the price object' do
-          expect(modifiers.map(&:modifier_type).map(&:name)).to_not include('PAGES_OF_PROSECUTING_EVIDENCE')
+          expect(modifiers.map { |modifier| modifier.modifier_type.name }).to_not include('PAGES_OF_PROSECUTING_EVIDENCE')
         end
       end
     end

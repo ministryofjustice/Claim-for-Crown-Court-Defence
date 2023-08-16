@@ -197,7 +197,7 @@ RSpec.describe ExternalUsers::ClaimsController do
           let(:query_params) { { sort: 'advocate', direction: 'asc' } }
 
           it 'returns ordered claims' do
-            returned_names = assigns(:claims).map(&:external_user).map(&:user).map(&:sortable_name)
+            returned_names = assigns(:claims).map { |claim| claim.external_user.user.sortable_name }
             expect(returned_names).to eq(returned_names.sort)
           end
         end
@@ -206,7 +206,7 @@ RSpec.describe ExternalUsers::ClaimsController do
           let(:query_params) { { sort: 'advocate', direction: 'desc' } }
 
           it 'returns ordered claims' do
-            returned_names = assigns(:claims).map(&:external_user).map(&:user).map(&:sortable_name)
+            returned_names = assigns(:claims).map { |claim| claim.external_user.user.sortable_name }
             expect(returned_names).to eq(returned_names.sort.reverse)
           end
         end

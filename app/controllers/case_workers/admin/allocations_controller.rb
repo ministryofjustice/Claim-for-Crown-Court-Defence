@@ -50,7 +50,7 @@ module CaseWorkers
       end
 
       def process_claim_ids
-        params[:allocation][:claim_ids] = @claims.first(quantity_to_allocate).map(&:id).map(&:to_s)
+        params[:allocation][:claim_ids] = @claims.first(quantity_to_allocate).map { |claim| claim.id.to_s }
       end
 
       def set_case_workers

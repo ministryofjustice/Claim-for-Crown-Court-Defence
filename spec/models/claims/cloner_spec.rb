@@ -82,28 +82,28 @@ RSpec.describe Claims::Cloner do
       end
 
       it 'does not clone the uuids of fees' do
-        expect(@cloned_claim.fees.map(&:reload).map(&:uuid)).to_not match_array(@original_claim.fees.map(&:reload).map(&:uuid))
+        expect(@cloned_claim.fees.map { |fee| fee.reload.uuid }).to_not match_array(@original_claim.fees.map { |fee| fee.reload.uuid })
       end
 
       it 'does not clone the uuids of expenses' do
-        expect(@cloned_claim.expenses.map(&:reload).map(&:uuid)).to_not match_array(@original_claim.expenses.map(&:reload).map(&:uuid))
+        expect(@cloned_claim.expenses.map { |expense| expense.reload.uuid }).to_not match_array(@original_claim.expenses.map { |expense| expense.reload.uuid })
       end
 
       it 'does not clone the uuids of documents' do
-        expect(@cloned_claim.documents.map(&:reload).map(&:uuid)).to_not match_array(@original_claim.documents.map(&:reload).map(&:uuid))
+        expect(@cloned_claim.documents.map { |document| document.reload.uuid }).to_not match_array(@original_claim.documents.map { |document| document.reload.uuid })
       end
 
       include_examples 'common defendants cloning tests'
 
       it 'does not clone the uuids of expense dates attended' do
-        cloned_claim_uuids = @cloned_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid) }.flatten
-        rejected_claim_uuids = @original_claim.expenses.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid) }.flatten
+        cloned_claim_uuids = @cloned_claim.expenses.map(&:reload).map { |e| e.dates_attended.map { |date| date.reload.uuid } }.flatten
+        rejected_claim_uuids = @original_claim.expenses.map(&:reload).map { |e| e.dates_attended.map { |date| date.reload.uuid } }.flatten
         expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
       end
 
       it 'does not clone the uuids of fee dates attended' do
-        cloned_claim_uuids = @cloned_claim.fees.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid) }.flatten
-        rejected_claim_uuids = @original_claim.fees.map(&:reload).map { |e| e.dates_attended.map(&:reload).map(&:uuid) }.flatten
+        cloned_claim_uuids = @cloned_claim.fees.map(&:reload).map { |e| e.dates_attended.map { |date| date.reload.uuid } }.flatten
+        rejected_claim_uuids = @original_claim.fees.map(&:reload).map { |e| e.dates_attended.map { |date| date.reload.uuid } }.flatten
         expect(cloned_claim_uuids).to_not match_array(rejected_claim_uuids)
       end
 
@@ -148,7 +148,7 @@ RSpec.describe Claims::Cloner do
       end
 
       it 'copies the new form_id to the cloned documents' do
-        expect(@cloned_claim.documents.map(&:reload).map(&:form_id).uniq).to eq([@cloned_claim.form_id])
+        expect(@cloned_claim.documents.map { |document| document.reload.form_id }.uniq).to eq([@cloned_claim.form_id])
       end
 
       it 'does not clone determinations - assessments or redeterminations' do

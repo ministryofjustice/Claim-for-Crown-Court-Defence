@@ -42,7 +42,7 @@
     "govuk_frontend_toolkit": "9.0.1",
     "jquery": "^3.7.0",
     "jquery-accessible-accordion-aria": "^2.6.1",
-    "jquery-datatables-checkboxes": "^1.2.13",
+    "jquery-datatables-checkboxes": "^1.2.14",
     "jquery-highlight": "^3.5.0",
     "jquery-throttle-debounce": "^1.0.0",
     "jquery-ujs": "^1.2.3",

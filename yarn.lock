@@ -3187,10 +3187,10 @@ jquery-accessible-accordion-aria@^2.6.1:
   dependencies:
     jquery ">=1.0.0"
 
-jquery-datatables-checkboxes@^1.2.13:
-  version "1.2.13"
-  resolved "https://registry.yarnpkg.com/jquery-datatables-checkboxes/-/jquery-datatables-checkboxes-1.2.13.tgz#5d003fc5e0bab9f259ecdf059bfb20e328491246"
-  integrity sha512-yq8Xx4sKDWu8zir/vR7OnSnIuoVZNzORFS+Dkc1XXUUMsoGcIwqWp9ei7PLYBVxgTSGDZzO5tFbxFpZGEfRQRg==
+jquery-datatables-checkboxes@^1.2.14:
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/jquery-datatables-checkboxes/-/jquery-datatables-checkboxes-1.2.14.tgz#5bada981140b9ba645e80d6c2caa8bbbb4123936"
+  integrity sha512-99B6PmS3ZdinDyqF5vBiykd8B+NohHRBBs/a5/hrYRlsBxbWqQ2KtigSvAc2qFdxPOyrcCV75nWBYnlrtdCGgg==
   dependencies:
     datatables.net ">=1.10.8"
     jquery ">=1.7"

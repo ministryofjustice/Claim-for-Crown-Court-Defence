@@ -67,7 +67,7 @@
     "jasmine-browser-runner": "^1.4.0",
     "jasmine-core": "^4.6.0",
     "standard": "^17.1.0",
-    "stylelint": "^15.10.2",
+    "stylelint": "^15.10.3",
     "stylelint-config-gds": "^1.0.0",
     "stylelint-order": "^6.0.3"
   },

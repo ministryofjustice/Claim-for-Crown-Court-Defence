@@ -48,7 +48,7 @@ module Claims
     end
 
     def rollback!
-      set_error_code(:rollback)
+      add_error_code(:rollback)
       raise ActiveRecord::Rollback
     end
 
@@ -60,7 +60,7 @@ module Claims
       claim.class.where(form_id: claim.form_id).any?
     end
 
-    def set_error_code(code)
+    def add_error_code(code)
       @result = ClaimActionsResult.new(self, success: false, error_code: code)
     end
   end

@@ -7,7 +7,7 @@ module Claims
 
     def call
       if already_saved?
-        set_error_code(:already_saved)
+        add_error_code(:already_saved)
         return result
       end
 

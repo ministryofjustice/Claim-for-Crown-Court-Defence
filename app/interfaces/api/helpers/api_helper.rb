@@ -47,13 +47,11 @@ module API
           model_instance = adapt(model_instance)
 
           test_editability(model_instance)
-          if model_instance.errors.present?
+          if model_instance.errors.present? || model_instance.invalid?
             pop_error_response(model_instance, api_response)
-          elsif model_instance.valid?
+          else
             api_response.status = 200
             api_response.body = { valid: true }
-          else
-            pop_error_response(model_instance, api_response)
           end
 
           model_instance

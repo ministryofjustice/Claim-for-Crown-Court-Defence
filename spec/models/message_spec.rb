@@ -131,9 +131,9 @@ RSpec.describe Message do
     let(:creator) { claim.creator }
     let(:case_worker) { claim.case_workers.first }
 
-    it { expect(claim.state).to eq 'allocated' }
-
     let(:message_params) { { claim_id: claim.id, sender_id: sender.user.id, body: 'lorem ipsum' } }
+
+    it { expect(claim.state).to eq 'allocated' }
 
     context 'when message created by external_user' do
       let(:sender) { creator }

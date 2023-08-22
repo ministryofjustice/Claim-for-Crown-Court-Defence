@@ -11,14 +11,14 @@ RSpec.describe Claims::FeeCalculator::FeeTypeMappings do
     described_class.reset
   end
 
+  let(:primary_fee_types) { %i[FXACV FXASE FXCBR FXCSE FXCON FXENP BABAF] }
+  let(:all_fee_mappings) { basic_fee_mappings + fixed_fee_mappings + misc_fee_mappings }
+  let(:misc_fee_mappings) { CCR::Fee::MiscFeeAdapter.new(exclusions: false).mappings.keys }
+  let(:fixed_fee_mappings) { CCR::Fee::FixedFeeAdapter.new.mappings.keys }
+  let(:basic_fee_mappings) { CCR::Fee::BasicFeeAdapter.new.mappings.keys }
+
   it { is_expected.to respond_to :all }
   it { is_expected.to respond_to :primary_fee_types }
-
-  let(:basic_fee_mappings) { CCR::Fee::BasicFeeAdapter.new.mappings.keys }
-  let(:fixed_fee_mappings) { CCR::Fee::FixedFeeAdapter.new.mappings.keys }
-  let(:misc_fee_mappings) { CCR::Fee::MiscFeeAdapter.new(exclusions: false).mappings.keys }
-  let(:all_fee_mappings) { basic_fee_mappings + fixed_fee_mappings + misc_fee_mappings }
-  let(:primary_fee_types) { %i[FXACV FXASE FXCBR FXCSE FXCON FXENP BABAF] }
 
   describe '.reset' do
     it 'causes memoized data to be cleared/reset' do

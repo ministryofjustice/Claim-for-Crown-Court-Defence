@@ -13,9 +13,8 @@ RSpec.describe NotifyMailer do
       claim.external_user = external_user
       claim.creator = creator_external_user
       claim.save!
+      allow(Settings.govuk_notify.templates).to receive(:message_added_email).and_return(template)
     end
-
-    before { allow(Settings.govuk_notify.templates).to receive(:message_added_email).and_return(template) }
 
     it 'is a govuk_notify delivery' do
       expect(mail.delivery_method).to be_a(GovukNotifyRails::Delivery)

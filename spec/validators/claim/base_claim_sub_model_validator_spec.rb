@@ -81,20 +81,21 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
         }
       end
 
+      before do
+        claim.defendants.first.update(date_of_birth: nil)
+        claim.defendants.first.representation_orders.first.update(maat_reference: 'XYZ')
+        claim.defendants.first.representation_orders.first.update(representation_order_date: 20.years.ago)
+        claim.save!
+        claim.force_validation = true
+        claim.valid?
+      end
+
       context 'when claim has case type requiring MAAT reference' do
         before do
           expected_results[:defendants_attributes_0_representation_orders_attributes_0_maat_reference] =
             'Enter a valid MAAT reference'
 
           claim.case_type.update_column(:requires_maat_reference, true)
-
-          claim.defendants.first.update(date_of_birth: nil)
-          claim.defendants.first.representation_orders.first.update(maat_reference: 'XYZ')
-          claim.defendants.first.representation_orders.first.update(representation_order_date: 20.years.ago)
-          claim.save!
-          claim.force_validation = true
-
-          claim.valid?
         end
 
         it 'bubbles up the error from reporder to defendant and then to the claim' do
@@ -105,21 +106,7 @@ RSpec.describe Claim::BaseClaimSubModelValidator, type: :validator do
       end
 
       context 'when claims does not have case type requiring MAAT reference' do
-        before do
-          claim.case_type.update_column(:requires_maat_reference, false)
-
-          claim.defendants.first.update(date_of_birth: nil)
-          claim.defendants.first.representation_orders.first.update(maat_reference: 'XYZ')
-          claim.defendants.first.representation_orders.first.update(representation_order_date: 20.years.ago)
-          claim.save!
-          claim.force_validation = true
-
-          claim.valid?
-        end
-
-        before do
-          claim.case_type.update_column(:requires_maat_reference, false)
-        end
+        before { claim.case_type.update_column(:requires_maat_reference, false) }
 
         it 'bubbles up the error from reporder to defendant and then to the claim' do
           expected_results.each do |key, message|

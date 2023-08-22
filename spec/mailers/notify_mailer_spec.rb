@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe NotifyMailer do
   describe 'message_added_email' do
     let(:template) { '4240bf0e-0000-444e-9c30-0d1bb64a2fb4' }
+    let(:mail) { described_class.message_added_email(claim) }
     let(:provider) { create(:provider, :agfs) }
     let(:external_user) { create(:external_user, provider:) }
     let(:creator_external_user) { create(:external_user, provider:) }
@@ -13,8 +14,6 @@ RSpec.describe NotifyMailer do
       claim.creator = creator_external_user
       claim.save!
     end
-
-    let(:mail) { described_class.message_added_email(claim) }
 
     before { allow(Settings.govuk_notify.templates).to receive(:message_added_email).and_return(template) }
 

@@ -2,11 +2,10 @@ require 'rails_helper'
 
 RSpec.describe ExternalUsers::CertificationsController do
   let(:certification_type) { create(:certification_type) }
+  let(:claim) { create(:advocate_claim) }
   let!(:advocate) { create(:external_user) }
 
   before { sign_in advocate.user }
-
-  let(:claim) { create(:advocate_claim) }
 
   describe 'GET #new' do
     context 'claim is valid for submission' do

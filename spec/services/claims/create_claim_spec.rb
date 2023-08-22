@@ -27,6 +27,8 @@ describe Claims::CreateClaim do
     context 'with a valid Claim' do
       before { expect(subject.claim).to receive(:update_claim_document_owners) }
 
+      after { expect(subject.claim.persisted?).to be_truthy }
+
       it 'forces validation' do
         expect(subject.claim).to receive(:force_validation=).with(true)
         subject.call
@@ -38,8 +40,6 @@ describe Claims::CreateClaim do
         expect(result.success?).to be_truthy
         expect(result.error_code).to be_nil
       end
-
-      after { expect(subject.claim.persisted?).to be_truthy }
     end
 
     context 'with an invalid Claim' do
@@ -48,14 +48,14 @@ describe Claims::CreateClaim do
         expect(subject.claim).not_to receive(:update_claim_document_owners)
       end
 
+      after { expect(subject.claim.persisted?).to be_falsey }
+
       it 'returns an error' do
         result = subject.call
 
         expect(result.success?).to be_falsey
         expect(result.error_code).to eq(:rollback)
       end
-
-      after { expect(subject.claim.persisted?).to be_falsey }
     end
 
     context 'with an already submitted Claim' do
@@ -64,14 +64,14 @@ describe Claims::CreateClaim do
         expect(subject.claim).not_to receive(:update_claim_document_owners)
       end
 
+      after { expect(subject.claim.persisted?).to be_falsey }
+
       it 'returns an error' do
         result = subject.call
 
         expect(result.success?).to be_falsey
         expect(result.error_code).to eq(:already_submitted)
       end
-
-      after { expect(subject.claim.persisted?).to be_falsey }
     end
   end
 end

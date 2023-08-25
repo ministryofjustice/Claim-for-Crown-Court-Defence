@@ -2475,6 +2475,8 @@ en:
           claim_total: 'Claim total'
           defendants: Defendants
           no_of_claims: 'Number of claims'
+          select_all: Select all
+          select_all_label: Select all claims
         orig_scheme_filters:
           scheme_types: 'Scheme types'
           filter: Filter

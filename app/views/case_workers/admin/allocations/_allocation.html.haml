@@ -46,10 +46,19 @@
     = govuk_table_caption(class: 'govuk-visually-hidden') do
       = t('.table_summary')
 
-    = govuk_table_thead_collection ['',
-      t('.case_number'),
-      t('.court'),
-      t('.defendents'),
-      t('.type'),
-      t('.submitted'),
-      t('.total')]
+    = govuk_table_thead do
+      = govuk_table_row do
+        = govuk_table_th do
+          = govuk_link_to t('.select_all'), '#', class: 'select-all', data: { 'all-checked': 'false' }, 'aria-label': t('.select_all_label')
+        = govuk_table_th do
+          = t('.case_number')
+        = govuk_table_th do
+          = t('.court')
+        = govuk_table_th do
+          = t('.defendants')
+        = govuk_table_th do
+          = t('.type')
+        = govuk_table_th_numeric do
+          = t('.submitted')
+        = govuk_table_th_numeric do
+          = t('.total')

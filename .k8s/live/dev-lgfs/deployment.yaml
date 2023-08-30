@@ -18,6 +18,7 @@ spec:
       labels:
         app: cccd
     spec:
+      serviceAccountName: cccd-dev-lgfs-service
       containers:
         - name: cccd-app
           imagePullPolicy: Always
@@ -75,16 +76,6 @@ spec:
                 secretKeyRef:
                   name: cccd-rds
                   key: url
-            - name: SETTINGS__AWS__S3__ACCESS
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-s3-bucket
-                  key: access_key_id
-            - name: SETTINGS__AWS__S3__SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-s3-bucket
-                  key: secret_access_key
             - name: SETTINGS__AWS__S3__BUCKET
               valueFrom:
                 secretKeyRef:

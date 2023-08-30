@@ -2,8 +2,6 @@
 # so access key and secret are not really used (they will be nil).
 #
 default: &default
-  access_key_id: <%= Settings.aws.s3.access %>
-  secret_access_key: <%= Settings.aws.s3.secret %>
   bucket: <%= Settings.aws.s3.bucket %>
 
 production:
@@ -16,8 +14,6 @@ devunicorn:
   <<: *default
 
 test:
-  access_key_id: xxxxxxxx
-  secret_access_key: xxxxxxxxxxxxx
   bucket: <%= Settings.aws.s3.bucket || 'cccd-test-bucket' %>
 
 develop:

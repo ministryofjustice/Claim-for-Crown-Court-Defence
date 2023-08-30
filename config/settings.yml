@@ -163,13 +163,6 @@ aws:
     secret: 'store actual value as SETTINGS__AWS__BILLING__SECRET'
     account: 'store actual value as SETTINGS__AWS__BILLING__ACCOUNT'
   s3:
-    # NOTE: for TD the access and secret must be blank/empty string!
-    # This is to allow TD to set the access and secret using
-    # a cross-account via Jenkins.
-    # Currently this is handled by setting an environment
-    # variable to `''` explcitly.
-    access: 'store actual value as SETTINGS__AWS__S3__ACCESS'
-    secret: 'store actual value as SETTINGS__AWS__S3__SECRET'
     bucket: 'store actual value as SETTINGS__AWS__S3__BUCKET'
   sns:
     access: 'store actual value as SETTINGS__AWS__SNS__ACCESS'

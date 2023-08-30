@@ -8,7 +8,5 @@ test:
 
 amazon:
   service: S3
-  access_key_id: <%= Settings.aws.s3.access %>
-  secret_access_key: <%= Settings.aws.s3.secret %>
   region: <%= Settings.aws.region %>
   bucket: <%= Settings.aws.s3.bucket %>

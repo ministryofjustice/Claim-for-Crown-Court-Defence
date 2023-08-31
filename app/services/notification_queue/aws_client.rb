@@ -11,5 +11,18 @@ module NotificationQueue
       client.publish(message)
       true
     end
+
+    private
+
+    def aws_credentials
+      return { region: Settings.aws.region } unless Settings.aws.sns.access
+
+      # TODO: Remove when IRSA is used in all environments
+      {
+        access_key_id: Settings.aws.sns.access,
+        secret_access_key: Settings.aws.sns.secret,
+        region: Settings.aws.region
+      }
+    end
   end
 end

@@ -6,9 +6,15 @@ test:
   service: Disk
   root: <%= Rails.root.join('tmp/storage') %>
 
+# This can be removed when IAM is used in all environments
 amazon:
   service: S3
   access_key_id: <%= Settings.aws.s3.access %>
   secret_access_key: <%= Settings.aws.s3.secret %>
+  region: <%= Settings.aws.region %>
+  bucket: <%= Settings.aws.s3.bucket %>
+
+amazon_with_iam:
+  service: S3
   region: <%= Settings.aws.region %>
   bucket: <%= Settings.aws.s3.bucket %>

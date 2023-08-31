@@ -18,9 +18,9 @@ spec:
       labels:
         app: cccd
     spec:
+      serviceAccountName: cccd-dev-service
       containers:
         - name: cccd-app
-          serviceAccountName: cccd-dev-service
           imagePullPolicy: Always
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
           ports:

@@ -76,26 +76,6 @@ spec:
                 secretKeyRef:
                   name: cccd-messaging
                   key: topic_arn
-            - name: SETTINGS__AWS__SNS__ACCESS
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-messaging
-                  key: access_key_id
-            - name: SETTINGS__AWS__SNS__SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-messaging
-                  key: secret_access_key
-            - name: SETTINGS__AWS__SQS__ACCESS
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-messaging
-                  key: access_key_id
-            - name: SETTINGS__AWS__SQS__SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-messaging
-                  key: secret_access_key
             - name: AWS_RESPONSE_QUEUE_NAME
               valueFrom:
                 secretKeyRef:

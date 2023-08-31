@@ -158,6 +158,7 @@ aws:
   secret: <%= ENV['SECRET_ACCESS_KEY'] %>
   submitted_queue: <%= ENV['AWS_QUEUE_NAME'] %>
   response_queue: <%= ENV['AWS_RESPONSE_QUEUE_NAME'] %>
+  # This section is probably redundant
   billing:
     access: 'store actual value as SETTINGS__AWS__BILLING__ACCESS'
     secret: 'store actual value as SETTINGS__AWS__BILLING__SECRET'
@@ -165,12 +166,7 @@ aws:
   s3:
     bucket: 'store actual value as SETTINGS__AWS__S3__BUCKET'
   sns:
-    access: 'store actual value as SETTINGS__AWS__SNS__ACCESS'
-    secret: 'store actual value as SETTINGS__AWS__SNS__SECRET'
     submitted_topic_arn: 'store actual value as SETTINGS__AWS__SNS__SUBMITTED_TOPIC_ARN'
-  sqs:
-    access: 'store actual value as SETTINGS__AWS__SQS__ACCESS'
-    secret: 'store actual value as SETTINGS__AWS__SQS__SECRET'
 
 slack:
   bot_url: 'slack_bot_url'

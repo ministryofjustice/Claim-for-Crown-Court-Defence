@@ -1910,10 +1910,10 @@ cssesc@^3.0.0:
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
 
-datatables.net-buttons-dt@^2.4.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/datatables.net-buttons-dt/-/datatables.net-buttons-dt-2.4.1.tgz#7b256dfe8335907d3df6981dc27ef0e35937944a"
-  integrity sha512-Pt/X+WS/20fOYU8/U8s2y5XF8LeJO+YvMnKkTEFIX1Pd/m680eBVcBjfIxBxRvLekPVD/nkRznXEh2Hx4uV14A==
+datatables.net-buttons-dt@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/datatables.net-buttons-dt/-/datatables.net-buttons-dt-2.4.2.tgz#1e9dea9abd4a85f5df999f82bc2a9fae9acbd200"
+  integrity sha512-Xp0phHLyIREO7WnTVlCXI1RaFJKSt7nZkm+VOVOFzwJ1jeTUZW/lMsp8kXsQpfl0B/PGjx/NlHbxDRQEg9obNw==
   dependencies:
     datatables.net-buttons ">=2.3.6"
     datatables.net-dt ">=1.13.4"

@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   aws-cli: circleci/aws-cli@4.0.0
-  browser-tools: circleci/browser-tools@1.2.3
+  browser-tools: circleci/browser-tools@1.4.4
   slack: circleci/slack@3.4.1
 
 references:
@@ -130,9 +130,11 @@ commands:
 
   install-chrome:
     steps:
-      - browser-tools/install-chrome
+      - browser-tools/install-chrome:
+          # There is no version of Chromedriver for the current latest version of Chrome (116)
+          chrome-version: 114.0.5735.90
+          replace-existing: true
       - browser-tools/install-chromedriver
-
   precompile-assets:
     description: >
       Precompile assets

@@ -22,9 +22,12 @@ class DocumentsController < ApplicationController
   def create
     @document = Document.new(document_params.merge(creator_id: current_user.id))
 
+    Rails.logger.error('[DEBUG] Creating document')
     if @document.save_and_verify
+      Rails.logger.error('[DEBUG] Saved successfully')
       render json: { document: { id: @document.id, filename: @document.document.filename } }, status: :created
     else
+      Rails.logger.error('[DEBUG] Failed to save')
       render json: { error: @document.errors[:document].join(', ') }, status: :unprocessable_entity
     end
   end

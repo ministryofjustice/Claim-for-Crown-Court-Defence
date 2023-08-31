@@ -55,6 +55,10 @@ class Document < ApplicationRecord
     # of a file upload. This should never happen unless the front-end is broken.
     errors.add(:base, e.message)
     self.verified = false
+  rescue => e
+    Rails.logger.error("[DEBUG] Error: #{e.message}")
+    errors.add(:base, e.message)
+    self.verified = false
   end
 
   def document_file_name

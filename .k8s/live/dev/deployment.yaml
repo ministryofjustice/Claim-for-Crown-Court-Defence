@@ -20,6 +20,7 @@ spec:
     spec:
       containers:
         - name: cccd-app
+          serviceAccountName: cccd-dev-service
           imagePullPolicy: Always
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me
           ports:
@@ -75,16 +76,6 @@ spec:
                 secretKeyRef:
                   name: cccd-rds
                   key: url
-            - name: SETTINGS__AWS__S3__ACCESS
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-s3-bucket
-                  key: access_key_id
-            - name: SETTINGS__AWS__S3__SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: cccd-s3-bucket
-                  key: secret_access_key
             - name: SETTINGS__AWS__S3__BUCKET
               valueFrom:
                 secretKeyRef:

@@ -128,10 +128,7 @@ commands:
 
   install-chrome:
     steps:
-      - browser-tools/install-chrome:
-          # There is no version of Chromedriver for the current latest version of Chrome (116)
-          chrome-version: 114.0.5735.90
-          replace-existing: true
+      - browser-tools/install-chrome
       - browser-tools/install-chromedriver
   precompile-assets:
     description: >

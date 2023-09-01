@@ -1,7 +1,7 @@
 module MessageQueue
   class AwsClient
     def initialize(queue)
-      @sqs = Aws::SQS::Client.new(aws_credentials)
+      @sqs = Aws::SQS::Client.new(region: Settings.aws.region)
       begin
         @queue_url = queue_url(queue)
       rescue Aws::SQS::Errors::NonExistentQueue
@@ -26,19 +26,6 @@ module MessageQueue
     end
 
     private
-
-    # rubocop:disable Metrics/AbcSize
-    def aws_credentials
-      return { region: Settings.aws.region } if !Settings.aws.sqs.access || Settings.aws.sqs.access.include?('actual')
-
-      # TODO: Remove when IRSA is used in all environments
-      {
-        access_key_id: Settings.aws.sqs.access,
-        secret_access_key: Settings.aws.sqs.secret,
-        region: Settings.aws.region
-      }
-    end
-    # rubocop:enable Metrics/AbcSize
 
     def queue_url(queue)
       return queue if queue.match?(valid_web_url_regex)

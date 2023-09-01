@@ -2,8 +2,6 @@
 
 require 'aws-sdk-s3'
 
-Credentials = Struct.new(:bucket)
-
 class S3Bucket
   def initialize(host)
     @host = host
@@ -13,7 +11,7 @@ class S3Bucket
 
   def put_object(key, body)
     client.put_object({
-      bucket: credentials.bucket,
+      bucket: bucket_name,
       key: key,
       acl: 'private',
       body: body
@@ -22,7 +20,7 @@ class S3Bucket
 
   def get_object(key, **args)
     client.get_object(
-      {bucket: credentials.bucket, key: key},
+      {bucket: bucket_name, key: key},
       **args
     )
   end
@@ -32,11 +30,10 @@ class S3Bucket
   end
 
   def bucket
-     @bucket ||= Aws::S3::Bucket.new(credentials.bucket, { client: client })
+     @bucket ||= Aws::S3::Bucket.new(bucket_name, { client: client })
   end
 
   def client
-    # TODO: Clean this up when IAM is used in all environments
     @client ||= Aws::S3::Client.new
   end
 
@@ -44,21 +41,20 @@ class S3Bucket
 
   # For remote we can just use Settings file, for local we need to use specified host
   # secrets, which requires kubectl.
-  def credentials
-    return @credentials if @credentials
+  def bucket_name
+    return @bucket_name if @bucket_name
 
     Rails.env.development? ? load_from_secrets : load_from_settings
   end
 
   def load_from_settings
-    @credentials ||= Credentials.new(Settings.aws.s3.bucket)
+    @bucket_name ||= Settings.aws.s3.bucket
   end
 
   def load_from_secrets
     secrets = YAML.safe_load(`#{s3_secrets_cmd}`.chomp)
     secrets['data'].transform_values! { |v| Base64.decode64(v) unless v.nil? }
-    # TODO: Clean this up when IAM is used in all environments
-    @credentials ||= Credentials.new(secrets['data']['bucket_name'])
+    @bucket_name ||= secrets['data']['bucket_name']
   rescue StandardError => e
     raise StandardError, "error retrieving secrets. do you have access?: #{e.message}"
   end

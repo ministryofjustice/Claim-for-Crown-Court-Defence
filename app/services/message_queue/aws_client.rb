@@ -27,8 +27,9 @@ module MessageQueue
 
     private
 
+    # rubocop:disable Metrics/AbcSize
     def aws_credentials
-      return { region: Settings.aws.region } unless Settings.aws.sqs.access
+      return { region: Settings.aws.region } if !Settings.aws.sqs.access || Settings.aws.sqs.access.include?('actual')
 
       # TODO: Remove when IRSA is used in all environments
       {
@@ -37,6 +38,7 @@ module MessageQueue
         region: Settings.aws.region
       }
     end
+    # rubocop:enable Metrics/AbcSize
 
     def queue_url(queue)
       return queue if queue.match?(valid_web_url_regex)

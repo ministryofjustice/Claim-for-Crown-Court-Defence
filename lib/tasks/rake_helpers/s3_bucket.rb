@@ -2,7 +2,7 @@
 
 require 'aws-sdk-s3'
 
-Credentials = Struct.new(:access_key_id, :secret_access_key, :bucket)
+Credentials = Struct.new(:bucket)
 
 class S3Bucket
   def initialize(host)
@@ -37,10 +37,7 @@ class S3Bucket
 
   def client
     # TODO: Clean this up when IAM is used in all environments
-    @client ||= credentials.access_key_id ? Aws::S3::Client.new(
-        access_key_id: credentials.access_key_id,
-        secret_access_key: credentials.secret_access_key
-      ) : Aws::S3::Client.new
+    @client ||= Aws::S3::Client.new
   end
 
   private
@@ -54,23 +51,14 @@ class S3Bucket
   end
 
   def load_from_settings
-    # TODO: Clean this up when IAM is used in all environments
-    @credentials ||= Settings.aws&.s3&.access ? Credentials.new(
-                      Settings.aws.s3.access,
-                      Settings.aws.s3.secret,
-                      Settings.aws.s3.bucket
-                    ) : Credentials.new(Settings.aws.s3.bucket)
+    @credentials ||= Credentials.new(Settings.aws.s3.bucket)
   end
 
   def load_from_secrets
     secrets = YAML.safe_load(`#{s3_secrets_cmd}`.chomp)
     secrets['data'].transform_values! { |v| Base64.decode64(v) unless v.nil? }
     # TODO: Clean this up when IAM is used in all environments
-    @credentials ||= secrets['data']['access_key_id'] ? Credentials.new(
-                       secrets['data']['access_key_id'],
-                       secrets['data']['secret_access_key'],
-                       secrets['data']['bucket_name']
-                     ) : Credentials.new(secrets['data']['bucket_name'])
+    @credentials ||= Credentials.new(secrets['data']['bucket_name'])
   rescue StandardError => e
     raise StandardError, "error retrieving secrets. do you have access?: #{e.message}"
   end

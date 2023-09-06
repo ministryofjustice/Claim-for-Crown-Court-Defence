@@ -1,17 +1,21 @@
-class ExternalUsers::Litigators::InterimClaimsController < ExternalUsers::ClaimsController
-  skip_load_and_authorize_resource
+module ExternalUsers
+  module Litigators
+    class InterimClaimsController < ExternalUsers::ClaimsController
+      skip_load_and_authorize_resource
 
-  resource_klass Claim::InterimClaim
+      resource_klass Claim::InterimClaim
 
-  private
+      private
 
-  def build_nested_resources
-    @claim.build_interim_fee if @claim.interim_fee.nil?
+      def build_nested_resources
+        @claim.build_interim_fee if @claim.interim_fee.nil?
 
-    %i[disbursements expenses].each do |association|
-      build_nested_resource(@claim, association)
+        %i[disbursements expenses].each do |association|
+          build_nested_resource(@claim, association)
+        end
+
+        super
+      end
     end
-
-    super
   end
 end

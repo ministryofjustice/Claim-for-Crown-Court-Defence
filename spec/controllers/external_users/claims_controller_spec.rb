@@ -751,6 +751,10 @@ RSpec.describe ExternalUsers::ClaimsController do
         it 'redirects to external users root url' do
           expect(response).to redirect_to(external_users_claims_url)
         end
+
+        it 'displays a success message' do
+          expect(flash[:notice]).to eq('Claim unarchived')
+        end
       end
 
       context 'when archived_pending_review claim' do

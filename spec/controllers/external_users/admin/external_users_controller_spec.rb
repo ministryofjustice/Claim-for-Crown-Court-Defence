@@ -112,12 +112,26 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
           }
         }
 
-        it 'creates a external_user' do
+        it 'creates an external_user' do
           expect {
             post :create, params:
           }.to change(User, :count).by(1)
           user = User.find_by_email('foo@foobar.com')
           expect(user.settings).to eq({ 'email_notification_of_message' => true })
+        end
+
+        it 'displays a success notification' do
+          params = {
+            external_user: {
+              user_attributes: {
+                email: 'foo@foobar.com', password: 'password', password_confirmation: 'password', first_name: 'John', last_name: 'Smith'
+              },
+              roles: ['advocate'],
+              supplier_number: 'XY123'
+            }
+          }
+          post(:create, params:)
+          expect(flash[:notice]).to eq('User successfully created')
         end
 
         it 'redirects to external_users index' do
@@ -151,16 +165,14 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
 
     describe 'PUT #update' do
       context 'when valid' do
-        before { put :update, params: { id: subject, external_user: { roles: ['admin'] } } }
-
-        it 'updates a external_user' do
+        before do
+          put :update, params: { id: subject, external_user: { roles: ['admin'] } }
           subject.reload
-          expect(subject.reload.roles).to eq(['admin'])
         end
 
-        it 'redirects to external_users index' do
-          expect(response).to redirect_to(external_users_admin_external_users_url)
-        end
+        it { expect(subject.reload.roles).to eq(['admin']) }
+        it { expect(response).to redirect_to(external_users_admin_external_users_url) }
+        it { expect(flash[:notice]).to eq('User successfully updated') }
       end
 
       context 'when invalid' do
@@ -223,6 +235,11 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
       it 'redirects to external_user admin root url' do
         delete :destroy, params: { id: subject }
         expect(response).to redirect_to(external_users_admin_external_users_url)
+      end
+
+      it 'displays a success notification' do
+        delete :destroy, params: { id: subject }
+        expect(flash[:notice]).to eq('User deleted')
       end
     end
   end

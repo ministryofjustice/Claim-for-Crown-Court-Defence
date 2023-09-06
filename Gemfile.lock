@@ -641,7 +641,7 @@ GEM
       site_prism-all_there (~> 2.0)
     site_prism-all_there (2.0.2)
     smart_properties (1.17.0)
-    sprockets (4.2.0)
+    sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
     sprockets-rails (3.4.2)

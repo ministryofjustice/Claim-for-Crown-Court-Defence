@@ -6,16 +6,17 @@ RSpec.shared_examples 'common partial validations' do |steps|
     context 'from web' do
       before do
         claim.source = 'web'
-      end
-
-      steps.each do |step_name, fields|
-        fields.each do |field|
-          before do
+        steps.each do |_, fields|
+          fields.each do |field|
             (fields - [field]).each do |other_field|
               allow_any_instance_of(described_class).to receive(:validate_field).with(other_field)
             end
           end
+        end
+      end
 
+      steps.each do |step_name, fields|
+        fields.each do |field|
           it "validates #{field} just for the #{step_name} step" do
             claim.form_step = step_name
             expect_any_instance_of(described_class).to receive(:validate_field).with(field)
@@ -53,16 +54,17 @@ RSpec.shared_examples 'common partial association validations' do |steps|
     context 'from web' do
       before do
         claim.source = 'web'
-      end
-
-      steps[:has_one].each do |step_name, associations|
-        associations.each do |association_data|
-          before do
+        steps[:has_one].each do |_, associations|
+          associations.each do |association_data|
             (associations - [association_data]).each do |other_association|
               allow_any_instance_of(described_class).to receive(:validate_association_for).with(claim, other_association[:name])
             end
           end
+        end
+      end
 
+      steps[:has_one].each do |step_name, associations|
+        associations.each do |association_data|
           association_name = association_data[:name]
           it "validates has_one association #{association_name} just for the #{step_name} step" do
             claim.form_step = step_name
@@ -79,12 +81,6 @@ RSpec.shared_examples 'common partial association validations' do |steps|
 
       steps[:has_many].each do |step_name, associations|
         associations.each do |association_data|
-          before do
-            (associations - [association_data]).each do |other_association|
-              allow_any_instance_of(described_class).to receive(:validate_association_for).with(claim, other_association[:name])
-            end
-          end
-
           association_name = association_data[:name]
           association_misc_fees = :misc_fees
           it "validates has_many association #{association_name} just for the #{step_name} step" do

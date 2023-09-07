@@ -55,9 +55,8 @@ RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
       create(:provider, :agfs, created_at: Date.parse('20-MAR-2017 12:43'))
       create(:provider, :lgfs, created_at: Date.parse('20-MAR-2017 13:32'))
       create(:provider, created_at: Date.parse('21-MAR-2017 09:00'))
+      travel_to Date.parse('22-MAR-2017')
     end
-
-    before { travel_to Date.parse('22-MAR-2017') }
 
     include_examples 'returns valid items structure'
 

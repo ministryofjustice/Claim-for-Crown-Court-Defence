@@ -8,6 +8,11 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
   let(:claim) { build(:transfer_claim, defendants: [build(:defendant)]) }
   let(:transfer_detail) { build(:transfer_detail, claim:) }
 
+  before do
+    claim.form_step = :case_details
+    claim.force_validation = true
+  end
+
   include_examples 'common partial validations', {
     transfer_fee_details: %i[
       litigator_type
@@ -34,11 +39,6 @@ RSpec.describe Claim::TransferClaimValidator, type: :validator do
     travel_expenses: %i[travel_expense_additional_information],
     supporting_evidence: []
   }
-
-  before do
-    claim.form_step = :case_details
-    claim.force_validation = true
-  end
 
   context 'litigator type' do
     before do

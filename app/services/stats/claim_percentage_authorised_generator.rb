@@ -15,7 +15,7 @@ module Stats
       calculate_claims_decided_this_month
       total_claims = @decided_claims_by_state.values.sum
       percentages = {}
-      @decided_claims_by_state.keys.sort_by { |k, _v| k.to_s }.reverse.each do |state|
+      @decided_claims_by_state.keys.sort_by { |k, _v| k.to_s }.reverse_each do |state|
         percentages[state] = @decided_claims_by_state[state].fdiv(total_claims) * 100
       end
       percentages

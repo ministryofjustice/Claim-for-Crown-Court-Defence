@@ -104,6 +104,9 @@ RSpec:
       - should_error_with
       - should_not_error
       - valid_cclf_json?
+    Includes:
+      Examples:
+        - it_returns
 
 RSpec/ImplicitSubject:
   EnforcedStyle: single_statement_only

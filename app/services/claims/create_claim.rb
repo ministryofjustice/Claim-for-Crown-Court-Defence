@@ -7,7 +7,7 @@ module Claims
 
     def call
       if already_submitted?
-        set_error_code(:already_submitted)
+        add_error_code(:already_submitted)
         return result
       end
 

@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe CaseType do
-  it_behaves_like 'roles', CaseType, CaseType::ROLES
-
   after(:all) do
     clean_database
   end
+
+  it_behaves_like 'roles', CaseType, CaseType::ROLES
 
   it { is_expected.to have_many(:case_stages).dependent(:destroy) }
 

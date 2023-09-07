@@ -31,6 +31,8 @@ module Fee
   RSpec.describe Fee::FeeDouble do
     subject { FeeDouble.new }
 
+    before { allow(subject).to receive(:quantity_is_decimal?).and_return(false) }
+
     it { should belong_to(:claim) }
     it { should have_many(:dates_attended) }
 
@@ -43,8 +45,6 @@ module Fee
         it { is_expected.to respond_to(:duplicate) }
       end
     end
-
-    before { allow(subject).to receive(:quantity_is_decimal?).and_return(false) }
 
     context 'zeroise nulls on save' do
       it 'zeroises the amount if null' do

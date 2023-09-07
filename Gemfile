@@ -44,8 +44,8 @@ gem 'config',                 '~> 4.2' # this gem provides our Settings.xxx mech
 gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
 gem 'scheduler_daemon'
-gem 'sentry-rails', '~> 5.10'
-gem 'sentry-sidekiq', '~> 5.8', '>= 5.8.0'
+gem 'sentry-rails', '~> 5.11'
+gem 'sentry-sidekiq', '~> 5.11'
 gem 'sprockets-rails', '~> 3.4.2'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'

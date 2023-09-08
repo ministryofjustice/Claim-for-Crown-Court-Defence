@@ -5,7 +5,7 @@ RSpec.describe API::V1::ExternalUsers::Disbursement do
   include ApiSpecHelper
 
   ALL_DISBURSEMENT_ENDPOINTS = [endpoint(:disbursements, :validate), endpoint(:disbursements)]
-  FORBIDDEN_DISBURSEMENT_VERBS = [:get, :put, :patch, :delete]
+  FORBIDDEN_DISBURSEMENT_VERBS = %i[get put patch delete]
 
   let(:parsed_body) { JSON.parse(last_response.body) }
 

@@ -18,7 +18,7 @@ RSpec.describe API::V1::DropdownData do
   TRANSFER_CASE_CONCLUSIONS_ENDPOINT  = '/api/transfer_case_conclusions'
   CASE_STAGE_ENDPOINT                 = '/api/case_stages'
 
-  FORBIDDEN_DROPDOWN_VERBS = [:post, :put, :patch, :delete]
+  FORBIDDEN_DROPDOWN_VERBS = %i[post put patch delete]
   ALL_DROPDOWN_ENDPOINTS = [
     CASE_TYPE_ENDPOINT,
     COURT_ENDPOINT,

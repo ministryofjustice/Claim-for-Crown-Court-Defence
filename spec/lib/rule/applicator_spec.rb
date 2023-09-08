@@ -112,7 +112,7 @@ RSpec.describe Rule::Applicator, type: :rule do
 
           context 'with attribute_for_error option specified' do
             let(:rule) do
-              Rule::Struct.new([:relation, :nested_relation, :id],
+              Rule::Struct.new(%i[relation nested_relation id],
                                :inclusion,
                                [1, 2],
                                message: 'nested relation id must be included in...',
@@ -149,7 +149,7 @@ RSpec.describe Rule::Applicator, type: :rule do
       end
     end
 
-    include_examples 'with nested relation attribute', [:relation, :nested_relation, :id]
+    include_examples 'with nested relation attribute', %i[relation nested_relation id]
     include_examples 'with nested relation attribute', 'relation.nested_relation.id'
   end
 end

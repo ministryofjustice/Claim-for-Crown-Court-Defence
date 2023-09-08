@@ -5,7 +5,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
   include ApiSpecHelper
 
   ALL_FEE_ENDPOINTS = [endpoint(:fees, :validate), endpoint(:fees)]
-  FORBIDDEN_FEE_VERBS = [:get, :put, :patch, :delete]
+  FORBIDDEN_FEE_VERBS = %i[get put patch delete]
 
   def create_claim(*args)
     # TODO: this should not require build + save + reload

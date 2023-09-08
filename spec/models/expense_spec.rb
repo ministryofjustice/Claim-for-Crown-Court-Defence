@@ -36,7 +36,7 @@ RSpec.describe Expense do
 
     subject { build(:expense, :car_travel) }
 
-    [:car_travel?, :bike_travel?, :parking?, :hotel_accommodation?, :train?, :travel_time?, :road_tolls?, :cab_fares?, :subsistence?].each do |method|
+    %i[car_travel? bike_travel? parking? hotel_accommodation? train? travel_time? road_tolls? cab_fares? subsistence?].each do |method|
       it "delegates #{method} to expense_type" do
         expect(expense_type).to receive(method)
         subject.send(method)
@@ -104,7 +104,7 @@ RSpec.describe Expense do
   end
 
   describe 'comma formatted inputs' do
-    [:rate, :quantity, :amount, :vat_amount].each do |attribute|
+    %i[rate quantity amount vat_amount].each do |attribute|
       it "converts input for #{attribute} by stripping commas out" do
         expense = build(:expense)
         expense.send("#{attribute}=", '12,321,111')

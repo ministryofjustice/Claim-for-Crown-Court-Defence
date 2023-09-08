@@ -33,7 +33,7 @@ RSpec.describe DeviseMailer do
     end
 
     it 'sets the personalisation' do
-      expect(mail.govuk_notify_personalisation.keys.sort).to eq([:edit_password_url, :invited_by_full_name, :password_reset_url, :token_expiry_days, :user_full_name])
+      expect(mail.govuk_notify_personalisation.keys.sort).to eq(%i[edit_password_url invited_by_full_name password_reset_url token_expiry_days user_full_name])
     end
 
     context 'when user is not new' do
@@ -91,7 +91,7 @@ RSpec.describe DeviseMailer do
     end
 
     it 'sets the personalisation' do
-      expect(mail.govuk_notify_personalisation.keys.sort).to eq([:unlock_url, :user_full_name])
+      expect(mail.govuk_notify_personalisation.keys.sort).to eq(%i[unlock_url user_full_name])
     end
   end
 end

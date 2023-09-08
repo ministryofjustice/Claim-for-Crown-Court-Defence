@@ -5,7 +5,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
   include ApiSpecHelper
 
   ALL_REP_ORDER_ENDPOINTS = [endpoint(:representation_orders, :validate), endpoint(:representation_orders)]
-  FORBIDDEN_REP_ORDER_VERBS = [:get, :put, :patch, :delete]
+  FORBIDDEN_REP_ORDER_VERBS = %i[get put patch delete]
 
   let(:representation_order_date) { Date.new(2017, 6, 1) }
 

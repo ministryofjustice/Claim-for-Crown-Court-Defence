@@ -6,7 +6,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
 
   ALL_EXPENSE_ENDPOINTS = [endpoint(:expenses, :validate), endpoint(:expenses)]
 
-  FORBIDDEN_EXPENSE_VERBS = [:get, :put, :patch, :delete]
+  FORBIDDEN_EXPENSE_VERBS = %i[get put patch delete]
 
   let(:parsed_body) { JSON.parse(last_response.body) }
 

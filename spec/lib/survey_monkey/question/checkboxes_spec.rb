@@ -9,7 +9,7 @@ RSpec.describe SurveyMonkey::Question::Checkboxes do
     let(:answers) { { one: 2, three: 4, five: 6 } }
 
     context 'with valid responses' do
-      let(:responses) { [:one, :five] }
+      let(:responses) { %i[one five] }
 
       it { is_expected.to be_a SurveyMonkey::Answer::Checkboxes }
       it { expect(parse.to_h[:id]).to eq '999' }
@@ -17,7 +17,7 @@ RSpec.describe SurveyMonkey::Question::Checkboxes do
     end
 
     context 'with an invalid response' do
-      let(:responses) { [:one, :fish] }
+      let(:responses) { %i[one fish] }
 
       it { expect { parse }.to raise_error(SurveyMonkey::UnregisteredResponse) }
     end

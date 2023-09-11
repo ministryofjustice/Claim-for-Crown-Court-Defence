@@ -269,6 +269,10 @@ en:
               taken: Case stage unique_code must be unique
             description:
               blank: Case stage description must exist
+        certification_type:
+          attributes:
+            name:
+              taken: Certification type name has already been taken
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'

@@ -262,6 +262,10 @@ en:
               too_long: Last name must be 40 characters or less
             terms_and_conditions:
               accepted: You must accept the terms and conditions
+        assessment:
+          attributes:
+            claim_id:
+              taken: This claim already has an assessment
         case_stage:
           attributes:
             unique_code:

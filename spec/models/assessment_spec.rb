@@ -62,6 +62,16 @@ RSpec.describe Assessment do
         }.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Assessed disbursements must be greater than or equal to zero'
       end
     end
+
+    context 'when validating claim_id' do
+      let(:duplicate_claim) { create(:claim) }
+
+      it 'does not accept a duplicate id' do
+        expect do
+          claim.assessment.update!(claim_id: duplicate_claim.id)
+        end.to raise_error ActiveRecord::RecordInvalid, 'Validation failed: Claim This claim already has an assessment'
+      end
+    end
   end
 
   context 'automatic calculation of total' do

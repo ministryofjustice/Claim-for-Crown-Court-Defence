@@ -229,8 +229,12 @@ en:
               invalid: Enter a valid supplier number
         case_worker:
           attributes:
+            location:
+              blank: Location cannot be blank
             roles:
               blank: cannot be blank
+            user:
+              blank: User cannot be blank
         user:
           attributes:
             email:

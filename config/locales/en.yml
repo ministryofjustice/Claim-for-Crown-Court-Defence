@@ -316,6 +316,10 @@ en:
               blank: Message claim_id cannot be blank
             sender:
               blank: Message sender cannot be blank
+        offence_class:
+          attributes:
+            class_letter:
+              taken: Offence class letter must be unique
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'

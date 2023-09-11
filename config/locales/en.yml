@@ -2386,6 +2386,7 @@ en:
     summary_totals: 'Summary totals'
     vat: 'VAT'
     position_and_count: 'Showing %{position} claims'
+    password_updated: 'Password successfully updated'
   case_workers:
     table_headings:
       your_claims: Your claims

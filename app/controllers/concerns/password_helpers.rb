@@ -12,7 +12,7 @@ module PasswordHelpers
 
     if user.update_with_password(password_params[:user_attributes])
       bypass_sign_in(user)
-      redirect_to signed_in_user_profile_path, notice: 'Password successfully updated'
+      redirect_to signed_in_user_profile_path, notice: t('shared.password_updated')
     else
       render :change_password
     end

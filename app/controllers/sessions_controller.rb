@@ -12,8 +12,7 @@ class SessionsController < Devise::SessionsController
     respond_to do |format|
       format.all { head :no_content }
       format.any(*navigational_formats) do
-        redirect_to after_sign_out_path_for(resource_name, user_id: @current_user_id),
-                    notice: 'You have signed out'
+        redirect_to after_sign_out_path_for(resource_name, user_id: @current_user_id)
       end
     end
   end

@@ -42,11 +42,9 @@ module Fee
     has_many :fees, dependent: :destroy, class_name: 'Fee::BaseFee', foreign_key: :fee_type_id
     has_many :claims, -> { active }, through: :fees
 
-    validates :description,
-              presence: { message: 'Fee type description cannot be blank' },
-              uniqueness: { case_sensitive: false, scope: :type, message: 'Fee type description must be unique' }
-    validates :code, presence: { message: 'Fee type code cannot be blank' }
-    validates :unique_code, presence: { message: 'Fee type unique code cannot be blank' }
+    validates :description, presence: true, uniqueness: { case_sensitive: false, scope: :type }
+    validates :code, presence: true
+    validates :unique_code, presence: true
 
     after_initialize :ensure_not_abstract_class
 

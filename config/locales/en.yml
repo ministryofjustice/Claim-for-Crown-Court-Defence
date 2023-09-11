@@ -295,6 +295,15 @@ en:
               taken: An expense type with this name already exists
             unique_code:
               taken: An expense type with this unique code already exists
+        fee/base_fee_type:
+          attributes:
+            code:
+              blank: Fee type code cannot be blank
+            description:
+              blank: Fee type description cannot be blank
+              taken: Fee type description must be unique
+            unique_code:
+              blank: Fee type unique code cannot be blank
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'

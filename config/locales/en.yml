@@ -215,18 +215,17 @@ en:
               blank: Select a case worker
             claim_ids:
               blank: Select at least one claim to re-allocate
-        fee/graduated_fee:
+        assessment:
           attributes:
-            claim:
-              incompatible_case_type: Fixed fee invalid on non-fixed fee case types
-        external_user:
+            claim_id:
+              taken: This claim already has an assessment
+        case_stage:
           attributes:
-            roles:
-              blank: Choose at least one role
-              inclusion: *inclusion
-            supplier_number:
-              blank: Enter a supplier number
-              invalid: Enter a valid supplier number
+            unique_code:
+              blank: Case stage unique_code must exist
+              taken: Case stage unique_code must be unique
+            description:
+              blank: Case stage description must exist
         case_worker:
           attributes:
             location:
@@ -235,6 +234,69 @@ en:
               blank: cannot be blank
             user:
               blank: User cannot be blank
+        certification_type:
+          attributes:
+            name:
+              taken: Certification type name has already been taken
+        claim_intention:
+          attributes:
+            form_id:
+              taken: There is already a claim with this form-id
+        court:
+          attributes:
+            code:
+              taken: Court code must be unique
+            name:
+              taken: Court name must be unique
+        disbursement_type:
+          attributes:
+            name:
+              taken: A disbursement type of this name already exists
+            unique_code:
+              taken: A disbursement type with this unique code already exists
+        expense_type:
+          attributes:
+            name:
+              taken: An expense type with this name already exists
+            unique_code:
+              taken: An expense type with this unique code already exists
+        external_user:
+          attributes:
+            roles:
+              blank: Choose at least one role
+              inclusion: *inclusion
+            supplier_number:
+              blank: Enter a supplier number
+              invalid: Enter a valid supplier number
+        fee/base_fee_type:
+          attributes:
+            code:
+              blank: Fee type code cannot be blank
+            description:
+              blank: Fee type description cannot be blank
+              taken: Fee type description must be unique
+            unique_code:
+              blank: Fee type unique code cannot be blank
+        fee/graduated_fee:
+          attributes:
+            claim:
+              incompatible_case_type: Fixed fee invalid on non-fixed fee case types
+        location:
+          attributes:
+            name:
+              taken: This location already exists
+        message:
+          attributes:
+            body:
+              blank: Message body cannot be blank
+            claim_id:
+              blank: Message claim_id cannot be blank
+            sender:
+              blank: Message sender cannot be blank
+        offence_class:
+          attributes:
+            class_letter:
+              taken: Offence class letter must be unique
         user:
           attributes:
             email:
@@ -262,68 +324,6 @@ en:
               too_long: Last name must be 40 characters or less
             terms_and_conditions:
               accepted: You must accept the terms and conditions
-        assessment:
-          attributes:
-            claim_id:
-              taken: This claim already has an assessment
-        case_stage:
-          attributes:
-            unique_code:
-              blank: Case stage unique_code must exist
-              taken: Case stage unique_code must be unique
-            description:
-              blank: Case stage description must exist
-        certification_type:
-          attributes:
-            name:
-              taken: Certification type name has already been taken
-        claim_intention:
-          attributes:
-            form_id:
-              taken: There is already a claim with this form-id
-        court:
-          attributes:
-            code:
-              taken: Court code must be unique
-            name:
-              taken: Court name must be unique
-        disbursement_type:
-          attributes:
-            name:
-              taken: A disbursement type of this name already exists
-            unique_code:
-              taken: A disbursement type with this unique code already exists
-        expense_type:
-          attributes:
-            name:
-              taken: An expense type with this name already exists
-            unique_code:
-              taken: An expense type with this unique code already exists
-        fee/base_fee_type:
-          attributes:
-            code:
-              blank: Fee type code cannot be blank
-            description:
-              blank: Fee type description cannot be blank
-              taken: Fee type description must be unique
-            unique_code:
-              blank: Fee type unique code cannot be blank
-        location:
-          attributes:
-            name:
-              taken: This location already exists
-        message:
-          attributes:
-            body:
-              blank: Message body cannot be blank
-            claim_id:
-              blank: Message claim_id cannot be blank
-            sender:
-              blank: Message sender cannot be blank
-        offence_class:
-          attributes:
-            class_letter:
-              taken: Offence class letter must be unique
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'

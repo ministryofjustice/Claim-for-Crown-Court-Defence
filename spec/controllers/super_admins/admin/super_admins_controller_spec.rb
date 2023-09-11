@@ -95,6 +95,10 @@ RSpec.describe SuperAdmins::Admin::SuperAdminsController do
       it 'redirects to super admin show page' do
         expect(response).to redirect_to(super_admins_admin_super_admin_path(subject))
       end
+
+      it 'displays a success message' do
+        expect(flash[:notice]).to eq('Super Administrator successfully updated')
+      end
     end
 
     context 'when invalid' do

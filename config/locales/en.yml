@@ -394,6 +394,8 @@ en:
           submit: *change_password
           page_title: Change %{super_admin}'s password
           page_heading: Change password
+        update:
+          success: Super Administrator successfully updated
     providers:
       provider_type: &provider_type 'Provider type'
       provider_name: &provider_name 'Provider name'

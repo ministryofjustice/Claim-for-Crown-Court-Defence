@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RailsHost, no_database_cleaner: true do
+RSpec.describe RailsHost, :no_database_cleaner do
   around do |example|
     with_env(environment) { example.run }
   end

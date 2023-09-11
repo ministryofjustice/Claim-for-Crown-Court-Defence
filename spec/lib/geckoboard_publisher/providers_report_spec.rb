@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe GeckoboardPublisher::ProvidersReport, geckoboard: true do
+RSpec.describe GeckoboardPublisher::ProvidersReport, :geckoboard do
   it_behaves_like 'geckoboard publishable report'
 
   # calls to api.geckoboard.com are stubbed in rails_helper in case future reports are generated

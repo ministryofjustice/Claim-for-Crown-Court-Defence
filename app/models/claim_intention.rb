@@ -10,7 +10,7 @@
 #
 
 class ClaimIntention < ApplicationRecord
-  validates :form_id, presence: true, uniqueness: { message: 'There is already a claim with this form-id' }
+  validates :form_id, presence: true, uniqueness: true
 
   belongs_to :user
 end

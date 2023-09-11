@@ -258,6 +258,13 @@ en:
               too_long: Last name must be 40 characters or less
             terms_and_conditions:
               accepted: You must accept the terms and conditions
+        case_stage:
+          attributes:
+            unique_code:
+              blank: Case stage unique_code must exist
+              taken: Case stage unique_code must be unique
+            description:
+              blank: Case stage description must exist
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'

@@ -29,7 +29,7 @@ RSpec.describe CaseStage do
 
   describe '#unique_code' do
     it { is_expected.to validate_presence_of(:unique_code).with_message('Case stage unique_code must exist') }
-    it { is_expected.to validate_uniqueness_of(:unique_code).with_message('Case stage unique_code must be unique') }
+    it { is_expected.to validate_uniqueness_of(:unique_code).ignoring_case_sensitivity.with_message('Case stage unique_code must be unique') }
   end
 
   describe '#description' do

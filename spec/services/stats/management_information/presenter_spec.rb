@@ -265,14 +265,14 @@ RSpec.describe Stats::ManagementInformation::Presenter do
       let!(:claim) { create(:advocate_final_claim, :allocated) }
       let(:record) { query.first }
 
-      it { is_expected.to be == claim.claim_state_transitions.find_by(to: 'allocated').subject.name }
+      it { is_expected.to eq claim.claim_state_transitions.find_by(to: 'allocated').subject.name }
     end
 
     context 'with claim journey ending in "completed" state' do
       let!(:claim) { create(:advocate_final_claim, :rejected) }
       let(:record) { query.first }
 
-      it { is_expected.to be == claim.claim_state_transitions.find_by(to: 'rejected').author.name }
+      it { is_expected.to eq claim.claim_state_transitions.find_by(to: 'rejected').author.name }
     end
 
     context 'with claim journey not ending in "completed" or allocated state' do
@@ -280,7 +280,7 @@ RSpec.describe Stats::ManagementInformation::Presenter do
 
       let(:record) { query.second }
 
-      it { is_expected.to be == 'n/a' }
+      it { is_expected.to eq 'n/a' }
     end
   end
 

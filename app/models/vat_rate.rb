@@ -41,7 +41,7 @@ class VatRate < ApplicationRecord
     private
 
     def rates
-      VatRate.all.order(effective_date: :desc)
+      VatRate.order(effective_date: :desc)
     end
 
     def rate_for_date(date)

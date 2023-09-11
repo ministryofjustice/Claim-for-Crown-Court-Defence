@@ -35,7 +35,7 @@ module Fee
       end
 
       it 'orders by description ascending' do
-        expect(Fee::FixedFeeType.all.pluck(:description)).to eq ['Ppppp', 'Sssss', 'Xxxxx']
+        expect(Fee::FixedFeeType.pluck(:description)).to eq ['Ppppp', 'Sssss', 'Xxxxx']
       end
     end
 

@@ -329,6 +329,7 @@ en:
     description: Description
     warning: 'Warning'
     send: &send Send
+    unauthorised: Unauthorised
   link:
     add_claim: Start a claim
     back: Back

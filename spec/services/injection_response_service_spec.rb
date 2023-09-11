@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe InjectionResponseService, slack_bot: true do
+RSpec.describe InjectionResponseService, :slack_bot do
   subject(:irs) { described_class.new(json) }
 
   let(:claim) { create(:claim) }

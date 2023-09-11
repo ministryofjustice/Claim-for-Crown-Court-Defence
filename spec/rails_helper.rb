@@ -114,7 +114,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.before :each, geckoboard: true do
+  config.before :each, :geckoboard do
     stub_request(:get, 'https://api.geckoboard.com/')
       .with(
         headers: {
@@ -127,7 +127,7 @@ RSpec.configure do |config|
       .to_return(status: 200, body: '', headers: {})
   end
 
-  config.before :each, slack_bot: true do
+  config.before :each, :slack_bot do
     allow(Settings.slack).to receive_messages(
       bot_url: 'https://hooks.slack.com/services/fake/endpoint',
       bot_name: 'monitor_bot',

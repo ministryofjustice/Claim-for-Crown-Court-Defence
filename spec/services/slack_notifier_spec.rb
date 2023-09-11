@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe SlackNotifier, slack_bot: true do
+RSpec.describe SlackNotifier, :slack_bot do
   subject(:slack_notifier) { described_class.new('test-channel', formatter:) }
 
   let(:formatter) { SlackNotifier::Formatter.new }

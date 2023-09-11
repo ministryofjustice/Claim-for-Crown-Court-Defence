@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 module NotificationQueue
-  describe AwsClient, slack_bot: true do
+  describe AwsClient, :slack_bot do
     subject(:aws_client) { described_class.new }
 
     let(:client) do

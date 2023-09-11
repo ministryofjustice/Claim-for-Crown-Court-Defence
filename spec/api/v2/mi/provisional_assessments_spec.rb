@@ -15,7 +15,7 @@ RSpec.describe API::V2::MI::ProvisionalAssessments do
   let(:end_date) { Date.new(2018, 01, 31).to_s(:db) }
   let(:create_data?) { false }
 
-  describe 'GET provisional_assessments', slack_bot: true do
+  describe 'GET provisional_assessments', :slack_bot do
     def populate_mi_data
       travel_to(Date.new(2018, 01, 15)) { create_list(:archived_pending_delete_claim, 3) }
       travel_to(Date.new(2018, 02, 14)) { create_list(:archived_pending_delete_claim, 3) }

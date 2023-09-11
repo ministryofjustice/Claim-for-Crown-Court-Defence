@@ -11,7 +11,7 @@ RSpec.configure do |config|
   # this will enable it at the action_controller level so
   # you can test the requests function regardless.
   #
-  config.around(:each, allow_forgery_protection: true) do |example|
+  config.around(:each, :allow_forgery_protection) do |example|
     original_forgery_protection = ActionController::Base.allow_forgery_protection
     ActionController::Base.allow_forgery_protection = true
     begin

@@ -16,10 +16,11 @@ require 'rails_helper'
 RSpec.describe ExpenseType do
   it_behaves_like 'roles', ExpenseType, ExpenseType::ROLES
 
-  it { should have_many(:expenses) }
+  it { is_expected.to have_many(:expenses) }
 
-  it { should validate_presence_of(:name) }
-  it { should validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message('An expense type with this name already exists') }
+  it { is_expected.to validate_presence_of(:name) }
+  it { is_expected.to validate_uniqueness_of(:name).ignoring_case_sensitivity.with_message('An expense type with this name already exists') }
+  it { is_expected.to validate_uniqueness_of(:unique_code).ignoring_case_sensitivity.with_message('An expense type with this unique code already exists') }
 
   context 'ROLES' do
     it 'has "agfs" and "lgfs"' do

@@ -44,12 +44,8 @@ class ExpenseType < ApplicationRecord
 
   has_many :expenses, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: { case_sensitive: false,
-                                                 message: 'An expense type with this name already exists' }
-  validates :unique_code,
-            presence: true,
-            uniqueness: { case_sensitive: false,
-                          message: 'An expense type with this unique code already exists' }
+  validates :name, presence: true, uniqueness: { case_sensitive: false }
+  validates :unique_code, presence: true, uniqueness: { case_sensitive: false }
   validates :reason_set, inclusion: { in: %w[A B C] }
 
   def self.reason_sets

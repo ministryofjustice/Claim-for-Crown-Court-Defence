@@ -308,6 +308,14 @@ en:
           attributes:
             name:
               taken: This location already exists
+        message:
+          attributes:
+            body:
+              blank: Message body cannot be blank
+            claim_id:
+              blank: Message claim_id cannot be blank
+            sender:
+              blank: Message sender cannot be blank
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'

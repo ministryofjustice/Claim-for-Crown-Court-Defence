@@ -29,7 +29,7 @@ class Assessment < Determination
 
   after_initialize :set_default_values
   before_save :set_paper_trail_event!
-  validates :claim_id, uniqueness: { message: 'This claim already has an assessment' }
+  validates :claim_id, uniqueness: true
 
   def set_default_values
     zeroize if new_record?

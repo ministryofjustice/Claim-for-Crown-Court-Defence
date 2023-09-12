@@ -7,9 +7,9 @@ class CaseStage < ApplicationRecord
   delegate_missing_to :case_type
 
   validates :case_type_id, presence: true
-  validates :unique_code, presence: { message: 'Case stage unique_code must exist' }
-  validates :unique_code, uniqueness: { case_sensitve: false, message: 'Case stage unique_code must be unique' }
-  validates :description, presence: { message: 'Case stage description must exist' }
+  validates :unique_code, presence: true
+  validates :unique_code, uniqueness: true
+  validates :description, presence: true
 
   scope :chronological, -> { order(position: :asc) }
   scope :active, -> { where.not("unique_code LIKE 'OBSOLETE%'") }

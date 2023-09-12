@@ -158,6 +158,8 @@ RSpec.describe CaseWorkers::Admin::CaseWorkersController do
       it 'redirects to case_worker show action' do
         expect(response).to redirect_to(case_workers_admin_case_worker_path(subject))
       end
+
+      it { expect(flash[:notice]).to eq('Password successfully updated') }
     end
 
     context 'when mandatory params for case worker are not provided' do

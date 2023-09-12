@@ -215,10 +215,51 @@ en:
               blank: Select a case worker
             claim_ids:
               blank: Select at least one claim to re-allocate
-        fee/graduated_fee:
+        assessment:
           attributes:
-            claim:
-              incompatible_case_type: Fixed fee invalid on non-fixed fee case types
+            claim_id:
+              taken: This claim already has an assessment
+        case_stage:
+          attributes:
+            unique_code:
+              blank: Case stage unique_code must exist
+              taken: Case stage unique_code must be unique
+            description:
+              blank: Case stage description must exist
+        case_worker:
+          attributes:
+            location:
+              blank: Location cannot be blank
+            roles:
+              blank: cannot be blank
+            user:
+              blank: User cannot be blank
+        certification_type:
+          attributes:
+            name:
+              taken: Certification type name has already been taken
+        claim_intention:
+          attributes:
+            form_id:
+              taken: There is already a claim with this form-id
+        court:
+          attributes:
+            code:
+              taken: Court code must be unique
+            name:
+              taken: Court name must be unique
+        disbursement_type:
+          attributes:
+            name:
+              taken: A disbursement type of this name already exists
+            unique_code:
+              taken: A disbursement type with this unique code already exists
+        expense_type:
+          attributes:
+            name:
+              taken: An expense type with this name already exists
+            unique_code:
+              taken: An expense type with this unique code already exists
         external_user:
           attributes:
             roles:
@@ -227,10 +268,35 @@ en:
             supplier_number:
               blank: Enter a supplier number
               invalid: Enter a valid supplier number
-        case_worker:
+        fee/base_fee_type:
           attributes:
-            roles:
-              blank: cannot be blank
+            code:
+              blank: Fee type code cannot be blank
+            description:
+              blank: Fee type description cannot be blank
+              taken: Fee type description must be unique
+            unique_code:
+              blank: Fee type unique code cannot be blank
+        fee/graduated_fee:
+          attributes:
+            claim:
+              incompatible_case_type: Fixed fee invalid on non-fixed fee case types
+        location:
+          attributes:
+            name:
+              taken: This location already exists
+        message:
+          attributes:
+            body:
+              blank: Message body cannot be blank
+            claim_id:
+              blank: Message claim_id cannot be blank
+            sender:
+              blank: Message sender cannot be blank
+        offence_class:
+          attributes:
+            class_letter:
+              taken: Offence class letter must be unique
         user:
           attributes:
             email:
@@ -329,6 +395,7 @@ en:
     description: Description
     warning: 'Warning'
     send: &send Send
+    unauthorised: Unauthorised
   link:
     add_claim: Start a claim
     back: Back
@@ -393,6 +460,8 @@ en:
           submit: *change_password
           page_title: Change %{super_admin}'s password
           page_heading: Change password
+        update:
+          success: Super Administrator successfully updated
     providers:
       provider_type: &provider_type 'Provider type'
       provider_name: &provider_name 'Provider name'
@@ -2385,6 +2454,7 @@ en:
     summary_totals: 'Summary totals'
     vat: 'VAT'
     position_and_count: 'Showing %{position} claims'
+    password_updated: 'Password successfully updated'
   case_workers:
     table_headings:
       your_claims: Your claims

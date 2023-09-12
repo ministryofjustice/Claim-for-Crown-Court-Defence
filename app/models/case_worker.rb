@@ -29,8 +29,8 @@ class CaseWorker < ApplicationRecord
 
   default_scope { includes(:user) }
 
-  validates :location, presence: { message: 'Location cannot be blank' }
-  validates :user, presence: { message: 'User cannot be blank' }
+  validates :location, presence: true
+  validates :user, presence: true
 
   accepts_nested_attributes_for :user
 

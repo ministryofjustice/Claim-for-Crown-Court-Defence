@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from CanCan::AccessDenied do |_exception|
-    redirect_to root_path_url_for_user, alert: 'Unauthorised'
+    redirect_to root_path_url_for_user, alert: t('common.unauthorised')
   end
 
   def user_for_paper_trail

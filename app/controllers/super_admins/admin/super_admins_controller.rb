@@ -9,7 +9,7 @@ class SuperAdmins::Admin::SuperAdminsController < ApplicationController
 
   def update
     if @super_admin.update(super_admin_params)
-      redirect_to super_admins_admin_super_admin_path(@super_admin), notice: 'Super Administrator successfully updated'
+      redirect_to super_admins_admin_super_admin_path(@super_admin), notice: t('.success')
     else
       render :edit
     end

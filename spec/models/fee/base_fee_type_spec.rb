@@ -40,14 +40,15 @@ RSpec.describe Fee::BaseFeeType do
   it_behaves_like 'roles', Fee::MiscFeeType, Fee::MiscFeeType::ROLES # using MiscFeeType because the shared examples use a factory, which rules out the use of a class double
   it_behaves_like 'defendant upliftable'
 
-  it { should have_many(:fees) }
+  it { is_expected.to have_many(:fees) }
 
-  it { should validate_presence_of(:description).with_message('Fee type description cannot be blank') }
-  it { should validate_presence_of(:code).with_message('Fee type code cannot be blank') }
-  it { should validate_uniqueness_of(:description).ignoring_case_sensitivity.with_message('Fee type description must be unique').scoped_to(:type) }
+  it { is_expected.to validate_presence_of(:description).with_message('Fee type description cannot be blank') }
+  it { is_expected.to validate_presence_of(:code).with_message('Fee type code cannot be blank') }
+  it { is_expected.to validate_presence_of(:unique_code).with_message('Fee type unique code cannot be blank') }
+  it { is_expected.to validate_uniqueness_of(:description).ignoring_case_sensitivity.with_message('Fee type description must be unique').scoped_to(:type) }
 
-  it { should respond_to(:code) }
-  it { should respond_to(:description) }
+  it { is_expected.to respond_to(:code) }
+  it { is_expected.to respond_to(:description) }
 
   describe '#requires_dates_attended?' do
     it 'returns false' do

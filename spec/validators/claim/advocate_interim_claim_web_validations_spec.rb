@@ -70,7 +70,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:external_user_id]).to contain_exactly('Creator and advocate must belong to the same provider')
+        expect(claim.errors[:external_user_id]).to contain_exactly(
+          'Creator and advocate must belong to the same provider'
+        )
       }
     end
 
@@ -337,18 +339,24 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_0_representation_order_date]).to contain_exactly('Enter a representation order date')
+        expect(
+          claim.errors[:defendants_attributes_0_representation_orders_attributes_0_representation_order_date]
+        ).to contain_exactly('Enter a representation order date')
       }
     end
 
     context 'when one of the defendants has a representation order with no date set' do
       let(:other_one_representation_order_attrs) {
-        valid_other_one_representation_order_attrs.except(:'representation_order_date(3i)', :'representation_order_date(2i)', :'representation_order_date(1i)')
+        valid_other_one_representation_order_attrs.except(:'representation_order_date(3i)',
+                                                          :'representation_order_date(2i)',
+                                                          :'representation_order_date(1i)')
       }
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:defendants_attributes_1_representation_orders_attributes_0_representation_order_date]).to contain_exactly('Enter a representation order date')
+        expect(
+          claim.errors[:defendants_attributes_1_representation_orders_attributes_0_representation_order_date]
+        ).to contain_exactly('Enter a representation order date')
       }
     end
 
@@ -364,7 +372,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]).to contain_exactly('Representation order date can not be too far in the future')
+        expect(
+          claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]
+        ).to contain_exactly('Representation order date can not be too far in the future')
       }
     end
 
@@ -380,7 +390,10 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]).to contain_exactly('Representation order date is too far in the past', 'Representation orders should be entered in chronological order')
+        expect(
+          claim.errors[:defendants_attributes_0_representation_orders_attributes_1_representation_order_date]
+        ).to contain_exactly('Representation order date is too far in the past',
+                             'Representation orders should be entered in chronological order')
       }
     end
 
@@ -608,7 +621,10 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly('Warrant issued date cannot be too far in the past', 'Warrant issued date needs to be on or after the earliest representation order date')
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly(
+          'Warrant issued date cannot be too far in the past',
+          'Warrant issued date needs to be on or after the earliest representation order date'
+        )
       }
     end
 
@@ -624,7 +640,10 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly('Warrant issued date cannot be too far in the future', 'Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued')
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly(
+          'Warrant issued date cannot be too far in the future',
+          'Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued'
+        )
       }
     end
 
@@ -640,7 +659,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly('Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued')
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly(
+          'Warrant fee cannot be claimed until at least 3 months have passed since warrant was issued'
+        )
       }
     end
 
@@ -656,7 +677,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly('Warrant issued date needs to be on or after the earliest representation order date')
+        expect(claim.errors[:'warrant_fee.warrant_issued_date']).to contain_exactly(
+          'Warrant issued date needs to be on or after the earliest representation order date'
+        )
       }
     end
 
@@ -824,7 +847,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:expenses_attributes_0_reason_id]).to contain_exactly('Enter a valid reason for the expense')
+        expect(claim.errors[:expenses_attributes_0_reason_id]).to contain_exactly(
+          'Enter a valid reason for the expense'
+        )
       }
     end
 
@@ -849,7 +874,9 @@ RSpec.describe 'Advocate interim claim WEB validations' do
 
       specify {
         is_expected.not_to be_valid
-        expect(claim.errors[:expenses_attributes_0_date]).to contain_exactly('Date for the expense cannot be in the future')
+        expect(claim.errors[:expenses_attributes_0_date]).to contain_exactly(
+          'Date for the expense cannot be in the future'
+        )
       }
     end
 
@@ -1022,13 +1049,11 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       let(:invalid_checklist_ids) { [2, 5, 7, 8, 9, 10, 11] }
       let(:attributes) { valid_attributes.merge(evidence_checklist_ids: invalid_checklist_ids) }
 
-      specify {
-        is_expected.not_to be_valid
-        expect(claim.errors[:evidence_checklist_ids].length).to eq(invalid_checklist_ids.length)
-        claim.errors[:evidence_checklist_ids].each do |error_message|
-          expect(error_message).to match(/is invalid/)
-        end
-      }
+      before { claim.valid? }
+
+      it { is_expected.not_to be_valid }
+      it { expect(claim.errors[:evidence_checklist_ids].length).to eq(invalid_checklist_ids.length) }
+      it { expect(claim.errors[:evidence_checklist_ids]).to all match(/is invalid/) }
     end
   end
 

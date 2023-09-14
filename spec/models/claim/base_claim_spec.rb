@@ -642,7 +642,8 @@ RSpec.describe MockBaseClaim do
       claim = described_class.new(evidence_checklist_ids: [1, 5, 10])
       expect(claim.evidence_doc_types.map(&:class)).to eq([DocType, DocType, DocType])
       expect(claim.evidence_doc_types.map(&:name)).to contain_exactly('Representation order',
-                                                                      'Order in respect of judicial apportionment', 'Special preparation form')
+                                                                      'Order in respect of judicial apportionment',
+                                                                      'Special preparation form')
     end
   end
 
@@ -717,14 +718,13 @@ RSpec.describe MockBaseClaim do
 
       before do
         claim.defendants = defendants
+
+        defendants.each do |defendant|
+          allow(defendant).to receive(:earliest_representation_order).and_return(nil)
+        end
       end
 
-      specify {
-        defendants.each do |defendant|
-          expect(defendant).to receive(:earliest_representation_order).and_return(nil)
-        end
-        expect(earliest_representation_order).to be_nil
-      }
+      it { expect(earliest_representation_order).to be_nil }
     end
 
     context 'when some of the defendants have an earliest representation order set' do
@@ -747,9 +747,15 @@ RSpec.describe MockBaseClaim do
       }
 
       before do
-        expect(defendant_with_no_earliest_representation_date).to receive(:earliest_representation_order).and_return(nil)
-        expect(defendant_with_later_representation_date).to receive(:earliest_representation_order).and_return(later_representation_order)
-        expect(defendant_with_earliest_representation_date).to receive(:earliest_representation_order).and_return(expected_representation_order)
+        allow(defendant_with_no_earliest_representation_date).to receive(
+          :earliest_representation_order
+        ).and_return(nil)
+        allow(defendant_with_later_representation_date).to receive(
+          :earliest_representation_order
+        ).and_return(later_representation_order)
+        allow(defendant_with_earliest_representation_date).to receive(
+          :earliest_representation_order
+        ).and_return(expected_representation_order)
         claim.defendants = defendants
       end
 

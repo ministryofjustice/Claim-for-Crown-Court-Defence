@@ -17,13 +17,13 @@ RSpec.describe ApplicationHelper do
     let(:claims) { create_list(:claim, 2) }
 
     it 'returns a collection of <Classname>Presenter instances' do
-      present_collection(claims).each do |claim|
-        expect(claim).to be_instance_of Claim::AdvocateClaimPresenter
-      end
+      expect(present_collection(claims)).to all be_instance_of Claim::AdvocateClaimPresenter
     end
 
     it 'yields a collection of <Classname>Presenter Class instances' do
-      expect { |block| present_collection(claims, &block) }.to yield_with_args([Claim::BaseClaimPresenter, Claim::BaseClaimPresenter])
+      expect do |block|
+        present_collection(claims, &block)
+      end.to yield_with_args([Claim::BaseClaimPresenter, Claim::BaseClaimPresenter])
     end
   end
 

@@ -2,37 +2,55 @@ require 'rails_helper'
 
 RSpec.shared_examples 'transfer claim elected case bill scenario mapping' do
   context 'with an "elected case - up to and including PCMH transfer (new)" case' do
-    let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil, claim:) }
+    let(:detail) do
+      build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil,
+                              claim:)
+    end
 
     it { is_expected.to eq bill_scenario_mapping[:up_to_and_including_pcmh_transfer_new] }
   end
 
   context 'with an "elected case - up to and including PCMH transfer (org)" case' do
-    let(:detail) { build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 10, case_conclusion_id: nil, claim:) }
+    let(:detail) do
+      build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 10,
+                              case_conclusion_id: nil, claim:)
+    end
 
     it { is_expected.to eq bill_scenario_mapping[:up_to_and_including_pcmh_transfer_org] }
   end
 
   context 'with an "elected case - before trial transfer (new)" case' do
-    let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 20, case_conclusion_id: nil, claim:) }
+    let(:detail) do
+      build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 20, case_conclusion_id: nil,
+                              claim:)
+    end
 
     it { is_expected.to eq bill_scenario_mapping[:before_trial_transfer_new] }
   end
 
   context 'with an "elected case - before trial transfer (org)" case' do
-    let(:detail) { build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 20, case_conclusion_id: nil, claim:) }
+    let(:detail) do
+      build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 20,
+                              case_conclusion_id: nil, claim:)
+    end
 
     it { is_expected.to eq bill_scenario_mapping[:before_trial_transfer_org] }
   end
 
   context 'with an "elected case - transfer before retrial (new)" case' do
-    let(:detail) { build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 50, case_conclusion_id: nil, claim:) }
+    let(:detail) do
+      build(:transfer_detail, litigator_type: 'new', elected_case: true, transfer_stage_id: 50, case_conclusion_id: nil,
+                              claim:)
+    end
 
     it { is_expected.to eq bill_scenario_mapping[:transfer_before_retrial_new] }
   end
 
   context 'with an "elected case - transfer before retrial (org)" case' do
-    let(:detail) { build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 50, case_conclusion_id: nil, claim:) }
+    let(:detail) do
+      build(:transfer_detail, litigator_type: 'original', elected_case: true, transfer_stage_id: 50,
+                              case_conclusion_id: nil, claim:)
+    end
 
     it { is_expected.to eq bill_scenario_mapping[:transfer_before_retrial_org] }
   end
@@ -249,7 +267,7 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
         it { is_expected.to be_truthy }
       end
 
-      context 'when "During trial transfer"' do
+      context 'when "Before trial transfer"' do
         let(:transfer_stage_id) { 20 }
 
         it { is_expected.to be_truthy }
@@ -335,7 +353,7 @@ RSpec.describe Claim::TransferBrain::DataItemCollection do
       end
     end
 
-    context 'new litigator type with elected case and transfer stage id of 20' do
+    context 'new litigator type with not-elected case and transfer stage id of 20' do
       it 'returns a limited set of conclusion ids' do
         expect(described_class.instance.valid_case_conclusion_ids('new', false, 20)).to eq([10, 30])
       end

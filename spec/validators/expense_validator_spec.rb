@@ -54,11 +54,21 @@ RSpec.describe 'ExpenseValidator', type: :validator do
     end
 
     it 'is valid if less than VAT% of total amount' do
-      expense.vat_amount = 20.001
+      expense.vat_amount = 19.99
+      expect(expense).to be_valid
+    end
+
+    it 'is valid if equal to VAT% of total amount' do
+      expense.vat_amount = 20.00
       expect(expense).to be_valid
     end
 
     it 'is valid if rounded value is less than VAT% of total amount' do
+      expense.vat_amount = 19.991
+      expect(expense).to be_valid
+    end
+
+    it 'is valid if rounded value is equal to VAT% of total amount' do
       expense.vat_amount = 20.001
       expect(expense).to be_valid
     end

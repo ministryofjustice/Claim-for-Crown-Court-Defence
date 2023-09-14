@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Fee::FixedFeePresenter do
-  let(:fixed_fee) { instance_double(Fee::FixedFee, claim: double, quantity_is_decimal?: false, errors: { quantity: [] }) }
+  let(:claim) { create(:advocate_claim) }
+  let(:fixed_fee) { instance_double(Fee::FixedFee, claim:, quantity_is_decimal?: false, errors: { quantity: [] }) }
   let(:presenter) { Fee::FixedFeePresenter.new(fixed_fee, view) }
 
   context '#rate' do
@@ -20,6 +21,8 @@ RSpec.describe Fee::FixedFeePresenter do
     end
 
     context 'for LGFS claims' do
+      let(:claim) { create(:litigator_claim) }
+
       it 'returns number as currency for calculated fees' do
         allow(fixed_fee).to receive(:calculated?).and_return true
         expect(fixed_fee).to receive(:rate).and_return 12.03
@@ -43,6 +46,8 @@ RSpec.describe Fee::FixedFeePresenter do
     end
 
     context 'for LGFS claims' do
+      let(:claim) { create(:litigator_claim) }
+
       it 'returns the raw fee quantity' do
         expect(fixed_fee).to receive(:quantity)
         presenter.quantity

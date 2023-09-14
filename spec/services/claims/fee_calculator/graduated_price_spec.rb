@@ -978,7 +978,7 @@ RSpec.describe Claims::FeeCalculator::GraduatedPrice, :fee_calc_vcr do
       end
 
       context 'Number of prosecution witnesses (NPW) fee' do
-        let(:fee_type) { create(:basic_fee_type, :bappe) }
+        let(:fee_type) { create(:basic_fee_type, :banpw) }
 
         context 'scheme 9' do
           let(:offence_class) { create(:offence_class, class_letter: 'A') }

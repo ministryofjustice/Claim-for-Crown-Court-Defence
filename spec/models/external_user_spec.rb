@@ -198,68 +198,75 @@ RSpec.describe ExternalUser do
     end
   end
 
-  describe 'roles' do
-    let(:admin) { create(:external_user, :admin) }
-    let(:advocate) { create(:external_user, :advocate) }
+  # Methods from Roles module
+  describe '#is?' do
+    subject { user.is?(role) }
 
-    describe '#is?' do
-      context 'given advocate' do
-        context 'if advocate' do
-          it 'returns true' do
-            expect(advocate.is? :advocate).to be(true)
-          end
-        end
+    context 'with an advocate user' do
+      let(:user) { create(:external_user, :advocate) }
 
-        context 'for an admin' do
-          it 'returns false' do
-            expect(admin.is? :advocate).to be(false)
-          end
-        end
+      context 'when testing for advocate' do
+        let(:role) { :advocate }
+
+        it { is_expected.to be_truthy }
       end
 
-      context 'given admin' do
-        context 'for an admin' do
-          it 'returns true' do
-            expect(admin.is? :admin).to be(true)
-          end
-        end
+      context 'when testing for admin' do
+        let(:role) { :admin }
 
-        context 'for a advocate' do
-          it 'returns false' do
-            expect(advocate.is? :admin).to be(false)
-          end
-        end
+        it { is_expected.to be_falsey }
       end
     end
 
-    describe '#advocate?' do
-      context 'for an advocate' do
-        it 'returns true' do
-          expect(advocate.advocate?).to be(true)
-        end
+    context 'with an admin user' do
+      let(:user) { create(:external_user, :admin) }
+
+      context 'when testing for advocate' do
+        let(:role) { :advocate }
+
+        it { is_expected.to be_falsey }
       end
 
-      context 'for an admin' do
-        it 'returns false' do
-          expect(admin.advocate?).to be(false)
-        end
-      end
-    end
+      context 'when testing for admin' do
+        let(:role) { :admin }
 
-    describe '#admin?' do
-      context 'for an admin' do
-        it 'returns true' do
-          expect(admin.admin?).to be(true)
-        end
-      end
-
-      context 'for a advocate' do
-        it 'returns false' do
-          expect(advocate.admin?).to be(false)
-        end
+        it { is_expected.to be_truthy }
       end
     end
   end
+
+  describe '#advocate?' do
+    subject { user.advocate? }
+
+    context 'with an advocate user' do
+      let(:user) { create(:external_user, :advocate) }
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'with an admin user' do
+      let(:user) { create(:external_user, :admin) }
+
+      it { is_expected.to be_falsey }
+    end
+  end
+
+  describe '#admin?' do
+    subject { user.admin? }
+
+    context 'with an advocate user' do
+      let(:user) { create(:external_user, :advocate) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with an admin user' do
+      let(:user) { create(:external_user, :admin) }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+  # End of methods from Roles module
 
   describe '#available_claim_types' do
     subject { user.available_claim_types.map(&:to_s) }

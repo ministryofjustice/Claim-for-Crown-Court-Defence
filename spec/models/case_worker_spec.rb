@@ -34,7 +34,7 @@ RSpec.describe CaseWorker do
 
   describe 'ROLES' do
     it 'has "admin", "case_worker" and "provider_management"' do
-      expect(CaseWorker::ROLES).to match_array(%w(admin case_worker provider_management))
+      expect(CaseWorker::ROLES).to match_array(%w[admin case_worker provider_management])
     end
   end
 

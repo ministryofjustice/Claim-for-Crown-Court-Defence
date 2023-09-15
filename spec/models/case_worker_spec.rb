@@ -17,20 +17,20 @@ RSpec.describe CaseWorker do
   include DatabaseHousekeeping
   it_behaves_like 'roles', described_class, described_class::ROLES
 
-  it { should belong_to(:location) }
-  it { should have_one(:user) }
-  it { should have_many(:case_worker_claims) }
-  it { should have_many(:claims) }
+  it { is_expected.to belong_to(:location) }
+  it { is_expected.to have_one(:user) }
+  it { is_expected.to have_many(:case_worker_claims) }
+  it { is_expected.to have_many(:claims) }
 
-  it { should delegate_method(:email).to(:user) }
-  it { should delegate_method(:first_name).to(:user) }
-  it { should delegate_method(:last_name).to(:user) }
-  it { should delegate_method(:name).to(:user) }
+  it { is_expected.to delegate_method(:email).to(:user) }
+  it { is_expected.to delegate_method(:first_name).to(:user) }
+  it { is_expected.to delegate_method(:last_name).to(:user) }
+  it { is_expected.to delegate_method(:name).to(:user) }
 
-  it { should accept_nested_attributes_for(:user) }
+  it { is_expected.to accept_nested_attributes_for(:user) }
 
-  it { should validate_presence_of(:location).with_message('Location cannot be blank') }
-  it { should validate_presence_of(:user).with_message('User cannot be blank') }
+  it { is_expected.to validate_presence_of(:location).with_message('Location cannot be blank') }
+  it { is_expected.to validate_presence_of(:user).with_message('User cannot be blank') }
 
   describe 'ROLES' do
     it 'has "admin", "case_worker" and "provider_management"' do

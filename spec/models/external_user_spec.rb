@@ -17,7 +17,7 @@ require 'rails_helper'
 require 'support/shared_examples_for_claim_types'
 
 RSpec.describe ExternalUser do
-  it_behaves_like 'roles', ExternalUser, ExternalUser::ROLES
+  it_behaves_like 'roles', described_class, described_class::ROLES
 
   it { is_expected.to belong_to(:provider) }
   it { is_expected.to have_many(:claims) }
@@ -492,12 +492,4 @@ RSpec.describe ExternalUser do
       end
     end
   end
-end
-
-def create_admin(provider, first_name, last_name)
-  create(:external_user, :admin, provider:, user: create(:user, first_name:, last_name:))
-end
-
-def create_external_user(provider, first_name, last_name)
-  create(:external_user, provider:, user: create(:user, first_name:, last_name:))
 end

@@ -39,9 +39,9 @@ RSpec.describe ExternalUser do
 
   it_behaves_like 'a disablable delegator', :user
 
-  context 'supplier number validation' do
+  describe 'supplier number validation' do
     context 'when no Provider present' do
-      context 'for advocate' do
+      context 'with an advocate' do
         before { subject.roles = ['advocate'] }
 
         it 'is valid' do
@@ -50,7 +50,7 @@ RSpec.describe ExternalUser do
         end
       end
 
-      context 'for admin' do
+      context 'with an admin' do
         before { subject.roles = ['admin'] }
 
         it 'is valid' do
@@ -69,7 +69,7 @@ RSpec.describe ExternalUser do
 
       it { is_expected.not_to validate_presence_of(:supplier_number) }
 
-      context 'for advocate' do
+      context 'with an advocate' do
         before { subject.roles = ['advocate'] }
 
         it 'is valid without a supplier number' do
@@ -78,7 +78,7 @@ RSpec.describe ExternalUser do
         end
       end
 
-      context 'for admin' do
+      context 'with an admin' do
         before { subject.roles = ['admin'] }
 
         it { is_expected.not_to validate_presence_of(:supplier_number) }
@@ -97,7 +97,7 @@ RSpec.describe ExternalUser do
         subject.provider = provider
       end
 
-      context 'for advocate' do
+      context 'with an advocate' do
         before { subject.roles = ['advocate'] }
 
         let(:format_error) { ['Enter a valid supplier number'] }
@@ -133,7 +133,7 @@ RSpec.describe ExternalUser do
         end
       end
 
-      context 'for admin' do
+      context 'with an admin' do
         before { subject.roles = ['admin'] }
 
         it { is_expected.not_to validate_presence_of(:supplier_number) }
@@ -273,19 +273,19 @@ RSpec.describe ExternalUser do
 
     include_context 'claim-types object helpers'
 
-    context 'for users with only an advocate role' do
+    context 'when the user has only an advocate role' do
       let(:user) { build(:external_user, :advocate) }
 
       it { is_expected.to match_array(agfs_claim_object_types) }
     end
 
-    context 'for users with only a litigator role' do
+    context 'when the user has only a litigator role' do
       let(:user) { build(:external_user, :litigator) }
 
       it { is_expected.to match_array(lgfs_claim_object_types) }
     end
 
-    context 'for users with an admin role' do
+    context 'when the user has an admin role' do
       let(:user) { build(:external_user, :admin, provider: build(:provider, :agfs)) }
 
       # TODO: i believe this is flawed as an admin should delegate available claim types to the provider)
@@ -293,7 +293,7 @@ RSpec.describe ExternalUser do
       it { is_expected.to match_array(all_claim_object_types) }
     end
 
-    context 'for users with both an advocate and litigator role in provider with both agfs and lgfs role' do
+    context 'when the user has both advocate and litigator file in provider with both agfs and lgfs role' do
       let(:user) { build(:external_user, :advocate_litigator) }
 
       it { is_expected.to match_array(all_claim_object_types) }

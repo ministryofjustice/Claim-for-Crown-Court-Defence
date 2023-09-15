@@ -38,63 +38,44 @@ RSpec.describe CaseWorker do
     end
   end
 
-  context 'soft deletion scopes' do
-    before(:all) do
-      @location_1 = create(:location)
-      @location_2 = create(:location)
-      @live_cw1 = create(:case_worker, location: @location_1)
-      @live_cw2 = create(:case_worker, location: @location_2)
-      @dead_cw1 = create(:case_worker, :softly_deleted, location: @location_1)
-      @dead_cw2 = create(:case_worker, :softly_deleted, location: @location_2)
+  context 'with live and softly deleted users' do
+    let(:first_location) { create(:location) }
+    let(:second_location) { create(:location) }
+    let!(:live_users) do
+      [
+        create(:case_worker, location: first_location),
+        create(:case_worker, location: second_location)
+      ]
+    end
+    let!(:dead_users) do
+      [
+        create(:case_worker, :softly_deleted, location: first_location),
+        create(:case_worker, :softly_deleted, location: second_location)
+      ]
     end
 
-    after(:all) { clean_database }
+    context 'with the active scope' do
+      subject(:records) { described_class.active }
 
-    describe 'active scope' do
-      it 'only returns undeleted records' do
-        expect(CaseWorker.active.order(:id)).to eq([@live_cw1, @live_cw2])
-      end
-
-      it 'returns ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
-        expect {
-          CaseWorker.active.find(@dead_cw1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find CaseWorker with 'id'=#{@dead_cw1.id} [WHERE "case_workers"."deleted_at" IS NULL]}
-      end
-
-      it 'returns an empty array if the selection criteria only reference deleted records' do
-        expect(CaseWorker.active.where(id: [@dead_cw1.id, @dead_cw2.id])).to be_empty
-      end
+      it { is_expected.to match_array(live_users) }
+      it { expect { records.find(dead_users.first.id) }.to raise_error ActiveRecord::RecordNotFound }
+      it { expect(records.where(id: dead_users.map(&:id))).to be_empty }
     end
 
-    describe 'deleted scope' do
-      it 'returns only deleted records' do
-        expect(CaseWorker.softly_deleted.order(:id)).to eq([@dead_cw1, @dead_cw2])
-      end
+    context 'with the softly deleted scope' do
+      subject(:records) { described_class.softly_deleted }
 
-      it 'returns ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
-        expect(CaseWorker.find(@live_cw1.id)).to eq(@live_cw1)
-        expect {
-          CaseWorker.softly_deleted.find(@live_cw1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find CaseWorker with 'id'=#{@live_cw1.id}/
-      end
-
-      it 'returns an empty array if the selection criteria only reference live records' do
-        expect(CaseWorker.softly_deleted.where(id: [@live_cw1.id, @live_cw2.id])).to be_empty
-      end
+      it { is_expected.to match_array(dead_users) }
+      it { expect { records.find(live_users.first.id) }.to raise_error ActiveRecord::RecordNotFound }
+      it { expect(records.where(id: live_users.map(&:id))).to be_empty }
     end
 
-    describe 'default scope' do
-      it 'returns deleted and undeleted records' do
-        expect(CaseWorker.order(:id)).to eq([@live_cw1, @live_cw2, @dead_cw1, @dead_cw2])
-      end
+    context 'with the default scope' do
+      subject(:records) { described_class.all }
 
-      it 'returns the record if find by id relates to a deleted record' do
-        expect(CaseWorker.find(@dead_cw1.id)).to eq @dead_cw1
-      end
-
-      it 'returns the deleted records if the selection criteria reference only deleted records' do
-        expect(CaseWorker.where(id: [@dead_cw1.id, @dead_cw2.id]).order(:id)).to eq([@dead_cw1, @dead_cw2])
-      end
+      it { is_expected.to match_array(live_users + dead_users) }
+      it { expect(records.find(dead_users.first.id)).to eq dead_users.first }
+      it { expect(records.where(id: dead_users.map(&:id))).to match_array(dead_users) }
     end
   end
 

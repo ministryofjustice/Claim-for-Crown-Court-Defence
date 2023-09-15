@@ -14,6 +14,9 @@ module Stats
         lgfs_management_information:
           { class: ManagementInformationGenerator,
             default_args: { scheme: :lgfs } },
+        fee_scheme_usage:
+          { class: FeeSchemeUsageGenerator,
+            default_args: {} },
         management_information_v2:
           { class: Stats::ManagementInformation::DailyReportGenerator,
             default_args: {} },

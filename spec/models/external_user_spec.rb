@@ -405,22 +405,20 @@ RSpec.describe ExternalUser do
     end
   end
 
-  describe 'supplier_number' do
-    context 'supplier number present' do
+  describe '#supplier_number' do
+    subject { external_user.supplier_number }
+
+    context 'with a supplier number' do
       let(:external_user) { create(:external_user, :advocate, supplier_number: 'ZZ114') }
 
-      it 'returns the supplier number from the external user record' do
-        expect(external_user.supplier_number).to eq 'ZZ114'
-      end
+      it { is_expected.to eq 'ZZ114' }
     end
 
-    context 'supplier number not present but provider is a firm' do
+    context 'when the supplier number set in the provider' do
       let(:provider) { create(:provider, :agfs_lgfs, firm_agfs_supplier_number: '999XX') }
       let(:external_user) { create(:external_user, :advocate, supplier_number: nil, provider:) }
 
-      it 'returns the firm_agfs_supplier_number from the provider' do
-        expect(external_user.supplier_number).to eq '999XX'
-      end
+      it { is_expected.to eq '999XX' }
     end
   end
 

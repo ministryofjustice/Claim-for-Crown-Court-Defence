@@ -2121,7 +2121,6 @@ Style/DocumentDynamicEvalDefinition:
 Style/EmptyLiteral:
   Exclude:
     - 'spec/lib/caching/response_spec.rb'
-    - 'spec/models/external_user_spec.rb'
 
 # Offense count: 2
 # This cop supports safe autocorrection (--autocorrect).

@@ -383,14 +383,13 @@ RSpec.describe ExternalUser do
     end
   end
 
-  describe 'soft_delete' do
-    it 'sets deleted at on the caseworker and user records' do
-      eu = create(:external_user)
-      user = eu.user
-      eu.soft_delete
-      expect(eu.reload.deleted_at).not_to be_nil
-      expect(user.reload.deleted_at).not_to be_nil
-    end
+  describe '#soft_delete' do
+    subject(:soft_delete) { external_user.soft_delete }
+
+    let(:external_user) { create(:external_user) }
+
+    it { expect { soft_delete }.to change(external_user, :deleted_at).from(nil) }
+    it { expect { soft_delete }.to change(external_user.user, :deleted_at).from(nil) }
   end
 
   describe '#active?' do

@@ -98,14 +98,13 @@ RSpec.describe CaseWorker do
     end
   end
 
-  describe 'soft_delete' do
-    it 'sets deleted at on the caseworker and user records' do
-      cw = create(:case_worker)
-      user = cw.user
-      cw.soft_delete
-      expect(cw.reload.deleted_at).not_to be_nil
-      expect(user.reload.deleted_at).not_to be_nil
-    end
+  describe '#soft_delete' do
+    subject(:soft_delete) { case_worker.soft_delete }
+
+    let(:case_worker) { create(:case_worker) }
+
+    it { expect { soft_delete }.to change(case_worker, :deleted_at).from(nil) }
+    it { expect { soft_delete }.to change(case_worker.user, :deleted_at).from(nil) }
   end
 
   describe '#active?' do

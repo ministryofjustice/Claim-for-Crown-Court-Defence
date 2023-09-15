@@ -305,35 +305,22 @@ RSpec.describe ExternalUser do
 
     let(:user) { create(:external_user, :advocate, provider:) }
 
-    # NOTE: there is provider cannot be blank validation - pointless test?
-    context 'when the user does not belong to a provider' do
-      let(:provider) { build(:provider) }
+    context "when the user's provider handles both AGFS and LGFS claims" do
+      let(:provider) { build(:provider, :agfs_lgfs) }
 
-      before { user.provider = nil }
-
-      it 'returns admin' do
-        is_expected.to match_array %w[admin]
-      end
+      it { is_expected.to match_array %w[admin advocate litigator] }
     end
 
-    context 'when the user belongs to a provider that' do
-      context 'handles both AGFS and LGFS claims' do
-        let(:provider) { build(:provider, :agfs_lgfs) }
+    context "when the user's provider handles only AGFS claims" do
+      let(:provider) { build(:provider, :agfs) }
 
-        it { is_expected.to match_array %w[admin advocate litigator] }
-      end
+      it { is_expected.to match_array %w[admin advocate] }
+    end
 
-      context 'handles only AGFS claims' do
-        let(:provider) { build(:provider, :agfs) }
+    context "when the user's provider handles only LGFS claims" do
+      let(:provider) { build(:provider, :lgfs) }
 
-        it { is_expected.to match_array %w[admin advocate] }
-      end
-
-      context 'handles only LGFS claims' do
-        let(:provider) { build(:provider, :lgfs) }
-
-        it { is_expected.to match_array %w[admin litigator] }
-      end
+      it { is_expected.to match_array %w[admin litigator] }
     end
 
     context 'when an invalid role supplied' do

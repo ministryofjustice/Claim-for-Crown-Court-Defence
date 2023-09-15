@@ -354,61 +354,32 @@ RSpec.describe ExternalUser do
     end
   end
 
-  context 'soft deletions' do
-    before(:all) do
-      @live_user_1 = create(:external_user)
-      @live_user_2 = create(:external_user)
-      @dead_user_1 = create(:external_user, :softly_deleted)
-      @dead_user_2 = create(:external_user, :softly_deleted)
+  context 'with live and softly deleted users' do
+    let!(:live_users) { create_list(:external_user, 2) }
+    let!(:dead_users) { create_list(:external_user, 2, :softly_deleted) }
+
+    context 'with the active scope' do
+      subject(:records) { described_class.active }
+
+      it { is_expected.to match_array(live_users) }
+      it { expect { records.find(dead_users.first.id) }.to raise_error ActiveRecord::RecordNotFound }
+      it { expect(records.where(id: dead_users.map(&:id))).to be_empty }
     end
 
-    after(:all) { clean_database }
+    context 'with the softly deleted scope' do
+      subject(:records) { described_class.softly_deleted }
 
-    describe 'active scope' do
-      it 'only returns undeleted records' do
-        expect(ExternalUser.active.order(:id)).to eq([@live_user_1, @live_user_2])
-      end
-
-      it 'returns ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
-        expect {
-          ExternalUser.active.find(@dead_user_1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find ExternalUser with 'id'=#{@dead_user_1.id} [WHERE "external_users"."deleted_at" IS NULL]}
-      end
-
-      it 'returns an empty array if the selection criteria only reference deleted records' do
-        expect(ExternalUser.active.where(id: [@dead_user_1.id, @dead_user_2.id])).to be_empty
-      end
+      it { is_expected.to match_array(dead_users) }
+      it { expect { records.find(live_users.first.id) }.to raise_error ActiveRecord::RecordNotFound }
+      it { expect(records.where(id: live_users.map(&:id))).to be_empty }
     end
 
-    describe 'deleted scope' do
-      it 'returns only deleted records' do
-        expect(ExternalUser.softly_deleted.order(:id)).to eq([@dead_user_1, @dead_user_2])
-      end
+    describe 'with the default scope' do
+      subject(:records) { described_class.all }
 
-      it 'returns ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
-        expect(ExternalUser.find(@live_user_1.id)).to eq(@live_user_1)
-        expect {
-          ExternalUser.softly_deleted.find(@live_user_1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find ExternalUser with 'id'=#{@live_user_1.id}/
-      end
-
-      it 'returns an empty array if the selection criteria only reference live records' do
-        expect(User.softly_deleted.where(id: [@live_user_1.id, @live_user_2.id])).to be_empty
-      end
-    end
-
-    describe 'default scope' do
-      it 'returns deleted and undeleted records' do
-        expect(ExternalUser.order(:id)).to eq([@live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
-      end
-
-      it 'returns the record if find by id relates to a deleted record' do
-        expect(ExternalUser.find(@dead_user_1.id)).to eq @dead_user_1
-      end
-
-      it 'returns the deleted records if the selection criteria reference only deleted records' do
-        expect(ExternalUser.where(id: [@dead_user_1.id, @dead_user_2.id]).order(:id)).to eq([@dead_user_1, @dead_user_2])
-      end
+      it { is_expected.to match_array((live_users + dead_users)) }
+      it { expect(records.find(dead_users.first.id)).to eq dead_users.first }
+      it { expect(records.where(id: dead_users.map(&:id))).to match_array(dead_users) }
     end
   end
 

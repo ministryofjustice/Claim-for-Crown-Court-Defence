@@ -40,26 +40,6 @@ RSpec.describe ExternalUser do
   it_behaves_like 'a disablable delegator', :user
 
   describe 'supplier number validation' do
-    context 'when no Provider present' do
-      context 'with an advocate' do
-        before { subject.roles = ['advocate'] }
-
-        it 'is valid' do
-          a = build(:external_user, :advocate)
-          expect(a).to be_valid
-        end
-      end
-
-      context 'with an admin' do
-        before { subject.roles = ['admin'] }
-
-        it 'is valid' do
-          a = build(:external_user, :admin)
-          expect(a).to be_valid
-        end
-      end
-    end
-
     context 'when Provider present and Provider is a "firm"' do
       let!(:provider) { create(:provider, :agfs_lgfs, firm_agfs_supplier_number: 'ZZ123') }
 

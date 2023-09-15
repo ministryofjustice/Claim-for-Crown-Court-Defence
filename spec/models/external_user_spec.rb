@@ -40,17 +40,20 @@ RSpec.describe ExternalUser do
   it_behaves_like 'a disablable delegator', :user
 
   describe 'supplier number validation' do
+    subject(:external_user) { build(:external_user, provider:, supplier_number:) }
+
     context 'when Provider present and Provider is a "firm"' do
       let!(:provider) { create(:provider, :agfs_lgfs, firm_agfs_supplier_number: 'ZZ123') }
+      let(:supplier_number) { nil }
 
       before do
-        subject.provider = provider
+        external_user.provider = provider
       end
 
       it { is_expected.not_to validate_presence_of(:supplier_number) }
 
       context 'with an advocate' do
-        before { subject.roles = ['advocate'] }
+        before { external_user.roles = ['advocate'] }
 
         it 'is valid without a supplier number' do
           a = build(:external_user, :advocate, provider:, supplier_number: nil)
@@ -59,7 +62,7 @@ RSpec.describe ExternalUser do
       end
 
       context 'with an admin' do
-        before { subject.roles = ['admin'] }
+        before { external_user.roles = ['admin'] }
 
         it { is_expected.not_to validate_presence_of(:supplier_number) }
 
@@ -71,56 +74,65 @@ RSpec.describe ExternalUser do
     end
 
     context 'when provider present and Provider is a "chamber"' do
+      subject(:external_user) { build(:external_user, provider:, supplier_number:) }
+
+      let(:supplier_number) { 'AC123' }
       let(:provider) { create(:provider, provider_type: 'chamber', firm_agfs_supplier_number: '') }
 
-      before do
-        subject.provider = provider
-      end
-
       context 'with an advocate' do
-        before { subject.roles = ['advocate'] }
+        subject(:external_user) { build(:external_user, provider:, supplier_number:) }
+
+        before do
+          external_user.roles = ['advocate']
+          external_user.valid?
+        end
 
         let(:format_error) { ['Enter a valid supplier number'] }
 
         it { is_expected.to validate_presence_of(:supplier_number) }
 
-        it 'is not valid without a supplier number' do
-          a = build(:external_user, provider:, supplier_number: nil)
-          expect(a).not_to be_valid
+        context 'when the supplier number is blank' do
+          let(:supplier_number) { nil }
+
+          it { is_expected.not_to be_valid }
+          it { expect(external_user.errors[:supplier_number]).to eq(['Enter a supplier number']) }
         end
 
-        it 'fails validation if too long' do
-          a = build(:external_user, supplier_number: 'ACC123', provider:)
-          expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq(format_error)
+        context 'when the supplier number is too long' do
+          let(:supplier_number) { 'ACC123' }
+
+          it { is_expected.not_to be_valid }
+          it { expect(external_user.errors[:supplier_number]).to eq(format_error) }
         end
 
-        it 'fails validation if too short' do
-          a = build(:external_user, supplier_number: 'AC12', provider:)
-          expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq(format_error)
+        context 'when the supplier number is too short' do
+          let(:supplier_number) { 'AC1' }
+
+          it { is_expected.not_to be_valid }
+          it { expect(external_user.errors[:supplier_number]).to eq(format_error) }
         end
 
-        it 'fails validation if not alpha-numeric' do
-          a = build(:external_user, supplier_number: 'AC-12', provider:)
-          expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq(format_error)
+        context 'when the supplier number is not alpha-numeric' do
+          let(:supplier_number) { 'AC-12' }
+
+          it { is_expected.not_to be_valid }
+          it { expect(external_user.errors[:supplier_number]).to eq(format_error) }
         end
 
-        it 'passes validation if 5 alpha-numeric' do
-          a = build(:external_user, supplier_number: 'AC123', provider:)
-          expect(a).to be_valid
+        context 'when the supplier number is 5 characters alpha-numeric' do
+          it { is_expected.to be_valid }
         end
       end
 
       context 'with an admin' do
-        before { subject.roles = ['admin'] }
+        before { external_user.roles = ['admin'] }
 
         it { is_expected.not_to validate_presence_of(:supplier_number) }
 
-        it 'is valid without a supplier number' do
-          a = build(:external_user, :admin, provider:, supplier_number: nil)
-          expect(a).to be_valid
+        context 'when the supplier number is blank' do
+          let(:supplier_number) { nil }
+
+          it { is_expected.to be_valid }
         end
       end
     end

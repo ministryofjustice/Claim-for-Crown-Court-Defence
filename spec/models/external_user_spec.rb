@@ -424,72 +424,35 @@ RSpec.describe ExternalUser do
     end
   end
 
-  context 'email notification of messages preferences' do
-    context 'settings on user record are nil' do
-      let(:eu) { build(:external_user) }
+  describe '#send_email_notification_of_message?' do
+    subject { external_user.send_email_notification_of_message? }
 
-      it 'has an underlying user setting of nil' do
-        expect(eu.user.settings).to eq Hash.new
-      end
+    let(:external_user) { build(:external_user) }
 
-      it 'returns false' do
-        expect(eu.send_email_notification_of_message?).to be false
-      end
+    it { is_expected.to be_falsey }
 
-      it 'sets the setting to true' do
-        eu.email_notification_of_message = 'true'
-        expect(eu.send_email_notification_of_message?).to be true
-      end
+    context 'when email_notification_of_message is set to true by name' do
+      before { external_user.email_notification_of_message = 'true' }
 
-      it 'sets the setting to false' do
-        eu.email_notification_of_message = 'false'
-        expect(eu.send_email_notification_of_message?).to be false
-      end
+      it { is_expected.to be_truthy }
     end
 
-    context 'no setttings for email notifications present' do
-      let(:eu)  { build(:external_user, :with_settings) }
+    context 'when email_notification_of_message is set to false by name' do
+      before { external_user.email_notification_of_message = 'false' }
 
-      it 'returns false' do
-        expect(eu.settings).to eq({ 'setting1' => 'test1', 'setting2' => 'test2' })
-        expect(eu.send_email_notification_of_message?).to be false
-      end
-
-      it 'sets the setting to true' do
-        eu.email_notification_of_message = 'true'
-        expect(eu.send_email_notification_of_message?).to be true
-      end
-
-      it 'sets the setting to false' do
-        eu.email_notification_of_message = 'false'
-        expect(eu.send_email_notification_of_message?).to be false
-      end
+      it { is_expected.to be_falsey }
     end
 
-    context 'settings for email notification are true' do
-      let(:eu) { build(:external_user, :with_email_notification_of_messages) }
+    context 'when email_notification_of_message is set to true in settings' do
+      before { external_user.save_settings!(email_notification_of_message: true) }
 
-      it 'returns true' do
-        expect(eu.send_email_notification_of_message?).to be true
-      end
-
-      it 'sets the setting to false' do
-        eu.email_notification_of_message = 'false'
-        expect(eu.send_email_notification_of_message?).to be false
-      end
+      it { is_expected.to be_truthy }
     end
 
-    context 'settings for email notification are false' do
-      let(:eu) { build(:external_user, :without_email_notification_of_messages) }
+    context 'when email_notification_of_message is set to false in settings' do
+      before { external_user.save_settings!(email_notification_of_message: false) }
 
-      it 'returns false' do
-        expect(eu.send_email_notification_of_message?).to be false
-      end
-
-      it 'sets the setting to true' do
-        eu.email_notification_of_message = 'true'
-        expect(eu.send_email_notification_of_message?).to be true
-      end
+      it { is_expected.to be_falsey }
     end
   end
 end

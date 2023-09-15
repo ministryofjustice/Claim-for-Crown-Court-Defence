@@ -127,56 +127,75 @@ RSpec.describe ExternalUser do
   end
 
   describe '#name' do
-    subject { create(:external_user) }
+    subject(:name) { external_user.name }
 
-    it 'returns the first and last names' do
-      expect(subject.name).to eq("#{subject.first_name} #{subject.last_name}")
-    end
+    let(:external_user) { create(:external_user, user:) }
+    let(:user) { create(:user, first_name: 'Tom', last_name: 'Cobley') }
+
+    it { is_expected.to eq 'Tom Cobley' }
   end
 
   describe 'ROLES' do
     it 'has "admin" and "advocate" and "litigator"' do
-      expect(ExternalUser::ROLES).to match_array(%w(admin advocate litigator))
+      expect(ExternalUser::ROLES).to match_array(%w[admin advocate litigator])
     end
   end
 
+  # Scopes from Roles module
   describe '.admins' do
-    before do
-      create(:external_user, :admin)
-      create(:external_user, :advocate)
+    subject { described_class.admins }
+
+    context 'with an admin user' do
+      let!(:external_user) { create(:external_user, :admin) }
+
+      it { is_expected.to eq [external_user] }
     end
 
-    it 'only returns external_users with role "admin"' do
-      expect(ExternalUser.admins.count).to eq(1)
+    context 'with an advocate user' do
+      before { create(:external_user, :advocate) }
+
+      it { is_expected.to be_empty }
     end
 
-    it 'returns external_users with role "admin" and "advocate"' do
-      e = ExternalUser.first
-      e.roles = ['admin', 'advocate']
-      e.supplier_number = 'ZA111'
-      e.save!
-      expect(ExternalUser.admins.count).to eq(1)
+    context 'with a user that is both admin and advocate' do
+      let!(:external_user) { create(:external_user, :advocate) }
+
+      before do
+        external_user.roles = %w[admin advocate]
+        external_user.save!
+      end
+
+      it { is_expected.to eq [external_user] }
     end
   end
 
   describe '.advocates' do
-    before do
-      create(:external_user, :admin)
-      create(:external_user, :admin)
-      create(:external_user)
+    subject { described_class.advocates }
+
+    context 'with an admin user' do
+      before { create(:external_user, :admin) }
+
+      it { is_expected.to be_empty }
     end
 
-    it 'only returns external_users with role "advocate"' do
-      expect(ExternalUser.advocates.count).to eq(1)
+    context 'with an advocate user' do
+      let!(:external_user) { create(:external_user, :advocate) }
+
+      it { is_expected.to eq [external_user] }
     end
 
-    it 'returns external_users with role "admin" and "advocate"' do
-      e = ExternalUser.last
-      e.roles = ['admin', 'advocate']
-      e.save!
-      expect(ExternalUser.advocates.count).to eq(1)
+    context 'with a user that is both admin and advocate' do
+      let!(:external_user) { create(:external_user, :advocate) }
+
+      before do
+        external_user.roles = %w[admin advocate]
+        external_user.save!
+      end
+
+      it { is_expected.to eq [external_user] }
     end
   end
+  # End of scopes from Roles module
 
   # Methods from Roles module
   describe '#is?' do

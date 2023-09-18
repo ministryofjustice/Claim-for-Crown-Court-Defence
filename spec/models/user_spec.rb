@@ -175,67 +175,17 @@ RSpec.describe User do
     end
   end
 
-  context 'soft deletions' do
-    before(:all) do
-      @live_user_1 = create(:user, email: 'john.smith@example.com')
-      @live_user_2 = create(:user)
-      @dead_user_1 = create(:user, :softly_deleted)
-      @dead_user_2 = create(:user, :softly_deleted)
-    end
+  it_behaves_like 'user model with default, active and softly deleted scopes' do
+    let(:live_users) { create_list(:user, 2) }
+    let(:dead_users) { create_list(:user, 2, :softly_deleted) }
+  end
 
-    after(:all) { clean_database }
+  describe '#soft_delete' do
+    subject(:soft_delete) { user.soft_delete }
 
-    describe 'active scope' do
-      it 'only returns undeleted records' do
-        expect(User.active.order(:id)).to eq([@live_user_1, @live_user_2])
-      end
+    let(:user) { create(:user, id: 999, email: 'john.smith@example.com') }
 
-      it 'returns ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
-        expect {
-          User.active.find(@dead_user_1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find User with 'id'=#{@dead_user_1.id} [WHERE "users"."deleted_at" IS NULL]}
-      end
-
-      it 'returns an empty array if the selection criteria only reference deleted records' do
-        expect(User.active.where(id: [@dead_user_1.id, @dead_user_2.id])).to be_empty
-      end
-    end
-
-    describe 'deleted scope' do
-      it 'changes the email of deleted records' do
-        @live_user_1.soft_delete
-        expect(@live_user_1.reload.email).to eq "john.smith@example.com.deleted.#{@live_user_1.id}"
-      end
-
-      it 'returns only deleted records' do
-        expect(User.softly_deleted.order(:id)).to eq([@dead_user_1, @dead_user_2])
-      end
-
-      it 'returns ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
-        expect(User.find(@live_user_1.id)).to eq(@live_user_1)
-        expect {
-          User.softly_deleted.find(@live_user_1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find User with 'id'=#{@live_user_1.id}/
-      end
-
-      it 'returns an empty array if the selection criteria only reference live records' do
-        expect(User.softly_deleted.where(id: [@live_user_1.id, @live_user_2.id])).to be_empty
-      end
-    end
-
-    describe 'default scope' do
-      it 'returns deleted and undeleted records' do
-        expect(User.order(:id)).to eq([@live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
-      end
-
-      it 'returns the record if find by id relates to a deleted record' do
-        expect(User.find(@dead_user_1.id)).to eq @dead_user_1
-      end
-
-      it 'returns the deleted records if the selection criteria reference only deleted records' do
-        expect(User.where(id: [@dead_user_1.id, @dead_user_2.id]).order(:id)).to eq([@dead_user_1, @dead_user_2])
-      end
-    end
+    it { expect { soft_delete }.to change(user, :email).from('john.smith@example.com').to('john.smith@example.com.deleted.999') }
   end
 
   describe '#email_with_name' do

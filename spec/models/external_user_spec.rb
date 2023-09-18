@@ -15,9 +15,10 @@
 
 require 'rails_helper'
 require 'support/shared_examples_for_claim_types'
+require 'support/shared_examples_for_users'
 
 RSpec.describe ExternalUser do
-  it_behaves_like 'roles', ExternalUser, ExternalUser::ROLES
+  it_behaves_like 'roles', described_class, described_class::ROLES
 
   it { is_expected.to belong_to(:provider) }
   it { is_expected.to have_many(:claims) }
@@ -39,38 +40,21 @@ RSpec.describe ExternalUser do
 
   it_behaves_like 'a disablable delegator', :user
 
-  context 'supplier number validation' do
-    context 'when no Provider present' do
-      context 'for advocate' do
-        before { subject.roles = ['advocate'] }
-
-        it 'is valid' do
-          a = build(:external_user, :advocate)
-          expect(a).to be_valid
-        end
-      end
-
-      context 'for admin' do
-        before { subject.roles = ['admin'] }
-
-        it 'is valid' do
-          a = build(:external_user, :admin)
-          expect(a).to be_valid
-        end
-      end
-    end
+  describe 'supplier number validation' do
+    subject(:external_user) { build(:external_user, provider:, supplier_number:) }
 
     context 'when Provider present and Provider is a "firm"' do
       let!(:provider) { create(:provider, :agfs_lgfs, firm_agfs_supplier_number: 'ZZ123') }
+      let(:supplier_number) { nil }
 
       before do
-        subject.provider = provider
+        external_user.provider = provider
       end
 
       it { is_expected.not_to validate_presence_of(:supplier_number) }
 
-      context 'for advocate' do
-        before { subject.roles = ['advocate'] }
+      context 'with an advocate' do
+        before { external_user.roles = ['advocate'] }
 
         it 'is valid without a supplier number' do
           a = build(:external_user, :advocate, provider:, supplier_number: nil)
@@ -78,8 +62,8 @@ RSpec.describe ExternalUser do
         end
       end
 
-      context 'for admin' do
-        before { subject.roles = ['admin'] }
+      context 'with an admin' do
+        before { external_user.roles = ['admin'] }
 
         it { is_expected.not_to validate_presence_of(:supplier_number) }
 
@@ -91,194 +75,229 @@ RSpec.describe ExternalUser do
     end
 
     context 'when provider present and Provider is a "chamber"' do
+      subject(:external_user) { build(:external_user, provider:, supplier_number:) }
+
+      let(:supplier_number) { 'AC123' }
       let(:provider) { create(:provider, provider_type: 'chamber', firm_agfs_supplier_number: '') }
 
-      before do
-        subject.provider = provider
-      end
+      context 'with an advocate' do
+        subject(:external_user) { build(:external_user, provider:, supplier_number:) }
 
-      context 'for advocate' do
-        before { subject.roles = ['advocate'] }
+        before do
+          external_user.roles = ['advocate']
+          external_user.valid?
+        end
 
         let(:format_error) { ['Enter a valid supplier number'] }
 
         it { is_expected.to validate_presence_of(:supplier_number) }
 
-        it 'is not valid without a supplier number' do
-          a = build(:external_user, provider:, supplier_number: nil)
-          expect(a).not_to be_valid
+        context 'when the supplier number is blank' do
+          let(:supplier_number) { nil }
+
+          it { is_expected.not_to be_valid }
+          it { expect(external_user.errors[:supplier_number]).to eq(['Enter a supplier number']) }
         end
 
-        it 'fails validation if too long' do
-          a = build(:external_user, supplier_number: 'ACC123', provider:)
-          expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq(format_error)
+        context 'when the supplier number is too long' do
+          let(:supplier_number) { 'ACC123' }
+
+          it { is_expected.not_to be_valid }
+          it { expect(external_user.errors[:supplier_number]).to eq(format_error) }
         end
 
-        it 'fails validation if too short' do
-          a = build(:external_user, supplier_number: 'AC12', provider:)
-          expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq(format_error)
+        context 'when the supplier number is too short' do
+          let(:supplier_number) { 'AC1' }
+
+          it { is_expected.not_to be_valid }
+          it { expect(external_user.errors[:supplier_number]).to eq(format_error) }
         end
 
-        it 'fails validation if not alpha-numeric' do
-          a = build(:external_user, supplier_number: 'AC-12', provider:)
-          expect(a).not_to be_valid
-          expect(a.errors[:supplier_number]).to eq(format_error)
+        context 'when the supplier number is not alpha-numeric' do
+          let(:supplier_number) { 'AC-12' }
+
+          it { is_expected.not_to be_valid }
+          it { expect(external_user.errors[:supplier_number]).to eq(format_error) }
         end
 
-        it 'passes validation if 5 alpha-numeric' do
-          a = build(:external_user, supplier_number: 'AC123', provider:)
-          expect(a).to be_valid
+        context 'when the supplier number is 5 characters alpha-numeric' do
+          it { is_expected.to be_valid }
         end
       end
 
-      context 'for admin' do
-        before { subject.roles = ['admin'] }
+      context 'with an admin' do
+        before { external_user.roles = ['admin'] }
 
         it { is_expected.not_to validate_presence_of(:supplier_number) }
 
-        it 'is valid without a supplier number' do
-          a = build(:external_user, :admin, provider:, supplier_number: nil)
-          expect(a).to be_valid
+        context 'when the supplier number is blank' do
+          let(:supplier_number) { nil }
+
+          it { is_expected.to be_valid }
         end
       end
     end
   end
 
   describe '#name' do
-    subject { create(:external_user) }
+    subject(:name) { external_user.name }
 
-    it 'returns the first and last names' do
-      expect(subject.name).to eq("#{subject.first_name} #{subject.last_name}")
-    end
+    let(:external_user) { create(:external_user, user:) }
+    let(:user) { create(:user, first_name: 'Tom', last_name: 'Cobley') }
+
+    it { is_expected.to eq 'Tom Cobley' }
   end
 
   describe 'ROLES' do
     it 'has "admin" and "advocate" and "litigator"' do
-      expect(ExternalUser::ROLES).to match_array(%w(admin advocate litigator))
+      expect(ExternalUser::ROLES).to match_array(%w[admin advocate litigator])
     end
   end
 
+  # Scopes from Roles module
   describe '.admins' do
-    before do
-      create(:external_user, :admin)
-      create(:external_user, :advocate)
+    subject { described_class.admins }
+
+    context 'with an admin user' do
+      let!(:external_user) { create(:external_user, :admin) }
+
+      it { is_expected.to eq [external_user] }
     end
 
-    it 'only returns external_users with role "admin"' do
-      expect(ExternalUser.admins.count).to eq(1)
+    context 'with an advocate user' do
+      before { create(:external_user, :advocate) }
+
+      it { is_expected.to be_empty }
     end
 
-    it 'returns external_users with role "admin" and "advocate"' do
-      e = ExternalUser.first
-      e.roles = ['admin', 'advocate']
-      e.supplier_number = 'ZA111'
-      e.save!
-      expect(ExternalUser.admins.count).to eq(1)
+    context 'with a user that is both admin and advocate' do
+      let!(:external_user) { create(:external_user, :advocate) }
+
+      before do
+        external_user.roles = %w[admin advocate]
+        external_user.save!
+      end
+
+      it { is_expected.to eq [external_user] }
     end
   end
 
   describe '.advocates' do
-    before do
-      create(:external_user, :admin)
-      create(:external_user, :admin)
-      create(:external_user)
+    subject { described_class.advocates }
+
+    context 'with an admin user' do
+      before { create(:external_user, :admin) }
+
+      it { is_expected.to be_empty }
     end
 
-    it 'only returns external_users with role "advocate"' do
-      expect(ExternalUser.advocates.count).to eq(1)
+    context 'with an advocate user' do
+      let!(:external_user) { create(:external_user, :advocate) }
+
+      it { is_expected.to eq [external_user] }
     end
 
-    it 'returns external_users with role "admin" and "advocate"' do
-      e = ExternalUser.last
-      e.roles = ['admin', 'advocate']
-      e.save!
-      expect(ExternalUser.advocates.count).to eq(1)
+    context 'with a user that is both admin and advocate' do
+      let!(:external_user) { create(:external_user, :advocate) }
+
+      before do
+        external_user.roles = %w[admin advocate]
+        external_user.save!
+      end
+
+      it { is_expected.to eq [external_user] }
+    end
+  end
+  # End of scopes from Roles module
+
+  # Methods from Roles module
+  describe '#is?' do
+    subject { user.is?(role) }
+
+    context 'with an advocate user' do
+      let(:user) { create(:external_user, :advocate) }
+
+      context 'when testing for advocate' do
+        let(:role) { :advocate }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when testing for admin' do
+        let(:role) { :admin }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'with an admin user' do
+      let(:user) { create(:external_user, :admin) }
+
+      context 'when testing for advocate' do
+        let(:role) { :advocate }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when testing for admin' do
+        let(:role) { :admin }
+
+        it { is_expected.to be_truthy }
+      end
     end
   end
 
-  describe 'roles' do
-    let(:admin) { create(:external_user, :admin) }
-    let(:advocate) { create(:external_user, :advocate) }
+  describe '#advocate?' do
+    subject { user.advocate? }
 
-    describe '#is?' do
-      context 'given advocate' do
-        context 'if advocate' do
-          it 'returns true' do
-            expect(advocate.is? :advocate).to be(true)
-          end
-        end
+    context 'with an advocate user' do
+      let(:user) { create(:external_user, :advocate) }
 
-        context 'for an admin' do
-          it 'returns false' do
-            expect(admin.is? :advocate).to be(false)
-          end
-        end
-      end
-
-      context 'given admin' do
-        context 'for an admin' do
-          it 'returns true' do
-            expect(admin.is? :admin).to be(true)
-          end
-        end
-
-        context 'for a advocate' do
-          it 'returns false' do
-            expect(advocate.is? :admin).to be(false)
-          end
-        end
-      end
+      it { is_expected.to be_truthy }
     end
 
-    describe '#advocate?' do
-      context 'for an advocate' do
-        it 'returns true' do
-          expect(advocate.advocate?).to be(true)
-        end
-      end
+    context 'with an admin user' do
+      let(:user) { create(:external_user, :admin) }
 
-      context 'for an admin' do
-        it 'returns false' do
-          expect(admin.advocate?).to be(false)
-        end
-      end
-    end
-
-    describe '#admin?' do
-      context 'for an admin' do
-        it 'returns true' do
-          expect(admin.admin?).to be(true)
-        end
-      end
-
-      context 'for a advocate' do
-        it 'returns false' do
-          expect(advocate.admin?).to be(false)
-        end
-      end
+      it { is_expected.to be_falsey }
     end
   end
+
+  describe '#admin?' do
+    subject { user.admin? }
+
+    context 'with an advocate user' do
+      let(:user) { create(:external_user, :advocate) }
+
+      it { is_expected.to be_falsey }
+    end
+
+    context 'with an admin user' do
+      let(:user) { create(:external_user, :admin) }
+
+      it { is_expected.to be_truthy }
+    end
+  end
+  # End of methods from Roles module
 
   describe '#available_claim_types' do
     subject { user.available_claim_types.map(&:to_s) }
 
     include_context 'claim-types object helpers'
 
-    context 'for users with only an advocate role' do
+    context 'when the user has only an advocate role' do
       let(:user) { build(:external_user, :advocate) }
 
       it { is_expected.to match_array(agfs_claim_object_types) }
     end
 
-    context 'for users with only a litigator role' do
+    context 'when the user has only a litigator role' do
       let(:user) { build(:external_user, :litigator) }
 
       it { is_expected.to match_array(lgfs_claim_object_types) }
     end
 
-    context 'for users with an admin role' do
+    context 'when the user has an admin role' do
       let(:user) { build(:external_user, :admin, provider: build(:provider, :agfs)) }
 
       # TODO: i believe this is flawed as an admin should delegate available claim types to the provider)
@@ -286,7 +305,7 @@ RSpec.describe ExternalUser do
       it { is_expected.to match_array(all_claim_object_types) }
     end
 
-    context 'for users with both an advocate and litigator role in provider with both agfs and lgfs role' do
+    context 'when the user has both advocate and litigator file in provider with both agfs and lgfs role' do
       let(:user) { build(:external_user, :advocate_litigator) }
 
       it { is_expected.to match_array(all_claim_object_types) }
@@ -298,35 +317,22 @@ RSpec.describe ExternalUser do
 
     let(:user) { create(:external_user, :advocate, provider:) }
 
-    # NOTE: there is provider cannot be blank validation - pointless test?
-    context 'when the user does not belong to a provider' do
-      let(:provider) { build(:provider) }
+    context "when the user's provider handles both AGFS and LGFS claims" do
+      let(:provider) { build(:provider, :agfs_lgfs) }
 
-      before { user.provider = nil }
-
-      it 'returns admin' do
-        is_expected.to match_array %w[admin]
-      end
+      it { is_expected.to match_array %w[admin advocate litigator] }
     end
 
-    context 'when the user belongs to a provider that' do
-      context 'handles both AGFS and LGFS claims' do
-        let(:provider) { build(:provider, :agfs_lgfs) }
+    context "when the user's provider handles only AGFS claims" do
+      let(:provider) { build(:provider, :agfs) }
 
-        it { is_expected.to match_array %w[admin advocate litigator] }
-      end
+      it { is_expected.to match_array %w[admin advocate] }
+    end
 
-      context 'handles only AGFS claims' do
-        let(:provider) { build(:provider, :agfs) }
+    context "when the user's provider handles only LGFS claims" do
+      let(:provider) { build(:provider, :lgfs) }
 
-        it { is_expected.to match_array %w[admin advocate] }
-      end
-
-      context 'handles only LGFS claims' do
-        let(:provider) { build(:provider, :lgfs) }
-
-        it { is_expected.to match_array %w[admin litigator] }
-      end
+      it { is_expected.to match_array %w[admin litigator] }
     end
 
     context 'when an invalid role supplied' do
@@ -347,72 +353,18 @@ RSpec.describe ExternalUser do
     end
   end
 
-  context 'soft deletions' do
-    before(:all) do
-      @live_user_1 = create(:external_user)
-      @live_user_2 = create(:external_user)
-      @dead_user_1 = create(:external_user, :softly_deleted)
-      @dead_user_2 = create(:external_user, :softly_deleted)
-    end
-
-    after(:all) { clean_database }
-
-    describe 'active scope' do
-      it 'only returns undeleted records' do
-        expect(ExternalUser.active.order(:id)).to eq([@live_user_1, @live_user_2])
-      end
-
-      it 'returns ActiveRecord::RecordNotFound if find by id relates to a deleted record' do
-        expect {
-          ExternalUser.active.find(@dead_user_1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, %Q{Couldn't find ExternalUser with 'id'=#{@dead_user_1.id} [WHERE "external_users"."deleted_at" IS NULL]}
-      end
-
-      it 'returns an empty array if the selection criteria only reference deleted records' do
-        expect(ExternalUser.active.where(id: [@dead_user_1.id, @dead_user_2.id])).to be_empty
-      end
-    end
-
-    describe 'deleted scope' do
-      it 'returns only deleted records' do
-        expect(ExternalUser.softly_deleted.order(:id)).to eq([@dead_user_1, @dead_user_2])
-      end
-
-      it 'returns ActiveRecord::RecordNotFound if find by id relates to an undeleted record' do
-        expect(ExternalUser.find(@live_user_1.id)).to eq(@live_user_1)
-        expect {
-          ExternalUser.softly_deleted.find(@live_user_1.id)
-        }.to raise_error ActiveRecord::RecordNotFound, /Couldn't find ExternalUser with 'id'=#{@live_user_1.id}/
-      end
-
-      it 'returns an empty array if the selection criteria only reference live records' do
-        expect(User.softly_deleted.where(id: [@live_user_1.id, @live_user_2.id])).to be_empty
-      end
-    end
-
-    describe 'default scope' do
-      it 'returns deleted and undeleted records' do
-        expect(ExternalUser.order(:id)).to eq([@live_user_1, @live_user_2, @dead_user_1, @dead_user_2])
-      end
-
-      it 'returns the record if find by id relates to a deleted record' do
-        expect(ExternalUser.find(@dead_user_1.id)).to eq @dead_user_1
-      end
-
-      it 'returns the deleted records if the selection criteria reference only deleted records' do
-        expect(ExternalUser.where(id: [@dead_user_1.id, @dead_user_2.id]).order(:id)).to eq([@dead_user_1, @dead_user_2])
-      end
-    end
+  it_behaves_like 'user model with default, active and softly deleted scopes' do
+    let(:live_users) { create_list(:external_user, 2) }
+    let(:dead_users) { create_list(:external_user, 2, :softly_deleted) }
   end
 
-  describe 'soft_delete' do
-    it 'sets deleted at on the caseworker and user records' do
-      eu = create(:external_user)
-      user = eu.user
-      eu.soft_delete
-      expect(eu.reload.deleted_at).not_to be_nil
-      expect(user.reload.deleted_at).not_to be_nil
-    end
+  describe '#soft_delete' do
+    subject(:soft_delete) { external_user.soft_delete }
+
+    let(:external_user) { create(:external_user) }
+
+    it { expect { soft_delete }.to change(external_user, :deleted_at).from(nil) }
+    it { expect { soft_delete }.to change(external_user.user, :deleted_at).from(nil) }
   end
 
   describe '#active?' do
@@ -427,99 +379,52 @@ RSpec.describe ExternalUser do
     end
   end
 
-  describe 'supplier_number' do
-    context 'supplier number present' do
+  describe '#supplier_number' do
+    subject { external_user.supplier_number }
+
+    context 'with a supplier number' do
       let(:external_user) { create(:external_user, :advocate, supplier_number: 'ZZ114') }
 
-      it 'returns the supplier number from the external user record' do
-        expect(external_user.supplier_number).to eq 'ZZ114'
-      end
+      it { is_expected.to eq 'ZZ114' }
     end
 
-    context 'supplier number not present but provider is a firm' do
+    context 'when the supplier number set in the provider' do
       let(:provider) { create(:provider, :agfs_lgfs, firm_agfs_supplier_number: '999XX') }
       let(:external_user) { create(:external_user, :advocate, supplier_number: nil, provider:) }
 
-      it 'returns the firm_agfs_supplier_number from the provider' do
-        expect(external_user.supplier_number).to eq '999XX'
-      end
+      it { is_expected.to eq '999XX' }
     end
   end
 
-  context 'email notification of messages preferences' do
-    context 'settings on user record are nil' do
-      let(:eu) { build(:external_user) }
+  describe '#send_email_notification_of_message?' do
+    subject { external_user.send_email_notification_of_message? }
 
-      it 'has an underlying user setting of nil' do
-        expect(eu.user.settings).to eq Hash.new
-      end
+    let(:external_user) { build(:external_user) }
 
-      it 'returns false' do
-        expect(eu.send_email_notification_of_message?).to be false
-      end
+    it { is_expected.to be_falsey }
 
-      it 'sets the setting to true' do
-        eu.email_notification_of_message = 'true'
-        expect(eu.send_email_notification_of_message?).to be true
-      end
+    context 'when email_notification_of_message is set to true by name' do
+      before { external_user.email_notification_of_message = 'true' }
 
-      it 'sets the setting to false' do
-        eu.email_notification_of_message = 'false'
-        expect(eu.send_email_notification_of_message?).to be false
-      end
+      it { is_expected.to be_truthy }
     end
 
-    context 'no setttings for email notifications present' do
-      let(:eu)  { build(:external_user, :with_settings) }
+    context 'when email_notification_of_message is set to false by name' do
+      before { external_user.email_notification_of_message = 'false' }
 
-      it 'returns false' do
-        expect(eu.settings).to eq({ 'setting1' => 'test1', 'setting2' => 'test2' })
-        expect(eu.send_email_notification_of_message?).to be false
-      end
-
-      it 'sets the setting to true' do
-        eu.email_notification_of_message = 'true'
-        expect(eu.send_email_notification_of_message?).to be true
-      end
-
-      it 'sets the setting to false' do
-        eu.email_notification_of_message = 'false'
-        expect(eu.send_email_notification_of_message?).to be false
-      end
+      it { is_expected.to be_falsey }
     end
 
-    context 'settings for email notification are true' do
-      let(:eu) { build(:external_user, :with_email_notification_of_messages) }
+    context 'when email_notification_of_message is set to true in settings' do
+      before { external_user.save_settings!(email_notification_of_message: true) }
 
-      it 'returns true' do
-        expect(eu.send_email_notification_of_message?).to be true
-      end
-
-      it 'sets the setting to false' do
-        eu.email_notification_of_message = 'false'
-        expect(eu.send_email_notification_of_message?).to be false
-      end
+      it { is_expected.to be_truthy }
     end
 
-    context 'settings for email notification are false' do
-      let(:eu) { build(:external_user, :without_email_notification_of_messages) }
+    context 'when email_notification_of_message is set to false in settings' do
+      before { external_user.save_settings!(email_notification_of_message: false) }
 
-      it 'returns false' do
-        expect(eu.send_email_notification_of_message?).to be false
-      end
-
-      it 'sets the setting to true' do
-        eu.email_notification_of_message = 'true'
-        expect(eu.send_email_notification_of_message?).to be true
-      end
+      it { is_expected.to be_falsey }
     end
   end
-end
-
-def create_admin(provider, first_name, last_name)
-  create(:external_user, :admin, provider:, user: create(:user, first_name:, last_name:))
-end
-
-def create_external_user(provider, first_name, last_name)
-  create(:external_user, provider:, user: create(:user, first_name:, last_name:))
 end

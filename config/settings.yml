@@ -92,7 +92,7 @@ fee_scheme_usage_csv_headers:
   - :advocate_interim_claim
   - :advocate_supplementary_claim
   - :interim_claim
-  - :ligitator_claim
+  - :litigator_claim
   - :litigator_hardship_claim
   - :transfer_claim
   - :appeal_against_conviction

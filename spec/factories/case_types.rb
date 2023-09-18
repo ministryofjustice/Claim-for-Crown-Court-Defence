@@ -8,6 +8,8 @@ FactoryBot.define do
     roles                       { %w[agfs lgfs] }
     uuid { SecureRandom.uuid }
 
+    initialize_with { CaseType.find_or_create_by(name: name) }
+
     trait :agfs_roles do
       roles { %w[agfs] }
     end

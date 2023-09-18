@@ -15,6 +15,7 @@
 
 require 'rails_helper'
 require 'support/shared_examples_for_claim_types'
+require 'support/shared_examples_for_users'
 
 RSpec.describe ExternalUser do
   it_behaves_like 'roles', described_class, described_class::ROLES
@@ -352,33 +353,9 @@ RSpec.describe ExternalUser do
     end
   end
 
-  context 'with live and softly deleted users' do
-    let!(:live_users) { create_list(:external_user, 2) }
-    let!(:dead_users) { create_list(:external_user, 2, :softly_deleted) }
-
-    context 'with the active scope' do
-      subject(:records) { described_class.active }
-
-      it { is_expected.to match_array(live_users) }
-      it { expect { records.find(dead_users.first.id) }.to raise_error ActiveRecord::RecordNotFound }
-      it { expect(records.where(id: dead_users.map(&:id))).to be_empty }
-    end
-
-    context 'with the softly deleted scope' do
-      subject(:records) { described_class.softly_deleted }
-
-      it { is_expected.to match_array(dead_users) }
-      it { expect { records.find(live_users.first.id) }.to raise_error ActiveRecord::RecordNotFound }
-      it { expect(records.where(id: live_users.map(&:id))).to be_empty }
-    end
-
-    describe 'with the default scope' do
-      subject(:records) { described_class.all }
-
-      it { is_expected.to match_array((live_users + dead_users)) }
-      it { expect(records.find(dead_users.first.id)).to eq dead_users.first }
-      it { expect(records.where(id: dead_users.map(&:id))).to match_array(dead_users) }
-    end
+  it_behaves_like 'user model with default, active and softly deleted scopes' do
+    let(:live_users) { create_list(:external_user, 2) }
+    let(:dead_users) { create_list(:external_user, 2, :softly_deleted) }
   end
 
   describe '#soft_delete' do

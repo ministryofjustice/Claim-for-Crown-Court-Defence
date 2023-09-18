@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe API::V2::MI::ProvisionalAssessments do
   include Rack::Test::Methods
   include ApiSpecHelper
-  include DatabaseHousekeeping
   include ActiveSupport::Testing::TimeHelpers
 
   let(:case_worker_admin) { create(:case_worker, :admin) }

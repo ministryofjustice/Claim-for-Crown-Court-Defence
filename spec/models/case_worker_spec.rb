@@ -14,7 +14,6 @@
 require 'rails_helper'
 
 RSpec.describe CaseWorker do
-  include DatabaseHousekeeping
   it_behaves_like 'roles', described_class, described_class::ROLES
 
   it { is_expected.to belong_to(:location) }

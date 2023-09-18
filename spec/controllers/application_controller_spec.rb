@@ -149,9 +149,9 @@ RSpec.describe ApplicationController do
   context 'when an exception is raised' do
     controller do
       skip_load_and_authorize_resource
-      def record_not_found; raise ActiveRecord::RecordNotFound; end
-      def another_exception; raise StandardError; end
-      def invalid_authenticity_token; raise ActionController::InvalidAuthenticityToken; end
+      def record_not_found = raise(ActiveRecord::RecordNotFound)
+      def another_exception = raise(StandardError)
+      def invalid_authenticity_token = raise(ActionController::InvalidAuthenticityToken)
     end
 
     before do

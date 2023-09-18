@@ -80,7 +80,10 @@ FactoryBot.define do
     # - alphabetical list
     #
     factory :allocated_claim do
-      after(:create) { |claim| allocate_claim(claim); claim.reload }
+      after(:create) do |claim|
+        allocate_claim(claim)
+        claim.reload
+      end
     end
 
     # DEPRECATED see shared traits
@@ -99,29 +102,51 @@ FactoryBot.define do
       after(:create) do |claim|
         Timecop.freeze(3.days.ago) { claim.submit! }
         Timecop.freeze(2.days.ago) { claim.allocate! }
-        Timecop.freeze(1.day.ago) { assign_fees_and_expenses_for(claim); claim.authorise! }
+        Timecop.freeze(1.day.ago) do
+          assign_fees_and_expenses_for(claim)
+          claim.authorise!
+        end
         claim.redetermine!
       end
     end
 
     # DEPRECATED see shared traits
     factory :awaiting_written_reasons_claim do
-      after(:create) { |claim| claim.submit!; claim.allocate!; assign_fees_and_expenses_for(claim); claim.authorise!; claim.await_written_reasons! }
+      after(:create) do |claim|
+        claim.submit!
+        claim.allocate!
+        assign_fees_and_expenses_for(claim)
+        claim.authorise!
+        claim.await_written_reasons!
+      end
     end
 
     # DEPRECATED see shared traits
     factory :part_authorised_claim do
-      after(:create) { |claim| claim.submit!; claim.allocate!; assign_fees_and_expenses_for(claim); claim.authorise_part! }
+      after(:create) do |claim|
+        claim.submit!
+        claim.allocate!
+        assign_fees_and_expenses_for(claim)
+        claim.authorise_part!
+      end
     end
 
     # DEPRECATED see shared traits
     factory :refused_claim do
-      after(:create) { |claim| claim.submit!; claim.allocate!; claim.refuse! }
+      after(:create) do |claim|
+        claim.submit!
+        claim.allocate!
+        claim.refuse!
+      end
     end
 
     # DEPRECATED see shared traits
     factory :rejected_claim do
-      after(:create) { |claim| claim.submit!; claim.allocate!; claim.reject! }
+      after(:create) do |claim|
+        claim.submit!
+        claim.allocate!
+        claim.reject!
+      end
     end
 
     factory :submitted_claim do

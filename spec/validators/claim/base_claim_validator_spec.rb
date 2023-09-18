@@ -153,7 +153,10 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       end
 
       context 'during redetermination' do
-        before { claim.allocate!; claim.reject! }
+        before {
+          claim.allocate!
+          claim.reject!
+        }
 
         it 'validation is NOT performed' do
           expect { claim.redetermine! }.to_not raise_error
@@ -161,7 +164,10 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       end
 
       context 'during awaiting_written_reasons' do
-        before { claim.allocate!; claim.reject! }
+        before {
+          claim.allocate!
+          claim.reject!
+        }
 
         it 'validation is NOT performed' do
           expect { claim.await_written_reasons! }.to_not raise_error
@@ -417,7 +423,10 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
   end
 
   context 'amount_assessed' do
-    before { claim.submit!; claim.allocate! }
+    before {
+      claim.submit!
+      claim.allocate!
+    }
 
     let(:assessed_claim) do
       claim.assessment.update!(fees: 101.22, expenses: 28.55, disbursements: 92.66)

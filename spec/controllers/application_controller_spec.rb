@@ -16,48 +16,50 @@ RSpec.describe ApplicationController do
   let(:case_worker_admin) { create(:case_worker, :admin) }
 
   describe '#after_sign_in_path_for' do
+    before { sign_in user }
+
     context 'given a super admin' do
-      before { sign_in super_admin.user }
+      let(:user) { super_admin.user }
 
       it 'returns super admins root url' do
-        expect(subject.after_sign_in_path_for(super_admin.user)).to eq(super_admins_root_url)
+        expect(subject.after_sign_in_path_for(user)).to eq(super_admins_root_url)
       end
     end
 
     context 'given an advocate' do
-      before { sign_in advocate.user }
+      let(:user) { advocate.user }
 
       it 'returns advocates root url' do
-        expect(subject.after_sign_in_path_for(advocate.user)).to eq(external_users_root_url)
+        expect(subject.after_sign_in_path_for(user)).to eq(external_users_root_url)
       end
     end
 
     context 'given a case worker' do
-      before { sign_in case_worker.user }
+      let(:user) { case_worker.user }
 
       it 'returns case workers root url' do
-        expect(subject.after_sign_in_path_for(case_worker.user)).to eq(case_workers_root_url)
+        expect(subject.after_sign_in_path_for(user)).to eq(case_workers_root_url)
       end
     end
 
     context 'given an admin advocate' do
-      before { sign_in advocate_admin.user }
+      let(:user) { advocate_admin.user }
 
       it 'returns advocates admin root url' do
-        expect(subject.after_sign_in_path_for(advocate_admin.user)).to eq(external_users_root_url)
+        expect(subject.after_sign_in_path_for(user)).to eq(external_users_root_url)
       end
     end
 
     context 'given an admin case worker' do
-      before { sign_in case_worker_admin.user }
+      let(:user) { case_worker_admin.user }
 
       it 'returns case workers root url' do
-        expect(subject.after_sign_in_path_for(case_worker_admin.user)).to eq(case_workers_admin_root_url)
+        expect(subject.after_sign_in_path_for(user)).to eq(case_workers_admin_root_url)
       end
     end
 
     context 'given a user with a different role' do
-      before { user = build(:user); sign_in user }
+      let(:user) { build(:user) }
 
       it 'raises error' do
         expect { subject.after_sign_in_path_for(user) }.to raise_error(NameError)
@@ -138,7 +140,7 @@ RSpec.describe ApplicationController do
     end
 
     context 'given a user with a different role' do
-      before { user = build(:user); sign_in user }
+      let(:user) { build(:user) }
 
       it 'raises error' do
         expect { subject.signed_in_user_profile_path }.to raise_error(NameError)

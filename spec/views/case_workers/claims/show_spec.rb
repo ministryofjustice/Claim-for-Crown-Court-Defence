@@ -379,7 +379,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   def certified_claim
     eu = create(:external_user, :advocate, user: create(:user, first_name: 'Stepriponikas', last_name: 'Bonstart'))
     @claim = create(:allocated_claim, external_user: eu)
-    @claim.certification.destroy unless @claim.certification.nil?
+    @claim.certification&.destroy
     certification_type = create(:certification_type, name: 'which ever reason i please')
     create(:certification, claim: @claim, certified_by: 'Bobby Legrand', certification_type:)
     @case_worker.claims << @claim

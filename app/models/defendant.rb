@@ -49,6 +49,6 @@ class Defendant < ApplicationRecord
     return if representation_orders.empty?
     representation_orders.select do |ro|
       ro.representation_order_date.present?
-    end.sort_by(&:representation_order_date).first
+    end.min_by(&:representation_order_date)
   end
 end

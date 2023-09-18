@@ -152,12 +152,20 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
       context 'when invalid' do
         it 'does not create a external_user' do
           expect {
-            post :create, params: { external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, roles: ['advocate'] } }
+            post :create,
+                 params: { external_user: {
+                   user_attributes: { email: 'foo@foobar.com', password: 'password',
+                                      password_confirmation: 'xxx' }, roles: ['advocate']
+                 } }
           }.to_not change(User, :count)
         end
 
         it 'renders the new template' do
-          post :create, params: { external_user: { user_attributes: { email: 'foo@foobar.com', password: 'password', password_confirmation: 'xxx' }, roles: ['advocate'] } }
+          post :create,
+               params: { external_user: {
+                 user_attributes: { email: 'foo@foobar.com', password: 'password',
+                                    password_confirmation: 'xxx' }, roles: ['advocate']
+               } }
           expect(response).to render_template(:new)
         end
       end
@@ -198,7 +206,10 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
 
       context 'when valid' do
         before do
-          put :update_password, params: { id: subject, external_user: { user_attributes: { current_password: 'password', password: 'password123', password_confirmation: 'password123' } } }
+          put :update_password,
+              params: { id: subject,
+                        external_user: { user_attributes: { current_password: 'password', password: 'password123',
+                                                            password_confirmation: 'password123' } } }
         end
 
         it 'redirects to external_user show action' do
@@ -285,7 +296,11 @@ RSpec.describe ExternalUsers::Admin::ExternalUsersController do
 
     describe 'POST #create' do
       it 'redirects to all claims page with Unauthorised in flash' do
-        get :new
+        post :create,
+             params: { external_user: {
+               user_attributes: { email: 'foo@foobar.com', password: 'password',
+                                  password_confirmation: 'xxx' }, roles: ['advocate']
+             } }
         expect(response).to redirect_to(external_users_root_path)
         expect(flash[:alert]).to eq 'Unauthorised'
       end

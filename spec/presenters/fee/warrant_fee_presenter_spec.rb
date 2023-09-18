@@ -42,12 +42,12 @@ describe Fee::WarrantFeePresenter do
   end
 
   context '#warrant_executed?' do
-    it 'returns true if date present' do
+    it 'returns true if date is present' do
       expect(warrant_fee).to receive(:warrant_executed_date).and_return(Date.new(2016, 8, 3))
       expect(presenter.warrant_executed?).to be true
     end
 
-    it 'returns true if date present' do
+    it 'returns false if date is not present' do
       expect(warrant_fee).to receive(:warrant_executed_date).and_return(nil)
       expect(presenter.warrant_executed?).to be false
     end

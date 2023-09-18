@@ -21,7 +21,9 @@ RSpec.describe Allocation do
   describe '#save' do
     context 'allocating' do
       let(:case_worker) { create(:case_worker) }
-      let(:allocator) { Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true, current_user:) }
+      let(:allocator) do
+        Allocation.new(claim_ids: claims.map(&:id), case_worker_id: case_worker.id, allocating: true, current_user:)
+      end
 
       context 'when valid' do
         let(:claims) { create_list(:submitted_claim, 3) }
@@ -86,7 +88,9 @@ RSpec.describe Allocation do
 
       context 'when creator is a litigator' do
         let!(:claim) { create(:submitted_claim) }
-        let(:allocator) { Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user:) }
+        let(:allocator) do
+          Allocation.new(claim_ids: [claim.id], case_worker_id: case_worker.id, allocating: true, current_user:)
+        end
 
         describe 'and then changes role to advocate' do
           before do
@@ -274,12 +278,7 @@ RSpec.describe Allocation do
           end
         end
 
-        it 'does not create case worker claim join records' do
-          subject.save
-          expect(CaseWorkerClaim.count).to eq(2)
-        end
-
-        it 'does not delete case worker claim join records' do
+        it 'does not create or delete case worker claim join records' do
           subject.save
           expect(CaseWorkerClaim.count).to eq(2)
         end

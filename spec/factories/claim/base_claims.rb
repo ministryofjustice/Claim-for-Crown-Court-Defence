@@ -71,7 +71,7 @@ FactoryBot.define do
         add_defendant_and_reporder(claim, Settings.lgfs_scheme_10_clair_release_date)
       end
 
-      unless claim.defendants.present?
+      if claim.defendants.blank?
         defendant = create(:defendant, claim:)
         create(:representation_order, defendant:, representation_order_date: 380.days.ago)
         claim.reload

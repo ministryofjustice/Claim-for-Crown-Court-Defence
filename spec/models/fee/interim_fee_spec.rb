@@ -89,7 +89,7 @@ RSpec.describe Fee::InterimFee do
     end
   end
 
-  describe '#is_retrial_start?' do
+  describe '#is_retrial_new_solicitor?' do
     it 'is false for other fees' do
       expect(warrant_fee.is_retrial_new_solicitor?).to be false
     end

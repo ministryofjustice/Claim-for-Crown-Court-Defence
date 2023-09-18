@@ -19,7 +19,7 @@ RSpec.describe Claims::FetchEligibleDocumentTypes do
     end
   end
 
-  context 'when claim is for AGFS final' do
+  context 'when claim is for AGFS interim' do
     let(:claim) { build(:advocate_interim_claim) }
 
     it 'returns a subset of the document types that apply to the new fee reform' do

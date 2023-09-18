@@ -63,7 +63,8 @@ RSpec.describe Claim::BaseClaim do
   it 'raises BaseClaimAbstractClassError when instantiated' do
     expect {
       described_class.new(external_user: advocate, creator: advocate)
-    }.to raise_error Claim::BaseClaimAbstractClassError, 'Claim::BaseClaim is an abstract class and cannot be instantiated'
+    }.to raise_error Claim::BaseClaimAbstractClassError,
+                     'Claim::BaseClaim is an abstract class and cannot be instantiated'
   end
 
   context 'scheme scopes' do
@@ -91,7 +92,9 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '.claim_types' do
-    specify { expect(described_class.claim_types.map(&:to_s)).to match_array(agfs_claim_object_types | lgfs_claim_object_types) }
+    specify {
+      expect(described_class.claim_types.map(&:to_s)).to match_array(agfs_claim_object_types | lgfs_claim_object_types)
+    }
   end
 
   describe '.agfs_claim_types' do
@@ -208,27 +211,27 @@ RSpec.describe Claim::BaseClaim do
     after(:all) { clean_database }
 
     describe '#disbursements.with_vat' do
-      it 'returns an array of disbursements with VAT' do
-        expect(@claim.disbursements.with_vat).to contain_exactly(@db1, @db3)
-      end
+      subject { @claim.disbursements.with_vat }
+
+      it { is_expected.to contain_exactly(@db1, @db3) }
     end
 
     describe '#disbursements.without_vat' do
-      it 'returns an array of disbursements without VAT' do
-        expect(@claim.disbursements.without_vat).to contain_exactly(@db2, @db4)
-      end
+      subject { @claim.disbursements.without_vat }
+
+      it { is_expected.to contain_exactly(@db2, @db4) }
     end
 
-    describe '#disbursements' do
-      it 'return the sum of the amounts for the disbursements with vat' do
-        expect(@claim.disbursements_with_vat_net).to eq 150.50
-      end
+    describe '#disbursements_with_vat_net' do
+      subject { @claim.disbursements_with_vat_net }
+
+      it { is_expected.to eq 150.50 }
     end
 
-    describe '#disbursements' do
-      it 'return the sum of the amounts for the disbursements without vat' do
-        expect(@claim.disbursements_without_vat_net).to eq 125.0
-      end
+    describe '#disbursements_without_vat_net' do
+      subject { @claim.disbursements_without_vat_net }
+
+      it { is_expected.to eq 125.0 }
     end
   end
 
@@ -570,7 +573,9 @@ end
 RSpec.describe MockBaseClaim do
   it_behaves_like 'a base claim'
   it_behaves_like 'uses claim cleaner', Cleaners::NullClaimCleaner do
-    let(:mock_claim_creator) { instance_double(ExternalUser, provider: instance_double(Provider, vat_registered?: false)) }
+    let(:mock_claim_creator) {
+      instance_double(ExternalUser, provider: instance_double(Provider, vat_registered?: false))
+    }
 
     before { allow(ExternalUser).to receive(:new).and_return(mock_claim_creator) }
   end
@@ -636,7 +641,9 @@ RSpec.describe MockBaseClaim do
     it 'returns an array of DocType objects' do
       claim = described_class.new(evidence_checklist_ids: [1, 5, 10])
       expect(claim.evidence_doc_types.map(&:class)).to eq([DocType, DocType, DocType])
-      expect(claim.evidence_doc_types.map(&:name)).to contain_exactly('Representation order', 'Order in respect of judicial apportionment', 'Special preparation form')
+      expect(claim.evidence_doc_types.map(&:name)).to contain_exactly('Representation order',
+                                                                      'Order in respect of judicial apportionment',
+                                                                      'Special preparation form')
     end
   end
 
@@ -711,14 +718,13 @@ RSpec.describe MockBaseClaim do
 
       before do
         claim.defendants = defendants
+
+        defendants.each do |defendant|
+          allow(defendant).to receive(:earliest_representation_order).and_return(nil)
+        end
       end
 
-      specify {
-        defendants.each do |defendant|
-          expect(defendant).to receive(:earliest_representation_order).and_return(nil)
-        end
-        expect(earliest_representation_order).to be_nil
-      }
+      it { expect(earliest_representation_order).to be_nil }
     end
 
     context 'when some of the defendants have an earliest representation order set' do
@@ -741,9 +747,15 @@ RSpec.describe MockBaseClaim do
       }
 
       before do
-        expect(defendant_with_no_earliest_representation_date).to receive(:earliest_representation_order).and_return(nil)
-        expect(defendant_with_later_representation_date).to receive(:earliest_representation_order).and_return(later_representation_order)
-        expect(defendant_with_earliest_representation_date).to receive(:earliest_representation_order).and_return(expected_representation_order)
+        allow(defendant_with_no_earliest_representation_date).to receive(
+          :earliest_representation_order
+        ).and_return(nil)
+        allow(defendant_with_later_representation_date).to receive(
+          :earliest_representation_order
+        ).and_return(later_representation_order)
+        allow(defendant_with_earliest_representation_date).to receive(
+          :earliest_representation_order
+        ).and_return(expected_representation_order)
         claim.defendants = defendants
       end
 

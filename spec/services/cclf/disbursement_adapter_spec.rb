@@ -10,35 +10,35 @@ RSpec.describe CCLF::DisbursementAdapter, type: :adapter do
   # NOTE: Costs judge prep, Cost judge application and travel costs have been softly deleted
   #
   DISBURSEMENT_BILL_TYPES = {
-    ARP: ['DISBURSEMENT', 'ACCIDENT'], # Accident reconstruction report
-    ACC: ['DISBURSEMENT', 'ACCOUNTANTS'], # Accounts
-    SWX: ['DISBURSEMENT', 'COMPUTER_EXPERT'], # Computer experts
-    CMR: ['DISBURSEMENT', 'CONSULTANT_REP'], # Consultant medical reports
-    DNA: ['DISBURSEMENT', 'DNA_TESTING'], # DNA testing
-    ENG: ['DISBURSEMENT', 'ENGINEER'], # Engineer
-    ENQ: ['DISBURSEMENT', 'ENQUIRY_AGENTS'], # Enquiry agents
-    FMX: ['DISBURSEMENT', 'FACIAL_MAPPING'], # wacial mapping expert
+    ARP: %w[DISBURSEMENT ACCIDENT], # Accident reconstruction report
+    ACC: %w[DISBURSEMENT ACCOUNTANTS], # Accounts
+    SWX: %w[DISBURSEMENT COMPUTER_EXPERT], # Computer experts
+    CMR: %w[DISBURSEMENT CONSULTANT_REP], # Consultant medical reports
+    DNA: %w[DISBURSEMENT DNA_TESTING], # DNA testing
+    ENG: %w[DISBURSEMENT ENGINEER], # Engineer
+    ENQ: %w[DISBURSEMENT ENQUIRY_AGENTS], # Enquiry agents
+    FMX: %w[DISBURSEMENT FACIAL_MAPPING], # wacial mapping expert
     FIN: ['DISBURSEMENT', 'FIN EXPERT'], # Financial expert
-    DIG: ['DISBURSEMENT', 'FINGERPRINT'], # Fingerprint expert
-    EXP: ['DISBURSEMENT', 'FIRE_EXPLOSIVES'], # Fire assessor/explosives expert
-    FOR: ['DISBURSEMENT', 'FORENSICS'], # Forensic scientists
-    HWX: ['DISBURSEMENT', 'HANDWRITING'], # Handwriting expert
-    INT: ['DISBURSEMENT', 'INTERPRETERS'], # Interpreter
-    LIP: ['DISBURSEMENT', 'LIP_READERS'], # Lip readers
+    DIG: %w[DISBURSEMENT FINGERPRINT], # Fingerprint expert
+    EXP: %w[DISBURSEMENT FIRE_EXPLOSIVES], # Fire assessor/explosives expert
+    FOR: %w[DISBURSEMENT FORENSICS], # Forensic scientists
+    HWX: %w[DISBURSEMENT HANDWRITING], # Handwriting expert
+    INT: %w[DISBURSEMENT INTERPRETERS], # Interpreter
+    LIP: %w[DISBURSEMENT LIP_READERS], # Lip readers
     MED: ['DISBURSEMENT', 'MED EXPERT'], # Medical expert
-    MCF: ['DISBURSEMENT', 'MEMO_CONV_FEE'], # Memorandum of conviction fee
-    MET: ['DISBURSEMENT', 'METEOROLOGIST'], # Meteorologist
-    XXX: ['DISBURSEMENT', 'OTHER'], # Other
-    ONX: ['DISBURSEMENT', 'OVERNIGHT_EXP'], # Overnight expenses
-    PTH: ['DISBURSEMENT', 'PATHOLOGISTS'], # Pathologist
-    COP: ['DISBURSEMENT', 'PHOTOCOPYING'], # Photocopying
-    PSY: ['DISBURSEMENT', 'PSYCHIATRIC_REP'], # Psychiatric reports
-    PLR: ['DISBURSEMENT', 'PSYCHO_REPORTS'], # Psychological report
-    ARC: ['DISBURSEMENT', 'SURVEYOR'], # Surveyor/architect
-    SCR: ['DISBURSEMENT', 'TRANSCRIPTS'], # Transcripts
-    TRA: ['DISBURSEMENT', 'TRANSLATOR'], # Translator
-    VET: ['DISBURSEMENT', 'VET_REPORT'], # Vet report
-    VOI: ['DISBURSEMENT', 'VOICE_RECOG'] # Voice recognition
+    MCF: %w[DISBURSEMENT MEMO_CONV_FEE], # Memorandum of conviction fee
+    MET: %w[DISBURSEMENT METEOROLOGIST], # Meteorologist
+    XXX: %w[DISBURSEMENT OTHER], # Other
+    ONX: %w[DISBURSEMENT OVERNIGHT_EXP], # Overnight expenses
+    PTH: %w[DISBURSEMENT PATHOLOGISTS], # Pathologist
+    COP: %w[DISBURSEMENT PHOTOCOPYING], # Photocopying
+    PSY: %w[DISBURSEMENT PSYCHIATRIC_REP], # Psychiatric reports
+    PLR: %w[DISBURSEMENT PSYCHO_REPORTS], # Psychological report
+    ARC: %w[DISBURSEMENT SURVEYOR], # Surveyor/architect
+    SCR: %w[DISBURSEMENT TRANSCRIPTS], # Transcripts
+    TRA: %w[DISBURSEMENT TRANSLATOR], # Translator
+    VET: %w[DISBURSEMENT VET_REPORT], # Vet report
+    VOI: %w[DISBURSEMENT VOICE_RECOG] # Voice recognition
   }.freeze
 
   context 'bill mappings' do

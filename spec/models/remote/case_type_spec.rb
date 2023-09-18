@@ -48,7 +48,7 @@ describe Remote::CaseType do
         expect(ct.allow_pcmh_fee_type).to be false
         expect(ct.requires_maat_reference).to be true
         expect(ct.requires_retrial_dates).to be false
-        expect(ct.roles).to eq(['agfs', 'lgfs'])
+        expect(ct.roles).to eq(%w[agfs lgfs])
       end
     end
   end
@@ -64,7 +64,7 @@ describe Remote::CaseType do
         'allow_pcmh_fee_type' => false,
         'requires_maat_reference' => true,
         'requires_retrial_dates' => false,
-        'roles' => ['agfs', 'lgfs'],
+        'roles' => %w[agfs lgfs],
         'fee_type_code' => 'ACV'
       },
       {
@@ -76,7 +76,7 @@ describe Remote::CaseType do
         'allow_pcmh_fee_type' => false,
         'requires_maat_reference' => true,
         'requires_retrial_dates' => false,
-        'roles' => ['agfs', 'lgfs'],
+        'roles' => %w[agfs lgfs],
         'fee_type_code' => 'ENP'
       },
       {
@@ -100,7 +100,7 @@ describe Remote::CaseType do
         'allow_pcmh_fee_type' => true,
         'requires_maat_reference' => true,
         'requires_retrial_dates' => true,
-        'roles' => ['agfs', 'lgfs', 'interim'],
+        'roles' => %w[agfs lgfs interim],
         'fee_type_code' => 'GRTR'
       },
       {
@@ -112,7 +112,7 @@ describe Remote::CaseType do
         'allow_pcmh_fee_type' => true,
         'requires_maat_reference' => true,
         'requires_retrial_dates' => false,
-        'roles' => ['agfs', 'lgfs', 'interim'],
+        'roles' => %w[agfs lgfs interim],
         'fee_type_code' => 'GTRL'
       }
     ]

@@ -2,11 +2,11 @@ require 'rails_helper'
 
 RSpec.describe CCLF::Fee::InterimFeeAdapter, type: :adapter do
   INTERIM_FEE_BILL_TYPES = {
-    INPCM: ['LIT_FEE', 'LIT_FEE'], # Effective PCMH
-    INRNS: ['LIT_FEE', 'LIT_FEE'], # Retrial New solicitor
-    INRST: ['LIT_FEE', 'LIT_FEE'], # Retrial start
-    INTDT: ['LIT_FEE', 'LIT_FEE'], # Trial start
-    INWAR: ['FEE_ADVANCE', 'WARRANT'] # Warrant
+    INPCM: %w[LIT_FEE LIT_FEE], # Effective PCMH
+    INRNS: %w[LIT_FEE LIT_FEE], # Retrial New solicitor
+    INRST: %w[LIT_FEE LIT_FEE], # Retrial start
+    INTDT: %w[LIT_FEE LIT_FEE], # Trial start
+    INWAR: %w[FEE_ADVANCE WARRANT] # Warrant
   }.freeze
 
   context 'bill mappings' do

@@ -152,7 +152,7 @@ RSpec.describe ProviderManagement::ProvidersController do
           provider_type: 'firm',
           name: 'St Johns',
           firm_agfs_supplier_number: '2M462',
-          roles: ['lgfs', 'agfs'],
+          roles: %w[lgfs agfs],
           vat_registered: false,
           lgfs_supplier_numbers_attributes: {
             '0' => { 'supplier_number' => '2E481W', '_destroy' => 'false' }

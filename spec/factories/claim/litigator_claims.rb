@@ -21,7 +21,7 @@ FactoryBot.define do
         claim.fees << build(:graduated_fee, :guilty_plea_fee, quantity: 49, claim:)
       end
 
-      after(:create) { |c| c.submit! }
+      after(:create, &:submit!)
     end
 
     trait :without_fees do

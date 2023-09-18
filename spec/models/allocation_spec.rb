@@ -211,7 +211,7 @@ RSpec.describe Allocation do
         before { allow(subject).to receive(:allocating?).and_return(nil) }
 
         it 'claims will be re-allocated' do
-          submitted_claim_id = claims.detect { |c| c.submitted? }.id
+          submitted_claim_id = claims.detect(&:submitted?).id
           subject.save
           expect(case_worker.claims.count).to eq 0
           expect(subject.errors[:base]).to include("Claim #{submitted_claim_id} cannot be transitioned to reallocation from submitted")

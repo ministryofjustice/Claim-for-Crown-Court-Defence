@@ -72,26 +72,28 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  it '#defendant_names' do
-    expect(presenter.defendant_names).to eql("#{CGI.escapeHTML(first_defendant.name)}, <br>Robert Smith, <br>Adam Smith")
+  describe '#defendant_names' do
+    it { expect(presenter.defendant_names).to eql("#{CGI.escapeHTML(first_defendant.name)}, <br>Robert Smith, <br>Adam Smith") }
   end
 
-  it '#submitted_at' do
-    claim.last_submitted_at = Time.current
-    expect(presenter.submitted_at).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(presenter.submitted_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
+  describe '#submitted_at' do
+    before { claim.update!(last_submitted_at: Time.current) }
+
+    it { expect(presenter.submitted_at).to eql(Time.current.strftime('%d/%m/%Y')) }
+    it { expect(presenter.submitted_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M')) }
   end
 
-  it '#authorised_at' do
-    claim.authorised_at = Time.current
-    expect(presenter.authorised_at).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(presenter.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(presenter.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
-    expect { presenter.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
+  describe '#authorised_at' do
+    before { claim.update!(authorised_at: Time.current) }
+
+    it { expect(presenter.authorised_at).to eql(Time.current.strftime('%d/%m/%Y')) }
+    it { expect(presenter.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y')) }
+    it { expect(presenter.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M')) }
+    it { expect { presenter.authorised_at(rubbish: false) }.to raise_error(ArgumentError) }
   end
 
-  it '#unique_id' do
-    expect(presenter.unique_id).to eql("##{presenter.id}")
+  describe '#unique_id' do
+    it { expect(presenter.unique_id).to eql("##{presenter.id}") }
   end
 
   describe '#case_number' do
@@ -105,9 +107,10 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  it '#formatted_case_number' do
-    presenter.case_number = 'S20094903'
-    expect(presenter.formatted_case_number).to eql('S20 094 903')
+  describe '#formatted_case_number' do
+    before { presenter.update!(case_number: 'S20094903') }
+
+    it { expect(presenter.formatted_case_number).to eql('S20 094 903') }
   end
 
   describe '#valid_transitions' do
@@ -181,21 +184,21 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  describe 'assessment_fees' do
+  describe '#assessment_fees' do
     it 'returns formatted assessment fees' do
       claim.assessment.update!(fees: 1234.56, expenses: 0.0, disbursements: 300.0)
       expect(presenter.assessment_fees).to eq '£1,234.56'
     end
   end
 
-  describe 'assessment_expenses' do
+  describe '#assessment_expenses' do
     it 'returns formatted assessment expenses' do
       claim.assessment.update!(fees: 0.0, expenses: 1234.56, disbursements: 300.0)
       expect(presenter.assessment_expenses).to eq '£1,234.56'
     end
   end
 
-  describe 'assessment_disbursements' do
+  describe '#assessment_disbursements' do
     it 'returns formatted assessment disbursements' do
       claim.assessment.update!(fees: 0.0, expenses: 0.0, disbursements: 300.0)
       expect(presenter.assessment_disbursements).to eq '£300.00'
@@ -232,9 +235,10 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   # TODO: do currency converters need internationalisation??
-  it '#amount_assessed' do
-    claim.assessment.update(fees: 80.35, expenses: 19.65, disbursements: 52.48)
-    expect(presenter.assessment_total).to eql('£152.48')
+  describe '#assessment_total' do
+    before { claim.assessment.update(fees: 80.35, expenses: 19.65, disbursements: 52.48) }
+
+    it { expect(presenter.assessment_total).to eql('£152.48') }
   end
 
   context 'with dynamically defined methods' do
@@ -334,10 +338,13 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  it '#case_worker_names' do
-    claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Alexander', last_name: 'Bell'))
-    claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Louis', last_name: 'Pasteur'))
-    expect(presenter.case_worker_names).to eq('Alexander Bell, Louis Pasteur')
+  describe '#case_worker_names' do
+    before do
+      claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Alexander', last_name: 'Bell'))
+      claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Louis', last_name: 'Pasteur'))
+    end
+
+    it { expect(presenter.case_worker_names).to eq('Alexander Bell, Louis Pasteur') }
   end
 
   describe '#amount_assessed' do

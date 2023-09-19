@@ -50,25 +50,28 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#case_type_name' do
     context 'without a redetermination or awaiting written reasons' do
-      it 'displays the case type name' do
-        expect(presenter.case_type_name).to eq(claim.case_type.name)
-      end
+      it { expect(presenter.case_type_name).to eq(claim.case_type.name) }
+      it { expect(presenter.claim_state).to be_blank }
     end
 
     context 'with a redetermination' do
-      it 'displays the case type name with a redetermination label' do
+      before do
         %w[submit allocate refuse redetermine allocate].each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:opened_for_redetermination?).and_return(true)
-        expect(presenter.case_type_name).to eq(claim.case_type.name)
       end
+
+      it { expect(presenter.case_type_name).to eq(claim.case_type.name) }
+      it { expect(presenter.claim_state).to eq('Redetermination') }
     end
 
     context 'with awaiting written reasons' do
-      it 'displays the case type name with an awaiting written reasons label' do
+      before do
         %w[submit allocate refuse await_written_reasons allocate].each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:written_reasons_outstanding?).and_return(true)
-        expect(presenter.case_type_name).to eq(claim.case_type.name)
       end
+
+      it { expect(presenter.case_type_name).to eq(claim.case_type.name) }
+      it { expect(presenter.claim_state).to eq('Awaiting written reasons') }
     end
   end
 
@@ -97,13 +100,12 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#case_number' do
-    it 'returns a placeholder text when not provided' do
-      presenter.case_number = nil
-      expect(presenter.case_number).to eq('N/A')
-    end
+    it { expect(presenter.case_number).to eql(claim.case_number) }
 
-    it 'returns it when provided' do
-      expect(presenter.case_number).to eql(claim.case_number)
+    context 'when case_number is not provided' do
+      before { presenter.update!(case_number: nil) }
+
+      it { expect(presenter.case_number).to eq('N/A') }
     end
   end
 
@@ -146,7 +148,10 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
 
     context 'when the claim is part_authorised' do
-      before { claim.update!(state: 'part_authorised') }
+      before do
+        claim.assessment.update!(fees: 10.00)
+        claim.update!(state: 'part_authorised')
+      end
 
       it do
         expect(presenter.valid_transitions)
@@ -185,52 +190,52 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#assessment_fees' do
-    it 'returns formatted assessment fees' do
-      claim.assessment.update!(fees: 1234.56, expenses: 0.0, disbursements: 300.0)
-      expect(presenter.assessment_fees).to eq '£1,234.56'
-    end
+    before { claim.assessment.update!(fees: 1234.56, expenses: 0.0, disbursements: 300.0) }
+
+    it { expect(presenter.assessment_fees).to eq '£1,234.56' }
   end
 
   describe '#assessment_expenses' do
-    it 'returns formatted assessment expenses' do
-      claim.assessment.update!(fees: 0.0, expenses: 1234.56, disbursements: 300.0)
-      expect(presenter.assessment_expenses).to eq '£1,234.56'
-    end
+    before { claim.assessment.update!(fees: 0.0, expenses: 1234.56, disbursements: 300.0) }
+
+    it { expect(presenter.assessment_expenses).to eq '£1,234.56' }
   end
 
   describe '#assessment_disbursements' do
-    it 'returns formatted assessment disbursements' do
-      claim.assessment.update!(fees: 0.0, expenses: 0.0, disbursements: 300.0)
-      expect(presenter.assessment_disbursements).to eq '£300.00'
-    end
+    before { claim.assessment.update!(fees: 0.0, expenses: 0.0, disbursements: 300.0) }
+
+    it { expect(presenter.assessment_disbursements).to eq '£300.00' }
   end
 
   describe '#retrial' do
-    it 'returns yes for case types like retrial' do
-      claim.case_type = create :case_type, :retrial
-      expect(presenter.retrial).to eql 'Yes'
+    context 'when the case type is retrial' do
+      before { claim.update!(case_type: create(:case_type, :retrial)) }
+
+      it { expect(presenter.retrial).to eql 'Yes' }
     end
 
-    it 'returns no for case types NOT like retrial' do
-      claim.case_type = create :case_type, :contempt
-      expect(presenter.retrial).to eql 'No'
+    context 'when the case type is not retrial' do
+      before { claim.update!(case_type: create(:case_type, :contempt)) }
+
+      it { expect(presenter.retrial).to eql 'No' }
     end
 
-    it 'returns empty string when no case type' do
-      claim.case_type = nil
-      expect(presenter.retrial).to be_blank
+    context 'when there is no case type' do
+      before { claim.update!(case_type: nil) }
+
+      it { expect(presenter.retrial).to be_blank }
     end
   end
 
   describe '#any_judicial_apportionments' do
-    it 'returns yes if any defendants have an order for judicial apportionment' do
-      first_defendant.update!(order_for_judicial_apportionment: true)
-      expect(presenter.any_judicial_apportionments).to eql 'Yes'
+    context 'when any defendant has an order for judicial apportionment' do
+      before { first_defendant.update!(order_for_judicial_apportionment: true) }
+
+      it { expect(presenter.any_judicial_apportionments).to eql 'Yes' }
     end
 
-    it 'returns no if no defendants have an order for judicial apportionment' do
-      first_defendant.update!(order_for_judicial_apportionment: false)
-      expect(presenter.any_judicial_apportionments).to eql 'No'
+    context 'when no defendant has an order for judicial apportionment' do
+      it { expect(presenter.any_judicial_apportionments).to eql 'No' }
     end
   end
 
@@ -258,52 +263,44 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#expenses_gross' do
-    it 'returns total expenses and total of expense vat in currency format' do
-      claim.expenses_total = 100
-      claim.expenses_vat = 25
-      expect(presenter.expenses_gross).to eql('£125.00')
-    end
+    before { claim.update!(expenses_total: 100, expenses_vat: 25) }
+
+    it { expect(presenter.expenses_gross).to eql('£125.00') }
   end
 
   describe '#disbursements_gross' do
-    it 'returns total disbursements and total disbursment vat in currency format' do
-      claim.disbursements_total = 100
-      claim.disbursements_vat = 25
-      expect(presenter.disbursements_gross).to eql('£125.00')
-    end
+    before { claim.update!(disbursements_total: 100, disbursements_vat: 25) }
+
+    it { expect(presenter.disbursements_gross).to eql('£125.00') }
   end
 
   describe '#fees_total' do
-    it 'returns total of all fees in currency format' do
-      claim.fees_total = 100
-      expect(presenter.fees_total).to eql('£100.00')
-    end
+    before { claim.update!(fees_total: 100) }
+
+    it { expect(presenter.fees_total).to eql('£100.00') }
   end
 
   describe '#total_inc_vat' do
-    it 'returns total of all fees and total of all fee vat in currency format' do
-      claim.total = 60
-      claim.vat_amount = 40
-      expect(presenter.total_inc_vat).to eql('£100.00')
-    end
+    before { claim.update!(total: 60, fees_vat: 40) }
+
+    it { expect(presenter.total_inc_vat).to eql('£100.00') }
   end
 
   describe '#case_worker_email_addresses' do
-    it 'returns comma separated string of case worker email address' do
-      cw1 = build(:case_worker)
-      cw2 = build(:case_worker)
-      cw1.user.email = 'john@bigblackhole.com'
-      cw2.user.email = 'bob@bigblackhole.com'
-      claim.case_workers << cw1
-      claim.case_workers << cw2
-      expect(presenter.case_worker_email_addresses).to eql('bob@bigblackhole.com, john@bigblackhole.com')
+    let(:first_case_worker) { build(:case_worker) }
+    let(:second_case_worker) { build(:case_worker) }
+
+    before do
+      first_case_worker.user.update!(email: 'john@bigblackhole.com')
+      second_case_worker.user.update!(email: 'bob@bigblackhole.com')
+      claim.case_workers << [first_case_worker, second_case_worker]
     end
+
+    it { expect(presenter.case_worker_email_addresses).to eql('bob@bigblackhole.com, john@bigblackhole.com') }
   end
 
   describe '#caseworker_claim_id' do
-    it 'returns claim id formatted for use in html label' do
-      expect(presenter.caseworker_claim_id).to eql("claim_ids_#{claim.id}")
-    end
+    it { expect(presenter.caseworker_claim_id).to eql("claim_ids_#{claim.id}") }
   end
 
   describe '#representation_order_details' do
@@ -368,41 +365,40 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  context 'when displaying a defendant_summary' do
+  describe 'displaying a defendant_summary' do
     let(:my_claim)  { Claim::AdvocateClaim.new }
-    let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view) }
+    let(:presenter) { described_class.new(my_claim, view) }
 
-    context 'with 3 defendants' do
-      it 'returns name and intial of first defendant and count of additional defendants' do
-        my_claim.defendants << Defendant.new(first_name: 'Stephen', last_name: 'Richards')
-        my_claim.defendants << Defendant.new(first_name: 'Robert', last_name: 'Stirling')
-        my_claim.defendants << Defendant.new(first_name: 'Stuart', last_name: 'Hollands')
-        expect(presenter.defendant_name_and_initial).to eq 'S. Richards'
-        expect(presenter.other_defendant_summary).to eq '+ 2 others'
-      end
+    context 'with no defendants' do
+      it { expect(presenter.defendant_name_and_initial).to be_nil }
+      it { expect(presenter.other_defendant_summary).to be_blank }
     end
 
     context 'with 1 defendant' do
-      it 'returns the name and initial of the only defendant' do
-        my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
-        expect(presenter.defendant_name_and_initial).to eq 'M. Withers'
-      end
+      before { my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers') }
+
+      it { expect(presenter.defendant_name_and_initial).to eq 'M. Withers' }
     end
 
     context 'with 2 defendants' do
-      it 'returns the name and initial of the first defendant + 1 other' do
+      before do
         my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
         my_claim.defendants << Defendant.new(first_name: 'Angela', last_name: 'Jones')
-        expect(presenter.defendant_name_and_initial).to eq 'M. Withers'
-        expect(presenter.other_defendant_summary).to eq '+ 1 other'
       end
+
+      it { expect(presenter.defendant_name_and_initial).to eq 'M. Withers' }
+      it { expect(presenter.other_defendant_summary).to eq '+ 1 other' }
     end
 
-    context 'with no defendants' do
-      it 'returns nil' do
-        expect(presenter.defendant_name_and_initial).to be_nil
-        expect(presenter.other_defendant_summary).to eq ''
+    context 'with 3 defendants' do
+      before do
+        my_claim.defendants << Defendant.new(first_name: 'Stephen', last_name: 'Richards')
+        my_claim.defendants << Defendant.new(first_name: 'Robert', last_name: 'Stirling')
+        my_claim.defendants << Defendant.new(first_name: 'Stuart', last_name: 'Hollands')
       end
+
+      it { expect(presenter.defendant_name_and_initial).to eq 'S. Richards' }
+      it { expect(presenter.other_defendant_summary).to eq '+ 2 others' }
     end
   end
 
@@ -417,18 +413,16 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     before { create(:injection_attempt, :with_errors, claim:) }
 
-    it 'returns nil for inactive injection errors' do
-      claim.injection_attempts.last.soft_delete
-      is_expected.to be_nil
+    context 'with injection errors' do
+      it { is_expected.to eql 'Claim not injected' }
+      it { expect { |b| presenter.injection_error(&b) }.to yield_control.exactly(1).times }
+      it { expect { |b| presenter.injection_error(&b) }.to yield_with_args('Claim not injected') }
     end
 
-    it 'returns single header message for active injection errors' do
-      is_expected.to eql 'Claim not injected'
-    end
+    context 'when injection errors are inactive' do
+      before { claim.injection_attempts.last.soft_delete }
 
-    it 'yields a block passing the header message as an argument' do
-      expect { |b| presenter.injection_error(&b) }.to yield_control.exactly(1).times
-      expect { |b| presenter.injection_error(&b) }.to yield_with_args('Claim not injected')
+      it { is_expected.to be_nil }
     end
   end
 

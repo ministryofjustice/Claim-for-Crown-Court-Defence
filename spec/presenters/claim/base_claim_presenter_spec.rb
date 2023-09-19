@@ -49,23 +49,23 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#case_type_name' do
-    context 'non redetermination or awaiting written reason' do
+    context 'without a redetermination or awaiting written reasons' do
       it 'displays the case type name' do
         expect(presenter.case_type_name).to eq(claim.case_type.name)
       end
     end
 
-    context 'redetermination' do
+    context 'with a redetermination' do
       it 'displays the case type name with a redetermination label' do
-        %w(submit allocate refuse redetermine allocate).each { |event| claim.send("#{event}!") }
+        %w[submit allocate refuse redetermine allocate].each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:opened_for_redetermination?).and_return(true)
         expect(presenter.case_type_name).to eq(claim.case_type.name)
       end
     end
 
-    context 'awaiting written reasons' do
+    context 'with awaiting written reasons' do
       it 'displays the case type name with an awaiting written reasons label' do
-        %w(submit allocate refuse await_written_reasons allocate).each { |event| claim.send("#{event}!") }
+        %w[submit allocate refuse await_written_reasons allocate].each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:written_reasons_outstanding?).and_return(true)
         expect(presenter.case_type_name).to eq(claim.case_type.name)
       end
@@ -160,7 +160,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       it { expect(presenter.assessment_date).to eq 'not yet assessed' }
     end
 
-    context 'one assessment, no redeterminations' do
+    context 'with one assessment, no redeterminations' do
       before do
         claim.assessment.update!(fees: 100.0, expenses: 200.0, created_at: assessment_date, updated_at: assessment_date)
       end
@@ -168,7 +168,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       it { expect(presenter.assessment_date).to eq '01/09/2015' }
     end
 
-    context 'multiple redeterminations' do
+    context 'with multiple redeterminations' do
       let(:first_redetermination) { create(:redetermination, created_at: Time.zone.local(2015, 9, 4, 7, 33, 22)) }
       let(:second_redetermination) { create(:redetermination, created_at: Time.zone.local(2015, 9, 9, 13, 33, 55)) }
 
@@ -237,7 +237,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     expect(presenter.assessment_total).to eql('£152.48')
   end
 
-  context 'dynamically defined methods' do
+  context 'with dynamically defined methods' do
     %w[expenses disbursements].each do |object_name|
       %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].each do |method|
         method_name = "#{object_name}_#{method}".to_sym
@@ -361,11 +361,11 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
   end
 
-  context 'defendant_summary' do
+  context 'when displaying a defendant_summary' do
     let(:my_claim)  { Claim::AdvocateClaim.new }
     let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view) }
 
-    context '3 defendants' do
+    context 'with 3 defendants' do
       it 'returns name and intial of first defendant and count of additional defendants' do
         my_claim.defendants << Defendant.new(first_name: 'Stephen', last_name: 'Richards')
         my_claim.defendants << Defendant.new(first_name: 'Robert', last_name: 'Stirling')
@@ -375,14 +375,14 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
     end
 
-    context '1 defendant' do
+    context 'with 1 defendant' do
       it 'returns the name and initial of the only defendant' do
         my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
         expect(presenter.defendant_name_and_initial).to eq 'M. Withers'
       end
     end
 
-    context '2 defendants' do
+    context 'with 2 defendants' do
       it 'returns the name and initial of the first defendant + 1 other' do
         my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
         my_claim.defendants << Defendant.new(first_name: 'Angela', last_name: 'Jones')
@@ -391,7 +391,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
     end
 
-    context 'no defendants' do
+    context 'with no defendants' do
       it 'returns nil' do
         expect(presenter.defendant_name_and_initial).to be_nil
         expect(presenter.other_defendant_summary).to eq ''
@@ -450,13 +450,13 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#supplier_name' do
     subject { presenter.supplier_name }
 
-    context 'AGFS' do
+    context 'when the claim is AGFS' do
       it 'returns nil' do
         is_expected.to be_nil
       end
     end
 
-    context 'LGFS' do
+    context 'when the claim is LGFS' do
       let(:claim) { create(:litigator_claim) }
       let(:supplier) do
         SupplierNumber.find_by(supplier_number: claim.supplier_number)
@@ -471,13 +471,13 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#supplier_postcode' do
     subject { presenter.supplier_postcode }
 
-    context 'AGFS' do
+    context 'when the claim is AGFS' do
       it 'returns nil' do
         is_expected.to be_nil
       end
     end
 
-    context 'LGFS' do
+    context 'when the claim is LGFS' do
       let(:claim) { create(:litigator_claim) }
       let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
 
@@ -491,13 +491,13 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#supplier_name_with_postcode' do
     subject { presenter.supplier_name_with_postcode }
 
-    context 'AGFS' do
+    context 'when the claim is AGFS' do
       it 'returns nil' do
         is_expected.to be_nil
       end
     end
 
-    context 'LGFS' do
+    context 'when the claim is LGFS' do
       let(:claim) { create(:litigator_claim) }
       let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
 
@@ -658,7 +658,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#has_messages?' do
     subject { presenter.has_messages? }
 
-    context 'non-remote claims' do
+    context 'when the claim is non-remote' do
       before { allow(claim).to receive(:remote?).and_return false }
 
       it 'returns true if there are any messages' do
@@ -672,7 +672,7 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
     end
 
-    context 'remote claims' do
+    context 'when the claim is remote' do
       let(:claim) { double(Remote::Claim, remote?: true) }
 
       it 'returns true for positive message count' do

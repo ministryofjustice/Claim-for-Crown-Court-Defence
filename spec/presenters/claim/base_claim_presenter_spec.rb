@@ -434,20 +434,24 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#injection_errors' do
-    subject { presenter.injection_errors }
+    subject(:injection_errors) { presenter.injection_errors }
 
-    before do
-      create(:injection_attempt, :with_errors, claim:)
-    end
+    let(:injection_attempts) { [instance_double(InjectionAttempt)] }
+    let(:injection_attempt) { instance_double(InjectionAttempt) }
 
-    it 'calls last error messages attribute of model' do
-      injection_attempts = instance_double('injection_attempts')
-      injection_attempt = instance_double('injection_attempt')
-      expect(claim).to receive(:injection_attempts).at_least(:once).and_return(injection_attempts)
-      expect(injection_attempts).to receive(:last).at_least(:once).and_return(injection_attempt)
-      expect(injection_attempt).to receive(:active?).at_least(:once).and_return true
-      expect(injection_attempt).to receive(:error_messages).at_least(:once)
-      subject
+    before { create(:injection_attempt, :with_errors, claim:) }
+
+    context 'when stubbing calls to injection_attempts' do
+      before do
+        allow(claim).to receive(:injection_attempts).at_least(:once).and_return(injection_attempts)
+        allow(injection_attempts).to receive(:last).at_least(:once).and_return(injection_attempt)
+        allow(injection_attempt).to receive(:active?).at_least(:once).and_return true
+      end
+
+      it 'calls last error messages attribute of model' do
+        expect(injection_attempt).to receive(:error_messages).at_least(:once)
+        injection_errors
+      end
     end
 
     it 'returns the last error messages array' do

@@ -32,17 +32,13 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#show_sidebar?' do
     context 'when current step does NOT require sidebar' do
-      before do
-        expect(claim).to receive(:current_step).and_return(:defendants)
-      end
+      before { allow(claim).to receive(:current_step).and_return(:defendants) }
 
       specify { expect(presenter.show_sidebar?).to be_falsey }
     end
 
     context 'when current step does require sidebar' do
-      before do
-        expect(claim).to receive(:current_step).and_return(:requires_sidebar_step)
-      end
+      before { allow(claim).to receive(:current_step).and_return(:requires_sidebar_step) }
 
       specify { expect(presenter.show_sidebar?).to be_truthy }
     end
@@ -554,34 +550,34 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#mandatory_case_details?' do
-    it 'returns truthy when claim has case type, court and case number' do
-      expect(claim).to receive(:case_type).and_return 'a case type'
-      expect(claim).to receive(:court).and_return 'a court'
-      expect(claim).to receive(:case_number).and_return 'a case number'
-      expect(presenter.mandatory_case_details?).to be_truthy
+    before { allow(claim).to receive_messages(case_type: 'a case type', court: 'a court') }
+
+    context 'when claim has case type, court and case number' do
+      before { allow(claim).to receive(:case_number).and_return 'a case number' }
+
+      it { expect(presenter.mandatory_case_details?).to be_truthy }
     end
 
-    it 'returns falsey when claim is missing one of case type, court or case number' do
-      expect(claim).to receive(:case_type).and_return 'a case type'
-      expect(claim).to receive(:court).and_return 'a court'
-      expect(claim).to receive(:case_number).and_return nil
-      expect(presenter.mandatory_case_details?).to be_falsey
+    context 'when claim is missing one of case type, court or case number' do
+      before { allow(claim).to receive(:case_number).and_return nil }
+
+      it { expect(presenter.mandatory_case_details?).to be_falsey }
     end
   end
 
   describe '#mandatory_supporting_evidence?' do
-    it 'returns truthy when claim has disk evidence, documents or evidence checklist item' do
-      expect(claim).to receive(:disk_evidence).and_return false
-      expect(claim).to receive(:documents).and_return []
-      expect(claim).to receive(:evidence_checklist_ids).and_return [1]
-      expect(presenter.mandatory_supporting_evidence?).to be_truthy
+    before { allow(claim).to receive_messages(disk_evidence: false, court: []) }
+
+    context 'when claim has disk evidence, documents or evidence checklist item' do
+      before { allow(claim).to receive(:evidence_checklist_ids).and_return [1] }
+
+      it { expect(presenter.mandatory_supporting_evidence?).to be_truthy }
     end
 
-    it 'returns falsey when claim has NO disk evidence, documents or evidence checklist item' do
-      expect(claim).to receive(:disk_evidence).and_return false
-      expect(claim).to receive(:documents).and_return []
-      expect(claim).to receive(:evidence_checklist_ids).and_return []
-      expect(presenter.mandatory_supporting_evidence?).to be_falsey
+    context 'when claim has NO disk evidence, documents or evidence checklist item' do
+      before { allow(claim).to receive(:evidence_checklist_ids).and_return [] }
+
+      it { expect(presenter.mandatory_supporting_evidence?).to be_falsey }
     end
   end
 
@@ -630,10 +626,9 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#submitted_at_short' do
     subject { presenter.submitted_at_short }
 
-    it 'returns short date formatted string of #last_submitted_at' do
-      expect(claim).to receive(:last_submitted_at).and_return DateTime.parse('2019-03-31 09:38:00.000000')
-      is_expected.to eql '31/03/19'
-    end
+    before { allow(claim).to receive(:last_submitted_at).and_return DateTime.parse('2019-03-31 09:38:00.000000') }
+
+    it { is_expected.to eql '31/03/19' }
   end
 
   describe '#trial_concluded' do
@@ -662,37 +657,46 @@ RSpec.describe Claim::BaseClaimPresenter do
     context 'when the claim is non-remote' do
       before { allow(claim).to receive(:remote?).and_return false }
 
-      it 'returns true if there are any messages' do
-        expect(claim).to receive(:messages).and_return [instance_double(Message)]
-        is_expected.to be_truthy
+      context 'when there are messages' do
+        before { allow(claim).to receive(:messages).and_return [instance_double(Message)] }
+
+        it { is_expected.to be_truthy }
       end
 
-      it 'returns false if there are no messages' do
-        expect(claim).to receive(:messages).and_return []
-        is_expected.to be_falsey
+      context 'when there are no messages' do
+        before { allow(claim).to receive(:messages).and_return [] }
+
+        it { is_expected.to be_falsey }
       end
     end
 
     context 'when the claim is remote' do
-      let(:claim) { double(Remote::Claim, remote?: true) }
+      let(:claim) { instance_double(Remote::Claim, remote?: true) }
 
-      it 'returns true for positive message count' do
-        allow(claim).to receive(:messages_count).and_return 2
-        is_expected.to be_truthy
+      context 'when message count is positive' do
+        before { allow(claim).to receive(:messages_count).and_return 2 }
+
+        it { is_expected.to be_truthy }
       end
 
-      it 'returns false for nil or zero message count' do
-        allow(claim).to receive(:messages_count).and_return nil
-        is_expected.to be_falsey
+      context 'when message count is zero' do
+        before { allow(claim).to receive(:messages_count).and_return 0 }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when message count is nil' do
+        before { allow(claim).to receive(:messages_count).and_return nil }
+
+        it { is_expected.to be_falsey }
       end
     end
   end
 
   describe '#raw_misc_fees_total' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:calculate_fees_total).with(:misc_fees).and_return 101.00
-      expect(presenter.raw_misc_fees_total).to eq 101.00
-    end
+    before { allow(claim).to receive(:calculate_fees_total).with(:misc_fees).and_return 101.00 }
+
+    it { expect(presenter.raw_misc_fees_total).to eq 101.00 }
   end
 
   describe '#raw_fixed_fees_total' do
@@ -738,11 +742,9 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#raw_total_inc' do
-    it 'sends messages to claim' do
-      expect(claim).to receive(:total).and_return 120.00
-      expect(claim).to receive(:vat_amount).and_return 24.00
-      expect(presenter.raw_total_inc).to eq 144.00
-    end
+    before { allow(claim).to receive_messages(total: 120.00, vat_amount: 24.00) }
+
+    it { expect(presenter.raw_total_inc).to eq 144.00 }
   end
 
   describe '#raw_total_excl' do
@@ -821,50 +823,24 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe 'calculate #misc_fees' do
     before do
-      allow(presenter).to receive(:raw_misc_fees_total).and_return 10.0
-      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true)
+      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true, calculate_fees_total: 10.00)
     end
 
-    it '#raw_misc_fees_vat' do
-      expect(presenter.raw_misc_fees_vat).to eq(2.0)
-    end
-
-    it 'returns #raw_misc_fees_gross' do
-      allow(presenter).to receive(:raw_misc_fees_vat).and_return 2.0
-      expect(presenter.raw_misc_fees_gross).to eq(12.0)
-    end
-
-    it 'returns #misc_fees_vat with the associated currency' do
-      expect(presenter.misc_fees_vat).to eq('£2.00')
-    end
-
-    it 'returns #misc_fees_gross with the associated currency' do
-      expect(presenter.misc_fees_gross).to eq('£12.00')
-    end
+    it { expect(presenter.raw_misc_fees_vat).to eq(2.0) }
+    it { expect(presenter.raw_misc_fees_gross).to eq(12.0) }
+    it { expect(presenter.misc_fees_vat).to eq('£2.00') }
+    it { expect(presenter.misc_fees_gross).to eq('£12.00') }
   end
 
   describe 'calculate #fixed_fees' do
     before do
-      allow(presenter).to receive(:raw_fixed_fees_total).and_return 10.0
-      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true)
+      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true, calculate_fees_total: 10.00)
     end
 
-    it '#raw_fixed_fees_vat' do
-      expect(presenter.raw_fixed_fees_vat).to eq(2.0)
-    end
-
-    it 'returns #raw_fixed_fees_gross' do
-      allow(presenter).to receive(:raw_fixed_fees_vat).and_return 2.0
-      expect(presenter.raw_fixed_fees_gross).to eq(12.0)
-    end
-
-    it 'returns #fixed_fees_vat with the associated currency' do
-      expect(presenter.fixed_fees_vat).to eq('£2.00')
-    end
-
-    it 'returns #fixed_fees_gross with the associated currency' do
-      expect(presenter.fixed_fees_gross).to eq('£12.00')
-    end
+    it { expect(presenter.raw_fixed_fees_vat).to eq(2.0) }
+    it { expect(presenter.raw_fixed_fees_gross).to eq(12.0) }
+    it { expect(presenter.fixed_fees_vat).to eq('£2.00') }
+    it { expect(presenter.fixed_fees_gross).to eq('£12.00') }
   end
 
   describe '#has_clar_fees?' do

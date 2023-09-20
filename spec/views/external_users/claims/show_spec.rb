@@ -27,8 +27,8 @@ RSpec.describe 'external_users/claims/show.html.haml' do
 
       it 'displays the documents that have been uploaded' do
         render
-        expect(rendered).to have_selector('li', text: 'Representation order')
-        expect(rendered).to have_selector('li', text: 'Justification for out of time claim')
+        expect(rendered).to have_css('li', text: 'Representation order')
+        expect(rendered).to have_css('li', text: 'Justification for out of time claim')
       end
 
       it 'does not display a `download all` link' do
@@ -48,12 +48,12 @@ RSpec.describe 'external_users/claims/show.html.haml' do
 
       it 'displays the advocate category section' do
         render
-        expect(rendered).to have_selector('div', text: 'Advocate category')
+        expect(rendered).to have_css('div', text: 'Advocate category')
       end
 
       it 'displays the advocate account number section' do
         render
-        expect(rendered).to have_selector('div', text: 'Advocate account number')
+        expect(rendered).to have_css('div', text: 'Advocate account number')
       end
     end
 
@@ -92,13 +92,13 @@ RSpec.describe 'external_users/claims/show.html.haml' do
     describe 'basic claim information' do
       it 'doesn\'t display the litigator category section' do
         render
-        expect(rendered).not_to have_selector('div', text: 'Advocate category')
-        expect(rendered).not_to have_selector('div', text: 'Litigator category')
+        expect(rendered).not_to have_css('div', text: 'Advocate category')
+        expect(rendered).not_to have_css('div', text: 'Litigator category')
       end
 
       it 'displays the litigator account number section' do
         render
-        expect(rendered).to have_selector('div', text: 'Litigator account number')
+        expect(rendered).to have_css('div', text: 'Litigator account number')
       end
     end
 
@@ -109,7 +109,7 @@ RSpec.describe 'external_users/claims/show.html.haml' do
         it 'does not render state labels' do
           claim.reload
           render
-          expect(rendered).to_not have_selector('strong.govuk-tag.app-tag--unverified', text: 'Unverified')
+          expect(rendered).to_not have_css('strong.govuk-tag.app-tag--unverified', text: 'Unverified')
         end
       end
     end
@@ -127,18 +127,18 @@ RSpec.describe 'external_users/claims/show.html.haml' do
     describe 'basic claim information' do
       it 'displays the fee type section' do
         render
-        expect(rendered).to have_selector('div', text: 'Fee type')
+        expect(rendered).to have_css('div', text: 'Fee type')
       end
 
       context 'Effective PCMH' do
         it 'displays the PPE total section' do
           render
-          expect(rendered).to have_selector('div', text: 'PPE total at the time')
+          expect(rendered).to have_css('div', text: 'PPE total at the time')
         end
 
         it 'displays the Effective PCMH section' do
           render
-          expect(rendered).to have_selector('div', text: 'Effective PCMH')
+          expect(rendered).to have_css('div', text: 'Effective PCMH')
         end
       end
     end
@@ -146,7 +146,7 @@ RSpec.describe 'external_users/claims/show.html.haml' do
     describe 'Fees, expenses and more information' do
       it 'does not show the expenses section' do
         render
-        expect(rendered).not_to have_selector('p', text: 'There are no expenses for this claim')
+        expect(rendered).not_to have_css('p', text: 'There are no expenses for this claim')
       end
     end
   end

@@ -1,6 +1,8 @@
 require 'rails_helper'
 require 'cgi'
 
+METHOD_NAMES = %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].freeze
+
 RSpec.shared_examples 'last claim state transition reason_text' do
   let(:mock_claim_state_transitions) do
     [
@@ -247,9 +249,9 @@ RSpec.describe Claim::BaseClaimPresenter do
     it { expect(presenter.assessment_total).to eql('£152.48') }
   end
 
-  context 'with dynamically defined methods' do
+  describe 'dynamically defined methods' do
     %w[expenses disbursements].each do |object_name|
-      %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].each do |method|
+      METHOD_NAMES.each do |method|
         method_name = "#{object_name}_#{method}".to_sym
         it { is_expected.to respond_to(method_name) }
 

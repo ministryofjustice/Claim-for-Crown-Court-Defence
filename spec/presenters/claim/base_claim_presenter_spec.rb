@@ -697,45 +697,39 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#raw_fixed_fees_total' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:fixed_fees)
-      presenter.raw_fixed_fees_total
-    end
+    before { allow(claim).to receive(:calculate_fees_total).with(:fixed_fees).and_return 101.00 }
+
+    it { expect(presenter.raw_fixed_fees_total).to eq 101.00 }
   end
 
   describe '#raw_expenses_total' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:expenses_total)
-      presenter.raw_expenses_total
-    end
+    before { allow(claim).to receive(:expenses_total).and_return 101.00 }
+
+    it { expect(presenter.raw_expenses_total).to eq 101.00 }
   end
 
   describe '#raw_expenses_vat' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:expenses_vat)
-      presenter.raw_expenses_vat
-    end
+    before { allow(claim).to receive(:expenses_vat).and_return 20.20 }
+
+    it { expect(presenter.raw_expenses_vat).to eq 20.20 }
   end
 
   describe '#raw_disbursements_total' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:disbursements_total)
-      presenter.raw_disbursements_total
-    end
+    before { allow(claim).to receive(:disbursements_total).and_return 101.00 }
+
+    it { expect(presenter.raw_disbursements_total).to eq 101.00 }
   end
 
   describe '#raw_disbursements_vat' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:disbursements_vat)
-      presenter.raw_disbursements_vat
-    end
+    before { allow(claim).to receive(:disbursements_vat).and_return 20.20 }
+
+    it { expect(presenter.raw_disbursements_vat).to eq 20.20 }
   end
 
   describe '#raw_vat_amount' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:vat_amount)
-      presenter.raw_vat_amount
-    end
+    before { allow(claim).to receive(:vat_amount).and_return 20.20 }
+
+    it { expect(presenter.raw_vat_amount).to eq 20.20 }
   end
 
   describe '#raw_total_inc' do
@@ -745,10 +739,9 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#raw_total_excl' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:total)
-      presenter.raw_total_excl
-    end
+    before { allow(claim).to receive_messages(total: 120.00, vat_amount: 24.00) }
+
+    it { expect(presenter.raw_total_excl).to eq 120.00 }
   end
 
   describe '#can_have_disbursements?' do

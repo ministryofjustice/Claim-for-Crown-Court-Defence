@@ -74,7 +74,10 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#defendant_names' do
-    it { expect(presenter.defendant_names).to eql("#{CGI.escapeHTML(first_defendant.name)}, <br>Robert Smith, <br>Adam Smith") }
+    it do
+      expect(presenter.defendant_names)
+        .to eql("#{CGI.escapeHTML(first_defendant.name)}, <br>Robert Smith, <br>Adam Smith")
+    end
   end
 
   describe '#submitted_at' do
@@ -323,13 +326,17 @@ RSpec.describe Claim::BaseClaimPresenter do
     let(:defendant_added_second) do
       build(:defendant).tap do |defendant|
         travel_to 2.days.ago do
-          defendant.representation_orders = [build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '444444')]
+          defendant.representation_orders = [build(:representation_order,
+                                                   representation_order_date: Date.new(2015, 3, 1),
+                                                   maat_reference: '444444')]
         end
       end
     end
 
     it 'returns a string of all the dates' do
-      expect(presenter.representation_order_details).to eq('01/03/2015 222222<br>13/08/2015 333333<br>01/03/2015 444444')
+      expect(presenter.representation_order_details).to eq(
+        '01/03/2015 222222<br>13/08/2015 333333<br>01/03/2015 444444'
+      )
     end
   end
 
@@ -773,7 +780,9 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
 
     context 'when claim delegates case type' do
-      let(:claim) { create(:advocate_hardship_claim, case_type: nil, case_stage: build(:case_stage, :trial_not_concluded)) }
+      let(:claim) do
+        create(:advocate_hardship_claim, case_type: nil, case_stage: build(:case_stage, :trial_not_concluded))
+      end
 
       it 'case type is expected to be truthy' do
         expect(claim.case_type).to be_truthy

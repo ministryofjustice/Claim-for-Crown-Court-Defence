@@ -303,8 +303,8 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it 'does not render reasons section content' do
           expect(rendered).to_not have_content(/Reason(s) provided:/)
-          expect(rendered).to_not have_selector('li', text: 'No amending representation order')
-          expect(rendered).to_not have_selector('li', text: 'Other (rejecting because...)')
+          expect(rendered).to_not have_css('li', text: 'No amending representation order')
+          expect(rendered).to_not have_css('li', text: 'Other (rejecting because...)')
         end
       end
     end
@@ -325,7 +325,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         end
 
         it 'has the correct status display' do
-          expect(rendered).to have_selector('strong.govuk-tag.app-tag--rejected', text: 'Rejected')
+          expect(rendered).to have_css('strong.govuk-tag.app-tag--rejected', text: 'Rejected')
         end
 
         it 'renders the reason header with the correct tense' do
@@ -333,7 +333,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         end
 
         it 'renders the full text of the reason' do
-          expect(rendered).to have_selector('li', text: 'No amending representation order')
+          expect(rendered).to have_css('li', text: 'No amending representation order')
         end
 
         context 'with multiple reasons' do
@@ -344,15 +344,15 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
           end
 
           it 'renders the full text of the reasons' do
-            expect(rendered).to have_selector('li', text: 'No amending representation order')
-            expect(rendered).to have_selector('li', text: 'Case still live')
-            expect(rendered).to have_selector('li', text: 'Other (rejecting because...)')
+            expect(rendered).to have_css('li', text: 'No amending representation order')
+            expect(rendered).to have_css('li', text: 'Case still live')
+            expect(rendered).to have_css('li', text: 'Other (rejecting because...)')
           end
         end
 
         context 'legacy cases with non-array reason codes', :legacy do
           it 'renders the full text of the reason' do
-            expect(rendered).to have_selector('li', text: 'Incorrect case number')
+            expect(rendered).to have_css('li', text: 'Incorrect case number')
           end
         end
       end
@@ -368,11 +368,11 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     end
 
     it 'displays summary errors' do
-      expect(rendered).to have_selector('div.error-summary')
+      expect(rendered).to have_css('div.error-summary')
     end
 
     it 'displays each error message' do
-      expect(rendered).to have_selector('ul.error-summary-list > li > a', text: /injection error/, count: 2)
+      expect(rendered).to have_css('ul.error-summary-list > li > a', text: /injection error/, count: 2)
     end
   end
 

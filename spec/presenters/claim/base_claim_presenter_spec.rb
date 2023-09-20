@@ -34,13 +34,13 @@ RSpec.describe Claim::BaseClaimPresenter do
     context 'when current step does NOT require sidebar' do
       before { allow(claim).to receive(:current_step).and_return(:defendants) }
 
-      specify { expect(presenter.show_sidebar?).to be_falsey }
+      it { expect(presenter.show_sidebar?).to be_falsey }
     end
 
     context 'when current step does require sidebar' do
       before { allow(claim).to receive(:current_step).and_return(:requires_sidebar_step) }
 
-      specify { expect(presenter.show_sidebar?).to be_truthy }
+      it { expect(presenter.show_sidebar?).to be_truthy }
     end
   end
 
@@ -448,20 +448,14 @@ RSpec.describe Claim::BaseClaimPresenter do
     subject { presenter.supplier_name }
 
     context 'when the claim is AGFS' do
-      it 'returns nil' do
-        is_expected.to be_nil
-      end
+      it { is_expected.to be_nil }
     end
 
     context 'when the claim is LGFS' do
       let(:claim) { create(:litigator_claim) }
-      let(:supplier) do
-        SupplierNumber.find_by(supplier_number: claim.supplier_number)
-      end
+      let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
 
-      it 'returns claim supplier\'s name' do
-        is_expected.to eql supplier.name
-      end
+      it { is_expected.to eql supplier.name }
     end
   end
 
@@ -469,19 +463,14 @@ RSpec.describe Claim::BaseClaimPresenter do
     subject { presenter.supplier_postcode }
 
     context 'when the claim is AGFS' do
-      it 'returns nil' do
-        is_expected.to be_nil
-      end
+      it { is_expected.to be_nil }
     end
 
     context 'when the claim is LGFS' do
       let(:claim) { create(:litigator_claim) }
       let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
 
-      it 'returns claim suppliers postcode' do
-        is_expected.to_not be_nil
-        is_expected.to eql supplier.postcode
-      end
+      it { is_expected.to eql supplier.postcode }
     end
   end
 
@@ -489,9 +478,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     subject { presenter.supplier_name_with_postcode }
 
     context 'when the claim is AGFS' do
-      it 'returns nil' do
-        is_expected.to be_nil
-      end
+      it { is_expected.to be_nil }
     end
 
     context 'when the claim is LGFS' do
@@ -499,18 +486,13 @@ RSpec.describe Claim::BaseClaimPresenter do
       let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
 
       context 'when claim supplier has name and postcode' do
-        it 'returns name and postcode' do
-          is_expected.to_not be_nil
-          is_expected.to eql "#{supplier.name} (#{supplier.postcode})"
-        end
+        it { is_expected.to eql "#{supplier.name} (#{supplier.postcode})" }
       end
 
       context 'when claim supplier has name but NOT postcode' do
         before { supplier.update(postcode: nil) }
 
-        it 'returns name' do
-          is_expected.to eql supplier.name
-        end
+        it { is_expected.to eql supplier.name }
       end
 
       context 'when claim supplier has no name or postcode' do
@@ -637,17 +619,13 @@ RSpec.describe Claim::BaseClaimPresenter do
     context 'when no claim#trial_concluded_at' do
       before { allow(claim).to receive(:trial_concluded_at).and_return nil }
 
-      it 'returns text' do
-        is_expected.to eql 'not specified'
-      end
+      it { is_expected.to eql 'not specified' }
     end
 
     context 'when claim#trial_concluded_at' do
       before { allow(claim).to receive(:trial_concluded_at).and_return DateTime.parse('2019-03-31 09:38:00.000000') }
 
-      it 'returns app specific date string format' do
-        is_expected.to eql '31/03/2019'
-      end
+      it { is_expected.to eql '31/03/2019' }
     end
   end
 
@@ -755,11 +733,11 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#can_have_disbursements?' do
-    specify { expect(presenter.can_have_disbursements?).to be_truthy }
+    it { expect(presenter.can_have_disbursements?).to be_truthy }
   end
 
   describe '#display_days?' do
-    specify { expect(presenter.display_days?).to be_falsey }
+    it { expect(presenter.display_days?).to be_falsey }
   end
 
   describe '#display_case_type?' do
@@ -874,11 +852,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     it {
       is_expected.to include(
-        [
-          mispf_fee_type.description,
-          mispf_fee_type.id,
-          data: { unique_code: mispf_fee_type.unique_code }
-        ]
+        [mispf_fee_type.description, mispf_fee_type.id, { data: { unique_code: mispf_fee_type.unique_code } }]
       )
     }
   end

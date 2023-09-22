@@ -64,6 +64,11 @@ gem 'faraday', '~> 1.10'
 gem 'faraday_middleware', '~> 1.2'
 gem 'puma'
 
+group :production, :devunicorn do
+  gem 'unicorn-rails', '2.2.1'
+  gem 'unicorn-worker-killer', '~> 0.4.5'
+end
+
 group :development, :test do
   gem 'annotate'
   gem 'brakeman', :require => false

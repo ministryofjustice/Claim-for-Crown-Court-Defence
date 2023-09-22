@@ -292,6 +292,8 @@ GEM
       faraday (~> 1.0)
     ffi (1.15.5)
     geckoboard-ruby (0.4.0)
+    get_process_mem (0.2.7)
+      ffi (~> 1.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
     govuk_design_system_formbuilder (4.1.1)
@@ -380,6 +382,7 @@ GEM
       activerecord
       kaminari-core (= 1.2.2)
     kaminari-core (1.2.2)
+    kgio (2.11.4)
     laa-fee-calculator-client (1.4.0)
       faraday (~> 1.0)
       faraday-http-cache (~> 2.2)
@@ -512,6 +515,7 @@ GEM
       rake (>= 12.2)
       thor (~> 1.0)
     rainbow (3.1.1)
+    raindrops (0.20.1)
     rake (13.0.6)
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
@@ -671,6 +675,15 @@ GEM
       unf_ext
     unf_ext (0.0.8.2)
     unicode-display_width (2.4.2)
+    unicorn (6.1.0)
+      kgio (~> 2.6)
+      raindrops (~> 0.7)
+    unicorn-rails (2.2.1)
+      rack
+      unicorn
+    unicorn-worker-killer (0.4.5)
+      get_process_mem (~> 0)
+      unicorn (>= 4, < 7)
     utf8-cleaner (1.0.0)
       activesupport
     vcr (6.2.0)
@@ -801,6 +814,8 @@ DEPENDENCIES
   state_machines-audit_trail
   timecop
   tzinfo-data
+  unicorn-rails (= 2.2.1)
+  unicorn-worker-killer (~> 0.4.5)
   utf8-cleaner (~> 1.0)
   vcr
   webmock

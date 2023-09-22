@@ -47,9 +47,13 @@ RSpec.describe MessagesController do
         end
 
         context 'when redetermining/awaiting written reasons' do
-          it 'redirects to externl users claim show path with messages param and accordion anchor' do
-            claim.submit!; claim.allocate!; claim.refuse!
+          before do
+            claim.submit!
+            claim.allocate!
+            claim.refuse!
+          end
 
+          it 'redirects to external users claim show path with messages param and accordion anchor' do
             Settings.claim_actions.each do |action|
               post :create, params: { message: message_params.merge(claim_action: action) }
               expect(response).to redirect_to(external_users_claim_path(claim, messages: true) + '#claim-accordion')

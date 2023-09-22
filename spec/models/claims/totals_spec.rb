@@ -34,7 +34,10 @@ RSpec.describe Claim do
   end
 
   context 'expenses total' do
-    before { expenses; claim.reload }
+    before do
+      expenses
+      claim.reload
+    end
 
     describe '#update_expenses_total' do
       it 'stores the expenses total' do
@@ -83,7 +86,10 @@ RSpec.describe Claim do
   end
 
   context 'total' do
-    before { expenses; claim.reload }
+    before do
+      expenses
+      claim.reload
+    end
 
     describe '#calculate_total' do
       it 'calculates the fees and expenses total' do

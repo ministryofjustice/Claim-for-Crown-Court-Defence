@@ -273,7 +273,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController do
         context 'but the claim is not longer editable' do
           # TODO: there seems to be problems with the factories which previously allowed claims to be in submitted state without the
           # necessary valid information. Needs looking at!
-          let!(:claim) { create_claim(:advocate_interim_claim, :submitted, external_user: authorized_user, creator: authorized_user).tap { |c| c.submit! } }
+          let!(:claim) { create_claim(:advocate_interim_claim, :submitted, external_user: authorized_user, creator: authorized_user).tap(&:submit!) }
 
           it 'redirects the user to its home page with an unauthorised error' do
             edit_request
@@ -372,7 +372,7 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController do
         context 'but the claim is not longer editable' do
           # TODO: there seems to be problems with the factories which previously allowed claims to be in submitted state without the
           # necessary valid information. Needs looking at!
-          let!(:claim) { create_claim(:advocate_interim_claim, :submitted, external_user: authorized_user, creator: authorized_user).tap { |c| c.submit! } }
+          let!(:claim) { create_claim(:advocate_interim_claim, :submitted, external_user: authorized_user, creator: authorized_user).tap(&:submit!) }
 
           it 'redirects the user to its home page with an unauthorised error' do
             update_request

@@ -46,7 +46,6 @@ exclude_patterns: # customize
 - features/
 - old_features/
 - tmp/
-- spikes/
 - app/interfaces/api/v1/*
 - lib/demo_data/*
 - lib/tasks/**/*

@@ -33,7 +33,7 @@ RSpec.describe Claims::ContextMapper do
       end
 
       it 'returns litigator and advocate claim for a litigator admins' do
-        external_user.roles = ['litigator', 'admin']
+        external_user.roles = %w[litigator admin]
         is_expected.to match_array(all_claim_object_types)
       end
 
@@ -43,7 +43,7 @@ RSpec.describe Claims::ContextMapper do
       end
 
       it 'returns advocate and litigator claim for a advocate admins' do
-        external_user.roles = ['advocate', 'admin']
+        external_user.roles = %w[advocate admin]
         is_expected.to match_array(all_claim_object_types)
       end
 
@@ -53,7 +53,7 @@ RSpec.describe Claims::ContextMapper do
       end
 
       it 'returns advocate AND litigator claims for users with admin, litigator and advocate roles' do
-        external_user.roles = ['admin', 'advocate', 'litigator']
+        external_user.roles = %w[admin advocate litigator]
         is_expected.to match_array(all_claim_object_types)
       end
     end

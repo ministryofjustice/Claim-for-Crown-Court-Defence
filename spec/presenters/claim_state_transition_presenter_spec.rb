@@ -109,7 +109,7 @@ RSpec.describe ClaimStateTransitionPresenter do
 
     context '2+ reasons' do
       before do
-        allow(transition).to receive(:reason_code).and_return(['wrong_maat_ref', 'other'])
+        allow(transition).to receive(:reason_code).and_return(%w[wrong_maat_ref other])
       end
 
       it 'returns a human readable string header' do
@@ -125,7 +125,7 @@ RSpec.describe ClaimStateTransitionPresenter do
 
     context '2+ reasons (including other)' do
       before do
-        allow(transition).to receive_messages(reason_code: ['wrong_maat_ref', 'other'], reason_text: 'rejecting because...')
+        allow(transition).to receive_messages(reason_code: %w[wrong_maat_ref other], reason_text: 'rejecting because...')
       end
 
       it 'yields a human readable reason description for each reason' do

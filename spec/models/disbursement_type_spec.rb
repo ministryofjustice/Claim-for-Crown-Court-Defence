@@ -37,7 +37,7 @@ RSpec.describe DisbursementType do
 
     describe 'active scope' do
       it 'excludes records with non-nil deleted_at' do
-        expect(DisbursementType.active.map(&:name)).to eq(['Aardvarks', 'Zebras'])
+        expect(DisbursementType.active.map(&:name)).to eq(%w[Aardvarks Zebras])
       end
     end
   end

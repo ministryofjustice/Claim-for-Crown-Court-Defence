@@ -27,8 +27,8 @@ FactoryBot.define do
     after(:build) { |provider| provider.vat_registered = false if provider.lgfs? && provider.vat_registered.nil? }
 
     before(:create) do |provider, evaluator|
-      unless evaluator.__override_names__.include?(:lgfs_supplier_numbers)
-        provider.lgfs_supplier_numbers << build(:supplier_number, provider:) if provider.lgfs?
+      if evaluator.__override_names__.exclude?(:lgfs_supplier_numbers) && provider.lgfs?
+        provider.lgfs_supplier_numbers << build(:supplier_number, provider:)
       end
     end
 

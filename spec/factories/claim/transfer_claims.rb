@@ -40,9 +40,7 @@ FactoryBot.define do
       elected_case { false }
       transfer_stage_id { 50 }
       case_conclusion_id { 40 }
-      after(:create) do |claim|
-        claim.submit! # submission will set the allocation_type
-      end
+      after(:create, &:submit!) # submission will set the allocation_type
     end
 
     trait :fixed_fee_allocation_type do
@@ -50,9 +48,7 @@ FactoryBot.define do
       elected_case { true }
       transfer_stage_id { 10 }
       case_conclusion_id { nil }
-      after(:create) do |claim|
-        claim.submit! # submission will set the allocation_type
-      end
+      after(:create, &:submit!) # submission will set the allocation_type
     end
 
     trait :requiring_ppe do

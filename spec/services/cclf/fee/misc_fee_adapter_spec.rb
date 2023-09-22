@@ -10,10 +10,10 @@ RSpec.describe CCLF::Fee::MiscFeeAdapter, type: :adapter do
   #
   MISC_FEE_BILL_TYPES = {
     # MIUPL: [nil, nil], # Defendant uplift - handled via actual defendants on claim at point of injection
-    MICJA: ['OTHER', 'COST_JUDGE_FEE'], # Costs judge application
-    MICJP: ['OTHER', 'COST_JUD_EXP'], # Costs judge preparation
-    MIEVI: ['EVID_PROV_FEE', 'EVID_PROV_FEE'], # Evidence provision fee
-    MISPF: ['FEE_SUPPLEMENT', 'SPECIAL_PREP'] # Special preparation fee
+    MICJA: %w[OTHER COST_JUDGE_FEE], # Costs judge application
+    MICJP: %w[OTHER COST_JUD_EXP], # Costs judge preparation
+    MIEVI: %w[EVID_PROV_FEE EVID_PROV_FEE], # Evidence provision fee
+    MISPF: %w[FEE_SUPPLEMENT SPECIAL_PREP] # Special preparation fee
   }.freeze
 
   context 'bill mappings' do

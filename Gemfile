@@ -62,13 +62,9 @@ gem 'laa-fee-calculator-client', '~> 1.4'
 gem 'active_storage_validations'
 gem 'faraday', '~> 1.10'
 gem 'faraday_middleware', '~> 1.2'
+gem 'puma'
 
-group :production, :devunicorn do
-  gem 'unicorn-rails', '2.2.1'
-  gem 'unicorn-worker-killer', '~> 0.4.5'
-end
-
-group :development, :devunicorn, :test do
+group :development, :test do
   gem 'annotate'
   gem 'brakeman', :require => false
   gem 'better_errors'
@@ -79,7 +75,6 @@ group :development, :devunicorn, :test do
   gem 'parallel_tests'
   gem 'pry-byebug'
   gem 'pry-rails'
-  gem 'puma'
   gem 'rack-livereload', '~> 0.5.1'
   gem 'rspec-rails', '~> 6.0.3'
   gem 'rspec-collection_matchers'

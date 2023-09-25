@@ -55,7 +55,6 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
     end
 
     before do
-
       seed_case_types
 
       # excluded from MI report
@@ -100,7 +99,6 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
       # travel_to(5.months.ago.beginning_of_day) do
       #   create(:advocate_final_claim, :authorised, case_type: CaseType.where(name: 'Trial').first)
       # end
-
     end
 
     xit 'has expected headers' do
@@ -122,7 +120,8 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
         )
       end
 
-      xit 'has the correct fee scheme row headers' do
+      xit 'has the correct fee scheme row headers' do # skipped
+
         expect(csv['Fee scheme'][50...59]).to match_array(fee_scheme_array)
       end
 

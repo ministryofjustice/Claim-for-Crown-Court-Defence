@@ -25,8 +25,7 @@ module Stats
          Claim::InterimClaim
          Claim::LitigatorClaim
          Claim::LitigatorHardshipClaim
-         Claim::TransferClaim]
-
+         Claim::TransferClaim].freeze
 
     include StuffLogger
 
@@ -44,8 +43,6 @@ module Stats
       log_info('Fee Scheme Usage Report generation finished')
       Stats::Result.new(output, @format)
     end
-
-
 
     private
 

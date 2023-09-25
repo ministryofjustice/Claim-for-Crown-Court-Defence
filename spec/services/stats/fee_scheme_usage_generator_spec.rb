@@ -64,7 +64,6 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
 
       # included in MI report
 
-      # create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Appeal against conviction').first)
       # create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Appeal against sentence').first)
       # # create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Breach of crown court order').first)
       # ## create(:advocate_claim, :submitted, case_type: CaseType.where(name: 'Committal for sentence').first)
@@ -81,17 +80,26 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
       # create(:advocate_interim_claim, :submitted,
       #        create_defendant_and_rep_order_for_scheme_13: true,
       #        case_type: CaseType.where(name: 'Trial').first)
-      #
+      # create(:litigator_hardship_claim, :submitted)
       # create(:litigator_claim, :submitted, case_type: CaseType.where(name: 'Trial').first)
       # create(:interim_claim, :interim_warrant_fee, :submitted, case_type: CaseType.where(name: 'Trial').first)
       # create(:transfer_claim, :with_transfer_detail, :submitted)
 
-      # Still creating false case type
-      create(:litigator_hardship_claim_submitted, :submitted)
+
+      # Claim::LitigatorHardshipClaim.new(id: 100,
+      #                                   creator_id: 1,
+      #                                   state: 'submitted',
+      #                                   case_type_id: 6,
+      #                                   total: 75.0,
+      #                                   vat_amount: 25.0,
+      #                                   offence_id: 1,
+      #                                   defendant_ids: [1],
+      #                                   last_submitted_at: Time.zone.now).save!(validate: false)
+
       # test = Claim::LitigatorHardshipClaim.create
       # binding.pry
       # This refuses to pass validation
-      # create(:advocate_hardship_claim, :authorised)
+      create(:advocate_hardship_claim, :authorised)
 
       # travel_to(4.months.ago.beginning_of_day) do
       #   create(:litigator_final_claim, :authorised, case_type: CaseType.where(name: 'Trial').first)
@@ -101,7 +109,7 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
       # end
     end
 
-    xit 'has expected headers' do
+    it 'has expected headers' do
       expect(csv.headers).to match_array(expected_headers)
     end
 
@@ -120,25 +128,23 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
         )
       end
 
-      xit 'has the correct fee scheme row headers' do # skipped
-
+      it 'has the correct fee scheme row headers' do # skipped
         expect(csv['Fee scheme'][50...59]).to match_array(fee_scheme_array)
       end
 
       it 'produces some debug files (remove this later)' do
         # TODO: remove this
-        binding.pry
+        # binding.pry
         test = Claim::BaseClaim.all.map { |claim| [claim.type, claim.state] }
         File.write('testclaims.txt', test)
         File.write('content.txt', call.content)
-        File.write('csvP.txt', csv)
         File.write('debug.csv', csv)
       end
     end
   end
 
   context 'when logging without errors' do
-    xit 'log start and end' do
+    it 'log start and end' do
       expect(LogStuff).to receive(:info).twice
       described_class.call
     end
@@ -149,7 +155,7 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
       allow(CSV).to receive(:generate).and_raise(StandardError)
     end
 
-    xit 'uses LogStuff to log error' do
+    it 'uses LogStuff to log error' do
       expect(LogStuff).to receive(:error).once
       described_class.call
     end

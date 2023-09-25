@@ -60,6 +60,7 @@ module Stats
       end
     rescue StandardError => e
       log_error(e, 'Fee Scheme Usage Report generation error')
+      e
     end
 
     def generate_month(csv, date_start, date_end)

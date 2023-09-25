@@ -12,12 +12,4 @@ FactoryBot.define do
       end
     end
   end
-
-  factory :litigator_hardship_claim_submitted, class: 'Claim::LitigatorHardshipClaim' do
-    case_type { CaseType.where(name: 'Cracked trial').first }
-
-    litigator_base_setup
-
-    case_stage {association :case_stage, :pre_ptph_or_ptph_adjourned }
-  end
 end

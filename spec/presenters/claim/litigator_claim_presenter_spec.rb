@@ -186,4 +186,24 @@ RSpec.describe Claim::LitigatorClaimPresenter, type: :presenter do
       )
     }
   end
+
+  describe '#disbursements_total' do
+    let(:claim) { create(:claim, disbursements_total: 1.346) }
+
+    it 'returns the disbursements total rounded and formatted' do
+      expect(subject.disbursements_total).to eq('£1.35')
+    end
+  end
+
+  describe '#case_concluded_at' do
+    let(:claim) { create(:claim, case_concluded_at: Time.utc(2015, 12, 31, 20, 15)) }
+
+    it 'returns the case_concluded_at formatted' do
+      expect(subject.case_concluded_at).to eq('31/12/2015')
+    end
+  end
+
+  it 'has disbursements' do
+    expect(subject.can_have_disbursements?).to be(true)
+  end
 end

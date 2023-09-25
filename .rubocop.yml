@@ -147,4 +147,10 @@ RSpec/DescribeClass:
     - spec/api/posting_to_root_spec.rb
     - spec/models/claim/base_claim_spec.rb
 
+# RSpec/FilePath has been split into RSpec/SpecFilePathSuffix and
+# RSpec/SpecFilePathFormat with rubocop-rspec 2.24. This setting
+# may disappear in the future.
+RSpec/FilePath:
+  Enabled: false
+
 inherit_from: .rubocop_todo.yml

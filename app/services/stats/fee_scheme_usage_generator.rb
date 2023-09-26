@@ -2,12 +2,6 @@ require 'csv'
 
 module Stats
   class FeeSchemeUsageGenerator
-    # Currently i'm querying the database and looping through all of the claims 5 times
-    # per month for 30 times in total for each query run.
-    # I could reduce this to 6 times in total by condensing the different information
-    # gathering methods into one, but this would be much less readable and make rubocop
-    # unhappy in terms of complexity and size.
-
     ORDERED_FEE_SCHEMES =
       # Slightly wordy, but gets the intended ordering of FeeSchemes
       FeeScheme.where(name: 'AGFS')
@@ -60,7 +54,6 @@ module Stats
       end
     rescue StandardError => e
       log_error(e, 'Fee Scheme Usage Report generation error')
-      e
     end
 
     def generate_month(csv, date_start, date_end)
@@ -96,11 +89,8 @@ module Stats
       row = [month, fee_scheme,
              @results[key_fs][:total_claims], @results[key_fs][:total_value], @results[key_fs][:latest]]
 
-      CLAIM_TYPES.each do |type|
-        row << @results[key_fs][symbol_key(type)]
-      end
-
-      case_types.each do |type|
+      case_and_claim_types = case_types + CLAIM_TYPES
+      case_and_claim_types.each do |type|
         row << @results[key_fs][symbol_key(type)]
       end
 

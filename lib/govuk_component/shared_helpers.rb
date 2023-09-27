@@ -5,8 +5,8 @@ module GovukComponent
     private
 
     def prepend_classes(classes_to_prepend, options = {})
-      classes = options[:class].present? ? options[:class].split(' ') : []
-      classes.prepend(classes_to_prepend.split(' '))
+      classes = options[:class].present? ? options[:class].split : []
+      classes.prepend(classes_to_prepend.split)
       options[:class] = classes.join(' ')
       options
     end

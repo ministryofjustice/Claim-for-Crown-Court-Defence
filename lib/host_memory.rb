@@ -25,7 +25,7 @@ module HostMemory
 
     # use kilobytes explicitly for simplicity (NB: KB is the default for `free`)
     def mem_at_index(index)
-      `free -k`.split(' ')[index].to_i
+      `free -k`.split[index].to_i
     rescue StandardError => e
       Rails.logger.error("Error: #{e}")
       nil

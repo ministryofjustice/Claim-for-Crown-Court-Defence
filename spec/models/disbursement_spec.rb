@@ -42,7 +42,7 @@ RSpec.describe Disbursement do
   end
 
   describe 'comma formatted inputs' do
-    [:net_amount, :vat_amount].each do |attribute|
+    %i[net_amount vat_amount].each do |attribute|
       it "converts input for #{attribute} by stripping commas out" do
         disbursement = build(:disbursement)
         disbursement.send("#{attribute}=", '1,321.55')

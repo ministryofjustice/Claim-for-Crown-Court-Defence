@@ -75,8 +75,8 @@ RSpec.describe MultiparameterAttributeCleaner do
             :date_of_birth,
             address_attributes: [:address1,
                                  :moved_in,
-                                 { previous_address: [:prevaddress1,
-                                                      :moved_out] }]
+                                 { previous_address: %i[prevaddress1
+                                                        moved_out] }]
           )
         end
       end

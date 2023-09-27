@@ -863,7 +863,7 @@ RSpec.describe ExternalUsers::ClaimsController do
 end
 
 def build_sortable_claims_sample(advocate)
-  [:draft, :submitted, :allocated, :authorised, :rejected].each_with_index do |state, i|
+  %i[draft submitted allocated authorised rejected].each_with_index do |state, i|
     travel_to(i.days.ago) do
       n = i + 1
       claim = create("#{state}_claim".to_sym, external_user: advocate, case_number: "A2016#{n.to_s.rjust(4, '0')}")

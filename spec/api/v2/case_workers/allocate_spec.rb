@@ -5,7 +5,7 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
   include ApiSpecHelper
 
   ALLOCATION_ENDPOINT = '/api/case_workers/allocate'
-  FORBIDDEN_ALLOCATION_VERBS = [:get, :put, :patch, :delete]
+  FORBIDDEN_ALLOCATION_VERBS = %i[get put patch delete]
 
   let(:case_worker_user) { create(:user, email: 'caseworker@example.com') }
   let(:case_worker) { create(:case_worker, :admin, user: case_worker_user) }

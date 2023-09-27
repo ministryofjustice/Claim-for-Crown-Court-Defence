@@ -177,7 +177,7 @@ RSpec.shared_examples 'common litigator validations' do |*flags|
     end
   end
 
-  unless [:interim_claim, :hardship_claim].intersect?(flags)
+  unless %i[interim_claim hardship_claim].intersect?(flags)
     context 'when validating case_concluded_at date' do
       before { claim.force_validation = true }
 

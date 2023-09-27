@@ -5,7 +5,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
   include ApiSpecHelper
 
   ALL_DATES_ATTENDED_ENDPOINTS = [endpoint(:dates_attended, :validate), endpoint(:dates_attended)]
-  FORBIDDEN_DATES_ATTENDED_VERBS = [:get, :put, :patch, :delete]
+  FORBIDDEN_DATES_ATTENDED_VERBS = %i[get put patch delete]
   DATE_ATTENDED_VALIDATE_ENDPOINT = '/api/external_users/dates_attended/validate'.freeze
 
   let!(:provider) { create(:provider) }
@@ -98,7 +98,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
         end
       end
 
-      include_examples 'malformed or not iso8601 compliant dates', action: :create, attributes: [:date, :date_to],
+      include_examples 'malformed or not iso8601 compliant dates', action: :create, attributes: %i[date date_to],
                                                                    relative_endpoint: DATE_ATTENDED_VALIDATE_ENDPOINT
     end
   end
@@ -123,7 +123,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
       expect_error_response('Attended item cannot be blank')
     end
 
-    include_examples 'malformed or not iso8601 compliant dates', action: :validate, attributes: [:date, :date_to],
+    include_examples 'malformed or not iso8601 compliant dates', action: :validate, attributes: %i[date date_to],
                                                                  relative_endpoint: DATE_ATTENDED_VALIDATE_ENDPOINT
   end
 end

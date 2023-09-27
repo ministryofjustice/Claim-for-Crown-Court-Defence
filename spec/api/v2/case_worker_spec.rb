@@ -54,7 +54,7 @@ describe API::V2::CaseWorker do
       body = JSON.parse(response.body, symbolize_names: true)
       cw = body.first
 
-      expect(cw.keys.sort).to eq([:email, :first_name, :id, :last_name, :uuid])
+      expect(cw.keys.sort).to eq(%i[email first_name id last_name uuid])
     end
 
     context 'sorting' do

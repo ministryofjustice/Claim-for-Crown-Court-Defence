@@ -6,7 +6,7 @@ module FeeReform
 
     def initialize(filters = {})
       @filters = filters
-      fee_scheme_array = @filters[:fee_scheme].split(' ')
+      fee_scheme_array = @filters[:fee_scheme].split
       @fee_scheme = FeeScheme.find_by(name: fee_scheme_array[0], version: fee_scheme_array[1])
       @offences_table = Offence.arel_table
       @bands_table = OffenceBand.arel_table

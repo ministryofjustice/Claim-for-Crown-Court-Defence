@@ -1,41 +1,41 @@
 require 'rails_helper'
 
 RSpec.describe Stage do
+  subject(:stage) { described_class.new(**options) }
+
   let(:stage_name) { :some_stage }
   let(:stagable_object) { double(:stagable_object) }
-  let(:options) {
+  let(:options) do
     {
       name: stage_name,
       object: stagable_object
     }
-  }
-
-  subject(:stage) { described_class.new(**options) }
+  end
 
   describe '#name' do
-    specify { expect(stage.name).to eq(stage_name) }
+    it { expect(stage.name).to eq(stage_name) }
   end
 
   describe '#transitions' do
     context 'when no transitions are defined' do
-      specify { expect(stage.transitions).to be_empty }
+      it { expect(stage.transitions).to be_empty }
     end
 
-    context 'when an empty set of transactions are supplied' do
+    context 'when an empty set of transitions are supplied' do
       let(:transitions) { [] }
-      let(:options) {
+      let(:options) do
         {
           name: stage_name,
           transitions:,
           object: stagable_object
         }
-      }
+      end
 
-      specify { expect(stage.transitions).to be_empty }
+      it { expect(stage.transitions).to be_empty }
     end
 
-    context 'when a set of transactions are supplied' do
-      let(:transitions) {
+    context 'when a set of transitions are supplied' do
+      let(:transitions) do
         [
           {
             to_stage: :stage_1a,
@@ -47,86 +47,93 @@ RSpec.describe Stage do
           },
           { to_stage: :stage_1c }
         ]
-      }
-      let(:options) {
+      end
+      let(:options) do
         {
           name: stage_name,
           transitions:,
           object: stagable_object
         }
-      }
-
-      it 'returns a list of stage transitions' do
-        expect(stage.transitions).to be_a(Array)
-        expect(stage.transitions.size).to eq(transitions.size)
-        expect(stage.transitions).to all(be_a(StageTransition))
       end
+
+      it { expect(stage.transitions).to be_a(Array) }
+      it { expect(stage.transitions.size).to eq(transitions.size) }
+      it { expect(stage.transitions).to all(be_a(StageTransition)) }
     end
   end
 
   describe '#first_valid_transition' do
-    context 'when there is no transitions' do
-      let(:options) {
-        {
-          name: stage_name,
-          object: stagable_object
-        }
-      }
-
-      specify { expect(stage.first_valid_transition).to be_nil }
+    context 'when there are no transitions' do
+      it { expect(stage.first_valid_transition).to be_nil }
     end
 
-    context 'when there are transitions' do
-      let(:options) {
+    context 'when there are transitions with no conditions' do
+      let(:options) do
         {
           name: stage_name,
           transitions:,
           object: stagable_object
         }
-      }
-
-      context 'but there are no conditions' do
-        let(:transitions) {
-          [
-            { to_stage: :stage_1a },
-            { to_stage: :stage_1b },
-            { to_stage: :stage_1c }
-          ]
-        }
-
-        it 'returns the stage defined in the first transition' do
-          expect(stage.first_valid_transition).to eq(:stage_1a)
-        end
       end
 
-      context 'and the transitions have conditions to be met' do
-        let(:transitions) {
-          [
-            {
-              to_stage: :stage_1a,
-              condition: ->(object) { object.stage_1a_condition? }
-            },
-            {
-              to_stage: :stage_1b,
-              condition: ->(object) { object.stage_1b_condition? }
-            },
-            { to_stage: :stage_1c }
-          ]
+      let(:transitions) do
+        [
+          { to_stage: :stage_1a },
+          { to_stage: :stage_1b },
+          { to_stage: :stage_1c }
+        ]
+      end
+
+      it 'returns the stage defined in the first transition' do
+        expect(stage.first_valid_transition).to eq(:stage_1a)
+      end
+    end
+
+    context 'when the transitions have conditions to be met' do
+      let(:options) do
+        {
+          name: stage_name,
+          transitions:,
+          object: stagable_object
         }
+      end
 
-        it 'returns the first stage for which its condition is met' do
-          allow(stagable_object).to receive(:stage_1a_condition?).and_return(false)
-          allow(stagable_object).to receive(:stage_1b_condition?).and_return(true)
-          expect(stage.first_valid_transition).to eq(:stage_1b)
+      let(:transitions) do
+        [
+          {
+            to_stage: :stage_1a,
+            condition: ->(object) { object.stage_1a_condition? }
+          },
+          {
+            to_stage: :stage_1b,
+            condition: ->(object) { object.stage_1b_condition? }
+          },
+          { to_stage: :stage_1c }
+        ]
+      end
 
-          allow(stagable_object).to receive(:stage_1a_condition?).and_return(false)
-          allow(stagable_object).to receive(:stage_1b_condition?).and_return(false)
-          expect(stage.first_valid_transition).to eq(:stage_1c)
-
-          allow(stagable_object).to receive(:stage_1a_condition?).and_return(true)
-          allow(stagable_object).to receive(:stage_1b_condition?).and_return(true)
-          expect(stage.first_valid_transition).to eq(:stage_1a)
+      context 'when the conditions for stage_1b are met' do
+        before do
+          allow(stagable_object).to receive_messages(stage_1a_condition?: false, stage_1b_condition?: true)
         end
+
+        it { expect(stage.first_valid_transition).to eq(:stage_1b) }
+      end
+
+      context 'when the conditions for stage_1c are met' do
+        before do
+          allow(stagable_object).to receive_messages(stage_1a_condition?: false, stage_1b_condition?: false)
+        end
+
+        it { expect(stage.first_valid_transition).to eq(:stage_1c) }
+      end
+
+      context 'when the conditions for stage_1a are met' do
+        before do
+          allow(stagable_object).to receive_messages(stage_1a_condition?: true, stage_1b_condition?: true)
+        end
+
+        it { expect(stage.first_valid_transition).to eq(:stage_1a) }
       end
     end
   end
@@ -134,58 +141,58 @@ RSpec.describe Stage do
   describe '#to_sym' do
     let(:stage_name) { :sym_stage }
 
-    specify { expect(stage.to_sym).to eq(:sym_stage) }
+    it { expect(stage.to_sym).to eq(:sym_stage) }
 
     context 'when stage name is a string' do
       let(:stage_name) { 'str_stage' }
 
-      specify { expect(stage.to_sym).to eq(:str_stage) }
+      it { expect(stage.to_sym).to eq(:str_stage) }
     end
   end
 
   describe '#<=>' do
     context 'when other stage is nil' do
-      specify { expect(stage == nil).to be_falsey }
+      it { expect(stage).not_to be_nil }
     end
 
     context 'when other stage is a string' do
-      context 'and the other stage name is not the same' do
-        specify { expect(stage == 'different_stage').to be_falsey }
+      context 'when the other stage name is not the same' do
+        it { expect(stage == 'different_stage').to be_falsey }
       end
 
-      context 'and the other stage name is the same' do
-        specify { expect(stage == 'some_stage').to be_truthy }
+      context 'when the other stage name is the same' do
+        it { expect(stage == 'some_stage').to be_truthy }
       end
     end
 
     context 'when other stage is a symbol' do
-      context 'and the other stage name is not the same' do
-        specify { expect(stage == :different_stage).to be_falsey }
+      context 'when the other stage name is not the same' do
+        it { expect(stage == :different_stage).to be_falsey }
       end
 
-      context 'and the other stage name is the same' do
-        specify { expect(stage == :some_stage).to be_truthy }
+      context 'when the other stage name is the same' do
+        it { expect(stage == :some_stage).to be_truthy }
       end
     end
 
     context 'when other stage is a Stage object' do
-      let(:other_stage) {
+      let(:other_stage) do
         described_class.new(
           name: other_stage_name,
           object: stagable_object
         )
-      }
-
-      context 'and the other stage name is not the same' do
-        let(:other_stage_name) { :different_stage }
-
-        specify { expect(stage == other_stage).to be_falsey }
       end
 
-      context 'and the other stage name is the same' do
+      context 'when the other stage name is not the same' do
+        let(:other_stage_name) { :different_stage }
+
+        it { expect(stage == other_stage).to be_falsey }
+      end
+
+      context 'when the other stage name is the same' do
         let(:other_stage_name) { :some_stage }
 
-        specify { expect(stage == other_stage).to be_truthy }
+        it { expect(stage == other_stage).to be_truthy }
       end
     end
   end

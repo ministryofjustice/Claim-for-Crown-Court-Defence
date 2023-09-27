@@ -606,7 +606,7 @@ GEM
       daemons (>= 1.0.10)
       eventmachine (>= 0.12.8)
       rufus-scheduler (~> 2.0.24)
-    selenium-webdriver (4.13.0)
+    selenium-webdriver (4.13.1)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)

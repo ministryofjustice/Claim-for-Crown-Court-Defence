@@ -2,16 +2,7 @@ require 'csv'
 
 module Stats
   class FeeSchemeUsageGenerator
-    ORDERED_FEE_SCHEMES =
-      # Slightly wordy, but gets the intended ordering of FeeSchemes
-      FeeScheme.where(name: 'AGFS')
-               .map { |scheme| "#{scheme.name} #{scheme.version}" }
-               .sort_by { |x| x[/\d+/].to_i } +
-      FeeScheme.where(name: 'LGFS')
-               .map { |scheme| "#{scheme.name} #{scheme.version}" }
-               .sort_by { |x| x[/\d+/].to_i }
     CLAIM_TYPES =
-      # TODO: Low priority, but this (and the headers) could be improved by being made not static
       %w[Claim::AdvocateClaim
          Claim::AdvocateHardshipClaim
          Claim::AdvocateInterimClaim
@@ -40,6 +31,15 @@ module Stats
 
     private
 
+    def ordered_fee_schemes
+      @ordered_fee_schemes ||= FeeScheme.where(name: 'AGFS')
+                                        .map { |scheme| "#{scheme.name} #{scheme.version}" }
+                                        .sort_by { |x| x[/\d+/].to_i } +
+                               FeeScheme.where(name: 'LGFS')
+                                        .map { |scheme| "#{scheme.name} #{scheme.version}" }
+                                        .sort_by { |x| x[/\d+/].to_i }
+    end
+
     def case_types
       CaseType.all.map(&:name)
     end
@@ -58,14 +58,15 @@ module Stats
 
     def generate_month(csv, date_start, date_end)
       generate_data(date_start, date_end)
-      ORDERED_FEE_SCHEMES.each do |scheme|
+      ordered_fee_schemes.each do |scheme|
         csv << generate_row(date_start.strftime('%B'), scheme)
       end
     end
 
     def empty_results_hash
       output = {}
-      ORDERED_FEE_SCHEMES.each do |scheme|
+      ordered_fee_schemes.each do |scheme|
+        # Hash default set to 0 to simplify building the results csv
         output[symbol_key(scheme)] = Hash.new(0)
       end
       output
@@ -133,6 +134,8 @@ module Stats
 
     def update_most_recent_claim(claim, fee_scheme)
       date_submitted = claim.last_submitted_at
+      # Rubocop error ignored as rails date types don't have a #zero? method. 0 is set as hash default to simplify
+      # building the CSV later.
       return unless @results[fee_scheme][:latest] == 0 || @results[fee_scheme][:latest] < date_submitted
       @results[fee_scheme][:latest] = date_submitted.to_time
     end

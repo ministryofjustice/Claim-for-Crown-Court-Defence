@@ -6,6 +6,9 @@ FactoryBot.define do
     sequence(:position) { |n| n }
     roles { %w[agfs lgfs] }
 
+    # TODO: These use create rather than association which isn't best practice, but it works and changing it breaks
+    # several unrelated tests. Potential future piece of work to fix this.
+
     trait :agfs_pre_ptph do
       description { 'Pre PTPH' }
       unique_code { 'PREPTPH' }

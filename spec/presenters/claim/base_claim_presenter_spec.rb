@@ -31,16 +31,18 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#show_sidebar?' do
+    subject { presenter.show_sidebar? }
+
     context 'when current step does NOT require sidebar' do
       before { allow(claim).to receive(:current_step).and_return(:defendants) }
 
-      it { expect(presenter.show_sidebar?).to be_falsey }
+      it { is_expected.to be_falsey }
     end
 
     context 'when current step does require sidebar' do
       before { allow(claim).to receive(:current_step).and_return(:requires_sidebar_step) }
 
-      it { expect(presenter.show_sidebar?).to be_truthy }
+      it { is_expected.to be_truthy }
     end
   end
 
@@ -532,34 +534,38 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#mandatory_case_details?' do
+    subject { presenter.mandatory_case_details? }
+
     before { allow(claim).to receive_messages(case_type: 'a case type', court: 'a court') }
 
     context 'when claim has case type, court and case number' do
       before { allow(claim).to receive(:case_number).and_return 'a case number' }
 
-      it { expect(presenter.mandatory_case_details?).to be_truthy }
+      it { is_expected.to be_truthy }
     end
 
     context 'when claim is missing one of case type, court or case number' do
       before { allow(claim).to receive(:case_number).and_return nil }
 
-      it { expect(presenter.mandatory_case_details?).to be_falsey }
+      it { is_expected.to be_falsey }
     end
   end
 
   describe '#mandatory_supporting_evidence?' do
+    subject { presenter.mandatory_supporting_evidence? }
+
     before { allow(claim).to receive_messages(disk_evidence: false, court: []) }
 
     context 'when claim has disk evidence, documents or evidence checklist item' do
       before { allow(claim).to receive(:evidence_checklist_ids).and_return [1] }
 
-      it { expect(presenter.mandatory_supporting_evidence?).to be_truthy }
+      it { is_expected.to be_truthy }
     end
 
     context 'when claim has NO disk evidence, documents or evidence checklist item' do
       before { allow(claim).to receive(:evidence_checklist_ids).and_return [] }
 
-      it { expect(presenter.mandatory_supporting_evidence?).to be_falsey }
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -733,11 +739,15 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#can_have_disbursements?' do
-    it { expect(presenter.can_have_disbursements?).to be_truthy }
+    subject { presenter.can_have_disbursements? }
+
+    it { is_expected.to be_truthy }
   end
 
   describe '#display_days?' do
-    it { expect(presenter.display_days?).to be_falsey }
+    subject { presenter.display_days? }
+
+    it { is_expected.to be_falsey }
   end
 
   describe '#display_case_type?' do

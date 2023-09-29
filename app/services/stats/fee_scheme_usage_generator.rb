@@ -32,12 +32,8 @@ module Stats
     private
 
     def ordered_fee_schemes
-      @ordered_fee_schemes ||= FeeScheme.where(name: 'AGFS')
+      @ordered_fee_schemes ||= FeeScheme.where(name: %w[AGFS LGFS]).order(:name, :version)
                                         .map { |scheme| "#{scheme.name} #{scheme.version}" }
-                                        .sort_by { |x| x[/\d+/].to_i } +
-                               FeeScheme.where(name: 'LGFS')
-                                        .map { |scheme| "#{scheme.name} #{scheme.version}" }
-                                        .sort_by { |x| x[/\d+/].to_i }
     end
 
     def case_types

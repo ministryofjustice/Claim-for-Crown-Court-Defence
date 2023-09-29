@@ -1,4 +1,0 @@
-.allocation-filter-form
-  = f.govuk_radio_buttons_fieldset :scheme, legend: { text: t('.scheme_types'), size: 'm' } do
-    - allocation_scheme_filters.each do | filter_scheme |
-      = f.govuk_radio_button :scheme, filter_scheme, label: { text: filter_scheme.upcase }

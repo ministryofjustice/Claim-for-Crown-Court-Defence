@@ -2558,10 +2558,6 @@ en:
           claim_total: 'Claim total'
           defendants: Defendants
           no_of_claims: 'Number of claims'
-        orig_scheme_filters:
-          scheme_types: 'Scheme types'
-          filter: Filter
-          filter_scheme_label: Filter by scheme %{scheme}
         re_allocation:
           allocation_pool_label: Allocate to allocation pool
           case_worker_label: Allocate to a caseworker

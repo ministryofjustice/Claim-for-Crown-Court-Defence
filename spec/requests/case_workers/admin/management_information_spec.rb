@@ -62,6 +62,7 @@ RSpec.describe 'Management information administration' do
       %w[management_information
          agfs_management_information
          lgfs_management_information
+         fee_scheme_usage
          management_information_v2
          agfs_management_information_v2
          lgfs_management_information_v2

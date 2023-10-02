@@ -47,6 +47,7 @@ en:
               AGFS management information <strong class="govuk-tag govuk-tag--blue">beta</strong>
             agfs_management_information_statistics_html:
               AGFS management information statistics <strong class="govuk-tag govuk-tag--blue">beta</strong>
+            fee_scheme_usage_html: Fee Scheme Usage
             lgfs_management_information_html: LGFS management information
             lgfs_management_information_v2_html: |
               LGFS management information <strong class="govuk-tag govuk-tag--blue">beta</strong>

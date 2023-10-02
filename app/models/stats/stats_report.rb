@@ -23,6 +23,7 @@ module Stats
     REPORTS = [Report.new(name: :management_information),
                Report.new(name: :agfs_management_information),
                Report.new(name: :lgfs_management_information),
+               Report.new(name: :fee_scheme_usage),
                Report.new(name: :management_information_v2),
                Report.new(name: :agfs_management_information_v2),
                Report.new(name: :lgfs_management_information_v2),

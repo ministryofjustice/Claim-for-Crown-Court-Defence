@@ -81,6 +81,34 @@ claim_csv_headers:
   - :main_hearing_date
   - :source
 
+fee_scheme_usage_csv_headers:
+  - :month
+  - :fee_scheme
+  - :total_number_of_claims
+  - :total_value_of_claims
+  - :most_recent_claim
+  - :advocate_claim
+  - :advocate_hardship_claim
+  - :advocate_interim_claim
+  - :advocate_supplementary_claim
+  - :interim_claim
+  - :litigator_claim
+  - :litigator_hardship_claim
+  - :transfer_claim
+  - :appeal_against_conviction
+  - :appeal_against_sentence
+  - :breach_of_crown_court_order
+  - :committal_for_sentence
+  - :contempt
+  - :cracked_trial
+  - :cracked_before_retrial
+  - :discontinuance
+  - :elected_cases_not_proceeded
+  - :guilty_plea
+  - :hearing_subsequent_to_sentence
+  - :retrial
+  - :trial
+
 expense_schema_version: 2
 
 # Feature flag to enable or disable the hardship claim banner

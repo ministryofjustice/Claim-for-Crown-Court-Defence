@@ -84,9 +84,9 @@ module Stats
     def generate_row(month, fee_scheme)
       key_fs = symbol_key(fee_scheme)
       row = [month, fee_scheme,
-             @results[key_fs][:total_claims], @results[key_fs][:total_value], @results[key_fs][:latest]]
+             @results[key_fs][:total_claims], @results[key_fs][:total_value].round(2), @results[key_fs][:latest]]
 
-      case_and_claim_types = case_types + CLAIM_TYPES
+      case_and_claim_types = CLAIM_TYPES + case_types
       case_and_claim_types.each do |type|
         row << @results[key_fs][symbol_key(type)]
       end

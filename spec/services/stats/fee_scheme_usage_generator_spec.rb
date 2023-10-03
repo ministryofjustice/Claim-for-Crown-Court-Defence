@@ -113,44 +113,38 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
     end
 
     it 'has expected headers' do
-      expect(csv.headers).to match_array(expected_headers)
+      expect(csv.headers).to eq(expected_headers)
     end
 
     context 'when generating all month sections' do
       subject(:call) { described_class.new.call }
 
       it 'returns rows containing the correct numbers of total claims' do
-        expect(csv['Total number of claims']).to match_array(total_claims_array)
+        expect(csv['Total number of claims']).to eq(total_claims_array)
       end
     end
 
     context 'when generating the most recent month' do
       it 'returns rows containing the correct fee schemes' do
-        expect(csv['Fee scheme'][50...59]).to match_array(fee_scheme_array)
+        expect(csv['Fee scheme'][50...59]).to eq(fee_scheme_array)
       end
 
       it 'returns rows containing the correct total value of claims' do
-        expect(csv['Total value of claims'][50...60]).to contain_exactly(
-          '380.0', '0', '0', '0', '0.0', '0', '0', '75.02', '0', nil
-        )
+        expect(csv['Total value of claims'][50...60]).to eq([
+                                                              '380.0', '0', '0', '0', '0.0', '0', '0', '75.02', '0', nil
+                                                            ])
       end
 
       it 'has the correct totals of claim and case types for AGFS 9' do
-        expect(csv[50][5...26]).to contain_exactly(
-          '13', '1', '0', '1', '0', '0', '0', '0', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2'
-        )
+        expect(csv[50][5...26]).to eq(%w[13 1 0 1 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 2])
       end
 
       it 'has the correct totals of claim and case types for AGFS 13' do
-        expect(csv[54][5...26]).to contain_exactly(
-          '0', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1'
-        )
+        expect(csv[54][5...26]).to eq(%w[0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
       end
 
       it 'has the correct totals of claim and case types for LGFS 9' do
-        expect(csv[57][5...26]).to contain_exactly(
-          '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '2'
-        )
+        expect(csv[57][5...26]).to eq(%w[0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 2])
       end
     end
   end

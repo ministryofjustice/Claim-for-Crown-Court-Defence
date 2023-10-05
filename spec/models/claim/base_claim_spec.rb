@@ -59,10 +59,10 @@ RSpec.describe Claim::BaseClaim do
   include_context 'claim-types object helpers'
 
   it 'raises BaseClaimAbstractClassError when instantiated' do
-    expect {
+    expect do
       described_class.new(external_user: advocate, creator: advocate)
-    }.to raise_error Claim::BaseClaimAbstractClassError,
-                     'Claim::BaseClaim is an abstract class and cannot be instantiated'
+    end.to raise_error Claim::BaseClaimAbstractClassError,
+                       'Claim::BaseClaim is an abstract class and cannot be instantiated'
   end
 
   context 'scheme scopes' do
@@ -90,9 +90,9 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '.claim_types' do
-    specify {
+    specify do
       expect(described_class.claim_types.map(&:to_s)).to match_array(agfs_claim_object_types | lgfs_claim_object_types)
-    }
+    end
   end
 
   describe '.agfs_claim_types' do
@@ -571,9 +571,9 @@ end
 RSpec.describe MockBaseClaim do
   it_behaves_like 'a base claim'
   it_behaves_like 'uses claim cleaner', Cleaners::NullClaimCleaner do
-    let(:mock_claim_creator) {
+    let(:mock_claim_creator) do
       instance_double(ExternalUser, provider: instance_double(Provider, vat_registered?: false))
-    }
+    end
 
     before { allow(ExternalUser).to receive(:new).and_return(mock_claim_creator) }
   end
@@ -656,10 +656,10 @@ RSpec.describe MockBaseClaim do
     let(:claim) { described_class.new }
     let(:mock_doc_types) { double(:doc_types) }
 
-    specify {
+    specify do
       expect(Claims::FetchEligibleDocumentTypes).to receive(:for).with(claim).and_return(mock_doc_types)
       expect(claim.eligible_document_types).to eq(mock_doc_types)
-    }
+    end
   end
 
   describe '#discontinuance?' do
@@ -727,22 +727,22 @@ RSpec.describe MockBaseClaim do
 
     context 'when some of the defendants have an earliest representation order set' do
       let(:base_date) { 3.months.ago.to_date }
-      let(:expected_representation_order) {
+      let(:expected_representation_order) do
         build(:representation_order, representation_order_date: base_date - 2.days)
-      }
-      let(:later_representation_order) {
+      end
+      let(:later_representation_order) do
         build(:representation_order, representation_order_date: base_date + 3.days)
-      }
+      end
       let(:defendant_with_earliest_representation_date) { build(:defendant) }
       let(:defendant_with_later_representation_date) { build(:defendant) }
       let(:defendant_with_no_earliest_representation_date) { build(:defendant) }
-      let(:defendants) {
+      let(:defendants) do
         [
           defendant_with_later_representation_date,
           defendant_with_earliest_representation_date,
           defendant_with_no_earliest_representation_date
         ]
-      }
+      end
 
       before do
         allow(defendant_with_no_earliest_representation_date).to receive(

@@ -19,3 +19,7 @@ if ENV['INLINE_SIDEKIQ'].eql?('true')
   require 'sidekiq/testing'
   Sidekiq::Testing.inline!
 end
+
+if Rails.env.test?
+  Sidekiq.logger.level = Logger::WARN
+end

@@ -1,6 +1,8 @@
 require 'rails_helper'
 require 'cgi'
 
+METHOD_NAMES = %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].freeze
+
 RSpec.shared_examples 'last claim state transition reason_text' do
   let(:mock_claim_state_transitions) do
     [
@@ -18,234 +20,245 @@ RSpec.shared_examples 'last claim state transition reason_text' do
 end
 
 RSpec.describe Claim::BaseClaimPresenter do
-  let(:claim) { create(:advocate_claim) }
-
   subject(:presenter) { described_class.new(claim, view) }
+
+  let(:claim) { create(:advocate_claim) }
+  let(:first_defendant) { claim.defendants.first }
 
   before do
     next if claim.remote?
-    @first_defendant = claim.defendants.first
-    @first_defendant.first_name = 'Mark'
-    @first_defendant.last_name = "O'Reilly"
-    @first_defendant.save!
+    first_defendant.update!(first_name: 'Mark', last_name: "O'Reilly")
     create(:defendant, first_name: 'Robert', last_name: 'Smith', claim:, order_for_judicial_apportionment: false)
     create(:defendant, first_name: 'Adam', last_name: 'Smith', claim:, order_for_judicial_apportionment: false)
   end
 
   describe '#show_sidebar?' do
-    context 'when current step does NOT require sidebar' do
-      before do
-        expect(claim).to receive(:current_step).and_return(:defendants)
-      end
+    subject { presenter.show_sidebar? }
 
-      specify { expect(presenter.show_sidebar?).to be_falsey }
+    context 'when current step does NOT require sidebar' do
+      before { allow(claim).to receive(:current_step).and_return(:defendants) }
+
+      it { is_expected.to be_falsey }
     end
 
     context 'when current step does require sidebar' do
-      before do
-        expect(claim).to receive(:current_step).and_return(:requires_sidebar_step)
-      end
+      before { allow(claim).to receive(:current_step).and_return(:requires_sidebar_step) }
 
-      specify { expect(presenter.show_sidebar?).to be_truthy }
+      it { is_expected.to be_truthy }
     end
   end
 
   describe '#case_type_name' do
-    context 'non redetermination or awaiting written reason' do
-      it 'displays the case type name' do
-        expect(subject.case_type_name).to eq(claim.case_type.name)
-      end
+    context 'without a redetermination or awaiting written reasons' do
+      it { expect(presenter.case_type_name).to eq(claim.case_type.name) }
+      it { expect(presenter.claim_state).to be_blank }
     end
 
-    context 'redetermination' do
-      it 'displays the case type name with a redetermination label' do
-        %w(submit allocate refuse redetermine allocate).each { |event| claim.send("#{event}!") }
+    context 'with a redetermination' do
+      before do
+        %w[submit allocate refuse redetermine allocate].each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:opened_for_redetermination?).and_return(true)
-        expect(subject.case_type_name).to eq(claim.case_type.name)
       end
+
+      it { expect(presenter.case_type_name).to eq(claim.case_type.name) }
+      it { expect(presenter.claim_state).to eq('Redetermination') }
     end
 
-    context 'awaiting written reasons' do
-      it 'displays the case type name with an awaiting written reasons label' do
-        %w(submit allocate refuse await_written_reasons allocate).each { |event| claim.send("#{event}!") }
+    context 'with awaiting written reasons' do
+      before do
+        %w[submit allocate refuse await_written_reasons allocate].each { |event| claim.send("#{event}!") }
         allow(claim).to receive(:written_reasons_outstanding?).and_return(true)
-        expect(subject.case_type_name).to eq(claim.case_type.name)
       end
+
+      it { expect(presenter.case_type_name).to eq(claim.case_type.name) }
+      it { expect(presenter.claim_state).to eq('Awaiting written reasons') }
     end
   end
 
-  it '#defendant_names' do
-    expect(subject.defendant_names).to eql("#{CGI.escapeHTML(@first_defendant.name)}, <br>Robert Smith, <br>Adam Smith")
+  describe '#defendant_names' do
+    it do
+      expect(presenter.defendant_names)
+        .to eql("#{CGI.escapeHTML(first_defendant.name)}, <br>Robert Smith, <br>Adam Smith")
+    end
   end
 
-  it '#submitted_at' do
-    claim.last_submitted_at = Time.current
-    expect(subject.submitted_at).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(subject.submitted_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
+  describe '#submitted_at' do
+    before { claim.update!(last_submitted_at: Time.current) }
+
+    it { expect(presenter.submitted_at).to eql(Time.current.strftime('%d/%m/%Y')) }
+    it { expect(presenter.submitted_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M')) }
   end
 
-  it '#authorised_at' do
-    claim.authorised_at = Time.current
-    expect(subject.authorised_at).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(subject.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y'))
-    expect(subject.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M'))
-    expect { subject.authorised_at(rubbish: false) }.to raise_error(ArgumentError)
+  describe '#authorised_at' do
+    before { claim.update!(authorised_at: Time.current) }
+
+    it { expect(presenter.authorised_at).to eql(Time.current.strftime('%d/%m/%Y')) }
+    it { expect(presenter.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y')) }
+    it { expect(presenter.authorised_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M')) }
+    it { expect { presenter.authorised_at(rubbish: false) }.to raise_error(ArgumentError) }
   end
 
-  it '#unique_id' do
-    expect(subject.unique_id).to eql("##{subject.id}")
+  describe '#unique_id' do
+    it { expect(presenter.unique_id).to eql("##{presenter.id}") }
   end
 
   describe '#case_number' do
-    it 'returns a placeholder text when not provided' do
-      subject.case_number = nil
-      expect(subject.case_number).to eq('N/A')
-    end
+    it { expect(presenter.case_number).to eql(claim.case_number) }
 
-    it 'returns it when provided' do
-      expect(subject.case_number).to eql(claim.case_number)
+    context 'when case_number is not provided' do
+      before { presenter.update!(case_number: nil) }
+
+      it { expect(presenter.case_number).to eq('N/A') }
     end
   end
 
-  it '#formatted_case_number' do
-    subject.case_number = 'S20094903'
-    expect(subject.formatted_case_number).to eql('S20 094 903')
+  describe '#formatted_case_number' do
+    before { presenter.update!(case_number: 'S20094903') }
+
+    it { expect(presenter.formatted_case_number).to eql('S20 094 903') }
   end
 
   describe '#valid_transitions' do
-    it 'lists valid transitions from allocated' do
-      claim.state = 'allocated'
-      presenter = Claim::BaseClaimPresenter.new(claim, view)
-      expect(presenter.valid_transitions).to eq(
-        {
-          part_authorised: 'Part authorised',
-          authorised: 'Authorised',
-          refused: 'Refused',
-          rejected: 'Rejected',
-          submitted: 'Submitted'
-        }
-      )
+    let(:valid_transitions) do
+      {
+        part_authorised: 'Part authorised',
+        authorised: 'Authorised',
+        refused: 'Refused',
+        rejected: 'Rejected',
+        submitted: 'Submitted'
+      }
     end
 
-    it 'lists valid transitions from allocated with include_submitted => false' do
-      claim.state = 'allocated'
-      presenter = Claim::BaseClaimPresenter.new(claim, view)
-      expect(presenter.valid_transitions_for_detail_form).to eq(
-        {
-          part_authorised: 'Part authorised',
-          authorised: 'Authorised',
-          refused: 'Refused',
-          rejected: 'Rejected'
-        }
-      )
+    before { claim.update!(state: 'allocated') }
+
+    it { expect(presenter.valid_transitions).to eq(valid_transitions) }
+  end
+
+  describe '#valid_transitions_for_detail_form' do
+    let(:valid_transitions) do
+      {
+        part_authorised: 'Part authorised',
+        authorised: 'Authorised',
+        refused: 'Refused',
+        rejected: 'Rejected'
+      }
     end
 
-    it 'lists valid transitions from part_authorised' do
-      claim.state = 'part_authorised'
-      presenter = Claim::BaseClaimPresenter.new(claim, view)
-      expect(presenter.valid_transitions)
-        .to eq({ redetermination: 'Redetermination', awaiting_written_reasons: 'Awaiting written reasons' })
+    context 'when the claim is allocated' do
+      before { claim.update!(state: 'allocated') }
+
+      it { expect(presenter.valid_transitions_for_detail_form).to eq(valid_transitions) }
+    end
+
+    context 'when the claim is part_authorised' do
+      before do
+        claim.assessment.update!(fees: 10.00)
+        claim.update!(state: 'part_authorised')
+      end
+
+      it do
+        expect(presenter.valid_transitions)
+          .to eq({ redetermination: 'Redetermination', awaiting_written_reasons: 'Awaiting written reasons' })
+      end
     end
   end
 
   describe '#assessment_date' do
-    let(:presenter) { Claim::BaseClaimPresenter.new(@claim, view) }
-    let(:second_redetermination_date) { Time.zone.local(2015, 9, 9, 13, 33, 55) }
-    let(:first_redetermination_date)  { Time.zone.local(2015, 9, 4, 7, 33, 22) }
     let(:assessment_date) { Time.zone.local(2015, 9, 1, 12, 34, 55) }
-    let(:creation_date) { Time.zone.local(2015, 8, 13, 14, 55, 23) }
+    let(:claim) { create(:submitted_claim, created_at: Time.zone.local(2015, 8, 13, 14, 55, 23)) }
 
-    context 'blank assessment' do
-      it 'returns not yet assessed if there is no assessment' do
-        expect(subject.assessment_date).to eq 'not yet assessed'
-      end
+    context 'with a blank assessment' do
+      it { expect(presenter.assessment_date).to eq 'not yet assessed' }
     end
 
-    context 'one assessment, no redeterminations' do
-      it 'returns the updated date of the assessment' do
-        travel_to(creation_date) { @claim = create(:submitted_claim) }
-        travel_to(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
-        expect(presenter.assessment_date).to eq '01/09/2015'
+    context 'with one assessment, no redeterminations' do
+      before do
+        claim.assessment.update!(fees: 100.0, expenses: 200.0, created_at: assessment_date, updated_at: assessment_date)
       end
+
+      it { expect(presenter.assessment_date).to eq '01/09/2015' }
     end
 
-    context 'multiple redeterminations' do
-      it 'returns creation date of last redetermination' do
-        travel_to(creation_date) { @claim = create(:submitted_claim) }
-        travel_to(assessment_date) { @claim.assessment.update(fees: 100.0, expenses: 200.0) }
-        travel_to(first_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 110.0, expenses: 205.88) }
-        travel_to(second_redetermination_date) { @claim.redeterminations << Redetermination.new(fees: 113.0, expenses: 208.88) }
-        expect(presenter.assessment_date).to eq '09/09/2015'
+    context 'with multiple redeterminations' do
+      let(:first_redetermination) { create(:redetermination, created_at: Time.zone.local(2015, 9, 4, 7, 33, 22)) }
+      let(:second_redetermination) { create(:redetermination, created_at: Time.zone.local(2015, 9, 9, 13, 33, 55)) }
+
+      before do
+        claim.assessment.update!(fees: 100.0, expenses: 200.0, created_at: assessment_date, updated_at: assessment_date)
+        claim.redeterminations = [first_redetermination, second_redetermination]
       end
+
+      it { expect(presenter.assessment_date).to eq '09/09/2015' }
     end
   end
 
-  describe 'assessment_fees' do
-    it 'returns formatted assessment fees' do
-      claim.assessment.update!(fees: 1234.56, expenses: 0.0, disbursements: 300.0)
-      expect(subject.assessment_fees).to eq '£1,234.56'
-    end
+  describe '#assessment_fees' do
+    before { claim.assessment.update!(fees: 1234.56, expenses: 0.0, disbursements: 300.0) }
+
+    it { expect(presenter.assessment_fees).to eq '£1,234.56' }
   end
 
-  describe 'assessment_expenses' do
-    it 'returns formatted assessment expenses' do
-      claim.assessment.update!(fees: 0.0, expenses: 1234.56, disbursements: 300.0)
-      expect(subject.assessment_expenses).to eq '£1,234.56'
-    end
+  describe '#assessment_expenses' do
+    before { claim.assessment.update!(fees: 0.0, expenses: 1234.56, disbursements: 300.0) }
+
+    it { expect(presenter.assessment_expenses).to eq '£1,234.56' }
   end
 
-  describe 'assessment_disbursements' do
-    it 'returns formatted assessment disbursements' do
-      claim.assessment.update!(fees: 0.0, expenses: 0.0, disbursements: 300.0)
-      expect(subject.assessment_disbursements).to eq '£300.00'
-    end
+  describe '#assessment_disbursements' do
+    before { claim.assessment.update!(fees: 0.0, expenses: 0.0, disbursements: 300.0) }
+
+    it { expect(presenter.assessment_disbursements).to eq '£300.00' }
   end
 
   describe '#retrial' do
-    it 'returns yes for case types like retrial' do
-      claim.case_type = create :case_type, :retrial
-      expect(subject.retrial).to eql 'Yes'
+    context 'when the case type is retrial' do
+      before { claim.update!(case_type: create(:case_type, :retrial)) }
+
+      it { expect(presenter.retrial).to eql 'Yes' }
     end
 
-    it 'returns no for case types NOT like retrial' do
-      claim.case_type = create :case_type, :contempt
-      expect(subject.retrial).to eql 'No'
+    context 'when the case type is not retrial' do
+      before { claim.update!(case_type: create(:case_type, :contempt)) }
+
+      it { expect(presenter.retrial).to eql 'No' }
     end
 
-    it 'returns empty string when no case type' do
-      claim.case_type = nil
-      expect(subject.retrial).to be_blank
+    context 'when there is no case type' do
+      before { claim.update!(case_type: nil) }
+
+      it { expect(presenter.retrial).to be_blank }
     end
   end
 
   describe '#any_judicial_apportionments' do
-    it 'returns yes if any defendants have an order for judicial apportionment' do
-      @first_defendant.update_attribute(:order_for_judicial_apportionment, true)
-      expect(subject.any_judicial_apportionments).to eql 'Yes'
+    context 'when any defendant has an order for judicial apportionment' do
+      before { first_defendant.update!(order_for_judicial_apportionment: true) }
+
+      it { expect(presenter.any_judicial_apportionments).to eql 'Yes' }
     end
 
-    it 'returns no if no defendants have an order for judicial apportionment' do
-      @first_defendant.update_attribute(:order_for_judicial_apportionment, false)
-      expect(subject.any_judicial_apportionments).to eql 'No'
+    context 'when no defendant has an order for judicial apportionment' do
+      it { expect(presenter.any_judicial_apportionments).to eql 'No' }
     end
   end
 
   # TODO: do currency converters need internationalisation??
-  it '#amount_assessed' do
-    claim.assessment.update(fees: 80.35, expenses: 19.65, disbursements: 52.48)
-    expect(subject.assessment_total).to eql('£152.48')
+  describe '#assessment_total' do
+    before { claim.assessment.update(fees: 80.35, expenses: 19.65, disbursements: 52.48) }
+
+    it { expect(presenter.assessment_total).to eql('£152.48') }
   end
 
-  context 'dynamically defined methods' do
+  describe 'dynamically defined methods' do
     %w[expenses disbursements].each do |object_name|
-      %w[total vat with_vat_net with_vat_gross without_vat_net without_vat_gross].each do |method|
+      METHOD_NAMES.each do |method|
         method_name = "#{object_name}_#{method}".to_sym
         it { is_expected.to respond_to(method_name) }
 
         describe "##{method_name}" do
           it 'returns currency format' do
             allow(claim).to receive(method_name).and_return 100
-            expect(subject.send(method_name)).to match(/£\d+\.\d+/)
+            expect(presenter.send(method_name)).to match(/£\d+\.\d+/)
           end
         end
       end
@@ -253,59 +266,50 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#expenses_gross' do
-    it 'returns total expenses and total of expense vat in currency format' do
-      claim.expenses_total = 100
-      claim.expenses_vat = 25
-      expect(subject.expenses_gross).to eql('£125.00')
-    end
+    before { claim.update!(expenses_total: 100, expenses_vat: 25) }
+
+    it { expect(presenter.expenses_gross).to eql('£125.00') }
   end
 
   describe '#disbursements_gross' do
-    it 'returns total disbursements and total disbursment vat in currency format' do
-      claim.disbursements_total = 100
-      claim.disbursements_vat = 25
-      expect(subject.disbursements_gross).to eql('£125.00')
-    end
+    before { claim.update!(disbursements_total: 100, disbursements_vat: 25) }
+
+    it { expect(presenter.disbursements_gross).to eql('£125.00') }
   end
 
   describe '#fees_total' do
-    it 'returns total of all fees in currency format' do
-      claim.fees_total = 100
-      expect(subject.fees_total).to eql('£100.00')
-    end
+    before { claim.update!(fees_total: 100) }
+
+    it { expect(presenter.fees_total).to eql('£100.00') }
   end
 
   describe '#total_inc_vat' do
-    it 'returns total of all fees and total of all fee vat in currency format' do
-      claim.total = 60
-      claim.vat_amount = 40
-      expect(subject.total_inc_vat).to eql('£100.00')
-    end
+    before { claim.update!(total: 60, fees_vat: 40) }
+
+    it { expect(presenter.total_inc_vat).to eql('£100.00') }
   end
 
   describe '#case_worker_email_addresses' do
-    it 'returns comma separated string of case worker email address' do
-      cw1 = build(:case_worker)
-      cw2 = build(:case_worker)
-      cw1.user.email = 'john@bigblackhole.com'
-      cw2.user.email = 'bob@bigblackhole.com'
-      claim.case_workers << cw1
-      claim.case_workers << cw2
-      expect(subject.case_worker_email_addresses).to eql('bob@bigblackhole.com, john@bigblackhole.com')
+    let(:first_case_worker) { build(:case_worker) }
+    let(:second_case_worker) { build(:case_worker) }
+
+    before do
+      first_case_worker.user.update!(email: 'john@bigblackhole.com')
+      second_case_worker.user.update!(email: 'bob@bigblackhole.com')
+      claim.case_workers = [first_case_worker, second_case_worker]
     end
+
+    it { expect(presenter.case_worker_email_addresses).to eql('bob@bigblackhole.com, john@bigblackhole.com') }
   end
 
   describe '#caseworker_claim_id' do
-    it 'returns claim id formatted for use in html label' do
-      expect(subject.caseworker_claim_id).to eql("claim_ids_#{claim.id}")
-    end
+    it { expect(presenter.caseworker_claim_id).to eql("claim_ids_#{claim.id}") }
   end
 
   describe '#representation_order_details' do
     let(:claim) do
       build(:claim).tap do |claim|
-        claim.defendants << defendant_added_first
-        claim.defendants << defendant_added_second
+        claim.defendants = [defendant_added_first, defendant_added_second]
       end
     end
 
@@ -323,20 +327,29 @@ RSpec.describe Claim::BaseClaimPresenter do
     let(:defendant_added_second) do
       build(:defendant).tap do |defendant|
         travel_to 2.days.ago do
-          defendant.representation_orders = [build(:representation_order, representation_order_date: Date.new(2015, 3, 1), maat_reference: '444444')]
+          defendant.representation_orders = [build(:representation_order,
+                                                   representation_order_date: Date.new(2015, 3, 1),
+                                                   maat_reference: '444444')]
         end
       end
     end
 
     it 'returns a string of all the dates' do
-      expect(presenter.representation_order_details).to eq('01/03/2015 222222<br>13/08/2015 333333<br>01/03/2015 444444')
+      expect(presenter.representation_order_details).to eq(
+        '01/03/2015 222222<br>13/08/2015 333333<br>01/03/2015 444444'
+      )
     end
   end
 
-  it '#case_worker_names' do
-    claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Alexander', last_name: 'Bell'))
-    claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Louis', last_name: 'Pasteur'))
-    expect(subject.case_worker_names).to eq('Alexander Bell, Louis Pasteur')
+  describe '#case_worker_names' do
+    before do
+      claim.case_workers = [
+        build(:case_worker, user: build(:user, first_name: 'Alexander', last_name: 'Bell')),
+        build(:case_worker, user: build(:user, first_name: 'Louis', last_name: 'Pasteur'))
+      ]
+    end
+
+    it { expect(presenter.case_worker_names).to eq('Alexander Bell, Louis Pasteur') }
   end
 
   describe '#amount_assessed' do
@@ -349,52 +362,55 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
 
       it 'display a currency formatted amount assessed' do
-        expect(subject.amount_assessed).to match(/£\d{3}\.\d{2}/)
+        expect(presenter.amount_assessed).to match(/£\d{3}\.\d{2}/)
       end
     end
 
     context 'when no assessment present' do
       it 'displays "-"' do
-        expect(subject.amount_assessed).to eq('-')
+        expect(presenter.amount_assessed).to eq('-')
       end
     end
   end
 
-  context 'defendant_summary' do
+  describe 'displaying a defendant_summary' do
     let(:my_claim)  { Claim::AdvocateClaim.new }
-    let(:presenter) { Claim::BaseClaimPresenter.new(my_claim, view) }
+    let(:presenter) { described_class.new(my_claim, view) }
 
-    context '3 defendants' do
-      it 'returns name and intial of first defendant and count of additional defendants' do
-        my_claim.defendants << Defendant.new(first_name: 'Stephen', last_name: 'Richards')
-        my_claim.defendants << Defendant.new(first_name: 'Robert', last_name: 'Stirling')
-        my_claim.defendants << Defendant.new(first_name: 'Stuart', last_name: 'Hollands')
-        expect(presenter.defendant_name_and_initial).to eq 'S. Richards'
-        expect(presenter.other_defendant_summary).to eq '+ 2 others'
-      end
+    context 'with no defendants' do
+      it { expect(presenter.defendant_name_and_initial).to be_nil }
+      it { expect(presenter.other_defendant_summary).to be_blank }
     end
 
-    context '1 defendant' do
-      it 'returns the name and initial of the only defendant' do
-        my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
-        expect(presenter.defendant_name_and_initial).to eq 'M. Withers'
-      end
+    context 'with 1 defendant' do
+      before { my_claim.defendants = [Defendant.new(first_name: 'Maria', last_name: 'Withers')] }
+
+      it { expect(presenter.defendant_name_and_initial).to eq 'M. Withers' }
     end
 
-    context '2 defendants' do
-      it 'returns the name and initial of the first defendant + 1 other' do
-        my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
-        my_claim.defendants << Defendant.new(first_name: 'Angela', last_name: 'Jones')
-        expect(presenter.defendant_name_and_initial).to eq 'M. Withers'
-        expect(presenter.other_defendant_summary).to eq '+ 1 other'
+    context 'with 2 defendants' do
+      before do
+        my_claim.defendants = [
+          Defendant.new(first_name: 'Maria', last_name: 'Withers'),
+          Defendant.new(first_name: 'Angela', last_name: 'Jones')
+        ]
       end
+
+      it { expect(presenter.defendant_name_and_initial).to eq 'M. Withers' }
+      it { expect(presenter.other_defendant_summary).to eq '+ 1 other' }
     end
 
-    context 'no defendants' do
-      it 'returns nil' do
-        expect(presenter.defendant_name_and_initial).to be_nil
-        expect(presenter.other_defendant_summary).to eq ''
+    context 'with 3 defendants' do
+      before do
+        my_claim.defendants = [
+          Defendant.new(first_name: 'Stephen', last_name: 'Richards'),
+          Defendant.new(first_name: 'Robert', last_name: 'Stirling'),
+          Defendant.new(first_name: 'Stuart', last_name: 'Hollands')
+        ]
       end
+
+      it { expect(presenter.defendant_name_and_initial).to eq 'S. Richards' }
+      it { expect(presenter.other_defendant_summary).to eq '+ 2 others' }
     end
   end
 
@@ -409,36 +425,38 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     before { create(:injection_attempt, :with_errors, claim:) }
 
-    it 'returns nil for inactive injection errors' do
-      claim.injection_attempts.last.soft_delete
-      is_expected.to be_nil
+    context 'with injection errors' do
+      it { is_expected.to eql 'Claim not injected' }
+      it { expect { |b| presenter.injection_error(&b) }.to yield_control.exactly(1).times }
+      it { expect { |b| presenter.injection_error(&b) }.to yield_with_args('Claim not injected') }
     end
 
-    it 'returns single header message for active injection errors' do
-      is_expected.to eql 'Claim not injected'
-    end
+    context 'when injection errors are inactive' do
+      before { claim.injection_attempts.last.soft_delete }
 
-    it 'yields a block passing the header message as an argument' do
-      expect { |b| presenter.injection_error(&b) }.to yield_control.exactly(1).times
-      expect { |b| presenter.injection_error(&b) }.to yield_with_args('Claim not injected')
+      it { is_expected.to be_nil }
     end
   end
 
   describe '#injection_errors' do
-    subject { presenter.injection_errors }
+    subject(:injection_errors) { presenter.injection_errors }
 
-    before do
-      create(:injection_attempt, :with_errors, claim:)
-    end
+    let(:injection_attempts) { [instance_double(InjectionAttempt)] }
+    let(:injection_attempt) { instance_double(InjectionAttempt) }
 
-    it 'calls last error messages attribute of model' do
-      injection_attempts = instance_double('injection_attempts')
-      injection_attempt = instance_double('injection_attempt')
-      expect(claim).to receive(:injection_attempts).at_least(:once).and_return(injection_attempts)
-      expect(injection_attempts).to receive(:last).at_least(:once).and_return(injection_attempt)
-      expect(injection_attempt).to receive(:active?).at_least(:once).and_return true
-      expect(injection_attempt).to receive(:error_messages).at_least(:once)
-      subject
+    before { create(:injection_attempt, :with_errors, claim:) }
+
+    context 'when stubbing calls to injection_attempts' do
+      before do
+        allow(claim).to receive(:injection_attempts).at_least(:once).and_return(injection_attempts)
+        allow(injection_attempts).to receive(:last).at_least(:once).and_return(injection_attempt)
+        allow(injection_attempt).to receive(:active?).at_least(:once).and_return true
+      end
+
+      it 'calls last error messages attribute of model' do
+        expect(injection_attempt).to receive(:error_messages).at_least(:once)
+        injection_errors
+      end
     end
 
     it 'returns the last error messages array' do
@@ -449,70 +467,52 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#supplier_name' do
     subject { presenter.supplier_name }
 
-    context 'AGFS' do
-      it 'returns nil' do
-        is_expected.to be_nil
-      end
+    context 'when the claim is AGFS' do
+      it { is_expected.to be_nil }
     end
 
-    context 'LGFS' do
+    context 'when the claim is LGFS' do
       let(:claim) { create(:litigator_claim) }
-      let(:supplier) do
-        SupplierNumber.find_by(supplier_number: claim.supplier_number)
-      end
+      let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
 
-      it 'returns claim supplier\'s name' do
-        is_expected.to eql supplier.name
-      end
+      it { is_expected.to eql supplier.name }
     end
   end
 
   describe '#supplier_postcode' do
     subject { presenter.supplier_postcode }
 
-    context 'AGFS' do
-      it 'returns nil' do
-        is_expected.to be_nil
-      end
+    context 'when the claim is AGFS' do
+      it { is_expected.to be_nil }
     end
 
-    context 'LGFS' do
+    context 'when the claim is LGFS' do
       let(:claim) { create(:litigator_claim) }
       let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
 
-      it 'returns claim suppliers postcode' do
-        is_expected.to_not be_nil
-        is_expected.to eql supplier.postcode
-      end
+      it { is_expected.to eql supplier.postcode }
     end
   end
 
   describe '#supplier_name_with_postcode' do
     subject { presenter.supplier_name_with_postcode }
 
-    context 'AGFS' do
-      it 'returns nil' do
-        is_expected.to be_nil
-      end
+    context 'when the claim is AGFS' do
+      it { is_expected.to be_nil }
     end
 
-    context 'LGFS' do
+    context 'when the claim is LGFS' do
       let(:claim) { create(:litigator_claim) }
       let(:supplier) { SupplierNumber.find_by(supplier_number: claim.supplier_number) }
 
       context 'when claim supplier has name and postcode' do
-        it 'returns name and postcode' do
-          is_expected.to_not be_nil
-          is_expected.to eql "#{supplier.name} (#{supplier.postcode})"
-        end
+        it { is_expected.to eql "#{supplier.name} (#{supplier.postcode})" }
       end
 
       context 'when claim supplier has name but NOT postcode' do
         before { supplier.update(postcode: nil) }
 
-        it 'returns name' do
-          is_expected.to eql supplier.name
-        end
+        it { is_expected.to eql supplier.name }
       end
 
       context 'when claim supplier has no name or postcode' do
@@ -552,34 +552,38 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#mandatory_case_details?' do
-    it 'returns truthy when claim has case type, court and case number' do
-      expect(claim).to receive(:case_type).and_return 'a case type'
-      expect(claim).to receive(:court).and_return 'a court'
-      expect(claim).to receive(:case_number).and_return 'a case number'
-      expect(presenter.mandatory_case_details?).to be_truthy
+    subject { presenter.mandatory_case_details? }
+
+    before { allow(claim).to receive_messages(case_type: 'a case type', court: 'a court') }
+
+    context 'when claim has case type, court and case number' do
+      before { allow(claim).to receive(:case_number).and_return 'a case number' }
+
+      it { is_expected.to be_truthy }
     end
 
-    it 'returns falsey when claim is missing one of case type, court or case number' do
-      expect(claim).to receive(:case_type).and_return 'a case type'
-      expect(claim).to receive(:court).and_return 'a court'
-      expect(claim).to receive(:case_number).and_return nil
-      expect(presenter.mandatory_case_details?).to be_falsey
+    context 'when claim is missing one of case type, court or case number' do
+      before { allow(claim).to receive(:case_number).and_return nil }
+
+      it { is_expected.to be_falsey }
     end
   end
 
   describe '#mandatory_supporting_evidence?' do
-    it 'returns truthy when claim has disk evidence, documents or evidence checklist item' do
-      expect(claim).to receive(:disk_evidence).and_return false
-      expect(claim).to receive(:documents).and_return []
-      expect(claim).to receive(:evidence_checklist_ids).and_return [1]
-      expect(presenter.mandatory_supporting_evidence?).to be_truthy
+    subject { presenter.mandatory_supporting_evidence? }
+
+    before { allow(claim).to receive_messages(disk_evidence: false, court: []) }
+
+    context 'when claim has disk evidence, documents or evidence checklist item' do
+      before { allow(claim).to receive(:evidence_checklist_ids).and_return [1] }
+
+      it { is_expected.to be_truthy }
     end
 
-    it 'returns falsey when claim has NO disk evidence, documents or evidence checklist item' do
-      expect(claim).to receive(:disk_evidence).and_return false
-      expect(claim).to receive(:documents).and_return []
-      expect(claim).to receive(:evidence_checklist_ids).and_return []
-      expect(presenter.mandatory_supporting_evidence?).to be_falsey
+    context 'when claim has NO disk evidence, documents or evidence checklist item' do
+      before { allow(claim).to receive(:evidence_checklist_ids).and_return [] }
+
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -628,10 +632,9 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#submitted_at_short' do
     subject { presenter.submitted_at_short }
 
-    it 'returns short date formatted string of #last_submitted_at' do
-      expect(claim).to receive(:last_submitted_at).and_return DateTime.parse('2019-03-31 09:38:00.000000')
-      is_expected.to eql '31/03/19'
-    end
+    before { allow(claim).to receive(:last_submitted_at).and_return DateTime.parse('2019-03-31 09:38:00.000000') }
+
+    it { is_expected.to eql '31/03/19' }
   end
 
   describe '#trial_concluded' do
@@ -640,122 +643,122 @@ RSpec.describe Claim::BaseClaimPresenter do
     context 'when no claim#trial_concluded_at' do
       before { allow(claim).to receive(:trial_concluded_at).and_return nil }
 
-      it 'returns text' do
-        is_expected.to eql 'not specified'
-      end
+      it { is_expected.to eql 'not specified' }
     end
 
     context 'when claim#trial_concluded_at' do
       before { allow(claim).to receive(:trial_concluded_at).and_return DateTime.parse('2019-03-31 09:38:00.000000') }
 
-      it 'returns app specific date string format' do
-        is_expected.to eql '31/03/2019'
-      end
+      it { is_expected.to eql '31/03/2019' }
     end
   end
 
   describe '#has_messages?' do
     subject { presenter.has_messages? }
 
-    context 'non-remote claims' do
+    context 'when the claim is non-remote' do
       before { allow(claim).to receive(:remote?).and_return false }
 
-      it 'returns true if there are any messages' do
-        expect(claim).to receive(:messages).and_return [instance_double(Message)]
-        is_expected.to be_truthy
+      context 'when there are messages' do
+        before { allow(claim).to receive(:messages).and_return [instance_double(Message)] }
+
+        it { is_expected.to be_truthy }
       end
 
-      it 'returns false if there are no messages' do
-        expect(claim).to receive(:messages).and_return []
-        is_expected.to be_falsey
+      context 'when there are no messages' do
+        before { allow(claim).to receive(:messages).and_return [] }
+
+        it { is_expected.to be_falsey }
       end
     end
 
-    context 'remote claims' do
-      let(:claim) { double(Remote::Claim, remote?: true) }
+    context 'when the claim is remote' do
+      let(:claim) { instance_double(Remote::Claim, remote?: true) }
 
-      it 'returns true for positive message count' do
-        allow(claim).to receive(:messages_count).and_return 2
-        is_expected.to be_truthy
+      context 'when message count is positive' do
+        before { allow(claim).to receive(:messages_count).and_return 2 }
+
+        it { is_expected.to be_truthy }
       end
 
-      it 'returns false for nil or zero message count' do
-        allow(claim).to receive(:messages_count).and_return nil
-        is_expected.to be_falsey
+      context 'when message count is zero' do
+        before { allow(claim).to receive(:messages_count).and_return 0 }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when message count is nil' do
+        before { allow(claim).to receive(:messages_count).and_return nil }
+
+        it { is_expected.to be_falsey }
       end
     end
   end
 
   describe '#raw_misc_fees_total' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:calculate_fees_total).with(:misc_fees).and_return 101.00
-      expect(presenter.raw_misc_fees_total).to eq 101.00
-    end
+    before { allow(claim).to receive(:calculate_fees_total).with(:misc_fees).and_return 101.00 }
+
+    it { expect(presenter.raw_misc_fees_total).to eq 101.00 }
   end
 
   describe '#raw_fixed_fees_total' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:fixed_fees)
-      presenter.raw_fixed_fees_total
-    end
+    before { allow(claim).to receive(:calculate_fees_total).with(:fixed_fees).and_return 101.00 }
+
+    it { expect(presenter.raw_fixed_fees_total).to eq 101.00 }
   end
 
   describe '#raw_expenses_total' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:expenses_total)
-      presenter.raw_expenses_total
-    end
+    before { allow(claim).to receive(:expenses_total).and_return 101.00 }
+
+    it { expect(presenter.raw_expenses_total).to eq 101.00 }
   end
 
   describe '#raw_expenses_vat' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:expenses_vat)
-      presenter.raw_expenses_vat
-    end
+    before { allow(claim).to receive(:expenses_vat).and_return 20.20 }
+
+    it { expect(presenter.raw_expenses_vat).to eq 20.20 }
   end
 
   describe '#raw_disbursements_total' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:disbursements_total)
-      presenter.raw_disbursements_total
-    end
+    before { allow(claim).to receive(:disbursements_total).and_return 101.00 }
+
+    it { expect(presenter.raw_disbursements_total).to eq 101.00 }
   end
 
   describe '#raw_disbursements_vat' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:disbursements_vat)
-      presenter.raw_disbursements_vat
-    end
+    before { allow(claim).to receive(:disbursements_vat).and_return 20.20 }
+
+    it { expect(presenter.raw_disbursements_vat).to eq 20.20 }
   end
 
   describe '#raw_vat_amount' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:vat_amount)
-      presenter.raw_vat_amount
-    end
+    before { allow(claim).to receive(:vat_amount).and_return 20.20 }
+
+    it { expect(presenter.raw_vat_amount).to eq 20.20 }
   end
 
   describe '#raw_total_inc' do
-    it 'sends messages to claim' do
-      expect(claim).to receive(:total).and_return 120.00
-      expect(claim).to receive(:vat_amount).and_return 24.00
-      expect(presenter.raw_total_inc).to eq 144.00
-    end
+    before { allow(claim).to receive_messages(total: 120.00, vat_amount: 24.00) }
+
+    it { expect(presenter.raw_total_inc).to eq 144.00 }
   end
 
   describe '#raw_total_excl' do
-    it 'sends message to claim' do
-      expect(claim).to receive(:total)
-      presenter.raw_total_excl
-    end
+    before { allow(claim).to receive_messages(total: 120.00, vat_amount: 24.00) }
+
+    it { expect(presenter.raw_total_excl).to eq 120.00 }
   end
 
   describe '#can_have_disbursements?' do
-    specify { expect(presenter.can_have_disbursements?).to be_truthy }
+    subject { presenter.can_have_disbursements? }
+
+    it { is_expected.to be_truthy }
   end
 
   describe '#display_days?' do
-    specify { expect(presenter.display_days?).to be_falsey }
+    subject { presenter.display_days? }
+
+    it { is_expected.to be_falsey }
   end
 
   describe '#display_case_type?' do
@@ -781,7 +784,9 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
 
     context 'when claim delegates case type' do
-      let(:claim) { create(:advocate_hardship_claim, case_type: nil, case_stage: build(:case_stage, :trial_not_concluded)) }
+      let(:claim) do
+        create(:advocate_hardship_claim, case_type: nil, case_stage: build(:case_stage, :trial_not_concluded))
+      end
 
       it 'case type is expected to be truthy' do
         expect(claim.case_type).to be_truthy
@@ -819,50 +824,24 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe 'calculate #misc_fees' do
     before do
-      allow(presenter).to receive(:raw_misc_fees_total).and_return 10.0
-      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true)
+      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true, calculate_fees_total: 10.00)
     end
 
-    it '#raw_misc_fees_vat' do
-      expect(presenter.raw_misc_fees_vat).to eq(2.0)
-    end
-
-    it 'returns #raw_misc_fees_gross' do
-      allow(presenter).to receive(:raw_misc_fees_vat).and_return 2.0
-      expect(presenter.raw_misc_fees_gross).to eq(12.0)
-    end
-
-    it 'returns #misc_fees_vat with the associated currency' do
-      expect(presenter.misc_fees_vat).to eq('£2.00')
-    end
-
-    it 'returns #misc_fees_gross with the associated currency' do
-      expect(presenter.misc_fees_gross).to eq('£12.00')
-    end
+    it { expect(presenter.raw_misc_fees_vat).to eq(2.0) }
+    it { expect(presenter.raw_misc_fees_gross).to eq(12.0) }
+    it { expect(presenter.misc_fees_vat).to eq('£2.00') }
+    it { expect(presenter.misc_fees_gross).to eq('£12.00') }
   end
 
   describe 'calculate #fixed_fees' do
     before do
-      allow(presenter).to receive(:raw_fixed_fees_total).and_return 10.0
-      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true)
+      allow(claim).to receive_messages(created_at: Time.zone.today, apply_vat?: true, calculate_fees_total: 10.00)
     end
 
-    it '#raw_fixed_fees_vat' do
-      expect(presenter.raw_fixed_fees_vat).to eq(2.0)
-    end
-
-    it 'returns #raw_fixed_fees_gross' do
-      allow(presenter).to receive(:raw_fixed_fees_vat).and_return 2.0
-      expect(presenter.raw_fixed_fees_gross).to eq(12.0)
-    end
-
-    it 'returns #fixed_fees_vat with the associated currency' do
-      expect(presenter.fixed_fees_vat).to eq('£2.00')
-    end
-
-    it 'returns #fixed_fees_gross with the associated currency' do
-      expect(presenter.fixed_fees_gross).to eq('£12.00')
-    end
+    it { expect(presenter.raw_fixed_fees_vat).to eq(2.0) }
+    it { expect(presenter.raw_fixed_fees_gross).to eq(12.0) }
+    it { expect(presenter.fixed_fees_vat).to eq('£2.00') }
+    it { expect(presenter.fixed_fees_gross).to eq('£12.00') }
   end
 
   describe '#has_clar_fees?' do
@@ -896,11 +875,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     it {
       is_expected.to include(
-        [
-          mispf_fee_type.description,
-          mispf_fee_type.id,
-          data: { unique_code: mispf_fee_type.unique_code }
-        ]
+        [mispf_fee_type.description, mispf_fee_type.id, { data: { unique_code: mispf_fee_type.unique_code } }]
       )
     }
   end

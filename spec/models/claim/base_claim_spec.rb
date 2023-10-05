@@ -65,7 +65,7 @@ RSpec.describe Claim::BaseClaim do
                        'Claim::BaseClaim is an abstract class and cannot be instantiated'
   end
 
-  context 'scheme scopes' do
+  describe 'scheme scopes' do
     let!(:agfs_final_claim) { create(:advocate_claim) }
     let!(:agfs_interim_claim) { create(:advocate_interim_claim) }
     let!(:lgfs_final_claim) { create(:litigator_claim) }
@@ -143,7 +143,7 @@ RSpec.describe Claim::BaseClaim do
     end
   end
 
-  context 'expenses' do
+  describe 'expenses' do
     let!(:claim) { create(:litigator_claim) }
     let!(:expense_with_vat) { create(:expense, claim:, amount: 100.0, vat_amount: 20) }
     let!(:another_expense_with_vat) { create(:expense, claim:, amount: 50.50, vat_amount: 10.10) }
@@ -191,7 +191,7 @@ RSpec.describe Claim::BaseClaim do
     end
   end
 
-  context 'disbursements' do
+  describe 'disbursements' do
     let!(:claim) { create(:litigator_claim) }
     let!(:disbursement_with_vat) { create(:disbursement, claim:, net_amount: 100.0, vat_amount: 20) }
     let!(:another_disbursement_with_vat) { create(:disbursement, claim:, net_amount: 50.50, vat_amount: 10.10) }
@@ -262,13 +262,13 @@ RSpec.describe Claim::BaseClaim do
       let(:case_type) { build(:case_type) }
       let(:claim) { MockBaseClaim.new(case_type:) }
 
-      context 'and does not have a fixed fee' do
+      context 'when there is no fixed fee' do
         let(:case_type) { build(:case_type, is_fixed_fee: false) }
 
         specify { is_expected.to be(false) }
       end
 
-      context 'and has a fixed fee' do
+      context 'when there is a fixed fee' do
         let(:case_type) { build(:case_type, is_fixed_fee: true) }
 
         specify { is_expected.to be(true) }
@@ -461,7 +461,7 @@ RSpec.describe Claim::BaseClaim do
     context 'when the claim is not from an API submission' do
       let(:source) { 'web' }
 
-      context 'and the form step is nil' do
+      context 'when the form step is nil' do
         before do
           claim.form_step = nil
         end
@@ -469,16 +469,16 @@ RSpec.describe Claim::BaseClaim do
         specify { expect(claim.step_validation_required?(:some_step)).to be_truthy }
       end
 
-      context 'and the form step is set' do
+      context 'when the form step is set' do
         before do
           claim.form_step = :some_step
         end
 
-        context 'and it matches the provided step' do
+        context 'when it matches the provided step' do
           specify { expect(claim.step_validation_required?(:some_step)).to be_truthy }
         end
 
-        context 'but it does not match the provided step' do
+        context 'when it does not match the provided step' do
           specify { expect(claim.step_validation_required?(:other_step)).to be_falsey }
         end
       end
@@ -568,7 +568,7 @@ RSpec.describe MockBaseClaim do
     before { allow(ExternalUser).to receive(:new).and_return(mock_claim_creator) }
   end
 
-  context 'date formatting' do
+  describe 'date formatting' do
     it 'accepts a variety of formats and populate the date accordingly' do
       def make_date_params(date_string)
         day, month, year = date_string.split('-')

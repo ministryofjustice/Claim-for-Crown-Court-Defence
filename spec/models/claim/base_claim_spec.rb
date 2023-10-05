@@ -234,16 +234,16 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#assessment' do
-    subject { claim.assessment }
+    subject(:assessment) { claim.assessment }
 
     context 'when claim built' do
       let(:claim) { build(:advocate_claim) }
 
       it 'builds a zeroized assessment' do
         expect(claim).not_to be_persisted
-        is_expected.not_to be_nil
-        is_expected.not_to be_persisted
-        is_expected.to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
+        expect(assessment).not_to be_nil
+        expect(assessment).not_to be_persisted
+        expect(assessment).to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
       end
     end
 
@@ -252,9 +252,9 @@ RSpec.describe Claim::BaseClaim do
 
       it 'creates an zeroized assessment' do
         expect(claim).to be_persisted
-        is_expected.not_to be_nil
-        is_expected.to be_persisted
-        is_expected.to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
+        expect(assessment).not_to be_nil
+        expect(assessment).to be_persisted
+        expect(assessment).to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
       end
     end
   end
@@ -551,7 +551,7 @@ RSpec.describe Claim::BaseClaim do
       it 'does not return a message after it is read' do
         message.user_message_statuses.where(user:).update(read: true)
 
-        is_expected.not_to include message
+        expect(call).not_to include message
       end
     end
 

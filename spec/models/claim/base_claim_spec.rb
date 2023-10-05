@@ -144,38 +144,33 @@ RSpec.describe Claim::BaseClaim do
   end
 
   context 'expenses' do
-    before(:all) do
-      @claim = create(:litigator_claim)
-      @ex1 = create(:expense, claim: @claim, amount: 100.0, vat_amount: 20)
-      @ex2 = create(:expense, claim: @claim, amount: 100.0, vat_amount: 0.0)
-      @ex3 = create(:expense, claim: @claim, amount: 50.50, vat_amount: 10.10)
-      @ex4 = create(:expense, claim: @claim, amount: 25.0, vat_amount: 0.0)
-      @claim.reload
-    end
-
-    after(:all) { clean_database }
+    let!(:claim) { create(:litigator_claim) }
+    let!(:expense_with_vat) { create(:expense, claim:, amount: 100.0, vat_amount: 20) }
+    let!(:another_expense_with_vat) { create(:expense, claim:, amount: 50.50, vat_amount: 10.10) }
+    let!(:expense_without_vat) { create(:expense, claim:, amount: 100.0, vat_amount: 0.0) }
+    let!(:another_expense_without_vat) { create(:expense, claim:, amount: 25.0, vat_amount: 0.0) }
 
     describe '#expenses.with_vat' do
       it 'returns an array of expenses with VAT' do
-        expect(@claim.expenses.with_vat).to contain_exactly(@ex1, @ex3)
+        expect(claim.expenses.with_vat).to contain_exactly(expense_with_vat, another_expense_with_vat)
       end
     end
 
     describe '#expenses.without_vat' do
       it 'returns an array of expenses without VAT' do
-        expect(@claim.expenses.without_vat).to contain_exactly(@ex2, @ex4)
+        expect(claim.expenses.without_vat).to contain_exactly(expense_without_vat, another_expense_without_vat)
       end
     end
 
     describe '#expenses_with_vat_total' do
       it 'return the sum of the amounts for the expenses with vat' do
-        expect(@claim.expenses_with_vat_net).to eq 150.50
+        expect(claim.expenses_with_vat_net).to eq 150.50
       end
     end
 
     describe '#expenses_without_vat_total' do
       it 'return the sum of the amounts for the expenses without vat' do
-        expect(@claim.expenses_without_vat_net).to eq 125.0
+        expect(claim.expenses_without_vat_net).to eq 125.0
       end
     end
   end
@@ -197,37 +192,32 @@ RSpec.describe Claim::BaseClaim do
   end
 
   context 'disbursements' do
-    before(:all) do
-      @claim = create(:litigator_claim)
-      @db1 = create(:disbursement, claim: @claim, net_amount: 100.0, vat_amount: 20)
-      @db2 = create(:disbursement, claim: @claim, net_amount: 100.0, vat_amount: 0.0)
-      @db3 = create(:disbursement, claim: @claim, net_amount: 50.50, vat_amount: 10.10)
-      @db4 = create(:disbursement, claim: @claim, net_amount: 25.0, vat_amount: 0.0)
-      @claim.reload
-    end
-
-    after(:all) { clean_database }
+    let!(:claim) { create(:litigator_claim) }
+    let!(:disbursement_with_vat) { create(:disbursement, claim:, net_amount: 100.0, vat_amount: 20) }
+    let!(:another_disbursement_with_vat) { create(:disbursement, claim:, net_amount: 50.50, vat_amount: 10.10) }
+    let!(:disbursement_without_vat) { create(:disbursement, claim:, net_amount: 100.0, vat_amount: 0.0) }
+    let!(:another_disbursement_without_vat) { create(:disbursement, claim:, net_amount: 25.0, vat_amount: 0.0) }
 
     describe '#disbursements.with_vat' do
-      subject { @claim.disbursements.with_vat }
+      subject { claim.disbursements.with_vat }
 
-      it { is_expected.to contain_exactly(@db1, @db3) }
+      it { is_expected.to contain_exactly(disbursement_with_vat, another_disbursement_with_vat) }
     end
 
     describe '#disbursements.without_vat' do
-      subject { @claim.disbursements.without_vat }
+      subject { claim.disbursements.without_vat }
 
-      it { is_expected.to contain_exactly(@db2, @db4) }
+      it { is_expected.to contain_exactly(disbursement_without_vat, another_disbursement_without_vat) }
     end
 
     describe '#disbursements_with_vat_net' do
-      subject { @claim.disbursements_with_vat_net }
+      subject { claim.disbursements_with_vat_net }
 
       it { is_expected.to eq 150.50 }
     end
 
     describe '#disbursements_without_vat_net' do
-      subject { @claim.disbursements_without_vat_net }
+      subject { claim.disbursements_without_vat_net }
 
       it { is_expected.to eq 125.0 }
     end

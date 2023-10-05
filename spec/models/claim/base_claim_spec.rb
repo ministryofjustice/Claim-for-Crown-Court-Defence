@@ -14,38 +14,38 @@ class MockBaseClaim < Claim::BaseClaim
 
   SUBMISSION_STAGES = [
     {
-      name: :step_1,
+      name: :step1,
       transitions: [
-        { to_stage: :step_2 }
+        { to_stage: :step2 }
       ]
     },
-    { name: :step_2 }
+    { name: :step2 }
   ].freeze
 end
 
 class MockSteppableClaim < Claim::BaseClaim
   SUBMISSION_STAGES = [
     {
-      name: :step_1,
+      name: :step1,
       transitions: [
-        { to_stage: :step_2 }
+        { to_stage: :step2 }
       ]
     },
     {
-      name: :step_2,
+      name: :step2,
       transitions: [
         {
-          to_stage: :step_3A,
+          to_stage: :step3A,
           condition: ->(claim) { claim.fixed_fee_case? }
         },
         {
-          to_stage: :step_3B,
+          to_stage: :step3B,
           condition: ->(claim) { !claim.fixed_fee_case? }
         }
       ]
     },
-    { name: :step_3A },
-    { name: :step_3B }
+    { name: :step3A },
+    { name: :step3B }
   ].freeze
 end
 
@@ -134,12 +134,12 @@ RSpec.describe Claim::BaseClaim do
   describe 'has_many documents association' do
     it 'returns a collection of verified documents only' do
       claim = create(:claim)
-      verified_doc_1 = create(:document, :verified, claim:)
-      _unverified_doc_1 = create(:document, :unverified, claim:)
-      _unverified_doc_2 = create(:document, :unverified, claim:)
-      verified_doc_2 = create(:document, :verified, claim:)
+      verified_doc1 = create(:document, :verified, claim:)
+      _unverified_doc1 = create(:document, :unverified, claim:)
+      _unverified_doc2 = create(:document, :unverified, claim:)
+      verified_doc2 = create(:document, :verified, claim:)
       claim.reload
-      expect(claim.documents.map(&:id)).to contain_exactly(verified_doc_1.id, verified_doc_2.id)
+      expect(claim.documents.map(&:id)).to contain_exactly(verified_doc1.id, verified_doc2.id)
     end
   end
 
@@ -288,7 +288,7 @@ RSpec.describe Claim::BaseClaim do
 
   describe '#next_step' do
     let(:claim) { MockSteppableClaim.new }
-    let(:step) { :step_1 }
+    let(:step) { :step1 }
 
     context 'when condition 3A is met' do
       before do
@@ -303,9 +303,9 @@ RSpec.describe Claim::BaseClaim do
       end
 
       it 'follows the steps path 1 -> 2 -> 3A' do
-        expect(claim.next_step).to eq(:step_2)
+        expect(claim.next_step).to eq(:step2)
         claim.form_step = claim.next_step
-        expect(claim.next_step).to eq(:step_3A)
+        expect(claim.next_step).to eq(:step3A)
         claim.form_step = claim.next_step
         expect(claim.next_step).to be_nil
       end
@@ -324,9 +324,9 @@ RSpec.describe Claim::BaseClaim do
       end
 
       it 'follows the steps path 1 -> 2 -> 3B' do
-        expect(claim.next_step).to eq(:step_2)
+        expect(claim.next_step).to eq(:step2)
         claim.form_step = claim.next_step
-        expect(claim.next_step).to eq(:step_3B)
+        expect(claim.next_step).to eq(:step3B)
         claim.form_step = claim.next_step
         expect(claim.next_step).to be_nil
       end
@@ -334,7 +334,7 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#next_step!' do
-    let(:claim) { MockSteppableClaim.new(form_step: :step_1) }
+    let(:claim) { MockSteppableClaim.new(form_step: :step1) }
 
     context 'when condition 3A is met' do
       before do
@@ -342,8 +342,8 @@ RSpec.describe Claim::BaseClaim do
       end
 
       it 'follows the steps path 1 -> 2 -> 3A' do
-        expect(claim.next_step!).to eq(:step_2)
-        expect(claim.next_step!).to eq(:step_3A)
+        expect(claim.next_step!).to eq(:step2)
+        expect(claim.next_step!).to eq(:step3A)
         expect(claim.next_step!).to be_nil
       end
     end
@@ -354,8 +354,8 @@ RSpec.describe Claim::BaseClaim do
       end
 
       it 'follows the steps path 1 -> 2 -> 3B' do
-        expect(claim.next_step!).to eq(:step_2)
-        expect(claim.next_step!).to eq(:step_3B)
+        expect(claim.next_step!).to eq(:step2)
+        expect(claim.next_step!).to eq(:step3B)
         expect(claim.next_step!).to be_nil
       end
     end
@@ -365,7 +365,7 @@ RSpec.describe Claim::BaseClaim do
     let(:claim) { MockSteppableClaim.new }
 
     context 'when there is a next step to go to' do
-      let(:step) { :step_1 }
+      let(:step) { :step1 }
 
       before do
         claim.form_step = step
@@ -375,7 +375,7 @@ RSpec.describe Claim::BaseClaim do
     end
 
     context 'when there is NOT a next step to go to' do
-      let(:step) { :step_3A }
+      let(:step) { :step3A }
 
       before do
         claim.form_step = step
@@ -389,7 +389,7 @@ RSpec.describe Claim::BaseClaim do
     let(:claim) { MockSteppableClaim.new }
 
     context 'when condition 3A was met' do
-      let(:step) { :step_3A }
+      let(:step) { :step3A }
 
       before do
         allow(claim).to receive(:fixed_fee_case?).and_return(true)
@@ -403,16 +403,16 @@ RSpec.describe Claim::BaseClaim do
       end
 
       it 'follows the steps path 3A -> 2 -> 1' do
-        expect(claim.previous_step).to eq(:step_2)
+        expect(claim.previous_step).to eq(:step2)
         claim.form_step = claim.previous_step
-        expect(claim.previous_step).to eq(:step_1)
+        expect(claim.previous_step).to eq(:step1)
         claim.form_step = claim.previous_step
         expect(claim.previous_step).to be_nil
       end
     end
 
     context 'when condition 3B was met' do
-      let(:step) { :step_3B }
+      let(:step) { :step3B }
 
       before do
         allow(claim).to receive(:fixed_fee_case?).and_return(false)
@@ -426,9 +426,9 @@ RSpec.describe Claim::BaseClaim do
       end
 
       it 'follows the steps path 3B -> 2 -> 1' do
-        expect(claim.previous_step).to eq(:step_2)
+        expect(claim.previous_step).to eq(:step2)
         claim.form_step = claim.previous_step
-        expect(claim.previous_step).to eq(:step_1)
+        expect(claim.previous_step).to eq(:step1)
         claim.form_step = claim.previous_step
         expect(claim.previous_step).to be_nil
       end
@@ -439,7 +439,7 @@ RSpec.describe Claim::BaseClaim do
     let(:claim) { MockSteppableClaim.new }
 
     context 'when there is a previous step to go to' do
-      let(:step) { :step_2 }
+      let(:step) { :step2 }
 
       before do
         claim.form_step = step
@@ -449,7 +449,7 @@ RSpec.describe Claim::BaseClaim do
     end
 
     context 'when there is NOT a previous step to go to' do
-      let(:step) { :step_1 }
+      let(:step) { :step1 }
 
       before do
         claim.form_step = step
@@ -802,9 +802,9 @@ end
 
 # TODO: simplify get this working against a MockBaseClaim
 describe '#earliest_representation_order_date' do
-  let(:april_1) { Date.new(2016, 4, 1) }
-  let(:march_10) { Date.new(2016, 3, 10) }
-  let(:jun_30) { Date.new(2016, 6, 30) }
+  let(:april_1st) { Date.new(2016, 4, 1) }
+  let(:march_10th) { Date.new(2016, 3, 10) }
+  let(:jun_30th) { Date.new(2016, 6, 30) }
   let(:claim) { create(:claim) }
 
   before do
@@ -819,22 +819,22 @@ describe '#earliest_representation_order_date' do
 
   it 'returns the date of the only rep order' do
     defendant = create(:defendant, :without_reporder, claim:)
-    create(:representation_order, defendant:, representation_order_date: april_1)
+    create(:representation_order, defendant:, representation_order_date: april_1st)
 
     claim.reload
     expect(claim.representation_orders.size).to eq 1
-    expect(claim.earliest_representation_order_date).to eq april_1
+    expect(claim.earliest_representation_order_date).to eq april_1st
   end
 
   it 'returns the date of the earliest reporder across multiple defendants' do
-    defendant_1 = create(:defendant, :without_reporder, claim:)
-    create(:representation_order, defendant: defendant_1, representation_order_date: april_1)
-    create(:representation_order, defendant: defendant_1, representation_order_date: jun_30)
-    defendant_2 = create(:defendant, :without_reporder, claim:)
-    create(:representation_order, defendant: defendant_2, representation_order_date: march_10)
+    defendant1 = create(:defendant, :without_reporder, claim:)
+    create(:representation_order, defendant: defendant1, representation_order_date: april_1st)
+    create(:representation_order, defendant: defendant1, representation_order_date: jun_30th)
+    defendant2 = create(:defendant, :without_reporder, claim:)
+    create(:representation_order, defendant: defendant2, representation_order_date: march_10th)
 
     claim.reload
     expect(claim.representation_orders.size).to eq 3
-    expect(claim.earliest_representation_order_date).to eq march_10
+    expect(claim.earliest_representation_order_date).to eq march_10th
   end
 end

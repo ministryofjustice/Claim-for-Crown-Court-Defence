@@ -6,9 +6,7 @@ class MockBaseClaim < Claim::BaseClaim
     provider
   end
 
-  def provider
-    creator.provider
-  end
+  delegate :provider, to: :creator
 
   def creator
     ExternalUser.new

@@ -240,9 +240,9 @@ RSpec.describe Claim::BaseClaim do
       let(:claim) { build(:advocate_claim) }
 
       it 'builds a zeroized assessment' do
-        expect(claim).to_not be_persisted
-        is_expected.to_not be_nil
-        is_expected.to_not be_persisted
+        expect(claim).not_to be_persisted
+        is_expected.not_to be_nil
+        is_expected.not_to be_persisted
         is_expected.to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
       end
     end
@@ -252,7 +252,7 @@ RSpec.describe Claim::BaseClaim do
 
       it 'creates an zeroized assessment' do
         expect(claim).to be_persisted
-        is_expected.to_not be_nil
+        is_expected.not_to be_nil
         is_expected.to be_persisted
         is_expected.to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
       end

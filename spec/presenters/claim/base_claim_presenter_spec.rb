@@ -185,7 +185,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
       before do
         claim.assessment.update!(fees: 100.0, expenses: 200.0, created_at: assessment_date, updated_at: assessment_date)
-        claim.redeterminations << [first_redetermination, second_redetermination]
+        claim.redeterminations = [first_redetermination, second_redetermination]
       end
 
       it { expect(presenter.assessment_date).to eq '09/09/2015' }
@@ -296,7 +296,7 @@ RSpec.describe Claim::BaseClaimPresenter do
     before do
       first_case_worker.user.update!(email: 'john@bigblackhole.com')
       second_case_worker.user.update!(email: 'bob@bigblackhole.com')
-      claim.case_workers << [first_case_worker, second_case_worker]
+      claim.case_workers = [first_case_worker, second_case_worker]
     end
 
     it { expect(presenter.case_worker_email_addresses).to eql('bob@bigblackhole.com, john@bigblackhole.com') }
@@ -309,8 +309,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#representation_order_details' do
     let(:claim) do
       build(:claim).tap do |claim|
-        claim.defendants << defendant_added_first
-        claim.defendants << defendant_added_second
+        claim.defendants = [defendant_added_first, defendant_added_second]
       end
     end
 
@@ -344,8 +343,10 @@ RSpec.describe Claim::BaseClaimPresenter do
 
   describe '#case_worker_names' do
     before do
-      claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Alexander', last_name: 'Bell'))
-      claim.case_workers << build(:case_worker, user: build(:user, first_name: 'Louis', last_name: 'Pasteur'))
+      claim.case_workers = [
+        build(:case_worker, user: build(:user, first_name: 'Alexander', last_name: 'Bell')),
+        build(:case_worker, user: build(:user, first_name: 'Louis', last_name: 'Pasteur'))
+      ]
     end
 
     it { expect(presenter.case_worker_names).to eq('Alexander Bell, Louis Pasteur') }
@@ -382,15 +383,17 @@ RSpec.describe Claim::BaseClaimPresenter do
     end
 
     context 'with 1 defendant' do
-      before { my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers') }
+      before { my_claim.defendants = [Defendant.new(first_name: 'Maria', last_name: 'Withers')] }
 
       it { expect(presenter.defendant_name_and_initial).to eq 'M. Withers' }
     end
 
     context 'with 2 defendants' do
       before do
-        my_claim.defendants << Defendant.new(first_name: 'Maria', last_name: 'Withers')
-        my_claim.defendants << Defendant.new(first_name: 'Angela', last_name: 'Jones')
+        my_claim.defendants = [
+          Defendant.new(first_name: 'Maria', last_name: 'Withers'),
+          Defendant.new(first_name: 'Angela', last_name: 'Jones')
+        ]
       end
 
       it { expect(presenter.defendant_name_and_initial).to eq 'M. Withers' }
@@ -399,9 +402,11 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'with 3 defendants' do
       before do
-        my_claim.defendants << Defendant.new(first_name: 'Stephen', last_name: 'Richards')
-        my_claim.defendants << Defendant.new(first_name: 'Robert', last_name: 'Stirling')
-        my_claim.defendants << Defendant.new(first_name: 'Stuart', last_name: 'Hollands')
+        my_claim.defendants = [
+          Defendant.new(first_name: 'Stephen', last_name: 'Richards'),
+          Defendant.new(first_name: 'Robert', last_name: 'Stirling'),
+          Defendant.new(first_name: 'Stuart', last_name: 'Hollands')
+        ]
       end
 
       it { expect(presenter.defendant_name_and_initial).to eq 'S. Richards' }

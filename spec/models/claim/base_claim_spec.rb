@@ -75,17 +75,13 @@ RSpec.describe Claim::BaseClaim do
     describe '.agfs' do
       subject { described_class.agfs }
 
-      it 'returns advocate final and interim claims' do
-        is_expected.to contain_exactly(agfs_final_claim, agfs_interim_claim)
-      end
+      it { is_expected.to contain_exactly(agfs_final_claim, agfs_interim_claim) }
     end
 
     describe '.lgfs' do
       subject { described_class.lgfs }
 
-      it 'returns litigator final, interim and transfer claims' do
-        is_expected.to contain_exactly(lgfs_final_claim, lgfs_interim_claim, lgfs_transfer_claim)
-      end
+      it { is_expected.to contain_exactly(lgfs_final_claim, lgfs_interim_claim, lgfs_transfer_claim) }
     end
   end
 
@@ -94,17 +90,17 @@ RSpec.describe Claim::BaseClaim do
     let(:lgfs_claim) { create(:litigator_claim) }
 
     describe '.claim_types' do
-      specify do
-        expect(described_class.claim_types.map(&:to_s)).to match_array(agfs_claim_object_types | lgfs_claim_object_types)
-      end
+      let(:claim_object_types) { agfs_claim_object_types | lgfs_claim_object_types }
+
+      it { expect(described_class.claim_types.map(&:to_s)).to match_array(claim_object_types) }
     end
 
     describe '.agfs_claim_types' do
-      specify { expect(described_class.agfs_claim_types.map(&:to_s)).to match_array(agfs_claim_object_types) }
+      it { expect(described_class.agfs_claim_types.map(&:to_s)).to match_array(agfs_claim_object_types) }
     end
 
     describe '.lgfs_claim_types' do
-      specify { expect(described_class.lgfs_claim_types.map(&:to_s)).to match_array(lgfs_claim_object_types) }
+      it { expect(described_class.lgfs_claim_types.map(&:to_s)).to match_array(lgfs_claim_object_types) }
     end
 
     describe '#agfs?' do
@@ -149,15 +145,13 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe 'has_many documents association' do
-    it 'returns a collection of verified documents only' do
-      claim = create(:claim)
-      verified_doc1 = create(:document, :verified, claim:)
-      _unverified_doc1 = create(:document, :unverified, claim:)
-      _unverified_doc2 = create(:document, :unverified, claim:)
-      verified_doc2 = create(:document, :verified, claim:)
-      claim.reload
-      expect(claim.documents.map(&:id)).to contain_exactly(verified_doc1.id, verified_doc2.id)
-    end
+    let!(:claim) { create(:claim) }
+    let!(:verified_doc_one) { create(:document, :verified, claim:) }
+    let!(:verified_doc_two) { create(:document, :verified, claim:) }
+    let!(:unverified_doc_one) { create(:document, :unverified, claim:) }
+    let!(:unverified_doc_two) { create(:document, :unverified, claim:) }
+
+    it { expect(claim.documents.map(&:id)).to contain_exactly(verified_doc_one.id, verified_doc_two.id) }
   end
 
   describe 'expenses' do
@@ -168,27 +162,27 @@ RSpec.describe Claim::BaseClaim do
     let!(:another_expense_without_vat) { create(:expense, claim:, amount: 25.0, vat_amount: 0.0) }
 
     describe '#expenses.with_vat' do
-      it 'returns an array of expenses with VAT' do
-        expect(claim.expenses.with_vat).to contain_exactly(expense_with_vat, another_expense_with_vat)
-      end
+      it { expect(claim.expenses.with_vat).to contain_exactly(expense_with_vat, another_expense_with_vat) }
     end
 
     describe '#expenses.without_vat' do
-      it 'returns an array of expenses without VAT' do
-        expect(claim.expenses.without_vat).to contain_exactly(expense_without_vat, another_expense_without_vat)
-      end
+      it { expect(claim.expenses.without_vat).to contain_exactly(expense_without_vat, another_expense_without_vat) }
     end
 
-    describe '#expenses_with_vat_total' do
-      it 'return the sum of the amounts for the expenses with vat' do
-        expect(claim.expenses_with_vat_net).to eq 150.50
-      end
+    describe '#expenses_with_vat_net' do
+      it { expect(claim.expenses_with_vat_net).to eq 150.50 }
     end
 
-    describe '#expenses_without_vat_total' do
-      it 'return the sum of the amounts for the expenses without vat' do
-        expect(claim.expenses_without_vat_net).to eq 125.0
-      end
+    describe '#expenses_with_vat_gross' do
+      it { expect(claim.expenses_with_vat_gross).to eq 180.60 }
+    end
+
+    describe '#expenses_without_vat_net' do
+      it { expect(claim.expenses_without_vat_net).to eq 125.0 }
+    end
+
+    describe '#expenses_without_vat_gross' do
+      it { expect(claim.expenses_without_vat_gross).to eq 125.0 }
     end
   end
 
@@ -268,7 +262,7 @@ RSpec.describe Claim::BaseClaim do
     context 'when the case type does not exist' do
       let(:claim) { MockBaseClaim.new }
 
-      specify { is_expected.to be_nil }
+      it { is_expected.to be_nil }
     end
 
     context 'when the case type is set' do
@@ -278,13 +272,13 @@ RSpec.describe Claim::BaseClaim do
       context 'when there is no fixed fee' do
         let(:case_type) { build(:case_type, is_fixed_fee: false) }
 
-        specify { is_expected.to be(false) }
+        it { is_expected.to be(false) }
       end
 
       context 'when there is a fixed fee' do
         let(:case_type) { build(:case_type, is_fixed_fee: true) }
 
-        specify { is_expected.to be(true) }
+        it { is_expected.to be(true) }
       end
     end
   end
@@ -409,21 +403,17 @@ RSpec.describe Claim::BaseClaim do
     context 'when there is a next step to go to' do
       let(:step) { :step1 }
 
-      before do
-        claim.form_step = step
-      end
+      before { claim.form_step = step }
 
-      specify { expect(claim.next_step?).to be_truthy }
+      it { expect(claim.next_step?).to be_truthy }
     end
 
     context 'when there is NOT a next step to go to' do
       let(:step) { :step3A }
 
-      before do
-        claim.form_step = step
-      end
+      before { claim.form_step = step }
 
-      specify { expect(claim.next_step?).to be_falsey }
+      it { expect(claim.next_step?).to be_falsey }
     end
   end
 
@@ -499,21 +489,17 @@ RSpec.describe Claim::BaseClaim do
     context 'when there is a previous step to go to' do
       let(:step) { :step2 }
 
-      before do
-        claim.form_step = step
-      end
+      before { claim.form_step = step }
 
-      specify { expect(claim.step_back?).to be_truthy }
+      it { expect(claim.step_back?).to be_truthy }
     end
 
     context 'when there is NOT a previous step to go to' do
       let(:step) { :step1 }
 
-      before do
-        claim.form_step = step
-      end
+      before { claim.form_step = step }
 
-      specify { expect(claim.step_back?).to be_falsey }
+      it { expect(claim.step_back?).to be_falsey }
     end
   end
 
@@ -523,31 +509,27 @@ RSpec.describe Claim::BaseClaim do
     context 'when the claim is from an API submission' do
       let(:source) { 'api' }
 
-      specify { expect(claim.step_validation_required?(:some_step)).to be_truthy }
+      it { expect(claim.step_validation_required?(:some_step)).to be_truthy }
     end
 
     context 'when the claim is not from an API submission' do
       let(:source) { 'web' }
 
       context 'when the form step is nil' do
-        before do
-          claim.form_step = nil
-        end
+        before { claim.form_step = nil }
 
-        specify { expect(claim.step_validation_required?(:some_step)).to be_truthy }
+        it { expect(claim.step_validation_required?(:some_step)).to be_truthy }
       end
 
       context 'when the form step is set' do
-        before do
-          claim.form_step = :some_step
-        end
+        before { claim.form_step = :some_step }
 
         context 'when it matches the provided step' do
-          specify { expect(claim.step_validation_required?(:some_step)).to be_truthy }
+          it { expect(claim.step_validation_required?(:some_step)).to be_truthy }
         end
 
         context 'when it does not match the provided step' do
-          specify { expect(claim.step_validation_required?(:other_step)).to be_falsey }
+          it { expect(claim.step_validation_required?(:other_step)).to be_falsey }
         end
       end
     end
@@ -561,29 +543,21 @@ RSpec.describe Claim::BaseClaim do
     let(:claim) { MockSteppableClaim.new(actual_trial_length:, retrial_actual_length:) }
 
     context 'when the claim requires re-trial dates' do
-      before do
-        expect(claim).to receive(:requires_retrial_dates?).and_return(true)
-      end
+      before { allow(claim).to receive(:requires_retrial_dates?).and_return(true) }
 
-      specify { is_expected.to eq(retrial_actual_length) }
+      it { is_expected.to eq(retrial_actual_length) }
     end
 
     context 'when the claim requires trial dates' do
-      before do
-        expect(claim).to receive(:requires_retrial_dates?).and_return(false)
-        expect(claim).to receive(:requires_trial_dates?).and_return(true)
-      end
+      before { allow(claim).to receive_messages(requires_retrial_dates?: false, requires_trial_dates?: true) }
 
-      specify { is_expected.to eq(actual_trial_length) }
+      it { is_expected.to eq(actual_trial_length) }
     end
 
     context 'when the claim does not require trial dates or re-trial dates' do
-      before do
-        expect(claim).to receive(:requires_retrial_dates?).and_return(false)
-        expect(claim).to receive(:requires_trial_dates?).and_return(false)
-      end
+      before { allow(claim).to receive_messages(requires_retrial_dates?: false, requires_trial_dates?: false) }
 
-      specify { is_expected.to be_nil }
+      it { is_expected.to be_nil }
     end
   end
 
@@ -594,22 +568,20 @@ RSpec.describe Claim::BaseClaim do
     let(:user) { claim.external_user.user }
 
     context 'with no messages' do
-      it 'returns an empty array' do
-        is_expected.to eq([])
-      end
+      it { is_expected.to be_empty }
     end
 
     context 'with a single message' do
       let!(:message) { create(:message, claim:) }
 
-      it 'returns the message before it is read' do
-        is_expected.to include message
+      context 'when the message has not been read' do
+        it { is_expected.to include message }
       end
 
-      it 'does not return a message after it is read' do
-        message.user_message_statuses.where(user:).update(read: true)
+      context 'when the message has been read' do
+        before { message.user_message_statuses.where(user:).update(read: true) }
 
-        expect(call).not_to include message
+        it { is_expected.not_to include message }
       end
     end
 
@@ -619,9 +591,7 @@ RSpec.describe Claim::BaseClaim do
 
       before { read_messages.each { |message| message.user_message_statuses.where(user:).update(read: true) } }
 
-      it 'only shows messages not read by the user' do
-        is_expected.to match_array(unread_messages)
-      end
+      it { is_expected.to match_array(unread_messages) }
     end
   end
 end
@@ -637,17 +607,17 @@ RSpec.describe MockBaseClaim do
   end
 
   describe 'date formatting' do
-    it 'accepts a variety of formats and populate the date accordingly' do
-      def make_date_params(date_string)
-        day, month, year = date_string.split('-')
-        {
-          'first_day_of_trial(3i)' => day,
-          'first_day_of_trial(2i)' => month,
-          'first_day_of_trial(1i)' => year
-        }
-      end
+    def make_date_params(date_string)
+      day, month, year = date_string.split('-')
+      {
+        'first_day_of_trial(3i)' => day,
+        'first_day_of_trial(2i)' => month,
+        'first_day_of_trial(1i)' => year
+      }
+    end
 
-      dates = {
+    let(:dates) do
+      {
         '04-10-80' => Date.new(80, 10, 4),
         '04-10-1980' => Date.new(1980, 10, 4),
         '04-1-1980' => Date.new(1980, 1, 4),
@@ -659,9 +629,12 @@ RSpec.describe MockBaseClaim do
         '4-1-2010' => Date.new(2010, 1, 4),
         '4-10-2010' => Date.new(2010, 10, 4)
       }
+    end
+
+    it 'accepts a variety of formats and populates the date accordingly' do
       dates.each do |date_string, date|
         params = make_date_params(date_string)
-        claim = MockBaseClaim.new(params)
+        claim = described_class.new(params)
         expect(claim.first_day_of_trial).to eq date
       end
     end
@@ -671,19 +644,19 @@ RSpec.describe MockBaseClaim do
     context 'when case number is not set' do
       let(:claim) { described_class.new(case_number: nil) }
 
-      specify { expect(claim.disk_evidence_reference).to be_nil }
+      it { expect(claim.disk_evidence_reference).to be_nil }
     end
 
     context 'when claim id is not set' do
       let(:claim) { described_class.new(case_number: 'A20161234', id: nil) }
 
-      specify { expect(claim.disk_evidence_reference).to be_nil }
+      it { expect(claim.disk_evidence_reference).to be_nil }
     end
 
     context 'when case number and claim id are set' do
       let(:claim) { described_class.new(case_number: 'A20161234', id: 9999) }
 
-      specify { expect(claim.disk_evidence_reference).to eq('A20161234/9999') }
+      it { expect(claim.disk_evidence_reference).to eq('A20161234/9999') }
     end
   end
 
@@ -700,10 +673,9 @@ RSpec.describe MockBaseClaim do
   end
 
   describe '#remote?' do
-    it 'returns false' do
-      claim = described_class.new
-      expect(claim.remote?).to be false
-    end
+    let(:claim) { described_class.new }
+
+    it { expect(claim.remote?).to be false }
   end
 
   describe '#eligible_document_types' do
@@ -742,13 +714,13 @@ RSpec.describe MockBaseClaim do
   describe '#agfs_reform?' do
     let(:claim) { described_class.new }
 
-    specify { expect(claim).to delegate_method(:agfs_reform?).to(:fee_scheme) }
+    it { expect(claim).to delegate_method(:agfs_reform?).to(:fee_scheme) }
   end
 
   describe '#agfs_scheme_12?' do
     let(:claim) { described_class.new }
 
-    specify { expect(claim).to delegate_method(:agfs_scheme_12?).to(:fee_scheme) }
+    it { expect(claim).to delegate_method(:agfs_scheme_12?).to(:fee_scheme) }
   end
 
   describe '#earliest_representation_order' do
@@ -757,11 +729,9 @@ RSpec.describe MockBaseClaim do
     let(:claim) { described_class.new }
 
     context 'when there are no defendants' do
-      before do
-        claim.defendants = []
-      end
+      before { claim.defendants = [] }
 
-      specify { expect(earliest_representation_order).to be_nil }
+      it { expect(earliest_representation_order).to be_nil }
     end
 
     context 'when there are no earliest representation orders for the defendants' do
@@ -827,7 +797,7 @@ RSpec.describe MockBaseClaim do
     end
 
     context 'when the provider exists' do
-      let(:provider_delegator) { double(:provider_delegator, vat_registered?: true) }
+      let(:provider_delegator) { instance_double(described_class, vat_registered?: true) }
 
       it 'does not log error' do
         registered

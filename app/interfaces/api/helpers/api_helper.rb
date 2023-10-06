@@ -1,7 +1,7 @@
 module API
   module Helpers
     module ApiHelper
-      require_relative '../custom_validations/date_format'
+      require_relative '../custom_validations/standard_json_format'
       require_relative '../api_response'
       require_relative '../error_response'
 

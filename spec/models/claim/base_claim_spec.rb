@@ -104,30 +104,42 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#agfs?' do
-    it 'returns true if claim is advocate/agfs claim, false for litigator/lgfs claims' do
-      expect(agfs_claim.agfs?).to be true
-      expect(lgfs_claim.agfs?).to be false
+    context 'when the claim is AGFS' do
+      it { expect(agfs_claim.agfs?).to be true }
+    end
+
+    context 'when the claim is LGFS' do
+      it { expect(lgfs_claim.agfs?).to be false }
     end
   end
 
   describe '#lgfs?' do
-    it 'returns true if claim is litigator/lgfs claim, false for advocate/agfs claims' do
-      expect(lgfs_claim.lgfs?).to be true
-      expect(agfs_claim.lgfs?).to be false
+    context 'when the claim is AGFS' do
+      it { expect(agfs_claim.lgfs?).to be false }
+    end
+
+    context 'when the claim is LGFS' do
+      it { expect(lgfs_claim.lgfs?).to be true }
     end
   end
 
   describe '.agfs?' do
-    it 'returns true if class is advocate claim, false otherwise' do
-      expect(agfs_claim.class.agfs?).to be true
-      expect(lgfs_claim.class.agfs?).to be false
+    context 'when the claim is AGFS' do
+      it { expect(agfs_claim.class.agfs?).to be true }
+    end
+
+    context 'when the claim is LGFS' do
+      it { expect(lgfs_claim.class.agfs?).to be false }
     end
   end
 
   describe '.lgfs?' do
-    it 'returns true if claim is litigator/lgfs claim, false for advocate/agfs claims' do
-      expect(lgfs_claim.class).to be_lgfs
-      expect(agfs_claim.class).not_to be_lgfs
+    context 'when the claim is AGFS' do
+      it { expect(agfs_claim.class.lgfs?).to be false }
+    end
+
+    context 'when the claim is LGFS' do
+      it { expect(lgfs_claim.class.lgfs?).to be true }
     end
   end
 
@@ -229,23 +241,19 @@ RSpec.describe Claim::BaseClaim do
     context 'when claim built' do
       let(:claim) { build(:advocate_claim) }
 
-      it 'builds a zeroized assessment' do
-        expect(claim).not_to be_persisted
-        expect(assessment).not_to be_nil
-        expect(assessment).not_to be_persisted
-        expect(assessment).to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
-      end
+      it { expect(claim).not_to be_persisted }
+      it { expect(assessment).not_to be_nil }
+      it { expect(assessment).not_to be_persisted }
+      it { expect(assessment).to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0) }
     end
 
     context 'when claim created' do
       let(:claim) { create(:advocate_claim) }
 
-      it 'creates an zeroized assessment' do
-        expect(claim).to be_persisted
-        expect(assessment).not_to be_nil
-        expect(assessment).to be_persisted
-        expect(assessment).to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0)
-      end
+      it { expect(claim).to be_persisted }
+      it { expect(assessment).not_to be_nil }
+      it { expect(assessment).to be_persisted }
+      it { expect(assessment).to have_attributes(fees: 0.0, expenses: 0.0, disbursements: 0.0) }
     end
   end
 
@@ -280,7 +288,7 @@ RSpec.describe Claim::BaseClaim do
     let(:claim) { MockSteppableClaim.new }
     let(:step) { :step1 }
 
-    context 'when condition 3A is met' do
+    context 'when the claim is for a fixed fee' do
       before do
         allow(claim).to receive(:fixed_fee_case?).and_return(true)
         claim.form_step = step
@@ -292,16 +300,24 @@ RSpec.describe Claim::BaseClaim do
           .from(step)
       end
 
-      it 'follows the steps path 1 -> 2 -> 3A' do
-        expect(claim.next_step).to eq(:step2)
-        claim.form_step = claim.next_step
-        expect(claim.next_step).to eq(:step3A)
-        claim.form_step = claim.next_step
-        expect(claim.next_step).to be_nil
+      context 'when at step 1' do
+        it { expect(claim.next_step).to eq(:step2) }
+      end
+
+      context 'when at step 2' do
+        let(:step) { :step2 }
+
+        it { expect(claim.next_step).to eq(:step3A) }
+      end
+
+      context 'when at step 3A' do
+        let(:step) { :step3A }
+
+        it { expect(claim.next_step).to be_nil }
       end
     end
 
-    context 'when condition 3B is met' do
+    context 'when the claim is not for a fixed fee' do
       before do
         allow(claim).to receive(:fixed_fee_case?).and_return(false)
         claim.form_step = step
@@ -313,40 +329,71 @@ RSpec.describe Claim::BaseClaim do
           .from(step)
       end
 
-      it 'follows the steps path 1 -> 2 -> 3B' do
-        expect(claim.next_step).to eq(:step2)
-        claim.form_step = claim.next_step
-        expect(claim.next_step).to eq(:step3B)
-        claim.form_step = claim.next_step
-        expect(claim.next_step).to be_nil
+      context 'when at step 1' do
+        it { expect(claim.next_step).to eq(:step2) }
+      end
+
+      context 'when at step 2' do
+        let(:step) { :step2 }
+
+        it { expect(claim.next_step).to eq(:step3B) }
+      end
+
+      context 'when at step 3B' do
+        let(:step) { :step3B }
+
+        it { expect(claim.next_step).to be_nil }
       end
     end
   end
 
   describe '#next_step!' do
-    let(:claim) { MockSteppableClaim.new(form_step: :step1) }
+    let(:step) { :step1 }
+    let(:claim) { MockSteppableClaim.new }
 
-    context 'when condition 3A is met' do
+    context 'when the claim is for a fixed fee' do
       before do
         allow(claim).to receive(:fixed_fee_case?).and_return(true)
+        claim.form_step = step
       end
 
-      it 'follows the steps path 1 -> 2 -> 3A' do
-        expect(claim.next_step!).to eq(:step2)
-        expect(claim.next_step!).to eq(:step3A)
-        expect(claim.next_step!).to be_nil
+      context 'when at step 1' do
+        it { expect(claim.next_step!).to eq(:step2) }
+      end
+
+      context 'when at step 2' do
+        let(:step) { :step2 }
+
+        it { expect(claim.next_step!).to eq(:step3A) }
+      end
+
+      context 'when at step 3A' do
+        let(:step) { :step3A }
+
+        it { expect(claim.next_step!).to be_nil }
       end
     end
 
-    context 'when condition 3B is met' do
+    context 'when the claim is not for a fixed fee' do
       before do
         allow(claim).to receive(:fixed_fee_case?).and_return(false)
+        claim.form_step = step
       end
 
-      it 'follows the steps path 1 -> 2 -> 3B' do
-        expect(claim.next_step!).to eq(:step2)
-        expect(claim.next_step!).to eq(:step3B)
-        expect(claim.next_step!).to be_nil
+      context 'when at step 1' do
+        it { expect(claim.next_step!).to eq(:step2) }
+      end
+
+      context 'when at step 2' do
+        let(:step) { :step2 }
+
+        it { expect(claim.next_step!).to eq(:step3B) }
+      end
+
+      context 'when at step 3B' do
+        let(:step) { :step3B }
+
+        it { expect(claim.next_step!).to be_nil }
       end
     end
   end
@@ -378,7 +425,7 @@ RSpec.describe Claim::BaseClaim do
   describe '#previous_step' do
     let(:claim) { MockSteppableClaim.new }
 
-    context 'when condition 3A was met' do
+    context 'when the claim is for a fixed fee' do
       let(:step) { :step3A }
 
       before do
@@ -392,16 +439,24 @@ RSpec.describe Claim::BaseClaim do
           .from(step)
       end
 
-      it 'follows the steps path 3A -> 2 -> 1' do
-        expect(claim.previous_step).to eq(:step2)
-        claim.form_step = claim.previous_step
-        expect(claim.previous_step).to eq(:step1)
-        claim.form_step = claim.previous_step
-        expect(claim.previous_step).to be_nil
+      context 'when at step 3A' do
+        it { expect(claim.previous_step).to eq(:step2) }
+      end
+
+      context 'when at step 2' do
+        let(:step) { :step2 }
+
+        it { expect(claim.previous_step).to eq(:step1) }
+      end
+
+      context 'when at step 1' do
+        let(:step) { :step1 }
+
+        it { expect(claim.previous_step).to be_nil }
       end
     end
 
-    context 'when condition 3B was met' do
+    context 'when the claim is not for a fixed fee' do
       let(:step) { :step3B }
 
       before do
@@ -415,12 +470,20 @@ RSpec.describe Claim::BaseClaim do
           .from(step)
       end
 
-      it 'follows the steps path 3B -> 2 -> 1' do
-        expect(claim.previous_step).to eq(:step2)
-        claim.form_step = claim.previous_step
-        expect(claim.previous_step).to eq(:step1)
-        claim.form_step = claim.previous_step
-        expect(claim.previous_step).to be_nil
+      context 'when at step 3B' do
+        it { expect(claim.previous_step).to eq(:step2) }
+      end
+
+      context 'when at step 2' do
+        let(:step) { :step2 }
+
+        it { expect(claim.previous_step).to eq(:step1) }
+      end
+
+      context 'when at step 1' do
+        let(:step) { :step1 }
+
+        it { expect(claim.previous_step).to be_nil }
       end
     end
   end
@@ -620,9 +683,11 @@ RSpec.describe MockBaseClaim do
   end
 
   describe '#evidence_doc_types' do
-    it 'returns an array of DocType objects' do
-      claim = described_class.new(evidence_checklist_ids: [1, 5, 10])
-      expect(claim.evidence_doc_types.map(&:class)).to eq([DocType, DocType, DocType])
+    let(:claim) { described_class.new(evidence_checklist_ids: [1, 5, 10]) }
+
+    it { expect(claim.evidence_doc_types.map(&:class)).to eq([DocType, DocType, DocType]) }
+
+    it do
       expect(claim.evidence_doc_types.map(&:name)).to contain_exactly('Representation order',
                                                                       'Order in respect of judicial apportionment',
                                                                       'Special preparation form')
@@ -638,12 +703,11 @@ RSpec.describe MockBaseClaim do
 
   describe '#eligible_document_types' do
     let(:claim) { described_class.new }
-    let(:mock_doc_types) { double(:doc_types) }
+    let(:mock_doc_types) { instance_double(DocType) }
 
-    specify do
-      expect(Claims::FetchEligibleDocumentTypes).to receive(:for).with(claim).and_return(mock_doc_types)
-      expect(claim.eligible_document_types).to eq(mock_doc_types)
-    end
+    before { allow(Claims::FetchEligibleDocumentTypes).to receive(:for).with(claim).and_return(mock_doc_types) }
+
+    it { expect(claim.eligible_document_types).to eq(mock_doc_types) }
   end
 
   describe '#discontinuance?' do
@@ -784,7 +848,6 @@ RSpec.describe MockBaseClaim do
   end
 end
 
-# TODO: simplify get this working against a MockBaseClaim
 describe '#earliest_representation_order_date' do
   let(:april_1st) { Date.new(2016, 4, 1) }
   let(:march_10th) { Date.new(2016, 3, 10) }
@@ -794,31 +857,48 @@ describe '#earliest_representation_order_date' do
   before do
     claim.defendants.clear
     claim.save
-  end
-
-  it 'returns nil if there are no reporders' do
-    expect(claim.representation_orders).to be_empty
-    expect(claim.earliest_representation_order_date).to be_nil
-  end
-
-  it 'returns the date of the only rep order' do
-    defendant = create(:defendant, :without_reporder, claim:)
-    create(:representation_order, defendant:, representation_order_date: april_1st)
-
     claim.reload
-    expect(claim.representation_orders.size).to eq 1
-    expect(claim.earliest_representation_order_date).to eq april_1st
   end
 
-  it 'returns the date of the earliest reporder across multiple defendants' do
-    defendant1 = create(:defendant, :without_reporder, claim:)
-    create(:representation_order, defendant: defendant1, representation_order_date: april_1st)
-    create(:representation_order, defendant: defendant1, representation_order_date: jun_30th)
-    defendant2 = create(:defendant, :without_reporder, claim:)
-    create(:representation_order, defendant: defendant2, representation_order_date: march_10th)
+  context 'when there are no rep orders' do
+    it { expect(claim.representation_orders).to be_empty }
+    it { expect(claim.earliest_representation_order_date).to be_nil }
+  end
 
-    claim.reload
-    expect(claim.representation_orders.size).to eq 3
-    expect(claim.earliest_representation_order_date).to eq march_10th
+  context 'when there is one rep order' do
+    let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
+    let!(:first_rep_order) do
+      create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
+    end
+
+    it { expect(claim.representation_orders.size).to eq 1 }
+    it { expect(claim.earliest_representation_order_date).to eq april_1st }
+  end
+
+  context 'when there is a defendant with multiple rep orders' do
+    let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
+    let!(:first_rep_order) do
+      create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
+    end
+    let!(:second_rep_order) do
+      create(:representation_order, defendant: first_defendant, representation_order_date: jun_30th)
+    end
+
+    it { expect(claim.representation_orders.size).to eq 2 }
+    it { expect(claim.earliest_representation_order_date).to eq april_1st }
+  end
+
+  context 'when there are multiple defendants' do
+    let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
+    let!(:second_defendant) { create(:defendant, :without_reporder, claim:) }
+    let!(:first_rep_order) do
+      create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
+    end
+    let!(:second_rep_order) do
+      create(:representation_order, defendant: second_defendant, representation_order_date: march_10th)
+    end
+
+    it { expect(claim.representation_orders.size).to eq 2 }
+    it { expect(claim.earliest_representation_order_date).to eq march_10th }
   end
 end

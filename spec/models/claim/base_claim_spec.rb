@@ -52,17 +52,17 @@ end
 RSpec.describe Claim::BaseClaim do
   include DatabaseHousekeeping
 
-  let(:advocate) { create(:external_user, :advocate) }
-  let(:agfs_claim) { create(:advocate_claim) }
-  let(:lgfs_claim) { create(:litigator_claim) }
-
   include_context 'claim-types object helpers'
 
-  it 'raises BaseClaimAbstractClassError when instantiated' do
-    expect do
-      described_class.new(external_user: advocate, creator: advocate)
-    end.to raise_error Claim::BaseClaimAbstractClassError,
-                       'Claim::BaseClaim is an abstract class and cannot be instantiated'
+  describe 'instantiation' do
+    let(:advocate) { create(:external_user, :advocate) }
+
+    it 'raises BaseClaimAbstractClassError when instantiated' do
+      expect do
+        described_class.new(external_user: advocate, creator: advocate)
+      end.to raise_error Claim::BaseClaimAbstractClassError,
+                         'Claim::BaseClaim is an abstract class and cannot be instantiated'
+    end
   end
 
   describe 'scheme scopes' do
@@ -89,57 +89,62 @@ RSpec.describe Claim::BaseClaim do
     end
   end
 
-  describe '.claim_types' do
-    specify do
-      expect(described_class.claim_types.map(&:to_s)).to match_array(agfs_claim_object_types | lgfs_claim_object_types)
-    end
-  end
+  describe 'claim type methods' do
+    let(:agfs_claim) { create(:advocate_claim) }
+    let(:lgfs_claim) { create(:litigator_claim) }
 
-  describe '.agfs_claim_types' do
-    specify { expect(described_class.agfs_claim_types.map(&:to_s)).to match_array(agfs_claim_object_types) }
-  end
-
-  describe '.lgfs_claim_types' do
-    specify { expect(described_class.lgfs_claim_types.map(&:to_s)).to match_array(lgfs_claim_object_types) }
-  end
-
-  describe '#agfs?' do
-    context 'when the claim is AGFS' do
-      it { expect(agfs_claim.agfs?).to be true }
+    describe '.claim_types' do
+      specify do
+        expect(described_class.claim_types.map(&:to_s)).to match_array(agfs_claim_object_types | lgfs_claim_object_types)
+      end
     end
 
-    context 'when the claim is LGFS' do
-      it { expect(lgfs_claim.agfs?).to be false }
-    end
-  end
-
-  describe '#lgfs?' do
-    context 'when the claim is AGFS' do
-      it { expect(agfs_claim.lgfs?).to be false }
+    describe '.agfs_claim_types' do
+      specify { expect(described_class.agfs_claim_types.map(&:to_s)).to match_array(agfs_claim_object_types) }
     end
 
-    context 'when the claim is LGFS' do
-      it { expect(lgfs_claim.lgfs?).to be true }
-    end
-  end
-
-  describe '.agfs?' do
-    context 'when the claim is AGFS' do
-      it { expect(agfs_claim.class.agfs?).to be true }
+    describe '.lgfs_claim_types' do
+      specify { expect(described_class.lgfs_claim_types.map(&:to_s)).to match_array(lgfs_claim_object_types) }
     end
 
-    context 'when the claim is LGFS' do
-      it { expect(lgfs_claim.class.agfs?).to be false }
-    end
-  end
+    describe '#agfs?' do
+      context 'when the claim is AGFS' do
+        it { expect(agfs_claim.agfs?).to be true }
+      end
 
-  describe '.lgfs?' do
-    context 'when the claim is AGFS' do
-      it { expect(agfs_claim.class.lgfs?).to be false }
+      context 'when the claim is LGFS' do
+        it { expect(lgfs_claim.agfs?).to be false }
+      end
     end
 
-    context 'when the claim is LGFS' do
-      it { expect(lgfs_claim.class.lgfs?).to be true }
+    describe '#lgfs?' do
+      context 'when the claim is AGFS' do
+        it { expect(agfs_claim.lgfs?).to be false }
+      end
+
+      context 'when the claim is LGFS' do
+        it { expect(lgfs_claim.lgfs?).to be true }
+      end
+    end
+
+    describe '.agfs?' do
+      context 'when the claim is AGFS' do
+        it { expect(agfs_claim.class.agfs?).to be true }
+      end
+
+      context 'when the claim is LGFS' do
+        it { expect(lgfs_claim.class.agfs?).to be false }
+      end
+    end
+
+    describe '.lgfs?' do
+      context 'when the claim is AGFS' do
+        it { expect(agfs_claim.class.lgfs?).to be false }
+      end
+
+      context 'when the claim is LGFS' do
+        it { expect(lgfs_claim.class.lgfs?).to be true }
+      end
     end
   end
 

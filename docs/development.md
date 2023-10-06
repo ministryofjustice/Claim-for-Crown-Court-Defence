@@ -172,6 +172,12 @@ $ bundle exec rake db:restore['tmp/production/20201013214202_dump.psql']
 
 Alternatively, if dump files already exist for the environment you can list them - `db:dump:list_s3_dumps` - and then copy the one you want locally - they are listed with most recent first.
 
+> If you use zsh instead of the bash terminal, you may need to wrap the rake task in a string when passing an array as an argument
+> e.g.
+> ```zsh
+> bundle exec rails 'db:restore['tmp/20231006125624_dump.psql.gz']'
+> ```
+
  ### Deleting dump files
 
  There is a rake task to delete s3 stored dump files. This will delete all but the latest. This should be run when writing new dump files to avoid storing too many large dump files. If you want to delete all you can add a second argument of 'all'

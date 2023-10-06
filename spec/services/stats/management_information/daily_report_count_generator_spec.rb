@@ -34,13 +34,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     end
 
     context 'without start_at' do
-<<<<<<< HEAD
       let(:kwargs) { { query_set: } }
-      let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
-=======
-      let(:kwargs) { { query_set: query_set } }
       let(:query_set) { Stats::ManagementInformation::LGFSQuerySet.new }
->>>>>>> 9128e0b6d (CFP-179 Zeitwerk: Inflect LGFS and update code)
 
       it { expect { call }.to raise_error ArgumentError, 'start_at must be provided' }
     end
@@ -48,13 +43,8 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     context 'with query_set and start_at' do
       subject(:result) { described_class.new(**kwargs).call }
 
-<<<<<<< HEAD
       let(:kwargs) { { query_set:, start_at: start_date } }
-      let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
-=======
-      let(:kwargs) { { query_set: query_set, start_at: start_date } }
       let(:query_set) { Stats::ManagementInformation::LGFSQuerySet.new }
->>>>>>> 9128e0b6d (CFP-179 Zeitwerk: Inflect LGFS and update code)
       let(:start_date) { 1.month.ago.to_date }
       let(:duration) { 1.month - 1.day }
 

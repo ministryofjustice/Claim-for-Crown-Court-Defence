@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Stats::ManagementInformation::ClaimTypeFilterable do
+RSpec.describe Stats::ManagementInformation::Concerns::ClaimTypeFilterable do
   let(:agfs_in_statement) do
     <<~STATEMENT.squish.squeeze(' ')
       ('Claim::AdvocateClaim',
@@ -41,7 +41,7 @@ RSpec.describe Stats::ManagementInformation::ClaimTypeFilterable do
 
     let(:mock_claim_type_filter) do
       Class.new do
-        include Stats::ManagementInformation::ClaimTypeFilterable
+        include Stats::ManagementInformation::Concerns::ClaimTypeFilterable
       end
     end
 
@@ -89,7 +89,7 @@ RSpec.describe Stats::ManagementInformation::ClaimTypeFilterable do
 
     let(:mock_claim_type_filter_with_initilizer) do
       Class.new do
-        include Stats::ManagementInformation::ClaimTypeFilterable
+        include Stats::ManagementInformation::Concerns::ClaimTypeFilterable
 
         def initialize(**kwargs)
           @scheme = kwargs[:scheme]
@@ -139,7 +139,7 @@ RSpec.describe Stats::ManagementInformation::ClaimTypeFilterable do
 
     let(:mock_agfs_claim_type_filter) do
       Class.new do
-        include Stats::ManagementInformation::ClaimTypeFilterable
+        include Stats::ManagementInformation::Concerns::ClaimTypeFilterable
 
         acts_as_scheme :agfs
       end
@@ -174,7 +174,7 @@ RSpec.describe Stats::ManagementInformation::ClaimTypeFilterable do
 
     let(:mock_lgfs_claim_type_filter) do
       Class.new do
-        include Stats::ManagementInformation::ClaimTypeFilterable
+        include Stats::ManagementInformation::Concerns::ClaimTypeFilterable
 
         acts_as_scheme :lgfs
       end

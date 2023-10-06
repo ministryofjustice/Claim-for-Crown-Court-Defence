@@ -14,7 +14,7 @@ module Stats
   module ManagementInformation
     module Queries
       module AGFS
-        class Af2RedeterminationQuery < BaseCountQuery
+        class AF2RedeterminationQuery < BaseCountQuery
           acts_as_scheme :agfs
 
           private

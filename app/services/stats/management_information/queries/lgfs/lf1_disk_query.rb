@@ -13,12 +13,12 @@ module Stats
   module ManagementInformation
     module Queries
       module LGFS
-        class Lf1DiskQuery < BaseCountQuery
+        class LF1DiskQuery < BaseCountQuery
           acts_as_scheme :lgfs
 
           private
 
-          # OPTIMIZE: this is the sames as Af1DiskQuery
+          # OPTIMIZE: this is the sames as AF1DiskQuery
           def query
             <<~SQL
               WITH days AS (

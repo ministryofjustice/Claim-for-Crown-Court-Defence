@@ -40,7 +40,13 @@
           = govuk_table_thead do
             = govuk_table_row do
               = govuk_table_th do
-                = govuk_link_to t('.select_all'), '#', class: 'select-all', data: { 'all-checked': 'false' }, 'aria-label': t('.select_all_label')
+                .govuk-form-group{ data: { module: 'govuk-select-all', 'select-all-class': 'select-all', 'collection-class': 'select-all-box' } }
+                  .govuk-checkboxes.govuk-checkboxes--small{ data: { module: 'govuk-checkboxes' } }
+                    .govuk-checkboxes__item
+                      %input.govuk-checkboxes__input.select-all{ type: :checkbox, name: 'select-all', id: 'select-all', selected: false }
+                      %label.govuk-label.govuk-checkboxes__label{ for: 'select-all' }
+                        %span.govuk-visually-hidden
+                          Select all
               = govuk_table_th do
                 = t('.case_number')
               = govuk_table_th do
@@ -65,7 +71,7 @@
                     .govuk-form-group.error-message-container
                       .govuk-checkboxes.govuk-checkboxes--small{ 'data-module': 'govuk-checkboxes' }
                         .govuk-checkboxes__item
-                          = b.check_box(class: 'govuk-checkboxes__input')
+                          = b.check_box(class: 'govuk-checkboxes__input select-all-box')
                           = b.label(class: 'govuk-label govuk-checkboxes__label'){ t('.choose_label_html', case_number: claim.case_number) }
 
                       - claim.injection_error do |message|

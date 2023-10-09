@@ -1330,53 +1330,53 @@ RSpec.describe Claim::AdvocateClaim do
       expect(claim.expenses).to have(1).member
       expect(claim.expenses_total).to eq 40.0
     end
+  end
 
-    describe '#discontinuance?' do
-      let(:discontinuance) { create(:case_type, :discontinuance) }
+  describe '#discontinuance?' do
+    let(:discontinuance) { create(:case_type, :discontinuance) }
 
-      let(:claim_discontinuance_9) do
-        create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true)
-      end
-      let(:agfs_scheme_9_claim) { create(:advocate_claim, :agfs_scheme_9) }
+    let(:claim_discontinuance_9) do
+      create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true)
+    end
+    let(:agfs_scheme_9_claim) { create(:advocate_claim, :agfs_scheme_9) }
 
-      let(:agfs_scheme_10_discontinuance_claim) do
-        create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true)
-      end
-      let(:agfs_scheme_10_claim) { create(:advocate_claim, :agfs_scheme_10) }
+    let(:agfs_scheme_10_discontinuance_claim) do
+      create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true)
+    end
+    let(:agfs_scheme_10_claim) { create(:advocate_claim, :agfs_scheme_10) }
 
-      context 'when claim is scheme 9' do
-        context 'when claim is a discontinuance' do
-          it 'returns true' do
-            expect(claim_discontinuance_9.discontinuance?).to be true
-          end
-        end
-
-        context 'when claim is not a discontinuance' do
-          it 'returns false' do
-            expect(agfs_scheme_9_claim.discontinuance?).to be false
-          end
+    context 'when claim is scheme 9' do
+      context 'when claim is a discontinuance' do
+        it 'returns true' do
+          expect(claim_discontinuance_9.discontinuance?).to be true
         end
       end
 
-      context 'when claim is scheme 10' do
-        context 'when claim is a discontinuance' do
-          it 'returns true' do
-            expect(agfs_scheme_10_discontinuance_claim.discontinuance?).to be true
-          end
+      context 'when claim is not a discontinuance' do
+        it 'returns false' do
+          expect(agfs_scheme_9_claim.discontinuance?).to be false
         end
+      end
+    end
 
-        context 'when claim is not a discontinuance' do
-          it 'returns true' do
-            expect(agfs_scheme_10_claim.discontinuance?).to be false
-          end
+    context 'when claim is scheme 10' do
+      context 'when claim is a discontinuance' do
+        it 'returns true' do
+          expect(agfs_scheme_10_discontinuance_claim.discontinuance?).to be true
         end
       end
 
-      context 'when the claim has been saved as draft before the case type is set' do
-        let(:claim) { build(:advocate_claim, case_type: nil) }
-
-        it { expect(claim.discontinuance?).to be false }
+      context 'when claim is not a discontinuance' do
+        it 'returns true' do
+          expect(agfs_scheme_10_claim.discontinuance?).to be false
+        end
       end
+    end
+
+    context 'when the claim has been saved as draft before the case type is set' do
+      let(:claim) { build(:advocate_claim, case_type: nil) }
+
+      it { expect(claim.discontinuance?).to be false }
     end
   end
 end

@@ -278,18 +278,18 @@ RSpec.describe Claim::AdvocateClaim do
   end
 
   describe '#allocated_to_case_worker?' do
-    let(:case_worker_1) { create(:case_worker) }
-    let(:case_worker_2) { create(:case_worker) }
+    let(:first_case_worker) { create(:case_worker) }
+    let(:second_case_worker) { create(:case_worker) }
 
-    it 'returns true if allocated to the specified case_worker' do
-      claim.case_workers << case_worker_1
-      claim.case_workers << case_worker_2
-      expect(claim.allocated_to_case_worker?(case_worker_1)).to be true
-    end
+    before { claim.case_workers = [first_case_worker, second_case_worker] }
 
-    it 'returns false if not allocated to the specified case_worker' do
-      claim.case_workers << case_worker_1
-      expect(claim.allocated_to_case_worker?(case_worker_2)).to be false
+    it { expect(claim.allocated_to_case_worker?(first_case_worker)).to be true }
+    it { expect(claim.allocated_to_case_worker?(second_case_worker)).to be true }
+
+    context 'when not allocated to the specified case_worker' do
+      before { claim.case_workers = [first_case_worker] }
+
+      it { expect(claim.allocated_to_case_worker?(second_case_worker)).to be false }
     end
   end
 
@@ -926,10 +926,10 @@ RSpec.describe Claim::AdvocateClaim do
   end
 
   describe '#fixed_fees' do
-    let(:ct_fixed_1) { create(:case_type, :fixed_fee) }
-    let(:ct_fixed_2) { create(:case_type, :fixed_fee) }
-    let!(:claim_1) { create(:claim, case_type_id: ct_fixed_1.id) }
-    let!(:claim_2) { create(:claim, case_type_id: ct_fixed_2.id) }
+    let(:fixed_fee_case_type) { create(:case_type, :fixed_fee) }
+    let(:another_fixed_fee_case_type) { create(:case_type, :fixed_fee) }
+    let!(:first_claim) { create(:claim, case_type_id: fixed_fee_case_type.id) }
+    let!(:second_claim) { create(:claim, case_type_id: another_fixed_fee_case_type.id) }
 
     before do
       create(:claim, case_type_id: create(:case_type).id)
@@ -937,25 +937,25 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     it { expect(described_class.fixed_fee.count).to eq 2 }
-    it { expect(described_class.fixed_fee).to include claim_1 }
-    it { expect(described_class.fixed_fee).to include claim_2 }
+    it { expect(described_class.fixed_fee).to include first_claim }
+    it { expect(described_class.fixed_fee).to include second_claim }
   end
 
   describe '.total_greater_than_or_equal_to' do
-    let(:not_greater_than_400) do
+    let(:claims_with_total_under_400_pounds) do
       claims = []
 
-      [100, 200, 399, 2].each do |value|
+      [100, 200, 399, 399.99, 2].each do |value|
         claims << create(:submitted_claim, total: value)
       end
 
       claims
     end
 
-    let(:greater_than_400) do
+    let(:claims_with_total_greater_than_or_equal_to_400_pounds) do
       claims = []
 
-      [400, 10_000, 566, 1_000].each do |value|
+      [400, 400.01, 10_000, 566, 1_000].each do |value|
         claim = create(:draft_claim)
         claim.fees << create(:misc_fee, rate: value, claim:)
         claims << claim
@@ -965,7 +965,7 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     it 'only returns claims with total value greater than the specified value' do
-      expect(described_class.total_greater_than_or_equal_to(400)).to match_array(greater_than_400)
+      expect(described_class.total_greater_than_or_equal_to(400)).to match_array(claims_with_total_greater_than_or_equal_to_400_pounds)
     end
   end
 
@@ -1345,7 +1345,7 @@ RSpec.describe Claim::AdvocateClaim do
   describe '#discontinuance?' do
     let(:discontinuance) { create(:case_type, :discontinuance) }
 
-    let(:claim_discontinuance_9) do
+    let(:agfs_scheme_9_discontinuance_claim) do
       create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true)
     end
     let(:agfs_scheme_9_claim) { create(:advocate_claim, :agfs_scheme_9) }
@@ -1358,7 +1358,7 @@ RSpec.describe Claim::AdvocateClaim do
     context 'when claim is scheme 9' do
       context 'when claim is a discontinuance' do
         it 'returns true' do
-          expect(claim_discontinuance_9.discontinuance?).to be true
+          expect(agfs_scheme_9_discontinuance_claim.discontinuance?).to be true
         end
       end
 
@@ -1384,7 +1384,7 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     context 'when the claim has been saved as draft before the case type is set' do
-      let(:claim) { build(:advocate_claim, case_type: nil) }
+      before { claim.update!(case_type: nil) }
 
       it { expect(claim.discontinuance?).to be false }
     end

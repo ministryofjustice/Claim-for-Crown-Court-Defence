@@ -87,36 +87,36 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  context 'eligible fee types' do
+  describe 'eligible fee types' do
     subject(:claim) { build(:unpersisted_claim) }
 
-    before(:all) do
-      @bft1 = create(:basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10], description: 'bft1')
-      @bft2 = create(:basic_fee_type, :lgfs, description: 'bft2')
-      @bft3 = create(:basic_fee_type, description: 'bft3')
-      @bft4 = create(:basic_fee_type, roles: %w[agfs agfs_scheme_9], description: 'bft4')
-      @bft5 = create(:basic_fee_type, roles: %w[agfs agfs_scheme_10], description: 'bft5')
-      @mft1 = create(:misc_fee_type, :agfs_scheme_9)
-      @mft2 = create(:misc_fee_type, :lgfs)
-      @mft3 = create(:misc_fee_type, :agfs_scheme_10)
-      @fft1 = create(:fixed_fee_type)
-      @fft2 = create(:fixed_fee_type, :lgfs)
-    end
+    let(:basic_fee_type_schemes_nine_and_ten) { create(:basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10]) }
+    let(:basic_fee_type_no_scheme) { create(:basic_fee_type) }
+    let(:basic_fee_type_scheme_nine) { create(:basic_fee_type, roles: %w[agfs agfs_scheme_9]) }
+    let(:basic_fee_type_scheme_ten) { create(:basic_fee_type, roles: %w[agfs agfs_scheme_10]) }
 
-    after(:all) do
-      clean_database
+    before do
+      create(:basic_fee_type, :lgfs)
+      create(:misc_fee_type, :agfs_scheme_9)
+      create(:misc_fee_type, :lgfs)
+      create(:misc_fee_type, :agfs_scheme_10)
+      create(:fixed_fee_type)
+      create(:fixed_fee_type, :lgfs)
     end
 
     describe '#eligible_basic_fee_types' do
       it 'returns only basic fee types for AGFS' do
-        expect(claim.eligible_basic_fee_types).to contain_exactly(@bft1, @bft3, @bft4)
+        expect(claim.eligible_basic_fee_types).to contain_exactly(basic_fee_type_schemes_nine_and_ten,
+                                                                  basic_fee_type_no_scheme,
+                                                                  basic_fee_type_scheme_nine)
       end
 
       context 'when claim has fee reform scheme' do
         let(:claim) { create(:claim, :agfs_scheme_10) }
 
         it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do
-          expect(claim.eligible_basic_fee_types).to contain_exactly(@bft1, @bft5)
+          expect(claim.eligible_basic_fee_types).to contain_exactly(basic_fee_type_schemes_nine_and_ten,
+                                                                    basic_fee_type_scheme_ten)
         end
       end
 
@@ -125,7 +125,8 @@ RSpec.describe Claim::AdvocateClaim do
         let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence:) }
 
         it 'returns only basic fee types for AGFS scheme 10' do
-          expect(claim.eligible_basic_fee_types).to contain_exactly(@bft1, @bft5)
+          expect(claim.eligible_basic_fee_types).to contain_exactly(basic_fee_type_schemes_nine_and_ten,
+                                                                    basic_fee_type_scheme_ten)
         end
       end
     end
@@ -892,35 +893,32 @@ RSpec.describe Claim::AdvocateClaim do
   end
 
   describe 'Case type scopes' do
-    before(:all) do
-      load(Rails.root.join('db', 'seeds', 'case_types.rb'))
-      @trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial'))
-      @retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial'))
-      @cracked_trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial'))
-      @cracked_retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial'))
-      @guilty_pleas = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea'))
-      @discontinuances = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Discontinuance'))
-    end
-
-    after(:all) do
-      clean_database
-    end
+    before { seed_case_types }
 
     describe '.trial' do
+      let(:trials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial')) }
+      let(:retrials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial')) }
+
       it 'returns trials and retrials' do
-        expect(described_class.trial).to match_array(@trials + @retrials)
+        expect(described_class.trial).to match_array(trials + retrials)
       end
     end
 
     describe '.cracked' do
+      let(:cracked_trials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial')) }
+      let(:cracked_retrials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial')) }
+
       it 'returns cracked trials and retrials' do
-        expect(described_class.cracked).to match_array(@cracked_trials + @cracked_retrials)
+        expect(described_class.cracked).to match_array(cracked_trials + cracked_retrials)
       end
     end
 
     describe '.guilty_plea' do
+      let(:guilty_pleas) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea')) }
+      let(:discontinuances) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Discontinuance')) }
+
       it 'returns guilty pleas and discontinuances' do
-        expect(described_class.guilty_plea).to match_array(@guilty_pleas + @discontinuances)
+        expect(described_class.guilty_plea).to match_array(guilty_pleas + discontinuances)
       end
     end
   end

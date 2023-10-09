@@ -159,7 +159,7 @@ RSpec.describe Claim::AdvocateClaim do
   end
 
   describe '#eligible_advocate_categories' do
-    let(:categories) { double(:mocked_categories_result) }
+    let(:categories) { ['Junior alone', 'Leading junior', 'Led junior', 'QC'] }
     let(:claim) { build(:advocate_claim) }
 
     specify do

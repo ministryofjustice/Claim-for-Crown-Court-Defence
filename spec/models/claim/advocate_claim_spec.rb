@@ -9,16 +9,14 @@ RSpec.describe Claim::AdvocateClaim do
   it_behaves_like 'uses claim cleaner', Cleaners::AdvocateClaimCleaner
 
   it { is_expected.to delegate_method(:requires_cracked_dates?).to(:case_type) }
-
   it { is_expected.to accept_nested_attributes_for(:basic_fees) }
   it { is_expected.to accept_nested_attributes_for(:fixed_fees) }
-
-  specify { expect(claim.external_user_type).to eq(:advocate) }
-  specify { expect(claim.requires_case_type?).to be_truthy }
-  specify { expect(claim.agfs?).to be_truthy }
-  specify { expect(claim.final?).to be_truthy }
-  specify { expect(claim.interim?).to be_falsey }
-  specify { expect(claim.supplementary?).to be_falsey }
+  it { expect(claim.external_user_type).to eq(:advocate) }
+  it { is_expected.to be_requires_case_type }
+  it { is_expected.to be_agfs }
+  it { is_expected.to be_final }
+  it { is_expected.not_to be_interim }
+  it { is_expected.not_to be_supplementary }
 
   describe 'validates external user and creator with same provider' do
     subject(:claim) { described_class.create(external_user:, creator:) }
@@ -866,13 +864,13 @@ RSpec.describe Claim::AdvocateClaim do
     let(:claim) { create(:draft_claim) }
 
     it 'returns false for draft, submitted, allocated, and rejected claims' do
-      expect(claim.authorised_state?).to be_falsey
+      is_expected.not_to be_authorised_state
       claim.submit
-      expect(claim.authorised_state?).to be_falsey
+      is_expected.not_to be_authorised_state
       claim.allocate
-      expect(claim.authorised_state?).to be_falsey
+      is_expected.not_to be_authorised_state
       claim.reject
-      expect(claim.authorised_state?).to be_falsey
+      is_expected.not_to be_authorised_state
     end
 
     it 'returns true for part_authorised, authorised claims' do
@@ -880,9 +878,9 @@ RSpec.describe Claim::AdvocateClaim do
       claim.allocate
       claim.assessment.update(fees: 30.01, expenses: 70.00)
       claim.authorise_part
-      expect(claim.authorised_state?).to be_truthy
+      is_expected.to be_authorised_state
       claim.authorise
-      expect(claim.authorised_state?).to be_truthy
+      is_expected.to be_authorised_state
     end
   end
 
@@ -1107,9 +1105,7 @@ RSpec.describe Claim::AdvocateClaim do
         claim.allocate!
       end
 
-      it 'is open for redetermination' do
-        expect(claim.opened_for_redetermination?).to be_truthy
-      end
+      it { is_expected.to be_opened_for_redetermination }
     end
 
     context 'when transitioned to redetermination and then refuse' do
@@ -1119,9 +1115,7 @@ RSpec.describe Claim::AdvocateClaim do
         claim.refuse!
       end
 
-      it 'is close for redetermination' do
-        expect(claim.opened_for_redetermination?).to be_falsey
-      end
+      it { is_expected.not_to be_opened_for_redetermination }
     end
 
     describe 'submission_date' do
@@ -1192,9 +1186,7 @@ RSpec.describe Claim::AdvocateClaim do
         claim.allocate!
       end
 
-      it 'is true' do
-        expect(claim.written_reasons_outstanding?).to be_truthy
-      end
+      it { is_expected.to be_written_reasons_outstanding }
     end
 
     context 'when transitioned to awaiting_written_reasons and then refuse' do
@@ -1204,9 +1196,7 @@ RSpec.describe Claim::AdvocateClaim do
         claim.refuse!
       end
 
-      it 'does not have written_reasons_outstanding' do
-        expect(claim.written_reasons_outstanding?).to be_falsey
-      end
+      it { is_expected.not_to be_written_reasons_outstanding }
     end
   end
 

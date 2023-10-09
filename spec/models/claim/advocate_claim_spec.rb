@@ -53,17 +53,20 @@ RSpec.describe Claim::AdvocateClaim do
   end
 
   describe 'validate external user is advocate role' do
-    let(:claim) { build(:unpersisted_claim, :with_fixed_fee_case) }
+    subject { claim.external_user.is?(:advocate) }
 
-    it 'validates external user with advocate role' do
-      expect(claim.external_user.is?(:advocate)).to be_truthy
-      expect(claim).to be_valid
-    end
+    it { is_expected.to be_truthy }
+    it { expect(claim).to be_valid }
 
-    it 'rejects external user without advocate role' do
-      claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
-      expect(claim).not_to be_valid
-      expect(claim.errors[:external_user_id]).to include('must have advocate role')
+    context 'when the external user does not have an advocate role' do
+      before do
+        claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
+        claim.validate
+      end
+
+      it { is_expected.to be_falsey }
+      it { expect(claim).not_to be_valid }
+      it { expect(claim.errors[:external_user_id]).to include('must have advocate role') }
     end
   end
 
@@ -261,26 +264,17 @@ RSpec.describe Claim::AdvocateClaim do
     subject(:claim) { build(:unpersisted_claim) }
 
     let(:early_date) { scheme_date_for(nil).to_date - 10.days }
+    let(:earliest_rep_order) { claim.earliest_representation_order }
 
     before do
-      # add a second defendant
       claim.defendants << create(:defendant, claim:)
-
-      # add a second rep order to the first defendant
-      claim.defendants.first.representation_orders << create(:representation_order, representation_order_date: early_date)
+      claim.defendants.first.representation_orders << create(:representation_order,
+                                                             representation_order_date: early_date)
     end
 
-    it 'picks the earliest reporder' do
-      # given a claim with two defendants and three rep orders
-      expect(claim.defendants).to have_exactly(2).items
-      expect(claim.representation_orders).to have_exactly(3).items
-
-      # when I get the earliest rep order
-      rep_order = claim.earliest_representation_order
-
-      # it should have a date of
-      expect(rep_order.representation_order_date).to eq early_date
-    end
+    it { expect(claim.defendants).to have_exactly(2).items }
+    it { expect(claim.representation_orders).to have_exactly(3).items }
+    it { expect(earliest_rep_order.representation_order_date).to eq early_date }
   end
 
   describe '#allocated_to_case_worker?' do
@@ -333,11 +327,9 @@ RSpec.describe Claim::AdvocateClaim do
 
       let(:case_type) { create(:case_type, :graduated_fee) }
 
-      it 'returns a list of basic fees for each of the eligible basic fee types with all the fees with blank values' do
-        expect(claim.basic_fees.length).to eq(3)
-        expect(claim.basic_fees.map(&:fee_type)).to match_array(claim.eligible_basic_fee_types)
-        expect(claim.basic_fees).to all(be_blank)
-      end
+      it { expect(claim.basic_fees.length).to eq(3) }
+      it { expect(claim.basic_fees.map(&:fee_type)).to match_array(claim.eligible_basic_fee_types) }
+      it { expect(claim.basic_fees).to all(be_blank) }
 
       context 'when some basic fees are provided' do
         subject(:claim) { described_class.new(attributes) }
@@ -355,11 +347,9 @@ RSpec.describe Claim::AdvocateClaim do
           }
         end
 
-        it 'returns a list of basic fees for each of the eligible basic fee types with the ones provided by the user filled in' do
-          expect(claim.basic_fees.length).to eq(3)
-          expect(claim.basic_fees.map(&:fee_type_id).sort).to eq(claim.eligible_basic_fee_types.map(&:id).sort)
-          expect(claim.basic_fees.map(&:rate)).to contain_exactly(450, nil, nil)
-        end
+        it { expect(claim.basic_fees.length).to eq(3) }
+        it { expect(claim.basic_fees.map(&:fee_type_id).sort).to eq(claim.eligible_basic_fee_types.map(&:id).sort) }
+        it { expect(claim.basic_fees.map(&:rate)).to contain_exactly(450, nil, nil) }
       end
     end
   end
@@ -530,13 +520,11 @@ RSpec.describe Claim::AdvocateClaim do
         other_claim.save!
       end
 
-      it 'finds claims with either advocate or defendant matching names' do
-        expect(described_class.search('Bloggs', states, *search_options)).to eq([claim])
-        expect(described_class.search('Hoskins', states, *search_options)).to eq([other_claim])
-        expect(described_class.search('Fred', states, *search_options).count).to eq(2) # advocate and defendant of name
-        expect(described_class.search('Johncz', states, *search_options).count).to eq(1) # advocate only search
-        expect(described_class.search('Joexx', states, *search_options).count).to eq(1) # defendant only search
-      end
+      it { expect(described_class.search('Bloggs', states, *search_options)).to eq([claim]) }
+      it { expect(described_class.search('Hoskins', states, *search_options)).to eq([other_claim]) }
+      it { expect(described_class.search('Fred', states, *search_options).count).to eq(2) } # advocate and defendant of name
+      it { expect(described_class.search('Johncz', states, *search_options).count).to eq(1) } # advocate only search
+      it { expect(described_class.search('Joexx', states, *search_options).count).to eq(1) } # defendant only search
 
       it 'does not find claims that do not match the name' do
         expect(described_class.search('Xavierxxxx', states, :advocate_name, :defendant_name).count).to eq(0)
@@ -595,15 +583,10 @@ RSpec.describe Claim::AdvocateClaim do
 
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
 
-        it 'calculates the fees total' do
-          expect(claim.calculate_fees_total).to eq(1.0)
-        end
-
-        it 'calculates fee totals by category too' do
-          expect(claim.calculate_fees_total(:basic_fees)).to eq(0.0)
-          expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5)
-          expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.5)
-        end
+        it { expect(claim.calculate_fees_total).to eq(1.0) }
+        it { expect(claim.calculate_fees_total(:basic_fees)).to eq(0.0) }
+        it { expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5) }
+        it { expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.5) }
       end
 
       context 'for a graduated case type' do
@@ -620,15 +603,10 @@ RSpec.describe Claim::AdvocateClaim do
           ]
         end
 
-        it 'calculates the fees total' do
-          expect(claim.calculate_fees_total).to eq(7.5)
-        end
-
-        it 'calculates fee totals by category too' do
-          expect(claim.calculate_fees_total(:basic_fees)).to eq(7.0)
-          expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5)
-          expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.0)
-        end
+        it { expect(claim.calculate_fees_total).to eq(7.5) }
+        it { expect(claim.calculate_fees_total(:basic_fees)).to eq(7.0) }
+        it { expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5) }
+        it { expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.0) }
       end
     end
 
@@ -863,24 +841,53 @@ RSpec.describe Claim::AdvocateClaim do
   describe '#authorised_state?' do
     let(:claim) { create(:draft_claim) }
 
-    it 'returns false for draft, submitted, allocated, and rejected claims' do
-      is_expected.not_to be_authorised_state
-      claim.submit
-      is_expected.not_to be_authorised_state
-      claim.allocate
-      is_expected.not_to be_authorised_state
-      claim.reject
-      is_expected.not_to be_authorised_state
+    it { is_expected.not_to be_authorised_state }
+
+    context 'with a submitted claim' do
+      before { claim.submit! }
+
+      it { is_expected.not_to be_authorised_state }
     end
 
-    it 'returns true for part_authorised, authorised claims' do
-      claim.submit
-      claim.allocate
-      claim.assessment.update(fees: 30.01, expenses: 70.00)
-      claim.authorise_part
-      is_expected.to be_authorised_state
-      claim.authorise
-      is_expected.to be_authorised_state
+    context 'with an allocated claim' do
+      before do
+        claim.submit!
+        claim.allocate!
+      end
+
+      it { is_expected.not_to be_authorised_state }
+    end
+
+    context 'with a rejected claim' do
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.reject!
+      end
+
+      it { is_expected.not_to be_authorised_state }
+    end
+
+    context 'with a part-authorised claim' do
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.assessment.update!(fees: 30.01, expenses: 70.00)
+        claim.authorise_part!
+      end
+
+      it { is_expected.to be_authorised_state }
+    end
+
+    context 'with an authorised claim' do
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.assessment.update!(fees: 30.01, expenses: 70.00)
+        claim.authorise!
+      end
+
+      it { is_expected.to be_authorised_state }
     end
   end
 
@@ -919,20 +926,19 @@ RSpec.describe Claim::AdvocateClaim do
   end
 
   describe '#fixed_fees' do
-    let(:ct_fixed_1)          { create(:case_type, :fixed_fee) }
-    let(:ct_fixed_2)          { create(:case_type, :fixed_fee) }
-    let(:ct_basic_1)          { create(:case_type) }
-    let(:ct_basic_2)          { create(:case_type) }
+    let(:ct_fixed_1) { create(:case_type, :fixed_fee) }
+    let(:ct_fixed_2) { create(:case_type, :fixed_fee) }
+    let!(:claim_1) { create(:claim, case_type_id: ct_fixed_1.id) }
+    let!(:claim_2) { create(:claim, case_type_id: ct_fixed_2.id) }
 
-    it 'only returns claims with fixed fee case types' do
-      claim_1 = create(:claim, case_type_id: ct_fixed_1.id)
-      claim_2 = create(:claim, case_type_id: ct_fixed_2.id)
-      create(:claim, case_type_id: ct_basic_1.id)
-      create(:claim, case_type_id: ct_basic_2.id)
-      expect(described_class.fixed_fee.count).to eq 2
-      expect(described_class.fixed_fee).to include claim_1
-      expect(described_class.fixed_fee).to include claim_2
+    before do
+      create(:claim, case_type_id: create(:case_type).id)
+      create(:claim, case_type_id: create(:case_type).id)
     end
+
+    it { expect(described_class.fixed_fee.count).to eq 2 }
+    it { expect(described_class.fixed_fee).to include claim_1 }
+    it { expect(described_class.fixed_fee).to include claim_2 }
   end
 
   describe '.total_greater_than_or_equal_to' do
@@ -966,15 +972,16 @@ RSpec.describe Claim::AdvocateClaim do
   describe 'sets the source field before saving a claim' do
     let(:claim) { build(:claim) }
 
-    it 'sets the source to web by default if unset' do
-      expect(claim.save).to be(true)
-      expect(claim.source).to eq('web')
+    context 'when the source is not set' do
+      it { expect(claim.save).to be(true) }
+      it { expect(claim.source).to eq('web') }
     end
 
-    it 'does not change the source if set' do
-      claim.source = 'api'
-      expect(claim.save).to be(true)
-      expect(claim.source).to eq('api')
+    context 'when the source is set' do
+      before { claim.source = 'api' }
+
+      it { expect(claim.save).to be(true) }
+      it { expect(claim.source).to eq('api') }
     end
   end
 
@@ -1235,16 +1242,16 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  describe 'not saving the expenses model' do
-    it 'saves the expenses model' do
-      external_user = create(:external_user)
-      expense_type = create(:expense_type, :car_travel)
-      fee_type = create(:basic_fee_type)
-      case_type = create(:case_type)
-      court = create(:court)
-      offence = create(:offence)
-
-      params = {
+  describe 'saving the expenses model' do
+    let(:claim) { described_class.new(params['claim']) }
+    let(:external_user) { create(:external_user) }
+    let(:expense_type) { create(:expense_type, :car_travel) }
+    let(:fee_type) { create(:basic_fee_type) }
+    let(:case_type) { create(:case_type) }
+    let(:court) { create(:court) }
+    let(:offence) { create(:offence) }
+    let(:params) do
+      {
         'claim' => {
           'case_type_id' => case_type.id,
           'trial_fixed_notice_at(3i)' => '',
@@ -1322,14 +1329,17 @@ RSpec.describe Claim::AdvocateClaim do
         'offence_class' => { 'description' => '64' },
         'commit_submit_claim' => 'Submit to LAA'
       }
-      claim = described_class.new(params['claim'])
-      claim.creator = external_user
-      expect(claim.save).to be true
-      claim.force_validation = true
-      claim.valid?
-      expect(claim.expenses).to have(1).member
-      expect(claim.expenses_total).to eq 40.0
     end
+
+    before do
+      claim.creator = external_user
+      claim.force_validation = true
+      claim.save
+    end
+
+    it { expect(claim).to be_valid }
+    it { expect(claim.expenses).to have(1).member }
+    it { expect(claim.expenses_total).to eq 40.0 }
   end
 
   describe '#discontinuance?' do

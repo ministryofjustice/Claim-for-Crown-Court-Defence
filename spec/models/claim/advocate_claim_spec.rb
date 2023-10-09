@@ -48,7 +48,12 @@ RSpec.describe Claim::AdvocateClaim do
       let(:creator) { create(:external_user, provider: create(:provider)) }
 
       it { is_expected.not_to be_valid }
-      it { expect(claim.errors.messages[:external_user_id]).to eq(['Creator and advocate must belong to the same provider']) }
+
+      it do
+        expect(claim.errors.messages[:external_user_id]).to eq(
+          ['Creator and advocate must belong to the same provider']
+        )
+      end
     end
   end
 
@@ -358,10 +363,16 @@ RSpec.describe Claim::AdvocateClaim do
   describe '.search' do
     let!(:other_claim) { create(:advocate_claim) }
     let(:states) { nil }
+    let(:sql) do
+      described_class.search('%', states,
+                             :advocate_name,
+                             :defendant_name,
+                             :maat_reference,
+                             :case_worker_name_or_email).to_sql
+    end
+    let(:state_in_list_clause) { Claims::StateMachine.dashboard_displayable_states.map { |s| "'#{s}'" }.join(', ') }
 
     it 'finds only claims with states that match dashboard displayable states' do
-      sql = described_class.search('%', states, :advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
-      state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "'#{s}'" }.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 
@@ -376,8 +387,10 @@ RSpec.describe Claim::AdvocateClaim do
       let(:search_options) { :maat_reference }
 
       before do
-        create(:defendant, claim:, representation_orders: create_list(:representation_order, 1, maat_reference: '111111'))
-        create(:defendant, claim:, representation_orders: create_list(:representation_order, 1, maat_reference: '222222'))
+        create(:defendant, claim:,
+                           representation_orders: create_list(:representation_order, 1, maat_reference: '111111'))
+        create(:defendant, claim:,
+                           representation_orders: create_list(:representation_order, 1, maat_reference: '222222'))
         create(
           :defendant,
           claim: other_claim,
@@ -751,17 +764,19 @@ RSpec.describe Claim::AdvocateClaim do
   describe '#archivable?' do
     let(:claim) { create(:advocate_claim) }
 
-    it 'is not archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
-      %w[allocated awaiting_written_reasons draft redetermination].each do |state|
-        allow(claim).to receive(:state).and_return(state)
-        expect(claim.archivable?).to be(false)
+    context 'when the claim is in an archivable state' do
+      %w[refused rejected part_authorised authorised].each do |state|
+        before { allow(claim).to receive(:state).and_return(state) }
+
+        it { expect(claim).to be_archivable }
       end
     end
 
-    it 'is archivable from states: refused, rejected, part authorised, authorised' do
-      %w[refused rejected part_authorised authorised].each do |state|
-        allow(claim).to receive(:state).and_return(state)
-        expect(claim.archivable?).to be(true)
+    context 'when the claim is not in an archivable state' do
+      %w[allocated archived_pending_delete awaiting_written_reasons draft redetermination].each do |state|
+        before { allow(claim).to receive(:state).and_return(state) }
+
+        it { expect(claim).not_to be_archivable }
       end
     end
   end
@@ -964,7 +979,9 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     it 'only returns claims with total value greater than the specified value' do
-      expect(described_class.total_greater_than_or_equal_to(400)).to match_array(claims_with_total_greater_than_or_equal_to_400_pounds)
+      expect(described_class.total_greater_than_or_equal_to(400)).to match_array(
+        claims_with_total_greater_than_or_equal_to_400_pounds
+      )
     end
   end
 

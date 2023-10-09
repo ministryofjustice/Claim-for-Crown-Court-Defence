@@ -254,7 +254,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'unrecognised state' do
+    context 'with an unrecognised state' do
       it 'raises NoMethodError' do
         expect { claim.other_unknown_state? }.to raise_error NoMethodError, /undefined method `other_unknown_state\?'/
       end
@@ -294,7 +294,7 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  context 'basic fees' do
+  describe 'basic fees' do
     let!(:basic_fee_types) do
       [
         create(:basic_fee_type, description: 'ZZZZ'),
@@ -365,14 +365,14 @@ RSpec.describe Claim::AdvocateClaim do
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 
-    context 'invalid search options' do
+    context 'with invalid search options' do
       it 'raises' do
         expect { described_class.search('My search term', [], 'caseworker-name') }
           .to raise_error RuntimeError, 'Invalid search option'
       end
     end
 
-    context 'find by MAAT reference' do
+    context 'when searching by MAAT reference' do
       let(:search_options) { :maat_reference }
 
       before do
@@ -404,7 +404,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'find by Defendant name' do
+    context 'when searching by Defendant name' do
       let!(:current_external_user) { create(:external_user) }
       let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
       let(:search_options)         { :defendant_name }
@@ -436,7 +436,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'find by Advocate name' do
+    context 'when searching by Advocate name' do
       let(:search_options) { :advocate_name }
 
       before do
@@ -470,7 +470,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'find claims by state' do
+    context 'when searching by state' do
       let(:search_options) { :advocate_name }
 
       before do
@@ -498,7 +498,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'find by advocate and defendant' do
+    context 'when searching by advocate and defendant' do
       let!(:current_external_user) { create(:external_user) }
       let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
       let(:search_options)         { %i[advocate_name defendant_name] }
@@ -532,7 +532,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'find by case worker name or email' do
+    context 'when searching by case worker name or email' do
       let!(:case_worker) { create(:case_worker) }
       let!(:other_case_worker) { create(:case_worker) }
       let(:search_options) { :case_worker_name_or_email }
@@ -570,7 +570,7 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  context 'fees total' do
+  describe 'fees total' do
     before do
       seed_case_types
       seed_fee_types
@@ -579,7 +579,7 @@ RSpec.describe Claim::AdvocateClaim do
     let(:misc_fees) { [build(:misc_fee, :miaph_fee, rate: 0.50)] }
 
     describe '#calculate_fees_total' do
-      context 'for a fixed case type' do
+      context 'with a fixed case type' do
         subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees:, misc_fees:) }
 
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
@@ -590,7 +590,7 @@ RSpec.describe Claim::AdvocateClaim do
         it { expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.5) }
       end
 
-      context 'for a graduated case type' do
+      context 'with a graduated case type' do
         subject(:claim) do
           create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
             c.basic_fees = basic_fees
@@ -612,7 +612,7 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     describe '#update_fees_total' do
-      context 'for a fixed case type' do
+      context 'with a fixed case type' do
         subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees:, misc_fees:) }
 
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
@@ -631,7 +631,7 @@ RSpec.describe Claim::AdvocateClaim do
         end
       end
 
-      context 'for a graduated case type' do
+      context 'with a graduated case type' do
         subject(:claim) do
           create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
             c.basic_fees = basic_fees
@@ -662,7 +662,7 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  context 'expenses total' do
+  describe 'expenses total' do
     before do
       create(:expense, claim_id: claim.id, amount: 3.5)
       create(:expense, claim_id: claim.id, amount: 1.0)
@@ -690,7 +690,7 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  context 'total' do
+  describe 'total' do
     let(:fee_type) { create(:misc_fee_type) }
 
     before do
@@ -769,25 +769,26 @@ RSpec.describe Claim::AdvocateClaim do
   describe '#validation_required?' do
     let(:claim) { create(:claim, source: 'web') }
 
-    context 'should return false for' do
-      it 'draft claims submited by web app' do
-        expect(claim.validation_required?).to be false
-      end
-
-      it 'archived_pending_delete claims' do
-        claim = create(:archived_pending_delete_claim)
-        expect(claim.validation_required?).to be false
-      end
+    context 'with a draft claim submitted by web app' do
+      it { expect(claim.validation_required?).to be false }
     end
 
-    context 'should return true for' do
-      it 'draft claims submitted by the API' do
-        claim.source = 'api'
-        expect(claim.validation_required?).to be true
-      end
+    context 'with a draft claim submitted by the API' do
+      before { claim.source = 'api' }
 
-      it 'claims in any state other than draft or archived_pending_delete' do
-        states = described_class.state_machine.states.map(&:name) - %i[draft archived_pending_delete]
+      it { expect(claim.validation_required?).to be true }
+    end
+
+    context 'with an archived_pending_delete claim' do
+      let(:claim) { create(:archived_pending_delete_claim) }
+
+      it { expect(claim.validation_required?).to be false }
+    end
+
+    context 'with claims in any state other than draft or archived_pending_delete' do
+      let(:states) { described_class.state_machine.states.map(&:name) - %i[draft archived_pending_delete] }
+
+      it do
         states.each do |state|
           claim.state = state
           expect(claim.validation_required?).to be true
@@ -1003,47 +1004,33 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  describe 'provider type dependant methods' do
+  describe '#vat_registered?' do
     let(:claim) { build(:unpersisted_claim) }
 
-    describe 'for a chamber provider' do
+    context 'with a chamber provider' do
       before do
         allow(claim.provider).to receive(:provider_type).and_return('chamber')
+        allow(claim.external_user).to receive(:vat_registered?)
+        claim.vat_registered?
       end
 
-      context '#vat_registered?' do
-        it 'returns the value from the external user' do
-          allow(claim.external_user).to receive(:vat_registered?)
-          claim.vat_registered?
-          expect(claim.external_user).to have_received(:vat_registered?)
-        end
-      end
+      it { expect(claim.external_user).to have_received(:vat_registered?) }
     end
 
-    describe 'for a firm provider' do
+    context 'with a firm provider' do
       before do
         allow(claim.provider).to receive(:provider_type).and_return('firm')
+        allow(claim.provider).to receive(:vat_registered?)
+        claim.vat_registered?
       end
 
-      context '#vat_registered?' do
-        it 'returns the value from the provider' do
-          allow(claim.provider).to receive(:vat_registered?)
-          claim.vat_registered?
-          expect(claim.provider).to have_received(:vat_registered?)
-        end
-      end
+      it { expect(claim.provider).to have_received(:vat_registered?) }
     end
 
-    describe 'for an unknown provider' do
-      before do
-        allow(claim.provider).to receive(:provider_type).and_return('zzzz')
-      end
+    describe 'with an unknown provider' do
+      before { allow(claim.provider).to receive(:provider_type).and_return('zzzz') }
 
-      context '#vat_registered?' do
-        it 'raises an exception' do
-          expect { claim.vat_registered? }.to raise_error(RuntimeError)
-        end
-      end
+      it { expect { claim.vat_registered? }.to raise_error(RuntimeError) }
     end
   end
 

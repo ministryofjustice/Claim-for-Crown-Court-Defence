@@ -141,12 +141,13 @@ RSpec.describe Claim::AdvocateClaim do
 
       let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
 
-      it 'calls eligible misc fee type fetch service' do
+      before do
         allow(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
         allow(service).to receive(:call)
         call
-        expect(service).to have_received(:call)
       end
+
+      it { expect(service).to have_received(:call) }
     end
 
     describe '#eligible_fixed_fee_types' do
@@ -154,12 +155,13 @@ RSpec.describe Claim::AdvocateClaim do
 
       let(:service) { instance_double(Claims::FetchEligibleFixedFeeTypes) }
 
-      it 'calls eligible fixed fee type fetch service' do
+      before do
         allow(Claims::FetchEligibleFixedFeeTypes).to receive(:new).and_return service
         allow(service).to receive(:call)
         call
-        expect(service).to have_received(:call)
       end
+
+      it { expect(service).to have_received(:call) }
     end
   end
 
@@ -167,10 +169,9 @@ RSpec.describe Claim::AdvocateClaim do
     let(:categories) { ['Junior alone', 'Leading junior', 'Led junior', 'QC'] }
     let(:claim) { build(:advocate_claim) }
 
-    specify do
-      allow(Claims::FetchEligibleAdvocateCategories).to receive(:for).with(claim).and_return(categories)
-      expect(claim.eligible_advocate_categories).to eq(categories)
-    end
+    before { allow(Claims::FetchEligibleAdvocateCategories).to receive(:for).with(claim).and_return(categories) }
+
+    it { expect(claim.eligible_advocate_categories).to eq(categories) }
   end
 
   describe 'State Machine meta states magic methods' do
@@ -182,10 +183,7 @@ RSpec.describe Claim::AdvocateClaim do
     describe '#external_user_dashboard_draft?' do
       before { allow(claim).to receive(:state).and_return('draft') }
 
-      it 'responds true in draft' do
-        allow(claim).to receive(:state).and_return('draft')
-        expect(claim.external_user_dashboard_draft?).to be true
-      end
+      it { expect(claim.external_user_dashboard_draft?).to be true }
 
       it 'responds false to anything else' do
         (all_states - ['draft']).each do |state|
@@ -198,10 +196,7 @@ RSpec.describe Claim::AdvocateClaim do
     describe '#external_user_dashboard_rejected?' do
       before { allow(claim).to receive(:state).and_return('rejected') }
 
-      it 'responds true' do
-        allow(claim).to receive(:state).and_return('rejected')
-        expect(claim.external_user_dashboard_rejected?).to be true
-      end
+      it { expect(claim.external_user_dashboard_rejected?).to be true }
 
       it 'responds false to anything else' do
         (all_states - ['rejected']).each do |state|
@@ -317,7 +312,7 @@ RSpec.describe Claim::AdvocateClaim do
     context 'when the case type is not yet set' do
       subject(:claim) { described_class.new(case_type: nil) }
 
-      specify { expect(claim.basic_fees).to be_empty }
+      it { expect(claim.basic_fees).to be_empty }
     end
 
     context 'when the case type is set and its for fixed fee' do
@@ -325,7 +320,7 @@ RSpec.describe Claim::AdvocateClaim do
 
       let(:case_type) { create(:case_type, :fixed_fee) }
 
-      specify { expect(claim.basic_fees).to be_empty }
+      it { expect(claim.basic_fees).to be_empty }
     end
 
     context 'when the case type is set and its for graduated fee' do
@@ -684,21 +679,25 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     describe '#update_expenses_total' do
-      it 'stores the expenses total' do
-        expect(claim.expenses_total).to eq(146.5)
+      it { expect(claim.expenses_total).to eq(146.5) }
+
+      context 'when adding an expense' do
+        before do
+          create(:expense, claim_id: claim.id, amount: 3.0)
+          claim.reload
+        end
+
+        it { expect(claim.expenses_total).to eq(149.5) }
       end
 
-      it 'updates the expenses total' do
-        create(:expense, claim_id: claim.id, amount: 3.0)
-        claim.reload
-        expect(claim.expenses_total).to eq(149.5)
-      end
+      context 'when removing an expense' do
+        before do
+          expense = claim.expenses.first
+          expense.destroy
+          claim.reload
+        end
 
-      it 'updates expenses total when expense destroyed' do
-        expense = claim.expenses.first
-        expense.destroy
-        claim.reload
-        expect(claim.expenses_total).to eq(143.0)
+        it { expect(claim.expenses_total).to eq(143.0) }
       end
     end
   end
@@ -719,26 +718,30 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     describe '#calculate_total' do
-      it 'calculates the fees and expenses total' do
-        expect(claim.calculate_total).to eq(152.5)
-      end
+      it { expect(claim.calculate_total).to eq(152.5) }
     end
 
     describe '#update_total' do
-      it 'updates the total' do
-        create(:expense, claim_id: claim.id, amount: 3.0)
-        create(:misc_fee, claim_id: claim.id, rate: 0.5)
-        claim.reload
-        expect(claim.total).to eq(156.00)
+      context 'when adding fees' do
+        before do
+          create(:expense, claim_id: claim.id, amount: 3.0)
+          create(:misc_fee, claim_id: claim.id, rate: 0.5)
+          claim.reload
+        end
+
+        it { expect(claim.total).to eq(156.00) }
       end
 
-      it 'updates total when expense/fee destroyed' do
-        expense = claim.expenses.first
-        fee = claim.fees.first
-        expense.destroy
-        fee.destroy
-        claim.reload
-        expect(claim.total).to eq(146.00)
+      context 'when removing fees and expenses' do
+        before do
+          expense = claim.expenses.first
+          fee = claim.fees.first
+          expense.destroy
+          fee.destroy
+          claim.reload
+        end
+
+        it { expect(claim.total).to eq(146.00) }
       end
     end
   end
@@ -817,10 +820,12 @@ RSpec.describe Claim::AdvocateClaim do
 
     let(:case_worker) { create(:case_worker) }
 
-    it 'moves to "allocated" state when assigned to case worker' do
-      claim.case_workers << case_worker
-      expect(claim.reload).to be_allocated
+    before do
+      claim.case_workers = [case_worker]
+      claim.reload
     end
+
+    it { is_expected.to be_allocated }
   end
 
   describe 'moves to "submitted" state when case worker removed' do
@@ -835,23 +840,21 @@ RSpec.describe Claim::AdvocateClaim do
       claim.reload
     end
 
-    it 'is "allocated"' do
-      expect(claim).to be_allocated
-    end
+    it { is_expected.to be_allocated }
 
     context 'when case worker unassigned and other case workers remain' do
-      it 'is "allocated"' do
-        case_worker.claims.destroy(claim)
-        expect(claim.reload).to be_allocated
-      end
+      before { case_worker.claims.destroy(claim) }
+
+      it { is_expected.to be_allocated }
     end
 
     context 'when all case workers unassigned' do
-      it 'is "submitted"' do
+      before do
         case_worker.claims.destroy(claim)
         other_case_worker.claims.destroy(claim)
-        expect(claim.reload).to be_submitted
       end
+
+      it { is_expected.to be_submitted }
     end
   end
 
@@ -1006,18 +1009,19 @@ RSpec.describe Claim::AdvocateClaim do
     let(:another_advocate)  { create(:external_user, :advocate, provider: advocate.provider) }
     let(:claim)             { build(:advocate_claim, external_user: advocate) }
 
-    it 'does not have a supplier number before creation' do
-      expect(claim.supplier_number).to be_nil
+    it { expect(claim.supplier_number).to be_nil }
+
+    context 'when the claim has been created' do
+      it { expect { claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number) }
     end
 
-    it 'has a supplier number, derived from the external_user, after creation' do
-      expect { claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number)
-    end
+    context 'when the external_user changes' do
+      before do
+        claim.save!
+        claim.external_user = another_advocate
+      end
 
-    it 'resets supplier number to match external_user' do
-      claim.save!
-      claim.external_user = another_advocate
-      expect { claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number)
+      it { expect { claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number) }
     end
   end
 
@@ -1093,17 +1097,10 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     context 'when transitioned to redetermination' do
-      before do
-        claim.redetermine!
-      end
+      before { claim.redetermine! }
 
-      it 'is in an redetermination state' do
-        expect(claim).to be_redetermination
-      end
-
-      it 'is open for redetermination' do
-        expect(claim.opened_for_redetermination?).to be(true)
-      end
+      it { is_expected.to be_redetermination }
+      it { is_expected.to be_opened_for_redetermination }
     end
 
     context 'when transitioned to redetermination and then allocated/deallocated/allocated' do
@@ -1128,13 +1125,15 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     describe 'submission_date' do
-      it 'sets the submission date to the date it was set to state redetermination' do
-        new_time = 36.hours.from_now
+      let(:new_time) { 36.hours.from_now }
+
+      before do
         travel_to new_time do
           claim.redetermine!
         end
-        expect(claim.last_submitted_at).to be_within(1.second).of(new_time)
       end
+
+      it { expect(claim.last_submitted_at).to be_within(1.second).of(new_time) }
     end
 
     context 'when transitioned to allocated' do
@@ -1143,13 +1142,8 @@ RSpec.describe Claim::AdvocateClaim do
         claim.allocate!
       end
 
-      it 'is in an allocated state' do
-        expect(claim).to be_allocated
-      end
-
-      it 'has been opened for redetermination before being allocated' do
-        expect(claim.opened_for_redetermination?).to be(true)
-      end
+      it { is_expected.to be_allocated }
+      it { is_expected.to be_opened_for_redetermination }
     end
   end
 
@@ -1178,13 +1172,8 @@ RSpec.describe Claim::AdvocateClaim do
         claim.allocate!
       end
 
-      it 'is in an allocated state' do
-        expect(claim).to be_allocated
-      end
-
-      it 'has written_reasons_outstanding before being allocated' do
-        expect(claim.written_reasons_outstanding?).to be(true)
-      end
+      it { is_expected.to be_allocated }
+      it { is_expected.to be_written_reasons_outstanding }
     end
 
     context 'when transitioned to awaiting_written_reasons and then allocated/deallocated/allocated' do

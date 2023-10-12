@@ -19,6 +19,12 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'LGFS'
   inflect.acronym 'API'
   inflect.acronym 'XML'
+  inflect.acronym 'MI'
+  inflect.acronym 'CCR'
+  inflect.acronym 'CCLF'
+  inflect.acronym 'CLI'
+  inflect.acronym 'GA'
+  inflect.acronym 'GTM'
   inflect.human(/af1_lf1_processed_by/, "af1/lf1 processed by")
 end
 

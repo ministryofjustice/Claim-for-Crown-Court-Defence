@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Extensions::XmlMiniExtension do
+describe Extensions::XMLMiniExtension do
   subject { [1, 'a', nil] }
 
   let(:xml_result) { subject.to_xml(options.merge(skip_instruct: true, indent: 0)) }

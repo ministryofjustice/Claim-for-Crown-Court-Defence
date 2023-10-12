@@ -216,6 +216,9 @@ FactoryBot.define do
     trait :saf_fee do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BASAF') || build(:basic_fee_type, :basaf) }
     end
+    trait :basaf_fee do
+      saf_fee
+    end
 
     trait :pcm_fee do
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BAPCM') || build(:basic_fee_type, :pcm) }
@@ -250,20 +253,6 @@ FactoryBot.define do
       amount { 25 }
       fee_type { Fee::BasicFeeType.find_by(unique_code: 'BANPW') || build(:basic_fee_type, :npw) }
     end
-
-    # trait "aliases"
-    trait :babaf_fee do baf_fee end
-    trait :badaf_fee do daf_fee end
-    trait :badah_fee do dah_fee end
-    trait :badaj_fee do daj_fee end
-    trait :badat_fee do dat_fee end
-    trait :basaf_fee do saf_fee end
-    trait :bapcm_fee do pcm_fee end
-    trait :bacav_fee do cav_fee end
-    trait :bandr_fee do ndr_fee end
-    trait :banoc_fee do noc_fee end
-    trait :bappe_fee do ppe_fee end
-    trait :banpw_fee do npw_fee end
   end
 
   factory :transfer_fee, class: 'Fee::TransferFee' do

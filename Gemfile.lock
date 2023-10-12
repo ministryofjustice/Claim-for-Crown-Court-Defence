@@ -207,7 +207,7 @@ GEM
     deep_merge (1.2.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    devise (4.9.2)
+    devise (4.9.3)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0)
@@ -528,7 +528,7 @@ GEM
     remotipart (1.4.4)
     request_store (1.5.1)
       rack (>= 1.4)
-    responders (3.1.0)
+    responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
     rest-client (2.1.0)
@@ -739,7 +739,7 @@ DEPENDENCIES
   config (~> 4.2)
   cucumber-rails (~> 2.6.1)
   database_cleaner
-  devise (~> 4.9.2)
+  devise (~> 4.9.3)
   dotenv-rails
   factory_bot_rails (~> 6.2.0)
   faker (~> 3.2.1)

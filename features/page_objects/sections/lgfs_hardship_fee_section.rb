@@ -1,7 +1,7 @@
 class SelectOptionSection < SitePrism::Section
 end
 
-class LgfsHardshipFeeSection < SitePrism::Section
+class LGFSHardshipFeeSection < SitePrism::Section
 
   # common hardship fee fields
   element :ppe_total, '.quantity'

@@ -1,7 +1,7 @@
 class SelectOptionSection < SitePrism::Section
 end
 
-class LgfsInterimFeeSection < SitePrism::Section
+class LGFSInterimFeeSection < SitePrism::Section
   include SelectHelper
 
   sections :fee_type_select_options, SelectOptionSection, 'select#claim_interim_fee_attributes_fee_type_id option', visible: false

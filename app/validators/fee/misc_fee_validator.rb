@@ -22,7 +22,7 @@ module Fee
     end
 
     def validate_lgfs_fee_type_rules
-      rule_sets = Fee::Lgfs::FeeTypeRules.where(unique_code: @record.fee_type&.unique_code)
+      rule_sets = Fee::LGFS::FeeTypeRules.where(unique_code: @record.fee_type&.unique_code)
       Rule::Validator.new(@record, rule_sets).validate if rule_sets.present?
     end
 

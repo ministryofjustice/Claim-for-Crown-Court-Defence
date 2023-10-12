@@ -81,7 +81,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
       end
 
       context 'with LGFS query_set' do
-        let(:kwargs) { { query_set: Stats::ManagementInformation::LgfsQuerySet.new, date_range: month_range } }
+        let(:kwargs) { { query_set: Stats::ManagementInformation::LGFSQuerySet.new, date_range: month_range } }
 
         let(:expected_result_names) do
           ['Intake fixed fee', 'Intake final fee',

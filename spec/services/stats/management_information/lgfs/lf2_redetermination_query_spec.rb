@@ -2,7 +2,7 @@
 
 require_relative '../shared_examples_for_base_count_query'
 
-RSpec.describe Stats::ManagementInformation::Lgfs::Lf2RedeterminationQuery do
+RSpec.describe Stats::ManagementInformation::LGFS::Lf2RedeterminationQuery do
   it_behaves_like 'a base count query', 'LGFS'
 
   it_behaves_like 'an originally_submitted_at filterable query' do

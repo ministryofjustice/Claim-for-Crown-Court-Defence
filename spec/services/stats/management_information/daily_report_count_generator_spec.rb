@@ -35,7 +35,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
 
     context 'without start_at' do
       let(:kwargs) { { query_set: } }
-      let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
+      let(:query_set) { Stats::ManagementInformation::LGFSQuerySet.new }
 
       it { expect { call }.to raise_error ArgumentError, 'start_at must be provided' }
     end
@@ -44,7 +44,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
       subject(:result) { described_class.new(**kwargs).call }
 
       let(:kwargs) { { query_set:, start_at: start_date } }
-      let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
+      let(:query_set) { Stats::ManagementInformation::LGFSQuerySet.new }
       let(:start_date) { 1.month.ago.to_date }
       let(:duration) { 1.month - 1.day }
 
@@ -69,7 +69,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountGenerator do
     context 'with valid scheme, start_at and duration' do
       subject(:result) { described_class.new(**kwargs).call }
 
-      let(:query_set) { Stats::ManagementInformation::LgfsQuerySet.new }
+      let(:query_set) { Stats::ManagementInformation::LGFSQuerySet.new }
       let(:start_date) { 1.week.ago.to_date }
       let(:duration) { 1.month - 1.day }
 

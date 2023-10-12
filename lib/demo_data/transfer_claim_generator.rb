@@ -3,7 +3,7 @@ require_relative 'transfer_fee_generator'
 require_relative 'transfer_detail_generator'
 
 module DemoData
-  class TransferClaimGenerator < LgfsSchemeClaimGenerator
+  class TransferClaimGenerator < LGFSSchemeClaimGenerator
 
     def generate_claim(litigator)
       super(Claim::TransferClaim, litigator)

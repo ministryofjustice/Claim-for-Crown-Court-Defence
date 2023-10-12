@@ -7,7 +7,7 @@
 #
 module Seeds
   module Schemas
-    class AddLgfsFeeScheme10
+    class AddLGFSFeeScheme10
       attr_reader :pretend
       alias_method :pretending?, :pretend
 

@@ -16,6 +16,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'LF1'
   inflect.acronym 'LF2'
   inflect.acronym 'AGFS'
+  inflect.acronym 'LGFS'
   inflect.human(/af1_lf1_processed_by/, "af1/lf1 processed by")
 end
 

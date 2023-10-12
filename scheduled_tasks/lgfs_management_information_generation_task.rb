@@ -1,7 +1,7 @@
 require 'chronic'
 
 # https://github.com/ssoroka/scheduler_daemon for help
-class LgfsManagementInformationGenerationTask < Scheduler::SchedulerTask
+class LGFSManagementInformationGenerationTask < Scheduler::SchedulerTask
   every '1d', first_at: Chronic.parse('next 2:30 am')
 
   def run

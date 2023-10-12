@@ -1,4 +1,4 @@
-class LgfsTransferDetailSection < SitePrism::Section
+class LGFSTransferDetailSection < SitePrism::Section
   include SelectHelper
 
   element :litigator_type_original, "#claim-litigator-type-original-field"

@@ -132,9 +132,9 @@ RSpec.describe Stats::ManagementInformation::ClaimTypeFilterable do
     end
   end
 
-  describe 'MockAgfsClaimTypeFilter' do
+  describe 'MockAGFSClaimTypeFilter' do
     before do
-      stub_const('MockAgfsClaimTypeFilter', mock_agfs_claim_type_filter)
+      stub_const('MockAGFSClaimTypeFilter', mock_agfs_claim_type_filter)
     end
 
     let(:mock_agfs_claim_type_filter) do
@@ -145,7 +145,7 @@ RSpec.describe Stats::ManagementInformation::ClaimTypeFilterable do
       end
     end
 
-    let(:instance) { MockAgfsClaimTypeFilter.new }
+    let(:instance) { MockAGFSClaimTypeFilter.new }
 
     describe '#scheme' do
       subject { instance.scheme }

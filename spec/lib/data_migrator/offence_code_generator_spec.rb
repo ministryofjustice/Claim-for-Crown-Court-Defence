@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'data_migrator/offence_code_generator'
 
-RSpec.describe OffenceCodeGenerator do
+RSpec.describe DataMigrator::OffenceCodeGenerator do
   subject(:code_generator) { described_class.new(offence) }
 
   let(:offence_category) { create(:offence_category, description: 'Murder/Manslaughter') }

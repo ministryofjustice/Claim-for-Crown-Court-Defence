@@ -24,7 +24,7 @@ require 'utils/account_setter'
 
 ```ruby
 emails = ['user1@exaxmple.com', 'user2@exaxmple.com']
-accounts = AccountSetter.new(emails)
+accounts = Utils::AccountSetter.new(emails)
 accounts.report
 accounts.soft_delete
 accounts.un_soft_delete

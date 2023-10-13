@@ -13,7 +13,7 @@ module Stats
   module ManagementInformation
     module Queries
       module AGFS
-        class Af1DiskQuery < BaseCountQuery
+        class AF1DiskQuery < BaseCountQuery
           acts_as_scheme :agfs
 
           private

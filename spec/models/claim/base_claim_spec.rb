@@ -148,8 +148,8 @@ RSpec.describe Claim::BaseClaim do
     let!(:claim) { create(:claim) }
     let!(:verified_doc_one) { create(:document, :verified, claim:) }
     let!(:verified_doc_two) { create(:document, :verified, claim:) }
-    let!(:unverified_doc_one) { create(:document, :unverified, claim:) }
-    let!(:unverified_doc_two) { create(:document, :unverified, claim:) }
+
+    before { create_list(:document, 2, :unverified, claim:) }
 
     it { expect(claim.documents.map(&:id)).to contain_exactly(verified_doc_one.id, verified_doc_two.id) }
   end
@@ -844,9 +844,8 @@ describe '#earliest_representation_order_date' do
 
   context 'when there is one rep order' do
     let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
-    let!(:first_rep_order) do
-      create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
-    end
+
+    before { create(:representation_order, defendant: first_defendant, representation_order_date: april_1st) }
 
     it { expect(claim.representation_orders.size).to eq 1 }
     it { expect(claim.earliest_representation_order_date).to eq april_1st }
@@ -854,10 +853,9 @@ describe '#earliest_representation_order_date' do
 
   context 'when there is a defendant with multiple rep orders' do
     let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
-    let!(:first_rep_order) do
+
+    before do
       create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
-    end
-    let!(:second_rep_order) do
       create(:representation_order, defendant: first_defendant, representation_order_date: jun_30th)
     end
 
@@ -868,10 +866,9 @@ describe '#earliest_representation_order_date' do
   context 'when there are multiple defendants' do
     let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
     let!(:second_defendant) { create(:defendant, :without_reporder, claim:) }
-    let!(:first_rep_order) do
+
+    before do
       create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
-    end
-    let!(:second_rep_order) do
       create(:representation_order, defendant: second_defendant, representation_order_date: march_10th)
     end
 

@@ -398,22 +398,22 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#next_step?' do
+    subject { claim.next_step? }
+
     let(:claim) { MockSteppableClaim.new }
+
+    before { claim.form_step = step }
 
     context 'when there is a next step to go to' do
       let(:step) { :step1 }
 
-      before { claim.form_step = step }
-
-      it { expect(claim.next_step?).to be_truthy }
+      it { is_expected.to be_truthy }
     end
 
     context 'when there is NOT a next step to go to' do
       let(:step) { :step3A }
 
-      before { claim.form_step = step }
-
-      it { expect(claim.next_step?).to be_falsey }
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -484,53 +484,55 @@ RSpec.describe Claim::BaseClaim do
   end
 
   describe '#step_back?' do
+    subject { claim.step_back? }
+
     let(:claim) { MockSteppableClaim.new }
+
+    before { claim.form_step = step }
 
     context 'when there is a previous step to go to' do
       let(:step) { :step2 }
 
-      before { claim.form_step = step }
-
-      it { expect(claim.step_back?).to be_truthy }
+      it { is_expected.to be_truthy }
     end
 
     context 'when there is NOT a previous step to go to' do
       let(:step) { :step1 }
 
-      before { claim.form_step = step }
-
-      it { expect(claim.step_back?).to be_falsey }
+      it { is_expected.to be_falsey }
     end
   end
 
   describe '#step_validation_required?' do
+    subject { claim.step_validation_required?(:some_step) }
+
     let(:claim) { MockSteppableClaim.new(source:) }
 
     context 'when the claim is from an API submission' do
       let(:source) { 'api' }
 
-      it { expect(claim.step_validation_required?(:some_step)).to be_truthy }
+      it { is_expected.to be_truthy }
     end
 
     context 'when the claim is not from an API submission' do
       let(:source) { 'web' }
 
+      before { claim.form_step = :some_step }
+
       context 'when the form step is nil' do
         before { claim.form_step = nil }
 
-        it { expect(claim.step_validation_required?(:some_step)).to be_truthy }
+        it { is_expected.to be_truthy }
       end
 
       context 'when the form step is set' do
-        before { claim.form_step = :some_step }
+        it { is_expected.to be_truthy }
+      end
 
-        context 'when it matches the provided step' do
-          it { expect(claim.step_validation_required?(:some_step)).to be_truthy }
-        end
+      context 'when the form step does not match the provided step' do
+        subject { claim.step_validation_required?(:other_step) }
 
-        context 'when it does not match the provided step' do
-          it { expect(claim.step_validation_required?(:other_step)).to be_falsey }
-        end
+        it { is_expected.to be_falsey }
       end
     end
   end

@@ -596,6 +596,58 @@ RSpec.describe Claim::BaseClaim do
       it { is_expected.to match_array(unread_messages) }
     end
   end
+
+  describe '#earliest_representation_order_date' do
+    let(:april_1st) { Date.new(2016, 4, 1) }
+    let(:march_10th) { Date.new(2016, 3, 10) }
+    let(:jun_30th) { Date.new(2016, 6, 30) }
+    let(:claim) { create(:claim) }
+
+    before do
+      claim.defendants.clear
+      claim.save
+      claim.reload
+    end
+
+    context 'when there are no rep orders' do
+      it { expect(claim.representation_orders).to be_empty }
+      it { expect(claim.earliest_representation_order_date).to be_nil }
+    end
+
+    context 'when there is one rep order' do
+      let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
+
+      before { create(:representation_order, defendant: first_defendant, representation_order_date: april_1st) }
+
+      it { expect(claim.representation_orders.size).to eq 1 }
+      it { expect(claim.earliest_representation_order_date).to eq april_1st }
+    end
+
+    context 'when there is a defendant with multiple rep orders' do
+      let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
+
+      before do
+        create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
+        create(:representation_order, defendant: first_defendant, representation_order_date: jun_30th)
+      end
+
+      it { expect(claim.representation_orders.size).to eq 2 }
+      it { expect(claim.earliest_representation_order_date).to eq april_1st }
+    end
+
+    context 'when there are multiple defendants' do
+      let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
+      let!(:second_defendant) { create(:defendant, :without_reporder, claim:) }
+
+      before do
+        create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
+        create(:representation_order, defendant: second_defendant, representation_order_date: march_10th)
+      end
+
+      it { expect(claim.representation_orders.size).to eq 2 }
+      it { expect(claim.earliest_representation_order_date).to eq march_10th }
+    end
+  end
 end
 
 RSpec.describe MockBaseClaim do
@@ -822,57 +874,5 @@ RSpec.describe MockBaseClaim do
         expect { registered }.not_to raise_error
       end
     end
-  end
-end
-
-describe '#earliest_representation_order_date' do
-  let(:april_1st) { Date.new(2016, 4, 1) }
-  let(:march_10th) { Date.new(2016, 3, 10) }
-  let(:jun_30th) { Date.new(2016, 6, 30) }
-  let(:claim) { create(:claim) }
-
-  before do
-    claim.defendants.clear
-    claim.save
-    claim.reload
-  end
-
-  context 'when there are no rep orders' do
-    it { expect(claim.representation_orders).to be_empty }
-    it { expect(claim.earliest_representation_order_date).to be_nil }
-  end
-
-  context 'when there is one rep order' do
-    let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
-
-    before { create(:representation_order, defendant: first_defendant, representation_order_date: april_1st) }
-
-    it { expect(claim.representation_orders.size).to eq 1 }
-    it { expect(claim.earliest_representation_order_date).to eq april_1st }
-  end
-
-  context 'when there is a defendant with multiple rep orders' do
-    let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
-
-    before do
-      create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
-      create(:representation_order, defendant: first_defendant, representation_order_date: jun_30th)
-    end
-
-    it { expect(claim.representation_orders.size).to eq 2 }
-    it { expect(claim.earliest_representation_order_date).to eq april_1st }
-  end
-
-  context 'when there are multiple defendants' do
-    let!(:first_defendant) { create(:defendant, :without_reporder, claim:) }
-    let!(:second_defendant) { create(:defendant, :without_reporder, claim:) }
-
-    before do
-      create(:representation_order, defendant: first_defendant, representation_order_date: april_1st)
-      create(:representation_order, defendant: second_defendant, representation_order_date: march_10th)
-    end
-
-    it { expect(claim.representation_orders.size).to eq 2 }
-    it { expect(claim.earliest_representation_order_date).to eq march_10th }
   end
 end

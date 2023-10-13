@@ -45,6 +45,7 @@ en:
       your_claims: Your claims
       re_allocation: Re-allocation
       sidekiq_console: Sidekiq console
+      stats: Stats
       all_claims: Your claims
       sub_navigation: Sub navigation
       users: Users

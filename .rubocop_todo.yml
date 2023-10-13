@@ -1943,7 +1943,6 @@ Style/ClassAndModuleChildren:
     - 'app/controllers/geckoboard_api/application_controller.rb'
     - 'app/controllers/geckoboard_api/statistics_controller.rb'
     - 'app/controllers/geckoboard_api/widgets_controller.rb'
-    - 'app/controllers/super_admins/admin/super_admins_controller.rb'
     - 'app/controllers/super_admins/application_controller.rb'
     - 'app/controllers/super_admins/super_admins_controller.rb'
     - 'app/helpers/case_workers/admin/allocations_helper.rb'

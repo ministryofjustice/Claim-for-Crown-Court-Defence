@@ -76,6 +76,8 @@ Rails.application.routes.draw do
   namespace :super_admins do
     root to: 'super_admins#show'
 
+    get 'stats', to: 'stats#show'
+
     namespace :admin do
       root to: 'super_admins#show'
 

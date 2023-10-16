@@ -1,5 +1,16 @@
 = content_for :page_title, flush: true do
   = 'Stats'
 
-%p
-  = @test
+.govuk-width-container
+  .govuk-grid-row
+    .govuk-grid-column-one-half
+      %p
+        line_chart Claim::BaseClaim.count
+    .govuk-grid-column-one-half
+      %p
+        Test 2
+  .govuk-grid-row
+    .govuk-grid-column-full
+      %p
+        Test 3
+

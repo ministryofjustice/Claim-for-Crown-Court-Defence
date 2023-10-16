@@ -1,6 +1,6 @@
 module Seeds
   module Schemas
-    class AddAgfsFeeScheme15
+    class AddAGFSFeeScheme15
       attr_reader :pretend
       alias_method :pretending?, :pretend
 

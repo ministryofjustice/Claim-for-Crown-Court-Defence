@@ -10,13 +10,13 @@ Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dep
 
 module Stats
   module ManagementInformation
-    module Lgfs
+    module LGFS
       class WrittenReasonsQuery < BaseCountQuery
         acts_as_scheme :lgfs
 
         private
 
-        # OPTIMIZE: this is the sames as Agfs::WrittenReasonsQuery
+        # OPTIMIZE: this is the sames as AGFS::WrittenReasonsQuery
         def query
           <<~SQL
             WITH days AS (

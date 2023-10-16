@@ -1,6 +1,6 @@
 module Seeds
   module Schemas
-    class CleanLgfsFeeScheme10
+    class CleanLGFSFeeScheme10
       attr_reader :pretend
       alias_method :pretending?, :pretend
 

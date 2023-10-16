@@ -28,10 +28,10 @@ module Stats
             default_args: { scheme: :lgfs } },
         agfs_management_information_statistics:
           { class: Stats::ManagementInformation::DailyReportCountGenerator,
-            default_args: { query_set: Stats::ManagementInformation::AgfsQuerySet.new, duration: (1.month - 1.day) } },
+            default_args: { query_set: Stats::ManagementInformation::AGFSQuerySet.new, duration: (1.month - 1.day) } },
         lgfs_management_information_statistics:
           { class: Stats::ManagementInformation::DailyReportCountGenerator,
-            default_args: { query_set: Stats::ManagementInformation::LgfsQuerySet.new, duration: (1.month - 1.day) } }
+            default_args: { query_set: Stats::ManagementInformation::LGFSQuerySet.new, duration: (1.month - 1.day) } }
       )[report_type.to_sym]
     end
     # rubocop:enable Metrics/MethodLength

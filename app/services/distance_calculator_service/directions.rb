@@ -12,7 +12,7 @@ class DistanceCalculatorService
     private
 
     def routes
-      @routes ||= DistanceCalculatorService::GoogleApi.new(@origin, @destination)
+      @routes ||= DistanceCalculatorService::GoogleAPI.new(@origin, @destination)
     end
   end
 end

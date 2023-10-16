@@ -2,7 +2,7 @@ require 'rails_helper'
 # See https://developers.google.com/maps/documentation/directions/get-directions for example responses from the
 # Google Directions API
 
-RSpec.describe DistanceCalculatorService::GoogleApi do
+RSpec.describe DistanceCalculatorService::GoogleAPI do
   let(:returned_status) { 'OK' }
   let(:returned_routes) { [] }
 

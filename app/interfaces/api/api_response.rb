@@ -1,5 +1,5 @@
 module API
-  class ApiResponse
+  class APIResponse
     attr_accessor :status, :body
 
     def success?(status_code = nil)

@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'google_analytics/api'
 
-describe GoogleAnalytics::Api do
+describe GoogleAnalytics::API do
   subject(:api) { described_class }
 
   let(:endpoint) { 'http://example.com' }

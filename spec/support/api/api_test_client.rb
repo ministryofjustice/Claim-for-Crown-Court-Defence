@@ -78,7 +78,7 @@ class ApiTestClient
   #
   def get_dropdown_endpoint(resource, api_key, **params)
     endpoint(resource:, prefix: 'api', api_key:, **params) do |e|
-      body = Caching::ApiRequest.cache(e.url) do
+      body = Caching::APIRequest.cache(e.url) do
         e.get.tap { |response| handle_response(response, resource) }
       end
       JSON.parse(body)

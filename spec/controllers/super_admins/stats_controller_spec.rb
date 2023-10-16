@@ -24,10 +24,5 @@ RSpec.describe SuperAdmins::StatsController do
     it 'returns a 200' do
       expect(response).to have_http_status(:ok)
     end
-
-    it 'has a test variable' do
-      test = assigns(:test)
-      expect(test).not_to be_nil
-    end
   end
 end

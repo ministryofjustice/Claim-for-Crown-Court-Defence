@@ -38,4 +38,16 @@ describe 'super_admins/stats/show.html.haml' do
     expect(rendered).to have_css('div', class: 'govuk-grid-column-full').once
   end
 
+  it 'includes a total claims chart' do
+    expect(rendered).to have_css('div', id: 'total-claims-chart')
+  end
+
+  it 'includes a total claims value chart' do
+    expect(rendered).to have_css('div', id: 'total-claim-values-chart')
+  end
+
+  it 'includes a 6 month breakdown chart' do
+    expect(rendered).to have_css('div', id: 'six-month-chart')
+  end
+
 end

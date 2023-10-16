@@ -4,13 +4,16 @@
 .govuk-width-container
   .govuk-grid-row
     .govuk-grid-column-one-half
-      %p
-        line_chart Claim::BaseClaim.count
+      .h2
+        Total claims
+      = pie_chart @dummy_data_1, id: "total-claims-chart", legend: 'bottom'
     .govuk-grid-column-one-half
-      %p
-        Test 2
+      .h2
+        Total value of claims
+      = column_chart @dummy_data_2, id: "total-claim-values-chart"
   .govuk-grid-row
     .govuk-grid-column-full
-      %p
-        Test 3
+      .h2
+        Total claims over six months
+      = line_chart @dummy_data_3, id: "six-month-chart"
 

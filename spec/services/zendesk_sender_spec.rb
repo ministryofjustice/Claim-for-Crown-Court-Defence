@@ -6,7 +6,8 @@ RSpec.describe ZendeskSender do
         subject: 'Bug report',
         description: 'event - outcome - email address',
         referrer: '/claims',
-        user_agent: 'chrome'
+        user_agent: 'chrome',
+        reporter_email: nil
       )
     end
 
@@ -30,7 +31,27 @@ RSpec.describe ZendeskSender do
 
     it 'calls ZendeskAPI::Ticket.create!' do
       zen_send
-      expect(ZendeskAPI::Ticket).to have_received(:create!).with(ZENDESK_CLIENT, **zendesk_payload)
+      expect(ZendeskAPI::Ticket).to have_received(:create!).with(ZENDESK_CLIENT, hash_including(zendesk_payload))
+    end
+
+    context 'with a reporter email' do
+      let(:ticket_payload) do
+        instance_double(
+          Feedback,
+          subject: 'Bug report',
+          description: 'event - outcome - email address',
+          referrer: '/claims',
+          user_agent: 'chrome',
+          reporter_email: 'example@example.com'
+        )
+      end
+
+      it 'includes the reporter email' do
+        zen_send
+        expect(ZendeskAPI::Ticket)
+          .to have_received(:create!)
+          .with(ZENDESK_CLIENT, hash_including(email_ccs: [{ user_email: 'example@example.com' }]))
+      end
     end
   end
 

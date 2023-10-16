@@ -8,9 +8,9 @@ RSpec.describe Feedback do
     }
   end
 
-  it { is_expected.to validate_inclusion_of(:type).in_array(%w(feedback bug_report)) }
+  it { is_expected.to validate_inclusion_of(:type).in_array(%w[feedback bug_report]) }
 
-  context 'survey monkey feedback' do
+  context 'with survey monkey feedback' do
     subject(:feedback) { described_class.new(feedback_params) }
 
     before do
@@ -18,7 +18,14 @@ RSpec.describe Feedback do
     end
 
     let(:feedback_params) do
-      params.merge(type: 'feedback', task: '1', rating: '4', comment: 'lorem ipsum', reason: ['', '1', '2'], other_reason: 'dolor sit')
+      params.merge(
+        type: 'feedback',
+        task: '1',
+        rating: '4',
+        comment: 'lorem ipsum',
+        reason: ['', '1', '2'],
+        other_reason: 'dolor sit'
+      )
     end
 
     it { expect(feedback.task).to eq '1' }
@@ -53,11 +60,17 @@ RSpec.describe Feedback do
     end
   end
 
-  context 'bug report' do
+  context 'with a bug report' do
     subject(:bug_report) { described_class.new(bug_report_params) }
 
     let(:bug_report_params) do
-      params.merge(type: 'bug_report', case_number: 'XXX', event: 'lorem', outcome: 'ipsum', email: 'example@example.com')
+      params.merge(
+        type: 'bug_report',
+        case_number: 'XXX',
+        event: 'lorem',
+        outcome: 'ipsum',
+        email: 'example@example.com'
+      )
     end
 
     it { expect(bug_report.email).to eq('example@example.com') }
@@ -67,10 +80,10 @@ RSpec.describe Feedback do
     it { expect(bug_report.user_agent).to eq('Firefox') }
     it { expect(bug_report.referrer).to eq('/index') }
 
-    it { is_expected.to_not validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
+    it { is_expected.not_to validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
     it { is_expected.to validate_presence_of(:event) }
     it { is_expected.to validate_presence_of(:outcome) }
-    it { is_expected.to_not validate_presence_of(:case_number) }
+    it { is_expected.not_to validate_presence_of(:case_number) }
     it { is_expected.to be_bug_report }
     it { is_expected.not_to be_feedback }
 
@@ -110,7 +123,9 @@ RSpec.describe Feedback do
 
       context 'when zendesk submission fails' do
         before do
-          allow(ZendeskAPI::Ticket).to receive(:create!).and_raise ZendeskAPI::Error::ClientError, 'oops, something went wrong'
+          allow(ZendeskAPI::Ticket)
+            .to receive(:create!)
+            .and_raise ZendeskAPI::Error::ClientError, 'oops, something went wrong'
           allow(LogStuff).to receive(:error)
         end
 
@@ -136,7 +151,36 @@ RSpec.describe Feedback do
 
     describe '#description' do
       it 'returns the description' do
-        expect(bug_report.description).to eq("case_number: XXX\nevent: lorem\noutcome: ipsum\nemail: example@example.com")
+        expect(bug_report.description)
+          .to eq("case_number: XXX\nevent: lorem\noutcome: ipsum\nemail: example@example.com")
+      end
+    end
+
+    describe '#reporter_email' do
+      subject { bug_report.reporter_email }
+
+      context 'with an email' do
+        let(:bug_report_params) { params.merge(type: 'bug_report', email: 'example@example.com') }
+
+        it { is_expected.to eq('example@example.com') }
+      end
+
+      context 'without an email' do
+        let(:bug_report_params) { params.merge(type: 'bug_report') }
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'with a blank email' do
+        let(:bug_report_params) { params.merge(type: 'bug_report', email: '') }
+
+        it { is_expected.to be_nil }
+      end
+
+      context 'with an anonymous email' do
+        let(:bug_report_params) { params.merge(type: 'bug_report', email: 'anonymous') }
+
+        it { is_expected.to be_nil }
       end
     end
 
@@ -151,7 +195,7 @@ RSpec.describe Feedback do
     end
   end
 
-  context 'zendesk feedback' do
+  context 'with zendesk feedback' do
     subject(:feedback) { described_class.new(feedback_params) }
 
     before do
@@ -159,7 +203,14 @@ RSpec.describe Feedback do
     end
 
     let(:feedback_params) do
-      params.merge(type: 'feedback', task: 'XYZ', rating: 1, comment: 'ipsum', reason: ['Other'], other_reason: 'loren ipsum')
+      params.merge(
+        type: 'feedback',
+        task: 'XYZ',
+        rating: 1,
+        comment: 'ipsum',
+        reason: ['Other'],
+        other_reason: 'loren ipsum'
+      )
     end
 
     it { expect(feedback.task).to eq('XYZ') }
@@ -197,7 +248,9 @@ RSpec.describe Feedback do
 
       context 'when zendesk submission fails' do
         before do
-          allow(ZendeskAPI::Ticket).to receive(:create!).and_raise ZendeskAPI::Error::ClientError, 'oops, something went wrong'
+          allow(ZendeskAPI::Ticket)
+            .to receive(:create!)
+            .and_raise ZendeskAPI::Error::ClientError, 'oops, something went wrong'
           allow(LogStuff).to receive(:error)
         end
 
@@ -223,7 +276,8 @@ RSpec.describe Feedback do
 
     describe '#description' do
       it 'returns the description' do
-        expect(feedback.description).to eq("task: XYZ\nrating: 1\ncomment: ipsum\nreason: [\"Other\"]\nother_reason: loren ipsum")
+        expect(feedback.description)
+          .to eq("task: XYZ\nrating: 1\ncomment: ipsum\nreason: [\"Other\"]\nother_reason: loren ipsum")
       end
     end
 

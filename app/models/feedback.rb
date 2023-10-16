@@ -7,9 +7,9 @@ class Feedback
     bug_report: %i[case_number event outcome email]
   }.freeze
 
-  attr_accessor :email, :referrer, :user_agent, :type
-  attr_accessor :event, :outcome, :case_number
-  attr_accessor :task, :rating, :comment, :reason, :other_reason, :response_message
+  attr_accessor :email, :referrer, :user_agent, :type,
+                :event, :outcome, :case_number,
+                :task, :rating, :comment, :reason, :other_reason, :response_message
 
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
   validates :event, :outcome, presence: true, if: :bug_report?
@@ -46,6 +46,12 @@ class Feedback
 
   def description
     feedback_type_attributes.map { |t| "#{t}: #{send(t)}" }.join("\n")
+  end
+
+  def reporter_email
+    return if email.blank? || email == 'anonymous'
+
+    email
   end
 
   private

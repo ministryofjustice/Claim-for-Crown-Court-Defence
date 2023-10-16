@@ -14,14 +14,35 @@ class ZendeskSender
   def send!
     ZendeskAPI::Ticket.create!(
       ZENDESK_CLIENT,
+      **base_params,
+      **email_params,
+      **custom_params
+    )
+  end
+
+  private
+
+  def base_params
+    {
       subject: ticket_payload.subject,
-      description: ticket_payload.description,
+      description: ticket_payload.description
+    }
+  end
+
+  def email_params
+    return {} if ticket_payload.reporter_email.blank?
+
+    { email_ccs: [{ user_email: ticket_payload.reporter_email }] }
+  end
+
+  def custom_params
+    {
       custom_fields: [
         { id: '26047167', value: ticket_payload.referrer },
         { id: '23757677', value: 'advocate_defence_payments' },
         { id: '23791776', value: ticket_payload.user_agent },
         { id: '32342378', value: Rails.host.env }
       ]
-    )
+    }
   end
 end

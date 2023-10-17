@@ -201,7 +201,6 @@ Metrics/MethodLength:
     - 'app/services/message_queue/message_template.rb'
     - 'app/services/reports/provisional_assessments_by_dates.rb'
     - 'app/services/stats/management_information_generator.rb'
-    - 'app/services/zendesk_sender.rb'
     - 'app/validators/claim/advocate_claim_validator.rb'
     - 'app/validators/claim/advocate_hardship_claim_validator.rb'
     - 'app/validators/claim/advocate_interim_claim_validator.rb'
@@ -556,7 +555,6 @@ RSpec/ContextWording:
     - 'spec/models/fee/shared_examples_for_case_uplifts.rb'
     - 'spec/models/fee/shared_examples_for_defendant_uplifts.rb'
     - 'spec/models/fee/transfer_fee_spec.rb'
-    - 'spec/models/feedback_spec.rb'
     - 'spec/models/google_analytics/data_tracking_spec.rb'
     - 'spec/models/google_analytics/ga_data_adapter_spec.rb'
     - 'spec/models/google_analytics/gtm_data_adapter_spec.rb'
@@ -1448,7 +1446,6 @@ RSpec/NotToNot:
     - 'spec/models/claim/transfer_detail_spec.rb'
     - 'spec/models/claims/cloner_spec.rb'
     - 'spec/models/claims/financial_summary_spec.rb'
-    - 'spec/models/feedback_spec.rb'
     - 'spec/models/offence_spec.rb'
     - 'spec/models/stats/mi_data_spec.rb'
     - 'spec/services/claims/case_worker_claim_updater_spec.rb'
@@ -1861,7 +1858,6 @@ Rails/WhereEquals:
 Style/AccessorGrouping:
   Exclude:
     - 'app/interfaces/api/error_response.rb'
-    - 'app/models/feedback.rb'
     - 'app/services/cclf/mapping_bill_adapter.rb'
     - 'app/services/ccr/fee/base_fee_adapter.rb'
 
@@ -2208,7 +2204,6 @@ Style/PercentLiteralDelimiters:
     - 'spec/models/court_spec.rb'
     - 'spec/models/expense_type_spec.rb'
     - 'spec/models/fee/basic_fee_type_spec.rb'
-    - 'spec/models/feedback_spec.rb'
     - 'spec/models/provider_spec.rb'
     - 'spec/models/stats/gecko_widgets/line_graph_spec.rb'
     - 'spec/models/user_spec.rb'

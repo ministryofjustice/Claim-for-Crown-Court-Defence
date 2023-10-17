@@ -13,32 +13,34 @@ Dir.glob(File.join(__dir__, '..', 'base_count_query.rb')).each { |f| require_dep
 
 module Stats
   module ManagementInformation
-    module LGFS
-      class IntakeInterimFeeQuery < BaseCountQuery
-        acts_as_scheme :lgfs
+    module Queries
+      module LGFS
+        class IntakeInterimFeeQuery < BaseCountQuery
+          acts_as_scheme :lgfs
 
-        private
+          private
 
-        def query
-          <<~SQL
-            WITH days AS (
-              SELECT day::date
-              FROM generate_series('#{@start_at}', '#{@end_at}', '1 day'::interval) day
-            ),
-            journeys AS (
-              #{journeys_query}
-            )
-            SELECT count(j.*), date_trunc('day', d.day) as day
-            FROM days d
-            LEFT OUTER JOIN journeys j
-              ON date_trunc('day', j.#{@date_column_filter}) = d.day
-              AND j.scheme = 'LGFS'
-              AND trim(lower(j.bill_type)) = 'lgfs interim'
-              AND j.journey -> 0 ->> 'to' = 'submitted'
-              AND NOT j.disk_evidence
-              AND j.claim_total::float < 20000.00
-            GROUP BY day
-          SQL
+          def query
+            <<~SQL
+              WITH days AS (
+                SELECT day::date
+                FROM generate_series('#{@start_at}', '#{@end_at}', '1 day'::interval) day
+              ),
+              journeys AS (
+                #{journeys_query}
+              )
+              SELECT count(j.*), date_trunc('day', d.day) as day
+              FROM days d
+              LEFT OUTER JOIN journeys j
+                ON date_trunc('day', j.#{@date_column_filter}) = d.day
+                AND j.scheme = 'LGFS'
+                AND trim(lower(j.bill_type)) = 'lgfs interim'
+                AND j.journey -> 0 ->> 'to' = 'submitted'
+                AND NOT j.disk_evidence
+                AND j.claim_total::float < 20000.00
+              GROUP BY day
+            SQL
+          end
         end
       end
     end

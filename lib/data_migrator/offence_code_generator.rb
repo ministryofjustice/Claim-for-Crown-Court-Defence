@@ -1,13 +1,15 @@
-class OffenceCodeGenerator
-  attr_reader :offence
+module DataMigrator
+  class OffenceCodeGenerator
+    attr_reader :offence
 
-  def initialize(offence)
-    Offence.include OffenceExtensions
-    @offence = offence
-  end
+    def initialize(offence)
+      Offence.include OffenceExtensions
+      @offence = offence
+    end
 
-  def code(modifier = nil)
-    offence.generated_unique_code(modifier)
+    def code(modifier = nil)
+      offence.generated_unique_code(modifier)
+    end
   end
 end
 

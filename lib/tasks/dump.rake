@@ -4,7 +4,7 @@ require_relative 'rake_helpers/rake_utils'
 require 'fileutils'
 require 'open3'
 
-include RakeUtils
+include Tasks::RakeHelpers::RakeUtils
 
 namespace :db do
   namespace :dump do

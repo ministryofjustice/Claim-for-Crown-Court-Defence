@@ -1,7 +1,7 @@
 require 'forwardable'
 
 module ThinkstCanary
-  module ApiQueryable
+  module APIQueryable
     extend Forwardable
 
     def_delegator :configuration, :query

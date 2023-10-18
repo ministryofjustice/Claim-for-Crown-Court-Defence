@@ -1,6 +1,6 @@
 module API
   module V1
-    class DropdownData < API::Helpers::GrapeApiHelper
+    class DropdownData < API::Helpers::GrapeAPIHelper
       params do
         optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
       end

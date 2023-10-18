@@ -1,6 +1,6 @@
 module ThinkstCanary
   class Factory
-    include ThinkstCanary::ApiQueryable
+    include ThinkstCanary::APIQueryable
 
     attr_reader :factory_auth, :flock_id, :memo
 

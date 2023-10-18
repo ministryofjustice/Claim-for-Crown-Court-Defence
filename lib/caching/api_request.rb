@@ -2,7 +2,7 @@ require 'digest/sha1'
 require 'uri'
 
 class Caching
-  class ApiRequest
+  class APIRequest
     attr_accessor :url, :options
 
     # Cache version, not necessarily matching API version

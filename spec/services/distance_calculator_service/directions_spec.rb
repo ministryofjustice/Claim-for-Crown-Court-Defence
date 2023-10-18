@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe DistanceCalculatorService::Directions do
   before do
-    allow(DistanceCalculatorService::GoogleApi).to receive(:new).and_return(OpenStruct.new(distances:))
+    allow(DistanceCalculatorService::GoogleAPI).to receive(:new).and_return(OpenStruct.new(distances:))
   end
 
   describe '#max_distance' do

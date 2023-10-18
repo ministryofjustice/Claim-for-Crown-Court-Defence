@@ -1,4 +1,4 @@
-class GeckoboardApi::WidgetsController < GeckoboardApi::ApplicationController
+class GeckoboardAPI::WidgetsController < GeckoboardAPI::ApplicationController
   include DisableViewOnlyActions
 
   # TODO: needed? not linked in statistic/index

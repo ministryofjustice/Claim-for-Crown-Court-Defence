@@ -10,26 +10,21 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   # inflect.uncountable %w( fish sheep )
   inflect.irregular 'date_attended', 'dates_attended'
   inflect.irregular 'claim was', 'claims were'
-  inflect.acronym 'CPS'
   inflect.acronym 'AF1'
   inflect.acronym 'AF2'
+  inflect.acronym 'AGFS'
+  inflect.acronym 'API'
+  inflect.acronym 'CCLF'
+  inflect.acronym 'CCR'
+  inflect.acronym 'CLI'
+  inflect.acronym 'CPS'
+  inflect.acronym 'GA'
+  inflect.acronym 'GOVUK'
+  inflect.acronym 'GTM'
   inflect.acronym 'LF1'
   inflect.acronym 'LF2'
-  inflect.acronym 'AGFS'
   inflect.acronym 'LGFS'
-  inflect.acronym 'API'
-  inflect.acronym 'XML'
   inflect.acronym 'MI'
-  inflect.acronym 'CCR'
-  inflect.acronym 'CCLF'
-  inflect.acronym 'CLI'
-  inflect.acronym 'GA'
-  inflect.acronym 'GTM'
-  inflect.acronym 'GOVUK'
+  inflect.acronym 'XML'
   inflect.human(/af1_lf1_processed_by/, "af1/lf1 processed by")
 end
-
-# These inflection rules are supported but not enabled by default:
-# ActiveSupport::Inflector.inflections(:en) do |inflect|
-#   inflect.acronym 'RESTful'
-# end

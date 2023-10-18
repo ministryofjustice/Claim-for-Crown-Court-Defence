@@ -1,5 +1,7 @@
-module RemoteExtension
-  def remote?
-    false
+module Extensions
+  module RemoteExtension
+    def remote?
+      false
+    end
   end
 end

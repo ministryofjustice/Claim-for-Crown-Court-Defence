@@ -1,7 +1,9 @@
 require Rails.root.join('lib', 'rails_host.rb')
 
-module RailsModuleExtension
-  def host
-    RailsHost
+module Extensions
+  module RailsModuleExtension
+    def host
+      RailsHost
+    end
   end
 end

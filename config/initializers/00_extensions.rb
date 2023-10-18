@@ -31,7 +31,7 @@ module Rails
 end
 
 module ActiveSupport::XmlMini
-  extend Extensions::XmlMiniExtension
+  extend Extensions::XMLMiniExtension
 end
 
 class TrueClass

@@ -14,12 +14,12 @@ module Stats
   module ManagementInformation
     module Queries
       module LGFS
-        class Lf2HighValueQuery < BaseCountQuery
+        class LF2HighValueQuery < BaseCountQuery
           acts_as_scheme :lgfs
 
           private
 
-          # OPTIMIZE: this is the sames as Af2HighValueQuery
+          # OPTIMIZE: this is the sames as AF2HighValueQuery
           def query
             <<~SQL
               WITH days AS (

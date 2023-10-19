@@ -14,12 +14,12 @@ module Stats
   module ManagementInformation
     module Queries
       module LGFS
-        class Lf2RedeterminationQuery < BaseCountQuery
+        class LF2RedeterminationQuery < BaseCountQuery
           acts_as_scheme :lgfs
 
           private
 
-          # OPTIMIZE: this is the sames as Af2RedeterminationQuery
+          # OPTIMIZE: this is the sames as AF2RedeterminationQuery
           def query
             <<~SQL
               WITH days AS (

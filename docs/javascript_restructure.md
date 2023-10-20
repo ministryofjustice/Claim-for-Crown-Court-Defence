@@ -98,3 +98,11 @@ npx jasmine-browser-runner serve
 and then view the output at http://localhost:8888
 
 In particular, this makes it possible to view the output of `console.log`.
+
+### Linting
+
+`yarn standard` will complain about the use of `Response` in `app/webpack/javascripts/modules/determination_spec.mjs`
+(for example) even though it is part of [ES6.](https://caniuse.com/mdn-api_response_response)
+This is due to some dependencies that, it is hoped, will be removed after the
+cleanup is completed. `"Response"` is added to the `globals` section of the
+`standard` configuration in `package.json`.

@@ -80,6 +80,9 @@ function _deploy() {
     -f .k8s/${context}/${environment}/service.yaml \
     -f .k8s/${context}/${environment}/ingress.yaml
 
+  # apply rules for prometheus alerts
+  kubectl apply -f .k8s/${context}/${environment}/prometheus-custom-rules.yaml
+
   kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine to ${context}/cccd-${environment}"
   kubectl annotate deployments/claim-for-crown-court-defence-worker kubernetes.io/change-cause="$(date) - deploying: $docker_image_tag via local machine to ${context}/cccd-${environment}"
 

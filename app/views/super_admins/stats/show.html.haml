@@ -32,12 +32,16 @@
   .govuk-grid-row
     .govuk-grid-column-one-half
       %h2
-        = "Total claims: #{@from} - #{@to}"
-      = pie_chart @dummy_data_1, id: "total-claims-chart", legend: 'bottom'
+        = "Total claims: #{@from_str} - #{@to_str}"
+      = pie_chart @dummy_data_1, id: "total-claims-chart",
+                                 legend: 'bottom',
+                                 colors: @chart_colours
     .govuk-grid-column-one-half
       %h2
-        = "Total value of claims: #{@from} - #{@to}"
-      = column_chart @dummy_data_2, id: "total-claim-values-chart"
+        = "Total value of claims: #{@from_str} - #{@to_str}"
+      = column_chart @dummy_data_2, id: "total-claim-values-chart",
+                                    legend: 'bottom',
+                                    colors: @chart_colours
 
   .govuk-grid-column-full
     %br
@@ -46,5 +50,9 @@
     .govuk-grid-column-full
       %h2
         = "Total claims over six months: #{6.months.ago.strftime("%B")} - #{Date.today.strftime("%B")}"
-      = line_chart @dummy_data_3, id: "six-month-chart"
+      = line_chart @six_month_breakdown.map { |fs|{name: fs[:name],
+                                                   data: fs[:data]}},
+                                                   id: 'six-month-chart',
+                                                   legend: 'bottom',
+                                                   colors: @chart_colours
 

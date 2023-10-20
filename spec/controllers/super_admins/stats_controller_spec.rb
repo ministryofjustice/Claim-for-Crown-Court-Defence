@@ -65,9 +65,18 @@ RSpec.describe SuperAdmins::StatsController do
     end
   end
 
-  context 'when generating stats for user inputted date' do
+  context 'when generating stats for pie and column charts' do
     before do
       sign_in_sa
+      create(:advocate_final_claim, :submitted)
+      create(:advocate_final_claim, :submitted)
+      create(:litigator_final_claim, :submitted)
+
+      travel_to Time.zone.local(2023, 6, 3) do
+        create(:advocate_final_claim, :submitted)
+        create(:litigator_final_claim, :submitted)
+        create(:litigator_final_claim, :submitted)
+      end
     end
 
     it 'has more potential colours than Fee Schemes' do
@@ -77,6 +86,33 @@ RSpec.describe SuperAdmins::StatsController do
       get :show
 
       expect(assigns(:chart_colours).count).to be > assigns(:ordered_fee_schemes).count
+    end
+
+    context 'when using the default dates' do
+      before { get :show }
+
+      it 'generates correct data for the pie chart' do
+        expect(assigns(:total_claims).to_s).to match(/=>2.*=>1/)
+      end
+
+      it 'generates correct data for the values column chart' do
+        expect(assigns(:total_values).to_s).to match(/=>50.*=>25/)
+      end
+    end
+
+    context 'when using user entered dates' do
+      before do
+        get :show, params: { 'date_from(3i)': '01', 'date_from(2i)': '06', 'date_from(1i)': '2023',
+                             'date_to(3i)': '30', 'date_to(2i)': '06', 'date_to(1i)': '2023' }
+      end
+
+      it 'generates correct data for the pie chart' do
+        expect(assigns(:total_claims).to_s).to match(/=>1.*=>2/)
+      end
+
+      it 'generates correct data for the values column chart' do
+        expect(assigns(:total_values).to_s).to match(/=>25.*=>50/)
+      end
     end
   end
 
@@ -90,17 +126,14 @@ RSpec.describe SuperAdmins::StatsController do
       travel_to Time.zone.local(2023, 1, 1) do
         create(:advocate_final_claim, :submitted)
         create(:advocate_final_claim, :submitted)
-        create(:advocate_final_claim, :submitted)
         create(:litigator_final_claim, :submitted)
       end
       travel_to Time.zone.local(2023, 2, 1) do
         create(:advocate_final_claim, :submitted)
         create(:litigator_final_claim, :submitted)
         create(:litigator_final_claim, :submitted)
-        create(:litigator_final_claim, :submitted)
       end
       travel_to Time.zone.local(2023, 3, 1) do
-        create(:advocate_final_claim, :submitted)
         create(:advocate_final_claim, :submitted)
         create(:advocate_final_claim, :submitted)
         create(:litigator_final_claim, :submitted)
@@ -109,17 +142,14 @@ RSpec.describe SuperAdmins::StatsController do
         create(:advocate_final_claim, :submitted)
         create(:litigator_final_claim, :submitted)
         create(:litigator_final_claim, :submitted)
-        create(:litigator_final_claim, :submitted)
       end
       travel_to Time.zone.local(2023, 5, 1) do
-        create(:advocate_final_claim, :submitted)
         create(:advocate_final_claim, :submitted)
         create(:advocate_final_claim, :submitted)
         create(:litigator_final_claim, :submitted)
       end
       travel_to Time.zone.local(2023, 6, 1) do
         create(:advocate_final_claim, :submitted)
-        create(:litigator_final_claim, :submitted)
         create(:litigator_final_claim, :submitted)
         create(:litigator_final_claim, :submitted)
       end
@@ -130,7 +160,7 @@ RSpec.describe SuperAdmins::StatsController do
         get :show
       end
 
-      expect(assigns(:six_month_breakdown).to_s).to match(/"Jan"=>3, "Feb"=>1, "Mar"=>3, "Apr"=>1, "May"=>3, "Jun"=>1/)
+      expect(assigns(:six_month_breakdown).to_s).to match(/"Jan"=>2, "Feb"=>1, "Mar"=>2, "Apr"=>1, "May"=>2, "Jun"=>1/)
     end
 
     it 'generates correct LGFS 9 data for a six month graph' do
@@ -138,7 +168,7 @@ RSpec.describe SuperAdmins::StatsController do
         get :show
       end
 
-      expect(assigns(:six_month_breakdown).to_s).to match(/"Jan"=>1, "Feb"=>3, "Mar"=>1, "Apr"=>3, "May"=>1, "Jun"=>3/)
+      expect(assigns(:six_month_breakdown).to_s).to match(/"Jan"=>1, "Feb"=>2, "Mar"=>1, "Apr"=>2, "May"=>1, "Jun"=>2/)
     end
   end
 end

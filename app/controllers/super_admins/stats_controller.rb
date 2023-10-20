@@ -4,29 +4,13 @@ module SuperAdmins
 
     def show
       @date_err = false
+      @total_claims = empty_results_hash
+      @total_values = empty_results_hash
+      @six_month_breakdown = empty_linechart_array
       set_colours
       process_dates
       set_times
       retrieve_data
-      @dummy_data_1 = { 'AGFS 9': 34.56,
-                        'AGFS 10': 1000.34,
-                        'AGFS 11': 120.43,
-                        'AGFS 12': 342,
-                        'AGFS 13': 86.78,
-                        'AGFS 14': 153.29,
-                        'AGFS 15': 2030.45,
-                        'LGFS 9': 135.65,
-                        'LGFS 10': 2582.56 }
-      @dummy_data_2 = { 'AGFS 9': 34.56,
-                        'AGFS 10': 1000.34,
-                        'AGFS 11': 120.43,
-                        'AGFS 12': 342,
-                        'AGFS 13': 86.78,
-                        'AGFS 14': 153.29,
-                        'AGFS 15': 2030.45,
-                        'LGFS 9': 135.65,
-                        'LGFS 10': 2582.56 }
-
     end
 
     def set_colours
@@ -51,7 +35,6 @@ module SuperAdmins
       @from_str = @from.strftime('%d %b')
       @to = Time.zone.now
       @to_str = @to.strftime('%d %b')
-
     end
 
     def process_dates
@@ -65,13 +48,16 @@ module SuperAdmins
 
       @to = ActiveSupport::TimeZone['UTC'].parse(@to_input)
       @to_str = @to.strftime('%d %b')
-
     end
 
     def invalid_dates?
       return true if @from_input > @to_input
-      return true if ActiveSupport::TimeZone['UTC'].parse(@from_input).nil?
-      return true if ActiveSupport::TimeZone['UTC'].parse(@to_input).nil?
+      begin
+        return true if ActiveSupport::TimeZone['UTC'].parse(@from_input).nil?
+        return true if ActiveSupport::TimeZone['UTC'].parse(@to_input).nil?
+      rescue NoMethodError
+        return false
+      end
       false
     end
 
@@ -88,34 +74,48 @@ module SuperAdmins
       output = {}
       ordered_fee_schemes.each do |scheme|
         # Hash default set to 0 to simplify building the results csv
-        output[scheme] = Hash.new(0)
+        output[scheme] = 0
       end
       output
+    end
+
+    def last_six_months
+      output = []
+      6.times do |offset|
+        month = (Time.current.end_of_month - offset.month).strftime('%b')
+        output << month
+      end
+      output.reverse
     end
 
     def empty_linechart_array
       output = []
       ordered_fee_schemes.each do |scheme|
-        output.append({name: scheme, data: Hash.new(0)})
+        output.append({ name: scheme, data: Hash.new(0) })
+        last_six_months.each do |month|
+          output[-1][:data][month] = 0
+        end
       end
       output
     end
 
     def retrieve_data
-      @total_claims = empty_results_hash
-      @total_values = empty_results_hash
-      @six_month_breakdown = empty_linechart_array
-
-      Claim::BaseClaim.active.non_draft.where(last_submitted_at:
-                                                @six_months_ago..@current_month_end).find_each do |claim|
-        six_month_breakdown(claim)
+      Claim::BaseClaim.active.non_draft.where(last_submitted_at: @from..@to).find_each do |claim|
+        fee_scheme = "#{claim.fee_scheme.name} #{claim.fee_scheme.version}"
+        @total_claims[fee_scheme] += 1
+        @total_values[fee_scheme] += (claim.total.to_f + claim.vat_amount.to_f)
       end
+
+      generate_six_month_breakdown
     end
 
-    def six_month_breakdown(claim)
-      @six_month_breakdown.each do |hash|
-        if hash[:name] == "#{claim.fee_scheme.name} #{claim.fee_scheme.version}"
-          hash[:data][claim.last_submitted_at.strftime('%b')] += 1
+    def generate_six_month_breakdown
+      Claim::BaseClaim.active.non_draft.where(last_submitted_at:
+                                                @six_months_ago..@current_month_end).find_each do |claim|
+        @six_month_breakdown.each do |hash|
+          if hash[:name] == "#{claim.fee_scheme.name} #{claim.fee_scheme.version}"
+            hash[:data][claim.last_submitted_at.strftime('%b')] += 1
+          end
         end
       end
     end

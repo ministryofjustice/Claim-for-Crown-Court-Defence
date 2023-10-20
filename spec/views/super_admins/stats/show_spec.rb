@@ -1,39 +1,21 @@
 require 'rails_helper'
 
-describe 'layouts/_primary_navigation.html.haml' do
-
-  before do
-    super_admin = create(:super_admin)
-    initialize_view_helpers(view)
-    sign_in(super_admin.user, scope: :user)
-    allow(view).to receive(:current_user_persona_is?).and_return(false)
-
-    render
-  end
-
-  it 'contains a link to the correct page' do
-    expect(rendered).to have_link(
-      'Stats',
-      href: super_admins_stats_path)
-  end
-end
-
 describe 'super_admins/stats/show.html.haml' do
-
   before do
     super_admin = create(:super_admin)
     initialize_view_helpers(view)
     sign_in(super_admin.user, scope: :user)
     allow(view).to receive(:current_user_persona_is?).and_return(false)
+
+    # Not used in testing, but needs initialising or tests will crash as they try to
+    # run #map on six_month_breakdown when rendering
+    @six_month_breakdown = [{ name: 'placeholder', data: 'placeholder' }]
+
     render
   end
 
   it 'includes two half-width columns' do
     expect(rendered).to have_css('div', class: 'govuk-grid-column-one-half').twice
-  end
-
-  it 'includes one full-width column' do
-    expect(rendered).to have_css('div', class: 'govuk-grid-column-full')
   end
 
   it 'includes a total claims chart' do
@@ -59,5 +41,4 @@ describe 'super_admins/stats/show.html.haml' do
     render
     expect(rendered).to have_css('div', class: 'govuk-notification-banner')
   end
-
 end

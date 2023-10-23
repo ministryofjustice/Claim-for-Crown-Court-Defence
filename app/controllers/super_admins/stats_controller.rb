@@ -7,15 +7,13 @@ module SuperAdmins
       @total_claims = empty_results_hash
       @total_values = empty_results_hash
       @six_month_breakdown = empty_linechart_array
-      set_colours
+      @chart_colours = %w[#ffdd00	#00703c #5694ca #912b88 #f47738 #85994b #003078 #f499be #b52c17 #ea7361 #66ff66]
       process_dates
       set_times
       retrieve_data
     end
 
-    def set_colours
-      @chart_colours = %w[#ffdd00	#00703c #5694ca #912b88 #f47738 #85994b #003078 #f499be #b52c17 #ea7361 #66ff66].freeze
-    end
+    private
 
     def set_times
       @current_month_end = Time.current.at_end_of_month
@@ -33,6 +31,7 @@ module SuperAdmins
     def set_default_dates
       @from = Time.zone.now.at_beginning_of_month
       @from_str = @from.strftime('%d %b')
+
       @to = Time.zone.now
       @to_str = @to.strftime('%d %b')
     end
@@ -51,13 +50,15 @@ module SuperAdmins
     end
 
     def invalid_dates?
-      return true if @from_input > @to_input
       begin
-        return true if ActiveSupport::TimeZone['UTC'].parse(@from_input).nil?
-        return true if ActiveSupport::TimeZone['UTC'].parse(@to_input).nil?
-      rescue NoMethodError
-        return false
+        from = ActiveSupport::TimeZone['UTC'].parse(@from_input)
+        to = ActiveSupport::TimeZone['UTC'].parse(@to_input)
+      rescue NoMethodError, ArgumentError
+        return true
       end
+
+      return true if from.nil? || to.nil? || to.before?(from)
+
       false
     end
 

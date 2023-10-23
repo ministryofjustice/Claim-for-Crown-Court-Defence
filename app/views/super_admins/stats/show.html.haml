@@ -1,7 +1,7 @@
 = content_for :page_title, flush: true do
   = 'Stats'
 
-= if @date_err == true
+- if @date_err
   .govuk-notification-banner{'aria-labelledby': 'govuk-date-error-notification-banner-title', 'data-module': "govuk-notification-banner", role: 'alert'}
     .govuk-notification-banner__content
       %h3.govuk-notification-banner__heading
@@ -24,7 +24,7 @@
                                                  text: 'To'},
                                        maxlength_enabled: true
     .govuk-grid-column-full
-      = f.govuk_submit 'Update'
+      = f.govuk_submit 'Update', id: "date_submit"
 
   .govuk-grid-column-full
     %br

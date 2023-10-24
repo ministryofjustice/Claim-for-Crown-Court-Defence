@@ -38,7 +38,7 @@ gem 'net-smtp'
 gem 'paper_trail', '~> 15.1.0'
 gem 'pg',                     '~> 1.5.4'
 gem 'rails', '~> 6.1.7'
-gem 'redis',                  '~> 5.0.7'
+gem 'redis',                  '~> 5.0.8'
 gem 'rubyzip'
 gem 'config',                 '~> 5.0' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'

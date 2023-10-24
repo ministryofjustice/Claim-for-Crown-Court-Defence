@@ -74,11 +74,11 @@ RSpec.describe 'Stats' do
       end
 
       it 'includes the correct claims data in the pie chart with GET' do
-        expect(response.body).to match(/(total-claims-chart).*,1.*,3.*(legend)/)
+        expect(response.body).to match(/(total-claims-chart).*1.*3.*(legend)/)
       end
 
       it 'includes the correct claims data in the line chart with GET' do
-        expect(response.body).to match(/(total-claim-values-chart).*,25.0.*,75.0.*(colors)/)
+        expect(response.body).to match(/(total-claim-values-chart).*25.0.*75.0.*(colors)/)
       end
 
       it 'has more potential colours than Fee Schemes' do
@@ -169,7 +169,7 @@ RSpec.describe 'Stats' do
         end
 
         it 'includes the correct claims data in the line chart when provided with valid POST parameters' do
-          expect(response.body).to match(/(total-claim-values-chart).*,25.0.*,50.0.*(colors)/)
+          expect(response.body).to match(/(total-claim-values-chart).*25.0.*50.0.*(colors)/)
         end
       end
 

@@ -520,8 +520,8 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (5.0.7)
-      redis-client (>= 0.9.0)
+    redis (5.0.8)
+      redis-client (>= 0.17.0)
     redis-client (0.17.1)
       connection_pool
     regexp_parser (2.8.2)
@@ -784,7 +784,7 @@ DEPENDENCIES
   rack-livereload (~> 0.5.1)
   rails (~> 6.1.7)
   rails-controller-testing
-  redis (~> 5.0.7)
+  redis (~> 5.0.8)
   remotipart (~> 1.4)
   rest-client (~> 2.1)
   rspec-collection_matchers

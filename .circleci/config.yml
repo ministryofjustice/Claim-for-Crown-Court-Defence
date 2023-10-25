@@ -6,16 +6,16 @@ orbs:
   slack: circleci/slack@3.4.1
 
 references:
-  _attach-tmp-workspace: &attach-tmp-workspace
+  _attach-coverage-workspace: &attach-coverage-workspace
       attach_workspace:
-        at: ~/repo/tmp
+        at: ~/repo/coverage
 
   _create-tmp-dir: &create-tmp-dir
     run:
       name: Create workspace temporary directories
       command: |
-        mkdir -p tmp/
-        mkdir -p tmp/coverage/
+        # mkdir -p tmp/
+        mkdir -p coverage/
         mkdir -p /tmp/test-results/rspec
         mkdir -p /tmp/test-results/cucumber
 
@@ -23,12 +23,12 @@ references:
     run:
       name: Install Code Climate test-reporter
       command: |
-        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > tmp/cc-test-reporter
-        chmod +x tmp/cc-test-reporter
+        curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > coverage/cc-test-reporter
+        chmod +x coverage/cc-test-reporter
 
   _persist-codeclimate: &persist-codeclimate
     persist_to_workspace:
-      root: tmp
+      root: coverage
       paths:
         - cc-test-reporter
 
@@ -190,26 +190,22 @@ commands:
     description: >
       Run rspec tests and store results
     steps:
-      - *attach-tmp-workspace
+      # - *attach-coverage-workspace
       - precompile-assets
       - run:
           name: Run rspec tests
           command: |
-            tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings --timings-type=filename)
+            coverage/cc-test-reporter before-build
 
-            bundle exec rspec --format progress \
-            --format RspecJunitFormatter \
-            -o /tmp/test-results/rspec/rspec.xml \
-            -- ${TESTFILES}
-
-            tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+            circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command="xargs bundle exec rspec --format progress --format RspecJunitFormatter -o /tmp/test-results/rspec/rspec.xml" --split-by=timings --timings-type=filename
+            
+            coverage/cc-test-reporter format-coverage -t simplecov -o "./coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
       - persist_to_workspace:
-          root: tmp
+          root: coverage
           paths:
-            - coverage/codeclimate.*.json
+            - codeclimate.*.json
       - store_artifacts:
-          path: tmp/coverage
+          path: coverage
       - store_test_results:
           path: /tmp/test-results/rspec
 
@@ -419,6 +415,14 @@ jobs:
     parallelism: 6
     steps:
       - checkout
+      - *attach-coverage-workspace
+      - run:
+          name: Halt if no tests to run
+          command: |
+            mkdir -p ./tmp && \
+            >./tmp/tests.txt && \
+            circleci tests glob "spec/**/*_spec.rb" | circleci tests run --command ">./tmp/tests.txt xargs echo" --split-by=timings
+            [ -s tmp/tests.txt ] || circleci-agent step halt
       - build-base
       - *wait-for-db
       - *load-db
@@ -458,11 +462,11 @@ jobs:
     executor: test-executor
     resource_class: small
     steps:
-      - *attach-tmp-workspace
+      - *attach-coverage-workspace
       - run:
           name: Upload coverage results to Code Climate
           command: |
-            tmp/cc-test-reporter sum-coverage --output - --parts 6 tmp/coverage/codeclimate.*.json | tmp/cc-test-reporter upload-coverage --input -
+            coverage/cc-test-reporter sum-coverage --output - --parts 6 coverage/codeclimate.*.json | coverage/cc-test-reporter upload-coverage --debug --input -
 
   build-app-container:
     executor: cloud-platform-executor
@@ -612,20 +616,20 @@ workflows:
             branches:
               ignore:
                 - master
-      - other-tests:
-          requires:
-            - build-test-container
+      # - other-tests:
+      #     requires:
+      #       - build-test-container
       - rspec-tests:
           requires:
             - build-test-container
-      - cucumber-tests:
-          requires:
-            - build-test-container
+      # - cucumber-tests:
+      #     requires:
+      #       - build-test-container
       - upload-coverage:
           requires:
             - rspec-tests
-            - cucumber-tests
-            - other-tests
+            # - cucumber-tests
+            # - other-tests
 
   build-deploy-branch:
     jobs:

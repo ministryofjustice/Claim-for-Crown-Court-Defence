@@ -473,8 +473,8 @@ GEM
     rack (2.2.8)
     rack-accept (0.4.5)
       rack (>= 0.4)
-    rack-contrib (2.3.0)
-      rack (~> 2.0)
+    rack-contrib (2.4.0)
+      rack (< 4)
     rack-livereload (0.5.1)
       rack
     rack-test (2.1.0)

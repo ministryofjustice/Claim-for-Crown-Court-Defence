@@ -31,6 +31,7 @@ Before creating a new fee scheme;
 * Update the list of roles seen in the API in `app/interfaces/api/v1/dropdown_data.rb`.
 * Update the fee scheme factory to include the date range of the new scheme.
 * Update `Claims::FetchEligibileMiscFeeTypes#agfs_scheme_scope`.
+  * This will involve delegating the method `agfs_scheme_##?` (or lgfs) from `Claims::FetchEligibileMiscFeeTypes` to `:claim` (`Claim::BaseClaim`), and from there to `:fee_scheme` (`FeeScheme`) where the method will sit.
 
 New fee schemes are created using a Rake task, such as can be found in
 `lib/tasks/agfs_scheme_thirteen.rake`. This should include tasks for:

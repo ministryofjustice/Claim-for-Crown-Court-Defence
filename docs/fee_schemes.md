@@ -32,6 +32,8 @@ Before creating a new fee scheme;
 * Update the fee scheme factory to include the date range of the new scheme.
 * Update `Claims::FetchEligibileMiscFeeTypes#agfs_scheme_scope`.
   * This will involve delegating the method `agfs_scheme_##?` (or lgfs) from `Claims::FetchEligibileMiscFeeTypes` to `:claim` (`Claim::BaseClaim`), and from there to `:fee_scheme` (`FeeScheme`) where the method will sit.
+* Create a new `scheme_####?` method to `app/models/offence.rb`
+* Add the scheme to the `ROLES` constant in `app/models/base_fee_type.rb`
 
 New fee schemes are created using a Rake task, such as can be found in
 `lib/tasks/agfs_scheme_thirteen.rake`. This should include tasks for:

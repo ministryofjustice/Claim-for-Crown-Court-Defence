@@ -99,6 +99,10 @@ class Offence < ApplicationRecord
     fee_schemes.map(&:version).any?(15)
   end
 
+  def scheme_sixteen?
+    fee_schemes.map(&:version).any?(16)
+  end
+
   def lgfs_scheme_ten?
     fee_schemes.lgfs.map(&:version).any?(FeeScheme::TEN)
   end

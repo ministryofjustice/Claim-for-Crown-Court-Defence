@@ -27,7 +27,7 @@ module Fee
   class BaseFeeType < ApplicationRecord
     ROLES = %w[
       lgfs lgfs_scheme_9 lgfs_scheme_10
-      agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12 agfs_scheme_13 agfs_scheme_14 agfs_scheme_15
+      agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12 agfs_scheme_13 agfs_scheme_14 agfs_scheme_15 agfs_scheme_16
     ].freeze
     include ActionView::Helpers::NumberHelper
     include Comparable

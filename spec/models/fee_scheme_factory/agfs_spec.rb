@@ -75,6 +75,17 @@ RSpec.shared_examples 'find AGFS fee schemes 12+' do
 
     it { is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 15) }
   end
+
+  context 'with a rep order on 16 November 2023' do
+    let(:representation_order_date) { Date.parse('16 November 2023') }
+
+    it do
+      # TODO: Remove this time travel after 16th November
+      travel_to(Time.zone.parse('16 November 2023')) do
+        is_expected.to eq FeeScheme.find_by(name: 'AGFS', version: 16)
+      end
+    end
+  end
 end
 
 RSpec.describe FeeSchemeFactory::AGFS do

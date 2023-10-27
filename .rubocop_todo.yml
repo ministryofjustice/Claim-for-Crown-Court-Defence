@@ -79,7 +79,7 @@ Lint/MissingSuper:
     - 'lib/caching/memory_store.rb'
     - 'lib/caching/redis_store.rb'
 
-# Offense count: 55
+# Offense count: 56
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes, Max.
 Metrics/AbcSize:
   Exclude:
@@ -99,6 +99,7 @@ Metrics/AbcSize:
     - 'app/models/claim/transfer_detail.rb'
     - 'app/models/claims/search.rb'
     - 'app/models/claims/state_machine.rb'
+    - 'app/models/fee_scheme_factory/agfs.rb'
     - 'app/models/stats/collector/completion_rate_collector.rb'
     - 'app/models/timed_transitions/transitioner.rb'
     - 'app/presenters/claim_history_presenter.rb'

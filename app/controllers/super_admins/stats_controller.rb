@@ -6,6 +6,7 @@ module SuperAdmins
       @chart_colours = %w[#ffdd00	#00703c #5694ca #912b88 #f47738 #85994b #003078 #f499be #b52c17 #ea7361 #66ff66]
       generate_pie_column_charts
       generate_six_month_breakdown
+      @total_claims = Stats::Graphs::Data.new(from: @from, to: @to).call
     end
 
     private
@@ -38,7 +39,6 @@ module SuperAdmins
     end
 
     def retrieve_data
-      @total_claims = claims_by_fee_scheme.transform_values(&:count)
       @total_values = claims_by_fee_scheme.transform_values do |claims|
         claims.sum { |claim| claim.total + claim.vat_amount }.round(2)
       end

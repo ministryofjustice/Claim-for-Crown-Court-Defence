@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-RSpec.describe Stats::Graphs::Data do
+RSpec.describe Stats::Graphs::Simple do
   subject(:graph_data) { described_class.new(**options) }
 
   let(:options) { {} }
 
   describe '#call' do
-    subject(:data_hash) { graph_data.call }
+    subject(:data_hash) { graph_data.call(&:count) }
 
     context 'when there are AGFS claims' do
 
@@ -20,7 +20,7 @@ RSpec.describe Stats::Graphs::Data do
         create_list(:advocate_claim, 2, :agfs_scheme_15, :submitted)
       end
 
-      it do
+      it 'returns the correct fee scheme keys and applies the block' do
         is_expected.to eq({ 'AGFS 9' => 2, 'AGFS 10' => 1, 'AGFS 11' => 2, 'AGFS 12' => 1,
                             'AGFS 13' => 2, 'AGFS 14' => 1, 'AGFS 15' => 2 })
       end
@@ -32,7 +32,7 @@ RSpec.describe Stats::Graphs::Data do
         create_list(:litigator_claim, 2, :lgfs_scheme_10, :submitted)
       end
 
-      it do
+      it 'returns the correct fee scheme keys and applies the block' do
         is_expected.to eq({ 'LGFS 9' => 1, 'LGFS 10' => 2 })
       end
     end
@@ -51,7 +51,7 @@ RSpec.describe Stats::Graphs::Data do
       end
     end
 
-    describe 'date ranges' do
+    describe 'date range validation:' do
       before do
         travel_to(Time.zone.parse('2023-08-31')) { create(:litigator_claim, :lgfs_scheme_10, :submitted) }
         travel_to(Time.zone.parse('2023-09-01')) { create(:litigator_claim, :lgfs_scheme_10, :submitted) }
@@ -95,4 +95,29 @@ RSpec.describe Stats::Graphs::Data do
       end
     end
   end
+  describe '#title' do
+    subject(:graph_title) { graph_data.title }
+
+    context 'when no dates are provided' do
+      let(:options) do
+        { from: nil,
+          to: nil }
+      end
+
+      before { travel_to(Time.zone.parse('2023-10-10')) }
+
+      it { is_expected.to eq('01 Oct - 10 Oct') }
+    end
+
+    context 'when dates are provided' do
+
+      let(:options) do
+        { from: Time.zone.parse('2023-09-01'),
+          to: Time.zone.parse('2023-09-30') }
+      end
+
+      it { is_expected.to eq('01 Sep - 30 Sep') }
+    end
+  end
+
 end

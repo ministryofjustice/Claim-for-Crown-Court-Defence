@@ -32,14 +32,14 @@
   .govuk-grid-row
     .govuk-grid-column-one-half
       %h2
-        = "Total claims: #{@from.strftime('%d %b')} - #{@to.strftime('%d %b')}"
+        = "Total claims: #{@graph_title}"
       = pie_chart @total_claims, id: "total-claims-chart",
                                  legend: 'bottom',
                                  colors: @chart_colours,
                                  alt: 'test'
     .govuk-grid-column-one-half
       %h2
-        = "Total value of claims: #{@from.strftime('%d %b')} - #{@to.strftime('%d %b')}"
+        = "Total value of claims: #{@graph_title}"
       = column_chart @total_values, id: "total-claim-values-chart",
                                     colors: @chart_colours
 

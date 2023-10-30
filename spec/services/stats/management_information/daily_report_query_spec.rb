@@ -302,7 +302,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       #
       context 'when handling timezones' do
         before do
-          pending 'Bug with timezones in BST'
+          # pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
           create(:advocate_final_claim, :authorised)
         end
 

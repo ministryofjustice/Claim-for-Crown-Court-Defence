@@ -90,7 +90,7 @@ group :development, :devunicorn, :test do
   gem 'rubocop-capybara', '~> 2.19'
   gem 'rubocop-factory_bot', '~> 2.24'
   gem 'rubocop-rspec', '~> 2.24'
-  gem 'rubocop-rails', '~> 2.21'
+  gem 'rubocop-rails', '~> 2.22'
   gem 'rubocop-performance', '~> 1.19'
   gem 'site_prism', '~> 4.0'
 end

@@ -62,4 +62,5 @@ Feature: Advocate can add and remove fee scheme 16 miscelleaneous fees
     And the last 'miscellaneous' fee rate should be populated with '151.00'
 
     When I click last remove link
+    And I eject the VCR cassette
     Then I should not see 'Remove'

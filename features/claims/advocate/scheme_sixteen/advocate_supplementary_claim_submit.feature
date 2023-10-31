@@ -59,7 +59,6 @@ Feature: Advocate tries to submit a fee scheme 16 supplementary claim for miscel
     And I choose the 'Standard appearance fee uplift' miscellaneous fee with quantity of '1'
     And I choose the 'Wasted preparation fee' miscellaneous fee with quantity of '1'
 
-    And I save and open screenshot
     Then the following supplementary fee details should exist:
       | section       | fee_description                         | rate   | hint                            | help |
       | miscellaneous | Additional preparation fee              | 62.00  | Number of fees                  | true |

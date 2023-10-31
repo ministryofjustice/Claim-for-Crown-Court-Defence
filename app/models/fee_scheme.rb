@@ -50,4 +50,8 @@ class FeeScheme < ApplicationRecord
   def agfs_scheme_15?
     agfs? && version.eql?(15)
   end
+
+  def claims
+    Claim::BaseClaim.all.select { |claim| claim.fee_scheme == self }
+  end
 end

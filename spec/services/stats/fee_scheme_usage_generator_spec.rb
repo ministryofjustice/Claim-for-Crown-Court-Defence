@@ -55,6 +55,7 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
         'AGFS 13',
         'AGFS 14',
         'AGFS 15',
+        'AGFS 16',
         'LGFS 9',
         'LGFS 10'
       ]
@@ -131,7 +132,7 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
                               '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '2')
       end
 
-      it 'returns the correct total number and value of claims for LGFS 9' do
+      it 'returns the correct data for LGFS 9' do
         expect(find_row(Time.zone.today.strftime('%B'), 'LGFS 9')[2..])
           .to contain_exactly('4', '75.02', anything, '0', '0', '0', '0', '1', '1', '1', '1', '0', '0', '0',
                               '0', '0', '0', '0', '0', '0', '0', '0', '0', '2')

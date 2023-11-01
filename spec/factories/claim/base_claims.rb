@@ -53,6 +53,7 @@ FactoryBot.define do
     disable_for_state_transition { nil }
 
     transient do
+      create_defendant_and_rep_order { true }
       create_defendant_and_rep_order_for_scheme_9 { false }
       create_defendant_and_rep_order_for_scheme_9a { false }
       create_defendant_and_rep_order_for_scheme_10 { false }
@@ -71,7 +72,7 @@ FactoryBot.define do
         add_defendant_and_reporder(claim, Settings.lgfs_scheme_10_clair_release_date)
       end
 
-      if claim.defendants.blank?
+      if claim.defendants.blank? && evaluator.create_defendant_and_rep_order
         defendant = create(:defendant, claim:)
         create(:representation_order, defendant:, representation_order_date: 380.days.ago)
         claim.reload

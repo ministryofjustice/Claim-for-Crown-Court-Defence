@@ -64,7 +64,7 @@ Feature: Advocate tries to submit a fee scheme 16 supplementary claim for miscel
       | miscellaneous | Additional preparation fee              | 62.00  | Number of fees                  | true |
       | miscellaneous | Confiscation hearings (half day)        | 151.00 | Number of half days             | true |
       | miscellaneous | Confiscation hearings (half day uplift) | 60.40  | Number of additional defendants | true |
-      | miscellaneous | Section 28 hearing                      | 670.00 | Number of hearings              | true |
+      | miscellaneous | Section 28 hearing                      | 1000.00 | Number of hearings              | true |
       | miscellaneous | Standard appearance fee                 | 105.00 | Number of days                  | true |
       | miscellaneous | Standard appearance fee uplift          | 42.00  | Number of additional defendants | true |
       | miscellaneous | Wasted preparation fee                  | 45.30  | Number of hours                 | true |
@@ -116,8 +116,8 @@ Feature: Advocate tries to submit a fee scheme 16 supplementary claim for miscel
       | miscellaneous-fees-section | 2   | Net amount  | 60.40                                   |
       | miscellaneous-fees-section | 3   | Type of fee | Section 28 hearing                      |
       | miscellaneous-fees-section | 3   | Quantity    | 1                                       |
-      | miscellaneous-fees-section | 3   | Rate        | 670.00                                   |
-      | miscellaneous-fees-section | 3   | Net amount  | 670.00                                   |
+      | miscellaneous-fees-section | 3   | Rate        | 1,000.00                                 |
+      | miscellaneous-fees-section | 3   | Net amount  | 1,000.00                                 |
       | miscellaneous-fees-section | 4   | Type of fee | Standard appearance fee uplift          |
       | miscellaneous-fees-section | 4   | Quantity    | 1                                       |
       | miscellaneous-fees-section | 4   | Rate        | 42.00                                   |
@@ -150,4 +150,4 @@ Feature: Advocate tries to submit a fee scheme 16 supplementary claim for miscel
     And I should see a page title "Thank you for submitting your claim"
     When I click View your claims
     Then I should be on the your claims page
-    And Claim 'A20191234' should be listed with a status of 'Submitted' and a claimed amount of '£1,711.51'
+    And Claim 'A20191234' should be listed with a status of 'Submitted' and a claimed amount of '£2,107.51'

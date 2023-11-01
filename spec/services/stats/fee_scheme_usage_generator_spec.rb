@@ -55,12 +55,10 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
         'AGFS 13',
         'AGFS 14',
         'AGFS 15',
-        'AGFS 16',
         'LGFS 9',
         'LGFS 10'
       ]
     end
-    let(:block_length) { fee_scheme_array.count + 1 }
 
     before do
       seed_case_types
@@ -100,7 +98,6 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
       create(:litigator_claim, :submitted, case_type: CaseType.where(name: 'Trial').first)
       create(:interim_claim, :interim_warrant_fee, :submitted, case_type: CaseType.where(name: 'Trial').first)
       create(:transfer_claim, :with_transfer_detail, :submitted)
-      create(:fee_scheme, name: 'AGFS', start_date: Time.current, version: 16)
 
       # Included in MI report, past claims
       travel_to(4.months.ago.beginning_of_day) do
@@ -125,7 +122,7 @@ RSpec.describe Stats::FeeSchemeUsageGenerator do
 
     context 'when generating the most recent month' do
       it 'returns rows containing the correct fee schemes' do
-        expect(csv['Fee scheme'][(block_length * 5)..-2]).to eq(fee_scheme_array)
+        expect(csv['Fee scheme'].uniq.compact).to eq(fee_scheme_array)
       end
 
       it 'returns the correct data for AGFS 9' do

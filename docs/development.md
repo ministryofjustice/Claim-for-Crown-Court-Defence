@@ -14,6 +14,14 @@
 
 ## Setting up development environment
 
+Install Postgres on your local machine. If you would like to use a different database, you may need to update the config/database.yml file
+
+- Install yarn
+
+```
+yarn install
+```
+
 - Install dependencies
 
 ```
@@ -35,6 +43,16 @@ bin/setup
 ```
 
 **NOTE:** You can change the [default values](../.env.sample) for the environment variables as necessary in each of the environment files (e.g. `.env.development` and `.env.test`)
+
+- You may need to build your assets with:
+
+```
+bundle exec rails assets:precompile
+```
+and or
+```
+yarn build
+```
 
 - Load data
 

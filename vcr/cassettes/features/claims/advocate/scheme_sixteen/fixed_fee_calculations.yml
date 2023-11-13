@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2023-10-16&main_hearing_date=2023-10-16&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2023-11-16&main_hearing_date=2023-11-16&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -19,7 +19,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Nov 2023 14:16:04 GMT
+      - Mon, 13 Nov 2023 15:30:07 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -42,12 +42,12 @@ http_interactions:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":12,"start_date":"2023-10-16","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":12,"start_date":"2023-11-16","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 16 (2023-11 - Increase section 28)"}]}'
   recorded_at: Thu, 16 Nov 2023 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/scenarios/
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/scenarios/
     body:
       encoding: US-ASCII
       string: ''
@@ -64,7 +64,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Nov 2023 14:16:04 GMT
+      - Mon, 13 Nov 2023 15:30:07 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -99,7 +99,7 @@ http_interactions:
   recorded_at: Thu, 16 Nov 2023 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=17.1&scenario=5
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=17.1&scenario=5
     body:
       encoding: US-ASCII
       string: ''
@@ -116,7 +116,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Nov 2023 14:16:04 GMT
+      - Mon, 13 Nov 2023 15:30:07 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -145,7 +145,7 @@ http_interactions:
   recorded_at: Thu, 16 Nov 2023 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2023-10-16&main_hearing_date=2023-10-16&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2023-11-16&main_hearing_date=2023-11-16&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -162,7 +162,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Nov 2023 14:16:05 GMT
+      - Mon, 13 Nov 2023 15:30:08 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -185,12 +185,12 @@ http_interactions:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":12,"start_date":"2023-10-16","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":12,"start_date":"2023-11-16","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 16 (2023-11 - Increase section 28)"}]}'
   recorded_at: Thu, 16 Nov 2023 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/scenarios/
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/scenarios/
     body:
       encoding: US-ASCII
       string: ''
@@ -207,7 +207,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Nov 2023 14:16:05 GMT
+      - Mon, 13 Nov 2023 15:30:08 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -242,7 +242,7 @@ http_interactions:
   recorded_at: Thu, 16 Nov 2023 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=17.1&scenario=5
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=17.1&scenario=5
     body:
       encoding: US-ASCII
       string: ''
@@ -259,7 +259,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Nov 2023 14:16:05 GMT
+      - Mon, 13 Nov 2023 15:30:08 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -288,7 +288,7 @@ http_interactions:
   recorded_at: Thu, 16 Nov 2023 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2023-10-16&main_hearing_date=2023-10-16&type=AGFS
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/?case_date=2023-11-16&main_hearing_date=2023-11-16&type=AGFS
     body:
       encoding: US-ASCII
       string: ''
@@ -305,7 +305,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Nov 2023 14:16:06 GMT
+      - Mon, 13 Nov 2023 15:30:08 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -328,12 +328,12 @@ http_interactions:
       - max-age=15724800; includeSubDomains
     body:
       encoding: UTF-8
-      string: '{"count":1,"next":null,"previous":null,"results":[{"id":12,"start_date":"2023-10-16","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
+      string: '{"count":1,"next":null,"previous":null,"results":[{"id":12,"start_date":"2023-11-16","end_date":null,"earliest_main_hearing_date":null,"type":"AGFS","description":"AGFS
         Fee Scheme 16 (2023-11 - Increase section 28)"}]}'
   recorded_at: Thu, 16 Nov 2023 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/scenarios/
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/scenarios/
     body:
       encoding: US-ASCII
       string: ''
@@ -350,7 +350,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Nov 2023 14:16:06 GMT
+      - Mon, 13 Nov 2023 15:30:09 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -385,7 +385,7 @@ http_interactions:
   recorded_at: Thu, 16 Nov 2023 00:00:00 GMT
 - request:
     method: get
-    uri: https://staging.laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=17.1&scenario=5
+    uri: https://laa-fee-calculator.service.justice.gov.uk/api/v1/fee-schemes/12/prices/?advocate_type=JUNIOR&fee_type_code=AGFS_APPEAL_CON&limit_from=1&offence_class=17.1&scenario=5
     body:
       encoding: US-ASCII
       string: ''
@@ -402,7 +402,7 @@ http_interactions:
       message: OK
     headers:
       Date:
-      - Wed, 01 Nov 2023 14:16:06 GMT
+      - Mon, 13 Nov 2023 15:30:09 GMT
       Content-Type:
       - application/json
       Content-Length:

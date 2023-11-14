@@ -11,7 +11,7 @@ module Claims
     def call
       return unless claim&.agfs?
       return all_categories unless claim.fee_scheme
-      return new_monarch_categories if claim.fee_scheme.agfs_scheme_15?
+      return new_monarch_categories if claim.fee_scheme.version >= 15
       return agfs_reform_categories if claim.agfs_reform?
       default_categories
     end

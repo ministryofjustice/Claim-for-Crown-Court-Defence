@@ -179,7 +179,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
 
         it 'sends an error notification with expected args' do
           record = Stats::StatsReport.where(report_name: report_type).errored.first
-          args = ['call_failed.stats_report', id: record.id, name: report_type, error: instance_of(StandardError)]
+          args = ['call_failed.stats_report', { id: record.id, name: report_type, error: instance_of(StandardError) }]
           expect(ActiveSupport::Notifications).to have_received(:instrument).with(*args)
         end
       end

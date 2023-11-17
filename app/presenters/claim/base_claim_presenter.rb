@@ -402,7 +402,7 @@ class Claim::BaseClaimPresenter < BasePresenter
       [
         fee_type.description,
         fee_type.id,
-        data: { unique_code: fee_type.unique_code }
+        { data: { unique_code: fee_type.unique_code } }
       ]
     end
   end

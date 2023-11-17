@@ -112,8 +112,8 @@ class BaseValidator < ActiveModel::Validator
   end
 
   def bounds(lower = nil, upper = nil)
-    lower_bound = lower.blank? ? -infinity : lower
-    upper_bound = upper.blank? ? infinity : upper
+    lower_bound = (lower.presence || -infinity)
+    upper_bound = (upper.presence || infinity)
     [lower_bound, upper_bound]
   end
 

@@ -14,7 +14,7 @@ class SupplierNumber < ApplicationRecord
 
   belongs_to :provider
 
-  before_validation { supplier_number.upcase! unless supplier_number.blank? }
+  before_validation { supplier_number.upcase! if supplier_number.present? }
 
   validates :supplier_number,
             format: { with: SUPPLIER_NUMBER_REGEX, allow_nil: true },

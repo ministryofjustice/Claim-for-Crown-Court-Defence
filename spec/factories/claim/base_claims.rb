@@ -148,6 +148,6 @@ def random_providers_ref
   SecureRandom.uuid[3..10].upcase
 end
 
-def frozen_time
-  Timecop.freeze(Time.new(2016, 3, 10, 11, 44, 55).utc) { yield }
+def frozen_time(&)
+  Timecop.freeze(Time.new(2016, 3, 10, 11, 44, 55).utc, &)
 end

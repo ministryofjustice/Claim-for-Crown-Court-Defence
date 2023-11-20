@@ -958,33 +958,35 @@ RSpec.describe Claim::AdvocateClaim do
     it { expect(described_class.fixed_fee).to include second_claim }
   end
 
-  describe '.total_greater_than_or_equal_to' do
+  describe 'total scopes' do
     let(:claims_with_total_under_400_pounds) do
-      claims = []
-
-      [100, 200, 399, 399.99, 2].each do |value|
+      [100, 200, 399, 399.99, 2].each_with_object([]) do |value, claims|
         claims << create(:submitted_claim, total: value)
       end
-
-      claims
     end
 
     let(:claims_with_total_greater_than_or_equal_to_400_pounds) do
-      claims = []
-
-      [400, 400.01, 10_000, 566, 1_000].each do |value|
+      [400, 400.01, 10_000, 566, 1_000].each_with_object([]) do |value, claims|
         claim = create(:draft_claim)
         claim.fees << create(:misc_fee, rate: value, claim:)
         claims << claim
       end
-
-      claims
     end
 
-    it 'only returns claims with total value greater than the specified value' do
-      expect(described_class.total_greater_than_or_equal_to(400)).to match_array(
-        claims_with_total_greater_than_or_equal_to_400_pounds
-      )
+    describe '.total_lower_than' do
+      it 'only returns claims with total value greater than the specified value' do
+        expect(described_class.total_lower_than(400)).to match_array(
+          claims_with_total_under_400_pounds
+        )
+      end
+    end
+
+    describe '.total_greater_than_or_equal_to' do
+      it 'only returns claims with total value greater than the specified value' do
+        expect(described_class.total_greater_than_or_equal_to(400)).to match_array(
+          claims_with_total_greater_than_or_equal_to_400_pounds
+        )
+      end
     end
   end
 

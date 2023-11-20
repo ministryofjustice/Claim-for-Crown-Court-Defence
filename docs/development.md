@@ -14,6 +14,14 @@
 
 ## Setting up development environment
 
+Install Postgres on your local machine. If you would like to use a different database, you may need to update the config/database.yml file
+
+- Install yarn
+
+```
+yarn install
+```
+
 - Install dependencies
 
 ```
@@ -35,6 +43,16 @@ bin/setup
 ```
 
 **NOTE:** You can change the [default values](../.env.sample) for the environment variables as necessary in each of the environment files (e.g. `.env.development` and `.env.test`)
+
+- You may need to build your assets with:
+
+```
+bundle exec rails assets:precompile
+```
+and or
+```
+yarn build
+```
 
 - Load data
 
@@ -171,6 +189,12 @@ $ bundle exec rake db:restore['tmp/production/20201013214202_dump.psql']
 ```
 
 Alternatively, if dump files already exist for the environment you can list them - `db:dump:list_s3_dumps` - and then copy the one you want locally - they are listed with most recent first.
+
+> If you use zsh instead of the bash terminal, you may need to wrap the rake task in a string when passing an array as an argument
+> e.g.
+> ```zsh
+> bundle exec rails 'db:restore['tmp/20231006125624_dump.psql.gz']'
+> ```
 
  ### Deleting dump files
 

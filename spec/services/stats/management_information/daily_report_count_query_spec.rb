@@ -45,7 +45,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
     context 'with query_set and date range' do
       subject(:result) { described_class.new(**kwargs).call }
 
-      let(:kwargs) { { query_set: Stats::ManagementInformation::AgfsQuerySet.new, date_range: month_range } }
+      let(:kwargs) { { query_set: Stats::ManagementInformation::AGFSQuerySet.new, date_range: month_range } }
 
       let(:expected_result_keys) do
         month_range.to_a.collect(&:iso8601).prepend(:name, :filter)
@@ -66,7 +66,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
       end
 
       context 'with AGFS query_set' do
-        let(:kwargs) { { query_set: Stats::ManagementInformation::AgfsQuerySet.new, date_range: month_range } }
+        let(:kwargs) { { query_set: Stats::ManagementInformation::AGFSQuerySet.new, date_range: month_range } }
 
         let(:expected_result_names) do
           ['Intake fixed fee', 'Intake final fee',
@@ -81,7 +81,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportCountQuery do
       end
 
       context 'with LGFS query_set' do
-        let(:kwargs) { { query_set: Stats::ManagementInformation::LgfsQuerySet.new, date_range: month_range } }
+        let(:kwargs) { { query_set: Stats::ManagementInformation::LGFSQuerySet.new, date_range: month_range } }
 
         let(:expected_result_names) do
           ['Intake fixed fee', 'Intake final fee',

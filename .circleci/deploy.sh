@@ -85,6 +85,9 @@ function _circleci_deploy() {
   -f .k8s/${cluster_dir}/${environment}/service.yaml \
   -f .k8s/${cluster_dir}/${environment}/ingress.yaml
 
+  # apply rules for prometheus alerts
+  kubectl apply -f .k8s/${cluster_dir}/${environment}/prometheus-custom-rules.yaml
+
   kubectl annotate deployments/claim-for-crown-court-defence kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"
   kubectl annotate deployments/claim-for-crown-court-defence-worker kubernetes.io/change-cause="$(date +%Y-%m-%dT%H:%M:%S%z) - deploying: $docker_image_tag via CircleCI"
 

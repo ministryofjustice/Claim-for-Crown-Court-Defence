@@ -4,7 +4,7 @@ namespace :db do
   namespace :lgfs_scheme_ten_clean do
     desc 'Display status of db structures and records for LGFS Fee Scheme 10 (CLAIR - September 2022)'
     task :status => :environment do
-      cleaner = Seeds::Schemas::CleanLgfsFeeScheme10.new(pretend: false)
+      cleaner = Seeds::Schemas::CleanLGFSFeeScheme10.new(pretend: false)
       cleaner.status
     end
 
@@ -21,7 +21,7 @@ namespace :db do
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
-      cleaner = Seeds::Schemas::CleanLgfsFeeScheme10.new(pretend: pretend)
+      cleaner = Seeds::Schemas::CleanLGFSFeeScheme10.new(pretend: pretend)
       cleaner.up
       ActiveRecord::Base.logger.level = log_level
     end
@@ -40,7 +40,7 @@ namespace :db do
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
-      cleaner = Seeds::Schemas::CleanLgfsFeeScheme10.new(pretend: pretend)
+      cleaner = Seeds::Schemas::CleanLGFSFeeScheme10.new(pretend: pretend)
       cleaner.down
       ActiveRecord::Base.logger.level = log_level
     end

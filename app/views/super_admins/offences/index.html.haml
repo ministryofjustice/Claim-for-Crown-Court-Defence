@@ -1,0 +1,30 @@
+= content_for :page_title, flush: true do
+  = 'Offences'
+
+= render partial: 'layouts/header', locals: { page_heading: 'Offences' }
+
+= govuk_table do
+  = govuk_table_thead do
+    = govuk_table_row do
+      = govuk_table_th do
+        = 'Label'
+      = govuk_table_th do
+        = 'Unique code'
+      = govuk_table_th do
+        = 'Description'
+      - @offences.fee_scheme_headings.each do |fee_scheme|
+        = govuk_table_th do
+          = fee_scheme
+  = govuk_table_tbody do
+    - @offences.each do |offence|
+      = govuk_table_row do
+        = govuk_table_td('data-label': 'Label') do
+          = offence.label
+        = govuk_table_td('data-label': 'Unique code') do
+          %span{title: offence.unique_code}
+            = truncate(offence.unique_code, length: 10)
+        = govuk_table_td('data-label': 'Description') do
+          = offence.description
+        - offence.fee_scheme_flags.each do |flag|
+          = govuk_table_td class: flag ? 'active' : 'inactive' do
+            = flag ? '*' : ''

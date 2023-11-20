@@ -6,8 +6,8 @@ Dir[File.join(__dir__, 'queries', '*.rb')].each { |f| require_dependency f }
 module Stats
   module ManagementInformation
     class DailyReportQuery
-      include JourneyQueryable
-      include ClaimTypeFilterable
+      include Concerns::JourneyQueryable
+      include Concerns::ClaimTypeFilterable
 
       def self.call(...)
         new(...).call

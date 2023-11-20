@@ -1,12 +1,10 @@
 require Rails.root.join('db','seeds', 'schemas', 'add_lgfs_fee_scheme_10')
-require_relative 'rake_helpers/rake_utils'
-include RakeUtils
 
 namespace :db do
   namespace :lgfs_scheme_ten do
     desc 'Display status of db structures and records for LGFS Fee Scheme 10 (CLAIR - September 2022)'
     task :status => :environment do
-      adder = Seeds::Schemas::AddLgfsFeeScheme10.new(pretend: false)
+      adder = Seeds::Schemas::AddLGFSFeeScheme10.new(pretend: false)
       puts adder.status
     end
 
@@ -23,7 +21,7 @@ namespace :db do
 
       log_level = ActiveRecord::Base.logger.level
       ActiveRecord::Base.logger.level = 1
-      adder = Seeds::Schemas::AddLgfsFeeScheme10.new(pretend: pretend)
+      adder = Seeds::Schemas::AddLGFSFeeScheme10.new(pretend: pretend)
       adder.up
       ActiveRecord::Base.logger.level = log_level
     end
@@ -39,7 +37,7 @@ namespace :db do
       continue?('This will destroy LGFS Fee Scheme 10 (CLAIR - September 2022), offences and fee types. Are you sure?') if not_pretend
       puts "#{pretend ? 'pretending' : 'working'}...".yellow
 
-      adder = Seeds::Schemas::AddLgfsFeeScheme10.new(pretend: pretend)
+      adder = Seeds::Schemas::AddLGFSFeeScheme10.new(pretend: pretend)
       adder.down
     end
   end

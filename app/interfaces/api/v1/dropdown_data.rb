@@ -1,6 +1,6 @@
 module API
   module V1
-    class DropdownData < API::Helpers::GrapeApiHelper
+    class DropdownData < API::Helpers::GrapeAPIHelper
       params do
         optional :api_key, type: String, desc: 'REQUIRED: The API authentication key of the provider'
       end
@@ -15,7 +15,8 @@ module API
                    type: String,
                    desc: I18n.t('api.v1.dropdown_data.params.role_filter'),
                    values: %w[
-                     agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12 agfs_scheme_13 agfs_scheme_14 agfs_scheme_15
+                     agfs agfs_scheme_9 agfs_scheme_10 agfs_scheme_12
+                     agfs_scheme_13 agfs_scheme_14 agfs_scheme_15 agfs_scheme_16
                      lgfs lgfs_scheme_9 lgfs_scheme_10
                    ]
         end

@@ -418,7 +418,7 @@ RSpec.describe API::V1::ExternalUsers::Fee do
 
       context 'unexpected error' do
         it 'returns 400 and JSON error array of error message' do
-          allow(API::Helpers::ApiHelper).to receive(:validate_resource).and_raise(RangeError)
+          allow(API::Helpers::APIHelper).to receive(:validate_resource).and_raise(RangeError)
           post_to_create_endpoint
           expect(last_response.status).to eq(400)
           result_hash = JSON.parse(last_response.body)

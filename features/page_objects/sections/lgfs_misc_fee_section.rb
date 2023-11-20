@@ -12,7 +12,7 @@ class FeeTypeSection < SitePrism::Section
   end
 end
 
-class LgfsMiscFeeSection < SitePrism::Section
+class LGFSMiscFeeSection < SitePrism::Section
   section :fee_type, FeeTypeSection, '.fee-type'
   element :amount, 'input.total'
 

@@ -1,5 +1,5 @@
 class DistanceCalculatorService
-  class GoogleApi
+  class GoogleAPI
     def initialize(origin, destination)
       @origin = origin
       @destination = destination

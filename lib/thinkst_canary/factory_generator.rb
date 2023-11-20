@@ -1,6 +1,6 @@
 module ThinkstCanary
   class FactoryGenerator
-    include ThinkstCanary::ApiQueryable
+    include ThinkstCanary::APIQueryable
 
     def create_factory(memo:, flock_id:)
       params = { memo:, flock_id: }

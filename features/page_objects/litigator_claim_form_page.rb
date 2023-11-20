@@ -9,20 +9,20 @@ class LitigatorClaimFormPage < ClaimFormPage
 
   set_url "/litigators/claims/new"
 
-  section :case_concluded_date, GovukDateSection, '#case_concluded_at'
+  section :case_concluded_date, GOVUKDateSection, '#case_concluded_at'
 
-  sections :miscellaneous_fees, LgfsMiscFeeSection, "div#misc-fees .misc-fee-group"
+  sections :miscellaneous_fees, LGFSMiscFeeSection, "div#misc-fees .misc-fee-group"
   element :add_another_miscellaneous_fee, "div#misc-fees a.add_fields"
 
   sections :disbursements, DisbursementSection, "div#disbursements .disbursement-group"
   element :add_another_disbursement, "div#disbursements a.add_fields"
 
-  section :graduated_fee, LgfsGraduatedFeeSection, ".graduated-fee-group"
-  section :fixed_fee, LgfsFixedFeeSection, ".fixed-fee-group"
+  section :graduated_fee, LGFSGraduatedFeeSection, ".graduated-fee-group"
+  section :fixed_fee, LGFSFixedFeeSection, ".fixed-fee-group"
 
   element :ppe_total, "input.quantity"
   element :actual_trial_length, ".js-fee-calculator-days"
-  section :graduated_fee_date, GovukDateSection, "div.graduated-fee-group"
+  section :graduated_fee_date, GOVUKDateSection, "div.graduated-fee-group"
 
   def select_supplier_number(number)
     select number, from: "claim_supplier_number", autocomplete: false

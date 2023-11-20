@@ -67,6 +67,12 @@ RSpec.describe Claims::FetchEligibleAdvocateCategories, type: :service do
         it { is_expected.to eq(['Junior', 'Leading junior', 'KC']) }
       end
 
+      context 'with a scheme 16 offence' do
+        let(:claim) { create(:api_advocate_claim, :with_scheme_sixteen_offence) }
+
+        it { is_expected.to eq(['Junior', 'Leading junior', 'KC']) }
+      end
+
       context 'with no offence (fixed fee case type)' do
         let(:claim) { create(:api_advocate_claim, :with_no_offence) }
 

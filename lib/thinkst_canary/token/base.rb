@@ -1,7 +1,7 @@
 module ThinkstCanary
   module Token
     class Base
-      include ThinkstCanary::ApiQueryable
+      include ThinkstCanary::APIQueryable
 
       attr_reader :memo, :canarytoken
 

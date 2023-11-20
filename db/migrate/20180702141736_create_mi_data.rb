@@ -1,4 +1,4 @@
-class CreateMiData < ActiveRecord::Migration[5.0]
+class CreateMIData < ActiveRecord::Migration[5.0]
   def change
     create_table :mi_data do |t|
       t.boolean   'disk_evidence'

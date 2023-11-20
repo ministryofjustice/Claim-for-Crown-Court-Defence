@@ -2,7 +2,7 @@ require 'digest/sha1'
 require 'uri'
 
 class Caching
-  class ApiRequest
+  class APIRequest
     attr_accessor :url, :options
 
     # Cache version, not necessarily matching API version
@@ -24,7 +24,7 @@ class Caching
     end
 
     def cache
-      save! Caching::Response.new(yield) if (content.nil? || stale?) && block_given?
+      save! Response.new(yield) if (content.nil? || stale?) && block_given?
       data
     end
 

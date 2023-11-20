@@ -1,6 +1,6 @@
 module API
   module V1
-    class Root < API::Helpers::GrapeApiHelper
+    class Root < API::Helpers::GrapeAPIHelper
       version 'v1', using: :accept_version_header, cascade: false
       format :json
       content_type :json, 'application/json'

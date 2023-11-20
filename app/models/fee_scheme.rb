@@ -50,4 +50,35 @@ class FeeScheme < ApplicationRecord
   def agfs_scheme_15?
     agfs? && version.eql?(15)
   end
+
+  def agfs_scheme_16?
+    agfs? && version.eql?(16)
+  end
+
+  def claims
+    date_range = agfs_scheme_13? ? (Settings.clar_release_date..end_date) : (start_date..end_date)
+
+    RepresentationOrder
+      .includes(defendant: { claim: { defendants: :representation_orders } })
+      .where(representation_order_date: date_range)
+      .map(&:claim).uniq
+      .select { |claim| fee_scheme_for?(claim) }
+  end
+
+  private
+
+  def fee_scheme_for?(claim)
+    return false if (agfs? && claim.lgfs?) || (lgfs? && claim.agfs?)
+
+    rep_order_range(claim).cover?(claim.earliest_representation_order_date)
+  end
+
+  def rep_order_range(claim)
+    if claim.main_hearing_date&.after?(Settings.clair_contingency_date - 1.day)
+      return (0...0) if agfs_scheme_12?
+      return (Settings.clar_release_date..end_date) if agfs_scheme_13?
+    end
+
+    (start_date..end_date)
+  end
 end

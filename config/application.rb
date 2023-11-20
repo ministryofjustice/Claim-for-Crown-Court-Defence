@@ -40,7 +40,6 @@ module AdvocateDefencePayments
     # This is config that if not set here will accept different
     # defaults from the `config.load_defaults 6.1` command above
     #
-    config.autoloader = :classic
     config.action_mailer.deliver_later_queue_name = :mailers
     config.active_record.belongs_to_required_by_default = false
     config.active_record.yaml_column_permitted_classes = [

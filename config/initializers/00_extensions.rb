@@ -1,51 +1,51 @@
 Dir[File.join(Rails.root, 'lib', 'extensions', '*.rb')].each { |file| require file }
 
 class Array
-  include ArrayExtension
-  include RemoteExtension
+  include Extensions::ArrayExtension
+  include Extensions::RemoteExtension
 end
 
 class Hash
-  include HashExtension
+  include Extensions::HashExtension
 end
 
 class String
-  include StringExtension
+  include Extensions::StringExtension
 end
 
 class ActiveRecord::Base
-  include NestedAttributesExtension
-  include RemoteExtension
+  include Extensions::NestedAttributesExtension
+  include Extensions::RemoteExtension
 end
 
 class ActiveRecord::Relation
-  include RemoteExtension
+  include Extensions::RemoteExtension
 end
 
 module Devise::Models::Lockable
-  include DeviseExtension
+  include Extensions::DeviseExtension
 end
 
 module Rails
-  extend RailsModuleExtension
+  extend Extensions::RailsModuleExtension
 end
 
 module ActiveSupport::XmlMini
-  extend XmlMiniExtension
+  extend Extensions::XMLMiniExtension
 end
 
 class TrueClass
-  include BooleanExtension::True
+  include Extensions::BooleanExtension::True
 end
 
 class FalseClass
-  include BooleanExtension::False
+  include Extensions::BooleanExtension::False
 end
 
 class Integer
-  include IntegerExtension
+  include Extensions::IntegerExtension
 end
 
 class NilClass
-  include NilExtension
+  include Extensions::NilExtension
 end

@@ -19,7 +19,7 @@ module Claims
 
     attr_reader :claim
     delegate :case_type, :agfs?, :lgfs?, :agfs_reform?, :agfs_scheme_12?, :agfs_scheme_13?, :agfs_scheme_14?,
-             :agfs_scheme_15?, :hardship?,
+             :agfs_scheme_15?, :agfs_scheme_16?, :hardship?,
              to: :claim, allow_nil: true
 
     def eligible_fee_types
@@ -37,6 +37,7 @@ module Claims
     end
 
     def agfs_scheme_scope
+      return Fee::MiscFeeType.agfs_scheme_16s if agfs_scheme_16?
       return Fee::MiscFeeType.agfs_scheme_15s if agfs_scheme_15?
       return Fee::MiscFeeType.agfs_scheme_14s if agfs_scheme_14?
       return Fee::MiscFeeType.agfs_scheme_13s if agfs_scheme_13?

@@ -1,6 +1,6 @@
 module Stats
   module ManagementInformation
-    class AgfsQuerySet
+    class AGFSQuerySet
       include Enumerable
 
       def each(&)
@@ -10,14 +10,14 @@ module Stats
       private
 
       def set
-        { intake_fixed_fee: Agfs::IntakeFixedFeeQuery,
-          intake_final_fee: Agfs::IntakeFinalFeeQuery,
-          af1_high_value: Agfs::Af1HighValueQuery,
-          af1_disk: Agfs::Af1DiskQuery,
-          af2_redetermination: Agfs::Af2RedeterminationQuery,
-          af2_high_value: Agfs::Af2HighValueQuery,
-          af2_disk: Agfs::Af2DiskQuery,
-          written_reasons: Agfs::WrittenReasonsQuery }
+        { intake_fixed_fee: Stats::ManagementInformation::Queries::AGFS::IntakeFixedFeeQuery,
+          intake_final_fee: Stats::ManagementInformation::Queries::AGFS::IntakeFinalFeeQuery,
+          af1_high_value: Stats::ManagementInformation::Queries::AGFS::AF1HighValueQuery,
+          af1_disk: Stats::ManagementInformation::Queries::AGFS::AF1DiskQuery,
+          af2_redetermination: Stats::ManagementInformation::Queries::AGFS::AF2RedeterminationQuery,
+          af2_high_value: Stats::ManagementInformation::Queries::AGFS::AF2HighValueQuery,
+          af2_disk: Stats::ManagementInformation::Queries::AGFS::AF2DiskQuery,
+          written_reasons: Stats::ManagementInformation::Queries::AGFS::WrittenReasonsQuery }
       end
     end
   end

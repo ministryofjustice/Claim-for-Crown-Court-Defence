@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GovukComponent::TagHelpers, type: :helper do
+RSpec.describe GOVUKComponent::TagHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_tag' do

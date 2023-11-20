@@ -63,6 +63,8 @@ Before('not @no-seed') do
     load "#{Rails.root}/db/seeds/scheme_13.rb"
     load "#{Rails.root}/db/seeds/scheme_14.rb"
     load "#{Rails.root}/db/seeds/scheme_15.rb"
+    load "#{Rails.root}/db/seeds/scheme_16.rb"
+    load "#{Rails.root}/db/seeds/agfs_scheme_cleaner.rb"
 
     $vat_seed_done = true
     $seed_done = true

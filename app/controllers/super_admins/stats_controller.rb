@@ -7,7 +7,7 @@ module SuperAdmins
       set_times
       generate_six_month_breakdown
 
-      graph_data = Stats::Graphs::Simple.new(from: @from, to: @to)
+      graph_data = Stats::Graphs::VariablePeriod.new(from: @from, to: @to)
       @total_claims = graph_data.call(&:count)
 
       @total_values = graph_data.call do |claims|

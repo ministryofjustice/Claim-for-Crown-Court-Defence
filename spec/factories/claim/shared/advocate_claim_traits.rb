@@ -68,4 +68,14 @@ FactoryBot.define do
       end
     end
   end
+
+  trait :agfs_scheme_16 do
+    after(:create) do |claim|
+      claim.defendants.each do |defendant|
+        defendant
+          .representation_orders
+          .update_all(representation_order_date: Settings.agfs_scheme_16_section_twenty_eight_increase)
+      end
+    end
+  end
 end

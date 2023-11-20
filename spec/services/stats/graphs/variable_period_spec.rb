@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Stats::Graphs::Simple do
+RSpec.describe Stats::Graphs::VariablePeriod do
   subject(:graph_data) { described_class.new(**options) }
 
   let(:options) { {} }
@@ -18,11 +18,12 @@ RSpec.describe Stats::Graphs::Simple do
         create_list(:advocate_claim, 2, :agfs_scheme_13, :submitted)
         create_list(:advocate_claim, 1, :agfs_scheme_14, :submitted)
         create_list(:advocate_claim, 2, :agfs_scheme_15, :submitted)
+        create_list(:advocate_claim, 1, :agfs_scheme_16, :submitted)
       end
 
       it 'returns the correct fee scheme keys and applies the block' do
         is_expected.to eq({ 'AGFS 9' => 2, 'AGFS 10' => 1, 'AGFS 11' => 2, 'AGFS 12' => 1,
-                            'AGFS 13' => 2, 'AGFS 14' => 1, 'AGFS 15' => 2 })
+                            'AGFS 13' => 2, 'AGFS 14' => 1, 'AGFS 15' => 2, 'AGFS 16' => 1 })
       end
     end
 

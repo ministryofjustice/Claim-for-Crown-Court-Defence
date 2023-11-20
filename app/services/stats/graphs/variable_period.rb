@@ -1,7 +1,6 @@
 module Stats
   module Graphs
-    class Simple
-
+    class VariablePeriod
       attr_reader :date_err
       def initialize(**kwargs)
         @date_err = false

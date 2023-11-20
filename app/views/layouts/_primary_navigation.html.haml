@@ -21,6 +21,8 @@
               %li
                 = govuk_link_to t('.users'), users_path, class: cp(users_path)
               %li
+                = govuk_link_to t('.offences'), super_admins_offences_path, class: cp(super_admins_offences_path)
+              %li
                 = govuk_link_to t('.stats'), super_admins_stats_path, class: cp(super_admins_stats_path)
 
             - elsif current_user.persona.is_a?(ExternalUser)

@@ -68,6 +68,10 @@ RSpec.describe Stats::Graphs::Simple do
         it 'returns only results for the current month' do
           is_expected.to eq({ 'LGFS 9' => 1, 'AGFS 9' => 1 })
         end
+
+        it 'does not record an error' do
+          expect(graph_data.date_err).to eq(false)
+        end
       end
 
       context 'when a valid date range is provided' do
@@ -78,6 +82,10 @@ RSpec.describe Stats::Graphs::Simple do
 
         it 'returns only results for the specified time period' do
           is_expected.to eq({ 'LGFS 10' => 1, 'AGFS 10' => 1 })
+        end
+
+        it 'does not record an error' do
+          expect(graph_data.date_err).to eq(false)
         end
       end
 
@@ -91,6 +99,10 @@ RSpec.describe Stats::Graphs::Simple do
 
         it 'returns only results for the current month' do
           is_expected.to eq({ 'LGFS 9' => 1, 'AGFS 9' => 1 })
+        end
+
+        it 'records an error' do
+          expect(graph_data.date_err).to eq(true)
         end
       end
     end

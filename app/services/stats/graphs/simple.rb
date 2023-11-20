@@ -1,12 +1,15 @@
 module Stats
   module Graphs
     class Simple
+
+      attr_reader :date_err
       def initialize(**kwargs)
+        @date_err = false
         (@from, @to) = validate_dates(kwargs[:from], kwargs[:to])
       end
 
       def call(&)
-        claims_by_fee_scheme.transform_values(&)
+       claims_by_fee_scheme.transform_values(&)
       end
 
       def title
@@ -16,9 +19,12 @@ module Stats
       private
 
       def validate_dates(from, to)
-        #ToDO: Figure out some way to return the error flag
-        return [Time.current.at_beginning_of_month, Time.current] if from.nil? || to.nil?
-        return [Time.current.at_beginning_of_month, Time.current] if to.before?(from)
+        if from.nil? || to.nil?
+          return [Time.current.at_beginning_of_month, Time.current]
+        elsif to.before?(from)
+          @date_err = true
+          return [Time.current.at_beginning_of_month, Time.current]
+        end
         [from, to]
       end
 

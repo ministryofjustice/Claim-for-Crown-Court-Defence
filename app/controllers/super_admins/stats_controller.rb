@@ -8,12 +8,13 @@ module SuperAdmins
       generate_six_month_breakdown
 
       graph_data = Stats::Graphs::Simple.new(from: @from, to: @to)
-      @total_claims = graph_data.call { |claims| claims.count }
+      @total_claims = graph_data.call(&:count)
 
       @total_values = graph_data.call do |claims|
         claims.sum { |claim| claim.total + claim.vat_amount }.round(2)
       end
       @graph_title = graph_data.title
+      @date_err = graph_data.date_err
     end
 
     private

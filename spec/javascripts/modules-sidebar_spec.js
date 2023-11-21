@@ -158,8 +158,6 @@ describe('Modules.SideBar.js', function () {
         moj.Modules.SideBar.loadBlocks()
 
         expect(moj.Modules.SideBar.blocks.length).toBe(3)
-
-        jsBlockFixtureDOM.empty()
       })
 
       it('should cache an instance of `FeeBlock` for every `.js-block` el', function () {
@@ -173,8 +171,6 @@ describe('Modules.SideBar.js', function () {
 
         moj.Modules.SideBar.loadBlocks()
         expect(moj.Modules.SideBar.blocks.length).toEqual(3)
-
-        jsBlockFixtureDOM.empty()
       })
 
       it('should update the `phantomBlockList` by removing types', function () {
@@ -196,8 +192,6 @@ describe('Modules.SideBar.js', function () {
 
         expect(moj.Modules.SideBar.removePhantomKey).toHaveBeenCalled()
         expect(moj.Modules.SideBar.phantomBlockList.length).toEqual(7)
-
-        jsBlockFixtureDOM.empty()
       })
     })
 
@@ -288,7 +282,8 @@ describe('Modules.SideBar.js', function () {
 
         describe('...calculations', function () {
           it('should add to the correct `this.type` property', function () {
-            $('#claim-form').append(jsBlockViewCalculated())
+            jsBlockFixtureDOM.append(jsBlockViewCalculated())
+            $('body').append(jsBlockFixtureDOM)
 
             moj.Modules.SideBar.init()
 
@@ -359,6 +354,11 @@ describe('Modules.SideBar.js', function () {
     })
 
     describe('...bindListeners', function () {
+      beforeEach(function () {
+        jsBlockFixtureDOM.append(jsBlockViewCalculated())
+        $('body').append(jsBlockFixtureDOM)
+      })
+
       it('should bind the listeners to the dom elements', function () {
         spyOn(jQuery.fn, 'on')
         moj.Modules.SideBar.bindListeners()

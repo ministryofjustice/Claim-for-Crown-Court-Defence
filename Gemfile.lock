@@ -299,7 +299,7 @@ GEM
     govuk_notify_rails (2.2.0)
       notifications-ruby-client (~> 5.1)
       rails (>= 4.1.0)
-    grape (1.8.0)
+    grape (2.0.0)
       activesupport (>= 5)
       builder
       dry-types (>= 1.1)
@@ -743,7 +743,7 @@ DEPENDENCIES
   geckoboard-ruby
   govuk_design_system_formbuilder (~> 4.1)
   govuk_notify_rails (~> 2.2.0)
-  grape (~> 1.8.0)
+  grape (~> 2.0.0)
   grape-entity (~> 1.0.0)
   grape-papertrail (~> 0.2.0)
   grape-swagger (~> 2.0.0)

@@ -70,7 +70,7 @@ FactoryBot.define do
       claim.force_validation { true }
     end
 
-    trait :lgfs_scheme_9 do |claim|
+    trait :lgfs_scheme_9 do
       after(:create) do |claim|
         claim.defendants.each do |defendant|
           defendant
@@ -80,7 +80,7 @@ FactoryBot.define do
       end
     end
 
-    trait :lgfs_scheme_10 do |claim|
+    trait :lgfs_scheme_10 do
       after(:create) do |claim|
         claim.defendants.each do |defendant|
           defendant

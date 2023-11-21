@@ -49,7 +49,7 @@
   .govuk-grid-row
     .govuk-grid-column-full
       %h2
-        = "Total claims over six months: #{6.months.ago.strftime("%B")} - #{Date.today.strftime("%B")}"
+        = "Total claims over six months: #{@line_title}"
       = line_chart @six_month_breakdown.map { |fs|{name: fs[:name],
                                                    data: fs[:data]}},
                                                    id: 'six-month-chart',

@@ -9,7 +9,6 @@ RSpec.describe Stats::Graphs::VariablePeriod do
     subject(:data_hash) { graph_data.call(&:count) }
 
     context 'when there are AGFS claims' do
-
       before do
         create_list(:advocate_claim, 2, :agfs_scheme_9, :submitted)
         create_list(:advocate_claim, 1, :agfs_scheme_10, :submitted)
@@ -39,7 +38,6 @@ RSpec.describe Stats::Graphs::VariablePeriod do
     end
 
     context 'when there are both AGFS and LGFS claims' do
-
       before do
         create(:litigator_claim, :lgfs_scheme_10, :submitted)
         create(:advocate_claim, :agfs_scheme_10, :submitted)
@@ -71,7 +69,7 @@ RSpec.describe Stats::Graphs::VariablePeriod do
         end
 
         it 'does not record an error' do
-          expect(graph_data.date_err).to eq(false)
+          expect(graph_data.date_err).to be(false)
         end
       end
 
@@ -86,7 +84,7 @@ RSpec.describe Stats::Graphs::VariablePeriod do
         end
 
         it 'does not record an error' do
-          expect(graph_data.date_err).to eq(false)
+          expect(graph_data.date_err).to be(false)
         end
       end
 
@@ -103,11 +101,12 @@ RSpec.describe Stats::Graphs::VariablePeriod do
         end
 
         it 'records an error' do
-          expect(graph_data.date_err).to eq(true)
+          expect(graph_data.date_err).to be(true)
         end
       end
     end
   end
+
   describe '#title' do
     subject(:graph_title) { graph_data.title }
 
@@ -123,7 +122,6 @@ RSpec.describe Stats::Graphs::VariablePeriod do
     end
 
     context 'when dates are provided' do
-
       let(:options) do
         { from: Time.zone.parse('2023-09-01'),
           to: Time.zone.parse('2023-09-30') }
@@ -132,5 +130,4 @@ RSpec.describe Stats::Graphs::VariablePeriod do
       it { is_expected.to eq('01 Sep - 30 Sep') }
     end
   end
-
 end

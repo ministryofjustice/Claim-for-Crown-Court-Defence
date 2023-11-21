@@ -86,7 +86,7 @@ RSpec.describe 'Stats' do
         # there are some extra colours added to account for changes in the future. If this fails, add more colour hex
         # codes to @chart_colours
 
-        expect(assigns(:chart_colours).count).to be > assigns(:ordered_fee_schemes).count
+        expect(assigns(:chart_colours).count).to be > assigns(:six_month_breakdown).count
       end
 
       describe 'six month breakdown' do

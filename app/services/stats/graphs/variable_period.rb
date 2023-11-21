@@ -8,7 +8,7 @@ module Stats
       end
 
       def call(&)
-       claims_by_fee_scheme.transform_values(&)
+        claims_by_fee_scheme.transform_values(&)
       end
 
       def title

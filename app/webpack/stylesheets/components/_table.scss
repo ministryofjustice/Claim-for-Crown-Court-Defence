@@ -155,6 +155,10 @@ tr {
       font-weight: bold;
     }
   }
+
+  .dataTables_processing {
+    margin-top: govuk-spacing(3);
+  }
 }
 
 table.dataTable {

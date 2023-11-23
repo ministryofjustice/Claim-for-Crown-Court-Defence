@@ -100,13 +100,13 @@ describe('Modules.AllocationDataTable.js', function () {
 
     it('...should have `language`', function () {
       expect(options.language).toEqual({
-        loadingRecords: '',
+        loadingRecords: 'Table loading, please wait a moment.',
         zeroRecords: 'No matching records found. Try clearing your filter.',
         info: 'Showing _START_ to _END_ of _TOTAL_ entries',
         lengthMenu: 'Claims per page: _MENU_',
         emptyTable: '',
         infoFiltered: '',
-        processing: 'Table loading, please wait a moment.'
+        processing: ''
       })
     })
 

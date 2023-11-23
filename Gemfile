@@ -44,7 +44,6 @@ gem 'rubyzip'
 gem 'config',                 '~> 5.0' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
-gem 'scheduler_daemon'
 gem 'sentry-rails', '~> 5.14'
 gem 'sentry-sidekiq', '~> 5.14'
 gem 'sprockets-rails', '~> 3.4.2'

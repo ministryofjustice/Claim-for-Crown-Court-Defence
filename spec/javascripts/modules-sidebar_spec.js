@@ -232,10 +232,10 @@ describe('Modules.SideBar.js', function () {
         expect($el.find('.total-grandTotal')[0].innerHTML).toBe('£333.00')
       })
 
-      it('should call `sanitzeFeeToFloat`', function () {
-        spyOn(moj.Modules.SideBar, 'sanitzeFeeToFloat')
+      it('should call `sanitizeFeeToFloat`', function () {
+        spyOn(moj.Modules.SideBar, 'sanitizeFeeToFloat')
         moj.Modules.SideBar.render()
-        expect(moj.Modules.SideBar.sanitzeFeeToFloat).toHaveBeenCalled()
+        expect(moj.Modules.SideBar.sanitizeFeeToFloat).toHaveBeenCalled()
       })
     })
 
@@ -388,8 +388,8 @@ describe('Modules.SideBar.js', function () {
       })
     })
 
-    describe('...sanitzeFeeToFloat', function () {
-      it('should sanitze the totals correctly', function () {
+    describe('...sanitizeFeeToFloat', function () {
+      it('should sanitize the totals correctly', function () {
         const expected = {
           fees: 10.20,
           disbursements: 4558.99,
@@ -405,7 +405,7 @@ describe('Modules.SideBar.js', function () {
           grandTotal: 0
         }
 
-        moj.Modules.SideBar.sanitzeFeeToFloat()
+        moj.Modules.SideBar.sanitizeFeeToFloat()
         expect(moj.Modules.SideBar.totals).toEqual(expected)
       })
     })

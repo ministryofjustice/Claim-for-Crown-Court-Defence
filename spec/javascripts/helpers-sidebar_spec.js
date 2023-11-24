@@ -768,6 +768,7 @@ describe('Helpers.Blocks.js', function () {
 
         afterEach(function () {
           $('#claim-form').remove()
+          $('.js-block').remove()
         })
 
         describe('...init', function () {

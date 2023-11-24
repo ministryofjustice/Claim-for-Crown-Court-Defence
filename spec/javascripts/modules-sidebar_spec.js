@@ -65,7 +65,7 @@ describe('Modules.SideBar.js', function () {
   })
 
   afterEach(function () {
-    moj.Modules.SideBar.phantomBlockList = ['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'disbursements', 'expenses']
+    moj.Modules.SideBar.phantomBlockList = ['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'hardshipFees', 'disbursements', 'expenses']
     moj.Modules.SideBar.blocks = []
     moj.Modules.SideBar.totals = {
       fixedFees: 0,
@@ -74,6 +74,7 @@ describe('Modules.SideBar.js', function () {
       warrantFees: 0,
       interimFees: 0,
       transferFees: 0,
+      hardshipFees: 0,
       disbursements: 0,
       expenses: 0,
       vat: 0,
@@ -104,6 +105,7 @@ describe('Modules.SideBar.js', function () {
         warrantFees: 0,
         interimFees: 0,
         transferFees: 0,
+        hardshipFees: 0,
         disbursements: 0,
         expenses: 0,
         vat: 0,
@@ -112,7 +114,7 @@ describe('Modules.SideBar.js', function () {
     })
 
     it('should have a `phantomBlockList` property defined', function () {
-      expect(moj.Modules.SideBar.phantomBlockList).toEqual(['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'disbursements', 'expenses'])
+      expect(moj.Modules.SideBar.phantomBlockList).toEqual(['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'hardshipFees', 'disbursements', 'expenses'])
     })
 
     it('should have a `blocks` property defined', function () {
@@ -193,7 +195,7 @@ describe('Modules.SideBar.js', function () {
         moj.Modules.SideBar.loadBlocks()
 
         expect(moj.Modules.SideBar.removePhantomKey).toHaveBeenCalled()
-        expect(moj.Modules.SideBar.phantomBlockList.length).toEqual(6)
+        expect(moj.Modules.SideBar.phantomBlockList.length).toEqual(7)
 
         jsBlockFixtureDOM.empty()
       })
@@ -203,9 +205,9 @@ describe('Modules.SideBar.js', function () {
       it('should remove items from the array', function () {
         const module = moj.Modules.SideBar
         module.removePhantomKey('Hellos')
-        expect(module.phantomBlockList.length).toEqual(8)
+        expect(module.phantomBlockList.length).toEqual(9)
         module.removePhantomKey('fixedFees')
-        expect(module.phantomBlockList.length).toEqual(7)
+        expect(module.phantomBlockList.length).toEqual(8)
       })
     })
 

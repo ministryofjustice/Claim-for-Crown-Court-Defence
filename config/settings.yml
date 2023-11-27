@@ -214,10 +214,6 @@ slack:
   success_icon: ':icon:'
   fail_icon: ':icon:'
 
-geckoboard:
-  widgets:
-    travel_automation: <%= ENV['GECKOBOARD__WIDGETS__TRAVEL_AUTOMATION'] %>
-
 govuk_notify:
   api_key: 'never-put-real-api-key-here-use-env-vars'
   templates:

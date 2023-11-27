@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_11_10_132804) do
+ActiveRecord::Schema.define(version: 2023_11_27_130608) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -561,15 +561,6 @@ ActiveRecord::Schema.define(version: 2022_11_10_132804) do
     t.date "representation_order_date"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.index ["defendant_id"], name: "index_representation_orders_on_defendant_id"
-  end
-
-  create_table "statistics", id: :serial, force: :cascade do |t|
-    t.date "date"
-    t.string "report_name"
-    t.string "claim_type"
-    t.integer "value_1"
-    t.integer "value_2", default: 0
-    t.index ["date", "report_name", "claim_type"], name: "index_statistics_on_date_and_report_name_and_claim_type", unique: true
   end
 
   create_table "stats_reports", id: :serial, force: :cascade do |t|

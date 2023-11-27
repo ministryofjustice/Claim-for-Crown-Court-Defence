@@ -28,3 +28,6 @@ production:
     agfs_management_information_v2_generation:
       cron: '0 50 1 * * *'
       class: Schedule::AGFSManagementInformationV2Generation
+    lgfs_management_information_generation:
+      cron: '0 30 2 * * *'
+      class: Schedule::LGFSManagementInformationGeneration

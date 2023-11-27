@@ -25,3 +25,6 @@ production:
     agfs_management_information_generation:
       cron: '0 0 2 * * *'
       class: Schedule::AGFSManagementInformationGeneration
+    agfs_management_information_v2_generation:
+      cron: '0 50 1 * * *'
+      class: Schedule::AGFSManagementInformationV2Generation

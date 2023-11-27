@@ -19,3 +19,6 @@ production:
     poll_injection_responses:
       cron: '0 * * * * *'
       class: Schedule::PollInjectionResponses
+    document_cleaner:
+      cron: '0 0 4 * * *'
+      class: Schedule::DocumentCleaner

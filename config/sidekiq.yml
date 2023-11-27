@@ -22,3 +22,6 @@ production:
     document_cleaner:
       cron: '0 0 4 * * *'
       class: Schedule::DocumentCleaner
+    agfs_management_information_generation:
+      cron: '0 0 2 * * *'
+      class: Schedule::AGFSManagementInformationGeneration

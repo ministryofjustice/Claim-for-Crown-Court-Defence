@@ -81,3 +81,6 @@ yarn-debug.log*
 
 /app/assets/builds/*
 !/app/assets/builds/.keep
+
+# ignore Brewfile changes
+Brewfile.lock.json

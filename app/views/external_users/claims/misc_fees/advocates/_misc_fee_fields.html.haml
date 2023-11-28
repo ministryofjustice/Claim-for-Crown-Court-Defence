@@ -61,5 +61,3 @@
           = render 'date_attended_fields', f: date_attended, submodel_count: date_attended.index+1, parent_model_prefix: "misc_fee_#{@misc_fee_count}"
 
       = link_to_add_association t('.add_date_attended'), f, :dates_attended, class: 'govuk-link', partial: 'date_attended_fields', data: { 'association-insertion-method': 'append', 'association-insertion-node': 'div', 'association-insertion-traversal': 'prev' }
-
-  %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible

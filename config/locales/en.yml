@@ -849,7 +849,7 @@ en:
           page_title_chamber: Edit your chambers' account
         regenerate_api_key:
           notice: API key successfully updated
-        update: 
+        update:
           notice: Provider successfully updated
     all_claims: Your claims
     your_claims: Your claims

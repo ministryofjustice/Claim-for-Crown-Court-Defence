@@ -37,3 +37,6 @@ production:
     management_information_generation:
       cron: '0 0 3 * * *'
       class: Schedule::ManagementInformationGeneration
+    management_information_v2_generation:
+      cron: '0 50 2 * * *'
+      class: Schedule::ManagementInformationV2Generation

@@ -285,7 +285,6 @@ GEM
     faraday_middleware (1.2.0)
       faraday (~> 1.0)
     ffi (1.16.3)
-    geckoboard-ruby (0.4.0)
     get_process_mem (0.2.7)
       ffi (~> 1.0)
     globalid (1.2.1)
@@ -736,7 +735,6 @@ DEPENDENCIES
   faker (~> 3.2.2)
   faraday (~> 1.10)
   faraday_middleware (~> 1.2)
-  geckoboard-ruby
   govuk_design_system_formbuilder (~> 4.1)
   govuk_notify_rails (~> 2.2.0)
   grape (~> 2.0.0)

@@ -98,8 +98,8 @@ module ProviderManagement
       @provider = Provider.find(params[:provider_id])
     end
 
-    def redirect_to_show_page(**kwargs)
-      redirect_to provider_management_provider_external_user_path(@provider, @external_user), **kwargs
+    def redirect_to_show_page(**)
+      redirect_to(provider_management_provider_external_user_path(@provider, @external_user), **)
     end
 
     def enable

@@ -100,8 +100,8 @@ class ApplicationController < ActionController::Base
     method.to_s.match?(/^after_sign_in_path_for_(.*)/) ? false : super
   end
 
-  def track_visit(*args)
-    (flash.now[:ga] ||= []) << GoogleAnalytics::DataTracking.track(:virtual_page, *args)
+  def track_visit(*)
+    (flash.now[:ga] ||= []) << GoogleAnalytics::DataTracking.track(:virtual_page, *)
   end
 
   def suppress_hotline_link

@@ -5,8 +5,8 @@ RSpec.describe ExternalUsers::Advocates::InterimClaimsController do
   let(:unauthorized_user) { create(:external_user, :litigator) }
   let(:authorized_user) { create(:external_user, :advocate) }
 
-  def create_claim(*args)
-    claim = build(*args)
+  def create_claim(*)
+    claim = build(*)
     claim.save
     claim.reload
   end

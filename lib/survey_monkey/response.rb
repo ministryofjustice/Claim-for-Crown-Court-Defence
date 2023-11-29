@@ -19,8 +19,8 @@ module SurveyMonkey
       parse(response)
     end
 
-    def add_page(page, **responses)
-      @pages << page_by_name(page).answers(**responses)
+    def add_page(page, **)
+      @pages << page_by_name(page).answers(**)
     end
 
     private

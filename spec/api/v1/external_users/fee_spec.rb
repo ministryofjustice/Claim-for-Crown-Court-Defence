@@ -7,10 +7,10 @@ RSpec.describe API::V1::ExternalUsers::Fee do
   ALL_FEE_ENDPOINTS = [endpoint(:fees, :validate), endpoint(:fees)]
   FORBIDDEN_FEE_VERBS = %i[get put patch delete]
 
-  def create_claim(*args)
+  def create_claim(*)
     # TODO: this should not require build + save + reload
     # understand what the factory is doing to solve this
-    claim = build(*args)
+    claim = build(*)
     claim.save
     claim.reload
   end

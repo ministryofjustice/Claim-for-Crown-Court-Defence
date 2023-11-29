@@ -257,7 +257,4 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 
-  if Rails.env == 'devunicorn'
-    config.secret_key = 'c2334dae25fc40e144dc6a841fe775a1554593641258aae93440da74719fd619bb5b347c3733ea6956e555f70e3419159e7e33ac1a3e05853e75d3d42f5e7524'
-  end
 end

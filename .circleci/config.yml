@@ -69,7 +69,7 @@ executors:
         REPO_NAME: cccd
 
   smoke-test-executor:
-    resource_class: medium
+    resource_class: large
     working_directory: /usr/src/app
     parameters:
       tag:

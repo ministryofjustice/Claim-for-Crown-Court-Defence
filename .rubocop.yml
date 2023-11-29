@@ -25,9 +25,6 @@ AllCops:
     - 'vendor/**/*'
     - 'storage/**/*'
 
-Layout/EmptyLineBetweenDefs:
-  AllowAdjacentOneLineDefs: true
-
 Layout/EmptyLinesAroundAttributeAccessor:
   Enabled: false
 
@@ -117,9 +114,6 @@ RSpec/ImplicitSubject:
 RSpec/NestedGroups:
   Max: 4
 
-Style/DateTime:
-  AllowCoercion: true
-
 Style/Documentation:
   Enabled: false
 
@@ -130,13 +124,6 @@ Style/FormatStringToken:
   EnforcedStyle: template
 
 Style/StringConcatenation:
-  Enabled: false
-
-# Temporarily disable while fixing spec/* directory
-Lint/RedundantCopDisableDirective:
-  Enabled: false
-
-RSpec/Rails/InferredSpecType:
   Enabled: false
 
 RSpec/DescribeClass:

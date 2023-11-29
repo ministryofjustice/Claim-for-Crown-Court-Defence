@@ -71,7 +71,6 @@ class BaseSubModelValidator < BaseValidator
     #
     # NOTE: Once form migrations are complete, this conditional can be removed
     #
-    # rubocop:disable Layout/LineLength
     if %i[basic_fees dates_attended defendants disbursements expenses fixed_fees fixed_fee
           graduated_fee hardship_fee interim_fee interim_claim_info misc_fees
           representation_orders transfer_fee warrant_fee].include? association_name
@@ -79,7 +78,6 @@ class BaseSubModelValidator < BaseValidator
     else
       "#{association_name.to_s.singularize}_#{record_num + 1}_#{error.attribute}"
     end
-    # rubocop:enable Layout/LineLength
   end
   public :associated_error_attribute
 

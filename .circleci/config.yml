@@ -96,11 +96,11 @@ executors:
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd
           LIVE1_DB_TASK: none
-      - image: cimg/postgres:13.3
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: "circleci"
-          POSTGRES_DB: cccd_smoke_test
+      # - image: cimg/postgres:13.3
+      #   environment:
+      #     POSTGRES_USER: postgres
+      #     POSTGRES_PASSWORD: "circleci"
+      #     POSTGRES_DB: cccd_smoke_test
 
   test-executor:
     working_directory: ~/repo

@@ -70,7 +70,6 @@ executors:
 
   smoke-test-executor:
     resource_class: medium
-    parallelism: 2
     working_directory: /usr/src/app
     parameters:
       tag:
@@ -403,6 +402,7 @@ jobs:
       - smoke-test
 
   smoke-test-dev:
+    parallelism: 2
     executor:
       name: smoke-test-executor
       tag: app-${CIRCLE_SHA1}

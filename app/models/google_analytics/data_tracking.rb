@@ -15,10 +15,10 @@ module GoogleAnalytics
         enabled? && adapter_name.eql?(:ga)
       end
 
-      def track(*args)
+      def track(*)
         return unless enabled?
         raise ArgumentError, 'Uninitialized adapter' unless adapter
-        adapter.new(*args)
+        adapter.new(*)
       end
 
       def adapter=(name)

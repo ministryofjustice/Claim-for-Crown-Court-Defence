@@ -4,8 +4,8 @@ module Subscribers
   class Base
     attr_reader :event
 
-    def initialize(*args)
-      @event = ActiveSupport::Notifications::Event.new(*args)
+    def initialize(*)
+      @event = ActiveSupport::Notifications::Event.new(*)
       process
     end
 

@@ -18,8 +18,8 @@ module SurveyMonkey
       end
     end
 
-    def register_page(page, page_id, **questions)
-      @pages.add(page, page_id, **questions)
+    def register_page(page, page_id, **)
+      @pages.add(page, page_id, **)
     end
   end
 end

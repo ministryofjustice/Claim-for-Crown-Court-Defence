@@ -18,8 +18,8 @@ module Fee
           @sets << set
         end
 
-        def add_rule(*args)
-          Rule::Struct.new(*args)
+        def add_rule(*)
+          Rule::Struct.new(*)
         end
 
         def graduated_fee_type_only_rule

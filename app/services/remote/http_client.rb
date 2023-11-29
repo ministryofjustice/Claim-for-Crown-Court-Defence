@@ -18,18 +18,18 @@ module Remote
       @base_url ||= Settings.remote_api_url
     end
 
-    def get(path, **query)
-      execute_request(:get, path, **query)
+    def get(path, **)
+      execute_request(:get, path, **)
     end
 
     private
 
-    def build_endpoint(path, **query)
-      [base_url, path].join('/') + '?' + { api_key: }.merge(**query).to_query
+    def build_endpoint(path, **)
+      [base_url, path].join('/') + '?' + { api_key: }.merge(**).to_query
     end
 
-    def execute_request(method, path, **query)
-      endpoint = build_endpoint(path, **query)
+    def execute_request(method, path, **)
+      endpoint = build_endpoint(path, **)
       response = Caching::APIRequest.cache(endpoint) do
         # We have added the headers { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' } in order to bypass the config.force_ssl
         # This is because this API call is now being routed internally and does not access the internet. HTTPS is not supported within the Kubernetes Cluster.

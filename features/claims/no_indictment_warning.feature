@@ -28,7 +28,7 @@ Feature: Evidence page "no indictment" warning
     When I click "Continue" in the claim form and dismiss "no indictment" popup
     Then I should be in the 'Supporting evidence' form page
 
-    When I check the evidence boxes for 'A copy of the indictment'
+    When I check the evidence boxes for 'Copy of the indictment'
     And I click "Continue" in the claim form
     Then I should be on the check your claim page
 

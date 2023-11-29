@@ -65,7 +65,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Then I click "Continue" in the claim form and move to the 'Supporting evidence' form page
 
     And I upload the document 'indictment.pdf'
-    And I check the evidence boxes for 'A copy of the indictment'
+    And I check the evidence boxes for 'Copy of the indictment'
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for litigator interim fees claim"
@@ -94,7 +94,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     And I should see '£0.00'
 
     And I should see 'indictment.pdf'
-    And I should see 'A copy of the indictment'
+    And I should see 'Copy of the indictment'
     And I should see 'Bish bosh bash'
 
     And I should see a page title "View claim summary for litigator interim fees claim"

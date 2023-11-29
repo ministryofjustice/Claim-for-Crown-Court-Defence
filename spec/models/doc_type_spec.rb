@@ -11,7 +11,7 @@ RSpec.describe DocType do
     it 'returns a DocTypeInstance with the specified id' do
       dti = DocType.find(4)
       expect(dti.id).to eq 4
-      expect(dti.name).to eq 'A copy of the indictment'
+      expect(dti.name).to eq 'Copy of the indictment'
     end
 
     it 'raises if no record with that id is found' do

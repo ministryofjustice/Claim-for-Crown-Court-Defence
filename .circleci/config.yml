@@ -101,6 +101,7 @@ executors:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: "circleci"
           POSTGRES_DB: cccd_smoke_test
+      - image: cimg/ruby:3.1.4
 
   test-executor:
     working_directory: ~/repo
@@ -406,11 +407,6 @@ jobs:
       name: smoke-test-executor
       tag: app-${CIRCLE_SHA1}
     steps:
-      - run:
-         name: Set ruby version to 3.1.4
-         command: |
-              rvm install 3.1.4
-              echo . $(rvm 3.1.4 do rvm env --path) >> $BASH_ENV
       - smoke-test
 
   smoke-test-notification:

@@ -22,6 +22,9 @@ fi
 printf '\e[33mINFO: Starting scheduler_daemon daemon\e[0m\n'
 bundle exec scheduler_daemon start
 
-printf '\e[33mINFO: Launching unicorn\e[0m\n'
 echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc # Disable IRB autocompletion in rails console
-bundle exec unicorn -p 3000 -c config/unicorn.rb
+# NOTE: "RUBYOPT=-W:no-deprecated" removes verbose
+# warnings raised by rails using ruby 2.7
+#
+printf '\e[33mINFO: Launching puma\e[0m\n'
+RUBYOPT=-W:no-deprecated bundle exec puma

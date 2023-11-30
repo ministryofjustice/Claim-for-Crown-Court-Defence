@@ -101,7 +101,6 @@ executors:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: "circleci"
           POSTGRES_DB: cccd_smoke_test
-      - image: cimg/ruby:3.1.4
 
   test-executor:
     working_directory: ~/repo

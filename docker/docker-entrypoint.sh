@@ -2,12 +2,12 @@
 # last modified 17-05-2019
 set +ex
 
-# case ${LIVE1_DB_TASK} in
-# migrate)
-#     printf '\e[33mINFO: executing rake db:migrate\e[0m\n'
-#     bundle exec rake db:migrate
-#     ;;
-# esac
+case ${LIVE1_DB_TASK} in
+migrate)
+    printf '\e[33mINFO: executing rake db:migrate\e[0m\n'
+    bundle exec rails db:migrate
+    ;;
+esac
 
 set -ex
 
@@ -20,11 +20,17 @@ else
 fi
 
 printf '\e[33mINFO: Starting scheduler_daemon daemon\e[0m\n'
-# bundle exec scheduler_daemon start
+bundle exec scheduler_daemon start
 
 echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc # Disable IRB autocompletion in rails console
 # NOTE: "RUBYOPT=-W:no-deprecated" removes verbose
 # warnings raised by rails using ruby 2.7
 #
+
+bundle exec rails db:reset
+bundle exec rails db:seed
 printf '\e[33mINFO: Launching puma\e[0m\n'
+printf 'nokogiri version is'
+nokogiri -v
+printf 'finished here abdi'
 RUBYOPT=-W:no-deprecated bundle exec puma

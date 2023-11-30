@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     get 'super_admins/offences', to: 'super_admins/offences#index'
 
     require 'sidekiq/web'
+    require 'sidekiq-scheduler/web'
     mount Sidekiq::Web => '/sidekiq'
   end
 

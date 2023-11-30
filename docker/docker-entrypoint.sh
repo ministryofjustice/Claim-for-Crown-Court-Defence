@@ -20,7 +20,7 @@ else
 fi
 
 printf '\e[33mINFO: Starting scheduler_daemon daemon\e[0m\n'
-bundle exec scheduler_daemon start
+# bundle exec scheduler_daemon start
 
 echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc # Disable IRB autocompletion in rails console
 # NOTE: "RUBYOPT=-W:no-deprecated" removes verbose

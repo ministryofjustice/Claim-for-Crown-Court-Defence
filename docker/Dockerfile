@@ -33,9 +33,9 @@ RUN yarn install --frozen-lockfile --production --silent
 
 COPY . $APP_HOME/
 
-RUN SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here \
-RAILS_ENV=production \
-bundle exec rails assets:precompile 2> /dev/null
+# RUN SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here \
+# RAILS_ENV=production \
+# bundle exec rails assets:precompile 2> /dev/null
 
 RUN rm -rf node_modules
 

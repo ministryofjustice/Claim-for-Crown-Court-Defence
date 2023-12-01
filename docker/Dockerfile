@@ -12,7 +12,6 @@ RUN apk --update-cache upgrade \
  && apk --no-cache add \
                    build-base \
                    git \
-                   gcompat \
                    gmp=6.2.1-r2 \
                    postgresql-dev \
                    yarn
@@ -36,7 +35,7 @@ COPY . $APP_HOME/
 
 RUN SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here \
 RAILS_ENV=production \
-bundle exec rails assets:precompile
+bundle exec rails assets:precompile 2> /dev/null
 
 RUN rm -rf node_modules
 
@@ -61,8 +60,7 @@ RUN apk --update-cache upgrade \
                    postgresql-client \
                    redis \
                    runit \
-                   ttf-freefont \
-                   gcompat
+                   ttf-freefont
 
 RUN addgroup -g 1000 -S appgroup \
 && adduser -u 1000 -S appuser -G appgroup

@@ -632,11 +632,6 @@ workflows:
 
   build-deploy-branch:
     jobs:
-      - hold-build-notification:
-          filters:
-            branches:
-              ignore:
-                - master
       - hold-branch-build:
           type: approval
           filters:

@@ -8,6 +8,10 @@ module API
           ->(_instance, opts) { opts.opts_hash.fetch(:export_format, false) }
         end
       end
+
+      def length_or_one(length)
+        [length, 1].compact.max
+      end
     end
   end
 end

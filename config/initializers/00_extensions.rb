@@ -42,7 +42,3 @@ class FalseClass
   include Extensions::BooleanExtension::False
 end
 
-class Integer
-  include Extensions::IntegerExtension
-end
-

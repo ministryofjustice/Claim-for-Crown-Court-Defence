@@ -30,7 +30,7 @@ module API
         private
 
         def actual_trial_length_or_one
-          object.actual_trial_length || 1
+          object.actual_trial_length.or_one
         end
 
         # case type adapter requires access to claim object

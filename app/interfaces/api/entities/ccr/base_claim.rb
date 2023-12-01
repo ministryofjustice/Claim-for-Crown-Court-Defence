@@ -36,19 +36,19 @@ module API
         end
 
         def estimated_trial_length_or_one
-          object.estimated_trial_length.or_one
+          length_or_one(object.estimated_trial_length)
         end
 
         def actual_trial_length_or_one
-          object.actual_trial_length.or_one
+          length_or_one(object.actual_trial_length)
         end
 
         def retrial_actual_length_or_one
-          object.retrial_actual_length.or_one
+          length_or_one(object.retrial_actual_length)
         end
 
         def retrial_estimated_length_or_one
-          object.retrial_estimated_length.or_one
+          length_or_one(object.retrial_estimated_length)
         end
 
         def adapted_advocate_category

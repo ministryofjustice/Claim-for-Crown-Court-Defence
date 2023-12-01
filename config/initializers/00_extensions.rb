@@ -41,11 +41,3 @@ end
 class FalseClass
   include Extensions::BooleanExtension::False
 end
-
-class Integer
-  include Extensions::IntegerExtension
-end
-
-class NilClass
-  include Extensions::NilExtension
-end

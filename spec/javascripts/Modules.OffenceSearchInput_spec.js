@@ -41,8 +41,8 @@ describe('Modules.OffenceSearchInput.js', function () {
     it('`this.feeScheme`', function () {
       expect(module.feeScheme).toEqual('.fx-fee-scheme')
     })
-    it('`this.debouce`', function () {
-      expect(module.debouce).toEqual(500)
+    it('`this.debounce`', function () {
+      expect(module.debounce).toEqual(500)
     })
     it('`this.subscribers`', function () {
       expect(module.subscribers).toEqual({

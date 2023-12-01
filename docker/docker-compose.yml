@@ -18,6 +18,7 @@ services:
   database:
     image: postgres
     restart: always
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
     environment:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: "password"

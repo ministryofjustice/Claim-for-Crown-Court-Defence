@@ -17,7 +17,7 @@ RUN apk --update-cache upgrade \
                    postgresql-dev \
                    yarn
 
-ENV RAILS_ENV development
+ENV RAILS_ENV production
 ENV SECRET_KEY_BASE a-real-secret-key-is-not-needed-here
 
 COPY Gemfile Gemfile.lock $APP_HOME/
@@ -30,12 +30,12 @@ RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
 && find /usr/local/bundle/gems/ -name "*.o" -delete
 
 COPY package.json yarn.lock $APP_HOME/
-RUN yarn install --frozen-lockfile --development --silent
+RUN yarn install --frozen-lockfile --production --silent
 
 COPY . $APP_HOME/
 
 RUN SECRET_KEY_BASE=a-real-secret-key-is-not-needed-here \
-RAILS_ENV=development \
+RAILS_ENV=production \
 bundle exec rails assets:precompile
 
 RUN rm -rf node_modules
@@ -48,7 +48,7 @@ LABEL Contact="crowncourtdefence@digital.justice.gov.uk"
 
 RUN set -ex
 
-ENV RAILS_ENV development
+ENV RAILS_ENV production
 ENV APP_HOME /usr/src/app
 WORKDIR $APP_HOME
 

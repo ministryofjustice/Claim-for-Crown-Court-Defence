@@ -5,6 +5,7 @@
 # 4. create offence fee scheme through table records to assoicate each
 #    with an fee scheme.
 #
+# rubocop:disable Metrics(RuboCop)
 module Seeds
   module Schemas
     class AddAGFSFeeScheme12
@@ -16,7 +17,7 @@ module Seeds
       end
 
       def status
-         <<~STATUS
+        <<~STATUS
           \sAGFS scheme 11 end date: #{agfs_fee_scheme_11&.end_date || 'nil'}
           \sAGFS scheme 12 start date: #{agfs_fee_scheme_12&.start_date || 'nil'}
           \sAGFS scheme 12 fee scheme: #{agfs_fee_scheme_12&.attributes || 'nil'}
@@ -94,7 +95,7 @@ module Seeds
         if pretending?
           puts "Would delete fee scheme 12: #{agfs_fee_scheme_12&.attributes || 'does not exist'}".yellow
           puts "Would update #{agfs_fee_scheme_11.attributes} end date to nil".yellow
-          puts "Would reset fee_schemes PK sequence to max id value".yellow
+          puts 'Would reset fee_schemes PK sequence to max id value'.yellow
         else
           puts 'Deleted fee scheme 12'.green if agfs_fee_scheme_12&.destroy
           puts 'Updated fee scheme 11 end date to nil'.green if agfs_fee_scheme_11&.update(end_date: nil)
@@ -104,7 +105,7 @@ module Seeds
       end
 
       def create_or_update_agfs_scheme_eleven
-        print "Finding AGFS scheme 11".yellow
+        print 'Finding AGFS scheme 11'.yellow
         agfs_fee_scheme_eleven = FeeScheme.find_by(name: 'AGFS', version: 11, start_date: Settings.agfs_scheme_11_release_date.beginning_of_day)
         agfs_fee_scheme_eleven ? print("...found\n".green) : print("...not found\n".red)
 
@@ -151,7 +152,7 @@ module Seeds
       end
 
       def copy_scheme_11_offences
-        set_offence_pk_sequence(5000)
+        set_offence_pk_sequence(Offence.ids.max + 1)
         puts 'Adding scheme 12 offences'.yellow
 
         Offence.transaction do

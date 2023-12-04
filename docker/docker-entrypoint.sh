@@ -24,4 +24,4 @@ bundle exec scheduler_daemon start
 
 printf '\e[33mINFO: Launching puma\e[0m\n'
 echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc # Disable IRB autocompletion in rails console
-bundle exec puma -p 3000 -c config/puma.rb
+bundle exec puma -p 3000

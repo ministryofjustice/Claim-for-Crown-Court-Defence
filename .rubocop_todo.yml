@@ -1723,6 +1723,7 @@ Rails/SkipsModelValidations:
     - 'lib/previous_version_of_claim.rb'
     - 'spec/api/v1/external_users/representation_order_spec.rb'
     - 'spec/controllers/external_users/claims_controller_spec.rb'
+    - 'spec/factories/claim/litigator_claims.rb'
     - 'spec/factories/claim/shared/advocate_claim_traits.rb'
     - 'spec/lib/previous_version_of_claim_spec.rb'
     - 'spec/models/claims/state_machine_scopes_spec.rb'
@@ -1837,16 +1838,19 @@ Style/BlockDelimiters:
     - 'spec/validators/claim/base_claim_validator_spec.rb'
     - 'spec/validators/fee/interim_fee_validator_spec.rb'
 
-# Offense count: 54
+
+# Offense count: 55
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: nested, compact
 Style/ClassAndModuleChildren:
   Exclude:
     - 'app/controllers/external_users/application_controller.rb'
+    - 'app/controllers/geckoboard_api/application_controller.rb'
+    - 'app/controllers/geckoboard_api/statistics_controller.rb'
+    - 'app/controllers/geckoboard_api/widgets_controller.rb'
     - 'app/controllers/super_admins/admin/super_admins_controller.rb'
     - 'app/controllers/super_admins/application_controller.rb'
-    - 'app/controllers/super_admins/super_admins_controller.rb'
     - 'app/helpers/case_workers/admin/allocations_helper.rb'
     - 'app/helpers/case_workers/claims_helper.rb'
     - 'app/helpers/case_workers/travel_helper.rb'

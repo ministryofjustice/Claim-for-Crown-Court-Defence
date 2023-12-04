@@ -74,7 +74,7 @@ FactoryBot.define do
       claim.defendants.each do |defendant|
         defendant
           .representation_orders
-          .update_all(representation_order_date: Settings.agfs_scheme_15_section_twenty_eight_increase)
+          .update_all(representation_order_date: Settings.agfs_scheme_16_section_twenty_eight_increase)
       end
     end
   end

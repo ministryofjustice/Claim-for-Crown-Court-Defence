@@ -1,11 +1,13 @@
-class SuperAdmins::SuperAdminsController < ApplicationController
-  authorize_resource class: false
+module SuperAdmins
+  class SuperAdminsController < ApplicationController
+    authorize_resource class: false
 
-  def show; end
+    def show; end
 
-  private
+    private
 
-  def filtered_params
-    []
+    def filtered_params
+      []
+    end
   end
 end

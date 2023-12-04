@@ -1,0 +1,58 @@
+= content_for :page_title, flush: true do
+  = 'Stats'
+
+- if @date_err
+  .govuk-notification-banner{'aria-labelledby': 'govuk-date-error-notification-banner-title', 'data-module': "govuk-notification-banner", role: 'alert'}
+    .govuk-notification-banner__content
+      %h3.govuk-notification-banner__heading
+        = 'Invalid Dates'
+      %p.govuk-body
+        = 'Please enter a valid set of dates'
+
+.govuk-width-container
+  .govuk-grid-row
+  = form_with url: super_admins_stats_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: 'post' do |f|
+    .govuk-grid-column-one-third
+      = f.govuk_date_field :date_from, legend: { size: 'm',
+                                                 tag: 'h2',
+                                                 text: 'From'},
+                                       maxlength_enabled: true
+
+    .govuk-grid-column-one-third
+      = f.govuk_date_field :date_to, legend: { size: 'm',
+                                                 tag: 'h2',
+                                                 text: 'To'},
+                                       maxlength_enabled: true
+    .govuk-grid-column-full
+      = f.govuk_submit 'Update', id: "date_submit"
+
+  .govuk-grid-column-full
+    %br
+
+  .govuk-grid-row
+    .govuk-grid-column-one-half
+      %h2
+        = "Total claims: #{@graph_title}"
+      = pie_chart @total_claims, id: "total-claims-chart",
+                                 legend: 'bottom',
+                                 colors: @chart_colours,
+                                 alt: 'test'
+    .govuk-grid-column-one-half
+      %h2
+        = "Total value of claims: #{@graph_title}"
+      = column_chart @total_values, id: "total-claim-values-chart",
+                                    colors: @chart_colours
+
+  .govuk-grid-column-full
+    %br
+
+  .govuk-grid-row
+    .govuk-grid-column-full
+      %h2
+        = "Total claims over six months: #{@line_title}"
+      = line_chart @six_month_breakdown.map { |fs|{name: fs[:name],
+                                                   data: fs[:data]}},
+                                                   id: 'six-month-chart',
+                                                   legend: 'bottom',
+                                                   colors: @chart_colours
+

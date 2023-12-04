@@ -69,5 +69,25 @@ FactoryBot.define do
     trait :forced_validation do |claim|
       claim.force_validation { true }
     end
+
+    trait :lgfs_scheme_9 do
+      after(:create) do |claim|
+        claim.defendants.each do |defendant|
+          defendant
+            .representation_orders
+            .update_all(representation_order_date: Settings.lgfs_scheme_10_clair_release_date - 1)
+        end
+      end
+    end
+
+    trait :lgfs_scheme_10 do
+      after(:create) do |claim|
+        claim.defendants.each do |defendant|
+          defendant
+            .representation_orders
+            .update_all(representation_order_date: Settings.lgfs_scheme_10_clair_release_date + 1)
+        end
+      end
+    end
   end
 end

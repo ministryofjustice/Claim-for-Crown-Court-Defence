@@ -3,7 +3,7 @@
 set +ex
 
 printf '\e[33mINFO: DB create\e[0m\n'
-# RUBYOPT=-W:no-deprecated bundle exec rails db:create
+RUBYOPT=-W:no-deprecated bundle exec rails db:create
 
 case ${LIVE1_DB_TASK} in
 migrate)

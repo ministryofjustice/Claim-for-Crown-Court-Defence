@@ -97,6 +97,7 @@ executors:
           REPO_NAME: cccd
           LIVE1_DB_TASK: none
       - image: cimg/postgres:13.3
+        command: ["docker-entrypoint.sh", "-c", "log_statement=all", "-c", "log_destination=stderr"]
         environment:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: "circleci"

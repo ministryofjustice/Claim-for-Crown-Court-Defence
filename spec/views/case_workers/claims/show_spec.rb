@@ -389,7 +389,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
   end
 
   def trial_claim(trial_prefix = nil)
-    @claim = create(:submitted_claim, case_type: create(:case_type, "#{trial_prefix}trial".to_sym), evidence_checklist_ids: [1, 9])
+    @claim = create(:submitted_claim, case_type: create(:case_type, :"#{trial_prefix}trial"), evidence_checklist_ids: [1, 9])
     @case_worker.claims << @claim
     create(:document, claim_id: @claim.id, form_id: @claim.form_id)
     @message = @claim.messages.build

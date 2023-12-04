@@ -12,7 +12,7 @@ RSpec.describe Fee::FixedFeeValidator, type: :validator do
     let(:claim) { build(:litigator_claim) }
 
     before do
-      fee.clear   # reset some attributes set by the factory
+      fee.clear # reset some attributes set by the factory
       fee.amount = 1.00
     end
 

@@ -167,7 +167,7 @@ RSpec.describe CaseWorkers::ClaimsController do
     end
 
     def create_claims(qty, status, defendant_name, advocate)
-      factory_name = "#{status}_claim".to_sym
+      factory_name = :"#{status}_claim"
       claims = create_list(factory_name, qty, external_user: advocate)
       claims.each do |claim|
         claim.case_workers << @case_worker

@@ -1954,14 +1954,6 @@ Style/HashAsLastArrayItem:
     - 'spec/lib/govuk_component/link_helpers_spec.rb'
     - 'spec/services/stats/stats_report_generator_spec.rb'
 
-# Offense count: 2
-# This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: AllowedReceivers.
-# AllowedReceivers: Thread.current
-Style/HashEachMethods:
-  Exclude:
-    - 'spec/services/cclf/fee/shared_examples_for_cclf_fee_adapters.rb'
-
 # Offense count: 1
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/HashTransformValues:

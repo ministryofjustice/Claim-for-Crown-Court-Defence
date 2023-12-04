@@ -78,7 +78,7 @@ class AdpTextField
   end
 
   def build_input_or_false(variable)
-    instance_variable_set("@input_#{variable}", options["input_#{variable}".to_sym] || false)
+    instance_variable_set("@input_#{variable}", options[:"input_#{variable}"] || false)
   end
 
   def setup_input_type

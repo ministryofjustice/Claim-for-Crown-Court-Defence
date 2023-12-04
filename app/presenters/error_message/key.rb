@@ -3,7 +3,7 @@
 module ErrorMessage
   class Key < String
     def initialize(key)
-      super key.to_s
+      super(key.to_s)
     end
 
     def zero_based?

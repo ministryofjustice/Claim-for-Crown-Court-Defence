@@ -53,7 +53,7 @@ class BaseValidator < ActiveModel::Validator
 
   # error added to foreign key for govuk-formbuilder error handling
   def validate_belongs_to_object_presence(object, message)
-    @record.errors.add("#{object}_id".to_sym, message) if attr_blank?(object)
+    @record.errors.add(:"#{object}_id", message) if attr_blank?(object)
   end
 
   def validate_boolean_presence(attribute, message)

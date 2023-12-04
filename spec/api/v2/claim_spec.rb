@@ -29,7 +29,7 @@ RSpec.describe API::V2::Claim do
   def normalise_ids!(hash)
     return unless hash.is_a?(Hash)
 
-    hash.each do |_key, value|
+    hash.each_value do |value|
       normalise_ids!(value) if value.is_a?(Hash)
       value.map { |h| normalise_ids!(h) } if value.is_a?(Array)
     end

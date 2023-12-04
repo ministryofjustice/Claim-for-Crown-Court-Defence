@@ -105,7 +105,7 @@ module CaseWorkers
     end
 
     def sort_column
-      (params[:sort].presence || 'last_submitted_at')
+      params[:sort].presence || 'last_submitted_at'
     end
 
     def sort_direction

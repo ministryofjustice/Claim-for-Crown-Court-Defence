@@ -91,7 +91,7 @@ RSpec.describe API::V1::DropdownData do
     end
 
     it 'requires an API key' do
-      results.each do |endpoint, _|
+      results.each_key do |endpoint|
         params.delete(:api_key)
         get endpoint, params, format: :json
         expect(last_response.status).to eq 401
@@ -102,7 +102,7 @@ RSpec.describe API::V1::DropdownData do
     it 'returns 406 Not Acceptable if requested API version via header is not supported' do
       header 'Accept-Version', 'v2'
 
-      results.each do |endpoint, _|
+      results.each_key do |endpoint|
         get endpoint, params, format: :json
         expect(last_response.status).to eq 406
         expect(last_response.body).to include('The requested version is not supported.')

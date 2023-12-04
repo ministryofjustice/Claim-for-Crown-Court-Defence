@@ -17,7 +17,7 @@ RSpec.shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
   end
 
   describe '#bill_type' do
-    bill_scenario_mappings.keys.each do |code|
+    bill_scenario_mappings.each_key do |code|
       context "with #{code} fee type" do
         subject { described_class.new(fee).bill_type }
 
@@ -27,7 +27,7 @@ RSpec.shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
   end
 
   describe '#bill_subtype' do
-    bill_scenario_mappings.keys.each do |code|
+    bill_scenario_mappings.each_key do |code|
       context "with #{code} fee type" do
         subject { described_class.new(fee).bill_subtype }
 

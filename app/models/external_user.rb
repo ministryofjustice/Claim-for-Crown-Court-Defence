@@ -56,7 +56,7 @@ class ExternalUser < ApplicationRecord
   delegate :email_notification_of_message=, to: :user
 
   Provider::ROLES.each do |role|
-    delegate "#{role}?".to_sym, to: :provider
+    delegate :"#{role}?", to: :provider
   end
 
   def available_roles

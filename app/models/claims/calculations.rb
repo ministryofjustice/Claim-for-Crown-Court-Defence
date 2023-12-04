@@ -114,7 +114,7 @@ module Claims::Calculations
     records = public_send(association_name)
     records.each_with_object(vat: 0, net: 0) do |record, memo|
       next if record.marked_for_destruction? || record.public_send(net_attribute).nil?
-      memo[:vat] += (record.public_send(vat_attribute) || BigDecimal('0.0', 8))
+      memo[:vat] += record.public_send(vat_attribute) || BigDecimal('0.0', 8)
       memo[:net] += record.public_send(net_attribute)
     end
   end

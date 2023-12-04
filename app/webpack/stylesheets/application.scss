@@ -63,6 +63,7 @@ $govuk-font-url-function: frontend-font-url;
 @import "~datatables.net-dt/css/jquery.dataTables";
 @import "~jquery-datatables-checkboxes/css/dataTables.checkboxes";
 @import "navigation";
+@import "interim-claim";
 
 // Ported from v1 stylesheets
 @import "layout";

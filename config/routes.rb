@@ -195,30 +195,10 @@ Rails.application.routes.draw do
 
   end
 
-  namespace :geckoboard_api do
-    resource :widgets, only: [:get], format: :json do
-      get 'claims'
-      get 'claim_creation_source'
-      get 'claim_completion'
-      get 'average_processing_time'
-      get 'claim_submissions'
-      get 'multi_session_submissions'
-      get 'requests_for_further_info'
-      get 'time_reject_to_auth'
-      get 'completion_rate'
-      get 'time_to_completion'
-      get 'redeterminations_average'
-      get 'money_to_date'
-      get 'money_claimed_per_month'
-    end
-  end
-
   resources :injection_attempts, only: [:dismiss] do
     patch 'dismiss', format: :js, on: :member
     put 'dismiss', format: :js, on: :member
   end
-
-  get 'statistics', to: 'geckoboard_api/statistics#index'
 
   post '/', to: 'errors#not_endpoint'
 

@@ -93,13 +93,13 @@ moj.Modules.AllocationDataTable = {
 
     // translations and custom text
     language: {
-      loadingRecords: '',
+      loadingRecords: 'Table loading, please wait a moment.',
       zeroRecords: 'No matching records found. Try clearing your filter.',
       info: 'Showing _START_ to _END_ of _TOTAL_ entries',
       lengthMenu: 'Claims per page: _MENU_',
       emptyTable: '',
       infoFiltered: '',
-      processing: 'Table loading, please wait a moment.'
+      processing: ''
     },
     initComplete: function (settings, json) {
       $('.app-jq-datatable tbody').addClass('govuk-table__body')

@@ -101,7 +101,7 @@ module Claim
         proxy_transfer_detail.__send__(getter_method)
       end
 
-      setter_method = "#{getter_method}=".to_sym
+      setter_method = :"#{getter_method}="
       define_method setter_method do |value|
         proxy_transfer_detail.__send__(setter_method, value)
       end

@@ -30,16 +30,16 @@ module GovUk
       private
 
       def date_from_parts(field)
-        instance_variable_set("@#{field}".to_sym, parse_date_from_parts(field))
+        instance_variable_set(:"@#{field}", parse_date_from_parts(field))
       rescue ArgumentError
-        instance_variable_set("@#{field}".to_sym, nil)
+        instance_variable_set(:"@#{field}", nil)
       end
 
       def parse_date_from_parts(field)
-        yyyy = instance_variable_get("@#{field}_yyyy".to_sym).to_i
+        yyyy = instance_variable_get(:"@#{field}_yyyy").to_i
         raise ArgumentError unless valid_year?(yyyy)
-        mm = instance_variable_get("@#{field}_mm".to_sym).to_i
-        dd = instance_variable_get("@#{field}_dd".to_sym).to_i
+        mm = instance_variable_get(:"@#{field}_mm").to_i
+        dd = instance_variable_get(:"@#{field}_dd").to_i
         Date.new(yyyy, mm, dd)
       end
 
@@ -55,37 +55,37 @@ module GovUk
         # rubocop:disable Metrics/BlockLength
         date_fields.each do |field|
           define_method(field) do
-            instance_variable_get("@#{field}".to_sym)
+            instance_variable_get(:"@#{field}")
           end
 
           define_method("#{field}_dd") do
-            instance_variable_get("@#{field}".to_sym)&.strftime('%d')
+            instance_variable_get(:"@#{field}")&.strftime('%d')
           end
 
           define_method("#{field}_mm") do
-            instance_variable_get("@#{field}".to_sym)&.strftime('%m')
+            instance_variable_get(:"@#{field}")&.strftime('%m')
           end
 
           define_method("#{field}_yyyy") do
-            instance_variable_get("@#{field}".to_sym)&.strftime('%Y')
+            instance_variable_get(:"@#{field}")&.strftime('%Y')
           end
 
           define_method("#{field}=") do |date|
-            instance_variable_set("@#{field}".to_sym, date)
+            instance_variable_set(:"@#{field}", date)
           end
 
           define_method("#{field}_dd=") do |day|
-            instance_variable_set("@#{field}_dd".to_sym, day)
+            instance_variable_set(:"@#{field}_dd", day)
             date_from_parts(field)
           end
 
           define_method("#{field}_mm=") do |month|
-            instance_variable_set("@#{field}_mm".to_sym, month)
+            instance_variable_set(:"@#{field}_mm", month)
             date_from_parts(field)
           end
 
           define_method("#{field}_yyyy=") do |year|
-            instance_variable_set("@#{field}_yyyy".to_sym, year)
+            instance_variable_set(:"@#{field}_yyyy", year)
             date_from_parts(field)
           end
         end

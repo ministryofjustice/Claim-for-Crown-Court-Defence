@@ -866,7 +866,7 @@ def build_sortable_claims_sample(advocate)
   %i[draft submitted allocated authorised rejected].each_with_index do |state, i|
     travel_to(i.days.ago) do
       n = i + 1
-      claim = create("#{state}_claim".to_sym, external_user: advocate, case_number: "A2016#{n.to_s.rjust(4, '0')}")
+      claim = create(:"#{state}_claim", external_user: advocate, case_number: "A2016#{n.to_s.rjust(4, '0')}")
       claim.fees.destroy_all
       claim.expenses.destroy_all
 

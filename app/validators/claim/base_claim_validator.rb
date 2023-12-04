@@ -28,7 +28,7 @@ module Claim
 
     def validate_external_user_id
       return if @record.disable_for_state_transition.eql?(:only_amount_assessed)
-      validate_belongs_to_object_presence(:external_user, "blank_#{@record.external_user_type}".to_sym)
+      validate_belongs_to_object_presence(:external_user, :"blank_#{@record.external_user_type}")
       validate_external_user_has_required_role unless @record.external_user.nil?
       return if @record.errors.key?(:external_user_id)
       validate_creator_and_external_user_have_same_provider
@@ -347,7 +347,7 @@ module Claim
     def validate_trial_start_and_end(start_attribute, end_attribute, inverse: false)
       start_attribute, end_attribute = end_attribute, start_attribute if inverse
       validate_presence(start_attribute, :blank)
-      method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
+      method(:"validate_on_or_#{inverse ? 'after' : 'before'}")
         .call(@record.__send__(end_attribute), start_attribute, :check_other_date)
 
       validate_too_far_in_past(start_attribute)
@@ -358,7 +358,7 @@ module Claim
       start_attribute, end_attribute = end_attribute, start_attribute if inverse
       # TODO: this condition is a temproary workaround for live data that existed prior to addition of retrial details
       validate_presence(start_attribute, :blank) if @record.editable?
-      method("validate_on_or_#{inverse ? 'after' : 'before'}".to_sym)
+      method(:"validate_on_or_#{inverse ? 'after' : 'before'}")
         .call(@record.__send__(end_attribute), start_attribute, :check_other_date)
 
       validate_on_or_after(earliest_rep_order, start_attribute, :check_not_earlier_than_rep_order)

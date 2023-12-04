@@ -28,7 +28,7 @@ module TestHelpers
   end
 
   def set_value(record, attribute, value)
-    setter_method = "#{attribute}=".to_sym
+    setter_method = :"#{attribute}="
     record.__send__(setter_method, value)
   end
 

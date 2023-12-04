@@ -76,8 +76,8 @@ module Fee
     end
 
     def check_for_daily_attendance_error(code, min:, mod:, max:)
-      add_error(:quantity, "#{code.downcase}_qty_mismatch".to_sym) if daf_trial_length_combination_invalid(min, mod,
-                                                                                                           max)
+      add_error(:quantity, :"#{code.downcase}_qty_mismatch") if daf_trial_length_combination_invalid(min, mod,
+                                                                                                     max)
     end
 
     def validate_pcm_quantity
@@ -121,26 +121,26 @@ module Fee
     end
 
     def validate_uncalculated_fee(code)
-      add_error(:rate, "#{code.downcase}_must_be_blank".to_sym) if @record.rate.positive?
+      add_error(:rate, :"#{code.downcase}_must_be_blank") if @record.rate.positive?
     end
 
     # if one has a value and the other doesn't then we add error to the one that does NOT have a value
     # NOTE: we have specific error messages for basic fees
     def validate_fee_rate(code = nil)
       if @record.quantity.positive? && @record.rate <= 0
-        add_error(:rate, code ? "#{code.downcase}_invalid".to_sym : :invalid)
+        add_error(:rate, code ? :"#{code.downcase}_invalid" : :invalid)
       elsif @record.quantity <= 0 && @record.rate.positive?
-        add_error(:quantity, code ? "#{code.downcase}_invalid".to_sym : :invalid)
+        add_error(:quantity, code ? :"#{code.downcase}_invalid" : :invalid)
       end
     end
 
     def validate_amount
       return if fee_code.nil?
       return if @record.calculated?
-      add_error(:amount, "#{fee_code.downcase}_invalid".to_sym) if amount_outside_allowed_range?
+      add_error(:amount, :"#{fee_code.downcase}_invalid") if amount_outside_allowed_range?
 
       return unless @record.quantity <= 0 && @record.amount.positive?
-      add_error(:quantity, "#{fee_code.downcase}_invalid".to_sym)
+      add_error(:quantity, :"#{fee_code.downcase}_invalid")
     end
 
     def validate_single_attendance_date

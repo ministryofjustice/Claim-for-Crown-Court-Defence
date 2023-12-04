@@ -252,7 +252,7 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe 'dynamically defined methods' do
     %w[expenses disbursements].each do |object_name|
       METHOD_NAMES.each do |method|
-        method_name = "#{object_name}_#{method}".to_sym
+        method_name = :"#{object_name}_#{method}"
         it { is_expected.to respond_to(method_name) }
 
         describe "##{method_name}" do

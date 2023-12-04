@@ -63,7 +63,7 @@ module API
     end
 
     def translation_key(attribute)
-      "#{model_index}#{attribute}".to_sym
+      :"#{model_index}#{attribute}"
     end
 
     def model_index

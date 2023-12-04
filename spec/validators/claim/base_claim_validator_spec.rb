@@ -459,7 +459,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'should be valid if amount assessed is zero' do
       %w{draft allocated refused rejected submitted}.each do |state|
         it "for claims in state #{state}" do
-          factory_name = "#{state}_claim".to_sym
+          factory_name = :"#{state}_claim"
           claim = create(factory_name)
           expect(claim.assessment.total).to eq 0
           expect(claim).to be_valid
@@ -470,7 +470,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
     context 'should be invalid if amount assessed is not zero' do
       %w{draft refused rejected submitted}.each do |state|
         it "errors if amount assessed is not zero for #{state}" do
-          factory_name = "#{state}_claim".to_sym
+          factory_name = :"#{state}_claim"
           claim = create(factory_name)
           claim.assessment.fees = 35.22
           expect(claim).to_not be_valid

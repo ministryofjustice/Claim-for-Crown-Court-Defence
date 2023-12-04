@@ -71,7 +71,7 @@ module CCR
     end
 
     def description
-      parts = [(expense.location || expense.expense_type.name)]
+      parts = [expense.location || expense.expense_type.name]
       parts << expense.reason_text if expense.reason_text
       parts.join(' ').strip
     end

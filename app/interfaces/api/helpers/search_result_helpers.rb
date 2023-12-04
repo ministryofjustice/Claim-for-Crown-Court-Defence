@@ -25,7 +25,7 @@ module API
       end
 
       def contains_risk_based_fee
-        (contains_risk_based_final_fee || (contains_risk_based_transfer_fee && up_to_and_inc_pcmh_transfer?))
+        contains_risk_based_final_fee || (contains_risk_based_transfer_fee && up_to_and_inc_pcmh_transfer?)
       end
 
       def contains_risk_based_final_fee

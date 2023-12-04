@@ -56,14 +56,6 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
     raw_fixed_fees_total + raw_basic_fees_total + raw_misc_fees_total
   end
 
-  def raw_misc_fees_vat
-    VatRate.vat_amount(raw_misc_fees_total, claim.created_at, calculate: claim.apply_vat?)
-  end
-
-  def raw_misc_fees_gross
-    raw_misc_fees_total + raw_misc_fees_vat
-  end
-
   def misc_fees_vat
     h.number_to_currency(raw_misc_fees_vat)
   end

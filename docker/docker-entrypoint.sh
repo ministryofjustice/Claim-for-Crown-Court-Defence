@@ -2,17 +2,12 @@
 # last modified 17-05-2019
 set +ex
 
-# printf '\e[33mINFO: DB create\e[0m\n'
-# RUBYOPT=-W:no-deprecated bundle exec rails db:create
-
-echo 'start of docker entrypoint' >> /tmp/output.log
 case ${LIVE1_DB_TASK} in
 migrate)
     printf '\e[33mINFO: executing rake db:migrate\e[0m\n'
-    bundle exec rake db:migrate >> /tmp/output.log
+    bundle exec rake db:migrate
     ;;
 esac
-echo 'end of LIVE1_DB_TASK' >> /tmp/output.log
 
 set -ex
 
@@ -24,12 +19,8 @@ else
   printf '\e[33mINFO: Using remote redis-server specified in REDIS_URL\e[0m\n'
 fi
 
-echo 'Set up redis' >> /tmp/output.log
-
 printf '\e[33mINFO: Starting scheduler_daemon daemon\e[0m\n'
 bundle exec scheduler_daemon start
-
-echo 'run scheduler_daemon' >> /tmp/output.log
 
 printf '\e[33mINFO: Launching puma\e[0m\n'
 echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc # Disable IRB autocompletion in rails console

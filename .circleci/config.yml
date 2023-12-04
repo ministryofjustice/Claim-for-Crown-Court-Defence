@@ -95,7 +95,7 @@ executors:
           TZ: Europe/London
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd
-          LIVE1_DB_TASK: none
+          LIVE1_DB_TASK: migrate
       - image: cimg/postgres:13.3
         command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
         environment:

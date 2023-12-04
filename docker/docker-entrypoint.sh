@@ -5,8 +5,6 @@ set +ex
 # printf '\e[33mINFO: DB create\e[0m\n'
 # RUBYOPT=-W:no-deprecated bundle exec rails db:create
 
-# sleep 10
-
 case ${LIVE1_DB_TASK} in
 migrate)
     printf '\e[33mINFO: executing rake db:migrate\e[0m\n'

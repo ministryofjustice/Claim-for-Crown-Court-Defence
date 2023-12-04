@@ -400,6 +400,7 @@ jobs:
   smoke-test:
     executor: smoke-test-executor
     steps:
+      # - setup database
       - smoke-test
 
   smoke-test-dev:
@@ -408,6 +409,8 @@ jobs:
       tag: app-${CIRCLE_SHA1}
     steps:
       - smoke-test
+      - store_artifacts:
+          path: tmp/output.log
 
   smoke-test-notification:
     executor: basic-executor

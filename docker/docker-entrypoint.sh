@@ -9,7 +9,7 @@ echo 'start of docker entrypoint' >> /tmp/output.log
 case ${LIVE1_DB_TASK} in
 migrate)
     printf '\e[33mINFO: executing rake db:migrate\e[0m\n'
-    bundle exec rake db:migrate
+    bundle exec rake db:migrate >> /tmp/output.log
     ;;
 esac
 echo 'end of LIVE1_DB_TASK' >> /tmp/output.log
@@ -34,5 +34,3 @@ echo 'run scheduler_daemon' >> /tmp/output.log
 printf '\e[33mINFO: Launching puma\e[0m\n'
 echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc # Disable IRB autocompletion in rails console
 bundle exec puma -p 3000
-
-echo 'puma is running' >> /tmp/output.log

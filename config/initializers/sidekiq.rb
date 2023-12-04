@@ -23,3 +23,12 @@ end
 if Rails.env.test?
   Sidekiq.logger.level = Logger::WARN
 end
+
+Sidekiq.configure_server do |config|
+  config.on(:startup) do
+    if ENV['DISABLE_SCHEDULED_TASK'].eql?('true') && (Rails.env.development? || Rails.env.test?)
+      Sidekiq.schedule = {}
+      SidekiqScheduler::Scheduler.instance.reload_schedule!
+    end
+  end
+end

@@ -115,7 +115,40 @@ To display the current state of the Sidekiq queues, as a logged in superadmin br
 
 ## Scheduled tasks
 
-TODO
+Scheduled tasks are executed using [Sidekiq Scheduler.](https://github.com/sidekiq-scheduler/sidekiq-scheduler)
+
+The schedule is defined in the Sidekiq configuration file, `config/sidekiq.yml`, in the `scheduler` section:
+
+```yaml
+:scheduler:
+  :schedule:
+    poll_injection_responses:
+      cron: '0 * * * * *'
+      class: Schedule::PollInjectionResponses
+```
+
+A scheduled task requires two parameters;
+
+* `cron`; The schedule is defined with the usual crontab options with an
+  optional first field allowing accuracy to the second. For example,
+  `15 10 * * * *` will run the task at 10 minutes and 15 seconds of every hour
+  while `10 * * * *` will run the task during the 10th minute of every hour.
+* `class`; The class defining the task to be run. This class expects a method
+  `perform` that will be called when the task is executed.
+
+Arguments may be defined for the `perform` method with the optional `args`
+parameter.
+
+By convention, our scheduled task classes are in the `lib/schedule` directory
+and are in the `Schedule` namespace.
+
+The schedule can be viewed in the Sidekiq section while logged in as
+superadmin under the [Recurring Jobs](https://claim-crown-court-defence.service.gov.uk/sidekiq/recurring-jobs) tab.
+From here it is possible to disable and enable tasks.
+
+In the development and test environments the scheduled tasks can be removed by
+setting `DISABLE_SCHEDULED_TASK` in `.env.development` and `.env.test`. See
+`config/initializers/sidekiq.rb`.
 
 ## Mailer previewing
 

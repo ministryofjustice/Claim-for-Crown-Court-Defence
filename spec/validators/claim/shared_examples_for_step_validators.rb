@@ -6,7 +6,7 @@ RSpec.shared_examples 'common partial validations' do |steps|
     context 'from web' do
       before do
         claim.source = 'web'
-        steps.each do |_, fields|
+        steps.each_value do |fields|
           fields.each do |field|
             (fields - [field]).each do |other_field|
               allow_any_instance_of(described_class).to receive(:validate_field).with(other_field)
@@ -54,7 +54,7 @@ RSpec.shared_examples 'common partial association validations' do |steps|
     context 'from web' do
       before do
         claim.source = 'web'
-        steps[:has_one].each do |_, associations|
+        steps[:has_one].each_value do |associations|
           associations.each do |association_data|
             (associations - [association_data]).each do |other_association|
               allow_any_instance_of(described_class).to receive(:validate_association_for).with(claim, other_association[:name])

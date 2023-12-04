@@ -1,0 +1,34 @@
+version: "3.2"
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    environment:
+      RAILS_ENV: "test"
+      CBO_BASE_DATABASE_USERNAME: "postgres"
+      CBO_BASE_DATABASE_PASSWORD: "password"
+      CBO_BASE_DATABASE_DATABASE: "cccd"
+      SECRET_KEY_BASE: "fake"
+      CBO_BASE_DATABASE_HOST: "database"
+      BASH: true
+      ADVOCATE_PASSWORD: just-be-present
+      CASE_WORKER_PASSWORD: just-be-present
+      ADMIN_PASSWORD: just-be-present
+      SUPERADMIN_USERNAME: superadmin@circleci.com
+      SUPERADMIN_PASSWORD: just-be-present
+      TZ: Europe/London
+      LIVE1_DB_TASK: none
+    depends_on:
+      - database
+    container_name: "cccd"
+
+  database:
+    image: postgres
+    restart: always
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_destination=stderr"]
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: "password"
+        POSTGRES_DB: cccd

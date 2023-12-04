@@ -406,9 +406,6 @@ jobs:
       name: smoke-test-executor
       tag: app-${CIRCLE_SHA1}
     steps:
-      - run:
-          name: log it all for debug purposes
-          command: "postgres -c log_statement=all -c log_destination=stderr"
       - smoke-test
 
   smoke-test-notification:

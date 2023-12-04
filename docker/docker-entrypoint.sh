@@ -2,6 +2,9 @@
 # last modified 17-05-2019
 set +ex
 
+printf '\e[33mINFO: DB create\e[0m\n'
+RUBYOPT=-W:no-deprecated bundle exec rails db:create db:migrate
+
 case ${LIVE1_DB_TASK} in
 migrate)
     printf '\e[33mINFO: executing rake db:migrate\e[0m\n'
@@ -27,10 +30,5 @@ echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc # Disable IRB autocomplet
 # warnings raised by rails using ruby 2.7
 #
 
-bundle exec rails db:reset
-bundle exec rails db:seed
 printf '\e[33mINFO: Launching puma\e[0m\n'
-printf 'nokogiri version is'
-nokogiri -v
-printf 'finished here abdi'
 RUBYOPT=-W:no-deprecated bundle exec puma

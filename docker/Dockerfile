@@ -14,22 +14,23 @@ RUN apk --update-cache upgrade \
                    git \
                    gmp=6.2.1-r2 \
                    postgresql-dev \
-                   yarn
+                   yarn \
+                   gcompat
 
-ENV RAILS_ENV production
+ENV RAILS_ENV test
 ENV SECRET_KEY_BASE a-real-secret-key-is-not-needed-here
 
 COPY Gemfile Gemfile.lock $APP_HOME/
 
 RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
-&& bundle config without test development \
+&& bundle config without development \
 && bundle install --jobs 4 --retry 3 \
 && rm -rf /usr/local/bundle/cache/*.gem \
 && find /usr/local/bundle/gems/ -name "*.c" -delete \
 && find /usr/local/bundle/gems/ -name "*.o" -delete
 
 COPY package.json yarn.lock $APP_HOME/
-RUN yarn install --frozen-lockfile --production --silent
+RUN yarn install --frozen-lockfile --test --silent
 
 COPY . $APP_HOME/
 
@@ -47,7 +48,7 @@ LABEL Contact="crowncourtdefence@digital.justice.gov.uk"
 
 RUN set -ex
 
-ENV RAILS_ENV production
+ENV RAILS_ENV test
 ENV APP_HOME /usr/src/app
 WORKDIR $APP_HOME
 
@@ -60,7 +61,8 @@ RUN apk --update-cache upgrade \
                    postgresql-client \
                    redis \
                    runit \
-                   ttf-freefont
+                   ttf-freefont \
+                   gcompat
 
 RUN addgroup -g 1000 -S appgroup \
 && adduser -u 1000 -S appuser -G appgroup

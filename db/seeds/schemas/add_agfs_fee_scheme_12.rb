@@ -158,11 +158,16 @@ module Seeds
         Offence.transaction do
           agfs_scheme_eleven_offences.each do |offence|
             if pretending?
-              puts "[WOULD-COPY] " + "#{offence.unique_code} => #{offence.unique_code.sub('~11','~12')}".yellow
+              puts "[WOULD-COPY] " + "#{offence.unique_code} => #{offence.unique_code.sub('~11', '~12')}".yellow
             else
               new_offence = offence.dup
-              new_offence.unique_code = new_offence.unique_code.sub('~11','~12')
+              new_offence.unique_code = new_offence.unique_code.sub('~11', '~12')
               new_offence.fee_schemes << agfs_fee_scheme_12
+              puts("abdi is here")
+              print new_offence
+              puts '------'
+              puts new_offence.unique_code
+              puts("abdi is here")
               new_offence.save!
               print '.'.green
             end

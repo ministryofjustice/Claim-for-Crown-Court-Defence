@@ -56,9 +56,6 @@ class Claim::AdvocateClaimPresenter < Claim::BaseClaimPresenter
     raw_fixed_fees_total + raw_basic_fees_total + raw_misc_fees_total
   end
 
-  def fixed_fees_vat
-    h.number_to_currency(raw_fixed_fees_vat)
-  end
 
   def fixed_fees_gross
     h.number_to_currency(raw_fixed_fees_gross)

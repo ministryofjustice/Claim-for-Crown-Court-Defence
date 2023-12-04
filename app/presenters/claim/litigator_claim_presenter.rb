@@ -81,10 +81,6 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
     !claim.fixed_fee_case?
   end
 
-  def fixed_fees_vat
-    h.number_to_currency(raw_fixed_fees_vat)
-  end
-
   def fixed_fees_gross
     h.number_to_currency(raw_fixed_fees_gross)
   end

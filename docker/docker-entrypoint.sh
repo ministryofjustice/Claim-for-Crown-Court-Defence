@@ -5,8 +5,11 @@ set +ex
 # printf '\e[33mINFO: DB create\e[0m\n'
 # RUBYOPT=-W:no-deprecated bundle exec rails db:create
 
+echo 'beginning entry point' >> /tmp/output.log
+
 case ${LIVE1_DB_TASK} in
 migrate)
+    echo 'executing rake db:migrate' >> /tmp/output.log
     printf '\e[33mINFO: executing rake db:migrate\e[0m\n'
     bundle exec rake db:migrate
     ;;

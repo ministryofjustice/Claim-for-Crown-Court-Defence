@@ -14,3 +14,35 @@ development:
 production:
   :verbose: true
   :concurrency: 5
+:scheduler:
+  :schedule:
+    poll_injection_responses:
+      cron: '0 * * * * *'
+      class: Schedule::PollInjectionResponses
+    document_cleaner:
+      cron: '0 0 4 * * *'
+      class: Schedule::DocumentCleaner
+    agfs_management_information_generation:
+      cron: '0 0 2 * * *'
+      class: Schedule::ReportGeneration
+      args: ['agfs_management_information']
+    agfs_management_information_v2_generation:
+      cron: '0 50 1 * * *'
+      class: Schedule::ReportGeneration
+      args: ['agfs_management_information_v2']
+    lgfs_management_information_generation:
+      cron: '0 30 2 * * *'
+      class: Schedule::ReportGeneration
+      args: ['lgfs_management_information']
+    lgfs_management_information_v2_generation:
+      cron: '0 20 2 * * *'
+      class: Schedule::ReportGeneration
+      args: ['lgfs_management_information_v2']
+    management_information_generation:
+      cron: '0 0 3 * * *'
+      class: Schedule::ReportGeneration
+      args: ['management_information']
+    management_information_v2_generation:
+      cron: '0 50 2 * * *'
+      class: Schedule::ReportGeneration
+      args: ['management_information_v2']

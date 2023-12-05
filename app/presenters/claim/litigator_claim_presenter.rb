@@ -81,22 +81,6 @@ class Claim::LitigatorClaimPresenter < Claim::BaseClaimPresenter
     !claim.fixed_fee_case?
   end
 
-  def raw_fixed_fees_vat
-    VatRate.vat_amount(raw_fixed_fees_total, claim.created_at, calculate: claim.apply_vat?)
-  end
-
-  def raw_fixed_fees_gross
-    raw_fixed_fees_total + raw_fixed_fees_vat
-  end
-
-  def fixed_fees_vat
-    h.number_to_currency(raw_fixed_fees_vat)
-  end
-
-  def fixed_fees_gross
-    h.number_to_currency(raw_fixed_fees_gross)
-  end
-
   def raw_warrant_fees_vat
     VatRate.vat_amount(raw_warrant_fees_total, claim.created_at, calculate: claim.apply_vat?)
   end

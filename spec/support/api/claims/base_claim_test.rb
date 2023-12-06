@@ -70,12 +70,12 @@ class BaseClaimTest
     @supplier_number ||= external_user.persona.provider.lgfs_supplier_numbers.first.supplier_number
   end
 
-  def fetch_id(endpoint, index: 0, key: 'id', **kwargs)
-    @client.get_dropdown_endpoint(endpoint, api_key, **kwargs).pluck(key)[index]
+  def fetch_id(endpoint, index: 0, key: 'id', **)
+    @client.get_dropdown_endpoint(endpoint, api_key, **).pluck(key)[index]
   end
 
-  def fetch_value(endpoint, index: 0, **kwargs)
-    @client.get_dropdown_endpoint(endpoint, api_key, **kwargs)[index]
+  def fetch_value(endpoint, index: 0, **)
+    @client.get_dropdown_endpoint(endpoint, api_key, **)[index]
   end
 
   def clean_up

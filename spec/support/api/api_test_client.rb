@@ -76,8 +76,8 @@ class ApiTestClient
   # don't raise exceptions but, instead, return the
   # response for analysis.
   #
-  def get_dropdown_endpoint(resource, api_key, **params)
-    endpoint(resource:, prefix: 'api', api_key:, **params) do |e|
+  def get_dropdown_endpoint(resource, api_key, **)
+    endpoint(resource:, prefix: 'api', api_key:, **) do |e|
       body = Caching::APIRequest.cache(e.url) do
         e.get.tap { |response| handle_response(response, resource) }
       end

@@ -79,10 +79,10 @@ RSpec.describe API::V2::CCLFClaim, feature: :injection do
 
   after(:all) { clean_database }
 
-  def create_claim(*args)
+  def create_claim(*)
     # TODO: this should not require build + save + reload
     # understand what the factory is doing to solve this
-    claim = build(*args)
+    claim = build(*)
     claim.save!
     claim.reload
   end

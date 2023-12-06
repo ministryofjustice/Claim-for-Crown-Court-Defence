@@ -4,4 +4,4 @@
       - @misc_fee_count += 1
       = render partial: 'external_users/claims/misc_fees/advocates/misc_fee_fields', locals: { f: misc_fee_fields }
 
-  = link_to_add_association t('.add_misc_fee'), f, :misc_fees, partial: 'external_users/claims/misc_fees/advocates/misc_fee_fields', class: 'govuk-button app-button--blue', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.misc-fee-group-wrapper', module: 'govuk-button' }, role: 'button', draggable: 'false'
+  = link_to_add_association t('.add_misc_fee'), f, :misc_fees, partial: 'external_users/claims/misc_fees/advocates/misc_fee_fields', class: 'govuk-button govuk-button--secondary', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.misc-fee-group-wrapper', module: 'govuk-button' }, role: 'button', draggable: 'false'

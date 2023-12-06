@@ -7,7 +7,7 @@
         = render partial: 'shared/supplier_number_fields', locals: { f: snf }
 
     .govuk-form-group.form-actions
-      = link_to_add_association t('.add_supplier'), f, :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields', class: 'govuk-button app-button--blue', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.supplier-numbers-wrapper', module: 'govuk-button' }, role: 'button', draggable: 'false'
+      = link_to_add_association t('.add_supplier'), f, :lgfs_supplier_numbers, partial: 'shared/supplier_number_fields', class: 'govuk-button govuk-button--secondary', data: { 'association-insertion-method': 'append', 'association-insertion-node': '.supplier-numbers-wrapper', module: 'govuk-button' }, role: 'button', draggable: 'false'
 
     = govuk_detail t('.postcode_help.heading') do
       = t('.postcode_help.text_html')

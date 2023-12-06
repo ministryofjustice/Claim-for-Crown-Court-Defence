@@ -27,7 +27,7 @@ describe('supportingEvidence', function () {
                 <div class="govuk-grid-column-one-half">
                     <label class="block-label" for="claim-evidence-checklist-ids-5-field"><input type="checkbox" value="5" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-5-field">Order in respect of judicial apportionment</label>
                     <label class="block-label" for="claim-evidence-checklist-ids-3-field"><input type="checkbox" value="3" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-3-field">Committal bundle front sheet(s)</label>
-                    <label class="block-label" for="claim-evidence-checklist-ids-4-field"><input type="checkbox" value="4" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-4-field">A copy of the indictment</label>
+                    <label class="block-label" for="claim-evidence-checklist-ids-4-field"><input type="checkbox" value="4" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-4-field">Copy of the indictment</label>
                     <label class="block-label" for="claim-evidence-checklist-ids-1-field"><input type="checkbox" value="1" name="claim[evidence_checklist_ids][]" id="claim-evidence-checklist-ids-1-field">Representation order</label>
                 </div>
                 <div class="govuk-grid-column-one-half">

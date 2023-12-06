@@ -1074,7 +1074,7 @@ en:
           court: 'Court'
           court_hint: For example Cardiff
           cracked_trial_detail: 'Cracked trial detail'
-          main_hearing_date_hint_html: For multi day hearings, please provide the latest date to receive the correct fee rates<br/><br/>For example, 31 9 2022
+          main_hearing_date_hint_html: For multi day hearings, please provide the latest date to receive the correct fee rates<br/><br/>For example 31 9 2022
           litigator: *litigator
           main_hearing_date: 'Final main hearing date'
           offence_class: 'Offence class'
@@ -1202,7 +1202,7 @@ en:
           representation_order_html: Representation order details <span class="fx-numberedList-number"></span>
           maat_reference_number: MAAT reference
           maat_reference_number_html: MAAT reference <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
-          maat_reference_number_eg: 'this should be 7 digits long, starting with at least a 4'
+          maat_reference_number_eg: 'This should be 7 digits long, starting with at least a 4'
           remove: Remove
         summary:
           caption: 'Defendants: This section contains details about each defendant.'
@@ -1492,7 +1492,7 @@ en:
             quantity_hint: Enter a quantity
             quantity_html: Quantity <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
             fee_type: *fee_type
-            fee_type_html: Fee of type <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
+            fee_type_html: Type of fee <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
             add_date_attended: Add dates
             remove: Remove
             no_dates: No dates currently selected.

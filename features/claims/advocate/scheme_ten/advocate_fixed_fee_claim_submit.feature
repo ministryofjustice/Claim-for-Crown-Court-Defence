@@ -66,7 +66,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I should be in the 'Supporting evidence' form page
     And I upload the document 'indictment.pdf'
     And I should see 10 evidence check boxes
-    And I check the evidence boxes for 'A copy of the indictment'
+    And I check the evidence boxes for 'Copy of the indictment'
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for advocate final fees claim"
@@ -86,7 +86,7 @@ Feature: Advocate submits a claim for a Fixed fee (Appeal against conviction)
     And I should see 'Parking'
 
     And I should see 'indictment.pdf'
-    And I should see 'A copy of the indictment'
+    And I should see 'Copy of the indictment'
     And I should see 'Bish bosh bash'
 
     And I should see a page title "View claim summary for advocate final fees claim"

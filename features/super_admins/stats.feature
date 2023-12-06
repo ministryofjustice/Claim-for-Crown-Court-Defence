@@ -1,3 +1,4 @@
+@javascript
 Feature: Stats
 
   Scenario: Changing the dates on the stats page

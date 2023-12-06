@@ -73,7 +73,7 @@ Feature: Advocate creates, saves, edits then submits a claim for a final fee tri
 
     And I upload the document 'judicial_appointment_order.pdf'
     And I should see 10 evidence check boxes
-    And I check the evidence boxes for 'Order in respect of judicial apportionment,A copy of the indictment'
+    And I check the evidence boxes for 'Order in respect of judicial apportionment,Copy of the indictment'
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for advocate final fees claim"

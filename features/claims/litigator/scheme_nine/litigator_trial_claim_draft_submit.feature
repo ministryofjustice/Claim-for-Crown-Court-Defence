@@ -101,7 +101,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     And I should see a page title "Upload supporting evidence for litigator final fees claim"
 
     And I upload the document 'indictment.pdf'
-    And I check the evidence boxes for 'A copy of the indictment'
+    And I check the evidence boxes for 'Copy of the indictment'
     And I add some additional information
 
     When I click Submit to LAA

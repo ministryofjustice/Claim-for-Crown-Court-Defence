@@ -91,7 +91,7 @@ Feature: Litigator partially fills out a draft transfer claim, then later edits 
 
     And I upload 1 document
     And I check the boxes for the uploaded documents
-    And I check the evidence boxes for 'A copy of the indictment'
+    And I check the evidence boxes for 'Copy of the indictment'
     And I add some additional information
 
     And I should see a page title "Upload supporting evidence for litigator transfer fees claim"
@@ -178,7 +178,7 @@ Scenario: I create a transfer claim for an Elected Case Not Proceeded
 
   When I upload 1 document
   And I check the boxes for the uploaded documents
-  And I check the evidence boxes for 'A copy of the indictment'
+  And I check the evidence boxes for 'Copy of the indictment'
   And I add some additional information
   And I click Submit to LAA
   Then I should be on the check your claim page

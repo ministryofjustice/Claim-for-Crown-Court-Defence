@@ -10,7 +10,7 @@ moj.Modules.NewClaim = {
   },
   initSubmitValidation: function () {
     //
-    // Warn the user if 'A copy of the indictment' is not selected in the
+    // Warn the user if 'Copy of the indictment' is not selected in the
     // supporting evidence checklist.
     // Tests in /spec/javascripts/supporting-evidence_spec.js
     //

@@ -23,10 +23,20 @@ require 'utils/account_setter'
 ### Usage:
 
 ```ruby
-emails = ['user1@exaxmple.com', 'user2@exaxmple.com']
+emails = ['user1@example.com', 'user2@example.com']
 accounts = Utils::AccountSetter.new(emails)
+
+# To display a report of basic information
 accounts.report
+
+# To soft delete/undelete users
 accounts.soft_delete
 accounts.un_soft_delete
+
+# To disable/enable users
+accounts.disable
+accounts.enable
+
+# To force the user to request a password reset 
 accounts.change_password
 ```

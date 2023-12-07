@@ -313,7 +313,7 @@ namespace :db do
     end
 
     def write_to_file(name)
-      writer = DumpFileWriter.new(name)
+      writer = Tasks::RakeHelpers::DumpFileWriter.new(name)
       yield -> (model) do
         writer.model = model
         writer.write

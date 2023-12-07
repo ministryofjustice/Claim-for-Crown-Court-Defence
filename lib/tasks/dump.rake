@@ -157,6 +157,7 @@ namespace :db do
           Defendant.find_each(batch_size: batch_size) do |defendant|
             defendant.first_name = Faker::Name.first_name
             defendant.last_name = Faker::Name.last_name
+            defendant.date_of_birth = Faker::Date.birthday
             writer.call(defendant)
           end
         end

@@ -21,5 +21,7 @@ fi
 
 echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc # Disable IRB autocompletion in rails console
 
+bundle exec rails db:schema:load
+
 printf '\e[33mINFO: Launching puma\e[0m\n'
 RUBYOPT=-W:no-deprecated bundle exec puma

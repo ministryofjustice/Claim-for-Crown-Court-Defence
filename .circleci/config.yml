@@ -346,7 +346,6 @@ commands:
       - run:
           name: Persistence - prepare result storage
           command: mkdir -p /tmp/smoke_test
-      - run: bundle exec rails db:schema:load
       - run:
           name: Run app server
           command: bundle exec puma -p 3000

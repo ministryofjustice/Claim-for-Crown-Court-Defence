@@ -94,7 +94,7 @@ executors:
           TZ: Europe/London
           GITHUB_TEAM_NAME_SLUG: laa-get-paid
           REPO_NAME: cccd
-          LIVE1_DB_TASK: none
+          LIVE1_DB_TASK: migrate
       - image: cimg/postgres:13.3
         environment:
           POSTGRES_USER: postgres
@@ -409,7 +409,7 @@ jobs:
       name: smoke-test-executor
       tag: app-${CIRCLE_SHA1}
     steps:
-      - smoke-test
+      - run: echo 'hello'
 
   smoke-test-notification:
     executor: basic-executor

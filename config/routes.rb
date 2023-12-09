@@ -211,7 +211,7 @@ Rails.application.routes.draw do
   # catch-all route
   # -------------------------------------------------
   # WARNING: do not put routes below this point
-  unless Rails.env.development? || Rails.env.devunicorn?
+  unless Rails.env.development?
     match '*path', to: 'errors#not_found', via: :all
   end
 end

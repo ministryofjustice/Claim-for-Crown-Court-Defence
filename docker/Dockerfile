@@ -21,7 +21,7 @@ ENV RAILS_ENV production
 COPY Gemfile Gemfile.lock $APP_HOME/
 
 RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
-&& bundle config without test development devunicorn \
+&& bundle config without test development \
 && bundle install --jobs 4 --retry 3 \
 && rm -rf /usr/local/bundle/cache/*.gem \
 && find /usr/local/bundle/gems/ -name "*.c" -delete \

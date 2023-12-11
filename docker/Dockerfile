@@ -67,8 +67,6 @@ RUN addgroup -g 1000 -S appgroup \
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder --chown=appuser:appgroup $APP_HOME $APP_HOME
 
-
-
 ARG VERSION_NUMBER
 ARG COMMIT_ID
 ARG BUILD_DATE

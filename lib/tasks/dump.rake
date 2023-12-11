@@ -68,7 +68,7 @@ namespace :db do
       exit if host.eql?('localhost')
 
       shell_working "writing dump file #{filename}.gz to #{host}'s s3 bucket..." do
-        s3_bucket = S3Bucket.new(host)
+        s3_bucket = Tasks::RakeHelpers::S3Bucket.new(host)
         s3_bucket.put_object(compressed_file, File.read(compressed_file))
       end
 
@@ -83,7 +83,7 @@ namespace :db do
       host = args.host
       raise ArgumentError.new("invalid host #{host}") unless valid_hosts.include?(host)
 
-      s3_bucket = S3Bucket.new(host)
+      s3_bucket = Tasks::RakeHelpers::S3Bucket.new(host)
       dump_files = s3_bucket.list('tmp').select { |item| item.key.match?('dump') }
 
       abort('No dump files found!'.yellow) if dump_files.empty?
@@ -104,7 +104,7 @@ namespace :db do
 
       raise ArgumentError.new("invalid host #{host}") unless valid_hosts.include?(host)
 
-      s3_bucket = S3Bucket.new(host)
+      s3_bucket = Tasks::RakeHelpers::S3Bucket.new(host)
       dump_files = s3_bucket.list('tmp').select { |item| item.key.match?('dump') }
 
       abort("#{dump_files.size} dump file(s) found!".yellow) if dump_files.empty?
@@ -127,7 +127,7 @@ namespace :db do
       FileUtils.mkpath(dirname)
       local_filename = dirname.join(dump_file.split(File::Separator).last)
 
-      s3_bucket = S3Bucket.new(host)
+      s3_bucket = Tasks::RakeHelpers::S3Bucket.new(host)
       shell_working "Copying S3 file #{dump_file} to local file #{local_filename} data" do
         File.open(local_filename, 'wb') do |file|
           reap = s3_bucket.get_object(dump_file, target: file)
@@ -157,6 +157,7 @@ namespace :db do
           Defendant.find_each(batch_size: batch_size) do |defendant|
             defendant.first_name = Faker::Name.first_name
             defendant.last_name = Faker::Name.last_name
+            defendant.date_of_birth = Faker::Date.birthday
             writer.call(defendant)
           end
         end
@@ -312,7 +313,7 @@ namespace :db do
     end
 
     def write_to_file(name)
-      writer = DumpFileWriter.new(name)
+      writer = Tasks::RakeHelpers::DumpFileWriter.new(name)
       yield -> (model) do
         writer.model = model
         writer.write

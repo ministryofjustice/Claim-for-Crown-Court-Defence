@@ -83,6 +83,6 @@ ENV LIVE1_DB_TASK=${LIVE1_DB_TASK}
 USER 1000
 
 # Create tmp/pids/ needed for puma
-RUN mkdir -p /usr/src/app/tmp/pids
+RUN mkdir -p $APP_HOME/tmp/pids
 
 CMD "./docker/docker-entrypoint.sh"

@@ -67,8 +67,7 @@ RUN addgroup -g 1000 -S appgroup \
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY --from=builder --chown=appuser:appgroup $APP_HOME $APP_HOME
 
-# Create tmp/pids/ needed for puma
-RUN mkdir -p /usr/src/app/tmp/pids
+
 
 ARG VERSION_NUMBER
 ARG COMMIT_ID
@@ -84,4 +83,8 @@ ENV APP_BRANCH=${APP_BRANCH}
 ENV LIVE1_DB_TASK=${LIVE1_DB_TASK}
 
 USER 1000
+
+# Create tmp/pids/ needed for puma
+RUN mkdir -p /usr/src/app/tmp/pids
+
 CMD "./docker/docker-entrypoint.sh"

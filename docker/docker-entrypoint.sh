@@ -19,6 +19,7 @@ else
   printf '\e[33mINFO: Using remote redis-server specified in REDIS_URL\e[0m\n'
 fi
 
-printf '\e[33mINFO: Launching unicorn\e[0m\n'
 echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc # Disable IRB autocompletion in rails console
-bundle exec unicorn -p 3000 -c config/unicorn.rb
+
+printf '\e[33mINFO: Launching puma\e[0m\n'
+RUBYOPT=-W:no-deprecated bundle exec puma

@@ -70,12 +70,6 @@ rails server
 rails server -p 3001 -P /tmp/rails3001.pid
 ```
 
-You can run a multi-process server like unicorn on port 3000. This can be done with the following line, but the BetterErrors page will not work correctly if you get an exceptions.
-
-```
-rails server -e devunicorn
-```
-
 #### Install Libreoffice
 Libreoffice is used to convert files uploaded in CCCD to PDFs for generating performant, viewable documents of any document type, accessed via a view link. You will need to install this locally.
 

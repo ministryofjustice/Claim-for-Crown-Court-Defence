@@ -12,10 +12,6 @@ development:
   <<: *default
   database: cbo_development
 
-devunicorn:
-  <<: *default
-  database: cbo_development
-
 test: &test
   <<: *default
   database: <%= "cccd_test#{ENV['TEST_ENV_NUMBER']}" %>

@@ -30,7 +30,7 @@ namespace :db do
         exit(1)
       end
 
-      unless File.exists?(dump_file)
+      unless File.exist?(dump_file)
         puts 'File %s not found.' % dump_file
         exit(1)
       end
@@ -89,7 +89,7 @@ namespace :db do
   desc 'Restores the database from a backup'
   task :restore, [:file] => :environment do |_task, args|
     production_protected
-    include IdSequenceResettable
+    include Tasks::RakeHelpers::IdSequenceResettable
 
     dump_file = args.file
 
@@ -99,7 +99,7 @@ namespace :db do
       exit(1)
     end
 
-    unless File.exists?(dump_file)
+    unless File.exist?(dump_file)
       puts 'File %s not found.' % dump_file
       exit(1)
     end

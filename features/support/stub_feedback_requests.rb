@@ -2,12 +2,12 @@ require 'webmock/cucumber'
 
 Before('@stub_feedback_success') do
   stub_request(:post, %r{\A#{feedback_service_url}} )
-    .and_return(status: 201, body: successful_zendesk_body.to_json)
+    .and_return(status: 201, body: successful_feedback_body.to_json)
 end
 
 Before('@stub_feedback_failure') do
   stub_request(:post, %r{\A#{feedback_service_url}} )
-    .and_return(status: 500, body: unsuccessful_zendesk_body.to_json)
+    .and_return(status: 500, body: unsuccessful_feedback_body.to_json)
 end
 
 Before('@stub_bug_report_success') do
@@ -20,12 +20,24 @@ Before('@stub_bug_report_failure') do
     .and_return(status: 500, body: unsuccessful_zendesk_body.to_json)
 end
 
-def successful_zendesk_body
-  { item: {} }.to_json
+def successful_feedback_body
+  if Settings.zendesk_feedback_enabled?
+    # Zendesk
+    { item: {} }.to_json
+  else
+    # Survey Monkey
+    { id: '123' }.to_json
+  end
 end
 
-def unsuccessful_zendesk_body
-  { error: 'Unsuccessful' }.to_json
+def unsuccessful_feedback_body
+  if Settings.zendesk_feedback_enabled?
+    # Zendesk
+    { error: 'Unsuccessful' }.to_json
+  else
+    # Survey Monkey
+    { error: { id: '1050' } }.to_json
+  end
 end
 
 def feedback_service_url

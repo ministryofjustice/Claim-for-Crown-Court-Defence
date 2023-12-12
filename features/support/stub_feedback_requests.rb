@@ -12,12 +12,12 @@ end
 
 Before('@stub_bug_report_success') do
   stub_request(:post, %r{\Ahttps://ministryofjustice.zendesk.com/api/v2/.*} )
-  .and_return(status: 201, body: successful_zendesk_body.to_json)
+  .and_return(status: 201, body: { item: {} }.to_json)
 end
 
 Before('@stub_bug_report_failure') do
   stub_request(:post, %r{\Ahttps://ministryofjustice.zendesk.com/api/v2/.*} )
-    .and_return(status: 500, body: unsuccessful_zendesk_body.to_json)
+    .and_return(status: 500, body: { error: 'Unsuccessful' }.to_json)
 end
 
 def successful_feedback_body

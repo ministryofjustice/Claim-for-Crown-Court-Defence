@@ -44,6 +44,6 @@ def feedback_service_url
   if Settings.zendesk_feedback_enabled?
     "https://ministryofjustice.zendesk.com/api/v2/.*"
   else
-    "https://api.eu.surveymonkey.com/v3/.*"
+    "https://api.surveymonkey.com/v3/.*"
   end
 end

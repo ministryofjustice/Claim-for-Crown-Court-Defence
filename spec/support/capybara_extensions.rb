@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'capybara_extensions/govuk_component/matchers'
+require_relative 'capybara_extensions/govuk_component_cccd/matchers'
 
 module CapybaraExtensions
   def self.extension_methods
-    (CapybaraExtensions::GOVUKComponent::Matchers.instance_methods - Object.instance_methods).uniq
+    (CapybaraExtensions::GovukComponentCccd::Matchers.instance_methods - Object.instance_methods).uniq
   end
 end
 
@@ -25,6 +25,6 @@ module Capybara
     end
   end
 
-  Node::Base.include CapybaraExtensions::GOVUKComponent::Matchers
-  Node::Simple.include CapybaraExtensions::GOVUKComponent::Matchers
+  Node::Base.include CapybaraExtensions::GovukComponentCccd::Matchers
+  Node::Simple.include CapybaraExtensions::GovukComponentCccd::Matchers
 end

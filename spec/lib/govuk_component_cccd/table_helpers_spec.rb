@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::TableHelpers, type: :helper do
+RSpec.describe GovukComponentCccd::TableHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_table' do

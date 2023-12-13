@@ -1,5 +1,5 @@
 class SupplierNumberSubModelValidator < BaseSubModelValidator
-  include GOVUKDesignSystemFormBuilderErrorable
+  include GovukDesignSystemFormBuilderErrorable
 
   def has_many_association_names
     [:lgfs_supplier_numbers]

@@ -11,7 +11,7 @@
 # NOTE: Once all models are using this module then the method(s)
 # can be promoted to the superclass and this module removed
 #
-module GOVUKDesignSystemFormBuilderErrorable
+module GovukDesignSystemFormBuilderErrorable
   extend ActiveSupport::Concern
 
   included do

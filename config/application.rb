@@ -10,7 +10,7 @@ Bundler.require(*Rails.groups)
 Dotenv::Railtie.load
 
 # Custom railties that are not gems can be required here
-require_relative '../lib/govuk_component'
+require_relative '../lib/govuk_component_cccd'
 
 module AdvocateDefencePayments
   class Application < Rails::Application

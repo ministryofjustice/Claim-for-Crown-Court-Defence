@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GOVUKComponent
+module GovukComponentCccd
   module SharedHelpers
     private
 

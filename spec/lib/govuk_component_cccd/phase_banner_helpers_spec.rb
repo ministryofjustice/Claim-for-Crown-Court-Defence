@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::PhaseBannerHelpers, type: :helper do
+RSpec.describe GovukComponentCccd::PhaseBannerHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_phase_banner' do

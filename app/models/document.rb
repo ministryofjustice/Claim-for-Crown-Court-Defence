@@ -30,7 +30,7 @@ class Document < ApplicationRecord
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user
 
-  after_create :convert_document
+  after_create :sanitize_filename, :convert_document
 
   before_destroy :purge_attachments
 
@@ -82,5 +82,14 @@ class Document < ApplicationRecord
   def purge_attachments
     document.purge
     converted_preview_document.purge
+  end
+
+  def sanitize_filename
+    return unless document.attached?
+
+    # sanitized_filename = document.filename.to_s.delete!("';=")
+    sanitized_filename = CGI.escape(document.filename.to_s)
+
+    document.update!(filename: sanitized_filename)
   end
 end

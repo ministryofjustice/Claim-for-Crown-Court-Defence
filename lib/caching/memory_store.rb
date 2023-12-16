@@ -2,6 +2,8 @@ require_relative 'abstract_store'
 
 class Caching
   class MemoryStore < AbstractStore
+    delegate :clear, to: :store
+
     def initialize
       self.store = {}
     end
@@ -16,10 +18,6 @@ class Caching
 
     def set(key, value)
       store[key] = value
-    end
-
-    def clear
-      store.clear
     end
   end
 end

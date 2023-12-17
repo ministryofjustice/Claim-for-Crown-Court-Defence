@@ -237,7 +237,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
 
             it 'creates the miscellaneous fees' do
               expect(assigns(:claim).misc_fees.size).to eq 2
-              expect(assigns(:claim).misc_fees.map(&:amount).sum).to eq 375
+              expect(assigns(:claim).misc_fees.sum(&:amount)).to eq 375
             end
 
             it 'updates claim total to sum of graduated and miscellaneous fees' do
@@ -293,7 +293,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
 
             it 'creates the miscellaneous fees' do
               expect(assigns(:claim).misc_fees.size).to eq 2
-              expect(assigns(:claim).misc_fees.map(&:amount).sum).to eq 375
+              expect(assigns(:claim).misc_fees.sum(&:amount)).to eq 375
             end
 
             it 'does not create the graduated fee' do

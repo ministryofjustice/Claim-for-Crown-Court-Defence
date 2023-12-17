@@ -5,7 +5,7 @@ class Stage
 
   delegate :to_sym, to: :name
 
-  def initialize(name:, transitions: [], dependencies: [], object:)
+  def initialize(name:, object:, transitions: [], dependencies: [])
     @name = name
     @object = object
     @transitions = initialize_transitions(transitions || [])

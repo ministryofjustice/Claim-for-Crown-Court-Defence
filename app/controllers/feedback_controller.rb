@@ -28,7 +28,7 @@ class FeedbackController < ApplicationController
   end
 
   def referrer_path
-    URI(request.referrer.to_s).path
+    URI(request.referer.to_s).path
   end
 
   def merged_feedback_params

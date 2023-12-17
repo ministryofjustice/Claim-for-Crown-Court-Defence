@@ -8,7 +8,7 @@ RSpec.describe AdpTextField do
       TestHelper.new(
         ActionView::LookupContext.new([]), # lookup_context
         {}, # assigns
-        ActionController::Base.new() # controller
+        ActionController::Base.new # controller
       )
     end
     let(:resource) { create(:claim, case_number: nil) }

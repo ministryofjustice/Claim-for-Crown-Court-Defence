@@ -144,7 +144,7 @@ RSpec.describe Claims::ContextMapper do
       it 'litigator admin context should return all claims created by members of the provider' do
         context = Claims::ContextMapper.new(@litigator_admin)
         external_user_ids = ExternalUser.where(provider_id: @lgfs_provider).pluck(:id).sort
-        expected_ids = Claim::LitigatorClaim.where('external_user_id in (?)', external_user_ids).pluck(:id)
+        expected_ids = Claim::LitigatorClaim.where(external_user_id: external_user_ids).pluck(:id)
         expect(context.available_claims.pluck(:id).sort).to eq(expected_ids.sort)
         expect(context.available_claims.count).to eq 4
       end

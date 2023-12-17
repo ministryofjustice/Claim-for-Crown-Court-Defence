@@ -49,7 +49,7 @@ module CaseWorkerClaimParamReadable
     end
 
     def state_symbol(other_suffix: true)
-      @state_noun ||= :"#{state}_reason#{'_other' if other_suffix}"
+      @state_symbol ||= :"#{state}_reason#{'_other' if other_suffix}"
     end
 
     def transition_reason_text_missing?

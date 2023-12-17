@@ -32,8 +32,8 @@ module GoogleAnalytics
     end
 
     def interpolate(template_hash, data)
-      template_hash.each_with_object({}) do |(key, value), h|
-        h[key] = value % data
+      template_hash.transform_values do |value|
+        value % data
       end
     end
   end

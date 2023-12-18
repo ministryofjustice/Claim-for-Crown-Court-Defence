@@ -81,7 +81,7 @@ moj.Modules.SideBar = {
     const self = this
     let selector
     let value
-    this.sanitzeFeeToFloat()
+    this.sanitizeFeeToFloat()
     $.each(this.totals, function (key, val) {
       selector = '.total-' + key
       value = moj.Helpers.Blocks.formatNumber(val)
@@ -136,7 +136,7 @@ moj.Modules.SideBar = {
     })
   },
 
-  sanitzeFeeToFloat: function () {
+  sanitizeFeeToFloat: function () {
     const self = this
     $.each(this.totals, function (key, val) {
       if (typeof self.totals[key] === 'string') {

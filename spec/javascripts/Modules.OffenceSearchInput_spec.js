@@ -21,8 +21,11 @@ describe('Modules.OffenceSearchInput.js', function () {
   }
 
   beforeEach(function () {
-    $('body .mod-search-input').remove()
     $('body').append(view())
+  })
+
+  afterEach(function () {
+    $('body .mod-search-input').remove()
   })
 
   describe('...defaults', function () {
@@ -38,8 +41,8 @@ describe('Modules.OffenceSearchInput.js', function () {
     it('`this.feeScheme`', function () {
       expect(module.feeScheme).toEqual('.fx-fee-scheme')
     })
-    it('`this.debouce`', function () {
-      expect(module.debouce).toEqual(500)
+    it('`this.debounce`', function () {
+      expect(module.debounce).toEqual(500)
     })
     it('`this.subscribers`', function () {
       expect(module.subscribers).toEqual({
@@ -176,9 +179,10 @@ describe('Modules.OffenceSearchInput.js', function () {
     describe('...trackUserInput', function () {
       it('should use `moj.Modules.Debounce`', function () {
         spyOn(moj.Modules.Debounce, 'init')
-        module.$input.val('mudr')
 
         module.init()
+
+        module.$input.val('mudr')
 
         // trigger keyup
         module.$input.trigger($.Event('keyup', {

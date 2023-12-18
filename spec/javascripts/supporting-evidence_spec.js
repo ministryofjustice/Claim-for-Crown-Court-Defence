@@ -1,6 +1,6 @@
 describe('supportingEvidence', function () {
-  const submitCallback = jasmine.createSpy('submit').and.returnValue(false)
   let confirmAlert
+  let submitCallback
 
   const $form = function () {
     return $('#supporting-evidence-fixture-form')
@@ -40,14 +40,16 @@ describe('supportingEvidence', function () {
         </fieldset>
         <div class="button-holder">
             <button type="submit" name="commit_submit_claim" value="Continue" class="govuk-button" data-module="govuk-button">Save and continue</button>
-            <button class="govuk-button govuk-button--secondary" data-module="govuk-button">Save a draft</button>
+            <button class="govuk-button govuk-button--secondary" name="commit_save_draft" data-module="govuk-button">Save a draft</button>
         </div>
     </form>
   </div>
 `)
+
   beforeEach(function () {
     $('body').append(fixtureDom)
 
+    submitCallback = jasmine.createSpy('submit').and.returnValue(false)
     $form().submit(submitCallback)
     confirmAlert = spyOn(window, 'confirm')
 
@@ -80,6 +82,10 @@ describe('supportingEvidence', function () {
     })
 
     describe('should not alert when copy of the indictment is selected in the supporting evidence checklist', function () {
+      afterEach(function () {
+        $indictmentEvidence().trigger('click')
+      })
+
       it('and submit the form', function () {
         $indictmentEvidence().trigger('click')
 

@@ -65,7 +65,7 @@ describe('Modules.SideBar.js', function () {
   })
 
   afterEach(function () {
-    moj.Modules.SideBar.phantomBlockList = ['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'disbursements', 'expenses']
+    moj.Modules.SideBar.phantomBlockList = ['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'hardshipFees', 'disbursements', 'expenses']
     moj.Modules.SideBar.blocks = []
     moj.Modules.SideBar.totals = {
       fixedFees: 0,
@@ -74,6 +74,7 @@ describe('Modules.SideBar.js', function () {
       warrantFees: 0,
       interimFees: 0,
       transferFees: 0,
+      hardshipFees: 0,
       disbursements: 0,
       expenses: 0,
       vat: 0,
@@ -104,6 +105,7 @@ describe('Modules.SideBar.js', function () {
         warrantFees: 0,
         interimFees: 0,
         transferFees: 0,
+        hardshipFees: 0,
         disbursements: 0,
         expenses: 0,
         vat: 0,
@@ -112,7 +114,7 @@ describe('Modules.SideBar.js', function () {
     })
 
     it('should have a `phantomBlockList` property defined', function () {
-      expect(moj.Modules.SideBar.phantomBlockList).toEqual(['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'disbursements', 'expenses'])
+      expect(moj.Modules.SideBar.phantomBlockList).toEqual(['fixedFees', 'gradFees', 'miscFees', 'warrantFees', 'interimFees', 'transferFees', 'hardshipFees', 'disbursements', 'expenses'])
     })
 
     it('should have a `blocks` property defined', function () {
@@ -156,8 +158,6 @@ describe('Modules.SideBar.js', function () {
         moj.Modules.SideBar.loadBlocks()
 
         expect(moj.Modules.SideBar.blocks.length).toBe(3)
-
-        jsBlockFixtureDOM.empty()
       })
 
       it('should cache an instance of `FeeBlock` for every `.js-block` el', function () {
@@ -171,8 +171,6 @@ describe('Modules.SideBar.js', function () {
 
         moj.Modules.SideBar.loadBlocks()
         expect(moj.Modules.SideBar.blocks.length).toEqual(3)
-
-        jsBlockFixtureDOM.empty()
       })
 
       it('should update the `phantomBlockList` by removing types', function () {
@@ -193,9 +191,7 @@ describe('Modules.SideBar.js', function () {
         moj.Modules.SideBar.loadBlocks()
 
         expect(moj.Modules.SideBar.removePhantomKey).toHaveBeenCalled()
-        expect(moj.Modules.SideBar.phantomBlockList.length).toEqual(6)
-
-        jsBlockFixtureDOM.empty()
+        expect(moj.Modules.SideBar.phantomBlockList.length).toEqual(7)
       })
     })
 
@@ -203,9 +199,9 @@ describe('Modules.SideBar.js', function () {
       it('should remove items from the array', function () {
         const module = moj.Modules.SideBar
         module.removePhantomKey('Hellos')
-        expect(module.phantomBlockList.length).toEqual(8)
+        expect(module.phantomBlockList.length).toEqual(9)
         module.removePhantomKey('fixedFees')
-        expect(module.phantomBlockList.length).toEqual(7)
+        expect(module.phantomBlockList.length).toEqual(8)
       })
     })
 
@@ -230,10 +226,10 @@ describe('Modules.SideBar.js', function () {
         expect($el.find('.total-grandTotal')[0].innerHTML).toBe('£333.00')
       })
 
-      it('should call `sanitzeFeeToFloat`', function () {
-        spyOn(moj.Modules.SideBar, 'sanitzeFeeToFloat')
+      it('should call `sanitizeFeeToFloat`', function () {
+        spyOn(moj.Modules.SideBar, 'sanitizeFeeToFloat')
         moj.Modules.SideBar.render()
-        expect(moj.Modules.SideBar.sanitzeFeeToFloat).toHaveBeenCalled()
+        expect(moj.Modules.SideBar.sanitizeFeeToFloat).toHaveBeenCalled()
       })
     })
 
@@ -286,7 +282,8 @@ describe('Modules.SideBar.js', function () {
 
         describe('...calculations', function () {
           it('should add to the correct `this.type` property', function () {
-            $('#claim-form').append(jsBlockViewCalculated())
+            jsBlockFixtureDOM.append(jsBlockViewCalculated())
+            $('body').append(jsBlockFixtureDOM)
 
             moj.Modules.SideBar.init()
 
@@ -357,6 +354,11 @@ describe('Modules.SideBar.js', function () {
     })
 
     describe('...bindListeners', function () {
+      beforeEach(function () {
+        jsBlockFixtureDOM.append(jsBlockViewCalculated())
+        $('body').append(jsBlockFixtureDOM)
+      })
+
       it('should bind the listeners to the dom elements', function () {
         spyOn(jQuery.fn, 'on')
         moj.Modules.SideBar.bindListeners()
@@ -386,8 +388,8 @@ describe('Modules.SideBar.js', function () {
       })
     })
 
-    describe('...sanitzeFeeToFloat', function () {
-      it('should sanitze the totals correctly', function () {
+    describe('...sanitizeFeeToFloat', function () {
+      it('should sanitize the totals correctly', function () {
         const expected = {
           fees: 10.20,
           disbursements: 4558.99,
@@ -403,7 +405,7 @@ describe('Modules.SideBar.js', function () {
           grandTotal: 0
         }
 
-        moj.Modules.SideBar.sanitzeFeeToFloat()
+        moj.Modules.SideBar.sanitizeFeeToFloat()
         expect(moj.Modules.SideBar.totals).toEqual(expected)
       })
     })

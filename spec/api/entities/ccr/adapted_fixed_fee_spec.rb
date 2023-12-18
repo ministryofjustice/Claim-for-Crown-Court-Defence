@@ -17,7 +17,9 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
 
     before do |example|
       create(:fixed_fee, fee_type: fxcbr, claim:, quantity: 13) unless example.metadata[:skip_fee]
-      create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: 'T20170001,T20170002') unless example.metadata[:skip_uplifts]
+      unless example.metadata[:skip_uplifts]
+        create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: 'T20170001,T20170002')
+      end
     end
 
     it 'exposes expected json key-value pairs' do

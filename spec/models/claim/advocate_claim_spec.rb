@@ -9,16 +9,14 @@ RSpec.describe Claim::AdvocateClaim do
   it_behaves_like 'uses claim cleaner', Cleaners::AdvocateClaimCleaner
 
   it { is_expected.to delegate_method(:requires_cracked_dates?).to(:case_type) }
-
   it { is_expected.to accept_nested_attributes_for(:basic_fees) }
   it { is_expected.to accept_nested_attributes_for(:fixed_fees) }
-
-  specify { expect(claim.external_user_type).to eq(:advocate) }
-  specify { expect(claim.requires_case_type?).to be_truthy }
-  specify { expect(claim.agfs?).to be_truthy }
-  specify { expect(claim.final?).to be_truthy }
-  specify { expect(claim.interim?).to be_falsey }
-  specify { expect(claim.supplementary?).to be_falsey }
+  it { expect(claim.external_user_type).to eq(:advocate) }
+  it { is_expected.to be_requires_case_type }
+  it { is_expected.to be_agfs }
+  it { is_expected.to be_final }
+  it { is_expected.not_to be_interim }
+  it { is_expected.not_to be_supplementary }
 
   describe 'validates external user and creator with same provider' do
     subject(:claim) { described_class.create(external_user:, creator:) }
@@ -50,22 +48,30 @@ RSpec.describe Claim::AdvocateClaim do
       let(:creator) { create(:external_user, provider: create(:provider)) }
 
       it { is_expected.not_to be_valid }
-      it { expect(claim.errors.messages[:external_user_id]).to eq(['Creator and advocate must belong to the same provider']) }
+
+      it do
+        expect(claim.errors.messages[:external_user_id]).to eq(
+          ['Creator and advocate must belong to the same provider']
+        )
+      end
     end
   end
 
   describe 'validate external user is advocate role' do
-    let(:claim) { build(:unpersisted_claim, :with_fixed_fee_case) }
+    subject { claim.external_user.is?(:advocate) }
 
-    it 'validates external user with advocate role' do
-      expect(claim.external_user.is?(:advocate)).to be_truthy
-      expect(claim).to be_valid
-    end
+    it { is_expected.to be_truthy }
+    it { expect(claim).to be_valid }
 
-    it 'rejects external user without advocate role' do
-      claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
-      expect(claim).not_to be_valid
-      expect(claim.errors[:external_user_id]).to include('must have advocate role')
+    context 'when the external user does not have an advocate role' do
+      before do
+        claim.external_user = build :external_user, :litigator, provider: claim.creator.provider
+        claim.validate
+      end
+
+      it { is_expected.to be_falsey }
+      it { expect(claim).not_to be_valid }
+      it { expect(claim.errors[:external_user_id]).to include('must have advocate role') }
     end
   end
 
@@ -86,36 +92,36 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  context 'eligible fee types' do
+  describe 'eligible fee types' do
     subject(:claim) { build(:unpersisted_claim) }
 
-    before(:all) do
-      @bft1 = create(:basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10], description: 'bft1')
-      @bft2 = create(:basic_fee_type, :lgfs, description: 'bft2')
-      @bft3 = create(:basic_fee_type, description: 'bft3')
-      @bft4 = create(:basic_fee_type, roles: %w[agfs agfs_scheme_9], description: 'bft4')
-      @bft5 = create(:basic_fee_type, roles: %w[agfs agfs_scheme_10], description: 'bft5')
-      @mft1 = create(:misc_fee_type, :agfs_scheme_9)
-      @mft2 = create(:misc_fee_type, :lgfs)
-      @mft3 = create(:misc_fee_type, :agfs_scheme_10)
-      @fft1 = create(:fixed_fee_type)
-      @fft2 = create(:fixed_fee_type, :lgfs)
-    end
+    let(:basic_fee_type_schemes_nine_and_ten) { create(:basic_fee_type, roles: %w[agfs agfs_scheme_9 agfs_scheme_10]) }
+    let(:basic_fee_type_no_scheme) { create(:basic_fee_type) }
+    let(:basic_fee_type_scheme_nine) { create(:basic_fee_type, roles: %w[agfs agfs_scheme_9]) }
+    let(:basic_fee_type_scheme_ten) { create(:basic_fee_type, roles: %w[agfs agfs_scheme_10]) }
 
-    after(:all) do
-      clean_database
+    before do
+      create(:basic_fee_type, :lgfs)
+      create(:misc_fee_type, :agfs_scheme_9)
+      create(:misc_fee_type, :lgfs)
+      create(:misc_fee_type, :agfs_scheme_10)
+      create(:fixed_fee_type)
+      create(:fixed_fee_type, :lgfs)
     end
 
     describe '#eligible_basic_fee_types' do
       it 'returns only basic fee types for AGFS' do
-        expect(claim.eligible_basic_fee_types).to contain_exactly(@bft1, @bft3, @bft4)
+        expect(claim.eligible_basic_fee_types).to contain_exactly(basic_fee_type_schemes_nine_and_ten,
+                                                                  basic_fee_type_no_scheme,
+                                                                  basic_fee_type_scheme_nine)
       end
 
       context 'when claim has fee reform scheme' do
         let(:claim) { create(:claim, :agfs_scheme_10) }
 
         it 'returns only basic fee types for AGFS excluding the ones that are not part of the fee reform' do
-          expect(claim.eligible_basic_fee_types).to contain_exactly(@bft1, @bft5)
+          expect(claim.eligible_basic_fee_types).to contain_exactly(basic_fee_type_schemes_nine_and_ten,
+                                                                    basic_fee_type_scheme_ten)
         end
       end
 
@@ -124,7 +130,8 @@ RSpec.describe Claim::AdvocateClaim do
         let(:claim) { create(:claim, create_defendant_and_rep_order: false, source: 'api', offence:) }
 
         it 'returns only basic fee types for AGFS scheme 10' do
-          expect(claim.eligible_basic_fee_types).to contain_exactly(@bft1, @bft5)
+          expect(claim.eligible_basic_fee_types).to contain_exactly(basic_fee_type_schemes_nine_and_ten,
+                                                                    basic_fee_type_scheme_ten)
         end
       end
     end
@@ -134,12 +141,13 @@ RSpec.describe Claim::AdvocateClaim do
 
       let(:service) { instance_double(Claims::FetchEligibleMiscFeeTypes) }
 
-      it 'calls eligible misc fee type fetch service' do
+      before do
         allow(Claims::FetchEligibleMiscFeeTypes).to receive(:new).and_return service
         allow(service).to receive(:call)
         call
-        expect(service).to have_received(:call)
       end
+
+      it { expect(service).to have_received(:call) }
     end
 
     describe '#eligible_fixed_fee_types' do
@@ -147,23 +155,23 @@ RSpec.describe Claim::AdvocateClaim do
 
       let(:service) { instance_double(Claims::FetchEligibleFixedFeeTypes) }
 
-      it 'calls eligible fixed fee type fetch service' do
+      before do
         allow(Claims::FetchEligibleFixedFeeTypes).to receive(:new).and_return service
         allow(service).to receive(:call)
         call
-        expect(service).to have_received(:call)
       end
+
+      it { expect(service).to have_received(:call) }
     end
   end
 
   describe '#eligible_advocate_categories' do
-    let(:categories) { double(:mocked_categories_result) }
+    let(:categories) { ['Junior alone', 'Leading junior', 'Led junior', 'QC'] }
     let(:claim) { build(:advocate_claim) }
 
-    specify do
-      allow(Claims::FetchEligibleAdvocateCategories).to receive(:for).with(claim).and_return(categories)
-      expect(claim.eligible_advocate_categories).to eq(categories)
-    end
+    before { allow(Claims::FetchEligibleAdvocateCategories).to receive(:for).with(claim).and_return(categories) }
+
+    it { expect(claim.eligible_advocate_categories).to eq(categories) }
   end
 
   describe 'State Machine meta states magic methods' do
@@ -175,10 +183,7 @@ RSpec.describe Claim::AdvocateClaim do
     describe '#external_user_dashboard_draft?' do
       before { allow(claim).to receive(:state).and_return('draft') }
 
-      it 'responds true in draft' do
-        allow(claim).to receive(:state).and_return('draft')
-        expect(claim.external_user_dashboard_draft?).to be true
-      end
+      it { expect(claim.external_user_dashboard_draft?).to be true }
 
       it 'responds false to anything else' do
         (all_states - ['draft']).each do |state|
@@ -191,10 +196,7 @@ RSpec.describe Claim::AdvocateClaim do
     describe '#external_user_dashboard_rejected?' do
       before { allow(claim).to receive(:state).and_return('rejected') }
 
-      it 'responds true' do
-        allow(claim).to receive(:state).and_return('rejected')
-        expect(claim.external_user_dashboard_rejected?).to be true
-      end
+      it { expect(claim.external_user_dashboard_rejected?).to be true }
 
       it 'responds false to anything else' do
         (all_states - ['rejected']).each do |state|
@@ -252,7 +254,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'unrecognised state' do
+    context 'with an unrecognised state' do
       it 'raises NoMethodError' do
         expect { claim.other_unknown_state? }.to raise_error NoMethodError, /undefined method `other_unknown_state\?'/
       end
@@ -263,45 +265,36 @@ RSpec.describe Claim::AdvocateClaim do
     subject(:claim) { build(:unpersisted_claim) }
 
     let(:early_date) { scheme_date_for(nil).to_date - 10.days }
+    let(:earliest_rep_order) { claim.earliest_representation_order }
 
     before do
-      # add a second defendant
       claim.defendants << create(:defendant, claim:)
-
-      # add a second rep order to the first defendant
-      claim.defendants.first.representation_orders << create(:representation_order, representation_order_date: early_date)
+      claim.defendants.first.representation_orders << create(:representation_order,
+                                                             representation_order_date: early_date)
     end
 
-    it 'picks the earliest reporder' do
-      # given a claim with two defendants and three rep orders
-      expect(claim.defendants).to have_exactly(2).items
-      expect(claim.representation_orders).to have_exactly(3).items
-
-      # when I get the earliest rep order
-      rep_order = claim.earliest_representation_order
-
-      # it should have a date of
-      expect(rep_order.representation_order_date).to eq early_date
-    end
+    it { expect(claim.defendants).to have_exactly(2).items }
+    it { expect(claim.representation_orders).to have_exactly(3).items }
+    it { expect(earliest_rep_order.representation_order_date).to eq early_date }
   end
 
   describe '#allocated_to_case_worker?' do
-    let(:case_worker_1) { create(:case_worker) }
-    let(:case_worker_2) { create(:case_worker) }
+    let(:first_case_worker) { create(:case_worker) }
+    let(:second_case_worker) { create(:case_worker) }
 
-    it 'returns true if allocated to the specified case_worker' do
-      claim.case_workers << case_worker_1
-      claim.case_workers << case_worker_2
-      expect(claim.allocated_to_case_worker?(case_worker_1)).to be true
-    end
+    before { claim.case_workers = [first_case_worker, second_case_worker] }
 
-    it 'returns false if not allocated to the specified case_worker' do
-      claim.case_workers << case_worker_1
-      expect(claim.allocated_to_case_worker?(case_worker_2)).to be false
+    it { expect(claim.allocated_to_case_worker?(first_case_worker)).to be true }
+    it { expect(claim.allocated_to_case_worker?(second_case_worker)).to be true }
+
+    context 'when not allocated to the specified case_worker' do
+      before { claim.case_workers = [first_case_worker] }
+
+      it { expect(claim.allocated_to_case_worker?(second_case_worker)).to be false }
     end
   end
 
-  context 'basic fees' do
+  describe 'basic fees' do
     let!(:basic_fee_types) do
       [
         create(:basic_fee_type, description: 'ZZZZ'),
@@ -319,7 +312,7 @@ RSpec.describe Claim::AdvocateClaim do
     context 'when the case type is not yet set' do
       subject(:claim) { described_class.new(case_type: nil) }
 
-      specify { expect(claim.basic_fees).to be_empty }
+      it { expect(claim.basic_fees).to be_empty }
     end
 
     context 'when the case type is set and its for fixed fee' do
@@ -327,7 +320,7 @@ RSpec.describe Claim::AdvocateClaim do
 
       let(:case_type) { create(:case_type, :fixed_fee) }
 
-      specify { expect(claim.basic_fees).to be_empty }
+      it { expect(claim.basic_fees).to be_empty }
     end
 
     context 'when the case type is set and its for graduated fee' do
@@ -335,11 +328,9 @@ RSpec.describe Claim::AdvocateClaim do
 
       let(:case_type) { create(:case_type, :graduated_fee) }
 
-      it 'returns a list of basic fees for each of the eligible basic fee types with all the fees with blank values' do
-        expect(claim.basic_fees.length).to eq(3)
-        expect(claim.basic_fees.map(&:fee_type)).to match_array(claim.eligible_basic_fee_types)
-        expect(claim.basic_fees).to all(be_blank)
-      end
+      it { expect(claim.basic_fees.length).to eq(3) }
+      it { expect(claim.basic_fees.map(&:fee_type)).to match_array(claim.eligible_basic_fee_types) }
+      it { expect(claim.basic_fees).to all(be_blank) }
 
       context 'when some basic fees are provided' do
         subject(:claim) { described_class.new(attributes) }
@@ -357,11 +348,9 @@ RSpec.describe Claim::AdvocateClaim do
           }
         end
 
-        it 'returns a list of basic fees for each of the eligible basic fee types with the ones provided by the user filled in' do
-          expect(claim.basic_fees.length).to eq(3)
-          expect(claim.basic_fees.map(&:fee_type_id).sort).to eq(claim.eligible_basic_fee_types.map(&:id).sort)
-          expect(claim.basic_fees.map(&:rate)).to contain_exactly(450, nil, nil)
-        end
+        it { expect(claim.basic_fees.length).to eq(3) }
+        it { expect(claim.basic_fees.map(&:fee_type_id).sort).to eq(claim.eligible_basic_fee_types.map(&:id).sort) }
+        it { expect(claim.basic_fees.map(&:rate)).to contain_exactly(450, nil, nil) }
       end
     end
   end
@@ -369,26 +358,34 @@ RSpec.describe Claim::AdvocateClaim do
   describe '.search' do
     let!(:other_claim) { create(:advocate_claim) }
     let(:states) { nil }
+    let(:sql) do
+      described_class.search('%', states,
+                             :advocate_name,
+                             :defendant_name,
+                             :maat_reference,
+                             :case_worker_name_or_email).to_sql
+    end
+    let(:state_in_list_clause) { Claims::StateMachine.dashboard_displayable_states.map { |s| "'#{s}'" }.join(', ') }
 
     it 'finds only claims with states that match dashboard displayable states' do
-      sql = described_class.search('%', states, :advocate_name, :defendant_name, :maat_reference, :case_worker_name_or_email).to_sql
-      state_in_list_clause = Claims::StateMachine.dashboard_displayable_states.map { |s| "'#{s}'" }.join(', ')
       expect(sql.downcase).to include(' "claims"."state" in (' << state_in_list_clause << ')')
     end
 
-    context 'invalid search options' do
+    context 'with invalid search options' do
       it 'raises' do
         expect { described_class.search('My search term', [], 'caseworker-name') }
           .to raise_error RuntimeError, 'Invalid search option'
       end
     end
 
-    context 'find by MAAT reference' do
+    context 'when searching by MAAT reference' do
       let(:search_options) { :maat_reference }
 
       before do
-        create(:defendant, claim:, representation_orders: create_list(:representation_order, 1, maat_reference: '111111'))
-        create(:defendant, claim:, representation_orders: create_list(:representation_order, 1, maat_reference: '222222'))
+        create(:defendant, claim:,
+                           representation_orders: create_list(:representation_order, 1, maat_reference: '111111'))
+        create(:defendant, claim:,
+                           representation_orders: create_list(:representation_order, 1, maat_reference: '222222'))
         create(
           :defendant,
           claim: other_claim,
@@ -415,7 +412,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'find by Defendant name' do
+    context 'when searching by Defendant name' do
       let!(:current_external_user) { create(:external_user) }
       let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
       let(:search_options)         { :defendant_name }
@@ -447,7 +444,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'find by Advocate name' do
+    context 'when searching by Advocate name' do
       let(:search_options) { :advocate_name }
 
       before do
@@ -481,7 +478,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'find claims by state' do
+    context 'when searching by state' do
       let(:search_options) { :advocate_name }
 
       before do
@@ -509,7 +506,7 @@ RSpec.describe Claim::AdvocateClaim do
       end
     end
 
-    context 'find by advocate and defendant' do
+    context 'when searching by advocate and defendant' do
       let!(:current_external_user) { create(:external_user) }
       let!(:other_external_user)   { create(:external_user, provider: current_external_user.provider) }
       let(:search_options)         { %i[advocate_name defendant_name] }
@@ -532,20 +529,18 @@ RSpec.describe Claim::AdvocateClaim do
         other_claim.save!
       end
 
-      it 'finds claims with either advocate or defendant matching names' do
-        expect(described_class.search('Bloggs', states, *search_options)).to eq([claim])
-        expect(described_class.search('Hoskins', states, *search_options)).to eq([other_claim])
-        expect(described_class.search('Fred', states, *search_options).count).to eq(2) # advocate and defendant of name
-        expect(described_class.search('Johncz', states, *search_options).count).to eq(1) # advocate only search
-        expect(described_class.search('Joexx', states, *search_options).count).to eq(1) # defendant only search
-      end
+      it { expect(described_class.search('Bloggs', states, *search_options)).to eq([claim]) }
+      it { expect(described_class.search('Hoskins', states, *search_options)).to eq([other_claim]) }
+      it { expect(described_class.search('Fred', states, *search_options).count).to eq(2) } # advocate and defendant of name
+      it { expect(described_class.search('Johncz', states, *search_options).count).to eq(1) } # advocate only search
+      it { expect(described_class.search('Joexx', states, *search_options).count).to eq(1) } # defendant only search
 
       it 'does not find claims that do not match the name' do
         expect(described_class.search('Xavierxxxx', states, :advocate_name, :defendant_name).count).to eq(0)
       end
     end
 
-    context 'find by case worker name or email' do
+    context 'when searching by case worker name or email' do
       let!(:case_worker) { create(:case_worker) }
       let!(:other_case_worker) { create(:case_worker) }
       let(:search_options) { :case_worker_name_or_email }
@@ -583,7 +578,7 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  context 'fees total' do
+  describe 'fees total' do
     before do
       seed_case_types
       seed_fee_types
@@ -592,23 +587,18 @@ RSpec.describe Claim::AdvocateClaim do
     let(:misc_fees) { [build(:misc_fee, :miaph_fee, rate: 0.50)] }
 
     describe '#calculate_fees_total' do
-      context 'for a fixed case type' do
+      context 'with a fixed case type' do
         subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees:, misc_fees:) }
 
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
 
-        it 'calculates the fees total' do
-          expect(claim.calculate_fees_total).to eq(1.0)
-        end
-
-        it 'calculates fee totals by category too' do
-          expect(claim.calculate_fees_total(:basic_fees)).to eq(0.0)
-          expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5)
-          expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.5)
-        end
+        it { expect(claim.calculate_fees_total).to eq(1.0) }
+        it { expect(claim.calculate_fees_total(:basic_fees)).to eq(0.0) }
+        it { expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5) }
+        it { expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.5) }
       end
 
-      context 'for a graduated case type' do
+      context 'with a graduated case type' do
         subject(:claim) do
           create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
             c.basic_fees = basic_fees
@@ -622,20 +612,15 @@ RSpec.describe Claim::AdvocateClaim do
           ]
         end
 
-        it 'calculates the fees total' do
-          expect(claim.calculate_fees_total).to eq(7.5)
-        end
-
-        it 'calculates fee totals by category too' do
-          expect(claim.calculate_fees_total(:basic_fees)).to eq(7.0)
-          expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5)
-          expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.0)
-        end
+        it { expect(claim.calculate_fees_total).to eq(7.5) }
+        it { expect(claim.calculate_fees_total(:basic_fees)).to eq(7.0) }
+        it { expect(claim.calculate_fees_total(:misc_fees)).to eq(0.5) }
+        it { expect(claim.calculate_fees_total(:fixed_fees)).to eq(0.0) }
       end
     end
 
     describe '#update_fees_total' do
-      context 'for a fixed case type' do
+      context 'with a fixed case type' do
         subject(:claim) { create(:advocate_claim, :with_fixed_fee_case, fixed_fees:, misc_fees:) }
 
         let(:fixed_fees) { [build(:fixed_fee, :fxase_fee, rate: 0.50)] }
@@ -654,7 +639,7 @@ RSpec.describe Claim::AdvocateClaim do
         end
       end
 
-      context 'for a graduated case type' do
+      context 'with a graduated case type' do
         subject(:claim) do
           create(:advocate_claim, :with_graduated_fee_case, misc_fees:).tap do |c|
             c.basic_fees = basic_fees
@@ -685,7 +670,7 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  context 'expenses total' do
+  describe 'expenses total' do
     before do
       create(:expense, claim_id: claim.id, amount: 3.5)
       create(:expense, claim_id: claim.id, amount: 1.0)
@@ -694,26 +679,30 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     describe '#update_expenses_total' do
-      it 'stores the expenses total' do
-        expect(claim.expenses_total).to eq(146.5)
+      it { expect(claim.expenses_total).to eq(146.5) }
+
+      context 'when adding an expense' do
+        before do
+          create(:expense, claim_id: claim.id, amount: 3.0)
+          claim.reload
+        end
+
+        it { expect(claim.expenses_total).to eq(149.5) }
       end
 
-      it 'updates the expenses total' do
-        create(:expense, claim_id: claim.id, amount: 3.0)
-        claim.reload
-        expect(claim.expenses_total).to eq(149.5)
-      end
+      context 'when removing an expense' do
+        before do
+          expense = claim.expenses.first
+          expense.destroy
+          claim.reload
+        end
 
-      it 'updates expenses total when expense destroyed' do
-        expense = claim.expenses.first
-        expense.destroy
-        claim.reload
-        expect(claim.expenses_total).to eq(143.0)
+        it { expect(claim.expenses_total).to eq(143.0) }
       end
     end
   end
 
-  context 'total' do
+  describe 'total' do
     let(:fee_type) { create(:misc_fee_type) }
 
     before do
@@ -729,26 +718,30 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     describe '#calculate_total' do
-      it 'calculates the fees and expenses total' do
-        expect(claim.calculate_total).to eq(152.5)
-      end
+      it { expect(claim.calculate_total).to eq(152.5) }
     end
 
     describe '#update_total' do
-      it 'updates the total' do
-        create(:expense, claim_id: claim.id, amount: 3.0)
-        create(:misc_fee, claim_id: claim.id, rate: 0.5)
-        claim.reload
-        expect(claim.total).to eq(156.00)
+      context 'when adding fees' do
+        before do
+          create(:expense, claim_id: claim.id, amount: 3.0)
+          create(:misc_fee, claim_id: claim.id, rate: 0.5)
+          claim.reload
+        end
+
+        it { expect(claim.total).to eq(156.00) }
       end
 
-      it 'updates total when expense/fee destroyed' do
-        expense = claim.expenses.first
-        fee = claim.fees.first
-        expense.destroy
-        fee.destroy
-        claim.reload
-        expect(claim.total).to eq(146.00)
+      context 'when removing fees and expenses' do
+        before do
+          expense = claim.expenses.first
+          fee = claim.fees.first
+          expense.destroy
+          fee.destroy
+          claim.reload
+        end
+
+        it { expect(claim.total).to eq(146.00) }
       end
     end
   end
@@ -774,17 +767,19 @@ RSpec.describe Claim::AdvocateClaim do
   describe '#archivable?' do
     let(:claim) { create(:advocate_claim) }
 
-    it 'is not archivable from states: allocated, archived_pending_delete, awaiting_written_reasons, draft, redetermination' do
-      %w[allocated awaiting_written_reasons draft redetermination].each do |state|
-        allow(claim).to receive(:state).and_return(state)
-        expect(claim.archivable?).to be(false)
+    context 'when the claim is in an archivable state' do
+      %w[refused rejected part_authorised authorised].each do |state|
+        before { allow(claim).to receive(:state).and_return(state) }
+
+        it { expect(claim).to be_archivable }
       end
     end
 
-    it 'is archivable from states: refused, rejected, part authorised, authorised' do
-      %w[refused rejected part_authorised authorised].each do |state|
-        allow(claim).to receive(:state).and_return(state)
-        expect(claim.archivable?).to be(true)
+    context 'when the claim is not in an archivable state' do
+      %w[allocated archived_pending_delete awaiting_written_reasons draft redetermination].each do |state|
+        before { allow(claim).to receive(:state).and_return(state) }
+
+        it { expect(claim).not_to be_archivable }
       end
     end
   end
@@ -792,25 +787,26 @@ RSpec.describe Claim::AdvocateClaim do
   describe '#validation_required?' do
     let(:claim) { create(:claim, source: 'web') }
 
-    context 'should return false for' do
-      it 'draft claims submited by web app' do
-        expect(claim.validation_required?).to be false
-      end
-
-      it 'archived_pending_delete claims' do
-        claim = create(:archived_pending_delete_claim)
-        expect(claim.validation_required?).to be false
-      end
+    context 'with a draft claim submitted by web app' do
+      it { expect(claim.validation_required?).to be false }
     end
 
-    context 'should return true for' do
-      it 'draft claims submitted by the API' do
-        claim.source = 'api'
-        expect(claim.validation_required?).to be true
-      end
+    context 'with a draft claim submitted by the API' do
+      before { claim.source = 'api' }
 
-      it 'claims in any state other than draft or archived_pending_delete' do
-        states = described_class.state_machine.states.map(&:name) - %i[draft archived_pending_delete]
+      it { expect(claim.validation_required?).to be true }
+    end
+
+    context 'with an archived_pending_delete claim' do
+      let(:claim) { create(:archived_pending_delete_claim) }
+
+      it { expect(claim.validation_required?).to be false }
+    end
+
+    context 'with claims in any state other than draft or archived_pending_delete' do
+      let(:states) { described_class.state_machine.states.map(&:name) - %i[draft archived_pending_delete] }
+
+      it do
         states.each do |state|
           claim.state = state
           expect(claim.validation_required?).to be true
@@ -824,10 +820,12 @@ RSpec.describe Claim::AdvocateClaim do
 
     let(:case_worker) { create(:case_worker) }
 
-    it 'moves to "allocated" state when assigned to case worker' do
-      claim.case_workers << case_worker
-      expect(claim.reload).to be_allocated
+    before do
+      claim.case_workers = [case_worker]
+      claim.reload
     end
+
+    it { is_expected.to be_allocated }
   end
 
   describe 'moves to "submitted" state when case worker removed' do
@@ -842,141 +840,169 @@ RSpec.describe Claim::AdvocateClaim do
       claim.reload
     end
 
-    it 'is "allocated"' do
-      expect(claim).to be_allocated
-    end
+    it { is_expected.to be_allocated }
 
     context 'when case worker unassigned and other case workers remain' do
-      it 'is "allocated"' do
-        case_worker.claims.destroy(claim)
-        expect(claim.reload).to be_allocated
-      end
+      before { case_worker.claims.destroy(claim) }
+
+      it { is_expected.to be_allocated }
     end
 
     context 'when all case workers unassigned' do
-      it 'is "submitted"' do
+      before do
         case_worker.claims.destroy(claim)
         other_case_worker.claims.destroy(claim)
-        expect(claim.reload).to be_submitted
       end
+
+      it { is_expected.to be_submitted }
     end
   end
 
   describe '#authorised_state?' do
     let(:claim) { create(:draft_claim) }
 
-    it 'returns false for draft, submitted, allocated, and rejected claims' do
-      expect(claim.authorised_state?).to be_falsey
-      claim.submit
-      expect(claim.authorised_state?).to be_falsey
-      claim.allocate
-      expect(claim.authorised_state?).to be_falsey
-      claim.reject
-      expect(claim.authorised_state?).to be_falsey
+    it { is_expected.not_to be_authorised_state }
+
+    context 'with a submitted claim' do
+      before { claim.submit! }
+
+      it { is_expected.not_to be_authorised_state }
     end
 
-    it 'returns true for part_authorised, authorised claims' do
-      claim.submit
-      claim.allocate
-      claim.assessment.update(fees: 30.01, expenses: 70.00)
-      claim.authorise_part
-      expect(claim.authorised_state?).to be_truthy
-      claim.authorise
-      expect(claim.authorised_state?).to be_truthy
+    context 'with an allocated claim' do
+      before do
+        claim.submit!
+        claim.allocate!
+      end
+
+      it { is_expected.not_to be_authorised_state }
+    end
+
+    context 'with a rejected claim' do
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.reject!
+      end
+
+      it { is_expected.not_to be_authorised_state }
+    end
+
+    context 'with a part-authorised claim' do
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.assessment.update!(fees: 30.01, expenses: 70.00)
+        claim.authorise_part!
+      end
+
+      it { is_expected.to be_authorised_state }
+    end
+
+    context 'with an authorised claim' do
+      before do
+        claim.submit!
+        claim.allocate!
+        claim.assessment.update!(fees: 30.01, expenses: 70.00)
+        claim.authorise!
+      end
+
+      it { is_expected.to be_authorised_state }
     end
   end
 
   describe 'Case type scopes' do
-    before(:all) do
-      load(Rails.root.join('db', 'seeds', 'case_types.rb'))
-      @trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial'))
-      @retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial'))
-      @cracked_trials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial'))
-      @cracked_retrials = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial'))
-      @guilty_pleas = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea'))
-      @discontinuances = create_list(:submitted_claim, 2, case_type: CaseType.by_type('Discontinuance'))
-    end
-
-    after(:all) do
-      clean_database
-    end
+    before { seed_case_types }
 
     describe '.trial' do
+      let(:trials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Trial')) }
+      let(:retrials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Retrial')) }
+
       it 'returns trials and retrials' do
-        expect(described_class.trial).to match_array(@trials + @retrials)
+        expect(described_class.trial).to match_array(trials + retrials)
       end
     end
 
     describe '.cracked' do
+      let(:cracked_trials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked Trial')) }
+      let(:cracked_retrials) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Cracked before retrial')) }
+
       it 'returns cracked trials and retrials' do
-        expect(described_class.cracked).to match_array(@cracked_trials + @cracked_retrials)
+        expect(described_class.cracked).to match_array(cracked_trials + cracked_retrials)
       end
     end
 
     describe '.guilty_plea' do
+      let(:guilty_pleas) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Guilty plea')) }
+      let(:discontinuances) { create_list(:submitted_claim, 2, case_type: CaseType.by_type('Discontinuance')) }
+
       it 'returns guilty pleas and discontinuances' do
-        expect(described_class.guilty_plea).to match_array(@guilty_pleas + @discontinuances)
+        expect(described_class.guilty_plea).to match_array(guilty_pleas + discontinuances)
       end
     end
   end
 
   describe '#fixed_fees' do
-    let(:ct_fixed_1)          { create(:case_type, :fixed_fee) }
-    let(:ct_fixed_2)          { create(:case_type, :fixed_fee) }
-    let(:ct_basic_1)          { create(:case_type) }
-    let(:ct_basic_2)          { create(:case_type) }
+    let(:fixed_fee_case_type) { create(:case_type, :fixed_fee) }
+    let(:another_fixed_fee_case_type) { create(:case_type, :fixed_fee) }
+    let!(:first_claim) { create(:claim, case_type_id: fixed_fee_case_type.id) }
+    let!(:second_claim) { create(:claim, case_type_id: another_fixed_fee_case_type.id) }
 
-    it 'only returns claims with fixed fee case types' do
-      claim_1 = create(:claim, case_type_id: ct_fixed_1.id)
-      claim_2 = create(:claim, case_type_id: ct_fixed_2.id)
-      create(:claim, case_type_id: ct_basic_1.id)
-      create(:claim, case_type_id: ct_basic_2.id)
-      expect(described_class.fixed_fee.count).to eq 2
-      expect(described_class.fixed_fee).to include claim_1
-      expect(described_class.fixed_fee).to include claim_2
+    before do
+      create(:claim, case_type_id: create(:case_type).id)
+      create(:claim, case_type_id: create(:case_type).id)
     end
+
+    it { expect(described_class.fixed_fee.count).to eq 2 }
+    it { expect(described_class.fixed_fee).to include first_claim }
+    it { expect(described_class.fixed_fee).to include second_claim }
   end
 
-  describe '.total_greater_than_or_equal_to' do
-    let(:not_greater_than_400) do
-      claims = []
-
-      [100, 200, 399, 2].each do |value|
+  describe 'total scopes' do
+    let(:claims_with_total_under_400_pounds) do
+      [100, 200, 399, 399.99, 2].each_with_object([]) do |value, claims|
         claims << create(:submitted_claim, total: value)
       end
-
-      claims
     end
 
-    let(:greater_than_400) do
-      claims = []
-
-      [400, 10_000, 566, 1_000].each do |value|
+    let(:claims_with_total_greater_than_or_equal_to_400_pounds) do
+      [400, 400.01, 10_000, 566, 1_000].each_with_object([]) do |value, claims|
         claim = create(:draft_claim)
         claim.fees << create(:misc_fee, rate: value, claim:)
         claims << claim
       end
-
-      claims
     end
 
-    it 'only returns claims with total value greater than the specified value' do
-      expect(described_class.total_greater_than_or_equal_to(400)).to match_array(greater_than_400)
+    describe '.total_lower_than' do
+      it 'only returns claims with total value greater than the specified value' do
+        expect(described_class.total_lower_than(400)).to match_array(
+          claims_with_total_under_400_pounds
+        )
+      end
+    end
+
+    describe '.total_greater_than_or_equal_to' do
+      it 'only returns claims with total value greater than the specified value' do
+        expect(described_class.total_greater_than_or_equal_to(400)).to match_array(
+          claims_with_total_greater_than_or_equal_to_400_pounds
+        )
+      end
     end
   end
 
   describe 'sets the source field before saving a claim' do
     let(:claim) { build(:claim) }
 
-    it 'sets the source to web by default if unset' do
-      expect(claim.save).to be(true)
-      expect(claim.source).to eq('web')
+    context 'when the source is not set' do
+      it { expect(claim.save).to be(true) }
+      it { expect(claim.source).to eq('web') }
     end
 
-    it 'does not change the source if set' do
-      claim.source = 'api'
-      expect(claim.save).to be(true)
-      expect(claim.source).to eq('api')
+    context 'when the source is set' do
+      before { claim.source = 'api' }
+
+      it { expect(claim.save).to be(true) }
+      it { expect(claim.source).to eq('api') }
     end
   end
 
@@ -985,62 +1011,49 @@ RSpec.describe Claim::AdvocateClaim do
     let(:another_advocate)  { create(:external_user, :advocate, provider: advocate.provider) }
     let(:claim)             { build(:advocate_claim, external_user: advocate) }
 
-    it 'does not have a supplier number before creation' do
-      expect(claim.supplier_number).to be_nil
+    it { expect(claim.supplier_number).to be_nil }
+
+    context 'when the claim has been created' do
+      it { expect { claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number) }
     end
 
-    it 'has a supplier number, derived from the external_user, after creation' do
-      expect { claim.save! }.to change(claim, :supplier_number).to eql(advocate.supplier_number)
-    end
+    context 'when the external_user changes' do
+      before do
+        claim.save!
+        claim.external_user = another_advocate
+      end
 
-    it 'resets supplier number to match external_user' do
-      claim.save!
-      claim.external_user = another_advocate
-      expect { claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number)
+      it { expect { claim.save! }.to change(claim, :supplier_number).to eql(another_advocate.supplier_number) }
     end
   end
 
-  describe 'provider type dependant methods' do
+  describe '#vat_registered?' do
     let(:claim) { build(:unpersisted_claim) }
 
-    describe 'for a chamber provider' do
+    context 'with a chamber provider' do
       before do
         allow(claim.provider).to receive(:provider_type).and_return('chamber')
+        allow(claim.external_user).to receive(:vat_registered?)
+        claim.vat_registered?
       end
 
-      context '#vat_registered?' do
-        it 'returns the value from the external user' do
-          allow(claim.external_user).to receive(:vat_registered?)
-          claim.vat_registered?
-          expect(claim.external_user).to have_received(:vat_registered?)
-        end
-      end
+      it { expect(claim.external_user).to have_received(:vat_registered?) }
     end
 
-    describe 'for a firm provider' do
+    context 'with a firm provider' do
       before do
         allow(claim.provider).to receive(:provider_type).and_return('firm')
+        allow(claim.provider).to receive(:vat_registered?)
+        claim.vat_registered?
       end
 
-      context '#vat_registered?' do
-        it 'returns the value from the provider' do
-          allow(claim.provider).to receive(:vat_registered?)
-          claim.vat_registered?
-          expect(claim.provider).to have_received(:vat_registered?)
-        end
-      end
+      it { expect(claim.provider).to have_received(:vat_registered?) }
     end
 
-    describe 'for an unknown provider' do
-      before do
-        allow(claim.provider).to receive(:provider_type).and_return('zzzz')
-      end
+    describe 'with an unknown provider' do
+      before { allow(claim.provider).to receive(:provider_type).and_return('zzzz') }
 
-      context '#vat_registered?' do
-        it 'raises an exception' do
-          expect { claim.vat_registered? }.to raise_error(RuntimeError)
-        end
-      end
+      it { expect { claim.vat_registered? }.to raise_error(RuntimeError) }
     end
   end
 
@@ -1086,17 +1099,10 @@ RSpec.describe Claim::AdvocateClaim do
     end
 
     context 'when transitioned to redetermination' do
-      before do
-        claim.redetermine!
-      end
+      before { claim.redetermine! }
 
-      it 'is in an redetermination state' do
-        expect(claim).to be_redetermination
-      end
-
-      it 'is open for redetermination' do
-        expect(claim.opened_for_redetermination?).to be(true)
-      end
+      it { is_expected.to be_redetermination }
+      it { is_expected.to be_opened_for_redetermination }
     end
 
     context 'when transitioned to redetermination and then allocated/deallocated/allocated' do
@@ -1107,9 +1113,7 @@ RSpec.describe Claim::AdvocateClaim do
         claim.allocate!
       end
 
-      it 'is open for redetermination' do
-        expect(claim.opened_for_redetermination?).to be_truthy
-      end
+      it { is_expected.to be_opened_for_redetermination }
     end
 
     context 'when transitioned to redetermination and then refuse' do
@@ -1119,19 +1123,19 @@ RSpec.describe Claim::AdvocateClaim do
         claim.refuse!
       end
 
-      it 'is close for redetermination' do
-        expect(claim.opened_for_redetermination?).to be_falsey
-      end
+      it { is_expected.not_to be_opened_for_redetermination }
     end
 
     describe 'submission_date' do
-      it 'sets the submission date to the date it was set to state redetermination' do
-        new_time = 36.hours.from_now
+      let(:new_time) { 36.hours.from_now }
+
+      before do
         travel_to new_time do
           claim.redetermine!
         end
-        expect(claim.last_submitted_at).to be_within(1.second).of(new_time)
       end
+
+      it { expect(claim.last_submitted_at).to be_within(1.second).of(new_time) }
     end
 
     context 'when transitioned to allocated' do
@@ -1140,13 +1144,8 @@ RSpec.describe Claim::AdvocateClaim do
         claim.allocate!
       end
 
-      it 'is in an allocated state' do
-        expect(claim).to be_allocated
-      end
-
-      it 'has been opened for redetermination before being allocated' do
-        expect(claim.opened_for_redetermination?).to be(true)
-      end
+      it { is_expected.to be_allocated }
+      it { is_expected.to be_opened_for_redetermination }
     end
   end
 
@@ -1175,13 +1174,8 @@ RSpec.describe Claim::AdvocateClaim do
         claim.allocate!
       end
 
-      it 'is in an allocated state' do
-        expect(claim).to be_allocated
-      end
-
-      it 'has written_reasons_outstanding before being allocated' do
-        expect(claim.written_reasons_outstanding?).to be(true)
-      end
+      it { is_expected.to be_allocated }
+      it { is_expected.to be_written_reasons_outstanding }
     end
 
     context 'when transitioned to awaiting_written_reasons and then allocated/deallocated/allocated' do
@@ -1192,9 +1186,7 @@ RSpec.describe Claim::AdvocateClaim do
         claim.allocate!
       end
 
-      it 'is true' do
-        expect(claim.written_reasons_outstanding?).to be_truthy
-      end
+      it { is_expected.to be_written_reasons_outstanding }
     end
 
     context 'when transitioned to awaiting_written_reasons and then refuse' do
@@ -1204,9 +1196,7 @@ RSpec.describe Claim::AdvocateClaim do
         claim.refuse!
       end
 
-      it 'does not have written_reasons_outstanding' do
-        expect(claim.written_reasons_outstanding?).to be_falsey
-      end
+      it { is_expected.not_to be_written_reasons_outstanding }
     end
   end
 
@@ -1245,16 +1235,16 @@ RSpec.describe Claim::AdvocateClaim do
     end
   end
 
-  describe 'not saving the expenses model' do
-    it 'saves the expenses model' do
-      external_user = create(:external_user)
-      expense_type = create(:expense_type, :car_travel)
-      fee_type = create(:basic_fee_type)
-      case_type = create(:case_type)
-      court = create(:court)
-      offence = create(:offence)
-
-      params = {
+  describe 'saving the expenses model' do
+    let(:claim) { described_class.new(params['claim']) }
+    let(:external_user) { create(:external_user) }
+    let(:expense_type) { create(:expense_type, :car_travel) }
+    let(:fee_type) { create(:basic_fee_type) }
+    let(:case_type) { create(:case_type) }
+    let(:court) { create(:court) }
+    let(:offence) { create(:offence) }
+    let(:params) do
+      {
         'claim' => {
           'case_type_id' => case_type.id,
           'trial_fixed_notice_at(3i)' => '',
@@ -1332,61 +1322,64 @@ RSpec.describe Claim::AdvocateClaim do
         'offence_class' => { 'description' => '64' },
         'commit_submit_claim' => 'Submit to LAA'
       }
-      claim = described_class.new(params['claim'])
-      claim.creator = external_user
-      expect(claim.save).to be true
-      claim.force_validation = true
-      claim.valid?
-      expect(claim.expenses).to have(1).member
-      expect(claim.expenses_total).to eq 40.0
     end
 
-    describe '#discontinuance?' do
-      let(:discontinuance) { create(:case_type, :discontinuance) }
+    before do
+      claim.creator = external_user
+      claim.force_validation = true
+      claim.save
+    end
 
-      let(:claim_discontinuance_9) do
-        create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true)
-      end
-      let(:agfs_scheme_9_claim) { create(:advocate_claim, :agfs_scheme_9) }
+    it { expect(claim).to be_valid }
+    it { expect(claim.expenses).to have(1).member }
+    it { expect(claim.expenses_total).to eq 40.0 }
+  end
 
-      let(:agfs_scheme_10_discontinuance_claim) do
-        create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true)
-      end
-      let(:agfs_scheme_10_claim) { create(:advocate_claim, :agfs_scheme_10) }
+  describe '#discontinuance?' do
+    let(:discontinuance) { create(:case_type, :discontinuance) }
 
-      context 'when claim is scheme 9' do
-        context 'when claim is a discontinuance' do
-          it 'returns true' do
-            expect(claim_discontinuance_9.discontinuance?).to be true
-          end
-        end
+    let(:agfs_scheme_9_discontinuance_claim) do
+      create(:advocate_claim, :agfs_scheme_9, case_type: discontinuance, prosecution_evidence: true)
+    end
+    let(:agfs_scheme_9_claim) { create(:advocate_claim, :agfs_scheme_9) }
 
-        context 'when claim is not a discontinuance' do
-          it 'returns false' do
-            expect(agfs_scheme_9_claim.discontinuance?).to be false
-          end
-        end
-      end
+    let(:agfs_scheme_10_discontinuance_claim) do
+      create(:advocate_claim, :agfs_scheme_10, case_type: discontinuance, prosecution_evidence: true)
+    end
+    let(:agfs_scheme_10_claim) { create(:advocate_claim, :agfs_scheme_10) }
 
-      context 'when claim is scheme 10' do
-        context 'when claim is a discontinuance' do
-          it 'returns true' do
-            expect(agfs_scheme_10_discontinuance_claim.discontinuance?).to be true
-          end
-        end
-
-        context 'when claim is not a discontinuance' do
-          it 'returns true' do
-            expect(agfs_scheme_10_claim.discontinuance?).to be false
-          end
+    context 'when claim is scheme 9' do
+      context 'when claim is a discontinuance' do
+        it 'returns true' do
+          expect(agfs_scheme_9_discontinuance_claim.discontinuance?).to be true
         end
       end
 
-      context 'when the claim has been saved as draft before the case type is set' do
-        let(:claim) { build(:advocate_claim, case_type: nil) }
-
-        it { expect(claim.discontinuance?).to be false }
+      context 'when claim is not a discontinuance' do
+        it 'returns false' do
+          expect(agfs_scheme_9_claim.discontinuance?).to be false
+        end
       end
+    end
+
+    context 'when claim is scheme 10' do
+      context 'when claim is a discontinuance' do
+        it 'returns true' do
+          expect(agfs_scheme_10_discontinuance_claim.discontinuance?).to be true
+        end
+      end
+
+      context 'when claim is not a discontinuance' do
+        it 'returns true' do
+          expect(agfs_scheme_10_claim.discontinuance?).to be false
+        end
+      end
+    end
+
+    context 'when the claim has been saved as draft before the case type is set' do
+      before { claim.update!(case_type: nil) }
+
+      it { expect(claim.discontinuance?).to be false }
     end
   end
 end

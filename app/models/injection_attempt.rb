@@ -26,7 +26,7 @@ class InjectionAttempt < ApplicationRecord
 
   def error_messages
     data = real_error_messages
-    messages = data&.fetch(:errors)&.map { |child| child[:error] }
+    messages = data&.fetch(:errors)&.pluck(:error)
     messages || []
   end
 

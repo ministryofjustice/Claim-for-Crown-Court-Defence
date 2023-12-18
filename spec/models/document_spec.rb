@@ -40,7 +40,7 @@ RSpec.describe Document do
     is_expected.to validate_content_type_of(:document).allowing(
       'application/pdf', 'application/msword', 'application/vnd.oasis.opendocument.text', 'application/rtf',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/rtf',
-      'image/jpeg', 'image/png', 'image/tiff', 'image/bmp', 'image/x-bitmap'
+      'image/jpeg', 'image/png', 'image/tiff', 'image/x-bmp', 'image/x-bitmap'
     ).rejecting('text/plain', 'text/html')
   end
 

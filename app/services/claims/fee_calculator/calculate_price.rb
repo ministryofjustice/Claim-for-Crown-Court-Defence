@@ -84,8 +84,8 @@ module Claims
       def fee_scheme
         @fee_scheme ||= client.fee_schemes(
           type: scheme_type,
-          case_date: earliest_representation_order_date.to_s(:db),
-          main_hearing_date: main_hearing_date&.to_s(:db)
+          case_date: earliest_representation_order_date.to_fs(:db),
+          main_hearing_date: main_hearing_date&.to_fs(:db)
         )
       end
 

@@ -59,7 +59,7 @@ module DataMigrator
 
     def find_or_create_offence!(attrs)
       offence = offences_for_scheme.find_by(attrs)
-      return offence unless offence.blank?
+      return offence if offence.present?
       create_offence!(attrs)
     end
 

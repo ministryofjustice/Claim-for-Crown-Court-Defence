@@ -103,7 +103,7 @@ RSpec.describe API::V2::CaseWorkers::Claim do
       def do_request_and_extract_claim_ids(my_params = params)
         response = do_request(my_params)
         body = JSON.parse(response.body, symbolize_names: true)
-        body[:items].map { |item| item[:id] }
+        body[:items].pluck(:id)
       end
 
       def create_lgfs_submitted_fixed_fee

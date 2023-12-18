@@ -9,10 +9,8 @@ class DeterminationPresenter < BasePresenter
     version.created_at.strftime('%H:%M')
   end
 
-  def itemise
-    items.each do |attribute, new_value|
-      yield attribute, new_value
-    end
+  def itemise(&)
+    items.each(&)
   end
 
   def items

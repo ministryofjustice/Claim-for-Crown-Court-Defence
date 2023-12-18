@@ -5,7 +5,7 @@ module Remote
 
       def initialize(collection = [], pagination = {})
         super(collection)
-        pagination.each { |key, value| send("#{key}=", value) }
+        pagination.each { |key, value| send(:"#{key}=", value) }
       end
 
       def remote?

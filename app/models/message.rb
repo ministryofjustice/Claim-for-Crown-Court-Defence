@@ -103,7 +103,7 @@ class Message < ApplicationRecord
   def process_written_reasons
     return unless claim.written_reasons_outstanding?
     return unless written_reasons_submitted == '1'
-    claim.send("#{claim.filtered_state_transitions.second.event}!", author_id: sender_id)
+    claim.send(:"#{claim.filtered_state_transitions.second.event}!", author_id: sender_id)
   end
 
   def claim_updater

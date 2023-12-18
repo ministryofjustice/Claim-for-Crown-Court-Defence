@@ -22,7 +22,7 @@ module Claims
 
     def validate
       validate_state
-      send("validate_#{state}") if state&.in?(%w[authorised part_authorised refused rejected])
+      send(:"validate_#{state}") if state&.in?(%w[authorised part_authorised refused rejected])
       result
     end
 

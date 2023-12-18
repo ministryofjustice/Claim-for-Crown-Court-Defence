@@ -78,7 +78,7 @@ module API
             end
 
             def claims_scope
-              send("#{params[:status]}_claims")
+              send(:"#{params[:status]}_claims")
             end
 
             def claims

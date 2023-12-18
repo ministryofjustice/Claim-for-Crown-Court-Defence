@@ -114,7 +114,7 @@ module Claim
     end
 
     def fees_changed?
-      %i[basic fixed misc].any? { |fee_type| public_send("#{fee_type}_fees_changed?") }
+      %i[basic fixed misc].any? { |fee_type| public_send(:"#{fee_type}_fees_changed?") }
     end
 
     def basic_fees_changed?

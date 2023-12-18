@@ -20,7 +20,7 @@ class BaseValidator < ActiveModel::Validator
 
     fields = self.class.__send__(fields_class_method)
     fields.each do |field|
-      __send__("validate_#{field}")
+      __send__(:"validate_#{field}")
     end
   end
 

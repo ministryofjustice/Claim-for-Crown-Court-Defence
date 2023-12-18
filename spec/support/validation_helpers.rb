@@ -24,21 +24,21 @@ module ValidationHelpers
   end
 
   def should_error_if_present(record, field, value, message, options = {})
-    record.send("#{field}=", value)
+    record.send(:"#{field}=", value)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
   end
 
   def should_error_if_not_present(record, field, message, options = {})
-    record.send("#{field}=", nil)
+    record.send(:"#{field}=", nil)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(match(/#{message}/))
     with_expected_error_translation(field, message, options) if options[:translated_message]
   end
 
   def should_error_if_exceeds_length(record, field, value, message, options = {})
-    record.send("#{field}=", 'x' * (value + 1))
+    record.send(:"#{field}=", 'x' * (value + 1))
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
@@ -58,14 +58,14 @@ module ValidationHelpers
   end
 
   def should_error_if_in_future(record, field, message, options = {})
-    record.send("#{field}=", 2.days.from_now)
+    record.send(:"#{field}=", 2.days.from_now)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
   end
 
   def should_error_if_too_far_in_the_past(record, field, message, options = {})
-    record.send("#{field}=", Settings.earliest_permitted_date - 1.day)
+    record.send(:"#{field}=", Settings.earliest_permitted_date - 1.day)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
@@ -73,7 +73,7 @@ module ValidationHelpers
 
   def should_error_if_earlier_than_earliest_repo_date(record, field, message, options = {})
     stub_earliest_rep_order(record, 1.year.ago.to_date)
-    record.send("#{field}=", 13.months.ago)
+    record.send(:"#{field}=", 13.months.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
@@ -81,7 +81,7 @@ module ValidationHelpers
 
   def should_error_if_earlier_than_earliest_reporder_date(claim_record, other_record, field, message, options = {})
     stub_earliest_rep_order(claim_record, 1.year.ago.to_date)
-    other_record.send("#{field}=", 13.months.ago)
+    other_record.send(:"#{field}=", 13.months.ago)
     expect(other_record.send(:valid?)).to be false
     expect(other_record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
@@ -90,55 +90,55 @@ module ValidationHelpers
   def should_error_if_earlier_than_other_date(record, field, other_field, message, options = {})
     date1 = 365.days.ago
     date2 = date1 + options.fetch(:by, 1.day)
-    record.send("#{field}=", date1)
-    record.send("#{other_field}=", date2)
+    record.send(:"#{field}=", date1)
+    record.send(:"#{other_field}=", date2)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
   end
 
   def should_error_if_before_specified_date(record, field, specified_date, message)
-    record.send("#{field}=", specified_date - 1.day)
+    record.send(:"#{field}=", specified_date - 1.day)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
   end
 
   def should_error_if_field_dates_match(record, field, specified_field, message)
-    record.send("#{specified_field}=", 3.days.ago)
-    record.send("#{field}=", 3.days.ago)
+    record.send(:"#{specified_field}=", 3.days.ago)
+    record.send(:"#{field}=", 3.days.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
   end
 
   def should_error_if_after_specified_date(record, field, specified_date, message)
-    record.send("#{field}=", specified_date + 1.day)
+    record.send(:"#{field}=", specified_date + 1.day)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
   end
 
   def should_error_if_after_specified_field(record, field, specified_field, message)
-    record.send("#{specified_field}=", 3.days.ago)
-    record.send("#{field}=", 2.days.ago)
+    record.send(:"#{specified_field}=", 3.days.ago)
+    record.send(:"#{field}=", 2.days.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
   end
 
   def should_error_if_later_than_other_date(record, field, other_date, message, options = {})
-    record.send("#{field}=", 5.days.ago)
-    record.send("#{other_date}=", 7.days.ago)
+    record.send(:"#{field}=", 5.days.ago)
+    record.send(:"#{other_date}=", 7.days.ago)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(message)
     with_expected_error_translation(field, message, options) if options[:translated_message]
   end
 
   def should_error_if_equal_to_value(record, field, value, message)
-    record.send("#{field}=", value)
+    record.send(:"#{field}=", value)
     expect(record.send(:valid?)).to be false
     expect(record.errors[field]).to include(match(/#{message}/))
   end
 
   def should_be_valid_if_equal_to_value(record, field, value)
-    record.send("#{field}=", value)
+    record.send(:"#{field}=", value)
     expect(record.send(:valid?)).to be true
     expect(record.errors[field]).to be_empty
   end
@@ -149,7 +149,7 @@ module ValidationHelpers
 
   def nulify_fields_on_record(record, *fields)
     fields.each do |field|
-      record.send("#{field}=", nil)
+      record.send(:"#{field}=", nil)
     end
     record
   end

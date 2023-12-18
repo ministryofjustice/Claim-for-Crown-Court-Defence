@@ -78,7 +78,7 @@ class AdpTextField
   end
 
   def build_input_or_false(variable)
-    instance_variable_set("@input_#{variable}", options[:"input_#{variable}"] || false)
+    instance_variable_set(:"@input_#{variable}", options[:"input_#{variable}"] || false)
   end
 
   def setup_input_type
@@ -195,7 +195,7 @@ class AdpTextField
   end
 
   def add_if_needed(field)
-    instance_variable_get("@input_#{field}") ? %(#{field} ) : ''
+    instance_variable_get(:"@input_#{field}") ? %(#{field} ) : ''
   end
 
   def div_close

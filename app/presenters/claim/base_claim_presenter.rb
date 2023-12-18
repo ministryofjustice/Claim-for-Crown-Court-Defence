@@ -7,7 +7,7 @@ class Claim::BaseClaimPresenter < BasePresenter
     fields.each do |field|
       instance_eval do
         define_method(field) do
-          h.number_to_currency(send("raw_#{field}"))
+          h.number_to_currency(send(:"raw_#{field}"))
         end
       end
     end

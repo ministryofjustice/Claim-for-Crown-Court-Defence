@@ -31,7 +31,7 @@ class Provider < ApplicationRecord
   include Roles
 
   PROVIDER_TYPES.each do |type|
-    define_method "#{type}?" do
+    define_method :"#{type}?" do
       provider_type == type
     end
 

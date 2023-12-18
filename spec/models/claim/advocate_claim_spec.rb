@@ -1154,7 +1154,7 @@ RSpec.describe Claim::AdvocateClaim do
     %i[fees_total expenses_total total vat_amount].each do |attribute|
       it "converts input for #{attribute} by stripping commas out" do
         claim = build(:claim)
-        claim.send("#{attribute}=", '12,321,111')
+        claim.send(:"#{attribute}=", '12,321,111')
         expect(claim.send(attribute)).to eq(12_321_111)
       end
     end

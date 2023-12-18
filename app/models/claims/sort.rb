@@ -14,7 +14,7 @@ module Claims::Sort
     raise 'Invalid sort direction' unless %( asc desc ).include?(direction)
 
     if META_SORT_COLUMNS.include?(column)
-      send("sort_#{column}", direction)
+      send(:"sort_#{column}", direction)
     else
       order(column => direction)
     end

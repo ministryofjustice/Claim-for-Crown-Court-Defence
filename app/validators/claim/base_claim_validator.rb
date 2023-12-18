@@ -23,7 +23,7 @@ module Claim
     end
 
     def validate_field(field)
-      __send__("validate_#{field}")
+      __send__(:"validate_#{field}")
     end
 
     def validate_external_user_id

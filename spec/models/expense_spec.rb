@@ -107,7 +107,7 @@ RSpec.describe Expense do
     %i[rate quantity amount vat_amount].each do |attribute|
       it "converts input for #{attribute} by stripping commas out" do
         expense = build(:expense)
-        expense.send("#{attribute}=", '12,321,111')
+        expense.send(:"#{attribute}=", '12,321,111')
         expect(expense.send(attribute)).to eq(12321111)
       end
     end

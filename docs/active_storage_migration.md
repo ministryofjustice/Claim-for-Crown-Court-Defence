@@ -91,7 +91,7 @@ files` count and `AS records checked` should be `OK`.
 
 ```ruby
 # Get a download url for a sample document
-rails> ActiveStorage::Attachment.where(record_type: 'Stats::StatsReport').sample.service_url
+rails> ActiveStorage::Attachment.where(record_type: 'Stats::StatsReport').sample.url
 # => "https://cloud-platform-..."
 # Paste this url into a browser and confirm that it can be downloaded
 # Note that this url will expire in 5 minutes
@@ -172,7 +172,7 @@ attachments` count and `AS records checked` should be `OK`.
 
 ```ruby
 # Get a download url for a sample attachment
-rails> ActiveStorage::Attachment.where(record_type: 'Message').sample.service_url
+rails> ActiveStorage::Attachment.where(record_type: 'Message').sample.url
 # => "https://cloud-platform-..."
 # Paste this url into a browser and confirm that it can be downloaded
 # Note that this url will expire in 5 minutes
@@ -271,12 +271,12 @@ checked` should both be `OK`.
 
 ```ruby
 # Get a download url for a sample document
-rails> ActiveStorage::Attachment.where(record_type: 'Document', name: 'document').sample.service_url
+rails> ActiveStorage::Attachment.where(record_type: 'Document', name: 'document').sample.url
 # => "https://cloud-platform-..."
 # Paste this url into a browser and confirm that it can be downloaded
 
 # Get a download preview url for a sample document
-rails> ActiveStorage::Attachment.where(record_type: 'Document', name: 'converted_preview_document').sample.service_url(disposition: 'inline')
+rails> ActiveStorage::Attachment.where(record_type: 'Document', name: 'converted_preview_document').sample.url(disposition: 'inline')
 # => "https://cloud-platform-..."
 # Paste this url into a browser and confirm that it can be previewed in the browser
 

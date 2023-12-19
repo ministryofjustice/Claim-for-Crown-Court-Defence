@@ -603,8 +603,8 @@ GEM
       sentry-ruby (~> 5.15.0)
     sentry-ruby (5.15.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.15.0)
-      sentry-ruby (~> 5.15.0)
+    sentry-sidekiq (5.15.2)
+      sentry-ruby (~> 5.15.2)
       sidekiq (>= 3.0)
     shell-spinner (1.0.4)
       colorize

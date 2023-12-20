@@ -21,7 +21,7 @@ end
 
 # AGFS 10/11 only
 Then(/^I select the first search result$/) do
-  sleep Capybara.default_max_wait_time
+  sleep 1
   find(:xpath, '//*[@id="offence-list"]/div[3]/div').hover
   find(:xpath, '//*[@id="offence-list"]/div[3]/div/div[2]/a').click
   wait_for_ajax

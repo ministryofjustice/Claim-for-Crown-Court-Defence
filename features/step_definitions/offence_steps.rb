@@ -21,9 +21,10 @@ end
 
 # AGFS 10/11 only
 Then(/^I select the first search result$/) do
-  sleep 1
-  find(:xpath, '//*[@id="offence-list"]/div[3]/div').hover
-  find(:xpath, '//*[@id="offence-list"]/div[3]/div/div[2]/a').click
+  using_wait_time 1 do
+    find(:xpath, '//*[@id="offence-list"]/div[3]/div').hover
+    find(:xpath, '//*[@id="offence-list"]/div[3]/div/div[2]/a').click
+  end
   wait_for_ajax
 end
 

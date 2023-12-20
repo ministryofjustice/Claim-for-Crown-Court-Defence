@@ -120,7 +120,7 @@ class Expense < ApplicationRecord
   def displayable_reason_text
     return nil if reason_id.nil?
     if allow_reason_text?
-      read_attribute(:reason_text)
+      self[:reason_text]
     else
       expense_reason&.reason
     end

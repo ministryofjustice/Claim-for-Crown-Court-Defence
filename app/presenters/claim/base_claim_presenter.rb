@@ -127,7 +127,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def case_number
-    (claim.case_number.presence || 'N/A')
+    claim.case_number.presence || 'N/A'
   end
 
   def formatted_case_number

@@ -1,7 +1,7 @@
 module Extensions
   module ArrayExtension
     def zeroize_nils(value = 0.00)
-      map { |element| (element.presence || value) }
+      map { |element| element.presence || value }
     end
 
     def zeroize_nils!(value = 0.00)

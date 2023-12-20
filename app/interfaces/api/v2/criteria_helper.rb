@@ -23,11 +23,11 @@ module API::V2
     end
 
     def sort_attribute
-      (params[:sorting].presence || :id)
+      params[:sorting].presence || :id
     end
 
     def sort_direction
-      (params[:direction].presence || :asc)
+      params[:direction].presence || :asc
     end
 
     def sorting

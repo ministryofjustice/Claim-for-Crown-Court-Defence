@@ -1,9 +1,7 @@
 class DeterminationPresenter < BasePresenter
   presents :version
 
-  def event
-    version.event
-  end
+  delegate :event, to: :version
 
   def timestamp
     version.created_at.strftime('%H:%M')

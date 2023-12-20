@@ -21,7 +21,7 @@ class InjectionAttempt < ApplicationRecord
   validates :claim, presence: true
 
   def real_error_messages
-    read_attribute(:error_messages)&.with_indifferent_access
+    self[:error_messages]&.with_indifferent_access
   end
 
   def error_messages

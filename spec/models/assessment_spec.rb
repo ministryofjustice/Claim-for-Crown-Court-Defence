@@ -125,7 +125,7 @@ RSpec.describe Assessment do
     end
   end
 
-  context '#zeroize!' do
+  describe '#zeroize!' do
     it 'zeroizes values and save' do
       assessment = create(:assessment, :random_amounts)
       expect(assessment.fees).not_to eq 0

@@ -32,7 +32,7 @@ describe API::Entities::CCR::AdaptedMiscFee, type: :adapter do
     expect(response[:dates_attended].first).to include(from:, to:)
   end
 
-  context '#number_of_defendants' do
+  describe '#number_of_defendants' do
     subject { response[:number_of_defendants] }
 
     let(:miaph) { create(:misc_fee_type, :miaph) }

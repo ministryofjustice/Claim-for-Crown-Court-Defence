@@ -167,7 +167,7 @@ module Fee
   end
 
   RSpec.describe Fee::BaseFee do
-    context '#new' do
+    describe '#new' do
       it 'raises BaseFeeAbstractClassError' do
         expect { BaseFee.new }.to raise_error(Fee::BaseFeeAbstractClassError)
       end

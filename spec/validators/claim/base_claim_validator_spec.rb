@@ -55,7 +55,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
       end
 
       context 'when saving as draft' do
-        context '...and validation is forced' do
+        context 'and validation is forced' do
           before { invalid_claim.force_validation = true }
 
           it 'validation is performed' do
@@ -63,10 +63,10 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
           end
         end
 
-        context '...and validation is NOT forced' do
+        context 'and validation is NOT forced' do
           before { invalid_claim.force_validation = false }
 
-          context '...and it is coming from the api' do
+          context 'and it is coming from the api' do
             before { invalid_claim.source = 'api' }
 
             it 'validation is performed' do
@@ -74,7 +74,7 @@ RSpec.describe Claim::BaseClaimValidator, type: :validator do
             end
           end
 
-          context '...and it is coming from the web app' do
+          context 'and it is coming from the web app' do
             before { invalid_claim.source = 'web' }
 
             it 'validation is NOT performed' do

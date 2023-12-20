@@ -157,58 +157,71 @@ In order to test running of an anonymised dump against your local database you c
 $ bundle exec rails db:dump:anonymised
 ```
 
-In order to create an anonymised dump of a hosted environments database you can:
+In order to create an anonymised dump of a hosted environment's database you can:
 
 ```bash
 # run the db-dump job in the given environment
-$ bundle exec rake db:dump:run_job['dev']
+$ bundle exec rails db:dump:run_job['dev']
 ```
 
 ```bash
 # run the db-dump job in the given environment using a built branch docker tag
-$ bundle exec rake db:dump:run_job['dev','my-branch-latest']
+$ bundle exec rails db:dump:run_job['dev','my-branch-latest']
 ```
 
 This task requires you have kubectl installed locally.
 
-This will create a `private` dump file in the host environments s3 bucket and list all such dumps at the end. If the log tailing times out (it will on production currently) then you will need to list the dump files using:
+This will create a `private` dump file in the host environment's s3 bucket and list all such dumps at the end. 
 
+ ### Downloading dump files
+
+To download an s3 dump file locally you must first log on to a kubernetes pod in the appropriate namespace:
 
 ```bash
-# requires kubeconfig secret access
-# list existing dump files for an environment
-bundle exec rake db:dump:list_s3_dumps['dev']
+# shell into host
+kubectl exec -it -n <namespace> <pod-name> -- sh
 ```
 
-You can then download the s3 dump file locally using:
+You can then download the dump file to the pod:
 
 ```bash
-# requires kubeconfig secret access
 # copy existing dump file from an environment and decompress
-bundle exec rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','dev']
+bundle exec rails db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','dev']
 ```
 
 The output will specify the location of the decompressed dump file (`tmp/{environment}/filename`).
 
-You can then load the database dump on to your local database suing:
+You then need to copy the dump file to your local machine:
 
 ```bash
-bundle exec rake db:restore['local-dump-file-path']
+# copy dump file from pod
+kubectl cp <namespace>/<pod-name>:tmp/dev/20201013214202_dump.psql tmp/dev/20201013214202_dump.psql
+```
+
+You can then load the database dump to your local database using:
+
+```bash
+bundle exec rails db:restore['local-dump-file-path']
 ```
 
 Snippet for local dump and restore:
 
 ```bash
 $ cd <cccd_root>
-$ bundle exec rake db:dump:run_job['production'] # optional
-$ bundle exec rake db:dump:list_s3_dumps['production']
+$ bundle exec rails db:dump:run_job['production'] # optional
+$ kubectl exec -it -n cccd-production <pod-name> -- sh
+$ bundle exec rails db:dump:list_s3_dumps['production']
    => Key: tmp/20201013214202_dump.psql.gz
       ...
-$ bundle exec rake db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','production']
-$ bundle exec rake db:restore['tmp/production/20201013214202_dump.psql']
+$ bundle exec rails db:dump:copy_s3_dump['tmp/20201013214202_dump.psql.gz','production']
+$ exit
+$ kubectl cp cccd-production/<pod-name>:tmp/production/20201013214202_dump.psql tmp/production/20201013214202_dump.psql
+$ bundle exec rails db:restore['tmp/production/20201013214202_dump.psql']
 ```
 
-Alternatively, if dump files already exist for the environment you can list them - `db:dump:list_s3_dumps` - and then copy the one you want locally - they are listed with most recent first.
+Alternatively, if dump files already exist for the environment, you can list them while logged onto a kubernetes pod 
+- eg `bundle exec rails db:dump:list_s3_dumps['production]` - and then copy the one you want locally. Dumps are listed in
+chronological order, most recent first.
 
 > If you use zsh instead of the bash terminal, you may need to wrap the rake task in a string when passing an array as an argument
 > e.g.
@@ -218,24 +231,27 @@ Alternatively, if dump files already exist for the environment you can list them
 
  ### Deleting dump files
 
- There is a rake task to delete s3 stored dump files. This will delete all but the latest. This should be run when writing new dump files to avoid storing too many large dump files. If you want to delete all you can add a second argument of 'all'
+ There is a rake task to delete s3 stored dump files. This will delete all but the latest. This should be run when writing new dump files to avoid storing too many large dump files. You must be logged onto a kubernetes pod to run this task. If you want to delete all you can add a second argument of 'all'.
 
 ```bash
+# shell into host
+$ kubectl exec -it -n cccd-production <pod-name> -- sh
+
 # delete all but the latest dump file
-$ bundle exec rake db:dump:delete_s3_dumps['production']
+$ bundle exec rails db:dump:delete_s3_dumps['production']
 
 # delete all dump files
-$ bundle exec rake db:dump:delete_s3_dumps['production','all']
+$ bundle exec rails db:dump:delete_s3_dumps['production','all']
 ```
 
-### Restoring dump on remote host
+### Restoring a dump on a remote host
 
-The dump files can be restored on a remote host as well. To achieve this you will need to transfer the dump file to the host and then run the restore task on the host. You should use the worker pod to mitigate impact of restore on server hosts.
+Databse dump files can also be restored on a remote host. To achieve this you will need to transfer the dump file to the host and then run the restore task on the host. You should use the worker pod to mitigate impact of restoration on server hosts.
 
 * Create dir on remote host (optional):
   ```bash
   # shell into host
-  kubectl exec -it <pod-name> sh
+  kubectl exec -it -n <namespace> <pod-name> -- sh
 
   # create
   /usr/src/app $ mkdir tmp/production
@@ -258,13 +274,13 @@ The dump files can be restored on a remote host as well. To achieve this you wil
 * Restore remote database using dumpfile on remote host
   ```bash
   # shell into host
-  kubectl exec -it <pod-name> sh
+  kubectl exec -n <namespace> -it <pod-name> -- sh
 
   # restore database
-  /usr/src/app $ rake db:restore['tmp/production/dump_file_name.psql.gz']
+  /usr/src/app $ rails db:restore['tmp/production/dump_file_name.psql.gz']
   ```
 
-#### A note on architecture
+## A note on architecture
 
 This app was originally written as a single monolithic application, with the ability to import claims via a public API.  A decision was later taken to split the Caseworker off into a separate application, using the API to communicate to the main app.  This has only partially been
 done.

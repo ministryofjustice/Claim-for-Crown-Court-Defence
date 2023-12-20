@@ -41,7 +41,7 @@ gem 'pg',                     '~> 1.5.4'
 gem 'rails', '~> 6.1.7'
 gem 'redis',                  '~> 5.0.8'
 gem 'rubyzip'
-gem 'config',                 '~> 5.0' # this gem provides our Settings.xxx mechanism
+gem 'config',                 '~> 5.1' # this gem provides our Settings.xxx mechanism
 gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
 gem 'sentry-rails', '~> 5.15'

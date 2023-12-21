@@ -80,7 +80,7 @@ module GoogleAnalytics
         allow(Rails).to receive(:env).and_return('production'.inquiry)
       end
 
-      context '#tag_manager?' do
+      describe '#tag_manager?' do
         subject(:tag_manager) { described_class.tag_manager? }
 
         context 'when the adapter is google_tag_manager' do
@@ -102,7 +102,7 @@ module GoogleAnalytics
         end
       end
 
-      context '#analytics?' do
+      describe '#analytics?' do
         subject(:analytics) { described_class.analytics? }
 
         context 'when the adapter is google_tag_manager' do

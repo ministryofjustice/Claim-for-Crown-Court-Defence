@@ -63,7 +63,7 @@ module CCR
     end
 
     def daily_attendance_uplifts
-      @attendance_uplifts ||= claim.fees.where(fee_type_id: daily_attendance_fee_types).sum(:quantity).to_i
+      @daily_attendance_uplifts ||= claim.fees.where(fee_type_id: daily_attendance_fee_types).sum(:quantity).to_i
     end
 
     def daily_attendance_uplifts?

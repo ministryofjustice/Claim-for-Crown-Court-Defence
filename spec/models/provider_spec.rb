@@ -38,7 +38,7 @@ RSpec.describe Provider do
   it { is_expected.to delegate_method(:advocates).to(:external_users) }
   it { is_expected.to delegate_method(:admins).to(:external_users) }
 
-  context '#destroy' do
+  describe '#destroy' do
     before { create(:external_user, :advocate, provider: chamber) }
 
     it 'destroys external users' do
@@ -98,7 +98,7 @@ RSpec.describe Provider do
     end
   end
 
-  context '.set_api_key' do
+  describe '.set_api_key' do
     it 'sets API key at creation' do
       expect(chamber.api_key.present?).to be true
     end
@@ -110,7 +110,7 @@ RSpec.describe Provider do
     end
   end
 
-  context '.regenerate_api_key' do
+  describe '.regenerate_api_key' do
     it 'creates a new api_key' do
       old_api_key = chamber.api_key
       expect { chamber.regenerate_api_key! }.to change(chamber, :api_key).from(old_api_key)

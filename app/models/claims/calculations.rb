@@ -105,7 +105,7 @@ module Claims::Calculations
              .where(claim_id:)
              .where(attribute_is_null_to_s(net_attribute))
              .pluck(vat_attribute, net_attribute)
-    { vat: values.map { |v| v.first || BigDecimal('0.0', 8) }.sum, net: values.map(&:last).sum }
+    { vat: values.sum { |v| v.first || BigDecimal('0.0', 8) }, net: values.sum(&:last) }
   end
 
   # NOTE: This is meant to reproduce the same behaviour as totalize_for_claim

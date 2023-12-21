@@ -297,9 +297,9 @@ RSpec.describe ExternalUsers::Advocates::ClaimsController do
 
               # miscellaneous fees are NOT destroyed implicitly by claim model for fixed-fee case types
               expect(claim.misc_fees.size).to eq 1
-              expect(claim.misc_fees.map(&:amount).sum.to_f).to eq 250.00
+              expect(claim.misc_fees.sum(&:amount).to_f).to eq 250.00
               expect(claim.fixed_fees.size).to eq 1
-              expect(claim.fixed_fees.map(&:amount).sum.to_f).to eq 250.00
+              expect(claim.fixed_fees.sum(&:amount).to_f).to eq 250.00
 
               expect(claim.reload.fees_total).to eq 500.00
             end

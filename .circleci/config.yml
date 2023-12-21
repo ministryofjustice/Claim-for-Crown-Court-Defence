@@ -432,7 +432,7 @@ jobs:
   cucumber-tests:
     executor: test-executor
     resource_class: small
-    parallelism: 6
+    parallelism: 8
     steps:
       - checkout
       - run:

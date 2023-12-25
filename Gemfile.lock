@@ -580,7 +580,7 @@ GEM
     rubocop-performance (1.20.0)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
-    rubocop-rails (2.23.0)
+    rubocop-rails (2.23.1)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
@@ -775,7 +775,7 @@ DEPENDENCIES
   rubocop-capybara (~> 2.19)
   rubocop-factory_bot (~> 2.24)
   rubocop-performance (~> 1.20)
-  rubocop-rails (~> 2.23)
+  rubocop-rails (~> 2.23, >= 2.23.1)
   rubocop-rspec (~> 2.25)
   ruby-progressbar
   rubyzip
@@ -802,4 +802,4 @@ RUBY VERSION
    ruby 3.2.2p53
 
 BUNDLED WITH
-   2.4.22
+   2.4.6

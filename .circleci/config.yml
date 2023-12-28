@@ -406,7 +406,7 @@ jobs:
     steps:
       - smoke-test
 
-  smoke-test-dev:
+  smoke-test-app:
     executor:
       name: smoke-test-executor
       tag: app-${CIRCLE_SHA1}
@@ -650,7 +650,7 @@ workflows:
             - hold-branch-build
           context:
             - cccd-live-base
-      - smoke-test-dev:
+      - smoke-test-app:
           requires:
             - build-app-container
           context:

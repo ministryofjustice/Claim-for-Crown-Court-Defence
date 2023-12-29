@@ -60,7 +60,7 @@ describe('Determination', () => {
         document.querySelector('#claim_assessment_attributes_vat_amount').value = params.vat_amount
         vatAmountParam = `${params.vat_amount}`
       }
-      const netAmountParam = `${params.fees + params.expenses + (params.vat_amount || 0)}`
+      const netAmountParam = `${params.fees + params.expenses}`
 
       return determination.calculateTotalRows().then(() => {
         const searchParams = new URLSearchParams()

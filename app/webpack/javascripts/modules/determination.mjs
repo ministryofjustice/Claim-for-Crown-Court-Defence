@@ -51,8 +51,7 @@ export class Determination {
     const fieldIds = [
       'fees',
       'expenses',
-      'disbursements',
-      'vat_amount'
+      'disbursements'
     ]
 
     this.fields = fieldIds.map(id => document.querySelector(`#claim_assessment_attributes_${id}`)).filter(field => field)
@@ -60,6 +59,14 @@ export class Determination {
       this.calculateTotalRows()
       return true
     }))
+
+    this.vatField = document.querySelector('#claim_assessment_attributes_vat_amount')
+    if (this.vatField) {
+      this.vatField.addEventListener('change', () => {
+        this.calculateTotalRows()
+        return true
+      })
+    }
   }
 
   calculateTotalRows () {

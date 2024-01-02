@@ -4,45 +4,45 @@ describe('Determination', () => {
   let determination = null
   let fetchSpy = null
 
+  const createTestArea = ({ content }) => {
+    const testArea = document.createElement('div')
+    testArea.classList.add('test-area')
+    document.body.appendChild(testArea)
+    testArea.append(content)
+
+    determination = new Determination(content)
+    determination.init()
+
+    return testArea
+  }
+
+  const createTable = ({ scheme, body }) => {
+    const table = document.createElement('table')
+    table.id = 'determinations'
+    table.setAttribute('data-module', 'govuk-determination')
+    table.setAttribute('data-apply-vat', 'true')
+    table.setAttribute('data-vat-url', '/vat.json')
+    table.setAttribute('data-submitted-date', '2023-07-18')
+    table.setAttribute('data-scheme', scheme)
+    table.appendChild(body)
+
+    return table
+  }
+
+  const inputRow = (id, klass) => {
+    const row = document.createElement('tr')
+    const cell = document.createElement('td')
+    row.append(cell)
+    const input = document.createElement('input')
+    input.type = 'text'
+    input.value = 0.0
+    input.id = id
+    if (klass) { input.classList.add(klass) }
+    cell.append(input)
+    return row
+  }
+
   describe('calculateTotalRows', () => {
-    const createTestArea = ({ content }) => {
-      const testArea = document.createElement('div')
-      testArea.classList.add('test-area')
-      document.body.appendChild(testArea)
-      testArea.append(content)
-
-      determination = new Determination(content)
-      determination.init()
-
-      return testArea
-    }
-
-    const createTable = ({ scheme, body }) => {
-      const table = document.createElement('table')
-      table.id = 'determinations'
-      table.setAttribute('data-module', 'govuk-determination')
-      table.setAttribute('data-apply-vat', 'true')
-      table.setAttribute('data-vat-url', '/vat.json')
-      table.setAttribute('data-submitted-date', '2023-07-18')
-      table.setAttribute('data-scheme', scheme)
-      table.appendChild(body)
-
-      return table
-    }
-
-    const inputRow = (id, klass) => {
-      const row = document.createElement('tr')
-      const cell = document.createElement('td')
-      row.append(cell)
-      const input = document.createElement('input')
-      input.type = 'text'
-      input.value = 0.0
-      input.id = id
-      if (klass) { input.classList.add(klass) }
-      cell.append(input)
-      return row
-    }
-
     const attributeRow = (id) => {
       const row = document.createElement('tr')
       const cell = document.createElement('td')
@@ -50,28 +50,6 @@ describe('Determination', () => {
       cell.innerHTML = 0.0
       row.append(cell)
       return row
-    }
-
-    const itMakesARequestToTheAPI = (params) => {
-      document.querySelector('#claim_assessment_attributes_fees').value = params.fees
-      document.querySelector('#claim_assessment_attributes_expenses').value = params.expenses
-      let vatAmountParam
-      if (params.vat_amount) {
-        document.querySelector('#claim_assessment_attributes_vat_amount').value = params.vat_amount
-        vatAmountParam = `${params.vat_amount}`
-      }
-      const netAmountParam = `${params.fees + params.expenses}`
-
-      return determination.calculateTotalRows().then(() => {
-        const searchParams = new URLSearchParams()
-        searchParams.set('scheme', params.scheme)
-        searchParams.set('lgfs_vat_amount', vatAmountParam)
-        searchParams.set('date', '2023-07-18')
-        searchParams.set('apply_vat', 'true')
-        searchParams.set('net_amount', netAmountParam)
-
-        expect(fetchSpy).toHaveBeenCalledWith('/vat.json?' + searchParams)
-      })
     }
 
     beforeEach(() => {
@@ -107,7 +85,18 @@ describe('Determination', () => {
       })
 
       it('makes a request to the API', () => {
-        itMakesARequestToTheAPI({ scheme: 'agfs', fees: 3.14, expenses: 2.72 })
+        document.querySelector('#claim_assessment_attributes_fees').value = 3.14
+        document.querySelector('#claim_assessment_attributes_expenses').value = 2.72
+        return determination.calculateTotalRows().then(() => {
+          const searchParams = new URLSearchParams()
+          searchParams.set('scheme', 'agfs')
+          searchParams.set('lgfs_vat_amount', 'NaN')
+          searchParams.set('date', '2023-07-18')
+          searchParams.set('apply_vat', 'true')
+          searchParams.set('net_amount', 5.86)
+
+          return expect(fetchSpy).toHaveBeenCalledWith('/vat.json?' + searchParams)
+        })
       })
 
       it('sets the net amount', () => {
@@ -151,7 +140,20 @@ describe('Determination', () => {
       })
 
       it('makes a request to the API', () => {
-        itMakesARequestToTheAPI({ scheme: 'lgfs', fees: 3.14, expenses: 2.72, vat_amount: 1.17 })
+        document.querySelector('#claim_assessment_attributes_fees').value = 3.14
+        document.querySelector('#claim_assessment_attributes_expenses').value = 2.72
+        document.querySelector('#claim_assessment_attributes_vat_amount').value = 1.17
+
+        return determination.calculateTotalRows().then(() => {
+          const searchParams = new URLSearchParams()
+          searchParams.set('scheme', 'lgfs')
+          searchParams.set('lgfs_vat_amount', 1.17)
+          searchParams.set('date', '2023-07-18')
+          searchParams.set('apply_vat', 'true')
+          searchParams.set('net_amount', 5.86)
+
+          return expect(fetchSpy).toHaveBeenCalledWith('/vat.json?' + searchParams)
+        })
       })
 
       it('sets the net amount', () => {
@@ -169,6 +171,100 @@ describe('Determination', () => {
           expect(totalAmount.innerHTML).toEqual('£235.80')
         })
       })
+    })
+  })
+
+  describe('clean up numbers', () => {
+    const itDoesNotChangeAValidNumber = (element) => {
+      element.value = '99.99'
+      determination.cleanNumber(element)
+
+      return expect(element.value).toEqual('99.99')
+    }
+
+    const itRemovesCommas = (element) => {
+      element.value = '12,345,678.00'
+      determination.cleanNumber(element)
+
+      return expect(element.value).toEqual('12345678.00')
+    }
+
+    const itRemovesExtraDigits = (element) => {
+      element.value = '1.1234'
+      determination.cleanNumber(element)
+
+      return expect(element.value).toEqual('1.12')
+    }
+
+    const itRemovesLetters = (element) => {
+      element.value = '10abc'
+      determination.cleanNumber(element)
+
+      return expect(element.value).toEqual('10')
+    }
+
+    beforeEach(() => {
+      document.body.classList.add('govuk-frontend-supported')
+
+      const tableBody = document.createElement('tbody')
+      tableBody.appendChild(inputRow('claim_assessment_attributes_fees'))
+      tableBody.appendChild(inputRow('claim_assessment_attributes_expenses'))
+      tableBody.appendChild(inputRow('claim_assessment_attributes_disbursements'))
+      tableBody.appendChild(inputRow('claim_assessment_attributes_vat_amount', 'js-lgfs-vat-determination'))
+
+      createTestArea({ content: createTable({ scheme: 'agfs', body: tableBody }) })
+
+      fetchSpy = spyOn(window, 'fetch').and.resolveTo(
+        new Response(
+          JSON.stringify({
+            net_amount: '£196.50',
+            vat_amount: '£39.30',
+            total_inc_vat: '£235.80'
+          }),
+          { status: 200, statusText: 'OK' }
+        )
+      )
+    })
+
+    afterEach(() => {
+      document.body.classList.remove('govuk-frontend-supported')
+      document.querySelector('.test-area').remove()
+    })
+
+    it('fees field', () => {
+      const element = document.querySelector('#claim_assessment_attributes_fees')
+
+      itDoesNotChangeAValidNumber(element)
+      itRemovesCommas(element)
+      itRemovesExtraDigits(element)
+      itRemovesLetters(element)
+    })
+
+    it('expenses field', () => {
+      const element = document.querySelector('#claim_assessment_attributes_expenses')
+
+      itDoesNotChangeAValidNumber(element)
+      itRemovesCommas(element)
+      itRemovesExtraDigits(element)
+      itRemovesLetters(element)
+    })
+
+    it('disbursements field', () => {
+      const element = document.querySelector('#claim_assessment_attributes_disbursements')
+
+      itDoesNotChangeAValidNumber(element)
+      itRemovesCommas(element)
+      itRemovesExtraDigits(element)
+      itRemovesLetters(element)
+    })
+
+    it('vat_amount field', () => {
+      const element = document.querySelector('#claim_assessment_attributes_vat_amount')
+
+      itDoesNotChangeAValidNumber(element)
+      itRemovesCommas(element)
+      itRemovesExtraDigits(element)
+      itRemovesLetters(element)
     })
   })
 })

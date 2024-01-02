@@ -33,7 +33,7 @@ export class Determination {
   /**
    * Initialise component
    */
-  init () {
+  init = () => {
     if (!this.$module) { return }
 
     const $module = this.$module
@@ -55,21 +55,23 @@ export class Determination {
     ]
 
     this.fields = fieldIds.map(id => document.querySelector(`#claim_assessment_attributes_${id}`)).filter(field => field)
-    this.fields.forEach(element => element.addEventListener('change', () => {
-      this.calculateTotalRows()
-      return true
-    }))
+    this.fields.forEach(element => {
+      element.addEventListener('change', (event) => {
+        this.cleanNumber(event.target)
+        this.calculateTotalRows()
+      })
+    })
 
     this.vatField = document.querySelector('#claim_assessment_attributes_vat_amount')
     if (this.vatField) {
-      this.vatField.addEventListener('change', () => {
+      this.vatField.addEventListener('change', (event) => {
+        this.cleanNumber(event.target)
         this.calculateTotalRows()
-        return true
       })
     }
   }
 
-  calculateTotalRows () {
+  calculateTotalRows = () => {
     const total = this.fields.reduce((n, field) => n + (parseFloat(field?.value) || 0.0), 0).toFixed(2)
     return this.applyVat(total).then(data => {
       this.$totalExclVat.innerHTML = data.net_amount
@@ -78,16 +80,20 @@ export class Determination {
     })
   }
 
-  async applyVat (netAmount) {
+  applyVat = async (netAmount) => {
     const params = new URLSearchParams({
       scheme: this.scheme,
-      lgfs_vat_amount: this.$LgfsVat?.value,
+      lgfs_vat_amount: parseFloat(this.$LgfsVat?.value),
       date: this.vatDate,
       apply_vat: this.ajaxVat,
-      net_amount: netAmount
+      net_amount: parseFloat(netAmount)
     })
     const response = await fetch(this.vatUrl + '?' + params.toString())
 
     return await response.json()
+  }
+
+  cleanNumber = (element) => {
+    element.value = element.value.replaceAll(/[^\d.]/g, '').replace(/^(\d*\.\d\d).*$/, '$1')
   }
 }

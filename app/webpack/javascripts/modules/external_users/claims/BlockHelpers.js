@@ -321,7 +321,7 @@ moj.Helpers.Blocks = {
 
       // Binding to the mileage radio buttons (click and change)
       // to update calculations
-      this.$el.on('change, click', '.fx-travel-mileage input[type=radio]', function (e) {
+      this.$el.on('change click', '.fx-travel-mileage input[type=radio]', function (e) {
         self.updateMileageElements(self.getRateId(), true)
       })
 

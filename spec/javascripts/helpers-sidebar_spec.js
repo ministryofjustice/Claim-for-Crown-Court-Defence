@@ -1,5 +1,3 @@
-/* global spyOnEvent */
-
 describe('Helpers.Blocks.js', function () {
   it('should exist with expected constructors', function () {
     expect(moj.Helpers.Blocks).toBeDefined()
@@ -807,35 +805,6 @@ describe('Helpers.Blocks.js', function () {
         })
 
         describe('...bindListners', function () {
-          it('expense type: should bind change listner', function () {
-            const selector = '.fx-travel-expense-type select'
-            const spyEvent = spyOnEvent(selector, 'change')
-
-            $(selector).trigger('change')
-
-            expect('change').toHaveBeenTriggeredOn(selector)
-            expect(spyEvent).toHaveBeenTriggered()
-          })
-
-          it('expense type: should handle change event', function () {
-            const selector = '.fx-travel-expense-type select'
-            instance.bindListners()
-            spyOn(instance, 'statemanager')
-            $(selector).trigger('change')
-
-            expect(instance.statemanager).toHaveBeenCalledWith(selector)
-          })
-
-          it('travel reason: should bind change listner', function () {
-            const selector = '.fx-travel-reason select:last'
-            const spyEvent = spyOnEvent(selector, 'change')
-
-            $(selector).trigger('change')
-
-            expect('change').toHaveBeenTriggeredOn(selector)
-            expect(spyEvent).toHaveBeenTriggered()
-          })
-
           it('travel reason: should handle change event', function () {
             const selector = '.fx-travel-reason select:last'
             spyOn(instance, 'setVal')
@@ -863,6 +832,18 @@ describe('Helpers.Blocks.js', function () {
 
             $(selector).prop('selectedIndex', 2).trigger('change')
             expect(instance.setVal).toHaveBeenCalledWith('.fx-location-type', 'test-location')
+          })
+
+          it('travel expense type: should define distanceLookupEnabled on change', function () {
+            const selector = '.fx-travel-expense-type select'
+            spyOn(instance, 'statemanager')
+            expect(instance.distanceLookupEnabled).not.toBeDefined()
+
+            instance.bindListners()
+            $(selector).trigger('change')
+
+            expect(instance.distanceLookupEnabled).toEqual(false)
+            expect(instance.statemanager).toHaveBeenCalled()
           })
 
           it('travel reason: should call `this.setState` passing params', function () {
@@ -900,16 +881,6 @@ describe('Helpers.Blocks.js', function () {
             })
           })
 
-          it('establishment location: should bind change listner', function () {
-            const selector = '.fx-establishment-select select:last'
-            const spyEvent = spyOnEvent(selector, 'change')
-
-            $(selector).trigger('change')
-
-            expect('change').toHaveBeenTriggeredOn(selector)
-            expect(spyEvent).toHaveBeenTriggered()
-          })
-
           it('establishment location: should set the `.fx-location-model`', function () {
             const selector = '.fx-establishment-select select:last'
 
@@ -935,14 +906,24 @@ describe('Helpers.Blocks.js', function () {
             done()
           })
 
-          it('net amount: should bind keyup listner', function () {
-            const selector = '.fx-travel-net-amount input'
-            const spyEvent = spyOnEvent(selector, 'keyup')
+          it('travel mileage change: should set the `.fx-travel-mileage`', function () {
+            const selector = '.fx-travel-mileage input[type=radio]'
+            spyOn(instance, 'updateMileageElements')
+            spyOn(instance, 'getRateId').and.returnValue($('.fx-travel-mileage input[type=radio]').val())
+            instance.bindListners()
+            $(selector).trigger('change')
 
-            $(selector).keyup()
+            expect(instance.updateMileageElements).toHaveBeenCalledWith('3', true)
+          })
 
-            expect('keyup').toHaveBeenTriggeredOn(selector)
-            expect(spyEvent).toHaveBeenTriggered()
+          it('travel mileage click: should set the `.fx-travel-mileage`', function () {
+            const selector = '.fx-travel-mileage input[type=radio]'
+            spyOn(instance, 'updateMileageElements')
+            spyOn(instance, 'getRateId').and.returnValue($('.fx-travel-mileage input[type=radio]').val())
+            instance.bindListners()
+            $(selector).trigger('click')
+
+            expect(instance.updateMileageElements).toHaveBeenCalledWith('3', true)
           })
 
           it('net amount: should update vat amount on key up', function () {

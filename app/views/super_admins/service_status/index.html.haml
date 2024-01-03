@@ -1,0 +1,12 @@
+= content_for :page_title, flush: true do
+  = 'Service Status'
+
+= render partial: 'layouts/header', locals: { page_heading: 'Service Status' }
+
+= govuk_table do
+  = govuk_table_tbody do
+    = govuk_table_row do
+      = govuk_table_th do
+        = 'Virus scanner available'
+      = govuk_table_td do
+        = Ratonvirus.scanner.available? ? 'Yes' : 'No'

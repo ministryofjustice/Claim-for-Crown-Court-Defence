@@ -89,6 +89,8 @@ Rails.application.routes.draw do
         patch 'update_password', on: :member
       end
     end
+
+    resources :service_status, only: :index
   end
 
   namespace :provider_management do

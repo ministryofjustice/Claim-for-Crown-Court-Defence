@@ -24,6 +24,8 @@
                 = govuk_link_to t('.offences'), super_admins_offences_path, class: cp(super_admins_offences_path)
               %li
                 = govuk_link_to t('.stats'), super_admins_stats_path, class: cp(super_admins_stats_path)
+              %li
+                = govuk_link_to t('.service_status'), super_admins_service_status_index_path, class: cp(super_admins_service_status_index_path)
 
             - elsif current_user.persona.is_a?(ExternalUser)
               %li

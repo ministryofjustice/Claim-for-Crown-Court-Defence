@@ -20,6 +20,20 @@ spec:
     spec:
       serviceAccountName: cccd-dev-lgfs-service
       containers:
+        - name: clamav
+          image: ghcr.io/ministryofjustice/hmpps-clamav:sha-ae9a953
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: clamav
+              containerPort: 3310
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 3Gi
+            requests:
+              cpu: 10m
+              memory: 1Gi
         - name: cccd-app
           imagePullPolicy: Always
           image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd:set-me

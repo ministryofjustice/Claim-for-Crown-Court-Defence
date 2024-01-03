@@ -59,7 +59,8 @@ RUN apk --update-cache upgrade \
                    postgresql-client \
                    redis \
                    runit \
-                   ttf-freefont
+                   ttf-freefont \
+                   clamav-clamdscan
 
 RUN addgroup -g 1000 -S appgroup \
 && adduser -u 1000 -S appuser -G appgroup

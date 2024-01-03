@@ -26,6 +26,7 @@ class Document < ApplicationRecord
               image/bmp
               image/x-bitmap
             ]
+  validates :document, antivirus: true
 
   alias attachment document # to have a consistent interface to both Document and Message
   delegate :provider_id, to: :external_user

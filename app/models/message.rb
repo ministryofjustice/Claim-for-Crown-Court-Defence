@@ -41,6 +41,7 @@ class Message < ApplicationRecord
               image/bmp
               image/x-bitmap
             ]
+  validates :attachment, antivirus: true
 
   validates :sender, presence: true
   validates :body, presence: true

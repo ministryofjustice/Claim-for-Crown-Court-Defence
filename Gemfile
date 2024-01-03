@@ -63,6 +63,8 @@ gem 'active_storage_validations'
 gem 'faraday', '~> 1.10'
 gem 'faraday_middleware', '~> 1.2'
 gem 'puma'
+gem 'ratonvirus'
+gem 'ratonvirus-clamby'
 
 group :development, :test do
   gem 'annotate'

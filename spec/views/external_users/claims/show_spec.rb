@@ -64,7 +64,7 @@ RSpec.describe 'external_users/claims/show.html.haml' do
         it 'does NOT displays offence details section' do
           assign(:claim, claim)
           render
-          expect(rendered).not_to have_content('Offence details')
+          expect(rendered).to have_no_content('Offence details')
         end
       end
 
@@ -92,8 +92,8 @@ RSpec.describe 'external_users/claims/show.html.haml' do
     describe 'basic claim information' do
       it 'doesn\'t display the litigator category section' do
         render
-        expect(rendered).not_to have_css('div', text: 'Advocate category')
-        expect(rendered).not_to have_css('div', text: 'Litigator category')
+        expect(rendered).to have_no_css('div', text: 'Advocate category')
+        expect(rendered).to have_no_css('div', text: 'Litigator category')
       end
 
       it 'displays the litigator account number section' do
@@ -146,7 +146,7 @@ RSpec.describe 'external_users/claims/show.html.haml' do
     describe 'Fees, expenses and more information' do
       it 'does not show the expenses section' do
         render
-        expect(rendered).not_to have_css('p', text: 'There are no expenses for this claim')
+        expect(rendered).to have_no_css('p', text: 'There are no expenses for this claim')
       end
     end
   end

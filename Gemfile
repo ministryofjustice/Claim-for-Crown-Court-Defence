@@ -102,7 +102,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'rspec-html-matchers', '~> 0.10.0'
   gem 'rspec-mocks'
-  gem 'shoulda-matchers', '~> 5.3'
+  gem 'shoulda-matchers', '~> 6.0'
   gem 'simplecov', require: false
   gem 'timecop'
   gem 'vcr'

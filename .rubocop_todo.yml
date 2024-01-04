@@ -386,7 +386,6 @@ RSpec/BeforeAfterAll:
     - 'spec/services/claims/fetch_eligible_misc_fee_types_spec.rb'
     - 'spec/services/claims/update_claim_spec.rb'
     - 'spec/services/claims/update_draft_spec.rb'
-    - 'spec/views/external_users/claims/show_spec.rb'
 
 # Offense count: 1363
 # Configuration parameters: Prefixes, AllowedPatterns.
@@ -551,7 +550,6 @@ RSpec/ContextWording:
     - 'spec/validators/fee/transfer_fee_validator_spec.rb'
     - 'spec/validators/representation_order_validator_spec.rb'
     - 'spec/views/case_workers/claims/show_spec.rb'
-    - 'spec/views/external_users/claims/show_spec.rb'
 
 # Offense count: 124
 # This cop supports unsafe autocorrection (--autocorrect-all).
@@ -805,7 +803,6 @@ RSpec/InstanceVariable:
     - 'spec/services/claims/context_mapper_spec.rb'
     - 'spec/validators/claim/base_claim_sub_model_validator_spec.rb'
     - 'spec/views/case_workers/claims/show_spec.rb'
-    - 'spec/views/external_users/claims/show_spec.rb'
 
 # Offense count: 50
 # This cop supports safe autocorrection (--autocorrect).
@@ -896,7 +893,6 @@ RSpec/LetSetup:
     - 'spec/services/fee_reform/search_offences_spec.rb'
     - 'spec/validators/claim/advocate_interim_claim_web_validations_spec.rb'
     - 'spec/views/case_workers/claims/show_spec.rb'
-    - 'spec/views/external_users/claims/show_spec.rb'
 
 # Offense count: 175
 # Configuration parameters: EnforcedStyle.
@@ -1099,7 +1095,6 @@ RSpec/MultipleExpectations:
     - 'spec/validators/interim_claim_info_validator_spec.rb'
     - 'spec/validators/representation_order_validator_spec.rb'
     - 'spec/views/case_workers/claims/show_spec.rb'
-    - 'spec/views/external_users/claims/show_spec.rb'
 
 # Offense count: 1336
 # Configuration parameters: AllowSubject, Max.
@@ -1321,7 +1316,6 @@ RSpec/NotToNot:
     - 'spec/validators/fee/warrant_fee_validator_spec.rb'
     - 'spec/validators/interim_claim_info_validator_spec.rb'
     - 'spec/views/case_workers/claims/show_spec.rb'
-    - 'spec/views/external_users/claims/show_spec.rb'
 
 # Offense count: 3
 RSpec/PendingWithoutReason:
@@ -2015,4 +2009,3 @@ Layout/LineLength:
     - 'spec/validators/defendant_validator_spec.rb'
     - 'spec/validators/representation_order_validator_spec.rb'
     - 'spec/views/case_workers/claims/show_spec.rb'
-    - 'spec/views/external_users/claims/show_spec.rb'

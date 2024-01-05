@@ -44,7 +44,7 @@ RSpec.describe Hash do
     end
 
     it 'returns duplicate keys' do
-      expect(result.count { |el| el.eql?(:key_id) }).to be_eql 9
+      expect(result.count { |el| el.eql?(:key_id) }).to eql 9
     end
   end
 end

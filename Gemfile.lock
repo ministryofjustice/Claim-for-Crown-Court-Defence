@@ -586,7 +586,7 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
-    rubocop-rspec (2.25.0)
+    rubocop-rspec (2.26.0)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
@@ -777,7 +777,7 @@ DEPENDENCIES
   rubocop-factory_bot (~> 2.24)
   rubocop-performance (~> 1.20)
   rubocop-rails (~> 2.23)
-  rubocop-rspec (~> 2.25)
+  rubocop-rspec (~> 2.26)
   ruby-progressbar
   rubyzip
   sentry-rails (~> 5.15)

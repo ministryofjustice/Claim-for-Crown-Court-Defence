@@ -25,11 +25,5 @@ module Extensions
         end
       end
     end
-
-    def bury(value, *keys)
-      keys[0...-1].inject(self) do |acc, key|
-        acc.public_send(:[], key)
-      end.public_send(:[]=, keys.last, value)
-    end
   end
 end

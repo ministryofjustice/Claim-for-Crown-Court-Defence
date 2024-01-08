@@ -137,6 +137,11 @@ moj.Modules.Dropzone = {
     }
   },
 
+  renameFile: function (file) {
+    // return file.name.replace(/'|;|=/g, '')
+    return encodeURI(file.name);
+  },
+
   uploadFile: function (file) {
     const formData = new FormData()
     formData.append('document[document]', file)

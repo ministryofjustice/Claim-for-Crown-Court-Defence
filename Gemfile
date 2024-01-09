@@ -83,7 +83,7 @@ group :development, :test do
   gem 'net-scp', '~> 4.0'
   gem 'rubocop', '~> 1.59'
   gem 'rubocop-capybara', '~> 2.20'
-  gem 'rubocop-factory_bot', '~> 2.24'
+  gem 'rubocop-factory_bot', '~> 2.25'
   gem 'rubocop-rspec', '~> 2.26'
   gem 'rubocop-rails', '~> 2.23'
   gem 'rubocop-performance', '~> 1.20'

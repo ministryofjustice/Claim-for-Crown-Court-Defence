@@ -1,6 +1,9 @@
 module Schedule
   class ReportGeneration
     include Sidekiq::Job
+    include Sentry::Cron::MonitorCheckIns
+
+    sentry_monitor_check_ins
 
     def perform(report_type)
       LogStuff.info { "#{report_type.to_s.humanize} generation started" }

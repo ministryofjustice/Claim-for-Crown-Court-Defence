@@ -1,6 +1,9 @@
 module Schedule
   class PollInjectionResponses
     include Sidekiq::Job
+    include Sentry::Cron::MonitorCheckIns
+
+    sentry_monitor_check_ins
 
     def perform
       queue = Settings.aws.response_queue

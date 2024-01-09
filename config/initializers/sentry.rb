@@ -7,5 +7,31 @@ if Rails.env.eql?('production') && ENV['SENTRY_DSN'].present?
 
     # Send 5% of transactions for performance monitoring
     config.traces_sample_rate = 0.05
-  end
+    config.enabled_patches += [:sidekiq_cron]
+   end
+
+   # Create a config from a crontab schedule (every 10 minutes)
+   monitor_config = Sentry::Cron::MonitorConfig.from_crontab(
+     '5 * * * *',
+     checkin_margin: 5, # Optional check-in margin in minutes
+     max_runtime: 15, # Optional max runtime in minutes
+     timezone: 'Europe/London', # Optional timezone
+     )
+
+   # 🟡 Notify Sentry your job is running:
+   check_in_id = Sentry.capture_check_in(
+     '<monitor-slug>',
+     :in_progress,
+     monitor_config: monitor_config
+   )
+
+   # Execute your scheduled task here...
+
+   # 🟢 Notify Sentry your job has completed successfully:
+   Sentry.capture_check_in(
+     '<monitor-slug>',
+     :ok,
+     check_in_id: check_in_id,
+     monitor_config: monitor_config
+   )
 end

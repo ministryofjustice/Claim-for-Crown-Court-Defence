@@ -203,6 +203,13 @@ describe('Determination', () => {
       return expect(element.value).toEqual('10')
     }
 
+    const itEnsuresASingleDecimalPoint = (element) => {
+      element.value = '10.1.2'
+      determination.cleanNumber(element)
+
+      return expect(element.value).toEqual('10.12')
+    }
+
     beforeEach(() => {
       document.body.classList.add('govuk-frontend-supported')
 
@@ -238,6 +245,7 @@ describe('Determination', () => {
       itRemovesCommas(element)
       itRemovesExtraDigits(element)
       itRemovesLetters(element)
+      itEnsuresASingleDecimalPoint(element)
     })
 
     it('expenses field', () => {
@@ -247,6 +255,7 @@ describe('Determination', () => {
       itRemovesCommas(element)
       itRemovesExtraDigits(element)
       itRemovesLetters(element)
+      itEnsuresASingleDecimalPoint(element)
     })
 
     it('disbursements field', () => {
@@ -256,6 +265,7 @@ describe('Determination', () => {
       itRemovesCommas(element)
       itRemovesExtraDigits(element)
       itRemovesLetters(element)
+      itEnsuresASingleDecimalPoint(element)
     })
 
     it('vat_amount field', () => {
@@ -265,6 +275,7 @@ describe('Determination', () => {
       itRemovesCommas(element)
       itRemovesExtraDigits(element)
       itRemovesLetters(element)
+      itEnsuresASingleDecimalPoint(element)
     })
   })
 })

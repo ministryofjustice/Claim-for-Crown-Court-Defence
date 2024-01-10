@@ -94,6 +94,9 @@ export class Determination {
   }
 
   cleanNumber = (element) => {
-    element.value = element.value.replaceAll(/[^\d.]/g, '').replace(/^(\d*\.\d\d).*$/, '$1')
+    const split = element.value.split(/\.(.*)/).map((part) => part?.replaceAll(/[^\d]/g, ''))
+
+    element.value = split[0]
+    if (split[1]) { element.value += `.${split[1].substring(0, 2)}` }
   }
 }

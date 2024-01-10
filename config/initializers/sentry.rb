@@ -42,4 +42,6 @@ if Rails.env.eql?('production') && ENV['SENTRY_DSN'].present?
      check_in_id: check_in_id,
      monitor_config: monitor_config
    )
+
+   Sentry.capture_message("test message")
 end

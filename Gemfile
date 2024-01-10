@@ -46,6 +46,7 @@ gem 'remotipart',             '~> 1.4'
 gem 'rest-client',            '~> 2.1' # needed for scheduled smoke testing plus others
 gem 'sentry-rails', '~> 5.16'
 gem 'sentry-sidekiq', '~> 5.16'
+gem "sentry-ruby"
 gem 'sprockets-rails', '~> 3.4.2'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
@@ -63,8 +64,6 @@ gem 'active_storage_validations'
 gem 'faraday', '~> 1.10'
 gem 'faraday_middleware', '~> 1.2'
 gem 'puma'
-gem "sentry-ruby"
-gem "sentry-rails"
 
 group :development, :test do
   gem 'annotate'

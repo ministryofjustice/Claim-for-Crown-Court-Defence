@@ -63,6 +63,8 @@ gem 'active_storage_validations'
 gem 'faraday', '~> 1.10'
 gem 'faraday_middleware', '~> 1.2'
 gem 'puma'
+gem "sentry-ruby"
+gem "sentry-rails"
 
 group :development, :test do
   gem 'annotate'

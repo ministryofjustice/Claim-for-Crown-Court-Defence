@@ -25,6 +25,9 @@ updates:
     aws:
       patterns:
         - "aws-*"
+    rubocop:
+      patterns:
+        - "rubocop*"
   open-pull-requests-limit: 5
   rebase-strategy: "disabled"
   allow:

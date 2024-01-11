@@ -3,7 +3,8 @@ module Schedule
     include Sidekiq::Job
     include Sentry::Cron::MonitorCheckIns
 
-    sentry_monitor_check_ins
+    sentry_monitor_check_ins slug: 'custom_slug'
+
 
     def perform(report_type)
       raise StandardError, "This is a fake error"

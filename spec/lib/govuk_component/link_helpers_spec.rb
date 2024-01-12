@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::LinkHelpers, type: :helper do
+RSpec.describe GovukComponent::LinkHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_back_link_to' do

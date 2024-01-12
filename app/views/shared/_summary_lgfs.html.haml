@@ -8,7 +8,7 @@
         = t('shared.summary.no_values.fees')
 
     - else
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_caption(class: 'govuk-visually-hidden') do
           = t('.fees.caption')
 
@@ -81,7 +81,7 @@
           %h3.govuk-heading-m
             = t('common.interim_claim_info')
 
-          = govuk_table do
+          = cccd_govuk_table do
             = govuk_table_caption(class: 'govuk-visually-hidden') do
               = t('.fees.caption')
 
@@ -122,7 +122,7 @@
           %h3.govuk-heading-m
             = t('shared.disbursements_gross')
 
-          = govuk_table do
+          = cccd_govuk_table do
             = govuk_table_caption(class: 'govuk-visually-hidden') do
               = t('.disbursements.caption')
 
@@ -173,7 +173,7 @@
           %h3.govuk-heading-m
             = t('shared.disbursements_no_vat')
 
-          = govuk_table do
+          = cccd_govuk_table do
             = govuk_table_caption(class: 'govuk-visually-hidden') do
               = t('.disbursements.caption')
 

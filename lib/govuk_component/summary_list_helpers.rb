@@ -2,7 +2,7 @@
 
 # Component Reference: https://design-system.service.gov.uk/components/summary-list/
 
-module GOVUKComponent
+module GovukComponent
   module SummaryListHelpers
     def govuk_summary_list(tag_options = {}, &)
       tag_options = prepend_classes('govuk-summary-list', tag_options)

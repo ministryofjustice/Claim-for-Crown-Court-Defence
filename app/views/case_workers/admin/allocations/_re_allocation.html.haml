@@ -29,7 +29,7 @@
           = f.govuk_submit t('.re_allocate'), name: 'tab', value: 'allocated'
 
       - if @claims.any?
-        = govuk_table(class: 'js-checkbox-table') do
+        = cccd_govuk_table(class: 'js-checkbox-table') do
           = govuk_table_caption(id: 'allocation-claim-ids-field-error') do
             .govuk-grid-row
               .govuk-grid-column-one-half

@@ -4,7 +4,7 @@
       = t('.number_of_claims', claim_count: claims.total_count)
 
   .govuk-grid-column-full
-    = govuk_table do
+    = cccd_govuk_table do
       = govuk_table_caption(class: 'govuk-visually-hidden') do
         = params[:action] == 'archived' ? t('case_workers.table_headings.archived_claims') : t('case_workers.table_headings.your_claims')
 

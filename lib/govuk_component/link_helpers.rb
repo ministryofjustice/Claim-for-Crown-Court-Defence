@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GOVUKComponent
+module GovukComponent
   module LinkHelpers
     def govuk_back_link_to(body = nil, url = nil, tag_options = {})
       tag_options = prepend_classes('govuk-back-link', tag_options)

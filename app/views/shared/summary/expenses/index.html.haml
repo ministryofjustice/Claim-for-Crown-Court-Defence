@@ -1,7 +1,7 @@
 %h3.govuk-heading-m
   = t(".header_#{vat ? 'with_vat' : 'without_vat'}")
 
-= govuk_table(class: current_user.case_worker? ? 'expenses-data-table' : nil, style: 'width:100%') do
+= cccd_govuk_table(class: current_user.case_worker? ? 'expenses-data-table' : nil, style: 'width:100%') do
   = govuk_table_caption(class: 'govuk-visually-hidden') do
     = t('.caption')
 

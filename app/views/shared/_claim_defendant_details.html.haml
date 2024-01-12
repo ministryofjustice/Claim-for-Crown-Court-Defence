@@ -11,23 +11,13 @@
     - unless @claim.lgfs? && @claim.interim?
       = govuk_summary_list_row_collection( t('external_users.claims.defendants.defendant_fields.judical_apportionment') ) { defendant.order_for_judicial_apportionment == true ? t('global_yes') : t('global_no') }
 
-
   - if defendant.representation_orders.any?
-    = govuk_table do
-      = govuk_table_caption do
-        = t('shared.claim.reporders')
+    %h5.govuk-heading-s
+      = t('shared.claim.reporders')
 
-      = govuk_table_thead_collection [t('.date'),
-      t('external_users.claims.defendants.representation_order_fields.maat_reference_number')]
-
-      = govuk_table_tbody do
-        - defendant.representation_orders.each do | representation_order |
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.date')) do
-              = representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
-
-            = govuk_table_td('data-label': t('external_users.claims.defendants.representation_order_fields.maat_reference_number')) do
-              = representation_order.maat_reference
+    = govuk_accordion do |accordion|
+      - defendant.representation_orders.each do | representation_order |
+        - accordion.with_section(heading_text: "#{representation_order.representation_order_date.strftime(Settings.date_format)} - #{representation_order.maat_reference}") { render partial: 'shared/representation_order_details', locals: { representation_order: representation_order } }
 
   - else
     = govuk_inset_text(t('.no_reporder'))

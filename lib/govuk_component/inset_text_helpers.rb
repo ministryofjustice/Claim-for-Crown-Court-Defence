@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GOVUKComponent
+module GovukComponent
   module InsetTextHelpers
     def govuk_inset_text(tag_options = {}, &)
       tag_options = prepend_classes('govuk-inset-text', tag_options)

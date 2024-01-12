@@ -32,7 +32,7 @@
 
       %br
       %br
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_caption do
           New fee type
         = govuk_table_thead do
@@ -76,7 +76,7 @@
 
       %br
       %br
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_caption do
           New fee type
         = govuk_table_thead do
@@ -151,7 +151,7 @@
 
       %br
       %br
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_caption do
           New fee types
         = govuk_table_thead do
@@ -302,7 +302,7 @@
       %br/
       %br/
       A list of valid Case Stages (to be used when creating a hardship claim) can be retrieved via:
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_row do
           = govuk_table_td('data-label': "Api") do
             = 'GET /api/case_stages'
@@ -336,7 +336,7 @@
       %a{ href: '#supplementary-fee-types' } updated here
       %br/
       %br/
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_caption do
           = 'New supplementary claim miscellaneous fee types.'
         = govuk_table_thead do
@@ -494,7 +494,7 @@
       %a{ name: 'supplementary-fee-types'}
       Please note that only the following miscellaneous fees are claimable via this claim type currently:
       %br/
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_thead do
           = govuk_table_row do
             = govuk_table_th do
@@ -748,7 +748,7 @@
 
       %br/
       %br/
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_thead do
           = govuk_table_row do
             = govuk_table_th do
@@ -809,7 +809,7 @@
       fixed fee case type. However, certain combinations are not applicable and can result in claims be rejected in full or in part. The web interface has been modifed to ensure that only applicable fixed fees can be claimed, based on the case type selected. The table below summarizes the change.
       %br/
       %br/
-  = govuk_table do
+  = cccd_govuk_table do
     = govuk_table_caption do
       Eligible fixed fee types
     = govuk_table_thead do
@@ -862,7 +862,7 @@
       The following case uplifts are no longer considered eligible for any case type and are to be considered deprecated.
       %br/
       %br/
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_caption do
           Deprecated case uplift fixed fee types
         = govuk_table_thead do
@@ -909,7 +909,7 @@
       The following fixed fee type has been deprecated and should not be used.
       %br/
       %br/
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_caption do
           Deprecated fixed fee types
         = govuk_table_thead do
@@ -1071,7 +1071,7 @@
       error.
       %br/
       %br/
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_thead do
           = govuk_table_row do
             = govuk_table_th do
@@ -1138,7 +1138,7 @@
           submitting a claim in the web application
         unless their quantity value is matched by an equal number of comma separated, valid format of case numbers.
       %br/
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_thead do
           = govuk_table_row do
             = govuk_table_th do
@@ -1347,7 +1347,7 @@
       for further deatils.
       %p
       An overview of which endpoints to use for claim submission is as follows:
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_row do
           = govuk_table_th do
             = 'Action'
@@ -1396,7 +1396,7 @@
 
     %li
       Disbursements can now be validated and added to a claim via the API via:
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_row do
           = govuk_table_td('data-label': "Endpoint URL") do
             = 'POST /api/external_users/disbursements/validate'
@@ -1406,21 +1406,21 @@
 
     %li
       A list of valid Disbursement Types can be retrieved via:
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_row do
           = govuk_table_td('data-label': "Endpoint URL") do
             = 'GET /api/disbursement_types'
 
     %li
       A list of valid Transfer Stages (to be used when creating a litigator transfer claim) can be retrieved via:
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_row do
           = govuk_table_td('data-label': "Endpoint URL") do
             = 'GET /api/transfer_stages'
 
     %li
       A list of valid Transfer Case Conclusions (to be used when creating a litigator transfer claim) can be retrieved via:
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_row do
           = govuk_table_td('data-label': "Endpoint URL") do
             = 'GET /api/transfer_case_conclusions'
@@ -1430,7 +1430,7 @@
       An attribute 'roles' has been added to the returned structure for the expense types to indicate their validity:
 
       The roles attribute is an array and of one or both of the following values:
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_row do
           = govuk_table_th do
             = 'Value'
@@ -1451,7 +1451,7 @@
       An attribute 'roles' has been added to the returned structure for the case types to indicate their validity:
 
       The roles attribute is an array and of one or many of the following values:
-      = govuk_table do
+      = cccd_govuk_table do
         = govuk_table_row do
           = govuk_table_th do
             = 'Value'

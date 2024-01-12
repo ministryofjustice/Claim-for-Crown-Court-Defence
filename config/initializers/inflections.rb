@@ -19,7 +19,6 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'CLI'
   inflect.acronym 'CPS'
   inflect.acronym 'GA'
-  inflect.acronym 'GOVUK'
   inflect.acronym 'GTM'
   inflect.acronym 'LF1'
   inflect.acronym 'LF2'

@@ -8,6 +8,10 @@ class MaatService
 
   def call
     data = @connection.fetch(@maat_reference)
-    { case_number: data['caseId'] || '???' }
+
+    {
+      case_number: data['caseId'] || '???',
+      representation_order_date: data['crownRepOrderDate'] || '???'
+    }
   end
 end

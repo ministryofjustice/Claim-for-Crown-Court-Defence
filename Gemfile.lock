@@ -796,6 +796,7 @@ DEPENDENCIES
   sprockets-rails (~> 3.4.2)
   state_machines-activerecord
   state_machines-audit_trail
+  terminal-table (~> 3.0)
   timecop
   tzinfo-data
   utf8-cleaner (~> 1.0)

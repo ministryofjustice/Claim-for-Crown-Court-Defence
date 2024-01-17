@@ -21,7 +21,7 @@ if Rails.env.eql?('production') && ENV['SENTRY_DSN'].present?
 
    # 🟡 Notify Sentry your job is running:
    check_in_id = Sentry.capture_check_in(
-     '<monitor-slug>',
+     slug,
      :in_progress,
      monitor_config: monitor_config
    )
@@ -30,14 +30,14 @@ if Rails.env.eql?('production') && ENV['SENTRY_DSN'].present?
 
    # 🟢 Notify Sentry your job has completed successfully:
    Sentry.capture_check_in(
-     '<monitor-slug>',
+     slug,
      :ok,
      check_in_id: check_in_id,
      monitor_config: monitor_config
    )
 
    Sentry.capture_check_in(
-     '<monitor-slug>',
+     slug,
      :error,
      check_in_id: check_in_id,
      monitor_config: monitor_config

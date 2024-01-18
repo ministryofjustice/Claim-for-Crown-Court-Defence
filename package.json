@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "expose-loader": "^4.1.0",
+    "expose-loader": "^5.0.0",
     "jasmine-browser-runner": "^1.4.0",
     "jasmine-core": "^4.6.0",
     "standard": "^17.1.0",

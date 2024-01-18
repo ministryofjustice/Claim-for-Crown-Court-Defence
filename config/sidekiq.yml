@@ -23,7 +23,7 @@ production:
       cron: '0 0 4 * * *'
       class: Schedule::DocumentCleaner
     agfs_management_information_generation:
-      cron: '0 30 16 * * *'
+      cron: '0 0 2 * * *'
       class: Schedule::ReportGeneration
       args: ['agfs_management_information']
     agfs_management_information_v2_generation:

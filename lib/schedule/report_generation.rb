@@ -3,7 +3,12 @@ module Schedule
     include Sidekiq::Job
     include Sentry::Cron::MonitorCheckIns
 
-    sentry_monitor_check_ins slug: '<Schedule::ReportGeneration>'
+    sentry_monitor_check_ins slug: 'agfs_management_information_generation'
+    sentry_monitor_check_ins slug: 'agfs_management_information_v2_generation'
+    # sentry_monitor_check_ins slug: 'lgfs_management_information_generation'
+    # sentry_monitor_check_ins slug: 'lgfs_management_information_v2_generation'
+    # sentry_monitor_check_ins slug: 'management_information_generation'
+    # sentry_monitor_check_ins slug: 'management_information_v2_generation'
 
 
     def perform(report_type)

@@ -3,7 +3,15 @@ module Schedule
     include Sidekiq::Job
     include Sentry::Cron::MonitorCheckIns
 
-    sentry_monitor_check_ins slug: '<Schedule::DocumentCleaner>'
+    sentry_monitor_check_ins
+
+    def sentry_monitor_slug(name: self.name)
+      @sentry_monitor_slug ||= begin
+                                 slug = name.gsub('::', '-').downcase
+                                 slug[-MAX_SLUG_LENGTH..-1] || slug
+                               end
+    end
+
 
     def perform
       logger.info('Document Cleaner started')

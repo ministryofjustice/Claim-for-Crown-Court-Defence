@@ -10,3 +10,9 @@ if Rails.env.eql?('production') && ENV['SENTRY_DSN'].present?
     config.enabled_patches += [:sidekiq_scheduler]
    end
 end
+
+check_in_id = Sentry.capture_check_in('report-generation', :in_progress)
+Sentry.capture_check_in('report-generation', :ok, check_in_id: check_in_id)
+
+check_in_id = Sentry.capture_check_in('poll-injection-responses', :in_progress)
+Sentry.capture_check_in('poll-injection-responses', :ok, check_in_id: check_in_id)

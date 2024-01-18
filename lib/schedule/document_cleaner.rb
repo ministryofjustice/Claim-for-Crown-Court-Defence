@@ -3,7 +3,7 @@ module Schedule
     include Sidekiq::Job
     include Sentry::Cron::MonitorCheckIns
 
-    sentry_monitor_check_ins slug: 'document-cleaner'
+    sentry_monitor_check_ins slug: 'document-cleaner', environment: ENV.fetch('ENV', nil)
 
     def perform
       logger.info('Document Cleaner started')

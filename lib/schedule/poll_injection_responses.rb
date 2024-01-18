@@ -3,7 +3,7 @@ module Schedule
     include Sidekiq::Job
     include Sentry::Cron::MonitorCheckIns
 
-    sentry_monitor_check_ins slug: 'poll-injection-responses'
+    sentry_monitor_check_ins slug: 'poll-injection-responses', environment: ENV.fetch('ENV', nil)
 
     def perform
       queue = Settings.aws.response_queue

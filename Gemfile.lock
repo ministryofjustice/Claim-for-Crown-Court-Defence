@@ -615,11 +615,11 @@ GEM
       colorize
     shoulda-matchers (6.0.0)
       activesupport (>= 5.2.0)
-    sidekiq (7.2.0)
+    sidekiq (7.2.1)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
-      redis-client (>= 0.14.0)
+      redis-client (>= 0.19.0)
     sidekiq-failures (1.0.4)
       sidekiq (>= 4.0.0)
     sidekiq-scheduler (5.0.3)
@@ -788,7 +788,7 @@ DEPENDENCIES
   sentry-sidekiq (~> 5.16)
   shell-spinner (~> 1.0, >= 1.0.4)
   shoulda-matchers (~> 6.0)
-  sidekiq (~> 7.2)
+  sidekiq (~> 7.2, >= 7.2.1)
   sidekiq-failures (~> 1.0, >= 1.0.4)
   sidekiq-scheduler (~> 5.0.3)
   simplecov
@@ -807,4 +807,4 @@ RUBY VERSION
    ruby 3.2.2p53
 
 BUNDLED WITH
-   2.4.22
+   2.4.6

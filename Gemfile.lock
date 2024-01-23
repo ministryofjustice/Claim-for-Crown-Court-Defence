@@ -650,7 +650,7 @@ GEM
     state_machines-activerecord (0.9.0)
       activerecord (>= 6.0)
       state_machines-activemodel (>= 0.9.0)
-    state_machines-audit_trail (2.0.2)
+    state_machines-audit_trail (2.1.0)
       state_machines
     sys-uname (1.2.3)
       ffi (~> 1.1)

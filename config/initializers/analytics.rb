@@ -3,4 +3,6 @@
 #   :ga  -> Google Analytics
 #   :gtm -> Google Tag Manager
 #
-GoogleAnalytics::DataTracking.adapter = ENV['GTM_TRACKER_ID'].present? ? :gtm : :ga
+Rails.application.reloader.to_prepare do
+  GoogleAnalytics::DataTracking.adapter = ENV['GTM_TRACKER_ID'].present? ? :gtm : :ga
+end

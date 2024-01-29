@@ -93,7 +93,7 @@ end
 group :test do
   gem 'axe-core-cucumber', '~> 4.8'
   gem 'capybara-selenium'
-  gem 'capybara', '~> 3.39'
+  gem 'capybara', '~> 3.40'
   gem 'cucumber-rails', '~> 3.0.0', require: false
   gem 'database_cleaner'
   gem 'i18n-tasks'

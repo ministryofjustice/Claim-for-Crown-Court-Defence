@@ -102,7 +102,7 @@ RSpec.describe Claims::CaseWorkerClaimUpdater do
         'state_reason' => state_reason,
         'reject_reason_text' => '',
         'refuse_reason_text' => '',
-        "#{determination_type}_attributes" => send("#{determination_type}_attributes")
+        "#{determination_type}_attributes" => send(:"#{determination_type}_attributes")
       }
     end
 

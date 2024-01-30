@@ -10,8 +10,8 @@ RSpec.describe Rule::Validator, type: :rule do
   end
 
   describe '#met?' do
-    let(:object_with_quantity_and_amount_rules) { test_class.new() }
-    let(:object_with_amount_rule) { test_class.new() }
+    let(:object_with_quantity_and_amount_rules) { test_class.new }
+    let(:object_with_amount_rule) { test_class.new }
 
     let(:rule_sets) do
       set1 = Rule::Set.new(object_with_quantity_and_amount_rules)

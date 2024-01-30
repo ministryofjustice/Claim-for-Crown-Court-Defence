@@ -21,7 +21,7 @@ moj.Modules.OffenceSearchInput = {
   feeScheme: '.fx-fee-scheme',
 
   // delay in miliseconds
-  debouce: 500,
+  debounce: 500,
 
   // min input length to trigger search
   minLength: 3,

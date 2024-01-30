@@ -7,7 +7,7 @@ class Claim::BaseClaimPresenter < BasePresenter
     fields.each do |field|
       instance_eval do
         define_method(field) do
-          h.number_to_currency(send("raw_#{field}"))
+          h.number_to_currency(send(:"raw_#{field}"))
         end
       end
     end
@@ -127,7 +127,7 @@ class Claim::BaseClaimPresenter < BasePresenter
   end
 
   def case_number
-    claim.case_number.blank? ? 'N/A' : claim.case_number
+    claim.case_number.presence || 'N/A'
   end
 
   def formatted_case_number
@@ -402,7 +402,7 @@ class Claim::BaseClaimPresenter < BasePresenter
       [
         fee_type.description,
         fee_type.id,
-        data: { unique_code: fee_type.unique_code }
+        { data: { unique_code: fee_type.unique_code } }
       ]
     end
   end

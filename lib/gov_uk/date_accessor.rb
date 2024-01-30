@@ -58,33 +58,33 @@ module GovUk
             instance_variable_get(:"@#{field}")
           end
 
-          define_method("#{field}_dd") do
+          define_method(:"#{field}_dd") do
             instance_variable_get(:"@#{field}")&.strftime('%d')
           end
 
-          define_method("#{field}_mm") do
+          define_method(:"#{field}_mm") do
             instance_variable_get(:"@#{field}")&.strftime('%m')
           end
 
-          define_method("#{field}_yyyy") do
+          define_method(:"#{field}_yyyy") do
             instance_variable_get(:"@#{field}")&.strftime('%Y')
           end
 
-          define_method("#{field}=") do |date|
+          define_method(:"#{field}=") do |date|
             instance_variable_set(:"@#{field}", date)
           end
 
-          define_method("#{field}_dd=") do |day|
+          define_method(:"#{field}_dd=") do |day|
             instance_variable_set(:"@#{field}_dd", day)
             date_from_parts(field)
           end
 
-          define_method("#{field}_mm=") do |month|
+          define_method(:"#{field}_mm=") do |month|
             instance_variable_set(:"@#{field}_mm", month)
             date_from_parts(field)
           end
 
-          define_method("#{field}_yyyy=") do |year|
+          define_method(:"#{field}_yyyy=") do |year|
             instance_variable_set(:"@#{field}_yyyy", year)
             date_from_parts(field)
           end

@@ -5,7 +5,7 @@ RSpec.describe Fee::FixedFeePresenter do
   let(:fixed_fee) { instance_double(Fee::FixedFee, claim:, quantity_is_decimal?: false, errors: { quantity: [] }) }
   let(:presenter) { Fee::FixedFeePresenter.new(fixed_fee, view) }
 
-  context '#rate' do
+  describe '#rate' do
     context 'for AGFS claims' do
       it 'returns number as currency for calculated fees' do
         allow(fixed_fee).to receive(:calculated?).and_return true
@@ -37,7 +37,7 @@ RSpec.describe Fee::FixedFeePresenter do
     end
   end
 
-  context '#quantity' do
+  describe '#quantity' do
     context 'for AGFS claims' do
       it 'returns the raw fee quantity' do
         expect(fixed_fee).to receive(:quantity)

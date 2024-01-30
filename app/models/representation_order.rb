@@ -33,7 +33,7 @@ class RepresentationOrder < ApplicationRecord
   end
 
   def upcase_maat_ref
-    maat_reference.upcase! unless maat_reference.blank?
+    maat_reference.upcase! if maat_reference.present?
   end
 
   def detail

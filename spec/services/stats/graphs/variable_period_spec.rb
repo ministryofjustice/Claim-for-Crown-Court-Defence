@@ -45,7 +45,7 @@ RSpec.describe Stats::Graphs::VariablePeriod do
         create(:advocate_claim, :agfs_scheme_9, :submitted)
       end
 
-      it 'will be in the correct order' do
+      it 'is in the correct order' do
         expect(data_hash.keys).to eq(['AGFS 9', 'AGFS 10', 'LGFS 9', 'LGFS 10'])
       end
     end

@@ -40,5 +40,9 @@ describe('Modules.AllocationScheme.js', function () {
     $('#allocation-filters input').trigger('change')
 
     expect($.publish).toHaveBeenCalledWith('/scheme/change/', { scheme: 'input-value' })
+
+    // reset the filter for future tests
+    $(filtersFixtureDOM).append($('<input name="myname" value="agfs" type="radio" />'))
+    $('#allocation-filters input').trigger('change')
   })
 })

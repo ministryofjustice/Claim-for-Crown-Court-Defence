@@ -17,7 +17,7 @@ describe('Modules.DisbursementCtrl.js', function () {
   })
 
   afterEach(function () {
-    $('body #offence-view').remove()
+    $('body #disbursements-view').remove()
   })
 
   describe('...defaults', function () {

@@ -13,7 +13,7 @@ describe API::Entities::CCR::AdaptedHardshipFee, type: :adapter do
     )
   end
 
-  context '#amount' do
+  describe '#amount' do
     subject(:amount) { response[:amount] }
 
     it 'exposes amount' do

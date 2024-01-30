@@ -43,7 +43,7 @@ module Claims
     # in upper case as method with the trailing question mark removed
     def self.can_be_in_state?(method)
       return false unless method.to_s.end_with?('?')
-      const_defined?("#{method.to_s.chop.upcase}_STATES")
+      const_defined?(:"#{method.to_s.chop.upcase}_STATES")
     end
 
     def self.in_state?(method, claim)

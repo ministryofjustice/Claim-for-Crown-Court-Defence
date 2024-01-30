@@ -26,7 +26,7 @@ RSpec.describe Caching::Response do
   describe '#headers' do
     subject(:headers) { instance.headers }
 
-    it { is_expected.to eql Hash.new }
+    it { is_expected.to eql({}) }
   end
 
   describe '#ttl' do

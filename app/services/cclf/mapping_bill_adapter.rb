@@ -2,8 +2,7 @@ module CCLF
   class MappingBillAdapter < SimpleDelegator
     KEYS = %i[bill_type bill_subtype].freeze
 
-    attr_reader :object
-    attr_reader :mappings
+    attr_reader :object, :mappings
 
     delegate :bill_type, :bill_subtype, to: :@bill_types
 

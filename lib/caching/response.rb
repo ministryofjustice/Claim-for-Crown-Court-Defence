@@ -7,13 +7,9 @@ class Caching
       validate!
     end
 
-    def body
-      response.body
-    end
+    delegate :body, to: :response
 
-    def headers
-      response.headers
-    end
+    delegate :headers, to: :response
 
     def ttl
       return 0 if cache_control.match?('no-cache')

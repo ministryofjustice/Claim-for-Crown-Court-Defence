@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Claims::StateTransitionMessageBuilder do
   subject { described_class.new(state, reasons, reason_text).call }
 
-  context '#call' do
+  describe '#call' do
     context 'when refused' do
       let(:state) { 'refused' }
       let(:reasons) { %w[wrong_ia duplicate_claim other_refuse] }

@@ -45,7 +45,7 @@ RSpec.describe Disbursement do
     %i[net_amount vat_amount].each do |attribute|
       it "converts input for #{attribute} by stripping commas out" do
         disbursement = build(:disbursement)
-        disbursement.send("#{attribute}=", '1,321.55')
+        disbursement.send(:"#{attribute}=", '1,321.55')
         expect(disbursement.send(attribute)).to eq(1321.55)
       end
     end

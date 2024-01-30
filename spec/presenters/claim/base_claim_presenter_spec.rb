@@ -56,7 +56,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'with a redetermination' do
       before do
-        %w[submit allocate refuse redetermine allocate].each { |event| claim.send("#{event}!") }
+        %w[submit allocate refuse redetermine allocate].each { |event| claim.send(:"#{event}!") }
         allow(claim).to receive(:opened_for_redetermination?).and_return(true)
       end
 
@@ -66,7 +66,7 @@ RSpec.describe Claim::BaseClaimPresenter do
 
     context 'with awaiting written reasons' do
       before do
-        %w[submit allocate refuse await_written_reasons allocate].each { |event| claim.send("#{event}!") }
+        %w[submit allocate refuse await_written_reasons allocate].each { |event| claim.send(:"#{event}!") }
         allow(claim).to receive(:written_reasons_outstanding?).and_return(true)
       end
 

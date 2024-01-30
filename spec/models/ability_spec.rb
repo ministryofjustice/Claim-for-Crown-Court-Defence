@@ -61,9 +61,7 @@ RSpec.describe Ability do
       agfs_claim_type_objects.each do |model|
         it { should be_able_to(action, model) }
       end
-    end
 
-    %i[index outstanding authorised archived new create].each do |action|
       lgfs_claim_type_objects.each do |model|
         it { should_not be_able_to(action, model) }
       end
@@ -257,9 +255,7 @@ RSpec.describe Ability do
       lgfs_claim_type_objects.each do |model|
         it { should be_able_to(action, model) }
       end
-    end
 
-    %i[index outstanding authorised archived new create].each do |action|
       agfs_claim_type_objects.each do |model|
         it { should_not be_able_to(action, model) }
       end

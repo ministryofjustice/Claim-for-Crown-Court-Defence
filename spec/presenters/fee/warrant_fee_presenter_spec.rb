@@ -5,14 +5,14 @@ describe Fee::WarrantFeePresenter do
   let(:presenter) { Fee::WarrantFeePresenter.new(warrant_fee, view) }
 
   # DO NOT confuse Warrant Fees (XWAR) with Interim fees of warrant description/code (IWARR)
-  context '#amount' do
+  describe '#amount' do
     it 'returns fee amount as currency' do
       expect(warrant_fee).to receive(:amount).and_return 13.02
       expect(presenter.amount).to eq '£13.02'
     end
   end
 
-  context '#rate' do
+  describe '#rate' do
     it 'calls not_applicable' do
       expect(warrant_fee).to receive(:calculated?).and_return false
       expect(presenter).to receive(:not_applicable)
@@ -20,28 +20,28 @@ describe Fee::WarrantFeePresenter do
     end
   end
 
-  context '#quantity' do
+  describe '#quantity' do
     it 'calls not_applicable' do
       expect(presenter).to receive(:not_applicable)
       presenter.quantity
     end
   end
 
-  context '#warrant_issued_date' do
+  describe '#warrant_issued_date' do
     it 'returns formatted date' do
       expect(warrant_fee).to receive(:warrant_issued_date).and_return(Date.new(2017, 1, 11))
       expect(presenter.warrant_issued_date).to eq '11/01/2017'
     end
   end
 
-  context '#warrant_executed_date' do
+  describe '#warrant_executed_date' do
     it 'returns formatted date' do
       expect(warrant_fee).to receive(:warrant_executed_date).and_return(Date.new(2016, 8, 3))
       expect(presenter.warrant_executed_date).to eq '03/08/2016'
     end
   end
 
-  context '#warrant_executed?' do
+  describe '#warrant_executed?' do
     it 'returns true if date is present' do
       expect(warrant_fee).to receive(:warrant_executed_date).and_return(Date.new(2016, 8, 3))
       expect(presenter.warrant_executed?).to be true

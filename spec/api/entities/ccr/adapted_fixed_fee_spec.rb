@@ -17,7 +17,9 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
 
     before do |example|
       create(:fixed_fee, fee_type: fxcbr, claim:, quantity: 13) unless example.metadata[:skip_fee]
-      create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: 'T20170001,T20170002') unless example.metadata[:skip_uplifts]
+      unless example.metadata[:skip_uplifts]
+        create(:fixed_fee, fee_type: fxcbu, claim:, quantity: 2, case_numbers: 'T20170001,T20170002')
+      end
     end
 
     it 'exposes expected json key-value pairs' do
@@ -35,7 +37,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
       expect(response.keys).not_to include(:quantity, :rate, :amount)
     end
 
-    context '#case_numbers (and #number_of_cases)' do
+    describe '#case_numbers (and #number_of_cases)' do
       subject { response[:case_numbers].split(',') }
 
       let(:number_of_cases) { response[:number_of_cases] }
@@ -74,7 +76,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
       end
     end
 
-    context '#daily_attendances' do
+    describe '#daily_attendances' do
       subject { response[:daily_attendances] }
 
       context 'when no fixed fee matching the case type exists' do
@@ -97,7 +99,7 @@ describe API::Entities::CCR::AdaptedFixedFee, type: :adapter do
       end
     end
 
-    context '#number_of_defendants' do
+    describe '#number_of_defendants' do
       subject { response[:number_of_defendants] }
 
       context 'when "Number of defendant uplifts" NOT claimed' do

@@ -128,6 +128,8 @@ class Expense < ApplicationRecord
 
   def expense_type_unique_code=(code)
     self.expense_type = ExpenseType.find_by!(unique_code: code)
+  rescue ActiveRecord::RecordNotFound => e
+    raise e.class, I18n.t('activerecord.errors.not_found', model_name: e.model)
   end
 
   def vat_absent?

@@ -13,7 +13,7 @@ class FeedbackForm
   end
 
   def id
-    25_473_840
+    26_019_002
   end
 
   def template
@@ -21,41 +21,41 @@ class FeedbackForm
       tasks: template_for(tasks),
       ratings: template_for(ratings),
       reasons: template_for(reasons),
-      comments: { id: 60_742_937, format: :text }
+      comments: { id: 62_469_815, format: :text }
     }
   end
 
   def tasks
     Section.new(
-      60_742_936, :radio,
+      62_469_808, :radio,
       [
-        Answer.new('3', 'Yes', 505_487_572),
-        Answer.new('2', 'No', 505_487_573),
-        Answer.new('1', 'Partially', 505_487_574)
+        Answer.new('3', 'Yes', 519_552_297),
+        Answer.new('2', 'No', 519_552_298),
+        Answer.new('1', 'Partially', 519_552_299)
       ]
     )
   end
 
   def ratings
     Section.new(
-      60_742_964, :radio,
+      62_469_811, :radio,
       [
-        Answer.new('5', 'Very satisfied', 505_488_046),
-        Answer.new('4', 'Satisfied', 505_488_047),
-        Answer.new('3', 'Neither satisfied nor dissatisfied', 505_488_048),
-        Answer.new('2', 'Dissatisfied', 505_488_049),
-        Answer.new('1', 'Very dissatisfied', 505_488_050)
+        Answer.new('5', 'Very satisfied', 519_552_314),
+        Answer.new('4', 'Satisfied', 519_552_335),
+        Answer.new('3', 'Neither satisfied nor dissatisfied', 519_552_315),
+        Answer.new('2', 'Dissatisfied', 519_552_316),
+        Answer.new('1', 'Very dissatisfied', 519_552_317)
       ]
     )
   end
 
   def reasons
     Section.new(
-      60_745_386, :checkboxes,
+      62_469_839, :checkboxes,
       [
-        Answer.new('3', 'Submit a LGFS claim', 505_511_336),
-        Answer.new('2', 'Submit an AGFS claim', 505_511_337),
-        Answer.new('1', 'Other (please specify)', 505_511_338, other: true)
+        Answer.new('3', 'Submit a LGFS claim', 519_552_475),
+        Answer.new('2', 'Submit an AGFS claim', 519_552_476),
+        Answer.new('1', 'Other (please specify)', 519_552_477, other: true)
       ]
     )
   end

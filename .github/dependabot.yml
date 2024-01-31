@@ -7,6 +7,10 @@ updates:
     day: wednesday
     time: "03:00"
     timezone: Europe/London
+  groups:
+    babel:
+      patterns:
+        - "*babel*"
   open-pull-requests-limit: 5
   reviewers:
   - "ministryofjustice/laa-claim-for-payment"
@@ -17,6 +21,13 @@ updates:
     day: wednesday
     time: "03:00"
     timezone: Europe/London
+  groups:
+    aws:
+      patterns:
+        - "aws-*"
+    rubocop:
+      patterns:
+        - "rubocop*"
   open-pull-requests-limit: 5
   rebase-strategy: "disabled"
   allow:

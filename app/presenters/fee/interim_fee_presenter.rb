@@ -1,6 +1,8 @@
 class Fee::InterimFeePresenter < Fee::BaseFeePresenter
   presents :fee
 
+  delegate :estimated_trial_length, :retrial_estimated_length, to: :_claim
+
   def quantity
     if fee.is_interim_warrant?
       nil
@@ -19,14 +21,6 @@ class Fee::InterimFeePresenter < Fee::BaseFeePresenter
 
   def legal_aid_transfer_date
     format_date(_claim.legal_aid_transfer_date)
-  end
-
-  def estimated_trial_length
-    _claim.estimated_trial_length
-  end
-
-  def retrial_estimated_length
-    _claim.retrial_estimated_length
   end
 
   def warrant_issued_date

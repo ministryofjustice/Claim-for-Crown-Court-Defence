@@ -68,7 +68,7 @@ module GoogleAnalytics
         it 'raises error if no adapter' do
           allow(described_class).to receive(:enabled?).and_return(true)
           expect {
-            described_class.track()
+            described_class.track
           }.to raise_error ArgumentError, 'Uninitialized adapter'
         end
       end
@@ -80,7 +80,7 @@ module GoogleAnalytics
         allow(Rails).to receive(:env).and_return('production'.inquiry)
       end
 
-      context '#tag_manager?' do
+      describe '#tag_manager?' do
         subject(:tag_manager) { described_class.tag_manager? }
 
         context 'when the adapter is google_tag_manager' do
@@ -102,7 +102,7 @@ module GoogleAnalytics
         end
       end
 
-      context '#analytics?' do
+      describe '#analytics?' do
         subject(:analytics) { described_class.analytics? }
 
         context 'when the adapter is google_tag_manager' do

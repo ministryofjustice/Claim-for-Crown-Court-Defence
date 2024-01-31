@@ -101,7 +101,7 @@ RSpec.shared_examples_for 'roles' do |klass, roles|
         subject { create(factory_name, roles: [role]) }
 
         it 'returns true when role present' do
-          expect(subject.send("#{role}?")).to be(true)
+          expect(subject.send(:"#{role}?")).to be(true)
         end
       end
     end

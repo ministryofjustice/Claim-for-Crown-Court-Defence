@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Extensions::DeviseExtension do
   let(:example_class) { Class.new { extend Extensions::DeviseExtension } }
 
-  context '#override_paranoid_setting (original value being true)' do
+  describe '#override_paranoid_setting (original value being true)' do
     before { Devise.paranoid = true }
 
     it 'overrides the setting and call the passed block' do
@@ -15,7 +15,7 @@ describe Extensions::DeviseExtension do
     end
   end
 
-  context '#override_paranoid_setting (original value being false)' do
+  describe '#override_paranoid_setting (original value being false)' do
     before { Devise.paranoid = false }
 
     it 'overrides the setting and call the passed block' do

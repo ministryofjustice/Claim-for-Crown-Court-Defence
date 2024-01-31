@@ -4,7 +4,7 @@ module JsonAttrParser
 
   included do
     columns.select { |column| column.type == :json }.map(&:name).each do |attr|
-      define_method("#{attr}=") do |value|
+      define_method(:"#{attr}=") do |value|
         self[attr] = value.is_a?(String) ? JSON.parse(value) : value
       end
     end

@@ -9,7 +9,7 @@ module Claims
     end
 
     def call
-      @reasons_message ||= reasons_message
+      @call ||= reasons_message
     end
 
     private

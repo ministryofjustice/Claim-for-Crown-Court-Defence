@@ -324,6 +324,7 @@ en:
               too_long: Last name must be 40 characters or less
             terms_and_conditions:
               accepted: You must accept the terms and conditions
+      not_found: "Couldn't find %{model_name}"
   requires_external_user_authorisation: 'Must be signed in as an advocate, litigator or admin user'
   requires_case_worker_authorisation: 'Must be signed in as a case worker or case worker admin'
   requires_super_admin_authorisation: 'Must be signed in as a super admininstrator'

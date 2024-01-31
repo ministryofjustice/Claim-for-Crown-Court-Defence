@@ -52,6 +52,8 @@ class Disbursement < ApplicationRecord
 
   def disbursement_type_unique_code=(code)
     self.disbursement_type = DisbursementType.find_by!(unique_code: code)
+  rescue ActiveRecord::RecordNotFound => e
+    raise ActiveRecord::RecordNotFound, I18n.t('activerecord.errors.not_found', model_name: e.model)
   end
 
   def vat_absent?

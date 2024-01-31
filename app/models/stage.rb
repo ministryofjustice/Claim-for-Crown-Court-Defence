@@ -3,7 +3,9 @@ class Stage
 
   attr_reader :name, :transitions, :dependencies
 
-  def initialize(name:, transitions: [], dependencies: [], object:)
+  delegate :to_sym, to: :name
+
+  def initialize(name:, object:, transitions: [], dependencies: [])
     @name = name
     @object = object
     @transitions = initialize_transitions(transitions || [])
@@ -14,10 +16,6 @@ class Stage
     transitions.inject(nil) do |_mem, transition|
       break transition.to_stage if transition.valid_condition?
     end
-  end
-
-  def to_sym
-    name.to_sym
   end
 
   def <=>(other)

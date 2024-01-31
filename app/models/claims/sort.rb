@@ -14,7 +14,7 @@ module Claims::Sort
     raise 'Invalid sort direction' unless %( asc desc ).include?(direction)
 
     if META_SORT_COLUMNS.include?(column)
-      send("sort_#{column}", direction)
+      send(:"sort_#{column}", direction)
     else
       order(column => direction)
     end
@@ -22,10 +22,8 @@ module Claims::Sort
 
   private
 
-  # NOTE:
-  # since searching occurs before sorting and searching calls a uniq/distinct
-  # we need to explcitly select values being ordered by to avoid Invalid SQL
-  #
+  # NOTE: since searching occurs before sorting and searching calls a uniq/distinct
+  # we need to explicitly select values being ordered by to avoid Invalid SQL
 
   def sort_nulls_by(direction)
     Arel.sql("NULLS #{direction == 'asc' ? 'FIRST' : 'LAST'}")

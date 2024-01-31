@@ -6,17 +6,34 @@ The CI lints SASS and JavaScript using npm and yarn.
 
 ## Unit testing
 
-To execute unit tests
+### Ruby unit testing
+
+Unit tests for ruby code are written using [rspec](https://rspec.info/documentation). To execute these tests:
 
 ```bash
 bundle exec rspec
-bundle exec rake jasmine:run
 ```
 
-### Javascript Unit Testing
+### Javascript unit testing
 
-Run it using the `$ yarn run test:jasmine` command. Jasmine output available here: [http://localhost:8888](http://localhost:8888).
-You can run the test in CLI using `$ yarn run test:jasmine-headless`
+Unit tests for Javascript code are written using the [Jasmine](https://jasmine.github.io/pages/docs_home.html) framework.
+Tests can be run from the command line using:
+```bash
+bundle exec rake jasmine:run
+```
+or
+```bash
+yarn run test:jasmine-headless
+```
+
+Using the `yarn` command allows flags to be included. Useful flags include `--seed`, which sets the randomization seed 
+to allow tests to be run in a given order (eg `yarn run test:jasmine-headless --seed 51262`), and `--filter`, 
+which allows a subset of tests to be run based on text in a `describe` or `it` statement in a test (eg 
+`yarn run test:jasmine-headless --filter='Modules.BasicFeeDateCtrl'` will run all tests in 
+`spec/javascripts/BasicFeeDateCtrl_spec.js`).
+
+Alternatively, tests can be run using the `yarn run test:jasmine` command. This starts a local server which allows tests
+to be run interactively. This can be viewed at [http://localhost:8888](http://localhost:8888).
 
 > **NOTE**:
 > If MacOS gatekeeper cannot verify the `chromedriver` use this command to exclude from the check

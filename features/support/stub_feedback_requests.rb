@@ -36,4 +36,3 @@ Before('@stub_bug_report_failure') do
   stub_request(:post, %r{\A#{ZENDESK_URL}} )
     .and_return(status: 500, body: UNSUCCESSFUL_ZENDESK_BODY.to_json)
 end
-#if Settings.zendesk_feedback_enabled?

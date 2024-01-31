@@ -32,9 +32,6 @@ namespace :db do
         end
         raise ['Failure'.red, ': ', cmd].join unless wait_thr.value.success?
       end
-
-      continue?'Do you want to delete all but the latest dump file from s3?'
-      Rake::Task['db:dump:delete_s3_dumps'].invoke(host)
     end
 
     desc 'Create anonymised database dump, compress (gzip) and upload to s3 - run on host via job (see run_job)'
@@ -135,6 +132,11 @@ namespace :db do
       end
 
       decompress_file(local_filename)
+
+      dump_files = s3_bucket.list('tmp').select { |item| item.key.match?('dump') }
+
+      continue?"There are #{dump_files.size} database dump files in this S3 bucket. Do you want to delete all but the latest dump file from s3?"
+      Rake::Task['db:dump:delete_s3_dumps'].invoke(host)
     end
 
     desc 'Export anonymised providers data'

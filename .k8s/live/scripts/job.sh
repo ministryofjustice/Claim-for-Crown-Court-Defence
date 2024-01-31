@@ -47,11 +47,14 @@ function _job() {
   docker_registry=754256621582.dkr.ecr.eu-west-2.amazonaws.com/laa-get-paid/cccd
   docker_image_tag=${docker_registry}:${component}-${current_version}
   job_name=db-$task
+  job_directory=jobs
+
+  if [ $task = 'dump' ]; then job_directory=${environment}; fi
 
   printf "\e[33m--------------------------------------------------\e[0m\n"
   printf "\e[33mTask: $task\e[0m\n"
   printf "\e[33mJob name: $job_name\e[0m\n"
-  printf "\e[33mJob config: .k8s/${context}/jobs/${task}.yaml\e[0m\n"
+  printf "\e[33mJob config: .k8s/${context}/${job_directory}/${task}.yaml\e[0m\n"
   printf "\e[33mcontext: $context\e[0m\n"
   printf "\e[33mEnvironment: $environment\e[0m\n"
   printf "\e[33mDocker image: $docker_image_tag\e[0m\n"
@@ -66,7 +69,7 @@ function _job() {
   kubectl apply -f .k8s/${context}/${environment}/app-config.yaml
 
   # apply image
-  kubectl set image -f .k8s/${context}/jobs/${task}.yaml cccd-job=${docker_image_tag} --local -o yaml | kubectl apply -f -
+  kubectl set image -f .k8s/${context}/${job_directory}/${task}.yaml cccd-job=${docker_image_tag} --local -o yaml | kubectl apply -f -
 
   # wait for job pod container to be ready before tailing logs
   kubectl wait --for=condition=ContainersReady --timeout=240s pod --selector job-name=$job_name

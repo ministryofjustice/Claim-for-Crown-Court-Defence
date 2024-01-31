@@ -1,10 +1,9 @@
 describe('Modules.AllocationDataTable.js', function () {
-  // tooooo long to type
   const module = moj.Modules.AllocationDataTable
   const options = module.options
 
   it('...should exist', function () {
-    expect(moj.Modules.AllocationDataTable).toBeDefined()
+    expect(module).toBeDefined()
   })
 
   it('...should have options set', function () {
@@ -111,6 +110,7 @@ describe('Modules.AllocationDataTable.js', function () {
     })
 
     it('...should have `ajax`', function () {
+      module.init()
       expect(options.ajax).toEqual({
         url: '/api/search/unallocated?api_key={0}&scheme=agfs',
         dataSrc: '' // this is the important setting
@@ -203,6 +203,10 @@ describe('Modules.AllocationDataTable.js', function () {
         }).appendTo('body')
       })
 
+      beforeEach(function () {
+        module.init()
+      })
+
       afterAll(function () {
         $('#api-key').remove()
       })
@@ -216,24 +220,21 @@ describe('Modules.AllocationDataTable.js', function () {
       })
 
       it('...should use `defaultScheme` as a fallback', function () {
-        // call init again
-        module.init()
-
-        expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=agfs')
+        expect(options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=agfs')
 
         module.setAjaxURL('abcd')
 
-        expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=abcd')
+        expect(options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=abcd')
 
         module.setAjaxURL()
 
-        expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=agfs')
+        expect(options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=agfs')
       })
 
       it('...should set the scheme as passed in', function () {
         module.setAjaxURL('abcd')
 
-        expect(module.options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=abcd')
+        expect(options.ajax.url).toEqual('/api/search/unallocated?api_key=1234567890&scheme=abcd')
       })
 
       it('...should return a string', function () {

@@ -11,14 +11,14 @@ describe('Modules.DuplicateExpenseCtrl', function () {
   ].join('')
 
   beforeEach(function () {
-    domFixture.empty()
     domFixture.append($(view))
-    // $('body').append(domFixture);
+    $('body').append(domFixture)
+
     // reset to default state
     moj.Modules.DuplicateExpenseCtrl.init()
   })
 
-  afterAll(function () {
+  afterEach(function () {
     domFixture.empty()
   })
 

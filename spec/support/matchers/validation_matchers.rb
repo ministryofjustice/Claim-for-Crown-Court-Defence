@@ -6,8 +6,8 @@ RSpec::Matchers.define :include_field_error_when do |options|
 
   match do |record|
     @options = options
-    record.send("#{field}=", @options[:field_value])
-    record.send("#{other_field}=", @options[:other_field_value])
+    record.send(:"#{field}=", @options[:field_value])
+    record.send(:"#{other_field}=", @options[:other_field_value])
     record.valid?
     result = record.errors[field].include?(message) if message.present?
     result = translation_match? if result && translated_message.present?

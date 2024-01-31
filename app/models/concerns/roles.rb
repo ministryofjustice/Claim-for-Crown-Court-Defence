@@ -10,7 +10,7 @@ module Roles
     klass::ROLES.each do |role|
       klass.scope role.pluralize.to_sym, -> { matching_role_query([role.to_s]) }
 
-      define_method "#{role}?" do
+      define_method :"#{role}?" do
         is?(role)
       end
     end

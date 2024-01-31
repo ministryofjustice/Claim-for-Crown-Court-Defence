@@ -26,7 +26,7 @@ RSpec.describe Fee::BaseFeeType do
 
   subject(:fee_type) { FeeTypeDouble.new }
 
-  context '#new' do
+  describe '#new' do
     it 'raises BaseFeeTypeAbstractClassError' do
       expect {
         described_class.new

@@ -31,7 +31,7 @@ class Provider < ApplicationRecord
   include Roles
 
   PROVIDER_TYPES.each do |type|
-    define_method "#{type}?" do
+    define_method :"#{type}?" do
       provider_type == type
     end
 
@@ -112,7 +112,7 @@ class Provider < ApplicationRecord
   end
 
   def upcase_firm_agfs_supplier_number
-    firm_agfs_supplier_number.upcase! unless firm_agfs_supplier_number.blank?
+    firm_agfs_supplier_number.upcase! if firm_agfs_supplier_number.present?
   end
 
   def set_api_key

@@ -159,7 +159,7 @@ module Fee
     describe '#numeric_attributes' do
       %i[quantity amount].each do |attribute|
         it "converts input for #{attribute} by stripping commas out" do
-          subject.send("#{attribute}=", '12,321,111')
+          subject.send(:"#{attribute}=", '12,321,111')
           expect(subject.send(attribute)).to eq(12321111)
         end
       end
@@ -167,7 +167,7 @@ module Fee
   end
 
   RSpec.describe Fee::BaseFee do
-    context '#new' do
+    describe '#new' do
       it 'raises BaseFeeAbstractClassError' do
         expect { BaseFee.new }.to raise_error(Fee::BaseFeeAbstractClassError)
       end

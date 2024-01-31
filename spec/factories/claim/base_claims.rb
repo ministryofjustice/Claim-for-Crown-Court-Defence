@@ -108,28 +108,31 @@ rescue => e
 end
 
 def populate_required_fields(claim)
-  if claim.case_type
-    if claim.case_type.requires_cracked_dates?
-      claim.trial_fixed_notice_at ||= 3.months.ago
-      claim.trial_cracked_at ||= 2.months.ago
-      claim.trial_fixed_at ||= 1.month.ago
-      claim.trial_cracked_at_third ||= 'final_third'
-    end
+  return unless claim.case_type
+  populate_cracked_dates(claim) if claim.case_type.requires_cracked_dates?
+  populate_trial_dates(claim) if claim.case_type.requires_trial_dates?
+  populate_retrial_dates(claim) if claim.case_type.requires_retrial_dates?
+end
 
-    if claim.case_type.requires_trial_dates?
-      claim.first_day_of_trial ||= 10.days.ago
-      claim.trial_concluded_at ||= 8.days.ago
-      claim.estimated_trial_length ||= 1
-      claim.actual_trial_length ||= 2
-    end
+def populate_cracked_dates(claim)
+  claim.trial_fixed_notice_at ||= 3.months.ago
+  claim.trial_cracked_at ||= 2.months.ago
+  claim.trial_fixed_at ||= 1.month.ago
+  claim.trial_cracked_at_third ||= 'final_third'
+end
 
-    if claim.case_type.requires_retrial_dates?
-      claim.retrial_started_at ||= 5.days.ago
-      claim.retrial_estimated_length ||= 1
-      claim.retrial_actual_length ||= 2
-      claim.retrial_concluded_at ||= 3.days.ago
-    end
-  end
+def populate_trial_dates(claim)
+  claim.first_day_of_trial ||= 10.days.ago
+  claim.trial_concluded_at ||= 8.days.ago
+  claim.estimated_trial_length ||= 1
+  claim.actual_trial_length ||= 2
+end
+
+def populate_retrial_dates(claim)
+  claim.retrial_started_at ||= 5.days.ago
+  claim.retrial_estimated_length ||= 1
+  claim.retrial_actual_length ||= 2
+  claim.retrial_concluded_at ||= 3.days.ago
 end
 
 def random_case_number
@@ -148,6 +151,6 @@ def random_providers_ref
   SecureRandom.uuid[3..10].upcase
 end
 
-def frozen_time
-  Timecop.freeze(Time.new(2016, 3, 10, 11, 44, 55).utc) { yield }
+def frozen_time(&)
+  Timecop.freeze(Time.new(2016, 3, 10, 11, 44, 55).utc, &)
 end

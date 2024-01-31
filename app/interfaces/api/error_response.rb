@@ -17,10 +17,7 @@
 
 module API
   class ErrorResponse
-    attr_reader :body
-    attr_reader :status
-
-    attr_reader :error_messages
+    attr_reader :body, :status, :error_messages
 
     VALID_MODEL_KLASSES = [
       Fee::GraduatedFee, Fee::InterimFee, Fee::TransferFee, Fee::BasicFee, Fee::MiscFee, Fee::FixedFee,

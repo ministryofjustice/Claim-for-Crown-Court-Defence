@@ -15,7 +15,7 @@ RSpec.describe GOVUKComponent::LinkHelpers, type: :helper do
     end
 
     context 'with a custom class' do
-      let(:args) { ['GovUK', 'https://www.gov.uk', class: 'my-custom-class1 my-custom-class2'] }
+      let(:args) { ['GovUK', 'https://www.gov.uk', { class: 'my-custom-class1 my-custom-class2' }] }
 
       it 'adds link with custom classes, prepended by govuk class' do
         is_expected.to have_tag(:a, with: { class: 'govuk-back-link my-custom-class1 my-custom-class2' })
@@ -35,7 +35,7 @@ RSpec.describe GOVUKComponent::LinkHelpers, type: :helper do
     end
 
     context 'with a custom class' do
-      let(:args) { ['GovUK', 'https://www.gov.uk', class: 'my-custom-class1 my-custom-class2'] }
+      let(:args) { ['GovUK', 'https://www.gov.uk', { class: 'my-custom-class1 my-custom-class2' }] }
 
       it 'adds link with custom classes, prepended by govuk class' do
         is_expected.to have_tag(:a, with: { class: 'govuk-footer__link my-custom-class1 my-custom-class2' })
@@ -55,7 +55,7 @@ RSpec.describe GOVUKComponent::LinkHelpers, type: :helper do
     end
 
     context 'with a custom class' do
-      let(:args) { ['GovUK', 'https://www.gov.uk', class: 'my-custom-class1 my-custom-class2'] }
+      let(:args) { ['GovUK', 'https://www.gov.uk', { class: 'my-custom-class1 my-custom-class2' }] }
 
       it 'adds link with custom classes, prepended by govuk class' do
         is_expected.to have_tag(:a, with: { class: 'govuk-header__link my-custom-class1 my-custom-class2' })
@@ -75,7 +75,7 @@ RSpec.describe GOVUKComponent::LinkHelpers, type: :helper do
     end
 
     context 'with a custom class' do
-      let(:args) { ['GovUK', 'https://www.gov.uk', class: 'my-custom-class1 my-custom-class2'] }
+      let(:args) { ['GovUK', 'https://www.gov.uk', { class: 'my-custom-class1 my-custom-class2' }] }
 
       it 'adds link with custom classes, prepended by govuk class' do
         is_expected.to have_tag(:a, with: { class: 'govuk-link my-custom-class1 my-custom-class2' })
@@ -95,7 +95,7 @@ RSpec.describe GOVUKComponent::LinkHelpers, type: :helper do
     end
 
     context 'with a custom class' do
-      let(:args) { ['email@example.com', 'My link text', class: 'my-custom-class1 my-custom-class2'] }
+      let(:args) { ['email@example.com', 'My link text', { class: 'my-custom-class1 my-custom-class2' }] }
 
       it 'adds email link with custom classes, prepended by govuk class' do
         is_expected.to have_tag(:a, with: { class: 'govuk-link my-custom-class1 my-custom-class2' })
@@ -115,7 +115,7 @@ RSpec.describe GOVUKComponent::LinkHelpers, type: :helper do
     end
 
     context 'with a custom class' do
-      let(:args) { ['GovUK', 'https://www.gov.uk', class: 'my-custom-class1 my-custom-class2'] }
+      let(:args) { ['GovUK', 'https://www.gov.uk', { class: 'my-custom-class1 my-custom-class2' }] }
 
       it 'adds link with custom classes, prepended by govuk class' do
         is_expected.to have_tag(:a, with: { class: 'govuk-skip-link my-custom-class1 my-custom-class2', 'data-module': 'govuk-skip-link' })

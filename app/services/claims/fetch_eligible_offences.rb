@@ -25,7 +25,7 @@ module Claims
     end
 
     def fee_scheme_offences
-      Offence.unscoped.send("in_scheme_#{claim.fee_scheme.version}")
+      Offence.unscoped.send(:"in_scheme_#{claim.fee_scheme.version}")
     end
 
     def default_offences

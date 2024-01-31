@@ -319,7 +319,9 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
           end
           @messages = claim.messages.most_recent_last
           @message = claim.messages.build
-          allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('wrong_case_no') if example.metadata[:legacy]
+          if example.metadata[:legacy]
+            allow_any_instance_of(ClaimStateTransition).to receive(:reason_code).and_return('wrong_case_no')
+          end
           assign(:claim, claim)
           render
         end

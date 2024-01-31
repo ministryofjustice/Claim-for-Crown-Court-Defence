@@ -42,7 +42,7 @@ RSpec::Matchers.define :be_valid_api_lgfs_claim do |expected|
 
   failure_message do
     msg = 'should be a valid API claim with matching attributes'
-    failures = @results.select { |_k, v| !v.uniq.length.eql?(1) }
+    failures = @results.reject { |_k, v| v.uniq.length.eql?(1) }
     failures.each_pair do |k, v|
       msg += "\nexpected: #{k} to eql #{v[0].inspect.humanize} but got #{v[1].inspect.humanize}"
     end

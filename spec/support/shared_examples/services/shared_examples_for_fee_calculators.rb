@@ -70,7 +70,5 @@ RSpec.shared_examples 'a failed fee calculator response' do |options|
     expect(response.message).to be_a String
   end
 
-  if options&.fetch(:message)
-    it { is_expected.to include_fee_calc_error(options&.fetch(:message)) }
-  end
+  it { is_expected.to include_fee_calc_error(options&.fetch(:message)) } if options&.fetch(:message)
 end

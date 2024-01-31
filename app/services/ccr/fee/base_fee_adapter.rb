@@ -3,8 +3,7 @@ module CCR
     class BaseFeeAdapter
       KEYS = %i[bill_type bill_subtype].freeze
 
-      attr_reader :object
-      attr_reader :mappings
+      attr_reader :object, :mappings
 
       delegate :bill_type, :bill_subtype, to: :@bill_types
 
@@ -42,9 +41,9 @@ module CCR
       end
 
       # delegate missing methods to object if it can respond
-      def method_missing(method, *args, &)
+      def method_missing(method, *, &)
         if object.respond_to?(method)
-          object.send(method, *args, &)
+          object.send(method, *, &)
         else
           super
         end

@@ -84,7 +84,9 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
     subject(:filtered_fees) { described_class.new(claim).filtered_fees }
 
     before do
-      claim.fees << build(:basic_fee, :baf_fee, claim:) unless claim.fees.map { |f| f.fee_type.unique_code }.include? 'BABAF'
+      unless claim.fees.map { |f| f.fee_type.unique_code }.include? 'BABAF'
+        claim.fees << build(:basic_fee, :baf_fee, claim:)
+      end
       claim.fees << build(:basic_fee, :daf_fee, claim:)
       claim.fees << build(:basic_fee, :daj_fee, claim:)
       claim.fees << build(:basic_fee, :dah_fee, claim:)

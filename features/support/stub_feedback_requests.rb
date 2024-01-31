@@ -1,49 +1,39 @@
 require 'webmock/cucumber'
 
-Before('@stub_feedback_success') do
-  stub_request(:post, %r{\A#{feedback_service_url}} )
-    .and_return(status: 201, body: successful_feedback_body.to_json)
+SURVEY_MONKEY_URL = "https://api.eu.surveymonkey.com/v3/.*"
+ZENDESK_URL = "https://ministryofjustice.zendesk.com/api/v2/.*"
+SUCCESSFUL_SURVEY_MONKEY_BODY = { id: '123' }
+UNSUCCESSFUL_SURVEY_MONKEY_BODY =  { error: { id: '1050' } }
+SUCCESSFUL_ZENDESK_BODY = { item: {} }
+UNSUCCESSFUL_ZENDESK_BODY = { error: 'Unsuccessful' }
+
+Before('@stub_survey_monkey_feedback_success') do
+  stub_request(:post, %r{\A#{SURVEY_MONKEY_URL}} )
+    .and_return(status: 201, body: SUCCESSFUL_SURVEY_MONKEY_BODY.to_json)
 end
 
-Before('@stub_feedback_failure') do
-  stub_request(:post, %r{\A#{feedback_service_url}} )
-    .and_return(status: 500, body: unsuccessful_feedback_body.to_json)
+Before('@stub_zendesk_feedback_success') do
+  stub_request(:post, %r{\A#{ZENDESK_URL}} )
+    .and_return(status: 201, body: SUCCESSFUL_ZENDESK_BODY.to_json)
+end
+
+Before('@stub_survey_monkey_feedback_failure') do
+  stub_request(:post, %r{\A#{SURVEY_MONKEY_URL}} )
+    .and_return(status: 500, body: UNSUCCESSFUL_SURVEY_MONKEY_BODY.to_json)
+end
+
+Before('@stub_zendesk_feedback_failure') do
+  stub_request(:post, %r{\A#{ZENDESK_URL}} )
+    .and_return(status: 500, body: UNSUCCESSFUL_ZENDESK_BODY.to_json)
 end
 
 Before('@stub_bug_report_success') do
-  stub_request(:post, %r{\Ahttps://ministryofjustice.zendesk.com/api/v2/.*} )
-  .and_return(status: 201, body: { item: {} }.to_json)
+  stub_request(:post, %r{\A#{ZENDESK_URL}} )
+  .and_return(status: 201, body: SUCCESSFUL_ZENDESK_BODY.to_json)
 end
 
 Before('@stub_bug_report_failure') do
-  stub_request(:post, %r{\Ahttps://ministryofjustice.zendesk.com/api/v2/.*} )
-    .and_return(status: 500, body: { error: 'Unsuccessful' }.to_json)
+  stub_request(:post, %r{\A#{ZENDESK_URL}} )
+    .and_return(status: 500, body: UNSUCCESSFUL_ZENDESK_BODY.to_json)
 end
-
-def successful_feedback_body
-  if Settings.zendesk_feedback_enabled?
-    # Zendesk
-    { item: {} }.to_json
-  else
-    # Survey Monkey
-    { id: '123' }.to_json
-  end
-end
-
-def unsuccessful_feedback_body
-  if Settings.zendesk_feedback_enabled?
-    # Zendesk
-    { error: 'Unsuccessful' }.to_json
-  else
-    # Survey Monkey
-    { error: { id: '1050' } }.to_json
-  end
-end
-
-def feedback_service_url
-  if Settings.zendesk_feedback_enabled?
-    "https://ministryofjustice.zendesk.com/api/v2/.*"
-  else
-    "https://api.eu.surveymonkey.com/v3/.*"
-  end
-end
+#if Settings.zendesk_feedback_enabled?

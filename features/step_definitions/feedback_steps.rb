@@ -1,3 +1,12 @@
+And(/^Zendesk Feedback is '(.*?)'$/) do |state|
+  case state
+  when 'Enabled'
+    allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(true)
+  when 'Disabled'
+    allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(false)
+  end
+end
+
 When(/^I have not signed in$/) do
   visit new_user_session_path
 end

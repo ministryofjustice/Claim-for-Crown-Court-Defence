@@ -82,7 +82,7 @@ GEM
       activerecord (>= 4.0)
     awesome_print (1.9.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.884.0)
+    aws-partitions (1.885.0)
     aws-sdk-core (3.191.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
@@ -130,7 +130,7 @@ GEM
     bigdecimal (3.1.6)
     binding_of_caller (1.0.0)
       debug_inspector (>= 0.0.1)
-    bootsnap (1.18.1)
+    bootsnap (1.18.3)
       msgpack (~> 1.2)
     brakeman (6.1.1)
       racc
@@ -211,7 +211,7 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    diff-lcs (1.5.0)
+    diff-lcs (1.5.1)
     docile (1.4.0)
     domain_name (0.6.20240107)
     dotenv (2.8.1)

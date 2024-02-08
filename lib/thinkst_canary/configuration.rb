@@ -11,7 +11,7 @@ module ThinkstCanary
       @connection ||= Faraday.new(root_url) do |f|
         f.request :multipart
         f.request :url_encoded
-        f.use FaradayMiddleware::FollowRedirects, limit: 5
+        f.response :follow_redirects, limit: 5
         f.adapter Faraday.default_adapter
       end
     end

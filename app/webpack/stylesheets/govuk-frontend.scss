@@ -4,8 +4,6 @@ $govuk-compatibility-govukelements: true;
 $govuk-compatibility-govuktemplate: true;
 $govuk-compatibility-govukfrontendtoolkit: true;
 
-// @import "~govuk-frontend/govuk/all";
-
 // TODO: remove when compatibility mode is switched off
 .govuk-panel--confirmation {
   background: govuk-colour("green");

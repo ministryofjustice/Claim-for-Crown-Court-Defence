@@ -17,11 +17,24 @@
 
 // autocomplete styling
 .tt-menu {
+  width: govuk-grid-widths('full');
   max-height: 220px;
   overflow-y: scroll;
   border: 1px solid $govuk-text-colour;
 }
 
+@include govuk-media-query($from: tablet) {
+  .tt-menu {
+    width: govuk-grid-widths('one-half');
+  }
+
+  // scss-lint:disable IdSelector
+  .js-block {
+    .tt-menu {
+      width: govuk-grid-widths('full');
+    }
+  }
+}
 
 // scss-lint:disable ImportantRule
 .tt-hint {

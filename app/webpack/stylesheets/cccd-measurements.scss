@@ -1,2 +1,8 @@
 // CCCD measurements
-$gutter-one-sixth: $gutter / 6;
+
+$gutter-one-sixth: $govuk-gutter / 6;
+
+$gutter-one-quarter: $govuk-gutter / 4;
+$gutter-one-third: $govuk-gutter / 3;
+$gutter-half: $govuk-gutter / 2;
+$gutter-two-thirds: $govuk-gutter - $gutter-one-third;

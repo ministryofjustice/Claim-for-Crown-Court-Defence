@@ -11,8 +11,8 @@
           = govuk_back_link_to t('layouts.navigation.home'), external_users_root_path
 
       - else
-        %nav.govuk-breadcrumbs{ 'aria-label': t('.sub_navigation') }
-          %ul.govuk-breadcrumbs__list
+        %nav.govuk-breadcrumbs{ 'aria-label': t('.sub_navigation')}
+          %ul.govuk-breadcrumbs__list.breadcrumbs_seperator
             - if current_user.persona.is_a?(SuperAdmin)
               %li.govuk-breadcrumbs__list-item
                 = govuk_link_to t('.sidekiq_console'), sidekiq_web_path, class: cp(sidekiq_web_path)

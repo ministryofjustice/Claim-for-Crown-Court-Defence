@@ -4,14 +4,15 @@
 
 - else
   - if ep && ep.size > 0
-    .error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
-      %h1#error-summary-heading.govuk-heading-m.error-summary-heading
+    .govuk-error-summary{role: "group", 'aria-labelledby': "error-summary-heading", tabindex:'-1'}
+      %h1#govuk-error-summary__title.govuk-heading-m.error-summary-heading
         = "#{t('.prohibited_save')} #{pluralize(ep.size, t('.error'))}"
 
       %span.form-hint
         = t('shared.errors.form_error_hint')
 
-      %ul.error-summary-list
-        - ep.summary_errors.each do |error_detail|
-          %li
-            = error_detail.long_message_link
+      .govuk-error-summary__body
+        %ul.govuk-list.govuk-error-summary__list
+          - ep.summary_errors.each do |error_detail|
+            %li
+              = error_detail.long_message_link

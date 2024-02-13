@@ -8,7 +8,7 @@
 
   @include govuk-media-query($from: desktop) {
     fieldset legend {
-      width: $three-quarters;
+      width: govuk-grid-widths('three-quarters');
     }
 
     .remove_fields {

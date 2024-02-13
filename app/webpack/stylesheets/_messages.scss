@@ -7,7 +7,7 @@
     }
 
     .message-audit {
-      color: $text-colour;
+      color: $govuk-text-colour;
       text-align: left;
     }
   }
@@ -24,16 +24,16 @@
 
   @include govuk-media-query($media-type: print) {
     .message-audit {
-      color: $black;
+      color: govuk-colour("black");
       font-weight: 700;
     }
 
     .message-body {
-      border: 1px solid $black;
+      border: 1px solid govuk-colour("black");
       background: none;
 
       p {
-        color: $text-colour;
+        color: $govuk-text-colour;
       }
 
       &::after {
@@ -47,7 +47,7 @@
   margin-top: $gutter-two-thirds;
   margin-bottom: $gutter-two-thirds;
   overflow: hidden;
-  border: 1px solid $border-colour;
+  border: 1px solid $govuk-border-colour;
 
   .messages-list {
     min-height: 200px;
@@ -62,7 +62,7 @@
         margin-right: $gutter-two-thirds;
         margin-bottom: $gutter-one-sixth;
         padding: $gutter-one-sixth $gutter-one-third;
-        color: $link-visited-colour;
+        color: $govuk-link-visited-colour;
         text-align: right;
 
         strong {
@@ -80,7 +80,7 @@
       .message-right {
         .message-body {
           border: 0;
-          color: $text-colour;
+          color: $govuk-text-colour;
           background: none;
           text-align: right;
 
@@ -91,7 +91,7 @@
           .message-audit {
             margin-top: 0;
             margin-bottom: 0;
-            color: $text-colour;
+            color: $govuk-text-colour;
           }
 
           p {
@@ -108,10 +108,10 @@
       legend {
         margin-bottom: $gutter-half;
         padding-top: $gutter-one-sixth;
-        padding-right: $gutter;
-        padding-left: $gutter;
-        border: 1px solid $border-colour;
-        color: $secondary-text-colour;
+        padding-right: $govuk-gutter;
+        padding-left: $govuk-gutter;
+        border: 1px solid $govuk-border-colour;
+        color: $govuk-secondary-text-colour;
         font-weight: 700;
         text-align: center;
       }
@@ -122,9 +122,9 @@
       margin-top: $gutter-half;
       margin-bottom: $gutter-half;
       padding: $gutter-one-sixth $gutter-one-third;
-      border: 2px solid $green;
+      border: 2px solid  govuk-colour("green");
       border-radius: .5em;
-      color: $green;
+      color: govuk-colour("green");
       font-weight: 700;
     }
 
@@ -144,7 +144,7 @@
 
     .message-audit {
       @include govuk-font(16, $weight: bold);
-      color: $page-colour;
+      color: govuk-colour("white");
       text-align: left;
 
       .sent {
@@ -159,8 +159,8 @@
       .message-body {
         position: relative;
         border-radius: .5em .5em .75em;
-        color: $page-colour;
-        background-color: $link-colour;
+        color: govuk-colour("white");
+        background-color: $govuk-link-colour;
         text-align: left;
 
         &::after {
@@ -170,7 +170,7 @@
           bottom: 0;
           width: 1.5em;
           height: 1.5em;
-          border-left: 1em solid $link-colour;
+          border-left: 1em solid $govuk-link-colour;
           border-bottom-left-radius: 1.75em 1.5em;
         }
 
@@ -181,15 +181,15 @@
         a {
           &:link {
             // Essentially means a[href], or that the link actually goes somewhere
-            color: $page-colour;
+            color: govuk-colour("white");
           }
 
           &:hover {
-            color: $border-colour;
+            color: $govuk-border-colour;
           }
 
           &:active {
-            color: $page-colour;
+            color: govuk-colour("white");
           }
         }
       }
@@ -201,7 +201,7 @@
       .message-body {
         position: relative;
         border-radius: .5em .5em .5em .75em;
-        background-color: $panel-colour;
+        background-color: govuk-colour("light-grey");
         text-align: left;
 
         &::after {
@@ -211,7 +211,7 @@
           left: -1.5em;
           width: 1.5em;
           height: 1.5em;
-          border-right: 1em solid $panel-colour;
+          border-right: 1em solid govuk-colour("light-grey");
           border-bottom-right-radius: 1.75em 1.5em;
         }
       }
@@ -220,17 +220,17 @@
 
   .message-controls {
     padding: $gutter-half;
-    border-top: 1px solid $border-colour;
+    border-top: 1px solid $govuk-border-colour;
 
     .file-to-be-uploaded {
       display: none;
       padding-top: $gutter-half;
-      border-top: 1px solid $border-colour;
+      border-top: 1px solid $govuk-border-colour;
 
       .filename {
         margin-right: govuk-spacing(1);
         padding-right: govuk-spacing(2);
-        border-right: 1px solid $black;
+        border-right: 1px solid govuk-colour("black");
         font-weight: 700;
       }
     }
@@ -243,12 +243,12 @@
 
   .message-status {
     .message-success {
-      color: $green;
+      color: govuk-colour("green");
       font-weight: 700;
     }
 
     .message-error {
-      color: $error-colour;
+      color: $govuk-error-colour;
       font-weight: 700;
     }
   }

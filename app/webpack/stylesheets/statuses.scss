@@ -1,7 +1,7 @@
 // Styling specifically for Claim statuses
 .status {
   padding: $gutter-one-sixth $gutter-half;
-  border: 3px solid $black;
+  border: 3px solid govuk-colour("black");
 
   &.rejected,
   &.refused {

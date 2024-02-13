@@ -18,7 +18,7 @@
   font-weight: 700;
 
   &:hover {
-    color: $link-hover-colour;
+    color: $govuk-link-hover-colour;
   }
 }
 
@@ -31,7 +31,7 @@
 }
 
 .delete-draft {
-  color: $red;
+  color: govuk-colour("red");
 }
 
 .app-link-group .govuk-link {

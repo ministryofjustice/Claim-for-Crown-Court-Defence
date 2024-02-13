@@ -1,14 +1,14 @@
 html {
-  background: $grey-3;
+  background: govuk-colour("light-grey");
 }
 
 body {
-  background: $white;
+  background: govuk-colour("white");
 }
 
 .summary-wrapper {
   h2 {
-    margin-top: $gutter;
+    margin-top: $govuk-gutter;
     font-weight: 700;
   }
 }
@@ -62,7 +62,7 @@ body {
   position: sticky;
   top: 0;
 
-  &::before, 
+  &::before,
   &::after {
     content: "";
     display: table;

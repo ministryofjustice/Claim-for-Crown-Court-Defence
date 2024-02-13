@@ -5,7 +5,7 @@
 }
 
 .dz-error-message {
-  color: $error-colour;
+  color: $govuk-error-colour;
 }
 
 #js-provider-roles {
@@ -46,10 +46,10 @@
   padding: 1rem;
   clear: both;
   overflow: hidden;
-  background-color: $grey-4;
+  background-color: govuk-colour("light-grey");
 
   &:nth-child(even) {
-    background-color: $grey-3;
+    background-color: govuk-colour("light-grey");
   }
 }
 
@@ -65,8 +65,8 @@
 
 .detail-link {
   padding: .5rem;
-  border: 1px solid $button-colour;
-  color: $button-colour;
+  border: $govuk-border-width-form-element solid transparent;
+  color: $govuk-button-text-colour;
   text-decoration: none;
 }
 
@@ -100,7 +100,7 @@ form {
   .validation-error {
     display: block;
     clear: left;
-    color: $error-colour;
+    color: $govuk-error-colour;
   }
 
   h2 {
@@ -116,7 +116,7 @@ form {
   }
 
   textarea {
-    width: $full-width;
+    width: govuk-grid-widths('full');
     font-size: 1em;
   }
 
@@ -131,21 +131,21 @@ form {
 
     td,
     th {
-      border-top: 1px solid $grey-2;
+      border-top: 1px solid govuk-colour("mid-grey");
       border-bottom: 0;
     }
 
     &.extra-data th,
     &.extra-data td {
       border-top: 0;
-      border-bottom: 1px solid $grey-2;
+      border-bottom: 1px solid govuk-colour("mid-grey");
     }
   }
 }
 
 .has-file {
   border-color: govuk-colour("green");
-  color: $ministry-of-justice;
+  color: govuk-colours-organisations("ministry-of-justice");
   font-weight: 700;
 }
 
@@ -170,7 +170,7 @@ form {
   padding-bottom: $gutter-one-sixth;
   padding-left: $gutter-half;
   border-bottom: 0;
-  border-left: 5px solid $border-colour;
+  border-left: 5px solid $govuk-border-colour;
 }
 
 // ADMIN.SCSS
@@ -181,25 +181,25 @@ form {
     width: 15%;
     padding-top: .3em;
 
-    border-top: 1px solid $black;
-    border-right: 1px solid $black;
-    border-bottom: 1px solid $black;
-    background-color: $page-colour;
+    border-top: 1px solid govuk-colour("black");
+    border-right: 1px solid govuk-colour("black");
+    border-bottom: 1px solid govuk-colour("black");
+    // background-color: govuk-colour("white");
     text-align: center;
 
     &:first-child {
-      border-left: 1px solid $black;
+      border-left: 1px solid govuk-colour("black");
     }
   }
 
   .working-day {
-    background-color: $grey-2;
+    background-color: govuk-colour("mid-grey");
   }
 }
 
 // FLASH-NOTICES MESS
 .flash {
-  width: $two-thirds;
+  width: govuk-grid-widths('two-thirds');
   margin: auto;
   padding: $gutter-one-sixth;
   font-weight: 700;
@@ -247,7 +247,7 @@ form {
 // Styling for Claims Messaging
 .messages {
   .none {
-    color: $black;
+    color: govuk-colour("black");
   }
 
   .new-message {
@@ -277,16 +277,16 @@ form {
   margin-bottom: $gutter-two-thirds;
   padding-top: $gutter-two-thirds;
   clear: both;
-  border-top: 1px solid $border-colour;
+  border-top: 1px solid $govuk-border-colour;
 }
 
 // Dropzone
 .dropzone {
   display: flex;
-  margin-bottom: $gutter + $gutter-one-third;
-  padding: $gutter * 2;
+  margin-bottom: $govuk-gutter + $gutter-one-third;
+  padding: $govuk-gutter * 2;
   transition: outline-offset .1s ease-in-out, background-color .1s linear;
-  outline: 2px dashed $secondary-text-colour;
+  outline: 2px dashed $govuk-secondary-text-colour;
   text-align: center;
   align-items: flex-start;
   justify-content: center;
@@ -305,12 +305,12 @@ form {
     margin-bottom: 0;
     padding: $gutter-one-third $gutter-two-thirds;
     border: none;
-    color: $text-colour;
-    background-color: $panel-colour;
+    color: $govuk-text-colour;
+    background-color: govuk-colour("light-grey");
     appearance: none;
 
     &:hover {
-      background-color: $border-colour;
+      background-color: $govuk-border-colour;
     }
   }
 
@@ -321,18 +321,18 @@ form {
 }
 
 .dropzone-dragover {
-  outline: 2px dashed $secondary-text-colour;
+  outline: 2px dashed $govuk-secondary-text-colour;
   outline-offset: -$gutter-one-third;
-  background: $black;
+  background: govuk-colour("black");
 }
 
 .dropzone-focused {
   outline: none;
-  box-shadow: 0 0 1px 4px $focus-colour;
+  box-shadow: 0 0 1px 4px $govuk-focus-colour;
 }
 
 .files {
-  margin-bottom: $gutter;
+  margin-bottom: $govuk-gutter;
   table-layout: fixed;
 
   .error {
@@ -342,7 +342,7 @@ form {
   }
 
   .success {
-    color: $green;
+    color: govuk-colour("green");
     font-weight: 700;
   }
 
@@ -357,7 +357,7 @@ form {
   }
 
   progress {
-    width: $full-width;
+    width: govuk-grid-widths('full');
     margin-top: $gutter-one-sixth;
   }
 }
@@ -376,12 +376,12 @@ form {
 }
 
 .panel-margin-fix {
-  margin-bottom: $gutter;
+  margin-bottom: $govuk-gutter;
 }
 
 .disk-evidence {
   display: block;
-  color: $error-colour;
+  color: $govuk-error-colour;
 }
 
 .js-allocation-page #page-h1 {
@@ -458,7 +458,7 @@ form {
   .offence-item {
     margin: 0;
     padding: $gutter-one-third;
-    border-bottom: 1px solid $border-colour;
+    border-bottom: 1px solid $govuk-border-colour;
 
     .align-centre {
       text-align: center;
@@ -466,13 +466,13 @@ form {
   }
 
   .offence-item:nth-child(odd) {
-    color: $black;
-    background-color: $grey-4;
+    color: govuk-colour("black");
+    background-color: govuk-colour("light-grey");
   }
 
   .offence-item:hover {
-    color: $black;
-    background-color: $grey-4;
+    color: govuk-colour("black");
+    background-color: govuk-colour("light-grey");
   }
 
   .offence-item .offence-item-button {
@@ -484,21 +484,21 @@ form {
   }
 
   .empty-message {
-    border-bottom: 1px solid $border-colour;
-    color: $black;
-    background-color: $grey-4;
+    border-bottom: 1px solid $govuk-border-colour;
+    color: govuk-colour("black");
+    background-color: govuk-colour("light-grey");
   }
 }
 
 .selected-offence {
-  padding: $gutter-half $gutter;
-  background: $grey-4;
+  padding: $gutter-half $govuk-gutter;
+  background: govuk-colour("light-grey");
 }
 
 .highlight {
-  background-color: $yellow;
+  background-color: govuk-colour("yellow");
 }
 
 .error {
-  color: $error-colour;
+  color: $govuk-error-colour;
 }

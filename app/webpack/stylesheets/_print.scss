@@ -80,7 +80,7 @@
   }
 
   .govuk-grid-column-one-third {
-    width: $one-third;
+    width: govuk-grid-widths('one-third');
     float: left;
   }
 }

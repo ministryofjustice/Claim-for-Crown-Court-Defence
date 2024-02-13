@@ -1,7 +1,7 @@
 class InjectionErrorSummarySection < SitePrism::Section
-  element :header, '#error-summary-heading'
+  element :header, '.govuk-error-summary__title'
   element :dismiss_link, '.cb-dismiss-link'
-  sections :injection_errors, '.error-summary-list > li' do
+  sections :injection_errors, '.govuk-error-summary__list > li' do
     element :link, 'a'
   end
 

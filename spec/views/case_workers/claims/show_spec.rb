@@ -370,11 +370,11 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     end
 
     it 'displays summary errors' do
-      expect(rendered).to have_css('div.error-summary')
+      expect(rendered).to have_css('div.govuk-error-summary')
     end
 
     it 'displays each error message' do
-      expect(rendered).to have_css('ul.error-summary-list > li > a', text: /injection error/, count: 2)
+      expect(rendered).to have_css('ul.govuk-list.govuk-error-summary__list > li > a', text: /injection error/, count: 2)
     end
   end
 

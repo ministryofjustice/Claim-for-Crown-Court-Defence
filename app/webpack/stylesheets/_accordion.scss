@@ -4,17 +4,17 @@
   }
 
   .indent-sides {
-    padding-right: $gutter + $gutter-one-third;
-    padding-left: $gutter + $gutter-one-third;
+    padding-right: $govuk-gutter + $gutter-one-third;
+    padding-left: $govuk-gutter + $gutter-one-third;
 
     th,
     td {
       &:first-child {
-        padding-left: $gutter + $gutter-one-third;
+        padding-left: $govuk-gutter + $gutter-one-third;
       }
 
       &:last-child {
-        padding-right: $gutter + $gutter-one-third;
+        padding-right: $govuk-gutter + $gutter-one-third;
       }
     }
   }
@@ -22,7 +22,7 @@
   #claim-status {
     .container {
       margin-top: $gutter-two-thirds;
-      border: 1px solid $black;
+      border: 1px solid govuk-colour("black");
       line-height: 4;
       text-align: center;
     }
@@ -37,9 +37,9 @@
     top: 1px;
     margin-right: $gutter-two-thirds;
     padding: 0 .5rem;
-    border: 1px solid $button-colour;
-    color: $button-colour;
-    background-color: $white;
+    border: $govuk-border-width-form-element solid transparent;
+    color: $govuk-button-text-colour;
+    background-color: govuk-colour("white");
     font-size: 1em;
     line-height: 1.8;
     text-decoration: none;

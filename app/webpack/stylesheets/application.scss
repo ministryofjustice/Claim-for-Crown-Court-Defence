@@ -1,45 +1,9 @@
 // stylelint-disable scss/at-import-partial-extension
 
-// Set a path for your image assets
-// The _url-helpers.scss partial requires that $path is defined in your main application stylesheet.
-$path: "~govuk_frontend_toolkit/images/";
+$govuk-images-path: "~govuk-frontend/govuk/assets/images/";
+$govuk-fonts-path: "~govuk-frontend/govuk/assets/fonts/";
 
-// Set path to GOV.UK Frontend fonts
-// TODO: remove post GOV.UK Frontend migration
-@function frontend-font-url($filename) {
-  @return url("~govuk-frontend/govuk/assets/fonts/" + $filename);
-}
-
-$govuk-font-url-function: frontend-font-url;
-
-// GOV.UK Frontend Toolkit (alphagov/govuk_frontend_toolkit)
-@import "~govuk_frontend_toolkit/stylesheets/colours";
-@import "~govuk_frontend_toolkit/stylesheets/measurements";
-@import "~govuk_frontend_toolkit/stylesheets/shims";
-
-@import "~govuk_frontend_toolkit/stylesheets/design-patterns/alpha-beta";
-@import "~govuk_frontend_toolkit/stylesheets/design-patterns/buttons";
-@import "~govuk_frontend_toolkit/stylesheets/design-patterns/breadcrumbs";
-
-// GOV.UK elements (alphagov/govuk_elements)
-@import "~govuk-elements-sass/public/sass/elements/helpers";
-@import "~govuk-elements-sass/public/sass/elements/reset";
-
-// Components (chunks of UI)
-@import "~govuk-elements-sass/public/sass/elements/buttons";
-@import "~govuk-elements-sass/public/sass/elements/icons";
-@import "~govuk-elements-sass/public/sass/elements/lists";
-@import "~govuk-elements-sass/public/sass/elements/details";
-@import "~govuk-elements-sass/public/sass/elements/panels";
-@import "~govuk-elements-sass/public/sass/elements/forms";
-@import "~govuk-elements-sass/public/sass/elements/forms/form-multiple-choice";
-@import "~govuk-elements-sass/public/sass/elements/forms/form-date";
-@import "~govuk-elements-sass/public/sass/elements/forms/form-validation";
-@import "~govuk-elements-sass/public/sass/elements/breadcrumbs";
-
-@import "~govuk-elements-sass/public/sass/elements/components";
-
-@import "~govuk_frontend_toolkit/stylesheets/url-helpers"; // Function to output image-url, or prefixed path (Rails and Compass only)
+@import "~govuk-frontend/govuk/all";
 
 @import "~govuk-frontend/govuk/base";
 @import "~govuk-frontend/govuk/core/typography";
@@ -51,7 +15,6 @@ $govuk-font-url-function: frontend-font-url;
 @import "cccd-measurements";
 @import "project-helpers";
 @import "denote";
-@import "buttons";
 @import "autocomplete";
 @import "mod-fees";
 @import "forms";

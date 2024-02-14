@@ -4,7 +4,7 @@
 .button-holder {
   @include govuk-clearfix;
 
-  margin-top: $gutter;
+  margin-top: $govuk-gutter;
 }
 
 .form-buttons * {

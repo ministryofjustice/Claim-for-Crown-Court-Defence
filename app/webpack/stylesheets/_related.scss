@@ -1,12 +1,12 @@
 .related-container {
   box-sizing: border-box;
-  margin-top: $gutter + $gutter-one-third;
+  margin-top: $govuk-gutter + $gutter-one-third;
   padding: 0 $gutter-half;
 }
 
 .related {
   padding-top: $gutter-one-sixth;
-  border-top: 10px solid $govuk-blue;
+  border-top: 10px solid govuk-colour("blue");
 }
 
 .related nav {
@@ -66,7 +66,7 @@
 
 @include govuk-media-query($from: tablet) {
   .page-header div {
-    margin-top: $gutter;
-    margin-bottom: $gutter;
+    margin-top: $govuk-gutter;
+    margin-bottom: $govuk-gutter;
   }
 }

@@ -11,64 +11,64 @@
           = govuk_back_link_to t('layouts.navigation.home'), external_users_root_path
 
       - else
-        %nav.breadcrumbs{ 'aria-label': t('.sub_navigation') }
-          %ul.govuk-list
+        %nav.govuk-breadcrumbs{ 'aria-label': t('.sub_navigation')}
+          %ul.govuk-breadcrumbs__list.breadcrumbs_seperator
             - if current_user.persona.is_a?(SuperAdmin)
-              %li
+              %li.govuk-breadcrumbs__list-item
                 = govuk_link_to t('.sidekiq_console'), sidekiq_web_path, class: cp(sidekiq_web_path)
-              %li
+              %li.govuk-breadcrumbs__list-item
                 = govuk_link_to t('.manage_providers'), provider_management_providers_path, class: cp(provider_management_providers_path)
-              %li
+              %li.govuk-breadcrumbs__list-item.govuk-breadcrumbs__list-item
                 = govuk_link_to t('.users'), users_path, class: cp(users_path)
-              %li
+              %li.govuk-breadcrumbs__list-item.govuk-breadcrumbs__list-item
                 = govuk_link_to t('.offences'), super_admins_offences_path, class: cp(super_admins_offences_path)
-              %li
+              %li.govuk-breadcrumbs__list-item.govuk-breadcrumbs__list-item
                 = govuk_link_to t('.stats'), super_admins_stats_path, class: cp(super_admins_stats_path)
 
             - elsif current_user.persona.is_a?(ExternalUser)
-              %li
+              %li.govuk-breadcrumbs__list-item
                 = govuk_link_to your_claims_header, external_users_root_path, class: cp(external_users_root_path)
-              %li
+              %li.govuk-breadcrumbs__list-item
                 = govuk_link_to t('.archive'), archived_external_users_claims_path, class: cp(archived_external_users_claims_path)
 
               - if Rails.host.api_sandbox?
-                %li
+                %li.govuk-breadcrumbs__list-item
                   = govuk_link_to t('.api_documentation'), api_landing_page_path, class: cp(api_landing_page_path)
-              %li
+              %li.govuk-breadcrumbs__list-item
                 = govuk_link_to t('link.add_claim'), new_external_users_claim_types_path, class: cp(new_external_users_claim_types_path)
 
               - if current_user.persona.admin?
-                %li
+                %li.govuk-breadcrumbs__list-item
                   = govuk_link_to t('.manage_users'), external_users_admin_external_users_path, class: cp(external_users_admin_external_users_path)
-                %li
+                %li.govuk-breadcrumbs__list-item
                   = govuk_link_to t('.manage_provider'), external_users_admin_provider_path(current_user.persona.provider), class: cp(external_users_admin_provider_path(current_user.persona.provider))
 
               - else
-                %li
+                %li.govuk-breadcrumbs__list-item
                   = govuk_link_to t('.manage_your_settings'), edit_external_users_admin_external_user_path(current_user.persona), class: cp(edit_external_users_admin_external_user_path(current_user.persona))
 
             - elsif current_user.persona.is_a?(CaseWorker)
-              %li
+              %li.govuk-breadcrumbs__list-item
                 = govuk_link_to t('.your_claims'), case_workers_claims_path({ tab: :current }), class: cp(case_workers_claims_path)
-              %li
+              %li.govuk-breadcrumbs__list-item
                 = govuk_link_to t('.archive'), archived_case_workers_claims_path({ tab: :archived }), class: cp(archived_case_workers_claims_path)
 
               - if current_user.persona.admin?
-                %li
+                %li.govuk-breadcrumbs__list-item
                   = govuk_link_to t('.allocation'), case_workers_admin_allocations_path, class: cp(case_workers_admin_allocations_path({ tab: :unallocated }))
-                %li
+                %li.govuk-breadcrumbs__list-item
                   = govuk_link_to t('.re_allocation'), case_workers_admin_allocations_path({ tab: :allocated }), class: cp(case_workers_admin_allocations_path({ tab: :allocated }))
-                %li
+                %li.govuk-breadcrumbs__list-item
                   = govuk_link_to t('.manage_case_workers'), case_workers_admin_case_workers_path, class: cp(case_workers_admin_case_workers_path)
 
               - if current_user.persona.provider_management?
-                %li
+                %li.govuk-breadcrumbs__list-item
                   = govuk_link_to t('.manage_providers'), provider_management_providers_path, class: cp(provider_management_providers_path)
 
               - if current_user.persona.admin?
-                %li
+                %li.govuk-breadcrumbs__list-item
                   = govuk_link_to t('.management_information'), case_workers_admin_management_information_path, class: cp(case_workers_admin_management_information_path)
 
             - else
-              %li
+              %li.govuk-breadcrumbs__list-item
                 = t('.error')

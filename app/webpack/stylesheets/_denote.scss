@@ -3,7 +3,7 @@
   position: absolute;
   margin: 2px 0 0 2px;
   padding: $gutter-one-sixth + 1 $gutter-one-third + 2;
-  background-color: $grey-3;
+  background-color: govuk-colour("light-grey");
   line-height: 1.1;
 
   @include govuk-media-query($from: tablet) {
@@ -13,7 +13,7 @@
 
 .form-input-denote__input {
   margin: 0;
-  padding-left: $gutter + $gutter-one-third;
+  padding-left: $govuk-gutter + $gutter-one-third;
 }
 
 .error .form-input-denote,
@@ -21,8 +21,8 @@
   margin-top: $gutter-one-sixth;
   margin-left: $gutter-one-sixth;
   padding: $gutter-one-sixth + 1 $gutter-one-third + 2;
-  color: $white;
-  background-color: $error-colour;
+  color: govuk-colour("white");
+  background-color: $govuk-error-colour;
 
   @include govuk-media-query($from: tablet) {
     padding: $gutter-one-sixth + 3 $gutter-one-third + 2;

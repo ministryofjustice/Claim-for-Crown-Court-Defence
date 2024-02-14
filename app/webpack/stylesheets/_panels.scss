@@ -1,17 +1,17 @@
 .panel .cocoon-insert-wrapper {
-  margin-bottom: $gutter;
+  margin-bottom: $govuk-gutter;
 }
 
 // Ported from v1 stylesheets
 .panel {
-  @include box-sizing(border-box);
-  @extend %contain-floats;
+  box-sizing: border-box;
+  @include govuk-clearfix;
   margin-bottom: em(15, 19);
   padding: em(15, 19);
 
   clear: both;
   border-left-style: solid;
-  border-color: $border-colour;
+  border-color: $govuk-border-colour;
 
   :first-child {
     margin-top: 0;
@@ -35,7 +35,7 @@
 // Panels within form groups
 // By default, panels have 15px bottom margin
 .form-group .panel-border-narrow {
-  width: $full-width;
+  width: govuk-grid-widths('full');
   // Remove the bottom padding as .form-group sets a bottom margin
   padding-bottom: 0;
   float: left;

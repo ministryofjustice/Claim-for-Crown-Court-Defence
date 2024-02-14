@@ -2,11 +2,11 @@
 
 tr {
   &.error.injection-error {
-    border-left: 5px solid $error-colour;
+    border-left: 5px solid $govuk-error-colour;
     color: inherit;
 
     td {
-      padding-top: $gutter;
+      padding-top: $govuk-gutter;
 
       .error-message-container {
         position: relative;
@@ -15,19 +15,19 @@ tr {
 
       .error-message {
         position: absolute;
-        top: -$gutter;
+        top: -$govuk-gutter;
         width: 320px;
-        color: $error-colour;
+        color: $govuk-error-colour;
         text-align: left;
       }
     }
   }
 
   &.injection-warning {
-    border-left: 5px solid $orange;
+    border-left: 5px solid govuk-colour("orange");
 
     td {
-      padding-top: $gutter;
+      padding-top: $govuk-gutter;
 
       .warning-message-container {
         position: relative;
@@ -35,9 +35,9 @@ tr {
 
       .warning-message {
         position: absolute;
-        top: -$gutter;
+        top: -$govuk-gutter;
         width: 320px;
-        color: $orange;
+        color: govuk-colour("orange");
         text-align: left;
       }
     }
@@ -53,7 +53,7 @@ tr {
     tr {
       display: block;
       margin-bottom: $gutter-one-third;
-      border-bottom: 3px solid $grey-3;
+      border-bottom: 3px solid govuk-colour("light-grey");
 
       .govuk-table__header:last-child,
       .govuk-table__cell:last-child,
@@ -61,7 +61,7 @@ tr {
       td {
         display: block;
         padding: $gutter-half;
-        border-bottom: 1px solid $grey-3;
+        border-bottom: 1px solid govuk-colour("light-grey");
         text-align: right;
 
         br {
@@ -72,9 +72,9 @@ tr {
       &.mobile-sort {
         @include govuk-clearfix;
         display: inline-block;
-        width: $full-width;
+        width: govuk-grid-widths('full');
 
-        background-color: $white;
+        background-color: govuk-colour("white");
         vertical-align: inherit;
 
         th {
@@ -89,7 +89,7 @@ tr {
     }
 
     tbody tr td:first-child {
-      background-color: $border-colour;
+      background-color: $govuk-border-colour;
       font-weight: 700;
 
       a {
@@ -185,6 +185,6 @@ table.dataTable {
 }
 
 td.active {
-  background: $grey-3;
+  background: govuk-colour("light-grey");
   text-align: center;
 }

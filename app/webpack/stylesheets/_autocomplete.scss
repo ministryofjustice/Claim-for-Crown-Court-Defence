@@ -5,34 +5,33 @@
   .lgfs-supplier-numbers,
   #transfer-detail {
     .autocomplete__wrapper {
-      width: $half;
+      width: govuk-grid-widths('one-half');
     }
   }
 }
 
 .fx-result {
-  margin: $gutter 0;
-  padding: 0 $gutter;
+  margin: $govuk-gutter 0;
+  padding: 0 $govuk-gutter;
 }
 
 // autocomplete styling
 .tt-menu {
-  width: $full-width;
+  width: govuk-grid-widths('full');
   max-height: 220px;
   overflow-y: scroll;
-  border: 1px solid $text-colour;
-  background-color: $page-colour;
+  border: 1px solid $govuk-text-colour;
 }
 
 @include govuk-media-query($from: tablet) {
   .tt-menu {
-    width: $half;
+    width: govuk-grid-widths('one-half');
   }
 
   // scss-lint:disable IdSelector
   .js-block {
     .tt-menu {
-      width: $full-width;
+      width: govuk-grid-widths('full');
     }
   }
 }
@@ -47,8 +46,7 @@
 
   &:hover,
   &.tt-cursor {
-    color: $page-colour;
-    background-color: $link-colour;
+    background-color: $govuk-link-colour;
   }
 }
 
@@ -58,7 +56,7 @@
 
 // scss-lint:disable IdSelector
 #offence-list .tt-highlight {
-  background-color: $focus-colour;
+  background-color: $govuk-focus-colour;
 }
 
 .govuk-form-group--error .autocomplete__input {

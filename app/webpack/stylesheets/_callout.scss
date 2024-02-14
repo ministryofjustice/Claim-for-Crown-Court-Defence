@@ -1,7 +1,7 @@
 .js-callout-banner {
   margin-right: $gutter-two-thirds;
-  margin-bottom: $gutter + $gutter-two-thirds;
+  margin-bottom: $govuk-gutter + $gutter-two-thirds;
   padding: $gutter-two-thirds;
   padding-bottom: $gutter-one-third;
-  border: 1px solid $black;
+  border: 1px solid govuk-colour("black");
 }

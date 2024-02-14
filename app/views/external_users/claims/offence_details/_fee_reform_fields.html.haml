@@ -64,5 +64,4 @@
       %span.govuk-body-s.link-grey.contrary
     %div.govuk-grid-column-one-quarter.align-centre
       %br
-      %a.button.offence-item-button.set-selection{ href: '#', 'data-field': '#claim_offence_id' }
-        Select and continue
+      = govuk_link_button('Select and continue','#', 'data-field': '#claim_offence_id', class: 'button offence-item-button set-selection')

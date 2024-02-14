@@ -14,7 +14,7 @@ p {
 .unique-id-small {
   @include govuk-font(14);
   display: block;
-  color: $black;
+  color: govuk-colour("black");
 }
 
 .sub-header {
@@ -38,8 +38,8 @@ p {
     }
 
     .resubmit-claim {
-      width: $gutter * 7;
-      padding-left: $gutter / 10;
+      width: $govuk-gutter * 7;
+      padding-left: $govuk-gutter / 10;
     }
 
     .action-wrapper a:first-child,
@@ -52,12 +52,12 @@ p {
 .new-claim-content {
   h2 {
     @include govuk-font(24, $weight: bold);
-    margin-top: $gutter;
+    margin-top: $govuk-gutter;
     font-weight: 800;
   }
 
   h2 ~ h2 {
-    margin-top: $gutter * 2;
+    margin-top: $govuk-gutter * 2;
   }
 }
 
@@ -67,7 +67,7 @@ p {
 
 .new-claim-hgroup {
   margin-top: $gutter-one-sixth;
-  border-top: 5px solid $link-colour;
+  border-top: 5px solid $govuk-link-colour;
 
   h2 {
     @include govuk-font(24, $weight: bold);

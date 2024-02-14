@@ -1,7 +1,7 @@
 - if claim&.last_injection_attempt&.succeeded && claim.has_conference_and_views?
   .js-callout-injection-warning
-    .warning-summary{ role: 'group', 'aria-labelledby': 'warning-summary-heading', tabindex: '-1' }
-      %h2.govuk-heading-m.warning-summary-heading{ id: 'warning-summary-heading' }
+    .warning-summary.govuk-error-summary{ role: 'group', 'aria-labelledby': 'warning-summary-heading', tabindex: '-1' }
+      %h2.govuk-heading-m.govuk-error-summary__title{ id: 'warning-summary-heading' }
         = t('shared.injection_errors.cav_warning.header')
 
       %span.form-hint
@@ -9,9 +9,9 @@
 
 - if claim&.last_injection_attempt&.succeeded && claim.has_clar_fees?
   .js-callout-injection-warning
-    .warning-summary{ role: 'group', 'aria-labelledby': 'warning-summary-heading', tabindex: '-1' }
-      %h2.govuk-heading-m.warning-summary-heading{ id: 'warning-summary-heading' }
+    .warning-summary.govuk-error-summary{ role: 'group', 'aria-labelledby': 'warning-summary-heading', tabindex: '-1' }
+      %h2.govuk-heading-m.govuk-error-summary__title{ id: 'warning-summary-heading' }
         = t('shared.injection_errors.clar_fees_warning.header')
 
-      %span.form-hint
+      %span.form-hint.govuk-error-summary__body
         = t('shared.injection_errors.clar_fees_warning.message')

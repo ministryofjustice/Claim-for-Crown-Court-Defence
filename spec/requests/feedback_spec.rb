@@ -45,6 +45,32 @@ RSpec.describe 'send feedback' do
       }
     end
 
+    context 'when feedback_controller is determining the sender class to use' do
+      context 'with Zendesk feedback enabled' do
+        before do
+          allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(true)
+          allow(Feedback).to receive(:new).and_call_original
+          post_feedback
+        end
+
+        it 'Uses the Zendesk sender' do
+          expect(Feedback).to have_received(:new).with(anything, ZendeskSender)
+        end
+      end
+
+      context 'with SurveyMonkey feedback disabled' do
+        before do
+          allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(false)
+          allow(Feedback).to receive(:new).and_call_original
+          post_feedback
+        end
+
+        it 'Uses the SurveyMonkey sender' do
+          expect(Feedback).to have_received(:new).with(anything, SurveyMonkeySender)
+        end
+      end
+    end
+
     context 'when posting to Survey Monkey is successful' do
       before { allow(SurveyMonkeySender).to receive(:call).and_return({ id: 123, success: true }) }
 
@@ -108,6 +134,18 @@ RSpec.describe 'send feedback' do
 
         it 'redirects to the sign in page' do
           expect(response).to redirect_to(new_user_session_url)
+        end
+      end
+
+      context 'when feedback_controller is determining the sender class to use' do
+        before do
+          allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(true)
+          allow(Feedback).to receive(:new).and_call_original
+          post_feedback
+        end
+
+        it 'Uses the Zendesk sender' do
+          expect(Feedback).to have_received(:new).with(anything, ZendeskSender)
         end
       end
     end

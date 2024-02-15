@@ -14,10 +14,11 @@ class Feedback
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
   validates :event, :outcome, presence: true, if: :bug_report?
 
-  def initialize(attributes = {})
+  def initialize(attributes = {}, sender = nil)
     attributes.each do |key, value|
       instance_variable_set(:"@#{key}", value)
     end
+    @sender = sender
 
     @reason.compact_blank! if @reason.present?
   end

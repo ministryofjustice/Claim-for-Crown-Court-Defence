@@ -6,12 +6,12 @@ class FeedbackController < ApplicationController
   before_action :setup_page
 
   def new
-    @feedback = Feedback.new(type:, referrer: referrer_path)
+    @feedback = Feedback.new({ type:, referrer: referrer_path })
     render "feedback/#{@feedback.type}"
   end
 
   def create
-    @feedback = Feedback.new(merged_feedback_params)
+    @feedback = Feedback.new(merged_feedback_params, sender)
 
     if @feedback.save
       redirect_to after_create_url, notice: @feedback.response_message
@@ -22,6 +22,14 @@ class FeedbackController < ApplicationController
   end
 
   private
+
+  def sender
+    if params['feedback']['type'] == 'feedback' && !Settings.zendesk_feedback_enabled?
+      SurveyMonkeySender
+    else
+      ZendeskSender
+    end
+  end
 
   def type
     %w[feedback bug_report].include?(params[:type]) ? params[:type] : 'feedback'

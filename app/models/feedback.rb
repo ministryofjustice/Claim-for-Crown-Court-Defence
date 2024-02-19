@@ -7,6 +7,11 @@ class Feedback
     bug_report: %i[case_number event outcome email]
   }.freeze
 
+  SENDING_SERVICES = [
+    SurveyMonkeySender,
+    ZendeskSender
+  ].freeze
+
   attr_accessor :email, :referrer, :user_agent, :type,
                 :event, :outcome, :case_number,
                 :task, :rating, :comment, :reason, :other_reason, :response_message
@@ -14,11 +19,11 @@ class Feedback
   validates :type, inclusion: { in: FEEDBACK_TYPES.keys.map(&:to_s) }
   validates :event, :outcome, presence: true, if: :bug_report?
 
-  def initialize(attributes = {}, sender = nil)
+  def initialize(sender = nil, attributes = {})
     attributes.each do |key, value|
       instance_variable_set(:"@#{key}", value)
     end
-    @sender = sender
+    @sender = SENDING_SERVICES.include?(sender) ? sender : nil
 
     @reason.compact_blank! if @reason.present?
   end
@@ -36,9 +41,11 @@ class Feedback
   end
 
   def save
-    return unless valid?
-    return send_to_survey_monkey if feedback? && !Settings.zendesk_feedback_enabled?
-    send_to_zendesk
+    return unless valid? || @sender.nil?
+
+    resp = @sender.call(self)
+    @response_message = resp[:response_message]
+    resp[:success?]
   end
 
   def subject
@@ -56,28 +63,6 @@ class Feedback
   end
 
   private
-
-  def send_to_survey_monkey
-    response = SurveyMonkeySender.call(self)
-    @response_message = if response[:success]
-                          'Feedback submitted'
-                        else
-                          "Unable to submit feedback [#{response[:error_code]}]"
-                        end
-    response[:success]
-  end
-
-  def send_to_zendesk
-    feedback_type = type.humanize
-    ZendeskSender.send!(self)
-    @response_message = "#{feedback_type.titleize} submitted"
-  rescue ZendeskAPI::Error::ClientError => e
-    @response_message = "Unable to submit #{feedback_type.downcase}"
-    LogStuff.error(class: self.class.name, action: 'save', error_class: e.class.name, error: e.to_s) do
-      "#{feedback_type.titleize} submisson failed!"
-    end
-    false
-  end
 
   def feedback_type_attributes
     FEEDBACK_TYPES[type.to_sym]

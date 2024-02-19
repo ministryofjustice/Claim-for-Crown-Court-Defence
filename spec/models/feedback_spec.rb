@@ -11,11 +11,7 @@ RSpec.describe Feedback do
   it { is_expected.to validate_inclusion_of(:type).in_array(%w[feedback bug_report]) }
 
   context 'with survey monkey feedback' do
-    subject(:feedback) { described_class.new(feedback_params) }
-
-    before do
-      allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(false)
-    end
+    subject(:feedback) { described_class.new(SurveyMonkeySender, feedback_params) }
 
     let(:feedback_params) do
       params.merge(
@@ -39,7 +35,7 @@ RSpec.describe Feedback do
     describe '#save' do
       subject(:save) { feedback.save }
 
-      before { allow(SurveyMonkeySender).to receive(:call).and_return({ id: 123, success: true }) }
+      before { allow(SurveyMonkeySender).to receive(:call).and_return({ success: true, response_message: 'Feedback submitted' }) }
 
       context 'when Survey Monkey succeeds' do
         it 'sends the response to Survey Monkey' do
@@ -61,7 +57,7 @@ RSpec.describe Feedback do
   end
 
   context 'with a bug report' do
-    subject(:bug_report) { described_class.new(bug_report_params) }
+    subject(:bug_report) { described_class.new(ZendeskSender, bug_report_params) }
 
     let(:bug_report_params) do
       params.merge(
@@ -196,7 +192,7 @@ RSpec.describe Feedback do
   end
 
   context 'with zendesk feedback' do
-    subject(:feedback) { described_class.new(feedback_params) }
+    subject(:feedback) { described_class.new(ZendeskSender, feedback_params) }
 
     before do
       allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(true)
@@ -289,6 +285,27 @@ RSpec.describe Feedback do
       context 'with bug_report type' do
         it { expect(feedback.is?(:bug_report)).to be false }
       end
+    end
+  end
+
+  context 'with invalid sender passed as an argument' do
+    subject(:feedback) { described_class.new(fake_sender_class, feedback_params) }
+
+    let(:feedback_params) do
+      params.merge(
+        type: 'feedback',
+        task: '1',
+        rating: '4',
+        comment: 'lorem ipsum',
+        reason: ['', '1', '2'],
+        other_reason: 'dolor sit'
+      )
+    end
+
+    let(:fake_sender_class) { class_double(Object) }
+
+    it 'defaults to nil' do
+      expect(feedback.instance_variable_get(:@sender)).to be_nil
     end
   end
 end

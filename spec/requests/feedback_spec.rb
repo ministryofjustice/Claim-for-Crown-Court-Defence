@@ -58,7 +58,7 @@ RSpec.describe 'send feedback' do
         end
       end
 
-      context 'with SurveyMonkey feedback disabled' do
+      context 'with Zendesk feedback disabled' do
         before do
           allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(false)
           allow(Feedback).to receive(:new).and_call_original
@@ -66,7 +66,7 @@ RSpec.describe 'send feedback' do
         end
 
         it 'Uses the SurveyMonkey sender' do
-          expect(Feedback).to have_received(:new).with(anything, SurveyMonkeySender)
+          expect(Feedback).to have_received(:new).with(SurveyMonkeySender, anything)
         end
       end
     end

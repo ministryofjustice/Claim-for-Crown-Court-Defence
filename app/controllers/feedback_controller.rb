@@ -6,12 +6,12 @@ class FeedbackController < ApplicationController
   before_action :setup_page
 
   def new
-    @feedback = Feedback.new({ type:, referrer: referrer_path })
+    @feedback = Feedback.new(nil, { type:, referrer: referrer_path })
     render "feedback/#{@feedback.type}"
   end
 
   def create
-    @feedback = Feedback.new(merged_feedback_params, sender)
+    @feedback = Feedback.new(sender, merged_feedback_params)
 
     if @feedback.save
       redirect_to after_create_url, notice: @feedback.response_message

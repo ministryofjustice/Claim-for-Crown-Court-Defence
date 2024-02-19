@@ -35,7 +35,7 @@
     "css-loader": "^6.10.0",
     "datatables.net-buttons-dt": "^3.0.0",
     "datatables.net-dt": "^2.0.0",
-    "datatables.net-fixedheader-dt": "^3.4.0",
+    "datatables.net-fixedheader-dt": "^4.0.0",
     "datatables.net-select": "2.0.0",
     "dropzone": "^5.9.3",
     "file-loader": "^6.2.0",

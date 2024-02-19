@@ -45,7 +45,7 @@ class Feedback
 
     resp = @sender.call(self)
     @response_message = resp[:response_message]
-    resp[:success?]
+    resp[:success]
   end
 
   def subject

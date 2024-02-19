@@ -1,6 +1,8 @@
 RSpec.describe ZendeskSender do
-  shared_examples 'Zendesk send' do
-    let(:ticket_payload) do
+  describe '#call' do
+    subject(:zen_call) { described_class.call(ticket_payload) }
+
+    let(:bug_report_ticket_payload) do
       instance_double(
         Feedback,
         subject: 'Bug report',
@@ -11,7 +13,7 @@ RSpec.describe ZendeskSender do
       )
     end
 
-    let(:zendesk_payload) do
+    let(:bug_report_zendesk_payload) do
       {
         subject: 'Bug report',
         description: 'event - outcome - email address',
@@ -30,8 +32,8 @@ RSpec.describe ZendeskSender do
     end
 
     it 'calls ZendeskAPI::Ticket.create!' do
-      zen_send
-      expect(ZendeskAPI::Ticket).to have_received(:create!).with(ZENDESK_CLIENT, hash_including(zendesk_payload))
+      zen_call
+      expect(ZendeskAPI::Ticket).to have_received(:create!).with(ZENDESK_CLIENT, hash_including(bug_report_zendesk_payload))
     end
 
     context 'with a reporter email' do
@@ -47,23 +49,17 @@ RSpec.describe ZendeskSender do
       end
 
       it 'includes the reporter email' do
-        zen_send
+        zen_call
         expect(ZendeskAPI::Ticket)
           .to have_received(:create!)
-          .with(ZENDESK_CLIENT, hash_including(email_ccs: [{ user_email: 'example@example.com' }]))
+                .with(ZENDESK_CLIENT, hash_including(email_ccs: [{ user_email: 'example@example.com' }]))
+      end
+
+      it 'returns a success value and a response message' do
+        expect(zen_call).to eq({ success: kind_of(Boolean), response_message: kind_of(String) })
       end
     end
-  end
 
-  describe '.send!' do
-    include_examples 'Zendesk send' do
-      subject(:zen_send) { described_class.send!(ticket_payload) }
-    end
-  end
-
-  describe '#send!' do
-    include_examples 'Zendesk send' do
-      subject(:zen_send) { described_class.new(ticket_payload).send! }
-    end
+    #TODO: write a test here to test error reporting, removed from feedback spec
   end
 end

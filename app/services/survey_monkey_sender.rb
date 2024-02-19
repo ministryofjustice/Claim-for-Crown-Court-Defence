@@ -9,7 +9,18 @@ class SurveyMonkeySender
   end
 
   def call
-    response.submit
+    return_hash = {}
+    resp = response.submit
+
+    return_hash[:success] = resp[:success]
+
+    return_hash[:response_message] = if resp[:success]
+                                'Feedback submitted'
+                              else
+                                "Unable to submit feedback [#{resp[:error_code]}]"
+                              end
+
+    return_hash
   end
 
   private

@@ -19,7 +19,7 @@ import '../javascripts/vendor/cocoon.js'
 import '../javascripts/vendor/jquery.remotipart.js'
 import '../javascripts/vendor/modules/moj.tabs.js'
 
-import 'datatables.net/js/jquery.dataTables.min.js'
+import 'datatables.net/js/dataTables.min.js'
 import 'datatables.net-buttons/js/dataTables.buttons.min.js'
 import 'datatables.net-fixedheader/js/dataTables.fixedHeader.min.js'
 import 'datatables.net-select/js/dataTables.select.min.js'

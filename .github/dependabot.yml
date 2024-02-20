@@ -11,6 +11,9 @@ updates:
     babel:
       patterns:
         - "*babel*"
+    datatables:
+      patterns:
+        - "*datatables*"
   open-pull-requests-limit: 5
   reviewers:
   - "ministryofjustice/laa-claim-for-payment"

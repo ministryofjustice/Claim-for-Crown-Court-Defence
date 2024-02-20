@@ -15,10 +15,10 @@ class SurveyMonkeySender
     return_hash[:success] = resp[:success]
 
     return_hash[:response_message] = if resp[:success]
-                                'Feedback submitted'
-                              else
-                                "Unable to submit feedback [#{resp[:error_code]}]"
-                              end
+                                       'Feedback submitted'
+                                     else
+                                       "Unable to submit feedback [#{resp[:error_code]}]"
+                                     end
 
     return_hash
   end

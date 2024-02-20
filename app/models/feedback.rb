@@ -41,7 +41,7 @@ class Feedback
   end
 
   def save
-    return unless valid? || @sender.nil?
+    return unless valid? && !@sender.nil?
 
     resp = @sender.call(self)
     @response_message = resp[:response_message]

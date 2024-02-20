@@ -11,7 +11,6 @@ RSpec.describe Feedback do
   it { is_expected.to validate_inclusion_of(:type).in_array(%w[feedback bug_report]) }
 
   shared_examples 'Feedback submission' do
-
     let(:feedback_params) do
       params.merge(
         type: 'feedback',
@@ -36,10 +35,10 @@ RSpec.describe Feedback do
 
       context 'when valid and successful' do
         before do
-            allow(sender)
-              .to receive(:call)
-              .and_return({ success: true, response_message: 'Feedback submitted' })
-          end
+          allow(sender)
+            .to receive(:call)
+            .and_return({ success: true, response_message: 'Feedback submitted' })
+        end
 
         it 'calls the correct sender' do
           save
@@ -160,11 +159,10 @@ RSpec.describe Feedback do
 
     describe '#save' do
       context 'when valid and successful' do
-
         before do
           allow(ZendeskSender)
             .to receive(:call)
-            .and_return({ success: true, response_message: 'Feedback submitted' })
+            .and_return({ success: true, response_message: 'Bug Report submitted' })
         end
 
         it 'calls zendesk sender' do
@@ -196,7 +194,7 @@ RSpec.describe Feedback do
         before do
           allow(ZendeskSender)
             .to receive(:call)
-            .and_return({ success: False, response_message: 'Unable to submit bug report' })
+            .and_return({ success: false, response_message: 'Unable to submit bug report' })
         end
 
         it { expect(bug_report.save).to be_falsey }
@@ -260,5 +258,3 @@ RSpec.describe Feedback do
     end
   end
 end
-
-

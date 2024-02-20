@@ -1,17 +1,28 @@
 class ZendeskSender
   attr_accessor :ticket_payload
 
-  class << self
-    def send!(ticket_payload)
-      ZendeskSender.new(ticket_payload).send!
-    end
+  def self.call(ticket_payload)
+    new(ticket_payload).call
   end
 
   def initialize(ticket_payload)
     @ticket_payload = ticket_payload
+    @return_hash = {}
   end
 
-  def send!
+  def call
+    create_ticket
+    @return_hash[:success] = true
+    @return_hash[:response_message] = "#{feedback_type.titleize} submitted"
+    @return_hash
+  rescue ZendeskAPI::Error::ClientError => e
+    catch_error(e)
+    @return_hash
+  end
+
+  private
+
+  def create_ticket
     ZendeskAPI::Ticket.create!(
       ZENDESK_CLIENT,
       **base_params,
@@ -20,7 +31,17 @@ class ZendeskSender
     )
   end
 
-  private
+  def catch_error(error)
+    @return_hash[:response_message] = "Unable to submit #{feedback_type.downcase}"
+    @return_hash[:success] = false
+    LogStuff.error(class: self.class.name, action: 'save', error_class: error.class.name, error: error.to_s) do
+      "#{feedback_type.titleize} submission failed!"
+    end
+  end
+
+  def feedback_type
+    ticket_payload.type.humanize
+  end
 
   def base_params
     {

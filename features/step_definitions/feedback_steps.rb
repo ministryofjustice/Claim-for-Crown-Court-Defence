@@ -21,7 +21,7 @@ Then(/^I see confirmation that my '(.*?)' was received$/) do |feedback_type|
 end
 
 Then('I see a warning that my feedback was not submitted successfully') do
-  have_govuk_notification_banner(key: :error, text: /Unable to submit feedback \[\d+\]/)
+  expect(page).to have_govuk_notification_banner(key: :error, text: /Unable to submit feedback/)
 end
 
 Then('I see a warning that my bug report was not submitted successfully') do

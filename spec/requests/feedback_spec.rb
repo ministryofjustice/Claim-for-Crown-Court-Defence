@@ -54,7 +54,7 @@ RSpec.describe 'send feedback' do
         end
 
         it 'Uses the Zendesk sender' do
-          expect(Feedback).to have_received(:new).with(anything, ZendeskSender)
+          expect(Feedback).to have_received(:new).with(ZendeskSender, anything)
         end
       end
 
@@ -145,7 +145,7 @@ RSpec.describe 'send feedback' do
         end
 
         it 'Uses the Zendesk sender' do
-          expect(Feedback).to have_received(:new).with(anything, ZendeskSender)
+          expect(Feedback).to have_received(:new).with(ZendeskSender, anything)
         end
       end
     end

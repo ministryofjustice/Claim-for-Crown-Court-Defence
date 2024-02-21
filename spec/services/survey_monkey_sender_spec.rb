@@ -18,8 +18,8 @@ RSpec.describe SurveyMonkeySender do
 
     context 'with all feedback options' do
       let(:feedback) do
-        Feedback.new(described_class,
-                     { task: '1', rating: '1', comment: 'A comment', reason: %w[1 3], other_reason: 'Another reason' })
+        Feedback.new(task: '1', rating: '1', comment: 'A comment',
+                     reason: %w[1 3], other_reason: 'Another reason')
       end
 
       it do
@@ -33,8 +33,7 @@ RSpec.describe SurveyMonkeySender do
 
     context 'with only a comment' do
       let(:feedback) do
-        Feedback.new(described_class,
-                     { task: nil, rating: nil, comment: 'A comment', reason: [], other_reason: nil })
+        Feedback.new(task: nil, rating: nil, comment: 'A comment', reason: [], other_reason: nil)
       end
 
       it { expect(survey_monkey).to have_received(:add_page).with(:feedback, comments: 'A comment') }
@@ -42,8 +41,7 @@ RSpec.describe SurveyMonkeySender do
 
     context 'with a nil reason' do
       let(:feedback) do
-        Feedback.new(described_class,
-                     { task: nil, rating: nil, comment: 'A comment', reason: nil, other_reason: nil })
+        Feedback.new(task: nil, rating: nil, comment: 'A comment', reason: nil, other_reason: nil)
       end
 
       it { expect(survey_monkey).to have_received(:add_page).with(:feedback, comments: 'A comment') }

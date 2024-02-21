@@ -7,17 +7,13 @@ class ZendeskSender
 
   def initialize(ticket_payload)
     @ticket_payload = ticket_payload
-    @return_hash = {}
   end
 
   def call
     create_ticket
-    @return_hash[:success] = true
-    @return_hash[:response_message] = "#{feedback_type.titleize} submitted"
-    @return_hash
+    { success: true, response_message: "#{feedback_type.titleize} submitted" }
   rescue ZendeskAPI::Error::ClientError => e
     catch_error(e)
-    @return_hash
   end
 
   private
@@ -32,11 +28,10 @@ class ZendeskSender
   end
 
   def catch_error(error)
-    @return_hash[:response_message] = "Unable to submit #{feedback_type.downcase}"
-    @return_hash[:success] = false
     LogStuff.error(class: self.class.name, action: 'save', error_class: error.class.name, error: error.to_s) do
       "#{feedback_type.titleize} submission failed!"
     end
+    { success: false, response_message: "Unable to submit #{feedback_type.downcase}" }
   end
 
   def feedback_type

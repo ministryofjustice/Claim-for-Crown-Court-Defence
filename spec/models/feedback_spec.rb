@@ -15,6 +15,7 @@ RSpec.describe Feedback do
       params.merge(
         type: 'feedback',
         task: '1',
+        sender:,
         rating: '4',
         comment: 'lorem ipsum',
         reason: ['', '1', '2'],
@@ -95,7 +96,7 @@ RSpec.describe Feedback do
 
   context 'with SurveyMonkey Feedback' do
     include_examples 'Feedback submission' do
-      subject(:feedback) { described_class.new(sender, feedback_params) }
+      subject(:feedback) { described_class.new(feedback_params) }
 
       let(:sender) { SurveyMonkeySender }
     end
@@ -103,19 +104,20 @@ RSpec.describe Feedback do
 
   context 'with Zendesk Feedback' do
     include_examples 'Feedback submission' do
-      subject(:feedback) { described_class.new(sender, feedback_params) }
+      subject(:feedback) { described_class.new(feedback_params) }
 
       let(:sender) { ZendeskSender }
     end
   end
 
   context 'with invalid sender passed as an argument' do
-    subject(:feedback) { described_class.new(fake_sender_class, feedback_params) }
+    subject(:feedback) { described_class.new(feedback_params) }
 
     let(:feedback_params) do
       params.merge(
         type: 'feedback',
         task: '1',
+        sender: fake_sender_class,
         rating: '4',
         comment: 'lorem ipsum',
         reason: ['', '1', '2'],
@@ -130,13 +132,33 @@ RSpec.describe Feedback do
     end
   end
 
+  context 'with no sender passed as an argument' do
+    subject(:feedback) { described_class.new(feedback_params) }
+
+    let(:feedback_params) do
+      params.merge(
+        type: 'feedback',
+        task: '1',
+        rating: '4',
+        comment: 'lorem ipsum',
+        reason: ['', '1', '2'],
+        other_reason: 'dolor sit'
+      )
+    end
+
+    it 'defaults to nil' do
+      expect(feedback.instance_variable_get(:@sender)).to be_nil
+    end
+  end
+
   context 'with a bug report' do
-    subject(:bug_report) { described_class.new(ZendeskSender, bug_report_params) }
+    subject(:bug_report) { described_class.new(bug_report_params) }
 
     let(:bug_report_params) do
       params.merge(
         type: 'bug_report',
         case_number: 'XXX',
+        sender: ZendeskSender,
         event: 'lorem',
         outcome: 'ipsum',
         email: 'example@example.com'

@@ -45,29 +45,27 @@ RSpec.describe 'send feedback' do
       }
     end
 
-    context 'when feedback_controller is determining the sender class to use' do
-      context 'with Zendesk feedback enabled' do
-        before do
-          allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(true)
-          allow(Feedback).to receive(:new).and_call_original
-          post_feedback
-        end
-
-        it 'Uses the Zendesk sender' do
-          expect(Feedback).to have_received(:new).with(ZendeskSender, anything)
-        end
+    context 'with Zendesk feedback enabled' do
+      before do
+        allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(true)
+        allow(Feedback).to receive(:new).and_call_original
+        post_feedback
       end
 
-      context 'with Zendesk feedback disabled' do
-        before do
-          allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(false)
-          allow(Feedback).to receive(:new).and_call_original
-          post_feedback
-        end
+      it 'Uses the Zendesk sender' do
+        expect(Feedback).to have_received(:new).with(hash_including(sender: ZendeskSender))
+      end
+    end
 
-        it 'Uses the SurveyMonkey sender' do
-          expect(Feedback).to have_received(:new).with(SurveyMonkeySender, anything)
-        end
+    context 'with Zendesk feedback disabled' do
+      before do
+        allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(false)
+        allow(Feedback).to receive(:new).and_call_original
+        post_feedback
+      end
+
+      it 'Uses the SurveyMonkey sender' do
+        expect(Feedback).to have_received(:new).with(hash_including(sender: SurveyMonkeySender))
       end
     end
 
@@ -137,7 +135,7 @@ RSpec.describe 'send feedback' do
         end
       end
 
-      context 'when feedback_controller is determining the sender class to use' do
+      context 'when determining the sender class' do
         before do
           allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(true)
           allow(Feedback).to receive(:new).and_call_original
@@ -145,7 +143,7 @@ RSpec.describe 'send feedback' do
         end
 
         it 'Uses the Zendesk sender' do
-          expect(Feedback).to have_received(:new).with(ZendeskSender, anything)
+          expect(Feedback).to have_received(:new).with(hash_including(sender: ZendeskSender))
         end
       end
     end

@@ -1,23 +1,24 @@
 RSpec.describe ZendeskSender do
   describe '#call' do
-    subject(:zen_call) { described_class.call(bug_report_ticket_payload) }
+    subject(:zen_call) { described_class.call(params) }
 
-    let(:bug_report_ticket_payload) do
+    let(:params) do
       instance_double(
         Feedback,
-        subject: 'Bug report',
         type: 'bug_report',
-        description: 'event - outcome - email address',
         referrer: '/claims',
         user_agent: 'chrome',
-        reporter_email: nil
+        case_number: '1234',
+        event: 'test',
+        outcome: 'an outcome',
+        email: nil
       )
     end
 
-    let(:bug_report_zendesk_payload) do
+    let(:payload) do
       {
-        subject: 'Bug report',
-        description: 'event - outcome - email address',
+        subject: 'Bug report (test_environment)',
+        description: "case_number: 1234\nevent: test\noutcome: an outcome\nemail: ",
         custom_fields: [
           { id: '26047167', value: '/claims' },
           { id: '23757677', value: 'advocate_defence_payments' },
@@ -36,19 +37,20 @@ RSpec.describe ZendeskSender do
       zen_call
       expect(ZendeskAPI::Ticket)
         .to have_received(:create!)
-        .with(ZENDESK_CLIENT, hash_including(bug_report_zendesk_payload))
+        .with(ZENDESK_CLIENT, hash_including(payload))
     end
 
     context 'with a valid ticket and reporter email' do
-      let(:bug_report_ticket_payload) do
+      let(:params) do
         instance_double(
           Feedback,
-          subject: 'Bug report',
           type: 'bug_report',
-          description: 'event - outcome - email address',
           referrer: '/claims',
           user_agent: 'chrome',
-          reporter_email: 'example@example.com'
+          case_number: '1234',
+          event: 'test',
+          outcome: 'an outcome',
+          email: 'example@example.com'
         )
       end
 
@@ -61,6 +63,50 @@ RSpec.describe ZendeskSender do
 
       it 'returns a success value and a response message' do
         expect(zen_call).to eq({ success: true, response_message: 'Bug Report submitted' })
+      end
+    end
+
+    context 'with a blank email' do
+      let(:params) do
+        instance_double(
+          Feedback,
+          type: 'bug_report',
+          referrer: '/claims',
+          user_agent: 'chrome',
+          case_number: '1234',
+          event: 'test',
+          outcome: 'an outcome',
+          email: ''
+        )
+      end
+
+      it 'does not include the reporter email' do
+        zen_call
+        expect(ZendeskAPI::Ticket)
+          .to have_received(:create!)
+          .with(ZENDESK_CLIENT, hash_not_including(email_ccs: anything))
+      end
+    end
+
+    context 'with an anonymous email' do
+      let(:params) do
+        instance_double(
+          Feedback,
+          type: 'bug_report',
+          referrer: '/claims',
+          user_agent: 'chrome',
+          case_number: '1234',
+          event: 'test',
+          outcome: 'an outcome',
+          email: 'anonymous'
+        )
+      end
+
+      it 'does not include the reporter email' do
+        zen_call
+        expect(ZendeskAPI::Ticket)
+          .to have_received(:create!)
+          .with(ZENDESK_CLIENT, hash_not_including(email_ccs: anything))
       end
     end
 

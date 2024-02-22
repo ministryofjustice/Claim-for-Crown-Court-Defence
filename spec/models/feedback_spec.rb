@@ -28,8 +28,6 @@ RSpec.describe Feedback do
     it { expect(feedback.comment).to eq 'lorem ipsum' }
     it { expect(feedback.reason).to eq %w[1 2] }
     it { expect(feedback.other_reason).to eq 'dolor sit' }
-    it { is_expected.to be_feedback }
-    it { is_expected.not_to be_bug_report }
 
     describe '#save' do
       let(:save) { feedback.save }
@@ -70,19 +68,6 @@ RSpec.describe Feedback do
       end
     end
 
-    describe '#subject' do
-      it 'returns the subject heading' do
-        expect(feedback.subject).to eq('Feedback (test)')
-      end
-    end
-
-    describe '#description' do
-      it 'returns the description' do
-        expect(feedback.description)
-          .to eq("task: 1\nrating: 4\ncomment: lorem ipsum\nreason: [\"1\", \"2\"]\nother_reason: dolor sit")
-      end
-    end
-
     describe '#is?' do
       context 'with feedback type' do
         it { expect(feedback.is?(:feedback)).to be true }
@@ -95,41 +80,19 @@ RSpec.describe Feedback do
   end
 
   context 'with SurveyMonkey Feedback' do
-    include_examples 'Feedback submission' do
-      subject(:feedback) { described_class.new(feedback_params) }
+    subject(:feedback) { described_class.new(feedback_params) }
 
-      let(:sender) { SurveyMonkeySender }
-    end
+    let(:sender) { SurveyMonkeySender }
+
+    include_examples 'Feedback submission'
   end
 
   context 'with Zendesk Feedback' do
-    include_examples 'Feedback submission' do
-      subject(:feedback) { described_class.new(feedback_params) }
-
-      let(:sender) { ZendeskSender }
-    end
-  end
-
-  context 'with invalid sender passed as an argument' do
     subject(:feedback) { described_class.new(feedback_params) }
 
-    let(:feedback_params) do
-      params.merge(
-        type: 'feedback',
-        task: '1',
-        sender: fake_sender_class,
-        rating: '4',
-        comment: 'lorem ipsum',
-        reason: ['', '1', '2'],
-        other_reason: 'dolor sit'
-      )
-    end
+    let(:sender) { ZendeskSender }
 
-    let(:fake_sender_class) { class_double(Object) }
-
-    it 'defaults to nil' do
-      expect(feedback.instance_variable_get(:@sender)).to be_nil
-    end
+    include_examples 'Feedback submission'
   end
 
   context 'with no sender passed as an argument' do
@@ -176,8 +139,6 @@ RSpec.describe Feedback do
     it { is_expected.to validate_presence_of(:event) }
     it { is_expected.to validate_presence_of(:outcome) }
     it { is_expected.not_to validate_presence_of(:case_number) }
-    it { is_expected.to be_bug_report }
-    it { is_expected.not_to be_feedback }
 
     describe '#save' do
       context 'when valid and successful' do
@@ -225,47 +186,6 @@ RSpec.describe Feedback do
           bug_report.save
           expect(bug_report.response_message).to eq('Unable to submit bug report')
         end
-      end
-    end
-
-    describe '#subject' do
-      it 'returns the subject heading' do
-        expect(bug_report.subject).to eq('Bug report (test)')
-      end
-    end
-
-    describe '#description' do
-      it 'returns the description' do
-        expect(bug_report.description)
-          .to eq("case_number: XXX\nevent: lorem\noutcome: ipsum\nemail: example@example.com")
-      end
-    end
-
-    describe '#reporter_email' do
-      subject { bug_report.reporter_email }
-
-      context 'with an email' do
-        let(:bug_report_params) { params.merge(type: 'bug_report', email: 'example@example.com') }
-
-        it { is_expected.to eq('example@example.com') }
-      end
-
-      context 'without an email' do
-        let(:bug_report_params) { params.merge(type: 'bug_report') }
-
-        it { is_expected.to be_nil }
-      end
-
-      context 'with a blank email' do
-        let(:bug_report_params) { params.merge(type: 'bug_report', email: '') }
-
-        it { is_expected.to be_nil }
-      end
-
-      context 'with an anonymous email' do
-        let(:bug_report_params) { params.merge(type: 'bug_report', email: 'anonymous') }
-
-        it { is_expected.to be_nil }
       end
     end
 

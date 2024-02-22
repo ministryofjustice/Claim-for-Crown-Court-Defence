@@ -1,6 +1,6 @@
 class SurveyMonkeySender
-  def self.call(feedback)
-    new(feedback).call
+  def self.call(...)
+    new(...).call
   end
 
   def initialize(feedback)
@@ -9,24 +9,34 @@ class SurveyMonkeySender
   end
 
   def call
-    return_hash = {}
-    resp = response.submit
-
-    return_hash[:success] = resp[:success]
-
-    return_hash[:response_message] = if resp[:success]
-                                       'Feedback submitted'
-                                     else
-                                       "Unable to submit feedback [#{resp[:error_code]}]"
-                                     end
-
-    return_hash
+    {
+      success: success?,
+      response_message: message
+    }
   end
 
   private
 
   def response
     @response ||= SurveyMonkey::Response.new
+  end
+
+  def submission_response
+    @submission_response ||= response.submit
+  end
+
+  def success?
+    @success ||= submission_response[:success]
+  end
+
+  def message
+    return 'Feedback submitted' if success?
+
+    "Unable to submit feedback [#{error_code}]"
+  end
+
+  def error_code
+    @error_code ||= submission_response[:error_code]
   end
 
   def payload

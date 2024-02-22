@@ -1,8 +1,13 @@
 class ZendeskSender
+  FEEDBACK_TYPES = {
+    feedback: %i[task rating comment reason other_reason],
+    bug_report: %i[case_number event outcome email]
+  }.freeze
+
   attr_accessor :ticket_payload
 
-  def self.call(ticket_payload)
-    new(ticket_payload).call
+  def self.call(...)
+    new(...).call
   end
 
   def initialize(ticket_payload)
@@ -17,6 +22,18 @@ class ZendeskSender
   end
 
   private
+
+  def feedback_type
+    @ticket_payload.type.humanize
+  end
+
+  def feedback_type_attributes
+    FEEDBACK_TYPES[@ticket_payload.type.to_sym]
+  end
+
+  def description
+    feedback_type_attributes.map { |t| "#{t}: #{@ticket_payload.send(t)}" }.join("\n")
+  end
 
   def create_ticket
     ZendeskAPI::Ticket.create!(
@@ -34,21 +51,27 @@ class ZendeskSender
     { success: false, response_message: "Unable to submit #{feedback_type.downcase}" }
   end
 
-  def feedback_type
-    ticket_payload.type.humanize
+  def reporter_email
+    return if @ticket_payload.email.blank? || @ticket_payload.email == 'anonymous'
+
+    @ticket_payload.email
+  end
+
+  def subject
+    "#{@ticket_payload.type.humanize} (#{Rails.host.env})"
   end
 
   def base_params
     {
-      subject: ticket_payload.subject,
-      description: ticket_payload.description
+      subject:,
+      description:
     }
   end
 
   def email_params
-    return {} if ticket_payload.reporter_email.blank?
+    return {} if reporter_email.blank?
 
-    { email_ccs: [{ user_email: ticket_payload.reporter_email }] }
+    { email_ccs: [{ user_email: reporter_email }] }
   end
 
   def custom_params

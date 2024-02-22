@@ -17,7 +17,7 @@ module Claim
     attr_reader :form_step
     alias current_step form_step
 
-    attr_accessor :disable_for_state_transition
+    attr_accessor :disable_for_state_transition, :reject_reason_text, :refuse_reason_text
     attribute :case_transferred_from_another_court, :boolean
 
     include ::Claims::StateMachine

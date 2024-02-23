@@ -212,7 +212,6 @@ commands:
     description: >
       Run cucumber tests and store results
     steps:
-      - install-chrome
       - precompile-assets
       - run:
           name: Run cucumber tests

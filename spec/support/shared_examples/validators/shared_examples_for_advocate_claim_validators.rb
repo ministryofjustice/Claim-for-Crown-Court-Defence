@@ -292,6 +292,7 @@ RSpec.shared_examples 'common defendant basic fees aggregation validation' do
   context 'when there is 1 basic fee uplift' do
     before do
       create(:basic_fee, :ndr_fee, claim:, quantity: 1, amount: 21.01)
+      claim.reload
     end
 
     it 'test setup' do

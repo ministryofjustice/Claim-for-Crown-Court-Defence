@@ -76,6 +76,8 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#defendant_names' do
+    before { claim.reload }
+
     it do
       expect(presenter.defendant_names)
         .to eql("#{CGI.escapeHTML(first_defendant.name)}, <br>Robert Smith, <br>Adam Smith")

@@ -10,12 +10,12 @@
     %meta{ 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
     = csrf_meta_tags
 
-    %link{ rel: 'shortcut icon', sizes: '16x16 32x32 48x48', href: image_tag('favicon.ico'), type: 'image/x-icon' }
-    %link{ rel: 'mask-icon', href: image_tag('govuk-mask-icon.svg'), color: 'blue' }
-    %link{ rel: 'apple-touch-icon', sizes: '180x180', href:image_tag('govuk-apple-touch-icon-180x180.png') }
-    %link{ rel: 'apple-touch-icon', sizes: '167x167', href: image_tag('govuk-apple-touch-icon-167x167.png') }
-    %link{ rel: 'apple-touch-icon', sizes: '152x152', href: image_tag('govuk-apple-touch-icon-152x152.png') }
-    %link{ rel: 'apple-touch-icon', href: image_tag('govuk-apple-touch-icon.png') }
+
+    = favicon_link_tag asset_path('favicon.ico'), sizes: '48x48'
+    = favicon_link_tag asset_path('favicon.svg'), sizes: 'any', type: 'image/svg+xml'
+    %link{ rel: 'manifest', href: asset_path('manifest.json') }
+    %link{ rel: 'mask-icon', href: asset_path('govuk-icon-mask.svg'), color: '#0b0c0c' }
+    %link{ rel: 'apple-touch-icon', href: asset_path('govuk-icon-180.png') }
     %link{ rel: 'stylesheet', href: '//fonts.googleapis.com/css?family=Droid+Sans:400,700', type: 'text/css' }
     = stylesheet_link_tag 'grape_swagger_rails/application.css'
     = javascript_include_tag 'grape_swagger_rails/application.js'

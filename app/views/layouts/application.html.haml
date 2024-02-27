@@ -24,7 +24,7 @@
         %script
           != ga_outlet
 
-  %body{ class: "govuk-template__body controller-#{controller.controller_name}" }
+  %body.govuk-frontend-supported{ class: "govuk-template__body controller-#{controller.controller_name}" }
     :javascript
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 

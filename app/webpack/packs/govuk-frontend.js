@@ -1,3 +1,4 @@
-require.context('govuk-frontend/dist/govuk/assets', true)
+import { initAll } from 'govuk-frontend'
 
-require('govuk-frontend').initAll()
+require.context('govuk-frontend/dist/govuk/assets', true)
+initAll()

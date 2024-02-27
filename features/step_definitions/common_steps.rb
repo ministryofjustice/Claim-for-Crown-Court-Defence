@@ -109,7 +109,7 @@ end
 Then(/^Claim '(.*?)' should be listed with a status of '(.*?)'(?: and a claimed amount of '(.*?)')?$/) do |case_number, status, claimed|
   my_claim = @external_user_home_page.claim_for(case_number)
   expect(my_claim).not_to be_nil
-  expect(my_claim.state.text).to eq(status.upcase)
+  expect(my_claim.state.text).to eq(status)
   expect(my_claim.claimed.text).to eq(claimed) if claimed
 end
 

@@ -70,7 +70,7 @@ group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'byebug'
-  gem 'listen', '~> 3.8.0'
+  gem 'listen', '~> 3.9.0'
   gem 'meta_request'
   gem 'parallel_tests'
   gem 'pry-byebug'

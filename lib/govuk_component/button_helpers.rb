@@ -85,7 +85,6 @@ module GOVUKComponent
     def disable_if(options)
       return unless options[:disabled].present? && options[:disabled].to_s == 'true'
       options[:aria] = { disabled: 'true' }
-      prepend_classes('govuk-button--disabled', options)
     end
 
     def govuk_link_button_options(options)

@@ -25,7 +25,7 @@ RSpec.describe GOVUKComponent::WarningTextHelpers, type: :helper do
     it 'adds nested span in strong tag with govuk class' do
       is_expected.to have_tag(:div) do
         with_tag(:strong) do
-          with_tag(:span, with: { class: 'govuk-warning-text__assistive' })
+          with_tag(:span, with: { class: 'govuk-visually-hidden' })
         end
       end
     end

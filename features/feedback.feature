@@ -68,6 +68,5 @@ Feature: A user can provide feedback
     And I click govuk checkbox 'Other (please specify)'
     And I fill in 'Enter your comment' with 'Something Else'
     And I click the button 'Send'
-
     Then I see a warning that my feedback was not submitted successfully
     And I should be on the feedback page

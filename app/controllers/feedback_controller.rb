@@ -23,6 +23,14 @@ class FeedbackController < ApplicationController
 
   private
 
+  def sender
+    if params['feedback']['type'] == 'feedback' && !Settings.zendesk_feedback_enabled?
+      SurveyMonkeySender
+    else
+      ZendeskSender
+    end
+  end
+
   def type
     %w[feedback bug_report].include?(params[:type]) ? params[:type] : 'feedback'
   end
@@ -33,7 +41,8 @@ class FeedbackController < ApplicationController
 
   def merged_feedback_params
     feedback_params.merge(email: user_email_or_anonymous,
-                          user_agent: request.user_agent)
+                          user_agent: request.user_agent,
+                          sender:)
   end
 
   def user_email_or_anonymous

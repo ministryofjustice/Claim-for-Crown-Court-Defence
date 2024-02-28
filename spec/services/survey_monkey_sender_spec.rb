@@ -18,7 +18,8 @@ RSpec.describe SurveyMonkeySender do
 
     context 'with all feedback options' do
       let(:feedback) do
-        Feedback.new(task: '1', rating: '1', comment: 'A comment', reason: %w[1 3], other_reason: 'Another reason')
+        Feedback.new(task: '1', rating: '1', comment: 'A comment',
+                     reason: %w[1 3], other_reason: 'Another reason')
       end
 
       it do
@@ -31,13 +32,17 @@ RSpec.describe SurveyMonkeySender do
     end
 
     context 'with only a comment' do
-      let(:feedback) { Feedback.new(task: nil, rating: nil, comment: 'A comment', reason: [], other_reason: nil) }
+      let(:feedback) do
+        Feedback.new(task: nil, rating: nil, comment: 'A comment', reason: [], other_reason: nil)
+      end
 
       it { expect(survey_monkey).to have_received(:add_page).with(:feedback, comments: 'A comment') }
     end
 
     context 'with a nil reason' do
-      let(:feedback) { Feedback.new(task: nil, rating: nil, comment: 'A comment', reason: nil, other_reason: nil) }
+      let(:feedback) do
+        Feedback.new(task: nil, rating: nil, comment: 'A comment', reason: nil, other_reason: nil)
+      end
 
       it { expect(survey_monkey).to have_received(:add_page).with(:feedback, comments: 'A comment') }
     end
@@ -46,16 +51,16 @@ RSpec.describe SurveyMonkeySender do
   describe '#call' do
     subject(:call) { sender.call }
 
-    context 'with a sucessful submission' do
+    context 'with a successful submission' do
       before { allow(survey_monkey).to receive(:submit).and_return({ id: 123, success: true }) }
 
-      it { is_expected.to eq({ id: 123, success: true }) }
+      it { is_expected.to eq({ success: true, response_message: 'Feedback submitted' }) }
     end
 
-    context 'with an unsucessful submission' do
+    context 'with an unsuccessful submission' do
       before { allow(survey_monkey).to receive(:submit).and_return({ success: false, error_code: 1011 }) }
 
-      it { is_expected.to eq({ success: false, error_code: 1011 }) }
+      it { is_expected.to eq({ success: false, response_message: 'Unable to submit feedback [1011]' }) }
     end
   end
 end

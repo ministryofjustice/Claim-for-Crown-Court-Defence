@@ -26,7 +26,9 @@ spec:
                 drop:
                 - ALL
               runAsNonRoot: true
-              allowPrivilegeEscalation: false           
+              allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
             command:
               - rails
               - db:vacuum

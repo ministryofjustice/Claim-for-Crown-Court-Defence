@@ -46,9 +46,14 @@ RSpec.describe 'send feedback' do
     end
 
     context 'with Zendesk feedback enabled' do
+      let(:sender_instance) { instance_double(ZendeskSender) }
+
       before do
         allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(true)
         allow(Feedback).to receive(:new).and_call_original
+        allow(ZendeskSender).to receive(:new).and_return(sender_instance)
+        allow(sender_instance).to receive(:call).and_return({ success: true, response_message: 'Test' })
+
         post_feedback
       end
 
@@ -58,9 +63,14 @@ RSpec.describe 'send feedback' do
     end
 
     context 'with Zendesk feedback disabled' do
+      let(:sender_instance) { instance_double(SurveyMonkeySender) }
+
       before do
         allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(false)
         allow(Feedback).to receive(:new).and_call_original
+        allow(SurveyMonkeySender).to receive(:new).and_return(sender_instance)
+        allow(sender_instance).to receive(:call).and_return({ success: true, response_message: 'Test' })
+
         post_feedback
       end
 

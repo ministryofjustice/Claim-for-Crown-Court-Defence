@@ -17,7 +17,7 @@ require 'rails_helper'
 RSpec.describe DateAttended do
   it { should belong_to(:attended_item) }
 
-  describe '#to_s' do
+  describe '#to_fs' do
     context 'when date_to present' do
       subject { create(:date_attended, date: Date.parse('1/1/2015'), date_to: Date.parse('5/1/2015')) }
 

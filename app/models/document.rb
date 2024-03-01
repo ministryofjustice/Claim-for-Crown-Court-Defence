@@ -23,7 +23,7 @@ class Document < ApplicationRecord
               image/jpeg
               image/png
               image/tiff
-              image/bmp
+              image/x-bmp
               image/x-bitmap
             ]
 

@@ -19,7 +19,7 @@ RSpec.describe MessagePresenter, type: :helper do
       let(:attachment) { Rack::Test::UploadedFile.new(file) }
 
       before do
-        allow(message.attachment).to receive(:service_url).and_return('http://example.com')
+        allow(message.attachment).to receive(:url).and_return('http://example.com')
       end
 
       it 'includes a download link to the attachment' do

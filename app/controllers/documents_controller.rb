@@ -12,11 +12,11 @@ class DocumentsController < ApplicationController
   def show
     raise ActiveRecord::RecordNotFound, 'Preview not found' unless document.converted_preview_document.attached?
 
-    redirect_to document.converted_preview_document.blob.service_url(disposition: :inline)
+    redirect_to document.converted_preview_document.blob.url(disposition: :inline)
   end
 
   def download
-    redirect_to document.document.blob.service_url(disposition: :attachment)
+    redirect_to document.document.blob.url(disposition: :attachment)
   end
 
   def create

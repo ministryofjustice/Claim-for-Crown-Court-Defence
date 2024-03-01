@@ -166,7 +166,7 @@ RSpec.describe API::V2::MI::InjectionErrors do
         end
 
         context 'with a date provided' do
-          let(:params) { default_params.merge(date: older_date.to_s(:db)) }
+          let(:params) { default_params.merge(date: older_date.to_fs(:db)) }
 
           it 'returns success' do
             expect(last_response).to be_ok
@@ -181,7 +181,7 @@ RSpec.describe API::V2::MI::InjectionErrors do
           end
 
           context 'and with CSV output format' do
-            let(:params) { default_params.merge(date: older_date.to_s(:db), format: 'csv') }
+            let(:params) { default_params.merge(date: older_date.to_fs(:db), format: 'csv') }
 
             it 'returns success' do
               expect(last_response).to be_ok

@@ -2,6 +2,9 @@ require_relative 'boot'
 
 require 'rails/all'
 
+# Prevent callers outside CCCD from raising for Date#to_s deprecation warnings
+ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = 'true'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)

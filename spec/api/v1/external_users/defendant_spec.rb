@@ -41,7 +41,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
     context 'when defendant params are valid' do
       it 'creates defendant, return 201 and defendant JSON output including UUID' do
         post_to_create_endpoint
-        expect(last_response.status).to eq(201)
+        expect(last_response).to have_http_status(:created)
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
         expect(Defendant.find_by(uuid: json['id']).uuid).to eq(json['id'])
@@ -49,7 +49,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
 
       it 'excludes API key from response' do
         post_to_create_endpoint
-        expect(last_response.status).to eq(201)
+        expect(last_response).to have_http_status(:created)
         json = JSON.parse(last_response.body)
         expect(json['api_key']).to be_nil
       end
@@ -77,7 +77,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
         it 'returns a JSON error array with required model attributes' do
           %i[first_name last_name date_of_birth].each { |k| valid_params.delete(k) }
           post_to_create_endpoint
-          expect(last_response.status).to eq 400
+          expect(last_response).to have_http_status :bad_request
           expect(last_response.body).to eq(json_error_response)
         end
       end
@@ -105,7 +105,7 @@ RSpec.describe API::V1::ExternalUsers::Defendant do
     it 'missing required params should return 400 and a JSON error array' do
       %i[first_name last_name date_of_birth].each { |k| valid_params.delete(k) }
       post_to_validate_endpoint
-      expect(last_response.status).to eq 400
+      expect(last_response).to have_http_status :bad_request
       expect(last_response.body).to eq(json_error_response)
     end
 

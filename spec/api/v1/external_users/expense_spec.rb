@@ -61,7 +61,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
       context 'when expense params are valid' do
         it 'creates expense, return 201 and expense JSON output including UUID' do
           post_to_create_endpoint
-          expect(last_response.status).to eq 201
+          expect(last_response).to have_http_status :created
           json = JSON.parse(last_response.body)
           expect(json['id']).not_to be_nil
           expect(Expense.find_by(uuid: json['id']).uuid).to eq(json['id'])
@@ -91,7 +91,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
           params[:expense_type_unique_code] = unique_code
 
           post_to_create_endpoint
-          expect(last_response.status).to eq 201
+          expect(last_response).to have_http_status :created
 
           new_expense = Expense.last
           expect(new_expense.claim_id).to eq claim.id
@@ -115,7 +115,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
             it "gives the correct error message when #{field} is blank" do
               params.delete(field)
               post_to_create_endpoint
-              expect(last_response.status).to eq 400
+              expect(last_response).to have_http_status :bad_request
               expect(parsed_body).to include({ 'error' => expected_message })
             end
           end
@@ -127,7 +127,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
             expect(params.keys).to include(:expense_type_id, :expense_type_unique_code)
 
             post_to_create_endpoint
-            expect(last_response.status).to eq 400
+            expect(last_response).to have_http_status :bad_request
             expect(last_response.body).to include('expense_type_id, expense_type_unique_code are mutually exclusive')
           end
         end
@@ -136,7 +136,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
           it 'returns 400 and JSON error array of error message' do
             allow_any_instance_of(Expense).to receive(:save!).and_raise(RangeError, 'out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer')
             post_to_create_endpoint
-            expect(last_response.status).to eq(400)
+            expect(last_response).to have_http_status(:bad_request)
             json = JSON.parse(last_response.body)
             expect(json[0]['error']).to include('out of range for ActiveRecord::ConnectionAdapters::PostgreSQL::OID::Integer')
           end
@@ -146,7 +146,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
           it 'returns 400 and a JSON error array' do
             params[:claim_id] = SecureRandom.uuid
             post_to_create_endpoint
-            expect(last_response.status).to eq 400
+            expect(last_response).to have_http_status :bad_request
             expect(last_response.body).to eq '[{"error":"Claim cannot be blank"}]'
           end
         end
@@ -155,7 +155,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
           it 'rejects invalid uuids' do
             params[:claim_id] = 'any-old-rubbish'
             post_to_create_endpoint
-            expect(last_response.status).to eq(400)
+            expect(last_response).to have_http_status(:bad_request)
             expect(last_response.body).to eq '[{"error":"Claim cannot be blank"}]'
           end
         end
@@ -166,7 +166,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
             params[:expense_type_unique_code] = 'XXXXX'
 
             post_to_create_endpoint
-            expect(last_response.status).to eq 400
+            expect(last_response).to have_http_status :bad_request
             expect(last_response.body).to eq "[{\"error\":\"Couldn't find ExpenseType\"}]"
           end
         end
@@ -178,7 +178,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
 
       it 'valid requests should return 200 and String true' do
         post_to_validate_endpoint
-        expect(last_response.status).to eq 200
+        expect(last_response).to have_http_status :ok
         json = JSON.parse(last_response.body)
         expect(json).to eq({ 'valid' => true })
       end
@@ -194,7 +194,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
           it "gives the correct error message when #{field} is blank" do
             params.delete(field)
             post_to_validate_endpoint
-            expect(last_response.status).to eq 400
+            expect(last_response).to have_http_status :bad_request
             expect(parsed_body).to include({ 'error' => expected_message })
           end
         end
@@ -203,7 +203,7 @@ RSpec.describe API::V1::ExternalUsers::Expense do
       it 'invalid claim id should return 400 and a JSON error array' do
         params[:claim_id] = SecureRandom.uuid
         post_to_validate_endpoint
-        expect(last_response.status).to eq 400
+        expect(last_response).to have_http_status :bad_request
         expect(last_response.body).to eq '[{"error":"Claim cannot be blank"}]'
       end
     end

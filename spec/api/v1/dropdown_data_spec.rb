@@ -94,7 +94,7 @@ RSpec.describe API::V1::DropdownData do
       results.each_key do |endpoint|
         params.delete(:api_key)
         get endpoint, params, format: :json
-        expect(last_response.status).to eq 401
+        expect(last_response).to have_http_status :unauthorized
         expect(last_response.body).to include('Unauthorised')
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe API::V1::DropdownData do
 
       results.each_key do |endpoint|
         get endpoint, params, format: :json
-        expect(last_response.status).to eq 406
+        expect(last_response).to have_http_status :not_acceptable
         expect(last_response.body).to include('The requested version is not supported.')
       end
     end
@@ -319,7 +319,7 @@ RSpec.describe API::V1::DropdownData do
       context "with category filter: #{cat}" do
         before { get FEE_TYPE_ENDPOINT, params.merge(category: cat), format: :json }
 
-        it { expect(last_response.status).to eq 200 }
+        it { expect(last_response).to have_http_status :ok }
       end
     end
 
@@ -627,7 +627,7 @@ RSpec.describe API::V1::DropdownData do
 
       it 'returns a JSON formatted list of the required information' do
         get EXPENSE_TYPE_ENDPOINT, params, format: :json
-        expect(last_response.status).to eq 200
+        expect(last_response).to have_http_status :ok
       end
 
       context 'with role filter' do
@@ -659,7 +659,7 @@ RSpec.describe API::V1::DropdownData do
       let(:params) { {} }
 
       it 'requires an API key' do
-        expect(last_response.status).to eq 401
+        expect(last_response).to have_http_status :unauthorized
         expect(last_response.body).to include('Unauthorised')
       end
     end

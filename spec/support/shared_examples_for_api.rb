@@ -41,7 +41,7 @@ RSpec.shared_examples 'should NOT be able to amend a non-draft claim' do
       post_to_create_endpoint
     end
 
-    it { expect(last_response.status).to eq 400 }
+    it { expect(last_response).to have_http_status :bad_request }
     it { expect_error_response('You cannot edit a claim that is not in draft state') }
   end
 end
@@ -74,56 +74,56 @@ RSpec.shared_examples 'case_number validation' do
     context 'when URN is too long' do
       let(:case_number) { 'ABCDEFGHIJABCDEFGHIJA' }
 
-      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response).to have_http_status(:bad_request) }
       it { expect(last_response.body).to include(case_number_error) }
     end
 
     context 'when URN contains a special character' do
       let(:case_number) { 'ABCDEFGHIJABCDEFGHI_' }
 
-      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response).to have_http_status(:bad_request) }
       it { expect(last_response.body).to include(case_number_error) }
     end
 
     context 'when the case number does not start with a BAST or U' do
       let(:case_number) { 'G20209876' }
 
-      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response).to have_http_status(:bad_request) }
       it { expect(last_response.body).to include(case_number_format_error) }
     end
 
     context 'when the case number is too long' do
       let(:case_number) { 'T202098761' }
 
-      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response).to have_http_status(:bad_request) }
       it { expect(last_response.body).to include(case_number_format_error) }
     end
 
     context 'when the case number is too short' do
       let(:case_number) { 'T2020987' }
 
-      it { expect(last_response.status).to eq(400) }
+      it { expect(last_response).to have_http_status(:bad_request) }
       it { expect(last_response.body).to include(case_number_format_error) }
     end
 
     context 'when case_number is a valid common platform URN' do
       let(:case_number) { 'ABCDEFGHIJ1234567890' }
 
-      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response).to have_http_status(:ok) }
       it { expect(last_response.body).to include('valid') }
     end
 
     context 'when case_number is a valid URN containing a year' do
       let(:case_number) { '120207575' }
 
-      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response).to have_http_status(:ok) }
       it { expect(last_response.body).to include('valid') }
     end
 
     context 'when case_number is a valid case number' do
       let(:case_number) { 'T20202601' }
 
-      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response).to have_http_status(:ok) }
       it { expect(last_response.body).to include('valid') }
     end
   end
@@ -137,7 +137,7 @@ RSpec.shared_examples 'optional parameter validation' do |options|
   it 'returns 200 when parameters that are optional are empty' do
     valid_params.except!(*options[:optional_parameters])
     post_to_validate_endpoint
-    expect(last_response.status).to eq(200)
+    expect(last_response).to have_http_status(:ok)
   end
 end
 
@@ -193,7 +193,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
     context 'when request is valid' do
       before { post_to_validate_endpoint }
 
-      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response).to have_http_status(:ok) }
       it { expect(JSON.parse(last_response.body)['valid']).to be_truthy }
     end
 
@@ -221,7 +221,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
         post_to_validate_endpoint
       end
 
-      it { expect(last_response.status).to eq(200) }
+      it { expect(last_response).to have_http_status(:ok) }
       it { expect(JSON.parse(last_response.body)['valid']).to be_truthy }
     end
 
@@ -258,7 +258,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
 
       it 'returns response status 201' do
         post_to_create_endpoint
-        expect(last_response.status).to eq(201)
+        expect(last_response).to have_http_status(:created)
       end
 
       it 'returns the UUID of created claim' do
@@ -366,7 +366,7 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
 
         it 'returns a 400 error' do
           post_to_create_endpoint
-          expect(last_response.status).to eq(400)
+          expect(last_response).to have_http_status(:bad_request)
         end
 
         it 'does not create a new claim' do
@@ -381,7 +381,7 @@ RSpec.shared_examples 'fee validate endpoint' do
   context 'when the request is valid' do
     before { post_to_validate_endpoint }
 
-    it { expect(last_response.status).to eq 200 }
+    it { expect(last_response).to have_http_status :ok }
     it { expect(JSON.parse(last_response.body)['valid']).to be_truthy }
   end
 
@@ -391,7 +391,7 @@ RSpec.shared_examples 'fee validate endpoint' do
       post_to_validate_endpoint
     end
 
-    it { expect(last_response.status).to eq 400 }
+    it { expect(last_response).to have_http_status :bad_request }
     it { expect(last_response.body).to eq(json_error_response) }
   end
 
@@ -401,7 +401,7 @@ RSpec.shared_examples 'fee validate endpoint' do
       post_to_validate_endpoint
     end
 
-    it { expect(last_response.status).to eq 400 }
+    it { expect(last_response).to have_http_status :bad_request }
     it { expect(last_response.body).to eq '[{"error":"Claim cannot be blank"}]' }
   end
 end

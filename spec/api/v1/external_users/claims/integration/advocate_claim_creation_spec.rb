@@ -54,39 +54,39 @@ RSpec.shared_examples 'final fee claims' do
 
     specify 'Case management system creates a valid scheme 9 graduated fee claim' do
       post advocates_final_url, claim_params.merge(offence_id: offence.id), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
 
       post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       defendant = Defendant.find_by(uuid: last_response_uuid)
 
       post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: basic_fee.id), format: :json
-      expect(last_response.status).to eq 200
+      expect(last_response).to have_http_status :ok
 
       post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: daily_attendance_fee_id), format: :json
-      expect(last_response.status).to eq 200
+      expect(last_response).to have_http_status :ok
 
       fee = Fee::BaseFee.find_by(uuid: last_response_uuid)
 
       post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date.as_json), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       miscellaneous_fee_ids.each do |fee_id|
         post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: fee_id), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
       end
 
       post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       expect(claim).to be_valid_api_agfs_claim(fee_scheme:, offence:, total: claim_total)
       expect(claim.basic_fees.where(amount: 1..Float::INFINITY).size).to eq 2
@@ -102,39 +102,39 @@ RSpec.shared_examples 'final fee claims' do
 
     specify 'Case management system creates a valid fixed fee claim' do
       post advocates_final_url, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
 
       post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       defendant = Defendant.find_by(uuid: last_response_uuid)
 
       post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: fixed_fee.id), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: fixed_uplift.id), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       fee = Fee::BaseFee.find_by(uuid: last_response_uuid)
 
       post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date.as_json), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       miscellaneous_fee_ids.each do |fee_id|
         post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: fee_id), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
       end
 
       post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
-      expect(last_response.status).to eq 201
+      expect(last_response).to have_http_status :created
 
       expect(claim).to be_valid_api_agfs_claim(fee_scheme:, offence: nil, total: claim_total)
       expect(claim).to be_instance_of Claim::AdvocateClaim
@@ -292,26 +292,26 @@ RSpec.describe 'API claim creation for AGFS' do
 
       specify 'Case management system creates a valid scheme 10 interim/warrant fee claim' do
         post ClaimApiEndpoints.for('advocates/interim').create, claim_params.merge(offence_id: offence.id).except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
 
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: Fee::BaseFeeType.find_by(unique_code: 'WARR').id, warrant_issued_date: representation_order_date.as_json, rate: nil, amount: 210.0), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         expect(claim).to be_valid_api_agfs_claim(fee_scheme: ['AGFS', 10], offence:, total: 1210.2)
         expect(claim).to be_instance_of Claim::AdvocateInterimClaim
@@ -328,34 +328,34 @@ RSpec.describe 'API claim creation for AGFS' do
 
       specify 'Case management system creates a valid scheme 10 supplementary fee claim' do
         post ClaimApiEndpoints.for('advocates/supplementary').create, claim_params.except(:first_day_of_trial, :estimated_trial_length, :actual_trial_length, :trial_concluded_at), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
 
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: miscellaneous_fee.id), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         fee = Fee::BaseFee.find_by(uuid: last_response_uuid)
 
         post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date.as_json), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: miscellaneous_uplift.id), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         expect(claim).to be_valid_api_agfs_claim(fee_scheme: ['AGFS', 10], offence: nil, total: 1420.2)
         expect(claim).to be_instance_of Claim::AdvocateSupplementaryClaim
@@ -374,34 +374,34 @@ RSpec.describe 'API claim creation for AGFS' do
 
       specify 'Case management system creates a valid hardship claim' do
         post ClaimApiEndpoints.for('advocates/hardship').create, claim_params.merge(offence_id: offence.id, case_stage_unique_code: case_stage.unique_code), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         claim = Claim::BaseClaim.find_by(uuid: last_response_uuid)
 
         post endpoint(:defendants), defendant_params.merge(claim_id: claim.uuid), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         defendant = Defendant.find_by(uuid: last_response_uuid)
 
         post endpoint(:representation_orders), representation_order_params.merge(defendant_id: defendant.uuid), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: basic_fee.id), format: :json
-        expect(last_response.status).to eq 200
+        expect(last_response).to have_http_status :ok
 
         fee = Fee::BaseFee.find_by(uuid: last_response_uuid)
 
         post endpoint(:dates_attended), date_attended_params.merge(attended_item_id: fee.uuid, date: representation_order_date.as_json), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:fees), base_fee_params.merge(claim_id: claim.uuid, fee_type_id: miscellaneous_uplift.id), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_car.id, distance: 500.38, mileage_rate_id: 1), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         post endpoint(:expenses), expense_params.merge(claim_id: claim.uuid, expense_type_id: expense_hotel.id), format: :json
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
 
         expect(claim).to be_valid_api_agfs_claim(fee_scheme: ['AGFS', 10], offence:, total: 1420.2)
         expect(claim).to be_instance_of Claim::AdvocateHardshipClaim

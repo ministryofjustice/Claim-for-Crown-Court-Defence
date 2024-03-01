@@ -65,7 +65,7 @@ RSpec.describe API::V2::Search do
       header 'Accept-Version', 'v1'
 
       do_request
-      expect(last_response.status).to eq 406
+      expect(last_response).to have_http_status :not_acceptable
       expect(last_response.body).to include('The requested version is not supported.')
     end
 
@@ -73,7 +73,7 @@ RSpec.describe API::V2::Search do
       params.delete(:api_key)
 
       do_request
-      expect(last_response.status).to eq 401
+      expect(last_response).to have_http_status :unauthorized
       expect(last_response.body).to include('Unauthorised')
     end
 

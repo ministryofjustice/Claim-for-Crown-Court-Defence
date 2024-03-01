@@ -38,7 +38,7 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
     context 'when date_attended params are valid' do
       it 'creates date_attended, return 201 and date_attended JSON output including UUID' do
         post_to_create_endpoint
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
         expect(DateAttended.find_by(uuid: json['id']).uuid).to eq(json['id'])

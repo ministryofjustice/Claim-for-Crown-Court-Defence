@@ -59,7 +59,7 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
           let(:params) { invalid_params }
 
           it 'returns an error' do
-            expect(last_response.status).to eq 400
+            expect(last_response).to have_http_status :bad_request
           end
 
           it 'returns a specific error message' do
@@ -71,7 +71,7 @@ RSpec.describe API::V2::MI::AdditionalInformationExpenses do
           let(:params) { missing_params }
 
           it 'returns an error' do
-            expect(last_response.status).to eq 200
+            expect(last_response).to have_http_status :ok
           end
 
           it 'returns an empty array' do

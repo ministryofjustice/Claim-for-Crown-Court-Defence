@@ -11,7 +11,7 @@ RSpec.shared_examples 'API claim endpoint' do |endpoint|
       post endpoint, session: { format: :json }
     end
 
-    it { expect(last_response.status).to eq 406 }
+    it { expect(last_response).to have_http_status :not_acceptable }
     it { expect(last_response.body).to include('The requested version is not supported.') }
   end
 end

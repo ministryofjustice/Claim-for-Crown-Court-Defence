@@ -43,7 +43,7 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
 
     context 'with claim_ids as comma-separated string' do
       it 'returns http status 201' do
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
       end
 
       it 'returns a JSON with the required information' do
@@ -67,7 +67,7 @@ RSpec.describe API::V2::CaseWorkers::Allocate do
       let(:api_key) { external_user.user.api_key }
 
       it 'returns unauthorised' do
-        expect(last_response.status).to eq 401
+        expect(last_response).to have_http_status :unauthorized
         expect(last_response.body).to include('Unauthorised')
       end
     end

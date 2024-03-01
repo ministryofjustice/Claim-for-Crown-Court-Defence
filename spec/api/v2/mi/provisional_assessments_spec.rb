@@ -38,7 +38,7 @@ RSpec.describe API::V2::MI::ProvisionalAssessments do
           let(:params) { missing_params }
 
           it 'returns an error' do
-            expect(last_response.status).to eq 400
+            expect(last_response).to have_http_status :bad_request
           end
 
           it 'returns a specific error message' do

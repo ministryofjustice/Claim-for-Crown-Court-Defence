@@ -44,7 +44,7 @@ RSpec.describe API::V1::ExternalUsers::RepresentationOrder do
     context 'when representation_order params are valid' do
       it 'creates fee, return 201 and expense JSON output including UUID' do
         post_to_create_endpoint
-        expect(last_response.status).to eq 201
+        expect(last_response).to have_http_status :created
         json = JSON.parse(last_response.body)
         expect(json['id']).not_to be_nil
         expect(RepresentationOrder.find_by(uuid: json['id']).uuid).to eq(json['id'])

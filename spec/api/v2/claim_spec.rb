@@ -45,20 +45,20 @@ RSpec.describe API::V2::Claim do
       header 'Accept-Version', 'v1'
 
       do_request
-      expect(last_response.status).to eq 406
+      expect(last_response).to have_http_status :not_acceptable
       expect(last_response.body).to include('The requested version is not supported.')
     end
 
     it 'requires an API key' do
       do_request(api_key: nil)
-      expect(last_response.status).to eq 401
+      expect(last_response).to have_http_status :unauthorized
       expect(last_response.body).to include('Unauthorised')
     end
 
     context 'claim not found' do
       it 'responds not found when claim is not found' do
         do_request(claim_uuid: '123-456-789')
-        expect(last_response.status).to eq 404
+        expect(last_response).to have_http_status :not_found
         expect(last_response.body).to include('Claim not found')
       end
     end
@@ -67,7 +67,7 @@ RSpec.describe API::V2::Claim do
       before { do_request(api_key: @claim.external_user.user.api_key) }
 
       it 'returns unauthorised' do
-        expect(last_response.status).to eq 401
+        expect(last_response).to have_http_status :unauthorized
         expect(last_response.body).to include('Unauthorised')
       end
     end

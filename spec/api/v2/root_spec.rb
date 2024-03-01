@@ -29,7 +29,7 @@ describe API::V2::Root do
 
       V2_ENDPOINTS.each do |endpoint|
         post endpoint, {}, format: :json
-        expect(last_response.status).to eq 406
+        expect(last_response).to have_http_status :not_acceptable
         expect(last_response.body).to include('The requested version is not supported.')
       end
     end

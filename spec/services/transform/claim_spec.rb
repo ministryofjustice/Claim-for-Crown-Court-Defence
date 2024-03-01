@@ -6,7 +6,7 @@ RSpec.describe Transform::Claim do
   describe 'call' do
     subject(:call) { described_class.call(claim) }
 
-    specify { is_expected.to be_a Hash }
+    it { is_expected.to be_a Hash }
 
     it 'has the required amount of key/value pairs' do
       expect(call.count).to eq 55

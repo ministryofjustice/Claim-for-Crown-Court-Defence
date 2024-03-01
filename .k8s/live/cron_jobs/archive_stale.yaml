@@ -28,6 +28,8 @@ spec:
                 - ALL
               runAsNonRoot: true
               allowPrivilegeEscalation: false
+              seccompProfile:
+                type: RuntimeDefault
             command:
               - rails
               - claims:archive_stale

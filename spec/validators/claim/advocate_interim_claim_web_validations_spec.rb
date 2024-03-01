@@ -34,7 +34,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     context 'with valid attributes' do
       let(:attributes) { valid_attributes }
 
-      specify { is_expected.to be_valid }
+      it { is_expected.to be_valid }
     end
 
     context 'but external user is not set' do
@@ -120,7 +120,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       context 'with valid attributes' do
         let(:attributes) { valid_attributes }
 
-        specify { is_expected.to be_valid }
+        it { is_expected.to be_valid }
       end
 
       context 'but the transfer court is not supplied' do
@@ -144,7 +144,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
       context 'but the transfer case number is not supplied' do
         let(:attributes) { valid_attributes.except(:transfer_case_number) }
 
-        specify { is_expected.to be_valid }
+        it { is_expected.to be_valid }
       end
 
       context 'but the transfer case number is invalid' do
@@ -241,7 +241,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     context 'with valid attributes' do
       let(:attributes) { valid_attributes }
 
-      specify { is_expected.to be_valid }
+      it { is_expected.to be_valid }
     end
 
     context 'when no defendants are set' do
@@ -481,7 +481,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     context 'with valid attributes' do
       let(:attributes) { valid_attributes }
 
-      specify { is_expected.to be_valid }
+      it { is_expected.to be_valid }
     end
 
     context 'when offence id is not set' do
@@ -575,7 +575,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     context 'with valid attributes' do
       let(:attributes) { valid_attributes }
 
-      specify { is_expected.to be_valid }
+      it { is_expected.to be_valid }
     end
 
     context 'when an advocate category is not set' do
@@ -812,7 +812,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     context 'with valid attributes' do
       let(:attributes) { valid_attributes }
 
-      specify { is_expected.to be_valid }
+      it { is_expected.to be_valid }
     end
 
     context 'when one of the expenses requires an expense type but its not given' do
@@ -1015,7 +1015,7 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     context 'with valid attributes' do
       let(:attributes) { valid_attributes }
 
-      specify { is_expected.to be_valid }
+      it { is_expected.to be_valid }
     end
 
     context 'when disk evidence flag is not set' do
@@ -1158,19 +1158,19 @@ RSpec.describe 'Advocate interim claim WEB validations' do
     context 'with valid attributes' do
       let(:attributes) { valid_attributes }
 
-      specify { is_expected.to be_valid }
+      it { is_expected.to be_valid }
     end
 
     context 'when no additional information is provided' do
       let(:attributes) { valid_attributes.except(:additional_information) }
 
-      specify { is_expected.to be_valid }
+      it { is_expected.to be_valid }
     end
 
     context 'when additional information is blank' do
       let(:attributes) { valid_attributes.merge(additional_information: '') }
 
-      specify { is_expected.to be_valid }
+      it { is_expected.to be_valid }
     end
   end
 end

@@ -150,7 +150,7 @@ RSpec.describe ExternalUser do
 
   describe 'ROLES' do
     it 'has "admin" and "advocate" and "litigator"' do
-      expect(ExternalUser::ROLES).to match_array(%w[admin advocate litigator])
+      expect(described_class::ROLES).to match_array(%w[admin advocate litigator])
     end
   end
 

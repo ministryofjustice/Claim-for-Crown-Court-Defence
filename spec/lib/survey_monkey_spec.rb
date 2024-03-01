@@ -24,7 +24,7 @@ RSpec.describe SurveyMonkey do
     context 'with an unknown page' do
       let(:page_name) { :unknown }
 
-      it { expect { page }.to raise_error(SurveyMonkey::UnregisteredPage) }
+      it { expect { page }.to raise_error(described_class::UnregisteredPage) }
     end
   end
 end

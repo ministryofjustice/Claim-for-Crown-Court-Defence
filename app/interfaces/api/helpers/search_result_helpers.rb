@@ -34,7 +34,7 @@ module API
             fee[0].to_i.between?(0, 49),
             fee[1].in?(['Discontinuance', 'Guilty plea']),
             fee[2].eql?('Fee::GraduatedFeeType')
-          ]&.all?
+          ].all?
         end&.any?
       end
 
@@ -43,7 +43,7 @@ module API
           [
             fee[0].to_i.between?(0, 49),
             fee[2].eql?('Fee::TransferFeeType')
-          ]&.all?
+          ].all?
         end&.any?
       end
 

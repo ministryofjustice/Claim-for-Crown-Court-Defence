@@ -36,7 +36,7 @@ RSpec.describe Stats::StatsReportGenerator, type: :service do
       before { allow(Settings).to receive(:notify_report_errors).and_return(false) }
 
       it 'raises an invalid report type error' do
-        expect { call }.to raise_error(Stats::StatsReportGenerator::InvalidReportType)
+        expect { call }.to raise_error(described_class::InvalidReportType)
       end
 
       it 'does not create a new report' do

@@ -1,9 +1,4 @@
 // Ported from v1 stylesheets
-.fx-duplicate-expense {
-  display: inline-block;
-  padding: $gutter-one-sixth $gutter-half;
-}
-
 .dz-error-message {
   color: $govuk-error-colour;
 }
@@ -42,7 +37,7 @@
   }
 }
 
-#claims-list > li {
+#claims-list>li {
   padding: 1rem;
   clear: both;
   overflow: hidden;
@@ -120,7 +115,7 @@ form {
     font-size: 1em;
   }
 
-  h2 + fieldset {
+  h2+fieldset {
     margin-top: 0;
     padding-top: 0;
   }
@@ -360,6 +355,7 @@ form {
     margin-top: $gutter-one-sixth;
   }
 }
+
 // Dropzone end
 
 .b {

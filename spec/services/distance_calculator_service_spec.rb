@@ -11,7 +11,7 @@ RSpec.describe DistanceCalculatorService, type: :service do
 
   before do
     create(:supplier_number, supplier_number:, postcode: supplier_postcode)
-    allow(DistanceCalculatorService::Directions)
+    allow(described_class::Directions)
       .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: 847))
   end
 
@@ -65,7 +65,7 @@ RSpec.describe DistanceCalculatorService, type: :service do
 
   context 'when the distance cannot be calculated' do
     before do
-      allow(DistanceCalculatorService::Directions)
+      allow(described_class::Directions)
         .to receive(:new).with(supplier_postcode, destination).and_return(OpenStruct.new(max_distance: nil))
     end
 

@@ -40,7 +40,7 @@ RSpec.describe ClaimStateTransitionReason do
       let(:state) { :another_state }
 
       it 'raises an exception' do
-        expect { reasons }.to raise_exception(ClaimStateTransitionReason::StateNotFoundError)
+        expect { reasons }.to raise_exception(described_class::StateNotFoundError)
       end
     end
   end
@@ -143,7 +143,7 @@ RSpec.describe ClaimStateTransitionReason do
 
     context 'with an unknown code' do
       it 'raises an exception' do
-        expect { reason }.to raise_exception(ClaimStateTransitionReason::ReasonNotFoundError)
+        expect { reason }.to raise_exception(described_class::ReasonNotFoundError)
       end
     end
 

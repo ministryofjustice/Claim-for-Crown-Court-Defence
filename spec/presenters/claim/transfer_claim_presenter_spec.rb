@@ -74,13 +74,13 @@ RSpec.describe Claim::TransferClaimPresenter, type: :presenter do
     context 'when acting is set to `Up to and including PCMH transfer`' do
       let(:detail) { build(:transfer_detail, litigator_type: 'new') }
 
-      specify { is_expected.to be true }
+      it { is_expected.to be true }
     end
 
     context 'when acting is set to `Transfer after trial and before sentence hearing`' do
       let(:detail) { build(:transfer_detail, litigator_type: 'new', transfer_stage_id: 40) }
 
-      specify { is_expected.to be false }
+      it { is_expected.to be false }
     end
   end
 

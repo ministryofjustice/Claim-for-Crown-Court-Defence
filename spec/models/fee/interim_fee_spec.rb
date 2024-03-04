@@ -109,7 +109,7 @@ RSpec.describe Fee::InterimFee do
       allow(fee).to receive(:validation_required?).and_return(false)
     end
 
-    specify { is_expected.to be_falsey }
+    it { is_expected.to be_falsey }
 
     context 'when the associated claim needs validation' do
       before do
@@ -121,7 +121,7 @@ RSpec.describe Fee::InterimFee do
           allow(fee).to receive(:validation_required?).and_return(true)
         end
 
-        specify { is_expected.to be_truthy }
+        it { is_expected.to be_truthy }
       end
 
       context 'and the fee does not require validation' do
@@ -129,7 +129,7 @@ RSpec.describe Fee::InterimFee do
           allow(fee).to receive(:validation_required?).and_return(false)
         end
 
-        specify { is_expected.to be_falsey }
+        it { is_expected.to be_falsey }
       end
     end
   end
@@ -145,14 +145,14 @@ RSpec.describe Fee::InterimFee do
       allow(claim).to receive(:step_in_steps_range?).with(step).and_return(false)
     end
 
-    specify { is_expected.to be_falsey }
+    it { is_expected.to be_falsey }
 
     context 'when the claim submission source is the API' do
       before do
         allow(claim).to receive(:from_api?).and_return(true)
       end
 
-      specify { is_expected.to be_truthy }
+      it { is_expected.to be_truthy }
     end
 
     context 'when the submission stage requires the fee to be validated' do
@@ -160,7 +160,7 @@ RSpec.describe Fee::InterimFee do
         allow(claim).to receive(:step_in_steps_range?).with(step).and_return(true)
       end
 
-      specify { is_expected.to be_truthy }
+      it { is_expected.to be_truthy }
     end
   end
 end

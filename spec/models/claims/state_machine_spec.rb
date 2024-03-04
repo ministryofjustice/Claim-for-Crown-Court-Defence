@@ -27,7 +27,7 @@ RSpec.describe Claims::StateMachine do
   end
 
   describe 'NON_VALIDATION_STATES' do
-    subject { Claims::StateMachine::NON_VALIDATION_STATES }
+    subject { described_class::NON_VALIDATION_STATES }
 
     let(:states) { Claim::BaseClaim.active.state_machine.states.map(&:name).sort }
 

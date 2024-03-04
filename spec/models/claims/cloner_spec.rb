@@ -28,7 +28,7 @@ end
 RSpec.describe Claims::Cloner do
   context 'ensure we are excluding fee associations' do
     let(:claim_types) { [Claim::AdvocateClaim, Claim::AdvocateInterimClaim, Claim::LitigatorClaim, Claim::InterimClaim, Claim::TransferClaim] }
-    let(:excluded_associations) { Claims::Cloner::EXCLUDED_FEE_ASSOCIATIONS }
+    let(:excluded_associations) { described_class::EXCLUDED_FEE_ASSOCIATIONS }
 
     it 'checks found fee associations against excluded associations' do
       found_associations = claim_types.inject([]) do |result, klass|

@@ -4,12 +4,13 @@
 //
 // application files
 //= link favicon.ico
-//= link govuk-mask-icon.svg
-//= link govuk-apple-touch-icon-180x180.png
-//= link govuk-apple-touch-icon-167x167.png
-//= link govuk-apple-touch-icon-152x152.png
-//= link govuk-apple-touch-icon.png
+//= link manifest.json
 //= link govuk-opengraph-image.png
+//= link favicon.svg
+//= link govuk-icon-180.png
+//= link govuk-icon-192.png
+//= link govuk-icon-512.png
+//= link govuk-icon-mask.svg
 //= link application.js
 //= link application.css
 //= link adp_swagger_application.js

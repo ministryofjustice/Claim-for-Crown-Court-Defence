@@ -5,7 +5,7 @@ end
 
 Then(/^the claim should be displayed with a status of (.*)$/) do |text|
   claim = @external_user_home_page.claim_for(@claim.case_number)
-  expect(claim.state.text).to eq(text.upcase)
+  expect(claim.state.text).to eq(text)
 end
 
 Then(/^it is displaying '(.*?)' in the messages column$/) do |text|

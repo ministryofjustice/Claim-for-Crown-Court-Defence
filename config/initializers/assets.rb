@@ -11,5 +11,6 @@
 # Rails.application.config.assets.precompile += %w( adp_swagger_application.js *.png)
 # Rails.application.config.assets.precompile += %w( application.test.js ) if Rails.env.test?
 # Rails.application.config.assets.precompile += %w( pdf.css )
-Rails.application.config.assets.paths << Rails.root.join('node_modules', 'govuk-frontend', 'govuk', 'assets', 'images')
+Rails.application.config.assets.paths << Rails.root.join('node_modules', 'govuk-frontend', 'dist', 'govuk', 'assets')
+Rails.application.config.assets.paths << Rails.root.join('node_modules', 'govuk-frontend', 'dist', 'govuk', 'assets', 'images')
 Rails.application.config.assets.paths << Rails.root.join('app', 'webpack', 'packs')

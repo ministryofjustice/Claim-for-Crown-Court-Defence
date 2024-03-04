@@ -7,15 +7,13 @@
     %meta{ charset: 'utf-8' }
     %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1, viewport-fit=cover' }
     %meta{ name: 'theme-color', content: 'blue' }
-    %meta{ 'http-equiv': 'X-UA-Compatible', content: 'IE=edge' }
     = csrf_meta_tags
 
-    = favicon_link_tag asset_path('favicon.ico')
-    %link{ rel: 'mask-icon', href: asset_path('govuk-mask-icon.svg'), color: 'blue' }
-    %link{ rel: 'apple-touch-icon', sizes: '180x180', href: asset_path('govuk-apple-touch-icon-180x180.png') }
-    %link{ rel: 'apple-touch-icon', sizes: '167x167', href: asset_path('govuk-apple-touch-icon-167x167.png') }
-    %link{ rel: 'apple-touch-icon', sizes: '152x152', href: asset_path('govuk-apple-touch-icon-152x152.png') }
-    %link{ rel: 'apple-touch-icon', href: asset_path('govuk-apple-touch-icon.png') }
+    = favicon_link_tag asset_path('favicon.ico'), sizes: '48x48'
+    = favicon_link_tag asset_path('favicon.svg'), sizes: 'any', type: 'image/svg+xml'
+    %link{ rel: 'manifest', href: asset_path('manifest.json') }
+    %link{ rel: 'mask-icon', href: asset_path('govuk-icon-mask.svg'), color: '#0b0c0c' }
+    %link{ rel: 'apple-touch-icon', href: asset_path('govuk-icon-180.png') }
     = stylesheet_link_tag 'application', media: 'all'
     = tag :meta, property: 'og:image', content: request.base_url + asset_path('govuk-opengraph-image.png')
 
@@ -25,7 +23,7 @@
         %script
           != ga_outlet
 
-  %body{ class: "govuk-template__body controller-#{controller.controller_name}" }
+  %body.govuk-frontend-supported{ class: "govuk-template__body controller-#{controller.controller_name}" }
     :javascript
       document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 

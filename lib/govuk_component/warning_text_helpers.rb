@@ -5,7 +5,7 @@ module GOVUKComponent
     def govuk_warning_text(body = nil, assistive_text = t('common.warning'), **tag_options, &)
       tag_options = prepend_classes('govuk-warning-text', tag_options)
 
-      text__assistive = tag.span(assistive_text, class: 'govuk-warning-text__assistive')
+      text__assistive = tag.span(assistive_text, class: 'govuk-visually-hidden')
       content = sanitize(body)
       tag.div(**tag_options) do
         concat tag.span('!', class: 'govuk-warning-text__icon', 'aria-hidden': true)

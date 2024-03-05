@@ -63,6 +63,7 @@ gem 'laa-fee-calculator-client', '~> 1.4'
 gem 'active_storage_validations'
 gem 'faraday', '~> 1.10'
 gem 'faraday_middleware', '~> 1.2'
+gem 'faraday_middleware-oauth2_refresh'
 gem 'puma'
 
 group :development, :test do

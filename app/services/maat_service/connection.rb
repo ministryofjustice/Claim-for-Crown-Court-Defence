@@ -11,23 +11,25 @@ class MaatService
     private
 
     def client
-      @client ||= Faraday.new(ENV['MAAT_API_DEV_URL'], request: { timeout: 2 }) do |conn|
+      @client ||= Faraday.new(ENV.fetch('MAAT_API_DEV_URL'), request: { timeout: 2 }) do |conn|
         conn.authorization :Bearer, oauth_token
       end
     end
 
     def oauth_token
-      response = Faraday.post(
-        ENV['OAUTH_URL'],
-        {
-          client_id: ENV['OAUTH_CLIENT_ID'],
-          client_secret: ENV['OAUTH_CLIENT_SECRET'],
-          scope: ENV['OAUTH_SCOPE'],
-          grant_type: 'client_credentials'
-        },
-        { content_type: 'application/x-www-form-urlencoded' }
-      )
+      response = Faraday.post(maat_credentials)
       JSON.parse(response.body)['access_token']
+    end
+
+    def maat_credentials
+      ENV.fetch('OAUTH_URL')
+      {
+        client_id: ENV.fetch('OAUTH_CLIENT_ID'),
+        client_secret: ENV.fetch('OAUTH_CLIENT_SECRET'),
+        scope: ENV.fetch('OAUTH_SCOPE'),
+        grant_type: 'client_credentials'
+      }
+      { content_type: 'application/x-www-form-urlencoded' }
     end
   end
 end

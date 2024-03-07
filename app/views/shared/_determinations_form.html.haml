@@ -53,3 +53,26 @@
           - else
             // ELSE
             = render partial: 'shared/determination_amounts', locals: { claim: claim, determination: claim.assessment }
+
+    // CASE WORKER ACTIONS
+    - if current_user_is_caseworker?
+      .js-cw-claim-rejection-reasons.hidden{ class: error_class(@error_presenter, :rejected_reason) }
+        %div
+          = validation_error_message(@error_presenter, :rejected_reason)
+        %a#rejected_reason
+        = f.govuk_check_boxes_fieldset :state_reason, legend: { text: t('.reason_for_rejection') } do
+          - ClaimStateTransitionReason.reject_reasons_for(@claim).each do |reason|
+            - if reason.code == 'other'
+              = f.govuk_check_box :state_reason,
+                reason.code,
+                label: { text: reason.description } do
+                %a#rejected_reason_other
+                = f.govuk_text_field :reject_reason_text,
+                  label: { text: t('.reason_text') },
+                  hint: { text: t('.reason_hint') }
+                %div
+                  = validation_error_message(@error_presenter, :rejected_reason_other)
+            - else
+              = f.govuk_check_box :state_reason,
+                reason.code,
+                label: { text: reason.description }

@@ -8,7 +8,7 @@
 
     = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
       .pound-wrapper
-        = f.text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control js-fees', size: 10, maxlength: 10
+        = f.govuk_text_field :fees, value: number_with_precision(f.object.fees, precision: 2), class: 'form-control js-fees', size: 10, maxlength: 10, label: { hidden: true }, form_group: {class: "govuk-!-margin-bottom-0"}, width: 'one-half'
       = validation_error_message(f.object, :fees)
 
 = govuk_table_row do
@@ -20,7 +20,7 @@
 
   = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
     .pound-wrapper
-      = f.text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control js-expenses', size: 10, maxlength: 10
+      = f.govuk_text_field :expenses, value: number_with_precision(f.object.expenses, precision: 2), class: 'form-control js-expenses', size: 10, maxlength: 10, label: { hidden: true }, form_group: {class: "govuk-!-margin-bottom-0"}, width: 'one-half'
     = validation_error_message(f.object, :expenses)
 
 - if claim.can_have_disbursements?
@@ -33,7 +33,7 @@
 
     = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
       .pound-wrapper
-        = f.text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control js-disbursements', size: 10, maxlength: 10
+        = f.govuk_text_field :disbursements, value: number_with_precision(f.object.disbursements, precision: 2), class: 'form-control js-disbursements', size: 10, maxlength: 10, label: { hidden: true }, form_group: {class: "govuk-!-margin-bottom-0"}, width: 'one-half'
       = validation_error_message(f.object, :disbursements)
 
 = govuk_table_row do

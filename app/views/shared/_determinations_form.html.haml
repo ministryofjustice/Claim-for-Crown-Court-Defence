@@ -76,3 +76,28 @@
               = f.govuk_check_box :state_reason,
                 reason.code,
                 label: { text: reason.description }
+
+      .js-cw-claim-refuse-reasons.hidden{ class: error_class(@error_presenter, :refused_reason) }
+        %div
+          = validation_error_message(@error_presenter, :refused_reason)
+        %a#refused_reason
+        = f.govuk_check_boxes_fieldset :state_reason, legend: { text: t('.reason_for_refusal') } do
+          - ClaimStateTransitionReason.refuse_reasons_for(@claim).each do |reason|
+            - if reason.code == 'other_refuse'
+              = f.govuk_check_box :state_reason,
+                reason.code,
+                label: { text: reason.description } do
+                %a#refused_reason_other
+                = f.govuk_text_field :refuse_reason_text,
+                  label: { text: t('.reason_text') },
+                  hint: { text: t('.reason_hint') }
+                %div
+                  = validation_error_message(@error_presenter, :refused_reason_other)
+            - else
+              = f.govuk_check_box :state_reason,
+                reason.code,
+                label: { text: reason.description }
+
+
+      %p
+        = govuk_button(t('.update'), id: 'button')

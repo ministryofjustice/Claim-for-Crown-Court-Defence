@@ -7,12 +7,9 @@
 
       - if current_user_is_caseworker?
         .js-cw-claim-action
-          = f.govuk_collection_radio_buttons :state,
-            claim.valid_transitions_for_detail_form,
-            :first,
-            :last,
-            inline: true,
-            legend: { text: t('.update_the_claim_status') }
+          = f.govuk_radio_buttons_fieldset(:state, legend: { text: t('.update_the_claim_status') }, inline: true) do
+            - claim.valid_transitions_for_detail_form.each do |key, label|
+              = f.govuk_radio_button :state, key, label: { text: label }, checked: params['claim'].present? && params['claim']['state']&.to_sym == key
           %div
             = validation_error_message(@error_presenter, :determinations)
 
@@ -65,6 +62,7 @@
             - if reason.code == 'other'
               = f.govuk_check_box :state_reason,
                 reason.code,
+                checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
                 label: { text: reason.description } do
                 %a#rejected_reason_other
                 = f.govuk_text_field :reject_reason_text,
@@ -75,6 +73,7 @@
             - else
               = f.govuk_check_box :state_reason,
                 reason.code,
+                checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
                 label: { text: reason.description }
 
       .js-cw-claim-refuse-reasons.hidden{ class: error_class(@error_presenter, :refused_reason) }
@@ -86,6 +85,7 @@
             - if reason.code == 'other_refuse'
               = f.govuk_check_box :state_reason,
                 reason.code,
+                checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
                 label: { text: reason.description } do
                 %a#refused_reason_other
                 = f.govuk_text_field :refuse_reason_text,
@@ -96,6 +96,7 @@
             - else
               = f.govuk_check_box :state_reason,
                 reason.code,
+                checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
                 label: { text: reason.description }
 
 

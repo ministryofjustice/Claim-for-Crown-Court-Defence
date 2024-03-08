@@ -68,7 +68,6 @@ group :development, :test do
   gem 'annotate'
   gem 'brakeman', :require => false
   gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'byebug'
   gem 'listen', '~> 3.9.0'
   gem 'meta_request'

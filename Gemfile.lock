@@ -128,8 +128,6 @@ GEM
       parser (>= 2.4)
       smart_properties
     bigdecimal (3.1.6)
-    binding_of_caller (1.0.0)
-      debug_inspector (>= 0.0.1)
     bootsnap (1.18.3)
       msgpack (~> 1.2)
     brakeman (6.1.2)
@@ -202,7 +200,6 @@ GEM
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
     date (3.3.4)
-    debug_inspector (1.2.0)
     deep_merge (1.2.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
@@ -685,7 +682,6 @@ DEPENDENCIES
   aws-sdk-sqs (~> 1)
   axe-core-cucumber (~> 4.8)
   better_errors
-  binding_of_caller
   bootsnap
   brakeman
   byebug

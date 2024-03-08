@@ -3,12 +3,13 @@
   "srcFiles": [
     "app/assets/builds/*.js"
   ],
-  "specDir": "spec/javascripts",
+  "specDir": "./",
   "specFiles": [
-    "**/*[sS]pec.?(m)js"
+    "app/webpack/javascripts/modules/**/*[sS]pec.?(m)js",
+    "spec/javascripts/**/*[sS]pec.?(m)js"
   ],
   "helpers": [
-    "helpers/**/*.?(m)js"
+    "spec/javascripts/helpers/**/*.?(m)js"
   ],
   "env": {
     "stopSpecOnExpectationFailure": false,

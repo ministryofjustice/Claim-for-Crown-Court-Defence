@@ -14,6 +14,7 @@ module ExternalUsers
 
     prepend_before_action :clean_multiparameter_dates, only: %i[create update]
     before_action :set_user_and_provider
+    before_action :set_presenters
     before_action :set_claims_context, only: %i[index archived outstanding authorised]
     before_action :set_financial_summary, only: %i[index outstanding authorised]
 
@@ -212,6 +213,9 @@ module ExternalUsers
       @provider = @external_user.provider
     end
 
+    def set_presenters
+      @defendant_presenter = ExternalUsers::DefendantPresenter
+    end
     def set_claims_context
       context = Claims::ContextMapper.new(@external_user, scheme:)
       @claims_context = context.available_claims

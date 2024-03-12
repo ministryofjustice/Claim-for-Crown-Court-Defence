@@ -216,6 +216,7 @@ module ExternalUsers
     def set_presenters
       @defendant_presenter = ExternalUsers::DefendantPresenter
     end
+
     def set_claims_context
       context = Claims::ContextMapper.new(@external_user, scheme:)
       @claims_context = context.available_claims

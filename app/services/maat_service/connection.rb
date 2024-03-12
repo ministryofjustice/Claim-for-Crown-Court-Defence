@@ -11,22 +11,21 @@ class MaatService
     private
 
     def client
-      @client ||= Faraday.new(ENV.fetch('MAAT_API_DEV_URL'), request: { timeout: 2 }) do |conn|
+      @client ||= Faraday.new(Settings.maat_api_url, request: { timeout: 2 }) do |conn|
         conn.headers['Authorization'] = "Bearer #{oauth_token}"
       end
     end
 
     def oauth_token
-      response = Faraday.post(ENV.fetch('OAUTH_URL'), request_params, request_headers)
+      response = Faraday.post(Settings.maat_api_oauth_url, request_params, request_headers)
       JSON.parse(response.body)['access_token']
     end
 
     def request_params
-
       {
-        client_id: ENV.fetch('OAUTH_CLIENT_ID'),
-        client_secret: ENV.fetch('OAUTH_CLIENT_SECRET'),
-        scope: ENV.fetch('OAUTH_SCOPE'),
+        client_id: Settings.maat_api_oauth_client_id,
+        client_secret: Settings.maat_api_oauth_client_secret,
+        scope: Settings.maat_api_oauth_scope,
         grant_type: 'client_credentials'
       }
     end

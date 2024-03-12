@@ -9,7 +9,8 @@
         .js-cw-claim-action
           = f.govuk_radio_buttons_fieldset(:state, legend: { text: t('.update_the_claim_status') }, inline: true) do
             - claim.valid_transitions_for_detail_form.each do |key, label|
-              = f.govuk_radio_button :state, key, label: { text: label }, checked: params['claim'].present? && params['claim']['state']&.to_sym == key
+              .multiple-choice
+                = f.govuk_radio_button :state, key, label: { text: label }, checked: params['claim'].present? && params['claim']['state']&.to_sym == key
           %div
             = validation_error_message(@error_presenter, :determinations)
 
@@ -59,22 +60,23 @@
         %a#rejected_reason
         = f.govuk_check_boxes_fieldset :state_reason, legend: { text: t('.reason_for_rejection') } do
           - ClaimStateTransitionReason.reject_reasons_for(@claim).each do |reason|
-            - if reason.code == 'other'
-              = f.govuk_check_box :state_reason,
-                reason.code,
-                checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
-                label: { text: reason.description } do
-                %a#rejected_reason_other
-                = f.govuk_text_field :reject_reason_text,
-                  label: { text: t('.reason_text') },
-                  hint: { text: t('.reason_hint') }
-                %div
-                  = validation_error_message(@error_presenter, :rejected_reason_other)
-            - else
-              = f.govuk_check_box :state_reason,
-                reason.code,
-                checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
-                label: { text: reason.description }
+            .multiple-choice
+              - if reason.code == 'other'
+                = f.govuk_check_box :state_reason,
+                  reason.code,
+                  checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
+                  label: { text: reason.description } do
+                  %a#rejected_reason_other
+                  = f.govuk_text_field :reject_reason_text,
+                    label: { text: t('.reason_text') },
+                    hint: { text: t('.reason_hint') }
+                  %div
+                    = validation_error_message(@error_presenter, :rejected_reason_other)
+              - else
+                = f.govuk_check_box :state_reason,
+                  reason.code,
+                  checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
+                  label: { text: reason.description }
 
       .js-cw-claim-refuse-reasons.hidden{ class: error_class(@error_presenter, :refused_reason) }
         %div
@@ -82,22 +84,23 @@
         %a#refused_reason
         = f.govuk_check_boxes_fieldset :state_reason, legend: { text: t('.reason_for_refusal') } do
           - ClaimStateTransitionReason.refuse_reasons_for(@claim).each do |reason|
-            - if reason.code == 'other_refuse'
-              = f.govuk_check_box :state_reason,
-                reason.code,
-                checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
-                label: { text: reason.description } do
-                %a#refused_reason_other
-                = f.govuk_text_field :refuse_reason_text,
-                  label: { text: t('.reason_text') },
-                  hint: { text: t('.reason_hint') }
-                %div
-                  = validation_error_message(@error_presenter, :refused_reason_other)
-            - else
-              = f.govuk_check_box :state_reason,
-                reason.code,
-                checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
-                label: { text: reason.description }
+            .multiple-choice
+              - if reason.code == 'other_refuse'
+                = f.govuk_check_box :state_reason,
+                  reason.code,
+                  checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
+                  label: { text: reason.description } do
+                  %a#refused_reason_other
+                  = f.govuk_text_field :refuse_reason_text,
+                    label: { text: t('.reason_text') },
+                    hint: { text: t('.reason_hint') }
+                  %div
+                    = validation_error_message(@error_presenter, :refused_reason_other)
+              - else
+                = f.govuk_check_box :state_reason,
+                  reason.code,
+                  checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
+                  label: { text: reason.description }
 
 
       %p

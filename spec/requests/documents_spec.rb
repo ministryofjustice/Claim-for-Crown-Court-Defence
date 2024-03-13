@@ -7,10 +7,10 @@ RSpec.shared_examples 'download evidence document' do
 
   before do
     allow(Document).to receive(:find).with(document.to_param).and_return(document)
-    allow(document.document.blob).to receive(:service_url) { |args|
+    allow(document.document.blob).to receive(:url) { |args|
       "#{test_url}?response-content-disposition=#{args[:disposition] || 'inline'}"
     }
-    allow(document.converted_preview_document.blob).to receive(:service_url) { |args|
+    allow(document.converted_preview_document.blob).to receive(:url) { |args|
       "#{test_url}?response-content-disposition=#{args[:disposition] || 'inline'}"
     }
   end

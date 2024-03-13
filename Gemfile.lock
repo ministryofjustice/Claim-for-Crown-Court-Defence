@@ -218,10 +218,10 @@ GEM
     diff-lcs (1.5.1)
     docile (1.4.0)
     domain_name (0.6.20240107)
-    dotenv (3.1.0)
-    dotenv-rails (3.1.0)
-      dotenv (= 3.1.0)
-      railties (>= 6.1)
+    dotenv (2.8.1)
+    dotenv-rails (2.8.1)
+      dotenv (= 2.8.1)
+      railties (>= 3.2)
     dry-core (1.0.1)
       concurrent-ruby (~> 1.0)
       zeitwerk (~> 2.6)
@@ -702,7 +702,7 @@ DEPENDENCIES
   cucumber-rails (~> 3.0.0)
   database_cleaner
   devise (~> 4.9.3)
-  dotenv-rails
+  dotenv-rails (~> 2.8)
   factory_bot_rails (~> 6.4.3)
   faker (~> 3.2.3)
   faraday (~> 2.0)

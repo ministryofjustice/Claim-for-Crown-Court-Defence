@@ -81,7 +81,7 @@ module Reports
 
     def date_range_clause
       return unless start_date && end_date
-      "ia.created_at BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'"
+      "ia.created_at BETWEEN '#{start_date.to_fs(:db)}' AND '#{end_date.to_fs(:db)}'"
     end
   end
 end

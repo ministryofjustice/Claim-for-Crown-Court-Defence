@@ -48,7 +48,7 @@ module Reports
         assessment_disbursements /NULLIF(disbursements_total, 0) as expenses_percent_authorised,
         amount_authorised/NULLIF(amount_claimed, 0) as disbursements_percent_authorised
         FROM mi_data
-        WHERE last_submitted_at BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'}
+        WHERE last_submitted_at BETWEEN '#{start_date.to_fs(:db)}' AND '#{end_date.to_fs(:db)}'}
     end
   end
 end

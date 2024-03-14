@@ -95,7 +95,9 @@ RSpec.describe 'Document management' do
       let(:document) { create(:document, external_user: document_owner) }
       let(:document_owner) { external_user }
 
-      it { expect { show_document }.to raise_error(ActiveRecord::RecordNotFound) }
+      before { show_document }
+
+      it { expect(response).to have_http_status(:not_found) }
     end
   end
 

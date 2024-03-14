@@ -1,22 +1,18 @@
-= form_for(claim, url: case_workers_claim_path(claim), as: :claim) do |f|
+= form_for(claim, url: case_workers_claim_path(claim), as: :claim, builder: GOVUKDesignSystemFormBuilder::FormBuilder) do |f|
   = hidden_field_tag :messages, 'true'
   .fx-assesment-hook
     #claim-status
       %h2#radio-control-heading.govuk-heading-l{ 'aria-describedby': 'radio-control-heading radio-control-legend' }
         = t('.assessment_summary')
 
-
       - if current_user_is_caseworker?
         .js-cw-claim-action
-          %fieldset.form-group.inline.spacer{ class: error_class(@error_presenter, :determinations), 'aria-describedby': 'radio-control-legend' }
-            %legend#radio-control-legend.bold-normal.form-label
-              = t('.update_the_claim_status')
-            = f.collection_radio_buttons(:state, claim.valid_transitions_for_detail_form, :first, :last) do |b|
+          = f.govuk_radio_buttons_fieldset(:state, legend: { text: t('.update_the_claim_status') }, inline: true) do
+            - claim.valid_transitions_for_detail_form.each do |key, label|
               .multiple-choice
-                = b.radio_button(checked: params[:claim].present? && b.value.eql?(params[:claim][:state]&.to_sym), 'aria-labelledby': "radio-control-legend #{b.text.to_css_class}")
-                = b.label(id: b.text.to_css_class) { b.text }
-            %div
-              = validation_error_message(@error_presenter, :determinations)
+                = f.govuk_radio_button :state, key, label: { text: label }, checked: params['claim'].present? && params['claim']['state']&.to_sym == key
+          %div
+            = validation_error_message(@error_presenter, :determinations)
 
       = govuk_table( id: 'determinations', class: 'js-cw-claim-assessment', data: { apply_vat: "#{claim.apply_vat}", vat_url: vat_path(format: :json), submitted_date: claim.vat_date(:db), scheme: claim.agfs? ? 'agfs' : 'lgfs' }) do
         = govuk_table_caption(class: 'govuk-visually-hidden') do
@@ -40,12 +36,12 @@
           // CASEWORKER
           - if current_user_is_caseworker? && @claim.enable_assessment_input?
             // ASSESSMENT INPUT
-            = f.fields_for :assessment do |af|
+            = f.fields_for :assessment, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |af|
               = render partial: 'case_workers/claims/determination_fields', locals: { f: af, claim: claim }
 
           - elsif current_user_is_caseworker? && @claim.enable_determination_input?
             // DETERMINATION INPUT
-            = f.fields_for :redeterminations, claim.redeterminations.build do |rf|
+            = f.fields_for :redeterminations, claim.redeterminations.build, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |rf|
               = render partial: 'case_workers/claims/determination_fields', locals: { f: rf, claim: claim }
 
           - elsif claim.redeterminations.any?
@@ -59,52 +55,53 @@
     // CASE WORKER ACTIONS
     - if current_user_is_caseworker?
       .js-cw-claim-rejection-reasons.hidden{ class: error_class(@error_presenter, :rejected_reason) }
-        %fieldset.form-group.nested-fields.indent-fieldset.spacer{ 'aria-describedby': 'checkbox-control-legend-1' }
-          %div
-            = validation_error_message(@error_presenter, :rejected_reason)
-          %a#rejected_reason
-          %legend#checkbox-control-legend-1.bold-normal.form-label
-            = t('.reason_for_rejection')
-          = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.reject_reasons_for(@claim), :code, :description) do |b|
+        %div
+          = validation_error_message(@error_presenter, :rejected_reason)
+        %a#rejected_reason
+        = f.govuk_check_boxes_fieldset :state_reason, legend: { text: t('.reason_for_rejection') } do
+          - ClaimStateTransitionReason.reject_reasons_for(@claim).each do |reason|
             .multiple-choice
-              = b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value), 'aria-labelledby': "checkbox-control-legend-1 #{b.text.to_css_class}")
-              = b.label { b.text }
-
-          .form-group.panel.nested-fields.fieldset.spacer.js-reject-reason-text.hidden{ class: error_class(@error_presenter, :rejected_reason_other) }
-            %div
-              %a#rejected_reason_other
-              = f.label :reject_reason_text, class: 'form-label' do
-                = t('.reason_text')
-                .form-hint.xsmall
-                  = t('.reason_hint')
-              = f.text_field :reject_reason_text, class: 'form-control'
-              %div
-                = validation_error_message(@error_presenter, :rejected_reason_other)
+              - if reason.code == 'other'
+                = f.govuk_check_box :state_reason,
+                  reason.code,
+                  checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
+                  label: { text: reason.description } do
+                  %a#rejected_reason_other
+                  = f.govuk_text_field :reject_reason_text,
+                    label: { text: t('.reason_text') },
+                    hint: { text: t('.reason_hint') }
+                  %div
+                    = validation_error_message(@error_presenter, :rejected_reason_other)
+              - else
+                = f.govuk_check_box :state_reason,
+                  reason.code,
+                  checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
+                  label: { text: reason.description }
 
       .js-cw-claim-refuse-reasons.hidden{ class: error_class(@error_presenter, :refused_reason) }
         %div
           = validation_error_message(@error_presenter, :refused_reason)
-
-        %fieldset.form-group.nested-fields.indent-fieldset.spacer{ 'aria-describedby': 'checkbox-control-legend-2' }
-          %legend#checkbox-control-legend-2.bold-normal.form-label
-            = t('.reason_for_refusal')
-
-          %a#refused_reason
-          = collection_check_boxes(nil, :state_reason, ClaimStateTransitionReason.refuse_reasons_for(@claim), :code, :description) do |b|
+        %a#refused_reason
+        = f.govuk_check_boxes_fieldset :state_reason, legend: { text: t('.reason_for_refusal') } do
+          - ClaimStateTransitionReason.refuse_reasons_for(@claim).each do |reason|
             .multiple-choice
-              = b.check_box(checked: params[:state_reason].present? && params[:state_reason].include?(b.value), 'aria-labelledby': "checkbox-control-legend-2 #{b.text.to_css_class}")
-              = b.label { b.text }
+              - if reason.code == 'other_refuse'
+                = f.govuk_check_box :state_reason,
+                  reason.code,
+                  checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
+                  label: { text: reason.description } do
+                  %a#refused_reason_other
+                  = f.govuk_text_field :refuse_reason_text,
+                    label: { text: t('.reason_text') },
+                    hint: { text: t('.reason_hint') }
+                  %div
+                    = validation_error_message(@error_presenter, :refused_reason_other)
+              - else
+                = f.govuk_check_box :state_reason,
+                  reason.code,
+                  checked: params[:claim].present? && params[:claim][:state_reason].include?(reason.code),
+                  label: { text: reason.description }
 
-          .form-group.panel.nested-fields.fieldset.spacer.js-refuse-reason-text.hidden{ class: error_class(@error_presenter, :refused_reason_other) }
-            %div
-              %a#refused_reason_other
-              = f.label :refuse_reason_text, class: 'form-label' do
-                = t('.reason_text')
-                .form-hint.xsmall
-                  = t('.reason_hint')
-              = f.text_field :refuse_reason_text, class: 'form-control'
-              %div
-                = validation_error_message(@error_presenter, :refused_reason_other)
 
       %p
         = govuk_button(t('.update'), id: 'button')

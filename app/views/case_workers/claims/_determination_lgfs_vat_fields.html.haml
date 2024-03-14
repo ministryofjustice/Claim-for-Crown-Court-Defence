@@ -7,7 +7,7 @@
 
   = govuk_table_td_numeric('data-label': t('shared.determinations_table.laa_heading')) do
     .pound-wrapper
-      = f.text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control js-lgfs-vat-determination', size: 10, maxlength: 8
+      = f.govuk_text_field :vat_amount, value: number_with_precision(f.object.vat_amount, precision: 2), class: 'form-control js-lgfs-vat-determination', size: 10, maxlength: 8, label: { hidden: true }, form_group: {class: "govuk-!-margin-bottom-0"}, width: 'one-half'
     = validation_error_message(f.object, :vat_amount)
 
 = govuk_table_row do

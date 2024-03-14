@@ -12,6 +12,8 @@ Dotenv::Railtie.load
 # Custom railties that are not gems can be required here
 require_relative '../lib/govuk_component'
 
+ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = 'true'
+
 module AdvocateDefencePayments
   class Application < Rails::Application
     config.load_defaults 6.1

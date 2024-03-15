@@ -27,7 +27,7 @@ module Reports
         c.travel_expense_additional_information
         FROM expenses e
         INNER JOIN claims c ON c.id = e.claim_id
-        WHERE c.original_submission_date BETWEEN '#{start_date.to_s(:db)}' AND '#{end_date.to_s(:db)}'
+        WHERE c.original_submission_date BETWEEN '#{start_date.to_fs(:db)}' AND '#{end_date.to_fs(:db)}'
         AND (calculated_distance IS NOT NULL
         AND LENGTH(c.travel_expense_additional_information)>0)
       SQL

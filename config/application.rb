@@ -12,6 +12,8 @@ Dotenv::Railtie.load
 # Custom railties that are not gems can be required here
 require_relative '../lib/govuk_component'
 
+ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = 'true'
+
 module AdvocateDefencePayments
   class Application < Rails::Application
     config.load_defaults 6.1
@@ -53,6 +55,8 @@ module AdvocateDefencePayments
     ]
     config.active_storage.queues.analysis = :active_storage_analysis
     config.active_storage.queues.purge = :active_storage_purge
+    config.active_storage.urls_expire_in = 5.minutes # default
+
 
     config.autoload_paths << config.root.join('lib')
     config.eager_load_paths << config.root.join('lib')

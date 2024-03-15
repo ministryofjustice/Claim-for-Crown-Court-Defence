@@ -42,7 +42,7 @@ RSpec.describe Message do
         'image/jpeg',
         'image/png',
         'image/tiff',
-        'image/bmp',
+        'image/x-bmp',
         'image/x-bitmap'
       ).rejecting('text/plain', 'text/html')
   end

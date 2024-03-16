@@ -133,7 +133,7 @@ GEM
       erubi (~> 1.4)
       parser (>= 2.4)
       smart_properties
-    bigdecimal (3.1.6)
+    bigdecimal (3.1.7)
     bootsnap (1.18.3)
       msgpack (~> 1.2)
     brakeman (6.1.2)
@@ -413,9 +413,9 @@ GEM
     net-ssh (7.2.1)
     netrc (0.11.0)
     nio4r (2.7.0)
-    nokogiri (1.16.2-arm64-darwin)
+    nokogiri (1.16.3-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.16.2-x86_64-linux)
+    nokogiri (1.16.3-x86_64-linux)
       racc (~> 1.4)
     notifications-ruby-client (5.4.0)
       jwt (>= 1.5, < 3)
@@ -577,14 +577,14 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    sentry-rails (5.17.0)
+    sentry-rails (5.17.1)
       railties (>= 5.0)
-      sentry-ruby (~> 5.17.0)
-    sentry-ruby (5.17.0)
+      sentry-ruby (~> 5.17.1)
+    sentry-ruby (5.17.1)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.17.0)
-      sentry-ruby (~> 5.17.0)
+    sentry-sidekiq (5.17.1)
+      sentry-ruby (~> 5.17.1)
       sidekiq (>= 3.0)
     shell-spinner (1.0.4)
       colorize
@@ -761,8 +761,8 @@ DEPENDENCIES
   rubocop-rspec (~> 2.27)
   ruby-progressbar
   rubyzip
-  sentry-rails (~> 5.17)
-  sentry-sidekiq (~> 5.17)
+  sentry-rails (~> 5.17, >= 5.17.1)
+  sentry-sidekiq (~> 5.17, >= 5.17.1)
   shell-spinner (~> 1.0, >= 1.0.4)
   shoulda-matchers (~> 6.1)
   sidekiq (~> 7.2)
@@ -784,4 +784,4 @@ RUBY VERSION
    ruby 3.2.2p53
 
 BUNDLED WITH
-   2.4.22
+   2.4.6

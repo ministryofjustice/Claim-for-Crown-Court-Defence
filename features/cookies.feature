@@ -1,3 +1,4 @@
+@no-seed
 Feature: Cookies
 
   Scenario: Accepting default cookies

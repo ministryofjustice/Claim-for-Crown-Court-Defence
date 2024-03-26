@@ -58,7 +58,7 @@
 
           .action-wrapper
             - if claim.rejected?
-              = button_to t('.redraft'), clone_rejected_external_users_claim_path(claim), method: 'patch', class: 'govuk-button resubmit-claim', form_class: 'inline-form', data: { module: 'govuk-button' }, role: 'button', draggable: 'false'
+              = button_to t('.redraft'), clone_rejected_external_users_claim_path(claim), method: :patch, form_class: 'inline-form', class: 'govuk-button resubmit-claim', data: { module: 'govuk-button' }, role: 'button', draggable: false
 
             = govuk_link_button(t('.archive'), external_users_claim_path(claim), 'data-method': 'delete', 'data-confirm': t('.confirm_text'))
 
@@ -68,4 +68,4 @@
               = t('.actions')
 
           .action-wrapper
-            = button_to t('.unarchive'), unarchive_external_users_claim_path(claim), method: 'patch', class: 'govuk-button', form_class: 'inline-form', data: { module: 'govuk-button' }, role: 'button', draggable: 'false'
+            = button_to t('.unarchive'), unarchive_external_users_claim_path(claim), method: :patch, form_class: 'inline-form', class: 'govuk-button', data: { module: 'govuk-button' }, role: 'button', draggable: false

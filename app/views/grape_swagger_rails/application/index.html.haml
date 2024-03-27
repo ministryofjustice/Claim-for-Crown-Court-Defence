@@ -64,7 +64,7 @@
     = govuk_skip_link_to(t('layouts.skip_content'), '#main-content')
 
     - unless @omit_header
-      %header.govuk-header.with-proposition{ role: 'banner', data: { module: 'govuk-header' } }
+      %header.govuk-header.with-proposition{ data: { module: 'govuk-header' } }
         .govuk-header__container.govuk-width-container
           .govuk-header__logo
             = render 'layouts/govuk_logo'
@@ -85,7 +85,7 @@
                     = govuk_header_link_to t('layouts.user.sign_out'), '/users/sign_out', method: :delete
 
     .govuk-width-container
-      %main#main-content.govuk-main-wrapper{ role: 'main' }
+      %main#main-content.govuk-main-wrapper
         #message-bar.swagger-ui-wrap
 
         #swagger-ui-container.swagger-ui-wrap
@@ -96,7 +96,7 @@
 
     -# = render partial: 'layouts/footer'
     -# renderd partial err: undefined local variable or method `contact_us_page_path'
-    %footer.govuk-footer{ role: 'contentinfo' }
+    %footer.govuk-footer
       .govuk-width-container
         .govuk-footer__meta
           .govuk-footer__meta-item.govuk-footer__meta-item--grow

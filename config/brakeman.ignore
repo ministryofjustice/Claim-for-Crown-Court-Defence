@@ -18,6 +18,9 @@
       },
       "user_input": null,
       "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
       "note": ""
     },
     {
@@ -27,7 +30,7 @@
       "check_name": "SendFile",
       "message": "Model attribute used in file name",
       "file": "app/controllers/case_workers/claims_controller.rb",
-      "line": 32,
+      "line": 33,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "send_file(S3ZipDownloader.new(Claim::BaseClaim.active.find(params[:id])).generate!, :filename => (\"#{Claim::BaseClaim.active.find(params[:id]).case_number}-documents.zip\"), :type => \"application/zip\", :disposition => \"attachment\")",
       "render_path": null,
@@ -38,7 +41,30 @@
       },
       "user_input": "Claim::BaseClaim.active.find(params[:id])",
       "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
       "note": "Caseworkers need to identify the downloads correspond to the cases they are processing"
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 110,
+      "fingerprint": "bab5d27e503d0a596ece61d08111b11217f5c37e54ce3f9c00cdb20a316c8d93",
+      "check_name": "CookieSerialization",
+      "message": "Use of unsafe cookie serialization strategy `:hybrid` might lead to remote code execution",
+      "file": "config/initializers/new_framework_defaults_7_0.rb",
+      "line": 123,
+      "link": "https://brakemanscanner.org/docs/warning_types/unsafe_deserialization",
+      "code": "Rails.application.config.action_dispatch.cookies_serializer = :hybrid",
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "Medium",
+      "cwe_id": [
+        565,
+        502
+      ],
+      "note": ""
     },
     {
       "warning_type": "Dangerous Send",
@@ -67,7 +93,7 @@
       "check_name": "Redirect",
       "message": "Possible unprotected redirect",
       "file": "app/controllers/case_workers/admin/management_information_controller.rb",
-      "line": 21,
+      "line": 25,
       "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
       "code": "redirect_to(Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.url(:disposition => \"attachment\"))",
       "render_path": null,
@@ -78,9 +104,12 @@
       },
       "user_input": "Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.url(:disposition => \"attachment\")",
       "confidence": "High",
+      "cwe_id": [
+        601
+      ],
       "note": "params[:report_type] is validated to be one of the acceptable values in a controller before_action"
     }
   ],
-  "updated": "2021-09-21 12:55:57 +0100",
-  "brakeman_version": "5.1.1"
+  "updated": "2024-03-27 09:32:52 +0000",
+  "brakeman_version": "6.1.2"
 }

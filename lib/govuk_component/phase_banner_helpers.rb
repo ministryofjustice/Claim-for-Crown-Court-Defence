@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GOVUKComponent
+module GovukComponent
   module PhaseBannerHelpers
     def govuk_phase_banner(phase = nil, body = nil, tag_options = {})
       tag_options = prepend_classes('govuk-phase-banner', tag_options)

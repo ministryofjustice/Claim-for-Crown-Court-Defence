@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GOVUKComponent
+module GovukComponent
   module ButtonHelpers
     GOVUK_BUTTON_START_SVG_OPTIONS = {
       class: 'govuk-button__start-icon',

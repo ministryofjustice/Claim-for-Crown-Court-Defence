@@ -10,7 +10,8 @@ module CaseWorkers
     respond_to :html
 
     # callback order is important (must set claims before filtering and sorting)
-    before_action :set_claims,              only: %i[index archived]
+    before_action :set_claims, only: %i[index archived]
+    before_action :set_presenters
     before_action :filter_current_claims,   only: [:index]
     before_action :filter_archived_claims,  only: [:archived]
     before_action :sort_claims,             only: %i[index archived]
@@ -82,6 +83,10 @@ module CaseWorkers
 
     def set_claims
       @claims = Claims::CaseWorkerClaims.new(current_user:, action: tab, criteria: criteria_params).claims
+    end
+
+    def set_presenters
+      @defendant_presenter = CaseWorkers::DefendantPresenter
     end
 
     # Only these 2 actions are handle in this controller. Rest of actions in the admin-namespaced controller.

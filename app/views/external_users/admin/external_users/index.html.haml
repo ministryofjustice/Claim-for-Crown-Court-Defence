@@ -10,7 +10,7 @@
 = render partial: 'shared/search_form', locals: { search_path: external_users_admin_external_users_path(anchor: 'search-button'), hint_text: t('hint.search_users'), button_text: t('search.users') }
 
 
-= govuk_table do
+= cccd_govuk_table do
   = govuk_table_caption(class: 'govuk-visually-hidden') do
     = t('.table_caption', provider_name: "#{current_user.provider.name}")
 

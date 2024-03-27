@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::WarningTextHelpers, type: :helper do
+RSpec.describe GovukComponent::WarningTextHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_warning_text' do

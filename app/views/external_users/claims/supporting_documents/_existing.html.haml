@@ -1,5 +1,5 @@
 - if @claim.documents.any?(&:persisted?)
-  = govuk_table(class: 'files') do
+  = cccd_govuk_table(class: 'files') do
     = govuk_table_caption do
       = t('.previously_uploaded_docs')
 

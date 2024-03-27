@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::TableHelpers, type: :helper do
+RSpec.describe GovukComponent::TableHelpers, type: :helper do
   include RSpecHtmlMatchers
 
-  describe '#govuk_table' do
-    subject(:markup) { helper.govuk_table(class: 'my-custom-class') { nil } }
+  describe '#cccd_govuk_table' do
+    subject(:markup) { helper.cccd_govuk_table(class: 'my-custom-class') { nil } }
 
     it 'adds a govuk table' do
       is_expected.to have_tag(:table, with: { class: 'govuk-table app-table--responsive my-custom-class' })

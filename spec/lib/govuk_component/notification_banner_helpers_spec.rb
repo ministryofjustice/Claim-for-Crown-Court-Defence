@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::NotificationBannerHelpers, type: :helper do
+RSpec.describe GovukComponent::NotificationBannerHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_notification_banner' do

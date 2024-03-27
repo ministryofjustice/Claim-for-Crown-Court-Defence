@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::InsetTextHelpers, type: :helper do
+RSpec.describe GovukComponent::InsetTextHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_inset_text' do

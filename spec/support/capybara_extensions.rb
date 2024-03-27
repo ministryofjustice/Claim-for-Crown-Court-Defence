@@ -4,7 +4,7 @@ require_relative 'capybara_extensions/govuk_component/matchers'
 
 module CapybaraExtensions
   def self.extension_methods
-    (CapybaraExtensions::GOVUKComponent::Matchers.instance_methods - Object.instance_methods).uniq
+    (CapybaraExtensions::GovukComponent::Matchers.instance_methods - Object.instance_methods).uniq
   end
 end
 
@@ -25,6 +25,6 @@ module Capybara
     end
   end
 
-  Node::Base.include CapybaraExtensions::GOVUKComponent::Matchers
-  Node::Simple.include CapybaraExtensions::GOVUKComponent::Matchers
+  Node::Base.include CapybaraExtensions::GovukComponent::Matchers
+  Node::Simple.include CapybaraExtensions::GovukComponent::Matchers
 end

@@ -2,9 +2,9 @@
 
 # Component Reference: https://design-system.service.gov.uk/components/table/
 
-module GOVUKComponent
+module GovukComponent
   module TableHelpers
-    def govuk_table(tag_options = {}, &)
+    def cccd_govuk_table(tag_options = {}, &)
       tag_options = prepend_classes('govuk-table app-table--responsive', tag_options)
 
       tag.table(capture(&), **tag_options)
@@ -67,7 +67,7 @@ module GOVUKComponent
     end
 
     def govuk_table_and_caption(caption = nil, tag_options = {}, &)
-      govuk_table do
+      cccd_govuk_table do
         concat(govuk_table_caption(tag_options) { caption })
         concat(capture(&))
       end

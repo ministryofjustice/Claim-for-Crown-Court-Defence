@@ -4,7 +4,7 @@
 
   = render partial: 'shared/summary_totals', locals: { claim: claim }
 
-  = govuk_table(id: 'determinations') do
+  = cccd_govuk_table(id: 'determinations') do
     = govuk_table_caption do
       %h2.govuk-heading-l
         = t('shared.determinations_form.assessment_summary')

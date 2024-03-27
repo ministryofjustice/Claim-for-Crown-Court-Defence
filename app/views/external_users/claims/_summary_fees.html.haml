@@ -17,7 +17,7 @@
 
 - if local_assigns.has_key?(:fee)
   - if fee
-    = govuk_table do
+    = cccd_govuk_table do
       = govuk_table_caption(class: 'govuk-visually-hidden') do
         = t('.caption')
       = govuk_table_tbody do
@@ -43,7 +43,7 @@
       %h3.govuk-heading-m
         = t('shared.summary.basic_fees')
 
-    = govuk_table do
+    = cccd_govuk_table do
       = govuk_table_caption(class: 'govuk-visually-hidden') do
         = t('.caption')
 

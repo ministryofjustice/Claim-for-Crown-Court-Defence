@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GOVUKComponent
+module GovukComponent
   module PanelHelpers
     def govuk_panel(title = nil, body = nil, tag_options = {})
       tag_options = prepend_classes('govuk-panel govuk-panel--confirmation', tag_options)

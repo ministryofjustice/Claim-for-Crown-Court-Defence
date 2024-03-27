@@ -15,7 +15,7 @@
     %h2.govuk-heading-m
       = t('shared.summary.cost_summary')
 
-    = govuk_table do
+    = cccd_govuk_table do
       = govuk_table_caption(class: 'govuk-visually-hidden') do
         = t('.caption')
 
@@ -63,7 +63,7 @@
     %h3.govuk-heading-m
       = t('shared.summary.expenses.travel_details')
 
-    = govuk_table do
+    = cccd_govuk_table do
       = govuk_table_caption(class: 'govuk-visually-hidden') do
         = t('.additional_information')
 

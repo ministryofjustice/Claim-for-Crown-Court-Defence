@@ -182,7 +182,7 @@ GEM
       mini_mime (~> 1.1)
       multi_test (~> 1.1)
       sys-uname (~> 1.2)
-    cucumber-ci-environment (9.2.0)
+    cucumber-ci-environment (10.0.1)
     cucumber-core (13.0.2)
       cucumber-gherkin (>= 27, < 28)
       cucumber-messages (>= 20, < 23)

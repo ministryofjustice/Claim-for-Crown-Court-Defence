@@ -1,0 +1,3 @@
+- defendants.each_with_index do | defendant, index |
+  .govuk-grid-column-one-half
+    = render partial: 'shared/claim_defendant_details_with_maat', locals: { defendant: present(defendant, CaseWorkers::DefendantPresenter), index: index += 1 }

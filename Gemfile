@@ -90,7 +90,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'axe-core-cucumber', '~> 4.8'
+  gem 'axe-core-cucumber', '~> 4.9'
   gem 'capybara-selenium'
   gem 'capybara', '~> 3.40'
   gem 'cucumber-rails', '~> 3.0.0', require: false

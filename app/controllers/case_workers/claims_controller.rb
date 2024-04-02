@@ -16,6 +16,7 @@ module CaseWorkers
     before_action :filter_archived_claims,  only: [:archived]
     before_action :sort_claims,             only: %i[index archived]
     before_action :set_claim, only: %i[show messages download_zip]
+    before_action :set_show_maat_details
 
     include ReadMessages
     include MessageControlsDisplay
@@ -130,6 +131,15 @@ module CaseWorkers
 
     def criteria_params
       { sorting: sort_column, direction: sort_direction, page: current_page, limit: page_size, search: search_terms }
+    end
+
+    def set_show_maat_details
+      if params[:maat_details].present?
+        @show_maat_details = params[:maat_details] == 'on'
+        current_user.save_setting!(maat_details: @show_maat_details)
+      else
+        @show_maat_details = current_user.setting?(:maat_details) || false
+      end
     end
   end
 end

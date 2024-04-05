@@ -2,6 +2,11 @@ require_relative 'boot'
 
 require 'rails/all'
 
+# grape-swagger-rails assumes that ostruct has already been required. This was
+# done by json prior to version 2.7.2.
+# TODO: Remove this if it is no longer required by grape-swagger-rails.
+require 'ostruct'
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)

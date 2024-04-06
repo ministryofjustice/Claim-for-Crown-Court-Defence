@@ -583,11 +583,11 @@ GEM
     sentry-rails (5.17.1)
       railties (>= 5.0)
       sentry-ruby (~> 5.17.1)
-    sentry-ruby (5.17.1)
+    sentry-ruby (5.17.2)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.17.1)
-      sentry-ruby (~> 5.17.1)
+    sentry-sidekiq (5.17.2)
+      sentry-ruby (~> 5.17.2)
       sidekiq (>= 3.0)
     shell-spinner (1.0.4)
       colorize
@@ -766,7 +766,7 @@ DEPENDENCIES
   ruby-progressbar
   rubyzip
   sentry-rails (~> 5.17)
-  sentry-sidekiq (~> 5.17)
+  sentry-sidekiq (~> 5.17, >= 5.17.2)
   shell-spinner (~> 1.0, >= 1.0.4)
   shoulda-matchers (~> 6.2)
   sidekiq (~> 7.2)
@@ -788,4 +788,4 @@ RUBY VERSION
    ruby 3.2.2p53
 
 BUNDLED WITH
-   2.4.22
+   2.4.6

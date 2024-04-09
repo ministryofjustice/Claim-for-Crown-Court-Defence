@@ -54,7 +54,7 @@
     "sass": "^1.74.1",
     "sass-loader": "^14.1.1",
     "stickyfilljs": "^2.1.0",
-    "style-loader": "^3.3.4",
+    "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.10",
     "url-loader": "^4.1.1",
     "webpack": "^5.91.0",

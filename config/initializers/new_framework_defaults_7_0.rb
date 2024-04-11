@@ -73,14 +73,14 @@ Rails.application.config.active_storage.variant_processor = :vips
 # Enable parameter wrapping for JSON.
 # Previously this was set in an initializer. It's fine to keep using that initializer if you've customized it.
 # To disable parameter wrapping entirely, set this config to `false`.
-# Rails.application.config.action_controller.wrap_parameters_by_default = true
+Rails.application.config.action_controller.wrap_parameters_by_default = true
 
 # Specifies whether generated namespaced UUIDs follow the RFC 4122 standard for namespace IDs provided as a
 # `String` to `Digest::UUID.uuid_v3` or `Digest::UUID.uuid_v5` method calls.
 #
 # See https://guides.rubyonrails.org/configuring.html#config-active-support-use-rfc4122-namespaced-uuids for
 # more information.
-# Rails.application.config.active_support.use_rfc4122_namespaced_uuids = true
+Rails.application.config.active_support.use_rfc4122_namespaced_uuids = true
 
 # Change the default headers to disable browsers' flawed legacy XSS protection.
 Rails.application.config.action_dispatch.default_headers = {
@@ -130,7 +130,7 @@ Rails.application.config.action_dispatch.cookies_serializer = :json
 # See https://guides.rubyonrails.org/action_controller_overview.html#cookies for more information.
 
 # Change the return value of `ActionDispatch::Request#content_type` to the Content-Type header without modification.
-# Rails.application.config.action_dispatch.return_only_request_media_type_on_content_type = false
+Rails.application.config.action_dispatch.return_only_request_media_type_on_content_type = false
 
 # Active Storage `has_many_attached` relationships will default to replacing the current collection instead of appending to it.
 # Thus, to support submitting an empty collection, the `file_field` helper will render an hidden field `include_hidden` by default when `multiple_file_field_include_hidden` is set to `true`.

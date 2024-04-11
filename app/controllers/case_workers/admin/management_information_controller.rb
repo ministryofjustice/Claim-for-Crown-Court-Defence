@@ -22,7 +22,7 @@ module CaseWorkers
         record = Stats::StatsReport.most_recent_by_type(params[:report_type])
 
         if record.document.attached?
-          redirect_to record.document.blob.url(disposition: 'attachment')
+          redirect_to record.document.blob.url(disposition: 'attachment'), allow_other_host: true
         else
           redirect_to case_workers_admin_management_information_url, alert: t('.missing_report')
         end

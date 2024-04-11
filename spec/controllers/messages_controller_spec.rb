@@ -81,7 +81,7 @@ RSpec.describe MessagesController do
 
       context 'when message has attachment' do
         let(:message) { create(:message) }
-        let(:test_url) { 'https://example/com/attachment.doc#123abc' }
+        let(:test_url) { 'https://document.storage/attachment.doc#123abc' }
 
         before do
           message.attachment.attach(io: StringIO.new, filename: 'attachment.doc')

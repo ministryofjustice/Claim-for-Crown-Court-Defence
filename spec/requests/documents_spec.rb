@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.shared_examples 'download evidence document' do
   let(:document) { create(:document, :with_preview, external_user: document_owner) }
   let(:document_owner) { external_user }
-  let(:test_url) { 'https://example.com/document.doc#123abc' }
+  let(:test_url) { 'https://document.storage/document.doc#123abc' }
 
   before do
     allow(Document).to receive(:find).with(document.to_param).and_return(document)

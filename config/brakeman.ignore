@@ -24,13 +24,36 @@
       "note": ""
     },
     {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "463781a59c65a58aad10746c6698db3f169b58a20435304888eff3fe9449b2ec",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/case_workers/admin/management_information_controller.rb",
+      "line": 25,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.url(:disposition => \"attachment\"), :allow_other_host => true)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CaseWorkers::Admin::ManagementInformationController",
+        "method": "download"
+      },
+      "user_input": "Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.url(:disposition => \"attachment\")",
+      "confidence": "Weak",
+      "cwe_id": [
+        601
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "File Access",
       "warning_code": 16,
       "fingerprint": "8738e8b7994af508882a105d873642c98a284c6139f8c6bcf53ae7e25bf14bfa",
       "check_name": "SendFile",
       "message": "Model attribute used in file name",
       "file": "app/controllers/case_workers/claims_controller.rb",
-      "line": 33,
+      "line": 34,
       "link": "https://brakemanscanner.org/docs/warning_types/file_access/",
       "code": "send_file(S3ZipDownloader.new(Claim::BaseClaim.active.find(params[:id])).generate!, :filename => (\"#{Claim::BaseClaim.active.find(params[:id]).case_number}-documents.zip\"), :type => \"application/zip\", :disposition => \"attachment\")",
       "render_path": null,
@@ -45,71 +68,8 @@
         22
       ],
       "note": "Caseworkers need to identify the downloads correspond to the cases they are processing"
-    },
-    {
-      "warning_type": "Remote Code Execution",
-      "warning_code": 110,
-      "fingerprint": "bab5d27e503d0a596ece61d08111b11217f5c37e54ce3f9c00cdb20a316c8d93",
-      "check_name": "CookieSerialization",
-      "message": "Use of unsafe cookie serialization strategy `:hybrid` might lead to remote code execution",
-      "file": "config/initializers/new_framework_defaults_7_0.rb",
-      "line": 123,
-      "link": "https://brakemanscanner.org/docs/warning_types/unsafe_deserialization",
-      "code": "Rails.application.config.action_dispatch.cookies_serializer = :hybrid",
-      "render_path": null,
-      "location": null,
-      "user_input": null,
-      "confidence": "Medium",
-      "cwe_id": [
-        565,
-        502
-      ],
-      "note": ""
-    },
-    {
-      "warning_type": "Dangerous Send",
-      "warning_code": 23,
-      "fingerprint": "bc8de62047e25c98883fb9cfdba7dabd67afb1e2057969ff8f552fae1b91dca5",
-      "check_name": "Send",
-      "message": "User controlled method execution",
-      "file": "app/interfaces/api/v2/case_workers/claim.rb",
-      "line": 81,
-      "link": "https://brakemanscanner.org/docs/warning_types/dangerous_send/",
-      "code": "send(\"#{params[:status]}_claims\")",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "API::V2::CaseWorkers::Claim",
-        "method": "claims_scope"
-      },
-      "user_input": "params[:status]",
-      "confidence": "High",
-      "note": ""
-    },
-    {
-      "warning_type": "Redirect",
-      "warning_code": 18,
-      "fingerprint": "f864ab7fd11658900179de410a865664137731863114daba2062981f29df068f",
-      "check_name": "Redirect",
-      "message": "Possible unprotected redirect",
-      "file": "app/controllers/case_workers/admin/management_information_controller.rb",
-      "line": 25,
-      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
-      "code": "redirect_to(Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.url(:disposition => \"attachment\"))",
-      "render_path": null,
-      "location": {
-        "type": "method",
-        "class": "CaseWorkers::Admin::ManagementInformationController",
-        "method": "download"
-      },
-      "user_input": "Stats::StatsReport.most_recent_by_type(params[:report_type]).document.blob.url(:disposition => \"attachment\")",
-      "confidence": "High",
-      "cwe_id": [
-        601
-      ],
-      "note": "params[:report_type] is validated to be one of the acceptable values in a controller before_action"
     }
   ],
-  "updated": "2024-03-27 09:32:52 +0000",
+  "updated": "2024-04-11 12:12:25 +0100",
   "brakeman_version": "6.1.2"
 }

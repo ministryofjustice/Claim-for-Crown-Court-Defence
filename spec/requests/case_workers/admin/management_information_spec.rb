@@ -102,7 +102,7 @@ RSpec.describe 'Management information administration' do
 
     context 'with a valid report type' do
       let(:report_type) { 'management_information' }
-      let(:test_url) { 'https://example.com/mi_report.csv#123abc' }
+      let(:test_url) { 'https://document.storage/mi_report.csv#123abc' }
 
       before do
         stats_report = create(:stats_report, :with_document, report_name: report_type)

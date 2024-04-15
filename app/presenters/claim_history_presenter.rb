@@ -50,9 +50,8 @@ class ClaimHistoryPresenter < BasePresenter
   end
 
   def redetermination_versions
-    all_versions_of_all_redeterminations = []
-    claim.redeterminations.each do |redetermination|
-      all_versions_of_all_redeterminations << redetermination.versions.order(created_at: :asc)
+    all_versions_of_all_redeterminations = claim.redeterminations.map do |redetermination|
+      redetermination.versions.order(created_at: :asc)
     end
     all_versions_of_all_redeterminations.flatten
   end

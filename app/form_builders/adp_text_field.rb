@@ -130,13 +130,12 @@ class AdpTextField
     return @options[:error_key] if @options[:error_key]
     anchor = @form_field_id.sub(/^claim_/, '').gsub('s_attributes', '')
     parts = anchor.split('_')
-    incremented_anchor_parts = []
-    parts.each do |part|
-      incremented_anchor_parts << if part.match?(/^[0-9]{1,2}$/)
-                                    (part.to_i + 1).to_s
-                                  else
-                                    part
-                                  end
+    incremented_anchor_parts = parts.map do |part|
+      if part.match?(/^[0-9]{1,2}$/)
+        (part.to_i + 1).to_s
+      else
+        part
+      end
     end
     incremented_anchor_parts.join('_')
   end

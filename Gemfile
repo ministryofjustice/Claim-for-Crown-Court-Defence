@@ -11,7 +11,7 @@ gem 'bootsnap', require: false
 gem 'cancancan',              '~> 3.5'
 gem 'chartkick',              '~> 5.0.6'
 gem 'cocoon',                 '~> 1.2.15'
-gem 'devise', '~> 4.9.3'
+gem 'devise', '~> 4.9.4'
 gem 'dotenv-rails', '~> 2.8'
 gem 'factory_bot_rails', '~> 6.4.3'
 gem 'faker',                  '~> 3.3.1'

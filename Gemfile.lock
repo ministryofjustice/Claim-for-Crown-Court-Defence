@@ -209,7 +209,7 @@ GEM
     deep_merge (1.2.2)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    devise (4.9.3)
+    devise (4.9.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 4.1.0)
@@ -704,7 +704,7 @@ DEPENDENCIES
   config (~> 5.4)
   cucumber-rails (~> 3.0.0)
   database_cleaner
-  devise (~> 4.9.3)
+  devise (~> 4.9.4)
   dotenv-rails (~> 2.8)
   factory_bot_rails (~> 6.4.3)
   faker (~> 3.3.1)

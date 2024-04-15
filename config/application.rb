@@ -16,12 +16,7 @@ require_relative '../lib/govuk_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application
-    config.load_defaults 6.1
-
-    # These two options can be removed after load_defaults is updated to 7.0
-    config.active_support.disable_to_s_conversion = true
-    config.active_support.cache_format_version = 7.0
-    ###
+    config.load_defaults 7.0
 
     config.middleware.use Rack::Deflater
     # Settings in config/environments/* take precedence over those specified here.

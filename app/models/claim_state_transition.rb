@@ -32,10 +32,7 @@ class ClaimStateTransition < ApplicationRecord
   end
 
   def reasons
-    reasons = reason_code.reject(&:empty?)
-    reasons.map do |reason_code|
-      ClaimStateTransitionReason.get(reason_code)
-    end
+    reason_code.reject(&:empty?).map { |reason_code| ClaimStateTransitionReason.get(reason_code) }
   end
 
   def self.decided_this_month(state)

@@ -50,10 +50,7 @@ class ClaimHistoryPresenter < BasePresenter
   end
 
   def redetermination_versions
-    all_versions_of_all_redeterminations = claim.redeterminations.map do |redetermination|
-      redetermination.versions.order(created_at: :asc)
-    end
-    all_versions_of_all_redeterminations.flatten
+    claim.redeterminations.map { |redetermination| redetermination.versions.order(created_at: :asc) }.flatten
   end
 
   def select_by_date_string(collection, date_string)

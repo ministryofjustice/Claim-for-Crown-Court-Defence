@@ -128,16 +128,14 @@ class AdpTextField
   def generate_anchor_id
     # translates e.g. claim_defendants_attributes_0_last_name to defendant_1_last_name
     return @options[:error_key] if @options[:error_key]
-    anchor = @form_field_id.sub(/^claim_/, '').gsub('s_attributes', '')
-    parts = anchor.split('_')
-    incremented_anchor_parts = parts.map do |part|
+
+    @form_field_id.sub(/^claim_/, '').gsub('s_attributes', '').split('_').map do |part|
       if part.match?(/^[0-9]{1,2}$/)
         (part.to_i + 1).to_s
       else
         part
       end
-    end
-    incremented_anchor_parts.join('_')
+    end.join('_')
   end
 
   def div_start

@@ -1,11 +1,6 @@
 class AdpFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::FormTagHelper
 
-  def anchored_without_label(label, anchor_name = nil, options = {})
-    anchor_name ||= label.tr(' ', '_').downcase
-    anchor_and_label_markup(anchor_name, nil, options)
-  end
-
   # Use this helper to generate the correct anchor for has_one attributes,
   # do not use it for attributes in the object being rendered.
   #

@@ -1,11 +1,6 @@
 class AdpFormBuilder < ActionView::Helpers::FormBuilder
   include ActionView::Helpers::FormTagHelper
 
-  def adp_text_field(method, options = {})
-    atf = AdpTextField.new(self, method, options)
-    atf.to_html
-  end
-
   def anchored_label(label, anchor_name = nil, options = {})
     anchor_name ||= label.tr(' ', '_').downcase
     anchor_and_label_markup(anchor_name, label, options)

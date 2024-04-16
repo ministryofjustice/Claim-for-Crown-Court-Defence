@@ -427,7 +427,6 @@ moj.Helpers.Blocks = {
         self.$el.find('.fx-establishment-select').css('display', 'block')
         self.$el.find('.fx-establishment-select').append($detachedSelect)
 
-        // this class `location_wrapper` is added by the adp_text_field ruby helper
         self.$el.find('.location_wrapper').css('display', 'none')
         self.$el.find('.fx-travel-location .has-select label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default)
       }, function () {

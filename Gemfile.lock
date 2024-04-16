@@ -494,7 +494,7 @@ GEM
       ffi (~> 1.0)
     redis (5.1.0)
       redis-client (>= 0.17.0)
-    redis-client (0.21.1)
+    redis-client (0.22.0)
       connection_pool
     regexp_parser (2.9.0)
     remotipart (1.4.4)
@@ -586,8 +586,8 @@ GEM
     sentry-ruby (5.17.3)
       bigdecimal
       concurrent-ruby (~> 1.0, >= 1.0.2)
-    sentry-sidekiq (5.17.1)
-      sentry-ruby (~> 5.17.1)
+    sentry-sidekiq (5.17.3)
+      sentry-ruby (~> 5.17.3)
       sidekiq (>= 3.0)
     shell-spinner (1.0.4)
       colorize

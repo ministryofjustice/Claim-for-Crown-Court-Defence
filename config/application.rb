@@ -9,7 +9,7 @@ ENV['RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION'] = 'true'
 Bundler.require(*Rails.groups)
 
 # load `.env` earlier in boot sequence for use in settings.yml
-Dotenv::Railtie.load
+Dotenv::Rails.load
 
 # Custom railties that are not gems can be required here
 require_relative '../lib/govuk_component'

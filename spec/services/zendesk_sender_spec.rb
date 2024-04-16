@@ -28,9 +28,12 @@ RSpec.describe ZendeskSender do
       }
     end
 
-    before do
-      stub_const('ENV', ENV.to_hash.merge('ENV' => 'test_environment'))
-      allow(ZendeskAPI::Ticket).to receive(:create!)
+    before { allow(ZendeskAPI::Ticket).to receive(:create!) }
+
+    around do |example|
+      Dotenv.modify(ENV: 'test_environment') do
+        example.run
+      end
     end
 
     it 'calls ZendeskAPI::Ticket.create!' do

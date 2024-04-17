@@ -30,7 +30,6 @@ SimpleCov.configure do
   # group functionality for test coverage report
   add_group 'Models', 'app/models'
   add_group 'Controllers', 'app/controllers'
-  add_group 'FormBuilders', 'app/form_builders'
   add_group 'Mailers', '/app/mailers'
   add_group 'Validators', 'app/validators'
   add_group 'Helpers', 'app/helpers'

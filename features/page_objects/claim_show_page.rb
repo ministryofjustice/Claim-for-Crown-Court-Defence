@@ -6,24 +6,24 @@ class ClaimShowPage < BasePage
 
   element :status, "div.claim-hgroup strong.govuk-tag"
   element :edit_this_claim, "div.claim-detail-actions a:nth-of-type(1)"
-  element :fees, "#claim_assessment_attributes_fees"
-  element :expenses, "#claim_assessment_attributes_expenses"
-  element :authorised, "label[for='claim_state_authorised']"
+  element :fees, "#claim-assessment-attributes-fees-field"
+  element :expenses, "#claim-assessment-attributes-expenses-field"
+  element :authorised, "label[for='claim-state-authorised-field']"
   element :update, "button#button.govuk-button"
-  element :refused, "label[for='claim_state_refused']"
-  element :rejected, "label[for='claim_state_rejected']"
+  element :refused, "label[for='claim-state-refused-field']"
+  element :rejected, "label[for='claim-state-rejected-field']"
 
   sections :rejection_reasons, '.js-cw-claim-rejection-reasons .multiple-choice' do
     element :label, 'label'
     element :input, 'input'
   end
-  element :reject_reason_text, '#claim_reject_reason_text'
+  element :reject_reason_text, '#claim-reject-reason-text-field'
 
   sections :refusal_reasons, '.js-cw-claim-refuse-reasons .multiple-choice' do
     element :label, 'label'
     element :input, 'input'
   end
-  element :refuse_reason_text, '#claim_refuse_reason_text'
+  element :refuse_reason_text, '#claim-refuse-reason-text-field'
 
   section :messages_panel, "#claim-accordion .messages-container" do
     element :enter_your_message, "textarea#message-body-field"

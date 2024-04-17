@@ -81,12 +81,12 @@ RSpec.describe MessagesController do
 
       context 'when message has attachment' do
         let(:message) { create(:message) }
-        let(:test_url) { 'https://example/com/attachment.doc#123abc' }
+        let(:test_url) { 'https://document.storage/attachment.doc#123abc' }
 
         before do
           message.attachment.attach(io: StringIO.new, filename: 'attachment.doc')
           allow(Message).to receive(:find).with(message[:id].to_s).and_return(message)
-          allow(message.attachment.blob).to receive(:service_url).and_return(test_url)
+          allow(message.attachment.blob).to receive(:url).and_return(test_url)
         end
 
         it { is_expected.to redirect_to test_url }

@@ -85,7 +85,7 @@ module Stats
     end
 
     def write_report(report_result)
-      filename = "#{report_name}_#{started_at.to_s(:number)}.#{report_result.format}"
+      filename = "#{report_name}_#{started_at.to_fs(:number)}.#{report_result.format}"
       log(:info, :write_report, "Writing report #{report_name} to #{filename}")
       document.attach(io: report_result.io, filename:, content_type: report_result.content_type)
       update(status: 'completed', completed_at: Time.zone.now)
@@ -95,7 +95,7 @@ module Stats
     end
 
     def download_filename
-      "#{report_name}_#{started_at.to_s(:number)}.csv"
+      "#{report_name}_#{started_at.to_fs(:number)}.csv"
     end
 
     private

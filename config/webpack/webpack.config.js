@@ -17,7 +17,9 @@ module.exports = {
     filename: '[name].js',
     assetModuleFilename: '[name][ext]',
     path: path.resolve(__dirname, '..', '..', 'app/assets/builds'),
-    clean: true
+    clean: {
+      keep: /.keep/
+    }
   },
   optimization: {
     moduleIds: 'deterministic',

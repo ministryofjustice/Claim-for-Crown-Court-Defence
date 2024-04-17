@@ -12,7 +12,13 @@ module GOVUKComponent
     end
 
     def capture_output
-      output = proc { yield&.to_s }
+      output = proc do
+        contents = yield
+        # In Rails 7.0 DateTime#to_fs needs to be used instead of DateTime#to_s
+        # to format the date according to the setting in config/locales/en.yml.
+        # However, to_fs does not exist on all data types that can appear here.
+        contents.respond_to?(:to_fs) ? contents.to_fs : contents&.to_s
+      end
       capture(&output)
     end
   end

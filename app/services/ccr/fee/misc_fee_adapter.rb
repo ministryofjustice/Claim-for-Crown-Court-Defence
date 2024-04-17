@@ -46,7 +46,7 @@ module CCR
         MIAPF: zip(%w[AGFS_MISC_FEES AGFS_PREP_FEE]) # Additional preparation fee - AGFS 15+ only
       }.freeze
 
-      MISC_FEE_BILL_MAPPING_EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO].freeze
+      MISC_FEE_BILL_MAPPING_EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO MIAPF].freeze
 
       def claimed?
         maps? && charges?

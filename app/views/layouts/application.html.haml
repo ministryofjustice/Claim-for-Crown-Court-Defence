@@ -35,7 +35,7 @@
       %noscript
         %iframe{ src: "https://www.googletagmanager.com/ns.html?id=#{ENV['GTM_TRACKER_ID']}", style: 'display: none; visibility: hidden', height: '0', width: '0' }
 
-    %header.govuk-header.with-proposition{ role: 'banner', data: { module: 'govuk-header' } }
+    %header.govuk-header.with-proposition{ data: { module: 'govuk-header' } }
       .govuk-header__container.govuk-width-container
         .govuk-header__logo
           = render 'layouts/govuk_logo'
@@ -50,7 +50,7 @@
 
       = render partial: 'layouts/primary_navigation'
 
-      %main#main-content.govuk-main-wrapper{ role: 'main' }
+      %main#main-content.govuk-main-wrapper
         .govuk-grid-row
           .govuk-grid-column-two-thirds
             = render partial: 'shared/downtime_warning'

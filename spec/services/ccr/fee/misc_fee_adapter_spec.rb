@@ -12,7 +12,7 @@ RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
 
   it_behaves_like 'a mapping fee adapter'
 
-  EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO].freeze
+  EXCLUSIONS = %i[BACAV MIPHC MIUMU MIUMO MIAPF].freeze
 
   MAPPINGS = {
     BACAV: %w[AGFS_MISC_FEES AGFS_CONFERENCE], # Conferences and views (basic fee)

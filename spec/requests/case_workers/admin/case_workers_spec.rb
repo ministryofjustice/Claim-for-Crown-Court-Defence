@@ -83,7 +83,7 @@ RSpec.describe 'Caseworker admin' do
 
       it 'does not enqueue a job to send the email' do
         create_case_workers_request
-        expect(ActionMailer::DeliveryJob).not_to have_been_enqueued
+        expect(ActionMailer::MailDeliveryJob).not_to have_been_enqueued
       end
     end
   end

@@ -13,7 +13,7 @@ module API
       end
 
       def url
-        attachment.blob.service_url(disposition: 'attachment') if attachment.attached?
+        attachment.blob.url(disposition: 'attachment') if attachment.attached?
       end
 
       def file_name

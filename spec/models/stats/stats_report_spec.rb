@@ -124,7 +124,7 @@ RSpec.describe Stats::StatsReport do
 
       it 'names the document based on the report type and timestamp' do
         write_report
-        expect(report.document.filename).to eq "my_new_report_#{start_time.to_s(:number)}.csv"
+        expect(report.document.filename).to eq "my_new_report_#{start_time.to_fs(:number)}.csv"
       end
 
       it 'does not change the started_at time' do

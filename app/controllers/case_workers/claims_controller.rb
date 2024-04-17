@@ -10,7 +10,8 @@ module CaseWorkers
     respond_to :html
 
     # callback order is important (must set claims before filtering and sorting)
-    before_action :set_claims,              only: %i[index archived]
+    before_action :set_claims, only: %i[index archived]
+    before_action :set_presenters
     before_action :filter_current_claims,   only: [:index]
     before_action :filter_archived_claims,  only: [:archived]
     before_action :sort_claims,             only: %i[index archived]
@@ -75,16 +76,17 @@ module CaseWorkers
         :reject_reason_text,
         :additional_information,
         assessment_attributes: %i[id fees expenses disbursements vat_amount],
-        redeterminations_attributes: %i[id fees expenses disbursements vat_amount]
-      ).merge(params.permit(state_reason: []))
-      # the state_reason needs to be merged because the collection_check_boxes control on the view requires
-      # a claim object to render.  Because state_reason does not belong to claim, it refuses to render and
-      # therefore nil is passed to the object.  This then comes back outside of the claim namespace and has
-      # to be manually merged.
+        redeterminations_attributes: %i[id fees expenses disbursements vat_amount],
+        state_reason: []
+      )
     end
 
     def set_claims
       @claims = Claims::CaseWorkerClaims.new(current_user:, action: tab, criteria: criteria_params).claims
+    end
+
+    def set_presenters
+      @defendant_presenter = CaseWorkers::DefendantPresenter
     end
 
     # Only these 2 actions are handle in this controller. Rest of actions in the admin-namespaced controller.

@@ -140,7 +140,7 @@ class Claim::BaseClaimPresenter < BasePresenter
 
   def vat_date(format = nil)
     if format == :db
-      claim.vat_date.to_s(:db)
+      claim.vat_date.to_fs(:db)
     else
       claim.vat_date.strftime(Settings.date_format)
     end

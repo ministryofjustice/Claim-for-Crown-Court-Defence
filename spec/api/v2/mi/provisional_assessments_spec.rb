@@ -10,8 +10,8 @@ RSpec.describe API::V2::MI::ProvisionalAssessments do
   let(:default_params) { { api_key:, start_date:, end_date: } }
   let(:missing_params) { { api_key: } }
   let(:params) { default_params }
-  let(:start_date) { Date.new(2018, 01, 01).to_s(:db) }
-  let(:end_date) { Date.new(2018, 01, 31).to_s(:db) }
+  let(:start_date) { Date.new(2018, 01, 01).to_fs(:db) }
+  let(:end_date) { Date.new(2018, 01, 31).to_fs(:db) }
   let(:create_data?) { false }
 
   describe 'GET provisional_assessments', :slack_bot do

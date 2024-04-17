@@ -3,14 +3,14 @@ require 'rails_helper'
 RSpec.shared_examples 'download evidence document' do
   let(:document) { create(:document, :with_preview, external_user: document_owner) }
   let(:document_owner) { external_user }
-  let(:test_url) { 'https://example.com/document.doc#123abc' }
+  let(:test_url) { 'https://document.storage/document.doc#123abc' }
 
   before do
     allow(Document).to receive(:find).with(document.to_param).and_return(document)
-    allow(document.document.blob).to receive(:service_url) { |args|
+    allow(document.document.blob).to receive(:url) { |args|
       "#{test_url}?response-content-disposition=#{args[:disposition] || 'inline'}"
     }
-    allow(document.converted_preview_document.blob).to receive(:service_url) { |args|
+    allow(document.converted_preview_document.blob).to receive(:url) { |args|
       "#{test_url}?response-content-disposition=#{args[:disposition] || 'inline'}"
     }
   end
@@ -95,7 +95,9 @@ RSpec.describe 'Document management' do
       let(:document) { create(:document, external_user: document_owner) }
       let(:document_owner) { external_user }
 
-      it { expect { show_document }.to raise_error(ActiveRecord::RecordNotFound) }
+      before { show_document }
+
+      it { expect(response).to have_http_status(:not_found) }
     end
   end
 

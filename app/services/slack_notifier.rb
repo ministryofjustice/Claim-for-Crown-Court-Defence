@@ -12,7 +12,7 @@ class SlackNotifier
   def send_message
     raise 'Unable to send without payload' unless @ready_to_send
 
-    RestClient.post(@slack_url, @payload.to_json, content_type: :json)
+    Faraday.post(@slack_url, @payload.to_json, { 'Content-Type': 'application/json' })
   end
 
   def build_payload(**)

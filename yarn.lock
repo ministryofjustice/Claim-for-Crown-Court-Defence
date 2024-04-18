@@ -3476,10 +3476,10 @@ json5@^2.1.2, json5@^2.2.3:
   resolved "https://registry.yarnpkg.com/json5/-/json5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
 
-jsrender@^1.0.13:
-  version "1.0.13"
-  resolved "https://registry.yarnpkg.com/jsrender/-/jsrender-1.0.13.tgz#f7546ed13010dd82d65a28cb5bc6a8231c68959e"
-  integrity sha512-WAHG4EBPygNZqv8b3oFDprM5Zi+v2TG5/GLk5f0TYIej+xJiGoQNRvGSbhdh25vggWJP3YfzTpAqVSNDaXwY5Q==
+jsrender@^1.0.14:
+  version "1.0.14"
+  resolved "https://registry.yarnpkg.com/jsrender/-/jsrender-1.0.14.tgz#f7fd923b7c9a3307c267071d29ae8e99a43f7b3f"
+  integrity sha512-gtpx42lvbZcnG+hLHzYxMaxu0gBM5sNHwkOAgVYoJRgzsVChurFCLfTO1KjgUYEBMp84hDq46WQW8rtSAMjmFw==
   dependencies:
     through2 "^3.0.1"
 

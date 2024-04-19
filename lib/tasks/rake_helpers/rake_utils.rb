@@ -10,8 +10,10 @@ module Tasks
       end
 
       def shell_working message = 'working', &block
-        ShellSpinner message do
+        spinner = TTY::Spinner.new("[:spinner] #{message}")
+        spinner.run do
           yield
+          spinner.success
         end
       end
 

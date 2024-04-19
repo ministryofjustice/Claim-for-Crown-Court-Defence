@@ -45,7 +45,7 @@ namespace :db do
 
       shell_working "exporting unanonymised database data to #{filename}..." do
         if host.eql?('localhost')
-          db = ActiveRecord::Base.connection_config[:database]
+          db = ActiveRecord::Base.connection_db_config.configuration_hash[:database]
           cmd = "pg_dump --no-owner --no-privileges --no-password #{sensitive_table_exclusions} #{unneeded_table_exclusions} #{db} -f #{filename}"
         else
           cmd = "pg_dump $DATABASE_URL --no-owner --no-privileges --no-password #{sensitive_table_exclusions} #{unneeded_table_exclusions} -f #{filename}"

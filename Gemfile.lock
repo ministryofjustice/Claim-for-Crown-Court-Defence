@@ -589,8 +589,6 @@ GEM
     sentry-sidekiq (5.17.3)
       sentry-ruby (~> 5.17.3)
       sidekiq (>= 3.0)
-    shell-spinner (1.0.4)
-      colorize
     shoulda-matchers (6.2.0)
       activesupport (>= 5.2.0)
     sidekiq (7.2.2)
@@ -642,6 +640,9 @@ GEM
     tilt (2.3.0)
     timecop (0.9.8)
     timeout (0.4.1)
+    tty-cursor (0.7.1)
+    tty-spinner (0.9.3)
+      tty-cursor (~> 0.7)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     tzinfo-data (1.2024.1)
@@ -767,7 +768,6 @@ DEPENDENCIES
   rubyzip
   sentry-rails (~> 5.17)
   sentry-sidekiq (~> 5.17)
-  shell-spinner (~> 1.0, >= 1.0.4)
   shoulda-matchers (~> 6.2)
   sidekiq (~> 7.2)
   sidekiq-failures (~> 1.0, >= 1.0.4)
@@ -778,6 +778,7 @@ DEPENDENCIES
   state_machines-activerecord
   state_machines-audit_trail
   timecop
+  tty-spinner
   tzinfo-data
   utf8-cleaner (~> 1.0)
   vcr

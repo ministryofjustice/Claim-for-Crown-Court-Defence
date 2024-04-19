@@ -53,7 +53,7 @@ class User < ApplicationRecord
   has_many :user_message_statuses
 
   validates :first_name, :last_name, presence: true, length: { maximum: 40 }
-  validates :email, confirmation: true, length: { maximum: 80 }
+  validates :email, confirmation: { case_sensitive: false }, length: { maximum: 80 }
   validates :terms_and_conditions,
             acceptance: ['1', true],
             allow_nil: false,

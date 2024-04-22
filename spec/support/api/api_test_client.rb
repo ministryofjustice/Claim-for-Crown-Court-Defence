@@ -100,7 +100,7 @@ class ApiTestClient
     return if response.success?
 
     @success = false
-    @full_error_messages << "#{resource} Endpoint raised error - #{response}"
+    @full_error_messages << "#{resource} Endpoint raised error [HTTP status #{response.status}]"
   end
 
   def api_root_url

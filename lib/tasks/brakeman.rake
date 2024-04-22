@@ -5,9 +5,10 @@ namespace :brakeman do
     require 'fileutils'
     require 'colorize'
 
-    puts 'Running Brakeman...'
-    ShellSpinner do
+    spinner = TTY::Spinner.new("[:spinner] Running Brakeman...")
+    spinner.run do
       system("brakeman -o #{report_output.join(' -o ')} -q")
+      spinner.success
     end
 
     content = File.read(report_output.second)

@@ -56,7 +56,7 @@ module Tasks
       end
 
       def prepare_sql
-        table.compile_insert(data).to_sql + ';'
+        Arel::InsertManager.new(table).insert(data).to_sql + ';'
       end
 
       def extract_attribute_names(column_names)

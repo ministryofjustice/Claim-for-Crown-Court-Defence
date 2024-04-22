@@ -37,7 +37,7 @@ namespace :db do
 
       shell_working "importing static data dump file #{dump_file}" do
         system (with_config do |_db_name, connection_opts|
-          "PGPASSWORD=#{ActiveRecord::Base.connection_config[:password]} psql -q -P pager=off #{connection_opts} -f #{dump_file} >/dev/null"
+          "PGPASSWORD=#{ActiveRecord::Base.connection_db_config.configuration_hash[:password]} psql -q -P pager=off #{connection_opts} -f #{dump_file} >/dev/null"
         end)
       end
     end
@@ -81,7 +81,7 @@ namespace :db do
 
     shell_working "anonymising data in place" do
       system (with_config do |_db_name, connection_opts|
-        "PGPASSWORD=#{ActiveRecord::Base.connection_config[:password]} psql -v translation=\\'#{translation}\\' #{connection_opts} -f #{Rails.root}/db/data/anonymise_db.sql"
+        "PGPASSWORD=#{ActiveRecord::Base.connection_db_config.configuration_hash[:password]} psql -v translation=\\'#{translation}\\' #{connection_opts} -f #{Rails.root}/db/data/anonymise_db.sql"
       end)
     end
   end
@@ -119,16 +119,16 @@ namespace :db do
 
     shell_working 'recreating schema' do
       system (with_config do |_db_name, connection_opts|
-          "PGPASSWORD=#{ActiveRecord::Base.connection_config[:password]} psql -q -P pager=off #{connection_opts} -c \"drop schema public cascade\""
+          "PGPASSWORD=#{ActiveRecord::Base.connection_db_config.configuration_hash[:password]} psql -q -P pager=off #{connection_opts} -c \"drop schema public cascade\""
         end)
       system (with_config do |_db_name, connection_opts|
-        "PGPASSWORD=#{ActiveRecord::Base.connection_config[:password]} psql -q -P pager=off #{connection_opts} -c \"create schema public\""
+        "PGPASSWORD=#{ActiveRecord::Base.connection_db_config.configuration_hash[:password]} psql -q -P pager=off #{connection_opts} -c \"create schema public\""
       end)
     end
 
     shell_working "importing dump file #{dump_file}" do
       system (with_config do |_db_name, connection_opts|
-        "PGPASSWORD=#{ActiveRecord::Base.connection_config[:password]} psql -q -P pager=off #{connection_opts} -f #{dump_file} > /dev/null"
+        "PGPASSWORD=#{ActiveRecord::Base.connection_db_config.configuration_hash[:password]} psql -q -P pager=off #{connection_opts} -f #{dump_file} > /dev/null"
       end)
     end
   end
@@ -140,14 +140,14 @@ namespace :db do
   end
 
   def with_config
-    yield ActiveRecord::Base.connection_config[:database], connection_opts
+    yield ActiveRecord::Base.connection_db_config.configuration_hash[:database], connection_opts
   end
 
   def connection_opts
     [
-      ['-U', ActiveRecord::Base.connection_config[:username]],
-      ['-h', ActiveRecord::Base.connection_config[:host]],
-      ['-d', ActiveRecord::Base.connection_config[:database]]
+      ['-U', ActiveRecord::Base.connection_db_config.configuration_hash[:username]],
+      ['-h', ActiveRecord::Base.connection_db_config.configuration_hash[:host]],
+      ['-d', ActiveRecord::Base.connection_db_config.configuration_hash[:database]]
     ].inject([]) do |result, (flag, value)|
       result.push([flag, value]) unless (value.nil? || value.empty?)
       result

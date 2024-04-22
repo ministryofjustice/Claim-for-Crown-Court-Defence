@@ -64,7 +64,7 @@ class ApiTestClient
     debug("Payload:\n#{payload}\n")
 
     endpoint(resource:, prefix: EXTERNAL_USER_PREFIX) do |e|
-      response = e.post(payload.to_json, content_type: :json, accept: :json)
+      response = e.post('', payload.to_json, { 'Content-Type': 'application/json', Accept: 'application/json' })
       handle_response(response, resource)
       JSON.parse(response.body)
     end
@@ -78,7 +78,7 @@ class ApiTestClient
   #
   def get_dropdown_endpoint(resource, api_key, **)
     endpoint(resource:, prefix: 'api', api_key:, **) do |e|
-      body = Caching::APIRequest.cache(e.url) do
+      body = Caching::APIRequest.cache(e.build_url.to_s) do
         e.get.tap { |response| handle_response(response, resource) }
       end
       JSON.parse(body)
@@ -94,13 +94,14 @@ class ApiTestClient
     url = [api_root_url, prefix, resource].join('/') + query_params
     debug("POSTING TO #{url}")
 
-    yield RestClient::Resource.new(url)
+    conn = Faraday.new(url)
+    yield(conn)
   end
 
   def handle_response(response, resource)
-    debug("Code: #{response.code}")
+    debug("Code: #{response.status}")
     debug("Body:\n#{response.body}\n")
-    return if /^2/.match?(response.code.to_s)
+    return if response.success?
 
     @success = false
     @full_error_messages << "#{resource} Endpoint raised error - #{response}"

@@ -19,25 +19,22 @@ module Remote
     end
 
     def get(path, **)
-      execute_request(:get, path, **)
+      params = { api_key: }.merge(**)
+      response = Caching::APIRequest.cache("#{path}?#{params.to_query}") { connection.get(path, params) }
+      JSON.parse(response, symbolize_names: true)
     end
 
     private
 
-    def build_endpoint(path, **)
-      [base_url, path].join('/') + '?' + { api_key: }.merge(**).to_query
-    end
-
-    def execute_request(method, path, **)
-      endpoint = build_endpoint(path, **)
-      response = Caching::APIRequest.cache(endpoint) do
-        # We have added the headers { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' } in order to bypass the config.force_ssl
-        # This is because this API call is now being routed internally and does not access the internet. HTTPS is not supported within the Kubernetes Cluster.
-        # TODO: Decouple these headers from the HTTP Client or Find a new solution to route these internal calls without being affected by SSL/TLS.
-        RestClient::Request.execute(method:, url: endpoint, timeout:, open_timeout:,
-                                    headers: { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' })
-      end
-      JSON.parse(response, symbolize_names: true)
+    def connection
+      # We have added the headers { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' } in order to bypass the config.force_ssl
+      # This is because this API call is now being routed internally and does not access the internet. HTTPS is not supported within the Kubernetes Cluster.
+      # TODO: Decouple these headers from the HTTP Client or Find a new solution to route these internal calls without being affected by SSL/TLS.
+      @connection ||= Faraday.new(
+        url: base_url,
+        request: { open_timeout:, timeout: },
+        headers: { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' }
+      )
     end
   end
 end

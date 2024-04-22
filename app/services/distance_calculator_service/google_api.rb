@@ -27,7 +27,7 @@ class DistanceCalculatorService
     end
 
     def directions
-      @directions ||= RestClient.get(Rails.application.config.google_directions_api_url, params:).body
+      @directions ||= Faraday.get(Rails.application.config.google_directions_api_url, **params).body
     end
 
     def params

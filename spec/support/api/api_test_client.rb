@@ -77,13 +77,13 @@ class ApiTestClient
   # don't raise exceptions but, instead, return the
   # response for analysis.
   #
-  def get_dropdown_endpoint(resource, api_key, **kwargs)
+  def get_dropdown_endpoint(resource, **kwargs)
     path = "api/#{resource}"
     debug("GETTING FROM #{path}")
     debug("Params: #{kwargs}")
 
     body = Caching::APIRequest.cache("#{path}?#{kwargs.to_query}") do
-      connection.get(path, api_key:, **kwargs).tap { |response| handle_response(response, resource) }
+      connection.get(path, **kwargs).tap { |response| handle_response(response, resource) }
     end
     JSON.parse(body)
   rescue JSON::ParserError

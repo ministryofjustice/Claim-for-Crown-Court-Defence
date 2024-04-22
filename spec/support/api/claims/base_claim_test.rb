@@ -71,11 +71,11 @@ class BaseClaimTest
   end
 
   def fetch_id(endpoint, index: 0, key: 'id', **)
-    @client.get_dropdown_endpoint(endpoint, api_key, **).pluck(key)[index]
+    @client.get_dropdown_endpoint(endpoint, api_key:, **).pluck(key)[index]
   end
 
   def fetch_value(endpoint, index: 0, **)
-    @client.get_dropdown_endpoint(endpoint, api_key, **)[index]
+    @client.get_dropdown_endpoint(endpoint, api_key:, **)[index]
   end
 
   def clean_up

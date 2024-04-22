@@ -12,6 +12,7 @@ class FeedbackController < ApplicationController
 
   def create
     @feedback = Feedback.new(merged_feedback_params)
+    log('Someone just submitted some feedback')
 
     if @feedback.save
       redirect_to after_create_url, notice: @feedback.response_message
@@ -22,6 +23,14 @@ class FeedbackController < ApplicationController
   end
 
   private
+
+  def log(message)
+    LogStuff.send(
+      :error
+    ) do
+      message
+    end
+  end
 
   def sender
     if params['feedback']['type'] == 'feedback' && !Settings.zendesk_feedback_enabled?

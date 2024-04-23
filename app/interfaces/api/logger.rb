@@ -27,7 +27,7 @@ module API
       JSON.parse(env['api.request.input'].to_s)
     rescue JSON::ParserError => e
       log_api(:error,
-              'input-params',
+              'api-input-params',
               { message: 'Error parsing API input parameters', input_params: env['api.request.input'] },
               e)
     end
@@ -44,7 +44,7 @@ module API
       JSON.parse(@app_response[2].first)
     rescue JSON::ParserError => e
       log_api(:error,
-              'response-body',
+              'api-response-body',
               "Error parsing API response body: \n#{@app_response[2].first}",
               e)
     end

@@ -12,17 +12,24 @@ module API
     private
 
     def log_api_request(method, path, data)
-      log_api('api-request', method:, path:, data:)
+      log_api(:info,
+              'api-request',
+              { method:, path:, data: })
     end
 
     def log_api_response
-      log_api('api-response', inputs: input_params, status: response_status, response_body:)
+      log_api(:info,
+              'api-response',
+              { inputs: input_params, status: response_status, response_body: })
     end
 
     def input_params
       JSON.parse(env['api.request.input'].to_s)
-    rescue JSON::ParserError
-      {}
+    rescue JSON::ParserError => e
+      log_api(:error,
+              'input-params',
+              { message: 'Error parsing API input parameters', input_params: env['api.request.input'] },
+              e)
     end
 
     def response_status
@@ -35,13 +42,21 @@ module API
       return if @app_response.blank?
 
       JSON.parse(@app_response[2].first)
-    rescue JSON::ParserError
-      Rails.logger.error "JSON::Parser error parsing: \n#{@app_response[2].first}"
+    rescue JSON::ParserError => e
+      log_api(:error,
+              'response-body',
+              "Error parsing API response body: \n#{@app_response[2].first}",
+              e)
     end
 
-    def log_api(api_type, data)
-      api_request = { log_type: api_type, timestamp: Time.zone.now }.merge!(data)
-      Rails.logger.info api_request.to_json
+    def log_api(level, type, data, error = nil)
+      LogStuff.send(
+        level.to_sym,
+        type:,
+        error: error ? "#{error.class} - #{error.message}" : 'false'
+      ) do
+        "API Log: #{data}"
+      end
     end
   end
 end

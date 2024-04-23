@@ -23,12 +23,6 @@ module API
       private
 
       def authorisation_error(message = 'Unauthorised')
-        LogStuff.send(
-          :info,
-          type: 'api-authorisation'
-        ) do
-          "API authorisation error: #{message}"
-        end
         raise AuthorisationError, message
       end
     end

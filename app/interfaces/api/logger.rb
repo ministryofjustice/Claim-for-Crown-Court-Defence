@@ -1,27 +1,21 @@
 module API
   class Logger < Grape::Middleware::Base
     def before
-      log_api_request(env['REQUEST_METHOD'], env['PATH_INFO'], env['rack.request.form_hash'])
+      log_api(:info,
+              'api-request',
+              { method: env['REQUEST_METHOD'],
+                path: env['PATH_INFO'],
+                data: env['rack.request.form_hash'] })
     end
 
     def after
-      log_api_response
+      log_api(:info,
+              'api-response',
+              { inputs: input_params, status: response_status, response_body: })
       @app_response # this must return @app_response or nil
     end
 
     private
-
-    def log_api_request(method, path, data)
-      log_api(:info,
-              'api-request',
-              { method:, path:, data: })
-    end
-
-    def log_api_response
-      log_api(:info,
-              'api-response',
-              { inputs: input_params, status: response_status, response_body: })
-    end
 
     def input_params
       JSON.parse(env['api.request.input'].to_s)
@@ -55,7 +49,7 @@ module API
         type:,
         error: error ? "#{error.class} - #{error.message}" : 'false'
       ) do
-        "API Log: #{data}"
+        "API Log: #{data.to_json}"
       end
     end
   end

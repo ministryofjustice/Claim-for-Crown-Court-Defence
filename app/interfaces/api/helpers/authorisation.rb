@@ -23,7 +23,7 @@ module API
       private
 
       def authorisation_error(message = 'Unauthorised')
-        Logstuff.send(
+        LogStuff.send(
           :info,
           type: 'api-authorisation'
         ) do

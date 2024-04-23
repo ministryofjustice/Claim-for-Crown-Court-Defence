@@ -3,7 +3,6 @@ namespace :brakeman do
   task :run do
     require 'brakeman'
     require 'fileutils'
-    require 'colorize'
 
     spinner = TTY::Spinner.new("[:spinner] Running Brakeman...")
     spinner.run do

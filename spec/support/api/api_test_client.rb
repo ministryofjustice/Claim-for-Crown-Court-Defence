@@ -61,13 +61,14 @@ class ApiTestClient
   end
 
   def post_to_endpoint(resource, payload)
-    debug("Payload:\n#{payload}\n")
+    path = "#{EXTERNAL_USER_PREFIX}/#{resource}"
+    body = payload.to_json
+    debug("POSTING TO #{path}")
+    debug("Payload:\n#{body}\n")
 
-    endpoint(resource:, prefix: EXTERNAL_USER_PREFIX) do |e|
-      response = e.post(payload.to_json, content_type: :json, accept: :json)
-      handle_response(response, resource)
-      JSON.parse(response.body)
-    end
+    response = connection.post(path, body, { 'Content-Type': 'application/json', Accept: 'application/json' })
+    handle_response(response, resource)
+    JSON.parse(response.body)
   rescue JSON::ParserError
     {}
   end
@@ -76,34 +77,30 @@ class ApiTestClient
   # don't raise exceptions but, instead, return the
   # response for analysis.
   #
-  def get_dropdown_endpoint(resource, api_key, **)
-    endpoint(resource:, prefix: 'api', api_key:, **) do |e|
-      body = Caching::APIRequest.cache(e.url) do
-        e.get.tap { |response| handle_response(response, resource) }
-      end
-      JSON.parse(body)
+  def get_dropdown_endpoint(resource, **kwargs)
+    path = "api/#{resource}"
+    debug("GETTING FROM #{path}")
+    debug("Params: #{kwargs}")
+
+    body = Caching::APIRequest.cache("#{path}?#{kwargs.to_query}") do
+      connection.get(path, **kwargs).tap { |response| handle_response(response, resource) }
     end
+    JSON.parse(body)
   rescue JSON::ParserError
     {}
   end
 
   private
 
-  def endpoint(resource:, prefix:, **params, &)
-    query_params = '?' + params.to_query
-    url = [api_root_url, prefix, resource].join('/') + query_params
-    debug("POSTING TO #{url}")
-
-    yield RestClient::Resource.new(url)
-  end
+  def connection = @connection ||= Faraday.new(api_root_url)
 
   def handle_response(response, resource)
-    debug("Code: #{response.code}")
+    debug("Code: #{response.status}")
     debug("Body:\n#{response.body}\n")
-    return if /^2/.match?(response.code.to_s)
+    return if response.success?
 
     @success = false
-    @full_error_messages << "#{resource} Endpoint raised error - #{response}"
+    @full_error_messages << "#{resource} Endpoint raised error [HTTP status #{response.status}]"
   end
 
   def api_root_url

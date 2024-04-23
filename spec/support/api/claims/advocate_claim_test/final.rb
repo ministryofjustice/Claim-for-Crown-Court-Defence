@@ -16,6 +16,7 @@ module AdvocateClaimTest
 
       # CREATE miscellaneous fee
       response = @client.post_to_endpoint('fees', misc_fee_data)
+      return if @client.failure
 
       # add date attended to miscellaneous fee
       @attended_item_id = response['id']

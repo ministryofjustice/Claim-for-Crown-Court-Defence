@@ -25,11 +25,11 @@ describe Remote::HttpClient do
   end
 
   describe '#get' do
-    let(:api_url)  { 'my_api_url' }
+    let(:api_url)  { 'https://my_api_url' }
     let(:api_key)  { 'my_key' }
     let(:path)     { 'my_path' }
     let(:query)    { { 'key' => 'value' } }
-    let(:endpoint) { 'my_api_url/my_path?api_key=my_key&key=value' }
+    let(:cache_key) { "#{path}?api_key=#{api_key}&key=value" }
 
     before do
       described_class.configure do |client|
@@ -39,21 +39,16 @@ describe Remote::HttpClient do
         client.open_timeout = 2
         client.timeout = 4
       end
+
+      allow(Caching::APIRequest).to receive(:cache).with(cache_key).and_call_original
+      allow(JSON).to receive(:parse).with('body', symbolize_names: true).and_return({ key: 'value' })
+      stub_request(:get, "#{api_url}/#{cache_key}")
+        .with(headers: { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' })
+        .to_return(status: 200, body: 'body')
     end
 
-    it 'calls execute on RestClient::Request' do
-      response = double('HTTPResponse', body: 'body', headers: {})
-      expect(Caching::APIRequest).to receive(:cache).with(endpoint).and_call_original
-      expect(JSON).to receive(:parse).with('body', symbolize_names: true).and_return({ key: 'value' })
-      expect(RestClient::Request)
-        .to receive(:execute)
-        .with(method: :get, url: endpoint, timeout: 4, open_timeout: 2,
-              headers: { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' })
-        .and_return(response)
-
-      result = client.get(path, **query)
-
-      expect(result).to eq({ key: 'value' })
+    it 'makes request to the correct endpoint' do
+      expect(client.get(path, **query)).to eq({ key: 'value' })
     end
   end
 end

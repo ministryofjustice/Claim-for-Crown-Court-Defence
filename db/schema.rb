@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[6.1].define(version: 2023_11_27_130608) do
-
+ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
@@ -392,6 +391,7 @@ ActiveRecord::Schema[6.1].define(version: 2023_11_27_130608) do
     t.boolean "price_calculated", default: false
     t.index ["claim_id"], name: "index_fees_on_claim_id"
     t.index ["fee_type_id"], name: "index_fees_on_fee_type_id"
+    t.index ["uuid"], name: "index_fees_on_uuid", unique: true
   end
 
   create_table "injection_attempts", id: :serial, force: :cascade do |t|

@@ -11,7 +11,8 @@ module Remote
     end
 
     def logger=(log)
-      @logger = RestClient.log = log
+      @logger = log
+      @connection = nil
     end
 
     def base_url
@@ -34,7 +35,10 @@ module Remote
         url: base_url,
         request: { open_timeout:, timeout: },
         headers: { 'X-Forwarded-Proto': 'https', 'X-Forwarded-Ssl': 'on' }
-      )
+      ) do |conn|
+        # See https://github.com/lostisland/faraday/blob/main/docs/middleware/included/logging.md
+        conn.response :logger, logger, { headers: true, bodies: false, errors: true }
+      end
     end
   end
 end

@@ -1,5 +1,3 @@
-require 'google_analytics/api'
-
 class FeedbackController < ApplicationController
   skip_load_and_authorize_resource only: %i[new create]
   before_action :suppress_hotline_link

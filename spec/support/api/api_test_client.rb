@@ -20,7 +20,6 @@
 #
 
 require 'caching/api_request'
-require 'rest-client'
 $LOAD_PATH << Rails.root.join('spec', 'support', 'api', 'claims')
 require 'debuggable'
 require 'advocate_claim_test/final'

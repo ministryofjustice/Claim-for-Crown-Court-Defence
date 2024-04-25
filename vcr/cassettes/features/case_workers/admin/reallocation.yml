@@ -2,19 +2,21 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=7c71d4df-e8b3-401f-86ba-24a806122148
+    uri: http://localhost:3001/api/case_workers?api_key=0b8bc28b-460a-4e96-a023-100d0bd010ee
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -25,36 +27,38 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"c4e0ba400decaabb10ef65437a6a07cf"
+      - W/"5ad8e5c3da135a1503ab96339edc993d"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - 3d9a853e-2ec5-4a46-beae-04033ce61b7a
+      - 9866b9c3-995d-4874-baaf-3f06c5f4b560
       X-Runtime:
-      - '0.013052'
-      Transfer-Encoding:
-      - chunked
+      - '0.022535'
+      Content-Length:
+      - '529'
     body:
       encoding: ASCII-8BIT
-      string: '[{"id":1,"uuid":"87120be5-1592-41bb-98b6-b14b1cf37ecc","first_name":"Terry","last_name":"Huels","email":"terry.huels@laa.gov.uk"},{"id":2,"uuid":"1accda86-dacc-4f88-b9d5-f7165c5614b2","first_name":"Kanesha","last_name":"Torphy","email":"kanesha.torphy@laa.gov.uk"},{"id":3,"uuid":"d676ee7f-58c3-4a51-91f3-f8c5bca91e8b","first_name":"Laticia","last_name":"Tillman","email":"laticia.tillman@laa.gov.uk"},{"id":4,"uuid":"64fda955-a156-4042-ad6a-87fcf85dc8d6","first_name":"Lydia","last_name":"Wiza","email":"lydia.wiza@laa.gov.uk"}]'
-  recorded_at: Mon, 21 Mar 2022 18:05:08 GMT
+      string: '[{"id":1,"uuid":"73bb570d-59ee-4508-bde6-07bcf28d0c5d","first_name":"Dominick","last_name":"Dibbert","email":"dominick.dibbert@laa.gov.uk"},{"id":2,"uuid":"42f7d08b-7a44-40b5-a609-11d0bc155333","first_name":"Kanesha","last_name":"Torphy","email":"kanesha.torphy@laa.gov.uk"},{"id":3,"uuid":"7e9bfc8b-c547-49af-9555-e7dd1f8ce999","first_name":"Jake","last_name":"Harber","email":"jake.harber@laa.gov.uk"},{"id":4,"uuid":"8959dbde-72e1-4e46-86de-49fd396f6900","first_name":"Buck","last_name":"Rowe","email":"buck.rowe@laa.gov.uk"}]'
+  recorded_at: Thu, 25 Apr 2024 11:39:49 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=7c71d4df-e8b3-401f-86ba-24a806122148&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=unallocated&value_band_id=0
+    uri: http://localhost:3001/api/case_workers/claims?api_key=0b8bc28b-460a-4e96-a023-100d0bd010ee&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search&sorting=last_submitted_at&status=unallocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -65,36 +69,38 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"402d3844ed3b06ed419590f360bf1f13"
+      - W/"315ce493959e35909f888473e0cff8ab"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - e8ab39d0-870d-4f38-b8bc-cfaff494de69
+      - 9b3ba3fc-89a2-402e-8681-1bc79c3eeb1c
       X-Runtime:
-      - '0.013639'
-      Transfer-Encoding:
-      - chunked
+      - '0.018056'
+      Content-Length:
+      - '93'
     body:
       encoding: ASCII-8BIT
       string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":25},"items":[]}'
-  recorded_at: Mon, 21 Mar 2022 18:05:08 GMT
+  recorded_at: Thu, 25 Apr 2024 11:39:49 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=7c71d4df-e8b3-401f-86ba-24a806122148
+    uri: http://localhost:3001/api/case_workers?api_key=0b8bc28b-460a-4e96-a023-100d0bd010ee
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -105,36 +111,38 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"8e59a6617c15f94e56112da7ce7b8575"
+      - W/"7fc976d4e38b41fa95277d17497f0bd1"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - 40f200e0-e2d8-411b-9895-a6b77fa15b27
+      - 917ec46d-3698-4758-b08f-ef27134237ea
       X-Runtime:
-      - '0.016672'
-      Transfer-Encoding:
-      - chunked
+      - '0.012515'
+      Content-Length:
+      - '529'
     body:
       encoding: ASCII-8BIT
-      string: '[{"id":1,"uuid":"87120be5-1592-41bb-98b6-b14b1cf37ecc","first_name":"Terry","last_name":"Huels","email":"terry.huels@laa.gov.uk"},{"id":2,"uuid":"1accda86-dacc-4f88-b9d5-f7165c5614b2","first_name":"Kanesha","last_name":"Torphy","email":"kanesha.torphy@laa.gov.uk"},{"id":3,"uuid":"d676ee7f-58c3-4a51-91f3-f8c5bca91e8b","first_name":"Laticia","last_name":"Tillman","email":"laticia.tillman@laa.gov.uk"},{"id":4,"uuid":"64fda955-a156-4042-ad6a-87fcf85dc8d6","first_name":"Lydia","last_name":"Wiza","email":"lydia.wiza@laa.gov.uk"}]'
-  recorded_at: Mon, 21 Mar 2022 18:05:09 GMT
+      string: '[{"id":1,"uuid":"73bb570d-59ee-4508-bde6-07bcf28d0c5d","first_name":"Dominick","last_name":"Dibbert","email":"dominick.dibbert@laa.gov.uk"},{"id":2,"uuid":"42f7d08b-7a44-40b5-a609-11d0bc155333","first_name":"Kanesha","last_name":"Torphy","email":"kanesha.torphy@laa.gov.uk"},{"id":3,"uuid":"7e9bfc8b-c547-49af-9555-e7dd1f8ce999","first_name":"Jake","last_name":"Harber","email":"jake.harber@laa.gov.uk"},{"id":4,"uuid":"8959dbde-72e1-4e46-86de-49fd396f6900","first_name":"Buck","last_name":"Rowe","email":"buck.rowe@laa.gov.uk"}]'
+  recorded_at: Thu, 25 Apr 2024 11:39:50 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=7c71d4df-e8b3-401f-86ba-24a806122148&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=&sorting=last_submitted_at&status=allocated&value_band_id=0
+    uri: http://localhost:3001/api/case_workers/claims?api_key=0b8bc28b-460a-4e96-a023-100d0bd010ee&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search&sorting=last_submitted_at&status=allocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -145,38 +153,39 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"be7f2f2da1c5b5ebc7f02a9d1af54d9f"
+      - W/"2f8ba41b06426c916bbbe248ea214594"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - 1e5fe4a5-81c2-4860-839b-217ea457120c
+      - cde236c1-e3a8-48b2-95ed-157a211310cb
       X-Runtime:
-      - '0.047671'
-      Transfer-Encoding:
-      - chunked
+      - '0.065967'
+      Content-Length:
+      - '1637'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"f16b4f0d-7194-455c-b21c-893a6c968e93","case_number":"T20160001","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2022-03-21T18:05:07Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"80ca8233-bfd3-439c-89d1-f0fac7c8e2cf","first_name":"Geraldo","last_name":"Daniel","email":"january.grant@daugherty-cremin.com"},"defendants":[{"id":1,"uuid":"7d40cd67-9657-4ee8-b0c8-444ed4a0aaf2","first_name":"Ollie","last_name":"Kertzmann","date_of_birth":"1992-03-21","representation_orders":[{"id":1,"uuid":"8c369aff-9edc-412c-a568-095fa69bc32c","maat_reference":"5039132","date":"2016-01-01"},{"id":2,"uuid":"eb7fe81c-3d67-4fd5-8591-08235ff1edc5","maat_reference":"9668129","date":"2021-03-06"}]}],"case_type":{"id":64,"name":"Case
-        Type 17","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":3,"uuid":"d676ee7f-58c3-4a51-91f3-f8c5bca91e8b","first_name":"Laticia","last_name":"Tillman","email":"laticia.tillman@laa.gov.uk"},{"id":1,"uuid":"87120be5-1592-41bb-98b6-b14b1cf37ecc","first_name":"Terry","last_name":"Huels","email":"terry.huels@laa.gov.uk"}],"court":{"id":200,"code":"QTA-18","name":"Pouros,
-        Ebert and Mraz-18","court_type":"crown"}}]}'
-  recorded_at: Mon, 21 Mar 2022 18:05:09 GMT
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"0f29c124-5ed7-486f-b082-8945d747e46c","case_number":"T20160001","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2024-04-25T11:39:48Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"d691f1ae-8c2e-4f79-b967-459bde753f2f","first_name":"Philip","last_name":"Hartmann","email":"shawn.veum@kris.test"},"defendants":[{"id":1,"uuid":"8d188831-05bf-471f-9e71-a0f862016937","first_name":"Gustavo","last_name":"Reinger","date_of_birth":"1994-04-25","representation_orders":[{"id":1,"uuid":"dfd96179-30fe-450c-8404-47bc5def55ea","maat_reference":"8181111","date":"2016-01-01"},{"id":2,"uuid":"460d1eaf-4f89-4854-8ac2-8abf04b0ddf2","maat_reference":"5361186","date":"2023-04-11"}]}],"case_type":{"id":69,"name":"Case
+        Type 14","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":3,"uuid":"7e9bfc8b-c547-49af-9555-e7dd1f8ce999","first_name":"Jake","last_name":"Harber","email":"jake.harber@laa.gov.uk"},{"id":1,"uuid":"73bb570d-59ee-4508-bde6-07bcf28d0c5d","first_name":"Dominick","last_name":"Dibbert","email":"dominick.dibbert@laa.gov.uk"}],"court":{"id":337,"code":"NWM-14","name":"Shanahan-Shanahan-14","court_type":"crown"}}]}'
+  recorded_at: Thu, 25 Apr 2024 11:39:50 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers?api_key=7c71d4df-e8b3-401f-86ba-24a806122148
+    uri: http://localhost:3001/api/case_workers?api_key=0b8bc28b-460a-4e96-a023-100d0bd010ee
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -187,36 +196,38 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"7d6507e7349100a983266beaf0e4acad"
+      - W/"7fc976d4e38b41fa95277d17497f0bd1"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - d75f02b8-9ac4-44d1-9f37-2ec492690368
+      - 6c3960d3-c092-41d2-9285-845e095b92e6
       X-Runtime:
-      - '0.021326'
-      Transfer-Encoding:
-      - chunked
+      - '0.015844'
+      Content-Length:
+      - '529'
     body:
       encoding: ASCII-8BIT
-      string: '[{"id":1,"uuid":"87120be5-1592-41bb-98b6-b14b1cf37ecc","first_name":"Terry","last_name":"Huels","email":"terry.huels@laa.gov.uk"},{"id":2,"uuid":"1accda86-dacc-4f88-b9d5-f7165c5614b2","first_name":"Kanesha","last_name":"Torphy","email":"kanesha.torphy@laa.gov.uk"},{"id":3,"uuid":"d676ee7f-58c3-4a51-91f3-f8c5bca91e8b","first_name":"Laticia","last_name":"Tillman","email":"laticia.tillman@laa.gov.uk"},{"id":4,"uuid":"64fda955-a156-4042-ad6a-87fcf85dc8d6","first_name":"Lydia","last_name":"Wiza","email":"lydia.wiza@laa.gov.uk"}]'
-  recorded_at: Mon, 21 Mar 2022 18:05:10 GMT
+      string: '[{"id":1,"uuid":"73bb570d-59ee-4508-bde6-07bcf28d0c5d","first_name":"Dominick","last_name":"Dibbert","email":"dominick.dibbert@laa.gov.uk"},{"id":2,"uuid":"42f7d08b-7a44-40b5-a609-11d0bc155333","first_name":"Kanesha","last_name":"Torphy","email":"kanesha.torphy@laa.gov.uk"},{"id":3,"uuid":"7e9bfc8b-c547-49af-9555-e7dd1f8ce999","first_name":"Jake","last_name":"Harber","email":"jake.harber@laa.gov.uk"},{"id":4,"uuid":"8959dbde-72e1-4e46-86de-49fd396f6900","first_name":"Buck","last_name":"Rowe","email":"buck.rowe@laa.gov.uk"}]'
+  recorded_at: Thu, 25 Apr 2024 11:39:50 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=7c71d4df-e8b3-401f-86ba-24a806122148&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=does%20not%20exist&sorting=last_submitted_at&status=allocated&value_band_id=0
+    uri: http://localhost:3001/api/case_workers/claims?api_key=0b8bc28b-460a-4e96-a023-100d0bd010ee&direction=asc&filter=all&limit=25&page=0&scheme=agfs&search=does%20not%20exist&sorting=last_submitted_at&status=allocated&value_band_id=0
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -227,19 +238,19 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"b344e4bcf3b893b6e678206428f5f73c"
+      - W/"3feecdec04d1e583461e019f816fe396"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - 429bec34-e708-4820-bf86-2c6d93950758
+      - '09a7630a-aef0-4293-a0d1-df1d86cebc62'
       X-Runtime:
-      - '0.036612'
-      Transfer-Encoding:
-      - chunked
+      - '0.021559'
+      Content-Length:
+      - '93'
     body:
       encoding: ASCII-8BIT
       string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":25},"items":[]}'
-  recorded_at: Mon, 21 Mar 2022 18:05:10 GMT
-recorded_with: VCR 6.1.0
+  recorded_at: Thu, 25 Apr 2024 11:39:50 GMT
+recorded_with: VCR 6.2.0

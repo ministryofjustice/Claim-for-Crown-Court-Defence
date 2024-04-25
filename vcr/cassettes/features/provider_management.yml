@@ -2,19 +2,21 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=6334632a-1cf0-45dc-993c-8797b2c4d17f&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=3db163fd-8bc6-4929-8c9d-975f8f189419&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -25,19 +27,19 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"0e53f7d89b3f4750d92549c0ed93cef6"
+      - W/"ea6210f757af9d90ae1782f65cb4cd40"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - 9298f309-9361-4992-82ee-66f18a1ae6e9
+      - 2fee4dbd-0f16-42c0-90f5-dd5dfe857856
       X-Runtime:
-      - '0.172177'
-      Transfer-Encoding:
-      - chunked
+      - '0.041539'
+      Content-Length:
+      - '93'
     body:
       encoding: ASCII-8BIT
       string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
-  recorded_at: Mon, 21 Mar 2022 17:42:22 GMT
-recorded_with: VCR 6.1.0
+  recorded_at: Thu, 25 Apr 2024 11:39:33 GMT
+recorded_with: VCR 6.2.0

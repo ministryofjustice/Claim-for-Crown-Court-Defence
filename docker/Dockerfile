@@ -1,4 +1,4 @@
-FROM ruby:3.2-alpine3.17 AS base
+FROM ruby:3.2-alpine3.19 AS base
 
 # Stage 1: installs gems and npm packages
 FROM base AS builder
@@ -12,7 +12,6 @@ RUN apk --update-cache upgrade \
  && apk --no-cache add \
                    build-base \
                    git \
-                   gmp=6.2.1-r2 \
                    postgresql-dev \
                    yarn
 

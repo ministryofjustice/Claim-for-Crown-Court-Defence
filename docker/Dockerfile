@@ -12,7 +12,6 @@ RUN apk --update-cache upgrade \
  && apk --no-cache add \
                    build-base \
                    git \
-                   gmp=6.2.1-r2 \
                    postgresql-dev \
                    yarn
 

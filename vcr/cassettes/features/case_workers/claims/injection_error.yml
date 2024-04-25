@@ -2,19 +2,21 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=aadbcbd9-5614-44f6-9168-b18bb60143ed&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=e21a6099-56d9-4697-bd62-441a4b04ed8c&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -25,39 +27,41 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"ab592ae82595ae0e82dbae2db91f21fb"
+      - W/"27fa92c759b85f1d805e5170b82a4e4c"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - c2b42fba-f04b-4002-a1f6-303b03973b39
+      - 8c18d5b7-34b6-4add-a93d-667dae4a1a45
       X-Runtime:
-      - '0.184980'
-      Transfer-Encoding:
-      - chunked
+      - '0.129078'
+      Content-Length:
+      - '1746'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"be13ba9c-8737-4f91-b541-990f1c3509ab","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2022-03-21T18:04:26Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"84b910b9-b040-45de-a599-0d2ff6a14dea","first_name":"Rod","last_name":"Lesch","email":"brad@okon.name"},"defendants":[{"id":1,"uuid":"03a43383-a110-4142-ad92-5bcab739f171","first_name":"Shenita","last_name":"Mueller","date_of_birth":"1992-03-21","representation_orders":[{"id":1,"uuid":"48d7189b-8dc7-4d4d-8f61-3dab4d8bfcf9","maat_reference":"4893044","date":"2016-01-01"},{"id":2,"uuid":"1efaec0a-636b-4646-a970-766e947d8a8b","maat_reference":"4896889","date":"2021-03-06"}]}],"case_type":{"id":63,"name":"Case
-        Type 16","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[{"succeeded":false,"error_messages":["injection
-        error 1","injection error 2"],"deleted_at":null}],"case_workers":[{"id":2,"uuid":"e75f63d5-3d87-4a95-9af3-015bdc68b1db","first_name":"Norbert","last_name":"Abbott","email":"norbert.abbott@laa.gov.uk"},{"id":1,"uuid":"eef21787-f678-4edd-85d7-ce5651c6e363","first_name":"Chassidy","last_name":"Hauck","email":"chassidy.hauck@laa.gov.uk"}],"court":{"id":199,"code":"SRU-17","name":"Gerhold
-        Group-17","court_type":"crown"}}]}'
-  recorded_at: Mon, 21 Mar 2022 18:04:28 GMT
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"fb985a94-8167-4704-8191-552a186ef8e2","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2024-04-25T11:39:29Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"c453b884-da9c-4c1a-81cd-49e84980eba7","first_name":"Wilbur","last_name":"Rosenbaum","email":"ivan_effertz@mills-conn.test"},"defendants":[{"id":1,"uuid":"94321837-3fcc-4874-8180-4b50bba7134d","first_name":"Khadijah","last_name":"Stiedemann","date_of_birth":"1994-04-25","representation_orders":[{"id":1,"uuid":"c50f8ac9-b26f-455c-8872-c513d94fe95c","maat_reference":"6278484","date":"2016-01-01"},{"id":2,"uuid":"1eba0f7e-aff0-4579-aecd-12280f1ae4cd","maat_reference":"4158877","date":"2023-04-11"}]}],"case_type":{"id":68,"name":"Case
+        Type 13","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[{"succeeded":false,"error_messages":["injection
+        error 1","injection error 2"],"deleted_at":null}],"case_workers":[{"id":2,"uuid":"d5edb7e2-a9b1-440f-94da-5fc419999d57","first_name":"Cordell","last_name":"Nikolaus","email":"cordell.nikolaus@laa.gov.uk"},{"id":1,"uuid":"274e70e2-8c64-4fef-821b-8f12c1d2a8cb","first_name":"Burl","last_name":"Cremin","email":"burl.cremin@laa.gov.uk"}],"court":{"id":336,"code":"ELB-13","name":"Predovic
+        and Sons-13","court_type":"crown"}}]}'
+  recorded_at: Thu, 25 Apr 2024 11:39:30 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=aadbcbd9-5614-44f6-9168-b18bb60143ed&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=e21a6099-56d9-4697-bd62-441a4b04ed8c&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -68,39 +72,41 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"d479adaebe28d8f06ed3e5df5d0c55db"
+      - W/"c8b451bd2cb09588eff671fc44bf8445"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - d2c1086d-b586-42f2-b8f6-0b42a86a41d3
+      - fb83ed61-220c-4938-8945-c0dadc9f406b
       X-Runtime:
-      - '0.057399'
-      Transfer-Encoding:
-      - chunked
+      - '0.050717'
+      Content-Length:
+      - '1746'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"be13ba9c-8737-4f91-b541-990f1c3509ab","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2022-03-21T18:04:26Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"84b910b9-b040-45de-a599-0d2ff6a14dea","first_name":"Rod","last_name":"Lesch","email":"brad@okon.name"},"defendants":[{"id":1,"uuid":"03a43383-a110-4142-ad92-5bcab739f171","first_name":"Shenita","last_name":"Mueller","date_of_birth":"1992-03-21","representation_orders":[{"id":1,"uuid":"48d7189b-8dc7-4d4d-8f61-3dab4d8bfcf9","maat_reference":"4893044","date":"2016-01-01"},{"id":2,"uuid":"1efaec0a-636b-4646-a970-766e947d8a8b","maat_reference":"4896889","date":"2021-03-06"}]}],"case_type":{"id":63,"name":"Case
-        Type 16","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[{"succeeded":false,"error_messages":["injection
-        error 1","injection error 2"],"deleted_at":null}],"case_workers":[{"id":2,"uuid":"e75f63d5-3d87-4a95-9af3-015bdc68b1db","first_name":"Norbert","last_name":"Abbott","email":"norbert.abbott@laa.gov.uk"},{"id":1,"uuid":"eef21787-f678-4edd-85d7-ce5651c6e363","first_name":"Chassidy","last_name":"Hauck","email":"chassidy.hauck@laa.gov.uk"}],"court":{"id":199,"code":"SRU-17","name":"Gerhold
-        Group-17","court_type":"crown"}}]}'
-  recorded_at: Mon, 21 Mar 2022 18:04:29 GMT
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"fb985a94-8167-4704-8191-552a186ef8e2","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2024-04-25T11:39:29Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"c453b884-da9c-4c1a-81cd-49e84980eba7","first_name":"Wilbur","last_name":"Rosenbaum","email":"ivan_effertz@mills-conn.test"},"defendants":[{"id":1,"uuid":"94321837-3fcc-4874-8180-4b50bba7134d","first_name":"Khadijah","last_name":"Stiedemann","date_of_birth":"1994-04-25","representation_orders":[{"id":1,"uuid":"c50f8ac9-b26f-455c-8872-c513d94fe95c","maat_reference":"6278484","date":"2016-01-01"},{"id":2,"uuid":"1eba0f7e-aff0-4579-aecd-12280f1ae4cd","maat_reference":"4158877","date":"2023-04-11"}]}],"case_type":{"id":68,"name":"Case
+        Type 13","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[{"succeeded":false,"error_messages":["injection
+        error 1","injection error 2"],"deleted_at":null}],"case_workers":[{"id":2,"uuid":"d5edb7e2-a9b1-440f-94da-5fc419999d57","first_name":"Cordell","last_name":"Nikolaus","email":"cordell.nikolaus@laa.gov.uk"},{"id":1,"uuid":"274e70e2-8c64-4fef-821b-8f12c1d2a8cb","first_name":"Burl","last_name":"Cremin","email":"burl.cremin@laa.gov.uk"}],"court":{"id":336,"code":"ELB-13","name":"Predovic
+        and Sons-13","court_type":"crown"}}]}'
+  recorded_at: Thu, 25 Apr 2024 11:39:31 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=aadbcbd9-5614-44f6-9168-b18bb60143ed&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=e21a6099-56d9-4697-bd62-441a4b04ed8c&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -111,22 +117,22 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"a29a2cccec59f9613142d29c420955f3"
+      - W/"714f7d512b26ab8f995b79858e3e4895"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - 04aac3a4-5c6b-4ce2-a74c-609bb5468442
+      - bb2dfb77-0b58-439a-8dab-68722a6cc1f4
       X-Runtime:
-      - '0.068261'
-      Transfer-Encoding:
-      - chunked
+      - '0.035733'
+      Content-Length:
+      - '1769'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"be13ba9c-8737-4f91-b541-990f1c3509ab","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2022-03-21T18:04:26Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"84b910b9-b040-45de-a599-0d2ff6a14dea","first_name":"Rod","last_name":"Lesch","email":"brad@okon.name"},"defendants":[{"id":1,"uuid":"03a43383-a110-4142-ad92-5bcab739f171","first_name":"Shenita","last_name":"Mueller","date_of_birth":"1992-03-21","representation_orders":[{"id":1,"uuid":"48d7189b-8dc7-4d4d-8f61-3dab4d8bfcf9","maat_reference":"4893044","date":"2016-01-01"},{"id":2,"uuid":"1efaec0a-636b-4646-a970-766e947d8a8b","maat_reference":"4896889","date":"2021-03-06"}]}],"case_type":{"id":63,"name":"Case
-        Type 16","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[{"succeeded":false,"error_messages":["injection
-        error 1","injection error 2"],"deleted_at":"2022-03-21T18:04:31+00:00"}],"case_workers":[{"id":2,"uuid":"e75f63d5-3d87-4a95-9af3-015bdc68b1db","first_name":"Norbert","last_name":"Abbott","email":"norbert.abbott@laa.gov.uk"},{"id":1,"uuid":"eef21787-f678-4edd-85d7-ce5651c6e363","first_name":"Chassidy","last_name":"Hauck","email":"chassidy.hauck@laa.gov.uk"}],"court":{"id":199,"code":"SRU-17","name":"Gerhold
-        Group-17","court_type":"crown"}}]}'
-  recorded_at: Mon, 21 Mar 2022 18:04:32 GMT
-recorded_with: VCR 6.1.0
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"fb985a94-8167-4704-8191-552a186ef8e2","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2024-04-25T11:39:29Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"c453b884-da9c-4c1a-81cd-49e84980eba7","first_name":"Wilbur","last_name":"Rosenbaum","email":"ivan_effertz@mills-conn.test"},"defendants":[{"id":1,"uuid":"94321837-3fcc-4874-8180-4b50bba7134d","first_name":"Khadijah","last_name":"Stiedemann","date_of_birth":"1994-04-25","representation_orders":[{"id":1,"uuid":"c50f8ac9-b26f-455c-8872-c513d94fe95c","maat_reference":"6278484","date":"2016-01-01"},{"id":2,"uuid":"1eba0f7e-aff0-4579-aecd-12280f1ae4cd","maat_reference":"4158877","date":"2023-04-11"}]}],"case_type":{"id":68,"name":"Case
+        Type 13","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[{"succeeded":false,"error_messages":["injection
+        error 1","injection error 2"],"deleted_at":"2024-04-25T12:39:31+01:00"}],"case_workers":[{"id":2,"uuid":"d5edb7e2-a9b1-440f-94da-5fc419999d57","first_name":"Cordell","last_name":"Nikolaus","email":"cordell.nikolaus@laa.gov.uk"},{"id":1,"uuid":"274e70e2-8c64-4fef-821b-8f12c1d2a8cb","first_name":"Burl","last_name":"Cremin","email":"burl.cremin@laa.gov.uk"}],"court":{"id":336,"code":"ELB-13","name":"Predovic
+        and Sons-13","court_type":"crown"}}]}'
+  recorded_at: Thu, 25 Apr 2024 11:39:32 GMT
+recorded_with: VCR 6.2.0

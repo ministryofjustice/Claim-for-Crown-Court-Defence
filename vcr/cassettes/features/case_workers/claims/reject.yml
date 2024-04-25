@@ -2,19 +2,21 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=6fde6549-ec78-4463-a37d-bf3db01e553c&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=e00ab308-f9b3-4382-9399-d9702efc1a34&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -25,38 +27,40 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"83d99ee1c891e6115d1d615b05b6b259"
+      - W/"d277fb033f2f8b29434fa86cdec86d4a"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - 42005300-b275-4a16-82dc-6686f3c67eb5
+      - 972c3b74-3d14-4a21-ab03-078bed36ef15
       X-Runtime:
-      - '0.059466'
-      Transfer-Encoding:
-      - chunked
+      - '0.071796'
+      Content-Length:
+      - '1636'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"bdd320b8-a07e-49b2-971f-77a34d99b79d","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2022-03-21T18:05:40Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"92814785-0498-4628-8d7f-793c98f45472","first_name":"Lesli","last_name":"Kertzmann","email":"daren@towne.name"},"defendants":[{"id":1,"uuid":"279b0f42-8996-46f3-8a39-800a592451de","first_name":"Alaine","last_name":"Legros","date_of_birth":"1992-03-21","representation_orders":[{"id":1,"uuid":"5a482b93-afcd-4e71-a9c5-1b67a8982eed","maat_reference":"8196854","date":"2016-01-01"},{"id":2,"uuid":"7eb43106-4427-42db-9d2f-61d7cd2e125c","maat_reference":"4898315","date":"2021-03-06"}]}],"case_type":{"id":68,"name":"Case
-        Type 21","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"9cc7024a-ce7f-4290-9560-5ee7642eef2f","first_name":"Rodger","last_name":"Rodriguez","email":"rodger.rodriguez@laa.gov.uk"},{"id":1,"uuid":"b582ad71-e761-4424-ab6e-10711839e293","first_name":"Horacio","last_name":"Rempel","email":"horacio.rempel@laa.gov.uk"}],"court":{"id":204,"code":"DKW-22","name":"McDermott
-        LLC-22","court_type":"crown"}}]}'
-  recorded_at: Mon, 21 Mar 2022 18:05:42 GMT
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"a38a487e-e6bd-4fe7-b57e-bffdd1b59fa0","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2024-04-25T11:40:12Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"2284f4b3-531f-4b49-ba78-bbfb7b058969","first_name":"Edwina","last_name":"Connelly","email":"dotty@anderson.test"},"defendants":[{"id":1,"uuid":"29d55e48-df5e-4e76-bed4-fc9ad488a445","first_name":"Pat","last_name":"Hills","date_of_birth":"1994-04-25","representation_orders":[{"id":1,"uuid":"38891769-f407-4f85-bf7c-75023bd83908","maat_reference":"4081263","date":"2016-01-01"},{"id":2,"uuid":"7aecbde6-4ed9-426a-b6ce-4449ac3f1e27","maat_reference":"6734027","date":"2023-04-11"}]}],"case_type":{"id":73,"name":"Case
+        Type 18","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"7d1b8d8c-9c6e-4883-bf3b-a8a210e1c068","first_name":"Curtis","last_name":"Bogisich","email":"curtis.bogisich@laa.gov.uk"},{"id":1,"uuid":"43a95f4b-9155-4ff2-9f78-1c4166d8eb2e","first_name":"Milo","last_name":"Ebert","email":"milo.ebert@laa.gov.uk"}],"court":{"id":341,"code":"ZIV-18","name":"MacGyver,
+        Mosciski and Koss-18","court_type":"crown"}}]}'
+  recorded_at: Thu, 25 Apr 2024 11:40:14 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=6fde6549-ec78-4463-a37d-bf3db01e553c&direction=asc&limit=10&page=0&search=&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=e00ab308-f9b3-4382-9399-d9702efc1a34&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
     headers:
-      Accept:
-      - "*/*"
+      X-Forwarded-Proto:
+      - https
+      X-Forwarded-Ssl:
+      - 'on'
       User-Agent:
-      - rest-client/2.1.0 (darwin19 x86_64) ruby/2.7.4p191
+      - Faraday v2.9.0
       Accept-Encoding:
       - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Host:
-      - localhost:3001
+      Accept:
+      - "*/*"
   response:
     status:
       code: 200
@@ -67,19 +71,19 @@ http_interactions:
       Vary:
       - Accept-Encoding
       Etag:
-      - W/"3a614687d596d89444277400ef84424e"
+      - W/"86696b965bc296de6b570a4daa041d47"
       Cache-Control:
       - max-age=0, private, must-revalidate
       X-Meta-Request-Version:
-      - 0.7.3
+      - 0.8.2
       X-Request-Id:
-      - 7c009518-3432-424b-84a4-62eebe6645e3
+      - b6abcec2-f92e-45e0-b7db-e2b5fad80aa3
       X-Runtime:
-      - '0.016672'
-      Transfer-Encoding:
-      - chunked
+      - '0.039782'
+      Content-Length:
+      - '93'
     body:
       encoding: ASCII-8BIT
       string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
-  recorded_at: Mon, 21 Mar 2022 18:05:46 GMT
-recorded_with: VCR 6.1.0
+  recorded_at: Thu, 25 Apr 2024 11:40:16 GMT
+recorded_with: VCR 6.2.0

@@ -11,7 +11,7 @@ Rails.application.configure do
   config.force_ssl = true
 
   # Code is not reloaded between requests.
-  config.cache_classes = true
+  config.enable_reloading = false
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -51,15 +51,25 @@ Rails.application.configure do
   # config.action_cable.url = "wss://example.com/cable"
   # config.action_cable.allowed_request_origins = [ "http://example.com", /http:\/\/example.*/ ]
 
+  # Assume all access to the app is happening through a SSL-terminating reverse proxy.
+  # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
+  # config.assume_ssl = true
+
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  # Include generic and useful information about system operation, but avoid logging too much
-  # information to avoid inadvertent exposure of personally identifiable information (PII).
-  config.log_level = :info
-
+  # See below
+  # # Log to STDOUT by default
+  # config.logger = ActiveSupport::Logger.new(STDOUT)
+  #   .tap  { |logger| logger.formatter = ::Logger::Formatter.new }
+  #   .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
+    
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
+
+  # Include generic and useful information about system operation, but avoid logging too much  
+  # information to avoid inadvertent exposure of personally identifiable information (PII).
+  config.log_level = :info
 
   config.action_dispatch.show_exceptions = false
 
@@ -115,4 +125,12 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Enable DNS rebinding protection and other `Host` header attacks.
+  # config.hosts = [
+  #   "example.com",     # Allow requests from example.com
+  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
+  # ]
+  # Skip DNS rebinding protection for the default health check endpoint.
+  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end

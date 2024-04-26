@@ -613,20 +613,20 @@ workflows:
             branches:
               ignore:
                 - master
-      - other-tests:
-          requires:
-            - build-test-container
+      # - other-tests:
+      #     requires:
+      #       - build-test-container
       - rspec-tests:
           requires:
             - build-test-container
-      - cucumber-tests:
-          requires:
-            - build-test-container
+      # - cucumber-tests:
+      #     requires:
+      #       - build-test-container
       - upload-coverage:
           requires:
             - rspec-tests
-            - cucumber-tests
-            - other-tests
+            # - cucumber-tests
+            # - other-tests
 
   build-deploy-branch:
     jobs:

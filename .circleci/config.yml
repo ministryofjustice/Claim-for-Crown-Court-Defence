@@ -205,10 +205,18 @@ commands:
           root: tmp
           paths:
             - coverage/codeclimate.*.json
+      # Save the coverage for rerunning failed tests. CircleCI will skip saving if this revision key has already been saved.
+      - save_cache:
+          key: coverage-{{.Revision}}-{{.Environment.CIRCLE_NODE_INDEX}}
+          paths:
+            - tmp/coverage/codeclimate.*.json
+          when: always
       - store_artifacts:
           path: tmp/coverage
+          when: always
       - store_test_results:
           path: /tmp/test-results/rspec
+          when: always
 
   run-cucumber:
     description: >
@@ -422,6 +430,11 @@ jobs:
     parallelism: 6
     steps:
       - checkout
+      - restore_cache:
+          key: coverage-{{.Revision}}-{{.Environment.CIRCLE_NODE_INDEX}}
+      - store_artifacts:
+          path: tmp/coverage
+          when: always
       - run:
           name: Halt if no tests to run
           command: |

@@ -7,3 +7,4 @@
 # ```
 remote_api_key: 'not-provided'
 remote_api_url: 'http://localhost:3001/api'
+secret_key_base: 71bdb5d745e27e76e6df101da527598ae7586d2e9667e1a9a31111b3b71f7a63a23a6bab4e03b872a09fb3d26c9ade3006b7847825326148070a729317871add

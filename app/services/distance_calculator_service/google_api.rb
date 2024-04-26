@@ -34,7 +34,7 @@ class DistanceCalculatorService
       @params ||= {
         region: 'uk',
         alternatives: true,
-        key: Rails.application.secrets.google_api_key,
+        key: Settings.google_api_key,
         origin: @origin,
         destination: @destination
       }

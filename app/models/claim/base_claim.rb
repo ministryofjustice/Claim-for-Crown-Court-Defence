@@ -12,7 +12,7 @@ module Claim
 
     auto_strip_attributes :case_number, :cms_number, :supplier_number, squish: true, nullify: true
 
-    serialize :evidence_checklist_ids, Array
+    serialize :evidence_checklist_ids, type: Array
 
     attr_reader :form_step
     alias current_step form_step

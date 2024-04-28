@@ -577,7 +577,7 @@ GEM
       sidekiq (>= 3.0)
     shoulda-matchers (6.2.0)
       activesupport (>= 5.2.0)
-    sidekiq (7.2.3)
+    sidekiq (7.2.4)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
       rack (>= 2.2.4)
@@ -754,7 +754,7 @@ DEPENDENCIES
   sentry-rails (~> 5.17)
   sentry-sidekiq (~> 5.17)
   shoulda-matchers (~> 6.2)
-  sidekiq (~> 7.2)
+  sidekiq (~> 7.2, >= 7.2.4)
   sidekiq-failures (~> 1.0, >= 1.0.4)
   sidekiq-scheduler (~> 5.0.3)
   simplecov
@@ -774,4 +774,4 @@ RUBY VERSION
    ruby 3.2.4p170
 
 BUNDLED WITH
-   2.4.22
+   2.4.6

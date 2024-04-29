@@ -43,13 +43,13 @@ module API
               e)
     end
 
-    def log_api(level, type, data, error = nil)
+    def log_api(level, type, message, error = nil)
       LogStuff.send(
         level.to_sym,
         type:,
         error: error ? "#{error.class} - #{error.message}" : 'false'
       ) do
-        "API Log: #{data.to_json}"
+          message
       end
     end
   end

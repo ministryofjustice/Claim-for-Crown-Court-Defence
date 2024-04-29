@@ -123,6 +123,9 @@ Rails.application.configure do
   #   enable_starttls_auto: true
   # }
 
-  # Raise error when a before_action's only/except options reference missing actions
-  config.action_controller.raise_on_missing_callback_actions = true
+  # Do not raise error when a before_action's only/except options reference
+  # missing actions. This option is intended to catch errors in defining
+  # callbacks but it raises false positives with shared concerns.
+  # See https://github.com/rails/rails/pull/43487#issuecomment-1368292674
+  config.action_controller.raise_on_missing_callback_actions = false
 end

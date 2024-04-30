@@ -378,7 +378,7 @@ moj.Modules.AllocationDataTable = {
       }).done(function (result) {
         self.ui.$notificationMsg.removeClass('govuk-!-display-none govuk-notification-banner--error')
         self.ui.$notificationMsg.addClass('govuk-notification-banner--success')
-        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').html(result.allocated_claims.length + ' claims have been allocated to ' + $('#allocation-case-worker-id-field').val())
+        self.ui.$notificationMsg.find('.govuk-notification-banner__heading').text(result.allocated_claims.length + ' claims have been allocated to ' + $('#allocation-case-worker-id-field').val())
 
         self.reloadScheme({
           scheme: self.searchConfig.scheme

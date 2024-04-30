@@ -64,37 +64,67 @@ RSpec.describe API::V1::ExternalUsers::DateAttended do
     end
 
     context 'when date_attended params are invalid' do
+      before { allow(LogStuff).to receive(:send) }
+
       include_examples 'invalid API key', exclude: :other_provider, action: :create
 
       context 'missing expected params' do
-        it 'returns a JSON error array with required model attributes' do
+        before do
           valid_params.delete(:date)
           post_to_create_endpoint
+        end
+
+        it 'returns a JSON error array with required model attributes' do
           expect_error_response('Enter the date attended (from)')
+        end
+
+        it 'logs the error' do
+          expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error'))
         end
       end
 
       context 'missing attended item id' do
-        it 'returns 400 and a JSON error array' do
+        before do
           valid_params.delete(:attended_item_id)
           post_to_create_endpoint
+        end
+
+        it 'returns 400 and a JSON error array' do
           expect_error_response('Attended item cannot be blank')
+        end
+
+        it 'logs the error' do
+          expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error'))
         end
       end
 
       context 'invalid attended item id' do
-        it 'returns 400 and a JSON error array' do
+        before do
           valid_params[:attended_item_id] = SecureRandom.uuid
           post_to_create_endpoint
+        end
+
+        it 'returns 400 and a JSON error array' do
           expect_error_response('Attended item cannot be blank')
+        end
+
+        it 'logs the error' do
+          expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error'))
         end
       end
 
       context 'malformed attended_item_id UUID' do
-        it 'rejects malformed uuids' do
+        before do
           valid_params[:attended_item_id] = 'any-old-rubbish'
           post_to_create_endpoint
+        end
+
+        it 'rejects malformed uuids' do
           expect_error_response('Attended item cannot be blank')
+        end
+
+        it 'logs the error' do
+          expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error'))
         end
       end
 

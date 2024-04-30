@@ -120,7 +120,7 @@ RSpec.describe API::Logger do
       end
     end
 
-    context 'when a valid status code is provided' do
+    context 'when a 200 status code is provided' do
       before do
         logger.instance_variable_set(:@app_response, [200, '', body])
         allow(LogStuff).to receive(:send)
@@ -130,15 +130,13 @@ RSpec.describe API::Logger do
       context 'when invalid data is provided' do
         let(:env) { {} }
         let(:body) { 'invalid' }
-        let(:error_payload) do
-          { request_id: nil,
-            error: "Error parsing API response body: \nJSON::ParserError - unexpected token at 'i'" }
-        end
 
         it 'fails gracefully and records an error' do
-          expect(LogStuff).to have_received(:send).once.with(:error,
-                                                             type: 'api-response-body',
-                                                             data: error_payload)
+          expect(LogStuff).to have_received(:send)
+            .once.with(:error,
+                       type: 'api-response-body',
+                       data: { request_id: nil },
+                       error: "Error parsing API response body: \nJSON::ParserError - unexpected token at 'i'")
         end
       end
 
@@ -187,6 +185,30 @@ RSpec.describe API::Logger do
                                                         type: 'api-response',
                                                         data: payload)
         end
+      end
+    end
+
+    context 'when a non-200 status is provided' do
+      before do
+        logger.instance_variable_set(:@app_response, [400, '', body])
+        allow(LogStuff).to receive(:send)
+        logger.after
+      end
+
+      let(:env) do
+        { 'action_dispatch.request_id' => '123',
+          'PATH_INFO' => 'api/valid/path' }
+      end
+      let(:body) do
+        [[{ 'error' => 'Test error' }].to_json]
+      end
+
+      it 'logs an error and records it' do
+        expect(LogStuff).to have_received(:send).once.with(:error, type: 'api-error',
+                                                                   data: { request_id: '123',
+                                                                           path: 'api/valid/path',
+                                                                           status: '400' },
+                                                                   error: 'Test error')
       end
     end
   end

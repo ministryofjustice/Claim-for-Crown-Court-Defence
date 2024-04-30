@@ -19,7 +19,7 @@ module API
                   claim_id: response_param('claim_id'), case_number: response_param('case_number'),
                   id: response_param('id') })
       elsif response_status
-        log_error('api-error-response',
+        log_error('api-error',
                   { request_id:, path:, status: response_status }, response_param('error'))
       end
       @app_response # this must return @app_response or nil
@@ -30,6 +30,7 @@ module API
     def request_id
       env['action_dispatch.request_id']
     end
+
     def path
       env['PATH_INFO']
     end
@@ -104,7 +105,7 @@ module API
         data:,
         error:
       ) do
-        "API error logged"
+        'API error logged'
       end
     end
   end

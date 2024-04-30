@@ -3,27 +3,53 @@ module API
     def before
       log_api(:info,
               'api-request',
-              { method: env['REQUEST_METHOD'],
+              { request_id: env['action_dispatch.request_id'],
+                method: env['REQUEST_METHOD'],
                 path: env['PATH_INFO'],
                 data: env['rack.request.form_hash'] })
     end
 
     def after
-      log_api(:info,
-              'api-response',
-              { inputs: input_params, status: response_status, response_body: })
+      if response_status
+        log_api(:info,
+                'api-response',
+                { request_id: env['action_dispatch.request_id'],
+                  status: response_status,
+                  response_body: })
+      end
       @app_response # this must return @app_response or nil
     end
 
     private
 
-    def input_params
-      JSON.parse(env['api.request.input'].to_s)
-    rescue JSON::ParserError => e
-      log_api(:error,
-              'api-input-params',
-              { message: 'Error parsing API input parameters', input_params: env['api.request.input'] },
-              e)
+    def request_data
+      @request_data ||= env['rack.request.form_hash'] || {}
+    end
+
+    def creator_email
+      return if request_data['creator_email'].blank?
+
+      sanitised_email(request_data['creator_email'])
+    end
+
+    def user_email
+      return if request_data['user_email'].blank?
+
+      sanitised_email(request_data['user_email'])
+    end
+
+    def sanitised_email(email)
+      name, domain, extension = email.split(/[@.]/, 3)
+
+      "#{redact(name)}@#{redact(domain)}.#{extension}"
+    rescue NoMethodError
+      'Invalid email, cannot be redacted'
+    end
+
+    def redact(input)
+      input[0] +
+        ('*' * (input.length - 2)) +
+        input[-1]
     end
 
     def response_status
@@ -49,7 +75,7 @@ module API
         type:,
         error: error ? "#{error.class} - #{error.message}" : 'false'
       ) do
-          message
+        message
       end
     end
   end

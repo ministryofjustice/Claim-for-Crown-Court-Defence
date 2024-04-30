@@ -5,7 +5,9 @@ module API
         LogStuff.send(
           :error,
           type: 'api-error',
-          error: error ? "#{error.class} - #{error.message}" : 'false'
+          request_id: env['action_dispatch.request_id'],
+          error: error ? "#{error.class} - #{error.message}" : 'false',
+          status:
         ) do
           "API request failed with code #{status}"
         end

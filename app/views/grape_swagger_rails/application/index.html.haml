@@ -22,44 +22,47 @@
     = stylesheet_link_tag 'application', media: 'all'
 
     = tag :meta, property: 'og:image', content: request.base_url + image_tag('govuk-opengraph-image.png')
-    :javascript
-      (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
+    = javascript_tag nonce: true do
+      :plain
+        (function(){if(navigator.userAgent.match(/IEMobile\/10\.0/)){var d=document,c="appendChild",a=d.createElement("style");a[c](d.createTextNode("@-ms-viewport{width:auto!important}"));d.getElementsByTagName("head")[0][c](a);}})();
 
-    :javascript
-      $(function () {
-      var options = $("html").data('swagger-options');
-      var headers = {};
-      window.swaggerUi = new SwaggerUi({
-      url: options.app_url + options.url,
-      dom_id: "swagger-ui-container",
-      supportHeaderParams: true,
-      supportedSubmitMethods: options.supported_submit_methods || [],
-      authorizations: headers,
-      onComplete: function(swaggerApi, swaggerUi){
-      if('console' in window) {
-      console.log("Loaded SwaggerUI")
-      console.log(swaggerApi);
-      console.log(swaggerUi);
-      }
-      $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
-      },
-      onFailure: function(data) {
-      if('console' in window) {
-      console.log("Unable to Load SwaggerUI");
-      console.log(data);
-      }
-      },
-      docExpansion: options.doc_expansion,
-      validatorUrl: options.validator_url,
-      apisSorter: "alpha"
-      });
+    = javascript_tag nonce: true do
+      :plain
+        $(function () {
+        var options = $("html").data('swagger-options');
+        var headers = {};
+        window.swaggerUi = new SwaggerUi({
+        url: options.app_url + options.url,
+        dom_id: "swagger-ui-container",
+        supportHeaderParams: true,
+        supportedSubmitMethods: options.supported_submit_methods || [],
+        authorizations: headers,
+        onComplete: function(swaggerApi, swaggerUi){
+        if('console' in window) {
+        console.log("Loaded SwaggerUI")
+        console.log(swaggerApi);
+        console.log(swaggerUi);
+        }
+        $('pre code').each(function(i, e) {hljs.highlightBlock(e)});
+        },
+        onFailure: function(data) {
+        if('console' in window) {
+        console.log("Unable to Load SwaggerUI");
+        console.log(data);
+        }
+        },
+        docExpansion: options.doc_expansion,
+        validatorUrl: options.validator_url,
+        apisSorter: "alpha"
+        });
 
-      window.swaggerUi.load();
-      });
+        window.swaggerUi.load();
+        });
 
   %body.govuk-frontend-supported.govuk-template__body.swagger-section
-    :javascript
-      document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    = javascript_tag nonce: true do
+      :plain
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 
     = govuk_skip_link_to(t('layouts.skip_content'), '#main-content')
 

@@ -1,8 +1,9 @@
 = javascript_include_tag 'application.js'
 
 - if GoogleAnalytics::DataTracking.analytics? && !@disable_analytics
-  :javascript
-    ga(function(tracker) {
-      var clientId = tracker.get('clientId');
-      $('.ga-client-id').val(clientId);
-    });
+  = javascript_tag nonce: true do
+    :plain
+      ga(function(tracker) {
+        var clientId = tracker.get('clientId');
+        $('.ga-client-id').val(clientId);
+      });

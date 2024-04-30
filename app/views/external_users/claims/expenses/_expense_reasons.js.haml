@@ -1,5 +1,6 @@
 - data = { A: ExpenseType::REASON_SET_A.values, B: ExpenseType::REASON_SET_B.values, C: ExpenseType::REASON_SET_C.values }
-:javascript
-  var MOJ = MOJ || {};
+= javascript_tag nonce: true do
+  :plain
+    var MOJ = MOJ || {};
 
-  MOJ.ExpenseReasons = #{data.to_json.html_safe}
+    MOJ.ExpenseReasons = #{data.to_json.html_safe}

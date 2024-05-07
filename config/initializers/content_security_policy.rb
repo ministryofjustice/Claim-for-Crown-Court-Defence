@@ -13,7 +13,7 @@ Rails.application.configure do
     policy.script_src  :self, :https
     policy.style_src   :self, :https
     # Specify URI for violation reports
-    policy.report_uri "/csp_report"
+    # policy.report_uri "/csp_report"
   end
 
   # Generate session nonces for permitted importmap and inline scripts

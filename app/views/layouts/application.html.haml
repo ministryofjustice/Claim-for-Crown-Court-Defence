@@ -20,12 +20,13 @@
     - if GoogleAnalytics::DataTracking.enabled? && !@disable_analytics
       = render partial: 'layouts/analytics', formats: :js, locals: { adapter: GoogleAnalytics::DataTracking.adapter_name }
       - if GoogleAnalytics::DataTracking.analytics?
-        %script
+        = javascript_tag nonce: true do
           != ga_outlet
 
   %body.govuk-frontend-supported{ class: "govuk-template__body controller-#{controller.controller_name}" }
-    :javascript
-      document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    = javascript_tag nonce: true do
+      :plain
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 
     = render partial: 'layouts/cookie_banner'
 

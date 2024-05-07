@@ -208,6 +208,8 @@ Rails.application.routes.draw do
   end
   get '/help/cookie-details', to: 'cookies#cookie_details'
 
+  resource :csp_report, only: %i[create]
+
   # catch-all route
   # -------------------------------------------------
   # WARNING: do not put routes below this point

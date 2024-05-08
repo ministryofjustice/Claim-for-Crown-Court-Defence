@@ -10,15 +10,17 @@ Rails.application.configure do
     policy.font_src    :self, :https, :data
     policy.img_src     :self, :https, :data
     policy.object_src  :none
-    policy.script_src  :self, :https
+    # TODO: unsafe_inline should be removed but this cannot be done until some Javascript is refactored.
+    policy.script_src  :self, :unsafe_inline, :https
     policy.style_src   :self, :https
     # Specify URI for violation reports
-    # policy.report_uri "/csp_report"
+    policy.report_uri "/csp_report"
   end
 
   # Generate session nonces for permitted importmap and inline scripts
-  config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-  config.content_security_policy_nonce_directives = %w(script-src)
+  # TODO: Enable these options. This can only be done when unsafe_inline is removed above.
+  # config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
+  # config.content_security_policy_nonce_directives = %w(script-src)
 
   # Report violations without enforcing the policy.
   config.content_security_policy_report_only = true

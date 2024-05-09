@@ -12,7 +12,7 @@ Rails.application.configure do
     policy.object_src  :none
     # TODO: unsafe_inline should be removed but this cannot be done until some Javascript is refactored.
     policy.script_src  :self, :unsafe_inline, :https
-    policy.style_src   :self, :https
+    policy.style_src   :self, :unsafe_inline, :https
     # Specify URI for violation reports
     policy.report_uri "/csp_report"
   end

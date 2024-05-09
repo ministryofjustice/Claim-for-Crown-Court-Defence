@@ -3,13 +3,14 @@ class CspReportsController < ApplicationController
   skip_forgery_protection
 
   def create
-    slack_notifier.build_payload(
-      icon: ':security:',
-      title: 'Content Security Policy violation',
-      message: report.map { |key, value| "#{key}: #{value}" }.join("\n"),
-      status: :fail
-    )
-    slack_notifier.send_message
+    # slack_notifier.build_payload(
+    #   icon: ':security:',
+    #   title: 'Content Security Policy violation',
+    #   message: report.map { |key, value| "#{key}: #{value}" }.join("\n"),
+    #   status: :fail
+    # )
+    # slack_notifier.send_message
+    Rails.logger.info("CSP violation: #{report}")
 
     head :ok
   end

@@ -33,23 +33,23 @@
             reasons_collection.map { |et| [et.reason, et.id, { data: et.data_attributes }] },
             :second,
             :first,
-            form_group: { class: 'fx-travel-reason', style: 'display: none' },
+            form_group: { class: ['fx-travel-reason', 'govuk-!-display-none'] },
             label: { text: t('.travel_reason_html') },
             options: { include_blank: t('.select_option') }
 
           - present(f.object) do |expense|
             = f.govuk_text_field :reason_text,
-              form_group: { class: 'fx-travel-reason-other', style: f.object.reason_id.eql?(5) ? 'display: block' : 'display: none' },
+              form_group: { class: ['fx-travel-reason-other', f.object.reason_id.eql?(5) ? 'govuk-!-display-block' : 'govuk-!-display-none'] },
               label: { text: t('.reason_text_html') },
               width: 'one-half'
 
-          .fx-travel-location{ style: 'display: none' }
+          .fx-travel-location{ class: 'govuk-!-display-none' }
             - if @claim.lgfs?
               = f.govuk_collection_select :location,
                 {},
                 {},
                 {},
-                form_group: { class: 'fx-establishment-select has-select', style: 'display: none' },
+                form_group: { class: ['fx-establishment-select has-select', 'govuk-!-display-none'] },
                 label: { text: nil }
 
             = f.govuk_text_field :location,
@@ -59,13 +59,13 @@
                 width: 'one-half'
 
           = f.govuk_number_field :hours,
-              form_group: { class: 'fx-travel-hours', style: 'display: none' },
+              form_group: { class: ['fx-travel-hours', 'govuk-!-display-none'] },
               label: { text: t('.hours_html') },
               min: 0,
               width: 'one-quarter'
 
           = f.govuk_number_field :distance,
-              form_group: { class: 'fx-travel-distance', style: 'display: none' },
+              form_group: { class: ['fx-travel-distance', 'govuk-!-display-none'] },
               hint: { text: t('.distance_hint_html') },
               label: { text: t('.distance_html') },
               min: 0,
@@ -76,25 +76,25 @@
             = govuk_detail t('.summary_heading') do
               = t('.summary_content')
           = f.govuk_radio_buttons_fieldset :mileage_rate_id,
-            form_group: { class: 'fx-travel-mileage fx-travel-mileage-bike', style: 'display: none' },
+            form_group: { class: ['fx-travel-mileage', 'fx-travel-mileage-bike', 'govuk-!-display-none'] },
             legend: { text: t('.cost_html') } do
             - Expense::BIKE_MILEAGE_RATES.values.map do | bike_mileage_rate |
               = f.govuk_radio_button :mileage_rate_id, bike_mileage_rate.id, label: { text: bike_mileage_rate.description }
 
           = f.govuk_radio_buttons_fieldset :mileage_rate_id,
-            form_group: { class: 'fx-travel-mileage fx-travel-mileage-car', style: 'display: none' },
+            form_group: { class: ['fx-travel-mileage', 'fx-travel-mileage-car', 'govuk-!-display-none'] },
             legend: { text: t('.cost_html') } do
             - Expense::CAR_MILEAGE_RATES.values.map do | car_mileage_rate |
               = f.govuk_radio_button :mileage_rate_id, car_mileage_rate.id, label: { text: car_mileage_rate.description }
 
           = f.govuk_date_field :date,
-            form_group: { class: 'fx-travel-date', style: 'display: none' },
+            form_group: { class: ['fx-travel-date', 'govuk-!-display-none'] },
             legend: { text: t('.date_html') },
             hint: { text: t('.date_hint') }
 
           = f.govuk_number_field :amount,
             class: 'rate',
-            form_group: { class: 'fx-travel-net-amount', style: 'display: none' },
+            form_group: { class: ['fx-travel-net-amount', 'govuk-!-display-none'] },
             label: { text: t('.net_amount_html') },
             min: 0,
             prefix_text: '£',
@@ -104,7 +104,7 @@
           - if @claim.lgfs?
             = f.govuk_number_field :vat_amount,
               class: 'vat',
-              form_group: {class: 'fx-travel-vat-amount', style: 'display: none' },
+              form_group: {class: ['fx-travel-vat-amount', 'govuk-!-display-none'] },
               label: { text: t('.vat_amount_html') },
               min: 0,
               prefix_text: '£',

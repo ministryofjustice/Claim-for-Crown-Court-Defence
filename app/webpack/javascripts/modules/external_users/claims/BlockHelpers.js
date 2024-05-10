@@ -478,7 +478,13 @@ moj.Helpers.Blocks = {
         'reason',
         'vatAmount'
       ].forEach(function (value, idx) {
-        $detached.find(self.stateLookup[value]).css('display', (state.config[value] ? 'block' : 'none'))
+        if (state.config[value]) {
+          $detached.find(self.stateLookup[value]).removeClass('govuk-!-display-none')
+          $detached.find(self.stateLookup[value]).addClass('govuk-!-display-block')
+        } else {
+          $detached.find(self.stateLookup[value]).addClass('govuk-!-display-none')
+          $detached.find(self.stateLookup[value]).removeClass('govuk-!-display-block')
+        }
 
         // Clear out the value for this input
         if (!state.config[value]) {

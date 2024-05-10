@@ -178,7 +178,7 @@
               AGFS Final, Supplementary and Hardship claims
             = govuk_table_td('data-label': 'Validations') do
               Not claimable on claims with offences in Bands 1, 6 and 9
-              %sup{ style: "font-size: 10px"}
+              %sup.govuk-body-s
                 1
 
           = govuk_table_row do
@@ -200,7 +200,7 @@
               %br
               %br
               Only claimable on claims with a Graduated case type
-              %sup{ style: "font-size: 10px"}
+              %sup.govuk-body-s
                 2
           = govuk_table_row do
             = govuk_table_td('data-label': 'Unique code') do
@@ -219,12 +219,12 @@
               %code
                 quantity
               of over 0 (not required for LGFS)
-              %sup{ style: "font-size: 10px"}
+              %sup.govuk-body-s
                 3
               %br
               %br
               Only claimable on claims with a Graduated case type
-              %sup{ style: "font-size: 10px"}
+              %sup.govuk-body-s
                 2
               %br
               %br
@@ -232,19 +232,19 @@
         = govuk_table_tfoot do
           = govuk_table_row do
             = govuk_table_td('data-label': 'Notes', colspan: '5') do
-              %sup{ style: "font-size: 10px"}
+              %sup.govuk-body-s
                 1
               %code
                 offence_band.offence_category.number
               \. See
               %a{ href: '/api/documentation?v=1#!/api/getApiOffences', target: '_blank' } api/offences
               %br
-              %sup{ style: "font-size: 10px"}
+              %sup.govuk-body-s
                 2
               graduated case types include Trial, Retrial, Cracked Trial and Cracked before retrial. See
               %a{ href: '/api/documentation#!/api/getApiCaseTypes', target: '_blank' } api/case_types
               %br
-              %sup{ style: "font-size: 10px"}
+              %sup.govuk-body-s
                 3
               The number of hours in excess of the first 3 hours
     %li

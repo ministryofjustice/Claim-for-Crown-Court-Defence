@@ -18,7 +18,7 @@ moj.Helpers.Blocks = {
         if (this.$el.find(selector).is(':visible') === state) {
           return
         }
-        return this.$el.find(selector).css('display', state ? 'block' : 'none')
+        return moj.Helpers.Blocks.setDisplay(this.$el.find(selector), state ? 'block' : 'none')
       }
       throw new Error('Selector did not return an element: ' + selector)
     }
@@ -380,7 +380,7 @@ moj.Helpers.Blocks = {
     this.viewErrorHandler = function (message) {
       const el = this.$el.find('.fx-general-errors')
       el.find('span').text(message)
-      el.css('display', 'inline-block')
+      moj.Helpers.Blocks.setDisplay(el, 'inline-block')
     }
 
     // The location elment is an input or a select
@@ -405,8 +405,8 @@ moj.Helpers.Blocks = {
 
     // Display the input and hide the select
     this.displayLocationInput = function () {
-      this.$el.find('.location_wrapper').css('display', 'block')
-      this.$el.find('.fx-establishment-select').css('display', 'none')
+      moj.Helpers.Blocks.setDisplay(this.$el.find('.location_wrapper'), 'block')
+      moj.Helpers.Blocks.setDisplay(this.$el.find('.fx-establishment-select'), 'none')
       return this
     }
 
@@ -424,10 +424,10 @@ moj.Helpers.Blocks = {
         $detachedSelect.find('option').remove()
         $detachedSelect.append(els.join(''))
 
-        self.$el.find('.fx-establishment-select').css('display', 'block')
+        moj.Helpers.Blocks.setDisplay(self.$el.find('.fx-establishment-select', 'block'))
         self.$el.find('.fx-establishment-select').append($detachedSelect)
 
-        self.$el.find('.location_wrapper').css('display', 'none')
+        moj.Helpers.Blocks.setDisplay(self.$el.find('.location_wrapper'), 'none')
         self.$el.find('.fx-travel-location .has-select label').text(staticdata.locationLabel[locationType] || staticdata.locationLabel.default)
       }, function () {
         throw new Error('Attach options failed:', arguments)
@@ -478,13 +478,7 @@ moj.Helpers.Blocks = {
         'reason',
         'vatAmount'
       ].forEach(function (value, idx) {
-        if (state.config[value]) {
-          $detached.find(self.stateLookup[value]).removeClass('govuk-!-display-none')
-          $detached.find(self.stateLookup[value]).addClass('govuk-!-display-block')
-        } else {
-          $detached.find(self.stateLookup[value]).addClass('govuk-!-display-none')
-          $detached.find(self.stateLookup[value]).removeClass('govuk-!-display-block')
-        }
+        moj.Helpers.Blocks.setDisplay($detached.find(self.stateLookup[value]), state.config[value] ? 'block' : 'none')
 
         // Clear out the value for this input
         if (!state.config[value]) {
@@ -493,10 +487,10 @@ moj.Helpers.Blocks = {
       })
 
       // net amount
-      $detached.find(this.stateLookup.netAmount).css('display', (state.config.netAmount ? 'block' : 'none'))
+      moj.Helpers.Blocks.setDisplay($detached.find(this.stateLookup.netAmount), state.config.netAmount ? 'block' : 'none')
 
       // location
-      $detached.find(this.stateLookup.location).css('display', (state.config.location ? 'block' : 'none'))
+      moj.Helpers.Blocks.setDisplay($detached.find(this.stateLookup.location), state.config.location ? 'block' : 'none')
 
       // remove the location data from the form
       if (!state.config.location) {
@@ -602,13 +596,13 @@ moj.Helpers.Blocks = {
 
     this.setRadioState = function ($dom, config) {
       // Car mileage visibility, radio checked & disabled values
-      $dom.find('.fx-travel-mileage-car').css('display', config.car)
+      moj.Helpers.Blocks.setDisplay($dom.find('.fx-travel-mileage-car'), config.car)
       $dom.find('.fx-travel-mileage-car input').is(function () {
         $(this).prop('disabled', !config.carModel)
       })
 
       // Bike mileage visibility, radio checked & disabled values
-      $dom.find('.fx-travel-mileage-bike').css('display', config.bike)
+      moj.Helpers.Blocks.setDisplay($dom.find('.fx-travel-mileage-bike'), config.bike)
       $dom.find('.fx-travel-mileage-bike input[type=radio]').is(function () {
         $(this).prop('checked', config.bikeModel).prop('disabled', !config.bikeModel).trigger('change')
       })
@@ -727,5 +721,11 @@ moj.Helpers.Blocks = {
     const option = { style: 'currency', currency: 'GBP', minimumFractionDigits: 2 }
     const numberFormat = new Intl.NumberFormat('en', option)
     return numberFormat.format(nStr)
+  },
+  setDisplay: function (el, display) {
+    el.removeClass(function (index, css) {
+      return (css.match(/\bgovuk-!-display-\S+/g) || []).join(' ')
+    })
+    el.addClass(`govuk-!-display-${display}`)
   }
 }

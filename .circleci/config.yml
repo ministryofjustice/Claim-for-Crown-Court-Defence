@@ -32,6 +32,12 @@ references:
       paths:
         - cc-test-reporter
 
+  _persist-coverage: &persist-coverage
+    persist_to_workspace:
+      root: tmp
+      paths:
+        - coverage
+
   _wait-for-db: &wait-for-db
     run:
       name: Wait for DB
@@ -201,6 +207,8 @@ commands:
                                    --timings-type=filename
 
             tmp/cc-test-reporter format-coverage -t simplecov -o "tmp/coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      - store_artifacts:
+          path: tmp/coverage
       - persist_to_workspace:
           root: tmp
           paths:
@@ -213,10 +221,8 @@ commands:
           when: always
       - store_artifacts:
           path: tmp/coverage
-          when: always
       - store_test_results:
           path: /tmp/test-results/rspec
-          when: always
 
   run-cucumber:
     description: >
@@ -405,6 +411,7 @@ jobs:
       - *create-tmp-dir
       - *install-codeclimate
       - *persist-codeclimate
+      - *persist-coverage
       - build-base
 
   smoke-test:
@@ -430,11 +437,17 @@ jobs:
     parallelism: 6
     steps:
       - checkout
+      - *attach-tmp-workspace
       - restore_cache:
           key: coverage-{{.Revision}}-{{.Environment.CIRCLE_NODE_INDEX}}
-      - store_artifacts:
-          path: tmp/coverage
-          when: always
+      - run:
+          command: |
+                ls tmp
+                ls tmp/coverage
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - coverage
       - run:
           name: Halt if no tests to run
           command: |

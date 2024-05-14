@@ -120,9 +120,9 @@ RSpec.describe API::Logger do
       end
     end
 
-    context 'when a 200 status code is provided' do
+    shared_examples 'valid response' do
       before do
-        logger.instance_variable_set(:@app_response, [200, '', body])
+        logger.instance_variable_set(:@app_response, [status, '', body])
         allow(LogStuff).to receive(:send)
         logger.after
       end
@@ -148,7 +148,7 @@ RSpec.describe API::Logger do
         let(:empty_payload) do
           { request_id: nil,
             path: nil,
-            status: '200',
+            status:,
             claim_id: nil,
             case_number: nil,
             id: nil }
@@ -174,7 +174,7 @@ RSpec.describe API::Logger do
         let(:payload) do
           { request_id: '123',
             path: 'api/valid/path',
-            status: '200',
+            status:,
             claim_id: '456',
             case_number: '789',
             id: '1' }
@@ -186,6 +186,18 @@ RSpec.describe API::Logger do
                                                         data: payload)
         end
       end
+    end
+
+    context 'when a 200 status code is provided' do
+      let(:status) { 200 }
+
+      include_examples 'valid response'
+    end
+
+    context 'when a 201 status code is provided' do
+      let(:status) { 201 }
+
+      include_examples 'valid response'
     end
 
     context 'when a non-200 status is provided' do
@@ -207,7 +219,7 @@ RSpec.describe API::Logger do
         expect(LogStuff).to have_received(:send).once.with(:error, type: 'api-error',
                                                                    data: { request_id: '123',
                                                                            path: 'api/valid/path',
-                                                                           status: '400' },
+                                                                           status: 400 },
                                                                    error: 'Test error')
       end
     end

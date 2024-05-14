@@ -13,12 +13,13 @@ module API
     end
 
     def after
-      if response_status == '200'
+      return if response_status.nil?
+
+      if response_status.between?(200, 399)
         log_api(:info, 'api-response',
-                { request_id:, path:, status: response_status,
-                  claim_id: response_param('claim_id'), case_number: response_param('case_number'),
-                  id: response_param('id') })
-      elsif response_status
+                { request_id:, path:, status: response_status, claim_id: response_param('claim_id'),
+                  case_number: response_param('case_number'), id: response_param('id') })
+      else
         log_error('api-error',
                   { request_id:, path:, status: response_status }, response_param('error'))
       end
@@ -68,7 +69,7 @@ module API
     def response_status
       return if @app_response.blank?
 
-      @app_response.first.to_s
+      @app_response.first
     end
 
     def response_param(param)

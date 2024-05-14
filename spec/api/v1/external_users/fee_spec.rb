@@ -458,6 +458,8 @@ RSpec.describe API::V1::ExternalUsers::Fee do
   describe "POST #{endpoint(:fees, :validate)}" do
     let(:post_to_validate_endpoint) { post endpoint(:fees, :validate), valid_params, format: :json }
 
+    before { allow(LogStuff).to receive(:send) }
+
     include_examples 'invalid API key', exclude: :other_provider, action: :validate
 
     context 'non-basic fees' do

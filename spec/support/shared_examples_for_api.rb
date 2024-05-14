@@ -178,6 +178,8 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       post ClaimApiEndpoints.for(options[:relative_endpoint]).validate, valid_params, format: :json
     end
 
+    before { allow(LogStuff).to receive(:send) }
+
     let(:claim_user_type) do
       if ClaimApiEndpoints.for(options[:relative_endpoint]).validate
                           .match?(%r{/claims/(final|interim|transfer|hardship)})
@@ -204,6 +206,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       end
 
       it { expect_error_response('Creator email is invalid') }
+      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
     end
 
     context 'when user email is invalid' do
@@ -213,6 +216,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       end
 
       it { expect_error_response("#{claim_user_type} email is invalid") }
+      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
     end
 
     context 'when user email is valid but contains upper case characters' do
@@ -393,6 +397,7 @@ RSpec.shared_examples 'fee validate endpoint' do
 
     it { expect(last_response.status).to eq 400 }
     it { expect(last_response.body).to eq(json_error_response) }
+    it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
   end
 
   context 'with an invalid claim_id' do
@@ -403,5 +408,6 @@ RSpec.shared_examples 'fee validate endpoint' do
 
     it { expect(last_response.status).to eq 400 }
     it { expect(last_response.body).to eq '[{"error":"Claim cannot be blank"}]' }
+    it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
   end
 end

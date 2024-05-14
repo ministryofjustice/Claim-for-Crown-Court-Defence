@@ -9,14 +9,17 @@ module API
 
     helpers API::Helpers::Authorisation
     helpers API::Helpers::ResourceHelper
+    helpers API::Helpers::ErrorLoggingHelper
 
     error_formatter :json, API::Helpers::JsonErrorFormatter
 
     rescue_from Grape::Exceptions::ValidationErrors, ArgumentError, RuntimeError do |error|
+      log_error(400, error)
       error!(error.message, 400)
     end
 
     rescue_from API::Helpers::Authorisation::AuthorisationError do |error|
+      log_error(401, error)
       error!(error.message, 401)
     end
 

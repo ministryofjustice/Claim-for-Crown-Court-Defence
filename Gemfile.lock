@@ -112,8 +112,8 @@ GEM
     axe-core-api (4.9.1)
       dumb_delegator
       virtus
-    axe-core-cucumber (4.9.0)
-      axe-core-api
+    axe-core-cucumber (4.9.1)
+      axe-core-api (= 4.9.1)
       dumb_delegator
       virtus
     axiom-types (0.1.1)

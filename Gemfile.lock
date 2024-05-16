@@ -486,7 +486,8 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.2.6)
+    rexml (3.2.7)
+      strscan (>= 3.0.9)
     rouge (4.2.1)
     rspec (3.13.0)
       rspec-core (~> 3.13.0)
@@ -607,6 +608,7 @@ GEM
       state_machines-activemodel (>= 0.9.0)
     state_machines-audit_trail (2.1.0)
       state_machines
+    strscan (3.1.0)
     sys-uname (1.2.3)
       ffi (~> 1.1)
     temple (0.10.3)

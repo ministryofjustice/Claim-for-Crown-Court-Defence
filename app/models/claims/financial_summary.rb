@@ -11,7 +11,7 @@ class Claims::FinancialSummary
     @claims
       .any_authorised
       .joins(:determinations)
-      .where('determinations.updated_at >= ?', Time.zone.now.beginning_of_week)
+      .where(determinations: { updated_at: Time.zone.now.beginning_of_week.. })
       .distinct
   end
 

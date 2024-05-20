@@ -12,12 +12,14 @@ module TimedTransitions
     }.freeze
 
     def self.candidate_claims_ids
-      Claim::BaseClaim.where(state: candidate_states)
-                      .where('updated_at < ?', Settings.timed_transition_stale_weeks.weeks.ago).pluck(:id)
+      Claim::BaseClaim.where(
+        state: candidate_states,
+        updated_at: ...Settings.timed_transition_stale_weeks.weeks.ago
+      ).pluck(:id)
     end
 
     def self.softly_deleted_ids
-      Claim::BaseClaim.where('deleted_at < ?', Settings.timed_transition_soft_delete_weeks.weeks.ago).pluck(:id)
+      Claim::BaseClaim.where(deleted_at: ...Settings.timed_transition_soft_delete_weeks.weeks.ago).pluck(:id)
     end
 
     def self.candidate_states

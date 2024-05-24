@@ -5,7 +5,7 @@ module CCR
 
       included do
         def initialize(object = nil)
-          super(object) if object
+          super if object
         end
 
         def mappings

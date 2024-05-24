@@ -1,7 +1,7 @@
 module Claim
   class BaseClaimAbstractClassError < RuntimeError
     def initialize(message = 'Claim::BaseClaim is an abstract class and cannot be instantiated')
-      super(message)
+      super
     end
   end
 

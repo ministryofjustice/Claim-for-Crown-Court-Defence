@@ -22,7 +22,7 @@
 module Fee
   class BaseFeeAbstractClassError < RuntimeError
     def initialize(message = 'Fee::BaseFee is an abstract class and cannot be instantiated')
-      super(message)
+      super
     end
   end
 

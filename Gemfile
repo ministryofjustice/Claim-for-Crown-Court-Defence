@@ -8,7 +8,7 @@ gem 'aws-sdk-sns',            '~> 1'
 gem 'aws-sdk-sqs',            '~> 1'
 gem 'awesome_print'
 gem 'bootsnap', require: false
-gem 'cancancan',              '~> 3.5'
+gem 'cancancan',              '~> 3.6'
 gem 'chartkick',              '~> 5.0.7'
 gem 'cocoon',                 '~> 1.2.15'
 gem 'devise', '~> 4.9.4'

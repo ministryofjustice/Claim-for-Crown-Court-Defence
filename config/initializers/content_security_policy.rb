@@ -11,7 +11,7 @@ Rails.application.configure do
     policy.img_src     :self, :https, :data
     policy.object_src  :none
     # TODO: unsafe_inline should be removed but this cannot be done until some Javascript is refactored.
-    policy.script_src  :self, :unsafe_inline, :https
+    policy.script_src  :self, "'wasm-unsafe-eval'", :unsafe_inline, :https
     policy.style_src   :self, :unsafe_inline, :https
     # Specify URI for violation reports
     policy.report_uri "/csp_report"

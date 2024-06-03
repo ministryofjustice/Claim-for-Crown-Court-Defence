@@ -6,7 +6,7 @@ class CspReportsController < ApplicationController
     slack_notifier.build_payload(
       icon: ':security:',
       title: 'Content Security Policy violation',
-      message: report.map { |key, value| "#{key}: #{value}" }.join("\n"),
+      message: report.map { |key, value| "#{key}: #{value}" }.join("\n") + "\n\nUser agent: #{request.env['HTTP_USER_AGENT']}",
       status: :fail
     )
     slack_notifier.send_message

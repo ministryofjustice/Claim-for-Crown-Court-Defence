@@ -290,20 +290,18 @@ RSpec.describe TimedTransitions::Transitioner do
           end
 
           context 'with an associated document' do
-            let(:file) do
-              let(:document) { create(:document, verified: true) }
+            let(:document) { create(:document, verified: true) }
 
-              before { claim.update(documents: [document]) }
+            before { claim.update(documents: [document]) }
 
-              it 'destroys associated documents' do
-                expect { run_transitioner }.to change(Document, :count).by(-1)
-              end
+            it 'destroys associated documents' do
+              expect { run_transitioner }.to change(Document, :count).by(-1)
+            end
 
-              it 'deletes the file from storage' do
-                file_on_disk = ActiveStorage::Blob.service.send(:path_for, claim.documents.first.document.blob.key)
+            it 'deletes the file from storage' do
+              file_on_disk = ActiveStorage::Blob.service.send(:path_for, claim.documents.first.document.blob.key)
 
-                expect { run_transitioner }.to change { File.exist? file_on_disk }.from(true).to false
-              end
+              expect { run_transitioner }.to change { File.exist? file_on_disk }.from(true).to false
             end
           end
 

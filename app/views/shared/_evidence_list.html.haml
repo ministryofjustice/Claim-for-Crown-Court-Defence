@@ -45,6 +45,6 @@
             = govuk_table_td_numeric('data-label': t('.actions')) do
               .app-link-group
                 - if document.converted_preview_document.present?
-                  = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document)
+                  = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), rails_blob_path(document.converted_preview_document, disposition: :inline)
 
-                = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), download_document_path(document)
+                = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), rails_blob_path(document.document, disposition: :attachment)

@@ -62,9 +62,7 @@ Rails.application.routes.draw do
     get 'download', on: :member
   end
 
-  resources :messages, only: [:create] do
-    get 'download_attachment', on: :member
-  end
+  resources :messages, only: [:create]
 
   resources :establishments, only: %i[index], format: :js
   resources :offences, only: [:index], format: :js

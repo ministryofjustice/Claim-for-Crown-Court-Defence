@@ -1,0 +1,9 @@
+.message-container
+  .message-body
+    = simple_format(message.body)
+    - if message.attachment.present?
+      = "Attachment:"
+      = link_to filename_display(message.attachment), rails_blob_path(message.attachment, disposition: :attachment)
+    .message-audit
+      = message.sender_name
+      = message.timestamp

@@ -3,12 +3,7 @@
   - if message.sender_is_a?(ExternalUser)
     .govuk-grid-column-two-thirds
       .message-left
-        .message-container
-          .message-body
-            = message.body
-            .message-audit
-              = message.sender_name
-              = message.timestamp
+        = render partial: 'shared/message_body', locals: { message: }
 
     .govuk-grid-column-one-third
       &nbsp;
@@ -18,9 +13,4 @@
       &nbsp;
     .govuk-grid-column-two-thirds
       .message-right
-        .message-container
-          .message-body
-            = message.body
-            .message-audit
-              = message.sender_name
-              = message.timestamp
+        = render partial: 'shared/message_body', locals: { message: }

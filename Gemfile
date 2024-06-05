@@ -38,7 +38,7 @@ gem 'net-pop'
 gem 'net-smtp'
 gem 'paper_trail', '~> 15.1.0'
 gem 'pg',                     '~> 1.5.6'
-gem 'rails', '~> 7.0.8'
+gem 'rails', '~> 7.1.3'
 gem 'redis',                  '~> 5.2.0'
 gem 'rubyzip'
 gem 'config',                 '~> 5.5' # this gem provides our Settings.xxx mechanism

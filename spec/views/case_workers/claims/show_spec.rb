@@ -231,7 +231,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it 'does not render a map link' do
           expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to_not have_content('Unverified')
+          expect(rendered).to have_no_content('Unverified')
         end
       end
 
@@ -240,7 +240,7 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it 'does not render a map link' do
           expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to_not have_content('Unverified')
+          expect(rendered).to have_no_content('Unverified')
         end
       end
 
@@ -249,8 +249,8 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it 'renders a map link' do
           expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to_not have_link('View car journey')
-          expect(rendered).to_not have_content('Unverified')
+          expect(rendered).to have_no_link('View car journey')
+          expect(rendered).to have_no_content('Unverified')
         end
       end
 
@@ -259,8 +259,8 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it 'renders a map link' do
           expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to_not have_link('View public transport journey')
-          expect(rendered).to_not have_content('Unverified')
+          expect(rendered).to have_no_link('View public transport journey')
+          expect(rendered).to have_no_content('Unverified')
         end
       end
 
@@ -269,8 +269,8 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it 'renders a map link' do
           expect(rendered).to_not have_link_to(/google.*maps.*origin=.*destination=.*/)
-          expect(rendered).to_not have_link('View public transport journey')
-          expect(rendered).to_not have_content('Unverified')
+          expect(rendered).to have_no_link('View public transport journey')
+          expect(rendered).to have_no_content('Unverified')
         end
       end
 
@@ -279,8 +279,8 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
         it 'renders a map link' do
           expect(rendered).to_not have_link_to(%r{www.google.co.uk/maps})
-          expect(rendered).to_not have_link('View public transport journey')
-          expect(rendered).to_not have_content('Unverified')
+          expect(rendered).to have_no_link('View public transport journey')
+          expect(rendered).to have_no_content('Unverified')
         end
       end
     end
@@ -302,9 +302,9 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
         end
 
         it 'does not render reasons section content' do
-          expect(rendered).to_not have_content(/Reason(s) provided:/)
-          expect(rendered).to_not have_css('li', text: 'No amending representation order')
-          expect(rendered).to_not have_css('li', text: 'Other (rejecting because...)')
+          expect(rendered).to have_no_content(/Reason(s) provided:/)
+          expect(rendered).to have_no_css('li', text: 'No amending representation order')
+          expect(rendered).to have_no_css('li', text: 'Other (rejecting because...)')
         end
       end
     end

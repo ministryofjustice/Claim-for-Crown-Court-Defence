@@ -2626,10 +2626,10 @@ __metadata:
     chart.js: "npm:^4.4.3"
     chartkick: "npm:^5.0.1"
     css-loader: "npm:^7.1.2"
-    datatables.net-buttons-dt: "npm:^3.0.2"
+    datatables.net-buttons-dt: "npm:^2.4.3"
     datatables.net-dt: "npm:^1.13.11"
-    datatables.net-fixedheader-dt: "npm:^3.4.0"
-    datatables.net-select: "npm:1.7.0"
+    datatables.net-fixedheader-dt: "npm:^3.4.1"
+    datatables.net-select: "npm:1.7.1"
     dropzone: "npm:^5.9.3"
     expose-loader: "npm:^5.0.0"
     file-loader: "npm:^6.2.0"
@@ -2932,24 +2932,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"datatables.net-buttons-dt@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "datatables.net-buttons-dt@npm:3.0.2"
+"datatables.net-buttons-dt@npm:^2.4.3":
+  version: 2.4.3
+  resolution: "datatables.net-buttons-dt@npm:2.4.3"
   dependencies:
-    datatables.net-buttons: "npm:3.0.2"
-    datatables.net-dt: "npm:^2"
+    datatables.net-buttons: "npm:2.4.3"
+    datatables.net-dt: "npm:^1.13.0"
     jquery: "npm:>=1.7"
-  checksum: 10c0/e497ba18a2c5d7ccf661f4427cd45f150c0d2dd1aea9978be13befcee4c9462b8582eddcb4845068ed8acb4c8ff35095f2850729693db2b29b7834fa17e102ec
+  checksum: 10c0/245cc7493248a4013ad65e2a1b3382451808d86fa1f01298035a04aca23a89de5fd72659dc08a4f22ff5956e09a9c3d8f0e75afe20e7dc3fc8913a4e57316961
   languageName: node
   linkType: hard
 
-"datatables.net-buttons@npm:3.0.2":
-  version: 3.0.2
-  resolution: "datatables.net-buttons@npm:3.0.2"
+"datatables.net-buttons@npm:2.4.3":
+  version: 2.4.3
+  resolution: "datatables.net-buttons@npm:2.4.3"
   dependencies:
-    datatables.net: "npm:^2"
+    datatables.net: "npm:^1.13.0"
     jquery: "npm:>=1.7"
-  checksum: 10c0/9dd2cef83471f5d453d5c8ade13c5487cc9c3942586d333fccf5a21e27a84cb130b1ad4e64d9a60311d49934efbd5bb6702e5fe7a4581598de0ebefc74edbec1
+  checksum: 10c0/0acee7be11fa70958312b88e322f25f7d5a217ccd235e7a30ffe7810687b6bfcd47c308474981f5591cfca3f2a03e646ea41dfa59e1eb069eaa284882011de9e
   languageName: node
   linkType: hard
 
@@ -2963,17 +2963,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"datatables.net-dt@npm:^2":
-  version: 2.0.8
-  resolution: "datatables.net-dt@npm:2.0.8"
-  dependencies:
-    datatables.net: "npm:2.0.8"
-    jquery: "npm:>=1.7"
-  checksum: 10c0/c4568d28dd096a401db5fcf01c415b7b35a716fae05abdb39be75da4cc26e2942f5010d36cc2c6fa0c777b5bbc9fd321e72cdbc43fa07e8757d6576a3cfa82ff
-  languageName: node
-  linkType: hard
-
-"datatables.net-fixedheader-dt@npm:^3.4.0":
+"datatables.net-fixedheader-dt@npm:^3.4.1":
   version: 3.4.1
   resolution: "datatables.net-fixedheader-dt@npm:3.4.1"
   dependencies:
@@ -2994,13 +2984,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"datatables.net-select@npm:1.7.0":
-  version: 1.7.0
-  resolution: "datatables.net-select@npm:1.7.0"
+"datatables.net-select@npm:1.7.1":
+  version: 1.7.1
+  resolution: "datatables.net-select@npm:1.7.1"
   dependencies:
-    datatables.net: "npm:>=1.13.4"
+    datatables.net: "npm:^1.13.0"
     jquery: "npm:>=1.7"
-  checksum: 10c0/0520416dcfe9d3a6c71582d1e55a1cd2e9bb4fb30cb6b23fe31bd389119a1799457ea6beb523c29b57c488c99c896b003f019e626467691819d0140f8eb41de0
+  checksum: 10c0/460f1d4ffa984434477360065af8264e92486b503a0a23e07144e951992ae5ff8a74f1de8630c95ddcc8466f5cf12498e26a48550205c067a3997c5af2b5a2a0
   languageName: node
   linkType: hard
 
@@ -3013,7 +3003,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"datatables.net@npm:2.0.8, datatables.net@npm:>=1.10.8, datatables.net@npm:>=1.13.4, datatables.net@npm:^2":
+"datatables.net@npm:>=1.10.8":
   version: 2.0.8
   resolution: "datatables.net@npm:2.0.8"
   dependencies:

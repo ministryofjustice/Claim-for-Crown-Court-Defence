@@ -5008,9 +5008,9 @@ vary@~1.1.2:
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
 version-guard@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/version-guard/-/version-guard-1.1.1.tgz#7a6e87a1babff1b43d6a7b0fd239731e278262fa"
-  integrity sha512-MGQLX89UxmYHgDvcXyjBI0cbmoW+t/dANDppNPrno64rYr8nH4SHSuElQuSYdXGEs0mUzdQe1BY+FhVPNsAmJQ==
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/version-guard/-/version-guard-1.1.2.tgz#f87524249db225bf802498d25bc0e5c2b8c584dc"
+  integrity sha512-D8d+YxCUpoqtCnQzDxm6SF7DLU3gr2535T4khAtMq4osBahsQnmSxuwXFdrbAdDGG8Uokzfis/jvyeFPdmlc7w==
 
 watchpack@^2.4.1:
   version "2.4.1"

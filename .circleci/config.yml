@@ -260,7 +260,7 @@ commands:
       - run:
           name: Install javascript package dependencies
           command: |
-            yarn install --frozen-lockfile
+            yarn install --immutable
       - save_cache:
           key: v2-js-dependencies-{{ checksum "yarn.lock" }}
           paths:

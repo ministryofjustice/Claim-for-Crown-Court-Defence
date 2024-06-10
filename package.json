@@ -85,5 +85,6 @@
       "app/webpack/javascripts/vendor/",
       "spec/javascripts/helpers/"
     ]
-  }
+  },
+  "packageManager": "yarn@4.2.2"
 }

@@ -2953,7 +2953,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"datatables.net-dt@npm:^1.13.0, datatables.net-dt@npm:^1.13.11":
+"datatables.net-dt@npm:^1.13.0, datatables.net-dt@npm:^1.13.11 <2":
   version: 1.13.11
   resolution: "datatables.net-dt@npm:1.13.11"
   dependencies:

@@ -588,7 +588,7 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    site_prism (5.0.1)
+    site_prism (5.0.2)
       addressable (~> 2.8, >= 2.8.1)
       capybara (~> 3.31)
       site_prism-all_there (> 2, < 5)
@@ -752,7 +752,7 @@ DEPENDENCIES
   sidekiq-failures (~> 1.0, >= 1.0.4)
   sidekiq-scheduler (~> 5.0.3)
   simplecov
-  site_prism (~> 5.0)
+  site_prism (~> 5.0, >= 5.0.2)
   sprockets-rails (~> 3.5.1)
   state_machines-activerecord
   state_machines-audit_trail
@@ -768,4 +768,4 @@ RUBY VERSION
    ruby 3.2.4p170
 
 BUNDLED WITH
-   2.4.22
+   2.4.6

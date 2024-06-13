@@ -2039,6 +2039,7 @@ en:
       defendant: Defendant %{context}
       no_reporder: No representation orders have been supplied for this defendant.
       case_number_from_maat: Case number from MAAT (experimental)
+      asn: ASN (experimental)
     evidence_checklist:
       caption: 'Supporting evidence checklist'
       summary: 'Note: To best navigate this table, step down the second column'

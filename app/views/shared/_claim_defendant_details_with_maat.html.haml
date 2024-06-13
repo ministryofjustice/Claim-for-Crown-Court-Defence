@@ -19,7 +19,7 @@
 
       = govuk_table_thead_collection [t('.date'),
       t('external_users.claims.defendants.representation_order_fields.maat_reference_number'),
-      t('.case_number_from_maat')]
+      t('.asn')]
 
       = govuk_table_tbody do
         - defendant.representation_orders.each do | representation_order |
@@ -30,8 +30,8 @@
             = govuk_table_td('data-label': t('external_users.claims.defendants.representation_order_fields.maat_reference_number')) do
               = representation_order.maat_reference
 
-            = govuk_table_td('data-label': t('.case_number_from_maat')) do
-              = representation_order.maat_details[:case_number]
+            = govuk_table_td('data-label': t('.asn')) do
+              = representation_order.maat_details[:asn]
 
   - else
     = govuk_inset_text(t('.no_reporder'))

@@ -11,7 +11,8 @@ class MaatService
 
     {
       case_number: data['caseId'],
-      representation_order_date: data['crownRepOrderDate']
+      representation_order_date: data['crownRepOrderDate'],
+      asn: data['arrestSummonsNo']
     }
   end
 end

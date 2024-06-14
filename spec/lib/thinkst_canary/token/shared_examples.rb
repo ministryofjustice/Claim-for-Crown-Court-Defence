@@ -49,8 +49,8 @@ RSpec.shared_examples 'a Canary token with a file' do |kind, file_key|
     end
   end
 
-  describe '.download' do
-    subject(:token) { described_class.new(**token_options).download }
+  describe '#download' do
+    subject(:download) { described_class.new(**token_options).download }
 
     let(:token_options) { { canarytoken: 'canarytoken', factory_auth: 'factory_auth' } }
     let(:file_contents) { 'Test file contents' }
@@ -59,7 +59,7 @@ RSpec.shared_examples 'a Canary token with a file' do |kind, file_key|
     before { allow(ThinkstCanary.configuration).to receive(:query).and_return(test_file) }
 
     it do
-      token
+      download
 
       expect(ThinkstCanary.configuration)
         .to have_received(:query)
@@ -67,5 +67,25 @@ RSpec.shared_examples 'a Canary token with a file' do |kind, file_key|
     end
 
     it { is_expected.to eq test_file }
+  end
+
+  describe '#memo=' do
+    subject(:update_memo) { token.memo = 'New memo text' }
+
+    let(:token) { described_class.new(**token_options) }
+    let(:token_options) { { canarytoken: 'canarytoken', memo: 'Original memo text' } }
+    let(:update_memo_options) { token_options.merge(memo: 'New memo text') }
+
+    before { allow(ThinkstCanary.configuration).to receive(:query) }
+
+    it { expect { update_memo }.to change(token, :memo).from('Original memo text').to('New memo text') }
+
+    it do
+      update_memo
+
+      expect(ThinkstCanary.configuration)
+        .to have_received(:query)
+        .with(:post, '/api/v1/canarytoken/update', params: update_memo_options)
+    end
   end
 end

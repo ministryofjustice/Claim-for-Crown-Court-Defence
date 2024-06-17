@@ -14,7 +14,7 @@ updates:
     datatables:
       patterns:
         - "*datatables*"
-  open-pull-requests-limit: 5
+  open-pull-requests-limit: 10
   allow:
     - dependency-type: "all"
   reviewers:

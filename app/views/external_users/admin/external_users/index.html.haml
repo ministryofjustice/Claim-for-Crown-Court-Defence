@@ -39,8 +39,9 @@
 
         = govuk_table_td('data-label': t('.actions')) do
           - if advocate.active? && advocate.enabled?
-            .app-link-group
-              = govuk_link_to t('.edit_html', context: advocate.name), edit_external_users_admin_external_user_path(advocate)
-              = govuk_link_to t('.delete_html', context: advocate.name), external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: t('.confirmation') }
+            = render partial: 'edit_delete_links', locals: { advocate: advocate }
+          - elsif advocate.active? && !advocate.enabled?
+            Inactive
+            = render partial: 'edit_delete_links', locals: { advocate: advocate }
           - else
             Inactive

@@ -1,0 +1,3 @@
+.app-link-group
+  = govuk_link_to t('.edit_html', context: advocate.name), edit_external_users_admin_external_user_path(advocate)
+  = govuk_link_to t('.delete_html', context: advocate.name), external_users_admin_external_user_path(advocate), method: :delete, data: { confirm: t('.confirmation') }

@@ -2287,15 +2287,10 @@ ejs@^3.1.6:
   dependencies:
     jake "^10.8.5"
 
-electron-to-chromium@^1.4.601:
-  version "1.4.610"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.610.tgz#e17b22203f4aa2e1ed77759c720546d95a51186f"
-  integrity sha512-mqi2oL1mfeHYtOdCxbPQYV/PL7YrQlxbvFEZ0Ee8GbDdShimqt2/S6z2RWqysuvlwdOrQdqvE0KZrBTipAeJzg==
-
-electron-to-chromium@^1.4.668:
-  version "1.4.713"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.713.tgz#7cd8e4083c948f8d0cc686fcfdde97d97fd76556"
-  integrity sha512-vDarADhwntXiULEdmWd77g2dV6FrNGa8ecAC29MZ4TwPut2fvosD0/5sJd1qWNNe8HcJFAC+F5Lf9jW1NPtWmw==
+electron-to-chromium@^1.4.601, electron-to-chromium@^1.4.668:
+  version "1.4.807"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.807.tgz#4d6c5ea1516f0164ac5bfd487ccd4ee9507c8f01"
+  integrity sha512-kSmJl2ZwhNf/bcIuCH/imtNOKlpkLDn2jqT5FJ+/0CXjhnFaOa9cOe9gHKKy71eM49izwuQjZhKk+lWQ1JxB7A==
 
 emoji-regex@^8.0.0:
   version "8.0.0"

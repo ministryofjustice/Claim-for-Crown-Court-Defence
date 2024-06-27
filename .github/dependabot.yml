@@ -33,6 +33,14 @@ updates:
     rubocop:
       patterns:
         - "rubocop*"
+    sentry:
+      patterns:
+        - "sentry-*"
+    rails:
+      patterns:
+        - "rails"
+        - "action*"
+        - "active*"
   open-pull-requests-limit: 5
   rebase-strategy: "disabled"
   allow:

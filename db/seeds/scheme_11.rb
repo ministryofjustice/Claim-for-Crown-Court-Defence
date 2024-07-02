@@ -10,7 +10,8 @@ agfs_fee_scheme_eleven = FeeScheme.find_or_create_by(name: 'AGFS', version: 11, 
 ActiveRecord::Base.connection.set_pk_sequence!('offences', 3000) if Offence.order(:id).last.id < 3000
 
 # create new offences (from csv)
-file_path = Rails.root.join('lib', 'assets', 'data', 'scheme_11_offences.csv')
+file_name = ENV.fetch('RAILS_ENV', 'development') == 'test' ? 'scheme_11_offences_for_testing.csv' : 'scheme_11_offences.csv'
+file_path = Rails.root.join('lib', 'assets', 'data', file_name)
 csv_file = File.open(file_path, 'r:ISO-8859-1')
 csv = CSV.parse(csv_file, headers: true)
 

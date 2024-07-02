@@ -84,7 +84,12 @@
       %h3.govuk-heading-m
         = t('.defendants')
 
-    = render partial: 'shared/claim_defendants', locals: {defendants: claim.defendants }
+    - if @show_maat_details
+      = govuk_link_to t('.disable_maat_details'), '?maat_details=off'
+      = render partial: 'shared/claim_defendants_with_maat', locals: {defendants: claim.defendants }
+    - else
+      = govuk_link_to t('.enable_maat_details'), '?maat_details=on'
+      = render partial: 'shared/claim_defendants', locals: {defendants: claim.defendants }
 
 - else
   .govuk-grid-row

@@ -3,35 +3,22 @@ class MaatService
     include Singleton
 
     def fetch(maat_reference)
-      JSON.parse(client.get("assessment/rep-orders/#{maat_reference}").body)
-    rescue Faraday::ConnectionFailed
+      JSON.parse(access.get("assessment/rep-orders/#{maat_reference}").body)
+    rescue OAuth2::Error
       {}
     end
 
     private
 
+    def access = @access ||= client.client_credentials.get_token
+
     def client
-      @client ||= Faraday.new(Settings.maat_api_url, request: { timeout: 2 }) do |conn|
-        conn.headers['Authorization'] = "Bearer #{oauth_token}"
-      end
-    end
-
-    def oauth_token
-      response = Faraday.post(Settings.maat_api_oauth_url, request_params, request_headers)
-      JSON.parse(response.body)['access_token']
-    end
-
-    def request_params
-      {
-        client_id: Settings.maat_api_oauth_client_id,
-        client_secret: Settings.maat_api_oauth_client_secret,
-        scope: Settings.maat_api_oauth_scope,
-        grant_type: 'client_credentials'
-      }
-    end
-
-    def request_headers
-      { content_type: 'application/x-www-form-urlencoded' }
+      @client ||= OAuth2::Client.new(
+        Settings.maat_api_oauth_client_id,
+        Settings.maat_api_oauth_client_secret,
+        site: Settings.maat_api_url,
+        token_url: Settings.maat_api_oauth_url
+      )
     end
   end
 end

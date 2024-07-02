@@ -21,7 +21,7 @@ class Message < ApplicationRecord
 
   attr_accessor :claim_action, :written_reasons_submitted
 
-  has_one_attached :attachment
+  has_many_attached :attachment
 
   validates :attachment,
             size: { less_than: 20.megabytes },

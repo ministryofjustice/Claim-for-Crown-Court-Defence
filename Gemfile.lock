@@ -568,11 +568,12 @@ GEM
       sidekiq (>= 3.0)
     shoulda-matchers (6.2.0)
       activesupport (>= 5.2.0)
-    sidekiq (7.2.4)
+    sidekiq (7.3.0)
       concurrent-ruby (< 2)
       connection_pool (>= 2.3.0)
+      logger
       rack (>= 2.2.4)
-      redis-client (>= 0.19.0)
+      redis-client (>= 0.22.2)
     sidekiq-failures (1.0.4)
       sidekiq (>= 4.0.0)
     sidekiq-scheduler (5.0.3)
@@ -745,7 +746,7 @@ DEPENDENCIES
   sentry-rails (~> 5.17)
   sentry-sidekiq (~> 5.18)
   shoulda-matchers (~> 6.2)
-  sidekiq (~> 7.2)
+  sidekiq (~> 7.3)
   sidekiq-failures (~> 1.0, >= 1.0.4)
   sidekiq-scheduler (~> 5.0.3)
   simplecov

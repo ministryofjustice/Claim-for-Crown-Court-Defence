@@ -646,7 +646,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.6.16)
-    zendesk_api (3.0.5)
+    zendesk_api (3.1.0)
       faraday (> 2.0.0)
       faraday-multipart
       hashie (>= 3.5.2, < 6.0.0)
@@ -759,7 +759,7 @@ DEPENDENCIES
   utf8-cleaner (~> 1.0)
   vcr
   webmock
-  zendesk_api (~> 3.0)
+  zendesk_api (~> 3.1)
 
 RUBY VERSION
    ruby 3.3.3p89

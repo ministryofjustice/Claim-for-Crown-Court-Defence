@@ -35,6 +35,10 @@ Given(/an? "(.*?)" user account exists$/) do |role|
   instance_variable_set("@#{role.gsub(' ', '_')}", accounts.first)
 end
 
+Given('the advocate user account is deleted')  do
+  @advocate.soft_delete
+end
+
 Given(/^I am a signed in advocate$/) do
   @advocate = @current_user = create(:external_user, :advocate)
   visit new_user_session_path

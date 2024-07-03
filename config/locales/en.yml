@@ -421,7 +421,7 @@ en:
     sfe_hint_html: 'Log in to <a href="%{link}" class="govuk-link" rel="noreferrer noopener" target="_blank">secure file exchange <span class="govuk-visually-hidden">(opens in new tab)</span></a> and upload your files and folders to a workspace.'
   fee_calculator:
     calculate:
-      amount_unavailable: The calculated rate is unavailable, please enter manually.
+      amount_unavailable: The calculated rate is unavailable, enter manually.
 
 # en.super_admins
   super_admins:
@@ -969,11 +969,11 @@ en:
             quantity_hint: *empty_input
           ppe:
             quantity: Total number of pages of prosecution evidence
-            quantity_hint: Please remove all cover sheets from the total count
+            quantity_hint: Remove all cover sheets from the total count
             heading_html: |
               Pages of prosecution evidence (<abbr title="pages of prosecution evidence">PPE</abbr>)
             help_text: |
-              Please enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
+              Enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
 
         additional_fee_fields:
           case_numbers: Additional case numbers
@@ -2111,7 +2111,7 @@ en:
       dismiss: Dismiss this message
       cav_warning:
         header: 'Warning: conferences and views were not injected'
-        message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Please enter them manually.'
+        message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Enter them manually.'
       clar_fees_warning:
         header: 'Warning: CLAR fees were not injected'
         message: 'The provider has claimed Criminal Legal Aid Review fees on this claim, but they have not been injected. Please enter them manually.'

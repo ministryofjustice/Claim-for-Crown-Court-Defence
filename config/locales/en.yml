@@ -1075,7 +1075,7 @@ en:
           court: 'Court'
           court_hint: For example Cardiff
           cracked_trial_detail: 'Cracked trial detail'
-          main_hearing_date_hint_html: For multi day hearings, please provide the latest date to receive the correct fee rates<br/><br/>For example 31 9 2022
+          main_hearing_date_hint_html: For multi day hearings, provide the latest date to receive the correct fee rates<br/><br/>For example 31 9 2022
           litigator: *litigator
           main_hearing_date: 'Final main hearing date'
           offence_class: 'Offence class'

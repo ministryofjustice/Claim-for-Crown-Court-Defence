@@ -1469,7 +1469,7 @@ en:
         page_header: *miscellaneous_fees
         page_hint: *fees_vat_prompt
         page_intro_html: |
-          If needed, please complete an
+          If needed, complete an
           <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">appropriate special prep form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
           or <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
           and attach to the claim.

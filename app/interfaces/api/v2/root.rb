@@ -37,7 +37,8 @@ module API
         doc_version: 'v2',
         hide_documentation_path: true,
         mount_path: '/api/v2/swagger_doc',
-        hide_format: true
+        hide_format: true,
+        consumes: ['application/json', 'application/x-www-form-urlencoded']
       )
     end
   end

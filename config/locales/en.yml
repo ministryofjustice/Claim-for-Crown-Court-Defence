@@ -1017,7 +1017,7 @@ en:
             You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" class="govuk-link" rel="noreferrer noopener" target="_blank">graduated fees calculators <span class="govuk-visually-hidden">(opens in new tab)</span></a>
             for help.
           fee_type: *fee_type
-          fee_type_hint: Please choose all relevant options
+          fee_type_hint: Select all that apply
           quantity: *quantity
           rate: 'Rate'
           additional_fees: Additional fees

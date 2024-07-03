@@ -26,7 +26,7 @@
             :first,
             form_group: { class: 'fx-travel-expense-type' },
             label: { text: t('.type_of_expense_html') },
-            options: { include_blank: t('.select_option') }
+            options: { include_blank: t('.select_expense_type_option') }
 
           - reasons_collection = present_collection(reasonset_for_expense_type(f.object.expense_type).values, TravelReasonPresenter)
           = f.govuk_collection_select :reason_id,
@@ -35,7 +35,7 @@
             :first,
             form_group: { class: 'fx-travel-reason', style: 'display: none' },
             label: { text: t('.travel_reason_html') },
-            options: { include_blank: t('.select_option') }
+            options: { include_blank: t('.select_travel_reason_option') }
 
           - present(f.object) do |expense|
             = f.govuk_text_field :reason_text,

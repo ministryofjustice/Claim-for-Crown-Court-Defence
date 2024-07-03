@@ -1301,9 +1301,10 @@ en:
           summary_heading: "How we calculate the distance"
           summary_content: |
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison
-          select_option: Please select
+          select_travel_reason_option: Choose travel reason
           travel_reason: Travel reason
           travel_reason_html: Travel reason <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
+          select_expense_type_option: Choose type of expense
           type_of_expense: Type of expense
           type_of_expense_html: Type of expense <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           expense: Expense
@@ -1340,7 +1341,7 @@ en:
           amount: 'Amount'
           vat_amount: *vat_amount
           expenses: 'Travel Expenses'
-          expenses_prompt_text: Please enter each expense (for example train ticket, hotel stay) separately
+          expenses_prompt_text: Enter each expense (for example train ticket, hotel stay) separately
           expense_type: 'Type of expense'
           hours_help_text: Hours should be in decimal format (for example 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter hour (so 1.40 becomes 1.50)
           location: 'Destination'

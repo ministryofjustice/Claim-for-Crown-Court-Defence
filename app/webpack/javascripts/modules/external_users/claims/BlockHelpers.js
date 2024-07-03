@@ -515,7 +515,7 @@ moj.Helpers.Blocks = {
       state.config.reasonSet = (this.config.featureDistance ? 'C' : (state.config.reasonSet || 'A'))
 
       // travel reasons
-      reasons.push(new Option('Please select'))
+      reasons.push(new Option('Choose travel reason'))
 
       // Looping over the correct reasonset and
       // build the `<options data-attr="" .. />` elements

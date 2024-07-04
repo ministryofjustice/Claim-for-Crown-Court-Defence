@@ -347,7 +347,7 @@ moj.Modules.AllocationDataTable = {
 
       if (!allocationCaseWorkerId) {
         $.publish('/allocation/error/', {
-          msg: 'Please select a case worker.'
+          msg: 'Select a case worker.'
         })
         return
       }

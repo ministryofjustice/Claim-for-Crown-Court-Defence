@@ -500,7 +500,7 @@ en:
         prohibited_save: 'This provider has'
         provider_type: *provider_type
         fee_schemes: Fee scheme
-        fee_schemes_hint: Please choose all relevant options
+        fee_schemes_hint: Select all that apply
         provider_name: *provider_name
         provider_name_hint: The trading name of the Chamber or Firm
         save_button: Save details
@@ -625,7 +625,7 @@ en:
         prohibited_save: 'This provider has'
         provider_type: *provider_type
         fee_schemes: Fee scheme
-        fee_schemes_hint: Please choose all relevant options
+        fee_schemes_hint: Select all that apply
         provider_name: *provider_name
         provider_name_hint: The trading name of the Chamber or Firm
         save_button: Save details
@@ -1521,7 +1521,7 @@ en:
             add_misc_fee: Add another fee
             page_hint: *fees_vat_prompt
             page_intro_html: |
-              If needed, please complete
+              If needed, complete
               <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">special prep form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
               or <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
               and attach to the claim.
@@ -2142,7 +2142,7 @@ en:
         cancel_button: Cancel
         error: 'error'
         fee_schemes: Fee scheme
-        fee_schemes_hint: Please choose all relevant options
+        fee_schemes_hint: Select all that apply
         form_error_hint: Check below for more detail
 
         supplier_details:

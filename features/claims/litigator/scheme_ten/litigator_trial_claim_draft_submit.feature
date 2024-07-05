@@ -13,6 +13,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I should be on the litigator new claim page
     And I should see a page title "Enter case details for litigator final fees claim"
     And I should see 3 supplier number radios
+    And I should see the London fee radios
 
     When I select a case type of 'Trial'
     And I select the court 'Blackfriars'
@@ -22,6 +23,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I click "Continue" I should be on the 'Case details' page and see a "Choose a supplier number" error
 
     When I choose the supplier number '1A222Z'
+    And I select 'Yes' to London fees
     And I click "Continue" in the claim form
     Then I should be in the 'Defendant details' form page
     And I should see a page title "Enter defendant details for litigator final fees claim"

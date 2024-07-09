@@ -95,7 +95,7 @@ The cookie rotator that was used for updating the secret key base is copied here
 # impact this functionality, rendering it in need of revisiting - manual
 # testing.
 #
-return unless Rails.application.secrets.old_secret_key_base.present?
+return unless Settings.old_secret_key_base.present?
 
 Rails.application.configure do
   # Not technically necessary, as this is the current default,
@@ -115,7 +115,7 @@ Rails.application.configure do
     signed_salt = config.action_dispatch.encrypted_signed_cookie_salt
     cipher = config.action_dispatch.encrypted_cookie_cipher || 'aes-256-gcm'
 
-    old_secret_key_base = Rails.application.secrets.old_secret_key_base
+    old_secret_key_base = Settings.old_secret_key_base
     generator = ActiveSupport::KeyGenerator.new(old_secret_key_base, iterations: 1000)
     len = ActiveSupport::MessageEncryptor.key_len(cipher)
     secret = generator.generate_key(salt, len)

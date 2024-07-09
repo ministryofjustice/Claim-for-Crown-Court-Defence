@@ -316,14 +316,14 @@ end
 Then(/^the last fixed fee rate should be in the calculator error state/) do
   expect(@claim_form_page.fixed_fees.last).to have_rate
   expect(@claim_form_page.fixed_fees.last.rate.value).to be_empty
-  expect(@claim_form_page.fixed_fees.last.text).to match /The calculated rate is unavailable, please enter manually/
+  expect(@claim_form_page.fixed_fees.last.text).to match /The calculated rate is unavailable, enter manually/
 end
 
 Then(/^the '(.*?)' fixed fee rate should be in the calculator error state/) do |name|
   fee_block = @claim_form_page.fixed_fees.fee_block_for(name)
   expect(fee_block).to have_rate
   expect(fee_block.rate.value).to be_empty
-  expect(fee_block.text).to match /The calculated rate is unavailable, please enter manually/
+  expect(fee_block.text).to match /The calculated rate is unavailable, enter manually/
 end
 
 Then("I click last remove link") do

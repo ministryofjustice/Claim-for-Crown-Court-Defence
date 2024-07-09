@@ -421,7 +421,7 @@ en:
     sfe_hint_html: 'Log in to <a href="%{link}" class="govuk-link" rel="noreferrer noopener" target="_blank">secure file exchange <span class="govuk-visually-hidden">(opens in new tab)</span></a> and upload your files and folders to a workspace.'
   fee_calculator:
     calculate:
-      amount_unavailable: The calculated rate is unavailable, please enter manually.
+      amount_unavailable: The calculated rate is unavailable, enter manually.
 
 # en.super_admins
   super_admins:
@@ -500,7 +500,7 @@ en:
         prohibited_save: 'This provider has'
         provider_type: *provider_type
         fee_schemes: Fee scheme
-        fee_schemes_hint: Please choose all relevant options
+        fee_schemes_hint: Select all that apply
         provider_name: *provider_name
         provider_name_hint: The trading name of the Chamber or Firm
         save_button: Save details
@@ -625,7 +625,7 @@ en:
         prohibited_save: 'This provider has'
         provider_type: *provider_type
         fee_schemes: Fee scheme
-        fee_schemes_hint: Please choose all relevant options
+        fee_schemes_hint: Select all that apply
         provider_name: *provider_name
         provider_name_hint: The trading name of the Chamber or Firm
         save_button: Save details
@@ -969,11 +969,11 @@ en:
             quantity_hint: *empty_input
           ppe:
             quantity: Total number of pages of prosecution evidence
-            quantity_hint: Please remove all cover sheets from the total count
+            quantity_hint: Remove all cover sheets from the total count
             heading_html: |
               Pages of prosecution evidence (<abbr title="pages of prosecution evidence">PPE</abbr>)
             help_text: |
-              Please enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
+              Enter the number of pages of prosecution evidence to help the caseworker assess the correct offence class.
 
         additional_fee_fields:
           case_numbers: Additional case numbers
@@ -1017,7 +1017,7 @@ en:
             You must enter a quantity and rate.  Check the <a href="https://www.gov.uk/government/publications/graduated-fee-calculators" class="govuk-link" rel="noreferrer noopener" target="_blank">graduated fees calculators <span class="govuk-visually-hidden">(opens in new tab)</span></a>
             for help.
           fee_type: *fee_type
-          fee_type_hint: Please choose all relevant options
+          fee_type_hint: Select all that apply
           quantity: *quantity
           rate: 'Rate'
           additional_fees: Additional fees
@@ -1075,7 +1075,7 @@ en:
           court: 'Court'
           court_hint: For example Cardiff
           cracked_trial_detail: 'Cracked trial detail'
-          main_hearing_date_hint_html: For multi day hearings, please provide the latest date to receive the correct fee rates<br/><br/>For example 31 9 2022
+          main_hearing_date_hint_html: For multi day hearings, provide the latest date to receive the correct fee rates<br/><br/>For example 31 9 2022
           litigator: *litigator
           main_hearing_date: 'Final main hearing date'
           offence_class: 'Offence class'
@@ -1185,7 +1185,7 @@ en:
           judical_apportionment: Judicial apportionment
           order_for_judicial_apportionment:  Order for judicial apportionment
           order_for_judicial_apportionment_html: Order for judicial apportionment <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
-          order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, please ensure you upload a copy of the order to your claim.
+          order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, ensure you upload a copy of the order to your claim.
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
           defendant: Defendant
@@ -1301,9 +1301,10 @@ en:
           summary_heading: "How we calculate the distance"
           summary_content: |
             We use the postcode associated with your supplier number to automatically calculate the distance between your address and the destination, eg court or prison
-          select_option: Please select
+          select_travel_reason_option: Choose travel reason
           travel_reason: Travel reason
           travel_reason_html: Travel reason <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
+          select_expense_type_option: Choose type of expense
           type_of_expense: Type of expense
           type_of_expense_html: Type of expense <span class="govuk-visually-hidden">for travel expense <span class="fx-numberedList-number"></span></span>
           expense: Expense
@@ -1340,7 +1341,7 @@ en:
           amount: 'Amount'
           vat_amount: *vat_amount
           expenses: 'Travel Expenses'
-          expenses_prompt_text: Please enter each expense (for example train ticket, hotel stay) separately
+          expenses_prompt_text: Enter each expense (for example train ticket, hotel stay) separately
           expense_type: 'Type of expense'
           hours_help_text: Hours should be in decimal format (for example 1.25 hours for 1 hour and 15 mins) and will be rounded to the nearest quarter hour (so 1.40 becomes 1.50)
           location: 'Destination'
@@ -1469,7 +1470,7 @@ en:
         page_header: *miscellaneous_fees
         page_hint: *fees_vat_prompt
         page_intro_html: |
-          If needed, please complete an
+          If needed, complete an
           <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">appropriate special prep form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
           or <a href="https://www.gov.uk/government/publications/af1-claim-for-advocate-graduated-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
           and attach to the claim.
@@ -1520,7 +1521,7 @@ en:
             add_misc_fee: Add another fee
             page_hint: *fees_vat_prompt
             page_intro_html: |
-              If needed, please complete
+              If needed, complete
               <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">special prep form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
               or <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
               and attach to the claim.
@@ -2110,7 +2111,7 @@ en:
       dismiss: Dismiss this message
       cav_warning:
         header: 'Warning: conferences and views were not injected'
-        message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Please enter them manually.'
+        message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Enter them manually.'
       clar_fees_warning:
         header: 'Warning: CLAR fees were not injected'
         message: 'The provider has claimed Criminal Legal Aid Review fees on this claim, but they have not been injected. Please enter them manually.'
@@ -2141,7 +2142,7 @@ en:
         cancel_button: Cancel
         error: 'error'
         fee_schemes: Fee scheme
-        fee_schemes_hint: Please choose all relevant options
+        fee_schemes_hint: Select all that apply
         form_error_hint: Check below for more detail
 
         supplier_details:

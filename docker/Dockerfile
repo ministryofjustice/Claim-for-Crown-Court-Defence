@@ -1,4 +1,4 @@
-FROM ruby:3.3-alpine3.20 AS base
+FROM ruby:3.3.4-alpine3.20 AS base
 
 # Stage 1: installs gems and npm packages
 FROM base AS builder
@@ -17,7 +17,7 @@ RUN apk --update-cache upgrade \
 
 ENV RAILS_ENV production
 
-COPY Gemfile Gemfile.lock $APP_HOME/
+COPY Gemfile Gemfile.lock .ruby-version $APP_HOME/
 
 RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") \
 && bundle config without test development \

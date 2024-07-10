@@ -740,10 +740,8 @@ en:
           advocates: 'Users'
           add_advocate: 'Add User'
           edit: *edit
-          edit_html: Edit<span class="govuk-visually-hidden"> user %{context}</span>
           email: 'Email'
           delete: *delete
-          delete_html: Delete<span class="govuk-visually-hidden"> user %{context}</span>
           confirm_delete: 'Are you sure?'
           first_name: 'Name'
           last_name: 'Surname'
@@ -756,8 +754,11 @@ en:
           option_no: *global_no
           email_title: Email %{external_user}
           email_confirmation: Email notifications of messages?
-          confirmation: Are you sure?
           table_caption: "%{provider_name} users"
+        edit_delete_links:
+          delete_html: Delete<span class="govuk-visually-hidden"> user %{context}</span>
+          edit_html: Edit<span class="govuk-visually-hidden"> user %{context}</span>
+          confirmation: Are you sure?
         new:
           error: 'error'
           page_heading: Add a new user to %{provider_name}

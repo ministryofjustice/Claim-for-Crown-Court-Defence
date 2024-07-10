@@ -73,10 +73,44 @@ Feature: Super admin can enable and disable users
     And I should see 'Live, Enabled'
     And I should see link 'Disable account'
 
-  Scenario: Provider admin can identify disabled users
-    Given I am a signed in advocate admin
+  # Provider admin logged in...
+  Scenario: Inactive users with live account
     And an "advocate" user account exists
     And the advocate is disabled
+    Given I am a signed in advocate admin
+    And both users belong to the same firm
+    When I click the link 'Manage users'
+    Then I am on the manage users page
+    And I should see 'Inactive'
+    And I should see link 'Edit'
+    And I should see link 'Delete'
+
+  Scenario: Active user with live account
+    Given an "advocate" user account exists
+    And the advocate is enabled
+    Given I am a signed in advocate admin
+    And both users belong to the same firm
+    When I click the link 'Manage users'
+    Then I am on the manage users page
+    And I should not see 'Inactive'
+    And I should see link 'Edit'
+    And I should see link 'Delete'
+
+  Scenario: Active users with deleted account
+    Given an "advocate" user account exists
+    And the advocate is enabled
+    And the advocate user account is deleted
+    Given I am a signed in advocate admin
+    And both users belong to the same firm
+    When I click the link 'Manage users'
+    Then I am on the manage users page
+    And I should see 'Inactive'
+
+  Scenario: Inactive users with deleted account
+    Given an "advocate" user account exists
+    And the advocate is disabled
+    And the advocate user account is deleted
+    Given I am a signed in advocate admin
     And both users belong to the same firm
     When I click the link 'Manage users'
     Then I am on the manage users page

@@ -25,7 +25,7 @@ RSpec.describe Message do
   it { is_expected.to validate_presence_of(:claim_id).with_message('Message claim_id cannot be blank') }
   it { is_expected.to validate_presence_of(:body).with_message('Message body cannot be blank') }
 
-  it { is_expected.to have_one_attached(:attachment) }
+  it { is_expected.to have_many_attached(:attachment) }
 
   it do
     is_expected.to validate_content_type_of(:attachment)
@@ -211,14 +211,18 @@ RSpec.describe Message do
       let(:trait) { nil }
 
       it { expect { destroy_message }.not_to change(ActiveStorage::Attachment, :count) }
-      it { expect { destroy_message }.not_to change(ActiveStorage::Blob, :count) }
     end
 
     context 'with an attachment' do
       let(:trait) { :with_attachment }
 
       it { expect { destroy_message }.to change(ActiveStorage::Attachment, :count).by(-1) }
-      it { expect { destroy_message }.to change(ActiveStorage::Blob, :count).by(-1) }
+    end
+
+    context 'with multiple attachments' do
+      let(:trait) { :with_many_attachments }
+
+      it { expect { destroy_message }.to change(ActiveStorage::Attachment, :count).by(-3) }
     end
   end
 end

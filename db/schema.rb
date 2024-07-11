@@ -20,7 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -32,7 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -55,8 +55,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   create_table "case_types", id: :serial, force: :cascade do |t|
     t.string "name"
     t.boolean "is_fixed_fee"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.boolean "requires_cracked_dates"
     t.boolean "requires_trial_dates"
     t.boolean "allow_pcmh_fee_type", default: false
@@ -70,18 +70,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   create_table "case_worker_claims", id: :serial, force: :cascade do |t|
     t.integer "case_worker_id"
     t.integer "claim_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["case_worker_id"], name: "index_case_worker_claims_on_case_worker_id"
     t.index ["claim_id"], name: "index_case_worker_claims_on_claim_id"
   end
 
   create_table "case_workers", id: :serial, force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "location_id"
     t.string "roles"
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.index ["location_id"], name: "index_case_workers_on_location_id"
   end
@@ -89,8 +89,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   create_table "certification_types", id: :serial, force: :cascade do |t|
     t.string "name"
     t.boolean "pre_may_2015", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "roles"
     t.index ["name"], name: "index_certification_types_on_name"
   end
@@ -99,15 +99,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.integer "claim_id"
     t.string "certified_by"
     t.date "certification_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "certification_type_id"
   end
 
   create_table "claim_intentions", id: :serial, force: :cascade do |t|
     t.string "form_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "user_id"
     t.index ["form_id"], name: "index_claim_intentions_on_form_id"
   end
@@ -118,7 +118,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.string "event"
     t.string "from"
     t.string "to"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.string "reason_code"
     t.integer "author_id"
     t.integer "subject_id"
@@ -130,7 +130,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.text "additional_information"
     t.boolean "apply_vat"
     t.string "state"
-    t.datetime "last_submitted_at"
+    t.datetime "last_submitted_at", precision: nil
     t.string "case_number"
     t.string "advocate_category"
     t.date "first_day_of_trial"
@@ -142,11 +142,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.integer "external_user_id"
     t.integer "court_id"
     t.integer "offence_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "valid_until"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.datetime "valid_until", precision: nil
     t.string "cms_number"
-    t.datetime "authorised_at"
+    t.datetime "authorised_at", precision: nil
     t.integer "creator_id"
     t.text "evidence_notes"
     t.string "evidence_checklist_ids"
@@ -160,7 +160,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.integer "case_type_id"
     t.string "form_id"
-    t.datetime "original_submission_date"
+    t.datetime "original_submission_date", precision: nil
     t.date "retrial_started_at"
     t.integer "retrial_estimated_length", default: 0
     t.integer "retrial_actual_length", default: 0
@@ -175,8 +175,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.string "allocation_type"
     t.string "transfer_case_number"
     t.integer "clone_source_id"
-    t.datetime "last_edited_at"
-    t.datetime "deleted_at"
+    t.datetime "last_edited_at", precision: nil
+    t.datetime "deleted_at", precision: nil
     t.string "providers_ref"
     t.boolean "disk_evidence", default: false
     t.decimal "fees_vat", default: "0.0"
@@ -207,8 +207,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.string "code"
     t.string "name"
     t.string "court_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["code"], name: "index_courts_on_code"
     t.index ["court_type"], name: "index_courts_on_court_type"
     t.index ["name"], name: "index_courts_on_name"
@@ -216,8 +216,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
 
   create_table "dates_attended", id: :serial, force: :cascade do |t|
     t.date "date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.date "date_to"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.string "attended_item_type"
@@ -231,8 +231,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.date "date_of_birth"
     t.boolean "order_for_judicial_apportionment"
     t.integer "claim_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.index ["claim_id"], name: "index_defendants_on_claim_id"
   end
@@ -243,8 +243,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.decimal "fees", default: "0.0"
     t.decimal "expenses", default: "0.0"
     t.decimal "total"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.float "vat_amount", default: 0.0
     t.decimal "disbursements", default: "0.0"
     t.index ["claim_id"], name: "index_determinations_on_claim_id"
@@ -252,9 +252,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
 
   create_table "disbursement_types", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.datetime "deleted_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
+    t.datetime "deleted_at", precision: nil
     t.string "unique_code"
     t.index ["name"], name: "index_disbursement_types_on_name"
     t.index ["unique_code"], name: "index_disbursement_types_on_unique_code", unique: true
@@ -265,8 +265,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.integer "claim_id"
     t.decimal "net_amount"
     t.decimal "vat_amount"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.decimal "total", default: "0.0"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.index ["claim_id"], name: "index_disbursements_on_claim_id"
@@ -275,8 +275,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
 
   create_table "documents", id: :serial, force: :cascade do |t|
     t.integer "claim_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.integer "external_user_id"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.string "form_id"
@@ -293,15 +293,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.string "name"
     t.string "category"
     t.string "postcode"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["category"], name: "index_establishments_on_category"
   end
 
   create_table "expense_types", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "roles"
     t.string "reason_set"
     t.string "unique_code"
@@ -316,8 +316,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.float "quantity"
     t.decimal "rate"
     t.decimal "amount"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.integer "reason_id"
     t.string "reason_text"
@@ -334,14 +334,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   end
 
   create_table "external_users", id: :serial, force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "supplier_number"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.boolean "vat_registered", default: true
     t.integer "provider_id"
     t.string "roles"
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.index ["provider_id"], name: "index_external_users_on_provider_id"
     t.index ["supplier_number"], name: "index_external_users_on_supplier_number"
   end
@@ -349,17 +349,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   create_table "fee_schemes", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "version"
-    t.datetime "start_date"
-    t.datetime "end_date"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "start_date", precision: nil
+    t.datetime "end_date", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "fee_types", id: :serial, force: :cascade do |t|
     t.string "description"
     t.string "code"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.decimal "max_amount"
     t.boolean "calculated", default: true
     t.string "type"
@@ -378,8 +378,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.integer "fee_type_id"
     t.decimal "quantity"
     t.decimal "amount"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.decimal "rate"
     t.string "type"
@@ -397,10 +397,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   create_table "injection_attempts", id: :serial, force: :cascade do |t|
     t.integer "claim_id"
     t.boolean "succeeded"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.json "error_messages"
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.index ["claim_id"], name: "index_injection_attempts_on_claim_id"
   end
 
@@ -414,8 +414,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
 
   create_table "locations", id: :serial, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["name"], name: "index_locations_on_name"
   end
 
@@ -423,8 +423,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.text "body"
     t.integer "claim_id"
     t.integer "sender_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["claim_id"], name: "index_messages_on_claim_id"
     t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
@@ -442,11 +442,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.date "trial_cracked_at"
     t.date "trial_fixed_at"
     t.date "trial_fixed_notice_at"
-    t.datetime "authorised_at"
-    t.datetime "created_at"
-    t.datetime "date_last_assessed"
-    t.datetime "last_submitted_at"
-    t.datetime "original_submission_date"
+    t.datetime "authorised_at", precision: nil
+    t.datetime "created_at", precision: nil
+    t.datetime "date_last_assessed", precision: nil
+    t.datetime "last_submitted_at", precision: nil
+    t.datetime "original_submission_date", precision: nil
     t.decimal "amount_authorised"
     t.decimal "amount_claimed"
     t.decimal "disbursements_total"
@@ -496,23 +496,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.integer "number"
     t.string "description"
     t.integer "offence_category_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["offence_category_id"], name: "index_offence_bands_on_offence_category_id"
   end
 
   create_table "offence_categories", id: :serial, force: :cascade do |t|
     t.integer "number"
     t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "offence_classes", id: :serial, force: :cascade do |t|
     t.string "class_letter"
     t.string "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["class_letter"], name: "index_offence_classes_on_class_letter"
     t.index ["description"], name: "index_offence_classes_on_description"
   end
@@ -527,8 +527,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   create_table "offences", id: :serial, force: :cascade do |t|
     t.string "description"
     t.integer "offence_class_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "unique_code", default: "anyoldrubbish", null: false
     t.integer "offence_band_id"
     t.string "contrary"
@@ -545,8 +545,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.boolean "vat_registered"
     t.uuid "uuid"
     t.uuid "api_key"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "roles"
     t.index ["firm_agfs_supplier_number"], name: "index_providers_on_firm_agfs_supplier_number"
     t.index ["name"], name: "index_providers_on_name"
@@ -555,8 +555,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
 
   create_table "representation_orders", id: :serial, force: :cascade do |t|
     t.integer "defendant_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "maat_reference"
     t.date "representation_order_date"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
@@ -566,13 +566,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   create_table "stats_reports", id: :serial, force: :cascade do |t|
     t.string "report_name"
     t.string "status"
-    t.datetime "started_at"
-    t.datetime "completed_at"
+    t.datetime "started_at", precision: nil
+    t.datetime "completed_at", precision: nil
   end
 
   create_table "super_admins", id: :serial, force: :cascade do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "supplier_numbers", id: :serial, force: :cascade do |t|
@@ -595,8 +595,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.integer "user_id"
     t.integer "message_id"
     t.boolean "read", default: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["message_id"], name: "index_user_message_statuses_on_message_id"
     t.index ["read"], name: "index_user_message_statuses_on_read"
     t.index ["user_id"], name: "index_user_message_statuses_on_user_id"
@@ -606,26 +606,26 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
     t.string "persona_type"
     t.integer "persona_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.string "first_name"
     t.string "last_name"
     t.integer "failed_attempts", default: 0, null: false
-    t.datetime "locked_at"
+    t.datetime "locked_at", precision: nil
     t.string "unlock_token"
     t.text "settings"
-    t.datetime "deleted_at"
+    t.datetime "deleted_at", precision: nil
     t.uuid "api_key", default: -> { "uuid_generate_v4()" }
-    t.datetime "disabled_at"
+    t.datetime "disabled_at", precision: nil
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
@@ -634,8 +634,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
   create_table "vat_rates", id: :serial, force: :cascade do |t|
     t.integer "rate_base_points"
     t.date "effective_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
   end
 
   create_table "versions", id: :serial, force: :cascade do |t|
@@ -644,7 +644,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_19_173039) do
     t.string "event", null: false
     t.string "whodunnit"
     t.text "object"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.text "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end

@@ -39,6 +39,31 @@ RSpec.describe MessagesController do
         expect(response).to render_template(:create)
       end
 
+      context 'with multiple documents' do
+        let(:with_many_attachments) do
+          files = []
+          3.times do
+            files << Rack::Test::UploadedFile.new(
+              File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
+              'application/msword'
+            )
+          end
+          files
+        end
+
+        it 'has one message' do
+          expect {
+            post :create, params: { message: message_params.merge(attachment: with_many_attachments) }
+          }.to change(Message, :count).by(1)
+        end
+
+        it 'has multiple documents attached to the message' do
+          expect {
+            post :create, params: { message: message_params.merge(attachment: with_many_attachments) }
+          }.to change(ActiveStorage::Attachment, :count).by(3)
+        end
+      end
+
       context 'when valid' do
         it 'creates a message' do
           expect {
@@ -86,7 +111,7 @@ RSpec.describe MessagesController do
         before do
           message.attachment.attach(io: StringIO.new, filename: 'attachment.doc')
           allow(Message).to receive(:find).with(message[:id].to_s).and_return(message)
-          allow(message.attachment.blob).to receive(:url).and_return(test_url)
+          allow(message.attachment.first.blob).to receive(:url).and_return(test_url)
         end
 
         it { is_expected.to redirect_to test_url }

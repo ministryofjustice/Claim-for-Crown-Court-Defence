@@ -245,6 +245,9 @@ GEM
       logger
     faraday-follow_redirects (0.3.0)
       faraday (>= 1, < 3)
+    faraday-gzip (2.0.1)
+      faraday (>= 1.0)
+      zlib (~> 3.0)
     faraday-http-cache (2.5.1)
       faraday (>= 0.8)
     faraday-multipart (1.0.4)
@@ -325,6 +328,13 @@ GEM
     json (2.7.2)
     json-schema (5.0.0)
       addressable (~> 2.8)
+    json_api_client (1.23.0)
+      activemodel (>= 6.0.0)
+      activesupport (>= 6.0.0)
+      addressable (~> 2.2)
+      faraday (>= 1.10, < 3.0)
+      faraday-gzip (>= 1.0, < 3.0)
+      rack (>= 0.2)
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
@@ -381,6 +391,8 @@ GEM
     msgpack (1.7.2)
     multi_json (1.15.0)
     multi_test (1.1.0)
+    multi_xml (0.7.1)
+      bigdecimal (~> 3.1)
     multipart-post (2.4.1)
     mustermann (3.0.2)
       ruby2_keywords (~> 0.0.1)
@@ -407,6 +419,13 @@ GEM
       racc (~> 1.4)
     notifications-ruby-client (6.2.0)
       jwt (>= 1.5, < 3)
+    oauth2 (2.0.9)
+      faraday (>= 0.17.3, < 3.0)
+      jwt (>= 1.0, < 3.0)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0)
+      version_gem (~> 1.1)
     orm_adapter (0.5.0)
     paper_trail (15.1.0)
       activerecord (>= 6.1)
@@ -596,6 +615,9 @@ GEM
       capybara (~> 3.32)
       site_prism-all_there (> 2, < 5)
     site_prism-all_there (3.0.5)
+    snaky_hash (2.0.1)
+      hashie
+      version_gem (~> 1.1, >= 1.1.1)
     sprockets (4.2.1)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -636,6 +658,7 @@ GEM
       activesupport
     vcr (6.3.1)
       base64
+    version_gem (1.1.4)
     virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
@@ -660,6 +683,7 @@ GEM
       inflection
       mini_mime
       multipart-post (~> 2.0)
+    zlib (3.1.1)
 
 PLATFORMS
   arm64-darwin-22
@@ -709,6 +733,7 @@ DEPENDENCIES
   jquery-rails (~> 4.6.0)
   jsbundling-rails
   json-schema (~> 5.0.0)
+  json_api_client
   json_spec
   kaminari (>= 1.2.1)
   laa-fee-calculator-client (~> 2.0)
@@ -724,6 +749,7 @@ DEPENDENCIES
   net-smtp
   net-ssh (~> 7.2)
   nokogiri (~> 1.16)
+  oauth2
   paper_trail (~> 15.1.0)
   parallel_tests
   pg (~> 1.5.7)

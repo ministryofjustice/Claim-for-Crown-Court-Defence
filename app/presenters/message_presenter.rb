@@ -8,7 +8,7 @@ class MessagePresenter < BasePresenter
   def body
     h.tag.div do
       h.concat(simple_format(message.body))
-      attachment_field if message.attachment.present?
+      attachment_field if message.attachment.first.present?
     end
   end
 

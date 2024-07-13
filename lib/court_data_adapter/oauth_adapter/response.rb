@@ -1,6 +1,6 @@
 require 'forwardable'
 
-module CourtDataAdapter
+module CourtDataAdaptor
   class OauthAdapter
     class Response < SimpleDelegator
       extend Forwardable

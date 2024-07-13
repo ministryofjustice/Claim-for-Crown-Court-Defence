@@ -174,6 +174,7 @@ Rails.application.routes.draw do
       get 'messages', on: :member
       get 'archived', on: :collection
       get 'download_zip', on: :member
+      get 'defendants', on: :member
     end
 
     namespace :admin do

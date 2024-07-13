@@ -1,8 +1,11 @@
-require 'court_data_adapter/resource/base'
+require 'court_data_adaptor/resource/base'
+require 'court_data_adaptor/resource/offence'
 
-module CourtDataAdapter
+module CourtDataAdaptor
   module Resource
     class Defendant < Base
+      has_many :offences
+
       property :id, type: :string
       property :prosecution_case_reference, type: :string
       property :name, type: :string

@@ -1,6 +1,6 @@
-require 'court_data_adapter/oauth_adapter/response'
+require 'court_data_adaptor/oauth_adapter/response'
 
-module CourtDataAdapter
+module CourtDataAdaptor
   class OauthAdapter
     def initialize(*args); end
 

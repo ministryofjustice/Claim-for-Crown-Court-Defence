@@ -1,9 +1,9 @@
-require 'court_data_adapter/oauth_adapter'
+require 'court_data_adaptor/oauth_adapter'
 
-module CourtDataAdapter
+module CourtDataAdaptor
   module Resource
     class Base < JsonApiClient::Resource
-      self.connection_class = CourtDataAdapter::OauthAdapter
+      self.connection_class = CourtDataAdaptor::OauthAdapter
     end
   end
 end

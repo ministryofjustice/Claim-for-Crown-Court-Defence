@@ -5,7 +5,7 @@
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_with(model: resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }, builder: GOVUKDesignSystemFormBuilder::FormBuilder) do |f|
+    = form_with(model: resource, as: resource_name, url: session_path(resource_name), html: { autocomplete: 'off' }) do |f|
       = f.govuk_text_field :email, label: { text: t('.email') }, autofocus: true
       = f.govuk_password_field :password, label: { text: t('.password') }, autocomplete: 'off'
       = f.govuk_submit t('.sign_in')

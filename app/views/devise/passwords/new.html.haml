@@ -5,7 +5,7 @@
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_with(model: resource, as: resource_name, url: password_path(resource_name), method: :post, builder: GOVUKDesignSystemFormBuilder::FormBuilder) do |f|
+    = form_with(model: resource, as: resource_name, url: password_path(resource_name), method: :post) do |f|
       = render "devise/shared/error_messages", resource: resource
 
       = f.govuk_email_field :email, label: { text: t('.email') }, autofocus: true, autocomplete: 'off'

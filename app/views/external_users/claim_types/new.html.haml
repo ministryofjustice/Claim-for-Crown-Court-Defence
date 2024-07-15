@@ -5,7 +5,7 @@
 
 = render partial: 'external_users/shared/clair_contingency_banner'
 
-= form_with model: @claim_type, url: external_users_claim_types_path, method: 'post', builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+= form_with model: @claim_type, url: external_users_claim_types_path, method: 'post' do |f|
   = f.govuk_error_summary
 
   = f.govuk_radio_buttons_fieldset :claim_type, legend: { text: t('.choose_claim_type_prompt_text'), size: 'xl', tag: 'h1' } do

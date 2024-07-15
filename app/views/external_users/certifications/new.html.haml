@@ -5,7 +5,7 @@
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_with model: @certification, url: external_users_claim_certification_path(@claim), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+    = form_with model: @certification, url: external_users_claim_certification_path(@claim) do |f|
       = f.govuk_error_summary
 
       - if @claim.agfs?

@@ -7,12 +7,12 @@
       .govuk-grid-column-two-thirds
         = govuk_error_summary(@allocation, :allocation)
 
-    = form_with url: case_workers_admin_allocations_path, method: :get, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+    = form_with url: case_workers_admin_allocations_path, method: :get do |f|
       = render partial: 'orig_scheme_filters', locals: { f: f }
 
       = render partial: 'shared/search_form', locals: { search_path: case_workers_admin_allocations_path(anchor: 'search-button'), hint_text: t('hint.search'), button_text: t('search.claims') }
 
-    = form_with model: [:case_workers, :admin, @allocation], builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+    = form_with model: [:case_workers, :admin, @allocation] do |f|
       = hidden_field_tag :scheme, params[:scheme]
       = hidden_field_tag :page, params[:page]
 

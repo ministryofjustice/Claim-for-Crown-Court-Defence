@@ -9,7 +9,7 @@
     %h2.govuk-heading-m
       = availability_heading(@external_user)
 
-    = form_with model: [:provider_management, @external_user], url: update_availability_provider_management_provider_external_user_path(@provider, @external_user), builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+    = form_with model: [:provider_management, @external_user], url: update_availability_provider_management_provider_external_user_path(@provider, @external_user) do |f|
       = f.hidden_field :availability, value: @external_user.disabled?
 
       .govuk-button-group

@@ -1,6 +1,6 @@
 = govuk_error_summary(@provider, :provider, presenter: @error_presenter)
 
-= form_with model: @provider, url: form_url, builder: GOVUKDesignSystemFormBuilder::FormBuilder, html: { novalidate: true } do |f|
+= form_with model: @provider, url: form_url, html: { novalidate: true } do |f|
 
   = f.govuk_text_field :name,
     hint: { text: t('.provider_name_hint') },

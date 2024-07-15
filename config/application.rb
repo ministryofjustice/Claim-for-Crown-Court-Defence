@@ -64,5 +64,7 @@ module AdvocateDefencePayments
     config.exceptions_app = self.routes
 
     config.active_job.queue_adapter = :sidekiq
+
+    config.action_view.default_form_builder = GOVUKDesignSystemFormBuilder::FormBuilder
   end
 end

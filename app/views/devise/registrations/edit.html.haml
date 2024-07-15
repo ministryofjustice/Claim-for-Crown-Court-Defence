@@ -1,6 +1,6 @@
 %h2.govuk-heading-m= t('.edit_resource', resource: resource_name.to_s.humanize)
 
-= form_with(model: resource, as: resource_name, url: registration_path(resource_name), method: :put, builder: GOVUKDesignSystemFormBuilder::FormBuilder) do |f|
+= form_with(model: resource, as: resource_name, url: registration_path(resource_name), method: :put) do |f|
   = f.error_notification
 
   = f.govuk_text_field :email,

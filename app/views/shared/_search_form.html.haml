@@ -1,6 +1,6 @@
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_with url: search_path, method: :get, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+    = form_with url: search_path, method: :get do |f|
       = f.hidden_field :tab, id: :tab, value: params[:tab]
       = f.hidden_field :sort, id: :sort, value: params[:sort]
       = f.hidden_field :direction, id: :direction, value: params[:direction]

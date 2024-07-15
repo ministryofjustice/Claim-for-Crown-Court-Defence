@@ -5,7 +5,7 @@
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_for @feedback, builder: GOVUKDesignSystemFormBuilder::FormBuilder, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate' } do |f|
+    = form_for @feedback, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate' } do |f|
       = f.hidden_field :type
       = f.hidden_field :referrer
       = hidden_field_tag 'ga_client_id', '', class: 'ga-client-id'

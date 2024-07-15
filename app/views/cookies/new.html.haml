@@ -5,7 +5,7 @@
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_with model: @cookies, url: cookies_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder, method: 'post' do |f|
+    = form_with model: @cookies, url: cookies_path, method: 'post' do |f|
       = f.govuk_error_summary
 
       = t('.intro_html')

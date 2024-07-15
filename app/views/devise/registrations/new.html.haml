@@ -5,7 +5,7 @@
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_with(model: resource, as: resource_name, url: registration_path(resource_name), builder: GOVUKDesignSystemFormBuilder::FormBuilder) do |f|
+    = form_with(model: resource, as: resource_name, url: registration_path(resource_name)) do |f|
       = f.govuk_error_summary
 
       = f.govuk_check_boxes_fieldset :terms_and_conditions,

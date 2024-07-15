@@ -4,7 +4,7 @@
 .govuk-grid-row
   .govuk-grid-column-two-thirds
 
-    = form_for :external_user, url: provider_management_external_users_find_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+    = form_for :external_user, url: provider_management_external_users_find_path do |f|
       = f.govuk_email_field :email,
         label: { text: t('.page_heading'), tag: 'h1', size: 'l' }
 

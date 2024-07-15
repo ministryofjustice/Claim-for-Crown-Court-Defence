@@ -2026,11 +2026,20 @@ en:
       banner_paragraph: This is to enable routine maintenance work to be carried out. Please save and close any work before this time.
     claim_defendants:
       defendants: Defendants
+      enable_maat_details: Enable MAAT details (experimental)
+      disable_maat_details: Disable MAAT details (experimental)
     claim_defendant_details:
       caption: 'Defendant: Additional information'
       date: Order date
       defendant: Defendant %{context}
       no_reporder: No representation orders have been supplied for this defendant.
+    claim_defendant_details_with_maat:
+      caption: 'Defendant: Additional information'
+      date: Order date
+      defendant: Defendant %{context}
+      no_reporder: No representation orders have been supplied for this defendant.
+      case_number_from_maat: Case number from MAAT (experimental)
+      asn: ASN (experimental)
     evidence_checklist:
       caption: 'Supporting evidence checklist'
       summary: 'Note: To best navigate this table, step down the second column'
@@ -2100,6 +2109,8 @@ en:
       submit_date: Claim submitted
       trial_concluded: Trial concluded
       prosecution_evidence: Prosecution evidence
+      enable_maat_details: Enable MAAT details (experimental)
+      disable_maat_details: Disable MAAT details (experimental)
     claims:
       interim_claim_info:
         fields: *interim_claim_info_fields

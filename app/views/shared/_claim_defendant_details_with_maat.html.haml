@@ -1,0 +1,37 @@
+.app-card--defendant
+  %h4.govuk-heading-s
+    = t('.defendant', context: index)
+
+  = govuk_summary_list do
+    = govuk_summary_list_row_collection( t('external_users.claims.defendants.defendant_fields.full_name') ) { defendant.name }
+
+    - if defendant.date_of_birth.present?
+      = govuk_summary_list_row_collection( t('external_users.claims.defendants.defendant_fields.date_of_birth') ) { defendant.date_of_birth.strftime(Settings.date_format) rescue '' }
+
+    - unless @claim.lgfs? && @claim.interim?
+      = govuk_summary_list_row_collection( t('external_users.claims.defendants.defendant_fields.judical_apportionment') ) { defendant.order_for_judicial_apportionment == true ? t('global_yes') : t('global_no') }
+
+
+  - if defendant.representation_orders.any?
+    = govuk_table do
+      = govuk_table_caption do
+        = t('shared.claim.reporders')
+
+      = govuk_table_thead_collection [t('.date'),
+      t('external_users.claims.defendants.representation_order_fields.maat_reference_number'),
+      t('.asn')]
+
+      = govuk_table_tbody do
+        - defendant.representation_orders.each do | representation_order |
+          = govuk_table_row do
+            = govuk_table_td('data-label': t('.date')) do
+              = representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
+
+            = govuk_table_td('data-label': t('external_users.claims.defendants.representation_order_fields.maat_reference_number')) do
+              = representation_order.maat_reference
+
+            = govuk_table_td('data-label': t('.asn')) do
+              = representation_order.maat_details[:asn]
+
+  - else
+    = govuk_inset_text(t('.no_reporder'))

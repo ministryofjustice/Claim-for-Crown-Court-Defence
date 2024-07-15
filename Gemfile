@@ -61,6 +61,7 @@ gem 'active_storage_validations'
 gem 'faraday', '~> 2.10'
 gem 'faraday-follow_redirects', '~> 0.3'
 gem 'puma'
+gem 'oauth2'
 
 group :development, :test do
   gem 'annotate'

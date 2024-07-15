@@ -1,4 +1,5 @@
-= f.govuk_radio_buttons_fieldset :london_fees, legend: { size: 'm', text: t('.london_fee_title') }, hint: { text: t('.london_fee_hint') } do
-  = f.govuk_radio_button :london_fees, true, label: { text: t('global_yes') }
-  = f.govuk_radio_button :london_fees, false, label: { text: t('global_no') }
+.london-fees{ id: 'london-fees' }
+  = f.govuk_radio_buttons_fieldset :london_fees, legend: { size: 'm', text: t('.london_fee_title') }, hint: { text: t('.london_fee_hint') } do
+    = f.govuk_radio_button :london_fees, true, label: { text: t('global_yes') }
+    = f.govuk_radio_button :london_fees, false, label: { text: t('global_no') }
 

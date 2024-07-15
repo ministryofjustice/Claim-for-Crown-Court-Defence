@@ -89,7 +89,7 @@ class ClaimFormPage < BasePage
 
   section :lgfs_supplier_number_radios, SupplierNumberRadioSection, '.lgfs-supplier-numbers'
   section :auto_lgfs_supplier_number, CommonAutocomplete, ".lgfs-supplier-numbers"
-  section :london_fees, LondonFeesRadioSection, ".london_fees"
+  section :london_fees, LondonFeesRadioSection, ".london-fees"
 
   section :prosecution_evidence, YesNoSection, '.prosecution-evidence'
 

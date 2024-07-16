@@ -39,11 +39,11 @@ class MessagePresenter < BasePresenter
   end
 
   def attachment_file_name
-    message.attachment.filename.to_s
+    message.attachment.first.filename.to_s
   end
 
   def attachment_file_size
-    h.number_to_human_size(message.attachment.byte_size)
+    h.number_to_human_size(message.attachment.first.byte_size)
   end
 
   def hide_author?

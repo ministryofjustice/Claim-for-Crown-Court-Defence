@@ -31,6 +31,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
+    Then I should see 'This claim qualifies for London fee rates'
     And I edit the claim's defendants
 
     And I enter defendant, LGFS Scheme 9a representation order and MAAT reference

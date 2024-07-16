@@ -14,7 +14,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
 
     When I choose the supplier number '1A222Z'
     And I should see the London fee radios
-    And I select 'Yes' to London fees
+    And I select 'No' to London fees
     And I enter a providers reference of 'LGFS test interim fee'
     And I select the court 'Blackfriars'
     And I select a case type of 'Trial'
@@ -32,6 +32,7 @@ Feature: Litigator partially fills out a draft interim claim, then later edits a
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
+    Then I should see 'This claim does not qualify for London fee rates'
     And I edit the claim's defendants
 
     And I enter defendant, LGFS Scheme 10 representation order and MAAT reference

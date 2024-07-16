@@ -47,13 +47,13 @@ When(/^I select the supplier number '(.*)'$/) do |number|
   @claim_form_page.select_supplier_number(number)
 end
 
-And (/^I should see the London fee radios$/) do
-  expect(@claim_form_page.london_fees).to be_visible
+And (/^I should see the London rates radios$/) do
+  expect(@claim_form_page.london_rates).to be_visible
 end
 
-And (/^I select '(.*)' to London fees$/) do |option|
-  @claim_form_page.london_fees.yes.click if option.downcase == 'yes'
-  @claim_form_page.london_fees.no.click if option.downcase == 'no'
+And (/^I select '(.*)' to London rates$/) do |option|
+  @claim_form_page.london_rates.yes.click if option.downcase == 'yes'
+  @claim_form_page.london_rates.no.click if option.downcase == 'no'
 end
 
 When(/^I select the offence category '(.*?)'$/) do |offence_cat|

@@ -12,8 +12,8 @@ Feature: Litigator completes hardship claims
     Then I should be on the litigator new hardship claim page
 
     When I choose the supplier number '1A222Z'
-    And I should see the London fee radios
-    And I select 'Yes' to London fees
+    And I should see the London rates radios
+    And I select 'Yes' to London rates
     And I enter a providers reference of 'LGFS test hardship fee for covid-19'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20201234'

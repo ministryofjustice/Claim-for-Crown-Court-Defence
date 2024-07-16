@@ -21,8 +21,8 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then I click "Continue" I should be on the 'Case details' page and see a "Choose a supplier number" error
 
     When I choose the supplier number '1A222Z'
-    And I should see the London fee radios
-    And I select 'Yes' to London fees
+    And I should see the London rates radios
+    And I select 'Yes' to London rates
     And I click "Continue" in the claim form
     Then I should be in the 'Defendant details' form page
     And I should see a page title "Enter defendant details for litigator final fees claim"

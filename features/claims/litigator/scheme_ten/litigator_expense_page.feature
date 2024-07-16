@@ -12,8 +12,8 @@ Feature: Litigator expense specific page features
     Then I should be on the litigator new claim page
 
     When I choose the supplier number '1A222Z'
-    And I should see the London fee radios
-    And I select 'Yes' to London fees
+    And I should see the London rates radios
+    And I select 'Yes' to London rates
     And I select a case type of 'Trial'
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161234'

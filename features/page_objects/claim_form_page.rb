@@ -2,7 +2,7 @@ require_relative 'sections/common_date_section'
 require_relative 'sections/common_autocomplete_section'
 require_relative 'sections/govuk_date_section'
 require_relative 'sections/supplier_numbers_section'
-require_relative 'sections/london_fees_section'
+require_relative 'sections/london_rates_section'
 require_relative 'sections/retrial_section'
 require_relative 'sections/cracked_trial_section'
 require_relative 'sections/fee_dates_section'
@@ -89,7 +89,7 @@ class ClaimFormPage < BasePage
 
   section :lgfs_supplier_number_radios, SupplierNumberRadioSection, '.lgfs-supplier-numbers'
   section :auto_lgfs_supplier_number, CommonAutocomplete, ".lgfs-supplier-numbers"
-  section :london_fees, LondonFeesRadioSection, ".london-fees"
+  section :london_rates, LondonRatesRadioSection, ".london-rates"
 
   section :prosecution_evidence, YesNoSection, '.prosecution-evidence'
 

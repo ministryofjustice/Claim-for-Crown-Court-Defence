@@ -8,7 +8,7 @@
     width: 'one-half'
 
   - if @claim.lgfs?
-    = render partial: 'external_users/claims/case_details/london_fees', locals: { f: f }
+    = render partial: 'external_users/claims/case_details/london_rates', locals: { f: f }
 
   - if @claim.requires_case_type?
     = render partial: 'external_users/claims/case_details/case_type_fields', locals: { f: f }

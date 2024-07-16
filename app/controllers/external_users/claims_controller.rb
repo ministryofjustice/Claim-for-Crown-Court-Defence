@@ -294,7 +294,7 @@ module ExternalUsers
         :case_type_id,
         :case_stage_id,
         :offence_id,
-        :london_fees,
+        :london_rates_apply,
         :travel_expense_additional_information,
         :first_day_of_trial,
         :estimated_trial_length,

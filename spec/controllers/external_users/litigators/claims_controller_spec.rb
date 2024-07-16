@@ -235,8 +235,8 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
               expect(assigns(:claim).graduated_fee.amount).to eq 2000
             end
 
-            it 'sets the london fee attribute' do
-              expect(assigns(:claim).london_fees).to be true
+            it 'sets the london rates attribute' do
+              expect(assigns(:claim).london_rates_apply).to be true
             end
 
             it 'creates the miscellaneous fees' do
@@ -469,7 +469,7 @@ RSpec.describe ExternalUsers::Litigators::ClaimsController do
     {
       'source' => 'web',
       'supplier_number' => supplier_number,
-      'london_fees' => true,
+      'london_rates_apply' => true,
       'case_type_id' => case_type.id.to_s,
       'court_id' => court.id.to_s,
       'case_number' => 'A20161234',

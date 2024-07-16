@@ -36,7 +36,7 @@ Feature: Litigator partially fills out a draft final fee claim, then later edits
     Then Claim 'A20161234' should be listed with a status of 'Draft'
 
     When I click the claim 'A20161234'
-    Then I should see 'This case does not qualify for London fee rates'
+    Then I should see 'This claim does not qualify for London fee rates'
     And I edit the claim's case details
     And I should see a page title "Enter case details for litigator final fees claim"
     And I should see a supplier number select list

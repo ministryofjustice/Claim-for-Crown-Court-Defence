@@ -1082,6 +1082,9 @@ en:
           offence_category: 'Offence category'
           select_category: 'Please select'
         london_fees:
+          london_fee: "London Fees"
+          london_fee_true: "This claim qualifies for London fee rates"
+          london_fee_false: "This claim does not qualify for London fee rates"
           london_fee_title: "Is the firm based in a London borough?"
           london_fee_hint: "We need to know this to check the correct rates have been used in your application."
         offence_select:

@@ -22,7 +22,7 @@ class Ability
     end
 
     # applies to all external users and case workers
-    can %i[create download_attachment], Message
+    can %i[create], Message
     can %i[index update], UserMessageStatus
     can [:update_settings], User, id: user.id
 

@@ -33,11 +33,14 @@ class MessagePresenter < BasePresenter
     h.concat(
       h.tag.a(
         "#{attachment_file_name} (#{attachment_file_size})",
-        href: rails_blob_path(message.attachment, disposition: "attachment", host: Rails.application.config.action_mailer.default_url_options[:host]),
+        href: rails_blob_path(message.attachment,
+                              disposition: 'attachment',
+                              host: Rails.application.config.action_mailer.default_url_options[:host]),
         title: 'Download ' + attachment_file_name
       )
     )
   end
+
   def attachment_file_name
     message.attachment.filename.to_s
   end

@@ -8,7 +8,7 @@
         time: report_rec.started_at.strftime(Settings.report_date_format))
 
   = govuk_link_button(t('download_html', scope: i18n_scope, report_name: report_name_html),
-                      case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
+                       rails_blob_path(report_rec.document, disposition: "attachment"))
 - else
   %p
     = t('unavailable_report', scope: i18n_scope)

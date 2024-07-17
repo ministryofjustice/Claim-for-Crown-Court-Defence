@@ -59,11 +59,11 @@ Rails.application.routes.draw do
   resources :claim_intentions, only: [:create], format: :json
 
   resources :documents do
-    get 'download', on: :member
+     get 'download', on: :member
   end
 
   resources :messages, only: [:create] do
-    get 'download_attachment', on: :member
+     get 'download_attachment', on: :member
   end
 
   resources :establishments, only: %i[index], format: :js
@@ -189,7 +189,6 @@ Rails.application.routes.draw do
       end
 
       get 'management_information', to: 'management_information#index', as: :management_information
-      get 'management_information/download', to: 'management_information#download', as: :management_information_download
       get 'management_information/generate', to: 'management_information#generate', as: :management_information_generate
       post 'management_information/create', to: 'management_information#create', as: :management_information_create
     end

@@ -34,7 +34,7 @@ class VatRatesController < ApplicationController
   end
 
   def lgfs_vat_amount
-    params['lgfs_vat_amount'].to_f.round(2)
+    params['lgfs_vat_amount'].gsub(/[^\d.]/, '').to_f.round(2)
   end
 
   def apply_vat

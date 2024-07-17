@@ -87,7 +87,7 @@ moj.Modules.DeterminationCalculator = {
       url: this.vatUrl,
       data: {
         scheme: this.scheme,
-        lgfs_vat_amount: this.$LgfsVat.val(),
+        lgfs_vat_amount: this.$LgfsVat.val().replace(/,/g, ''),
         date: this.vatDate,
         apply_vat: this.ajaxVat,
         net_amount: netAmount

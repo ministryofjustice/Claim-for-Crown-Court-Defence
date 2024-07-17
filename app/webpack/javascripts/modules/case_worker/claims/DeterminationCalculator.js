@@ -73,9 +73,9 @@ moj.Modules.DeterminationCalculator = {
     const $expenses = $table.find('.js-expenses')
     const $disbursements = $table.find('.js-disbursements')
 
-    const fees = $fees.exists() ? parseFloat($fees.val().replace(/[^\d.]/g, '')) : 0
-    const expenses = $expenses.exists() ? parseFloat($expenses.val().replace(/[^\d.]/g, '')) : 0
-    const disbursements = $disbursements.exists() ? parseFloat($disbursements.val().replace(/[^\d.]/g, '')) : 0
+    const fees = $fees.exists() ? parseFloat($fees.val().replace(/,/g, '')) : 0
+    const expenses = $expenses.exists() ? parseFloat($expenses.val().replace(/,/g, '')) : 0
+    const disbursements = $disbursements.exists() ? parseFloat($disbursements.val().replace(/,/g, '')) : 0
 
     const total = this.calculateAmount(fees, expenses, disbursements)
 

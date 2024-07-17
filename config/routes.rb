@@ -58,9 +58,7 @@ Rails.application.routes.draw do
 
   resources :claim_intentions, only: [:create], format: :json
 
-  resources :documents do
-     get 'download', on: :member
-  end
+  resources :documents
 
   resources :messages, only: [:create]
 

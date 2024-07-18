@@ -5,7 +5,7 @@
   .govuk-grid-column-two-thirds
     = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
-= form_with url: case_workers_admin_allocations_path, method: :get, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+= form_with url: case_workers_admin_allocations_path, method: :get do |f|
   = f.hidden_field :tab, id: :tab, value: params[:tab]
   = f.hidden_field :filter, id: :filter, value: params[:filter] if params[:filter]
   = f.hidden_field :page, id: :page, value: params[:page]

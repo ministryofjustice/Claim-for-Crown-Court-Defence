@@ -44,7 +44,7 @@
             = govuk_link_button(t('buttons.edit_draft'), edit_polymorphic_path(claim), class: 'edit-claim')
 
             -if claim.from_api? || claim.api_web_edited?
-              = form_for @claim, as: :claim, url:polymorphic_path(claim, anchor: 'evidence_upload'), builder: GOVUKDesignSystemFormBuilder::FormBuilder, multipart: true, authenticity_token: true do |f|
+              = form_for @claim, as: :claim, url:polymorphic_path(claim, anchor: 'evidence_upload'), multipart: true, authenticity_token: true do |f|
                 = f.hidden_field :form_step, value: 'offence_details'
                 = f.hidden_field :form_id, value: @claim.form_id
                 = f.submit t('buttons.add_evidence'), name: 'commit_continue', class: 'govuk-button govuk-button--secondary', data: { module: 'govuk-button' }, role: 'button', draggable: 'false'

@@ -13,7 +13,7 @@
   %p
     = t('unavailable_report', scope: i18n_scope)
 
-= form_with url: case_workers_admin_management_information_create_path, builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+= form_with url: case_workers_admin_management_information_create_path do |f|
   = f.hidden_field :report_type, value: report_object.name
   = f.govuk_date_field :start_at,
                        legend: { text: t('start_date', scope: i18n_scope) },

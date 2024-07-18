@@ -24,7 +24,7 @@
       %h2.govuk-heading-l
         = t('.provisional_assessments_by_date')
 
-      = form_with builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f|
+      = form_with do |f|
         = f.hidden_field :user_api_key, id: :user_api_key, value: @current_user.api_key
 
         %p= t('.report_information')

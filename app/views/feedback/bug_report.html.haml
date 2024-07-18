@@ -5,7 +5,7 @@
 
 .govuk-grid-row
   .govuk-grid-column-two-thirds
-    = form_for @feedback, builder: GOVUKDesignSystemFormBuilder::FormBuilder, url: feedback_index_path, html: { novalidate: 'novalidate' } do |f|
+    = form_for @feedback, url: feedback_index_path, html: { novalidate: 'novalidate' } do |f|
       = f.hidden_field :type
       = f.hidden_field :referrer
 

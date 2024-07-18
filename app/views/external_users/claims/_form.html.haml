@@ -1,5 +1,5 @@
 #claim-form{ data: { claim_id: @claim.id } }
-  = form_with model: @claim, scope: :claim, builder: GOVUKDesignSystemFormBuilder::FormBuilder, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
+  = form_with model: @claim, scope: :claim, html: { novalidate: true }, multipart: true, authenticity_token: true do |f|
 
     = f.hidden_field :form_id, value: @form_id || params[:claim][:form_id]
     = f.hidden_field :form_step, value: @claim.form_step

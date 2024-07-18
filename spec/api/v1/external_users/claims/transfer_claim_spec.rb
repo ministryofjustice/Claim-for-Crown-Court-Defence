@@ -17,6 +17,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
       api_key: provider.api_key,
       creator_email: vendor.user.email,
       user_email: litigator.user.email,
+      london_rates_apply: false,
       supplier_number: provider.lgfs_supplier_numbers.first,
       case_type_id: create(:case_type, :trial).id,
       case_number: 'A20161234',

@@ -237,6 +237,16 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
 
       it { expect_error_response('Enter a case number') }
     end
+
+    context 'when london_rates_apply is neither nil or boolean' do
+      before do
+        valid_params[:london_rates_apply] = 'Invalid'
+        post_to_validate_endpoint
+      end
+
+      it { expect_error_response('London Rates field is invalid. This must be true, false, or nil') }
+    end
+
   end
 end
 
@@ -305,6 +315,11 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           expected_owner = User.find_by(email: valid_params[:user_email])
           expect(claim.external_user).to eq expected_owner.persona
         end
+
+        it 'has had the London Rates Apply attribute correctly set' do
+          expect(claim.london_rates_apply).to eq valid_params[:london_rates_apply]
+        end
+
       end
     end
 

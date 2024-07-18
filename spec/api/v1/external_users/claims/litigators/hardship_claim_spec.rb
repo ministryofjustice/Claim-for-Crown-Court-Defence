@@ -18,6 +18,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
       api_key: provider.api_key,
       creator_email: vendor.user.email,
       user_email: litigator.user.email,
+      london_rates_apply: true,
       supplier_number: provider.lgfs_supplier_numbers.first,
       case_stage_unique_code: create(:case_stage, :pre_ptph_or_ptph_adjourned).unique_code,
       case_number: 'A20201234',

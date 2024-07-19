@@ -208,7 +208,14 @@ Rails.application.routes.draw do
   # catch-all route
   # -------------------------------------------------
   # WARNING: do not put routes below this point
-  unless Rails.env.development?
-    match '*path', to: 'errors#not_found', via: :all
+  # unless Rails.env.development?
+  #   match '*path', to: 'errors#not_found', via: :all
+  # end
+
+  if Rails.env.development?
+    scope format: true, constraints: { format: /jpg|png|gif|PNG/ } do
+      get '/*anything', to: proc { [404, {}, ['']] }, constraints: lambda { |request| !request.path_parameters[:anything].start_with?('rails/') }
+    end
   end
+
 end

@@ -7,7 +7,7 @@ module CaseWorkers
     end
 
     def cases
-      @cases ||= CourtDataAdaptor::Search.call(name:, date_of_birth:)
+      @cases ||= CourtDataAdapter::Search.call(name:, date_of_birth:)
     end
   end
 end

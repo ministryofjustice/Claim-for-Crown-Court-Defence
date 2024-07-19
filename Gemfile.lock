@@ -257,7 +257,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    govuk_design_system_formbuilder (5.4.0)
+    govuk_design_system_formbuilder (5.4.1)
       actionview (>= 6.1)
       activemodel (>= 6.1)
       activesupport (>= 6.1)

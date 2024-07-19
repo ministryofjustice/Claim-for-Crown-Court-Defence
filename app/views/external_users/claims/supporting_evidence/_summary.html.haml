@@ -15,7 +15,7 @@
           - claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
             %li
               = govuk_link_to document.document_file_name,
-                        download_document_path(document),
+                       rails_blob_url(document.document, disposition: 'inline'),
                         class: 'download',
                         'aria-label': "Download document: #{document.document_file_name}"
 

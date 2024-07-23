@@ -46,5 +46,4 @@
               .app-link-group
                 - if document.converted_preview_document.present?
                   = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document)
-
-                = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), download_document_path(document)
+                = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"),rails_blob_path(document.attachment, disposition: "attachment")

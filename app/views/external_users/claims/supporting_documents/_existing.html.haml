@@ -17,10 +17,10 @@
           = govuk_table_td('data-label': t('.action')) do
             .app-link-group
               = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"),
-                        download_document_path(document),
+                        rails_blob_url(document.document, disposition: 'inline'),
                         class: 'download'
               = govuk_link_to t('common.remove_html', context: "#{document.document_file_name}"),
-                        document_path(document),
+                       rails_blob_url(document.document, disposition: 'inline'),
                         method: :delete,
                         remote: true,
                         data: { confirm: 'Are you sure?' }

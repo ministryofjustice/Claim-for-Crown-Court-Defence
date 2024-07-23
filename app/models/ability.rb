@@ -22,7 +22,7 @@ class Ability
     end
 
     # applies to all external users and case workers
-    can %i[create download_attachment], Message
+    can %i[create], Message
     can %i[index update], UserMessageStatus
     can [:update_settings], User, id: user.id
 
@@ -46,7 +46,7 @@ class Ability
 
   def case_worker_admin(persona)
     can %i[index show update archived], Claim::BaseClaim
-    can %i[show download], Document
+    can %i[show], Document
     can %i[index new create], CaseWorker
     can %i[show show_message_controls edit change_password update_password update destroy], CaseWorker
     can %i[new create], Allocation
@@ -61,7 +61,7 @@ class Ability
       claim.case_workers.include?(persona)
     end
     can_administer_any_provider if persona.roles.include?('provider_management')
-    can %i[show download], Document
+    can %i[show], Document
     can_manage_own_password(persona)
     can %i[dismiss], InjectionAttempt
   end
@@ -87,7 +87,7 @@ class Ability
     can %i[index create], Document
 
     # NOTE: for destroy action, at least, the document may not be persisted/saved
-    can %i[show download destroy], Document do |document|
+    can %i[show destroy], Document do |document|
       if document.external_user_id.nil?
         User.active.find(document.creator_id).persona.provider.id == persona.provider.id
       else
@@ -127,7 +127,7 @@ class Ability
   def can_manage_own_documents(persona)
     can %i[index create], Document
 
-    can %i[show download destroy], Document do |document|
+    can %i[show destroy], Document do |document|
       if document.external_user_id.nil?
         document.creator_id == persona.user.id
       else

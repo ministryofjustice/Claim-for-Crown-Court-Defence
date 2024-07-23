@@ -5,26 +5,15 @@ module CaseWorkers
     class ManagementInformationController < CaseWorkers::Admin::ApplicationController
       include ActiveStorage::SetCurrent
 
-      skip_load_and_authorize_resource only: %i[index download generate create]
-      before_action -> { authorize! :view, :management_information }, only: %i[index download generate create]
-      before_action :validate_report_type, only: %i[download generate create]
+      skip_load_and_authorize_resource only: %i[index generate create]
+      before_action -> { authorize! :view, :management_information }, only: %i[index generate create]
+      before_action :validate_report_type, only: %i[generate create]
       before_action :validate_report_type_is_updatable, only: %i[generate create]
       before_action :validate_and_set_date, only: %i[create]
 
       def index
         @available_reports = Stats::StatsReport::REPORTS.index_with do |report|
           Stats::StatsReport.most_recent_by_type(report.name)
-        end
-      end
-
-      def download
-        log_download_start
-        record = Stats::StatsReport.most_recent_by_type(params[:report_type])
-
-        if record.document.attached?
-          redirect_to record.document.blob.url(disposition: 'attachment'), allow_other_host: true
-        else
-          redirect_to case_workers_admin_management_information_url, alert: t('.missing_report')
         end
       end
 
@@ -69,13 +58,13 @@ module CaseWorkers
         redirect_to case_workers_admin_management_information_url, alert: t('.invalid_report_date')
       end
 
-      def log_download_start
-        LogStuff.info(class: 'CaseWorkers::Admin::ManagementInformationController',
-                      action: 'download',
-                      downloading_user_id: @current_user&.id) do
-          'MI Report download started'
-        end
-      end
+      # def log_download_start
+      #   LogStuff.info(class: 'CaseWorkers::Admin::ManagementInformationController',
+      #                 action: 'download',
+      #                 downloading_user_id: @current_user&.id) do
+      #     'MI Report download started'
+      #   end
+      # end
     end
   end
 end

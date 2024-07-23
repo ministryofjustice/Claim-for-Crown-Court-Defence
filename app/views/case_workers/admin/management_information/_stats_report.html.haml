@@ -12,7 +12,7 @@
 
 - if report_rec&.started_at.present?
   = govuk_link_button(t('download_html', scope: i18n_scope, report_name: report_name_html),
-                    case_workers_admin_management_information_download_url(report_type: report_object.name, format: :csv))
+                    rails_blob_path(report_rec.document, disposition: "attachment"))
 
 - if report_object.updatable?
   = govuk_link_button_secondary(t('update_report_html', scope: i18n_scope, report_name: report_name_html),

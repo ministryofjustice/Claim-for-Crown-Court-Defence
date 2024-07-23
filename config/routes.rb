@@ -58,13 +58,9 @@ Rails.application.routes.draw do
 
   resources :claim_intentions, only: [:create], format: :json
 
-  resources :documents do
-    get 'download', on: :member
-  end
+  resources :documents
 
-  resources :messages, only: [:create] do
-    get 'download_attachment', on: :member
-  end
+  resources :messages, only: [:create]
 
   resources :establishments, only: %i[index], format: :js
   resources :offences, only: [:index], format: :js
@@ -189,7 +185,6 @@ Rails.application.routes.draw do
       end
 
       get 'management_information', to: 'management_information#index', as: :management_information
-      get 'management_information/download', to: 'management_information#download', as: :management_information_download
       get 'management_information/generate', to: 'management_information#generate', as: :management_information_generate
       post 'management_information/create', to: 'management_information#create', as: :management_information_create
     end
@@ -213,7 +208,14 @@ Rails.application.routes.draw do
   # catch-all route
   # -------------------------------------------------
   # WARNING: do not put routes below this point
-  unless Rails.env.development?
-    match '*path', to: 'errors#not_found', via: :all
+  # unless Rails.env.development?
+  #   match '*path', to: 'errors#not_found', via: :all
+  # end
+
+  if Rails.env.development?
+    scope format: true, constraints: { format: /jpg|png|gif|PNG/ } do
+      get '/*anything', to: proc { [404, {}, ['']] }, constraints: lambda { |request| !request.path_parameters[:anything].start_with?('rails/') }
+    end
   end
+
 end

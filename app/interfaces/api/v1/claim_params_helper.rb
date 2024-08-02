@@ -43,7 +43,8 @@ module API
         optional :transfer_case_number, type: String, desc: 'OPTIONAL: The case number or URN for the transfer court.'
         optional :london_rates_apply,
                  type: Boolean,
-                 desc: 'OPTIONAL: Whether the firm for the claim is based in a London Borough or not'
+                 desc: 'OPTIONAL: Whether the firm for the claim is based in a London Borough or not',
+                 optional_boolean_validation: true
       end
 
       params :legacy_agfs_params do

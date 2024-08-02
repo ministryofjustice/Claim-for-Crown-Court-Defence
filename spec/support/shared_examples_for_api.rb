@@ -239,13 +239,23 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
     end
 
-    context 'when london_rates_apply is neither nil or boolean' do
+    context 'when london_rates_apply is a string' do
       before do
         valid_params[:london_rates_apply] = 'Invalid string'
         post_to_validate_endpoint
       end
 
-      it { expect_error_response('london_rates_apply is not in an acceptable format - choose true, false or nil') }
+      it { expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil') }
+      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
+    end
+
+    context 'when london_rates_apply is an integer' do
+      before do
+        valid_params[:london_rates_apply] = 2
+        post_to_validate_endpoint
+      end
+
+      it { expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil') }
       it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
     end
   end
@@ -343,10 +353,15 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
       end
 
       context 'when london_rates_apply is invalid' do
-        it 'has had the London Rates Apply attribute correctly set' do
+        before do
           valid_params[:london_rates_apply] = 'invalid string'
           post_to_create_endpoint
-          expect_error_response('london_rates_apply is not in an acceptable format - choose true, false or nil')
+        end
+
+        it { expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil') }
+
+        it 'does not create a new claim' do
+          expect { post_to_create_endpoint }.not_to(change { claim_class.active.count })
         end
       end
 

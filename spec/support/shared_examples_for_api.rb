@@ -245,8 +245,15 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
         post_to_validate_endpoint
       end
 
-      it { expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil') }
-      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
+      it 'returns an error' do
+        skip('Only test for LGFS') if claim_user_type == 'Advocate'
+        expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil')
+      end
+
+      it 'logs an error' do
+        skip('Only test for LGFS') if claim_user_type == 'Advocate'
+        expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error'))
+      end
     end
 
     context 'when london_rates_apply is an integer' do
@@ -255,8 +262,15 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
         post_to_validate_endpoint
       end
 
-      it { expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil') }
-      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
+      it 'returns an error' do
+        skip('Only test for LGFS') if claim_user_type == 'Advocate'
+        expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil')
+      end
+
+      it 'logs an error' do
+        skip('Only test for LGFS') if claim_user_type == 'Advocate'
+        expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error'))
+      end
     end
   end
 end
@@ -358,9 +372,13 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           post_to_create_endpoint
         end
 
-        it { expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil') }
+        it 'returns an error' do
+          skip('Only test for LGFS') if claim_user_type == 'Advocate'
+          expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil')
+        end
 
         it 'does not create a new claim' do
+          skip('Only test for LGFS') if claim_user_type == 'Advocate'
           expect { post_to_create_endpoint }.not_to(change { claim_class.active.count })
         end
       end

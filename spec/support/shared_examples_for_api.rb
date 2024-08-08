@@ -238,6 +238,25 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       it { expect_error_response('Enter a case number') }
       it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
     end
+  end
+end
+
+RSpec.shared_examples 'validate London rates' do |options|
+  describe "POST #{ClaimApiEndpoints.for(options[:relative_endpoint]).validate}" do
+    subject(:post_to_validate_endpoint) do
+      post ClaimApiEndpoints.for(options[:relative_endpoint]).validate, valid_params, format: :json
+    end
+
+    before { allow(LogStuff).to receive(:send) }
+
+    let(:claim_user_type) do
+      if ClaimApiEndpoints.for(options[:relative_endpoint]).validate
+                          .match?(%r{/claims/(final|interim|transfer|hardship)})
+        'Litigator'
+      else
+        'Advocate'
+      end
+    end
 
     context 'when london_rates_apply is a string' do
       before do
@@ -246,12 +265,10 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       end
 
       it 'returns an error' do
-        skip('Only test for LGFS') if claim_user_type == 'Advocate'
         expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil')
       end
 
       it 'logs an error' do
-        skip('Only test for LGFS') if claim_user_type == 'Advocate'
         expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error'))
       end
     end
@@ -263,12 +280,10 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       end
 
       it 'returns an error' do
-        skip('Only test for LGFS') if claim_user_type == 'Advocate'
         expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil')
       end
 
       it 'logs an error' do
-        skip('Only test for LGFS') if claim_user_type == 'Advocate'
         expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error'))
       end
     end
@@ -340,10 +355,6 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           expected_owner = User.find_by(email: valid_params[:user_email])
           expect(claim.external_user).to eq expected_owner.persona
         end
-
-        it 'has had the London Rates Apply attribute correctly set' do
-          expect(claim.london_rates_apply).to eq valid_params[:london_rates_apply]
-        end
       end
     end
 
@@ -363,23 +374,6 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
           valid_params[:creator_email] = email
           post_to_create_endpoint
           expect_error_response('Creator email is invalid')
-        end
-      end
-
-      context 'when london_rates_apply is invalid' do
-        before do
-          valid_params[:london_rates_apply] = 'invalid string'
-          post_to_create_endpoint
-        end
-
-        it 'returns an error' do
-          skip('Only test for LGFS') if claim_user_type == 'Advocate'
-          expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil')
-        end
-
-        it 'does not create a new claim' do
-          skip('Only test for LGFS') if claim_user_type == 'Advocate'
-          expect { post_to_create_endpoint }.not_to(change { claim_class.active.count })
         end
       end
 
@@ -432,6 +426,51 @@ RSpec.shared_examples 'a claim create endpoint' do |options|
         it 'does not create a new claim' do
           expect { post_to_create_endpoint }.not_to(change { claim_class.active.count })
         end
+      end
+    end
+  end
+end
+
+RSpec.shared_examples 'create claim with london rates' do |options|
+  describe "POST #{ClaimApiEndpoints.for(options[:relative_endpoint]).create}" do
+    subject(:post_to_create_endpoint) do
+      post ClaimApiEndpoints.for(options[:relative_endpoint]).create, valid_params, format: :json
+    end
+
+    let(:claim_user_type) do
+      if ClaimApiEndpoints.for(options[:relative_endpoint]).validate
+                          .match?(%r{/claims/(final|interim|transfer|hardship)})
+        'Litigator'
+      else
+        'Advocate'
+      end
+    end
+
+    context 'when london_rates_apply is valid' do
+      let(:claim) { claim_class.active.last }
+
+      it 'creates a claim' do
+        expect { post_to_create_endpoint }.to change { claim_class.active.count }.by(1)
+      end
+
+      it 'has had the London Rates Apply attribute correctly set' do
+        post_to_create_endpoint
+        expect(claim.london_rates_apply).to eq valid_params[:london_rates_apply]
+      end
+    end
+
+    context 'when london_rates_apply is invalid' do
+      before do
+        valid_params[:london_rates_apply] = 'invalid string'
+        post_to_create_endpoint
+      end
+
+      it 'returns an error' do
+        expect_error_response('london_rates_apply is invalid, london_rates_apply must be true, false or nil')
+      end
+
+      it 'does not create a new claim' do
+        expect { post_to_create_endpoint }.not_to(change { claim_class.active.count })
       end
     end
   end

@@ -37,7 +37,10 @@ RSpec.describe API::V1::ExternalUsers::Claims::FinalClaim do
                                                                relative_endpoint: LITIGATOR_FINAL_VALIDATE_ENDPOINT
   include_examples 'optional parameter validation', optional_parameters: %i[main_hearing_date],
                                                     relative_endpoint: LITIGATOR_FINAL_VALIDATE_ENDPOINT
+
   it_behaves_like 'a claim endpoint', relative_endpoint: :final
   it_behaves_like 'a claim validate endpoint', relative_endpoint: :final
   it_behaves_like 'a claim create endpoint', relative_endpoint: :final
+  include_examples 'create claim with london rates', relative_endpoint: :final
+  include_examples 'validate London rates', relative_endpoint: :final
 end

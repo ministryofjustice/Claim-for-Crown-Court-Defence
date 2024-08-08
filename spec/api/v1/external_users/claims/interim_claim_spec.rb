@@ -38,4 +38,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::InterimClaim do
   it_behaves_like 'a claim endpoint', relative_endpoint: :interim
   it_behaves_like 'a claim validate endpoint', relative_endpoint: :interim
   it_behaves_like 'a claim create endpoint', relative_endpoint: :interim
+  include_examples 'create claim with london rates', relative_endpoint: :interim
+  include_examples 'validate London rates', relative_endpoint: :interim
 end

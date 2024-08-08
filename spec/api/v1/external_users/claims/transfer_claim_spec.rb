@@ -46,4 +46,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::TransferClaim do
   it_behaves_like 'a claim endpoint', relative_endpoint: :transfer
   it_behaves_like 'a claim validate endpoint', relative_endpoint: :transfer
   it_behaves_like 'a claim create endpoint', relative_endpoint: :transfer
+  include_examples 'create claim with london rates', relative_endpoint: :transfer
+  include_examples 'validate London rates', relative_endpoint: :transfer
 end

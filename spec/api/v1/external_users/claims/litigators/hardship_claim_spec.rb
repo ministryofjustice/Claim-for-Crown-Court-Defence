@@ -39,4 +39,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
   it_behaves_like 'a claim endpoint', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
   it_behaves_like 'a claim validate endpoint', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
   it_behaves_like 'a claim create endpoint', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
+  include_examples 'create claim with london rates', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
+  include_examples 'validate London rates', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
 end

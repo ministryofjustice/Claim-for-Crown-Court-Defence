@@ -29,7 +29,8 @@
           = claim.unique_id
 
       - if claim.lgfs?
-        = govuk_summary_list_row_collection( t('external_users.claims.case_details.london_rates.london_rates') ) { t("external_users.claims.case_details.london_rates.london_rates_#{claim.london_rates_apply}") unless claim.london_rates_apply.nil? }
+        = govuk_summary_list_row_collection( t('external_users.claims.case_details.london_rates.london_rates') ) do
+          = t("external_users.claims.case_details.london_rates.london_rates_#{claim.london_rates_apply}")
 
       - if claim.transfer_court.present?
         = govuk_summary_list_row_collection( t('common.transfer_court') ) { claim.transfer_court.name if claim.transfer_court }

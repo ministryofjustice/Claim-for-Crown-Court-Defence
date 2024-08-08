@@ -1085,8 +1085,9 @@ en:
           london_rates: "London fee rates"
           london_rates_true: "This claim qualifies for London fee rates"
           london_rates_false: "This claim does not qualify for London fee rates"
+          london_rates_: "This claim may qualify for London fee rates. This will be assessed by a caseworker"
           london_rates_title: "Is the firm based in a London borough?"
-          london_rates_hint: "We need to know this to check the correct rates have been used in your application."
+          london_rates_hint: "We need to know this to check the correct rates have been used in your application"
         offence_select:
           offence_class: 'Offence class'
           select_offence_class: 'Please select'

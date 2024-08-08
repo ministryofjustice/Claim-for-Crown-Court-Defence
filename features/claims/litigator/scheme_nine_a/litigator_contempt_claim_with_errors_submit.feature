@@ -12,6 +12,8 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     Then I should be on the litigator new claim page
 
     When I choose the supplier number '1A222Z'
+    And I should see the London rates radios
+    And I select 'Yes' to London rates
     And I select the court 'Blackfriars'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'

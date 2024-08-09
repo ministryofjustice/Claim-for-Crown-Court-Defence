@@ -22,8 +22,9 @@ When(/^I choose '(.*)' as the trial advocate$/) do |text|
 end
 
 When(/^I select the advocate offence class '(.*)'$/) do |offence_class|
-  sleep 1
-  @claim_form_page.select_offence_class(offence_class)
+  using_wait_time 1 do
+    @claim_form_page.select_offence_class(offence_class)
+  end
 end
 
 When(/I enter (.*?)(retrial|trial) start and end dates(?: with (\d+) day interval)?$/i) do |scheme_text, trial_type, interval|
@@ -167,7 +168,6 @@ Then("I add a govuk calculated miscellaneous fee {string} without a quantity") d
   @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete.choose_autocomplete_option(fee_name)
   @claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.send_keys(:tab)
 
-  sleep(2)
   wait_for_debounce
   wait_for_ajax
 end

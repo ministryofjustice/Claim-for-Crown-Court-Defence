@@ -18,6 +18,7 @@ RSpec.describe Claim::InterimClaimValidator, type: :validator do
       case_type_id
       court_id
       case_number
+      london_rates_apply
       case_transferred_from_another_court
       transfer_court_id
       transfer_case_number

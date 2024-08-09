@@ -60,6 +60,11 @@ module Claim
       validate_presence(:creator, 'blank') unless @record.errors.key?(:creator)
     end
 
+    # optional, must be boolean if present
+    def validate_london_rates_apply
+      validate_optional_boolean(:london_rates_apply, :not_boolean_or_nil)
+    end
+
     # object must be present
     def validate_case_type_id
       validate_belongs_to_object_presence(:case_type, :blank)

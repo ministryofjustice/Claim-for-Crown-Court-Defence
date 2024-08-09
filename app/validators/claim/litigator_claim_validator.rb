@@ -7,6 +7,7 @@ module Claim
         case_details: %i[
           case_type_id
           court_id
+          london_rates_apply
           case_number
           case_transferred_from_another_court
           transfer_court_id

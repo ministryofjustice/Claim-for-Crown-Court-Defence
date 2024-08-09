@@ -18,6 +18,7 @@ RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
       api_key: provider.api_key,
       creator_email: vendor.user.email,
       user_email: litigator.user.email,
+      london_rates_apply: nil,
       supplier_number: provider.lgfs_supplier_numbers.first,
       case_stage_unique_code: create(:case_stage, :pre_ptph_or_ptph_adjourned).unique_code,
       case_number: 'A20201234',
@@ -38,4 +39,6 @@ RSpec.describe API::V1::ExternalUsers::Claims::Litigators::HardshipClaim do
   it_behaves_like 'a claim endpoint', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
   it_behaves_like 'a claim validate endpoint', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
   it_behaves_like 'a claim create endpoint', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
+  include_examples 'create claim with london rates', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
+  include_examples 'validate London rates', relative_endpoint: LITIGATOR_HARDSHIP_CLAIM_ENDPOINT
 end

@@ -41,6 +41,10 @@ module API
         optional :supplier_number, type: String, desc: 'REQUIRED. The supplier number.'
         optional :transfer_court_id, type: Integer, desc: 'OPTIONAL: The unique identifier for the transfer court.'
         optional :transfer_case_number, type: String, desc: 'OPTIONAL: The case number or URN for the transfer court.'
+        optional :london_rates_apply,
+                 type: Boolean,
+                 desc: 'OPTIONAL: Whether the firm for the claim is based in a London borough or not',
+                 optional_boolean_validation: true
       end
 
       params :legacy_agfs_params do

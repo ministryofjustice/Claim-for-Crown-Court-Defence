@@ -32,10 +32,24 @@ FactoryBot.define do
 
   trait :with_attachment do
     attachment do
-      Rack::Test::UploadedFile.new(
-        File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
-        'application/msword'
-      )
+      [
+        Rack::Test::UploadedFile.new(
+          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
+          'application/msword'
+        )
+      ]
+    end
+  end
+  trait :with_many_attachments do
+    attachment do
+      files = []
+      3.times do
+        files << Rack::Test::UploadedFile.new(
+          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
+          'application/msword'
+        )
+      end
+      files
     end
   end
 end

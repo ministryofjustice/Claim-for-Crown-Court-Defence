@@ -21,7 +21,7 @@ class Message < ApplicationRecord
 
   attr_accessor :claim_action, :written_reasons_submitted
 
-  has_one_attached :attachment
+  has_many_attached :attachment
 
   validates :attachment,
             size: { less_than: 20.megabytes },
@@ -51,7 +51,7 @@ class Message < ApplicationRecord
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
-  before_destroy -> { attachment.purge }
+  before_destroy -> { attachment.each(&:purge) }
 
   class << self
     def for(object)

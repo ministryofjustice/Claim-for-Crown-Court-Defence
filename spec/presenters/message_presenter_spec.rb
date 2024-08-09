@@ -16,10 +16,10 @@ RSpec.describe MessagePresenter, type: :helper do
     context 'with an attachment' do
       let(:file) { File.expand_path('features/examples/shorter_lorem.docx', Rails.root) }
       let(:file_size) { number_to_human_size(File.size(file)) }
-      let(:attachment) { Rack::Test::UploadedFile.new(file) }
+      let(:attachment) { [Rack::Test::UploadedFile.new(file)] }
 
       before do
-        allow(message.attachment).to receive(:url).and_return('http://example.com')
+        allow(message.attachment.first).to receive(:url).and_return('http://example.com')
       end
 
       it 'includes a download link to the attachment' do

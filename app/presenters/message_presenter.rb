@@ -8,7 +8,7 @@ class MessagePresenter < BasePresenter
   def body
     h.tag.div do
       h.concat(simple_format(message.body))
-      attachment_field if message.attachment.present?
+      attachment_field if message.attachment.first.present?
     end
   end
 
@@ -39,11 +39,11 @@ class MessagePresenter < BasePresenter
   end
 
   def attachment_file_name
-    message.attachment.filename.to_s
+    message.attachment.first.filename.to_s
   end
 
   def attachment_file_size
-    h.number_to_human_size(message.attachment.byte_size)
+    h.number_to_human_size(message.attachment.first.byte_size)
   end
 
   def hide_author?

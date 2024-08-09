@@ -37,7 +37,7 @@ class MessagesController < ApplicationController
   def download_attachment
     raise 'No attachment present on this message' unless message.attachment.attached?
 
-    redirect_to message.attachment.blob.url(disposition: 'attachment'), allow_other_host: true
+    redirect_to message.attachment.first.blob.url(disposition: 'attachment'), allow_other_host: true
   end
 
   private
@@ -59,10 +59,10 @@ class MessagesController < ApplicationController
     params.require(:message).permit(
       :sender_id,
       :claim_id,
-      :attachment,
       :body,
       :claim_action,
-      :written_reasons_submitted
+      :written_reasons_submitted,
+      attachment: []
     )
   end
 end

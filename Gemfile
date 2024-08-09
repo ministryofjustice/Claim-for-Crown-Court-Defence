@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
-ruby file: '.ruby-version'
+# ruby file: '.ruby-version'
+ruby '3.3.4'
 gem 'active_model_serializers', '~> 0.10.14'
 gem 'amoeba',                 '~> 3.3.0'
 gem 'auto_strip_attributes',  '~> 2.6.0'

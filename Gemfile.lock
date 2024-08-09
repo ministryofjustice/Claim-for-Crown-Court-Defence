@@ -149,7 +149,8 @@ GEM
     case_transform (0.2)
       activesupport
     chartkick (5.0.7)
-    childprocess (5.0.0)
+    childprocess (5.1.0)
+      logger (~> 1.5)
     cocoon (1.2.15)
     coderay (1.1.3)
     coercible (1.0.0)

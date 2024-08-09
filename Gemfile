@@ -45,7 +45,7 @@ gem 'config',                 '~> 5.5' # this gem provides our Settings.xxx mech
 gem 'remotipart',             '~> 1.4'
 gem 'sentry-rails', '~> 5.18'
 gem 'sentry-sidekiq', '~> 5.18'
-gem 'sprockets-rails', '~> 3.5.1'
+gem 'sprockets-rails', '~> 3.5.2'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
 gem 'tzinfo-data'

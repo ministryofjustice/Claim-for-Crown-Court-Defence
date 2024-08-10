@@ -33,7 +33,7 @@
     "chart.js": "^4.4.3",
     "chartkick": "^5.0.1",
     "css-loader": "^7.1.2",
-    "datatables.net-buttons-dt": "^3.0.2",
+    "datatables.net-buttons-dt": "^3.1.0",
     "datatables.net-dt": "^1.13.11",
     "datatables.net-fixedheader-dt": "^3.4.0",
     "datatables.net-select": "1.7.0",

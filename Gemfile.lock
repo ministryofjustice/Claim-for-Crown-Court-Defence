@@ -417,7 +417,7 @@ GEM
     parser (3.3.4.0)
       ast (~> 2.4.1)
       racc
-    pg (1.5.6)
+    pg (1.5.7)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -726,7 +726,7 @@ DEPENDENCIES
   nokogiri (~> 1.16)
   paper_trail (~> 15.1.0)
   parallel_tests
-  pg (~> 1.5.6)
+  pg (~> 1.5.7)
   pry-byebug
   pry-rails
   puma

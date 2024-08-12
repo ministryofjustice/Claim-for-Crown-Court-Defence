@@ -39,7 +39,7 @@
     "datatables.net-select": "1.7.0",
     "dropzone": "^5.9.3",
     "file-loader": "^6.2.0",
-    "govuk-frontend": "^5.4.1",
+    "govuk-frontend": "^5.5.0",
     "jquery": "^3.7.1",
     "jquery-accessible-accordion-aria": "^2.6.1",
     "jquery-datatables-checkboxes": "^1.2.14",

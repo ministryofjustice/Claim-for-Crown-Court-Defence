@@ -198,8 +198,8 @@ moj.Modules.AllocationDataTable = {
     this.dataTable = moj.Modules.DataTables._init(this.options, '.app-jq-datatable')
 
     // :(
-    $('.dataTables_filter').find('input[type=search]').addClass('govuk-input govuk-!-width-three-quarters')
-    $('.dataTables_length').find('select').addClass('govuk-select')
+    $('.dt-search').find('input[type=search]').addClass('govuk-input govuk-!-width-three-quarters')
+    $('.dt-length').find('select').addClass('govuk-select')
 
     // circumvent GOVUK radio rule "Do not pre-select radio options"
     // plugin requires a default scheme to be set

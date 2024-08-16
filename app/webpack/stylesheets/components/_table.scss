@@ -125,20 +125,22 @@ tr {
 }
 
 // DataTables
-.dataTables_wrapper {
-  .dataTables_filter {
+.dt-container {
+  .dt-search {
     float: none;
     text-align: left;
   }
 
-  .dataTables_filter input,
-  .dataTables_length select {
-    padding: govuk-spacing(1);
-    border: $govuk-border-width-form-element solid $govuk-input-border-colour;
-    border-radius: 0;
+  .dt-search,
+  .dt-length {
+    .dt-input {
+      padding: govuk-spacing(1);
+      border: $govuk-border-width-form-element solid $govuk-input-border-colour;
+      border-radius: 0;
+    }
   }
 
-  .dataTables_info {
+  .dt-info {
     float: right;
   }
 
@@ -146,17 +148,17 @@ tr {
     font-weight: bold;
   }
 
-  .dataTables_paginate {
+  .dt-paging {
     padding-top: 0;
 
-    .paginate_button.current {
+    .dt-paging-button.current {
       border: 1px solid transparent;
       background: none;
       font-weight: bold;
     }
   }
 
-  .dataTables_processing {
+  .dt-processing {
     margin-top: govuk-spacing(3);
   }
 }

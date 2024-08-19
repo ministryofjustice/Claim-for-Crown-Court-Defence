@@ -150,11 +150,17 @@ tr {
 
   .dt-paging {
     padding-top: 0;
+    float: right;
 
-    .dt-paging-button.current {
-      border: 1px solid transparent;
-      background: none;
-      font-weight: bold;
+    button.dt-paging-button {
+      font-family: inherit;
+      font-size: inherit;
+
+      &.current {
+        border: 1px solid transparent;
+        background: none;
+        font-weight: bold;
+      }
     }
   }
 

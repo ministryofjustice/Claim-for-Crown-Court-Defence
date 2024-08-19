@@ -99,7 +99,11 @@ moj.Modules.AllocationDataTable = {
       lengthMenu: 'Claims per page: _MENU_',
       emptyTable: '',
       infoFiltered: '',
-      processing: ''
+      processing: '',
+      paginate: {
+        previous: 'Previous',
+        next: 'Next'
+      }
     },
     initComplete: function (settings, json) {
       $('.app-jq-datatable tbody').addClass('govuk-table__body')

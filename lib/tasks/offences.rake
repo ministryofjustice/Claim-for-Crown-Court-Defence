@@ -1,5 +1,8 @@
 require_relative 'rake_helpers/repair_offences'
-require 'csv'
+require_relative 'rake_helpers/rake_utils'
+require 'fileutils'
+
+include Tasks::RakeHelpers::RakeUtils
 
 namespace :offences do
   desc 'Generate repair input file of claim id against offence id based on data from CCR'
@@ -17,5 +20,28 @@ namespace :offences do
 
     repair = Tasks::RakeHelpers::RepairOffences.new(file: args.filename, output: args.output, interactive:, dry_run:)
     repair.repair
+  end
+
+  desc 'Extract details of offences and write to a CSV file'
+  task :extract, [:dir] => :environment do |_task, args|
+    dir = args.dir
+    if File.exist?(dir)
+      puts "#{dir} already exists"
+      exit
+    end
+
+    FileUtils.mkdir_p dir
+
+    table_data = [
+      { name: 'categories.csv', class: OffenceCategory, fields: %i[id number description] },
+      { name: 'bands.csv', class: OffenceBand, fields: %i[id number description offence_category_id] },
+      { name: 'classes.csv', class: OffenceClass, fields: %i[id class_letter description] },
+      { name: 'offences.csv', class: Offence, fields: %i[id description offence_class_id unique_code offence_band_id contrary year_chapter] },
+    ]
+
+    table_data.each do |table|
+      data = table[:class].all.sort_by(&:id).pluck(*table[:fields])
+      csv_writer(File.expand_path(table[:name], dir), data:, headers: table[:fields])
+    end
   end
 end

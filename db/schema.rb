@@ -188,7 +188,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_07_02_094708) do
     t.boolean "prosecution_evidence"
     t.bigint "case_stage_id"
     t.date "main_hearing_date"
-    t.boolean "london_fees"
+    t.boolean "london_rates_apply"
     t.index ["case_number"], name: "index_claims_on_case_number"
     t.index ["case_stage_id"], name: "index_claims_on_case_stage_id"
     t.index ["cms_number"], name: "index_claims_on_cms_number"

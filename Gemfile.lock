@@ -635,7 +635,8 @@ GEM
     uri (0.13.0)
     utf8-cleaner (1.0.0)
       activesupport
-    vcr (6.2.0)
+    vcr (6.3.0)
+      base64
     virtus (2.0.0)
       axiom-types (~> 0.1)
       coercible (~> 1.0)

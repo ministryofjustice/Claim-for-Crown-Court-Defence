@@ -105,7 +105,8 @@ describe('Modules.AllocationDataTable.js', function () {
         lengthMenu: 'Claims per page: _MENU_',
         emptyTable: '',
         infoFiltered: '',
-        processing: ''
+        processing: '',
+        paginate: { previous: 'Previous', next: 'Next' }
       })
     })
 

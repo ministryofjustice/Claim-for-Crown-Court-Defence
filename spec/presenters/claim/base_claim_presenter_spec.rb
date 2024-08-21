@@ -85,14 +85,20 @@ RSpec.describe Claim::BaseClaimPresenter do
   end
 
   describe '#submitted_at' do
-    before { claim.update!(last_submitted_at: Time.current) }
+    before do
+      freeze_time
+      claim.update!(last_submitted_at: Time.current)
+    end
 
     it { expect(presenter.submitted_at).to eql(Time.current.strftime('%d/%m/%Y')) }
     it { expect(presenter.submitted_at(include_time: true)).to eql(Time.current.strftime('%d/%m/%Y %H:%M')) }
   end
 
   describe '#authorised_at' do
-    before { claim.update!(authorised_at: Time.current) }
+    before do
+      freeze_time
+      claim.update!(authorised_at: Time.current)
+    end
 
     it { expect(presenter.authorised_at).to eql(Time.current.strftime('%d/%m/%Y')) }
     it { expect(presenter.authorised_at(include_time: false)).to eql(Time.current.strftime('%d/%m/%Y')) }

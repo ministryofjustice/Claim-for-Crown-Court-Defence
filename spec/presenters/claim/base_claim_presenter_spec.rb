@@ -462,8 +462,9 @@ RSpec.describe Claim::BaseClaimPresenter do
       end
 
       it 'calls last error messages attribute of model' do
-        expect(injection_attempt).to receive(:error_messages).at_least(:once)
+        allow(injection_attempt).to receive(:error_messages)
         injection_errors
+        expect(injection_attempt).to have_received(:error_messages).at_least(:once)
       end
     end
 
@@ -534,9 +535,10 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#has_conference_and_views?' do
     subject { presenter.has_conference_and_views? }
 
-    let!(:fee) { create(:basic_fee, :cav_fee, claim:, quantity:, rate:) }
-
-    before { claim.reload }
+    before do
+      create(:basic_fee, :cav_fee, claim:, quantity:, rate:)
+      claim.reload
+    end
 
     context 'when the claims CAV fee is populated' do
       let(:rate) { 1 }
@@ -855,9 +857,10 @@ RSpec.describe Claim::BaseClaimPresenter do
   describe '#has_clar_fees?' do
     subject { presenter.has_clar_fees? }
 
-    let!(:fee) { create(:misc_fee, :miphc_fee, claim:, quantity:, rate:) }
-
-    before { claim.reload }
+    before do
+      create(:misc_fee, :miphc_fee, claim:, quantity:, rate:)
+      claim.reload
+    end
 
     context 'when the claims CLAR fee is populated' do
       let(:rate) { 1 }

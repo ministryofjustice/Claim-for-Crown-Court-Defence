@@ -1,3 +1,5 @@
+require 'csv'
+
 module Tasks
   module RakeHelpers
     module RakeUtils
@@ -32,6 +34,13 @@ module Tasks
 
       def production_protected
         raise 'This operation was aborted because the result might destroy production data' if Rails.host.production?
+      end
+
+      def csv_writer(filename, data:, headers: nil)
+        CSV.open(filename, 'w') do |csv|
+          csv << headers if headers
+          data.each { |row| csv << row }
+        end
       end
     end
   end

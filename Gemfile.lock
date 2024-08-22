@@ -677,7 +677,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1)
   aws-sdk-sns (~> 1)
   aws-sdk-sqs (~> 1)
-  axe-core-cucumber (~> 4.9)
+  axe-core-cucumber (~> 4.10)
   better_errors
   bootsnap
   brakeman

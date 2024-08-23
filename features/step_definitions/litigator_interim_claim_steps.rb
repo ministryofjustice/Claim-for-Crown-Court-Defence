@@ -86,7 +86,8 @@ Then(/^the interim fee should have its price_calculated value set to true$/) do
 end
 
 def expected_interim_fees_for(case_type_name)
-  expected = ['Disbursement only', 'Warrant']
-  expected += ['Effective PCMH', 'Trial start'] if case_type_name.casecmp('trial').eql?(0)
-  expected += ['Retrial start','Retrial new solicitor'] if case_type_name.casecmp('retrial').eql?(0)
+  return ['Disbursement only', 'Warrant', 'Effective PCMH', 'Trial start'] if case_type_name.casecmp('trial').eql?(0)
+  return ['Disbursement only', 'Warrant', 'Retrial start','Retrial new solicitor'] if case_type_name.casecmp('retrial').eql?(0)
+
+  ['Disbursement only', 'Warrant']
 end

@@ -149,7 +149,7 @@ module Claim
 
       # prevent non-numeric array elements
       # NOTE: non-numeric strings/chars will yield a value of 0 and this is checked for to add an error
-      @record.evidence_checklist_ids = @record.evidence_checklist_ids.select(&:present?).map(&:to_i)
+      @record.evidence_checklist_ids = @record.evidence_checklist_ids.compact_blank.map(&:to_i)
       if @record.evidence_checklist_ids.include?(0)
         add_error(:evidence_checklist_ids,
                   'Evidence checklist ids are of an invalid type or zero, please use valid Evidence checklist ids')

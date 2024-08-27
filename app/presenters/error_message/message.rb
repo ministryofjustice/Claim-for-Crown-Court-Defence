@@ -30,7 +30,7 @@ module ErrorMessage
         int = number.to_i
         int += 1 if @key.zero_based?
         substitution_key = '#{' + model_name + '}'
-        substitution_value = [to_ordinal(int), humanize_model_name(model_name)].select(&:present?).join(' ')
+        substitution_value = [to_ordinal(int), humanize_model_name(model_name)].compact_blank.join(' ')
         message = message.sub(substitution_key, substitution_value)
       end
 

@@ -76,7 +76,7 @@ require 'sidekiq/testing'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 
 # Checks for pending migrations before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -150,7 +150,7 @@ RSpec.configure do |config|
     FileUtils.rm_rf(Rails.public_path.join('assets', 'test', 'images'))
     # Deletes report files created during the test suite run
     FileUtils.rm_rf(Rails.root.join('tmp', 'test', 'reports'))
-    FileUtils.rm_rf(Dir[Rails.root.join('tmp', '[^.]*documents.zip')])
+    FileUtils.rm_rf(Rails.root.glob('tmp/[^.]*documents.zip'))
     VatRate.delete_all
   end
 

@@ -81,6 +81,15 @@ And(/^I add a litigator miscellaneous fee '(.*)'$/) do |name|
   @litigator_claim_form_page.miscellaneous_fees.last.amount.set "135.78"
 end
 
+When(/^I add a litigator calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')$/) do |name, quantity|
+  quantity = quantity.present? ? quantity : '1'
+  @litigator_claim_form_page.miscellaneous_fees.last.fee_type.choose(name)
+  @litigator_claim_form_page.miscellaneous_fees.last.quantity.set quantity
+  @litigator_claim_form_page.miscellaneous_fees.last.quantity.send_keys(:tab)
+  wait_for_debounce
+  wait_for_ajax
+end
+
 Then(/^the first miscellaneous fee should have fee types\s*'([^']*)'$/) do |descriptions|
   descriptions = descriptions.split(',').map(&:strip)
   expect(@litigator_claim_form_page.miscellaneous_fees.first.fee_type).to be_visible

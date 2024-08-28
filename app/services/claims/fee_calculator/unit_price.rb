@@ -43,7 +43,7 @@ module Claims
         opts[:limit_from] = limit_from
         opts[:limit_to] = limit_to
         opts[:unit] = unit
-        opts.keep_if { |_k, v| v.present? }
+        opts.compact_blank!
       end
 
       def unit_price

@@ -64,7 +64,7 @@ module Claims
         opts[:number_of_defendants] = number_of_defendants
         opts[:retrial_interval] = retrial_interval
         opts[:third_cracked] = third_cracked
-        opts.keep_if { |_k, v| v.present? }
+        opts.compact_blank!
       end
 
       def trial_length

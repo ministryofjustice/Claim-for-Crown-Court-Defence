@@ -4,7 +4,7 @@ end
 class LGFSInterimFeeSection < SitePrism::Section
   include SelectHelper
 
-  sections :fee_type_select_options, SelectOptionSection, 'select#claim_interim_fee_attributes_fee_type_id option', visible: false
+  sections :fee_type_select_options, SelectOptionSection, 'select#claim-interim-fee-attributes-fee-type-id-field option', visible: false
   element :select_container, '.fee-type select', visible: false
 
   # common interim fee fields

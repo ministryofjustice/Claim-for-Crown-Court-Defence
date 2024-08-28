@@ -44,7 +44,13 @@ module Claims
         opts[:limit_to] = limit_to
         opts[:unit] = unit
         opts.keep_if { |_k, v| v.present? }
+        # Filter above will filter out false, which is a valid value for london_rates_apply
+        opts[:london_rates_apply] = @london_rates_apply unless @london_rates_apply.nil?
+        opts
+
       end
+
+
 
       def unit_price
         @prices = fee_scheme.prices(**price_options)

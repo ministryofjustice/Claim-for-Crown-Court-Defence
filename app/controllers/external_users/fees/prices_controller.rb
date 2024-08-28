@@ -40,6 +40,7 @@ module ExternalUsers
           :claim_id,
           :fee_type_id,
           :advocate_category,
+          :london_rates_apply,
           :ppe,
           :pw,
           :days,

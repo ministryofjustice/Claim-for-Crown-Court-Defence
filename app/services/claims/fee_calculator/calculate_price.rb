@@ -64,6 +64,7 @@ module Claims
         @pages_of_prosecuting_evidence = options[:pages_of_prosecuting_evidence] || claim.prosecution_evidence
         @quantity = options[:quantity] || 1
         @current_page_fees = options[:fees].values
+        @london_rates_apply = claim.london_rates_apply
         exclusions
       rescue StandardError
         raise Exceptions::InsufficientData

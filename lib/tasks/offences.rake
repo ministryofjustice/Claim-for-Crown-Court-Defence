@@ -1,4 +1,5 @@
 require_relative 'rake_helpers/repair_offences'
+require_relative 'rake_helpers/fix_offences'
 require_relative 'rake_helpers/rake_utils'
 require 'fileutils'
 
@@ -43,5 +44,21 @@ namespace :offences do
       data = table[:class].all.sort_by(&:id).pluck(*table[:fields])
       csv_writer(File.expand_path(table[:name], dir), data:, headers: table[:fields])
     end
+  end
+
+  desc 'Check details of offences against data in CSV files'
+  task :check, [:dir] => :environment do |_task, args|
+    dir = args.dir
+
+    Tasks::RakeHelpers::FixOffences.new(dir).check
+  end
+
+  desc 'Fix the ids of offences in the database based on data in a CSV file'
+  task :fix_ids, [:dir, :live_run] => :environment do |_task, args|
+    args.with_defaults(live_run: 'false')
+    dir = args.dir
+    live_run = ActiveRecord::Type::Boolean.new.deserialize(args.live_run)
+
+    Tasks::RakeHelpers::FixOffences.new(dir, dry_run: !live_run).fix_ids
   end
 end

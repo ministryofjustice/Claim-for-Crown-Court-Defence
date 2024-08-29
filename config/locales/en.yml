@@ -1534,14 +1534,22 @@ en:
               or <a href="https://www.gov.uk/government/publications/lf1-claim-litigator-fees" class="govuk-link" rel="noreferrer noopener" target="_blank">unused materials (over 3 hours) form <span class="govuk-visually-hidden">(opens in new tab)</span></a>
               and attach to the claim.
           misc_fee_fields:
+            quantity: *quantity
+            quantity_hint: Enter a quantity
+            quantity_html: Quantity <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
+            rate: Rate
+            rate_html: Rate <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
             misc_fee: *miscellaneous_fee
             misc_fee_html: 'Miscellaneous fees <span class="fx-numberedList-number"></span>'
             fee_type: *fee_type
             case_numbers: *case_numbers
+            fee_type_html: Type of fee <span class="govuk-visually-hidden">for %{context} <span class="fx-numberedList-number"></span></span>
             type_of_fee_html: '%{context} <span class="govuk-visually-hidden">for miscellaneous fee <span class="fx-numberedList-number"></span></span>'
             net_amount: *net_amount
             net_amount_html: Net amount <span class="govuk-visually-hidden">in pounds for %{context} <span class="fx-numberedList-number"></span></span>
             remove: "Remove"
+            help_how_we_calculate_rate_title: *how_is_this_calculated_help
+            help_how_we_calculate_rate_body: We calculate the rate based upon the fee scheme and fee_type.
         summary:
           header: *miscellaneous_fees
       financial_summary:

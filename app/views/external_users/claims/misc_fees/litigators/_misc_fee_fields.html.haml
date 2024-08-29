@@ -1,3 +1,5 @@
+- fee = present(f.object)
+- claim = present(f.object.claim)
 .form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{ data: { 'type': 'miscFees', autovat: @claim.apply_vat? ? 'true' : 'false' } }
 
   = f.govuk_fieldset legend: { text: t('.misc_fee_html') } do
@@ -5,18 +7,49 @@
     = link_to_remove_association f, wrapper_class: 'misc-fee-group', class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
       = t('common.remove_html', context: t('.misc_fee'))
 
-    = f.govuk_radio_buttons_fieldset(:fee_type_id, form_group: {class: 'fee-type'}, legend: { size: 's', text: t('.fee_type') }) do
-      - present_collection(@claim.eligible_misc_fee_types).each do |misc_fee_type|
-        = f.govuk_radio_button :fee_type_id,
-          misc_fee_type.id,
-          label: { text: misc_fee_type.description },
-          'data-unique-code': misc_fee_type.unique_code do
-          - if misc_fee_type.unique_code.eql?('MIUMO')
-            = render 'warnings/unused_material_over_3_hours'
+    = f.govuk_collection_select :fee_type_id,
+      claim.eligible_misc_fee_type_options_for_select.map{ |ft| [ft.first, ft.second, { 'data-unique-code': ft.third[:data][:unique_code] }] },
+      :second,
+      :first,
+      class: 'js-misc-fee-type js-fee-type js-fee-calculator-fee-type fx-misc-fee-calculation',
+      form_group: { class: 'fee-type fx-autocomplete-wrapper cc-fee-type' },
+      label: { text: t('.fee_type_html', context: t('.misc_fee')), size: 's' },
+      options: { include_blank: '' }
 
-    = f.govuk_number_field :amount,
-      label: { text: t('.net_amount_html', context: t('.misc_fee')) },
-      class: 'total fee-rate',
+    -# - if misc_fee_type.unique_code.eql?('MIUMO')
+    -#   = render 'warnings/unused_material_over_3_hours'
+
+    =f.govuk_number_field :quantity,
+      class: 'quantity fee-quantity js-fee-quantity js-fee-calculator-quantity',
+      form_group: { class: 'quantity_wrapper' },
+      hint: { text: t('.quantity_hint'), hidden: true },
+      label: { text: t('.quantity_html', context: t('.misc_fee')), size: 's' },
+      value: fee.quantity,
+      width: 5
+
+    =f.govuk_number_field :rate,
+      class: 'rate fee-rate js-fee-calculator-rate',
+      form_group: { class: 'js-unit-price-effectee calculated-unit-fee' },
+      label: { text: t('.rate_html', context: t('.misc_fee')), size: 's' },
       prefix_text: '£',
-      value: number_with_precision(f.object.amount, precision: 2),
-      width: 'one-quarter'
+      readonly: f.object.price_calculated?,
+      value: number_with_precision(f.object.rate, precision: 2),
+      width: 5
+
+    = f.govuk_text_field :price_calculated,
+      form_group: { class: 'js-fee-calculator-success' },
+      label: { hidden: true },
+      type: 'hidden',
+      value: f.object.price_calculated?
+
+    .fee-calc-help-wrapper.hidden
+      = govuk_detail t('.help_how_we_calculate_rate_title') do
+        = t('.help_how_we_calculate_rate_body')
+
+    = govuk_summary_list_no_border do
+      = govuk_summary_list_row do
+        = govuk_summary_list_key do
+          = t('.net_amount')
+
+        = govuk_summary_list_value(class: 'fee-net-amount currency-indicator total') do
+          = fee.amount || number_to_currency(0)

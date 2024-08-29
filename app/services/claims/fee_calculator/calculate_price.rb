@@ -137,7 +137,10 @@ module Claims
       end
 
       def fee_type_code_for(fee_type)
-        return 'LIT_FEE' if lgfs?
+
+        # For LGFS Misc Fees, use fee type mappings. For all other LGFS fees, return LIT_FEE
+        return 'LIT_FEE' if lgfs? & !fee_type.is_a?(Fee::MiscFeeType)
+
         fee_type = case_uplift_parent if fee_type.case_uplift?
         fee_type = defendant_uplift_parent if fee_type.defendant_uplift?
         fee_type_mappings.all[fee_type&.unique_code&.to_sym][:bill_subtype]

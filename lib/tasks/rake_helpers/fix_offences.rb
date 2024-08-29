@@ -4,7 +4,7 @@ include Tasks::RakeHelpers::RakeUtils
 module Tasks
   module RakeHelpers
     class FixOffences      
-      def initialize(dir)
+      def initialize(dir, dry_run: true)
         @dir = dir
         @data_sets = [
           { name: 'categories', class: OffenceCategory, fields: %i[id number description] },
@@ -12,6 +12,7 @@ module Tasks
           { name: 'classes', class: OffenceClass, fields: %i[id class_letter description] },
           { name: 'offences', class: Offence, fields: %i[id description offence_class_id unique_code offence_band_id contrary year_chapter] },
         ]
+        @dry_run = dry_run
       end
 
       def check
@@ -26,10 +27,13 @@ module Tasks
       end
 
       def fix_ids
+        puts "[DRY RUN]".blue if @dry_run
+
+        puts "Offences count before: #{Offence.count}".green
         csv_data = CSV.read(File.expand_path('offences.csv', @dir), headers: true)
         offset = Offence.maximum(:id) + 10000
         Offence.transaction do
-          puts 'FIRST PASS - Move records with incorrect ids out of range'
+          puts 'FIRST PASS - Move records with incorrect ids out of range'.yellow
           db_records = []
           new_records = []
           ids = []
@@ -42,7 +46,7 @@ module Tasks
               if db_record.id.to_s != csv_record['id']
                 claims = db_record.claims
 
-                puts "Setting id #{db_record.id} to #{csv_record['id'].to_i + offset}"
+                print "Setting id #{db_record.id} to #{csv_record['id'].to_i + offset}\r".red
                 db_record.id = csv_record['id'].to_i + offset
                 db_record.save
 
@@ -53,12 +57,13 @@ module Tasks
               ids << db_record.id
             end
           end
+          print "                              \r"
 
-          puts 'SECOND PASS - Remove extra records'
+          puts 'SECOND PASS - Remove extra records'.yellow
           extras = Offence.where.not(id: ids)
           extras.delete_all
 
-          puts 'THIRD PASS - Add missing records'
+          puts 'THIRD PASS - Add missing records'.yellow
           new_records.each do |record|
             offence = Offence.new(record.to_h.except('id'))
             offence.save
@@ -66,21 +71,24 @@ module Tasks
             offence.save
           end
 
-          puts 'FOURTH PASS - Move records that had incorrect ids into their correct range'
+          puts 'FOURTH PASS - Move records that had incorrect ids into their correct range'.yellow
           db_records.each do |db_record|
             claims = db_record.claims
 
-            puts "Setting id #{db_record.id} to #{db_record.id - offset}"
+            print "Setting id #{db_record.id} to #{db_record.id - offset}\r".red
             db_record.id = db_record.id - offset
             db_record.save
 
             claims.update_all(offence_id: db_record.id)
           end
+          print "                              \r"
 
-          puts "Count after: #{Offence.count}"
+          puts "Offences count after: #{Offence.count}".green
 
-          # This prevents any changes being made.
-          raise ActiveRecord::Rollback
+          if @dry_run
+            puts "[ROLLING BACK]".blue
+            raise ActiveRecord::Rollback
+          end
         end
       end
 

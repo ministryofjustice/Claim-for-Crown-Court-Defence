@@ -63,8 +63,13 @@ records in line with those in the `offences.csv` file created by the
 `offences:extract` task. It is called as:
 
 ```bash
-rails 'offences:fix_ids[tmp/dumps]'
+rails 'offences:fix_ids[tmp/dumps,true]'
 ```
+
+The second argument indicates if changes should be saved in the database
+(`true`) or if a dry run is requied (`false`). The changes are made in a
+single database transaction and for a dry run the transaction is rolled back at
+the end. This argument is optional and defaults to `false`.
 
 The corrections are made in 4 stages;
 

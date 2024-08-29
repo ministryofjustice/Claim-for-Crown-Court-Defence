@@ -17,7 +17,7 @@ Feature: litigator completes fixed fee page using calculator
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161298'
     And I enter the case concluded date '2018-04-01'
-    And I select 'true' to London rates
+    And I select 'no' to London rates
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -36,16 +36,13 @@ Feature: litigator completes fixed fee page using calculator
     And I should be in the 'Miscellaneous fees' form page
 
     When I add a litigator calculated miscellaneous fee 'Special preparation fee' with quantity of '3'
-
-    Then the following govuk fee details should exist:
-      | section       | fee_description                                    | rate   | hint                            | help |
-      | miscellaneous | Special Preparation fee                            | 41.06  | Number of hours                 | true |
+    Then I should see a rate of '41.06'
+    And I should see a calculated fee net amount of '£123.18'
+    And I add a litigator miscellaneous fee 'Costs judge application'
+    And I should see a total calculated miscellaneous fees amount of '£258.96'
 
     Then I eject the VCR cassette
-    And I save as draft
 
-    Then I should see 'Draft claim saved'
-    And Claim 'A20161298' should be listed with a status of 'Draft' and a claimed amount of '£567.18'
 
   Scenario: I create a fee scheme 10 fixed fee claim using calculated value
 
@@ -63,6 +60,7 @@ Feature: litigator completes fixed fee page using calculator
     And I select the court 'Blackfriars'
     And I enter a case number of 'A20161299'
     And I enter the case concluded date '2022-10-29'
+    And I select 'no' to London rates
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 
@@ -80,16 +78,11 @@ Feature: litigator completes fixed fee page using calculator
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
 
-
     When I add a litigator calculated miscellaneous fee 'Special preparation fee' with quantity of '3'
-
-    Then the following govuk fee details should exist:
-      | section       | fee_description                                    | rate   | hint                            | help |
-      | miscellaneous | Special Preparation fee                            | 47.22  | Number of hours                 | true |
+    Then I should see a rate of '47.22'
+    And I should see a calculated fee net amount of '£141.66'
+    And I add a litigator miscellaneous fee 'Costs judge application'
+    And I should see a total calculated miscellaneous fees amount of '£277.44'
 
     Then I eject the VCR cassette
-    And I save as draft
-
-    Then I should see 'Draft claim saved'
-    And Claim 'A20161298' should be listed with a status of 'Draft' and a claimed amount of '£652.26'
 

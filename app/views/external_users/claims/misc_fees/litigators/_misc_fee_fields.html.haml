@@ -1,6 +1,7 @@
 - fee = present(f.object)
 - claim = present(f.object.claim)
-.form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{ data: { 'type': 'miscFees', autovat: @claim.apply_vat? ? 'true' : 'false' } }
+
+.form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{ data: { 'type': 'miscFees', autovat: @claim.apply_vat? ? 'true' : 'false', 'block-type': 'FeeBlockCalculator' } }
 
   = f.govuk_fieldset legend: { text: t('.misc_fee_html') } do
 
@@ -16,8 +17,8 @@
       label: { text: t('.fee_type_html', context: t('.misc_fee')), size: 's' },
       options: { include_blank: '' }
 
-    -# - if misc_fee_type.unique_code.eql?('MIUMO')
-    -#   = render 'warnings/unused_material_over_3_hours'
+    .form-group.fx-unused-materials-warning.js-hidden
+      = render 'warnings/unused_material_over_3_hours'
 
     =f.govuk_number_field :quantity,
       class: 'quantity fee-quantity js-fee-quantity js-fee-calculator-quantity',

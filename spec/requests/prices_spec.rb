@@ -4,8 +4,6 @@ RSpec.describe 'calcuate prices' do
   describe 'POST /external_users/claims/claim_id/fees/calculate_price.json' do
     subject(:calculate_price) { post external_users_claim_fees_calculate_price_url(claim.id, format: :json), params: }
 
-
-
     # rubocop:disable RSpec/MultipleMemoizedHelpers
     context 'with LGFS Special Preparation fee' do
       let(:external_user) { create(:external_user) }
@@ -27,9 +25,14 @@ RSpec.describe 'calcuate prices' do
       before do
         allow(LAA::FeeCalculator).to receive(:client).and_return(mock_client)
         allow(mock_client).to receive(:fee_schemes).and_return(mock_fee_scheme)
+
+        # Rubocop doesn't like this but without it, execution fails as
+        # CalculatePrice needs to call its own Scenario method
+        # rubocop:disable RSpec/AnyInstance
         allow_any_instance_of(Claims::FeeCalculator::CalculatePrice)
           .to receive(:scenario)
           .and_return(Struct.new(:id).new('1'))
+        # rubocop:enable RSpec/AnyInstance
       end
 
       describe 'with london_rates_apply true' do

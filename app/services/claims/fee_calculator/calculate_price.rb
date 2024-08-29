@@ -137,7 +137,6 @@ module Claims
       end
 
       def fee_type_code_for(fee_type)
-
         # For LGFS Misc Fees, use fee type mappings. For all other LGFS fees, return LIT_FEE
         return 'LIT_FEE' if lgfs? & !fee_type.is_a?(Fee::MiscFeeType)
 

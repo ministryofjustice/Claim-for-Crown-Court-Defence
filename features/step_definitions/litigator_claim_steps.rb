@@ -76,18 +76,35 @@ And(/^I enter the case concluded date\s*(.*?)$/) do |date|
 end
 
 And(/^I add a litigator miscellaneous fee '(.*)'$/) do |name|
-  @litigator_claim_form_page.add_misc_fee_if_required
-  @litigator_claim_form_page.all('label', text: name).last.click
-  @litigator_claim_form_page.miscellaneous_fees.last.amount.set "135.78"
+  @litigator_claim_form_page.add_govuk_misc_fee_if_required
+  @litigator_claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete.choose_autocomplete_option(name)
+  @litigator_claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.send_keys(:tab)
+  @litigator_claim_form_page.miscellaneous_fees.last.quantity.set "1"
+  @litigator_claim_form_page.miscellaneous_fees.last.rate.set "135.78"
+end
+
+And(/^I should see a calculated fee net amount of '(.*)'$/) do |amount|
+  expect(@litigator_claim_form_page.miscellaneous_fees.last.net_amount.text).to eq(amount)
+end
+
+And(/^I should see a total calculated miscellaneous fees amount of '(.*)'$/) do |amount|
+  expect(@litigator_claim_form_page.sidebar_misc_amount.text).to eq(amount)
 end
 
 When(/^I add a litigator calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')$/) do |name, quantity|
   quantity = quantity.present? ? quantity : '1'
-  @litigator_claim_form_page.miscellaneous_fees.last.fee_type.choose(name)
+  @litigator_claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete.choose_autocomplete_option(name)
+  @litigator_claim_form_page.miscellaneous_fees.last.govuk_fee_type_autocomplete_input.send_keys(:tab)
+  wait_for_debounce
+  wait_for_ajax
   @litigator_claim_form_page.miscellaneous_fees.last.quantity.set quantity
   @litigator_claim_form_page.miscellaneous_fees.last.quantity.send_keys(:tab)
   wait_for_debounce
   wait_for_ajax
+end
+
+Then(/^I should see a rate of '(.*?)'$/) do |rate|
+  expect(@litigator_claim_form_page.miscellaneous_fees.last.rate.value).to eq(rate)
 end
 
 Then(/^the first miscellaneous fee should have fee types\s*'([^']*)'$/) do |descriptions|

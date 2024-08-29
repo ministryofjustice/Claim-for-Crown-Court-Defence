@@ -35,8 +35,7 @@ module Claims
       end
 
       def price_options
-        opts = {}
-        opts[:scenario] = scenario.id
+        opts = { scenario: scenario.id }
         opts[:offence_class] = offence_class_or_default
         opts[:advocate_type] = advocate_type
         opts[:fee_type_code] = fee_type_code_for(fee_type)
@@ -45,12 +44,10 @@ module Claims
         opts[:unit] = unit
         opts.keep_if { |_k, v| v.present? }
         # Filter above will filter out false, which is a valid value for london_rates_apply
-        opts[:london_rates_apply] = @london_rates_apply unless @london_rates_apply.nil?
+        # Only send london_rates_apply to requests for Misc Fees where it is not nil
+        opts[:london_rates_apply] = @london_rates_apply if !@london_rates_apply.nil? && fee_type.is_a?(Fee::MiscFeeType)
         opts
-
       end
-
-
 
       def unit_price
         @prices = fee_scheme.prices(**price_options)

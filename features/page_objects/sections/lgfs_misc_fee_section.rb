@@ -14,9 +14,13 @@ class FeeTypeSection < SitePrism::Section
 end
 
 class LGFSMiscFeeSection < SitePrism::Section
+  section :govuk_fee_type_autocomplete, CommonAutocomplete, ".cc-fee-type"
+  element :govuk_fee_type_autocomplete_input, ".cc-fee-type input", visible: true
   element :quantity, "input.quantity"
+  element :rate, "input.rate"
   section :fee_type, FeeTypeSection, '.fee-type'
-  element :amount, 'input.total'
+  element :net_amount, '.fee-net-amount'
+
 
   def populated?
     amount.value.size > 0

@@ -23,6 +23,7 @@ class LitigatorClaimFormPage < ClaimFormPage
   element :ppe_total, "input.quantity"
   element :actual_trial_length, ".js-fee-calculator-days"
   section :graduated_fee_date, GOVUKDateSection, "div.graduated-fee-group"
+  element :sidebar_misc_amount, '.total-miscFees'
 
   def select_supplier_number(number)
     select number, from: "claim_supplier_number", autocomplete: false
@@ -37,4 +38,11 @@ class LitigatorClaimFormPage < ClaimFormPage
       add_another_disbursement.click
     end
   end
+
+  def add_govuk_misc_fee_if_required
+    if miscellaneous_fees.last.govuk_fee_type_autocomplete_input.value.present?
+      add_another_miscellaneous_fee.click
+    end
+  end
+
 end

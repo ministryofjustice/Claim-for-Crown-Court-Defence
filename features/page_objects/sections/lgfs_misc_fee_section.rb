@@ -3,7 +3,6 @@ require_relative 'radio_section'
 class FeeTypeSection < SitePrism::Section
   sections :radios, RadioSection, '.govuk-radios__item'
 
-
   def radio_labels
     radios.map { |radio| radio.label.text.gsub(/\n(.*)/, '') }
   end
@@ -20,7 +19,6 @@ class LGFSMiscFeeSection < SitePrism::Section
   element :rate, "input.rate"
   section :fee_type, FeeTypeSection, '.fee-type'
   element :net_amount, '.fee-net-amount'
-
 
   def populated?
     amount.value.size > 0

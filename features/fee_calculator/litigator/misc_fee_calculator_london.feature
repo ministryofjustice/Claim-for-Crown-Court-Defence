@@ -43,7 +43,7 @@ Feature: litigator completes fixed fee page using calculator
 
     Then I eject the VCR cassette
 
-  Scenario: I create a fee scheme 10 fixed fee claim using calculated value
+  Scenario: I create a fee scheme 10 fixed fee claim using london rates
 
     Given  the current date is '2022-10-30'
     And I am a signed in litigator

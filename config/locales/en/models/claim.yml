@@ -62,6 +62,8 @@ en:
               invalid: Enter a valid legal aid transfer date
               invalid_date: Enter a valid legal aid transfer date
               present: The date legal aid was transferred is not allowed
+            london_rates_apply:
+              not_boolean_or_nil: london_rates_apply is not in an acceptable format - choose true, false or nil
             main_hearing_date:
               check_not_too_far_in_past: Main hearing date cannot be too far in the past
             misc_fees:

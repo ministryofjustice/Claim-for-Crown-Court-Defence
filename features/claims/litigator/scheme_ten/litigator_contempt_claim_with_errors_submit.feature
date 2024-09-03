@@ -13,11 +13,14 @@ Feature: Litigator fills out a final fee claim, there is an error, fixes it and 
     Then I should be on the litigator new claim page
 
     When I choose the supplier number '1A222Z'
+    And I should see the London rates radios
+    And I select 'Yes' to London rates
     And I select the court 'Blackfriars'
     And I select a case type of 'Contempt'
     And I enter a case number of 'A20161234'
     And I enter the case concluded date '2022-10-01'
     And I enter lgfs scheme 10 main hearing date
+
 
     Then I click "Continue" in the claim form and move to the 'Defendant details' form page
 

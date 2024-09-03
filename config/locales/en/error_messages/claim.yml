@@ -100,6 +100,13 @@ supplier_number:
     short: _
     api: Supplier number is unknown
 
+london_rates_apply:
+  _seq: 6
+  not_boolean_or_nil:
+    long: Choose True or False to indicate if your firm is based inside a London Borough
+    short: _
+    api: london_rates_apply is not in an acceptable format - choose true, false or nil
+
 external_user_id:
   _seq: 10
   choose_an_advocate:
@@ -1061,7 +1068,7 @@ misc_fee:
     enter_a_valid_quantity_(1)_for_additional_preparation_hearing:
       long: 'Enter a valid quantity (1) for additional preparation hearing'
       short: _
-      api: Enter a valid quantity (1) for additional preparation hearing      
+      api: Enter a valid quantity (1) for additional preparation hearing
     the_amount_for_the_miscellaneous_fee_exceeds_the_limit:
       long: The amount for the miscellaneous fee exceeds the limit
       short: _

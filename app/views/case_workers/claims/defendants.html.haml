@@ -1,0 +1,41 @@
+= content_for :page_title, flush: true do
+  = "Defendants for claim ##{@claim.case_number}"
+
+%h2.govuk-heading-l
+  = "Defendants for case #{@claim.case_number}"
+
+%p
+  = govuk_link_to 'Return to claim summary', case_workers_claim_path(@claim)
+
+- @claim.defendants.map { |d| present(d, CaseWorkers::DefendantPresenter) }.each_with_index do |defendant, index|
+  %h3.govuk-heading-m
+    = "Defendant #{index+1} - #{defendant.name}"
+
+  %p
+    = "#{defendant.cases.count} #{'case'.pluralize(defendant.cases.count)} found for #{defendant.name} with date of birth #{defendant.date_of_birth}"
+
+  - defendant.cases.each do |c|
+    %h4.govuk-heading-s
+      = "Case number '#{c.prosecution_case_reference}'"
+
+    = govuk_table do
+      = govuk_table_thead do
+        = govuk_table_row do
+          = govuk_table_th do
+            = "Defendant Name"
+          = govuk_table_th do
+            = "Date of Birth"
+          = govuk_table_th do
+            = "NI Number"
+      = govuk_table_tbody do
+        - c.defendants.each do |d|
+          = govuk_table_row do
+            = govuk_table_td do
+              = link_to d.name, "http://localhost:3002/laa_references/new?id=#{d.id}&urn=#{c.prosecution_case_reference}"
+            = govuk_table_td do
+              = d.date_of_birth
+            = govuk_table_td do
+              = d.national_insurance_number
+    %hr.govuk-section-break.govuk-section-break--m
+
+  %hr.govuk-section-break.govuk-section-break--l

@@ -37,6 +37,6 @@
         maxlength_enabled: true,
         legend: { text: t('.date'), size: 's' },
         form_group: { id: 'certification_date' }
-
-      = f.govuk_submit t('.submit')
-      = govuk_link_button_secondary t('.return'), edit_polymorphic_path(@claim)
+      .govuk-button-group
+        = f.govuk_submit t('.submit')
+        = govuk_link_button_secondary t('.return'), edit_polymorphic_path(@claim)

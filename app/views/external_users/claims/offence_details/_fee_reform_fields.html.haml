@@ -12,11 +12,10 @@
           %p
             %em
               = "#{selected_offence.offence_category.description} &gt; #{selected_offence.offence_band.description} &gt; #{selected_offence.description}".html_safe
-
-        .form-group
-          = govuk_button(t('buttons.continue'), name: 'commit_continue')
-
-          = govuk_link_button_secondary(t('clear_selection', scope: "#{locale_scope}.actions"), '#', class: 'fx-clear-selection')
+        .govuk-button-group
+          .form-group
+            = govuk_button(t('buttons.continue'), name: 'commit_continue')
+            = govuk_link_button_secondary(t('clear_selection', scope: "#{locale_scope}.actions"), '#', class: 'fx-clear-selection')
 
 = f.govuk_text_field :offence_search,
   value: nil,

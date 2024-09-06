@@ -24,7 +24,8 @@ class MessagePresenter < BasePresenter
   private
 
   def attachment_field
-    h.concat('Attachment: ')
+    # h.concat('Attachment: ')
+    h.concat('Old Attachment: ')
     download_file_link
   end
 

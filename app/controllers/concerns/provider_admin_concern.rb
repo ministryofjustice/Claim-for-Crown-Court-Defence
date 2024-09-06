@@ -2,7 +2,7 @@ module ProviderAdminConcern
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_provider, only: %i[show edit update regenerate_api_key]
+    before_action :set_provider, only: %i[show edit update]
   end
 
   private

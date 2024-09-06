@@ -16,6 +16,7 @@ require_relative '../lib/govuk_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
     config.middleware.use Rack::Deflater
@@ -59,6 +60,7 @@ module AdvocateDefencePayments
     config.active_storage.urls_expire_in = 5.minutes # default
 
 
+    config.autoload_lib(ignore: %w(assets tasks))
     config.autoload_paths << config.root.join('lib')
     config.eager_load_paths << config.root.join('lib')
     config.exceptions_app = self.routes

@@ -65,7 +65,7 @@ RSpec.describe GOVUKComponent::WarningTextHelpers, type: :helper do
 
   describe '#govuk_warning_text_description' do
     context 'when called with a block' do
-      subject(:markup) { helper.govuk_warning_text_description { 'You can be fined up to £5,000 if you do not register.' } }
+      subject(:markup) { (helper.govuk_warning_text_description { 'You can be fined up to £5,000 if you do not register.' }).to_s }
 
       it { is_expected.to have_tag(:div, with: { class: 'govuk-warning-text__text govuk-\!-font-weight-regular govuk-\!-margin-top-4' }) }
     end

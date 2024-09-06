@@ -79,8 +79,8 @@ class ClaimFormPage < BasePage
 
   element :additional_information, "textarea#claim-additional-information-field"
   element :continue, "div.button-holder > input:nth-of-type(1)"
-  element :submit_to_laa, "div.button-holder > button:nth-of-type(1)" # this maps to Save and continue too
-  element :save_to_drafts, "div.button-holder > button:nth-of-type(2)"
+  element :submit_to_laa, "div.govuk-button-group > button:nth-of-type(1)" # this maps to Save and continue too
+  element :save_to_drafts, "div.govuk-button-group > button:nth-of-type(2)"
 
   sections :errors, "div.error-summary > ul > li" do
     element :message, "a"

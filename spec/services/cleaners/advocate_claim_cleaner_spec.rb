@@ -16,7 +16,7 @@ end
 RSpec.shared_examples 'clear basic fees' do
   it { expect { call_cleaner }.not_to change { claim.basic_fees.size } }
   it { expect { call_cleaner }.to change { claim.basic_fees.flat_map(&:dates_attended).size }.to 0 }
-  it { expect { call_cleaner }.to change { claim.basic_fees.sum(&:amount) }.to 0 }
+  it { expect { call_cleaner }.to change { claim.basic_fees.sum { |fee| fee.amount.to_i } }.to 0 }
 end
 
 RSpec.shared_examples 'does not clear basic fees' do

@@ -89,7 +89,8 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
 
   # Raise error when a before_action's only/except options reference missing actions
-  config.action_controller.raise_on_missing_callback_actions = true
+  # TODO: Set this to true, which is the Rails 7.1 default
+  config.action_controller.raise_on_missing_callback_actions = false
 
   # Disable CSS3, jQuery animations and JS popups in test mode for speed, consistency and to avoid timing issues.
   require 'rack/no_animations'

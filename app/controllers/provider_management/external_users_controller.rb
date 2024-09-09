@@ -1,7 +1,6 @@
 module ProviderManagement
   class ExternalUsersController < ApplicationController
     include PasswordHelpers
-    include UserAdminHelpers
 
     before_action :set_provider, except: %i[find search]
     before_action :set_external_user, only: %i[show edit update change_password update_password

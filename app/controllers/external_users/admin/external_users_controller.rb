@@ -2,7 +2,6 @@ module ExternalUsers
   module Admin
     class ExternalUsersController < ExternalUsers::Admin::ApplicationController
       include PasswordHelpers
-      include UserAdminHelpers
 
       ATTRIBUTES = %i[id email email_confirmation password password_confirmation
                       current_password first_name last_name email_notification_of_message].freeze

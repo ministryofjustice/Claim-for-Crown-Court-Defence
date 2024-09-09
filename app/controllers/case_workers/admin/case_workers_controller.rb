@@ -2,7 +2,6 @@ module CaseWorkers
   module Admin
     class CaseWorkersController < CaseWorkers::Admin::ApplicationController
       include PasswordHelpers
-      include UserAdminHelpers
 
       before_action :set_case_worker, only: %i[show edit update destroy change_password update_password]
 

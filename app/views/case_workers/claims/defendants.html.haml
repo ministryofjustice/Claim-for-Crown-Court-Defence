@@ -31,7 +31,7 @@
         - c.defendants.each do |d|
           = govuk_table_row do
             = govuk_table_td do
-              = link_to d.name, "http://localhost:3002/laa_references/new?id=#{d.id}&urn=#{c.prosecution_case_reference}"
+              = link_to d.name, "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/laa_references/new?id=#{d.id}&urn=#{c.prosecution_case_reference}"
             = govuk_table_td do
               = d.date_of_birth
             = govuk_table_td do

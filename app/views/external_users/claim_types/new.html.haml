@@ -13,5 +13,6 @@
       - claim_type_hint = t(".#{claim_type}_hint_html", default: t(".#{claim_type}_hint", default: ''))
       = f.govuk_radio_button :id, claim_type, label: { text: t(".#{claim_type}_rb") }, hint: { text: claim_type_hint }, link_errors: index.zero?
 
-  = f.govuk_submit t('.continue')
-  = govuk_link_button_secondary t('.cancel'), external_users_root_path
+  .govuk-button-group
+    = f.govuk_submit t('.continue')
+    = govuk_link_button_secondary t('.cancel'), external_users_root_path

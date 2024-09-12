@@ -15,8 +15,9 @@
           = govuk_summary_list_row_collection(t('.firm_agfs_supplier_number')) { @provider.firm_agfs_supplier_number }
       = govuk_summary_list_row_collection(t('.vat_registered')) { @provider.vat_registered == true ? t('global_yes') : t('global_no') }
 
-    .app-link-group
-      = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation'), module: 'govuk-button' }, class: 'govuk-button', draggable: false
+    .govuk-button-group
+      .app-link-group
+        = button_to t('.generate_key'), regenerate_api_key_external_users_admin_provider_path(@provider), method: :patch, form_class: 'inline-form', data: { confirm: t('.confirmation'), module: 'govuk-button' }, class: 'govuk-button', draggable: false
 
-      - if can? :edit, @provider
-        = govuk_link_button_secondary(t('.edit_provider'), edit_external_users_admin_provider_path(@provider))
+        - if can? :edit, @provider
+          = govuk_link_button_secondary(t('.edit_provider'), edit_external_users_admin_provider_path(@provider))

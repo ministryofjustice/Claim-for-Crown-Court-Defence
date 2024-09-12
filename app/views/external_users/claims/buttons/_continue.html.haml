@@ -1,6 +1,6 @@
 .form-section
   .form-group.form-buttons.button-holder
     - commit = claim.next_step? ? 'commit_continue' : 'commit_submit_claim'
-    = govuk_button(t('buttons.continue'), id: 'save_continue', name: commit)
-
-    = govuk_button_secondary(t('buttons.save_a_draft'), name: 'commit_save_draft')
+    .govuk-button-group
+      = govuk_button(t('buttons.continue'), id: 'save_continue', name: commit)
+      = govuk_button_secondary(t('buttons.save_a_draft'), name: 'commit_save_draft')

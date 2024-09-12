@@ -17,5 +17,6 @@
         = render partial: 'shared/disk_evidence_info', locals: { f: claim }
 
       .button-holder
-        = govuk_link_button(t('link.file_another_claim'), new_external_users_claim_types_path)
-        = govuk_link_button_secondary(t('link.view_claim'), external_users_root_url)
+        .govuk-button-group
+          = govuk_link_button(t('link.file_another_claim'), new_external_users_claim_types_path)
+          = govuk_link_button_secondary(t('link.view_claim'), external_users_root_url)

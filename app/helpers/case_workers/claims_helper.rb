@@ -38,4 +38,8 @@ module CaseWorkers::ClaimsHelper
   def claim_count
     session[:claim_count]
   end
+
+  def cda_configured?
+    ENV['COURT_DATA_ADAPTOR_API_UID'].present?
+  end
 end

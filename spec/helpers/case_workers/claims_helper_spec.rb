@@ -112,4 +112,26 @@ describe CaseWorkers::ClaimsHelper do
       expect(helper.claim_count).to eq 3
     end
   end
+
+  describe '#cda_configured?' do
+    subject { cda_configured? }
+
+    context 'when COURT_DATA_ADAPTOR_API_UID is set' do
+      before do
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with('COURT_DATA_ADAPTOR_API_UID').and_return 'test'
+      end
+
+      it { is_expected.to be_truthy }
+    end
+
+    context 'when COURT_DATA_ADAPTOR_API_UID is not set' do
+      before do
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with('COURT_DATA_ADAPTOR_API_UID').and_return nil
+      end
+
+      it { is_expected.to be_falsey }
+    end
+  end
 end

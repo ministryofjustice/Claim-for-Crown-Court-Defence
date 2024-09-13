@@ -62,6 +62,8 @@ gem 'faraday', '~> 2.11'
 gem 'faraday-follow_redirects', '~> 0.3'
 gem 'puma'
 
+gem 'laa-cda', git: 'https://github.com/ministryofjustice/laa-cda'
+
 group :development, :test do
   gem 'annotate'
   gem 'brakeman', :require => false

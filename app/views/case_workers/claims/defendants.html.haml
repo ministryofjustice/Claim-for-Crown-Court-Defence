@@ -1,0 +1,27 @@
+= content_for :page_title, flush: true do
+  = "Defendants for claim ##{@claim.case_number}"
+
+%h2.govuk-heading-l
+  = "Defendants for case #{@claim.case_number}"
+
+%p
+  = govuk_link_to 'Return to claim summary', case_workers_claim_path(@claim)
+
+- @claim.defendants.map { |d| present(d, CaseWorkers::DefendantPresenter) }.each_with_index do |defendant, index|
+  %h3.govuk-heading-m
+    = "#{defendant.cases.count} #{'case'.pluralize(defendant.cases.count)} found in court data for defendant #{index+1} - #{defendant.name}"
+
+  = govuk_table do
+    = govuk_table_thead do
+      = govuk_table_row do
+        = govuk_table_th do
+          = "Case number"
+        = govuk_table_th do
+          = "Status"
+    = govuk_table_tbody do
+      - defendant.cases.each do |c|
+        = govuk_table_row do
+          = govuk_table_td do
+            = link_to c.case_number, "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{c.case_number}"
+          = govuk_table_td do
+            = c.status

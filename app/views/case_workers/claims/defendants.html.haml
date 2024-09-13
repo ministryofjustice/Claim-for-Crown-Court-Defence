@@ -11,17 +11,28 @@
   %h3.govuk-heading-m
     = "#{defendant.cases.count} #{'case'.pluralize(defendant.cases.count)} found in court data for defendant #{index+1} - #{defendant.name}"
 
-  = govuk_table do
-    = govuk_table_thead do
-      = govuk_table_row do
-        = govuk_table_th do
-          = "Case number"
-        = govuk_table_th do
-          = "Status"
-    = govuk_table_tbody do
-      - defendant.cases.each do |c|
+  - defendant.cases.each do |c|
+    %h4.govuk-heading-s
+      = c.case_number
+
+    %p
+      = govuk_link_to 'View case in View Court Data', "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{c.case_number}"
+
+    = govuk_table do
+      = govuk_table_thead do
         = govuk_table_row do
-          = govuk_table_td do
-            = link_to c.case_number, "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{c.case_number}"
-          = govuk_table_td do
-            = c.status
+          = govuk_table_th do
+            = "Defendant"
+          = govuk_table_th do
+            = "Date of Birth"
+          = govuk_table_th do
+            = "Offences"
+      = govuk_table_tbody do
+        - c.defendants.each do |d|
+          = govuk_table_row do
+            = govuk_table_td do
+              = link_to d.name, "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/laa_references/new?id=#{d.id}&urn=#{c.case_number}"
+            = govuk_table_td do
+              = d.date_of_birth
+            = govuk_table_td do
+              = d.offences.map(&:title).join(', ')

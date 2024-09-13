@@ -36,7 +36,7 @@
     "datatables.net-buttons-dt": "^3.1.2",
     "datatables.net-dt": "^2.1.6",
     "datatables.net-fixedheader-dt": "^4.0.1",
-    "datatables.net-select": "2.0.5",
+    "datatables.net-select": "2.1.0",
     "dropzone": "^5.9.3",
     "file-loader": "^6.2.0",
     "govuk-frontend": "^5.6.0",

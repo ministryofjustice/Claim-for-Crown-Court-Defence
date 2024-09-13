@@ -2035,10 +2035,10 @@ datatables.net-fixedheader@4.0.1:
     datatables.net "^2"
     jquery ">=1.7"
 
-datatables.net-select@2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-2.0.5.tgz#5c6d58bd8e5c1b13a00047775c3c7d920fcff8c7"
-  integrity sha512-Q93R/OfJLtujGkc6Xy7IAGhIi+VOWuI2CSTnVJUuj/gbZ4RsgngZXnjIiP8tdxSNXdXgiOA4+MFfmAtGJPHOvw==
+datatables.net-select@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/datatables.net-select/-/datatables.net-select-2.1.0.tgz#d50f13cd4c18d50c06b24efd8ca5371ed0bbe59d"
+  integrity sha512-6B1sI5pfvBen+8kySl1T0hkGoUmrw+5YGqaW4NCg+1srMw+48YV5SdWPiyCQDoev2ajBdKzHuG/wzD2INMbmJw==
   dependencies:
     datatables.net "^2"
     jquery ">=1.7"

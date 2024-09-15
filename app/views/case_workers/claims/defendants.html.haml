@@ -7,32 +7,57 @@
 %p
   = govuk_link_to 'Return to claim summary', case_workers_claim_path(@claim)
 
-- @claim.defendants.map { |d| present(d, CaseWorkers::DefendantPresenter) }.each_with_index do |defendant, index|
+- @claim.defendants.map { |d| present(d, CaseWorkers::DefendantPresenter) }.each_with_index do |defendant, di|
   %h3.govuk-heading-m
-    = "#{defendant.cases.count} #{'case'.pluralize(defendant.cases.count)} found in court data for defendant #{index+1} - #{defendant.name}"
+    = "Defendant #{di+1}: #{defendant.name}"
 
-  - defendant.cases.each do |c|
-    %h4.govuk-heading-s
-      = c.case_number
-
-    %p
-      = govuk_link_to 'View case in View Court Data', "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{c.case_number}"
-
-    = govuk_table do
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th do
-            = "Defendant"
-          = govuk_table_th do
-            = "Date of Birth"
-          = govuk_table_th do
-            = "Offences"
-      = govuk_table_tbody do
-        - c.defendants.each do |d|
-          = govuk_table_row do
-            = govuk_table_td do
-              = link_to d.name, "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/laa_references/new?id=#{d.id}&urn=#{c.case_number}"
-            = govuk_table_td do
-              = d.date_of_birth
-            = govuk_table_td do
-              = d.offences.map(&:title).join(', ')
+  .govuk-accordion#accordion-default{ data: { module: 'govuk-accordion' } }
+    - defendant.cases.each_with_index do |kase, ci|
+      .govuk-accordion__section
+        .govuk-accordion__section-header
+          %h2.govuk-accordion__section-heading
+            %span.govuk-accordion__section-button{ id: "defendant-#{di}-case-#{ci}-heading" }
+              = kase.case_number
+        .govuk-accordion__section-content{ id: "defendant-#{di}-case-#{ci}-content" }
+          %p
+            = govuk_link_to 'View case in View Court Data', "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{kase.case_number}"
+          %h4.govuk-heading-s
+            = 'All defendants in case'
+          = govuk_table do
+            = govuk_table_thead do
+              = govuk_table_row do
+                = govuk_table_th do
+                  = "Defendant"
+                = govuk_table_th do
+                  = "Date of Birth"
+                = govuk_table_th do
+                  = "Offences"
+            = govuk_table_tbody do
+              - kase.defendants.each do |d|
+                = govuk_table_row do
+                  = govuk_table_td do
+                    = link_to d.name, "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/laa_references/new?id=#{d.id}&urn=#{kase.case_number}"
+                  = govuk_table_td do
+                    = d.date_of_birth
+                  = govuk_table_td do
+                    = d.offences.map(&:title).join(', ')
+          %h4.govuk-heading-s
+            = 'Hearings in case'
+          = govuk_table do
+            = govuk_table_thead do
+              = govuk_table_row do
+                = govuk_table_th do
+                  = "Type"
+                = govuk_table_th do
+                  = "Court"
+                = govuk_table_th do
+                  = "# Days"
+            = govuk_table_tbody do
+              - kase.hearings.each do |d|
+                = govuk_table_row do
+                  = govuk_table_td do
+                    = d.type
+                  = govuk_table_td do
+                    = d.court.name
+                  = govuk_table_td do
+                    = d.hearing_days.count

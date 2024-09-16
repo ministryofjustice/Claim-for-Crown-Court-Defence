@@ -14,12 +14,14 @@ RSpec.describe 'Content Security Policy reports' do
           'blocked-uri': 'ws://example.com:35729/livereload',
           'line-number': 191,
           'column-number': 27,
-          'source-file': 'http://example:com/__rack/livereload.js',
+          'source-file': source_file,
           'status-code': 200,
           'script-sample': ''
         }
       }.to_json
     end
+
+    let(:source_file) { 'http://example:com/__rack/livereload.js' }
 
     before do
       stub_request(:post, 'https://slack').and_return(status: 200)
@@ -34,6 +36,13 @@ RSpec.describe 'Content Security Policy reports' do
       let(:params) { '' }
 
       it { expect(response).to be_successful }
+    end
+
+    context 'when the violation is caused by a chrome extension' do
+      let(:source_file) { 'chrome-extension' }
+
+      it { expect(response).to be_successful }
+      it { expect(a_request(:post, 'https://slack')).not_to have_been_made }
     end
   end
 end

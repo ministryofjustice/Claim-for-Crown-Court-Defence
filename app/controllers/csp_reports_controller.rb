@@ -3,13 +3,15 @@ class CspReportsController < ApplicationController
   skip_forgery_protection
 
   def create
-    slack_notifier.build_payload(
-      icon: ':security:',
-      title: 'Content Security Policy violation',
-      message: report.map { |key, value| "#{key}: #{value}" }.join("\n") + "\n\nUser agent: #{request.env['HTTP_USER_AGENT']}",
-      status: :fail
-    )
-    slack_notifier.send_message
+    unless report['source-file'] == 'chrome-extension'
+      slack_notifier.build_payload(
+        icon: ':security:',
+        title: 'Content Security Policy violation',
+        message: report.map { |key, value| "#{key}: #{value}" }.join("\n") + "\n\nUser agent: #{request.env['HTTP_USER_AGENT']}",
+        status: :fail
+      )
+      slack_notifier.send_message
+    end
 
     head :ok
   end

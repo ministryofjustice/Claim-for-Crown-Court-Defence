@@ -4594,9 +4594,9 @@ schema-utils@^4.0.0:
     ajv-keywords "^5.0.0"
 
 selenium-webdriver@^4.12.0:
-  version "4.24.0"
-  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.24.0.tgz#bf7563f9e0b1ef29d55f215a8fb187b21e4de26e"
-  integrity sha512-qrqoHhHPZuKLiz5VAQUxrn3ILs7/cYqn2/x96r35g5JjkLUjOS1lX+F+tEJKhRMlQ/MGJ+N1016JF5g2xZUFzw==
+  version "4.24.1"
+  resolved "https://registry.yarnpkg.com/selenium-webdriver/-/selenium-webdriver-4.24.1.tgz#4315214420cc26dddaa21ae26863dd452aec2829"
+  integrity sha512-fcK5BTI/54cSqIhiVtrd9li1YL6LW109yIwuVw6V+FlVE6y4riGiX2qdZxVzHq+sm2TJyps+D2sjzXrpDZe1Og==
   dependencies:
     "@bazel/runfiles" "^5.8.1"
     jszip "^3.10.1"

@@ -142,11 +142,11 @@ RSpec.describe Claim do
           is_expected.to have_totals(fees_total: 37.75, fees_vat: 7.55, disbursements_total: 155.33, disbursements_vat: 19.68, expenses_total: 9.99, expenses_vat: 2.0)
 
           # remove the fee for 31.5
-          claim.fees.detect { |f| f.amount == '31.5'.to_d }.destroy
+          claim.fees.detect { |f| f.amount == BigDecimal(31.5) }.destroy
           is_expected.to have_totals(fees_total: 6.25, fees_vat: 1.25, disbursements_total: 155.33, disbursements_vat: 19.68, expenses_total: 9.99, expenses_vat: 2.0)
 
           # remove the disbursement for 100
-          claim.disbursements.detect { |d| d.net_amount == '100.0'.to_d }.destroy
+          claim.disbursements.detect { |d| d.net_amount == BigDecimal(100.0) }.destroy
           is_expected.to have_totals(fees_total: 6.25, fees_vat: 1.25, disbursements_total: 55.33, disbursements_vat: 9.68, expenses_total: 9.99, expenses_vat: 2.0)
 
           claim.expenses.first.destroy

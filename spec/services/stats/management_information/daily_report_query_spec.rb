@@ -180,7 +180,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       it { is_expected.to all(be_a(BigDecimal)) }
 
       it 'rounds to 4 decimal places' do
-        is_expected.to contain_exactly('9999.9856'.to_d)
+        is_expected.to contain_exactly(BigDecimal(9999.9856))
       end
     end
 

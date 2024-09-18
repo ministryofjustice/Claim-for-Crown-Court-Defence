@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/ministryofjustice/laa-cda
-  revision: bfcc55b1af6888debf3b7ae47139039749373825
+  revision: 28b7c54c31d4a06030101f998aef3b377f083c09
   specs:
     laa-cda (0.0.1)
       faraday (~> 2.0)
@@ -248,8 +248,9 @@ GEM
       railties (>= 5.0.0)
     faker (3.4.2)
       i18n (>= 1.8.11, < 2)
-    faraday (2.11.0)
+    faraday (2.12.0)
       faraday-net_http (>= 2.0, < 3.4)
+      json
       logger
     faraday-follow_redirects (0.3.0)
       faraday (>= 1, < 3)

@@ -21,26 +21,50 @@
         .govuk-accordion__section-content{ id: "defendant-#{di}-case-#{ci}-content" }
           %p
             = govuk_link_to 'View case in View Court Data', "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{kase.case_number}"
-          %h4.govuk-heading-s
-            = 'All defendants in case'
-          = govuk_table do
-            = govuk_table_thead do
-              = govuk_table_row do
-                = govuk_table_th do
-                  = "Defendant"
-                = govuk_table_th do
-                  = "Date of Birth"
-                = govuk_table_th do
-                  = "Offences"
-            = govuk_table_tbody do
-              - kase.defendants.each do |d|
-                = govuk_table_row do
-                  = govuk_table_td do
-                    = link_to d.name, "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/laa_references/new?id=#{d.id}&urn=#{kase.case_number}"
-                  = govuk_table_td do
-                    = d.date_of_birth
-                  = govuk_table_td do
-                    = d.offences.map(&:title).join(', ')
+          - kase.defendants.each do |d|
+            .govuk-summary-card
+              .govuk-summary-card__title-wrapper
+                %h4.govuk-summary-card__title
+                  = d.name
+              .govuk-summary-card__content
+                %dl.govuk-summary-list
+                  .govuk-summary-list__row
+                    %dt.govuk-summary-list__key
+                      = 'Date of birth'
+                    %dd.govuk-summary-list__value
+                      = d.date_of_birth
+                %dl.govuk-summary-list
+                  .govuk-summary-list__row
+                    %dt.govuk-summary-list__key
+                      = 'Arrest Summons Number'
+                    %dd.govuk-summary-list__value
+                      = d.arrest_summons_number
+
+                %hr.govuk-section-break.govuk-section-break--l.govuk-section-break--visible
+
+                - d.offences.each_with_index do |offence, oi|
+                  %h5.govuk-heading-s
+                    = "Offence ##{oi + 1}: #{offence.title}"
+                  - if offence.pleas.empty?
+                    %p No pleas
+                  - else
+                    = govuk_table do
+                      = govuk_table_thead do
+                        = govuk_table_row do
+                          = govuk_table_th do
+                            = 'Date'
+                          = govuk_table_th do
+                            = 'Plea'
+                      = govuk_table_tbody do
+                        - offence.pleas.each do |plea|
+                          = govuk_table_row do
+                            = govuk_table_td do
+                              = plea.date
+                            = govuk_table_td do
+                              = plea.value
+
+                  %hr.govuk-section-break.govuk-section-break--m
+
           %h4.govuk-heading-s
             = 'Hearings in case'
           = govuk_table do

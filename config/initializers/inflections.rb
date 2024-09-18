@@ -27,4 +27,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'MI'
   inflect.acronym 'XML'
   inflect.human(/af1_lf1_processed_by/, "af1/lf1 processed by")
+  inflect.uncountable 'court_data'
 end

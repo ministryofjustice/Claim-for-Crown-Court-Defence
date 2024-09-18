@@ -1,0 +1,110 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+%h1.govuk-heading-l
+  = "Court Data View for #{@court_data.case_number[:claim]} (##{@court_data.claim_id})"
+
+= govuk_back_link_to 'Return to claim summary', case_workers_claim_path(@court_data.claim_id)
+
+- if @court_data.case_number[:hmcts]
+  %p.govuk-body
+    = govuk_link_to 'Open in View Court Data', "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{@court_data.case_number[:hmcts]}", target: :_blank
+
+%dl.govuk-summary-list
+  .govuk-summary-list__row
+    %dt.govuk-summary-list__key
+      = 'Prosecution Case Reference'
+    %dd.govuk-summary-list__value
+      = @court_data.case_number[:hmcts]
+    %dd.govuk-summary-list__value
+      = 'From Common Platform'
+  .govuk-summary-list__row
+    %dt.govuk-summary-list__key
+      = 'Case Number'
+    %dd.govuk-summary-list__value
+      = @court_data.case_number[:claim]
+    %dd.govuk-summary-list__value
+      = 'From CCCD claim'
+  .govuk-summary-list__row
+    %dt.govuk-summary-list__key
+      = 'Status'
+    %dd.govuk-summary-list__value
+      = @court_data.status[:hmcts]
+    %dd.govuk-summary-list__value
+      = 'From Common Platform'
+%h2.govuk-heading-m
+  = "#{@court_data.defendants.count} #{'defendant'.pluralize(@court_data.defendants.count)}"
+- @court_data.defendants.each do |defendant|
+  .govuk-summary-card
+    .govuk-summary-card__title-wrapper
+      %h3.govuk-summary-card__title
+        = "Defendant's name: #{[defendant[:hmcts] && defendant[:hmcts][:name], defendant[:claim] && defendant[:claim][:name]].compact.join('/')}"
+    .govuk-summary-card__content
+      - if defendant[:hmcts].present?
+        %p.govuk-body
+          = govuk_link_to 'Open in View Court Data', "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/laa_references/new?id=#{defendant[:hmcts][:id]}&urn=#{@court_data.case_number[:hmcts]}", target: :_blank
+      %dl.govuk-summary-list
+        .govuk-summary-list__row
+          %dt.govuk-summary-list__key
+            = 'MAAT Reference'
+          %dd.govuk-summary-list__value
+            = defendant[:maat_reference]
+        - if defendant[:hmcts].present?
+          - if defendant[:hmcts][:start].present?
+            .govuk-summary-list__row
+              %dt.govuk-summary-list__key
+                = 'Effective start date'
+              %dd.govuk-summary-list__value
+                = defendant[:hmcts][:start]
+              %dd.govuk-summary-list__value
+                = 'From Common Platform'
+          - if defendant[:hmcts][:end].present?
+            .govuk-summary-list__row
+              %dt.govuk-summary-list__key
+                = 'Effective end date'
+              %dd.govuk-summary-list__value
+                = defendant[:hmcts][:end]
+              %dd.govuk-summary-list__value
+                = 'From Common Platform'
+          - if defendant[:hmcts][:contract_number].present?
+            .govuk-summary-list__row
+              %dt.govuk-summary-list__key
+                = 'Contract number'
+              %dd.govuk-summary-list__value
+                = defendant[:hmcts][:contract_number]
+              %dd.govuk-summary-list__value
+                = 'From Common Platform'
+        - if defendant[:claim].present?
+          .govuk-summary-list__row
+            %dt.govuk-summary-list__key
+              = 'Representation order date'
+            %dd.govuk-summary-list__value
+              = defendant[:claim][:representation_order_date]
+            %dd.govuk-summary-list__value
+              = 'From CCCD Claim'
+-#        - defendant.offences.each_with_index do |offence, i|
+-#          .govuk-summary-list__row
+-#            %dt.govuk-summary-list__key
+-#              = "Offence #{i+1}"
+-#            %dd.govuk-summary-list__value
+-#              = offence.title
+-#            %dd.govuk-summary-list__value
+-#              = 'From Common Platform'
+-#%h2.govuk-heading-m
+-#  = "#{@court_data.hearings.count} #{'hearing'.pluralize(@court_data.hearings.count)}"
+-#%table.govuk-table
+-#  %thead.govuk-table__head
+-#    %tr.govuk-table__row
+-#      %th.govuk-table__header Hearing type
+-#      %th.govuk-table__header Court
+-#      %th.govuk-table__header Hearings
+-#  %tbody.govuk-table__body
+-#    - @court_data.hearings.each do |hearing|
+-#      %tr.govuk-table__row
+-#        %td.govuk-table__cell
+-#          = hearing.type
+-#        %td.govuk-table__cell
+-#          = hearing.court.name
+-#        %td.govuk-table__cell
+-#          = hearing.hearing_days.count
+-#

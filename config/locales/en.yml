@@ -2686,7 +2686,9 @@ en:
         completed_claims_count: Completed claims (%{completed_claims_count})
         current_claims_count: Allocated claims (%{current_claims_count})
         unallocated_claims_count: Allocated claims (%{unallocated_claims_count})
-
+    court_data:
+      index:
+        page_title: Court Data view
   api:
     v1:
       common_params:

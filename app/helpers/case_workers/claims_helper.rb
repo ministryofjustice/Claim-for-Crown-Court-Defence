@@ -44,4 +44,8 @@ module CaseWorkers::ClaimsHelper
       fees.description.split('(')[0].strip
     end.uniq
   end
+
+  def cda_configured?
+    ENV['COURT_DATA_ADAPTOR_API_UID'].present?
+  end
 end

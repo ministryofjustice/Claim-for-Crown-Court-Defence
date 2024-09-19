@@ -1,4 +1,4 @@
-= f.govuk_radio_buttons_fieldset :case_transferred_from_another_court, legend: { size: 'm', text: t('.case_transferred_from_another_court') } do
+= f.govuk_radio_buttons_fieldset :case_transferred_from_another_court, legend: { size: 'm', text: t('.case_transferred_from_another_court'), class: "govuk-!-padding-top-7" } do
   = f.govuk_radio_button :case_transferred_from_another_court, false, label: { text: t('global_no') }, link_errors: true
   = f.govuk_radio_button :case_transferred_from_another_court, true, label: { text: t('global_yes') } do
     = render partial: 'external_users/claims/case_details/transfer_court_fields', locals: { f: f }

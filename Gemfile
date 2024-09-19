@@ -58,7 +58,7 @@ gem 'tty-spinner'
 gem 'ruby-progressbar'
 gem 'laa-fee-calculator-client', '~> 2.0'
 gem 'active_storage_validations'
-gem 'faraday', '~> 2.11'
+gem 'faraday', '~> 2.12'
 gem 'faraday-follow_redirects', '~> 0.3'
 gem 'puma'
 

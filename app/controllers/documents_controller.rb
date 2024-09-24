@@ -15,9 +15,9 @@ class DocumentsController < ApplicationController
     redirect_to document.converted_preview_document.blob.url(disposition: :inline), allow_other_host: true
   end
 
-  # def download
-  #   redirect_to document.document.blob.url(disposition: :attachment), allow_other_host: true
-  # end
+  def download
+    redirect_to document.document.blob.url(disposition: :attachment), allow_other_host: true
+  end
 
   def create
     @document = Document.new(document_params.merge(creator_id: current_user.id))

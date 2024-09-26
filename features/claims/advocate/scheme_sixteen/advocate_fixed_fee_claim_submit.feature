@@ -43,6 +43,31 @@ Feature: Advocate tries to submit a fee scheme 16 claim for a Fixed fee (Appeal 
 
     Then I click "Continue" in the claim form
     And I should be in the 'Miscellaneous fees' form page
+    When I click on misc fees helper text
+    Then I should see the following miscellaneous fees listed:
+      | Abuse of process hearings                             |
+      | Application to dismiss a charge                       |
+      | Confiscation hearings                                 |
+      | Deferred sentence hearings                            |
+      | Deferred sentence hearings uplift                     |
+      | Further case management hearing                       |
+      | Ground rules hearing                                  |
+      | Hearings relating to admissibility of evidence        |
+      | Hearings relating to disclosure                       |
+      | Noting brief fee                                      |
+      | Proceeds of crime hearings                            |
+      | Public interest immunity hearings                     |
+      | Research of very unusual or novel factual issue       |
+      | Research of very unusual or novel point of law        |
+      | Sentence hearings                                     |
+      | Sentence hearings uplift                              |
+      | Special preparation fee                               |
+      | Standard appearance fee uplift                        |
+      | Trial not proceed                                     |
+      | Trial not proceed uplift                              |
+      | Unsuccessful application to vacate a guilty plea      |
+      | Wasted preparation fee                                |
+      | Written / oral advice                                 |
 
     Then I click the link 'Back'
     And I should be in the 'Fixed fees' form page

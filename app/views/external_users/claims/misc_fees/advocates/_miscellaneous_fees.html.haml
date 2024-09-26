@@ -1,0 +1,4 @@
+= govuk_detail t('.type_of_fee_helper') do
+  %ul
+  - format_miscellaneous_fee_names(claim).each do |fee|
+    %li= fee

@@ -112,4 +112,58 @@ describe CaseWorkers::ClaimsHelper do
       expect(helper.claim_count).to eq 3
     end
   end
+
+  describe '#format_miscellaneous_fee_names' do
+    subject { format_miscellaneous_fee_names(claim) }
+
+    let(:claim) { create(:claim) }
+
+    before do
+      allow(claim).to receive(:eligible_misc_fee_types).and_return(fee_type)
+    end
+
+    context 'When there are no eligible fee types' do
+      let(:fee_type) { [] }
+
+      it { is_expected.to be_empty }
+    end
+
+    context 'When there are brackets in the fee type description' do
+      let(:fee_type) do
+        [instance_double(Fee::MiscFeeType, description: 'Abuse of process hearings (half day)')]
+      end
+
+      it { is_expected.to eq ['Abuse of process hearings'] }
+    end
+
+    context 'When there are multiple fee type descriptions of the same fee' do
+      let(:fee_type) do
+        [
+          instance_double(Fee::MiscFeeType, description: 'Abuse of process hearings (half day)'),
+          instance_double(Fee::MiscFeeType, description: 'Abuse of process hearings (half day uplift)'),
+          instance_double(Fee::MiscFeeType, description: 'Abuse of process hearings (Whole day)'),
+          instance_double(Fee::MiscFeeType, description: 'Abuse of process hearings (Whole day uplift)')
+        ]
+      end
+
+      it { is_expected.to eq ['Abuse of process hearings'] }
+    end
+
+    context 'When there are multiple fee type descriptions of different fees' do
+      let(:fee_type) do
+        [
+          instance_double(Fee::MiscFeeType, description: 'Abuse of process hearings (half day)'),
+          instance_double(Fee::MiscFeeType, description: 'Abuse of process hearings (half day uplift)'),
+          instance_double(Fee::MiscFeeType, description: 'Abuse of process hearings (whole day)'),
+          instance_double(Fee::MiscFeeType, description: 'Abuse of process hearings (whole day uplift)'),
+          instance_double(Fee::MiscFeeType, description: 'Application to dismiss a charge (half day)'),
+          instance_double(Fee::MiscFeeType, description: 'Application to dismiss a charge (half day uplift)'),
+          instance_double(Fee::MiscFeeType, description: 'Application to dismiss a charge (whole day)'),
+          instance_double(Fee::MiscFeeType, description: 'Application to dismiss a charge (whole day uplift)')
+        ]
+      end
+
+      it { is_expected.to eq ['Abuse of process hearings', 'Application to dismiss a charge'] }
+    end
+  end
 end

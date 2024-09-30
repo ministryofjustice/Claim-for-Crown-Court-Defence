@@ -23,6 +23,7 @@ module CaseWorkers
 
         if record.document.attached?
           redirect_to record.document.blob.url(disposition: 'attachment'), allow_other_host: true
+          # redirect_to rails_blob_path(record.document, disposition: 'attachment')
         else
           redirect_to case_workers_admin_management_information_url, alert: t('.missing_report')
         end

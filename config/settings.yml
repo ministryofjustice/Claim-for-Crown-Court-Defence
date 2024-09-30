@@ -182,7 +182,8 @@ advocate_phone_contact: '03002002020'
 litigator_phone_contact: '03002002020'
 
 aws:
-  region: <%= ENV['AWS_REGION'] %>
+  # region: <%= ENV['AWS_REGION'] %>
+  region: 'eu-west-2' 
   access: <%= ENV['AWS_ACCESS_KEY'] %>
   secret: <%= ENV['SECRET_ACCESS_KEY'] %>
   submitted_queue: <%= ENV['AWS_QUEUE_NAME'] %>

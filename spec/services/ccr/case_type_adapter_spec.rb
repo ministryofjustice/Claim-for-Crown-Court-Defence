@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe CCR::CaseTypeAdapter, type: :adapter do
   subject { described_class.new(case_type).bill_scenario }
 
-  let(:case_type) { instance_double('case_type') }
+  let(:case_type) { instance_double(CaseType) }
 
   describe '#bill_scenario' do
     SCENARIO_MAPPINGS = {

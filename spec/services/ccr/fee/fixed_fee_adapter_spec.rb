@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe CCR::Fee::FixedFeeAdapter, type: :adapter do
   subject { described_class.new.call(claim) }
 
-  let(:claim) { instance_double('claim') }
-  let(:case_type) { instance_double('case_type', fee_type_code: 'FXACV') }
+  let(:claim) { instance_double(Claim::BaseClaim) }
+  let(:case_type) { instance_double(CaseType, fee_type_code: 'FXACV') }
 
   before do
     allow(claim).to receive(:case_type).and_return case_type
@@ -57,7 +57,7 @@ RSpec.describe CCR::Fee::FixedFeeAdapter, type: :adapter do
     end
 
     context 'when claim is not of a fixed fee variety' do
-      let(:case_type) { instance_double('case_type', fee_type_code: 'GRTRL') }
+      let(:case_type) { instance_double(CaseType, fee_type_code: 'GRTRL') }
 
       it 'returns false' do
         is_expected.to be false

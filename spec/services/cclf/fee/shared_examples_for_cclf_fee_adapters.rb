@@ -7,10 +7,10 @@ RSpec.shared_examples 'returns CCLF Litigator Fee bill (sub)type' do |code|
 end
 
 RSpec.shared_examples 'Litigator Fee Adapter' do |bill_scenario_mappings|
-  let(:fee) { instance_double('fee') }
-  let(:claim) { instance_double('claim', case_type:) }
+  let(:fee) { instance_double(Fee::BaseFee) }
+  let(:claim) { instance_double(Claim::BaseClaim, case_type:) }
   let(:case_type) { instance_double(CaseType) }
-  let(:fee_type) { instance_double('fee_type') }
+  let(:fee_type) { instance_double(Fee::BaseFeeType) }
 
   before do
     allow(fee).to receive_messages(fee_type:, claim:)

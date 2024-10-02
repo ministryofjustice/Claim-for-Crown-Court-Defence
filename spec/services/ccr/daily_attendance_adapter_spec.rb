@@ -111,7 +111,7 @@ RSpec.describe CCR::DailyAttendanceAdapter, type: :adapter do
     subject { described_class.attendances_for(claim) }
 
     let(:claim) { build(:authorised_claim) }
-    let(:adapter) { instance_double 'DailyAttendanceAdapter' }
+    let(:adapter) { instance_double described_class }
 
     it 'calls #attendances' do
       expect(described_class).to receive(:new).with(claim).and_return adapter

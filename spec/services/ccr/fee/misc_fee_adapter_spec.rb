@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe CCR::Fee::MiscFeeAdapter, type: :adapter do
   subject { described_class.new.call(fee) }
 
-  let(:fee) { instance_double('fee') }
-  let(:fee_type) { instance_double('fee_type', unique_code: 'MIAPH', description: 'Abuse of process hearings (half day)') }
+  let(:fee) { instance_double(Fee::BaseFee) }
+  let(:fee_type) { instance_double(Fee::BaseFeeType, unique_code: 'MIAPH', description: 'Abuse of process hearings (half day)') }
 
   before do
     allow(fee).to receive(:fee_type).and_return fee_type

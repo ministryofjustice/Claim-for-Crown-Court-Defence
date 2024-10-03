@@ -24,7 +24,7 @@ RSpec.shared_examples_for 'a mapping fee adapter' do
 end
 
 RSpec.shared_examples_for 'a simple bill adapter' do |options|
-  subject { described_class.new(instance_double('fee')) }
+  subject { described_class.new(instance_double(Fee::BaseFee)) }
 
   it { is_expected.to respond_to(:bill_type) }
   it { is_expected.to respond_to(:bill_subtype) }
@@ -122,7 +122,7 @@ RSpec.shared_examples_for 'a basic fee adapter' do |options|
 
     context 'when instantiated with claim object' do
       let(:instance) { described_class.new(claim) }
-      let(:claim) { instance_double('claim') }
+      let(:claim) { instance_double(Claim::BaseClaim) }
 
       let(:basic_fee_type) { instance_double(Fee::BasicFeeType, unique_code: 'BABAF') }
       let(:basic_fees) { [basic_fee] }

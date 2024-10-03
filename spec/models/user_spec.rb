@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe User do
-  subject(:user) { build(:user) }
+  subject(:user) { create(:user) }
 
   it { is_expected.to validate_presence_of(:first_name).with_message('Enter a first name') }
   it { is_expected.to validate_presence_of(:last_name).with_message('Enter a last name') }
@@ -279,22 +279,11 @@ RSpec.describe User do
   end
 
   describe '#send_devise_notification' do
-    let(:devise_mailer) { instance_double('devise_mailer') }
-    let(:mailer) { instance_double('mailer') }
+    include ActiveJob::TestHelper
 
-    before do
-      allow(user).to receive(:devise_mailer).and_return(devise_mailer)
-      allow(devise_mailer).to receive(:send).and_return(mailer)
-      allow(mailer).to receive(:deliver_later)
-      user.send_devise_notification(:my_test_email, :an_arg)
-    end
+    subject(:send) { user.send_devise_notification(:unlock_instructions, :an_arg) }
 
-    it 'passes args through to devise mailer' do
-      expect(devise_mailer).to have_received(:send).with(:my_test_email, user, :an_arg)
-    end
-
-    it 'uses `deliver_later`' do
-      expect(mailer).to have_received(:deliver_later)
-    end
+    it { expect { send }.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :size).by(1) }
+    it { expect { send }.to have_enqueued_job(ActionMailer::MailDeliveryJob) }
   end
 end

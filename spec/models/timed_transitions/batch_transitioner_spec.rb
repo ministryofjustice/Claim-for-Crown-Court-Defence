@@ -2,10 +2,10 @@ require 'rails_helper'
 
 RSpec.shared_examples 'run all transitioners' do
   let(:claim_ids) { [22, 878] }
-  let(:claim22) { instance_double 'Claim 22', state: 'authorised', last_state_transition_time: 2.days.ago }
-  let(:claim878) { instance_double 'Claim 878', state: 'authorised', last_state_transition_time: 2.days.ago }
-  let(:transitioner22) { instance_double('Transitioner 22', success?: true) }
-  let(:transitioner878) { instance_double('Transitioner 878', success?: true) }
+  let(:claim22) { instance_double Claim::BaseClaim, state: 'authorised', last_state_transition_time: 2.days.ago }
+  let(:claim878) { instance_double Claim::BaseClaim, state: 'authorised', last_state_transition_time: 2.days.ago }
+  let(:transitioner22) { instance_double(TimedTransitions::Transitioner, success?: true) }
+  let(:transitioner878) { instance_double(TimedTransitions::Transitioner, success?: true) }
 
   before do
     allow(TimedTransitions::Transitioner).to receive(:candidate_claims_ids).and_return(claim_ids)
@@ -102,9 +102,9 @@ RSpec.describe TimedTransitions::BatchTransitioner do
     include_examples 'run all transitioners'
 
     context 'with a notifier' do
-      let(:claim) { instance_double 'Claim' }
-      let(:transitioner) { instance_double('Transitioner') }
-      let(:notifier) { instance_double('Notifier', send_message: nil) }
+      let(:claim) { instance_double Claim::BaseClaim }
+      let(:transitioner) { instance_double(TimedTransitions::Transitioner) }
+      let(:notifier) { instance_double(SlackNotifier, send_message: nil) }
       let(:options) { { dummy:, notifier: } }
 
       before do

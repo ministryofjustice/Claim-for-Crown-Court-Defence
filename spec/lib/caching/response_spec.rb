@@ -3,7 +3,7 @@
 RSpec.describe Caching::Response do
   subject(:instance) { described_class.new(response) }
 
-  let(:response) { instance_double('mock_response', body: 'body content', headers: {}) }
+  let(:response) { instance_double(Faraday::Response, body: 'body content', headers: {}) }
 
   describe '#validate!' do
     context 'with a valid response object' do
@@ -11,7 +11,7 @@ RSpec.describe Caching::Response do
     end
 
     context 'with invalid response object' do
-      let(:response) { instance_double('mock_response') }
+      let(:response) { instance_double(Faraday::Response) }
 
       it { expect { instance }.to raise_error ArgumentError, /must implement/ }
     end
@@ -32,7 +32,7 @@ RSpec.describe Caching::Response do
   describe '#ttl' do
     subject(:ttl) { instance.ttl }
 
-    let(:response) { instance_double('mock_response', body: 'body content', headers:) }
+    let(:response) { instance_double(Faraday::Response, body: 'body content', headers:) }
 
     context 'with max-age Cache-Control headers' do
       let(:headers) { { cache_control: 'max-age=900, private, re-validate' } }

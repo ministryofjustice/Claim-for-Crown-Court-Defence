@@ -18,6 +18,12 @@ require 'rails_helper'
 RSpec.describe Redetermination do
   let(:claim) { create(:claim) }
 
+  describe '#create' do
+    subject { described_class.create(claim:, **params) }
+
+    include_examples 'numeric fields in determinations'
+  end
+
   context 'automatic calculation of total' do
     it 'calculates the total on save' do
       rd = create(:redetermination)

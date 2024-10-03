@@ -18,6 +18,12 @@ require 'rails_helper'
 RSpec.describe Assessment do
   let(:claim) { create(:claim) }
 
+  describe '#update' do
+    subject { claim.assessment.tap { |assessment| assessment.update(**params) } }
+
+    include_examples 'numeric fields in determinations'
+  end
+
   context 'validations' do
     context 'fees' do
       it 'does not accept negative values' do

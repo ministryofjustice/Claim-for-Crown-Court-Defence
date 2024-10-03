@@ -76,7 +76,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 7.0.1'
   gem 'rspec-collection_matchers'
   gem 'rspec_junit_formatter'
-  gem 'net-ssh', '~> 7.2'
+  gem 'net-ssh', '~> 7.3'
   gem 'net-scp', '~> 4.0'
   gem 'rubocop', '~> 1.66'
   gem 'rubocop-capybara', '~> 2.21'

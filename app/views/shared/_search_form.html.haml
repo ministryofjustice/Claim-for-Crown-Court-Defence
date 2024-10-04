@@ -6,7 +6,7 @@
       = f.hidden_field :direction, id: :direction, value: params[:direction]
 
       = f.govuk_text_field :search,
-        label: { text: t('common.search.label'), tag: 'h2', size: 'm' },
+        label: { text: t('common.search.label'), tag: 'h2', size: 'm', class: "govuk-!-padding-top-7" },
         hint: { text: hint_text },
         value: params[:search]
 

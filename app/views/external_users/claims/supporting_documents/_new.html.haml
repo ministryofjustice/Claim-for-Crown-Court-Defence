@@ -8,7 +8,7 @@
   - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
     = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"
 
-%h3.govuk-heading-m
+%h3.govuk-heading-m{ class: "govuk-!-padding-top-7" }
   = t('.upload_supporting_evidence')
 
 = f.govuk_file_field :documents,

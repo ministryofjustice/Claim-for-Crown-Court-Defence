@@ -1,7 +1,7 @@
 - if @claim.allows_fixed_fees?
   #fixed-fees.mod-fees.form-section
     .fixed-fee-group-wrapper
-      = f.govuk_check_boxes_fieldset :fixed_fees, legend: { text: t('.type_of_fee'), size: 'm' } do
+      = f.govuk_check_boxes_fieldset :fixed_fees, legend: { text: t('.type_of_fee'), size: 'm',  class: "govuk-!-padding-top-7" } do
         = f.fields_for :fixed_fees do |fixed_fee_fields|
           - @fixed_fee_count += 1
           = render partial: 'external_users/claims/fixed_fees/advocates/fixed_fee_fields', locals: { f: fixed_fee_fields }

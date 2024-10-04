@@ -3,7 +3,7 @@
     - present(f.object.basic_fees, BasicFeesPresenter) do | basic_fees |
 
       .form-section
-        %h3.govuk-heading-m
+        %h3.govuk-heading-m{ class: "govuk-!-padding-top-7" }
           = t('.heading')
 
       = f.fields_for :basic_fees, basic_fees.primary_fee do |basic_fee_fields|
@@ -12,7 +12,7 @@
           = render partial: 'external_users/claims/basic_fees/basic_fee_fields_primary', locals: { f: basic_fee_fields }
 
       .basic-fees-checklist
-        %h3.govuk-heading-m
+        %h3.govuk-heading-m{ class: "govuk-!-padding-top-7" }
           = t('.additional_fees')
 
         = f.govuk_check_boxes_fieldset :basic_fees,

@@ -8,6 +8,8 @@
     = link_to_remove_association f, wrapper_class: 'misc-fee-group', class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
       = t('common.remove_html', context: t('.misc_fee'))
 
+    = render partial: 'external_users/claims/misc_fees/advocates/miscellaneous_fees', locals: { claim: claim}
+
     = f.govuk_collection_select :fee_type_id,
       claim.eligible_misc_fee_type_options_for_select.map{ |ft| [ft.first, ft.second, { 'data-unique-code': ft.third[:data][:unique_code] }] },
       :second,

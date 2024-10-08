@@ -1483,6 +1483,8 @@ en:
           hint_html: If eligible, go to %{link} to add this to your claim.
           hint_link: miscellaneous fees
         advocates:
+          miscellaneous_fees:
+            type_of_fee_helper: Types of miscellaneous fees you can claim
           fields:
             add_misc_fee: Add another fee
           misc_fee_fields:

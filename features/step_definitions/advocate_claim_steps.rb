@@ -120,6 +120,18 @@ Then("the pages of prosecution evidence net amount should be populated with {str
   end
 end
 
+When('I click on misc fees helper text') do
+  @misc_fee_page.misc_fees_id.click
+end
+
+Then("I should see the following miscellaneous fees listed:") do |table|
+  expected_fees = table.raw.flatten
+
+  expected_fees.each do |fee|
+    expect(page).to have_content(fee)
+  end
+end
+
 When(/^I add a calculated miscellaneous fee '(.*?)'(?: with quantity of '(.*?)')?(?: with dates attended\s*(.*))?$/) do |name, quantity, date|
   quantity = quantity.present? ? quantity : '1'
   patiently do

@@ -38,4 +38,10 @@ module CaseWorkers::ClaimsHelper
   def claim_count
     session[:claim_count]
   end
+
+  def format_miscellaneous_fee_names(claim)
+    claim.eligible_misc_fee_types.map do |fees|
+      fees.description.split('(')[0].strip
+    end.uniq
+  end
 end

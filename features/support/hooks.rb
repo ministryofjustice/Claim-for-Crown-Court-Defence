@@ -36,6 +36,7 @@ Before('not @no-site-prism') do
   @provider_users_change_availability_page = ProviderUsersChangeAvailabilityPage.new
 
   @cookie_page = CookiePage.new
+  @misc_fee_page = MiscellaneousFeePage.new
 end
 
 Before('not @no-seed') do

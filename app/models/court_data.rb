@@ -1,10 +1,11 @@
 class CourtData
   include ActiveModel::Model
 
-  attr_reader :claim_id
+  attr_reader :claim_id, :matching_method
 
   def initialize(**kwargs)
     @claim_id = kwargs[:claim_id]
+    @matching_method = nil
   end
 
   def case_number
@@ -28,12 +29,19 @@ class CourtData
     @prosecution_case ||= prosecution_case_by_case_number || prosecution_case_by_defendants
   end
 
-  def prosecution_case_by_case_number = LAA::Cda::ProsecutionCase.search(prosecution_case_reference: claim.case_number).first
+  def prosecution_case_by_case_number
+    LAA::Cda::ProsecutionCase.search(prosecution_case_reference: claim.case_number).first.tap do |response|
+      @matching_method = 'URN' if response
+    end
+  end
 
   def prosecution_case_by_defendants
     claim.defendants.each do |defendant|
       prosecution_case = all_prosecution_case_by_defendant(defendant)
-      return prosecution_case if prosecution_case
+      if prosecution_case
+        @matching_method = "'#{defendant.name}' and '#{defendant.date_of_birth}'"
+        return prosecution_case
+      end
     end
     nil
   end

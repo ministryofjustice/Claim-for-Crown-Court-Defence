@@ -1,6 +1,6 @@
 .disbursement-group.nested-fields.fx-fee-group.fx-numberedList-item.js-block.fx-do-init{ data: { type:'disbursements', autovat: 'false', 'block-type': 'FeeBlockManualAmounts' } }
 
-  = f.govuk_fieldset legend: { text: t('.disbursement_legend_html') } do
+  = f.govuk_fieldset legend: { text: t('.disbursement_legend_html') ,  class: "govuk-!-padding-top-7"} do
 
     = link_to_remove_association f, wrapper_class: 'disbursement-group', class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
       = t('common.remove_html', context: t('.disbursement'))

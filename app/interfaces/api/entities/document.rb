@@ -13,15 +13,15 @@ module API
       end
 
       def url
-        attachment.blob.url(disposition: 'attachment') if attachment.attached?
+        attachment.first.blob.url(disposition: 'attachment') if attachment.attached?
       end
 
       def file_name
-        attachment.filename if attachment.attached?
+        attachment.first.filename if attachment.attached?
       end
 
       def size
-        attachment.byte_size if attachment.attached?
+        attachment.first.byte_size if attachment.attached?
       end
     end
   end

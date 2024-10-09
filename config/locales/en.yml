@@ -2679,12 +2679,16 @@ en:
       show:
         page_title: View the claim details
         error_summary: 'This claim has '
+      defendants:
+        page_title: View claim defendants details
       nav_tabs:
         allocated_claims_count: Allocated claims (%{allocated_claims_count})
         completed_claims_count: Completed claims (%{completed_claims_count})
         current_claims_count: Allocated claims (%{current_claims_count})
         unallocated_claims_count: Allocated claims (%{unallocated_claims_count})
-
+    court_data:
+      index:
+        page_title: Court Data view
   api:
     v1:
       common_params:

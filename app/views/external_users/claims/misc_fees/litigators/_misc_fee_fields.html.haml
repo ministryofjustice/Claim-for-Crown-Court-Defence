@@ -1,6 +1,6 @@
 .form-section.misc-fee-group.nested-fields.js-block.fx-do-init.fx-fee-group.fx-numberedList-item{ data: { 'type': 'miscFees', autovat: @claim.apply_vat? ? 'true' : 'false' } }
 
-  = f.govuk_fieldset legend: { text: t('.misc_fee_html') } do
+  = f.govuk_fieldset legend: { text: t('.misc_fee_html'), class: "govuk-!-padding-top-7" } do
 
     = link_to_remove_association f, wrapper_class: 'misc-fee-group', class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
       = t('common.remove_html', context: t('.misc_fee'))

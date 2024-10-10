@@ -1,28 +1,28 @@
-#cracked-trial-dates{ class: @claim&.case_type&.requires_cracked_dates? ? nil : 'hidden' }
+#cracked-trial-dates{ class: @claim&.case_type&.requires_cracked_dates? ? nil : 'hidden', class: "govuk-!-padding-top-7" }
   %h3.govuk-heading-m
     = t('.cracked_trial_details')
 
   = f.govuk_date_field :trial_fixed_notice_at,
     form_group: { id: 'trial_fixed_notice_at' },
     hint: { text: t('.date_hint') },
-    legend: { text: t('.trial_fixed_notice_at') },
+    legend: { text: t('.trial_fixed_notice_at'), size: 's' },
     maxlength_enabled: true
 
   = f.govuk_date_field :trial_fixed_at,
     form_group: { id: 'trial_fixed_at' },
     hint: { text: t('.date_hint') },
-    legend: { text: t('.trial_fixed_at') },
+    legend: { text: t('.trial_fixed_at'), size: 's' },
     maxlength_enabled: true
 
   - unless @claim.hardship?
     = f.govuk_date_field :trial_cracked_at,
       form_group: { id: 'trial_cracked_at' },
       hint: { text: t('.date_hint') },
-      legend: { text: t('.trial_cracked_at') },
+      legend: { text: t('.trial_cracked_at'), size: 's' },
       maxlength_enabled: true
 
   = f.govuk_collection_radio_buttons :trial_cracked_at_third,
     Settings.trial_cracked_at_third,
     :to_s,
     :humanize,
-    legend: { text: @claim.hardship? ? t('.trial_cracked_at_third.hardship') : t('.trial_cracked_at_third.default') }
+    legend: { text: @claim.hardship? ? t('.trial_cracked_at_third.hardship') : t('.trial_cracked_at_third.default'), size: 's' }

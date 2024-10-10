@@ -1,17 +1,17 @@
-#trial-dates{ class: @claim&.case_type&.requires_trial_dates? ? nil : 'hidden' }
+#trial-dates{ class: @claim&.case_type&.requires_trial_dates? ? nil : 'hidden', class: "govuk-!-padding-top-7" }
   %h3.govuk-heading-m
     = t('.trial_detail')
 
   = f.govuk_date_field :first_day_of_trial,
     form_group: { id: 'first_day_of_trial' },
     hint: { text: t('.date_hint') },
-    legend: { text: t('.first_day_of_trial') },
+    legend: { text: t('.first_day_of_trial'), size: 's' },
     maxlength_enabled: true
 
   = f.govuk_date_field :trial_concluded_at,
     form_group: { id: 'trial_concluded_at' },
     hint: { text: t('.date_hint') },
-    legend: { text: t('.trial_concluded_at') },
+    legend: { text: t('.trial_concluded_at'), size: 's' },
     maxlength_enabled: true
 
   = f.govuk_text_field :estimated_trial_length,

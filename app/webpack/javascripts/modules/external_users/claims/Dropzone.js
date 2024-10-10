@@ -129,7 +129,7 @@ moj.Modules.Dropzone = {
     for (let i = 0; i < files.length; i++) {
       if (files[i].size >= 20971520) {
         const tableBody = $('#dropzone-files tbody')
-        tableBody.prepend(this.notificationHTML(files[i].name, 'error', 'File is too big.'))
+        tableBody.prepend(this.notificationHTML(files[i].name, 'govuk-tag govuk-tag--red', 'File too large'))
       } else {
         this.uploadFile(files[i])
       }
@@ -161,18 +161,20 @@ moj.Modules.Dropzone = {
         const fileId = response.document.id
 
         this.createDocumentIdInput(response.document.id)
-        tableRow.replaceWith(this.notificationHTML(fileName, 'success', 'File has been uploaded.', fileId))
+        tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--green', 'Uploaded', fileId))
         this.status.html(response.document.filename + ' has been uploaded.')
       }.bind(this),
 
       error: function (xhr, status, error) {
         const fileName = file.name
-
         if (status === 'timeout') {
-          tableRow.replaceWith(this.notificationHTML(fileName, 'error', 'The server failed to process your file.'))
-          this.status.html('The server failed to process your file.')
+          tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red', 'Upload timed out'))
+          this.status.html('Upload timed out')
+        } else if (error === 'Unprocessable Content') {
+          tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red', 'Invalid file type'))
+          this.status.html('Invalid file type')
         } else {
-          tableRow.replaceWith(this.notificationHTML(fileName, 'error', xhr.responseJSON.error))
+          tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red', xhr.responseJSON.error))
           this.status.html(fileName + ' ' + xhr.responseJSON.error)
         }
       }.bind(this),

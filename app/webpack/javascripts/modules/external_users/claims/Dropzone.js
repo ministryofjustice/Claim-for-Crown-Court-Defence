@@ -13,7 +13,7 @@ moj.Modules.Dropzone = {
       self.setupDropzone()
       self.setupFileInput()
       self.setupStatusBox()
-      $('.files').on('click', '.file-remove', this.onFileRemoveClick.bind(this))
+      $('.files').on('click', '.govuk-link', this.onFileRemoveClick.bind(this))
     }
   },
 
@@ -110,9 +110,9 @@ moj.Modules.Dropzone = {
     html += '<td data-label="Status" class="govuk-table__cell"><span class="' + fileStatus + '">' + fileStatusMsg + '</span></td>'
 
     if (fileId) {
-      html += '<td data-label="Action" class="govuk-table__cell"><a aria-label="Remove document: ' + fileName + '" class="file-remove" data-id="' + fileId + '" data-remote="true" data-method="delete" href="/documents/' + fileId + '" rel="nofollow">Remove</a></td></tr>'
+      html += '<td data-label="Action" class="govuk-table__cell"><a aria-label="Remove document: ' + fileName + '" class="govuk-link" data-id="' + fileId + '" data-remote="true" data-method="delete" href="/documents/' + fileId + '" rel="nofollow">Remove</a></td></tr>'
     } else {
-      html += '<td data-label="Action" class="govuk-table__cell"><a aria-label="Remove document: ' + fileName + '" class="file-remove" href="#dropzone-files" rel="nofollow">Remove</a></td>'
+      html += '<td data-label="Action" class="govuk-table__cell"><a aria-label="Remove document: ' + fileName + '" class="govuk-link" href="#dropzone-files" rel="nofollow">Remove</a></td>'
     }
 
     html += '</tr>'

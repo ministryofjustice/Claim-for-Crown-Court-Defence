@@ -25,8 +25,8 @@
 
 .app-tag--archived-pending-delete,
 .app-tag--submitted {
-  color: govuk-shade(govuk-colour("dark-grey", $legacy: "grey-1"), 30) !important;
-  background: govuk-tint(govuk-colour("dark-grey", $legacy: "grey-1"), 90) !important;
+  color: govuk-shade(govuk-colour("dark-grey"), 30) !important;
+  background: govuk-tint(govuk-colour("dark-grey"), 90) !important;
 }
 
 .app-tag--redermination {

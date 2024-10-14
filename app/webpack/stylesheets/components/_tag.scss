@@ -2,39 +2,39 @@
 
 .app-tag--authorised,
 .app-tag--accepted {
-  color: govuk-shade(govuk-colour("green"), 20) !important;
-  background: govuk-tint(govuk-colour("green"), 80) !important;
+  color: govuk-shade(govuk-colour("green"), 20%) !important;
+  background: govuk-tint(govuk-colour("green"), 80%) !important;
 }
 
 .app-tag--allocated {
-  color: govuk-shade(govuk-colour("purple"), 20) !important;
-  background: govuk-tint(govuk-colour("purple"), 80) !important;
+  color: govuk-shade(govuk-colour("purple"), 20%) !important;
+  background: govuk-tint(govuk-colour("purple"), 80%) !important;
 }
 
 .app-tag--draft {
-  color: govuk-shade(govuk-colour("blue"), 30) !important;
-  background: govuk-tint(govuk-colour("blue"), 80) !important;
+  color: govuk-shade(govuk-colour("blue"), 30%) !important;
+  background: govuk-tint(govuk-colour("blue"), 80%) !important;
 }
 
 .app-tag--rejected,
 .app-tag--refused,
 .app-tag--unverified {
-  color: govuk-shade(govuk-colour("red"), 30) !important;
-  background: govuk-tint(govuk-colour("red"), 80) !important;
+  color: govuk-shade(govuk-colour("red"), 30%) !important;
+  background: govuk-tint(govuk-colour("red"), 80%) !important;
 }
 
 .app-tag--archived-pending-delete,
 .app-tag--submitted {
-  color: govuk-shade(govuk-colour("dark-grey"), 30) !important;
-  background: govuk-tint(govuk-colour("dark-grey"), 90) !important;
+  color: govuk-shade(govuk-colour("dark-grey"), 30%) !important;
+  background: govuk-tint(govuk-colour("dark-grey"), 90%) !important;
 }
 
 .app-tag--redermination {
-  color: govuk-shade(govuk-colour("black"), 30) !important;
-  background: govuk-tint(govuk-colour("black"), 80) !important;
+  color: govuk-shade(govuk-colour("black"), 30%) !important;
+  background: govuk-tint(govuk-colour("black"), 80%) !important;
 }
 
 .app-tag--part-authorised {
-  color: govuk-shade(govuk-colour("blue"), 30) !important;
-  background: govuk-tint(govuk-colour("blue"), 80) !important;
+  color: govuk-shade(govuk-colour("blue"), 30%) !important;
+  background: govuk-tint(govuk-colour("blue"), 80%) !important;
 }

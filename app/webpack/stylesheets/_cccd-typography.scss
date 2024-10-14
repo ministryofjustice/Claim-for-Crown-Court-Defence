@@ -3,14 +3,6 @@ p {
   @extend %govuk-body-m;
 }
 
-.bold-xsmall {
-  @include govuk-font(14, $weight: bold);
-}
-
-.bold-normal {
-  @include govuk-font(16, $weight: bold);
-}
-
 .unique-id-small {
   @include govuk-font(14);
   display: block;
@@ -56,7 +48,7 @@ p {
     font-weight: 800;
   }
 
-  h2 ~ h2 {
+  h2~h2 {
     margin-top: $govuk-gutter * 2;
   }
 }

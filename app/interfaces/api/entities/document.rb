@@ -8,20 +8,20 @@ module API
 
       private
 
-      def attachment
-        object.is_a?(ActiveStorage::Attachment) ? object : object.attachment
+      def attachments
+        object.is_a?(ActiveStorage::Attachment) ? object : object.attachments
       end
 
       def url
-        attachment.first.blob.url(disposition: 'attachment') if attachment.attached?
+        attachments.first.blob.url(disposition: 'attachment') if attachments.attached?
       end
 
       def file_name
-        attachment.first.filename if attachment.attached?
+        attachments.first.filename if attachments.attached?
       end
 
       def size
-        attachment.first.byte_size if attachment.attached?
+        attachments.first.byte_size if attachments.attached?
       end
     end
   end

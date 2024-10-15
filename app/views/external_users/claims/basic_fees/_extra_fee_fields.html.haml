@@ -1,7 +1,7 @@
 - fee = present(f.object)
 - locale_scope = "external_users.claims.basic_fees.extra_fee_fields.#{fee.fee_type_code.downcase}"
 
-%h3.govuk-heading-m
+%h3.govuk-heading-m{ class: "govuk-!-padding-top-7" }
   = t('heading_html', scope: locale_scope)
 
 - if fee.display_help_text?

@@ -1,6 +1,6 @@
 .nested-fields.resource-details.defendant-details.fx-numberedList-item
 
-  = f.govuk_fieldset legend: { text: t('.defendant_html') } do
+  = f.govuk_fieldset legend: { text: t('.defendant_html'), class: "govuk-!-padding-top-7" } do
 
     = link_to_remove_association f, class: 'govuk-link govuk-!-display-none fx-numberedList-action' do
       = t('common.remove_html', context: t('.defendant'))

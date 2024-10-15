@@ -1,17 +1,17 @@
-#retrial-dates{ class: @claim&.case_type&.requires_retrial_dates? ? nil : 'hidden' }
+#retrial-dates{ class: @claim&.case_type&.requires_retrial_dates? ? nil : 'hidden', class: "govuk-!-padding-top-7" }
   %h3.govuk-heading-m
     = t('.retrial_detail')
 
   = f.govuk_date_field :retrial_started_at,
     form_group: { id: 'retrial_started_at' },
     hint: { text: t('.date_hint') },
-    legend: { text: t('.retrial_started_at') },
+    legend: { text: t('.retrial_started_at'), size: 's' },
     maxlength_enabled: true
 
   = f.govuk_date_field :retrial_concluded_at,
     form_group: { id: 'retrial_concluded_at' },
     hint: { text: t('.date_hint') },
-    legend: { text: t('.retrial_concluded_at') },
+    legend: { text: t('.retrial_concluded_at'), size: 's' },
     maxlength_enabled: true
 
   = f.govuk_text_field :retrial_estimated_length,
@@ -32,7 +32,7 @@
     [['Yes','true'],['No','false']],
     :last,
     :first,
-    legend: { text: t('.retrial_reduction') }
+    legend: { text: t('.retrial_reduction'), size: 's' }
 
   = govuk_detail t('.retrial_reduction_help_link') do
     = t('.retrial_reduction_help_html')

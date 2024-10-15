@@ -6,7 +6,7 @@
     :id,
     :name_and_number,
     form_group: { class: ['fx-autocomplete-wrapper'] },
-    label: { text: t('.advocate') },
+    label: { text: t('.advocate'),  class: "govuk-!-padding-top-7" },
     options: { include_blank: '' }
 
 - else
@@ -14,7 +14,7 @@
     provider_advocates,
     :id,
     :name_and_number,
-    legend: { text: t('.advocate') }
+    legend: { text: t('.advocate'), class: "govuk-!-padding-top-7" }
 
 = govuk_detail t('.help_missing_advocates_summary_heading') do
   = t('.help_missing_advocates_summary_body_html',

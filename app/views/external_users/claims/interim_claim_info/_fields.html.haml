@@ -1,21 +1,20 @@
 - if claim.requires_interim_claim_info?
-  #interim-claim-info.interim-claim
-    %h2.govuk-heading-m
-      = t('.warrant_fee')
+  %h2.govuk-heading-m{ class: "govuk-!-padding-top-7" }
+    = t('.warrant_fee')
 
-    = f.fields_for :interim_claim_info do |ici|
-      = ici.govuk_radio_buttons_fieldset(:warrant_fee_paid, legend: { size: 's', text: t('.warrant_fee_paid') }) do
-        - yes_no_options.each do |text,value|
-          = ici.govuk_radio_button :warrant_fee_paid, value.to_bool, label: { text: text } do
-            - if value.to_bool
-              = ici.govuk_date_field :warrant_issued_date,
-                form_group: { class: 'warrant-fee-issued-date-group' },
-                hint: { text: t('.date_hint') },
-                legend: { text: t('.date_issued'), size: 's' },
-                maxlength_enabled: true
+  = f.fields_for :interim_claim_info do |ici|
+    = ici.govuk_radio_buttons_fieldset(:warrant_fee_paid, legend: { size: 's', text: t('.warrant_fee_paid') }) do
+      - yes_no_options.each do |text,value|
+        = ici.govuk_radio_button :warrant_fee_paid, value.to_bool, label: { text: text } do
+          - if value.to_bool
+            = ici.govuk_date_field :warrant_issued_date,
+              form_group: { class: 'warrant-fee-issued-date-group' },
+              hint: { text: t('.date_hint') },
+              legend: { text: t('.date_issued'), size: 's' },
+              maxlength_enabled: true
 
-              = ici.govuk_date_field :warrant_executed_date,
-                form_group: { class: 'warrant-fee-executed-date-group' },
-                hint: { text: t('.date_hint') },
-                legend: { text: t('.date_executed'), size: 's' },
-                maxlength_enabled: true
+            = ici.govuk_date_field :warrant_executed_date,
+              form_group: { class: 'warrant-fee-executed-date-group' },
+              hint: { text: t('.date_hint') },
+              legend: { text: t('.date_executed'), size: 's' },
+              maxlength_enabled: true

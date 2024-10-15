@@ -17,52 +17,52 @@
     = "Unable to find case in Common Platform"
 
 - @court_data.defendants.each do |defendant|
-  - if defendant[:claim]
+  - if defendant.claim
     %h2.govuk-heading-m
-      = defendant[:claim][:name]
+      = defendant.claim.name
     %p.govuk-body
-      = "MAAT Id: #{defendant[:maat_reference]}"
+      = "MAAT Id: #{defendant.maat_reference}"
   - else
     %h2.govuk-heading-m
       = 'Defendant in Common Platform not in claim'
-  - if defendant[:hmcts].present?
+  - if defendant.hmcts.present?
     .govuk-summary-card
       .govuk-summary-card__title-wrapper
         %h3.govuk-summary-card__title
           = 'Case matched from Common Platform'
         %ul.govuk-summary-card__actions
           %li.govuk-summary-card__action
-            = govuk_link_to 'Open in View Court Data', "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/laa_references/new?id=#{defendant[:hmcts][:id]}&urn=#{@court_data.case_number[:hmcts]}", target: :_blank
+            = govuk_link_to 'Open in View Court Data', "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/laa_references/new?id=#{defendant.hmcts.id}&urn=#{@court_data.case_number[:hmcts]}", target: :_blank
       .govuk-summary-card__content
         %dl.govuk-summary-list
           .govuk-summary-list__row
             %dt.govuk-summary-list__key
               = 'Name'
             %dd.govuk-summary-list__value
-              = defendant[:hmcts][:name]
+              = defendant.hmcts.name
           .govuk-summary-list__row
             %dt.govuk-summary-list__key
               = 'MAAT reference'
             %dd.govuk-summary-list__value
-              = defendant[:maat_reference]
-          - if defendant[:hmcts][:start].present?
+              = defendant.maat_reference
+          - if defendant.hmcts.start.present?
             .govuk-summary-list__row
               %dt.govuk-summary-list__key
                 = 'Effective start date'
               %dd.govuk-summary-list__value
-                = defendant[:hmcts][:start].strftime(Settings.date_format)
-          - if defendant[:hmcts][:end].present?
+                = defendant.hmcts.start.strftime(Settings.date_format)
+          - if defendant.hmcts.end.present?
             .govuk-summary-list__row
               %dt.govuk-summary-list__key
                 = 'Effective end date'
               %dd.govuk-summary-list__value
-                = defendant[:hmcts][:end].strftime(Settings.date_format)
-          - if defendant[:hmcts][:contract_number].present?
+                = defendant.hmcts.end.strftime(Settings.date_format)
+          - if defendant.hmcts.contract_number.present?
             .govuk-summary-list__row
               %dt.govuk-summary-list__key
                 = 'Contract number'
               %dd.govuk-summary-list__value
-                = defendant[:hmcts][:contract_number]
+                = defendant.hmcts.contract_number
   - else
     .govuk-summary-card
       .govuk-summary-card__title-wrapper

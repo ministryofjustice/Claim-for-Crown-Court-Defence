@@ -1,6 +1,4 @@
 class CourtData
-  include ActiveModel::Model
-
   attr_reader :claim_id, :matching_method
 
   def initialize(**kwargs)
@@ -18,7 +16,10 @@ class CourtData
   def status = @status ||= { hmcts: prosecution_case&.status }
 
   def defendants
-    @defendants ||= merge_defendants(*(claim_defendants + hmcts_defendants))
+    @defendants ||= claim_defendants.map do |cd|
+      CourtData::Defendant.new(claim: cd, hmcts: hmcts_defendants.find { |hd| hd == cd })
+    end + hmcts_defendants.reject { |hd| claim_defendants.include?(hd) }
+                          .map { |hd| CourtData::Defendant.new(hmcts: hd) }
   end
 
   private
@@ -55,49 +56,12 @@ class CourtData
   end
 
   def claim_defendants
-    claim.defendants.map do |defendant|
-      {
-        maat_reference: defendant.earliest_representation_order.maat_reference,
-        hmcts: nil,
-        claim: {
-          name: defendant.name,
-          representation_order_date: defendant.earliest_representation_order.representation_order_date
-        }
-      }
-    end
+    @claim_defendants ||= claim.defendants.map { |defendant| CourtData::Defendant::Claim.new(defendant:) }
   end
 
   def hmcts_defendants
     return [] if prosecution_case.nil?
 
-    prosecution_case.defendants.map do |defendant|
-      {
-        maat_reference: defendant&.representation_order&.reference || 'No representation order recorded',
-        hmcts: {
-          id: defendant.id,
-          name: defendant.name,
-          start: defendant&.representation_order&.start,
-          end: defendant&.representation_order&.end,
-          contract_number: defendant&.representation_order&.contract_number
-        },
-        claim: nil
-      }
-    end
-  end
-
-  def merge_defendants(*defendants)
-    defendants.group_by do |defendant|
-      defendant[:maat_reference]
-    end.each_with_object([]) do |(maat_reference, versions), merged_defendants|
-      if maat_reference == 'No representation order recorded'
-        merged_defendants.append(*versions)
-      else
-        merged_defendants << versions.each_with_object({ maat_reference:, hmcts: nil,
-                                                         claim: nil }) do |defendant, defendant_out|
-          defendant_out[:hmcts] ||= defendant[:hmcts]
-          defendant_out[:claim] ||= defendant[:claim]
-        end
-      end
-    end
+    @hmcts_defendants ||= prosecution_case.defendants.map { |defendant| CourtData::Defendant::Hmcts.new(defendant:) }
   end
 end

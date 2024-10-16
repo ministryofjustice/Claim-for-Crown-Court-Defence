@@ -1604,7 +1604,9 @@ en:
           choose_file: 'Choose a file'
           file_name: "File name"
           upload_file: 'Upload file'
-          supporting_evidence_docs: 'Upload supporting evidence'
+          supporting_evidence_docs: 'Upload files'
+          files accepted: 'Files accepted: pdf, doc, docx, xls, xlsx, rtf, jpeg, png, tiff, bmp'
+          maximum_file_size: 'Maximum file size: 20MB'
           supporting_evidence: Supporting evidence
           file_upload_message: Drag and drop files here
           upload_supporting_evidence: Upload supporting evidence

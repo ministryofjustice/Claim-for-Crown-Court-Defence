@@ -3,7 +3,7 @@
     = t('external_users.claims.supporting_evidence_checklist.summary.header')
 
   - if local_assigns[:editable]
-    = govuk_link_to t('common.change_html', context: t('external_users.claims.supporting_evidence_checklist.summary.header')), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'link-change'
+    = govuk_link_to t('common.change_html', context: t('external_users.claims.supporting_evidence_checklist.summary.header')), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'govuk-!-static-margin-bottom-7 link-change'
 
   - if claim.mandatory_supporting_evidence?
     = govuk_summary_list do

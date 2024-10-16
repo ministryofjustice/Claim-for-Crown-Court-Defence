@@ -8,15 +8,19 @@
   - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
     = f.hidden_field :document_ids, multiple: true, value: document.id, id: "claim_document_ids_#{document.id}"
 
-%h3.govuk-heading-m{ class: "govuk-!-padding-top-7" }
-  = t('.upload_supporting_evidence')
+%h3.govuk-heading-m{ class:'govuk-!-static-margin-bottom-2' }
+  = t('.supporting_evidence_docs')
+%span
+  = t('.files accepted')
+%p
+  = t('.maximum_file_size')
 
 = f.govuk_file_field :documents,
-  form_group: { class: 'dropzone' },
+  form_group: { class: 'dropzone govuk-!-static-margin-bottom-4' },
   label: { text: t('.upload_file') },
   multiple: true
 
-= govuk_table(id: 'dropzone-files', class: 'files hidden') do
+= govuk_table(id: 'dropzone-files', class: 'files hidden govuk-!-static-margin-bottom-7') do
   = govuk_table_caption do
     = t('.uploading_docs')
 

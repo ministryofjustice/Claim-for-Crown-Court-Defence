@@ -17,4 +17,26 @@ RSpec.describe CaseWorkers::DefendantPresenter do
       it { is_expected.to be_empty }
     end
   end
+
+  describe '#cases' do
+    subject { defendant_presenter.cases }
+
+    let(:defendant) { build(:defendant) }
+
+    let(:cases) do
+      [
+        LAA::Cda::ProsecutionCase.new('prosecution_case_reference' => 'TEST1', 'case_status' => 'INACTIVE'),
+        LAA::Cda::ProsecutionCase.new('prosecution_case_reference' => 'TEST2', 'case_status' => 'ACTIVE')
+      ]
+    end
+
+    before do
+      allow(LAA::Cda::ProsecutionCase)
+        .to receive(:search)
+        .with({ name: defendant.name, date_of_birth: defendant.date_of_birth })
+        .and_return(cases)
+    end
+
+    it { is_expected.to eq(cases) }
+  end
 end

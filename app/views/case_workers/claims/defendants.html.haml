@@ -1,0 +1,38 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+%h1.govuk-heading-l
+  = "Defendants for claim #{@claim.case_number} (##{@claim.id})"
+
+%p
+  = govuk_link_to 'Return to claim summary', case_workers_claim_path(@claim)
+
+= govuk_warning_text "HMCTS Common Platform searches below are based on defendants' names and dates of birth."
+
+.govuk-accordion#accordion-default{ data: { module: 'govuk-accordion' } }
+  - @claim.defendants.map { |d| present(d, CaseWorkers::DefendantPresenter) }.each_with_index do |defendant, defendant_i|
+    .govuk-accordion__section
+      .govuk-accordion__section-header
+        %h2.govuk-accordion__section-heading
+          %span.govuk-accordion__section-button{ id: "defendant-#{defendant_i}-heading" }
+            = defendant.name
+      .govuk-accordion__section-content{ id: "defendant-#{defendant_i}-content" }
+        %p.govuk-body
+          = "#{defendant.cases.count} #{'case'.pluralize(defendant.cases.count)} found in Common Platform for '#{defendant.name}' with date of birth #{defendant.date_of_birth}"
+        %p.govuk-body View case in View Court Data:
+        %table.govuk-table
+          %thead.govuk-table__head
+            %tr.govuk-table__row
+              %th.govuk-table__header Case
+              %th.govuk-table__header Representation orders
+          %tbody.govuk-table__body
+            - # Inelegantly sorting to try to put the correct claim at the top
+            - defendant.cases.sort_by { |c| (c.case_number == @claim.case_number) ? 0 : 1 }.each do |hmcts_case|
+              %tr.govuk-table__row
+                %td.govuk-table__cell
+                  = govuk_link_to hmcts_case.case_number, "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{hmcts_case.case_number}"
+                %td.govuk-table__cell
+                  %ul.govuk-list.govuk-list--bullet
+                    - hmcts_case.defendants.each do |d|
+                      %li
+                        = "#{d.name}: #{d.representation_order ? d.representation_order.reference : 'No representation order recorded'}"

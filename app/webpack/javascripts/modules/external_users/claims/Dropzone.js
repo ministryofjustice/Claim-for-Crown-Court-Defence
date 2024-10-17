@@ -169,8 +169,6 @@ moj.Modules.Dropzone = {
         const fileName = file.name;
         const errorMessage = xhr.responseJSON ? xhr.responseJSON.error : xhr.responseText;
 
-        console.log('Full Error:', errorMessage);  // Debugging step
-
         if (status === 'timeout') {
           tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red word-wrap', 'Upload timed out'))
           this.status.html('Upload timed out');

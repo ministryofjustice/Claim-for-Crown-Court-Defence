@@ -167,15 +167,17 @@ moj.Modules.Dropzone = {
 
       error: function (xhr, status, error) {
         const fileName = file.name
+        const errorMessage = xhr.responseJSON ? xhr.responseJSON.error : xhr.responseText
+
         if (status === 'timeout') {
           tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red word-wrap', 'Upload timed out'))
           this.status.html('Upload timed out')
-        } else if (error === 'Unprocessable Content') {
+        } else if (errorMessage.includes('Unprocessable Content') || errorMessage.includes('invalid content type')) {
           tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red word-wrap', 'Invalid file type'))
           this.status.html('Invalid file type')
         } else {
-          tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red word-wrap', xhr.responseJSON.error))
-          this.status.html(fileName + ' ' + xhr.responseJSON.error)
+          tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red word-wrap', errorMessage))
+          this.status.html(`${fileName} ${errorMessage}`)
         }
       }.bind(this),
 

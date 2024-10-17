@@ -335,6 +335,10 @@ form {
     word-break: break-word;
   }
 
+  .word-wrap {
+    word-break: normal;
+  }
+
   .success {
     color: govuk-colour("green");
     font-weight: 700;

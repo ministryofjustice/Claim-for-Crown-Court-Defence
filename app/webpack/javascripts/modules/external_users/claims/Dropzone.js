@@ -166,16 +166,17 @@ moj.Modules.Dropzone = {
       }.bind(this),
 
       error: function (xhr, status, error) {
-        const fileName = file.name
+        const fileName = file.name;
+
         if (status === 'timeout') {
           tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red word-wrap', 'Upload timed out'))
-          this.status.html('Upload timed out')
-        } else if (error === 'Unprocessable Content') {
+          this.status.html('Upload timed out');
+        } else if (error === 'Unprocessable Content' || error === 'has an invalid content type') {
           tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red word-wrap', 'Invalid file type'))
-          this.status.html('Invalid file type')
+          this.status.html('Invalid file type');
         } else {
           tableRow.replaceWith(this.notificationHTML(fileName, 'govuk-tag govuk-tag--red word-wrap', xhr.responseJSON.error))
-          this.status.html(fileName + ' ' + xhr.responseJSON.error)
+          this.status.html(fileName + ' ' + xhr.responseJSON.error);
         }
       }.bind(this),
 

@@ -148,7 +148,7 @@ GEM
       selenium-webdriver
     case_transform (0.2)
       activesupport
-    chartkick (5.1.0)
+    chartkick (5.1.1)
     childprocess (5.1.0)
       logger (~> 1.5)
     cocoon (1.2.15)
@@ -685,7 +685,7 @@ DEPENDENCIES
   cancancan (~> 3.6)
   capybara (~> 3.40)
   capybara-selenium
-  chartkick (~> 5.1.0)
+  chartkick (~> 5.1.1)
   cocoon (~> 1.2.15)
   config (~> 5.5)
   cucumber-rails (~> 3.0.0)

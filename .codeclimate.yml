@@ -56,3 +56,4 @@ exclude_patterns: # customize
 - script/*
 - Gemfile*
 - scheduled_tasks/*_task.rb
+- app/webpack/javascripts/modules/external_users/claims/Dropzone.js

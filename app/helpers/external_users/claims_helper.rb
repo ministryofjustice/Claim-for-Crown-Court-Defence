@@ -98,4 +98,10 @@ module ExternalUsers::ClaimsHelper
     return ExpenseType::REASON_SET_A if expense_type.blank?
     expense_type.expense_reasons_hash
   end
+
+  def trial_dates_fields_classes(show)
+    return ['govuk-!-padding-top-7'] if show
+
+    ['govuk-!-padding-top-7', 'hidden']
+  end
 end

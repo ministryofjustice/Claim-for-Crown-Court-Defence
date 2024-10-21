@@ -1,4 +1,4 @@
-#trial-dates{ class: @claim&.case_type&.requires_trial_dates? ? nil : 'hidden', class: "govuk-!-padding-top-7" }
+#trial-dates{ class: trial_dates_fields_classes(@claim&.case_type&.requires_trial_dates?) }
   %h3.govuk-heading-m
     = t('.trial_detail')
 

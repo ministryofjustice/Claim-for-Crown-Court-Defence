@@ -403,4 +403,20 @@ describe ExternalUsers::ClaimsHelper do
       end
     end
   end
+
+  describe '#trial_dates_fields_classes' do
+    subject { helper.trial_dates_fields_classes(show) }
+
+    context 'when fields to be visible' do
+      let(:show) { true }
+
+      it { is_expected.to contain_exactly('govuk-!-padding-top-7') }
+    end
+
+    context 'when fields not to be visible' do
+      let(:show) { false }
+
+      it { is_expected.to contain_exactly('govuk-!-padding-top-7', 'hidden') }
+    end
+  end
 end

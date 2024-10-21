@@ -6,7 +6,7 @@ RSpec.describe 'Court data view' do
   let(:claim) { create(:claim) }
 
   describe 'GET case_workers/claims/<id>/court_data' do
-    subject(:show_court_data) { get(case_workers_claim_court_data_path(claim)) }
+    subject(:show_court_data) { get(case_workers_claim_court_data_index_path(claim)) }
 
     before { show_court_data }
 

@@ -15,7 +15,7 @@ module CaseWorkers
     before_action :filter_current_claims,   only: [:index]
     before_action :filter_archived_claims,  only: [:archived]
     before_action :sort_claims,             only: %i[index archived]
-    before_action :set_claim, only: %i[show messages download_zip defendants]
+    before_action :set_claim, only: %i[show messages download_zip]
 
     include ReadMessages
     include MessageControlsDisplay
@@ -52,8 +52,6 @@ module CaseWorkers
         render :show
       end
     end
-
-    def defendants; end
 
     private
 

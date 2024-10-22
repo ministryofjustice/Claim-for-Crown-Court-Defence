@@ -10,7 +10,7 @@ data:
   RAILS_SERVE_STATIC_FILES: only-presence-required-to-enable
   GRAPE_SWAGGER_ROOT_URL: 'https://dev-lgfs.claim-crown-court-defence.service.justice.gov.uk'
   CASEWORKER_API_URL: 'http://cccd-app-service'
-  GA_TRACKER_ID: 'UA-37377084-48'
+  GA_TRACKER_ID: 'G-GK279GHP21'
   MAINTENANCE_MODE: 'false'
   SETTINGS__SLACK__BOT_NAME: 'Injectotron'
   SETTINGS__SLACK__FAIL_ICON: ':katyperry:'

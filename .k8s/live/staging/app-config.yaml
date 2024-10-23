@@ -11,7 +11,6 @@ data:
   GRAPE_SWAGGER_ROOT_URL: 'https://staging.claim-crown-court-defence.service.justice.gov.uk'
   CASEWORKER_API_URL: 'http://cccd-app-service'
   GA_TRACKER_ID: 'G-GK279GHP21'
-  GTM_TRACKER_ID: 'GTM-PNZFWQT'
   MAINTENANCE_MODE: 'false'
   SETTINGS__SLACK__BOT_NAME: 'Injectotron'
   SETTINGS__SLACK__FAIL_ICON: ':katyperry:'

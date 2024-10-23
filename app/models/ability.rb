@@ -52,6 +52,7 @@ class Ability
     can %i[new create], Allocation
     can :view, :management_information
     can %i[dismiss], InjectionAttempt
+    can %i[index], CourtData
     can_administer_any_provider if persona.roles.include?('provider_management')
   end
 
@@ -62,6 +63,7 @@ class Ability
     end
     can_administer_any_provider if persona.roles.include?('provider_management')
     can %i[show download], Document
+    can %i[index], CourtData
     can_manage_own_password(persona)
     can %i[dismiss], InjectionAttempt
   end

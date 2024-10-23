@@ -30,6 +30,8 @@ RSpec.describe Ability do
     context 'with user management' do
       it { is_expected.not_to be_able_to(:index, User) }
     end
+
+    it { is_expected.not_to be_able_to(:index, CourtData) }
   end
 
   context 'when a signed in user' do
@@ -134,6 +136,8 @@ RSpec.describe Ability do
     context 'with user management' do
       it { is_expected.not_to be_able_to(:index, User) }
     end
+
+    it { is_expected.not_to be_able_to(:index, CourtData) }
   end
 
   context 'external_user admin' do
@@ -240,6 +244,8 @@ RSpec.describe Ability do
     context 'with user management' do
       it { is_expected.not_to be_able_to(:index, User) }
     end
+
+    it { is_expected.not_to be_able_to(:index, CourtData) }
   end
 
   context 'external_user litigator' do
@@ -308,6 +314,8 @@ RSpec.describe Ability do
     context 'with user management' do
       it { is_expected.not_to be_able_to(:index, User) }
     end
+
+    it { is_expected.not_to be_able_to(:index, CourtData) }
   end
 
   context 'external_user litigator admin' do
@@ -392,6 +400,8 @@ RSpec.describe Ability do
     context 'with user management' do
       it { is_expected.not_to be_able_to(:index, User) }
     end
+
+    it { is_expected.not_to be_able_to(:index, CourtData) }
   end
 
   context 'case worker' do
@@ -458,6 +468,8 @@ RSpec.describe Ability do
     context 'with user management' do
       it { is_expected.not_to be_able_to(:index, User) }
     end
+
+    it { is_expected.to be_able_to(:index, CourtData) }
   end
 
   context 'with a case worker admin' do
@@ -499,6 +511,8 @@ RSpec.describe Ability do
     context 'with user management' do
       it { is_expected.not_to be_able_to(:index, User) }
     end
+
+    it { is_expected.to be_able_to(:index, CourtData) }
   end
 
   context 'with a case worker provider manager' do

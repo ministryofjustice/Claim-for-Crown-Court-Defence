@@ -43,7 +43,7 @@ RSpec.describe CourtData do
           },
           {
             params: { name: 'Arthur Raffles', date_of_birth: Date.parse('1939-08-17') },
-            response: [instance_double(LAA::Cda::ProsecutionCase, case_number: 'TEST12345')]
+            response: [hmcts_case]
           }
         ]
       end
@@ -52,6 +52,19 @@ RSpec.describe CourtData do
           create(:defendant, first_name: 'Zaphod', last_name: 'Beeblebrox', date_of_birth: Date.parse('2000-01-01')),
           create(:defendant, first_name: 'Arthur', last_name: 'Raffles', date_of_birth: Date.parse('1939-08-17'))
         ]
+      end
+      let(:hmcts_case) do
+        instance_double(
+          LAA::Cda::ProsecutionCase,
+          case_number: 'TEST12345',
+          defendants: claim_defendants.map do |defendant|
+            instance_double(
+              LAA::Cda::Defendant,
+              representation_order: instance_double(LAA::Cda::RepresentationOrder,
+                                                    reference: defendant.earliest_representation_order.maat_reference)
+            )
+          end
+        )
       end
 
       it { is_expected.to match(hash_including(hmcts: 'TEST12345', claim: 'TEST12345')) }
@@ -112,12 +125,23 @@ RSpec.describe CourtData do
         ]
       end
 
+      it { expect(court_data).to have(2).defendants }
+
       it do
-        is_expected.to match_array(claim_defendants.map do |defendant|
-          hash_including(maat_reference: defendant.earliest_representation_order.maat_reference, hmcts: nil,
-                         claim: hash_including(name: defendant.name))
-        end)
+        is_expected.to include(have_attributes(
+                                 maat_reference: claim_defendants[0].earliest_representation_order.maat_reference,
+                                 claim: have_attributes(name: claim_defendants[0].name),
+                                 hmcts: nil
+                               ))
       end
+
+      it {
+        is_expected.to include(have_attributes(
+                                 maat_reference: claim_defendants[1].earliest_representation_order.maat_reference,
+                                 claim: have_attributes(name: claim_defendants[1].name),
+                                 hmcts: nil
+                               ))
+      }
     end
 
     context 'when the defendant in Common Platform does not match' do
@@ -148,15 +172,31 @@ RSpec.describe CourtData do
         ]
       end
 
+      it { expect(court_data).to have(3).defendants }
+
       it do
-        is_expected.to contain_exactly(
-          *claim_defendants.map do |defendant|
-            hash_including(maat_reference: defendant.earliest_representation_order.maat_reference, hmcts: nil,
-                           claim: hash_including(name: defendant.name))
-          end,
-          hash_including(maat_reference: '9999999', hmcts: hash_including(name: 'Billy The Kid'), claim: nil)
-        )
+        is_expected.to include(have_attributes(
+                                 maat_reference: claim_defendants[0].earliest_representation_order.maat_reference,
+                                 claim: have_attributes(name: claim_defendants[0].name),
+                                 hmcts: nil
+                               ))
       end
+
+      it {
+        is_expected.to include(have_attributes(
+                                 maat_reference: claim_defendants[1].earliest_representation_order.maat_reference,
+                                 claim: have_attributes(name: claim_defendants[1].name),
+                                 hmcts: nil
+                               ))
+      }
+
+      it {
+        is_expected.to include(have_attributes(
+                                 maat_reference: '9999999',
+                                 claim: nil,
+                                 hmcts: have_attributes(name: 'Billy The Kid')
+                               ))
+      }
     end
 
     context 'when the defendant in Common Platform has a matching MAAT reference' do
@@ -187,19 +227,14 @@ RSpec.describe CourtData do
         ]
       end
 
+      it { expect(court_data).to have(2).defendants }
+      it { is_expected.to include(have_attributes(claim: have_attributes(name: 'Arthur Raffles'), hmcts: nil)) }
+
       it do
-        is_expected.to contain_exactly(
-          hash_including(
-            maat_reference: claim_defendants[0].earliest_representation_order.maat_reference,
-            hmcts: nil,
-            claim: hash_including(name: 'Arthur Raffles')
-          ),
-          hash_including(
-            maat_reference: claim_defendants[1].earliest_representation_order.maat_reference,
-            hmcts: hash_including(name: 'Hawley Harvey Crippen'),
-            claim: hash_including(name: 'Hawley Crippen')
-          )
-        )
+        is_expected.to include(have_attributes(
+                                 claim: have_attributes(name: 'Hawley Crippen'),
+                                 hmcts: have_attributes(name: 'Hawley Harvey Crippen')
+                               ))
       end
     end
 
@@ -231,22 +266,39 @@ RSpec.describe CourtData do
         ]
       end
 
+      it { expect(court_data).to have(4).defendants }
+
       it do
-        is_expected.to contain_exactly(
-          *claim_defendants.map do |defendant|
-            hash_including(maat_reference: defendant.earliest_representation_order.maat_reference, hmcts: nil,
-                           claim: hash_including(name: defendant.name))
-          end,
-          hash_including(
-            maat_reference: 'No representation order recorded',
-            hmcts: hash_including(name: 'Hawley Harvey Crippen')
-          ),
-          hash_including(
-            maat_reference: 'No representation order recorded',
-            hmcts: hash_including(name: 'Arthur Justice Raffles')
-          )
-        )
+        is_expected.to include(have_attributes(
+                                 maat_reference: claim_defendants[0].earliest_representation_order.maat_reference,
+                                 claim: have_attributes(name: claim_defendants[0].name),
+                                 hmcts: nil
+                               ))
       end
+
+      it {
+        is_expected.to include(have_attributes(
+                                 maat_reference: claim_defendants[1].earliest_representation_order.maat_reference,
+                                 claim: have_attributes(name: claim_defendants[1].name),
+                                 hmcts: nil
+                               ))
+      }
+
+      it {
+        is_expected.to include(have_attributes(
+                                 maat_reference: 'No representation order recorded',
+                                 claim: nil,
+                                 hmcts: have_attributes(name: 'Hawley Harvey Crippen')
+                               ))
+      }
+
+      it {
+        is_expected.to include(have_attributes(
+                                 maat_reference: 'No representation order recorded',
+                                 claim: nil,
+                                 hmcts: have_attributes(name: 'Arthur Justice Raffles')
+                               ))
+      }
     end
   end
 end

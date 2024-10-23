@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe 'Court data view' do
-  before { sign_in user.user }
+  before do
+    sign_in user.user
+    allow(LAA::Cda::ProsecutionCase).to receive(:search).and_return([])
+  end
 
   let(:claim) { create(:claim) }
 

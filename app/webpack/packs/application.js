@@ -78,3 +78,4 @@ import '../javascripts/plugins/jquery.numbered.elements.js'
 import '../javascripts/application.js'
 
 import './govuk-frontend.js'
+import './moj-frontend.js'

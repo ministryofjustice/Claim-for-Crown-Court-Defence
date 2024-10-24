@@ -1,5 +1,6 @@
 class Document < ApplicationRecord
   include Duplicable
+  include ActionView::Helpers::NumberHelper
 
   belongs_to :external_user
   belongs_to :creator, class_name: 'ExternalUser'
@@ -61,6 +62,14 @@ class Document < ApplicationRecord
 
   def document_file_size
     document.byte_size if document.attached?
+  end
+
+  def document_file_size_in_kb
+    number_to_human_size(document.byte_size) if document.attached?
+  end
+
+  def document_date_added
+    document.created_at.strftime('%m/%d/%y')
   end
 
   private

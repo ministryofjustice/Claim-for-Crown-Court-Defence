@@ -2171,8 +2171,9 @@ en:
       caption: 'Evidence Provided: A list of uploaded documents'
       summary: 'Note: View and Download links are in 4th column, Actions'
       existing_evidence: Existing evidence
-      no_documents_uploaded: No documents have been uploaded.
-      name_of_file: Name of file
+      download_all: Download all
+      no_supporting_evidence: There is no supporting evidence for this claim
+      file: File
       file_size: File size
       date_added: Date added
       actions: Actions
@@ -2430,7 +2431,7 @@ en:
       additional_information: Additional claim information
       created_by: 'Created by:'
       h2_basic_info: Basic claim information
-      h2_evidence: Evidence
+      h2_evidence: Supporting evidence
       h2_messages: Messages and claim status
       h2_status: Status
       h2_summary: Fees, expenses and more information

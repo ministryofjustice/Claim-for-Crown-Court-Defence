@@ -5,28 +5,11 @@
   - if local_assigns[:editable]
     = govuk_link_to t('common.change_html', context: t('external_users.claims.supporting_evidence_checklist.summary.header')), edit_polymorphic_path(claim, step: :supporting_evidence, referrer: :summary), class: 'govuk-!-static-margin-bottom-7 link-change'
 
+  - unless @claim.evidence_checklist_ids.empty?
+    = render partial: 'shared/supporting_evidence_checklist', locals: { f: @claim }
+
   - if claim.mandatory_supporting_evidence?
-    = govuk_summary_list do
-      = govuk_summary_list_row_collection( t('shared.summary.disk_evidence') ) { claim.disk_evidence ? t('.answer_yes') : t('.answer_no') }
-      = govuk_summary_list_row_collection( t('shared.summary.disk_evidence_reference') ) { claim.disk_evidence_reference }
-
-      = govuk_summary_list_row_collection( t('shared.summary.supporting_evidence') ) do
-        %ul.govuk-list
-          - claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
-            %li
-              = govuk_link_to document.document_file_name,
-                        download_document_path(document),
-                        class: 'download',
-                        'aria-label': "Download document: #{document.document_file_name}"
-
-      = govuk_summary_list_row_collection( t('shared.summary.supporting_evidence_checklist') ) do
-        %ul.govuk-list
-          - DocType.find_by_ids(claim.evidence_checklist_ids).each do |dt|
-            %li
-              = dt.name
-
-      - if claim.additional_information.present?
-        = govuk_summary_list_row_collection( t('external_users.claims.additional_information.summary.header') ) { format_multiline(claim.additional_information) }
+    = render partial: 'shared/supporting_evidence_uploads', locals: {f: @claim }
 
   - else
     - if local_assigns.has_key?(:editable) && !local_assigns[:editable]

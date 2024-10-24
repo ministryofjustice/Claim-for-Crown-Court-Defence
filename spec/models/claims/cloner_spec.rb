@@ -240,7 +240,7 @@ RSpec.describe Claims::Cloner do
 
   def representation_orders_for(defendants)
     [].tap do |collection|
-      defendants.each { |d| collection << d.representation_orders }
+      defendants.map { |d| collection << d.representation_orders }
     end.flatten
   end
 end

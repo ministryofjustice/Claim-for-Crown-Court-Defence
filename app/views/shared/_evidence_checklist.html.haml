@@ -1,20 +1,8 @@
-.evidence-checklist-read-only
-  - if @claim.disk_evidence?
+- if @claim.disk_evidence?
+  .evidence-checklist-read-only
     %h3.govuk-heading-m
       = t('.evidence_address')
     = render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: @claim }
 
-  %h3.govuk-heading-m
-    = t('shared.evidence_checklist.caption')
-  - if current_user.persona.is_a? ExternalUser
-    %p.form-hint
-      = t('.evidence_hint')
-
-  - if @claim.evidence_checklist_ids.empty?
-    %p
-      = t('.no_evidence')
-  - else
-    %ul.govuk-list
-      - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
-        %li
-          = dt.name
+    - unless @claim.evidence_checklist_ids.empty?
+      = render partial: 'shared/supporting_evidence_checklist', locals: { f: @claim }

@@ -37,6 +37,45 @@
   }
 }
 
+// Formats the row length of the 'Existing evidence' table
+.custom-summary-card .govuk-summary-list__row {
+  display: flex;
+}
+
+.custom-summary-card .govuk-summary-list__key.file-name,
+.custom-summary-card .govuk-summary-list__value.file-name {
+  flex: 3;
+  text-align: left;
+}
+
+.custom-summary-card .govuk-summary-list__key.file-info,
+.custom-summary-card .govuk-summary-list__value.file-info {
+  flex: 1;
+  text-align: right;
+}
+
+.format-supporting-evidence-list {
+  margin-left: 0;
+  padding-top: 0;
+  padding-left: 10px;
+  list-style-type: none;
+}
+
+.download-all-link {
+  display: inline-block;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.no-bullets-item {
+  list-style-type: none;
+}
+
+.remove-margin {
+  margin: 0;
+}
+
 #claims-list>li {
   padding: 1rem;
   clear: both;

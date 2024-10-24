@@ -87,7 +87,7 @@ class RepresentationOrderValidator < BaseValidator
   end
 
   def earliest_permitted
-    if claim&.lgfs? && claim&.interim?
+    if claim.lgfs? && claim.interim?
       { date: Settings.interim_earliest_permitted_repo_date, error: :not_before_interim_earliest_permitted_date }
     else
       { date: Settings.earliest_permitted_date, error: :not_before_earliest_permitted_date }

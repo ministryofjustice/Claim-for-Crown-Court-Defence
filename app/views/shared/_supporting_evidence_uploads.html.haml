@@ -1,0 +1,16 @@
+.govuk-summary-card.custom-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title= (t('shared.evidence_list.existing_evidence'))
+  .govuk-summary-card__content
+    %dl.govuk-summary-list
+      %div.govuk-summary-list__row
+        %div.govuk-summary-list__key.file-name= (t('shared.evidence_list.file'))
+        %div.govuk-summary-list__key.file-info= (t('shared.evidence_list.file_size'))
+        %div.govuk-summary-list__key.file-info= (t('shared.evidence_list.date_added'))
+
+      - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
+        %div.govuk-summary-list__row
+          %div.govuk-summary-list__value.file-name= govuk_link_to document.document_file_name, download_document_path(document)
+          %div.govuk-summary-list__value.file-info= document.document_file_size_in_kb
+          %div.govuk-summary-list__value.file-info= document.document_date_added
+

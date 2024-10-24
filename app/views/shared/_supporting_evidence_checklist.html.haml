@@ -1,0 +1,10 @@
+.div.govuk-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title= (t('shared.summary.supporting_evidence_checklist'))
+  .govuk-summary-card__content
+    %dl.govuk-summary-list
+      = govuk_summary_list do
+        %ul.remove-margin
+        - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
+          %li.no-bullets-item.format-supporting-evidence-list
+            = dt.name

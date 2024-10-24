@@ -37,7 +37,7 @@ moj.Modules.Messaging = {
       adpMsg.clearUserMessageBody()
       $('.no-messages').hide()
       $('.file-to-be-uploaded').hide()
-      $('#message-attachment-field').val('')
+      $('#message-attachments-field').val('')
       this.messagesList.html(rorData.sentMessage).scrollTop(this.messagesList.prop('scrollHeight'))
     // If there was an error
     } else {
@@ -65,7 +65,7 @@ moj.Modules.Messaging = {
   selectedFileUpload: function () {
     const self = this
 
-    self.messageControls.on('change', '#message-attachment-field', function () {
+    self.messageControls.on('change', '#message-attachments-field', function () {
       const $element = $(this)
       const filename = $element.val().replace(/C:\\fakepath\\/i, '')
       const $controls = self.messageControls
@@ -84,7 +84,7 @@ moj.Modules.Messaging = {
 
       event.preventDefault()
       $element.closest('.file-to-be-uploaded').hide()
-      $('#message-attachment-field').val('')
+      $('#message-attachments-field').val('')
     })
   },
 

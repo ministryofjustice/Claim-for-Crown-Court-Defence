@@ -45,6 +45,16 @@ updates:
   rebase-strategy: "disabled"
   allow:
     - dependency-type: "all"
+  ignore:
+    - dependency-name: "rails"
+      versions:
+        - ">= 7.1"
+    - dependency-name: "active*"
+      versions:
+        - ">= 7.1"
+    - dependency-name: "action*"
+      versions:
+        - ">= 7.1"
   reviewers:
   - "mpw5"
   - "jrmhaig"

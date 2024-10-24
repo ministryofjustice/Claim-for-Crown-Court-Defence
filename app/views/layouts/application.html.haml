@@ -32,10 +32,6 @@
 
     = govuk_skip_link_to(t('layouts.skip_content'), '#main-content')
 
-    - if GoogleAnalytics::DataTracking.tag_manager?
-      %noscript
-        %iframe{ src: "https://www.googletagmanager.com/ns.html?id=#{ENV['GTM_TRACKER_ID']}", style: 'display: none; visibility: hidden', height: '0', width: '0' }
-
     %header.govuk-header.with-proposition{ data: { module: 'govuk-header' } }
       .govuk-header__container.govuk-width-container
         .govuk-header__logo

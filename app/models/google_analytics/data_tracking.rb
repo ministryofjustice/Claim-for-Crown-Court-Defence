@@ -7,10 +7,6 @@ module GoogleAnalytics
         usage_name && adapter.present? && Rails.env.production?
       end
 
-      def tag_manager?
-        enabled? && adapter_name.eql?(:gtm)
-      end
-
       def analytics?
         enabled? && adapter_name.eql?(:ga)
       end

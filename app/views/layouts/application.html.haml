@@ -17,7 +17,7 @@
     = stylesheet_link_tag 'application', media: 'all'
     = tag :meta, property: 'og:image', content: request.base_url + asset_path('govuk-opengraph-image.png')
 
-    - if GoogleAnalytics::DataTracking.enabled? && !@disable_analytics
+    - if GoogleAnalytics::DataTracking.enabled?
       = render partial: 'layouts/analytics', formats: :js, locals: { adapter: GoogleAnalytics::DataTracking.adapter_name }
       - if GoogleAnalytics::DataTracking.analytics?
         = javascript_tag nonce: true do
@@ -32,7 +32,7 @@
 
     = govuk_skip_link_to(t('layouts.skip_content'), '#main-content')
 
-    - if GoogleAnalytics::DataTracking.tag_manager? && !@disable_analytics
+    - if GoogleAnalytics::DataTracking.tag_manager?
       %noscript
         %iframe{ src: "https://www.googletagmanager.com/ns.html?id=#{ENV['GTM_TRACKER_ID']}", style: 'display: none; visibility: hidden', height: '0', width: '0' }
 
@@ -47,7 +47,7 @@
           = render 'layouts/user' if user_signed_in?
 
     .govuk-width-container
-      = govuk_phase_banner(nil, t('.phase_banner_html', feedback: new_feedback_path, feedback_type: new_feedback_path(type: 'bug_report'), query_claim: contact_us_page_path)) unless @disable_phase_banner
+      = govuk_phase_banner(nil, t('.phase_banner_html', feedback: new_feedback_path, feedback_type: new_feedback_path(type: 'bug_report'), query_claim: contact_us_page_path))
 
       = render partial: 'layouts/primary_navigation'
 
@@ -55,7 +55,7 @@
         .govuk-grid-row
           .govuk-grid-column-two-thirds
             = render partial: 'shared/downtime_warning'
-            = render partial: 'layouts/flashes' unless flash.empty? || @disable_flashes
+            = render partial: 'layouts/flashes' unless flash.empty?
             = content_for :page_heading
 
         = yield

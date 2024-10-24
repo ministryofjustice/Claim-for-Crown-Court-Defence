@@ -1,5 +1,5 @@
 = f.govuk_check_boxes_fieldset :evidence_checklist_ids,
-  form_group: { class: 'cc-evidence-checklist', 'data-mute-indictment': @claim.allows_fixed_fees? ? 'true' : 'false' },
+  form_group: { class: 'cc-evidence-checklist govuk-!-static-margin-bottom-7', 'data-mute-indictment': @claim.allows_fixed_fees? ? 'true' : 'false' },
   hint: { text: t('.supporting_evidence_checklist_hint') },
   legend: { text: t('.supporting_evidence_checklist'), size: 's' } do
 

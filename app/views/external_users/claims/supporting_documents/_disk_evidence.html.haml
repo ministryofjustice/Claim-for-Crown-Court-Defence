@@ -1,4 +1,4 @@
-= f.govuk_radio_buttons_fieldset :disk_evidence, legend: { size: 'm', text: t('disk_evidence.question'),  class: "govuk-!-padding-top-7" } do
+= f.govuk_radio_buttons_fieldset :disk_evidence, legend: { size: 'm', text: t('disk_evidence.question'), class: "govuk-!-padding-top-7" }, class: "govuk-!-margin-bottom-2" do
   = f.govuk_radio_button :disk_evidence, 'true', label: { text: t('global_yes') }, link_errors: true do
     = render partial: 'shared/disk_evidence_info'
   = f.govuk_radio_button :disk_evidence, 'false', label: { text: t('global_no') }

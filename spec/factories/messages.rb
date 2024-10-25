@@ -32,7 +32,7 @@ FactoryBot.define do
 
   trait :with_attachment do
     after(:build) do |message|
-      message.attachments.attach(io: File.open('features/examples/shorter_lorem.docx'), filename: 'fshorter_lorem.docx', content_type: 'application/msword')
+      message.attachments.attach(io: File.open('features/examples/shorter_lorem.docx'), filename: 'shorter_lorem.docx', content_type: 'application/msword')
     end
   end
 end

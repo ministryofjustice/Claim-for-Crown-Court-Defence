@@ -256,12 +256,9 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       let(:refused_at) { 1.week.ago.beginning_of_day + 11.hours + 15.minutes }
       let(:claim) { create(:advocate_final_claim, :authorised) }
 
-      before do
-        pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
-      end
-
       context 'with a completed journey' do
         before do
+          pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
           travel_to(authorised_at) { claim }
 
           travel_to(redetermine_at) do
@@ -279,6 +276,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
 
       context 'with an uncompleted journey' do
         before do
+          pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
           travel_to(authorised_at) { claim }
 
           travel_to(redetermine_at) do
@@ -304,6 +302,7 @@ RSpec.describe Stats::ManagementInformation::DailyReportQuery do
       #
       context 'when handling timezones' do
         before do
+          # pending 'Bug with timezones in BST' # TODO: reinstate this line when entering BST
           create(:advocate_final_claim, :authorised)
         end
 

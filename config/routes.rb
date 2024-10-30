@@ -175,7 +175,9 @@ Rails.application.routes.draw do
       get 'archived', on: :collection
       get 'download_zip', on: :member
 
-      resources :court_data, only: :index, on: :member
+      resources :court_data, only: :index, on: :member do
+        post 'feedback', on: :collection
+      end
     end
 
     namespace :admin do

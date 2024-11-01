@@ -24,4 +24,29 @@ RSpec.describe SurveyMonkey::Configuration do
       end
     end
   end
+
+  describe '#register_collector' do
+    subject(:register) { SurveyMonkey.configure { |config| config.register_collector(collector_name, id:) } }
+
+    context 'with a new collector' do
+      let(:collector_name) { :collector_one }
+      let(:id) { 123 }
+
+      before { SurveyMonkey.configure(&:clear_collectors) }
+
+      it do
+        register
+        expect(SurveyMonkey.collector_by_name(collector_name).id).to eq(123)
+      end
+    end
+
+    context 'with an existing collector with the same name' do
+      let(:collector_name) { :collector_one }
+      let(:id) { 123 }
+
+      before { SurveyMonkey.configure { |config| config.register_collector(collector_name, id: 456) } }
+
+      it { expect { register }.to change { SurveyMonkey.collector_by_name(collector_name).id }.from(456).to(123) }
+    end
+  end
 end

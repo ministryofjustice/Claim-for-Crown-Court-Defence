@@ -15,6 +15,8 @@ module SurveyMonkey
       configuration.pages.page_by_name(name)
     end
 
+    def collector_by_name(name) = configuration.collectors[name]
+
     def connection
       @configuration.connection
     end
@@ -31,6 +33,7 @@ module SurveyMonkey
   end
 
   class UnregisteredPage < StandardError; end
+  class UnregisteredCollector < StandardError; end
   class UnregisteredQuestion < StandardError; end
   class UnregisteredResponse < StandardError; end
 end

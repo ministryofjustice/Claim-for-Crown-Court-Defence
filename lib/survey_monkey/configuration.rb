@@ -1,6 +1,6 @@
 module SurveyMonkey
   class Configuration
-    attr_accessor :root_url, :bearer, :collector_id, :logger, :verbose_logging
+    attr_accessor :root_url, :bearer, :logger, :verbose_logging
     attr_reader :pages, :collectors
 
     def initialize

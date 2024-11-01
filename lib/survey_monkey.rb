@@ -21,10 +21,6 @@ module SurveyMonkey
       @configuration.connection
     end
 
-    def collector_id
-      @configuration.collector_id
-    end
-
     def log(level, message)
       return if @configuration.logger.nil?
 
@@ -36,4 +32,5 @@ module SurveyMonkey
   class UnregisteredCollector < StandardError; end
   class UnregisteredQuestion < StandardError; end
   class UnregisteredResponse < StandardError; end
+  class MismatchedCollectors < StandardError; end
 end

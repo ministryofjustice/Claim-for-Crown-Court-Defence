@@ -1,9 +1,10 @@
 module SurveyMonkey
   class Response
-    delegate :connection, :collector_id, :page_by_name, :log, to: :SurveyMonkey, private: true
+    delegate :connection, :page_by_name, :log, to: :SurveyMonkey, private: true
 
     def initialize
       @pages = []
+      @collector = nil
     end
 
     def submit
@@ -11,7 +12,7 @@ module SurveyMonkey
       log(:info, "Sending response. #{survey_response.inspect}")
 
       response = connection.post(
-        "collectors/#{collector_id}/responses",
+        "collectors/#{@collector.id}/responses",
         survey_response.to_json,
         content_type: 'application/json'
       )
@@ -19,8 +20,10 @@ module SurveyMonkey
       parse(response)
     end
 
-    def add_page(page, **)
-      @pages << page_by_name(page).answers(**)
+    def add_page(page_id, **)
+      page = page_by_name(page_id)
+      update_collector(page)
+      @pages << page.answers(**)
     end
 
     private
@@ -33,6 +36,14 @@ module SurveyMonkey
       else
         log(:error, "Failed to submit response: #{body}")
         { success: false, error_code: body['error']['id'].to_i }
+      end
+    end
+
+    def update_collector(page)
+      if @collector.nil?
+        @collector = page.collector
+      else
+        raise MismatchedCollectors unless @collector == page.collector
       end
     end
   end

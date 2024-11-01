@@ -5,7 +5,7 @@ module SurveyMonkey
     def initialize(page, id:, collector:, questions: {})
       @id = id
       @name = page
-      @collector = collector
+      @collector = SurveyMonkey.collector_by_name(collector)
       @questions = questions.transform_values do |options|
         Question.create(options[:id], options[:format], **options)
       end

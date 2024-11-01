@@ -8,7 +8,8 @@ RSpec.describe SurveyMonkey do
     described_class.configure do |config|
       config.root_url = survey_monkey_root
       config.bearer = authorization_bearer
-      config.register_page(:test_survey, 123)
+      config.register_collector(:test_collector, id: 999)
+      config.register_page(:test_survey, id: 123, collector: :test_collector)
     end
   end
 

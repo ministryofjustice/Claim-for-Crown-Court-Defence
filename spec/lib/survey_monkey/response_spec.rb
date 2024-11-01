@@ -23,12 +23,17 @@ RSpec.describe SurveyMonkey::Response do
 
     before do
       SurveyMonkey.configure do |config|
+        config.register_collector(:test_collector, id: 99)
         config.register_page(
-          :test_survey, 123_456,
-          radio: { id: 123, format: :radio, answers: { 1 => 505_572, 2 => 505_573, 3 => 505_574 } },
-          checkboxes: {
-            id: 456, format: :checkboxes,
-            answers: { 1 => 591, 2 => 592, 3 => 593, 4 => 594 }
+          :test_survey,
+          id: 123_456,
+          collector: :test_collector,
+          questions: {
+            radio: { id: 123, format: :radio, answers: { 1 => 505_572, 2 => 505_573, 3 => 505_574 } },
+            checkboxes: {
+              id: 456, format: :checkboxes,
+              answers: { 1 => 591, 2 => 592, 3 => 593, 4 => 594 }
+            }
           }
         )
       end
@@ -119,12 +124,17 @@ RSpec.describe SurveyMonkey::Response do
 
     before do
       SurveyMonkey.configure do |config|
+        config.register_collector(:test_collector, id: 99)
         config.register_page(
-          :test_survey, 123_456,
-          tasks: { id: 123, format: :radio, answers: { 1 => 505_572, 2 => 505_573, 3 => 505_574 } },
-          ratings: {
-            id: 456, format: :radio,
-            answers: { 1 => 599_991, 2 => 599_992, 3 => 599_993, 4 => 599_994 }
+          :test_survey,
+          id: 123_456,
+          collector: :test_collector,
+          questions: {
+            tasks: { id: 123, format: :radio, answers: { 1 => 505_572, 2 => 505_573, 3 => 505_574 } },
+            ratings: {
+              id: 456, format: :radio,
+              answers: { 1 => 599_991, 2 => 599_992, 3 => 599_993, 4 => 599_994 }
+            }
           }
         )
       end

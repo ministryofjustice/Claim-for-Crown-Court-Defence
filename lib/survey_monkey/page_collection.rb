@@ -4,9 +4,13 @@ module SurveyMonkey
       @pages = []
     end
 
-    def add(page, page_id, **)
+    def add(page, id:, collector:, questions: {})
       @pages.reject! { |p| p.name == page }
-      @pages << Page.new(page, page_id, **)
+      @pages << Page.new(page, id:, collector:, questions:)
+    end
+
+    def clear
+      @pages = []
     end
 
     def page_by_name(name)

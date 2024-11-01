@@ -1,10 +1,11 @@
 module SurveyMonkey
   class Page
-    attr_reader :id, :name
+    attr_reader :id, :name, :collector
 
-    def initialize(page, page_id, **questions)
-      @id = page_id
+    def initialize(page, id:, collector:, questions: {})
+      @id = id
       @name = page
+      @collector = collector
       @questions = questions.transform_values do |options|
         Question.create(options[:id], options[:format], **options)
       end

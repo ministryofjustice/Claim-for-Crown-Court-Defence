@@ -19,8 +19,12 @@ module SurveyMonkey
       end
     end
 
-    def register_page(page, page_id, **)
-      @pages.add(page, page_id, **)
+    def register_page(page, id:, collector:, questions: {})
+      @pages.add(page, id:, collector:, questions:)
+    end
+
+    def clear_pages
+      @pages.clear
     end
 
     def register_collector(collector, id:)

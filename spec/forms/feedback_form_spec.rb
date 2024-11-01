@@ -15,6 +15,12 @@ RSpec.describe FeedbackForm do
     it { is_expected.to eq 26_019_002 }
   end
 
+  describe '#collector' do
+    subject { form.collector }
+
+    it { is_expected.to eq :feedback }
+  end
+
   describe '#template' do
     subject(:template) { form.template }
 

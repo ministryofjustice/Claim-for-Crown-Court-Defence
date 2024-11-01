@@ -8,13 +8,9 @@ class FeedbackForm
     end
   end
 
-  def name
-    :feedback
-  end
-
-  def id
-    26_019_002
-  end
+  def name = :feedback
+  def id = 26_019_002
+  def collector = :feedback
 
   def template
     {

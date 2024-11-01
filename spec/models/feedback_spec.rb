@@ -82,7 +82,7 @@ RSpec.describe Feedback do
   context 'with SurveyMonkey Feedback' do
     subject(:feedback) { described_class.new(feedback_params) }
 
-    let(:sender) { SurveyMonkeySender }
+    let(:sender) { SurveyMonkeySender::Feedback }
 
     include_examples 'Feedback submission'
   end

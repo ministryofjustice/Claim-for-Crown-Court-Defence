@@ -63,24 +63,24 @@ RSpec.describe 'send feedback' do
     end
 
     context 'with Zendesk feedback disabled' do
-      let(:sender_instance) { instance_double(SurveyMonkeySender) }
+      let(:sender_instance) { instance_double(SurveyMonkeySender::Feedback) }
 
       before do
         allow(Settings).to receive(:zendesk_feedback_enabled?).and_return(false)
         allow(Feedback).to receive(:new).and_call_original
-        allow(SurveyMonkeySender).to receive(:new).and_return(sender_instance)
+        allow(SurveyMonkeySender::Feedback).to receive(:new).and_return(sender_instance)
         allow(sender_instance).to receive(:call).and_return({ success: true, response_message: 'Test' })
 
         post_feedback
       end
 
       it 'Uses the SurveyMonkey sender' do
-        expect(Feedback).to have_received(:new).with(hash_including(sender: SurveyMonkeySender))
+        expect(Feedback).to have_received(:new).with(hash_including(sender: SurveyMonkeySender::Feedback))
       end
     end
 
     context 'when posting to Survey Monkey is successful' do
-      before { allow(SurveyMonkeySender).to receive(:call).and_return({ id: 123, success: true }) }
+      before { allow(SurveyMonkeySender::Feedback).to receive(:call).and_return({ id: 123, success: true }) }
 
       context 'when the user is signed in' do
         let(:advocate) { create(:external_user) }
@@ -106,7 +106,7 @@ RSpec.describe 'send feedback' do
 
     context 'when posting to Survey Monkey is unsuccessful' do
       before do
-        allow(SurveyMonkeySender).to receive(:call).and_return({ success: false, error_code: '1020' })
+        allow(SurveyMonkeySender::Feedback).to receive(:call).and_return({ success: false, error_code: '1020' })
         post_feedback
       end
 

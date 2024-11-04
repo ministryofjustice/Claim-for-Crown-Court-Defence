@@ -1,4 +1,4 @@
-RSpec.describe SurveyMonkeySender do
+RSpec.describe SurveyMonkeySender::Feedback do
   subject(:sender) { described_class.new(feedback) }
 
   let(:feedback) { Feedback.new }

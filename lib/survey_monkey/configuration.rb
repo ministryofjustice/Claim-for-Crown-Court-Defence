@@ -1,10 +1,11 @@
 module SurveyMonkey
   class Configuration
-    attr_accessor :root_url, :bearer, :collector_id, :logger, :verbose_logging
-    attr_reader :pages
+    attr_accessor :root_url, :bearer, :logger, :verbose_logging
+    attr_reader :pages, :collectors
 
     def initialize
-      @pages = PageCollection.new
+      @pages = Collection.new(Page)
+      @collectors = Collection.new(Collector)
     end
 
     def connection
@@ -18,8 +19,20 @@ module SurveyMonkey
       end
     end
 
-    def register_page(page, page_id, **)
-      @pages.add(page, page_id, **)
+    def register_page(page, id:, collector:, questions: {})
+      @pages.add(page, id:, collector:, questions:)
+    end
+
+    def clear_pages
+      @pages.clear
+    end
+
+    def register_collector(collector, id:)
+      @collectors.add(collector, id:)
+    end
+
+    def clear_collectors
+      @collectors.clear
     end
   end
 end

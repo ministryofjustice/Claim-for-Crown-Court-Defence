@@ -23,7 +23,7 @@ class FeedbackController < ApplicationController
 
   def sender
     if params['feedback']['type'] == 'feedback' && !Settings.zendesk_feedback_enabled?
-      SurveyMonkeySender
+      SurveyMonkeySender::Feedback
     else
       ZendeskSender
     end

@@ -1,10 +1,11 @@
 module SurveyMonkey
   class Page
-    attr_reader :id, :name
+    attr_reader :id, :name, :collector
 
-    def initialize(page, page_id, **questions)
-      @id = page_id
+    def initialize(page, id:, collector:, questions: {})
+      @id = id
       @name = page
+      @collector = SurveyMonkey.collector_by_name(collector)
       @questions = questions.transform_values do |options|
         Question.create(options[:id], options[:format], **options)
       end
@@ -23,5 +24,7 @@ module SurveyMonkey
 
       Answers.new(@id, *response_codes)
     end
+
+    def self.unregistered_exception = UnregisteredPage
   end
 end

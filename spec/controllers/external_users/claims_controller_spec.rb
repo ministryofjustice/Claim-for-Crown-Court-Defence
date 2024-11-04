@@ -482,9 +482,15 @@ RSpec.describe ExternalUsers::ClaimsController do
 
     describe 'Search' do
       let(:advocate) { create(:external_user, :advocate, user: build(:user, last_name: 'Rumpole')) }
-      let(:archived_claim) { create(:archived_pending_delete_claim, external_user: advocate) }
-      let(:draft_claim) { create(:draft_claim, external_user: advocate) }
-      let(:allocated_claim) { create(:allocated_claim, external_user: advocate) }
+      let(:archived_claim) do
+        create(:archived_pending_delete_claim, external_user: advocate, create_defendant_and_rep_order: false)
+      end
+      let(:draft_claim) do
+        create(:draft_claim, external_user: advocate, create_defendant_and_rep_order: false)
+      end
+      let(:allocated_claim) do
+        create(:allocated_claim, external_user: advocate, create_defendant_and_rep_order: false)
+      end
 
       before do
         create(:defendant, claim: archived_claim, first_name: 'John', last_name: 'Smith')

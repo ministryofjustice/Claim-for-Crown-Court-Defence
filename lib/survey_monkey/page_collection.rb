@@ -1,20 +1,17 @@
 module SurveyMonkey
   class PageCollection
     def initialize
-      @pages = []
+      @pages = {}
     end
 
-    def add(page, id:, collector:, questions: {})
-      @pages.reject! { |p| p.name == page }
-      @pages << Page.new(page, id:, collector:, questions:)
+    def add(name, id:, collector:, questions: {})
+      @pages[name] = Page.new(name, id:, collector:, questions:)
     end
 
     def clear
-      @pages = []
+      @pages = {}
     end
 
-    def page_by_name(name)
-      @pages.find { |page| page.name == name } || raise(UnregisteredPage)
-    end
+    def [](name) = @pages[name] || raise(UnregisteredPage)
   end
 end

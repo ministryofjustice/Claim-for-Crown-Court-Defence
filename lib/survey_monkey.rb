@@ -11,9 +11,7 @@ module SurveyMonkey
       configuration
     end
 
-    def page_by_name(name)
-      configuration.pages.page_by_name(name)
-    end
+    def page_by_name(name) = configuration.pages[name]
 
     def collector_by_name(name) = configuration.collectors[name]
 

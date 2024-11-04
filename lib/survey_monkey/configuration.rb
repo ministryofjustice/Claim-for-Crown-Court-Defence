@@ -4,8 +4,8 @@ module SurveyMonkey
     attr_reader :pages, :collectors
 
     def initialize
-      @pages = PageCollection.new
-      @collectors = CollectorCollection.new
+      @pages = Collection.new(Page)
+      @collectors = Collection.new(Collector)
     end
 
     def connection

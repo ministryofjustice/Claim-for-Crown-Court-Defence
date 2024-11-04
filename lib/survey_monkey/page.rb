@@ -24,5 +24,7 @@ module SurveyMonkey
 
       Answers.new(@id, *response_codes)
     end
+
+    def self.unregistered_exception = UnregisteredPage
   end
 end

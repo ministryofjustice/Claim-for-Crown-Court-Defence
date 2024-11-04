@@ -6,5 +6,7 @@ module SurveyMonkey
       @id = id
       @name = name
     end
+
+    def self.unregistered_exception = UnregisteredCollector
   end
 end

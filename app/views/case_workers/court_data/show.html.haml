@@ -4,17 +4,17 @@
 = govuk_back_link_to 'Back to claim summary', case_workers_claim_path(@court_data.claim_id)
 
 %h1.govuk-heading-l
-  = "Court Data View for #{@court_data.case_number[:claim]} (##{@court_data.claim_id})"
+  = t('.title', case_number: @court_data.case_number[:claim], claim_id: @court_data.claim_id)
 
 - if @court_data.case_number[:hmcts]
   %p.govuk-body
-    = govuk_link_to 'Open in View Court Data', "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{@court_data.case_number[:hmcts]}", target: :_blank
+    = govuk_link_to t('.court_data_link'),  "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{@court_data.case_number[:hmcts]}", target: :_blank
 
 %p.govuk-body
   - if @court_data.matching_method
-    = "Case matched based on #{@court_data.matching_method}"
+    = t('.case_matched_on', matcher: @court_data.matching_method)
   - else
-    = "Unable to find case in Common Platform"
+    = t('.case_match_failed')
 
 = render partial: 'defendant', locals: { defendant: @defendant, case_number: @court_data.case_number[:hmcts] }
 
@@ -22,5 +22,7 @@
   = f.hidden_field :case_number, value: @court_data.case_number[:claim]
   = f.hidden_field :claim_id, value: @court_data.claim_id
   = f.hidden_field :defendant_id, value: @defendant.hmcts.id
-  = f.govuk_text_area :comments, label: { text: 'What is wrong with this data?' }
-  = f.govuk_submit 'Submit'
+  = f.govuk_text_area :comments, label: { text: t('.feedback_comment_label') }
+  .govuk-button-group
+    = f.govuk_submit t('.submit')
+    = govuk_link_button_secondary t('.cancel'), case_workers_claim_court_data_index_path(@court_data.claim_id)

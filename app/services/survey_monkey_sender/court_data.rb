@@ -8,6 +8,7 @@ module SurveyMonkeySender
       {
         case_number: @answers.case_number,
         claim_id: @answers.claim_id,
+        defendant_id: @answers.defendant_id,
         comments: @answers.comments
       }.compact_blank
     end

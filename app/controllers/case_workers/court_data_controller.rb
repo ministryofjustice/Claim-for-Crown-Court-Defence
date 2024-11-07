@@ -1,11 +1,16 @@
 module CaseWorkers
   class CourtDataController < CaseWorkers::ApplicationController
-    before_action :set_court_data, only: :index
-    skip_load_and_authorize_resource only: :feedback
+    before_action :set_court_data, only: %i[index show]
+    skip_load_and_authorize_resource only: %i[show feedback]
 
-    Feedback = Struct.new(:case_number, :claim_id, :comments)
+    Feedback = Struct.new(:case_number, :claim_id, :defendant_id, :comments)
 
     def index; end
+
+    def show
+      @defendant = @court_data.defendants.find { |defendant| defendant.hmcts&.id == params[:id] }
+      redirect_to error_404_url if @defendant.nil?
+    end
 
     def feedback
       response = SurveyMonkeySender::CourtData.call(feedback_answers)
@@ -27,6 +32,8 @@ module CaseWorkers
       @claim = Claim::BaseClaim.find(params[:claim_id])
     end
 
-    def feedback_answers = Feedback.new(params[:case_number], params[:claim_id], params[:comments])
+    def feedback_answers
+      Feedback.new(params[:case_number], params[:claim_id], params[:defendant_id], params[:comments])
+    end
   end
 end

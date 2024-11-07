@@ -16,8 +16,11 @@
   - else
     = "Unable to find case in Common Platform"
 
-- @court_data.defendants.each do |defendant|
-  = render partial: 'defendant', locals: { defendant: defendant, case_number: @court_data.case_number[:hmcts] }
-  - if defendant.hmcts.present?
-    %p.govuk-body
-      = govuk_link_to 'Report a problem with this result', case_workers_claim_court_data_path(@court_data.claim_id, defendant.hmcts.id)
+= render partial: 'defendant', locals: { defendant: @defendant, case_number: @court_data.case_number[:hmcts] }
+
+= form_with url: feedback_case_workers_claim_court_data_index_path(@court_data.claim_id) do |f|
+  = f.hidden_field :case_number, value: @court_data.case_number[:claim]
+  = f.hidden_field :claim_id, value: @court_data.claim_id
+  = f.hidden_field :defendant_id, value: @defendant.hmcts.id
+  = f.govuk_text_area :comments, label: { text: 'What is wrong with this data?' }
+  = f.govuk_submit 'Submit'

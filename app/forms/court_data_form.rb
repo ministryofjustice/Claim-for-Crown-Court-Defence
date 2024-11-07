@@ -7,6 +7,7 @@ class CourtDataForm
     {
       case_number: { id: 63_321_668, format: :text },
       claim_id: { id: 63_321_670, format: :text },
+      defendant_id: { id: 63_349_729, format: :text },
       comments: { id: 63_321_717, format: :text }
     }
   end

@@ -634,7 +634,7 @@ GEM
     tzinfo-data (1.2024.2)
       tzinfo (>= 1.0.0)
     unicode-display_width (2.6.0)
-    uri (0.13.1)
+    uri (1.0.0)
     utf8-cleaner (1.0.0)
       activesupport
     vcr (6.3.1)

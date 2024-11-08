@@ -413,7 +413,7 @@ GEM
     notifications-ruby-client (6.2.0)
       jwt (>= 1.5, < 3)
     orm_adapter (0.5.0)
-    ostruct (0.6.0)
+    ostruct (0.6.1)
     paper_trail (15.2.0)
       activerecord (>= 6.1)
       request_store (~> 1.4)

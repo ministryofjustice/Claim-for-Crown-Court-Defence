@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Claim::AdvocateClaim do
-  subject(:claim) { create(:advocate_claim) }
+  subject(:claim) { create(:advocate_claim, create_defendant_and_rep_order: false) }
 
   it_behaves_like 'a base claim'
   it_behaves_like 'a claim with an AGFS fee scheme factory', FeeSchemeFactory::AGFS
@@ -356,7 +356,7 @@ RSpec.describe Claim::AdvocateClaim do
   end
 
   describe '.search' do
-    let!(:other_claim) { create(:advocate_claim) }
+    let!(:other_claim) { create(:advocate_claim, create_defendant_and_rep_order: false) }
     let(:states) { nil }
     let(:sql) do
       described_class.search('%', states,

@@ -61,6 +61,7 @@ gem 'active_storage_validations'
 gem 'faraday', '~> 2.12'
 gem 'faraday-follow_redirects', '~> 0.3'
 gem 'puma'
+gem 'uri', '< 1.0.0'
 
 group :development, :test do
   gem 'annotate'

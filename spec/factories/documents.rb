@@ -50,7 +50,10 @@ FactoryBot.define do
         Dir.mktmpdir do |tmp|
           temp_file = File.expand_path(filename, tmp)
           FileUtils.cp(File.expand_path('features/examples/shorter_lorem.docx', Rails.root), temp_file)
-          Rack::Test::UploadedFile.new(temp_file, 'application/msword')
+          Rack::Test::UploadedFile.new(
+            temp_file,
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          )
         end
       end
     end
@@ -64,7 +67,10 @@ FactoryBot.define do
         Dir.mktmpdir do |tmp|
           temp_file = File.expand_path(filename, tmp)
           FileUtils.cp(File.expand_path('features/examples/shorter_lorem.docx', Rails.root), temp_file)
-          Rack::Test::UploadedFile.new(temp_file, 'application/msword')
+          Rack::Test::UploadedFile.new(
+            temp_file,
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          )
         end
       end
 

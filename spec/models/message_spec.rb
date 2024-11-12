@@ -37,13 +37,11 @@ RSpec.describe Message do
         'application/vnd.ms-excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'application/vnd.oasis.opendocument.spreadsheet',
-        'text/rtf',
         'application/rtf',
         'image/jpeg',
         'image/png',
         'image/tiff',
-        'image/x-bmp',
-        'image/x-bitmap'
+        'image/bmp'
       ).rejecting('text/plain', 'text/html')
   end
 

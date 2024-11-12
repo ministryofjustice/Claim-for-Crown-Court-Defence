@@ -34,7 +34,7 @@ FactoryBot.define do
     attachment do
       Rack::Test::UploadedFile.new(
         File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
-        'application/msword'
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
       )
     end
   end

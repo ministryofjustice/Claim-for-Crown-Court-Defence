@@ -18,13 +18,11 @@ class Document < ApplicationRecord
               application/msword
               application/vnd.openxmlformats-officedocument.wordprocessingml.document
               application/vnd.oasis.opendocument.text
-              text/rtf
               application/rtf
               image/jpeg
               image/png
               image/tiff
-              image/x-bmp
-              image/x-bitmap
+              image/bmp
             ]
 
   alias attachment document # to have a consistent interface to both Document and Message

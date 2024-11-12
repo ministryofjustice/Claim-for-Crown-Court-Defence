@@ -39,8 +39,8 @@ RSpec.describe Document do
   it do
     is_expected.to validate_content_type_of(:document).allowing(
       'application/pdf', 'application/msword', 'application/vnd.oasis.opendocument.text', 'application/rtf',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/rtf',
-      'image/jpeg', 'image/png', 'image/tiff', 'image/x-bmp', 'image/x-bitmap'
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      'image/jpeg', 'image/png', 'image/tiff', 'image/bmp'
     ).rejecting('text/plain', 'text/html')
   end
 

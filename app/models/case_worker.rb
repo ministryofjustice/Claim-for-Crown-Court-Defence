@@ -14,7 +14,7 @@
 class CaseWorker < ApplicationRecord
   auto_strip_attributes squish: true, nullify: true
 
-  ROLES = %w[admin case_worker provider_management].freeze
+  ROLES = %w[admin case_worker provider_management beta_tester].freeze
 
   include Roles
   include SoftlyDeletable

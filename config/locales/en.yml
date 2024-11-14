@@ -2171,6 +2171,7 @@ en:
       caption: 'Evidence Provided: A list of uploaded documents'
       summary: 'Note: View and Download links are in 4th column, Actions'
       existing_evidence: Existing evidence
+      no_supporting_evidence: "There is no supporting evidence for this claim"
       no_documents_uploaded: No documents have been uploaded.
       name_of_file: File
       file_size: File size

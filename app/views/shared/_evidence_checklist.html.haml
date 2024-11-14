@@ -4,17 +4,14 @@
       = t('.evidence_address')
     = render partial: 'external_users/claims/supporting_documents/laa_address', locals: { f: @claim }
 
-  %h3.govuk-heading-m
-    = t('shared.evidence_checklist.caption')
-  - if current_user.persona.is_a? ExternalUser
-    %p.form-hint
-      = t('.evidence_hint')
-
-  - if @claim.evidence_checklist_ids.empty?
-    %p
-      = t('.no_evidence')
-  - else
-    %ul.govuk-list
-      - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
-        %li
-          = dt.name
+  - unless @claim.evidence_checklist_ids.empty?
+    .govuk-summary-card
+      .govuk-summary-card__title-wrapper
+        %h2.govuk-summary-card__title= (t('shared.evidence_checklist.caption'))
+      .govuk-summary-card__content
+        %dl.govuk-summary-list
+          = govuk_summary_list do
+            %ul.remove-margin
+            - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
+              %li.no-bullets-item.format-supporting-evidence-list
+                = dt.name

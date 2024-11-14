@@ -1,0 +1,23 @@
+= content_for :page_title, flush: true do
+  = t('.page_title')
+
+= govuk_back_link_to 'Back to claim summary', case_workers_claim_path(@court_data.claim_id)
+
+%h1.govuk-heading-l
+  = t('.title', case_number: @court_data.case_number[:claim], claim_id: @court_data.claim_id)
+
+- if @court_data.case_number[:hmcts]
+  %p.govuk-body
+    = govuk_link_to t('.court_data_link'),  "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/prosecution_cases/#{@court_data.case_number[:hmcts]}", target: :_blank
+
+%p.govuk-body
+  - if @court_data.matching_method
+    = t('.case_matched_on', matcher: @court_data.matching_method)
+  - else
+    = t('.case_match_failed')
+
+- @court_data.defendants.each do |defendant|
+  = render partial: 'defendant', locals: { defendant: defendant, case_number: @court_data.case_number[:hmcts] }
+  - if defendant.hmcts.present?
+    %p.govuk-body
+      = govuk_link_to t('.report_problem'), case_workers_claim_court_data_path(@court_data.claim_id, defendant.hmcts.id)

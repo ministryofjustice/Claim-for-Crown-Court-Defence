@@ -44,4 +44,10 @@ module CaseWorkers::ClaimsHelper
       fees.description.split('(')[0].strip
     end.uniq
   end
+
+  def cda_view_enabled?
+    ENV['COURT_DATA_ADAPTOR_API_UID'].present? &&
+      current_user_is_caseworker? &&
+      current_user.persona.has_roles?('beta_tester')
+  end
 end

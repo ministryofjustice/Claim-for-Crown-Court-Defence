@@ -166,4 +166,60 @@ describe CaseWorkers::ClaimsHelper do
       it { is_expected.to eq ['Abuse of process hearings', 'Application to dismiss a charge'] }
     end
   end
+
+  describe '#cda_view_enabled?' do
+    subject { helper.cda_view_enabled? }
+
+    before { allow(controller).to receive(:current_user).and_return(user) }
+
+    context 'when COURT_DATA_ADAPTOR_API_UID is set' do
+      before do
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with('COURT_DATA_ADAPTOR_API_UID').and_return 'test'
+      end
+
+      context 'when user is a case worker beta tester' do
+        let(:user) { create(:case_worker, roles: ['beta_tester']).user }
+
+        it { is_expected.to be_truthy }
+      end
+
+      context 'when user is a case worker without the beta tester role' do
+        let(:user) { create(:case_worker, roles: ['case_worker']).user }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when user is an external user' do
+        let(:user) { create(:external_user).user }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+
+    context 'when COURT_DATA_ADAPTOR_API_UID is not set' do
+      before do
+        allow(ENV).to receive(:[]).and_call_original
+        allow(ENV).to receive(:[]).with('COURT_DATA_ADAPTOR_API_UID').and_return nil
+      end
+
+      context 'when user is a case worker beta tester' do
+        let(:user) { create(:case_worker, roles: ['beta_tester']).user }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when user is a case worker without the beta tester role' do
+        let(:user) { create(:case_worker, roles: ['case_worker']).user }
+
+        it { is_expected.to be_falsey }
+      end
+
+      context 'when user is an external user' do
+        let(:user) { create(:external_user).user }
+
+        it { is_expected.to be_falsey }
+      end
+    end
+  end
 end

@@ -306,7 +306,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    hashdiff (1.1.1)
+    hashdiff (1.1.2)
     hashie (5.0.0)
     hashie-forbidden_attributes (0.1.1)
       hashie (>= 3.0)

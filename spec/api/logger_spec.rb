@@ -151,7 +151,10 @@ RSpec.describe API::Logger do
             status:,
             claim_id: nil,
             case_number: nil,
-            id: nil }
+            id: nil,
+            creator_email: nil,
+            input_parameters: [],
+            user_email: nil }
         end
 
         it 'returns nil in empty fields' do
@@ -177,7 +180,10 @@ RSpec.describe API::Logger do
             status:,
             claim_id: '456',
             case_number: '789',
-            id: '1' }
+            id: '1',
+            creator_email: nil,
+            input_parameters: [],
+            user_email: nil }
         end
 
         it 'records the required fields and sends to LogStuff' do
@@ -217,9 +223,9 @@ RSpec.describe API::Logger do
 
       it 'logs an error and records it' do
         expect(LogStuff).to have_received(:send).once.with(:error, type: 'api-error',
-                                                                   data: { request_id: '123',
-                                                                           path: 'api/valid/path',
-                                                                           status: 400 },
+                                                                   data: hash_including(request_id: '123',
+                                                                                        path: 'api/valid/path',
+                                                                                        status: 400),
                                                                    error: 'Test error')
       end
     end

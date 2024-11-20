@@ -28,6 +28,20 @@
             link_errors: true,
             label: { text: t('.written_reasons') }
 
+    .moj-multi-file-upload
+      .moj-multi-file__uploaded-files
+        %h2.govuk-heading-m Files added
+        .govuk-summary-list.moj-multi-file-upload__list
+      .moj-multi-file-upload__upload
+
+        .govuk-form-group
+          %label.govuk-label.govuk-label--m{for: "documents"}
+            Upload a file
+          %input#documents.govuk-file-upload.moj-multi-file-upload__input{multiple: "multiple", name: "documents", type: "file"}/
+
+        %button.govuk-button.govuk-button--secondary.moj-multi-file-upload__button{"data-module" => "govuk-button", type: "submit"}
+          Upload file
+
     = f.govuk_file_field :attachments,
       label: { text: t('.attachment_label') },
       hint: { text: t('.accepted_files_help_text') }

@@ -1,15 +1,8 @@
 module API
   class Logger < Grape::Middleware::Base
     def before
-      log_api(:info, 'api-request',
-              { request_id:,
-                method: env['REQUEST_METHOD'],
-                path:,
-                creator_email:,
-                user_email:,
-                claim_id: request_data['claim_id'],
-                case_number: request_data['case_number'],
-                input_parameters: request_data.keys })
+      log_api(:info, 'api-request', { method: env['REQUEST_METHOD'], claim_id: request_data['claim_id'],
+                                      case_number: request_data['case_number'], **request_data_log })
     end
 
     def after
@@ -17,16 +10,25 @@ module API
 
       if response_status.between?(200, 399)
         log_api(:info, 'api-response',
-                { request_id:, path:, status: response_status, claim_id: response_param('claim_id'),
-                  case_number: response_param('case_number'), id: response_param('id') })
+                { status: response_status, claim_id: response_param('claim_id'),
+                  case_number: response_param('case_number'), id: response_param('id'), **request_data_log })
       else
-        log_error('api-error',
-                  { request_id:, path:, status: response_status }, response_param('error'))
+        log_error('api-error', { status: response_status, **request_data_log }, response_param('error'))
       end
       @app_response # this must return @app_response or nil
     end
 
     private
+
+    def request_data_log
+      {
+        request_id:,
+        path:,
+        creator_email:,
+        user_email:,
+        input_parameters: request_data.keys
+      }
+    end
 
     def request_id
       env['action_dispatch.request_id']
@@ -37,7 +39,11 @@ module API
     end
 
     def request_data
-      @request_data ||= env['rack.request.form_hash'] || env['rack.request.query_hash'] || {}
+      return env['api.rquest.input'] if env['api.request.input'].present?
+      return env['rack.request.form_hash'] if env['rack.request.form_hash'].present?
+      return env['rack.request.query_hash'] if env['rack.request.query_hash'].present?
+
+      {}
     end
 
     def creator_email

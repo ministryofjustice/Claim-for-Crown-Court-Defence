@@ -39,7 +39,7 @@ module API
     end
 
     def request_data
-      return env['api.rquest.input'] if env['api.request.input'].present?
+      return JSON.parse(env['api.request.input']) if env['api.request.input'].present?
       return env['rack.request.form_hash'] if env['rack.request.form_hash'].present?
       return env['rack.request.query_hash'] if env['rack.request.query_hash'].present?
 

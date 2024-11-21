@@ -68,7 +68,7 @@ module API
 
     def redact(input)
       input[0] +
-        ('*' * (input.length - 2)) +
+        ('*' * [1, input.length - 2].max) +
         input[-1]
     end
 

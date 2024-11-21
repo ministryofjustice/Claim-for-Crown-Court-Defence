@@ -54,5 +54,12 @@ RSpec.describe EmailSanitizerService, type: :service do
 
       it { is_expected.to eq(expected_response) }
     end
+
+    context 'when the email is invalid without an @ symbol' do
+      let(:email) { 'invalidemail.com' }
+      let(:expected_response) { 'Invalid email, cannot be redacted' }
+
+      it { is_expected.to eq(expected_response) }
+    end
   end
 end

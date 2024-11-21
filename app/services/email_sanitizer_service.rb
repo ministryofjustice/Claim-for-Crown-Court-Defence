@@ -5,6 +5,8 @@ class EmailSanitizerService
 
   def call
     local, domain = @original_email.split('@')
+    return 'Invalid email, cannot be redacted' if local.nil? || domain.nil?
+
     "#{redact(local)}@#{redact_domain(domain)}"
   end
 

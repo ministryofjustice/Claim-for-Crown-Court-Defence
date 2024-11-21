@@ -6,37 +6,51 @@ RSpec.describe EmailSanitizerService, type: :service do
 
     let(:service) { described_class.new(email) }
 
-    context 'when the email has multiple characters before the @ symbol' do
+    context 'when the local part has multiple characters' do
       let(:email) { 'example@example.com' }
-      let(:expected_response) { 'e*****e@example.com' }
+      let(:expected_response) { 'e*****e@e*****e.com' }
 
       it { is_expected.to eq(expected_response) }
     end
 
-    context 'when the email has a single character before the @ symbol' do
+    context 'when the local part has a single character' do
       let(:email) { 'a@b.com' }
-      let(:expected_response) { 'a*a@b.com' }
+      let(:expected_response) { 'a*a@b*b.com' }
 
       it { is_expected.to eq(expected_response) }
     end
 
-    context 'when the email has two characters before the @ symbol' do
+    context 'when the local part has two characters' do
       let(:email) { 'ab@cd.com' }
-      let(:expected_response) { 'a*b@cd.com' }
+      let(:expected_response) { 'a*b@c*d.com' }
 
       it { is_expected.to eq(expected_response) }
     end
 
-    context 'when the email has a dot (.) before the @ symbol' do
+    context 'when the local part contains a dot (.)' do
       let(:email) { 'first.last@example.com' }
-      let(:expected_response) { 'f********t@example.com' }
+      let(:expected_response) { 'f********t@e*****e.com' }
 
       it { is_expected.to eq(expected_response) }
     end
 
-    context 'when the email has a hyphen before the @ symbol' do
+    context 'when the local part contains a hyphen (-)' do
       let(:email) { 'first-last@example.com' }
-      let(:expected_response) { 'f********t@example.com' }
+      let(:expected_response) { 'f********t@e*****e.com' }
+
+      it { is_expected.to eq(expected_response) }
+    end
+
+    context 'when the domain has multiple parts' do
+      let(:email) { 'user@sub.example.com' }
+      let(:expected_response) { 'u**r@s*b.e*****e.com' }
+
+      it { is_expected.to eq(expected_response) }
+    end
+
+    context 'when the domain has a single character' do
+      let(:email) { 'user@a.com' }
+      let(:expected_response) { 'u**r@a*a.com' }
 
       it { is_expected.to eq(expected_response) }
     end

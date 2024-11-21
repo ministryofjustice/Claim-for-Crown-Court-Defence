@@ -5,10 +5,21 @@ class EmailSanitizerService
 
   def call
     local, domain = @original_email.split('@')
-    return "#{local[0]}*#{local[0]}@#{domain}" if local.length == 1
-    return "#{local[0]}*#{local[1]}@#{domain}" if local.length == 2
+    "#{redact(local)}@#{redact_domain(domain)}"
+  end
 
-    sanitized_local = local[0] + ('*' * (local.length - 2)) + local[-1]
-    "#{sanitized_local}@#{domain}"
+  private
+
+  def redact(input)
+    return "#{input[0]}*#{input[0]}" if input.length == 1
+    return "#{input[0]}*#{input[1]}" if input.length == 2
+
+    input[0] + ('*' * (input.length - 2)) + input[-1]
+  end
+
+  def redact_domain(domain)
+    parts = domain.split('.')
+    parts[0..-2] = parts[0..-2].map { |part| redact(part) } if parts.length > 1
+    parts.join('.')
   end
 end

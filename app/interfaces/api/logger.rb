@@ -49,27 +49,13 @@ module API
     def creator_email
       return if request_data['creator_email'].blank?
 
-      sanitised_email(request_data['creator_email'])
+      EmailSanitizerService.new(request_data['creator_email']).call
     end
 
     def user_email
       return if request_data['user_email'].blank?
 
-      sanitised_email(request_data['user_email'])
-    end
-
-    def sanitised_email(email)
-      name, domain, extension = email.split(/[@.]/, 3)
-
-      "#{redact(name)}@#{redact(domain)}.#{extension}"
-    rescue NoMethodError
-      'Invalid email, cannot be redacted'
-    end
-
-    def redact(input)
-      input[0] +
-        ('*' * [1, input.length - 2].max) +
-        input[-1]
+      EmailSanitizerService.new(request_data['user_email']).call
     end
 
     def response_status

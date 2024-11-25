@@ -1,16 +1,25 @@
-= javascript_tag nonce: true do
-  :plain
-    let googleTrackingID = "#{ENV.fetch('GA_TRACKER_ID', nil)}"
+- if adapter == :gtm
+  = javascript_tag nonce: true do
+    :plain
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer',"#{ENV['GTM_TRACKER_ID']}");
+- if adapter == :ga
+  = javascript_tag nonce: true do
+    :plain
+      let googleTrackingID = "#{ENV.fetch('GA_TRACKER_ID', nil)}"
 
-    const analyticsScriptTag = document.createElement('script')
-    analyticsScriptTag.async = ''
-    analyticsScriptTag.src = `https://www.googletagmanager.com/gtag/js?id=${googleTrackingID}`
-    document.head.appendChild(analyticsScriptTag)
+      const analyticsScriptTag = document.createElement('script')
+      analyticsScriptTag.async = ''
+      analyticsScriptTag.src = `https://www.googletagmanager.com/gtag/js?id=${googleTrackingID}`
+      document.head.appendChild(analyticsScriptTag)
 
-    window.dataLayer = window.dataLayer || []
+      window.dataLayer = window.dataLayer || []
 
-    function gtag() {
-      dataLayer.push(arguments)
-    }
-    gtag('js', new Date())
-    gtag('config', `${googleTrackingID}`)
+      function gtag() {
+        dataLayer.push(arguments)
+      }
+      gtag('js', new Date())
+      gtag('config', `${googleTrackingID}`)

@@ -221,4 +221,44 @@ RSpec.describe Message do
       # it { expect { destroy_message }.to change(ActiveStorage::Blob, :count).by(-1) }
     end
   end
+
+  describe '#update_attachments' do
+    subject(:update_attachments) { message.send(:update_attachments) }
+
+    let(:message) { create(:message) }
+
+    context 'when fetching from the database' do
+      let(:message) { described_class.allocate }
+
+      before { allow(message).to receive(:update_attachments) }
+
+      it 'calls update_attachments on load from database' do
+        message.send(:initialize)
+        expect(message).to have_received(:update_attachments)
+      end
+    end
+
+    context 'without an attachment' do
+      before { message }
+
+      it { expect { update_attachments }.not_to change(message.attachments, :count) }
+    end
+
+    context 'with an attachment' do
+      before do
+        message.attachment.attach(io: File.open('features/examples/shorter_lorem.docx'), filename: 'shorter_lorem.docx', content_type: 'application/msword')
+      end
+
+      it { expect { update_attachments }.to change(message.attachments, :count).by(1) }
+    end
+
+    context 'with an attachment that already exists in attachments' do
+      before do
+        message.attachment.attach(io: File.open('features/examples/shorter_lorem.docx'), filename: 'shorter_lorem.docx', content_type: 'application/msword')
+        message.attachments.attach(message.attachment.blob)
+      end
+
+      it { expect { update_attachments }.not_to change(message.attachments, :count) }
+    end
+  end
 end

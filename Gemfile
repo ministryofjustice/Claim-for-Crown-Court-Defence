@@ -81,13 +81,13 @@ group :development, :test do
   gem 'rspec_junit_formatter'
   gem 'net-ssh', '~> 7.3'
   gem 'net-scp', '~> 4.0'
-  gem 'rubocop', '~> 1.66'
+  gem 'rubocop', '~> 1.68'
   gem 'rubocop-capybara', '~> 2.21'
   gem 'rubocop-factory_bot', '~> 2.26'
-  gem 'rubocop-rspec', '~> 3.1'
+  gem 'rubocop-rspec', '~> 3.2'
   gem 'rubocop-rspec_rails', '~> 2.30'
-  gem 'rubocop-rails', '~> 2.26'
-  gem 'rubocop-performance', '~> 1.22'
+  gem 'rubocop-rails', '~> 2.27'
+  gem 'rubocop-performance', '~> 1.23'
   gem 'site_prism', '~> 5.0'
 end
 

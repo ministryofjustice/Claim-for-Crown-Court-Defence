@@ -113,4 +113,13 @@ class Offence < ApplicationRecord
   def post_agfs_reform?
     fee_schemes.any? { |fs| fs.name == 'AGFS' && fs.version > FeeScheme::NINE }
   end
+
+  def display_offence_band_or_offence_class
+    "ABC"
+    offence_class
+    offence_band
+     # binding.pry
+    # id = offence_class_id
+    # offence_classes.offence_class_id
+  end
 end

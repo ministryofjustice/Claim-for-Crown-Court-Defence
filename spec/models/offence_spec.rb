@@ -349,4 +349,51 @@ RSpec.describe Offence do
       it { is_expected.to be_truthy }
     end
   end
+
+  # describe '#display_offence_band_or_offence_class' do
+  #   let(:offence) { create(:offence, band: 'ABC', offence_class: 'Class A') }
+  #
+  #   context 'when an offence band is present' do
+  #     it 'returns the offence band' do
+  #       expect(offence.display_offence_band_or_offence_class).to include(/[A-E]/)
+  #     end
+  #   end
+  #
+  #   context 'when offence band is not present but offence class is' do
+  #     before { offence.update(band: nil) }
+  #
+  #     it 'returns the offence class' do
+  #       expect(offence.display_offence_band_or_offence_class).to eq('Class A')
+  #     end
+  #   end
+  #
+  #   context 'when neither offence band nor offence class is present' do
+  #     before { offence.update(band: nil, offence_class: nil) }
+  #
+  #     it 'returns nil or a fallback value' do
+  #       expect(offence.display_offence_band_or_offence_class).to be_nil
+  #     end
+  #   end
+  # end
+
+
+  describe '#display_offence_band_or_offence_class' do
+
+    context 'when a litigator is submitting a claim - fee scheme 9' do
+      # subject { offence.display_offence_band_or_offence_class }
+      # let(:claim) { create(:litigator_claim, :lgfs_scheme_9) }
+      let(:offence) { create(:offence, :with_lgfs_fee_scheme_nine) }
+
+
+      it 'displays the offence class' do
+        # binding.pry
+        expect(offence.display_offence_band_or_offence_class).to include(/[A-E]/)
+        # expect(offence.display_offence_band_or_offence_class).to include(/[A-E]/)
+      end
+
+      xit 'does not display class' do
+        expect(offence.display_offence_band_or_offence_class).not_to include(/[A-E]/)
+      end
+    end
+  end
 end

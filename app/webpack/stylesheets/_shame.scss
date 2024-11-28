@@ -520,6 +520,11 @@ form {
   text-align: right;
 }
 
+.summary-page-values {
+  display: flex;
+  flex-direction: column;
+}
+
 .download-all-link {
   display: inline-block;
   margin-top: 20px;

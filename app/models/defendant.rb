@@ -25,6 +25,8 @@ class Defendant < ApplicationRecord
 
   accepts_nested_attributes_for :representation_orders, reject_if: :all_blank, allow_destroy: true
 
+  # Do we still need this name method now we are using first name
+  # and last name on the summary page instead?
   def name
     [first_name, last_name].join(' ').gsub('  ', ' ')
   end

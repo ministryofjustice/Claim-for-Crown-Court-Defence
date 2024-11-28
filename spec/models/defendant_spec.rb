@@ -98,6 +98,7 @@ RSpec.describe Defendant do
   context 'name presentation methods' do
     let(:claim) { create(:advocate_claim) }
 
+    # Do we still need this now we aren't using it on the summary page?
     describe '#name' do
       it 'joins first name and last name together' do
         defendant = create(:defendant, first_name: 'Roberto', last_name: 'Smith', claim_id: claim.id)

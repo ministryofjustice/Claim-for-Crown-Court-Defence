@@ -239,8 +239,6 @@ RSpec.describe Claims::Cloner do
   end
 
   def representation_orders_for(defendants)
-    [].tap do |collection|
-      defendants.each { |d| collection << d.representation_orders }
-    end.flatten
+    defendants.map(&:representation_orders).flatten
   end
 end

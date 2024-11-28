@@ -68,7 +68,7 @@ module Stats
     end
 
     def generate_new_report
-      generator[:class].call(**options.merge(generator[:default_args]))
+      generator[:class].call(**options, **generator[:default_args])
     end
 
     def notify_error(report_record, error)

@@ -15,12 +15,6 @@
 
       .govuk-summary-list__row.summary-page-table-two-row
         %dt.govuk-summary-list__key
-          =(t('offence_band', scope: claim_fields) )
-        %dd.govuk-summary-list__value
-          = claim.offence ? claim.offence.offence_band : t('general.not_provided')
-
-      .govuk-summary-list__row.summary-page-table-two-row
-        %dt.govuk-summary-list__key
-          =( t('offence_class', scope: claim_fields) )
+          =(t('offence_class', scope: claim_fields) )
         %dd.govuk-summary-list__value
           = claim.offence ? claim.offence.offence_class : t('general.not_provided')

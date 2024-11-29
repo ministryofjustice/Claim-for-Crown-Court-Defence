@@ -1,68 +1,66 @@
-RSpec.describe 'Caseworker summary page' do
+RSpec.describe 'Caseworker summary page', type: :request do
   describe 'GET /case_workers/claims/12' do
-    describe 'display offence band' do
-
-    context 'when a litigator is submitting a claim - fee scheme 9' do
-      subject(:claim) { create(:litigator_claim, :lgfs_scheme_9) }
-
-      it 'displays the offence band ' do
-        expect(claim.offence.display_offence_band_or_offence_class).to eq('ABC')
+    describe 'Offence details segment' do
+      before do
+        @case_worker = create(:case_worker)
+        sign_in @case_worker.user
+        get case_workers_claim_url(claim.id)
       end
 
-      it 'does not display class' do
-        expect(claim.offence.display_offence_band_or_offence_class).to eq('ABC')
-      end
-    end
-    end
+      let(:offence_class_numbers) { /^[0-9.]*$/ }
+      let(:offence_band_letters) {/^[A-Z]+$/}
 
-    RSpec.describe 'Caseworker summary page', type: :request do
-      describe 'GET /case_workers/claims/:id' do
+      context 'when a litigator has submitted a claim with fee scheme 9' do
         let(:claim) { create(:litigator_claim, :lgfs_scheme_9) }
 
-        context 'when a litigator is submitting a claim - fee scheme 9' do
-          before do
-            get "/case_workers/claims/#{claim.id}"
-          end
+        it 'displays the offence class' do
+          binding.pry
+          expect(response.body).to include(offence_class_numbers)
+        end
 
-          it 'displays the offence band' do
-            expect(response.body).to include('ABC')
-          end
-
-          it 'does not display the offence class' do
-            expect(response.body).not_to include('Offence Class')
-          end
+        it 'does not display offence band' do
+          expect(response.body).not_to include(offence_band_letters)
         end
       end
+
+      context 'when a litigator has submitted a claim with fee scheme 10' do
+        subject(:claim) { create(:litigator_claim, :lgfs_scheme_10) }
+
+        it 'displays the offence class' do
+          expect(response.body).to include(offence_class_numbers)
+        end
+
+        it 'does not display offence band' do
+          expect(response.body).not_to include(offence_band_letters)
+        end
+      end
+
+      context 'when an advocate has submitted a claim with fee scheme 9' do
+        subject(:claim) { create(:advocate_claim, :agfs_scheme_9) }
+
+        it 'displays the offence class' do
+          expect(response.body).to include(offence_class_numbers)
+        end
+
+        it 'does not display offence band' do
+          expect(response.body).not_to include(offence_band_letters)
+        end
+      end
+
+      context 'when an advocate has submitted a claim with fee scheme 10' do
+        subject(:claim) { create(:advocate_claim, :agfs_scheme_10) }
+
+        it 'displays the offence band ' do
+          expect(response.body).to include(offence_band_letters)
+        end
+
+        it 'does not display class' do
+          expect(response.body).not_to include(offence_class_numbers)
+        end
+      end
+
+      # context 'when no band or class has been provided' do
+      # end
     end
-
-
-
-  #
-  #   context 'Advocate is submitting a claim fee scheme 9' do
-  #     let(:offence) {
-  #       create(
-  #         :offence, with_fee_scheme_nine,
-  #         :offence_class, :with_lgfs_offence
-  #       )
-  #     }
-  #   subject(:claim) { create(:advocate_claim, :offence) }
-  #
-  #   end
-  #
-  #   context ' FROM Fee scheme 10 onwards then their will be a band' do
-  #
-  #   end
-  #
-  #   context 'No band has been provided' do
-  #
-  #   end
-  #
-  #   context 'Not offence class has been provided '
-  # end
-  #
-  # describe 'display offence class' do
-  #   # the reverse
-  #   # lgfs and agfs 9 will have a class
-  #   # agfs onwards wont
-  # end
+  end
 end

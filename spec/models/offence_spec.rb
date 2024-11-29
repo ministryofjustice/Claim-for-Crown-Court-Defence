@@ -350,32 +350,6 @@ RSpec.describe Offence do
     end
   end
 
-  # describe '#display_offence_band_or_offence_class' do
-  #   let(:offence) { create(:offence, band: 'ABC', offence_class: 'Class A') }
-  #
-  #   context 'when an offence band is present' do
-  #     it 'returns the offence band' do
-  #       expect(offence.display_offence_band_or_offence_class).to include(/[A-E]/)
-  #     end
-  #   end
-  #
-  #   context 'when offence band is not present but offence class is' do
-  #     before { offence.update(band: nil) }
-  #
-  #     it 'returns the offence class' do
-  #       expect(offence.display_offence_band_or_offence_class).to eq('Class A')
-  #     end
-  #   end
-  #
-  #   context 'when neither offence band nor offence class is present' do
-  #     before { offence.update(band: nil, offence_class: nil) }
-  #
-  #     it 'returns nil or a fallback value' do
-  #       expect(offence.display_offence_band_or_offence_class).to be_nil
-  #     end
-  #   end
-  # end
-
 
   describe '#display_offence_band_or_offence_class' do
 

@@ -3,3 +3,31 @@
 = govuk_summary_list_row_collection( t('offence_class', scope: claim_fields) ) { claim.offence&.offence_category ? claim.offence.offence_category.description : t('general.not_provided') }
 = govuk_summary_list_row_collection( t('offence_band', scope: claim_fields) ) { claim.offence&.offence_band ? claim.offence.offence_band.description : t('general.not_provided') }
 = govuk_summary_list_row_collection( t('offence_category', scope: claim_fields) ) { claim.offence ? claim.offence.description : t('general.not_provided') }
+
+
+.govuk-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      =(t('offence_category', scope: claim_fields) )
+
+  .govuk-summary-card__content
+    %dl.govuk-summary-list
+      .govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          = t('offence_category', scope: claim_fields)
+        %dd.govuk-summary-list__value
+          = claim.offence ? claim.offence.description : t('general.not_provided')
+
+      .govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          = t('offence_band', scope: claim_fields)
+        %dd.govuk-summary-list__value
+          = claim.offence&.offence_band ? claim.offence.offence_band.description : t('general.not_provided')
+
+      .govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          = t('offence_class', scope: claim_fields)
+        %dd.govuk-summary-list__value
+          = claim.offence&.offence_category ? claim.offence.offence_category.description : t('general.not_provided')
+
+

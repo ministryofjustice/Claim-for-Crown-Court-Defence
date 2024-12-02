@@ -30,7 +30,7 @@
     "accessible-autocomplete": "^3.0.1",
     "babel-loader": "^9.2.1",
     "babel-plugin-macros": "^3.1.0",
-    "chart.js": "^4.4.6",
+    "chart.js": "^4.4.7",
     "chartkick": "^5.0.1",
     "css-loader": "^7.1.2",
     "datatables.net-buttons-dt": "^3.2.0",

@@ -18,8 +18,27 @@
 
   %h2.govuk-heading-l
     = t('.h2_basic_info')
+
+  - if claim.certification.present?
+    = render partial: 'shared/certification', locals: { claim: claim }
+
   .js-accordion__panel
     = render partial: 'shared/claim', locals: { claim: claim, hide_totals: true }
+
+- if claim.defendants.any?
+  %h2.govuk-heading-l
+    = t('external_users.claims.defendants.defendant_fields.defendant_details')
+
+  = render partial: 'shared/claim_defendants', locals: { defendants: claim.defendants }
+
+- else
+  .govuk-grid-row
+    .govuk-grid-column-two-thirds
+      %p.govuk-body
+        = t('.no_defendant')
+
+- unless claim.fixed_fee_case?
+  = render partial: 'external_users/claims/offence_details/summary', locals: { claim: claim }
 
   %h2.govuk-heading-l
     = t('.h2_evidence')

@@ -1,4 +1,5 @@
-- cracked_trial_detail_translations = 'external_users.claims.case_details.cracked_trial_fields'
-
-= govuk_summary_list_row_collection(t('external_users.claims.case_details.case_concluded_date.case_concluded_at')) do
-  = claim.case_concluded_at
+.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('external_users.claims.case_details.case_concluded_date.case_concluded_at')
+  %dd.govuk-summary-list__value
+    = claim.case_concluded_at

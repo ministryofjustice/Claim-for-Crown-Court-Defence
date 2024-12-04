@@ -2094,6 +2094,8 @@ en:
       case_stage: *case_stage
       case_worker: Case worker
       claim_type: Claim and case type
+      provider_reference: Provider reference number
+      claim_submitted: Claim submitted on
       defendant: Defendant names
       j_a: Judicial apportionment
       no_defendant: No defendant details have been supplied for this claim

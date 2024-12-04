@@ -1,5 +1,5 @@
 .govuk-summary-list__row.summary-page-table-two-row
   %dt.govuk-summary-list__key
-    = t('common.transfer_detail_summary')
+    = t('common.main_hearing_date')
   %dd.govuk-summary-list__value
-    = t('common.transfer_date')
+    = claim.main_hearing_date&.strftime(Settings.date_format)

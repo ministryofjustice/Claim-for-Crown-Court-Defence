@@ -24,7 +24,6 @@ Feature: Litigator expense specific page features
 
     Given I am later on the Your claims page
     When I click the claim 'A20161234'
-    When I save and open screenshot
     And I edit the claim's expenses
     Then I should see a page title "Enter travel expenses for litigator final fees claim"
 

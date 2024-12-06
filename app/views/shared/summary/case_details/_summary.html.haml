@@ -1,14 +1,14 @@
-- claim_fields = %i[external_users claims case_details fields]
-- cracked_trial_fields = %i[external_users claims case_details cracked_trial_fields]
-- trial_detail_fields = %i[external_users claims case_details trial_detail_fields]
-- retrial_detail_fields = %i[external_users claims case_details retrial_detail_fields]
+- claim_fields = %i[shared summary case_details fields]
+- cracked_trial_fields = %i[shared summary case_details cracked_trial_fields]
+- trial_detail_fields = %i[shared summary case_details trial_detail_fields]
+- retrial_detail_fields = %i[shared summary case_details retrial_detail_fields]
 
 #case-details-section.app-summary-section
   %h2.govuk-heading-l
-    = t('external_users.claims.case_details.summary.header')
+    = t('shared.summary.case_details.summary.header')
 
   - if local_assigns[:editable]
-    = govuk_link_to t('common.change_html', context: t('external_users.claims.case_details.summary.header')), edit_polymorphic_path(claim, step: :case_details, referrer: :summary), class: 'link-change'
+    = govuk_link_to t('common.change_html', context: t('shared.summary.case_details.summary.header')), edit_polymorphic_path(claim, step: :case_details, referrer: :summary), class: 'link-change'
 
   - if claim.mandatory_case_details?
     = govuk_summary_list do
@@ -41,7 +41,7 @@
         = govuk_summary_list_row_collection( t('case_type', scope: claim_fields) ) { claim.case_type&.name }
 
       - if claim.requires_case_concluded_date?
-        = govuk_summary_list_row_collection( t('external_users.claims.case_details.case_concluded_date.case_concluded_at') ) { claim.case_concluded_at }
+        = govuk_summary_list_row_collection( t('shared.summary.case_details.case_concluded_date.case_concluded_at') ) { claim.case_concluded_at }
 
       - if claim&.case_type && claim.requires_cracked_dates?
         = govuk_summary_list_row_collection( t('trial_fixed_notice_at', scope: cracked_trial_fields) ) do

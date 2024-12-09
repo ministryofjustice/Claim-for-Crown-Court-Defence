@@ -86,7 +86,7 @@ class Ability
   end
 
   def can_administer_documents_in_provider(persona)
-    can %i[index create], Document
+    can %i[index create upload delete], Document
 
     # NOTE: for destroy action, at least, the document may not be persisted/saved
     can %i[show download destroy], Document do |document|
@@ -127,7 +127,7 @@ class Ability
   end
 
   def can_manage_own_documents(persona)
-    can %i[index create], Document
+    can %i[index create upload delete], Document
 
     can %i[show download destroy], Document do |document|
       if document.external_user_id.nil?

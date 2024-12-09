@@ -43,6 +43,25 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def upload
+    @document = Document.new(creator_id: current_user.id, document: params[:documents])
+
+    if @document.save_and_verify
+      render json: { file: { originalname: @document.document.filename, filename: @document.id }, success: { messageHtml: "#{@document.document.filename} uploaded"} }, status: :created
+    else
+      render json: { error: { message: "Upload of #{@document.document.filename} failed" } }, status: :unprocessable_entity
+    end
+  end
+
+  def delete
+    # TODO: This does not do any checking to see if the document is owned by the current user
+    @document = Document.find(params[:delete])
+
+    @document.destroy
+
+    render json: { file: { filename: params[:delete] } }
+  end
+
   private
 
   def document

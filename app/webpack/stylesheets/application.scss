@@ -8,6 +8,8 @@ $govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
 @import "~govuk-frontend/dist/govuk/base";
 @import "~govuk-frontend/dist/govuk/core/typography";
 
+@import "@ministryofjustice/frontend/moj/components/multi-file-upload/_multi-file-upload.scss";
+
 // Project specific
 // Everything below this comment should be project specific.
 // If you absolutely need to override gov.uk styles, don't,

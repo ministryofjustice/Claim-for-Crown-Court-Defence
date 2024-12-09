@@ -87,8 +87,8 @@ RSpec.describe Ability do
       end
     end
 
-    context 'can index and create documents' do
-      %i[index create].each do |action|
+    context 'can index, create and upload documents' do
+      %i[index create upload].each do |action|
         it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
@@ -199,8 +199,8 @@ RSpec.describe Ability do
       end
     end
 
-    context 'can index and create documents' do
-      %i[index create].each do |action|
+    context 'can index, create and upload documents' do
+      %i[index create upload].each do |action|
         it { should be_able_to(action, Document.new(external_user:)) }
       end
     end

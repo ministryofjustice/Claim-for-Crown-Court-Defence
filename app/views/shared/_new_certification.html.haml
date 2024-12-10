@@ -1,0 +1,10 @@
+%h3.govuk-heading-m
+  = t('.certification_box_title')
+
+= govuk_summary_list do
+  = govuk_summary_list_row_collection(t('.instructed_heading')) do
+    = claim.external_user.name
+
+  - if @claim.agfs?
+    = govuk_summary_list_row_collection(t('.certification_reason')) do
+      = claim.certification.certification_type.name rescue ''

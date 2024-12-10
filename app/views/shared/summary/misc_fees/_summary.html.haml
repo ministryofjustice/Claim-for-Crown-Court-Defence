@@ -2,4 +2,4 @@
   = render partial: 'summary_fees', locals: misc_fees_summary_locals(claim, editable: editable, section: section)
 
   - if claim.requires_interim_claim_info?
-    = render partial: 'external_users/claims/interim_claim_info/summary', locals: { claim: claim }
+    = render partial: 'shared/summary/interim_claim_info/summary', locals: { claim: claim }

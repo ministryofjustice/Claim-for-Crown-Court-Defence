@@ -2052,7 +2052,6 @@ en:
       reason_for_refusal: Choose reason for refusal
       reason_for_rejection: Choose reason for rejection
       claimed_by: Claimed by
-      reason_text: Reason text
       reason_hint: These reasons will be displayed to providers
       update_the_claim_status: Update the claim status
       reason_text: Reason text
@@ -2182,13 +2181,61 @@ en:
         retrial_started_at: Retrial started at
         first_day_of_trial: First day of trial
       actual_trial_length: *actual_trial_length
+      case_details:
+        case_concluded_date:
+          case_concluded_at: 'Date case concluded'
+        cracked_trial_fields:
+          trial_cracked_at: 'Case cracked on'
+          case_cracked: 'Case cracked in'
+          trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
+          trial_fixed_at: '1st fixed/warned trial'
+          trial_cracked_at_third:
+            default: Case cracked in
+            hardship: If the case cracked today, which third would it be?
+        fields:
+          case_number: "Case number"
+          case_stage: *case_stage
+          case_type: "Case type"
+          main_hearing_date: "Main hearing date"
+        summary:
+          header: Case Details
+          answer_yes: *global_yes
+          answer_no: *global_no
+        trial_detail_fields:
+          first_day_of_trial: 'First day of trial'
+          estimated_trial_length: 'Estimated trial length'
+          actual_trial_length: *actual_trial_length
+          trial_concluded_at: 'Trial concluded on'
+        retrial_detail_fields:
+          retrial_started_at: 'First day of retrial'
+          retrial_estimated_length: 'Estimated retrial length'
+          retrial_actual_length: 'Actual retrial length'
+          retrial_concluded_at: 'Retrial concluded on'
+          retrial_reduction: 'Apply reduced rate to retrial?'
+      defendants:
+        summary:
+          answer_no: *global_no
+          answer_yes: *global_yes
+          common:
+            defendant_index: Defendant %{index}
+        fields:
+          case_number: "Case Number"
+        trial_detail_fields:
+          first_day_of_trial: 'First day of trial'
+        retrial_detail_fields:
+          retrial_started_at: 'First day of retrial'
+          retrial_reduction: 'Apply reduced rate to retrial?'
+        case_concluded_date:
+          case_concluded_at: 'Date case concluded'
       mileage_rate: Cost per mile
       expense: Expense %{index}
       expenses:
         caption: &expenses_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
-        travel_expense_additional_information: Additional information
         travel_expenses: Travel expenses
         travel_details: Travel details
+        expenses:
+          travel_expense_additional_information: Additional information
+          travel_expenses: Travel expenses
         index:
           calculated_distance: Calculated distance
           caption: *expenses_caption
@@ -2231,6 +2278,9 @@ en:
           net_amount: *net_amount
           reason: Reason for travel
           vat: *vat_amount
+        summary:
+          additional_information:  Additional information
+          caption: 'Expenses: This section contains details of all expenses that have been claimed.'
       fee: Fee
       fee_index: Fee %{index}
       fees:
@@ -2278,6 +2328,8 @@ en:
         net_amount: *net_amount
         vat_amount: *vat_amount
         total: "Total"
+        summary:
+          caption: 'Disbursements: This section contains details of all disbursements that have been claimed.'
       warrant_fee:
         date_issued: "Warrant issued"
         date_executed: "Warrant executed"

@@ -2184,10 +2184,34 @@ en:
       case_details:
         case_concluded_date:
           case_concluded_at: 'Date case concluded'
+        cracked_trial_fields:
+          trial_cracked_at: 'Case cracked on'
+          case_cracked: 'Case cracked in'
+          trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
+          trial_fixed_at: '1st fixed/warned trial'
+          trial_cracked_at_third:
+            default: Case cracked in
+            hardship: If the case cracked today, which third would it be?
+        fields:
+          case_number: "Case number"
+          case_stage: *case_stage
+          case_type: "Case type"
+          main_hearing_date: "Main hearing date"
         summary:
           header: Case Details
           answer_yes: *global_yes
           answer_no: *global_no
+        trial_detail_fields:
+          first_day_of_trial: 'First day of trial'
+          estimated_trial_length: 'Estimated trial length'
+          actual_trial_length: *actual_trial_length
+          trial_concluded_at: 'Trial concluded on'
+        retrial_detail_fields:
+          retrial_started_at: 'First day of retrial'
+          retrial_estimated_length: 'Estimated retrial length'
+          retrial_actual_length: 'Actual retrial length'
+          retrial_concluded_at: 'Retrial concluded on'
+          retrial_reduction: 'Apply reduced rate to retrial?'
       defendants:
         summary:
           answer_no: *global_no
@@ -2196,8 +2220,6 @@ en:
             defendant_index: Defendant %{index}
         fields:
           case_number: "Case Number"
-        cracked_trial_fields:
-          trial_fixed_notice_at: 'Notice of 1st fixed/warned issued'
         trial_detail_fields:
           first_day_of_trial: 'First day of trial'
         retrial_detail_fields:

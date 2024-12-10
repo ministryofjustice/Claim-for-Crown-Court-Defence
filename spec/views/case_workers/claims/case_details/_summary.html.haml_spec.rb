@@ -22,8 +22,8 @@ RSpec::Matchers.define :have_govuk_summary_row do |key, value|
   end
 end
 
-RSpec.describe 'external_users/claims/case_details/summary.html.haml' do
-  subject(:summary) { 'external_users/claims/case_details/summary' }
+RSpec.describe 'shared/summary/case_details/summary.html.haml' do
+  subject(:summary) { 'shared/summary/case_details/summary' }
 
   let(:page) { Capybara::Node::Simple.new(rendered) }
   let(:date_format) { '%d/%m/%Y' }

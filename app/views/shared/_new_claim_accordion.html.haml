@@ -1,0 +1,41 @@
+#claim-accordion
+  .govuk-grid-row
+    .govuk-grid-column-one-half
+      %h2.govuk-heading-m
+        = t('.h2_messages')
+
+    .govuk-grid-column-one-half
+      - if current_user.persona.is_a?(CaseWorker)
+        .other-claims
+          - if claim_ids.present? && claim_ids.include?(@claim.id)
+            = t('shared.position_and_count', position: claim_position_and_count)
+
+            - unless last_claim?
+              = next_claim_link 'Next claim &gt;'.html_safe, class: 'next-claim'
+
+  = render partial: 'shared/claim_history', locals: { claim: claim }
+  = render partial: 'shared/claim_status', locals: { claim: claim, disabled: status_disabled }
+
+  %h2.govuk-heading-l
+    = t('.h2_basic_info')
+  .js-accordion__panel
+    = render partial: 'shared/new_claim', locals: { claim: claim, hide_totals: true }
+
+  %h2.govuk-heading-l
+    = t('.h2_evidence')
+  .js-accordion__panel
+    = render partial: 'shared/evidence_list'
+
+  %h2.govuk-heading-l
+    = t('.h2_summary')
+  .js-accordion__panel.fees-summary
+    - if claim.agfs?
+      = render partial: 'shared/summary_agfs', locals: { claim: claim }
+    - else
+      = render partial: 'shared/summary_lgfs', locals: { claim: claim }
+
+  - if claim.additional_information.present?
+    %h2.govuk-heading-l
+      = t('.additional_information')
+    %p
+      = format_multiline(claim.additional_information)

@@ -2206,7 +2206,7 @@ en:
       summary: 'Note: View and Download links are in 4th column, Actions'
       existing_evidence: Existing evidence
       no_documents_uploaded: No documents have been uploaded.
-      name_of_file: Name of file
+      name_of_file: File
       file_size: File size
       date_added: Date added
       actions: Actions

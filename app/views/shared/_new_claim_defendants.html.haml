@@ -1,0 +1,2 @@
+- defendants.each_with_index do | defendant, index |
+  = render partial: 'shared/new_claim_defendant_details', locals: { defendant: present(defendant, CaseWorkers::DefendantPresenter), index: index += 1 }

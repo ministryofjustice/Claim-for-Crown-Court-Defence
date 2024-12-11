@@ -79,12 +79,9 @@
     = claim.main_hearing_date&.strftime(Settings.date_format)
 
 - if claim.defendants.any?
-  .govuk-grid-row
-    .govuk-grid-column-two-thirds
-      %h3.govuk-heading-m
-        = t('.defendants')
-
-    = render partial: 'shared/claim_defendants', locals: {defendants: claim.defendants }
+  %h2.govuk-heading-l
+    = t('.defendant_details_heading')
+    = render partial: 'shared/new_claim_defendants', locals: { defendants: claim.defendants }
 
 - else
   .govuk-grid-row

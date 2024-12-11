@@ -509,3 +509,27 @@ form {
 .remove-margin {
   margin: 0;
 }
+
+// Format 'Existing evidence' table
+.custom-summary-card .govuk-summary-list__row {
+  display: flex;
+}
+
+.custom-summary-card .govuk-summary-list__key.file-name,
+.custom-summary-card .govuk-summary-list__value.file-name {
+  flex: 3;
+  text-align: left;
+}
+
+.custom-summary-card .govuk-summary-list__key.file-info,
+.custom-summary-card .govuk-summary-list__value.file-info {
+  flex: 1;
+  text-align: right;
+}
+
+.download-all-link {
+  display: inline-block;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}

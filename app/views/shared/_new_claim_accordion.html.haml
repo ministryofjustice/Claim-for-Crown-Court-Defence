@@ -24,7 +24,7 @@
   %h2.govuk-heading-l
     = t('.h2_evidence')
   .js-accordion__panel
-    = render partial: 'shared/new_evidence_list'
+    = render partial: 'shared/new_evidence_list', locals: { claim: claim }
 
   %h2.govuk-heading-l
     = t('.h2_summary')

@@ -2120,7 +2120,41 @@ en:
       clar_fees_warning:
         header: 'Warning: CLAR fees were not injected'
         message: 'The provider has claimed Criminal Legal Aid Review fees on this claim, but they have not been injected. Please enter them manually.'
-
+    new_certification:
+      certification_box_title: Certification
+      certified_by: Certified by
+      certification_reason: Reason
+      certification_caption: Certification details
+      instructed_heading: Instructed advocate
+      alert: 'Cannot certify a claim in submitted state'
+      invalid_claim: 'Claim is not in a state to be submitted'
+    new_claim:
+      advocate_category: Advocate category
+      provider_reference: Provider reference number
+      claim_submitted: Claim submitted on
+      assignee: "Assigned to:"
+      case: Case
+      case_cracked: Case cracked in
+      case_num: Case number
+      case_type: *case_type
+      case_stage: *case_stage
+      case_worker: Case worker
+      claim_type: Claim and case type
+      defendant: Defendant names
+      defendants: Defendants
+      j_a: Judicial apportionment
+      no_defendant: No defendant details have been supplied for this claim
+      offence: Offence
+      offence_class: Offence class
+    new_claim_accordion:
+      additional_information: Additional claim information
+      created_by: 'Created by:'
+      h2_basic_info: Basic claim information
+      h2_evidence: Evidence
+      h2_messages: Messages and claim status
+      h2_status: Status
+      h2_summary: Fees, expenses and more information
+      heading: Claim
     message_controls:
       attachment_label: Optionally attach a file
       update_claim_status: Update your claim status

@@ -533,3 +533,23 @@ form {
   margin-right: 20px;
   margin-bottom: 10px;
 }
+
+.summary-page-values {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-page-table-two-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-page-table-two-row .govuk-summary-list__key {
+  flex: 1;
+}
+
+.summary-page-table-two-row .govuk-summary-list__value {
+  text-align: left;
+  flex: 1;
+}

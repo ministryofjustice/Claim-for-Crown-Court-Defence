@@ -1,16 +1,32 @@
 - retrial_i18n_scope = %i[external_users claims case_details retrial_detail_fields]
 
-= govuk_summary_list_row_collection(t('retrial_started_at', scope: retrial_i18n_scope)) do
-  = claim&.retrial_started_at&.strftime(Settings.date_format)
+.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    =t('retrial_started_at', scope: retrial_i18n_scope)
+  %dd.govuk-summary-list__value
+    = claim&.retrial_started_at&.strftime(Settings.date_format)
 
-= govuk_summary_list_row_collection(t('retrial_estimated_length', scope: retrial_i18n_scope)) do
-  = claim&.retrial_estimated_length
+.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('retrial_estimated_length', scope: retrial_i18n_scope)
+  %dd.govuk-summary-list__value
+    = claim&.retrial_estimated_length
 
-= govuk_summary_list_row_collection(t('retrial_actual_length', scope: retrial_i18n_scope)) do
-  = claim&.retrial_actual_length
+.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    =  t('retrial_actual_length', scope: retrial_i18n_scope)
+  %dd.govuk-summary-list__value
+    = claim&.retrial_actual_length
 
-= govuk_summary_list_row_collection(t('retrial_concluded_at', scope: retrial_i18n_scope)) do
-  = claim&.retrial_concluded_at&.strftime(Settings.date_format)
+.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    =  t('retrial_concluded_at', scope: retrial_i18n_scope)
+  %dd.govuk-summary-list__value
+    = claim&.retrial_concluded_at&.strftime(Settings.date_format)
 
-= govuk_summary_list_row_collection(t('retrial_reduction', scope: retrial_i18n_scope)) do
-  = claim&.retrial_reduction? ? 'Yes' : 'No'
+.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    =  t('retrial_reduction', scope: retrial_i18n_scope)
+  %dd.govuk-summary-list__value
+    = claim&.retrial_reduction? ? 'Yes' : 'No'
+

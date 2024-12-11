@@ -1,6 +1,20 @@
 - claim_fields = %i[external_users claims case_details fields]
 
-= govuk_summary_list_row_collection( t('offence_category', scope: claim_fields) ) { claim.offence ? claim.offence.description : t('general.not_provided') }
+.govuk-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      =(t('offence_category', scope: claim_fields) )
 
-= govuk_summary_list_row_collection( t('offence_class', scope: claim_fields) ) do
-  = claim.offence ? claim.offence.offence_class : t('general.not_provided')
+  .govuk-summary-card__content
+    %dl.govuk-summary-list
+      .govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          =(t('offence_category', scope: claim_fields) )
+        %dd.govuk-summary-list__value
+          = claim.offence ? claim.offence.description : t('general.not_provided')
+
+      .govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          =(t('offence_class', scope: claim_fields) )
+        %dd.govuk-summary-list__value
+          = claim.offence ? claim.offence.offence_class : t('general.not_provided')

@@ -2142,6 +2142,7 @@ en:
       claim_type: Claim and case type
       defendant: Defendant names
       defendants: Defendants
+      defendant_details_heading: Defendant details
       j_a: Judicial apportionment
       no_defendant: No defendant details have been supplied for this claim
       offence: Offence
@@ -2155,6 +2156,30 @@ en:
       h2_status: Status
       h2_summary: Fees, expenses and more information
       heading: Claim
+    new_claim_and_case_type_details:
+      provider_reference: Provider reference number
+      claim_submitted: Claim submitted on
+      assignee: "Assigned to:"
+      case_num: Case number
+      case_stage: *case_stage
+      case_type: *case_type
+    new_claim_defendant_details:
+      title_defendant: Defendant
+      first_name: First name
+      last_name: Last name
+      date_of_birth: Date of birth
+      order_of_judicial_apportionment: Order of judicial apportionment
+      reporders: Represention order
+      maat_reference: 'MAAT reference:'
+      no_reporder: No representation orders have been supplied for this defendant.
+    new_evidence_checklist:
+      evidence_address: "Please send evidence to the following address:"
+    new_evidence_list:
+      existing_evidence: Existing evidence
+      no_documents_uploaded: No documents have been uploaded.
+      name_of_file: File
+      file_size: File size
+      date_added: Date added
     message_controls:
       attachment_label: Optionally attach a file
       update_claim_status: Update your claim status

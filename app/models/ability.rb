@@ -46,6 +46,7 @@ class Ability
 
   def case_worker_admin(persona)
     can %i[index show update archived], Claim::BaseClaim
+    can %i[upload delete], Document
     can %i[show download], Document
     can %i[index new create], CaseWorker
     can %i[show show_message_controls edit change_password update_password update destroy], CaseWorker
@@ -62,6 +63,7 @@ class Ability
       claim.case_workers.include?(persona)
     end
     can_administer_any_provider if persona.roles.include?('provider_management')
+    can %i[upload delete], Document
     can %i[show download], Document
     can %i[index feedback], CourtData
     can_manage_own_password(persona)

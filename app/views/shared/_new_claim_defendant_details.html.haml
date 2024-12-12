@@ -30,17 +30,14 @@
           = defendant.order_for_judicial_apportionment == true ? t('global_yes') : t('global_no')
 
       - if defendant.representation_orders.any?
-        .govuk-summary-list__row.summary-page-table-two-row
-          %dt.govuk-summary-list__key
-            - defendant.representation_orders.each_with_index do |representation_order, index|
+        - defendant.representation_orders.each_with_index do |representation_order, index|
+          .govuk-summary-list__row.summary-page-table-two-row
+            %dt.govuk-summary-list__key
               = "#{t('.reporders')} #{index + 1}"
-
-              %dd.govuk-summary-list__value.summary-page-values
-                %div
-                %span #{representation_order.representation_order_date.strftime(Settings.date_format) rescue ''}
-              %div
-                %span
-                  = t('.maat_reference')
-                  #{representation_order.maat_reference }
+            %dd.govuk-summary-list__value.summary-page-values
+              %span #{representation_order.representation_order_date.strftime(Settings.date_format) rescue ''}
+              %span
+                = t('.maat_reference')
+                #{representation_order.maat_reference }
       - else
         = govuk_inset_text(t('.no_reporder'))

@@ -36,7 +36,9 @@
               = "#{t('.reporders')} #{index + 1}"
 
               %dd.govuk-summary-list__value.summary-page-values
+                %div
                 %span #{representation_order.representation_order_date.strftime(Settings.date_format) rescue ''}
+              %div
                 %span
                   = t('.maat_reference')
                   #{representation_order.maat_reference }

@@ -80,7 +80,7 @@
 
 - if claim.defendants.any?
   %h2.govuk-heading-l
-    = t('external_users.claims.defendants.defendant_fields.defendant_details')
+    = t('.defendant_details_heading')
     = render partial: 'shared/new_claim_defendants', locals: { defendants: claim.defendants }
 
 - else

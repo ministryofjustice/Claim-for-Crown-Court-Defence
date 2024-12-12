@@ -35,9 +35,11 @@
             %dt.govuk-summary-list__key
               = "#{t('.reporders')} #{index + 1}"
             %dd.govuk-summary-list__value.summary-page-values
-              %span #{representation_order.representation_order_date.strftime(Settings.date_format) rescue ''}
-              %span
-                = t('.maat_reference')
-                #{representation_order.maat_reference }
+              %p
+                %span= representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
+              %p
+                %span= t('.maat_reference')
+                = representation_order.maat_reference
+
       - else
         = govuk_inset_text(t('.no_reporder'))

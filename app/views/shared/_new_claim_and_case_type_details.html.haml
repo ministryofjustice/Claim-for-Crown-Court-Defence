@@ -1,0 +1,93 @@
+- unless claim.providers_ref.blank?
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('shared.claim.provider_reference')
+    %dd.govuk-summary-list__value
+      = claim.providers_ref
+
+- unless claim.draft?
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('shared.claim.claim_submitted')
+    %dd.govuk-summary-list__value
+      = claim.submitted_at
+
+- if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('shared.claim.assignee')
+    %dd.govuk-summary-list__value
+      = claim.case_worker_names
+
+- if @claim.lgfs?
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('common.external_user.claim_creator')
+    %dd.govuk-summary-list__value
+      = claim.creator.name
+
+- if @claim.agfs?
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t("common.external_user.#{@claim.external_user_type}")
+    %dd.govuk-summary-list__value
+      = claim.external_user.name
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t("common.external_user.category.#{@claim.external_user_type}")
+    %dd.govuk-summary-list__value
+      = claim.advocate_category
+
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t("common.external_user.account_number.#{@claim.external_user_type}")
+  %dd.govuk-summary-list__value
+    = claim.supplier_number
+
+- if claim.court
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('common.crown_court')
+    %dd.govuk-summary-list__value
+      = claim.court.name
+
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('shared.claim.case_num')
+  %dd.govuk-summary-list__value
+    = claim.case_number
+    %span.unique-id-small
+      = claim.unique_id
+
+- if claim.transfer_court.present?
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('common.transfer_court')
+    %dd.govuk-summary-list__value
+      = claim.transfer_court.name
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('common.transfer_case_number')
+    %dd.govuk-summary-list__value
+      = claim.transfer_case_number
+
+- if claim.case_stage
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('shared.claim.case_stage')
+    %dd.govuk-summary-list__value
+      = claim.case_stage&.description
+
+- if claim.display_case_type?
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('shared.claim.case_type')
+    %dd.govuk-summary-list__value
+      = claim.case_type&.name
+
+- if claim.discontinuance?
+  %dl.govuk-summary-list__row.summary-page-table-two-row
+    %dt.govuk-summary-list__key
+      = t('common.prosecution_evidence')
+    %dd.govuk-summary-list__value
+      = t(claim.prosecution_evidence?.class)

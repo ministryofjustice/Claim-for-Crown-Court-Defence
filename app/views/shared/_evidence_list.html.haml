@@ -13,17 +13,21 @@
 
   - else
   .govuk-summary-card.custom-summary-card
-    .govuk-summary-card__title-wrapper
-      %h2.govuk-summary-card__title=t('.existing_evidence')
-    .govuk-summary-card__content
-      %dl.govuk-summary-list
-        .govuk-summary-list__row
-          .govuk-summary-list__key.file-name= t('.name_of_file')
-          .govuk-summary-list__key.file-info= t('.file_size')
-          .govuk-summary-list__key.file-info= t('.date_added')
-
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title= t('.existing_evidence')
+  .govuk-summary-card__content
+    %dl.govuk-summary-list
+      %dt.govuk-summary-list__key= t('.name_of_file')
+      %dd.govuk-summary-list__value
         - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
-          .govuk-summary-list__row
-            .govuk-summary-list__value.file-name= govuk_link_to document.document_file_name, download_document_path(document)
-            .govuk-summary-list__value.file-info= number_to_human_size(document.document_file_size)
-            .govuk-summary-list__value.file-info= document.created_at.strftime(Settings.date_format)
+          = govuk_link_to document.document_file_name, download_document_path(document)
+
+      %dt.govuk-summary-list__key= t('.file_size')
+      %dd.govuk-summary-list__value
+        - @claim.documents.each do |document|
+          = number_to_human_size(document.document_file_size)
+
+      %dt.govuk-summary-list__key= t('.date_added')
+      %dd.govuk-summary-list__value
+        - @claim.documents.each do |document|
+          = document.created_at.strftime(Settings.date_format)

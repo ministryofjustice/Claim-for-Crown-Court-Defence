@@ -107,17 +107,36 @@ RSpec.describe API::Logger do
   end
 
   describe 'response log (#after)' do
-    context 'when no status code is provided' do
-      let(:env) { {} }
+    context 'when the response is an error (causing status code to be nil)' do
+      let(:payload) do
+        { request_id: '123',
+          method: 'GET',
+          path: 'valid/path',
+          creator_email: 'a******e@e*****e.com',
+          user_email: 'a******e@e*****e.com',
+          claim_id: '456',
+          case_number: '789',
+          input_parameters: %w[creator_email user_email claim_id case_number] }
+      end
+
+      let(:env) do
+        { 'action_dispatch.request_id' => '123',
+          'REQUEST_METHOD' => 'GET',
+          'PATH_INFO' => 'valid/path',
+          'rack.request.form_hash' => {
+            'creator_email' => 'advocate@example.com',
+            'user_email' => 'incorrect@example.com',
+            'claim_id' => '456',
+            'case_number' => '789'
+          } }
+      end
 
       before do
         allow(LogStuff).to receive(:send)
         logger.after
       end
 
-      it 'does not submit anything to LogStuff' do
-        expect(LogStuff).not_to have_received(:send)
-      end
+      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
     end
 
     shared_examples 'valid response' do

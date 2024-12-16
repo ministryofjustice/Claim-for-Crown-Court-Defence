@@ -206,7 +206,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       end
 
       it { expect_error_response('Creator email is invalid') }
-      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
+      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')).at_least(:once) }
     end
 
     context 'when user email is invalid' do
@@ -216,7 +216,7 @@ RSpec.shared_examples 'a claim validate endpoint' do |options|
       end
 
       it { expect_error_response("#{claim_user_type} email is invalid") }
-      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')) }
+      it { expect(LogStuff).to have_received(:send).with(:error, hash_including(type: 'api-error')).at_least(:once) }
     end
 
     context 'when user email is valid but contains upper case characters' do

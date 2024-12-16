@@ -1,5 +1,6 @@
 module ApplicationHelper
   include GOVUKDesignSystemFormBuilder::BuilderHelper
+  include Pagy::Frontend
 
   def current_user_is_caseworker?
     current_user.persona.is_a?(CaseWorker)

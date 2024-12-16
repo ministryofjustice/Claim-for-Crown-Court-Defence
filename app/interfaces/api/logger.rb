@@ -6,9 +6,7 @@ module API
     end
 
     def after
-      return if response_status.nil?
-
-      if response_status.between?(200, 399)
+      if response_status&.between?(200, 399)
         log_api(:info, 'api-response',
                 { status: response_status, claim_id: response_param('claim_id'),
                   case_number: response_param('case_number'), id: response_param('id'), **request_data_log })

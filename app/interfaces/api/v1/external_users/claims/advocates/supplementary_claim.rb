@@ -23,7 +23,7 @@ module API
               optional :cms_number, type: String, desc: 'OPTIONAL: The CMS number'
               optional :additional_information, type: String, desc: 'OPTIONAL: Any additional information'
               optional :apply_vat, type: Boolean, desc: 'OPTIONAL: Include VAT (JSON Boolean data type: true or false)'
-              use :user_email
+              use :legacy_agfs_params
               use :advocate_category_all
               optional :main_hearing_date,
                        type: String,

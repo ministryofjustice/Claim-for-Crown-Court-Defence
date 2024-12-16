@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   skip_forgery_protection if ENV.fetch('DISABLE_CSRF', nil) == '1'
 
   include CookieConcern
+  include Pagy::Backend
+
   before_action :set_default_cookie_usage
 
   helper_method :current_user_messages_count

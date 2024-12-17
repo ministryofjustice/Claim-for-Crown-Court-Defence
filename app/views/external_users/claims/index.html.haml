@@ -19,4 +19,6 @@
 .importer-results{'aria-live': 'polite'}
 
 = render partial: 'main_claims_list', locals: { claims: @claims }
-= paginate @claims
+
+%nav.pagination.app-pagintion--inline
+  = pagy_nav(@pagy).html_safe

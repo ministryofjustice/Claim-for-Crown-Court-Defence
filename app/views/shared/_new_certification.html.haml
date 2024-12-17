@@ -1,10 +1,20 @@
-%h3.govuk-heading-m
-  = t('.certification_box_title')
+.govuk-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      = t('.certification_box_title')
 
-= govuk_summary_list do
-  = govuk_summary_list_row_collection(t('.instructed_heading')) do
-    = claim.external_user.name
+  .govuk-summary-card__content
+    .govuk-summary-list
+      %dl.govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          = t('.instructed_heading')
+        %dd.govuk-summary-list__value
+          = claim.external_user.name
 
-  - if @claim.agfs?
-    = govuk_summary_list_row_collection(t('.certification_reason')) do
-      = claim.certification.certification_type.name rescue ''
+      - if @claim.agfs?
+        %dl.govuk-summary-list__row.summary-page-table-two-row
+          %dt.govuk-summary-list__key
+            = t('.certification_reason')
+          %dd.govuk-summary-list__value
+            = claim.certification.certification_type.name rescue ''
+

@@ -2156,6 +2156,13 @@ en:
       h2_status: Status
       h2_summary: Fees, expenses and more information
       heading: Claim
+    new_claim_and_case_type_details:
+      provider_reference: Provider reference number
+      claim_submitted: Claim submitted on
+      assignee: "Assigned to:"
+      case_num: Case number
+      case_stage: *case_stage
+      case_type: *case_type
     new_claim_defendant_details:
       title_defendant: Defendant
       first_name: First name

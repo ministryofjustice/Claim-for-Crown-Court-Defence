@@ -4,26 +4,26 @@
       = "#{t('.title_defendant')} #{index}"
 
   .govuk-summary-card__content
-    %dl.govuk-summary-list
-      .govuk-summary-list__row.summary-page-table-two-row
+    .govuk-summary-list
+      %dl.govuk-summary-list__row.summary-page-table-two-row
         %dt.govuk-summary-list__key
           = t('.first_name')
         %dd.govuk-summary-list__value
           = defendant.first_name
 
-      .govuk-summary-list__row.summary-page-table-two-row
+      %dl.govuk-summary-list__row.summary-page-table-two-row
         %dt.govuk-summary-list__key
           = t('.last_name')
         %dd.govuk-summary-list__value
           = defendant.last_name
 
-      .govuk-summary-list__row.summary-page-table-two-row
+      %dl.govuk-summary-list__row.summary-page-table-two-row
         %dt.govuk-summary-list__key
           = t('.date_of_birth')
         %dd.govuk-summary-list__value
           = defendant.date_of_birth.strftime(Settings.date_format) rescue ''
 
-      .govuk-summary-list__row.summary-page-table-two-row
+      %dl.govuk-summary-list__row.summary-page-table-two-row
         %dt.govuk-summary-list__key
           = t('.order_of_judicial_apportionment')
         %dd.govuk-summary-list__value
@@ -31,7 +31,7 @@
 
       - if defendant.representation_orders.any?
         - defendant.representation_orders.each_with_index do |representation_order, index|
-          .govuk-summary-list__row.summary-page-table-two-row
+          %dl.govuk-summary-list__row.summary-page-table-two-row
             %dt.govuk-summary-list__key
               = "#{t('.reporders')} #{index + 1}"
             %dd.govuk-summary-list__value.summary-page-values

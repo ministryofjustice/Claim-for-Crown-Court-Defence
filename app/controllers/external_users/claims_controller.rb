@@ -253,7 +253,8 @@ module ExternalUsers
 
     def sort_and_paginate(options = {})
       sort_defaults(options)
-      @claims = @claims.sort_using(sort_column, sort_direction).page(current_page).per(@sort_defaults[:pagination])
+      @pagy, @claims = pagy(@claims.sort_using(sort_column, sort_direction), page: current_page,
+                                                                             limit: @sort_defaults[:pagination])
     end
 
     def scheme

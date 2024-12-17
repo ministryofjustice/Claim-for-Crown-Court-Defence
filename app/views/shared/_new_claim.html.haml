@@ -5,7 +5,6 @@
 
   .govuk-summary-card__content
     %dl.govuk-summary-list
-
     = render partial: 'shared/new_claim_and_case_type_details', locals: { claim: claim }
 
     - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?

@@ -3298,11 +3298,11 @@ is-shared-array-buffer@^1.0.3:
     call-bind "^1.0.7"
 
 is-string@^1.0.7, is-string@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/is-string/-/is-string-1.1.0.tgz#8cb83c5d57311bf8058bc6c8db294711641da45d"
-  integrity sha512-PlfzajuF9vSo5wErv3MJAKD/nqf9ngAs1NFQYm16nUYFO2IzxJ2hcm+IOCg+EEopdykNNUhVq5cz35cAUxU8+g==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/is-string/-/is-string-1.1.1.tgz#92ea3f3d5c5b6e039ca8677e5ac8d07ea773cbb9"
+  integrity sha512-BtEeSsoaQjlSPBemMQIrY1MY0uM6vnS1g5fmufYOtnxLGUZM2178PKbhsk7Ffv58IX+ZtcvoGwccYsh0PglkAA==
   dependencies:
-    call-bind "^1.0.7"
+    call-bound "^1.0.3"
     has-tostringtag "^1.0.2"
 
 is-string@^1.1.1:

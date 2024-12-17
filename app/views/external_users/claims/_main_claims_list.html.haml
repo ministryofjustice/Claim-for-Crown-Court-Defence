@@ -7,7 +7,7 @@
         - if @claims.none?
           = t('shared.no_claims_found')
         - else
-          = "Showing #{pluralize(@claims.unscope(:order).size, 'claim')} of #{@claims.total_count}"
+          = pagy_info(@pagy).html_safe
           - if params[:search].present?
             = "matching #{params[:search]}"
 

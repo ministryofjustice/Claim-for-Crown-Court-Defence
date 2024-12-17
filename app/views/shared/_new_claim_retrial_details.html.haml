@@ -1,0 +1,30 @@
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('.retrial_started_at')
+  %dd.govuk-summary-list__value
+    = claim&.retrial_started_at&.strftime(Settings.date_format)
+
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('.retrial_estimated_length')
+  %dd.govuk-summary-list__value
+    = claim&.retrial_estimated_length
+
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('.retrial_actual_length')
+  %dd.govuk-summary-list__value
+    = claim&.retrial_actual_length
+
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('.retrial_concluded_at')
+  %dd.govuk-summary-list__value
+    = claim&.retrial_concluded_at&.strftime(Settings.date_format)
+
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('.retrial_reduction')
+  %dd.govuk-summary-list__value
+    = claim&.retrial_reduction? ? 'Yes' : 'No'
+

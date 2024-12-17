@@ -1,96 +1,28 @@
-- if claim.certification.present?
-  = render partial: 'shared/certification', locals: { claim: claim }
+.govuk-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      = t('shared.claim.claim_type')
 
-%h3.govuk-heading-m
-  = t('.claim_type')
+  .govuk-summary-card__content
+    %dl.govuk-summary-list
 
-= govuk_summary_list do
-  - unless claim.providers_ref.blank?
-    = govuk_summary_list_row_collection('Provider reference number') do
-      = claim.providers_ref
+    = render partial: 'shared/claim_and_case_type_details', locals: { claim: claim }
 
-  - unless claim.draft?
-    = govuk_summary_list_row_collection('Claim submitted on') do
-      = claim.submitted_at
+    - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
+      = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
 
-  - if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
-    = govuk_summary_list_row_collection(t('.assignee')) do
-      = claim.case_worker_names
+    - if claim.case_type && claim.case_concluded_at
+      = render partial: 'shared/claim_case_concluded_at_details', locals: { claim: claim }
 
-  - if @claim.lgfs?
-    = govuk_summary_list_row_collection(t('common.external_user.claim_creator')) do
-      = claim.creator.name
+    - if claim.lgfs? && claim.interim? && !claim.interim_fee.nil?
+      = render partial: 'shared/claim_interim_details', locals: { claim: claim }
 
-  - if @claim.agfs?
-    = govuk_summary_list_row_collection(t("common.external_user.#{@claim.external_user_type}")) do
-      = claim.external_user.name
-    = govuk_summary_list_row_collection(t("common.external_user.category.#{@claim.external_user_type}")) do
-      = claim.advocate_category
+    - if claim.transfer?
+      = render partial: 'shared/claim_transfer_details', locals: { claim: claim }
 
-  = govuk_summary_list_row_collection(t("common.external_user.account_number.#{@claim.external_user_type}")) do
-    = claim.supplier_number
+    - if claim&.requires_trial_dates?
+      = render partial: 'shared/claim_trial_details', locals: { claim: claim }
 
-  - if claim.court
-    = govuk_summary_list_row_collection(t('common.crown_court')) do
-      = claim.court.name
-
-  = govuk_summary_list_row_collection(t('.case_num')) do
-    = claim.case_number
-    %span.unique-id-small
-      = claim.unique_id
-
-  - if claim.transfer_court.present?
-    = govuk_summary_list_row_collection(t('common.transfer_court')) do
-      = claim.transfer_court.name
-    = govuk_summary_list_row_collection(t('common.transfer_case_number')) do
-      = claim.transfer_case_number
-
-  - if claim.case_stage
-    = govuk_summary_list_row_collection(t('.case_stage')) do
-      = claim.case_stage&.description
-
-  - if claim.display_case_type?
-    = govuk_summary_list_row_collection(t('.case_type')) do
-      = claim.case_type&.name
-
-  - if claim.discontinuance?
-    = govuk_summary_list_row_collection(t('common.prosecution_evidence')) do
-      = t(claim.prosecution_evidence?.class)
-
-  - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
-    = render partial: 'shared/claim_cracked_trial_details', locals: { claim: claim }
-
-  - if claim.case_type && claim.case_concluded_at
-    = render partial: 'shared/claim_case_concluded_at_details', locals: { claim: claim }
-
-  - if claim.lgfs? && claim.interim? && !claim.interim_fee.nil?
-    = render partial: 'shared/claim_interim_details', locals: { claim: claim }
-
-  - if claim.transfer?
-    = render partial: 'shared/claim_transfer_details', locals: { claim: claim }
-
-  - if claim&.requires_trial_dates?
-    = render partial: 'shared/claim_trial_details', locals: { claim: claim }
-
-  - if claim&.requires_retrial_dates?
-    = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
-
-  = govuk_summary_list_row_collection(t('common.main_hearing_date')) do
-    = claim.main_hearing_date&.strftime(Settings.date_format)
-
-- if claim.defendants.any?
-  .govuk-grid-row
-    .govuk-grid-column-two-thirds
-      %h3.govuk-heading-m
-        = t('.defendants')
-
-    = render partial: 'shared/claim_defendants', locals: {defendants: claim.defendants }
-
-- else
-  .govuk-grid-row
-    .govuk-grid-column-two-thirds
-      %p.govuk-body
-        = t('.no_defendant')
-
-- unless claim.fixed_fee_case?
-  = render partial: 'external_users/claims/offence_details/summary', locals: { claim: claim }
+    - if claim&.requires_retrial_dates?
+      = render partial: 'shared/claim_retrial_details', locals: { claim: claim }
+      = render partial: 'shared/main_hearing_date_details', locals: {claim: claim}

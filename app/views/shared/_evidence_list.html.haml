@@ -1,50 +1,26 @@
 = render partial: 'shared/evidence_checklist'
 
 .app-summary-section
-  %h3.govuk-heading-m
-    = t('.existing_evidence')
-
   - if current_user_persona_is?(CaseWorker) && @claim.documents.any?
     = govuk_link_to t('shared.download_all_html', context: t('.existing_evidence')), download_zip_case_workers_claim_path(@claim), class: 'download-all-link'
 
   - if @claim.documents.none?
     %p.govuk-body
-      = t('.no_documents_uploaded')
+      = t('.no_supporting_evidence')
 
   - else
-    = govuk_table do
-      = govuk_table_caption(class: 'govuk-visually-hidden') do
-        = t('.caption')
+  .govuk-summary-card.custom-summary-card
+    .govuk-summary-card__title-wrapper
+      %h2.govuk-summary-card__title=t('.existing_evidence')
+    .govuk-summary-card__content
+      %dl.govuk-summary-list
+        .govuk-summary-list__row
+          .govuk-summary-list__key.file-name= t('.name_of_file')
+          .govuk-summary-list__key.file-info= t('.file_size')
+          .govuk-summary-list__key.file-info= t('.date_added')
 
-      = govuk_table_thead do
-        = govuk_table_row do
-          = govuk_table_th do
-            = t('.name_of_file')
-
-          = govuk_table_th_numeric do
-            = t('.file_size')
-
-          = govuk_table_th_numeric do
-            = t('.date_added')
-
-          = govuk_table_th_numeric do
-            = t('.actions')
-
-      = govuk_table_tbody do
         - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
-          = govuk_table_row do
-            = govuk_table_td('data-label': t('.name_of_file')) do
-              = document.document_file_name
-
-            = govuk_table_td_numeric('data-label': t('.file_size')) do
-              = number_to_human_size(document.document_file_size)
-
-            = govuk_table_td_numeric('data-label': t('.date_added')) do
-              = document.created_at.strftime(Settings.date_format)
-
-            = govuk_table_td_numeric('data-label': t('.actions')) do
-              .app-link-group
-                - if document.converted_preview_document.present?
-                  = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document)
-
-                = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), download_document_path(document)
+          .govuk-summary-list__row
+            .govuk-summary-list__value.file-name= govuk_link_to document.document_file_name, download_document_path(document)
+            .govuk-summary-list__value.file-info= number_to_human_size(document.document_file_size)
+            .govuk-summary-list__value.file-info= document.created_at.strftime(Settings.date_format)

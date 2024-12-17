@@ -1175,20 +1175,22 @@ en:
         selected_offence_header: 'You have chosen the following offence details:'
       defendants:
         defendant_fields:
+          defendant_details: Defendant details
           first_name: *first_name
           first_name_html: First name <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           last_name: *last_name
           last_name_html: Last name <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
-          full_name: Full name
           date_of_birth: Date of birth
           date_of_birth_html: Date of birth <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           date_hint: *date_hint
           judical_apportionment: Judicial apportionment
+          order_of_judicial_apportionment: Order for judicial apportionment
           order_for_judicial_apportionment:  Order for judicial apportionment
           order_for_judicial_apportionment_html: Order for judicial apportionment <span class="govuk-visually-hidden">for defendant <span class="fx-numberedList-number"></span></span>
           order_for_judicial_apportionment_help: Judicial apportionment is when the defendant has applied for and received an order confirming they are not required to pay the full amount of their defence costs. If applicable, ensure you upload a copy of the order to your claim.
           add_another_rep_order: 'Add another representation order'
           remove_defendant: 'Remove defendant'
+          maat_reference: 'MAAT reference:'
           defendant: Defendant
           defendant_html: Defendant <span class="fx-numberedList-number"></span>
           remove: Remove
@@ -2092,8 +2094,9 @@ en:
       case_stage: *case_stage
       case_worker: Case worker
       claim_type: Claim and case type
+      provider_reference: Provider reference number
+      claim_submitted: Claim submitted on
       defendant: Defendant names
-      defendants: Defendants
       j_a: Judicial apportionment
       no_defendant: No defendant details have been supplied for this claim
       offence: Offence
@@ -2171,8 +2174,9 @@ en:
       caption: 'Evidence Provided: A list of uploaded documents'
       summary: 'Note: View and Download links are in 4th column, Actions'
       existing_evidence: Existing evidence
+      no_supporting_evidence: "There is no supporting evidence for this claim"
       no_documents_uploaded: No documents have been uploaded.
-      name_of_file: Name of file
+      name_of_file: File
       file_size: File size
       date_added: Date added
       actions: Actions
@@ -2430,6 +2434,7 @@ en:
       additional_information: Additional claim information
       created_by: 'Created by:'
       h2_basic_info: Basic claim information
+      h2_defendant_details: Defendant
       h2_evidence: Evidence
       h2_messages: Messages and claim status
       h2_status: Status

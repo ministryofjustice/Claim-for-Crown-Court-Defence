@@ -24,6 +24,7 @@ module API
         path:,
         creator_email:,
         user_email:,
+        advocate_email:,
         input_parameters: request_data.keys
       }
     end
@@ -54,6 +55,12 @@ module API
       return if request_data['user_email'].blank?
 
       EmailSanitizerService.new(request_data['user_email']).call
+    end
+
+    def advocate_email
+      return if request_data['advocate_email'].blank?
+
+      EmailSanitizerService.new(request_data['advocate_email']).call
     end
 
     def response_status

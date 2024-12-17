@@ -49,6 +49,7 @@ RSpec.describe API::Logger do
           method: nil,
           path: nil,
           creator_email: nil,
+          advocate_email: nil,
           user_email: nil,
           claim_id: nil,
           case_number: nil,
@@ -75,6 +76,7 @@ RSpec.describe API::Logger do
           method: 'GET',
           path: 'valid/path',
           creator_email: 'a******e@e*****e.com',
+          advocate_email: nil,
           user_email: 'a******e@e*****e.com',
           claim_id: '456',
           case_number: '789',
@@ -113,6 +115,7 @@ RSpec.describe API::Logger do
           method: 'GET',
           path: 'valid/path',
           creator_email: 'a******e@e*****e.com',
+          advocate_email: nil,
           user_email: 'a******e@e*****e.com',
           claim_id: '456',
           case_number: '789',
@@ -173,6 +176,7 @@ RSpec.describe API::Logger do
             id: nil,
             creator_email: nil,
             input_parameters: [],
+            advocate_email: nil,
             user_email: nil }
         end
 
@@ -202,6 +206,7 @@ RSpec.describe API::Logger do
             id: '1',
             creator_email: nil,
             input_parameters: [],
+            advocate_email: nil,
             user_email: nil }
         end
 

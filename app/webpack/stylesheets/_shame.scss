@@ -537,16 +537,19 @@ form {
 .summary-page-values {
   display: flex;
   flex-direction: column;
+  margin: 0;
 }
 
 .summary-page-table-two-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 0;
 }
 
 .summary-page-table-two-row .govuk-summary-list__key {
   flex: 1;
+  margin: 0;
 }
 
 .summary-page-table-two-row .govuk-summary-list__value {

@@ -1,0 +1,45 @@
+.govuk-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      = "#{t('.title_defendant')} #{index}"
+
+  .govuk-summary-card__content
+    .govuk-summary-list
+      %dl.govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          = t('.first_name')
+        %dd.govuk-summary-list__value
+          = defendant.first_name
+
+      %dl.govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          = t('.last_name')
+        %dd.govuk-summary-list__value
+          = defendant.last_name
+
+      %dl.govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          = t('.date_of_birth')
+        %dd.govuk-summary-list__value
+          = defendant.date_of_birth.strftime(Settings.date_format) rescue ''
+
+      %dl.govuk-summary-list__row.summary-page-table-two-row
+        %dt.govuk-summary-list__key
+          = t('.order_of_judicial_apportionment')
+        %dd.govuk-summary-list__value
+          = defendant.order_for_judicial_apportionment == true ? t('global_yes') : t('global_no')
+
+      - if defendant.representation_orders.any?
+        - defendant.representation_orders.each_with_index do |representation_order, index|
+          %dl.govuk-summary-list__row.summary-page-table-two-row
+            %dt.govuk-summary-list__key
+              = "#{t('.reporders')} #{index + 1}"
+            %dd.govuk-summary-list__value.summary-page-values
+              %p
+                %span= representation_order.representation_order_date.strftime(Settings.date_format) rescue ''
+              %p
+                %span= t('.maat_reference')
+                = representation_order.maat_reference
+
+      - else
+        = govuk_inset_text(t('.no_reporder'))

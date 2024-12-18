@@ -1,21 +1,21 @@
 - unless claim.providers_ref.blank?
   %dl.govuk-summary-list__row.summary-page-table-two-row
     %dt.govuk-summary-list__key
-      = t('shared.claim.provider_reference')
+      = t('.provider_reference')
     %dd.govuk-summary-list__value
       = claim.providers_ref
 
 - unless claim.draft?
   %dl.govuk-summary-list__row.summary-page-table-two-row
     %dt.govuk-summary-list__key
-      = t('shared.claim.claim_submitted')
+      = t('.claim_submitted')
     %dd.govuk-summary-list__value
       = claim.submitted_at
 
 - if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
   %dl.govuk-summary-list__row.summary-page-table-two-row
     %dt.govuk-summary-list__key
-      = t('shared.claim.assignee')
+      = t('.assignee')
     %dd.govuk-summary-list__value
       = claim.case_worker_names
 
@@ -53,7 +53,7 @@
 
 %dl.govuk-summary-list__row.summary-page-table-two-row
   %dt.govuk-summary-list__key
-    = t('shared.claim.case_num')
+    = t('.case_num')
   %dd.govuk-summary-list__value
     = claim.case_number
     %span.unique-id-small
@@ -74,14 +74,14 @@
 - if claim.case_stage
   %dl.govuk-summary-list__row.summary-page-table-two-row
     %dt.govuk-summary-list__key
-      = t('shared.claim.case_stage')
+      = t('.case_stage')
     %dd.govuk-summary-list__value
       = claim.case_stage&.description
 
 - if claim.display_case_type?
   %dl.govuk-summary-list__row.summary-page-table-two-row
     %dt.govuk-summary-list__key
-      = t('shared.claim.case_type')
+      = t('.case_type')
     %dd.govuk-summary-list__value
       = claim.case_type&.name
 

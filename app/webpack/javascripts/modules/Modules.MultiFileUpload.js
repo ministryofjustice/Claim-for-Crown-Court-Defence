@@ -29,7 +29,7 @@ moj.Modules.MultiFileUpload = {
         let errors = errorContainer.querySelector('.govuk-list.govuk-error-summary__list');
         errorContainer.style.display = '';
         let error = document.createElement('span');
-        error.style = 'color:red;font-weight:bold';
+        error.style = 'color:#d4351c;font-weight:bold';
         error.innerHTML = file.name + ' is ' + errorThrown + '.<br/>';
         errors.appendChild(error);
       },

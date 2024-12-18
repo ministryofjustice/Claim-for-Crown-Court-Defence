@@ -2172,6 +2172,12 @@ en:
       reporders: Represention order
       maat_reference: 'MAAT reference:'
       no_reporder: No representation orders have been supplied for this defendant.
+    new_claim_retrial_details:
+      retrial_started_at: 'First day of retrial'
+      retrial_estimated_length: 'Estimated retrial length'
+      retrial_actual_length: 'Actual retrial length'
+      retrial_concluded_at: 'Retrial concluded on'
+      retrial_reduction: 'Apply reduced rate to retrial?'
     new_evidence_checklist:
       evidence_address: "Please send evidence to the following address:"
     new_evidence_list:
@@ -2191,6 +2197,9 @@ en:
       remove: Remove
       written_reasons_heading: Written reasons
       written_reasons: I have submitted written reasons
+    offence_details:
+      new_summary:
+        header: Offence details
 
     providers:
       new:

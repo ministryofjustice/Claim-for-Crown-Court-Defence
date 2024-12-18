@@ -1,24 +1,24 @@
 - trial_detail_translations = 'external_users.claims.case_details.trial_detail_fields'
 
-.govuk-summary-list__row.summary-page-table-two-row
+%dl.govuk-summary-list__row.summary-page-table-two-row
   %dt.govuk-summary-list__key
     = t("#{trial_detail_translations}.first_day_of_trial")
   %dd.govuk-summary-list__value
     = claim.first_day_of_trial.strftime(Settings.date_format) rescue ''
 
-.govuk-summary-list__row.summary-page-table-two-row
+%dl.govuk-summary-list__row.summary-page-table-two-row
   %dt.govuk-summary-list__key
     = t("#{trial_detail_translations}.estimated_trial_length")
   %dd.govuk-summary-list__value
     = claim.estimated_trial_length rescue ''
 
-.govuk-summary-list__row.summary-page-table-two-row
+%dl.govuk-summary-list__row.summary-page-table-two-row
   %dt.govuk-summary-list__key
     = t("#{trial_detail_translations}.actual_trial_length")
   %dd.govuk-summary-list__value
     = claim.estimated_trial_length rescue ''
 
-.govuk-summary-list__row.summary-page-table-two-row
+%dl.govuk-summary-list__row.summary-page-table-two-row
   %dt.govuk-summary-list__key
     = t("#{trial_detail_translations}.trial_concluded_at")
   %dd.govuk-summary-list__value

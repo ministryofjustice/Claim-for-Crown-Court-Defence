@@ -1,0 +1,13 @@
+- claim_fields = %i[external_users claims case_details fields]
+
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('offence_category', scope: claim_fields)
+  %dd.govuk-summary-list__value
+    = claim.offence ? claim.offence.description : t('general.not_provided')
+
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('offence_class', scope: claim_fields)
+  %dd.govuk-summary-list__value
+    = claim.offence ? claim.offence.offence_class : t('general.not_provided')

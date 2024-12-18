@@ -2191,6 +2191,9 @@ en:
       remove: Remove
       written_reasons_heading: Written reasons
       written_reasons: I have submitted written reasons
+    offence_details:
+      new_summary:
+        header: Offence details
 
     providers:
       new:

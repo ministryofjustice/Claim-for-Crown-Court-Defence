@@ -15,31 +15,31 @@
         %li.govuk-summary-card__action
           = govuk_link_to t('.court_data_link'), "#{ENV.fetch('VIEW_COURT_DATA_URL', nil)}/laa_references/new?id=#{defendant.hmcts.id}&urn=#{case_number}", target: :_blank
     .govuk-summary-card__content
-      %dl.govuk-summary-list
-        .govuk-summary-list__row
+      .govuk-summary-list
+        %dl.govuk-summary-list__row
           %dt.govuk-summary-list__key
             = t('.name')
           %dd.govuk-summary-list__value
             = defendant.hmcts.name
-        .govuk-summary-list__row
+        %dl.govuk-summary-list__row
           %dt.govuk-summary-list__key
             = t('.maat_reference')
           %dd.govuk-summary-list__value
             = defendant.maat_reference
         - if defendant.hmcts.start.present?
-          .govuk-summary-list__row
+          %dl.govuk-summary-list__row
             %dt.govuk-summary-list__key
               = t('.start_date')
             %dd.govuk-summary-list__value
               = defendant.hmcts.start.strftime(Settings.date_format)
         - if defendant.hmcts.end.present?
-          .govuk-summary-list__row
+          %dl.govuk-summary-list__row
             %dt.govuk-summary-list__key
               = t('.end_date')
             %dd.govuk-summary-list__value
               = defendant.hmcts.end.strftime(Settings.date_format)
         - if defendant.hmcts.contract_number.present?
-          .govuk-summary-list__row
+          %dl.govuk-summary-list__row
             %dt.govuk-summary-list__key
               = t('.contract_number')
             %dd.govuk-summary-list__value

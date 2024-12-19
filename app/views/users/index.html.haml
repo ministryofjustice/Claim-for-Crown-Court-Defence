@@ -29,6 +29,5 @@
             = govuk_table_td('data-label': t('.created')) do
               = user.created_at
 
-%nav.pagination.app-pagintion--inline
-  = pagy_nav(@pagy).html_safe
+= render partial: 'shared/pagination'
 

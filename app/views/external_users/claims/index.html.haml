@@ -20,5 +20,4 @@
 
 = render partial: 'main_claims_list', locals: { claims: @claims }
 
-%nav.pagination.app-pagintion--inline
-  = pagy_nav(@pagy).html_safe
+= render partial: 'shared/pagination'

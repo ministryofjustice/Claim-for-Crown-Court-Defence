@@ -556,3 +556,20 @@ form {
   text-align: left;
   flex: 1;
 }
+
+.govuk-table__header.align-left {
+  text-align: left;
+}
+
+.govuk-table__header.align-right {
+  text-align: right;
+}
+
+.govuk-table__cell.align-left {
+  text-align: left;
+}
+
+.govuk-table__cell.align-right {
+  text-align: right;
+}
+

@@ -2154,7 +2154,7 @@ en:
       h2_evidence: Evidence
       h2_messages: Messages and claim status
       h2_status: Status
-      h2_summary: Fees, expenses and more information
+      h2_summary: Fees
       heading: Claim
     new_claim_and_case_type_details:
       provider_reference: Provider reference number
@@ -2186,6 +2186,19 @@ en:
       name_of_file: File
       file_size: File size
       date_added: Date added
+    new_summary_lgfs:
+      caption: Basic and additional fees
+      fee_category: Fee category
+      fee_type: Fee type
+      rate: Rate
+      days_claimed: Days
+      actual_trial_length: *actual_trial_length
+      quantity: *quantity
+      amount: Net amount
+      dates_attended: Dates attended
+      date: Date
+      fee_subtype: Fee subtype
+      case_numbers: *case_numbers
     message_controls:
       attachment_label: Optionally attach a file
       update_claim_status: Update your claim status

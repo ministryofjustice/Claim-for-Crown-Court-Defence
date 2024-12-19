@@ -1,0 +1,63 @@
+- present(@claim) do |claim|
+  - if @claim.fees_total == 0
+    %p.govuk-body
+      = t('shared.summary.no_values.fees')
+
+  - else
+    .govuk-summary-card.custom-summary-card
+      .govuk-summary-card__title-wrapper
+        %h2.govuk-summary-card__title
+          = t('.caption')
+      .govuk-summary-card__content
+        %dl.govuk-summary-list.new_summary
+          %div.govuk-summary-list__header
+            %div.govuk-summary-list__row
+
+          %table.govuk-table
+            %thead.govuk-table__head
+              %tr.govuk-table__row
+                %th.govuk-table__header.align-left{ scope: "col" }= t('.fee_category')
+                %th.govuk-table__header.align-left{ scope: "col" }= t('.fee_type')
+                - if claim.display_days?
+                  %th.govuk-table__header.align-right{ scope: "col" }
+                    = claim.transfer? ? t('.days_claimed') : t('.actual_trial_length')
+                %th.govuk-table__header.align-right{ scope: "col" }= claim.fixed_fee_case? ? t('.quantity') : 'PPE'
+                - if claim.fixed_fee_case?
+                  %th.govuk-table__header.align-right{ scope: "col" }= t('.rate')
+                %th.govuk-table__header.align-right{ scope: "col" }= t('.amount')
+
+            %tbody.govuk-table__body
+            - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
+              %tr.govuk-table__row
+                %td.govuk-table__cell.align-left
+                  = fee.fee_type&.fee_category_name || fee.not_applicable
+                  - if fee.dates_attended.any?
+                    %br
+                    = t('.dates_attended')
+                    = fee.dates_attended_delimited_string
+                  - if fee.date?
+                    %br
+                    = t('.date')
+                    = fee.date
+
+                %td.govuk-table__cell.align-left
+                  = fee.fee_type&.description || fee.not_applicable
+                  - if fee.sub_type.present?
+                    %br
+                    = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
+                  - if fee.case_uplift?
+                    -# %br
+                    = "(#{t('.case_numbers')}: #{fee.case_numbers})"
+
+                - if claim.display_days?
+                  %td.govuk-table__cell.align-right
+                    = fee.days_claimed
+
+                %td.govuk-table__cell.align-right
+                  = fee.quantity
+
+                - if claim.fixed_fee_case?
+                  %td.govuk-table__cell.align-right
+                    = fee.rate
+                %td.govuk-table__cell.align-right
+                  = fee.amount

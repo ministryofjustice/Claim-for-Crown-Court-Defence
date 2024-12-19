@@ -1,0 +1,78 @@
+.govuk-summary-card.custom-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      = t('.caption')
+  .govuk-summary-card__content
+    %dl.govuk-summary-list.new_summary
+      %div.govuk-summary-list__header
+        %div.govuk-summary-list__row
+
+      = govuk_table do
+        = govuk_table_caption(class: 'govuk-visually-hidden') do
+          = t('.fees.caption')
+
+        = govuk_table_thead do
+          = govuk_table_row do
+            = govuk_table_th do
+              = t('.fee_category')
+
+            = govuk_table_th do
+              = t('.fee_type')
+
+            - if claim.display_days?
+              = govuk_table_th_numeric do
+                = claim.transfer? ? t('.days_claimed') : t('.actual_trial_length')
+
+            = govuk_table_th_numeric do
+              = claim.fixed_fee_case? ? t('.quantity') : 'PPE'
+
+            - if claim.fixed_fee_case?
+              = govuk_table_th_numeric do
+                = t('.rate')
+
+            = govuk_table_th_numeric do
+              = t('.amount')
+
+        = govuk_table_tbody do
+          - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
+            = govuk_table_row do
+              = govuk_table_td('data-label': t('.fee_category')) do
+                = fee.fee_type&.fee_category_name || fee.not_applicable
+                - if fee.dates_attended.any?
+                  %br
+                  = t('.dates_attended')
+                  = fee.dates_attended_delimited_string
+                - if fee.date?
+                  %br
+                  = t('.date')
+                  = fee.date
+
+              = govuk_table_td('data-label': t('.fee_type')) do
+                = fee.fee_type&.description || fee.not_applicable
+                - if fee.sub_type.present?
+                  %br
+                  = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
+                - if fee.case_uplift?
+                  %br
+                  = "(#{t('.case_numbers')}: #{fee.case_numbers})"
+
+              - if claim.display_days?
+                = govuk_table_td_numeric('data-label': claim.transfer? ? t('.days_claimed') : t('.actual_trial_length')) do
+                  = fee.days_claimed
+
+              = govuk_table_td_numeric('data-label': claim.fixed_fee_case? ? t('.quantity') : 'PPE') do
+                = fee.quantity
+
+              - if claim.fixed_fee_case?
+                = govuk_table_td_numeric('data-label': t('.rate')) do
+                  = fee.rate
+
+              = govuk_table_td_numeric('data-label': t('.amount')) do
+                = fee.amount
+
+      .govuk-summary-list
+        %dl.govuk-summary-list__row.total-fees
+          %dt.govuk-summary-list__key.total-fees
+            = t('.fees_total')
+          %dd.govuk-summary-list__value
+            = claim.fees_total

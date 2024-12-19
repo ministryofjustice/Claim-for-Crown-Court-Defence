@@ -5,7 +5,6 @@ module API
 
       expose :pagination do
         expose :current_page
-        expose :total_pages
         expose :total_count
         expose :limit_value
       end
@@ -19,19 +18,15 @@ module API
       end
 
       def current_page
-        items.current_page
-      end
-
-      def total_pages
-        items.total_pages
+        options[:pagy].page
       end
 
       def total_count
-        items.total_count
+        options[:pagy].count
       end
 
       def limit_value
-        items.limit_value
+        options[:pagy].limit
       end
     end
   end

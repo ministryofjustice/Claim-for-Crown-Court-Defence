@@ -1,7 +1,7 @@
 module Remote
   module Collections
     class PaginatedCollection < SimpleDelegator
-      attr_accessor :current_page, :total_pages, :total_count, :limit_value
+      attr_accessor :current_page, :total_count, :limit_value
 
       def initialize(collection = [], pagination = {})
         super(collection)

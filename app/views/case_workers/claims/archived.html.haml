@@ -4,4 +4,6 @@
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading')}
 = render partial: 'search_form', locals: { archived: true }
 = render partial: 'claims_list', locals: { claims: @claims }
-= paginate @claims
+
+%nav.pagination.app-pagintion--inline
+  = pagy_nav(@pagy).html_safe

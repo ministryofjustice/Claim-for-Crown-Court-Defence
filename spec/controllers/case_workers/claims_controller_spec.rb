@@ -22,11 +22,13 @@ RSpec.describe CaseWorkers::ClaimsController do
       {
         sorting: 'last_submitted_at',
         direction: 'asc',
-        page: 0,
+        page: 1,
         limit: 10,
         search: nil
       }
     end
+
+    before { allow(claims_collection).to receive_messages(total_count: 15, total_pages: 2, limit_value: 10, current_page: 1) }
 
     context 'no search terms present' do
       it 'calls case worker claims service with appropriate params' do

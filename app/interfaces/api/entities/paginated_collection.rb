@@ -18,20 +18,24 @@ module API
         object[:items]
       end
 
+      def pagination
+        options[:pagy]
+      end
+
       def current_page
-        items.current_page
+        pagination.page
       end
 
       def total_pages
-        items.total_pages
+        pagination.pages
       end
 
       def total_count
-        items.total_count
+        pagination.count
       end
 
       def limit_value
-        items.limit_value
+        pagination.limit
       end
     end
   end

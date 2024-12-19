@@ -119,8 +119,13 @@ module CaseWorkers
     end
 
     def sort_and_paginate
-      # GOTCHA: must paginate in same call that sorts/orders
-      @claims = @claims.sort_using(sort_column, sort_direction).page(current_page).per(page_size) unless @claims.remote?
+      @claims = @claims.sort_using(sort_column, sort_direction) unless @claims.remote?
+      @pagy = Pagy.new(
+        count: @claims.total_count,
+        limit: @claims.limit_value,
+        page: @claims.current_page,
+        pages: @claims.total_pages
+      )
     end
 
     def sort_claims

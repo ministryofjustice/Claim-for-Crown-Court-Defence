@@ -7,6 +7,7 @@ module CaseWorkers
       before_action :set_claims, only: %i[new create]
       before_action :set_summary_values, only: [:new], if: :summary_from_previous_request?
       before_action :process_claim_ids, only: [:create], if: :quantity_allocation?
+      before_action :sort_and_paginate
 
       def new
         @allocation = Allocation.new
@@ -88,7 +89,13 @@ module CaseWorkers
       end
 
       def sort_and_paginate
-        @claims = @claims.sort_using(sort_column, sort_direction).page(current_page).per(page_size)
+        @claims = @claims.sort_using(sort_column, sort_direction) unless @claims.remote?
+        @pagy = Pagy.new(
+          count: @claims.total_count,
+          limit: @claims.limit_value,
+          page: @claims.current_page,
+          pages: @claims.total_pages
+        )
       end
 
       def allocation_params

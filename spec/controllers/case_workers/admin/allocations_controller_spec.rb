@@ -2,15 +2,16 @@ require 'rails_helper'
 
 RSpec.describe CaseWorkers::Admin::AllocationsController do
   before(:all) do
-    # create(:graduated_fee_type, code: 'GTRL') #use seeded case types 'real' fee type codes
-    # load '#{Rails.root}/db/seeds/case_types.rb'
     @case_worker = create(:case_worker)
     @admin = create(:case_worker, :admin)
   end
 
   after(:all) { clean_database }
 
-  before { sign_in @admin.user }
+  before do
+    sign_in @admin.user
+    allow(claims_collection).to receive_messages(total_count: 15, total_pages: 2, limit_value: 10, current_page: 1)
+  end
 
   let(:tab) { nil } # default tab is 'unallocated' when tab not provided
 
@@ -30,7 +31,7 @@ RSpec.describe CaseWorkers::Admin::AllocationsController do
       direction: 'asc',
       scheme: 'agfs',
       filter: 'all',
-      page: 0,
+      page: 1,
       limit: 25,
       search: nil,
       value_band_id: 0

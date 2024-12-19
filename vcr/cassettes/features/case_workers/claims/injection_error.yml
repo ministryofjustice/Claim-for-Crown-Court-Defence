@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=e21a6099-56d9-4697-bd62-441a4b04ed8c&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=e21a6099-56d9-4697-bd62-441a4b04ed8c&direction=asc&limit=10&page=1&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -47,7 +47,7 @@ http_interactions:
   recorded_at: Thu, 25 Apr 2024 11:39:30 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=e21a6099-56d9-4697-bd62-441a4b04ed8c&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=e21a6099-56d9-4697-bd62-441a4b04ed8c&direction=asc&limit=10&page=1&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -92,7 +92,7 @@ http_interactions:
   recorded_at: Thu, 25 Apr 2024 11:39:31 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=e21a6099-56d9-4697-bd62-441a4b04ed8c&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=e21a6099-56d9-4697-bd62-441a4b04ed8c&direction=asc&limit=10&page=1&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''

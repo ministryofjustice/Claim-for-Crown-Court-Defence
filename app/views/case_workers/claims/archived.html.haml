@@ -5,5 +5,4 @@
 = render partial: 'search_form', locals: { archived: true }
 = render partial: 'claims_list', locals: { claims: @claims }
 
-%nav.pagination.app-pagintion--inline
-  = pagy_nav(@pagy).html_safe
+= render partial: 'shared/pagination'

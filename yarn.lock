@@ -3176,11 +3176,11 @@ is-extglob@^2.1.1:
   integrity sha512-SbKbANkN603Vi4jEZv49LeVJMn4yGwsbzZworEoyEiutsN3nJYdbO36zfhGJ6QEDpOZIFkDtnq5JRxmvl3jsoQ==
 
 is-finalizationregistry@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/is-finalizationregistry/-/is-finalizationregistry-1.1.0.tgz#d74a7d0c5f3578e34a20729e69202e578d495dc2"
-  integrity sha512-qfMdqbAQEwBw78ZyReKnlA8ezmPdb9BemzIIip/JkjaZUhitfXDkkr+3QTboW0JrSXT1QWyYShpvnNHGZ4c4yA==
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/is-finalizationregistry/-/is-finalizationregistry-1.1.1.tgz#eefdcdc6c94ddd0674d9c85887bf93f944a97c90"
+  integrity sha512-1pC6N8qWJbWoPtEjgcL2xyhQOP491EQjeUo3qTKcmV8YSDDJrOepfG8pcC7h/QgnQHYSv0mJ3Z/ZWxmatVrysg==
   dependencies:
-    call-bind "^1.0.7"
+    call-bound "^1.0.3"
 
 is-fullwidth-code-point@^3.0.0:
   version "3.0.0"

@@ -13,7 +13,7 @@
           %div.govuk-summary-list__header
             %div.govuk-summary-list__row
 
-          %table.govuk-table
+          %table.govuk-table.remove-margin
             %thead.govuk-table__head
               %tr.govuk-table__row
                 %th.govuk-table__header.align-left{ scope: "col" }= t('.fee_category')
@@ -61,3 +61,7 @@
                     = fee.rate
                 %td.govuk-table__cell.align-right
                   = fee.amount
+
+        .totals
+          = t('.fees_total')
+          = claim.fees_total

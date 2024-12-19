@@ -2199,6 +2199,7 @@ en:
       date: Date
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
+      fees_total: 'Fees Total: '
     message_controls:
       attachment_label: Optionally attach a file
       update_claim_status: Update your claim status

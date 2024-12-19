@@ -206,7 +206,6 @@ form {
 // claims-table.SCSS
 .totals {
   padding-top: $gutter-two-thirds;
-  padding-bottom: $gutter-two-thirds;
   text-align: right;
 }
 
@@ -567,4 +566,18 @@ form {
 .govuk-table__cell.align-right {
   text-align: right;
 }
+
+.govuk-table.remove-margin {
+  margin-bottom: 0;
+}
+
+.govuk-summary-list__key.total-fees {
+  flex: 2;
+  text-align: right;
+}
+
+.govuk-summary-list__row.total-fees {
+  margin: 0;
+}
+
 

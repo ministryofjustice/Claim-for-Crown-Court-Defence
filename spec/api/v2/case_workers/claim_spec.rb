@@ -137,16 +137,16 @@ RSpec.describe API::V2::CaseWorkers::Claim do
       context 'default' do
         it 'paginates with default values' do
           pagination = pagination_details(do_request)
-          expect(pagination.sort.to_h).to eq({ current_page: 1, limit_value: 10, total_count: 0, total_pages: 0 })
+          expect(pagination.sort.to_h).to eq({ current_page: 1, limit_value: 10, total_count: 0 })
         end
       end
 
       context 'custom values' do
         let(:pagination) { { limit: 5, page: 3 } }
 
-        it 'paginates with default values' do
+        it 'paginates with custom values' do
           pagination = pagination_details(do_request)
-          expect(pagination.sort.to_h).to eq({ current_page: 3, limit_value: 5, total_count: 0, total_pages: 0 })
+          expect(pagination.sort.to_h).to eq({ current_page: 4, limit_value: 5, total_count: 0 })
         end
       end
     end

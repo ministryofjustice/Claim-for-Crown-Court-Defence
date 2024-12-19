@@ -40,7 +40,7 @@ http_interactions:
       - '1626'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"98f79337-cb25-490a-a655-1829322b2236","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2024-04-25T11:40:06Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"1556f51e-3fb5-47af-aa26-ebf245ef1f24","first_name":"Freddie","last_name":"Toy","email":"trent_schamberger@sipes-lemke.test"},"defendants":[{"id":1,"uuid":"745f53b8-f65e-4aea-becc-e5b447e7d78f","first_name":"Blair","last_name":"Carter","date_of_birth":"1994-04-25","representation_orders":[{"id":1,"uuid":"60eb6ab0-b9d8-41ce-b4f6-5da815c6c089","maat_reference":"6883484","date":"2016-01-01"},{"id":2,"uuid":"8f483cc1-6223-4a76-986d-04f905b579b4","maat_reference":"5435606","date":"2023-04-11"}]}],"case_type":{"id":71,"name":"Case
+      string: '{"pagination":{"current_page":1,"total_count":1,"limit_value":10},"items":[{"id":1,"uuid":"98f79337-cb25-490a-a655-1829322b2236","case_number":"A20161234","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2024-04-25T11:40:06Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"1556f51e-3fb5-47af-aa26-ebf245ef1f24","first_name":"Freddie","last_name":"Toy","email":"trent_schamberger@sipes-lemke.test"},"defendants":[{"id":1,"uuid":"745f53b8-f65e-4aea-becc-e5b447e7d78f","first_name":"Blair","last_name":"Carter","date_of_birth":"1994-04-25","representation_orders":[{"id":1,"uuid":"60eb6ab0-b9d8-41ce-b4f6-5da815c6c089","maat_reference":"6883484","date":"2016-01-01"},{"id":2,"uuid":"8f483cc1-6223-4a76-986d-04f905b579b4","maat_reference":"5435606","date":"2023-04-11"}]}],"case_type":{"id":71,"name":"Case
         Type 16","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":2,"uuid":"c76150be-58fe-4365-9909-b6014b3be34c","first_name":"Gino","last_name":"Bode","email":"gino.bode@laa.gov.uk"},{"id":1,"uuid":"9894ecf6-cb18-47c9-bd8f-ef9b08e8d7e3","first_name":"Ciera","last_name":"Feeney","email":"ciera.feeney@laa.gov.uk"}],"court":{"id":339,"code":"WKO-16","name":"Koepp
         Group-16","court_type":"crown"}}]}'
   recorded_at: Thu, 25 Apr 2024 11:40:07 GMT
@@ -84,6 +84,6 @@ http_interactions:
       - '93'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
+      string: '{"pagination":{"current_page":1,"total_count":0,"limit_value":10},"items":[]}'
   recorded_at: Thu, 25 Apr 2024 11:40:08 GMT
 recorded_with: VCR 6.2.0

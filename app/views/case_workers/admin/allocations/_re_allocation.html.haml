@@ -35,7 +35,7 @@
               .govuk-grid-column-one-half
                 = t('.re_allocation')
               .govuk-grid-column-one-half.claim-count{ class: 'govuk-!-text-align-right' }
-                = t('.number_of_claims', claim_count: @claims.total_count)
+                = pagy_info(@pagy).html_safe
 
           = govuk_table_thead do
             = govuk_table_row do

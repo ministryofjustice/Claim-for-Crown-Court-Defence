@@ -40,6 +40,6 @@ http_interactions:
       - '93'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
+      string: '{"pagination":{"current_page":1,"total_count":0,"limit_value":10},"items":[]}'
   recorded_at: Thu, 25 Apr 2024 11:39:33 GMT
 recorded_with: VCR 6.2.0

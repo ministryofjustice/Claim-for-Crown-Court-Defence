@@ -29,4 +29,5 @@
             = govuk_table_td('data-label': t('.created')) do
               = user.created_at
 
-= paginate @users
+= render partial: 'shared/pagination'
+

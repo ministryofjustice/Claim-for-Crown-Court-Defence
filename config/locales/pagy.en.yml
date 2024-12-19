@@ -1,0 +1,20 @@
+en:
+  pagy:
+    aria_label:
+      nav:
+        one: "Page"
+        other: "Pages"
+      prev: "Previous"
+      next: "Next"
+    prev: "Previous"
+    next: "Next"
+    gap: "&hellip;"
+    item_name:
+      one: "claim"
+      other: "claims"
+    info:
+      no_items: "No %{item_name} found"
+      single_page: "Displaying %{count} %{item_name}"
+      multiple_pages: "Displaying %{item_name} %{from}-%{to} of %{count} in total"
+    combo_nav_js: "Page %{page_input} of %{pages}"
+    limit_selector_js: "Show %{limit_input} %{item_name} per page"

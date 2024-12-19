@@ -242,10 +242,11 @@ Metrics/AbcSize:
     - 'spec/support/seed_helpers.rb'
     - 'spec/support/validation_helpers.rb'
 
-# Offense count: 19
+# Offense count: 20
 # Configuration parameters: CountComments, Max, CountAsOne.
 Metrics/ClassLength:
   Exclude:
+    - 'app/controllers/case_workers/claims_controller.rb'
     - 'app/controllers/external_users/claims_controller.rb'
     - 'app/interfaces/api/entities/search_result.rb'
     - 'app/interfaces/api/v1/dropdown_data.rb'

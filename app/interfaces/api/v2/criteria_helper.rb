@@ -1,6 +1,7 @@
 module API::V2
   module CriteriaHelper
     extend Grape::API::Helpers
+    include Pagy::Backend
 
     params :pagination do
       optional :page, type: Integer, desc: 'OPTIONAL: Current page.'

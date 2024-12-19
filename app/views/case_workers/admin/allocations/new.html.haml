@@ -13,5 +13,4 @@
   .js-re-allocation-page
     = render partial: 're_allocation'
 
-  %nav.pagination.app-pagintion--inline
-    = pagy_nav(@pagy).html_safe
+  = render partial: 'shared/pagination'

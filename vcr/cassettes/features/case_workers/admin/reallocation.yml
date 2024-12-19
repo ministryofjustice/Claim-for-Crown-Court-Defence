@@ -82,7 +82,7 @@ http_interactions:
       - '93'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":25},"items":[]}'
+      string: '{"pagination":{"current_page":1,"total_count":0,"limit_value":25},"items":[]}'
   recorded_at: Thu, 25 Apr 2024 11:39:49 GMT
 - request:
     method: get
@@ -166,7 +166,7 @@ http_interactions:
       - '1637'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"0f29c124-5ed7-486f-b082-8945d747e46c","case_number":"T20160001","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2024-04-25T11:39:48Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"d691f1ae-8c2e-4f79-b967-459bde753f2f","first_name":"Philip","last_name":"Hartmann","email":"shawn.veum@kris.test"},"defendants":[{"id":1,"uuid":"8d188831-05bf-471f-9e71-a0f862016937","first_name":"Gustavo","last_name":"Reinger","date_of_birth":"1994-04-25","representation_orders":[{"id":1,"uuid":"dfd96179-30fe-450c-8404-47bc5def55ea","maat_reference":"8181111","date":"2016-01-01"},{"id":2,"uuid":"460d1eaf-4f89-4854-8ac2-8abf04b0ddf2","maat_reference":"5361186","date":"2023-04-11"}]}],"case_type":{"id":69,"name":"Case
+      string: '{"pagination":{"current_page":1,"total_count":1,"limit_value":25},"items":[{"id":1,"uuid":"0f29c124-5ed7-486f-b082-8945d747e46c","case_number":"T20160001","state":"allocated","type":"Claim::AdvocateClaim","last_submitted_at":"2024-04-25T11:39:48Z","total":0.0,"vat_amount":0.0,"opened_for_redetermination":false,"written_reasons_outstanding":false,"disk_evidence":false,"prosecution_evidence":null,"messages_count":0,"unread_messages_count":0,"external_user":{"id":1,"uuid":"d691f1ae-8c2e-4f79-b967-459bde753f2f","first_name":"Philip","last_name":"Hartmann","email":"shawn.veum@kris.test"},"defendants":[{"id":1,"uuid":"8d188831-05bf-471f-9e71-a0f862016937","first_name":"Gustavo","last_name":"Reinger","date_of_birth":"1994-04-25","representation_orders":[{"id":1,"uuid":"dfd96179-30fe-450c-8404-47bc5def55ea","maat_reference":"8181111","date":"2016-01-01"},{"id":2,"uuid":"460d1eaf-4f89-4854-8ac2-8abf04b0ddf2","maat_reference":"5361186","date":"2023-04-11"}]}],"case_type":{"id":69,"name":"Case
         Type 14","is_fixed_fee":false,"requires_cracked_dates":false,"requires_trial_dates":false,"allow_pcmh_fee_type":false,"requires_maat_reference":true,"requires_retrial_dates":false,"roles":["agfs","lgfs"],"fee_type_code":null},"injection_attempts":[],"case_workers":[{"id":3,"uuid":"7e9bfc8b-c547-49af-9555-e7dd1f8ce999","first_name":"Jake","last_name":"Harber","email":"jake.harber@laa.gov.uk"},{"id":1,"uuid":"73bb570d-59ee-4508-bde6-07bcf28d0c5d","first_name":"Dominick","last_name":"Dibbert","email":"dominick.dibbert@laa.gov.uk"}],"court":{"id":337,"code":"NWM-14","name":"Shanahan-Shanahan-14","court_type":"crown"}}]}'
   recorded_at: Thu, 25 Apr 2024 11:39:50 GMT
 - request:
@@ -251,6 +251,6 @@ http_interactions:
       - '93'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":25},"items":[]}'
+      string: '{"pagination":{"current_page":1,"total_count":0,"limit_value":25},"items":[]}'
   recorded_at: Thu, 25 Apr 2024 11:39:50 GMT
 recorded_with: VCR 6.2.0

@@ -242,7 +242,7 @@ GEM
       dry-inflector (~> 1.0)
       dry-logic (~> 1.4)
       zeitwerk (~> 2.6)
-    dumb_delegator (1.0.0)
+    dumb_delegator (1.1.0)
     erubi (1.13.0)
     et-orbi (1.2.11)
       tzinfo

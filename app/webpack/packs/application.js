@@ -72,6 +72,7 @@ import '../javascripts/modules/Helpers.Autocomplete.js'
 import '../javascripts/modules/Modules.TableRowClick.js'
 import '../javascripts/modules/Modules.AllocationScheme.js'
 import '../javascripts/modules/Modules.AddEditAdvocate.js'
+import '../javascripts/modules/Modules.MultiFileUpload.js'
 
 import '../javascripts/plugins/jquery.numbered.elements.js'
 

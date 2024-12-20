@@ -2186,7 +2186,7 @@ en:
       name_of_file: File
       file_size: File size
       date_added: Date added
-    new_summary_lgfs:
+    new_basic_and_additional_fees_details:
       caption: Basic and additional fees
       fee_category: Fee category
       fee_type: Fee type
@@ -2199,7 +2199,7 @@ en:
       date: Date
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
-      fees_total: 'Fees Total: '
+      fees_total: Fees total
     message_controls:
       attachment_label: Optionally attach a file
       update_claim_status: Update your claim status

@@ -576,4 +576,13 @@ form {
   margin-bottom: 0;
 }
 
+.govuk-summary-list__key.total-fees {
+  flex: 2;
+  text-align: right;
+}
+
+.govuk-summary-list__row.total-fees {
+  margin: 0;
+}
+
 

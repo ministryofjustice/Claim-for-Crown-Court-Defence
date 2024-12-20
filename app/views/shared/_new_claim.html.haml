@@ -23,14 +23,15 @@
     - if claim.transfer?
       = render partial: 'shared/new_claim_transfer_details', locals: { claim: claim }
 
-  - if claim&.requires_trial_dates?
-    = render partial: 'shared/new_claim_trial_details', locals: { claim: claim }
+    - if claim&.requires_trial_dates?
+      = render partial: 'shared/new_claim_trial_details', locals: { claim: claim }
 
     - if claim&.requires_retrial_dates?
       = render partial: 'shared/new_claim_retrial_details', locals: { claim: claim }
 
-    = govuk_summary_list_row_collection(t('common.main_hearing_date')) do
-      = claim.main_hearing_date&.strftime(Settings.date_format)
+    - if claim.main_hearing_date
+      = render partial: 'shared/new_main_hearing_date_details', locals: { claim: claim }
+
 
 - if claim.defendants.any?
   %h2.govuk-heading-l

@@ -1,0 +1,5 @@
+%dl.govuk-summary-list__row.summary-page-table-two-row
+  %dt.govuk-summary-list__key
+    = t('common.main_hearing_date')
+  %dd.govuk-summary-list__value
+    = claim.main_hearing_date&.strftime(Settings.date_format)

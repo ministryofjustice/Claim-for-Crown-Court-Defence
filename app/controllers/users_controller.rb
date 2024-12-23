@@ -31,7 +31,7 @@ class UsersController < ApplicationController
   include PaginationHelpers
 
   def index
-    @users = User.order(created_at: :desc).page(current_page).per(page_size)
+    @pagy, @users = pagy(User.order(created_at: :desc), page: current_page, limit: page_size)
   end
 
   def update_settings

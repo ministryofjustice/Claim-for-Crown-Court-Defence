@@ -19,4 +19,5 @@
 .importer-results{'aria-live': 'polite'}
 
 = render partial: 'main_claims_list', locals: { claims: @claims }
-= paginate @claims
+
+= render partial: 'shared/pagination'

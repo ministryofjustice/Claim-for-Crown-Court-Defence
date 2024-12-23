@@ -5,9 +5,9 @@
 
 %p.govuk-heading-l
   %span.govuk-caption-l
-    = t('.with_total_assessed_value_of_html', size: @claims.unscope(:order).size, total: @claims.total_count)
+    = t('.with_total_assessed_value_of_html', size: @claims.unscope(:order).size, total: @pagy.count)
   = number_to_currency(@total_value)
 
 #details#listanchor
   = render partial: 'main_claims_list', locals: { claims: @claims }
-  = paginate @claims
+  = render partial: 'shared/pagination'

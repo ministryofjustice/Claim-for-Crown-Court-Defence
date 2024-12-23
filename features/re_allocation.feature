@@ -14,7 +14,7 @@ Feature: Case worker admin re-allocates claims
 
     When I click the link 'Re-allocation'
     Then I should see a page title "View the re-allocation queue"
-    And I should see 'Number of claims: 1'
+    And I should see 'Displaying 1 claim'
 
     When I fill in 'Search' with 'does not exist'
     And I click the button 'Search claims'
@@ -28,7 +28,7 @@ Feature: Case worker admin re-allocates claims
 
     When I click the link 'Re-allocation'
     Then I should see a page title "View the re-allocation queue"
-    And I should see 'Number of claims: 1'
+    And I should see 'Displaying 1 claim'
     And the page should be accessible skipping 'aria-allowed-attr'
 
     When I select case worker "Kanesha Torphy"

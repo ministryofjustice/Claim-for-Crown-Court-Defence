@@ -619,7 +619,7 @@ GEM
       addressable (~> 2.8, >= 2.8.4)
       capybara (~> 3.32)
       site_prism-all_there (> 2, < 5)
-    site_prism-all_there (3.0.5)
+    site_prism-all_there (3.0.6)
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)

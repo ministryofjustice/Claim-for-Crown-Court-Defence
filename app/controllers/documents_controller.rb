@@ -46,10 +46,11 @@ class DocumentsController < ApplicationController
   def upload
     @document = Document.new(creator_id: current_user.id, document: params[:documents])
 
+
     if @document.save_and_verify
       render json: { file: { originalname: @document.document.filename, filename: @document.id }, success: { messageHtml: "#{@document.document.filename} uploaded"} }, status: :created
     else
-      render json: { error: { message: "Upload of #{@document.document.filename} failed" } }, status: :unprocessable_entity
+      render json: { error: { message: "#{@document.document.filename} #{@document.errors[:document].join(', ')}" } }, status: :accepted
     end
   end
 

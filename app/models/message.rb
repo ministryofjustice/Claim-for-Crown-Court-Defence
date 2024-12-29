@@ -18,10 +18,12 @@ class Message < ApplicationRecord
   belongs_to :claim, class_name: 'Claim::BaseClaim'
   belongs_to :sender, class_name: 'User', inverse_of: :messages_sent
   has_many :user_message_statuses, dependent: :destroy
+  has_many :documents, -> { where verified: true }, foreign_key: :claim_id, dependent: :destroy, inverse_of: :claim
 
   attr_accessor :claim_action, :written_reasons_submitted
 
   has_one_attached :attachment
+  # has_many_attached :attachments
 
   validates :attachment,
             size: { less_than: 20.megabytes },

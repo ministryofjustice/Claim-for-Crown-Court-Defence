@@ -23,9 +23,10 @@ FactoryBot.define do
 
     transient do
       scheme { nil }
+      representation_order_date { scheme_date_for(scheme) }
     end
 
-    representation_orders { FactoryBot.create_list(:representation_order, 1, representation_order_date: scheme_date_for(scheme)) }
+    representation_orders { FactoryBot.create_list(:representation_order, 1, representation_order_date:) }
 
     trait :without_reporder do
       representation_orders { [] }

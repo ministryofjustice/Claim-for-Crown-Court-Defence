@@ -3,57 +3,7 @@ require 'rails_helper'
 describe Remote::CaseType do
   let(:client) { instance_double(Remote::HttpClient, get: response) }
 
-  it 'has the correct resource path' do
-    expect(described_class.resource_path).to eq('case_types')
-  end
-
-  context 'class methods' do
-    before do
-      allow(described_class).to receive(:client).and_return(client)
-    end
-
-    describe '.all' do
-      it 'returns a collection of all case types' do
-        case_types = described_class.all
-        expect(case_types.map(&:id)).to eq([1, 9, 13, 11, 12])
-      end
-    end
-
-    describe '.agfs' do
-      it 'returns a collection of case types with role agfs' do
-        expect(described_class.agfs.map(&:id)).to eq([1, 9, 11, 12])
-      end
-    end
-
-    describe '.lgfs' do
-      it 'returns a collection of case types with role lgfs' do
-        expect(described_class.lgfs.map(&:id)).to eq([1, 9, 13, 11, 12])
-      end
-    end
-
-    describe '.interims' do
-      it 'returns a collection of case types with role interim' do
-        expect(described_class.interims.map(&:id)).to eq([11, 12])
-      end
-    end
-
-    describe '.find' do
-      it 'returns the case type with the specified id' do
-        ct = described_class.find(9)
-        expect(ct.id).to eq 9
-        expect(ct.name).to eq('Elected cases not proceeded')
-        expect(ct.is_fixed_fee).to be true
-        expect(ct.requires_cracked_dates).to be false
-        expect(ct.requires_trial_dates).to be false
-        expect(ct.allow_pcmh_fee_type).to be false
-        expect(ct.requires_maat_reference).to be true
-        expect(ct.requires_retrial_dates).to be false
-        expect(ct.roles).to eq(%w[agfs lgfs])
-      end
-    end
-  end
-
-  def response
+  let(:response) do
     [
       {
         'id' => 1,
@@ -116,5 +66,54 @@ describe Remote::CaseType do
         'fee_type_code' => 'GTRL'
       }
     ]
+  end
+
+  before do
+    allow(described_class).to receive(:client).and_return(client)
+  end
+
+  describe '.resource_path' do
+    subject { described_class.resource_path }
+
+    it { is_expected.to eq('case_types') }
+  end
+
+  describe '.all' do
+    it 'returns a collection of all case types' do
+      case_types = described_class.all
+      expect(case_types.map(&:id)).to eq([1, 9, 13, 11, 12])
+    end
+  end
+
+  describe '.agfs' do
+    it 'returns a collection of case types with role agfs' do
+      expect(described_class.agfs.map(&:id)).to eq([1, 9, 11, 12])
+    end
+  end
+
+  describe '.lgfs' do
+    it 'returns a collection of case types with role lgfs' do
+      expect(described_class.lgfs.map(&:id)).to eq([1, 9, 13, 11, 12])
+    end
+  end
+
+  describe '.interims' do
+    it 'returns a collection of case types with role interim' do
+      expect(described_class.interims.map(&:id)).to eq([11, 12])
+    end
+  end
+
+  describe '.find' do
+    subject(:case_type) { described_class.find(9) }
+
+    it { expect(case_type.id).to eq 9 }
+    it { expect(case_type.name).to eq('Elected cases not proceeded') }
+    it { expect(case_type.is_fixed_fee).to be true }
+    it { expect(case_type.requires_cracked_dates).to be false }
+    it { expect(case_type.requires_trial_dates).to be false }
+    it { expect(case_type.allow_pcmh_fee_type).to be false }
+    it { expect(case_type.requires_maat_reference).to be true }
+    it { expect(case_type.requires_retrial_dates).to be false }
+    it { expect(case_type.roles).to eq(%w[agfs lgfs]) }
   end
 end

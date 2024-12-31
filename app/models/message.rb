@@ -49,7 +49,8 @@ class Message < ApplicationRecord
 
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
-  after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required, :duplicate_message_attachment
+  after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required,
+               :duplicate_message_attachment
   before_destroy -> { attachment.purge }
 
   class << self
@@ -110,12 +111,9 @@ class Message < ApplicationRecord
   end
 
   def duplicate_message_attachment
-    if self.attachment.attached?
-      attachment_blob = self.attachment.blob
-      if self.attachments.find_by(blob: attachment_blob)
-      else
-        self.attachments.attach(attachment_blob)
-      end
-    end
+    return unless attachment.attached?
+
+    attachment_blob = attachment.blob
+    attachments.attach(attachment_blob) unless attachments.find_by(blob: attachment_blob)
   end
 end

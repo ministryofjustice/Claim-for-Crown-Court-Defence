@@ -113,7 +113,6 @@ class Message < ApplicationRecord
   def duplicate_message_attachment
     return unless attachment.attached?
 
-    attachment_blob = attachment.blob
-    attachments.attach(attachment_blob) unless attachments.find_by(blob: attachment_blob)
+    attachments.attach(attachment.blob)
   end
 end

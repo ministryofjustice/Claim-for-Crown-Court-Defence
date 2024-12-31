@@ -9,13 +9,8 @@ namespace :documents do
         puts "Duplicating attachment of message ##{message.id}."
         attachment_blob = message.attachment.blob
 
-        existing_attachment = message.attachments.find_by(blob: attachment_blob)
-        if existing_attachment
-          puts "Attachment #{existing_attachment.blob.filename} is already duplicated in the database with ID #{existing_attachment.id}."
-        else
-          message.attachments.attach(attachment_blob)
-          puts "Attachment #{attachment_blob.filename} is duplicated in the database."
-        end
+        message.attachments.attach(attachment_blob)
+        puts "Attachment #{attachment_blob.filename} is duplicated in the database."
       else
         puts "There is no attachment in message ##{message.id}."
       end

@@ -22,6 +22,7 @@ class Message < ApplicationRecord
   attr_accessor :claim_action, :written_reasons_submitted
 
   has_one_attached :attachment
+  has_many_attached :attachments
 
   validates :attachment,
             size: { less_than: 20.megabytes },
@@ -48,7 +49,7 @@ class Message < ApplicationRecord
 
   scope :most_recent_last, -> { includes(:user_message_statuses).order(created_at: :asc) }
 
-  after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required
+  after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required, :duplicate_message_attachment
   before_destroy -> { attachment.purge }
 
   class << self
@@ -106,5 +107,15 @@ class Message < ApplicationRecord
 
   def claim_updater
     Claims::ExternalUserClaimUpdater.new(claim, current_user: sender)
+  end
+
+  def duplicate_message_attachment
+    if self.attachment.attached?
+      attachment_blob = self.attachment.blob
+      if self.attachments.find_by(blob: attachment_blob)
+      else
+        self.attachments.attach(attachment_blob)
+      end
+    end
   end
 end

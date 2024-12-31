@@ -17,4 +17,10 @@ namespace :documents do
     end
     puts "duplicate_message_attachment done!"
   end
+
+  desc'Count blob map.'
+  task :count_blob_map => :environment do
+    blobs = ActiveStorage::Attachment.includes(:blob, blob: :attachments).where(name: 'attachment').map(&:blob)
+    puts blobs.map { |blob| blob.attachments.count }.tally
+  end
 end

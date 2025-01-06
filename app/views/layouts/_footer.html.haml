@@ -22,6 +22,9 @@
             = govuk_footer_link_to t('.feedback'), new_feedback_path
 
           %li.govuk-footer__inline-list-item
+            = govuk_footer_link_to t('.research'), Settings.research_panel_url
+
+          %li.govuk-footer__inline-list-item
             = t('.service_owner_html', link: 'https://mojdigital.blog.gov.uk/')
 
         %svg.govuk-footer__licence-logo{ focusable: 'false', height: '17', 'aria-hidden': 'true', viewbox: '0 0 483.2 195.7', width: '41', xmlns: 'http://www.w3.org/2000/svg' }

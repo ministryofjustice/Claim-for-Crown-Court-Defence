@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=b873a938-dc39-495f-a46e-a166f54be296&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=b873a938-dc39-495f-a46e-a166f54be296&direction=asc&limit=10&page=1&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -46,7 +46,7 @@ http_interactions:
   recorded_at: Thu, 25 Apr 2024 11:40:07 GMT
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=b873a938-dc39-495f-a46e-a166f54be296&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=b873a938-dc39-495f-a46e-a166f54be296&direction=asc&limit=10&page=1&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''
@@ -84,6 +84,6 @@ http_interactions:
       - '93'
     body:
       encoding: ASCII-8BIT
-      string: '{"pagination":{"current_page":1,"total_pages":0,"total_count":0,"limit_value":10},"items":[]}'
+      string: '{"pagination":{"current_page":1,"total_pages":1,"total_count":0,"limit_value":10},"items":[]}'
   recorded_at: Thu, 25 Apr 2024 11:40:08 GMT
 recorded_with: VCR 6.2.0

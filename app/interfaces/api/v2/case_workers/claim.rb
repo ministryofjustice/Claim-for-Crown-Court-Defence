@@ -51,6 +51,14 @@ module API
               params[:value_band_id]
             end
 
+            def page
+              params[:page]
+            end
+
+            def limit
+              params[:limit]
+            end
+
             def current_claims
               current_user.claims.where(id: ::Claim::BaseClaim.search(
                 search_terms, Claims::StateMachine::CASEWORKER_DASHBOARD_UNDER_ASSESSMENT_STATES, *search_options
@@ -82,19 +90,21 @@ module API
             end
 
             def claims
-              claims_scope
+              @pagy, @claims = pagy(claims_scope
                 .includes(:external_user, :case_type, :injection_attempts,
                           :case_workers, :court, :messages,
                           defendants: %i[representation_orders])
-                .sort_using(params[:sorting], params[:direction])
-                .page(params[:page]).per(params[:limit])
+                .sort_using(params[:sorting], params[:direction]),
+                                    page:, limit:)
+
+              @claims
             end
           end
 
           resource :claims do
             desc 'Retrieve list of allocated, unallocated or archived claims'
             get do
-              present claims, with: API::Entities::PaginatedCollection, user: current_user
+              present claims, with: API::Entities::PaginatedCollection, user: current_user, pagy: @pagy
             end
           end
         end

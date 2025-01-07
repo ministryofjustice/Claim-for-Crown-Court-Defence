@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://localhost:3001/api/case_workers/claims?api_key=3db163fd-8bc6-4929-8c9d-975f8f189419&direction=asc&limit=10&page=0&search&sorting=last_submitted_at&status=current
+    uri: http://localhost:3001/api/case_workers/claims?api_key=3db163fd-8bc6-4929-8c9d-975f8f189419&direction=asc&limit=10&page=1&search&sorting=last_submitted_at&status=current
     body:
       encoding: US-ASCII
       string: ''

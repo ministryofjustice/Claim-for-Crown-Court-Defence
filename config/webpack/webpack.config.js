@@ -61,7 +61,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png)$/i,
+        test: /\.(png|svg)$/i,
         type: 'asset/resource'
       },
       {
@@ -69,7 +69,7 @@ module.exports = {
         type: 'asset/resource'
       },
       {
-        test: /\.(svg|ico)$/,
+        test: /\.(ico)$/,
         loader: 'file-loader',
         options: {
           name: '[name].[ext]'

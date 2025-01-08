@@ -1,0 +1,22 @@
+- if current_user_is_caseworker? && claim.expenses.map(&:distance_gt_calculated?).any?
+  = render partial: 'shared/summary/expenses/distance_warnings', locals: { expenses: claim.expenses }
+
+%h3.govuk-heading-l
+  = t('shared.summary.expenses.travel_expenses')
+
+- if claim.expenses.with_vat.any?
+  = render template: 'shared/summary/expenses/new_index', locals: { claim: claim, vat: true }
+
+- if claim.expenses.without_vat.any?
+  = render template: 'shared/summary/expenses/new_index', locals: { claim: claim, vat: false }
+
+- if claim.travel_expense_additional_information.present?
+  .govuk-summary-card
+    .govuk-summary-card__title-wrapper
+      %h2.govuk-summary-card__title
+        = t('shared.summary.expenses.travel_expense_additional_information')
+
+    .govuk-summary-card__content
+      .govuk-summary-list
+        %dl.govuk-summary-list__row
+          = claim.travel_expense_additional_information

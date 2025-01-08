@@ -2272,19 +2272,39 @@ en:
         travel_expenses: Travel expenses
         travel_details: Travel details
         index:
-          calculated_distance: Calculated distance
+          calculated_distance: &calculated_distance 'Calculated distance'
           caption: *expenses_caption
-          date: Date of expense
-          details: Details
-          expense_type: Type of expense
+          date: &date 'Date of expense'
+          details: &details 'Details'
+          expense_type: &expense_type 'Type of expense'
           gross_amount: Gross amount
-          header_with_vat: Expenses with VAT
-          header_without_vat: Expenses without VAT
+          header_with_vat: &with_vat 'Expenses with VAT'
+          header_without_vat: &with_out_vat 'Expenses without VAT'
           net_amount: *net_amount
-          reason: Reason for travel
-          totals_with_vat: Expenses with VAT total
-          totals_without_vat: Expenses without VAT total
+          reason: &reason Reason for travel
+          totals_with_vat: &totals_with_vat 'Expenses with VAT total'
+          totals_without_vat: &totals_without_vat 'Expenses without VAT total'
           vat: *vat_amount
+        new_index:
+          destination: "Destination: "
+          distance: "Distance: "
+          cost: "Cost per mile: "
+          calculated_distance: *calculated_distance
+          caption: *expenses_caption
+          date: *date
+          details: *details
+          expense_type: *expense_type
+          gross_amount: Total amount
+          header_with_vat: *with_vat
+          header_without_vat: *with_out_vat
+          net_amount: *net_amount
+          reason: *reason
+          totals_with_vat: *totals_with_vat
+          totals_without_vat: *totals_without_vat
+          vat: *vat_amount
+        new_details:
+          distance_claimed: Distance claimed
+          distance: Distance
         details:
           distance_calculated: Distance calculated
           distance_claimed: Distance claimed
@@ -2306,12 +2326,20 @@ en:
             one: The distance claimed by the provider is greater than the calculated distance for one expense. Please see the table below for details.
             other: The distance claimed by the provider is greater than the calculated distance for %{count} expenses. Please see the table below for details.
         show:
-          date: Date of expense
-          details: Details
-          expense_type: Type of expense
+          date: &date 'Date of expense'
+          details: &details 'Details'
+          expense_type: &expense_type 'Type of expense'
           gross_amount: Gross amount
           net_amount: *net_amount
-          reason: Reason for travel
+          reason: &reason 'Reason for travel'
+          vat: *vat_amount
+        new_show:
+          date: *date
+          details: *details
+          expense_type: *expense_type
+          gross_amount: Total amount
+          net_amount: *net_amount
+          reason: *reason
           vat: *vat_amount
       fee: Fee
       fee_index: Fee %{index}

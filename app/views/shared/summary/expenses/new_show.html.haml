@@ -1,0 +1,20 @@
+= govuk_table_row do
+  = govuk_table_td('data-label': t('.expense_type')) do
+    %span
+      = expense.name
+    - if current_user_is_caseworker? && @claim.lgfs?
+      = govuk_tag expense.state, class: "app-tag--#{expense.state.downcase}"
+  = govuk_table_td('data-label': t('.reason')) do
+    %span
+      = expense.reason
+  = govuk_table_td(colspan: 2, 'data-label': t('.details')) do
+    = render partial: 'shared/summary/expenses/new_details', locals: { claim: claim, expense: expense }
+  = govuk_table_td('data-label': t('.date')) do
+    = expense.pretty_date
+  %td.govuk-table__cell.govuk-table__cell--numeric{'data-label': t('.net_amount')}
+    = expense.amount
+  - if expense.vat_present?
+    %td.govuk-table__cell.govuk-table__cell--numeric{'data-label': t('.vat')}
+      = expense.vat_amount
+  %td.govuk-table__cell.govuk-table__cell--numeric{'data-label': t('.gross_amount')}
+    = expense.gross_amount

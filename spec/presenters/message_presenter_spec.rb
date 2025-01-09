@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe MessagePresenter, type: :helper do
   subject(:presenter) { described_class.new message, helper }
 
-  let(:attachment) { nil }
-  let(:message) { build(:message, attachment:) }
+  let(:attachments) { nil }
+  let(:message) { build(:message, attachments: [attachments]) }
 
   describe '#body' do
     context 'without an attachment' do
@@ -16,10 +16,10 @@ RSpec.describe MessagePresenter, type: :helper do
     context 'with an attachment' do
       let(:file) { File.expand_path('features/examples/shorter_lorem.docx', Rails.root) }
       let(:file_size) { number_to_human_size(File.size(file)) }
-      let(:attachment) { Rack::Test::UploadedFile.new(file) }
+      let(:attachments) { Rack::Test::UploadedFile.new(file) }
 
       before do
-        allow(message.attachment).to receive(:url).and_return('http://example.com')
+        allow(message.attachments.first).to receive(:url).and_return('http://example.com')
       end
 
       it 'includes a download link to the attachment' do

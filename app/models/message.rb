@@ -51,10 +51,7 @@ class Message < ApplicationRecord
 
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required,
                :duplicate_message_attachment
-  before_destroy do
-    attachment.purge
-    attachments.purge
-  end
+  before_destroy -> { attachments.purge }
 
   class << self
     def for(object)

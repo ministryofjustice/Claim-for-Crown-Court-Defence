@@ -35,7 +35,7 @@ class MessagesController < ApplicationController
   end
 
   def download_attachment
-    raise 'No attachment present on this message' unless message.attachmenta.attached?
+    raise 'No attachment present on this message' unless message.attachments.attached?
 
     redirect_to message.attachments.first.blob.url(disposition: 'attachment'), allow_other_host: true
   end

@@ -24,7 +24,7 @@ class Message < ApplicationRecord
   has_one_attached :attachment
   has_many_attached :attachments
 
-  validates :attachment,
+  validates :attachments,
             size: { less_than: 20.megabytes },
             content_type: %w[
               application/pdf
@@ -51,7 +51,10 @@ class Message < ApplicationRecord
 
   after_create :generate_statuses, :process_claim_action, :process_written_reasons, :send_email_if_required,
                :duplicate_message_attachment
-  before_destroy -> { attachment.purge }
+  before_destroy do
+    attachment.purge
+    attachments.purge
+  end
 
   class << self
     def for(object)

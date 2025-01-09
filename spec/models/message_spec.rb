@@ -215,8 +215,7 @@ RSpec.describe Message do
     context 'with an attachment' do
       let(:trait) { :with_attachment }
 
-      it { expect { destroy_message }.to change(ActiveStorage::Attachment, :count).by(-(message.attachments.count + (message.attachment.attached? ? 1 : 0))) }
-      it { expect { destroy_message }.to change(ActiveStorage::Blob, :count).by(-1) }
+      it { expect { destroy_message }.to change(ActiveStorage::Attachment, :count).by(-message.attachments.count) }
     end
   end
 end

@@ -2294,7 +2294,7 @@ en:
           date: *date
           details: *details
           expense_type: *expense_type
-          gross_amount: Total amount
+          total_amount: Total amount
           header_with_vat: *with_vat
           header_without_vat: *with_out_vat
           net_amount: *net_amount

@@ -12,13 +12,13 @@
         .govuk-summary-list
           %dl.govuk-summary-list__row.summary-page-table-two-row
             %dt.govuk-summary-list__key
-              = t('shared.claims.interim_claim_info.fields.date_issued')
+              = t('fields.date_issued')
             %dd.govuk-summary-list__value
               = info.warrant_issued_date.strftime('%d %B %Y')
 
           %dl.govuk-summary-list__row.summary-page-table-two-row
             %dt.govuk-summary-list__key
-              = t('shared.claims.interim_claim_info.fields.date_executed')
+              = t('.fields.date_executed')
             %dd.govuk-summary-list__value
               = info.warrant_executed_date.strftime('%d %B %Y')
 

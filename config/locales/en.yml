@@ -2302,22 +2302,32 @@ en:
           totals_with_vat: *totals_with_vat
           totals_without_vat: *totals_without_vat
           vat: *vat_amount
-        new_details:
-          distance_claimed: Distance claimed
-          distance: Distance
         details:
-          distance_calculated: Distance calculated
-          distance_claimed: Distance claimed
-          distance: Distance
-          cost: Cost per mile
-          origin: Origin
-          destination: Destination
-          view_map_link: View on a map
-          hours: Hours
+          distance_calculated: &distance_calculated 'Distance calculated'
+          distance_claimed: &distance_claimed 'Distance claimed'
+          distance: &distance 'Distance'
+          cost: &cost 'Cost per mile'
+          origin: &origin 'Origin'
+          destination: &destination 'Destination'
+          view_map_link: &view_map_link 'View on a map'
+          hours: &hours 'Hours'
           distance_count:
-            one: '1 mile'
-            other: '%{count} miles'
-            zero: 'not applicable'
+            one: &distance_count_one '1 mile'
+            other: &distance_count_other '%{count} miles'
+            zero: &distance_count_zero 'not applicable'
+        new_details:
+          distance_calculated: *distance_calculated
+          distance_claimed: *distance_claimed
+          distance: *distance
+          cost: *cost
+          origin: *origin
+          destination: *destination
+          view_map_link: *view_map_link
+          hours: *hours
+          distance_count:
+            one: *distance_count_one
+            other: *distance_count_other
+            zero: *distance_count_zero
         distance_warnings:
           title:
             one: There is an error with the travel expenses
@@ -2422,30 +2432,55 @@ en:
       dates: Dates
       rate: Rate
     summary_agfs:
-      mileage_rate: Mileage rate
+      mileage_rate: &mileage_rate 'Mileage rate'
       expenses:
-        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+        caption: &expense_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
       fees:
-        caption: 'Fees: A detailed list by Category and Type including amounts'
-      amount: Amount
+        caption: &fees_caption 'Fees: A detailed list by Category and Type including amounts'
+      amount: &amount 'Amount'
       vat_amount: *vat_amount
-      date: Date
-      distance: Distance
-      fee_category: Fee category
-      fee_type: Fee type
-      fee_subtype: Fee subtype
+      date: &date 'Date'
+      distance: &distance 'Distance'
+      fee_category: &fee_category 'Fee category'
+      fee_type: &fee_type 'Fee type'
+      fee_subtype: &fee_subtype 'Fee subtype'
       case_numbers: *case_numbers
       quantity: *quantity
-      dates_attended: Dates attended
-      fees_total: 'Fees total:'
-      expense_type: Expense type
-      location: Destination
-      quantity_hours: 'Hours'
-      rate: Rate
-      expenses_total: 'Expenses total:'
-      claim_total: 'Claim total:'
-      reason: 'Reason'
-      additional_information: Additional information
+      dates_attended: &dates_attended 'Dates attended'
+      fees_total: &fees_total 'Fees total:'
+      expense_type: &expense_type 'Expense type'
+      location: &location 'Destination'
+      quantity_hours: &quantity_hours 'Hours'
+      rate: &rate 'Rate'
+      expenses_total: &expenses_total 'Expenses total:'
+      claim_total: &claim_total 'Claim total:'
+      reason: &reason 'Reason'
+      additional_information: &additional_information 'Additional information'
+    new_summary_agfs:
+      mileage_rate: *mileage_rate
+      expenses:
+        caption: *expense_caption
+      fees:
+        caption: *fees_caption
+      amount: *amount
+      vat_amount: *vat_amount
+      date: *date
+      distance: *distance
+      fee_category: *fee_category
+      fee_type: *fee_type
+      fee_subtype: *fee_subtype
+      case_numbers: *case_numbers
+      quantity: *quantity
+      dates_attended: *dates_attended
+      fees_total: *fees_total
+      expense_type: *expense_type
+      location: *location
+      quantity_hours: *quantity_hours
+      rate: *rate
+      expenses_total: *expenses_total
+      claim_total: *claim_total
+      reason: *reason
+      additional_information: *additional_information
       disbursements:
         caption: 'Disbursements: A detailed list Type including amounts'
         type: "Disbursement type"

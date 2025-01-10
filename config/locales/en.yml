@@ -1580,6 +1580,8 @@ en:
           warrant_fee_paid: 'Have you previously been paid for an interim warrant fee?'
           date_issued: Warrant issued date
           date_executed: Warrant executed date
+        new_warrant_fees_lgfs_details:
+          fields: *interim_claim_info_fields
         summary:
           caption: 'Warrant fees: This section contains info related to interim claimed warrant fees.'
           summary: 'Note: To best navigate this table, select the right hand column and then step down through the rows.'

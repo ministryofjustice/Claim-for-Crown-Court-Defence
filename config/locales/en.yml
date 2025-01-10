@@ -2182,6 +2182,10 @@ en:
       retrial_reduction: 'Apply reduced rate to retrial?'
     new_evidence_checklist:
       evidence_address: "Please send evidence to the following address:"
+    new_warrant_fees_lgfs_details:
+      fields: *interim_claim_info_fields
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
     new_evidence_list:
       existing_evidence: Existing evidence
       no_documents_uploaded: No documents have been uploaded.
@@ -2510,9 +2514,9 @@ en:
     summary_lgfs:
       mileage_rate: Mileage rate
       expenses:
-        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+        caption: *expense_caption
       fees:
-        caption: 'Fees: A detailed list by Category and Type including amounts'
+        caption: *fees_caption
       amount: Amount
       vat_amount: *vat_amount
       date: Date

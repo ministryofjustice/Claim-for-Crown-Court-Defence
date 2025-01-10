@@ -3,16 +3,16 @@
     .govuk-summary-card
       .govuk-summary-card__title-wrapper
         %h2.govuk-summary-card__title
-          = t('common.interim_claim_info')
+          = t('.fields.warrant_fee')
 
       .govuk-summary-card__content
         %span.govuk-visually-hidden
-          = t('shared.summary_lgfs.fees.caption')
+          = t('.fees.caption')
 
         .govuk-summary-list
           %dl.govuk-summary-list__row.summary-page-table-two-row
             %dt.govuk-summary-list__key
-              = t('fields.date_issued')
+              = t('.fields.date_issued')
             %dd.govuk-summary-list__value
               = info.warrant_issued_date.strftime('%d %B %Y')
 

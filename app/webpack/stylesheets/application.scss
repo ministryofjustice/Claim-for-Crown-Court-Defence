@@ -3,7 +3,7 @@
 $govuk-images-path: "~govuk-frontend/dist/govuk/assets/images/";
 $govuk-fonts-path: "~govuk-frontend/dist/govuk/assets/fonts/";
 
-@import "~govuk-frontend/dist/govuk/all";
+@import "~govuk-frontend/dist/govuk/index";
 
 @import "~govuk-frontend/dist/govuk/base";
 @import "~govuk-frontend/dist/govuk/core/typography";

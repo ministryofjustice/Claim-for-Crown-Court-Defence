@@ -4,13 +4,13 @@
       %li
         %span
           = succeed ':' do
-            = t('shared.summary.expenses.details.origin')
+            = t('.origin')
         = claim.supplier_name_with_postcode
 
     %li
       %span
         = succeed ':' do
-          = t('shared.summary.expenses.details.destination')
+          = t('.destination')
       = expense.location_with_postcode
 
     - if current_user_is_caseworker? && expense.distance?
@@ -18,13 +18,13 @@
         %span
           = succeed ':' do
             = t(expense.distance_label)
-        = t('shared.summary.expenses.details.distance_count', count: expense.distance)
+        = t('.distance_count', count: expense.distance)
 
       - if expense.distance_gt_calculated?
         %li{ class: ('error' if expense.distance_gt_calculated?) }
           %span
             = succeed ':' do
-              = t('shared.summary.expenses.details.distance_calculated')
+              = t('.distance_calculated')
           = expense.pretty_calculated_distance
 
       - if expense.show_map_link?
@@ -36,18 +36,18 @@
         %li
           %span
             = succeed ':' do
-              = t('shared.summary.expenses.details.distance')
-          = t('shared.summary.expenses.details.distance_count', count: expense.distance)
+              = t('.details.distance')
+          = t('.distance_count', count: expense.distance)
 
     %li{ class: ('error' if current_user_is_caseworker? && claim.lgfs? && expense.mileage_rate_id.eql?(2)) }
       %span
         = succeed ':' do
-          = t('shared.summary.expenses.details.cost')
+          = t('.cost')
       = expense.mileage_rate
 
     - if expense.hours?
       %li
         %span
           = succeed ':' do
-            = t('shared.summary.expenses.details.hours')
+            = t('.hours')
         = expense.hours

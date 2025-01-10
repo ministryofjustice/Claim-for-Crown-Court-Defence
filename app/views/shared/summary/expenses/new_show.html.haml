@@ -11,10 +11,10 @@
     = render partial: 'shared/summary/expenses/new_details', locals: { claim: claim, expense: expense }
   = govuk_table_td('data-label': t('.date')) do
     = expense.pretty_date
-  %td.govuk-table__cell.govuk-table__cell--numeric{'data-label': t('.net_amount')}
+  = govuk_table_td_numeric('data-label': t('.net_amount')) do
     = expense.amount
   - if expense.vat_present?
-    %td.govuk-table__cell.govuk-table__cell--numeric{'data-label': t('.vat')}
+    = govuk_table_td_numeric('data-label': t('.vat')) do
       = expense.vat_amount
-  %td.govuk-table__cell.govuk-table__cell--numeric{'data-label': t('.gross_amount')}
+  = govuk_table_td_numeric('data-label': t('.gross_amount')) do
     = expense.gross_amount

@@ -24,7 +24,7 @@ class MessagesController < ApplicationController
 
     documents = Document.where(id: params[:message][:document_ids])
     documents.each do |doc|
-      @message.attachment.attach(doc.document.blob)
+      @message.attachments.attach(doc.document.blob)
     end
 
     @notification = if @message.save

@@ -2,39 +2,33 @@ module Stats
   class StatsReportGenerator
     class InvalidReportType < StandardError; end
 
-    # rubocop:disable Metrics/MethodLength
+    GENERATORS = {
+      management_information: { class: ManagementInformationGenerator, default_args: {} },
+      agfs_management_information: { class: ManagementInformationGenerator, default_args: { scheme: :agfs } },
+      lgfs_management_information: { class: ManagementInformationGenerator, default_args: { scheme: :lgfs } },
+      fee_scheme_usage: { class: FeeSchemeUsageGenerator, default_args: {} },
+      management_information_v2: { class: Stats::ManagementInformation::DailyReportGenerator, default_args: {} },
+      agfs_management_information_v2: {
+        class: Stats::ManagementInformation::DailyReportGenerator,
+        default_args: { scheme: :agfs }
+      },
+      lgfs_management_information_v2: {
+        class: Stats::ManagementInformation::DailyReportGenerator,
+        default_args: { scheme: :lgfs }
+      },
+      agfs_management_information_statistics: {
+        class: Stats::ManagementInformation::DailyReportCountGenerator,
+        default_args: { query_set: Stats::ManagementInformation::AGFSQuerySet.new, duration: (1.month - 1.day) }
+      },
+      lgfs_management_information_statistics: {
+        class: Stats::ManagementInformation::DailyReportCountGenerator,
+        default_args: { query_set: Stats::ManagementInformation::LGFSQuerySet.new, duration: (1.month - 1.day) }
+      }
+    }.freeze
+
     def self.for(report_type)
-      Hash.new({ class: SimpleReportGenerator, default_args: {} }).merge(
-        management_information:
-          { class: ManagementInformationGenerator,
-            default_args: {} },
-        agfs_management_information:
-          { class: ManagementInformationGenerator,
-            default_args: { scheme: :agfs } },
-        lgfs_management_information:
-          { class: ManagementInformationGenerator,
-            default_args: { scheme: :lgfs } },
-        fee_scheme_usage:
-          { class: FeeSchemeUsageGenerator,
-            default_args: {} },
-        management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator,
-            default_args: {} },
-        agfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator,
-            default_args: { scheme: :agfs } },
-        lgfs_management_information_v2:
-          { class: Stats::ManagementInformation::DailyReportGenerator,
-            default_args: { scheme: :lgfs } },
-        agfs_management_information_statistics:
-          { class: Stats::ManagementInformation::DailyReportCountGenerator,
-            default_args: { query_set: Stats::ManagementInformation::AGFSQuerySet.new, duration: (1.month - 1.day) } },
-        lgfs_management_information_statistics:
-          { class: Stats::ManagementInformation::DailyReportCountGenerator,
-            default_args: { query_set: Stats::ManagementInformation::LGFSQuerySet.new, duration: (1.month - 1.day) } }
-      )[report_type.to_sym]
+      GENERATORS[report_type.to_sym] || { class: SimpleReportGenerator, default_args: {} }
     end
-    # rubocop:enable Metrics/MethodLength
 
     def self.call(...)
       new(...).call

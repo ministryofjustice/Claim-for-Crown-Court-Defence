@@ -22,6 +22,11 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params.merge(sender_id: current_user.id))
 
+    documents = Document.where(id: params[:message][:document_ids])
+    documents.each do |doc|
+      @message.attachment.attach(doc.document.blob)
+    end
+
     @notification = if @message.save
                       { notice: 'Message successfully sent' }
                     else

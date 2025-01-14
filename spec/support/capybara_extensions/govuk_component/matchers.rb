@@ -2,7 +2,7 @@
 
 # rubocop:disable Naming/PredicateName
 module CapybaraExtensions
-  module GOVUKComponent
+  module GovukComponent
     module Matchers
       def has_govuk_link?(options)
         href = options.delete(:href)

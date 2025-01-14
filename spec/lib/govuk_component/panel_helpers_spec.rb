@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::PanelHelpers, type: :helper do
+RSpec.describe GovukComponent::PanelHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_panel' do

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::ButtonHelpers, type: :helper do
+RSpec.describe GovukComponent::ButtonHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_button' do

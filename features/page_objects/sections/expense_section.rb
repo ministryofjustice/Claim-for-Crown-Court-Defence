@@ -11,5 +11,5 @@ class ExpenseSection < SitePrism::Section
   element :mileage_25, ".fx-travel-mileage.fx-travel-mileage-car label:first"
   element :mileage_45, ".fx-travel-mileage.fx-travel-mileage-bike label:last"
 
-  section :expense_date, GOVUKDateSection, ".fx-travel-date"
+  section :expense_date, GovukDateSection, ".fx-travel-date"
 end

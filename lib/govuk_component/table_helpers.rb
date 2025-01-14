@@ -2,7 +2,7 @@
 
 # Component Reference: https://design-system.service.gov.uk/components/table/
 
-module GOVUKComponent
+module GovukComponent
   module TableHelpers
     def govuk_table(tag_options = {}, &)
       tag_options = prepend_classes('govuk-table app-table--responsive', tag_options)

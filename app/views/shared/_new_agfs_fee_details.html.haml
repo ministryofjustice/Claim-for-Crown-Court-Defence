@@ -1,0 +1,98 @@
+.govuk-summary-card.custom-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      = t('common.fees')
+  .govuk-summary-card__content
+    %dl.govuk-summary-list.new_summary
+      %div.govuk-summary-list__header
+        %div.govuk-summary-list__row
+
+      = govuk_table do
+        = govuk_table_caption(class: 'govuk-visually-hidden') do
+          = t('.fees.caption')
+        = govuk_table_thead do
+          = govuk_table_row do
+            = govuk_table_th do
+              = t('.fee_category')
+            = govuk_table_th do
+              = t('.fee_type')
+            - unless claim.interim?
+              = govuk_table_th_numeric do
+                = t('.quantity')
+
+            = govuk_table_th_numeric do
+              = t('.rate')
+            = govuk_table_th_numeric do
+              = t('.net_amount')
+        = govuk_table_tbody do
+          - present_collection(claim.fees.select(&:present?).sort_by(&:position)).each do |fee|
+            = govuk_table_row do
+              = govuk_table_td('data-label': t('.fee_category')) do
+                = fee.fee_type&.fee_category_name || 'n/a'
+                %br/
+                - if fee.fee_type.unique_code.eql?('BABAF')
+                  - if fee.first_day_of_trial
+                    = t('.first_day_of_trial')
+                    %br/
+                    = fee.first_day_of_trial
+                    %br/
+                    %br/
+
+                    - if fee.retrial_started_at
+                      = t('.retrial_started_at')
+                      %br/
+                      = fee.retrial_started_at
+                      %br/
+                      %br/
+                  - if fee.dates_attended.any?
+                    - if fee.fee_type.unique_code.eql?('BABAF')
+                      = t(fee.claim.case_type.name.split(' ').collect(&:capitalize).join.underscore, scope: "external_users.claims.basic_fees.basic_fee_fields_primary.date_label")
+                    - else
+                      = t('.dates_attended')
+                    %br/
+                    = fee.dates_attended_delimited_string
+                    %br/
+                    %br/
+
+
+                  - if fee.date?
+                    = t('.date')
+                    = fee.date
+                = govuk_table_td('data-label': t('.fee_type')) do
+                  = fee.fee_type&.description || 'n/a'
+                  - if fee.sub_type.present?
+                    %p
+                      = "#{t('.fee_subtype')}: #{fee.sub_type.description}"
+                  - if fee.case_uplift?
+                    %br
+                    = "#{t('.case_numbers')}: #{fee.case_numbers}"
+                - unless claim.interim?
+                  = govuk_table_td_numeric('data-label': t('.quantity')) do
+                    = fee.quantity
+                = govuk_table_td_numeric('data-label': t('.rate')) do
+                  = fee.rate
+                = govuk_table_td_numeric('data-label': t('.net_amount')) do
+                  = fee.amount
+
+        = govuk_table do
+          = govuk_table_thead do
+            = govuk_table_row do
+              = govuk_table_th do
+                = t('shared.description')
+              = govuk_table_th_numeric do
+                = t('shared.net_amount')
+              = govuk_table_th_numeric do
+                = t('shared.vat')
+              = govuk_table_th_numeric do
+                = t('shared.gross_amount')
+
+          = govuk_table_tbody do
+            = govuk_table_row do
+              = govuk_table_td('data-label': t('shared.description')) do
+                = t('shared.summary.fees_total')
+              = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+                = claim.fees_total
+              = govuk_table_td_numeric('data-label': t('shared.vat')) do
+                = claim.fees_vat
+              = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+                = claim.fees_gross

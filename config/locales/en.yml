@@ -2182,7 +2182,7 @@ en:
       retrial_reduction: 'Apply reduced rate to retrial?'
     new_evidence_checklist:
       evidence_address: "Please send evidence to the following address:"
-    new_warrant_fees_lgfs_details:
+    new_warrant_fees_details:
       fields: *interim_claim_info_fields
       fees:
         caption: 'Fees: A detailed list by Category and Type including amounts'
@@ -2206,6 +2206,39 @@ en:
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
       fees_total: Fees total
+    new_agfs_fee_details:
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      fee_category: 'Fee category'
+      fee_type: 'Fee type'
+      quantity: 'Quantity'
+      rate: 'Rate'
+      net_amount: *net_amount
+      first_day_of_trial: 'First day of trial'
+      retrial_started_at: 'Retrial started at'
+      dates_attended: 'Dates attended'
+      fee_subtype: 'Fee subtype'
+      case_numbers: 'Case Numbers'
+      fees_total: 'Fees total:'
+      date: 'Date'
+    new_lgfs_fee_details:
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      fee_category: 'Fee category'
+      fee_type: 'Fee type'
+      quantity: *quantity
+      rate: 'Rate'
+      net_amount: *net_amount
+      first_day_of_trial: 'First day of trial'
+      retrial_started_at: 'Retrial started at'
+      dates_attended: 'Dates attended'
+      fee_subtype: 'Fee subtype'
+      case_numbers: 'Case Numbers'
+      fees_total: 'Fees total:'
+      date: 'Date'
+      actual_trial_length: *actual_trial_length
+      amount: 'Amount'
+      days_claimed: 'Days'
     new_lgfs_disbursements:
       disbursements_gross: 'Disbursements with VAT'
       disbursements_caption: 'Disbursements: A detailed list Type including amounts'
@@ -2219,25 +2252,14 @@ en:
       mileage_rate: Mileage rate
       expenses:
         caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
-      fees:
-        caption: 'Fees: A detailed list by Category and Type including amounts'
-      amount: Amount
       vat_amount: *vat_amount
       date: Date
       distance: Distance
-      fee_category: Fee category
-      fee_type: Fee type
-      actual_trial_length: *actual_trial_length
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
-      days_claimed: Days
-      quantity: *quantity
-      dates_attended: Dates attended
-      fees_total: 'Fees total:'
       expense_type: Expense type
       location: Destination
       quantity_hours: 'Hours'
-      rate: Rate
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
       reason: 'Reason'
@@ -2246,30 +2268,18 @@ en:
       mileage_rate: 'Mileage rate'
       expenses:
         caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
-      fees:
-        caption: 'Fees: A detailed list by Category and Type including amounts'
       amount: 'Amount'
       vat_amount: 'VAT Amount'
-      date: 'Date'
       distance: 'Distance'
-      fee_category: 'Fee category'
-      fee_type: 'Fee type'
-      fee_subtype: 'Fee subtype'
-      case_numbers: 'Case Numbers'
-      quantity: 'Quantity'
       dates_attended: 'Dates attended'
-      fees_total: 'Fees total:'
       expense_type: 'Expense type'
       location: 'Destination'
       quantity_hours: 'Hours'
-      rate: 'Rate'
       expenses_total: 'Expenses total:'
       claim_total: 'Claim total:'
       reason: 'Reason'
       additional_information: 'Additional information'
       net_amount: 'Net amount'
-      first_day_of_trial: 'First day of trial'
-      retrial_started_at: 'Retrial started at'
       disbursements_caption: 'Disbursements: A detailed list Type including amounts'
     message_controls:
       attachment_label: Optionally attach a file
@@ -2587,19 +2597,18 @@ en:
         date_issued: "Warrant issued"
         date_executed: "Warrant executed"
         total: "Total"
-      total: "Total"
-      ppe_total: "PPE total at the time"
-      effective_pcmh_date: "Effective PCMH"
-      trial_start: "Trial start"
-      estimated_trial_length: "Trial estimated length"
-      retrial_start: "Re-trial start"
-      estimated_retrial_length: "Re-trial estimated length"
-      legal_aid_transfer_date: "Legal aid transfer"
-      trial_concluded_at: "First trial concluded"
-      no_values:
-        fees: "There are no fees for this claim"
-        expenses: "There are no expenses for this claim"
-        disbursements: "There are no disbursements for this claim"
+        ppe_total: "PPE total at the time"
+        effective_pcmh_date: "Effective PCMH"
+        trial_start: "Trial start"
+        estimated_trial_length: "Trial estimated length"
+        retrial_start: "Re-trial start"
+        estimated_retrial_length: "Re-trial estimated length"
+        legal_aid_transfer_date: "Legal aid transfer"
+        trial_concluded_at: "First trial concluded"
+        no_values:
+          fees: "There are no fees for this claim"
+          expenses: "There are no expenses for this claim"
+          disbursements: "There are no disbursements for this claim"
 
     supplier_numbers:
       add_supplier: Add another supplier

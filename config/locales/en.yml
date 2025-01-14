@@ -2200,12 +2200,77 @@ en:
       days_claimed: Days
       actual_trial_length: Actual trial length
       quantity: *quantity
-      amount: Net amount
+      amount: Amount
       dates_attended: Dates attended
       date: Date
       fee_subtype: Fee subtype
       case_numbers: *case_numbers
       fees_total: Fees total
+    new_lgfs_disbursements:
+      disbursements_gross: 'Disbursements with VAT'
+      disbursements_caption: 'Disbursements: A detailed list Type including amounts'
+      disbursement_type: "Disbursement type"
+      net_amount: *net_amount
+      vat_amount: *vat_amount
+      vat: 'VAT'
+      gross_amount: Gross amount
+      total: "Total"
+    new_summary_lgfs:
+      mileage_rate: Mileage rate
+      expenses:
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      amount: Amount
+      vat_amount: *vat_amount
+      date: Date
+      distance: Distance
+      fee_category: Fee category
+      fee_type: Fee type
+      actual_trial_length: *actual_trial_length
+      fee_subtype: Fee subtype
+      case_numbers: *case_numbers
+      days_claimed: Days
+      quantity: *quantity
+      dates_attended: Dates attended
+      fees_total: 'Fees total:'
+      expense_type: Expense type
+      location: Destination
+      quantity_hours: 'Hours'
+      rate: Rate
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      reason: 'Reason'
+      additional_information: Additional information
+    new_summary_agfs:
+      mileage_rate: 'Mileage rate'
+      expenses:
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      amount: 'Amount'
+      vat_amount: 'VAT Amount'
+      date: 'Date'
+      distance: 'Distance'
+      fee_category: 'Fee category'
+      fee_type: 'Fee type'
+      fee_subtype: 'Fee subtype'
+      case_numbers: 'Case Numbers'
+      quantity: 'Quantity'
+      dates_attended: 'Dates attended'
+      fees_total: 'Fees total:'
+      expense_type: 'Expense type'
+      location: 'Destination'
+      quantity_hours: 'Hours'
+      rate: 'Rate'
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      reason: 'Reason'
+      additional_information: 'Additional information'
+      net_amount: 'Net amount'
+      first_day_of_trial: 'First day of trial'
+      retrial_started_at: 'Retrial started at'
+      disbursements_caption: 'Disbursements: A detailed list Type including amounts'
     message_controls:
       attachment_label: Optionally attach a file
       update_claim_status: Update your claim status
@@ -2462,72 +2527,6 @@ en:
       claim_total: 'Claim total:'
       reason: 'Reason'
       additional_information: 'Additional information'
-    new_lgfs_disbursements:
-      disbursements_gross: 'Disbursements with VAT'
-      disbursements_caption: 'Disbursements: A detailed list Type including amounts'
-      disbursement_type: "Disbursement type"
-      net_amount: *net_amount
-      vat_amount: *vat_amount
-      vat: 'VAT'
-      gross_amount: Gross amount
-      total: "Total"
-
-    new_summary_lgfs:
-      mileage_rate: Mileage rate
-      expenses:
-        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
-      fees:
-        caption: 'Fees: A detailed list by Category and Type including amounts'
-      amount: Amount
-      vat_amount: *vat_amount
-      date: Date
-      distance: Distance
-      fee_category: Fee category
-      fee_type: Fee type
-      actual_trial_length: *actual_trial_length
-      fee_subtype: Fee subtype
-      case_numbers: *case_numbers
-      days_claimed: Days
-      quantity: *quantity
-      dates_attended: Dates attended
-      fees_total: 'Fees total:'
-      expense_type: Expense type
-      location: Destination
-      quantity_hours: 'Hours'
-      rate: Rate
-      expenses_total: 'Expenses total:'
-      claim_total: 'Claim total:'
-      reason: 'Reason'
-      additional_information: Additional information
-    new_summary_agfs:
-      mileage_rate: 'Mileage rate'
-      expenses:
-        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
-      fees:
-        caption: 'Fees: A detailed list by Category and Type including amounts'
-      amount: 'Amount'
-      vat_amount: 'VAT Amount'
-      date: 'Date'
-      distance: 'Distance'
-      fee_category: 'Fee category'
-      fee_type: 'Fee type'
-      fee_subtype: 'Fee subtype'
-      case_numbers: 'Case Numbers'
-      quantity: 'Quantity'
-      dates_attended: 'Dates attended'
-      fees_total: 'Fees total:'
-      expense_type: 'Expense type'
-      location: 'Destination'
-      quantity_hours: 'Hours'
-      rate: 'Rate'
-      expenses_total: 'Expenses total:'
-      claim_total: 'Claim total:'
-      reason: 'Reason'
-      additional_information: 'Additional information'
-      net_amount: 'Net amount'
-      first_day_of_trial: 'First day of trial'
-      retrial_started_at: 'Retrial started at'
-      disbursements_caption: 'Disbursements: A detailed list Type including amounts'
     disbursements:
       caption: 'Disbursements: A detailed list Type including amounts'
       type: "Disbursement type"

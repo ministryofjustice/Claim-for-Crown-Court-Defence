@@ -36,7 +36,7 @@
         %li
           %span
             = succeed ':' do
-              = t('.details.distance')
+              = t('.distance')
           = t('.distance_count', count: expense.distance)
 
     %li{ class: ('error' if current_user_is_caseworker? && claim.lgfs? && expense.mileage_rate_id.eql?(2)) }

@@ -81,7 +81,6 @@ RSpec.describe ClaimsHelper do
   describe '#show_message_controls?' do
     subject(:subj_show_message_controls?) { show_message_controls?(claim) }
 
-    require 'application_helper'
     let(:claim) { build(:claim, state:) }
 
     RSpec.configure do |c|

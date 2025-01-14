@@ -4,10 +4,10 @@
       = t('shared.summary.no_values.fees')
 
   - else
-    = render partial: 'shared/new_basic_and_additional_fees_details', locals: { claim: claim }
+    = render partial: 'shared/new_lgfs_fee_details', locals: { claim: claim }
 
   - if claim.final? && claim.interim_claim_info.present?
-    = render partial:'shared/new_warrant_fees_lgfs_details', locals: { claim: claim }
+    = render partial:'shared/new_warrant_fees_details', locals: { claim: claim }
 
   - if claim.expenses.empty?
     %h3.govuk-heading-m

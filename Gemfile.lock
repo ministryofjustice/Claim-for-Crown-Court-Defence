@@ -605,10 +605,10 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
-    site_prism (5.0.4)
+    site_prism (5.1)
       addressable (~> 2.8, >= 2.8.4)
-      capybara (~> 3.32)
-      site_prism-all_there (> 2, < 5)
+      capybara (~> 3.34)
+      site_prism-all_there (> 3, < 5)
     site_prism-all_there (3.0.6)
     snaky_hash (2.0.1)
       hashie
@@ -775,7 +775,7 @@ DEPENDENCIES
   sidekiq-failures (~> 1.0, >= 1.0.4)
   sidekiq-scheduler (~> 5.0.6)
   simplecov
-  site_prism (~> 5.0)
+  site_prism (~> 5.1)
   sprockets-rails (~> 3.5.2)
   state_machines-activerecord
   state_machines-audit_trail

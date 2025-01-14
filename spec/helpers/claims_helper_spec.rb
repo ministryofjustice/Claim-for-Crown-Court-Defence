@@ -54,28 +54,6 @@ RSpec.shared_examples 'include unclaimed_fees message' do
 end
 
 RSpec.describe ClaimsHelper do
-  describe '#claim_allocation_checkbox_helper' do
-    let(:case_worker) { double CaseWorker }
-    let(:claim) { double Claim }
-
-    before do
-      allow(claim).to receive(:id).and_return(66)
-      allow(case_worker).to receive(:id).and_return(888)
-    end
-
-    it 'produces the html for a checked checkbox if the claim is allocated to the case worker' do
-      expect(claim).to receive(:allocated_to_case_worker?).with(case_worker).and_return(true)
-      expected_html = '<input checked="checked" id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">'
-      expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
-    end
-
-    it 'produces the html for a un-checked checkbox if the claim is not allocated to the case worker' do
-      expect(claim).to receive(:allocated_to_case_worker?).with(case_worker).and_return(false)
-      expected_html = '<input  id="case_worker_claim_ids_66" name="case_worker[claim_ids][]" type="checkbox" value="66">'
-      expect(claim_allocation_checkbox_helper(claim, case_worker)).to eq expected_html
-    end
-  end
-
   describe '#show_api_promo_to_user?' do
     helper do
       def current_user

@@ -23,15 +23,12 @@ RSpec::Matchers.define :match_hash do |expected|
   end
 
   def format_diff(diff)
-    spacer = "-\s"
-    diff_sep = '--------------------'
-
     diff_array = diff.each_with_object([]) do |el, memo|
       if el.is_a? Array
-        memo << diff_sep
+        memo << '--------------------'
         memo << format_diff(el)
       else
-        memo << "\"#{el}\"".prepend(spacer)
+        memo << "\"#{el}\"".prepend("-\s")
       end
     end
 

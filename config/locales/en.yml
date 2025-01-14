@@ -2198,7 +2198,7 @@ en:
       fee_type: Fee type
       rate: Rate
       days_claimed: Days
-      actual_trial_length: *actual_trial_length
+      actual_trial_length: Actual trial length
       quantity: *quantity
       amount: Net amount
       dates_attended: Dates attended
@@ -2438,65 +2438,105 @@ en:
       dates: Dates
       rate: Rate
     summary_agfs:
-      mileage_rate: &mileage_rate 'Mileage rate'
+      mileage_rate: 'Mileage rate'
       expenses:
-        caption: &expense_caption 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
       fees:
-        caption: &fees_caption 'Fees: A detailed list by Category and Type including amounts'
-      amount: &amount 'Amount'
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      amount: 'Amount'
+      vat_amount: 'VAT Amount'
+      date: 'Date'
+      distance: 'Distance'
+      fee_category: 'Fee category'
+      fee_type: 'Fee type'
+      fee_subtype: 'Fee subtype'
+      case_numbers: 'Case Numbers'
+      quantity: 'Quantity'
+      dates_attended: 'Dates attended'
+      fees_total: 'Fees total:'
+      expense_type: 'Expense type'
+      location: 'Destination'
+      quantity_hours: 'Hours'
+      rate: 'Rate'
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      reason: 'Reason'
+      additional_information: 'Additional information'
+    new_lgfs_disbursements:
+      disbursements_gross: 'Disbursements with VAT'
+      disbursements_caption: 'Disbursements: A detailed list Type including amounts'
+      disbursement_type: "Disbursement type"
+      net_amount: *net_amount
       vat_amount: *vat_amount
-      date: &date 'Date'
-      distance: &distance 'Distance'
-      fee_category: &fee_category 'Fee category'
-      fee_type: &fee_type 'Fee type'
-      fee_subtype: &fee_subtype 'Fee subtype'
+      vat: 'VAT'
+      gross_amount: Gross amount
+      total: "Total"
+
+    new_summary_lgfs:
+      mileage_rate: Mileage rate
+      expenses:
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
+      fees:
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      amount: Amount
+      vat_amount: *vat_amount
+      date: Date
+      distance: Distance
+      fee_category: Fee category
+      fee_type: Fee type
+      actual_trial_length: *actual_trial_length
+      fee_subtype: Fee subtype
       case_numbers: *case_numbers
+      days_claimed: Days
       quantity: *quantity
-      dates_attended: &dates_attended 'Dates attended'
-      fees_total: &fees_total 'Fees total:'
-      expense_type: &expense_type 'Expense type'
-      location: &location 'Destination'
-      quantity_hours: &quantity_hours 'Hours'
-      rate: &rate 'Rate'
-      expenses_total: &expenses_total 'Expenses total:'
-      claim_total: &claim_total 'Claim total:'
-      reason: &reason 'Reason'
-      additional_information: &additional_information 'Additional information'
+      dates_attended: Dates attended
+      fees_total: 'Fees total:'
+      expense_type: Expense type
+      location: Destination
+      quantity_hours: 'Hours'
+      rate: Rate
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      reason: 'Reason'
+      additional_information: Additional information
     new_summary_agfs:
-      mileage_rate: *mileage_rate
+      mileage_rate: 'Mileage rate'
       expenses:
-        caption: *expense_caption
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
       fees:
-        caption: *fees_caption
-      amount: *amount
+        caption: 'Fees: A detailed list by Category and Type including amounts'
+      amount: 'Amount'
+      vat_amount: 'VAT Amount'
+      date: 'Date'
+      distance: 'Distance'
+      fee_category: 'Fee category'
+      fee_type: 'Fee type'
+      fee_subtype: 'Fee subtype'
+      case_numbers: 'Case Numbers'
+      quantity: 'Quantity'
+      dates_attended: 'Dates attended'
+      fees_total: 'Fees total:'
+      expense_type: 'Expense type'
+      location: 'Destination'
+      quantity_hours: 'Hours'
+      rate: 'Rate'
+      expenses_total: 'Expenses total:'
+      claim_total: 'Claim total:'
+      reason: 'Reason'
+      additional_information: 'Additional information'
+      net_amount: 'Net amount'
+      first_day_of_trial: 'First day of trial'
+      retrial_started_at: 'Retrial started at'
+      disbursements_caption: 'Disbursements: A detailed list Type including amounts'
+    disbursements:
+      caption: 'Disbursements: A detailed list Type including amounts'
+      type: "Disbursement type"
+      net_amount: *net_amount
       vat_amount: *vat_amount
-      date: *date
-      distance: *distance
-      fee_category: *fee_category
-      fee_type: *fee_type
-      fee_subtype: *fee_subtype
-      case_numbers: *case_numbers
-      quantity: *quantity
-      dates_attended: *dates_attended
-      fees_total: *fees_total
-      expense_type: *expense_type
-      location: *location
-      quantity_hours: *quantity_hours
-      rate: *rate
-      expenses_total: *expenses_total
-      claim_total: *claim_total
-      reason: *reason
-      additional_information: *additional_information
-      disbursements:
-        caption: 'Disbursements: A detailed list Type including amounts'
-        type: "Disbursement type"
-        net_amount: *net_amount
-        vat_amount: *vat_amount
-        total: "Total"
-      warrant_fee:
-        date_issued: "Warrant issued"
-        date_executed: "Warrant executed"
-        total: "Total"
+      total: "Total"
+    warrant_fee:
+      date_issued: "Warrant issued"
+      date_executed: "Warrant executed"
       total: "Total"
       ppe_total: "PPE total at the time"
       effective_pcmh_date: "Effective PCMH"
@@ -2514,9 +2554,9 @@ en:
     summary_lgfs:
       mileage_rate: Mileage rate
       expenses:
-        caption: *expense_caption
+        caption: 'Expenses: A detailed list by Type including amount, distance and location where applicable'
       fees:
-        caption: *fees_caption
+        caption: 'Fees: A detailed list by Category and Type including amounts'
       amount: Amount
       vat_amount: *vat_amount
       date: Date

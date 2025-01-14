@@ -26,7 +26,7 @@
                 = govuk_table_th_numeric do
                   = t('.vat')
               = govuk_table_th_numeric do
-                = t('.gross_amount')
+                = t('.total_amount')
 
             = govuk_table_tbody do
               - expenses = vat ? claim.expenses.includes(:expense_type).with_vat : claim.expenses.includes(:expense_type).without_vat

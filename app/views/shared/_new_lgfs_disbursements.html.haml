@@ -1,57 +1,11 @@
-%h3.govuk-heading-m
-  = t('.disbursements_gross')
-
-  = govuk_table do
-    = govuk_table_caption(class: 'govuk-visually-hidden') do
-      = t('.disbursements_caption')
-
-    = govuk_table_thead do
-      = govuk_table_row do
-        = govuk_table_th do
-          = t('.disbursement_type')
-
-        = govuk_table_th_numeric do
-          = t('.net_amount')
-
-        = govuk_table_th_numeric do
-          = t('.vat_amount')
-
-        = govuk_table_th_numeric do
-          = t('.gross_amount')
-
-    = govuk_table_tbody do
-      - present_collection(claim.disbursements.with_vat).each do |disbursement|
-        = govuk_table_row do
-          = govuk_table_td('data-label': t('.disbursement_type')) do
-            = disbursement.name
-
-          = govuk_table_td_numeric('data-label': t('.net_amount')) do
-            = disbursement.net_amount
-
-          = govuk_table_td_numeric('data-label': t('.vat')) do
-            = disbursement.vat_amount
-
-          = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
-            = disbursement.total
-
-    = govuk_table_tfoot do
-      = govuk_table_row do
-        = govuk_table_th(scope: 'row', 'data-label': t('shared.disbursement_type')) do
-          = t('shared.disbursements_gross')
-
-        = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
-          = claim.disbursements_with_vat_net
-
-        = govuk_table_td_numeric('data-label': t('shared.vat')) do
-          = claim.disbursements_vat
-
-        = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
-          = claim.disbursements_with_vat_gross
-
-  - if claim.disbursements.without_vat.any?
-    %h3.govuk-heading-m
-      = t('shared.disbursements_no_vat')
-
+.govuk-summary-card.custom-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      = t('.disbursements_gross')
+  .govuk-summary-card__content
+    %dl.govuk-summary-list.new_summary
+      %div.govuk-summary-list__header
+        %div.govuk-summary-list__row
       = govuk_table do
         = govuk_table_caption(class: 'govuk-visually-hidden') do
           = t('.disbursements_caption')
@@ -59,22 +13,28 @@
         = govuk_table_thead do
           = govuk_table_row do
             = govuk_table_th do
-              = t('shared.disbursement_type')
+              = t('.disbursement_type')
 
             = govuk_table_th_numeric do
-              = t('shared.net_amount')
+              = t('.net_amount')
 
             = govuk_table_th_numeric do
-              = t('shared.gross_amount')
+              = t('.vat_amount')
+
+            = govuk_table_th_numeric do
+              = t('.gross_amount')
 
         = govuk_table_tbody do
-          - present_collection(claim.disbursements.without_vat).each do |disbursement|
+          - present_collection(claim.disbursements.with_vat).each do |disbursement|
             = govuk_table_row do
-              = govuk_table_td('data-label': t('shared.disbursement_type')) do
+              = govuk_table_td('data-label': t('.disbursement_type')) do
                 = disbursement.name
 
-              = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+              = govuk_table_td_numeric('data-label': t('.net_amount')) do
                 = disbursement.net_amount
+
+              = govuk_table_td_numeric('data-label': t('.vat')) do
+                = disbursement.vat_amount
 
               = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
                 = disbursement.total
@@ -82,10 +42,55 @@
         = govuk_table_tfoot do
           = govuk_table_row do
             = govuk_table_th(scope: 'row', 'data-label': t('shared.disbursement_type')) do
-              = t('shared.disbursements_no_vat')
+              = t('shared.disbursements_gross')
 
             = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
-              = claim.disbursements_without_vat_net
+              = claim.disbursements_with_vat_net
+
+            = govuk_table_td_numeric('data-label': t('shared.vat')) do
+              = claim.disbursements_vat
 
             = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
-              = claim.disbursements_without_vat_gross
+              = claim.disbursements_with_vat_gross
+
+      - if claim.disbursements.without_vat.any?
+        %h3.govuk-heading-m
+          = t('shared.disbursements_no_vat')
+
+          = govuk_table do
+            = govuk_table_caption(class: 'govuk-visually-hidden') do
+              = t('.disbursements_caption')
+
+            = govuk_table_thead do
+              = govuk_table_row do
+                = govuk_table_th do
+                  = t('shared.disbursement_type')
+
+                = govuk_table_th_numeric do
+                  = t('shared.net_amount')
+
+                = govuk_table_th_numeric do
+                  = t('shared.gross_amount')
+
+            = govuk_table_tbody do
+              - present_collection(claim.disbursements.without_vat).each do |disbursement|
+                = govuk_table_row do
+                  = govuk_table_td('data-label': t('shared.disbursement_type')) do
+                    = disbursement.name
+
+                  = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+                    = disbursement.net_amount
+
+                  = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+                    = disbursement.total
+
+            = govuk_table_tfoot do
+              = govuk_table_row do
+                = govuk_table_th(scope: 'row', 'data-label': t('shared.disbursement_type')) do
+                  = t('shared.disbursements_no_vat')
+
+                = govuk_table_td_numeric('data-label': t('shared.net_amount')) do
+                  = claim.disbursements_without_vat_net
+
+                = govuk_table_td_numeric('data-label': t('shared.gross_amount')) do
+                  = claim.disbursements_without_vat_gross

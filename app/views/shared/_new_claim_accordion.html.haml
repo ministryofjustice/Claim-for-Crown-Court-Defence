@@ -37,5 +37,5 @@
   - if claim.additional_information.present?
     %h2.govuk-heading-l
       = t('.additional_information')
-    %p
-      = format_multiline(claim.additional_information)
+
+      = render partial: 'shared/new_additional_information', locals: { claim: claim }

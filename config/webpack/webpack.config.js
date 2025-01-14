@@ -95,7 +95,8 @@ module.exports = {
       jQuery: require.resolve('jquery'),
       jquery: require.resolve('jquery'),
       Dropzone: require.resolve('dropzone/dist/dropzone.js'),
-      Stickyfill: require.resolve('stickyfilljs')
+      Stickyfill: require.resolve('stickyfilljs'),
+      MOJFrontend: require.resolve('@ministryofjustice/frontend/moj/all.js')
     })
   ]
 }

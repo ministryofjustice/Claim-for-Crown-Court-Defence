@@ -1,0 +1,7 @@
+.govuk-grid-row
+  .govuk-grid-column-two-thirds
+    %p.govuk-body
+      = t('.no_defendant')
+
+- unless claim.fixed_fee_case?
+  = render partial: 'shared/offence_details/new_summary', locals: { claim: claim }

@@ -4,10 +4,10 @@
       = t('shared.summary.no_values.fees')
 
   - else
-    = render partial: '/shared/new_basic_and_additional_fees_details', locals: { claim: claim }
+    = render partial: 'shared/new_basic_and_additional_fees_details', locals: { claim: claim }
 
   - if claim.final? && claim.interim_claim_info.present?
-    = render partial:'/shared/new_warrant_fees_lgfs_details', locals: { claim: claim }
+    = render partial:'shared/new_warrant_fees_lgfs_details', locals: { claim: claim }
 
   - if claim.expenses.empty?
     %h3.govuk-heading-m
@@ -18,4 +18,15 @@
   - else
     = render partial: 'shared/summary/new_expenses', locals: { claim: claim }
 
+  - if claim.can_have_disbursements?
+    - if claim.disbursements.empty?
+      %h3.govuk-heading-m
+        = t('common.disbursements')
+
+      %p.govuk-body
+        = t('shared.summary.no_values.disbursements')
+
+    - else
+      - if claim.disbursements.with_vat.any?
+        = render partial: 'shared/new_lgfs_disbursements', locals: { claim: claim }
 

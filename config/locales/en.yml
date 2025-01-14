@@ -2097,7 +2097,7 @@ en:
       defendant: Defendant names
       defendants: Defendants
       j_a: Judicial apportionment
-      no_defendant: No defendant details have been supplied for this claim
+      no_defendant: &no_defendant 'No defendant details have been supplied for this claim'
       offence: Offence
       offence_class: Offence class
       q:
@@ -2144,20 +2144,21 @@ en:
       claim_type: Claim and case type
       defendant: Defendant names
       defendants: Defendants
-      defendant_details_heading: Defendant details
       j_a: Judicial apportionment
-      no_defendant: No defendant details have been supplied for this claim
       offence: Offence
       offence_class: Offence class
     new_claim_accordion:
       additional_information: Additional claim information
       created_by: 'Created by:'
       h2_basic_info: Basic claim information
+      h2_defendant_details: Defendant details
       h2_evidence: Evidence
       h2_messages: Messages and claim status
       h2_status: Status
       h2_summary: Fees
       heading: Claim
+    new_defendant_details:
+      no_defendant: *no_defendant
     new_claim_and_case_type_details:
       provider_reference: Provider reference number
       claim_submitted: Claim submitted on

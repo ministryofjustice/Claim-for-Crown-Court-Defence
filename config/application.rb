@@ -16,7 +16,18 @@ require_relative '../lib/govuk_component'
 
 module AdvocateDefencePayments
   class Application < Rails::Application
+    # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
+
+    ### 7.1 framework default
+    # No longer add autoloaded paths into `$LOAD_PATH`. This means that you won't be able
+    # to manually require files that are managed by the autoloader, which you shouldn't do anyway.
+    #
+    # This will reduce the size of the load path, making `require` faster if you don't use bootsnap, or reduce the size
+    # of the bootsnap cache if you use it.
+    #
+    # To set this configuration, add the following line to `config/application.rb` (NOT this file):
+    config.add_autoload_paths_to_load_path = false
 
     config.middleware.use Rack::Deflater
     # Settings in config/environments/* take precedence over those specified here.
@@ -59,6 +70,7 @@ module AdvocateDefencePayments
     config.active_storage.urls_expire_in = 5.minutes # default
 
 
+    config.autoload_lib(ignore: %w(assets tasks))
     config.autoload_paths << config.root.join('lib')
     config.eager_load_paths << config.root.join('lib')
     config.exceptions_app = self.routes

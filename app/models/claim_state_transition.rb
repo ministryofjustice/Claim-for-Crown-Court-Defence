@@ -20,7 +20,7 @@ class ClaimStateTransition < ApplicationRecord
   belongs_to :author, class_name: 'User'
   belongs_to :subject, class_name: 'User'
 
-  serialize :reason_code, Array
+  serialize :reason_code, type: Array
   alias_attribute :reason_codes, :reason_code
 
   def reason

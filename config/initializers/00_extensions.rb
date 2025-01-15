@@ -41,3 +41,11 @@ end
 class FalseClass
   include Extensions::BooleanExtension::False
 end
+
+module ActionView
+  module Helpers
+    class FormBuilder
+      include Extensions::FormBuilderExtension
+    end
+  end
+end

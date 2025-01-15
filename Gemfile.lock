@@ -779,6 +779,7 @@ DEPENDENCIES
   sprockets-rails (~> 3.5.2)
   state_machines-activerecord
   state_machines-audit_trail
+  terminal-table (~> 3.0)
   timecop
   tty-spinner
   tzinfo-data

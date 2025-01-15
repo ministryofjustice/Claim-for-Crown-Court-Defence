@@ -16,12 +16,6 @@ module GovukComponent
       end
     end
 
-    initializer 'govuk_component.detail_helpers' do
-      config.after_initialize do
-        ActiveSupport.on_load(:action_view) { include GovukComponent::DetailHelpers }
-      end
-    end
-
     initializer 'govuk_component.inset_text_helpers' do
       config.after_initialize do
         ActiveSupport.on_load(:action_view) { include GovukComponent::InsetTextHelpers }

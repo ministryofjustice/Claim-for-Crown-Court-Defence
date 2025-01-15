@@ -1,5 +1,5 @@
 - if show_contact_us_link?
   .govuk-grid-row
     .govuk-grid-column-full
-      = govuk_detail t('shared.help_summary_heading') do
+      = govuk_details summary_text: t('shared.help_summary_heading') do
         = render partial: 'pages/contact_details'

@@ -1,0 +1,53 @@
+.details
+  %ul.govuk-list
+    - if claim.lgfs?
+      %li
+        %span
+          = succeed ':' do
+            = t('.origin')
+        = claim.supplier_name_with_postcode
+
+    %li
+      %span
+        = succeed ':' do
+          = t('.destination')
+      = expense.location_with_postcode
+
+    - if current_user_is_caseworker? && expense.distance?
+      %li{ class: ('error' if expense.distance_gt_calculated?) }
+        %span
+          = succeed ':' do
+            = t(expense.distance_label)
+        = t('.distance_count', count: expense.distance)
+
+      - if expense.distance_gt_calculated?
+        %li{ class: ('error' if expense.distance_gt_calculated?) }
+          %span
+            = succeed ':' do
+              = t('.distance_calculated')
+          = expense.pretty_calculated_distance
+
+      - if expense.show_map_link?
+        %li
+          = link_to_map expense, origin: claim.supplier_postcode, destination: expense.location_postcode
+
+    - else
+      - if expense.distance?
+        %li
+          %span
+            = succeed ':' do
+              = t('.distance')
+          = t('.distance_count', count: expense.distance)
+
+    %li{ class: ('error' if current_user_is_caseworker? && claim.lgfs? && expense.mileage_rate_id.eql?(2)) }
+      %span
+        = succeed ':' do
+          = t('.cost')
+      = expense.mileage_rate
+
+    - if expense.hours?
+      %li
+        %span
+          = succeed ':' do
+            = t('.hours')
+        = expense.hours

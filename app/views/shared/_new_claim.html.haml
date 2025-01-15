@@ -1,0 +1,33 @@
+- if claim.certification.present?
+  = render partial: 'shared/new_certification', locals: { claim: claim }
+
+.govuk-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      = t('shared.claim.claim_type')
+
+  .govuk-summary-card__content
+    .govuk-summary-list
+
+    = render partial: 'shared/new_claim_and_case_type_details', locals: { claim: claim }
+
+    - if claim.agfs? && claim.case_type.present? && claim.requires_cracked_dates?
+      = render partial: 'shared/new_claim_cracked_trial_details', locals: { claim: claim }
+
+    - if claim.case_type && claim.case_concluded_at
+      = render partial: 'shared/new_claim_case_concluded_at_details', locals: { claim: claim }
+
+    - if claim.lgfs? && claim.interim? && !claim.interim_fee.nil?
+      = render partial: 'shared/new_claim_interim_details', locals: { claim: claim }
+
+    - if claim.transfer?
+      = render partial: 'shared/new_claim_transfer_details', locals: { claim: claim }
+
+    - if claim&.requires_trial_dates?
+      = render partial: 'shared/new_claim_trial_details', locals: { claim: claim }
+
+    - if claim&.requires_retrial_dates?
+      = render partial: 'shared/new_claim_retrial_details', locals: { claim: claim }
+
+    - if claim.main_hearing_date
+      = render partial: 'shared/new_main_hearing_date_details', locals: { claim: claim }

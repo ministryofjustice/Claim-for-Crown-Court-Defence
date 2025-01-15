@@ -1,0 +1,19 @@
+-# AGFS fees accordion content
+- present(@claim) do |claim|
+  - if @claim.fees_total == 0
+    %p.govuk-body
+      = t('shared.summary.no_values.fees')
+
+  - else
+    = render partial: 'shared/new_agfs_fee_details', locals: { claim: claim }
+
+  - if claim.final? && claim.interim_claim_info.present?
+    = render partial:'shared/new_warrant_fees_details', locals: { claim: claim }
+
+  - if claim.expenses.empty?
+    %h3.govuk-heading-m
+      = t('common.expenses')
+    %p.govuk-body
+      = t('shared.summary.no_values.expenses')
+  - else
+    = render partial: 'shared/summary/new_expenses', locals: { claim: claim }

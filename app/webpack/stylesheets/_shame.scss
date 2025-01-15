@@ -206,7 +206,6 @@ form {
 // claims-table.SCSS
 .totals {
   padding-top: $gutter-two-thirds;
-  padding-bottom: $gutter-two-thirds;
   text-align: right;
 }
 
@@ -501,3 +500,94 @@ form {
 .error {
   color: $govuk-error-colour;
 }
+
+.no-bullets-item {
+  list-style-type: none;
+}
+
+.remove-margin {
+  margin: 0;
+}
+
+// Format 'Existing evidence' table
+.custom-summary-card .govuk-summary-list__row {
+  display: flex;
+}
+
+.custom-summary-card .govuk-summary-list__key.file-name,
+.custom-summary-card .govuk-summary-list__value.file-name {
+  flex: 3;
+  text-align: left;
+}
+
+.custom-summary-card .govuk-summary-list__key.file-info,
+.custom-summary-card .govuk-summary-list__value.file-info {
+  flex: 1;
+  text-align: right;
+}
+
+.download-all-link {
+  display: inline-block;
+  margin-top: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.summary-page-values {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.summary-page-table-two-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+}
+
+.summary-page-table-two-row .govuk-summary-list__key {
+  flex: 1;
+  margin: 0;
+}
+
+.summary-page-table-two-row .govuk-summary-list__value {
+  text-align: left;
+  flex: 1;
+}
+
+.govuk-table__header.align-left {
+  text-align: left;
+}
+
+.govuk-table__header.align-right {
+  text-align: right;
+}
+
+.govuk-table__cell.align-left {
+  text-align: left;
+}
+
+.govuk-table__cell.align-right {
+  text-align: right;
+}
+
+.govuk-table.remove-margin {
+  margin-bottom: 0;
+}
+
+.govuk-summary-list__key.total-fees {
+  flex: 2;
+  text-align: right;
+}
+
+.govuk-summary-list__row.total-fees {
+  margin: 0;
+}
+
+.no-bottom-border {
+  border-collapse: collapse;
+  border-bottom: none;
+}
+
+

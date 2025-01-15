@@ -6,5 +6,5 @@ class LGFSTransferDetailSection < SitePrism::Section
   element :elected_case_yes, "label[for='claim-elected-case-true-field']"
   element :elected_case_no, "label[for='claim-elected-case-false-field']"
 
-  section :transfer_date, GOVUKDateSection, '#cc-transfer_date'
+  section :transfer_date, GovukDateSection, '#cc-transfer_date'
 end

@@ -27,14 +27,14 @@ class ClaimFormPage < BasePage
   section :auto_case_stage, CommonAutocomplete, "#cc-case-stage"
   section :auto_court, CommonAutocomplete, "#cc-court"
   section :auto_offence, CommonAutocomplete, "#cc-offence"
-  section :main_hearing_date, GOVUKDateSection, '#main_hearing_date'
+  section :main_hearing_date, GovukDateSection, '#main_hearing_date'
 
   element :case_number, "input[name='claim[case_number]']"
   element :case_type_dropdown, "#case_type"
 
   section :trial_details, "#trial-dates" do
-    section :first_day_of_trial, GOVUKDateSection, '#first_day_of_trial'
-    section :trial_concluded_on, GOVUKDateSection, '#trial_concluded_at'
+    section :first_day_of_trial, GovukDateSection, '#first_day_of_trial'
+    section :trial_concluded_on, GovukDateSection, '#trial_concluded_at'
     element :actual_trial_length, "input[name='claim[actual_trial_length]']"
     element :estimated_trial_length, "input[name='claim[estimated_trial_length]']"
   end
@@ -46,10 +46,10 @@ class ClaimFormPage < BasePage
     element :first_name, "div.cc-first-name input"
     element :last_name, "div.cc-last-name input"
 
-    section :dob, GOVUKDateSection, 'div.cc-dob'
+    section :dob, GovukDateSection, 'div.cc-dob'
 
     sections :representation_orders, ".cc-ro-details" do
-      section :date, GOVUKDateSection, 'div.cc-ro-date'
+      section :date, GovukDateSection, 'div.cc-ro-date'
       element :maat_reference, "div.cc-maat input"
     end
 

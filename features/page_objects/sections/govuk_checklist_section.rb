@@ -1,4 +1,4 @@
-class GOVUKChecklistSection < SitePrism::Section
+class GovukChecklistSection < SitePrism::Section
   sections :checklist, '.basic-fees-checklist .govuk-checkboxes__item' do
     element :checkbox, '.govuk-checkboxes__input', visible: false
     element :label, '.govuk-label'

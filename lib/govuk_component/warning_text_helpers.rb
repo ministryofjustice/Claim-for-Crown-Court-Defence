@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GOVUKComponent
+module GovukComponent
   module WarningTextHelpers
     def govuk_warning_text(body = nil, assistive_text = t('common.warning'), **tag_options, &)
       tag_options = prepend_classes('govuk-warning-text', tag_options)

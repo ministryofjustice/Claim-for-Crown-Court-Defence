@@ -3,5 +3,5 @@ class LGFSFixedFeeSection < SitePrism::Section
   element :quantity_hint, ".quantity_wrapper .govuk-hint"
   element :rate, "input.rate"
   element :total, ".fee-net-amount"
-  section :date, GOVUKDateSection, ".govuk-date-input"
+  section :date, GovukDateSection, ".govuk-date-input"
 end

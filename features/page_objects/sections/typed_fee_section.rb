@@ -12,7 +12,7 @@ class TypedFeeSection < SitePrism::Section
   element :case_numbers_section, ".case_numbers_wrapper"
   element :add_dates, ".dates-wrapper .add_fields"
   element :numbered, ".fx-numberedList-number"
-  section :dates, GOVUKDateSection, ".fee-dates"
+  section :dates, GovukDateSection, ".fee-dates"
 
   # NOTE: the select list is hidden. Selection is done
   # by entering text into the input text field.

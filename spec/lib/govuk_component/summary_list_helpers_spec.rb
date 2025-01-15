@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe GOVUKComponent::SummaryListHelpers, type: :helper do
+RSpec.describe GovukComponent::SummaryListHelpers, type: :helper do
   include RSpecHtmlMatchers
 
   describe '#govuk_summary_list' do

@@ -19,5 +19,5 @@ class BasicFeeSection < CheckboxFeeSection
   section :prosecution_witnesses, FeeSection, ".basic-fee-group.number-of-prosecution-witnesses"
   section :pages_of_prosecution_evidence, FeeSection, ".basic-fee-group.pages-of-prosecution-evidence"
 
-  section :basic_fees_checkboxes, GOVUKChecklistSection, '.basic-fees-checklist'
+  section :basic_fees_checkboxes, GovukChecklistSection, '.basic-fees-checklist'
 end

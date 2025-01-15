@@ -2,8 +2,8 @@ require_relative 'common_date_section'
 require_relative 'govuk_date_section'
 
 class RetrialSection < SitePrism::Section
-  section :retrial_started_at, GOVUKDateSection, '#retrial_started_at'
-  section :retrial_concluded_at, GOVUKDateSection, '#retrial_concluded_at'
+  section :retrial_started_at, GovukDateSection, '#retrial_started_at'
+  section :retrial_concluded_at, GovukDateSection, '#retrial_concluded_at'
 
   element :retrial_actual_length, "input[name='claim[retrial_actual_length]']"
   element :retrial_estimated_length, "input[name='claim[retrial_estimated_length]']"

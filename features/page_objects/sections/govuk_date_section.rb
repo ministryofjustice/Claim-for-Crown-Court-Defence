@@ -1,4 +1,4 @@
-class GOVUKDateSection < SitePrism::Section
+class GovukDateSection < SitePrism::Section
   include DateHelper
   element :day, 'div.govuk-date-input div.govuk-date-input__item:nth-child(1) input'
   element :month, 'div.govuk-date-input div.govuk-date-input__item:nth-child(2) input'

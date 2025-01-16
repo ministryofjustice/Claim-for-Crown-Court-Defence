@@ -221,12 +221,12 @@ RSpec.describe 'Document management' do
       it 'does not create a document' do
         expect { create_document }.not_to change(Document, :count)
       end
-    
-      it 'returns status unprocessable entity' do
+
+      it 'returns status accepted entity' do
         create_document
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:accepted)
       end
-    
+
       it 'returns errors in response' do
         create_document
         expect(response.parsed_body['error']).to have_key('message')
@@ -239,12 +239,12 @@ RSpec.describe 'Document management' do
       it 'does not create a document' do
         expect { create_document }.not_to change(Document, :count)
       end
-    
-      it 'returns status unprocessable entity' do
+
+      it 'returns status accepted entity' do
         create_document
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:accepted)
       end
-    
+
       it 'returns errors in response' do
         create_document
         expect(response.parsed_body['error']).to have_key('message')

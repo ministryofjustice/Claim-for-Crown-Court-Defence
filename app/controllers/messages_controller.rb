@@ -22,16 +22,8 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params.merge(sender_id: current_user.id))
 
-    documents = Document.where(id: params[:message][:document_ids])
-    documents.each do |doc|
-      @message.attachments.attach(doc.document.blob)
-    end
-
-    @notification = if @message.save
-                      { notice: 'Message successfully sent' }
-                    else
-                      { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
-                    end
+    attach_documents
+    save_message
 
     respond_to do |format|
       format.js
@@ -43,6 +35,21 @@ class MessagesController < ApplicationController
     raise 'No attachment present on this message' unless message.attachments.attached?
 
     redirect_to message.attachments.first.blob.url(disposition: 'attachment'), allow_other_host: true
+  end
+
+  def attach_documents
+    documents = Document.where(id: params[:message][:document_ids])
+    documents.each do |doc|
+      @message.attachments.attach(doc.document.blob)
+    end
+  end
+
+  def save_message
+    @notification = if @message.save
+                      { notice: 'Message successfully sent' }
+                    else
+                      { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
+                    end
   end
 
   private

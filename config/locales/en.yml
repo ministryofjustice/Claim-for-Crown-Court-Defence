@@ -2057,7 +2057,6 @@ en:
       reason_text: Reason text
       reason_hint: These reasons will be displayed to providers
       update_the_claim_status: Update the claim status
-      reason_text: Reason text
       laa_heading: Total authorised by LAA
       laa_heading_hint: include any amount already authorised
     determinations_table:
@@ -2086,7 +2085,7 @@ en:
       invalid_claim: 'Claim is not in a state to be submitted'
     claim:
       advocate_category: Advocate category
-      assignee: "Assigned to:"
+      assignee: &assignee "Assigned to"
       case: Case
       case_cracked: Case cracked in
       case_num: Case number
@@ -2136,13 +2135,8 @@ en:
     new_claim:
       advocate_category: Advocate category
       provider_reference: Provider reference number
-      claim_submitted: Claim submitted on
-      assignee: "Assigned to:"
       case: Case
       case_cracked: Case cracked in
-      case_num: Case number
-      case_type: *case_type
-      case_stage: *case_stage
       case_worker: Case worker
       claim_type: Claim and case type
       defendant: Defendant names
@@ -2165,7 +2159,7 @@ en:
     new_claim_and_case_type_details:
       provider_reference: Provider reference number
       claim_submitted: Claim submitted on
-      assignee: "Assigned to:"
+      assignee: *assignee
       case_num: Case number
       case_stage: *case_stage
       case_type: *case_type
@@ -2207,7 +2201,7 @@ en:
       amount: Amount
       dates_attended: Dates attended
       date: Date
-      fee_subtype: Fee subtype
+      fee_subtype: &fee_subtype 'Fee subtype'
       case_numbers: *case_numbers
       fees_total: Fees total
     new_agfs_fee_details:
@@ -2221,8 +2215,8 @@ en:
       first_day_of_trial: 'First day of trial'
       retrial_started_at: 'Retrial started at'
       dates_attended: 'Dates attended'
-      fee_subtype: 'Fee subtype'
-      case_numbers: 'Case Numbers'
+      fee_subtype: *fee_subtype
+      case_numbers: *case_numbers
       fees_total: 'Fees total:'
       date: 'Date'
     new_lgfs_fee_details:
@@ -2236,7 +2230,7 @@ en:
       first_day_of_trial: 'First day of trial'
       retrial_started_at: 'Retrial started at'
       dates_attended: 'Dates attended'
-      fee_subtype: 'Fee subtype'
+      fee_subtype: *fee_subtype
       case_numbers: 'Case Numbers'
       fees_total: 'Fees total:'
       date: 'Date'
@@ -2259,7 +2253,7 @@ en:
       vat_amount: *vat_amount
       date: Date
       distance: Distance
-      fee_subtype: Fee subtype
+      fee_subtype: *fee_subtype
       case_numbers: *case_numbers
       expense_type: Expense type
       location: Destination
@@ -2459,7 +2453,7 @@ en:
       distance: Distance
       fee_category: Fee category
       fee_type: *fee_type
-      fee_subtype: Fee subtype
+      fee_subtype: *fee_subtype
       first_day_of_hearing: First day of hearing
       case_numbers: *case_numbers
       quantity: *quantity
@@ -2528,7 +2522,7 @@ en:
       distance: 'Distance'
       fee_category: 'Fee category'
       fee_type: 'Fee type'
-      fee_subtype: 'Fee subtype'
+      fee_subtype: *fee_subtype
       case_numbers: 'Case Numbers'
       quantity: 'Quantity'
       dates_attended: 'Dates attended'
@@ -2577,7 +2571,7 @@ en:
       fee_category: Fee category
       fee_type: Fee type
       actual_trial_length: *actual_trial_length
-      fee_subtype: Fee subtype
+      fee_subtype: *fee_subtype
       case_numbers: *case_numbers
       days_claimed: Days
       quantity: *quantity

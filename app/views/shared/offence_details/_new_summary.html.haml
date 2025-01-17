@@ -1,18 +1,17 @@
-- unless claim.fixed_fee_case?
-  .govuk-summary-card
-    .govuk-summary-card__title-wrapper
-      %h2.govuk-summary-card__title
-        = t('.header')
+.govuk-summary-card
+  .govuk-summary-card__title-wrapper
+    %h2.govuk-summary-card__title
+      = t('.header')
 
-    - if claim.offence
-      .govuk-summary-card__content
-        .govuk-summary-list
-        - if claim.agfs_reform?
-          = render partial: 'shared/offence_details/new_fee_reform_summary', locals: { claim: claim }
+  - if claim.offence
+    .govuk-summary-card__content
+      .govuk-summary-list
+      - if claim.agfs_reform?
+        = render partial: 'shared/offence_details/new_fee_reform_summary', locals: { claim: claim }
 
-        - else
-          = render partial: 'shared/offence_details/new_default_summary', locals: { claim: claim }
+      - else
+        = render partial: 'shared/offence_details/new_default_summary', locals: { claim: claim }
 
-    - else
-      %p.govuk-body
-        = t('shared.summary.no_values.offence_details')
+  - else
+    %p.govuk-body
+      = t('shared.summary.no_values.offence_details')

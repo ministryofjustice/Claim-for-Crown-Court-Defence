@@ -2231,7 +2231,7 @@ en:
       retrial_started_at: 'Retrial started at'
       dates_attended: 'Dates attended'
       fee_subtype: *fee_subtype
-      case_numbers: 'Case Numbers'
+      case_numbers: *case_numbers
       fees_total: 'Fees total:'
       date: 'Date'
       actual_trial_length: *actual_trial_length

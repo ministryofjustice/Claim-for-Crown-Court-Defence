@@ -6,7 +6,7 @@
     %dl.govuk-summary-list
       .govuk-summary-list__header
         .govuk-summary-list__row
-        = govuk_table(class: current_user.case_worker? ? 'expenses-data-table' : nil, style: 'width:100%') do
+        = govuk_table(class: "govuk-table govuk-table--custom #{current_user.case_worker? ? 'expenses-data-table' : ''}") do
           = govuk_table_caption(class: 'govuk-visually-hidden') do
             = t('.caption')
 
@@ -16,7 +16,7 @@
                 = t('.expense_type')
               = govuk_table_th do
                 = t('.reason')
-              = govuk_table_th( colspan: 2) do
+              = govuk_table_th(colspan: 2) do
                 = t('.details')
               = govuk_table_th do
                 = t('.date')
@@ -28,20 +28,20 @@
               = govuk_table_th_numeric do
                 = t('.total_amount')
 
-            = govuk_table_tbody do
-              - expenses = vat ? claim.expenses.includes(:expense_type).with_vat : claim.expenses.includes(:expense_type).without_vat
-              - present_collection(expenses).each do |expense|
-                = render template: 'shared/summary/expenses/new_show', locals: { claim: claim, expense: expense }
+          = govuk_table_tbody do
+            - expenses = vat ? claim.expenses.includes(:expense_type).with_vat : claim.expenses.includes(:expense_type).without_vat
+            - present_collection(expenses).each do |expense|
+              = render template: 'shared/summary/expenses/new_show', locals: { claim: claim, expense: expense }
 
           = govuk_table_tfoot do
-            = govuk_table_row do
-              = govuk_table_th(scope: 'row', colspan: 5, 'data-label': t('.expense_type'), class: 'no-bottom-border') do
+            = govuk_table_row(class: 'govuk-table__row--no-bottom-border') do
+              = govuk_table_th(scope: 'row', colspan: 5, 'data-label': t('.expense_type')) do
                 = succeed ':' do
                   = t("shared.summary.expenses.index.totals_#{vat ? 'with_vat' : 'without_vat'}")
-              = govuk_table_td_numeric('data-label': t('.net_amount'), class: 'no-bottom-border') do
+              = govuk_table_td_numeric('data-label': t('.net_amount')) do
                 = vat ? claim.expenses_with_vat_net : claim.expenses_without_vat_net
               - if vat
-                = govuk_table_td_numeric('data-label': t('.vat'), class: 'no-bottom-border') do
+                = govuk_table_td_numeric('data-label': t('.vat')) do
                   = claim.expenses_vat
-              = govuk_table_td_numeric('data-label': t('.total_amount'), class: 'no-bottom-border') do
+              = govuk_table_td_numeric('data-label': t('.total_amount')) do
                 = vat ? claim.expenses_with_vat_gross : claim.expenses_without_vat_gross

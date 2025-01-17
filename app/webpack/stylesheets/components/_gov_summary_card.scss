@@ -1,0 +1,47 @@
+.custom-summary-card .govuk-summary-list__row {
+  display: flex;
+}
+
+.custom-summary-card .govuk-summary-list__key.file-name,
+.custom-summary-card .govuk-summary-list__value.file-name {
+  flex: 3;
+  text-align: left;
+}
+
+.custom-summary-card .govuk-summary-list__key.file-info,
+.custom-summary-card .govuk-summary-list__value.file-info {
+  flex: 1;
+  text-align: right;
+}
+
+.summary-page-table-two-row .govuk-summary-list__key {
+  flex: 1;
+  margin: 0;
+}
+
+.summary-page-table-two-row .govuk-summary-list__value {
+  text-align: left;
+  flex: 1;
+}
+
+.govuk-summary-list__key.total-fees {
+  flex: 2;
+  text-align: right;
+}
+
+.govuk-summary-list__row.total-fees {
+  margin: 0;
+}
+
+.summary-page-values {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.summary-page-table-two-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+}

@@ -12,22 +12,39 @@
       = t('.no_documents_uploaded')
 
   - else
-  .govuk-summary-card.custom-summary-card
-  .govuk-summary-card__title-wrapper
-    %h2.govuk-summary-card__title= t('.existing_evidence')
-  .govuk-summary-card__content
-    %dl.govuk-summary-list
-      %dt.govuk-summary-list__key= t('.name_of_file')
-      %dd.govuk-summary-list__value
+    = govuk_table do
+      = govuk_table_caption(class: 'govuk-visually-hidden') do
+        = t('.caption')
+
+      = govuk_table_thead do
+        = govuk_table_row do
+          = govuk_table_th do
+            = t('.name_of_file')
+
+          = govuk_table_th_numeric do
+            = t('.file_size')
+
+          = govuk_table_th_numeric do
+            = t('.date_added')
+
+          = govuk_table_th_numeric do
+            = t('.actions')
+
+      = govuk_table_tbody do
         - @claim.documents.includes(:document_blob, :converted_preview_document_attachment).each do |document|
-          = govuk_link_to document.document_file_name, download_document_path(document)
+          = govuk_table_row do
+            = govuk_table_td('data-label': t('.name_of_file')) do
+              = document.document_file_name
 
-      %dt.govuk-summary-list__key= t('.file_size')
-      %dd.govuk-summary-list__value
-        - @claim.documents.each do |document|
-          = number_to_human_size(document.document_file_size)
+            = govuk_table_td_numeric('data-label': t('.file_size')) do
+              = number_to_human_size(document.document_file_size)
 
-      %dt.govuk-summary-list__key= t('.date_added')
-      %dd.govuk-summary-list__value
-        - @claim.documents.each do |document|
-          = document.created_at.strftime(Settings.date_format)
+            = govuk_table_td_numeric('data-label': t('.date_added')) do
+              = document.created_at.strftime(Settings.date_format)
+
+            = govuk_table_td_numeric('data-label': t('.actions')) do
+              .app-link-group
+                - if document.converted_preview_document.present?
+                  = govuk_link_to t('common.view_html', context: "#{document.document_file_name}"), document_path(document)
+
+                = govuk_link_to t('common.download_html', context: "#{document.document_file_name}"), download_document_path(document)

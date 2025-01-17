@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GOVUKComponent
+module GovukComponent
   module NotificationBannerHelpers
     def govuk_notification_banner(header = nil, content = nil, tag_options = {}, &)
       govuk_notification_banner_options(tag_options)

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module GOVUKComponent
+module GovukComponent
   module DetailHelpers
     def govuk_detail(summary_text = nil, tag_options = {}, &)
       tag_options = prepend_classes('govuk-details', tag_options)

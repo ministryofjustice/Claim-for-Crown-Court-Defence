@@ -3,6 +3,22 @@
 
 = render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
 
+
+
+= javascript_tag nonce: true, id: 'ss-embed-2894528' do
+  :plain
+    (function(d,w){
+      var s,ss;
+      ss=d.createElement('script');
+      ss.type='text/javascript';
+      ss.async=true;
+      ss.src=('https:'==d.location.protocol?'https://':'http://')+'www.smartsurvey.co.uk/s/embed/2894528/js/';
+      s=d.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ss, s);
+    })(document,window);
+
+
+
 .govuk-grid-row
   .govuk-grid-column-two-thirds
     = form_for @feedback, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate' } do |f|

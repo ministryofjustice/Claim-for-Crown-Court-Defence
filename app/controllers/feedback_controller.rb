@@ -30,7 +30,7 @@ class FeedbackController < ApplicationController
   end
 
   def type
-    %w[feedback bug_report].include?(params[:type]) ? params[:type] : 'feedback'
+    %w[feedback feedback_2 bug_report].include?(params[:type]) ? params[:type] : 'feedback'
   end
 
   def referrer_path

@@ -176,12 +176,6 @@ td.active {
   text-align: center;
 }
 
-/* Ensures the table has full width and no margin at the bottom */
-.govuk-table--custom {
-  margin-bottom: 0;
-}
-
-/* Removes the bottom border only from the last row */
 .govuk-table--custom .govuk-table__row--no-bottom-border th,
 .govuk-table--custom .govuk-table__row--no-bottom-border td {
   border-bottom: none;

@@ -5,7 +5,7 @@
     .govuk-summary-card__content
       %dl.govuk-summary-list
         = govuk_summary_list do
-          %ul.remove-margin
+          %ul(class="govuk-!-margin-0")
           - DocType.find_by_ids(@claim.evidence_checklist_ids).each do |dt|
-            %li.no-bullets-item.format-supporting-evidence-list
+            %div
               = dt.name

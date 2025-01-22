@@ -60,6 +60,8 @@ Rails.application.routes.draw do
 
   resources :documents do
     get 'download', on: :member
+    post 'upload', on: :collection
+    post 'delete', on: :collection
   end
 
   resources :messages, only: [:create] do

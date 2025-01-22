@@ -13,6 +13,8 @@
   <% unless @message.claim.written_reasons_outstanding? %>
     $('.written-reasons-checkbox').hide();
   <% end %>
+
+  document.querySelector('.govuk-summary-list.moj-multi-file-upload__list').innerHTML = '';
 <% else %>
   var data = {
     success : false,

@@ -87,8 +87,8 @@ RSpec.describe Ability do
       end
     end
 
-    context 'can index and create documents' do
-      %i[index create].each do |action|
+    context 'can index, create, upload and delete documents' do
+      %i[index create upload delete].each do |action|
         it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
@@ -199,8 +199,8 @@ RSpec.describe Ability do
       end
     end
 
-    context 'can index and create documents' do
-      %i[index create].each do |action|
+    context 'can index, create, upload and delete documents' do
+      %i[index create upload delete].each do |action|
         it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
@@ -291,8 +291,8 @@ RSpec.describe Ability do
       end
     end
 
-    context 'can index and create documents' do
-      %i[index create].each do |action|
+    context 'can index, create, upload and delete documents' do
+      %i[index create upload delete].each do |action|
         it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
@@ -369,8 +369,8 @@ RSpec.describe Ability do
       end
     end
 
-    context 'can index and create documents' do
-      %i[index create].each do |action|
+    context 'can index, create, upload and delete documents' do
+      %i[index create upload delete].each do |action|
         it { should be_able_to(action, Document.new(external_user:)) }
       end
     end
@@ -429,7 +429,13 @@ RSpec.describe Ability do
       end
     end
 
-    context 'can view/download documents' do
+    context 'can upload and delete documents' do
+      %i[upload delete].each do |action|
+        it { should be_able_to(action, Document.new) }
+      end
+    end
+
+    context 'can view and download documents' do
       %i[show download].each do |action|
         it { should be_able_to(action, Document.new) }
       end
@@ -480,7 +486,13 @@ RSpec.describe Ability do
       it { should be_able_to(action, Claim::AdvocateClaim.new) }
     end
 
-    context 'can view/download documents' do
+    context 'can upload and delete documents' do
+      %i[upload delete].each do |action|
+        it { should be_able_to(action, Document.new) }
+      end
+    end
+
+    context 'can view and download documents' do
       %i[show download].each do |action|
         it { should be_able_to(action, Document.new) }
       end

@@ -21,3 +21,6 @@
             %dd.govuk-summary-list__value.file-name= govuk_link_to document.document_file_name, download_document_path(document)
             %dd.govuk-summary-list__value.file-info= number_to_human_size(document.document_file_size)
             %dd.govuk-summary-list__value.file-info= document.created_at.strftime(Settings.date_format)
+
+- if claim.additional_information.present?
+  = render partial: 'shared/new_additional_information', locals: { claim: claim }

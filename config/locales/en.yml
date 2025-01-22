@@ -2115,11 +2115,11 @@ en:
       error: Claim not injected
       dismiss: Dismiss this message
       cav_warning:
-        header: 'Warning: conferences and views were not injected'
+        header: 'Warning: Conferences and views were not injected'
         message: 'The provider has claimed conferences and views on this claim, but they have not been injected into CCR. Enter them manually.'
       clar_fees_warning:
-        header: 'Warning: CLAR fees were not injected'
-        message: 'The provider has claimed Criminal Legal Aid Review fees on this claim, but they have not been injected. Please enter them manually.'
+        header: 'Warning: Paper heavy case or unused materials fees were not injected'
+        message: 'The provider has claimed paper heavy case or unused materials fees on this claim, but they have not been injected. Enter them manually.'
 
     message_controls:
       attachment_label: Optionally attach a file

@@ -69,11 +69,11 @@ moj.Modules.AllocationDataTable = {
       } else if (data.filter.cav_warning) {
         $(row).addClass('injection-warning')
         $('td', row).eq(0).wrapInner('<div class="warning-message-container"></div>')
-        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">CAVs not injected</div>')
+        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">Conference fees not injected</div>')
       } else if (data.filter.clar_fees_warning) {
         $(row).addClass('injection-warning')
         $('td', row).eq(0).wrapInner('<div class="warning-message-container"></div>')
-        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">CLAR fees not injected</div>')
+        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">Paper heavy case or unused materials fees not injected</div>')
       }
 
       return row

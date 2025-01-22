@@ -28,6 +28,8 @@
       = render partial: 'shared/new_claim_defendants', locals: { defendants: claim.defendants }
   -else
     = render partial: 'shared/new_defendant_details', locals: { claim: claim }
+  - unless claim.fixed_fee_case?
+    = render partial: 'shared/offence_details/new_summary', locals: { claim: claim }
 
   %h2.govuk-heading-l
     = t('.h2_evidence')

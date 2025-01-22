@@ -397,6 +397,10 @@ class Claim::BaseClaimPresenter < BasePresenter
     claim.fees.select { |f| f.fee_type.unique_code.in?(%w[MIPHC MIUMU MIUMO]) }.any? { |x| x.amount&.nonzero? }
   end
 
+  def has_additional_prep_fee?
+    claim.fees.select { |f| f.fee_type.unique_code.eql?('MIAPF') }.any? { |x| x.amount&.nonzero? }
+  end
+
   def eligible_misc_fee_type_options_for_select
     claim.eligible_misc_fee_types.map do |fee_type|
       [

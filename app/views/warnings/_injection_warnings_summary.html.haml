@@ -15,3 +15,12 @@
 
       %span.form-hint.govuk-error-summary__body
         = t('shared.injection_errors.clar_fees_warning.message')
+
+- if claim&.last_injection_attempt&.succeeded && claim.has_additional_prep_fee?
+  .js-callout-injection-warning
+    .warning-summary.govuk-error-summary{ role: 'group', 'aria-labelledby': 'warning-summary-heading', tabindex: '-1' }
+      %h2.govuk-heading-m.govuk-error-summary__title{ id: 'warning-summary-heading' }
+        = t('shared.injection_errors.additional_prep_fee_warning.header')
+
+      %span.form-hint.govuk-error-summary__body
+        = t('shared.injection_errors.additional_prep_fee_warning.message')

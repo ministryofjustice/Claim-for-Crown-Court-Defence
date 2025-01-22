@@ -70,7 +70,8 @@ describe API::Entities::SearchResult do
           supplementary: 0,
           agfs_hardship: 0,
           lgfs_hardship: 0,
-          clar_fees_warning: 0
+          clar_fees_warning: 0,
+          additional_prep_fee_warning: 0
         }
       end
 
@@ -196,6 +197,14 @@ describe API::Entities::SearchResult do
         let(:claim) { OpenStruct.new('id' => '19932', 'uuid' => 'aec3900f-3e82-4c4f-a7cd-498ad45f11f8', 'scheme' => 'lgfs', 'scheme_type' => 'Final', 'case_number' => 'T20202401', 'state' => 'submitted', 'court_name' => 'Newcastle', 'case_type' => 'Trial', 'total' => '1200.00', 'disk_evidence' => false, 'external_user' => 'Emile Hirsch', 'maat_references' => '5864761', 'defendants' => 'Junius Leschberg', 'fees' => '1001.0~Trial~Fee::GraduatedFeeType,59.59~Unused materials (up to 3 hours)~Fee::MiscFeeType', 'last_submitted_at' => '2020-04-22T07:27:59Z', 'class_letter' => 'B', 'is_fixed_fee' => false, 'fee_type_code' => 'GRTRL', 'graduated_fee_types' => 'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR', 'allocation_type' => 'Grad', 'injection_errors' => '{"errors":[]}', 'last_injection_succeeded' => 'true') }
 
         before { result.merge!(trial: 1, graduated_fees: 1, clar_fees_warning: 1) }
+
+        include_examples 'returns expected JSON filter values'
+      end
+
+      context 'when passed an advocate claims with an Additional Prep fee and without an injection attempt error' do
+        let(:claim) { OpenStruct.new('id' => '19932', 'uuid' => 'aec3900f-3e82-4c4f-a7cd-498ad45f11f8', 'scheme' => 'agfs', 'scheme_type' => 'Advocate', 'case_number' => 'T20200824', 'state' => 'submitted', 'court_name' => 'Newcastle', 'case_type' => 'Contempt', 'total' => '426.36', 'disk_evidence' => false, 'external_user' => 'Theodore Schumm', 'maat_references' => '2320144', 'defendants' => 'Junius Lesch', 'fees' => '0.0~Daily attendance fee (3 to 40)~Fee::BasicFeeType, 0.0~Daily attendance fee (41 to 50)~Fee::BasicFeeType, 0.0~Daily attendance fee (51+)~Fee::BasicFeeType, 0.0~Standard appearance fee~Fee::BasicFeeType, 0.0~Plea and case management hearing~Fee::BasicFeeType, 0.0~Conferences and views~Fee::BasicFeeType, 0.0~Number of defendants uplift~Fee::BasicFeeType, 0.0~Number of cases uplift~Fee::BasicFeeType, 0.0~Number of prosecution witnesses~Fee::BasicFeeType, 1.0~Basic fee~Fee::BasicFeeType, 1.0~Additional preparation fee~Fee::MiscFeeType', 'last_submitted_at' => '2020-08-01 09:33:30.932017', 'is_fixed_fee' => false, 'fee_type_code' => 'GRRAK', 'graduated_fee_types' => 'GRTRL,GRRTR,GRGLT,GRDIS,GRRAK,GRCBR', 'injection_errors' => '{"errors":[]}', 'last_injection_succeeded' => 'true') }
+
+        before { result.merge!(graduated_fees: 1, additional_prep_fee_warning: 1) }
 
         include_examples 'returns expected JSON filter values'
       end

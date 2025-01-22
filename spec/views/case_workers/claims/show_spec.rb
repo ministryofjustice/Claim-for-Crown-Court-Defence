@@ -424,6 +424,28 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     end
   end
 
+  describe 'offence details information' do
+    context 'when the claim is for a fixed fee case type' do
+      let(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
+
+      it 'does NOT displays offence details section' do
+        assign(:claim, claim)
+        render
+        expect(rendered).to have_no_content('Offence details')
+      end
+    end
+
+    context 'when the claim is NOT for a fixed fee case type' do
+      let(:claim) { create(:advocate_claim, :with_graduated_fee_case) }
+
+      it 'displays offence details section' do
+        assign(:claim, claim)
+        render
+        expect(rendered).to have_content('Offence details')
+      end
+    end
+  end
+
   def certified_claim
     eu = create(:external_user, :advocate, user: create(:user, first_name: 'Stepriponikas', last_name: 'Bonstart'))
     @claim = create(:allocated_claim, external_user: eu)

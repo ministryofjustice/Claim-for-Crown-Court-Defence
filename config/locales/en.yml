@@ -2120,6 +2120,9 @@ en:
       clar_fees_warning:
         header: 'Warning: Paper heavy case or unused materials fees were not injected'
         message: 'The provider has claimed paper heavy case or unused materials fees on this claim, but they have not been injected. Enter them manually.'
+      additional_prep_fee_warning:
+        header: 'Warning: Additional preparation fee was not injected'
+        message: 'The provider has claimed an additional preparation fee on this claim, but it has not been injected. Enter it manually.'
 
     message_controls:
       attachment_label: Optionally attach a file

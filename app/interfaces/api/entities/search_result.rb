@@ -40,6 +40,7 @@ module API
         expose :agfs_hardship
         expose :lgfs_hardship
         expose :clar_fees_warning
+        expose :additional_prep_fee_warning
       end
 
       private
@@ -129,6 +130,14 @@ module API
 
       def cav_warning
         (last_injection_attempt_succeeded && contains_conference_and_view).to_i
+      end
+
+      def clar_fees_warning
+        (last_injection_attempt_succeeded && contains_clar_fees).to_i
+      end
+
+      def additional_prep_fee_warning
+        (last_injection_attempt_succeeded && contains_additional_prep_fee).to_i
       end
 
       def supplementary

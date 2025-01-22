@@ -85,6 +85,18 @@ describe('Modules.AllocationDataTable.js', function () {
       expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"><div class="warning-message-container"><div class="warning-message">Paper heavy case or unused materials fees not injected</div></div></td></tr>')
     })
 
+    it('...should have a `createdRow` callback defined for Additional Prep fee warnings', function () {
+      expect(options.createdRow).toBeDefined()
+      const row = $('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"></td></tr>')
+      const data = {
+        filter: {
+          additional_prep_fee_warning: 1
+        }
+      }
+      const output = options.createdRow(row, data)
+      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"><div class="warning-message-container"><div class="warning-message">Additional prep fee not injected</div></div></td></tr>')
+    })
+
     it('...should have `processing`', function () {
       expect(options.processing).toEqual(true)
     })

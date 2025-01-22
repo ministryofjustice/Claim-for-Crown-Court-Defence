@@ -74,6 +74,10 @@ moj.Modules.AllocationDataTable = {
         $(row).addClass('injection-warning')
         $('td', row).eq(0).wrapInner('<div class="warning-message-container"></div>')
         $('td .warning-message-container', row).eq(0).append('<div class="warning-message">Paper heavy case or unused materials fees not injected</div>')
+      } else if (data.filter.additional_prep_fee_warning) {
+        $(row).addClass('injection-warning')
+        $('td', row).eq(0).wrapInner('<div class="warning-message-container"></div>')
+        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">Additional prep fee not injected</div>')
       }
 
       return row

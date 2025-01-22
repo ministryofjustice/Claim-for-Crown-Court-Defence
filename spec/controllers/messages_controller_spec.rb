@@ -77,7 +77,12 @@ RSpec.describe MessagesController do
     end
 
     describe 'GET #download_attachment' do
-      subject(:download_attachment) { get :download_attachment, params: { id: message.id } }
+      subject(:download_attachment) do
+        get :download_attachment, params: {
+          id: message.id,
+          attachment_id: message.attachments.first&.id
+        }
+      end
 
       context 'when message has attachment' do
         let(:message) { create(:message) }

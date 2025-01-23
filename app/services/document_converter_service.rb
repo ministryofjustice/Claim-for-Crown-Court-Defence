@@ -42,7 +42,7 @@ class DocumentConverterService
   def log(message, error, action: nil)
     LogStuff.warn(
       class: self.class.name,
-      action: action || caller(1..1).first[/`.*'/][1..-2],
+      action: action || caller(1..1).first[/'.*'/][1..-2],
       error: "#{error.class}: #{error.message}",
       original: @original.to_param,
       converted: @converted.to_param

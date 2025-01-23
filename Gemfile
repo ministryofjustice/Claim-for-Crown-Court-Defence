@@ -11,6 +11,7 @@ gem 'bootsnap', require: false
 gem 'cancancan',              '~> 3.6'
 gem 'chartkick',              '~> 5.1.2'
 gem 'cocoon',                 '~> 1.2.15'
+gem 'csv'
 gem 'devise', '~> 4.9.4'
 gem 'dotenv-rails', '~> 3.1'
 gem 'factory_bot_rails', '~> 6.4.4'
@@ -64,6 +65,10 @@ gem 'puma'
 gem 'uri', '< 2.0.0'
 
 gem 'laa-cda', git: 'https://github.com/ministryofjustice/laa-cda'
+
+# temporarily load deprecated gems - this will no longer be necessary after upgrading to rails 7.1
+gem 'drb'
+gem 'mutex_m'
 
 group :development, :test do
   gem 'annotate'

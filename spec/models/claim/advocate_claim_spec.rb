@@ -256,7 +256,7 @@ RSpec.describe Claim::AdvocateClaim do
 
     context 'with an unrecognised state' do
       it 'raises NoMethodError' do
-        expect { claim.other_unknown_state? }.to raise_error NoMethodError, /undefined method `other_unknown_state\?'/
+        expect { claim.other_unknown_state? }.to raise_error NoMethodError, /undefined method 'other_unknown_state\?'/
       end
     end
   end

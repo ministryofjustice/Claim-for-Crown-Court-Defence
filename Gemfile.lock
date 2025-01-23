@@ -175,6 +175,7 @@ GEM
       bigdecimal
       rexml
     crass (1.0.6)
+    csv (3.3.2)
     cucumber (9.2.1)
       builder (~> 3.2)
       cucumber-ci-environment (> 9, < 11)
@@ -226,6 +227,7 @@ GEM
     dotenv-rails (3.1.7)
       dotenv (= 3.1.7)
       railties (>= 6.1)
+    drb (2.2.1)
     dry-core (1.1.0)
       concurrent-ruby (~> 1.0)
       logger
@@ -393,6 +395,7 @@ GEM
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.1.0)
       mustermann (>= 1.0.0)
+    mutex_m (0.3.0)
     net-http (0.6.0)
       uri
     net-imap (0.5.5)
@@ -706,10 +709,12 @@ DEPENDENCIES
   chartkick (~> 5.1.2)
   cocoon (~> 1.2.15)
   config (~> 5.5)
+  csv
   cucumber-rails (~> 3.1.0)
   database_cleaner
   devise (~> 4.9.4)
   dotenv-rails (~> 3.1)
+  drb
   factory_bot_rails (~> 6.4.4)
   faker (~> 3.5.1)
   faraday (~> 2.12)
@@ -737,6 +742,7 @@ DEPENDENCIES
   logstasher (= 2.1.5)
   logstuff (= 0.0.2)
   meta_request
+  mutex_m
   net-imap
   net-pop
   net-scp (~> 4.0)
@@ -790,7 +796,7 @@ DEPENDENCIES
   zendesk_api (~> 3.1)
 
 RUBY VERSION
-   ruby 3.3.5p100
+   ruby 3.4.1p0
 
 BUNDLED WITH
    2.6.2

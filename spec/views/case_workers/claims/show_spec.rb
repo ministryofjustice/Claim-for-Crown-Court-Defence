@@ -426,14 +426,11 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
   describe 'offence details information' do
     context 'when the claim is for a fixed fee case type' do
-      before do
-        assign(:claim, claim)
-        render
-      end
-
       let(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
 
       it 'does NOT displays offence details section' do
+        assign(:claim, claim)
+        render
         expect(rendered).to have_no_content('Offence details')
       end
     end
@@ -442,6 +439,8 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
       let(:claim) { create(:advocate_claim, :with_graduated_fee_case) }
 
       it 'displays offence details section' do
+        assign(:claim, claim)
+        render
         expect(rendered).to have_content('Offence details')
       end
     end

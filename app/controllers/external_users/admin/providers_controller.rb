@@ -3,6 +3,8 @@ module ExternalUsers
     class ProvidersController < ExternalUsers::Admin::ApplicationController
       include ProviderAdminConcern
 
+      before_action :set_provider, only: :regenerate_api_key
+
       def regenerate_api_key
         @provider.regenerate_api_key!
         redirect_to external_users_admin_provider_path(@provider), notice: t('.notice')

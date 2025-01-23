@@ -426,7 +426,6 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
 
   describe 'offence details information' do
     context 'when the claim is for a fixed fee case type' do
-
       before do
         assign(:claim, claim)
         render

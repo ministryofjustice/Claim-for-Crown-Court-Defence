@@ -7,7 +7,7 @@
   = govuk_table_td('data-label': t('.reason')) do
     %span
       = expense.reason
-  = govuk_table_td(colspan: 2, 'data-label': t('.details')) do
+  = govuk_table_td('data-label': t('.details')) do
     = render partial: 'shared/summary/expenses/new_details', locals: { claim: claim, expense: expense }
   = govuk_table_td('data-label': t('.date')) do
     = expense.pretty_date

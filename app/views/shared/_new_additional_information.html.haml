@@ -4,6 +4,4 @@
       = t('shared.new_claim_accordion.additional_information')
 
   .govuk-summary-card__content
-    .govuk-summary-list
-      %dl.govuk-summary-list__row
-        = format_multiline(claim.additional_information)
+    = format_multiline(claim.additional_information)

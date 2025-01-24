@@ -28,9 +28,7 @@ module Claim
       # NOTE: keeping existent validation for API purposes
       # The form validations just validate the fields for the current step
       return has_many_association_names_for_steps[record.form_step] || [] unless validate_all_steps?(record)
-      has_many_association_names_for_steps.select do |k, _v|
-        record.submission_current_flow.map(&:to_sym).include?(k)
-      end.values.flatten
+      has_many_association_names_for_steps.slice(*record.submission_current_flow.map(&:to_sym)).values.flatten
     end
 
     def validate_has_many_associations_step_fields(record)
@@ -54,9 +52,7 @@ module Claim
       # NOTE: keeping existent validation for API purposes
       # The form validations just validate the fields for the current step
       return has_one_association_names_for_steps[record.form_step] || [] unless validate_all_steps?(record)
-      has_one_association_names_for_steps.select do |k, _v|
-        record.submission_current_flow.map(&:to_sym).include?(k)
-      end.values.flatten
+      has_one_association_names_for_steps.slice(*record.submission_current_flow.map(&:to_sym)).values.flatten
     end
 
     def validate_has_one_association_step_fields(record)

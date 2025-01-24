@@ -6,26 +6,19 @@
 - else
   - trial_cracked_at_third_key = t("#{cracked_trial_detail_translations}.trial_cracked_at_third.default")
 
-  %dl.govuk-summary-list__row.summary-page-table-two-row
-    %dt.govuk-summary-list__key
-      = t("#{cracked_trial_detail_translations}.trial_fixed_notice_at")
-    %dd.govuk-summary-list__value
-      = claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue ''
 
-  %dl.govuk-summary-list__row.summary-page-table-two-row
-    %dt.govuk-summary-list__key
-      = t("#{cracked_trial_detail_translations}.trial_fixed_at")
-    %dd.govuk-summary-list__value
-      = claim.trial_fixed_at.strftime(Settings.date_format) rescue ''
+= govuk_table_row do
+  = govuk_table_th(scope: 'row') { t("#{cracked_trial_detail_translations}.trial_fixed_notice_at") }
+  = govuk_table_td { claim.trial_fixed_notice_at.strftime(Settings.date_format) rescue '' }
 
-  %dl.govuk-summary-list__row.summary-page-table-two-row
-    %dt.govuk-summary-list__key
-      = t("#{cracked_trial_detail_translations}.trial_cracked_at")
-    %dd.govuk-summary-list__value
-      = claim.trial_cracked_at.strftime(Settings.date_format) rescue ''
+= govuk_table_row do
+  = govuk_table_th(scope: 'row') { t("#{cracked_trial_detail_translations}.trial_fixed_at") }
+  = govuk_table_td { claim.trial_fixed_at.strftime(Settings.date_format) rescue '' }
 
-  %dl.govuk-summary-list__row.summary-page-table-two-row
-    %dt.govuk-summary-list__key
-      = trial_cracked_at_third_key
-    %dd.govuk-summary-list__value
-      = claim.trial_cracked_at_third.humanize rescue ''
+= govuk_table_row do
+  = govuk_table_th(scope: 'row') { t("#{cracked_trial_detail_translations}.trial_cracked_at") }
+  = govuk_table_td { claim.trial_cracked_at.strftime(Settings.date_format) rescue '' }
+
+= govuk_table_row do
+  = govuk_table_th(scope: 'row') { trial_cracked_at_third_key }
+  = govuk_table_td { claim.trial_cracked_at_third.humanize rescue '' }

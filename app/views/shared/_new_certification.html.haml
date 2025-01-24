@@ -4,10 +4,13 @@
       = t('.certification_box_title')
 
   .govuk-summary-card__content
-    = govuk_summary_list do
-      = govuk_summary_list_row_collection(t('.instructed_heading'), class: 'summary-page-table-two-row') do
-        = claim.external_user.name
+    = govuk_table do
+      = govuk_table_tbody do
+        = govuk_table_row do
+          = govuk_table_th(scope: 'row') { t('.instructed_heading') }
+          = govuk_table_td { claim.external_user.name }
 
-      - if @claim.agfs?
-        = govuk_summary_list_row_collection(t('.certification_reason'), class: 'summary-page-table-two-row' ) do
-          = claim.certification.certification_type.name rescue ''
+        - if @claim.agfs?
+          = govuk_table_row do
+            = govuk_table_th(scope: 'row') { t('.certification_reason') }
+            = govuk_table_td { claim.certification.certification_type.name rescue '' }

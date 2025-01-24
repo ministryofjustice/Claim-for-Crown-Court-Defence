@@ -1,30 +1,20 @@
-%dl.govuk-summary-list__row.summary-page-table-two-row
-  %dt.govuk-summary-list__key
-    = t('.retrial_started_at')
-  %dd.govuk-summary-list__value
-    = claim&.retrial_started_at&.strftime(Settings.date_format)
+= govuk_table_row do
+  = govuk_table_th(scope: 'row') { t('.retrial_started_at') }
+  = govuk_table_td { claim&.retrial_started_at&.strftime(Settings.date_format) }
 
-%dl.govuk-summary-list__row.summary-page-table-two-row
-  %dt.govuk-summary-list__key
-    = t('.retrial_estimated_length')
-  %dd.govuk-summary-list__value
-    = claim&.retrial_estimated_length
+= govuk_table_row do
+  = govuk_table_th(scope: 'row') { t('.retrial_estimated_length') }
+  = govuk_table_td { claim&.retrial_estimated_length }
 
-%dl.govuk-summary-list__row.summary-page-table-two-row
-  %dt.govuk-summary-list__key
-    = t('.retrial_actual_length')
-  %dd.govuk-summary-list__value
-    = claim&.retrial_actual_length
+= govuk_table_row do
+  = govuk_table_th(scope: 'row') { t('.retrial_actual_length') }
+  = govuk_table_td { claim&.retrial_actual_length }
 
-%dl.govuk-summary-list__row.summary-page-table-two-row
-  %dt.govuk-summary-list__key
-    = t('.retrial_concluded_at')
-  %dd.govuk-summary-list__value
-    = claim&.retrial_concluded_at&.strftime(Settings.date_format)
+= govuk_table_row do
+  = govuk_table_th(scope: 'row') { t('.retrial_concluded_at') }
+  = govuk_table_td { claim&.retrial_concluded_at&.strftime(Settings.date_format) }
 
-%dl.govuk-summary-list__row.summary-page-table-two-row
-  %dt.govuk-summary-list__key
-    = t('.retrial_reduction')
-  %dd.govuk-summary-list__value
-    = claim&.retrial_reduction? ? 'Yes' : 'No'
+= govuk_table_row do
+  = govuk_table_th(scope: 'row') { t('.retrial_reduction') }
+  = govuk_table_td { claim&.retrial_reduction? ? 'Yes' : 'No' }
 

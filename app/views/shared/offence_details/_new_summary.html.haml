@@ -5,7 +5,6 @@
 
   - if claim.offence
     .govuk-summary-card__content
-      .govuk-summary-list
       - if claim.agfs_reform?
         = render partial: 'shared/offence_details/new_fee_reform_summary', locals: { claim: claim }
 

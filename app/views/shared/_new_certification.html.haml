@@ -4,17 +4,10 @@
       = t('.certification_box_title')
 
   .govuk-summary-card__content
-    .govuk-summary-list
-      %dl.govuk-summary-list__row.summary-page-table-two-row
-        %dt.govuk-summary-list__key
-          = t('.instructed_heading')
-        %dd.govuk-summary-list__value
-          = claim.external_user.name
+    = govuk_summary_list do
+      = govuk_summary_list_row_collection(t('.instructed_heading'), class: 'summary-page-table-two-row') do
+        = claim.external_user.name
 
       - if @claim.agfs?
-        %dl.govuk-summary-list__row.summary-page-table-two-row
-          %dt.govuk-summary-list__key
-            = t('.certification_reason')
-          %dd.govuk-summary-list__value
-            = claim.certification.certification_type.name rescue ''
-
+        = govuk_summary_list_row_collection(t('.certification_reason'), class: 'summary-page-table-two-row' ) do
+          = claim.certification.certification_type.name rescue ''

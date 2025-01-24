@@ -35,7 +35,7 @@
 
             = govuk_table_tfoot do
               = govuk_table_row(class: 'govuk-table__row--no-bottom-border') do
-                = govuk_table_th(scope: 'row', 'data-label': t('.expense_type')) do
+                = govuk_table_th(scope: 'row', colspan: 4, 'data-label': t('.expense_type')) do
                   = succeed ':' do
                     = t("shared.summary.expenses.index.totals_#{vat ? 'with_vat' : 'without_vat'}")
                 = govuk_table_td_numeric('data-label': t('.net_amount')) do

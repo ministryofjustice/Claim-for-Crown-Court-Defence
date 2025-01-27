@@ -36,7 +36,7 @@ Rails.application.config.action_dispatch.default_headers = {
 # as equal to an equivalent `Hash` by default.
 #++
 # TODO: This needs a test fixing at spec/requests/offences_spec.rb:73
-# Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false
+Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false
 
 ###
 # Active Record Encryption now uses SHA-256 as its hash digest algorithm.

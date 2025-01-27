@@ -9,7 +9,7 @@
 # Read the Guide for Upgrading Ruby on Rails for more info on each option.
 # https://guides.rubyonrails.org/upgrading_ruby_on_rails.html
 
-### Updated in config/applicatoin.rb
+### Updated in config/application.rb
 # No longer add autoloaded paths into `$LOAD_PATH`. This means that you won't be able
 # to manually require files that are managed by the autoloader, which you shouldn't do anyway.
 #
@@ -227,7 +227,7 @@ Rails.application.config.active_record.commit_transaction_on_non_local_return = 
 #++
 Rails.application.config.active_record.generate_secure_token_on = :initialize
 
-###
+### Updated in config/application.rb
 # ** Please read carefully, this must be configured in config/application.rb **
 #
 # Change the format of the cache entry.

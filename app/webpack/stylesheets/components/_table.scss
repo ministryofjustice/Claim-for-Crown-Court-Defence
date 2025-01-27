@@ -1,44 +1,22 @@
 // stylelint-disable max-nesting-depth, selector-class-pattern, selector-no-qualifying-type
 
 tr {
-  &.error.injection-error {
-    border-left: 5px solid $govuk-error-colour;
-    color: inherit;
+  td {
+    padding-top: $govuk-gutter;
 
-    td {
-      padding-top: $govuk-gutter;
-
-      .error-message-container {
-        position: relative;
-        padding-left: $gutter-half;
-      }
+    .error-message-container {
+      position: relative;
+      width: 200px;
+      border-left: 3px solid $govuk-error-colour;
+      @include govuk-responsive-margin(2, "top");
+      @include govuk-responsive-margin(2, "bottom");
 
       .error-message {
-        position: absolute;
-        top: -$govuk-gutter;
-        width: 320px;
+        top: $govuk-gutter;
         color: $govuk-error-colour;
         text-align: left;
-      }
-    }
-  }
-
-  &.injection-warning {
-    border-left: 5px solid govuk-colour("orange");
-
-    td {
-      padding-top: $govuk-gutter;
-
-      .warning-message-container {
-        position: relative;
-      }
-
-      .warning-message {
-        position: absolute;
-        top: -$govuk-gutter;
-        width: 500px;
-        color: govuk-colour("orange");
-        text-align: left;
+        @include govuk-responsive-margin(1, "top");
+        @include govuk-responsive-margin(1, "left");
       }
     }
   }

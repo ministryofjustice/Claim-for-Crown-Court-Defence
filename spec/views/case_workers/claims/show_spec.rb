@@ -378,6 +378,52 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     end
   end
 
+  context 'fee injection warnings' do
+    before do
+      trial_claim
+      create(:injection_attempt, claim: @claim)
+      create(:misc_fee, fee_type:, claim: @claim, quantity: 1, amount: 100.00)
+      assign(:claim, @claim)
+      render
+    end
+
+    context 'with CLAR fees' do
+      let(:fee_type) { build(:misc_fee_type, :miumu) }
+
+      it 'displays an injection warning' do
+        expect(rendered).to have_css('div.js-callout-injection-warning')
+      end
+
+      it 'displays the expected text' do
+        expect(rendered).to have_text('Warning: Paper heavy case or unused materials fees were not injected')
+      end
+    end
+
+    context 'with CAV fees' do
+      let(:fee_type) { build(:misc_fee_type, :bacav) }
+
+      it 'displays an injection warning' do
+        expect(rendered).to have_css('div.js-callout-injection-warning')
+      end
+
+      it 'displays the expected text' do
+        expect(rendered).to have_text('Warning: Conferences and views were not injected')
+      end
+    end
+
+    context 'with Additional Prep fee' do
+      let(:fee_type) { build(:misc_fee_type, :miapf) }
+
+      it 'displays an injection warning' do
+        expect(rendered).to have_css('div.js-callout-injection-warning')
+      end
+
+      it 'displays the expected text' do
+        expect(rendered).to have_text('Warning: Additional preparation fee was not injected')
+      end
+    end
+  end
+
   def certified_claim
     eu = create(:external_user, :advocate, user: create(:user, first_name: 'Stepriponikas', last_name: 'Bonstart'))
     @claim = create(:allocated_claim, external_user: eu)

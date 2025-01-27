@@ -1,46 +1,16 @@
 = content_for :page_title, flush: true do
   = t('.page_title')
 
-= render partial: 'layouts/header', locals: { page_heading: t('.page_heading') }
+- title(t('.page_heading')) unless content_for?(:page_title)
 
-.govuk-grid-row
-  .govuk-grid-column-two-thirds
-    = form_for @feedback, url: feedback_index_path(email: params[:email]), html: { novalidate: 'novalidate' } do |f|
-      = f.hidden_field :type
-      = f.hidden_field :referrer
-      = hidden_field_tag 'ga_client_id', '', class: 'ga-client-id'
-
-      = f.govuk_error_summary
-
-      = govuk_inset_text do
-        %p
-          = t('.callout')
-          = render partial: 'feedback/claim_edit_alert' if referrer_is_claim?(@feedback.referrer)
-
-      = f.govuk_radio_buttons_fieldset :task, legend: { text: t('.task_legend'), size: 'm' } do
-        - @feedback_form.tasks.answers.map do |task|
-          = f.govuk_radio_button :task, task.key, label: { text: task.label } do
-            - if task.label.eql?('No') || task.label.eql?('Partially')
-              %p.govuk-body{class: 'govuk-!-margin-bottom-6'}
-                = t('.report_fault_html', bug_report_link: new_feedback_path(type: 'bug_report'))
-
-      = f.govuk_collection_radio_buttons :rating,
-        @feedback_form.ratings.answers, :key, :label,
-        legend: { text: t('.rating') }
-
-      = f.govuk_text_area :comment,
-        label: { text: t('.comment'), size: 'm' },
-        hint: { text: t('.comment_hint') }
-
-      = f.govuk_check_boxes_fieldset :reason, legend: { text: t('.reason'), size: "m" } do
-
-        - @feedback_form.reasons.answers.map do |reason|
-          = f.govuk_check_box :reason,
-            reason.key,
-            label: { text: reason.label } do
-
-            - if reason.other
-              = f.govuk_text_field :other_reason,
-                label: { text: t('.reason_other') }
-
-      = f.govuk_submit(t('.send'))
+= javascript_tag nonce: true, id: 'ss-embed-2909982' do
+  :plain
+    (function(d,w){
+      var s,ss;
+      ss=d.createElement('script');
+      ss.type='text/javascript';
+      ss.async=true;
+      ss.src=('https:'==d.location.protocol?'https://':'http://')+'www.smartsurvey.co.uk/s/embed/2909982/js/';
+      s=d.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(ss, s);
+    })(document,window);

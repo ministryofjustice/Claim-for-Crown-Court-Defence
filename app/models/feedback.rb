@@ -3,10 +3,9 @@ class Feedback
   include ActiveModel::Validations
 
   attr_accessor :email, :referrer, :user_agent, :type,
-                :event, :outcome, :case_number,
-                :task, :rating, :comment, :reason, :other_reason, :response_message
+                :event, :outcome, :case_number, :response_message
 
-  validates :type, inclusion: { in: %w[feedback bug_report] }
+  validates :type, inclusion: { in: %w[bug_report] }
   validates :event, :outcome, presence: true, if: -> { is?(:bug_report) }
 
   def initialize(attributes = {})

@@ -11,9 +11,7 @@ module Claim
       # The form validations just validate the fields for the current step
       return self.class.fields_for_steps[@record.form_step] || [] unless @record.from_api? || @record.form_step.nil?
       return self.class.fields_for_steps.values.flatten if !@record.from_api? && @record.form_step.nil?
-      self.class.fields_for_steps.select do |k, _v|
-        @record.submission_current_flow.map(&:to_sym).include?(k)
-      end.values.flatten
+      self.class.fields_for_steps.slice(*@record.submission_current_flow.map(&:to_sym)).values.flatten
     end
 
     def validate_step_fields

@@ -55,6 +55,8 @@ module AdvocateDefencePayments
       ::Symbol,
       ::Time
     ]
+    config.active_record.default_column_serializer = YAML
+
     config.active_storage.queues.analysis = :active_storage_analysis
     config.active_storage.queues.purge = :active_storage_purge
     config.active_storage.urls_expire_in = 5.minutes # default

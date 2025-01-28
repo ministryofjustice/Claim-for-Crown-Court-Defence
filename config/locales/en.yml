@@ -2598,7 +2598,6 @@ en:
           re_allocate: Re-allocate
           select_all: Select all
           allocated_to: Allocated to
-          disk_evidence: Disk evidence
           no_claims_allocated: There is no claim available for allocation
           number_of_claims: 'Number of claims: %{claim_count}'
           choose_label_html: <span class="govuk-visually-hidden">Select case %{case_number}</span>
@@ -2662,7 +2661,6 @@ en:
         case_type: Case type
         case_type_sort_label: 'Sort by: Case type'
         defendants: Defendants
-        disk_evidence: Disk evidence
         last_submitted_at_sort_label: 'Sort by: Last submitted at date'
         messages: Messages
         none: None
@@ -2717,6 +2715,8 @@ en:
         start_date: Effective start date
         end_date: Effective end date
         contract_number: Contract Number
+    injection_errors:
+      disk_evidence: Disk evidence
   api:
     v1:
       common_params:

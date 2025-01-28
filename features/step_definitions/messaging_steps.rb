@@ -1,5 +1,4 @@
 When(/^I send a message '(.*?)'$/) do |text|
-  sleep Capybara.default_max_wait_time
   @case_worker_claim_show_page.messages_panel.enter_your_message.set text
   @case_worker_claim_show_page.messages_panel.send.click
 end
@@ -42,7 +41,6 @@ end
 When(/^I upload a file$/) do
   available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/*.pdf"
   @uploaded_file_path = available_docs.first
-  # @external_user_claim_show_page.messages_panel.upload_file(@uploaded_file_path)
   file_field = page.find('input[type="file"]')
   file_field.attach_file(@uploaded_file_path)
 end

@@ -107,5 +107,4 @@ class Message < ApplicationRecord
   def claim_updater
     Claims::ExternalUserClaimUpdater.new(claim, current_user: sender)
   end
-
 end

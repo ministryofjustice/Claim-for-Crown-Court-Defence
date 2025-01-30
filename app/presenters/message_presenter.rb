@@ -24,26 +24,29 @@ class MessagePresenter < BasePresenter
   private
 
   def attachment_field
-    h.concat('Attachment: ')
-    download_file_link
+    h.concat('Attachments: ')
+    message.attachments.each do |attachment|
+      h.concat(h.tag.br)
+      download_file_link(attachment)
+    end
   end
 
-  def download_file_link
+  def download_file_link(attachment)
     h.concat(
       h.tag.a(
-        "#{attachment_file_name} (#{attachment_file_size})",
-        href: "/messages/#{message.id}/download_attachment",
-        title: 'Download ' + attachment_file_name
+        "#{attachment_file_name(attachment)} (#{attachment_file_name(attachment)})",
+        href: "/messages/#{message.id}/download_attachment?attachment_id=#{attachment.id}",
+        title: 'Download ' + attachment_file_name(attachment)
       )
     )
   end
 
-  def attachment_file_name
-    message.attachments.first.filename.to_s
+  def attachment_file_name(attachment)
+    attachment.filename.to_s
   end
 
-  def attachment_file_size
-    h.number_to_human_size(message.attachments.first.byte_size)
+  def attachment_file_size(attachment)
+    h.number_to_human_size(attachment.byte_size)
   end
 
   def hide_author?

@@ -1,7 +1,6 @@
 class FeedbackController < ApplicationController
   skip_load_and_authorize_resource only: %i[new create]
   before_action :suppress_hotline_link
-  before_action :setup_page
 
   def new
     @feedback = Feedback.new(type:, referrer: referrer_path)
@@ -21,13 +20,7 @@ class FeedbackController < ApplicationController
 
   private
 
-  def sender
-    if params['feedback']['type'] == 'feedback' && !Settings.zendesk_feedback_enabled?
-      SurveyMonkeySender::Feedback
-    else
-      ZendeskSender
-    end
-  end
+  def sender = ZendeskSender
 
   def type
     %w[feedback bug_report].include?(params[:type]) ? params[:type] : 'feedback'
@@ -69,9 +62,5 @@ class FeedbackController < ApplicationController
       :email,
       reason: []
     )
-  end
-
-  def setup_page
-    @feedback_form = FeedbackForm.new if type == 'feedback'
   end
 end

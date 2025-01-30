@@ -8,26 +8,24 @@ RSpec.describe Feedback do
     }
   end
 
-  it { is_expected.to validate_inclusion_of(:type).in_array(%w[feedback bug_report]) }
+  it { is_expected.to validate_inclusion_of(:type).in_array(%w[bug_report]) }
 
   shared_examples 'Feedback submission' do
     let(:feedback_params) do
       params.merge(
-        type: 'feedback',
-        task: '1',
-        sender:,
-        rating: '4',
-        comment: 'lorem ipsum',
-        reason: ['', '1', '2'],
-        other_reason: 'dolor sit'
+        type: 'bug_report',
+        case_number: 'XXX',
+        event: 'lorem',
+        outcome: 'ipsum',
+        email: 'example@example.com',
+        sender:
       )
     end
 
-    it { expect(feedback.task).to eq '1' }
-    it { expect(feedback.rating).to eq '4' }
-    it { expect(feedback.comment).to eq 'lorem ipsum' }
-    it { expect(feedback.reason).to eq %w[1 2] }
-    it { expect(feedback.other_reason).to eq 'dolor sit' }
+    it { expect(feedback.case_number).to eq 'XXX' }
+    it { expect(feedback.event).to eq 'lorem' }
+    it { expect(feedback.outcome).to eq 'ipsum' }
+    it { expect(feedback.email).to eq 'example@example.com' }
 
     describe '#save' do
       let(:save) { feedback.save }
@@ -70,21 +68,13 @@ RSpec.describe Feedback do
 
     describe '#is?' do
       context 'with feedback type' do
-        it { expect(feedback.is?(:feedback)).to be true }
+        it { expect(feedback.is?(:feedback)).to be false }
       end
 
       context 'with bug_report type' do
-        it { expect(feedback.is?(:bug_report)).to be false }
+        it { expect(feedback.is?(:bug_report)).to be true }
       end
     end
-  end
-
-  context 'with SurveyMonkey Feedback' do
-    subject(:feedback) { described_class.new(feedback_params) }
-
-    let(:sender) { SurveyMonkeySender::Feedback }
-
-    include_examples 'Feedback submission'
   end
 
   context 'with Zendesk Feedback' do
@@ -100,12 +90,11 @@ RSpec.describe Feedback do
 
     let(:feedback_params) do
       params.merge(
-        type: 'feedback',
-        task: '1',
-        rating: '4',
-        comment: 'lorem ipsum',
-        reason: ['', '1', '2'],
-        other_reason: 'dolor sit'
+        type: 'bug_report',
+        case_number: 'XXX',
+        event: 'lorem',
+        outcome: 'ipsum',
+        email: 'test@example.com'
       )
     end
 
@@ -135,7 +124,6 @@ RSpec.describe Feedback do
     it { expect(bug_report.user_agent).to eq('Firefox') }
     it { expect(bug_report.referrer).to eq('/index') }
 
-    it { is_expected.not_to validate_inclusion_of(:rating).in_array(('1'..'5').to_a) }
     it { is_expected.to validate_presence_of(:event) }
     it { is_expected.to validate_presence_of(:outcome) }
     it { is_expected.not_to validate_presence_of(:case_number) }

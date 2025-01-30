@@ -44,7 +44,5 @@
 
         %button.govuk-button.govuk-button--secondary.moj-multi-file-upload__button{"data-module" => "govuk-button", type: "submit"}
           Upload file
-    %button.govuk-button{"data-module" => "govuk-button", type: "submit"}
+    %button.govuk-button{"data-module" => "govuk-button", type: "submit", onclick: "document.querySelector('.govuk-summary-list.moj-multi-file-upload__list').innerHTML = ''"}
       Continue
-
-    = f.govuk_submit t('.send'), class: 'govuk-button--secondary'

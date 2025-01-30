@@ -48,9 +48,9 @@ describe('Modules.AllocationDataTable.js', function () {
       ])
     })
 
-    it('...should have a `createdRow` callback defined', function () {
+    it('...should have a `createdRow` callback defined for injection errors', function () {
       expect(options.createdRow).toBeDefined()
-      const row = $('<tr class="govuk-table__row error injection-error"><td data-label="Select claim" class="govuk-table__cell"></td></tr>')
+      const row = $('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"><td data-label="Case number" class="govuk-table__cell"></td></tr>')
       const data = {
         injection_errors: 'I am an error',
         filter: {
@@ -58,43 +58,57 @@ describe('Modules.AllocationDataTable.js', function () {
         }
       }
       const output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row error injection-error"><td data-label="Select claim" class="govuk-table__cell"><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>')
+      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"></td><td data-label="Case number" class="govuk-table__cell"><div class="error-message-container"><div class="error-message">I am an error</div></div></td></tr>')
     })
 
     it('...should have a `createdRow` callback defined for CAV warnings', function () {
       expect(options.createdRow).toBeDefined()
-      const row = $('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"></td></tr>')
+      const row = $('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"><td data-label="Case number" class="govuk-table__cell"></td></tr>')
       const data = {
         filter: {
           cav_warning: 1
         }
       }
       const output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"><div class="warning-message-container"><div class="warning-message">Conference fees not injected</div></div></td></tr>')
+      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"></td><td data-label="Case number" class="govuk-table__cell"><div class="error-message-container"><div class="error-message">Conference fees not injected</div></div></td></tr>')
     })
 
     it('...should have a `createdRow` callback defined for CLAR fee warnings', function () {
       expect(options.createdRow).toBeDefined()
-      const row = $('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"></td></tr>')
+      const row = $('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"><td data-label="Case number" class="govuk-table__cell"></td></tr>')
       const data = {
         filter: {
           clar_fees_warning: 1
         }
       }
       const output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"><div class="warning-message-container"><div class="warning-message">Paper heavy case or unused materials fees not injected</div></div></td></tr>')
+      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"></td><td data-label="Case number" class="govuk-table__cell"><div class="error-message-container"><div class="error-message">Paper heavy case or unused materials fees not injected</div></div></td></tr>')
     })
 
     it('...should have a `createdRow` callback defined for Additional Prep fee warnings', function () {
       expect(options.createdRow).toBeDefined()
-      const row = $('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"></td></tr>')
+      const row = $('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"><td data-label="Case number" class="govuk-table__cell"></td></tr>')
       const data = {
         filter: {
           additional_prep_fee_warning: 1
         }
       }
       const output = options.createdRow(row, data)
-      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row injection-warning"><td data-label="Select claim" class="govuk-table__cell"><div class="warning-message-container"><div class="warning-message">Additional prep fee not injected</div></div></td></tr>')
+      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"></td><td data-label="Case number" class="govuk-table__cell"><div class="error-message-container"><div class="error-message">Additional prep fee not injected</div></div></td></tr>')
+    })
+
+    it('...should have a `createdRow` callback defined for multiple fee warnings', function () {
+      expect(options.createdRow).toBeDefined()
+      const row = $('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"><td data-label="Case number" class="govuk-table__cell"></td></tr>')
+      const data = {
+        filter: {
+          cav_warning: 1,
+          clar_fees_warning: 1,
+          additional_prep_fee_warning: 1
+        }
+      }
+      const output = options.createdRow(row, data)
+      expect(output[0].outerHTML).toEqual('<tr class="govuk-table__row"><td data-label="Select claim" class="govuk-table__cell"></td><td data-label="Case number" class="govuk-table__cell"><div class="error-message-container"><div class="error-message">Conference fees not injected</div><div class="error-message">Paper heavy case or unused materials fees not injected</div><div class="error-message">Additional prep fee not injected</div></div></td></tr>')
     })
 
     it('...should have `processing`', function () {

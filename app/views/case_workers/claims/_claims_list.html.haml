@@ -51,23 +51,16 @@
             = sortable 'last_submitted_at', t('.submission_date'), 'aria-label': t('.last_submitted_at_sort_label'), id: 'last_submitted_at_ms'
 
         - present_collection(claims).each do |claim|
-          = govuk_table_row(class: claim.injection_error ? 'error injection-error' : nil) do
+          = govuk_table_row do
             = govuk_table_td('data-label': t('.type')) do
-              .error-message-container
-                = claim.pretty_type
-                - claim.injection_error do |message|
-                  .error-message
-                    = message
+              = claim.pretty_type
 
             = govuk_table_td('data-label': t('.case_number')) do
               = govuk_link_to claim.case_number,
                         case_workers_claim_path(claim),
                         class: 'js-test-case-number-link',
                         'aria-label': "View #{claim.state.humanize} Claim, Case number: #{claim.case_number}"
-
-              - if claim.disk_evidence == true
-                %span.disk-evidence
-                  = t('.disk_evidence')
+              = render partial: 'case_workers/injection_errors', locals: { claim: claim }
 
             = govuk_table_td('data-label': t('.advocate_litigator')) do
               = claim.external_user.name

@@ -62,22 +62,16 @@ moj.Modules.AllocationDataTable = {
 
       $('td', row).addClass('govuk-table__cell')
 
-      if (data.filter.injection_errored) {
-        $(row).addClass('error injection-error')
-        $('td', row).eq(0).wrapInner('<div class="error-message-container"></div>')
-        $('td .error-message-container', row).eq(0).append('<div class="error-message">' + data.injection_errors + '</div>')
-      } else if (data.filter.cav_warning) {
-        $(row).addClass('injection-warning')
-        $('td', row).eq(0).wrapInner('<div class="warning-message-container"></div>')
-        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">Conference fees not injected</div>')
-      } else if (data.filter.clar_fees_warning) {
-        $(row).addClass('injection-warning')
-        $('td', row).eq(0).wrapInner('<div class="warning-message-container"></div>')
-        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">Paper heavy case or unused materials fees not injected</div>')
-      } else if (data.filter.additional_prep_fee_warning) {
-        $(row).addClass('injection-warning')
-        $('td', row).eq(0).wrapInner('<div class="warning-message-container"></div>')
-        $('td .warning-message-container', row).eq(0).append('<div class="warning-message">Additional prep fee not injected</div>')
+      const showWarning = data.filter.injection_errored || data.filter.cav_warning || data.filter.clar_fees_warning || data.filter.additional_prep_fee_warning || data.filter.disk_evidence
+
+      if (showWarning) {
+        $('td', row).eq(1).append('<div class="error-message-container"></div>')
+
+        if (data.filter.injection_errored) { $('td .error-message-container', row).append('<div class="error-message">' + data.injection_errors + '</div>') }
+        if (data.filter.cav_warning) { $('td .error-message-container', row).append('<div class="error-message">Conference fees not injected</div>') }
+        if (data.filter.clar_fees_warning) { $('td .error-message-container', row).append('<div class="error-message">Paper heavy case or unused materials fees not injected</div>') }
+        if (data.filter.additional_prep_fee_warning) { $('td .error-message-container', row).append('<div class="error-message">Additional prep fee not injected</div>') }
+        if (data.filter.disk_evidence) { $('td .error-message-container', row).append('<div class="error-message">Disk evidence</div>') }
       }
 
       return row
@@ -158,7 +152,7 @@ moj.Modules.AllocationDataTable = {
       targets: 1,
       data: null,
       render: function (data, type, full) {
-        return data.filter.disk_evidence ? '<span class="js-test-case-number"><a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a><br/><span class="disk-evidence">Disk evidence</span></span>' : '<span class="js-test-case-number"><a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a></span>'
+        return '<span class="js-test-case-number"><a aria-label="View Claim, Case number: ' + data.case_number + '" href="/case_workers/claims/' + data.id + '">' + data.case_number + '</a></span>'
       }
 
     }, {

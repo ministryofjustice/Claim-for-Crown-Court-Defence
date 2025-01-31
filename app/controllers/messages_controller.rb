@@ -21,18 +21,8 @@ class MessagesController < ApplicationController
 
   def create
     @message = Message.new(message_params.merge(sender_id: current_user.id))
-
-    documents = Document.where(id: params[:message][:document_ids])
-    documents.each do |doc|
-      @message.attachments.attach(doc.document.blob)
-    end
-
-    @notification = if @message.save
-                      { notice: 'Message successfully sent' }
-                    else
-                      { alert: 'Message not sent: ' + @message.errors.full_messages.join(', ') }
-                    end
-
+    attach_documents(@message)
+    save_message(@message)
     respond_to do |format|
       format.js
       format.html { redirect_to redirect_to_url, @notification }
@@ -70,5 +60,20 @@ class MessagesController < ApplicationController
       :claim_action,
       :written_reasons_submitted
     )
+  end
+
+  def attach_documents(message)
+    documents = Document.where(id: params[:message][:document_ids])
+    documents.each do |doc|
+      message.attachments.attach(doc.document.blob)
+    end
+  end
+
+  def save_message(message)
+    @notification = if message.save
+                      { notice: 'Message successfully sent' }
+                    else
+                      { alert: 'Message not sent: ' + message.errors.full_messages.join(', ') }
+                    end
   end
 end

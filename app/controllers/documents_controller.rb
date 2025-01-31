@@ -44,13 +44,11 @@ class DocumentsController < ApplicationController
   end
 
   def upload
-    @document = Document.new(creator_id: current_user.id, document: params[:documents])
-
-
-    if @document.save_and_verify
-      render json: { file: { originalname: @document.document.filename, filename: @document.id }, success: { messageHtml: "#{@document.document.filename} uploaded"} }, status: :created
+    @document = Document.new(upload_params)
+    if save_and_verify_document
+      render_success_response
     else
-      render json: { error: { message: "#{@document.document.filename} #{@document.errors[:document].join(', ')}" } }, status: :accepted
+      render_error_response
     end
   end
 
@@ -75,5 +73,31 @@ class DocumentsController < ApplicationController
       :form_id,
       :creator_id
     )
+  end
+
+  def upload_params
+    params.require(:documents).permit(:document)
+  end
+
+  def save_and_verify_document
+    @document.creator_id = current_user.id
+    @document.save_and_verify
+  end
+
+  def render_success_response
+    render json: {
+      file: { originalname: @document.document.filename, filename: @document.id },
+      success: {
+        messageHtml: "#{@document.document.filename} uploaded"
+      }
+    }, status: :created
+  end
+
+  def render_error_response
+    render json: {
+      error: {
+        message: "#{@document.document.filename} #{@document.errors[:document].join(', ')}"
+      }
+    }, status: :accepted
   end
 end

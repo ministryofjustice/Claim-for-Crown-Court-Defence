@@ -24,7 +24,7 @@ RSpec.describe MessagePresenter, type: :helper do
 
       it 'includes a download link to the attachment' do
         expect(presenter.body)
-          .to match(%r{<div>.*Attachments: <br><a.*>shorter_lorem.docx \(14.4 KB\)</a>.*</div>})
+          .to match(%r{<div>.*Attachments: <br><a.*>shorter_lorem.docx \(#{file_size}\)</a>.*</div>})
       end
     end
   end

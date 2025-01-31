@@ -34,7 +34,7 @@ class MessagePresenter < BasePresenter
   def download_file_link(attachment)
     h.concat(
       h.tag.a(
-        "#{attachment_file_name(attachment)} (#{attachment_file_name(attachment)})",
+        "#{attachment_file_name(attachment)} (#{attachment_file_size(attachment)})",
         href: "/messages/#{message.id}/download_attachment?attachment_id=#{attachment.id}",
         title: 'Download ' + attachment_file_name(attachment)
       )

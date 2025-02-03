@@ -99,8 +99,7 @@ Rails.application.configure do
   # config.action_cable.disable_request_forgery_protection = true
 
   # Raise error when a before_action's only/except options reference missing actions
-  # TODO: Set this to true, which is the Rails 7.1 default
-  config.action_controller.raise_on_missing_callback_actions = false
+  config.action_controller.raise_on_missing_callback_actions = true
 
   # enable the ability to preview devise emails
   # And index of all can, be viewed at:

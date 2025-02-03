@@ -44,8 +44,8 @@ class DocumentsController < ApplicationController
   end
 
   def upload
-    @document = Document.new(upload_params)
-    if save_and_verify_document
+    @document = Document.new(creator_id: current_user.id, document: params[:documents])
+    if @document.save_and_verify
       render_success_response
     else
       render_error_response
@@ -73,15 +73,6 @@ class DocumentsController < ApplicationController
       :form_id,
       :creator_id
     )
-  end
-
-  def upload_params
-    params.require(:documents).permit(:document)
-  end
-
-  def save_and_verify_document
-    @document.creator_id = current_user.id
-    @document.save_and_verify
   end
 
   def render_success_response

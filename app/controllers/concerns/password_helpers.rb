@@ -1,12 +1,6 @@
 module PasswordHelpers
   extend ActiveSupport::Concern
 
-  included do
-    before_action :set_resource_params, only: %i[create update_password]
-    before_action :set_temporary_password, only: :create
-    before_action :set_user_params, only: :update_password
-  end
-
   def update_password
     user = user_for_controller_action
 
@@ -36,26 +30,25 @@ module PasswordHelpers
   end
 
   def params_with_temporary_password
-    @resource_params['user_attributes']['password'] = @temporary_password
-    @resource_params['user_attributes']['password_confirmation'] = @temporary_password
-    @resource_params
+    resource_params['user_attributes']['password'] = temporary_password
+    resource_params['user_attributes']['password_confirmation'] = temporary_password
+    resource_params
   end
 
   def password_params
-    %i[email first_name last_name].each { |attribute| @user_params[:user_attributes].delete(attribute) }
-    @user_params
+    %i[email first_name last_name].each { |attribute| user_params[:user_attributes].delete(attribute) }
+    user_params
   end
 
-  def set_resource_params
-    resource = controller_name.singularize
-    @resource_params = send((resource + '_params').to_sym)
+  def resource_params
+    @resource_params ||= send(:"#{controller_name.singularize}_params")
   end
 
-  def set_user_params
-    @user_params = @resource_params.slice(:user_attributes)
+  def user_params
+    @user_params ||= resource_params.slice(:user_attributes)
   end
 
-  def set_temporary_password
-    @temporary_password = SecureRandom.uuid
+  def temporary_password
+    @temporary_password ||= SecureRandom.uuid
   end
 end

@@ -93,4 +93,4 @@
         = t('.no_defendant')
 
 - unless claim.fixed_fee_case?
-  = render partial: 'external_users/claims/offence_details/summary', locals: { claim: claim }
+  = render partial: 'shared/summary/offence_details/summary', locals: { claim: claim }

@@ -1,0 +1,3 @@
+- claim.summary_sections.each do |section, associated_step|
+  - if claim.accessible_step?(associated_step) && section.to_s != 'additional_information'
+    = render partial: "shared/summary/#{section}/summary", locals: { claim: claim, step: associated_step, section: section, editable: claim.editable_step?(associated_step) }

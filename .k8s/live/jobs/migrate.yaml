@@ -29,7 +29,7 @@ spec:
             - configMapRef:
                 name: cccd-app-config
             - secretRef:
-                name: cccd-secrets
+                name: cccd-env-vars
 
           env:
             - name: DATABASE_URL

@@ -1,2 +1,3 @@
-= govuk_table_th(scope: 'row') { t('external_users.claims.case_details.case_concluded_date.case_concluded_at') }
-= govuk_table_td { claim.case_concluded_at }
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t('external_users.claims.case_details.case_concluded_date.case_concluded_at') }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.case_concluded_at }

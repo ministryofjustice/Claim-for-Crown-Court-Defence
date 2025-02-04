@@ -203,7 +203,7 @@ GEM
       capybara (>= 3.11, < 4)
       cucumber (>= 5, < 10)
       railties (>= 5.2, < 9)
-    cucumber-tag-expressions (6.1.1)
+    cucumber-tag-expressions (6.1.2)
     database_cleaner (2.1.0)
       database_cleaner-active_record (>= 2, < 3)
     database_cleaner-active_record (2.2.0)

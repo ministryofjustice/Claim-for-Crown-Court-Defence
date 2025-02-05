@@ -8,5 +8,12 @@ module GovukComponent
 
       tag.strong(body, **tag_options)
     end
+
+    def govuk_tag_active_user?(user)
+      status = user.active? && user.enabled? ? 'Active' : 'Inactive'
+      tag_class = status == 'Active' ? 'govuk-tag--green' : 'govuk-tag--red'
+
+      content_tag(:strong, status, class: "govuk-tag #{tag_class}")
+    end
   end
 end

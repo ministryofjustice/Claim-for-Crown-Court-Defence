@@ -31,11 +31,13 @@ FactoryBot.define do
   end
 
   trait :with_attachment do
-    attachment do
-      Rack::Test::UploadedFile.new(
-        File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      )
+    attachments do
+      [
+        Rack::Test::UploadedFile.new(
+          File.expand_path('features/examples/shorter_lorem.docx', Rails.root),
+          'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        )
+      ]
     end
   end
 end

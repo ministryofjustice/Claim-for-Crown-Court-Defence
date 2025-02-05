@@ -41,7 +41,8 @@ end
 When(/^I upload a file$/) do
   available_docs = Dir.glob "#{Rails.root}/spec/fixtures/files/*.pdf"
   @uploaded_file_path = available_docs.first
-  @external_user_claim_show_page.messages_panel.upload_file(@uploaded_file_path)
+  file_field = page.find('input[type="file"]')
+  file_field.attach_file(@uploaded_file_path)
 end
 
 When(/^I click send$/) do

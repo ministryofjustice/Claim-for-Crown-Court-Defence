@@ -77,16 +77,21 @@ RSpec.describe MessagesController do
     end
 
     describe 'GET #download_attachment' do
-      subject(:download_attachment) { get :download_attachment, params: { id: message.id } }
+      subject(:download_attachment) do
+        get :download_attachment, params: {
+          id: message.id,
+          attachment_id: message.attachments.first&.id
+        }
+      end
 
       context 'when message has attachment' do
         let(:message) { create(:message) }
         let(:test_url) { 'https://document.storage/attachment.doc#123abc' }
 
         before do
-          message.attachment.attach(io: StringIO.new, filename: 'attachment.doc')
+          message.attachments.attach(io: StringIO.new, filename: 'attachment.doc')
           allow(Message).to receive(:find).with(message[:id].to_s).and_return(message)
-          allow(message.attachment.blob).to receive(:url).and_return(test_url)
+          allow(message.attachments.first.blob).to receive(:url).and_return(test_url)
         end
 
         it { is_expected.to redirect_to test_url }

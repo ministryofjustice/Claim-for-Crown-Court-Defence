@@ -34,4 +34,31 @@ RSpec.describe GovukComponent::TagHelpers, type: :helper do
       end
     end
   end
+
+  describe '#govuk_tag_active_user?' do
+    it 'responds to govuk_tag_active_user?' do
+      expect(helper).to respond_to(:govuk_tag_active_user?)
+    end
+
+    context 'when external user is inactive' do
+      let(:user) { create(:user, :active, :disabled) }
+
+      it 'displays a red inactive tag' do
+        tag_class = 'govuk-tag govuk-tag--red'
+        tag_text = 'Inactive'
+
+        expect(govuk_tag_active_user?(user)).to have_tag(:strong, with: { class: tag_class }, text: tag_text)
+      end
+    end
+
+    context 'when external user is active' do
+      let(:user) { create(:user, :active, :enabled) }
+
+      it 'displays a green inactive tag' do
+        tag_class = 'govuk-tag govuk-tag--green'
+        tag_text = 'Active'
+        expect(govuk_tag_active_user?(user)).to have_tag(:strong, with: { class: tag_class }, text: tag_text)
+      end
+    end
+  end
 end

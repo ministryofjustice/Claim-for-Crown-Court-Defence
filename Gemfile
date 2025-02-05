@@ -48,6 +48,7 @@ gem 'sentry-sidekiq', '~> 5.22'
 gem 'sprockets-rails', '~> 3.5.2'
 gem 'state_machines-activerecord'
 gem 'state_machines-audit_trail'
+gem 'terminal-table',         '~> 3.0', require: false
 gem 'tzinfo-data'
 gem 'zendesk_api'  ,           '~> 3.1'
 gem 'sidekiq', '~> 7.3'

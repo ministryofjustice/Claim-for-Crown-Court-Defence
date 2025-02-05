@@ -1,9 +1,14 @@
 ## Build and Deploy
 
-- [circleCI](#circleci)
-- [Kubernetes](#kubernetes)
-- [Cronjobs](#cronjobs)
-- [Container configuration and secrets](#container-configuration-and-secrets)
+- [Build and Deploy](#build-and-deploy)
+  - [CircleCI](#circleci)
+  - [Kubernetes](#kubernetes)
+    - [Cronjobs](#cronjobs)
+    - [Container configuration and secrets](#container-configuration-and-secrets)
+      - [Secret management](#secret-management)
+      - [Non-secret app configuration](#non-secret-app-configuration)
+      - [Secret app configuration](#secret-app-configuration)
+      - [Secret infrastructure configuration](#secret-infrastructure-configuration)
 
 ### CircleCI
 
@@ -94,7 +99,7 @@ Similar to ConfigMaps, these are handled via sharable k8s [Secrets](https://kube
 # deployment.yaml - example reference for a secret
 envFrom:
   - secretRef:
-      name: cccd-secrets
+      name: cccd-env-vars
 ```
 An environment variable will be created with the name and value defined in the secrets file.
 

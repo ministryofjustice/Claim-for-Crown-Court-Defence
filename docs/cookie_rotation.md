@@ -42,7 +42,7 @@ To rotate the `secret_key_base` without inconveniencing users you must:
    SECRET_KEY_BASE to hold the new secret.
 
    Note: secret env vars are kept in Kubernetes Secrets on the cluster
-   They can be viewed by running `kubectl -n <namespace> get secrets cccd-secrets -o json`.
+   They can be viewed by running `kubectl -n <namespace> get secrets cccd-env-vars -o json`.
 
 4. Deploy the application, manually [updating](https://user-guide.cloud-platform.service.justice.gov.uk/documentation/deploying-an-app/add-secrets-to-deployment.html#adding-a-secret-to-an-application) the Secrets in the cluster first. 
 

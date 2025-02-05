@@ -1,18 +1,17 @@
 - trial_detail_translations = 'external_users.claims.case_details.trial_detail_fields'
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row') { t("#{trial_detail_translations}.first_day_of_trial") }
-  = govuk_table_td { claim.first_day_of_trial.strftime(Settings.date_format) rescue '' }
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t("#{trial_detail_translations}.first_day_of_trial") }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.first_day_of_trial.strftime(Settings.date_format) rescue '' }
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row') { t("#{trial_detail_translations}.estimated_trial_length") }
-  = govuk_table_td { claim.estimated_trial_length rescue '' }
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t("#{trial_detail_translations}.estimated_trial_length") }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.estimated_trial_length rescue '' }
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row') { t("#{trial_detail_translations}.actual_trial_length") }
-  = govuk_table_td { claim.estimated_trial_length rescue '' }
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t("#{trial_detail_translations}.actual_trial_length") }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.actual_trial_length rescue '' }
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row') { t("#{trial_detail_translations}.trial_concluded_at") }
-  = govuk_table_td { claim.trial_concluded_at.strftime(Settings.date_format) rescue '' }
-
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t("#{trial_detail_translations}.trial_concluded_at") }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.trial_concluded_at.strftime(Settings.date_format) rescue '' }

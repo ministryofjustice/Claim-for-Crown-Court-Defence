@@ -1,20 +1,19 @@
-= govuk_table_row do
-  = govuk_table_th(scope: 'row') { t('.retrial_started_at') }
-  = govuk_table_td { claim&.retrial_started_at&.strftime(Settings.date_format) }
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t('.retrial_started_at') }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim&.retrial_started_at&.strftime(Settings.date_format) }
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row') { t('.retrial_estimated_length') }
-  = govuk_table_td { claim&.retrial_estimated_length }
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t('.retrial_estimated_length') }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim&.retrial_estimated_length }
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row') { t('.retrial_actual_length') }
-  = govuk_table_td { claim&.retrial_actual_length }
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t('.retrial_actual_length') }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim&.retrial_actual_length }
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row') { t('.retrial_concluded_at') }
-  = govuk_table_td { claim&.retrial_concluded_at&.strftime(Settings.date_format) }
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t('.retrial_concluded_at') }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim&.retrial_concluded_at&.strftime(Settings.date_format) }
 
-= govuk_table_row do
-  = govuk_table_th(scope: 'row') { t('.retrial_reduction') }
-  = govuk_table_td { claim&.retrial_reduction? ? 'Yes' : 'No' }
-
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t('.retrial_reduction') }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim&.retrial_reduction? ? 'Yes' : 'No' }

@@ -1,0 +1,65 @@
+- unless claim.providers_ref.blank?
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { 'Provider reference number' }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.providers_ref }
+
+- unless claim.draft?
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { 'Claim submitted on' }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.submitted_at }
+
+- if claim.case_workers.any? && current_user_is_caseworker? && current_user.persona.admin?
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('.assignee') }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.case_worker_names }
+
+- if @claim.lgfs?
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('common.external_user.claim_creator') }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.creator.name }
+
+- if @claim.agfs?
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t("common.external_user.#{@claim.external_user_type}") }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.external_user.name }
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t("common.external_user.category.#{@claim.external_user_type}") }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.advocate_category }
+
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t("common.external_user.account_number.#{@claim.external_user_type}") }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.supplier_number }
+
+- if claim.court
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('common.crown_court') }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.court.name }
+
+= govuk_summary_list_row do
+  = govuk_summary_list_key { t('.case_num') }
+  = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
+    = claim.case_number
+    %span.unique-id-small= claim.unique_id
+
+- if claim.transfer_court.present?
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('common.transfer_court') }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.transfer_court.name }
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('common.transfer_case_number') }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.transfer_case_number }
+
+- if claim.case_stage
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('.case_stage') }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.case_stage&.description }
+
+- if claim.display_case_type?
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('.case_type') }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { claim.case_type&.name }
+
+- if claim.discontinuance?
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('common.prosecution_evidence') }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') { t(claim.prosecution_evidence?.class) }

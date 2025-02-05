@@ -424,6 +424,59 @@ RSpec.describe 'case_workers/claims/show.html.haml' do
     end
   end
 
+  describe 'offence details information' do
+    context 'when the claim is for a fixed fee case type' do
+      let(:claim) { create(:advocate_claim, :with_fixed_fee_case) }
+
+      it 'does NOT displays offence details section' do
+        assign(:claim, claim)
+        render
+        expect(rendered).to have_no_content('Offence details')
+      end
+    end
+
+    context 'when the claim is NOT for a fixed fee case type' do
+      let(:claim) { create(:advocate_claim, :with_graduated_fee_case) }
+
+      it 'displays offence details section' do
+        assign(:claim, claim)
+        render
+        expect(rendered).to have_content('Offence details')
+      end
+    end
+  end
+
+  describe 'all the main headings' do
+    let(:claim) { create(:claim) }
+
+    before do
+      @expense = create(:expense, :with_date_attended, claim:)
+      create(:date_attended, attended_item: @expense)
+      assign(:claim, claim)
+      render
+    end
+
+    it 'displays basic claim' do
+      expect(rendered).to have_content('Basic claim information')
+    end
+
+    it 'displays defendant heading' do
+      expect(rendered).to have_content('Defendant details')
+    end
+
+    it 'displays evidence heading' do
+      expect(rendered).to have_content('Evidence')
+    end
+
+    it 'displays Fees heading' do
+      expect(rendered).to have_content('Fees')
+    end
+
+    it 'displays travel expenses heading' do
+      expect(rendered).to have_content('Travel expenses')
+    end
+  end
+
   def certified_claim
     eu = create(:external_user, :advocate, user: create(:user, first_name: 'Stepriponikas', last_name: 'Bonstart'))
     @claim = create(:allocated_claim, external_user: eu)

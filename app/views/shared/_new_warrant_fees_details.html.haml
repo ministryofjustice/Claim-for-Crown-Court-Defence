@@ -9,12 +9,14 @@
         %span.govuk-visually-hidden
           = t('.fees.caption')
 
-        = govuk_table do
-          = govuk_table_tbody do
-            = govuk_table_row do
-              = govuk_table_th { t('.fields.date_issued') }
-              = govuk_table_td { info.warrant_issued_date.strftime('%d %B %Y') }
+        = govuk_summary_list do
+          = govuk_summary_list_row do
+            = govuk_summary_list_key { t('.fields.date_issued') }
+            = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
+              = info.warrant_issued_date.strftime('%d %B %Y')
 
-            = govuk_table_row do
-              = govuk_table_th { t('.fields.date_executed') }
-              = govuk_table_td { info.warrant_executed_date.strftime('%d %B %Y') }
+          = govuk_summary_list_row do
+            = govuk_summary_list_key { t('.fields.date_executed') }
+            = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
+              = info.warrant_executed_date.strftime('%d %B %Y')
+

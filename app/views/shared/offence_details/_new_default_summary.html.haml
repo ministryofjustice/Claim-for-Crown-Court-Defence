@@ -1,11 +1,12 @@
 - claim_fields = %i[external_users claims case_details fields]
 
-= govuk_table do
-  = govuk_table_tbody do
-    = govuk_table_row do
-      = govuk_table_th(scope: 'row') { t('offence_category', scope: claim_fields) }
-      = govuk_table_td { claim.offence ? claim.offence.description : t('general.not_provided') }
+= govuk_summary_list do
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('offence_category', scope: claim_fields) }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
+      = claim.offence ? claim.offence.description : t('general.not_provided')
 
-    = govuk_table_row do
-      = govuk_table_th(scope: 'row') { t('offence_class', scope: claim_fields) }
-      = govuk_table_td { claim.offence ? claim.offence.offence_class : t('general.not_provided') }
+  = govuk_summary_list_row do
+    = govuk_summary_list_key { t('offence_class', scope: claim_fields) }
+    = govuk_summary_list_value(class: 'govuk-!-width-one-quarter') do
+      = claim.offence ? claim.offence.offence_class : t('general.not_provided')

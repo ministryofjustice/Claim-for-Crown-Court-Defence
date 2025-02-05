@@ -206,6 +206,7 @@ form {
 // claims-table.SCSS
 .totals {
   padding-top: $gutter-two-thirds;
+  padding-bottom: $gutter-two-thirds;
   text-align: right;
 }
 
@@ -495,4 +496,3 @@ form {
 .error {
   color: $govuk-error-colour;
 }
-

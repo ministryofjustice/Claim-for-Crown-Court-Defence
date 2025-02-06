@@ -85,6 +85,10 @@ en:
       other_refuse:
         short: *other
         long: *blank
+    refused_advocate_hardship_claims:
+      wrong_ia:
+        short: &wrong_ia_short Incorrect trial advocate
+        long: &wrong_ia_long We refused your claim because court records show a different advocate was the trial advocate for the case. Submit the claim again with the correct trial advocate details or include evidence to support why you think the court records are wrong.
     refused_litigator_claims:
       duplicate_claim:
         short: *duplicate_claim_short
@@ -115,10 +119,6 @@ en:
       other_refuse:
         short: *other
         long: *blank
-    refused_advocate_hardship_claims:
-      wrong_ia:
-        short: &wrong_ia_short Incorrect trial advocate
-        long: &wrong_ia_long We refused your claim because court records show a different advocate was the trial advocate for the case. Submit the claim again with the correct trial advocate details or include evidence to support why you think the court records are wrong.
     refused_litigator_hardship_claims:
       duplicate_claim:
         short: *duplicate_claim_short

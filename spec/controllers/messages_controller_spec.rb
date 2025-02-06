@@ -84,9 +84,9 @@ RSpec.describe MessagesController do
         let(:test_url) { 'https://document.storage/attachment.doc#123abc' }
 
         before do
-          message.attachment.attach(io: StringIO.new, filename: 'attachment.doc')
+          message.attachments.attach(io: StringIO.new, filename: 'attachment.doc')
           allow(Message).to receive(:find).with(message[:id].to_s).and_return(message)
-          allow(message.attachment.blob).to receive(:url).and_return(test_url)
+          allow(message.attachments.first.blob).to receive(:url).and_return(test_url)
         end
 
         it { is_expected.to redirect_to test_url }

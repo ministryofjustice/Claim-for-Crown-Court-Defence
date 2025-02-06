@@ -1,68 +1,90 @@
 en:
   dictionary:
     claim_state_transition_reason:
-      other:
-        short: &other Other
-        long: &blank ''
-      duplicate_claim:
-        short: &duplicate_claim_short Duplicate claim
-        long: &duplicate_claim_long We refused your claim because our records show this bill has already been paid.
-      no_effective_pcmh:
-        short: &no_effective_pcmh_short No effective PCMH has taken place
-        long: &no_effective_pcmh_long We refused your claim because the court records do not show that an effective PCMH has taken place. Check the case details and submit the claim again.The ‘effective PCMH payment can be made at any time after the PCMH has taken place up until the trial conclusion.
-      no_effective_trial:
-        short: &no_effective_trial_short No effective trial start has taken place
-        long: &no_effective_trial_long We refused your claim because the court records do not show that the trial has commenced. Check the case details and submit the claim again.
-      short_trial:
-        short: &short_trial_short The trial estimate was less than 10 days
-        long: &short_trial_long We refused your claim because the trial is estimated to last for less than 10 days, this interim payment can only be claimed where the trial has commenced and is set to last for more than 10 days.
-      wrong_ia:
-        short: &wrong_ia_short Incorrect trial advocate
-        long: &wrong_ia_long We refused your claim because court records show a different advocate was the trial advocate for the case. Submit the claim again with the correct trial advocate details or include evidence to support why you think the court records are wrong.
-      stayed_quashed_indictment:
-        short: &stayed_quashed_indictment_short Second fee for stayed/quashed indictment refused
-        long: &stayed_quashed_indictment_long Second fee not payable for stayed/quashed indictment. More information provided on previous note.
-      predate_rep_order:
-        short: &predate_rep_order_short Hearings not covered by legal aid
-        long: &predate_rep_order_long Hearings predate the rep order so are unable to be paid.
-      paid_elsewhere:
-        short: &paid_elsewhere_short Main hearing paid elsewhere as an uplift
-        long: &paid_elsewhere_long Main hearing was heard concurrently with another case. This case has been paid as an uplift on the separate case.
-      continuation_of_trial:
-        short: &continuation_of_trial_short Continuous trial fees paid
-        long: &continuation_of_trial_long Unable to confirm the matter as a retrial, rather a continuation of first trial, and fees have been added to the first trial
-      prescribed_proceedings:
-        short: &prescribed_proceedings_short Fees should be claimed as prescribed proceedings
-        long: &prescribed_proceedings_long The hearing is payable as prescribed proceedings. Please approach your instructing solicitors to submit on their monthly submission using the code PROH.
-      incorrect_supplemental_case:
-        short: &incorrect_supplemental_case_short Supplemental fee claimed under the incorrect case
-        long: &incorrect_supplemental_case_long Supplemental fee claimed under the incorrect case. More information provided on previous note.
+      refused:
+        other:
+          short: &other Other
+          long: &blank ''
+        duplicate_claim:
+          short: &duplicate_claim_short Duplicate claim
+          long: &duplicate_claim_long We refused your claim because our records show this bill has already been paid.
+        no_effective_pcmh:
+          short: &no_effective_pcmh_short No effective PCMH has taken place
+          long: &no_effective_pcmh_long We refused your claim because the court records do not show that an effective PCMH has taken place. Check the case details and submit the claim again.The ‘effective PCMH payment can be made at any time after the PCMH has taken place up until the trial conclusion.
+        no_effective_trial:
+          short: &no_effective_trial_short No effective trial start has taken place
+          long: &no_effective_trial_long We refused your claim because the court records do not show that the trial has commenced. Check the case details and submit the claim again.
+        short_trial:
+          short: &short_trial_short The trial estimate was less than 10 days
+          long: &short_trial_long We refused your claim because the trial is estimated to last for less than 10 days, this interim payment can only be claimed where the trial has commenced and is set to last for more than 10 days.
+        wrong_ia:
+          short: &wrong_ia_short Incorrect trial advocate
+          long: &wrong_ia_long We refused your claim because court records show a different advocate was the trial advocate for the case. Submit the claim again with the correct trial advocate details or include evidence to support why you think the court records are wrong.
+        stayed_quashed_indictment:
+          short: &stayed_quashed_indictment_short Second fee for stayed/quashed indictment refused
+          long: &stayed_quashed_indictment_long Second fee not payable for stayed/quashed indictment. More information provided on previous note.
+        predate_rep_order:
+          short: &predate_rep_order_short Hearings not covered by legal aid
+          long: &predate_rep_order_long Hearings predate the rep order so are unable to be paid.
+        paid_elsewhere:
+          short: &paid_elsewhere_short Main hearing paid elsewhere as an uplift
+          long: &paid_elsewhere_long Main hearing was heard concurrently with another case. This case has been paid as an uplift on the separate case.
+        continuation_of_trial:
+          short: &continuation_of_trial_short Continuous trial fees paid
+          long: &continuation_of_trial_long Unable to confirm the matter as a retrial, rather a continuation of first trial, and fees have been added to the first trial
+        prescribed_proceedings:
+          short: &prescribed_proceedings_short Fees should be claimed as prescribed proceedings
+          long: &prescribed_proceedings_long The hearing is payable as prescribed proceedings. Please approach your instructing solicitors to submit on their monthly submission using the code PROH.
+        incorrect_supplemental_case:
+          short: &incorrect_supplemental_case_short Supplemental fee claimed under the incorrect case
+          long: &incorrect_supplemental_case_long Supplemental fee claimed under the incorrect case. More information provided on previous note.
+      rejected:
+        no_indictment:
+          short: &no_indictment_short No indictment attached
+          long: &no_indictment_long We rejected your claim because you didn’t attach the indictment. Submit the claim again with the indictment. You can download a copy from the Digital Case System.
+        no_rep_order:
+          short: &no_rep_order_short No Magistrates’ representation order attached (granted before 1/8/2015)
+          long: &no_rep_order_long We rejected your claim because you didn’t attach the representation order. Submit the claim again with the representation order. You can get a copy from the Magistrates’ Court where it was issued.
+        time_elapsed:
+          short: &time_elapsed_short Claim significantly out of time with no explanation
+          long: &time_elapsed_long We rejected your claim because the case ended over 3 months ago. Submit the claim again explaining why it is late.
+        no_amend_rep_order:
+          short: &no_amend_rep_order_short No amending representation order
+          long: &no_amend_rep_order_long We rejected your claim because you didn’t attach the amending representation order – both the original and the amended order confirming a change in representation. Submit the claim again with both representation orders.
+        case_still_live:
+          short: &case_still_live_short Case still live
+          long: &case_still_live_long We rejected your claim because our records show the case hasn’t ended. Submit the claim again when the case has ended, including any hearings for sentencing.
+        wrong_case_no:
+          short: &wrong_case_no_short Incorrect case number
+          long: &wrong_case_no_long We rejected your claim because the case number didn’t match court records for this defendant. Check the case details and submit the claim again.
+        wrong_maat_ref:
+          short: &wrong_maat_ref_short Wrong MAAT reference
+          long: &wrong_maat_ref_long We rejected your claim because the MAAT reference you provided does not match the defendant records. Check the MAAT reference number for this defendant and submit the claim again.
+        advocate_request:
+          short: &advocate_request_short Rejected at the request of the Advocate
+          long: &advocate_request_long Rejected at the request of the Advocate.
+        rep_order_required:
+          short: &rep_order_required_short A copy of the breach/appeal rep order is required
+          long: &rep_order_required_long A copy of the breach/appeal rep order is required.
+        further_clarification:
+          short: &further_clarification_short Further clarification required to consider basic fee
+          long: &further_clarification_long Further clarification required to consider the basic fee claimed. More information provided on previous note.
+        hardship_requirements:
+          short: &hardship_requirements_short Hardship requirements not satisfied
+          long: &hardship_requirements_long Hardship requirements not satisfied. More information provided on previous note.
+        supplemental_fee:
+          short: &supplemental_fee_short Supplementary claim made prior to main hearing
+          long: &supplemental_fee_long Supplemental fee, but main hearing is yet to be paid. Would need to submit claim for the main hearing first.
+        invalid_supplier_code:
+          short: &invalid_supplier_code_short Supplier account code invalid
+          long: &invalid_supplier_code_long Supplier account code invalid.
+        soft_reject_no_response:
+          short: &soft_reject_no_response_short No response to soft reject
+          long: &soft_reject_no_response_long Soft Reject – not responded to/incorrect content supplied.
+        soft_reject_attendance_notes:
+          short: &soft_reject_attendance_notes_short Main hearing attendance note(s) required
+          long: &soft_reject_attendance_notes_long Soft Reject – No response to request for attendance note to confirm counsel had attended the main hearing/first day of trial.
   claim_state_transition_reason:
-    rejected:
-      no_indictment:
-        short: No indictment attached
-        long: We rejected your claim because you didn’t attach the indictment. Submit the claim again with the indictment. You can download a copy from the Digital Case System.
-      no_rep_order:
-        short: No Magistrates’ representation order attached (granted before 1/8/2015)
-        long: We rejected your claim because you didn’t attach the representation order. Submit the claim again with the representation order. You can get a copy from the Magistrates’ Court where it was issued.
-      time_elapsed:
-        short: Claim significantly out of time with no explanation
-        long: We rejected your claim because the case ended over 3 months ago. Submit the claim again explaining why it is late.
-      no_amend_rep_order:
-        short: No amending representation order
-        long: We rejected your claim because you didn’t attach the amending representation order – both the original and the amended order confirming a change in representation. Submit the claim again with both representation orders.
-      case_still_live:
-        short: Case still live
-        long: We rejected your claim because our records show the case hasn’t ended. Submit the claim again when the case has ended, including any hearings for sentencing.
-      wrong_case_no:
-        short: Incorrect case number
-        long: We rejected your claim because the case number didn’t match court records for this defendant. Check the case details and submit the claim again.
-      wrong_maat_ref:
-        short: Wrong MAAT reference
-        long: We rejected your claim because the MAAT reference you provided does not match the defendant records. Check the MAAT reference number for this defendant and submit the claim again.
-      other:
-        short: *other
-        long: *blank
     disbursement:
       no_prior_authority:
         short: No prior authority provided
@@ -217,6 +239,80 @@ en:
         short: *duplicate_claim_short
         long: *duplicate_claim_long
       other_refuse:
+        short: *other
+        long: *blank
+    rejected_advocate_claims:
+      no_indictment:
+        short: *no_indictment_short
+        long: *no_indictment_long
+      no_rep_order:
+        short: *no_rep_order_short
+        long: *no_rep_order_long
+      time_elapsed:
+        short: *time_elapsed_short
+        long: *time_elapsed_long
+      no_amend_rep_order:
+        short: *no_amend_rep_order_short
+        long: *no_amend_rep_order_long
+      case_still_live:
+        short: *case_still_live_short
+        long: *case_still_live_long
+      wrong_case_no:
+        short: *wrong_case_no_short
+        long: *wrong_case_no_long
+      wrong_maat_ref:
+        short: *wrong_maat_ref_short
+        long: *wrong_maat_ref_long
+      advocate_request:
+        short: *advocate_request_short
+        long: *advocate_request_long
+      rep_order_required:
+        short: *rep_order_required_short
+        long: *rep_order_required_long
+      further_clarification:
+        short: *further_clarification_short
+        long: *further_clarification_long
+      hardship_requirements:
+        short: *hardship_requirements_short
+        long: *hardship_requirements_long
+      supplemental_fee:
+        short: *supplemental_fee_short
+        long: *supplemental_fee_long
+      invalid_supplier_code:
+        short: *invalid_supplier_code_short
+        long: *invalid_supplier_code_long
+      soft_reject_no_response:
+        short: *soft_reject_no_response_short
+        long: *soft_reject_no_response_long
+      soft_reject_attendance_notes:
+        short: *soft_reject_attendance_notes_short
+        long: *soft_reject_attendance_notes_long
+      other:
+        short: *other
+        long: *blank
+    rejected_litigator_claims:
+      no_indictment:
+        short: *no_indictment_short
+        long: *no_indictment_long
+      no_rep_order:
+        short: *no_rep_order_short
+        long: *no_rep_order_long
+      time_elapsed:
+        short: *time_elapsed_short
+        long: *time_elapsed_long
+      no_amend_rep_order:
+        short: *no_amend_rep_order_short
+        long: *no_amend_rep_order_long
+      case_still_live:
+        short: *case_still_live_short
+        long: *case_still_live_long
+      wrong_case_no:
+        short: *wrong_case_no_short
+        long: *wrong_case_no_long
+      wrong_maat_ref:
+        short: *wrong_maat_ref_short
+        long: *wrong_maat_ref_long
+      other:
         short: *other
         long: *blank
     global:
